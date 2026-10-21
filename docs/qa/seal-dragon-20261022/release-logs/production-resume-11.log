@@ -1,0 +1,456 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+[FULL RELEASE RESUME] Reuse 42 completed stages from f0b2de4139a6df808d574ca99b635015ad0b92c2; execute every remaining stage and production guard.
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (1.2114ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (3.7527ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.5154ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (4.4513ms)
+✔ codex authoring template can retain the cache token from unchanged public HTML only (1.913ms)
+✔ codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources (3.5896ms)
+✔ full gate resumes a proven prefix and retains failed, remaining and final release guards (0.5458ms)
+✔ registered preview checkers rerun their owning stage and reject runtime or unregistered consumers (0.8552ms)
+✔ an upload failure reuses only a complete successful gate and rechecks changed deployment contracts (0.8083ms)
+✔ only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts (1.4044ms)
+✔ main cache version alignment accepts only the tested shell version and rechecks affected HTML tests (1.3176ms)
+✔ isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity (0.5957ms)
+✔ lobby authoring repair retains passes only with unchanged live output and a full build check (0.6493ms)
+✔ multiple immutable continuation logs keep contiguous passes and reject a changed log or gap (0.6749ms)
+✔ a continuation validates successful earlier reruns before its contiguous failed-stage suffix (0.672ms)
+✔ a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard (0.6871ms)
+✔ a completed continuation checks its actual candidate at the final source guard (0.3463ms)
+✔ continued gate accepts an isolated raid correction only after successful current browser proof (1.2335ms)
+✔ concurrent authoring art must be new, hash-bound, image-only and unused by runtime (1.3622ms)
+✔ unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed (0.6724ms)
+✔ changed tests in a completed stage rerun that stage without invalidating unrelated passes (0.1252ms)
+✔ preview QA repairs must be existing executable tests in the unchanged full gate (0.4924ms)
+✔ a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers (0.7402ms)
+✔ concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt (0.9912ms)
+✔ a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits (2.2126ms)
+✔ concurrent unreferenced JSON production receipts are documentation, never runtime configuration (1.2046ms)
+✔ runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results (0.7957ms)
+✔ tampered, incomplete or noncontiguous logs fail closed (0.3528ms)
+✔ explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks (0.5453ms)
+✔ uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain (0.8301ms)
+✔ legacy .mjs test entries are reusable only when directly registered in the unchanged gate (0.2547ms)
+✔ an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence (0.9709ms)
+✔ limited-pack view proof is runner-specific and never permits shared policy, session or server changes (2.1687ms)
+✔ offline skill preview proof binds source and bundle and reruns contracts that inspect it (1.7598ms)
+✔ registered nested npm tests belong to their parent and cannot be omitted from a completed gate (0.5589ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.6445ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.4938ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.3926ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.5501ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1565ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.4243ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (3.3565ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.2095ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 132.4307
+✔ one additional message grants Moo날두 only; original 50, wallets, held player and replay are preserved (1529.1849ms)
+✔ identity changes, unsafe wallet, duplicate delivery and failures at each write leave no partial message (1088.7388ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2760.2869
+✔ winners receive only 20 trillion and participants only one trillion as messages; dry-run, identity exclusions and replay preserve wallets (1519.0164ms)
+✔ changed identity, unsupported balance, duplicate messages and every late write failure roll back the whole batch (1094.4215ms)
+✔ actual claim credits one and 20 trillion exactly once, rolls back failed ledger, and lost send response never duplicates messages (1197.0616ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3992.8735
+
+> test:limited-pack
+> node --test tests/mercenary-limited-pack-20261006.test.mjs tests/mercenary-limited-catalog-20261002.test.mjs tests/mercenary-limited-daily-20261008.test.mjs
+
+✔ read-only codex preserves the nine original limited cards alongside Prime Requiem, Zero, Jokro, Shiranui, Leonel, Jinmu and craft-only Kairon (118.9627ms)
+✔ limited grants remain blocked independent of saved weight and never enter general catalog (2.7381ms)
+✔ SSS Valter exposes preserved approved SD, V17 motion and effects without runtime activation (184.9477ms)
+✔ older six-card CMS policy loads with zero for later artwork cards without changing saved rates or writing on GET (2271.3175ms)
+✔ limited CMS saves separately with audited atomic rollback, stale protection and safe retry (1456.6309ms)
+✔ concurrent limited policy edits have one winner and one audit (1380.5159ms)
+✔ daily cap is 3000 and resets exactly at KST midnight (2.3602ms)
+✔ 2990 + ten succeeds; next opening rejects with no charge, replay counts once, users are independent (2481.3985ms)
+✔ partial ten batch never pays or rolls; last singles remain available for OWNER and USER (1697.3327ms)
+✔ concurrent requests at the boundary commit at most the remaining quantity (1577.194ms)
+✔ failed grants roll back daily count, payment and rewards; lost commit ACK and retries count once (1462.549ms)
+✔ new day gets fresh cap; an unpaid pending request counts on its payment day, not its preparation day (1503.5543ms)
+✔ ordinary cards, materials and misses consume the same cap (1498.2008ms)
+✔ config shows only the authenticated account usage and still serves public policy while OFF (1074.7971ms)
+✔ automatic opening stops at the cap without leaving a pending recovery or extra POST (1.328ms)
+✔ draft keeps actual opening OFF, unset economics and bounded exact input (3.2716ms)
+✔ OWNER CMS atomic revision, caps, retry and audit failure rollback (2430.9204ms)
+✔ limited 10 draw commits exact CMS price, serials, duplicate counts; replay does not redraw (1614.1246ms)
+✔ failed grant/debit rolls back all stock, card and serial changes; retry and lost ACK grant once (1535.3652ms)
+✔ concurrent callers racing for a final quota never oversell, no charge on losers (1987.5576ms)
+ℹ {"mode":"PGlite serialized transactions / 64 concurrent service calls","winners":7,"elapsedMs":615,"queries":666,"batches":7}
+✔ batch with insufficient stock is all-or-nothing; stale price and exhausted rank stop (1511.7411ms)
+✔ material rewards aggregate, zero-weight and sold-out members never enter the same-rank pool (1356.632ms)
+✔ auto 1000 uses only one request at a time and awaits graphical presentation per receipt (2991.788ms)
+✔ stop during presentation, lost response, account switch and unavailable storage never start extra purchases (15.3653ms)
+✔ unknown response preserves exact request for recovery and blocks any new auto run (15.0877ms)
+✔ shop/renderer integration keeps limited drawing separate and shipped renderer is versioned (4.0563ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13736.6529
+
+> test:raid-entry
+> node --test tests/raid-entry-fallback-v1927.test.mjs tests/raid-v3-mobile-recovery-v1930.test.mjs tests/pve-auxiliary-navigation-v2023.test.mjs tests/raid-mystic-clear-bonus-v2067.test.mjs tests/raid-weekly-bosses-v2140.test.mjs tests/raid-weekly-cms-v2141.test.mjs
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /placementAnchor=document\.getElementById\('pveRaidHubView'\)\|\|raid/. Input:
+
+'(()=>{\r\n' +
+  "  'use strict';\r\n" +
+  "  const ui=()=>window.TowerAbyssUI,user=()=>typeof loadUser==='function'?loadUser():null;\r\n" +
+  "  const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,tab:'challenge',filter:'all',request:0,battleGeneration:0,releaseFocus:null};\r\n" +
+  "  let requestedTower=new URL(location.href).searchParams.get('pve')==='tower';\r\n" +
+  '  const pendingKey=()=>`cnine:tower:battle:v2094:${Number(user()?.id||0)}`;\r\n' +
+  "  function pendingBattle(){try{const p=JSON.parse(sessionStorage.getItem(pendingKey())||'null');return p&&typeof p.requestId==='string'&&Number.isSafeInteger(p.floorNo)&&p.floorNo>0?p:null;}catch{return null;}}\r\n" +
+  "  function rememberBattle(value,key=pendingKey()){try{sessionStorage.setItem(key,JSON.stringify(value));}catch(error){console.warn('무한의탑 전투 복구 기록을 저장하지 못했습니다.',error);}}\r\n" +
+  '  function acknowledgeBattle(){try{sessionStorage.removeItem(pendingKey());}catch{}}\r\n' +
+  "  function currentDeckCards(){const list=typeof cards==='undefined'?[]:cards;return (S.data?.deck||[]).map(id=>list.find(x=>String(x.id)===String(id))).filter(Boolean);}\r\n" +
+  "  function currentPower(deckCards){const state=typeof battleState==='undefined'?{}:battleState;return deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,user(),state.config):Number(c.basePower||0)),0)+Number(S.data?.characterBonus?.pve||state.characterBonus?.pve||0);}\r\n" +
+  "  function privileged(){return String(user()?.role||'').toUpperCase()==='OWNER';}\r\n" +
+  '  function scheduleEnsure(){clearTimeout(S.ensureTimer);S.ensureTimer=setTimeout(ensure,40);}\r\n' +
+  `  function exitTower(){document.querySelector('[data-pve-mode="hunt"]')?.click();}\r\n` +
+  `  function editDeck(){exitTower();setTimeout(()=>document.querySelector('[data-pve-tab="deck"]')?.click(),120);}\r\n` +
+  '  function bindView(box){\r\n' +
+  "    if(box.dataset.abyssBound)return;box.dataset.abyssBound='1';\r\n" +
+  "    box.addEventListener('click',event=>{\r\n" +
+  "      const target=event.target.closest('[data-abyss-action]');if(!target||!box.contains(target)||target.disabled)return;\r\n" +
+  '      const action=target.dataset.abyssAction;\r\n' +
+  "      if(action==='exit')exitTower();\r\n" +
+  "      else if(action==='refresh')void openTower();\r\n" +
+  '      else if(action===\'tab\'){S.tab=target.dataset.tab;render();box.querySelector(`[data-tab="${S.tab}"][data-abyss-action]`)?.focus({preventScroll:true});}\r\n' +
+  "      else if(action==='fight')void startFight();\r\n" +
+  "      else if(action==='deck')editDeck();\r\n" +
+  "      else if(action==='guide')ui().guide(box);\r\n" +
+  '    });\r\n' +
+  "    box.addEventListener('change',event=>{if(event.target.matches('[data-abyss-filter]')){S.filter=event.target.value;render();box.querySelector('[data-abyss-filter]')?.focus({preventScroll:true});}});\r\n" +
+  '  }\r\n' +
+  '  async function ensure(){\r\n' +
+  "    const tabs=document.querySelector('.pve-mode-tabs');if(!tabs||!ui())return;\r\n" +
+  `    const buttons=[...tabs.querySelectorAll('[data-pve-mode="tower"]')];buttons.slice(1).forEach(x=>x.remove());\r\n` +
+  "    const views=[...document.querySelectorAll('#pveTowerView')];views.slice(1).forEach(x=>x.remove());\r\n" +
+  "    if(buttons[0]&&views[0]&&tabs.dataset.towerBound==='1'&&tabs.dataset.towerReady==='1')return;\r\n" +
+  '    if(S.ensureBusy)return;S.ensureBusy=true;\r\n' +
+  '    try{\r\n' +
+  '      let cfg={enabled:S.enabled};\r\n' +
+  "      if(!S.lastConfigAt||Date.now()-S.lastConfigAt>15000){try{cfg=await apiRequest('tower/config',{}, {ttl:0})||cfg;}catch{}S.lastConfigAt=Date.now();}\r\n" +
+  '      S.enabled=cfg.enabled!==false;\r\n' +
+  "      if(!S.enabled&&!privileged()){buttons.forEach(x=>x.remove());views.forEach(x=>x.remove());tabs.dataset.towerReady='0';return;}\r\n" +
+  '      let button=buttons[0];\r\n' +
+  "      if(!button){button=document.createElement('button');button.type='button';button.className='pve-mode-btn';button.dataset.pveMode='tower';button.textContent='무한의탑';tabs.appendChild(button);}\r\n" +
+  "      const anchor=document.getElementById('pveRaidHubView')||document.getElementById('pveRaidView');if(!anchor)return;\r\n" +
+  '      let box=views[0];\r\n' +
+  "      if(!box){box=document.createElement('div');box.id='pveTowerView';box.className='pve-tower-view';box.hidden=true;anchor.insertAdjacentElement('afterend',box);}\r\n" +
+  "      else if(box.parentElement!==anchor.parentElement)anchor.insertAdjacentElement('afterend',box);\r\n" +
+  '      bindView(box);\r\n' +
+  "      if(tabs.dataset.towerBound!=='1'){\r\n" +
+  "        tabs.dataset.towerBound='1';\r\n" +
+  "        tabs.addEventListener('click',event=>{const btn=event.target.closest('[data-pve-mode]');if(!btn)return;if(btn.dataset.pveMode==='tower'){event.preventDefault();void openTower();}else{S.request++;box.hidden=true;}});\r\n" +
+  '      }\r\n' +
+  "      tabs.dataset.towerReady='1';\r\n" +
+  "      if(requestedTower){requestedTower=false;const url=new URL(location.href);url.searchParams.delete('pve');history.replaceState(history.state,'',url);void openTower();}\r\n" +
+  '    }finally{S.ensureBusy=false;}\r\n' +
+  '  }\r\n' +
+  '  async function openTower(restoreBattle=true){\r\n' +
+  '    if(S.busy)return false;\r\n' +
+  '    const token=++S.request;\r\n' +
+  "    document.querySelectorAll('.pve-mode-btn').forEach(x=>x.classList.toggle('active',x.dataset.pveMode==='tower'));\r\n" +
+  "    ['pveRaidHubView','pveRaidView','pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'].forEach(id=>{const el=document.getElementById(id);if(el)el.hidden=true;});\r\n" +
+  "    const box=document.getElementById('pveTowerView');if(!box)return false;\r\n" +
+  '    bindView(box);box.hidden=false;ui().state(box);\r\n' +
+  '    try{\r\n' +
+  "      const data=await apiRequest('tower/status',{}, {ttl:0});\r\n" +
+  '      if(token!==S.request||!box.isConnected||box.hidden)return false;\r\n' +
+  '      S.data=data;render();\r\n' +
+  '      if(restoreBattle&&pendingBattle()?.result&&!S.busy)void startFight();\r\n' +
+  '      return true;\r\n' +
+  "    }catch(error){if(token===S.request&&box.isConnected&&!box.hidden)ui().state(box,{title:'도전 정보를 불러오지 못했습니다',description:error.message,error:true});return false;}\r\n" +
+  '  }\r\n' +
+  '  function render(){\r\n' +
+  "    const box=document.getElementById('pveTowerView');if(!box||!S.data)return;\r\n" +
+  '    const d=S.data;\r\n' +
+  "    if(!d.active){ui().state(box,{title:'지금은 성소의 문이 닫혀 있습니다',description:d.message||'무한의탑 운영이 재개되면 다시 도전할 수 있습니다.',error:true});return;}\r\n" +
+  "    if(d.configured===false||Number(d.maxFloor||0)<1){ui().state(box,{title:'첫 번째 봉인을 준비하고 있습니다',description:d.message||'아직 개방된 층이 없습니다. 운영 준비가 끝나면 이곳에서 도전할 수 있습니다.',error:true});return;}\r\n" +
+  '    const deckCards=currentDeckCards();\r\n' +
+  '    ui().render(box,{data:d,tab:S.tab,filter:S.filter,cards:deckCards,power:currentPower(deckCards),records:ui().readRecords(user()?.id),userId:user()?.id});\r\n' +
+  '  }\r\n' +
+  '  function lockBattleFocus(stage){\r\n' +
+  '    S.releaseFocus?.();\r\n' +
+  '    const onKey=event=>{\r\n' +
+  '      if(!stage.isConnected)return;\r\n' +
+  "      if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();return;}\r\n" +
+  "      if(event.key!=='Tab')return;\r\n" +
+  `      const items=[...stage.querySelectorAll('button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),[tabindex="0"]')].filter(el=>el.getClientRects().length);\r\n` +
+  '      if(!items.length){event.preventDefault();stage.focus({preventScroll:true});return;}\r\n' +
+  '      const first=items[0],last=items.at(-1),active=document.activeElement;\r\n' +
+  '      if(!stage.contains(active)||(event.shiftKey&&active===first)){event.preventDefault();(event.shiftKey?last:first).focus();}\r\n' +
+  '      else if(!event.shiftKey&&active===last){event.preventDefault();first.focus();}\r\n' +
+  '    };\r\n' +
+  "    stage.tabIndex=-1;document.addEventListener('keydown',onKey,true);stage.focus({preventScroll:true});\r\n" +
+  "    S.releaseFocus=()=>{document.removeEventListener('keydown',onKey,true);S.releaseFocus=null;};\r\n" +
+  '  }\r\n' +
+  '  function disposeBattle(){\r\n' +
+  '    S.battleGeneration++;\r\n' +
+  "    S.releaseFocus?.();const modal=document.getElementById('modal');\r\n" +
+  "    if(modal){modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';}\r\n" +
+  '    S.busy=false;\r\n' +
+  '  }\r\n' +
+  "  async function closeBattle({acknowledge=true,tab='challenge',retry=false}={}){\r\n" +
+  '    if(acknowledge)acknowledgeBattle();disposeBattle();S.tab=tab;\r\n' +
+  '    const opened=await openTower(false);\r\n' +
+  '    if(opened&&retry)await startFight();\r\n' +
+  `    else if(opened)document.querySelector('#pveTowerView [data-abyss-action="fight"],#pveTowerView .abyss-nav .is-active')?.focus({preventScroll:true});\r\n` +
+  '  }\r\n' +
+  '  async function startFight(){\r\n' +
+  '    if(S.busy)return;\r\n' +
+  '    const pending=pendingBattle(),saved=pending?.result,deckCards=currentDeckCards();\r\n' +
+  "    if(!saved&&deckCards.length!==5){S.tab='formation';render();return;}\r\n" +
+  '    if(!pending&&(S.data?.completed||S.data?.blocked||!S.data?.floor))return;\r\n' +
+  '    const floorNo=pending?.floorNo||Number(S.data.floor.floorNo);\r\n' +
+  '    const f=saved?{floorNo,monsterName:saved.monster?.name}:S.data.floor||{floorNo};\r\n' +
+  "    const modal=document.getElementById('modal');if(!modal)return;\r\n" +
+  '    S.busy=true;let view=null;\r\n' +
+  '    const generation=++S.battleGeneration,accountId=Number(user()?.id),recordKey=pendingKey(),isCurrent=()=>generation===S.battleGeneration&&Number(user()?.id)===accountId;\r\n' +
+  '    try{\r\n' +
+  "      if(typeof ensureFeatureResources==='function')await ensureFeatureResources('battleV2');\r\n" +
+  '      if(!isCurrent())return;\r\n' +
+  "      if(!window.ProjectVBattleV3Live?.ready?.())throw Error('전투 화면을 준비하지 못했습니다. 다시 연결해 주세요.');\r\n" +
+  "      view=window.prepareBattleV2LiveLoading({modal,mode:'TOWER',playerName:user()?.nickname||'원정대',opponentName:f.monsterName||'탑의 수호자',autoText:'나락의 시련 · 원정대 준비'});\r\n" +
+  '      ui().prepareBattle(view,{floorNo});lockBattleFocus(view.stage);\r\n' +
+  '      window.ensureBattleSoundButton?.(view.stage);\r\n' +
+  '      const ticket=pending||{requestId:crypto.randomUUID(),floorNo};\r\n' +
+  '      if(!saved)rememberBattle(ticket,recordKey);\r\n' +
+  "      const data=saved||await apiRequest('tower/fight',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo})});\r\n" +
+  '      data.requestId||=ticket.requestId;rememberBattle({...ticket,result:data},recordKey);\r\n' +
+  '      if(!isCurrent())return;\r\n' +
+  "      const renderer=await window.playTowerBattleV3Live({...view,modal,data,floor:f,cards:data.cards?.length?data.cards:deckCards,isActive:()=>isCurrent()&&view.stage.isConnected&&modal.classList.contains('show')});\r\n" +
+  '      if(!ren'... 2654 more characters
+
+    at file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/pve-auxiliary-navigation-v2023.test.mjs:12:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '(()=>{\r\n' +
+    "  'use strict';\r\n" +
+    "  const ui=()=>window.TowerAbyssUI,user=()=>typeof loadUser==='function'?loadUser():null;\r\n" +
+    "  const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,tab:'challenge',filter:'all',request:0,battleGeneration:0,releaseFocus:null};\r\n" +
+    "  let requestedTower=new URL(location.href).searchParams.get('pve')==='tower';\r\n" +
+    '  const pendingKey=()=>`cnine:tower:battle:v2094:${Number(user()?.id||0)}`;\r\n' +
+    "  function pendingBattle(){try{const p=JSON.parse(sessionStorage.getItem(pendingKey())||'null');return p&&typeof p.requestId==='string'&&Number.isSafeInteger(p.floorNo)&&p.floorNo>0?p:null;}catch{return null;}}\r\n" +
+    "  function rememberBattle(value,key=pendingKey()){try{sessionStorage.setItem(key,JSON.stringify(value));}catch(error){console.warn('무한의탑 전투 복구 기록을 저장하지 못했습니다.',error);}}\r\n" +
+    '  function acknowledgeBattle(){try{sessionStorage.removeItem(pendingKey());}catch{}}\r\n' +
+    "  function currentDeckCards(){const list=typeof cards==='undefined'?[]:cards;return (S.data?.deck||[]).map(id=>list.find(x=>String(x.id)===String(id))).filter(Boolean);}\r\n" +
+    "  function currentPower(deckCards){const state=typeof battleState==='undefined'?{}:battleState;return deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,user(),state.config):Number(c.basePower||0)),0)+Number(S.data?.characterBonus?.pve||state.characterBonus?.pve||0);}\r\n" +
+    "  function privileged(){return String(user()?.role||'').toUpperCase()==='OWNER';}\r\n" +
+    '  function scheduleEnsure(){clearTimeout(S.ensureTimer);S.ensureTimer=setTimeout(ensure,40);}\r\n' +
+    `  function exitTower(){document.querySelector('[data-pve-mode="hunt"]')?.click();}\r\n` +
+    `  function editDeck(){exitTower();setTimeout(()=>document.querySelector('[data-pve-tab="deck"]')?.click(),120);}\r\n` +
+    '  function bindView(box){\r\n' +
+    "    if(box.dataset.abyssBound)return;box.dataset.abyssBound='1';\r\n" +
+    "    box.addEventListener('click',event=>{\r\n" +
+    "      const target=event.target.closest('[data-abyss-action]');if(!target||!box.contains(target)||target.disabled)return;\r\n" +
+    '      const action=target.dataset.abyssAction;\r\n' +
+    "      if(action==='exit')exitTower();\r\n" +
+    "      else if(action==='refresh')void openTower();\r\n" +
+    '      else if(action===\'tab\'){S.tab=target.dataset.tab;render();box.querySelector(`[data-tab="${S.tab}"][data-abyss-action]`)?.focus({preventScroll:true});}\r\n' +
+    "      else if(action==='fight')void startFight();\r\n" +
+    "      else if(action==='deck')editDeck();\r\n" +
+    "      else if(action==='guide')ui().guide(box);\r\n" +
+    '    });\r\n' +
+    "    box.addEventListener('change',event=>{if(event.target.matches('[data-abyss-filter]')){S.filter=event.target.value;render();box.querySelector('[data-abyss-filter]')?.focus({preventScroll:true});}});\r\n" +
+    '  }\r\n' +
+    '  async function ensure(){\r\n' +
+    "    const tabs=document.querySelector('.pve-mode-tabs');if(!tabs||!ui())return;\r\n" +
+    `    const buttons=[...tabs.querySelectorAll('[data-pve-mode="tower"]')];buttons.slice(1).forEach(x=>x.remove());\r\n` +
+    "    const views=[...document.querySelectorAll('#pveTowerView')];views.slice(1).forEach(x=>x.remove());\r\n" +
+    "    if(buttons[0]&&views[0]&&tabs.dataset.towerBound==='1'&&tabs.dataset.towerReady==='1')return;\r\n" +
+    '    if(S.ensureBusy)return;S.ensureBusy=true;\r\n' +
+    '    try{\r\n' +
+    '      let cfg={enabled:S.enabled};\r\n' +
+    "      if(!S.lastConfigAt||Date.now()-S.lastConfigAt>15000){try{cfg=await apiRequest('tower/config',{}, {ttl:0})||cfg;}catch{}S.lastConfigAt=Date.now();}\r\n" +
+    '      S.enabled=cfg.enabled!==false;\r\n' +
+    "      if(!S.enabled&&!privileged()){buttons.forEach(x=>x.remove());views.forEach(x=>x.remove());tabs.dataset.towerReady='0';return;}\r\n" +
+    '      let button=buttons[0];\r\n' +
+    "      if(!button){button=document.createElement('button');button.type='button';button.className='pve-mode-btn';button.dataset.pveMode='tower';button.textContent='무한의탑';tabs.appendChild(button);}\r\n" +
+    "      const anchor=document.getElementById('pveRaidHubView')||document.getElementById('pveRaidView');if(!anchor)return;\r\n" +
+    '      let box=views[0];\r\n' +
+    "      if(!box){box=document.createElement('div');box.id='pveTowerView';box.className='pve-tower-view';box.hidden=true;anchor.insertAdjacentElement('afterend',box);}\r\n" +
+    "      else if(box.parentElement!==anchor.parentElement)anchor.insertAdjacentElement('afterend',box);\r\n" +
+    '      bindView(box);\r\n' +
+    "      if(tabs.dataset.towerBound!=='1'){\r\n" +
+    "        tabs.dataset.towerBound='1';\r\n" +
+    "        tabs.addEventListener('click',event=>{const btn=event.target.closest('[data-pve-mode]');if(!btn)return;if(btn.dataset.pveMode==='tower'){event.preventDefault();void openTower();}else{S.request++;box.hidden=true;}});\r\n" +
+    '      }\r\n' +
+    "      tabs.dataset.towerReady='1';\r\n" +
+    "      if(requestedTower){requestedTower=false;const url=new URL(location.href);url.searchParams.delete('pve');history.replaceState(history.state,'',url);void openTower();}\r\n" +
+    '    }finally{S.ensureBusy=false;}\r\n' +
+    '  }\r\n' +
+    '  async function openTower(restoreBattle=true){\r\n' +
+    '    if(S.busy)return false;\r\n' +
+    '    const token=++S.request;\r\n' +
+    "    document.querySelectorAll('.pve-mode-btn').forEach(x=>x.classList.toggle('active',x.dataset.pveMode==='tower'));\r\n" +
+    "    ['pveRaidHubView','pveRaidView','pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'].forEach(id=>{const el=document.getElementById(id);if(el)el.hidden=true;});\r\n" +
+    "    const box=document.getElementById('pveTowerView');if(!box)return false;\r\n" +
+    '    bindView(box);box.hidden=false;ui().state(box);\r\n' +
+    '    try{\r\n' +
+    "      const data=await apiRequest('tower/status',{}, {ttl:0});\r\n" +
+    '      if(token!==S.request||!box.isConnected||box.hidden)return false;\r\n' +
+    '      S.data=data;render();\r\n' +
+    '      if(restoreBattle&&pendingBattle()?.result&&!S.busy)void startFight();\r\n' +
+    '      return true;\r\n' +
+    "    }catch(error){if(token===S.request&&box.isConnected&&!box.hidden)ui().state(box,{title:'도전 정보를 불러오지 못했습니다',description:error.message,error:true});return false;}\r\n" +
+    '  }\r\n' +
+    '  function render(){\r\n' +
+    "    const box=document.getElementById('pveTowerView');if(!box||!S.data)return;\r\n" +
+    '    const d=S.data;\r\n' +
+    "    if(!d.active){ui().state(box,{title:'지금은 성소의 문이 닫혀 있습니다',description:d.message||'무한의탑 운영이 재개되면 다시 도전할 수 있습니다.',error:true});return;}\r\n" +
+    "    if(d.configured===false||Number(d.maxFloor||0)<1){ui().state(box,{title:'첫 번째 봉인을 준비하고 있습니다',description:d.message||'아직 개방된 층이 없습니다. 운영 준비가 끝나면 이곳에서 도전할 수 있습니다.',error:true});return;}\r\n" +
+    '    const deckCards=currentDeckCards();\r\n' +
+    '    ui().render(box,{data:d,tab:S.tab,filter:S.filter,cards:deckCards,power:currentPower(deckCards),records:ui().readRecords(user()?.id),userId:user()?.id});\r\n' +
+    '  }\r\n' +
+    '  function lockBattleFocus(stage){\r\n' +
+    '    S.releaseFocus?.();\r\n' +
+    '    const onKey=event=>{\r\n' +
+    '      if(!stage.isConnected)return;\r\n' +
+    "      if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();return;}\r\n" +
+    "      if(event.key!=='Tab')return;\r\n" +
+    `      const items=[...stage.querySelectorAll('button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),[tabindex="0"]')].filter(el=>el.getClientRects().length);\r\n` +
+    '      if(!items.length){event.preventDefault();stage.focus({preventScroll:true});return;}\r\n' +
+    '      const first=items[0],last=items.at(-1),active=document.activeElement;\r\n' +
+    '      if(!stage.contains(active)||(event.shiftKey&&active===first)){event.preventDefault();(event.shiftKey?last:first).focus();}\r\n' +
+    '      else if(!event.shiftKey&&active===last){event.preventDefault();first.focus();}\r\n' +
+    '    };\r\n' +
+    "    stage.tabIndex=-1;document.addEventListener('keydown',onKey,true);stage.focus({preventScroll:true});\r\n" +
+    "    S.releaseFocus=()=>{document.removeEventListener('keydown',onKey,true);S.releaseFocus=null;};\r\n" +
+    '  }\r\n' +
+    '  function disposeBattle(){\r\n' +
+    '    S.battleGeneration++;\r\n' +
+    "    S.releaseFocus?.();const modal=document.getElementById('modal');\r\n" +
+    "    if(modal){modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';}\r\n" +
+    '    S.busy=false;\r\n' +
+    '  }\r\n' +
+    "  async function closeBattle({acknowledge=true,tab='challenge',retry=false}={}){\r\n" +
+    '    if(acknowledge)acknowledgeBattle();disposeBattle();S.tab=tab;\r\n' +
+    '    const opened=await openTower(false);\r\n' +
+    '    if(opened&&retry)await startFight();\r\n' +
+    `    else if(opened)document.querySelector('#pveTowerView [data-abyss-action="fight"],#pveTowerView .abyss-nav .is-active')?.focus({preventScroll:true});\r\n` +
+    '  }\r\n' +
+    '  async function startFight(){\r\n' +
+    '    if(S.busy)return;\r\n' +
+    '    const pending=pendingBattle(),saved=pending?.result,deckCards=currentDeckCards();\r\n' +
+    "    if(!saved&&deckCards.length!==5){S.tab='formation';render();return;}\r\n" +
+    '    if(!pending&&(S.data?.completed||S.data?.blocked||!S.data?.floor))return;\r\n' +
+    '    const floorNo=pending?.floorNo||Number(S.data.floor.floorNo);\r\n' +
+    '    const f=saved?{floorNo,monsterName:saved.monster?.name}:S.data.floor||{floorNo};\r\n' +
+    "    const modal=document.getElementById('modal');if(!modal)return;\r\n" +
+    '    S.busy=true;let view=null;\r\n' +
+    '    const generation=++S.battleGeneration,accountId=Number(user()?.id),recordKey=pendingKey(),isCurrent=()=>generation===S.battleGeneration&&Number(user()?.id)===accountId;\r\n' +
+    '    try{\r\n' +
+    "      if(typeof ensureFeatureResources==='function')await ensureFeatureResources('battleV2');\r\n" +
+    '      if(!isCurrent())return;\r\n' +
+    "      if(!window.ProjectVBattleV3Live?.ready?.())throw Error('전투 화면을 준비하지 못했습니다. 다시 연결해 주세요.');\r\n" +
+    "      view=window.prepareBattleV2LiveLoading({modal,mode:'TOWER',playerName:user()?.nickname||'원정대',opponentName:f.monsterName||'탑의 수호자',autoText:'나락의 시련 · 원정대 준비'});\r\n" +
+    '      ui().prepareBattle(view,{floorNo});lockBattleFocus(view.stage);\r\n' +
+    '      window.ensureBattleSoundButton?.(view.stage);\r\n' +
+    '      const ticket=pending||{requestId:crypto.randomUUID(),floorNo};\r\n' +
+    '      if(!saved)rememberBattle(ticket,recordKey);\r\n' +
+    "      const data=saved||await apiRequest('tower/fight',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo})});\r\n" +
+    '      data.requestId||=ticket.requestId;rememberBattle({...ticket,result:data},recordKey);\r\n' +
+    '      if(!isCurrent())return;\r\n' +
+    "      const renderer=await window.playTowerBattleV3Live({...view,modal,data,floor:f,cards:data.cards?.length?data.cards:deckCards,isActive:()=>isCurrent()&&view.stage.isConnected&&modal.classList.contains('show')});\r\n" +
+    '      if(!ren'... 2654 more characters,
+  expected: /placementAnchor=document\.getElementById\('pveRaidHubView'\)\|\|raid/,
+  operator: 'match',
+  diff: 'simple'
+}
+
+Node.js v24.18.0
+✖ tests\pve-auxiliary-navigation-v2023.test.mjs (68.8965ms)
+✔ production index loads the TEST-gated Core resources after the live PVE adapter (1.6086ms)
+▶ PVE override raid click always loads legacy once and Core can never block it
+  ✔ Core missing (6.9835ms)
+[CORE RAID] entry isolation Error: simulated disconnected Core failure
+    at Object.openActive (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/raid-entry-fallback-v1927.test.mjs:84:52)
+    at switchPveMode (app.js#raid-entry:11:306)
+    at pveCommandV2Switch (pve-command-v2-live.js:373:20)
+    at b.onclick (app.js#bind-raid-button:1:84)
+    at Object.click (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/raid-entry-fallback-v1927.test.mjs:73:36)
+    at runRaidEntry (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/raid-entry-fallback-v1927.test.mjs:149:14)
+    at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/raid-entry-fallback-v1927.test.mjs:177:28)
+    at Test.runInAsyncScope (node:async_hooks:227:14)
+    at Test.run (node:internal/test_runner/test:1325:25)
+    at Test.start (node:internal/test_runner/test:1191:17)
+  ✔ Core false (2.1751ms)
+  ✔ Core reject (2.2019ms)
+  ✔ Core true (1.4449ms)
+✔ PVE override raid click always loads legacy once and Core can never block it (14.0854ms)
+✔ legacy raid adds three energy without replacing any existing reward or rare roll (19.6069ms)
+✔ failed clears never grant the energy bonus and do not remove participation rewards (0.3878ms)
+✔ saved legacy CMS settings get only the new default; custom rewards remain intact (1.4308ms)
+✔ CMS quantities survive roundtrip, support zero, and are clamped to whole items (1.638ms)
+✔ new room snapshots freeze the configured bonus while old snapshots are not backfilled (7.5797ms)
+✔ retrying or rereading a completed reward keeps the single confirmed plan unchanged (4.5853ms)
+✔ 1,000억 reward plans remain fixed across retries and preserve previously confirmed 100억 receipts (3.21ms)
+✔ energy grants use the existing material code, inventory counters and raid audit log (2.8368ms)
+✔ failed reward transaction rolls back the extra inventory and its audit log together (3.2669ms)
+✔ CMS renders and reads default, edited and disabled bonus without losing zero (2.2133ms)
+✔ result display and current CMS resources keep the mystic bonus exclusive to legacy raid (2.5695ms)
+✔ mobile renderer failure opens a framed original-card recovery view and returns to raid status (19.5382ms)
+✔ raid start has a finite deadline, invalidates late work, hard-resets WebGL and never falls back to alert (0.3914ms)
+✔ raid entry immediately renders a mobile loader and late deck config cannot steal the active tab (0.418ms)
+✔ 사용자가 지정한 나가토·요리이치·이치고 3종만 KST 7일을 반복한다 (1.4365ms)
+✔ 신규 보스 SD는 투명 RGBA와 경량 768 WebP를 함께 제공하고 나가토 V2만 연결한다 (13.9597ms)
+✔ 보스별 궁극기는 개별 12프레임 Pixi atlas이고 런타임은 Sprite 시퀀스와 GSAP을 사용한다 (6.857ms)
+✔ 쫄몹은 서버 타임라인에서 보스 피해를 차단하고 궁극기는 서버 공격 틱으로 확정된다 (1.5085ms)
+✔ 보스별 보상 스냅샷은 분리되고 코인 항목은 1,000억까지 허용한다 (14.5077ms)
+✔ 요일 로스터 조회와 라이브 패치는 N+1 재조회·전체 리렌더를 피한다 (7.3189ms)
+✔ SQLite: 기존 7종 마커가 있어도 3종으로 교정하고 저장된 HP·진행 방·반복 실행을 보존한다 (4.4309ms)
+✔ SQLite: CMS 저장·재조회가 요일·궁극기·쫄몹·1,000억 보상에 반영되고 이전 방은 고정된다 (7.2253ms)
+✔ SQLite: 감사 실패는 설정도 롤백하고 비OWNER·초과 코인·외부 보스는 차단한다 (2.1123ms)
+✔ PostgreSQL: 기존 7종 마커가 있어도 3종으로 교정하고 저장된 HP·진행 방·반복 실행을 보존한다 (1369.3577ms)
+✔ PostgreSQL: CMS 저장·재조회가 요일·궁극기·쫄몹·1,000억 보상에 반영되고 이전 방은 고정된다 (967.4451ms)
+✔ PostgreSQL: 감사 실패는 설정도 롤백하고 비OWNER·초과 코인·외부 보스는 차단한다 (981.9381ms)
+✔ 7일 표시에서 같은 보스가 반복돼도 TODAY는 당일 한 곳만 표시한다 (19.9172ms)
+✔ 보스 방어 CMS 수치는 실제 HP 감소와 기여 피해 양쪽에 동일하게 적용된다 (0.9199ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 34
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3776.0415
+
+✖ failing tests:
+
+test at tests\pve-auxiliary-navigation-v2023.test.mjs:1:1
+✖ tests\pve-auxiliary-navigation-v2023.test.mjs (68.8965ms)
+  'test failed'

@@ -1,0 +1,264 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+[FULL RELEASE RESUME] Reuse 31 completed stages from f0b2de4139a6df808d574ca99b635015ad0b92c2; execute every remaining stage and production guard.
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (1.2538ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (3.2282ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.3874ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (4.6474ms)
+✔ codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources (6.9184ms)
+✔ full gate resumes a proven prefix and retains failed, remaining and final release guards (1.3202ms)
+✔ registered preview checkers rerun their owning stage and reject runtime or unregistered consumers (0.9541ms)
+✔ an upload failure reuses only a complete successful gate and rechecks changed deployment contracts (0.6774ms)
+✔ only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts (1.5443ms)
+✔ main cache version alignment accepts only the tested shell version and rechecks affected HTML tests (1.411ms)
+✔ isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity (0.6321ms)
+✔ lobby authoring repair retains passes only with unchanged live output and a full build check (0.5714ms)
+✔ multiple immutable continuation logs keep contiguous passes and reject a changed log or gap (0.7339ms)
+✔ a continuation validates successful earlier reruns before its contiguous failed-stage suffix (0.7444ms)
+✔ a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard (0.7244ms)
+✔ a completed continuation checks its actual candidate at the final source guard (0.3745ms)
+✔ continued gate accepts an isolated raid correction only after successful current browser proof (0.9559ms)
+✔ concurrent authoring art must be new, hash-bound, image-only and unused by runtime (1.1033ms)
+✔ unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed (1.1176ms)
+✔ changed tests in a completed stage rerun that stage without invalidating unrelated passes (0.1373ms)
+✔ preview QA repairs must be existing executable tests in the unchanged full gate (0.5274ms)
+✔ a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers (0.7627ms)
+✔ concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt (0.881ms)
+✔ a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits (2.0765ms)
+✔ concurrent unreferenced JSON production receipts are documentation, never runtime configuration (1.2106ms)
+✔ runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results (0.6005ms)
+✔ tampered, incomplete or noncontiguous logs fail closed (0.3587ms)
+✔ explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks (0.618ms)
+✔ uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain (0.8455ms)
+✔ legacy .mjs test entries are reusable only when directly registered in the unchanged gate (0.2732ms)
+✔ an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence (1.0912ms)
+✔ limited-pack view proof is runner-specific and never permits shared policy, session or server changes (2.1588ms)
+✔ offline skill preview proof binds source and bundle and reruns contracts that inspect it (1.8283ms)
+✔ registered nested npm tests belong to their parent and cannot be omitted from a completed gate (0.6012ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (3.4479ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.5733ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.5531ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.5598ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1576ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.4473ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (3.4978ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.0634ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 42
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 141.8786
+✔ one additional message grants Moo날두 only; original 50, wallets, held player and replay are preserved (1554.3666ms)
+✔ identity changes, unsafe wallet, duplicate delivery and failures at each write leave no partial message (1267.929ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2967.8901
+✔ winners receive only 20 trillion and participants only one trillion as messages; dry-run, identity exclusions and replay preserve wallets (1501.0775ms)
+✔ changed identity, unsupported balance, duplicate messages and every late write failure roll back the whole batch (1369.7539ms)
+✔ actual claim credits one and 20 trillion exactly once, rolls back failed ledger, and lost send response never duplicates messages (1298.4372ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4390.2058
+
+> test:soopketland
+> node --test tests/soopketland-v2039.test.mjs
+
+✔ new land policy assigns 60% coins, 14% stars, 10% single repair and 1% thanks gifts and preserves explicit OWNER weights (20.8025ms)
+✔ thanks gift coupon is not opened automatically and inactive inventory catalog preserves the coupon (19.7981ms)
+✔ five-prize saved settings preserve OWNER odds until the explicit repair policy is applied (2.4828ms)
+✔ repair prize always grants one actual coupon per viewer and preserves disabled or malformed coupons (5.5286ms)
+✔ coupon deadline is exactly eight hours, inclusive at expiry, and independent of timestamp timezone (0.1867ms)
+✔ new coupon stores one issue time and replay never restarts the eight-hour clock (4.2398ms)
+✔ previously issued codes expire after eight hours while claimed rewards and receipt replay survive (2.4496ms)
+✔ history and OWNER state derive expired codes without deleting prizes, receipts or inventory (2.5138ms)
+✔ database deadline is checked again after a redemption request has read the coupon (4.4523ms)
+✔ daily tickets are capped at ten per KST date across concurrent requests, consumption and nickname changes (3.7081ms)
+✔ daily eligibility excludes OWNER-only, inactive, banned and removed accounts; receipt failure rolls everything back (4.8138ms)
+✔ state and spin recover a delayed daily scheduler, grant no eleventh ticket and issue exact 150-viewer coupons (58.6062ms)
+✔ private stable ID access binds exactly five accounts; OWNER allowed; rename does not transfer access (2.6306ms)
+✔ daily issuance stays off before explicit activation; inventory-only forged tickets cannot play (2.6042ms)
+✔ OWNER grants are idempotent, scoped to registered accounts, audited and cannot be reused for a changed request (2.5613ms)
+✔ spin atomically spends one ticket and keeps viewer coupon in land history, without crediting streamer; lost-response replay is identical (7.889ms)
+✔ coupon issuance no longer depends on streamer messages; ticket grant message stays (12.5291ms)
+✔ each viewer can redeem once; cap is exact; retry does not pay twice (11.5583ms)
+✔ disabled coupons stop new redemptions without deleting earned rewards (8.2459ms)
+✔ missing inventory catalog row never consumes coupon; log failure rolls back coin and claim (9.709ms)
+✔ previously issued ZENITH/FUR coupons grant public active cards and preserve enhancement; empty pools preserve coupons (11.4169ms)
+✔ previously issued Hyper tickets retain server-wide 15x/60min activation and idempotency (3.5057ms)
+✔ active burning and unauthorized accounts cannot consume or overwrite activation (3.9274ms)
+✔ prize bounds, amounts and weight validation are deterministic and server-only (0.574ms)
+✔ concurrent requests cannot double-spend the last ticket or overrun a one-person coupon (6.2226ms)
+✔ concurrent replay of identical grant and roll identifiers returns one durable receipt (4.8066ms)
+✔ all stopped, finite-edition and globally excluded random cards preserve unused coupons (3.1244ms)
+✖ client integration is shared, recovers pending requests, and never renders a self-redeem action for event codes (10.198ms)
+✔ PostgreSQL translates every captured statement with matched binds; new transactions use real row locks (10.6626ms)
+✔ a previously issued Superstar coupon still delivers its ticket and opens once without changing owned enhancements (7.3244ms)
+✔ guaranteed ticket empty pool and failed card insert preserve inventory; concurrent open spends only once (4.8784ms)
+✔ mystic energy delivers 1, legacy 50/200 and new 1000; retired coupons retain their original rewards (42.2635ms)
+✔ fivefold amounts preserve the original discrete outcomes and exact odds (2.3658ms)
+✔ a maximum coin spin persists a 2,500억 coupon and replay does not consume another ticket (4.8606ms)
+✔ Emperor replaces the 5% Superstar prize, mystic keeps 10%, and retired keys cannot be spun or saved (3.5021ms)
+✔ 300억 and previous 200억/50억 coins credit once per viewer; existing stars and Black Miracle coupons keep their amount (23.8449ms)
+✔ previously issued maximum random card coupons deliver all copies, preserve enhancement, and replay cannot add copies (8.4772ms)
+✔ each card is independently sampled and a later card insert failure rolls back the whole coupon (5.2068ms)
+✔ Iyejun coupon uses the fixed ID, grants one unenhanced copy, and is excluded only from land random cards (5.7376ms)
+✔ old issued one-card coupons retain their amount and amounts above new caps are refused without consumption (3.1283ms)
+✔ client formats named cards as 장, uses server coin cap, and loads the new versioned bundle (3.5325ms)
+✔ legacy Hyper conversion precedes Black Miracle retirement and never redistributes twice (66.6423ms)
+✔ old settings redistribute Black Miracle only to coins/stars; OWNER cannot add retired prizes back (4.5461ms)
+✔ Black Miracle redistribution preserves custom coin/star proportions, zero choices, total and repeated reads (0.3948ms)
+✔ the four-prize Superstar replacement preserves custom weights, subsequent OWNER edits and prior spin receipts (2.8854ms)
+▶ maximum Emperor, stars and mystic spins persist coupons; failed delivery and replay cannot consume or grant twice
+  ✔ EMPEROR_ENERGY (4.8038ms)
+  ✔ MASTER_STAR (4.864ms)
+  ✔ STARLIGHT_ARMOR_CORE (4.3066ms)
+  ✔ PINGDU_THANKS_GIFT_BOX (4.255ms)
+  ✔ PINGDU_REPAIR_COUPON (5.678ms)
+✔ maximum Emperor, stars and mystic spins persist coupons; failed delivery and replay cannot consume or grant twice (24.8166ms)
+✔ old one-pack Black Miracle coupons remain valid, and above-cap coupons cannot be consumed (22.6547ms)
+✔ PostgreSQL credits expanded maximum rewards once, including 2,500억 BIGINT coin and audit balances (1640.8136ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 52
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2308.3768
+
+✖ failing tests:
+
+test at tests\soopketland-v2039.test.mjs:299:1
+✖ client integration is shared, recovers pending requests, and never renders a self-redeem action for event codes (10.198ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /js\/app\.js\?v=[0-9][A-Za-z0-9-]+/. Input:
+  
+  '<!DOCTYPE html>\n' +
+    '<html lang="ko">\n' +
+    '<head>\n' +
+    '  <meta charset="UTF-8" />\n' +
+    '  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\n' +
+    '  <meta name="theme-color" content="#080d13" />\n' +
+    '  <meta name="application-name" content="리버스콜" />\n' +
+    '  <meta name="apple-mobile-web-app-title" content="리버스콜" />\n' +
+    '  <meta property="og:title" content="리버스콜" />\n' +
+    '  <meta property="og:image" content="https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" />\n' +
+    '  <meta property="og:description" content="카드 수집 · 용병 성장 · 협동 전투" />\n' +
+    '  <link rel="manifest" href="/manifest.webmanifest?v=20261016-reverse-call" />\n' +
+    '  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent" type="image/png" sizes="32x32" />\n' +
+    '  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent" type="image/png" sizes="48x48" />\n' +
+    '  <link rel="apple-touch-icon" href="/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent" sizes="180x180" />\n' +
+    '  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-20261018/scene-wide.webp" media="(min-width:641px)" fetchpriority="high" />\n' +
+    '  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-20261018/scene-mobile.webp" media="(max-width:640px)" fetchpriority="high" />\n' +
+    '  <link rel="preload" as="image" type="image/avif" fetchpriority="high" href="/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif" imagesrcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" imagesizes="(max-width:820px) 100vw, 52vw" />\n' +
+    '  <link rel="preconnect" href="https://fonts.googleapis.com" />\n' +
+    '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n' +
+    '  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;600;800&amp;display=swap" rel="stylesheet" />\n' +
+    '  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Do+Hyeon&amp;family=East+Sea+Dokdo&amp;family=Gugi&amp;family=Jua&amp;family=Nanum+Gothic+Coding:wght@400;700&amp;family=Nanum+Pen+Script&amp;family=Noto+Sans+KR:wght@500;700;900&amp;family=Noto+Serif+KR:wght@600;700;900&amp;family=Song+Myung&amp;display=swap" rel="stylesheet" />\n' +
+    '  <title>리버스콜 카드뽑기</title>\n' +
+    '  <link rel="stylesheet" href="css/style.css?v=1879-player-ultimate-skip&cubeRemoval=20261003&iconPortrait=20261006" />\n' +
+    '  <link rel="stylesheet" href="css/chief-system-v1.css?v=20261005-general" />\n' +
+    '  <link rel="stylesheet" href="css/chief-prison-v1.css?v=20261006" />\n' +
+    '  <link rel="stylesheet" href="css/queen-coronation-v1.css?v=20261005-general" />\n' +
+    '  <link rel="stylesheet" href="css/card.css?v=1885-static-high-grade-frame" />\n' +
+    '  <link rel="stylesheet" href="css/animation.css?v=1144-stability-audit" />\n' +
+    '    <link rel="stylesheet" href="css/unified-drop-cinematic-v1750.css?v=1755-card-equipment-drop">\n' +
+    '  <link rel="stylesheet" href="css/card-unique-battle-fx-v1174.css?v=1745-taller-battle-cards">\n' +
+    '  <link rel="stylesheet" href="css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0">\n' +
+    '  <link rel="stylesheet" href="css/supply-box-v1249.css?v=1987-prime-custom-purchase-bulk-open">\n' +
+    '  <link rel="stylesheet" href="css/suit-core-box-v1.css?v=20261008">\n' +
+    '  <link rel="stylesheet" href="css/title-public-v1245.css?v=1782-title-specific-stars">\n' +
+    '  <link rel="stylesheet" href="css/title-fonts-v1814.css?v=1814-title-font-presets">\n' +
+    '  <link rel="stylesheet" href="css/seal-battle.css?v=1778-seal-v3-crystal&sealRework=20261021-v1&sealDragon=20261022-v1">\n' +
+    '  <link rel="stylesheet" href="css/raid-overhaul-v1293.css?v=1296-slot-entry-fix">\n' +
+    '  <link rel="stylesheet" href="css/raid-v3-async-v1779.css?v=1930-mobile-context-recovery">\n' +
+    '  <link rel="stylesheet" href="css/vehicle-draw-v1388.css?v=1724-hundred-draw">\n' +
+    '  <link rel="stylesheet" href="css/territory-war-v1811.css?v=1914-territory-dispatch-persist&pig=2">\n' +
+    '  <link rel="stylesheet" href="css/territory-war-v1824.css?v=2062-my-team-emphasis&clans=20260929-roster&votes=20261008">\n' +
+    '  <link rel="stylesheet" href="css/territory-network-v6.css?v=20261011-art2">\n' +
+    '  <link rel="stylesheet" href="css/territory-battlefield-v5.css?v=20261003-authored-fx">\n' +
+    '  <link rel="stylesheet" href="css/territory-formation-20261013.css?v=3">\n' +
+    '  <link rel="stylesheet" href="css/territory-vote-alert-v1.css?v=20261013-vote-alert-compact">\n' +
+    '  <link rel="stylesheet" href="css/ranked-match-v1671.css?v=1671-ranked-auto-season">\n' +
+    '  <link rel="stylesheet" href="css/ranked-v2-v1827.css?v=20261002-ranked-reform&amp;suggestions=20261005">\n' +
+    '  <link rel="stylesheet" href="css/pve-nightmare-v1692.css?v=1692-nightmare">\n' +
+    '  <link rel="stylesheet" href="css/pve-apocalypse-v1952.css?v=1952-apocalypse-pve">\n' +
+    '  <link rel="stylesheet" href="css/escort-operation-v1830.css?v=1844-public-mobile-fit">\n' +
+    '  <link rel="stylesheet" href="css/runtime-performance-v1727.css?v=1729-virtual-card-lists">\n' +
+    '  <link rel="stylesheet" href="css/battle-v3-live.css?v=1901-nightmare-mark-overlap&flow=2126&backdrop=20261005&amp;statusDock=20261007-v2">\n' +
+    '  <link rel="stylesheet" href="css/tower-abyss-ui.css?v=20261021-v1">\n' +
+    '  <link rel="stylesheet" href="css/secondary-verification-v1780.css?v=1799-playdk-only">\n' +
+    '  <link rel="stylesheet" href="css/organization-preparation-v1.css?v=20261015-organization-interface-v3">\n' +
+    '  <link rel="stylesheet" href="css/clan-v1.css?v=20261005-reform">\n' +
+    '  <link rel="stylesheet" href="css/clan-war-reform-v1.css?v=20261005-balance-v3">\n' +
+    '  <link rel="stylesheet" href="css/clan-command-v1.css?v=2127">\n' +
+    '  <link rel="stylesheet" href="css/clan-faction-v1.css?v=20261001-session-rewards">\n' +
+    '  <link rel="stylesheet" href="css/clan-champions-v2071.css?v=2109-champions-trophy">\n' +
+    '  <link id="liveOperationsV1868" rel="stylesheet" href="css/live-operations-v1868.css?v=1868-live-operations-r2&amp;popup=20261018-v1" />\n' +
+    '  <link data-rank-potion-style rel="stylesheet" href="css/rank-exp-potion-v1.css?v=20261020-v1" />\n' +
+    '  <link rel="stylesheet" href="css/prison-v1950.css?v=2045-mobile-perf" />\n' +
+    '\n' +
+    '<style id="v1871-mobile-burning-critical">\n' +
+    '@media (max-width:820px){\n' +
+    '  .burning-event-hud{visibility:visible!important;opacity:1!important}\n' +
+    '  .burning-command-notice{display:grid!important;visibility:visible!important;opacity:0;position:fixed!important;left:var(--burning-vv-left,0)!important;top:var(--burning-vv-top,0)!important;width:var(--burning-vv-width,100vw)!important;height:var(--burning-vv-height,100dvh)!important;z-index:2147483000!important}\n' +
+    '  .burning-command-notice.show{opacity:1!important}\n' +
+    '}\n' +
+    '</style>\n' +
+    '<link rel="stylesheet" href="css/burning-event-v1871.css?v=1902-burning-owner-timer" />\n' +
+    '<style id="v21-renewal-only-gate">\n' +
+    'html{background:#070a0f;color-scheme:dark}\n' +
+    'body.v21-renewal-required{margin:0;background:#070a0f;color:#eef4f6}\n' +
+    'body.v21-renewal-required #app{visibility:hidden}\n' +
+    '.v21-renewal-boot{position:fixed;inset:0;z-index:2147483600;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;box-sizing:border-box;padding:clamp(28px,4.8vw,76px);padding-bottom:max(30px,env(safe-area-inset-bottom));background:#060b12;color:#eef4f6;font-family:"Noto Sans KR",Arial,sans-serif}\n' +
+    '.v21-renewal-boot *{box-sizing:border-box}\n' +
+    '.v21-renewal-boot .boot-scene{position:absolute;inset:0;z-index:0;pointer-events:none}\n' +
+    '.v21-renewal-boot .boot-scene img{display:block;width:100%;height:100%;object-fit:cover;object-position:68% 48%}\n' +
+    '.v21-renewal-boot::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,8,15,.5),transparent 64%),linear-gradient(0deg,#030911 0%,rgba(3,9,17,.85) 8%,transparent 38%)}\n' +
+    '.v21-renewal-boot .boot-topline,.v21-renewal-boot main,.v21-renewal-boot .boot-loading{position:relative;z-index:2}\n' +
+    '.v21-renewal-boot .boot-topline{display:flex;align-items:center;justify-content:space-between;gap:20px;background:none;padding:0;border:0;min-height:40px}\n' +
+    '.v21-renewal-boot .boot-identity{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;letter-spacing:.14em}\n' +
+    '.v21-renewal-boot .boot-identity img{width:38px;height:38px;object-fit:contain}\n' +
+    '.v21-renewal-boot .boot-genre{color:#c4cdd3;font-size:11px;letter-spacing:.12em;text-shadow:0 2px 8px #030911}\n' +
+    '.v21-renewal-boot main{align-self:center;width:min(550px,55%);padding:0 0 24px;margin:0;border:0;background:none;box-shadow:none}\n' +
+    '.v21-renewal-boot .boot-overline{margin:0 0 22px;color:#9ecbd7;font-size:11px;font-weight:700;letter-spacing:.38em}\n' +
+    '.v21-renewal-boot h1{margin:0;color:#f1f5f4;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:clamp(80px,10.2vw,154px);font-style:italic;font-weight:800;line-height:.83;letter-spacing:-.025em;text-shadow:0 6px 35px #02070c66}\n' +
+    '.v21-renewal-boot h1 span{display:block}\n' +
+    '.v21-renewal-boot h1 span+span{color:#acdfe8;margin-top:8px}\n' +
+    '.v21-renewal-boot .boot-tagline{margin:28px 0 0;color:#d4e0e5;font-size:clamp(16px,1.6vw,22px);font-weight:400;letter-spacing:.08em}\n' +
+    '.v21-renewal-boot .boot-loading{width:100%;padding:0;margin:0;background:none;border:0}\n' +
+    '.v21-renewal-boot .boot-statusline{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:12px}\n' +
+    '.v21-renewal-boot .boot-statusline strong{font-size:14px;font-weight:600;letter-spacing:.02em}\n' +
+    '.v21-renewal-boot .boot-statusline>span{font-family:"Barlow Condensed",Arial,sans-serif;color:#9cb9c6;font-size:12px;letter-spacing:.3em}\n' +
+    ".v21-renewal-boot .boot-track{position:relative;width:100%;height:18px;border:0 solid transparent;border-left-width:25px;border-right-width:25px;border-image:url('/assets/ui/loading/reverse-call-20261018/rail.webp') 0 110 fill / 0 25px / 0 stretch;opacity:.9}\n" +
+    '.v21-renewal-boot .boot-track::after{content:"";position:absolute;inset:0 -25px;border:inherit;border-image:inherit;filter:brightness(2.1);mask-image:linear-gradie'... 22951 more characters
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/soopketland-v2039.test.mjs:301:132)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: `<!DOCTYPE html>\n<html lang="ko">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\n  <meta name="theme-color" content="#080d13" />\n  <meta name="application-name" content="리버스콜" />\n  <meta name="apple-mobile-web-app-title" content="리버스콜" />\n  <meta property="og:title" content="리버스콜" />\n  <meta property="og:image" content="https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" />\n  <meta property="og:description" content="카드 수집 · 용병 성장 · 협동 전투" />\n  <link rel="manifest" href="/manifest.webmanifest?v=20261016-reverse-call" />\n  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent" type="image/png" sizes="32x32" />\n  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent" type="image/png" sizes="48x48" />\n  <link rel="apple-touch-icon" href="/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent" sizes="180x180" />\n  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-20261018/scene-wide.webp" media="(min-width:641px)" fetchpriority="high" />\n  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-20261018/scene-mobile.webp" media="(max-width:640px)" fetchpriority="high" />\n  <link rel="preload" as="image" type="image/avif" fetchpriority="high" href="/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif" imagesrcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" imagesizes="(max-width:820px) 100vw, 52vw" />\n  <link rel="preconnect" href="https://fonts.googleapis.com" />\n  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;600;800&amp;display=swap" rel="stylesheet" />\n  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Do+Hyeon&amp;family=East+Sea+Dokdo&amp;family=Gugi&amp;family=Jua&amp;family=Nanum+Gothic+Coding:wght@400;700&amp;family=Nanum+Pen+Script&amp;family=Noto+Sans+KR:wght@500;700;900&amp;family=Noto+Serif+KR:wght@600;700;900&amp;family=Song+Myung&amp;display=swap" rel="stylesheet" />\n  <title>리버스콜 카드뽑기</title>\n  <link rel="stylesheet" href="css/style.css?v=1879-player-ultimate-skip&cubeRemoval=20261003&iconPortrait=20261006" />\n  <link rel="stylesheet" href="css/chief-system-v1.css?v=20261005-general" />\n  <link rel="stylesheet" href="css/chief-prison-v1.css?v=20261006" />\n  <link rel="stylesheet" href="css/queen-coronation-v1.css?v=20261005-general" />\n  <link rel="stylesheet" href="css/card.css?v=1885-static-high-grade-frame" />\n  <link rel="stylesheet" href="css/animation.css?v=1144-stability-audit" />\n    <link rel="stylesheet" href="css/unified-drop-cinematic-v1750.css?v=1755-card-equipment-drop">\n  <link rel="stylesheet" href="css/card-unique-battle-fx-v1174.css?v=1745-taller-battle-cards">\n  <link rel="stylesheet" href="css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0">\n  <link rel="stylesheet" href="css/supply-box-v1249.css?v=1987-prime-custom-purchase-bulk-open">\n  <link rel="stylesheet" href="css/suit-core-box-v1.css?v=20261008">\n  <link rel="stylesheet" href="css/title-public-v1245.css?v=1782-title-specific-stars">\n  <link rel="stylesheet" href="css/title-fonts-v1814.css?v=1814-title-font-presets">\n  <link rel="stylesheet" href="css/seal-battle.css?v=1778-seal-v3-crystal&sealRework=20261021-v1&sealDragon=20261022-v1">\n  <link rel="stylesheet" href="css/raid-overhaul-v1293.css?v=1296-slot-entry-fix">\n  <link rel="stylesheet" href="css/raid-v3-async-v1779.css?v=1930-mobile-context-recovery">\n  <link rel="stylesheet" href="css/vehicle-draw-v1388.css?v=1724-hundred-draw">\n  <link rel="stylesheet" href="css/territory-war-v1811.css?v=1914-territory-dispatch-persist&pig=2">\n  <link rel="stylesheet" href="css/territory-war-v1824.css?v=2062-my-team-emphasis&clans=20260929-roster&votes=20261008">\n  <link rel="stylesheet" href="css/territory-network-v6.css?v=20261011-art2">\n  <link rel="stylesheet" href="css/territory-battlefield-v5.css?v=20261003-authored-fx">\n  <link rel="stylesheet" href="css/territory-formation-20261013.css?v=3">\n  <link rel="stylesheet" href="css/territory-vote-alert-v1.css?v=20261013-vote-alert-compact">\n  <link rel="stylesheet" href="css/ranked-match-v1671.css?v=1671-ranked-auto-season">\n  <link rel="stylesheet" href="css/ranked-v2-v1827.css?v=20261002-ranked-reform&amp;suggestions=20261005">\n  <link rel="stylesheet" href="css/pve-nightmare-v1692.css?v=1692-nightmare">\n  <link rel="stylesheet" href="css/pve-apocalypse-v1952.css?v=1952-apocalypse-pve">\n  <link rel="stylesheet" href="css/escort-operation-v1830.css?v=1844-public-mobile-fit">\n  <link rel="stylesheet" href="css/runtime-performance-v1727.css?v=1729-virtual-card-lists">\n  <link rel="stylesheet" href="css/battle-v3-live.css?v=1901-nightmare-mark-overlap&flow=2126&backdrop=20261005&amp;statusDock=20261007-v2">\n  <link rel="stylesheet" href="css/tower-abyss-ui.css?v=20261021-v1">\n  <link rel="stylesheet" href="css/secondary-verification-v1780.css?v=1799-playdk-only">\n  <link rel="stylesheet" href="css/organization-preparation-v1.css?v=20261015-organization-interface-v3">\n  <link rel="stylesheet" href="css/clan-v1.css?v=20261005-reform">\n  <link rel="stylesheet" href="css/clan-war-reform-v1.css?v=20261005-balance-v3">\n  <link rel="stylesheet" href="css/clan-command-v1.css?v=2127">\n  <link rel="stylesheet" href="css/clan-faction-v1.css?v=20261001-session-rewards">\n  <link rel="stylesheet" href="css/clan-champions-v2071.css?v=2109-champions-trophy">\n  <link id="liveOperationsV1868" rel="stylesheet" href="css/live-operations-v1868.css?v=1868-live-operations-r2&amp;popup=20261018-v1" />\n  <link data-rank-potion-style rel="stylesheet" href="css/rank-exp-potion-v1.css?v=20261020-v1" />\n  <link rel="stylesheet" href="css/prison-v1950.css?v=2045-mobile-perf" />\n\n<style id="v1871-mobile-burning-critical">\n@media (max-width:820px){\n  .burning-event-hud{visibility:visible!important;opacity:1!important}\n  .burning-command-notice{display:grid!important;visibility:visible!important;opacity:0;position:fixed!important;left:var(--burning-vv-left,0)!important;top:var(--burning-vv-top,0)!important;width:var(--burning-vv-width,100vw)!important;height:var(--burning-vv-height,100dvh)!important;z-index:2147483000!important}\n  .burning-command-notice.show{opacity:1!important}\n}\n</style>\n<link rel="stylesheet" href="css/burning-event-v1871.css?v=1902-burning-owner-timer" />\n<style id="v21-renewal-only-gate">\nhtml{background:#070a0f;color-scheme:dark}\nbody.v21-renewal-required{margin:0;background:#070a0f;color:#eef4f6}\nbody.v21-renewal-required #app{visibility:hidden}\n.v21-renewal-boot{position:fixed;inset:0;z-index:2147483600;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;box-sizing:border-box;padding:clamp(28px,4.8vw,76px);padding-bottom:max(30px,env(safe-area-inset-bottom));background:#060b12;color:#eef4f6;font-family:"Noto Sans KR",Arial,sans-serif}\n.v21-renewal-boot *{box-sizing:border-box}\n.v21-renewal-boot .boot-scene{position:absolute;inset:0;z-index:0;pointer-events:none}\n.v21-renewal-boot .boot-scene img{display:block;width:100%;height:100%;object-fit:cover;object-position:68% 48%}\n.v21-renewal-boot::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,8,15,.5),transparent 64%),linear-gradient(0deg,#030911 0%,rgba(3,9,17,.85) 8%,transparent 38%)}\n.v21-renewal-boot .boot-topline,.v21-renewal-boot main,.v21-renewal-boot .boot-loading{position:relative;z-index:2}\n.v21-renewal-boot .boot-topline{display:flex;align-items:center;justify-content:space-between;gap:20px;background:none;padding:0;border:0;min-height:40px}\n.v21-renewal-boot .boot-identity{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;letter-spacing:.14em}\n.v21-renewal-boot .boot-identity img{width:38px;height:38px;object-fit:contain}\n.v21-renewal-boot .boot-genre{color:#c4cdd3;font-size:11px;letter-spacing:.12em;text-shadow:0 2px 8px #030911}\n.v21-renewal-boot main{align-self:center;width:min(550px,55%);padding:0 0 24px;margin:0;border:0;background:none;box-shadow:none}\n.v21-renewal-boot .boot-overline{margin:0 0 22px;color:#9ecbd7;font-size:11px;font-weight:700;letter-spacing:.38em}\n.v21-renewal-boot h1{margin:0;color:#f1f5f4;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:clamp(80px,10.2vw,154px);font-style:italic;font-weight:800;line-height:.83;letter-spacing:-.025em;text-shadow:0 6px 35px #02070c66}\n.v21-renewal-boot h1 span{display:block}\n.v21-renewal-boot h1 span+span{color:#acdfe8;margin-top:8px}\n.v21-renewal-boot .boot-tagline{margin:28px 0 0;color:#d4e0e5;font-size:clamp(16px,1.6vw,22px);font-weight:400;letter-spacing:.08em}\n.v21-renewal-boot .boot-loading{width:100%;padding:0;margin:0;background:none;border:0}\n.v21-renewal-boot .boot-statusline{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:12px}\n.v21-renewal-boot .boot-statusline strong{font-size:14px;font-weight:600;letter-spacing:.02em}\n.v21-renewal-boot .boot-statusline>span{font-family:"Barlow Condensed",Arial,sans-serif;color:#9cb9c6;font-size:12px;letter-spacing:.3em}\n.v21-renewal-boot .boot-track{position:relative;width:100%;height:18px;border:0 solid transparent;border-left-width:25px;border-right-width:25px;border-image:url('/assets/ui/loading/reverse-call-20261018/rail.webp') 0 110 fill / 0 25px / 0 stretch;opacity:.9}\n.v21-renewal-boot .boot-track::after{content:"";position:absolute;inset:0 -25px;border:inherit;border-image:inherit;filter:brightness(2.1);mask-image:linear-gradie`... 22951 more characters,
+    expected: /js\/app\.js\?v=[0-9][A-Za-z0-9-]+/,
+    operator: 'match',
+    diff: 'simple'
+  }

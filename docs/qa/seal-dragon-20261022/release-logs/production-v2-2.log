@@ -1,0 +1,299 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+[FULL RELEASE RESUME] Reuse 69 completed stages from d09a8f2eee3e4962f185c2953bd117eb73ad6e5b; execute every remaining stage and production guard.
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (0.8392ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (2.9104ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.3774ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (4.1229ms)
+✔ codex authoring template can retain the cache token from unchanged public HTML only (1.9368ms)
+✔ codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources (3.5177ms)
+✔ full gate resumes a proven prefix and retains failed, remaining and final release guards (0.4762ms)
+✔ registered preview checkers rerun their owning stage and reject runtime or unregistered consumers (0.7526ms)
+✔ an upload failure reuses only a complete successful gate and rechecks changed deployment contracts (0.6642ms)
+✔ only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts (1.4917ms)
+✔ main cache version alignment accepts only the tested shell version and rechecks affected HTML tests (1.5501ms)
+✔ isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity (0.7489ms)
+✔ lobby authoring repair retains passes only with unchanged live output and a full build check (0.7723ms)
+✔ multiple immutable continuation logs keep contiguous passes and reject a changed log or gap (0.6965ms)
+✔ a continuation validates successful earlier reruns before its contiguous failed-stage suffix (0.6944ms)
+✔ a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard (0.6739ms)
+✔ a completed continuation checks its actual candidate at the final source guard (0.3528ms)
+✔ continued gate accepts an isolated raid correction only after successful current browser proof (0.9167ms)
+✔ concurrent authoring art must be new, hash-bound, image-only and unused by runtime (1.4303ms)
+✔ unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed (0.6779ms)
+✔ changed tests in a completed stage rerun that stage without invalidating unrelated passes (0.1238ms)
+✔ preview QA repairs must be existing executable tests in the unchanged full gate (0.4926ms)
+✔ a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers (0.7447ms)
+✔ concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt (0.8216ms)
+✔ a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits (1.853ms)
+✔ concurrent unreferenced JSON production receipts are documentation, never runtime configuration (1.1262ms)
+✔ runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results (0.6055ms)
+✔ tampered, incomplete or noncontiguous logs fail closed (0.3315ms)
+✔ explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks (0.6962ms)
+✔ uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain (0.9286ms)
+✔ legacy .mjs test entries are reusable only when directly registered in the unchanged gate (0.2588ms)
+✔ an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence (0.9902ms)
+✔ limited-pack view proof is runner-specific and never permits shared policy, session or server changes (2.4644ms)
+✔ offline skill preview proof binds source and bundle and reruns contracts that inspect it (2.258ms)
+✔ registered nested npm tests belong to their parent and cannot be omitted from a completed gate (0.6827ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.3408ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.4629ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.3649ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.4785ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1928ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.5219ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (3.3825ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (1.5756ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 127.8747
+
+> test:gamst-retirement
+> node --test tests/gamst-card-retirement-v2001.test.mjs tests/gamst-territory-deck-repair-v2005.test.mjs tests/roster-card-retirement-v2056.test.mjs tests/card-catalog-account-visibility-v1908.test.mjs
+
+✔ 모든 계정에서 기존·향후 감스트 카드를 숨기고 나머지 순서를 유지한다 (3.0568ms)
+✔ 안전한 카드는 계정과 관계없이 변경하지 않는다 (1.0953ms)
+✔ 삭제된 감스트 전투 SD는 생성된 반응형 매핑에서도 런타임 시작 전에 제거한다 (0.9572ms)
+✔ 정책 스크립트는 bulk와 app보다 먼저 로드되고 모든 카드 화면이 같은 필터를 사용한다 (0.3759ms)
+✔ 전역 삭제 정책은 새 캐시 키로 로드되고 앱과 서비스워커의 현재 셸 버전이 일치한다 (0.3876ms)
+GAMST_CARD_RETIREMENT_V2001 {"status":"COMPLETED","version":2001,"completedAt":"2026-10-21T18:50:29.792Z","sourceCardIds":["CN-011CAD85BBB2470F","CN-8D3E40884AC04D2C","FUR-LEGACY-GAMST"],"ownershipRows":0,"affectedUsers":0,"transferRows":0,"transferUsers":0,"advancementTransfers":0,"standardPolicyRows":0,"standardPolicyUsers":0,"refundShards":0,"rerollTickets":0,"targetDistribution":[],"rewrittenDecks":{"pve":0,"pvp":0,"presets":0},"activeRifts":{"updated":0,"abandoned":0},"gameRemoval":{"ownership":true,"catalog":true,"drawPools":true,"uniqueEffects":true,"battleSprites":true},"archivalCardRowsRetained":true,"replayed":false}
+✔ +13 보유분은 같은 고유속성 FUR +13으로 바뀌고 전직 이전 여부가 보존된다 (8.8772ms)
+✔ +12 이하는 기존 FUR 퇴사 정책의 누적 조각과 카드별 재뽑기권 대상이 된다 (0.6919ms)
+✔ 같은 속성의 활성 FUR 후보가 없으면 원본 삭제 전에 전체 정산을 중단한다 (0.4657ms)
+✔ 저장 덱은 +13 이전 카드는 치환하고 일반 보상 카드는 제거하며 중복을 만들지 않는다 (0.2134ms)
+✔ 라이브 연결은 원자 정산·검증 후 카드와 전투 SD를 게임 노출에서 제거한다 (4.6892ms)
+✔ 정산 SQL의 모든 바인딩 개수는 PostgreSQL 호환 계층 계약과 일치한다 (7.1384ms)
+GAMST_DECK_REPAIR_V2005 {"status":"COMPLETED","version":2005,"completedAt":"2026-10-21T18:50:29.745Z","affectedUsers":1,"rewrittenDecks":{"pve":1,"pvp":1,"presets":1,"territory":1},"replacementReasons":{"SETTLEMENT_TARGET":3,"SAME_GRADE_13":1},"unresolvedDecks":{"total":0,"pve":0,"pvp":0,"presets":0,"territory":0},"grantedCards":0,"usedExistingOwnershipOnly":true,"replayed":false}
+✔ 감스트 빈 슬롯은 정산 대상 카드, 동일 FUR +13, 보유 최상 카드 순으로 채운다 (2.0697ms)
+✔ 이미 지급된 카드만 사용해 일반 덱과 진행 중 영토전 스냅샷을 일회 복구한다 (7.5672ms)
+✔ health가 일회 복구를 실행하고 영토전 진입 전에 전투력 스냅샷을 다시 계산한다 (4.8424ms)
+✔ 덱 복구는 직접 대체 카드를 우선하고 SUPERSTAR 1장 제한을 지킨다 (1.0268ms)
+ROSTER_CARD_RETIREMENT_V2056 {"status":"COMPLETED","version":2056,"completedAt":"2026-10-21T18:50:31.257Z","retiredCards":24,"ownershipRows":6,"affectedUsers":2,"snapshotRows":6,"fakerAdvancementSnapshots":2,"compensation":{"fakerToCheetahRows":2,"fakerAdvancementsTransferred":2,"chovyToSonRows":1,"zeusSuperstarRerollTickets":1,"totalRerollTickets":3,"totalRefundShards":160},"rewrittenDecks":{"pve":1,"pvp":2,"presets":1,"rifts":0,"territory":0},"verification":{"ownershipRemoved":true,"advancementsRemoved":true,"catalogRetired":true,"decksKeptAtFive":true,"snapshotsRetained":true},"replayed":false}
+✔ 24장 퇴사, 페이커·쵸비 직접 이전, 제우스·등급권 보상, 5장 덱 복구와 스냅샷을 한 번만 적용한다 (1461.3628ms)
+✔ 카탈로그 변경이나 5장 덱 복구 불능이면 사용자 보상과 카드 삭제를 모두 롤백한다 (2238.3752ms)
+✔ 슈퍼스타 재뽑기권은 실제 SUPERSTAR 고정 뽑기로 연결되고 health에는 비식별 요약만 노출된다 (4.0947ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3913.4932
+
+> test:reroll-recovery
+> node --test tests/iyejun-fur-reroll-recovery-v2023.test.mjs tests/iyejun-fur-card-pack-eligibility.test.mjs tests/superstar-reroll-v2057.test.mjs
+
+✔ 이예준 FUR 0.1 가중치 카드를 세 운영 카드팩의 실제 추첨 후보로 선택한다 (4.6783ms)
+✔ 다른 철구 카드와 이름만 같은 카드는 계속 제외된다 (0.1986ms)
+✔ 예외 카드는 CMS 활성·공개·가중치·한정수량·멤버 활성 조건을 우회하지 않는다 (1.9035ms)
+✔ 팩별 명시적 카드 목록을 계속 준수한다 (0.8805ms)
+IYEJUN_FUR_REROLL_RECOVERY_V2023 {"status":"COMPLETED","version":2023,"completedAt":"2026-10-21T18:50:34.110Z","replayed":false,"targetCardCount":1,"rerollBlocked":true,"highGradeReceiptsFound":1,"furTicketReceiptsFound":1,"highGradeRecovered":1,"furTicketRecovered":1,"cardsRecovered":2,"sourceCardsRestored":1,"highGradeTicketsRefunded":1,"furTicketsRefunded":1,"shardsReversed":250,"missingCurrentCards":0,"stateChanged":0}
+✔ 이예준 FUR 재뽑기 결과를 회수하고 각 사용 전 상태로 원복한다 (10.2795ms)
+✔ 대상 FUR 카드가 아직 DB에 없으면 완료 마커 없이 대기한다 (1.2657ms)
+✔ 두 재뽑기 경로 모두 이예준 FUR와 CMS 결과 제외 플래그를 강제 차단한다 (5.2051ms)
+✔ every server retirement reroll ticket has matching client entry and grade (1.1957ms)
+✔ SUPERSTAR ticket opens, confirms once, keeps acquisition FX and shows its real result (13.9475ms)
+✔ server awards only an eligible SUPERSTAR, consumes one ticket and replays the receipt exactly once (1258.7048ms)
+✔ duplicate SUPERSTAR remains a real extra copy, preserves enhancement and adds 600 shards (935.2926ms)
+✔ no candidates, no tickets, invalid count and unauthenticated requests cannot consume a reward (930.7983ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3331.1099
+
+> test:targeted-transfer
+> node --test tests/targeted-card-transfer-v2003.test.mjs tests/targeted-avatar-grant-v2007.test.mjs tests/targeted-avatar-grant-v2014.test.mjs tests/targeted-card-grant-v2015.test.mjs tests/targeted-card-grant-v2016.test.mjs tests/targeted-inventory-grant-v2025.test.mjs tests/targeted-inventory-grant-v2026.test.mjs tests/targeted-inventory-grant-v2027.test.mjs tests/targeted-skill-chip-grant-v2055.test.mjs tests/targeted-equipment-revoke-v2132.test.mjs tests/targeted-avatar-grant-deodeumigu-v1.test.mjs tests/targeted-avatar-grant-saitama-v1.test.mjs tests/targeted-avatar-grant-redcloud-dc-hi-heeya-v1.test.mjs tests/targeted-reward-grant-20260921-v1.test.mjs
+
+TARGETED_AVATAR_GRANT_DEODEUMIGU_V1 {"status":"COMPLETED","version":1,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+TARGETED_AVATAR_GRANT_DEODEUMIGU_V1 {"status":"COMPLETED","version":1,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+TARGETED_AVATAR_GRANT_DEODEUMIGU_V1 {"status":"COMPLETED","version":1,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+TARGETED_AVATAR_GRANT_DEODEUMIGU_V1 {"status":"COMPLETED","version":1,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+✔ 활성 더듬이구 계정에 테란여제 조은을 영구 지급하고 재실행하지 않는다 (7.5142ms)
+✔ 기간제 소유권은 영구로 전환하고 기존 영구 소유권은 덮어쓰지 않는다 (3.721ms)
+✔ 더듬이구 계정이 비활성이거나 두 개면 지급을 중단한다 (2.3557ms)
+✔ 사전 조회 후 계정이 변경되면 소유권·로그·RUNNING 마커를 모두 롤백한다 (1.5254ms)
+✔ 라이브 health는 더듬이구 지급을 실행하고 계정 식별자는 응답에서 제외한다 (7.0887ms)
+✔ 완료 마커가 있어도 현재 영구 보유를 재조회하며 회수된 아바타를 재지급하지 않는다 (3.7978ms)
+TARGETED_AVATAR_GRANT_DEODEUMIGU_V1 {"status":"COMPLETED","version":1,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+✔ 운영 PostgreSQL 호환 계층에서 원자 지급·재조회·지급 0행 롤백을 검증한다 (3239.6237ms)
+TARGETED_AVATAR_GRANT_REDCLOUD_DC_HI_HEEYA_V1 {"status":"COMPLETED","version":1,"avatarCode":"DC_HI_HEEYA","seasonId":5,"expiresAt":"2099-09-30 12:34:56","replayed":false}
+✔ 레드클라우드에게 DC 하이희야를 활성 클랜 시즌 종료 시각까지 한 번만 지급한다 (3185.9736ms)
+TARGETED_AVATAR_GRANT_REDCLOUD_DC_HI_HEEYA_V1 {"status":"COMPLETED","version":1,"avatarCode":"DC_HI_HEEYA","seasonId":5,"expiresAt":"2099-09-30 12:34:56","replayed":false}
+TARGETED_AVATAR_GRANT_REDCLOUD_DC_HI_HEEYA_V1 {"status":"COMPLETED","version":1,"avatarCode":"DC_HI_HEEYA","seasonId":5,"expiresAt":"2099-09-30 12:34:56","replayed":false}
+✔ 기존 영구 보유권은 기간제로 낮추지 않고, 짧은 기간제만 시즌 종료까지 연장한다 (2765.411ms)
+✔ 중복·비활성 계정 또는 종료된 클랜 시즌이면 어떤 지급도 남기지 않는다 (3886.579ms)
+TARGETED_AVATAR_GRANT_REDCLOUD_DC_HI_HEEYA_V1 {"status":"COMPLETED","version":1,"avatarCode":"DC_HI_HEEYA","seasonId":5,"expiresAt":"2099-09-30 12:34:56","replayed":false}
+✔ 완료 후 소유권이 회수되면 재지급하지 않고 검증 상태만 false로 보고한다 (986.3064ms)
+✔ 라이브 health가 시즌 기간제 지급을 실행하되 계정 식별자는 응답에서 제외한다 (3.3194ms)
+TARGETED_AVATAR_GRANT_SAITAMA_V1 {"status":"COMPLETED","version":1,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+TARGETED_AVATAR_GRANT_SAITAMA_V1 {"status":"COMPLETED","version":1,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+TARGETED_AVATAR_GRANT_SAITAMA_V1 {"status":"COMPLETED","version":1,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+TARGETED_AVATAR_GRANT_SAITAMA_V1 {"status":"COMPLETED","version":1,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+✔ 활성 싸이타마 계정에 테란여제 조은을 영구 지급하고 재실행하지 않는다 (7.532ms)
+✔ 기간제 소유권은 영구로 전환하고 기존 영구 소유권은 덮어쓰지 않는다 (3.7281ms)
+✔ 싸이타마 계정이 비활성이거나 두 개면 지급을 중단한다 (2.4188ms)
+✔ 사전 조회 후 계정이 변경되면 소유권·로그·RUNNING 마커를 모두 롤백한다 (1.5341ms)
+✔ 라이브 health는 싸이타마 지급을 실행하고 계정 식별자는 응답에서 제외한다 (5.5732ms)
+✔ 완료 마커가 있어도 현재 영구 보유를 재조회하며 회수된 아바타를 재지급하지 않는다 (2.2693ms)
+TARGETED_AVATAR_GRANT_SAITAMA_V1 {"status":"COMPLETED","version":1,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+✔ 운영 PostgreSQL 호환 계층에서 원자 지급·재조회·지급 0행 롤백을 검증한다 (3189.2027ms)
+TARGETED_AVATAR_GRANT_V2007 {"status":"COMPLETED","version":2007,"completedAt":"2026-10-21T18:50:37.897Z","nickname":"핑크빛유두","userId":77,"avatarCode":"TERRAN_EMPRESS_JOEUN","avatarName":"테란여제 조은","permanent":true,"alreadyOwned":false,"catalogActive":true,"catalogPublic":true,"saleEnabled":false,"replayed":false}
+✔ 핑크빛유두 활성 OWNER에게 테란여제 조은을 영구 지급하고 재실행하지 않는다 (13.4476ms)
+✔ 동일 닉네임이더라도 활성 OWNER가 아니면 지급을 중단한다 (1.4087ms)
+✔ 라이브 health는 지급을 실행하고 계정 식별자는 응답에서 제외한다 (7.1541ms)
+TARGETED_AVATAR_GRANT_V2014 {"status":"COMPLETED","version":2014,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+TARGETED_AVATAR_GRANT_V2014 {"status":"COMPLETED","version":2014,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+TARGETED_AVATAR_GRANT_V2014 {"status":"COMPLETED","version":2014,"avatarCode":"TERRAN_EMPRESS_JOEUN","permanent":true,"replayed":false}
+✔ 활성 조은 계정에 테란여제 조은을 영구 지급하고 재실행하지 않는다 (12.6075ms)
+✔ 기간제 소유권은 영구로 전환하고 기존 영구 소유권은 덮어쓰지 않는다 (3.6587ms)
+✔ 조은 계정이 비활성이거나 두 개면 지급을 중단한다 (3.8132ms)
+✔ 사전 조회 후 계정이 변경되면 소유권·로그·RUNNING 마커를 모두 롤백한다 (1.5305ms)
+✔ 라이브 health는 조은 지급을 실행하고 계정 식별자는 응답에서 제외한다 (5.6437ms)
+TARGETED_CARD_GRANT_V2015 {"status":"COMPLETED","version":2015,"cardId":"CN-BA6BDEC789144D00","quantityGranted":10,"quantityAfter":10,"breakthroughLevel":0,"replayed":false}
+TARGETED_CARD_GRANT_V2015 {"status":"COMPLETED","version":2015,"cardId":"CN-BA6BDEC789144D00","quantityGranted":10,"quantityAfter":14,"breakthroughLevel":0,"replayed":false}
+TARGETED_CARD_GRANT_V2015 {"status":"COMPLETED","version":2015,"cardId":"CN-BA6BDEC789144D00","quantityGranted":10,"quantityAfter":11,"breakthroughLevel":7,"replayed":false}
+✔ 조은 계정에 0강 ZENITH 오조은 10장을 추가하고 재실행하지 않는다 (18.9738ms)
+✔ 기존 0강 수량에는 정확히 10장만 더하고 강화 실패 수치를 보존한다 (2.9389ms)
+✔ 기존 카드가 1강 이상이면 강화를 초기화하지 않고 재료 수량만 10장 더한다 (3.8059ms)
+✔ 사전 조회 후 수량이 바뀌면 지급·로그·RUNNING 마커를 모두 롤백한다 (2.5373ms)
+✔ 라이브 health는 10장 지급을 실행하고 계정 식별자는 응답에서 제외한다 (8.6676ms)
+TARGETED_CARD_GRANT_V2016 {"status":"COMPLETED","version":2016,"cardId":"CN-02D9DC1E8A8A4209","quantityGranted":1,"quantityAfter":1,"breakthroughLevel":12,"replayed":false}
+TARGETED_CARD_GRANT_V2016 {"status":"COMPLETED","version":2016,"cardId":"CN-02D9DC1E8A8A4209","quantityGranted":1,"quantityAfter":3,"breakthroughLevel":12,"replayed":false}
+TARGETED_CARD_GRANT_V2016 {"status":"COMPLETED","version":2016,"cardId":"CN-02D9DC1E8A8A4209","quantityGranted":1,"quantityAfter":2,"breakthroughLevel":13,"replayed":false}
+✔ 심심이 계정에 철와대 킴성태 한 장을 +12로 지급하고 재실행하지 않는다 (12.4778ms)
+✔ 기존 카드가 +12 미만이면 한 장을 더하고 정확히 +12로 올린다 (2.1163ms)
+✔ 기존 카드가 +12보다 높으면 강화도를 낮추지 않고 한 장만 더한다 (3.3843ms)
+✔ 사전 조회 후 보유 상태가 바뀌면 지급·로그·RUNNING 마커를 모두 롤백한다 (1.8487ms)
+✔ 라이브 health는 +12 지급을 실행하고 계정 식별자는 응답에서 제외한다 (4.9259ms)
+TARGETED_CARD_TRANSFER_V2003 {"status":"COMPLETED","version":2003,"completedAt":"2026-10-21T18:50:37.960Z","nickname":"폭군#","userId":52,"source":{"cardId":"CN-F500880B2ED34350","title":"프로필 킴성태","quantityBefore":2,"quantityAfter":1,"breakthroughBefore":13,"breakthroughAfter":0},"target":{"cardId":"CN-2CEC24C0087A4B61","title":"와룡킹남순","quantityBefore":3,"quantityAfter":4,"breakthroughBefore":10,"breakthroughAfter":13},"advancement":{"classCode":"SHATTER","dominantType":"ATTACK","moved":true,"targetAlreadyAdvanced":false},"rewrittenDecks":{"pve":1,"pvp":1,"presets":1},"replayed":false}
+✔ 카드 ID 치환은 기존 순서를 유지하고 목표 카드 중복을 제거한다 (2.1092ms)
+✔ 폭군#의 킴성태 공격 +13 전직 한 장을 남순 공격 +13 전직으로 원자 이전하고 재실행하지 않는다 (13.2808ms)
+✔ 라이브 health 경로에 일회성 이전과 비식별 검증 상태가 연결된다 (6.5491ms)
+TARGETED_EQUIPMENT_REVOKE_V2132 {"status":"COMPLETED","version":2132,"equipmentCode":"BATTLE_SUIT_Z_BODY","removedQuantity":2,"unequippedQuantity":1,"ownershipVerified":true,"replayed":false}
+TARGETED_EQUIPMENT_REVOKE_V2132 {"status":"COMPLETED","version":2132,"equipmentCode":"BATTLE_SUIT_Z_BODY","removedQuantity":0,"unequippedQuantity":0,"ownershipVerified":true,"replayed":false}
+✔ 진짜디임의 Z-BODY 전량만 장착·강화 상태와 함께 원자 회수하고 감사 스냅샷을 보존한다 (12.1591ms)
+✔ 이미 Z-BODY가 없으면 다른 장비를 건드리지 않고 부재 검증 영수증을 남긴다 (2.9368ms)
+✔ 계정 식별이 중복되거나 비활성이면 어떤 장비도 회수하지 않는다 (5.0095ms)
+✔ 사전 조회 뒤 Z-BODY 보유 수가 바뀌면 회수·감사·완료 마커를 모두 롤백한다 (2.6884ms)
+TARGETED_EQUIPMENT_REVOKE_V2132 {"status":"COMPLETED","version":2132,"equipmentCode":"BATTLE_SUIT_Z_BODY","removedQuantity":1,"unequippedQuantity":1,"ownershipVerified":true,"replayed":false}
+✔ 운영 PostgreSQL 호환 계층에서도 장착 Z-BODY를 한 번만 회수한다 (3162.5465ms)
+✔ 라이브 health가 회수 결과를 비식별 요약으로만 노출한다 (8.0507ms)
+TARGETED_INVENTORY_GRANT_V2025 {"status":"COMPLETED","version":2025,"itemCode":"STARLIGHT_ARMOR_CORE","quantityGranted":500,"quantityAfter":500,"replayed":false}
+TARGETED_INVENTORY_GRANT_V2025 {"status":"COMPLETED","version":2025,"itemCode":"STARLIGHT_ARMOR_CORE","quantityGranted":500,"quantityAfter":537,"replayed":false}
+✔ 진짜디임 계정에 미스틱 에너지 500개를 한 번만 지급한다 (11.5964ms)
+✔ 기존 보유량과 미확인 수량에 정확히 500개만 더한다 (1.9336ms)
+✔ 대상 계정 또는 아이템이 유일한 활성 상태가 아니면 지급하지 않는다 (4.6079ms)
+✔ 사전 조회 후 보유량이 바뀌면 지급·로그·마커를 모두 롤백한다 (1.6432ms)
+✔ 라이브 health는 지급을 실행하되 계정 식별자는 응답에서 제외한다 (5.4288ms)
+TARGETED_INVENTORY_GRANT_V2026 {"status":"COMPLETED","version":2026,"itemCode":"HIGH_GRADE_REROLL_TICKET","quantityGranted":1,"quantityAfter":1,"replayed":false}
+TARGETED_INVENTORY_GRANT_V2026 {"status":"COMPLETED","version":2026,"itemCode":"HIGH_GRADE_REROLL_TICKET","quantityGranted":1,"quantityAfter":5,"replayed":false}
+TARGETED_INVENTORY_GRANT_V2026 {"status":"COMPLETED","version":2026,"itemCode":"HIGH_GRADE_REROLL_TICKET","quantityGranted":1,"quantityAfter":1,"replayed":false}
+✔ X수댕 계정에 고등급 재뽑기권 1개를 한 번만 지급한다 (12.1655ms)
+✔ 기존 보유량과 미확인 수량에 정확히 1개만 더한다 (2.2216ms)
+✔ 영문 X의 대소문자와 바깥 공백 차이는 유일 계정일 때만 보정한다 (1.8897ms)
+✔ 대상 계정 또는 아이템이 유일한 활성 상태가 아니면 지급하지 않는다 (3.1608ms)
+✔ 사전 조회 후 보유량이 바뀌면 지급·로그·마커를 모두 롤백한다 (1.6466ms)
+✔ 라이브 health는 카탈로그 보장 뒤 지급을 실행하고 계정 식별자는 응답에서 제외한다 (5.5176ms)
+TARGETED_INVENTORY_GRANT_V2027 {"status":"COMPLETED","version":2027,"itemCode":"CORE_RAID_ENTRY_TICKET","quantityGranted":100,"quantityAfter":100,"replayed":false}
+TARGETED_INVENTORY_GRANT_V2027 {"status":"COMPLETED","version":2027,"itemCode":"CORE_RAID_ENTRY_TICKET","quantityGranted":100,"quantityAfter":104,"replayed":false}
+TARGETED_INVENTORY_GRANT_V2027 {"status":"COMPLETED","version":2027,"itemCode":"CORE_RAID_ENTRY_TICKET","quantityGranted":100,"quantityAfter":100,"replayed":false}
+✔ 핑크빛유두 계정에 붕괴 코어 입장권 100개를 한 번만 지급한다 (13.2939ms)
+✔ 기존 보유량과 미확인 수량에 정확히 100개만 더한다 (2.3595ms)
+✔ 바깥 공백은 유일 계정일 때만 보정한다 (2.9229ms)
+✔ 대상 계정 또는 아이템이 유일한 활성 상태가 아니면 지급하지 않는다 (3.4294ms)
+✔ 사전 조회 후 보유량이 바뀌면 지급·로그·마커를 모두 롤백한다 (1.866ms)
+✔ 라이브 health는 1회 지급을 실행하고 계정 식별자는 응답에서 제외한다 (6.7747ms)
+TARGETED_REWARD_GRANT_20260921_V1 {"status":"COMPLETED","version":1,"mercenary":{"code":"V-001","name":"아우렌","rank":"S","duplicate":false,"totalCopiesAfter":1},"coin":{"amount":300000000000,"balanceAfter":"300000000123"},"hBody":{"equipmentCode":"BATTLE_SUIT_H_BODY","quantityAfter":1},"replayed":false}
+✔ 세 지정 계정에 S급 랜덤 용병·3천억·H-BODY를 원자적으로 한 번 지급한다 (3266.139ms)
+TARGETED_REWARD_GRANT_20260921_V1 {"status":"COMPLETED","version":1,"mercenary":{"code":"V-001","name":"아우렌","rank":"S","duplicate":true,"totalCopiesAfter":3},"coin":{"amount":300000000000,"balanceAfter":"300000000123"},"hBody":{"equipmentCode":"BATTLE_SUIT_H_BODY","quantityAfter":2},"replayed":false}
+✔ 기존 S급 중복과 기존 H-BODY가 있어도 각각 정확히 한 장·한 개만 추가한다 (1332.7145ms)
+✔ 대상 계정이 중복되면 세 지급과 완료 마커를 모두 남기지 않는다 (1308.7344ms)
+✔ 라이브 health는 지급 결과만 공개하고 계정 식별자를 응답에 넣지 않는다 (5.303ms)
+TARGETED_SKILL_CHIP_GRANT_V2055 {"status":"COMPLETED","version":2055,"accountCount":2,"verifiedPairs":4,"quantityGranted":4,"replayed":false}
+TARGETED_SKILL_CHIP_GRANT_V2055 {"status":"COMPLETED","version":2055,"accountCount":2,"verifiedPairs":4,"quantityGranted":2,"replayed":false}
+✔ 진짜디임과 핑크빛유두에게 로켓런처·헬기폭격 스킬칩을 각각 한 번만 영구 지급한다 (9.4423ms)
+✔ 이미 보유한 스킬칩은 중복 적립하지 않고 미보유 조합만 지급한다 (4.8455ms)
+TARGETED_SKILL_CHIP_GRANT_V2055 {"status":"COMPLETED","version":2055,"accountCount":2,"verifiedPairs":4,"quantityGranted":4,"replayed":false}
+✔ 운영 PostgreSQL 호환 계층에서도 네 조합을 원자적으로 지급하고 재실행하지 않는다 (3256.3109ms)
+✔ 두 대상 계정과 두 스킬칩이 모두 유일한 활성 상태일 때만 지급한다 (7.7903ms)
+✔ 사전 조회 뒤 보유 상태가 바뀌면 네 조합의 지급·로그·마커를 전부 롤백한다 (4.9514ms)
+✔ 라이브 health는 카탈로그 보장 뒤 일회 지급을 실행하고 계정 식별자를 응답에서 제외한다 (10.3958ms)
+ℹ tests 73
+ℹ suites 0
+ℹ pass 73
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11063.1909
+
+> test:idle-dungeon
+> node tests/idle-dungeon-daily-cap-v1732.mjs && node --test tests/idle-v3-preview-v1.test.mjs
+
+idle historical simulation retained; production entry points retired
+✔ real, approved five-card identities; one SUPERSTAR and one ZENITH; artwork separate from SD (2.1214ms)
+✔ all twelve encounters use existing approved monster originals and SD (2.7463ms)
+✔ monster stats do not scale to player strength (44.4393ms)
+✔ ordinary rollback restores the first three clears across thirty seeds without retuning enemies (50.0312ms)
+✔ training improves the fixed first gate without turning a surviving enemy into a clear (68.8155ms)
+✔ all gates preserve maximum-training power and require an actual clear under the current simulator (148.6425ms)
+✔ first clear bonus paid only once, repeated farm pays normal reward (1.1965ms)
+✔ a failed gate preserves currency and clears, switches to previous normal farm (2.8509ms)
+✔ begin rejects overlapping rounds; finish is idempotent; stale/cancelled results award nothing (1.0617ms)
+✔ mismatched results cannot claim the active stage (0.5295ms)
+✔ unopened stages and bosses cannot be selected as safe farms (0.1772ms)
+✔ manual farm choice during an advancing fight is not overwritten by its result (0.7351ms)
+✔ training is bounded, charged once, and does not mutate an in-progress snapshot (0.4594ms)
+✔ reload cannot restore a running or pending round, and only scoped preview key is used (2.0541ms)
+✔ malformed and obsolete storage is normalized without pending state or unbounded numbers (0.9034ms)
+✔ all-clear transitions to a cleared normal farm and cannot retry past the final stage (0.2105ms)
+✔ bridge loads one production V3 bundle and the original adapter/frame chain (4.1507ms)
+✖ Pages extensionless battle redirects keep Pixi backgrounds and scripts at their canonical roots (2.1385ms)
+✔ preview has no production UI entry, API mutations or independent Pixi/GSAP copy (158.0275ms)
+✔ silent bridge disposes the mixer before playback and never changes the live sound preference (1.4637ms)
+✔ battle suit is a separate support with real suit/weapon assets and independent damage (1.7657ms)
+✔ preview damage style keys stay bounded with real Pixi TextStyle reuse and preserve appearance (33.182ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 21
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1226.6731
+
+✖ failing tests:
+
+test at tests\idle-v3-preview-v1.test.mjs:215:1
+✖ Pages extensionless battle redirects keep Pixi backgrounds and scripts at their canonical roots (2.1385ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  6 !== 7
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/idle-v3-preview-v1.test.mjs:223:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 6,
+    expected: 7,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

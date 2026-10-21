@@ -1,0 +1,317 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+[FULL RELEASE RESUME] Reuse 52 completed stages from f0b2de4139a6df808d574ca99b635015ad0b92c2; execute every remaining stage and production guard.
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (0.8487ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (2.9075ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.3164ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (3.4517ms)
+✔ codex authoring template can retain the cache token from unchanged public HTML only (1.7646ms)
+✔ codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources (3.5658ms)
+✔ full gate resumes a proven prefix and retains failed, remaining and final release guards (0.4686ms)
+✔ registered preview checkers rerun their owning stage and reject runtime or unregistered consumers (0.7316ms)
+✔ an upload failure reuses only a complete successful gate and rechecks changed deployment contracts (0.6237ms)
+✔ only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts (1.3662ms)
+✔ main cache version alignment accepts only the tested shell version and rechecks affected HTML tests (1.9459ms)
+✔ isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity (0.9004ms)
+✔ lobby authoring repair retains passes only with unchanged live output and a full build check (0.7894ms)
+✔ multiple immutable continuation logs keep contiguous passes and reject a changed log or gap (0.9442ms)
+✔ a continuation validates successful earlier reruns before its contiguous failed-stage suffix (0.9525ms)
+✔ a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard (0.8018ms)
+✔ a completed continuation checks its actual candidate at the final source guard (0.4268ms)
+✔ continued gate accepts an isolated raid correction only after successful current browser proof (1.0076ms)
+✔ concurrent authoring art must be new, hash-bound, image-only and unused by runtime (2.0893ms)
+✔ unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed (0.8355ms)
+✔ changed tests in a completed stage rerun that stage without invalidating unrelated passes (0.1448ms)
+✔ preview QA repairs must be existing executable tests in the unchanged full gate (0.6703ms)
+✔ a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers (0.9702ms)
+✔ concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt (1.0713ms)
+✔ a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits (1.5376ms)
+✔ concurrent unreferenced JSON production receipts are documentation, never runtime configuration (1.2539ms)
+✔ runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results (0.5945ms)
+✔ tampered, incomplete or noncontiguous logs fail closed (0.3376ms)
+✔ explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks (0.5569ms)
+✔ uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain (0.8294ms)
+✔ legacy .mjs test entries are reusable only when directly registered in the unchanged gate (0.2588ms)
+✔ an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence (0.9689ms)
+✔ limited-pack view proof is runner-specific and never permits shared policy, session or server changes (2.1929ms)
+✔ offline skill preview proof binds source and bundle and reruns contracts that inspect it (1.6661ms)
+✔ registered nested npm tests belong to their parent and cannot be omitted from a completed gate (0.5745ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.2846ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.4624ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.3656ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.4647ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1489ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.421ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (3.4824ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.3714ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 127.7079
+✔ one additional message grants Moo날두 only; original 50, wallets, held player and replay are preserved (1406.3678ms)
+✔ identity changes, unsafe wallet, duplicate delivery and failures at each write leave no partial message (1109.6166ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2648.0544
+✔ winners receive only 20 trillion and participants only one trillion as messages; dry-run, identity exclusions and replay preserve wallets (1489.0529ms)
+✔ changed identity, unsupported balance, duplicate messages and every late write failure roll back the whole batch (1078.5105ms)
+✔ actual claim credits one and 20 trillion exactly once, rolls back failed ledger, and lost send response never duplicates messages (1146.1713ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3880.9303
+
+> test:organization
+> node --test tests/organization-system-20261015.test.mjs tests/organization-ratings-20261015.test.mjs tests/organization-live-20261015.test.mjs tests/organization-faction-20261015.test.mjs tests/organization-opening-20261015.test.mjs tests/organization-faction-map-20261015.test.mjs tests/organization-six-20261019.test.mjs tests/organization-elders-20261019.test.mjs tests/organization-additional-recruitment-20261017.test.mjs tests/organization-season-opening-20261018.test.mjs
+
+✔ additional recruitment preserves every member, accepts only unassigned applicants for exactly 24h and never confirms (6030.4223ms)
+✔ additional opening checks OWNER and revision, rolls back on receipt failure, and early close cannot reopen initial recruitment (2908.0605ms)
+✔ season OFF blocks every faction action and upgrade, and its scheduler issues no reward or fund (2403.8707ms)
+✔ top three use evaluated power with stable ties and exclude inactive members; empty lists override legacy roles (2.1805ms)
+✔ all three elders can manage formation, captains, garrison, launch and upgrade; other members cannot manage (6160.566ms)
+✔ elder edits are OWNER only, stale-safe, replay-safe and atomic; lineup can be prepared outside combat hours (2915.0808ms)
+✔ one-time 15-organization appointment rolls back dry run/failure, preserves gameplay, requires reviewed roster and never reapplies (2355.3096ms)
+✔ organization attack and defense squads allow three, reject four atomically, and leave clan capacity unchanged (6281.7544ms)
+✔ old five-member formations expose and launch only the first three on each side (2665.0282ms)
+✔ 25 Seoul districts, policy nulls, own-member authority and no clan data writes (2317.1286ms)
+✔ shared HP, real server damage, entry guard, replay and member cooldown remain unchanged (2080.0628ms)
+✔ session rewards pay 300 billion at nine territories, treasury snapshot is separate, duplicate tick is harmless and upgrade is atomic (1819.954ms)
+✔ TEST does not award live accounts and null treasury rate does not mint funds (1642.9279ms)
+✔ territory interruption freezes timers and resumes the same three-hour session (1568.7396ms)
+✔ 46 map regions share the KOSTAT source and retain city-level topology (8.1147ms)
+✔ LIVE recruitment lasts exactly 24 hours, rejects late updates and retains accepted receipts (5446.2688ms)
+✔ private scheduler closes and fairly assigns 150 applicants atomically without a browser, and replays safely (5602.5989ms)
+✔ overflow preserves every application and stops without arbitrary removal or clan migration (3576.4776ms)
+✔ manual mode closes on time but does not assign, and explicit reopening starts a fresh 24-hour window (1594.2456ms)
+✔ assignment transaction failure is visible, rolls back all membership and can recover on the next tick (1758.559ms)
+✔ content status uses the exact recruitment deadline and never exposes answers or applicants (1246.1668ms)
+✔ deadline is checked after request body parsing and row locks, not when request headers arrived (1038.9394ms)
+✔ a changed rating policy refreshes all affected snapshots on retry (1182.0557ms)
+✔ explicit schema preparation is additive, idempotent and never starts recruitment or overwrites policy (5706.622ms)
+✔ default dry run exercises opening, audit and receipt but rolls the entire transaction back (2488.4481ms)
+✔ opening is committed once; concurrent retries and later retries return the original deadline without extending it (2112.0278ms)
+✔ an existing LIVE round without this receipt is never reused, reset or extended (2006.4121ms)
+✔ first opening refuses preset income/costs and requires an active, unbanned OWNER (1721.7218ms)
+✔ a receipt-write failure rolls back deadline, mode and audit together and a subsequent retry can open once (1585.5061ms)
+✔ a mismatched receipted deadline is rejected instead of recreating or repairing the LIVE round (1496.4419ms)
+✔ organization account rating consumes real profile cache, permits OWNER only explicitly, and locks source policies (5623.4471ms)
+✔ 115 preserved members plus 14 additions fill 21–22 slots across six organizations, preserving a fixed assignment (15.1962ms)
+✔ closed additional recruitment can rate, preview and atomically apply only new members; retries preserve all existing rows (6203.802ms)
+✔ organization requires eight territories and pays 300 billion once per participating member; old clan amounts stay unchanged (1.4811ms)
+✔ six active organizations balance 129 and 150 members and return six interview recommendations (60.7754ms)
+✔ all ten squads validate, fifth captains manage, and garrisons stay one-to-one through moves and combat (5948.807ms)
+✔ seven regions pay nothing; eight pay only the participant, never a merely assigned squad member (4943.5955ms)
+✔ consolidation is atomic, balanced, keeps retained territory and paid history, and never resets funds twice (2324.6999ms)
+✔ OWNER may join TEST under the same six-organization capacity and balance rules (5530.4739ms)
+✔ seven admission questions require valid complete answers and produce traceable recommendations (7.0281ms)
+✔ interview affinity breaks equal balance and wish ties without overriding capacity or wishes (1.3059ms)
+✔ server saves complete admission answers, rejects client scores, and preserves revisions after withdrawal (2620.5132ms)
+✔ balanced allocation preserves every player, exact totals and a one-person count gap at all capacities (24.9627ms)
+✔ equal power respects all feasible wishes; impossible popularity never breaches capacity (20.4249ms)
+✔ economy remains null and configuration alone cannot release or unlock content (3.7215ms)
+✔ survey authorization, closed gate, stale writes, idempotency and privacy (2193.9185ms)
+✔ allocation proposal and apply are atomic, replayable and start fresh (2592.8647ms)
+✔ changed rating policy, reopened survey, expiry and removed test access block old proposals (2075.3525ms)
+✔ over-capacity surveys are retained without silently excluding or assigning anyone (3061.2243ms)
+ℹ tests 49
+ℹ suites 0
+ℹ pass 49
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21758.7557
+
+> test:prison
+> node --test tests/prison-system-v1950.test.mjs tests/prison-fund-20261010.test.mjs tests/clan-prison-camp-v2083.test.mjs tests/prison-death-game-20260924.test.mjs tests/prison-hunger-20261005.test.mjs
+
+✔ SQLite: actual season settlement captures all 22 last-place members, including master/OWNER, exactly once (12.9271ms)
+✔ SQLite: failure rolls back camp, roster and season completion; retry cannot partially jail (9.8457ms)
+✔ SQLite: eight-hour boundary and OWNER individual/all release are enforced server-side (5.6703ms)
+✔ SQLite: chat records captive/visitor roles, Unicode length, cooldown, closed room and rollback (7.7643ms)
+✔ SQLite: TEST/OFF, unplayed, incomplete and single-team seasons do not sentence; ranking ties reuse official order (9.2613ms)
+✔ PostgreSQL: actual season settlement captures all 22 last-place members, including master/OWNER, exactly once (2850.8775ms)
+✔ PostgreSQL: failure rolls back camp, roster and season completion; retry cannot partially jail (1561.133ms)
+✔ PostgreSQL: eight-hour boundary and OWNER individual/all release are enforced server-side (1583.5895ms)
+✔ PostgreSQL: chat records captive/visitor roles, Unicode length, cooldown, closed room and rollback (1534.1039ms)
+✔ PostgreSQL: TEST/OFF, unplayed, incomplete and single-team seasons do not sentence; ranking ties reuse official order (1368.0936ms)
+✔ HTTP routes require authentication, enforce release permission, and keep disciplinary inmates in their own prison (25.7166ms)
+✔ live menu, lock screen, common API guard and release gate include the camp; player text is escaped (9.0503ms)
+✔ SQLite: only OWNER opens/starts multiplayer; waiting never auto-starts; schema has independent marker (14.2938ms)
+✔ SQLite: server timing, action sequence and rate limits; no client progress or forged victory (8.3698ms)
+✔ SQLite: death and global five-minute restriction are atomic, persistent, exact and non-extending on retry (8.1976ms)
+✔ SQLite: live prison probe gives death precedence without deleting an older prison sentence (9.9344ms)
+✔ SQLite: 24 valid bites finish, rivals share a timeline, and completed players cannot die (17.3252ms)
+✔ PostgreSQL: only OWNER opens/starts multiplayer; waiting never auto-starts; schema has independent marker (2700.4892ms)
+✔ PostgreSQL: server timing, action sequence and rate limits; no client progress or forged victory (1541.3739ms)
+✔ PostgreSQL: death and global five-minute restriction are atomic, persistent, exact and non-extending on retry (1540.1141ms)
+✔ PostgreSQL: live prison probe gives death precedence without deleting an older prison sentence (1455.3499ms)
+✔ PostgreSQL: 24 valid bites finish, rivals share a timeline, and completed players cannot die (1534.7408ms)
+✔ HTTP auth and death gates: spectator cannot eat, ordinary user cannot operate, dead user cannot join or act (29.4685ms)
+✔ UI links, exact death wording, touch/keyboard release, cleanup, escaped names and production assets (18.5037ms)
+✔ first visit to an unopened game handles null round; a slow poll cannot revert a bite receipt (0.9904ms)
+▶ PostgreSQL: 영치금 본인 차단·5조 한도·원자 납부·재시도
+  ✔ 본인 납부는 USER·OWNER와 문자열 ID 모두 차감 전 403 (38.1376ms)
+  ✔ OWNER만 0~5조 설정 가능, 초과·소수·음수는 저장하지 않는다 (42.3422ms)
+  ✔ 방문객 4조+1조 납부·석방·재시도는 정확히 한 번 반영된다 (86.472ms)
+  ✔ 다른 수감자에게는 기존대로 모금할 수 있다 (34.7345ms)
+  ✔ 5조 거래 중 오류는 잔액·모금·영수증을 함께 복구하고 같은 번호로 재시도 가능 (45.3391ms)
+  ✔ 남은 모금액 초과 및 잔액 부족은 무차감 (53.0799ms)
+✔ PostgreSQL: 영치금 본인 차단·5조 한도·원자 납부·재시도 (2783.6499ms)
+✔ 금액 표시는 만·억·조 단위이며 단위 경계에서 반올림으로 늘리지 않는다 (3.4391ms)
+✔ 본인 영치금은 입력·버튼을 숨기고 직접 호출도 API 전 차단한다 (2.5334ms)
+✔ 타인 모금·OWNER 입력은 5조 정수를 유지하고 화면은 단위로 표시한다 (2.9652ms)
+✔ 사식 HTTP는 인증·방문객·메서드를 검사하고 사망 확인은 본인 사건에만 적용한다 (31.9306ms)
+✔ SQLite: 30분 경계·도입 유예·오프라인·사망 확인은 형기/코인을 바꾸지 않는다 (3.8719ms)
+✔ SQLite: 방문객 사식은 정확히 100억 차감·30분 갱신, 중복 요청·동시 전달 차단 (5.3362ms)
+✔ SQLite: 본인·다른 수감자·포로의 전달/포로 대상/잔액 부족/다른 요청 위조는 차감 없음 (5.8665ms)
+✔ SQLite: 실패 원자 복구·응답 유실 재시도·사망 직후 사식·석방/재수감 경계 (5.0863ms)
+ℹ lost-commit injected=true
+✔ PostgreSQL: 30분 경계·도입 유예·오프라인·사망 확인은 형기/코인을 바꾸지 않는다 (2631.0398ms)
+✔ PostgreSQL: 방문객 사식은 정확히 100억 차감·30분 갱신, 중복 요청·동시 전달 차단 (1570.5399ms)
+✔ PostgreSQL: 본인·다른 수감자·포로의 전달/포로 대상/잔액 부족/다른 요청 위조는 차감 없음 (1488.1795ms)
+✔ PostgreSQL: 실패 원자 복구·응답 유실 재시도·사망 직후 사식·석방/재수감 경계 (1537.1864ms)
+ℹ lost-commit injected=true
+✔ 감옥 foundation과 10분~6시간 서버 검증을 고정한다 (5.2545ms)
+✔ 수감자는 모든 하위 콘텐츠 라우터보다 먼저 423으로 차단된다 (3.0619ms)
+✔ 수감자는 전체 프로필 조회 없이 로그인 성공 후 즉시 감옥으로 진입한다 (1.4006ms)
+✔ 처리 완료된 수감·석방 명령은 다시 내려주지 않는다 (0.4441ms)
+✔ 감옥 공개 채팅은 인증·길이·속도 제한과 역할 표식을 가진다 (0.8828ms)
+✔ 영치금 석방은 OWNER 설정·원자 납부·모금 완료 석방을 고정한다 (1.0365ms)
+✔ 수감자 때리기는 60초 서버 쿨타임·중복 영수증·자기 공격 차단을 가진다 (0.2494ms)
+✔ 전체 메뉴 맨 아래에 행정부·감옥이 연결된다 (0.1997ms)
+✔ 경비 감옥은 계정명·남은 형기·사식 UI를 표시하고 과거 승인 자산은 보존한다 (7.5205ms)
+✔ 수감 계정 콜드 스타트는 V21 부트 로딩을 즉시 해제한다 (0.349ms)
+✔ CMS는 현재 수감 상태와 10분~6시간 입력, 즉시 석방을 제공한다 (0.2456ms)
+✔ 감옥 회귀 검사가 운영 출시 게이트에 포함된다 (0.1002ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 56
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9355.5278
+
+> test:coup
+> node --test tests/coup-palace-v2115.test.mjs tests/coup-live-operation.test.mjs
+
+✔ SQLite: coup lobby follows recruitment, active deadline, OFF and completed states without mutations (13.7088ms)
+✔ PostgreSQL: coup lobby follows recruitment, active deadline, OFF and completed states without mutations (1738.6124ms)
+✖ coup summary failure cannot suppress existing live operations (5.6372ms)
+✔ recruitment has no fake timer, active has countdown and entry uses the coup route (2.8946ms)
+✔ chief skill energy: 10 cap, 2-minute recovery, 50 rally overflow, nuclear has no deferred recovery (1.3859ms)
+✔ front movement, timeout, strict CMS limits and rebel imprisonment policy (0.8666ms)
+✔ coup matchmaking stays near power, avoids the previous opponent and rotates the recent pool (0.3932ms)
+✔ SQLite: support after opening preserves live damage and changes existing rebel cooldowns once (6.7336ms)
+✔ SQLite: round support saves both 10-million fronts once, preserves commander and never carries support to next round (2.9389ms)
+✔ SQLite: support rejects unauthorized, stale and started rounds; failed receipt rolls back all settings (2.7877ms)
+✔ SQLite: supported rebels recover at 90 seconds and receive 25/45-minute skills; chief stays at 120 seconds and 30/60 minutes (8.4364ms)
+✔ SQLite: OFF blocks all new coup actions, keeps receipts/status, rejects stale in-flight writes and preserves OFF on CMS partial saves (7.5469ms)
+✔ SQLite: a concurrent CMS partial save cannot overwrite a newer ON/OFF decision (2.1114ms)
+✔ SQLite: legacy 90-minute settings now settle for 8 hours, expire exactly and retry cannot extend it (4.5934ms)
+✔ SQLite: air support matches artillery damage for both commanders with independent 25/30-minute cooldowns and no energy effects (5.6414ms)
+✔ SQLite: air support receipt failure rolls back HP and cooldown; simultaneous retries apply damage once (3.7593ms)
+✔ SQLite: assigned rebel commander is visible before enlistment but cannot command or join the chief side (2.9825ms)
+✔ SQLite: temporary rebel commander targets the opposite HP and own energy with independent 30/60-minute cooldowns matching the chief (8.8312ms)
+✔ SQLite: rebel authority rejects nuclear, inactive/nonmember/stale assignments and preserves cooldown after commander replacement (8.5744ms)
+✔ SQLite: rebel skill receipt failures and in-flight revocation roll back all effects; concurrent retry casts once (3.8985ms)
+✔ SQLite: legacy 3-hour settings jail every rebel for 8 hours with no coin debit, rollback and replay safe (5.1587ms)
+✔ SQLite: energy policy is visible before joining and zero energy recovers at the 2-minute boundary (4.3562ms)
+✔ SQLite: latest PVP decks replace registrations, reward is atomic, win/loss/draw receipts never pay twice (29.8549ms)
+✔ SQLite: losing sorties from either side can finish the enemy front, cap damage and roll back all effects (15.4458ms)
+✔ SQLite: chief-only skills, nuclear OFF, independent cooldowns, retry and complete rollback (5.861ms)
+✔ SQLite: this-round rebel nuclear targets at most 50 chief members, preserves authority and rolls back failed casts (9.3894ms)
+✔ SQLite: rebel nuclear scope expires with its round and cannot enable the chief or leak into a new round (4.5926ms)
+✔ SQLite: nuclear settings changed before commit deny the cast and leave energy and cooldown untouched (2.9419ms)
+✔ SQLite: nuclear applies to exactly 50 rebels, blocks attacks, then recovers only after 10+2 minutes (7.9663ms)
+✔ SQLite: concurrent skill casts cannot double strike; artillery uses existing front advance (3.5333ms)
+✔ SQLite: rebel loss preserves positive, zero and negative balances, jails once and keeps historical penalties (5.5327ms)
+✔ SQLite: palace fall atomically replaces chief without a vote and preserves releases on retry (5.3565ms)
+✔ SQLite: invalid successor cannot partially settle and concurrent succession creates one term (3.623ms)
+✔ SQLite: stale losing term cannot overwrite a newly appointed chief (2.9126ms)
+✔ SQLite: historical ballots immutable, snapshot electorate, deadline verdict cannot remove a new chief (3.5207ms)
+✔ SQLite: CMS separate duration frozen per round; no participants cannot start; ties reinstate (3.1831ms)
+✔ SQLite: simultaneous real V3 attacks settle one cooldown and replay one immutable receipt (15.0025ms)
+✔ SQLite: simultaneous voters each count once; duplicate votes cannot inflate tally (3.3625ms)
+✔ SQLite: administrative and vote routing rejects unauthenticated or unauthorized mutations (3.5575ms)
+✔ PostgreSQL: support after opening preserves live damage and changes existing rebel cooldowns once (1662.1714ms)
+✔ PostgreSQL: round support saves both 10-million fronts once, preserves commander and never carries support to next round (1014.8911ms)
+✔ PostgreSQL: support rejects unauthorized, stale and started rounds; failed receipt rolls back all settings (1077.8797ms)
+✔ PostgreSQL: supported rebels recover at 90 seconds and receive 25/45-minute skills; chief stays at 120 seconds and 30/60 minutes (1128.119ms)
+✔ PostgreSQL: OFF blocks all new coup actions, keeps receipts/status, rejects stale in-flight writes and preserves OFF on CMS partial saves (1096.0914ms)
+✔ PostgreSQL: a concurrent CMS partial save cannot overwrite a newer ON/OFF decision (988.1766ms)
+✔ PostgreSQL: legacy 90-minute settings now settle for 8 hours, expire exactly and retry cannot extend it (1104.7107ms)
+✔ PostgreSQL: air support matches artillery damage for both commanders with independent 25/30-minute cooldowns and no energy effects (1117.1127ms)
+✔ PostgreSQL: air support receipt failure rolls back HP and cooldown; simultaneous retries apply damage once (1070.1539ms)
+✔ PostgreSQL: assigned rebel commander is visible before enlistment but cannot command or join the chief side (986.7063ms)
+✔ PostgreSQL: temporary rebel commander targets the opposite HP and own energy with independent 30/60-minute cooldowns matching the chief (1128.2478ms)
+✔ PostgreSQL: rebel authority rejects nuclear, inactive/nonmember/stale assignments and preserves cooldown after commander replacement (1069.2447ms)
+✔ PostgreSQL: rebel skill receipt failures and in-flight revocation roll back all effects; concurrent retry casts once (1073.8314ms)
+✔ PostgreSQL: legacy 3-hour settings jail every rebel for 8 hours with no coin debit, rollback and replay safe (1048.0445ms)
+✔ PostgreSQL: energy policy is visible before joining and zero energy recovers at the 2-minute boundary (1059.5956ms)
+✔ PostgreSQL: latest PVP decks replace registrations, reward is atomic, win/loss/draw receipts never pay twice (1124.4349ms)
+✔ PostgreSQL: losing sorties from either side can finish the enemy front, cap damage and roll back all effects (1159.9083ms)
+✔ PostgreSQL: chief-only skills, nuclear OFF, independent cooldowns, retry and complete rollback (1083.3964ms)
+✔ PostgreSQL: this-round rebel nuclear targets at most 50 chief members, preserves authority and rolls back failed casts (1164.4283ms)
+✔ PostgreSQL: rebel nuclear scope expires with its round and cannot enable the chief or leak into a new round (1029.7496ms)
+✔ PostgreSQL: nuclear settings changed before commit deny the cast and leave energy and cooldown untouched (985.9018ms)
+✔ PostgreSQL: nuclear applies to exactly 50 rebels, blocks attacks, then recovers only after 10+2 minutes (1158.3206ms)
+✔ PostgreSQL: concurrent skill casts cannot double strike; artillery uses existing front advance (1049.5661ms)
+✔ PostgreSQL: rebel loss preserves positive, zero and negative balances, jails once and keeps historical penalties (1068.9839ms)
+✔ PostgreSQL: palace fall atomically replaces chief without a vote and preserves releases on retry (1123.132ms)
+✔ PostgreSQL: invalid successor cannot partially settle and concurrent succession creates one term (1117.8213ms)
+✔ PostgreSQL: stale losing term cannot overwrite a newly appointed chief (1024.4558ms)
+✔ PostgreSQL: historical ballots immutable, snapshot electorate, deadline verdict cannot remove a new chief (1045.8581ms)
+✔ PostgreSQL: CMS separate duration frozen per round; no participants cannot start; ties reinstate (1020.1446ms)
+✔ PostgreSQL: simultaneous real V3 attacks settle one cooldown and replay one immutable receipt (1022.9282ms)
+✔ PostgreSQL: simultaneous voters each count once; duplicate votes cannot inflate tally (1006.6172ms)
+✔ PostgreSQL: administrative and vote routing rejects unauthenticated or unauthorized mutations (1019.8615ms)
+✔ coupon CMS routes bypass the coup router before authentication, permission checks and DB access (0.3136ms)
+✔ the exact coup admin route and its child routes retain authentication (0.2084ms)
+✔ live wiring preserves V3 engine, scoped prison exemptions and chief authority guards (3.4524ms)
+✔ recruitment roster stays private until combat starts: sqlite (5.0544ms)
+✔ recruitment roster stays private until combat starts: postgres (1091.7261ms)
+ℹ tests 76
+ℹ suites 0
+ℹ pass 75
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 36467.5734
+
+✖ failing tests:
+
+test at tests\coup-live-operation.test.mjs:24:1
+✖ coup summary failure cannot suppress existing live operations (5.6372ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/coup-live-operation.test.mjs:30:9)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,115 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+[FULL RELEASE RESUME] Reuse 69 completed stages from d09a8f2eee3e4962f185c2953bd117eb73ad6e5b; execute every remaining stage and production guard.
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (0.8481ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (2.821ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.3719ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (4.1963ms)
+✔ codex authoring template can retain the cache token from unchanged public HTML only (2.3143ms)
+✔ codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources (3.7019ms)
+✔ full gate resumes a proven prefix and retains failed, remaining and final release guards (0.6335ms)
+✔ registered preview checkers rerun their owning stage and reject runtime or unregistered consumers (0.8388ms)
+✔ an upload failure reuses only a complete successful gate and rechecks changed deployment contracts (0.6577ms)
+✔ only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts (1.5508ms)
+✔ main cache version alignment accepts only the tested shell version and rechecks affected HTML tests (1.4277ms)
+✔ isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity (0.7563ms)
+✔ lobby authoring repair retains passes only with unchanged live output and a full build check (0.696ms)
+✔ multiple immutable continuation logs keep contiguous passes and reject a changed log or gap (0.7065ms)
+✔ a continuation validates successful earlier reruns before its contiguous failed-stage suffix (0.7004ms)
+✔ a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard (0.8458ms)
+✔ a completed continuation checks its actual candidate at the final source guard (0.4426ms)
+✔ continued gate accepts an isolated raid correction only after successful current browser proof (0.9327ms)
+✔ concurrent authoring art must be new, hash-bound, image-only and unused by runtime (1.3519ms)
+✔ unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed (0.7147ms)
+✔ changed tests in a completed stage rerun that stage without invalidating unrelated passes (0.1311ms)
+✔ preview QA repairs must be existing executable tests in the unchanged full gate (0.505ms)
+✔ a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers (0.7703ms)
+✔ concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt (1.0016ms)
+✔ a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits (1.5219ms)
+✔ concurrent unreferenced JSON production receipts are documentation, never runtime configuration (1.0934ms)
+✔ runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results (0.5932ms)
+✔ tampered, incomplete or noncontiguous logs fail closed (0.4072ms)
+✔ explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks (0.5393ms)
+✔ uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain (0.8151ms)
+✔ legacy .mjs test entries are reusable only when directly registered in the unchanged gate (0.2491ms)
+✔ an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence (0.9735ms)
+✔ limited-pack view proof is runner-specific and never permits shared policy, session or server changes (2.1388ms)
+✔ offline skill preview proof binds source and bundle and reruns contracts that inspect it (1.7796ms)
+✔ registered nested npm tests belong to their parent and cannot be omitted from a completed gate (0.5499ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (3.02ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.4777ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.3784ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.4975ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1568ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.4298ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (3.4616ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (1.6296ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 125.6875
+
+> test:gamst-retirement
+> node --test tests/gamst-card-retirement-v2001.test.mjs tests/gamst-territory-deck-repair-v2005.test.mjs tests/roster-card-retirement-v2056.test.mjs tests/card-catalog-account-visibility-v1908.test.mjs
+
+✔ 모든 계정에서 기존·향후 감스트 카드를 숨기고 나머지 순서를 유지한다 (2.8694ms)
+✔ 안전한 카드는 계정과 관계없이 변경하지 않는다 (0.8149ms)
+✔ 삭제된 감스트 전투 SD는 생성된 반응형 매핑에서도 런타임 시작 전에 제거한다 (0.7157ms)
+✔ 정책 스크립트는 bulk와 app보다 먼저 로드되고 모든 카드 화면이 같은 필터를 사용한다 (0.3141ms)
+✖ 전역 삭제 정책은 새 캐시 키로 로드되고 앱과 서비스워커의 현재 셸 버전이 일치한다 (1.0998ms)
+GAMST_CARD_RETIREMENT_V2001 {"status":"COMPLETED","version":2001,"completedAt":"2026-10-21T18:50:00.234Z","sourceCardIds":["CN-011CAD85BBB2470F","CN-8D3E40884AC04D2C","FUR-LEGACY-GAMST"],"ownershipRows":0,"affectedUsers":0,"transferRows":0,"transferUsers":0,"advancementTransfers":0,"standardPolicyRows":0,"standardPolicyUsers":0,"refundShards":0,"rerollTickets":0,"targetDistribution":[],"rewrittenDecks":{"pve":0,"pvp":0,"presets":0},"activeRifts":{"updated":0,"abandoned":0},"gameRemoval":{"ownership":true,"catalog":true,"drawPools":true,"uniqueEffects":true,"battleSprites":true},"archivalCardRowsRetained":true,"replayed":false}
+✔ +13 보유분은 같은 고유속성 FUR +13으로 바뀌고 전직 이전 여부가 보존된다 (8.7947ms)
+✔ +12 이하는 기존 FUR 퇴사 정책의 누적 조각과 카드별 재뽑기권 대상이 된다 (0.7286ms)
+✔ 같은 속성의 활성 FUR 후보가 없으면 원본 삭제 전에 전체 정산을 중단한다 (0.3846ms)
+✔ 저장 덱은 +13 이전 카드는 치환하고 일반 보상 카드는 제거하며 중복을 만들지 않는다 (0.2035ms)
+✔ 라이브 연결은 원자 정산·검증 후 카드와 전투 SD를 게임 노출에서 제거한다 (4.8391ms)
+✔ 정산 SQL의 모든 바인딩 개수는 PostgreSQL 호환 계층 계약과 일치한다 (7.1585ms)
+GAMST_DECK_REPAIR_V2005 {"status":"COMPLETED","version":2005,"completedAt":"2026-10-21T18:50:00.182Z","affectedUsers":1,"rewrittenDecks":{"pve":1,"pvp":1,"presets":1,"territory":1},"replacementReasons":{"SETTLEMENT_TARGET":3,"SAME_GRADE_13":1},"unresolvedDecks":{"total":0,"pve":0,"pvp":0,"presets":0,"territory":0},"grantedCards":0,"usedExistingOwnershipOnly":true,"replayed":false}
+✔ 감스트 빈 슬롯은 정산 대상 카드, 동일 FUR +13, 보유 최상 카드 순으로 채운다 (2.2647ms)
+✔ 이미 지급된 카드만 사용해 일반 덱과 진행 중 영토전 스냅샷을 일회 복구한다 (9.5069ms)
+✔ health가 일회 복구를 실행하고 영토전 진입 전에 전투력 스냅샷을 다시 계산한다 (5.2408ms)
+✔ 덱 복구는 직접 대체 카드를 우선하고 SUPERSTAR 1장 제한을 지킨다 (1.4955ms)
+ROSTER_CARD_RETIREMENT_V2056 {"status":"COMPLETED","version":2056,"completedAt":"2026-10-21T18:50:01.726Z","retiredCards":24,"ownershipRows":6,"affectedUsers":2,"snapshotRows":6,"fakerAdvancementSnapshots":2,"compensation":{"fakerToCheetahRows":2,"fakerAdvancementsTransferred":2,"chovyToSonRows":1,"zeusSuperstarRerollTickets":1,"totalRerollTickets":3,"totalRefundShards":160},"rewrittenDecks":{"pve":1,"pvp":2,"presets":1,"rifts":0,"territory":0},"verification":{"ownershipRemoved":true,"advancementsRemoved":true,"catalogRetired":true,"decksKeptAtFive":true,"snapshotsRetained":true},"replayed":false}
+✔ 24장 퇴사, 페이커·쵸비 직접 이전, 제우스·등급권 보상, 5장 덱 복구와 스냅샷을 한 번만 적용한다 (1480.3803ms)
+✔ 카탈로그 변경이나 5장 덱 복구 불능이면 사용자 보상과 카드 삭제를 모두 롤백한다 (2071.3332ms)
+✔ 슈퍼스타 재뽑기권은 실제 SUPERSTAR 고정 뽑기로 연결되고 health에는 비식별 요약만 노출된다 (3.7962ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 17
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3756.4743
+
+✖ failing tests:
+
+test at tests\card-catalog-account-visibility-v1908.test.mjs:121:1
+✖ 전역 삭제 정책은 새 캐시 키로 로드되고 앱과 서비스워커의 현재 셸 버전이 일치한다 (1.0998ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1&amp;kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&amp;jokgakCity=20261011-jobs1&amp;petLayout=20261009&amp;limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&amp;soopketland=20261020-daily10&amp;chiefPrison=20261006&amp;limitedVisuals=20261004-approved&amp;clanAvatars=20261001&amp;lgAyoon=20261003&amp;hanwhaDiim=20261003&amp;coop=20261005-readable-v4&amp;lgHeeya=20260930&amp;goldenAxe=20260918&amp;prime=20260917-skill-chips&amp;cowPortal=20260913&amp;mercenary=2100&amp;hyper=2145-acquisition-video&amp;projectiles=2106&amp;operations=20260925-duo&amp;furHigh=2114&amp;sd=20260919-bongsoon-armed&amp;coup=2115&amp;pveEntry=2119&amp;heeya=2118&amp;assembly=2120&amp;entry=2121&amp;prediction=20260926-5b&amp;accountRank=20261008&amp;suits=2124&amp;inventory=20261020-icon-choice&amp;rankPotions=20261020-v1&amp;recruitmentGift=20260929&amp;pingduThanksGift=20261002&amp;flow=2126&amp;clanFaction=20261001-session-rewards&amp;coupStatus=20260920&amp;pigMessage=2130&amp;rewardMeta=20260929-funding-gift&amp;omegaMessage=20260927&amp;equipmentLoading=20260918&amp;zSword=20260918&amp;clanLineup=20260918&amp;zDash=2&amp;zFx=20260926&amp;combatFx=20260927&amp;huntFix=1&huntDuration=20260926&amp;suitName=20260918&amp;landRewards=20261020-fivefold&amp;apocalypseLegion=20261003-shanks-shisui&amp;mangisa=20260919&amp;ragniel=20260919&amp;bikiniJoeun=20260921&amp;heukwol=20260922&amp;draw=20260922-weighted&amp;apiFlow=2122&amp;drawPerf=20260919&amp;challenger=20&amp;weeklyRaid=20261008-v2&amp;magicPresets=20260922&amp;workshop=20260922&amp;scrapRecovery=20260923&amp;chuseok=20260923&amp;policeRestraint=20260923&amp;enhanceGlow=20261019-original-rollback&amp;packAuto=20260924-fast&amp;dexPerf=20260924&amp;packResponse=20260924&questHub=20261009-weekly&amp;hyperAuto=20260924-store-refresh&amp;deathGame=20260928-stable&amp;resultIdle=20260928-corpse&cryvern=20261004-clean-aura&amp;workshopLoading=20261021-entry-recovery&amp;materialBatch=20260928&amp;icon=20260930&amp;duo=20261020-start2&amp;auction=20260926-bgm-bids&amp;sniperOrikkung=20260926&amp;nurseHealers=20260927&amp;berkan=20260930-scale-live&amp;achievementTitles=20260927&amp;xBody=20260928-skill-order&amp;overlord=20261005-motion-v4&amp;sx=20261007-2x-v1&amp;sxCamera=20261008-v3&amp;sBodyAssembly=20260928&amp;zBodyAssembly=20261006&amp;equipmentCraft=20260928&amp;miracle=20260929&amp;sBodyPayment=20260930&amp;iconFusion=20260930&amp;lichFx=20261001&amp;retired=20261001&amp;axeReopen=20261002&cubeRemoval=20261003&amp;miracleCube=20261003-v1&amp;sssMiracleCube=20261021-v1&amp;supporterBlueBeast=20261003-title-copy-v2&amp;busDriver=20261005&lichMessage=20261003&amp;territoryFx=20261003-v1&amp;iconRoles=20261005-fur15-v1&amp;suggestions=20261005&amp;prisonHunger=20261005&amp;prisonLayout=20261006&amp;drillMessage=20261006&amp;limitedMixed=20261010-precision&amp;superstarBatch=20261007-results&amp;pveReform=20261008&legionRegions=20261008&amp;loadoutModes=20261009&amp;suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&amp;accountSync=20261015-v1&cheolguBalance=20261017-v1&amp;hudB=20261017-v1&kaironStock=20261018&retired=20261019&amp;ssBalance=20261019-v2&amp;packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&amp;towerAbyss=20261021-v1'
+  - 'organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1'
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/card-catalog-account-visibility-v1908.test.mjs:127:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1&amp;kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&amp;jokgakCity=20261011-jobs1&amp;petLayout=20261009&amp;limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&amp;soopketland=20261020-daily10&amp;chiefPrison=20261006&amp;limitedVisuals=20261004-approved&amp;clanAvatars=20261001&amp;lgAyoon=20261003&amp;hanwhaDiim=20261003&amp;coop=20261005-readable-v4&amp;lgHeeya=20260930&amp;goldenAxe=20260918&amp;prime=20260917-skill-chips&amp;cowPortal=20260913&amp;mercenary=2100&amp;hyper=2145-acquisition-video&amp;projectiles=2106&amp;operations=20260925-duo&amp;furHigh=2114&amp;sd=20260919-bongsoon-armed&amp;coup=2115&amp;pveEntry=2119&amp;heeya=2118&amp;assembly=2120&amp;entry=2121&amp;prediction=20260926-5b&amp;accountRank=20261008&amp;suits=2124&amp;inventory=20261020-icon-choice&amp;rankPotions=20261020-v1&amp;recruitmentGift=20260929&amp;pingduThanksGift=20261002&amp;flow=2126&amp;clanFaction=20261001-session-rewards&amp;coupStatus=20260920&amp;pigMessage=2130&amp;rewardMeta=20260929-funding-gift&amp;omegaMessage=20260927&amp;equipmentLoading=20260918&amp;zSword=20260918&amp;clanLineup=20260918&amp;zDash=2&amp;zFx=20260926&amp;combatFx=20260927&amp;huntFix=1&huntDuration=20260926&amp;suitName=20260918&amp;landRewards=20261020-fivefold&amp;apocalypseLegion=20261003-shanks-shisui&amp;mangisa=20260919&amp;ragniel=20260919&amp;bikiniJoeun=20260921&amp;heukwol=20260922&amp;draw=20260922-weighted&amp;apiFlow=2122&amp;drawPerf=20260919&amp;challenger=20&amp;weeklyRaid=20261008-v2&amp;magicPresets=20260922&amp;workshop=20260922&amp;scrapRecovery=20260923&amp;chuseok=20260923&amp;policeRestraint=20260923&amp;enhanceGlow=20261019-original-rollback&amp;packAuto=20260924-fast&amp;dexPerf=20260924&amp;packResponse=20260924&questHub=20261009-weekly&amp;hyperAuto=20260924-store-refresh&amp;deathGame=20260928-stable&amp;resultIdle=20260928-corpse&cryvern=20261004-clean-aura&amp;workshopLoading=20261021-entry-recovery&amp;materialBatch=20260928&amp;icon=20260930&amp;duo=20261020-start2&amp;auction=20260926-bgm-bids&amp;sniperOrikkung=20260926&amp;nurseHealers=20260927&amp;berkan=20260930-scale-live&amp;achievementTitles=20260927&amp;xBody=20260928-skill-order&amp;overlord=20261005-motion-v4&amp;sx=20261007-2x-v1&amp;sxCamera=20261008-v3&amp;sBodyAssembly=20260928&amp;zBodyAssembly=20261006&amp;equipmentCraft=20260928&amp;miracle=20260929&amp;sBodyPayment=20260930&amp;iconFusion=20260930&amp;lichFx=20261001&amp;retired=20261001&amp;axeReopen=20261002&cubeRemoval=20261003&amp;miracleCube=20261003-v1&amp;sssMiracleCube=20261021-v1&amp;supporterBlueBeast=20261003-title-copy-v2&amp;busDriver=20261005&lichMessage=20261003&amp;territoryFx=20261003-v1&amp;iconRoles=20261005-fur15-v1&amp;suggestions=20261005&amp;prisonHunger=20261005&amp;prisonLayout=20261006&amp;drillMessage=20261006&amp;limitedMixed=20261010-precision&amp;superstarBatch=20261007-results&amp;pveReform=20261008&legionRegions=20261008&amp;loadoutModes=20261009&amp;suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&amp;accountSync=20261015-v1&cheolguBalance=20261017-v1&amp;hudB=20261017-v1&kaironStock=20261018&retired=20261019&amp;ssBalance=20261019-v2&amp;packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&amp;towerAbyss=20261021-v1',
+    expected: 'organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,136 @@
+{
+  "at": "2026-10-21T18:55:06.550Z",
+  "candidate": "faf22092257918562268f8bdbbc726320066bcdc",
+  "originalFullCandidate": "d09a8f2eee3e4962f185c2953bd117eb73ad6e5b",
+  "method": "npm run deploy:production; fresh full gate after runtime cache repair; subsequent source/hash-bound continuations only if required",
+  "attempts": [
+    {
+      "log": "production-v2-0.log",
+      "base": "d09a8f2eee3e4962f185c2953bd117eb73ad6e5b"
+    },
+    {
+      "log": "production-v2-1.log",
+      "base": "3840e5d807d2ed88800fed3623e8086b76de45a1"
+    },
+    {
+      "log": "production-v2-2.log",
+      "base": "a53b321a5e0c8e0bea1d7083514b46d849810f00"
+    },
+    {
+      "log": "production-v2-3.log",
+      "base": "faf22092257918562268f8bdbbc726320066bcdc"
+    }
+  ],
+  "logs": [
+    {
+      "file": "release-logs/production-release.log",
+      "bytes": 78764,
+      "sha256": "a8b943663a93961b92122675cc92ccc687c2589eb1850821aa17a8ddc537ef52"
+    },
+    {
+      "file": "release-logs/production-resume-1.log",
+      "bytes": 100258,
+      "sha256": "024a1dce85b39deb7f56d0eb04cc91aa594137fda38a5d7edf1a786d329d0d7b"
+    },
+    {
+      "file": "release-logs/production-resume-10.log",
+      "bytes": 36129,
+      "sha256": "ae1114eb17b0fff9fac908345ecf03180e5d0b8c4b65e40dd959149986904133"
+    },
+    {
+      "file": "release-logs/production-resume-11.log",
+      "bytes": 38007,
+      "sha256": "06d69e3047e6c1d015a02211dd66af778655c6ac69a4732cce584222617e1b28"
+    },
+    {
+      "file": "release-logs/production-resume-12.log",
+      "bytes": 113162,
+      "sha256": "f6a6766a05b4f4f15bf89dafd92d6c12c827d3c135b09650ae55d683d6d3856d"
+    },
+    {
+      "file": "release-logs/production-resume-13.log",
+      "bytes": 43103,
+      "sha256": "d1b3b7c906520c8759d8883c56f7ef812d28cc55e418395ca1397724a5bfeae4"
+    },
+    {
+      "file": "release-logs/production-resume-14.log",
+      "bytes": 28610,
+      "sha256": "edf83286a93cc419e1f85c9aed9bf2aa07cbddd22a05d11925dde67e8adcb353"
+    },
+    {
+      "file": "release-logs/production-resume-15.log",
+      "bytes": 57766,
+      "sha256": "b4f8b4a3780f99526a1c4161c76d1ec6b417fee46009867cb7989c2323671989"
+    },
+    {
+      "file": "release-logs/production-resume-2.log",
+      "bytes": 72539,
+      "sha256": "70fb65118360cafa0f51c1ea97fdcff0984176f92ffea68f032b2487d76d548b"
+    },
+    {
+      "file": "release-logs/production-resume-3.log",
+      "bytes": 59546,
+      "sha256": "b3b1a89e5d65f94701852cf6a667c5434b7104dd62b436d4358f83e910562d54"
+    },
+    {
+      "file": "release-logs/production-resume-4.log",
+      "bytes": 800,
+      "sha256": "6aa6a155b5912f0ac5fabe31f16d19adad75649b875876017eee84bc98a360d7"
+    },
+    {
+      "file": "release-logs/production-resume-5.log",
+      "bytes": 34052,
+      "sha256": "85eec77ae75b005454a55cbe9cff2025686f09661003940756f048117c8a7bc6"
+    },
+    {
+      "file": "release-logs/production-resume-6.log",
+      "bytes": 800,
+      "sha256": "6aa6a155b5912f0ac5fabe31f16d19adad75649b875876017eee84bc98a360d7"
+    },
+    {
+      "file": "release-logs/production-resume-7.log",
+      "bytes": 74899,
+      "sha256": "94d3da7988f86338fe36c3c1712da666c163307ab9ac0e793af71582a3a70a8b"
+    },
+    {
+      "file": "release-logs/production-resume-8.log",
+      "bytes": 1163,
+      "sha256": "9e51dd0417390fc38c708b07cef771a0c76abc218d2289ba8aa11b02099e29a8"
+    },
+    {
+      "file": "release-logs/production-resume-9.log",
+      "bytes": 73133,
+      "sha256": "69fa8eafc5284d4c7807a336730b502b7e82506bfa5fbfd89cc37c113e606073"
+    },
+    {
+      "file": "release-logs/production-v2-0.log",
+      "bytes": 437220,
+      "sha256": "100624e355db9422a33e1f37001faafbc2e4ebcc2bf4fafa722767dbc99bac0a"
+    },
+    {
+      "file": "release-logs/production-v2-1.log",
+      "bytes": 22784,
+      "sha256": "1c28d06939afa64c0126c2833f004259b40ce024fa10cfc7641efa630599be46"
+    },
+    {
+      "file": "release-logs/production-v2-2.log",
+      "bytes": 30637,
+      "sha256": "f575a862bad2c6fd8a51fa99c9b5460910ae914719421ad4bd6f6f36d50b03c4"
+    },
+    {
+      "file": "release-logs/production-v2-3.log",
+      "bytes": 25294,
+      "sha256": "1095f9a73b124cd38362b9dc47161a84e0e7e1ea6b1d5d6d4b425c8c684afdf7"
+    }
+  ],
+  "pagesUrls": [
+    "https://1f87d0e0.cnine-card.pages.dev"
+  ],
+  "workerVersions": [
+    "a000e985-e656-4934-b23f-b5c73e7613c6",
+    "97da3776-2846-4428-8c1e-6f0815e8dde7"
+  ],
+  "fullGatePassed": true,
+  "liveVerification": "live-verification.json",
+  "historicFailures": "server-tests.log and browser-failure.json record resolved earlier attempts; current evidence is server-tests-final.log, browser-check.json, edge-check.json and live-verification.json"
+}

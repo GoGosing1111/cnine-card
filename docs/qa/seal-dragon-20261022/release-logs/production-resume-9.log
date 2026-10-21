@@ -1,0 +1,677 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+[FULL RELEASE RESUME] Reuse 37 completed stages from f0b2de4139a6df808d574ca99b635015ad0b92c2; execute every remaining stage and production guard.
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (1.7955ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (3.4158ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.4526ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (3.7969ms)
+✔ codex authoring template can retain the cache token from unchanged public HTML only (2.3344ms)
+✔ codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources (3.7413ms)
+✔ full gate resumes a proven prefix and retains failed, remaining and final release guards (0.6568ms)
+✔ registered preview checkers rerun their owning stage and reject runtime or unregistered consumers (1.0199ms)
+✔ an upload failure reuses only a complete successful gate and rechecks changed deployment contracts (0.8926ms)
+✔ only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts (2.1196ms)
+✔ main cache version alignment accepts only the tested shell version and rechecks affected HTML tests (1.6457ms)
+✔ isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity (0.6831ms)
+✔ lobby authoring repair retains passes only with unchanged live output and a full build check (0.6321ms)
+✔ multiple immutable continuation logs keep contiguous passes and reject a changed log or gap (0.7816ms)
+✔ a continuation validates successful earlier reruns before its contiguous failed-stage suffix (0.723ms)
+✔ a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard (0.6935ms)
+✔ a completed continuation checks its actual candidate at the final source guard (0.3442ms)
+✔ continued gate accepts an isolated raid correction only after successful current browser proof (1.1085ms)
+✔ concurrent authoring art must be new, hash-bound, image-only and unused by runtime (1.7096ms)
+✔ unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed (0.8783ms)
+✔ changed tests in a completed stage rerun that stage without invalidating unrelated passes (0.1469ms)
+✔ preview QA repairs must be existing executable tests in the unchanged full gate (0.7627ms)
+✔ a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers (1.091ms)
+✔ concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt (0.9168ms)
+✔ a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits (1.6606ms)
+✔ concurrent unreferenced JSON production receipts are documentation, never runtime configuration (1.1737ms)
+✔ runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results (0.6099ms)
+✔ tampered, incomplete or noncontiguous logs fail closed (0.3378ms)
+✔ explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks (0.5587ms)
+✔ uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain (0.837ms)
+✔ legacy .mjs test entries are reusable only when directly registered in the unchanged gate (0.2523ms)
+✔ an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence (1.0397ms)
+✔ limited-pack view proof is runner-specific and never permits shared policy, session or server changes (2.6135ms)
+✔ offline skill preview proof binds source and bundle and reruns contracts that inspect it (1.9668ms)
+✔ registered nested npm tests belong to their parent and cannot be omitted from a completed gate (0.564ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.6194ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.5234ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.488ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.725ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.2218ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.6049ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (4.5399ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.4536ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 132.6089
+✔ one additional message grants Moo날두 only; original 50, wallets, held player and replay are preserved (1438.5635ms)
+✔ identity changes, unsafe wallet, duplicate delivery and failures at each write leave no partial message (1163.1326ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2742.2554
+✔ winners receive only 20 trillion and participants only one trillion as messages; dry-run, identity exclusions and replay preserve wallets (1416.2667ms)
+✔ changed identity, unsupported balance, duplicate messages and every late write failure roll back the whole batch (1074.0813ms)
+✔ actual claim credits one and 20 trillion exactly once, rolls back failed ledger, and lost send response never duplicates messages (1136.7394ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3810.4163
+
+> test:mercenary-codex
+> node --test tests/mercenary-fusion-eight.test.mjs tests/mercenary-fusion-transactions.test.mjs tests/mercenary-codex-public-v2061.test.mjs tests/mercenary-codex-owned-roster-v2133.test.mjs tests/mercenary-codex-live-v2098.test.mjs tests/mercenary-codex-preview-v1.test.mjs tests/project-v-mercenary-system-v1.mjs tests/project-v-approved-mercenary-cards-v1.mjs tests/mercenary-vespera-beauty-v1.test.mjs tests/mercenary-weapons-beauty-v1.test.mjs tests/mercenary-sd-completion-v2061.test.mjs tests/mercenary-four-looks-v1.test.mjs tests/mercenary-four-looks-catalog-v2062.test.mjs tests/mercenary-police-joeun-v2063.test.mjs tests/mercenary-dongtan-diim-v2063.test.mjs tests/mercenary-position-cms-v1.test.mjs tests/mercenary-skills-v1.test.mjs tests/mercenary-art-release-v2116.test.mjs
+
+✔ approved Hi Heeya artwork is promoted once into the SS gameplay catalog without rewriting existing CMS values (47.3919ms)
+✔ published original is the exact user attachment, with native RGB 2:3 dimensions (7.9116ms)
+✔ sqlite: public codex reads exact saved CMS ranks, assignments, names and skill balances (138.8407ms)
+✔ postgres: public codex reads exact saved CMS ranks, assignments, names and skill balances (2260.1955ms)
+✔ codex search, grade filters and escaped presentation use current CMS skill data (0.7681ms)
+✔ 용병도감은 내 용병을 기본으로 표시하고 전체 도감을 같은 화면에서 전환한다 (1.9509ms)
+✔ 선택 상세에서 기존 원자 편성 계약만 호출하고 유실 응답을 같은 요청으로 복구한다 (0.4638ms)
+✔ 별도 지휘소 진입과 관련 링크는 통합 내 용병 화면으로 수렴한다 (20.2145ms)
+✔ 보유·편성 상태와 핵심 조작은 데스크톱과 모바일에서 명확히 유지된다 (0.7196ms)
+✔ reads the canonical 57-card preview roster and never inherits historic ranks (7.0957ms)
+✔ current mercenary frame is the native transparent slim V3 asset, never a checkerboard draft (56.3498ms)
+✔ all sixteen approved additions preserve reviewed originals and have separate SD resources (140.4968ms)
+✔ preview menu inserts the codex next to dex without mutating the real navigation contract (3.9926ms)
+✔ search supports Korean names, titles, whitespace, code normalization and initial consonants (0.6194ms)
+✔ combined position/role/search filters do not mutate or omit roster records (2.3036ms)
+✔ favorites are a separate local selection, including empty and intersected results (0.3955ms)
+✔ URL state is sanitized and deep links never assign ownership or a grade (0.6533ms)
+✔ image paths reject external URLs, traversal and malformed codes (1.1383ms)
+✔ resource states preserve approval differences, including the supplied Omega-X original (0.4054ms)
+✔ responsive WebP derivatives are complete, traceable, transparent for SD and keep every source hash (920.2809ms)
+✔ preview has no live boot, mutation APIs, inherited stats, audio, or ownership claims (11.8761ms)
+✔ interaction contract includes dialogs, focus return, history, keyboard tabs, motion preference and safe states (0.4956ms)
+✔ a queued art-dialog close cannot erase the image after a rapid reopen (1.6059ms)
+✔ public document uses the native forge-inspired archive with game links and CMS information (3.9544ms)
+✔ shared desktop, mobile and cards hub menu includes exactly one codex beside dex (7.6017ms)
+✔ public codex uses a fixed same-tab document route, not a deck or battle shell (3.5557ms)
+✔ native desktop, mobile and old subtab fallbacks redirect without mounting a new game view (1.4938ms)
+✔ codex keeps public catalog browsing while account writes are limited to the existing loadout route (2.3826ms)
+✔ public page and live entry use synchronized cache tags and revalidation headers (2.7286ms)
+✔ visiting public codex never overwrites the game index, including offline return (53.2994ms)
+✔ codex cache cannot become an offline game fallback and cache quota does not hide valid responses (8.9354ms)
+✔ Dongtan Diim uses the approved name and preserves all previous 42 mercenary records (8.1611ms)
+✔ the final game-illustration V4 is connected byte-for-byte with only separate WebP derivatives (24.6099ms)
+✔ Diim art approval stays unranked and the CMS codex publishes separate approved art and SD (31.0339ms)
+✔ explicit approval adds exactly four originals without changing the previous 37 records (31.7684ms)
+✔ outfit and weapon concepts remain searchable after the four SDs are connected (20.0812ms)
+✔ catalog release uses current CMS data and preserves all 62 separate art and SD resources (52.0618ms)
+✔ 네 의상·무기 조합은 독립된 성인 원화 시안이며 운영 편성과 구분한다 (2.0621ms)
+✔ 4종 원본은 개별 1024×1536 sRGB PNG이며 네이티브 생성 파일을 보존한다 (25.2823ms)
+✔ 베스페라 앵커를 보존하고 원화·프레임은 검수 페이지에서 별도 계층으로 표시한다 (10.9454ms)
+✔ eight same-rank duplicate copies may mix mercenaries while preserving each original (3.4753ms)
+✔ reject seven/nine cards, cross-rank input, unowned cards and repeated copies exceeding inventory (0.4041ms)
+✔ SSS is never a material rank and only one-step promotion is represented (0.2288ms)
+✔ demo copies do not alter ownership and results are explicit catalog choices, never random draws (0.5521ms)
+✔ released synthesis uses a server receipt and explicit demo preserves original art (1.0995ms)
+✔ authored sequence remains continuous and ordered across charge, dark hold, impact and dissipation (0.7264ms)
+✔ 10% boundary is exact and within-rank weights do not change promotion odds (2.7365ms)
+✔ SQLite: success consumes exactly eight extras, grants one, and never changes wallet or deployment (72.9655ms)
+✔ SQLite: failure returns one random same-rank card, including a consumed code (23.2789ms)
+✔ SQLite: grant failure rolls back every material and saved randomness survives retry (19.6151ms)
+✔ SQLite: invalid or stale materials cannot spend original copies or expose unpaid results (29.223ms)
+✔ SQLite: competing requests and a lost commit acknowledgement cannot duplicate results (27.1017ms)
+✔ Postgres: success consumes exactly eight extras, grants one, and never changes wallet or deployment (2201.7787ms)
+✔ Postgres: failure returns one random same-rank card, including a consumed code (1232.6166ms)
+✔ Postgres: grant failure rolls back every material and saved randomness survives retry (1206.2484ms)
+✔ Postgres: invalid or stale materials cannot spend original copies or expose unpaid results (1291.234ms)
+✔ Postgres: competing requests and a lost commit acknowledgement cannot duplicate results (1194.9755ms)
+✔ release feature is ON without DB access; anonymous mutation remains unauthorized (19.2074ms)
+✔ saved 8991:100:10 SSS weights select exact intervals without changing 10% promotion (0.2159ms)
+✔ Postgres: normal player uses locked route and replay; no schema work on synthesis (1160.7407ms)
+✔ Postgres: eight distinct materials preserve every original with one atomic grant (1139.1882ms)
+✔ Police Joeun is the user-assigned name and the previous 41 mercenaries are unchanged (9.0848ms)
+✔ renaming preserves the approved face and full 1024x1536 RGB original byte-for-byte (25.0041ms)
+✔ Joeun art approval stays unranked and the CMS codex publishes separate approved art and SD (24.5814ms)
+✔ six-tier draft edits preserve Omega SSS and do not mutate the official roster (14.6685ms)
+✔ known v1 draft migration preserves prior notes, assignments and revision (3.9106ms)
+✔ 57 approved roster codes each have a distinct, complete proposed assignment (0.9329ms)
+✔ tactical middle and rear do not silently create a third engine targeting row (0.1729ms)
+✔ missing, duplicated and unregistered mercenaries cannot be imported (2.5035ms)
+✔ roles cannot select incompatible positions or skill targets (2.9806ms)
+✔ import cannot enable runtime or inject ranks, assets, stats, prices or arbitrary fields (6.2176ms)
+✔ stale roster or schema versions require explicit migration and review (3.0519ms)
+✔ draft text must describe both the benefit and weakness within the CMS size limit (3.8419ms)
+✔ JSON parser rejects malformed and oversized UTF-8 content before replacing the draft (2.2973ms)
+✔ revision save returns a detached copy and never mutates the source roster or prior revision (2.2486ms)
+✔ a stale editor cannot overwrite a later draft revision (2.3617ms)
+✔ preparation editor uses canonical original art and never reads accounts or admin credentials (0.7901ms)
+✔ live CMS, account API, codex and battle entrypoints do not import the draft editor or rules (21.4313ms)
+✔ 2026-09-07 native SD outputs have genuine alpha, full-body bounds and traceable source art (786.9926ms)
+✔ 2026-09-10 native SD outputs have genuine alpha, full-body bounds and traceable source art (279.7258ms)
+✔ six new SDs complete the roster while preserving every original card field and existing SD (1.2576ms)
+✔ battle adapter preserves measured feet, legacy defaults and rejects invalid anchors (6.2488ms)
+✔ new area sequence has sixteen unique RGBA frames with clear gutters and preserved source hash (99.0149ms)
+✔ new sequence changes authored shape from descent through impact and clears on stop or expiry (2.6894ms)
+✔ real Pixi/GSAP five-target playback supports seek, pause, speed, cancellation and complete disposal (42.2604ms)
+✔ event horizon is independently assignable and preserves bounded shares and its cleanse window (5.1331ms)
+✔ both legacy reviews preserve names, notes and revisions while removing proposed ownership (6.5961ms)
+✔ Pages extensionless documents and local .html resolve shared V3 assets identically (2.0733ms)
+✔ 40 independent skills cover seven effect categories without a mercenary or rank owner (2.0958ms)
+✔ PVE area rehearsal shares one budget across living enemies, handles one boss and cancels before impact (1.3863ms)
+✔ MS-001 normal: resolved playback is deterministic, bounded and reversible (3.0122ms)
+✔ MS-001 counter: resolved playback is deterministic, bounded and reversible (3.5798ms)
+✔ MS-001 boss: resolved playback is deterministic, bounded and reversible (0.9975ms)
+✔ MS-008 normal: resolved playback is deterministic, bounded and reversible (0.7099ms)
+✔ MS-008 counter: resolved playback is deterministic, bounded and reversible (1.1679ms)
+✔ MS-008 boss: resolved playback is deterministic, bounded and reversible (0.5037ms)
+✔ MS-009 normal: resolved playback is deterministic, bounded and reversible (1.2809ms)
+✔ MS-009 counter: resolved playback is deterministic, bounded and reversible (1.4903ms)
+✔ MS-009 boss: resolved playback is deterministic, bounded and reversible (0.445ms)
+✔ MS-010 normal: resolved playback is deterministic, bounded and reversible (2.2687ms)
+✔ MS-010 counter: resolved playback is deterministic, bounded and reversible (0.7246ms)
+✔ MS-010 boss: resolved playback is deterministic, bounded and reversible (0.4481ms)
+✔ MS-011 normal: resolved playback is deterministic, bounded and reversible (0.7757ms)
+✔ MS-011 counter: resolved playback is deterministic, bounded and reversible (0.6668ms)
+✔ MS-011 boss: resolved playback is deterministic, bounded and reversible (0.4877ms)
+✔ MS-022 normal: resolved playback is deterministic, bounded and reversible (0.8742ms)
+✔ MS-022 counter: resolved playback is deterministic, bounded and reversible (0.5757ms)
+✔ MS-022 boss: resolved playback is deterministic, bounded and reversible (0.5462ms)
+✔ MS-036 normal: resolved playback is deterministic, bounded and reversible (0.8784ms)
+✔ MS-036 counter: resolved playback is deterministic, bounded and reversible (0.6727ms)
+✔ MS-036 boss: resolved playback is deterministic, bounded and reversible (0.5069ms)
+✔ MS-037 normal: resolved playback is deterministic, bounded and reversible (0.9033ms)
+✔ MS-037 counter: resolved playback is deterministic, bounded and reversible (0.5932ms)
+✔ MS-037 boss: resolved playback is deterministic, bounded and reversible (0.6432ms)
+✔ MS-040 normal: resolved playback is deterministic, bounded and reversible (0.651ms)
+✔ MS-040 counter: resolved playback is deterministic, bounded and reversible (0.6529ms)
+✔ MS-040 boss: resolved playback is deterministic, bounded and reversible (0.3284ms)
+✔ MS-021 normal: resolved playback is deterministic, bounded and reversible (0.948ms)
+✔ MS-021 counter: resolved playback is deterministic, bounded and reversible (1.1347ms)
+✔ MS-021 boss: resolved playback is deterministic, bounded and reversible (0.4356ms)
+✔ MS-003 normal: resolved playback is deterministic, bounded and reversible (0.7287ms)
+✔ MS-003 counter: resolved playback is deterministic, bounded and reversible (1.0291ms)
+✔ MS-003 boss: resolved playback is deterministic, bounded and reversible (0.5903ms)
+✔ MS-004 normal: resolved playback is deterministic, bounded and reversible (2.2037ms)
+✔ MS-004 counter: resolved playback is deterministic, bounded and reversible (0.9926ms)
+✔ MS-004 boss: resolved playback is deterministic, bounded and reversible (0.7071ms)
+✔ MS-006 normal: resolved playback is deterministic, bounded and reversible (0.6699ms)
+✔ MS-006 counter: resolved playback is deterministic, bounded and reversible (0.8555ms)
+✔ MS-006 boss: resolved playback is deterministic, bounded and reversible (0.3697ms)
+✔ MS-005 normal: resolved playback is deterministic, bounded and reversible (0.7405ms)
+✔ MS-005 counter: resolved playback is deterministic, bounded and reversible (0.769ms)
+✔ MS-005 boss: resolved playback is deterministic, bounded and reversible (1.739ms)
+✔ MS-013 normal: resolved playback is deterministic, bounded and reversible (0.9906ms)
+✔ MS-013 counter: resolved playback is deterministic, bounded and reversible (1.212ms)
+✔ MS-013 boss: resolved playback is deterministic, bounded and reversible (0.8846ms)
+✔ MS-015 normal: resolved playback is deterministic, bounded and reversible (1.2755ms)
+✔ MS-015 counter: resolved playback is deterministic, bounded and reversible (0.4942ms)
+✔ MS-015 boss: resolved playback is deterministic, bounded and reversible (0.4281ms)
+✔ MS-016 normal: resolved playback is deterministic, bounded and reversible (0.7603ms)
+✔ MS-016 counter: resolved playback is deterministic, bounded and reversible (0.8561ms)
+✔ MS-016 boss: resolved playback is deterministic, bounded and reversible (0.5004ms)
+✔ MS-018 normal: resolved playback is deterministic, bounded and reversible (0.4795ms)
+✔ MS-018 counter: resolved playback is deterministic, bounded and reversible (0.5728ms)
+✔ MS-018 boss: resolved playback is deterministic, bounded and reversible (0.4474ms)
+✔ MS-023 normal: resolved playback is deterministic, bounded and reversible (1.3064ms)
+✔ MS-023 counter: resolved playback is deterministic, bounded and reversible (0.6807ms)
+✔ MS-023 boss: resolved playback is deterministic, bounded and reversible (0.3638ms)
+✔ MS-025 normal: resolved playback is deterministic, bounded and reversible (0.4674ms)
+✔ MS-025 counter: resolved playback is deterministic, bounded and reversible (0.5394ms)
+✔ MS-025 boss: resolved playback is deterministic, bounded and reversible (0.4185ms)
+✔ MS-027 normal: resolved playback is deterministic, bounded and reversible (0.8158ms)
+✔ MS-027 counter: resolved playback is deterministic, bounded and reversible (1.5124ms)
+✔ MS-027 boss: resolved playback is deterministic, bounded and reversible (0.8839ms)
+✔ MS-028 normal: resolved playback is deterministic, bounded and reversible (1.1177ms)
+✔ MS-028 counter: resolved playback is deterministic, bounded and reversible (0.7358ms)
+✔ MS-028 boss: resolved playback is deterministic, bounded and reversible (0.5754ms)
+✔ MS-032 normal: resolved playback is deterministic, bounded and reversible (0.4978ms)
+✔ MS-032 counter: resolved playback is deterministic, bounded and reversible (0.7815ms)
+✔ MS-032 boss: resolved playback is deterministic, bounded and reversible (0.4122ms)
+✔ MS-038 normal: resolved playback is deterministic, bounded and reversible (3.1192ms)
+✔ MS-038 counter: resolved playback is deterministic, bounded and reversible (0.7559ms)
+✔ MS-038 boss: resolved playback is deterministic, bounded and reversible (0.5632ms)
+✔ MS-042 normal: resolved playback is deterministic, bounded and reversible (0.6501ms)
+✔ MS-042 counter: resolved playback is deterministic, bounded and reversible (0.6207ms)
+✔ MS-042 boss: resolved playback is deterministic, bounded and reversible (0.6671ms)
+✔ MS-043 normal: resolved playback is deterministic, bounded and reversible (1.8513ms)
+✔ MS-043 counter: resolved playback is deterministic, bounded and reversible (0.54ms)
+✔ MS-043 boss: resolved playback is deterministic, bounded and reversible (0.3784ms)
+✔ MS-044 normal: resolved playback is deterministic, bounded and reversible (0.6426ms)
+✔ MS-044 counter: resolved playback is deterministic, bounded and reversible (0.3624ms)
+✔ MS-044 boss: resolved playback is deterministic, bounded and reversible (0.3392ms)
+✔ MS-045 normal: resolved playback is deterministic, bounded and reversible (0.6985ms)
+✔ MS-045 counter: resolved playback is deterministic, bounded and reversible (0.4782ms)
+✔ MS-045 boss: resolved playback is deterministic, bounded and reversible (0.8788ms)
+✔ MS-046 normal: resolved playback is deterministic, bounded and reversible (0.8037ms)
+✔ MS-046 counter: resolved playback is deterministic, bounded and reversible (0.7331ms)
+✔ MS-046 boss: resolved playback is deterministic, bounded and reversible (0.3692ms)
+✔ MS-047 normal: resolved playback is deterministic, bounded and reversible (1.1359ms)
+✔ MS-047 counter: resolved playback is deterministic, bounded and reversible (0.4305ms)
+✔ MS-047 boss: resolved playback is deterministic, bounded and reversible (5.0464ms)
+✔ MS-048 normal: resolved playback is deterministic, bounded and reversible (1.0608ms)
+✔ MS-048 counter: resolved playback is deterministic, bounded and reversible (0.4037ms)
+✔ MS-048 boss: resolved playback is deterministic, bounded and reversible (0.4354ms)
+✔ MS-049 normal: resolved playback is deterministic, bounded and reversible (0.4975ms)
+✔ MS-049 counter: resolved playback is deterministic, bounded and reversible (0.4011ms)
+✔ MS-049 boss: resolved playback is deterministic, bounded and reversible (0.3115ms)
+✔ MS-050 normal: resolved playback is deterministic, bounded and reversible (0.3994ms)
+✔ MS-050 counter: resolved playback is deterministic, bounded and reversible (0.3386ms)
+✔ MS-050 boss: resolved playback is deterministic, bounded and reversible (0.296ms)
+✔ MS-051 normal: resolved playback is deterministic, bounded and reversible (0.835ms)
+✔ MS-051 counter: resolved playback is deterministic, bounded and reversible (0.3879ms)
+✔ MS-051 boss: resolved playback is deterministic, bounded and reversible (0.3372ms)
+✔ MS-055 normal: resolved playback is deterministic, bounded and reversible (0.8356ms)
+✔ MS-055 counter: resolved playback is deterministic, bounded and reversible (0.7191ms)
+✔ MS-055 boss: resolved playback is deterministic, bounded and reversible (0.2812ms)
+✔ MS-056 normal: resolved playback is deterministic, bounded and reversible (0.5628ms)
+✔ MS-056 counter: resolved playback is deterministic, bounded and reversible (0.4133ms)
+✔ MS-056 boss: resolved playback is deterministic, bounded and reversible (0.3468ms)
+✔ single-hit interception conserves damage and excludes area damage (0.5789ms)
+✔ locked sniper cancels a lost target without retargeting (0.2692ms)
+✔ calibration is tied to one target and resets on forced target switching (0.422ms)
+✔ command grants six next-basic tokens without inserting mercenary into five-card ids (0.5214ms)
+✔ healing suppression applies after cleanse and cannot resurrect a pre-dead target (0.4698ms)
+✔ boss interrupt immunity preserves the cast and creates no replacement stun (0.2217ms)
+✔ range attacks cannot proc melee riposte; venom cleansing removes delayed damage (0.489ms)
+✔ front group budgets do not multiply with targets and fall back to one when front is empty (4.8087ms)
+✔ finisher evaluates HP at collision and missed first shot cancels encore (0.9727ms)
+✔ dead caster and missing targets fail closed; invalid snapshots are rejected (0.5885ms)
+✔ review imports reject assignment fields, live activation, missing skills and stale catalog versions (3.4459ms)
+✔ assignment drafts start with all 57 mercenaries unassigned, including SSS Omega (1.083ms)
+✔ users can select event horizon for other mercenaries, combine skills and reuse one skill (1.9689ms)
+✔ assignment import rejects invented IDs, duplicate pairs, omitted mercenaries and release bypasses (4.2862ms)
+✔ assignment revisions reject stale saves and preserve the caller draft on success or failure (3.4349ms)
+✔ generic Pixi lifecycle uses one cancellable V3 clock, rewinds poses, and preserves shared textures (71.9755ms)
+✔ authored impact selects changing frame UVs on the shared clock and rejects a single still (0.3874ms)
+✔ generic catalog sequences and three scenarios stay within the sprite budget and fully rewind (658.4776ms)
+✔ rejected V1 originals remain preserved as history, not a runtime fallback (35.8972ms)
+✔ thirty-six individually authored sequences retain 576 original frames and clean gutters (488.4208ms)
+✔ skill review stays outside production battle routes, source-art roster and five-card contract (7.348ms)
+✔ Vespera is the preserved style anchor and both beauty drafts are original-size RGB PNGs (19.3129ms)
+✔ art review is isolated, silent and cannot register cards or overwrite the public codex (10.266ms)
+✔ persistent art standards record beauty-first direction without replacing old anchors (7.3898ms)
+✔ eight weapon families plus six female firearms are separate native 2:3 PNG illustrations (55.5862ms)
+✔ approved style references remain byte-identical and outfit variety matches the request (8.3003ms)
+✔ preview is silent, isolated, frame-compatible and exposes all fourteen original downloads (97.1561ms)
+✔ all filters show the correct cards and announce counts without any account access (1.7283ms)
+✔ the final SKS revision preserves both pistol originals with traceable edit-only prompts (5.0368ms)
+✔ approved mercenary roster has the canonical V-013 through V-020 range (3.5567ms)
+✔ every approved source art remains hash-locked and has a separate RGBA battle sprite (61.0082ms)
+✔ card frame assets and consolidated preview cover the full roster (2.1851ms)
+✔ new rank ladder assigns only user-directed Omega and preserves every prior card field (4.3559ms)
+✔ mercenary system keeps five regular cards and one separate mercenary slot (0.6147ms)
+✔ mercenary slot remains optional and does not change the existing five-card formation (0.3266ms)
+✔ review roster has fifty-seven unique cards and no inherited rank (0.4368ms)
+✔ all source art and all declared battle sprites exist with recorded hashes (455.1166ms)
+✔ Omega-X preserves the exact user-supplied source and connects a separate battle sprite with its user-directed SSS rank (0.2769ms)
+✔ battle art adapter resolves SD only for battle consumers and never replaces source art (8.1129ms)
+✔ official supporting anchors are preserved in main with canonical hashes (7.3173ms)
+✔ preview states the 5+1 rule and never exposes legacy ranks (2.9633ms)
+ℹ tests 239
+ℹ suites 0
+ℹ pass 239
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10363.2038
+
+> test:equipment-forge-public
+> node --test tests/equipment-forge-advanced-20261012.test.mjs tests/equipment-enhancement-glow-20260923.test.mjs tests/equipment-forge-recovery-20260923.test.mjs tests/equipment-enhanced-inventory-20260923.test.mjs tests/equipment-forge-readiness-20260922.test.mjs tests/equipment-forge-release-20260922.test.mjs tests/pingdu-repair-coupon.test.mjs tests/equipment-forge-inventory-v1.test.mjs tests/equipment-forge-cms-v1.test.mjs tests/equipment-forge-public-v2084.test.mjs preview/equipment-forge-v1/qa.test.mjs preview/equipment-forge-v1/release/qa.test.mjs && node preview/equipment-forge-v1/release/check.mjs
+
+✔ all 15 review stages have exactly three outcomes totaling 100%, with success >= 10% (3.5918ms)
+✔ rejects success under 10%, invalid totals, nonfinite values and excess precision (0.5395ms)
+✔ exact cumulative boundaries: success, then maintain, then destruction (0.4147ms)
+✔ probability editor validates every row before changing any row (0.7687ms)
+✔ protection is gameplay-only; no box or draw source can award it (0.1934ms)
+✔ protection preserves the success rate and folds destruction into maintenance (0.1954ms)
+✔ success raises precisely one stage and consumes review materials once (2.1553ms)
+✔ maintenance preserves equipment and level, consumes materials, and does not create a destruction record (0.3302ms)
+✔ destruction removes usability and snapshots the exact item and pre-attempt level (0.4894ms)
+✔ protected destruction consumes one seal and creates no lost-item record (0.4296ms)
+✔ selected seal is not spent on a successful or maintained attempt in this explicitly provisional policy (0.423ms)
+✔ no seal, insufficient coins, insufficient materials, missing equipment and max level reject without mutation (0.8726ms)
+✔ restoration restores the identical instance and level, consumes one coupon and does not refund materials (0.9933ms)
+✔ one destruction record cannot be restored twice even with a new request and another coupon (0.3454ms)
+✔ missing record and missing coupon both reject restoration without any change (0.6008ms)
+✔ repeated requests return the same isolated receipt without duplicate costs or restores (0.5594ms)
+✔ preview modules have no account persistence or account mutation paths (6.5293ms)
+✔ authored success sequence reaches its blast at the shared impact and visits every frame in order (1.0735ms)
+✔ V2 authored assets match their recorded originals and actual atlas dimensions (39.7825ms)
+✔ all equipment source images exist and preserved source audio hashes match provenance (8.3014ms)
+✔ final approved presentation preserves its original hash after released brand labels and cannot activate production (51.0565ms)
+✔ brand compatibility preserves the original approval and rejects any other presentation edit (3.9709ms)
+✔ release rates enforce exactly three outcomes, integer basis points, the 10% floor and 100% total (0.7793ms)
+✔ UI approval cannot silently approve economics or enable an incomplete launch (2.0943ms)
+✔ box, draw and shop acquisition cannot pass the protection release check (4.7055ms)
+✔ commands carry individual identity and server quote versions, never client probabilities or prices (0.9213ms)
+✔ server outcomes select the five approved effects without a client lottery (1.0731ms)
+✔ foreign, incomplete, inconsistent and unsafe receipts never start an effect (0.926ms)
+✔ double clicks share one in-flight request and isolate caller mutations (0.8914ms)
+✔ lost responses retain the same key, block new rolls and recover by receipt lookup (1.0542ms)
+✔ malformed and cross-account recovery does not erase an unresolved operation (0.4213ms)
+✔ PostgreSQL inventory pages keep duplicates separate, isolate owners and preserve loadouts and balances (4937.4459ms)
+✔ SQLite: entire inventory sorts by enhanced power, not recent 40, and every cursor page is exact (237.1677ms)
+✔ SQLite: every enhanced copy is separate even at the same level, preserving equipped IDs and exact counts (15.2897ms)
+✔ PostgreSQL: entire inventory sorts by enhanced power, not recent 40, and every cursor page is exact (7750.4177ms)
+✔ PostgreSQL: every enhanced copy is separate even at the same level, preserving equipped IDs and exact counts (3131.3074ms)
+✔ exactly +8/+9/+10 decorate equipped and owned equipment, without altering power or quantities (38.1389ms)
+✔ other levels, missing enhancement, invalid values and battle suits never glow (4.3588ms)
+✔ title, vehicle and skill-chip tabs never render equipment glow (3.9632ms)
+✔ equip/unequip uses existing instance API and updates only the matching slot glow (14.4297ms)
+✔ glow stays equipment-scoped, click-through, distinct and reduced-motion safe (0.6878ms)
+✔ production and shared preview invalidate the changed equipment resources (13.6322ms)
+✔ advanced draft stays empty, validates every field and maps weapon vs armor slots (37.4674ms)
+✔ SQLite: CMS partial save locks only new steps, preserves legacy policy and CAS/audit rollback (48.678ms)
+✔ SQLite: authenticated advanced route, blank +11 lock and unchanged +9→+10 cost (135.2403ms)
+✔ SQLite: +10→+15 charges weapon scrolls once, enforces cap and connects current PVE/PVP power (63.5396ms)
+✔ SQLite: correct armor type, missing scrolls fail before roll, atomic failure keeps inventory and original outcome (30.3174ms)
+✔ SQLite: protection/destruction consume scrolls, +14 destruction restores the exact level without another scroll (36.2148ms)
+✔ SQLite: inventory uses configured high-level power for ordering and pagination; double-star rule stays intact (23.3883ms)
+✔ SQLite: CMS manual scroll grant is replayable and catalog never overwrites an operator edit (26.0886ms)
+✔ PostgreSQL: CMS partial save locks only new steps, preserves legacy policy and CAS/audit rollback (6584.5136ms)
+✔ PostgreSQL: authenticated advanced route, blank +11 lock and unchanged +9→+10 cost (3285.6312ms)
+✔ PostgreSQL: +10→+15 charges weapon scrolls once, enforces cap and connects current PVE/PVP power (3230.3641ms)
+✔ PostgreSQL: correct armor type, missing scrolls fail before roll, atomic failure keeps inventory and original outcome (2140.0494ms)
+✔ PostgreSQL: protection/destruction consume scrolls, +14 destruction restores the exact level without another scroll (1799.2226ms)
+✔ PostgreSQL: inventory uses configured high-level power for ordering and pagination; double-star rule stays intact (1733.2686ms)
+✔ PostgreSQL: CMS manual scroll grant is replayable and catalog never overwrites an operator edit (1594.2751ms)
+✔ PostgreSQL cap migration: dry run, preserving existing +10, 15 allowed / 16 rejected, replayable catalog registration (1611.2931ms)
+✔ percentage editing is exact to 1 ppm and never silently rounds unsupported precision (1.9216ms)
+✔ readiness does not invent policy numbers or consider completion an approval (3.2608ms)
+✔ malformed rows, shared star/protection item, invalid totals and unsupported modes fail with controlled policy errors (1.2666ms)
+✔ SQLite: OWNER CMS loads catalog/readiness without creating records or charging (84.9126ms)
+✔ SQLite: every step/material/protection/drop/restoration setting round-trips atomically with CAS (42.7725ms)
+✔ SQLite: unregistered/inactive materials are rejected before saving or quoting protected attempts (43.586ms)
+✔ SQLite: restoration quote cannot extend the configured recovery deadline (41.6848ms)
+✔ PostgreSQL: OWNER CMS loads catalog/readiness without creating records or charging (6095.6341ms)
+✔ PostgreSQL: every step/material/protection/drop/restoration setting round-trips atomically with CAS (3314.7761ms)
+✔ PostgreSQL: unregistered/inactive materials are rejected before saving or quoting protected attempts (2997.4441ms)
+✔ PostgreSQL: restoration quote cannot extend the configured recovery deadline (2251.4077ms)
+✔ SQLite: protection catalog is registered beyond the old fast gate, idempotently and without grants or policy changes (84.4742ms)
+✔ SQLite: failed catalog registration cannot leave a completion marker and operator metadata is preserved (13.6048ms)
+✖ SQLite: actual inventory route returns owned protection artwork and quantity but no direct-use action (62.2652ms)
+✔ PostgreSQL: protection catalog is registered beyond the old fast gate, idempotently and without grants or policy changes (6303.4106ms)
+✔ PostgreSQL: failed catalog registration cannot leave a completion marker and operator metadata is preserved (3023.0108ms)
+✖ PostgreSQL: actual inventory route returns owned protection artwork and quantity but no direct-use action (2966.5352ms)
+✔ live scrolling host and generator keep the same accessible region without modifying approved artwork (17.7737ms)
+✔ public disclosure defaults ON, approved power is available, execution OFF and other policies unset (4609.0886ms)
+✔ approved power is identical in status and CMS while save preserves the execution lock (3721.3344ms)
+✔ read-only account inventory separates duplicates and includes every armor slot without hidden or foreign items (2687.8436ms)
+✔ authentication and OWNER checks precede private queries or settings writes (2374.4458ms)
+✔ all execution endpoints reject OFF and forged client flags without spending or changing equipment (1886.9382ms)
+✔ CMS cannot enable without an approved release document and a manual DB ON fails closed (1666.1644ms)
+✔ settings persist atomically, stale revisions conflict and visibility OFF hides account inventory (1551.1157ms)
+✔ input limits and corrupted settings fail closed (1476.4775ms)
+✔ live host imports approved presentation only, has a real inventory entry and no simulator (10.296ms)
+✔ captured production r4 remains OFF and null is not silently approved as zero (3.2301ms)
+✔ CMS protection source rates are exact (including scrapyard 0.9998%) and clear-only (2.1425ms)
+✔ SQLite: released +1..+8 protection unavailable without charges (39.1246ms)
+✔ SQLite: +7..+10 unprotected boundaries and exact large costs on every normal slot (592.2242ms)
+✔ SQLite: released 0% destruction at +1..+6 charges configured costs (788.7778ms)
+✔ SQLite: protected +9/+10 consumes 1/3 on SUCCESS, MAINTAIN and PROTECTED once (434.5263ms)
+✔ SQLite: destruction and coupon + 1000억 restore preserve +8, no expiry, replay and rollback (167.8446ms)
+✔ SQLite: real CMS insufficient funds / stars / protection and policy OFF fail closed (108.0179ms)
+✔ SQLite: +9/+10 power is identical in batch and single-user reads, SUIT excluded (19.5482ms)
+✔ PostgreSQL: released +1..+8 protection unavailable without charges (5957.8872ms)
+✔ PostgreSQL: +7..+10 unprotected boundaries and exact large costs on every normal slot (6806.963ms)
+✔ PostgreSQL: released 0% destruction at +1..+6 charges configured costs (2310.9114ms)
+✔ PostgreSQL: protected +9/+10 consumes 1/3 on SUCCESS, MAINTAIN and PROTECTED once (2118.1923ms)
+✔ PostgreSQL: destruction and coupon + 1000억 restore preserve +8, no expiry, replay and rollback (1665.9321ms)
+✔ PostgreSQL: real CMS insufficient funds / stars / protection and policy OFF fail closed (1583.385ms)
+✔ PostgreSQL: +9/+10 power is identical in batch and single-user reads, SUIT excluded (1462.8309ms)
+✔ quote selection bursts coalesce, cache briefly, and never run two requests concurrently (43.4655ms)
+✔ lock retries are capped with backoff and preserve the exact request body (40.1334ms)
+✔ ambiguous enhancement response is not automatically resubmitted, but quote retry reuses its ID (0.6658ms)
+✔ transport timeout, body timeout, and cancellation settle instead of locking indefinitely (50.4218ms)
+✔ corrupt pending records fail visibly without deleting a potentially committed request (4.6543ms)
+✔ SQLite: quoting bypasses busy account lock; enhancement still requires it (29.6636ms)
+✔ SQLite: 12 concurrent retries persist one exact quote and cannot cross account boundaries (32.645ms)
+✔ SQLite: read-only receipt recovery after lost response never charges again (18.5359ms)
+✔ PostgreSQL: quoting bypasses busy account lock; enhancement still requires it (5988.5834ms)
+✔ PostgreSQL: 12 concurrent retries persist one exact quote and cannot cross account boundaries (3435.8169ms)
+✔ PostgreSQL: read-only receipt recovery after lost response never charges again (3011.6212ms)
+✔ live host includes visible recovery, bounded transport, and no quote/receipt account lock (25.5366ms)
+✔ real app: failed quote offers enabled retry, and retry never executes enhancement (57.8422ms)
+✔ real app: shortage keeps the quote visible, blocks submission, and refresh unlocks without disabling protection (33.7349ms)
+✔ real app: completed pending request auto-recovers using receipt GET only (15.2009ms)
+✔ real app: completed history clears the exact pending request without depending on another receipt response (48.9598ms)
+✔ real app: main recovery button resumes a missing request with its original IDs only after an explicit click (30.6007ms)
+✔ real app: request mismatch in history preserves pending state and a failed receipt retry never submits (15.0763ms)
+✔ real app: kind mismatch in history preserves pending state and a failed receipt retry never submits (12.57ms)
+✔ real app: status mismatch in history preserves pending state and a failed receipt retry never submits (24.2618ms)
+✔ real app: expired unstarted request releases the lock after explicit continuation and obtains a new quote only (51.8346ms)
+✔ real app: missing receipt waits for explicit same-request continuation (48.0181ms)
+✔ real app: ambiguous POST response leaves a visible recovery action, not an automatic second charge (30.285ms)
+✔ real app: repeated inventory refreshes do not overlap account-state queries (21.3519ms)
+✔ explicit equipment release is enabled, global V3 stays held, and rollback still performs no DB work (5.5979ms)
+✖ actual live hooks use equipment-only readiness, not a global tower/re-ascent release (15.9711ms)
+✔ unrelated rewards incur no forge lookup, but protected-item grants still fail closed (1.1483ms)
+✔ SQLite: release requires an explicit immutable complete snapshot and valid hash (98.1501ms)
+✔ SQLite: isolated final gate + approved document + OWNER switch run actual routes without V3 activation (211.4586ms)
+✔ SQLite: live tower freezes one first-clear protection roll; grant/progression roll back together (30.4848ms)
+✔ PostgreSQL: release requires an explicit immutable complete snapshot and valid hash (6436.4663ms)
+✔ PostgreSQL: isolated final gate + approved document + OWNER switch run actual routes without V3 activation (3270.605ms)
+✔ PostgreSQL: live tower freezes one first-clear protection roll; grant/progression roll back together (2784.6462ms)
+✔ offline release SQL checks the exact CMS snapshot, stays OFF and is repeat-safe in PostgreSQL (2297.645ms)
+✔ SQLite: repair registration survives old gates without grants, policy changes or replacing operator metadata (139.4626ms)
+✔ SQLite: catalog and marker roll back together and existing metadata is never overwritten (12.0856ms)
+✖ SQLite: actual inventory API exposes only own quantities and refuses direct coupon consumption (81.0124ms)
+✔ SQLite: a coupon restores +8 exactly once with zero coin cost and unlimited record age (100.8952ms)
+✔ SQLite: missing coupons, foreign records and disabled restore do not charge or create equipment (111.3466ms)
+✔ SQLite: restoration insertion failure rolls back coupon debit, logs and recovery record (100.008ms)
+✔ SQLite: two independent quotes cannot consume two coupons for the same destruction (123.996ms)
+✔ PostgreSQL: repair registration survives old gates without grants, policy changes or replacing operator metadata (6244.2511ms)
+✔ PostgreSQL: catalog and marker roll back together and existing metadata is never overwritten (3226.2315ms)
+✖ PostgreSQL: actual inventory API exposes only own quantities and refuses direct coupon consumption (2500.935ms)
+✔ PostgreSQL: a coupon restores +8 exactly once with zero coin cost and unlimited record age (2160.6298ms)
+✔ PostgreSQL: missing coupons, foreign records and disabled restore do not charge or create equipment (1725.0195ms)
+✔ PostgreSQL: restoration insertion failure rolls back coupon debit, logs and recovery record (1808.2915ms)
+✔ PostgreSQL: two independent quotes cannot consume two coupons for the same destruction (1676.2959ms)
+✔ live host and generator share the new coupon asset while retaining disabled restore (2.2489ms)
+✔ approved one-time production SQL preserves OFF, all other costs and stock; reruns never reset edits (1624.6586ms)
+✔ production SQL rejects concurrent policy changes and rolls catalog/policy back when audit fails (1458.1658ms)
+ℹ tests 152
+ℹ suites 0
+ℹ pass 147
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24938.7524
+
+✖ failing tests:
+
+test at tests\equipment-forge-inventory-v1.test.mjs:56:3
+✖ SQLite: actual inventory route returns owned protection artwork and quantity but no direct-use action (62.2652ms)
+  ReferenceError: ensureReversecallStreamerGiftCatalog is not defined
+      at eval (eval at <anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/equipment-forge-inventory-v1.test.mjs:26:22), <anonymous>:10:7)
+      at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/equipment-forge-inventory-v1.test.mjs:61:20)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at tests\equipment-forge-inventory-v1.test.mjs:56:3
+✖ PostgreSQL: actual inventory route returns owned protection artwork and quantity but no direct-use action (2966.5352ms)
+  ReferenceError: ensureReversecallStreamerGiftCatalog is not defined
+      at eval (eval at <anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/equipment-forge-inventory-v1.test.mjs:26:22), <anonymous>:10:7)
+      at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/equipment-forge-inventory-v1.test.mjs:61:20)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at tests\equipment-forge-release-20260922.test.mjs:31:1
+✖ actual live hooks use equipment-only readiness, not a global tower/re-ascent release (15.9711ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /d.forgeProtectionReward.quantity/. Input:
+  
+  '(()=>{\r\n' +
+    "  'use strict';\r\n" +
+    "  const ui=()=>window.TowerAbyssUI,user=()=>typeof loadUser==='function'?loadUser():null;\r\n" +
+    "  const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,tab:'challenge',filter:'all',request:0,battleGeneration:0,releaseFocus:null};\r\n" +
+    "  let requestedTower=new URL(location.href).searchParams.get('pve')==='tower';\r\n" +
+    '  const pendingKey=()=>`cnine:tower:battle:v2094:${Number(user()?.id||0)}`;\r\n' +
+    "  function pendingBattle(){try{const p=JSON.parse(sessionStorage.getItem(pendingKey())||'null');return p&&typeof p.requestId==='string'&&Number.isSafeInteger(p.floorNo)&&p.floorNo>0?p:null;}catch{return null;}}\r\n" +
+    "  function rememberBattle(value,key=pendingKey()){try{sessionStorage.setItem(key,JSON.stringify(value));}catch(error){console.warn('무한의탑 전투 복구 기록을 저장하지 못했습니다.',error);}}\r\n" +
+    '  function acknowledgeBattle(){try{sessionStorage.removeItem(pendingKey());}catch{}}\r\n' +
+    "  function currentDeckCards(){const list=typeof cards==='undefined'?[]:cards;return (S.data?.deck||[]).map(id=>list.find(x=>String(x.id)===String(id))).filter(Boolean);}\r\n" +
+    "  function currentPower(deckCards){const state=typeof battleState==='undefined'?{}:battleState;return deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,user(),state.config):Number(c.basePower||0)),0)+Number(S.data?.characterBonus?.pve||state.characterBonus?.pve||0);}\r\n" +
+    "  function privileged(){return String(user()?.role||'').toUpperCase()==='OWNER';}\r\n" +
+    '  function scheduleEnsure(){clearTimeout(S.ensureTimer);S.ensureTimer=setTimeout(ensure,40);}\r\n' +
+    `  function exitTower(){document.querySelector('[data-pve-mode="hunt"]')?.click();}\r\n` +
+    `  function editDeck(){exitTower();setTimeout(()=>document.querySelector('[data-pve-tab="deck"]')?.click(),120);}\r\n` +
+    '  function bindView(box){\r\n' +
+    "    if(box.dataset.abyssBound)return;box.dataset.abyssBound='1';\r\n" +
+    "    box.addEventListener('click',event=>{\r\n" +
+    "      const target=event.target.closest('[data-abyss-action]');if(!target||!box.contains(target)||target.disabled)return;\r\n" +
+    '      const action=target.dataset.abyssAction;\r\n' +
+    "      if(action==='exit')exitTower();\r\n" +
+    "      else if(action==='refresh')void openTower();\r\n" +
+    '      else if(action===\'tab\'){S.tab=target.dataset.tab;render();box.querySelector(`[data-tab="${S.tab}"][data-abyss-action]`)?.focus({preventScroll:true});}\r\n' +
+    "      else if(action==='fight')void startFight();\r\n" +
+    "      else if(action==='deck')editDeck();\r\n" +
+    "      else if(action==='guide')ui().guide(box);\r\n" +
+    '    });\r\n' +
+    "    box.addEventListener('change',event=>{if(event.target.matches('[data-abyss-filter]')){S.filter=event.target.value;render();box.querySelector('[data-abyss-filter]')?.focus({preventScroll:true});}});\r\n" +
+    '  }\r\n' +
+    '  async function ensure(){\r\n' +
+    "    const tabs=document.querySelector('.pve-mode-tabs');if(!tabs||!ui())return;\r\n" +
+    `    const buttons=[...tabs.querySelectorAll('[data-pve-mode="tower"]')];buttons.slice(1).forEach(x=>x.remove());\r\n` +
+    "    const views=[...document.querySelectorAll('#pveTowerView')];views.slice(1).forEach(x=>x.remove());\r\n" +
+    "    if(buttons[0]&&views[0]&&tabs.dataset.towerBound==='1'&&tabs.dataset.towerReady==='1')return;\r\n" +
+    '    if(S.ensureBusy)return;S.ensureBusy=true;\r\n' +
+    '    try{\r\n' +
+    '      let cfg={enabled:S.enabled};\r\n' +
+    "      if(!S.lastConfigAt||Date.now()-S.lastConfigAt>15000){try{cfg=await apiRequest('tower/config',{}, {ttl:0})||cfg;}catch{}S.lastConfigAt=Date.now();}\r\n" +
+    '      S.enabled=cfg.enabled!==false;\r\n' +
+    "      if(!S.enabled&&!privileged()){buttons.forEach(x=>x.remove());views.forEach(x=>x.remove());tabs.dataset.towerReady='0';return;}\r\n" +
+    '      let button=buttons[0];\r\n' +
+    "      if(!button){button=document.createElement('button');button.type='button';button.className='pve-mode-btn';button.dataset.pveMode='tower';button.textContent='무한의탑';tabs.appendChild(button);}\r\n" +
+    "      const anchor=document.getElementById('pveRaidHubView')||document.getElementById('pveRaidView');if(!anchor)return;\r\n" +
+    '      let box=views[0];\r\n' +
+    "      if(!box){box=document.createElement('div');box.id='pveTowerView';box.className='pve-tower-view';box.hidden=true;anchor.insertAdjacentElement('afterend',box);}\r\n" +
+    "      else if(box.parentElement!==anchor.parentElement)anchor.insertAdjacentElement('afterend',box);\r\n" +
+    '      bindView(box);\r\n' +
+    "      if(tabs.dataset.towerBound!=='1'){\r\n" +
+    "        tabs.dataset.towerBound='1';\r\n" +
+    "        tabs.addEventListener('click',event=>{const btn=event.target.closest('[data-pve-mode]');if(!btn)return;if(btn.dataset.pveMode==='tower'){event.preventDefault();void openTower();}else{S.request++;box.hidden=true;}});\r\n" +
+    '      }\r\n' +
+    "      tabs.dataset.towerReady='1';\r\n" +
+    "      if(requestedTower){requestedTower=false;const url=new URL(location.href);url.searchParams.delete('pve');history.replaceState(history.state,'',url);void openTower();}\r\n" +
+    '    }finally{S.ensureBusy=false;}\r\n' +
+    '  }\r\n' +
+    '  async function openTower(restoreBattle=true){\r\n' +
+    '    if(S.busy)return false;\r\n' +
+    '    const token=++S.request;\r\n' +
+    "    document.querySelectorAll('.pve-mode-btn').forEach(x=>x.classList.toggle('active',x.dataset.pveMode==='tower'));\r\n" +
+    "    ['pveRaidHubView','pveRaidView','pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'].forEach(id=>{const el=document.getElementById(id);if(el)el.hidden=true;});\r\n" +
+    "    const box=document.getElementById('pveTowerView');if(!box)return false;\r\n" +
+    '    bindView(box);box.hidden=false;ui().state(box);\r\n' +
+    '    try{\r\n' +
+    "      const data=await apiRequest('tower/status',{}, {ttl:0});\r\n" +
+    '      if(token!==S.request||!box.isConnected||box.hidden)return false;\r\n' +
+    '      S.data=data;render();\r\n' +
+    '      if(restoreBattle&&pendingBattle()?.result&&!S.busy)void startFight();\r\n' +
+    '      return true;\r\n' +
+    "    }catch(error){if(token===S.request&&box.isConnected&&!box.hidden)ui().state(box,{title:'도전 정보를 불러오지 못했습니다',description:error.message,error:true});return false;}\r\n" +
+    '  }\r\n' +
+    '  function render(){\r\n' +
+    "    const box=document.getElementById('pveTowerView');if(!box||!S.data)return;\r\n" +
+    '    const d=S.data;\r\n' +
+    "    if(!d.active){ui().state(box,{title:'지금은 성소의 문이 닫혀 있습니다',description:d.message||'무한의탑 운영이 재개되면 다시 도전할 수 있습니다.',error:true});return;}\r\n" +
+    "    if(d.configured===false||Number(d.maxFloor||0)<1){ui().state(box,{title:'첫 번째 봉인을 준비하고 있습니다',description:d.message||'아직 개방된 층이 없습니다. 운영 준비가 끝나면 이곳에서 도전할 수 있습니다.',error:true});return;}\r\n" +
+    '    const deckCards=currentDeckCards();\r\n' +
+    '    ui().render(box,{data:d,tab:S.tab,filter:S.filter,cards:deckCards,power:currentPower(deckCards),records:ui().readRecords(user()?.id),userId:user()?.id});\r\n' +
+    '  }\r\n' +
+    '  function lockBattleFocus(stage){\r\n' +
+    '    S.releaseFocus?.();\r\n' +
+    '    const onKey=event=>{\r\n' +
+    '      if(!stage.isConnected)return;\r\n' +
+    "      if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();return;}\r\n" +
+    "      if(event.key!=='Tab')return;\r\n" +
+    `      const items=[...stage.querySelectorAll('button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),[tabindex="0"]')].filter(el=>el.getClientRects().length);\r\n` +
+    '      if(!items.length){event.preventDefault();stage.focus({preventScroll:true});return;}\r\n' +
+    '      const first=items[0],last=items.at(-1),active=document.activeElement;\r\n' +
+    '      if(!stage.contains(active)||(event.shiftKey&&active===first)){event.preventDefault();(event.shiftKey?last:first).focus();}\r\n' +
+    '      else if(!event.shiftKey&&active===last){event.preventDefault();first.focus();}\r\n' +
+    '    };\r\n' +
+    "    stage.tabIndex=-1;document.addEventListener('keydown',onKey,true);stage.focus({preventScroll:true});\r\n" +
+    "    S.releaseFocus=()=>{document.removeEventListener('keydown',onKey,true);S.releaseFocus=null;};\r\n" +
+    '  }\r\n' +
+    '  function disposeBattle(){\r\n' +
+    '    S.battleGeneration++;\r\n' +
+    "    S.releaseFocus?.();const modal=document.getElementById('modal');\r\n" +
+    "    if(modal){modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';}\r\n" +
+    '    S.busy=false;\r\n' +
+    '  }\r\n' +
+    "  async function closeBattle({acknowledge=true,tab='challenge',retry=false}={}){\r\n" +
+    '    if(acknowledge)acknowledgeBattle();disposeBattle();S.tab=tab;\r\n' +
+    '    const opened=await openTower(false);\r\n' +
+    '    if(opened&&retry)await startFight();\r\n' +
+    `    else if(opened)document.querySelector('#pveTowerView [data-abyss-action="fight"],#pveTowerView .abyss-nav .is-active')?.focus({preventScroll:true});\r\n` +
+    '  }\r\n' +
+    '  async function startFight(){\r\n' +
+    '    if(S.busy)return;\r\n' +
+    '    const pending=pendingBattle(),saved=pending?.result,deckCards=currentDeckCards();\r\n' +
+    "    if(!saved&&deckCards.length!==5){S.tab='formation';render();return;}\r\n" +
+    '    if(!pending&&(S.data?.completed||S.data?.blocked||!S.data?.floor))return;\r\n' +
+    '    const floorNo=pending?.floorNo||Number(S.data.floor.floorNo);\r\n' +
+    '    const f=saved?{floorNo,monsterName:saved.monster?.name}:S.data.floor||{floorNo};\r\n' +
+    "    const modal=document.getElementById('modal');if(!modal)return;\r\n" +
+    '    S.busy=true;let view=null;\r\n' +
+    '    const generation=++S.battleGeneration,accountId=Number(user()?.id),recordKey=pendingKey(),isCurrent=()=>generation===S.battleGeneration&&Number(user()?.id)===accountId;\r\n' +
+    '    try{\r\n' +
+    "      if(typeof ensureFeatureResources==='function')await ensureFeatureResources('battleV2');\r\n" +
+    '      if(!isCurrent())return;\r\n' +
+    "      if(!window.ProjectVBattleV3Live?.ready?.())throw Error('전투 화면을 준비하지 못했습니다. 다시 연결해 주세요.');\r\n" +
+    "      view=window.prepareBattleV2LiveLoading({modal,mode:'TOWER',playerName:user()?.nickname||'원정대',opponentName:f.monsterName||'탑의 수호자',autoText:'나락의 시련 · 원정대 준비'});\r\n" +
+    '      ui().prepareBattle(view,{floorNo});lockBattleFocus(view.stage);\r\n' +
+    '      window.ensureBattleSoundButton?.(view.stage);\r\n' +
+    '      const ticket=pending||{requestId:crypto.randomUUID(),floorNo};\r\n' +
+    '      if(!saved)rememberBattle(ticket,recordKey);\r\n' +
+    "      const data=saved||await apiRequest('tower/fight',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo})});\r\n" +
+    '      data.requestId||=ticket.requestId;rememberBattle({...ticket,result:data},recordKey);\r\n' +
+    '      if(!isCurrent())return;\r\n' +
+    "      const renderer=await window.playTowerBattleV3Live({...view,modal,data,floor:f,cards:data.cards?.length?data.cards:deckCards,isActive:()=>isCurrent()&&view.stage.isConnected&&modal.classList.contains('show')});\r\n" +
+    '      if(!ren'... 2654 more characters
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/equipment-forge-release-20260922.test.mjs:37:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '(()=>{\r\n  \'use strict\';\r\n  const ui=()=>window.TowerAbyssUI,user=()=>typeof loadUser===\'function\'?loadUser():null;\r\n  const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,tab:\'challenge\',filter:\'all\',request:0,battleGeneration:0,releaseFocus:null};\r\n  let requestedTower=new URL(location.href).searchParams.get(\'pve\')===\'tower\';\r\n  const pendingKey=()=>`cnine:tower:battle:v2094:${Number(user()?.id||0)}`;\r\n  function pendingBattle(){try{const p=JSON.parse(sessionStorage.getItem(pendingKey())||\'null\');return p&&typeof p.requestId===\'string\'&&Number.isSafeInteger(p.floorNo)&&p.floorNo>0?p:null;}catch{return null;}}\r\n  function rememberBattle(value,key=pendingKey()){try{sessionStorage.setItem(key,JSON.stringify(value));}catch(error){console.warn(\'무한의탑 전투 복구 기록을 저장하지 못했습니다.\',error);}}\r\n  function acknowledgeBattle(){try{sessionStorage.removeItem(pendingKey());}catch{}}\r\n  function currentDeckCards(){const list=typeof cards===\'undefined\'?[]:cards;return (S.data?.deck||[]).map(id=>list.find(x=>String(x.id)===String(id))).filter(Boolean);}\r\n  function currentPower(deckCards){const state=typeof battleState===\'undefined\'?{}:battleState;return deckCards.reduce((sum,c)=>sum+(typeof battleCardPower===\'function\'?battleCardPower(c,user(),state.config):Number(c.basePower||0)),0)+Number(S.data?.characterBonus?.pve||state.characterBonus?.pve||0);}\r\n  function privileged(){return String(user()?.role||\'\').toUpperCase()===\'OWNER\';}\r\n  function scheduleEnsure(){clearTimeout(S.ensureTimer);S.ensureTimer=setTimeout(ensure,40);}\r\n  function exitTower(){document.querySelector(\'[data-pve-mode="hunt"]\')?.click();}\r\n  function editDeck(){exitTower();setTimeout(()=>document.querySelector(\'[data-pve-tab="deck"]\')?.click(),120);}\r\n  function bindView(box){\r\n    if(box.dataset.abyssBound)return;box.dataset.abyssBound=\'1\';\r\n    box.addEventListener(\'click\',event=>{\r\n      const target=event.target.closest(\'[data-abyss-action]\');if(!target||!box.contains(target)||target.disabled)return;\r\n      const action=target.dataset.abyssAction;\r\n      if(action===\'exit\')exitTower();\r\n      else if(action===\'refresh\')void openTower();\r\n      else if(action===\'tab\'){S.tab=target.dataset.tab;render();box.querySelector(`[data-tab="${S.tab}"][data-abyss-action]`)?.focus({preventScroll:true});}\r\n      else if(action===\'fight\')void startFight();\r\n      else if(action===\'deck\')editDeck();\r\n      else if(action===\'guide\')ui().guide(box);\r\n    });\r\n    box.addEventListener(\'change\',event=>{if(event.target.matches(\'[data-abyss-filter]\')){S.filter=event.target.value;render();box.querySelector(\'[data-abyss-filter]\')?.focus({preventScroll:true});}});\r\n  }\r\n  async function ensure(){\r\n    const tabs=document.querySelector(\'.pve-mode-tabs\');if(!tabs||!ui())return;\r\n    const buttons=[...tabs.querySelectorAll(\'[data-pve-mode="tower"]\')];buttons.slice(1).forEach(x=>x.remove());\r\n    const views=[...document.querySelectorAll(\'#pveTowerView\')];views.slice(1).forEach(x=>x.remove());\r\n    if(buttons[0]&&views[0]&&tabs.dataset.towerBound===\'1\'&&tabs.dataset.towerReady===\'1\')return;\r\n    if(S.ensureBusy)return;S.ensureBusy=true;\r\n    try{\r\n      let cfg={enabled:S.enabled};\r\n      if(!S.lastConfigAt||Date.now()-S.lastConfigAt>15000){try{cfg=await apiRequest(\'tower/config\',{}, {ttl:0})||cfg;}catch{}S.lastConfigAt=Date.now();}\r\n      S.enabled=cfg.enabled!==false;\r\n      if(!S.enabled&&!privileged()){buttons.forEach(x=>x.remove());views.forEach(x=>x.remove());tabs.dataset.towerReady=\'0\';return;}\r\n      let button=buttons[0];\r\n      if(!button){button=document.createElement(\'button\');button.type=\'button\';button.className=\'pve-mode-btn\';button.dataset.pveMode=\'tower\';button.textContent=\'무한의탑\';tabs.appendChild(button);}\r\n      const anchor=document.getElementById(\'pveRaidHubView\')||document.getElementById(\'pveRaidView\');if(!anchor)return;\r\n      let box=views[0];\r\n      if(!box){box=document.createElement(\'div\');box.id=\'pveTowerView\';box.className=\'pve-tower-view\';box.hidden=true;anchor.insertAdjacentElement(\'afterend\',box);}\r\n      else if(box.parentElement!==anchor.parentElement)anchor.insertAdjacentElement(\'afterend\',box);\r\n      bindView(box);\r\n      if(tabs.dataset.towerBound!==\'1\'){\r\n        tabs.dataset.towerBound=\'1\';\r\n        tabs.addEventListener(\'click\',event=>{const btn=event.target.closest(\'[data-pve-mode]\');if(!btn)return;if(btn.dataset.pveMode===\'tower\'){event.preventDefault();void openTower();}else{S.request++;box.hidden=true;}});\r\n      }\r\n      tabs.dataset.towerReady=\'1\';\r\n      if(requestedTower){requestedTower=false;const url=new URL(location.href);url.searchParams.delete(\'pve\');history.replaceState(history.state,\'\',url);void openTower();}\r\n    }finally{S.ensureBusy=false;}\r\n  }\r\n  async function openTower(restoreBattle=true){\r\n    if(S.busy)return false;\r\n    const token=++S.request;\r\n    document.querySelectorAll(\'.pve-mode-btn\').forEach(x=>x.classList.toggle(\'active\',x.dataset.pveMode===\'tower\'));\r\n    [\'pveRaidHubView\',\'pveRaidView\',\'pveHuntView\',\'pveRiftView\',\'pveEscortView\',\'pveSealBattleView\',\'pveIdleDungeonView\'].forEach(id=>{const el=document.getElementById(id);if(el)el.hidden=true;});\r\n    const box=document.getElementById(\'pveTowerView\');if(!box)return false;\r\n    bindView(box);box.hidden=false;ui().state(box);\r\n    try{\r\n      const data=await apiRequest(\'tower/status\',{}, {ttl:0});\r\n      if(token!==S.request||!box.isConnected||box.hidden)return false;\r\n      S.data=data;render();\r\n      if(restoreBattle&&pendingBattle()?.result&&!S.busy)void startFight();\r\n      return true;\r\n    }catch(error){if(token===S.request&&box.isConnected&&!box.hidden)ui().state(box,{title:\'도전 정보를 불러오지 못했습니다\',description:error.message,error:true});return false;}\r\n  }\r\n  function render(){\r\n    const box=document.getElementById(\'pveTowerView\');if(!box||!S.data)return;\r\n    const d=S.data;\r\n    if(!d.active){ui().state(box,{title:\'지금은 성소의 문이 닫혀 있습니다\',description:d.message||\'무한의탑 운영이 재개되면 다시 도전할 수 있습니다.\',error:true});return;}\r\n    if(d.configured===false||Number(d.maxFloor||0)<1){ui().state(box,{title:\'첫 번째 봉인을 준비하고 있습니다\',description:d.message||\'아직 개방된 층이 없습니다. 운영 준비가 끝나면 이곳에서 도전할 수 있습니다.\',error:true});return;}\r\n    const deckCards=currentDeckCards();\r\n    ui().render(box,{data:d,tab:S.tab,filter:S.filter,cards:deckCards,power:currentPower(deckCards),records:ui().readRecords(user()?.id),userId:user()?.id});\r\n  }\r\n  function lockBattleFocus(stage){\r\n    S.releaseFocus?.();\r\n    const onKey=event=>{\r\n      if(!stage.isConnected)return;\r\n      if(event.key===\'Escape\'){event.preventDefault();event.stopImmediatePropagation();return;}\r\n      if(event.key!==\'Tab\')return;\r\n      const items=[...stage.querySelectorAll(\'button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),[tabindex="0"]\')].filter(el=>el.getClientRects().length);\r\n      if(!items.length){event.preventDefault();stage.focus({preventScroll:true});return;}\r\n      const first=items[0],last=items.at(-1),active=document.activeElement;\r\n      if(!stage.contains(active)||(event.shiftKey&&active===first)){event.preventDefault();(event.shiftKey?last:first).focus();}\r\n      else if(!event.shiftKey&&active===last){event.preventDefault();first.focus();}\r\n    };\r\n    stage.tabIndex=-1;document.addEventListener(\'keydown\',onKey,true);stage.focus({preventScroll:true});\r\n    S.releaseFocus=()=>{document.removeEventListener(\'keydown\',onKey,true);S.releaseFocus=null;};\r\n  }\r\n  function disposeBattle(){\r\n    S.battleGeneration++;\r\n    S.releaseFocus?.();const modal=document.getElementById(\'modal\');\r\n    if(modal){modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className=\'modal\';modal.innerHTML=\'\';}\r\n    S.busy=false;\r\n  }\r\n  async function closeBattle({acknowledge=true,tab=\'challenge\',retry=false}={}){\r\n    if(acknowledge)acknowledgeBattle();disposeBattle();S.tab=tab;\r\n    const opened=await openTower(false);\r\n    if(opened&&retry)await startFight();\r\n    else if(opened)document.querySelector(\'#pveTowerView [data-abyss-action="fight"],#pveTowerView .abyss-nav .is-active\')?.focus({preventScroll:true});\r\n  }\r\n  async function startFight(){\r\n    if(S.busy)return;\r\n    const pending=pendingBattle(),saved=pending?.result,deckCards=currentDeckCards();\r\n    if(!saved&&deckCards.length!==5){S.tab=\'formation\';render();return;}\r\n    if(!pending&&(S.data?.completed||S.data?.blocked||!S.data?.floor))return;\r\n    const floorNo=pending?.floorNo||Number(S.data.floor.floorNo);\r\n    const f=saved?{floorNo,monsterName:saved.monster?.name}:S.data.floor||{floorNo};\r\n    const modal=document.getElementById(\'modal\');if(!modal)return;\r\n    S.busy=true;let view=null;\r\n    const generation=++S.battleGeneration,accountId=Number(user()?.id),recordKey=pendingKey(),isCurrent=()=>generation===S.battleGeneration&&Number(user()?.id)===accountId;\r\n    try{\r\n      if(typeof ensureFeatureResources===\'function\')await ensureFeatureResources(\'battleV2\');\r\n      if(!isCurrent())return;\r\n      if(!window.ProjectVBattleV3Live?.ready?.())throw Error(\'전투 화면을 준비하지 못했습니다. 다시 연결해 주세요.\');\r\n      view=window.prepareBattleV2LiveLoading({modal,mode:\'TOWER\',playerName:user()?.nickname||\'원정대\',opponentName:f.monsterName||\'탑의 수호자\',autoText:\'나락의 시련 · 원정대 준비\'});\r\n      ui().prepareBattle(view,{floorNo});lockBattleFocus(view.stage);\r\n      window.ensureBattleSoundButton?.(view.stage);\r\n      const ticket=pending||{requestId:crypto.randomUUID(),floorNo};\r\n      if(!saved)rememberBattle(ticket,recordKey);\r\n      const data=saved||await apiRequest(\'tower/fight\',{method:\'POST\',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo})});\r\n      data.requestId||=ticket.requestId;rememberBattle({...ticket,result:data},recordKey);\r\n      if(!isCurrent())return;\r\n      const renderer=await window.playTowerBattleV3Live({...view,modal,data,floor:f,cards:data.cards?.length?data.cards:deckCards,isActive:()=>isCurrent()&&view.stage.isConnected&&modal.classList.contains(\'show\')});\r\n      if(!ren'... 2654 more characters,
+    expected: /d.forgeProtectionReward.quantity/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests\pingdu-repair-coupon.test.mjs:70:3
+✖ SQLite: actual inventory API exposes only own quantities and refuses direct coupon consumption (81.0124ms)
+  ReferenceError: ensureReversecallStreamerGiftCatalog is not defined
+      at eval (eval at <anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/pingdu-repair-coupon.test.mjs:27:17), <anonymous>:10:7)
+      at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/pingdu-repair-coupon.test.mjs:73:18)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at tests\pingdu-repair-coupon.test.mjs:70:3
+✖ PostgreSQL: actual inventory API exposes only own quantities and refuses direct coupon consumption (2500.935ms)
+  ReferenceError: ensureReversecallStreamerGiftCatalog is not defined
+      at eval (eval at <anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/pingdu-repair-coupon.test.mjs:27:17), <anonymous>:10:7)
+      at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/pingdu-repair-coupon.test.mjs:73:18)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)

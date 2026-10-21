@@ -1,0 +1,461 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+[FULL RELEASE RESUME] Reuse 38 completed stages from f0b2de4139a6df808d574ca99b635015ad0b92c2; execute every remaining stage and production guard.
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (0.8888ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (2.7993ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.397ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (3.967ms)
+✔ codex authoring template can retain the cache token from unchanged public HTML only (2.0419ms)
+✔ codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources (4.0516ms)
+✔ full gate resumes a proven prefix and retains failed, remaining and final release guards (0.891ms)
+✔ registered preview checkers rerun their owning stage and reject runtime or unregistered consumers (1.235ms)
+✔ an upload failure reuses only a complete successful gate and rechecks changed deployment contracts (0.8141ms)
+✔ only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts (1.5706ms)
+✔ main cache version alignment accepts only the tested shell version and rechecks affected HTML tests (1.5039ms)
+✔ isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity (0.6413ms)
+✔ lobby authoring repair retains passes only with unchanged live output and a full build check (0.6979ms)
+✔ multiple immutable continuation logs keep contiguous passes and reject a changed log or gap (0.7411ms)
+✔ a continuation validates successful earlier reruns before its contiguous failed-stage suffix (0.7095ms)
+✔ a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard (0.9134ms)
+✔ a completed continuation checks its actual candidate at the final source guard (0.4202ms)
+✔ continued gate accepts an isolated raid correction only after successful current browser proof (1.0042ms)
+✔ concurrent authoring art must be new, hash-bound, image-only and unused by runtime (1.7428ms)
+✔ unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed (0.8259ms)
+✔ changed tests in a completed stage rerun that stage without invalidating unrelated passes (0.1288ms)
+✔ preview QA repairs must be existing executable tests in the unchanged full gate (0.5481ms)
+✔ a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers (0.7441ms)
+✔ concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt (0.8233ms)
+✔ a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits (1.5246ms)
+✔ concurrent unreferenced JSON production receipts are documentation, never runtime configuration (1.1471ms)
+✔ runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results (0.606ms)
+✔ tampered, incomplete or noncontiguous logs fail closed (0.3278ms)
+✔ explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks (0.5437ms)
+✔ uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain (0.8325ms)
+✔ legacy .mjs test entries are reusable only when directly registered in the unchanged gate (0.2351ms)
+✔ an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence (1.0189ms)
+✔ limited-pack view proof is runner-specific and never permits shared policy, session or server changes (2.0828ms)
+✔ offline skill preview proof binds source and bundle and reruns contracts that inspect it (1.7646ms)
+✔ registered nested npm tests belong to their parent and cannot be omitted from a completed gate (0.5662ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (3.0539ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.7826ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.4194ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.5742ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1991ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.5228ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (3.6738ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (1.7056ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 124.794
+✔ one additional message grants Moo날두 only; original 50, wallets, held player and replay are preserved (1420.195ms)
+✔ identity changes, unsafe wallet, duplicate delivery and failures at each write leave no partial message (1084.9857ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2628.8332
+✔ winners receive only 20 trillion and participants only one trillion as messages; dry-run, identity exclusions and replay preserve wallets (1428.8968ms)
+✔ changed identity, unsupported balance, duplicate messages and every late write failure roll back the whole batch (1109.6867ms)
+✔ actual claim credits one and 20 trillion exactly once, rolls back failed ledger, and lost send response never duplicates messages (1183.8149ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3884.507
+
+> test:equipment-forge-public
+> node --test tests/equipment-forge-advanced-20261012.test.mjs tests/equipment-enhancement-glow-20260923.test.mjs tests/equipment-forge-recovery-20260923.test.mjs tests/equipment-enhanced-inventory-20260923.test.mjs tests/equipment-forge-readiness-20260922.test.mjs tests/equipment-forge-release-20260922.test.mjs tests/pingdu-repair-coupon.test.mjs tests/equipment-forge-inventory-v1.test.mjs tests/equipment-forge-cms-v1.test.mjs tests/equipment-forge-public-v2084.test.mjs preview/equipment-forge-v1/qa.test.mjs preview/equipment-forge-v1/release/qa.test.mjs && node preview/equipment-forge-v1/release/check.mjs
+
+✔ all 15 review stages have exactly three outcomes totaling 100%, with success >= 10% (3.6268ms)
+✔ rejects success under 10%, invalid totals, nonfinite values and excess precision (0.5078ms)
+✔ exact cumulative boundaries: success, then maintain, then destruction (0.3746ms)
+✔ probability editor validates every row before changing any row (0.7428ms)
+✔ protection is gameplay-only; no box or draw source can award it (0.218ms)
+✔ protection preserves the success rate and folds destruction into maintenance (0.2116ms)
+✔ success raises precisely one stage and consumes review materials once (1.8462ms)
+✔ maintenance preserves equipment and level, consumes materials, and does not create a destruction record (0.3149ms)
+✔ destruction removes usability and snapshots the exact item and pre-attempt level (0.4836ms)
+✔ protected destruction consumes one seal and creates no lost-item record (0.4107ms)
+✔ selected seal is not spent on a successful or maintained attempt in this explicitly provisional policy (0.431ms)
+✔ no seal, insufficient coins, insufficient materials, missing equipment and max level reject without mutation (1.0277ms)
+✔ restoration restores the identical instance and level, consumes one coupon and does not refund materials (0.5889ms)
+✔ one destruction record cannot be restored twice even with a new request and another coupon (0.3045ms)
+✔ missing record and missing coupon both reject restoration without any change (0.3744ms)
+✔ repeated requests return the same isolated receipt without duplicate costs or restores (0.5353ms)
+✔ preview modules have no account persistence or account mutation paths (4.9697ms)
+✔ authored success sequence reaches its blast at the shared impact and visits every frame in order (0.6643ms)
+✔ V2 authored assets match their recorded originals and actual atlas dimensions (35.3928ms)
+✔ all equipment source images exist and preserved source audio hashes match provenance (9.6332ms)
+✔ final approved presentation preserves its original hash after released brand labels and cannot activate production (57.172ms)
+✔ brand compatibility preserves the original approval and rejects any other presentation edit (4.2142ms)
+✔ release rates enforce exactly three outcomes, integer basis points, the 10% floor and 100% total (0.7275ms)
+✔ UI approval cannot silently approve economics or enable an incomplete launch (2.0756ms)
+✔ box, draw and shop acquisition cannot pass the protection release check (5.0528ms)
+✔ commands carry individual identity and server quote versions, never client probabilities or prices (0.9187ms)
+✔ server outcomes select the five approved effects without a client lottery (1.0817ms)
+✔ foreign, incomplete, inconsistent and unsafe receipts never start an effect (0.9054ms)
+✔ double clicks share one in-flight request and isolate caller mutations (0.8787ms)
+✔ lost responses retain the same key, block new rolls and recover by receipt lookup (1.1682ms)
+✔ malformed and cross-account recovery does not erase an unresolved operation (0.4635ms)
+✔ PostgreSQL inventory pages keep duplicates separate, isolate owners and preserve loadouts and balances (4147.9871ms)
+✔ SQLite: entire inventory sorts by enhanced power, not recent 40, and every cursor page is exact (235.5484ms)
+✔ SQLite: every enhanced copy is separate even at the same level, preserving equipped IDs and exact counts (16.3265ms)
+✔ PostgreSQL: entire inventory sorts by enhanced power, not recent 40, and every cursor page is exact (7087.8768ms)
+✔ PostgreSQL: every enhanced copy is separate even at the same level, preserving equipped IDs and exact counts (3458.1459ms)
+✔ exactly +8/+9/+10 decorate equipped and owned equipment, without altering power or quantities (40.5733ms)
+✔ other levels, missing enhancement, invalid values and battle suits never glow (3.5152ms)
+✔ title, vehicle and skill-chip tabs never render equipment glow (2.7656ms)
+✔ equip/unequip uses existing instance API and updates only the matching slot glow (8.8127ms)
+✔ glow stays equipment-scoped, click-through, distinct and reduced-motion safe (0.6164ms)
+✔ production and shared preview invalidate the changed equipment resources (8.5398ms)
+✔ advanced draft stays empty, validates every field and maps weapon vs armor slots (43.0473ms)
+✔ SQLite: CMS partial save locks only new steps, preserves legacy policy and CAS/audit rollback (100.7092ms)
+✔ SQLite: authenticated advanced route, blank +11 lock and unchanged +9→+10 cost (78.1525ms)
+✔ SQLite: +10→+15 charges weapon scrolls once, enforces cap and connects current PVE/PVP power (80.7433ms)
+✔ SQLite: correct armor type, missing scrolls fail before roll, atomic failure keeps inventory and original outcome (23.5633ms)
+✔ SQLite: protection/destruction consume scrolls, +14 destruction restores the exact level without another scroll (42.8023ms)
+✔ SQLite: inventory uses configured high-level power for ordering and pagination; double-star rule stays intact (21.7198ms)
+✔ SQLite: CMS manual scroll grant is replayable and catalog never overwrites an operator edit (30.0214ms)
+✔ PostgreSQL: CMS partial save locks only new steps, preserves legacy policy and CAS/audit rollback (6279.7705ms)
+✔ PostgreSQL: authenticated advanced route, blank +11 lock and unchanged +9→+10 cost (3397.4411ms)
+✔ PostgreSQL: +10→+15 charges weapon scrolls once, enforces cap and connects current PVE/PVP power (3239.1956ms)
+✔ PostgreSQL: correct armor type, missing scrolls fail before roll, atomic failure keeps inventory and original outcome (2270.8419ms)
+✔ PostgreSQL: protection/destruction consume scrolls, +14 destruction restores the exact level without another scroll (1831.45ms)
+✔ PostgreSQL: inventory uses configured high-level power for ordering and pagination; double-star rule stays intact (1753.728ms)
+✔ PostgreSQL: CMS manual scroll grant is replayable and catalog never overwrites an operator edit (1551.7278ms)
+✔ PostgreSQL cap migration: dry run, preserving existing +10, 15 allowed / 16 rejected, replayable catalog registration (1594.924ms)
+✔ percentage editing is exact to 1 ppm and never silently rounds unsupported precision (1.9415ms)
+✔ readiness does not invent policy numbers or consider completion an approval (3.0198ms)
+✔ malformed rows, shared star/protection item, invalid totals and unsupported modes fail with controlled policy errors (3.1801ms)
+✔ SQLite: OWNER CMS loads catalog/readiness without creating records or charging (89.4678ms)
+✔ SQLite: every step/material/protection/drop/restoration setting round-trips atomically with CAS (33.9218ms)
+✔ SQLite: unregistered/inactive materials are rejected before saving or quoting protected attempts (19.5146ms)
+✔ SQLite: restoration quote cannot extend the configured recovery deadline (21.5516ms)
+✔ PostgreSQL: OWNER CMS loads catalog/readiness without creating records or charging (5981.0796ms)
+✔ PostgreSQL: every step/material/protection/drop/restoration setting round-trips atomically with CAS (3242.6562ms)
+✔ PostgreSQL: unregistered/inactive materials are rejected before saving or quoting protected attempts (3240.0772ms)
+✔ PostgreSQL: restoration quote cannot extend the configured recovery deadline (2382.6503ms)
+✔ SQLite: protection catalog is registered beyond the old fast gate, idempotently and without grants or policy changes (54.6545ms)
+✔ SQLite: failed catalog registration cannot leave a completion marker and operator metadata is preserved (15.3332ms)
+✔ SQLite: actual inventory route returns owned protection artwork and quantity but no direct-use action (61.6314ms)
+✔ PostgreSQL: protection catalog is registered beyond the old fast gate, idempotently and without grants or policy changes (6196.7138ms)
+✔ PostgreSQL: failed catalog registration cannot leave a completion marker and operator metadata is preserved (3466.0742ms)
+✔ PostgreSQL: actual inventory route returns owned protection artwork and quantity but no direct-use action (2928.212ms)
+✔ live scrolling host and generator keep the same accessible region without modifying approved artwork (6.1048ms)
+✔ public disclosure defaults ON, approved power is available, execution OFF and other policies unset (4451.6483ms)
+✔ approved power is identical in status and CMS while save preserves the execution lock (2986.6128ms)
+✔ read-only account inventory separates duplicates and includes every armor slot without hidden or foreign items (3120.2892ms)
+✔ authentication and OWNER checks precede private queries or settings writes (2496.4898ms)
+✔ all execution endpoints reject OFF and forged client flags without spending or changing equipment (2017.7258ms)
+✔ CMS cannot enable without an approved release document and a manual DB ON fails closed (1667.0115ms)
+✔ settings persist atomically, stale revisions conflict and visibility OFF hides account inventory (1512.3321ms)
+✔ input limits and corrupted settings fail closed (1467.1888ms)
+✔ live host imports approved presentation only, has a real inventory entry and no simulator (8.5829ms)
+✔ captured production r4 remains OFF and null is not silently approved as zero (3.9415ms)
+✔ CMS protection source rates are exact (including scrapyard 0.9998%) and clear-only (1.1378ms)
+✔ SQLite: released +1..+8 protection unavailable without charges (46.9439ms)
+✔ SQLite: +7..+10 unprotected boundaries and exact large costs on every normal slot (635.4842ms)
+✔ SQLite: released 0% destruction at +1..+6 charges configured costs (857.1945ms)
+✔ SQLite: protected +9/+10 consumes 1/3 on SUCCESS, MAINTAIN and PROTECTED once (393.5296ms)
+✔ SQLite: destruction and coupon + 1000억 restore preserve +8, no expiry, replay and rollback (561.8969ms)
+✔ SQLite: real CMS insufficient funds / stars / protection and policy OFF fail closed (169.6845ms)
+✔ SQLite: +9/+10 power is identical in batch and single-user reads, SUIT excluded (55.4835ms)
+✔ PostgreSQL: released +1..+8 protection unavailable without charges (5437.4755ms)
+✔ PostgreSQL: +7..+10 unprotected boundaries and exact large costs on every normal slot (6840.6534ms)
+✔ PostgreSQL: released 0% destruction at +1..+6 charges configured costs (2294.3153ms)
+✔ PostgreSQL: protected +9/+10 consumes 1/3 on SUCCESS, MAINTAIN and PROTECTED once (2189.573ms)
+✔ PostgreSQL: destruction and coupon + 1000억 restore preserve +8, no expiry, replay and rollback (1707.0438ms)
+✔ PostgreSQL: real CMS insufficient funds / stars / protection and policy OFF fail closed (1509.5301ms)
+✔ PostgreSQL: +9/+10 power is identical in batch and single-user reads, SUIT excluded (1396.4106ms)
+✔ quote selection bursts coalesce, cache briefly, and never run two requests concurrently (38.6683ms)
+✔ lock retries are capped with backoff and preserve the exact request body (36.2091ms)
+✔ ambiguous enhancement response is not automatically resubmitted, but quote retry reuses its ID (0.6621ms)
+✔ transport timeout, body timeout, and cancellation settle instead of locking indefinitely (55.409ms)
+✔ corrupt pending records fail visibly without deleting a potentially committed request (0.5238ms)
+✔ SQLite: quoting bypasses busy account lock; enhancement still requires it (40.8737ms)
+✔ SQLite: 12 concurrent retries persist one exact quote and cannot cross account boundaries (49.8049ms)
+✔ SQLite: read-only receipt recovery after lost response never charges again (26.7127ms)
+✔ PostgreSQL: quoting bypasses busy account lock; enhancement still requires it (5625.371ms)
+✔ PostgreSQL: 12 concurrent retries persist one exact quote and cannot cross account boundaries (3328.2154ms)
+✔ PostgreSQL: read-only receipt recovery after lost response never charges again (3295.4267ms)
+✔ live host includes visible recovery, bounded transport, and no quote/receipt account lock (2.9348ms)
+✔ real app: failed quote offers enabled retry, and retry never executes enhancement (75.3304ms)
+✔ real app: shortage keeps the quote visible, blocks submission, and refresh unlocks without disabling protection (45.2964ms)
+✔ real app: completed pending request auto-recovers using receipt GET only (25.5431ms)
+✔ real app: completed history clears the exact pending request without depending on another receipt response (29.3337ms)
+✔ real app: main recovery button resumes a missing request with its original IDs only after an explicit click (36.5376ms)
+✔ real app: request mismatch in history preserves pending state and a failed receipt retry never submits (25.475ms)
+✔ real app: kind mismatch in history preserves pending state and a failed receipt retry never submits (31.8955ms)
+✔ real app: status mismatch in history preserves pending state and a failed receipt retry never submits (14.0055ms)
+✔ real app: expired unstarted request releases the lock after explicit continuation and obtains a new quote only (30.9829ms)
+✔ real app: missing receipt waits for explicit same-request continuation (30.1033ms)
+✔ real app: ambiguous POST response leaves a visible recovery action, not an automatic second charge (31.0102ms)
+✔ real app: repeated inventory refreshes do not overlap account-state queries (18.3763ms)
+✔ explicit equipment release is enabled, global V3 stays held, and rollback still performs no DB work (8.9967ms)
+✔ actual live hooks use equipment-only readiness, not a global tower/re-ascent release (86.3534ms)
+✔ unrelated rewards incur no forge lookup, but protected-item grants still fail closed (1.3217ms)
+✔ SQLite: release requires an explicit immutable complete snapshot and valid hash (43.0902ms)
+✔ SQLite: isolated final gate + approved document + OWNER switch run actual routes without V3 activation (257.7251ms)
+✔ SQLite: live tower freezes one first-clear protection roll; grant/progression roll back together (159.2242ms)
+✔ PostgreSQL: release requires an explicit immutable complete snapshot and valid hash (5826.7425ms)
+✔ PostgreSQL: isolated final gate + approved document + OWNER switch run actual routes without V3 activation (3561.7712ms)
+✔ PostgreSQL: live tower freezes one first-clear protection roll; grant/progression roll back together (2813.3054ms)
+✔ offline release SQL checks the exact CMS snapshot, stays OFF and is repeat-safe in PostgreSQL (2351.7854ms)
+✔ SQLite: repair registration survives old gates without grants, policy changes or replacing operator metadata (144.7146ms)
+✔ SQLite: catalog and marker roll back together and existing metadata is never overwritten (17.5956ms)
+✔ SQLite: actual inventory API exposes only own quantities and refuses direct coupon consumption (145.4425ms)
+✔ SQLite: a coupon restores +8 exactly once with zero coin cost and unlimited record age (57.4181ms)
+✔ SQLite: missing coupons, foreign records and disabled restore do not charge or create equipment (119.5011ms)
+✔ SQLite: restoration insertion failure rolls back coupon debit, logs and recovery record (50.4487ms)
+✔ SQLite: two independent quotes cannot consume two coupons for the same destruction (61.1094ms)
+✔ PostgreSQL: repair registration survives old gates without grants, policy changes or replacing operator metadata (5667.5551ms)
+✔ PostgreSQL: catalog and marker roll back together and existing metadata is never overwritten (3428.8927ms)
+✔ PostgreSQL: actual inventory API exposes only own quantities and refuses direct coupon consumption (2828.2869ms)
+✔ PostgreSQL: a coupon restores +8 exactly once with zero coin cost and unlimited record age (2237.7998ms)
+✔ PostgreSQL: missing coupons, foreign records and disabled restore do not charge or create equipment (1702.9049ms)
+✔ PostgreSQL: restoration insertion failure rolls back coupon debit, logs and recovery record (1848.2225ms)
+✔ PostgreSQL: two independent quotes cannot consume two coupons for the same destruction (1663.8343ms)
+✔ live host and generator share the new coupon asset while retaining disabled restore (2.2594ms)
+✔ approved one-time production SQL preserves OFF, all other costs and stock; reruns never reset edits (1556.9986ms)
+✔ production SQL rejects concurrent policy changes and rolls catalog/policy back when audit fails (1486.8166ms)
+ℹ tests 152
+ℹ suites 0
+ℹ pass 152
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24853.1947
+{
+  "preparationReady": true,
+  "visualApproved": true,
+  "verifiedFiles": 22,
+  "errors": [],
+  "launchReady": false,
+  "mutationRuntimeImplemented": true,
+  "liveEnabled": false,
+  "pending": [
+    "단계별 성공/유지/파괴 확률",
+    "강화 대상 장비·등급·배틀슈트 포함 여부",
+    "강화 재료·수량·결과별 차감 규칙",
+    "보호권 소모 시점·수량",
+    "게임 내 보호권 획득처·희귀 획득률",
+    "복구 대상 기간·등급·재파괴 처리",
+    "복구 강화 단계",
+    "복구 쿠폰 소모량·지급 정책",
+    "복구 시 강화 재료 반환 여부",
+    "운영 정책 확정·버전 기록",
+    "실제 운영 활성화 지시",
+    "구현·검수: individualInventory",
+    "구현·검수: serverQuotesAndRandomness",
+    "구현·검수: atomicEnhancementAndDestruction",
+    "구현·검수: atomicRestoration",
+    "구현·검수: loadoutAndBattlePower",
+    "구현·검수: authenticatedRoutes",
+    "구현·검수: approvedUiMounted",
+    "구현·검수: cmsAndGameplayAcquisition",
+    "구현·검수: databaseConcurrencyTests",
+    "구현·검수: mobileAndAccountQa",
+    "구현·검수: productionReleaseGate"
+  ]
+}
+
+> test:mercenary-cms
+> node --test tests/mercenary-cms-live-v1.test.mjs
+
+✔ canonical registration contains every mercenary, independent skill and original/SD reference (15.6294ms)
+✔ unprivileged routes and methods never touch the CMS database (1297.1373ms)
+✔ PostgreSQL registers once, persists complete configuration and never changes wallet or formation (969.3758ms)
+✔ stale changes conflict, same-request retries replay and different content cannot reuse a receipt (1065.1487ms)
+✔ audit failure rolls back configuration, and retry completes once (1049.8317ms)
+✔ concurrent saves against the same revision produce one winner and one audit (1092.298ms)
+✔ unknown fields, ranks, missing entries, automatic skill owners and runtime flags are rejected (1003.5732ms)
+✔ API and CMS navigation are connected without gameplay imports (6.9439ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6788.4794
+
+> test:cryvern
+> node --test preview/mercenary-ice-crystal-dual-sword-v1/qa.test.mjs tests/mercenary-cryvern-preparation.test.mjs tests/mercenary-cryvern-candidate.test.mjs tests/mercenary-cryvern-release.test.mjs
+
+✔ all seven sequences seek deterministically and never alter gameplay (10.2499ms)
+✔ interrupt, target loss and earliest cancellation clear transient effects (1.2626ms)
+✔ every collision cue selects authored contact poses and effect peaks (0.3553ms)
+✔ approved source and SD are preserved, separate and explicitly approved for release (9.1153ms)
+✔ 134 distinct generated frames preserve original alpha, sources and atlas borders (985.4429ms)
+✔ every implemented mode has its own well-formed preview select option (2.2989ms)
+✔ recorded audio matches license, original assets and sync points (7.4267ms)
+✔ audio decode delay and 0.25/0.5/1/2x retain sub-20ms contact alignment (1.2846ms)
+✔ stale sound never restarts after cancellation during loading (0.8818ms)
+✔ actual Pixi transforms align each blade, follow every pose and clean up without touching shared textures (66.7441ms)
+✔ future canonical roster, front position and 16-frame skill registration pass existing adapters (19.9878ms)
+✔ offline public codex accepts exactly the untitled Cryvern and valid immutable asset paths (14.9661ms)
+✔ historical pre-Cryvern draft appends released skills without losing existing review edits (2.0314ms)
+✔ SQLite activation: rare weighted SSS, idempotent receipt, ownership and separate mercenary slot (30.1761ms)
+✔ PostgreSQL activation: rare weighted SSS, idempotent receipt, ownership and separate mercenary slot (1734.0897ms)
+✔ catalog and grade pool exactly follow the explicit release gate; name has no title (9.4203ms)
+✔ local release candidate appends only one card/skill, retains CMS edits and is idempotent (27.624ms)
+✔ PVP/PVE use one same-action cast, one cost/cooldown and a bounded two-stage budget (7.5739ms)
+✔ dodge cancels its crown, dead marked target redistributes only its fixed share, KO follows all contacts (1.953ms)
+✔ PVP suppression reduces every contact cap and raw damage; boss control immunity is not bypassed (1.9717ms)
+✔ server contact plans suppress unearned effects; visual frames cannot produce extra damage (0.9706ms)
+✔ zero configured skill damage and complete suppression never become a full basic attack (0.7554ms)
+﹣ held card cannot be deployed through the account API (0.1431ms) # SKIP
+✔ canonical PVE and both PVP sides retain exactly five ordinary cards plus one mercenary across real power scales (84.241ms)
+✔ approved Cryvern uses a new code; Heukwol and every previous character survive (2.1853ms)
+✔ exactly 10 of 10010 SSS tickets select Cryvern, while the others stay 9:1 (776.1757ms)
+✔ deployment-to-CMS-save gap uses 0.1%, never default weight 1; saved settings remain authoritative (0.669ms)
+✔ SS-to-SSS fusion shares the same rare within-rank selection without changing promotion odds (0.4377ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 2247.7152
+
+> test:mercenary-draw
+> node --test tests/mercenary-draw-cms-v1.test.mjs tests/mercenary-draw-weighted-v1.test.mjs
+
+✔ proposal has four reward kinds, six grades, exact 100% and no enabled opening (2.8612ms)
+✔ malformed outcomes, fractional quantities, invalid totals, rank tampering and all ON flags are rejected (1.0979ms)
+✔ unprivileged and malformed requests never access DB; direct and batch opening remain OFF (1753.5117ms)
+✔ postgres: persists policy, audits before/after and preserves catalog, wallet and pack quantity (1147.7736ms)
+✔ postgres: optimistic concurrency, idempotent retry and payload conflict (1389.7224ms)
+✔ postgres: audit failure rolls back the edited policy; retry stores once (1227.5497ms)
+✔ sqlite: persists policy, audits before/after and preserves catalog, wallet and pack quantity (3.6827ms)
+✔ sqlite: optimistic concurrency, idempotent retry and payload conflict (3.7065ms)
+✔ sqlite: audit failure rolls back the edited policy; retry stores once (3.0659ms)
+✔ two simultaneous PostgreSQL changes have one winner (1066.6323ms)
+✔ CMS assets are connected and user gameplay has no draw implementation (6.2217ms)
+✔ legacy CMS edits keep equal default weights; per-card weights are allowed without ownership bias or rerolls (0.6381ms)
+✔ every same-rank card gets exactly one slot, including owned copies and cards with other acquisition rates (4.6704ms)
+✔ grade and resource interval boundaries retain exact saved rates; empty grades never reroll or turn into a loss (3.081ms)
+✔ server random sampling rejects modulo bias and invalid bounds (0.4466ms)
+✔ postgres: repeated wins count extra copies, preserve other cards, and request replay cannot add a duplicate (1066.7219ms)
+✔ postgres: receipt failure and zero-row receipts roll back the whole transaction including pack consumption (1030.9028ms)
+✔ sqlite: repeated wins count extra copies, preserve other cards, and request replay cannot add a duplicate (3.4565ms)
+✔ sqlite: receipt failure and zero-row receipts roll back the whole transaction including pack consumption (1.7339ms)
+✔ PostgreSQL simultaneous wins and identical retries have exact duplicate counts (1008.7924ms)
+✔ SSS has one of a million grade tickets, then nine Omega tickets and one Ragniel ticket (3.6766ms)
+✔ legacy uniform policies preserve outcomes; equal or missing weights retain equal card chances (0.5475ms)
+✔ weights do not use ownership or legacy per-card acquisition rates; malformed weights fail closed (0.7091ms)
+✔ SQLite: CMS saves and audits weights, rejects unknown codes, protects revisions and replays exactly once (48.1883ms)
+✔ SQLite: weighted ten-pack grants 9:1, duplicate counts and payment once; later weights cannot reroll receipts (18.6806ms)
+✔ SQLite: a failed weighted grant leaves coins and ownership unchanged and recovers its stored result after policy change (12.7244ms)
+✔ PostgreSQL: CMS saves and audits weights, rejects unknown codes, protects revisions and replays exactly once (1924.5363ms)
+✔ PostgreSQL: weighted ten-pack grants 9:1, duplicate counts and payment once; later weights cannot reroll receipts (1517.9648ms)
+✔ PostgreSQL: a failed weighted grant leaves coins and ownership unchanged and recovers its stored result after policy change (1503.2685ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10018.8251
+
+> test:limited-pack
+> node --test tests/mercenary-limited-pack-20261006.test.mjs tests/mercenary-limited-catalog-20261002.test.mjs tests/mercenary-limited-daily-20261008.test.mjs
+
+✖ read-only codex preserves the nine original limited cards alongside Zero, Shiranui, Leonel, Jinmu and craft-only Kairon (22.7904ms)
+✔ limited grants remain blocked independent of saved weight and never enter general catalog (2.2915ms)
+✔ SSS Valter exposes preserved approved SD, V17 motion and effects without runtime activation (243.984ms)
+✔ older six-card CMS policy loads with zero for later artwork cards without changing saved rates or writing on GET (2177.5949ms)
+✔ limited CMS saves separately with audited atomic rollback, stale protection and safe retry (1435.2854ms)
+✔ concurrent limited policy edits have one winner and one audit (1409.0137ms)
+✔ daily cap is 3000 and resets exactly at KST midnight (2.1312ms)
+✔ 2990 + ten succeeds; next opening rejects with no charge, replay counts once, users are independent (2298.3995ms)
+✔ partial ten batch never pays or rolls; last singles remain available for OWNER and USER (1677.4492ms)
+✔ concurrent requests at the boundary commit at most the remaining quantity (1601.0684ms)
+✔ failed grants roll back daily count, payment and rewards; lost commit ACK and retries count once (1624.6171ms)
+✔ new day gets fresh cap; an unpaid pending request counts on its payment day, not its preparation day (1559.3528ms)
+✔ ordinary cards, materials and misses consume the same cap (1522.9494ms)
+✔ config shows only the authenticated account usage and still serves public policy while OFF (1043.9115ms)
+✔ automatic opening stops at the cap without leaving a pending recovery or extra POST (1.3459ms)
+✔ draft keeps actual opening OFF, unset economics and bounded exact input (2.7369ms)
+✔ OWNER CMS atomic revision, caps, retry and audit failure rollback (2207.0267ms)
+✔ limited 10 draw commits exact CMS price, serials, duplicate counts; replay does not redraw (1526.3619ms)
+✔ failed grant/debit rolls back all stock, card and serial changes; retry and lost ACK grant once (1562.4791ms)
+✔ concurrent callers racing for a final quota never oversell, no charge on losers (2172.6501ms)
+ℹ {"mode":"PGlite serialized transactions / 64 concurrent service calls","winners":7,"elapsedMs":636,"queries":666,"batches":7}
+✔ batch with insufficient stock is all-or-nothing; stale price and exhausted rank stop (1509.9043ms)
+✔ material rewards aggregate, zero-weight and sold-out members never enter the same-rank pool (1394.2544ms)
+✔ auto 1000 uses only one request at a time and awaits graphical presentation per receipt (3011.3073ms)
+✔ stop during presentation, lost response, account switch and unavailable storage never start extra purchases (15.1051ms)
+✔ unknown response preserves exact request for recovery and blocks any new auto run (14.9166ms)
+✔ shop/renderer integration keeps limited drawing separate and shipped renderer is versioned (4.042ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 25
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13690.393
+
+✖ failing tests:
+
+test at tests\mercenary-limited-catalog-20261002.test.mjs:13:1
+✖ read-only codex preserves the nine original limited cards alongside Zero, Shiranui, Leonel, Jinmu and craft-only Kairon (22.7904ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'V-975',
+      'V-976',
+      'V-978',
+  +   'V-979',
+      'V-987',
+      'V-988',
+      'V-989',
+      'V-990',
+      'V-991',
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/mercenary-limited-catalog-20261002.test.mjs:15:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [
+      'V-975', 'V-976', 'V-978',
+      'V-979', 'V-987', 'V-988',
+      'V-989', 'V-990', 'V-991',
+      'V-992', 'V-993', 'V-994',
+      'V-996', 'V-997', 'V-998',
+      'V-999'
+    ],
+    expected: [
+      'V-976', 'V-978',
+      'V-987', 'V-988',
+      'V-989', 'V-990',
+      'V-991', 'V-992',
+      'V-993', 'V-994',
+      'V-996', 'V-997',
+      'V-998', 'V-999'
+    ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

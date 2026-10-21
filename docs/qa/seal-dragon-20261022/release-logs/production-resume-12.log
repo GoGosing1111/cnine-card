@@ -1,0 +1,1162 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+[FULL RELEASE RESUME] Reuse 43 completed stages from f0b2de4139a6df808d574ca99b635015ad0b92c2; execute every remaining stage and production guard.
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (1.2319ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (3.031ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.4489ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (4.0326ms)
+✔ codex authoring template can retain the cache token from unchanged public HTML only (2.3131ms)
+✔ codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources (3.8301ms)
+✔ full gate resumes a proven prefix and retains failed, remaining and final release guards (0.5476ms)
+✔ registered preview checkers rerun their owning stage and reject runtime or unregistered consumers (0.7834ms)
+✔ an upload failure reuses only a complete successful gate and rechecks changed deployment contracts (0.7621ms)
+✔ only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts (1.9981ms)
+✔ main cache version alignment accepts only the tested shell version and rechecks affected HTML tests (1.4136ms)
+✔ isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity (0.6382ms)
+✔ lobby authoring repair retains passes only with unchanged live output and a full build check (0.8712ms)
+✔ multiple immutable continuation logs keep contiguous passes and reject a changed log or gap (0.8863ms)
+✔ a continuation validates successful earlier reruns before its contiguous failed-stage suffix (0.7871ms)
+✔ a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard (0.8887ms)
+✔ a completed continuation checks its actual candidate at the final source guard (0.4991ms)
+✔ continued gate accepts an isolated raid correction only after successful current browser proof (1.4172ms)
+✔ concurrent authoring art must be new, hash-bound, image-only and unused by runtime (1.5925ms)
+✔ unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed (0.6858ms)
+✔ changed tests in a completed stage rerun that stage without invalidating unrelated passes (0.1231ms)
+✔ preview QA repairs must be existing executable tests in the unchanged full gate (0.524ms)
+✔ a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers (1.1086ms)
+✔ concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt (0.8964ms)
+✔ a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits (1.9442ms)
+✔ concurrent unreferenced JSON production receipts are documentation, never runtime configuration (1.3987ms)
+✔ runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results (0.9056ms)
+✔ tampered, incomplete or noncontiguous logs fail closed (0.3673ms)
+✔ explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks (0.5733ms)
+✔ uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain (1.0161ms)
+✔ legacy .mjs test entries are reusable only when directly registered in the unchanged gate (0.3144ms)
+✔ an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence (1.0904ms)
+✔ limited-pack view proof is runner-specific and never permits shared policy, session or server changes (2.167ms)
+✔ offline skill preview proof binds source and bundle and reruns contracts that inspect it (2.093ms)
+✔ registered nested npm tests belong to their parent and cannot be omitted from a completed gate (0.5994ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.7088ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.5228ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.376ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.4852ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.156ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.6149ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (4.1898ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (3.0216ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 141.2181
+✔ one additional message grants Moo날두 only; original 50, wallets, held player and replay are preserved (1663.7554ms)
+✔ identity changes, unsafe wallet, duplicate delivery and failures at each write leave no partial message (1184.5514ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2988.2967
+✔ winners receive only 20 trillion and participants only one trillion as messages; dry-run, identity exclusions and replay preserve wallets (1565.7279ms)
+✔ changed identity, unsupported balance, duplicate messages and every late write failure roll back the whole batch (1243.3033ms)
+✔ actual claim credits one and 20 trillion exactly once, rolls back failed ledger, and lost send response never duplicates messages (1306.2012ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4306.9005
+
+> test:raid-entry
+> node --test tests/raid-entry-fallback-v1927.test.mjs tests/raid-v3-mobile-recovery-v1930.test.mjs tests/pve-auxiliary-navigation-v2023.test.mjs tests/raid-mystic-clear-bonus-v2067.test.mjs tests/raid-weekly-bosses-v2140.test.mjs tests/raid-weekly-cms-v2141.test.mjs
+
+PVE auxiliary navigation host v2023: OK
+✔ tests\pve-auxiliary-navigation-v2023.test.mjs (75.0866ms)
+✔ production index loads the TEST-gated Core resources after the live PVE adapter (0.9422ms)
+▶ PVE override raid click always loads legacy once and Core can never block it
+  ✔ Core missing (5.6093ms)
+[CORE RAID] entry isolation Error: simulated disconnected Core failure
+    at Object.openActive (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/raid-entry-fallback-v1927.test.mjs:84:52)
+    at switchPveMode (app.js#raid-entry:11:306)
+    at pveCommandV2Switch (pve-command-v2-live.js:373:20)
+    at b.onclick (app.js#bind-raid-button:1:84)
+    at Object.click (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/raid-entry-fallback-v1927.test.mjs:73:36)
+    at runRaidEntry (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/raid-entry-fallback-v1927.test.mjs:149:14)
+    at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/raid-entry-fallback-v1927.test.mjs:177:28)
+    at Test.runInAsyncScope (node:async_hooks:227:14)
+    at Test.run (node:internal/test_runner/test:1325:25)
+    at Test.start (node:internal/test_runner/test:1191:17)
+  ✔ Core false (1.6745ms)
+  ✔ Core reject (2.1637ms)
+  ✔ Core true (1.5448ms)
+✔ PVE override raid click always loads legacy once and Core can never block it (12.2125ms)
+✔ legacy raid adds three energy without replacing any existing reward or rare roll (17.758ms)
+✔ failed clears never grant the energy bonus and do not remove participation rewards (0.5662ms)
+✔ saved legacy CMS settings get only the new default; custom rewards remain intact (1.5942ms)
+✔ CMS quantities survive roundtrip, support zero, and are clamped to whole items (2.4141ms)
+✔ new room snapshots freeze the configured bonus while old snapshots are not backfilled (9.2229ms)
+✔ retrying or rereading a completed reward keeps the single confirmed plan unchanged (5.1862ms)
+✔ 1,000억 reward plans remain fixed across retries and preserve previously confirmed 100억 receipts (3.7376ms)
+✔ energy grants use the existing material code, inventory counters and raid audit log (3.252ms)
+✔ failed reward transaction rolls back the extra inventory and its audit log together (3.4378ms)
+✔ CMS renders and reads default, edited and disabled bonus without losing zero (1.6567ms)
+✔ result display and current CMS resources keep the mystic bonus exclusive to legacy raid (2.5094ms)
+✔ mobile renderer failure opens a framed original-card recovery view and returns to raid status (16.465ms)
+✔ raid start has a finite deadline, invalidates late work, hard-resets WebGL and never falls back to alert (0.4015ms)
+✔ raid entry immediately renders a mobile loader and late deck config cannot steal the active tab (0.4208ms)
+✔ 사용자가 지정한 나가토·요리이치·이치고 3종만 KST 7일을 반복한다 (1.3171ms)
+✔ 신규 보스 SD는 투명 RGBA와 경량 768 WebP를 함께 제공하고 나가토 V2만 연결한다 (13.4469ms)
+✔ 보스별 궁극기는 개별 12프레임 Pixi atlas이고 런타임은 Sprite 시퀀스와 GSAP을 사용한다 (3.6853ms)
+✔ 쫄몹은 서버 타임라인에서 보스 피해를 차단하고 궁극기는 서버 공격 틱으로 확정된다 (1.8383ms)
+✔ 보스별 보상 스냅샷은 분리되고 코인 항목은 1,000억까지 허용한다 (15.5146ms)
+✔ 요일 로스터 조회와 라이브 패치는 N+1 재조회·전체 리렌더를 피한다 (8.9372ms)
+✔ SQLite: 기존 7종 마커가 있어도 3종으로 교정하고 저장된 HP·진행 방·반복 실행을 보존한다 (5.0781ms)
+✔ SQLite: CMS 저장·재조회가 요일·궁극기·쫄몹·1,000억 보상에 반영되고 이전 방은 고정된다 (8.3223ms)
+✔ SQLite: 감사 실패는 설정도 롤백하고 비OWNER·초과 코인·외부 보스는 차단한다 (2.8968ms)
+✔ PostgreSQL: 기존 7종 마커가 있어도 3종으로 교정하고 저장된 HP·진행 방·반복 실행을 보존한다 (1467.8464ms)
+✔ PostgreSQL: CMS 저장·재조회가 요일·궁극기·쫄몹·1,000억 보상에 반영되고 이전 방은 고정된다 (1050.1663ms)
+✔ PostgreSQL: 감사 실패는 설정도 롤백하고 비OWNER·초과 코인·외부 보스는 차단한다 (1154.3003ms)
+✔ 7일 표시에서 같은 보스가 반복돼도 TODAY는 당일 한 곳만 표시한다 (16.2752ms)
+✔ 보스 방어 CMS 수치는 실제 HP 감소와 기여 피해 양쪽에 동일하게 적용된다 (1.0939ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4143.3117
+
+> test:core-raid
+> node --test tests/core-raid-weekly-reset-20260925.test.mjs tests/core-raid-rewards-20260925.test.mjs tests/core-raid-abandon-20260922.test.mjs tests/core-protocol-raid-v1924.test.mjs tests/core-raid-fixed-power-v2070.test.mjs tests/core-raid-mechanics-v2085.test.mjs tests/core-raid-random-two-v2086.test.mjs tests/core-raid-weekly-return-v2112.test.mjs
+
+✔ room expedition defaults stay TEST-only and reward-locked (2.3512ms)
+✔ triple-core resonance accepts the lowest core but rejects overdriving an advanced core (1.5707ms)
+✔ every repeated attempt gets a deterministic but attempt-specific QTE (1.1817ms)
+✔ server replays direction and mash traces instead of trusting success booleans (0.8301ms)
+✔ a successful attempt advances one core or the boss; a failure damages shared party HP (0.8544ms)
+✔ room state requires all three cores before boss and respects time/party wipe (2.1155ms)
+✔ V3 payload uses apocalypse tuning, ultimate, both QTEs and failure party damage (2.4606ms)
+✔ core payload preserves live V3 source art and keeps battle sprites separate (0.7707ms)
+✔ server implements ticketed rooms, repeat attempts and terminal reward receipts (1.7132ms)
+✔ SQLite route flow consumes one host ticket, repeats attempts, damages party HP and clears after all cores (141.0752ms)
+✔ Core UI is a room expedition overlay and delegates the actual fight to live V3 (5.7236ms)
+✔ preview exercises room browse, repeated battle resume and the live art adapter chain (32.673ms)
+✔ legacy world raid remains direct while Core ships as a hidden TEST tab (23.4148ms)
+✔ sqlite: refresh without pagehide finalizes defeat; no replay or duplicated damage (66.126ms)
+✔ sqlite: killed browser expiry is settled by another member polling; heartbeat cannot revive it (34.3002ms)
+✔ sqlite: normal completed result survives pagehide and refresh; interrupted terminal room cannot grant damage (32.3755ms)
+✔ sqlite: ownership and page identity checks prevent foreign completion; committed attempts are idempotent after lost responses (13.8471ms)
+✔ postgres: refresh without pagehide finalizes defeat; no replay or duplicated damage (3374.783ms)
+✔ postgres: killed browser expiry is settled by another member polling; heartbeat cannot revive it (2368.1063ms)
+✔ postgres: normal completed result survives pagehide and refresh; interrupted terminal room cannot grant damage (1893.0361ms)
+✔ postgres: ownership and page identity checks prevent foreign completion; committed attempts are idempotent after lost responses (1809.9984ms)
+✔ every incomplete form and a foreign-page valid trace independently cause defeat with saved failure cost (36.2429ms)
+✔ existing foundation marker does not skip additive lifecycle schema or reset CMS (10.7057ms)
+✔ simultaneous pagehide, malformed resolve and refresh apply one failure only (12.4065ms)
+✔ clan-only rooms enforce current season membership and preserve ticket/public-room behavior (85.7602ms)
+✔ fixed power is deliberately unconfigured by default; legacy percentages cannot configure it (3.1104ms)
+✔ all three cores and final boss keep their fixed engine stats regardless of player power or suit (7.7756ms)
+✔ real server engine: the same fixed enemy defeats a weak deck and loses to a strong deck (177.7124ms)
+✔ QTE success cannot turn a server combat defeat into a V3 victory or core-break animation (0.7363ms)
+✔ CMS roundtrips absolute values; malformed, stale and unauthorized saves never change them (11.6748ms)
+✔ unconfigured power blocks tickets, room starts and fresh attempts before any combat mutation (11.1133ms)
+✔ resumes retain saved settings, deck and verdict; the next battle uses fresh CMS and current deck (23.5288ms)
+✔ legacy compatibility is confined to an already persisted pending attempt (12.6435ms)
+✔ final boss resume and successful damage settlement use the original power, QTE and damage scale (19.5331ms)
+✔ raid UI shows both absolute values and blocks only new fights when power is unconfigured (27.8132ms)
+✔ clan checkbox survives polling renders and sends the selected boolean (3.701ms)
+✔ CMS renders numeric absolute fields and sends them without percent conversion (3.2891ms)
+✔ CMS coin field accepts 100/300 eok and blocks invalid amounts before requests (3.2236ms)
+✔ new runtime and nested CMS cache tags are reachable from their actual entry points (4.0147ms)
+✔ incomplete inputs fail once and valid late replay cannot reverse defeat (21.7107ms)
+✔ old pending challenges may finish normally but cannot replay after leaving (22.4045ms)
+✔ timing meter is symmetric and reaches both ends at each round speed (2.4672ms)
+✔ timing grade includes both visible boundaries and rejects out-of-range values (0.2909ms)
+✔ two successful timing stops are required; missing grades are not successes (0.3282ms)
+✔ circuit layouts preserve three unique matching targets without straight-through solutions (1.7106ms)
+✔ wrong or duplicate circuit connections cannot complete all circuits (0.2481ms)
+✔ touch drop tolerance accepts the port edge but rejects outside releases (0.1727ms)
+✔ each shelter wave has three distinct safe cells and changes the previous pattern (0.4488ms)
+✔ shelter requires all three waves; partial progress and one hit fail (0.2308ms)
+✔ review page stays isolated while approved mechanics share the live runtime (35.1387ms)
+✔ server random attempts cover all 20 ordered pairs, exactly two distinct mechanics per attempt (4.8897ms)
+✔ all ordered pairs are server verified; only selected mechanics affect outcome and scoring (13.7361ms)
+✔ forged screen success, pointer positions, safe flags and connections are ignored (1.2144ms)
+✔ legacy pending challenge keeps its original pair and valid input can still resolve (0.4563ms)
+✔ malformed stored pair cannot emit a single or duplicate mechanic (0.2702ms)
+✔ reported defeat is reproducible as overload despite combat and QTE success; real combat loss remains authoritative (0.9408ms)
+✔ V3 ordinary and timed playback abort incomplete QTEs without playing the loss branch (100.7416ms)
+✔ V3 failure branch runs only after two completed mechanics and ignores a successful partial pair (14.7773ms)
+✔ no economic default; positive minimum and nonempty weighted outcomes are mandatory before ON (3.442ms)
+✔ sqlite: CMS OWNER-only validation, CAS, audit and idempotent retry (120.1155ms)
+✔ sqlite: three sealed slots never leak, refresh/CMS changes preserve offers, base and minimum pay once (25.8721ms)
+✔ sqlite: all seven rewards grant, ledger balances include base, mercenary duplicates retained (26.584ms)
+✔ sqlite: failed bonus rolls base/weekly back; selection and dropped commit response recover once (30.9573ms)
+✔ sqlite: zero equipment inserts roll back; unavailable reward converts to minimum (17.2566ms)
+✔ sqlite: no member/clear/weekly eligibility bypass; disabled additional rewards preserve legacy claim (15.6291ms)
+✔ sqlite: simultaneous rooms compete for final weekly slot without bonus leakage (24.6769ms)
+✔ postgres: CMS OWNER-only validation, CAS, audit and idempotent retry (3501.0208ms)
+✔ postgres: three sealed slots never leak, refresh/CMS changes preserve offers, base and minimum pay once (2360.5592ms)
+✔ postgres: all seven rewards grant, ledger balances include base, mercenary duplicates retained (1995.5784ms)
+✔ postgres: failed bonus rolls base/weekly back; selection and dropped commit response recover once (1965.3182ms)
+✔ postgres: zero equipment inserts roll back; unavailable reward converts to minimum (1616.197ms)
+✔ postgres: no member/clear/weekly eligibility bypass; disabled additional rewards preserve legacy claim (1593.8847ms)
+✔ postgres: simultaneous rooms compete for final weekly slot without bonus leakage (1630.1268ms)
+✔ live loaders include reward UI/CMS and current cache versions without replacing V3 battle UI (3.6812ms)
+✔ sqlite: reset permits exactly three fresh base/choice/pig rewards and never repays old rooms (160.9242ms)
+✔ postgres: reset permits exactly three fresh base/choice/pig rewards and never repays old rooms (6444.5606ms)
+✔ PostgreSQL operational reset is audited, rollback-safe, preserves settings and refuses a different week (3514.2068ms)
+✔ approved player and CMS flows use the same isolated renderer with refreshed caches (6.8627ms)
+✔ core coin cap is 300 eok without changing default rewards or other limits (3.6458ms)
+✔ weekly rewards reset Monday at midnight in Korea, including year boundary (2.8334ms)
+✔ sqlite: Core TEST, failed rooms and historical completed receipts cannot grant XP (80.3917ms)
+✔ sqlite: CMS persists 100/300 eok and rejects invalid coins without overwriting settings (8.1885ms)
+✔ sqlite: 10000000000 coins settle exactly, retain weekly 3 and replay stored rewards (19.2832ms)
+✔ sqlite: 30000000000 coins settle exactly, retain weekly 3 and replay stored rewards (23.7335ms)
+✔ sqlite: 300 eok rollback and uncertain commit never lose or duplicate coins (22.7376ms)
+✔ sqlite: real core claim atomically grants 30 pig coins, recovers failure and stops at weekly 90 (17.1934ms)
+✔ sqlite: acknowledged failure stays in the lobby across polls and sessions, only for that member (12.1187ms)
+✔ sqlite: three payments per account, no entry cap, replay at cap never pays again (24.7577ms)
+✔ sqlite: existing paid receipts count; stable week survives later updates; next week starts fresh (8.3534ms)
+✔ sqlite: rollback never spends a weekly slot and retry pays once; lost commit reply is recovered (12.2097ms)
+✔ sqlite: simultaneous claims compete for the last slot; stale pending recovers (14.0789ms)
+✔ postgres: Core TEST, failed rooms and historical completed receipts cannot grant XP (3286.0447ms)
+✔ postgres: CMS persists 100/300 eok and rejects invalid coins without overwriting settings (2183.8106ms)
+✔ postgres: 10000000000 coins settle exactly, retain weekly 3 and replay stored rewards (1911.4211ms)
+✔ postgres: 30000000000 coins settle exactly, retain weekly 3 and replay stored rewards (1874.4347ms)
+✔ postgres: 300 eok rollback and uncertain commit never lose or duplicate coins (1707.9178ms)
+✔ postgres: real core claim atomically grants 30 pig coins, recovers failure and stops at weekly 90 (1657.6147ms)
+✔ postgres: acknowledged failure stays in the lobby across polls and sessions, only for that member (1483.2509ms)
+✔ postgres: three payments per account, no entry cap, replay at cap never pays again (1452.6224ms)
+✔ postgres: existing paid receipts count; stable week survives later updates; next week starts fresh (1109.3537ms)
+✔ postgres: rollback never spends a weekly slot and retry pays once; lost commit reply is recovered (1217.4261ms)
+✔ postgres: simultaneous claims compete for the last slot; stale pending recovers (1156.4402ms)
+ℹ tests 102
+ℹ suites 0
+ℹ pass 102
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19765.2105
+
+> test:lich-raid
+> node --test tests/lich-king-raid-v1.test.mjs tests/lich-raid-live-20260928.test.mjs tests/lich-raid-coop-20261002.test.mjs tests/lich-raid-client-version-20261002.test.mjs
+
+✔ fixed enemy power, five real catalog cards and distinct source art/SD stay review-only (3.4925ms)
+✔ perfect execution can clear every mandatory phase; resources and HP carry between rounds (21.6684ms)
+✔ correct mechanics with an underpowered deck fail the damage check (3.4985ms)
+✔ plague requires readable matching target and timing, not a success boolean (1.1265ms)
+✔ uninterrupted soul annihilation wipes the raid; decoys consume a scarce charge (0.3431ms)
+✔ prison protects the party and releases the plague at the server breath deadline (2.8291ms)
+✔ premature prison destruction causes actual party damage and two doom stacks (2.2393ms)
+✔ roles, stale windows, duplicate request IDs and terminal state cannot bypass rules (0.6697ms)
+✔ deadline advances without input or client clocks and rejects backwards time (0.9812ms)
+✔ local HTTP authority isolates sessions, enforces roles and blocks cross-origin writes (169.9739ms)
+✔ stale browser cannot spend a ticket or ready a new encounter; existing v1 lobby remains usable (64.0561ms)
+✔ 3, 4, 5 and 6 participants can clear all seven cooperative rounds with healing (9334.2582ms)
+✔ two wardens solve separate input sequences; duplicate and delayed step inputs never advance or penalize the next step (4.0067ms)
+✔ both wardens must link; late linking resets personal slots with fresh tokens (2.648ms)
+✔ legacy encounter prison waits for manual chains; early break still harms existing fights (9.7028ms)
+✔ seals gate chains, chains gate plague and souls, and the assigned interrupt rotates (4.1314ms)
+✔ each attack uses only the sender deck and has independent cooldown and burst charges (7.0994ms)
+✔ mandatory survival pressure prevents no-heal clear; weak decks fail the damage window (1112.4048ms)
+✔ AFK extra warden/assault/rescue cannot be carried through the assigned obligation (109.3352ms)
+✔ active reassignment does not remove work; departed work is inherited without extending deadlines (2.1616ms)
+✔ live concurrent personal inputs, replay and failed transaction preserve exactly one step and one ticket (2044.2006ms)
+✔ OFF / TEST / ON enforce real account access; only OWNER edits/searches testers (53.1268ms)
+✔ ticket deduction, membership, room and receipt roll back together; retry is exactly once (12.541ms)
+✔ leader assigns roles; everyone must ready; kick is immediate and bans same-room reentry (27.4045ms)
+✔ simultaneous joins cannot exceed six or occupy two rooms; no participant ticket charge (26.9057ms)
+✔ ready resets on role reassignment; removed TEST access blocks start and actions (17.3018ms)
+✔ expired lobbies release active reservations; cancellation never refunds or silently reopens (7.4086ms)
+✔ mutation origin, input scope and unauthenticated requests are rejected (1.727ms)
+✔ Postgres compatibility: real schema, ticket atomicity, role changes and audit persist (1861.0749ms)
+✔ live entry and CMS use real routes; local fixture transport cannot enter production (24.8464ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12937.0584
+
+> test:madara-raid
+> node --test tests/madara-raid-preparation-20261011.test.mjs tests/madara-raid-lobby-20261011.test.mjs tests/madara-raid-decisions-20261011.test.mjs tests/madara-raid-live-20261011.test.mjs
+
+✔ every role can act independently at phase entry; another role cannot submit its private task (7.7575ms)
+✔ six-player private options never serialize expected answers or another actor’s private tasks (4.1663ms)
+✔ rushing the exposure window fails once; retries and old held inputs cannot advance a replacement pattern (284.7128ms)
+✔ rescue requires choosing the unprotected urgent victim and an explicit timed intercept (243.7084ms)
+✔ missed response renews only that trial; recovery and reconnect never extend the phase deadline (1.279ms)
+✔ two-to-three-second player decisions plus 200ms delivery fit the draft windows for 3 and 6 players (2163.9555ms)
+✔ CMS defaults TEST, excludes normal and ADMIN users, saves ON/OFF and rejects stale settings (50.6427ms)
+✔ PostgreSQL: existing migrated indexes do not require table ownership to load or save CMS (1900.1269ms)
+✔ SQLite: ticket, room, membership and receipt are atomic, retry charges once (11.2547ms)
+✔ PostgreSQL: ticket, room, membership and receipt are atomic, retry charges once (1306.0206ms)
+✔ TEST free entry, real account names/decks, recovery, host transfer and pre-start kick (16.9559ms)
+✔ all roles must ready; saved formation is refreshed and participant cannot act for someone else (21.2028ms)
+✔ concurrent joins never overbook six slots; a user cannot reserve two parties (18.9159ms)
+✔ expired lobby frees reservations, settings snapshot controls timing, and foreign or forged input is rejected (5.4826ms)
+✔ SQLite: clear rewards rollback together, TEST never grants, weekly limit counts one multi-item clear (6.3095ms)
+✔ PostgreSQL: clear rewards rollback together, TEST never grants, weekly limit counts one multi-item clear (1443.2956ms)
+✔ SQLite: final strike commits the room, clear receipt and party rewards once after a failed transaction (43.0681ms)
+✔ PostgreSQL: final strike commits the room, clear receipt and party rewards once after a failed transaction (1477.9372ms)
+✔ duplicate and concurrent room creates charge the creator exactly once; refresh and free joins retain identity (135.0244ms)
+✔ invalid creation rolls back; depleted tickets cannot create; closed receipts cannot debit again (200.0473ms)
+✔ only the host kicks before launch; kicked identity loses access and cannot rejoin after bootstrap; host migration is free (201.483ms)
+✔ full and started parties reject new participants without charges; active kick is blocked; authoritative dialogue is exported (341.5077ms)
+✔ packed motion and five distinct effects retain real alpha and source hashes (49.8449ms)
+✔ 3-player parties complete all four mechanics and final overlap with their own V3 decks (651.941ms)
+✔ 4-player parties complete all four mechanics and final overlap with their own V3 decks (1074.7219ms)
+✔ 5-player parties complete all four mechanics and final overlap with their own V3 decks (1248.4866ms)
+✔ 6-player parties complete all four mechanics and final overlap with their own V3 decks (1895.2639ms)
+✔ party launch requires all roles and every member ready; late joins are rejected (1.406ms)
+✔ private clues belong to their owner; only completed seals are shared (1.3872ms)
+✔ ownership, stale input and idempotent retries cannot create a second mistake or consume the next step (1.1155ms)
+✔ server expiry wins over a client-supplied clock, HP or success flag (0.919ms)
+✔ fire preserves the marked barrier, blocks premature breaking without penalty, and resolves the second wave on server time (78.3609ms)
+✔ an unfinished second-wave barrier is a clear, deterministic failure (32.1574ms)
+✔ clone reflection mistakes require reading a fresh pattern without advancing the task (9.7076ms)
+✔ final gaze changes owner with advance warning and reflects only the marked actor after activation (269.6465ms)
+✔ weak decks fail damage checks and one participant cannot spend another participant’s attack budget (76.0172ms)
+✔ refresh snapshots are JSON-persistable and preserve deadlines, role clues, damage and input receipts (351.386ms)
+✔ shared healing and revive spend once; a rejected burst leaves its personal charges unchanged (6.6727ms)
+✔ local review remains reward-locked while the authorized live entry uses its separate account adapter (16.0496ms)
+✔ local HTTP denies foreign origins, host rebinding, unauthenticated state and filesystem escape; live APIs do not exist (128.8257ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6608.352
+
+> test:black-miracle
+> node --test tests/black-miracle-v1926.test.mjs tests/black-miracle-manual-selection.test.mjs tests/black-miracle-manual-pool-ops.test.mjs
+
+✔ operator snapshot freezes the existing approved items and their exact rates (2.2263ms)
+✔ PostgreSQL exchanges exactly one leggings instance, preserves loadout and audit, and never repeats (1542.5029ms)
+✔ zero-row equipment update rolls back the settings, equipment and receipt together (1197.211ms)
+✔ changed target identity blocks the entire operation (1114.1362ms)
+✔ new mythic items never enter any mode or influence selected item rates (2.8288ms)
+✔ actual opening enforces explicit selection in power and legacy modes, for equipment and vehicles (14.9068ms)
+✔ CMS preserves an explicit check even when its rate is automatic, and cache entry points reach the change (3.3154ms)
+✔ power-derived item rates stay within 0.01%-0.1% and stronger rewards are rarer (1.4365ms)
+✔ explicitly selected power pools are stable, public-only, power-sorted and overrideable (2.0627ms)
+✔ release switch lets the CMS setting control opening while preserving reward compatibility (0.9614ms)
+✔ 0.01 means 0.01 percentage points, exact boundary misses, and every rare miss has a filler (0.7263ms)
+✔ server removes SQL randomness and guards source/open grants with PENDING receipts (6.7101ms)
+✔ zero-row equipment and vehicle grants leave the pack untouched and never complete the receipt (5.7203ms)
+✔ five-card reveal is single-use, accessible, responsive and reduced-motion safe (2.9253ms)
+✔ live app delegates to the module and deployment cache keys include v1926 assets (4.9947ms)
+✔ OWNER CMS exposes automatic power-rate limits and detailed overrides (4.8289ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4043.341
+
+> test:seal
+> node tests/seal-v3-crystal-orb-v1778.mjs && node --test tests/seal-master-star-20260925.test.mjs tests/seal-reward-coin-cap-v2069.test.mjs tests/seal-rewards-recovery-20260922.test.mjs tests/seal-rank-retirement-20261021.test.mjs tests/seal-dragon-20261022.test.mjs
+
+seal V3 crystal orb contract: OK
+seal dragon transaction failed Error: table inventory_logs has no column named injected_missing_column
+    at Object.run (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:20:257)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:20:470)
+    at async DB.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:43:191) {
+  code: 'ERR_SQLITE_ERROR',
+  errcode: 1,
+  errstr: 'SQL logic error'
+}
+✔ postgres: hard difficulty operation is dry by default and cannot reset later CMS edits (4094.4777ms)
+✔ sqlite: last seal opens once, boss damage clips, combined attempts unlock one clear reward (128.0078ms)
+✔ sqlite: concurrent final seal and boss never charge or pay a losing stale request (48.0588ms)
+✔ sqlite: rollback and lost COMMIT reply keep charge, ledger and progress atomic (17.0697ms)
+✔ sqlite: config locks start, snapshots survive edits, expiration and END cannot clear a living dragon (29.02ms)
+✔ postgres: last seal opens once, boss damage clips, combined attempts unlock one clear reward (2041.3572ms)
+✔ postgres: concurrent final seal and boss never charge or pay a losing stale request (1734.5871ms)
+seal dragon transaction failed error: column "injected_missing_column" of relation "inventory_logs" does not exist
+    at pe.Ue (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:17959)
+    at pe.tt (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:15347)
+    at pe.parse (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:14021)
+    at N.qe (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/index.js:5:1762)
+    at file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/index.js:5:1155
+    at wasm://wasm/0267bb86:wasm-function[10930]:0x5a5ccf
+    at wasm://wasm/0267bb86:wasm-function[3585]:0x27eaeb
+    at wasm://wasm/0267bb86:wasm-function[3627]:0x2869d1
+    at wasm://wasm/0267bb86:wasm-function[3637]:0x286c2d
+    at wasm://wasm/0267bb86:wasm-function[9914]:0x54fd4d {
+  length: 150,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '28',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_target.c',
+  line: '1073',
+  routine: 'checkInsertTargets',
+  query: 'INSERT INTO inventory_logs(injected_missing_column) VALUES(1) RETURNING *',
+  params: [],
+  queryOptions: undefined
+}
+✔ postgres: rollback and lost COMMIT reply keep charge, ledger and progress atomic (1519.5534ms)
+✔ postgres: config locks start, snapshots survive edits, expiration and END cannot clear a living dragon (1288.7612ms)
+seal battle clear reward commit failed Error: table inventory_logs has no column named injected_missing_column
+    at Object.run (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:20:257)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:20:470)
+    at async DB.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:43:191)
+    at async claimClearReward (eval at sealModule (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:8:29), <anonymous>:1233:21)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/seal-master-star-20260925.test.mjs:36:55)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+  code: 'ERR_SQLITE_ERROR',
+  errcode: 1,
+  errstr: 'SQL logic error'
+}
+seal battle clear reward commit failed Error: LOST_COMMIT_REPLY
+    at DB.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:43:236)
+    at async claimClearReward (eval at sealModule (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:8:29), <anonymous>:1233:21)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/seal-master-star-20260925.test.mjs:39:32)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ sqlite: seal success grants 200,000 stars with coins once, requires minimum attempts, and preserves round snapshots (82.6746ms)
+✔ sqlite: item/log failure rolls back all rewards; retry and uncertain commit never duplicate stars (21.42ms)
+✔ postgres: seal success grants 200,000 stars with coins once, requires minimum attempts, and preserves round snapshots (4132.3794ms)
+seal battle clear reward commit failed error: column "injected_missing_column" of relation "inventory_logs" does not exist
+    at pe.Ue (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:17959)
+    at pe.tt (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:15347)
+    at pe.parse (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:14021)
+    at N.qe (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/index.js:5:1762)
+    at file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/index.js:5:1155
+    at wasm://wasm/0267bb86:wasm-function[10930]:0x5a5ccf
+    at wasm://wasm/0267bb86:wasm-function[3585]:0x27eaeb
+    at wasm://wasm/0267bb86:wasm-function[3627]:0x2869d1
+    at wasm://wasm/0267bb86:wasm-function[3637]:0x286c2d
+    at wasm://wasm/0267bb86:wasm-function[9914]:0x54fd4d {
+  length: 150,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '28',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_target.c',
+  line: '1073',
+  routine: 'checkInsertTargets',
+  query: 'INSERT INTO inventory_logs(injected_missing_column) VALUES(1) RETURNING *',
+  params: [],
+  queryOptions: undefined
+}
+seal battle clear reward commit failed Error: LOST_COMMIT_REPLY
+    at DB.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:43:236)
+    at async claimClearReward (eval at sealModule (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:8:29), <anonymous>:1233:21)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/seal-master-star-20260925.test.mjs:39:32)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ postgres: item/log failure rolls back all rewards; retry and uncertain commit never duplicate stars (1769.5131ms)
+✔ legacy initialization adds an independent star snapshot table and leaves past rounds and CMS untouched (1513.9077ms)
+✔ seal player/CMS star quantities and refreshed loaders remain connected (3.3481ms)
+✔ current round publication: only 49 plus CMS change, dry run and failure roll back, retry preserves later operator edits (1603.0806ms)
+✔ sqlite: retired rank awards reject old rounds, concurrent/retried claims and stale CMS with no balance/receipt writes (74.4225ms)
+✔ postgres: retired rank awards reject old rounds, concurrent/retried claims and stale CMS with no balance/receipt writes (4181.8899ms)
+✔ 참여·완료 코인은 기존 상한을 넘겨도 보존되고 폐지한 순위 보상은 읽지 않는다 (3.2669ms)
+✔ 25회 최소 보상: 0·24회 차단, 정확히 25·26회 지급, 공헌도가 높아도 우회 불가 (73.556ms)
+✔ 승패·역할 합산은 완료 전투만 집계하며 요청 재전송·실패는 최소 횟수를 늘리지 않는다 (19.1987ms)
+✔ 현재·지난 회차 보상 미리보기와 eventId 직접 청구가 회차별 최소 횟수를 동일하게 적용한다 (49.0906ms)
+✔ CMS 횟수 검증·권한·구형 저장 호환성과 회차 스냅샷을 보존한다 (11.2907ms)
+✔ 실패 회차는 완료 보상을 지급하지 않고 폐지한 순위 보상은 횟수와 무관하게 차단한다 (4.8945ms)
+✔ 구형 초기화 마커가 있어도 최소 횟수 컬럼을 추가하며 기존 회차·운영 설정은 덮어쓰지 않는다 (7.6848ms)
+✔ PostgreSQL 실제 어댑터: 독립 DDL 게이트, 24회 거부·25회 100억 지급·중복 방지 (4112.9553ms)
+✔ 봉인 체력 20억 상한 해제: CMS API 저장·재조회·회차 스냅샷·실제 진행과 클리어 (37.8623ms)
+✔ 코인은 음수·잘못된 수·정밀도 초과만 안전하게 정리하고 다른 보상 한도는 유지한다 (0.8807ms)
+✔ CMS API 저장·재조회와 새 회차 스냅샷에 큰 금액을 그대로 보존한다 (9.8193ms)
+✔ 큰 참여·완료 보상은 지갑·로그·영수증에 일치하고 순위 보상은 추가 지급하지 않는다 (15.8916ms)
+✔ 큰 완료 보상 지급 실패는 코인·로그를 롤백하고 다음 시도에서 한 번만 지급한다 (11.272ms)
+✔ CMS 참여·완료 코인 입력과 검증은 유지하고 순위 보상 편집은 제거한다 (4.8419ms)
+✔ 46회차 보상: 10회 경계·기존 순위·전액 지급·부분 실패 롤백·기지급 제외·재실행 (3960.2921ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11198.7427
+
+> test:message-rewards
+> node --test tests/pig-coin-message-reward.test.mjs tests/message-reward-client-parity-v1929.test.mjs tests/message-gift-rewards-v2044.test.mjs tests/verified-message-coin-v2050.test.mjs tests/clan-rank-gift-v2054.test.mjs
+
+✔ 175 inbox rewards use exact 50억 / 30억 / 10억 BIGINT amounts and replay once without crediting wallets (2470.1495ms)
+✔ wrong fingerprint and member changes reject before any message or audit write (1684.5238ms)
+✔ reward insert or audit failure rolls all messages and rewards back (1645.2326ms)
+✔ unreceipted campaign messages and overflow-prone storage fail closed (1550.0934ms)
+✔ 1500억 COIN: claim and concurrent retry credit the full amount exactly once (5.999ms)
+✔ 1500억 COIN: failed wallet write rolls back the claim and can retry (2.8625ms)
+✔ 대회 성황리 기념: 150만 MASTER_STAR claim and concurrent retries credit the full amount once (3.8878ms)
+✔ 대회 성황리 기념: two-message bulk claim recovers failed stars without paying 1500억 COIN twice (3.9769ms)
+✔ UNIQUE_ADVANCEMENT_PASS: supported inventory reward credits exactly once and never spends it (2.3809ms)
+✔ UNIQUE_ADVANCEMENT_PASS: failed write rolls back reward, receipt, and message then can retry (3.2808ms)
+✔ UNIQUE_ADVANCEMENT_PASS: concurrent retries only grant one reward (3.4728ms)
+✔ STARLIGHT_ARMOR_CORE: supported inventory reward credits exactly once and never spends it (2.4013ms)
+✔ STARLIGHT_ARMOR_CORE: failed write rolls back reward, receipt, and message then can retry (3.8804ms)
+✔ STARLIGHT_ARMOR_CORE: concurrent retries only grant one reward (2.5962ms)
+✔ WORM_CONTEST_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.9837ms)
+✔ WORM_CONTEST_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (1.9875ms)
+✔ WORM_CONTEST_GIFT_BOX: concurrent retries only grant one reward (2.1068ms)
+✔ MERCENARY_SSS_CARD_SHARD: supported inventory reward credits exactly once and never spends it (1.6174ms)
+✔ MERCENARY_SSS_CARD_SHARD: failed write rolls back reward, receipt, and message then can retry (1.6275ms)
+✔ MERCENARY_SSS_CARD_SHARD: concurrent retries only grant one reward (2.2491ms)
+✔ EMPEROR_ENERGY: supported inventory reward credits exactly once and never spends it (1.8495ms)
+✔ EMPEROR_ENERGY: failed write rolls back reward, receipt, and message then can retry (3.1611ms)
+✔ EMPEROR_ENERGY: concurrent retries only grant one reward (2.3675ms)
+✔ TOURNAMENT_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.5946ms)
+✔ TOURNAMENT_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (2.5629ms)
+✔ TOURNAMENT_GIFT_BOX: concurrent retries only grant one reward (2.3392ms)
+✔ FUNDING_GIFT_BOX: supported inventory reward credits exactly once and never spends it (2.8975ms)
+✔ FUNDING_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (2.93ms)
+✔ FUNDING_GIFT_BOX: concurrent retries only grant one reward (2.1118ms)
+✔ RECRUITMENT_GIFT_BOX: supported inventory reward credits exactly once and never spends it (2.5635ms)
+✔ RECRUITMENT_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (1.6796ms)
+✔ RECRUITMENT_GIFT_BOX: concurrent retries only grant one reward (2.0923ms)
+✔ PINGDU_THANKS_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.6296ms)
+✔ PINGDU_THANKS_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (2.3323ms)
+✔ PINGDU_THANKS_GIFT_BOX: concurrent retries only grant one reward (2.0088ms)
+✔ separate gift messages both enter serialized bulk claim with correct labels and cache refresh (20.3438ms)
+✔ batch retains atomic receipts, isolates another account and resumes failed items (3.6075ms)
+✔ 오리꿍 사은품: 5000억 coin, 500만 stars and 5 emperor energy resume a failed energy claim without duplicates (3.3356ms)
+✔ gift rewards are allowed by verified sending route and use a fresh paired client cache (0.9082ms)
+✔ every server-supported message reward renders a client claim control (14.8676ms)
+✔ message center offers a serialized one-click bulk reward claim (4.2232ms)
+✔ mobile reward presentation keeps the generated claim control full width (1.7746ms)
+✔ message presentation cache version matches the inbox cleanup release (1.4735ms)
+✔ SQLite: real message claim credits only Pig Coin and an owned receipt exactly once (7.4827ms)
+✔ SQLite: ledger, wallet or message failures roll back fully and permit retry (4.0505ms)
+✔ SQLite: concurrent duplicate and different message claims keep exact wallet deltas (5.0758ms)
+✔ SQLite: mixed bulk rewards support Pig Coin and keep ordinary coin accounting (3.9149ms)
+✔ SQLite: uncertain commit can be retried and wallet overflow never consumes message (2.9302ms)
+✔ PostgreSQL: real message claim credits only Pig Coin and an owned receipt exactly once (2561.5611ms)
+✔ PostgreSQL: ledger, wallet or message failures roll back fully and permit retry (1611.0942ms)
+✔ PostgreSQL: concurrent duplicate and different message claims keep exact wallet deltas (1568.3637ms)
+✔ PostgreSQL: mixed bulk rewards support Pig Coin and keep ordinary coin accounting (1533.3451ms)
+✔ PostgreSQL: uncertain commit can be retried and wallet overflow never consumes message (1417.2044ms)
+✔ Pig Coin appears in claim-all and invalidates the real loot-shop balances (23.4142ms)
+✔ server reward metadata keeps the real inbox claim controls visible without a local reward type (5.5838ms)
+✔ 5 billion preview is read-only; bulk sending reaches only verified active recipients, including explicitly selected operators (2370.5268ms)
+✔ same campaign retry keeps the original recipients and rejects changed amount or message without another grant (1642.6167ms)
+✔ 5 billion PostgreSQL message claim increases a 9 billion balance to 14 billion exactly once (1567.1399ms)
+✔ failed reward insert rolls back all messages, then the same request can safely retry (1465.1374ms)
+✔ invalid values and unauthorized callers cannot send; operator defaults and coin alias remain compatible (1442.5146ms)
+✔ preview and send cover more than the CMS user-list page limit (1188.165ms)
+✔ CMS and API expose the same 50-eok coin limit with a fresh admin script cache (3.6366ms)
+✔ repair coupon messages reach every active verified role exactly once without directly changing inventory (1110.5302ms)
+✔ PostgreSQL repair coupon claim increments stock and unseen count once, preserving coins and other items (1083.5869ms)
+✔ repair coupon message failure is atomic and the identical campaign can resume without duplicates (1102.2263ms)
+✔ repair coupon claim failure rolls back inventory, receipt and message and permits a safe retry (1127.6022ms)
+✔ repair coupon has matching CMS selection, client claim presentation and fresh script queries; redeem-code coupons stay excluded (7.5922ms)
+ℹ tests 67
+ℹ suites 0
+ℹ pass 67
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14372.2043
+
+> test:workshop
+> node --test tests/workshop-coin-postgres.test.mjs tests/workshop-split-lineage-v1881.mjs tests/workshop-mystic-energy-v1931.test.mjs tests/equipment-bulk-synthesis-v1941.test.mjs tests/battle-suit-workshop-v2004.test.mjs tests/equipment-synthesis-material-v2008.test.mjs tests/workshop-vehicle-coin-cost-v2028.test.mjs tests/battle-suit-ebody-pity-v2059.test.mjs tests/workshop-assembly-preview-v1.test.mjs tests/workshop-assembly-live-v2073.test.mjs tests/workshop-extension-v1.test.mjs tests/workshop-equipment-craft-20260928.test.mjs
+
+BATTLE_SUIT_EBODY_PITY_V2059 {"status":"COMPLETED","version":2059,"equipmentCode":"BATTLE_SUIT_E_BODY","eligibleAccounts":2,"grantedQuantity":2}
+✔ E바디 실패가 10회를 넘은 모든 계정에 보유 여부와 무관하게 정확히 1개를 지급한다 (3451.3372ms)
+✔ E바디 후보가 없거나 둘 이상이면 지급·스냅샷·완료 마커를 모두 남기지 않는다 (4005.284ms)
+✔ 감사 로그 기록이 실패하면 대상 스냅샷과 장비 지급도 함께 롤백한다 (1544.7454ms)
+✔ 라이브 health는 제작소 기반을 먼저 보장하고 식별자 없는 천장 결과만 반환한다 (6.3901ms)
+✔ SUT 원본은 보존하고 슈트 코어 1·2·3을 투명 RGBA PNG로 등록한다 (16.0943ms)
+✔ 슈트 코어와 기존 차량 부품은 MATERIAL 카테고리로 안전하게 업서트된다 (1.3553ms)
+✔ 4번 설비는 배틀슈트 01을 코어 1·코인·마스터의 별로 10% 제작한다 (0.3266ms)
+✔ 배틀슈트 제작은 기존 원자 제작 영수증을 재사용하고 장비창에 지급한다 (4.4587ms)
+✔ S-BODY는 코인과 마스터의 별을 함께 차감하며 낡은 선택 요청을 거부한다 (1.5465ms)
+✔ 인벤토리와 프라임 CMS가 같은 코어 카탈로그를 사용하되 풀은 자동 활성화하지 않는다 (9.2361ms)
+✔ batch plan consumes every complete duplicate group and preserves the remainder (2.2044ms)
+✔ batch plan rejects unavailable and oversized requests (0.6225ms)
+✔ server performs independent rolls and one guarded atomic batch (0.5488ms)
+✔ client exposes single and all-duplicate synthesis with replay-safe attempt count (0.3917ms)
+✔ bulk result unlocks before the per-attempt verdict sequence starts (0.4222ms)
+✔ bulk synthesis UI is cache-busted and responsive (0.4738ms)
+✔ optional synthesis material plan scales with every independent attempt (2.5167ms)
+✔ server stores one optional material without requiring a schema-owner migration (0.3724ms)
+✔ server verifies and consumes equipment plus material in the guarded batch (0.2455ms)
+✔ player UI gates single and batch synthesis by both stock types (0.3695ms)
+✔ CMS exposes the requested Prime 3 plus Mystic Energy 5 template (0.2141ms)
+✔ live target mapping accepts all approved models, including failure with no output (2.5476ms)
+✔ live bridge awaits animation only after receipt clear, state/balance sync; no mutation in renderer (109.6675ms)
+Workshop film unavailable; showing saved receipt. Error: offline
+    at loadFilm (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/workshop-assembly-live-v2073.test.mjs:106:115)
+    at file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/js/workshop-assembly-live-v2073.src.js:132:28
+    at file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/js/workshop-assembly-live-v2073.src.js:146:9
+    at new Promise (<anonymous>)
+    at Object.play (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/js/workshop-assembly-live-v2073.src.js:25:12)
+    at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/workshop-assembly-live-v2073.test.mjs:107:28)
+    at Test.runInAsyncScope (node:async_hooks:227:14)
+    at Test.run (node:internal/test_runner/test:1325:25)
+    at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+    at Test.postRun (node:internal/test_runner/test:1465:19)
+✔ skip, failure, result persistence, close, and repeated attempts clean every film (12.5103ms)
+✔ lazy load failure, timeout and reduced motion show stored outcome without re-roll (91.1185ms)
+✔ route cancellation and closing during async init cannot reopen or resurrect the film (1.7538ms)
+✔ Solaris binds exact CMS art on success and failure, never a name-only lookalike (0.4176ms)
+✔ Maybach and Astra bind their own approved art for both receipts without changing CMS settings (1.5234ms)
+✔ S-BODY uses approved item art on success and failure, including renamed CMS entries (0.2086ms)
+✔ Z-BODY uses the current sword artwork for both saved outcomes while CMS launch controls remain separate (5.5125ms)
+✔ only an authoritative boolean outcome with a request identity is accepted (5.3786ms)
+✔ both films are distinct nine-phase sequences with deterministic failure/success (2.1098ms)
+✔ all H-BODY RGBA source pixels reassemble exactly once without artwork changes (757.7417ms)
+✔ car and actuator assets contain genuine transparency (303.6871ms)
+✔ one existing shared vendor, preview controls stay isolated, no mutations or synthetic sound (45.2118ms)
+✔ recorded Foley assets match source manifest hashes (28.6044ms)
+✔ real GSAP timelines seek, skip, restart and cancel without altering outcome or leaking timelines (182.706ms)
+✔ E/F/G and Ignis-X map to verified CMS identities with model-specific geometry (0.729ms)
+✔ all E/F/G/S visible RGBA pixels reconstruct once from cropped anatomical parts (1670.6257ms)
+✔ Ignis background cleanup changes alpha only and clears turbine support openings (89.5034ms)
+✔ Solaris authored cutout has real alpha and source catalogue remains untouched (56.9278ms)
+✔ new vehicle sprites preserve actual alpha and catalogue originals remain intact (214.3511ms)
+✔ unary parameters retain large integer, fractional and null values in PostgreSQL (3081.9637ms)
+✔ suit-core bulk synthesis uses CMS costs, per-attempt rolls and output quantity; replay never charges or rerolls (2495.3011ms)
+✔ suit-core counts and all three balances are checked; 100 failed attempts consume inputs without awarding cores (1769.9853ms)
+✔ suit-core bulk revalidates the total under lock and rolls back costs and output on a ledger failure (1589.2343ms)
+✔ overlapping suit-core bulk submissions keep one receipt and one debit (1492.6381ms)
+✔ material batch independently rolls each attempt, spends the total once and replays its receipt (1511.712ms)
+✔ all-failed material batches spend every attempt; 100 attempts use a fixed number of SQL statements (1456.3099ms)
+✔ CMS material recipe multiplies inventory inputs, combined stars and output quantity (1613.5369ms)
+✔ invalid counts, unsafe totals, non-material batch and insufficient funds reserve nothing (1409.3587ms)
+✔ material batch rechecks total inputs under the transaction lock and rolls back a late failure (1456.9751ms)
+✔ overlapping duplicate material submissions cannot debit twice (1364.346ms)
+✔ PostgreSQL VEHICLE craft spends 5000000000 exactly once (success=true) (1189.446ms)
+✔ PostgreSQL VEHICLE craft spends 5000000000 exactly once (success=false) (1250.8691ms)
+✔ PostgreSQL EQUIPMENT craft spends 10000000000 exactly once (success=true) (1120.1979ms)
+✔ S-BODY spends 100 billion coin and 1 million stars together, rejects stale choice, and replays once (1091.1929ms)
+✔ post-debit SQL failure rolls back large coin, stars, materials, output and logs (1085.7329ms)
+✔ CMS requires an explicit ceiling and fixed 10% / combined costs (1.7396ms)
+✔ SQLite: opt-in failure consumes exactly the selected +10 input, without output; receipt replay remains free after policy changes (32.1339ms)
+✔ SQLite: failed consume transaction restores +10 and all costs on ledger failure; same request keeps its failed roll (25.8595ms)
+✔ SQLite: concurrent failed consume requests cannot spend the same input twice; unreleased recipe is blocked (23.6953ms)
+✔ SQLite: historical policy without the new field still preserves Emperor input (24.1386ms)
+✔ SQLite: failed equipment survives; saved failures cross instances; N failures guarantee NEXT attempt; replay is free (27.3797ms)
+✔ SQLite: late failure rolls back all costs, input, output and pity; retry retains the original roll (17.8658ms)
+✔ SQLite: wrong equipment, ownership, +9, loadout, hidden recipe and missing resources spend nothing (20.2254ms)
+✔ SQLite: CMS saves policy and materials atomically; revisions and rename preserve account pity (20.3658ms)
+✔ PostgreSQL: opt-in failure consumes exactly the selected +10 input, without output; receipt replay remains free after policy changes (4171.6399ms)
+✔ PostgreSQL: failed consume transaction restores +10 and all costs on ledger failure; same request keeps its failed roll (2207.777ms)
+✔ PostgreSQL: concurrent failed consume requests cannot spend the same input twice; unreleased recipe is blocked (1813.0907ms)
+✔ PostgreSQL: historical policy without the new field still preserves Emperor input (1691.5959ms)
+✔ PostgreSQL: failed equipment survives; saved failures cross instances; N failures guarantee NEXT attempt; replay is free (1720.4057ms)
+✔ PostgreSQL: late failure rolls back all costs, input, output and pity; retry retains the original roll (1623.3212ms)
+✔ PostgreSQL: wrong equipment, ownership, +9, loadout, hidden recipe and missing resources spend nothing (1694.2868ms)
+✔ PostgreSQL: CMS saves policy and materials atomically; revisions and rename preserve account pity (1648.5905ms)
+✔ two simultaneous attempts serialize at pity boundary and cannot consume the same +10 input twice (24.7887ms)
+✔ a trigger suppressing output delivery rolls the successful transaction back (1570.2973ms)
+✔ HTTP route validates origin/body, calls the shared user lock and replays a committed result after response loss (72.9737ms)
+✔ extension categories preserve unspecified costs/rate instead of inventing defaults (3.7016ms)
+✔ shared UI resolves every payment mode and all material shortages without mutating state (26.0121ms)
+✔ SQLite core synthesis is atomic and replay-safe, success=true (42.8273ms)
+✔ SQLite core synthesis is atomic and replay-safe, success=false (25.4831ms)
+✔ PostgreSQL core synthesis is atomic and replay-safe, success=true (3917.0866ms)
+✔ PostgreSQL core synthesis is atomic and replay-safe, success=false (2326.5849ms)
+✔ Mystic Energy is a 10% material-craft recipe with the canonical item identity (1.755ms)
+✔ canonical Mystic Energy contract overrides stored and CMS-submitted structure (0.645ms)
+✔ workshop state and craft transaction expose and atomically spend card shards (1.0274ms)
+✔ material-craft runtime upgrade is DML-only and never performs schema DDL (0.3099ms)
+✔ recipe output joins never cast an inventory item code to PostgreSQL bigint (0.4125ms)
+✔ a non-owner PostgreSQL workshop request cannot prepare ALTER TABLE or call execSchema (244.5876ms)
+✔ CMS locks the canonical recipe and reports shard spend without schema DDL (0.5475ms)
+✔ client keeps all four existing facilities and preserves synthesis extensions and appends mercenary crafting (0.9995ms)
+✔ four-facility navigation and craft layouts collapse to one column on mobile (0.7506ms)
+workshop split, lineage modes, server revalidation and 320-430px responsive contracts verified
+✔ tests\workshop-split-lineage-v1881.mjs (136.4691ms)
+✔ 차량 제작 코인 비용은 기존 10억 상한을 넘겨 저장할 수 있다 (1.6806ms)
+✔ 모든 제작 분류는 10억 제한 없이 안전한 정수 범위로 저장한다 (0.2767ms)
+✔ CMS는 모든 제작 분류에서 코인 입력 max를 제거하고 캐시를 갱신한다 (3.0048ms)
+✔ VEHICLE: 신규·수정 저장과 결제에서 50억·100억이 유지된다 (3.4208ms)
+✔ EQUIPMENT_SYNTHESIS: 신규·수정 저장과 결제에서 50억·100억이 유지된다 (1.2644ms)
+✔ MATERIAL_CRAFT: 신규·수정 저장과 결제에서 50억·100억이 유지된다 (0.8027ms)
+✔ BATTLE_SUIT_CRAFT: 신규·수정 저장과 결제에서 50억·100억이 유지된다 (0.4937ms)
+✔ 제작 상한 해제는 서버 고정 미스틱 에너지 제작비·확률을 바꾸지 않는다 (0.6164ms)
+ℹ tests 102
+ℹ suites 0
+ℹ pass 102
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 25585.6509
+
+> test:clan
+> node --test tests/clan-war-reform-20261005.test.mjs tests/clan-member-kick.test.mjs tests/clan-draft-timeouts-20260915.test.mjs tests/clan-v3-v1820.mjs tests/clan-war-cms-v1943.test.mjs tests/clan-participation-positive-v2040.test.mjs tests/clan-inactivity-cleanup-v2049.test.mjs tests/clan-member-assignment-v2049.test.mjs tests/clan-member-assignment-cms.test.mjs tests/clan-ranking-v2054.test.mjs tests/clan-champions-v2071.test.mjs tests/clan-faction-v1.test.mjs tests/clan-faction-captains.test.mjs tests/clan-rematch-20260920.test.mjs tests/clan-faction-sessions-policy.test.mjs tests/clan-faction-sessions.test.mjs
+
+✔ championship CMS enables base honors, optional currencies unset; numeric/time validation and partial saves (3.7918ms)
+✔ KST next-day scheduling skips closed weekdays and never opens in the past (2.6453ms)
+✔ SQLite: CMS opening/editing cannot replace championship-frozen participation rules (34.315ms)
+✔ SQLite: actual regular settlement pays once then playoffs open; stale requests cannot cancel them (24.052ms)
+✔ SQLite: top 3 freeze → semifinal → final → exactly-once extra reward, normal standings unchanged (80.6813ms)
+✔ SQLite: back-to-back final opens immediately at booked time plus 0ms (27.5627ms)
+✔ SQLite: back-to-back final opens immediately at booked time plus 1000ms (18.3139ms)
+✔ SQLite: resolving semifinal holds the final, then opens within its booked hour (6.5738ms)
+✔ SQLite: pending battles delay advancement, late resolution reschedules a future final (34.388ms)
+✔ SQLite: reward rollback/retry, original roster retained, late CMS config only once (12.926ms)
+✔ SQLite: approved trophy and 14-day avatar are automatic, exactly once and atomic (11.3543ms)
+✔ SQLite: permanent/later avatar expiry is preserved; unavailable avatar prevents all awards (12.7952ms)
+✔ PostgreSQL adapter: CMS opening/editing cannot replace championship-frozen participation rules (8174.791ms)
+✔ PostgreSQL adapter: actual regular settlement pays once then playoffs open; stale requests cannot cancel them (4094.1127ms)
+✔ PostgreSQL adapter: top 3 freeze → semifinal → final → exactly-once extra reward, normal standings unchanged (3411.0314ms)
+✔ PostgreSQL adapter: back-to-back final opens immediately at booked time plus 0ms (2899.7107ms)
+✔ PostgreSQL adapter: back-to-back final opens immediately at booked time plus 1000ms (2268.1706ms)
+✔ PostgreSQL adapter: resolving semifinal holds the final, then opens within its booked hour (2013.1925ms)
+✔ PostgreSQL adapter: pending battles delay advancement, late resolution reschedules a future final (1686.5478ms)
+✔ PostgreSQL adapter: reward rollback/retry, original roster retained, late CMS config only once (1791.867ms)
+✔ PostgreSQL adapter: approved trophy and 14-day avatar are automatic, exactly once and atomic (2087.5426ms)
+✔ PostgreSQL adapter: permanent/later avatar expiry is preserved; unavailable avatar prevents all awards (1562.0306ms)
+✔ TEST mode never generates real messages, even after switching to ON (4.8248ms)
+✔ disabled: no unintended playoff or reward creation (4.338ms)
+✔ fewer teams: no unintended playoff or reward creation (5.5279ms)
+✔ historical: no unintended playoff or reward creation (4.3499ms)
+✔ live/CMS expose the bracket, reward editor and scoped cache versions; no replacement combat engine (4.022ms)
+✔ bracket renderer handles empty, active and historical results without raw HTML/name injection (3.1536ms)
+✔ FM-only active extension leaves balanced draft quotas intact and publishes 21 / 21 after drafting (3.9107ms)
+✔ SQLite: 30s pass never drafts; catch-up and replays preserve deadlines (23.3756ms)
+✔ PostgreSQL: 30s pass never drafts; catch-up and replays preserve deadlines (9191.6148ms)
+✔ manual picks reset the 30s clock, keep snake double-picks, and reject expired/stale turns (32.2304ms)
+✔ concurrent timeout and duplicate pick requests cannot consume a turn twice (22.3116ms)
+✔ full clans are passed without blocking; a sole remaining clan still has timed turns (9.4451ms)
+✔ registration close + one hour completes remaining rosters and generates wars once (26.6374ms)
+✔ SQLite: a full 176-player pool is completed at one hour without duplicate membership (42.5755ms)
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+✔ PostgreSQL: a full 176-player pool is completed at one hour without duplicate membership (5243.6961ms)
+✔ a delayed start cannot move the one-hour deadline or make the final alarm wait for a longer turn (22.6257ms)
+✔ new seasons ignore legacy draft days and use one hour after registration (5.3953ms)
+✔ failed final assignment rolls back all members and can safely resume (10.656ms)
+✔ viewer-independent lifecycle starts after registration closes; ON gate and concurrent starts are safe (27.1411ms)
+✔ alarm scheduler closes DB connections on success and failure and records actual alarm execution (2.0665ms)
+✔ durable alarms preserve earlier timers, wake at deadlines, and survive DB errors (1.6489ms)
+✔ 30s defaults, public countdown and scheduled deployment are included in the release (52.7408ms)
+✔ SQLite: scheduled redraft preserves 157 entrants and masters; absent clan still receives its quota (411.0873ms)
+✔ PostgreSQL: scheduled redraft preserves 157 entrants and masters; absent clan still receives its quota (10137.0305ms)
+✔ redraft rejects missing entrants or malformed quotas and never activates unbalanced rosters (20.1269ms)
+✔ all registration totals fit evenly across up to eight clans, including each master (4.6702ms)
+✔ SQLite: 140 entrants open all eight clans and finish at four 17 / four 18 quotas (35.598ms)
+✔ PostgreSQL: 140 entrants open all eight clans and finish at four 17 / four 18 quotas (3085.0383ms)
+✔ quota creation and master selection roll back together, then resume exactly once (38.002ms)
+✔ SQLite two distinct current clan captains, master-only appointment and legacy state (42.1168ms)
+✔ SQLite either captain can reorganize both attack and defense lineups without granting roles (54.2431ms)
+✔ SQLite ordinary attack members still launch and fight, while all lineups lock in battle (28.8808ms)
+✔ SQLite role revocation, membership and master changes during commit deny stale authority (17.7588ms)
+✔ SQLite concurrent lineup edits reject stale drafts and receipt failure rolls back both roles and lineup (26.1711ms)
+✔ PostgreSQL two distinct current clan captains, master-only appointment and legacy state (8381.2535ms)
+✔ PostgreSQL either captain can reorganize both attack and defense lineups without granting roles (4538.345ms)
+✔ PostgreSQL ordinary attack members still launch and fight, while all lineups lock in battle (3256.5557ms)
+✔ PostgreSQL role revocation, membership and master changes during commit deny stale authority (3089.5215ms)
+✔ PostgreSQL concurrent lineup edits reject stale drafts and receipt failure rolls back both roles and lineup (2406.2705ms)
+✔ disabled release has no policy and incomplete economic choices cannot be activated (1.97ms)
+✔ random pair covers a KST day without overlaps, midnight spill or retry dependence (8.0892ms)
+✔ four holdings grant once, not per territory; three holdings grant nothing (0.7794ms)
+✔ midnight is displayed as the end of the same KST day, not an earlier closing time (44.3808ms)
+✔ live default activates approved KEEP/PARTICIPANTS/PAUSE/DEFER policy after the immutable cutover (8476.1506ms)
+✔ SQLite complete session, 300억 + 30만 별 + 300 에너지 mail, reset, immutable schedule and exactly-once retry (189.0714ms)
+✔ PostgreSQL complete session, 300억 + 30만 별 + 300 에너지 mail, reset, immutable schedule and exactly-once retry (4727.6414ms)
+✔ SQLite reward failure rolls back close and every message; retry pays once (30.267ms)
+✔ PostgreSQL reward failure rolls back close and every message; retry pays once (3685.9688ms)
+✔ territory war cancels active round, removes alerts and prevents every combat entry (20.6189ms)
+✔ finished territory overlap is detected after an outage; late close cannot grant cancelled rewards (12.2758ms)
+✔ time boundary after combat calculation rejects a late strike (25.2318ms)
+✔ OFF and TEST cannot create schedules or rewards; formation still works outside open hours (18.2787ms)
+✔ concurrent closure freezes the same recipients and emits one three-part bundle per user (32.0664ms)
+✔ SQLite due PREPARING territory blocks combat before its lazy ACTIVE transition (12.4609ms)
+✔ PostgreSQL due PREPARING territory blocks combat before its lazy ACTIVE transition (2674.7196ms)
+✔ territory begins during the commit race: no capture or receipt is saved (21.0168ms)
+✔ roster transfer during close retries against the final roster atomically (49.99ms)
+✔ holdings are counted at close: losing the fourth territory removes eligibility (23.7608ms)
+✔ midnight closes an outstanding round once and does not reward a missed window (19.2727ms)
+✔ season rollover reconciles the preceding session before the new season claims a window (21.5188ms)
+✔ a partial season window is skipped and an early season closure never pays a full-round reward (15.2205ms)
+✔ unapproved alternate policies are testable: participants only, KEEP map and immediate SETTLE (17.0102ms)
+✔ approved KEEP policy retains ownership, formations and protection across both daily rounds (19.721ms)
+✔ warm overview synchronization has no write, schema scan or schedule reroll (13.8213ms)
+✔ background scheduler awaits sessions and closes the connection even after settlement failure (1.0521ms)
+✔ SQLite a silently dropped reward rolls back messages, session and next-round reset (19.7007ms)
+✔ PostgreSQL a silently dropped reward rolls back messages, session and next-round reset (2443.8442ms)
+✔ SQLite saved PAUSED cooldown cutover persists once, rolls back on failure and retains remaining time on resume (15.4103ms)
+✔ PostgreSQL saved PAUSED cooldown cutover persists once, rolls back on failure and retains remaining time on resume (1875.3175ms)
+✔ SQLite approved pause freezes combat and remaining time; resume pays participating members only (26.0674ms)
+✔ PostgreSQL approved pause freezes combat and remaining time; resume pays participating members only (2105.5422ms)
+✔ SQLite restarted territory round resumes the original pause exactly once (19.0677ms)
+✔ PostgreSQL restarted territory round resumes the original pause exactly once (2334.2723ms)
+✔ overlapping territory rounds retain their identities and wait for the final settlement (17.4798ms)
+✔ an unrelated finished war cannot silently resume a legacy pause without its original history (13.549ms)
+✔ an outage spanning two completed territory wars preserves exactly three hours of play (12.8513ms)
+✔ a paused round can cross midnight without reopening it or starting a parallel daily round (8.0868ms)
+✔ participation in another clan cannot be transferred into its qualifying reward (8.8284ms)
+✔ SQLite faction extra items use real message claims, exact quantities, rollback and retry (14.9483ms)
+✔ PostgreSQL faction extra items use real message claims, exact quantities, rollback and retry (1684.527ms)
+✔ SQLite zero-row MASTER_STAR reward rolls back the entire session bundle (11.3216ms)
+✔ SQLite zero-row STARLIGHT_ARMOR_CORE reward rolls back the entire session bundle (9.3069ms)
+✔ PostgreSQL zero-row MASTER_STAR reward rolls back the entire session bundle (1568.1741ms)
+✔ PostgreSQL zero-row STARLIGHT_ARMOR_CORE reward rolls back the entire session bundle (1504.756ms)
+✔ historical faction reward snapshots do not display or create retroactive item grants (5.875ms)
+✔ 20260922 cooldown cutover is once-only, preserves pause extensions and leaves other state intact (5.4863ms)
+✔ capture, defeat and timeout assign 20/15 minute rules without changing 10 minute redeployment (1.7225ms)
+✔ SQLite faction attack boundaries are exactly 20 minutes protection and 15 minutes same-target cooldown (80.5827ms)
+✔ PostgreSQL faction attack boundaries are exactly 20 minutes protection and 15 minutes same-target cooldown (8393.6059ms)
+✔ SQLite old persisted deadlines shorten on overview and mutation and are not shortened again on retry (39.7803ms)
+✔ PostgreSQL old persisted deadlines shorten on overview and mutation and are not shortened again on retry (4170.6643ms)
+✔ SQLite ACTIVE faction season opens before the first regular match (19.0243ms)
+✔ PostgreSQL ACTIVE faction season opens before the first regular match (3184.7725ms)
+✔ SQLite faction state, authority, HP, tax and retry invariants (70.0279ms)
+✔ PostgreSQL faction state, authority, HP, tax and retry invariants (3478.5107ms)
+✔ simultaneous launch and finishing hits use compare-and-swap (15.529ms)
+✔ claim retry, season cutoff and real V3 normalized HP including mercenaries (60.0293ms)
+✔ SQLite ordinary attackers and defenders enter and fight independently (49.5822ms)
+✔ PostgreSQL ordinary attackers and defenders enter and fight independently (2534.6619ms)
+✔ one billion hourly district tax preserves both previous rates and exact millisecond remainders (1.3734ms)
+✔ simultaneous identical claim pays once and archived season remains collectable (55.8973ms)
+✔ timestamps use UTC for legacy strings and exact five-day inclusive cutoff (1.2783ms)
+✔ preview does not remove anyone; actual activity protects stale logins, passive defense/valid sessions do not (7574.5847ms)
+✔ apply revalidates login, real activity and membership; audits recovery and replays exactly once (3932.9913ms)
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":409}
+✔ audit failure rolls all membership, draft, and receipt changes back (3075.2193ms)
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":400}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":409}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":409}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":409}
+✔ non-owner, missing confirmation, expired preview, changed season and missing activity schema fail closed (2819.9476ms)
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":400}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":400}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":400}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":400}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":400}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":400}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":400}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":400}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":400}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":400}
+[CLAN_INACTIVITY_CLEANUP] {"code":"VALIDATION","status":400}
+✔ three-day preview uses inclusive 72 hours and binds execution to that saved threshold (2463.9022ms)
+✔ resolves only the exact active account, clan and season identity (7.9049ms)
+✔ rejects altered identities, transfers, gifts, removals and capacity overflow (0.9656ms)
+✔ lost apply response and page reload reuse the same receipt, without new admission (8.6719ms)
+✔ a failed browser receipt save cannot start a membership write (0.4861ms)
+✔ server identity mismatch is not reported as completion (0.3942ms)
+✔ completed admissions can start a new account after archiving, without replaying the old write (0.5283ms)
+✔ unfinished, busy or mismatched receipts cannot be cleared for a new admission (0.8645ms)
+✔ archive or storage failure preserves the current completed receipt (0.4553ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+✔ approved active-season addition admits the 21st only; other clan and global limits stay unchanged (8660.7437ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+✔ active-season additions are revalidated at apply and reject missing or malformed authorization records (3921.2248ms)
+✔ last-slot admission is audited, exactly once, and leaves old seasons, wallet and clan scores unchanged (2948.1309ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+✔ two previews for the final slot cannot overbook; existing draft metadata is preserved (2985.0493ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+✔ identity, authentication, verification, membership and changed-season checks fail closed (2291.3165ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+✔ audit failure rolls membership and draft changes back together (2051.0874ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":400}
+✔ full-clan replacement removes only the named two, admits one, preserves history and keeps a recovery record (1654.6004ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":400}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":400}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":400}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":400}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":400}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":400}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":400}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":400}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+✔ replacement rejects malformed, duplicate, foreign-clan, wrong-name, master and self removal targets (1799.1179ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+✔ pending attacks, pending defense and live reservations block every affected account before removal (2153.5877ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":403}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+✔ preview membership identity, ownership, admission eligibility and expiry are revalidated for replacement (1689.6927ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+✔ replacement audit failure restores both outgoing members, their draft state and incoming admission (1448.7814ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+✔ competing replacements cannot reuse previously removed members as free capacity (1409.113ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":400}
+✔ transfer plus 3 billion messages targets the final 22 only and preserves personal stats, wallets and source scores (1391.1839ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+✔ gift send failure rolls back transfer, release, messages, rewards and schema widening (1122.9254ms)
+✔ real PostgreSQL claim receives 3 billion exactly once after legacy message money fields are widened (1089.4505ms)
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":400}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+[CLAN_MEMBER_ASSIGNMENT] {"code":"VALIDATION","status":409}
+✔ transfer source, leadership, final recipient set and gift amount are explicit and revalidated (1105.9707ms)
+✔ elected executive can remove a legacy master; old master cannot exercise authority (7867.4324ms)
+✔ master kick atomically removes membership, withdraws draft and cleans faction; replay is harmless (3618.0631ms)
+✔ non-master, foreign master, self, stale membership and season cannot remove anyone (3113.1735ms)
+✔ battle, reservation, phase and active faction participants are protected (3117.1851ms)
+✔ audit failure rolls back member, draft, faction and receipt together (2390.0146ms)
+✔ expired faction battle waiting for lazy reconciliation no longer blocks removal (1973.6647ms)
+✔ an old dialog cannot kick a user who left and rejoined; old successful replay does not kick them again (1792.574ms)
+✔ 10연패도 자기 클랜 +10 / 상대 +0, 매회 기본 코인 + 5회 보너스 1회 (21.7315ms)
+✔ 승리 +3, 기본 보상 +20% 내림, 중복·동시 재시도에도 한 번만 정산 (5.4374ms)
+✔ 동시 5·6회 정산은 5회 보너스 한 번만 지급 (15.8493ms)
+✔ B팀 공격도 공격자 팀 점수만 가산한다 (8.0245ms)
+✔ 배치 중간 장애는 점수·지갑·전적·영수증 전체 롤백 후 재시도 성공 (8.3085ms)
+✔ 종료 대진: 0행 지급 대상은 점수·정산 완료 없이 차단 (6.8238ms)
+✔ 실패 예약: 0행 지급 대상은 점수·정산 완료 없이 차단 (2.9386ms)
+✔ 공격자 탈퇴: 0행 지급 대상은 점수·정산 완료 없이 차단 (2.7268ms)
+✔ 방어자 이적: 0행 지급 대상은 점수·정산 완료 없이 차단 (4.3812ms)
+✔ 지갑 없음: 0행 지급 대상은 점수·정산 완료 없이 차단 (1.4942ms)
+✔ 잔액 안전 정수 초과: 0행 지급 대상은 점수·정산 완료 없이 차단 (1.3597ms)
+✔ TEST / 보상 OFF는 실제 경제 지급 없이 참여 점수만 반영 (1.3715ms)
+✔ 공유 방어 상한만 해제: 개인 21회, 동일 상대 1회, 실패 복원 유지 (5.3693ms)
+✔ 라운드 시작 전 미리보기는 변경 가능 / 시작 후 모든 대진 동일 고정 (2.406ms)
+✔ CMS 변경은 미조회 진행 라운드도 구 규칙 보존 / 다음 라운드부터 활성화 (1.6055ms)
+✔ CMS는 음수·소수·과대금액·기본0 ON·TEST경제·백데이트 우회를 거절 (4.0815ms)
+✔ 신규 스키마 설치는 멱등, 경제 영수증은 시즌 초기화·보존기간 삭제에서 유지 (2.7471ms)
+✔ 클라이언트는 재요청 ID 유지·공격자 득점·코인 동기화·최소 응답 복구를 지원 (55.9057ms)
+✔ ranking uses season points, completed-war points and difference without changing records (7540.9352ms)
+✔ live, CMS and settlement share the same ordering; nickname buttons retain inline link sizing (26.3172ms)
+✔ 운영 상태 경로는 빠른 foundation 이후에도 일회성 적용 함수를 직접 실행한다 (3.4053ms)
+✔ SQLite: 월요일 재경기는 화목토일 정규 일정과 대진을 보존한다 (15.9173ms)
+✔ PostgreSQL: 월요일 재경기는 화목토일 정규 일정과 대진을 보존한다 (7882.0034ms)
+✔ SQLite: 재경기 시간 충돌은 정규경기를 임의 순연하지 않고 차단한다 (8.6774ms)
+✔ PostgreSQL: 재경기 시간 충돌은 정규경기를 임의 순연하지 않고 차단한다 (3687.7779ms)
+✔ SQLite: 기존 재경기 완료 영수증은 재경기 결과와 복구한 정규 일정을 다시 변경하지 않는다 (6.5278ms)
+✔ PostgreSQL: 기존 재경기 완료 영수증은 재경기 결과와 복구한 정규 일정을 다시 변경하지 않는다 (3082.6106ms)
+✔ 클랜 정원과 스네이크 드래프트 순서가 고정된다 (2.3541ms)
+✔ 동점 클랜전도 한 번만 정산할 수 있도록 결정적 승자를 선택한다 (0.8188ms)
+✔ 클랜별 2명 확장과 2시간 추가 신청은 드래프트를 안전하게 일시 정지한다 (3.1052ms)
+✔ 추가 신청은 오늘 19시 마감하고 기존 드래프트 뒤 21시 첫 전쟁을 연다 (1.4905ms)
+✔ 공식 8클랜은 7개 정시 라운드에서 모든 상대를 정확히 한 번 만난다 (0.6667ms)
+✔ 정시 대진은 KST 21시에 열리고 새 창구는 120분 계약을 사용한다 (0.349ms)
+✔ 행동력은 10에서 시작해 300초마다 회복하고 60분간 최대 21회만 사용한다 (0.5385ms)
+✔ 전투력과 무관하게 가용 상대 한 명만 요청 키 기반으로 서버 랜덤 배정한다 (0.797ms)
+✔ 8개 공식 클랜 이름·키·마크 리소스가 단일 카탈로그로 고정된다 (2.2905ms)
+✔ 마스터 점수는 활동·랭크·기여·신뢰 스냅샷으로 계산한다 (1.3905ms)
+✔ OWNER TEST 잠금과 정식 ON 공개 게이트가 서버·유저 메뉴에 연결된다 (8.4532ms)
+✔ OWNER는 2차 인증 없이 클랜 테스트 자격을 통과한다 (2.928ms)
+✔ V21 클랜 UI와 라이브 V3 계약이 연결된다 (1.1112ms)
+✖ 현 로비 기준 클랜 본부와 정규·세력전 진입을 제공한다 (3.9166ms)
+✔ 조회 로그를 만들지 않고 전투 영수증 보존일은 서버 설정으로 제한한다 (0.8186ms)
+✔ 클랜 V3 전투는 유저·상대 단위 예약 락과 재시도 가능한 영수증을 사용한다 (5.2325ms)
+✔ 클랜 시즌 정산은 원자적 상태 전이와 중복 방지 보상 영수증을 사용한다 (0.586ms)
+✔ CMS 사이드바와 독립 클랜전 운영 화면을 로드한다 (1.6321ms)
+✔ 120분·10 행동력·5분 회복·랜덤 승점전·최신 덱을 한 설정 계약으로 고정한다 (1.1311ms)
+✔ CMS 저장값은 범위를 정리하고 공식 고정값을 유지하며 보상 토글을 명시적으로 저장한다 (1.3676ms)
+✔ 부분 설정 저장은 기존 상세값을 지우지 않는다 (0.3219ms)
+✔ 우승·준우승 추가 코인은 1억 제한 없이 저장하고 CMS 입력 상한을 두지 않는다 (0.5922ms)
+✔ 운영 API는 조회를 관리자에게, 변경과 테스트 단계를 OWNER에게만 허용하고 로그를 남긴다 (3.5642ms)
+✔ 공식 공개 전환은 테스트 시즌 기록과 트로피를 원자적으로 지우고 새 시즌 1을 만든다 (0.7089ms)
+✔ 60분·21회 상한·랜덤 승점·최신 덱·보상 영수증이 모두 라이브 계약으로 연결된다 (0.5272ms)
+✔ 공식 8클랜·대진·영수증·반응형 운영 UI를 제공한다 (0.4355ms)
+✔ CMS는 22명·176명 정원과 추가 신청 상태를 서버값으로 표시한다 (0.5616ms)
+✔ 클랜 CMS 회귀 검사가 배포 게이트에 포함된다 (0.4961ms)
+✔ approved operation ceiling: 9 mission + 3 combo + 3 supplier credit; repeated combos and refunds cannot create extra points (16.3337ms)
+✔ single-player role switching cannot earn a group bonus; departing supplier is never credited; tactical effects do not subtract clan score (1.1783ms)
+✔ KST week, ready window and two-hour action boundaries (1.7048ms)
+▶ PostgreSQL clan reform: authority, signup, readiness and exactly-once support
+  ✔ three strongest members get authority; legacy master and fourth place do not (61.4128ms)
+  ✔ current week persists, empty selection allowed; invalid days/stale weeks rejected (73.1419ms)
+  ✔ 15-minute alert includes nonsignups; response persisted/revisable; never gates joining (82.6819ms)
+  ✔ support adds team score and own contribution exactly once, ignores card power (43.7746ms)
+  ✔ cooldowns, finite orders and rollback prevent repeated farming (79.5111ms)
+  ✔ three members complete an operation; one player cannot farm the bonus; command uses information/protection (162.8947ms)
+  ✔ departed executive loses permission immediately and ended war cannot award points (41.479ms)
+✔ PostgreSQL clan reform: authority, signup, readiness and exactly-once support (6132.0928ms)
+✔ release migration is reversible in dry run, preserves completed games, extends only future rounds and replays safely (3878.1939ms)
+ℹ tests 227
+ℹ suites 0
+ℹ pass 226
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 38266.1623
+
+✖ failing tests:
+
+test at tests\clan-v3-v1820.mjs:172:1
+✖ 현 로비 기준 클랜 본부와 정규·세력전 진입을 제공한다 (3.9166ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /clan-v1\.js\?v=20261015-organization-interface-v3/. Input:
+  
+  '<!DOCTYPE html>\n' +
+    '<html lang="ko">\n' +
+    '<head>\n' +
+    '  <meta charset="UTF-8" />\n' +
+    '  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\n' +
+    '  <meta name="theme-color" content="#080d13" />\n' +
+    '  <meta name="application-name" content="리버스콜" />\n' +
+    '  <meta name="apple-mobile-web-app-title" content="리버스콜" />\n' +
+    '  <meta property="og:title" content="리버스콜" />\n' +
+    '  <meta property="og:image" content="https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" />\n' +
+    '  <meta property="og:description" content="카드 수집 · 용병 성장 · 협동 전투" />\n' +
+    '  <link rel="manifest" href="/manifest.webmanifest?v=20261016-reverse-call" />\n' +
+    '  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent" type="image/png" sizes="32x32" />\n' +
+    '  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent" type="image/png" sizes="48x48" />\n' +
+    '  <link rel="apple-touch-icon" href="/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent" sizes="180x180" />\n' +
+    '  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-20261018/scene-wide.webp" media="(min-width:641px)" fetchpriority="high" />\n' +
+    '  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-20261018/scene-mobile.webp" media="(max-width:640px)" fetchpriority="high" />\n' +
+    '  <link rel="preload" as="image" type="image/avif" fetchpriority="high" href="/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif" imagesrcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" imagesizes="(max-width:820px) 100vw, 52vw" />\n' +
+    '  <link rel="preconnect" href="https://fonts.googleapis.com" />\n' +
+    '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n' +
+    '  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;600;800&amp;display=swap" rel="stylesheet" />\n' +
+    '  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Do+Hyeon&amp;family=East+Sea+Dokdo&amp;family=Gugi&amp;family=Jua&amp;family=Nanum+Gothic+Coding:wght@400;700&amp;family=Nanum+Pen+Script&amp;family=Noto+Sans+KR:wght@500;700;900&amp;family=Noto+Serif+KR:wght@600;700;900&amp;family=Song+Myung&amp;display=swap" rel="stylesheet" />\n' +
+    '  <title>리버스콜 카드뽑기</title>\n' +
+    '  <link rel="stylesheet" href="css/style.css?v=1879-player-ultimate-skip&cubeRemoval=20261003&iconPortrait=20261006" />\n' +
+    '  <link rel="stylesheet" href="css/chief-system-v1.css?v=20261005-general" />\n' +
+    '  <link rel="stylesheet" href="css/chief-prison-v1.css?v=20261006" />\n' +
+    '  <link rel="stylesheet" href="css/queen-coronation-v1.css?v=20261005-general" />\n' +
+    '  <link rel="stylesheet" href="css/card.css?v=1885-static-high-grade-frame" />\n' +
+    '  <link rel="stylesheet" href="css/animation.css?v=1144-stability-audit" />\n' +
+    '    <link rel="stylesheet" href="css/unified-drop-cinematic-v1750.css?v=1755-card-equipment-drop">\n' +
+    '  <link rel="stylesheet" href="css/card-unique-battle-fx-v1174.css?v=1745-taller-battle-cards">\n' +
+    '  <link rel="stylesheet" href="css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0">\n' +
+    '  <link rel="stylesheet" href="css/supply-box-v1249.css?v=1987-prime-custom-purchase-bulk-open">\n' +
+    '  <link rel="stylesheet" href="css/suit-core-box-v1.css?v=20261008">\n' +
+    '  <link rel="stylesheet" href="css/title-public-v1245.css?v=1782-title-specific-stars">\n' +
+    '  <link rel="stylesheet" href="css/title-fonts-v1814.css?v=1814-title-font-presets">\n' +
+    '  <link rel="stylesheet" href="css/seal-battle.css?v=1778-seal-v3-crystal&sealRework=20261021-v1&sealDragon=20261022-v1">\n' +
+    '  <link rel="stylesheet" href="css/raid-overhaul-v1293.css?v=1296-slot-entry-fix">\n' +
+    '  <link rel="stylesheet" href="css/raid-v3-async-v1779.css?v=1930-mobile-context-recovery">\n' +
+    '  <link rel="stylesheet" href="css/vehicle-draw-v1388.css?v=1724-hundred-draw">\n' +
+    '  <link rel="stylesheet" href="css/territory-war-v1811.css?v=1914-territory-dispatch-persist&pig=2">\n' +
+    '  <link rel="stylesheet" href="css/territory-war-v1824.css?v=2062-my-team-emphasis&clans=20260929-roster&votes=20261008">\n' +
+    '  <link rel="stylesheet" href="css/territory-network-v6.css?v=20261011-art2">\n' +
+    '  <link rel="stylesheet" href="css/territory-battlefield-v5.css?v=20261003-authored-fx">\n' +
+    '  <link rel="stylesheet" href="css/territory-formation-20261013.css?v=3">\n' +
+    '  <link rel="stylesheet" href="css/territory-vote-alert-v1.css?v=20261013-vote-alert-compact">\n' +
+    '  <link rel="stylesheet" href="css/ranked-match-v1671.css?v=1671-ranked-auto-season">\n' +
+    '  <link rel="stylesheet" href="css/ranked-v2-v1827.css?v=20261002-ranked-reform&amp;suggestions=20261005">\n' +
+    '  <link rel="stylesheet" href="css/pve-nightmare-v1692.css?v=1692-nightmare">\n' +
+    '  <link rel="stylesheet" href="css/pve-apocalypse-v1952.css?v=1952-apocalypse-pve">\n' +
+    '  <link rel="stylesheet" href="css/escort-operation-v1830.css?v=1844-public-mobile-fit">\n' +
+    '  <link rel="stylesheet" href="css/runtime-performance-v1727.css?v=1729-virtual-card-lists">\n' +
+    '  <link rel="stylesheet" href="css/battle-v3-live.css?v=1901-nightmare-mark-overlap&flow=2126&backdrop=20261005&amp;statusDock=20261007-v2">\n' +
+    '  <link rel="stylesheet" href="css/tower-abyss-ui.css?v=20261021-v1">\n' +
+    '  <link rel="stylesheet" href="css/secondary-verification-v1780.css?v=1799-playdk-only">\n' +
+    '  <link rel="stylesheet" href="css/organization-preparation-v1.css?v=20261015-organization-interface-v3">\n' +
+    '  <link rel="stylesheet" href="css/clan-v1.css?v=20261005-reform">\n' +
+    '  <link rel="stylesheet" href="css/clan-war-reform-v1.css?v=20261005-balance-v3">\n' +
+    '  <link rel="stylesheet" href="css/clan-command-v1.css?v=2127">\n' +
+    '  <link rel="stylesheet" href="css/clan-faction-v1.css?v=20261001-session-rewards">\n' +
+    '  <link rel="stylesheet" href="css/clan-champions-v2071.css?v=2109-champions-trophy">\n' +
+    '  <link id="liveOperationsV1868" rel="stylesheet" href="css/live-operations-v1868.css?v=1868-live-operations-r2&amp;popup=20261018-v1" />\n' +
+    '  <link data-rank-potion-style rel="stylesheet" href="css/rank-exp-potion-v1.css?v=20261020-v1" />\n' +
+    '  <link rel="stylesheet" href="css/prison-v1950.css?v=2045-mobile-perf" />\n' +
+    '\n' +
+    '<style id="v1871-mobile-burning-critical">\n' +
+    '@media (max-width:820px){\n' +
+    '  .burning-event-hud{visibility:visible!important;opacity:1!important}\n' +
+    '  .burning-command-notice{display:grid!important;visibility:visible!important;opacity:0;position:fixed!important;left:var(--burning-vv-left,0)!important;top:var(--burning-vv-top,0)!important;width:var(--burning-vv-width,100vw)!important;height:var(--burning-vv-height,100dvh)!important;z-index:2147483000!important}\n' +
+    '  .burning-command-notice.show{opacity:1!important}\n' +
+    '}\n' +
+    '</style>\n' +
+    '<link rel="stylesheet" href="css/burning-event-v1871.css?v=1902-burning-owner-timer" />\n' +
+    '<style id="v21-renewal-only-gate">\n' +
+    'html{background:#070a0f;color-scheme:dark}\n' +
+    'body.v21-renewal-required{margin:0;background:#070a0f;color:#eef4f6}\n' +
+    'body.v21-renewal-required #app{visibility:hidden}\n' +
+    '.v21-renewal-boot{position:fixed;inset:0;z-index:2147483600;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;box-sizing:border-box;padding:clamp(28px,4.8vw,76px);padding-bottom:max(30px,env(safe-area-inset-bottom));background:#060b12;color:#eef4f6;font-family:"Noto Sans KR",Arial,sans-serif}\n' +
+    '.v21-renewal-boot *{box-sizing:border-box}\n' +
+    '.v21-renewal-boot .boot-scene{position:absolute;inset:0;z-index:0;pointer-events:none}\n' +
+    '.v21-renewal-boot .boot-scene img{display:block;width:100%;height:100%;object-fit:cover;object-position:68% 48%}\n' +
+    '.v21-renewal-boot::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,8,15,.5),transparent 64%),linear-gradient(0deg,#030911 0%,rgba(3,9,17,.85) 8%,transparent 38%)}\n' +
+    '.v21-renewal-boot .boot-topline,.v21-renewal-boot main,.v21-renewal-boot .boot-loading{position:relative;z-index:2}\n' +
+    '.v21-renewal-boot .boot-topline{display:flex;align-items:center;justify-content:space-between;gap:20px;background:none;padding:0;border:0;min-height:40px}\n' +
+    '.v21-renewal-boot .boot-identity{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;letter-spacing:.14em}\n' +
+    '.v21-renewal-boot .boot-identity img{width:38px;height:38px;object-fit:contain}\n' +
+    '.v21-renewal-boot .boot-genre{color:#c4cdd3;font-size:11px;letter-spacing:.12em;text-shadow:0 2px 8px #030911}\n' +
+    '.v21-renewal-boot main{align-self:center;width:min(550px,55%);padding:0 0 24px;margin:0;border:0;background:none;box-shadow:none}\n' +
+    '.v21-renewal-boot .boot-overline{margin:0 0 22px;color:#9ecbd7;font-size:11px;font-weight:700;letter-spacing:.38em}\n' +
+    '.v21-renewal-boot h1{margin:0;color:#f1f5f4;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:clamp(80px,10.2vw,154px);font-style:italic;font-weight:800;line-height:.83;letter-spacing:-.025em;text-shadow:0 6px 35px #02070c66}\n' +
+    '.v21-renewal-boot h1 span{display:block}\n' +
+    '.v21-renewal-boot h1 span+span{color:#acdfe8;margin-top:8px}\n' +
+    '.v21-renewal-boot .boot-tagline{margin:28px 0 0;color:#d4e0e5;font-size:clamp(16px,1.6vw,22px);font-weight:400;letter-spacing:.08em}\n' +
+    '.v21-renewal-boot .boot-loading{width:100%;padding:0;margin:0;background:none;border:0}\n' +
+    '.v21-renewal-boot .boot-statusline{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:12px}\n' +
+    '.v21-renewal-boot .boot-statusline strong{font-size:14px;font-weight:600;letter-spacing:.02em}\n' +
+    '.v21-renewal-boot .boot-statusline>span{font-family:"Barlow Condensed",Arial,sans-serif;color:#9cb9c6;font-size:12px;letter-spacing:.3em}\n' +
+    ".v21-renewal-boot .boot-track{position:relative;width:100%;height:18px;border:0 solid transparent;border-left-width:25px;border-right-width:25px;border-image:url('/assets/ui/loading/reverse-call-20261018/rail.webp') 0 110 fill / 0 25px / 0 stretch;opacity:.9}\n" +
+    '.v21-renewal-boot .boot-track::after{content:"";position:absolute;inset:0 -25px;border:inherit;border-image:inherit;filter:brightness(2.1);mask-image:linear-gradie'... 22951 more characters
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/clan-v3-v1820.mjs:182:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: `<!DOCTYPE html>\n<html lang="ko">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\n  <meta name="theme-color" content="#080d13" />\n  <meta name="application-name" content="리버스콜" />\n  <meta name="apple-mobile-web-app-title" content="리버스콜" />\n  <meta property="og:title" content="리버스콜" />\n  <meta property="og:image" content="https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" />\n  <meta property="og:description" content="카드 수집 · 용병 성장 · 협동 전투" />\n  <link rel="manifest" href="/manifest.webmanifest?v=20261016-reverse-call" />\n  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent" type="image/png" sizes="32x32" />\n  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent" type="image/png" sizes="48x48" />\n  <link rel="apple-touch-icon" href="/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent" sizes="180x180" />\n  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-20261018/scene-wide.webp" media="(min-width:641px)" fetchpriority="high" />\n  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-20261018/scene-mobile.webp" media="(max-width:640px)" fetchpriority="high" />\n  <link rel="preload" as="image" type="image/avif" fetchpriority="high" href="/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif" imagesrcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" imagesizes="(max-width:820px) 100vw, 52vw" />\n  <link rel="preconnect" href="https://fonts.googleapis.com" />\n  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;600;800&amp;display=swap" rel="stylesheet" />\n  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Do+Hyeon&amp;family=East+Sea+Dokdo&amp;family=Gugi&amp;family=Jua&amp;family=Nanum+Gothic+Coding:wght@400;700&amp;family=Nanum+Pen+Script&amp;family=Noto+Sans+KR:wght@500;700;900&amp;family=Noto+Serif+KR:wght@600;700;900&amp;family=Song+Myung&amp;display=swap" rel="stylesheet" />\n  <title>리버스콜 카드뽑기</title>\n  <link rel="stylesheet" href="css/style.css?v=1879-player-ultimate-skip&cubeRemoval=20261003&iconPortrait=20261006" />\n  <link rel="stylesheet" href="css/chief-system-v1.css?v=20261005-general" />\n  <link rel="stylesheet" href="css/chief-prison-v1.css?v=20261006" />\n  <link rel="stylesheet" href="css/queen-coronation-v1.css?v=20261005-general" />\n  <link rel="stylesheet" href="css/card.css?v=1885-static-high-grade-frame" />\n  <link rel="stylesheet" href="css/animation.css?v=1144-stability-audit" />\n    <link rel="stylesheet" href="css/unified-drop-cinematic-v1750.css?v=1755-card-equipment-drop">\n  <link rel="stylesheet" href="css/card-unique-battle-fx-v1174.css?v=1745-taller-battle-cards">\n  <link rel="stylesheet" href="css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0">\n  <link rel="stylesheet" href="css/supply-box-v1249.css?v=1987-prime-custom-purchase-bulk-open">\n  <link rel="stylesheet" href="css/suit-core-box-v1.css?v=20261008">\n  <link rel="stylesheet" href="css/title-public-v1245.css?v=1782-title-specific-stars">\n  <link rel="stylesheet" href="css/title-fonts-v1814.css?v=1814-title-font-presets">\n  <link rel="stylesheet" href="css/seal-battle.css?v=1778-seal-v3-crystal&sealRework=20261021-v1&sealDragon=20261022-v1">\n  <link rel="stylesheet" href="css/raid-overhaul-v1293.css?v=1296-slot-entry-fix">\n  <link rel="stylesheet" href="css/raid-v3-async-v1779.css?v=1930-mobile-context-recovery">\n  <link rel="stylesheet" href="css/vehicle-draw-v1388.css?v=1724-hundred-draw">\n  <link rel="stylesheet" href="css/territory-war-v1811.css?v=1914-territory-dispatch-persist&pig=2">\n  <link rel="stylesheet" href="css/territory-war-v1824.css?v=2062-my-team-emphasis&clans=20260929-roster&votes=20261008">\n  <link rel="stylesheet" href="css/territory-network-v6.css?v=20261011-art2">\n  <link rel="stylesheet" href="css/territory-battlefield-v5.css?v=20261003-authored-fx">\n  <link rel="stylesheet" href="css/territory-formation-20261013.css?v=3">\n  <link rel="stylesheet" href="css/territory-vote-alert-v1.css?v=20261013-vote-alert-compact">\n  <link rel="stylesheet" href="css/ranked-match-v1671.css?v=1671-ranked-auto-season">\n  <link rel="stylesheet" href="css/ranked-v2-v1827.css?v=20261002-ranked-reform&amp;suggestions=20261005">\n  <link rel="stylesheet" href="css/pve-nightmare-v1692.css?v=1692-nightmare">\n  <link rel="stylesheet" href="css/pve-apocalypse-v1952.css?v=1952-apocalypse-pve">\n  <link rel="stylesheet" href="css/escort-operation-v1830.css?v=1844-public-mobile-fit">\n  <link rel="stylesheet" href="css/runtime-performance-v1727.css?v=1729-virtual-card-lists">\n  <link rel="stylesheet" href="css/battle-v3-live.css?v=1901-nightmare-mark-overlap&flow=2126&backdrop=20261005&amp;statusDock=20261007-v2">\n  <link rel="stylesheet" href="css/tower-abyss-ui.css?v=20261021-v1">\n  <link rel="stylesheet" href="css/secondary-verification-v1780.css?v=1799-playdk-only">\n  <link rel="stylesheet" href="css/organization-preparation-v1.css?v=20261015-organization-interface-v3">\n  <link rel="stylesheet" href="css/clan-v1.css?v=20261005-reform">\n  <link rel="stylesheet" href="css/clan-war-reform-v1.css?v=20261005-balance-v3">\n  <link rel="stylesheet" href="css/clan-command-v1.css?v=2127">\n  <link rel="stylesheet" href="css/clan-faction-v1.css?v=20261001-session-rewards">\n  <link rel="stylesheet" href="css/clan-champions-v2071.css?v=2109-champions-trophy">\n  <link id="liveOperationsV1868" rel="stylesheet" href="css/live-operations-v1868.css?v=1868-live-operations-r2&amp;popup=20261018-v1" />\n  <link data-rank-potion-style rel="stylesheet" href="css/rank-exp-potion-v1.css?v=20261020-v1" />\n  <link rel="stylesheet" href="css/prison-v1950.css?v=2045-mobile-perf" />\n\n<style id="v1871-mobile-burning-critical">\n@media (max-width:820px){\n  .burning-event-hud{visibility:visible!important;opacity:1!important}\n  .burning-command-notice{display:grid!important;visibility:visible!important;opacity:0;position:fixed!important;left:var(--burning-vv-left,0)!important;top:var(--burning-vv-top,0)!important;width:var(--burning-vv-width,100vw)!important;height:var(--burning-vv-height,100dvh)!important;z-index:2147483000!important}\n  .burning-command-notice.show{opacity:1!important}\n}\n</style>\n<link rel="stylesheet" href="css/burning-event-v1871.css?v=1902-burning-owner-timer" />\n<style id="v21-renewal-only-gate">\nhtml{background:#070a0f;color-scheme:dark}\nbody.v21-renewal-required{margin:0;background:#070a0f;color:#eef4f6}\nbody.v21-renewal-required #app{visibility:hidden}\n.v21-renewal-boot{position:fixed;inset:0;z-index:2147483600;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;box-sizing:border-box;padding:clamp(28px,4.8vw,76px);padding-bottom:max(30px,env(safe-area-inset-bottom));background:#060b12;color:#eef4f6;font-family:"Noto Sans KR",Arial,sans-serif}\n.v21-renewal-boot *{box-sizing:border-box}\n.v21-renewal-boot .boot-scene{position:absolute;inset:0;z-index:0;pointer-events:none}\n.v21-renewal-boot .boot-scene img{display:block;width:100%;height:100%;object-fit:cover;object-position:68% 48%}\n.v21-renewal-boot::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,8,15,.5),transparent 64%),linear-gradient(0deg,#030911 0%,rgba(3,9,17,.85) 8%,transparent 38%)}\n.v21-renewal-boot .boot-topline,.v21-renewal-boot main,.v21-renewal-boot .boot-loading{position:relative;z-index:2}\n.v21-renewal-boot .boot-topline{display:flex;align-items:center;justify-content:space-between;gap:20px;background:none;padding:0;border:0;min-height:40px}\n.v21-renewal-boot .boot-identity{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;letter-spacing:.14em}\n.v21-renewal-boot .boot-identity img{width:38px;height:38px;object-fit:contain}\n.v21-renewal-boot .boot-genre{color:#c4cdd3;font-size:11px;letter-spacing:.12em;text-shadow:0 2px 8px #030911}\n.v21-renewal-boot main{align-self:center;width:min(550px,55%);padding:0 0 24px;margin:0;border:0;background:none;box-shadow:none}\n.v21-renewal-boot .boot-overline{margin:0 0 22px;color:#9ecbd7;font-size:11px;font-weight:700;letter-spacing:.38em}\n.v21-renewal-boot h1{margin:0;color:#f1f5f4;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:clamp(80px,10.2vw,154px);font-style:italic;font-weight:800;line-height:.83;letter-spacing:-.025em;text-shadow:0 6px 35px #02070c66}\n.v21-renewal-boot h1 span{display:block}\n.v21-renewal-boot h1 span+span{color:#acdfe8;margin-top:8px}\n.v21-renewal-boot .boot-tagline{margin:28px 0 0;color:#d4e0e5;font-size:clamp(16px,1.6vw,22px);font-weight:400;letter-spacing:.08em}\n.v21-renewal-boot .boot-loading{width:100%;padding:0;margin:0;background:none;border:0}\n.v21-renewal-boot .boot-statusline{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:12px}\n.v21-renewal-boot .boot-statusline strong{font-size:14px;font-weight:600;letter-spacing:.02em}\n.v21-renewal-boot .boot-statusline>span{font-family:"Barlow Condensed",Arial,sans-serif;color:#9cb9c6;font-size:12px;letter-spacing:.3em}\n.v21-renewal-boot .boot-track{position:relative;width:100%;height:18px;border:0 solid transparent;border-left-width:25px;border-right-width:25px;border-image:url('/assets/ui/loading/reverse-call-20261018/rail.webp') 0 110 fill / 0 25px / 0 stretch;opacity:.9}\n.v21-renewal-boot .boot-track::after{content:"";position:absolute;inset:0 -25px;border:inherit;border-image:inherit;filter:brightness(2.1);mask-image:linear-gradie`... 22951 more characters,
+    expected: /clan-v1\.js\?v=20261015-organization-interface-v3/,
+    operator: 'match',
+    diff: 'simple'
+  }

@@ -1,0 +1,547 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+[FULL RELEASE RESUME] Reuse 54 completed stages from f0b2de4139a6df808d574ca99b635015ad0b92c2; execute every remaining stage and production guard.
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (0.8969ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (2.852ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.3865ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (3.9573ms)
+✔ codex authoring template can retain the cache token from unchanged public HTML only (1.9508ms)
+✔ codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources (5.9443ms)
+✔ full gate resumes a proven prefix and retains failed, remaining and final release guards (0.7166ms)
+✔ registered preview checkers rerun their owning stage and reject runtime or unregistered consumers (1.0534ms)
+✔ an upload failure reuses only a complete successful gate and rechecks changed deployment contracts (1.211ms)
+✔ only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts (1.9167ms)
+✔ main cache version alignment accepts only the tested shell version and rechecks affected HTML tests (1.4417ms)
+✔ isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity (0.613ms)
+✔ lobby authoring repair retains passes only with unchanged live output and a full build check (0.6348ms)
+✔ multiple immutable continuation logs keep contiguous passes and reject a changed log or gap (0.8657ms)
+✔ a continuation validates successful earlier reruns before its contiguous failed-stage suffix (0.7556ms)
+✔ a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard (0.7867ms)
+✔ a completed continuation checks its actual candidate at the final source guard (0.358ms)
+✔ continued gate accepts an isolated raid correction only after successful current browser proof (0.9285ms)
+✔ concurrent authoring art must be new, hash-bound, image-only and unused by runtime (1.3765ms)
+✔ unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed (0.717ms)
+✔ changed tests in a completed stage rerun that stage without invalidating unrelated passes (0.1219ms)
+✔ preview QA repairs must be existing executable tests in the unchanged full gate (0.5039ms)
+✔ a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers (0.7696ms)
+✔ concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt (0.8407ms)
+✔ a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits (1.7228ms)
+✔ concurrent unreferenced JSON production receipts are documentation, never runtime configuration (1.1211ms)
+✔ runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results (0.5973ms)
+✔ tampered, incomplete or noncontiguous logs fail closed (0.3428ms)
+✔ explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks (0.5568ms)
+✔ uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain (0.8181ms)
+✔ legacy .mjs test entries are reusable only when directly registered in the unchanged gate (0.2697ms)
+✔ an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence (0.9791ms)
+✔ limited-pack view proof is runner-specific and never permits shared policy, session or server changes (2.3505ms)
+✔ offline skill preview proof binds source and bundle and reruns contracts that inspect it (1.7694ms)
+✔ registered nested npm tests belong to their parent and cannot be omitted from a completed gate (0.6073ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (3.3326ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.7039ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.7868ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (1.0157ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.2374ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (1.4234ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (4.5393ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.2555ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 128.7562
+✔ one additional message grants Moo날두 only; original 50, wallets, held player and replay are preserved (1510.0148ms)
+✔ identity changes, unsafe wallet, duplicate delivery and failures at each write leave no partial message (1085.629ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2720.335
+✔ winners receive only 20 trillion and participants only one trillion as messages; dry-run, identity exclusions and replay preserve wallets (1429.1435ms)
+✔ changed identity, unsupported balance, duplicate messages and every late write failure roll back the whole batch (1088.4637ms)
+✔ actual claim credits one and 20 trillion exactly once, rolls back failed ledger, and lost send response never duplicates messages (1202.4691ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3889.4708
+
+> test:coup
+> node --test tests/coup-palace-v2115.test.mjs tests/coup-live-operation.test.mjs
+
+✔ SQLite: coup lobby follows recruitment, active deadline, OFF and completed states without mutations (14.053ms)
+✔ PostgreSQL: coup lobby follows recruitment, active deadline, OFF and completed states without mutations (1760.8026ms)
+✔ coup summary failure cannot suppress existing live operations (4.8933ms)
+✔ recruitment has no fake timer, active has countdown and entry uses the coup route (3.0381ms)
+✔ chief skill energy: 10 cap, 2-minute recovery, 50 rally overflow, nuclear has no deferred recovery (1.4479ms)
+✔ front movement, timeout, strict CMS limits and rebel imprisonment policy (0.827ms)
+✔ coup matchmaking stays near power, avoids the previous opponent and rotates the recent pool (0.487ms)
+✔ SQLite: support after opening preserves live damage and changes existing rebel cooldowns once (6.3571ms)
+✔ SQLite: round support saves both 10-million fronts once, preserves commander and never carries support to next round (2.9089ms)
+✔ SQLite: support rejects unauthorized, stale and started rounds; failed receipt rolls back all settings (2.3325ms)
+✔ SQLite: supported rebels recover at 90 seconds and receive 25/45-minute skills; chief stays at 120 seconds and 30/60 minutes (8.9219ms)
+✔ SQLite: OFF blocks all new coup actions, keeps receipts/status, rejects stale in-flight writes and preserves OFF on CMS partial saves (6.84ms)
+✔ SQLite: a concurrent CMS partial save cannot overwrite a newer ON/OFF decision (1.8208ms)
+✔ SQLite: legacy 90-minute settings now settle for 8 hours, expire exactly and retry cannot extend it (4.9213ms)
+✔ SQLite: air support matches artillery damage for both commanders with independent 25/30-minute cooldowns and no energy effects (5.6847ms)
+✔ SQLite: air support receipt failure rolls back HP and cooldown; simultaneous retries apply damage once (3.4945ms)
+✔ SQLite: assigned rebel commander is visible before enlistment but cannot command or join the chief side (3.087ms)
+✔ SQLite: temporary rebel commander targets the opposite HP and own energy with independent 30/60-minute cooldowns matching the chief (10.4777ms)
+✔ SQLite: rebel authority rejects nuclear, inactive/nonmember/stale assignments and preserves cooldown after commander replacement (5.2603ms)
+✔ SQLite: rebel skill receipt failures and in-flight revocation roll back all effects; concurrent retry casts once (7.1542ms)
+✔ SQLite: legacy 3-hour settings jail every rebel for 8 hours with no coin debit, rollback and replay safe (6.9308ms)
+✔ SQLite: energy policy is visible before joining and zero energy recovers at the 2-minute boundary (5.6514ms)
+✔ SQLite: latest PVP decks replace registrations, reward is atomic, win/loss/draw receipts never pay twice (29.7124ms)
+✔ SQLite: losing sorties from either side can finish the enemy front, cap damage and roll back all effects (15.2161ms)
+✔ SQLite: chief-only skills, nuclear OFF, independent cooldowns, retry and complete rollback (6.0421ms)
+✔ SQLite: this-round rebel nuclear targets at most 50 chief members, preserves authority and rolls back failed casts (14.0495ms)
+✔ SQLite: rebel nuclear scope expires with its round and cannot enable the chief or leak into a new round (5.1586ms)
+✔ SQLite: nuclear settings changed before commit deny the cast and leave energy and cooldown untouched (2.7516ms)
+✔ SQLite: nuclear applies to exactly 50 rebels, blocks attacks, then recovers only after 10+2 minutes (7.6621ms)
+✔ SQLite: concurrent skill casts cannot double strike; artillery uses existing front advance (3.3844ms)
+✔ SQLite: rebel loss preserves positive, zero and negative balances, jails once and keeps historical penalties (5.419ms)
+✔ SQLite: palace fall atomically replaces chief without a vote and preserves releases on retry (5.1316ms)
+✔ SQLite: invalid successor cannot partially settle and concurrent succession creates one term (3.4822ms)
+✔ SQLite: stale losing term cannot overwrite a newly appointed chief (2.9511ms)
+✔ SQLite: historical ballots immutable, snapshot electorate, deadline verdict cannot remove a new chief (3.3528ms)
+✔ SQLite: CMS separate duration frozen per round; no participants cannot start; ties reinstate (2.6136ms)
+✔ SQLite: simultaneous real V3 attacks settle one cooldown and replay one immutable receipt (14.7238ms)
+✔ SQLite: simultaneous voters each count once; duplicate votes cannot inflate tally (3.0087ms)
+✔ SQLite: administrative and vote routing rejects unauthenticated or unauthorized mutations (2.9757ms)
+✔ PostgreSQL: support after opening preserves live damage and changes existing rebel cooldowns once (1647.1948ms)
+✔ PostgreSQL: round support saves both 10-million fronts once, preserves commander and never carries support to next round (1009.3468ms)
+✔ PostgreSQL: support rejects unauthorized, stale and started rounds; failed receipt rolls back all settings (1069.1763ms)
+✔ PostgreSQL: supported rebels recover at 90 seconds and receive 25/45-minute skills; chief stays at 120 seconds and 30/60 minutes (1185.9651ms)
+✔ PostgreSQL: OFF blocks all new coup actions, keeps receipts/status, rejects stale in-flight writes and preserves OFF on CMS partial saves (1080.8243ms)
+✔ PostgreSQL: a concurrent CMS partial save cannot overwrite a newer ON/OFF decision (1000.4983ms)
+✔ PostgreSQL: legacy 90-minute settings now settle for 8 hours, expire exactly and retry cannot extend it (1055.3813ms)
+✔ PostgreSQL: air support matches artillery damage for both commanders with independent 25/30-minute cooldowns and no energy effects (1095.4599ms)
+✔ PostgreSQL: air support receipt failure rolls back HP and cooldown; simultaneous retries apply damage once (1113.4237ms)
+✔ PostgreSQL: assigned rebel commander is visible before enlistment but cannot command or join the chief side (1021.4187ms)
+✔ PostgreSQL: temporary rebel commander targets the opposite HP and own energy with independent 30/60-minute cooldowns matching the chief (1134.4245ms)
+✔ PostgreSQL: rebel authority rejects nuclear, inactive/nonmember/stale assignments and preserves cooldown after commander replacement (1073.406ms)
+✔ PostgreSQL: rebel skill receipt failures and in-flight revocation roll back all effects; concurrent retry casts once (1067.5477ms)
+✔ PostgreSQL: legacy 3-hour settings jail every rebel for 8 hours with no coin debit, rollback and replay safe (1140.9566ms)
+✔ PostgreSQL: energy policy is visible before joining and zero energy recovers at the 2-minute boundary (1033.796ms)
+✔ PostgreSQL: latest PVP decks replace registrations, reward is atomic, win/loss/draw receipts never pay twice (1129.9057ms)
+✔ PostgreSQL: losing sorties from either side can finish the enemy front, cap damage and roll back all effects (1083.2484ms)
+✔ PostgreSQL: chief-only skills, nuclear OFF, independent cooldowns, retry and complete rollback (1030.7935ms)
+✔ PostgreSQL: this-round rebel nuclear targets at most 50 chief members, preserves authority and rolls back failed casts (1235.4197ms)
+✔ PostgreSQL: rebel nuclear scope expires with its round and cannot enable the chief or leak into a new round (1038.1961ms)
+✔ PostgreSQL: nuclear settings changed before commit deny the cast and leave energy and cooldown untouched (1018.5488ms)
+✔ PostgreSQL: nuclear applies to exactly 50 rebels, blocks attacks, then recovers only after 10+2 minutes (1104.6931ms)
+✔ PostgreSQL: concurrent skill casts cannot double strike; artillery uses existing front advance (1009.4526ms)
+✔ PostgreSQL: rebel loss preserves positive, zero and negative balances, jails once and keeps historical penalties (1181.575ms)
+✔ PostgreSQL: palace fall atomically replaces chief without a vote and preserves releases on retry (1065.2495ms)
+✔ PostgreSQL: invalid successor cannot partially settle and concurrent succession creates one term (1038.73ms)
+✔ PostgreSQL: stale losing term cannot overwrite a newly appointed chief (1014.0476ms)
+✔ PostgreSQL: historical ballots immutable, snapshot electorate, deadline verdict cannot remove a new chief (1014.4731ms)
+✔ PostgreSQL: CMS separate duration frozen per round; no participants cannot start; ties reinstate (1077.1054ms)
+✔ PostgreSQL: simultaneous real V3 attacks settle one cooldown and replay one immutable receipt (1028.7708ms)
+✔ PostgreSQL: simultaneous voters each count once; duplicate votes cannot inflate tally (1027.8076ms)
+✔ PostgreSQL: administrative and vote routing rejects unauthenticated or unauthorized mutations (1042.0665ms)
+✔ coupon CMS routes bypass the coup router before authentication, permission checks and DB access (0.2829ms)
+✔ the exact coup admin route and its child routes retain authentication (0.2357ms)
+✔ live wiring preserves V3 engine, scoped prison exemptions and chief authority guards (3.5769ms)
+✔ recruitment roster stays private until combat starts: sqlite (4.7862ms)
+✔ recruitment roster stays private until combat starts: postgres (1051.0184ms)
+ℹ tests 76
+ℹ suites 0
+ℹ pass 76
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 36473.3129
+
+> test:project-v-sd
+> node --test tests/project-v-zenith-sd-assets-v1.mjs tests/project-v-apocalypse-boss-sd-v1958.test.mjs tests/project-v-tier-battle-art-adapter-v1.mjs tests/project-v-cheetah-sd-v2058.test.mjs
+
+✔ 아포칼립스 보스 71/72는 승인된 투명 SD로 전투에만 연결된다 (69.3767ms)
+✔ 치타구 FUR는 카드 원화와 분리된 투명 전투 SD로 연결된다 (46.4165ms)
+✔ 치타구 반응형 자산과 V3 캐시·라우팅 계약이 함께 갱신된다 (54.8314ms)
+project-v FUR/PRESTIGE/SUPERSTAR battle art adapter: OK
+✔ tests\project-v-tier-battle-art-adapter-v1.mjs (175.917ms)
+project-v ZENITH SD assets v1: 31 TECHNICAL_PASS, 29 prior visual approvals + Ayoon/Bongsoon direct connection authorization, battle-only contract OK
+✔ tests\project-v-zenith-sd-assets-v1.mjs (2369.3698ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2405.1946
+
+> test:apocalypse
+> node --test tests/pve-apocalypse-v1952.test.mjs tests/pve-apocalypse-battle-suit-gate-v1990.test.mjs tests/apocalypse-signature-v2048.test.mjs tests/boss-sd-v2048.test.mjs tests/shield-siphon-quarter-v2078.test.mjs tests/apocalypse-legion-v2127.test.mjs tests/apocalypse-legion-registration.test.mjs tests/apocalypse-ultimate-tuning-20260919.test.mjs
+
+✔ Postgres registration rolls back preview, preserves existing CMS, requires assets, and is idempotent (1879.8342ms)
+✔ approved two bosses start with exactly six independently identified minions; ordinary modes unchanged (48.9196ms)
+✔ server sim owns three casts, all seven enemy deaths are required, no reward multiplied by minion count (3.7213ms)
+✔ CMS skill OFF disables all three casts without removing the six escorts (5.3642ms)
+✔ seal and curse last own actions and cleansing removes both without affecting basic attack stats (0.5845ms)
+✔ seven positions share existing lattice pitch and never collide with each other on desktop/mobile (0.4456ms)
+✔ all approved sprites and 12-frame atlases exist and stay separate from source artwork (22.5896ms)
+✔ live monster adapter resolves escort art from monster ID, never the instance suffix (6.6276ms)
+✔ signature identities are stable; old bosses and non-monster names cannot select new FX (2.5901ms)
+✔ Guy 80% and Hashirama 90% are stronger than existing 70%; manual CMS overrides remain authoritative (35.9951ms)
+✔ Core Yhwach keeps original artwork separate from battle SD and preserves TEST/reward lock (3.2083ms)
+✔ both authored atlases contain twelve RGBA frames, distinct artwork and a frame-six impact (27.5273ms)
+✔ authored frames fit desktop and mobile bounds without moving the foot-level impact (0.5378ms)
+✔ real Pixi AnimatedSprites and GSAP share exact collision time; release removes all FX (11.5552ms)
+✔ failed or cancelled atlas loads never create procedural substitutes or revive released textures (0.8995ms)
+✔ legacy balance preserved; each boss accepts zero, fractional values, and bounded settings (3.0274ms)
+✔ saved tuning reaches battle snapshot, public description and authoritative damage, independently of legacy opening damage (50.4896ms)
+✔ shield pierce uses configured share; already-built encounter keeps its own snapshot (0.7882ms)
+✔ real CMS PATCH persists tuning in PostgreSQL and stale CMS saves retain it (1735.3915ms)
+✔ all four SDs have real alpha, clear edges and full-body safe margins; responsive formats preserve transparency (284.2151ms)
+✔ exact monster/card IDs resolve the new sprites without changing original catalog artwork (16.9891ms)
+✔ apocalypse exposes its final-difficulty rules (27.6238ms)
+✔ 강탈의 성배 cannot strip an apocalypse boss shield beyond one quarter of a floored hit per activation (25.9082ms)
+✔ battle suit shots pierce the apocalypse shield with shield-ignoring HP damage (15.2042ms)
+✔ apocalypse gate: suit ≥15% of base power clears at deck ≈ base, cards alone need ≈ ×1.6, weak decks receive reduced suit output (467.1473ms)
+PVE Apocalypse: energy, shield HUD, low-afterimage boss atlas/SFX, text-only announcement, combat rules, CMS and drops verified
+✔ tests\pve-apocalypse-v1952.test.mjs (380.8753ms)
+✔ PVP: grail transfers 15% of the remaining shield instead of 60% (13.9431ms)
+✔ NORMAL: grail transfers 15% of the remaining shield instead of 60% (2.1687ms)
+✔ Hashirama with an underpowered card: capped grail transfer falls from 342866 to 85717 (1.681ms)
+✔ apocalypse with a depleted shield uses 15% without a second quarter multiplier (0.6181ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2272.6434
+
+> test:pve-sweep
+> node --test tests/pve-sweep-v1989.test.mjs
+
+✔ PVE와 PVP 핵심 경로는 전투 요청마다 전체 레거시 마이그레이션을 시작하지 않는다 (1.8799ms)
+✔ OWNER·점검 테스트 계정의 PVE·PVP 무제한은 실제 점검 중에만 허용한다 (0.5522ms)
+✔ 소탕은 첫 1회 V3 전투 뒤 잔여 횟수를 짧은 서버 묶음으로 이어서 처리한다 (0.6563ms)
+✔ 아포칼립스는 UI와 클라이언트 실행 경로에서 소탕이 차단된다 (0.2665ms)
+✔ 서버는 아포칼립스를 강제 거부하고 요청한 잔여 행동력까지만 처리한다 (0.2711ms)
+✔ 잔여 회차도 동일한 V3 엔진과 회차별 시드로 독립 판정한다 (0.1737ms)
+✔ 종료된 프리미엄 큐브는 수동·소탕 경로에서 재지급되지 않는다 (0.8124ms)
+✔ 소탕 결과는 주요 보상 전체를 합산하고 실패 시 현재 묶음 영수증으로 재확인한다 (0.2875ms)
+✔ 진행 중 영수증은 오류 팝업 대신 202 상태 조회와 자동 폴링으로 복구한다 (0.5324ms)
+✔ 각 묶음은 회차별 하트비트로 활성 영수증과 사용자 락을 연장한다 (0.365ms)
+✔ 고아 소탕 락은 하트비트 기준으로 회수하고 실제 실행 중인 락은 보존한다 (18.2248ms)
+✔ 영수증 상태 판정은 실행 중·완료·실패·고아 실행을 구분한다 (4.251ms)
+✔ 클라이언트는 RUNNING 응답을 보여주지 않고 같은 영수증의 완료 결과를 자동 조회한다 (1.5144ms)
+✔ 클라이언트는 다른 요청의 활성 락을 자동 대기한 뒤 자기 소탕을 재개한다 (0.9206ms)
+✔ 소탕 처리·결과 화면은 잔류 V3 프레임보다 앞에서 활성 결과창 하나만 표시한다 (0.2771ms)
+✔ 소탕 전용 UI와 캐시 버전이 운영 셸에 연결된다 (0.3148ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 123.3635
+
+> test:battle-suit
+> node --test tests/z-body-dash-v2.test.mjs tests/z-body-sword-live.test.mjs tests/project-v-battle-suit-backend-v1953.test.mjs tests/project-v-battle-suit-frontend-v1953.test.mjs tests/project-v-v3-account-battle-unit-v1953.test.mjs tests/project-v-v3-battle-suit-firearm-qc-v1957.test.mjs tests/battle-suit-damage-v2063.test.mjs tests/battle-suit-h-body-v2066.test.mjs tests/project-v-battle-suit-animation-assets-v1955.test.mjs tests/project-v-battle-suit-animation-runtime-v1955.test.mjs preview/battle-suit-prestige-v1/qa-assets.test.mjs tests/battle-suit-sz-body-v2124.test.mjs
+
+✔ only the selected white/orange suit, all six weapons, no live item activation (6.4196ms)
+✔ original source and six exact weapon rasters retain their recorded hashes (27.2077ms)
+✔ six sprites have true alpha, safe padding and no chroma-green placeholder (297.0871ms)
+✔ three atlas files match the existing 4 by 2 V3 contract; all phases are honest static repeats (324.1095ms)
+✔ approved M200 stays integrated and long; SKS must use exact raster, not an AI redraw (22.1314ms)
+✔ SKS and both gold rifles retain the original rasters and corrected whole-gun angle (370.6905ms)
+✔ preview imports the real V3 unit and never calls a live battle or reward API (6.8362ms)
+✔ all live suits and weapon cadences remove only the separate skill x3 when the HP floor and pierce are absent (5370.2341ms)
+✔ ordinary and chip damage grow with suit power instead of inheriting monster-max-HP minimum damage (147.5622ms)
+✔ a stronger boss no longer grants free pierce through a faster reference-card clock (415.3971ms)
+✔ normalization never buffs skill or ordinary pierce against low-power apocalypse enemies (178.4248ms)
+✔ a token suit with all three chips cannot exploit the controlled baseline encounter; no minimum-suit gate is added (140.0199ms)
+✔ unaffected PVE without a suit and PVP preserve pre-reform results, including speed and duplicate guards (24.0184ms)
+✔ H-BODY and core 4 register idempotently without inventing power, grants, recipes or drop rates (45.6688ms)
+✔ H-BODY resource refresh preserves OWNER-edited balance and availability (2.6028ms)
+✔ failed H-BODY registration never records a completed migration or poisons retry (1.3511ms)
+✔ adding core 4 preserves existing core CMS appearance, rarity, ordering and disabled state (4.2853ms)
+✔ H-BODY item art and separate V3 fallback are true RGBA with clear margins (156.5371ms)
+✔ six H-BODY profiles bind the real V3 catalog to byte-identical approved preview atlas rows (131.8627ms)
+✔ H-BODY gold AR is uniformly enlarged; approved M200, SKS and heavy sniper stay locked (0.4545ms)
+✔ H-BODY preserves server PVE support damage and excludes zero-power unconfigured items (4.7297ms)
+✔ SQLite: S/Z and cores 5/6 migrate atomically, preserve existing CMS policy, and retry (6.851ms)
+✔ PostgreSQL: S/Z and cores 5/6 migrate atomically, preserve existing CMS policy, and retry (2552.8361ms)
+✔ approved S/Z full-body alpha and all twelve atlas profiles are byte-identical in production (219.38ms)
+✔ equipped S/Z resolve dedicated fallback art and keep H-BODY PVE damage policy (1.4137ms)
+✔ Battle Suit v8 manifest connects both CMS gilded-dragon rifles without weakening the PVE-only static-pose contract (71.0801ms)
+✔ all nine selected atlases are immutable transparent 1536x1024 4x2 grids (987.9117ms)
+✔ eleven reworked rows repeat one crisp standing pose and approved rows remain pixel-identical (221.8184ms)
+✔ v6 diagnostics are complete and bind to final image hashes and static-frame policy (8.4512ms)
+✔ catalog resolves all 18 suit/weapon pairs with measured sole, HUD and muzzle anchors (135.4563ms)
+✔ authored account-unit atlases are PVE-only and forbidden modes perform zero loads or uses (8.3561ms)
+✔ PVE authored composite slices row/columns, never shows or tweens a separate weapon, and returns to ready (428.7935ms)
+✔ all eighteen authored suit/weapon profiles apply frame-exact sole pivots and keep muzzle math on the fire pivot (4.9683ms)
+✔ twenty-character nicknames are ellipsized inside the fixed panel width (1.3453ms)
+✔ account Battle Suit occupies the allied center in every PVE field and leaves no empty tile when absent (2.2232ms)
+✔ forced live replay redeploy restores all five allied Pixi visibility gates (0.9711ms)
+✔ instant profile redeploy restores the full live formation without an empty-frame timeline (0.5628ms)
+✔ PVE server-shot playback preserves weapon cadence differences and never enters the five-card damage contract (1.6161ms)
+✔ queued killing shots keep their authoritative character target after a timed KO (11.867ms)
+✔ server Battle Suit damage is the only source that starts a visible sustained-fire round (0.9321ms)
+✔ preview sustained-fire hook schedules at anticipation and measures the exact authored FIRE frame (1.8553ms)
+✔ stopping sustained fire during audio anticipation prevents a late visual shot (0.5072ms)
+✔ preview runSequence replays authoritative battle-suit damage events and restores the canonical roster (7.0744ms)
+✔ live preview replay restores all five allied SD units and the active enemy after the sequence (1.7658ms)
+✔ authored load failure behaviorally restores the static body plus approved DB weapon fallback (1.851ms)
+✔ stale authored atlas detaches and destroys frame views before the base asset is unloaded (1.8383ms)
+✔ releasing an older atlas never clears the newly selected authored suit/weapon sheet (4.5804ms)
+✔ battle-suit CMS power is PVE-only and the catalog points at the three approved runtime assets (2.9912ms)
+✔ Battle Suit 01 female refresh replaces only the appearance metadata (16.8954ms)
+✔ competitive server paths hard-exclude Battle Suit power (10.7167ms)
+✔ battle-suit migration is idempotent, starts at zero power and never opts into supply (9.3471ms)
+✔ V1969 migration applies the exact 100k/200k/300k PVE tiers and keeps PVP disabled (10.8941ms)
+✔ runtime Battle Suit and weapon cutout manifest matches the committed assets (65.3197ms)
+✔ both gilded-dragon rifles select physical weapon cadence without changing total Battle Suit damage (1.8207ms)
+✔ Battle Suit is a sixth PVE support actor with authoritative independent damage, not a displayed aggregate (207.1714ms)
+✔ ordinary rollback retains the older V2012 x2 buff in normal and apocalypse PVE without changing cadence (226.8645ms)
+✔ live activation is scoped to an equipped positive-power PVE Battle Suit (0.5708ms)
+✔ loadout reports render-ready suit/weapon metadata and isolates suit power from PVP (126.0198ms)
+✔ 배틀슈트는 6번째 슬롯과 PVE 전투력만 제공하며 장비창 인물 외형을 바꾸지 않는다 (37.196ms)
+✔ 장비창 인물 외형은 장착 아바타로만 교체된다 (3.4344ms)
+✔ 배틀슈트 장착·해제는 기존 장비 API와 BATTLE_SUIT 슬롯 계약을 사용한다 (8.0869ms)
+✔ CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리해 안내한다 (21.1833ms)
+Project V V3 PVE-only account Battle Suit unit contract: PASS
+✔ Battle Suit v8 manifest connects both CMS gilded-dragon rifles without weakening the PVE-only static-pose contract (560.7946ms)
+✔ all nine selected atlases are immutable transparent 1536x1024 4x2 grids (787.0486ms)
+✔ eleven reworked rows repeat one crisp standing pose and approved rows remain pixel-identical (238.3ms)
+✔ v6 diagnostics are complete and bind to final image hashes and static-frame policy (3.4865ms)
+✔ catalog resolves all 18 suit/weapon pairs with measured sole, HUD and muzzle anchors (152.1557ms)
+✔ authored account-unit atlases are PVE-only and forbidden modes perform zero loads or uses (4.0359ms)
+✔ PVE authored composite slices row/columns, never shows or tweens a separate weapon, and returns to ready (426.0523ms)
+✔ all eighteen authored suit/weapon profiles apply frame-exact sole pivots and keep muzzle math on the fire pivot (4.3489ms)
+✔ twenty-character nicknames are ellipsized inside the fixed panel width (2.0259ms)
+✔ account Battle Suit occupies the allied center in every PVE field and leaves no empty tile when absent (1.7601ms)
+✔ forced live replay redeploy restores all five allied Pixi visibility gates (0.8807ms)
+✔ instant profile redeploy restores the full live formation without an empty-frame timeline (0.4851ms)
+✔ PVE server-shot playback preserves weapon cadence differences and never enters the five-card damage contract (1.1749ms)
+✔ queued killing shots keep their authoritative character target after a timed KO (6.6691ms)
+✔ server Battle Suit damage is the only source that starts a visible sustained-fire round (0.5499ms)
+✔ preview sustained-fire hook schedules at anticipation and measures the exact authored FIRE frame (1.503ms)
+✔ stopping sustained fire during audio anticipation prevents a late visual shot (0.3702ms)
+✔ preview runSequence replays authoritative battle-suit damage events and restores the canonical roster (0.906ms)
+✔ live preview replay restores all five allied SD units and the active enemy after the sequence (1.1782ms)
+✔ authored load failure behaviorally restores the static body plus approved DB weapon fallback (1.0595ms)
+✔ stale authored atlas detaches and destroys frame views before the base asset is unloaded (1.1229ms)
+✔ releasing an older atlas never clears the newly selected authored suit/weapon sheet (0.962ms)
+✖ V3 preview mounts the real five-card PVE payload plus one independently damaging front-left account unit (7.085ms)
+✔ preview public shot hook reports the authored fire frame and renders an authoritative damage event (3.1789ms)
+✔ ballistic trajectory and monster hit use alpha PNG atlases through Pixi only (14.3267ms)
+✔ six live PVE profiles backed by three immutable CC0 real recordings satisfy provenance, hash and waveform QC (10.5358ms)
+✔ audio renderer uses only real buffer layers and is connected only to the live PVE Battle Suit runtime (1.3845ms)
+✔ stop invalidates a first-use automatic shot that is still decoding (2.9452ms)
+✔ a stopped sustained run cancels pending decode without globally stopping audio (1.562ms)
+✔ 20 genuine-alpha authored frames are distinct, padded, and preserve generated masters (358.228ms)
+✔ dash accelerates to 245 ms contact and returns at 640 ms, without changing body scale (0.7067ms)
+✔ actual GSAP controller synchronizes dash frame, cut frame, contact and final cleanup (12.072ms)
+✔ pause, 2x speed and cancel affect the same motion/FX clock and leave no residue (2.3841ms)
+✔ recycled targets and retired playback epochs never receive a late hit (3.9361ms)
+✔ approved AOE still plants at 740 ms, strikes at its original five times and has no dash FX (5.0008ms)
+✔ legacy comparison uses the original 810/1695 ms timing and no new dash effect (1.164ms)
+✔ repeat and interruption conserve all mixed-target receipts and release every timeline (6.3698ms)
+✔ approved atlas bytes, alpha, dimensions and tall-foot pivots survive promotion (61.1999ms)
+✔ queued receipts retain order, identity and damage across mixed-target presentation batches (2.0889ms)
+✔ real GSAP/Pixi action keeps contacts, pause/speed, final pose and engine cancellation coherent (13.1224ms)
+✔ retired target identity and a cancelled battle never receive delayed sword damage (2.1133ms)
+✔ appearance migration is atomic, idempotent, and leaves S/H/stats/ownership untouched (1.9771ms)
+✔ an already initialized equipment catalog still applies the new Z appearance before taking the fast path (3.5378ms)
+✔ Z replacement retains existing authoritative weapon damage and skill-chip budgets (39.9125ms)
+✔ PostgreSQL appearance migration uses the live adapter and preserves CMS values (2054.5952ms)
+ℹ tests 107
+ℹ suites 0
+ℹ pass 106
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6675.2163
+
+✖ failing tests:
+
+test at tests\project-v-v3-battle-suit-firearm-qc-v1957.test.mjs:40:1
+✖ V3 preview mounts the real five-card PVE payload plus one independently damaging front-left account unit (7.085ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /project-v-pixi-battle\.bundle\.js\?v=106-combat-flow/. Input:
+  
+  '(()=>{\r\n' +
+    "  const client=document.getElementById('pvClient');\r\n" +
+    '  const scaleClient=()=>{\r\n' +
+    "    if(innerWidth<=760){client.style.removeProperty('--pv-scale');return}\r\n" +
+    "    client.style.setProperty('--pv-scale',String(Math.min(innerWidth/1920,innerHeight/1080)));\r\n" +
+    '  };\r\n' +
+    "  addEventListener('resize',scaleClient,{passive:true});scaleClient();\r\n" +
+    '\r\n' +
+    '  const stageCopy={\r\n' +
+    "    home:['전투 준비','출전 덱 편성','카드를 선택해 상세 전투 정보를 확인하세요.'],\r\n" +
+    "    cards:['CARD COLLECTION','보유 카드 관리','보유 카드 273장 · 프레임과 강화 상태를 한 화면에서 관리합니다.'],\r\n" +
+    "    dex:['ARCHIVE','카드 도감','수집 현황과 중복 보유 수량을 확인합니다.'],\r\n" +
+    "    deck:['FORMATION','전투 덱 편성','PVE·랭크전·영토전 프리셋을 관리합니다.'],\r\n" +
+    "    gear:['ARSENAL','장비·제작','장비·차량·마법카드 보너스를 확인합니다.']\r\n" +
+    '  };\r\n' +
+    "  const moduleLayer=document.getElementById('pvModuleLayer');\r\n" +
+    "  const modulePages=[...document.querySelectorAll('[data-module-page]')];\r\n" +
+    '  const moduleMeta={\r\n' +
+    "    cards:['COLLECTION','카드 관리'],\r\n" +
+    "    dex:['ARCHIVE','카드 도감'],\r\n" +
+    "    deck:['FORMATION','덱 편성'],\r\n" +
+    "    draw:['CARD PACK TERMINAL','카드팩 개봉'],\r\n" +
+    "    battle:['COMBAT SYSTEM','전투'],\r\n" +
+    "    arsenal:['ARSENAL','장비 · 제작'],\r\n" +
+    "    inventory:['INVENTORY','인벤토리'],\r\n" +
+    "    rewards:['REWARD & RANK','보상 · 랭킹'],\r\n" +
+    "    auction:['LIVE AUCTION','경매장'],\r\n" +
+    "    prediction:['COIN PREDICTION','승부예측']\r\n" +
+    '  };\r\n' +
+    '  const battleSuitQc={\r\n' +
+    '    suits:{\r\n' +
+    "      BATTLE_SUIT_01:{name:'외형 01 · 메카닉 화이트 골드',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-mechanical-female-v3.png',pvePower:100000},\r\n" +
+    "      BATTLE_SUIT_02:{name:'외형 02 · 오렌지 택티컬',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v3.png',pvePower:200000},\r\n" +
+    "      BATTLE_SUIT_03:{name:'외형 03 · 모델 02 자수정 엑소슈트',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-model02-v3.png',pvePower:300000}\r\n" +
+    '    },\r\n' +
+    '    weapons:{\r\n' +
+    "      EQ_1785427638137:{name:'아발론 M4A1',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png'},\r\n" +
+    "      EQ_1785961232958:{name:'인피니티 AK',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png'},\r\n" +
+    "      EQ_1785961300455:{name:'인피니티 M200',kind:'SNIPER',sprite:'/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png'},\r\n" +
+    "      EQ_1786966923833:{name:'소버린 SKS',kind:'DMR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png'},\r\n" +
+    "      EQ_1788486929132:{name:'동방무기상 · 금룡 돌격소총',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png'},\r\n" +
+    "      EQ_1788486888336:{name:'동방무기상 · 금룡 대물저격총',kind:'SNIPER',sprite:'/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png'}\r\n" +
+    '    }\r\n' +
+    '  };\r\n' +
+    "  const battleQcState={suitCode:'BATTLE_SUIT_01',weaponCode:'EQ_1785427638137',battlefield:'HUNT',sound:true,mounted:false,busy:false};\r\n" +
+    '  const qcAllies=[\r\n' +
+    "    ['QC-FAKER','FAKER','FUR','ATTACK','/assets/ui/project-v/characters/deck-faker-sd-v1.png','/assets/cards/7777777.jpg'],\r\n" +
+    "    ['QC-TAEK','김택용','PRESTIGE','SPEED','/assets/ui/project-v/characters/deck-kimtaekyong-sd-v1.png','/assets/pre/8.jpg'],\r\n" +
+    "    ['QC-PPLI','쁠리','ZENITH','HP','/assets/ui/project-v/characters/deck-ppli-sd-v1.png','/assets/cards/ZENITH/V1.jpg'],\r\n" +
+    "    ['QC-AYOON','비키니 아윤','LIMITED','ATTACK','/assets/ui/project-v/characters/deck-bikini-ayoon-sd-v1.png','/assets/cards/0725/3.jpg'],\r\n" +
+    "    ['QC-BONG','프로필찍는 봉준','FUR','DEFENSE','/assets/ui/project-v/characters/deck-bongjun-sd-v1.png','/assets/NEWCARD/8.jpg']\r\n" +
+    '  ].map(([cardId,name,grade,type,primaryUrl,sourceArt],index)=>({\r\n' +
+    '    id:`A:${index}:${cardId}`,cardId,name,grade,type,hp:100,maxHp:100,sourceArt,\r\n' +
+    "    projectVBattleArt:{kind:'APPROVED_DECK_SD',primaryUrl,sourceArtUrl:sourceArt,scaleMultiplier:1}\r\n" +
+    '  }));\r\n' +
+    "  const pveBattlefields=new Set(['HUNT','TOWER','RAID']);\r\n" +
+    '  const qcPayload=()=>{\r\n' +
+    '    const suit=battleSuitQc.suits[battleQcState.suitCode];\r\n' +
+    '    const weapon=battleSuitQc.weapons[battleQcState.weaponCode];\r\n' +
+    '    const pveAllowed=pveBattlefields.has(battleQcState.battlefield);\r\n' +
+    "    const mode=pveAllowed?'PVE':battleQcState.battlefield;\r\n" +
+    "    const monsterCard={id:'B:0:MONSTER:QC-JORO',cardId:'MONSTER:QC-JORO',name:'결전의 조로',grade:'MONSTER',type:'ATTACK',hp:100,maxHp:100,shield:40,maxShield:40};\r\n" +
+    '    const monster={\r\n' +
+    "      id:'QC-JORO',monsterId:'QC-JORO',cardId:'MONSTER:QC-JORO',name:'결전의 조로',mode:battleQcState.battlefield,isBoss:true,\r\n" +
+    "      projectVMonsterArt:{kind:'APPROVED_MONSTER_SD',name:'결전의 조로',primaryUrl:'/assets/ui/project-v/monsters/nightmare-slime-sd-v1.png',scaleMultiplier:1.08,isBoss:true}\r\n" +
+    '    };\r\n' +
+    '    const equippedBattleSuit={code:battleQcState.suitCode,name:suit.name,battleSprite:suit.sprite,pvePower:suit.pvePower,scaleMultiplier:1};\r\n' +
+    '    const equippedWeapon={code:battleQcState.weaponCode,name:weapon.name,battleSprite:weapon.sprite,weaponClass:weapon.kind};\r\n' +
+    '    return {\r\n' +
+    '      mode,battlefieldMode:battleQcState.battlefield,contentType:battleQcState.battlefield,\r\n' +
+    "      accountNickname:'핑크빛유두',monster,equippedBattleSuit,equippedWeapon,\r\n" +
+    '      characterBonus:{battleSuitPve:suit.pvePower,equippedBattleSuit,equippedWeapon},\r\n' +
+    "      v3RenderContext:{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_INDEPENDENT_DAMAGE_QC_V1'},\r\n" +
+    "      battleV2:{mode,battlefieldMode:battleQcState.battlefield,rules:{battleSuitDamageAuthority:'SERVER_TIMELINE',battleSuitTargetable:false,battleSuitOccupiesCardSlot:false},teams:{A:{cards:qcAllies.map(card=>({...card,projectVBattleArt:{...card.projectVBattleArt}})),supports:[{id:`A:SUPPORT:BATTLE_SUIT:${battleQcState.suitCode}`,actorKind:'BATTLE_SUIT',power:suit.pvePower,weaponCode:battleQcState.weaponCode,authoritative:true,damageAuthority:'SERVER_TIMELINE'}]},B:{cards:[monsterCard]}},result:{timeline:[{type:'START_EFFECT',targetId:monsterCard.id,effect:'SHIELD',amount:40,shieldAfter:40,label:'방어형 · 선봉 방벽'}],damageBreakdown:{cards:0,battleSuit:0,ultimate:0,total:0,authority:'SERVER_TIMELINE'}}}\r\n" +
+    '    };\r\n' +
+    '  };\r\n' +
+    '  let battleRendererPromise=null,battleRendererRequested=false,battleMutation=Promise.resolve();\r\n' +
+    '  let battleAutoAudioHookBound=false;\r\n' +
+    '  const queueBattleMutation=task=>{\r\n' +
+    '    const run=battleMutation.then(task,task);\r\n' +
+    '    battleMutation=run.catch(()=>{});\r\n' +
+    '    return run;\r\n' +
+    '  };\r\n' +
+    "  const setQcChip=(id,text,state='')=>{\r\n" +
+    '    const chip=document.getElementById(id);\r\n' +
+    '    if(!chip)return;\r\n' +
+    '    chip.textContent=text;\r\n' +
+    "    chip.classList.toggle('is-pass',state==='pass');\r\n" +
+    "    chip.classList.toggle('is-fail',state==='fail');\r\n" +
+    '  };\r\n' +
+    '  const setQcBusy=busy=>{\r\n' +
+    '    battleQcState.busy=Boolean(busy);\r\n' +
+    "    const panel=document.getElementById('pvBattleSuitQc');\r\n" +
+    "    const fire=document.getElementById('pvBattleSuitFire');\r\n" +
+    "    panel?.setAttribute('aria-busy',String(battleQcState.busy));\r\n" +
+    '    if(fire)fire.disabled=battleQcState.busy||!pveBattlefields.has(battleQcState.battlefield);\r\n' +
+    "    document.querySelectorAll('[data-qc-suit],[data-qc-weapon],[data-battlefield]').forEach(button=>button.disabled=battleQcState.busy);\r\n" +
+    '  };\r\n' +
+    '  const battleReplayPlaying=()=>Boolean(window.ProjectVPixiBattle?.diagnostics?.().playing);\r\n' +
+    '  const refreshBattleQc=message=>{\r\n' +
+    '    const diagnostics=window.ProjectVPixiBattle?.diagnostics?.()||{};\r\n' +
+    '    const unit=diagnostics.accountBattleUnit||{};\r\n' +
+    '    const pveAllowed=pveBattlefields.has(battleQcState.battlefield);\r\n' +
+    '    const pvePass=pveAllowed?unit.enabled===true:unit.enabled!==true;\r\n' +
+    "    setQcChip('pvQcModeChip',pveAllowed?'PVE ONLY':`${battleQcState.battlefield} 차단`,pvePass?'pass':'fail');\r\n" +
+    "    setQcChip('pvQcDeckChip',`${unit.canonicalAllyFormationCount??diagnostics.formation?.allies??0} CARD`,Number(unit.canonicalAllyFormationCount??diagnostics.formation?.allies)===5?'pass':'fail');\r\n" +
+    "    const damagePass=unit.affectsDamage===true&&unit.damageAuthority==='SERVER_BATTLE_V2_TIMELINE';\r\n" +
+    "    setQcChip('pvQcDamageChip',damagePass?'LIVE DAMAGE':'DAMAGE 오류',damagePass?'pass':'fail');\r\n" +
+    "    const output=document.getElementById('pvBattleQcOutput');\r\n" +
+    '    const suit=battleSuitQc.suits[battleQcState.suitCode];\r\n' +
+    '    const weapon=battleSuitQc.weapons[battleQcState.weaponCode];\r\n' +
+    "    if(output)output.textContent=message||`${suit.name} · PVE +${suit.pvePower.toLocaleString('ko-KR')} · ${weapon.name} · ${pveAllowed?'사격 대기':'경쟁 콘텐츠 유닛 차단 검증'}`;\r\n" +
+    '    return {diagnostics,unit,pvePass};\r\n' +
+    '  };\r\n' +
+    '  const ensureBattleQcSession=async({reset=false}={})=>{\r\n' +
+    '    const api=window.ProjectVPixiBattle;\r\n' +
+    '    if(!api)return false;\r\n' +
+    '    setQcBusy(true);\r\n' +
+    '    try{\r\n' +
+    '      let restoredWithoutReplay=false;\r\n' +
+    "      if(!battleQcState.mounted){await api.mountForBattle(qcPayload(),document.getElementById('pvPixiBattle'));battleQcState.mounted=true}\r\n" +
+    '      else if(reset){\r\n' +
+    "        await api.resetSession(qcPayload(),document.getElementById('pvPixiBattle'));\r\n" +
+    '        // Profile QC swaps must not replay DEPLOY: that animation deliberately\r\n' +
+    '        // starts every actor at alpha 0 and creates a visible empty battlefield.\r\n' +
+    '        restoredWithoutReplay=Boolean(await api.restoreDeployedFormation?.());\r\n' +
+    '      }\r\n' +
+    '      if(!battleRendererRequested)return false;\r\n' +
+    '      await api.setVisible(true);\r\n' +
+    "      if(!restoredWithoutReplay)await api.playEvents([{type:'DEPLOY'}]);\r\n" +
+    '      refreshBattleQc();\r\n' +
+    '      return true;\r\n' +
+    '    }finally{setQcBusy(false)}\r\n' +
+    '  };\r\n' +
+    '  const bindBattleAutoAudioHook=()=>{\r\n' +
+    '    if(battleAutoAudioHookBound)return true;\r\n' +
+    '    const api=window.ProjectVPixiBattle;\r\n' +
+    '    if(!api?.setAccountPreviewFirearmHook)return false;\r\n' +
+    '    battleAutoAudioHookBound=api.setAccountPreviewFirearmHook(event=>{\r\n' +
+    '      const audio=window.ProjectVFirearmQcAudio;\r\n' +
+    "      if(event?.phase==='anticipation'){\r\n" +
+    '        return audio?.armSustainedShot?.(event.weaponCode,{\r\n' +
+    '          enabled:battleQcState.sound,\r\n' +
+    '          visualLeadMs:event.visualLeadMs,\r\n' +
+    '          isCancelled:event.isCancelled\r\n' +
+    '        })||null;\r\n' +
+    '      }\r\n' +
+    "      if(event?.phase==='fire'){\r\n" +
+    '        const result=event.plan?.markVisualFire?.(event.at)||null;\r\n' +
+    '        if(battleQcState.sound&&result?.audioScheduled){\r\n' +
+    "          setQcChip('pvQcSyncChip',`AUTO A/V ${result.deltaMs>=0?'+':''}${result.deltaMs.toFixed(1)}ms`,result.syncPass?'pa"... 13777 more characters
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/project-v-v3-battle-suit-firearm-qc-v1957.test.mjs:62:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "(()=>{\r\n  const client=document.getElementById('pvClient');\r\n  const scaleClient=()=>{\r\n    if(innerWidth<=760){client.style.removeProperty('--pv-scale');return}\r\n    client.style.setProperty('--pv-scale',String(Math.min(innerWidth/1920,innerHeight/1080)));\r\n  };\r\n  addEventListener('resize',scaleClient,{passive:true});scaleClient();\r\n\r\n  const stageCopy={\r\n    home:['전투 준비','출전 덱 편성','카드를 선택해 상세 전투 정보를 확인하세요.'],\r\n    cards:['CARD COLLECTION','보유 카드 관리','보유 카드 273장 · 프레임과 강화 상태를 한 화면에서 관리합니다.'],\r\n    dex:['ARCHIVE','카드 도감','수집 현황과 중복 보유 수량을 확인합니다.'],\r\n    deck:['FORMATION','전투 덱 편성','PVE·랭크전·영토전 프리셋을 관리합니다.'],\r\n    gear:['ARSENAL','장비·제작','장비·차량·마법카드 보너스를 확인합니다.']\r\n  };\r\n  const moduleLayer=document.getElementById('pvModuleLayer');\r\n  const modulePages=[...document.querySelectorAll('[data-module-page]')];\r\n  const moduleMeta={\r\n    cards:['COLLECTION','카드 관리'],\r\n    dex:['ARCHIVE','카드 도감'],\r\n    deck:['FORMATION','덱 편성'],\r\n    draw:['CARD PACK TERMINAL','카드팩 개봉'],\r\n    battle:['COMBAT SYSTEM','전투'],\r\n    arsenal:['ARSENAL','장비 · 제작'],\r\n    inventory:['INVENTORY','인벤토리'],\r\n    rewards:['REWARD & RANK','보상 · 랭킹'],\r\n    auction:['LIVE AUCTION','경매장'],\r\n    prediction:['COIN PREDICTION','승부예측']\r\n  };\r\n  const battleSuitQc={\r\n    suits:{\r\n      BATTLE_SUIT_01:{name:'외형 01 · 메카닉 화이트 골드',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-mechanical-female-v3.png',pvePower:100000},\r\n      BATTLE_SUIT_02:{name:'외형 02 · 오렌지 택티컬',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v3.png',pvePower:200000},\r\n      BATTLE_SUIT_03:{name:'외형 03 · 모델 02 자수정 엑소슈트',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-model02-v3.png',pvePower:300000}\r\n    },\r\n    weapons:{\r\n      EQ_1785427638137:{name:'아발론 M4A1',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png'},\r\n      EQ_1785961232958:{name:'인피니티 AK',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png'},\r\n      EQ_1785961300455:{name:'인피니티 M200',kind:'SNIPER',sprite:'/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png'},\r\n      EQ_1786966923833:{name:'소버린 SKS',kind:'DMR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png'},\r\n      EQ_1788486929132:{name:'동방무기상 · 금룡 돌격소총',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png'},\r\n      EQ_1788486888336:{name:'동방무기상 · 금룡 대물저격총',kind:'SNIPER',sprite:'/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png'}\r\n    }\r\n  };\r\n  const battleQcState={suitCode:'BATTLE_SUIT_01',weaponCode:'EQ_1785427638137',battlefield:'HUNT',sound:true,mounted:false,busy:false};\r\n  const qcAllies=[\r\n    ['QC-FAKER','FAKER','FUR','ATTACK','/assets/ui/project-v/characters/deck-faker-sd-v1.png','/assets/cards/7777777.jpg'],\r\n    ['QC-TAEK','김택용','PRESTIGE','SPEED','/assets/ui/project-v/characters/deck-kimtaekyong-sd-v1.png','/assets/pre/8.jpg'],\r\n    ['QC-PPLI','쁠리','ZENITH','HP','/assets/ui/project-v/characters/deck-ppli-sd-v1.png','/assets/cards/ZENITH/V1.jpg'],\r\n    ['QC-AYOON','비키니 아윤','LIMITED','ATTACK','/assets/ui/project-v/characters/deck-bikini-ayoon-sd-v1.png','/assets/cards/0725/3.jpg'],\r\n    ['QC-BONG','프로필찍는 봉준','FUR','DEFENSE','/assets/ui/project-v/characters/deck-bongjun-sd-v1.png','/assets/NEWCARD/8.jpg']\r\n  ].map(([cardId,name,grade,type,primaryUrl,sourceArt],index)=>({\r\n    id:`A:${index}:${cardId}`,cardId,name,grade,type,hp:100,maxHp:100,sourceArt,\r\n    projectVBattleArt:{kind:'APPROVED_DECK_SD',primaryUrl,sourceArtUrl:sourceArt,scaleMultiplier:1}\r\n  }));\r\n  const pveBattlefields=new Set(['HUNT','TOWER','RAID']);\r\n  const qcPayload=()=>{\r\n    const suit=battleSuitQc.suits[battleQcState.suitCode];\r\n    const weapon=battleSuitQc.weapons[battleQcState.weaponCode];\r\n    const pveAllowed=pveBattlefields.has(battleQcState.battlefield);\r\n    const mode=pveAllowed?'PVE':battleQcState.battlefield;\r\n    const monsterCard={id:'B:0:MONSTER:QC-JORO',cardId:'MONSTER:QC-JORO',name:'결전의 조로',grade:'MONSTER',type:'ATTACK',hp:100,maxHp:100,shield:40,maxShield:40};\r\n    const monster={\r\n      id:'QC-JORO',monsterId:'QC-JORO',cardId:'MONSTER:QC-JORO',name:'결전의 조로',mode:battleQcState.battlefield,isBoss:true,\r\n      projectVMonsterArt:{kind:'APPROVED_MONSTER_SD',name:'결전의 조로',primaryUrl:'/assets/ui/project-v/monsters/nightmare-slime-sd-v1.png',scaleMultiplier:1.08,isBoss:true}\r\n    };\r\n    const equippedBattleSuit={code:battleQcState.suitCode,name:suit.name,battleSprite:suit.sprite,pvePower:suit.pvePower,scaleMultiplier:1};\r\n    const equippedWeapon={code:battleQcState.weaponCode,name:weapon.name,battleSprite:weapon.sprite,weaponClass:weapon.kind};\r\n    return {\r\n      mode,battlefieldMode:battleQcState.battlefield,contentType:battleQcState.battlefield,\r\n      accountNickname:'핑크빛유두',monster,equippedBattleSuit,equippedWeapon,\r\n      characterBonus:{battleSuitPve:suit.pvePower,equippedBattleSuit,equippedWeapon},\r\n      v3RenderContext:{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_INDEPENDENT_DAMAGE_QC_V1'},\r\n      battleV2:{mode,battlefieldMode:battleQcState.battlefield,rules:{battleSuitDamageAuthority:'SERVER_TIMELINE',battleSuitTargetable:false,battleSuitOccupiesCardSlot:false},teams:{A:{cards:qcAllies.map(card=>({...card,projectVBattleArt:{...card.projectVBattleArt}})),supports:[{id:`A:SUPPORT:BATTLE_SUIT:${battleQcState.suitCode}`,actorKind:'BATTLE_SUIT',power:suit.pvePower,weaponCode:battleQcState.weaponCode,authoritative:true,damageAuthority:'SERVER_TIMELINE'}]},B:{cards:[monsterCard]}},result:{timeline:[{type:'START_EFFECT',targetId:monsterCard.id,effect:'SHIELD',amount:40,shieldAfter:40,label:'방어형 · 선봉 방벽'}],damageBreakdown:{cards:0,battleSuit:0,ultimate:0,total:0,authority:'SERVER_TIMELINE'}}}\r\n    };\r\n  };\r\n  let battleRendererPromise=null,battleRendererRequested=false,battleMutation=Promise.resolve();\r\n  let battleAutoAudioHookBound=false;\r\n  const queueBattleMutation=task=>{\r\n    const run=battleMutation.then(task,task);\r\n    battleMutation=run.catch(()=>{});\r\n    return run;\r\n  };\r\n  const setQcChip=(id,text,state='')=>{\r\n    const chip=document.getElementById(id);\r\n    if(!chip)return;\r\n    chip.textContent=text;\r\n    chip.classList.toggle('is-pass',state==='pass');\r\n    chip.classList.toggle('is-fail',state==='fail');\r\n  };\r\n  const setQcBusy=busy=>{\r\n    battleQcState.busy=Boolean(busy);\r\n    const panel=document.getElementById('pvBattleSuitQc');\r\n    const fire=document.getElementById('pvBattleSuitFire');\r\n    panel?.setAttribute('aria-busy',String(battleQcState.busy));\r\n    if(fire)fire.disabled=battleQcState.busy||!pveBattlefields.has(battleQcState.battlefield);\r\n    document.querySelectorAll('[data-qc-suit],[data-qc-weapon],[data-battlefield]').forEach(button=>button.disabled=battleQcState.busy);\r\n  };\r\n  const battleReplayPlaying=()=>Boolean(window.ProjectVPixiBattle?.diagnostics?.().playing);\r\n  const refreshBattleQc=message=>{\r\n    const diagnostics=window.ProjectVPixiBattle?.diagnostics?.()||{};\r\n    const unit=diagnostics.accountBattleUnit||{};\r\n    const pveAllowed=pveBattlefields.has(battleQcState.battlefield);\r\n    const pvePass=pveAllowed?unit.enabled===true:unit.enabled!==true;\r\n    setQcChip('pvQcModeChip',pveAllowed?'PVE ONLY':`${battleQcState.battlefield} 차단`,pvePass?'pass':'fail');\r\n    setQcChip('pvQcDeckChip',`${unit.canonicalAllyFormationCount??diagnostics.formation?.allies??0} CARD`,Number(unit.canonicalAllyFormationCount??diagnostics.formation?.allies)===5?'pass':'fail');\r\n    const damagePass=unit.affectsDamage===true&&unit.damageAuthority==='SERVER_BATTLE_V2_TIMELINE';\r\n    setQcChip('pvQcDamageChip',damagePass?'LIVE DAMAGE':'DAMAGE 오류',damagePass?'pass':'fail');\r\n    const output=document.getElementById('pvBattleQcOutput');\r\n    const suit=battleSuitQc.suits[battleQcState.suitCode];\r\n    const weapon=battleSuitQc.weapons[battleQcState.weaponCode];\r\n    if(output)output.textContent=message||`${suit.name} · PVE +${suit.pvePower.toLocaleString('ko-KR')} · ${weapon.name} · ${pveAllowed?'사격 대기':'경쟁 콘텐츠 유닛 차단 검증'}`;\r\n    return {diagnostics,unit,pvePass};\r\n  };\r\n  const ensureBattleQcSession=async({reset=false}={})=>{\r\n    const api=window.ProjectVPixiBattle;\r\n    if(!api)return false;\r\n    setQcBusy(true);\r\n    try{\r\n      let restoredWithoutReplay=false;\r\n      if(!battleQcState.mounted){await api.mountForBattle(qcPayload(),document.getElementById('pvPixiBattle'));battleQcState.mounted=true}\r\n      else if(reset){\r\n        await api.resetSession(qcPayload(),document.getElementById('pvPixiBattle'));\r\n        // Profile QC swaps must not replay DEPLOY: that animation deliberately\r\n        // starts every actor at alpha 0 and creates a visible empty battlefield.\r\n        restoredWithoutReplay=Boolean(await api.restoreDeployedFormation?.());\r\n      }\r\n      if(!battleRendererRequested)return false;\r\n      await api.setVisible(true);\r\n      if(!restoredWithoutReplay)await api.playEvents([{type:'DEPLOY'}]);\r\n      refreshBattleQc();\r\n      return true;\r\n    }finally{setQcBusy(false)}\r\n  };\r\n  const bindBattleAutoAudioHook=()=>{\r\n    if(battleAutoAudioHookBound)return true;\r\n    const api=window.ProjectVPixiBattle;\r\n    if(!api?.setAccountPreviewFirearmHook)return false;\r\n    battleAutoAudioHookBound=api.setAccountPreviewFirearmHook(event=>{\r\n      const audio=window.ProjectVFirearmQcAudio;\r\n      if(event?.phase==='anticipation'){\r\n        return audio?.armSustainedShot?.(event.weaponCode,{\r\n          enabled:battleQcState.sound,\r\n          visualLeadMs:event.visualLeadMs,\r\n          isCancelled:event.isCancelled\r\n        })||null;\r\n      }\r\n      if(event?.phase==='fire'){\r\n        const result=event.plan?.markVisualFire?.(event.at)||null;\r\n        if(battleQcState.sound&&result?.audioScheduled){\r\n          setQcChip('pvQcSyncChip',`AUTO A/V ${result.deltaMs>=0?'+':''}${result.deltaMs.toFixed(1)}ms`,result.syncPass?'pa"... 13777 more characters,
+    expected: /project-v-pixi-battle\.bundle\.js\?v=106-combat-flow/,
+    operator: 'match',
+    diff: 'simple'
+  }

@@ -1,0 +1,19 @@
+{
+  "status": "COMPLETED",
+  "actor": "CODEX_OPERATIONS",
+  "operationKey": "ops:seal-dragon-hard:20261022:v1",
+  "format": "SEALS_BOSS",
+  "bossStage": {
+    "name": "봉인룡 네르가온",
+    "hp": 15000000000,
+    "battlePower": 18000000
+  },
+  "scope": "NEXT_ROUND_ONLY",
+  "roundUnchanged": true,
+  "rewardsUnchanged": true,
+  "roundStarted": false,
+  "at": "2026-10-21T18:54:40.624Z",
+  "adminLogId": "49703",
+  "committed": true,
+  "replayed": false
+}

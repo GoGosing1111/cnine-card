@@ -1,0 +1,15 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/resume-release-gate.mjs:30
+    if(before.split(needle).length!==2||before.replace(needle,replacement)!==after||html!==previousHtml||!html.includes(replacement))throw Error('Codex template repair must only preserve the existing Jinmu cache token.');
+                                                                                                                                           ^
+
+Error: Codex template repair must only preserve the existing Jinmu cache token.
+    at codexCompatibilityRepair (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/resume-release-gate.mjs:30:140)
+    at fullGateResumePlan (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/resume-release-gate.mjs:99:22)
+    at resumeFullReleaseGate (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/resume-release-gate.mjs:355:14)
+    at file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/deploy-production.mjs:61:3
+
+Node.js v24.18.0

@@ -1,0 +1,14 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/resume-release-gate.mjs:79
+  if(git('rev-parse','HEAD')!==git('rev-parse','origin/main'))throw Error('Push the release before resuming.');
+                                                                    ^
+
+Error: Push the release before resuming.
+    at fullGateResumePlan (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/resume-release-gate.mjs:79:69)
+    at resumeFullReleaseGate (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/resume-release-gate.mjs:344:14)
+    at file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/deploy-production.mjs:61:3
+
+Node.js v24.18.0

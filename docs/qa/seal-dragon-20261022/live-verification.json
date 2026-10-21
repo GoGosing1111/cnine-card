@@ -1,0 +1,98 @@
+{
+  "at": "2026-10-21T18:54:55.218Z",
+  "resources": [
+    {
+      "file": "assets/ui/seal-battle/dragon-20261022/portrait.webp",
+      "sha256": "b65e39b27e2e5be9b789536e73d0a7629ee150fe330f706b5a22c7db85ac963f",
+      "bytes": 164454
+    },
+    {
+      "file": "assets/ui/seal-battle/dragon-20261022/hero.webp",
+      "sha256": "3f341896ba07e74cb191aaceacaa9966bf53aa0aad4dff5d4bf1c6f1dcf446a5",
+      "bytes": 398724
+    },
+    {
+      "file": "assets/ui/seal-battle/dragon-20261022/motion.webp",
+      "sha256": "ede7cd57cf32446484e9843125cbf73a18a4612915137f97945ba75a634983e4",
+      "bytes": 1113006
+    },
+    {
+      "file": "assets/ui/seal-battle/dragon-20261022/motion.json",
+      "sha256": "671bf131eee5a4de774955ae6bcbbf6399447eb288720afd209cf602b2038819",
+      "bytes": 3594
+    },
+    {
+      "file": "js/seal-battle.js",
+      "sha256": "ad72463081379ca420b6a63d337f519a037891b8efa6dec959117c220ca8c97a",
+      "bytes": 35841
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "faf8d293135cdac0d64d3eba82272c01d2c97adb883f00f4eb3620abf42e0fc5",
+      "bytes": 83092
+    },
+    {
+      "file": "css/seal-battle.css",
+      "sha256": "52c4607106c728fedd3076a08efe21668cb5233628dbc6799bef77b1753358d7",
+      "bytes": 21791
+    },
+    {
+      "file": "admin/seal-battle-admin.js",
+      "sha256": "ae5b094820d11ea5e50e9a3c74e7baa881bce97fdc25d3fa4472ecf20546120e",
+      "bytes": 28264
+    },
+    {
+      "file": "admin/seal-battle-admin.css",
+      "sha256": "d3d99b9ac9783f5de8362f29d9446a7d81deec8b79031c08db81088f8aadb417",
+      "bytes": 10874
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "452ead1ac253fb45ffabf9e715cb7a2b845691d75ecafef141968799d414a975",
+      "bytes": 2270893
+    },
+    {
+      "file": "preview/seal-battle-rework-20261021/fixture.js",
+      "sha256": "a16f51ea438ae9ad3bb16617e78594e72100c96447b7b6162cbe871d565d7c5b",
+      "bytes": 7666
+    }
+  ],
+  "shellConnected": true,
+  "preview": 200,
+  "unauthenticatedStatus": 401,
+  "settings": {
+    "format": "SEALS_BOSS",
+    "bossStage": {
+      "name": "봉인룡 네르가온",
+      "hp": 15000000000,
+      "battlePower": 18000000
+    }
+  },
+  "receipt": {
+    "status": "COMPLETED",
+    "actor": "CODEX_OPERATIONS",
+    "operationKey": "ops:seal-dragon-hard:20261022:v1",
+    "format": "SEALS_BOSS",
+    "bossStage": {
+      "name": "봉인룡 네르가온",
+      "hp": 15000000000,
+      "battlePower": 18000000
+    },
+    "scope": "NEXT_ROUND_ONLY",
+    "roundUnchanged": true,
+    "rewardsUnchanged": true,
+    "roundStarted": false,
+    "at": "2026-10-21T18:54:40.624Z",
+    "adminLogId": "49703"
+  },
+  "previousRound": {
+    "id": "64",
+    "status": "CLEARED"
+  },
+  "newRoundStarted": false,
+  "previousSettingsPreserved": true,
+  "schema": [
+    "seal_battle_dragon_events_v20261022",
+    "seal_battle_dragon_receipts_v20261022"
+  ]
+}

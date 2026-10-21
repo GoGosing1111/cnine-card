@@ -1,0 +1,303 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+[FULL RELEASE RESUME] Reuse 72 completed stages from d09a8f2eee3e4962f185c2953bd117eb73ad6e5b; execute every remaining stage and production guard.
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (1.1128ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (3.207ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.3331ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (3.3648ms)
+✔ codex authoring template can retain the cache token from unchanged public HTML only (1.9409ms)
+✔ codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources (3.5826ms)
+✔ full gate resumes a proven prefix and retains failed, remaining and final release guards (0.5603ms)
+✔ registered preview checkers rerun their owning stage and reject runtime or unregistered consumers (0.8835ms)
+✔ an upload failure reuses only a complete successful gate and rechecks changed deployment contracts (0.6483ms)
+✔ only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts (1.8965ms)
+✔ main cache version alignment accepts only the tested shell version and rechecks affected HTML tests (1.3271ms)
+✔ isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity (0.6672ms)
+✔ lobby authoring repair retains passes only with unchanged live output and a full build check (0.6136ms)
+✔ multiple immutable continuation logs keep contiguous passes and reject a changed log or gap (0.7912ms)
+✔ a continuation validates successful earlier reruns before its contiguous failed-stage suffix (0.936ms)
+✔ a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard (0.8662ms)
+✔ a completed continuation checks its actual candidate at the final source guard (0.3611ms)
+✔ continued gate accepts an isolated raid correction only after successful current browser proof (0.9689ms)
+✔ concurrent authoring art must be new, hash-bound, image-only and unused by runtime (1.4091ms)
+✔ unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed (0.657ms)
+✔ changed tests in a completed stage rerun that stage without invalidating unrelated passes (0.1238ms)
+✔ preview QA repairs must be existing executable tests in the unchanged full gate (0.4911ms)
+✔ a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers (0.7352ms)
+✔ concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt (0.8058ms)
+✔ a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits (1.5452ms)
+✔ concurrent unreferenced JSON production receipts are documentation, never runtime configuration (1.0606ms)
+✔ runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results (0.5896ms)
+✔ tampered, incomplete or noncontiguous logs fail closed (0.3171ms)
+✔ explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks (0.5345ms)
+✔ uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain (0.8082ms)
+✔ legacy .mjs test entries are reusable only when directly registered in the unchanged gate (0.2422ms)
+✔ an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence (1.0927ms)
+✔ limited-pack view proof is runner-specific and never permits shared policy, session or server changes (2.0578ms)
+✔ offline skill preview proof binds source and bundle and reruns contracts that inspect it (1.788ms)
+✔ registered nested npm tests belong to their parent and cannot be omitted from a completed gate (0.6535ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.4977ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.4809ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.3903ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.4928ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1493ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.4444ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (3.4335ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (1.657ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 127.2351
+
+> test:idle-dungeon
+> node tests/idle-dungeon-daily-cap-v1732.mjs && node --test tests/idle-v3-preview-v1.test.mjs
+
+idle historical simulation retained; production entry points retired
+✔ real, approved five-card identities; one SUPERSTAR and one ZENITH; artwork separate from SD (2.1279ms)
+✔ all twelve encounters use existing approved monster originals and SD (2.6444ms)
+✔ monster stats do not scale to player strength (45.0379ms)
+✔ ordinary rollback restores the first three clears across thirty seeds without retuning enemies (47.4153ms)
+✔ training improves the fixed first gate without turning a surviving enemy into a clear (71.5804ms)
+✔ all gates preserve maximum-training power and require an actual clear under the current simulator (144.8865ms)
+✔ first clear bonus paid only once, repeated farm pays normal reward (1.1755ms)
+✔ a failed gate preserves currency and clears, switches to previous normal farm (2.8571ms)
+✔ begin rejects overlapping rounds; finish is idempotent; stale/cancelled results award nothing (1.0539ms)
+✔ mismatched results cannot claim the active stage (0.5245ms)
+✔ unopened stages and bosses cannot be selected as safe farms (0.1776ms)
+✔ manual farm choice during an advancing fight is not overwritten by its result (0.7195ms)
+✔ training is bounded, charged once, and does not mutate an in-progress snapshot (0.423ms)
+✔ reload cannot restore a running or pending round, and only scoped preview key is used (0.553ms)
+✔ malformed and obsolete storage is normalized without pending state or unbounded numbers (0.3364ms)
+✔ all-clear transitions to a cleared normal farm and cannot retry past the final stage (0.1737ms)
+✔ bridge loads one production V3 bundle and the original adapter/frame chain (1.7804ms)
+✔ Pages extensionless battle redirects keep Pixi backgrounds and scripts at their canonical roots (2.8504ms)
+✔ preview has no production UI entry, API mutations or independent Pixi/GSAP copy (84.5214ms)
+✔ silent bridge disposes the mixer before playback and never changes the live sound preference (1.4582ms)
+✔ battle suit is a separate support with real suit/weapon assets and independent damage (3.3319ms)
+✔ preview damage style keys stay bounded with real Pixi TextStyle reuse and preserve appearance (31.6532ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1149.8123
+
+> test:treasury
+> node --test tests/administration-treasury-v2030.test.mjs tests/retired-content-20261001.test.mjs
+
+✔ retired treasury rejects reads, submissions and decisions before any authentication or DB access (1.483ms)
+✔ all four sales paths retain purchases with no tax schema or collection hook (8.8871ms)
+✔ previously approved prediction support remains readable and refunds only once (1.1592ms)
+✔ actual public API rejects legacy, V3 and admin endpoints before forwarding or opening a DB (22.3294ms)
+✔ stale internal entry points cannot settle coins, XP, leases or receipts (2.6779ms)
+✔ PC/mobile navigation shares legion entry and excludes retired features/loaders (25.4833ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 641.0245
+
+> test:z-body-effects
+> node --test tests/z-body-area-skill-v3.test.mjs tests/z-body-thunder-fx-v3.test.mjs tests/z-body-normal-fx-v3.test.mjs tests/z-body-release-v3.test.mjs
+
+✔ approved production gate enables Z intrinsically without a chip or JSON opt-in (59.771ms)
+✔ each target receives the helicopter total from the same authoritative formula (23.9561ms)
+✔ all living front and rear enemies receive separate five-hit damage, without target-count dilution (31.5159ms)
+✔ missing or zero-power suit and an opening kill cannot generate an intrinsic cast (10.6561ms)
+✔ 48 normal frames preserve generated alpha, original hashes and non-bleeding atlas cells (543.409ms)
+✔ authored slash peak and impact peak coincide with the unchanged 245 ms receipt (6.8978ms)
+✔ pause, slow/fast playback and cancellation retain the shared clock with no late damage (1.5631ms)
+✔ reused enemy slots and a replaced session cannot receive the old basic hit (2.2613ms)
+✔ all six live atlases are the exact user-approved pixels and retain their generation records (59.4289ms)
+✔ production preloader, skill factory and cache refresh are connected through the common Z controller (22.6788ms)
+✔ the shipped main and continuous PVE engines contain the approved six-atlas runtime (7.3856ms)
+✔ 24 frames have preserved generated sources, real alpha, unique pixels and transparent cell gutters (72.6136ms)
+✔ contact uses authored frame five / four and every frame is independently sampled (0.3097ms)
+✔ a delayed Z collision keeps anticipation hidden until ready, then plays through contact and every tail (12.2098ms)
+✔ actual shared GSAP playback conserves all 25 receipts and clears body lock and effect layers (4.6355ms)
+✔ a Z cast whose targets are finished by helicopter still completes its visuals without damage (0.9142ms)
+✔ helicopter may start first without skipping or freezing Z body preparation (0.5232ms)
+✔ pause and rate changes follow one clock; cancel and slot reuse never confirm a new collision (0.8297ms)
+✔ ordinary Z receipts use only dash while an intrinsic area skill is installed (0.2491ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1550.9773
+
+> test:legion-hunt
+> node --test tests/sustained-hunt-v2.test.mjs tests/legion-hunt-owner-cms-20260926.test.mjs tests/legion-hunt-entry-account-20260926.test.mjs tests/legion-hunt-z-body-playback-20260926.test.mjs tests/legion-hunt-duration-entries-20260926.test.mjs tests/legion-hunt-modes-rewards-20260928.test.mjs tests/legion-hunt-interruption-recovery-20261003.test.mjs && npm run test:legion-regions
+
+✔ SQLite: OWNER may enter every difficulty after exhausting two entries; retries preserve the existing counter (94.3806ms)
+✔ SQLite: concurrent OWNER begin, KST midnight and session expiry preserve unlimited access without quota writes (11.1265ms)
+✔ PostgreSQL: OWNER may enter every difficulty after exhausting two entries; retries preserve the existing counter (3088.3858ms)
+{"difficulty":"normal","simulationMs":107,"events":1957,"instances":329,"stateBytes":37667}
+{"difficulty":"hard","simulationMs":88,"events":1989,"instances":257,"stateBytes":32490}
+{"difficulty":"nightmare","simulationMs":76,"events":2118,"instances":264,"stateBytes":33941}
+{"difficulty":"inferno","simulationMs":71,"events":2221,"instances":276,"stateBytes":35656}
+✔ PostgreSQL: concurrent OWNER begin, KST midnight and session expiry preserve unlimited access without quota writes (1933.7283ms)
+✔ unlimited entry depends only on the authenticated OWNER role; ordinary energy capacity is ten (1.4301ms)
+✔ every difficulty includes its boss within 7 minutes; strong accounts cannot acknowledge it at 2x speed (347.9801ms)
+✔ final-boss despawn drains old hits and retires the exact generation without a knockout (2.7582ms)
+✔ hunt keeps animations and the combat clock at 1x even after delayed event delivery (1.2473ms)
+✔ adjacent bullet compaction preserves exact damage and last HP, never crossing a KO, skill or instance (0.4246ms)
+✔ timed refill rejects unsafe configuration and the final retreat never counts as a kill (0.9266ms)
+✔ entry controller blocks an exhausted account; refresh alone cannot spend an entry (2.599ms)
+✔ entry controller accepts the server unlimited allowance even with a previously exhausted counter (1.7406ms)
+✔ the shipped hunt extension satisfies the live loader without being replaced by the smaller generic formation (8.9769ms)
+✔ lobby portraits preserve the operating HTTPS card source as well as local Korean asset paths (1.054ms)
+✔ opening recovers an interrupted run before reading the loadout; explicit entry runs once and never on refresh (2.9924ms)
+✔ invalid/missing deck blocks entry and a late bootstrap response cannot reopen a closed lobby (5.0539ms)
+✔ bootstrap and actual entry use the authenticated saved deck, refreshing changes at entry and preserving separate mercenary (256.6039ms)
+✔ no suit, no chips, and no mercenary still use a bounded server clock with no invented support (199.091ms)
+✔ missing saved cards is recoverable in lobby but cannot start or overwrite an existing expedition (4.0061ms)
+✔ SQLite: owned mercenary loadout and CMS skill reach the actual hunt handler (174.9853ms)
+✔ PostgreSQL: owned mercenary loadout and CMS skill reach the actual hunt handler (3552.3877ms)
+✔ production entry has its own battle page with no preset-party setup and an explicit parent handshake (46.9318ms)
+✔ SQLite: unfinished items never pay; already-paid coins consume the entry through recovery and repeated cancel (49.0758ms)
+✔ SQLite: clear, defeat, timeout and explicit retreat pay the exact picked bag and consume one entry (30.4554ms)
+✔ SQLite: saved terminal intent survives grant failure, expiry and cancel; reconnect settles instead of refunding (8.8203ms)
+✔ SQLite: interrupted recovery is atomic and works when operation is OFF across midnight (6.4743ms)
+✔ SQLite: legacy immediate rewards are preserved without a second grant; old cancelled/expired run refunds only once (9.1705ms)
+✔ PostgreSQL: unfinished items never pay; already-paid coins consume the entry through recovery and repeated cancel (3025.857ms)
+✔ PostgreSQL: clear, defeat, timeout and explicit retreat pay the exact picked bag and consume one entry (2024.3549ms)
+✔ PostgreSQL: saved terminal intent survives grant failure, expiry and cancel; reconnect settles instead of refunding (1510.6537ms)
+✔ PostgreSQL: interrupted recovery is atomic and works when operation is OFF across midnight (1372.4408ms)
+✔ PostgreSQL: legacy immediate rewards are preserved without a second grant; old cancelled/expired run refunds only once (1131.9936ms)
+✔ SQLite: legacy defaults to TEST; OFF blocks everyone; ON opens ordinary energy entries without granting CMS access (87.4578ms)
+✔ SQLite: all four reward destinations stage pickups and settle exactly once despite lost pickup/finish replies (31.4041ms)
+✔ SQLite: settlement failures and competing writes preserve pickups and pending finish without partial grants (16.8029ms)
+✔ SQLite: mode changes cannot upgrade TEST loot or grant while stopped; old ON runs retain their drop settings (22.2794ms)
+✔ PostgreSQL: legacy defaults to TEST; OFF blocks everyone; ON opens ordinary energy entries without granting CMS access (3386.7775ms)
+✔ PostgreSQL: all four reward destinations stage pickups and settle exactly once despite lost pickup/finish replies (1996.5698ms)
+✔ PostgreSQL: settlement failures and competing writes preserve pickups and pending finish without partial grants (1503.1286ms)
+✔ PostgreSQL: mode changes cannot upgrade TEST loot or grant while stopped; old ON runs retain their drop settings (1449.3034ms)
+✔ thousandths persist exactly and are used by the weighted draw; earlier tenths remain compatible (3.1134ms)
+✔ navigation uses one status-only read per mount and stays hidden on denied or failed checks (5.4443ms)
+✔ SQLite: default TEST blocks non-OWNER before loading account or session data (43.2255ms)
+✔ SQLite: CMS persistent catalog, explicit opt-in, revision conflicts and transactional audit (13.537ms)
+✔ SQLite: CMS quantity reaches random ground drops; persisted clicks and lost replies award exactly once (212.0092ms)
+✔ PostgreSQL: default TEST blocks non-OWNER before loading account or session data (2987.0385ms)
+✔ PostgreSQL: CMS persistent catalog, explicit opt-in, revision conflicts and transactional audit (1858.9401ms)
+✔ PostgreSQL: CMS quantity reaches random ground drops; persisted clicks and lost replies award exactly once (1609.5701ms)
+✔ active runs retain their CMS snapshot; new runs use new settings and expire without inventory grants (191.3929ms)
+✔ request boundaries, policy CAS and failed session persistence never acknowledge an uncommitted click (77.4455ms)
+✔ actual PVE renderer hides the entry until the server mode check and main/CMS load current modules (8.8995ms)
+✔ OWNER client serializes reveal/pickup/finish and retries account lock contention with the same body (2.14ms)
+✔ hunt visual catch-up cannot accelerate the 15-minute boss clock; ordinary battles retain their speed (12.4494ms)
+✔ Z area contact applies all twelve deaths together without waiting behind its own body lock (23.6059ms)
+✔ saved Z-BODY without chips generates approved whole-field casts in a 12-enemy hunt (268.7515ms)
+✔ the saved helicopter chip and Z intrinsic skill cast independently and both target the whole field (184.9771ms)
+✔ four fixed difficulties produce real clears and party elimination with the current engine (552.4534ms)
+✔ continuous reinforcements retreat before the single final guardian within the 15-minute limit (95.56ms)
+✔ canonical combat clock can fail the expedition on time rather than HP ratio (2.266ms)
+✔ kills never grant inventory; only an unexpired authenticated point claim grants once (111.7149ms)
+✔ expiry, stop, foreign session and nonexistent kills cannot award an item (273.5492ms)
+✔ future acknowledgements are time-gated and probability is rolled only once (56.4908ms)
+✔ delayed old reveals cannot bank missed drops and retries retain their original expiry (118.7702ms)
+✔ continuous random field positions avoid the last two drop points and overlapping targets (0.8935ms)
+✔ outcomes distinguish clear, defeat, time limit and early retreat; only picked items survive (183.6294ms)
+✔ bounded encounter extension rejects invalid capacity and malformed waves (1.2803ms)
+✔ legacy PVE and PVP combat preserves the operation base with current default metadata (739.6187ms)
+✔ preview bundle includes the latest canonical engine and playback, with no old hunt runtime (8.0677ms)
+✔ pausing longer than the bullet-drain timeout resumes safely, but an active stall still fails (2.7296ms)
+ℹ tests 69
+ℹ suites 0
+ℹ pass 69
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9627.4526
+
+> test:legion-regions
+> node --test tests/legion-regions-combat-20261008.test.mjs tests/legion-regions-rewards-20261008.test.mjs tests/equipment-polish-execution-20261008.test.mjs tests/equipment-polish-cms-20261005.test.mjs tests/legion-regions-catalog-20261008.test.mjs
+
+✔ policy rejects invalid currencies, unreachable caps and activation; capped weights redistribute (3.1367ms)
+✔ polish CMS atomic settings/material, OFF guards and no-charge review: SQLite (39.8606ms)
+✔ polish CMS atomic settings/material, OFF guards and no-charge review: Postgres (2536.4305ms)
+✔ real polish: atomic debit, replay, conflict, owned growth and restore (SQLite) (43.3762ms)
+✔ real polish: atomic debit, replay, conflict, owned growth and restore (PG) (2520.0901ms)
+✔ durable polish intent recovers after reload and cannot double roll on a lost reply (0.6952ms)
+✔ missing owned equipment releases a stale polish intent without another charge (0.211ms)
+✔ catalog preparation is atomic, inactive, excluded from supply and preserves later CMS edits (2504.1962ms)
+✔ all five regions expose their actual boss mechanics on the canonical 7-minute timeline (564.1073ms)
+✔ tier increase cannot turn into a burst-fire reward and weak decks fail upper tiers (329.9427ms)
+✔ 2/4 sets, unique mixing, unequip and leech budgets change only explicit PVE equipment runtime (10.3431ms)
+✔ regional TEST/live, bundle, boss guarantee, rollback and mode recovery (SQLite) (76.9281ms)
+✔ regional TEST/live, bundle, boss guarantee, rollback and mode recovery (PG) (2576.3483ms)
+✔ regional policy validates bounds and exactly five tiers (0.7542ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3079.2116
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 5867 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 8013.53 KiB / gzip: 1729.44 KiB
+Worker Startup Time: 53 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (6.49 sec)
+No targets deployed for cnine-card-api-runtime (0.90 sec)
+Current Version ID: a000e985-e656-4934-b23f-b5c73e7613c6
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19959/20000)
+Uploading... (19973/20000)
+Uploading... (19986/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 41 files (19959 already uploaded) (4.11 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://1f87d0e0.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2785.82 KiB / gzip: 634.15 KiB
+Worker Startup Time: 71 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (4.39 sec)
+Deployed cnine-card-clan-draft triggers (1.15 sec)
+  schedule: * * * * *
+Current Version ID: 97da3776-2846-4428-8c1e-6f0815e8dde7

@@ -1,0 +1,678 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+[FULL RELEASE RESUME] Reuse 21 completed stages from f0b2de4139a6df808d574ca99b635015ad0b92c2; execute every remaining stage and production guard.
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (0.8668ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (2.6908ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.3328ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (3.8356ms)
+✔ codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources (4.7709ms)
+✔ full gate resumes a proven prefix and retains failed, remaining and final release guards (0.9272ms)
+✔ registered preview checkers rerun their owning stage and reject runtime or unregistered consumers (0.8223ms)
+✔ an upload failure reuses only a complete successful gate and rechecks changed deployment contracts (0.6463ms)
+✔ only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts (1.7679ms)
+✔ main cache version alignment accepts only the tested shell version and rechecks affected HTML tests (1.5222ms)
+✔ isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity (0.6054ms)
+✔ lobby authoring repair retains passes only with unchanged live output and a full build check (0.7757ms)
+✔ multiple immutable continuation logs keep contiguous passes and reject a changed log or gap (0.8888ms)
+✔ a continuation validates successful earlier reruns before its contiguous failed-stage suffix (0.8751ms)
+✔ a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard (0.8234ms)
+✔ a completed continuation checks its actual candidate at the final source guard (0.3893ms)
+✔ continued gate accepts an isolated raid correction only after successful current browser proof (1.0435ms)
+✔ concurrent authoring art must be new, hash-bound, image-only and unused by runtime (1.4698ms)
+✔ unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed (0.6651ms)
+✔ changed tests in a completed stage rerun that stage without invalidating unrelated passes (0.1336ms)
+✔ preview QA repairs must be existing executable tests in the unchanged full gate (0.5202ms)
+✔ a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers (1.0026ms)
+✔ concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt (0.9984ms)
+✔ a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits (1.7236ms)
+✔ concurrent unreferenced JSON production receipts are documentation, never runtime configuration (1.2124ms)
+✔ runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results (0.6235ms)
+✔ tampered, incomplete or noncontiguous logs fail closed (0.3334ms)
+✔ explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks (0.5427ms)
+✔ uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain (0.8256ms)
+✔ legacy .mjs test entries are reusable only when directly registered in the unchanged gate (0.2512ms)
+✔ an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence (0.994ms)
+✔ limited-pack view proof is runner-specific and never permits shared policy, session or server changes (2.2274ms)
+✔ offline skill preview proof binds source and bundle and reruns contracts that inspect it (1.6638ms)
+✔ registered nested npm tests belong to their parent and cannot be omitted from a completed gate (0.5431ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.841ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.7178ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.4528ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.5757ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1775ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.556ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (3.8598ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (1.7289ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 42
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 124.472
+✔ winners receive only 20 trillion and participants only one trillion as messages; dry-run, identity exclusions and replay preserve wallets (1418.0867ms)
+✔ changed identity, unsupported balance, duplicate messages and every late write failure roll back the whole batch (1106.2392ms)
+✔ actual claim credits one and 20 trillion exactly once, rolls back failed ledger, and lost send response never duplicates messages (1174.0352ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3872.9302
+
+> test:live-connections
+> node --test tests/mercenary-live-connections-v2091.test.mjs tests/cow-tower-live-on-v2092.test.mjs tests/hyper-opening-cms-v2093.test.mjs tests/mercenary-ss-once-v2104.test.mjs tests/cow-native-v2093.test.mjs tests/pve-combat-only-v2094.test.mjs tests/pve-battlefield-entry-v2117.test.mjs tests/project-v-v3-nonblocking-fx-v2060.test.mjs tests/v3-fluid-combat-v2126.test.mjs tests/project-v-v3-live-payload-v1.mjs tests/mercenary-hi-heeya-v2118.test.mjs tests/mercenary-mangisa-live.test.mjs preview/mercenary-mangisa-v1/qa.test.mjs tests/mercenary-ragniel-live.test.mjs preview/mercenary-ragniel-v1/qa.test.mjs tests/mercenary-bikini-joeun-live.test.mjs tests/mercenary-heukwol-live.test.mjs preview/mercenary-black-moon-swordsman-ss-v1/qa.test.mjs
+
+✔ approved source pixels remain exact and SD is separate transparent artwork (33.339ms)
+✔ runtime masks include full characters and exclude neighboring sword frames (528.7778ms)
+✔ 16 effect frames are distinct, transparent and have empty crop borders (287.8203ms)
+✔ forward/reverse seeking is deterministic; interruption removes all active effects (11.1033ms)
+✔ all three contacts use the authored pose and corresponding effect peak (0.4345ms)
+✔ real Pixi transforms align blades and cleanup retains shared engine/resources (219.9197ms)
+✔ six shots share one cast cost and a bounded SS damage budget (1.9927ms)
+✔ interruption and target loss discard remaining damage without retargeting or refunds (0.4799ms)
+✔ seeking backward recomputes a stable offline sample, not cumulative damage (1.1719ms)
+✔ approved name, SS rank, immutable source, separate alpha SD and disabled runtime (17.1712ms)
+✔ six distinct poses and sixteen actual RGBA impact frames with safe atlas padding (123.7422ms)
+✔ backward scrubbing is deterministic and never accumulates gameplay effects (8.3554ms)
+✔ cancellation and target loss stop all future contacts, poses, glow and movement (18.0407ms)
+✔ contact cues select the actual authored sword and ultimate collision frames (0.3966ms)
+✔ user-selected source and separate native-alpha SD are immutable (204.9476ms)
+✔ 54 distinct RGBA frames retain original masters and have transparent atlas padding (4061.7419ms)
+✔ recorded sound masters match declared license, sources and synchronization points (4.2302ms)
+✔ first audio decode latency uses the current animation clock and speed for contact alignment (1.3974ms)
+✔ cancel during asynchronous audio loading cannot restart stale sound (14.6297ms)
+✔ actual Pixi renderer aligns the blade, fits the mobile corona and clears owned timelines and sprites (50.1269ms)
+✔ PVP, ranked, territory and other modes cannot roll or display a portal, including a stored portal (1.4006ms)
+✔ native Cow entry preserves game shell and shared V3; original Scrapyard entry cannot be intercepted (4.5239ms)
+✔ public release opens cow and legacy tower while new tower economy and other launches stay held (39.0489ms)
+✔ legacy tower completion wins over absent next floor and never offers re-ascent (26.3039ms)
+✔ SQLite: ordinary user scrapyard admission uses one ticket and recovers the same receipt (74.1763ms)
+✔ SQLite: OWNER enables cow, ordinary user enters, exact reward and six-run cap survive replay (186.0848ms)
+✔ PostgreSQL: ordinary user scrapyard admission uses one ticket and recovers the same receipt (5386.332ms)
+✔ PostgreSQL: OWNER enables cow, ordinary user enters, exact reward and six-run cap survive replay (3668.4319ms)
+✔ SQLite: missing switch is OFF; only OWNER can start a ready pack; revisions, origin and audit are enforced (115.991ms)
+✔ SQLite: ordinary user opens 1/10 at fixed price; aliases replay once; OFF retains receipts, collection and independent deployment (105.9653ms)
+✔ SQLite: invalid reward readiness cannot start; audit failure cannot enable opening (39.7911ms)
+✔ SQLite: opening guard rejects a stop between readiness and debit without changing wallet (33.9915ms)
+✔ PostgreSQL: missing switch is OFF; only OWNER can start a ready pack; revisions, origin and audit are enforced (5578.5072ms)
+✔ PostgreSQL: ordinary user opens 1/10 at fixed price; aliases replay once; OFF retains receipts, collection and independent deployment (3682.0182ms)
+✔ PostgreSQL: invalid reward readiness cannot start; audit failure cannot enable opening (1871.7154ms)
+✔ PostgreSQL: opening guard rejects a stop between readiness and debit without changing wallet (1621.7228ms)
+✔ previous complete CMS adds only Bikini Joeun while preserving live edits and assignments (19.8733ms)
+✔ approved card art stays separate; native six poses and sixteen impact frames have safe alpha borders (584.9821ms)
+✔ both attacks sample real recoil poses; visual plans never own damage (12.9417ms)
+✔ Pixi pose playback preserves scale, HP and anchors, cancels cleanly and keeps shared atlas textures (47.6437ms)
+✔ six visual shots spend one server hit budget, one cost and one cooldown, respecting evasion and absent targets (14.1885ms)
+✔ SQLite SS acquisition is repeat-safe and deploys the assigned skill in a separate slot (141.0028ms)
+✔ PostgreSQL SS acquisition is repeat-safe and deploys the assigned skill in a separate slot (5479.6846ms)
+✔ PVE and both PVP sides receive five regular cards plus SS Joeun and immediate skill events (37.2017ms)
+✔ previous complete CMS expands once, preserving every prior operator edit and later unassignment (90.6143ms)
+✔ live originals match approval and card art never becomes the SD (139.8859ms)
+✔ three authoritative contacts share one budget; dodge, knockout and control cannot create spare hits (4.4537ms)
+✔ one energy charge and cooldown per combo, no charge without a target (4.7384ms)
+✔ visual stop follows server contacts; evasion has no fabricated impact and no local damage (1.0063ms)
+✔ SQLite SS acquisition is idempotent and equips one mercenary with its skill (152.9817ms)
+✔ PostgreSQL SS acquisition is idempotent and equips one mercenary with its skill (5537.2951ms)
+✔ PVE and both PVP teams use five regular cards plus Heukwol with server combo events (51.8298ms)
+✔ complete previous CMS expands exactly once and retains every saved operator field (21.6415ms)
+✔ approved source art and SD bytes, anchors and full nine-shot timing are preserved (13.285ms)
+✔ SQLite: SS draw grants Hi Heeya once, duplicate replay cannot charge twice, and loadout carries the approved skill (57.0504ms)
+✔ PostgreSQL: SS draw grants Hi Heeya once, duplicate replay cannot charge twice, and loadout carries the approved skill (5576.0218ms)
+✔ nine tracer visuals consume one damage budget, one energy cost and one cooldown in the casting action (12.1469ms)
+✔ real PVE and PVP snapshots use separate optional SS slot and server skill events (84.4086ms)
+✔ production links and all opening aliases are connected while OFF permits only a settings read (47.2274ms)
+✔ presentation accepts only completed server receipts with real card art and reward quantities (8.0383ms)
+✔ every released mercenary source art can be displayed in a completed pack receipt, including Omega-X JPEG (1.5928ms)
+✔ SQLite: shop and account aliases share payment, receipt, art and duplicate accounting (73.2401ms)
+✔ SQLite: S6 and SS8 CMS assignments reach owned cards, separate loadout and real PVE snapshots (234.1116ms)
+✔ PostgreSQL: shop and account aliases share payment, receipt, art and duplicate accounting (6002.0277ms)
+✔ PostgreSQL: S6 and SS8 CMS assignments reach owned cards, separate loadout and real PVE snapshots (3726.6219ms)
+✔ complete prior CMS appends only Mangisa and preserves saved settings, edits and explicit assignments (96.9538ms)
+✔ six shots and two splash outcomes spend one cast, one bounded PVP cap and one cooldown in the first action (12.919ms)
+✔ first dodge does not cancel followups; a fallen primary hands the remaining bullets to the next enemy (2.2315ms)
+✔ SQLite SS opening, idempotent replay, separate loadout and approved skill (173.1302ms)
+✔ PostgreSQL SS opening, idempotent replay, separate loadout and approved skill (5902.3835ms)
+✔ canonical PVE and both PVP teams expose five ordinary cards plus one Mangisa and resolved volley snapshots (91.1425ms)
+✔ authoritative FX follows the shared clock, never changes HP, restores sprite size and releases views on cancel (34.6701ms)
+✔ approved originals and SSS defaults register once while prior CMS edits survive (34.9487ms)
+✔ two contacts share one SSS action/cap/budget, preserve shield results and spend one cooldown (6.2042ms)
+✔ a dodged first strike still cancels its falling sword and never creates a spare strike (0.7445ms)
+✔ a marked target that falls first hands its falling sword to the other marked target within the same budget (1.3033ms)
+✔ server cancellation suppresses the unearned falling sword and releases its visual clock early (2.1076ms)
+✔ SQLite weighted SSS acquisition is repeat-safe and deploys through the separate mercenary slot (128.6584ms)
+✔ PostgreSQL weighted SSS acquisition is repeat-safe and deploys through the separate mercenary slot (5562.0608ms)
+✔ canonical PVE and both PVP sides include five regular cards, separate Ragniel, and server-resolved contacts (59.5294ms)
+✔ SQLite: only selected account's next ten-pack receives one SS; count, price and future odds remain unchanged (113.6886ms)
+✔ SQLite: failed payment or grant never consumes the guarantee; saved retry grants exactly once (65.4608ms)
+✔ SQLite: a stale competing pending request cannot consume a second grant or debit (40.9103ms)
+✔ SQLite: public aliases serialize concurrent requests; client fields cannot arm a guarantee (101.4064ms)
+✔ SQLite: each SS follows configured weights; duplicate grants use the existing copy accounting (98.6513ms)
+✔ PostgreSQL: only selected account's next ten-pack receives one SS; count, price and future odds remain unchanged (6684.1002ms)
+✔ PostgreSQL: failed payment or grant never consumes the guarantee; saved retry grants exactly once (2745.0373ms)
+✔ PostgreSQL: a stale competing pending request cannot consume a second grant or debit (1765.1276ms)
+✔ PostgreSQL: public aliases serialize concurrent requests; client fields cannot arm a guarantee (1555.5207ms)
+✔ PostgreSQL: each SS follows configured weights; duplicate grants use the existing copy accounting (1266.1468ms)
+✔ SQLite: targeted Vespera appears in third slot once, ordered receipt and other accounts remain normal (26.1429ms)
+✔ SQLite: targeted grant rolls back on failure, competing stale request cannot grant or charge twice (19.3439ms)
+✔ SQLite: targeted configuration rejects non-SS card without consuming or charging (11.3027ms)
+✔ SQLite: third completed ten-pack grants once; single opens, other accounts and receipt replays do not advance (35.2994ms)
+✔ SQLite: deferred countdown rolls back with failed rewards and rejects stale saved batches without debit (32.476ms)
+✔ SQLite: concurrent public ten-pack requests advance the countdown serially and grant only once (31.9815ms)
+✔ PostgreSQL: targeted Vespera appears in third slot once, ordered receipt and other accounts remain normal (1390.0034ms)
+✔ PostgreSQL: targeted grant rolls back on failure, competing stale request cannot grant or charge twice (1265.7481ms)
+✔ PostgreSQL: targeted configuration rejects non-SS card without consuming or charging (1154.9353ms)
+✔ PostgreSQL: third completed ten-pack grants once; single opens, other accounts and receipt replays do not advance (1407.4757ms)
+✔ PostgreSQL: deferred countdown rolls back with failed rewards and rejects stale saved batches without debit (1414.6924ms)
+✔ PostgreSQL: concurrent public ten-pack requests advance the countdown serially and grant only once (1321.8586ms)
+✔ targeted one-time grant requires a complete, bounded card and slot pair (0.5706ms)
+✔ SQLite: targeted SSS Ragniel appears in the second slot once; SS states and odds untouched (32.2237ms)
+✔ SQLite: SSS grant rejects an SS card and unknown ranks (9.5851ms)
+✔ PostgreSQL: targeted SSS Ragniel appears in the second slot once; SS states and odds untouched (1332.5759ms)
+✔ PostgreSQL: SSS grant rejects an SS card and unknown ranks (1150.3374ms)
+project-v-v3 live payload contract: OK
+✔ tests\project-v-v3-live-payload-v1.mjs (281.8505ms)
+✔ 회복·상태 이벤트가 전투 재생을 멈추지 않는다 (4.115ms)
+✔ 회피 배너가 전투를 멈추지 않는다 (1.7904ms)
+✔ HP 동기화가 이벤트 순서를 지키고, 재생이 끝난 뒤 뒤늦게 되돌아가지 않는다 (309.4865ms)
+✔ 배너 대기열은 최신 2건만 유지한다 (209.7903ms)
+✔ 큰 연출(스킬·궁극기·전직 순간)은 여전히 차단 재생을 유지한다 (66.3204ms)
+✔ 소스 계약: 반복 이벤트는 queue*, 큰 연출은 await 유지 (3.1951ms)
+✔ 번들이 소스와 같은 계약을 담고 있다 (19.4463ms)
+✔ 캐시 태그가 갱신되어 있다 (8.4018ms)
+✔ 숨겨진 전투에 배너를 넣어도 큐가 잠기지 않고 다시 열면 재생된다 (84.8334ms)
+✔ 배너 생성이 동기 예외를 내도 다음 배너를 재생할 수 있다 (76.5024ms)
+✔ 논블로킹 배너와 궁극기 배너가 같은 표시 객체를 덮어쓰지 않는다 (24.4047ms)
+✔ 전투가 취소되면 아직 시작하지 않은 배너는 다음 전투에 나타나지 않는다 (2.1755ms)
+✔ 호송차 회복 안내 중에도 다음 공격이 진행된다 (83.3317ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (31.526ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (17.2306ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (15.1166ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (16.3329ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (43.6838ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (134.4809ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (7.4119ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (3.7712ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.5471ms)
+✔ SQLite: actual tower route uses continuous server combat, CMS reward and one-floor progress (258.0314ms)
+✔ SQLite: actual tower defeat does not advance or grant a clear reward (50.503ms)
+✔ PostgreSQL: actual tower route uses continuous server combat, CMS reward and one-floor progress (3290.0333ms)
+✔ PostgreSQL: actual tower defeat does not advance or grant a clear reward (1661.8388ms)
+✔ live upper floors use their approved Omega, Minato and Ichigo sprites (39.9956ms)
+✔ entry screens remain native while both battle actions use the common continuous overlay (3.5471ms)
+✔ V3 skills keep impacts and cancellation without photo cut-ins, dimming or hit-stop (3.2371ms)
+✔ PVE report preserves large rewards, zero rewards, card fragments and suit contribution (45.6073ms)
+✔ PVP report keeps negative score, draw verdict and escaped server labels (0.6905ms)
+✔ main PVE and PVP both use the shared report with return buttons (29.009ms)
+✔ survival details include the separate mercenary slot without changing the five-card roster (1.0405ms)
+ℹ tests 141
+ℹ suites 0
+ℹ pass 141
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 26230.385
+
+> test:wish-lamp
+> node --test tests/wish-lamp-v2077.test.mjs
+
+✔ retired wish lamp cannot charge, grant, recreate tickets or be turned back on by cached clients (22.0638ms)
+✔ live menu and CMS keep wish lamp retired after its successor event also closes (6.3499ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 101.7134
+
+> test:golden-axe
+> node --test tests/golden-axe-v1.test.mjs tests/golden-axe-coupon-v1.test.mjs tests/golden-axe-reopen-20261002.test.mjs tests/golden-axe-mercenary-rates-20261002.test.mjs
+
+✔ legacy old-axe coupons retain their limits while the retired event is absent from CMS choices (1.2393ms)
+✔ both real CMS create routes register ticket, preserve settings, and never issue items on creation (2732.7602ms)
+✔ create rejects missing permission, zero/fractional/over-limit quantity, invalid code and use limits (1528.5158ms)
+✔ redemption credits the event inventory immediately, with one receipt/log and no coin change (1622.5183ms)
+✔ existing inventory accumulates and parallel last-use requests cannot exceed the global cap (1344.5002ms)
+✔ duplicate concurrent requests return the saved result without a second grant (1388.2533ms)
+✔ inventory/usage/log/receipt zero-row or write failures roll the entire redemption back (1432.3441ms)
+✔ disabled/deleted/exhausted/misconfigured coupons, disabled tickets and inactive users grant nothing (1420.8957ms)
+✔ retired axe event and coupon shortcut are removed from CMS (2.551ms)
+✔ bulk coupon list renders old axe amount rather than zero coins (1.0977ms)
+✔ 0.1% prize rate survives CMS save, DB read and exact 999/1000 draw boundary (2795.9995ms)
+✔ SS and SSS use event-local per-mercenary rates, honor eligibility, and grant exactly once (1929.1768ms)
+✔ no invented SS/SSS rates; invalid percentages and retired candidates are rejected (1.2224ms)
+✔ public event shows prizes only and does not publish CMS percentages (1540.4787ms)
+✔ seven-day reopen is atomic/idempotent and preserves receipts, prizes, economics and retired coupons (3165.1558ms)
+✔ audit failure rolls back settings, catalog, coupons and reset marker together (1682.124ms)
+✔ CMS has no inferred H-body rate or economics; OFF until all literal percentages and participation settings are ready (3.8564ms)
+✔ exact 12 requested prizes, 3000억 remains a bigint amount; no gold axe currency (1.008ms)
+✔ OFF and incomplete states cannot consume axes; versioned admin writes reject stale tabs (2734.1973ms)
+✔ all coin outcomes grant once; receipt replay survives OFF; negative balances also receive the full prize (2008.7359ms)
+✔ F/G/H each creates a real equipment instance; each inventory prize is credited exactly once (1817.4055ms)
+✔ S mercenary draw uses current CMS rank pool and canonical duplicate accounting (1427.0789ms)
+✔ miss consumes only the configured axes; KST daily cap is serialized across requests (1470.3292ms)
+✔ charge/reward/receipt failures and mid-transaction event expiry roll back together (1584.9714ms)
+✔ disabled catalogs, insufficient axes, cross-user replay and stale quotes never charge (1220.3393ms)
+✔ parts selection credits exactly 150 chosen parts, consumes one voucher and works after event ends (1116.9052ms)
+✔ SS13 ticket selects an owned Superstar, preserves quantity and cannot upgrade FUR or downgrade +13 (1117.0236ms)
+✔ authentication, admin permission and foreign-origin checks precede mutation (16.6394ms)
+✔ suspended accounts cannot draw or redeem a voucher after their session was issued (1070.5504ms)
+✔ live and preview share scene renderer, nav and exact assets; no battle runtime modified (15.0886ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15912.4905
+
+> test:chuseok
+> node --test tests/chuseok-v1.test.mjs tests/chuseok-coupon-v1.test.mjs tests/chuseok-retirement-v1.test.mjs
+
+✔ Chuseok coupon redemption returns 410 without touching inventory or ordinary coupons (23.1334ms)
+✔ coupon creation rejects Chuseok and supports the reopened axe (3.5003ms)
+✔ retirement dry-run rolls back; apply removes only axes, preserves prizes and backs up every removed value (1897.4948ms)
+✔ dependent reward references, enabled replacement or audit failure block the entire retirement (1024.5474ms)
+✔ retired Chuseok is hidden and cannot be reopened or charged; existing receipts still replay (1879.0694ms)
+✔ old pages and CMS are removed; legacy URLs return to lobby and prize vouchers remain in inventory (6.4589ms)
+✔ retired routes retain authentication and same-origin checks (1.7308ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3193.0028
+
+> test:hyper-pack
+> node --test tests/hyper-pack-v2076.test.mjs tests/mercenary-acquisition-video-v2145.test.mjs
+
+✔ 500 million per open, max 10; no 32-bit truncation, discount or implicit extra opens (1.7222ms)
+✔ Premium sale removed; others shift one slot, Hyper last, caller data and unknown packs preserved (0.426ms)
+✔ draft rates/quantities default unset and never authorize mercenary acquisition (0.4993ms)
+✔ config and locked open never access DB or grant to OWNER, including repeated requests (21.7244ms)
+✔ CMS PostgreSQL roundtrip, permission, stale revision and cross-site protection; no live money/card writes (1400.5244ms)
+✔ preview is deterministic, explicitly simulated, no fabricated grant count or probabilities (0.92ms)
+✔ public preview returns to the game lobby in the same tab and exposes no CMS link (9.2853ms)
+✔ original artwork preserved; lightweight shared Pixi/GSAP preview, live does not load renderer (27.256ms)
+✔ retired/hyper API guards precede receipt claiming and Premium Cube remains untouched (7.1202ms)
+✔ only authoritative SS and SSS mercenary results select their distinct videos (0.9284ms)
+✔ lazy fetch; mixed ten-draws download each rank once and release both blob URLs (6.7124ms)
+✔ playback waits for the entire blob, not just response headers (2.4099ms)
+✔ no hard-coded clip cutoff; full ended event alone advances to the acquired card (2.4444ms)
+✔ pause/resume lasts beyond watchdog and browser autoplay denial exposes resume (2.442ms)
+✔ truncated files, HTML fallbacks, HTTP failures and decode errors fail closed to existing reveal (8.5964ms)
+✔ stalled download and stalled decoding are bounded without losing saved rewards (2.7692ms)
+✔ skip/close while loading settles immediately and late fetch cannot revive removed video (2.2297ms)
+✔ sound uses preserved track, defaults safe-muted and never requests another asset (1.9116ms)
+✔ presentation deadline excludes explicit pauses but still bounds an unresponsive renderer (1.6462ms)
+✔ compressed assets retain 720p/24fps/full frame counts, AAC and fast-start; hashes and sizes are locked (38.7589ms)
+✔ live wiring is receipt-only, cache versions match, no eager video download or payment writes (7.7434ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1727.1204
+
+> test:new-user-gift
+> node --test tests/new-user-gift-v2075.test.mjs
+
+✔ first verification atomically sends one claimable box, claims once then opens the unchanged full contents (1581.1464ms)
+✔ over 14 days and invalid/future signup still verify successfully without sending a box (4123.6433ms)
+✔ catalog/message/audit failure rolls back verification and entitlement together and permits retry (5918.944ms)
+✔ same identity, unlink/relink, concurrent first verification and old manual grants never issue a second box (2896.5115ms)
+✔ failed or forged message claims cannot create extra boxes and genuine claim can retry (1482.7947ms)
+✔ disabled gift preserves verification; preexisting verification is not retroactively mailed (1394.3721ms)
+✔ 14 days uses the real UTC signup timestamp, accepts exactly 336 hours and rejects one second over (1.5101ms)
+✔ CMS checks actual signup and verified status; request fields cannot alter reward contents (1399.2498ms)
+✔ whole box grants 300 billion, SUPERSTAR +13, Iyejun FUR +15, other FUR/ZENITH +13 and magic +9 atomically (1182.3665ms)
+✔ rapid duplicate issue/open requests and lost responses replay one persisted entitlement (1382.9553ms)
+✔ unverified, old, disabled and forged boxes cannot be issued/opened (1476.845ms)
+✔ verification unlink/account deletion/relink cannot reset once-only identity entitlement (1514.7377ms)
+✔ issued box is not silently expired after day 7; new catalog additions do not change its snapshot (1456.9496ms)
+✔ every public Iyejun FUR uses +15 by member identity, while same-title other-member and future cards stay scoped (11116.6426ms)
+✔ unclaimed V2 message keeps its identifiers through upgrade, claims once, and opens V3 (1482.8928ms)
+✔ V2 migration rejects changed hash and rolls back conversion when opening fails (1446.2991ms)
+✔ bulk V2 upgrade dry run, audit failure and apply are atomic; replay preserves later operator settings (1488.1853ms)
+✔ completed V2 results and their historical 100-eok reward stay immutable (13036.3415ms)
+✔ unopened legacy box upgrades once, snapshots new contents and replays without duplicate grants (1129.5993ms)
+✔ direct legacy opening rolls back contents upgrade on failure; completed old boxes stay unchanged (1146.8893ms)
+✔ missing superstar catalog and tampered legacy receipts cannot be silently upgraded (1045.7247ms)
+✔ shared player/CMS reward view matches the issued manifest including historical +10 boxes (16.064ms)
+✔ missing/private/retired reward, depleted limited stock and corrupt manifest fail without consumption (5399.1388ms)
+✔ audit failures, zero-row equipment grants and final receipt failures roll back every write (4070.8384ms)
+✔ route permissions block anonymous/users before schema work and reject unsupported methods (1055.6724ms)
+✔ client/CMS integrations load versioned assets and generic inventory grant cannot bypass the dedicated route (6.9407ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 68523.0246
+
+> test:scrapyard-v3
+> node --test tests/scrapyard-v3-preview-v1.test.mjs tests/scrapyard-v3-server-v1.test.mjs tests/pve-continuous-session-v1.test.mjs tests/scrapyard-result-recovery-20260923.test.mjs tests/scrapyard-v3-record-size-20261008.test.mjs
+
+✔ same-session double click joins one request; store precedes the POST; only request ID and zone are sent (5.0597ms)
+✔ refresh during playback retrieves the same receipt until the result is acknowledged (1.1523ms)
+✔ a rejected network response retains its identifier and resumes without rolling a new ID (1.0778ms)
+✔ another active zone wins over a new zone choice, including after local storage loss (0.5202ms)
+✔ a concurrent server response redirects the client to the canonical operation, never the abandoned local ID (1.6761ms)
+✔ cross-tab Web Lock serialization rechecks shared storage, even if first run completed immediately (0.5358ms)
+✔ pending IDs are account-scoped and contain no combat data or rewards (0.5735ms)
+✔ storage failures or malformed/cross-account records stop before ticket-consuming submission (0.8207ms)
+✔ background pauses retries, visible resumes, repeated failures stop automatically and remain manually recoverable (0.9953ms)
+✔ explicit server validation failures do not auto-submit when tickets or settings later change (0.5372ms)
+✔ dispose ignores an old response but leaves recovery key; it never cancels a server economic operation (0.2936ms)
+✔ acknowledging an old result cannot remove a newer cross-tab recovery key (0.2313ms)
+✔ malformed/mismatched server results do not clear the pending key or create a new entry (0.5173ms)
+✔ callback exceptions do not replace completed receipts with another request (0.274ms)
+✔ session module is staged; no production routes, reward math, timers without disposal, or new battle engine (10.516ms)
+✔ lost committed response resolves by receipt GET with exactly one POST (27.9489ms)
+✔ 503 before acceptance reads NOT_FOUND then resumes the same request ID (1.4507ms)
+✔ server lock rejection is automatically reconciled without a new request (1.3349ms)
+✔ live lease is observed for more than six polls, then resumed only when allowed (2.1139ms)
+✔ server-discovered original request replaces the new local ID before recovery (1.2818ms)
+✔ saved request after reload checks its receipt before any POST (1.1233ms)
+✔ navigation or session change stops retries and retains the original request (1.2176ms)
+✔ definitive entry denial is not retried and persistent outages are bounded (3.0406ms)
+✔ existing one-monster calls retain byte-identical pre-reform d1c04a64 seeded outcomes (31.6834ms)
+✔ PVP default and explicitly empty queue remain identical (5.7192ms)
+✔ only bounded, distinct PVE enemy instances and empty initial slots are accepted (1.9141ms)
+✔ input fighter snapshots are not mutated by the continuous encounter (1.0979ms)
+✔ exactly five real cards, separate suit and distinct original/SD resources (13.1878ms)
+✔ fixed enemy stats, real loss at low power, no automatic player-strength scaling (36.0673ms)
+✔ 30 seeds: no more than 3 normals, exact spawn/KO generations, boss only after nine kills (415.4728ms)
+✔ one RNG and combat session; opening auras are never replayed at spawn (47.211ms)
+✔ boss pending / action or time cap is a loss, never a win by surviving HP ratio (0.8939ms)
+✔ battle suit damage has one authoritative lane through all generations (11.6499ms)
+✔ new monster PNGs have actual transparent alpha, intact padding and separate source art (121.5188ms)
+✔ manifest pins generated SD, unchanged original art and approved battlefield hashes (24.9471ms)
+✔ one shared Pixi renderer, original cards/adapters, no live navigation or API mutation (90.0089ms)
+✔ replacement waits for bullets, exact IDs never use legacy suffix fallback, final state filters retired IDs (0.458ms)
+✔ silent bridge tears down audio and leaves production sound preferences alone (3.3543ms)
+✔ binding a boss into a dead enemy slot cannot inherit its transparent, rotated death pose (1.3853ms)
+✔ cancelled playback cannot finish or stop a newer encounter (3.0964ms)
+✔ cancelling while paused releases the pending pause promise without awarding a result (1.2911ms)
+✔ plain legacy JSON and large Korean records round-trip exactly; corrupt or oversized records fail closed (195.6316ms)
+✔ SQLite: a >850KB encounter keeps every event, rolls rewards back and resumes exactly once (631.6548ms)
+✔ PostgreSQL: a >850KB encounter keeps every event, rolls rewards back and resumes exactly once (2437.4475ms)
+✔ oversized input is rejected before any ticket, receipt or currency mutation (17.0333ms)
+✔ public scrapyard wiring preserves unreleased routes and legacy reward separation (10.9995ms)
+✔ legacy createPveBattleV2 full envelopes remain byte-identical to pre-reform commit d1c04a64 (28.2757ms)
+✔ latest saved slot order, raw enhanced power + unique once, equipment and suit are separate (9.8935ms)
+✔ all 3 zone encounters use fixed CMS enemies; weak decks really lose; each has a separate battle SD (31.255ms)
+✔ encounter validation is bounded; invalid arrays, IDs, live party sizes and caps are rejected (1.2065ms)
+✔ one magic activation budget and one opening ultimate span all enemy generations (3.0809ms)
+✔ SQLite: approved protection drop and pooled parts settle atomically with their own ledgers (35.9602ms)
+✔ SQLite: frozen pending protection result recovers after rollback without another entry or roll (27.4767ms)
+✔ SQLite: avatar bonus is frozen with the expedition and survives expiry/CMS changes without reroll (24.3882ms)
+✔ SQLite: one ticket / old coin / one independent drop; same ID never recharges or rerolls (18.9853ms)
+✔ SQLite: final grant failure rolls back all prizes; saved battle survives deck/CMS changes (146.3054ms)
+✔ SQLite: concurrent requests cannot create two active expeditions or duplicate a completed reward (41.604ms)
+✔ SQLite: expired worker lease resumes same frozen run; fresh lease returns status, not an error (28.5288ms)
+✔ SQLite: zero ticket, daily limit, closed access and invalid deck do not spend or award (39.817ms)
+✔ SQLite: failure is saved, costs one entry, and has no completion rewards (8.061ms)
+✔ SQLite: empty drop plan is frozen even if CMS rates increase during a retry (16.8367ms)
+✔ SQLite: zero-row equipment grant rolls back rewards and can recover without a second ticket (15.0753ms)
+✔ SQLite: skipped guaranteed-coin update cannot complete an unpaid expedition (15.9002ms)
+✔ PostgreSQL compatibility: approved protection drop and pooled parts settle atomically with their own ledgers (1980.9862ms)
+✔ PostgreSQL compatibility: frozen pending protection result recovers after rollback without another entry or roll (1424.1682ms)
+✔ PostgreSQL compatibility: avatar bonus is frozen with the expedition and survives expiry/CMS changes without reroll (1349.9788ms)
+✔ PostgreSQL compatibility: one ticket / old coin / one independent drop; same ID never recharges or rerolls (1314.758ms)
+✔ PostgreSQL compatibility: final grant failure rolls back all prizes; saved battle survives deck/CMS changes (1447.819ms)
+✔ PostgreSQL compatibility: concurrent requests cannot create two active expeditions or duplicate a completed reward (1407.0003ms)
+✔ PostgreSQL compatibility: expired worker lease resumes same frozen run; fresh lease returns status, not an error (1288.8287ms)
+✔ PostgreSQL compatibility: zero ticket, daily limit, closed access and invalid deck do not spend or award (1341.1146ms)
+✔ PostgreSQL compatibility: failure is saved, costs one entry, and has no completion rewards (1274.0712ms)
+✔ PostgreSQL compatibility: empty drop plan is frozen even if CMS rates increase during a retry (1363.4789ms)
+✔ PostgreSQL compatibility: zero-row equipment grant rolls back rewards and can recover without a second ticket (1391.4312ms)
+✔ PostgreSQL compatibility: skipped guaranteed-coin update cannot complete an unpaid expedition (1453.3947ms)
+✔ response lost after final COMMIT returns the persisted receipt, with no second reward (11.0621ms)
+✔ reservation response lost after COMMIT settles immediately with its original lease (8.9454ms)
+✔ a missing or stolen operation at the grant boundary cannot bypass the transaction guard (17.0258ms)
+ℹ tests 78
+ℹ suites 0
+ℹ pass 78
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18013.206
+
+> test:avatar
+> node --test tests/avatar-dc-hi-heeya-clan-11days.test.mjs tests/avatar-fm-dimwoos-clan-11days.test.mjs tests/avatar-fm-orikkung-clan-11days.test.mjs tests/avatar-kangguyeol-dk-11days.test.mjs tests/avatar-admin-grant-v2079.test.mjs tests/avatar-v1863.mjs tests/avatar-expiry-v1917.test.mjs tests/avatar-hi-heeya-cms-v2064.test.mjs tests/avatar-cheon-cms-v2068.test.mjs tests/avatar-orikkung-cms.test.mjs preview/avatar-hi-heeya-v1/qa-assets.test.cjs preview/avatar-cheon-v1/qa-assets.test.cjs tests/avatar-saengbyuwang-cms.test.mjs preview/avatar-saengbyuwang-v1/qa-assets.test.mjs tests/avatar-hanbok-diim-cms.test.mjs tests/avatar-t1-joeun-cms.test.mjs tests/avatar-drop-rate.test.mjs preview/avatar-hanbok-diim-v1/qa-assets.test.mjs
+
+✔ 체온 is registered for live CMS configuration without grants or unconfigured public sales (4.4762ms)
+✔ native 1024×1536 originals and mobile derivatives match the frozen hashes (234.6919ms)
+✔ real alpha clears outer borders and hand gaps without changing opaque character RGB (208.0262ms)
+✔ preview references only the final artwork and works without game APIs or a login (41.864ms)
+✔ dark/light review buttons maintain one selected state and accessible labels (2.633ms)
+✔ Hanbok Diim originals and runtime assets retain their declared dimensions and hashes (99.6427ms)
+✔ equipment PNG and WebP contain a complete isolated figure with transparent borders and opaque clothing (204.8728ms)
+✔ background extraction leaves opaque character RGB identical to the generated art (117.509ms)
+✔ exact MA source is preserved; the CMS draft is connected without public release or grants (4.37ms)
+✔ separate native lobby and equipment originals retain their exact hashes and 2:3 canvas (122.8333ms)
+✔ true alpha clears outside and enclosed gaps, preserves white shoes, hands and all opaque RGB (157.6792ms)
+✔ mobile derivatives keep their declared alpha and source-specific dimensions (48.9071ms)
+✔ both extraction failures remain explicit history and cannot be confused with the final alpha image (0.5135ms)
+✔ Saengbyuwang originals and runtime assets retain their declared dimensions and hashes (46.7744ms)
+✔ equipment PNG and WebP contain a complete isolated figure with transparent borders and opaque clothing (182.6771ms)
+✔ background extraction leaves opaque character RGB identical to the generated art (136.7587ms)
+✔ exact batch grants are atomic, permanent, audited, replayable and leave catalog/loadout/wallet unchanged (7800.1844ms)
+✔ OWNER authentication, exact names, duplicates, hidden avatars and input limits fail closed (3207.0185ms)
+✔ changed identity/catalog, expired confirmations and foreign-owner requests cannot grant (2276.7887ms)
+✔ audit and receipt failures roll back every ownership change, then permit the same request retry (3454.5915ms)
+✔ double submit grants once; cancelling an unresolved request serializes with late apply (1609.3884ms)
+✔ frontend persists request before apply; network interruption cannot create a new grant or alter recipients (1.8789ms)
+✔ CMS entry is accessible and cache-busted; nickname whitespace does not split multiword names (3.9095ms)
+✔ live route rejects unauthorized roles before foundation/schema access (0.4838ms)
+▶ Cheon CMS registration executes atomically against PostgreSQL without releasing or granting it
+  ✔ admin list includes all three real art paths, but user catalog and purchases remain gated (774.4255ms)
+  ✔ CMS edits are saved normally and survive a cold-start seed replay (113.4911ms)
+  ✔ marker failure rolls back insertion and permits a clean retry (42.8816ms)
+✔ Cheon CMS registration executes atomically against PostgreSQL without releasing or granting it (9018.8375ms)
+✔ DC members receive the same T1 options for exactly eleven days; replay and expiry preserve the contract (9031.6702ms)
+✔ a changed DC roster aborts without catalog, effects, ownership or receipt writes (3105.6534ms)
+✔ changed T1 options abort instead of silently copying stale values (2097.3188ms)
+✔ an occupied serial is preserved and blocks registration and grants (1901.2233ms)
+✔ a recipient insert failure rolls back the new avatar and both copied effects (1753.7287ms)
+✔ dry run rolls back catalog, recipients, audit and receipt (1420.7896ms)
+✔ coin and drop bonuses reach 100% while chance and rounding boundaries remain valid (2.7825ms)
+✔ pool boosts only probability, retaining weights, quantities, roll counts and conditions (22.3476ms)
+✔ multiple boosted rolls share the remaining daily allowance within one settlement (23.7521ms)
+▶ PostgreSQL ownership, expiry and mode gates govern real reward rolls without changing caps or receipts
+  ✔ request-owned promises share queries but a later request sees CMS changes (44.8181ms)
+  ✔ only currently owned, unexpired, active, public and equipped avatars contribute (70.096ms)
+  ✔ OFF denies everyone and TEST admits only the owner (27.4256ms)
+  ✔ real crystal rewards use boosted chance and preserve daily cap and idempotent replay (158.0428ms)
+✔ PostgreSQL ownership, expiry and mode gates govern real reward rolls without changing caps or receipts (9884.9995ms)
+✔ temporary avatar grants persist a normalized expiry and use an idempotent upsert (8.5545ms)
+✔ expired avatar ownership is excluded from catalog, equip, effects, and chief portraits (17.0032ms)
+✔ FM admission and 22 eleven-day grants are atomic, idempotent and expire through the live avatar API (8833.38ms)
+✔ recipient insert failure rolls back admission, capacity, avatar and audits (3130.9753ms)
+✔ changed source effects reject before all mutations (2136.1326ms)
+✔ changed FM roster and occupied serial are rejected (1926.5453ms)
+✔ missing admission prerequisites or changed capacity cannot partially grant the avatar (1840.1803ms)
+✔ FM members receive the same T1 options for exactly eleven days; replay and expiry preserve the contract (9200.5184ms)
+✔ a changed FM roster aborts without catalog, effects, ownership or receipt writes (3126.2739ms)
+✔ changed T1 options abort instead of silently copying stale values (2091.2258ms)
+✔ an occupied serial is preserved and blocks registration and grants (1980.4921ms)
+✔ a recipient insert failure rolls back the new avatar and both copied effects (1734.9045ms)
+▶ Hanbok Diim CMS registration executes atomically against PostgreSQL without releasing or granting it
+  ✔ admin list includes all three real art paths, but user catalog and purchases remain gated (716.2288ms)
+  ✔ CMS edits are saved normally and survive a cold-start seed replay (135.9127ms)
+  ✔ marker failure rolls back insertion and permits a clean retry (74.702ms)
+  ✔ a later CMS release and grant exposes the real art through the equipped-avatar contract (27.9601ms)
+✔ Hanbok Diim CMS registration executes atomically against PostgreSQL without releasing or granting it (8770.6283ms)
+▶ Hi Heeya CMS registration executes atomically against PostgreSQL without releasing or granting it
+  ✔ admin list includes all three real art paths, but user catalog and purchases remain gated (590.8839ms)
+  ✔ CMS edits are saved normally and survive a cold-start seed replay (144.2744ms)
+  ✔ marker failure rolls back insertion and permits a clean retry (107.6205ms)
+✔ Hi Heeya CMS registration executes atomically against PostgreSQL without releasing or granting it (8973.3401ms)
+✔ CMS displays an unset effect honestly, retaining existing configured effects and a cache-busted script (38.8086ms)
+✔ DK event avatar supports an 11-day cosmetic ownership through the live catalog and equip API (8564.7153ms)
+▶ Orikkung CMS registration executes atomically against PostgreSQL without releasing or granting it
+  ✔ admin list includes all three real art paths, but user catalog and purchases remain gated (778.3821ms)
+  ✔ CMS edits are saved normally and survive a cold-start seed replay (103.9583ms)
+  ✔ marker failure rolls back insertion and permits a clean retry (85.7906ms)
+✔ Orikkung CMS registration executes atomically against PostgreSQL without releasing or granting it (9339.5083ms)
+▶ Saengbyuwang CMS registration executes atomically against PostgreSQL without releasing or granting it
+  ✔ admin list includes all three real art paths, but user catalog and purchases remain gated (500.8781ms)
+  ✔ CMS edits are saved normally and survive a cold-start seed replay (198.1221ms)
+  ✔ marker failure rolls back insertion and permits a clean retry (60.6234ms)
+  ✔ a later CMS release and grant exposes the real art through the equipped-avatar contract (90.4155ms)
+✔ Saengbyuwang CMS registration executes atomically against PostgreSQL without releasing or granting it (8593.1819ms)
+▶ T1 Joeun CMS registration executes atomically against PostgreSQL without releasing or granting it
+  ✔ admin list includes all three real art paths, but user catalog and purchases remain gated (378.9456ms)
+  ✔ CMS edits are saved normally and survive a cold-start seed replay (70.769ms)
+  ✔ marker failure rolls back insertion and permits a clean retry (74.9668ms)
+  ✔ a later CMS release and grant exposes the real art through the equipped-avatar contract (37.2223ms)
+✔ T1 Joeun CMS registration executes atomically against PostgreSQL without releasing or granting it (3518.1601ms)
+✔ avatar foundation preserves eighteen legacy seeds alongside the approved Iyejun release without overwriting settings (57.4236ms)
+✔ avatar coin gain stacks after burning and hyper burning reward multiplication (0.686ms)
+✔ equipped avatar raid effect increases the usable daily and slot entry limits (1.4101ms)
+✔ all twelve final equipment avatars ship as defringed versioned WebP files with real alpha (792.2495ms)
+✔ Terran Empress Joeun keeps the approved lobby illustration separate from the equipment alpha cutout (13.6779ms)
+✖ live avatar route is gated and wired through both V21 routers (13.7491ms)
+ℹ tests 85
+ℹ suites 0
+ℹ pass 84
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19826.5114
+
+✖ failing tests:
+
+test at tests\avatar-v1863.mjs:126:1
+✖ live avatar route is gated and wired through both V21 routers (13.7491ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /app\.js\?v=[0-9][A-Za-z0-9-]+/. Input:
+  
+  '<!DOCTYPE html>\n' +
+    '<html lang="ko">\n' +
+    '<head>\n' +
+    '  <meta charset="UTF-8" />\n' +
+    '  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\n' +
+    '  <meta name="theme-color" content="#080d13" />\n' +
+    '  <meta name="application-name" content="리버스콜" />\n' +
+    '  <meta name="apple-mobile-web-app-title" content="리버스콜" />\n' +
+    '  <meta property="og:title" content="리버스콜" />\n' +
+    '  <meta property="og:image" content="https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" />\n' +
+    '  <meta property="og:description" content="카드 수집 · 용병 성장 · 협동 전투" />\n' +
+    '  <link rel="manifest" href="/manifest.webmanifest?v=20261016-reverse-call" />\n' +
+    '  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent" type="image/png" sizes="32x32" />\n' +
+    '  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent" type="image/png" sizes="48x48" />\n' +
+    '  <link rel="apple-touch-icon" href="/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent" sizes="180x180" />\n' +
+    '  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-20261018/scene-wide.webp" media="(min-width:641px)" fetchpriority="high" />\n' +
+    '  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-20261018/scene-mobile.webp" media="(max-width:640px)" fetchpriority="high" />\n' +
+    '  <link rel="preload" as="image" type="image/avif" fetchpriority="high" href="/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif" imagesrcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" imagesizes="(max-width:820px) 100vw, 52vw" />\n' +
+    '  <link rel="preconnect" href="https://fonts.googleapis.com" />\n' +
+    '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n' +
+    '  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;600;800&amp;display=swap" rel="stylesheet" />\n' +
+    '  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Do+Hyeon&amp;family=East+Sea+Dokdo&amp;family=Gugi&amp;family=Jua&amp;family=Nanum+Gothic+Coding:wght@400;700&amp;family=Nanum+Pen+Script&amp;family=Noto+Sans+KR:wght@500;700;900&amp;family=Noto+Serif+KR:wght@600;700;900&amp;family=Song+Myung&amp;display=swap" rel="stylesheet" />\n' +
+    '  <title>리버스콜 카드뽑기</title>\n' +
+    '  <link rel="stylesheet" href="css/style.css?v=1879-player-ultimate-skip&cubeRemoval=20261003&iconPortrait=20261006" />\n' +
+    '  <link rel="stylesheet" href="css/chief-system-v1.css?v=20261005-general" />\n' +
+    '  <link rel="stylesheet" href="css/chief-prison-v1.css?v=20261006" />\n' +
+    '  <link rel="stylesheet" href="css/queen-coronation-v1.css?v=20261005-general" />\n' +
+    '  <link rel="stylesheet" href="css/card.css?v=1885-static-high-grade-frame" />\n' +
+    '  <link rel="stylesheet" href="css/animation.css?v=1144-stability-audit" />\n' +
+    '    <link rel="stylesheet" href="css/unified-drop-cinematic-v1750.css?v=1755-card-equipment-drop">\n' +
+    '  <link rel="stylesheet" href="css/card-unique-battle-fx-v1174.css?v=1745-taller-battle-cards">\n' +
+    '  <link rel="stylesheet" href="css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0">\n' +
+    '  <link rel="stylesheet" href="css/supply-box-v1249.css?v=1987-prime-custom-purchase-bulk-open">\n' +
+    '  <link rel="stylesheet" href="css/suit-core-box-v1.css?v=20261008">\n' +
+    '  <link rel="stylesheet" href="css/title-public-v1245.css?v=1782-title-specific-stars">\n' +
+    '  <link rel="stylesheet" href="css/title-fonts-v1814.css?v=1814-title-font-presets">\n' +
+    '  <link rel="stylesheet" href="css/seal-battle.css?v=1778-seal-v3-crystal&sealRework=20261021-v1&sealDragon=20261022-v1">\n' +
+    '  <link rel="stylesheet" href="css/raid-overhaul-v1293.css?v=1296-slot-entry-fix">\n' +
+    '  <link rel="stylesheet" href="css/raid-v3-async-v1779.css?v=1930-mobile-context-recovery">\n' +
+    '  <link rel="stylesheet" href="css/vehicle-draw-v1388.css?v=1724-hundred-draw">\n' +
+    '  <link rel="stylesheet" href="css/territory-war-v1811.css?v=1914-territory-dispatch-persist&pig=2">\n' +
+    '  <link rel="stylesheet" href="css/territory-war-v1824.css?v=2062-my-team-emphasis&clans=20260929-roster&votes=20261008">\n' +
+    '  <link rel="stylesheet" href="css/territory-network-v6.css?v=20261011-art2">\n' +
+    '  <link rel="stylesheet" href="css/territory-battlefield-v5.css?v=20261003-authored-fx">\n' +
+    '  <link rel="stylesheet" href="css/territory-formation-20261013.css?v=3">\n' +
+    '  <link rel="stylesheet" href="css/territory-vote-alert-v1.css?v=20261013-vote-alert-compact">\n' +
+    '  <link rel="stylesheet" href="css/ranked-match-v1671.css?v=1671-ranked-auto-season">\n' +
+    '  <link rel="stylesheet" href="css/ranked-v2-v1827.css?v=20261002-ranked-reform&amp;suggestions=20261005">\n' +
+    '  <link rel="stylesheet" href="css/pve-nightmare-v1692.css?v=1692-nightmare">\n' +
+    '  <link rel="stylesheet" href="css/pve-apocalypse-v1952.css?v=1952-apocalypse-pve">\n' +
+    '  <link rel="stylesheet" href="css/escort-operation-v1830.css?v=1844-public-mobile-fit">\n' +
+    '  <link rel="stylesheet" href="css/runtime-performance-v1727.css?v=1729-virtual-card-lists">\n' +
+    '  <link rel="stylesheet" href="css/battle-v3-live.css?v=1901-nightmare-mark-overlap&flow=2126&backdrop=20261005&amp;statusDock=20261007-v2">\n' +
+    '  <link rel="stylesheet" href="css/tower-abyss-ui.css?v=20261021-v1">\n' +
+    '  <link rel="stylesheet" href="css/secondary-verification-v1780.css?v=1799-playdk-only">\n' +
+    '  <link rel="stylesheet" href="css/organization-preparation-v1.css?v=20261015-organization-interface-v3">\n' +
+    '  <link rel="stylesheet" href="css/clan-v1.css?v=20261005-reform">\n' +
+    '  <link rel="stylesheet" href="css/clan-war-reform-v1.css?v=20261005-balance-v3">\n' +
+    '  <link rel="stylesheet" href="css/clan-command-v1.css?v=2127">\n' +
+    '  <link rel="stylesheet" href="css/clan-faction-v1.css?v=20261001-session-rewards">\n' +
+    '  <link rel="stylesheet" href="css/clan-champions-v2071.css?v=2109-champions-trophy">\n' +
+    '  <link id="liveOperationsV1868" rel="stylesheet" href="css/live-operations-v1868.css?v=1868-live-operations-r2&amp;popup=20261018-v1" />\n' +
+    '  <link data-rank-potion-style rel="stylesheet" href="css/rank-exp-potion-v1.css?v=20261020-v1" />\n' +
+    '  <link rel="stylesheet" href="css/prison-v1950.css?v=2045-mobile-perf" />\n' +
+    '\n' +
+    '<style id="v1871-mobile-burning-critical">\n' +
+    '@media (max-width:820px){\n' +
+    '  .burning-event-hud{visibility:visible!important;opacity:1!important}\n' +
+    '  .burning-command-notice{display:grid!important;visibility:visible!important;opacity:0;position:fixed!important;left:var(--burning-vv-left,0)!important;top:var(--burning-vv-top,0)!important;width:var(--burning-vv-width,100vw)!important;height:var(--burning-vv-height,100dvh)!important;z-index:2147483000!important}\n' +
+    '  .burning-command-notice.show{opacity:1!important}\n' +
+    '}\n' +
+    '</style>\n' +
+    '<link rel="stylesheet" href="css/burning-event-v1871.css?v=1902-burning-owner-timer" />\n' +
+    '<style id="v21-renewal-only-gate">\n' +
+    'html{background:#070a0f;color-scheme:dark}\n' +
+    'body.v21-renewal-required{margin:0;background:#070a0f;color:#eef4f6}\n' +
+    'body.v21-renewal-required #app{visibility:hidden}\n' +
+    '.v21-renewal-boot{position:fixed;inset:0;z-index:2147483600;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;box-sizing:border-box;padding:clamp(28px,4.8vw,76px);padding-bottom:max(30px,env(safe-area-inset-bottom));background:#060b12;color:#eef4f6;font-family:"Noto Sans KR",Arial,sans-serif}\n' +
+    '.v21-renewal-boot *{box-sizing:border-box}\n' +
+    '.v21-renewal-boot .boot-scene{position:absolute;inset:0;z-index:0;pointer-events:none}\n' +
+    '.v21-renewal-boot .boot-scene img{display:block;width:100%;height:100%;object-fit:cover;object-position:68% 48%}\n' +
+    '.v21-renewal-boot::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,8,15,.5),transparent 64%),linear-gradient(0deg,#030911 0%,rgba(3,9,17,.85) 8%,transparent 38%)}\n' +
+    '.v21-renewal-boot .boot-topline,.v21-renewal-boot main,.v21-renewal-boot .boot-loading{position:relative;z-index:2}\n' +
+    '.v21-renewal-boot .boot-topline{display:flex;align-items:center;justify-content:space-between;gap:20px;background:none;padding:0;border:0;min-height:40px}\n' +
+    '.v21-renewal-boot .boot-identity{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;letter-spacing:.14em}\n' +
+    '.v21-renewal-boot .boot-identity img{width:38px;height:38px;object-fit:contain}\n' +
+    '.v21-renewal-boot .boot-genre{color:#c4cdd3;font-size:11px;letter-spacing:.12em;text-shadow:0 2px 8px #030911}\n' +
+    '.v21-renewal-boot main{align-self:center;width:min(550px,55%);padding:0 0 24px;margin:0;border:0;background:none;box-shadow:none}\n' +
+    '.v21-renewal-boot .boot-overline{margin:0 0 22px;color:#9ecbd7;font-size:11px;font-weight:700;letter-spacing:.38em}\n' +
+    '.v21-renewal-boot h1{margin:0;color:#f1f5f4;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:clamp(80px,10.2vw,154px);font-style:italic;font-weight:800;line-height:.83;letter-spacing:-.025em;text-shadow:0 6px 35px #02070c66}\n' +
+    '.v21-renewal-boot h1 span{display:block}\n' +
+    '.v21-renewal-boot h1 span+span{color:#acdfe8;margin-top:8px}\n' +
+    '.v21-renewal-boot .boot-tagline{margin:28px 0 0;color:#d4e0e5;font-size:clamp(16px,1.6vw,22px);font-weight:400;letter-spacing:.08em}\n' +
+    '.v21-renewal-boot .boot-loading{width:100%;padding:0;margin:0;background:none;border:0}\n' +
+    '.v21-renewal-boot .boot-statusline{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:12px}\n' +
+    '.v21-renewal-boot .boot-statusline strong{font-size:14px;font-weight:600;letter-spacing:.02em}\n' +
+    '.v21-renewal-boot .boot-statusline>span{font-family:"Barlow Condensed",Arial,sans-serif;color:#9cb9c6;font-size:12px;letter-spacing:.3em}\n' +
+    ".v21-renewal-boot .boot-track{position:relative;width:100%;height:18px;border:0 solid transparent;border-left-width:25px;border-right-width:25px;border-image:url('/assets/ui/loading/reverse-call-20261018/rail.webp') 0 110 fill / 0 25px / 0 stretch;opacity:.9}\n" +
+    '.v21-renewal-boot .boot-track::after{content:"";position:absolute;inset:0 -25px;border:inherit;border-image:inherit;filter:brightness(2.1);mask-image:linear-gradie'... 22951 more characters
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/avatar-v1863.mjs:174:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: `<!DOCTYPE html>\n<html lang="ko">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\n  <meta name="theme-color" content="#080d13" />\n  <meta name="application-name" content="리버스콜" />\n  <meta name="apple-mobile-web-app-title" content="리버스콜" />\n  <meta property="og:title" content="리버스콜" />\n  <meta property="og:image" content="https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" />\n  <meta property="og:description" content="카드 수집 · 용병 성장 · 협동 전투" />\n  <link rel="manifest" href="/manifest.webmanifest?v=20261016-reverse-call" />\n  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent" type="image/png" sizes="32x32" />\n  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent" type="image/png" sizes="48x48" />\n  <link rel="apple-touch-icon" href="/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent" sizes="180x180" />\n  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-20261018/scene-wide.webp" media="(min-width:641px)" fetchpriority="high" />\n  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-20261018/scene-mobile.webp" media="(max-width:640px)" fetchpriority="high" />\n  <link rel="preload" as="image" type="image/avif" fetchpriority="high" href="/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif" imagesrcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" imagesizes="(max-width:820px) 100vw, 52vw" />\n  <link rel="preconnect" href="https://fonts.googleapis.com" />\n  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;600;800&amp;display=swap" rel="stylesheet" />\n  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Do+Hyeon&amp;family=East+Sea+Dokdo&amp;family=Gugi&amp;family=Jua&amp;family=Nanum+Gothic+Coding:wght@400;700&amp;family=Nanum+Pen+Script&amp;family=Noto+Sans+KR:wght@500;700;900&amp;family=Noto+Serif+KR:wght@600;700;900&amp;family=Song+Myung&amp;display=swap" rel="stylesheet" />\n  <title>리버스콜 카드뽑기</title>\n  <link rel="stylesheet" href="css/style.css?v=1879-player-ultimate-skip&cubeRemoval=20261003&iconPortrait=20261006" />\n  <link rel="stylesheet" href="css/chief-system-v1.css?v=20261005-general" />\n  <link rel="stylesheet" href="css/chief-prison-v1.css?v=20261006" />\n  <link rel="stylesheet" href="css/queen-coronation-v1.css?v=20261005-general" />\n  <link rel="stylesheet" href="css/card.css?v=1885-static-high-grade-frame" />\n  <link rel="stylesheet" href="css/animation.css?v=1144-stability-audit" />\n    <link rel="stylesheet" href="css/unified-drop-cinematic-v1750.css?v=1755-card-equipment-drop">\n  <link rel="stylesheet" href="css/card-unique-battle-fx-v1174.css?v=1745-taller-battle-cards">\n  <link rel="stylesheet" href="css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0">\n  <link rel="stylesheet" href="css/supply-box-v1249.css?v=1987-prime-custom-purchase-bulk-open">\n  <link rel="stylesheet" href="css/suit-core-box-v1.css?v=20261008">\n  <link rel="stylesheet" href="css/title-public-v1245.css?v=1782-title-specific-stars">\n  <link rel="stylesheet" href="css/title-fonts-v1814.css?v=1814-title-font-presets">\n  <link rel="stylesheet" href="css/seal-battle.css?v=1778-seal-v3-crystal&sealRework=20261021-v1&sealDragon=20261022-v1">\n  <link rel="stylesheet" href="css/raid-overhaul-v1293.css?v=1296-slot-entry-fix">\n  <link rel="stylesheet" href="css/raid-v3-async-v1779.css?v=1930-mobile-context-recovery">\n  <link rel="stylesheet" href="css/vehicle-draw-v1388.css?v=1724-hundred-draw">\n  <link rel="stylesheet" href="css/territory-war-v1811.css?v=1914-territory-dispatch-persist&pig=2">\n  <link rel="stylesheet" href="css/territory-war-v1824.css?v=2062-my-team-emphasis&clans=20260929-roster&votes=20261008">\n  <link rel="stylesheet" href="css/territory-network-v6.css?v=20261011-art2">\n  <link rel="stylesheet" href="css/territory-battlefield-v5.css?v=20261003-authored-fx">\n  <link rel="stylesheet" href="css/territory-formation-20261013.css?v=3">\n  <link rel="stylesheet" href="css/territory-vote-alert-v1.css?v=20261013-vote-alert-compact">\n  <link rel="stylesheet" href="css/ranked-match-v1671.css?v=1671-ranked-auto-season">\n  <link rel="stylesheet" href="css/ranked-v2-v1827.css?v=20261002-ranked-reform&amp;suggestions=20261005">\n  <link rel="stylesheet" href="css/pve-nightmare-v1692.css?v=1692-nightmare">\n  <link rel="stylesheet" href="css/pve-apocalypse-v1952.css?v=1952-apocalypse-pve">\n  <link rel="stylesheet" href="css/escort-operation-v1830.css?v=1844-public-mobile-fit">\n  <link rel="stylesheet" href="css/runtime-performance-v1727.css?v=1729-virtual-card-lists">\n  <link rel="stylesheet" href="css/battle-v3-live.css?v=1901-nightmare-mark-overlap&flow=2126&backdrop=20261005&amp;statusDock=20261007-v2">\n  <link rel="stylesheet" href="css/tower-abyss-ui.css?v=20261021-v1">\n  <link rel="stylesheet" href="css/secondary-verification-v1780.css?v=1799-playdk-only">\n  <link rel="stylesheet" href="css/organization-preparation-v1.css?v=20261015-organization-interface-v3">\n  <link rel="stylesheet" href="css/clan-v1.css?v=20261005-reform">\n  <link rel="stylesheet" href="css/clan-war-reform-v1.css?v=20261005-balance-v3">\n  <link rel="stylesheet" href="css/clan-command-v1.css?v=2127">\n  <link rel="stylesheet" href="css/clan-faction-v1.css?v=20261001-session-rewards">\n  <link rel="stylesheet" href="css/clan-champions-v2071.css?v=2109-champions-trophy">\n  <link id="liveOperationsV1868" rel="stylesheet" href="css/live-operations-v1868.css?v=1868-live-operations-r2&amp;popup=20261018-v1" />\n  <link data-rank-potion-style rel="stylesheet" href="css/rank-exp-potion-v1.css?v=20261020-v1" />\n  <link rel="stylesheet" href="css/prison-v1950.css?v=2045-mobile-perf" />\n\n<style id="v1871-mobile-burning-critical">\n@media (max-width:820px){\n  .burning-event-hud{visibility:visible!important;opacity:1!important}\n  .burning-command-notice{display:grid!important;visibility:visible!important;opacity:0;position:fixed!important;left:var(--burning-vv-left,0)!important;top:var(--burning-vv-top,0)!important;width:var(--burning-vv-width,100vw)!important;height:var(--burning-vv-height,100dvh)!important;z-index:2147483000!important}\n  .burning-command-notice.show{opacity:1!important}\n}\n</style>\n<link rel="stylesheet" href="css/burning-event-v1871.css?v=1902-burning-owner-timer" />\n<style id="v21-renewal-only-gate">\nhtml{background:#070a0f;color-scheme:dark}\nbody.v21-renewal-required{margin:0;background:#070a0f;color:#eef4f6}\nbody.v21-renewal-required #app{visibility:hidden}\n.v21-renewal-boot{position:fixed;inset:0;z-index:2147483600;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;box-sizing:border-box;padding:clamp(28px,4.8vw,76px);padding-bottom:max(30px,env(safe-area-inset-bottom));background:#060b12;color:#eef4f6;font-family:"Noto Sans KR",Arial,sans-serif}\n.v21-renewal-boot *{box-sizing:border-box}\n.v21-renewal-boot .boot-scene{position:absolute;inset:0;z-index:0;pointer-events:none}\n.v21-renewal-boot .boot-scene img{display:block;width:100%;height:100%;object-fit:cover;object-position:68% 48%}\n.v21-renewal-boot::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,8,15,.5),transparent 64%),linear-gradient(0deg,#030911 0%,rgba(3,9,17,.85) 8%,transparent 38%)}\n.v21-renewal-boot .boot-topline,.v21-renewal-boot main,.v21-renewal-boot .boot-loading{position:relative;z-index:2}\n.v21-renewal-boot .boot-topline{display:flex;align-items:center;justify-content:space-between;gap:20px;background:none;padding:0;border:0;min-height:40px}\n.v21-renewal-boot .boot-identity{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;letter-spacing:.14em}\n.v21-renewal-boot .boot-identity img{width:38px;height:38px;object-fit:contain}\n.v21-renewal-boot .boot-genre{color:#c4cdd3;font-size:11px;letter-spacing:.12em;text-shadow:0 2px 8px #030911}\n.v21-renewal-boot main{align-self:center;width:min(550px,55%);padding:0 0 24px;margin:0;border:0;background:none;box-shadow:none}\n.v21-renewal-boot .boot-overline{margin:0 0 22px;color:#9ecbd7;font-size:11px;font-weight:700;letter-spacing:.38em}\n.v21-renewal-boot h1{margin:0;color:#f1f5f4;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:clamp(80px,10.2vw,154px);font-style:italic;font-weight:800;line-height:.83;letter-spacing:-.025em;text-shadow:0 6px 35px #02070c66}\n.v21-renewal-boot h1 span{display:block}\n.v21-renewal-boot h1 span+span{color:#acdfe8;margin-top:8px}\n.v21-renewal-boot .boot-tagline{margin:28px 0 0;color:#d4e0e5;font-size:clamp(16px,1.6vw,22px);font-weight:400;letter-spacing:.08em}\n.v21-renewal-boot .boot-loading{width:100%;padding:0;margin:0;background:none;border:0}\n.v21-renewal-boot .boot-statusline{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:12px}\n.v21-renewal-boot .boot-statusline strong{font-size:14px;font-weight:600;letter-spacing:.02em}\n.v21-renewal-boot .boot-statusline>span{font-family:"Barlow Condensed",Arial,sans-serif;color:#9cb9c6;font-size:12px;letter-spacing:.3em}\n.v21-renewal-boot .boot-track{position:relative;width:100%;height:18px;border:0 solid transparent;border-left-width:25px;border-right-width:25px;border-image:url('/assets/ui/loading/reverse-call-20261018/rail.webp') 0 110 fill / 0 25px / 0 stretch;opacity:.9}\n.v21-renewal-boot .boot-track::after{content:"";position:absolute;inset:0 -25px;border:inherit;border-image:inherit;filter:brightness(2.1);mask-image:linear-gradie`... 22951 more characters,
+    expected: /app\.js\?v=[0-9][A-Za-z0-9-]+/,
+    operator: 'match',
+    diff: 'simple'
+  }

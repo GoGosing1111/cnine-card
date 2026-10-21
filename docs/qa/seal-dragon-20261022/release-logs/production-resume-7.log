@@ -1,0 +1,655 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs
+
+[FULL RELEASE RESUME] Reuse 31 completed stages from f0b2de4139a6df808d574ca99b635015ad0b92c2; execute every remaining stage and production guard.
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (0.8826ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (2.9232ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.4714ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (3.7675ms)
+✔ codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources (5.3375ms)
+✔ full gate resumes a proven prefix and retains failed, remaining and final release guards (1.0225ms)
+✔ registered preview checkers rerun their owning stage and reject runtime or unregistered consumers (0.7871ms)
+✔ an upload failure reuses only a complete successful gate and rechecks changed deployment contracts (0.7129ms)
+✔ only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts (1.5562ms)
+✔ main cache version alignment accepts only the tested shell version and rechecks affected HTML tests (1.2787ms)
+✔ isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity (0.6319ms)
+✔ lobby authoring repair retains passes only with unchanged live output and a full build check (0.6504ms)
+✔ multiple immutable continuation logs keep contiguous passes and reject a changed log or gap (0.8469ms)
+✔ a continuation validates successful earlier reruns before its contiguous failed-stage suffix (0.746ms)
+✔ a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard (0.7149ms)
+✔ a completed continuation checks its actual candidate at the final source guard (0.387ms)
+✔ continued gate accepts an isolated raid correction only after successful current browser proof (1.0135ms)
+✔ concurrent authoring art must be new, hash-bound, image-only and unused by runtime (1.0564ms)
+✔ unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed (1.0795ms)
+✔ changed tests in a completed stage rerun that stage without invalidating unrelated passes (0.1332ms)
+✔ preview QA repairs must be existing executable tests in the unchanged full gate (0.5242ms)
+✔ a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers (0.7737ms)
+✔ concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt (0.8661ms)
+✔ a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits (1.6105ms)
+✔ concurrent unreferenced JSON production receipts are documentation, never runtime configuration (1.1715ms)
+✔ runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results (0.645ms)
+✔ tampered, incomplete or noncontiguous logs fail closed (0.3537ms)
+✔ explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks (0.557ms)
+✔ uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain (0.8203ms)
+✔ legacy .mjs test entries are reusable only when directly registered in the unchanged gate (0.2541ms)
+✔ an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence (0.9831ms)
+✔ limited-pack view proof is runner-specific and never permits shared policy, session or server changes (2.2383ms)
+✔ offline skill preview proof binds source and bundle and reruns contracts that inspect it (2.1349ms)
+✔ registered nested npm tests belong to their parent and cannot be omitted from a completed gate (0.6253ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.8065ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.4807ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.4041ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.6218ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1992ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.4442ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (3.3506ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.5008ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 42
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 131.3144
+✔ one additional message grants Moo날두 only; original 50, wallets, held player and replay are preserved (1461.4363ms)
+✔ identity changes, unsafe wallet, duplicate delivery and failures at each write leave no partial message (1083.0921ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2681.447
+✔ winners receive only 20 trillion and participants only one trillion as messages; dry-run, identity exclusions and replay preserve wallets (1521.2992ms)
+✔ changed identity, unsupported balance, duplicate messages and every late write failure roll back the whole batch (1143.4921ms)
+✔ actual claim credits one and 20 trillion exactly once, rolls back failed ledger, and lost send response never duplicates messages (1191.7575ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4040.6797
+
+> test:soopketland
+> node --test tests/soopketland-v2039.test.mjs
+
+✔ new land policy assigns 60% coins, 14% stars, 10% single repair and 1% thanks gifts and preserves explicit OWNER weights (20.0273ms)
+✔ thanks gift coupon is not opened automatically and inactive inventory catalog preserves the coupon (19.533ms)
+✔ five-prize saved settings preserve OWNER odds until the explicit repair policy is applied (2.3128ms)
+✔ repair prize always grants one actual coupon per viewer and preserves disabled or malformed coupons (5.0864ms)
+✔ coupon deadline is exactly eight hours, inclusive at expiry, and independent of timestamp timezone (0.2228ms)
+✔ new coupon stores one issue time and replay never restarts the eight-hour clock (4.7468ms)
+✔ previously issued codes expire after eight hours while claimed rewards and receipt replay survive (2.5301ms)
+✔ history and OWNER state derive expired codes without deleting prizes, receipts or inventory (2.4879ms)
+✔ database deadline is checked again after a redemption request has read the coupon (3.5351ms)
+✔ daily tickets are capped at ten per KST date across concurrent requests, consumption and nickname changes (2.9758ms)
+✔ daily eligibility excludes OWNER-only, inactive, banned and removed accounts; receipt failure rolls everything back (5.0558ms)
+✔ state and spin recover a delayed daily scheduler, grant no eleventh ticket and issue exact 150-viewer coupons (46.0225ms)
+✔ private stable ID access binds exactly five accounts; OWNER allowed; rename does not transfer access (2.3319ms)
+✔ daily issuance stays off before explicit activation; inventory-only forged tickets cannot play (2.07ms)
+✔ OWNER grants are idempotent, scoped to registered accounts, audited and cannot be reused for a changed request (2.3745ms)
+✔ spin atomically spends one ticket and keeps viewer coupon in land history, without crediting streamer; lost-response replay is identical (2.9053ms)
+✔ coupon issuance no longer depends on streamer messages; ticket grant message stays (3.0642ms)
+✔ each viewer can redeem once; cap is exact; retry does not pay twice (3.1261ms)
+✔ disabled coupons stop new redemptions without deleting earned rewards (2.9222ms)
+✔ missing inventory catalog row never consumes coupon; log failure rolls back coin and claim (6.4762ms)
+✔ previously issued ZENITH/FUR coupons grant public active cards and preserve enhancement; empty pools preserve coupons (2.6486ms)
+✔ previously issued Hyper tickets retain server-wide 15x/60min activation and idempotency (2.394ms)
+✔ active burning and unauthorized accounts cannot consume or overwrite activation (2.4339ms)
+✔ prize bounds, amounts and weight validation are deterministic and server-only (0.2802ms)
+✔ concurrent requests cannot double-spend the last ticket or overrun a one-person coupon (3.7579ms)
+✔ concurrent replay of identical grant and roll identifiers returns one durable receipt (3.3767ms)
+✔ all stopped, finite-edition and globally excluded random cards preserve unused coupons (2.09ms)
+✔ client integration is shared, recovers pending requests, and never renders a self-redeem action for event codes (24.0708ms)
+✔ PostgreSQL translates every captured statement with matched binds; new transactions use real row locks (7.3342ms)
+✔ a previously issued Superstar coupon still delivers its ticket and opens once without changing owned enhancements (5.4875ms)
+✔ guaranteed ticket empty pool and failed card insert preserve inventory; concurrent open spends only once (3.2966ms)
+✔ mystic energy delivers 1, legacy 50/200 and new 1000; retired coupons retain their original rewards (12.4917ms)
+✔ fivefold amounts preserve the original discrete outcomes and exact odds (1.4211ms)
+✔ a maximum coin spin persists a 2,500억 coupon and replay does not consume another ticket (3.0414ms)
+✔ Emperor replaces the 5% Superstar prize, mystic keeps 10%, and retired keys cannot be spun or saved (2.5812ms)
+✔ 300억 and previous 200억/50억 coins credit once per viewer; existing stars and Black Miracle coupons keep their amount (14.9747ms)
+✔ previously issued maximum random card coupons deliver all copies, preserve enhancement, and replay cannot add copies (6.3235ms)
+✔ each card is independently sampled and a later card insert failure rolls back the whole coupon (3.2378ms)
+✔ Iyejun coupon uses the fixed ID, grants one unenhanced copy, and is excluded only from land random cards (3.3157ms)
+✔ old issued one-card coupons retain their amount and amounts above new caps are refused without consumption (2.0995ms)
+✔ client formats named cards as 장, uses server coin cap, and loads the new versioned bundle (2.8142ms)
+✔ legacy Hyper conversion precedes Black Miracle retirement and never redistributes twice (10.8301ms)
+✔ old settings redistribute Black Miracle only to coins/stars; OWNER cannot add retired prizes back (2.5953ms)
+✔ Black Miracle redistribution preserves custom coin/star proportions, zero choices, total and repeated reads (0.313ms)
+✔ the four-prize Superstar replacement preserves custom weights, subsequent OWNER edits and prior spin receipts (2.662ms)
+▶ maximum Emperor, stars and mystic spins persist coupons; failed delivery and replay cannot consume or grant twice
+  ✔ EMPEROR_ENERGY (3.2304ms)
+  ✔ MASTER_STAR (3.078ms)
+  ✔ STARLIGHT_ARMOR_CORE (3.1679ms)
+  ✔ PINGDU_THANKS_GIFT_BOX (3.2804ms)
+  ✔ PINGDU_REPAIR_COUPON (3.1848ms)
+✔ maximum Emperor, stars and mystic spins persist coupons; failed delivery and replay cannot consume or grant twice (16.55ms)
+✔ old one-pack Black Miracle coupons remain valid, and above-cap coupons cannot be consumed (15.1087ms)
+✔ PostgreSQL credits expanded maximum rewards once, including 2,500억 BIGINT coin and audit balances (1552.4156ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 53
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2016.8079
+
+> test:streamer-lounge
+> node --test tests/streamer-lounge-v2036.test.mjs
+
+✔ defaults match all five user-supplied names, stations and observed profile photos in order (2.1214ms)
+✔ station validation rejects spoofed domains, protocols, credentials and non-station paths (0.1803ms)
+✔ image validation allows public photos/assets and rejects executable/traversal addresses (0.2503ms)
+✔ input schema rejects duplicates, missing names, malformed flags and unbounded roster (0.7173ms)
+✔ public default read is read-only and never publishes private account fields or live guesses (21.4942ms)
+✔ CMS settings save persists reorder, photo, introduction and hidden users; public read filters hidden records (3.9678ms)
+✔ off, empty roster and all-hidden settings stay empty, never reseed removed profiles (3.8537ms)
+✔ CMS requires SETTINGS permission before reading or writing any settings (0.6361ms)
+✔ stale CMS revision cannot overwrite a newer saved roster (1.3381ms)
+✔ two simultaneous first saves result in exactly one write and a conflict (1.0258ms)
+✔ invalid or oversized body cannot change stored settings (1.1377ms)
+✔ wrong method is read-only and unrelated paths do not query the DB (1.0353ms)
+✔ corrupt persisted config fails closed, not silently replaced by initial roster (0.4887ms)
+✔ isolated live and CMS wiring, safe new-tab links and permanent no-LIVE contract (6.1685ms)
+✔ the lounge entry preserves mobile geometry and stays isolated from battle styles (1.067ms)
+✔ premium lounge uses generated image plates, native station links and no new CSS rules (3.2993ms)
+✔ SOOP portraits use the larger animated source; custom CMS image URLs stay unchanged (0.3835ms)
+✔ portrait raster pixels are never enlarged beyond their resolution on high-density screens (0.1275ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 144.2189
+
+> test:player-card
+> node --test tests/player-card-v2052.test.mjs tests/achievement-titles-20260927.test.mjs
+
+✔ exact collection thresholds: no rounding, empty catalogues cannot qualify (0.7451ms)
+✔ SQLite: recent four vehicles are optional for completionist but cannot fill a missing required vehicle (7.6048ms)
+✔ SQLite: ICON cards never change completionist progress or replace missing required cards (4.2721ms)
+✔ SQLite: new marker seeds on an already initialized installation; failed seed rolls back and preserves CMS edits on retry (2.9176ms)
+✔ SQLite: existing zero-power titles upgrade atomically once, retain ownership and preserve later CMS power edits (1.844ms)
+✔ SQLite: visible distinct card/vehicle ownership, official trophy kinds, atomic grants and lost-response retries (13.0179ms)
+ℹ initial achievement sync: 16 read queries, 1.24 ms in isolated fixture
+ℹ already-owned sync: 1 query; 0.04 ms in isolated fixture
+✔ PostgreSQL: recent four vehicles are optional for completionist but cannot fill a missing required vehicle (1847.3173ms)
+✔ PostgreSQL: ICON cards never change completionist progress or replace missing required cards (1250.4708ms)
+✔ PostgreSQL: new marker seeds on an already initialized installation; failed seed rolls back and preserves CMS edits on retry (1403.3349ms)
+✔ PostgreSQL: existing zero-power titles upgrade atomically once, retain ownership and preserve later CMS power edits (1349.8565ms)
+✔ PostgreSQL: visible distinct card/vehicle ownership, official trophy kinds, atomic grants and lost-response retries (1529.4361ms)
+ℹ initial achievement sync: 16 read queries, 16.12 ms in isolated fixture
+ℹ already-owned sync: 1 query; 0.81 ms in isolated fixture
+✔ runtime foundation includes the new marker and every live surface loads the new styles (9.636ms)
+✔ explicit trophy grant appears in the card and bonuses without changing records; replay and other users stay unchanged (1987.8336ms)
+{"event":"player_card_read_failed","message":"INVALID_TROPHY_GRANTS"}
+✔ manual grant dry run, audit failure, and receipt failure roll back; identity and corrupt records fail closed (1393.3767ms)
+✔ existing trophies and first dates are preserved; manual grants validate only known unique trophy kinds (1435.8823ms)
+✔ city and Lich milestones share permanent counts, earned date and collection honors; the public card remains read-only (1568.7514ms)
+✔ Dragon Slayer appears at 5000 clears with the same progress in public card and collection honors, without read-time writes (1413.6111ms)
+{"event":"player_card_read_failed","message":"relation \"coin_prediction_bets\" does not exist"}
+✔ prediction appreciation trophy is the same settled milestone in the public card and collection honors (1233.6877ms)
+✔ duo challenger trophy is projected only from each owner’s permanent season receipts (1114.5754ms)
+✔ official records: historical clan affiliation, all three trophies, public-only read with no side effects (1135.6529ms)
+✔ missing participation, non-challenger final tier and rank 21 all break consecutive official seasons (1068.7347ms)
+✔ rank first-place trophy is only one per completed season, never for another player or a live first place (1091.9816ms)
+✔ champions trophy requires a delivered receipt and frozen winner membership, distinct from regular first place (1125.1905ms)
+✔ unfinished settlements and expired season never claim current challenger; hidden/expired appearance stays private (1193.0029ms)
+✔ GET/auth/identity validation and inactive target guards fail closed (1051.6138ms)
+✔ history is bounded but all-time honors survive outside the displayed 12 seasons (1038.1607ms)
+{"event":"player_card_read_failed","message":"relation \"clan_season_settlements\" does not exist"}
+✔ unavailable source records return a retryable error, not invented zero awards (1081.0298ms)
+✔ nickname renderer escapes text and attributes; only local asset images allowed (3.3163ms)
+✔ live Hi Heeya and Cheon portrait paths render without widening trophy image access (1202.2085ms)
+✔ portrait preview exception rejects foreign origins, credentials, documents, APIs and traversal (1.3687ms)
+✔ live connections use exact user IDs; FX remains lazy, cancellable and non-blocking (5.443ms)
+✔ all trophy assets are real transparent production assets with preserved high-resolution originals (388.7438ms)
+✔ rapid user switching ignores stale responses and closing restores focus/scroll without late-close races (2.7454ms)
+✔ WebGL startup failure does not hide the card and a late renderer is destroyed after close (2.6355ms)
+✔ request error has retry and close controls, not an infinite loader (1.4003ms)
+✔ a request stuck in the read queue has a total deadline, retry and stale-response protection (2.2323ms)
+✔ empty trophy shelves keep border FX without creating an empty GSAP tween (2.6811ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20959.1714
+
+> test:evolution
+> node --test tests/evolution-batch-v2035.test.mjs tests/zenith-evolution-source-consumption-v1703.mjs tests/zenith-evolution-pity-v1718.mjs tests/zenith-evolution-pity-compensation-runtime-v1718.mjs
+
+✔ MA multi-card attempts stop on success, preserve pity, consume whole stack and grant duplicate bonuses (8.3886ms)
+✔ retry after response loss returns identical receipt without spending or drawing twice (3.2928ms)
+✔ PRESTIGE eliminates owned/newly drawn results and stops without charging when pool is exhausted (2.6916ms)
+✔ ZENITH keeps 25%, seven-attempt guarantee, cost and all-source consumption (2.3316ms)
+✔ failed attempts remain on the source and continue after a fresh request (3.4808ms)
+✔ a reacquired source resets historical success counters without changing previous receipts (1.9585ms)
+✔ invalid cards, insufficient maximum materials and deck presets cause no debit (3.2172ms)
+✔ log failure rolls back source, rewards, pity, wallet AND receipt (6.6505ms)
+✔ concurrent wallet change aborts entire stale batch (4.7159ms)
+✔ concurrent source change aborts entire stale batch (6.3357ms)
+✔ concurrent pity change aborts entire stale batch (3.8411ms)
+✔ concurrent reward change aborts entire stale batch (4.3017ms)
+✔ concurrent deck change is rechecked inside the transaction (6.8773ms)
+✔ two simultaneous duplicate submissions produce exactly one batch (6.4491ms)
+✔ validation rejects unknown types, duplicate IDs and oversized plans (1.649ms)
+✔ maximum 20 sources x 10 attempts is bounded and audited, including zero successes (10.483ms)
+✔ CMS policy changes after confirmation are rejected without consuming materials (1.6742ms)
+✔ feature OFF blocks a new batch but a committed receipt remains readable (2.7053ms)
+✔ batch SQL is accepted by the production PostgreSQL translator (9.0523ms)
+✔ UI uses actual batch endpoint, scoped styles, persistent request ID and simple three tabs (0.7597ms)
+ZENITH evolution V1718 runtime compensation: atomic grant, source consumption, deck cleanup and audit verified
+✔ tests\zenith-evolution-pity-compensation-runtime-v1718.mjs (73.2439ms)
+ZENITH evolution V1718: 7th attempt guaranteed and legacy 7-failure compensation guarded
+✔ tests\zenith-evolution-pity-v1718.mjs (69.2763ms)
+ZENITH evolution V1703: source fully consumed, affected decks scrubbed, audit quantities recorded
+✔ tests\zenith-evolution-source-consumption-v1703.mjs (76.2266ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 236.778
+
+> test:inventory
+> node --test tests/inventory-ui-v2125.test.mjs
+
+✔ repair coupons display the approved item artwork and recovery destination without direct consumption (17.3758ms)
+✔ owned equipment protection tickets show their art and exact count, remain materials and cannot open as packs (1.1468ms)
+✔ owned filter hides zero counts while preserving server catalog order (0.9181ms)
+✔ pack tickets, event tickets and actual admission tickets remain distinct (0.8764ms)
+✔ search combines with category/new filters and accepts Korean or item code (0.9476ms)
+✔ quantity and rarity sorts are deterministic without mutating the source catalog (2.8604ms)
+✔ server-disabled items, crafting materials, zero stock and skill chips cannot use inventory actions (1.7637ms)
+✔ large counts stay exact in details and accessibility while tiles compact the visible number (1.3322ms)
+✔ item names, codes, descriptions and image URLs are escaped before HTML insertion (1.2011ms)
+✔ all fixture media resolve to real assets and include the released fifth and sixth cores (4.1433ms)
+✔ entering and refreshing inventory never opens or submits a pending gift, including zero stock (2.6858ms)
+✔ gift recovery only offers the signed-in account receipts and tolerates unavailable storage (1.5416ms)
+✔ ICON choice receipt recovery remains reachable after the last ticket was consumed (1.3551ms)
+✔ rank potion recovery is account-specific, works at zero stock and ignores malformed potion storage (1.0437ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 136.6278
+
+> test:navigation
+> node --test tests/navigation-contract-v1.mjs tests/main-resource-master-star-v2052.test.mjs
+
+✔ main HUD shows Master Stars rather than magic crystals, preserving coin/shards (14.9747ms)
+✔ zero, missing and invalid Master Star balances never fall back to magic crystals (5.4986ms)
+✔ HUD rereads updated balances after rewards/spending without changing stored currencies (0.8657ms)
+✔ header script and injected icon stylesheet are cache-busted together (2.1999ms)
+✔ narrow mobile HUD fits long Star amounts without squeezing the icon or mail control (0.8819ms)
+navigation contract v1: PASS
+✔ tests\navigation-contract-v1.mjs (69.5957ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 101.825
+
+> test:mercenary-codex
+> node --test tests/mercenary-fusion-eight.test.mjs tests/mercenary-fusion-transactions.test.mjs tests/mercenary-codex-public-v2061.test.mjs tests/mercenary-codex-owned-roster-v2133.test.mjs tests/mercenary-codex-live-v2098.test.mjs tests/mercenary-codex-preview-v1.test.mjs tests/project-v-mercenary-system-v1.mjs tests/project-v-approved-mercenary-cards-v1.mjs tests/mercenary-vespera-beauty-v1.test.mjs tests/mercenary-weapons-beauty-v1.test.mjs tests/mercenary-sd-completion-v2061.test.mjs tests/mercenary-four-looks-v1.test.mjs tests/mercenary-four-looks-catalog-v2062.test.mjs tests/mercenary-police-joeun-v2063.test.mjs tests/mercenary-dongtan-diim-v2063.test.mjs tests/mercenary-position-cms-v1.test.mjs tests/mercenary-skills-v1.test.mjs tests/mercenary-art-release-v2116.test.mjs
+
+✖ approved Hi Heeya artwork is promoted once into the SS gameplay catalog without rewriting existing CMS values (55.2442ms)
+✔ published original is the exact user attachment, with native RGB 2:3 dimensions (84.4849ms)
+✔ sqlite: public codex reads exact saved CMS ranks, assignments, names and skill balances (189.9082ms)
+✔ postgres: public codex reads exact saved CMS ranks, assignments, names and skill balances (2781.364ms)
+✔ codex search, grade filters and escaped presentation use current CMS skill data (1.2041ms)
+✔ 용병도감은 내 용병을 기본으로 표시하고 전체 도감을 같은 화면에서 전환한다 (1.351ms)
+✔ 선택 상세에서 기존 원자 편성 계약만 호출하고 유실 응답을 같은 요청으로 복구한다 (0.4071ms)
+✔ 별도 지휘소 진입과 관련 링크는 통합 내 용병 화면으로 수렴한다 (8.304ms)
+✔ 보유·편성 상태와 핵심 조작은 데스크톱과 모바일에서 명확히 유지된다 (0.3325ms)
+✔ reads the canonical 57-card preview roster and never inherits historic ranks (3.7874ms)
+✔ current mercenary frame is the native transparent slim V3 asset, never a checkerboard draft (92.3756ms)
+✔ all sixteen approved additions preserve reviewed originals and have separate SD resources (149.817ms)
+✖ preview menu inserts the codex next to dex without mutating the real navigation contract (4.708ms)
+✔ search supports Korean names, titles, whitespace, code normalization and initial consonants (0.6061ms)
+✔ combined position/role/search filters do not mutate or omit roster records (2.0296ms)
+✔ favorites are a separate local selection, including empty and intersected results (0.3853ms)
+✔ URL state is sanitized and deep links never assign ownership or a grade (0.557ms)
+✔ image paths reject external URLs, traversal and malformed codes (1.3581ms)
+✔ resource states preserve approval differences, including the supplied Omega-X original (0.3736ms)
+✔ responsive WebP derivatives are complete, traceable, transparent for SD and keep every source hash (1179.14ms)
+✔ preview has no live boot, mutation APIs, inherited stats, audio, or ownership claims (6.7925ms)
+✔ interaction contract includes dialogs, focus return, history, keyboard tabs, motion preference and safe states (0.325ms)
+✔ a queued art-dialog close cannot erase the image after a rapid reopen (2.6393ms)
+✖ public document uses the native forge-inspired archive with game links and CMS information (4.2444ms)
+✔ shared desktop, mobile and cards hub menu includes exactly one codex beside dex (12.0916ms)
+✔ public codex uses a fixed same-tab document route, not a deck or battle shell (3.6899ms)
+✔ native desktop, mobile and old subtab fallbacks redirect without mounting a new game view (1.682ms)
+✔ codex keeps public catalog browsing while account writes are limited to the existing loadout route (5.4302ms)
+✔ public page and live entry use synchronized cache tags and revalidation headers (3.9948ms)
+✔ visiting public codex never overwrites the game index, including offline return (50.0358ms)
+✔ codex cache cannot become an offline game fallback and cache quota does not hide valid responses (92.5973ms)
+✔ Dongtan Diim uses the approved name and preserves all previous 42 mercenary records (6.9457ms)
+✔ the final game-illustration V4 is connected byte-for-byte with only separate WebP derivatives (27.1782ms)
+✔ Diim art approval stays unranked and the CMS codex publishes separate approved art and SD (39.6079ms)
+✔ explicit approval adds exactly four originals without changing the previous 37 records (135.7488ms)
+✔ outfit and weapon concepts remain searchable after the four SDs are connected (30.6019ms)
+✖ catalog release uses current CMS data and preserves all 60 separate art and SD resources (30.5093ms)
+✔ 네 의상·무기 조합은 독립된 성인 원화 시안이며 운영 편성과 구분한다 (2.1378ms)
+✔ 4종 원본은 개별 1024×1536 sRGB PNG이며 네이티브 생성 파일을 보존한다 (69.7566ms)
+✔ 베스페라 앵커를 보존하고 원화·프레임은 검수 페이지에서 별도 계층으로 표시한다 (7.5011ms)
+✔ eight same-rank duplicate copies may mix mercenaries while preserving each original (3.9793ms)
+✔ reject seven/nine cards, cross-rank input, unowned cards and repeated copies exceeding inventory (0.448ms)
+✔ SSS is never a material rank and only one-step promotion is represented (0.2735ms)
+✔ demo copies do not alter ownership and results are explicit catalog choices, never random draws (0.5481ms)
+✔ released synthesis uses a server receipt and explicit demo preserves original art (4.7057ms)
+✔ authored sequence remains continuous and ordered across charge, dark hold, impact and dissipation (0.8992ms)
+✔ 10% boundary is exact and within-rank weights do not change promotion odds (3.1792ms)
+✔ SQLite: success consumes exactly eight extras, grants one, and never changes wallet or deployment (87.5713ms)
+✔ SQLite: failure returns one random same-rank card, including a consumed code (34.9341ms)
+✔ SQLite: grant failure rolls back every material and saved randomness survives retry (28.4048ms)
+✔ SQLite: invalid or stale materials cannot spend original copies or expose unpaid results (32.7644ms)
+✔ SQLite: competing requests and a lost commit acknowledgement cannot duplicate results (35.5655ms)
+✔ Postgres: success consumes exactly eight extras, grants one, and never changes wallet or deployment (2722.8643ms)
+✔ Postgres: failure returns one random same-rank card, including a consumed code (1780.5697ms)
+✔ Postgres: grant failure rolls back every material and saved randomness survives retry (1557.5137ms)
+✔ Postgres: invalid or stale materials cannot spend original copies or expose unpaid results (1407.6202ms)
+✔ Postgres: competing requests and a lost commit acknowledgement cannot duplicate results (1163.3311ms)
+✔ release feature is ON without DB access; anonymous mutation remains unauthorized (17.2049ms)
+✔ saved 8991:100:10 SSS weights select exact intervals without changing 10% promotion (0.2165ms)
+✔ Postgres: normal player uses locked route and replay; no schema work on synthesis (1196.2093ms)
+✔ Postgres: eight distinct materials preserve every original with one atomic grant (1167.2322ms)
+✔ Police Joeun is the user-assigned name and the previous 41 mercenaries are unchanged (9.5921ms)
+✔ renaming preserves the approved face and full 1024x1536 RGB original byte-for-byte (22.2829ms)
+✔ Joeun art approval stays unranked and the CMS codex publishes separate approved art and SD (27.8995ms)
+✔ six-tier draft edits preserve Omega SSS and do not mutate the official roster (17.0644ms)
+✔ known v1 draft migration preserves prior notes, assignments and revision (4.5724ms)
+✔ 57 approved roster codes each have a distinct, complete proposed assignment (1.6075ms)
+✔ tactical middle and rear do not silently create a third engine targeting row (0.1805ms)
+✔ missing, duplicated and unregistered mercenaries cannot be imported (2.1601ms)
+✔ roles cannot select incompatible positions or skill targets (3.3566ms)
+✔ import cannot enable runtime or inject ranks, assets, stats, prices or arbitrary fields (11.4188ms)
+✔ stale roster or schema versions require explicit migration and review (12.6383ms)
+✔ draft text must describe both the benefit and weakness within the CMS size limit (4.5467ms)
+✔ JSON parser rejects malformed and oversized UTF-8 content before replacing the draft (2.4561ms)
+✔ revision save returns a detached copy and never mutates the source roster or prior revision (2.4008ms)
+✔ a stale editor cannot overwrite a later draft revision (2.8267ms)
+✔ preparation editor uses canonical original art and never reads accounts or admin credentials (58.6183ms)
+✔ live CMS, account API, codex and battle entrypoints do not import the draft editor or rules (26.0253ms)
+✔ 2026-09-07 native SD outputs have genuine alpha, full-body bounds and traceable source art (930.5522ms)
+✔ 2026-09-10 native SD outputs have genuine alpha, full-body bounds and traceable source art (383.3331ms)
+✔ six new SDs complete the roster while preserving every original card field and existing SD (1.7963ms)
+✔ battle adapter preserves measured feet, legacy defaults and rejects invalid anchors (6.1698ms)
+✔ new area sequence has sixteen unique RGBA frames with clear gutters and preserved source hash (169.4893ms)
+✔ new sequence changes authored shape from descent through impact and clears on stop or expiry (4.3324ms)
+✔ real Pixi/GSAP five-target playback supports seek, pause, speed, cancellation and complete disposal (70.7216ms)
+✔ event horizon is independently assignable and preserves bounded shares and its cleanse window (6.1333ms)
+✔ both legacy reviews preserve names, notes and revisions while removing proposed ownership (17.6117ms)
+✔ Pages extensionless documents and local .html resolve shared V3 assets identically (2.7079ms)
+✔ 40 independent skills cover seven effect categories without a mercenary or rank owner (4.5184ms)
+✔ PVE area rehearsal shares one budget across living enemies, handles one boss and cancels before impact (11.1243ms)
+✔ MS-001 normal: resolved playback is deterministic, bounded and reversible (3.7138ms)
+✔ MS-001 counter: resolved playback is deterministic, bounded and reversible (0.9939ms)
+✔ MS-001 boss: resolved playback is deterministic, bounded and reversible (0.9876ms)
+✔ MS-008 normal: resolved playback is deterministic, bounded and reversible (3.1491ms)
+✔ MS-008 counter: resolved playback is deterministic, bounded and reversible (0.8402ms)
+✔ MS-008 boss: resolved playback is deterministic, bounded and reversible (5.9027ms)
+✔ MS-009 normal: resolved playback is deterministic, bounded and reversible (1.8975ms)
+✔ MS-009 counter: resolved playback is deterministic, bounded and reversible (1.6463ms)
+✔ MS-009 boss: resolved playback is deterministic, bounded and reversible (0.7632ms)
+✔ MS-010 normal: resolved playback is deterministic, bounded and reversible (1.4242ms)
+✔ MS-010 counter: resolved playback is deterministic, bounded and reversible (1.3687ms)
+✔ MS-010 boss: resolved playback is deterministic, bounded and reversible (0.287ms)
+✔ MS-011 normal: resolved playback is deterministic, bounded and reversible (1.5257ms)
+✔ MS-011 counter: resolved playback is deterministic, bounded and reversible (0.6239ms)
+✔ MS-011 boss: resolved playback is deterministic, bounded and reversible (2.7324ms)
+✔ MS-022 normal: resolved playback is deterministic, bounded and reversible (1.2ms)
+✔ MS-022 counter: resolved playback is deterministic, bounded and reversible (0.5905ms)
+✔ MS-022 boss: resolved playback is deterministic, bounded and reversible (0.95ms)
+✔ MS-036 normal: resolved playback is deterministic, bounded and reversible (6.2176ms)
+✔ MS-036 counter: resolved playback is deterministic, bounded and reversible (8.9696ms)
+✔ MS-036 boss: resolved playback is deterministic, bounded and reversible (6.9543ms)
+✔ MS-037 normal: resolved playback is deterministic, bounded and reversible (4.3994ms)
+✔ MS-037 counter: resolved playback is deterministic, bounded and reversible (2.3191ms)
+✔ MS-037 boss: resolved playback is deterministic, bounded and reversible (3.1273ms)
+✔ MS-040 normal: resolved playback is deterministic, bounded and reversible (2.1185ms)
+✔ MS-040 counter: resolved playback is deterministic, bounded and reversible (36.6871ms)
+✔ MS-040 boss: resolved playback is deterministic, bounded and reversible (1.5756ms)
+✔ MS-021 normal: resolved playback is deterministic, bounded and reversible (3.7732ms)
+✔ MS-021 counter: resolved playback is deterministic, bounded and reversible (0.7182ms)
+✔ MS-021 boss: resolved playback is deterministic, bounded and reversible (0.4119ms)
+✔ MS-003 normal: resolved playback is deterministic, bounded and reversible (1.5481ms)
+✔ MS-003 counter: resolved playback is deterministic, bounded and reversible (2.5655ms)
+✔ MS-003 boss: resolved playback is deterministic, bounded and reversible (4.9798ms)
+✔ MS-004 normal: resolved playback is deterministic, bounded and reversible (0.6015ms)
+✔ MS-004 counter: resolved playback is deterministic, bounded and reversible (2.6844ms)
+✔ MS-004 boss: resolved playback is deterministic, bounded and reversible (7.3982ms)
+✔ MS-006 normal: resolved playback is deterministic, bounded and reversible (0.8091ms)
+✔ MS-006 counter: resolved playback is deterministic, bounded and reversible (0.7158ms)
+✔ MS-006 boss: resolved playback is deterministic, bounded and reversible (9.2357ms)
+✔ MS-005 normal: resolved playback is deterministic, bounded and reversible (1.6613ms)
+✔ MS-005 counter: resolved playback is deterministic, bounded and reversible (3.8127ms)
+✔ MS-005 boss: resolved playback is deterministic, bounded and reversible (0.6919ms)
+✔ MS-013 normal: resolved playback is deterministic, bounded and reversible (11.0012ms)
+✔ MS-013 counter: resolved playback is deterministic, bounded and reversible (0.7466ms)
+✔ MS-013 boss: resolved playback is deterministic, bounded and reversible (0.5919ms)
+✔ MS-015 normal: resolved playback is deterministic, bounded and reversible (0.3605ms)
+✔ MS-015 counter: resolved playback is deterministic, bounded and reversible (0.2781ms)
+✔ MS-015 boss: resolved playback is deterministic, bounded and reversible (0.3383ms)
+✔ MS-016 normal: resolved playback is deterministic, bounded and reversible (0.8605ms)
+✔ MS-016 counter: resolved playback is deterministic, bounded and reversible (0.474ms)
+✔ MS-016 boss: resolved playback is deterministic, bounded and reversible (0.3955ms)
+✔ MS-018 normal: resolved playback is deterministic, bounded and reversible (0.9658ms)
+✔ MS-018 counter: resolved playback is deterministic, bounded and reversible (0.9728ms)
+✔ MS-018 boss: resolved playback is deterministic, bounded and reversible (1.0835ms)
+✔ MS-023 normal: resolved playback is deterministic, bounded and reversible (1.422ms)
+✔ MS-023 counter: resolved playback is deterministic, bounded and reversible (0.6784ms)
+✔ MS-023 boss: resolved playback is deterministic, bounded and reversible (0.4361ms)
+✔ MS-025 normal: resolved playback is deterministic, bounded and reversible (0.4305ms)
+✔ MS-025 counter: resolved playback is deterministic, bounded and reversible (0.455ms)
+✔ MS-025 boss: resolved playback is deterministic, bounded and reversible (1.3247ms)
+✔ MS-027 normal: resolved playback is deterministic, bounded and reversible (0.7259ms)
+✔ MS-027 counter: resolved playback is deterministic, bounded and reversible (0.4063ms)
+✔ MS-027 boss: resolved playback is deterministic, bounded and reversible (0.4467ms)
+✔ MS-028 normal: resolved playback is deterministic, bounded and reversible (0.6746ms)
+✔ MS-028 counter: resolved playback is deterministic, bounded and reversible (2.7016ms)
+✔ MS-028 boss: resolved playback is deterministic, bounded and reversible (0.486ms)
+✔ MS-032 normal: resolved playback is deterministic, bounded and reversible (0.4147ms)
+✔ MS-032 counter: resolved playback is deterministic, bounded and reversible (0.4989ms)
+✔ MS-032 boss: resolved playback is deterministic, bounded and reversible (1.9253ms)
+✔ MS-038 normal: resolved playback is deterministic, bounded and reversible (0.7377ms)
+✔ MS-038 counter: resolved playback is deterministic, bounded and reversible (0.831ms)
+✔ MS-038 boss: resolved playback is deterministic, bounded and reversible (0.4424ms)
+✔ MS-042 normal: resolved playback is deterministic, bounded and reversible (0.9609ms)
+✔ MS-042 counter: resolved playback is deterministic, bounded and reversible (0.5075ms)
+✔ MS-042 boss: resolved playback is deterministic, bounded and reversible (0.4361ms)
+✔ MS-043 normal: resolved playback is deterministic, bounded and reversible (0.5339ms)
+✔ MS-043 counter: resolved playback is deterministic, bounded and reversible (0.3714ms)
+✔ MS-043 boss: resolved playback is deterministic, bounded and reversible (0.3576ms)
+✔ MS-044 normal: resolved playback is deterministic, bounded and reversible (0.5323ms)
+✔ MS-044 counter: resolved playback is deterministic, bounded and reversible (0.3632ms)
+✔ MS-044 boss: resolved playback is deterministic, bounded and reversible (34.7352ms)
+✔ MS-045 normal: resolved playback is deterministic, bounded and reversible (0.73ms)
+✔ MS-045 counter: resolved playback is deterministic, bounded and reversible (0.3406ms)
+✔ MS-045 boss: resolved playback is deterministic, bounded and reversible (0.5688ms)
+✔ MS-046 normal: resolved playback is deterministic, bounded and reversible (0.4144ms)
+✔ MS-046 counter: resolved playback is deterministic, bounded and reversible (7.2429ms)
+✔ MS-046 boss: resolved playback is deterministic, bounded and reversible (0.5842ms)
+✔ MS-047 normal: resolved playback is deterministic, bounded and reversible (1.2623ms)
+✔ MS-047 counter: resolved playback is deterministic, bounded and reversible (0.5437ms)
+✔ MS-047 boss: resolved playback is deterministic, bounded and reversible (4.2964ms)
+✔ MS-048 normal: resolved playback is deterministic, bounded and reversible (0.7399ms)
+✔ MS-048 counter: resolved playback is deterministic, bounded and reversible (0.6559ms)
+✔ MS-048 boss: resolved playback is deterministic, bounded and reversible (0.3613ms)
+✔ MS-049 normal: resolved playback is deterministic, bounded and reversible (0.5064ms)
+✔ MS-049 counter: resolved playback is deterministic, bounded and reversible (0.673ms)
+✔ MS-049 boss: resolved playback is deterministic, bounded and reversible (0.3905ms)
+✔ MS-050 normal: resolved playback is deterministic, bounded and reversible (0.5274ms)
+✔ MS-050 counter: resolved playback is deterministic, bounded and reversible (10.651ms)
+✔ MS-050 boss: resolved playback is deterministic, bounded and reversible (0.8641ms)
+✔ MS-051 normal: resolved playback is deterministic, bounded and reversible (0.749ms)
+✔ MS-051 counter: resolved playback is deterministic, bounded and reversible (0.6011ms)
+✔ MS-051 boss: resolved playback is deterministic, bounded and reversible (0.4435ms)
+✔ MS-055 normal: resolved playback is deterministic, bounded and reversible (0.4943ms)
+✔ MS-055 counter: resolved playback is deterministic, bounded and reversible (0.3928ms)
+✔ MS-055 boss: resolved playback is deterministic, bounded and reversible (0.3166ms)
+✔ MS-056 normal: resolved playback is deterministic, bounded and reversible (2.4257ms)
+✔ MS-056 counter: resolved playback is deterministic, bounded and reversible (0.4193ms)
+✔ MS-056 boss: resolved playback is deterministic, bounded and reversible (0.2819ms)
+✔ single-hit interception conserves damage and excludes area damage (0.5083ms)
+✔ locked sniper cancels a lost target without retargeting (0.2724ms)
+✔ calibration is tied to one target and resets on forced target switching (0.4452ms)
+✔ command grants six next-basic tokens without inserting mercenary into five-card ids (1.1308ms)
+✔ healing suppression applies after cleanse and cannot resurrect a pre-dead target (0.3968ms)
+✔ boss interrupt immunity preserves the cast and creates no replacement stun (0.2337ms)
+✔ range attacks cannot proc melee riposte; venom cleansing removes delayed damage (0.3077ms)
+✔ front group budgets do not multiply with targets and fall back to one when front is empty (0.633ms)
+✔ finisher evaluates HP at collision and missed first shot cancels encore (0.5418ms)
+✔ dead caster and missing targets fail closed; invalid snapshots are rejected (0.3898ms)
+✔ review imports reject assignment fields, live activation, missing skills and stale catalog versions (1.6965ms)
+✔ assignment drafts start with all 57 mercenaries unassigned, including SSS Omega (0.8852ms)
+✔ users can select event horizon for other mercenaries, combine skills and reuse one skill (1.19ms)
+✔ assignment import rejects invented IDs, duplicate pairs, omitted mercenaries and release bypasses (2.3343ms)
+✔ assignment revisions reject stale saves and preserve the caller draft on success or failure (1.7475ms)
+✔ generic Pixi lifecycle uses one cancellable V3 clock, rewinds poses, and preserves shared textures (60.3049ms)
+✔ authored impact selects changing frame UVs on the shared clock and rejects a single still (0.2127ms)
+✔ generic catalog sequences and three scenarios stay within the sprite budget and fully rewind (656.9087ms)
+✔ rejected V1 originals remain preserved as history, not a runtime fallback (80.6211ms)
+✔ thirty-six individually authored sequences retain 576 original frames and clean gutters (879.6608ms)
+✔ skill review stays outside production battle routes, source-art roster and five-card contract (12.877ms)
+✔ Vespera is the preserved style anchor and both beauty drafts are original-size RGB PNGs (19.6781ms)
+✔ art review is isolated, silent and cannot register cards or overwrite the public codex (9.4465ms)
+✔ persistent art standards record beauty-first direction without replacing old anchors (6.4969ms)
+✔ eight weapon families plus six female firearms are separate native 2:3 PNG illustrations (60.1803ms)
+✔ approved style references remain byte-identical and outfit variety matches the request (10.2508ms)
+✔ preview is silent, isolated, frame-compatible and exposes all fourteen original downloads (121.2804ms)
+✔ all filters show the correct cards and announce counts without any account access (1.7046ms)
+✔ the final SKS revision preserves both pistol originals with traceable edit-only prompts (7.7711ms)
+✔ approved mercenary roster has the canonical V-013 through V-020 range (1.7503ms)
+✔ every approved source art remains hash-locked and has a separate RGBA battle sprite (65.2847ms)
+✔ card frame assets and consolidated preview cover the full roster (5.6164ms)
+✔ new rank ladder assigns only user-directed Omega and preserves every prior card field (5.2399ms)
+✔ mercenary system keeps five regular cards and one separate mercenary slot (1.0303ms)
+✔ mercenary slot remains optional and does not change the existing five-card formation (0.3746ms)
+✔ review roster has fifty-seven unique cards and no inherited rank (0.4936ms)
+✔ all source art and all declared battle sprites exist with recorded hashes (509.5263ms)
+✔ Omega-X preserves the exact user-supplied source and connects a separate battle sprite with its user-directed SSS rank (0.4679ms)
+✔ battle art adapter resolves SD only for battle consumers and never replaces source art (3.5949ms)
+✔ official supporting anchors are preserved in main with canonical hashes (6.5432ms)
+✔ preview states the 5+1 rule and never exposes legacy ranks (4.2092ms)
+ℹ tests 239
+ℹ suites 0
+ℹ pass 235
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12177.3741
+
+✖ failing tests:
+
+test at tests\mercenary-art-release-v2116.test.mjs:10:1
+✖ approved Hi Heeya artwork is promoted once into the SS gameplay catalog without rewriting existing CMS values (55.2442ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  81 !== 79
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/mercenary-art-release-v2116.test.mjs:14:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 81,
+    expected: 79,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\mercenary-codex-preview-v1.test.mjs:79:1
+✖ preview menu inserts the codex next to dex without mutating the real navigation contract (4.708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '용병 · 편성' !== '용병도감'
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/mercenary-codex-preview-v1.test.mjs:91:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '용병 · 편성',
+    expected: '용병도감',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\mercenary-codex-public-v2061.test.mjs:32:1
+✖ public document uses the native forge-inspired archive with game links and CMS information (4.2444ms)
+  AssertionError [ERR_ASSERTION]: rebuilding the public archive must preserve every live stylesheet and release hook
+  + actual - expected
+  ... Skipped lines
+  
+    '<!doctype html>\n' +
+      '<html lang="ko" data-codex-mode="public">\n' +
+      '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080c17"><meta name="color-scheme" content="dark"><title>용병 · 편성 | 리버스콜 용병도감</title><link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"><link rel="stylesheet" href="/mercenary-codex/style.css?singleDeployment=20261018-v1&amp;v=20261017-halloween-ready&amp;growthEntry=20261015-public-off-v2&amp;loadoutModes=20261009&limited=20261002-canonical2&amp;fusion=20261019-bulk"><link rel="stylesheet" href="/mercenary-codex/limited.css?v=20261017-halloween-ready-v1"><link rel="stylesheet" href="/css/adventure-navigation-standalone.css?v=2108"><script defer src="/js/soopketmon-v21-exact-shell-adapter.js?mercenaryCommand=20261021&amp;v=2108-shared-navigation&amp;goldenAxe=20260918&amp;coup=2115&amp;loot=20260915&amp;workshop=20260922&amp;chuseok=20260923&amp;mine=20261003&amp;petCodex=20261009" data-enabled="false"></script><script defer src="/js/adventure-lobby-v2107.js?mercenaryCommand=20261021-grouped&amp;favorites=20261013-v1&v=2108-shared-navigation&amp;goldenAxe=20260918&amp;coup=2115&amp;loot=20260915&amp;mercenary=2133&amp;workshop=20260922&amp;chuseok=20260923&amp;menu=20260925-2&amp;mine=20261003&amp;petCodex=20261009"></script><script defer src="/js/adventure-navigation-standalone.js?v=2108-shared-navigation&amp;goldenAxe=20260918&amp;chuseok=20260923" data-route="mercenaryDex"></script><link rel="stylesheet" href="/mercenary-codex/command.css?v=20261021-command-v1"></head>\n' +
+      '<body class="command-codex"><a class="skip-link" href="#catalogControls">용병 검색으로 바로가기</a>\n' +
+      '<div class="archive-ribbon"><i></i><b>MERCENARY ARCHIVE</b><span>다섯 장의 덱, 하나의 새로운 전력</span></div>\n' +
+  ...
+      '<dialog id="inspectionSheet" class="inspection-sheet" aria-labelledby="inspectionSheetTitle"><header><strong id="inspectionSheetTitle">용병 상세 · 편성</strong><button id="closeInspection" class="command-secondary" type="button" aria-label="용병 상세 닫기">닫기 ×</button></header><div id="inspectionSheetBody"></div></dialog>\n' +
+  +   '<dialog id="artDialog" class="art-dialog" aria-label="용병 원본 확대 보기"><header><strong id="artTitle"></strong><button id="closeArt" class="command-secondary" type="button" aria-label="원본 확대 닫기">닫기 ×</button></header><img id="originalArt" alt=""></dialog><div id="toast" role="status" aria-live="polite" hidden></div><noscript><p>용병 정보를 보려면 JavaScript를 켜 주세요.</p></noscript><script type="module" src="/mercenary-codex/app.mjs?jinmuStock=20261022-v1&amp;command=20261021-v1&amp;jokro=20261021-codex-v1&prime=20261021-v1&zero=20261020-v1&rankReward=20261020-v1&bathory=20261019-v1&amp;leonel=20261018-live-v1&amp;singleDeployment=20261018-v1&amp;deploymentVisibility=20261017-v1&amp;growthEntry=20261015-public-off-v2&amp;shiranuiArt=20261015-fit-v1&amp;halloween=20261017-halloween-ready-v1&kairon=20261014-craft-v1&azant=20261014-live-v1&helios=20261009&amp;deployment=20261009-v1&amp;loadoutModes=20261009&amp;balance=20261009-ss-limited-tempo&amp;limited=20261004-approved&amp;v=2133&limited=20261002-canonical2&amp;strength=2103&amp;art=20260915&amp;fusion=20260925-on&amp;cryvern=20260924"></script></body></html>\n'
+  -   '<dialog id="artDialog" class="art-dialog" aria-label="용병 원본 확대 보기"><header><strong id="artTitle"></strong><button id="closeArt" class="command-secondary" type="button" aria-label="원본 확대 닫기">닫기 ×</button></header><img id="originalArt" alt=""></dialog><div id="toast" role="status" aria-live="polite" hidden></div><noscript><p>용병 정보를 보려면 JavaScript를 켜 주세요.</p></noscript><script type="module" src="/mercenary-codex/app.mjs?command=20261021-v1&amp;jokro=20261021-codex-v1&prime=20261021-v1&zero=20261020-v1&rankReward=20261020-v1&bathory=20261019-v1&amp;leonel=20261018-live-v1&amp;singleDeployment=20261018-v1&amp;deploymentVisibility=20261017-v1&amp;growthEntry=20261015-public-off-v2&amp;shiranuiArt=20261015-fit-v1&amp;halloween=20261017-halloween-ready-v1&kairon=20261014-craft-v1&azant=20261014-live-v1&helios=20261009&amp;deployment=20261009-v1&amp;loadoutModes=20261009&amp;balance=20261009-ss-limited-tempo&amp;limited=20261004-approved&amp;v=2133&limited=20261002-canonical2&amp;strength=2103&amp;art=20260915&amp;fusion=20260925-on&amp;cryvern=20260924"></script></body></html>\n'
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/mercenary-codex-public-v2061.test.mjs:41:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '<!doctype html>\n<html lang="ko" data-codex-mode="public">\n<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080c17"><meta name="color-scheme" content="dark"><title>용병 · 편성 | 리버스콜 용병도감</title><link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"><link rel="stylesheet" href="/mercenary-codex/style.css?singleDeployment=20261018-v1&amp;v=20261017-halloween-ready&amp;growthEntry=20261015-public-off-v2&amp;loadoutModes=20261009&limited=20261002-canonical2&amp;fusion=20261019-bulk"><link rel="stylesheet" href="/mercenary-codex/limited.css?v=20261017-halloween-ready-v1"><link rel="stylesheet" href="/css/adventure-navigation-standalone.css?v=2108"><script defer src="/js/soopketmon-v21-exact-shell-adapter.js?mercenaryCommand=20261021&amp;v=2108-shared-navigation&amp;goldenAxe=20260918&amp;coup=2115&amp;loot=20260915&amp;workshop=20260922&amp;chuseok=20260923&amp;mine=20261003&amp;petCodex=20261009" data-enabled="false"></script><script defer src="/js/adventure-lobby-v2107.js?mercenaryCommand=20261021-grouped&amp;favorites=20261013-v1&v=2108-shared-navigation&amp;goldenAxe=20260918&amp;coup=2115&amp;loot=20260915&amp;mercenary=2133&amp;workshop=20260922&amp;chuseok=20260923&amp;menu=20260925-2&amp;mine=20261003&amp;petCodex=20261009"></script><script defer src="/js/adventure-navigation-standalone.js?v=2108-shared-navigation&amp;goldenAxe=20260918&amp;chuseok=20260923" data-route="mercenaryDex"></script><link rel="stylesheet" href="/mercenary-codex/command.css?v=20261021-command-v1"></head>\n<body class="command-codex"><a class="skip-link" href="#catalogControls">용병 검색으로 바로가기</a>\n<div class="archive-ribbon"><i></i><b>MERCENARY ARCHIVE</b><span>다섯 장의 덱, 하나의 새로운 전력</span></div>\n<div class="archive-shell">\n<header class="topbar"><a class="brand" href="/?screen=home" aria-label="리버스콜 로비로 돌아가기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V3h5m8 0h5v5M3 16v5h5m8 0h5v-5M8 6v12l8-6Z"/></svg><span>리버스콜<small>MERCENARY DIVISION</small></span></a><nav aria-label="현재 위치"><span>도감</span><i>/</i><b>용병도감</b></nav><a id="lobbyReturn" class="lobby-return" href="/?screen=home">로비로 돌아가기 ↗</a></header>\n<main><div class="page-heading"><div class="heading-title"><span class="heading-index">02</span><div><p class="eyebrow">MERCENARY ARCHIVE</p><h1>용병 · 편성</h1></div><span class="heading-tag">PROJECT V</span></div><div class="archive-heading-actions"><a class="fusion-entry" href="/mercenary-codex/sss-reroll/">SSS 재뽑기</a><a class="fusion-entry" href="/mercenary-codex/equipment/">용병 장비</a><a id="openLeveling" class="fusion-entry" href="/mercenary-codex/leveling/">용병 성장</a><button id="openFusion" class="fusion-entry" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="5" width="12" height="16" rx="1.5"/><path d="M5 18H4V2h12v1M11 10h6m-6 4h6m-6 4h3"/></svg>중복 합성</button></div></div>\n<section class="archive-status" aria-label="용병 현황"><div><i></i><b id="accountStatusTitle">내 용병 확인 중</b><span id="catalogStatus" role="status">보유 용병과 편성 정보를 불러오고 있습니다.</span></div><span class="formation-tag">일반 5장 <em>+</em> 용병 1장</span></section>\n<section class="current-deployments" aria-labelledby="currentDeploymentsTitle"><div class="current-deployments-heading"><h2 id="currentDeploymentsTitle">현재 출전 용병</h2><span>PVE · PVP 각각 1명</span></div><div id="currentDeployments" class="current-deployments-grid" aria-live="polite"><p>편성 정보를 불러오는 중…</p></div></section>\n<div class="workspace-heading"><div class="roster-view-tabs" role="tablist" aria-label="용병 목록 전환"><button id="ownedView" type="button" role="tab" data-view="owned" aria-controls="cardGrid" aria-selected="true">편성하기 <small>내 용병</small> <b id="ownedCount">—</b></button><button id="allView" type="button" role="tab" data-view="all" aria-controls="cardGrid" aria-selected="false">전체 도감 <b id="totalCount">—</b></button><button id="limitedView" type="button" role="tab" data-view="limited" aria-controls="cardGrid" aria-selected="false">리미티드 <b id="limitedCount">—</b></button></div><div class="archive-counters"><span class="sr-only">현재 편성 <b id="loadoutName">—</b></span><span class="sr-only">배정 스킬 <b id="skillCount">—</b></span><button id="refreshCatalog" type="button" aria-label="보유 용병과 도감 정보 새로고침">새로고침 ↻</button></div></div>\n<section class="archive-workspace" aria-label="용병 명단과 전투 정보">\n<aside class="catalog-panel"><div class="panel-heading"><h2 id="rosterTitle">내 용병 선택</h2><span id="resultCount" role="status">—</span></div>\n<div id="catalogControls" class="catalog-controls"><div class="search-row"><label class="search-field"><span class="sr-only">용병 이름·코드·스킬 검색</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="search" type="search" placeholder="이름 · 코드 · 스킬 검색" maxlength="80" autocomplete="off"></label><label><span class="sr-only">등급 필터</span><select id="rank"><option value="">모든 등급</option><option>C</option><option>B</option><option>A</option><option>S</option><option>SS</option><option>SSS</option></select></label></div><details class="advanced-filters"><summary>포지션 · 정렬 · 즐겨찾기</summary><div id="positions" class="position-filters" role="group" aria-label="전투 위치"><button data-position="" aria-pressed="true">전체</button><button data-position="FRONT" aria-pressed="false">전열</button><button data-position="MIDDLE" aria-pressed="false">중열</button><button data-position="REAR" aria-pressed="false">후열</button></div><div class="filter-row"><label><span class="sr-only">정렬</span><select id="sort"><option value="code">등록순</option><option value="newest">최신순</option><option value="name">이름순</option><option value="power">전투력순</option></select></label><button id="savedOnly" type="button" aria-pressed="false" aria-label="즐겨찾기만 보기">☆</button></div></details></div>\n<ul id="cardGrid" class="roster-list" aria-label="용병 목록" aria-busy="true"><li class="empty-state">보유 용병을 불러오는 중…</li></ul><div class="catalog-foot"><span id="catalogFootTitle">보유 용병을 선택해 바로 편성하세요.</span><small>전체 도감과 보유 목록을 한 화면에서 전환합니다.</small></div></aside>\n<div id="inspectionHome"><section id="inspection" class="inspection" aria-label="선택한 용병"><div class="empty-selection"><span>PROJECT V</span><h2>당신의 다음 전력을<br>확인하세요.</h2><p>용병을 선택하면 원화와 스킬을 볼 수 있습니다.</p></div></section></div>\n</section>\n<section class="archive-guide"><div><span>DEPLOYMENT CONTRACT</span><h2>다섯 장의 덱에, 한 명의 동료.</h2><p>PVE와 PVP에 용병을 각각 한 명씩 편성합니다.<br>한 명만 보유해도 양쪽에 함께 편성할 수 있습니다.</p></div><div class="guide-actions"><button class="primary-link" id="showOwned" type="button">내 용병 보기 <span>↑</span></button><a class="quiet-link" href="/?screen=buy&amp;pack=hyper">하이퍼팩 개봉 ↗</a></div></section>\n<footer class="page-footer"><span>REVERSE CALL <i>/</i> MERCENARY ARCHIVE</span><p>카드 원화 · 전투 SD · 현재 배정 스킬</p></footer></main></div>\n<dialog id="inspectionSheet" class="inspection-sheet" aria-labelledby="inspectionSheetTitle"><header><strong id="inspectionSheetTitle">용병 상세 · 편성</strong><button id="closeInspection" class="command-secondary" type="button" aria-label="용병 상세 닫기">닫기 ×</button></header><div id="inspectionSheetBody"></div></dialog>\n<dialog id="artDialog" class="art-dialog" aria-label="용병 원본 확대 보기"><header><strong id="artTitle"></strong><button id="closeArt" class="command-secondary" type="button" aria-label="원본 확대 닫기">닫기 ×</button></header><img id="originalArt" alt=""></dialog><div id="toast" role="status" aria-live="polite" hidden></div><noscript><p>용병 정보를 보려면 JavaScript를 켜 주세요.</p></noscript><script type="module" src="/mercenary-codex/app.mjs?jinmuStock=20261022-v1&amp;command=20261021-v1&amp;jokro=20261021-codex-v1&prime=20261021-v1&zero=20261020-v1&rankReward=20261020-v1&bathory=20261019-v1&amp;leonel=20261018-live-v1&amp;singleDeployment=20261018-v1&amp;deploymentVisibility=20261017-v1&amp;growthEntry=20261015-public-off-v2&amp;shiranuiArt=20261015-fit-v1&amp;halloween=20261017-halloween-ready-v1&kairon=20261014-craft-v1&azant=20261014-live-v1&helios=20261009&amp;deployment=20261009-v1&amp;loadoutModes=20261009&amp;balance=20261009-ss-limited-tempo&amp;limited=20261004-approved&amp;v=2133&limited=20261002-canonical2&amp;strength=2103&amp;art=20260915&amp;fusion=20260925-on&amp;cryvern=20260924"></script></body></html>\n',
+    expected: '<!doctype html>\n<html lang="ko" data-codex-mode="public">\n<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080c17"><meta name="color-scheme" content="dark"><title>용병 · 편성 | 리버스콜 용병도감</title><link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"><link rel="stylesheet" href="/mercenary-codex/style.css?singleDeployment=20261018-v1&amp;v=20261017-halloween-ready&amp;growthEntry=20261015-public-off-v2&amp;loadoutModes=20261009&limited=20261002-canonical2&amp;fusion=20261019-bulk"><link rel="stylesheet" href="/mercenary-codex/limited.css?v=20261017-halloween-ready-v1"><link rel="stylesheet" href="/css/adventure-navigation-standalone.css?v=2108"><script defer src="/js/soopketmon-v21-exact-shell-adapter.js?mercenaryCommand=20261021&amp;v=2108-shared-navigation&amp;goldenAxe=20260918&amp;coup=2115&amp;loot=20260915&amp;workshop=20260922&amp;chuseok=20260923&amp;mine=20261003&amp;petCodex=20261009" data-enabled="false"></script><script defer src="/js/adventure-lobby-v2107.js?mercenaryCommand=20261021-grouped&amp;favorites=20261013-v1&v=2108-shared-navigation&amp;goldenAxe=20260918&amp;coup=2115&amp;loot=20260915&amp;mercenary=2133&amp;workshop=20260922&amp;chuseok=20260923&amp;menu=20260925-2&amp;mine=20261003&amp;petCodex=20261009"></script><script defer src="/js/adventure-navigation-standalone.js?v=2108-shared-navigation&amp;goldenAxe=20260918&amp;chuseok=20260923" data-route="mercenaryDex"></script><link rel="stylesheet" href="/mercenary-codex/command.css?v=20261021-command-v1"></head>\n<body class="command-codex"><a class="skip-link" href="#catalogControls">용병 검색으로 바로가기</a>\n<div class="archive-ribbon"><i></i><b>MERCENARY ARCHIVE</b><span>다섯 장의 덱, 하나의 새로운 전력</span></div>\n<div class="archive-shell">\n<header class="topbar"><a class="brand" href="/?screen=home" aria-label="리버스콜 로비로 돌아가기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V3h5m8 0h5v5M3 16v5h5m8 0h5v-5M8 6v12l8-6Z"/></svg><span>리버스콜<small>MERCENARY DIVISION</small></span></a><nav aria-label="현재 위치"><span>도감</span><i>/</i><b>용병도감</b></nav><a id="lobbyReturn" class="lobby-return" href="/?screen=home">로비로 돌아가기 ↗</a></header>\n<main><div class="page-heading"><div class="heading-title"><span class="heading-index">02</span><div><p class="eyebrow">MERCENARY ARCHIVE</p><h1>용병 · 편성</h1></div><span class="heading-tag">PROJECT V</span></div><div class="archive-heading-actions"><a class="fusion-entry" href="/mercenary-codex/sss-reroll/">SSS 재뽑기</a><a class="fusion-entry" href="/mercenary-codex/equipment/">용병 장비</a><a id="openLeveling" class="fusion-entry" href="/mercenary-codex/leveling/">용병 성장</a><button id="openFusion" class="fusion-entry" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="5" width="12" height="16" rx="1.5"/><path d="M5 18H4V2h12v1M11 10h6m-6 4h6m-6 4h3"/></svg>중복 합성</button></div></div>\n<section class="archive-status" aria-label="용병 현황"><div><i></i><b id="accountStatusTitle">내 용병 확인 중</b><span id="catalogStatus" role="status">보유 용병과 편성 정보를 불러오고 있습니다.</span></div><span class="formation-tag">일반 5장 <em>+</em> 용병 1장</span></section>\n<section class="current-deployments" aria-labelledby="currentDeploymentsTitle"><div class="current-deployments-heading"><h2 id="currentDeploymentsTitle">현재 출전 용병</h2><span>PVE · PVP 각각 1명</span></div><div id="currentDeployments" class="current-deployments-grid" aria-live="polite"><p>편성 정보를 불러오는 중…</p></div></section>\n<div class="workspace-heading"><div class="roster-view-tabs" role="tablist" aria-label="용병 목록 전환"><button id="ownedView" type="button" role="tab" data-view="owned" aria-controls="cardGrid" aria-selected="true">편성하기 <small>내 용병</small> <b id="ownedCount">—</b></button><button id="allView" type="button" role="tab" data-view="all" aria-controls="cardGrid" aria-selected="false">전체 도감 <b id="totalCount">—</b></button><button id="limitedView" type="button" role="tab" data-view="limited" aria-controls="cardGrid" aria-selected="false">리미티드 <b id="limitedCount">—</b></button></div><div class="archive-counters"><span class="sr-only">현재 편성 <b id="loadoutName">—</b></span><span class="sr-only">배정 스킬 <b id="skillCount">—</b></span><button id="refreshCatalog" type="button" aria-label="보유 용병과 도감 정보 새로고침">새로고침 ↻</button></div></div>\n<section class="archive-workspace" aria-label="용병 명단과 전투 정보">\n<aside class="catalog-panel"><div class="panel-heading"><h2 id="rosterTitle">내 용병 선택</h2><span id="resultCount" role="status">—</span></div>\n<div id="catalogControls" class="catalog-controls"><div class="search-row"><label class="search-field"><span class="sr-only">용병 이름·코드·스킬 검색</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="search" type="search" placeholder="이름 · 코드 · 스킬 검색" maxlength="80" autocomplete="off"></label><label><span class="sr-only">등급 필터</span><select id="rank"><option value="">모든 등급</option><option>C</option><option>B</option><option>A</option><option>S</option><option>SS</option><option>SSS</option></select></label></div><details class="advanced-filters"><summary>포지션 · 정렬 · 즐겨찾기</summary><div id="positions" class="position-filters" role="group" aria-label="전투 위치"><button data-position="" aria-pressed="true">전체</button><button data-position="FRONT" aria-pressed="false">전열</button><button data-position="MIDDLE" aria-pressed="false">중열</button><button data-position="REAR" aria-pressed="false">후열</button></div><div class="filter-row"><label><span class="sr-only">정렬</span><select id="sort"><option value="code">등록순</option><option value="newest">최신순</option><option value="name">이름순</option><option value="power">전투력순</option></select></label><button id="savedOnly" type="button" aria-pressed="false" aria-label="즐겨찾기만 보기">☆</button></div></details></div>\n<ul id="cardGrid" class="roster-list" aria-label="용병 목록" aria-busy="true"><li class="empty-state">보유 용병을 불러오는 중…</li></ul><div class="catalog-foot"><span id="catalogFootTitle">보유 용병을 선택해 바로 편성하세요.</span><small>전체 도감과 보유 목록을 한 화면에서 전환합니다.</small></div></aside>\n<div id="inspectionHome"><section id="inspection" class="inspection" aria-label="선택한 용병"><div class="empty-selection"><span>PROJECT V</span><h2>당신의 다음 전력을<br>확인하세요.</h2><p>용병을 선택하면 원화와 스킬을 볼 수 있습니다.</p></div></section></div>\n</section>\n<section class="archive-guide"><div><span>DEPLOYMENT CONTRACT</span><h2>다섯 장의 덱에, 한 명의 동료.</h2><p>PVE와 PVP에 용병을 각각 한 명씩 편성합니다.<br>한 명만 보유해도 양쪽에 함께 편성할 수 있습니다.</p></div><div class="guide-actions"><button class="primary-link" id="showOwned" type="button">내 용병 보기 <span>↑</span></button><a class="quiet-link" href="/?screen=buy&amp;pack=hyper">하이퍼팩 개봉 ↗</a></div></section>\n<footer class="page-footer"><span>REVERSE CALL <i>/</i> MERCENARY ARCHIVE</span><p>카드 원화 · 전투 SD · 현재 배정 스킬</p></footer></main></div>\n<dialog id="inspectionSheet" class="inspection-sheet" aria-labelledby="inspectionSheetTitle"><header><strong id="inspectionSheetTitle">용병 상세 · 편성</strong><button id="closeInspection" class="command-secondary" type="button" aria-label="용병 상세 닫기">닫기 ×</button></header><div id="inspectionSheetBody"></div></dialog>\n<dialog id="artDialog" class="art-dialog" aria-label="용병 원본 확대 보기"><header><strong id="artTitle"></strong><button id="closeArt" class="command-secondary" type="button" aria-label="원본 확대 닫기">닫기 ×</button></header><img id="originalArt" alt=""></dialog><div id="toast" role="status" aria-live="polite" hidden></div><noscript><p>용병 정보를 보려면 JavaScript를 켜 주세요.</p></noscript><script type="module" src="/mercenary-codex/app.mjs?command=20261021-v1&amp;jokro=20261021-codex-v1&prime=20261021-v1&zero=20261020-v1&rankReward=20261020-v1&bathory=20261019-v1&amp;leonel=20261018-live-v1&amp;singleDeployment=20261018-v1&amp;deploymentVisibility=20261017-v1&amp;growthEntry=20261015-public-off-v2&amp;shiranuiArt=20261015-fit-v1&amp;halloween=20261017-halloween-ready-v1&kairon=20261014-craft-v1&azant=20261014-live-v1&helios=20261009&amp;deployment=20261009-v1&amp;loadoutModes=20261009&amp;balance=20261009-ss-limited-tempo&amp;limited=20261004-approved&amp;v=2133&limited=20261002-canonical2&amp;strength=2103&amp;art=20260915&amp;fusion=20260925-on&amp;cryvern=20260924"></script></body></html>\n',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\mercenary-four-looks-catalog-v2062.test.mjs:69:1
+✖ catalog release uses current CMS data and preserves all 60 separate art and SD resources (30.5093ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  62 !== 60
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/mercenary-four-looks-catalog-v2062.test.mjs:79:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 62,
+    expected: 60,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

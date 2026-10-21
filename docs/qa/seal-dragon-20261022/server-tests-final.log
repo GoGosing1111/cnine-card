@@ -1,0 +1,142 @@
+> test:seal
+> node tests/seal-v3-crystal-orb-v1778.mjs && node --test tests/seal-master-star-20260925.test.mjs tests/seal-reward-coin-cap-v2069.test.mjs tests/seal-rewards-recovery-20260922.test.mjs tests/seal-rank-retirement-20261021.test.mjs tests/seal-dragon-20261022.test.mjs
+
+seal V3 crystal orb contract: OK
+seal dragon transaction failed Error: table inventory_logs has no column named injected_missing_column
+    at Object.run (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:20:257)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:20:470)
+    at async DB.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:43:191) {
+  code: 'ERR_SQLITE_ERROR',
+  errcode: 1,
+  errstr: 'SQL logic error'
+}
+✔ postgres: hard difficulty operation is dry by default and cannot reset later CMS edits (3247.8724ms)
+✔ sqlite: last seal opens once, boss damage clips, combined attempts unlock one clear reward (89.2271ms)
+✔ sqlite: concurrent final seal and boss never charge or pay a losing stale request (32.8335ms)
+✔ sqlite: rollback and lost COMMIT reply keep charge, ledger and progress atomic (15.5065ms)
+✔ sqlite: config locks start, snapshots survive edits, expiration and END cannot clear a living dragon (22.0413ms)
+✔ postgres: last seal opens once, boss damage clips, combined attempts unlock one clear reward (1845.6398ms)
+✔ postgres: concurrent final seal and boss never charge or pay a losing stale request (1715.6989ms)
+seal dragon transaction failed error: column "injected_missing_column" of relation "inventory_logs" does not exist
+    at pe.Ue (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:17959)
+    at pe.tt (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:15347)
+    at pe.parse (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:14021)
+    at N.qe (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/index.js:5:1762)
+    at file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/index.js:5:1155
+    at wasm://wasm/0267bb86:wasm-function[10930]:0x5a5ccf
+    at wasm://wasm/0267bb86:wasm-function[3585]:0x27eaeb
+    at wasm://wasm/0267bb86:wasm-function[3627]:0x2869d1
+    at wasm://wasm/0267bb86:wasm-function[3637]:0x286c2d
+    at wasm://wasm/0267bb86:wasm-function[9914]:0x54fd4d {
+  length: 150,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '28',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_target.c',
+  line: '1073',
+  routine: 'checkInsertTargets',
+  query: 'INSERT INTO inventory_logs(injected_missing_column) VALUES(1) RETURNING *',
+  params: [],
+  queryOptions: undefined
+}
+✔ postgres: rollback and lost COMMIT reply keep charge, ledger and progress atomic (1455.4171ms)
+✔ postgres: config locks start, snapshots survive edits, expiration and END cannot clear a living dragon (1488.1167ms)
+seal battle clear reward commit failed Error: table inventory_logs has no column named injected_missing_column
+    at Object.run (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:20:257)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:20:470)
+    at async DB.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:43:191)
+    at async claimClearReward (eval at sealModule (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:8:29), <anonymous>:1233:21)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/seal-master-star-20260925.test.mjs:36:55)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+  code: 'ERR_SQLITE_ERROR',
+  errcode: 1,
+  errstr: 'SQL logic error'
+}
+seal battle clear reward commit failed Error: LOST_COMMIT_REPLY
+    at DB.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:43:236)
+    at async claimClearReward (eval at sealModule (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:8:29), <anonymous>:1233:21)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/seal-master-star-20260925.test.mjs:39:32)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ sqlite: seal success grants 200,000 stars with coins once, requires minimum attempts, and preserves round snapshots (71.0589ms)
+✔ sqlite: item/log failure rolls back all rewards; retry and uncertain commit never duplicate stars (14.3876ms)
+✔ postgres: seal success grants 200,000 stars with coins once, requires minimum attempts, and preserves round snapshots (3404.2898ms)
+seal battle clear reward commit failed error: column "injected_missing_column" of relation "inventory_logs" does not exist
+    at pe.Ue (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:17959)
+    at pe.tt (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:15347)
+    at pe.parse (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:14021)
+    at N.qe (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/index.js:5:1762)
+    at file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/index.js:5:1155
+    at wasm://wasm/0267bb86:wasm-function[10930]:0x5a5ccf
+    at wasm://wasm/0267bb86:wasm-function[3585]:0x27eaeb
+    at wasm://wasm/0267bb86:wasm-function[3627]:0x2869d1
+    at wasm://wasm/0267bb86:wasm-function[3637]:0x286c2d
+    at wasm://wasm/0267bb86:wasm-function[9914]:0x54fd4d {
+  length: 150,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '28',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_target.c',
+  line: '1073',
+  routine: 'checkInsertTargets',
+  query: 'INSERT INTO inventory_logs(injected_missing_column) VALUES(1) RETURNING *',
+  params: [],
+  queryOptions: undefined
+}
+seal battle clear reward commit failed Error: LOST_COMMIT_REPLY
+    at DB.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:43:236)
+    at async claimClearReward (eval at sealModule (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:8:29), <anonymous>:1233:21)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/seal-master-star-20260925.test.mjs:39:32)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ postgres: item/log failure rolls back all rewards; retry and uncertain commit never duplicate stars (1551.7075ms)
+✔ legacy initialization adds an independent star snapshot table and leaves past rounds and CMS untouched (1520.4373ms)
+✔ seal player/CMS star quantities and refreshed loaders remain connected (3.653ms)
+✔ current round publication: only 49 plus CMS change, dry run and failure roll back, retry preserves later operator edits (1509.2023ms)
+✔ sqlite: retired rank awards reject old rounds, concurrent/retried claims and stale CMS with no balance/receipt writes (59.6983ms)
+✔ postgres: retired rank awards reject old rounds, concurrent/retried claims and stale CMS with no balance/receipt writes (3434.1582ms)
+✔ 참여·완료 코인은 기존 상한을 넘겨도 보존되고 폐지한 순위 보상은 읽지 않는다 (2.6531ms)
+✔ 25회 최소 보상: 0·24회 차단, 정확히 25·26회 지급, 공헌도가 높아도 우회 불가 (59.3994ms)
+✔ 승패·역할 합산은 완료 전투만 집계하며 요청 재전송·실패는 최소 횟수를 늘리지 않는다 (12.1427ms)
+✔ 현재·지난 회차 보상 미리보기와 eventId 직접 청구가 회차별 최소 횟수를 동일하게 적용한다 (38.6383ms)
+✔ CMS 횟수 검증·권한·구형 저장 호환성과 회차 스냅샷을 보존한다 (14.9219ms)
+✔ 실패 회차는 완료 보상을 지급하지 않고 폐지한 순위 보상은 횟수와 무관하게 차단한다 (7.8697ms)
+✔ 구형 초기화 마커가 있어도 최소 횟수 컬럼을 추가하며 기존 회차·운영 설정은 덮어쓰지 않는다 (9.5548ms)
+✔ PostgreSQL 실제 어댑터: 독립 DDL 게이트, 24회 거부·25회 100억 지급·중복 방지 (3187.3667ms)
+✔ 봉인 체력 20억 상한 해제: CMS API 저장·재조회·회차 스냅샷·실제 진행과 클리어 (26.5884ms)
+✔ 코인은 음수·잘못된 수·정밀도 초과만 안전하게 정리하고 다른 보상 한도는 유지한다 (0.5421ms)
+✔ CMS API 저장·재조회와 새 회차 스냅샷에 큰 금액을 그대로 보존한다 (6.2427ms)
+✔ 큰 참여·완료 보상은 지갑·로그·영수증에 일치하고 순위 보상은 추가 지급하지 않는다 (8.8897ms)
+✔ 큰 완료 보상 지급 실패는 코인·로그를 롤백하고 다음 시도에서 한 번만 지급한다 (6.1955ms)
+✔ CMS 참여·완료 코인 입력과 검증은 유지하고 순위 보상 편집은 제거한다 (4.8809ms)
+✔ 46회차 보상: 10회 경계·기존 순위·전액 지급·부분 실패 롤백·기지급 제외·재실행 (3069.0995ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10163.8675
+
