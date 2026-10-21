@@ -108,7 +108,7 @@ import { handleHighGradeReroll,grantHighGradeRerollDrop,ensureHighGradeRerollFou
 import { handleTerritoryWar } from '../_territory_war.js';
 import { handleClan } from '../_clan.js';
 import {handleOrganization,reconcileOrganizationRecruitment,organizationLiveOperation,runOrganizationAllocation} from '../_organization.js';
-import {handleOrganizationFaction,tickOrganizationFaction} from '../_organization_faction.js';
+import {handleOrganizationFaction,tickOrganizationFaction,organizationFactionLiveOperation} from '../_organization_faction.js';
 import { handleAuction } from '../_auction.js';
 import { handleChief } from '../_chief.js';
 import { closePrisonReleaseCaseStatement,ensurePrisonCommunityFoundation,handlePrisonCommunity,openPrisonReleaseCaseStatement,prisonCommunityRoomState } from '../_prison_community.js';
@@ -4067,7 +4067,7 @@ async function liveOperationAlerts(env){
   // 공개 콘텐츠 상태만 단일 UNION 조회로 읽는다. 남은 시간은 클라이언트가
   // 서버 시각을 기준으로 계산하므로 DB는 상태가 바뀔 때만 다시 확인하면 된다.
   try{
-    const [result,coup,duo,organization]=await Promise.all([env.DB.prepare(`WITH
+    const [result,coup,duo,organization,faction]=await Promise.all([env.DB.prepare(`WITH
     territory AS (
       SELECT 'TERRITORY' kind,
         CASE r.status WHEN 'RECRUITING' THEN 'FORMATION' WHEN 'PREPARING' THEN 'PREPARING' ELSE 'BATTLE' END phase,
@@ -4125,7 +4125,7 @@ async function liveOperationAlerts(env){
       ORDER BY CASE ri.status WHEN 'BATTLE' THEN 0 ELSE 1 END,ri.id DESC LIMIT 1
     )
     SELECT * FROM territory UNION ALL SELECT * FROM seal
-    UNION ALL SELECT * FROM auction UNION ALL SELECT * FROM raid ORDER BY sort_order`).all(),coupLiveOperation(env,now).catch(error=>{console.error('Coup lobby summary unavailable',error?.message);return null;}),rankedDuoLiveOperation(env,now).catch(error=>{console.error('Duo lobby summary unavailable',error?.message);return null;}),organizationLiveOperation(env,now).catch(error=>{console.error('Organization lobby summary unavailable',error?.message);return null;})]);
+    UNION ALL SELECT * FROM auction UNION ALL SELECT * FROM raid ORDER BY sort_order`).all(),coupLiveOperation(env,now).catch(error=>{console.error('Coup lobby summary unavailable',error?.message);return null;}),rankedDuoLiveOperation(env,now).catch(error=>{console.error('Duo lobby summary unavailable',error?.message);return null;}),organizationLiveOperation(env,now).catch(error=>{console.error('Organization lobby summary unavailable',error?.message);return null;}),organizationFactionLiveOperation(env,now).catch(error=>{console.error('Faction lobby summary unavailable',error?.message);return null;})]);
     const value=(result.results||[]).map(row=>({
       kind:String(row.kind||''),phase:String(row.phase||''),entityId:Number(row.entity_id||0),
       title:String(row.title||''),detail:String(row.detail||''),deadlineAt:row.deadline_at||null,
@@ -4134,6 +4134,7 @@ async function liveOperationAlerts(env){
     if(coup)value.push(coup);
     if(duo)value.unshift(duo);
     if(organization)value.unshift(organization);
+    if(faction)value.unshift(faction);
     liveOperationsCache={value,expiresAt:now+LIVE_OPERATIONS_CACHE_MS};
     return value;
   }catch(error){

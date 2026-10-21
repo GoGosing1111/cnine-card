@@ -18,6 +18,23 @@ export const ORGANIZATION_FACTION_SCHEMA=[
  'CREATE TABLE IF NOT EXISTS organization_faction_receipts_v1(actor_id BIGINT NOT NULL REFERENCES users(id),request_id TEXT NOT NULL,fingerprint TEXT NOT NULL,response_json TEXT NOT NULL,created_at BIGINT NOT NULL,PRIMARY KEY(actor_id,request_id))',
  'CREATE TABLE IF NOT EXISTS organization_faction_settlements_v1(round_id TEXT NOT NULL REFERENCES organization_rounds_v1(id),session_key TEXT NOT NULL,snapshot_json TEXT NOT NULL,created_at BIGINT NOT NULL,PRIMARY KEY(round_id,session_key))'
 ];
+// Read the scheduler's actual LIVE session. Scheduled/queued slots are not starts.
+// Never expose roster, battle entries or other private state through the public ticker.
+export async function organizationFactionLiveOperation(env,now=Date.now()){
+ const row=await env.DB.prepare(`SELECT r.id,p.policy_json,s.state_json
+   FROM organization_rounds_v1 r JOIN organization_faction_state_v1 s ON s.round_id=r.id
+   JOIN organization_faction_policy_v1 p ON p.id=1
+   WHERE r.scope='LIVE' AND r.phase='ASSIGNED' LIMIT 1`).first();
+ if(!row||JSON.parse(row.policy_json).mode!=='ON')return null;
+ const session=JSON.parse(row.state_json).session;
+ if(!session?.key||!['ACTIVE','PAUSED'].includes(session.status)||!Number.isFinite(session.startsAt)||session.startsAt>now)return null;
+ if(session.status==='ACTIVE'&&(!Number.isFinite(session.endsAt)||session.endsAt<=now))return null;
+ const paused=session.status==='PAUSED',required=session.rewardRules?.requiredTerritories??FACTION_SESSION_RULES.requiredTerritories;
+ return {kind:'ORGANIZATION_FACTION',phase:session.status,entityId:session.key,roundId:row.id,
+   title:'서울 세력전',detail:paused?'영토전 진행으로 일시중단 · 종료 후 재개':`서울 25개 구 · 종료 시 ${required}곳 이상 점령 보상`,
+   startedAt:new Date(session.startsAt).toISOString(),deadlineAt:paused?null:new Date(session.endsAt).toISOString(),
+   requiredTerritories:required,sortOrder:0};
+}
 export async function installOrganizationFactionSchema(DB){
  if(DB.dialect!=='postgres'||!DB.execSchema)throw Error('Organization faction requires PostgreSQL');
  await DB.execSchema(ORGANIZATION_FACTION_SCHEMA);

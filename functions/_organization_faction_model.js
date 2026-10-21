@@ -58,6 +58,11 @@ export function restrictOrganizationDistricts(state,now){
 }
 export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now,assignedAt,policy}){
  const settlements=[];
+ // Apply the explicit 8-district correction to an unfinished legacy session,
+ // including a paused one. Settled history and all payout amounts stay intact.
+ if(['ACTIVE','PAUSED'].includes(state.session?.status)&&state.session.rewardRules?.version==='20261019-six-organizations'&&state.session.rewardRules.requiredTerritories===9){
+  state.session.rewardRules={...state.session.rewardRules,version:RULES.version,requiredTerritories:RULES.requiredTerritories};
+ }
  const activeWars=wars.some(w=>w.status==='ACTIVE'||(w.status==='PREPARING'&&factionTime(w.starts_at)<=now));
  if(['ACTIVE','PAUSED'].includes(state.session?.status))reconcilePauses(state,wars,now,Infinity);
  else advanceFactionState(state,now,Infinity);

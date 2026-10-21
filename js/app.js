@@ -1526,6 +1526,7 @@ async function loadInventorySummary(){const card=document.getElementById('invent
 
 const LIVE_OPERATION_META=Object.freeze({
   ORGANIZATION:{label:'조직',state:'입단 모집',deadline:'모집 마감'},
+  ORGANIZATION_FACTION:{label:'세력전',state:'진행 중',deadline:'종료까지'},
   RANKED_DUO:{label:'랭크 듀오',state:'대전중',deadline:'종료까지'},
   TERRITORY:{label:'영토전',state:'작전 진행',deadline:'다음 단계'},
   SEAL:{label:'봉인전',state:'진행 중',deadline:'종료까지'},
@@ -1535,6 +1536,11 @@ const LIVE_OPERATION_META=Object.freeze({
 });
 let liveOperationsServerOffset=0,liveOperationsClockTimer=0,liveOperationsRefreshTimer=0;
 let liveOperationsItems=[],liveOperationsFailed=false,liveOperationsReady=false;
+let organizationStartNotice;
+function syncOrganizationStartNotice(){
+  if(!organizationStartNotice)organizationStartNotice=import('./organization-start-notice-20261021.mjs?v=20261021-command').then(m=>m.createFactionStartNotice({getContext:()=>({userId:loadUser()?.serverUserId,inLobby:runtimeCommandContext==='buy'&&!!API_TOKEN}),onEnter:roundId=>import('./organization-faction-window-v1.mjs?v=20261021-command').then(m=>m.openOrganizationFaction({roundId}))})).catch(()=>{organizationStartNotice=null;return null;});
+  organizationStartNotice.then(notice=>notice?.update({items:liveOperationsFailed?[]:liveOperationsItems,offset:liveOperationsServerOffset}));
+}
 let rankExpPotionState=null,rankExpPotionServerOffset=0;
 function setRankExpPotionState(buff){
   const owner=loadUser()?.serverUserId;if(!owner||Number(buff?.userId)!==Number(owner))return;
@@ -1558,7 +1564,7 @@ async function loadRankExpPotionStatus(){
 }
 function liveOperationTimestamp(value){const raw=String(value||'').trim();if(!raw)return NaN;return Date.parse(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(raw)?`${raw.replace(' ','T')}Z`:raw)}
 function liveOperationClock(value){const ms=liveOperationTimestamp(value)-(Date.now()+liveOperationsServerOffset);if(!Number.isFinite(ms))return '진행 중';if(ms<=0)return '상태 갱신 중';const seconds=Math.ceil(ms/1000),hours=Math.floor(seconds/3600),minutes=Math.floor((seconds%3600)/60),secs=seconds%60;if(hours>=24)return `${Math.floor(hours/24)}일 ${String(hours%24).padStart(2,'0')}:${String(minutes).padStart(2,'0')}`;return `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`}
-function liveOperationIcon(kind){return ({
+function liveOperationIcon(kind){if(kind==='ORGANIZATION_FACTION')kind='ORGANIZATION';return ({
   ORGANIZATION:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 6v6c0 5 5 8 9 10 4-2 9-5 9-10V6ZM8 11l4-4 4 4-4 6Z"/></svg>',
   RANKED_DUO:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6C5 3 2 7 3 12l3 2v5h4V9H6m8-3c5-3 8 1 7 6l-3 2v5h-4V9h4M6 3l4 1m8-1-4 1"/></svg>',
   COUP:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V10h14v11M3 10h18L12 3ZM9 21v-6h6v6M8 10V7m8 3V7"/></svg>',
@@ -1568,8 +1574,8 @@ function liveOperationIcon(kind){return ({
   RAID:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9l8-6 8 6v10M8 19v-6h8v6M6 21h12M9 8h6"/></svg>'
 }[kind]||'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16"/></svg>')}
 function liveOperationCardHtml(item){
-  const kind=String(item?.kind||'').toUpperCase(),phase=String(item?.phase||'').toUpperCase(),base=LIVE_OPERATION_META[kind]||{label:'콘텐츠',state:'진행 중',deadline:'종료까지'},organizationPhase=kind==='ORGANIZATION'?({FORMATION:{state:'입단 모집',deadline:'모집 마감'},PREPARING:{state:'균등 배정 중',deadline:'배정 진행'},ACTIVE:{state:'세력전',deadline:'다음 정산'}}[phase]||null):null,raidLobby=kind==='RAID'&&phase==='LOBBY',territoryPhase=kind==='TERRITORY'?({FORMATION:{state:'편성 접수',deadline:'편성 마감'},PREPARING:{state:'개전 준비',deadline:'개전까지'},BATTLE:{state:'공성 진행',deadline:'종료까지'},ACTIVE:{state:'공성 진행',deadline:'종료까지'}}[phase]||null):null,coupRecruiting=kind==='COUP'&&phase==='RECRUITING',duoAdditional=kind==='RANKED_DUO'&&phase==='ACTIVE'&&item.additionalRecruiting===true,duoRecruiting=kind==='RANKED_DUO'&&(phase==='RECRUITING'||duoAdditional),state=organizationPhase?.state||(duoAdditional?'추가모집중':duoRecruiting?'모집중':coupRecruiting?'참가 모집':raidLobby?'참가 대기':territoryPhase?.state||base.state),deadline=organizationPhase?.deadline||(duoRecruiting?'모집 마감':coupRecruiting?'모집 상태':raidLobby?'전투 시작':territoryPhase?.deadline||base.deadline),title=String(item?.title||base.label),detail=String(item?.detail||'참여 가능한 콘텐츠');
-  return `<button type="button" class="live-operation-card kind-${escapeHtml(kind.toLowerCase())}" data-live-operation-kind="${escapeHtml(kind)}" aria-label="${escapeHtml(base.label)} ${escapeHtml(state)}"><span class="live-operation-icon">${liveOperationIcon(kind)}</span><span class="live-operation-copy"><small><i aria-hidden="true"></i>${escapeHtml(base.label)}<em>${escapeHtml(state)}</em></small><b>${escapeHtml(title)}</b><span>${escapeHtml(detail)}</span></span><strong><small>${escapeHtml(deadline)}</small><b ${coupRecruiting?'':`data-live-operation-deadline="${escapeHtml(item?.deadlineAt||'')}"`}>${coupRecruiting?'개전 대기':liveOperationClock(item?.deadlineAt)}</b></strong><i class="live-operation-enter" aria-hidden="true">›</i></button>`;
+  const kind=String(item?.kind||'').toUpperCase(),phase=String(item?.phase||'').toUpperCase(),base=LIVE_OPERATION_META[kind]||{label:'콘텐츠',state:'진행 중',deadline:'종료까지'},organizationPhase=kind==='ORGANIZATION'?({FORMATION:{state:'입단 모집',deadline:'모집 마감'},PREPARING:{state:'균등 배정 중',deadline:'배정 진행'},ACTIVE:{state:'조직 본부',deadline:'시즌 상태'}}[phase]||null):null,raidLobby=kind==='RAID'&&phase==='LOBBY',territoryPhase=kind==='TERRITORY'?({FORMATION:{state:'편성 접수',deadline:'편성 마감'},PREPARING:{state:'개전 준비',deadline:'개전까지'},BATTLE:{state:'공성 진행',deadline:'종료까지'},ACTIVE:{state:'공성 진행',deadline:'종료까지'}}[phase]||null):null,coupRecruiting=kind==='COUP'&&phase==='RECRUITING',duoAdditional=kind==='RANKED_DUO'&&phase==='ACTIVE'&&item.additionalRecruiting===true,duoRecruiting=kind==='RANKED_DUO'&&(phase==='RECRUITING'||duoAdditional),state=(kind==='ORGANIZATION_FACTION'&&phase==='PAUSED'?'일시중단':null)||organizationPhase?.state||(duoAdditional?'추가모집중':duoRecruiting?'모집중':coupRecruiting?'참가 모집':raidLobby?'참가 대기':territoryPhase?.state||base.state),deadline=organizationPhase?.deadline||(duoRecruiting?'모집 마감':coupRecruiting?'모집 상태':raidLobby?'전투 시작':territoryPhase?.deadline||base.deadline),title=String(item?.title||base.label),detail=String(item?.detail||'참여 가능한 콘텐츠');
+  return `<button type="button" class="live-operation-card kind-${escapeHtml(kind.toLowerCase())}" data-live-operation-kind="${escapeHtml(kind)}" aria-label="${escapeHtml(base.label)} ${escapeHtml(state)}"><span class="live-operation-icon">${liveOperationIcon(kind)}</span><span class="live-operation-copy"><small><i aria-hidden="true"></i>${escapeHtml(base.label)}<em>${escapeHtml(state)}</em></small><b>${escapeHtml(title)}</b><span>${escapeHtml(detail)}</span></span><strong><small>${escapeHtml(deadline)}</small><b ${coupRecruiting||(kind==='ORGANIZATION_FACTION'&&phase==='PAUSED')?'':`data-live-operation-deadline="${escapeHtml(item?.deadlineAt||'')}"`}>${kind==='ORGANIZATION_FACTION'&&phase==='PAUSED'?'영토전 종료 후 재개':coupRecruiting?'개전 대기':liveOperationClock(item?.deadlineAt)}</b></strong><i class="live-operation-enter" aria-hidden="true">›</i></button>`;
 }
 function updateLiveOperationClocks(){
   const nodes=document.querySelectorAll('[data-live-operation-deadline]'),potions=document.querySelectorAll('[data-rank-potion-countdown]');
@@ -1580,6 +1586,7 @@ function updateLiveOperationClocks(){
 function openLiveOperation(kind){
   document.getElementById('liveOperationsDialog')?.close();
   const key=String(kind||'').toUpperCase();
+  if(key==='ORGANIZATION_FACTION'){import('./organization-faction-window-v1.mjs?v=20261021-command').then(m=>m.openOrganizationFaction({roundId:liveOperationsItems.find(i=>i.kind===key)?.roundId}));return}
   if(key==='ORGANIZATION'){renderShell('clan');return}
   if(key==='AUCTION'){renderShell('auction');return}
   if(key==='COUP'){renderShell('coup');return}
@@ -1632,6 +1639,7 @@ function renderLiveOperations(payload=null){
     liveOperationsItems=(Array.isArray(payload.items)?payload.items:[]).filter(item=>LIVE_OPERATION_META[String(item?.kind||'').toUpperCase()]);
     liveOperationsFailed=false;liveOperationsReady=true;
   }
+  syncOrganizationStartNotice();
   const items=liveOperationsFailed?[]:liveOperationsItems,eventHtml=liveBurningOperationHtml(),potionHtml=liveRankExpPotionHtml(),count=items.length+(eventHtml?1:0)+(potionHtml?1:0);
   const errorHtml='<div class="live-operation-empty error"><span aria-hidden="true"></span><b>운영 상태 갱신 대기</b><small>잠시 후 자동으로 다시 확인합니다.</small></div>';
   lists.forEach(list=>{

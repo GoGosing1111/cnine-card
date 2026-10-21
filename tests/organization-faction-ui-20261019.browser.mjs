@@ -55,7 +55,7 @@ test('headquarters opens a full viewport war room; live map, alpha emblems and c
   }
   if(width===1920||width===390){
    let activeBattles;await f.mutateState(s=>{activeBattles=structuredClone(s.battles);s.battles=[];});await war.locator('[data-fw-reload]').click();
-   assert.match(await war.locator('.fw-local-income').innerText(),/9개 이상/);
+   assert.match(await war.locator('.fw-local-income').innerText(),/8개 이상/);
    await war.locator('[data-fw-tab="formation"]').first().click();assert.equal(await war.locator('[data-fw-formation-squad]').count(),10);assert.equal(await war.locator('[data-fw-captain]').count(),5);
    assert.match(await war.locator('.fw-squad-card').first().evaluate(el=>getComputedStyle(el).borderImageSource),/interface-v2/);
    await war.locator('#fw-assign-squad').selectOption('defense5');await war.locator('[data-fw-add="12"]').click();await war.locator('[data-fw-save]').click();await war.locator('[data-fw-save]').waitFor({state:'visible'});

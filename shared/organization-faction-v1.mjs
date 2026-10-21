@@ -3,7 +3,7 @@ import {FACTION_SESSION_RULES} from './clan-faction-sessions-v1.mjs';
 import {ORGANIZATIONS} from './organization-system-v1.mjs?v=20261019-six-organizations';
 export const SQUADS=Object.freeze(['ATTACK','DEFENSE'].flatMap(role=>Array.from({length:5},(_,i)=>Object.freeze({id:role.toLowerCase()+(i+1),name:'제'+(i+1)+(role==='ATTACK'?' 공격대':' 방어대'),role}))));
 export const FACTION_RULES=Object.freeze({...CLAN_FACTION_RULES,squadSize:3});
-export const ORGANIZATION_SESSION_RULES=Object.freeze({...FACTION_SESSION_RULES,version:'20261019-six-organizations',requiredTerritories:9,coinPerRecipient:300000000000});
+export const ORGANIZATION_SESSION_RULES=Object.freeze({...FACTION_SESSION_RULES,version:'20261021-seoul-eight',requiredTerritories:8,coinPerRecipient:300000000000});
 // Retain names for historical battles and settled rewards after the Seoul cutover.
 export const HISTORICAL_ORGANIZATION_DISTRICTS=Object.freeze([
  ...SEOUL_DISTRICTS.map(d=>({...d,area:'SEOUL'})),

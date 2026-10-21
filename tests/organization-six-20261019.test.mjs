@@ -14,7 +14,7 @@ test('six active organizations balance 129 and 150 members and return six interv
  assert.deepEqual(ORGANIZATIONS.map(o=>o.name),['도끼파','쌍칼파','독사파','불곰파','백상어파','까마귀파']);
  for(const count of [129,150]){const people=Array.from({length:count},(_,i)=>({userId:i+2,power:1000+(i*173)%8500,preferredOrganizationId:i%15+1}));const plan=allocateOrganizations(people);assert.deepEqual(plan.organizations.map(o=>o.memberCount).sort((a,b)=>a-b),count===129?[21,21,21,22,22,22]:[25,25,25,25,25,25]);assert.equal(new Set(plan.organizations.flatMap(o=>o.members.map(m=>m.userId))).size,count);assert.deepEqual(allocateOrganizations(people.reverse()),plan);assert(plan.stats.powerSpreadPercent<1);}
  const interview=reviewOrganizationAnswers(Object.fromEntries(ORGANIZATION_INTERVIEW.map(q=>[q.id,q.options[0].id])));assert.equal(interview.recommendations.length,6);assert.equal(interview.organizationFit.length,6);
- assert.equal(ORGANIZATION_SESSION_RULES.requiredTerritories,9);
+ assert.equal(ORGANIZATION_SESSION_RULES.requiredTerritories,8);
 });
 test('all ten squads validate, fifth captains manage, and garrisons stay one-to-one through moves and combat',async t=>{
  const f=await organizationFactionFixture(t),formation={...empty(),attack5:[2,3],defense1:[4],defense5:[5]};
@@ -35,8 +35,8 @@ test('all ten squads validate, fifth captains manage, and garrisons stay one-to-
  const launch=await f.post('organization/faction/launch',{districtId:view.districts[3].id,squad:'attack5'});assert.equal(launch.status,200);assert.equal(launch.data.captured,undefined);assert.equal((await f.post('organization/faction/enter',{battleId:launch.data.battleId},3)).status,200);
  view=(await f.overview()).data;assert.equal(view.battles.find(b=>b.id===launch.data.battleId).defenseSquad,'defense5');
 });
-test('eight regions pay nothing; nine pay only the participant, never a merely assigned squad member',async t=>{
- for(const territories of [8,9]){const f=await organizationFactionFixture(t,{live:true,funds:1000});assert.equal((await f.post('organization/faction/formation',{formation:{...empty(),attack5:[2,3]}})).status,200);await f.mutateState(s=>s.districts.slice(0,territories-1).forEach(d=>d.owner=1));const district=(await f.overview()).data.districts[20];assert.equal((await f.post('organization/faction/launch',{districtId:district.id,squad:'attack5'})).data.captured,true);f.advance(3*60*60*1000+1000);await f.overview();const rewards=(await f.pg.query('SELECT user_id,reward_type,reward_amount FROM user_message_rewards')).rows;assert.equal(rewards.length,territories===9?3:0);assert(rewards.every(r=>Number(r.user_id)===2));assert.equal((await f.overview(3)).data.sessions.history[0].myReward,0);}
+test('seven regions pay nothing; eight pay only the participant, never a merely assigned squad member',async t=>{
+ for(const territories of [7,8]){const f=await organizationFactionFixture(t,{live:true,funds:1000});assert.equal((await f.post('organization/faction/formation',{formation:{...empty(),attack5:[2,3]}})).status,200);await f.mutateState(s=>s.districts.slice(0,territories-1).forEach(d=>d.owner=1));const district=(await f.overview()).data.districts[20];assert.equal((await f.post('organization/faction/launch',{districtId:district.id,squad:'attack5'})).data.captured,true);f.advance(3*60*60*1000+1000);await f.overview();const rewards=(await f.pg.query('SELECT user_id,reward_type,reward_amount FROM user_message_rewards')).rows;assert.equal(rewards.length,territories===8?3:0);assert(rewards.every(r=>Number(r.user_id)===2));assert.equal((await f.overview(3)).data.sessions.history[0].myReward,0);}
 });
 test('consolidation is atomic, balanced, keeps retained territory and paid history, and never resets funds twice',async t=>{
  const f=await organizationFixture(t,{people:129}),roundId=await f.prepare({survey:false});await installOrganizationFactionSchema(f.env.DB);

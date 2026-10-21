@@ -1,0 +1,47 @@
+{
+  "version": "20261021-command",
+  "method": "built-in image_gen",
+  "generatedOriginal": "C:/Users/User/.codex/generated_images/01a149cc-cebe-7c81-9d68-bbefac3b76b9/exec-8c20ff41-eb23-4653-9955-787bbd350902.png",
+  "approval": "Additional organization environment requested; not recorded as user visual approval.",
+  "files": [
+    {
+      "file": "seoul-source.png",
+      "sha256": "172cc04ac94b084b8d499a5b19f46c9a4c4f07dfd34b236820cf4aa0fac4381e"
+    },
+    {
+      "file": "seoul.webp",
+      "sha256": "18504b864311d97b6564bef862f6f74172808f15969b7db497dd6aebe76b1554"
+    },
+    {
+      "file": "prompt.json",
+      "sha256": "a06bbb5afb518cc1c3b80de381005cba66779e7c54e029440435c8c8c1e72ff7"
+    }
+  ],
+  "reusedApprovedAssets": [
+    {
+      "path": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+      "nineSlice": {
+        "source": 48,
+        "display": 16
+      }
+    },
+    {
+      "path": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+      "nineSlice": {
+        "source": 38,
+        "display": 9
+      }
+    }
+  ],
+  "font": "Pretendard Variable 1.3.9; existing approved CDN; SIL OFL 1.1",
+  "consumers": [
+    "organization/index.html",
+    "organization/faction/index.html",
+    "js/organization-start-notice-20261021.mjs",
+    "admin/index.html"
+  ],
+  "implementation": "css/organization-command-20261021.css",
+  "qa": "docs/qa/organization-command-20261021/README.md"
+}

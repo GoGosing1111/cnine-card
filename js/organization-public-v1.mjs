@@ -1,6 +1,6 @@
-import {mountOrganization} from './organization-system-v1.mjs?v=20261021-seoul';
-import {observeOrganizationHeight,isOrganizationEmbedded} from './organization-embed-size-v1.mjs?v=20261021-seoul';
-import {organizationApi,organizationToken} from './organization-api-v1.mjs?v=20261021-seoul';
+import {mountOrganization} from './organization-system-v1.mjs?v=20261021-command';
+import {observeOrganizationHeight,isOrganizationEmbedded} from './organization-embed-size-v1.mjs?v=20261021-command';
+import {organizationApi,organizationToken} from './organization-api-v1.mjs?v=20261021-command';
 
 const embedded=isOrganizationEmbedded();
 document.documentElement.classList.toggle('org-embedded',embedded);

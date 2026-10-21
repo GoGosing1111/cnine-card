@@ -224,7 +224,7 @@ export async function organizationLiveOperation(env,now=Date.now()){
   const faction=await env.DB.prepare('SELECT policy_json FROM organization_faction_policy_v1 WHERE id=1').first();
   if(!faction||parse(faction.policy_json).mode==='OFF')return null;
  }
- return {kind:'ORGANIZATION',phase:open?'FORMATION':r.phase==='ASSIGNED'?'ACTIVE':'PREPARING',entityId:r.id,title:open?'조직 입단 모집':r.phase==='ASSIGNED'?'조직 · 세력전':'조직 균등 배정',detail:open?'7문항 설문 접수 · 24시간 모집':r.phase==='ASSIGNED'?'내 조직과 아지트 · 서울 25개 구 세력전':r.assignment_status==='BLOCKED'?'배정 보류 · 운영 확인 중':'설문 마감 · 인원·전력 균등 배정 중',deadlineAt:open?new Date(Number(r.closes_at)).toISOString():null,sortOrder:0};
+ return {kind:'ORGANIZATION',phase:open?'FORMATION':r.phase==='ASSIGNED'?'ACTIVE':'PREPARING',entityId:r.id,title:open?'조직 입단 모집':r.phase==='ASSIGNED'?'조직 본부':'조직 균등 배정',detail:open?'7문항 설문 접수 · 24시간 모집':r.phase==='ASSIGNED'?'내 조직과 아지트 · 서울 25개 구 세력전':r.assignment_status==='BLOCKED'?'배정 보류 · 운영 확인 중':'설문 마감 · 인원·전력 균등 배정 중',deadlineAt:open?new Date(Number(r.closes_at)).toISOString():null,sortOrder:0};
 }
 
 // One leased job evaluates every batch within the rating validity window. No
