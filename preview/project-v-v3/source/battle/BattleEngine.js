@@ -1,4 +1,5 @@
 import {prepareEquipmentSetFX} from './EquipmentSetFX.js';
+import {attachSealDragon,playSealDragonBreath} from './SealDragonPlayback.js';
 import {drawBattleGroundStations} from './BattleGroundSigil.js';
 import {preloadBattleHud} from './BattleHud.js';
 import {apocalypseLegionBoss} from '../../../../shared/apocalypse-legion-v1.mjs';
@@ -1991,6 +1992,7 @@ export class BaseBattleEngine{
     target.serverMaxHp=Math.max(1,Number(monsterCard?.maxHp||monsterCard?.hp||monster?.maxHp||monster?.hp||100));
     target.texture=texture;
     target.cutInTexture=texture;
+    if(target.sealDragon){target.setAnimationAdapter(null);target.sealDragon=null;}
     target.useFullBodySprite(texture,285*(art.scaleMultiplier||1));
     target.artFacing=this.coopArkeBattlefield?-1:1;target.applyFacing();
     if(this.coopArkeBattlefield)target.fullBodySprite.anchor.set(.5,.94);
@@ -1998,6 +2000,7 @@ export class BaseBattleEngine{
     target.name=monster?.name||art.name;
     target.setDisplayName?.(target.name);
     target.root.projectVMonsterArt=art;
+    if(art.kind==='SEAL_DRAGON_SD')await attachSealDragon(target,{reducedMotion:this.reducedMotion});
     target.isBoss=isBoss;
     this.currentEnemyTarget=target;
     this.boss=target;
@@ -2738,6 +2741,7 @@ export class BaseBattleEngine{
     const originalImpact=onImpact;
     onImpact=victim=>{this.equipmentSetFX?.impact(actor,victim,{critical});originalImpact(victim);};
     if(iconDefinition(actor.cardId))return playIconBasic(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
+    if(actor.root?.projectVMonsterArt?.kind==='SEAL_DRAGON_SD'&&actor.sealDragon)return playSealDragonBreath(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
     if(this.coopArkeBattlefield&&actor.team===TEAM.ENEMY&&actor.coopFinalBoss)return playCooperativeArkeAttack(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
     if(this.coopArkeBattlefield&&actor.team===TEAM.ENEMY&&actor.attackStyle==='RANGED')return playCooperativeWatcherAttack(this,actor,victim,{damage,targetHp,targetShield,onImpact});
     const actorView=actor.root;
@@ -3752,6 +3756,7 @@ export class BaseBattleEngine{
         facingX:Math.sign(character.view.scale.x),
         shield:character.shield,
         maxShield:character.maxShield,
+        ...(character.root?.projectVMonsterArt?.kind==='SEAL_DRAGON_SD'?{sealDragon:{frame:character.sealDragon?.currentFrame,casting:Boolean(character.sealDragon?.casting),hp:character.hp,paused:character.sealDragon?.timeline?.paused()??true}}:{}),
         rig:character.rigDiagnostics?.()
       }))
     };

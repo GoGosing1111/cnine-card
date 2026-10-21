@@ -19,7 +19,7 @@ const createModule = () => Function('accountRankAward','collectionRewardCoin',se
 };`)(accountRankAward,collectionRewardCoin);
 const mod = createModule();
 const configured = () => mod.cleanSettings({
-  mode:'ON', title:'보상 검증', bossName:'테스트 봉인', minRewardAttempts:1,
+  format:'CLASSIC', mode:'ON', title:'보상 검증', bossName:'테스트 봉인', minRewardAttempts:1,
   targets:{attack:2_000_000_000,guard:2_000_000_000,purify:2_000_000_000},
   attemptReward:{coin:5_000_000_000,shards:7},
   clearReward:{coin:10_000_000_000,shards:11},

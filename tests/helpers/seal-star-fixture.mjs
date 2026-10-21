@@ -36,7 +36,7 @@ export async function sealStarFixture(dialect='sqlite'){
  await api.ensureFoundation(env,deps);
  await run("INSERT INTO users(id,nickname,role) VALUES(1,'QA OWNER','OWNER'),(2,'QA USER','USER')");
  await run("INSERT INTO inventory_items VALUES('MASTER_STAR','마스터의 별',1)");
- const settings=api.cleanSettings({mode:'ON',minRewardAttempts:20,clearReward:{coin:5000000000,shards:3,masterStar:200000},rankRewards:{enabled:false}});
+ const settings=api.cleanSettings({format:'CLASSIC',mode:'ON',minRewardAttempts:20,clearReward:{coin:5000000000,shards:3,masterStar:200000},rankRewards:{enabled:false}});
  await api.saveSettings(env,settings);const event=await api.adminStart(env,settings,owner);
  await run("INSERT INTO seal_battle_user_progress(event_id,user_id,day_key,total_attempts) VALUES(?,2,'2026-09-25',20)",event.id);
  let failure='',lost=false;const batch=DB.batch.bind(DB);

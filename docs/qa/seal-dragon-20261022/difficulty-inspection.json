@@ -1,0 +1,189 @@
+{
+  "at": "2026-10-21T17:30:19.788Z",
+  "settings": {
+    "mode": "ON",
+    "title": "봉인전",
+    "bossName": "봉인전",
+    "bossImage": "/assets/tower/711494.jpg",
+    "description": "서버 전체가 파괴·수호·정화 역할을 나누어 세 개의 봉인을 완성하는 공동 보스 콘텐츠입니다.",
+    "startsAt": "2026-10-20T08:26:00.000Z",
+    "endsAt": "2026-10-21T16:00:00.000Z",
+    "dailyAttempts": 5,
+    "rechargeMinutes": 30,
+    "minRewardAttempts": 20,
+    "targets": {
+      "attack": 15000000000,
+      "guard": 15000000000,
+      "purify": 15000000000
+    },
+    "multipliers": {
+      "attack": 100,
+      "guard": 89,
+      "purify": 85
+    },
+    "battlePowers": {
+      "attack": 7450000,
+      "guard": 5500000,
+      "purify": 5500000
+    },
+    "lowestRoleBonusPercent": 10,
+    "defeatContributionPercent": 10,
+    "attemptReward": {
+      "coin": 100000000,
+      "shards": 0
+    },
+    "clearReward": {
+      "coin": 100000000000,
+      "shards": 0,
+      "masterStar": 1000000
+    },
+    "rankRewards": {
+      "enabled": true,
+      "rewardOnFailure": true,
+      "tiers": [
+        {
+          "startRank": 1,
+          "endRank": 1,
+          "coin": 100000,
+          "equipmentBox": 30
+        },
+        {
+          "startRank": 2,
+          "endRank": 3,
+          "coin": 90000,
+          "equipmentBox": 15
+        },
+        {
+          "startRank": 6,
+          "endRank": 10,
+          "coin": 50000,
+          "equipmentBox": 3
+        }
+      ]
+    },
+    "receiptRetentionDays": 14,
+    "progressRetentionDays": 90
+  },
+  "events": [
+    {
+      "id": "64",
+      "event_key": "seal-1792484784704-2f0f04b1a485",
+      "status": "CLEARED",
+      "title": "봉인전",
+      "boss_name": "봉인전",
+      "starts_at": "2026-10-20T08:26:00.000Z",
+      "ends_at": "2026-10-21T16:00:00.000Z",
+      "created_at": "2026-10-20 08:26:24",
+      "cleared_at": "2026-10-21 08:57:20",
+      "attack_target": "15000000000",
+      "guard_target": "15000000000",
+      "purify_target": "15000000000",
+      "attack_battle_power": "7450000",
+      "guard_battle_power": "5500000",
+      "purify_battle_power": "5500000",
+      "min_reward_attempts": "20"
+    },
+    {
+      "id": "63",
+      "event_key": "seal-1792321784589-cc86e814d502",
+      "status": "CLEARED",
+      "title": "봉인전",
+      "boss_name": "봉인전",
+      "starts_at": "2026-10-18T11:09:00.000Z",
+      "ends_at": "2026-10-19T16:00:00.000Z",
+      "created_at": "2026-10-18 11:09:44",
+      "cleared_at": "2026-10-19 12:54:16",
+      "attack_target": "15000000000",
+      "guard_target": "15000000000",
+      "purify_target": "15000000000",
+      "attack_battle_power": "7450000",
+      "guard_battle_power": "5500000",
+      "purify_battle_power": "5500000",
+      "min_reward_attempts": "20"
+    },
+    {
+      "id": "62",
+      "event_key": "seal-1792008743682-56696072f25c",
+      "status": "CLEARED",
+      "title": "봉인전",
+      "boss_name": "봉인전",
+      "starts_at": "2026-10-14T20:12:00.000Z",
+      "ends_at": "2026-10-16T18:00:00.000Z",
+      "created_at": "2026-10-14 20:12:23",
+      "cleared_at": "2026-10-16 07:24:22",
+      "attack_target": "15000000000",
+      "guard_target": "15000000000",
+      "purify_target": "15000000000",
+      "attack_battle_power": "7450000",
+      "guard_battle_power": "5500000",
+      "purify_battle_power": "5500000",
+      "min_reward_attempts": "20"
+    },
+    {
+      "id": "61",
+      "event_key": "seal-1791832616196-de6fb8242a87",
+      "status": "CLEARED",
+      "title": "봉인전",
+      "boss_name": "봉인전",
+      "starts_at": "2026-10-12T19:16:00.000Z",
+      "ends_at": "2026-10-14T18:00:00.000Z",
+      "created_at": "2026-10-12 19:16:56",
+      "cleared_at": "2026-10-14 05:09:34",
+      "attack_target": "15000000000",
+      "guard_target": "15000000000",
+      "purify_target": "15000000000",
+      "attack_battle_power": "7450000",
+      "guard_battle_power": "5500000",
+      "purify_battle_power": "5500000",
+      "min_reward_attempts": "20"
+    }
+  ],
+  "stats": [
+    {
+      "event_id": "64",
+      "participants": "140",
+      "attempts": "3416",
+      "contribution": "45024454192",
+      "max_attempts": "53"
+    },
+    {
+      "event_id": "63",
+      "participants": "141",
+      "attempts": "3802",
+      "contribution": "45013007272",
+      "max_attempts": "51"
+    },
+    {
+      "event_id": "62",
+      "participants": "149",
+      "attempts": "4242",
+      "contribution": "45033882099",
+      "max_attempts": "71"
+    },
+    {
+      "event_id": "61",
+      "participants": "145",
+      "attempts": "4547",
+      "contribution": "45026222208",
+      "max_attempts": "63"
+    }
+  ],
+  "powers": [
+    {
+      "players": "149",
+      "minimum": "1625452",
+      "p50": 12809530,
+      "p75": 14328936,
+      "p90": 19190120,
+      "maximum": "32643936"
+    }
+  ],
+  "modeled": [
+    {
+      "players": "149",
+      "full_damage_players": "30",
+      "average_damage": "5781554.429530201342",
+      "all_players_one_attack": "861451610"
+    }
+  ]
+}

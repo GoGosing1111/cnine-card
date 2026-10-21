@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.4-cinematic-playback';
-  const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1';
+  const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime({effects=false}={}) {
     const ready=()=>root.ProjectVPixiBattle?.runtimeVersion===BATTLE_RUNTIME&&(!effects||Boolean(root.ProjectVPixiBattle.fxRuntime));
@@ -491,6 +491,9 @@
     const result = payload?.battleV2?.result;
     const winner = String(result?.winner || '').toUpperCase();
     if (winner !== 'A' && winner !== 'B') return '';
+    if(payload?.battlePhase==='BOSS'&&payload?.roleKey==='BOSS')return payload.bossDefeated
+      ?'공동 토벌 완료 · 봉인룡 처치'
+      :`본체 피해 반영 완료 · 남은 HP ${Number(payload.bossHpAfter||0).toLocaleString('ko-KR')}`;
     const coreOutcome = payload?.coreRaid?.verifiedOutcome;
     if (coreOutcome) {
       const reason = coreOutcome.failureReason === 'CORE_OVERLOAD' ? '코어 공명 과부하'
@@ -684,6 +687,7 @@
 
   function sealPayload({ data = {}, roleKey = 'ATTACK', roleLabel = '파괴 봉인' } = {}) {
     const allies = (Array.isArray(data.cards) ? data.cards : []).slice(0, 5).map(normalizeTowerCard);
+    const dragon=data.battlePhase==='BOSS'&&roleKey==='BOSS';
     const monster = {
       id: SEAL_ORB_ID,
       monsterId: SEAL_ORB_ID,
@@ -710,19 +714,28 @@
         technicalPass: true
       }
     };
+    if(dragon){
+      const id='SEAL_DRAGON_NERGAON';
+      Object.assign(monster,{id,monsterId:id,cardId:'MONSTER:'+id,name:data.boss?.name||'봉인룡 네르가온',title:data.boss?.name||'봉인룡 네르가온',image:'/assets/ui/seal-battle/dragon-20261022/portrait.webp',image_url:'/assets/ui/seal-battle/dragon-20261022/portrait.webp',hp:Number(data.bossHpBefore),maxHp:Number(data.bossMaxHp),
+        projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'SEAL_DRAGON_SD',primaryUrl:'/assets/ui/seal-battle/dragon-20261022/portrait.webp',footAnchor:{x:.5,y:.98},scaleMultiplier:1.2,technicalPass:true}});
+    }
     const win = String(data.result || '').toUpperCase() === 'WIN';
     const steps = win ? [16, 18, 19, 21, 26] : [8, 10, 12, 14, 16];
-    let enemyHp = 100;
+    let enemyHp = dragon?Number(data.bossHpBefore):100;
+    let distributed=0;
     const timeline = [];
     allies.forEach((card, index) => {
       const damagePercent = steps[Math.min(index, steps.length - 1)];
-      enemyHp = Math.max(win && index === allies.length - 1 ? 0 : win ? 3 : 26, enemyHp - damagePercent);
+      const share=dragon?(index===allies.length-1?Number(data.contribution)-distributed:Math.floor(Number(data.contribution)/Math.max(1,allies.length))):0;
+      distributed+=share;
+      enemyHp = dragon?Math.max(0,Number(data.bossHpBefore)-distributed):Math.max(win && index === allies.length - 1 ? 0 : win ? 3 : 26, enemyHp - damagePercent);
       timeline.push({
         type: index === 2 || index === 4 ? 'SKILL' : 'TURN',
         actorId: card.cardId,
         targetId: monster.cardId,
-        damage: Math.max(1, Math.round(Number(data.totalBattleDamage || data.playerPower || 1000) * damagePercent / 100)),
+        damage: dragon?share:Math.max(1, Math.round(Number(data.totalBattleDamage || data.playerPower || 1000) * damagePercent / 100)),
         targetHpAfter: enemyHp,
+        ...(dragon?{targetMaxHp:monster.maxHp}:{}),
         critical: index === 2 || index === 4,
         label: `${roleLabel} 타격`
       });
@@ -735,12 +748,12 @@
           damage: Math.max(1, Math.round(Number(data.bossPower || 1000) * (win ? .13 : .24))),
           targetHpAfter: allyHp,
           critical: !win,
-          label: '봉인 역류'
+          label: dragon?'봉인룡의 청염':'봉인 역류'
         });
         if (!win) timeline.push({ type: 'KO', targetId: card.cardId });
       }
     });
-    if (win) timeline.push({ type: 'KO', targetId: monster.cardId });
+    if (dragon?data.bossDefeated:win) timeline.push({ type: 'KO', targetId: monster.cardId });
     timeline.push({ type: 'RESULT', winner: win ? 'A' : 'B', actions: timeline.length });
     return {
       ...data,
@@ -1350,6 +1363,7 @@
     ready: () => root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME,
     ensureRuntime: ensureCurrentBattleRuntime,
     prepareLoading,
+    prepareSealDragon: async()=>{await ensureCurrentBattleRuntime();return root.ProjectVPixiBattle.prepareSealDragon();},
     createRenderer,
     playTower,
     towerPayload,

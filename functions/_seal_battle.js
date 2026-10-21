@@ -8,6 +8,8 @@ const ROLE_META = {
 
 const DEFAULT_SETTINGS = {
   mode: 'OFF',
+  format: 'SEALS_BOSS',
+  bossStage: { name: '봉인룡 네르가온', hp: null, battlePower: null },
   title: '봉인전',
   bossName: '심연에 봉인된 군주',
   bossImage: '',
@@ -33,6 +35,9 @@ const DEFAULT_SETTINGS = {
 const SEAL_COIN_REWARD_MAX = Number.MAX_SAFE_INTEGER;
 // Seal health is the role target; keep only the exact-integer storage boundary.
 const SEAL_HEALTH_MAX = Number.MAX_SAFE_INTEGER;
+const DRAGON_TABLE = 'seal_battle_dragon_events_v20261022';
+const DRAGON_RECEIPTS = 'seal_battle_dragon_receipts_v20261022';
+const DRAGON_ART = '/assets/ui/seal-battle/dragon-20261022';
 
 let foundationPromise = null;
 
@@ -107,6 +112,12 @@ function cleanSettings(raw = {}) {
   const mode = String(raw.mode || base.mode).toUpperCase();
   return {
     mode: ['OFF', 'ON', 'TEST'].includes(mode) ? mode : base.mode,
+    format: raw.format === 'CLASSIC' ? 'CLASSIC' : 'SEALS_BOSS',
+    bossStage: {
+      name: cleanText(raw.bossStage?.name, base.bossStage.name, 80),
+      hp: raw.bossStage?.hp == null || raw.bossStage.hp === '' ? null : clampInt(raw.bossStage.hp, 0, 0, SEAL_HEALTH_MAX),
+      battlePower: raw.bossStage?.battlePower == null || raw.bossStage.battlePower === '' ? null : clampInt(raw.bossStage.battlePower, 0, 0, 2000000000)
+    },
     title: cleanText(raw.title, base.title, 60),
     bossName: cleanText(raw.bossName, base.bossName, 80),
     bossImage: cleanText(raw.bossImage, base.bossImage, 1000).replace(/\\/g, '/'),
@@ -193,7 +204,28 @@ async function ensureMasterStarSchema(env, deps = {}) {
 }
 
 function eventStarColumn(alias = 'seal_battle_events') {
-  return `COALESCE((SELECT master_star FROM seal_battle_clear_rewards_v20260925 WHERE event_id=${alias}.id),0) AS clear_master_star`;
+  return `COALESCE((SELECT master_star FROM seal_battle_clear_rewards_v20260925 WHERE event_id=${alias}.id),0) AS clear_master_star,${eventDragonColumns(alias)}`;
+}
+
+async function ensureDragonSchema(env) {
+  const marker = 'seal_dragon_schema_20261022_v1';
+  if ((await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(marker).first())?.value === '1') return;
+  const ddl = [
+    `CREATE TABLE IF NOT EXISTS ${DRAGON_TABLE}(event_id BIGINT PRIMARY KEY,phase TEXT NOT NULL DEFAULT 'SEALS',hp_max BIGINT NOT NULL CHECK(hp_max>0),hp_remaining BIGINT NOT NULL CHECK(hp_remaining>=0 AND hp_remaining<=hp_max),battle_power BIGINT NOT NULL CHECK(battle_power>0),opened_at TEXT)`,
+    `CREATE TABLE IF NOT EXISTS ${DRAGON_RECEIPTS}(request_id TEXT PRIMARY KEY,event_id BIGINT NOT NULL,response_json TEXT NOT NULL,hp_before BIGINT NOT NULL DEFAULT 0,hp_after BIGINT NOT NULL DEFAULT 0,opened INTEGER NOT NULL DEFAULT 0,defeated INTEGER NOT NULL DEFAULT 0)`
+  ];
+  if (env.DB.dialect === 'postgres') await env.DB.execSchema(ddl);
+  else await env.DB.batch(ddl.map(sql => env.DB.prepare(sql)));
+  await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(marker, '1').run();
+}
+
+function eventDragonColumns(alias = 'seal_battle_events') {
+  return ['phase', 'hp_max', 'hp_remaining', 'battle_power', 'opened_at']
+    .map(column => `(SELECT ${column} FROM ${DRAGON_TABLE} WHERE event_id=${alias}.id) AS dragon_${column}`).join(',');
+}
+
+function eventCompleteSql(alias = 'seal_battle_events') {
+  return `${alias}.attack_progress>=${alias}.attack_target AND ${alias}.guard_progress>=${alias}.guard_target AND ${alias}.purify_progress>=${alias}.purify_target AND NOT EXISTS(SELECT 1 FROM ${DRAGON_TABLE} WHERE event_id=${alias}.id AND hp_remaining>0)`;
 }
 
 async function ensureFoundation(env, deps = {}) {
@@ -306,6 +338,7 @@ async function ensureFoundation(env, deps = {}) {
     ]);
     await ensureRewardAttemptsSchema(env, deps);
     await ensureMasterStarSchema(env, deps);
+    await ensureDragonSchema(env);
 
     const additions = [
       ['seal_battle_events','attack_battle_power','INTEGER NOT NULL DEFAULT 12000'],
@@ -378,6 +411,12 @@ async function loadSettings(env) {
 }
 
 async function saveSettings(env, value) {
+  for (const [key, max] of [['hp', SEAL_HEALTH_MAX], ['battlePower', 2000000000]]) {
+    const number = value.bossStage?.[key];
+    if (number != null && number !== '' && (!Number.isSafeInteger(Number(number)) || Number(number) < 1 || Number(number) > max)) {
+      throw new Error(`본체 ${key === 'hp' ? '체력' : '전투력'}은 1~${max.toLocaleString('ko-KR')} 정수로 입력하세요.`);
+    }
+  }
   if (value.clearReward?.masterStar !== undefined && (!Number.isSafeInteger(Number(value.clearReward.masterStar)) || Number(value.clearReward.masterStar) < 0 || Number(value.clearReward.masterStar) > 1000000)) {
     throw new Error('완료 보상 마스터의 별은 0~1,000,000개 정수로 입력하세요.');
   }
@@ -426,6 +465,13 @@ function normalizeEvent(row) {
     title: row.title,
     bossName: row.boss_name,
     bossImage: String(row.boss_image || '').replace(/\\/g, '/'),
+    format: row.dragon_phase ? 'SEALS_BOSS' : 'CLASSIC',
+    phase: row.status === 'CLEARED' ? 'COMPLETED' : row.dragon_phase || 'SEALS',
+    bossStage: row.dragon_phase ? {
+      name: row.boss_name, hp: Number(row.dragon_hp_remaining), maxHp: Number(row.dragon_hp_max),
+      battlePower: Number(row.dragon_battle_power), openedAt: row.dragon_opened_at || null,
+      image: `${DRAGON_ART}/portrait.webp`, hero: `${DRAGON_ART}/hero.webp`
+    } : null,
     description: row.description || '',
     status: String(row.status || 'ENDED').toUpperCase(),
     startsAt: row.starts_at || null,
@@ -451,11 +497,11 @@ function normalizeEvent(row) {
 async function refreshExpiredEvent(env) {
   await env.DB.prepare(`UPDATE seal_battle_events
     SET status=CASE
-      WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN 'CLEARED'
+      WHEN ${eventCompleteSql()} THEN 'CLEARED'
       ELSE 'FAILED'
     END,
     cleared_at=CASE
-      WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN COALESCE(cleared_at,CURRENT_TIMESTAMP)
+      WHEN ${eventCompleteSql()} THEN COALESCE(cleared_at,CURRENT_TIMESTAMP)
       ELSE cleared_at
     END,
     ended_at=COALESCE(ended_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP
@@ -475,8 +521,8 @@ function eventAvailability(event, settings, user) {
   if (settings.mode === 'TEST' && String(user?.role || '').toUpperCase() !== 'OWNER') {
     return { open: false, code: 'TEST_MODE', message: '현재 봉인전 테스트 운영 중입니다.' };
   }
-  if (event.status === 'CLEARED') return { open: false, code: 'CLEARED', message: '세 개의 봉인이 모두 완성되었습니다.' };
-  if (event.status === 'FAILED') return { open: false, code: 'FAILED', message: '제한 시간 안에 모든 봉인을 완성하지 못해 보스 봉인에 실패했습니다.' };
+  if (event.status === 'CLEARED') return { open: false, code: 'CLEARED', message: event.bossStage ? '용 보스를 처치했습니다. 공동 완료 보상을 확인하세요.' : '세 개의 봉인이 모두 완성되었습니다.' };
+  if (event.status === 'FAILED') return { open: false, code: 'FAILED', message: '제한 시간 안에 공동 목표를 완료하지 못했습니다.' };
   if (event.status !== 'ACTIVE') return { open: false, code: 'ENDED', message: '종료된 봉인전입니다.' };
   const now = Date.now();
   if (event.startsAt && Date.parse(event.startsAt) > now) return { open: false, code: 'NOT_STARTED', message: '봉인전 시작 전입니다.' };
@@ -530,6 +576,7 @@ function publicProgress(row, dayKey, event) {
     attackContribution: Number(row?.attack_contribution || 0),
     guardContribution: Number(row?.guard_contribution || 0),
     purifyContribution: Number(row?.purify_contribution || 0),
+    bossContribution: Math.max(0, totalContribution - Number(row?.attack_contribution || 0) - Number(row?.guard_contribution || 0) - Number(row?.purify_contribution || 0)),
     lastRole: row?.last_role || null,
     lastContribution: Number(row?.last_contribution || 0)
   };
@@ -681,7 +728,8 @@ async function refreshAttemptCharges(env, event, userId, dayKey, { create = fals
   if (needsUpdate) {
     await env.DB.prepare(`UPDATE seal_battle_user_progress SET
       day_key=?,attempts_today=?,attempt_charges=?,last_recharged_at=?,updated_at=CURRENT_TIMESTAMP
-      WHERE event_id=? AND user_id=?`).bind(dayKey, attemptsToday, charges, nextLastSql, event.id, userId).run();
+      WHERE event_id=? AND user_id=? AND attempt_charges=? AND last_recharged_at=? AND day_key=?`)
+      .bind(dayKey, attemptsToday, charges, nextLastSql, event.id, userId, originalCharges, originalLast, row.day_key).run();
   }
   return { charges, maxAttempts, rechargeMinutes, lastRechargedAt: last };
 }
@@ -782,6 +830,9 @@ async function maybeCleanup(env, settings, receiptId) {
   const progressDays = clampInt(settings.progressRetentionDays, 90, 7, 365);
   try {
     await env.DB.batch([
+      env.DB.prepare(`DELETE FROM ${DRAGON_RECEIPTS} WHERE request_id IN (
+        SELECT request_id FROM seal_battle_action_receipts WHERE status IN ('DONE','FAILED') AND created_at<datetime('now',?) ORDER BY id ASC LIMIT 200
+      )`).bind(`-${receiptDays} days`),
       env.DB.prepare(`DELETE FROM seal_battle_action_receipts WHERE id IN (
         SELECT id FROM seal_battle_action_receipts
         WHERE status IN ('DONE','FAILED') AND created_at<datetime('now',?)
@@ -853,7 +904,130 @@ function roleContributionUpdateSql(role) {
     )`;
 }
 
+// V2 charges, progress, stage transition and rewards commit together. The only
+// shared lock is the existing round row, held after combat calculation, for this
+// bounded transaction; PostgreSQL READ COMMITTED statements then see fresh HP.
+async function dragonReceiptResponse(env, deps, user, settings, receipt, replayed = false) {
+  const saved = await env.DB.prepare(`SELECT * FROM ${DRAGON_RECEIPTS} WHERE request_id=?`).bind(receipt.request_id).first();
+  if (!saved) throw new Error('봉인전 전투 영수증을 찾지 못했습니다.');
+  const result = safeJson(saved.response_json, {});
+  let state = null, balances = null;
+  try {
+    state = await statusPayload(env, deps, user, settings);
+    const row = await env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first();
+    if (row) balances = {coin:Number(row.coin),cardShards:Number(row.card_shards)};
+  } catch (error) { console.warn('seal dragon receipt refresh failed', error); }
+  return deps.json({...result,ok:true,replayed,contribution:Number(receipt.contribution),
+    bossHpBefore:Number(saved.hp_before),bossHpAfter:Number(saved.hp_after),
+    bossOpened:Boolean(Number(saved.opened)),bossDefeated:Boolean(Number(saved.defeated)),state,balances});
+}
+
+async function participateDragon(env, deps, user, settings, event, body) {
+  const requestId=String(body.requestId||'').trim(),role=String(body.role||'').toUpperCase();
+  if (!requestIdValid(requestId)) return deps.json({error:'요청 정보가 올바르지 않습니다.'},400);
+  const existing=await env.DB.prepare('SELECT * FROM seal_battle_action_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+  if (existing) {
+    if (existing.status==='DONE') return dragonReceiptResponse(env,deps,user,settings,existing,true);
+    return deps.json({error:existing.error_text||'동일한 요청을 처리 중입니다.',code:'SEAL_REQUEST_EXISTS'},409);
+  }
+  const availability=eventAvailability(event,settings,user);
+  if (!availability.open) return deps.json({error:availability.message,code:availability.code},409);
+  const isBoss=role==='BOSS',phase=isBoss?'BOSS':'SEALS';
+  if (Number(body.eventId)!==event.id || body.phase!==event.phase || phase!==event.phase || !event.bossStage || (!isBoss&&!ROLE_META[role])) {
+    return deps.json({error:'봉인전 단계가 변경되었습니다. 전황을 갱신해 주세요.',code:'SEAL_PHASE_CHANGED'},409);
+  }
+  if (!isBoss&&event.roles[role].completed) return deps.json({error:'이미 해제된 봉인입니다.',code:'SEAL_PHASE_CHANGED'},409);
+  const bossPower=isBoss?event.bossStage.battlePower:event.roles[role].battlePower;
+  let combat;
+  try { combat=await combatDeckState(deps,env,user.id,bossPower); }
+  catch(error){return deps.json({error:String(error.message||'저장된 PvE 덱 5장이 필요합니다.')},Number(error.status||400));}
+  const bonusPercent=!isBoss&&lowestRoleKeys(event).includes(role)?event.lowestRoleBonusPercent:0;
+  const multiplier=isBoss?100:event.roles[role].multiplier;
+  const result=combat.playerPower>=bossPower?'WIN':'LOSE';
+  const defeatPercent=event.defeatContributionPercent;
+  const raw=Math.max(1,Math.floor(combat.playerPower*multiplier/100*(1+bonusPercent/100)));
+  const contribution=Math.min(2000000000,result==='WIN'?raw:defeatPercent>0?Math.max(1,Math.floor(raw*defeatPercent/100)):0);
+  const attemptCoin=await collectionRewardCoin(env,user.id,event.attemptReward.coin,'SEAL',SEAL_COIN_REWARD_MAX);
+  const attemptShards=event.attemptReward.shards,dayKey=kstDayKey();
+  await refreshAttemptCharges(env,event,user.id,dayKey,{create:true});
+  const inserted=await env.DB.prepare(`INSERT OR IGNORE INTO seal_battle_action_receipts(request_id,event_id,user_id,day_key,role,status) VALUES(?,?,?,?,?,'PENDING')`)
+    .bind(requestId,event.id,user.id,dayKey,role).run();
+  if (!Number(inserted?.meta?.changes)) return deps.json({error:'동일한 요청을 처리 중입니다.'},409);
+  const response={eventId:event.id,battlePhase:phase,role,result,defeatContributionPercent:defeatPercent,
+    playerPower:combat.playerPower,deckPower:combat.playerPower,cardPower:combat.cardPower,basePlayerPower:combat.basePower,
+    totalBattleDamage:combat.totalBattleDamage,bossPower,cards:combat.cards,bonusPercent,
+    activatedUltimate:null,ultimateDamage:0,bonusDamage:0,uniqueAbility:combat.uniqueAbility,deckSynergy:combat.synergy,
+    characterBonus:combat.characterBonus,reward:{coin:attemptCoin,shards:attemptShards},bossMaxHp:event.bossStage.maxHp,
+    boss:{name:event.bossName,image:event.bossStage.image,role,roleLabel:isBoss?'용 보스 본체':ROLE_META[role].label}};
+  const meta=ROLE_META[role];
+  const remaining=isBoss?'d.hp_remaining':`e.${meta.targetColumn}-e.${meta.progressColumn}`;
+  const gate="EXISTS(SELECT 1 FROM seal_battle_action_receipts WHERE request_id=? AND status='AUTHORIZED')";
+  const amount='(SELECT contribution FROM seal_battle_action_receipts WHERE request_id=?)';
+  const statements=[];
+  if(env.DB.dialect==='postgres') statements.push(env.DB.prepare('SELECT id FROM seal_battle_events WHERE id=? FOR UPDATE').bind(event.id));
+  const authIndex=statements.length;
+  statements.push(env.DB.prepare(`UPDATE seal_battle_action_receipts SET status='AUTHORIZED',deck_power=?,boss_power=?,
+    contribution=MIN(?,(SELECT ${remaining} FROM seal_battle_events e JOIN ${DRAGON_TABLE} d ON d.event_id=e.id WHERE e.id=?)),
+    bonus_percent=?,battle_result=?,ultimate_damage=0,updated_at=CURRENT_TIMESTAMP
+    WHERE request_id=? AND user_id=? AND status='PENDING' AND EXISTS(
+      SELECT 1 FROM seal_battle_events e JOIN ${DRAGON_TABLE} d ON d.event_id=e.id
+      JOIN seal_battle_user_progress p ON p.event_id=e.id AND p.user_id=?
+      WHERE e.id=? AND e.status='ACTIVE' AND d.phase=? AND ${remaining}>0 AND p.attempt_charges>0
+      AND (e.starts_at IS NULL OR datetime(e.starts_at)<=datetime('now'))
+      AND (e.ends_at IS NULL OR datetime(e.ends_at)>datetime('now'))
+    )`).bind(combat.playerPower,bossPower,contribution,event.id,bonusPercent,result,requestId,user.id,user.id,event.id,phase));
+  statements.push(env.DB.prepare(`INSERT INTO ${DRAGON_RECEIPTS}(request_id,event_id,response_json,hp_before,hp_after)
+    SELECT ?,?,?,hp_remaining,hp_remaining FROM ${DRAGON_TABLE} WHERE event_id=? AND ${gate}`)
+    .bind(requestId,event.id,JSON.stringify(response),event.id,requestId));
+  const progressSql=`UPDATE seal_battle_user_progress SET attempt_charges=attempt_charges-1,
+    last_recharged_at=CASE WHEN attempt_charges>=? THEN ? ELSE last_recharged_at END,
+    attempts_today=CASE WHEN day_key=? THEN attempts_today+1 ELSE 1 END,day_key=?,total_attempts=total_attempts+1,
+    ${isBoss?'':`${meta.userColumn}=${meta.userColumn}+${amount},`}total_contribution=total_contribution+${amount},
+    last_role=?,last_contribution=${amount},last_contribution_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP
+    WHERE event_id=? AND user_id=? AND ${gate}`;
+  statements.push(env.DB.prepare(progressSql).bind(event.maxAttempts,sqlTimestamp(Date.now()),dayKey,dayKey,
+    ...(!isBoss?[requestId]:[]),requestId,role,requestId,event.id,user.id,requestId));
+  if(isBoss){
+    statements.push(env.DB.prepare(`UPDATE ${DRAGON_TABLE} SET hp_remaining=MAX(0,hp_remaining-${amount}) WHERE event_id=? AND phase='BOSS' AND ${gate}`).bind(requestId,event.id,requestId));
+    statements.push(env.DB.prepare(`UPDATE seal_battle_events SET status=CASE WHEN ${eventCompleteSql()} THEN 'CLEARED' ELSE status END,
+      cleared_at=CASE WHEN ${eventCompleteSql()} THEN COALESCE(cleared_at,CURRENT_TIMESTAMP) ELSE cleared_at END,updated_at=CURRENT_TIMESTAMP
+      WHERE id=? AND ${gate}`).bind(event.id,requestId));
+  }else{
+    statements.push(env.DB.prepare(`UPDATE seal_battle_events SET ${meta.progressColumn}=MIN(${meta.targetColumn},${meta.progressColumn}+${amount}),updated_at=CURRENT_TIMESTAMP WHERE id=? AND ${gate}`).bind(requestId,event.id,requestId));
+    statements.push(env.DB.prepare(`UPDATE ${DRAGON_TABLE} SET phase='BOSS',opened_at=CURRENT_TIMESTAMP WHERE event_id=? AND phase='SEALS' AND ${gate}
+      AND EXISTS(SELECT 1 FROM seal_battle_events WHERE id=? AND attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target)`)
+      .bind(event.id,requestId,event.id));
+  }
+  statements.push(env.DB.prepare(`UPDATE ${DRAGON_RECEIPTS} SET hp_after=(SELECT hp_remaining FROM ${DRAGON_TABLE} WHERE event_id=?),
+    opened=CASE WHEN ?='SEALS' AND (SELECT phase FROM ${DRAGON_TABLE} WHERE event_id=?)='BOSS' THEN 1 ELSE 0 END,
+    defeated=CASE WHEN ?='BOSS' AND (SELECT status FROM seal_battle_events WHERE id=?)='CLEARED' THEN 1 ELSE 0 END
+    WHERE request_id=? AND ${gate}`).bind(event.id,phase,event.id,phase,event.id,requestId,requestId));
+  statements.push(env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=? AND ${gate}`).bind(attemptCoin,attemptShards,user.id,requestId));
+  if(attemptCoin>0) statements.push(env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'SEAL_BATTLE_ATTEMPT' FROM users WHERE id=? AND ${gate}`).bind(attemptCoin,user.id,requestId));
+  if(attemptShards>0) statements.push(env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT id,?,card_shards,'SEAL_BATTLE_ATTEMPT' FROM users WHERE id=? AND ${gate}`).bind(attemptShards,user.id,requestId));
+  statements.push(...await accountRankAward(env,user.id,'SEAL',requestId,{guard:gate,values:[requestId]}));
+  statements.push(env.DB.prepare("UPDATE seal_battle_action_receipts SET status='DONE',error_text=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='AUTHORIZED'").bind(requestId));
+  let results;
+  try{results=await env.DB.batch(statements);}
+  catch(error){
+    // A COMMIT can succeed while its response is lost. Never refund or pay again.
+    const receipt=await env.DB.prepare('SELECT * FROM seal_battle_action_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+    if(receipt?.status==='DONE')return dragonReceiptResponse(env,deps,user,settings,receipt,true);
+    await env.DB.prepare("UPDATE seal_battle_action_receipts SET status='FAILED',error_text='전투 결과 저장에 실패했습니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(requestId).run();
+    console.error('seal dragon transaction failed',error);
+    return deps.json({error:'전투 결과 저장에 실패했습니다. 도전 횟수는 사용되지 않았습니다.'},500);
+  }
+  if(!Number(results?.[authIndex]?.meta?.changes)){
+    await env.DB.prepare("UPDATE seal_battle_action_receipts SET status='FAILED',error_text='전황 또는 도전 횟수가 변경되었습니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(requestId).run();
+    return deps.json({error:'전황 또는 도전 횟수가 변경되었습니다. 갱신 후 다시 시도해 주세요.',code:'SEAL_PHASE_CHANGED'},409);
+  }
+  const receipt=await env.DB.prepare('SELECT * FROM seal_battle_action_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+  await maybeCleanup(env,settings,Number(inserted?.meta?.last_row_id||0));
+  return dragonReceiptResponse(env,deps,user,settings,receipt);
+}
+
 async function participate(env, deps, user, settings, event, body) {
+  if (event.format === 'SEALS_BOSS') return participateDragon(env, deps, user, settings, event, body);
   const requestId = String(body.requestId || '').trim();
   const role = String(body.role || '').toUpperCase();
   if (!requestIdValid(requestId)) return deps.json({ error: '요청 정보가 올바르지 않습니다.' }, 400);
@@ -1137,11 +1311,18 @@ async function adminOverview(env, settings) {
 }
 
 async function adminStart(env, settings, admin) {
+  const dragon = settings.format === 'SEALS_BOSS';
+  if (dragon && (!settings.bossStage?.hp || !settings.bossStage?.battlePower)) {
+    throw Object.assign(new Error('본체 체력과 전투력을 저장한 뒤 새 회차를 시작하세요.'), {status:400,code:'SEAL_BOSS_UNCONFIGURED'});
+  }
+  if(dragon && settings.endsAt && (Date.parse(settings.endsAt)<=Date.now() || (settings.startsAt && Date.parse(settings.endsAt)<=Date.parse(settings.startsAt)))) {
+    throw Object.assign(new Error('새 회차의 종료 시각을 현재와 시작 시각 이후로 설정하세요.'),{status:400,code:'SEAL_EVENT_TIME_INVALID'});
+  }
   const key = eventKey();
   await env.DB.batch([
     env.DB.prepare(`UPDATE seal_battle_events SET
-      status=CASE WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN 'CLEARED' ELSE 'FAILED' END,
-      cleared_at=CASE WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN COALESCE(cleared_at,CURRENT_TIMESTAMP) ELSE cleared_at END,
+      status=CASE WHEN ${eventCompleteSql()} THEN 'CLEARED' ELSE 'FAILED' END,
+      cleared_at=CASE WHEN ${eventCompleteSql()} THEN COALESCE(cleared_at,CURRENT_TIMESTAMP) ELSE cleared_at END,
       ended_at=COALESCE(ended_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP
       WHERE status='ACTIVE'`),
     env.DB.prepare(`INSERT INTO seal_battle_events(
@@ -1150,7 +1331,7 @@ async function adminStart(env, settings, admin) {
       attack_battle_power,guard_battle_power,purify_battle_power,defeat_contribution_percent,
       lowest_bonus_percent,attempt_coin,attempt_shards,clear_coin,clear_shards,rank_rewards_json,created_by
     ) VALUES(?,?,?,?,?,'ACTIVE',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(
-      key, settings.title, settings.bossName, settings.bossImage, settings.description,
+      key, settings.title, dragon ? settings.bossStage.name : settings.bossName, dragon ? `${DRAGON_ART}/hero.webp` : settings.bossImage, settings.description,
       settings.startsAt, settings.endsAt, settings.dailyAttempts, settings.rechargeMinutes,
       settings.minRewardAttempts ?? 1,
       settings.targets.attack, settings.targets.guard, settings.targets.purify,
@@ -1161,7 +1342,9 @@ async function adminStart(env, settings, admin) {
       settings.clearReward.coin, settings.clearReward.shards, JSON.stringify(settings.rankRewards), admin.id
     ),
     env.DB.prepare('INSERT INTO seal_battle_clear_rewards_v20260925(event_id,master_star) SELECT id,? FROM seal_battle_events WHERE event_key=?')
-      .bind(settings.clearReward.masterStar || 0, key)
+      .bind(settings.clearReward.masterStar || 0, key),
+    ...(dragon ? [env.DB.prepare(`INSERT INTO ${DRAGON_TABLE}(event_id,hp_max,hp_remaining,battle_power) SELECT id,?,?,? FROM seal_battle_events WHERE event_key=?`)
+      .bind(settings.bossStage.hp, settings.bossStage.hp, settings.bossStage.battlePower, key)] : [])
   ]);
   return normalizeEvent(await env.DB.prepare(`SELECT *,${eventStarColumn()} FROM seal_battle_events WHERE event_key=?`).bind(key).first());
 }
@@ -1228,12 +1411,12 @@ export async function handleSealBattle({ path, request, env, deps }) {
     try {
       const incoming = body.settings || body;
       // A previously opened CMS may omit the newly added field.
-      next = await saveSettings(env, { ...settings, ...incoming, clearReward: { ...settings.clearReward, ...incoming.clearReward } });
+      next = await saveSettings(env, { ...settings, ...incoming, bossStage: { ...settings.bossStage, ...incoming.bossStage }, clearReward: { ...settings.clearReward, ...incoming.clearReward } });
     } catch (error) {
-      if (/보상 최소 공격 횟수|봉인 체력|완료 보상 마스터의 별/.test(String(error?.message))) return deps.json({ error: error.message }, 400);
+      if (/보상 최소 공격 횟수|봉인 체력|완료 보상 마스터의 별|본체 체력|본체 전투력/.test(String(error?.message))) return deps.json({ error: error.message }, 400);
       throw error;
     }
-    await env.DB.prepare("UPDATE seal_battle_events SET boss_image=?,updated_at=CURRENT_TIMESTAMP WHERE status='ACTIVE'")
+    await env.DB.prepare(`UPDATE seal_battle_events SET boss_image=?,updated_at=CURRENT_TIMESTAMP WHERE status='ACTIVE' AND NOT EXISTS(SELECT 1 FROM ${DRAGON_TABLE} WHERE event_id=seal_battle_events.id)`)
       .bind(next.bossImage).run();
     if (typeof deps.writeAdminLog === 'function') {
       await deps.writeAdminLog(env, admin, 'SEAL_BATTLE_SETTINGS_UPDATE', 'SEAL_BATTLE', 'settings', settings, next);
@@ -1245,14 +1428,16 @@ export async function handleSealBattle({ path, request, env, deps }) {
     const body = await deps.readBody(request);
     const action = String(body.action || 'START').toUpperCase();
     if (action === 'START') {
-      const event = await adminStart(env, settings, admin);
+      let event;
+      try { event = await adminStart(env, settings, admin); }
+      catch (error) { if (error.status === 400) return deps.json({error:error.message,code:error.code},400); throw error; }
       if (typeof deps.writeAdminLog === 'function') await deps.writeAdminLog(env, admin, 'SEAL_BATTLE_START', 'SEAL_BATTLE', event.eventKey, null, event);
       return deps.json({ ok: true, event, overview: await adminOverview(env, settings) });
     }
     if (action === 'END') {
       const active = await env.DB.prepare(`SELECT *,${eventStarColumn()} FROM seal_battle_events WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1`).first();
       if (!active) return deps.json({ error: '종료할 활성 봉인전이 없습니다.' }, 409);
-      await env.DB.prepare(`UPDATE seal_battle_events SET status=CASE WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN 'CLEARED' ELSE 'FAILED' END,cleared_at=CASE WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN COALESCE(cleared_at,CURRENT_TIMESTAMP) ELSE cleared_at END,ended_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'`).bind(active.id).run();
+      await env.DB.prepare(`UPDATE seal_battle_events SET status=CASE WHEN ${eventCompleteSql()} THEN 'CLEARED' ELSE 'FAILED' END,cleared_at=CASE WHEN ${eventCompleteSql()} THEN COALESCE(cleared_at,CURRENT_TIMESTAMP) ELSE cleared_at END,ended_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'`).bind(active.id).run();
       if (typeof deps.writeAdminLog === 'function') await deps.writeAdminLog(env, admin, 'SEAL_BATTLE_END', 'SEAL_BATTLE', active.event_key, normalizeEvent(active), null);
       return deps.json({ ok: true, overview: await adminOverview(env, settings) });
     }

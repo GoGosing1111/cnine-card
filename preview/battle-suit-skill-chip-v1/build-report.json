@@ -4,6 +4,10 @@
   "inputs": [
     "shared/equipment-set-visual-v1.mjs",
     "preview/project-v-v3/source/battle/EquipmentSetFX.js",
+    "shared/battle-damage-font.mjs",
+    "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",
+    "preview/project-v-v3/source/battle/ObjectPool.js",
+    "preview/project-v-v3/source/battle/SealDragonPlayback.js",
     "shared/mercenary-halloween-combat-v1.mjs",
     "shared/mercenary-bathory-v1.mjs?v=20261021-stock15-v1",
     "shared/mercenary-halloween-visual-v1.mjs",
@@ -24,9 +28,6 @@
     "preview/project-v-v3/source/battle/BattleAnimation.js",
     "preview/project-v-v3/source/battle/HumanoidRig.js",
     "preview/project-v-v3/source/battle/BattleCharacter.js",
-    "shared/battle-damage-font.mjs",
-    "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",
-    "preview/project-v-v3/source/battle/ObjectPool.js",
     "preview/project-v-v3/source/battle/SkillEffectFX.js",
     "preview/project-v-v3/source/battle/SkillTimeline.js",
     "preview/project-v-v3/source/battle/RoleAudioSpriteManifest.js",
@@ -248,5 +249,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2268521
+  "outputBytes": 2272297
 }

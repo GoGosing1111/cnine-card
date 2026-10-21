@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+const tag='seal-dragon-20261022-v1';
+let app=fs.readFileSync('js/app.js','utf8');app=app.replace("-tower-abyss-ui-20261021-v1'",`-tower-abyss-ui-20261021-v1-${tag}'`);
+app=app.replace("'js/battle-v3-live.js?",`'js/battle-v3-live.js?sealDragon=${tag}&`);
+app=app.replace("'preview/project-v-v3/project-v-pixi-battle.bundle.js?",`'preview/project-v-v3/project-v-pixi-battle.bundle.js?sealDragon=${tag}&`);fs.writeFileSync('js/app.js',app);
+let sw=fs.readFileSync('service-worker.js','utf8');const previous=sw.match(/const SHELL_CACHE='soop-card-shell-v([^']+)'/)[1],next=previous+'-'+tag;
+sw=sw.replace('soop-card-shell-v'+previous,'soop-card-shell-v'+next);fs.writeFileSync('service-worker.js',sw);
+let index=fs.readFileSync('index.html','utf8').replace('js/app.js?v='+previous,'js/app.js?v='+next);
+index=index.replace(/((?:css\/seal-battle\.css|js\/seal-battle\.js)\?[^"\s]*)/g,'$1&sealDragon=20261022-v1');fs.writeFileSync('index.html',index);
+let admin=fs.readFileSync('admin/index.html','utf8').replace(/((?:seal-battle-admin\.css|seal-battle-admin\.js)\?[^"\s]*)/g,'$1&sealDragon=20261022-v1');fs.writeFileSync('admin/index.html',admin);

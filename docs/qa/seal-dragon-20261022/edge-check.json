@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "errors": [],
+  "checks": [
+    "last seal → reveal → boss",
+    "reduced motion",
+    "painted breath frames",
+    "320px overflow",
+    "asset failure before participation POST"
+  ]
+}

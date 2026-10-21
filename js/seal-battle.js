@@ -13,6 +13,26 @@
   let loading = false;
   let latest = null;
   let chargeTimer = null;
+  const DRAGON_ART = '/assets/ui/seal-battle/dragon-20261022';
+  const bossPhase = event => Boolean(event?.bossStage && (event.phase === 'BOSS' || event.phase === 'COMPLETED' || event.bossStage.openedAt));
+
+  function journey(event) {
+    const step=event.status==='CLEARED'?3:bossPhase(event)?2:1;
+    return `<ol class="seal-journey" aria-label="봉인전 진행 단계">${[['세 봉인 해제','ATTACK'],['용 보스 본체전','GUARD'],['공동 완료 보상','PURIFY']].map(([label,key],index)=>`<li ${step===index+1?'aria-current="step"':''} class="${step>index+1?'done':''}"><img src="${roleImage(key)}" alt="" width="44" height="44"><span><small>0${index+1}</small>${label}</span></li>`).join('')}</ol>`;
+  }
+
+  function dragonHero(data) {
+    const event=data.event,boss=event.bossStage,opened=bossPhase(event),done=event.status==='CLEARED',failed=event.status==='FAILED';
+    const complete=Object.values(event.roles).filter(r=>r.completed).length;
+    return `${journey(event)}<section class="seal-sanctum seal-dragon-sanctum ${opened?'awakened':'sealed'} ${done?'cleared':''}"><div class="seal-sanctum-copy"><span class="seal-state">${done?'공동 토벌 완료':failed?'도전 종료':opened?'02 · 용 보스 본체전':'01 · 세 봉인 해제'}</span><h2>${esc(boss.name)}</h2><p>${done?'원정대의 힘으로 봉인룡을 쓰러뜨렸습니다.':failed?'제한 시간 내 공동 목표를 완료하지 못했습니다.':opened?'봉인이 해제되었습니다. 서버 전체가 함께 본체 체력을 소진하세요.':'파괴·수호·정화 세 봉인을 해제하면 봉인룡이 깨어납니다.'}</p>${opened?`<div class="seal-dragon-health"><div><span>서버 공동 본체 HP</span><strong>${number(boss.hp)} <small>/ ${number(boss.maxHp)}</small></strong></div><div class="seal-progress-track" role="progressbar" aria-label="용 보스 남은 체력" aria-valuemin="0" aria-valuemax="${Number(boss.maxHp)}" aria-valuenow="${Number(boss.hp)}"><i style="width:${percent(boss.hp/boss.maxHp*100)}%"></i></div></div>`:`<div class="seal-completion"><strong>${complete}<small>/ 3</small></strong><span>해제한 봉인<small>본체전은 세 봉인 해제 후 개방</small></span></div>`}<p class="seal-deadline">종료 ${formatTime(event.endsAt)}</p></div><div class="seal-sanctum-caption"><span>${number(data.stats?.participants)}명 참여</span><span>${number(data.stats?.attempts)}회 전투</span></div></section>`;
+  }
+
+  function dragonCommand(data) {
+    const event=data.event,boss=event.bossStage,attempts=Number(data.progress?.availableAttempts??0);
+    const canAct=data.availability?.open&&data.deck?.ready&&attempts>0&&event.phase==='BOSS';
+    const hint=!data.availability?.open?data.availability?.message:!data.deck?.ready?'PvE 덱에 카드 5장을 편성해 주세요.':attempts<1?'도전 횟수가 충전되면 참여할 수 있습니다.':'도전 횟수 1회 사용 · 봉인 단계와 공격 횟수 합산';
+    return `<section class="seal-dragon-command seal-tablet"><div class="seal-opened-sigils">${Object.keys(ROLE).map(key=>`<span><img src="${roleImage(key)}" width="56" height="56" alt="">${ROLE[key].label} 해제</span>`).join('')}</div><div class="seal-dragon-portrait"><img src="${DRAGON_ART}/portrait.webp" alt="검은 비늘과 청록빛 균열을 가진 봉인룡 네르가온" width="768" height="512"></div><header><small>최종 공동 목표</small><h2>${esc(boss.name)}</h2><p>본체를 처치하면 참여 조건을 충족한 원정대원이 완료 보상을 받습니다.</p></header><dl class="seal-combat-facts"><div><dt>상대 전투력</dt><dd>${number(boss.battlePower)}</dd></div><div><dt>패배 시 피해 반영</dt><dd>${number(event.defeatContributionPercent)}%</dd></div><div><dt>내 본체 피해</dt><dd>${number(data.progress?.bossContribution)}</dd></div></dl>${buttonHtml(event.status==='CLEARED'?'공동 토벌 완료':'용 보스 공격',`data-seal-role="BOSS" ${canAct?'':'disabled'} aria-describedby="sealActionHint"`)}<p id="sealActionHint" class="seal-action-hint">${esc(hint||'')}</p></section>`;
+  }
 
   function source(value, version = '') {
     let text = String(value || '').trim().replace(/\\/g, '/');
@@ -158,15 +178,15 @@
     const minimum=Math.max(1,Number(event.minRewardAttempts||1)),remaining=Math.max(0,minimum-Number(progress.totalAttempts||0));
     const attempts=Number(progress.availableAttempts??progress.remainingAttempts??0),maximum=Number(progress.maxAttempts||event.maxAttempts||event.dailyAttempts||5);
     const canClaim=clear.eligible&&!clear.claimed&&!clear.processing;
-    const claimLabel=clear.claimed?'수령 완료':clear.processing?'처리 중':event.status==='FAILED'?'이번 봉인 실패':event.status==='CLEARED'?(clear.eligible?'완료 보상 받기':`공격 ${number(minimum)}회 필요`):'봉인 완료 후 수령';
+    const claimLabel=clear.claimed?'수령 완료':clear.processing?'처리 중':event.status==='FAILED'?'이번 봉인 실패':event.status==='CLEARED'?(clear.eligible?'완료 보상 받기':`공격 ${number(minimum)}회 필요`):(event.bossStage?'용 보스 처치 후 수령':'봉인 완료 후 수령');
     root.innerHTML=`<section class="seal-battle-shell">
       <header class="seal-page-heading"><div><img src="${roleImage('GUARD')}" width="46" height="46" alt=""><div><small>서버 협력전</small><h1>${esc(event.title||'봉인전')}</h1></div></div><nav aria-label="봉인전 메뉴">${buttonHtml('전황 갱신','id="sealRefresh"')}${buttonHtml('공헌 기록','id="sealRankings"')}</nav></header>
-      <section class="seal-sanctum ${String(event.status||'').toLowerCase()}"><div class="seal-sanctum-copy"><span class="seal-state">${esc(badge)}</span><h2>${esc(event.bossName||'심연의 봉인')}</h2><p>${esc(line)}</p><div class="seal-completion"><strong>${completed}<small>/ 3</small></strong><span>완성된 봉인<small>파괴 · 수호 · 정화</small></span></div><p class="seal-deadline">종료 ${formatTime(event.endsAt)}</p></div><div class="seal-sanctum-caption"><span>${number(data.stats?.participants)}명 참여</span><span>${number(data.stats?.attempts)}회 전투</span></div></section>
-      <div class="seal-command-layout"><section class="seal-role-command" aria-label="봉인 선택"><div class="seal-section-heading"><h2>봉인을 선택하세요</h2><span>세 역할의 힘을 모아 완성합니다.</span></div><div class="seal-sigil-tabs" role="tablist" aria-label="봉인 역할">${Object.keys(ROLE).map(key=>roleTab(key,data)).join('')}</div>${roleDetail(data)}</section>
-      <aside class="seal-expedition seal-tablet"><header><small>내 원정대</small><h2>출전 준비</h2></header><div class="seal-charge"><span>보유 도전 횟수</span><strong>${attempts}<small>/ ${maximum}</small></strong><p id="sealRechargeTimer">충전 정보 확인 중</p></div><dl class="seal-personal-facts"><div><dt>PvE 전투력</dt><dd>${data.deck?.ready?number(data.deck.power):'편성 필요'}</dd></div><div><dt>이번 회차 공격</dt><dd>${number(progress.totalAttempts)}회</dd></div><div><dt>내 공헌도</dt><dd>${number(progress.totalContribution)}</dd></div></dl>${!data.deck?.ready?`<p class="seal-inline-note">${esc(data.deck?.error||'PvE 덱에 카드 5장을 저장해 주세요.')}</p>`:''}<div class="seal-qualification"><strong>${remaining?`완료 보상까지 ${number(remaining)}회`:'완료 보상 참여 조건 충족'}</strong><p>회차 내 ${number(minimum)}회 이상 공격<br>승패와 관계없이 합산</p></div><div class="seal-attempt-reward"><h3>전투 참여 보상</h3><dl>${rewardHtml(event.attemptReward)}</dl></div></aside></div>
+      ${event.bossStage?dragonHero(data):`<section class="seal-sanctum ${String(event.status||'').toLowerCase()}"><div class="seal-sanctum-copy"><span class="seal-state">${esc(badge)}</span><h2>${esc(event.bossName||'심연의 봉인')}</h2><p>${esc(line)}</p><div class="seal-completion"><strong>${completed}<small>/ 3</small></strong><span>완성된 봉인<small>파괴 · 수호 · 정화</small></span></div><p class="seal-deadline">종료 ${formatTime(event.endsAt)}</p></div><div class="seal-sanctum-caption"><span>${number(data.stats?.participants)}명 참여</span><span>${number(data.stats?.attempts)}회 전투</span></div></section>`}
+      <div class="seal-command-layout">${bossPhase(event)?dragonCommand(data):`<section class="seal-role-command" aria-label="봉인 선택"><div class="seal-section-heading"><h2>봉인을 선택하세요</h2><span>세 역할의 힘을 모아 완성합니다.</span></div><div class="seal-sigil-tabs" role="tablist" aria-label="봉인 역할">${Object.keys(ROLE).map(key=>roleTab(key,data)).join('')}</div>${roleDetail(data)}</section>`}
+      <aside class="seal-expedition seal-tablet"><header><small>내 원정대</small><h2>출전 준비</h2></header><div class="seal-charge"><span>보유 도전 횟수</span><strong>${attempts}<small>/ ${maximum}</small></strong><p id="sealRechargeTimer">충전 정보 확인 중</p></div><dl class="seal-personal-facts"><div><dt>PvE 전투력</dt><dd>${data.deck?.ready?number(data.deck.power):'편성 필요'}</dd></div><div><dt>이번 회차 공격</dt><dd>${number(progress.totalAttempts)}회</dd></div><div><dt>내 공헌도</dt><dd>${number(progress.totalContribution)}</dd></div></dl>${!data.deck?.ready?`<p class="seal-inline-note">${esc(data.deck?.error||'PvE 덱에 카드 5장을 저장해 주세요.')}</p>`:''}<div class="seal-qualification"><strong>${remaining?`완료 보상까지 ${number(remaining)}회`:'완료 보상 참여 조건 충족'}</strong><p>회차 내 ${number(minimum)}회 이상 공격<br>${event.bossStage?'봉인·본체전, 승패와 관계없이 합산':'승패와 관계없이 합산'}</p></div><div class="seal-attempt-reward"><h3>전투 참여 보상</h3><dl>${rewardHtml(event.attemptReward)}</dl></div></aside></div>
       ${data.pendingClearReward?`<section class="seal-reward-panel seal-tablet previous"><div><small>지난 회차</small><h2>${esc(data.pendingClearReward.title)} 완료 보상</h2><p>아직 받지 않은 공동 완료 보상이 있습니다.</p></div><dl>${rewardHtml({...data.pendingClearReward.reward,masterStar:data.pendingClearReward.reward.masterStar})}</dl>${buttonHtml(data.pendingClearReward.processing?'처리 중':'지난 보상 받기',`data-seal-pending-claim="${Number(data.pendingClearReward.eventId)}" ${data.pendingClearReward.processing?'disabled':''}`)}</section>`:''}
-      <section class="seal-reward-panel seal-tablet ${event.status==='CLEARED'?'ready':''}"><div><small>서버 공동 목표</small><h2>${event.status==='FAILED'?'봉인 실패':'공동 완료 보상'}</h2><p>${event.status==='FAILED'?'제한 시간 내 봉인을 완성하지 못했습니다.':`세 봉인을 완성하면 ${number(minimum)}회 이상 공격한 참여자가 받습니다.`}</p></div><dl>${rewardHtml(event.clearReward)}</dl>${buttonHtml(claimLabel,`id="sealClearClaim" ${canClaim?'':'disabled'}`)}</section>
-      <details class="seal-rules seal-tablet"><summary>봉인전 참여 방법</summary><div><p><b>01. 역할 선택</b> 파괴·수호·정화 중 참여할 봉인을 선택합니다. 부족한 역할을 지원하면 설정된 보너스가 적용됩니다.</p><p><b>02. 전투와 공헌</b> 저장된 PvE 덱으로 전투합니다. 승리는 100%, 패배는 ${number(event.defeatContributionPercent??10)}% 공헌하며 궁극기는 사용할 수 없습니다.</p><p><b>03. 공동 목표 달성</b> 종료 시각 전에 세 봉인을 모두 완성하고 참여 조건을 충족하면 완료 보상을 받습니다.</p></div></details>
+      <section class="seal-reward-panel seal-tablet ${event.status==='CLEARED'?'ready':''}"><div><small>서버 공동 목표</small><h2>${event.status==='FAILED'?'봉인 실패':'공동 완료 보상'}</h2><p>${event.status==='FAILED'?'제한 시간 내 공동 목표를 완료하지 못했습니다.':`${event.bossStage?'용 보스를 처치하면':'세 봉인을 완성하면'} ${number(minimum)}회 이상 공격한 참여자가 받습니다.`}</p></div><dl>${rewardHtml(event.clearReward)}</dl>${buttonHtml(claimLabel,`id="sealClearClaim" ${canClaim?'':'disabled'}`)}</section>
+      <details class="seal-rules seal-tablet"><summary>봉인전 참여 방법</summary><div><p><b>01. 역할 선택</b> 파괴·수호·정화 중 참여할 봉인을 선택합니다. 부족한 역할을 지원하면 설정된 보너스가 적용됩니다.</p><p><b>02. 전투와 공헌</b> 저장된 PvE 덱으로 전투합니다. 승리는 100%, 패배는 ${number(event.defeatContributionPercent??10)}% 공헌하며 궁극기는 사용할 수 없습니다.</p><p><b>03. 공동 목표 달성</b> ${event.bossStage?'세 봉인을 해제한 뒤 용 보스 본체 HP를 0으로 만드세요. 두 단계의 공격 횟수를 합산하며, 처치 후 참여 조건을 충족하면 보상을 한 번 받습니다.':'종료 시각 전에 세 봉인을 모두 완성하고 참여 조건을 충족하면 완료 보상을 받습니다.'}</p></div></details>
     </section>`;
     bindRoleControls(root);root.querySelector('#sealRefresh').onclick=load;root.querySelector('#sealRankings').onclick=showRankings;
     root.querySelector('#sealClearClaim').onclick=claimClearReward;root.querySelector('[data-seal-pending-claim]')?.addEventListener('click',claimClearReward);startChargeTimer(progress);
@@ -185,9 +205,20 @@
   }
 
 
+  async function revealDragon(eventId) {
+    const key=`seal-dragon-reveal:${eventId}`;
+    try { if(sessionStorage.getItem(key))return;sessionStorage.setItem(key,'1'); } catch {}
+    const shown=confirmSeal('봉인룡이 깨어났습니다','세 봉인이 모두 해제되었습니다. 이제 서버 공동 본체 체력을 소진하세요.','본체전으로',true);
+    const panel=document.querySelector('.seal-dialog-panel');
+    if(panel){panel.classList.add('seal-dragon-reveal');panel.querySelector(':scope > img').remove();panel.insertAdjacentHTML('afterbegin',`<img class="seal-reveal-art" src="${DRAGON_ART}/hero.webp" alt="봉인에서 깨어난 용"><div class="seal-reveal-sigils" aria-hidden="true">${Object.keys(ROLE).map(key=>`<img src="${roleImage(key)}" alt="" width="80" height="80">`).join('')}</div>`);}
+    await shown;
+  }
+
   async function participate(roleKey, button) {
     if (loading) return;
-    const meta = ROLE[roleKey];
+    const isBoss=roleKey==='BOSS';
+    const meta = isBoss?{label:'용 보스 본체'}:ROLE[roleKey];
+    const round=latest.event;
     const role = latest?.event?.roles?.[roleKey];
     const defeatPercent = Number(latest?.event?.defeatContributionPercent ?? 10);
     const rechargeMinutes = Number(latest?.progress?.rechargeMinutes || latest?.event?.rechargeMinutes || 60);
@@ -201,7 +232,7 @@
       return;
     }
     modal.className = `modal show battle-modal seal-combat-modal role-${roleKey.toLowerCase()}`;
-    modal.innerHTML = `<div class="modal-panel seal-v3-preflight seal-tablet"><img src="${SEAL_ORB_IMAGE}" alt="봉인 수정구"><small>봉인전 출전 준비</small><b>봉인 수정구와 전장을 연결하고 있습니다.</b></div>`;
+    modal.innerHTML = `<div class="modal-panel seal-v3-preflight seal-tablet"><img src="${isBoss?DRAGON_ART+'/portrait.webp':SEAL_ORB_IMAGE}" alt="${isBoss?esc(round.bossName):'봉인 수정구'}"><small>봉인전 출전 준비</small><b>${isBoss?'용 보스':'봉인 수정구'}와 전장을 연결하고 있습니다.</b></div>`;
     let renderer = null;
     try {
       const resourcePromise = typeof globalThis.ensureFeatureResources === 'function'
@@ -211,15 +242,16 @@
       if (!globalThis.ProjectVBattleV3Live?.ready?.() || typeof globalThis.playSealBattleV3Live !== 'function') {
         throw new Error('V3 봉인전 렌더러를 불러오지 못했습니다. 다시 시도해 주세요.');
       }
+      if(isBoss) await globalThis.ProjectVBattleV3Live.prepareSealDragon();
       globalThis.ProjectVBattleV3Live.prepareLoading({
         modal,
         mode: 'SEAL',
         playerName: '봉인 원정대',
-        opponentName: '봉인 수정구',
-        autoText: '봉인 수정구와 저장된 PvE 덱을 동기화하고 있습니다.'
+        opponentName: isBoss?round.bossName:'봉인 수정구',
+        autoText: '상대와 저장된 PvE 덱을 동기화하고 있습니다.'
       });
       const result = await api('seal-battle/participate', {
-        method: 'POST', body: JSON.stringify({ requestId: requestId(), role: roleKey })
+        method: 'POST', body: JSON.stringify({ requestId: requestId(), role: roleKey, ...(round.bossStage?{eventId:round.id,phase:round.phase}:{}) })
       });
       updateBalances(result.balances);
       latest = result.state || latest;
@@ -230,21 +262,23 @@
         roleKey,
         roleLabel: role?.label || meta.label
       });
+      modal.classList.add('seal-combat-modal');
       const stage = modal.querySelector('.battle-v3-live-shell');
       const phase = stage?.querySelector('#battlePhase');
       const message = stage?.querySelector('#battleMessage');
-      if (message) message.classList.add('seal-result-message');
+      if (message) message.classList.add('seal-result-message','seal-tablet');
       const win = result.result === 'WIN';
-      if (phase) phase.textContent = win ? 'SEAL BATTLE VICTORY' : 'SEAL BATTLE DEFEAT';
+      if (phase) phase.textContent = result.bossDefeated?'공동 토벌 완료':result.bossOpened?'세 봉인 해제 · 본체전 개방':isBoss?'용 보스 공격 완료':win?'SEAL BATTLE VICTORY':'SEAL BATTLE DEFEAT';
       if (message) {
-        const lossLine = win ? '전투 승리로 봉인 공헌도가 100% 반영되었습니다.' : `전투 패배지만 ${Number(result.defeatContributionPercent ?? latest?.event?.defeatContributionPercent ?? 10)}% 공헌도가 반영되었습니다.`;
-        message.innerHTML = `<strong>${win ? 'BATTLE VICTORY' : 'BATTLE DEFEAT'}</strong><span>${number(result.totalBattleDamage || result.playerPower)} VS ${number(result.bossPower)} · ${esc(lossLine)}</span><div class="battle-reward-pop seal-result-reward seal-tablet"><small>${meta.label} 공헌</small><b>+${number(result.contribution)}</b><small>참여 보상</small><b>◈ ${number(result.reward?.coin)} · 조각 ${number(result.reward?.shards)}</b>${Number(result.bonusPercent || 0) > 0 ? `<em>부족 역할 지원 +${Number(result.bonusPercent)}%</em>` : ''}</div><button type="button" class="seal-battle-return seal-button">봉인전으로 돌아가기</button>`;
+        const lossLine = isBoss?`서버 공동 HP ${number(result.bossHpBefore)} → ${number(result.bossHpAfter)}`:win ? '전투 승리로 봉인 공헌도가 100% 반영되었습니다.' : `전투 패배지만 ${Number(result.defeatContributionPercent ?? latest?.event?.defeatContributionPercent ?? 10)}% 공헌도가 반영되었습니다.`;
+        message.innerHTML = `<strong>${result.bossDefeated?'공동 토벌 완료':result.bossOpened?'용 보스가 깨어났습니다':isBoss?'본체 피해 반영 완료':win?'BATTLE VICTORY':'BATTLE DEFEAT'}</strong><span>${number(result.totalBattleDamage || result.playerPower)} VS ${number(result.bossPower)} · ${esc(lossLine)}</span><div class="seal-result-reward"><small>${meta.label} 공헌</small><b>+${number(result.contribution)}</b><small>참여 보상</small><b>◈ ${number(result.reward?.coin)} · 조각 ${number(result.reward?.shards)}</b>${Number(result.bonusPercent || 0) > 0 ? `<em>부족 역할 지원 +${Number(result.bonusPercent)}%</em>` : ''}</div><button type="button" class="seal-battle-return seal-button">봉인전으로 돌아가기</button>`;
         message.classList.add('is-visible');
         message.querySelector('.seal-battle-return').onclick = event => {
           event.stopPropagation();
           renderer?.destroy?.();
           modal.className = 'modal';
           modal.innerHTML = '';
+          if(result.bossOpened)revealDragon(round.id);
         };
       }
     } catch (error) {
@@ -300,8 +334,10 @@
     loading = true;
     root.innerHTML = emptyView('봉인진을 확인하고 있습니다.', '공동 진행도와 내 출전 준비를 불러옵니다.', true);
     try {
+      const previous=latest?.event;
       latest = await api('seal-battle/status');
       render(latest);
+      if(previous?.id===latest?.event?.id && previous.phase==='SEALS' && latest.event.phase==='BOSS')void revealDragon(latest.event.id);
     } catch (error) {
       root.innerHTML = emptyView('봉인전 정보를 불러오지 못했습니다.', error.message);
       root.querySelector('#sealRefresh')?.addEventListener('click', load);

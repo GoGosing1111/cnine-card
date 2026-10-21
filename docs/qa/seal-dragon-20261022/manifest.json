@@ -1,0 +1,153 @@
+{
+  "name": "봉인룡 네르가온",
+  "approval": "USER_REVIEW_PENDING",
+  "originals": [
+    {
+      "name": "dragon-base",
+      "file": "docs/qa/seal-dragon-20261022/sources/dragon-base.png",
+      "sha256": "6b5d89151572d618cab7ad2b570afdc7528786d34b54638ce0eda7b31715e129",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "name": "idle",
+      "file": "docs/qa/seal-dragon-20261022/sources/idle.png",
+      "sha256": "081f2869d5a7126de9e878b05f0cb58e3cfed95d0e059a2c3d9f17144e911c72",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "name": "breath",
+      "file": "docs/qa/seal-dragon-20261022/sources/breath.png",
+      "sha256": "da65e033184997cc52cd09214f1abd0495fa1abb99fe1f0d1d0b5e0f452b615e",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "name": "hurt-death",
+      "file": "docs/qa/seal-dragon-20261022/sources/hurt-death.png",
+      "sha256": "e944c2332b35d0711b6492cbb847666070883486a8cdcffeeef1042d29073534",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "name": "breath-fx",
+      "file": "docs/qa/seal-dragon-20261022/sources/breath-fx.png",
+      "sha256": "cdd938dbb04a4d270d9984f4fc311f11c4b1d0e387697261ad572b6a93307e25",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "name": "hero",
+      "file": "docs/qa/seal-dragon-20261022/sources/hero.png",
+      "sha256": "b0995b1c4a9a7fd58758282be57364298ba3efa706fefdaf89e2036f07057a10",
+      "width": 1672,
+      "height": 941
+    }
+  ],
+  "outputs": [
+    {
+      "file": "assets/ui/seal-battle/dragon-20261022/portrait.webp",
+      "sha256": "b65e39b27e2e5be9b789536e73d0a7629ee150fe330f706b5a22c7db85ac963f",
+      "bytes": 164454
+    },
+    {
+      "file": "assets/ui/seal-battle/dragon-20261022/hero.webp",
+      "sha256": "3f341896ba07e74cb191aaceacaa9966bf53aa0aad4dff5d4bf1c6f1dcf446a5",
+      "bytes": 398724
+    },
+    {
+      "file": "assets/ui/seal-battle/dragon-20261022/motion.webp",
+      "sha256": "ede7cd57cf32446484e9843125cbf73a18a4612915137f97945ba75a634983e4",
+      "bytes": 1113006
+    },
+    {
+      "file": "assets/ui/seal-battle/dragon-20261022/motion.json",
+      "sha256": "671bf131eee5a4de774955ae6bcbbf6399447eb288720afd209cf602b2038819",
+      "bytes": 3594
+    }
+  ],
+  "alpha": [
+    {
+      "name": "idle-0",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "idle-1",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "idle-2",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "idle-3",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "breath-0",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "breath-1",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "breath-2",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "breath-3",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "hurt-death-0",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "hurt-death-1",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "hurt-death-2",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "hurt-death-3",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "breath-fx-0",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "breath-fx-1",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "breath-fx-2",
+      "min": 0,
+      "max": 255
+    },
+    {
+      "name": "breath-fx-3",
+      "min": 0,
+      "max": 255
+    }
+  ],
+  "technical": "generated RGBA alpha preserved; fixed-cell crop/resize/atlas only; no repainting or alpha reconstruction"
+}

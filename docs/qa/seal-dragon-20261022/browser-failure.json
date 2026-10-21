@@ -1,0 +1,4 @@
+{
+  "error": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#sealDragonHp') to be visible\u001b[22m\n\u001b[2m    63 × locator resolved to hidden <input min=\"1\" step=\"1\" type=\"number\" id=\"sealDragonHp\" placeholder=\"미입력 시 새 회차 시작 잠금\"/>\u001b[22m\n\n    at C:\\Users\\User\\.codex\\worktrees\\seal-battle-rework\\cnine-card\\docs\\qa\\seal-dragon-20261022\\check-ui.mjs:38:73",
+  "report": []
+}

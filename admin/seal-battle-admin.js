@@ -12,6 +12,7 @@
   const roleImage = key => `<img src="/assets/ui/seal-battle/ritual-20261021/${key}-seal.webp" width="56" height="56" alt="">`;
 
   const defaults = {
+    format:'SEALS_BOSS',bossStage:{name:'봉인룡 네르가온',hp:null,battlePower:null},
     mode: 'OFF', title: '봉인전', bossName: '심연에 봉인된 군주', bossImage: '',
     description: '저장된 PvE 덱으로 역할별 봉인 보스와 전투하고, 서버 전체가 파괴·수호·정화 세 봉인을 완성하는 공동 보스 콘텐츠입니다.',
     startsAt: null, endsAt: null, dailyAttempts: 5, rechargeMinutes: 60, minRewardAttempts: 25,
@@ -80,7 +81,7 @@
       view.id = 'view-sealbattle';
       view.hidden = true;
       view.innerHTML = `<section class="seal-admin-hero">
-        <div><small>SERVER COOPERATIVE BOSS</small><h2>봉인전 운영 센터</h2><p>파괴·수호·정화 역할별 PvE 보스 전투와 서버 공동 진행도를 관리합니다. 전투 상세 JSON은 저장하지 않습니다.</p></div>
+        <div><small>SERVER COOPERATIVE BOSS</small><h2>봉인전 운영 센터</h2><p>세 봉인 해제 → 용 보스 본체전 → 공동 완료 보상. 현재 회차의 규칙과 새 회차 설정을 관리합니다.</p></div>
         <div class="seal-admin-actions"><span id="sealAdminModeBadge">운영 중지</span><button type="button" id="sealAdminRefresh" class="ghost">새로고침</button><button type="button" id="sealAdminEnd" class="warn">현재 봉인전 종료</button></div>
       </section>
 
@@ -91,12 +92,12 @@
       </section>
 
       <section class="seal-admin-settings">
-        <header><div><small>봉인전 기본 설정</small><h3>운영 및 목표 설정</h3><p>보스 이미지는 즉시 반영됩니다. 보상 금액과 최소 공격 횟수는 새 봉인전 시작 시 회차에 고정됩니다.</p></div><button type="button" id="sealAdminSave" class="primary">설정 저장</button></header>
+        <header><div><small>봉인전 기본 설정</small><h3>운영 및 목표 설정</h3><p>새 회차부터 용 보스전이 적용됩니다. 본체 체력·전투력·보상·최소 공격 횟수는 시작 시 고정됩니다.</p></div><button type="button" id="sealAdminSave" class="primary">설정 저장</button></header>
         <div class="seal-admin-form-grid">
           <label><span>운영 모드</span><select id="sealMode"><option value="OFF">OFF · 중지</option><option value="TEST">TEST · 관리자만 참여</option><option value="ON">ON · 전체 공개</option></select></label>
           <label><span>콘텐츠명</span><input id="sealTitle" maxlength="60"></label>
-          <label><span>보스 이름</span><input id="sealBossName" maxlength="80"></label>
-          <label class="wide"><span>보스 이미지 경로</span><input id="sealBossImage" maxlength="1000" placeholder="assets/... 또는 https://..."></label>
+          <label><span>기존 방식 보스 이름</span><input id="sealBossName" maxlength="80"></label>
+          <label class="wide"><span>기존 방식 이미지 경로</span><input id="sealBossImage" maxlength="1000" placeholder="용 보스전에는 전용 원화가 적용됩니다."></label>
           <label class="wide"><span>설명</span><textarea id="sealDescription" maxlength="300" rows="3"></textarea></label>
           <label><span>시작 시각 · KST</span><input id="sealStartsAt" type="datetime-local"></label>
           <label><span>종료 시각 · KST</span><input id="sealEndsAt" type="datetime-local"></label>
@@ -115,6 +116,11 @@
           <article class="purify"><header>${roleImage('purify')}<b>정화 봉인</b></header><label><span>보스 전투력</span><input id="sealPurifyBattlePower" type="number" min="1"></label><label><span>목표 공헌도</span><input id="sealPurifyTarget" type="number" min="1" step="1" title="봉인 체력 설정 상한 없음"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealPurifyMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
         </div>
 
+        <section class="seal-admin-dragon">
+          <img src="/assets/ui/seal-battle/dragon-20261022/portrait.webp" alt="봉인룡 네르가온" width="768" height="512">
+          <div><small>SECOND PHASE · 새 회차부터 적용</small><h4>용 보스 본체전</h4><p>세 봉인을 모두 해제하면 본체 HP가 열립니다. 처치해야 공동 완료 보상이 열리며 두 단계의 공격 횟수를 합산합니다.</p>
+          <div class="seal-admin-form-grid"><label><span>용 보스 이름</span><input id="sealDragonName" maxlength="80"></label><label><span>서버 공동 본체 체력</span><input id="sealDragonHp" type="number" min="1" step="1" placeholder="미입력 시 새 회차 시작 잠금"></label><label><span>본체 전투력</span><input id="sealDragonPower" type="number" min="1" max="2000000000" step="1" placeholder="미입력 시 새 회차 시작 잠금"></label></div></div>
+        </section>
         <div class="seal-admin-reward-grid">
           <article><header><small>PER ATTEMPT</small><h4>참여 1회 보상</h4></header><label><span>코인 · 한도 없음</span><input id="sealAttemptCoin" type="number" min="0" step="1"></label><label><span>카드 조각</span><input id="sealAttemptShards" type="number" min="0"></label></article>
           <article><header><small>SERVER CLEAR</small><h4>봉인 완료 참여자 보상</h4></header><label><span>코인 · 한도 없음</span><input id="sealClearCoin" type="number" min="0" step="1"></label><label><span>카드 조각</span><input id="sealClearShards" type="number" min="0"></label><label><span>마스터의 별 · 봉인 성공 시</span><div class="input-unit"><input id="sealClearMasterStar" type="number" min="0" max="1000000" step="1"><em>개</em></div></label></article>
@@ -167,7 +173,8 @@
     $('#sealAdminProgress').innerHTML = event ? [
       roleProgress(event.roles?.ATTACK, '파괴 봉인', roleImage('attack')),
       roleProgress(event.roles?.GUARD, '수호 봉인', roleImage('guard')),
-      roleProgress(event.roles?.PURIFY, '정화 봉인', roleImage('purify'))
+      roleProgress(event.roles?.PURIFY, '정화 봉인', roleImage('purify')),
+      event.bossStage?roleProgress({percent:(1-event.bossStage.hp/event.bossStage.maxHp)*100,progress:event.bossStage.maxHp-event.bossStage.hp,target:event.bossStage.maxHp,battlePower:event.bossStage.battlePower},event.phase==='SEALS'?'본체 · 봉인 해제 대기':'용 보스 · 누적 피해','<img src="/assets/ui/seal-battle/dragon-20261022/portrait.webp" width="56" height="56" alt="">'):''
     ].join('') : '';
     if (applySettings) {
       fill(settings);
@@ -186,6 +193,9 @@
     $('#sealTitle').value = settings.title || '';
     $('#sealBossName').value = settings.bossName || '';
     $('#sealBossImage').value = settings.bossImage || '';
+    $('#sealDragonName').value = settings.bossStage?.name || defaults.bossStage.name;
+    $('#sealDragonHp').value = settings.bossStage?.hp ?? '';
+    $('#sealDragonPower').value = settings.bossStage?.battlePower ?? '';
     $('#sealDescription').value = settings.description || '';
     $('#sealStartsAt').value = toInputDate(settings.startsAt);
     $('#sealEndsAt').value = toInputDate(settings.endsAt);
@@ -219,6 +229,8 @@
 
   function collect() {
     return {
+      format:'SEALS_BOSS',
+      bossStage:{name:$('#sealDragonName').value.trim(),hp:$('#sealDragonHp').value===''?null:Number($('#sealDragonHp').value),battlePower:$('#sealDragonPower').value===''?null:Number($('#sealDragonPower').value)},
       mode: $('#sealMode').value,
       title: $('#sealTitle').value.trim(),
       bossName: $('#sealBossName').value.trim(),
@@ -249,6 +261,7 @@
   }
 
   function validate(settings) {
+    for(const [value,max] of [[settings.bossStage.hp,Number.MAX_SAFE_INTEGER],[settings.bossStage.battlePower,2000000000]])if(value!==null&&(!Number.isSafeInteger(value)||value<1||value>max))return '본체 체력과 전투력은 허용 범위의 양의 정수로 입력하세요.';
     if (!settings.title || !settings.bossName) return '콘텐츠명과 보스 이름을 입력하세요.';
     if (settings.endsAt && settings.startsAt && Date.parse(settings.endsAt) <= Date.parse(settings.startsAt)) return '종료 시각은 시작 시각보다 뒤여야 합니다.';
     if (settings.dailyAttempts < 1 || settings.dailyAttempts > 30) return '최대 보유 도전 횟수는 1~30회로 입력하세요.';
@@ -321,7 +334,8 @@
       finally { button.disabled = false; }
     };
     $('#sealAdminSaveStart').onclick = async event => {
-      if (!confirm('현재 활성 봉인전을 종료하고 새 봉인전을 시작할까요?\n세 역할이 모두 완료되지 않았다면 기존 봉인전은 실패로 확정됩니다.')) return;
+      if(!collect().bossStage.hp||!collect().bossStage.battlePower){alert('본체 체력과 전투력을 입력한 뒤 시작하세요.');return;}
+      if (!confirm('현재 활성 봉인전을 종료하고 새 용 보스전을 시작할까요?\n기존 회차의 최종 목표를 완료하지 않았다면 실패로 확정됩니다.')) return;
       const button = event.currentTarget;
       button.disabled = true;
       try {
@@ -334,7 +348,7 @@
       finally { button.disabled = false; }
     };
     $('#sealAdminEnd').onclick = async event => {
-      if (!confirm('현재 활성 봉인전을 종료할까요?\n세 역할이 모두 완료되지 않았다면 봉인 실패로 확정되며 완료 보상은 지급되지 않습니다.')) return;
+      if (!confirm('현재 활성 봉인전을 종료할까요?\n용 보스전은 본체 처치까지 완료해야 성공입니다. 미완료 회차는 실패로 확정됩니다.')) return;
       const button = event.currentTarget;
       button.disabled = true;
       try {
