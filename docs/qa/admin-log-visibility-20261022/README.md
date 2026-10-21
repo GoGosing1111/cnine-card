@@ -30,4 +30,10 @@
 
 ## 배포
 
-배포 완료 후 소스/Worker/Pages와 운영 재확인 결과를 기록한다.
+- 2026-10-22 02:30 KST 운영 반영 확인. 소스 `2a374074e8a2049ceab169211fdc30537ddeb479`.
+- Pages `0301093e-5560-40fc-82e5-b00e25137203`, URL `https://0301093e.cnine-card.pages.dev`.
+- API runtime `78bec52a-029a-4f2e-9d8a-74fbfac7269b`; scheduler `45e9e740-2b06-40db-bde3-03540e1ec69f`.
+- 최종 scoped 검사 5개·worker 컴파일·release guard·Hyperdrive 검사 통과.
+- 배포 후 운영 DB에서 같은 서버 조회를 읽기 전용으로 재실행했다. 전체 행 30,017건 유지, 기존 9,629건 표시 제외, 반환 300건 중 제외 대상 0건. 상세 `postdeploy.json`.
+- 익명 운영 `GET /api/admin/logs`는 401이며 로그를 반환하지 않는다. 권한 검사를 우회하거나 운영 로그인/계정/재화/원장을 변경하지 않았다.
+- 관리자 UI의 필터링된 응답은 실제 route 연결 회귀와 운영 DB 조회로 확인했다. 로그인한 운영 브라우저에서 직접 열람한 검수로 기록하지 않는다.

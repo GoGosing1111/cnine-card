@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-10-21T17:30:46.283Z",
+  "mode": "postdeploy",
+  "readOnly": true,
+  "accountIdentityVerified": true,
+  "queryUsesStableAccountId": true,
+  "storedRows": 30017,
+  "excludedAccountRows": 9629,
+  "additionalOperationsExcluded": 0,
+  "visibleRows": 20388,
+  "returnedRows": 300,
+  "excludedRowsReturned": 0,
+  "gameDataWrites": 0,
+  "scope": "CMS admin/logs response only; internal receipts and ledgers retained"
+}
