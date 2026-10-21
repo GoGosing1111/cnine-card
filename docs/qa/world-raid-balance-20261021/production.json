@@ -1,0 +1,23 @@
+{
+  "verifiedAt": "2026-10-21T04:29:04.082Z",
+  "releaseCommit": "2abbd1a2c760712c36d1ebf327058644f69a72b5",
+  "baseCommit": "c587fff7fd46cf1968fe1599078d5b8dca1662b3",
+  "pages": "https://20b5fc74.cnine-card.pages.dev",
+  "versions": [
+    "b5cf9a7d-2d4d-4930-b978-1efa9d92e7bf",
+    "354689f9-22ff-4217-ab03-423a455d0192"
+  ],
+  "tests": {
+    "passed": 22,
+    "failed": 0
+  },
+  "workerCompilationPassed": true,
+  "hyperdriveCacheDisabled": true,
+  "deploymentSucceeded": true,
+  "deployLogSha256": "4f71a916e2141f2a30ef4281f6103620734fbc56c85ad3990d663ce26f20d16f",
+  "liveCmsSha256": "94d3cf4de6624e040c35db33844087d57f3f3d822f001ab9d35d81f65a4ac83f",
+  "operationAuditId": 49415,
+  "operationCompletedAt": "2026-10-21T04:28:08.022Z",
+  "runtimeVerification": "verify.json",
+  "liveBattleCreatedByOperator": false
+}

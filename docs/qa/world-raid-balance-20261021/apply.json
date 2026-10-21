@@ -1,0 +1,46 @@
+{
+  "dryRun": false,
+  "replayed": false,
+  "receipt": {
+    "operationKey": "ops:world-raid-balance:20261021:v1",
+    "status": "COMPLETED",
+    "completedAt": "2026-10-21T04:28:08.022Z",
+    "releaseCommit": "2abbd1a2c760712c36d1ebf327058644f69a72b5",
+    "authorization": "보상 1000억으로 올리고 난이도 확실히 올려 10~15인이 힘들게 깨도록",
+    "clearCoin": 100000000000,
+    "battleSeconds": 720,
+    "measurementHash": "9ddfd0a4069ea1d67d3b58da28a12b14cf4513e1b3896890ca2be535b884501a",
+    "weeklyRevision": "6bf42bf8-cad5-4394-8201-4b6e4506cc82",
+    "bosses": [
+      {
+        "id": 4,
+        "name": "나가토",
+        "max_hp": 1600000000,
+        "defense_rate": 65,
+        "is_active": 1
+      },
+      {
+        "id": 6,
+        "name": "요리이치",
+        "max_hp": 1750000000,
+        "defense_rate": 65,
+        "is_active": 1
+      },
+      {
+        "id": 8,
+        "name": "이치고",
+        "max_hp": 1900000000,
+        "defense_rate": 65,
+        "is_active": 1
+      }
+    ],
+    "existingRoomsUnchanged": {
+      "count": 5943,
+      "digest": "38fe1f1334403ab7a5490c01eaa576dc"
+    },
+    "participationMinionItemsAndEntryPreserved": true,
+    "accountGrants": 0,
+    "adminLogId": 49415
+  },
+  "noWriteReplayVerified": true
+}

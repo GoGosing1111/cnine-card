@@ -1,0 +1,90 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"c587fff7fd46cf1968fe1599078d5b8dca1662b3","reason":"World raid 1000-eok reward cap and measured group difficulty; validate CMS roundtrip, frozen reward retry, atomic settings operation, and Worker compilation.","changed":["AGENTS.md","admin/index.html","admin/raid-weekly-cms-v2141.js","docs/qa/sss-miracle-cube-20261021/applied.json","docs/qa/sss-miracle-cube-20261021/catalog-fix-deploy.log","docs/qa/sss-miracle-cube-20261021/deploy.log","docs/qa/sss-miracle-cube-20261021/dry-run.json","docs/qa/sss-miracle-cube-20261021/live-catalog-summary.json","docs/qa/sss-miracle-cube-20261021/live-cms-off-390.png","docs/qa/sss-miracle-cube-20261021/live-integration.json","docs/qa/sss-miracle-cube-20261021/live-opening-off-1440.png","docs/qa/sss-miracle-cube-20261021/live-report.json","docs/qa/world-raid-balance-20261021/cms-desktop.png","docs/qa/world-raid-balance-20261021/cms-mobile.png","docs/qa/world-raid-balance-20261021/measurement.json","docs/qa/world-raid-balance-20261021/release-plan.json","docs/sss-miracle-cube-20261021.md","functions/_raid_overhaul.js","scripts/measure-world-raid-balance-20261021.mjs","scripts/ops/world-raid-balance-20261021.mjs","scripts/qa-weekly-raid-cms-v2141.mjs","shared/world-raid-balance-20261021.mjs","tests/fixtures/world-raid-cms-20261021.json","tests/fixtures/world-raid-population-20261021.json","tests/raid-mystic-clear-bonus-v2067.test.mjs","tests/raid-weekly-bosses-v2140.test.mjs","tests/raid-weekly-cms-v2141.test.mjs","tests/world-raid-balance-20261021.test.mjs"],"tests":["tests/raid-weekly-cms-v2141.test.mjs","tests/raid-mystic-clear-bonus-v2067.test.mjs","tests/world-raid-balance-20261021.test.mjs"],"checks":["check:worker"]}
+✔ legacy raid adds three energy without replacing any existing reward or rare roll (20.8665ms)
+✔ failed clears never grant the energy bonus and do not remove participation rewards (0.3611ms)
+✔ saved legacy CMS settings get only the new default; custom rewards remain intact (1.0109ms)
+✔ CMS quantities survive roundtrip, support zero, and are clamped to whole items (1.4818ms)
+✔ new room snapshots freeze the configured bonus while old snapshots are not backfilled (6.0603ms)
+✔ retrying or rereading a completed reward keeps the single confirmed plan unchanged (4.9144ms)
+✔ 1,000억 reward plans remain fixed across retries and preserve previously confirmed 100억 receipts (3.5682ms)
+✔ energy grants use the existing material code, inventory counters and raid audit log (3.0596ms)
+✔ failed reward transaction rolls back the extra inventory and its audit log together (3.3983ms)
+✔ CMS renders and reads default, edited and disabled bonus without losing zero (2.2726ms)
+✔ result display and current CMS resources keep the mystic bonus exclusive to legacy raid (27.1141ms)
+✔ SQLite: 기존 7종 마커가 있어도 3종으로 교정하고 저장된 HP·진행 방·반복 실행을 보존한다 (4.9839ms)
+✔ SQLite: CMS 저장·재조회가 요일·궁극기·쫄몹·1,000억 보상에 반영되고 이전 방은 고정된다 (7.0159ms)
+✔ SQLite: 감사 실패는 설정도 롤백하고 비OWNER·초과 코인·외부 보스는 차단한다 (2.7777ms)
+✔ PostgreSQL: 기존 7종 마커가 있어도 3종으로 교정하고 저장된 HP·진행 방·반복 실행을 보존한다 (1922.7338ms)
+✔ PostgreSQL: CMS 저장·재조회가 요일·궁극기·쫄몹·1,000억 보상에 반영되고 이전 방은 고정된다 (1344.1032ms)
+✔ PostgreSQL: 감사 실패는 설정도 롤백하고 비OWNER·초과 코인·외부 보스는 차단한다 (1215.9225ms)
+✔ 7일 표시에서 같은 보스가 반복돼도 TODAY는 당일 한 곳만 표시한다 (103.183ms)
+✔ 보스 방어 CMS 수치는 실제 HP 감소와 기여 피해 양쪽에 동일하게 적용된다 (1.0856ms)
+✔ measured 10–15 player difficulty and 1,000억 coins commit once; dry-run, old rooms and account balances stay intact (1942.4529ms)
+✔ a concurrent CMS edit or late audit failure rolls back every boss and setting (1336.5287ms)
+✔ 1,000억 survives room normalization, per-player bonuses and reward display without changing past room rewards (35.4734ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5066.5433
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19992 files; 5573 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0
+────────────────────
+Total Upload: 7988.23 KiB / gzip: 1723.63 KiB
+Worker Startup Time: 82 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.69 sec)
+No targets deployed for cnine-card-api-runtime (0.85 sec)
+Current Version ID: b5cf9a7d-2d4d-4930-b978-1efa9d92e7bf
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19974/19992)
+Uploading... (19980/19992)
+Uploading... (19986/19992)
+Uploading... (19992/19992)
+✨ Success! Uploaded 18 files (19974 already uploaded) (2.34 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://20b5fc74.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2776.10 KiB / gzip: 631.10 KiB
+Worker Startup Time: 38 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.13 sec)
+Deployed cnine-card-clan-draft triggers (0.93 sec)
+  schedule: * * * * *
+Current Version ID: 354689f9-22ff-4217-ab03-423a455d0192
