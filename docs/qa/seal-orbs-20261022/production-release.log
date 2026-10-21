@@ -1,0 +1,93 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"ab12ecbd67000be091802d59122c710c004763fa","reason":"봉인구 전용 3종 원화와 선택·전투·CMS 연결. 공용 엔진 유지, 번들/로더·복구·봉인 패키징 검사. 별도 완료한 자산/로딩 검사 3개는 반복하지 않으며 미배포 QA 설정 분류 회귀를 추가한다.","changed":["AGENTS.md","admin/index.html","admin/seal-battle-admin.js","assets/ui/seal-battle/orbs-20261022/attack.png","assets/ui/seal-battle/orbs-20261022/attack.webp","assets/ui/seal-battle/orbs-20261022/guard.png","assets/ui/seal-battle/orbs-20261022/guard.webp","assets/ui/seal-battle/orbs-20261022/purify.png","assets/ui/seal-battle/orbs-20261022/purify.webp","css/seal-battle.css","docs/qa/bongsoon-eastern-blueprint-grant-20261022/README.md","docs/qa/bongsoon-eastern-blueprint-grant-20261022/apply.json","docs/qa/bongsoon-eastern-blueprint-grant-20261022/dry-run.json","docs/qa/bongsoon-eastern-blueprint-grant-20261022/lock-worker.mjs","docs/qa/bongsoon-eastern-blueprint-grant-20261022/read.json","docs/qa/bongsoon-eastern-blueprint-grant-20261022/run.mjs","docs/qa/bongsoon-eastern-blueprint-grant-20261022/verify.json","docs/qa/bongsoon-eastern-blueprint-grant-20261022/wrangler.jsonc","docs/qa/seal-orbs-20261022/README.md","docs/qa/seal-orbs-20261022/browser-check.json","docs/qa/seal-orbs-20261022/build-assets.mjs","docs/qa/seal-orbs-20261022/capture-idle.mjs","docs/qa/seal-orbs-20261022/check-ui.mjs","docs/qa/seal-orbs-20261022/desktop-320.png","docs/qa/seal-orbs-20261022/desktop-attack-battle.png","docs/qa/seal-orbs-20261022/desktop-attack-idle.png","docs/qa/seal-orbs-20261022/desktop-attack-selection.png","docs/qa/seal-orbs-20261022/desktop-guard-battle.png","docs/qa/seal-orbs-20261022/desktop-guard-idle.png","docs/qa/seal-orbs-20261022/desktop-guard-selection.png","docs/qa/seal-orbs-20261022/desktop-purify-battle.png","docs/qa/seal-orbs-20261022/desktop-purify-idle.png","docs/qa/seal-orbs-20261022/desktop-purify-selection.png","docs/qa/seal-orbs-20261022/idle-capture.json","docs/qa/seal-orbs-20261022/manifest.json","docs/qa/seal-orbs-20261022/mobile-320.png","docs/qa/seal-orbs-20261022/mobile-attack-battle.png","docs/qa/seal-orbs-20261022/mobile-attack-idle.png","docs/qa/seal-orbs-20261022/mobile-attack-selection.png","docs/qa/seal-orbs-20261022/mobile-guard-battle.png","docs/qa/seal-orbs-20261022/mobile-guard-idle.png","docs/qa/seal-orbs-20261022/mobile-guard-selection.png","docs/qa/seal-orbs-20261022/mobile-load-failure.png","docs/qa/seal-orbs-20261022/mobile-purify-battle.png","docs/qa/seal-orbs-20261022/mobile-purify-idle.png","docs/qa/seal-orbs-20261022/mobile-purify-selection.png","docs/qa/seal-orbs-20261022/prompts.json","docs/qa/seal-orbs-20261022/sources/attack.png","docs/qa/seal-orbs-20261022/sources/guard.png","docs/qa/seal-orbs-20261022/sources/purify.png","docs/qa/seal-reward-increase-20261022/.gitattributes","docs/qa/seal-reward-increase-20261022/README.md","docs/qa/seal-reward-increase-20261022/live-verification.json","docs/qa/seal-reward-increase-20261022/production-release.log","index.html","js/app.js","js/battle-v3-live.js","js/seal-battle.js","package.json","preview/seal-battle-rework-20261021/admin.html","preview/seal-battle-rework-20261021/fixture.js","preview/seal-battle-rework-20261021/index.html","scripts/ops/bongsoon-eastern-blueprint-grant-20261022.mjs","scripts/prepare-production-assets.mjs","scripts/scoped-release-checks.mjs","service-worker.js","tests/scoped-release-policy-20260923.test.mjs","tests/seal-orbs-20261022.test.mjs"],"tests":["tests/pve-battlefield-entry-v2117.test.mjs","tests/battle-feature-recovery-20261015.test.mjs","tests/seal-ui-delivery-20261021.test.mjs","tests/seal-v3-crystal-orb-v1778.mjs","tests/scoped-release-policy-20260923.test.mjs"],"checks":[]}
+✔ an open pre-deploy lobby accepts a newer coherent compatible engine and wrapper (4.8904ms)
+✔ a cached wrapper cannot pin a newer engine to an old version; one paired refresh repairs it (3.4928ms)
+✔ a completed resource promise cannot hide a runtime replaced by another scene (1.5835ms)
+✔ failed refresh is bounded and leaves entry retryable without starting a battle (1.6823ms)
+✔ an older matching pair and an unrelated runtime never satisfy the current manifest (2.9221ms)
+✔ a newer pair with a breaking entry contract is not accepted by an open lobby (2.4488ms)
+✔ core resource failure creates no attempt or abandon request and restores the button (5.6875ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (9.5047ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (8.2482ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (3.1567ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (9.1013ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (8.7205ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (24.1311ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (2.3428ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (2.2589ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (0.8114ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (3.6687ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.8922ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.6055ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.9429ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1848ms)
+✔ an unshipped QA Wrangler record does not classify an art release as production infrastructure (0.236ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.4984ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (4.5741ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (1.7142ms)
+Seal delivery: 20000 / 20000 assets; authoring files retained in Git.
+✔ Seal UI ships all six images, player/CMS modules and browser fixtures within Pages cap; exact authoring assets remain in Git (182.5735ms)
+seal V3 crystal orb contract: OK
+✔ tests\seal-v3-crystal-orb-v1778.mjs (71.7924ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2108.4541
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 5951 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 8013.53 KiB / gzip: 1729.43 KiB
+Worker Startup Time: 46 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.78 sec)
+No targets deployed for cnine-card-api-runtime (0.56 sec)
+Current Version ID: 692aaa3f-43ab-4ec6-a143-72d39e8345c5
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19978/20000)
+Uploading... (19985/20000)
+Uploading... (19992/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 22 files (19978 already uploaded) (3.27 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://f7c30702.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2785.82 KiB / gzip: 634.15 KiB
+Worker Startup Time: 47 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.37 sec)
+Deployed cnine-card-clan-draft triggers (0.92 sec)
+  schedule: * * * * *
+Current Version ID: 5fd63d80-56b0-41c9-86de-f6a575c5df5a

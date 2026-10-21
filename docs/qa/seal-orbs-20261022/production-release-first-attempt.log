@@ -1,0 +1,14 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/scoped-release-checks.mjs:18
+  throw Error('DB, authentication, dependency or infrastructure changes require the full release gate');
+        ^
+
+Error: DB, authentication, dependency or infrastructure changes require the full release gate
+    at scopedReleasePlan (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/scoped-release-checks.mjs:18:9)
+    at runScopedReleaseChecks (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/scoped-release-checks.mjs:39:13)
+    at file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/deploy-production.mjs:59:3
+
+Node.js v24.18.0

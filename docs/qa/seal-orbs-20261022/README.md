@@ -29,6 +29,12 @@
 
 Pages 20,000개 한도를 지키기 위해 브라우저 참조가 없는 기존 Node 회귀 실행기 6개만 정적 배포에서 제외한다. 모두 Git·npm 검사에 보존한다. 새 WebP 3개와 PNG 대체 3개를 배포하며 기존 이미지·실행 기능은 제거하지 않는다. `sealOrbQaOnly`와 신규 검사가 범위를 고정한다.
 
-배포 버전과 운영 파일 재확인은 배포 후 기록한다.
+**운영 반영 완료 — 2026-10-22 06:42 KST 재확인.** 배포 소스는 `fd7907c0c13394e82d8db307ebb3ba958ab5ee13`, Pages는 `https://f7c30702.cnine-card.pages.dev`다. API Runtime 버전은 `692aaa3f-43ab-4ec6-a143-72d39e8345c5`, Clan Draft 버전은 `5fd63d80-56b0-41c9-86de-f6a575c5df5a`다.
+
+- 신규 검사 3개에 이어 범위 배포의 연결/복구/봉인/배포 정책 검사 **27개가 통과**했다. Pages 파일 수는 20,000개다.
+- `live-verification.json`: 운영 도메인의 역할 이미지 6개·플레이어/브리지/CSS/CMS/프리뷰 스크립트 5개, **총 11개 파일 해시 일치**를 확인했다. 메인 캐시 버전도 확인했다.
+- 공개 프리뷰의 390px 화면에서 정화 봉인 선택 → 실제 V3 전투 → 복귀를 확인했으며 JS 오류는 0건이다. `live-mobile-selection.png`를 직접 확인했다. 계정/재화 변경은 없다.
+- 최종 배포 로그는 `production-release.log`, 범위 분류에서 중지된 최초 시도는 `production-release-first-attempt.log`에 보존한다.
+- 검수 주소: `https://cnine-card.pages.dev/preview/seal-battle-rework-20261021/?review=seal-orbs-20261022-v1`.
 
 첫 배포 시도는 테스트 전에 범위 분류에서 중지됐다. 직전 운영 소스 이후 추가된 다른 작업의 `docs/qa/bongsoon-eastern-blueprint-grant-20261022/wrangler.jsonc` 감사 원본을 인프라 변경으로 오인했다. 원래 정적 배포에서 제외되는 `docs/qa/<record>/wrangler.*`만 분류에서 제외하도록 수정하고 회귀를 추가했다. 루트/Workers/그 외 Wrangler·DB·인증·마이그레이션 차단은 유지한다. 기존 운영 기준 SHA를 바꾸거나 실패한 검사를 건너뛰지 않는다.
