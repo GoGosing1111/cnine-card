@@ -1,0 +1,30 @@
+{
+  "checks": [
+    "check:worker"
+  ],
+  "status": "retry_after_unrelated_baseline_failure",
+  "scope": "Local mercenary breakthrough pity using existing completed receipts; no schema, shared transaction, economy profile or dependency changes",
+  "base": "267da6bfe35a5a9d7da73b9ffcc9b8a7c70e9b94",
+  "developmentChecks": {
+    "productionWrites": 0,
+    "browserWidths": [
+      1440,
+      390
+    ],
+    "httpBodyValidationRecheck": 2,
+    "newPityTests": 10
+  },
+  "tests": [
+    "tests/mercenary-level-preparation-20261005.test.mjs"
+  ],
+  "initialGate": {
+    "failed": 2,
+    "unchangedCatalogAndTest": true,
+    "passed": 16,
+    "reason": "Halloween test loops over 8 current cards but hardcodes consumption for 7; 696 versus 734. Same SQLite failure reproduced with deployed baseline functions/_mercenary_level.js and shared/mercenary-level-v1.mjs.",
+    "alreadyPassed": [
+      "tests/mercenary-level-v2-integration-20261015.test.mjs",
+      "tests/mercenary-level-ui-20261006.test.mjs"
+    ]
+  }
+}

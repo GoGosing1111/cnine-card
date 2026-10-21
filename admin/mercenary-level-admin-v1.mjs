@@ -24,6 +24,7 @@ export function createMercenaryLevelEditor({request,onRender}){
    <p>같은 등급의 중복 카드만 재료로 사용합니다. 동일 용병은 경험치 3배, 다른 동급 용병은 1배이며 기본 보유 1장은 보호합니다. 리미티드의 필요 경험치는 일반의 5배입니다.</p>
    <p>Lv.5 · 10 · 15 · 20 경험치 100%에서 돌파합니다. 실패해도 레벨과 이전 능력은 유지하며 현재 경험치만 0이 됩니다. 성공하면 해당 돌파 능력을 얻고 다음 레벨로 이동합니다. 최종 돌파는 Lv.20을 유지합니다.</p>
    <p>일반 레벨의 초과 경험치는 이월합니다. 돌파 구간의 초과분만 사전 동의 후 소멸하며 코인·마스터의 별 추가 비용은 없습니다.</p>
+   <p>돌파 천장: Lv.5·10·15는 10회 실패 후 다음 시도, Lv.20은 20회 실패 후 다음 시도에 확정 성공합니다. 과거 완료된 실패 기록도 용병·단계별로 합산하며 성공 시 초기화합니다. 아래 성공 확률은 천장 도달 전의 기본 확률입니다.</p>
    <p><a href="/mercenary-codex/leveling/" target="_blank" rel="noopener">용병 성장실 열기 ↗</a> · 운영 설정은 아래에 저장한 수치를 사용합니다.</p>
    <fieldset class="mc-level-form" ${busy?'disabled':''}>
     <label class="mc-field"><span>성장 실행</span><select data-level-field="mode" ${!state.releaseEnabled?'disabled':''}><option value="OFF" ${p.mode==='OFF'?'selected':''}>OFF · 경험치 전수와 돌파 중지</option><option value="ON" ${p.mode==='ON'?'selected':''}>ON · 설정한 성장 기능 적용</option></select></label>

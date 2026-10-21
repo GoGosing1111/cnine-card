@@ -1,0 +1,67 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"267da6bfe35a5a9d7da73b9ffcc9b8a7c70e9b94","reason":"Mercenary breakthrough 10/20 failure pity from existing receipts; retroactive counters, transaction/replay and PC/mobile checks completed","changed":["AGENTS.md","admin/index.html","admin/mercenary-admin-v1.js","admin/mercenary-level-admin-v1.mjs","docs/jokro-craft-20261021.md","docs/mercenary-breakthrough-pity-20261021.md","docs/qa/jokro-craft-20261021/operations-applied.json","docs/qa/jokro-craft-20261021/operations-dry-run.json","docs/qa/jokro-craft-20261021/production.json","docs/qa/mercenary-breakthrough-pity-20261021/action-visible-1440.png","docs/qa/mercenary-breakthrough-pity-20261021/action-visible-390.png","docs/qa/mercenary-breakthrough-pity-20261021/browser-report.json","docs/qa/mercenary-breakthrough-pity-20261021/guaranteed-1440.png","docs/qa/mercenary-breakthrough-pity-20261021/guaranteed-390.png","docs/qa/mercenary-breakthrough-pity-20261021/history-before.json","docs/qa/mercenary-breakthrough-pity-20261021/level20-before-1440.png","docs/qa/mercenary-breakthrough-pity-20261021/level20-before-390.png","docs/qa/mercenary-breakthrough-pity-20261021/release-plan.json","docs/qa/mercenary-breakthrough-pity-20261021/success-1440.png","docs/qa/mercenary-breakthrough-pity-20261021/success-390.png","functions/_mercenary_level.js","functions/_mercenary_level_pity.js","mercenary-codex/leveling/app.mjs","mercenary-codex/leveling/breakthrough.mjs","mercenary-codex/leveling/index.html","shared/mercenary-breakthrough-pity-v1.mjs","shared/mercenary-level-v1.mjs","tests/helpers/mercenary-pity-fixture.mjs","tests/mercenary-breakthrough-pity-20261021.browser.mjs","tests/mercenary-breakthrough-pity-20261021.test.mjs"],"tests":["tests/mercenary-level-v2-integration-20261015.test.mjs","tests/mercenary-level-ui-20261006.test.mjs","tests/mercenary-halloween-level-20261017.test.mjs"],"checks":["check:worker"]}
+✖ SQLite: 할로윈 7종 성장 목록·전수·돌파 (143.7879ms)
+✖ PostgreSQL: 할로윈 7종 성장 목록·전수·돌파 (2522.9678ms)
+✔ PostgreSQL: 할로윈 성장 저장 실패는 재료·성장 함께 롤백 (1757.5085ms)
+✔ skip/close acknowledged only after the completed server result is shown, without another mutation (9.8711ms)
+✔ leaving the reveal keeps its receipt and restores the exact failure after a lost POST response (1.8862ms)
+✔ failed state refresh or reveal retains pending request for recovery (1.4427ms)
+✔ account switch during animation cannot acknowledge another session (0.877ms)
+✔ pending receipt does not reveal or acknowledge; final level remains 20 (1.6656ms)
+✔ SQLite: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x (56.8631ms)
+✔ SQLite: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once (59.9593ms)
+✔ SQLite: committed V2 growth summaries survive policy replacement, OFF and receipt recovery (21.5045ms)
+✔ SQLite: partially configured growth can be saved OFF but cannot consume cards or grow (16.2376ms)
+✔ PostgreSQL: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x (2287.3272ms)
+✔ PostgreSQL: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once (1917.5807ms)
+✔ PostgreSQL: committed V2 growth summaries survive policy replacement, OFF and receipt recovery (1508.1722ms)
+✔ PostgreSQL: partially configured growth can be saved OFF but cannot consume cards or grow (1449.0678ms)
+✔ both previous OFF policy versions adapt in memory without writing or filling a growth profile (1.1552ms)
+✔ released leveling mutations and preview require authentication before database access (21.1276ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 16
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7897.3533
+
+✖ failing tests:
+
+test at tests\mercenary-halloween-level-20261017.test.mjs:13:36
+✖ SQLite: 할로윈 7종 성장 목록·전수·돌파 (143.7879ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  696 !== 734
+
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/prime-requiem-live/cnine-card/tests/mercenary-halloween-level-20261017.test.mjs:29:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 696,
+    expected: 734,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\mercenary-halloween-level-20261017.test.mjs:13:36
+✖ PostgreSQL: 할로윈 7종 성장 목록·전수·돌파 (2522.9678ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  696 !== 734
+
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/prime-requiem-live/cnine-card/tests/mercenary-halloween-level-20261017.test.mjs:29:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 696,
+    expected: 734,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

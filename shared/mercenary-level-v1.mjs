@@ -1,4 +1,5 @@
 import {PRIME_CODE} from './mercenary-prime-requiem-v1.mjs';
+import {MERCENARY_BREAKTHROUGH_PITY_LIMITS,mercenaryBreakthroughPity} from './mercenary-breakthrough-pity-v1.mjs';
 import {ZERO_CODE} from './mercenary-zero-v1.mjs';
 import {LEONEL_CODE} from './mercenary-leonel-v1.mjs';
 import {JOKRO_CODE} from './mercenary-jokro-v1.mjs';
@@ -14,7 +15,7 @@ import {JINMU_CODE} from './mercenary-jinmu-v1.mjs';
 // still required; missing configuration never inherits a sample/default profile.
 export const MERCENARY_LEVEL_RELEASE_ENABLED=true;
 export const MERCENARY_LEVEL_KEY='mercenary_level_policy_v1';
-export const MERCENARY_LEVEL_RULES=Object.freeze({version:'mercenary-level-20261015-v2',maxLevel:20,milestones:Object.freeze([5,10,15,20]),materialKind:'MERCENARY',materialRank:'SAME_RANK',sameCardMultiplier:3,limitedRequiredXpMultiplier:5,preserveOriginal:true,coinCost:0,masterStarCost:0,maxMaterials:100,failure:'CURRENT_LEVEL_EXP_ZERO'});
+export const MERCENARY_LEVEL_RULES=Object.freeze({version:'mercenary-level-20261015-v2',maxLevel:20,milestones:Object.freeze([5,10,15,20]),materialKind:'MERCENARY',materialRank:'SAME_RANK',sameCardMultiplier:3,limitedRequiredXpMultiplier:5,preserveOriginal:true,coinCost:0,masterStarCost:0,maxMaterials:100,failure:'CURRENT_LEVEL_EXP_ZERO',breakthroughPity:{failuresBeforeGuarantee:MERCENARY_BREAKTHROUGH_PITY_LIMITS,retroactive:true}});
 export const LEVEL_BONUS_TYPES=Object.freeze({HP_PERCENT:'최대 체력 증가',ATTACK_PERCENT:'공격력 증가',DEFENSE_PERCENT:'방어력 증가',SPEED_PERCENT:'행동 속도 증가',COMBAT_STATS_PERCENT:'체력·공격·방어·속도 증가',SKILL_POWER_PERCENT:'배정 스킬 계수 증가',SKILL_COOLDOWN_TURNS:'배정 스킬 재사용 감소'});
 export function mercenaryLevelDraft(){return {version:MERCENARY_LEVEL_RULES.version,revision:0,mode:'OFF',growth:null,sameCardMultiplier:MERCENARY_LEVEL_RULES.sameCardMultiplier,xpPerCard:Object.fromEntries(MERCENARY_RANKS.map(rank=>[rank,null])),levels:Array.from({length:20},(_,i)=>({level:i+1,requiredXp:null})),milestones:[5,10,15,20].map(level=>({level,successChancePpm:null,bonus:{type:null,value:null}}))};}
 const limitedCodes=new Set([...LIMITED_MERCENARIES.map(card=>card.code),JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE,PRIME_CODE]);
@@ -90,13 +91,13 @@ export function planMercenaryTraining({policy,state,target,materials,owned,catal
  }
  return {before,after,consumed,xp,appliedXp:xp-overflowXp,overflowXp,requiredXpMultiplier:mercenaryLevelXpMultiplier(target),breakthroughReady:levelProgress(policy,after,target).breakthroughReady};
 }
-export function planMercenaryBreakthrough({policy,state,target,roll}){
+export function planMercenaryBreakthrough({policy,state,target,roll,pityFailures=0}){
  configured(policy);const before=mercenaryLevelState(state),progress=levelProgress(policy,before,target);
  check(progress.breakthroughReady,'5·10·15·20레벨 경험치가 100%일 때 돌파할 수 있습니다.','MERCENARY_LEVEL_NOT_READY');int(roll,0,999999,'돌파 판정');
- const milestone=policy.milestones.find(m=>m.level===before.level),success=roll<milestone.successChancePpm,index=MERCENARY_LEVEL_RULES.milestones.indexOf(before.level);
+ const pity=mercenaryBreakthroughPity(before.level,pityFailures),milestone=policy.milestones.find(m=>m.level===before.level),success=pity.guaranteed||roll<milestone.successChancePpm,index=MERCENARY_LEVEL_RULES.milestones.indexOf(before.level);
  const after={...before,experience:0,revision:before.revision+1};
  if(success){after.breakthroughMask|=1<<index;after.level=Math.min(20,before.level+1);}
- return {before,after,milestone:structuredClone(milestone),success,roll,reward:success?structuredClone(policy.growth?policy.growth.milestones[index]:milestone.bonus):null,complete:isLevelComplete(after)};
+ return {before,after,milestone:structuredClone(milestone),success,roll,pity:{version:pity.version,threshold:pity.threshold,failuresBefore:pity.failures,failuresAfter:success?0:pity.failures+1,guaranteed:pity.guaranteed,effectiveChancePpm:pity.guaranteed?1000000:milestone.successChancePpm},reward:success?structuredClone(policy.growth?policy.growth.milestones[index]:milestone.bonus):null,complete:isLevelComplete(after)};
 }
 export function mercenaryLevelBonuses(policy,state){
  const s=mercenaryLevelState(state);return policy.milestones.filter((_,i)=>s.breakthroughMask&(1<<i)).map(m=>({level:m.level,...m.bonus}));

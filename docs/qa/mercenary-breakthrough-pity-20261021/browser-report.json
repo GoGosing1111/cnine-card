@@ -1,0 +1,26 @@
+[
+  {
+    "width": 1440,
+    "retroactive10": true,
+    "effectiveChance100": true,
+    "guaranteedSuccess": true,
+    "counterReset": true,
+    "level20Threshold": true,
+    "finalComplete": true,
+    "overflow": false,
+    "errors": [],
+    "broken": []
+  },
+  {
+    "width": 390,
+    "retroactive10": true,
+    "effectiveChance100": true,
+    "guaranteedSuccess": true,
+    "counterReset": true,
+    "level20Threshold": true,
+    "finalComplete": true,
+    "overflow": false,
+    "errors": [],
+    "broken": []
+  }
+]
