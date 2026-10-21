@@ -1,5 +1,6 @@
 import {SSS_CUBE,emptySssCubePolicy,validateSssCubePolicy,sssCubeReadiness,pickSssCubeBatch,sssCubePercent} from '../shared/sss-miracle-cube-v1.mjs';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
+import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs';
 import {HALLOWEEN_SSS_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
 import {PRIME_ART} from '../shared/mercenary-prime-requiem-v1.mjs';
 import {ZERO_ART} from '../shared/mercenary-zero-v1.mjs';
@@ -32,7 +33,7 @@ export async function readSssCubeCatalog(env){
   env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1').all()
  ]);
  if(!cms||!draw)throw fail('CATALOG','용병 획득 설정을 먼저 등록하세요.');
- const rules=JSON.parse(draw.payload_json).cardRules,document=JSON.parse(cms.payload_json);
+ const rules=JSON.parse(draw.payload_json).cardRules,document=expandMercenarySkillCatalog(JSON.parse(cms.payload_json),MERCENARY_CMS_SEED.document,MERCENARY_CMS_SEED.catalog);
  const catalog=document.mercenaries.filter(c=>c.rank==='SSS'&&!limitedCards.some(l=>l.code===c.code)).map(c=>{
   const art=MERCENARY_CMS_SEED.catalog.cards.find(a=>a.code===c.code),available=Boolean(art?.sourceArt)&&mercenaryAcquisitionEnabled(c.code,rules);
   return {code:c.code,name:c.name,rank:'SSS',limited:false,sourceArt:art?.sourceArt?'/'+art.sourceArt.replace(/^\//,''):'',available,lockReason:available?'':'일반 용병 획득이 잠겨 있습니다.'};

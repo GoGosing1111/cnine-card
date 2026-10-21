@@ -29,6 +29,18 @@ test('SSS-only direct percentages preserve exact eight-decimal boundaries and ex
  assert.throws(()=>validateSssCubePolicy({...p,cards:{'V-990':SSS_CUBE_TOTAL}},catalog),/SSS/);
  assert.throws(()=>pickSssCubeBatch(p,catalog,10,()=>SSS_CUBE_TOTAL-1),{code:'SSS_CUBE_STOCK'});
 });
+test('older CMS documents include released Azant/Kangyun without overriding acquisition OFF or writing defaults',async t=>{
+ const f=await setup(t),codes=['V-056','V-057'],removed=new Set(f.document.assignments.filter(a=>codes.includes(a.code)).flatMap(a=>a.skillIds));
+ const legacy={...f.document,mercenaries:f.document.mercenaries.filter(c=>!codes.includes(c.code)),assignments:f.document.assignments.filter(a=>!codes.includes(a.code)),skills:f.document.skills.filter(s=>!removed.has(s.id))};
+ const raw=JSON.stringify(legacy);await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",raw).run();
+ const row=await f.p('SELECT payload_json FROM mercenary_draw_config_v1 WHERE id=1').first(),draw=JSON.parse(row.payload_json);draw.cardRules.cardWeights['V-057']=0;
+ await f.p('UPDATE mercenary_draw_config_v1 SET payload_json=?,revision=revision+1 WHERE id=1',JSON.stringify(draw)).run();
+ const state=await sssCubeState(f.env,f.user);assert.equal(state.catalog.find(c=>c.code==='V-056')?.available,true);assert.equal(state.catalog.find(c=>c.code==='V-057')?.available,false);
+ assert.equal((await f.p("SELECT payload_json FROM mercenary_cms_documents_v1 WHERE doc_key='config'").first()).payload_json,raw);
+ await assert.rejects(f.save({...f.policy,cards:{'V-057':SSS_CUBE_TOTAL}}),{code:'SSS_CUBE_NOT_READY'});
+ await f.save({...f.policy,cards:{'V-056':SSS_CUBE_TOTAL}});assert.equal((await f.open()).draws[0].mercenaryCode,'V-056');
+});
+
 test('OFF/null defaults, SS exclusion, unreleased and sold-out locks, OWNER authorization and version checks',async t=>{
  const f=await setup(t);assert.equal(f.state.mode,'OFF');assert.equal(f.state.ready,false);assert.deepEqual(f.state.policy.cards,{});
  assert.ok(f.state.catalog.every(c=>c.rank==='SSS'&&c.units===null));
