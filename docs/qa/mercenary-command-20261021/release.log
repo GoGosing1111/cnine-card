@@ -1,0 +1,81 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"b92154abd5678f6ae91095ab1567506a41a80e50","reason":"Approved mercenary command UI, direct per-mode loadout actions, mobile detail dialog and shared menu entry; scoped codex and browser regressions.","changed":["AGENTS.md","assets/ui/mercenary-codex/command-20261021/action-user-approved-original.png","assets/ui/mercenary-codex/command-20261021/action-user-approved.webp","assets/ui/mercenary-codex/command-20261021/manifest.json","assets/ui/mercenary-codex/command-20261021/panel-v3-original.png","assets/ui/mercenary-codex/command-20261021/panel-v3.webp","assets/ui/mercenary-codex/command-20261021/prompts.json","docs/mercenary-command-live-20261021.md","docs/qa/workshop-first-entry-20261021/production-browser.json","docs/qa/workshop-first-entry-20261021/production-verification.json","docs/workshop-first-entry-recovery-20261021.md","index.html","js/adventure-lobby-v2107.js","js/soopketmon-v21-exact-shell-adapter.js","mercenary-codex/app.mjs","mercenary-codex/command.css","mercenary-codex/index.html","mercenary-codex/shell.mjs","preview/lobby-clarity-v1/app.js","preview/lobby-clarity-v1/index.html","preview/lobby-clarity-v1/style.css","tests/mercenary-codex-owned-roster-v2133.test.mjs","tests/mercenary-codex-public-v2061.test.mjs","tests/mercenary-command-20261021.test.mjs"],"tests":["tests/mercenary-command-20261021.test.mjs","tests/mercenary-codex-owned-roster-v2133.test.mjs","tests/mercenary-codex-public-v2061.test.mjs","tests/mercenary-codex-jokro-20261021.test.mjs"],"checks":[]}
+✔ the complete public catalog including pack-released Jokro passes the actual browser validator (20.5392ms)
+✔ the codex still rejects incomplete or unauthorized limited release metadata (17.9925ms)
+✔ 용병도감은 내 용병을 기본으로 표시하고 전체 도감을 같은 화면에서 전환한다 (0.7788ms)
+✔ 선택 상세에서 기존 원자 편성 계약만 호출하고 유실 응답을 같은 요청으로 복구한다 (0.2714ms)
+✔ 별도 지휘소 진입과 관련 링크는 통합 내 용병 화면으로 수렴한다 (19.0631ms)
+✔ 보유·편성 상태와 핵심 조작은 데스크톱과 모바일에서 명확히 유지된다 (0.3077ms)
+✔ public document uses the native forge-inspired archive with game links and CMS information (1.2467ms)
+✔ shared desktop, mobile and cards hub menu includes exactly one codex beside dex (21.3386ms)
+✔ public codex uses a fixed same-tab document route, not a deck or battle shell (1.9551ms)
+✔ native desktop, mobile and old subtab fallbacks redirect without mounting a new game view (1.0212ms)
+✔ codex keeps public catalog browsing while account writes are limited to the existing loadout route (1.3145ms)
+✔ public page and live entry use synchronized cache tags and revalidation headers (1.0985ms)
+✔ visiting public codex never overwrites the game index, including offline return (24.2136ms)
+✔ codex cache cannot become an offline game fallback and cache quota does not hide valid responses (5.5161ms)
+✔ approved assets are unchanged and the built public shell matches its source (7.4533ms)
+Command UI QA: C:\Users\User\.codex\tmp\mercenary-command-20261021
+✔ desktop and mobile direct PVE/PVP deployment, replay, ownership, filters and artwork (10296.4887ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10789.3104
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19958 files; 5520 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 7954.95 KiB / gzip: 1717.37 KiB
+Worker Startup Time: 51 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.10 sec)
+No targets deployed for cnine-card-api-runtime (0.66 sec)
+Current Version ID: 6aad9bc7-5877-4dda-8699-254e0a732466
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19937/19958)
+Uploading... (19944/19958)
+Uploading... (19951/19958)
+Uploading... (19958/19958)
+✨ Success! Uploaded 21 files (19937 already uploaded) (2.99 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://dd1cd65f.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2774.27 KiB / gzip: 630.19 KiB
+Worker Startup Time: 35 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.05 sec)
+Deployed cnine-card-clan-draft triggers (0.98 sec)
+  schedule: * * * * *
+Current Version ID: 21270780-a428-4271-90c1-b6735ade533e

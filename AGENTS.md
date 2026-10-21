@@ -2,6 +2,7 @@
 
 - 사용자 `라이브에 반영해`로 `mercenary-command-typography` 시안의 Pretendard Variable, 무광 남색/은색 코너 패널, 기존 초록 버튼과 PVE/PVP 동시 표시 구성을 승인했다. 초록 버튼 원본은 SHA-256 `A9DFB94B8FC976E6B31B6597B53D9CC4FD062DD671DE8A6C4D9F215ACBEF661E`를 유지한다.
 - 이미지·프롬프트·해시는 `assets/ui/mercenary-codex/command-20261021/manifest.json`, 화면·운영 검수는 `docs/mercenary-command-live-20261021.md`다. 직접 PVE/PVP 편성 버튼, 모드별 서버 revision과 유실 요청 복구, 모바일 상세 dialog를 유지한다. UI 승인으로 원화·확률·발행 수량·전투 성능을 바꾸지 않는다.
+- 11:47 KST 운영 반영 완료: 소스 `bfd014a25`, Pages `dd1cd65f`. 관련 검사 16개, 운영 파일 8개 해시·공개 도감 81종·PC/모바일 표시를 확인했다. 검수 계정은 격리 자료이며 운영 계정 쓰기는 없다.
 
 ## 제작소 최초 진입 조회 복구 — 2026-10-21
 

@@ -1,0 +1,68 @@
+{
+  "checkedAt": "2026-10-21T02:48:33.150Z",
+  "source": "bfd014a25d955486fe8edef1acd78354b71a0846",
+  "origin": "https://cnine-card.pages.dev",
+  "catalogCards": 81,
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "626c43526235d0f75255bdef1d6a4e9a3251805d7b8580142fc31b30abee906e",
+      "bytes": 32861
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "d86588f41deef807b26a75c9a182e06b9e4829447b2301d716bcf1d72969d76d",
+      "bytes": 9467
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "61834ecc511d442ee0b680d659c5266378d81895bcd27667bc9e691a87bbc01d",
+      "bytes": 33190
+    },
+    {
+      "file": "mercenary-codex/command.css",
+      "sha256": "5d18c09777af0cf459fec48663ebf7d43798467b83bf67b6dca760bc4577ae65",
+      "bytes": 21713
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "32446ccb8c0ec83a66ef5b1cd230146f91bc42ec26c85f96bd98d435621bea05",
+      "bytes": 101962
+    },
+    {
+      "file": "js/soopketmon-v21-exact-shell-adapter.js",
+      "sha256": "4e90ca2b72245211100097b3f35c92df4b215880dd803d5a7b257bb2c15c6baa",
+      "bytes": 54482
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+      "bytes": 5180
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+      "bytes": 4454
+    }
+  ],
+  "reports": [
+    {
+      "width": 1440,
+      "actualProductionAssets": true,
+      "actualPublicCatalog": true,
+      "accountSource": "isolated PGlite fixture",
+      "directActionsVisible": true,
+      "errors": [],
+      "writes": []
+    },
+    {
+      "width": 390,
+      "actualProductionAssets": true,
+      "actualPublicCatalog": true,
+      "accountSource": "isolated PGlite fixture",
+      "directActionsVisible": true,
+      "errors": [],
+      "writes": []
+    }
+  ]
+}
