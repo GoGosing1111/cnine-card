@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-21T22:18:03.589Z",
+  "base": "https://cnine-card.pages.dev",
+  "evidence": [
+    {
+      "width": 390,
+      "scenario": "boss",
+      "attacks": 1,
+      "seen": [
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true,
+          "hp": 100,
+          "bounds": {
+            "x": 67.43816614583332,
+            "y": 147.71923263888885,
+            "width": 108.72366770833335,
+            "height": 111.57353263888888
+          },
+          "native": true
+        }
+      ],
+      "mercenaries": [
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true
+        }
+      ],
+      "cards": 5
+    }
+  ],
+  "liveAccountWrites": 0,
+  "visualApproval": "USER_REVIEW_PENDING"
+}

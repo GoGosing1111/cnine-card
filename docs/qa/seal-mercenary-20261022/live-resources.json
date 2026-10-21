@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-21T22:17:56.047Z",
+  "source": "e384f1774ebbe6d9991c9cbce1d1d484a08f0636",
+  "tests": {
+    "total": 40,
+    "passed": 40,
+    "failed": 0
+  },
+  "pages": "https://2366474b.cnine-card.pages.dev",
+  "workers": [
+    "c2fcf370-db7a-4233-be21-c3cc1cced410",
+    "cbbfbf3d-fac1-46ca-b9e3-481d6e4585d7"
+  ],
+  "resources": [
+    {
+      "file": "index.html",
+      "sha256": "295d584d97abdc5dc37581694b46fd0780d27f4ebd5bd94de70562ce1687da8b"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "ec098bc50c2102e71a463bee86d81e4a53c0061ab83e1148e96b948bb1f11bf2"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "79adbd22afa0a2a0d08dbfde3f0c1b7be043dd6f6f8fd0a08336f6243fba3634"
+    },
+    {
+      "file": "js/seal-battle.js",
+      "sha256": "f232f21099b119126c0fdedd436fc6169a7877f8d74f58e8b54f9aac14a1fe19"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "effbde0705f255d62922130214c9d8457ea44a42427f94c03d569296cbdd1b5b"
+    },
+    {
+      "file": "preview/seal-battle-rework-20261021/index.html",
+      "sha256": "185ed7c4e64ef19a505bf14d81d37f08bd6e1360d62bba59949702500937614d"
+    },
+    {
+      "file": "preview/seal-battle-rework-20261021/fixture.js",
+      "sha256": "256fe7ab5324db97183873a6331b343631acfd9f5049ae6f703bb7bd0662910f"
+    }
+  ],
+  "liveAccountWrites": 0
+}

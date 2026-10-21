@@ -15,3 +15,11 @@
 서버 테스트는 `tests/seal-dragon-20261022.test.mjs`의 SQLite/PostgreSQL 양쪽에서 PvE 용병 선택, 본문 위조 무시, 아바타 한 번 적용, 영수증 재시도, 편성 해제, 본체 피해 상한을 검사한다. `tests/seal-orbs-20261022.test.mjs`는 세 봉인·본체전의 승/패에 대해 5+1 슬롯, native TURN, 합산 피해량, 미편성 경로를 검사한다. 기존 보상 상한/거래와 공통 전투 입장 검사도 범위 배포에 포함한다.
 
 국소 연결 수정이므로 `npm run deploy:production -- --scoped`를 사용한다. 직전 운영 소스는 `cb45a21d10e22f78d4c765e4c1fc2e4fcd73126c` (Pages `013a8505`)이다. 본체 난이도·보상 설정·DB 스키마·다른 콘텐츠 전투는 변경하지 않는다. 프리뷰/컨트롤러/브리지 로더는 `sealMercenary=20261022-v1`, 앱/서비스 워커는 `seal-mercenary-20261022-v1`로 캐시를 갱신한다.
+
+## 운영 반영 완료 — 2026-10-22 07:18 KST
+
+배포 소스 `e384f1774ebbe6d9991c9cbce1d1d484a08f0636`, Pages `https://2366474b.cnine-card.pages.dev`. 범위 배포에서 관련 검사 **40개 모두 통과**, 워커 문법·출시 캐시·Hyperdrive 캐시 OFF 검사도 통과했다. 파일 수는 20,000개를 유지한다. API Runtime은 `c2fcf370-db7a-4233-be21-c3cc1cced410`, Clan Draft는 `cbbfbf3d-fac1-46ca-b9e3-481d6e4585d7`다.
+
+`live-resources.json`에서 공개 도메인의 메인 HTML·앱·서비스 워커·봉인 컨트롤러·V3 브리지·프리뷰 HTML/fixture 총 7개 파일 해시가 배포 소스와 일치한다. `live-browser.json`에서 운영 프리뷰 390px의 본체전 진입 → 헬리오스 실제 기본 공격 1회 → 결과 → 복귀를 확인했다. 오류·실패 요청 0건, 실제 계정 재화 사용 0건이다. `live-390-boss-attack.png`를 직접 확인했다.
+
+확인 주소: `https://cnine-card.pages.dev/preview/seal-battle-rework-20261021/?review=seal-mercenary-20261022-v1`.
