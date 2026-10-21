@@ -1,0 +1,70 @@
+{
+  "at": "2026-10-21T06:56:11.187Z",
+  "runtimeCommit": "a39c2c4dc46871933db46437ae02df0c28c692d8",
+  "releaseUrl": "https://1ac56610.cnine-card.pages.dev",
+  "tests": {
+    "file": "tests/organization-public-20261015.test.mjs",
+    "passed": 2,
+    "failed": 0,
+    "desktop": 1440,
+    "mobile": 390
+  },
+  "checked": [
+    {
+      "file": "js/clan-v1.js",
+      "status": 200,
+      "liveSha256": "d0f8d4e2a443a76ff86fd05b890b4d476752696060581cac4b21e0f1561becdc",
+      "localSha256": "d0f8d4e2a443a76ff86fd05b890b4d476752696060581cac4b21e0f1561becdc",
+      "matches": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "liveSha256": "5d87928ad649291fea9492f1f339387320e0545d4f8170de1081254a9973dd08",
+      "localSha256": "5d87928ad649291fea9492f1f339387320e0545d4f8170de1081254a9973dd08",
+      "matches": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "liveSha256": "cb4c9320240b3e957cbb3a5c802ea0f1a5f193579e7e62fb500670b951509f95",
+      "localSha256": "cb4c9320240b3e957cbb3a5c802ea0f1a5f193579e7e62fb500670b951509f95",
+      "matches": true
+    },
+    {
+      "file": "css/organization-command-20261021.css",
+      "status": 200,
+      "liveSha256": "cc1905650f354d6f6036380e9a377fdd455ae4b8ecdc80f1a8df9d2b4970b3f4",
+      "localSha256": "cc1905650f354d6f6036380e9a377fdd455ae4b8ecdc80f1a8df9d2b4970b3f4",
+      "matches": true
+    },
+    {
+      "file": "organization/index.html",
+      "status": 200,
+      "liveSha256": "dde36bfa0c99e8385f1ab3a6b2546ce1bfbecafcf19004e01a877e0406f5daef",
+      "localSha256": "dde36bfa0c99e8385f1ab3a6b2546ce1bfbecafcf19004e01a877e0406f5daef",
+      "matches": true
+    },
+    {
+      "file": "organization/faction/index.html",
+      "status": 200,
+      "liveSha256": "796add625b5fdbc8813eb40e9f0cb93d185a23869da1e0d67e0d2474843ce5c2",
+      "localSha256": "796add625b5fdbc8813eb40e9f0cb93d185a23869da1e0d67e0d2474843ce5c2",
+      "matches": true
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "liveSha256": "3c5ae71196d7bb0b6e0a169d7ef91c50347243e6e2f9a4971d1441f8f9215e78",
+      "localSha256": "3c5ae71196d7bb0b6e0a169d7ef91c50347243e6e2f9a4971d1441f8f9215e78",
+      "matches": true
+    },
+    {
+      "file": "js/organization-start-notice-20261021.mjs",
+      "status": 200,
+      "liveSha256": "2e70fb955d665451b983f36c6d4a3ce8db4f327c8fa0047fc98e0e87f765f563",
+      "localSha256": "2e70fb955d665451b983f36c6d4a3ce8db4f327c8fa0047fc98e0e87f765f563",
+      "matches": true
+    }
+  ]
+}
