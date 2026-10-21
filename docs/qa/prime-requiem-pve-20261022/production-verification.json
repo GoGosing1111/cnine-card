@@ -1,0 +1,100 @@
+{
+  "checkedAt": "2026-10-21T22:40:36.540Z",
+  "origin": "https://cnine-card.pages.dev",
+  "source": "cc1bcfa6f",
+  "status": "PASS",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "9cf5c8a3980c0925be8949609912e7323629946ccafafdf9c079f9364ee907b9"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "de07a1bd03e32c752651fb90fff409b0f5e00a69e245eb40d74c2e387b547ecd"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "567b1bf7f8322c65f50327fe1d7770f11fc6ea300d539b6cddee0a609a48465d"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "da3ea5e6becf5b2f14987d25ae411acfaff3520ac72b65365a0b6efd1b38a877"
+    },
+    {
+      "file": "shared/mercenary-prime-requiem-v1.mjs",
+      "status": 200,
+      "sha256": "592e0c52706991983af0bfdec94a19e7edb5d37dc0ca4eb22e8ef705392b6c8a"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "5b3b671740f102997509e544dba745af070c2664727ef3605a9ae2edd6781f74"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "sha256": "8ab75a7ce81f05167f60995a41f207436d2e1ff798b2ace43b3dd1458b3a41ff"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "status": 200,
+      "sha256": "f8406b3c79b4fd7e0a4e33d03b7577295ae91fb02a5d143c2b4a6f9e4191d62f"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+      "status": 200,
+      "sha256": "2c0dd6a5900c488960ad8f02c669254e51fc157cba421b053b9d41e20c3c7505"
+    }
+  ],
+  "publicCard": {
+    "code": "V-975",
+    "basePower": 2300000,
+    "acquisitionEnabled": false,
+    "skills": [
+      {
+        "id": "MS-963",
+        "balance": {
+          "version": 2,
+          "damageRatio": 15.12,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "trigger": "PVE · 에너지 20 · 네 광역기 공통 재사용 3행동"
+      },
+      {
+        "id": "MS-964",
+        "balance": {
+          "version": 2,
+          "damageRatio": 15.12,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "trigger": "PVE · 에너지 20 · 네 광역기 공통 재사용 3행동"
+      },
+      {
+        "id": "MS-965",
+        "balance": {
+          "version": 2,
+          "damageRatio": 15.12,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "trigger": "PVE · 에너지 20 · 네 광역기 공통 재사용 3행동"
+      },
+      {
+        "id": "MS-966",
+        "balance": {
+          "version": 2,
+          "damageRatio": 15.12,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "trigger": "PVE · 에너지 20 · 네 광역기 공통 재사용 3행동"
+      }
+    ]
+  }
+}

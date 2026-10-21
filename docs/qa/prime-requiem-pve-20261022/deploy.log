@@ -1,0 +1,87 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"c702542a5fbc620eaad3bc59edcabcec1f530830","reason":"Prime Requiem PVE-only area cooldown and energy adjustment, enlarged native FX and optional impact asset. Validate Prime stat/PVP parity, shared cooldown, acquisition locks, delayed FX entry, actual shipped loader, and worker compilation; PC/mobile main-entry browser review already passed.","changed":["AGENTS.md","assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp","defense/index.html","docs/qa/prime-requiem-pve-20261022/README.md","docs/qa/prime-requiem-pve-20261022/art-manifest.json","docs/qa/prime-requiem-pve-20261022/desktop-area-blood-cataclysm.png","docs/qa/prime-requiem-pve-20261022/desktop-area-blood-execution.png","docs/qa/prime-requiem-pve-20261022/desktop-area-blood-moonfall.png","docs/qa/prime-requiem-pve-20261022/desktop-area-blood-tiger.png","docs/qa/prime-requiem-pve-20261022/desktop-area-idle.png","docs/qa/prime-requiem-pve-20261022/desktop-area-impact.png","docs/qa/prime-requiem-pve-20261022/desktop-enemy-idle.png","docs/qa/prime-requiem-pve-20261022/desktop-enemy-impact.png","docs/qa/prime-requiem-pve-20261022/desktop-pve-review.webm","docs/qa/prime-requiem-pve-20261022/desktop-single-blood-cataclysm.png","docs/qa/prime-requiem-pve-20261022/desktop-single-blood-execution.png","docs/qa/prime-requiem-pve-20261022/desktop-single-blood-moonfall.png","docs/qa/prime-requiem-pve-20261022/desktop-single-blood-tiger.png","docs/qa/prime-requiem-pve-20261022/desktop-single-idle.png","docs/qa/prime-requiem-pve-20261022/desktop-single-impact.png","docs/qa/prime-requiem-pve-20261022/eclipse-impact-v1-source.png","docs/qa/prime-requiem-pve-20261022/entry/desktop-entry.png","docs/qa/prime-requiem-pve-20261022/entry/desktop-ready.png","docs/qa/prime-requiem-pve-20261022/entry/mobile-entry.png","docs/qa/prime-requiem-pve-20261022/entry/mobile-ready.png","docs/qa/prime-requiem-pve-20261022/entry/report.json","docs/qa/prime-requiem-pve-20261022/imagegen-prompt.json","docs/qa/prime-requiem-pve-20261022/mobile-area-blood-cataclysm.png","docs/qa/prime-requiem-pve-20261022/mobile-area-blood-execution.png","docs/qa/prime-requiem-pve-20261022/mobile-area-blood-moonfall.png","docs/qa/prime-requiem-pve-20261022/mobile-area-blood-tiger.png","docs/qa/prime-requiem-pve-20261022/mobile-area-idle.png","docs/qa/prime-requiem-pve-20261022/mobile-area-impact.png","docs/qa/prime-requiem-pve-20261022/mobile-pve-review.webm","docs/qa/prime-requiem-pve-20261022/report.json","docs/qa/tower-monsters-20261022/README.md","docs/qa/tower-monsters-20261022/production-release.log","docs/qa/tower-monsters-20261022/production-verification.json","functions/_mercenary_combat.js","index.html","js/app.js","js/battle-v3-live.js","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/coop-defense-v1/build-report.json","preview/coop-defense-v1/defense.bundle.js","preview/coop-defense-v1/index.html","preview/cow-room-v3-v1/battle.bundle.js","preview/defense-roguelike-v2/preview.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/PrimeRequiemCombatPlayback.js","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/sustained-hunt-v2/index.html","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","scripts/prepare-production-assets.mjs","service-worker.js","shared/mercenary-prime-requiem-v1.mjs","tests/prime-requiem-live-20261021.browser.mjs","tests/prime-requiem-live-20261021.test.mjs","tests/prime-requiem-pve-entry-20261021.browser.mjs"],"tests":["tests/prime-requiem-live-20261021.test.mjs","tests/prime-requiem-pve-entry-20261021.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ Prime equals Zero in actual PVE/PVP stats, gear, links, mitigation and action cadence (6.345ms)
+✔ normal/limited/Halloween/fusion selection cannot award Prime even with positive CMS weight (0.9219ms)
+✔ four PVE area skills retain one 1512% budget per cast and rotate more frequently (27.9944ms)
+✔ PVE cadence is ten casts per thirty own actions instead of six, with shared cooldown and no PVP casts (1.2636ms)
+✔ public codex exposes seven skills and acquisition lock while deployment requires ownership (1875.0346ms)
+✔ approved V7 assets stay byte-identical and all actual V3 consumers ship Prime (4264.7068ms)
+✔ a pending Prime atlas manifest cannot become a battlefield-entry barrier (1.2932ms)
+✔ cold Prime basic uses the existing V3 attack once without waiting for images (0.2936ms)
+✔ cold or failed Prime area FX still apply each unique server HP/shield receipt once (1.2772ms)
+✔ the real live wrapper allows the complete approved Prime area animation (45.7283ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (1517.5279ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (8.5374ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (3.462ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (8.7499ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (9.5397ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (39.5661ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (2.2955ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (1.9973ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (0.6989ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6620.4195
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 6221 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 8049.24 KiB / gzip: 1738.34 KiB
+Worker Startup Time: 99 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.99 sec)
+No targets deployed for cnine-card-api-runtime (0.61 sec)
+Current Version ID: 2cbd80a8-6126-4a99-9a71-793a5beab507
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19969/20000)
+Uploading... (19980/20000)
+Uploading... (19990/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 31 files (19969 already uploaded) (3.28 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://15ab34ff.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2798.87 KiB / gzip: 638.19 KiB
+Worker Startup Time: 35 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (7.91 sec)
+Deployed cnine-card-clan-draft triggers (2.42 sec)
+  schedule: * * * * *
+Current Version ID: 7beca040-89fd-41f5-b2f1-0226af91fa59

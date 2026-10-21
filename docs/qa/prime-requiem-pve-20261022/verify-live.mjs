@@ -1,0 +1,26 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+const root=path.resolve(import.meta.dirname,'../../..');
+const origin='https://cnine-card.pages.dev';
+const files=['index.html','service-worker.js','js/app.js','js/battle-v3-live.js','shared/mercenary-prime-requiem-v1.mjs','preview/project-v-v3/project-v-pixi-battle.bundle.js','preview/sustained-hunt-v2/battle.bundle.js','preview/coop-defense-v1/defense.bundle.js','assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp'];
+const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+const checks=await Promise.all(files.map(async file=>{
+ const response=await fetch(origin+'/'+file+'?primePveVerification=20261022-cc1bcfa6f',{signal:AbortSignal.timeout(30000)});
+ assert.equal(response.status,200,file);
+ const live=hash(Buffer.from(await response.arrayBuffer())),local=hash(fs.readFileSync(path.join(root,file)));
+ assert.equal(live,local,file);return {file,status:response.status,sha256:live};
+}));
+const response=await fetch(origin+'/api/mercenary-codex?primePveVerification=20261022-cc1bcfa6f',{signal:AbortSignal.timeout(30000)});
+assert.equal(response.status,200);
+const data=await response.json();
+const doc=data.document||data.catalog||data;
+const card=doc.cards?.find(c=>c.code==='V-975');assert(card,'public Prime card');
+const area=card.skills.filter(s=>s.mechanic==='CRIMSON_ECLIPSE_BERSERKER');
+assert.equal(area.length,4);
+assert(area.every(s=>s.balance.cooldownTurns===3&&s.balance.cost===20&&s.balance.damageRatio===15.12));
+assert.equal(card.basePower,2300000);assert.equal(card.acquisitionEnabled,false);
+const report={checkedAt:new Date().toISOString(),origin,source:'cc1bcfa6f',status:'PASS',checks,publicCard:{code:card.code,basePower:card.basePower,acquisitionEnabled:card.acquisitionEnabled,skills:area.map(s=>({id:s.id,balance:s.balance,trigger:s.trigger}))}};
+fs.writeFileSync(path.join(root,'docs/qa/prime-requiem-pve-20261022/production-verification.json'),JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify({status:report.status,files:checks.length,publicCard:report.publicCard}));
