@@ -1,0 +1,79 @@
+{
+  "checkedAt": "2026-10-21T06:01:39.230Z",
+  "origin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "mercenary-codex/leveling/index.html",
+      "status": 200,
+      "sha256": "e540abd0a9737ece5b11f149822b0d7b4dd8baf120ecf84540b255a25c5f5374"
+    },
+    {
+      "file": "mercenary-codex/leveling/app.mjs",
+      "status": 200,
+      "sha256": "48c4cf19d5e49a784a5f8bbf5b411cff70076dd8602ff143dcf90546448e0cee"
+    },
+    {
+      "file": "mercenary-codex/leveling/breakthrough.mjs",
+      "status": 200,
+      "sha256": "864b78c6357facef7ca919fe326673cf618cafba0f7217c02c1c52d871c24be6"
+    },
+    {
+      "file": "shared/mercenary-level-v1.mjs",
+      "status": 200,
+      "sha256": "7bcff602a695b71157310c79e8ed56a941d50c0666d5d11fae644d636712c54e"
+    },
+    {
+      "file": "shared/mercenary-breakthrough-pity-v1.mjs",
+      "status": 200,
+      "sha256": "d13623778ac60a1d705117add73e382e347f1f7820174d00b3b15bd0ddad90c6"
+    },
+    {
+      "file": "admin/mercenary-level-admin-v1.mjs",
+      "status": 200,
+      "sha256": "81b72392f4bf6ca6b62de692ca67ba7dba53657a1b7ce80f3fb29f723a26cd89"
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "status": 200,
+      "sha256": "81e923b7c15c05a22bdf251bb41828a831ab2ba99f1347937ca97f6b5aaaabe3"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "b3213163c464f13ae422fe4c36c946205365f9376c65d401560a34111e02f95e"
+    }
+  ],
+  "feature": {
+    "releaseEnabled": true,
+    "rules": {
+      "version": "mercenary-level-20261015-v2",
+      "maxLevel": 20,
+      "milestones": [
+        5,
+        10,
+        15,
+        20
+      ],
+      "materialKind": "MERCENARY",
+      "materialRank": "SAME_RANK",
+      "sameCardMultiplier": 3,
+      "limitedRequiredXpMultiplier": 5,
+      "preserveOriginal": true,
+      "coinCost": 0,
+      "masterStarCost": 0,
+      "maxMaterials": 100,
+      "failure": "CURRENT_LEVEL_EXP_ZERO",
+      "breakthroughPity": {
+        "failuresBeforeGuarantee": {
+          "5": 10,
+          "10": 10,
+          "15": 10,
+          "20": 20
+        },
+        "retroactive": true
+      }
+    }
+  },
+  "unauthenticatedState": 401,
+  "productionMutations": 0
+}

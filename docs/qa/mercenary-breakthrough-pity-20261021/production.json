@@ -1,0 +1,32 @@
+{
+  "verification": {
+    "alreadyGuaranteed": 3,
+    "completedGrowthReceipts": 2135,
+    "retroactiveFailures": 176,
+    "retroactiveMercenaries": 48,
+    "retroactiveStateRowsMatched": 249,
+    "productionFilesHashMatched": 8,
+    "directProductionDatabaseWrites": 0,
+    "retroactiveUsers": 40
+  },
+  "status": "live_verified",
+  "assetCount": 19998,
+  "pages": "https://6f9e894e.cnine-card.pages.dev",
+  "verifiedAt": "2026-10-21T06:01:39.230Z",
+  "sourceCommit": "01dfd1923e091c2c1a12bbbf8320406975aa9b38",
+  "rawDeployLogSha256": "94933891F069AF93B943A206821A45438C73EA500BD731CA07BD4C42ECE66D84",
+  "announcementPublished": false,
+  "concurrentMain": "Seoul changes and staging exclusions merged from 2569caee6; documented checks retained",
+  "hyperdriveQueryCache": "disabled",
+  "tests": {
+    "baselineReproduced": true,
+    "transactionPassed": 22,
+    "deliveryPassed": 1,
+    "knownUnrelatedHalloweenFailures": 2,
+    "newPityPassed": 10,
+    "v2AndUiPassed": 16
+  },
+  "schedulerVersion": "7d6dbc6c-9112-4568-a488-ca2ce61d0205",
+  "runtimeChangeCommit": "186d8f8f4",
+  "apiWorkerVersion": "73caa7eb-4ff7-446f-b2bd-944441628490"
+}
