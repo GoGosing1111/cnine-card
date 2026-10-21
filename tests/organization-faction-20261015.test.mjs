@@ -17,16 +17,16 @@ test('organization attack and defense squads allow three, reject four atomically
  }
 });
 test('old five-member formations expose and launch only the first three on each side',async t=>{
- const f=await fixture(t);await f.mutateState(s=>{s.formations[1]={...empty,attack1:[2,3,4,5,6]};s.formations[2]={...empty,defense1:[7,8,9,10,11]};const d=s.districts.find(d=>d.id==='41110');d.owner=2;d.defense='defense1';});
- const overview=(await f.overview()).data;assert.deepEqual(overview.formation.attack1,[2,3,4]);assert.equal(overview.districts.find(d=>d.id==='41110').defenders.length,3);
- const result=await f.post('organization/faction/launch',{districtId:'41110',squad:'attack1'});assert.equal(result.status,200);const b=(await f.overview()).data.battles.find(b=>b.id===result.data.battleId);
+ const f=await fixture(t);await f.mutateState(s=>{s.formations[1]={...empty,attack1:[2,3,4,5,6]};s.formations[2]={...empty,defense1:[7,8,9,10,11]};const d=s.districts.find(d=>d.id==='11680');d.owner=2;d.defense='defense1';});
+ const overview=(await f.overview()).data;assert.deepEqual(overview.formation.attack1,[2,3,4]);assert.equal(overview.districts.find(d=>d.id==='11680').defenders.length,3);
+ const result=await f.post('organization/faction/launch',{districtId:'11680',squad:'attack1'});assert.equal(result.status,200);const b=(await f.overview()).data.battles.find(b=>b.id===result.data.battleId);
  assert.deepEqual(b.attackers,[2,3,4]);assert.deepEqual(b.defenders,[7,8,9]);assert.equal((await f.post('organization/faction/enter',{battleId:b.id},5)).status,403);assert.equal((await f.post('organization/faction/enter',{battleId:b.id},10)).status,403);
 });
-test('46 districts, policy nulls, own-member authority and no clan data writes',async t=>{
- assert.equal(ORGANIZATION_DISTRICTS.length,46);assert.equal(new Set(ORGANIZATION_DISTRICTS.map(x=>x.id)).size,46);
+test('25 Seoul districts, policy nulls, own-member authority and no clan data writes',async t=>{
+ assert.equal(ORGANIZATION_DISTRICTS.length,25);assert.equal(new Set(ORGANIZATION_DISTRICTS.map(x=>x.id)).size,25);
  assert.throws(()=>validateOrganizationFactionPolicy({revision:0,mode:'ON',fundsPerRegion:0,upgradeCosts:[0,null,null,null,null]}));
  const f=await fixture(t),v=await f.overview();assert.equal(v.status,200);assert.equal(v.data.sessions.active,true);assert.equal(v.data.treasury.funds,0);
- assert.equal(v.data.districts.length,46);assert.equal(v.data.roster.length,5);assert.equal(v.data.clans.length,6);
+ assert.equal(v.data.districts.length,25);assert.equal(v.data.roster.length,5);assert.equal(v.data.clans.length,6);
  assert.equal((await f.commander(1,7)).status,409);assert.equal((await f.post('organization/faction/formation',{formation:{...empty,attack1:[2,7]}})).status,403);
  assert.equal((await f.post('organization/faction/formation',{formation:{...empty,attack1:[2,3],defense1:[4,5,6]}},3)).status,403);
  assert.equal((await f.post('organization/faction/formation',{formation:{...empty,attack1:[2,3],defense1:[4,5,6]}})).status,200);
@@ -37,8 +37,8 @@ test('shared HP, real server damage, entry guard, replay and member cooldown rem
  const f=await fixture(t);
  await f.post('organization/faction/formation',{formation:{...empty,attack1:[2,3],defense1:[4,5,6]}});
  await f.post('organization/faction/formation',{formation:{...empty,attack1:[7,8],defense1:[9,10,11]}},7);
- await f.mutateState(s=>{const d=s.districts.find(d=>d.id==='41110');d.owner=2;d.defense='defense1';});
- const launch=await f.post('organization/faction/launch',{districtId:'41110',squad:'attack1'});assert.equal(launch.status,200,JSON.stringify(launch));
+ await f.mutateState(s=>{const d=s.districts.find(d=>d.id==='11680');d.owner=2;d.defense='defense1';});
+ const launch=await f.post('organization/faction/launch',{districtId:'11680',squad:'attack1'});assert.equal(launch.status,200,JSON.stringify(launch));
  const battleId=launch.data.battleId;
  assert.equal((await f.post('organization/faction/strike',{battleId})).status,403);assert.equal(f.builds(),0);
  assert.equal((await f.post('organization/faction/enter',{battleId},4)).status,403);

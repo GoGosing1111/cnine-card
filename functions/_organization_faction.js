@@ -2,7 +2,7 @@ import {ORGANIZATIONS,orgAssert} from '../shared/organization-system-v1.mjs';
 import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES,organizationDistrictById,defaultOrganizationFactionPolicy,validateOrganizationFactionPolicy,FACTION_RULES as R,SQUADS} from '../shared/organization-faction-v1.mjs';
 import {createFactionDay,factionDayKey} from '../shared/clan-faction-sessions-v1.mjs';
 import {factionEvent,finishFactionBattle,factionStrikeDamage} from './_clan_faction_model.js';
-import {newOrganizationFactionState,advanceOrganizationFaction,validateOrganizationFormation as validateFormation,organizationCaptains as factionCaptains,validateOrganizationCaptains as validateFactionCaptains,assignOrganizationGarrison} from './_organization_faction_model.js';
+import {newOrganizationFactionState,restrictOrganizationDistricts,advanceOrganizationFaction,validateOrganizationFormation as validateFormation,organizationCaptains as factionCaptains,validateOrganizationCaptains as validateFactionCaptains,assignOrganizationGarrison} from './_organization_faction_model.js';
 import {buildClanBattle} from './_clan.js';
 import {readJointBody} from './_joint_request.js';
 import {jointHash} from './_joint_transactions.js';
@@ -59,7 +59,9 @@ async function stateFor(q,r,now){
  if(!r||r.phase!=='ASSIGNED')return {revision:0,state:newOrganizationFactionState(now)};
  await q('INSERT INTO organization_faction_state_v1(round_id,state_json) VALUES($1,$2) ON CONFLICT(round_id) DO NOTHING',[r.id,JSON.stringify(newOrganizationFactionState(now))]);
  const [row]=await q('SELECT * FROM organization_faction_state_v1 WHERE round_id=$1 FOR UPDATE',[r.id]);
- return {revision:Number(row.revision),state:JSON.parse(row.state_json)};
+ const state=JSON.parse(row.state_json),changed=restrictOrganizationDistricts(state,now);
+ if(changed)await saveState(q,r,state);
+ return {revision:Number(row.revision)+(changed?1:0),state};
 }
 async function saveState(q,r,state){
  await q('UPDATE organization_faction_state_v1 SET state_json=$1,revision=revision+1 WHERE round_id=$2',[JSON.stringify(state),r.id]);

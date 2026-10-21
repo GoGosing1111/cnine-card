@@ -41,8 +41,20 @@ export function assignOrganizationGarrison(state,organizationId,districtId,squad
 export function newOrganizationFactionState(now){
  const state=newFactionState(now);
  state.districts=ORGANIZATION_DISTRICTS.map(d=>({id:d.id,owner:0,protectedUntil:0,defense:'',taxAt:now,taxRemainder:0}));
- state.taxDisabledAt=now;state.commanders={};state.elders={};state.sessionQueue=[];state.organizationVersion=1;
+ state.taxDisabledAt=now;state.commanders={};state.elders={};state.sessionQueue=[];state.organizationVersion=1;state.districtScope='SEOUL_25_20261021';
  return state;
+}
+// Scope migration only: never reset legitimate Seoul captures on a subsequent read.
+export function restrictOrganizationDistricts(state,now){
+ const allowed=new Set(ORGANIZATION_DISTRICTS.map(d=>d.id));
+ const removed=state.districts.filter(d=>!allowed.has(d.id));
+ const cancelled=state.battles.filter(b=>b.status==='ACTIVE'&&!allowed.has(b.districtId));
+ if(!removed.length&&!cancelled.length&&state.districts.length===allowed.size&&state.districtScope==='SEOUL_25_20261021')return false;
+ if(removed.length)state.retiredDistricts=[...(state.retiredDistricts||[]).filter(d=>!removed.some(r=>r.id===d.id)),...removed];
+ state.districts=ORGANIZATION_DISTRICTS.map(meta=>state.districts.find(d=>d.id===meta.id)||{id:meta.id,owner:0,protectedUntil:0,defense:'',taxAt:now,taxRemainder:0});
+ for(const b of cancelled)Object.assign(b,{status:'CANCELLED',reason:'DISTRICT_REMOVED',endedAt:now,winner:0});
+ state.districtScope='SEOUL_25_20261021';
+ return true;
 }
 export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now,assignedAt,policy}){
  const settlements=[];

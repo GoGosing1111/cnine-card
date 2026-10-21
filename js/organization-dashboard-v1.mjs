@@ -1,4 +1,4 @@
-import {organizationDistrictById} from '../shared/organization-faction-v1.mjs?v=20261019-six-organizations';
+import {organizationDistrictById} from '../shared/organization-faction-v1.mjs?v=20261021-seoul';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>value===null?'—':Number(value).toLocaleString('ko-KR');
@@ -24,7 +24,7 @@ export function organizationStandings(state){
 export function organizationDashboardHeader(state){
  const {rows,members,faction}=organizationStandings(state);
  const status=!faction?'전황 확인 대기':!faction.season?.active?'시즌 준비 중':faction.sessions?.active?'세력전 진행 중':'시즌 진행 중 · 회차 대기';
- return `<section class="org-live-hero" aria-labelledby="org-live-title"><div><span class="org-kicker">ORGANIZATION / CITY CONTROL</span><h1 id="org-live-title">조직 현황</h1><p>서울·경기남부, 우리 조직의 영역을 확인하세요.</p><span class="org-live-state">${status}</span></div><dl><div><dt>활동 조직</dt><dd>${rows.length}<small>개</small></dd></div><div><dt>소속 인원</dt><dd>${number(members)}<small>명</small></dd></div></dl></section>`;
+ return `<section class="org-live-hero" aria-labelledby="org-live-title"><div><span class="org-kicker">ORGANIZATION / CITY CONTROL</span><h1 id="org-live-title">조직 현황</h1><p>서울 25개 구, 우리 조직의 영역을 확인하세요.</p><span class="org-live-state">${status}</span></div><dl><div><dt>활동 조직</dt><dd>${rows.length}<small>개</small></dd></div><div><dt>소속 인원</dt><dd>${number(members)}<small>명</small></dd></div></dl></section>`;
 }
 
 export function organizationDashboardView(state){

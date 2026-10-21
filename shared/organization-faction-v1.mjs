@@ -4,7 +4,8 @@ import {ORGANIZATIONS} from './organization-system-v1.mjs?v=20261019-six-organiz
 export const SQUADS=Object.freeze(['ATTACK','DEFENSE'].flatMap(role=>Array.from({length:5},(_,i)=>Object.freeze({id:role.toLowerCase()+(i+1),name:'제'+(i+1)+(role==='ATTACK'?' 공격대':' 방어대'),role}))));
 export const FACTION_RULES=Object.freeze({...CLAN_FACTION_RULES,squadSize:3});
 export const ORGANIZATION_SESSION_RULES=Object.freeze({...FACTION_SESSION_RULES,version:'20261019-six-organizations',requiredTerritories:9,coinPerRecipient:300000000000});
-export const ORGANIZATION_DISTRICTS=Object.freeze([
+// Retain names for historical battles and settled rewards after the Seoul cutover.
+export const HISTORICAL_ORGANIZATION_DISTRICTS=Object.freeze([
  ...SEOUL_DISTRICTS.map(d=>({...d,area:'SEOUL'})),
  ...[
  ['41570','김포시','한강신도시 · 고촌'],['41190','부천시','상동 · 중동'],['41210','광명시','철산 · 일직'],
@@ -16,7 +17,9 @@ export const ORGANIZATION_DISTRICTS=Object.freeze([
  ['41500','이천시','창전 · 부발'],['41670','여주시','여주 · 가남'],['41830','양평군','양평 · 양서']
  ].map(([id,name,market])=>({id,name,market,area:'GYEONGGI_SOUTH'}))
 ].map(Object.freeze));
+export const ORGANIZATION_DISTRICTS=Object.freeze(HISTORICAL_ORGANIZATION_DISTRICTS.filter(d=>d.area==='SEOUL'));
 export const organizationDistrictById=id=>ORGANIZATION_DISTRICTS.find(d=>d.id===String(id));
+export const historicalOrganizationDistrictById=id=>HISTORICAL_ORGANIZATION_DISTRICTS.find(d=>d.id===String(id));
 export const ORGANIZATION_ELDER_LIMIT=3;
 // Explicit lists replace the old single-leader field, including an empty list.
 export function organizationElderIds(state,roster,organizationId){

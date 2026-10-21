@@ -1,0 +1,407 @@
+[
+  {
+    "width": 1440,
+    "height": 1000,
+    "districts": 25,
+    "neutral": 25,
+    "geometry": [
+      {
+        "id": "11110",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11140",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11170",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11200",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11215",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11230",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11260",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11290",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11305",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11320",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11350",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11380",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11410",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11440",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11470",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11500",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11530",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11545",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11560",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11590",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11620",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11650",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11680",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11710",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11740",
+        "inside": true,
+        "neutral": true
+      }
+    ],
+    "errors": [],
+    "failed": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "districts": 25,
+    "neutral": 25,
+    "geometry": [
+      {
+        "id": "11110",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11140",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11170",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11200",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11215",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11230",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11260",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11290",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11305",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11320",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11350",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11380",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11410",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11440",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11470",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11500",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11530",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11545",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11560",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11590",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11620",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11650",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11680",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11710",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11740",
+        "inside": true,
+        "neutral": true
+      }
+    ],
+    "errors": [],
+    "failed": []
+  },
+  {
+    "width": 320,
+    "height": 740,
+    "districts": 25,
+    "neutral": 25,
+    "geometry": [
+      {
+        "id": "11110",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11140",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11170",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11200",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11215",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11230",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11260",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11290",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11305",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11320",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11350",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11380",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11410",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11440",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11470",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11500",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11530",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11545",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11560",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11590",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11620",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11650",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11680",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11710",
+        "inside": true,
+        "neutral": true
+      },
+      {
+        "id": "11740",
+        "inside": true,
+        "neutral": true
+      }
+    ],
+    "errors": [],
+    "failed": []
+  }
+]

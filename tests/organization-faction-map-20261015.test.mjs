@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {ORGANIZATION_DISTRICTS} from '../shared/organization-faction-v1.mjs';
+import {HISTORICAL_ORGANIZATION_DISTRICTS as ORGANIZATION_DISTRICTS} from '../shared/organization-faction-v1.mjs';
 const map=JSON.parse(readFileSync(new URL('../organization/faction/districts-v1.json',import.meta.url)));
 test('46 map regions share the KOSTAT source and retain city-level topology',()=>{
  const source=readFileSync(new URL('../assets/ui/organization/map-v2/kostat-2013-municipalities-source.topojson',import.meta.url));
