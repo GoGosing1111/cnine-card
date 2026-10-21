@@ -59,6 +59,8 @@ const operationAuditOnly=new Set(['docs/equipment-power-20261020.md','docs/equip
 // Energy implementation notes and deployment receipts have no browser imports.
 // Preserve them in Git; ship the shared policy modules within the Pages limit.
 for(const file of ['docs/content-energy-20261020.md','docs/content-energy-20261020-release.json','docs/content-energy-clock-fix-20261020.md','docs/content-energy-clock-fix-20261020-release.json','docs/legion-hunt-daily-energy-20261021.md'])operationAuditOnly.add(file);
+// Faction implementation/QA notes are repository records, not game resources.
+for(const file of ['docs/organization-faction-20261015.md','docs/organization-faction-ui-20261019.md'])operationAuditOnly.add(file);
 // Helpers are Node-only database/simulation fixtures. Browser previews consume
 // their generated JSON payloads, never the test helper modules themselves.
 // Dragon Slayer uses the 512px WebP. Keep the exact PNG and prompt/hash record in Git.
