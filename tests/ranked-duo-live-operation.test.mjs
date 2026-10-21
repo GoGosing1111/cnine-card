@@ -25,7 +25,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} duo b
 test('duo failures do not suppress other content, and the existing cache avoids repeated lookups',async()=>{
  const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
  const source=api.slice(api.indexOf('async function liveOperationAlerts(env){'),api.indexOf('let cardAcquisitionGradeFxCache'));
- let calls=0;const ctx=vm.createContext({Date,console:{error(){}},liveOperationsCache:null,LIVE_OPERATIONS_CACHE_MS:15000,organizationLiveOperation:async()=>null,coupLiveOperation:async()=>null,rankedDuoLiveOperation:async()=>{calls++;throw Error('Missing duo table');}});
+ let calls=0;const ctx=vm.createContext({Date,console:{error(){}},liveOperationsCache:null,LIVE_OPERATIONS_CACHE_MS:15000,organizationLiveOperation:async()=>null,organizationFactionLiveOperation:async()=>null,coupLiveOperation:async()=>null,rankedDuoLiveOperation:async()=>{calls++;throw Error('Missing duo table');}});
  vm.runInContext(source,ctx);
  const env={DB:{prepare:()=>({all:async()=>({results:[{kind:'SEAL',phase:'ACTIVE',entity_id:49,title:'봉인전'}]})})}};
  assert.equal((await ctx.liveOperationAlerts(env))[0].kind,'SEAL');await ctx.liveOperationAlerts(env);assert.equal(calls,1);
