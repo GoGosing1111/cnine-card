@@ -31,7 +31,7 @@ export function createFactionStartNotice({getContext,onEnter}){
   const show=()=>{
    // Recheck after a cross-tab lock or an account/route change.
    const active=current();if(destroyed||getContext().userId!==ctx.userId||!active||`${active.roundId}:${active.entityId}`!==key||seen(ctx.userId,key)||document.hidden||document.querySelector('dialog[open],#modal.show,.modal.show'))return;
-   if(!document.querySelector('[data-org-command-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/organization-command-20261021.css?v=20261021-command';link.dataset.orgCommandStyle='';document.head.append(link);}
+   if(!document.querySelector('[data-org-command-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/organization-command-20261021.css?v=20261021-command-v3';link.dataset.orgCommandStyle='';document.head.append(link);}
    const previous=document.activeElement,node=document.createElement('dialog');node.className='org-start-dialog';node.setAttribute('aria-labelledby','org-start-title');
    node.innerHTML='<div class="org-start-visual"><span class="org-kicker">SEOUL · FACTION WAR</span><h2 id="org-start-title">서울 세력전 개전</h2><p>우리 조직의 영역을 넓힐 시간입니다.</p></div><div class="org-start-body"><div class="org-start-status"><span>현재 회차 진행 중</span><strong data-org-start-clock></strong></div><p>서울 25개 구에서 점령전을 진행합니다.<br>종료 시 <b data-org-start-required></b>곳 이상 점령한 조직의 실제 참여자에게 보상이 지급됩니다.</p><div class="org-start-actions"><button type="button" data-org-start-enter>세력전 입장 →</button><button type="button" data-org-start-close autofocus>닫기</button></div></div>';
    node.querySelector('[data-org-start-required]').textContent=String(active.requiredTerritories??8);

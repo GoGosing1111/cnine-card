@@ -64,6 +64,7 @@ test('anonymous login gate ignores old drafts; background clan refresh preserves
    assert.equal(await page.evaluate(key=>localStorage.getItem(key),draftKey),draft);
   };
   await closed();
+  assert.equal(await ui.locator('.org-hero-v1').isVisible(),false);
   await fits();await imageButtons();await page.screenshot({path:join(output,width+'-entry.jpg'),fullPage:true,type:'jpeg',quality:85});
   // An old complete interview draft cannot restore logged-in admission controls.
   assert.equal(await ui.locator('[data-answer], .admission-results').count(),0);
@@ -73,6 +74,7 @@ test('anonymous login gate ignores old drafts; background clan refresh preserves
 
   // Real scheduled refreshes, including a failed request, must leave the iframe attached.
   await ui.locator('[data-tab="hideout"]').click();await ui.locator('[data-stage="4"]').click();
+  assert.equal(await ui.locator('.org-hero-v1 > div:first-child').evaluate(el=>el.getBoundingClientRect().width>=200),true,'mobile hero copy must retain readable width');
   await ui.locator('body').evaluate(async()=>{await document.fonts.ready;await Promise.all([...document.images].map(img=>img.decode().catch(()=>{})));});
   await ui.locator('[data-stage="4"]').focus();
   const baseline=await page.evaluate(()=>{

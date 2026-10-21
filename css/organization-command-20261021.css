@@ -34,6 +34,8 @@ body:has(>.organization-app),body:has(>.fw-root){margin:0;background:#080c17;col
 .organization-app .org-status{font-size:12px;color:#c3d2e7;letter-spacing:0;background:none;border:0;padding:0}
 .organization-app :is(.org-live-hero,.org-hero-v1){position:relative;isolation:isolate;min-height:300px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:32px;padding:38px 40px;margin:0 0 20px;border:12px solid transparent;border-image:var(--org-panel) 48 / 16px stretch;background:var(--org-hero) center/cover no-repeat;overflow:hidden}
 .organization-app .org-live-hero:before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#080e1ce8 0%,#080e1cbb 35%,#080e1c18 100%);z-index:-1}
+.organization-app .org-hero-v1[hidden]{display:none}
+@media(max-width:900px){.organization-app .org-hero-v1{grid-template-columns:minmax(0,1fr);padding:24px 16px;gap:20px;min-height:0}.organization-app .org-capacity{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;min-width:0;max-width:350px;margin:0;padding:16px 12px;gap:12px}.organization-app .org-capacity span{display:grid;gap:4px;text-align:center}.organization-app .org-capacity small{font-size:11px}}
 .organization-app .org-live-hero h1{font-size:44px;margin:10px 0 12px;line-height:1.2}
 .organization-app .org-live-hero p{font-size:15px;margin:0;color:#c2cfe0;line-height:1.65}
 .organization-app .org-hero-status{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:22px 0 18px;font-size:14px;color:#c8d6e9}
