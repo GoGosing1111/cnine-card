@@ -1,0 +1,321 @@
+{
+  "operationKey": "ops:crater-tournament-rewards:20261022:v1",
+  "campaignKey": "crater-tournament-rewards-20261022-v1",
+  "title": "크레이터 대회 상금",
+  "delivery": "MESSAGE",
+  "authorization": "직전 추출 명단 52명: 응맨·학벌 우승 각 20조, 나머지 참가상 각 1조를 크레이터 대회 상금 메시지로 지급.",
+  "recipients": [
+    {
+      "order": 1,
+      "inputNickname": "모래",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 2,
+      "inputNickname": "센텀신사",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 3,
+      "inputNickname": "0수표",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 4,
+      "inputNickname": "레가파",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 5,
+      "inputNickname": "폭군",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 6,
+      "inputNickname": "장씨아저씨",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 7,
+      "inputNickname": "딤키우기",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 8,
+      "inputNickname": "쁴로리",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 9,
+      "inputNickname": "대저동토마토",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 10,
+      "inputNickname": "라피e",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 11,
+      "inputNickname": "다르",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 12,
+      "inputNickname": "x수댕",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 13,
+      "inputNickname": "ShowMaker",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 14,
+      "inputNickname": "구와함",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 15,
+      "inputNickname": "의지",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 16,
+      "inputNickname": "오리꿍",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 17,
+      "inputNickname": "나무늘봉순",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 18,
+      "inputNickname": "망순이ෆ",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 19,
+      "inputNickname": "전게씹선미아웃",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 20,
+      "inputNickname": "공단",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 21,
+      "inputNickname": "˚쟁이。",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 22,
+      "inputNickname": "스루형2↑",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 23,
+      "inputNickname": "족단",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 24,
+      "inputNickname": "혜정",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 25,
+      "inputNickname": "씨나인택갓",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 26,
+      "inputNickname": "암살자..",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 27,
+      "inputNickname": "철줌마효진님",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 28,
+      "inputNickname": "비니",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 29,
+      "inputNickname": "오일바른가지",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 30,
+      "inputNickname": "족짜미♡",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 31,
+      "inputNickname": "애장",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 32,
+      "inputNickname": "우회하세요",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 33,
+      "inputNickname": "음주플레이어",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 34,
+      "inputNickname": "추종",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 35,
+      "inputNickname": "응맨",
+      "tier": "WINNER",
+      "amount": "20000000000000"
+    },
+    {
+      "order": 36,
+      "inputNickname": "학벌",
+      "tier": "WINNER",
+      "amount": "20000000000000"
+    },
+    {
+      "order": 37,
+      "inputNickname": "오승환이다.",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 38,
+      "inputNickname": "남수단",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 39,
+      "inputNickname": "박세라-ㅂ-",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 40,
+      "inputNickname": "족구조아",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 41,
+      "inputNickname": "베베킹",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 42,
+      "inputNickname": "좋은하루",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 43,
+      "inputNickname": "[C9]가시",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 44,
+      "inputNickname": "제롬",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 45,
+      "inputNickname": "난종신",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 46,
+      "inputNickname": "박사",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 47,
+      "inputNickname": "족날두",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 48,
+      "inputNickname": "커피먹는봉순",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 49,
+      "inputNickname": "쁠리의무사시",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 50,
+      "inputNickname": "쑤댕",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 51,
+      "inputNickname": "유나이은",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    },
+    {
+      "order": 52,
+      "inputNickname": "택신",
+      "tier": "PARTICIPANT",
+      "amount": "1000000000000"
+    }
+  ]
+}
