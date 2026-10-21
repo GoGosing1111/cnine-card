@@ -1,0 +1,16 @@
+[
+  {
+    "device": "mobile",
+    "mode": "disconnect",
+    "pending": false,
+    "confirmed": 1,
+    "postAttempts": 1,
+    "receiptAttempts": 2,
+    "disabled": false,
+    "status": "10회 개봉 완료 · 획득한 용병을 확인하세요.",
+    "serverPosts": 1,
+    "serverReads": 1,
+    "debits": 1,
+    "errors": []
+  }
+]

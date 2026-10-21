@@ -1,0 +1,71 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"2abbd1a2c760712c36d1ebf327058644f69a72b5","reason":"Halloween mobile receipt recovery only: bounded GET retries and lifecycle cancellation; new 10 tests and 12 browser cases passed; existing storage and explicit recovery regressions run here.","changed":["AGENTS.md","docs/mercenary-halloween-mobile-recovery-20261021.md","docs/qa/halloween-load-20261021/README.md","docs/qa/halloween-load-20261021/mobile/README.md","docs/qa/halloween-load-20261021/mobile/browser-report.json","docs/qa/halloween-load-20261021/mobile/source-verification.json","docs/qa/halloween-load-20261021/mobile/tail-summary.json","docs/qa/halloween-mobile-recovery-20261021/browser-report.json","docs/qa/halloween-mobile-recovery-20261021/desktop-recovered.png","docs/qa/halloween-mobile-recovery-20261021/mobile-recovered.png","docs/qa/world-raid-balance-20261021/announcement.json","docs/qa/world-raid-balance-20261021/apply.json","docs/qa/world-raid-balance-20261021/deploy.log","docs/qa/world-raid-balance-20261021/dry-run.json","docs/qa/world-raid-balance-20261021/new-rooms.json","docs/qa/world-raid-balance-20261021/production.json","docs/qa/world-raid-balance-20261021/verify.json","index.html","js/app.js","js/mercenary-halloween-pack-live.mjs","shared/mercenary-halloween-recovery-v1.mjs","shared/mercenary-halloween-session-v2.mjs","tests/mercenary-halloween-mobile-recovery-20261021.browser.mjs","tests/mercenary-halloween-mobile-recovery-20261021.test.mjs"],"tests":["tests/mercenary-halloween-storage-recovery-20261021.test.mjs","tests/mercenary-halloween-recovery-button-20261020.test.mjs"],"checks":[]}
+✔ the recovery control is notified after the durable request is saved and before the network can stall (5.4853ms)
+✔ a retired room cannot accept a late completed response or clear a newer pending request (0.8634ms)
+✔ a reopened room checks only the saved receipt and never purchases until explicit recovery (0.5908ms)
+✔ a full browser restores a completed ten-pack and permits the next durable request (4.4643ms)
+✔ history writes may fail without blocking confirmed results or read-only recovery (0.4239ms)
+✔ a purchase never reaches the server when its pending request cannot be persisted (0.639ms)
+✔ unconfirmed, mismatched and other-account results retain the durable pending request (0.4874ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 134.8739
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19994 files; 5589 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 7985.61 KiB / gzip: 1723.50 KiB
+Worker Startup Time: 111 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.40 sec)
+No targets deployed for cnine-card-api-runtime (1.27 sec)
+Current Version ID: 746b4a51-f264-4939-8328-d2fbb3c3bbc4
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19985/19994)
+Uploading... (19988/19994)
+Uploading... (19991/19994)
+Uploading... (19994/19994)
+✨ Success! Uploaded 9 files (19985 already uploaded) (2.07 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://e397ae4b.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2773.47 KiB / gzip: 630.97 KiB
+Worker Startup Time: 95 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.74 sec)
+Deployed cnine-card-clan-draft triggers (1.17 sec)
+  schedule: * * * * *
+Current Version ID: 0f423158-b26e-4713-b3fc-9fdff7dadfe9

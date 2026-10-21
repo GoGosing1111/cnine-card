@@ -1,0 +1,58 @@
+{
+  "at": "2026-10-21T04:42:21.147Z",
+  "source": "04837b3f328408a62cd669bdd5ef4e5d06a7dd80",
+  "deploymentId": "e397ae4b-8b3e-42e3-86a3-8c90c1865865",
+  "base": "https://cnine-card.pages.dev",
+  "hashes": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "564596334f2fa41f797749f623c4c4c6442e74a579edfdbc4c8837b39cee35c8",
+      "matches": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "de0c30e7a58fda8eda9bd1a9425cd43e0e4ee78cd888829a790a1eb275f996ed",
+      "matches": true
+    },
+    {
+      "file": "js/mercenary-halloween-pack-live.mjs",
+      "status": 200,
+      "sha256": "48e9692cd91669263902cc6fb49740bbed2f3a86833d0f060278f782ecb57d31",
+      "matches": true
+    },
+    {
+      "file": "shared/mercenary-halloween-session-v2.mjs",
+      "status": 200,
+      "sha256": "02b7740a3fb9668dc8b533aa9b824eceb544ae904ead6f0514d233de2d2cefdd",
+      "matches": true
+    },
+    {
+      "file": "shared/mercenary-halloween-recovery-v1.mjs",
+      "status": 200,
+      "sha256": "7b92fc11e09e5691f1ef07e34c7ab1f4263e07e74074085ad121c77028439050",
+      "matches": true
+    },
+    {
+      "file": "js/joint-account-transport.mjs",
+      "status": 200,
+      "sha256": "513432ff8b5d596778dcd39ae6c2456d67a0bafbf521666769d0e88ac6c1b785",
+      "matches": true
+    },
+    {
+      "file": "js/account-sync-client-v1.mjs",
+      "status": 200,
+      "sha256": "6770f06fb5f82167591fc3866a188abcad206a2eceabd36571c7a99289d940d1",
+      "matches": true
+    }
+  ],
+  "publicConfig": {
+    "status": 200,
+    "revision": 19,
+    "enabled": true,
+    "totalMs": 227
+  },
+  "livePurchases": 0,
+  "liveAccountWrites": 0
+}
