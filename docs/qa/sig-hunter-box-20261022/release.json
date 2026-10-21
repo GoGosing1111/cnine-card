@@ -1,0 +1,63 @@
+{
+  "feature": "SIG_HUNTER_BOX",
+  "completedAt": "2026-10-21T23:26:50.036Z",
+  "runtimeCommit": "5260a7df811ccb96da38a1332c64f7c234e8ea98",
+  "previousPagesCommit": "cc1bcfa6f79bd5602c75ee51e981bc153595a198",
+  "pages": {
+    "id": "ea95fce2-1fd1-4780-8b9a-8da18e6c2cf8",
+    "url": "https://ea95fce2.cnine-card.pages.dev",
+    "production": "https://cnine-card.pages.dev",
+    "assets": 20000
+  },
+  "apiRuntime": {
+    "version": "83ee02cc-a5b3-4007-ab96-a70e805161dd",
+    "trafficPercent": 100
+  },
+  "clanDraft": {
+    "version": "59d02faa-998c-4156-9d6c-a667a536f70b"
+  },
+  "validation": {
+    "scopedTests": [
+      "tests/sig-hunter-box-20261022.test.mjs",
+      "tests/reversecall-streamer-gift-20261021.test.mjs",
+      "tests/image-delivery-20261015.test.mjs"
+    ],
+    "scopedTestPasses": 21,
+    "policyTestPasses": 14,
+    "workerCheck": true,
+    "productionReleaseGuard": true,
+    "hyperdriveCacheDisabled": true,
+    "browserWidths": [
+      1440,
+      390,
+      320
+    ],
+    "liveFilesMatched": 10,
+    "unauthenticatedInventoryAndUseStatus": 401
+  },
+  "catalog": {
+    "code": "SIG_HUNTER_BOX",
+    "category": "MATERIAL",
+    "active": true,
+    "rewards": {
+      "coin": 30000000000000,
+      "masterStar": 20000000,
+      "repairCoupon": 3,
+      "suitCore6": 10,
+      "limitedShard": 1
+    },
+    "preflightItem": null,
+    "preflightHeld": 0,
+    "finalHeld": 0,
+    "accountGrantsExecuted": 0,
+    "messagesSent": 0,
+    "receipt": "catalog-registration.json",
+    "reportRecovery": "Initial registration succeeded; report output used an outdated environment-variable name. Corrected the ops-only report path and re-ran the idempotent catalog registration/verification; no accounts received items."
+  },
+  "art": {
+    "mode": "built-in imagegen",
+    "manifest": "preview/sig-hunter-box-20261022/manifest.json",
+    "userVisualApprovalClaimed": false
+  },
+  "userNotice": "user-notice.txt"
+}

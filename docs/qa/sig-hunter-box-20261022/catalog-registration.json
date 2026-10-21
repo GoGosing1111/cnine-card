@@ -1,0 +1,57 @@
+{
+  "mode": "register",
+  "checkedAt": "2026-10-21T23:26:13.712Z",
+  "before": {
+    "item": {
+      "code": "SIG_HUNTER_BOX",
+      "name": "시그헌터 박스",
+      "description": "개봉 시 코인 30조, 마스터의 별 2,000만 개, 핑두 리페어권 3장, 슈트 코어 6 10개, SSS 리미티드 조각 1개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/sig-hunter-box-20261022/gift-768.webp",
+      "is_active": 1
+    },
+    "holdings": {
+      "accounts": 0,
+      "quantity": "0"
+    }
+  },
+  "after": {
+    "item": {
+      "code": "SIG_HUNTER_BOX",
+      "name": "시그헌터 박스",
+      "description": "개봉 시 코인 30조, 마스터의 별 2,000만 개, 핑두 리페어권 3장, 슈트 코어 6 10개, SSS 리미티드 조각 1개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/sig-hunter-box-20261022/gift-768.webp",
+      "is_active": 1
+    },
+    "holdings": {
+      "accounts": 0,
+      "quantity": "0"
+    }
+  },
+  "materials": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "is_active": 1
+    },
+    {
+      "code": "MERCENARY_SSS_LIMITED_SHARD",
+      "name": "SSS 리미티드 조각",
+      "is_active": 1
+    },
+    {
+      "code": "PINGDU_REPAIR_COUPON",
+      "name": "핑두 리페어 쿠폰",
+      "is_active": 1
+    },
+    {
+      "code": "SUIT_CORE_6",
+      "name": "슈트 코어 6",
+      "is_active": 1
+    }
+  ],
+  "accountGrantsExecuted": 0
+}

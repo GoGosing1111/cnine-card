@@ -1,0 +1,76 @@
+{
+  "checkedAt": "2026-10-21T23:25:28.497Z",
+  "base": "https://cnine-card.pages.dev",
+  "results": [
+    {
+      "file": "shared/sig-hunter-box-v1.mjs",
+      "status": 200,
+      "bytes": 851,
+      "sourceMatches": true
+    },
+    {
+      "file": "js/sig-hunter-box-v1.js",
+      "status": 200,
+      "bytes": 5898,
+      "sourceMatches": true
+    },
+    {
+      "file": "css/sig-hunter-box-v1.css",
+      "status": 200,
+      "bytes": 4678,
+      "sourceMatches": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "bytes": 777805,
+      "sourceMatches": true
+    },
+    {
+      "file": "admin/admin-v1276.js",
+      "status": 200,
+      "bytes": 176635,
+      "sourceMatches": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 33724,
+      "sourceMatches": true
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "bytes": 81415,
+      "sourceMatches": true
+    },
+    {
+      "file": "assets/ui/packs/sig-hunter-box-20261022/gift-768.webp",
+      "status": 200,
+      "bytes": 187792,
+      "sourceMatches": true
+    },
+    {
+      "file": "assets/ui/packs/sig-hunter-box-20261022/gift-256.webp",
+      "status": 200,
+      "bytes": 28108,
+      "sourceMatches": true
+    },
+    {
+      "file": "assets/ui/packs/sig-hunter-box-20261022/panel.webp",
+      "status": 200,
+      "bytes": 220462,
+      "sourceMatches": true
+    },
+    {
+      "endpoint": "inventory",
+      "status": 401,
+      "authenticationRequired": true
+    },
+    {
+      "endpoint": "inventory/use",
+      "status": 401,
+      "authenticationRequired": true
+    }
+  ]
+}

@@ -22,7 +22,7 @@ try{
  const after=await read();if(mode==='register'){assert.equal(after.item?.name,gift.name);assert.equal(Number(after.item?.is_active),1);assert.equal(after.item?.description,gift.description);}
  assert.deepEqual(after.holdings,before.holdings,'Catalog registration must not grant any items');
  const report={mode,checkedAt:new Date().toISOString(),before,after,materials,accountGrantsExecuted:0};
- if(process.env.SIG_HUNTER_CATALOG_REPORT)await fs.writeFile(process.env.REVERSECALL_CATALOG_REPORT,JSON.stringify(report,null,2)+'\n',{flag:'wx'});
+ if(process.env.SIG_HUNTER_CATALOG_REPORT)await fs.writeFile(process.env.SIG_HUNTER_CATALOG_REPORT,JSON.stringify(report,null,2)+'\n',{flag:'wx'});
  console.log(JSON.stringify(report,null,2));
 }catch(e){console.error(String(e.message).replace(/postgres(?:ql)?:\/\/\S+/g,'[withheld]'));process.exitCode=1;}finally{await client.end();}
 
