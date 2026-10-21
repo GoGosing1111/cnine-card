@@ -1,0 +1,82 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "initial": {
+        "effectsPending": true,
+        "enemyCount": 1,
+        "inactiveCount": 4,
+        "ready": true,
+        "deployed": true,
+        "basicPlayed": true,
+        "basicApplications": 1,
+        "areaPlayed": true,
+        "areaApplications": 1
+      },
+      "after": {
+        "applications": 1,
+        "pose": 0,
+        "effects": 0,
+        "playback": {
+          "code": "V-975",
+          "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+          "mode": "blood-moonfall",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 3.62,
+          "durationSeconds": 4.95,
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "completed": {
+          "result": true,
+          "elapsed": 2472
+        },
+        "oldDestroyed": true,
+        "ready": true,
+        "delayedImpactNeverBlockedPlayback": true
+      }
+    },
+    {
+      "label": "mobile",
+      "initial": {
+        "effectsPending": true,
+        "enemyCount": 1,
+        "inactiveCount": 4,
+        "ready": true,
+        "deployed": true,
+        "basicPlayed": true,
+        "basicApplications": 1,
+        "areaPlayed": true,
+        "areaApplications": 1
+      },
+      "after": {
+        "applications": 1,
+        "pose": 0,
+        "effects": 0,
+        "playback": {
+          "code": "V-975",
+          "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+          "mode": "blood-moonfall",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 3.62,
+          "durationSeconds": 4.95,
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "completed": {
+          "result": true,
+          "elapsed": 2468.1999999955297
+        },
+        "oldDestroyed": true,
+        "ready": true,
+        "delayedImpactNeverBlockedPlayback": true
+      }
+    }
+  ],
+  "errors": []
+}

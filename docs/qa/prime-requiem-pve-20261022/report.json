@@ -1,0 +1,2967 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "area",
+      "idle": {
+        "d": {
+          "ready": true,
+          "skill": "blood-dash",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": 0,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "ambient",
+          "effectFrame": null,
+          "phase": "전투 준비",
+          "visibleEffects": 0,
+          "effectFrames": [],
+          "auraFrame": 3,
+          "auraVisible": true,
+          "auraAsset": "fx-idle-shattered-moon-v7",
+          "idleAura": {
+            "visible": true,
+            "alpha": 1,
+            "pulse": 0.645142338627231,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 9.989406779661017,
+            "moonRotation": 0,
+            "moonFrame": 2,
+            "moonNext": 3,
+            "moonBlend": 0.37500000000000044,
+            "flameFrame": 9,
+            "flameNext": 10,
+            "flameBlend": 0.49999999999999645,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": false,
+          "auraFrontAlpha": 0,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9574170806352678,
+          "neonOuterAlpha": 0.9219313144979908,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 101.85505805492299,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.2,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp"
+        },
+        "camera": {
+          "x": 800,
+          "y": 410,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "facing": 1
+      },
+      "outcomes": [
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "ATTACK",
+            "mode": "blood-dash",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.99,
+            "durationSeconds": 2,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "ATTACK",
+            "mode": "blood-echo",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.76,
+            "durationSeconds": 2.65,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "ATTACK",
+            "mode": "blood-frenzy",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 2.16,
+            "durationSeconds": 2.85,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "skill": "MS-963",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-tiger",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 1.28,
+            "durationSeconds": 2.5,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "skill": "MS-964",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-execution",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 3.05,
+            "durationSeconds": 3.85,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "skill": "MS-965",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-cataclysm",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 2.82,
+            "durationSeconds": 4.5,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "skill": "MS-966",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-moonfall",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 3.62,
+            "durationSeconds": 4.95,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "impactChecks": [
+        {
+          "ready": true,
+          "skill": "blood-tiger",
+          "time": 1.4,
+          "playing": false,
+          "speed": 2,
+          "pose": 6,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "attack",
+          "effectFrame": 11,
+          "phase": "2 / 2 연속 타격",
+          "visibleEffects": 15,
+          "effectFrames": [
+            {
+              "key": "fx-blood-tiger-burst",
+              "frame": 5
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            }
+          ],
+          "auraFrame": 14,
+          "auraVisible": true,
+          "auraAsset": "fx-blood-mantle-v3",
+          "idleAura": {
+            "visible": false,
+            "alpha": 0,
+            "pulse": 0.40245483899193574,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 1.3029661016949152,
+            "moonRotation": 0,
+            "moonFrame": 1,
+            "moonNext": 2,
+            "moonBlend": 0.7500000000000004,
+            "flameFrame": 6,
+            "flameNext": 7,
+            "flameBlend": 0.9999999999999973,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": true,
+          "auraFrontAlpha": 0.5203669290514517,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9282945806790323,
+          "neonOuterAlpha": 0.8685400645782259,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 365.23288241411825,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.5,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "rings": [
+            {
+              "width": 708.9962695108605,
+              "height": 453.75761248695073,
+              "alpha": 0.5844911802374717
+            },
+            {
+              "width": 539.4966962417525,
+              "height": 345.2778855947216,
+              "alpha": 0.1753473540712415
+            }
+          ],
+          "poolSize": 48,
+          "overflow": false
+        },
+        {
+          "ready": true,
+          "skill": "blood-execution",
+          "time": 3.17,
+          "playing": false,
+          "speed": 2,
+          "pose": 2,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "attack",
+          "effectFrame": 11,
+          "phase": "10 / 10 연속 타격",
+          "visibleEffects": 17,
+          "effectFrames": [
+            {
+              "key": "sword-afterimage",
+              "frame": 4
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            }
+          ],
+          "auraFrame": 15,
+          "auraVisible": true,
+          "auraAsset": "fx-blood-mantle-v3",
+          "idleAura": {
+            "visible": false,
+            "alpha": 0,
+            "pulse": 0.9997831542510106,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 98.15677966101696,
+            "moonRotation": 0,
+            "moonFrame": 3,
+            "moonNext": 4,
+            "moonBlend": 0.9624999999999999,
+            "flameFrame": 15,
+            "flameNext": 0,
+            "flameBlend": 0.8499999999999996,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": true,
+          "auraFrontAlpha": 0.5609852544890687,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9999739785101213,
+          "neonOuterAlpha": 0.9999522939352223,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 179.44439397218602,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.55,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "rings": [
+            {
+              "width": 708.9962695108608,
+              "height": 453.7576124869509,
+              "alpha": 0.5844911802374715
+            },
+            {
+              "width": 539.4966962417526,
+              "height": 345.2778855947217,
+              "alpha": 0.17534735407124144
+            }
+          ],
+          "poolSize": 48,
+          "overflow": false
+        },
+        {
+          "ready": true,
+          "skill": "blood-cataclysm",
+          "time": 2.94,
+          "playing": false,
+          "speed": 2,
+          "pose": 6,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "attack",
+          "effectFrame": 11,
+          "phase": "6 / 6 연속 타격",
+          "visibleEffects": 9,
+          "effectFrames": [
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 11
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 9
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 7
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 5
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 3
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            }
+          ],
+          "auraFrame": 13,
+          "auraVisible": true,
+          "auraAsset": "fx-blood-mantle-v3",
+          "idleAura": {
+            "visible": false,
+            "alpha": 0,
+            "pulse": 0.9837995461801299,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 1.3029661016949152,
+            "moonRotation": 0,
+            "moonFrame": 3,
+            "moonNext": 4,
+            "moonBlend": 0.6749999999999994,
+            "flameFrame": 14,
+            "flameNext": 15,
+            "flameBlend": 0.7000000000000011,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": true,
+          "auraFrontAlpha": 0.5598983691402487,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9980559455416156,
+          "neonOuterAlpha": 0.9964359001596286,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 129.47389074249682,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.45,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "rings": [
+            {
+              "width": 708.9962695108608,
+              "height": 453.7576124869509,
+              "alpha": 0.5844911802374715
+            },
+            {
+              "width": 539.4966962417526,
+              "height": 345.2778855947217,
+              "alpha": 0.17534735407124144
+            }
+          ],
+          "poolSize": 48,
+          "overflow": false
+        },
+        {
+          "ready": true,
+          "skill": "blood-moonfall",
+          "time": 3.74,
+          "playing": false,
+          "speed": 2,
+          "pose": 2,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "attack",
+          "effectFrame": 12,
+          "phase": "13 / 13 연속 타격",
+          "visibleEffects": 20,
+          "effectFrames": [
+            {
+              "key": "sword-afterimage",
+              "frame": 4
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 4
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "fx-blood-mooncleave-v3",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            }
+          ],
+          "auraFrame": 5,
+          "auraVisible": true,
+          "auraAsset": "fx-blood-mantle-v3",
+          "idleAura": {
+            "visible": false,
+            "alpha": 0,
+            "pulse": 0.931367192988896,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 98.15677966101696,
+            "moonRotation": 0,
+            "moonFrame": 4,
+            "moonNext": 5,
+            "moonBlend": 0.6749999999999998,
+            "flameFrame": 2,
+            "flameNext": 3,
+            "flameBlend": 0.7000000000000002,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": true,
+          "auraFrontAlpha": 0.5563329691232448,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9917640631586675,
+          "neonOuterAlpha": 0.9849007824575572,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 179.4443939721859,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.3,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "rings": [
+            {
+              "width": 708.9962695108608,
+              "height": 453.7576124869509,
+              "alpha": 0.5844911802374715
+            },
+            {
+              "width": 539.4966962417526,
+              "height": 345.2778855947217,
+              "alpha": 0.17534735407124144
+            }
+          ],
+          "poolSize": 48,
+          "overflow": false
+        }
+      ],
+      "contact": {
+        "ready": true,
+        "skill": "blood-moonfall",
+        "time": 3.65,
+        "playing": false,
+        "speed": 2,
+        "pose": 5,
+        "activeSheet": "motion-user-eight-v2",
+        "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+        "mode": "attack",
+        "effectFrame": 11,
+        "phase": "13 / 13 연속 타격",
+        "visibleEffects": 8,
+        "effectFrames": [
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 5
+          },
+          {
+            "key": "fx-blood-mooncleave-v3",
+            "frame": 9
+          },
+          {
+            "key": "fx-prime-eclipse-impact-v1",
+            "frame": 0
+          },
+          {
+            "key": "fx-prime-eclipse-impact-v1",
+            "frame": 0
+          }
+        ],
+        "auraFrame": 4,
+        "auraVisible": true,
+        "auraAsset": "fx-blood-mantle-v3",
+        "idleAura": {
+          "visible": false,
+          "alpha": 0,
+          "pulse": 0.9519946465617217,
+          "moonAsset": "fx-idle-shattered-moon-v7",
+          "moonX": -38.22033898305085,
+          "moonRotation": 0,
+          "moonFrame": 4,
+          "moonNext": 5,
+          "moonBlend": 0.5625,
+          "flameFrame": 2,
+          "flameNext": 3,
+          "flameBlend": 0.24999999999999867,
+          "renderedSprites": 4,
+          "reducedMotion": false
+        },
+        "bloodAuraVisible": true,
+        "auraFrontAlpha": 0.557735635966197,
+        "neonLayers": 2,
+        "neonInnerAlpha": 1,
+        "neonContourAlpha": 0.9942393575874067,
+        "neonOuterAlpha": 0.9894388222435788,
+        "neonRim": "SOURCE_ALPHA_CONTOUR",
+        "neonRimWidth": 2.25,
+        "neonAboveAura": true,
+        "registeredTimelines": 0,
+        "ownTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "effectLayers": 1,
+        "scaleX": 0.8686440677966102,
+        "scaleY": 0.8686440677966102,
+        "expectedScale": 0.8686440677966102,
+        "contactDistance": 5.684341886080802e-14,
+        "rendererResolution": 1,
+        "clock": "ONE_V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "liveEnabled": true,
+        "cameraZoom": false,
+        "playbackRate": 2,
+        "pveEffects": true,
+        "pveEffectScale": 1.3,
+        "impactReady": true,
+        "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp"
+      },
+      "cancel": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "resumed": true,
+        "states": 0,
+        "destroyed": true
+      },
+      "mainEntry": true
+    },
+    {
+      "label": "desktop",
+      "mode": "enemy",
+      "idle": {
+        "d": {
+          "ready": true,
+          "skill": "blood-dash",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": 0,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "ambient",
+          "effectFrame": null,
+          "phase": "전투 준비",
+          "visibleEffects": 0,
+          "effectFrames": [],
+          "auraFrame": 3,
+          "auraVisible": true,
+          "auraAsset": "fx-idle-shattered-moon-v7",
+          "idleAura": {
+            "visible": true,
+            "alpha": 1,
+            "pulse": 0.645142338627231,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 9.989406779661017,
+            "moonRotation": 0,
+            "moonFrame": 2,
+            "moonNext": 3,
+            "moonBlend": 0.37500000000000044,
+            "flameFrame": 9,
+            "flameNext": 10,
+            "flameBlend": 0.49999999999999645,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": false,
+          "auraFrontAlpha": 0,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9574170806352678,
+          "neonOuterAlpha": 0.9219313144979908,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 1087.7546342704293,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": false,
+          "pveEffectScale": 1,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp"
+        },
+        "camera": {
+          "x": 800,
+          "y": 410,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "facing": -1
+      },
+      "outcomes": [
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "ATTACK",
+            "mode": "blood-dash",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.99,
+            "durationSeconds": 2,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "ATTACK",
+            "mode": "blood-echo",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.76,
+            "durationSeconds": 2.65,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "ATTACK",
+            "mode": "blood-frenzy",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 2.16,
+            "durationSeconds": 2.85,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "impactChecks": [],
+      "contact": {
+        "ready": true,
+        "skill": "blood-moonfall",
+        "time": 3.65,
+        "playing": false,
+        "speed": 2,
+        "pose": 5,
+        "activeSheet": "motion-user-eight-v2",
+        "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+        "mode": "attack",
+        "effectFrame": 11,
+        "phase": "13 / 13 연속 타격",
+        "visibleEffects": 6,
+        "effectFrames": [
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 5
+          },
+          {
+            "key": "fx-blood-mooncleave-v3",
+            "frame": 9
+          }
+        ],
+        "auraFrame": 4,
+        "auraVisible": true,
+        "auraAsset": "fx-blood-mantle-v3",
+        "idleAura": {
+          "visible": false,
+          "alpha": 0,
+          "pulse": 0.9519946465617217,
+          "moonAsset": "fx-idle-shattered-moon-v7",
+          "moonX": -38.22033898305085,
+          "moonRotation": 0,
+          "moonFrame": 4,
+          "moonNext": 5,
+          "moonBlend": 0.5625,
+          "flameFrame": 2,
+          "flameNext": 3,
+          "flameBlend": 0.24999999999999867,
+          "renderedSprites": 4,
+          "reducedMotion": false
+        },
+        "bloodAuraVisible": true,
+        "auraFrontAlpha": 0.557735635966197,
+        "neonLayers": 2,
+        "neonInnerAlpha": 1,
+        "neonContourAlpha": 0.9942393575874067,
+        "neonOuterAlpha": 0.9894388222435788,
+        "neonRim": "SOURCE_ALPHA_CONTOUR",
+        "neonRimWidth": 2.25,
+        "neonAboveAura": true,
+        "registeredTimelines": 0,
+        "ownTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "effectLayers": 1,
+        "scaleX": 0.8686440677966102,
+        "scaleY": 0.8686440677966102,
+        "expectedScale": 0.8686440677966102,
+        "contactDistance": 5.684341886080802e-14,
+        "rendererResolution": 1,
+        "clock": "ONE_V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "liveEnabled": true,
+        "cameraZoom": false,
+        "playbackRate": 2,
+        "pveEffects": false,
+        "pveEffectScale": 1,
+        "impactReady": true,
+        "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp"
+      },
+      "cancel": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "resumed": true,
+        "states": 0,
+        "destroyed": true
+      },
+      "mainEntry": true
+    },
+    {
+      "label": "desktop",
+      "mode": "single",
+      "idle": {
+        "d": {
+          "ready": true,
+          "skill": "blood-dash",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": 0,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "ambient",
+          "effectFrame": null,
+          "phase": "전투 준비",
+          "visibleEffects": 0,
+          "effectFrames": [],
+          "auraFrame": 3,
+          "auraVisible": true,
+          "auraAsset": "fx-idle-shattered-moon-v7",
+          "idleAura": {
+            "visible": true,
+            "alpha": 1,
+            "pulse": 0.645142338627231,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 9.989406779661017,
+            "moonRotation": 0,
+            "moonFrame": 2,
+            "moonNext": 3,
+            "moonBlend": 0.37500000000000044,
+            "flameFrame": 9,
+            "flameNext": 10,
+            "flameBlend": 0.49999999999999645,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": false,
+          "auraFrontAlpha": 0,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9574170806352678,
+          "neonOuterAlpha": 0.9219313144979908,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 101.85505805492299,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.2,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp"
+        },
+        "camera": {
+          "x": 800,
+          "y": 410,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "facing": 1
+      },
+      "outcomes": [
+        {
+          "skill": "MS-963",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-tiger",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.28,
+            "durationSeconds": 2.5,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "skill": "MS-964",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-execution",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 3.05,
+            "durationSeconds": 3.85,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "skill": "MS-965",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-cataclysm",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 2.82,
+            "durationSeconds": 4.5,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "skill": "MS-966",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-moonfall",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 3.62,
+            "durationSeconds": 4.95,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "impactChecks": [
+        {
+          "ready": true,
+          "skill": "blood-tiger",
+          "time": 1.4,
+          "playing": false,
+          "speed": 2,
+          "pose": 6,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "attack",
+          "effectFrame": 11,
+          "phase": "2 / 2 연속 타격",
+          "visibleEffects": 4,
+          "effectFrames": [
+            {
+              "key": "fx-blood-tiger-burst",
+              "frame": 5
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            }
+          ],
+          "auraFrame": 14,
+          "auraVisible": true,
+          "auraAsset": "fx-blood-mantle-v3",
+          "idleAura": {
+            "visible": false,
+            "alpha": 0,
+            "pulse": 0.40245483899193574,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 1.3029661016949152,
+            "moonRotation": 0,
+            "moonFrame": 1,
+            "moonNext": 2,
+            "moonBlend": 0.7500000000000004,
+            "flameFrame": 6,
+            "flameNext": 7,
+            "flameBlend": 0.9999999999999973,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": true,
+          "auraFrontAlpha": 0.5203669290514517,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9282945806790323,
+          "neonOuterAlpha": 0.8685400645782259,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 365.23288241411825,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.5,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "rings": [
+            {
+              "width": 708.9962695108605,
+              "height": 453.75761248695073,
+              "alpha": 0.5844911802374717
+            },
+            {
+              "width": 539.4966962417525,
+              "height": 345.2778855947216,
+              "alpha": 0.1753473540712415
+            }
+          ],
+          "poolSize": 48,
+          "overflow": false
+        },
+        {
+          "ready": true,
+          "skill": "blood-execution",
+          "time": 3.17,
+          "playing": false,
+          "speed": 2,
+          "pose": 2,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "attack",
+          "effectFrame": 11,
+          "phase": "10 / 10 연속 타격",
+          "visibleEffects": 7,
+          "effectFrames": [
+            {
+              "key": "sword-afterimage",
+              "frame": 4
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            }
+          ],
+          "auraFrame": 15,
+          "auraVisible": true,
+          "auraAsset": "fx-blood-mantle-v3",
+          "idleAura": {
+            "visible": false,
+            "alpha": 0,
+            "pulse": 0.9997831542510106,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 98.15677966101696,
+            "moonRotation": 0,
+            "moonFrame": 3,
+            "moonNext": 4,
+            "moonBlend": 0.9624999999999999,
+            "flameFrame": 15,
+            "flameNext": 0,
+            "flameBlend": 0.8499999999999996,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": true,
+          "auraFrontAlpha": 0.5609852544890687,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9999739785101213,
+          "neonOuterAlpha": 0.9999522939352223,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 179.4443939721858,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.55,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "rings": [
+            {
+              "width": 708.9962695108608,
+              "height": 453.7576124869509,
+              "alpha": 0.5844911802374715
+            },
+            {
+              "width": 539.4966962417526,
+              "height": 345.2778855947217,
+              "alpha": 0.17534735407124144
+            }
+          ],
+          "poolSize": 48,
+          "overflow": false
+        },
+        {
+          "ready": true,
+          "skill": "blood-cataclysm",
+          "time": 2.94,
+          "playing": false,
+          "speed": 2,
+          "pose": 6,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "attack",
+          "effectFrame": 11,
+          "phase": "6 / 6 연속 타격",
+          "visibleEffects": 4,
+          "effectFrames": [
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 11
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            }
+          ],
+          "auraFrame": 13,
+          "auraVisible": true,
+          "auraAsset": "fx-blood-mantle-v3",
+          "idleAura": {
+            "visible": false,
+            "alpha": 0,
+            "pulse": 0.9837995461801299,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 1.3029661016949152,
+            "moonRotation": 0,
+            "moonFrame": 3,
+            "moonNext": 4,
+            "moonBlend": 0.6749999999999994,
+            "flameFrame": 14,
+            "flameNext": 15,
+            "flameBlend": 0.7000000000000011,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": true,
+          "auraFrontAlpha": 0.5598983691402487,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9980559455416156,
+          "neonOuterAlpha": 0.9964359001596286,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 0,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.45,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "rings": [
+            {
+              "width": 708.9962695108608,
+              "height": 453.7576124869509,
+              "alpha": 0.5844911802374715
+            },
+            {
+              "width": 539.4966962417526,
+              "height": 345.2778855947217,
+              "alpha": 0.17534735407124144
+            }
+          ],
+          "poolSize": 48,
+          "overflow": false
+        },
+        {
+          "ready": true,
+          "skill": "blood-moonfall",
+          "time": 3.74,
+          "playing": false,
+          "speed": 2,
+          "pose": 2,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "attack",
+          "effectFrame": 12,
+          "phase": "13 / 13 연속 타격",
+          "visibleEffects": 9,
+          "effectFrames": [
+            {
+              "key": "sword-afterimage",
+              "frame": 4
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 4
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "fx-blood-mooncleave-v3",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            }
+          ],
+          "auraFrame": 5,
+          "auraVisible": true,
+          "auraAsset": "fx-blood-mantle-v3",
+          "idleAura": {
+            "visible": false,
+            "alpha": 0,
+            "pulse": 0.931367192988896,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 98.15677966101696,
+            "moonRotation": 0,
+            "moonFrame": 4,
+            "moonNext": 5,
+            "moonBlend": 0.6749999999999998,
+            "flameFrame": 2,
+            "flameNext": 3,
+            "flameBlend": 0.7000000000000002,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": true,
+          "auraFrontAlpha": 0.5563329691232448,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9917640631586675,
+          "neonOuterAlpha": 0.9849007824575572,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 179.4443939721858,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.3,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "rings": [
+            {
+              "width": 708.9962695108608,
+              "height": 453.7576124869509,
+              "alpha": 0.5844911802374715
+            },
+            {
+              "width": 539.4966962417526,
+              "height": 345.2778855947217,
+              "alpha": 0.17534735407124144
+            }
+          ],
+          "poolSize": 48,
+          "overflow": false
+        }
+      ],
+      "contact": {
+        "ready": true,
+        "skill": "blood-moonfall",
+        "time": 3.65,
+        "playing": false,
+        "speed": 2,
+        "pose": 5,
+        "activeSheet": "motion-user-eight-v2",
+        "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+        "mode": "attack",
+        "effectFrame": 11,
+        "phase": "13 / 13 연속 타격",
+        "visibleEffects": 8,
+        "effectFrames": [
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 5
+          },
+          {
+            "key": "fx-blood-mooncleave-v3",
+            "frame": 9
+          },
+          {
+            "key": "fx-prime-eclipse-impact-v1",
+            "frame": 0
+          },
+          {
+            "key": "fx-prime-eclipse-impact-v1",
+            "frame": 0
+          }
+        ],
+        "auraFrame": 4,
+        "auraVisible": true,
+        "auraAsset": "fx-blood-mantle-v3",
+        "idleAura": {
+          "visible": false,
+          "alpha": 0,
+          "pulse": 0.9519946465617217,
+          "moonAsset": "fx-idle-shattered-moon-v7",
+          "moonX": -38.22033898305085,
+          "moonRotation": 0,
+          "moonFrame": 4,
+          "moonNext": 5,
+          "moonBlend": 0.5625,
+          "flameFrame": 2,
+          "flameNext": 3,
+          "flameBlend": 0.24999999999999867,
+          "renderedSprites": 4,
+          "reducedMotion": false
+        },
+        "bloodAuraVisible": true,
+        "auraFrontAlpha": 0.557735635966197,
+        "neonLayers": 2,
+        "neonInnerAlpha": 1,
+        "neonContourAlpha": 0.9942393575874067,
+        "neonOuterAlpha": 0.9894388222435788,
+        "neonRim": "SOURCE_ALPHA_CONTOUR",
+        "neonRimWidth": 2.25,
+        "neonAboveAura": true,
+        "registeredTimelines": 0,
+        "ownTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "effectLayers": 1,
+        "scaleX": 0.8686440677966102,
+        "scaleY": 0.8686440677966102,
+        "expectedScale": 0.8686440677966102,
+        "contactDistance": 1.1368683772161603e-13,
+        "rendererResolution": 1,
+        "clock": "ONE_V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "liveEnabled": true,
+        "cameraZoom": false,
+        "playbackRate": 2,
+        "pveEffects": true,
+        "pveEffectScale": 1.3,
+        "impactReady": true,
+        "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp"
+      },
+      "cancel": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "resumed": true,
+        "states": 0,
+        "destroyed": true
+      },
+      "mainEntry": true
+    },
+    {
+      "label": "mobile",
+      "mode": "area",
+      "idle": {
+        "d": {
+          "ready": true,
+          "skill": "blood-dash",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": 0,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "ambient",
+          "effectFrame": null,
+          "phase": "전투 준비",
+          "visibleEffects": 0,
+          "effectFrames": [],
+          "auraFrame": 3,
+          "auraVisible": true,
+          "auraAsset": "fx-idle-shattered-moon-v7",
+          "idleAura": {
+            "visible": true,
+            "alpha": 1,
+            "pulse": 0.645142338627231,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 9.989406779661017,
+            "moonRotation": 0,
+            "moonFrame": 2,
+            "moonNext": 3,
+            "moonBlend": 0.37500000000000044,
+            "flameFrame": 9,
+            "flameNext": 10,
+            "flameBlend": 0.49999999999999645,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": false,
+          "auraFrontAlpha": 0,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9574170806352678,
+          "neonOuterAlpha": 0.9219313144979908,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 132.41157547139994,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.2,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp"
+        },
+        "camera": {
+          "x": 575.4098360655737,
+          "y": 1156.7213114754097,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.65,
+          "y": 0.65
+        },
+        "facing": 1
+      },
+      "outcomes": [
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "ATTACK",
+            "mode": "blood-dash",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.99,
+            "durationSeconds": 2,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "ATTACK",
+            "mode": "blood-echo",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.76,
+            "durationSeconds": 2.65,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "ATTACK",
+            "mode": "blood-frenzy",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 2.16,
+            "durationSeconds": 2.85,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        {
+          "skill": "MS-963",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-tiger",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 1.28,
+            "durationSeconds": 2.5,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        {
+          "skill": "MS-964",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-execution",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 3.05,
+            "durationSeconds": 3.85,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        {
+          "skill": "MS-965",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-cataclysm",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 2.82,
+            "durationSeconds": 4.5,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        {
+          "skill": "MS-966",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-moonfall",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 3.62,
+            "durationSeconds": 4.95,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        }
+      ],
+      "impactChecks": [
+        {
+          "ready": true,
+          "skill": "blood-tiger",
+          "time": 1.4,
+          "playing": false,
+          "speed": 2,
+          "pose": 6,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "attack",
+          "effectFrame": 11,
+          "phase": "2 / 2 연속 타격",
+          "visibleEffects": 15,
+          "effectFrames": [
+            {
+              "key": "fx-blood-tiger-burst",
+              "frame": 5
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-echo",
+              "frame": 14
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            }
+          ],
+          "auraFrame": 14,
+          "auraVisible": true,
+          "auraAsset": "fx-blood-mantle-v3",
+          "idleAura": {
+            "visible": false,
+            "alpha": 0,
+            "pulse": 0.40245483899193574,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 1.3029661016949152,
+            "moonRotation": 0,
+            "moonFrame": 1,
+            "moonNext": 2,
+            "moonBlend": 0.7500000000000004,
+            "flameFrame": 6,
+            "flameNext": 7,
+            "flameBlend": 0.9999999999999973,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": true,
+          "auraFrontAlpha": 0.5203669290514517,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9282945806790323,
+          "neonOuterAlpha": 0.8685400645782259,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 115.03960369772742,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.5,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "rings": [
+            {
+              "width": 656.2889915992547,
+              "height": 420.024954623523,
+              "alpha": 0.5844911802374717
+            },
+            {
+              "width": 499.3901350029677,
+              "height": 319.60968640189935,
+              "alpha": 0.1753473540712415
+            }
+          ],
+          "poolSize": 48,
+          "overflow": false
+        },
+        {
+          "ready": true,
+          "skill": "blood-execution",
+          "time": 3.17,
+          "playing": false,
+          "speed": 2,
+          "pose": 2,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "attack",
+          "effectFrame": 11,
+          "phase": "10 / 10 연속 타격",
+          "visibleEffects": 17,
+          "effectFrames": [
+            {
+              "key": "sword-afterimage",
+              "frame": 4
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-execution-v2",
+              "frame": 10
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            }
+          ],
+          "auraFrame": 15,
+          "auraVisible": true,
+          "auraAsset": "fx-blood-mantle-v3",
+          "idleAura": {
+            "visible": false,
+            "alpha": 0,
+            "pulse": 0.9997831542510106,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 98.15677966101696,
+            "moonRotation": 0,
+            "moonFrame": 3,
+            "moonNext": 4,
+            "moonBlend": 0.9624999999999999,
+            "flameFrame": 15,
+            "flameNext": 0,
+            "flameBlend": 0.8499999999999996,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": true,
+          "auraFrontAlpha": 0.5609852544890687,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9999739785101213,
+          "neonOuterAlpha": 0.9999522939352223,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 233.2777121638419,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.55,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "rings": [
+            {
+              "width": 656.288991599255,
+              "height": 420.02495462352323,
+              "alpha": 0.5844911802374715
+            },
+            {
+              "width": 499.390135002968,
+              "height": 319.6096864018995,
+              "alpha": 0.17534735407124144
+            }
+          ],
+          "poolSize": 48,
+          "overflow": false
+        },
+        {
+          "ready": true,
+          "skill": "blood-cataclysm",
+          "time": 2.94,
+          "playing": false,
+          "speed": 2,
+          "pose": 6,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "attack",
+          "effectFrame": 11,
+          "phase": "6 / 6 연속 타격",
+          "visibleEffects": 9,
+          "effectFrames": [
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 14
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 11
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 9
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 7
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 5
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 3
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            }
+          ],
+          "auraFrame": 13,
+          "auraVisible": true,
+          "auraAsset": "fx-blood-mantle-v3",
+          "idleAura": {
+            "visible": false,
+            "alpha": 0,
+            "pulse": 0.9837995461801299,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 1.3029661016949152,
+            "moonRotation": 0,
+            "moonFrame": 3,
+            "moonNext": 4,
+            "moonBlend": 0.6749999999999994,
+            "flameFrame": 14,
+            "flameNext": 15,
+            "flameBlend": 0.7000000000000011,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": true,
+          "auraFrontAlpha": 0.5598983691402487,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9980559455416156,
+          "neonOuterAlpha": 0.9964359001596286,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 211.44655214971,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.45,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "rings": [
+            {
+              "width": 656.288991599255,
+              "height": 420.02495462352323,
+              "alpha": 0.5844911802374715
+            },
+            {
+              "width": 499.390135002968,
+              "height": 319.6096864018995,
+              "alpha": 0.17534735407124144
+            }
+          ],
+          "poolSize": 48,
+          "overflow": false
+        },
+        {
+          "ready": true,
+          "skill": "blood-moonfall",
+          "time": 3.74,
+          "playing": false,
+          "speed": 2,
+          "pose": 2,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "attack",
+          "effectFrame": 12,
+          "phase": "13 / 13 연속 타격",
+          "visibleEffects": 20,
+          "effectFrames": [
+            {
+              "key": "sword-afterimage",
+              "frame": 4
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 4
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "sword-afterimage",
+              "frame": 5
+            },
+            {
+              "key": "fx-blood-mooncleave-v3",
+              "frame": 10
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-blood-cataclysm-v3",
+              "frame": 8
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            },
+            {
+              "key": "fx-prime-eclipse-impact-v1",
+              "frame": 0
+            }
+          ],
+          "auraFrame": 5,
+          "auraVisible": true,
+          "auraAsset": "fx-blood-mantle-v3",
+          "idleAura": {
+            "visible": false,
+            "alpha": 0,
+            "pulse": 0.931367192988896,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 98.15677966101696,
+            "moonRotation": 0,
+            "moonFrame": 4,
+            "moonNext": 5,
+            "moonBlend": 0.6749999999999998,
+            "flameFrame": 2,
+            "flameNext": 3,
+            "flameBlend": 0.7000000000000002,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": true,
+          "auraFrontAlpha": 0.5563329691232448,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9917640631586675,
+          "neonOuterAlpha": 0.9849007824575572,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 233.2777121638419,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2,
+          "pveEffects": true,
+          "pveEffectScale": 1.3,
+          "impactReady": true,
+          "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "rings": [
+            {
+              "width": 656.288991599255,
+              "height": 420.02495462352323,
+              "alpha": 0.5844911802374715
+            },
+            {
+              "width": 499.390135002968,
+              "height": 319.6096864018995,
+              "alpha": 0.17534735407124144
+            }
+          ],
+          "poolSize": 48,
+          "overflow": false
+        }
+      ],
+      "contact": {
+        "ready": true,
+        "skill": "blood-moonfall",
+        "time": 3.65,
+        "playing": false,
+        "speed": 2,
+        "pose": 5,
+        "activeSheet": "motion-user-eight-v2",
+        "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+        "mode": "attack",
+        "effectFrame": 11,
+        "phase": "13 / 13 연속 타격",
+        "visibleEffects": 8,
+        "effectFrames": [
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 5
+          },
+          {
+            "key": "fx-blood-mooncleave-v3",
+            "frame": 9
+          },
+          {
+            "key": "fx-prime-eclipse-impact-v1",
+            "frame": 0
+          },
+          {
+            "key": "fx-prime-eclipse-impact-v1",
+            "frame": 0
+          }
+        ],
+        "auraFrame": 4,
+        "auraVisible": true,
+        "auraAsset": "fx-blood-mantle-v3",
+        "idleAura": {
+          "visible": false,
+          "alpha": 0,
+          "pulse": 0.9519946465617217,
+          "moonAsset": "fx-idle-shattered-moon-v7",
+          "moonX": -38.22033898305085,
+          "moonRotation": 0,
+          "moonFrame": 4,
+          "moonNext": 5,
+          "moonBlend": 0.5625,
+          "flameFrame": 2,
+          "flameNext": 3,
+          "flameBlend": 0.24999999999999867,
+          "renderedSprites": 4,
+          "reducedMotion": false
+        },
+        "bloodAuraVisible": true,
+        "auraFrontAlpha": 0.557735635966197,
+        "neonLayers": 2,
+        "neonInnerAlpha": 1,
+        "neonContourAlpha": 0.9942393575874067,
+        "neonOuterAlpha": 0.9894388222435788,
+        "neonRim": "SOURCE_ALPHA_CONTOUR",
+        "neonRimWidth": 2.25,
+        "neonAboveAura": true,
+        "registeredTimelines": 0,
+        "ownTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "effectLayers": 1,
+        "scaleX": 0.8686440677966102,
+        "scaleY": 0.8686440677966102,
+        "expectedScale": 0.8686440677966102,
+        "contactDistance": 1.1368683772161603e-13,
+        "rendererResolution": 1,
+        "clock": "ONE_V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "liveEnabled": true,
+        "cameraZoom": false,
+        "playbackRate": 2,
+        "pveEffects": true,
+        "pveEffectScale": 1.3,
+        "impactReady": true,
+        "impactAsset": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp"
+      },
+      "cancel": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "resumed": true,
+        "states": 0,
+        "destroyed": true
+      },
+      "mainEntry": true
+    }
+  ],
+  "errors": []
+}

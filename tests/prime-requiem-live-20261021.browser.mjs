@@ -32,17 +32,31 @@ const pvpPayload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{mo
 const enemyPayload=structuredClone(pvpPayload);enemyPayload.battleV2.teams.A.mercenaries=[];enemyPayload.battleV2.teams.B.mercenaries=[{...merc,id:'B:MERCENARY:V-975'}];
 const baseHtml=fs.readFileSync(path.join(root,'preview/mercenary-limited-ayoon-heeya-v3-20261008/index.html'),'utf8');
 const boot=`document.addEventListener('DOMContentLoaded',async()=>{try{
- const mode=new URLSearchParams(location.search).get('mode'),data=await fetch('/qa-data?mode='+mode).then(r=>r.json());window.cnineCardCatalog=()=>data.deck;
+ const mode=new URLSearchParams(location.search).get('mode');
+ if(window.ensureFeatureResources){
+  await window.ensureFeatureResources('battleV2');
+  if(mode!=='enemy')await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='/preview/sustained-hunt-v2/battle.bundle.js';s.onload=resolve;s.onerror=reject;document.head.appendChild(s);});
+ }
+ if(!document.getElementById('lab-modal')&&!document.getElementById('modal'))document.getElementById('app').insertAdjacentHTML('beforeend','<div id="modal" class="modal"></div>');
+ const data=await fetch('/qa-data?mode='+mode).then(r=>r.json());window.cnineCardCatalog=()=>data.deck;
  const api=window.ProjectVPixiBattle,mount=api.mountForBattle;let engine;api.mountForBattle=async(...args)=>(engine=await mount(...args));
- const modal=document.getElementById('lab-modal'),field=mode!=='enemy'?'HUNT':'PVP',prepared=window.ProjectVBattleV3Live.prepareLoading({modal,mode:field,playerName:'프라임 레퀴엠',opponentName:'검수 상대'});
+ const modal=document.getElementById('lab-modal')||document.getElementById('modal'),field=mode!=='enemy'?'HUNT':'PVP',prepared=window.ProjectVBattleV3Live.prepareLoading({modal,mode:field,playerName:'프라임 레퀴엠',opponentName:'검수 상대'});
  const renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal,data:data.payload,mode:field,playerName:'프라임 레퀴엠'});api.mountForBattle=mount;
  await engine.deployCards({instant:true,force:true});engine.actionPlaybackSpeed=()=>1;
- window.PrimeQA={engine,renderer,event:data.event,mode,ready:true};document.getElementById('health').textContent='실제 V3 전투 연결 완료';
+ // The isolated account fixture mounts the real main modal without signing in.
+ // Remove the unauthenticated overlay, whose z-index intentionally exceeds battles.
+ document.querySelector('#app .login-wrap')?.remove();
+ window.PrimeQA={engine,renderer,event:data.event,mode,ready:true};if(document.getElementById('health'))document.getElementById('health').textContent='실제 V3 전투 연결 완료';
  }catch(e){window.qaError=e.stack;console.error(e);}});`;
 const json=(res,data,status=200)=>{res.writeHead(status,{'content-type':'application/json'});res.end(JSON.stringify(data));};
 const server=http.createServer(async(req,res)=>{try{
  const url=new URL(req.url,'http://127.0.0.1'),mode=url.searchParams.get('mode');
  if(url.pathname==='/qa/battle'){
+  if(process.argv.includes('--main')){
+   const bundle=mode!=='enemy'?'/preview/sustained-hunt-v2/battle.bundle.js':'/preview/project-v-v3/project-v-pixi-battle.bundle.js';
+   res.writeHead(200,{'content-type':'text/html; charset=utf-8'});
+   return res.end(fs.readFileSync(path.join(root,'index.html'),'utf8').replace('<head>','<head><base href="/">').replace('</body>',`<script defer src="${bundle}"></script><script defer src="/qa-boot.js"></script></body>`));
+  }
   res.writeHead(200,{'content-type':'text/html; charset=utf-8'});return res.end(baseHtml.replace('<script defer src="preview.bundle.js"></script>',`<script defer src="${mode!=='enemy'?'/preview/sustained-hunt-v2/battle.bundle.js':'/preview/project-v-v3/project-v-pixi-battle.bundle.js'}"></script><script defer src="/qa-boot.js"></script>`).replace(/<body>[\s\S]*<\/body>/,`<body><header><small>SSS LIMITED · DESIGNATED ACCOUNT</small><h1>프라임 레퀴엠 · ${mode!=='enemy'?'적월의 광전사':'붉은 검격'}</h1><p>기본 전투력 2,300,000 · 획득 잠금</p></header><nav class="toolbar"><span id="health">V3 전장 연결 중</span></nav><main id="lab-modal"></main></body>`));
  }
  if(url.pathname==='/qa-boot.js'){res.writeHead(200,{'content-type':'text/javascript'});return res.end(boot);}
@@ -66,9 +80,15 @@ const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mut
 try{
  for(const [label,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
   for(const mode of (process.argv.includes('--codex-only')||process.argv.includes('--remaining')&&label==='desktop')?[]:label==='mobile'?['area']:['area','enemy','single']){
-   const p=await browser.newPage({viewport,serviceWorkers:'block'});p.on('pageerror',e=>errors.push(label+' '+mode+': '+e.message));
+   const p=await browser.newPage({viewport,serviceWorkers:'block',...(process.argv.includes('--pve-fx')&&mode==='area'?{recordVideo:{dir:path.join(out,'video'),size:viewport}}:{})});p.on('pageerror',e=>errors.push(label+' '+mode+': '+e.message));
+   await p.addInitScript(()=>localStorage.setItem('cnine_battle_sound','OFF'));
    await p.goto(base+'/qa/battle?mode='+mode);await p.waitForFunction(()=>window.PrimeQA?.ready||window.qaError,null,{timeout:60000});assert.equal(await p.evaluate(()=>window.qaError),undefined);
    await p.waitForFunction(()=>window.PrimeQA?.engine.primeStates?.size>0,null,{timeout:60000});
+   assert(await p.locator('.battle-v3-live-shell').isVisible(),JSON.stringify(await p.evaluate(()=>{
+    const e=document.querySelector('.battle-v3-live-shell'),m=e?.parentElement;
+    return {connected:!!e,modal:m?.className,display:m&&getComputedStyle(m).display,visibility:m&&getComputedStyle(m).visibility,rect:m?.getBoundingClientRect(),top:document.elementFromPoint(innerWidth/2,innerHeight/2)?.outerHTML.slice(0,200)};
+   })));
+   assert(await p.evaluate(()=>!!document.elementFromPoint(innerWidth/2,innerHeight/2)?.closest('.battle-v3-live-shell')),'battlefield must be unobscured before capture');
    const idle=await p.evaluate(()=>{
     const q=window.PrimeQA,e=q.engine,a=e.mercenaries[0],s=e.primeStates.get(a);q.actor=a;s.ambient?.instance.pause();
     s.fx.updateIdle(1.9);q.hpCalls=[];q.damageCalls=[];
@@ -78,6 +98,7 @@ try{
     return {d:s.fx.diagnostics(),camera:{x:e.stage.x,y:e.stage.y,sx:e.stage.scale.x,sy:e.stage.scale.y},actorScale:{x:a.root.scale.x,y:a.root.scale.y},facing:a.view.scale.x};
    });
    assert.equal(idle.d.pose,0);assert.equal(idle.d.auraAsset,'fx-idle-shattered-moon-v7');assert.equal(idle.d.neonRim,'SOURCE_ALPHA_CONTOUR');assert.equal(idle.d.cameraZoom,false);
+   if(process.argv.includes('--pve-fx'))assert.equal(idle.d.pveEffects,mode!=='enemy');
    await p.screenshot({path:path.join(out,label+'-'+mode+'-idle.png'),fullPage:true});
    const skills=mode==='enemy'?['basic','basic','basic']:mode==='single'?['MS-963','MS-964','MS-965','MS-966']:['basic','basic','basic','MS-963','MS-964','MS-965','MS-966'];
    const outcomes=[];
@@ -98,12 +119,34 @@ try{
     assert.equal(result.hpCalls,count);assert.equal(result.unique,count);assert.equal(result.playback.playbackRate,2);assert.equal(result.playback.authoritative,true);assert.equal(result.pose,0);assert.equal(result.effects,0);assert(result.returned<1e-6);assert.equal(result.scaleX,result.scaleY);assert.equal(result.scaleX,result.expected);assert.deepEqual(result.camera,idle.camera);assert.deepEqual(result.actorScale,idle.actorScale);
     outcomes.push({skill,...result});
    }
+   const impactChecks=[];
+   if(process.argv.includes('--pve-fx')&&mode!=='enemy'){
+    await p.waitForFunction(()=>[...window.PrimeQA.engine.primeStates.values()][0]?.fx.diagnostics().impactReady);
+    for(const [id,time,scale]of [['blood-tiger',1.40,1.5],['blood-execution',3.17,1.55],['blood-cataclysm',2.94,1.45],['blood-moonfall',3.74,1.3]]){
+     const impact=await p.evaluate(({id,time})=>{
+      const q=window.PrimeQA,e=q.engine,s=e.primeStates.get(q.actor),targets=e.enemies.slice(0,q.mode==='single'?1:12);s.ambient?.instance.pause();
+      s.fx.begin(id,targets);s.fx.clock.time=time;s.fx.render(time);
+      const sprites=s.fx.pool.filter(p=>p.visible),rings=sprites.filter(p=>p.fxKey==='fx-prime-eclipse-impact-v1');
+      return {...s.fx.diagnostics(),rings:rings.map(p=>({width:p.width,height:p.height,alpha:p.alpha})),poolSize:s.fx.pool.length,
+       overflow:document.documentElement.scrollWidth>innerWidth+1};
+     },{id,time});
+     assert.equal(impact.pveEffectScale,scale);assert.equal(impact.rings.length,2);assert(impact.visibleEffects<=impact.poolSize);assert.equal(impact.overflow,false);
+     impactChecks.push(impact);await p.screenshot({path:path.join(out,label+'-'+mode+'-'+id+'.png'),fullPage:true});
+    }
+    const reduced=await p.evaluate(()=>{
+     const q=window.PrimeQA,s=q.engine.primeStates.get(q.actor);q.engine.reducedMotion=true;s.fx.render(3.74);
+     const rings=s.fx.pool.filter(p=>p.visible&&p.fxKey==='fx-prime-eclipse-impact-v1').map(p=>({alpha:p.alpha,rotation:p.rotation}));
+     q.engine.reducedMotion=false;return rings;
+    });assert.equal(reduced.length,1);assert(reduced[0].alpha<=.3);assert.equal(reduced[0].rotation,0);
+   }
    // Inspect the strongest approved impact without synthesizing HP changes.
    const contact=await p.evaluate(()=>{const q=window.PrimeQA,e=q.engine,s=e.primeStates.get(q.actor),targets=(q.actor.team==='ALLY'?e.enemies:e.allies).slice(0,q.mode==='single'?1:12);s.ambient?.instance.pause();s.fx.begin('blood-moonfall',targets);s.fx.clock.time=3.65;s.fx.render(3.65);return s.fx.diagnostics();});
    assert(contact.visibleEffects>0);await p.screenshot({path:path.join(out,label+'-'+mode+'-impact.png'),fullPage:true});
    const cancel=await p.evaluate(async()=>{const q=window.PrimeQA,e=q.engine,s=e.primeStates.get(q.actor);e.cancelTimelines();const stopped=s.stopped,ambient=!!s.ambient,effects=s.fx.pool.some(p=>p.visible);await e.setVisible(true);const resumed=!!s.ambient;e.clearMercenaryActors();return {stopped,ambient,effects,resumed,states:e.primeStates.size,destroyed:s.fx.destroyed};});
    assert.deepEqual(cancel,{stopped:true,ambient:false,effects:false,resumed:true,states:0,destroyed:true});
-   checks.push({label,mode,idle,outcomes,contact,cancel});await p.close();console.log(label+' '+mode+' PASS');
+   checks.push({label,mode,idle,outcomes,impactChecks,contact,cancel,mainEntry:process.argv.includes('--main')});
+   const video=p.video();await p.close();if(video)await video.saveAs(path.join(out,label+'-pve-review.webm'));
+   console.log(label+' '+mode+' PASS');
   }
   if(process.argv.includes('--battle-only'))continue;
   const p=await browser.newPage({viewport,serviceWorkers:'block'});p.on('pageerror',e=>errors.push(label+' codex: '+e.message));await p.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','local-test');localStorage.setItem('cnine_card_user_v10',JSON.stringify({id:1,nickname:'검수'}));});

@@ -5,9 +5,12 @@
     "pixi.js": "8.20.0",
     "gsap": "3.13.0"
   },
-  "bundleBytes": 2394638,
+  "bundleBytes": 2404003,
   "commonV3": [
     "preview/project-v-v3/source/battle/EquipmentSetFX.js",
+    "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",
+    "preview/project-v-v3/source/battle/ObjectPool.js",
+    "preview/project-v-v3/source/battle/SealDragonPlayback.js",
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",
     "preview/project-v-v3/source/battle/BattleHud.js",
@@ -17,8 +20,6 @@
     "preview/project-v-v3/source/battle/BattleAnimation.js",
     "preview/project-v-v3/source/battle/HumanoidRig.js",
     "preview/project-v-v3/source/battle/BattleCharacter.js",
-    "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",
-    "preview/project-v-v3/source/battle/ObjectPool.js",
     "preview/project-v-v3/source/battle/SkillEffectFX.js",
     "preview/project-v-v3/source/battle/SkillTimeline.js",
     "preview/project-v-v3/source/battle/RoleAudioSpriteManifest.js",

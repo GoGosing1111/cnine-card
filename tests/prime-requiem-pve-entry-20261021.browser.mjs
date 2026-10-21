@@ -62,7 +62,10 @@ try{
  for(const [label,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
   const page=await browser.newPage({viewport,serviceWorkers:'block'});
   let release;const held=new Promise(resolve=>{release=resolve;});
+  let releaseImpact;const heldImpact=new Promise(resolve=>{releaseImpact=resolve;});
   await page.route('**/fx-blood-tiger-burst.png*',async route=>{await held;await route.continue();});
+  await page.route('**/eclipse-impact-v1.webp*',async route=>{await heldImpact;await route.continue();});
+  await page.addInitScript(()=>localStorage.setItem('cnine_battle_sound','OFF'));
   page.on('pageerror',e=>{errors.push(label+': '+e.message);console.error(e.stack);});
   page.on('requestfailed',r=>console.error('REQUEST',r.url(),r.failure()?.errorText));
   page.on('console',m=>{if(m.type()==='error'||m.type()==='warning')console.error('CONSOLE',m.text());});
@@ -88,6 +91,7 @@ try{
   assert.equal(initial.areaPlayed,true);assert.equal(initial.areaApplications,1);
   release();
   await page.waitForFunction(()=>window.PrimeEntryQA.engine.primeStates.size===1,null,{timeout:60000});
+  assert.equal(await page.evaluate(()=>[...window.PrimeEntryQA.engine.primeStates.values()][0].fx.diagnostics().impactReady),false);
   await page.screenshot({path:path.join(out,label+'-ready.png')});
   await page.evaluate(async()=>{
    const q=window.PrimeEntryQA;q.old=q.engine.primeStates.get(q.engine.mercenaries[0]);
@@ -108,6 +112,9 @@ try{
   assert.equal(after.playback.mode,'blood-moonfall');assert.equal(after.playback.playbackRate,2);
   assert.equal(after.completed.result,true);assert(after.completed.elapsed>=2400);
   assert.equal(after.oldDestroyed,true);assert.equal(after.ready,true);
+  releaseImpact();
+  await page.waitForFunction(()=>[...window.PrimeEntryQA.engine.primeStates.values()][0].fx.diagnostics().impactReady,null,{timeout:30000});
+  after.delayedImpactNeverBlockedPlayback=true;
   checks.push({label,initial,after});await page.close();console.log(label+' ordinary PVE entry/reuse PASS');
  }
  assert.deepEqual(errors,[]);

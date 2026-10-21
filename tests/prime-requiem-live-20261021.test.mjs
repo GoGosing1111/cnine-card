@@ -14,7 +14,7 @@ import {limitedNormalCards} from '../shared/mercenary-limited-pack-v1.mjs';
 import {ALL_LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {HALLOWEEN_PACK_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack} from '../shared/mercenary-combat-link-v2103.mjs';
-import {buildMercenaryFighter,mercenaryTurnCadence} from '../functions/_mercenary_combat.js';
+import {buildMercenaryFighter,mercenaryTurnCadence,mercenaryCombat} from '../functions/_mercenary_combat.js';
 import {resolvePrimeArea} from '../functions/_mercenary_prime_requiem.js';
 import {buildFighter,createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {mercenaryAccountState,saveMercenaryLoadout,loadMercenaryBattleSnapshot} from '../functions/_mercenary_account.js';
@@ -46,7 +46,7 @@ test('normal/limited/Halloween/fusion selection cannot award Prime even with pos
  assert.deepEqual(limitedNormalCards(cards,cards,rules).map(c=>c.code),['V-001']);
  for(const pool of [ALL_LIMITED_MERCENARIES,HALLOWEEN_PACK_CARDS,MERCENARY_CMS_SEED.catalog.cards])assert(!pool.some(c=>c.code===PRIME_CODE));
 });
-test('four area skills split one 1512% budget across unique living targets and alternate on a shared five-action cooldown',()=>{
+test('four PVE area skills retain one 1512% budget per cast and rotate more frequently',()=>{
  for(const skill of PRIME_AREA_SKILLS){
   const actor=fighter(PRIME_CODE),targets=Array.from({length:12},(_,i)=>({id:'t'+i,hp:10000,maxHp:10000,alive:true})),ratios=[],events=[];
   const args={actor,skill,targets:[...targets,targets[0],{id:'dead',hp:0},{id:'suit',hp:10,isBattleSuit:true}],hit:(a,t,r)=>{ratios.push(r);return {damage:100};},damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},knockout(){},emit:(type,row)=>events.push({type,...row})};
@@ -56,15 +56,35 @@ test('four area skills split one 1512% budget across unique living targets and a
  const cards=tierCards(2e7),options={cards,monster:{id:1,battle_power:1.6e10},seed:77};
  const prime=createPveBattleV2({...options,mercenary:snapshot(PRIME_CODE)}).result,zero=createPveBattleV2({...options,mercenary:snapshot(ZERO_CODE)}).result;
  const casts=prime.timeline.filter(e=>e.type===PRIME_AREA_EVENT),reference=zero.timeline.filter(e=>e.type==='MERCENARY_ZERO_AREA');
- assert(casts.length>=2);assert.equal(casts.length,reference.length);assert.deepEqual(casts.map(e=>[e.turn,e.damage,e.absorbed]),reference.map(e=>[e.turn,e.damage,e.absorbed]));
+ assert(casts.length>reference.length);assert(casts.length>=2);
  casts.forEach((e,i)=>assert.equal(e.skillId,PRIME_AREA_SKILLS[i%4].id));
  for(const type of ['MERCENARY_WINDUP','MERCENARY_END'])assert.equal(prime.timeline.filter(e=>e.type===type&&PRIME_AREA_SKILLS.some(s=>s.id===e.skillId)).length,casts.length);
  assert.equal(prime.winner,zero.winner);
  const pvp=createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:snapshot(PRIME_CODE),defenderMercenary:snapshot(ZERO_CODE),seed:77});assert(!pvp.result.timeline.some(e=>e.type===PRIME_AREA_EVENT));
 });
+test('PVE cadence is ten casts per thirty own actions instead of six, with shared cooldown and no PVP casts',()=>{
+ const run=(legacy=false,mode='PVE')=>{
+  const actor=fighter(PRIME_CODE,'A',mode),enemy={...buildFighter(tierCards(2e7)[0],0,'B',null,mode),hp:1e15,maxHp:1e15};
+  if(legacy)for(const skill of actor.skills)Object.assign(skill.balance,{cooldownTurns:5,cost:35});
+  const events=[],combat=mercenaryCombat({teams:{A:[actor],B:[enemy]},clock:()=>actor.actions,
+   hit:()=>({hit:true,damage:1}),damage:()=>({hpDamage:1,absorbed:0}),knockout(){},
+   emit:(type,data)=>{if(type===PRIME_AREA_EVENT)events.push({action:actor.actions,...data});}});
+  for(actor.actions=1;actor.actions<=30;actor.actions++){
+   if(!combat.beforeAction(actor))combat.afterBasic(actor,enemy,true);
+   assert(combat.state(actor).energy>=0);
+  }
+  return events;
+ };
+ const before=run(true),after=run();
+ assert.equal(before.length,6);assert.equal(after.length,10);
+ assert.deepEqual(after.map(e=>e.action),[1,4,7,10,13,16,19,22,25,28]);
+ after.forEach((e,i)=>assert.equal(e.skillId,PRIME_AREA_SKILLS[i%4].id));
+ assert.deepEqual(run(false,'PVP'),[]);
+});
 test('public codex exposes seven skills and acquisition lock while deployment requires ownership',async t=>{
  const data=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1})),card=data.cards.find(c=>c.code===PRIME_CODE);
  assert.equal(card.basePower,2300000);assert.equal(card.title,'적월의 광전사');assert.equal(card.acquisitionEnabled,false);assert.equal(card.packAcquisitionEnabled,false);assert.equal(card.skills.length,7);assert(card.skills.every(s=>s.ready));
+ assert(card.skills.filter(s=>!s.basicForm).every(s=>s.balance.cost===20&&s.balance.cooldownTurns===3));
  const f=await mercenaryFixture(t,{postgres:true});
  for(const mode of ['PVE','PVP'])await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:PRIME_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
  assert(!(await mercenaryAccountState(f.env,f.user)).cards.some(c=>c.code===PRIME_CODE));
@@ -81,5 +101,7 @@ test('approved V7 assets stay byte-identical and all actual V3 consumers ship Pr
  const m=JSON.parse(fs.readFileSync(root+'manifest.json'));assert.equal(m.liveApproval.userVisualApproval,true);assert.equal(m.character.rosterCode,PRIME_CODE);
  assert(m.sheets['fx-idle-shattered-moon-v7']);assert(!m.sheets['fx-idle-shattered-moon-v6']);
  for(const p of [PRIME_ART.sourceArt,PRIME_ART.battleSprite,PRIME_ART.frame,...Object.values(m.sheets).map(s=>root+s.path),root+'assets/blood-sanctum.png']){assert(isProductionFile(p),p);assert(fs.statSync(p).size>0,p);}
+ const impact='assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp';
+ assert(isProductionFile(impact));assert(fs.statSync(impact).size<700000);
  for(const file of ['preview/project-v-v3/project-v-pixi-battle.bundle.js','preview/sustained-hunt-v2/battle.bundle.js','pve-v3/battle.bundle.js','preview/coop-defense-v1/defense.bundle.js']){const s=fs.readFileSync(file,'utf8');assert(s.includes(PRIME_AREA_EVENT),file);assert(s.includes('PRIME_REQUIEM_MOTION_ASSETS'),file);}
 });

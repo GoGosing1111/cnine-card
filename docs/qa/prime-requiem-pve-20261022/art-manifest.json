@@ -1,0 +1,18 @@
+{
+  "status": "IMPLEMENTED_PENDING_VISUAL_REVIEW",
+  "userVisualApproval": false,
+  "mode": "built-in",
+  "prompt": "imagegen-prompt.json",
+  "files": [
+    {
+      "file": "docs/qa/prime-requiem-pve-20261022/eclipse-impact-v1-source.png",
+      "bytes": 2603170,
+      "sha256": "9b887cfcdb44477a4ba9687c75c4655dc27520c78d467f3669d543fe822e8dda"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+      "bytes": 595582,
+      "sha256": "2c0dd6a5900c488960ad8f02c669254e51fc157cba421b053b9d41e20c3c7505"
+    }
+  ]
+}

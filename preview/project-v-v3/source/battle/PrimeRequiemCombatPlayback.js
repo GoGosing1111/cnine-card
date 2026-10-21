@@ -1,8 +1,12 @@
 import {gsap} from 'gsap';
+import {Assets,Texture} from 'pixi.js';
 import {PRIME_CODE,PRIME_ART,PRIME_BASIC_FORMS,PRIME_AREA_SKILLS,PRIME_AREA_EVENT,PRIME_PLAYBACK_RATE} from '../../../../shared/mercenary-prime-requiem-v1.mjs';
 import {PrimeRequiemFX,loadPrimeAssets} from '../../../prime-requiem-blood-skills-20261021-v1/source/PrimeRequiemFX.js';
 import {SKILLS} from '../../../prime-requiem-blood-skills-20261021-v1/source/SkillPlan.mjs';
 const ROOT='/preview/prime-requiem-blood-skills-20261021-v1/';
+const IMPACT_KEY='fx-prime-eclipse-impact-v1';
+const IMPACT_URL='/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp';
+const PVE_FX_SCALE={tiger:1.5,execution:1.55,cataclysm:1.45,moonfall:1.3};
 let manifestPromise;
 const manifest=()=>manifestPromise||=fetch(ROOT+'manifest.json?prime=20261021-approved-v7').then(r=>{
  if(!r.ok)throw Error('PRIME_REQUIEM_MOTION_ASSETS');return r.json();
@@ -16,6 +20,40 @@ class PrimeLiveFX extends PrimeRequiemFX{
  makeIdleTimeline(){this.mode='ambient';this.clock.time=0;}
  makeTimeline(){}
  get facing(){return this.actor.team==='ENEMY'?-1:1;}
+ get pveEffects(){
+  const data=this.engine.battleData,mode=String(data?.battleV2?.mode||data?.mode||data?.contentType||'').toUpperCase();
+  return /(?:^|_)(?:PVE|HUNT|TOWER|RAID|SEAL|ESCORT|DUNGEON|APOCALYPSE|SCRAPYARD|IDLE|COW|DEFENSE)(?:_|$)/.test(mode);
+ }
+ draw(key,index,at,size,alpha=1,rotation=0){
+  if(this.pveEffects&&key!==IMPACT_KEY){
+   size*=PVE_FX_SCALE[this.plan.kind]??1.2;
+   // Large formation-wide effects fit the battlefield; body/grip anchors stay exact.
+   if(key==='fx-blood-tiger-burst'||(key==='fx-blood-mooncleave-v3'&&size>this.engine.scene.width*.65)){
+    size=Math.min(size,this.engine.scene.width*.92);
+    const inset=size*.5+this.engine.scene.width*.02;
+    at={x:Math.max(inset,Math.min(this.engine.scene.width-inset,at.x)),y:at.y};
+   }
+  }
+  return super.draw(key,index,at,size,alpha,rotation);
+ }
+ renderPveImpact(time){
+  if(!this.pveEffects||this.plan.targetMode!=='area'||!this.assets[IMPACT_KEY]||time<=0||time>=this.plan.duration)return;
+  const age=time-this.plan.contacts.at(-1),duration=.86;
+  if(age<0||age>duration)return;
+  const q=age/duration,reduced=this.engine.reducedMotion,points=this.targets.map(t=>this.point(t,.48));
+  const center=this.targetCenter(points),width=this.engine.scene.width;
+  const span=Math.min(width*.74,920)*(reduced?.87:.64+.36*(1-Math.pow(1-q,3)));
+  const inset=span*.5+width*.025;
+  center.x=Math.max(inset,Math.min(width-inset,center.x));center.y+=35;
+  // One authored texture, at most two pooled sprites, on V3's existing clock.
+  const alpha=(reduced?.3:.7)*Math.pow(1-q,1.2);
+  const ring=this.draw(IMPACT_KEY,0,center,span,alpha,reduced?0:q*.28);
+  ring.scale.y*=.64;
+  if(!reduced){
+   const echo=this.draw(IMPACT_KEY,0,center,span*(.74+.15*q),alpha*.3,-.24-q*.36);
+   echo.scale.y*=.64;echo.blendMode='add';
+  }
+ }
  captureFormation(){this.start={x:this.actor.baseX??this.actor.root.x,y:this.actor.baseY??this.actor.root.y};}
  render(time,auraTime=time){
   if(this.destroyed||this.actor.root.destroyed)return;
@@ -26,7 +64,7 @@ class PrimeLiveFX extends PrimeRequiemFX{
   const saved=this.targets.filter(t=>!t.root.destroyed).map(t=>({t,x:t.view.x,y:t.view.y,tint:t.fullBodySprite.tint}));
   if(!saved.length){this.targets=[this.actor];this.targetDefaults=[{x:this.actor.view.x,y:this.actor.view.y,tint:this.actor.fullBodySprite.tint}];}
   const background=this.engine.parallaxLayers.map(p=>({sprite:p.sprite,tint:p.sprite.tint}));
-  try{super.render(time,auraTime);}
+  try{super.render(time,auraTime);this.renderPveImpact(time);}
   finally{
    for(const {t,x,y,tint}of saved)if(!t.root.destroyed){t.view.position.set(x,y);t.fullBodySprite.tint=tint;}
    for(const {sprite,tint}of background)if(!sprite.destroyed)sprite.tint=tint;
@@ -48,7 +86,9 @@ class PrimeLiveFX extends PrimeRequiemFX{
   this.actor.root.position.set(this.actor.baseX,this.actor.baseY);this.actor.root.depthSortY=this.actor.baseY;
   this.updateIdle(0);
  }
- diagnostics(){return {...super.diagnostics(),liveEnabled:true,damageAuthority:'SERVER_ONLY',cameraZoom:false,playbackRate:PRIME_PLAYBACK_RATE};}
+ diagnostics(){return {...super.diagnostics(),liveEnabled:true,damageAuthority:'SERVER_ONLY',cameraZoom:false,playbackRate:PRIME_PLAYBACK_RATE,
+  pveEffects:this.pveEffects,pveEffectScale:this.pveEffects?(PVE_FX_SCALE[this.plan.kind]??1.2):1,
+  impactReady:Boolean(this.assets[IMPACT_KEY]),impactAsset:IMPACT_URL};}
 }
 function stopAmbient(state){
  if(!state.ambient)return;const entry=state.ambient;state.ambient=null;
@@ -77,7 +117,12 @@ export async function setupPrimeActor(engine,actor){
   if(!valid()){disposeAssets(assets);return null;}
   const target=(actor.team==='ENEMY'?engine.allies:engine.enemies).find(a=>engine.isAlive(a))||actor;
   const fx=new PrimeLiveFX(engine,actor,[target],assets,m),state={engine,actor,fx,busy:false,stopped:false,basicCount:0};
-  engine.primeStates.set(actor,state);startAmbient(state);return state;
+  engine.primeStates.set(actor,state);startAmbient(state);
+  // This additional image never gates either entry, approved motion or server hits.
+  void Assets.load(IMPACT_URL).then(texture=>{
+   if(valid()&&!fx.destroyed)assets[IMPACT_KEY]=[new Texture({source:texture.source})];
+  }).catch(()=>{ /* The approved FX remain usable if the optional accent is unavailable. */ });
+  return state;
  })().finally(()=>engine.primeLoads.delete(actor));engine.primeLoads.set(actor,pending);return pending;
 }
 export function warmPrimeActor(engine,actor){

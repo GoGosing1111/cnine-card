@@ -1,4 +1,4 @@
-import {PRIME_CODE,PRIME_COMBAT,PRIME_AREA_SKILLS,PRIME_AREA_MECHANIC,isPrime,primeActionCredit} from '../shared/mercenary-prime-requiem-v1.mjs';
+import {PRIME_CODE,PRIME_COMBAT,PRIME_PVE_BALANCE,PRIME_AREA_SKILLS,PRIME_AREA_MECHANIC,isPrime,primeActionCredit} from '../shared/mercenary-prime-requiem-v1.mjs';
 import {resolvePrimeArea} from './_mercenary_prime_requiem.js';
 import {ZERO_CODE,ZERO_COMBAT,ZERO_AREA_SKILLS,ZERO_AREA_MECHANIC,isZero,zeroActionCredit} from '../shared/mercenary-zero-v1.mjs';
 import {resolveZeroArea} from './_mercenary_zero.js';
@@ -152,7 +152,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  const kairon=snapshot.code===KAIRON_CODE;
  if(kairon)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'RANGED',skills:mode==='PVE'?[structuredClone(KAIRON_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,kaironPolicyVersion:1};
  const prime=snapshot.code===PRIME_CODE;
- if(prime)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?structuredClone(PRIME_AREA_SKILLS):[],counterImmune:true,controlImmune:true,poisonImmune:true,primePolicyVersion:PRIME_COMBAT.version};
+ if(prime)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?structuredClone(PRIME_AREA_SKILLS):[],counterImmune:true,controlImmune:true,poisonImmune:true,primePolicyVersion:PRIME_COMBAT.version,primePvePolicyVersion:PRIME_PVE_BALANCE.version};
  const zero=snapshot.code===ZERO_CODE;
  if(zero)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?structuredClone(ZERO_AREA_SKILLS):[],counterImmune:true,controlImmune:true,poisonImmune:true,zeroPolicyVersion:ZERO_COMBAT.version};
  const leonel=snapshot.code===LEONEL_CODE;
