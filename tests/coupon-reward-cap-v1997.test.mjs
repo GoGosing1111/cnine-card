@@ -66,7 +66,7 @@ test('PostgreSQL에서 모든 발급 경로의 1,000억 저장·수령·재시�
     CREATE TABLE admin_logs(admin_id bigint,action_type text,target_type text,target_id text,before_data text,after_data text);
   `);
   let failCoinLog=false;
-  const client={async query(input){if(failCoinLog&&input.text.startsWith('INSERT INTO coin_logs'))throw new Error('INJECTED_COUPON_LOG_FAILURE');const result=await pg.query(input.text,input.values||[]);return {...result,rowCount:result.affectedRows??result.rows.length};}};
+  const client={async query(input){const text=typeof input==='string'?input:input.text;if(failCoinLog&&text.startsWith('INSERT INTO coin_logs'))throw new Error('INJECTED_COUPON_LOG_FAILURE');const result=await pg.query(text,typeof input==='string'?[]:input.values||[]);return {...result,rowCount:result.affectedRows??result.rows.length};}};
   const env={DB:new __postgresCompatTest.PostgresD1Database(client)},json=(value,status=200)=>Response.json(value,{status});
   const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
   const createSource=server.slice(server.indexOf("    if(path==='admin/coupon-create-permanent-v3')"),server.indexOf("    if(path==='admin/users/card-grant')"));

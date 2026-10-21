@@ -19,3 +19,5 @@
 - 상수/안내/캐시 변경이며 인증·공통 거래 기반·스키마 변경은 없다. npm run deploy:production -- --scoped 사용.
 - 선택 검사: coupon-reward-cap-v1997, coin-prediction-matchday-v2033, coin-prediction-history-v1813, coin-prediction-refund-bigint-v2042, prediction-large-wallet-20261020, support-package-prediction-20261020. check:worker와 필수 출시/캐시/Hyperdrive 확인을 포함한다.
 - 운영 반영 결과는 배포 후 기록한다.
+
+- 첫 범위 게이트에서 43개 중 42개 통과. 새 쿠폰 실패 주입 검수의 DB 어댑터가 문자열 BEGIN/ROLLBACK 호출을 처리하지 못해 1개 실패했고, 문자열/객체 SQL 모두 처리하도록 검수 어댑터만 수정했다. 운영 코드는 동일하며 최종 게이트는 해당 쿠폰 6개만 재검사하고 앞서 통과한 승부예측 관련 결과를 재사용한다.
