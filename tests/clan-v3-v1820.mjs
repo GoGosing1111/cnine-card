@@ -179,7 +179,7 @@ test('현 로비 기준 클랜 본부와 정규·세력전 진입을 제공한�
   assert.match(html,/clan-v1\.css\?v=20261005-reform/);
   assert.match(html,/clan-command-v1\.css\?v=2127/);
   assert.match(html,/clan-faction-v1\.css\?v=20261001-session-rewards/);
-  assert.match(html,/clan-v1\.js\?v=20261015-organization-interface-v3/);
+  assert.match(html,/clan-v1\.js\?v=20261021-organization-no-archive/);
   assert.match(html,/js\/app\.js\?[^"\n]+clanFaction=20261001-session-rewards/);
   for(const loader of [app,client])assert.match(loader,/import\('\.\/clan-faction-v1\.mjs\?v=20261005-executives'\)/);
 });
