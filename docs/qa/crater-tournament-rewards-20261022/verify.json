@@ -1,0 +1,29 @@
+{
+  "recipients": 50,
+  "participants": 48,
+  "winners": 2,
+  "held": 2,
+  "messages": 50,
+  "rewards": 50,
+  "totalCoin": "88000000000000",
+  "claimed": 0,
+  "missing": 0,
+  "duplicates": 0,
+  "independentConnection": true,
+  "readOnly": true,
+  "artifacts": {
+    "messages": 50,
+    "rewards": 50,
+    "receipts": 1,
+    "audits": 1
+  },
+  "commit": "23c597f88d7843c6a02e76a3a9b276b6d8f9fc74",
+  "sourceSha256": "18887c8564a7becab554861e96f2e0caaf55fc6c06dd5cfabdf17d6fa71b8132",
+  "verifiedAt": "2026-10-21T17:58:22.349Z",
+  "operationKey": "ops:crater-tournament-rewards:20261022:v1",
+  "actor": "CODEX_OPERATIONS",
+  "planHash": "0d07bf1028cac2fce534874af61191a962485194462ba9b6e4c0052b09a308b7",
+  "auditId": "49695",
+  "completedAt": "2026-10-21T17:58:15.195Z",
+  "receiptSha256": "af95d18f55f1d23c4a45fb9ac999f83e40644118723d22e87756547d7c2cfdd8"
+}
