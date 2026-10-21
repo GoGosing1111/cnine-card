@@ -30,3 +30,13 @@
 ## 배포 계획
 
 `npm run deploy:production -- --scoped`를 사용한다. 준비 시 확인한 운영 Pages 배포는 `1ac56610-ca13-43fb-9307-fc87c9ec71f9`, source `a39c2c4dc46871933db46437ae02df0c28c692d8`이다. 실제 배포 직전 원격과 운영 source를 다시 확인한다. 범위는 미라클 버닝 시간·배율의 국소 변경이며 전체 게임 검사를 반복하지 않는다. 최종 배포 결과는 아래에 별도로 기록한다.
+
+## 운영 반영 완료
+
+- 2026-10-21 22:22 KST, source `99120149ff676e033c2fffb748ed9c1cb2bc390c`.
+- Pages: https://ad516cc9.cnine-card.pages.dev (정적 파일 19,990개).
+- API runtime version: `380d9d75-9dba-43a8-b451-6e4456cb9fba`; scheduler version: `d0b8a0f7-9741-4fe3-9594-f1c65600faa8`.
+- 관련 검사 최종 21개 통과: Miracle 11, 기존 버닝 권한/타이머 7, Apocalypse 실제 보상/재시도/수량 3. Worker 구문·출시 설정·Hyperdrive 캐시 OFF 검사도 통과했다.
+- 운영의 관리자 HTML·JS·CSS·신규 WebP 모두 HTTP 200, 로컬 배포본 SHA-256과 일치한다. 비로그인 관리자 API는 401이다.
+- 배포 전후 활성 이벤트는 동일한 HYPER generation 391, 120분·20배, 종료 `2026-10-21T14:26:00.930Z`로 유지됐다. 운영 미라클 이벤트를 발동하거나 기존 설정을 저장하지 않았다.
+- 상세 운영 응답/파일 해시는 `live-verification.json`에 보존한다. 이 완료 기록은 문서만 커밋하고 재배포하지 않는다.

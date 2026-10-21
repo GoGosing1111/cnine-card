@@ -1,0 +1,73 @@
+{
+  "checkedAt": "2026-10-21T13:22:37.265Z",
+  "sourceCommit": "99120149ff676e033c2fffb748ed9c1cb2bc390c",
+  "files": [
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "sha256": "7e0aee7079a1c27912ab62805e654e4590850887f4f69843a7d3f8e5964b52e9",
+      "bytes": 81159
+    },
+    {
+      "path": "admin/miracle-burning-admin.js",
+      "status": 200,
+      "sha256": "3504cf9935ac31ef751152b432699628075f09846a982c9ff5a7ce9e8713a2b1",
+      "bytes": 7434
+    },
+    {
+      "path": "admin/miracle-burning-admin.css",
+      "status": 200,
+      "sha256": "3a0874362aa9745be56e9ffd4ea95573bb73f69098bdbcd29f70144442b87b4d",
+      "bytes": 3397
+    },
+    {
+      "path": "assets/ui/burning-miracle-v1/celestial-control-frame-20261021.webp",
+      "status": 200,
+      "sha256": "3d8f6b35801c1edf33a2fc40df9848e6c5f21f1e538bcd7767d14e2dec39f9a6",
+      "bytes": 189166
+    }
+  ],
+  "unauthenticatedAdminStatus": 401,
+  "publicState": {
+    "burningEvent": {
+      "mode": "HYPER",
+      "theme": "HYPER",
+      "enabled": true,
+      "generation": 391,
+      "activatedAt": "2026-10-21T12:26:00.930Z",
+      "updatedAt": "2026-10-21T12:26:00.930Z",
+      "endsAt": "2026-10-21T14:26:00.930Z",
+      "durationMinutes": 120,
+      "title": "하이퍼버닝",
+      "pve": {
+        "maxEnergy": 20,
+        "rechargeMinutes": 1
+      },
+      "pvp": {
+        "maxEnergy": 15,
+        "rechargeMinutes": 1
+      },
+      "apocalypse": null,
+      "dropIncreasePercent": 0,
+      "duplicateShardMultiplier": 1,
+      "packDiscountPercent": 0,
+      "equipmentBoxDiscountPercent": 0,
+      "battleRewardMultiplier": 20,
+      "martialLaw": {
+        "version": 1,
+        "enabled": false,
+        "revision": 2,
+        "generation": 1,
+        "activatedAt": "2026-10-18T04:52:37.000Z",
+        "endsAt": null,
+        "updatedAt": "2026-10-18T04:53:54.000Z",
+        "durationMinutes": 30,
+        "title": "리버스콜 계엄령이 선포되었습니다",
+        "coinMultiplier": 0.9,
+        "rechargeMultiplier": 3
+      },
+      "effectiveBattleRewardMultiplier": 20
+    },
+    "serverNow": "2026-10-21T13:22:36.276Z"
+  }
+}
