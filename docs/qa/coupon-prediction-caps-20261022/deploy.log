@@ -1,0 +1,74 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"5260a7df811ccb96da38a1332c64f7c234e8ea98","reason":"쿠폰 1000억·승부예측 3000억 상향. 동일 운영 코드의 승부예측 검사 통과 결과는 재사용하고 테스트 어댑터만 수정한 쿠폰 6개를 재검사","changed":["admin/admin-v1276.js","admin/coin-prediction-admin-v1.js","admin/index.html","docs/qa/coupon-prediction-caps-20261022/README.md","docs/qa/coupon-prediction-caps-20261022/browser-report.json","docs/qa/coupon-prediction-caps-20261022/coupon-1440.png","docs/qa/coupon-prediction-caps-20261022/coupon-390.png","docs/qa/coupon-prediction-caps-20261022/prediction-cms-1440.png","docs/qa/coupon-prediction-caps-20261022/prediction-cms-390.png","docs/qa/coupon-prediction-caps-20261022/prediction-existing-1440.png","docs/qa/coupon-prediction-caps-20261022/prediction-existing-390.png","docs/qa/coupon-prediction-caps-20261022/prediction-max-1440.png","docs/qa/coupon-prediction-caps-20261022/prediction-max-390.png","docs/qa/sig-hunter-box-20261022/catalog-registration.json","docs/qa/sig-hunter-box-20261022/implementation.md","docs/qa/sig-hunter-box-20261022/live-verification.json","docs/qa/sig-hunter-box-20261022/release.json","functions/_coin_prediction.js","functions/api/[[path]].js","index.html","js/app.js","js/coin-prediction-v1.js","js/coin-prediction-v2033.js","scripts/ops/sig-hunter-box-catalog-20261022.mjs","service-worker.js","tests/coin-prediction-history-v1813.mjs","tests/coin-prediction-matchday-v2033.test.mjs","tests/coin-prediction-refund-bigint-v2042.test.mjs","tests/coupon-prediction-caps-20261022.browser.mjs","tests/coupon-reward-cap-v1997.test.mjs","tests/prediction-large-wallet-20261020.test.mjs"],"tests":["tests/coupon-reward-cap-v1997.test.mjs"],"checks":["check:worker"]}
+✔ 코인 쿠폰 1,000억과 인증 메시지 50억 한도는 분리 유지한다 (1.0333ms)
+✔ 신규·호환 쿠폰 발급 라우트가 모두 쿠폰 전용 한도를 사용한다 (0.7126ms)
+✔ CMS도 보상 종류별 최대값을 즉시 표시하고 1,000억 초과 입력을 차단한다 (0.204ms)
+✔ 쿠폰 한도 회귀 검사가 운영 출시 게이트에 포함된다 (0.1128ms)
+✔ CMS 발급은 1,000억을 그대로 전송하고 1,000억+1은 요청 전에 거부한다 (17.5087ms)
+✔ PostgreSQL에서 모든 발급 경로의 1,000억 저장·수령·재시도와 초과 차단을 검증한다 (1715.861ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1940.3985
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 6264 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 8058.29 KiB / gzip: 1740.06 KiB
+Worker Startup Time: 44 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (4.23 sec)
+No targets deployed for cnine-card-api-runtime (0.64 sec)
+Current Version ID: 6865580e-9ecb-488a-8887-5f898627240a
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19986/20000)
+Uploading... (19990/20000)
+Uploading... (19995/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 14 files (19986 already uploaded) (2.56 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://f93672e8.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2799.98 KiB / gzip: 638.48 KiB
+Worker Startup Time: 42 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (2.90 sec)
+Deployed cnine-card-clan-draft triggers (1.05 sec)
+  schedule: * * * * *
+Current Version ID: e3487974-dbb6-417d-b100-014d7627b2e2

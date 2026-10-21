@@ -1,0 +1,79 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"5260a7df811ccb96da38a1332c64f7c234e8ea98","reason":"쿠폰 코인 1000억 및 승부예측 유저 누적 3000억 상향: 경계 금액, 거래 롤백·재시도, 기존 경기 이관, 패키지 코인 제한과 PC·모바일 입력 검수","changed":["admin/admin-v1276.js","admin/coin-prediction-admin-v1.js","admin/index.html","docs/qa/coupon-prediction-caps-20261022/README.md","docs/qa/coupon-prediction-caps-20261022/browser-report.json","docs/qa/coupon-prediction-caps-20261022/coupon-1440.png","docs/qa/coupon-prediction-caps-20261022/coupon-390.png","docs/qa/coupon-prediction-caps-20261022/prediction-cms-1440.png","docs/qa/coupon-prediction-caps-20261022/prediction-cms-390.png","docs/qa/coupon-prediction-caps-20261022/prediction-existing-1440.png","docs/qa/coupon-prediction-caps-20261022/prediction-existing-390.png","docs/qa/coupon-prediction-caps-20261022/prediction-max-1440.png","docs/qa/coupon-prediction-caps-20261022/prediction-max-390.png","docs/qa/sig-hunter-box-20261022/catalog-registration.json","docs/qa/sig-hunter-box-20261022/implementation.md","docs/qa/sig-hunter-box-20261022/live-verification.json","docs/qa/sig-hunter-box-20261022/release.json","functions/_coin_prediction.js","functions/api/[[path]].js","index.html","js/app.js","js/coin-prediction-v1.js","js/coin-prediction-v2033.js","scripts/ops/sig-hunter-box-catalog-20261022.mjs","service-worker.js","tests/coin-prediction-history-v1813.mjs","tests/coin-prediction-matchday-v2033.test.mjs","tests/coin-prediction-refund-bigint-v2042.test.mjs","tests/coupon-prediction-caps-20261022.browser.mjs","tests/coupon-reward-cap-v1997.test.mjs","tests/prediction-large-wallet-20261020.test.mjs"],"tests":["tests/coupon-reward-cap-v1997.test.mjs","tests/coin-prediction-matchday-v2033.test.mjs","tests/coin-prediction-history-v1813.mjs","tests/coin-prediction-refund-bigint-v2042.test.mjs","tests/prediction-large-wallet-20261020.test.mjs","tests/support-package-prediction-20261020.test.mjs"],"checks":["check:worker"]}
+coin prediction active/history tabs + 24-hour retention PASS
+✔ tests\coin-prediction-history-v1813.mjs (6915.3694ms)
+✔ 카테고리 7종은 유저/CMS/서버가 동일하고 스타는 기타 바로 앞이며 SQL은 바인딩한다 (4.0706ms)
+✔ 공통 풀 10%·지원금·원금 포함·순이익 계산 (0.4522ms)
+✔ 집계 전·단독 참여 0.9배·소수점·50억·OWNER 대형 금액 경계 (0.4818ms)
+✔ 정산·미적중·VOID 환불은 예상 대신 실제 payout을 표시한다 (0.3311ms)
+✔ 서버 카테고리 필터는 LIMIT 이전에 적용·12개 이상 페이지·범위 보정 (6.111ms)
+✔ 내 배팅 필터는 모든 페이지·종목에 적용, 미분류 기타 호환 (5.2257ms)
+✔ CMS 등록 시 카테고리 저장·구 CMS 누락 입력은 기타·잘못된 값 거부 (9.482ms)
+✔ CMS 기존 경기 분류 변경은 금액·배당·선택·수령 기록 불변, 권한 검사 (3.1174ms)
+✔ 필터 개편 이후 기존 배팅·같은 선택 추가·요청 재시도·상한 유지 (14.7488ms)
+✔ 기존 마감·정산식·무효 환불 경로는 새 UI와 그대로 호환 (11.779ms)
+✔ 100억 포함 부분 환불 실패는 경기 마감 유지·미환불만 재개·전액 한 번 지급 (13.5609ms)
+✔ 진행 중인 정산의 이벤트 잠금은 신규 참여를 차감 없이 막는다 (5.066ms)
+✔ 개편 UI 리소스 격리·확정/예상 구분·접근성·폴링 수명 계약 (5.2234ms)
+✔ 스타 경기 CMS 등록·기존 분류 변경·유저/CMS 조회가 실제 SQL에 반영된다 (9.7762ms)
+✔ 경기당 누적 3,000억 허용, 초과 요청과 중복 재시도는 추가 차감 없음 (10.3463ms)
+✔ 1회 3,000억 차감 중 실패는 전체 롤백, 재시도와 응답 재조회는 한 번만 차감 (8.1375ms)
+✔ 기존 500억 설정과 DRAFT/OPEN 경기는 3,000억으로 이관하고 마감·재화 기록 보존 (4.1978ms)
+✔ 환불 2147483647: 지갑·로그·수령 상태 일치 및 중복 재시도 차단 (2.997ms)
+✔ 환불 2147483648: 지갑·로그·수령 상태 일치 및 중복 재시도 차단 (0.9217ms)
+✔ 환불 5000000000: 지갑·로그·수령 상태 일치 및 중복 재시도 차단 (0.738ms)
+✔ 환불 10000000000: 지갑·로그·수령 상태 일치 및 중복 재시도 차단 (0.63ms)
+✔ 환불 50000000000: 지갑·로그·수령 상태 일치 및 중복 재시도 차단 (0.8324ms)
+✔ 환불 125000000000: 지갑·로그·수령 상태 일치 및 중복 재시도 차단 (0.7097ms)
+✔ 환불 300000000000: 지갑·로그·수령 상태 일치 및 중복 재시도 차단 (0.6085ms)
+✔ 큰 금액의 일반 정산과 미적중 0원 정산도 정상 처리 (1.9502ms)
+✔ 환불 마지막 쓰기 실패 시 지갑·로그까지 롤백하고 재시도는 한 번만 지급 (1.1245ms)
+✔ 음수·소수·안전 정수 초과 지급액은 SQL 실행 전에 거부 (0.4655ms)
+✔ 코인 쿠폰 1,000억과 인증 메시지 50억 한도는 분리 유지한다 (1.1007ms)
+✔ 신규·호환 쿠폰 발급 라우트가 모두 쿠폰 전용 한도를 사용한다 (0.8847ms)
+✔ CMS도 보상 종류별 최대값을 즉시 표시하고 1,000억 초과 입력을 차단한다 (0.2979ms)
+✔ 쿠폰 한도 회귀 검사가 운영 출시 게이트에 포함된다 (0.171ms)
+✔ CMS 발급은 1,000억을 그대로 전송하고 1,000억+1은 요청 전에 거부한다 (19.3867ms)
+✖ PostgreSQL에서 모든 발급 경로의 1,000억 저장·수령·재시도와 초과 차단을 검증한다 (2392.5238ms)
+✔ ADMIN and ordinary accounts above Number precision can load prediction; bets and refunds keep every coin (2635.1688ms)
+✔ a one-coin concurrent change in a large wallet aborts the entire debit; a fresh snapshot succeeds (1686.5722ms)
+✔ large ordinary ledger entries preserve package restrictions and exact affordability (1640.5925ms)
+✔ package principal cannot be bet, even by OWNER; valid bets and refunds preserve origin (SQLite) (113.3258ms)
+✔ package principal cannot be bet, even by OWNER; valid bets and refunds preserve origin (PostgreSQL) (2485.2362ms)
+✔ ordinary spending, earned coins, repeated packages and auction refunds retain the correct balance (1736.8334ms)
+✔ stale balance and ledger snapshots fail atomically; retry never double debits (1364.7298ms)
+✔ legacy 50-trillion grants are protected; missing debit log cannot release restricted funds (1342.5178ms)
+✔ the announcement is atomic, deletes only on its recipient read and never resends after deletion (1462.9901ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 42
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10399.1428
+
+✖ failing tests:
+
+test at tests\coupon-reward-cap-v1997.test.mjs:58:1
+✖ PostgreSQL에서 모든 발급 경로의 1,000억 저장·수령·재시도와 초과 차단을 검증한다 (2392.5238ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /INJECTED_COUPON_LOG_FAILURE/. Input:
+
+  "TypeError: Cannot read properties of undefined (reading 'startsWith')"
+
+      at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/valter-helios-parity/cnine-card/tests/coupon-reward-cap-v1997.test.mjs:85:9)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: TypeError: Cannot read properties of undefined (reading 'startsWith')
+        at Object.query (file:///C:/Users/User/.codex/worktrees/valter-helios-parity/cnine-card/tests/coupon-reward-cap-v1997.test.mjs:69:63)
+        at PostgresD1Database.batchSequential (file:///C:/Users/User/.codex/worktrees/valter-helios-parity/cnine-card/functions/_postgres_d1_compat.js:920:23)
+        at file:///C:/Users/User/.codex/worktrees/valter-helios-parity/cnine-card/functions/_postgres_d1_compat.js:907:21,
+    expected: /INJECTED_COUPON_LOG_FAILURE/,
+    operator: 'rejects',
+    diff: 'simple'
+  }

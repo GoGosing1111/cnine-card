@@ -1,0 +1,70 @@
+{
+  "verifiedAt": "2026-10-21T23:39:41.375Z",
+  "source": "bd732a1774cbc3108efe83dd37f454b083332acf",
+  "pages": "f93672e8",
+  "apiRuntime": "6865580e-9ecb-488a-8887-5f898627240a",
+  "scheduler": "e3487974-dbb6-417d-b100-014d7627b2e2",
+  "couponCoinCap": 100000000000,
+  "predictionUserPerEventCap": 300000000000,
+  "relatedTestsPassed": 43,
+  "browserWidths": [
+    1440,
+    390
+  ],
+  "files": [
+    {
+      "file": "admin/admin-v1276.js",
+      "sha256": "ab584924f9c24f69cbd9108cdb8ac63d5e04c3b53e940fa45e4dfa9e4f9eb276",
+      "status": 200
+    },
+    {
+      "file": "admin/coin-prediction-admin-v1.js",
+      "sha256": "790488c9f60f3c1b9230d381097129198800f857dfa64c2047a68670bf7466b7",
+      "status": 200
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "2e38210a8a310784b9f49e44fb8a1447815c2f2d38dfeadb671d19a4f3f01e68",
+      "status": 200
+    },
+    {
+      "file": "js/coin-prediction-v2033.js",
+      "sha256": "9bb367018bbf1f7ad51b80a35429efad04daf91b646391bed4047c5591123e94",
+      "status": 200
+    },
+    {
+      "file": "js/coin-prediction-v1.js",
+      "sha256": "07028bc46d8eff11cbdd4ce204e599950e01db59c8a350013359dc9eb8e4eb64",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "a9d8433a529b281002739d34b1b7b71bfb27f6c9e5e9b214fc18da7a375d3e04",
+      "status": 200
+    },
+    {
+      "file": "index.html",
+      "sha256": "fca857bebdb73b8019c60a00cd504d7d4566c3a53eee6cc02d4ea11e5cedd264",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "00259b0bcc06d05891f1b8fe50b46cf08e98ad51c6d8ede591027f92ab61bbb5",
+      "status": 200
+    }
+  ],
+  "database": {
+    "at": "2026-10-21T23:39:02.885Z",
+    "routeStatus": 401,
+    "maxBetPerEvent": 300000000000,
+    "termsVersion": "2026-10-22-bet-3000eok",
+    "events": [
+      {
+        "status": "OPEN",
+        "max_bet": "300000000000",
+        "count": "84"
+      }
+    ],
+    "preservedClosedCount": 20
+  }
+}
