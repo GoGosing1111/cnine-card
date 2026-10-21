@@ -99,7 +99,7 @@
     buy: Object.freeze({ title: '카드 상점', group: 'store', icon: 'pack', home: Object.freeze({ title: '카드·상점', meta: '카드팩 · 장비 보급 · 이동수단' }) }),
     lootShop: Object.freeze({ title: '고급 전리품 상점', group: 'store', icon: 'gift' }),
     dex: Object.freeze({ title: '도감', group: 'collection', icon: 'book', home: Object.freeze({ title: '도감·강화', meta: '카드 수집 · 상세 · 진화' }) }),
-    mercenaryDex: Object.freeze({ title: '용병도감', group: 'collection', icon: 'cards' }),
+    mercenaryDex: Object.freeze({ title: '용병 · 편성', group: 'collection', icon: 'cards' }),
     petDex: Object.freeze({ title: '펫 도감', group: 'collection', icon: 'book' }),
     upgrade: Object.freeze({ title: '일괄 강화', group: 'collection', icon: 'upgrade' }),
     evolution: Object.freeze({ title: '카드 진화', group: 'collection', icon: 'cards' }),

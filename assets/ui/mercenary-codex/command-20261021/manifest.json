@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "status": "USER_APPROVED_FOR_LIVE",
+  "date": "2026-10-21",
+  "userInstruction": "라이브에 반영해",
+  "sourcePreview": "mercenary-command-typography",
+  "panel": {
+    "source": "ImageGen exec-9b40717e-2bfa-4554-84f4-4a3cf48673f0.png",
+    "sourcePixels": 48,
+    "displayPixels": 16
+  },
+  "greenButton": {
+    "source": "codex-clipboard-b681985c-8743-4e22-892f-0ee31014b9a8.png",
+    "preservedOriginal": true,
+    "sourcePixels": 38,
+    "displayPixels": 9
+  },
+  "font": {
+    "family": "Pretendard Variable",
+    "version": "1.3.9",
+    "license": "SIL OFL 1.1",
+    "stylesheet": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
+  },
+  "consumers": [
+    "mercenary-codex/command.css",
+    "preview/lobby-clarity-v1/style.css"
+  ],
+  "liveText": "DOM only",
+  "files": [
+    {
+      "file": "panel-v3-original.png",
+      "bytes": 2288095,
+      "sha256": "744cd164a9971b9ea1bc374d8f32bca7054fe5488cc415edf71b40d187c58335"
+    },
+    {
+      "file": "panel-v3.webp",
+      "bytes": 5180,
+      "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892"
+    },
+    {
+      "file": "action-user-approved-original.png",
+      "bytes": 2199436,
+      "sha256": "a9dfb94b8fc976e6b31b6597b53d9cc4fd062dd671de8a6c4d9f215acbef661e"
+    },
+    {
+      "file": "action-user-approved.webp",
+      "bytes": 4454,
+      "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155"
+    },
+    {
+      "file": "prompts.json",
+      "bytes": 1990,
+      "sha256": "07035ae9e0a89dd61070471bfbf6d756be4daeb93d66bf5f4aad1848f2161483"
+    }
+  ]
+}
