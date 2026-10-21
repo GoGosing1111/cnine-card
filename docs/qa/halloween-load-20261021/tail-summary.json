@@ -1,0 +1,142 @@
+{
+  "began": "2026-10-21T04:05:54.144Z",
+  "ended": "2026-10-21T04:07:24.160Z",
+  "totalEvents": 4234,
+  "paths": [
+    {
+      "path": "GET /api/mercenary-halloween-pack/config 200",
+      "count": 129,
+      "p50ms": 99,
+      "p95ms": 150,
+      "p99ms": 169,
+      "maxMs": 180
+    },
+    {
+      "path": "POST /api/mercenary-halloween-pack/open 200",
+      "count": 92,
+      "p50ms": 455,
+      "p95ms": 709,
+      "p99ms": 1474,
+      "maxMs": 1474
+    },
+    {
+      "path": "GET /api/mercenary-halloween-pack/receipt 404",
+      "count": 5,
+      "p50ms": 88,
+      "p95ms": 253,
+      "p99ms": 253,
+      "maxMs": 253
+    },
+    {
+      "path": "POST /api/mercenary-halloween-pack/open 409",
+      "count": 1,
+      "p50ms": 139,
+      "p95ms": 139,
+      "p99ms": 139,
+      "maxMs": 139
+    }
+  ],
+  "timingStats": {
+    "count": 94,
+    "queryCounts": [
+      18,
+      19,
+      20,
+      17,
+      29,
+      8,
+      5
+    ],
+    "batchCounts": [
+      2,
+      1,
+      0
+    ],
+    "statementCounts": [
+      46,
+      52,
+      35,
+      54,
+      40,
+      48,
+      60,
+      33,
+      42,
+      51,
+      58,
+      57,
+      10,
+      5
+    ],
+    "d1MsP50": 225,
+    "d1MsP95": 334
+  },
+  "failures": [
+    {
+      "at": 1792555558487,
+      "method": "GET",
+      "path": "/api/mercenary-halloween-pack/receipt",
+      "status": 404,
+      "outcome": "ok",
+      "cpuTime": 9,
+      "wallTime": 48,
+      "exceptions": [],
+      "logs": []
+    },
+    {
+      "at": 1792555584789,
+      "method": "GET",
+      "path": "/api/mercenary-halloween-pack/receipt",
+      "status": 404,
+      "outcome": "ok",
+      "cpuTime": 97,
+      "wallTime": 253,
+      "exceptions": [],
+      "logs": []
+    },
+    {
+      "at": 1792555592533,
+      "method": "POST",
+      "path": "/api/mercenary-halloween-pack/open",
+      "status": 409,
+      "outcome": "ok",
+      "cpuTime": 7,
+      "wallTime": 139,
+      "exceptions": [],
+      "logs": []
+    },
+    {
+      "at": 1792555592801,
+      "method": "GET",
+      "path": "/api/mercenary-halloween-pack/receipt",
+      "status": 404,
+      "outcome": "ok",
+      "cpuTime": 17,
+      "wallTime": 63,
+      "exceptions": [],
+      "logs": []
+    },
+    {
+      "at": 1792555594908,
+      "method": "GET",
+      "path": "/api/mercenary-halloween-pack/receipt",
+      "status": 404,
+      "outcome": "ok",
+      "cpuTime": 25,
+      "wallTime": 88,
+      "exceptions": [],
+      "logs": []
+    },
+    {
+      "at": 1792555608111,
+      "method": "GET",
+      "path": "/api/mercenary-halloween-pack/receipt",
+      "status": 404,
+      "outcome": "ok",
+      "cpuTime": 22,
+      "wallTime": 92,
+      "exceptions": [],
+      "logs": []
+    }
+  ]
+}
