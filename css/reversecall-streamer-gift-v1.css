@@ -1,0 +1,48 @@
+.reversecall-streamer-gift-modal{position:fixed;inset:0;z-index:1500;display:flex!important;align-items:center;justify-content:center;padding:24px;background:rgb(4 5 9 / .88);overflow-y:auto;overscroll-behavior:contain}
+.reversecall-streamer-gift-modal *{box-sizing:border-box}
+.rcgift-panel{width:min(820px,100%);max-height:calc(100dvh - 48px);overflow-y:auto;color:#f5efe1;border:solid transparent;border-width:42px 38px;border-image:url('/assets/ui/packs/reversecall-streamer-gift-20261021/panel.webp') 145 170 145 170 fill / 42px 38px / 0 stretch;padding:10px 12px 18px;font-family:'Pretendard Variable','Pretendard','Noto Sans KR',sans-serif}
+.rcgift-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
+.rcgift-heading p{margin:0 0 9px;color:#d4b886;letter-spacing:.17em;font-size:10px;font-weight:650}
+.rcgift-heading h2{font-size:29px;letter-spacing:-.055em;line-height:1.25;margin:0;color:#fff8e9;font-weight:800;word-break:keep-all}
+.rcgift-body{display:grid;grid-template-columns:.95fr 1.05fr;align-items:center;gap:18px}
+.rcgift-art{margin:0;min-width:0;text-align:center}
+.rcgift-art>img{display:block;width:100%;height:310px;object-fit:contain}
+.rcgift-art figcaption{color:#bdb3a5;font-size:12px;line-height:1.6;margin-top:12px;word-break:keep-all}
+.rcgift-contents{min-width:0}
+.rcgift-label{font-size:14px;line-height:1.6;font-weight:600;margin:0 0 13px;color:#e7d9be;text-align:center;word-break:keep-all}
+.rcgift-rewards{display:grid;gap:9px}
+.rcgift-reward{min-height:67px;display:grid;grid-template-columns:35px minmax(0,1fr) auto;align-items:center;gap:9px;border:solid transparent;border-width:8px 33px;border-image:url('/assets/ui/packs/reversecall-streamer-gift-20261021/reward.webp') 30 205 30 205 fill / 8px 33px / 0 stretch;padding:0 1px;color:#46351e}
+.rcgift-reward>img{width:35px;height:39px;object-fit:contain}
+.rcgift-coin-mark{font-family:Georgia,serif;font-size:26px;text-align:center;color:#9a682c;font-weight:700}
+.rcgift-reward>span:not(.rcgift-coin-mark){font-size:13px;font-weight:750;white-space:nowrap;letter-spacing:-.035em}
+.rcgift-reward strong{font-size:28px;line-height:1;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:-.03em}
+.rcgift-reward small{font-size:12px;margin-left:3px}
+.rcgift-panel button{cursor:pointer;appearance:none;background:none;color:#342211;border:solid transparent;border-width:12px 34px;border-image:url('/assets/ui/packs/reversecall-streamer-gift-20261021/button.webp') 50 160 50 160 fill / 12px 34px / 0 stretch;font:inherit;font-weight:800;transition:filter .16s}
+.rcgift-panel button:hover{filter:brightness(1.13)}
+.rcgift-panel button:focus-visible{outline:2px solid #ffe4a5;outline-offset:3px}
+.rcgift-panel button:disabled{cursor:wait;filter:grayscale(.55);opacity:.68}
+.rcgift-panel .rcgift-confirm{width:100%;min-height:61px;padding:5px 10px;font-size:16px;letter-spacing:-.025em}
+.rcgift-panel .rcgift-close{flex:none;min-width:74px;min-height:44px;border-width:8px 14px;border-image-width:8px 14px;padding:3px 5px;font-size:12px}
+.rcgift-status{min-height:23px;margin:11px 0 7px;color:#f6cd86;font-size:12px;text-align:center;line-height:1.5;word-break:keep-all}
+.rcgift-balance{color:#bbb2a5;font-size:11px;line-height:1.6;margin:11px 0 0;text-align:center;word-break:keep-all}
+@media(max-width:640px){
+ .reversecall-streamer-gift-modal{padding:12px}
+ .rcgift-panel{max-height:calc(100dvh - 24px);border-width:32px 24px;border-image-width:32px 24px;padding:7px 1px 13px}
+ .rcgift-heading{gap:6px;margin-bottom:7px;align-items:flex-start}
+ .rcgift-heading h2{font-size:22px;max-width:230px}
+ .rcgift-heading p{font-size:8px;letter-spacing:.12em;line-height:1.5;margin-bottom:7px}
+ .rcgift-panel .rcgift-close{min-width:53px;min-height:44px;padding:0;font-size:11px;border-width:8px 9px;border-image-width:8px 9px}
+ .rcgift-body{grid-template-columns:1fr;gap:12px}
+ .rcgift-art>img{height:195px}
+ .rcgift-art figcaption{font-size:10px;margin-top:4px}
+ .rcgift-label{font-size:12px;margin-bottom:9px}
+ .rcgift-reward{min-height:57px;gap:8px;border-width:7px 26px;border-image-width:7px 26px;grid-template-columns:30px minmax(0,1fr) auto}
+ .rcgift-reward>img{width:30px;height:33px}
+ .rcgift-reward>span:not(.rcgift-coin-mark){font-size:12px}
+ .rcgift-reward strong{font-size:25px}
+ .rcgift-panel .rcgift-confirm{min-height:55px;font-size:15px}
+ .rcgift-status{margin:9px 0 5px;min-height:18px;font-size:11px}
+ .rcgift-balance{font-size:10px;margin-top:8px}
+}
+@media(prefers-reduced-motion:reduce){.rcgift-panel button{transition:none}}
+

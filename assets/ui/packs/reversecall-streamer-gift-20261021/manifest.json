@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "date": "2026-10-21",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "tool": "image_gen.imagegen (built-in)",
+  "userVisualApproval": "not claimed",
+  "transforms": "Original PNGs preserved byte-for-byte. Delivery variants use uniform resize/WebP and transparent atlas crop only.",
+  "consumers": [
+    "functions/_reversecall_streamer_gift.js",
+    "shared/reversecall-streamer-gift-v1.mjs",
+    "js/reversecall-streamer-gift-v1.js",
+    "css/reversecall-streamer-gift-v1.css",
+    "admin/admin-v1276.js",
+    "admin/reversecall-streamer-gift-v1.css"
+  ],
+  "files": [
+    {
+      "file": "sources/gift-original.png",
+      "bytes": 2444249,
+      "sha256": "d8f9d22c2380a8fa9b4e55a8f60f07db41921e5c7a9d659cfbebf40b785873d2",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true
+    },
+    {
+      "file": "sources/ui-original.png",
+      "bytes": 1900362,
+      "sha256": "9fa3556556fa4870e76574c13bd2ad311e3d13ac75ec58ebc10ecb3ffb86f9be",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true
+    },
+    {
+      "file": "gift-768.webp",
+      "bytes": 200534,
+      "sha256": "5cc050d72b72208ef2afab9816412980bded5fb12a8bfa499d9230eca0747ce2",
+      "width": 768,
+      "height": 768,
+      "hasAlpha": true
+    },
+    {
+      "file": "gift-256.webp",
+      "bytes": 32084,
+      "sha256": "4e62dcf6b801f9e9e8b0796274c1b1ce2bcde9ce962a9aebb64d7ced6fc7051e",
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true
+    },
+    {
+      "file": "panel.webp",
+      "bytes": 145134,
+      "sha256": "e68db102da4e0332e66730cd913ed45ead204f999107ab65cb10ce681e6f0006",
+      "width": 1217,
+      "height": 668,
+      "hasAlpha": true
+    },
+    {
+      "file": "reward.webp",
+      "bytes": 64568,
+      "sha256": "da0b064ce78dd394e8db7947069c4f84304818ebbe00687982b0c840a2307543",
+      "width": 1175,
+      "height": 172,
+      "hasAlpha": true
+    },
+    {
+      "file": "button.webp",
+      "bytes": 77154,
+      "sha256": "6a69ce5effd315d9f4f93603532a7d800a99eecb664a753edb28a6b724e08cd7",
+      "width": 1023,
+      "height": 227,
+      "hasAlpha": true
+    },
+    {
+      "file": "prompts.json",
+      "bytes": 3243,
+      "sha256": "a34dd81954cde6ed11ac2192de61c044098f198e2641fa6406942e9e8ffebfa0"
+    }
+  ],
+  "textHashNormalization": "UTF-8/LF for prompts.json; PNG/WebP byte hashes"
+}
