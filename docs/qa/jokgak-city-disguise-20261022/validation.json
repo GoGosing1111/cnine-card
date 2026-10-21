@@ -1,0 +1,19 @@
+{
+  "tests": {
+    "newDisguise": 9,
+    "existingLifeCommsSupply": 47,
+    "existingConflict": 12,
+    "scopedReleasePolicy": 9,
+    "totalUnique": 77
+  },
+  "browserWidths": [
+    1440,
+    390,
+    320
+  ],
+  "browserErrors": 0,
+  "visualReview": "Technical review completed; user visual approval not claimed",
+  "sourceReview": "Server-authoritative price, eligibility and limit; original role authority retained; atomic life/player/receipt updates; no schema changes",
+  "deploymentBase": "fd7907c0c13394e82d8db307ebb3ba958ab5ee13",
+  "productionAssetCount": 20000
+}

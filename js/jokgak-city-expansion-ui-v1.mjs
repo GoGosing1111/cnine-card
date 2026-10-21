@@ -1,6 +1,6 @@
 import {CITY_WEAPONS,defaultCityArsenal,defaultCityFacilities} from '../shared/jokgak-city-expansion-v1.mjs';
 import {CITY_SUPPLY_WEAPONS} from '../shared/jokgak-city-supply-v1.mjs';
-import {cityItemArt} from './jokgak-city-item-art-v1.mjs?v=20261011-items1';
+import {cityItemArt} from './jokgak-city-item-art-v1.mjs?v=20261022-disguise1';
 import {CITY_FOUND_WEAPONS,defaultCityExploration} from '../shared/jokgak-city-exploration-v1.mjs';
 import {cityGearArt,cityEquipmentCard,cityEquipmentSummary} from './jokgak-city-exploration-ui-v2.mjs?v=20261021-supply-expiry1';
 const money=n=>Number(n||0).toLocaleString('ko-KR');

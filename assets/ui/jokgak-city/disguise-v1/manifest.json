@@ -1,0 +1,61 @@
+{
+  "tool": "built-in image_gen",
+  "visualApproval": "user review pending; technical verification is separate",
+  "assets": [
+    {
+      "key": "icon",
+      "original": "docs/qa/jokgak-city-disguise-20261022/art/icon-source.png",
+      "prompt": "Use case: stylized-concept. Asset type: production item icon for a Korean urban survival RPG, a fictional disguise identity pass purchased in an illicit city market. One single laminated midnight-blue identity card in a worn charcoal leather sleeve, slightly tilted in three-quarter view. A stylized anonymous faceless portrait hologram, a second translucent identity silhouette offset above it, teal security foiling and restrained amber street-neon reflections. Crisp hand-painted collectible game item, tactile scuffed plastic, stitched leather edges, sharp readable silhouette at small sizes. Isolated centered object, ample transparent margin, square canvas. Do not show any real person, real national ID design, government seal, barcode or usable personal information. No letters, words, numbers, logo or watermark. True transparent background, clean alpha edges. All gameplay names and numbers will be rendered separately in DOM.",
+      "sourceSha256": "bdf41972e076a815358f11a1b6bc3c1b5a6648e38bbc0ca29ddc39371c9743c9",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "derivatives": [
+        {
+          "path": "assets/ui/jokgak-city/disguise-v1/identity-256.webp",
+          "sha256": "42c169e37fbb8e464ca2dcd85c018704157bea78b568e158623b1a2d5dd59631"
+        },
+        {
+          "path": "assets/ui/jokgak-city/disguise-v1/identity-768.webp",
+          "sha256": "48ee6df13c748b8fe8bc19bb7fa60c944532e466ae9c8273d0a1537e361e1b52"
+        }
+      ]
+    },
+    {
+      "key": "panel",
+      "original": "docs/qa/jokgak-city-disguise-20261022/art/panel-source.png",
+      "prompt": "Use case: ui-mockup. Asset type: blank resizable game UI panel for a Korean urban survival city market disguise identity pass. A single front-facing wide rectangular dark charcoal document folio with subtle worn leather texture, slim stitched teal edging, small brushed steel corner clamps and a discreet holographic security motif confined to the far edges. Blank very dark center occupies 90 percent for live text and item illustration overlay. Tactile hand-painted RPG prop, restrained teal and muted amber highlights consistent with neon city survival equipment. Wide landscape 3:2 canvas, centered, symmetrical structure suitable for nine-slice scaling, no perspective. True transparent exterior, full opaque dark interior. No letters, numbers, text, icons, portraits, watermark, or UI mockup screenshot. This is one empty panel texture only.",
+      "sourceSha256": "045be61f0745e049e1d45909643d8e3b6b0e1b729274a693ac4b388d5931c5b6",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true,
+      "alphaMin": 0,
+      "alphaMax": 254,
+      "derivatives": [
+        {
+          "path": "assets/ui/jokgak-city/disguise-v1/panel.webp",
+          "sha256": "d4b1ced1abef8dc92bbf2baed2baec28271aeaedebb949026f0432a257f8c714"
+        }
+      ]
+    },
+    {
+      "key": "button",
+      "original": "docs/qa/jokgak-city-disguise-20261022/art/button-source.png",
+      "prompt": "Use case: ui-mockup. Asset type: one blank game interface action button for a Korean urban survival city market disguise identity pass. A single wide front-facing tactile slim rectangular teal enamel metal press plate, dark charcoal metal edge and tiny worn steel screws at each corner, subtle brushed enamel texture and restrained mint edge illumination. Blank dark teal central 80 percent reserved for white live DOM label. Consistent with worn identity card leather folio and neon urban survival game equipment. Landscape 3:1 proportion. Centered on a transparent background with clean alpha edge. Suitable for nine-slice horizontal expansion; ornament confined to outer edge. No text, letters, numbers, arrows, symbols, watermark, other objects or screenshot.",
+      "sourceSha256": "a74f23551b1f027fdbbf2f89b655b0fcc33dd1c78aafc6c864525cfe90c4fa9d",
+      "width": 2172,
+      "height": 724,
+      "hasAlpha": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "derivatives": [
+        {
+          "path": "assets/ui/jokgak-city/disguise-v1/button.webp",
+          "sha256": "465ba3bd8e6bd72bd905b044451f1dcbd1c72a00a389b2b213a98f8b1a1961d6"
+        }
+      ]
+    }
+  ]
+}

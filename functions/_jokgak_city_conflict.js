@@ -1,3 +1,4 @@
+import {cityDisplayName,cityDisguiseIdentity} from '../shared/jokgak-city-disguise-v1.mjs';
 import {cityShift,cityPlace} from '../shared/jokgak-city-v1.mjs';
 import {cityConflictState,defaultCityConflict,selectCityBounty,validateCityConflictState} from '../shared/jokgak-city-conflict-v1.mjs';
 import {changeCityCash} from '../shared/jokgak-city-cash-v1.mjs';
@@ -31,14 +32,14 @@ export function prepareCityConflict(env,{action,winner,me,target,myLife,targetLi
       statements.push(p(env,'DELETE FROM app_meta WHERE key=?',cityBountyKey(epoch,mode,victim.userId)));
       if(rule.enabled){
         changeCityCash(killerLife,policy,warrant.amount);
-        result.claimed={id:warrant.id,epoch,mode,targetId:victim.userId,targetName:victim.nickname,killerId:killer.userId,killerName:killer.nickname,amount:warrant.amount,createdAt:now,location};
+        result.claimed={id:warrant.id,epoch,mode,targetId:victim.userId,targetName:cityDisplayName(victim),killerId:killer.userId,killerName:cityDisplayName(killer),amount:warrant.amount,createdAt:now,location};
       }
     }
     if(rule.enabled&&!k.bounty&&k.kills>=rule.minKills&&now>=k.nextEligibleAt){
       const amount=selectCityBounty(rule,k.kills,roll(),roll());
       if(amount){
         k.bounty={id:requestId+':wanted:'+killer.userId,amount,issuedAt:now,kills:k.kills};
-        result.issued={...k.bounty,userId:killer.userId,nickname:killer.nickname,epoch,mode,createdAt:now,location};
+        result.issued={...k.bounty,userId:killer.userId,nickname:cityDisplayName(killer),epoch,mode,createdAt:now,location};
         statements.push(p(env,'INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',cityBountyKey(epoch,mode,killer.userId),JSON.stringify(result.issued)));
       }
     }
@@ -72,7 +73,7 @@ export async function cityConflictWorld(env,policy,now){
     bounties=rows.flatMap(row=>{
       const record=JSON.parse(row.value),life=JSON.parse(row.life_raw);validateCityConflictState(life);
       const current=cityConflictState(life,policy.mode,now)?.bounty;if(!current||current.id!==record.id)return [];
-      return [{...current,userId:Number(row.user_id),nickname:row.nickname,location:row.location,kills:life.conflict[policy.mode].kills,deadUntil:life.death&&!life.death.resolved?life.death.until:0,jailedUntil:Number(row.jailed_until)}];
+      return [{...current,userId:Number(row.user_id),nickname:cityDisguiseIdentity(life,policy.mode,now)?.nickname??row.nickname,location:row.location,kills:life.conflict[policy.mode].kills,deadUntil:life.death&&!life.death.resolved?life.death.until:0,jailedUntil:Number(row.jailed_until)}];
     }).sort((a,b)=>b.amount-a.amount||b.kills-a.kills||a.userId-b.userId);
     const events=(await p(env,`SELECT value FROM app_meta WHERE key>=? AND key<? AND (${json(env,'value','issued','id')} IS NOT NULL OR ${json(env,'value','claimed','id')} IS NOT NULL) ORDER BY key DESC LIMIT 12`,prefix+instant(Math.max(shift.startsAt,now-120000)),upper).all()).results||[];
     notices=events.reverse().flatMap(row=>{const event=JSON.parse(row.value);return [event.claimed&&{...event.claimed,id:event.claimed.id+':cleared',kind:'CLAIMED'},event.issued&&{...event.issued,kind:'ISSUED'}].filter(Boolean);});

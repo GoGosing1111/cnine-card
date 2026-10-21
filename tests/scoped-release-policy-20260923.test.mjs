@@ -45,10 +45,12 @@ test('small backend and V3 fixes automatically retain compilation and real loade
  const plan=scopedReleasePlan(fixture({changed:['functions/_mercenary_combat.js','preview/project-v-v3/source/battle/MercenaryCombatPlayback.js','js/battle-v3-live.js']}));
  assert.deepEqual(plan.checks,['check:worker']);assert.deepEqual(plan.tests,[path,'tests/pve-battlefield-entry-v2117.test.mjs']);
 });
-
-test('an unshipped QA Wrangler record does not classify an art release as production infrastructure',()=>{
+test('an unshipped QA Wrangler record does not classify an art release as production infrastructure',async()=>{
+ const {isProductionFile}=await import('../scripts/prepare-production-assets.mjs');
+ assert.equal(isProductionFile('docs/qa/one-off-operation/wrangler.jsonc'),false);
  assert.doesNotThrow(()=>scopedReleasePlan(fixture({changed:['js/seal-battle.js','docs/qa/one-off-operation/wrangler.jsonc']})));
- for(const file of ['wrangler.toml','workers/api-runtime/wrangler.jsonc','preview/worker/wrangler.jsonc','docs/qa/one-off-operation/migration.sql'])
+ assert.doesNotThrow(()=>scopedReleasePlan(fixture({changed:['functions/_jokgak_city_disguise.js','docs/qa/one-off-operation/wrangler.jsonc']})));
+ for(const file of ['wrangler.toml','workers/api-runtime/wrangler.jsonc','preview/worker/wrangler.jsonc','docs/wrangler.toml','docs/qa/one-off-operation/migration.sql','docs/qa/operation.sql','docs/qa/nested/worker/wrangler.jsonc'])
   assert.throws(()=>scopedReleasePlan(fixture({changed:['docs/qa/one-off-operation/wrangler.jsonc',file]})),/full release gate/);
 });
 test('selected tests run once, guard follows them, and a failed test stops execution',()=>{

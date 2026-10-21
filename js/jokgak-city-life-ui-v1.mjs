@@ -1,5 +1,7 @@
+import {cityDisplayName} from '../shared/jokgak-city-disguise-v1.mjs';
+import {cityRole} from '../shared/jokgak-city-v1.mjs';
 import {CITY_SUPPLIES,defaultCityLifePolicy} from '../shared/jokgak-city-life-v1.mjs';
-import {cityItemArt} from './jokgak-city-item-art-v1.mjs?v=20261011-items1';
+import {cityItemArt} from './jokgak-city-item-art-v1.mjs?v=20261022-disguise1';
 export {cityItemArt};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=n=>Number(n||0).toLocaleString('ko-KR');
@@ -17,8 +19,9 @@ export function cityCondition(m,now){
 }
 export function cityProfile(state,now,icon,role,locationName,busy){
   const m=state?.mine,condition=cityCondition(m,now);
+  if(m?.disguise?.active)role=cityRole(m.disguise.active.role);
   if(!m?.active)return `<section class="jc-profile jc-profile-await" aria-label="나의 도시 프로필"><div class="jc-profile-emblem">${icon('person')}</div><div><small>나의 도시 프로필</small><h2>${esc(m?.nickname||'도시 입장 대기')}</h2><p>${m?.role?`이번 직업: ${esc(role.name)} · 다음 6시간 교대 전까지 유지`:`입장하면 이번 교대의 직업과 내 생활 상태가 표시됩니다.`}</p></div><button class="jc-primary" data-city-action="join" ${busy?'disabled':''}>도시 입장${icon('arrow')}</button></section>`;
-  return `<section class="jc-profile" aria-label="나의 도시 프로필" style="--role:${role.color}"><header class="jc-profile-heading"><span>나의 도시 프로필 <small>CITIZEN RECORD</small></span><b data-city-condition data-tone="${condition.tone}">${condition.label}</b></header><div class="jc-profile-body"><div class="jc-profile-person"><div class="jc-profile-id"><span class="jc-profile-emblem">${icon(role.icon)}</span><div><small>이번 교대의 나</small><h2>${esc(m.nickname)}</h2><span class="jc-profile-job">${esc(role.name)}</span><span class="jc-profile-location">${icon('target')}${esc(locationName)}</span></div></div><p>${esc(role.detail)}</p><div class="jc-profile-wanted"><span>수배 단계</span><b aria-label="수배 ${m.wanted}단계"><em>${'★'.repeat(m.wanted)}</em>${'☆'.repeat(5-m.wanted)}</b><span data-city-action-clock></span></div></div>${cityNeeds(state,now,icon)}</div></section>`;
+  return `<section class="jc-profile" aria-label="나의 도시 프로필" style="--role:${role.color}"><header class="jc-profile-heading"><span>나의 도시 프로필 <small>CITIZEN RECORD</small></span><b data-city-condition data-tone="${condition.tone}">${condition.label}</b></header><div class="jc-profile-body"><div class="jc-profile-person"><div class="jc-profile-id"><span class="jc-profile-emblem">${icon(role.icon)}</span><div><small>이번 교대의 나</small><h2>${esc(cityDisplayName(m))}</h2><span class="jc-profile-job">${esc(role.name)}</span><span class="jc-profile-location">${icon('target')}${esc(locationName)}</span></div></div><p>${m.disguise?.active?`위장 중 · 실제 직업 ${esc(cityRole(m.role).name)}의 능력은 유지됩니다.`:esc(role.detail)}</p><div class="jc-profile-wanted"><span>수배 단계</span><b aria-label="수배 ${m.wanted}단계"><em>${'★'.repeat(m.wanted)}</em>${'☆'.repeat(5-m.wanted)}</b><span data-city-action-clock></span></div></div>${cityNeeds(state,now,icon)}</div></section>`;
 }
 export function cityTheftHtml(theft,defending=false){
   if(!theft||theft.status==='DISABLED')return '';

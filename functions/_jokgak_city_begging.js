@@ -1,3 +1,4 @@
+import {cityDisplayName} from '../shared/jokgak-city-disguise-v1.mjs';
 import {cityShift} from '../shared/jokgak-city-v1.mjs';
 import {cityRolePolicy} from '../shared/jokgak-city-settings-v1.mjs';
 import {changeCityCash} from '../shared/jokgak-city-cash-v1.mjs';
@@ -9,7 +10,7 @@ const access=policy=>policy.mode==='TEST'?` AND (u.role='OWNER'${policy.testUser
 const accessIds=policy=>policy.mode==='TEST'?policy.testUserIds:[];
 
 export function beggingNotifications(env,{user,me,requestId,begging,policy,now}){
-  const summary={requestId,action:begging.kind,actorId:Number(user.id),actorName:user.nickname,location:me.location,mode:policy.mode,createdAt:now,endsAt:begging.endsAt,cash:begging.cash};
+  const summary={requestId,action:begging.kind,actorId:Number(user.id),actorName:cityDisplayName(me),location:me.location,mode:policy.mode,createdAt:now,endsAt:begging.endsAt,cash:begging.cash};
   return p(env,`INSERT INTO jokgak_city_notifications_v1(id,user_id,request_id,created_at,summary_json)
     SELECT ?||':b:'||CAST(c.user_id AS TEXT),c.user_id,?,?,? FROM jokgak_city_players_v1 c JOIN users u ON u.id=c.user_id
     WHERE c.active=1 AND c.location=? AND c.user_id<>? AND c.health>0 AND c.jailed_until<=? AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))${access(policy)}`,
@@ -36,7 +37,7 @@ export async function prepareCityDonation(env,{user,me,target,myLife,targetLife,
   // Amount is fixed by the saved offer, never by the donor's request body.
   changeCityCash(myLife,policy,-beg.cash);changeCityCash(targetLife,policy,beg.cash);
   const claimed=JSON.stringify({...parse(row.summary_json),donationRequestId:requestId}),tag=requestId+':donation';
-  return {endsAt:beg.endsAt,result:{amount:beg.cash,currency:'CITY_CASH',unit:'원',mode:policy.mode,offerId,donorName:me.nickname,recipientName:target.nickname},statements:[
+  return {endsAt:beg.endsAt,result:{amount:beg.cash,currency:'CITY_CASH',unit:'원',mode:policy.mode,offerId,donorName:cityDisplayName(me),recipientName:cityDisplayName(target)},statements:[
     p(env,'UPDATE jokgak_city_notifications_v1 SET read_at=?,summary_json=? WHERE id=? AND user_id=? AND read_at=0 AND summary_json=?',now,claimed,id,user.id,row.summary_json),
     cityGuard(env,tag,'EXISTS(SELECT 1 FROM jokgak_city_notifications_v1 WHERE id=? AND summary_json=?)',[id,claimed]),cityGuardEnd(env,tag)
   ]};

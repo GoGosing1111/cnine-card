@@ -1,0 +1,42 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "purchase3000": true,
+      "inventoryUse": true,
+      "aliasEscaped": true,
+      "artLoaded": true,
+      "liveCountdown": true,
+      "reloadPreserves": true,
+      "expiryRestores": true,
+      "policeDisabled": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "purchase3000": true,
+      "inventoryUse": true,
+      "aliasEscaped": true,
+      "artLoaded": true,
+      "liveCountdown": true,
+      "reloadPreserves": true,
+      "expiryRestores": true,
+      "policeDisabled": true,
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "purchase3000": true,
+      "inventoryUse": true,
+      "aliasEscaped": true,
+      "artLoaded": true,
+      "liveCountdown": true,
+      "reloadPreserves": true,
+      "expiryRestores": true,
+      "policeDisabled": true,
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "accounts": "isolated fixtures; actual HTTP handler and city UI"
+}

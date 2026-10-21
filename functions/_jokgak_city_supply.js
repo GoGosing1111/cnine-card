@@ -1,3 +1,4 @@
+import {cityDisplayName} from '../shared/jokgak-city-disguise-v1.mjs';
 import {cityShift,cityState} from '../shared/jokgak-city-v1.mjs';
 import {createCitySupplyPlan,citySupplyEligible,citySupplyPublic,citySupplyWeapon,citySupplyWeaponExpiresAt} from '../shared/jokgak-city-supply-v1.mjs';
 import {CITY_SETTINGS_KEY,cityCanAccess,cityRolePolicy} from '../shared/jokgak-city-settings-v1.mjs';
@@ -117,7 +118,7 @@ export async function processCitySupply(env,{policy,policyRaw,now=Date.now(),rol
           cityExplorationBag(life,policy.mode,d.endsAt);const armory=cityArmory(life,policy.mode,d.endsAt),duplicate=armory.owned.includes(weapon.code);
           if(!duplicate){armory.owned.push(weapon.code);(armory.supplyExpiresAt??={})[weapon.code]=citySupplyWeaponExpiresAt(d.endsAt);}
           const expiresAt=(armory.supplyExpiresAt??={})[weapon.code]??=citySupplyWeaponExpiresAt(d.endsAt);
-          next.winner={userId:id,nickname:row.nickname};
+          next.winner={userId:id,nickname:cityDisplayName(state)};
           const requestId='city-supply-award:'+d.id,supply={kind:'AWARDED',dropId:d.id,location:d.location,weapon,duplicate,winner:next.winner,endsAt:d.endsAt,expiresAt};
           const result={ok:true,requestId,action:'rewardSupply',epoch:d.epoch,mode:d.mode,cityMode:d.mode,createdAt:d.endsAt,location:d.location,mine:{...state,ownedWeapons:[...armory.owned],supplyWeaponExpiresAt:{...armory.supplyExpiresAt}},target:null,supply};
           statements.push(...cityLifeClaim(env,row,life,token),p(env,'INSERT INTO jokgak_city_actions_v1(request_id,user_id,action,fingerprint,result_json,created_at) VALUES(?,?,?,?,?,?)',requestId,id,'rewardSupply',JSON.stringify({dropId:d.id}),JSON.stringify(result),d.endsAt),
@@ -136,7 +137,13 @@ export async function processCitySupply(env,{policy,policyRaw,now=Date.now(),rol
     records=await readRecords(env,policy,policyRaw,now,roll);
     await syncAwardedWeapons(env,records,policy,policyRaw,now);
   }
-  return {records,world:citySupplyPublic(records,policy.mode,now)};
+  const world=citySupplyPublic(records,policy.mode,now);
+  // Active carriers reflect a newly used or expired disguise on each world read.
+  for(const drop of world.drops.filter(d=>d.status==='OPEN'&&d.holder)){
+    const owner=await holderState(env,records.find(r=>r.drop.id===drop.id).drop,policy,now);
+    if(owner?.state)drop.holder={...drop.holder,nickname:cityDisplayName(owner.state)};
+  }
+  return {records,world};
 }
 export function requireCitySupply(records,id,now){
   const record=records.find(r=>r.drop.id===id);
@@ -156,10 +163,10 @@ export function prepareCitySupplyChanges(env,{records,action,dropId,me,target,wi
       if(!citySupplyEligible(me,d,now)&&!(action==='attackSupply'&&winner!=='A'))fail('LOCATION','보급 낙하 지점에서 참여하세요.');
       if(action==='claimSupply'){
         if(d.holder)fail('HELD','이미 보유자가 있습니다. 최신 전황에서 쟁탈전에 참여하세요.');
-        next={...d,holder:{userId:me.userId,nickname:me.nickname},claimedAt:now};
+        next={...d,holder:{userId:me.userId,nickname:cityDisplayName(me)},claimedAt:now};
       }else{
         if(d.holder?.userId!==target?.userId)fail('CHANGED','보급상자 보유자가 바뀌었습니다. 다시 확인하세요.');
-        if(winner==='A')next={...d,holder:{userId:me.userId,nickname:me.nickname},claimedAt:now};
+        if(winner==='A')next={...d,holder:{userId:me.userId,nickname:cityDisplayName(me)},claimedAt:now};
       }
       result={kind:action==='claimSupply'?'CLAIMED':winner==='A'?'TAKEN':'DEFENDED',dropId:d.id,location:d.location,endsAt:d.endsAt,holder:next?.holder||d.holder};
     }

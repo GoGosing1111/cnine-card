@@ -1,3 +1,4 @@
+import {cityDisplayName} from './jokgak-city-disguise-v1.mjs';
 import {cityShift} from './jokgak-city-v1.mjs';
 import {changeCityCash} from './jokgak-city-cash-v1.mjs';
 export const CITY_MEGAPHONE=Object.freeze({code:'MEGAPHONE',name:'도시 확성기',price:500,maxLength:100,maxCount:99,cooldownMs:15000,displayMs:10000});
@@ -29,5 +30,5 @@ export function cityCommsAction({action,message,me,life,policy,now}){
  if(stock.count<1)fail('시장에서 확성기를 먼저 구매하세요.');
  if(stock.nextAt>now)fail('확성기는 15초마다 사용할 수 있습니다.');
  const text=cityBroadcastText(message);stock.count--;stock.nextAt=now+CITY_MEGAPHONE.cooldownMs;
- return {kind:'broadcast',message:text,count:stock.count,senderId:me.userId,senderName:me.nickname,location:me.location,epoch:cityShift(now).id,mode:policy.mode,createdAt:now};
+ return {kind:'broadcast',message:text,count:stock.count,senderId:me.userId,senderName:cityDisplayName(me),location:me.location,epoch:cityShift(now).id,mode:policy.mode,createdAt:now};
 }
