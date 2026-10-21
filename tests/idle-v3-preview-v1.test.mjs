@@ -219,8 +219,8 @@ test('Pages extensionless battle redirects keep Pixi backgrounds and scripts at 
   assert.ok(html.indexOf('<base ') < html.indexOf('<script '));
   const engine = read('preview/project-v-v3/source/battle/BattleEngine.js');
   const backgrounds = engine.match(/const BATTLEFIELD_ASSETS=[\s\S]*?const LEGACY_BATTLEFIELD=[^;]+;/)[0];
-  const assets = [...backgrounds.matchAll(/'(\.\.\/\.\.\/assets\/[^']+)'/g)].map(m => m[1]);
-  assert.equal(assets.length, 7);
+  const assets = [...backgrounds.matchAll(/'((?:\.\.\/\.\.)?\/assets\/[^']+)'/g)].map(m => m[1]);
+  assert.equal(assets.length, 9);
   for (const page of ['http://127.0.0.1:8791/preview/idle-v3-v1/battle.html?v=5',
     'https://cnine-card.pages.dev/preview/idle-v3-v1/battle?v=5']) {
     const base = new URL(baseHref, page).href;
