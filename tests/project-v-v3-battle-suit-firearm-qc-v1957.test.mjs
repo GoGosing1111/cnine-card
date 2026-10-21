@@ -59,7 +59,9 @@ test('V3 preview mounts the real five-card PVE payload plus one independently da
   const styledClasses=new Set([...`${baseCss}\n${cardCss}\n${css}\n${responsiveCss}`.matchAll(/\.([A-Za-z_][\w-]*)/g)].map(match=>match[1]));
   assert.deepEqual([...htmlClasses].filter(name=>!styledClasses.has(name)).sort(),[],
     'every static V3 preview class must have a stylesheet contract');
-  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=106-combat-flow/);
+  const previewBundle=client.match(/script\.src='([^']*project-v-pixi-battle\.bundle\.js\?[^']+)'/)?.[1];
+  assert.ok(previewBundle,'preview must load the current V3 bundle');
+  assert.ok(new URL(previewBundle,'https://preview.invalid/').searchParams.getAll('v').some(version=>version.startsWith('106-combat-flow')));
   assert.equal((client.match(/\['QC-(?:FAKER|TAEK|PPLI|AYOON|BONG)'/g)||[]).length,5,'preview fixture must remain exactly five canonical cards');
   assert.match(client,/v3RenderContext:\{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_INDEPENDENT_DAMAGE_QC_V1'\}/);
   assert.match(client,/pveBattlefields=new Set\(\['HUNT','TOWER','RAID'\]\)/);

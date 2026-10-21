@@ -1117,7 +1117,7 @@ function loadFeatureScript(src){
 let battleFeatureRecoverySequence=0;
 function refreshBattleFeatureRuntime(){
   const token=Date.now().toString(36)+'-'+(++battleFeatureRecoverySequence);
-  const sources=FEATURE_RESOURCE_MANIFEST.battleV2.scripts.filter(src=>src.includes('/project-v-pixi-battle.bundle.js?valterParity=20261021-v1&prime=20261021-v2&zero=20261020-wings-live-v1&leonel=20261018-live-v1-forward-guard-20261019&')||src.includes('/battle-v3-live.js?valterParity=20261021-v1&'));
+  const sources=FEATURE_RESOURCE_MANIFEST.battleV2.scripts.filter(src=>src.includes('/project-v-pixi-battle.bundle.js?')||src.includes('/battle-v3-live.js?'));
   return Promise.all(sources.map(src=>loadFeatureScript(src+'&battleRecovery='+token)));
 }
 function ensureFeatureResources(key){
