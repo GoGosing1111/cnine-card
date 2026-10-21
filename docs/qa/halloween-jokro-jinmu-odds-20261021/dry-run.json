@@ -1,0 +1,138 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:halloween-jokro-jinmu-odds:20261021:v1",
+    "authorization": "족로랑 진무 기대값 계산해보고 3배로 올려서 수치 갖고와 / 더 잘뜨게 3배 / 3배 너무 높다 2배만 하자",
+    "completedAt": "2026-10-21T02:12:03.118Z",
+    "before": {
+      "revision": 18,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 200,
+          "V-989": 100,
+          "V-996": 200,
+          "V-977": 5000,
+          "V-979": 100
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 11,
+          "V-981": 11,
+          "V-982": 11,
+          "V-983": 11,
+          "V-984": 11,
+          "V-985": 11,
+          "V-986": 11,
+          "V-999": null,
+          "V-989": 3,
+          "V-996": null,
+          "V-977": 15,
+          "V-979": 3
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 924400
+      },
+      "updatedAt": "2026-10-20T19:02:16.262Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:halloween-bathory-restock:20261021:five-v1"
+    },
+    "after": {
+      "revision": 19,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 200,
+          "V-989": 200,
+          "V-996": 200,
+          "V-977": 5000,
+          "V-979": 200
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 11,
+          "V-981": 11,
+          "V-982": 11,
+          "V-983": 11,
+          "V-984": 11,
+          "V-985": 11,
+          "V-986": 11,
+          "V-999": null,
+          "V-989": 3,
+          "V-996": null,
+          "V-977": 15,
+          "V-979": 3
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 924200
+      },
+      "updatedAt": "2026-10-21T02:12:03.118Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:halloween-jokro-jinmu-odds:20261021:v1"
+    },
+    "stock": [
+      {
+        "code": "V-979",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0"
+      },
+      {
+        "code": "V-989",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0"
+      }
+    ],
+    "stockChanged": false,
+    "grants": 0,
+    "effectivePercents": {
+      "V-979": "0.00001",
+      "V-989": "0.00001"
+    },
+    "adminLogId": "49387"
+  },
+  "currentRevision": 19,
+  "dryRun": true,
+  "replayed": false,
+  "rollbackVerified": true
+}

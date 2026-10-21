@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-10-21T02:13:13.903Z",
+  "command": "node --test tests/mercenary-halloween-jokro-jinmu-odds-20261021.test.mjs",
+  "passed": 2,
+  "failed": 0,
+  "coverage": [
+    "two target rates and expected cost",
+    "all other settings preserved and both stages total 100 percent",
+    "draw interval boundaries",
+    "OFF mode preserved",
+    "stale configuration rejection",
+    "three write failure rollback cases",
+    "stock and accounts unchanged",
+    "retry without writes"
+  ],
+  "productionDryRunRolledBack": true,
+  "independentDatabaseVerify": true,
+  "publicApiVerify": true
+}

@@ -1,0 +1,78 @@
+{
+  "checkedAt": "2026-10-21T02:12:28.766Z",
+  "url": "https://cnine-card.pages.dev/api/mercenary-halloween-pack/config?jokro-jinmu-double=1792548748459",
+  "status": 200,
+  "revision": 19,
+  "settings": {
+    "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+    "mode": "ON",
+    "prices": {
+      "single": 1000000000,
+      "ten": 10000000000
+    },
+    "cardRatesPpm": {
+      "V-980": 10000,
+      "V-981": 10000,
+      "V-982": 10000,
+      "V-983": 10000,
+      "V-984": 10000,
+      "V-985": 10000,
+      "V-986": 10000,
+      "V-999": 200,
+      "V-989": 200,
+      "V-996": 200,
+      "V-977": 5000,
+      "V-979": 200
+    },
+    "missRatePpm": 800000,
+    "stockLimits": {
+      "V-980": 11,
+      "V-981": 11,
+      "V-982": 11,
+      "V-983": 11,
+      "V-984": 11,
+      "V-985": 11,
+      "V-986": 11,
+      "V-999": null,
+      "V-989": 3,
+      "V-996": null,
+      "V-977": 15,
+      "V-979": 3
+    },
+    "normalRankRatesPpm": {
+      "C": 104500,
+      "B": 30000,
+      "A": 30000,
+      "S": 30000,
+      "SS": 5000,
+      "SSS": 500
+    },
+    "normalSssRatePpm": 924200
+  },
+  "stock": [
+    {
+      "code": "V-989",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-979",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    }
+  ],
+  "effectiveCardPercents": {
+    "V-979": "0.00001",
+    "V-989": "0.00001"
+  },
+  "expectedPullsPerCard": 10000000,
+  "expectedCoinsPerCard": "10000000000000000",
+  "userOpeningEnabled": true,
+  "realPurchases": 0
+}
