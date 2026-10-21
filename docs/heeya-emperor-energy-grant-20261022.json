@@ -1,0 +1,75 @@
+{
+  "authorization": "하이희야♡ 엠퍼러에너지 800개 지급해",
+  "status": "COMPLETED_AND_VERIFIED",
+  "operationKey": "ops:heeya-emperor-energy:20261022:800:v1",
+  "executedAt": "2026-10-21T16:29:31.681Z",
+  "target": {
+    "id": 4977,
+    "nickname": "하이희야♡"
+  },
+  "gifts": [
+    {
+      "code": "EMPEROR_ENERGY",
+      "name": "엠퍼러 에너지",
+      "amount": 800
+    }
+  ],
+  "dryRunRollbackVerified": true,
+  "noWriteReplayVerified": true,
+  "result": {
+    "dryRun": false,
+    "replayed": false,
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:heeya-emperor-energy:20261022:800:v1",
+      "user": {
+        "id": 4977,
+        "nickname": "하이희야♡"
+      },
+      "allocations": [
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "amount": 800,
+          "before": {
+            "quantity": "11",
+            "unseenQuantity": "0"
+          },
+          "after": {
+            "quantity": "811",
+            "unseenQuantity": "800"
+          },
+          "logId": "85903895"
+        }
+      ],
+      "completedAt": "2026-10-21T16:29:28.440Z",
+      "auditId": "49625"
+    },
+    "verification": {
+      "verified": true,
+      "grantLogs": 1,
+      "inventory": [
+        {
+          "item_code": "EMPEROR_ENERGY",
+          "quantity": "811",
+          "unseen_quantity": "800"
+        }
+      ],
+      "verifiedAt": "2026-10-21T16:29:29.380Z"
+    }
+  },
+  "independentReadback": {
+    "verified": true,
+    "grantLogs": 1,
+    "inventory": [
+      {
+        "item_code": "EMPEROR_ENERGY",
+        "quantity": "811",
+        "unseen_quantity": "800"
+      }
+    ],
+    "verifiedAt": "2026-10-21T16:29:31.599Z"
+  },
+  "runtimeCodeChanged": false,
+  "deploymentRequired": false
+}
