@@ -170,13 +170,17 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
   if(!power||typeof buildCardFighter!=='function')throw Error('INVALID_MERCENARY_RANK_POWER');
   const statsPower=jinmu||kairon||shiranui||jokro||leonel||zero||prime?supreme.statsReferencePower+mercenaryEquipmentPower(snapshot,mode):power;
   const base=buildCardFighter({id:snapshot.code,power:statsPower,type:'NONE'},5,side,null,mode);
-  // Compare natural speed with the same equipment on Valter. Higher nominal
-  // Helios power must neither compound the +4% nor dilute it under strong gear.
+  // Use the same innate speed reference and equipment for the sovereigns.
+  // Helios's higher nominal power must not compound the approved speed scale.
   const speedBase=helios||jinmu||kairon||shiranui||jokro||leonel||zero||prime?buildCardFighter({id:snapshot.code,power:supreme.speedReferencePower+mercenaryEquipmentPower(snapshot,mode),type:'NONE'},5,side,null,mode):base;
   snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(speedBase.speed*(isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.speedScale:supreme?supreme.speedScale:snapshot.code===AZANT_CODE?AZANT_COMBAT.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:limited?(limited.speedScale??SS_LIMITED_TEMPO.speedScale):1))}};
   if(jinmu||kairon||shiranui||jokro||leonel||zero||prime)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*supreme.statScale));
   if(limited)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*limited.scale));
   if(isImperialArcher(snapshot))for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*IMPERIAL_ARCHER_COMBAT.statScale));
+  if(valter){
+   const innate=buildCardFighter({id:snapshot.code,power:rankPower,type:'NONE'},5,side,null,mode);
+   snapshot.stats.defense+=Math.round(innate.defense*VALTER_COMBAT.innateDefensePercent/100);
+  }
   if(mercenaryEquipmentPower(snapshot,mode)){
    const unarmed=buildCardFighter({id:snapshot.code,power:jinmu||kairon||shiranui||jokro||leonel||zero||prime?supreme.statsReferencePower:rankPower,type:'NONE'},5,side,null,mode),scale=isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.statScale:jinmu||kairon||shiranui||jokro||leonel||zero||prime?supreme.statScale:limited?.scale||1;
    snapshot.equipmentStats={version:1,attack:Math.max(0,snapshot.stats.attack-Math.max(1,Math.round(unarmed.attack*scale))),hp:Math.max(0,snapshot.stats.hp-Math.max(1,Math.round(unarmed.maxHp*scale)))};

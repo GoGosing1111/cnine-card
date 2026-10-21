@@ -16,10 +16,10 @@ const fighter=(code='V-999',side='A',mode='PVP',equipment)=>buildMercenaryFighte
 const card=(side,ownerId)=>({id:side+':card:'+ownerId,side,ownerId,hp:1,alive:true});
 const drain=c=>{const out=[];while(c.pending()){const a=c.pending();out.push(a);c.acted(a);assert.ok(out.length<=4,'Reserved actions must terminate');}return out;};
 
-test('canonical Helios policy overrides stale stats and gains 4% natural speed with the same gear in either mode',()=>{
+test('canonical Helios policy overrides stale stats and now shares Valter natural speed with equal gear',()=>{
  for(const mode of ['PVE','PVP'])for(const side of ['A','B'])for(const power of [0,100000000]){
   const equipment={schemaVersion:1,mode,power},h=fighter('V-999',side,mode,equipment),v=fighter('V-996',side,mode,equipment);
-  assert.equal(h.speed,Math.round(v.speed*1.04));assert.equal(h.stats.speed,h.speed);
+  assert.equal(h.speed,v.speed);assert.equal(h.stats.speed,h.speed);
   assert.equal(h.basePower-power,1123200);assert.equal(h.heliosPolicyVersion,2);
   assert.deepEqual(h.skills.map(s=>s.id),mode==='PVE'?['MS-999']:[]);
   for(const key of ['controlImmune','counterImmune','poisonImmune'])assert.equal(h[key],true);
@@ -30,14 +30,14 @@ test('canonical Helios policy overrides stale stats and gains 4% natural speed w
  assert.equal(heliosMotionRate('attack')/2.5,1.04);assert.equal(heliosMotionRate('ultimate'),2.6);assert.equal(heliosMotionRate('aura'),1);
 });
 
-test('equal decks retain a 4% linked attack advantage at high power in both modes and sides',()=>{
+test('equal decks share Valter and Helios link floors in both modes and sides after the approved parity update',()=>{
  for(const mode of ['PVE','PVP'])for(const power of [1e5,2e7,1e9])for(const side of ['A','B']){
   const other=side==='A'?'B':'A',h=fighter('V-999',side,mode),v=fighter('V-996',other,mode);
   const teams=[side,other].map((s,i)=>[...tierCards(power).map((c,j)=>buildFighter(c,j,s,null,mode)),[h,v][i]]);
   applyMercenaryCombatLink(teams);
-  assert.equal(h.maxHp,Math.round(v.maxHp*1.04));assert.equal(h.shield,Math.round(v.shield*1.04));
-  assert.ok(Math.abs(h.mercenaryLink.attackFloor-v.mercenaryLink.attackFloor*1.04)<=1);
-  assert.ok(Math.abs(mercenaryEffectiveAttack(h)-mercenaryEffectiveAttack(v)*1.04)<=1);
+  assert.equal(h.maxHp,v.maxHp);assert.equal(h.shield,v.shield);
+  assert.equal(h.mercenaryLink.attackFloor,v.mercenaryLink.attackFloor);
+  assert.equal(mercenaryEffectiveAttack(h),mercenaryEffectiveAttack(v));
   const before=structuredClone(teams);applyMercenaryCombatLink(teams);assert.deepEqual(teams,before,'Reapplying linkage must not stack the buff');
  }
 });
@@ -73,7 +73,7 @@ test('duo credit stays with the owner and last-stand responses retain the fracti
  const a=card('A',1),b=card('A',2),enemy=card('B',3),h={...fighter(),ownerId:1},v={...fighter('V-996'),ownerId:2};
  const c=mercenaryTurnCadence({A:[a,b,h,v],B:[enemy]});let ht=0,vt=0;
  for(let i=0;i<25;i++){c.acted(a);const ha=drain(c);assert.ok(ha.every(x=>x===h));ht+=ha.length;c.acted(b);const va=drain(c);assert.ok(va.every(x=>x===v));vt+=va.length;}
- assert.equal(ht,78);assert.equal(vt,75);a.hp=0;a.alive=false;ht=0;
+ assert.equal(ht,78);assert.equal(vt,78);a.hp=0;a.alive=false;ht=0;
  for(let i=0;i<25;i++){c.acted(enemy);const turns=drain(c);assert.ok(turns.every(x=>x===h));ht+=turns.length;}
  assert.equal(ht,78);
 });
@@ -130,7 +130,13 @@ test('real server payloads publish Helios actions and PVE skill without changing
  for(const mode of ['PVE','PVP']){
   const input={cards,mercenary,monster:{id:1,battle_power:6e10},seed:7919},pvp={attackerCards:cards,defenderCards:cards,attackerMercenary:mercenary,seed:7919};
   const battle=mode==='PVE'?createPveBattleV2(input):createPvpBattleV2(pvp),without=mode==='PVE'?createPveBattleV2({...input,mercenary:null}):createPvpBattleV2({...pvp,attackerMercenary:null});
-  assert.deepEqual(battle.teams.A.cards,without.teams.A.cards);
+  if(mode==='PVE')assert.deepEqual(battle.teams.A.cards,without.teams.A.cards);
+  else for(const [i,card]of battle.teams.A.cards.entries()){
+   const baseline=without.teams.A.cards[i],effect=card.pvpPowerBalance;
+   assert.equal(effect.formationPower,5*2e7+HELIOS_COMBAT.basePower);
+   assert.deepEqual(card,{...baseline,speed:Math.round(baseline.speed*effect.tempoMultiplier),pvpPowerBalance:effect},
+    'ordinary cards retain the separately released formation-power bonus');
+  }
   assert.equal(battle.teams.A.mercenaries[0].heliosPolicyVersion,2);
   assert.equal(battle.result.timeline.some(e=>e.type===HELIOS_AREA_EVENT),mode==='PVE');
  }

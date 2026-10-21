@@ -26,7 +26,9 @@ test('prepared Valter uses a server-owned superior profile while limited release
   const teams=[linked(valter(),'A',2e7,tierDecks.balanced,mode),linked(berkan(),'B',2e7,tierDecks.balanced,mode)];
   const ordinary=structuredClone(teams.map(t=>t.slice(0,5)));applyMercenaryCombatLink(teams);
   const v=teams[0].at(-1),b=teams[1].at(-1);
-  assert.equal(v.mercenaryLink.attackFloor,b.mercenaryLink.attackFloor*8);assert.equal(v.mercenaryLink.hpFloor,b.mercenaryLink.hpFloor*4);
+  const cards=teams[0].slice(0,5);
+  assert.equal(v.mercenaryLink.attackFloor,Math.round(cards.reduce((n,c)=>n+c.attack,0)/5*18.304));
+  assert.equal(v.mercenaryLink.hpFloor,Math.round(cards.reduce((n,c)=>n+c.maxHp,0)/5*11.648));
   assert.ok(v.speed>b.speed);assert.deepEqual(teams.map(t=>t.slice(0,5)),ordinary);
   const once=structuredClone(teams);applyMercenaryCombatLink(teams);assert.deepEqual(teams,once);
  }
@@ -115,6 +117,7 @@ test('canonical PVE and duo keep Valter personal strength and deterministic resu
  const input={attackerSquads:[squad(1,valter()),squad(2,berkan())],defenderSquads:[squad(3,berkan()),squad(4,berkan())],seed:7919};
  const duo=createDuoBattleV2(input);assert.equal(duo.result.winner,'A');assert.deepEqual(duo,createDuoBattleV2(input));
  const v=duo.teams.A.mercenaries.find(c=>c.cardId===VALTER_CODE),other=duo.teams.A.mercenaries.find(c=>c.cardId==='V-055');
- assert.ok(Math.abs(v.mercenaryLink.attackFloor-other.mercenaryLink.attackFloor*8)<=4,'independent integer rounding stays within four points');
+ const ownerCards=duo.teams.A.cards.filter(c=>c.ownerId===1);
+ assert.equal(v.mercenaryLink.attackFloor,Math.round(ownerCards.reduce((sum,c)=>sum+c.attack,0)/ownerCards.length*18.304));
  for(const e of duo.result.timeline.filter(e=>e.actorId?.includes('V-055')))for(const hit of e.impacts||[e])if(hit.targetId===v.id&&typeof hit.damage==='number')assert.equal(hit.damage,0);
 });

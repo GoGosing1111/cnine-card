@@ -1,4 +1,5 @@
 import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
+import {VALTER_COMBAT} from './mercenary-valter-v1.mjs';
 
 // 2026-10-12: approved performance, followed by explicit formation release.
 // Ownership and pack economy remain separate from this combat policy.
@@ -18,15 +19,17 @@ export const HELIOS_COMBAT=Object.freeze({
 });
 export const isHelios=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===HELIOS_CODE;
 export const heliosActionCredit=actors=>actors.some(a=>isHelios(a)&&a.alive!==false&&a.hp>0)?HELIOS_COMBAT.actionCredit:1;
-// Hundredth-action precision makes 25 allied actions fund exactly 78 turns.
-export const normalizeHeliosCredit=(debt,credit)=>credit===HELIOS_COMBAT.actionCredit?Math.round(debt*100)/100:debt;
+// Both approved profiles use fractional credit. Preserve the existing exports
+// while recognizing Valter independently of any later Helios policy change.
+const fractionalCredit=credit=>credit===HELIOS_COMBAT.actionCredit||credit===VALTER_COMBAT.actionCredit;
+export const normalizeHeliosCredit=(debt,credit)=>fractionalCredit(credit)?Math.round(debt*100)/100:debt;
 // Preserve the fractional remainder when 0.96 + 3.12 becomes 4.08. Capping
 // at ceil(credit) would discard credit repeatedly and silently lose the buff.
-export const heliosCreditLimit=(interval,credit)=>credit===HELIOS_COMBAT.actionCredit?interval+credit:interval+Math.ceil(credit)-1;
+export const heliosCreditLimit=(interval,credit)=>fractionalCredit(credit)?interval+credit:interval+Math.ceil(credit)-1;
 export function heliosIncomingDamage(target,incoming,source){
  if(!isHelios(target))return incoming;
  if(source?.isMercenary===true&&(source.code||source.cardId)===HELIOS_COMBAT.hardCounter)return 0;
  return Math.floor(Math.max(0,Number(incoming)||0)*HELIOS_COMBAT.damageTakenScale);
 }
 export const heliosMotionRate=mode=>mode==='aura'?1:HELIOS_COMBAT.motionPlaybackRate;
-export const HELIOS_COMBAT_DESCRIPTION='기본 전투력 1,123,200. 아군 일반 카드 평균 공격력의 1,830.4%를 최소 공격력으로 사용하며, 발테르보다 공격 연계 배율이 4% 높습니다. 피해 경감·개인 면역은 발테르와 같고, 자연 행동 속도 약 4%, 추가 행동·연계 체력·전용 방벽은 4% 높습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. PVE 천양붕락은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). 공격·스킬 모션은 원본 대비 2.6배속입니다. 보유한 헬리오스를 PVE·PVP에 각각 편성할 수 있습니다.';
+export const HELIOS_COMBAT_DESCRIPTION='기본 전투력 1,123,200. 아군 일반 카드 평균 공격력의 1,830.4%를 최소 공격력, 평균 최대 체력의 1,164.8%를 최소 체력으로 사용하며 전열 보너스를 포함한 시작 방벽은 686.4%입니다. 자연 행동 속도와 추가 행동·연계 효과는 발테르와 같습니다. 피해 경감 75%와 개인 면역을 유지하며, 발테르의 고유 방어력 보너스는 적용되지 않습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. PVE 천양붕락은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). 공격·스킬 모션은 원본 대비 2.6배속입니다. 보유한 헬리오스를 PVE·PVP에 각각 편성할 수 있습니다.';

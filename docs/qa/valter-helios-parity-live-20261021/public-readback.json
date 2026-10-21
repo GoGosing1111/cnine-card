@@ -1,0 +1,78 @@
+{
+  "capturedAt": "2026-10-21T06:11:13.157Z",
+  "method": "PUBLIC_HTTP_GET_ONLY",
+  "commit": "0a853ebf3c208769ca2bf501d3654ae0c00445db",
+  "assets": [
+    {
+      "file": "shared/mercenary-valter-v1.mjs",
+      "status": 200,
+      "sha256": "d450c0f4310847b929a8ad15f69fda4831eb8b82bdbeba00a87bfc528afb3b09",
+      "expectedSha256": "d450c0f4310847b929a8ad15f69fda4831eb8b82bdbeba00a87bfc528afb3b09",
+      "matches": true
+    },
+    {
+      "file": "shared/mercenary-helios-v1.mjs",
+      "status": 200,
+      "sha256": "2da72d2b842aa9372d08d7cdd5fc12f2eb62dcb8ee2bdc7155113d653e564fb5",
+      "expectedSha256": "2da72d2b842aa9372d08d7cdd5fc12f2eb62dcb8ee2bdc7155113d653e564fb5",
+      "matches": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "29b7ffc16d4c5d7c1574cd71a662924d0dbaecf4e49477c3391aac719a497c76",
+      "expectedSha256": "29b7ffc16d4c5d7c1574cd71a662924d0dbaecf4e49477c3391aac719a497c76",
+      "matches": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "e0d5d1b28610ba0256e43d2a80a350c41ece3911cf9dcb8a772639e4cf91ce3b",
+      "expectedSha256": "e0d5d1b28610ba0256e43d2a80a350c41ece3911cf9dcb8a772639e4cf91ce3b",
+      "matches": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "5107df2cad56502dc5e34f2640064fd482c61d10a55ecb94f90a559c95ecb0eb",
+      "expectedSha256": "5107df2cad56502dc5e34f2640064fd482c61d10a55ecb94f90a559c95ecb0eb",
+      "matches": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "e4737985f76cbe354a7618526459df6df7408299d04332e5afeb1da578faeb08",
+      "expectedSha256": "e4737985f76cbe354a7618526459df6df7408299d04332e5afeb1da578faeb08",
+      "matches": true
+    }
+  ],
+  "codex": {
+    "status": 200,
+    "revision": 61,
+    "cards": [
+      {
+        "code": "V-996",
+        "name": "발테르",
+        "basePower": null,
+        "description": "기본 전투력 1,080,000. 아군 일반 카드 평균 공격력의 1,830.4%를 최소 공격력, 평균 최대 체력의 1,164.8%를 최소 체력으로 사용하며 전열 보너스를 포함한 시작 방벽은 686.4%입니다. 자연 행동 속도와 추가 행동·연계 효과는 헬리오스와 같습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. 고유 방어력이 12% 증가하며 장비 방어력은 이 보너스에서 제외합니다. 피해 경감 75%와 개인 면역은 유지합니다. PVE 종결 집행은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). PVP는 기본 공격을 사용합니다. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다.",
+        "deploymentEnabled": true
+      },
+      {
+        "code": "V-999",
+        "name": "헬리오스",
+        "basePower": null,
+        "description": "기본 전투력 1,123,200. 아군 일반 카드 평균 공격력의 1,830.4%를 최소 공격력, 평균 최대 체력의 1,164.8%를 최소 체력으로 사용하며 전열 보너스를 포함한 시작 방벽은 686.4%입니다. 자연 행동 속도와 추가 행동·연계 효과는 발테르와 같습니다. 피해 경감 75%와 개인 면역을 유지하며, 발테르의 고유 방어력 보너스는 적용되지 않습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. PVE 천양붕락은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). 공격·스킬 모션은 원본 대비 2.6배속입니다. 보유한 헬리오스를 PVE·PVP에 각각 편성할 수 있습니다. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다.",
+        "deploymentEnabled": true
+      }
+    ]
+  },
+  "deployment": {
+    "Id": "e0225390-f270-4767-97e8-2d6671804b89",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "0a853eb",
+    "Deployment": "https://e0225390.cnine-card.pages.dev",
+    "Status": "43 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/e0225390-f270-4767-97e8-2d6671804b89"
+  }
+}

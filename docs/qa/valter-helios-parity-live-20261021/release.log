@@ -1,0 +1,93 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"01dfd1923e091c2c1a12bbbf8320406975aa9b38","reason":"Apply approved Valter parity without increasing nominal power; validated combat and equipment cases already passed, gate checks common cadence, shipped V3 loaders/bundles and Worker compile.","changed":["AGENTS.md","app.js","docs/qa/mercenary-breakthrough-pity-20261021/README.md","docs/qa/mercenary-breakthrough-pity-20261021/deploy.log","docs/qa/mercenary-breakthrough-pity-20261021/history-after.json","docs/qa/mercenary-breakthrough-pity-20261021/live.json","docs/qa/mercenary-breakthrough-pity-20261021/production.json","docs/qa/organization-seoul-20261021/README.md","docs/qa/organization-seoul-20261021/applied.json","docs/qa/organization-seoul-20261021/deploy.log","docs/qa/organization-seoul-20261021/live-files.json","docs/qa/organization-seoul-20261021/verified.json","docs/qa/valter-helios-parity-20261021/armor-calibration.json","docs/qa/valter-helios-parity-20261021/armor-validation.json","docs/qa/valter-helios-parity-20261021/holdout.json","docs/qa/valter-helios-parity-20261021/proposal.json","docs/qa/valter-helios-parity-20261021/public-readback.json","docs/qa/valter-helios-parity-20261021/screening.json","docs/qa/valter-helios-parity-20261021/validation.json","docs/qa/valter-helios-parity-live-20261021/README.md","docs/qa/valter-helios-parity-live-20261021/browser-report.json","docs/qa/valter-helios-parity-live-20261021/current-engine.json","docs/qa/valter-helios-parity-live-20261021/desktop-pve.png","docs/qa/valter-helios-parity-live-20261021/desktop-pvp.png","docs/qa/valter-helios-parity-live-20261021/mobile-pve.png","docs/qa/valter-helios-parity-live-20261021/mobile-pvp.png","functions/_mercenary_codex.js","functions/_mercenary_combat.js","index.html","js/app.js","js/battle-v3-live.js","preview/battle-suit-skill-chip-v1/battle.html","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/battle.html","preview/boss-resources-v2048/lab.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/cow-room-v3-v1/battle.html","preview/infinite-tower-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.html","preview/project-v-mercenary-system-v1/skills-battle.html","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-client.js","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/scrapyard-v3-v1/battle.html","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/sustained-hunt-v2/index.html","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","preview/v3-wide-grid-v1/battle.html","preview/v3-wide-grid-v1/index.html","pve-v3/battle-loader.mjs","pve-v3/battle.bundle.js","scripts/measure-valter-helios-parity-20261021.mjs","service-worker.js","shared/mercenary-helios-v1.mjs","shared/mercenary-valter-v1.mjs","tests/helios-supremacy-20261012.test.mjs","tests/mercenary-valter-supremacy-20261008.test.mjs","tests/valter-helios-parity-20261021.browser.mjs","tests/valter-helios-parity-20261021.test.mjs","tests/valter-tempo-20261011.test.mjs"],"tests":["tests/mercenary-turn-cadence-v2099.test.mjs","tests/v3-common-grid-v1.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ high-power gauges drain ready actors before advancing time, on both sides without mercenaries (19.0373ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 1000000 power cards (27.9926ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 20000000 power cards (14.2249ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 100000000 power cards (9.9653ms)
+✔ all six ranks without an assigned skill still perform basic attacks at real deck power (27.7464ms)
+✔ mercenary reservation uses allied card turns only, clears on a natural turn and excludes dead actors (0.8564ms)
+✔ dead mercenaries cannot receive reserved basic or skill turns (8.1511ms)
+✔ apocalypse chip clock and continuous monster replacement retain actual mercenary attacks (44.9479ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (1154.2794ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (9.6806ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (3.504ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (9.5889ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (9.2898ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (65.1975ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (2.4001ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (2.9179ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (0.9315ms)
+✔ movement depth updates keep uniform nameplates anchored to the body on both factions (1.8465ms)
+✔ common floor follows deployment, KO, revival and replacement without trailing cells (5.3097ms)
+✔ floor remains at formation stations while sprites attack or move (1.0855ms)
+✔ one optional mercenary per team never enters regular combat arrays and removes its tile when unequipped (1.8798ms)
+✔ only enabled support and visible escort objective get occupied cells (1.1576ms)
+✔ single boss, ally-center support and escort carrier have separate stations on desktop and mobile (0.3813ms)
+✔ repeated layouts give both factions, mercenaries and support the same scale without accumulating old slot/depth factors (2.9171ms)
+✔ all ten served V3 bundles including the account entry and hunt share the current common grid (14709.0176ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15829.5043
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19998 files; 5662 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 7997.63 KiB / gzip: 1726.20 KiB
+Worker Startup Time: 36 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.41 sec)
+No targets deployed for cnine-card-api-runtime (0.67 sec)
+Current Version ID: 9f9ba4d0-1e9c-488f-9a54-1a0b9c5eeeda
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19963/19998)
+Uploading... (19974/19998)
+Uploading... (19986/19998)
+Uploading... (19998/19998)
+✨ Success! Uploaded 35 files (19963 already uploaded) (4.49 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://e0225390.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2778.58 KiB / gzip: 632.27 KiB
+Worker Startup Time: 47 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.62 sec)
+Deployed cnine-card-clan-draft triggers (1.10 sec)
+  schedule: * * * * *
+Current Version ID: 087e9616-3f45-4042-b6b1-7d6eb15b1daa

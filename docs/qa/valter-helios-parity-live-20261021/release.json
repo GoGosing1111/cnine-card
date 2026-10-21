@@ -1,0 +1,40 @@
+{
+  "status": "DEPLOYED_AND_PUBLIC_READBACK_VERIFIED",
+  "createdAt": "2026-10-21T06:11:13.159Z",
+  "sourceCommit": "0a853ebf3c208769ca2bf501d3654ae0c00445db",
+  "previousProductionCommit": "01dfd1923e091c2c1a12bbbf8320406975aa9b38",
+  "deployment": {
+    "Id": "e0225390-f270-4767-97e8-2d6671804b89",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "0a853eb",
+    "Deployment": "https://e0225390.cnine-card.pages.dev",
+    "Status": "43 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/e0225390-f270-4767-97e8-2d6671804b89"
+  },
+  "apiWorkerVersion": "9f9ba4d0-1e9c-488f-9a54-1a0b9c5eeeda",
+  "schedulerWorkerVersion": "087e9616-3f45-4042-b6b1-7d6eb15b1daa",
+  "command": "npm run deploy:production -- --scoped",
+  "developmentTests": 42,
+  "releaseGateTests": 25,
+  "browserCases": 4,
+  "currentEngineSimulation": {
+    "total": 18432,
+    "valterWins": 9077,
+    "allCellsMatchApprovedExperiment": true
+  },
+  "scopedTests": [
+    "tests/mercenary-turn-cadence-v2099.test.mjs",
+    "tests/v3-common-grid-v1.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": [
+    "check:worker",
+    "verify-production-release",
+    "production Hyperdrive cache disabled"
+  ],
+  "pagesAssets": 19998,
+  "powerChanged": false,
+  "economyChanged": false,
+  "liveAccountMutations": false
+}
