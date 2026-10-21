@@ -8,15 +8,13 @@ const [idle,tower,index]=await Promise.all([
   read('index.html')
 ]);
 
-for(const source of [idle,tower]){
-  assert.match(source,/placementAnchor=document\.getElementById\('pveRaidHubView'\)\|\|raid/);
-  assert.match(source,/placementAnchor\.insertAdjacentElement\('afterend',(?:view|box)\)/);
-  assert.match(source,/pveRaidHubView/);
-  assert.match(source,/pveEscortView/);
-  assert.match(source,/raidHost=document\.getElementById\('pveRaidHubView'\)\|\|document\.getElementById\('pveRaidView'\)/);
-}
+assert.match(idle,/placementAnchor=document\.getElementById\('pveRaidHubView'\)\|\|raid/);
+assert.match(idle,/placementAnchor\.insertAdjacentElement\('afterend',view\)/);
+assert.match(idle,/raidHost=document\.getElementById\('pveRaidHubView'\)\|\|document\.getElementById\('pveRaidView'\)/);
+assert.match(tower,/anchor=document\.getElementById\('pveRaidHubView'\)\|\|document\.getElementById\('pveRaidView'\)/);
+assert.match(tower,/anchor\.insertAdjacentElement\('afterend',box\)/);
 assert.match(idle,/#pveHuntView,#pveRiftView,#pveEscortView,#pveTowerView,#pveSealBattleView,#pveIdleDungeonView/);
-assert.match(tower,/\['pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'\]/);
+assert.match(tower,/\['pveRaidHubView','pveRaidView','pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'\]\.forEach/);
 assert.match(index,/tower-v1038\.js\?v=2098-hyper-codex/);
 assert.doesNotMatch(index,/idle-dungeon-v1600\.js/,'retired idle expedition must not load in the live shell');
 
