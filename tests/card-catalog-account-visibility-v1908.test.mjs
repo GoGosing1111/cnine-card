@@ -118,10 +118,12 @@ test('정책 스크립트는 bulk와 app보다 먼저 로드되고 모든 카드
   }
 });
 
-test('전역 삭제 정책은 새 캐시 키로 로드되고 서비스워커는 V1908보다 오래되지 않는다', () => {
+test('전역 삭제 정책은 새 캐시 키로 로드되고 앱과 서비스워커의 현재 셸 버전이 일치한다', () => {
   assert.match(assetVersion(index, 'js/card-visibility-v1908.js'), /^2001-gamst-global-retirement$/);
 
   const shell = serviceWorker.match(/SHELL_CACHE\s*=\s*['"]soop-card-shell-v([^'"]+)['"]/i);
   assert.ok(shell, '서비스워커 셸 캐시 키가 필요합니다.');
-  assert.ok(Number.parseInt(shell[1],10)>=1908, `서비스워커 캐시가 V1908보다 오래됐습니다: ${shell[1]}`);
+  assert.match(shell[1],/^[A-Za-z0-9][A-Za-z0-9-]+$/);
+  assert.equal(assetVersion(index,'js/app.js'),shell[1]);
+  if(/^\d{4}(?:-|$)/.test(shell[1]))assert.ok(Number.parseInt(shell[1],10)>=1908);
 });
