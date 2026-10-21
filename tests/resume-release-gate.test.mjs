@@ -245,6 +245,7 @@ test('a hash-bound continuation preserves completed stages but reruns changed co
   // later runtime scan still rejects an ops file imported by the game/tooling.
   const operation='scripts/ops/concurrent-prize.mjs',op=setup(text,[operation]);
   assert.equal(fullGateResumePlan(op).reused,2);
+  assert.equal(fullGateResumePlan(setup(text,[operation,'scripts/ops/concurrent-prize.source.json'])).reused,2);
   const checked={...op,git:(...args)=>args[0]==='ls-files'&&args[1]==='functions'?'js/live.js':op.git(...args)};
   assert.throws(()=>fullGateResumePlan({...checked,read:path=>path==='js/live.js'?`import '../${operation}'`:op.read(path)}),/Operational file is referenced/);
 });

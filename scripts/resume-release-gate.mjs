@@ -193,7 +193,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(/^ℹ fail [1-9]/m.test(continuation.slice(0,continuationStart)))throw Error('Continuation guard tests failed.');
     changesAfterLastRun=new Set(git('diff','--name-only',candidate,'HEAD').split('\n').filter(Boolean));
     const repairTools=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
-    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!(path==='index.html'&&cacheOrderOnly)&&!path.startsWith('docs/')&&!gateTestPath(path)&&!helperStages.has(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!codexRepairs.has(path)&&!/^scripts\/ops\/[a-zA-Z0-9_-]+\.(?:mjs|json)$/.test(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
+    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!(path==='index.html'&&cacheOrderOnly)&&!path.startsWith('docs/')&&!gateTestPath(path)&&!helperStages.has(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!codexRepairs.has(path)&&!/^scripts\/ops\/[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9_-]+)*\.(?:mjs|json)$/.test(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
     logText=logText.slice(0,originalLast)+continuation.slice(continuationStart);
     seen=stageNames(logText);
   }
@@ -244,7 +244,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
         throw Error(`QA receipt is referenced by runtime/tooling (${path}): run a fresh full gate.`);
     }
   }
-  const operations=changed.filter(path=>/^scripts\/ops\/[a-zA-Z0-9_-]+\.(?:mjs|json)$/.test(path));
+  const operations=changed.filter(path=>/^scripts\/ops\/[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9_-]+)*\.(?:mjs|json)$/.test(path));
   if(operations.length){
     const runtimeFiles=git('ls-files','functions','workers','shared','js','admin','scripts','index.html','service-worker.js').split('\n').filter(path=>!path.startsWith('scripts/ops/')&&/\.(?:[cm]?js|jsonc?|html)$/.test(path));
     for(const file of runtimeFiles){
