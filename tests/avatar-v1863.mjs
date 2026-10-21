@@ -171,9 +171,10 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(avatarCss,/\.avs1-effect-module strong \{[^}]*font-size: 15px;[^}]*white-space: nowrap;/);
   assert.match(avatarCss,/grid-template-columns: 23px 94px minmax\(0, 1fr\)/);
   assert.match(lobbyCss,/@media \(min-width:1600px\)[\s\S]*?\.game-frame\[data-route="home"\] \.pc-main-navigation/);
-  assert.match(index,/app\.js\?v=[0-9][A-Za-z0-9-]+/);
+  const appVersion=index.match(/src="js\/app\.js\?v=([^&"]+)/)?.[1];
+  assert.match(appVersion||'',/^[A-Za-z0-9][A-Za-z0-9-]+$/);
   const shellAdapter=index.match(/src="([^"\n]*soopketmon-v21-exact-shell-adapter\.js\?[^"\n]+)"/)?.[1];
   assert.ok(shellAdapter,'shared shell adapter must be cache-versioned');
   assert.equal(new URL(shellAdapter.replaceAll('&amp;','&'),'https://test.invalid/').searchParams.get('v'),'2108-shared-navigation');
-  assert.match(serviceWorker,/soop-card-shell-v[0-9][A-Za-z0-9-]+/);
+  assert.equal(serviceWorker.match(/const SHELL_CACHE='soop-card-shell-v([^']+)'/)?.[1],appVersion,'app and shell cache must identify the same release');
 });
