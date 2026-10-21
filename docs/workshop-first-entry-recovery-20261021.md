@@ -27,4 +27,9 @@
 
 ## 운영 반영
 
-검증 후 소스 SHA·Pages 배포·정적 파일 일치 결과를 기록한다.
+- 2026-10-21 **11:24 KST 배포 완료**, 11:25 KST 운영 파일 검증 완료.
+- 소스 `b92154abd5678f6ae91095ab1567506a41a80e50`, Pages `c3a7dae8-2fa8-42b5-9537-85e815f61cdb`.
+- 실제 직전 운영 소스 `bff9114f3c2b1b0c9b0f095cee7b5b3223b294d1` 기준으로 `npm run deploy:production -- --scoped`를 한 번 실행했다. 로딩 16개·GET 흐름 2개·라우팅 1개·제작소 분리 1개, 총 20개 관련 회귀와 출시/캐시/Hyperdrive 검사가 통과했다. 추가로 합쳐진 운영 도구·문서는 서버 런타임 변경이 아니다.
+- 운영 `index.html`, `service-worker.js`, `js/app.js`가 출시 파일과 SHA-256까지 일치했다. 비인증 제작소 API는 401을 유지했다.
+- 운영 정적 파일을 직접 로드하고 API만 로컬 격리 응답으로 연결해 PC·모바일 첫 진입을 확인했다. 첫 503 뒤 두 번째 GET으로 정상 표시됐고 오류 패널·페이지 예외는 0이었다. 동기화 티켓 POST는 검수 브라우저에서 차단했으며 운영 API 쓰기·제작·합성·계정 변경은 없었다.
+- 증빙: `docs/qa/workshop-first-entry-20261021/production-verification.json`, `production-browser.json`, `browser-result.json`과 전후 스크린샷. 이 기능 검증은 UI 시각 승인으로 기록하지 않는다.

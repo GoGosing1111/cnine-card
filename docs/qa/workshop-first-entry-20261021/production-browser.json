@@ -1,0 +1,38 @@
+{
+  "verifiedAt": "2026-10-21T02:25:23.247Z",
+  "source": "production static files with isolated local API",
+  "results": [
+    {
+      "width": 1440,
+      "workshopReads": 2,
+      "blockedWrites": [
+        {
+          "method": "POST",
+          "path": "/api/sync/ticket"
+        }
+      ],
+      "productionWrites": 0,
+      "errorPanels": 0,
+      "timeoutMs": 30000,
+      "attemptTimeoutMs": 12000,
+      "errors": [],
+      "apiIsolation": true
+    },
+    {
+      "width": 390,
+      "workshopReads": 2,
+      "blockedWrites": [
+        {
+          "method": "POST",
+          "path": "/api/sync/ticket"
+        }
+      ],
+      "productionWrites": 0,
+      "errorPanels": 0,
+      "timeoutMs": 30000,
+      "attemptTimeoutMs": 12000,
+      "errors": [],
+      "apiIsolation": true
+    }
+  ]
+}

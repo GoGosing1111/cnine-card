@@ -1,0 +1,31 @@
+{
+  "verifiedAt": "2026-10-21T02:24:52.257Z",
+  "source": "b92154abd5678f6ae91095ab1567506a41a80e50",
+  "deploymentId": "c3a7dae8-2fa8-42b5-9537-85e815f61cdb",
+  "deploymentUrl": "https://c3a7dae8.cnine-card.pages.dev",
+  "stage": {
+    "name": "deploy",
+    "started_on": null,
+    "ended_on": "2026-10-21T02:24:24.87726Z",
+    "status": "success"
+  },
+  "staticChecks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "557e67417f5281803823d9b97f2dcdafc2e0611491c4aa9fbe8c623e4fc80396"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "6ea3c996bdd57bcfc723633db4f98a1db1ec6b088ea7e15805c4c609a06d52e9"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "8e54dd420b28fbdabc856ec46f8177140882223fe126cb0e1903caef862a3b8c"
+    }
+  ],
+  "unauthenticatedWorkshopStatus": 401,
+  "productionWrites": 0
+}
