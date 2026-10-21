@@ -1,0 +1,66 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:gingdeodeum-iyejun-plus15:20261021:v1",
+  "receipt": {
+    "operationKey": "ops:gingdeodeum-iyejun-plus15:20261021:v1",
+    "status": "VERIFIED",
+    "actor": "SYSTEM_OPS",
+    "user": {
+      "id": 5877,
+      "nickname": "깅더듬"
+    },
+    "cards": [
+      {
+        "id": "CN-346F8DB0DEB84D41",
+        "title": "철구",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 29,
+        "quantityAfter": 29,
+        "changed": true
+      },
+      {
+        "id": "CN-47AD4B47B6A7452C",
+        "title": "아이젠 족스케",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 7,
+        "quantityAfter": 7,
+        "changed": true
+      },
+      {
+        "id": "CN-5D0E2E4D58C9416F",
+        "title": "치타구",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 12,
+        "quantityAfter": 12,
+        "changed": true
+      }
+    ],
+    "balancesPreserved": true,
+    "completedAt": "2026-10-21T01:41:27.127Z",
+    "adminLogId": "49378",
+    "current": [
+      {
+        "cardId": "CN-346F8DB0DEB84D41",
+        "level": 15,
+        "quantity": 29
+      },
+      {
+        "cardId": "CN-47AD4B47B6A7452C",
+        "level": 15,
+        "quantity": 7
+      },
+      {
+        "cardId": "CN-5D0E2E4D58C9416F",
+        "level": 15,
+        "quantity": 12
+      }
+    ]
+  },
+  "checkedAt": "2026-10-21T01:41:42.629Z",
+  "independentReadOnlyVerification": true,
+  "auditRecords": 1,
+  "completionReceipts": 1
+}
