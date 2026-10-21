@@ -48,7 +48,7 @@ const APOCALYPSE_FX_LOAD_DEADLINE_MS=2200;
 const DEFAULT_BATTLEFIELD_MODE='HUNT';
 const BATTLEFIELD_ASSETS=Object.freeze({
   HUNT:'../../assets/ui/project-v/battlefields/v3-nightmare-forest-battlefield-v1.png',
-  TOWER:'../../assets/ui/project-v/battlefields/v3-infinite-tower-sanctum-v1.png',
+  TOWER:'/assets/ui/tower-abyss-20261021/sanctum.webp',
   PVP:'../../assets/ui/coin-prediction/arena-v1.png',
   RAID:'../../assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png',
   ESCORT:'../../assets/ui/escort/escort-fortress-route-bg-v1.webp?v=1830',

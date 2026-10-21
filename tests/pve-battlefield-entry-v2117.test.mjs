@@ -100,7 +100,7 @@ for(const scriptPath of ['/js/app.js','/preview/sustained-hunt-v2/battle.bundle.
 const paths={
   '폐차장':'/assets/ui/scrapyard/scrapyard-arena-v1676.png',
   '카우방':'/assets/ui/project-v/battlefields/v3-cow-pasture-v1.png',
-  '무한의탑':'/assets/ui/project-v/battlefields/v3-infinite-tower-sanctum-v1.png'
+  '무한의탑':'/assets/ui/tower-abyss-20261021/sanctum.webp'
 };
 
 test('real continuous constructors, payload binding and texture loading use the shared battlefield method',async t=>{

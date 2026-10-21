@@ -10,7 +10,8 @@ export async function playContinuousBattle({modal,data,view=null,mode='PVE',isAc
   modal.classList.add('pve-continuous-live');
   view.stage.querySelector('.battle-v3-header strong').textContent=title;
   view.stage.querySelector('.battle-v3-header small').textContent=tower?'수호자의 성소':'연속 교전 · 부품 회수';
-  view.stage.insertAdjacentHTML('beforeend','<div class="pve-continuous-track" aria-hidden="true"><i></i></div><div class="pve-continuous-controls"><button type="button" data-continuous-pause disabled>일시정지</button><button type="button" data-continuous-result disabled>결과 보기</button></div>');
+  if(tower)globalThis.TowerAbyssUI?.prepareBattle(view,data);
+  view.stage.insertAdjacentHTML('beforeend','<div class="pve-continuous-track" aria-hidden="true"><i></i></div><div class="pve-continuous-controls"><button type="button" data-continuous-pause disabled>일시정지</button>'+(tower?'':'<button type="button" data-continuous-result disabled>결과 보기</button>')+'</div>');
   const pauseButton=view.stage.querySelector('[data-continuous-pause]'),resultButton=view.stage.querySelector('[data-continuous-result]'),track=view.stage.querySelector('.pve-continuous-track i');
   let renderer,paused=false,resumeWait,ended=false,skipped=false,cancelled=false,releaseSkip;
   const skippedPromise=new Promise(resolve=>{releaseSkip=resolve;});
@@ -22,13 +23,13 @@ export async function playContinuousBattle({modal,data,view=null,mode='PVE',isAc
   try{
     renderer=await api.createRenderer({modal,stage:view.stage,host:view.host,phase:view.phase,data,mode,continuousPlayback:true,playUltimateCinematics:true,isPlaybackPaused:()=>paused,
       beforeCombatEvent:async()=>{if(!isActive()){cancel();return;}if(paused){await globalThis.ProjectVPixiBattle.stopAccountBattleUnitSustainedFire({drain:true});await new Promise(resolve=>{resumeWait=resolve;if(!paused)resolve();});if(!ended)globalThis.ProjectVPixiBattle.startAccountBattleUnitSustainedFire();}},
-      onCombatEvent:event=>{if(event.type==='KO'&&enemies.has(event.targetId))defeated.add(event.targetId);const progress=tower?Number(event.guardianProgress||0):defeated.size/enemies.size*100;track.style.width=`${Math.min(100,progress)}%`;const seconds=Math.ceil(Math.max(0,Number(event.remainingCombatMs??data.combatLimitMs)||0)/1000);view.phase.textContent=tower?`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')} · ${progress>=100?'수호자 결전':`수호자 소환 ${progress}%`}`:`격파 ${defeated.size} / ${enemies.size}`;}});
+      onCombatEvent:event=>{if(tower)globalThis.TowerAbyssUI?.updateBattle(view.stage,event,data);if(event.type==='KO'&&enemies.has(event.targetId))defeated.add(event.targetId);const progress=tower?Number(event.guardianProgress||0):defeated.size/enemies.size*100;track.style.width=`${Math.min(100,progress)}%`;const seconds=Math.ceil(Math.max(0,Number(event.remainingCombatMs??data.combatLimitMs)||0)/1000);view.phase.textContent=tower?`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')} · ${progress>=100?'수호자 결전':`수호자 소환 ${progress}%`}`:`격파 ${defeated.size} / ${enemies.size}`;}});
     if(!isActive()){cancel();return null;}
     view.host.style.backgroundImage='none';modal.__battleV2Renderer=renderer;
     globalThis.ensureBattleSoundButton?.(view.stage);
     document.addEventListener('visibilitychange',background);addEventListener('cnine:route-will-change',cancel);addEventListener('pagehide',cancel);
-    resultButton.onclick=()=>{skipped=true;ended=true;resume();renderer.destroy();globalThis.ProjectVPixiBattle.cancelActiveAnimations();releaseSkip(true);};
-    pauseButton.disabled=false;resultButton.disabled=false;
+    if(resultButton){resultButton.onclick=()=>{skipped=true;ended=true;resume();renderer.destroy();globalThis.ProjectVPixiBattle.cancelActiveAnimations();releaseSkip(true);};resultButton.disabled=false;}
+    pauseButton.disabled=false;
     await Promise.race([renderer.play(),skippedPromise]);
     if(cancelled||!isActive())return null;
     if(skipped)renderer.showResult();

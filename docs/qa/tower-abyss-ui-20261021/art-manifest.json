@@ -1,0 +1,52 @@
+{
+  "generator": "built-in image_gen.imagegen",
+  "created": "2026-10-21",
+  "visualApproval": "PENDING_USER_REVIEW",
+  "mechanicalDerivatives": "Transparent margin trim and WebP encoding; source bytes preserved.",
+  "files": [
+    {
+      "key": "sanctum",
+      "source": "docs/qa/tower-abyss-ui-20261021/sources/sanctum.png",
+      "sourceSha256": "ba3c57f9450af62e4d002e8fece360570798d5f05af03e127a2f76f983195301",
+      "runtime": "assets/ui/tower-abyss-20261021/sanctum.webp",
+      "runtimeSha256": "1160562bf3bf16445a888132f4912895e71d97cd81871e137fca07bcc9dde924",
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "bytes": 358298
+    },
+    {
+      "key": "frame",
+      "source": "docs/qa/tower-abyss-ui-20261021/sources/frame.png",
+      "sourceSha256": "badc2c83a75bd7045acacfea7f62eac5533cb1fd0406ec682eb59cd7b98f7678",
+      "runtime": "assets/ui/tower-abyss-20261021/frame.webp",
+      "runtimeSha256": "814007bad78cffd0101409a030c58b48e6dd18eed29987cb5abb816010fbfc37",
+      "width": 1700,
+      "height": 619,
+      "alpha": true,
+      "bytes": 155062
+    },
+    {
+      "key": "button",
+      "source": "docs/qa/tower-abyss-ui-20261021/sources/button.png",
+      "sourceSha256": "70ad1746aa8b2098d37f65be46075bbc7976f9b5bc1eb2386a87a63e1652a776",
+      "runtime": "assets/ui/tower-abyss-20261021/button.webp",
+      "runtimeSha256": "fba5eae9f7e0013d8c29c472d0ee1ad13a8e21e148b88a2e9ac25881c7dd57af",
+      "width": 1971,
+      "height": 425,
+      "alpha": true,
+      "bytes": 226294
+    },
+    {
+      "key": "seal",
+      "source": "docs/qa/tower-abyss-ui-20261021/sources/seal.png",
+      "sourceSha256": "0b6779207d7971c9087830b6f7c7fc406704a3867155ba40365b59fe9a9e2c8b",
+      "runtime": "assets/ui/tower-abyss-20261021/seal.webp",
+      "runtimeSha256": "c670aec2e2f31921ef0d6f157470d204083503c5a7de34fce8efd3148befca8f",
+      "width": 1254,
+      "height": 1254,
+      "alpha": true,
+      "bytes": 403542
+    }
+  ]
+}

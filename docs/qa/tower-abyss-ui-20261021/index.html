@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>무한의탑 · 나락의 시련 검수</title>
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/battle-v2-live.css"><link rel="stylesheet" href="css/battle-v3-live.css"><link rel="stylesheet" href="css/tower-abyss-ui.css">
+<style>body{margin:0;background:#090909;color:#ece5d8;font-family:Arial,"Malgun Gothic",sans-serif}.qa-host{max-width:1160px;margin:24px auto}.qa-label{padding:10px 20px;font-size:12px;color:#ab9a81}.pve-mode-tabs{display:none}.qa-host>[hidden]{display:none!important}@media(max-width:760px){.qa-host{margin:0}}</style></head>
+<body><div class="qa-label">무한의탑 UI 검수 · 격리된 시험 데이터 · 실제 계정에 영향을 주지 않습니다.</div><main class="qa-host"><div class="pve-mode-tabs"><button class="pve-mode-btn" data-pve-mode="hunt">토벌</button><button data-pve-tab="deck">PVE 덱</button></div><div id="pveRaidView"></div></main><div id="modal" class="modal"></div>
+<script src="js/tower-abyss-ui.js"></script><script>
+const qaParams=new URL(location.href).searchParams;
+window.QA={errors:[],calls:[],mode:qaParams.get('state')||'challenge',outcome:qaParams.get('outcome')||'loss'};
+window.addEventListener('error',e=>QA.errors.push(e.message));window.addEventListener('unhandledrejection',e=>QA.errors.push(String(e.reason)));
+(async()=>{
+ const fixture=await(await fetch('/docs/qa/tower-abyss-ui-20261021/fixture.json')).json();QA.fixture=fixture;
+ window.cards=fixture.cards;window.loadUser=()=>({id:7,nickname:'검수 계정 7',role:'OWNER'});window.saveUser=()=>{};window.battleState={config:{},characterBonus:{pve:0}};window.battleCardPower=c=>c.power;
+ const scripts=await(await fetch('/docs/qa/tower-abyss-ui-20261021/runtime-scripts.json')).json();
+ let runtime;
+ window.ensureFeatureResources=()=>runtime||=(async()=>{for(const src of scripts)await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=()=>reject(Error(src));document.head.append(s);});})();
+ QA.status=structuredClone(fixture.status);
+ window.apiRequest=async(path,options={})=>{
+  QA.calls.push({path,body:options.body});await new Promise(r=>setTimeout(r,80));
+  if(path==='tower/config')return {enabled:true};
+  if(path==='tower/status'){
+   if(QA.mode==='error')throw Error('검수용 연결 오류입니다. 다시 연결해 주세요.');
+   const d=structuredClone(QA.status);
+   if(QA.mode==='empty'){d.configured=false;d.maxFloor=0;}
+   if(QA.mode==='off')d.active=false;
+   if(QA.mode==='complete'){d.completed=true;d.floor=null;d.progress.highestFloor=100;d.progress.currentFloor=101;}
+   if(QA.mode==='locked'){d.blocked=true;d.floor=null;}
+   if(QA.mode==='incomplete-deck')d.deck=d.deck.slice(0,3);
+   return d;
+  }
+  if(path==='tower/fight'){if(QA.mode==='battle-error')throw Error('전투 연결 중단 검수');const d=structuredClone(fixture[QA.outcome]);d.requestId=JSON.parse(options.body).requestId;return d;}
+  return {};
+ };
+ document.querySelector('[data-pve-mode="hunt"]').addEventListener('click',()=>{QA.exited=true;});
+ document.querySelector('[data-pve-tab="deck"]').addEventListener('click',()=>{QA.deckOpened=true;});
+ QA.setState=mode=>{QA.mode=mode;document.querySelector('[data-pve-mode="tower"]').click();};
+ QA.showResult=(outcome='loss')=>{const view=prepareBattleV2LiveLoading({modal:document.querySelector('#modal'),mode:'TOWER'});TowerAbyssUI.prepareBattle(view,fixture[outcome]);document.querySelector('#modal').classList.remove('battle-v3-preparing');view.host.querySelector('.battle-v3-loader')?.remove();TowerAbyssUI.result(view,fixture[outcome],TowerAbyssUI.readRecords(7));return true;};
+ const s=document.createElement('script');s.src='/js/tower-v1038.js';document.head.append(s);
+ if(qaParams.has('records')){TowerAbyssUI.remember(7,fixture.loss);TowerAbyssUI.remember(7,fixture.win);}
+ if(qaParams.has('result')){await ensureFeatureResources();QA.showResult(qaParams.get('result'));}
+ QA.ready=true;
+})();
+</script></body></html>

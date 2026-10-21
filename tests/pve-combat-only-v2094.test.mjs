@@ -38,7 +38,7 @@ test('live upper floors use their approved Omega, Minato and Ichigo sprites',asy
 });
 test('entry screens remain native while both battle actions use the common continuous overlay',()=>{
  const tower=read('js/tower-v1038.js'),scrap=read('js/workshop-v1881.js'),battle=read('js/pve-continuous-battle-live.mjs');
- assert.match(tower,/box\.innerHTML=`[\s\S]*tower-hero/);assert.match(scrap,/root\.innerHTML = scrapyardHeader\(\) \+ scrapyardPanel\(\)/);
+ assert.match(tower,/ui\(\)\.render\(box,/);assert.match(scrap,/root\.innerHTML = scrapyardHeader\(\) \+ scrapyardPanel\(\)/);
  assert.doesNotMatch(tower+scrap,/location\.(?:href|assign|replace).*pve-v3/);assert.match(scrap,/api\('scrapyard\/v3\/run'/);
  assert.match(read('js/scrapyard-battle-v1698.js'),/playContinuousBattle/);assert.match(read('js/battle-v3-live.js'),/options\.data\?\.continuousEncounter/);
  assert.match(battle,/continuousPlayback:true/);assert.doesNotMatch(battle,/<iframe|new .*Application|towerPayload|enemySteps/);

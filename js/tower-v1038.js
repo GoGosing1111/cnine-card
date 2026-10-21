@@ -1,209 +1,159 @@
 (()=>{
-  const mediaPath=(value)=>String(value||'').trim().replace(/\\/g,'/');
-  const AUTO_KEY='cnine:tower:autoProgress:v1';
+  'use strict';
+  const ui=()=>window.TowerAbyssUI,user=()=>typeof loadUser==='function'?loadUser():null;
+  const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,tab:'challenge',filter:'all',request:0,battleGeneration:0,releaseFocus:null};
   let requestedTower=new URL(location.href).searchParams.get('pve')==='tower';
-  const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,autoEnabled:loadAuto(),autoRunning:false,autoTimer:null};
-  const pendingKey=()=>`cnine:tower:battle:v2094:${Number(loadUser?.()?.id||0)}`;
-  function pendingBattle(){try{return JSON.parse(sessionStorage.getItem(pendingKey())||'null')}catch{return null}}
-  function rememberBattle(value){try{sessionStorage.setItem(pendingKey(),JSON.stringify(value));}catch(error){console.warn('무한의탑 전투 복구 기록을 저장하지 못했습니다.',error);}}
-  function acknowledgeBattle(){sessionStorage.removeItem(pendingKey());}
-  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  function loadAuto(){try{return localStorage.getItem(AUTO_KEY)==='ON'}catch{return false}}
-  function saveAuto(value){S.autoEnabled=Boolean(value);try{localStorage.setItem(AUTO_KEY,S.autoEnabled?'ON':'OFF')}catch{}}
-  function clearAutoTimer(){if(S.autoTimer){clearTimeout(S.autoTimer);S.autoTimer=null}}
-  function stopAuto(){clearAutoTimer();S.autoRunning=false}
-  function privileged(){const user=loadUser?.();return String(user?.role||'').toUpperCase()==='OWNER'}
-  function towerButtons(tabs){return [...tabs.querySelectorAll('[data-pve-mode="tower"]')]}
-  function normalizeTowerDom(tabs){
-    const buttons=towerButtons(tabs);buttons.slice(1).forEach(x=>x.remove());
-    const views=[...document.querySelectorAll('#pveTowerView')];views.slice(1).forEach(x=>x.remove());
-    return {button:buttons[0]||null,view:views[0]||null};
+  const pendingKey=()=>`cnine:tower:battle:v2094:${Number(user()?.id||0)}`;
+  function pendingBattle(){try{const p=JSON.parse(sessionStorage.getItem(pendingKey())||'null');return p&&typeof p.requestId==='string'&&Number.isSafeInteger(p.floorNo)&&p.floorNo>0?p:null;}catch{return null;}}
+  function rememberBattle(value,key=pendingKey()){try{sessionStorage.setItem(key,JSON.stringify(value));}catch(error){console.warn('무한의탑 전투 복구 기록을 저장하지 못했습니다.',error);}}
+  function acknowledgeBattle(){try{sessionStorage.removeItem(pendingKey());}catch{}}
+  function currentDeckCards(){const list=typeof cards==='undefined'?[]:cards;return (S.data?.deck||[]).map(id=>list.find(x=>String(x.id)===String(id))).filter(Boolean);}
+  function currentPower(deckCards){const state=typeof battleState==='undefined'?{}:battleState;return deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,user(),state.config):Number(c.basePower||0)),0)+Number(S.data?.characterBonus?.pve||state.characterBonus?.pve||0);}
+  function privileged(){return String(user()?.role||'').toUpperCase()==='OWNER';}
+  function scheduleEnsure(){clearTimeout(S.ensureTimer);S.ensureTimer=setTimeout(ensure,40);}
+  function exitTower(){document.querySelector('[data-pve-mode="hunt"]')?.click();}
+  function editDeck(){exitTower();setTimeout(()=>document.querySelector('[data-pve-tab="deck"]')?.click(),120);}
+  function bindView(box){
+    if(box.dataset.abyssBound)return;box.dataset.abyssBound='1';
+    box.addEventListener('click',event=>{
+      const target=event.target.closest('[data-abyss-action]');if(!target||!box.contains(target)||target.disabled)return;
+      const action=target.dataset.abyssAction;
+      if(action==='exit')exitTower();
+      else if(action==='refresh')void openTower();
+      else if(action==='tab'){S.tab=target.dataset.tab;render();box.querySelector(`[data-tab="${S.tab}"][data-abyss-action]`)?.focus({preventScroll:true});}
+      else if(action==='fight')void startFight();
+      else if(action==='deck')editDeck();
+      else if(action==='guide')ui().guide(box);
+    });
+    box.addEventListener('change',event=>{if(event.target.matches('[data-abyss-filter]')){S.filter=event.target.value;render();box.querySelector('[data-abyss-filter]')?.focus({preventScroll:true});}});
   }
-  function scheduleEnsure(){clearTimeout(S.ensureTimer);S.ensureTimer=setTimeout(ensure,40)}
   async function ensure(){
-    const tabs=document.querySelector('.pve-mode-tabs');if(!tabs)return;
-    const normalized=normalizeTowerDom(tabs);
-    if(normalized.button&&normalized.view&&tabs.dataset.towerBound==='1'&&tabs.dataset.towerReady==='1')return;
-    if(S.ensureBusy)return;
-    S.ensureBusy=true;
+    const tabs=document.querySelector('.pve-mode-tabs');if(!tabs||!ui())return;
+    const buttons=[...tabs.querySelectorAll('[data-pve-mode="tower"]')];buttons.slice(1).forEach(x=>x.remove());
+    const views=[...document.querySelectorAll('#pveTowerView')];views.slice(1).forEach(x=>x.remove());
+    if(buttons[0]&&views[0]&&tabs.dataset.towerBound==='1'&&tabs.dataset.towerReady==='1')return;
+    if(S.ensureBusy)return;S.ensureBusy=true;
     try{
       let cfg={enabled:S.enabled};
-      if(!S.lastConfigAt||Date.now()-S.lastConfigAt>15000){try{cfg=await apiRequest('tower/config',{}, {ttl:0})||cfg}catch{}S.lastConfigAt=Date.now()}
+      if(!S.lastConfigAt||Date.now()-S.lastConfigAt>15000){try{cfg=await apiRequest('tower/config',{}, {ttl:0})||cfg;}catch{}S.lastConfigAt=Date.now();}
       S.enabled=cfg.enabled!==false;
-      if(!S.enabled&&!privileged()){
-        towerButtons(tabs).forEach(x=>x.remove());
-        document.querySelectorAll('#pveTowerView').forEach(x=>x.remove());tabs.dataset.towerReady='0';
-        return;
-      }
-      let button=normalized.button||tabs.querySelector('[data-pve-mode="tower"]');
-      if(!button){button=document.createElement('button');button.type='button';button.className='pve-mode-btn';button.dataset.pveMode='tower';button.textContent='무한의탑';tabs.appendChild(button)}
-      towerButtons(tabs).slice(1).forEach(x=>x.remove());
-      let box=normalized.view||document.getElementById('pveTowerView');
-      const raid=document.getElementById('pveRaidView'),placementAnchor=document.getElementById('pveRaidHubView')||raid;if(!placementAnchor)return;
-      if(!box){box=document.createElement('div');box.id='pveTowerView';box.className='pve-tower-view';box.hidden=true;placementAnchor.insertAdjacentElement('afterend',box)}
-      else if(box.parentElement!==placementAnchor.parentElement)placementAnchor.insertAdjacentElement('afterend',box)
+      if(!S.enabled&&!privileged()){buttons.forEach(x=>x.remove());views.forEach(x=>x.remove());tabs.dataset.towerReady='0';return;}
+      let button=buttons[0];
+      if(!button){button=document.createElement('button');button.type='button';button.className='pve-mode-btn';button.dataset.pveMode='tower';button.textContent='무한의탑';tabs.appendChild(button);}
+      const anchor=document.getElementById('pveRaidHubView')||document.getElementById('pveRaidView');if(!anchor)return;
+      let box=views[0];
+      if(!box){box=document.createElement('div');box.id='pveTowerView';box.className='pve-tower-view';box.hidden=true;anchor.insertAdjacentElement('afterend',box);}
+      else if(box.parentElement!==anchor.parentElement)anchor.insertAdjacentElement('afterend',box);
+      bindView(box);
       if(tabs.dataset.towerBound!=='1'){
         tabs.dataset.towerBound='1';
-        tabs.addEventListener('click',e=>{
-          const btn=e.target.closest('[data-pve-mode]');if(!btn)return;
-          if(btn.dataset.pveMode==='tower'){e.preventDefault();openTower()}
-          else{stopAuto();const view=document.getElementById('pveTowerView');if(view)view.hidden=true}
-        });
+        tabs.addEventListener('click',event=>{const btn=event.target.closest('[data-pve-mode]');if(!btn)return;if(btn.dataset.pveMode==='tower'){event.preventDefault();void openTower();}else{S.request++;box.hidden=true;}});
       }
       tabs.dataset.towerReady='1';
       if(requestedTower){requestedTower=false;const url=new URL(location.href);url.searchParams.delete('pve');history.replaceState(history.state,'',url);void openTower();}
-    }finally{S.ensureBusy=false}
+    }finally{S.ensureBusy=false;}
   }
   async function openTower(restoreBattle=true){
-    if(await globalThis.PveV3Runtime?.tryOpen('tower'))return;
-    stopAuto();
+    if(S.busy)return false;
+    const token=++S.request;
     document.querySelectorAll('.pve-mode-btn').forEach(x=>x.classList.toggle('active',x.dataset.pveMode==='tower'));
-    const raidHost=document.getElementById('pveRaidHubView')||document.getElementById('pveRaidView');if(raidHost)raidHost.hidden=true;
-    ['pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'].forEach(id=>{const el=document.getElementById(id);if(el)el.hidden=true});
-    const box=document.getElementById('pveTowerView');if(!box)return;box.hidden=false;box.innerHTML='<section class="tower-loading"><div class="tower-spinner"></div><h2>무한의탑을 불러오는 중...</h2></section>';
-    try{S.data=await apiRequest('tower/status',{}, {ttl:0});render();if(restoreBattle&&pendingBattle()?.result&&!S.busy)void startFight(false)}catch(e){box.innerHTML=`<section class="tower-empty"><h2>무한의탑</h2><p>${esc(e.message)}</p></section>`}
+    ['pveRaidHubView','pveRaidView','pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'].forEach(id=>{const el=document.getElementById(id);if(el)el.hidden=true;});
+    const box=document.getElementById('pveTowerView');if(!box)return false;
+    bindView(box);box.hidden=false;ui().state(box);
+    try{
+      const data=await apiRequest('tower/status',{}, {ttl:0});
+      if(token!==S.request||!box.isConnected||box.hidden)return false;
+      S.data=data;render();
+      if(restoreBattle&&pendingBattle()?.result&&!S.busy)void startFight();
+      return true;
+    }catch(error){if(token===S.request&&box.isConnected&&!box.hidden)ui().state(box,{title:'도전 정보를 불러오지 못했습니다',description:error.message,error:true});return false;}
   }
-  function currentDeckCards(){return (S.data?.deck||[]).map(id=>cards.find(x=>String(x.id)===String(id))).filter(Boolean)}
   function render(){
-    const d=S.data,box=document.getElementById('pveTowerView');if(!box)return;
-    if(!d?.active){box.innerHTML='<section class="tower-empty"><h2>무한의탑을 이용할 수 없습니다</h2><p>운영 설정을 확인해 주세요.</p></section>';return}
-    const p=d.progress||{},f=d.floor||{},rank=d.ranking||[],deckCards=currentDeckCards(),cardPower=deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,loadUser(),battleState?.config):Number(c.basePower||0)),0),bonus=d.characterBonus||battleState?.characterBonus||{},deckPower=cardPower+Number(bonus.pve||0);
-    if(d.configured===false||Number(d.maxFloor||0)<1){box.innerHTML=`<section class="tower-empty tower-unconfigured"><p class="eyebrow">INFINITE TOWER</p><h2>아직 개방되지 않았습니다</h2><p>${esc(d.message||'운영자가 무한의탑 층을 아직 설정하지 않았습니다.')}</p><strong>설정된 층이 생기면 이곳에서 바로 도전할 수 있습니다.</strong></section>`;return}
-    if(d.completed||p.completed){box.innerHTML=`<section class="tower-empty tower-completed"><p class="eyebrow">INFINITE TOWER COMPLETE</p><h2>최고층 등반 완료</h2><p>${Number(d.maxFloor||p.highestFloor||0)}층까지 모두 클리어했습니다.</p><strong>자동으로 1층으로 돌아가지 않습니다.</strong><span>운영자가 진행도를 직접 초기화하거나 새로운 층을 추가하면 다시 도전할 수 있습니다.</span></section>`;return}
-    if(d.blocked||!d.floor){box.innerHTML=`<section class="tower-empty tower-blocked"><p class="eyebrow">FLOOR LOCKED</p><h2>${Number(p.currentFloor||1)}층은 아직 설정되지 않았습니다</h2><p>${esc(d.message||'운영자가 다음 층을 배치할 때까지 진행할 수 없습니다.')}</p><strong>임의 몬스터는 출현하지 않으며, 설정된 최고층까지만 등반할 수 있습니다.</strong></section>`;return}
-    box.innerHTML=`
-    <section class="tower-hero ${f.isBoss?'boss-ready':''}">
-      <div class="tower-hero-copy"><p class="eyebrow">INFINITE TOWER</p><h2>무한의탑</h2><p>저장된 PVE 덱 5장으로 최고층까지 도전하세요.</p></div>
-      <div class="tower-hero-art" aria-hidden="true"><span class="tower-spire"></span><span class="tower-body"></span><span class="tower-base"></span><i></i><i></i><i></i></div>
-      <div class="tower-season-clock"><span>운영 방식</span><b>상시 운영</b></div>
-    </section>
-    <section class="tower-overview">
-      <article><small>CURRENT FLOOR</small><strong>${Number(p.currentFloor||1)}F</strong><span>현재 도전층</span></article>
-      <article><small>BEST FLOOR</small><strong>${Number(p.highestFloor||0)}F</strong><span>개인 최고층</span></article>
-      <article><small>MY RANK</small><strong>${Number(p.rank||1)}위</strong><span>현재 순위</span></article>
-      <article class="next-boss"><small>NEXT BOSS</small><strong>${Math.ceil(Number(p.currentFloor||1)/10)*10}F</strong><span>다음 보스층</span></article>
-    </section>
-    <section class="tower-main-grid">
-      <div class="tower-floor-card ${f.isBoss?'boss-floor':''}">
-        <div class="tower-floor-number"><span>${f.isBoss?'BOSS FLOOR':'FLOOR'}</span><b>${Number(f.floorNo||1)}</b></div>
-        <div class="tower-monster-visual">${f.monsterImage?`<img src="${esc(mediaPath(f.monsterImage))}" alt="">`:'<div class="tower-monster-placeholder">👹</div>'}<i></i></div>
-        <div class="tower-floor-info"><p>${f.isBoss?'강력한 층주가 기다리고 있습니다':'탑의 수문장이 길을 막고 있습니다'}</p><h3>${esc(f.monsterName||'탑의 수문장')}</h3><div><span>권장 전투력</span><b>${Number(f.monsterPower||0).toLocaleString()}</b></div><div><span>클리어 보상</span><b>◈ ${Number(f.rewardCoin||0).toLocaleString()}</b></div></div>
-        <div class="tower-action-panel">
-          <label class="tower-auto-option" for="towerAutoProgress"><input type="checkbox" id="towerAutoProgress" ${S.autoEnabled?'checked':''}><span class="tower-auto-switch"><i></i></span><span class="tower-auto-copy"><b>자동진행</b><small>승리하면 다음 층을 자동으로 도전합니다.</small></span></label>
-          <button class="tower-enter-btn ${f.isBoss?'boss':''}" id="towerStart"><span class="tower-enter-mark">${f.isBoss?'!':'▲'}</span><span><small>${f.isBoss?'BOSS FLOOR':'INFINITE TOWER'}</small><strong>${Number(f.floorNo||1)}층 도전</strong></span><i>도전 시작</i></button>
-        </div>
-      </div>
-      <aside class="tower-side-panel">
-        <div class="tower-deck-preview"><div class="tower-deck-head"><div><p class="eyebrow">PVE SAVED DECK</p><h3>현재 저장 덱</h3></div><button id="towerGoDeck" class="tower-deck-manage"><span class="tower-deck-glyph"><i></i><i></i><i></i></span><span><b>PVE 덱 편성</b><small>저장 덱 변경하기</small></span><em>편성</em></button></div><div class="content-power-summary tower-power-summary"><small>무한의탑 출전 전투력</small><b>${deckPower.toLocaleString()}</b><span>카드 ${cardPower.toLocaleString()} <i>+</i> 장비·칭호 ${Number(bonus.pve||0).toLocaleString()}</span></div><div class="tower-deck-slots">${(d.deck||[]).map(id=>{const c=cards.find(x=>String(x.id)===String(id));return c?`<div><img src="${esc(c.image)}"><span>${esc(c.title)}</span></div>`:'<div class="empty">?</div>'}).join('')}${Array.from({length:Math.max(0,5-(d.deck||[]).length)},()=>'<div class="empty">+</div>').join('')}</div><small>장비·칭호 PVE 전투력이 포함된 값입니다.</small></div>
-        <div class="tower-ranking"><div class="panel-title"><div><p class="eyebrow">TOWER RANKING</p><h3>최고층 랭킹</h3></div></div><div class="tower-rank-list">${rank.slice(0,10).map((r,i)=>`<div class="${Number(r.user_id)===Number(loadUser()?.id)?'me':''}"><b>${i+1}</b><span>${esc(r.nickname)}</span><strong>${Number(r.highest_floor||0)}F</strong></div>`).join('')||'<p>아직 기록이 없습니다.</p>'}</div></div>
-      </aside>
-    </section>`;
-    const auto=document.getElementById('towerAutoProgress');
-    auto.onchange=()=>{saveAuto(auto.checked);syncTowerStartCopy()};
-    document.getElementById('towerStart').onclick=()=>startFight(false);
-    document.getElementById('towerGoDeck').onclick=()=>{stopAuto();document.querySelector('[data-pve-mode="hunt"]')?.click();setTimeout(()=>document.querySelector('[data-pve-tab="deck"]')?.click(),120)};
-    syncTowerStartCopy();
+    const box=document.getElementById('pveTowerView');if(!box||!S.data)return;
+    const d=S.data;
+    if(!d.active){ui().state(box,{title:'지금은 성소의 문이 닫혀 있습니다',description:d.message||'무한의탑 운영이 재개되면 다시 도전할 수 있습니다.',error:true});return;}
+    if(d.configured===false||Number(d.maxFloor||0)<1){ui().state(box,{title:'첫 번째 봉인을 준비하고 있습니다',description:d.message||'아직 개방된 층이 없습니다. 운영 준비가 끝나면 이곳에서 도전할 수 있습니다.',error:true});return;}
+    const deckCards=currentDeckCards();
+    ui().render(box,{data:d,tab:S.tab,filter:S.filter,cards:deckCards,power:currentPower(deckCards),records:ui().readRecords(user()?.id),userId:user()?.id});
   }
-  function syncTowerStartCopy(){const btn=document.getElementById('towerStart'),copy=btn?.querySelector('i');if(copy)copy.textContent=S.autoEnabled?'자동 등반 시작':'도전 시작'}
-  function towerBattleMarkup(f,deckCards,previewPower){
-    const monster={name:f.monsterName||'탑의 수문장',image:mediaPath(f.monsterImage),battlePower:Number(f.monsterPower||0),isBoss:Boolean(f.isBoss)};
-    return `<div class="modal-panel battle-stage intro tower-pve-battle-stage ${monster.isBoss?'tower-boss-stage':''}">
-      <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>
-      <div class="tower-floor-intro"><small>${monster.isBoss?'WARNING · BOSS FLOOR':'INFINITE TOWER'}</small><strong>${Number(f.floorNo||1)} FLOOR</strong><span>${esc(monster.name)}</span></div>
-      <div class="battle-topline"><span>INFINITE TOWER</span><b id="towerBattlePhase">FLOOR ${Number(f.floorNo||1)}</b></div>
-      <div class="tower-battle-progress"><span>${Math.max(1,Number(f.floorNo||1)-1)}F</span><i><u></u></i><b>${Number(f.floorNo||1)}F</b><i><u></u></i><span>${Number(f.floorNo||1)+1}F</span></div>
-      ${S.autoRunning?`<div class="tower-auto-stage-status"><i></i><b>자동진행</b><span>${Number(f.floorNo||1)}F</span><small>승리 시 다음 층으로 이동</small></div>`:''}
-      <div class="battle-hud">
-        <div class="battle-hp battle-hp-team"><div class="battle-hp-head"><b>MEMBER TEAM</b><span data-hp-text="team">100 / 100 · 100%</span></div><div class="battle-hp-track"><u data-hp-trail="team"></u><i data-hp-fill="team"></i><em>K.O.</em></div><small>전투력 ${Number(previewPower||0).toLocaleString()}</small></div>
-        <div class="battle-hp battle-hp-enemy"><div class="battle-hp-head"><b>${esc(monster.name)}</b><span data-hp-text="enemy">100 / 100 · 100%</span></div><div class="battle-hp-track"><u data-hp-trail="enemy"></u><i data-hp-fill="enemy"></i><em>K.O.</em></div><small>${monster.isBoss?'BOSS · ':''}전투력 ${monster.battlePower.toLocaleString()}</small></div>
-      </div>
-      <div class="battle-arena">
-        <div class="battle-side player-side"><div class="battle-team" id="towerBattleTeam">${deckCards.map((c,i)=>battleFighterHtml(c,i)).join('')}</div><small>MEMBER TEAM</small></div>
-        <div class="battle-center"><strong class="battle-vs-mark">VS</strong><span id="towerBattleCountdown"></span></div>
-        <div class="battle-side enemy-side"><div class="battle-enemy-card ${monster.isBoss?'boss':''}"><div class="enemy-card-badge">${monster.isBoss?'BOSS FLOOR':'TOWER MONSTER'}</div><div class="battle-enemy-visual">${monster.image?`<img src="${esc(monster.image)}">`:'<div class="monster-placeholder">👹</div>'}</div><div class="battle-enemy-title">${esc(monster.name)}</div><div class="enemy-card-power">POWER ${monster.battlePower.toLocaleString()}</div></div></div>
-      </div>
-      <div class="battle-impact"><i></i><i></i><i></i></div>
-      <div id="towerBattleMessage" class="battle-message"><span>탑의 문이 열리고 있습니다</span></div>
-    </div>`;
+  function lockBattleFocus(stage){
+    S.releaseFocus?.();
+    const onKey=event=>{
+      if(!stage.isConnected)return;
+      if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();return;}
+      if(event.key!=='Tab')return;
+      const items=[...stage.querySelectorAll('button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),[tabindex="0"]')].filter(el=>el.getClientRects().length);
+      if(!items.length){event.preventDefault();stage.focus({preventScroll:true});return;}
+      const first=items[0],last=items.at(-1),active=document.activeElement;
+      if(!stage.contains(active)||(event.shiftKey&&active===first)){event.preventDefault();(event.shiftKey?last:first).focus();}
+      else if(!event.shiftKey&&active===last){event.preventDefault();first.focus();}
+    };
+    stage.tabIndex=-1;document.addEventListener('keydown',onKey,true);stage.focus({preventScroll:true});
+    S.releaseFocus=()=>{document.removeEventListener('keydown',onKey,true);S.releaseFocus=null;};
   }
-  async function startFight(fromAuto=false){
+  function disposeBattle(){
+    S.battleGeneration++;
+    S.releaseFocus?.();const modal=document.getElementById('modal');
+    if(modal){modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';}
+    S.busy=false;
+  }
+  async function closeBattle({acknowledge=true,tab='challenge',retry=false}={}){
+    if(acknowledge)acknowledgeBattle();disposeBattle();S.tab=tab;
+    const opened=await openTower(false);
+    if(opened&&retry)await startFight();
+    else if(opened)document.querySelector('#pveTowerView [data-abyss-action="fight"],#pveTowerView .abyss-nav .is-active')?.focus({preventScroll:true});
+  }
+  async function startFight(){
     if(S.busy)return;
-    if((S.data?.deck||[]).length!==5)return alert('먼저 PVE 덱 5장을 저장하세요.');
-    clearAutoTimer();S.busy=true;S.autoRunning=Boolean(fromAuto||S.autoEnabled);
-    const pending=pendingBattle(),saved=pending?.result;
-    const f=saved?{floorNo:saved.floorNo,monsterName:saved.monster?.name,monsterImage:saved.monster?.image,monsterPower:saved.monsterPower,isBoss:saved.isBoss}:S.data.floor||{},modal=document.getElementById('modal'),deckCards=currentDeckCards();
-    const previewPower=deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,loadUser(),battleState?.config):Number(c.basePower||0)),0)+Number(S.data?.characterBonus?.pve||battleState?.characterBonus?.pve||0);
-    let v3View=null;
+    const pending=pendingBattle(),saved=pending?.result,deckCards=currentDeckCards();
+    if(!saved&&deckCards.length!==5){S.tab='formation';render();return;}
+    if(!pending&&(S.data?.completed||S.data?.blocked||!S.data?.floor))return;
+    const floorNo=pending?.floorNo||Number(S.data.floor.floorNo);
+    const f=saved?{floorNo,monsterName:saved.monster?.name}:S.data.floor||{floorNo};
+    const modal=document.getElementById('modal');if(!modal)return;
+    S.busy=true;let view=null;
+    const generation=++S.battleGeneration,accountId=Number(user()?.id),recordKey=pendingKey(),isCurrent=()=>generation===S.battleGeneration&&Number(user()?.id)===accountId;
     try{
       if(typeof ensureFeatureResources==='function')await ensureFeatureResources('battleV2');
-      if(window.ProjectVBattleV3Live?.ready?.())v3View=window.prepareBattleV2LiveLoading({modal,mode:'TOWER',playerName:'MEMBER TEAM',opponentName:f.monsterName||'TOWER MONSTER',autoText:S.autoRunning?'자동 등반 · 서버 판정 동기화':'무한의탑 서버 판정 동기화'});
-    }catch(error){console.warn('[PROJECT V V3] 무한의탑 렌더러 준비 실패',error)}
-    if(!v3View){S.busy=false;stopAuto();modal.className='modal';modal.innerHTML='';alert('V3 전투 화면을 준비하지 못했습니다. 다시 도전해 주세요.');return;}
-    const stage=v3View?.stage||modal.querySelector('.battle-stage'),phase=v3View?.phase||document.getElementById('towerBattlePhase'),count=document.getElementById('towerBattleCountdown'),msg=v3View?.towerMsg||document.getElementById('towerBattleMessage');
-    if(msg)msg.hidden=false;
-    ensureBattleSoundButton(stage);
-    try{
-      if(!v3View){
-        battleTone(f.isBoss?58:96,.2,'sawtooth',.045);await battleSleep(f.isBoss?1000:760);
-        stage.classList.add('cards-enter');phase.textContent='TEAM DEPLOY';await battleSleep(850);
-        stage.classList.add('enemy-enter');phase.textContent=f.isBoss?'BOSS APPEARS':'GUARDIAN APPEARS';battleSfx(f.isBoss?'warning':'swing');if(navigator.vibrate)navigator.vibrate(f.isBoss?[100,45,150]:60);await battleSleep(f.isBoss?1000:780);
-        count.textContent='READY';stage.classList.add('ready');await battleSleep(600);count.textContent='FIGHT';battleTone(440,.18,'square',.075);stage.classList.add('fight');await battleSleep(480);count.textContent='';
+      if(!isCurrent())return;
+      if(!window.ProjectVBattleV3Live?.ready?.())throw Error('전투 화면을 준비하지 못했습니다. 다시 연결해 주세요.');
+      view=window.prepareBattleV2LiveLoading({modal,mode:'TOWER',playerName:user()?.nickname||'원정대',opponentName:f.monsterName||'탑의 수호자',autoText:'나락의 시련 · 원정대 준비'});
+      ui().prepareBattle(view,{floorNo});lockBattleFocus(view.stage);
+      window.ensureBattleSoundButton?.(view.stage);
+      const ticket=pending||{requestId:crypto.randomUUID(),floorNo};
+      if(!saved)rememberBattle(ticket,recordKey);
+      const data=saved||await apiRequest('tower/fight',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo})});
+      data.requestId||=ticket.requestId;rememberBattle({...ticket,result:data},recordKey);
+      if(!isCurrent())return;
+      const renderer=await window.playTowerBattleV3Live({...view,modal,data,floor:f,cards:data.cards?.length?data.cards:deckCards,isActive:()=>isCurrent()&&view.stage.isConnected&&modal.classList.contains('show')});
+      if(!renderer||!isCurrent()){if(isCurrent()){S.releaseFocus?.();S.busy=false;}return;}
+      modal.__battleV2Renderer=renderer;
+      if(data.magicReward?.amount>0){const current=user();if(current){current.magicCrystals=Number(data.magicReward.balance??current.magicCrystals??0);saveUser(current);}}
+      if(data.equipmentReward&&window.showEquipmentDropReward){
+        S.releaseFocus?.();
+        try{await window.showEquipmentDropReward(data.equipmentReward);}catch(error){console.warn('무한의탑 장비 획득 연출을 표시하지 못했습니다.',error);}
+        if(!isCurrent()||!view.stage.isConnected)return;
+        lockBattleFocus(view.stage);
       }
-      const ticket=pending?.floorNo===Number(f.floorNo)?pending:{requestId:crypto.randomUUID(),floorNo:Number(f.floorNo)};
-      if(!saved)rememberBattle(ticket);
-      const d=saved||await apiRequest('tower/fight',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo})}),win=d.result==='WIN';
-      rememberBattle({...ticket,result:d});
-      let v3Renderer=null;
-      if(v3View){v3Renderer=await window.playTowerBattleV3Live({...v3View,modal,data:d,floor:f,cards:d.cards?.length?d.cards:deckCards,isActive:()=>v3View.stage.isConnected&&modal.classList.contains('show')});if(!v3Renderer){S.busy=false;stopAuto();return;}modal.__battleV2Renderer=v3Renderer}
-      if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('무한의탑 장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
-      if(d.magicReward?.amount>0){const current=loadUser();if(current){if(d.magicReward?.amount>0)current.magicCrystals=Number(d.magicReward.balance||current.magicCrystals||0);saveUser(current)}}
-      const magicRewardText=(d.magicReward?.amount>0?` · 마법 결정 ✦ ${Number(d.magicReward.amount).toLocaleString()}`:'')+(d.forgeProtectionReward?` · 장비 보호권 ${Number(d.forgeProtectionReward.quantity).toLocaleString()}개 획득`:'');
-      if(!v3View){
-      const teamPowerLabel=stage.querySelector('.battle-hp-team small'),enemyPowerLabel=stage.querySelector('.battle-hp-enemy small');if(teamPowerLabel)teamPowerLabel.textContent=`전투력 ${Number(d.playerPower||0).toLocaleString()}`;if(enemyPowerLabel)enemyPowerLabel.textContent=`${f.isBoss?'BOSS · ':''}전투력 ${Number(d.monsterPower||0).toLocaleString()}`;
-      if(Array.isArray(d.cards)&&d.cards.length===5){const team=document.getElementById('towerBattleTeam');if(team)team.innerHTML=d.cards.map((c,i)=>battleFighterHtml(c,i)).join('')}
-      const fighters=(d.cards?.length?d.cards:deckCards),enemySteps=win?[13,16,18,21,32]:[8,10,12,14,16],teamHits=win?[9,12]:[19,27,35];let enemyHp=100,teamHp=100;
-      if(d.bossUltimate){
-        const bossHit=typeof playBossBattleUltimate==='function'?await playBossBattleUltimate(stage,phase,d.bossUltimate):{teamHpLoss:Math.max(12,Math.min(55,Number(d.bossUltimate.damagePercent||15)))};
-        teamHp=Math.max(0,teamHp-Number(bossHit.teamHpLoss||0));
-        battleSetHp(stage,'team',teamHp);
-      }
-
-      for(let i=0;i<fighters.length;i++){
-        const c=fighters[i],grade=String(c.grade||c.rarity||'C').toUpperCase(),high=(gradeOrder?.[grade]||1)>=(gradeOrder?.UR||6);
-        battleActivateCard(stage,i,grade);phase.textContent=`${grade} MEMBER STRIKE`;
-        stage.classList.remove('member-strike','member-skill');void stage.offsetWidth;stage.classList.add(high?'member-skill':'member-strike');
-        const damage=enemySteps[i]||15;enemyHp=Math.max(win&&i<4?4:0,enemyHp-damage);battleSetHp(stage,'enemy',enemyHp);battleBurst(stage,'73%','43%',high?30:17);battleDamage(stage,high?`${grade} BURST!`:`-${Math.max(120,Math.round(Number(d.monsterPower||0)*damage/100)).toLocaleString()}`,'enemy',high);await battleSleep(high?700:540);
-        if((i===1||i===3||(!win&&i===4))&&teamHp>0){stage.classList.remove('member-strike','member-skill');stage.classList.add('monster-heavy-attack');phase.textContent=f.isBoss?'TOWER BOSS RAGE':'GUARDIAN COUNTER';const hit=teamHits.shift()||18;teamHp=Math.max(win?12:0,teamHp-hit);battleSetHp(stage,'team',teamHp);battleBurst(stage,'28%','43%',f.isBoss?34:24);battleDamage(stage,f.isBoss?'HEAVY HIT!':`-${Math.max(100,Math.round(Number(d.playerPower||0)*hit/100)).toLocaleString()}`,'player',Boolean(f.isBoss));if(typeof battleTriggerUniqueFx==='function')battleTriggerUniqueFx(stage,i,'defense',false);await battleSleep(f.isBoss?820:670);stage.classList.remove('monster-heavy-attack')}
-      }
-      stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.remove('active-attacker'));
-      phase.textContent=win?'FINAL STRIKE':'TOWER GUARDIAN FINISH';stage.classList.add(win?'final-strike-v863':'final-fail-v863');
-      if(win){battleSetHp(stage,'enemy',0);battleBurst(stage,'74%','43%',55);battleDamage(stage,'FLOOR CLEAR!','enemy',true);if(navigator.vibrate)navigator.vibrate([70,30,180])}
-      else{battleSetHp(stage,'team',0);battleBurst(stage,'26%','43%',48);battleDamage(stage,'K.O.','player',true);if(navigator.vibrate)navigator.vibrate([160,50,160])}
-      await battleSleep(1000);
-      }
-      stage.classList.add(win?'battle-win-v863':'battle-lose-v863','is-result-visible');phase.textContent=win?`${Number(d.floorNo)}F CLEAR`:'CHALLENGE FAILED';if(!v3View)battleSfx(win?'victory':'defeat');v3Renderer?.showResult?.();
-      if(win&&d.completed){
-        stopAuto();saveAuto(false);msg.innerHTML=`<strong>최고층 등반 완료</strong><span>${Number(d.floorNo)}층까지 모두 클리어했습니다.${magicRewardText} 자동으로 1층으로 돌아가지 않습니다.</span><button type="button" class="tower-result-button" id="towerResultBtn">완료 화면 확인</button>`;document.getElementById('towerResultBtn').onclick=e=>{e.stopPropagation();closeBattleAndRefresh()};
-      }else if(win&&S.autoRunning&&S.autoEnabled){
-        msg.innerHTML=`<strong>${Number(d.floorNo)}층 클리어</strong><span>보상 ◈ ${Number(d.reward||0).toLocaleString()}${magicRewardText} · 다음 ${Number(d.nextFloor)}층</span><div class="tower-auto-next"><i></i><b>다음 층 자동진행 중</b><small>잠시 후 ${Number(d.nextFloor)}층 전투가 시작됩니다.</small></div><button type="button" class="tower-auto-stop" id="towerAutoStop">자동진행 중단</button>`;
-        document.getElementById('towerAutoStop').onclick=e=>{e.stopPropagation();saveAuto(false);stopAuto();closeBattleAndRefresh()};
-        S.autoTimer=setTimeout(()=>continueAuto(),1900);
-      }else{
-        if(!win)S.autoRunning=false;
-        msg.innerHTML=win?`<strong>${Number(d.floorNo)}층 클리어</strong><span>보상 ◈ ${Number(d.reward||0).toLocaleString()}${magicRewardText} · 다음 ${Number(d.nextFloor)}층</span><button type="button" class="tower-result-button" id="towerResultBtn">다음 층 확인</button>`:`<strong>${Number(d.floorNo)}층 도전 실패</strong><span>${S.autoEnabled?'패배하여 자동진행이 중단되었습니다. ':''}현재 층에서 다시 도전할 수 있습니다.</span><button type="button" class="tower-result-button retry" id="towerResultBtn">무한의탑으로 돌아가기</button>`;
-        document.getElementById('towerResultBtn').onclick=e=>{e.stopPropagation();closeBattleAndRefresh()};
-      }
-    }catch(e){stopAuto();if(e.code==='TOWER_FLOOR_CHANGED'||e.code==='TOWER_COMPLETED')acknowledgeBattle();stage.classList.add('is-result-visible');msg.innerHTML=`<span>${esc(e.message)}</span><button class="tower-result-button retry" id="towerCloseErr">닫기</button>`;document.getElementById('towerCloseErr').onclick=e=>{e.stopPropagation();closeBattleAndRefresh(false)}}
+      ui().remember(user()?.id,data);
+      renderer.showResult?.();view.phase.textContent=data.result==='WIN'?'한계 돌파':'도전 기록';ui().result(view,data,ui().readRecords(user()?.id));
+      view.towerMsg.onclick=event=>{
+        const action=event.target.closest('[data-abyss-action]')?.dataset.abyssAction;if(!action)return;event.stopPropagation();
+        view.towerMsg.querySelectorAll('button').forEach(b=>b.disabled=true);
+        void closeBattle({tab:action==='formation'?'formation':action==='records'||data.completed?'records':'challenge',retry:action==='retry'});
+      };
+    }catch(error){
+      if(!isCurrent())return;
+      const stale=['TOWER_FLOOR_CHANGED','TOWER_COMPLETED'].includes(error.code);
+      if(stale)acknowledgeBattle();
+      if(!view){disposeBattle();const box=document.getElementById('pveTowerView');if(box)ui().state(box,{title:'전장을 열지 못했습니다',description:error.message,error:true});return;}
+      modal.classList.remove('battle-v3-preparing');view.stage.querySelector('.battle-v3-loader')?.remove();
+      ui().errorResult(view,error.message,Boolean(pendingBattle()));
+      view.towerMsg.onclick=event=>{const action=event.target.closest('[data-abyss-action]')?.dataset.abyssAction;if(!action)return;event.stopPropagation();view.towerMsg.querySelectorAll('button').forEach(b=>b.disabled=true);void closeBattle({acknowledge:false,retry:action==='resume'});};
+      view.towerMsg.querySelector('button')?.focus({preventScroll:true});
+    }
   }
-  async function continueAuto(){
-    clearAutoTimer();
-    acknowledgeBattle();
-    if(!S.autoEnabled){stopAuto();return closeBattleAndRefresh()}
-    const modal=document.getElementById('modal');modal.className='modal';modal.innerHTML='';S.busy=false;
-    try{S.data=await apiRequest('tower/status',{}, {ttl:0});if(!S.data?.active){stopAuto();return openTower()}return startFight(true)}
-    catch(e){stopAuto();alert(e.message);openTower()}
-  }
-  function closeBattleAndRefresh(acknowledge=true){if(acknowledge)acknowledgeBattle();clearAutoTimer();S.busy=false;S.autoRunning=false;const modal=document.getElementById('modal');modal.__battleV2Renderer?.destroy();modal.className='modal';modal.innerHTML='';openTower(acknowledge)}
-  window.addEventListener('cnine:character-power-changed',event=>{const bonuses=event.detail?.bonuses;if(!bonuses)return;if(S.data)S.data.characterBonus=bonuses;const view=document.getElementById('pveTowerView');if(view&&!view.hidden&&S.data)render()});
-  const observer=new MutationObserver(scheduleEnsure);observer.observe(document.documentElement,{childList:true,subtree:true});ensure();
+  window.addEventListener('cnine:character-power-changed',event=>{const bonuses=event.detail?.bonuses;if(!bonuses)return;if(S.data)S.data.characterBonus=bonuses;const view=document.getElementById('pveTowerView');if(view&&!view.hidden&&S.data)render();});
+  window.addEventListener('cnine:route-will-change',()=>{S.request++;S.battleGeneration++;S.releaseFocus?.();S.busy=false;});
+  const observer=new MutationObserver(scheduleEnsure);observer.observe(document.documentElement,{childList:true,subtree:true});void ensure();
 })();
