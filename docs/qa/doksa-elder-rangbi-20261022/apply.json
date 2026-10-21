@@ -1,0 +1,51 @@
+{
+  "status": "COMPLETED",
+  "actor": "CODEX_OPERATIONS",
+  "operationKey": "ops:doksa-elder:ran-to-rangbi:20261022:v1",
+  "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+  "organizationId": 3,
+  "organizationName": "독사파",
+  "authorization": "조직 독사파 란x2 원로 해임 후 랭비! 올려",
+  "removed": {
+    "userId": 73,
+    "nickname": "란x2"
+  },
+  "appointed": {
+    "userId": 4615,
+    "nickname": "랭비!"
+  },
+  "beforeIds": [
+    4965,
+    2246,
+    73
+  ],
+  "elderIds": [
+    4965,
+    2246,
+    4615
+  ],
+  "elders": [
+    {
+      "userId": 4965,
+      "nickname": "쁴로리"
+    },
+    {
+      "userId": 2246,
+      "nickname": "옹가망함1"
+    },
+    {
+      "userId": 4615,
+      "nickname": "랭비!"
+    }
+  ],
+  "rosterHash": "d8b0b649e7ed857be4b81536266fe76aae99eb1b721ed3afb91d30e34bb2a20b",
+  "protectedStateHash": "98540b38048edac1591222f556e206af46ab88b410f96bb37f3a3f6325e1adcf",
+  "treasuryHash": "bda7711dee7dabab7197c1e272fc86ea5ec1e9040dfae9175b9d2c8f35a0bdf0",
+  "beforeRevision": 6062,
+  "afterRevision": 6063,
+  "completedAt": "2026-10-21T22:05:37.347Z",
+  "committed": true,
+  "auditId": "49882",
+  "replayed": false,
+  "noWriteReplayVerified": true
+}

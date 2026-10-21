@@ -1,0 +1,33 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:doksa-elder:ran-to-rangbi:20261022:v1",
+  "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+  "organizationId": 3,
+  "auditId": "49882",
+  "revision": 6065,
+  "permissions": [
+    {
+      "userId": 73,
+      "nickname": "란x2",
+      "isElder": false
+    },
+    {
+      "userId": 4965,
+      "nickname": "쁴로리",
+      "isElder": true
+    },
+    {
+      "userId": 2246,
+      "nickname": "옹가망함1",
+      "isElder": true
+    },
+    {
+      "userId": 4615,
+      "nickname": "랭비!",
+      "isElder": true
+    }
+  ],
+  "rosterUnchanged": true,
+  "verifiedAt": "2026-10-21T22:05:54.212Z",
+  "independentConnection": true
+}

@@ -1,0 +1,61 @@
+{
+  "checkedAt": "2026-10-21T22:03:11.425Z",
+  "round": {
+    "id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "scope": "LIVE",
+    "phase": "ASSIGNED"
+  },
+  "organization": {
+    "id": 3,
+    "name": "독사파"
+  },
+  "users": [
+    {
+      "id": "73",
+      "nickname": "란x2",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "id": "4615",
+      "nickname": "랭비!",
+      "status": "ACTIVE",
+      "role": "USER"
+    }
+  ],
+  "rosterHash": "d8b0b649e7ed857be4b81536266fe76aae99eb1b721ed3afb91d30e34bb2a20b",
+  "revision": 6048,
+  "elderIds": [
+    4965,
+    2246,
+    73
+  ],
+  "elders": [
+    {
+      "userId": 4965,
+      "clanId": 3,
+      "nickname": "쁴로리",
+      "status": "ACTIVE"
+    },
+    {
+      "userId": 2246,
+      "clanId": 3,
+      "nickname": "옹가망함1",
+      "status": "ACTIVE"
+    },
+    {
+      "userId": 73,
+      "clanId": 3,
+      "nickname": "란x2",
+      "status": "ACTIVE"
+    }
+  ],
+  "commanderId": 4965,
+  "captains": {
+    "attack1": 52,
+    "attack2": 5877,
+    "attack3": 4908,
+    "attack4": 4651,
+    "attack5": 5148
+  }
+}
