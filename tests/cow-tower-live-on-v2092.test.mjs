@@ -21,11 +21,12 @@ test('public release opens cow and legacy tower while new tower economy and othe
  assert.match(read('pve-v3/entry.mjs'),/location.replace\(TOWER_LIVE_URL\)/);
 });
 test('legacy tower completion wins over absent next floor and never offers re-ascent',()=>{
- const source=read('js/tower-v1038.js'),start=source.indexOf('  function render(){'),end=source.indexOf('  function syncTowerStartCopy',start),box={innerHTML:''};
+ const source=read('js/tower-v1038.js'),start=source.indexOf('  function render(){'),end=source.indexOf('  function lockBattleFocus',start),body={innerHTML:''},box={innerHTML:'',classList:{add(){}},querySelector:()=>body};
  const S={data:{active:true,completed:true,maxFloor:70,floor:null,progress:{currentFloor:71,highestFloor:70,completed:true}}};
- const context=vm.createContext({S,document:{getElementById:()=>box},currentDeckCards:()=>[],battleState:{},esc:String});
+ const root={};vm.runInNewContext(read('js/tower-abyss-ui.js'),{window:root});
+ const context=vm.createContext({S,document:{getElementById:()=>box},currentDeckCards:()=>[],currentPower:()=>0,user:()=>({id:7}),ui:()=>root.TowerAbyssUI});
  vm.runInContext(source.slice(start,end)+'\nrender();',context);
- assert.match(box.innerHTML,/최고층 등반 완료/);assert.doesNotMatch(box.innerHTML,/아직 설정되지|다시 등반|재등반/);
+ assert.match(body.innerHTML,/현재 열린 모든 문을 돌파했습니다/);assert.doesNotMatch(body.innerHTML,/아직 열리지|다시 등반|재등반|data-abyss-action="fight"/);
  assert.match(source,/playTowerBattleV3Live/);assert.match(source,/apiRequest\('tower\/fight'/);
 });
 for(const postgres of [false,true]){
