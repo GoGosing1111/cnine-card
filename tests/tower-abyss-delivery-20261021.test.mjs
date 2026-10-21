@@ -13,6 +13,8 @@ test('Tower UI images and browser entry ship within the Pages limit; exact sourc
  for(const file of ['js/tower-abyss-ui.js','js/tower-v1038.js','css/tower-abyss-ui.css','preview/infinite-tower-v3-v1/app.bundle.js','preview/infinite-tower-v3-v1/battle.bundle.js','docs/infinite-tower-limit-push-v2.md'])assert.equal(isProductionFile(file),true,file);
  for(const file of ['docs/cow-tower-live-on-2092-20260913.md','docs/infinite-tower-v3-economy-draft-20260911.md','docs/pve-combat-only-2094-20260913.md','preview/infinite-tower-v3-v1/README.md','preview/infinite-tower-v3-v1/source/app.mjs']){assert.ok(fs.existsSync(file));assert.equal(isProductionFile(file),false,file);}
  const index=fs.readFileSync('index.html','utf8');assert.ok(index.indexOf('js/tower-abyss-ui.js')<index.indexOf('js/tower-v1038.js'));assert.match(index,/css\/tower-abyss-ui\.css\?v=/);
+ const appUrl=index.match(/src="(js\/app\.js\?v=[^"]+)"/)?.[1];assert.ok(appUrl);assert.match(appUrl,/&amp;towerAbyss=20261021-v1/);
+ assert.equal(appUrl.match(/\?v=([^"'&]+)/)?.[1],fs.readFileSync('service-worker.js','utf8').match(/soop-card-shell-v([^']+)/)?.[1]);
  const files=execFileSync('git',['ls-files','-z'],{maxBuffer:40e6}).toString().split('\0').filter(Boolean).filter(isProductionFile);
  const count=files.filter(p=>!p.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(p)).length+1;
  assert.ok(count<=20000,`Pages asset count ${count}`);console.log(`Tower delivery: ${count}/20000 files; source PNGs preserved.`);
