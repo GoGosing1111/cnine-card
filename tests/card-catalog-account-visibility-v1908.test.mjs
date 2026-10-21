@@ -36,7 +36,7 @@ function ids(rows) {
 
 function assetVersion(documentSource, assetPath) {
   const escaped = assetPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const match = documentSource.match(new RegExp(`${escaped}\\?v=([^"'\\s>]+)`, 'i'));
+  const match = documentSource.match(new RegExp(`${escaped}\\?v=([^&"'\\s>]+)`, 'i'));
   assert.ok(match, `${assetPath}에 캐시 버전이 필요합니다.`);
   return match[1];
 }
