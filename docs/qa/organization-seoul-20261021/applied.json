@@ -1,0 +1,19 @@
+{
+  "operationKey": "ops:organization-seoul-reset:20261021:v1",
+  "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+  "completedAt": "2026-10-21T05:58:05.888Z",
+  "beforeRevision": 1772,
+  "afterRevision": 1773,
+  "beforeDistricts": 25,
+  "beforeOccupied": 25,
+  "afterDistricts": 25,
+  "afterOccupied": 0,
+  "retiredDistricts": 21,
+  "cancelledBattles": [],
+  "backupHash": "facc1896e2d21ab83b6ece5cd7bfc9fa3c764d74601502a829f89ee9f49884be",
+  "preservedHash": "23202eb5c64eb98e4292ce570e978f91af174d703f9dbc0737965e67d538e96e",
+  "policyMode": "ON",
+  "adminLogId": "49431",
+  "replayed": false,
+  "applied": true
+}

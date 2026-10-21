@@ -1,0 +1,106 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"267da6bfe35a5a9d7da73b9ffcc9b8a7c70e9b94","reason":"Organization faction map narrowed to Seoul 25 with one-time backed-up ownership reset, preserving formations, treasury and settled rewards. Scoped faction regression and browser checks; include pending preparation check for merged mercenary pity commit whose other checks are recorded.","changed":["AGENTS.md","admin/index.html","admin/mercenary-admin-v1.js","admin/mercenary-level-admin-v1.mjs","admin/organization-admin-v1.mjs","docs/jokro-craft-20261021.md","docs/mercenary-breakthrough-pity-20261021.md","docs/qa/jokro-craft-20261021/operations-applied.json","docs/qa/jokro-craft-20261021/operations-dry-run.json","docs/qa/jokro-craft-20261021/production.json","docs/qa/mercenary-breakthrough-pity-20261021/action-visible-1440.png","docs/qa/mercenary-breakthrough-pity-20261021/action-visible-390.png","docs/qa/mercenary-breakthrough-pity-20261021/baseline-halloween.log","docs/qa/mercenary-breakthrough-pity-20261021/browser-report.json","docs/qa/mercenary-breakthrough-pity-20261021/guaranteed-1440.png","docs/qa/mercenary-breakthrough-pity-20261021/guaranteed-390.png","docs/qa/mercenary-breakthrough-pity-20261021/history-before.json","docs/qa/mercenary-breakthrough-pity-20261021/http-validation.log","docs/qa/mercenary-breakthrough-pity-20261021/initial-gate.log","docs/qa/mercenary-breakthrough-pity-20261021/level20-before-1440.png","docs/qa/mercenary-breakthrough-pity-20261021/level20-before-390.png","docs/qa/mercenary-breakthrough-pity-20261021/pity-tests.log","docs/qa/mercenary-breakthrough-pity-20261021/release-plan.json","docs/qa/mercenary-breakthrough-pity-20261021/success-1440.png","docs/qa/mercenary-breakthrough-pity-20261021/success-390.png","docs/qa/organization-seoul-20261021/1440-seoul-map.png","docs/qa/organization-seoul-20261021/390-seoul-map.png","docs/qa/organization-seoul-20261021/README.md","docs/qa/organization-seoul-20261021/browser-checks.json","functions/_mercenary_level.js","functions/_mercenary_level_pity.js","functions/_organization.js","functions/_organization_faction.js","functions/_organization_faction_model.js","js/organization-dashboard-v1.mjs","js/organization-faction-entry-v1.mjs","js/organization-faction-v1.mjs","js/organization-faction-window-v1.mjs","js/organization-public-v1.mjs","js/organization-system-v1.mjs","mercenary-codex/leveling/app.mjs","mercenary-codex/leveling/breakthrough.mjs","mercenary-codex/leveling/index.html","organization/faction/index.html","organization/index.html","scripts/ops/organization-seoul-reset-20261021.mjs","scripts/prepare-production-assets.mjs","shared/mercenary-breakthrough-pity-v1.mjs","shared/mercenary-level-v1.mjs","shared/organization-faction-v1.mjs","tests/helpers/mercenary-pity-fixture.mjs","tests/mercenary-breakthrough-pity-20261021.browser.mjs","tests/mercenary-breakthrough-pity-20261021.test.mjs","tests/organization-faction-20261015.test.mjs","tests/organization-faction-map-20261015.test.mjs","tests/organization-faction-ui-20261019.browser.mjs","tests/organization-seoul-20261021.browser.mjs","tests/organization-seoul-reset-20261021.test.mjs","tests/organization-six-20261019.test.mjs"],"tests":["tests/organization-seoul-reset-20261021.test.mjs","tests/organization-seoul-20261021.browser.mjs","tests/organization-faction-20261015.test.mjs","tests/organization-faction-map-20261015.test.mjs","tests/organization-six-20261019.test.mjs","tests/mercenary-level-preparation-20261005.test.mjs"],"checks":["check:worker"]}
+✔ live draft fixes the approved multiplier and leaves remaining economy values unset (3.2378ms)
+✔ same mercenary earns the multiplier; only same-rank mercenary extras are accepted (1.4961ms)
+✔ ordinary levels carry XP but every milestone caps XP and reports exact overflow (1.1814ms)
+✔ all four failures retain level and earlier effects; success is once, exact odds, max 20 (2.0834ms)
+✔ invalid persisted states cannot skip gates, retain EXP after final completion, or exceed new XP policy (0.391ms)
+✔ SQLite: atomic consumption, replay, account isolation, no wallet/loadout change (57.1537ms)
+✔ SQLite: failed writes roll back materials and XP; stale other request is cancelled (53.9963ms)
+✔ SQLite: overflow requires explicit consent; failed breakthrough retry keeps its first random draw (45.6818ms)
+✔ SQLite: policy revision and CMS revision races cannot spend stale materials (67.9611ms)
+✔ SQLite: final success persists level 20 and its bonus exactly once without spending more cards (28.8896ms)
+✔ Postgres: atomic consumption, replay, account isolation, no wallet/loadout change (4782.5057ms)
+✔ Postgres: failed writes roll back materials and XP; stale other request is cancelled (3182.1409ms)
+✔ Postgres: overflow requires explicit consent; failed breakthrough retry keeps its first random draw (3044.546ms)
+✔ Postgres: policy revision and CMS revision races cannot spend stale materials (2208.7848ms)
+✔ Postgres: final success persists level 20 and its bonus exactly once without spending more cards (1770.5333ms)
+✔ lost commit acknowledgement and serialized concurrent requests never double consume (22.0201ms)
+✔ batch predicate rejects inventory or policy changes after the preparation reads (27.2309ms)
+✔ released routes require authentication before any growth database access (25.3302ms)
+✔ OFF needs no new schema, ignores legacy growth, and CMS saves cannot activate it (33.9818ms)
+✔ battle bonuses apply once after linkage, preserve wounds and base rank power, and freeze skill effects (4.9259ms)
+✔ PVE, PVP and two-card co-op linkage carry server-frozen growth without changing historical snapshots (36.4989ms)
+✔ client retains request through timeout and reload; receipt recovery sends no new POST (1.2868ms)
+✔ organization attack and defense squads allow three, reject four atomically, and leave clan capacity unchanged (5347.6099ms)
+✔ old five-member formations expose and launch only the first three on each side (3008.9834ms)
+✔ 25 Seoul districts, policy nulls, own-member authority and no clan data writes (2903.6104ms)
+✔ shared HP, real server damage, entry guard, replay and member cooldown remain unchanged (2138.1335ms)
+✔ session rewards pay 300 billion at nine territories, treasury snapshot is separate, duplicate tick is harmless and upgrade is atomic (1805.8888ms)
+✔ TEST does not award live accounts and null treasury rate does not mint funds (1448.521ms)
+✔ territory interruption freezes timers and resumes the same three-hour session (1484.9747ms)
+✔ 46 map regions share the KOSTAT source and retain city-level topology (7.4215ms)
+✔ desktop and mobile show 25 neutral Seoul districts with a fitted map, usable selection and no overflow (10264.8752ms)
+✔ Seoul has exactly 25 real boundary regions; stale 46-region states cannot launch or retain battles outside Seoul (4844.2323ms)
+✔ reset backs up all ownership, clears battles and cooldowns atomically, preserves organizations and economics, and never resets twice (3120.8757ms)
+✔ a strike computed before reset cannot commit damage or reclaim a reset district afterwards (2996.2825ms)
+✔ six active organizations balance 129 and 150 members and return six interview recommendations (36.7775ms)
+✔ all ten squads validate, fifth captains manage, and garrisons stay one-to-one through moves and combat (5095.2705ms)
+✔ eight regions pay nothing; nine pay only the participant, never a merely assigned squad member (6036.446ms)
+✔ consolidation is atomic, balanced, keeps retained territory and paid history, and never resets funds twice (2352.5099ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18733.7477
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19999 files; 5634 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 7998.05 KiB / gzip: 1726.01 KiB
+Worker Startup Time: 75 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.23 sec)
+No targets deployed for cnine-card-api-runtime (0.54 sec)
+Current Version ID: 93bf2a12-eab2-4904-9872-89f7ebe8b2c4
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19976/19999)
+Uploading... (19984/19999)
+Uploading... (19991/19999)
+Uploading... (19999/19999)
+✨ Success! Uploaded 23 files (19976 already uploaded) (2.23 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://14476760.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2780.56 KiB / gzip: 632.21 KiB
+Worker Startup Time: 65 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.14 sec)
+Deployed cnine-card-clan-draft triggers (1.02 sec)
+  schedule: * * * * *
+Current Version ID: 9608f9ea-dd38-4010-903f-491f84e16175

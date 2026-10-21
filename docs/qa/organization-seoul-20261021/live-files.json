@@ -1,0 +1,36 @@
+{
+  "verifiedAt": "2026-10-21T05:58:01.834Z",
+  "source": "2569caee6b33be634410daaa749cd925161cf6c8",
+  "checks": [
+    {
+      "file": "organization/faction/index.html",
+      "status": 200,
+      "sha256": "3ad31a4b2a1d0e818a7643d8da47ebb764ebd147b390f6e0582db1741c1c06a0"
+    },
+    {
+      "file": "organization/index.html",
+      "status": 200,
+      "sha256": "35194f26272bcf437b1fff18d7b65946361241594dfb1b5bfc7cc69db8ca5937"
+    },
+    {
+      "file": "js/organization-faction-v1.mjs",
+      "status": 200,
+      "sha256": "1bf1becc2fa01be7745878d372a67e7f5e3a909218114baa183720fdf42c9852"
+    },
+    {
+      "file": "js/organization-faction-entry-v1.mjs",
+      "status": 200,
+      "sha256": "d4446abfad607e3b0e884ab23c0f67122b69cd14536ea206d86c0eea9eb13ea6"
+    },
+    {
+      "file": "shared/organization-faction-v1.mjs",
+      "status": 200,
+      "sha256": "037cc10419a694eb880e91f7bb0c66e74884ee35ac6e5225c4175d04016e7950"
+    },
+    {
+      "file": "admin/organization-admin-v1.mjs",
+      "status": 200,
+      "sha256": "c7fd87a14de590a77093a07a27f64ab2fbb93ec6e1a6c497d5a0ef17bbd8efcf"
+    }
+  ]
+}
