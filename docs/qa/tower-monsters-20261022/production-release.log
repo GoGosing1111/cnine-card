@@ -1,0 +1,105 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"e384f1774ebbe6d9991c9cbce1d1d484a08f0636","reason":"Tower-only replacement of fourteen monster sprites and names; verify alpha delivery, all 120-floor combat parity, actual settlement and unchanged hunt/raid presentation.","changed":["AGENTS.md","assets/ui/tower-monsters-20261022/abyss-iron-rider.webp","assets/ui/tower-monsters-20261022/abyss-sovereign.webp","assets/ui/tower-monsters-20261022/ash-hound.webp","assets/ui/tower-monsters-20261022/bloodmoon-sovereign.webp","assets/ui/tower-monsters-20261022/bloodthorn-bat.webp","assets/ui/tower-monsters-20261022/cinder-warden.webp","assets/ui/tower-monsters-20261022/eclipse-oracle.webp","assets/ui/tower-monsters-20261022/grave-armiger.webp","assets/ui/tower-monsters-20261022/grave-raven.webp","assets/ui/tower-monsters-20261022/lunar-wraith.webp","assets/ui/tower-monsters-20261022/manifest.json","assets/ui/tower-monsters-20261022/oblivion-executioner.webp","assets/ui/tower-monsters-20261022/obsidian-destroyer.webp","assets/ui/tower-monsters-20261022/thorn-crowned-elk.webp","assets/ui/tower-monsters-20261022/void-herald.webp","docs/qa/seal-mercenary-20261022/README.md","docs/qa/seal-mercenary-20261022/live-390-boss-attack.png","docs/qa/seal-mercenary-20261022/live-browser.json","docs/qa/seal-mercenary-20261022/live-resources.json","docs/qa/seal-mercenary-20261022/verify-ui.mjs","docs/qa/tower-monsters-20261022/1440-f10-elite.png","docs/qa/tower-monsters-20261022/1440-f10-entry.png","docs/qa/tower-monsters-20261022/1440-f10-guardian.png","docs/qa/tower-monsters-20261022/1440-f10-normal.png","docs/qa/tower-monsters-20261022/1440-f20-elite.png","docs/qa/tower-monsters-20261022/1440-f20-entry.png","docs/qa/tower-monsters-20261022/1440-f20-guardian.png","docs/qa/tower-monsters-20261022/1440-f20-normal.png","docs/qa/tower-monsters-20261022/1440-f30-elite.png","docs/qa/tower-monsters-20261022/1440-f30-entry.png","docs/qa/tower-monsters-20261022/1440-f30-guardian.png","docs/qa/tower-monsters-20261022/1440-f30-normal.png","docs/qa/tower-monsters-20261022/1440-f40-elite.png","docs/qa/tower-monsters-20261022/1440-f40-entry.png","docs/qa/tower-monsters-20261022/1440-f40-guardian.png","docs/qa/tower-monsters-20261022/1440-f40-normal.png","docs/qa/tower-monsters-20261022/1440-f50-elite.png","docs/qa/tower-monsters-20261022/1440-f50-entry.png","docs/qa/tower-monsters-20261022/1440-f50-guardian.png","docs/qa/tower-monsters-20261022/1440-f50-normal.png","docs/qa/tower-monsters-20261022/1440-f60-elite.png","docs/qa/tower-monsters-20261022/1440-f60-entry.png","docs/qa/tower-monsters-20261022/1440-f60-guardian.png","docs/qa/tower-monsters-20261022/1440-f60-normal.png","docs/qa/tower-monsters-20261022/1440-f70-elite.png","docs/qa/tower-monsters-20261022/1440-f70-entry.png","docs/qa/tower-monsters-20261022/1440-f70-guardian.png","docs/qa/tower-monsters-20261022/1440-f70-normal.png","docs/qa/tower-monsters-20261022/390-f10-elite.png","docs/qa/tower-monsters-20261022/390-f10-entry.png","docs/qa/tower-monsters-20261022/390-f10-guardian.png","docs/qa/tower-monsters-20261022/390-f10-normal.png","docs/qa/tower-monsters-20261022/390-f20-elite.png","docs/qa/tower-monsters-20261022/390-f20-entry.png","docs/qa/tower-monsters-20261022/390-f20-guardian.png","docs/qa/tower-monsters-20261022/390-f20-normal.png","docs/qa/tower-monsters-20261022/390-f30-elite.png","docs/qa/tower-monsters-20261022/390-f30-entry.png","docs/qa/tower-monsters-20261022/390-f30-guardian.png","docs/qa/tower-monsters-20261022/390-f30-normal.png","docs/qa/tower-monsters-20261022/390-f40-elite.png","docs/qa/tower-monsters-20261022/390-f40-entry.png","docs/qa/tower-monsters-20261022/390-f40-guardian.png","docs/qa/tower-monsters-20261022/390-f40-normal.png","docs/qa/tower-monsters-20261022/390-f50-elite.png","docs/qa/tower-monsters-20261022/390-f50-entry.png","docs/qa/tower-monsters-20261022/390-f50-guardian.png","docs/qa/tower-monsters-20261022/390-f50-normal.png","docs/qa/tower-monsters-20261022/390-f60-elite.png","docs/qa/tower-monsters-20261022/390-f60-entry.png","docs/qa/tower-monsters-20261022/390-f60-guardian.png","docs/qa/tower-monsters-20261022/390-f60-normal.png","docs/qa/tower-monsters-20261022/390-f70-elite.png","docs/qa/tower-monsters-20261022/390-f70-entry.png","docs/qa/tower-monsters-20261022/390-f70-guardian.png","docs/qa/tower-monsters-20261022/390-f70-normal.png","docs/qa/tower-monsters-20261022/README.md","docs/qa/tower-monsters-20261022/alpha-preview.png","docs/qa/tower-monsters-20261022/browser-1440-f10.json","docs/qa/tower-monsters-20261022/browser-1440-f20.json","docs/qa/tower-monsters-20261022/browser-1440-f30.json","docs/qa/tower-monsters-20261022/browser-1440-f40.json","docs/qa/tower-monsters-20261022/browser-1440-f50.json","docs/qa/tower-monsters-20261022/browser-1440-f60.json","docs/qa/tower-monsters-20261022/browser-1440-f70.json","docs/qa/tower-monsters-20261022/browser-390-f10.json","docs/qa/tower-monsters-20261022/browser-390-f20.json","docs/qa/tower-monsters-20261022/browser-390-f30.json","docs/qa/tower-monsters-20261022/browser-390-f40.json","docs/qa/tower-monsters-20261022/browser-390-f50.json","docs/qa/tower-monsters-20261022/browser-390-f60.json","docs/qa/tower-monsters-20261022/browser-390-f70.json","docs/qa/tower-monsters-20261022/browser-verification.json","docs/qa/tower-monsters-20261022/browser.mjs","docs/qa/tower-monsters-20261022/build-assets.mjs","docs/qa/tower-monsters-20261022/combat-before.json","docs/qa/tower-monsters-20261022/combat-contract.mjs","docs/qa/tower-monsters-20261022/deployment-before.json","docs/qa/tower-monsters-20261022/generation-paths.json","docs/qa/tower-monsters-20261022/index.html","docs/qa/tower-monsters-20261022/live-cms-before.json","docs/qa/tower-monsters-20261022/prompts.json","docs/qa/tower-monsters-20261022/roster.png","docs/qa/tower-monsters-20261022/serve.mjs","docs/qa/tower-monsters-20261022/sources/abyss-iron-rider-v1.png","docs/qa/tower-monsters-20261022/sources/abyss-sovereign-v1.png","docs/qa/tower-monsters-20261022/sources/ash-hound-v1.png","docs/qa/tower-monsters-20261022/sources/bloodmoon-sovereign-v1.png","docs/qa/tower-monsters-20261022/sources/bloodthorn-bat-v1.png","docs/qa/tower-monsters-20261022/sources/cinder-warden-v1.png","docs/qa/tower-monsters-20261022/sources/eclipse-oracle-v1.png","docs/qa/tower-monsters-20261022/sources/grave-armiger-v1.png","docs/qa/tower-monsters-20261022/sources/grave-raven-v1.png","docs/qa/tower-monsters-20261022/sources/lunar-wraith-v1.png","docs/qa/tower-monsters-20261022/sources/oblivion-executioner-v1.png","docs/qa/tower-monsters-20261022/sources/obsidian-destroyer-v1.png","docs/qa/tower-monsters-20261022/sources/thorn-crowned-elk-v1.png","docs/qa/tower-monsters-20261022/sources/void-herald-v1.png","docs/qa/tower-monsters-20261022/verify-production.mjs","functions/_tower_v3.js","scripts/prepare-production-assets.mjs","shared/monster-original-ip-presentation-v1.mjs","shared/tower-monsters-20261022.mjs","tests/helpers/tower-live-route.mjs","tests/pve-combat-only-v2094.test.mjs","tests/tower-monsters-20261022.test.mjs"],"tests":["tests/tower-monsters-20261022.test.mjs","tests/pve-combat-only-v2094.test.mjs","tests/tower-abyss-settlement-20261022.test.mjs","tests/monster-original-ip-live-20261013.test.mjs","tests/tower-abyss-delivery-20261021.test.mjs","tests/scoped-release-policy-20260923.test.mjs","tests/continuous-monster-texture-reentry-20260927.test.mjs"],"checks":["check:worker"]}
+✔ multi -> single -> multi reloads released monster texture sources and retains valid entries (6.4811ms)
+✔ 36 exact approved source/SD pairs and every hunt alias; excluded SD entries stay byte-equivalent (278.6127ms)
+✔ only content presentation changes; no player nickname/card, request or combat result rewriting (3.4109ms)
+✔ NORMAL and Big Seal keep their names, source, SD and ultimate contract (0.9846ms)
+✔ active weekly raid snapshots, minions and title aliases use current approved art; inactive boss untouched (0.5066ms)
+✔ saved special raid boss/card projections replace old form sprites without changing phase or fighter IDs (0.7284ms)
+✔ server projection and V3 existing atlas are wired, and Madara never loads old body frames (8.483ms)
+✔ SQLite: actual tower route uses continuous server combat, CMS reward and one-floor progress (176.4675ms)
+✔ SQLite: actual tower defeat does not advance or grant a clear reward (37.0424ms)
+✔ PostgreSQL: actual tower route uses continuous server combat, CMS reward and one-floor progress (3296.0052ms)
+✔ PostgreSQL: actual tower defeat does not advance or grant a clear reward (1815.9318ms)
+✔ live upper floors use dedicated Tower replacement sprites without changing CMS identity (26.921ms)
+✔ entry screens remain native while both battle actions use the common continuous overlay (90.1949ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (3.6075ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.781ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.735ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.8746ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.2495ms)
+✔ an unshipped QA Wrangler record does not classify an art release as production infrastructure (18.448ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.7005ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (5.0391ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.4287ms)
+Tower delivery: 20000/20000 files; source PNGs preserved.
+✔ Tower UI images and browser entry ship within the Pages limit; exact sources and authoring files stay in Git (169.5796ms)
+✔ SQLite tower: server deadline, pending recovery, immutable encounter and exactly-once settlement (169.6468ms)
+✔ SQLite tower: defeat and interruption do not grant or reroll; transaction failure is recoverable (46.4104ms)
+✔ PostgreSQL tower: server deadline, pending recovery, immutable encounter and exactly-once settlement (3440.8048ms)
+✔ PostgreSQL tower: defeat and interruption do not grant or reroll; transaction failure is recoverable (1789.3114ms)
+✔ PostgreSQL tower: coin/progression/EXP roll back together and concurrent settlement cannot double-credit (1492.0732ms)
+✔ Tower: lost start/settlement acknowledgements recover the same compressed encounter (54.1896ms)
+✔ Tower: failed secondary grant resumes after the committed core without repeating earlier grants (54.7307ms)
+✔ Tower: an administrative progress change cancels the stale battle without rewards or a stuck active slot (1359.6097ms)
+✔ 14 original Tower assets retain source hashes, actual alpha and clear canvas edges (256.4236ms)
+✔ all 120 floors and both winning/losing decks preserve exact seeded combat before art replacement (3908.9935ms)
+✔ Tower response boundary replaces entry, elites and old pending art without mutating snapshots or players (2.5361ms)
+✔ actual Tower status exposes every replacement and never changes CMS rows or account coins (70.5324ms)
+✔ runtime art ships while originals and Node-only runners stay in Git, with every old sprite retained (112.2096ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8981.5496
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 6186 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 8049.07 KiB / gzip: 1738.24 KiB
+Worker Startup Time: 45 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.97 sec)
+No targets deployed for cnine-card-api-runtime (0.60 sec)
+Current Version ID: 62abecf1-defa-42e8-8292-694a8d942364
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19980/20000)
+Uploading... (19986/20000)
+Uploading... (19993/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 20 files (19980 already uploaded) (3.33 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://67c06079.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2798.70 KiB / gzip: 638.12 KiB
+Worker Startup Time: 43 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.14 sec)
+Deployed cnine-card-clan-draft triggers (1.01 sec)
+  schedule: * * * * *
+Current Version ID: 47110a02-76e3-4679-b0e1-f9b9965996de

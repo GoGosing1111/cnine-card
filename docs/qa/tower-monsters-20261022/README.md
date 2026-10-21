@@ -47,4 +47,10 @@
 
 ## 운영 반영
 
-검수 및 배포 후 실제 배포 식별값과 정적 자산 해시, CMS 재조회 결과를 이 절에 기록한다.
+- 배포 소스: `c702542a5fbc620eaad3bc59edcabcec1f530830`.
+- Pages: `67c06079-7a25-47de-b3e8-67f775aeefd3`, `https://67c06079.cnine-card.pages.dev`.
+- API Worker: `62abecf1-defa-42e8-8292-694a8d942364`; 스케줄러: `47110a02-76e3-4679-b0e1-f9b9965996de`. 둘 다 활성 배포 100%를 재조회했다.
+- 지정 `npm run deploy:production -- --scoped` 경로로 배포했다. 관련 회귀 검사 36개, Worker 문법 검사, 출시 보호 검사 통과. Pages 파일 20,000개 한도 준수.
+- PC/모바일 14회 전투에서 42개 일반·정예·수호자 장면을 기록했다. 14종 전체 요청 성공, 오류 0건, 각 격리 계정의 보상 1회 및 다음 층 진행을 확인했다. `browser-verification.json` 참조.
+- 운영 도메인의 WebP 14개·manifest·표시 모듈까지 16개 해시가 소스와 일치한다. 실제 운영 `tower/config`의 ON·프로토콜과 상태 API 인증 401을 확인했다. `production-verification.json` 참조.
+- 운영 120개 층의 배정·전투력·보상·보스 여부와 몬스터 원본 DB 이름/이미지를 재조회한 해시가 변경 전 `f84a0f1de6826478e2c6ebc067a0f709be1a736682e571912c78a89996011f6e`와 일치했다. 별도 운영 DB 쓰기 및 계정 쓰기 0건.

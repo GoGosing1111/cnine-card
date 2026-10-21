@@ -1,0 +1,138 @@
+{
+  "checkedAt": "2026-10-21T22:26:31.431Z",
+  "source": "c702542a5fbc620eaad3bc59edcabcec1f530830",
+  "pages": {
+    "id": "67c06079-7a25-47de-b3e8-67f775aeefd3",
+    "url": "https://67c06079.cnine-card.pages.dev",
+    "commit": "c702542a5fbc620eaad3bc59edcabcec1f530830"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "9ad0b6b3-80a3-4752-9580-64338b24449e",
+      "source": "wrangler",
+      "strategy": "percentage",
+      "author_email": "wlgks6344@naver.com",
+      "annotations": {
+        "workers/triggered_by": "deployment"
+      },
+      "versions": [
+        {
+          "version_id": "62abecf1-defa-42e8-8292-694a8d942364",
+          "percentage": 100
+        }
+      ],
+      "created_on": "2026-10-21T22:24:46.865572Z"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "8e8b0fb1-129d-4bb4-be2a-0e1ea256dd1b",
+      "source": "wrangler",
+      "strategy": "percentage",
+      "author_email": "wlgks6344@naver.com",
+      "annotations": {
+        "workers/triggered_by": "deployment"
+      },
+      "versions": [
+        {
+          "version_id": "47110a02-76e3-4679-b0e1-f9b9965996de",
+          "percentage": 100
+        }
+      ],
+      "created_on": "2026-10-21T22:26:12.739886Z"
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/ui/tower-monsters-20261022/ash-hound.webp",
+      "bytes": 72736,
+      "sha256": "cd8a79c63a7e7fa9d6d03814445c58bcbfab2e7f6ce95782d7e78ef08d49c4f7"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/cinder-warden.webp",
+      "bytes": 94986,
+      "sha256": "9b29a64f6ab92cc1a06c97bbb55ceffeb41061f114dd29ae71b05eb9b2156abc"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/bloodthorn-bat.webp",
+      "bytes": 89612,
+      "sha256": "21bf527e369091c7e00a241414f1b913cf5bc313a034ac158c8e15c0f2b325a4"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/bloodmoon-sovereign.webp",
+      "bytes": 102900,
+      "sha256": "244d84feb81ca236ea86a80a84836deef29456cd1c35a7ecda601327ba34b503"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/grave-armiger.webp",
+      "bytes": 96184,
+      "sha256": "e2a552a214b40fb128e9a373be1fe2179f653d4b71712e8a1519598263553ec6"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/oblivion-executioner.webp",
+      "bytes": 95368,
+      "sha256": "8958261143a1cec0e9bf5453ad7c5729588646f68571734ebb6c57a2fdff9a46"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/grave-raven.webp",
+      "bytes": 94950,
+      "sha256": "dcf41dd7c16eb7ba179c0b0e8488afc5e39b760d1f203f8a03cf6918e8f0b729"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/thorn-crowned-elk.webp",
+      "bytes": 98972,
+      "sha256": "1db8fd3da223db0b57a41702abaeef27c2ccf1904ba1490acb84cf1d6358bd26"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/lunar-wraith.webp",
+      "bytes": 101332,
+      "sha256": "4811346c83bf0bcd3a9a0e045a5c4e51da581b9d97daa38ee229cbbb0919effe"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/eclipse-oracle.webp",
+      "bytes": 114968,
+      "sha256": "9acc0f7beb348593b683cd599fd77ff4941af06c8709722b3494dd4216e347c1"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/abyss-iron-rider.webp",
+      "bytes": 97576,
+      "sha256": "cf520e2a2ca9145c6e70d13af4cfda3694ef86e5abeafe350657a6d2d5749320"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/void-herald.webp",
+      "bytes": 102276,
+      "sha256": "011df4341d995a2074048d9f27d6699889f2546203f7edc71aa4d80ceb52f0a2"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/obsidian-destroyer.webp",
+      "bytes": 77724,
+      "sha256": "7aa76d539aee4b2b0b9abeaf000ad56f2d4f9880bef4917431b2bdcd9c3ab91c"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/abyss-sovereign.webp",
+      "bytes": 110428,
+      "sha256": "6084623b3bfebdc2adc83acc0050bc73163228ef9901a0c13fea21a9d8fec30f"
+    },
+    {
+      "path": "assets/ui/tower-monsters-20261022/manifest.json",
+      "bytes": 12823,
+      "sha256": "f969af5186dd4ea4b5b7abf1c6d3bc5236d769a524a51d75785c94955e726f3a"
+    },
+    {
+      "path": "shared/tower-monsters-20261022.mjs",
+      "bytes": 2218,
+      "sha256": "e49613b1f99ef84a2a42b877ecaf2399fbd844ed2d524837bf235ed285c1f5b8"
+    }
+  ],
+  "config": {
+    "enabled": true,
+    "protocol": "TOWER_ABYSS_20261022"
+  },
+  "unauthenticated": 401,
+  "cms": {
+    "rows": 120,
+    "hash": "f84a0f1de6826478e2c6ebc067a0f709be1a736682e571912c78a89996011f6e",
+    "unchanged": true
+  },
+  "accountWrites": 0
+}
