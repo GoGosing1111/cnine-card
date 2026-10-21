@@ -1,0 +1,24 @@
+{
+  "recipeId": "534",
+  "code": "V-979",
+  "policy": {
+    "revision": 1,
+    "coinCost": 1000000000000,
+    "masterStarCost": 10000000,
+    "successRate": 1,
+    "materials": [
+      {
+        "itemCode": "MERCENARY_SSS_CARD_SHARD",
+        "quantity": 15
+      }
+    ],
+    "isActive": false,
+    "isPublic": false
+  },
+  "craftLimit": 2,
+  "packStockChanges": 0,
+  "granted": 0,
+  "at": "2026-10-21T04:57:51.529Z",
+  "auditId": "49417",
+  "dryRun": false
+}

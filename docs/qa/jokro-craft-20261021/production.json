@@ -1,0 +1,90 @@
+{
+  "at": "2026-10-21T04:57:57.246Z",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "5acd2d180237b4f509bb64b212413bcb31b89baf8376c3eedcabf9d810a9e00f"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "8f6ee05d686538688cc2299aec74e738fde8df1b34cee67b8841ad7b9a62bdc0"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "f945125a4bdd7bc1c155cb6fa97897d5e1f7ab97d71c3c5da4189893d7da5816"
+    },
+    {
+      "file": "admin/workshop-admin-v1668.js",
+      "status": 200,
+      "sha256": "41a8f43b1b2bd96aaac073272b6e731805af402c4206aaf01a039eb7b31e2bb6"
+    },
+    {
+      "file": "admin/workshop-admin-v1668.css",
+      "status": 200,
+      "sha256": "cde5475be0f2ff180e1f8c49cd17710a46b2d22b30404a38963268bf222c1d49"
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "status": 200,
+      "sha256": "902d8e9d01d7400750f2b781992e60ca060b1e8b269edf3bd1aca6da12287647"
+    },
+    {
+      "file": "css/workshop-v1881.css",
+      "status": 200,
+      "sha256": "56c2f9c254ecee480edb483e756d23dc2591c974fda1670567c38a6edb35908a"
+    },
+    {
+      "file": "shared/mercenary-craft-v1.mjs",
+      "status": 200,
+      "sha256": "9833824af869f4d3c001c8195443539f259e282000b1a4b29930958e223f204e"
+    },
+    {
+      "file": "assets/ui/workshop/jokro-craft-20261021/panel.webp",
+      "status": 200,
+      "sha256": "f9b257b4f33187aba2f06c1e144dafb42a68e3efb961d0df7d6567559742ca0d"
+    }
+  ],
+  "auth": [
+    {
+      "route": "/api/admin/workshop",
+      "status": 401
+    },
+    {
+      "route": "/api/workshop",
+      "status": 401
+    }
+  ],
+  "recipeId": "534",
+  "policy": {
+    "revision": 1,
+    "coinCost": 1000000000000,
+    "masterStarCost": 10000000,
+    "successRate": 1,
+    "materials": [
+      {
+        "itemCode": "MERCENARY_SSS_CARD_SHARD",
+        "quantity": 15
+      }
+    ],
+    "isActive": false,
+    "isPublic": false
+  },
+  "craftStock": {
+    "crafted": 0,
+    "limit": 2,
+    "remaining": 2
+  },
+  "packStock": [
+    {
+      "code": "V-979",
+      "stock_limit": "3",
+      "issued": "0",
+      "revision": "0",
+      "last_token": null
+    }
+  ],
+  "productionCardsGranted": 0
+}
