@@ -1,0 +1,872 @@
+{
+  "createdAt": "2026-10-21T06:03:50.524Z",
+  "scope": "CURRENT_SERVER_IMPLEMENTATION_SIMULATION_NOT_LIVE_PLAYER_WIN_RATE",
+  "approvedResearch": "c5ede5dace2e5ab197bccdb5c0f29e640be5c1ab",
+  "method": {
+    "samplesPerSidePerCell": 128,
+    "levels": [
+      1,
+      3,
+      20
+    ],
+    "gears": [
+      0,
+      100000000
+    ],
+    "cardPowers": [
+      100000,
+      20000000,
+      1000000000
+    ],
+    "decks": {
+      "balanced": [
+        "ATTACK",
+        "DEFENSE",
+        "SPEED",
+        "HP",
+        "ATTACK"
+      ],
+      "attack": [
+        "ATTACK",
+        "ATTACK",
+        "ATTACK",
+        "ATTACK",
+        "HP"
+      ],
+      "defense": [
+        "DEFENSE",
+        "DEFENSE",
+        "DEFENSE",
+        "HP",
+        "SPEED"
+      ],
+      "speed": [
+        "SPEED",
+        "SPEED",
+        "SPEED",
+        "HP",
+        "ATTACK"
+      ]
+    },
+    "seedStart": 970001,
+    "seedMultiplier": 7919,
+    "liveAccounts": false,
+    "liveWrites": false
+  },
+  "total": 18432,
+  "wins": 9077,
+  "winRate": 0.4924587673611111,
+  "allCellsMatch": true,
+  "sources": [
+    {
+      "file": "shared/mercenary-valter-v1.mjs",
+      "sha256": "d450c0f4310847b929a8ad15f69fda4831eb8b82bdbeba00a87bfc528afb3b09"
+    },
+    {
+      "file": "shared/mercenary-helios-v1.mjs",
+      "sha256": "2da72d2b842aa9372d08d7cdd5fc12f2eb62dcb8ee2bdc7155113d653e564fb5"
+    },
+    {
+      "file": "functions/_mercenary_combat.js",
+      "sha256": "7c67301f8e31455158c1eb915371ac1125c7f8cbbf9387719b6e40e24db1238b"
+    },
+    {
+      "file": "functions/_battle_v2_preview.js",
+      "sha256": "9aef496c579b2f3053ba8d2aa21124c52694339bb159cd72fc5d1a63fa7aa990"
+    }
+  ],
+  "rows": [
+    {
+      "level": 1,
+      "gear": 0,
+      "power": 100000,
+      "deck": "balanced",
+      "wins": 137,
+      "losses": 119,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "power": 100000,
+      "deck": "attack",
+      "wins": 120,
+      "losses": 136,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "power": 100000,
+      "deck": "defense",
+      "wins": 134,
+      "losses": 122,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "power": 100000,
+      "deck": "speed",
+      "wins": 135,
+      "losses": 121,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "power": 20000000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "power": 20000000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "power": 20000000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "power": 20000000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "power": 1000000000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "power": 1000000000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "power": 1000000000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "power": 1000000000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "power": 100000,
+      "deck": "balanced",
+      "wins": 126,
+      "losses": 130,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "power": 100000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "power": 100000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "power": 100000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "power": 20000000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "power": 20000000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "power": 20000000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "power": 20000000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "power": 1000000000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "power": 1000000000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "power": 1000000000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "power": 1000000000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 0,
+      "power": 100000,
+      "deck": "balanced",
+      "wins": 121,
+      "losses": 135,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 0,
+      "power": 100000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 0,
+      "power": 100000,
+      "deck": "defense",
+      "wins": 127,
+      "losses": 129,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 0,
+      "power": 100000,
+      "deck": "speed",
+      "wins": 122,
+      "losses": 134,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 0,
+      "power": 20000000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 0,
+      "power": 20000000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 0,
+      "power": 20000000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 0,
+      "power": 20000000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 0,
+      "power": 1000000000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 0,
+      "power": 1000000000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 0,
+      "power": 1000000000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 0,
+      "power": 1000000000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 100000000,
+      "power": 100000,
+      "deck": "balanced",
+      "wins": 123,
+      "losses": 133,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 100000000,
+      "power": 100000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 100000000,
+      "power": 100000,
+      "deck": "defense",
+      "wins": 126,
+      "losses": 130,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 100000000,
+      "power": 100000,
+      "deck": "speed",
+      "wins": 126,
+      "losses": 130,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 100000000,
+      "power": 20000000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 100000000,
+      "power": 20000000,
+      "deck": "attack",
+      "wins": 127,
+      "losses": 129,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 100000000,
+      "power": 20000000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 100000000,
+      "power": 20000000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 100000000,
+      "power": 1000000000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 100000000,
+      "power": 1000000000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 100000000,
+      "power": 1000000000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 3,
+      "gear": 100000000,
+      "power": 1000000000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 0,
+      "power": 100000,
+      "deck": "balanced",
+      "wins": 86,
+      "losses": 170,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 0,
+      "power": 100000,
+      "deck": "attack",
+      "wins": 104,
+      "losses": 152,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 0,
+      "power": 100000,
+      "deck": "defense",
+      "wins": 96,
+      "losses": 160,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 0,
+      "power": 100000,
+      "deck": "speed",
+      "wins": 104,
+      "losses": 152,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 0,
+      "power": 20000000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 0,
+      "power": 20000000,
+      "deck": "attack",
+      "wins": 127,
+      "losses": 129,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 0,
+      "power": 20000000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 0,
+      "power": 20000000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 0,
+      "power": 1000000000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 0,
+      "power": 1000000000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 0,
+      "power": 1000000000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 0,
+      "power": 1000000000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 100000000,
+      "power": 100000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 100000000,
+      "power": 100000,
+      "deck": "attack",
+      "wins": 126,
+      "losses": 130,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 100000000,
+      "power": 100000,
+      "deck": "defense",
+      "wins": 127,
+      "losses": 129,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 100000000,
+      "power": 100000,
+      "deck": "speed",
+      "wins": 127,
+      "losses": 129,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 100000000,
+      "power": 20000000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 100000000,
+      "power": 20000000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 100000000,
+      "power": 20000000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 100000000,
+      "power": 20000000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 100000000,
+      "power": 1000000000,
+      "deck": "balanced",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 100000000,
+      "power": 1000000000,
+      "deck": "attack",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 100000000,
+      "power": 1000000000,
+      "deck": "defense",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    },
+    {
+      "level": 20,
+      "gear": 100000000,
+      "power": 1000000000,
+      "deck": "speed",
+      "wins": 128,
+      "losses": 128,
+      "draws": 0,
+      "total": 256,
+      "matchesApprovedExperiment": true
+    }
+  ]
+}

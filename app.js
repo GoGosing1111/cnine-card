@@ -534,8 +534,8 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.0.0-live',
       'js/project-v-monster-battle-art-adapter-v1.js?v=3.0.0-live',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.0.0-live',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=47-card-cutin-dash-1-3x-jinmu-jokro-v2',
-      'js/battle-v3-live.js?v=3.4.0-card-cutin-1-3x'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?valterParity=20261021-v1&v=47-card-cutin-dash-1-3x-jinmu-jokro-v2',
+      'js/battle-v3-live.js?valterParity=20261021-v1&v=3.4.0-card-cutin-1-3x'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'
   }

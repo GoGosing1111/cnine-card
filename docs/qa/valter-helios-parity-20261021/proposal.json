@@ -1,0 +1,552 @@
+{
+  "status": "RESEARCH_PROPOSAL_ONLY_NOT_APPLIED",
+  "createdAt": "2026-10-21T05:51:19.368Z",
+  "sourceCommit": "c5ede5dace2e5ab197bccdb5c0f29e640be5c1ab",
+  "request": "발테르를 전투력 상승 없이 헬리오스 동급으로 올리는 방안 조사",
+  "recommendation": {
+    "candidate": "linked_armor_12",
+    "description": "기본 전투력 108만 유지, 행동·연계 효과 동급화와 장비를 제외한 고유 방어 패시브 12% 추가",
+    "changes": [
+      {
+        "field": "기본 전투력",
+        "from": 1080000,
+        "to": 1080000
+      },
+      {
+        "field": "자연 행동 속도 배율",
+        "from": 3,
+        "to": 3.12
+      },
+      {
+        "field": "아군 일반 카드 25행동당 추가 행동",
+        "from": 75,
+        "to": 78
+      },
+      {
+        "field": "아군 평균 공격력 대비 연계 공격력 하한(%)",
+        "from": 1760,
+        "to": 1830.4
+      },
+      {
+        "field": "아군 평균 체력 대비 연계 HP 하한(%)",
+        "from": 1120,
+        "to": 1164.8
+      },
+      {
+        "field": "시작 방벽(전열 보너스 60% 포함)",
+        "from": 660,
+        "to": 686.4
+      },
+      {
+        "field": "발테르 고유 방어력 패시브(장비 제외, 성장 적용 전)",
+        "from": 0,
+        "to": 12
+      }
+    ],
+    "unchanged": {
+      "damageReductionPercent": 75,
+      "basicDamageCapScale": 2,
+      "pveSkillDamageRatio": 5.6,
+      "pveSkillCost": 35,
+      "pveSkillCooldownActions": 5,
+      "pvpAreaSkill": false,
+      "immunities": true,
+      "growthPolicy": true,
+      "equipmentPolicy": true,
+      "pvpFormationPowerBonus": true
+    },
+    "rationale": [
+      "헬리오스는 기존 발테르 구조에서 공격 연계·행동·내구가 함께 우세해 차이가 누적된다.",
+      "PVP에서는 두 용병 모두 기본 공격 정책이므로 PVE 궁극기만 강화하면 PVP 열세를 해소하지 못한다.",
+      "피해 경감 75%→75.5% 일괄 상향은 비교 조건 일부에서 발테르 64.1%로 과도해 제외했다.",
+      "고유 방어력 20% 후보도 저레벨·약한 덱에서 59.6%가 되어 12% 후보를 우선한다."
+    ]
+  },
+  "evidence": {
+    "publicReadback": "public-readback.json",
+    "screening": "screening.json",
+    "validation": "validation.json",
+    "armorValidation": "armor-validation.json",
+    "armorCalibration": "armor-calibration.json",
+    "holdout": "holdout.json",
+    "reproducer": "../../../scripts/research/measure-valter-helios-parity-20261021.mjs"
+  },
+  "holdout": {
+    "scope": "ISOLATED_CANONICAL_ENGINE_SIMULATION_NOT_LIVE_PLAYER_WIN_RATE",
+    "method": {
+      "samplesPerSidePerCell": 128,
+      "levels": [
+        1,
+        3,
+        20
+      ],
+      "gears": [
+        0,
+        100000000
+      ],
+      "cardPowers": [
+        100000,
+        20000000,
+        1000000000
+      ],
+      "decks": {
+        "balanced": [
+          "ATTACK",
+          "DEFENSE",
+          "SPEED",
+          "HP",
+          "ATTACK"
+        ],
+        "attack": [
+          "ATTACK",
+          "ATTACK",
+          "ATTACK",
+          "ATTACK",
+          "HP"
+        ],
+        "defense": [
+          "DEFENSE",
+          "DEFENSE",
+          "DEFENSE",
+          "HP",
+          "SPEED"
+        ],
+        "speed": [
+          "SPEED",
+          "SPEED",
+          "SPEED",
+          "HP",
+          "ATTACK"
+        ]
+      },
+      "seedStart": 970001,
+      "seedMultiplier": 7919,
+      "liveAccounts": false,
+      "liveWrites": false
+    },
+    "before": {
+      "wins": 6070,
+      "total": 18432,
+      "winRate": 0.3293185763888889,
+      "conditions": [
+        {
+          "level": 1,
+          "gear": 0,
+          "power": 100000,
+          "wins": 75,
+          "total": 1024,
+          "winRate": 0.0732421875
+        },
+        {
+          "level": 1,
+          "gear": 0,
+          "power": 20000000,
+          "wins": 461,
+          "total": 1024,
+          "winRate": 0.4501953125
+        },
+        {
+          "level": 1,
+          "gear": 0,
+          "power": 1000000000,
+          "wins": 467,
+          "total": 1024,
+          "winRate": 0.4560546875
+        },
+        {
+          "level": 1,
+          "gear": 100000000,
+          "power": 100000,
+          "wins": 331,
+          "total": 1024,
+          "winRate": 0.3232421875
+        },
+        {
+          "level": 1,
+          "gear": 100000000,
+          "power": 20000000,
+          "wins": 204,
+          "total": 1024,
+          "winRate": 0.19921875
+        },
+        {
+          "level": 1,
+          "gear": 100000000,
+          "power": 1000000000,
+          "wins": 461,
+          "total": 1024,
+          "winRate": 0.4501953125
+        },
+        {
+          "level": 3,
+          "gear": 0,
+          "power": 100000,
+          "wins": 111,
+          "total": 1024,
+          "winRate": 0.1083984375
+        },
+        {
+          "level": 3,
+          "gear": 0,
+          "power": 20000000,
+          "wins": 456,
+          "total": 1024,
+          "winRate": 0.4453125
+        },
+        {
+          "level": 3,
+          "gear": 0,
+          "power": 1000000000,
+          "wins": 457,
+          "total": 1024,
+          "winRate": 0.4462890625
+        },
+        {
+          "level": 3,
+          "gear": 100000000,
+          "power": 100000,
+          "wins": 314,
+          "total": 1024,
+          "winRate": 0.306640625
+        },
+        {
+          "level": 3,
+          "gear": 100000000,
+          "power": 20000000,
+          "wins": 155,
+          "total": 1024,
+          "winRate": 0.1513671875
+        },
+        {
+          "level": 3,
+          "gear": 100000000,
+          "power": 1000000000,
+          "wins": 456,
+          "total": 1024,
+          "winRate": 0.4453125
+        },
+        {
+          "level": 20,
+          "gear": 0,
+          "power": 100000,
+          "wins": 137,
+          "total": 1024,
+          "winRate": 0.1337890625
+        },
+        {
+          "level": 20,
+          "gear": 0,
+          "power": 20000000,
+          "wins": 448,
+          "total": 1024,
+          "winRate": 0.4375
+        },
+        {
+          "level": 20,
+          "gear": 0,
+          "power": 1000000000,
+          "wins": 446,
+          "total": 1024,
+          "winRate": 0.435546875
+        },
+        {
+          "level": 20,
+          "gear": 100000000,
+          "power": 100000,
+          "wins": 297,
+          "total": 1024,
+          "winRate": 0.2900390625
+        },
+        {
+          "level": 20,
+          "gear": 100000000,
+          "power": 20000000,
+          "wins": 330,
+          "total": 1024,
+          "winRate": 0.322265625
+        },
+        {
+          "level": 20,
+          "gear": 100000000,
+          "power": 1000000000,
+          "wins": 464,
+          "total": 1024,
+          "winRate": 0.453125
+        }
+      ],
+      "conditionsWithin45To55": 4
+    },
+    "after": {
+      "wins": 9077,
+      "total": 18432,
+      "winRate": 0.4924587673611111,
+      "conditions": [
+        {
+          "level": 1,
+          "gear": 0,
+          "power": 100000,
+          "wins": 526,
+          "total": 1024,
+          "winRate": 0.513671875
+        },
+        {
+          "level": 1,
+          "gear": 0,
+          "power": 20000000,
+          "wins": 512,
+          "total": 1024,
+          "winRate": 0.5
+        },
+        {
+          "level": 1,
+          "gear": 0,
+          "power": 1000000000,
+          "wins": 512,
+          "total": 1024,
+          "winRate": 0.5
+        },
+        {
+          "level": 1,
+          "gear": 100000000,
+          "power": 100000,
+          "wins": 510,
+          "total": 1024,
+          "winRate": 0.498046875
+        },
+        {
+          "level": 1,
+          "gear": 100000000,
+          "power": 20000000,
+          "wins": 512,
+          "total": 1024,
+          "winRate": 0.5
+        },
+        {
+          "level": 1,
+          "gear": 100000000,
+          "power": 1000000000,
+          "wins": 512,
+          "total": 1024,
+          "winRate": 0.5
+        },
+        {
+          "level": 3,
+          "gear": 0,
+          "power": 100000,
+          "wins": 498,
+          "total": 1024,
+          "winRate": 0.486328125
+        },
+        {
+          "level": 3,
+          "gear": 0,
+          "power": 20000000,
+          "wins": 512,
+          "total": 1024,
+          "winRate": 0.5
+        },
+        {
+          "level": 3,
+          "gear": 0,
+          "power": 1000000000,
+          "wins": 512,
+          "total": 1024,
+          "winRate": 0.5
+        },
+        {
+          "level": 3,
+          "gear": 100000000,
+          "power": 100000,
+          "wins": 503,
+          "total": 1024,
+          "winRate": 0.4912109375
+        },
+        {
+          "level": 3,
+          "gear": 100000000,
+          "power": 20000000,
+          "wins": 511,
+          "total": 1024,
+          "winRate": 0.4990234375
+        },
+        {
+          "level": 3,
+          "gear": 100000000,
+          "power": 1000000000,
+          "wins": 512,
+          "total": 1024,
+          "winRate": 0.5
+        },
+        {
+          "level": 20,
+          "gear": 0,
+          "power": 100000,
+          "wins": 390,
+          "total": 1024,
+          "winRate": 0.380859375
+        },
+        {
+          "level": 20,
+          "gear": 0,
+          "power": 20000000,
+          "wins": 511,
+          "total": 1024,
+          "winRate": 0.4990234375
+        },
+        {
+          "level": 20,
+          "gear": 0,
+          "power": 1000000000,
+          "wins": 512,
+          "total": 1024,
+          "winRate": 0.5
+        },
+        {
+          "level": 20,
+          "gear": 100000000,
+          "power": 100000,
+          "wins": 508,
+          "total": 1024,
+          "winRate": 0.49609375
+        },
+        {
+          "level": 20,
+          "gear": 100000000,
+          "power": 20000000,
+          "wins": 512,
+          "total": 1024,
+          "winRate": 0.5
+        },
+        {
+          "level": 20,
+          "gear": 100000000,
+          "power": 1000000000,
+          "wins": 512,
+          "total": 1024,
+          "winRate": 0.5
+        }
+      ],
+      "conditionsWithin45To55": 17
+    },
+    "ordinaryPve": [
+      {
+        "deck": "balanced",
+        "monsterPower": 4000000000,
+        "valterWins": 16,
+        "heliosWins": 16,
+        "total": 16,
+        "damageRatio": 1,
+        "actionDifference": 0
+      },
+      {
+        "deck": "balanced",
+        "monsterPower": 8000000000,
+        "valterWins": 16,
+        "heliosWins": 16,
+        "total": 16,
+        "damageRatio": 1,
+        "actionDifference": 0
+      },
+      {
+        "deck": "balanced",
+        "monsterPower": 16000000000,
+        "valterWins": 16,
+        "heliosWins": 16,
+        "total": 16,
+        "damageRatio": 1,
+        "actionDifference": 0
+      },
+      {
+        "deck": "attack",
+        "monsterPower": 4000000000,
+        "valterWins": 16,
+        "heliosWins": 16,
+        "total": 16,
+        "damageRatio": 1,
+        "actionDifference": 0
+      },
+      {
+        "deck": "attack",
+        "monsterPower": 8000000000,
+        "valterWins": 16,
+        "heliosWins": 16,
+        "total": 16,
+        "damageRatio": 1,
+        "actionDifference": 0
+      },
+      {
+        "deck": "attack",
+        "monsterPower": 16000000000,
+        "valterWins": 16,
+        "heliosWins": 16,
+        "total": 16,
+        "damageRatio": 1,
+        "actionDifference": 0
+      },
+      {
+        "deck": "defense",
+        "monsterPower": 4000000000,
+        "valterWins": 16,
+        "heliosWins": 16,
+        "total": 16,
+        "damageRatio": 1,
+        "actionDifference": 0
+      },
+      {
+        "deck": "defense",
+        "monsterPower": 8000000000,
+        "valterWins": 16,
+        "heliosWins": 16,
+        "total": 16,
+        "damageRatio": 1,
+        "actionDifference": 0
+      },
+      {
+        "deck": "defense",
+        "monsterPower": 16000000000,
+        "valterWins": 16,
+        "heliosWins": 16,
+        "total": 16,
+        "damageRatio": 1,
+        "actionDifference": 0
+      },
+      {
+        "deck": "speed",
+        "monsterPower": 4000000000,
+        "valterWins": 16,
+        "heliosWins": 16,
+        "total": 16,
+        "damageRatio": 1,
+        "actionDifference": 0
+      },
+      {
+        "deck": "speed",
+        "monsterPower": 8000000000,
+        "valterWins": 16,
+        "heliosWins": 16,
+        "total": 16,
+        "damageRatio": 1,
+        "actionDifference": 0
+      },
+      {
+        "deck": "speed",
+        "monsterPower": 16000000000,
+        "valterWins": 16,
+        "heliosWins": 16,
+        "total": 16,
+        "damageRatio": 1,
+        "actionDifference": 0
+      }
+    ]
+  },
+  "limitations": [
+    "운영 계정 승률이 아닌 동일 덱·성장·장비 통제 시뮬레이션이다. 카드별 고유 능력·펫·아바타·마법·장비 세트 효과를 추가하지 않았다.",
+    "성장은 저장된 연구 기준 MERCENARY_GROWTH_REVIEW를 사용했으며 현재 개별 계정이나 운영 성장 설정을 조회하지 않았다.",
+    "18개 조건 중 Lv.20·일반 카드 각각 10만·개인 장비 없음은 후보에서도 발테르 38.1%다. 이 조건까지 완전 동급이라고 확정하지 않는다.",
+    "PVE는 정규 엔진의 일반 단일 보스 샘플이다. 바르센·협동전·듀오·다른 용병 상대 성능을 이 결과로 확정하지 않는다."
+  ],
+  "runtimeFilesChanged": false,
+  "cmsChanged": false,
+  "accountChanged": false,
+  "deployed": false
+}

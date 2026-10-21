@@ -161,7 +161,7 @@
     if(active&&!window.ProjectVPixiBattle){
       battleRendererPromise||=new Promise((resolve,reject)=>{
         const script=document.createElement('script');
-        script.src='project-v-pixi-battle.bundle.js?v=106-combat-flow-jinmu-jokro-v2&heukwol=20260922';
+        script.src='project-v-pixi-battle.bundle.js?valterParity=20261021-v1&v=106-combat-flow-jinmu-jokro-v2&heukwol=20260922';
         script.onload=resolve;
         script.onerror=()=>reject(new Error('PixiJS 전투 번들을 불러오지 못했습니다.'));
         document.head.appendChild(script);
