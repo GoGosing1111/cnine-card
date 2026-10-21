@@ -67,8 +67,10 @@ test('desktop and mobile direct PVE/PVP deployment, replay, ownership, filters a
   await page.goto(origin+'/mercenary-codex/#V-989',{waitUntil:'domcontentloaded'});
   await page.locator('.roster-row').first().waitFor();assert.equal(await page.locator('.roster-row').count(),5);
   if(!mobile){
-   const entry=page.locator('soop-adventure-lobby .mercenary-command-link');await entry.waitFor();
-   assert.equal(await entry.getAttribute('aria-current'),'page');
+   const category=page.locator('soop-adventure-lobby .side-link[data-category="cards"]');await category.waitFor();
+   assert.equal(await page.locator('soop-adventure-lobby .side-link[data-route="mercenaryDex"]').count(),0);
+   assert.equal(await category.getAttribute('aria-current'),'page');await category.click();
+   const entry=page.locator('soop-adventure-lobby .menu-result[data-route="mercenaryDex"]');assert.equal(await entry.count(),1);
    await Promise.all([page.waitForURL(origin+'/mercenary-codex/'),entry.click()]);
    await page.locator('.roster-row').first().waitFor();
    await open('V-989');

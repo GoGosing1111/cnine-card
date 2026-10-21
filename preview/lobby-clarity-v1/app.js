@@ -29,7 +29,7 @@
   let category='pve',activeRoute='home',query='',destinationOpener,lastResults='',guideOpener,menuOpener,fromAll=false;
   const routeCategory=id=>byId.get(id)?.category||categoryOf(id,contract?.routes[id]?.group);
   function highlight(value){document.querySelectorAll('.side-link,.all-menu,.mobile-dock button').forEach(b=>{const dockFallback=b.closest('.mobile-dock')&&!['home','inventory','pve','pvp','favorites'].includes(value),selected=value==='home'?b.hasAttribute('data-home'):dockFallback?b.dataset.category==='all':b.dataset.category===value||b.dataset.route===value;b.toggleAttribute('aria-current',selected);if(selected)b.setAttribute('aria-current','page');});}
-  function setRoute(id){activeRoute=id||'home';if(!$('menu-dialog').open)highlight(['home','mercenaryDex'].includes(activeRoute)?activeRoute:routeCategory(activeRoute));}
+  function setRoute(id){activeRoute=id||'home';if(!$('menu-dialog').open)highlight(activeRoute==='home'?'home':routeCategory(activeRoute));}
   const normalize=value=>value.normalize('NFKC').toLowerCase().replace(/\s+/g,'');
   function renderDirectory(){
     const favoriteState=favorites.snapshot(),saved=new Set(favoriteState.routes);
