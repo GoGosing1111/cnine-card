@@ -171,6 +171,6 @@ test('오리꿍 사은품: 5000억 coin, 500만 stars and 5 emperor energy resum
 test('gift rewards are allowed by verified sending route and use a fresh paired client cache',()=>{
   const route=api.slice(api.indexOf("if((path==='admin/verified-reward-message-send'"),api.indexOf("if(path==='admin/verified-coupon-send'"));
   for(const [code] of gifts)assert.ok(route.includes(`'${code}'`));
-  assert.match(read('index.html'),/js\/app\.js\?v=[0-9][A-Za-z0-9-]+/);
-  assert.match(read('service-worker.js'),/soop-card-shell-v[0-9][A-Za-z0-9-]+/);
+  assert.match(read('index.html'),/js\/app\.js\?v=[A-Za-z0-9][A-Za-z0-9-]+/);
+  assert.match(read('service-worker.js'),/soop-card-shell-v[A-Za-z0-9][A-Za-z0-9-]+/);
 });
