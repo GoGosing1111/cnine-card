@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "cmsExactSaved": true,
+      "hiddenWhilePrepared": true,
+      "selector": true,
+      "offDisabled": true,
+      "readyEnabled": true,
+      "soldOutDisabled": true,
+      "overflow": false
+    },
+    {
+      "label": "mobile",
+      "cmsExactSaved": true,
+      "hiddenWhilePrepared": true,
+      "selector": true,
+      "offDisabled": true,
+      "readyEnabled": true,
+      "soldOutDisabled": true,
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "productionMutations": 0,
+  "visualApproval": "not claimed"
+}

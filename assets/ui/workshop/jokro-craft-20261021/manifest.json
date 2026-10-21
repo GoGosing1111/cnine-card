@@ -1,0 +1,19 @@
+{
+  "tool": "image_gen built-in",
+  "prompt": "prompt.json",
+  "visualApproval": "pending",
+  "files": [
+    {
+      "path": "panel-source.png",
+      "sha256": "b1f0e661896143348c0145893b56687df32b2351d5579e4d3e1fce10c68f721f",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "panel.webp",
+      "sha256": "f9b257b4f33187aba2f06c1e144dafb42a68e3efb961d0df7d6567559742ca0d",
+      "width": 1536,
+      "height": 1024
+    }
+  ]
+}

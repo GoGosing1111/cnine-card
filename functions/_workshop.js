@@ -5,8 +5,8 @@ import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v
 import {WORKSHOP_EXTENSION_CATEGORIES, validateWorkshopExtension} from '../shared/workshop-extension-contract-v1.mjs';
 import {isEquipmentCraft} from '../shared/workshop-equipment-craft.mjs';
 import {decorateEquipmentCraftRecipes,equipmentCraftAccountState,saveEquipmentCraftRecipe,executeEquipmentCraft} from './_workshop_equipment_craft.js';
-import {KAIRON_CRAFT_KEY,isMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
-import {decorateMercenaryCraft,saveKaironCraft,requireKaironCraft,kaironCraftGrantStatements,readKaironCraftStock,kaironCraftStockGuard} from './_mercenary_craft.js';
+import {isMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
+import {decorateMercenaryCraft,saveMercenaryCraft,requireMercenaryCraft,mercenaryCraftGrantStatements,readMercenaryCraftStock,mercenaryCraftStockGuard} from './_mercenary_craft.js';
 import {readJointBody} from './_joint_request.js';
 import {S_BODY_REFUND_KEY,refundSBodyChoiceAttempt} from './_workshop_s_body_refund_20260930.js';
 const forgeSynthesisFilter=FORGE_RUNTIME_RELEASE_ENABLED?' AND NOT EXISTS(SELECT 1 FROM equipment_forge_states_v1 fs WHERE fs.instance_id=x.id AND fs.user_id=x.user_id AND fs.level>0)':'';
@@ -276,7 +276,7 @@ function craftBatchPlan(recipe,body){
 }
 
 async function craft(env,user,body){
-  if(Number(body.recipeId)===-988)throw new Error('카이론 제작 조건 설정 전 · 제작 잠금');
+  if([-988,-979].includes(Number(body.recipeId)))throw new Error('용병 제작 조건 설정 전 · 제작 잠금');
   const recipeId=int(body.recipeId,1,2147483647),requestId=clean(body.requestId,120);
   if(!requestId)throw new Error('제작 요청 번호가 없습니다.');
   const prior=await env.DB.prepare(`SELECT status,result_json,error_message FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
@@ -288,7 +288,7 @@ async function craft(env,user,body){
   if(isEquipmentCraft(recipe))throw new Error('장비제작에서 투입할 +10 장비를 선택하세요.');
   if(!recipe||Number(recipe.is_active)===0||Number(recipe.is_public)===0||Number(recipe.owner_test_only)!==0&&!isOwner(user))throw new Error('현재 제작할 수 없는 레시피입니다.');
   validateWorkshopExtension(recipe);
-  const craftPolicy=isMercenaryCraft(recipe)?await requireKaironCraft(env,recipe):null;
+  const craftPolicy=isMercenaryCraft(recipe)?await requireMercenaryCraft(env,recipe):null;
   if(recipe.output_type==='VEHICLE'&&await env.DB.prepare('SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?').bind(user.id,int(recipe.output_ref,1)).first())throw new Error('이미 보유한 차량입니다.');
   const {attempts,payment,materials}=craftBatchPlan(recipe,body),state=await userWorkshopState(env,user),missing=materials.filter(material=>Number(state.inventory[material.item_code]?.quantity||0)<material.quantity+(material.item_code==='MASTER_STAR'?payment.stars:0));
   if(missing.length)throw new Error(`제작 재료가 부족합니다: ${missing.map(material=>material.item_name||material.item_code).join(', ')}`);
@@ -301,7 +301,7 @@ async function craft(env,user,body){
   for(let i=0;i<attempts;i++)if(Math.random()*100<recipe.success_rate)successCount++;
   const guardId=`WORKSHOP:${user.id}:${requestId}`,success=successCount>0,outputQuantity=successCount*recipe.output_quantity;
   const result={ok:true,requestId,recipeId:recipe.id,recipeName:recipe.name,category:recipe.category,attempts,successCount,failureCount:attempts-successCount,successRate:recipe.success_rate,success,paymentType:payment.type,coinSpent:payment.coin,masterStarSpent:payment.stars,cardShardSpent:payment.shards,output:success?{type:recipe.output_type,ref:recipe.output_ref,name:recipe.output_name,image:recipe.output_image,rarity:recipe.output_rarity,quantity:outputQuantity}:null};
-  const guard=env.DB.prepare(`INSERT INTO ${GUARD_TABLE}(guard_id,user_id,recipe_id,verified) SELECT ?,?,?,CASE WHEN EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=? AND card_shards>=?) AND (?=0 OR EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?)) AND NOT EXISTS(SELECT 1 FROM ${MATERIAL_TABLE} m LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=m.item_code WHERE m.recipe_id=? AND COALESCE(ui.quantity,0)<m.quantity*?+CASE WHEN m.item_code='MASTER_STAR' THEN ? ELSE 0 END) AND (?<>'VEHICLE' OR NOT EXISTS(SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?)) AND (?='' OR EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)) THEN 1 ELSE 0 END`).bind(guardId,user.id,recipe.id,user.id,payment.coin,payment.shards,payment.stars,user.id,payment.stars,user.id,recipe.id,attempts,payment.stars,recipe.output_type,user.id,int(recipe.output_ref,0),craftPolicy??'',KAIRON_CRAFT_KEY,craftPolicy??'');
+  const guard=env.DB.prepare(`INSERT INTO ${GUARD_TABLE}(guard_id,user_id,recipe_id,verified) SELECT ?,?,?,CASE WHEN EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=? AND card_shards>=?) AND (?=0 OR EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?)) AND NOT EXISTS(SELECT 1 FROM ${MATERIAL_TABLE} m LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=m.item_code WHERE m.recipe_id=? AND COALESCE(ui.quantity,0)<m.quantity*?+CASE WHEN m.item_code='MASTER_STAR' THEN ? ELSE 0 END) AND (?<>'VEHICLE' OR NOT EXISTS(SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?)) AND (?='' OR EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)) THEN 1 ELSE 0 END`).bind(guardId,user.id,recipe.id,user.id,payment.coin,payment.shards,payment.stars,user.id,payment.stars,user.id,recipe.id,attempts,payment.stars,recipe.output_type,user.id,int(recipe.output_ref,0),craftPolicy?.value??'',craftPolicy?.definition.key??'',craftPolicy?.value??'');
   const verified=`EXISTS(SELECT 1 FROM ${GUARD_TABLE} WHERE guard_id=? AND verified=1)`;
   const statements=[];
   if(env.DB?.dialect==='postgres'){
@@ -309,15 +309,15 @@ async function craft(env,user,body){
     const inventoryCodes=[...new Set([...(payment.stars>0?['MASTER_STAR']:[]),...recipe.materials.map(material=>material.item_code)])];
     if(inventoryCodes.length){const marks=inventoryCodes.map(()=>'?').join(',');statements.push(env.DB.prepare(`SELECT item_code FROM cnine_user_inventory WHERE user_id=? AND item_code IN (${marks}) FOR UPDATE`).bind(user.id,...inventoryCodes))}
   }
-  // Serialize Kairon attempts across accounts, then recheck the last slot inside
+  // Serialize each mercenary's attempts across accounts, rechecking its own cap
   // the same transaction before any material/currency deduction or grant.
-  if(craftPolicy&&env.DB.dialect==='postgres')statements.push(env.DB.prepare('SELECT key FROM app_meta WHERE key=? FOR UPDATE').bind(KAIRON_CRAFT_KEY));
+  if(craftPolicy&&env.DB.dialect==='postgres')statements.push(env.DB.prepare('SELECT key FROM app_meta WHERE key=? FOR UPDATE').bind(craftPolicy.definition.key));
   statements.push(guard);
-  if(craftPolicy)statements.push(kaironCraftStockGuard(env.DB,guardId));
+  if(craftPolicy)statements.push(mercenaryCraftStockGuard(env.DB,guardId,craftPolicy.definition));
   if(payment.coin>0||payment.shards>0)statements.push(env.DB.prepare(`UPDATE users SET coin=coin-?,card_shards=card_shards-? WHERE id=? AND coin>=? AND card_shards>=? AND ${verified}`).bind(payment.coin,payment.shards,user.id,payment.coin,payment.shards,guardId));
   if(payment.stars>0)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND ${verified}`).bind(payment.stars,payment.stars,user.id,guardId));
   for(const material of materials)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND ${verified}`).bind(material.quantity,material.quantity,user.id,material.item_code,guardId));
-  if(success&&isMercenaryCraft(recipe))statements.push(...kaironCraftGrantStatements(env.DB,{userId:user.id,requestId,guardId}));
+  if(success&&craftPolicy)statements.push(...mercenaryCraftGrantStatements(env.DB,{userId:user.id,requestId,guardId},craftPolicy.definition));
   if(success&&recipe.output_type==='VEHICLE')statements.push(env.DB.prepare(`INSERT INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) SELECT ?,CAST(? AS INTEGER),'WORKSHOP',? WHERE ${verified}`).bind(user.id,recipe.output_ref,requestId,guardId));
   if(success&&recipe.output_type==='EQUIPMENT')statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,CAST(? AS INTEGER),'WORKSHOP',?,? WHERE ${verified}`).bind(user.id,recipe.output_ref,requestId,requestId,guardId));
   if(success&&recipe.output_type==='INVENTORY_ITEM')statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ${verified} ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,recipe.output_ref,outputQuantity,outputQuantity,guardId));
@@ -337,8 +337,8 @@ async function craft(env,user,body){
   const checked=await env.DB.prepare(`SELECT verified FROM ${GUARD_TABLE} WHERE guard_id=?`).bind(guardId).first();
   await env.DB.prepare(`DELETE FROM ${GUARD_TABLE} WHERE guard_id=?`).bind(guardId).run();
   if(Number(checked?.verified)!==1){
-    const soldOut=craftPolicy&&(await readKaironCraftStock(env)).soldOut;
-    const message=soldOut?'카이론 한정 제작 수량이 소진되었습니다. 재료와 재화는 소모되지 않았습니다.':'재료 또는 재화가 변경되어 제작이 취소되었습니다. 다시 확인하세요.';
+    const soldOut=craftPolicy&&(await readMercenaryCraftStock(env,craftPolicy.definition)).soldOut;
+    const message=soldOut?`${craftPolicy.definition.art.name} 한정 제작 수량이 소진되었습니다. 재료와 재화는 소모되지 않았습니다.`:'제작 조건 또는 재화가 변경되어 제작이 취소되었습니다. 다시 확인하세요.';
     await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(message,requestId,user.id).run();throw new Error(message);
   }
   return {...result,state:await userWorkshopState(env,user)};
@@ -418,13 +418,13 @@ async function adminSnapshot(env,user){
 function cleanMaterial(raw,index){const itemCode=code(raw.itemCode||raw.item_code,100),quantity=int(raw.quantity,1,100000000,1);if(!itemCode)throw new Error(`${index+1}번째 재료 코드를 입력하세요.`);return {itemCode,quantity,sortOrder:int(raw.sortOrder??raw.sort_order,-100000,100000,(index+1)*10)}}
 
 async function saveRecipe(env,admin,raw,deps){
-  if(isMercenaryCraft(raw))return saveKaironCraft(env,admin,raw,deps);
+  if(isMercenaryCraft(raw))return saveMercenaryCraft(env,admin,raw,deps);
   validateWorkshopExtension(raw);
   if(isEquipmentCraft(raw))return saveEquipmentCraftRecipe(env,admin,raw);
   const id=int(raw.id,0,2147483647),requestedRecipeCode=code(raw.code),name=clean(raw.name,80);
   let before=null;
   if(id){before=await env.DB.prepare(`SELECT * FROM ${RECIPE_TABLE} WHERE id=?`).bind(id).first();if(!before)throw new Error('수정할 레시피를 찾을 수 없습니다.')}
-  if(isMercenaryCraft(before))throw new Error('카이론 전용 제작 설정을 사용하세요.');
+  if(isMercenaryCraft(before))throw new Error('용병 전용 제작 설정을 사용하세요.');
   if(isEquipmentCraft(before))throw new Error('장비제작 조합식의 제작 종류는 변경할 수 없습니다.');
   const editingCanonical=String(before?.code||'').toUpperCase()===MYSTIC_ENERGY_RECIPE_CODE;
   const recipeCode=editingCanonical?MYSTIC_ENERGY_RECIPE_CODE:requestedRecipeCode;

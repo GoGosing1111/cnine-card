@@ -240,7 +240,7 @@
       <button type="button" data-ws-section="BATTLE_SUIT_CRAFT" class="${workshopSection === 'BATTLE_SUIT_CRAFT' ? 'active' : ''}"><i>04</i><span><b>배틀슈트 제작</b><small>슈트 코어 · 코인 · 마스터의 별</small></span></button>
       <button type="button" data-ws-section="SUIT_CORE_SYNTHESIS" class="${workshopSection === 'SUIT_CORE_SYNTHESIS' ? 'active' : ''}"><i>05</i><span><b>슈트코어 합성</b><small>코어 승급 레시피</small></span></button>
       <button type="button" data-ws-section="ITEM_SYNTHESIS" class="${workshopSection === 'ITEM_SYNTHESIS' ? 'active' : ''}"><i>06</i><span><b>장비제작</b><small>+10 장비 · 누적 천장</small></span></button>
-      <button type="button" data-ws-section="MERCENARY_CRAFT" class="${workshopSection === 'MERCENARY_CRAFT' ? 'active' : ''}"><i>07</i><span><b>용병 제작</b><small>카이론 · SSS 리미티드</small></span></button>
+      <button type="button" data-ws-section="MERCENARY_CRAFT" class="${workshopSection === 'MERCENARY_CRAFT' ? 'active' : ''}"><i>07</i><span><b>용병 제작</b><small>SSS 리미티드 한정 제작</small></span></button>
     </nav>`;
   }
 
@@ -426,6 +426,19 @@
     return `<section class="ws-kairon-forge" aria-label="카이론 용병 제작"><div class="ws-kairon-art"><img src="/assets/ui/project-v/mercenaries/kairon-20261014/source-art.png" alt="쌍우지를 사격하는 장발의 카이론"><span>SSS <small>LIMITED</small></span></div><div class="ws-kairon-contract"><small>CRAFT EXCLUSIVE · 흑탄의 집행관</small><h2>카이론</h2><p class="ws-kairon-lead">두 개의 총구. 하나의 섬멸 명령.</p><div class="ws-kairon-facts"><span>제작 전용</span><span>팩 획득 불가</span><span>전투력 1,347,840</span></div><p class="ws-kairon-stock" aria-live="polite">${stockText}</p><p>진무와 동일한 최강급 전투 밸런스.<br>직선 일제사격과 양자 탄도 폭쇄로 적진을 제압합니다.</p><div class="ws-kairon-condition"><b>${soldOut?'한정 제작 종료':locked?'제작 잠금':'계약 제작 조건'}</b><span>${rate==null?'성공 확률 미설정':`성공 확률 ${rate}%`}</span></div>${locked?`<p class="ws-kairon-lock">${esc(recipe?.lockReason||(!stock?'제작 수량을 확인한 뒤 다시 시도해 주세요.':'제작 재료·수량·비용·성공 확률을 준비 중입니다. 조건 설정이 완료되면 제작할 수 있습니다.'))}</p>`:window.WorkshopRecipes.costRows(info.rows)}<button id="wsMaterialCraft" type="button" class="ws76-primary" ${workshopBusy||!recovering&&(locked||!info?.ready)?'disabled':''}>${workshopBusy?'제작 결과 확인 중':recovering?'이전 제작 결과 확인':soldOut?'한정 수량 소진':locked?'제작 잠금':info.ready?'카이론 제작':'재료 또는 재화 부족'}</button><small class="ws-kairon-note">${locked?'제작 잠금 중에는 재료와 재화가 소모되지 않습니다.':'성공·실패 모두 표시된 재료와 비용을 소모합니다. 성공 시 카이론 1장을 획득하며, 남은 수량이 줄어듭니다.'}</small></div></section>`;
   }
 
+
+  function jokroCraftPanel(recipe) {
+    const stock=recipe.craftStock,info=materialCraftInfo(recipe),soldOut=stock?.soldOut===true;
+    const locked=recipe.craftLocked||!recipe.is_active||!stock,recovering=info.recovering;
+    const readyCosts=recipe.coin_cost!==null&&recipe.master_star_cost!==null&&recipe.materials.every(m=>m.quantity!==null);
+    return `<section class="ws-kairon-forge ws-jokro-forge" aria-label="족로 용병 제작"><div class="ws-kairon-art"><img src="/${esc(recipe.output_image)}" alt="족로 승인 원화"><span>SSS <small>LIMITED</small></span></div><div class="ws-kairon-contract"><small>EMERALD DRAGON · 청룡의 발도</small><h2>족로</h2><p class="ws-kairon-lead">청룡의 기운을 깨우는 한 번의 발도.</p><p class="ws-jokro-facts">SSS 리미티드 · 전투력 ${fmt(recipe.output_pve)}<br>제작 한도는 팩 한도와 별도로 집계됩니다.</p><p class="ws-kairon-stock" aria-live="polite">${stock?`<span>서버 전체 ${fmt(stock.limit)}장 제작 한정</span><strong>남은 ${fmt(stock.remaining)}장 <small>/ ${fmt(stock.limit)}장</small></strong>`:'<span>남은 수량 확인 중</span>'}</p><div class="ws-kairon-condition"><b>${soldOut?'한정 제작 종료':locked?'제작 준비 · OFF':'1회 제작 조건'}</b><span>${recipe.success_rate==null?'성공 확률 미설정':`성공 확률 ${recipe.success_rate}%`}</span></div>${readyCosts?window.WorkshopRecipes.costRows(info.rows):''}${locked?`<p class="ws-kairon-lock">${esc(recipe.lockReason||'제작 준비 중')}</p>`:''}<button id="wsMaterialCraft" type="button" class="ws76-primary" ${workshopBusy||!recovering&&(locked||!info.ready)?'disabled':''}>${workshopBusy?'제작 결과 확인 중':recovering?'이전 제작 결과 확인':soldOut?'한정 수량 소진':locked?'제작 준비 중':info.ready?'족로 제작':'재료 또는 재화 부족'}</button><small class="ws-kairon-note">성공·실패 모두 표시된 재료와 비용을 소모합니다.<br>성공 시 족로 1장 획득 · 제작 성공분만 한도에서 차감됩니다.${locked?'<br>현재 제작 OFF · 재료와 재화가 소모되지 않습니다.':''}</small></div></section>`;
+  }
+
+  function mercenaryCraftSelector(recipes,selectedId) {
+    if(recipes.length<2)return '';
+    return `<nav class="ws-mercenary-select" aria-label="제작할 용병 선택">${recipes.map(r=>`<button type="button" data-material-recipe="${r.id}" aria-pressed="${Number(r.id)===selectedId}"><img src="/${esc(r.output_image)}" alt=""><span><b>${esc(r.output_name)}</b><small>${r.craftStock?.soldOut?'한정 수량 소진':r.craftLocked?'제작 OFF':`남은 ${fmt(r.craftStock?.remaining)} / ${fmt(r.craftStock?.limit)}장`}</small></span></button>`).join('')}</nav>`;
+  }
+
   function materialCraftPanel() {
     const category = ['SUIT_CORE_SYNTHESIS', 'ITEM_SYNTHESIS', 'MERCENARY_CRAFT'].includes(workshopSection) ? workshopSection : 'MATERIAL_CRAFT';
     const all = (workshopState?.recipes || []).filter(row => row.category === category);
@@ -433,7 +446,7 @@
     const [pendingId, pendingPayment] = String(pending?.target || '').split(':');
     if (pending && ['COIN', 'MASTER_STAR'].includes(pendingPayment)) payment = pendingPayment;
     const recipe = recipes.find(row => String(row.id) === pendingId) || recipes.find(row => Number(row.id) === selectedMaterialRecipe) || recipes[0];
-    if (category === 'MERCENARY_CRAFT') { if(recipe)selectedMaterialRecipe=Number(recipe.id);return kaironCraftPanel(recipe); }
+    if (category === 'MERCENARY_CRAFT') { if(recipe)selectedMaterialRecipe=Number(recipe.id);return mercenaryCraftSelector(recipes,selectedMaterialRecipe)+(recipe?.code==='WORKSHOP_JOKRO'?jokroCraftPanel(recipe):kaironCraftPanel(recipe)); }
     if (!recipe) {
       if (all.length) return noRecipeMatch();
       const core = category === 'SUIT_CORE_SYNTHESIS';

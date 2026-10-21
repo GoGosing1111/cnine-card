@@ -1,0 +1,6 @@
+{
+  "tool": "image_gen built-in",
+  "intent": "generate",
+  "prompt": "Use case: stylized-concept. Asset type: production game UI panel texture for Jokro SSS limited mercenary crafting. Create ONE single straight rectangular front-facing panel, landscape 1536x1024. A premium dark gunmetal and black lacquer equipment forge interface, precise rectangular symmetrical metal rim, restrained emerald green illuminated inner edge, subtle etched East Asian dragon scale motifs concentrated in four corners. Center 80 percent nearly black, clean and unobstructed for readable live DOM text. Fine brushed metal material, believable bevels, four carefully aligned engraved corner fasteners. High-end collectible RPG interface with modern tactical metal construction, not historical furniture. Completely flat orthographic front view, no perspective, no distortion or curved sides. Fill the canvas with the panel edge to edge, no outside margins. No lettering, no numbers, no logo, no character, no sword, no badge, no extra subdivisions or objects. Border narrow (about 4% of image dimensions), centered broad dark surface. A tiny tasteful emerald aura in the upper corners only; no bright center glow.",
+  "visualApproval": "not requested; functional preparation only"
+}
