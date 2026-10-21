@@ -16,7 +16,7 @@ export async function configureSealDragonHard(client,{commit=false,expectedSetti
   const roundBefore=(await client.query('SELECT * FROM seal_battle_events ORDER BY id DESC LIMIT 1')).rows[0];
   const changed=await client.query("UPDATE app_meta SET value=$1,updated_at=sqlite_now() WHERE key='seal_battle_settings_v1' RETURNING value",[JSON.stringify(next)]);assert.equal(changed.rows.length,1);
   const owner=(await client.query("SELECT id FROM users WHERE role='OWNER' AND status='ACTIVE' ORDER BY id LIMIT 1")).rows[0];assert(owner);
-  const receipt={status:'COMPLETED',operationKey:OPERATION_KEY,format:'SEALS_BOSS',bossStage:BOSS_STAGE,
+  const receipt={status:'COMPLETED',actor:'CODEX_OPERATIONS',operationKey:OPERATION_KEY,format:'SEALS_BOSS',bossStage:BOSS_STAGE,
    scope:'NEXT_ROUND_ONLY',roundUnchanged:true,rewardsUnchanged:true,roundStarted:false,at:new Date().toISOString()};
   const audit=(await client.query('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,$2,$3,$4,$5,$6) RETURNING id',
    [owner.id,'SEAL_DRAGON_DIFFICULTY','SEAL_BATTLE','settings',JSON.stringify(before),JSON.stringify({...receipt,authorization:'세 봉인 해제 → 보스 본체전 → 공동 완료 보상 작업해. 보스는 새로 리소스 만들고 용으로 하나 만들어. 난이도 높게해놔'})])).rows[0];assert(audit);receipt.adminLogId=String(audit.id);

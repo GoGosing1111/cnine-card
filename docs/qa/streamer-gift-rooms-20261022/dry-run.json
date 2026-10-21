@@ -1,0 +1,25 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:reversecall-streamer-gift:joeun-bongsoon:20261022:v1",
+  "recipientCount": 63,
+  "totalBoxes": 118,
+  "twoBoxes": 55,
+  "oneBox": 8,
+  "roomCounts": {
+    "조은이방": 57,
+    "봉순이방": 61
+  },
+  "inventoryLogs": 63,
+  "missing": 0,
+  "duplicates": 0,
+  "auditId": "49635",
+  "completedAt": "2026-10-21T17:37:22.125Z",
+  "dryRun": true,
+  "replayed": false,
+  "rollbackVerified": true,
+  "commit": "aa575ed416416c80210f3e5903bbbd6a1e193329",
+  "sourceSha256": "9b1e8a5a506cfbd1cf711b50fc5aaf2b90d9f0a573b6d43b5b7d7f3c0b15701c",
+  "actor": "CODEX_OPERATIONS",
+  "planHash": "bb6e2308b7d1b3a2d05e8068607bd6683d821a70f5f3b743c7ff50306cecb320",
+  "receiptSha256": "795204bfbcf779d33ea4d66583559b95148b8159a824d49120ddea5d252f8d86"
+}

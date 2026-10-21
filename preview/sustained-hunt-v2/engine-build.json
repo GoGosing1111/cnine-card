@@ -1,13 +1,13 @@
 {
   "date": "2026-09-26",
   "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
-  "sourceRevision": "b9171c91a874457f0eebded608526baa48ad3e9e",
+  "sourceRevision": "e74ea588ad8d841da203befe800c93d2341e5fc7",
   "pixi": "8.20.0",
   "gsap": "3.13.0",
   "serverHash": "d3cfa5d3898a53211c59f8aa0943424300e629fe37570eb1f23fcbe70e12bf6d",
   "engineHash": "11acd1010073ef7c94058595eb704fe121d98a69ec53d92a714eec5a0922ac5e",
   "playbackHash": "75ec004185157ab6617322d37905116404623d7dcfeb3bb83ccbc1c3dc984693",
-  "bundleHash": "c747f6cdad3f8b59ad833daca44b9ea430148fbb6c3bf118d2708c9593b14c04",
+  "bundleHash": "253891f72caeb6248c821bd23fb6f2e1d60332ecc3c7634a898b708ad5c3af7b",
   "commonInputs": [
     "preview/project-v-v3/source/battle/EquipmentSetFX.js",
     "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",

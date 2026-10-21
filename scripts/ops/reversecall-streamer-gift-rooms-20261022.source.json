@@ -1,0 +1,566 @@
+{
+  "operationKey": "ops:reversecall-streamer-gift:joeun-bongsoon:20261022:v1",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "authorization": "사용자 제공 두 방 공통 55명 및 단독 8명. 방 1개당 리버스콜 스트리머 선물 1개 지급.",
+  "recipients": [
+    {
+      "order": 1,
+      "inputNickname": "도댕",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 2,
+      "inputNickname": "암살자",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 3,
+      "inputNickname": "비니",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 4,
+      "inputNickname": "족단",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 5,
+      "inputNickname": "여우",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 6,
+      "inputNickname": "폭군#",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 7,
+      "inputNickname": "굳건창수",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 8,
+      "inputNickname": "비_니",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 9,
+      "inputNickname": "랄네미탱탱",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 10,
+      "inputNickname": "혜정",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 11,
+      "inputNickname": "응맨",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 12,
+      "inputNickname": "라피e",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 13,
+      "inputNickname": "타몽",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 14,
+      "inputNickname": "관종이얌",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 15,
+      "inputNickname": "예지앙",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 16,
+      "inputNickname": "레드클라우드",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 17,
+      "inputNickname": "고급소주",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 18,
+      "inputNickname": "깅더듬",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 19,
+      "inputNickname": "모래",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 20,
+      "inputNickname": "˚쟁이。",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 21,
+      "inputNickname": "족구선생",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 22,
+      "inputNickname": "옹가망함1",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 23,
+      "inputNickname": "더듬이구",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 24,
+      "inputNickname": "좋은하루",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 25,
+      "inputNickname": "zkzk9999",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 26,
+      "inputNickname": "베베킹",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 27,
+      "inputNickname": "현하루",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 28,
+      "inputNickname": "공단",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 29,
+      "inputNickname": "의지",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 30,
+      "inputNickname": "세라네꼬라지",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 31,
+      "inputNickname": "학벌",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 32,
+      "inputNickname": "박사",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 33,
+      "inputNickname": "음주플레이어",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 34,
+      "inputNickname": "Mild7",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 35,
+      "inputNickname": "오랜만에",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 36,
+      "inputNickname": "커피먹는철구",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 37,
+      "inputNickname": "남수댕ㅗ",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 38,
+      "inputNickname": "쑤댕",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 39,
+      "inputNickname": "간장왕대게찜",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 40,
+      "inputNickname": "센텀신사",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 41,
+      "inputNickname": "블랙캐슬",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 42,
+      "inputNickname": "쁴로리",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 43,
+      "inputNickname": "0수표",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 44,
+      "inputNickname": "씨나인택갓",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 45,
+      "inputNickname": "핫시",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 46,
+      "inputNickname": "단정한밤",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 47,
+      "inputNickname": "유나이은",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 48,
+      "inputNickname": "오일바른가지",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 49,
+      "inputNickname": "제롬",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 50,
+      "inputNickname": "조은홧팅",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 51,
+      "inputNickname": "[C9]족쪽이",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 52,
+      "inputNickname": "망순이ෆ",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 53,
+      "inputNickname": "나무늘봉순",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 54,
+      "inputNickname": "여봉상",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 55,
+      "inputNickname": "심심이",
+      "rooms": [
+        "조은이방",
+        "봉순이방"
+      ],
+      "amount": 2
+    },
+    {
+      "order": 56,
+      "inputNickname": "찡찡",
+      "rooms": [
+        "조은이방"
+      ],
+      "amount": 1
+    },
+    {
+      "order": 57,
+      "inputNickname": "Veil",
+      "rooms": [
+        "조은이방"
+      ],
+      "amount": 1
+    },
+    {
+      "order": 58,
+      "inputNickname": "리이렐",
+      "rooms": [
+        "봉순이방"
+      ],
+      "amount": 1
+    },
+    {
+      "order": 59,
+      "inputNickname": "화성가뿌자",
+      "rooms": [
+        "봉순이방"
+      ],
+      "amount": 1
+    },
+    {
+      "order": 60,
+      "inputNickname": "망순이네봉빡이",
+      "rooms": [
+        "봉순이방"
+      ],
+      "amount": 1
+    },
+    {
+      "order": 61,
+      "inputNickname": "대저동토마토",
+      "rooms": [
+        "봉순이방"
+      ],
+      "amount": 1
+    },
+    {
+      "order": 62,
+      "inputNickname": "숭구릭",
+      "rooms": [
+        "봉순이방"
+      ],
+      "amount": 1
+    },
+    {
+      "order": 63,
+      "inputNickname": "깡총",
+      "rooms": [
+        "봉순이방"
+      ],
+      "amount": 1
+    }
+  ]
+}

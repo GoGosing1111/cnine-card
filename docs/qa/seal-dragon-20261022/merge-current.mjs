@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const conflict=/^<<<<<<< HEAD\n([\s\S]*?)^=======\n([\s\S]*?)^>>>>>>> origin\/main\n/gm;
+fs.writeFileSync('AGENTS.md',read('AGENTS.md').replace(conflict,(_,ours,theirs)=>ours+'\n'+theirs));
+let sw=read('service-worker.js').replace(conflict,(_,ours,theirs)=>theirs);
+sw=sw.replace(/(const SHELL_CACHE\s*=\s*['"])([^'"]+)(['"])/,(_,a,b,c)=>a+(b.endsWith('-seal-dragon-20261022-v1')?b:b+'-seal-dragon-20261022-v1')+c);
+fs.writeFileSync('service-worker.js',sw);
+const cache=sw.match(/const SHELL_CACHE\s*=\s*['"]([^'"]+)/)[1];
+let html=read('index.html').replace(conflict,(_,ours,theirs)=>theirs);
+html=html.replace(/(src="js\/app\.js\?v=)[^&"]+/,(_,prefix)=>prefix+cache);
+fs.writeFileSync('index.html',html);
+console.log({cache,unresolved:[...html.matchAll(/^(?:<<<<<<<|=======|>>>>>>>)/gm)].length});
