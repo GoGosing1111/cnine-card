@@ -1,0 +1,1206 @@
+{
+  "checkedAt": "2026-10-21T22:15:57.280Z",
+  "hash": "f84a0f1de6826478e2c6ebc067a0f709be1a736682e571912c78a89996011f6e",
+  "rows": [
+    {
+      "start_floor": "1",
+      "end_floor": "1",
+      "monster_id": "17",
+      "power_override": "10000",
+      "reward_coin": "100000000",
+      "is_boss": "0",
+      "name": "위장악성",
+      "image_url": "assets\\tower\\3.jpg"
+    },
+    {
+      "start_floor": "2",
+      "end_floor": "2",
+      "monster_id": "17",
+      "power_override": "11300",
+      "reward_coin": "100000000",
+      "is_boss": "0",
+      "name": "위장악성",
+      "image_url": "assets\\tower\\3.jpg"
+    },
+    {
+      "start_floor": "3",
+      "end_floor": "3",
+      "monster_id": "17",
+      "power_override": "12800",
+      "reward_coin": "100000000",
+      "is_boss": "0",
+      "name": "위장악성",
+      "image_url": "assets\\tower\\3.jpg"
+    },
+    {
+      "start_floor": "4",
+      "end_floor": "4",
+      "monster_id": "17",
+      "power_override": "14400",
+      "reward_coin": "100000000",
+      "is_boss": "0",
+      "name": "위장악성",
+      "image_url": "assets\\tower\\3.jpg"
+    },
+    {
+      "start_floor": "5",
+      "end_floor": "5",
+      "monster_id": "17",
+      "power_override": "16300",
+      "reward_coin": "100000000",
+      "is_boss": "0",
+      "name": "위장악성",
+      "image_url": "assets\\tower\\3.jpg"
+    },
+    {
+      "start_floor": "6",
+      "end_floor": "6",
+      "monster_id": "17",
+      "power_override": "18400",
+      "reward_coin": "100000000",
+      "is_boss": "0",
+      "name": "위장악성",
+      "image_url": "assets\\tower\\3.jpg"
+    },
+    {
+      "start_floor": "7",
+      "end_floor": "7",
+      "monster_id": "17",
+      "power_override": "20800",
+      "reward_coin": "100000000",
+      "is_boss": "0",
+      "name": "위장악성",
+      "image_url": "assets\\tower\\3.jpg"
+    },
+    {
+      "start_floor": "8",
+      "end_floor": "8",
+      "monster_id": "17",
+      "power_override": "23500",
+      "reward_coin": "100000000",
+      "is_boss": "0",
+      "name": "위장악성",
+      "image_url": "assets\\tower\\3.jpg"
+    },
+    {
+      "start_floor": "9",
+      "end_floor": "9",
+      "monster_id": "17",
+      "power_override": "26600",
+      "reward_coin": "100000000",
+      "is_boss": "0",
+      "name": "위장악성",
+      "image_url": "assets\\tower\\3.jpg"
+    },
+    {
+      "start_floor": "10",
+      "end_floor": "10",
+      "monster_id": "18",
+      "power_override": "30000",
+      "reward_coin": "500000000",
+      "is_boss": "1",
+      "name": "이그리트",
+      "image_url": "assets\\tower\\5.jpg"
+    },
+    {
+      "start_floor": "11",
+      "end_floor": "11",
+      "monster_id": "19",
+      "power_override": "31600",
+      "reward_coin": "200000000",
+      "is_boss": "0",
+      "name": "뱀파이어",
+      "image_url": "assets\\tower\\1.jpg"
+    },
+    {
+      "start_floor": "12",
+      "end_floor": "12",
+      "monster_id": "19",
+      "power_override": "33200",
+      "reward_coin": "200000000",
+      "is_boss": "0",
+      "name": "뱀파이어",
+      "image_url": "assets\\tower\\1.jpg"
+    },
+    {
+      "start_floor": "13",
+      "end_floor": "13",
+      "monster_id": "19",
+      "power_override": "35000",
+      "reward_coin": "200000000",
+      "is_boss": "0",
+      "name": "뱀파이어",
+      "image_url": "assets\\tower\\1.jpg"
+    },
+    {
+      "start_floor": "14",
+      "end_floor": "14",
+      "monster_id": "19",
+      "power_override": "36800",
+      "reward_coin": "200000000",
+      "is_boss": "0",
+      "name": "뱀파이어",
+      "image_url": "assets\\tower\\1.jpg"
+    },
+    {
+      "start_floor": "15",
+      "end_floor": "15",
+      "monster_id": "19",
+      "power_override": "38700",
+      "reward_coin": "200000000",
+      "is_boss": "0",
+      "name": "뱀파이어",
+      "image_url": "assets\\tower\\1.jpg"
+    },
+    {
+      "start_floor": "16",
+      "end_floor": "16",
+      "monster_id": "19",
+      "power_override": "40800",
+      "reward_coin": "200000000",
+      "is_boss": "0",
+      "name": "뱀파이어",
+      "image_url": "assets\\tower\\1.jpg"
+    },
+    {
+      "start_floor": "17",
+      "end_floor": "17",
+      "monster_id": "19",
+      "power_override": "42900",
+      "reward_coin": "200000000",
+      "is_boss": "0",
+      "name": "뱀파이어",
+      "image_url": "assets\\tower\\1.jpg"
+    },
+    {
+      "start_floor": "18",
+      "end_floor": "18",
+      "monster_id": "19",
+      "power_override": "45100",
+      "reward_coin": "200000000",
+      "is_boss": "0",
+      "name": "뱀파이어",
+      "image_url": "assets\\tower\\1.jpg"
+    },
+    {
+      "start_floor": "19",
+      "end_floor": "19",
+      "monster_id": "19",
+      "power_override": "47500",
+      "reward_coin": "200000000",
+      "is_boss": "0",
+      "name": "뱀파이어",
+      "image_url": "assets\\tower\\1.jpg"
+    },
+    {
+      "start_floor": "20",
+      "end_floor": "20",
+      "monster_id": "20",
+      "power_override": "50000",
+      "reward_coin": "1000000000",
+      "is_boss": "1",
+      "name": "히츠가야 토시로",
+      "image_url": "assets\\tower\\8.jpg"
+    },
+    {
+      "start_floor": "21",
+      "end_floor": "21",
+      "monster_id": "21",
+      "power_override": "58700",
+      "reward_coin": "300000000",
+      "is_boss": "0",
+      "name": "타락한 성기사",
+      "image_url": "assets\\tower\\2.jpg"
+    },
+    {
+      "start_floor": "22",
+      "end_floor": "22",
+      "monster_id": "21",
+      "power_override": "69000",
+      "reward_coin": "300000000",
+      "is_boss": "0",
+      "name": "타락한 성기사",
+      "image_url": "assets\\tower\\2.jpg"
+    },
+    {
+      "start_floor": "23",
+      "end_floor": "23",
+      "monster_id": "21",
+      "power_override": "81000",
+      "reward_coin": "300000000",
+      "is_boss": "0",
+      "name": "타락한 성기사",
+      "image_url": "assets\\tower\\2.jpg"
+    },
+    {
+      "start_floor": "24",
+      "end_floor": "24",
+      "monster_id": "21",
+      "power_override": "95200",
+      "reward_coin": "300000000",
+      "is_boss": "0",
+      "name": "타락한 성기사",
+      "image_url": "assets\\tower\\2.jpg"
+    },
+    {
+      "start_floor": "25",
+      "end_floor": "25",
+      "monster_id": "21",
+      "power_override": "111800",
+      "reward_coin": "300000000",
+      "is_boss": "0",
+      "name": "타락한 성기사",
+      "image_url": "assets\\tower\\2.jpg"
+    },
+    {
+      "start_floor": "26",
+      "end_floor": "26",
+      "monster_id": "21",
+      "power_override": "131300",
+      "reward_coin": "300000000",
+      "is_boss": "0",
+      "name": "타락한 성기사",
+      "image_url": "assets\\tower\\2.jpg"
+    },
+    {
+      "start_floor": "27",
+      "end_floor": "27",
+      "monster_id": "21",
+      "power_override": "154300",
+      "reward_coin": "300000000",
+      "is_boss": "0",
+      "name": "타락한 성기사",
+      "image_url": "assets\\tower\\2.jpg"
+    },
+    {
+      "start_floor": "28",
+      "end_floor": "28",
+      "monster_id": "21",
+      "power_override": "181200",
+      "reward_coin": "300000000",
+      "is_boss": "0",
+      "name": "타락한 성기사",
+      "image_url": "assets\\tower\\2.jpg"
+    },
+    {
+      "start_floor": "29",
+      "end_floor": "29",
+      "monster_id": "21",
+      "power_override": "212800",
+      "reward_coin": "300000000",
+      "is_boss": "0",
+      "name": "타락한 성기사",
+      "image_url": "assets\\tower\\2.jpg"
+    },
+    {
+      "start_floor": "30",
+      "end_floor": "30",
+      "monster_id": "22",
+      "power_override": "250000",
+      "reward_coin": "3000000000",
+      "is_boss": "1",
+      "name": "우르키오라",
+      "image_url": "assets\\tower\\4.jpg"
+    },
+    {
+      "start_floor": "31",
+      "end_floor": "31",
+      "monster_id": "24",
+      "power_override": "287200",
+      "reward_coin": "400000000",
+      "is_boss": "0",
+      "name": "블러드 크로우",
+      "image_url": "/assets\\tower\\tower111.jpg"
+    },
+    {
+      "start_floor": "32",
+      "end_floor": "32",
+      "monster_id": "24",
+      "power_override": "329900",
+      "reward_coin": "400000000",
+      "is_boss": "0",
+      "name": "블러드 크로우",
+      "image_url": "/assets\\tower\\tower111.jpg"
+    },
+    {
+      "start_floor": "33",
+      "end_floor": "33",
+      "monster_id": "24",
+      "power_override": "378900",
+      "reward_coin": "400000000",
+      "is_boss": "0",
+      "name": "블러드 크로우",
+      "image_url": "/assets\\tower\\tower111.jpg"
+    },
+    {
+      "start_floor": "34",
+      "end_floor": "34",
+      "monster_id": "24",
+      "power_override": "435300",
+      "reward_coin": "400000000",
+      "is_boss": "0",
+      "name": "블러드 크로우",
+      "image_url": "/assets\\tower\\tower111.jpg"
+    },
+    {
+      "start_floor": "35",
+      "end_floor": "35",
+      "monster_id": "24",
+      "power_override": "500000",
+      "reward_coin": "400000000",
+      "is_boss": "0",
+      "name": "블러드 크로우",
+      "image_url": "/assets\\tower\\tower111.jpg"
+    },
+    {
+      "start_floor": "36",
+      "end_floor": "36",
+      "monster_id": "24",
+      "power_override": "574300",
+      "reward_coin": "400000000",
+      "is_boss": "0",
+      "name": "블러드 크로우",
+      "image_url": "/assets\\tower\\tower111.jpg"
+    },
+    {
+      "start_floor": "37",
+      "end_floor": "37",
+      "monster_id": "24",
+      "power_override": "659800",
+      "reward_coin": "400000000",
+      "is_boss": "0",
+      "name": "블러드 크로우",
+      "image_url": "/assets\\tower\\tower111.jpg"
+    },
+    {
+      "start_floor": "38",
+      "end_floor": "38",
+      "monster_id": "24",
+      "power_override": "757900",
+      "reward_coin": "400000000",
+      "is_boss": "0",
+      "name": "블러드 크로우",
+      "image_url": "/assets\\tower\\tower111.jpg"
+    },
+    {
+      "start_floor": "39",
+      "end_floor": "39",
+      "monster_id": "24",
+      "power_override": "870600",
+      "reward_coin": "400000000",
+      "is_boss": "0",
+      "name": "블러드 크로우",
+      "image_url": "/assets\\tower\\tower111.jpg"
+    },
+    {
+      "start_floor": "40",
+      "end_floor": "40",
+      "monster_id": "23",
+      "power_override": "1000000",
+      "reward_coin": "5000000000",
+      "is_boss": "1",
+      "name": "쿠치키 뱌쿠야",
+      "image_url": "/assets\\tower\\7.jpg"
+    },
+    {
+      "start_floor": "41",
+      "end_floor": "41",
+      "monster_id": "27",
+      "power_override": "1174600",
+      "reward_coin": "500000000",
+      "is_boss": "0",
+      "name": "달빛 악령",
+      "image_url": "assets\\tower\\98fb377d65ff92e9392cbd53d75169e8.jpg"
+    },
+    {
+      "start_floor": "42",
+      "end_floor": "42",
+      "monster_id": "27",
+      "power_override": "1379700",
+      "reward_coin": "500000000",
+      "is_boss": "0",
+      "name": "달빛 악령",
+      "image_url": "assets\\tower\\98fb377d65ff92e9392cbd53d75169e8.jpg"
+    },
+    {
+      "start_floor": "43",
+      "end_floor": "43",
+      "monster_id": "27",
+      "power_override": "1620700",
+      "reward_coin": "500000000",
+      "is_boss": "0",
+      "name": "달빛 악령",
+      "image_url": "assets\\tower\\98fb377d65ff92e9392cbd53d75169e8.jpg"
+    },
+    {
+      "start_floor": "44",
+      "end_floor": "44",
+      "monster_id": "27",
+      "power_override": "1903700",
+      "reward_coin": "500000000",
+      "is_boss": "0",
+      "name": "달빛 악령",
+      "image_url": "assets\\tower\\98fb377d65ff92e9392cbd53d75169e8.jpg"
+    },
+    {
+      "start_floor": "45",
+      "end_floor": "45",
+      "monster_id": "27",
+      "power_override": "2236100",
+      "reward_coin": "500000000",
+      "is_boss": "0",
+      "name": "달빛 악령",
+      "image_url": "assets\\tower\\98fb377d65ff92e9392cbd53d75169e8.jpg"
+    },
+    {
+      "start_floor": "46",
+      "end_floor": "46",
+      "monster_id": "27",
+      "power_override": "2626500",
+      "reward_coin": "500000000",
+      "is_boss": "0",
+      "name": "달빛 악령",
+      "image_url": "assets\\tower\\98fb377d65ff92e9392cbd53d75169e8.jpg"
+    },
+    {
+      "start_floor": "47",
+      "end_floor": "47",
+      "monster_id": "27",
+      "power_override": "3085200",
+      "reward_coin": "500000000",
+      "is_boss": "0",
+      "name": "달빛 악령",
+      "image_url": "assets\\tower\\98fb377d65ff92e9392cbd53d75169e8.jpg"
+    },
+    {
+      "start_floor": "48",
+      "end_floor": "48",
+      "monster_id": "27",
+      "power_override": "3623900",
+      "reward_coin": "500000000",
+      "is_boss": "0",
+      "name": "달빛 악령",
+      "image_url": "assets\\tower\\98fb377d65ff92e9392cbd53d75169e8.jpg"
+    },
+    {
+      "start_floor": "49",
+      "end_floor": "49",
+      "monster_id": "27",
+      "power_override": "4256700",
+      "reward_coin": "500000000",
+      "is_boss": "0",
+      "name": "달빛 악령",
+      "image_url": "assets\\tower\\98fb377d65ff92e9392cbd53d75169e8.jpg"
+    },
+    {
+      "start_floor": "50",
+      "end_floor": "50",
+      "monster_id": "28",
+      "power_override": "5000000",
+      "reward_coin": "10000000000",
+      "is_boss": "1",
+      "name": "아이젠 소스케",
+      "image_url": "/assets\\tower\\10.jpg"
+    },
+    {
+      "start_floor": "51",
+      "end_floor": "51",
+      "monster_id": "64",
+      "power_override": "5580600",
+      "reward_coin": "1500000000",
+      "is_boss": "0",
+      "name": "커맨더 크리그",
+      "image_url": "/assets/tower/dad.jpg"
+    },
+    {
+      "start_floor": "52",
+      "end_floor": "52",
+      "monster_id": "64",
+      "power_override": "6228700",
+      "reward_coin": "1500000000",
+      "is_boss": "0",
+      "name": "커맨더 크리그",
+      "image_url": "/assets/tower/dad.jpg"
+    },
+    {
+      "start_floor": "53",
+      "end_floor": "53",
+      "monster_id": "64",
+      "power_override": "6951900",
+      "reward_coin": "1500000000",
+      "is_boss": "0",
+      "name": "커맨더 크리그",
+      "image_url": "/assets/tower/dad.jpg"
+    },
+    {
+      "start_floor": "54",
+      "end_floor": "54",
+      "monster_id": "64",
+      "power_override": "7759200",
+      "reward_coin": "1500000000",
+      "is_boss": "0",
+      "name": "커맨더 크리그",
+      "image_url": "/assets/tower/dad.jpg"
+    },
+    {
+      "start_floor": "55",
+      "end_floor": "55",
+      "monster_id": "64",
+      "power_override": "8660300",
+      "reward_coin": "1500000000",
+      "is_boss": "0",
+      "name": "커맨더 크리그",
+      "image_url": "/assets/tower/dad.jpg"
+    },
+    {
+      "start_floor": "56",
+      "end_floor": "56",
+      "monster_id": "64",
+      "power_override": "9665900",
+      "reward_coin": "1500000000",
+      "is_boss": "0",
+      "name": "커맨더 크리그",
+      "image_url": "/assets/tower/dad.jpg"
+    },
+    {
+      "start_floor": "57",
+      "end_floor": "57",
+      "monster_id": "64",
+      "power_override": "10788300",
+      "reward_coin": "1500000000",
+      "is_boss": "0",
+      "name": "커맨더 크리그",
+      "image_url": "/assets/tower/dad.jpg"
+    },
+    {
+      "start_floor": "58",
+      "end_floor": "58",
+      "monster_id": "64",
+      "power_override": "12041100",
+      "reward_coin": "1500000000",
+      "is_boss": "0",
+      "name": "커맨더 크리그",
+      "image_url": "/assets/tower/dad.jpg"
+    },
+    {
+      "start_floor": "59",
+      "end_floor": "59",
+      "monster_id": "64",
+      "power_override": "13439400",
+      "reward_coin": "1500000000",
+      "is_boss": "0",
+      "name": "커맨더 크리그",
+      "image_url": "/assets/tower/dad.jpg"
+    },
+    {
+      "start_floor": "60",
+      "end_floor": "60",
+      "monster_id": "67",
+      "power_override": "15000000",
+      "reward_coin": "45000000000",
+      "is_boss": "1",
+      "name": "나미카제 미나토",
+      "image_url": "/assets/tower/nami2.jpg"
+    },
+    {
+      "start_floor": "61",
+      "end_floor": "61",
+      "monster_id": "68",
+      "power_override": "16076600",
+      "reward_coin": "3750000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "62",
+      "end_floor": "62",
+      "monster_id": "68",
+      "power_override": "17230500",
+      "reward_coin": "3750000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "63",
+      "end_floor": "63",
+      "monster_id": "68",
+      "power_override": "18467200",
+      "reward_coin": "3750000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "64",
+      "end_floor": "64",
+      "monster_id": "68",
+      "power_override": "19792600",
+      "reward_coin": "3750000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "65",
+      "end_floor": "65",
+      "monster_id": "68",
+      "power_override": "21213200",
+      "reward_coin": "3750000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "66",
+      "end_floor": "66",
+      "monster_id": "68",
+      "power_override": "22735700",
+      "reward_coin": "3750000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "67",
+      "end_floor": "67",
+      "monster_id": "68",
+      "power_override": "24367600",
+      "reward_coin": "3750000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "68",
+      "end_floor": "68",
+      "monster_id": "68",
+      "power_override": "26116500",
+      "reward_coin": "3750000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "69",
+      "end_floor": "69",
+      "monster_id": "68",
+      "power_override": "27991000",
+      "reward_coin": "3750000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "70",
+      "end_floor": "70",
+      "monster_id": "69",
+      "power_override": "30000000",
+      "reward_coin": "75000000000",
+      "is_boss": "1",
+      "name": "쿠로사키 이치고",
+      "image_url": "/assets/tower/curo.jpg"
+    },
+    {
+      "start_floor": "71",
+      "end_floor": "71",
+      "monster_id": "68",
+      "power_override": "32153200",
+      "reward_coin": "15000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "72",
+      "end_floor": "72",
+      "monster_id": "68",
+      "power_override": "34461000",
+      "reward_coin": "15000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "73",
+      "end_floor": "73",
+      "monster_id": "68",
+      "power_override": "36934300",
+      "reward_coin": "15000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "74",
+      "end_floor": "74",
+      "monster_id": "68",
+      "power_override": "39585200",
+      "reward_coin": "15000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "75",
+      "end_floor": "75",
+      "monster_id": "68",
+      "power_override": "42426400",
+      "reward_coin": "15000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "76",
+      "end_floor": "76",
+      "monster_id": "68",
+      "power_override": "45471500",
+      "reward_coin": "15000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "77",
+      "end_floor": "77",
+      "monster_id": "68",
+      "power_override": "48735100",
+      "reward_coin": "15000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "78",
+      "end_floor": "78",
+      "monster_id": "68",
+      "power_override": "52233000",
+      "reward_coin": "15000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "79",
+      "end_floor": "79",
+      "monster_id": "68",
+      "power_override": "55982000",
+      "reward_coin": "15000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "80",
+      "end_floor": "80",
+      "monster_id": "69",
+      "power_override": "60000000",
+      "reward_coin": "150000000000",
+      "is_boss": "1",
+      "name": "쿠로사키 이치고",
+      "image_url": "/assets/tower/curo.jpg"
+    },
+    {
+      "start_floor": "81",
+      "end_floor": "81",
+      "monster_id": "68",
+      "power_override": "66183300",
+      "reward_coin": "30000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "82",
+      "end_floor": "82",
+      "monster_id": "68",
+      "power_override": "73003700",
+      "reward_coin": "30000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "83",
+      "end_floor": "83",
+      "monster_id": "68",
+      "power_override": "80527100",
+      "reward_coin": "30000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "84",
+      "end_floor": "84",
+      "monster_id": "68",
+      "power_override": "88825700",
+      "reward_coin": "30000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "85",
+      "end_floor": "85",
+      "monster_id": "68",
+      "power_override": "97979600",
+      "reward_coin": "30000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "86",
+      "end_floor": "86",
+      "monster_id": "68",
+      "power_override": "108076800",
+      "reward_coin": "30000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "87",
+      "end_floor": "87",
+      "monster_id": "68",
+      "power_override": "119214600",
+      "reward_coin": "30000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "88",
+      "end_floor": "88",
+      "monster_id": "68",
+      "power_override": "131500100",
+      "reward_coin": "30000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "89",
+      "end_floor": "89",
+      "monster_id": "68",
+      "power_override": "145051800",
+      "reward_coin": "30000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "90",
+      "end_floor": "90",
+      "monster_id": "69",
+      "power_override": "160000000",
+      "reward_coin": "300000000000",
+      "is_boss": "1",
+      "name": "쿠로사키 이치고",
+      "image_url": "/assets/tower/curo.jpg"
+    },
+    {
+      "start_floor": "91",
+      "end_floor": "91",
+      "monster_id": "68",
+      "power_override": "175353300",
+      "reward_coin": "40000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "92",
+      "end_floor": "92",
+      "monster_id": "68",
+      "power_override": "192179900",
+      "reward_coin": "40000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "93",
+      "end_floor": "93",
+      "monster_id": "68",
+      "power_override": "210621200",
+      "reward_coin": "40000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "94",
+      "end_floor": "94",
+      "monster_id": "68",
+      "power_override": "230832000",
+      "reward_coin": "40000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "95",
+      "end_floor": "95",
+      "monster_id": "68",
+      "power_override": "252982200",
+      "reward_coin": "40000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "96",
+      "end_floor": "96",
+      "monster_id": "68",
+      "power_override": "277257900",
+      "reward_coin": "40000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "97",
+      "end_floor": "97",
+      "monster_id": "68",
+      "power_override": "303863100",
+      "reward_coin": "40000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "98",
+      "end_floor": "98",
+      "monster_id": "68",
+      "power_override": "333021300",
+      "reward_coin": "40000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "99",
+      "end_floor": "99",
+      "monster_id": "68",
+      "power_override": "364977400",
+      "reward_coin": "40000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "100",
+      "end_floor": "100",
+      "monster_id": "69",
+      "power_override": "400000000",
+      "reward_coin": "400000000000",
+      "is_boss": "1",
+      "name": "쿠로사키 이치고",
+      "image_url": "/assets/tower/curo.jpg"
+    },
+    {
+      "start_floor": "101",
+      "end_floor": "101",
+      "monster_id": "68",
+      "power_override": "433788700",
+      "reward_coin": "50000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "102",
+      "end_floor": "102",
+      "monster_id": "68",
+      "power_override": "470431600",
+      "reward_coin": "50000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "103",
+      "end_floor": "103",
+      "monster_id": "68",
+      "power_override": "510169800",
+      "reward_coin": "50000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "104",
+      "end_floor": "104",
+      "monster_id": "68",
+      "power_override": "553264700",
+      "reward_coin": "50000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "105",
+      "end_floor": "105",
+      "monster_id": "68",
+      "power_override": "600000000",
+      "reward_coin": "50000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "106",
+      "end_floor": "106",
+      "monster_id": "68",
+      "power_override": "650683100",
+      "reward_coin": "50000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "107",
+      "end_floor": "107",
+      "monster_id": "68",
+      "power_override": "705647400",
+      "reward_coin": "50000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "108",
+      "end_floor": "108",
+      "monster_id": "68",
+      "power_override": "765254700",
+      "reward_coin": "50000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "109",
+      "end_floor": "109",
+      "monster_id": "68",
+      "power_override": "829897100",
+      "reward_coin": "50000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "110",
+      "end_floor": "110",
+      "monster_id": "69",
+      "power_override": "900000000",
+      "reward_coin": "600000000000",
+      "is_boss": "1",
+      "name": "쿠로사키 이치고",
+      "image_url": "/assets/tower/curo.jpg"
+    },
+    {
+      "start_floor": "111",
+      "end_floor": "111",
+      "monster_id": "68",
+      "power_override": "964596100",
+      "reward_coin": "60000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "112",
+      "end_floor": "112",
+      "monster_id": "68",
+      "power_override": "1033828500",
+      "reward_coin": "60000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "113",
+      "end_floor": "113",
+      "monster_id": "68",
+      "power_override": "1108030000",
+      "reward_coin": "60000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "114",
+      "end_floor": "114",
+      "monster_id": "68",
+      "power_override": "1187557100",
+      "reward_coin": "60000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "115",
+      "end_floor": "115",
+      "monster_id": "68",
+      "power_override": "1272792200",
+      "reward_coin": "60000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "116",
+      "end_floor": "116",
+      "monster_id": "68",
+      "power_override": "1364144900",
+      "reward_coin": "60000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "117",
+      "end_floor": "117",
+      "monster_id": "68",
+      "power_override": "1462054300",
+      "reward_coin": "60000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "118",
+      "end_floor": "118",
+      "monster_id": "68",
+      "power_override": "1566991000",
+      "reward_coin": "60000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "119",
+      "end_floor": "119",
+      "monster_id": "68",
+      "power_override": "1679459400",
+      "reward_coin": "60000000000",
+      "is_boss": "0",
+      "name": "오메가-09",
+      "image_url": "/assets/tower/badq.jpg"
+    },
+    {
+      "start_floor": "120",
+      "end_floor": "120",
+      "monster_id": "69",
+      "power_override": "1800000000",
+      "reward_coin": "800000000000",
+      "is_boss": "1",
+      "name": "쿠로사키 이치고",
+      "image_url": "/assets/tower/curo.jpg"
+    }
+  ]
+}

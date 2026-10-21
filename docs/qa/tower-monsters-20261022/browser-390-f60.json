@@ -1,0 +1,87 @@
+{
+  "width": 390,
+  "floor": 60,
+  "entry": {
+    "src": "/assets/ui/tower-monsters-20261022/void-herald.webp",
+    "loaded": true
+  },
+  "phases": [
+    {
+      "phase": "normal",
+      "active": [
+        {
+          "id": "B:0:ENCOUNTER:TOWER:60:1",
+          "hp": 100,
+          "boss": false,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/abyss-iron-rider.webp"
+        },
+        {
+          "id": "B:1:ENCOUNTER:TOWER:60:2",
+          "hp": 100,
+          "boss": false,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/abyss-iron-rider.webp"
+        },
+        {
+          "id": "B:2:ENCOUNTER:TOWER:60:3",
+          "hp": 100,
+          "boss": false,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/abyss-iron-rider.webp"
+        }
+      ]
+    },
+    {
+      "phase": "elite",
+      "active": [
+        {
+          "id": "B:0:ENCOUNTER:TOWER:60:25",
+          "hp": 100,
+          "boss": false,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/abyss-iron-rider.webp"
+        }
+      ]
+    },
+    {
+      "phase": "guardian",
+      "active": [
+        {
+          "id": "B:1:ENCOUNTER:TOWER:60:28",
+          "hp": 100,
+          "boss": true,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/void-herald.webp"
+        }
+      ]
+    }
+  ],
+  "audit": {
+    "coin": 600010000000,
+    "progress": {
+      "current_floor": 61,
+      "highest_floor": 60
+    },
+    "grants": 1
+  },
+  "layout": {
+    "overflow": false,
+    "sound": "OFF"
+  },
+  "assets": [
+    "/assets/ui/tower-monsters-20261022/void-herald.webp",
+    "/assets/ui/tower-monsters-20261022/abyss-iron-rider.webp"
+  ],
+  "errors": []
+}

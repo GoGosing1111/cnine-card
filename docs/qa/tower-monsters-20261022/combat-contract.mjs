@@ -1,0 +1,5 @@
+import {createHash} from 'node:crypto';
+const presentation=new Set(['name','title','displayName','sourceArt','battleSprite','image','image_url','imageBattle','battleImage','originalCardArt','projectVMonsterArt','towerMonsterVersion','artFacing']);
+function stable(value){if(Array.isArray(value))return value.map(stable);if(!value||typeof value!=='object')return value;return Object.fromEntries(Object.entries(value).filter(([key])=>!presentation.has(key)).map(([key,v])=>[key,stable(v)]));}
+export const combatHash=battle=>createHash('sha256').update(JSON.stringify(stable(battle))).digest('hex');
+export const inputFor=(floor,weak=false)=>({snapshot:{cards:Array.from({length:5},(_,i)=>({id:String(i+1),title:'검수 카드 '+(i+1),rarity:'FUR',power:Math.max(1000,Math.round(floor.power*(weak?.025:.25))),power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i]})),accountNickname:'LOCAL QA'},tier:floor.floor,seed:20261022+floor.floor,operatingFloor:{id:floor.monsterId,name:'CMS 검수 수호자',image:'original-qa.png',power:floor.power}});

@@ -1,0 +1,87 @@
+{
+  "width": 390,
+  "floor": 10,
+  "entry": {
+    "src": "/assets/ui/tower-monsters-20261022/cinder-warden.webp",
+    "loaded": true
+  },
+  "phases": [
+    {
+      "phase": "normal",
+      "active": [
+        {
+          "id": "B:0:ENCOUNTER:TOWER:10:1",
+          "hp": 100,
+          "boss": false,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/ash-hound.webp"
+        },
+        {
+          "id": "B:1:ENCOUNTER:TOWER:10:2",
+          "hp": 100,
+          "boss": false,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/ash-hound.webp"
+        },
+        {
+          "id": "B:2:ENCOUNTER:TOWER:10:3",
+          "hp": 100,
+          "boss": false,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/ash-hound.webp"
+        }
+      ]
+    },
+    {
+      "phase": "elite",
+      "active": [
+        {
+          "id": "B:0:ENCOUNTER:TOWER:10:25",
+          "hp": 100,
+          "boss": false,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/ash-hound.webp"
+        }
+      ]
+    },
+    {
+      "phase": "guardian",
+      "active": [
+        {
+          "id": "B:1:ENCOUNTER:TOWER:10:28",
+          "hp": 100,
+          "boss": true,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/cinder-warden.webp"
+        }
+      ]
+    }
+  ],
+  "audit": {
+    "coin": 600010000000,
+    "progress": {
+      "current_floor": 11,
+      "highest_floor": 10
+    },
+    "grants": 1
+  },
+  "layout": {
+    "overflow": false,
+    "sound": "OFF"
+  },
+  "assets": [
+    "/assets/ui/tower-monsters-20261022/cinder-warden.webp",
+    "/assets/ui/tower-monsters-20261022/ash-hound.webp"
+  ],
+  "errors": []
+}

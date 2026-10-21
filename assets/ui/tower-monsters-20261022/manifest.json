@@ -1,0 +1,402 @@
+{
+  "version": "TOWER_MONSTERS_20261022_V1",
+  "scope": "TOWER_ONLY",
+  "tool": "builtin image_gen",
+  "prompts": "docs/qa/tower-monsters-20261022/prompts.json",
+  "visualApproval": null,
+  "notes": "User requested complete Tower resource replacement. Technical verification is not user visual approval. Original source PNGs preserved; WebPs use alpha trim, proportional resize and transparent padding only.",
+  "sprites": [
+    {
+      "monsterId": 17,
+      "key": "ash-hound",
+      "name": "재의 사냥개",
+      "role": "normal",
+      "image": "/assets/ui/tower-monsters-20261022/ash-hound.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/ash-hound.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/ash-hound-v1.png",
+      "sourceSha256": "c0a23dd50204addb8e50ec64ea4543d8f950bd176e4447408c6500e32b9688ef",
+      "sha256": "cd8a79c63a7e7fa9d6d03814445c58bcbfab2e7f6ce95782d7e78ef08d49c4f7",
+      "bytes": 72736,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 78,
+        "top": 69,
+        "width": 1407,
+        "height": 900
+      },
+      "sourceTransparentRatio": 0.5757910410563151
+    },
+    {
+      "monsterId": 18,
+      "key": "cinder-warden",
+      "name": "잿불 파수장",
+      "role": "boss",
+      "image": "/assets/ui/tower-monsters-20261022/cinder-warden.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/cinder-warden.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/cinder-warden-v1.png",
+      "sourceSha256": "657ccb66c0f05661e94db1f751021260a1eb34c69ba4fa461bb8b6905442df5f",
+      "sha256": "9b29a64f6ab92cc1a06c97bbb55ceffeb41061f114dd29ae71b05eb9b2156abc",
+      "bytes": 94986,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 0,
+        "top": 8,
+        "width": 1312,
+        "height": 1173
+      },
+      "sourceTransparentRatio": 0.5215131003478508
+    },
+    {
+      "monsterId": 19,
+      "key": "bloodthorn-bat",
+      "name": "핏가시 박쥐",
+      "role": "normal",
+      "image": "/assets/ui/tower-monsters-20261022/bloodthorn-bat.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/bloodthorn-bat.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/bloodthorn-bat-v1.png",
+      "sourceSha256": "77ca93d0cf213b2c9476488343cc82f26642e45ce83bf996d7d275e64a8bfeb4",
+      "sha256": "21bf527e369091c7e00a241414f1b913cf5bc313a034ac158c8e15c0f2b325a4",
+      "bytes": 89612,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 38,
+        "top": 3,
+        "width": 1177,
+        "height": 1268
+      },
+      "sourceTransparentRatio": 0.44811600874376417
+    },
+    {
+      "monsterId": 20,
+      "key": "bloodmoon-sovereign",
+      "name": "혈월 군주",
+      "role": "boss",
+      "image": "/assets/ui/tower-monsters-20261022/bloodmoon-sovereign.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/bloodmoon-sovereign.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/bloodmoon-sovereign-v1.png",
+      "sourceSha256": "8b463a4a48aca217c8c0d81c92f58431edab9a7342427a61f46726e6c645575a",
+      "sha256": "244d84feb81ca236ea86a80a84836deef29456cd1c35a7ecda601327ba34b503",
+      "bytes": 102900,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 9,
+        "top": 1,
+        "width": 1236,
+        "height": 1262
+      },
+      "sourceTransparentRatio": 0.517677996228779
+    },
+    {
+      "monsterId": 21,
+      "key": "grave-armiger",
+      "name": "묘지 갑주병",
+      "role": "normal",
+      "image": "/assets/ui/tower-monsters-20261022/grave-armiger.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/grave-armiger.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/grave-armiger-v1.png",
+      "sourceSha256": "0a4d4f6f24535130d1d33ddc7a795f48a0f01aba8eead2b6f7302e8887b0c5c8",
+      "sha256": "e2a552a214b40fb128e9a373be1fe2179f653d4b71712e8a1519598263553ec6",
+      "bytes": 96184,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 21,
+        "top": 18,
+        "width": 1263,
+        "height": 1143
+      },
+      "sourceTransparentRatio": 0.5559574543827173
+    },
+    {
+      "monsterId": 22,
+      "key": "oblivion-executioner",
+      "name": "망각의 집행자",
+      "role": "boss",
+      "image": "/assets/ui/tower-monsters-20261022/oblivion-executioner.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/oblivion-executioner.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/oblivion-executioner-v1.png",
+      "sourceSha256": "7aaf34daaa881099c3307dbc9adbbd3bc8cb2dc7d218f7b4276d540956b81121",
+      "sha256": "8958261143a1cec0e9bf5453ad7c5729588646f68571734ebb6c57a2fdff9a46",
+      "bytes": 95368,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 1,
+        "top": 9,
+        "width": 1216,
+        "height": 1272
+      },
+      "sourceTransparentRatio": 0.46047929153512585
+    },
+    {
+      "monsterId": 24,
+      "key": "grave-raven",
+      "name": "시체까마귀",
+      "role": "normal",
+      "image": "/assets/ui/tower-monsters-20261022/grave-raven.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/grave-raven.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/grave-raven-v1.png",
+      "sourceSha256": "7b3750432a42e404320169e1f4c82f433e1117a22f421eb3fe0cf79c5c5e0ac7",
+      "sha256": "dcf41dd7c16eb7ba179c0b0e8488afc5e39b760d1f203f8a03cf6918e8f0b729",
+      "bytes": 94950,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 34,
+        "top": 6,
+        "width": 1263,
+        "height": 1181
+      },
+      "sourceTransparentRatio": 0.47294556947863053
+    },
+    {
+      "monsterId": 23,
+      "key": "thorn-crowned-elk",
+      "name": "가시왕 모르가",
+      "role": "boss",
+      "image": "/assets/ui/tower-monsters-20261022/thorn-crowned-elk.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/thorn-crowned-elk.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/thorn-crowned-elk-v1.png",
+      "sourceSha256": "e0c935f842dc7431a9e1c6af1c75b84bcb1a1d481f75001a79153e3bc72c74c7",
+      "sha256": "1db8fd3da223db0b57a41702abaeef27c2ccf1904ba1490acb84cf1d6358bd26",
+      "bytes": 98972,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 55,
+        "top": 3,
+        "width": 1466,
+        "height": 1015
+      },
+      "sourceTransparentRatio": 0.5059210459391276
+    },
+    {
+      "monsterId": 27,
+      "key": "lunar-wraith",
+      "name": "달그림자 망령",
+      "role": "normal",
+      "image": "/assets/ui/tower-monsters-20261022/lunar-wraith.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/lunar-wraith.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/lunar-wraith-v1.png",
+      "sourceSha256": "fc2f31b4a207cfc5305790f12e45e9c31b16be525238beaf0cf73647fe0ecc23",
+      "sha256": "4811346c83bf0bcd3a9a0e045a5c4e51da581b9d97daa38ee229cbbb0919effe",
+      "bytes": 101332,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 35,
+        "top": 8,
+        "width": 1175,
+        "height": 1269
+      },
+      "sourceTransparentRatio": 0.4964733113736662
+    },
+    {
+      "monsterId": 28,
+      "key": "eclipse-oracle",
+      "name": "식월의 예언자",
+      "role": "boss",
+      "image": "/assets/ui/tower-monsters-20261022/eclipse-oracle.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/eclipse-oracle.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/eclipse-oracle-v1.png",
+      "sourceSha256": "1d50c9349de3a1976243c25b044809ca2cb2271126ad8051b6347f99e1c0bad0",
+      "sha256": "9acc0f7beb348593b683cd599fd77ff4941af06c8709722b3494dd4216e347c1",
+      "bytes": 114968,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 15,
+        "top": 7,
+        "width": 1204,
+        "height": 1251
+      },
+      "sourceTransparentRatio": 0.4177143595156342
+    },
+    {
+      "monsterId": 64,
+      "key": "abyss-iron-rider",
+      "name": "심연의 철기병",
+      "role": "normal",
+      "image": "/assets/ui/tower-monsters-20261022/abyss-iron-rider.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/abyss-iron-rider.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/abyss-iron-rider-v1.png",
+      "sourceSha256": "83e32e1e69c484ce8dc2ff62981780d45f04f4467d711250ac0424fa16a61bdc",
+      "sha256": "cf520e2a2ca9145c6e70d13af4cfda3694ef86e5abeafe350657a6d2d5749320",
+      "bytes": 97576,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 10,
+        "top": 5,
+        "width": 1298,
+        "height": 1189
+      },
+      "sourceTransparentRatio": 0.4506721810858642
+    },
+    {
+      "monsterId": 67,
+      "key": "void-herald",
+      "name": "공허의 인도자",
+      "role": "boss",
+      "image": "/assets/ui/tower-monsters-20261022/void-herald.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/void-herald.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/void-herald-v1.png",
+      "sourceSha256": "a428145120912163dd4b26b6515069a046695e4d87f24700ca82ba7170b5eb84",
+      "sha256": "011df4341d995a2074048d9f27d6699889f2546203f7edc71aa4d80ceb52f0a2",
+      "bytes": 102276,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 11,
+        "top": 0,
+        "width": 1176,
+        "height": 1311
+      },
+      "sourceTransparentRatio": 0.5514154325759271
+    },
+    {
+      "monsterId": 68,
+      "key": "obsidian-destroyer",
+      "name": "흑요석 파괴수",
+      "role": "normal",
+      "image": "/assets/ui/tower-monsters-20261022/obsidian-destroyer.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/obsidian-destroyer.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/obsidian-destroyer-v1.png",
+      "sourceSha256": "ecc97b45853c9cc0732a89116dbdfaf685bc1e13fa5f04762f373fae1cf91c74",
+      "sha256": "7aa76d539aee4b2b0b9abeaf000ad56f2d4f9880bef4917431b2bdcd9c3ab91c",
+      "bytes": 77724,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 36,
+        "top": 6,
+        "width": 1483,
+        "height": 1010
+      },
+      "sourceTransparentRatio": 0.4573376973470052
+    },
+    {
+      "monsterId": 69,
+      "key": "abyss-sovereign",
+      "name": "나락의 군주",
+      "role": "boss",
+      "image": "/assets/ui/tower-monsters-20261022/abyss-sovereign.webp",
+      "battleSprite": "/assets/ui/tower-monsters-20261022/abyss-sovereign.webp",
+      "source": "docs/qa/tower-monsters-20261022/sources/abyss-sovereign-v1.png",
+      "sourceSha256": "bda4fc2530bb659c30d0e2051c8444a8ca6638d23d9568ca97d32b082d85e665",
+      "sha256": "6084623b3bfebdc2adc83acc0050bc73163228ef9901a0c13fea21a9d8fec30f",
+      "bytes": 110428,
+      "canvas": {
+        "width": 640,
+        "height": 640
+      },
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "artFacing": -1,
+      "sourceBounds": {
+        "left": 0,
+        "top": 0,
+        "width": 1215,
+        "height": 1294
+      },
+      "sourceTransparentRatio": 0.4385839808062031
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import {ORIGINAL_IP_MONSTERS} from './monster-original-ip-data-v1.mjs';
+import {presentTowerMonsters} from './tower-monsters-20261022.mjs';
 
 // Presentation only: never change persisted IDs, skill codes, combat or receipts.
 export const ORIGINAL_IP_VERSION='20261013-original-ip-v1';
@@ -54,6 +55,7 @@ export function presentOriginalMonster(unit,entry=originalMonsterPresentation(un
 // This projection is installed only at the selected content response boundary.
 // Old saved rooms/receipts receive current art without mutating their gameplay snapshot.
 export function presentOriginalIpResponse(path,data){
+  if(/^tower\/(?:status|start|pending|finish)$/.test(path))return presentTowerMonsters(data);
   if(path==='inventory'&&Array.isArray(data?.items))return {...data,items:data.items.map(presentVarsenTicket)};
   if(path==='live-operations'&&Array.isArray(data?.items))return {...data,items:data.items.map(item=>{
     if(item.kind!=='RAID')return item;

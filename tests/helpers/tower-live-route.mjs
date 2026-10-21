@@ -6,6 +6,7 @@ import {loadScrapyardV3Snapshot} from '../../functions/_scrapyard_v3.js';
 import {buildTowerV3Battle,TOWER_V3_DRAFT} from '../../functions/_tower_v3.js';
 import {towerAbyssStart,towerAbyssFinish,towerAbyssPending,TOWER_ABYSS_PROTOCOL} from '../../functions/_tower_abyss.js';
 import {ensureJointTransactionSchema} from '../../functions/_joint_transactions.js';
+import {presentOriginalIpResponse} from '../../shared/monster-original-ip-presentation-v1.mjs';
 
 // Execute the actual operating route block against isolated SQLite/PostgreSQL.
 const source=fs.readFileSync(new URL('../../functions/api/[[path]].js',import.meta.url),'utf8');
@@ -44,5 +45,5 @@ export async function operatingTowerFixture(f,{floorNo=1,maxFloor=70,monsterPowe
     towerAbyssStart:(...args)=>towerAbyssStart(...args,{now:f.deps.now}),towerAbyssFinish:(...args)=>towerAbyssFinish(...args,{now:f.deps.now}),towerAbyssPending:(...args)=>towerAbyssPending(...args,{now:f.deps.now}),
     uniqueBattleResponsePayload:()=>null,grantHighGradeRerollDrop:async()=>null,deferWrite:(_name,work)=>void work(),
     userEquipmentBonuses:async()=>({pve:0}),pveDeckCards:async()=>deck.ids};
-  return {handle:(path,request)=>execute(path,request,f.env,deps),setFloor:floor=>f.p('UPDATE tower_user_progress SET current_floor=?,highest_floor=? WHERE user_id=7',floor,floor-1).run()};
+  return {handle:(path,request)=>execute(path,request,f.env,{...deps,json:(data,status,headers)=>deps.json(presentOriginalIpResponse(path,data),status,headers)}),setFloor:floor=>f.p('UPDATE tower_user_progress SET current_floor=?,highest_floor=? WHERE user_id=7',floor,floor-1).run()};
 }

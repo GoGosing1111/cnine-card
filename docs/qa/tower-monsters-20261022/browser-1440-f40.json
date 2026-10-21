@@ -1,0 +1,87 @@
+{
+  "width": 1440,
+  "floor": 40,
+  "entry": {
+    "src": "/assets/ui/tower-monsters-20261022/thorn-crowned-elk.webp",
+    "loaded": true
+  },
+  "phases": [
+    {
+      "phase": "normal",
+      "active": [
+        {
+          "id": "B:0:ENCOUNTER:TOWER:40:1",
+          "hp": 100,
+          "boss": false,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/grave-raven.webp"
+        },
+        {
+          "id": "B:1:ENCOUNTER:TOWER:40:2",
+          "hp": 100,
+          "boss": false,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/grave-raven.webp"
+        },
+        {
+          "id": "B:2:ENCOUNTER:TOWER:40:3",
+          "hp": 100,
+          "boss": false,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/grave-raven.webp"
+        }
+      ]
+    },
+    {
+      "phase": "elite",
+      "active": [
+        {
+          "id": "B:0:ENCOUNTER:TOWER:40:25",
+          "hp": 100,
+          "boss": false,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/grave-raven.webp"
+        }
+      ]
+    },
+    {
+      "phase": "guardian",
+      "active": [
+        {
+          "id": "B:1:ENCOUNTER:TOWER:40:28",
+          "hp": 100,
+          "boss": true,
+          "viewAlpha": 1,
+          "neutralAlpha": 1,
+          "neutralRotation": 0,
+          "sprite": "/assets/ui/tower-monsters-20261022/thorn-crowned-elk.webp"
+        }
+      ]
+    }
+  ],
+  "audit": {
+    "coin": 600010000000,
+    "progress": {
+      "current_floor": 41,
+      "highest_floor": 40
+    },
+    "grants": 1
+  },
+  "layout": {
+    "overflow": false,
+    "sound": "OFF"
+  },
+  "assets": [
+    "/assets/ui/tower-monsters-20261022/thorn-crowned-elk.webp",
+    "/assets/ui/tower-monsters-20261022/grave-raven.webp"
+  ],
+  "errors": []
+}

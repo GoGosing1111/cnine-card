@@ -1,0 +1,100 @@
+[
+  {
+    "monsterId": 17,
+    "key": "ash-hound",
+    "name": "재의 사냥개",
+    "role": "normal",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-260d66cf-719e-42fc-b2ce-1ceac0724f54.png"
+  },
+  {
+    "monsterId": 18,
+    "key": "cinder-warden",
+    "name": "잿불 파수장",
+    "role": "boss",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-60aa995f-d3ce-448f-9d10-b478b495d7d4.png"
+  },
+  {
+    "monsterId": 19,
+    "key": "bloodthorn-bat",
+    "name": "핏가시 박쥐",
+    "role": "normal",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-a6ee8d28-705c-44d7-843d-7b68b20bf4ae.png"
+  },
+  {
+    "monsterId": 20,
+    "key": "bloodmoon-sovereign",
+    "name": "혈월 군주",
+    "role": "boss",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-138fb074-823f-41ca-bcf0-d357f1ea3bd1.png"
+  },
+  {
+    "monsterId": 21,
+    "key": "grave-armiger",
+    "name": "묘지 갑주병",
+    "role": "normal",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-9a131eec-349d-427a-83f0-9f91574ddb78.png"
+  },
+  {
+    "monsterId": 22,
+    "key": "oblivion-executioner",
+    "name": "망각의 집행자",
+    "role": "boss",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-118c319c-c531-40fa-ad97-5276e752d7b7.png"
+  },
+  {
+    "monsterId": 24,
+    "key": "grave-raven",
+    "name": "시체까마귀",
+    "role": "normal",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-4e7cd9ec-cc8c-43cb-8ee9-93db5e8e8189.png"
+  },
+  {
+    "monsterId": 23,
+    "key": "thorn-crowned-elk",
+    "name": "가시왕 모르가",
+    "role": "boss",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-9c353d33-af5d-4836-b500-7a85347bab34.png"
+  },
+  {
+    "monsterId": 27,
+    "key": "lunar-wraith",
+    "name": "달그림자 망령",
+    "role": "normal",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-d90f20ef-f511-48e3-9916-5898ac651195.png"
+  },
+  {
+    "monsterId": 28,
+    "key": "eclipse-oracle",
+    "name": "식월의 예언자",
+    "role": "boss",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-84fbb75a-9ce8-4523-9172-d7e5215e3f9a.png"
+  },
+  {
+    "monsterId": 64,
+    "key": "abyss-iron-rider",
+    "name": "심연의 철기병",
+    "role": "normal",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-a3824944-6172-4e78-af6f-85bafcdae97e.png"
+  },
+  {
+    "monsterId": 67,
+    "key": "void-herald",
+    "name": "공허의 인도자",
+    "role": "boss",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-a9eecd7d-c753-4b45-a46b-c9cf3fec0a0a.png"
+  },
+  {
+    "monsterId": 68,
+    "key": "obsidian-destroyer",
+    "name": "흑요석 파괴수",
+    "role": "normal",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-f340446b-aed2-40e7-a7fc-e793a0119406.png"
+  },
+  {
+    "monsterId": 69,
+    "key": "abyss-sovereign",
+    "name": "나락의 군주",
+    "role": "boss",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a1585c-3828-7900-97b9-8fd13bac8b6e\\exec-104db98f-ac33-45f6-93b7-5be0dd4195fd.png"
+  }
+]

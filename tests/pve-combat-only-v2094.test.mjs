@@ -19,7 +19,7 @@ for(const postgres of [false,true]){
    assert.equal(res.status,200);const data=await res.json();assert.equal(data.result,'WIN');assert.equal(data.success,true);
    assert.equal(data.continuousEncounter.total,28);assert.equal(data.continuousEncounter.initialIds.length,3);assert.equal(data.combatLimitMs,180000);
    assert.equal(data.nextFloor,70);assert.equal(data.unlockStep,1);assert.equal(data.reward,25000000);assert.equal(await f.coin(),before+25000000);
-   assert.equal(data.continuousEncounter.instances.at(-1).name,'아이젠 소스케');assert.equal(data.battleV2.result.winner,'A');
+   assert.equal(data.continuousEncounter.instances.at(-1).name,'식월의 예언자');assert.equal(data.battleV2.result.winner,'A');
    assert.ok(data.battleV2.result.timeline.some(e=>e.type==='ENEMY_SPAWN'));
    const replay=await tower.handle('tower/fight',request('tower/fight',{floorNo:69,requestId:'tower-live-69'}));assert.equal(replay.status,409);assert.equal(await f.coin(),before+25000000);
    const last=await(await battle(tower,f,{floorNo:70,requestId:'tower-live-70'})).json();assert.equal(last.completed,true);assert.equal(last.nextFloor,71);
@@ -33,13 +33,14 @@ for(const postgres of [false,true]){
  });
 }
 
-test('live upper floors use their approved Omega, Minato and Ichigo sprites',async t=>{
+test('live upper floors use dedicated Tower replacement sprites without changing CMS identity',async t=>{
  const f=await jointFixture(t),snapshot={cards:(await f.deps.raidDeckPower(f.env,7,null,'TOWER')).cards.map(c=>({...c,power:100000000}))};
- for(const [tier,id,file] of [[59,64,'tower-064-commander-krieg'],[60,67,'hunt-067-yellow-flash'],[69,68,'hunt-068-omega-09'],[70,69,'hunt-069-masked-soul-swordsman']]){
+ for(const [tier,id,file] of [[59,64,'abyss-iron-rider'],[60,67,'void-herald'],[69,68,'obsidian-destroyer'],[70,69,'abyss-sovereign']]){
   const battle=buildTowerV3Battle({snapshot,tier,seed:1,config:{...TOWER_V3_DRAFT,maxTier:70,powerGrowth:1.001},operatingFloor:{id,name:'CMS 수호자',image:'cms-original.jpg',power:1000000}});
   assert.ok(battle.continuousEncounter.instances.at(-1).battleSprite.includes(file));
-  assert.equal(battle.continuousEncounter.instances.at(-1).sourceArt,'cms-original.jpg');
-  assert.equal(battle.continuousEncounter.instances[0].name,tier<=60?'커맨더 크리그':'오메가-09');
+  assert.equal(battle.continuousEncounter.instances.at(-1).sourceArt,battle.continuousEncounter.instances.at(-1).battleSprite);
+  assert.equal(battle.continuousEncounter.instances.at(-1).cardId,'MONSTER:'+id);
+  assert.equal(battle.continuousEncounter.instances[0].name,tier<=60?'심연의 철기병':'흑요석 파괴수');
  }
 });
 test('entry screens remain native while both battle actions use the common continuous overlay',()=>{

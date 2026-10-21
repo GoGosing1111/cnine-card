@@ -1,5 +1,6 @@
 import {createPveBattleV2} from './_battle_v2_preview.js';
 import monsterArt from '../assets/ui/project-v/monsters/hunt-tower/manifest-v1.json' with {type:'json'};
+import {towerMonsterArt} from '../shared/tower-monsters-20261022.mjs';
 
 // Extended re-ascent rules remain gated. Live single-pass combat uses operatingFloor
 // while retaining the existing tower API, CMS rewards and one-floor progression.
@@ -73,14 +74,15 @@ export function buildTowerV3Battle({snapshot,tier,seed,config=TOWER_V3_DRAFT,ope
   const base=operatingFloor?operatingFloor.power/c.guardianMultiplier:c.basePower*Math.pow(c.powerGrowth,tier-1), beforeBoss=c.normalCount+c.eliteCount;
   const instances=Array.from({length:beforeBoss+1},(_,i)=>{
     const boss=i===beforeBoss,elite=!boss&&i>=c.normalCount,offset=boss?3:0;
-    const name=boss&&operatingFloor?operatingFloor.name:(elite?'정예 ':'')+f[offset+1],power=Math.max(1,Math.round(base*(boss?c.guardianMultiplier:elite?c.eliteMultiplier:1)));
+    const art=towerMonsterArt(boss&&operatingFloor?operatingFloor.id:f[offset]);
+    const name=art?(elite?'정예 ':'')+art.name:boss&&operatingFloor?operatingFloor.name:(elite?'정예 ':'')+f[offset+1],power=Math.max(1,Math.round(base*(boss?c.guardianMultiplier:elite?c.eliteMultiplier:1)));
     return {instanceId:`TOWER:${tier}:${i+1}`,slot:boss?1:i%c.simultaneous,afterClear:boss||elite,
       monster:{id:boss&&operatingFloor?operatingFloor.id:f[offset],name,battle_power:power,is_boss:boss?1:0,
         pve_hp_percent:operatingFloor?100:Math.min(1200,100+(tier-1)*c.hpGrowth),
         pve_attack_percent:operatingFloor?100:Math.min(1200,100+(tier-1)*c.attackGrowth),
         pve_defense_percent:operatingFloor?100:Math.min(200,100+(tier-1)*.35)},
-      name,elite,boss,points:boss?0:elite?c.elitePoints:c.normalPoints,sourceArt:boss&&operatingFloor?operatingFloor.image:null,
-      battleSprite:boss&&operatingFloor?guardianArt?.battleSprite||null:root+f[offset+2]};
+      name,elite,boss,points:boss?0:elite?c.elitePoints:c.normalPoints,sourceArt:art?.image||(boss&&operatingFloor?operatingFloor.image:null),
+      battleSprite:art?.battleSprite||(boss&&operatingFloor?guardianArt?.battleSprite||null:root+f[offset+2])};
   });
   const battleV2=createPveBattleV2({pet:snapshot.pet,pveEquipmentRuntime:snapshot.characterBonus?.pveEquipmentRuntime,cards:snapshot.cards,magicCards:snapshot.magicCards||[],characterBonus:snapshot.cardSupportBonus||0,
     battleSuit:snapshot.battleSuit||null,mercenary:snapshot.mercenary||null,singleHealerBonus:snapshot.singleHealerBonus||{},ultimateDamage:snapshot.ultimateDamage||0,bossUltimatePercent,seed,
