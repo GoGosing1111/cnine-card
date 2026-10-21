@@ -13,11 +13,13 @@ export async function readHalloweenSsOnce(DB,userId){
  if(!row)return null;
  const value=JSON.parse(row.value);
  if(value.status==='CONSUMED')return null;
- if(value.version!==1||value.status!=='ARMED'||value.remaining!==1||value.userId!==Number(userId)||value.packId!==HALLOWEEN_PACK.id||value.rank!=='SS'||value.edition!=='HALLOWEEN_LIMITED'||typeof value.operationId!=='string'||!value.operationId||!Number.isSafeInteger(value.actorId)||value.actorId<1)throw invalid();
- return {key,before:row.value,operationId:value.operationId};
+ const specific=value.version===2&&value.rank==='SSS'&&value.edition==='SSS_LIMITED'&&HALLOWEEN_PACK_CARDS.some(c=>c.code===value.mercenaryCode&&c.rank==='SSS');
+ const legacy=value.version===1&&value.rank==='SS'&&value.edition==='HALLOWEEN_LIMITED';
+ if((!legacy&&!specific)||value.status!=='ARMED'||value.remaining!==1||value.userId!==Number(userId)||value.packId!==HALLOWEEN_PACK.id||typeof value.operationId!=='string'||!value.operationId||!Number.isSafeInteger(value.actorId)||value.actorId<1)throw invalid();
+ return {key,before:row.value,operationId:value.operationId,...(specific?{mercenaryCode:value.mercenaryCode}:{})};
 }
-export function pickHalloweenSsOnceCode(state,randomInt){
- const eligible=HALLOWEEN_PACK_CARDS.filter(c=>c.rank==='SS').map(c=>({code:c.code,weight:limitedRateUnits(state.settings.cardRatesPpm[c.code]),stock:state.stock.find(s=>s.code===c.code)})).filter(c=>c.weight>0&&c.stock?.prepared&&c.stock.remaining>0);
+export function pickHalloweenSsOnceCode(state,randomInt,once=null){
+ const eligible=HALLOWEEN_PACK_CARDS.filter(c=>once?.mercenaryCode?c.rank==='SSS'&&c.code===once.mercenaryCode:c.rank==='SS').map(c=>({code:c.code,weight:limitedRateUnits(state.settings.cardRatesPpm[c.code]),stock:state.stock.find(s=>s.code===c.code)})).filter(c=>c.weight>0&&c.stock?.prepared&&c.stock.remaining>0);
  const total=eligible.reduce((sum,c)=>sum+c.weight,0);
  // With no available guarantee target, use ordinary pack odds and leave the
  // entitlement armed. Exhaustion must not prevent the pack from opening.
@@ -30,15 +32,16 @@ export async function consumeHalloweenSsOnce(DB,userId,requestId,once,draw){
  if(!once)return [];
  const current=await readHalloweenSsOnce(DB,userId);
  if(current?.key!==once.key||current?.before!==once.before||current?.operationId!==once.operationId)throw Object.assign(jointError('MERCENARY_HALLOWEEN_ONCE_CHANGED','1회 확정 상태가 변경됐습니다. 새 개봉으로 다시 시도하세요.',409),{terminal:true});
- if(draw?.rank!=='SS'||draw.edition!=='HALLOWEEN_LIMITED'||draw.quantity!==1||!HALLOWEEN_PACK_CARDS.some(c=>c.code===draw.mercenaryCode&&c.rank==='SS'))throw invalid();
- const before=JSON.parse(once.before),after=JSON.stringify({...before,status:'CONSUMED',remaining:0,consumedAt:new Date().toISOString(),requestId,acquisitionId:requestId+':0',mercenaryCode:draw.mercenaryCode});
+ const before=JSON.parse(once.before),specific=before.version===2;
+ if(draw?.rank!==before.rank||draw.edition!==before.edition||draw.quantity!==1||!HALLOWEEN_PACK_CARDS.some(c=>c.code===draw.mercenaryCode&&c.rank===before.rank)||specific&&draw.mercenaryCode!==before.mercenaryCode)throw invalid();
+ const after=JSON.stringify({...before,status:'CONSUMED',remaining:0,consumedAt:new Date().toISOString(),requestId,acquisitionId:requestId+':0',mercenaryCode:draw.mercenaryCode});
  const p=(sql,...v)=>DB.prepare(sql).bind(...v),token=crypto.randomUUID();
  return [
   ...(DB.dialect==='postgres'?[p('SELECT key FROM app_meta WHERE key=? FOR UPDATE',once.key)]:[]),
   jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[once.key,once.before]),
   p('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',after,once.key,once.before),
   jointGuard(DB,token+'-consumed','EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[once.key,after]),
-  p('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)',before.actorId,'MERCENARY_HALLOWEEN_SS_ONCE_CONSUMED','USER',String(userId),once.before,after),
+  p('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)',before.actorId,specific?'MERCENARY_HALLOWEEN_CARD_ONCE_CONSUMED':'MERCENARY_HALLOWEEN_SS_ONCE_CONSUMED','USER',String(userId),once.before,after),
   jointGuardEnd(DB,token+'-consumed'),jointGuardEnd(DB,token)
  ];
 }

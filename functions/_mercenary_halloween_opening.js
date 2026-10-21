@@ -47,7 +47,7 @@ export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_P
     if(!state.readiness.ready)throw terminal('NOT_READY',state.readiness.blockers.join(' '));
     const coinCost=halloweenPackPrice(state.settings,count),wallet=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
     if(!wallet||BigInt(wallet.coin)<BigInt(coinCost))throw terminal('FUNDS','코인이 부족합니다.');
-    const once=await readHalloweenSsOnce(env.DB,user.id),firstLimitedCode=once?pickHalloweenSsOnceCode(state,randomInt):null;
+    const once=await readHalloweenSsOnce(env.DB,user.id),firstLimitedCode=once?pickHalloweenSsOnceCode(state,randomInt,once):null;
     return {count,coinCost,draws:pickHalloweenBatch(state,count,randomInt,{firstLimitedCode}),...(once&&firstLimitedCode?{once}:{}),revision:state.revision,rawPack:state.rawPack,normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
    },
    statements:async plan=>{
@@ -59,8 +59,8 @@ export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_P
      if(halloween(r.mercenaryCode)){if(!grouped.has(r.mercenaryCode))grouped.set(r.mercenaryCode,[]);grouped.get(r.mercenaryCode).push(i);}
      else if(r.mercenaryCode&&!state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
     });
-    // A stock-race fallback must not consume a separately armed SS guarantee.
-    const list=await consumeHalloweenSsOnce(DB,user.id,requestId,plan.draws[0].edition==='HALLOWEEN_LIMITED'?plan.once:null,plan.draws[0]);
+    // A stock-race fallback must not consume a separately armed guarantee.
+    const list=await consumeHalloweenSsOnce(DB,user.id,requestId,halloween(plan.draws[0].mercenaryCode)?plan.once:null,plan.draws[0]);
     if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key=? FOR SHARE',HALLOWEEN_PACK_KEY),p("SELECT doc_key FROM mercenary_cms_documents_v1 WHERE doc_key='config' FOR SHARE"),p('SELECT id FROM mercenary_draw_config_v1 WHERE id=1 FOR SHARE'));
     list.push(jointGuard(DB,token,"EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM mercenary_cms_documents_v1 WHERE doc_key='config' AND revision=?) AND EXISTS(SELECT 1 FROM mercenary_draw_config_v1 WHERE id=1 AND revision=?) AND EXISTS(SELECT 1 FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND status='PENDING' AND plan_json=?)",[HALLOWEEN_PACK_KEY,plan.rawPack,plan.normalCmsRevision,plan.normalDrawRevision,requestId,user.id,JSON.stringify(plan)]));
     for(const [code,indices] of [...grouped].sort(([a],[b])=>a.localeCompare(b))){

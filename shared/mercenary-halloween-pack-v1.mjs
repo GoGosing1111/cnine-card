@@ -126,7 +126,7 @@ export function pickHalloweenNormalCard(state,rank,random){
 }
 export function pickHalloweenBatch(state,count,random,{firstLimitedCode=null}={}){
  if(![1,10].includes(count))throw Error('Invalid Halloween batch');
- if(firstLimitedCode!==null&&(!HALLOWEEN_PACK_CARDS.some(c=>c.code===firstLimitedCode&&c.rank==='SS')||!(state.settings.cardRatesPpm[firstLimitedCode]>0)))throw Error('Invalid one-time Halloween SS card');
+ if(firstLimitedCode!==null&&(!HALLOWEEN_PACK_CARDS.some(c=>c.code===firstLimitedCode)||!(state.settings.cardRatesPpm[firstLimitedCode]>0)))throw Error('Invalid one-time Halloween limited card');
  const {settings}=state,used=Object.fromEntries(state.stock.map(s=>[s.code,s.issued]));
  const choose=rows=>{
   const units=rows.map(r=>limitedRateUnits(r.rate));if(units.some(n=>n===null)||units.reduce((s,n)=>s+n,0)!==LIMITED_RATE_TOTAL)throw Error('할로윈 단계별 확률을 확인하세요.');
