@@ -1,0 +1,75 @@
+{
+  "verifiedAt": "2026-10-21T17:25:34.307Z",
+  "status": "VERIFIED",
+  "stock": {
+    "code": "V-989",
+    "limit": 4,
+    "issued": 1,
+    "remaining": 3,
+    "prepared": true,
+    "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+  },
+  "revision": 21,
+  "openingEnabled": true,
+  "rate": 300,
+  "existingGuaranteeAndHoldingAndSerialUnchanged": true,
+  "existingRecipientCanDeploy": true,
+  "once": {
+    "version": 2,
+    "status": "CONSUMED",
+    "remaining": 0,
+    "userId": 4977,
+    "actorId": 1,
+    "operationId": "ops:heeya-halloween-jinmu-once:20261022:v1",
+    "packId": "mercenary-halloween-ss-limited",
+    "rank": "SSS",
+    "edition": "SSS_LIMITED",
+    "mercenaryCode": "V-989",
+    "createdAt": "2026-10-21T17:02:21.753Z",
+    "reason": "하이희야♡ 할로윈팩 개봉중에 sss 진무 1회 뜨게 해 지금 돌리는중임",
+    "consumedAt": "2026-10-21T17:04:19.538Z",
+    "requestId": "9d83ee76-cff9-4dd2-bd47-692495b77d38",
+    "acquisitionId": "9d83ee76-cff9-4dd2-bd47-692495b77d38:0"
+  },
+  "owned": [
+    {
+      "mercenary_code": "V-989",
+      "total_copies": 1,
+      "duplicate_count": 0,
+      "first_obtained_at": "2026-10-21T17:04:19.526Z",
+      "last_obtained_at": "2026-10-21T17:04:19.526Z"
+    }
+  ],
+  "issue": [
+    {
+      "acquisition_id": "9d83ee76-cff9-4dd2-bd47-692495b77d38:0",
+      "request_id": "9d83ee76-cff9-4dd2-bd47-692495b77d38",
+      "user_id": "4977",
+      "code": "V-989",
+      "serial": "1",
+      "created_at": "2026-10-21T17:04:19.526Z"
+    }
+  ],
+  "assets": [
+    {
+      "file": "shared/mercenary-halloween-pool-v3.mjs",
+      "sha256": "6661299cfddde544a0246cb77414b8d27b0214f6ea56d0155e89f3d0f84c848a"
+    },
+    {
+      "file": "shared/mercenary-halloween-pack-v1.mjs",
+      "sha256": "cc9d9f8e19e8d27fae21cef492d48eef0d4c042a42fc0ac87ae9dd891a2496a6"
+    },
+    {
+      "file": "shared/mercenary-jinmu-v1.mjs",
+      "sha256": "3add6025fb2b4c7967feca569e576551c147e060d8fb3824609578deedc7c21d"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "78d9a5295f57729c54030db6463d1b424234666a7d5bc36464c660f11e45253b"
+    },
+    {
+      "file": "js/mercenary-halloween-pack-live.mjs",
+      "sha256": "4b66237740ce916547e73f7030614cb164306787c0c73794aba7cb05ed4051a0"
+    }
+  ]
+}
