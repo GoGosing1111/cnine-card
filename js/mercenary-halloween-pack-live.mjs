@@ -1,6 +1,7 @@
 import {jointAccountRequest} from './joint-account-transport.mjs?v=20260924-response';
 import {HALLOWEEN_PACK,halloweenReceiptResults,halloweenPackPrice} from '../shared/mercenary-halloween-pack-v1.mjs?v=bathory-stock5-20261021-v1';
-import {HalloweenOpeningSession} from '../shared/mercenary-halloween-session-v2.mjs?v=20261021-storage-recovery-v1';
+import {HalloweenOpeningSession} from '../shared/mercenary-halloween-session-v2.mjs?v=20261021-mobile-recovery-v1';
+import {HalloweenReceiptRecovery,halloweenReceiptRetryable} from '../shared/mercenary-halloween-recovery-v1.mjs?v=20261021-mobile-recovery-v1';
 import {HalloweenAutoOpening,halloweenAutoQuote} from '../shared/mercenary-halloween-auto-v1.mjs?v=20261017-auto-v1';
 import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=2145';
 import {halloweenStockText,halloweenCollectionMarkup,halloweenResultsMarkup,halloweenRoomMarkup} from './mercenary-halloween-presentation-v2.mjs?v=jokro-pack-20261021-v1';
@@ -16,17 +17,19 @@ export async function mountHalloweenPack({api=jointAccountRequest,accountId=curr
  if(!document.querySelector('[data-halloween-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-halloween-pack-v2.css?v=jokro-pack-20261021-v1';link.dataset.halloweenPackStyle='';document.head.append(link);}
  const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='hwp-dialog';active=dialog;
  dialog.setAttribute('aria-labelledby','hwp-title');dialog.innerHTML=halloweenRoomMarkup(HALLOWEEN_PACK);
- const $=selector=>dialog.querySelector(selector);let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null;
+ const $=selector=>dialog.querySelector(selector);let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null,recovery=null;
  const lifetime=new AbortController(),closed=()=>Object.assign(Error('계약실을 닫았습니다. 이전 결과는 다시 확인할 수 있습니다.'),{code:'HALLOWEEN_ROOM_CLOSED'});
  // Retiring a stalled view cancels only its local wait. The durable request ID
  // survives, and a late response from that view cannot alter the reopened room.
  const request=async(path,options={})=>{
   if(disposed)throw closed();
+  const controller=new AbortController(),parents=[lifetime.signal,options.signal].filter(Boolean),cancel=()=>controller.abort();
+  for(const signal of parents){signal.addEventListener('abort',cancel,{once:true});if(signal.aborted)cancel();}
   let abort;
   try{return await Promise.race([
-   Promise.resolve().then(()=>{if(disposed)throw closed();return api(path,{...options,signal:lifetime.signal});}),
-   new Promise((_,reject)=>{abort=()=>reject(closed());lifetime.signal.addEventListener('abort',abort,{once:true});})
-  ]);}finally{lifetime.signal.removeEventListener('abort',abort);}
+   Promise.resolve().then(()=>{if(disposed)throw closed();if(controller.signal.aborted)throw Object.assign(Error('결과 확인을 잠시 중지했습니다.'),{name:'AbortError'});return api(path,{...options,signal:controller.signal});}),
+   new Promise((_,reject)=>{abort=()=>reject(disposed?closed():Object.assign(Error('결과 확인을 잠시 중지했습니다.'),{name:'AbortError'}));controller.signal.addEventListener('abort',abort,{once:true});if(controller.signal.aborted)abort();})
+  ]);}finally{controller.signal.removeEventListener('abort',abort);for(const signal of parents)signal.removeEventListener('abort',cancel);}
  };
  const hasPending=()=>{try{return Boolean(session&&storage.getItem(session.pendingKey));}catch{return true;}};
  const cinematic=videoFactory($('[data-hwp-video]'));
@@ -82,6 +85,17 @@ export async function mountHalloweenPack({api=jointAccountRequest,accountId=curr
   window.dispatchEvent(new CustomEvent('limited-pack:receipt',{detail:{coin:receipt.coin,accountId,requestId:receipt.requestId}}));
  }});
  auto=new HalloweenAutoOpening({session,isHidden:()=>document.hidden,onUpdate:()=>sync(),readConfig:async()=>{const next=await request(HALLOWEEN_PACK.featurePath);if(!disposed){acceptConfig(next);}return next;}});
+ recovery=new HalloweenReceiptRecovery({
+  getPendingId:()=>{try{return session.read(session.pendingKey)?.body?.requestId||null;}catch{return null;}},
+  canRead:()=>!disposed&&!document.hidden&&navigator.onLine!==false&&Number(getAccountId())===accountId,
+  isBusy:()=>busy,
+  read:async({signal})=>{
+   busy=true;sync();say('이전 개봉 결과를 다시 확인하고 있습니다.');
+   try{return await recover(true,{signal,timeoutMs:8000});}
+   finally{busy=false;if(!disposed){sync();if(!hasPending())void refreshConfig();}}
+  },
+  onError:error=>say(halloweenReceiptRetryable(error)?'연결이 불안정해 개봉 결과를 기다리고 있습니다. 이전 결과 확인으로도 확인할 수 있습니다.':error.message,true)
+ });
  function updateAutoQuote(){
   if(!config)return;
   try{const q=halloweenAutoQuote(config,Number($('[data-hwp-auto-count]').value),Number($('[data-hwp-auto-repeats]').value));$('[data-hwp-auto-quote]').textContent='총 '+q.totalDraws+'회 · 최대 '+fmt(q.maxCost)+' 코인';}
@@ -92,17 +106,22 @@ export async function mountHalloweenPack({api=jointAccountRequest,accountId=curr
   $('[data-hwp-roster]').innerHTML=halloweenCollectionMarkup(config.cards,config.stock);
   say(config.userOpeningEnabled?'개봉할 수량을 선택하세요.':config.settings.mode==='ON'?'현재 개봉 불가 · '+config.readiness.blockers.join(' '):'출시 준비 중 · 개봉 OFF');acceptConfig(next);
  }
- async function run(work){if(busy||disposed)return;busy=true;sync();try{await work();}catch(e){say(e.message,true);}finally{busy=false;if(!disposed){sync();try{const next=await request(HALLOWEEN_PACK.featurePath);if(!disposed){acceptConfig(next);}}catch{}}}}
- async function recover(readOnly=false){
-  const result=await (readOnly?session.reconcilePending():session.recover());
+ async function refreshConfig(){try{const next=await request(HALLOWEEN_PACK.featurePath);if(!disposed)acceptConfig(next);}catch{}}
+ async function run(work){if(busy||disposed)return;recovery.suspend();busy=true;sync();let error;try{await work();}catch(e){error=e;say(e.message,true);}finally{busy=false;if(!disposed){sync();if(halloweenReceiptRetryable(error))recovery.request();else recovery.stop();await refreshConfig();}}}
+ async function recover(readOnly=false,options){
+  const result=await (readOnly?session.reconcilePending(options):session.recover());
   if(result?.status==='CANCELLED')say('취소된 이전 요청을 정리했습니다. 새로 개봉할 수 있습니다.');
   else if(result&&result.status!=='COMPLETED')say('이전 개봉이 아직 확인되지 않았습니다. 이전 결과 확인을 눌러 복구해 주세요.',true);
+  return result;
  }
  function dismissConfirm(){const saved=quote;quote=null;$('[data-hwp-confirm]').hidden=true;$('[data-hwp-shell]').inert=false;if(saved)(saved.auto?$('[data-hwp-auto-start]'):$('[data-hwp-buy="'+saved.count+'"]')).focus();}
- const close=()=>{if(disposed)return;auto.stop('계약실을 닫아 자동뽑기를 중지했습니다.');disposed=true;lifetime.abort();cinematic.destroy();document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',close);dialog.close();dialog.remove();if(active===dialog)active=null;previous?.focus();};
- const visibility=()=>{if(document.hidden){auto.stop('화면을 벗어나 자동뽑기를 중지했습니다.');if(cinematic.active){paused=true;cinematic.setPaused(true);$('[data-hwp-pause]').textContent='계속 재생';}}};
+ const close=()=>{if(disposed)return;auto.stop('계약실을 닫아 자동뽑기를 중지했습니다.');disposed=true;recovery.destroy();lifetime.abort();cinematic.destroy();document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',close);window.removeEventListener('online',resume);window.removeEventListener('offline',offline);window.removeEventListener('cnine:player-updated',accountChanged);dialog.close();dialog.remove();if(active===dialog)active=null;previous?.focus();};
+ const resume=()=>recovery.request({resume:true});
+ const offline=()=>{auto.stop('연결이 끊겨 자동뽑기를 중지했습니다.');recovery.suspend();};
+ const accountChanged=()=>{if(Number(getAccountId())!==accountId)recovery.suspend();};
+ const visibility=()=>{if(document.hidden){recovery.suspend();auto.stop('화면을 벗어나 자동뽑기를 중지했습니다.');if(cinematic.active){paused=true;cinematic.setPaused(true);$('[data-hwp-pause]').textContent='계속 재생';}}else resume();};
  $('[data-hwp-close]').onclick=close;dialog.addEventListener('cancel',e=>{e.preventDefault();if(quote)dismissConfirm();else close();});
- window.addEventListener('pagehide',close,{once:true});document.addEventListener('visibilitychange',visibility);
+ window.addEventListener('pagehide',close,{once:true});document.addEventListener('visibilitychange',visibility);window.addEventListener('online',resume);window.addEventListener('offline',offline);window.addEventListener('cnine:player-updated',accountChanged);
  $('[data-hwp-skip]').onclick=videoEnd;$('[data-hwp-pause]').onclick=()=>{paused=!paused;cinematic.setPaused(paused);$('[data-hwp-pause]').textContent=paused?'계속 재생':'일시정지';};
  $('[data-hwp-auto-toggle]').onclick=()=>{const panel=$('[data-hwp-auto-panel]');panel.hidden=!panel.hidden;$('[data-hwp-auto-toggle]').setAttribute('aria-expanded',String(!panel.hidden));if(!panel.hidden){panel.scrollIntoView({block:'start'});$('[data-hwp-auto-count]').focus();}};
  $('[data-hwp-auto-count]').onchange=()=>sync();$('[data-hwp-auto-repeats]').oninput=()=>sync();
@@ -130,5 +149,5 @@ export async function mountHalloweenPack({api=jointAccountRequest,accountId=curr
   say('이전 개봉 결과를 확인하고 있습니다.');
   void run(()=>recover());
  };
- document.body.append(dialog);dialog.showModal();try{await load();if(!disposed&&session.read(session.pendingKey))await run(()=>recover(true));}catch(e){say(e.message,true);}return dialog;
+ document.body.append(dialog);dialog.showModal();try{await load();if(!disposed&&session.read(session.pendingKey))await run(()=>recover(true));}catch(e){say(e.message,true);if(halloweenReceiptRetryable(e))recovery.request();}return dialog;
 }
