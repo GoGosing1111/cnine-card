@@ -1,0 +1,7 @@
+#inventoryGrantBlock[data-reversecall-gift="true"]{background:none;border:solid transparent;border-width:22px;border-image:url('/assets/ui/packs/reversecall-streamer-gift-20261021/panel.webp') 145 170 145 170 fill / 22px / 0 stretch;padding:12px;border-radius:0;color:#f5efe1}
+#inventoryGrantBlock[data-reversecall-gift="true"] h3{color:#f5efe1}
+#reversecallGiftGrantNote:not([hidden]){display:grid;grid-template-columns:80px minmax(0,1fr);align-items:center;gap:10px;line-height:1.8;word-break:keep-all;font-size:13px;color:#ebddc5}
+#reversecallGiftGrantNote img{width:80px;height:80px;object-fit:contain}
+#reversecallGiftGrantNote span{display:block}
+#inventoryGrantBlock[data-reversecall-gift="true"] #inventoryGrantBtn{background:none;border:solid transparent;border-width:12px 30px;border-image:url('/assets/ui/packs/reversecall-streamer-gift-20261021/button.webp') 50 160 50 160 fill / 12px 30px / 0 stretch;border-radius:0;color:#342211;min-height:56px;padding:4px 8px;font-weight:800}
+#inventoryGrantBlock[data-reversecall-gift="true"] #inventoryGrantBtn:focus-visible{outline:2px solid #ffe4a5;outline-offset:3px}

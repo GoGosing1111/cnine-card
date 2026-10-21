@@ -1,0 +1,91 @@
+{
+  "checkedAt": "2026-10-21T03:53:10.408Z",
+  "base": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "match": true,
+      "sha256": "3b62384cc63e389619078614435771ed193b3c338510e8f2ef2b6d4c8cfe408d"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "match": true,
+      "sha256": "1895d588bc29110aa6e5b2a862e010b32dde3513b0cd4804a83505138208cbbc"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "match": true,
+      "sha256": "74ae704baa33c8bc63423d99c808457721d06c94f6e3600c4e8de9f770d14a03"
+    },
+    {
+      "file": "js/reversecall-streamer-gift-v1.js",
+      "status": 200,
+      "match": true,
+      "sha256": "47eb3e2a043e93bd61f93f7f16f565a9dd4bf6ae642e5d9737a0dce04258ccfd"
+    },
+    {
+      "file": "css/reversecall-streamer-gift-v1.css",
+      "status": 200,
+      "match": true,
+      "sha256": "00795d0cb3a5d1fa2406e4765678a9dc5348c3fd90dfffadd0d5639171a789e5"
+    },
+    {
+      "file": "shared/reversecall-streamer-gift-v1.mjs",
+      "status": 200,
+      "match": true,
+      "sha256": "e72410b551bf631558f19222e533e6d57ecf050eb0741542272e65f62057894a"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "match": true,
+      "sha256": "51e5f3ddc3af73a58d71b44d8d425d82272f0d246d41045afa9a33dbf5af4128"
+    },
+    {
+      "file": "admin/admin-v1276.js",
+      "status": 200,
+      "match": true,
+      "sha256": "51e2ad7973b9c14860dff3e87c707c2caf732627d06e1bb76e84dd1c7310745f"
+    },
+    {
+      "file": "admin/reversecall-streamer-gift-v1.css",
+      "status": 200,
+      "match": true,
+      "sha256": "b6e1afa7277ce58f481036b663c52c0115703b394ef85ff12e8fd8969ce7e9cc"
+    },
+    {
+      "file": "assets/ui/packs/reversecall-streamer-gift-20261021/gift-768.webp",
+      "status": 200,
+      "match": true,
+      "sha256": "5cc050d72b72208ef2afab9816412980bded5fb12a8bfa499d9230eca0747ce2"
+    },
+    {
+      "file": "assets/ui/packs/reversecall-streamer-gift-20261021/gift-256.webp",
+      "status": 200,
+      "match": true,
+      "sha256": "4e62dcf6b801f9e9e8b0796274c1b1ce2bcde9ce962a9aebb64d7ced6fc7051e"
+    },
+    {
+      "file": "assets/ui/packs/reversecall-streamer-gift-20261021/panel.webp",
+      "status": 200,
+      "match": true,
+      "sha256": "e68db102da4e0332e66730cd913ed45ead204f999107ab65cb10ce681e6f0006"
+    },
+    {
+      "file": "assets/ui/packs/reversecall-streamer-gift-20261021/reward.webp",
+      "status": 200,
+      "match": true,
+      "sha256": "da0b064ce78dd394e8db7947069c4f84304818ebbe00687982b0c840a2307543"
+    },
+    {
+      "file": "assets/ui/packs/reversecall-streamer-gift-20261021/button.webp",
+      "status": 200,
+      "match": true,
+      "sha256": "6a69ce5effd315d9f4f93603532a7d800a99eecb664a753edb28a6b724e08cd7"
+    }
+  ],
+  "allMatch": true
+}
