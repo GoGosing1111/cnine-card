@@ -241,6 +241,12 @@ test('a hash-bound continuation preserves completed stages but reruns changed co
   assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATION_BASE:'bad'}}),/actual candidate/);
   for(const log of [text.replace('Reuse 1','Reuse 0'),text.replace('> test:b','> test:a'),text.replace('> test:b\nℹ fail 0\n',''),text.replace('ℹ fail 0','ℹ fail 1'),text.replace('ℹ fail 1','ℹ fail 0')])assert.throws(()=>fullGateResumePlan(setup(log)));
   for(const runtime of ['js/mercenary-limited-pack-live.mjs','functions/_mercenary_limited_pack.js','shared/mercenary-limited-session-v1.mjs'])assert.throws(()=>fullGateResumePlan(setup(text,[runtime])),/Runtime changed after continuation/);
+  // The same unreferenced-operations rule must hold after a continuation. The
+  // later runtime scan still rejects an ops file imported by the game/tooling.
+  const operation='scripts/ops/concurrent-prize.mjs',op=setup(text,[operation]);
+  assert.equal(fullGateResumePlan(op).reused,2);
+  const checked={...op,git:(...args)=>args[0]==='ls-files'&&args[1]==='functions'?'js/live.js':op.git(...args)};
+  assert.throws(()=>fullGateResumePlan({...checked,read:path=>path==='js/live.js'?`import '../${operation}'`:op.read(path)}),/Operational file is referenced/);
 });
 
 test('concurrent unreferenced JSON production receipts are documentation, never runtime configuration',()=>{
