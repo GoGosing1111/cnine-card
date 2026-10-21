@@ -22,17 +22,17 @@ test('top three use evaluated power with stable ties and exclude inactive member
 test('all three elders can manage formation, captains, garrison, launch and upgrade; other members cannot manage',async t=>{
  const f=await organizationFactionFixture(t,{live:true});ok(await setElders(f,[2,3,4]));
  await f.pg.query('INSERT INTO organization_faction_treasury_v1(round_id,organization_id,balance) VALUES($1,1,10000)',[f.roundId]);
- await f.mutateState(s=>{s.districts.find(d=>d.id==='41110').owner=1;});
+ await f.mutateState(s=>{s.districts.find(d=>d.id==='11110').owner=1;});
  for(const user of [2,3,4]){
   const view=(await f.overview(user)).data;assert.equal(view.mine.isElder,true);assert.equal(view.mine.canManageFormation,true);assert.equal(view.treasury.canUpgrade,true);assert.deepEqual(view.treasury.elderIds,[2,3,4]);
   ok(await f.post('organization/faction/formation',{formation},user));ok(await f.post('organization/faction/captains',{captains:{attack3:0,attack4:0,attack5:0,attack1:5,attack2:null}},user));
-  ok(await f.post('organization/faction/garrison',{districtId:'41110',squad:'defense1'},user));
-  ok(await f.post('organization/faction/launch',{districtId:['41570','41190','41210'][user-2],squad:'attack1'},user));
+  ok(await f.post('organization/faction/garrison',{districtId:'11110',squad:'defense1'},user));
+  ok(await f.post('organization/faction/launch',{districtId:['11140','11170','11200'][user-2],squad:'attack1'},user));
   ok(await f.post('organization/faction/upgrade',{expectedStage:user-1,policyRevision:1},user));
   f.advance(21*60000);
  }
  assert.equal((await f.overview(6)).data.mine.isElder,false);
- for(const [path,body] of [['formation',{formation}],['captains',{captains:{attack3:0,attack4:0,attack5:0,attack1:6,attack2:null}}],['garrison',{districtId:'41110',squad:'defense1'}],['upgrade',{expectedStage:4,policyRevision:1}]])assert.equal((await f.post('organization/faction/'+path,body,6)).status,403,path);
+ for(const [path,body] of [['formation',{formation}],['captains',{captains:{attack3:0,attack4:0,attack5:0,attack1:6,attack2:null}}],['garrison',{districtId:'11110',squad:'defense1'}],['upgrade',{expectedStage:4,policyRevision:1}]])assert.equal((await f.post('organization/faction/'+path,body,6)).status,403,path);
  assert.equal((await setElders(f,[2,3,7],[2,3,4])).status,409);
  await f.pg.query("UPDATE users SET status='BLOCKED' WHERE id=3");assert.equal((await f.overview(3)).status,403);assert.deepEqual((await f.overview(2)).data.treasury.elderIds,[2,4]);
 });
@@ -45,7 +45,7 @@ test('elder edits are OWNER only, stale-safe, replay-safe and atomic; lineup can
  assert.equal((await f.post('admin/organization/faction/elders',{organizationId:1,userIds:[2],baseUserIds:[2,3,4]},2)).status,403);
  f.fail('INSERT INTO organization_faction_receipts_v1');assert.equal((await setElders(f,[4],[2,3,4])).status,503);f.fail('');assert.deepEqual((await f.overview()).data.treasury.elderIds,[2,3,4]);
  f.advance(7*3600000);assert.equal((await f.overview()).data.sessions.active,false);
- for(const user of [2,3,4]){ok(await f.post('organization/faction/formation',{formation},user));assert.equal((await f.post('organization/faction/launch',{districtId:'41110',squad:'attack1'},user)).data.code,'ORG_WINDOW');}
+ for(const user of [2,3,4]){ok(await f.post('organization/faction/formation',{formation},user));assert.equal((await f.post('organization/faction/launch',{districtId:'11110',squad:'attack1'},user)).data.code,'ORG_WINDOW');}
  ok(await setElders(f,[],[2,3,4]));assert.deepEqual((await f.overview()).data.treasury.elderIds,[]);assert.equal((await f.overview()).data.mine.isElder,false);
 });
 

@@ -47,12 +47,12 @@ test('closed additional recruitment can rate, preview and atomically apply only 
  state=(await f.call('admin/organization')).data;assert.equal(state.round.assigned_at,assignedAt);assert.equal(state.round.assignment_status,'COMPLETED');assert.equal(state.pendingApplicantCount,0);assert.equal(organizationAssignmentAvailability(state,f.clock()).canApply,false);
 });
 
-test('organization requires nine territories and pays 300 billion once per participating member; old clan amounts stay unchanged',()=>{
+test('organization requires eight territories and pays 300 billion once per participating member; old clan amounts stay unchanged',()=>{
  const roster=[{userId:1,clanId:1},{userId:2,clanId:1},{userId:3,clanId:2}],participants=[1,3],participantClans={1:1,3:2},policy={recipients:'PARTICIPANTS',rewardRules:ORGANIZATION_SESSION_RULES};
- for(const count of [6,8,9,10]){
+ for(const count of [6,7,8,9,10]){
   const districts=Array.from({length:count},()=>({owner:1})),result=factionSessionRewards(districts,roster,participants,policy,participantClans);
-  assert.equal(result.recipients.length,count>=9?1:0);
-  if(count>=9)assert.deepEqual(result.recipients[0],{userId:1,clanId:1,territories:count,amount:300000000000,masterStars:300000,mysticEnergy:300});
+  assert.equal(result.recipients.length,count>=8?1:0);
+  if(count>=8)assert.deepEqual(result.recipients[0],{userId:1,clanId:1,territories:count,amount:300000000000,masterStars:300000,mysticEnergy:300});
  }
  assert.equal(FACTION_SESSION_RULES.requiredTerritories,4);assert.equal(factionSessionRewards(Array.from({length:4},()=>({owner:1})),roster,participants,{recipients:'PARTICIPANTS'},participantClans).recipients[0].amount,30000000000);
 });
