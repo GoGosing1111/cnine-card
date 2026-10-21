@@ -117,9 +117,52 @@ test('hover warming prepares assets without fetching a balance before actual ent
 test('workshop deadline includes a stuck queue or response body and allows one fresh retry',async()=>{
   const h=harness(),first=h.context.consumeWorkshopEntryRead();
   const failed=assert.rejects(first,/제시간에 받지 못했습니다/);
-  h.advance(12000);await failed;
+  h.advance(30000);await failed;
   assert.equal(h.reads[0].options.signal.aborted,true);
   const retry=h.context.consumeWorkshopEntryRead();assert.equal(h.reads.length,2);
   h.reads[0].resolve({stale:true});h.reads[1].resolve({fresh:true});
   assert.deepEqual(await retry,{fresh:true});assert.equal(h.timers.size,0);
+});
+
+test('first entry can finish after the old 12-second queue deadline without showing an error',async()=>{
+  const h=harness(),loading=h.context.consumeWorkshopEntryRead();let settled=false;
+  loading.then(()=>{settled=true},()=>{settled=true});
+  h.advance(12001);await flush();assert.equal(settled,false);assert.equal(h.reads[0].options.signal.aborted,false);
+  assert.equal(h.reads[0].config.timeoutMs,12000,'individual server waits remain bounded');
+  h.advance(2999);h.reads[0].resolve({ready:true});assert.deepEqual(await loading,{ready:true});
+  assert.equal(h.reads.length,1);assert.equal(h.timers.size,0);
+});
+
+test('a cold-entry timeout automatically recovers one fresh GET shared by repeated mounts',async()=>{
+  const h=harness(),first=h.context.consumeWorkshopEntryRead(),remount=h.context.consumeWorkshopEntryRead();
+  h.advance(12000);h.reads[0].reject(Object.assign(new Error('cold request timeout'),{code:'REQUEST_TIMEOUT',timeout:true}));
+  await flush();assert.equal(h.reads.length,2);assert.equal(h.reads[1].config.microcache,false);assert.equal(h.reads[1].config.replaceInflight,true);
+  h.reads[1].resolve({wallet:{coin:42}});
+  assert.deepEqual(await first,{wallet:{coin:42}});assert.deepEqual(await remount,{wallet:{coin:42}});
+  assert.equal(h.reads.length,2);assert.equal(h.timers.size,0);
+});
+
+test('transient recovery is bounded and never retries authentication, maintenance or abandoned sessions',async()=>{
+  for(const status of [429,502,503,504]){
+    const h=harness(),loading=h.context.consumeWorkshopEntryRead(),failed=assert.rejects(loading,/still offline/);
+    h.reads[0].reject(Object.assign(Error('temporary'),{status}));await flush();assert.equal(h.reads.length,2);
+    h.reads[1].reject(Object.assign(Error('still offline'),{status}));await failed;assert.equal(h.reads.length,2);assert.equal(h.timers.size,0);
+  }
+  for(const data of [{status:401},{status:403},{status:404},{status:503,code:'MAINTENANCE'},{status:503,maintenance:{active:true}}]){
+    const h=harness(),loading=h.context.consumeWorkshopEntryRead(),failed=assert.rejects(loading,/not retryable/);
+    h.reads[0].reject(Object.assign(Error('not retryable'),data));await failed;assert.equal(h.reads.length,1);
+  }
+  for(const change of ['API_TOKEN="account-b"','PLAYER_STATE_MUTATION_EPOCH++','workshopEntryRead=null']){
+    const h=harness();h.context.prepareWorkshopEntryRead();vm.runInContext(change,h.context);
+    h.reads[0].reject(Object.assign(Error('old request'),{code:'REQUEST_TIMEOUT'}));await flush();assert.equal(h.reads.length,1);
+  }
+});
+
+test('network failure before assets finish recovers once, while stalled bodies keep the total deadline',async()=>{
+  const h=harness();h.context.prepareWorkshopEntryRead();h.reads[0].reject(new TypeError('Failed to fetch'));await flush();
+  h.reads[1].resolve({recovered:true});assert.deepEqual(await h.context.consumeWorkshopEntryRead(),{recovered:true});
+  h.context.prepareWorkshopEntryRead();const loading=h.context.consumeWorkshopEntryRead(),failed=assert.rejects(loading,/제시간에 받지 못했습니다/);
+  h.advance(12000);h.reads[2].reject(Object.assign(Error('first timeout'),{timeout:true}));await flush();assert.equal(h.reads.length,4);
+  h.advance(18000);await failed;assert.equal(h.reads[3].options.signal.aborted,true);assert.equal(h.timers.size,0);
+  h.reads[3].resolve({late:true});await flush();assert.equal(h.reads.length,4);
 });

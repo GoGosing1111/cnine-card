@@ -1048,23 +1048,35 @@ function featureResourcesReady(key){
 }
 // Share one read across asset loading and immediate shell remounts. No persisted balances.
 const WORKSHOP_ENTRY_MAX_AGE_MS=1000;
-const WORKSHOP_ENTRY_TIMEOUT_MS=12000;
+const WORKSHOP_ENTRY_TIMEOUT_MS=30000;
+const WORKSHOP_ENTRY_ATTEMPT_TIMEOUT_MS=12000;
 let workshopEntryRead=null;
 let workshopEntrySection=null;
-function requestWorkshopEntryState(){
+function requestWorkshopEntryState({current=()=>true}={}){
   const controller=new AbortController();let timer;
-  // Include the read queue and response body in this view's deadline. The
-  // generic fetch timeout only covers waiting for response headers.
+  // First entry may queue behind the lobby's six reads before reaching a cold
+  // inventory query. Keep a total deadline, with one transient GET recovery.
+  // The per-request timeout starts after the queue; the total also covers bodies.
   const deadline=new Promise((_,reject)=>{timer=setTimeout(()=>{
     reject(new Error('제작소 정보를 제시간에 받지 못했습니다. 다시 시도해 주세요.'));
     controller.abort();
   },WORKSHOP_ENTRY_TIMEOUT_MS)});
-  return Promise.race([apiRequest('workshop',{signal:controller.signal},{ttl:0,microcache:false,replaceInflight:true,timeoutMs:WORKSHOP_ENTRY_TIMEOUT_MS}),deadline]).finally(()=>clearTimeout(timer));
+  const request=(async()=>{
+    for(let attempt=0;attempt<2;attempt++){
+      try{return await apiRequest('workshop',{signal:controller.signal},{ttl:0,microcache:false,replaceInflight:true,timeoutMs:WORKSHOP_ENTRY_ATTEMPT_TIMEOUT_MS});}
+      catch(error){
+        const code=String(error?.code||'').toUpperCase(),status=Number(error?.status||0);
+        const transient=error?.timeout===true||code==='REQUEST_TIMEOUT'||error?.name==='TypeError'||[429,502,503,504].includes(status);
+        if(attempt||controller.signal.aborted||!current()||!transient||code==='MAINTENANCE'||error?.maintenance?.active)throw error;
+      }
+    }
+  })();
+  return Promise.race([request,deadline]).finally(()=>clearTimeout(timer));
 }
 function prepareWorkshopEntryRead(){
   if(!API_TOKEN){workshopEntryRead=null;return;}
   const read={token:API_TOKEN,epoch:PLAYER_STATE_MUTATION_EPOCH,consumedAt:null};
-  read.result=requestWorkshopEntryState().then(data=>{
+  read.result=requestWorkshopEntryState({current:()=>workshopEntryRead===read&&read.token===API_TOKEN&&read.epoch===PLAYER_STATE_MUTATION_EPOCH}).then(data=>{
     return {data};
   },error=>({error})); // Asset failure/navigation must not leave an unhandled rejection.
   workshopEntryRead=read;

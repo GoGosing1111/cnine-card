@@ -9,7 +9,7 @@ const base=process.env.WORKSHOP_QA_ORIGIN||'http://127.0.0.1:8913';
 if(new URL(base).hostname!=='127.0.0.1')throw Error('Local isolated server required');
 const out=fs.mkdtempSync(path.join(os.tmpdir(),'workshop-slow-read-20260927-'));
 const state={wallet:{coin:9000000000,masterStars:10000,cardShards:15000000},inventory:{},recipes:[],synthesis:Array.from({length:16},(_,i)=>({recipe_id:i+1,name:'대량 보유 장비 '+(i+1),output_name:'합성 장비 '+(i+1),image_url:'assets/EQ/m'+(i%5+1)+'.jpeg',output_image:'assets/new myth/'+(i%6+20)+'.jpeg',rarity:'MYTHIC',output_rarity:'MYTHIC',quantity:2001,quantity_capped:true,input_quantity:20,success_rate:25,output_pve_power:250000,output_pvp_power:15000}))};
-const browser=await chromium.launch({channel:'chrome',headless:true}),results=[],errors=[];
+const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']}),results=[],errors=[];
 try{
  for(const width of [1440,390]){
   const page=await browser.newPage({viewport:{width,height:900},isMobile:width===390,deviceScaleFactor:width===390?2:1,hasTouch:width===390,serviceWorkers:'block',reducedMotion:'reduce'});
@@ -30,14 +30,14 @@ try{
    return {routeMs:performance.now()-window.__wsStart,result};
   });
   assert.equal(timing.result.ok,true,'slow data is owned by the view, not a missing-route error');
-  const root=page.locator('#workshopRootV1881');await root.locator('.ws76-error').waitFor({timeout:15000});
+  const root=page.locator('#workshopRootV1881');await root.locator('.ws76-error').waitFor({timeout:33000});
   const timeoutMs=await page.evaluate(()=>performance.now()-window.__wsStart);
-  assert.ok(timeoutMs<14500,'bounded waiting covers a stalled fetch');assert.equal(reads,1);
-  assert.match(await root.innerText(),/제시간에 받지 못했습니다/);
+  assert.ok(timeoutMs>=24000&&timeoutMs<32000,'two bounded fetches stop within the total deadline');assert.equal(reads,2);
+  assert.match(await root.innerText(),/시간이 초과|제시간에 받지 못했습니다/);
   assert.ok(!(await page.locator('body').innerText()).includes('연결할 운영 화면을 찾지 못했습니다'));
   await page.screenshot({path:path.join(out,`${width}-timeout.png`)});
   mode='ok';const retryStart=Date.now();await root.locator('.ws76-error button').click();await root.locator('.ws81-nav').waitFor();
-  const retryMs=Date.now()-retryStart;assert.equal(reads,2);
+  const retryMs=Date.now()-retryStart;assert.equal(reads,3);
   assert.equal(await root.locator('[data-ws-section="SYNTHESIS"]').getAttribute('aria-pressed'),'true');
   assert.match(await root.locator('.ws81-synth-detail').innerText(),/2,001개 이상/);
   assert.match(await root.locator('.ws81-synth-detail').innerText(),/1개 이상 유지/);

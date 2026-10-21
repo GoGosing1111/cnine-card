@@ -1,0 +1,46 @@
+{
+  "baseline": "bff9114f3",
+  "results": [
+    {
+      "version": "before",
+      "width": 1440,
+      "cpu": 1,
+      "queuedMs": 12138,
+      "errorBeforeRequest": true,
+      "writes": 0
+    },
+    {
+      "version": "after",
+      "width": 1440,
+      "cpu": 1,
+      "queuedMs": 13006,
+      "recoveredMs": 13471,
+      "transientAttempts": 2,
+      "persistentAttempts": 2,
+      "manualRetryAttempts": 1,
+      "writes": 0,
+      "overflow": 0
+    },
+    {
+      "version": "before",
+      "width": 390,
+      "cpu": 4,
+      "queuedMs": 12460,
+      "errorBeforeRequest": true,
+      "writes": 0
+    },
+    {
+      "version": "after",
+      "width": 390,
+      "cpu": 4,
+      "queuedMs": 13008,
+      "recoveredMs": 14034,
+      "transientAttempts": 2,
+      "persistentAttempts": 2,
+      "manualRetryAttempts": 1,
+      "writes": 0,
+      "overflow": 0
+    }
+  ],
+  "errors": []
+}
