@@ -45,6 +45,12 @@ test('small backend and V3 fixes automatically retain compilation and real loade
  const plan=scopedReleasePlan(fixture({changed:['functions/_mercenary_combat.js','preview/project-v-v3/source/battle/MercenaryCombatPlayback.js','js/battle-v3-live.js']}));
  assert.deepEqual(plan.checks,['check:worker']);assert.deepEqual(plan.tests,[path,'tests/pve-battlefield-entry-v2117.test.mjs']);
 });
+
+test('an unshipped QA Wrangler record does not classify an art release as production infrastructure',()=>{
+ assert.doesNotThrow(()=>scopedReleasePlan(fixture({changed:['js/seal-battle.js','docs/qa/one-off-operation/wrangler.jsonc']})));
+ for(const file of ['wrangler.toml','workers/api-runtime/wrangler.jsonc','preview/worker/wrangler.jsonc','docs/qa/one-off-operation/migration.sql'])
+  assert.throws(()=>scopedReleasePlan(fixture({changed:['docs/qa/one-off-operation/wrangler.jsonc',file]})),/full release gate/);
+});
 test('selected tests run once, guard follows them, and a failed test stops execution',()=>{
  for(const platform of ['win32','linux']){
   const calls=[],f=fixture({changed:['functions/_mercenary_combat.js']});
