@@ -1,0 +1,42 @@
+{
+  "operationKey": "ops:owner-jokro-exempt-grant:20261023:v1",
+  "authorization": "족로도 지급해 차감없이",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "totalQuantity": 2,
+  "recipientCount": 2,
+  "recipients": [
+    {
+      "id": "2",
+      "nickname": "Inception",
+      "role": "OWNER",
+      "status": "ACTIVE",
+      "identityHash": "e9508363ca4b1bb1eb2de9c933539a931115093b50ef32b7fccc258503cfc242"
+    },
+    {
+      "id": "5663",
+      "nickname": "비숑",
+      "role": "OWNER",
+      "status": "ACTIVE",
+      "identityHash": "4e20330d91fbd5e52c5a21fa720d69468fcf0d7952b847d8787df45edf81c305"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "2",
+      "nickname": "Inception",
+      "code": "V-979",
+      "name": "족로",
+      "quantity": 1
+    },
+    {
+      "userId": "5663",
+      "nickname": "비숑",
+      "code": "V-979",
+      "name": "족로",
+      "quantity": 1
+    }
+  ],
+  "context": "직전 요청의 비숑 및 Inception OWNER 계정에 각각 1장"
+}

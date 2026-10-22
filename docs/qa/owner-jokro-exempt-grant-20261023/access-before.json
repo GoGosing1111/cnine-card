@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-22T22:22:43.983Z",
+  "pages": [
+    {
+      "id": "12a88635-63f4-4645-8081-616d46e35716",
+      "url": "https://12a88635.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "132412e16e8743932f39c734ef52afc95b4407c9",
+      "createdAt": "2026-10-22T16:28:09.391436Z"
+    }
+  ],
+  "jokro": "jokroAccountAllowed = /* @__PURE__ */ __name((userId2, code5, now2 = Date.now(), hasPackIssue = false) => code5 !== JOKRO_CODE || Number(userId2) === JOKRO_OWNER_ID || Number(userId2) === 303 || Number(userId2) === 4817 || Number(userId2) === 1768 || Number(userId2) === 5008 || hasPackIssue === true || Number(userId2) === JOKRO_LOAN.userId && now2 < JOKRO_LOAN.expiresAt, \"jokroAccountAllowed\")",
+  "requiredRecipientIds": [
+    "2",
+    "5663"
+  ],
+  "runtimeChangeRequired": true
+}

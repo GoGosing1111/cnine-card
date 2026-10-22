@@ -10,14 +10,14 @@ import {JOKRO_CODE,JOKRO_LOAN,jokroAccountAllowed} from '../shared/mercenary-jok
 
 const cases=[
  {code:JINMU_CODE,allowed:[1195,1768,4391,5008],blocked:[303,7,4977,5950],limit:4},
- {code:JOKRO_CODE,allowed:[1768,5008],blocked:[1195,4391,4651,7,4977,5950],limit:2}
+ {code:JOKRO_CODE,allowed:[2,5663,1768,5008],blocked:[1195,4391,4651,7,4779,4977,5950],limit:2}
 ];
 
 test('2026-10-23 prizes permit only their exact account and mercenary pairs',()=>{
  for(const id of [1,2,5663,4651,4817,1195,1768,4391,5008])assert.equal(jinmuAccountAllowed(id,JINMU_CODE),true);
  for(const id of [303,7,4977,5950])assert.equal(jinmuAccountAllowed(id,JINMU_CODE),false);
- for(const id of [1,303,4817,1768,5008])assert.equal(jokroAccountAllowed(id,JOKRO_CODE,JOKRO_LOAN.expiresAt+1),true);
- for(const id of [1195,4391,4651,7,4977,5950])assert.equal(jokroAccountAllowed(id,JOKRO_CODE,JOKRO_LOAN.expiresAt+1),false);
+ for(const id of [1,2,5663,303,4817,1768,5008])assert.equal(jokroAccountAllowed(id,JOKRO_CODE,JOKRO_LOAN.expiresAt+1),true);
+ for(const id of [1195,4391,4651,7,4779,4977,5950])assert.equal(jokroAccountAllowed(id,JOKRO_CODE,JOKRO_LOAN.expiresAt+1),false);
  assert.equal(jinmuAccountAllowed(7,JINMU_CODE,true),true);
  assert.equal(jokroAccountAllowed(7,JOKRO_CODE,JOKRO_LOAN.expiresAt+1,true),true);
 });
