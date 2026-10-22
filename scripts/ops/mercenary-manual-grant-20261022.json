@@ -1,0 +1,202 @@
+{
+  "operationKey": "ops:mercenary-manual-grant:20261022:v1",
+  "authorization": "앞에 숫자는 무시하고 전체 지급 횟수차감없이 지급",
+  "corrections": [
+    "[늘]음주 → 음주",
+    "골수뽑는망숭 → 골수뽑는망순, 사용자 보류",
+    "족게이다 발테르 → 혜정으로 지급"
+  ],
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "totalQuantity": 14,
+  "recipientCount": 12,
+  "recipients": [
+    {
+      "id": "81",
+      "nickname": "비쥬얼깡패",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "6050169c2537716e2a3995c7ea229bfe50a0437e9f01c9f58a1f1544e0b587a4"
+    },
+    {
+      "id": "277",
+      "nickname": "스갤가축",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "19528fabfdfeb568d802b9cdb7ab2fdf955cb64af0f006d0ee6638dc82ec5118"
+    },
+    {
+      "id": "303",
+      "nickname": "[C9]족쪽이",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "6bb1685a26645b978145e7f952dba13812f9977505cadd60b27057559ce1618f"
+    },
+    {
+      "id": "2420",
+      "nickname": "블랙캐슬",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "936114f4fbfa955199c1a489b1ad78426cc6f8e59c800275eefa993118de2f82"
+    },
+    {
+      "id": "4570",
+      "nickname": "혜정",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "cd1fb88a0043f82c8010dea62ccb8612558c3c1a588db75ec57c34a979fe1e12"
+    },
+    {
+      "id": "4609",
+      "nickname": "오랜만에",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "24cffeee880e6e281d4b70da7560fd1ab31000d25fa4061d509bbf6ac4f86e6e"
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "cc225638bec5ef6513c0c0a4365b4df20de606081790e6380e9caafc96a4a563"
+    },
+    {
+      "id": "4651",
+      "nickname": "세라네꼬라지",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "bcf5e595208f67049e70bf16cf7ca569fb321569899f85447fd62cd0e5f8c1bc"
+    },
+    {
+      "id": "4817",
+      "nickname": "음주",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "743100b54ae0fec0bf57f025913fb50cd67ec59c7ada076bd5dd61e5b6dd3aa9"
+    },
+    {
+      "id": "4965",
+      "nickname": "쁴로리",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "8224a7fe004070bf9fd16c6e447ec8d55331168d0151a3ba38737e61d7eb6c0e"
+    },
+    {
+      "id": "5008",
+      "nickname": "단정한밤",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "18ae9b9bcebd7796f752826f71458a4fbe2cc01ac6edf309cb813bf8118f6e48"
+    },
+    {
+      "id": "5950",
+      "nickname": "남수댕ㅗ",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "65b5942dbd1b33aa4cdda875226f263981cef06afc1829cd9c9e102868337a36"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "4817",
+      "nickname": "음주",
+      "name": "족로",
+      "code": "V-979",
+      "quantity": 1
+    },
+    {
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "name": "족로",
+      "code": "V-979",
+      "quantity": 1
+    },
+    {
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "name": "카이론",
+      "code": "V-988",
+      "quantity": 1
+    },
+    {
+      "userId": "4609",
+      "nickname": "오랜만에",
+      "name": "카이론",
+      "code": "V-988",
+      "quantity": 1
+    },
+    {
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "name": "진무",
+      "code": "V-989",
+      "quantity": 1
+    },
+    {
+      "userId": "4817",
+      "nickname": "음주",
+      "name": "진무",
+      "code": "V-989",
+      "quantity": 1
+    },
+    {
+      "userId": "81",
+      "nickname": "비쥬얼깡패",
+      "name": "헬리오스",
+      "code": "V-999",
+      "quantity": 1
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "name": "헬리오스",
+      "code": "V-999",
+      "quantity": 1
+    },
+    {
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "name": "헬리오스",
+      "code": "V-999",
+      "quantity": 1
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "name": "발테르",
+      "code": "V-996",
+      "quantity": 1
+    },
+    {
+      "userId": "277",
+      "nickname": "스갤가축",
+      "name": "발테르",
+      "code": "V-996",
+      "quantity": 1
+    },
+    {
+      "userId": "5950",
+      "nickname": "남수댕ㅗ",
+      "name": "발테르",
+      "code": "V-996",
+      "quantity": 2
+    },
+    {
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "name": "발테르",
+      "code": "V-996",
+      "quantity": 1
+    }
+  ],
+  "held": [
+    {
+      "nickname": "골수뽑는망순",
+      "name": "헬리오스",
+      "code": "V-999",
+      "quantity": 1,
+      "status": "USER_HOLD"
+    }
+  ]
+}

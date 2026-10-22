@@ -1,0 +1,253 @@
+{
+  "operationKey": "ops:mercenary-manual-grant:20261022:v1",
+  "completedAt": "2026-10-22T12:42:29.411Z",
+  "verifiedAt": "2026-10-22T12:42:40.741Z",
+  "independentConnection": true,
+  "auditId": "50169",
+  "sourceSha256": "ec853f8d71a55ce001fabf732c6580fa35b75b1b9f21ff918aa5e3b1d11e3f3d",
+  "planHash": "ca71ebe7e74cb7b35155de02ec221e1b9ec4e16ac9fe2a7b748f0667e25a6ca6",
+  "verification": {
+    "status": "VERIFIED",
+    "recipientCount": 12,
+    "totalQuantity": 14,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 14,
+    "auditRecords": 1,
+    "held": [
+      {
+        "nickname": "골수뽑는망순",
+        "name": "헬리오스",
+        "code": "V-999",
+        "quantity": 1,
+        "status": "USER_HOLD"
+      }
+    ]
+  },
+  "grants": [
+    {
+      "userId": "4817",
+      "nickname": "음주",
+      "name": "족로",
+      "code": "V-979",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "name": "족로",
+      "code": "V-979",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "name": "카이론",
+      "code": "V-988",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "4609",
+      "nickname": "오랜만에",
+      "name": "카이론",
+      "code": "V-988",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "name": "진무",
+      "code": "V-989",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "4817",
+      "nickname": "음주",
+      "name": "진무",
+      "code": "V-989",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "81",
+      "nickname": "비쥬얼깡패",
+      "name": "헬리오스",
+      "code": "V-999",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "name": "헬리오스",
+      "code": "V-999",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "name": "헬리오스",
+      "code": "V-999",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "name": "발테르",
+      "code": "V-996",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "277",
+      "nickname": "스갤가축",
+      "name": "발테르",
+      "code": "V-996",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "5950",
+      "nickname": "남수댕ㅗ",
+      "name": "발테르",
+      "code": "V-996",
+      "quantity": 2,
+      "copiesBefore": 0,
+      "copiesAfter": 2
+    },
+    {
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "name": "발테르",
+      "code": "V-996",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    }
+  ],
+  "countersBefore": [
+    {
+      "code": "V-979",
+      "limit": 3,
+      "issued": 1,
+      "revision": 1
+    },
+    {
+      "code": "V-989",
+      "limit": 4,
+      "issued": 2,
+      "revision": 3
+    },
+    {
+      "code": "V-996",
+      "limit": 15,
+      "issued": 15,
+      "revision": 23
+    },
+    {
+      "code": "V-999",
+      "limit": 8,
+      "issued": 8,
+      "revision": 13
+    }
+  ],
+  "countersAfter": [
+    {
+      "code": "V-979",
+      "limit": 3,
+      "issued": 1,
+      "revision": 1
+    },
+    {
+      "code": "V-989",
+      "limit": 4,
+      "issued": 2,
+      "revision": 3
+    },
+    {
+      "code": "V-996",
+      "limit": 15,
+      "issued": 15,
+      "revision": 23
+    },
+    {
+      "code": "V-999",
+      "limit": 8,
+      "issued": 8,
+      "revision": 13
+    }
+  ],
+  "craftBefore": [
+    {
+      "rows": "110",
+      "crafted": "3",
+      "output_ref": "V-988"
+    }
+  ],
+  "craftAfter": [
+    {
+      "rows": "110",
+      "crafted": "3",
+      "output_ref": "V-988"
+    }
+  ],
+  "preserved": {
+    "currency": true,
+    "stockCounters": true,
+    "numberedIssues": true,
+    "craftCounts": true,
+    "packAndCraftSettings": true,
+    "otherCards": true,
+    "inventory": true,
+    "loadouts": true,
+    "levels": true,
+    "growth": true,
+    "accountSettings": true
+  },
+  "tests": {
+    "verified": true,
+    "rollbackVerified": true,
+    "injectedFailureRolledBack": true,
+    "idempotentReplay": true,
+    "sourceSha256": "ec853f8d71a55ce001fabf732c6580fa35b75b1b9f21ff918aa5e3b1d11e3f3d",
+    "planHash": "ca71ebe7e74cb7b35155de02ec221e1b9ec4e16ac9fe2a7b748f0667e25a6ca6",
+    "verification": {
+      "status": "VERIFIED",
+      "recipientCount": 12,
+      "totalQuantity": 14,
+      "stockCountersChanged": false,
+      "limitedIssueRecordsAdded": 0,
+      "craftCountsChanged": false,
+      "acquisitionRecords": 14,
+      "auditRecords": 1,
+      "held": [
+        {
+          "nickname": "골수뽑는망순",
+          "name": "헬리오스",
+          "code": "V-999",
+          "quantity": 1,
+          "status": "USER_HOLD"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "status": "VERIFIED",
+  "verifiedAt": "2026-10-22T12:47:01.347Z",
+  "sourceCommit": "2c4caf4d0d51ff6657cfc0ec2a1733749b6c0e04",
+  "apiVersion": "e1844b19-0dc1-40e4-820e-ee8c5a281a79",
+  "clanVersion": "d46ff5bd-a7a8-490e-8263-f56be701770a",
+  "pages": {
+    "id": "8d90d45f-f2ed-420e-809d-c36ad32d6f83",
+    "url": "https://8d90d45f.cnine-card.pages.dev",
+    "status": "success"
+  },
+  "checks": {
+    "jinmu4651": true,
+    "jinmu4817": true,
+    "jokro303": true,
+    "jokro4817": true,
+    "jinmuDoesNotAllow303": true,
+    "jokroDoesNotAllow4651": true
+  },
+  "publicFiles": [
+    {
+      "file": "shared/mercenary-jinmu-v1.mjs",
+      "sha256": "dce02d38090ef2fc6f05f7e96692a0157bd5caf04e268f098397958b53e9c5c0"
+    },
+    {
+      "file": "shared/mercenary-jokro-v1.mjs",
+      "sha256": "754d722faeba048890bddba7a3f89bee151ba7f06b5b742d8568593f2bba50ea"
+    }
+  ],
+  "workerResponseSha256": "6e1cf8f3c5199573dc2d251a71cbfe4eb70d53f87dfb3096d26002a58b439170",
+  "tests": {
+    "uniqueTests": 18,
+    "releaseBoundaryTests": 3,
+    "failed": 0
+  },
+  "operationScope": "Runtime access for approved existing holdings only; grants committed independently.",
+  "paidOpenRequests": 0
+}
