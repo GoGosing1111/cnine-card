@@ -1,0 +1,55 @@
+{
+  "checkedAt": "2026-10-22T02:26:03.028Z",
+  "runtimeCommit": "05a8acc30b6a6b5197143715bba5fd7611bab45e",
+  "pagesDeployment": "186e0d05-1429-40c1-b6fe-91d022fca48e",
+  "status": "success",
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "bc11b00296d5157e32dfcaf2d173705fbad118c5a6f1b9aec57a766a3cd3f6ef",
+      "bytes": 33834
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "c63c43b6fecfdba45c733683fe61d12f941ec9150a725fb1d257190408da5c04",
+      "bytes": 777837
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "b24b5d7a9807edae2095b12387b0a4ae73dd45860b948f186ded72db0d6061e4",
+      "bytes": 88059
+    },
+    {
+      "file": "js/tower-abyss-ui.js",
+      "sha256": "0b4ac62672ea780fc4c38efba07794d7195a2f74f27835ad13e63a95e6b5bf0c",
+      "bytes": 24125
+    },
+    {
+      "file": "js/tower-v1038.js",
+      "sha256": "eedc2429704739e605f27ea98436d03ac1c352ed5db548febb01827c04f22477",
+      "bytes": 18574
+    },
+    {
+      "file": "css/tower-abyss-ui.css",
+      "sha256": "c2fe2a242b1d2ca8c46dd999d1301d4d86ba456b394202eba99e9f9ff5f06964",
+      "bytes": 27174
+    }
+  ],
+  "scopedTests": 35,
+  "failures": 0,
+  "workerVersions": [
+    "a4d2b1f0-160d-425a-aaeb-6b761c36abdf",
+    "558ea7e8-bb24-4330-9056-a3a09d64facd"
+  ],
+  "browser": {
+    "source": "Actual production JS/CSS bytes with isolated local Tower API; no operational account writes",
+    "uiVersion": "20261022-clock-auto-next-v1",
+    "clock": "02:59.94",
+    "autoNext": "false",
+    "pause": "재개",
+    "canvas": true,
+    "starts": 1,
+    "sound": "OFF",
+    "errors": []
+  }
+}
