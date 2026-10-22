@@ -1,0 +1,42 @@
+{
+  "slotRuntimeVerified": true,
+  "verifiedAt": "2026-10-22T06:50:14.651Z",
+  "sourceCommit": "be810605ce79a930e548137ec5f192471d2cf6ea",
+  "apiVersion": "cd91905c-4a60-4a5a-8f0b-0df2c3d27b9e",
+  "clanVersion": "7c5dacbd-1cdd-4688-99d6-64818a9b9a88",
+  "pages": {
+    "id": "c4f61d70-d1e5-4f8f-a30c-8dfcd35fd950",
+    "url": "https://c4f61d70.cnine-card.pages.dev",
+    "status": "success"
+  },
+  "checks": {
+    "version3": true,
+    "indexedAcquisition": true,
+    "thirdSlotPlacement": true,
+    "singleGuard": true,
+    "stockPriority": true,
+    "consumeCorrectSlot": true
+  },
+  "workerResponseSha256": "6d96191da1834e2fd8e12139ca14a3e6234d6eda87f7016db3f93f1954b4159e",
+  "tests": {
+    "slot": 7,
+    "legacy": 12,
+    "auto": 10,
+    "operation": 3,
+    "failed": 0
+  },
+  "publicConfig": {
+    "status": 200,
+    "revision": 21,
+    "mode": "ON",
+    "stock": {
+      "code": "V-979",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    }
+  },
+  "paidOpenRequests": 0
+}
