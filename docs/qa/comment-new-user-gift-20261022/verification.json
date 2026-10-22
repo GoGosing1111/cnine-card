@@ -1,0 +1,251 @@
+{
+  "operationKey": "ops:comment-new-user-gift:20261022:v1",
+  "completedAt": "2026-10-22T14:06:11.036Z",
+  "verifiedAt": "2026-10-22T14:06:24.097Z",
+  "auditId": "50218",
+  "planHash": "cc796469dd3fee199e2597a35124724c4253be469adbc74828b8181acae2ea69",
+  "sourceSha256": "a5bdc7c91785a46a0727ec21d4673efa5264f3814464080a0437d480eb7a3cda",
+  "manifestHash": "3d058d72bf72a1f20881564ef954ac1261ae1bceaebc9ae452d46b6a90203884",
+  "verification": {
+    "verified": true,
+    "recipientCount": 24,
+    "totalBoxes": 24,
+    "firstIssues": 20,
+    "reissues": 4,
+    "unopened": 24,
+    "opened": 0,
+    "previousReceiptsArchived": 4,
+    "inventoryLogRecords": 24,
+    "openedByOperation": 0
+  },
+  "independentConnection": true,
+  "grants": [
+    {
+      "userId": "8",
+      "nickname": "최성수",
+      "sourceNickname": "최성수",
+      "quantity": 1,
+      "inventoryLogId": "86070458",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "16",
+      "nickname": "오승환이다",
+      "sourceNickname": "오승환이다.",
+      "quantity": 1,
+      "inventoryLogId": "86070459",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "65",
+      "nickname": "음순이",
+      "sourceNickname": "음순",
+      "quantity": 1,
+      "inventoryLogId": "86070460",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "91",
+      "nickname": "정원이",
+      "sourceNickname": "정원이",
+      "quantity": 1,
+      "inventoryLogId": "86070461",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "183",
+      "nickname": "남수댕",
+      "sourceNickname": "남수댕1",
+      "quantity": 1,
+      "inventoryLogId": "86070462",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "277",
+      "nickname": "스갤가축",
+      "sourceNickname": "스갤가축",
+      "quantity": 1,
+      "inventoryLogId": "86070463",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "315",
+      "nickname": "에타",
+      "sourceNickname": "에타",
+      "quantity": 1,
+      "inventoryLogId": "86070464",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "359",
+      "nickname": "갓삼족삼",
+      "sourceNickname": "갓삼족삼",
+      "quantity": 1,
+      "inventoryLogId": "86070465",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "521",
+      "nickname": "대저동토마토",
+      "sourceNickname": "대저동토마토",
+      "quantity": 1,
+      "inventoryLogId": "86070466",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "3867",
+      "nickname": "레드클라우드",
+      "sourceNickname": "레드클라우드",
+      "quantity": 1,
+      "inventoryLogId": "86070467",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "4479",
+      "nickname": "대지",
+      "sourceNickname": "대지",
+      "quantity": 1,
+      "inventoryLogId": "86070468",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "4501",
+      "nickname": "장씨아저씨",
+      "sourceNickname": "장씨아저씨",
+      "quantity": 1,
+      "inventoryLogId": "86070469",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "4580",
+      "nickname": "CHO22",
+      "sourceNickname": "CHO22",
+      "quantity": 1,
+      "inventoryLogId": "86070470",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "4602",
+      "nickname": "은지",
+      "sourceNickname": "은지",
+      "quantity": 1,
+      "inventoryLogId": "86070471",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "sourceNickname": "학벌",
+      "quantity": 1,
+      "inventoryLogId": "86070472",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "4676",
+      "nickname": "고급소주",
+      "sourceNickname": "고급소주",
+      "quantity": 1,
+      "inventoryLogId": "86070473",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "4691",
+      "nickname": "짝밤",
+      "sourceNickname": "짝밤",
+      "quantity": 1,
+      "inventoryLogId": "86070474",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "4910",
+      "nickname": "스루형2↑",
+      "sourceNickname": "스루형2↑",
+      "quantity": 1,
+      "inventoryLogId": "86070475",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "4933",
+      "nickname": "심심이",
+      "sourceNickname": "심심이",
+      "quantity": 1,
+      "inventoryLogId": "86070476",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "sourceNickname": "단정한밤",
+      "quantity": 1,
+      "inventoryLogId": "86070477",
+      "reissued": false,
+      "previousVersion": null
+    },
+    {
+      "userId": "5148",
+      "nickname": "타몽",
+      "sourceNickname": "타몽",
+      "quantity": 1,
+      "inventoryLogId": "86070478",
+      "reissued": true,
+      "previousVersion": 1
+    },
+    {
+      "userId": "5877",
+      "nickname": "깅더듬",
+      "sourceNickname": "깅더듬",
+      "quantity": 1,
+      "inventoryLogId": "86070479",
+      "reissued": true,
+      "previousVersion": 2
+    },
+    {
+      "userId": "5986",
+      "nickname": "거북이",
+      "sourceNickname": "거북이",
+      "quantity": 1,
+      "inventoryLogId": "86070480",
+      "reissued": true,
+      "previousVersion": 2
+    },
+    {
+      "userId": "5996",
+      "nickname": "관종이얌",
+      "sourceNickname": "관종이얌",
+      "quantity": 1,
+      "inventoryLogId": "86070481",
+      "reissued": true,
+      "previousVersion": 2
+    }
+  ],
+  "otherInventoryAndCurrencyUnchanged": true,
+  "joinAgeException": true,
+  "previousReceiptsArchived": true,
+  "openedByOperation": 0,
+  "rewards": {
+    "version": 3,
+    "coin": 300000000000,
+    "cards": 40,
+    "magic": 14,
+    "equipment": 5
+  }
+}
