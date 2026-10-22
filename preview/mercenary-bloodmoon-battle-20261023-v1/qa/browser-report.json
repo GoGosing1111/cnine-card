@@ -33,6 +33,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -68,6 +69,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -82,33 +84,54 @@
           "character": "BLOODMOON-BONGSOON",
           "action": "attack",
           "kind": "barrage",
-          "time": 0.44,
+          "time": 0.31,
           "playing": false,
           "speed": 1,
           "pose": {
             "sheet": "basic",
-            "frame": 5
+            "frame": 6
           },
-          "effectFrame": null,
-          "effectStage": null,
+          "effectFrame": 8,
+          "effectStage": "impact",
           "visibleEffects": 1,
           "ownTimelines": 1,
           "registeredTimelines": 0,
           "effectLayers": 1,
           "regularAllies": 5,
           "mercenaryInRegularArray": false,
-          "contactDistance": 828.1144754832476,
+          "contactDistance": 840.2022018052571,
           "spriteScale": {
             "x": 1.12012987012987,
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [
+            {
+              "index": 0,
+              "stage": "impact",
+              "origin": {
+                "x": 503.30044955044946,
+                "y": 114.73214285714282
+              },
+              "target": {
+                "x": 1220.0000000000002,
+                "y": 529.5999999999999
+              },
+              "point": {
+                "x": 1220.0000000000002,
+                "y": 529.5999999999999
+              },
+              "rotation": 0,
+              "progress": 0.021739130434782625,
+              "flightSeconds": 0.12
+            }
+          ],
           "effectBounds": [
             {
-              "x": 720.6705000000001,
-              "y": 303.66749999999996,
-              "width": 101.95900000000006,
-              "height": 101.95899999999995
+              "x": 715.7370000000001,
+              "y": 298.7339999999999,
+              "width": 111.82600000000002,
+              "height": 111.82600000000002
             }
           ],
           "viewport": {
@@ -124,7 +147,7 @@
           "character": "BLOODMOON-BONGSOON",
           "action": "skill",
           "kind": "barrage",
-          "time": 1.72,
+          "time": 0.36,
           "playing": false,
           "speed": 1,
           "pose": {
@@ -133,7 +156,7 @@
           },
           "effectFrame": 8,
           "effectStage": "impact",
-          "visibleEffects": 3,
+          "visibleEffects": 2,
           "ownTimelines": 1,
           "registeredTimelines": 0,
           "effectLayers": 1,
@@ -145,24 +168,58 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [
+            {
+              "index": 0,
+              "stage": "impact",
+              "origin": {
+                "x": 550.4283619606199,
+                "y": 120.81818181818183
+              },
+              "target": {
+                "x": 1220.0000000000002,
+                "y": 529.5999999999999
+              },
+              "point": {
+                "x": 1220.0000000000002,
+                "y": 529.5999999999999
+              },
+              "rotation": 0,
+              "progress": 0,
+              "flightSeconds": 0.12
+            },
+            {
+              "index": 1,
+              "stage": "travel",
+              "origin": {
+                "x": 550.4283619606199,
+                "y": 120.81818181818183
+              },
+              "target": {
+                "x": 1429.9999999999998,
+                "y": 353.6
+              },
+              "point": {
+                "x": 916.9165444770281,
+                "y": 217.81060606060606
+              },
+              "rotation": 0.2587220513038294,
+              "progress": 0.4166666666666666,
+              "flightSeconds": 0.12
+            }
+          ],
           "effectBounds": [
             {
-              "x": 709.1590000000001,
-              "y": 292.15599999999995,
-              "width": 124.98199999999997,
-              "height": 124.98199999999997
+              "x": 715.7370000000001,
+              "y": 298.7339999999999,
+              "width": 111.82600000000002,
+              "height": 111.82600000000002
             },
             {
-              "x": 841.9839999999999,
-              "y": 180.836,
-              "width": 124.98199999999997,
-              "height": 124.98199999999997
-            },
-            {
-              "x": 576.3340000000001,
-              "y": 180.836,
-              "width": 124.98199999999997,
-              "height": 124.98199999999997
+              "x": 533.7081000975279,
+              "y": 111.19859404914097,
+              "width": 92.48322856838467,
+              "height": 92.48322856838475
             }
           ],
           "viewport": {
@@ -199,6 +256,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -234,6 +292,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -252,7 +311,7 @@
           "character": "BLOODMOON-BONGSOON",
           "action": "skill",
           "kind": "barrage",
-          "time": 1.72,
+          "time": 0.36,
           "playing": false,
           "speed": 0.25,
           "pose": {
@@ -261,7 +320,7 @@
           },
           "effectFrame": 8,
           "effectStage": "impact",
-          "visibleEffects": 3,
+          "visibleEffects": 2,
           "ownTimelines": 1,
           "registeredTimelines": 1,
           "effectLayers": 1,
@@ -273,24 +332,58 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [
+            {
+              "index": 0,
+              "stage": "impact",
+              "origin": {
+                "x": 550.4283619606199,
+                "y": 120.81818181818183
+              },
+              "target": {
+                "x": 1220.0000000000002,
+                "y": 529.5999999999999
+              },
+              "point": {
+                "x": 1220.0000000000002,
+                "y": 529.5999999999999
+              },
+              "rotation": 0,
+              "progress": 0,
+              "flightSeconds": 0.12
+            },
+            {
+              "index": 1,
+              "stage": "travel",
+              "origin": {
+                "x": 550.4283619606199,
+                "y": 120.81818181818183
+              },
+              "target": {
+                "x": 1429.9999999999998,
+                "y": 353.6
+              },
+              "point": {
+                "x": 916.9165444770281,
+                "y": 217.81060606060606
+              },
+              "rotation": 0.2587220513038294,
+              "progress": 0.4166666666666666,
+              "flightSeconds": 0.12
+            }
+          ],
           "effectBounds": [
             {
-              "x": 709.1590000000001,
-              "y": 292.15599999999995,
-              "width": 124.98199999999997,
-              "height": 124.98199999999997
+              "x": 715.7370000000001,
+              "y": 298.7339999999999,
+              "width": 111.82600000000002,
+              "height": 111.82600000000002
             },
             {
-              "x": 841.9839999999999,
-              "y": 180.836,
-              "width": 124.98199999999997,
-              "height": 124.98199999999997
-            },
-            {
-              "x": 576.3340000000001,
-              "y": 180.836,
-              "width": 124.98199999999997,
-              "height": 124.98199999999997
+              "x": 533.7081000975279,
+              "y": 111.19859404914097,
+              "width": 92.48322856838467,
+              "height": 92.48322856838475
             }
           ],
           "viewport": {
@@ -320,10 +413,11 @@
           "mercenaryInRegularArray": false,
           "contactDistance": 784.4926725870497,
           "spriteScale": {
-            "x": 0.673828125,
-            "y": 0.673828125
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
           },
-          "expectedSheetScale": null,
+          "expectedSheetScale": 1.12012987012987,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -365,6 +459,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -400,6 +495,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -435,6 +531,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 720.6705000000001,
@@ -477,6 +574,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 683.6692500000001,
@@ -519,6 +617,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -554,6 +653,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -593,6 +693,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 683.6692500000001,
@@ -628,10 +729,11 @@
           "mercenaryInRegularArray": false,
           "contactDistance": 2.5421149729252077e-13,
           "spriteScale": {
-            "x": 0.673828125,
-            "y": 0.673828125
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
           },
-          "expectedSheetScale": null,
+          "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -673,6 +775,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -708,6 +811,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -743,6 +847,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 720.6705000000001,
@@ -785,6 +890,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 683.6692500000001,
@@ -827,6 +933,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -862,6 +969,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -901,6 +1009,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 683.6692500000001,
@@ -936,10 +1045,11 @@
           "mercenaryInRegularArray": false,
           "contactDistance": 1.1368683772161603e-13,
           "spriteScale": {
-            "x": 0.673828125,
-            "y": 0.673828125
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
           },
-          "expectedSheetScale": null,
+          "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -981,6 +1091,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -1016,6 +1127,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -1051,6 +1163,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 720.6705000000001,
@@ -1093,6 +1206,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 683.6692500000001,
@@ -1135,6 +1249,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -1170,6 +1285,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -1209,6 +1325,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 683.6692500000001,
@@ -1244,10 +1361,11 @@
           "mercenaryInRegularArray": false,
           "contactDistance": 3.2155493553843715e-13,
           "spriteScale": {
-            "x": 0.673828125,
-            "y": 0.673828125
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
           },
-          "expectedSheetScale": null,
+          "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -1289,6 +1407,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -1324,6 +1443,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -1359,6 +1479,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 720.6705000000001,
@@ -1401,6 +1522,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 683.6692500000001,
@@ -1443,6 +1565,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -1478,6 +1601,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -1517,6 +1641,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 683.6692500000001,
@@ -1552,10 +1677,11 @@
           "mercenaryInRegularArray": false,
           "contactDistance": 1.1368683772161603e-13,
           "spriteScale": {
-            "x": 0.673828125,
-            "y": 0.673828125
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
           },
-          "expectedSheetScale": null,
+          "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 1012,
@@ -1597,6 +1723,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -1632,6 +1759,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -1646,33 +1774,54 @@
           "character": "BLOODMOON-BONGSOON",
           "action": "attack",
           "kind": "barrage",
-          "time": 0.44,
+          "time": 0.31,
           "playing": false,
           "speed": 1,
           "pose": {
             "sheet": "basic",
-            "frame": 5
+            "frame": 6
           },
-          "effectFrame": null,
-          "effectStage": null,
+          "effectFrame": 8,
+          "effectStage": "impact",
           "visibleEffects": 1,
           "ownTimelines": 1,
           "registeredTimelines": 0,
           "effectLayers": 1,
           "regularAllies": 5,
           "mercenaryInRegularArray": false,
-          "contactDistance": 1096.198321826078,
+          "contactDistance": 1097.0203699747635,
           "spriteScale": {
             "x": 1.12012987012987,
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [
+            {
+              "index": 0,
+              "stage": "impact",
+              "origin": {
+                "x": 526.3685064935065,
+                "y": 173.46672077922065
+              },
+              "target": {
+                "x": 1014.0779220779219,
+                "y": 1155.1949350649352
+              },
+              "point": {
+                "x": 1014.0779220779219,
+                "y": 1155.1949350649352
+              },
+              "rotation": 0,
+              "progress": 0.021739130434782625,
+              "flightSeconds": 0.12
+            }
+          ],
           "effectBounds": [
             {
-              "x": 260.38239999999996,
-              "y": 300.6268814814815,
-              "width": 57.635200000000054,
-              "height": 57.635200000000054
+              "x": 257.5936,
+              "y": 297.83808148148154,
+              "width": 63.212800000000016,
+              "height": 63.212800000000016
             }
           ],
           "viewport": {
@@ -1688,7 +1837,7 @@
           "character": "BLOODMOON-BONGSOON",
           "action": "skill",
           "kind": "barrage",
-          "time": 1.72,
+          "time": 0.36,
           "playing": false,
           "speed": 1,
           "pose": {
@@ -1697,7 +1846,7 @@
           },
           "effectFrame": 8,
           "effectStage": "impact",
-          "visibleEffects": 3,
+          "visibleEffects": 2,
           "ownTimelines": 1,
           "registeredTimelines": 0,
           "effectLayers": 1,
@@ -1709,24 +1858,58 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [
+            {
+              "index": 0,
+              "stage": "impact",
+              "origin": {
+                "x": 587.6347926267281,
+                "y": 181.37857142857132
+              },
+              "target": {
+                "x": 1014.0779220779219,
+                "y": 1155.1949350649352
+              },
+              "point": {
+                "x": 1014.0779220779219,
+                "y": 1155.1949350649352
+              },
+              "rotation": 0,
+              "progress": 0,
+              "flightSeconds": 0.12
+            },
+            {
+              "index": 1,
+              "stage": "travel",
+              "origin": {
+                "x": 587.6347926267281,
+                "y": 181.37857142857132
+              },
+              "target": {
+                "x": 1014.0779220779219,
+                "y": 855.194935064935
+              },
+              "point": {
+                "x": 765.3194298980588,
+                "y": 462.13538961038944
+              },
+              "rotation": 1.0065524285678453,
+              "progress": 0.4166666666666666,
+              "flightSeconds": 0.12
+            }
+          ],
           "effectBounds": [
             {
-              "x": 253.87519999999998,
-              "y": 294.11968148148156,
-              "width": 70.64959999999999,
-              "height": 70.64959999999996
+              "x": 257.5936,
+              "y": 297.83808148148154,
+              "width": 63.212800000000016,
+              "height": 63.212800000000016
             },
             {
-              "x": 253.87519999999998,
-              "y": 208.5641259259259,
-              "width": 70.64959999999999,
-              "height": 70.64960000000002
-            },
-            {
-              "x": 192.27519999999996,
-              "y": 208.5641259259259,
-              "width": 70.64959999999999,
-              "height": 70.64960000000002
+              "x": 188.75717145397078,
+              "y": 102.29357477933914,
+              "width": 59.001183774654976,
+              "height": 59.001183774654976
             }
           ],
           "viewport": {
@@ -1763,6 +1946,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -1798,6 +1982,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -1816,7 +2001,7 @@
           "character": "BLOODMOON-BONGSOON",
           "action": "skill",
           "kind": "barrage",
-          "time": 1.72,
+          "time": 0.36,
           "playing": false,
           "speed": 0.25,
           "pose": {
@@ -1825,7 +2010,7 @@
           },
           "effectFrame": 8,
           "effectStage": "impact",
-          "visibleEffects": 3,
+          "visibleEffects": 2,
           "ownTimelines": 1,
           "registeredTimelines": 1,
           "effectLayers": 1,
@@ -1837,24 +2022,58 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "projectiles": [
+            {
+              "index": 0,
+              "stage": "impact",
+              "origin": {
+                "x": 587.6347926267281,
+                "y": 181.37857142857132
+              },
+              "target": {
+                "x": 1014.0779220779219,
+                "y": 1155.1949350649352
+              },
+              "point": {
+                "x": 1014.0779220779219,
+                "y": 1155.1949350649352
+              },
+              "rotation": 0,
+              "progress": 0,
+              "flightSeconds": 0.12
+            },
+            {
+              "index": 1,
+              "stage": "travel",
+              "origin": {
+                "x": 587.6347926267281,
+                "y": 181.37857142857132
+              },
+              "target": {
+                "x": 1014.0779220779219,
+                "y": 855.194935064935
+              },
+              "point": {
+                "x": 765.3194298980588,
+                "y": 462.13538961038944
+              },
+              "rotation": 1.0065524285678453,
+              "progress": 0.4166666666666666,
+              "flightSeconds": 0.12
+            }
+          ],
           "effectBounds": [
             {
-              "x": 253.87519999999998,
-              "y": 294.11968148148156,
-              "width": 70.64959999999999,
-              "height": 70.64959999999996
+              "x": 257.5936,
+              "y": 297.83808148148154,
+              "width": 63.212800000000016,
+              "height": 63.212800000000016
             },
             {
-              "x": 253.87519999999998,
-              "y": 208.5641259259259,
-              "width": 70.64959999999999,
-              "height": 70.64960000000002
-            },
-            {
-              "x": 192.27519999999996,
-              "y": 208.5641259259259,
-              "width": 70.64959999999999,
-              "height": 70.64960000000002
+              "x": 188.75717145397078,
+              "y": 102.29357477933914,
+              "width": 59.001183774654976,
+              "height": 59.001183774654976
             }
           ],
           "viewport": {
@@ -1884,10 +2103,11 @@
           "mercenaryInRegularArray": false,
           "contactDistance": 1063.0955049957074,
           "spriteScale": {
-            "x": 0.673828125,
-            "y": 0.673828125
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
           },
-          "expectedSheetScale": null,
+          "expectedSheetScale": 1.12012987012987,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -1929,6 +2149,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -1964,6 +2185,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -1999,6 +2221,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 260.38239999999996,
@@ -2041,6 +2264,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 250.39999999999998,
@@ -2083,6 +2307,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2118,6 +2343,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2157,6 +2383,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 250.39999999999998,
@@ -2192,10 +2419,11 @@
           "mercenaryInRegularArray": false,
           "contactDistance": 0,
           "spriteScale": {
-            "x": 0.673828125,
-            "y": 0.673828125
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
           },
-          "expectedSheetScale": null,
+          "expectedSheetScale": 1.055045871559633,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2237,6 +2465,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2272,6 +2501,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2307,6 +2537,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 260.38239999999996,
@@ -2349,6 +2580,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 250.39999999999998,
@@ -2391,6 +2623,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2426,6 +2659,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2465,6 +2699,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 250.39999999999998,
@@ -2500,10 +2735,11 @@
           "mercenaryInRegularArray": false,
           "contactDistance": 0,
           "spriteScale": {
-            "x": 0.673828125,
-            "y": 0.673828125
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
           },
-          "expectedSheetScale": null,
+          "expectedSheetScale": 1.1815068493150684,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2545,6 +2781,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2580,6 +2817,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2615,6 +2853,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 260.38239999999996,
@@ -2657,6 +2896,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 250.39999999999998,
@@ -2699,6 +2939,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2734,6 +2975,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2773,6 +3015,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 250.39999999999998,
@@ -2808,10 +3051,11 @@
           "mercenaryInRegularArray": false,
           "contactDistance": 3.2155493553843715e-13,
           "spriteScale": {
-            "x": 0.673828125,
-            "y": 0.673828125
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
           },
-          "expectedSheetScale": null,
+          "expectedSheetScale": 1.1311475409836065,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2853,6 +3097,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2888,6 +3133,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -2923,6 +3169,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 260.38239999999996,
@@ -2965,6 +3212,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 250.39999999999998,
@@ -3007,6 +3255,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -3042,6 +3291,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -3081,6 +3331,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [
             {
               "x": 250.39999999999998,
@@ -3116,10 +3367,11 @@
           "mercenaryInRegularArray": false,
           "contactDistance": 2.2737367544323206e-13,
           "spriteScale": {
-            "x": 0.673828125,
-            "y": 0.673828125
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
           },
-          "expectedSheetScale": null,
+          "expectedSheetScale": 0.9857142857142858,
+          "projectiles": [],
           "effectBounds": [],
           "viewport": {
             "width": 332,
@@ -3133,5 +3385,5 @@
     }
   ],
   "status": "PASS",
-  "reviewFingerprint": "7fd627f556bea5111013c85db10a611c0787dffdb56772271e3d93f8eee67511"
+  "reviewFingerprint": "d3c42bb4f400505bc1b806c2fc2b26ff0db25f4dd201ba57fe22bd393779525c"
 }

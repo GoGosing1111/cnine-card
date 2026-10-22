@@ -4822,13 +4822,16 @@
   "validation": {
     "browserReview": "PASS",
     "resourceReview": "PASS",
+    "motionRegression": "PASS",
     "pvpSimulations": 11520,
     "pveSimulations": 104,
     "visualApproval": "USER_REVIEW_PENDING",
-    "reviewFingerprint": "7fd627f556bea5111013c85db10a611c0787dffdb56772271e3d93f8eee67511",
+    "reviewFingerprint": "d3c42bb4f400505bc1b806c2fc2b26ff0db25f4dd201ba57fe22bd393779525c",
     "evidence": [
       "qa/browser-report.json",
       "qa/resource-report.json",
+      "qa/motion-regression.json",
+      "qa/scale-before.json",
       "qa/balance-report.json",
       "qa/visual-review.json"
     ]

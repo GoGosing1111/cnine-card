@@ -51,7 +51,7 @@ async function performSelection(slug,seq) {
   actor = new BattleCharacter({ id: character.id, name: character.name, team: TEAM.ALLY, fullBodyTexture: sd, cutInTexture: portrait, fullBodyHeight: 345, accent: Number.parseInt(character.accent.slice(1), 16) });
   actor.fullBodySprite.anchor.set(art.footAnchor.x, art.footAnchor.y); engine.combatLayer.addChild(actor.root); engine.setFormationMercenaries([actor]); actor.root.visible = true; actor.root.alpha = 1; engine.sortCombatDepth();
   actor.fullBodySprite.scale.set(character.battleBodyHeight/character.bodyPixels);
-  actor.fullBodyHeight=character.battleBodyHeight; actor.art={bodyHeight:character.battleBodyHeight}; actor.isMercenary=true; actor.cardId=character.previewCode;
+  actor.fullBodyHeight=character.battleBodyHeight; actor.art={bodyHeight:character.battleBodyHeight,calmIdle:true}; actor.cooperativeScaleLocked=true;actor.isMercenary=true; actor.cardId=character.previewCode;
   const targets = engine.enemies.slice().sort((a, b) => b.baseY - a.baseY).slice(0, 3);
   fx = new BloodmoonFX(engine, actor, targets, assets, character, update); fx.setSpeed(Number($('speed').value)); controls(true);
   $('health').textContent = character.name + ' · 동작과 스킬을 재생할 수 있습니다.';
@@ -82,7 +82,7 @@ async function boot() {
     if(engine.uiLayer?.status)engine.uiLayer.status.visible=false;
     const notice=document.querySelector('.battle-v3-status');if(notice)notice.style.display='none';
     $('play').onclick = () => fx?.playing ? fx.pause() : fx?.play(); $('restart').onclick = () => { fx?.seek(0); fx?.play(); }; $('cancel').onclick = () => fx?.cancel();
-    $('impact').onclick = () => { fx?.setAction('skill'); fx?.seek(1.72); }; $('scrub').oninput = () => fx?.seek(Number($('scrub').value)); $('speed').onchange = () => fx?.setSpeed(Number($('speed').value));
+    $('impact').onclick = () => { fx?.setAction('skill'); fx?.seek(fx.plan.contact); }; $('scrub').oninput = () => fx?.seek(Number($('scrub').value)); $('speed').onchange = () => fx?.setSpeed(Number($('speed').value));
     parentDoc.querySelectorAll('[data-action]').forEach(b => b.onclick = () => { fx?.setAction(b.dataset.action); fx?.play(); });
     engine.app.renderer.on('resize', resize);
     const review = { select: selectCharacter, get fx() { return fx; }, get actor() { return actor; }, get engine() { return engine; }, get manifest() { return manifest; }, diagnostics: () => ({ ...fx?.diagnostics(), currentSlug, disposed }), dispose };

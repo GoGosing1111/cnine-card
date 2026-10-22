@@ -4,7 +4,7 @@
   "gsapCopies": 1,
   "pixiVersion": "8.20.0",
   "gsapVersion": "3.13.0",
-  "bundleSha256": "81db0df9bbfdaabc54655d82ead59f832c3af2ecb86cda6df8d1c42ebf5f05dc",
+  "bundleSha256": "61857f9903119c16d5994025201faac1d88a935ce7c7e7434bea9930d627864a",
   "sharedRuntime": [
     "preview/project-v-v3/source/battle/EquipmentSetFX.js",
     "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",

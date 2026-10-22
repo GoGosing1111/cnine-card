@@ -7,6 +7,8 @@ export const ACTIONS = Object.freeze({
   defeat: { label: '쓰러짐', duration: 1.1, sheet: 'skillMotion', frames: [6, 7] }
 });
 export const clamp = (n, a = 0, b = 1) => Math.min(b, Math.max(a, n));
+export const RAPID_PROJECTILES=Object.freeze({flight:.12,interval:.07,impactFade:.46,attackLaunch:.18,skillLaunch:.24});
+export const isProjectileKind=kind=>kind==='barrage'||kind==='projectile';
 export function track(keys, t) {
   if (t <= keys[0][0]) return keys[0][1];
   for (let i = 1; i < keys.length; i++) if (t <= keys[i][0]) {
@@ -17,14 +19,31 @@ export function track(keys, t) {
 export function makePlan(kind = 'projectile', action = 'skill') {
   if (!['projectile', 'barrage', 'swarm', 'spell', 'guard', 'ricochet', 'melee'].includes(kind) || !ACTIONS[action]) throw new Error('Unknown playback plan');
   const spec = ACTIONS[action];
-  return { kind, action, duration: spec.duration, loop: Boolean(spec.loop), contact: spec.contact ?? null, damageAuthority: 'NONE_VISUAL_PREVIEW' };
+  const rapid=isProjectileKind(kind)&&['attack','skill'].includes(action);
+  const launch=action==='skill'?RAPID_PROJECTILES.skillLaunch:RAPID_PROJECTILES.attackLaunch;
+  return { kind, action, duration: rapid?(action==='skill'?1.2:.82):spec.duration, loop: Boolean(spec.loop), contact: rapid?launch+RAPID_PROJECTILES.flight:spec.contact??null, projectileCount:rapid?(action==='skill'&&kind==='barrage'?3:1):0, damageAuthority: 'NONE_VISUAL_PREVIEW' };
 }
 export function sample(plan, time) {
   const t = clamp(Number(time) || 0, 0, plan.duration), spec = ACTIONS[plan.action], done = t >= plan.duration;
-  const state = { time: t, done, pose: null, travel: 0, recoil: 0, effectFrame: null, effectStage: null, progress: 0, label: spec.label, strike: 0 };
+  const state = { time: t, done, pose: null, travel: 0, recoil: 0, effectFrame: null, effectStage: null, progress: 0, label: spec.label, strike: 0, projectiles:[],impacts:[] };
   const phase = t / plan.duration;
-  if (plan.action === 'idle') { state.pose = { sheet: 'basic', frame: phase < .5 ? 0 : 1 }; return state; }
+  // Keep the authored resting pose still: alternating silhouettes looked like
+  // repeated body movement even though their world scale was identical.
+  if (plan.action === 'idle') { state.pose = { sheet: 'basic', frame: 0 }; return state; }
   if (t === 0 || (done && plan.action !== 'defeat')) return state;
+  if(plan.projectileCount){
+    const skill=plan.action==='skill',launch=skill?RAPID_PROJECTILES.skillLaunch:RAPID_PROJECTILES.attackLaunch;
+    state.pose=skill?{sheet:'skillMotion',frame:t<.12?0:t<launch?1:t<.54?2:3}:{sheet:'basic',frame:t<launch?4:t<plan.contact?5:t<.46?6:7};
+    if(t<launch){state.effectStage='cast';state.effectFrame=Math.min(3,Math.floor(t/launch*4));state.progress=t/launch;state.label='조준 · 발사 준비';}
+    for(let index=0;index<plan.projectileCount;index++){
+      const start=launch+index*RAPID_PROJECTILES.interval,hit=start+RAPID_PROJECTILES.flight,age=t-hit;
+      if(t>=start&&t<hit){const progress=(t-start)/RAPID_PROJECTILES.flight;state.projectiles.push({index,stage:'travel',progress,frame:4+Math.min(3,Math.floor(progress*4)),start,hit});}
+      else if(age>=0&&age<RAPID_PROJECTILES.impactFade){const progress=age/RAPID_PROJECTILES.impactFade;state.projectiles.push({index,stage:'impact',progress,frame:8+Math.min(7,Math.floor(progress*8)),start,hit});}
+      if(age>=0&&age<.09)state.impacts.push({index,strength:Math.sin(age/.09*Math.PI)});
+    }
+    if(t>=launch){const leading=state.projectiles[0];state.effectStage=leading?.stage??null;state.effectFrame=leading?.frame??null;state.progress=leading?.progress??0;state.label=state.projectiles.some(p=>p.stage==='travel')?'직선 고속 사격':leading?'적중 · 잔광':'자세 회복';}
+    return state;
+  }
   if (plan.action === 'dash') {
     state.pose = { sheet: 'basic', frame: phase < .5 ? 2 : 3 };
     state.travel = Math.sin(phase * Math.PI) * .52;

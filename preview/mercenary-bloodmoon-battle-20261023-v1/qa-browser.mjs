@@ -14,13 +14,13 @@ try{
    await page.locator('[data-character='+slug+']').click();await page.waitForFunction(s=>window.BloodmoonPreview?.fx?.character.slug===s,slug);
    const row={screen,slug,actions:[],overflow};
    for(const action of ['idle','dash','attack','skill','hit','defeat']){
-    const state=await page.evaluate(({action})=>{const r=window.BloodmoonPreview,f=r.fx;f.setAction(action);f.seek(action==='skill'?1.72:action==='attack'?.44:action==='defeat'?1.1:.22);return f.diagnostics();},{action});
+    const state=await page.evaluate(({action})=>{const r=window.BloodmoonPreview,f=r.fx;f.setAction(action);f.seek(['skill','attack'].includes(action)?f.plan.contact+(action==='attack'?.01:0):action==='defeat'?1.1:.22);return f.diagnostics();},{action});
     assert.equal(state.regularAllies,5);assert.equal(state.mercenaryInRegularArray,false);assert.equal(state.effectLayers,1);assert.equal(state.ownTimelines,1);assert(Math.abs(state.spriteScale.x-state.spriteScale.y)<1e-8);if(state.expectedSheetScale!==null)assert(Math.abs(state.spriteScale.x-state.expectedSheetScale)<1e-8);
     for(const b of state.effectBounds)assert(b.x>=-1&&b.y>=-1&&b.x+b.width<=state.viewport.width+1&&b.y+b.height<=state.viewport.height+1,`${screen}/${slug}/${action}: effect clips viewport`);
     if(slug!=='bongsoon'&&['attack','skill'].includes(action))assert(state.contactDistance<1,'Melee weapon must reach its target');row.actions.push(state);
     if(['idle','skill','defeat'].includes(action))await page.locator('#viewport').screenshot({path:file(`qa/${screen}-${slug}-${action}.png`)});
    }
-   row.control=await page.evaluate(async()=>{const f=window.BloodmoonPreview.fx;f.setAction('skill');f.seek(.7);f.setSpeed(.25);f.play();await new Promise(r=>setTimeout(r,180));f.pause();const before=f.time;await new Promise(r=>setTimeout(r,160));const pauseStable=Math.abs(before-f.time)<.001;f.seek(1.72);const contact=f.diagnostics();f.cancel();return {pauseStable,contact,cancel:f.diagnostics()};});
+   row.control=await page.evaluate(async()=>{const f=window.BloodmoonPreview.fx;f.setAction('skill');f.seek(f.plan.contact*.5);f.setSpeed(.25);f.play();await new Promise(r=>setTimeout(r,180));f.pause();const before=f.time;await new Promise(r=>setTimeout(r,160));const pauseStable=Math.abs(before-f.time)<.001;f.seek(f.plan.contact);const contact=f.diagnostics();f.cancel();return {pauseStable,contact,cancel:f.diagnostics()};});
    assert(row.control.pauseStable);assert.equal(row.control.cancel.registeredTimelines,0);assert.equal(row.control.cancel.visibleEffects,0);report.cases.push(row);
   }
   await page.locator('[data-character=dagger]').click();await page.waitForFunction(()=>window.BloodmoonPreview.fx?.character.slug==='dagger');await page.evaluate(()=>{const f=window.BloodmoonPreview.fx;f.setAction('idle');f.seek(0);});

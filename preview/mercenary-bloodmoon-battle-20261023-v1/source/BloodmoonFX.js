@@ -1,6 +1,6 @@
 import { Assets, Container, Sprite, Texture, Rectangle, Graphics } from 'pixi.js';
 import { gsap } from 'gsap';
-import { makePlan, sample, clamp } from './PlaybackPlan.mjs';
+import { makePlan, sample, clamp, RAPID_PROJECTILES } from './PlaybackPlan.mjs';
 import { settleAssetBatch } from './ResourceLoader.mjs';
 const mix = (a, b, q) => ({ x: a.x + (b.x - a.x) * q, y: a.y + (b.y - a.y) * q });
 export async function loadCharacterAssets(character, root) {
@@ -24,9 +24,10 @@ export class BloodmoonFX {
     Object.assign(this, { engine, actor, targets, assets, character, onUpdate });
     actor.animationController.kill(); this.clock = { time: 0 }; this.speed = 1; this.destroyed = false;
     this.plan = makePlan(character.skillKind, 'idle');
-    const s = actor.fullBodySprite;
-    this.idle = { texture: s.texture, anchorX: s.anchor.x, anchorY: s.anchor.y, scaleX: s.scale.x, scaleY: s.scale.y };
     this.bodyHeight = character.battleBodyHeight;
+    // kill() restores the engine's initial canvas-sized pose. Register the
+    // authored body's size afterward, so start/end/cancel cannot restore it.
+    this.applyPose(null);actor.captureNeutralAvatarPose();
     this.targetDefaults = targets.map(t => ({ x: t.view.x, tint: t.fullBodySprite.tint }));
     this.layer = new Container({ label: 'BloodmoonSkillFX', eventMode: 'none' }); engine.effectLayer.addChild(this.layer);
     this.pool = Array.from({ length: 20 }, () => { const sprite = new Sprite(); sprite.anchor.set(.5); sprite.visible = false; this.layer.addChild(sprite); return sprite; });
@@ -56,12 +57,18 @@ export class BloodmoonFX {
   point(actor, fraction = 0) { return this.engine.effectLayer.toLocal(actor.root.toGlobal({ x: 0, y: -actor.fullBodyHeight * fraction })); }
   applyPose(pose) {
     const s = this.actor.fullBodySprite;
-    if (!pose) { s.texture = this.idle.texture; s.anchor.set(this.idle.anchorX, this.idle.anchorY); s.scale.set(this.idle.scaleX, this.idle.scaleY); return null; }
-    const sheet = this.character.motion[pose.sheet], frame = sheet.frames[pose.frame];
-    s.texture = this.assets[pose.sheet][pose.frame]; s.anchor.set(frame.foot.x / frame.rect.width, frame.foot.y / frame.rect.height);
+    const current=pose??{sheet:'basic',frame:0};
+    const sheet = this.character.motion[current.sheet], frame = sheet.frames[current.frame];
+    s.texture = this.assets[current.sheet][current.frame]; s.anchor.set(frame.foot.x / frame.rect.width, frame.foot.y / frame.rect.height);
     s.scale.set(this.bodyHeight / sheet.bodyPixels); // One uniform scale for the entire sheet, including crouch/defeat frames.
     const neutral = this.actor.neutralAvatarPose?.mainSprite; if (neutral) { neutral.scaleX = s.scale.x; neutral.scaleY = s.scale.y; }
-    return frame;
+    return pose?frame:null;
+  }
+  launchOrigin(){
+    const skill=this.plan.action==='skill',sheet=this.character.motion[skill?'skillMotion':'basic'],frame=sheet.frames[skill?2:5],scale=this.bodyHeight/sheet.bodyPixels;
+    // The registered firing pose supplies the origin for the whole flight;
+    // changing recoil/recovery frames cannot bend the projectile's path.
+    return this.layer.toLocal(this.actor.view.toGlobal({x:(frame.emitter.x-frame.foot.x)*scale,y:(frame.emitter.y-frame.foot.y)*scale}));
   }
   emitter(frame) {
     if (!frame) return this.point(this.actor, .5);
@@ -93,7 +100,7 @@ export class BloodmoonFX {
   }
   render(time, cancelled = false) {
     if (this.destroyed) return;
-    this.used = 0; for (const s of this.pool) s.visible = false; this.light.clear();
+    this.used = 0;this.lastProjectiles=[]; for (const s of this.pool) s.visible = false; this.light.clear();
     const state = sample(this.plan, time); this.state = state;
     const frame = this.applyPose(cancelled ? null : state.pose);
     const target = this.targets[0], destination = this.contactDestination(target);
@@ -104,6 +111,18 @@ export class BloodmoonFX {
     const origin = this.emitter(frame), center = this.plan.kind === 'guard' ? this.shieldPoint(frame) : this.point(this.actor, .48), targetPoints = this.targets.map(t => this.point(t, .48));
     this.lastContactDistance = Math.hypot(origin.x - targetPoints[0].x, origin.y - targetPoints[0].y);
     const size = Math.min(target.fullBodyHeight * Math.abs(target.root.scale.y) * 2, this.engine.scene.width * .28), kind = this.plan.kind;
+    if(this.plan.projectileCount){
+      const start=this.launchOrigin();
+      if(state.effectStage==='cast')this.draw(state.effectFrame,start,size*.3,.85);
+      for(const shot of state.projectiles){
+        const end=targetPoints[shot.index%targetPoints.length],travelling=shot.stage==='travel',point=travelling?mix(start,end,shot.progress):end;
+        const rotation=travelling?Math.atan2(end.y-start.y,end.x-start.x):0;
+        const sprite=this.draw(shot.frame,point,size*(travelling?.46:.68),travelling?1:1-shot.progress,rotation);
+        this.lastProjectiles.push({index:shot.index,stage:shot.stage,origin:{...start},target:{...end},point:{x:sprite.x,y:sprite.y},rotation,progress:shot.progress,flightSeconds:RAPID_PROJECTILES.flight});
+      }
+      if(!this.engine.reducedMotion)for(const impact of state.impacts){const t=this.targets[impact.index%this.targets.length];t.view.x+=impact.strength*3;t.fullBodySprite.tint=Number.parseInt(this.character.accent.slice(1),16);}
+      this.onUpdate(this);return;
+    }
     if (this.plan.action === 'attack' && time >= .43 && time < .95) this.draw(8 + Math.min(7, Math.floor((time - .43) / .065)), targetPoints[0], size * .62, .9);
     if (state.effectFrame !== null) {
       const f = state.effectFrame, q = state.progress, stage = state.effectStage;
@@ -131,7 +150,8 @@ export class BloodmoonFX {
   diagnostics() { return { ready: !this.destroyed, character: this.character.id, action: this.plan.action, kind: this.plan.kind, time: this.time, playing: this.playing, speed: this.speed, pose: this.state?.pose, effectFrame: this.state?.effectFrame, effectStage: this.state?.effectStage,
     visibleEffects: this.pool.filter(s => s.visible).length, ownTimelines: this.timeline ? 1 : 0, registeredTimelines: this.registration && this.engine.simpleTimelines.has(this.registration) ? 1 : 0,
     effectLayers: this.engine.effectLayer.children.filter(c => c.label === 'BloodmoonSkillFX').length, regularAllies: this.engine.allies.length, mercenaryInRegularArray: this.engine.allies.includes(this.actor), contactDistance: this.lastContactDistance ?? null,
-    spriteScale: { x: this.actor.fullBodySprite.scale?.x ?? null, y: this.actor.fullBodySprite.scale?.y ?? null }, expectedSheetScale: !this.destroyed && this.state?.pose ? this.bodyHeight / this.character.motion[this.state.pose.sheet].bodyPixels : null,
+    spriteScale: { x: this.actor.fullBodySprite.scale?.x ?? null, y: this.actor.fullBodySprite.scale?.y ?? null }, expectedSheetScale: !this.destroyed ? this.bodyHeight / this.character.motion[this.state?.pose?.sheet??'basic'].bodyPixels : null,
+    projectiles:this.lastProjectiles??[],
     effectBounds:this.pool.filter(s=>s.visible).map(s=>{const b=s.getBounds();return {x:b.x,y:b.y,width:b.width,height:b.height};}),viewport:{width:this.engine.app?.screen?.width??0,height:this.engine.app?.screen?.height??0},
     clock: 'ONE_GSAP', damageAuthority: 'NONE_VISUAL_PREVIEW', fixedSheetScale: true };
   }

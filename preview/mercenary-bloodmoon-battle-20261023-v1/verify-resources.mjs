@@ -39,14 +39,14 @@ for(const c of manifest.characters){
  const fxHashes=await Promise.all(effect.frames.map(async f=>sha(await sharp(await readReviewFile(effect.path)).extract({left:f.rect.x,top:f.rect.y,width:f.rect.width,height:f.rect.height}).raw().toBuffer())));
  assert.equal(new Set(fxHashes).size,16,'Effects must have 16 changing frames');
  assert(c.bodyPixels>0);assert.equal(c.battleBodyHeight,345);
- for(const [action,spec]of Object.entries(ACTIONS))for(let i=0;i<=100;i++){
-  const state=sample(makePlan(c.skillKind,action),spec.duration*i/100);
+ for(const action of Object.keys(ACTIONS))for(let i=0;i<=100;i++){
+  const plan=makePlan(c.skillKind,action),state=sample(plan,plan.duration*i/100);
   if(state.pose)assert(c.motion[state.pose.sheet].frames[state.pose.frame]);
   if(state.effectFrame!==null)assert(effect.frames[state.effectFrame]);
-  assert.equal(makePlan(c.skillKind,action).damageAuthority,'NONE_VISUAL_PREVIEW');
+  assert.equal(plan.damageAuthority,'NONE_VISUAL_PREVIEW');
  }
- assert.equal(sample(makePlan(c.skillKind,'skill'),1.72).effectStage,'impact');
- assert.equal(sample(makePlan(c.skillKind,'skill'),3.6).effectFrame,null);
+ const skillPlan=makePlan(c.skillKind,'skill');assert.equal(sample(skillPlan,skillPlan.contact).effectStage,'impact');
+ assert.equal(sample(skillPlan,skillPlan.duration).effectFrame,null);
  report.characters.push({slug:c.slug,frames:frames.length,effectFrames:effect.frames.length,sourcePixels,copiedPixels:copied,approvedSourceSha:c.sourceArt.sha256});
 }
 // A late successful load must also be released when a sibling has already failed.
