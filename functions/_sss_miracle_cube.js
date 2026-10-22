@@ -40,7 +40,8 @@ export async function readSssCubeCatalog(env){
  });
  for(const c of limitedCards){
   const s=stock.results.find(s=>s.code===c.code),stockLimit=s?Number(s.stock_limit):null,issued=s?Number(s.issued):null;
-  const prepared=Number.isSafeInteger(stockLimit)&&stockLimit>0&&Number.isSafeInteger(issued)&&issued>=0&&issued<=stockLimit&&(c.serverLimit==null||stockLimit===c.serverLimit);
+  // Keep the old Jokro stock usable while the explicit 3 -> 2 operation rolls out.
+  const prepared=Number.isSafeInteger(stockLimit)&&stockLimit>0&&Number.isSafeInteger(issued)&&issued>=0&&issued<=stockLimit&&(c.serverLimit==null||stockLimit===c.serverLimit||c.code==='V-979'&&stockLimit===3);
   const remaining=prepared?stockLimit-issued:null,unlocked=releasedLimited.has(c.code),available=unlocked&&prepared&&remaining>0;
   catalog.push({code:c.code,name:c.name,rank:'SSS',limited:true,sourceArt:'/'+c.sourceArt.replace(/^\//,''),available,stockLimit,issued,remaining,
    lockReason:!unlocked?'현재 획득 경로가 잠긴 리미티드입니다.':!prepared?'기존 한정 수량이 등록되지 않았습니다.':remaining===0?'서버 한정 수량이 소진됐습니다.':''});

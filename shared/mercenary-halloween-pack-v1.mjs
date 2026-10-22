@@ -1,4 +1,4 @@
-import {HALLOWEEN_PACK_CARDS,halloweenStockLimit} from './mercenary-halloween-pool-v3.mjs?v=20261022-jinmu-stock4-v1';
+import {HALLOWEEN_PACK_CARDS,halloweenStockLimit} from './mercenary-halloween-pool-v3.mjs?v=20261022-jokro-stock2-v1';
 import {HALLOWEEN_MERCENARIES,HALLOWEEN_SERVER_LIMIT} from './mercenary-halloween-catalog-v1.mjs?v=20261021-bathory-stock5-v1';
 import {isLimitedRate,limitedRateUnits,LIMITED_RATE_TOTAL,LIMITED_RATE_SCALE} from './mercenary-limited-rates-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
@@ -38,10 +38,11 @@ export function validateHalloweenPack(raw,{releaseEnabled=HALLOWEEN_PACK_RELEASE
   if(rates.reduce((sum,n)=>sum+(n===null?0:limitedRateUnits(n)),0)>LIMITED_RATE_TOTAL)throw Error('각 단계 확률 합계는 100%를 초과할 수 없습니다.');
  }
  // Keep complete previous five/ten-copy documents readable during rollout.
- // Save uses the latest limits; reading also preserves the prior three-copy Jinmu rollout.
+ // Save uses the latest limits; reads retain earlier Jinmu/Jokro limits until
+ // the explicit, atomic stock operation runs. Loading never retires a slot.
  const approvedLimits=exact(raw.stockLimits,codes)&&codes.every(code=>raw.stockLimits[code]===halloweenStockLimit(code));
- const legacyLimits=allowLegacyStock&&exact(raw.stockLimits,codes)&&[5,10,11].some(limit=>[10,15].some(bathoryLimit=>[3,4].some(jinmuLimit=>codes.every(code=>raw.stockLimits[code]===(legacyCodes.includes(code)?limit:code==='V-977'?bathoryLimit:code==='V-989'?jinmuLimit:halloweenStockLimit(code))))));
- if(!approvedLimits&&!legacyLimits)throw Error('기존 할로윈 SS 7종은 각 11장, 바토리는 15장, 진무는 팩 4장, 족로는 팩 3장, 헬리오스·발테르는 기존 공용 잔여 수량을 사용합니다.');
+ const legacyLimits=allowLegacyStock&&exact(raw.stockLimits,codes)&&[5,10,11].some(limit=>[10,15].some(bathoryLimit=>[3,4].some(jinmuLimit=>[2,3].some(jokroLimit=>codes.every(code=>raw.stockLimits[code]===(legacyCodes.includes(code)?limit:code==='V-977'?bathoryLimit:code==='V-989'?jinmuLimit:code==='V-979'?jokroLimit:halloweenStockLimit(code)))))));
+ if(!approvedLimits&&!legacyLimits)throw Error('기존 할로윈 SS 7종은 각 11장, 바토리는 15장, 진무는 팩 4장, 족로는 팩 2장, 헬리오스·발테르는 기존 공용 잔여 수량을 사용합니다.');
  return structuredClone(raw);
 }
 export function readHalloweenPackSettings(raw=halloweenPackDraft(),options){
