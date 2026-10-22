@@ -1,0 +1,138 @@
+{
+  "checkedAt": "2026-10-22T04:43:23.963Z",
+  "source": "Deployed JS/CSS with matching local SHA-256; explicitly approved stored timeline with identity labels replaced; local API and local mock settlement only; raw record excluded",
+  "liveAssets": [
+    {
+      "path": "/css/tower-abyss-ui.css",
+      "query": "",
+      "sha256": "641ce6c1ad6b0b03024e417d77ec7b7a967867dfb50a9352982253d1320e7a3f",
+      "bytes": 27187
+    },
+    {
+      "path": "/js/tower-abyss-ui.js",
+      "query": "",
+      "sha256": "4ff4cfddb6dc27db574e29d27129a6b56c768c6baa9834cdf03fb5c358312bdc",
+      "bytes": 24136
+    },
+    {
+      "path": "/css/battle-v3-live.css",
+      "query": "",
+      "sha256": "c6859ca4630c9dd575c4a055a56374ea13b2b0ad70c2d83d2050653c7ad07861",
+      "bytes": 17760
+    },
+    {
+      "path": "/css/battle-v2-live.css",
+      "query": "",
+      "sha256": "4bd6b6d0ea39332f61a7dc190f66bc03cb1ea89ce65a50e07c9f1698254df155",
+      "bytes": 97288
+    },
+    {
+      "path": "/css/style.css",
+      "query": "",
+      "sha256": "f4b2c2858c2ff9f88e40a97c4ac6122f881bb9c09a3f8f03022ba54e18996eb9",
+      "bytes": 529230
+    },
+    {
+      "path": "/js/app.js",
+      "query": "",
+      "sha256": "46f4b47223b936e24e1deec75d53e1e4fef70821c50f9594a9da15aac6e6ca1a",
+      "bytes": 777893
+    },
+    {
+      "path": "/js/tower-v1038.js",
+      "query": "",
+      "sha256": "851d7936231fd8709f73b2d2042de28d314549bab95569cbfabda441873b10e2",
+      "bytes": 18610
+    },
+    {
+      "path": "/css/battle-v2-live.css",
+      "query": "?v=20261007-damage-russo-v2",
+      "sha256": "4bd6b6d0ea39332f61a7dc190f66bc03cb1ea89ce65a50e07c9f1698254df155",
+      "bytes": 97288
+    },
+    {
+      "path": "/css/battle-v3-live.css",
+      "query": "?v=1930-mobile-context-recovery&flow=2126&duo=20260925&coop=20261002-hp-sync-v1&backdrop=20261006-bg-recovery&statusDock=20261007-v2",
+      "sha256": "c6859ca4630c9dd575c4a055a56374ea13b2b0ad70c2d83d2050653c7ad07861",
+      "bytes": 17760
+    },
+    {
+      "path": "/js/project-v-monster-battle-art-adapter-v1.js",
+      "query": "?v=20261013-original-ip-v1",
+      "sha256": "a4ef175c7963b65d8af27a61ac4a937ebff63d961d1c5eb0c84d4d339a8238cb",
+      "bytes": 8575
+    },
+    {
+      "path": "/js/battle-v2-live.js",
+      "query": "?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114-frames20261002&flow=2126&cubeRemoval=20261003&suggestions=20261005&apocalypseCompletion=20261006-foreground&damageFont=20261007-russo-v1",
+      "sha256": "d6e4b872539f4ccf167ef3bc2ecbce017136feb68f51f38c0b4b5d0a1e9e66ce",
+      "bytes": 58550
+    },
+    {
+      "path": "/js/project-v-battle-art-adapter-v1.js",
+      "query": "?v=3.7.0-orikkung-heeya&sd=20260919-bongsoon-armed",
+      "sha256": "6369c0169e008cf6bd47ddbb102ad7bc00d9db266cafb5b0730c8e1f33421986",
+      "bytes": 19613
+    },
+    {
+      "path": "/js/project-v-unassigned-battle-fallback-v1.js",
+      "query": "?v=3.1.0-manifest-cache",
+      "sha256": "e395aef6f993d167b5e852a55d9d61cb1f7a7bebf0bbb816271231e4aebed084",
+      "bytes": 4085
+    },
+    {
+      "path": "/js/project-v-tier-battle-art-adapter-v1.js",
+      "query": "?v=3.7.1-cheetah-scale&sd=2115-joksuke&icon=20261015-joeun-medic-v2",
+      "sha256": "e5c3f2e12f508b9566684368cb1ab9cbbb8edc42e3f82ea4bd367b2d5282fef7",
+      "bytes": 7326
+    },
+    {
+      "path": "/preview/project-v-v3/project-v-firearm-qc-audio.js",
+      "query": "?v=8-gilded-dragon-battle-suit",
+      "sha256": "8a97e3e3d2eda988820d35c2424a8f2b10383e8aab57b00132706adfd7252b1a",
+      "bytes": 13552
+    },
+    {
+      "path": "/js/battle-v3-live.js",
+      "query": "?towerStatus=20261022-v1&towerClock=20261022-v1&primePve=20261022-v1&sealMercenary=20261022-v1&sealOrbs=20261022-v1&sealDragon=seal-dragon-20261022-v1&valterParity=20261021-v1&cinematicPlayback=20261019-v1&equipmentSets=20261019-v1&jokroPlayback=20261019-v1&zero=20261020-wings-live-v1&leonel=20261018-live-v1-forward-guard-20261019&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&jokroCoop=20261018-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-jinmu-jokro-v2&groundRunes=20261017-v1&entryRecovery=20261015-v1&kairon=20261014-craft-v1&mercenaryFx=20261017-halloween-ready-v1&azant=20261014-live-v1&coopLoading=20261014-v1&rosterRank=20261014&originalIp=20261013-original-ip-v1&ultimateCooldown=20261013-40s&limitedDialogue=20261013-v1&coopCamera=20261013-v1&playback=20261012-progress1&petFx=20261018-icons-v1&jokgakCity=20261009-v1&worldRaid=20261008-v2&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&territoryFx=20261003-v1&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261017-cheolgu-balance&icon=20260930&suggestions=20261005&apocalypseCompletion=20261005-settlement3&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1&hudB=20261017-v1&shiranuiSilver=20261018-v2&coopView=20261018-v1&sahyeon=20261019-live-v1&towerAbyss=20261021-v1",
+      "sha256": "6d364ad25e516f39ac5d3e89a4e2c4ec0cb45e9584ddfe3acdc7857aa3c82f1f",
+      "bytes": 88091
+    },
+    {
+      "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "query": "?primePve=20261022-v1&sealDragon=seal-dragon-20261022-v1&valterParity=20261021-v1&prime=20261021-v2&zero=20261020-wings-live-v1&leonel=20261018-live-v1-forward-guard-20261019&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&jokroCoop=20261018-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-jinmu-jokro-v2&groundRunes=20261017-v1&kairon=20261014-craft-v1&mercenaryFx=20261017-halloween-ready-v1&azant=20261014-live-v1&originalIp=20261013-original-ip-v1&petFx=20261018-icons-v1&jokgakCity=20261009-v1&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261017-cheolgu-balance&icon=20260930&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1&hudB=20261017-v1&shiranuiSilver=20261018-v2&coopView=20261018-v1&sahyeon=20261019-live-v1&towerAbyss=20261021-v1",
+      "sha256": "3d03b3d67a5c88fb571fee1358a6201e3df835fe427e39fe19aa116d19786548",
+      "bytes": 2274395
+    },
+    {
+      "path": "/css/pve-continuous-battle-live.css",
+      "query": "?v=2094",
+      "sha256": "b30fd8dfdac8f10b67aee9672de448a02f56dd404cc7f3e6f78963088575331d",
+      "bytes": 1234
+    }
+  ],
+  "rows": [
+    {
+      "width": 390,
+      "retiredStatusCleanup": [
+        {
+          "seq": 110,
+          "status": "EXPIRED",
+          "targetRetired": true
+        },
+        {
+          "seq": 111,
+          "status": "EXPIRED",
+          "targetRetired": true
+        }
+      ],
+      "events": 199,
+      "firstClock": "03:00.00",
+      "lastClock": "02:59.46",
+      "defeated": 28,
+      "errors": [],
+      "productionWrites": 0,
+      "settlement": "LOCAL MOCK ONLY"
+    }
+  ]
+}
