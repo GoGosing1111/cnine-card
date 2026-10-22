@@ -1,0 +1,76 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:jokro-halloween-limit-minus-one:20261022:v1",
+  "authorization": "족로 할로윈상점 한도 한장 차감해",
+  "completedAt": "2026-10-22T14:34:54.353Z",
+  "verifiedAt": "2026-10-22T14:35:09.835Z",
+  "auditId": "50220",
+  "limitBefore": 3,
+  "limitAfter": 2,
+  "issuedBefore": 1,
+  "issuedAfter": 1,
+  "remainingBefore": 2,
+  "remainingAfter": 1,
+  "packRevisionBefore": 21,
+  "packRevisionAfter": 22,
+  "mode": "ON",
+  "issuesUnchanged": true,
+  "otherStocksUnchanged": true,
+  "oddsAndPricesUnchanged": true,
+  "grants": 0,
+  "craftLimitChanged": false,
+  "dryRunRolledBack": true,
+  "replayedWithoutWrites": true,
+  "independentConnection": true,
+  "publicReadback": {
+    "verifiedAt": "2026-10-22T14:35:06.522Z",
+    "http": 200,
+    "revision": 22,
+    "limit": 2,
+    "issued": 1,
+    "remaining": 1,
+    "openingEnabled": true,
+    "blockers": []
+  },
+  "production": {
+    "status": "VERIFIED",
+    "verifiedAt": "2026-10-22T14:34:46.177Z",
+    "sourceCommit": "e40ee9444217bdf5e83471d24f1735134dd8cd0e",
+    "apiVersion": "55ad8e7f-168e-4604-824e-5cc854218cf9",
+    "clanVersion": "107190d8-b056-4ea9-8c05-90314e05068f",
+    "pages": {
+      "id": "0af912cd-b743-4559-a123-edbe555a4928",
+      "url": "https://0af912cd.cnine-card.pages.dev",
+      "status": "success"
+    },
+    "jokroPolicyLimit": 2,
+    "legacyThreeCopyReads": true,
+    "existingOwnersProtected": true,
+    "publicFiles": [
+      {
+        "file": "shared/mercenary-jokro-v1.mjs",
+        "sha256": "a0421dd4712f613397484a0155a3a01547bb22ecfdd3f858d7a6cdd7e71374e1"
+      },
+      {
+        "file": "shared/mercenary-halloween-pool-v3.mjs",
+        "sha256": "ceb82be87c7dbd2b9478cea4b230f84538385c58b4238c7daf7dd71c290f83f4"
+      },
+      {
+        "file": "shared/mercenary-halloween-pack-v1.mjs",
+        "sha256": "c85fa1d3b45960c6004ba4663847e6132f45b63b2468e2d5c69579669e3036a9"
+      }
+    ],
+    "stock": {
+      "code": "V-979",
+      "limit": 3,
+      "issued": 1,
+      "remaining": 2,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    "openingEnabled": true,
+    "uniqueTests": 17,
+    "releaseBoundaryTests": 5,
+    "productionOpenRequests": 0
+  }
+}
