@@ -1,7 +1,16 @@
 import {DISTRICTS as SEOUL_DISTRICTS,FACTION_RULES as CLAN_FACTION_RULES} from './clan-faction-rules-v1.mjs';
 import {FACTION_SESSION_RULES} from './clan-faction-sessions-v1.mjs';
 import {ORGANIZATIONS} from './organization-system-v1.mjs?v=20261019-six-organizations';
-export const SQUADS=Object.freeze(['ATTACK','DEFENSE'].flatMap(role=>Array.from({length:5},(_,i)=>Object.freeze({id:role.toLowerCase()+(i+1),name:'제'+(i+1)+(role==='ATTACK'?' 공격대':' 방어대'),role}))));
+export const SELF_JOIN_SQUAD_IDS=Object.freeze(['attack4','attack5']);
+export const isSelfJoinSquad=id=>SELF_JOIN_SQUAD_IDS.includes(id);
+export const SQUADS=Object.freeze(['ATTACK','DEFENSE'].flatMap(role=>Array.from({length:5},(_,i)=>Object.freeze({id:role.toLowerCase()+(i+1),name:'제'+(i+1)+(role==='ATTACK'?' 공격대':' 방어대'),role,selfJoin:role==='ATTACK'&&i>=3}))));
+// A lineup change must never alter an active battle's fixed participant list.
+export function organizationSquadChangeBlocked(battles,organizationId,userId,fromSquad,toSquad){
+ return battles.some(b=>b.status==='ACTIVE'&&(
+  b.attacker===organizationId&&((b.attackers||[]).includes(userId)||b.squad===fromSquad||b.squad===toSquad)||
+  b.defender===organizationId&&((b.defenders||[]).includes(userId)||Boolean(fromSquad)&&b.defenseSquad===fromSquad)
+ ));
+}
 export const FACTION_RULES=Object.freeze({...CLAN_FACTION_RULES,squadSize:3});
 export const ORGANIZATION_SESSION_RULES=Object.freeze({...FACTION_SESSION_RULES,version:'20261021-seoul-eight',requiredTerritories:8,coinPerRecipient:300000000000});
 // Retain names for historical battles and settled rewards after the Seoul cutover.

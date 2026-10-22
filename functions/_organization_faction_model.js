@@ -1,4 +1,4 @@
-import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as RULES,FACTION_RULES,SQUADS} from '../shared/organization-faction-v1.mjs';
+import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as RULES,FACTION_RULES,SQUADS,isSelfJoinSquad,organizationSquadChangeBlocked} from '../shared/organization-faction-v1.mjs';
 import {factionDayKey,factionTime} from '../shared/clan-faction-sessions-v1.mjs';
 import {newFactionState,advanceFactionState,factionEvent} from './_clan_faction_model.js';
 import {reconcilePauses,closeSession,sessionView} from './_clan_faction_sessions.js';
@@ -17,6 +17,21 @@ export function validateOrganizationFormation(formation,memberIds){
   clean[squad.id]=[...ids];
  }
  return clean;
+}
+export function changeOrganizationSelfMembership(state,formation,organizationId,userId,{squad,baseSquad,join}){
+ const fail=(code,message,status=409)=>{throw Object.assign(Error(message),{code,status});};
+ if(!isSelfJoinSquad(squad))fail('SELF_SQUAD','제4·제5 자율참여 공격대만 직접 가입·탈퇴할 수 있습니다.',400);
+ const current=SQUADS.find(s=>formation[s.id]?.includes(userId))?.id||'';
+ if(typeof baseSquad!=='string'||baseSquad!==current)fail('STALE','내 부대가 변경되었습니다. 새로고침 후 다시 선택하세요.');
+ if(!join&&current!==squad)fail('SELF_MEMBERSHIP','본인이 가입한 자율참여 공격대만 탈퇴할 수 있습니다.',403);
+ if(organizationSquadChangeBlocked(state.battles,organizationId,userId,current,squad))fail('BATTLE','현재 부대 또는 선택한 공격대의 교전이 끝난 뒤 가입·이동·탈퇴하세요.');
+ if(join&&current===squad)return {changed:false,squad,previousSquad:current};
+ if(join&&formation[squad].length>=FACTION_RULES.squadSize)fail('SQUAD_FULL','이 공격대는 3명 정원이 찼습니다. 다른 자율참여 공격대를 선택하세요.');
+ const next=Object.fromEntries(SQUADS.map(s=>[s.id,formation[s.id].filter(id=>id!==userId)]));
+ if(join)next[squad].push(userId);
+ state.formations[organizationId]=next;
+ for(const district of state.districts)if(district.owner===organizationId&&district.defense&&!next[district.defense]?.length)district.defense='';
+ return {changed:true,squad:join?squad:'',previousSquad:current};
 }
 export function organizationCaptains(captains,memberIds){return Object.fromEntries(SQUADS.filter(s=>s.role==='ATTACK').map(s=>[s.id,Number.isSafeInteger(captains?.[s.id])&&memberIds.includes(captains[s.id])?captains[s.id]:0]));}
 export function validateOrganizationCaptains(captains,memberIds){

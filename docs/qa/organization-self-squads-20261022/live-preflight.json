@@ -1,0 +1,66 @@
+{
+  "checkedAt": "2026-10-22T01:39:37.533Z",
+  "readOnly": true,
+  "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+  "phase": "ASSIGNED",
+  "mode": "ON",
+  "revision": 6506,
+  "session": {
+    "status": "SETTLED",
+    "key": "2026-10-22:2"
+  },
+  "activeBattles": 0,
+  "organizations": [
+    {
+      "id": 1,
+      "members": 22,
+      "selfSquadSeats": {
+        "attack4": 1,
+        "attack5": 1
+      }
+    },
+    {
+      "id": 2,
+      "members": 22,
+      "selfSquadSeats": {
+        "attack4": 3,
+        "attack5": 3
+      }
+    },
+    {
+      "id": 3,
+      "members": 21,
+      "selfSquadSeats": {
+        "attack4": 2,
+        "attack5": 2
+      }
+    },
+    {
+      "id": 4,
+      "members": 22,
+      "selfSquadSeats": {
+        "attack4": 0,
+        "attack5": 1
+      }
+    },
+    {
+      "id": 5,
+      "members": 21,
+      "selfSquadSeats": {
+        "attack4": 1,
+        "attack5": 1
+      }
+    },
+    {
+      "id": 6,
+      "members": 21,
+      "selfSquadSeats": {
+        "attack4": 3,
+        "attack5": 3
+      }
+    }
+  ],
+  "formationHash": "2e63a869ab1804dcec758d6c9e38a56ed22747401951f0347e1bc4cf59f27387",
+  "captainHash": "92616078460ffc0c03e400e712b088d019b583ab84c755c9f40e6faa43c99bf2",
+  "noDatabaseWriteRequired": true
+}

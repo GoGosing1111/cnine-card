@@ -10,7 +10,7 @@ const empty={attack3:[],attack4:[],attack5:[],defense3:[],defense4:[],defense5:[
 test('organization attack and defense squads allow three, reject four atomically, and leave clan capacity unchanged',async t=>{
  const f=await fixture(t);assert.equal((await f.overview()).data.rules.squadSize,3);
  assert.equal(validateClanFormation({...empty,attack1:[2,3,4,5,6]},[2,3,4,5,6]).attack1.length,5);
- for(const squad of Object.keys(empty)){
+ for(const squad of Object.keys(empty).filter(id=>!['attack4','attack5'].includes(id))){
   const formation={...empty,[squad]:[2,3,4]};assert.equal((await f.post('organization/faction/formation',{formation})).status,200);
   const rejected=await f.post('organization/faction/formation',{formation:{...empty,[squad]:[2,3,4,5]}});assert.equal(rejected.status,400);assert.match(rejected.data.error,/최대 3명/);
   assert.deepEqual((await f.overview()).data.formation,formation,'over-capacity request must not change saved squads');

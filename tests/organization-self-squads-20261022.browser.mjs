@@ -1,0 +1,82 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createServer} from 'node:http';
+import {readFile,mkdir,writeFile} from 'node:fs/promises';
+import {resolve,extname,join,relative,isAbsolute} from 'node:path';
+import {tmpdir} from 'node:os';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import {organizationFactionFixture} from './helpers/organization-faction-fixture.mjs';
+import {factionReviewCards} from './helpers/clan-faction-fixture.mjs';
+import {createPvpBattleV2} from '../functions/_battle_v2_preview.js';
+const root=fileURLToPath(new URL('..',import.meta.url)),out=process.env.ORGANIZATION_SELF_QA_DIR||join(root,'docs/qa/organization-self-squads-20261022');
+test('ordinary members self-join, transfer and leave; actual V3 attack works on desktop and mobile',async t=>{
+ const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
+ const browser=await chromium.launch({channel:'chrome',headless:true,args:['--enable-unsafe-swiftshader','--mute-audio']});t.after(()=>browser.close());await mkdir(out,{recursive:true});
+ const server=createServer(async(req,res)=>{try{const url=new URL(req.url,'http://'+req.headers.host),requested=url.pathname.endsWith('/')?url.pathname+'index.html':url.pathname,file=resolve(root,'.'+decodeURIComponent(requested)),rel=relative(root,file);if(rel.startsWith('..')||isAbsolute(rel)){res.writeHead(404).end();return;}res.setHeader('Content-Type',({'.html':'text/html; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json','.css':'text/css; charset=utf-8','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2','.ttf':'font/ttf','.mp3':'audio/mpeg','.ogg':'audio/ogg'})[extname(file)]||'application/octet-stream');res.end(await readFile(file));}catch{res.writeHead(404).end();}});
+ await new Promise(r=>server.listen(0,'127.0.0.1',r));t.after(()=>new Promise(r=>server.close(r)));const origin='http://127.0.0.1:'+server.address().port,checks=[];
+ for(const width of [1440,390]){
+  const f=await organizationFactionFixture(t);let strikes=0,actingUser=3;
+  f.deps.buildFactionBattle=async()=>{const attackerDeck=factionReviewCards.map(c=>({...c,power:900000})),defenderDeck=factionReviewCards.map(c=>({...c,power:10000})),battleV2=createPvpBattleV2({attackerCards:attackerDeck,defenderCards:defenderDeck,seed:491});return {battleV2,attackerDeck,defenderDeck,attackerPower:battleV2.teams.A.summary.power,defenderPower:battleV2.teams.B.summary.power};};
+  assert.equal((await f.post('organization/faction/formation',{formation:{attack3:[],attack4:[],attack5:[],defense3:[],defense4:[],defense5:[],attack1:[2],attack2:[],defense1:[3],defense2:[4,5,6]}})).status,200);
+  assert.equal((await f.post('organization/faction/formation',{formation:{attack3:[],attack4:[],attack5:[],defense3:[],defense4:[],defense5:[],attack1:[7,8],attack2:[],defense1:[9,10,11],defense2:[]}},7)).status,200);
+  await f.mutateState(s=>Object.assign(s.districts.find(d=>d.id==='11680'),{owner:2,defense:'defense1',protectedUntil:0}));
+  const page=await browser.newPage({viewport:{width,height:width===390?844:1000},isMobile:width===390,hasTouch:width===390,reducedMotion:'reduce',serviceWorkers:'block'});t.after(()=>page.close());const errors=[],failedResources=[];
+  page.on('pageerror',error=>errors.push(error.message));page.on('response',r=>{if(r.status()>=400&&!r.url().includes('/api/'))failedResources.push({status:r.status(),url:r.url()});});
+  await page.addInitScript(()=>{localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('cnine:project-v:sound','OFF');});
+  await page.route('**/api/**',async route=>{const req=route.request(),url=new URL(req.url());if(url.pathname.endsWith('/strike'))strikes++;if(!url.pathname.startsWith('/api/organization/faction/')){await route.fulfill({json:{enabled:false,visible:false,items:[]}});return;}const result=await f.call(url.pathname.slice(5)+url.search,{method:req.method(),body:req.postDataJSON()||undefined,user:actingUser});await route.fulfill({status:result.status,json:result.data});});
+  await page.goto(origin+'/organization/faction/?roundId='+f.roundId);await page.locator('[data-fw-zone="11680"]').waitFor();
+  const press=async locator=>{if(width===390)await locator.tap();else await locator.press('Enter');};
+  await page.locator('.fw-tabs [data-fw-tab="formation"]').click();
+  assert.equal(await page.locator('.fw-squad-card').count(),10);assert.equal(await page.locator('.fw-squad-card.is-self-join').count(),2);
+  assert.equal(await page.locator('[data-fw-save]').count(),0);assert.equal(await page.locator('[data-fw-add]').count(),0);
+  const self=id=>page.locator('[data-fw-self-squad="'+id+'"]');
+  const before=(await f.overview(3)).data;assert.equal(before.mine.canManageFormation,false);
+  await press(self('attack4'));await page.waitForFunction(()=>document.querySelector('[data-fw-self-squad="attack4"]')?.textContent==='공격대 탈퇴');
+  assert.deepEqual((await f.overview(3)).data.formation.attack4,[3]);assert.deepEqual((await f.overview(3)).data.formation.defense1,[]);
+  await press(self('attack5'));await page.waitForFunction(()=>document.querySelector('[data-fw-self-squad="attack5"]')?.textContent==='공격대 탈퇴');
+  assert.deepEqual((await f.overview(3)).data.formation.attack4,[]);
+  await press(self('attack5'));await page.waitForFunction(()=>document.querySelector('[data-fw-self-squad="attack5"]')?.textContent==='이 공격대 가입');
+  await press(self('attack4'));await page.waitForFunction(()=>document.querySelector('[data-fw-self-squad="attack4"]')?.textContent==='공격대 탈퇴');
+  for(const user of [4,5,6])assert.equal((await f.post('organization/faction/join-squad',{squad:'attack5',baseSquad:'defense2'},user)).status,200);
+  await page.locator('[data-fw-reload]').click();await page.waitForFunction(()=>document.querySelector('[data-fw-self-squad="attack5"]')?.textContent==='정원 마감');assert.equal(await self('attack5').isDisabled(),true);
+  const joinSurface=await self('attack4').evaluate(n=>({height:n.getBoundingClientRect().height,borderImage:getComputedStyle(n).borderImageSource}));assert.ok(joinSurface.height>=44);assert.match(joinSurface.borderImage,/panel-v3.webp/);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await page.locator('.fw-formation').screenshot({path:join(out,width+'-formation.png')});
+  await page.locator('[data-fw-formation-squad="attack4"]').screenshot({path:join(out,width+'-joined.png')});
+  await page.locator('.fw-tabs [data-fw-tab="map"]').click();
+  if(width===390)await page.locator('[data-fw-district-select]').selectOption('11680');else await page.locator('[data-fw-zone="11680"]').press('Enter');
+  assert.match(await page.locator('[data-fw-squad="attack4"]').getAttribute('class'),/active/);
+  assert.equal(await page.locator('[data-fw-launch]').isDisabled(),false);
+  await page.locator('.fw-detail').screenshot({path:join(out,width+'-ready.png')});
+  await page.locator('[data-fw-launch]').click();await page.locator('[data-fw-room-strike]').waitFor();
+  const roomSurfaces=await page.locator('.fw-battle-room button').evaluateAll(nodes=>nodes.map(n=>getComputedStyle(n).borderImageSource));assert.ok(roomSurfaces.every(s=>s.includes('command-20261021/')));await page.screenshot({path:join(out,width+'-room.png')});await page.locator('[data-fw-room-strike]').click();
+  try{
+   await page.waitForFunction(()=>window.ProjectVPixiBattle?.diagnostics?.().mounted===true,{},{timeout:60000});
+   await page.waitForFunction(()=>document.querySelector('.battle-v3-live-shell.is-v3-ready'),{},{timeout:60000});
+   const diagnostics=await page.evaluate(()=>({ready:window.ProjectVBattleV3Live.ready(),renderer:window.ProjectVPixiBattle.diagnostics(),scripts:[...document.scripts].map(s=>s.src).filter(s=>/battle-v[23]-live|project-v-pixi-battle/.test(s))}));
+   assert.equal(diagnostics.ready,true);assert.equal(diagnostics.scripts.length,3);
+   assert.equal(await page.locator('.battle-v3-header strong').innerText(),'조직 세력전');assert.equal(await page.locator('.battle-v3-header small').innerText(),'ORGANIZATION · TERRITORY WAR');
+   const cardRects=await page.locator('.battle-v3-roster-frame .card-art img').evaluateAll(images=>images.map(img=>{const r=img.getBoundingClientRect(),f=img.closest('.card-frame').getBoundingClientRect();return {width:r.width,frameWidth:f.width,right:r.right,bottom:r.bottom,viewportWidth:innerWidth,viewportHeight:innerHeight};}));
+   assert.equal(cardRects.length,10);for(const r of cardRects){assert.ok(r.width>0&&r.width<=r.frameWidth,'Card artwork fits the scaled roster frame');assert.ok(r.right<=r.viewportWidth+1&&r.bottom<=r.viewportHeight+1,'Card artwork remains inside the viewport');}
+assert.equal(strikes,1);await page.screenshot({path:join(out,width+'-battle.png')});
+   await page.locator('.fw-battle-close').waitFor({timeout:120000});assert.match(await page.locator('.fw-battle-close').evaluate(el=>getComputedStyle(el).backgroundImage),/action-primary\.webp/);await page.screenshot({path:join(out,width+'-result.png')});await page.locator('.fw-battle-close').click();await page.locator('[data-fw-room-strike]').waitFor();assert.equal(await page.locator('[data-fw-room-strike]').isDisabled(),true);
+   assert.equal(await page.locator('#modal canvas').count(),0);assert.equal(strikes,1);assert.match(await page.locator('.fw-notice').innerText(),/공유 HP/);assert.deepEqual(errors,[]);await page.screenshot({path:join(out,width+'-return.png')});
+   assert.deepEqual(failedResources.filter(r=>r.url.includes('/interface-v2/')),[]);await page.locator('[data-fw-room-close]').first().click();await page.locator('.fw-tabs [data-fw-tab="formation"]').click();assert.equal(await self('attack4').isDisabled(),true);
+   const active=(await f.overview(3)).data;assert.equal(active.mine.canManageFormation,false);assert.deepEqual(active.battles.find(b=>b.status==='ACTIVE').attackers,[3]);
+   checks.push({width,userId:3,isElder:false,selfJoined:true,movedFromDefense:true,transferred:true,left:true,fullSquadBlocked:true,busyLeaveBlocked:true,overflow:false,joinSurface,strikes,errors,failedResources,diagnostics});
+  }catch(error){await page.screenshot({path:join(out,width+'-failure.png'),fullPage:true});await writeFile(join(out,width+'-failure.json'),JSON.stringify({error:error.message,errors,failedResources,notice:await page.locator('.fw-notice').allTextContents(),html:await page.locator('#modal').innerHTML()},null,2));throw error;}
+  // Existing leadership still manages the eight ordinary squads without touching self-joined members.
+  await f.mutateState(state=>state.battles.forEach(b=>b.status='COMPLETED'));actingUser=2;
+  await page.reload();await page.locator('.fw-tabs [data-fw-tab="formation"]').click();
+  await page.locator('#fw-assign-squad').waitFor();assert.equal(await page.locator('#fw-assign-squad option').count(),8);
+  assert.equal(await page.locator('#fw-assign-squad option[value="attack4"],#fw-assign-squad option[value="attack5"]').count(),0);
+  assert.equal(await page.locator('.is-self-join [data-fw-remove]').count(),0);assert.equal(await page.locator('[data-fw-captain]').count(),5);
+  const beforeManaged=(await f.overview()).data.formation;
+  await page.locator('[data-fw-remove="2"]').click();assert.equal(await self('attack4').isDisabled(),true,'Do not discard unsaved leader edits on self-join');
+  await page.locator('#fw-assign-squad').selectOption('attack2');await page.locator('[data-fw-add="2"]').click();await page.locator('[data-fw-save]').click();
+  await page.waitForFunction(()=>document.querySelector('.fw-notice')?.textContent.includes('부대 편성을 저장'));
+  const saved=(await f.overview()).data.formation;assert.deepEqual(saved.attack2,[2]);assert.deepEqual(saved.attack4,beforeManaged.attack4);assert.deepEqual(saved.attack5,beforeManaged.attack5);
+  await page.locator('.fw-formation').screenshot({path:join(out,width+'-elder-formation.png')});checks.at(-1).elderManagedSavePreservesSelfMembers=true;
+  await page.close();
+ }
+ await writeFile(join(out,'report.json'),JSON.stringify({checks},null,2));t.diagnostic('Actual current V3 loader QA: '+out);
+});

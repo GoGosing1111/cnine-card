@@ -1,8 +1,8 @@
 import {ORGANIZATIONS,orgAssert} from '../shared/organization-system-v1.mjs';
-import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES,organizationDistrictById,defaultOrganizationFactionPolicy,validateOrganizationFactionPolicy,FACTION_RULES as R,SQUADS} from '../shared/organization-faction-v1.mjs';
+import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES,organizationDistrictById,defaultOrganizationFactionPolicy,validateOrganizationFactionPolicy,FACTION_RULES as R,SQUADS,isSelfJoinSquad} from '../shared/organization-faction-v1.mjs';
 import {createFactionDay,factionDayKey} from '../shared/clan-faction-sessions-v1.mjs';
 import {factionEvent,finishFactionBattle,factionStrikeDamage} from './_clan_faction_model.js';
-import {newOrganizationFactionState,restrictOrganizationDistricts,advanceOrganizationFaction,validateOrganizationFormation as validateFormation,organizationCaptains as factionCaptains,validateOrganizationCaptains as validateFactionCaptains,assignOrganizationGarrison} from './_organization_faction_model.js';
+import {newOrganizationFactionState,restrictOrganizationDistricts,advanceOrganizationFaction,changeOrganizationSelfMembership,validateOrganizationFormation as validateFormation,organizationCaptains as factionCaptains,validateOrganizationCaptains as validateFactionCaptains,assignOrganizationGarrison} from './_organization_faction_model.js';
 import {buildClanBattle} from './_clan.js';
 import {readJointBody} from './_joint_request.js';
 import {jointHash} from './_joint_transactions.js';
@@ -227,18 +227,24 @@ async function mutation(env,user,action,body,deps){
     if(action==='formation'){
      orgAssert(!s.battles.some(b=>b.status==='ACTIVE'&&(b.attacker===id||b.defender===id)),'BATTLE','교전이 끝난 뒤 편성을 변경하세요.');
      if(body.baseFormation!==undefined)orgAssert(JSON.stringify(validateFormation(body.baseFormation,memberIds))===JSON.stringify(formation),'STALE','다른 사람이 편성을 변경했습니다. 새로고침하세요.');
-     s.formations[id]=validateFormation(body.formation,memberIds);
+     const next=validateFormation(body.formation,memberIds);
+     orgAssert(SQUADS.filter(x=>x.selfJoin).every(x=>JSON.stringify(next[x.id])===JSON.stringify(formation[x.id])),'SELF_FORMATION','자율참여 공격대는 조직원이 직접 가입·탈퇴합니다. 최신 편성을 새로고침하세요.');
+     s.formations[id]=next;
      for(const d of s.districts)if(d.owner===id&&d.defense&&!s.formations[id][d.defense]?.length)d.defense='';
     }
     if(body.captains!==undefined)s.captains[id]=validateFactionCaptains(body.captains,memberIds);
     factionEvent(s,{id:crypto.randomUUID(),kind:action==='formation'?'FORMATION':'CAPTAINS',clanId:id,by:user.nickname,at:now});
+   }else if(action==='join-squad'||action==='leave-squad'){
+    const membership=changeOrganizationSelfMembership(s,formation,id,userId,{squad:body.squad,baseSquad:body.baseSquad,join:action==='join-squad'});
+    Object.assign(result,membership);
+    if(membership.changed)factionEvent(s,{id:crypto.randomUUID(),kind:action==='join-squad'?'SQUAD_JOIN':'SQUAD_LEAVE',clanId:id,squad:body.squad,previousSquad:membership.previousSquad,userId,by:user.nickname,at:now});
    }else if(action==='garrison'){
     orgAssert(canManage,'PERMISSION','조직 원로 또는 행동대장만 주둔할 수 있습니다.',403);
     assignOrganizationGarrison(s,id,body.districtId,body.squad,formation);
    }else if(action==='launch'){
     const d=s.districts.find(d=>d.id===String(body.districtId)),squad=String(body.squad);
     orgAssert(SQUADS.some(x=>x.id===squad&&x.role==='ATTACK')&&formation[squad]?.length,'FORMATION','공격대를 먼저 편성하세요.');
-    orgAssert(master||formation[squad].includes(userId),'PERMISSION','해당 공격대원 또는 원로만 출정할 수 있습니다.',403);
+    orgAssert(formation[squad].includes(userId)||master&&!isSelfJoinSquad(squad),'PERMISSION',isSelfJoinSquad(squad)?'이 자율참여 공격대에 가입한 조직원만 출정할 수 있습니다.':'해당 공격대원 또는 원로만 출정할 수 있습니다.',403);
     orgAssert(d&&d.owner!==id,'DISTRICT','다른 조직 지역 또는 무주지를 선택하세요.');
     orgAssert(d.protectedUntil<=now&&!s.battles.some(b=>b.status==='ACTIVE'&&b.districtId===d.id),'PROTECTED','점령 보호 또는 교전 중인 지역입니다.');
     orgAssert(!s.battles.some(b=>b.status==='ACTIVE'&&b.attacker===id&&b.squad===squad)&&(s.squadReady[id+':'+squad]||0)<=now&&(s.targetReady[id+':'+d.id]||0)<=now,'COOLDOWN','공격대 재출정 또는 해당 지역 재공격 대기 중입니다.');
@@ -289,8 +295,8 @@ export async function handleOrganizationFaction({path,request,env,deps}){
    const url=new URL(request.url),data=await tx(env,async q=>{const now=nowOf(deps),c=await context(q,user,url.searchParams.get('roundId')||undefined,now,deps);return overview(q,user,c.r,c.policy,c.row,c.roster,c.sessions,now,{admin,alertsOnly:action==='alerts'});});return json(data);
   }
   orgAssert(request.method==='POST','METHOD','지원하지 않는 요청 방식입니다.',405);
-  orgAssert(admin?['policy','commander','elders'].includes(action):['formation','captains','garrison','launch','enter','strike','upgrade'].includes(action),'ROUTE','지원하지 않는 요청입니다.',404);
-  const fields={policy:['requestId','policy'],commander:['requestId','roundId','organizationId','userId'],elders:['requestId','roundId','organizationId','userIds','baseUserIds'],formation:['requestId','roundId','formation','captains','baseFormation'],captains:['requestId','roundId','captains'],garrison:['requestId','roundId','districtId','squad'],launch:['requestId','roundId','districtId','squad'],enter:['requestId','roundId','battleId'],strike:['requestId','roundId','battleId'],upgrade:['requestId','roundId','expectedStage','policyRevision']}[action];
+  orgAssert(admin?['policy','commander','elders'].includes(action):['formation','captains','join-squad','leave-squad','garrison','launch','enter','strike','upgrade'].includes(action),'ROUTE','지원하지 않는 요청입니다.',404);
+  const fields={policy:['requestId','policy'],commander:['requestId','roundId','organizationId','userId'],elders:['requestId','roundId','organizationId','userIds','baseUserIds'],formation:['requestId','roundId','formation','captains','baseFormation'],captains:['requestId','roundId','captains'],'join-squad':['requestId','roundId','squad','baseSquad'],'leave-squad':['requestId','roundId','squad','baseSquad'],garrison:['requestId','roundId','districtId','squad'],launch:['requestId','roundId','districtId','squad'],enter:['requestId','roundId','battleId'],strike:['requestId','roundId','battleId'],upgrade:['requestId','roundId','expectedStage','policyRevision']}[action];
   const body=await readJointBody(request,{fields,maxBytes:16000});
   return json(await mutation(env,user,action,body,deps));
  }catch(error){deps.onError?.(error);return json({ok:false,error:error.status?error.message:'조직 세력전 처리 중 오류가 발생했습니다. 같은 요청으로 다시 확인하세요.',code:error.code||'ORG_FACTION_ERROR'},error.status||503);}
