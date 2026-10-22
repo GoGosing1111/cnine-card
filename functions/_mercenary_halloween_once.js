@@ -13,10 +13,12 @@ export async function readHalloweenSsOnce(DB,userId){
  if(!row)return null;
  const value=JSON.parse(row.value);
  if(value.status==='CONSUMED')return null;
- const specific=value.version===2&&value.rank==='SSS'&&value.edition==='SSS_LIMITED'&&HALLOWEEN_PACK_CARDS.some(c=>c.code===value.mercenaryCode&&c.rank==='SSS');
+ const indexed=value.version===3&&Number.isSafeInteger(value.slotIndex)&&value.slotIndex>=0&&value.slotIndex<HALLOWEEN_PACK.maxBatch;
+ if(!indexed&&Object.hasOwn(value,'slotIndex'))throw invalid();
+ const specific=(value.version===2||indexed)&&value.rank==='SSS'&&value.edition==='SSS_LIMITED'&&HALLOWEEN_PACK_CARDS.some(c=>c.code===value.mercenaryCode&&c.rank==='SSS');
  const legacy=value.version===1&&value.rank==='SS'&&value.edition==='HALLOWEEN_LIMITED';
  if((!legacy&&!specific)||value.status!=='ARMED'||value.remaining!==1||value.userId!==Number(userId)||value.packId!==HALLOWEEN_PACK.id||typeof value.operationId!=='string'||!value.operationId||!Number.isSafeInteger(value.actorId)||value.actorId<1)throw invalid();
- return {key,before:row.value,operationId:value.operationId,...(specific?{mercenaryCode:value.mercenaryCode}:{})};
+ return {key,before:row.value,operationId:value.operationId,...(specific?{mercenaryCode:value.mercenaryCode}:{}),...(indexed?{slotIndex:value.slotIndex}:{})};
 }
 export function pickHalloweenSsOnceCode(state,randomInt,once=null){
  const eligible=HALLOWEEN_PACK_CARDS.filter(c=>once?.mercenaryCode?c.rank==='SSS'&&c.code===once.mercenaryCode:c.rank==='SS').map(c=>({code:c.code,weight:limitedRateUnits(state.settings.cardRatesPpm[c.code]),stock:state.stock.find(s=>s.code===c.code)})).filter(c=>c.weight>0&&c.stock?.prepared&&c.stock.remaining>0);
@@ -31,10 +33,10 @@ export function pickHalloweenSsOnceCode(state,randomInt,once=null){
 export async function consumeHalloweenSsOnce(DB,userId,requestId,once,draw){
  if(!once)return [];
  const current=await readHalloweenSsOnce(DB,userId);
- if(current?.key!==once.key||current?.before!==once.before||current?.operationId!==once.operationId)throw Object.assign(jointError('MERCENARY_HALLOWEEN_ONCE_CHANGED','1회 확정 상태가 변경됐습니다. 새 개봉으로 다시 시도하세요.',409),{terminal:true});
- const before=JSON.parse(once.before),specific=before.version===2;
+ if(current?.key!==once.key||current?.before!==once.before||current?.operationId!==once.operationId||current?.slotIndex!==once.slotIndex)throw Object.assign(jointError('MERCENARY_HALLOWEEN_ONCE_CHANGED','1회 확정 상태가 변경됐습니다. 새 개봉으로 다시 시도하세요.',409),{terminal:true});
+ const before=JSON.parse(once.before),specific=before.version>=2,slotIndex=before.version===3?before.slotIndex:0;
  if(draw?.rank!==before.rank||draw.edition!==before.edition||draw.quantity!==1||!HALLOWEEN_PACK_CARDS.some(c=>c.code===draw.mercenaryCode&&c.rank===before.rank)||specific&&draw.mercenaryCode!==before.mercenaryCode)throw invalid();
- const after=JSON.stringify({...before,status:'CONSUMED',remaining:0,consumedAt:new Date().toISOString(),requestId,acquisitionId:requestId+':0',mercenaryCode:draw.mercenaryCode});
+ const after=JSON.stringify({...before,status:'CONSUMED',remaining:0,consumedAt:new Date().toISOString(),requestId,acquisitionId:requestId+':'+slotIndex,mercenaryCode:draw.mercenaryCode});
  const p=(sql,...v)=>DB.prepare(sql).bind(...v),token=crypto.randomUUID();
  return [
   ...(DB.dialect==='postgres'?[p('SELECT key FROM app_meta WHERE key=? FOR UPDATE',once.key)]:[]),
