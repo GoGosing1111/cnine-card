@@ -1,0 +1,52 @@
+{
+  "checkedAt": "2026-10-22T01:44:44.652Z",
+  "sourceCommit": "d57e8ed88da921f985baed856f440489422e7853",
+  "pages": {
+    "id": "1c1a611c-beb6-4f9d-a4e1-e397ecf2d9ec",
+    "url": "https://1c1a611c.cnine-card.pages.dev",
+    "status": "success"
+  },
+  "workerVersions": [
+    "02dac831-3bf8-4e99-9605-c99fcab169e0",
+    "3147d763-f8b5-4d4d-9e6c-619f2ee6ce11"
+  ],
+  "productionEntryStatus": 200,
+  "tests": {
+    "apiRegressionPassed": 18,
+    "desktopMobileActualBattle": true,
+    "workerCompilation": true
+  },
+  "files": [
+    {
+      "file": "organization/faction/index.html",
+      "status": 200,
+      "sha256": "a72e7851e1d07be4b4e18a4811a48b99002385ccdbbdeb42e9964cf6a0c044e4",
+      "matchesCommittedSource": true
+    },
+    {
+      "file": "js/organization-faction-entry-v1.mjs",
+      "status": 200,
+      "sha256": "c97e386ce9fe074373433763c5cf981af41cf10cd1d734d400ba9fa3b9030eba",
+      "matchesCommittedSource": true
+    },
+    {
+      "file": "js/organization-faction-v1.mjs",
+      "status": 200,
+      "sha256": "bebc0e7256253ea198a48716200181f9b6b96c385ef80430daace0ea89331b5e",
+      "matchesCommittedSource": true
+    },
+    {
+      "file": "shared/organization-faction-v1.mjs",
+      "status": 200,
+      "sha256": "a01e507ecfe0b03fc8c330b24428d18b67acf429062bdd066d5c4c79c3a88a1d",
+      "matchesCommittedSource": true
+    },
+    {
+      "file": "css/organization-command-20261021.css",
+      "status": 200,
+      "sha256": "4a3ed85f21616893c8f892b5192989e090ddeead6bbad8e95d1054dc9ffe60df",
+      "matchesCommittedSource": true
+    }
+  ],
+  "noOperationalDatabaseMutations": true
+}

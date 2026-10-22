@@ -23,3 +23,7 @@
 - 캐시: 조직 세력전 HTML의 CSS/entry와 UI의 shared import를 `20261022-self-squads`로 갱신했다. 서비스워커의 기존 fresh account script/network-first 문서 정책을 유지한다.
 
 운영 결과는 검수 폴더의 `production-verification.json`에 기록한다.
+
+## 운영 반영 완료
+
+2026-10-22 10:44 KST 확인. 소스 `d57e8ed88da921f985baed856f440489422e7853`, Pages `1c1a611c-beb6-4f9d-a4e1-e397ecf2d9ec`에 반영했다. 지정된 18개 회귀·Worker 컴파일을 통과했고, 운영 세력전 진입 페이지 HTTP 200과 변경 정적 파일 5개 내용 해시 일치를 확인했다. API Worker `02dac831-3bf8-4e99-9605-c99fcab169e0`, 예약 Worker `3147d763-f8b5-4d4d-9e6c-619f2ee6ce11`. 원본 계정 데이터나 기존 편성을 초기화하는 운영 DB 쓰기는 수행하지 않았다. 공지문은 검수 폴더 `user-notice.txt`에 보존하며 외부 게시·메시지 발송은 하지 않았다.
