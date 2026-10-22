@@ -1,0 +1,129 @@
+{
+  "status": "PASSED",
+  "checkedAt": "2026-10-22T22:21:07.439Z",
+  "source": "dry-run.json receipt.after.settings and receipt.afterStock",
+  "revision": 23,
+  "readOnlyLocalServer": true,
+  "productionWrites": 0,
+  "serverBlockedMutations": 0,
+  "browserBlockedMutations": 0,
+  "blockedExternal": 0,
+  "expectedRemaining": {
+    "ss": 2,
+    "bathory": 5,
+    "jinmu": 2,
+    "jokro": 2
+  },
+  "actualRemaining": {
+    "V-980": 2,
+    "V-981": 2,
+    "V-982": 2,
+    "V-983": 2,
+    "V-984": 2,
+    "V-985": 2,
+    "V-986": 2,
+    "V-977": 5,
+    "V-999": 0,
+    "V-989": 2,
+    "V-996": 0,
+    "V-979": 2
+  },
+  "reports": [
+    {
+      "surface": "shop",
+      "width": 1440,
+      "horizontalOverflow": false,
+      "brokenImages": 0,
+      "mobileSsCardsReachable": null,
+      "stockLabels": 12,
+      "cmsLimits": null,
+      "screenshots": [
+        "shop-ss-1440.png",
+        "shop-sss-1440.png",
+        "shop-1440.png"
+      ]
+    },
+    {
+      "surface": "room",
+      "width": 1440,
+      "horizontalOverflow": false,
+      "brokenImages": 0,
+      "mobileSsCardsReachable": null,
+      "stockLabels": 12,
+      "cmsLimits": null,
+      "screenshots": [
+        "room-ss-1440.png",
+        "room-sss-1440.png",
+        "room-bottom-1440.png",
+        "room-1440.png"
+      ]
+    },
+    {
+      "surface": "cms",
+      "width": 1440,
+      "horizontalOverflow": false,
+      "brokenImages": 0,
+      "mobileSsCardsReachable": null,
+      "stockLabels": null,
+      "cmsLimits": {
+        "ss": 13,
+        "bathory": 20,
+        "jinmu": 5,
+        "jokro": 3
+      },
+      "screenshots": [
+        "cms-header-1440.png",
+        "cms-1440.png"
+      ]
+    },
+    {
+      "surface": "shop",
+      "width": 390,
+      "horizontalOverflow": false,
+      "brokenImages": 0,
+      "mobileSsCardsReachable": true,
+      "stockLabels": 12,
+      "cmsLimits": null,
+      "screenshots": [
+        "shop-ss-390.png",
+        "shop-ss-scroll-right-390.png",
+        "shop-sss-390.png",
+        "shop-390.png"
+      ]
+    },
+    {
+      "surface": "room",
+      "width": 390,
+      "horizontalOverflow": false,
+      "brokenImages": 0,
+      "mobileSsCardsReachable": true,
+      "stockLabels": 12,
+      "cmsLimits": null,
+      "screenshots": [
+        "room-ss-390.png",
+        "room-ss-scroll-right-390.png",
+        "room-sss-390.png",
+        "room-bottom-390.png",
+        "room-390.png"
+      ]
+    },
+    {
+      "surface": "cms",
+      "width": 390,
+      "horizontalOverflow": false,
+      "brokenImages": 0,
+      "mobileSsCardsReachable": null,
+      "stockLabels": null,
+      "cmsLimits": {
+        "ss": 13,
+        "bathory": 20,
+        "jinmu": 5,
+        "jokro": 3
+      },
+      "screenshots": [
+        "cms-header-390.png",
+        "cms-390.png"
+      ]
+    }
+  ]
+}

@@ -1,10 +1,10 @@
 import {HALLOWEEN_COMBAT} from './mercenary-halloween-combat-v1.mjs';
-import {BATHORY_ART} from './mercenary-bathory-v1.mjs?v=20261021-stock15-v1';
+import {BATHORY_ART} from './mercenary-bathory-v1.mjs?v=20261023-halloween-stock-v1';
 import {HALLOWEEN_VISUALS} from './mercenary-halloween-visual-v1.mjs';
 import {HARLEQUIN_SKILL} from './mercenary-harlequin-skill-v1.mjs';
-// 2026-10-19: the original seven sold-out SS cards receive one more slot.
-// 2026-10-21: Bathory receives five more slots, for fifteen in total.
-export const HALLOWEEN_SERVER_LIMIT=11;
+// 2026-10-23: the original seven SS cards receive two more slots each;
+// Bathory has a separately approved twenty-copy limit.
+export const HALLOWEEN_SERVER_LIMIT=13;
 // Approved PNG originals are preserved; WebP derivatives are for display only.
 const ORIGINAL_HALLOWEEN_MERCENARIES=Object.freeze([
   {

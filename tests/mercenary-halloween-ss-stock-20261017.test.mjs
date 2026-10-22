@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {halloweenFixture} from './helpers/halloween-pack-fixture.mjs';
-import {HALLOWEEN_MERCENARIES} from '../shared/mercenary-halloween-catalog-v1.mjs';
+import {HALLOWEEN_MERCENARIES,HALLOWEEN_SERVER_LIMIT} from '../shared/mercenary-halloween-catalog-v1.mjs';
+import {BATHORY_SERVER_LIMIT} from '../shared/mercenary-bathory-v1.mjs';
+import {JINMU_PACK_SERVER_LIMIT} from '../shared/mercenary-jinmu-v1.mjs';
 import {halloweenPackDraft,readHalloweenPackSettings,validateHalloweenPack,halloweenPackState,HALLOWEEN_PACK_KEY} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {halloweenStockText,halloweenCollectionMarkup} from '../js/mercenary-halloween-presentation-v2.mjs';
 import {increaseHalloweenSsStock,HALLOWEEN_SS_STOCK_PLUS5_KEY} from '../scripts/ops/halloween-ss-stock-plus5-20261017.mjs';
@@ -14,8 +16,8 @@ async function original(t){
 }
 const snapshot=async f=>({stock:(await f.pg.query('SELECT * FROM mercenary_limited_stock_v1 ORDER BY code')).rows,meta:(await f.pg.query('SELECT * FROM app_meta ORDER BY key')).rows,audit:(await f.pg.query('SELECT * FROM admin_logs ORDER BY id')).rows,holdings:(await f.pg.query('SELECT * FROM user_mercenary_cards_v1')).rows});
 
-test('original SS limits are eleven; prior five/ten-copy states stay readable during rollout, while saves reject them',()=>{
- const current=halloweenPackDraft();assert.ok(codes.every(code=>current.stockLimits[code]===11));assert.equal(current.stockLimits['V-977'],10);
+test('current limits use approved policy; prior five/ten-copy states stay readable during rollout, while saves reject them',()=>{
+ const current=halloweenPackDraft();assert.ok(codes.every(code=>current.stockLimits[code]===HALLOWEEN_SERVER_LIMIT));assert.equal(current.stockLimits['V-977'],BATHORY_SERVER_LIMIT);
  const ten=structuredClone(current);for(const code of codes)ten.stockLimits[code]=10;assert.deepEqual(readHalloweenPackSettings(ten),ten);assert.throws(()=>validateHalloweenPack(ten));
  const old=structuredClone(current);for(const code of codes)old.stockLimits[code]=5;
  assert.deepEqual(readHalloweenPackSettings(old),old);assert.throws(()=>validateHalloweenPack(old));
@@ -26,7 +28,7 @@ test('original SS limits are eleven; prior five/ten-copy states stay readable du
  assert.equal(halloweenStockText({code:'V-980'},{prepared:true,limit:10,remaining:0}),'남은 0장 · 소진');
  for(const row of [undefined,{prepared:false,remaining:null},{prepared:true,remaining:-1}])assert.equal(halloweenStockText({code:'V-980'},row),'수량 확인 중');
  assert.match(halloweenCollectionMarkup(HALLOWEEN_MERCENARIES,codes.map(code=>({code,prepared:true,limit:10,remaining:8}))),/SS LIMITED · 8/);
- assert.equal(current.stockLimits['V-989'],3);assert.equal(current.stockLimits['V-999'],null);
+ assert.equal(current.stockLimits['V-989'],JINMU_PACK_SERVER_LIMIT);assert.equal(current.stockLimits['V-999'],null);
 });
 
 test('adding thirty-five slots is atomic and idempotent; issuance, SSS, settings and holdings are preserved',async t=>{

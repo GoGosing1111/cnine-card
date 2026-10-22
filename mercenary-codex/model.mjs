@@ -1,6 +1,6 @@
 import {CRYVERN_CODE} from '../shared/mercenary-cryvern-v1.mjs';
 import {AZANT_CODE} from '../shared/mercenary-azant-v1.mjs';
-import {JOKRO_PACK_SERVER_LIMIT} from '../shared/mercenary-jokro-v1.mjs?codexStock=20261023-v1';
+import {JOKRO_PACK_SERVER_LIMIT} from '../shared/mercenary-jokro-v1.mjs?codexStock=20261023-halloween-stock-v1';
 export const RANKS=['C','B','A','S','SS','SSS'];
 export const POSITIONS={FRONT:'전열',MIDDLE:'중열',REAR:'후열'};
 export const FRAME='/assets/ui/card-frames/mercenary-contract-frame-premium-v2.png';

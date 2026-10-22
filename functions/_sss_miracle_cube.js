@@ -1,7 +1,7 @@
 import {SSS_CUBE,emptySssCubePolicy,validateSssCubePolicy,sssCubeReadiness,pickSssCubeBatch,sssCubePercent} from '../shared/sss-miracle-cube-v1.mjs';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs';
-import {HALLOWEEN_SSS_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
+import {HALLOWEEN_SSS_CARDS,isHalloweenStockLimit} from '../shared/mercenary-halloween-pool-v3.mjs';
 import {PRIME_ART} from '../shared/mercenary-prime-requiem-v1.mjs';
 import {ZERO_ART} from '../shared/mercenary-zero-v1.mjs';
 import {LEONEL_ART} from '../shared/mercenary-leonel-v1.mjs';
@@ -40,8 +40,8 @@ export async function readSssCubeCatalog(env){
  });
  for(const c of limitedCards){
   const s=stock.results.find(s=>s.code===c.code),stockLimit=s?Number(s.stock_limit):null,issued=s?Number(s.issued):null;
-  // Keep the old Jokro stock usable while the explicit 3 -> 2 operation rolls out.
-  const prepared=Number.isSafeInteger(stockLimit)&&stockLimit>0&&Number.isSafeInteger(issued)&&issued>=0&&issued<=stockLimit&&(c.serverLimit==null||stockLimit===c.serverLimit||c.code==='V-979'&&stockLimit===3);
+  // Keep approved previous pack limits usable during the atomic stock rollout.
+  const prepared=Number.isSafeInteger(stockLimit)&&stockLimit>0&&Number.isSafeInteger(issued)&&issued>=0&&issued<=stockLimit&&(c.serverLimit==null||stockLimit===c.serverLimit||isHalloweenStockLimit(c.code,stockLimit));
   const remaining=prepared?stockLimit-issued:null,unlocked=releasedLimited.has(c.code),available=unlocked&&prepared&&remaining>0;
   catalog.push({code:c.code,name:c.name,rank:'SSS',limited:true,sourceArt:'/'+c.sourceArt.replace(/^\//,''),available,stockLimit,issued,remaining,
    lockReason:!unlocked?'현재 획득 경로가 잠긴 리미티드입니다.':!prepared?'기존 한정 수량이 등록되지 않았습니다.':remaining===0?'서버 한정 수량이 소진됐습니다.':''});

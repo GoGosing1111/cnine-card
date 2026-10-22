@@ -29,11 +29,11 @@ test('the complete public catalog including pack-released Jokro passes the actua
  for(const field of ['target','effect','trigger','counterplay','bossRule','procRule'])assert.equal(typeof card.skills[0][field],'string',field);
 });
 
-test('the reduced two-copy Jokro policy cannot blank the full catalog or fall back to the retired limit',()=>{
+test('the increased three-copy Jokro policy cannot blank the full catalog or fall back to the previous limit',()=>{
  const data=catalog(),card=data.cards.find(c=>c.code===JOKRO_CODE);
- assert.equal(card.serverLimit,2);
+ assert.equal(card.serverLimit,3);
  assert.equal(validateCatalog(data).cards.length,data.cards.length);
- card.serverLimit=3;
+ card.serverLimit=2;
  assert.throws(()=>validateCatalog(data),/리미티드 획득 정보/);
 });
 

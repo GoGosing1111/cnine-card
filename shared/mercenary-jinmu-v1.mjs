@@ -3,12 +3,12 @@ import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
 // Direct grants: original owner, Inception, Bichon, Seranekkoraji (4651) and
 // Eumju (4817). The last two are authorized stock-exempt gifts on 2026-10-22.
 // The recalled Heeya grant remains invalid. Authenticated Halloween pack
-// recipients may also use one of four separate public copies.
+// recipients may also use one of five separate public copies.
 // Keep this identity out of the ordinary and old limited acquisition pools.
 // 2026-10-23 direct prizes: 1195, 1768, 5008 are stock-exempt; 4391 consumes one shop copy.
 // These account permissions still require an actual holding at every entry point.
 export const JINMU_CODE='V-989';
-export const JINMU_PACK_SERVER_LIMIT=4;
+export const JINMU_PACK_SERVER_LIMIT=5;
 export const JINMU_OWNER_ID=1;
 export const JINMU_AREA_EVENT='MERCENARY_JINMU_AREA';
 export const JINMU_AREA_MECHANIC='HEAVENLY_DRAGON_DESCENT';
@@ -31,7 +31,7 @@ export function jinmuIncomingDamage(target,incoming,source){
  if(source?.isMercenary===true&&(source.code||source.cardId)===JINMU_COMBAT.hardCounter)return 0;
  return Math.floor(Math.max(0,Number(incoming)||0)*JINMU_COMBAT.damageTakenScale);
 }
-export const JINMU_COMBAT_DESCRIPTION='천룡검황 진무 · 기본 전투력 1,617,408. 같은 편성·장비 기준 카이론보다 기본·연계 공격력·체력·전체 방벽과 기본 피해 상한이 20% 높으며 공격속도·추가 행동·모션 속도는 동일합니다. 개인 피해 75% 경감과 상태이상·반격 대응, 베르칸 피해 면역을 지닙니다. PVE 천룡강림은 적 전체에 총 672% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 할로윈팩 서버 4장 한정입니다. 기존 지정 계정 전용 지급분은 팩 발행 수량에서 제외됩니다.';
+export const JINMU_COMBAT_DESCRIPTION='천룡검황 진무 · 기본 전투력 1,617,408. 같은 편성·장비 기준 카이론보다 기본·연계 공격력·체력·전체 방벽과 기본 피해 상한이 20% 높으며 공격속도·추가 행동·모션 속도는 동일합니다. 개인 피해 75% 경감과 상태이상·반격 대응, 베르칸 피해 면역을 지닙니다. PVE 천룡강림은 적 전체에 총 672% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 할로윈팩 서버 5장 한정입니다. 기존 지정 계정 전용 지급분은 팩 발행 수량에서 제외됩니다.';
 export const JINMU_ART=Object.freeze({
  code:JINMU_CODE,name:'천룡검황 진무',title:'SSS 리미티드 · 천룡의 주인',rank:'SSS',edition:'LIMITED',
  role:'LIMITED',position:null,artOnly:true,releaseStatus:'EXCLUSIVE_RELEASED',exclusiveGrant:true,excludedFromLimitedCount:true,

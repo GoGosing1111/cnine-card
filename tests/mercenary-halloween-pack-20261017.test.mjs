@@ -16,7 +16,7 @@ test('two independent rate totals, exact effective odds, null drafts and old abs
  const draft=halloweenPackDraft();assert.equal(draft.mode,'OFF');assert.ok(Object.values(draft.normalRankRatesPpm).every(n=>n===null));assert.equal(draft.normalSssRatePpm,null);
  assert.equal(halloweenEffectivePercent(300000,200000),'6');assert.equal(halloweenEffectivePercent(0.0001,0.0001),'0.000000000000000001');assert.equal(halloweenEffectivePercent(null,0),null);
  const s=plan().settings;assert.doesNotThrow(()=>validateHalloweenPack(s));const over=structuredClone(s);over.normalSssRatePpm=800000.0001;assert.throws(()=>validateHalloweenPack(over),/합계/);
- const old={...draft,format:'MERCENARY_HALLOWEEN_SS_PACK_V1'};delete old.normalRankRatesPpm;delete old.normalSssRatePpm;for(const code of ['V-989','V-999','V-996']){delete old.cardRatesPpm[code];delete old.stockLimits[code];}old.stockLimits=Object.fromEntries(Object.keys(old.stockLimits).map(code=>[code,5]));old.cardRatesPpm['V-980']=200;old.prices.single=123;
+ const old={...draft,format:'MERCENARY_HALLOWEEN_SS_PACK_V1'};delete old.normalRankRatesPpm;delete old.normalSssRatePpm;for(const code of ['V-989','V-999','V-996','V-977','V-979']){delete old.cardRatesPpm[code];delete old.stockLimits[code];}old.stockLimits=Object.fromEntries(Object.keys(old.stockLimits).map(code=>[code,5]));old.cardRatesPpm['V-980']=200;old.prices.single=123;
  const read=readHalloweenPackSettings(old);assert.equal(read.cardRatesPpm['V-980'],null);assert.equal(read.prices.single,123);assert.equal(old.cardRatesPpm['V-980'],200);
  const row=halloweenPackCatalogRow();assert.equal(row.drawEnabled,false);assert.equal(row.ownerDrawEnabled,false);assert.equal(row.price,null);assert.ok(fs.existsSync(row.imageUrl));
 });
@@ -27,7 +27,7 @@ test('only the SSS interval enters the second lottery; SS remains ordinary and m
  const limited=pickHalloweenBatch(state,1,rng([6000000000,1999999999]))[0];assert.equal(limited.mercenaryCode,'V-980');assert.equal(limited.rank,'SS');assert.equal(limited.gateRank,'SSS');
  const fallback=pickHalloweenBatch(state,1,rng([8999999999,2000000000,0]))[0];assert.equal(fallback.rank,'SSS');assert.equal(fallback.edition,'STANDARD');
  assert.deepEqual(pickHalloweenBatch(state,1,rng([9000000000])),[{outcomeId:'NONE',quantity:0}]);
- const sold=plan();sold.stock[0].issued=10;sold.stock[0].remaining=0;assert.equal(pickHalloweenBatch(sold,1,rng([6000000000,0,0]))[0].outcomeId,'CARD_SSS');
+ const sold=plan();sold.stock[0].issued=sold.stock[0].limit;sold.stock[0].remaining=0;assert.equal(pickHalloweenBatch(sold,1,rng([6000000000,0,0]))[0].outcomeId,'CARD_SSS');
 });
 
 test('unauthenticated opening performs no database query; OFF and incomplete ON never charge',async t=>{
@@ -57,10 +57,10 @@ test('failure after stock reservation rolls back stock, coins and cards; retry u
 });
 
 test('last remaining card is granted once and the other nine slots award ordinary SSS',async t=>{
- const f=await halloweenFixture(t);await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=9 WHERE code='V-980'");
+ const f=await halloweenFixture(t);await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=stock_limit-1 WHERE code='V-980'");
  const body=f.body(10),result=await f.service.open(f.env,f.user,body);assert.equal(result.draws.filter(r=>r.mercenaryCode==='V-980').length,1);assert.equal(result.draws.filter(r=>r.outcomeId==='CARD_SSS').length,9);
  assert.deepEqual((await f.service.open(f.env,f.user,body)).draws,result.draws);
- assert.equal(Number((await f.pg.query("SELECT issued FROM mercenary_limited_stock_v1 WHERE code='V-980'")).rows[0].issued),10);
+ assert.equal(Number((await f.pg.query("SELECT issued FROM mercenary_limited_stock_v1 WHERE code='V-980'")).rows[0].issued),f.settings.stockLimits['V-980']);
  assert.equal((await f.pg.query('SELECT * FROM mercenary_limited_issues_v1')).rows.length,1);assert.equal(await f.coin(),999100);
 });
 

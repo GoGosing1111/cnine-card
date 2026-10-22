@@ -1,6 +1,6 @@
 import {jointAccountRequest as api} from '/js/joint-account-transport.mjs';
 import {withMercenaryDeadline} from '/shared/mercenary-loading-v1.mjs?v=20260925';
-import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCatalog} from './model.mjs?stockLimit=20261023-v1&jokro=20261021-codex-v1&prime=20261021-v1&zero=20261020-v1&rankReward=20261020-v1&leonel=20261018-live-v1&v=20261017-halloween-ready';
+import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCatalog} from './model.mjs?stockLimit=20261023-halloween-stock-v1&jokro=20261021-codex-v1&prime=20261021-v1&zero=20261020-v1&rankReward=20261020-v1&leonel=20261018-live-v1&v=20261017-halloween-ready';
 
 const $=id=>document.getElementById(id),fmt=n=>Number(n||0).toLocaleString('ko-KR'),storageKey='cnine.mercenaryCodex.public.v1';
 const params=new URL(location.href).searchParams;

@@ -1,8 +1,8 @@
 import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
 
-// 2026-10-22: one unused Halloween slot retired; direct gifts remain separate.
+// 2026-10-23: one Halloween slot added; direct gifts and crafting remain separate.
 export const JOKRO_CODE='V-979';
-export const JOKRO_PACK_SERVER_LIMIT=2;
+export const JOKRO_PACK_SERVER_LIMIT=3;
 export const JOKRO_OWNER_ID=1;
 export const JOKRO_AREA_EVENT='MERCENARY_JOKRO_AREA';
 export const JOKRO_AREA_MECHANIC='AZURE_DRAGON_SKY_CLEAVE';
@@ -40,7 +40,7 @@ export const JOKRO_ART=Object.freeze({
  frame:'assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png',
  artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#66ffc2',
  basePower:JOKRO_COMBAT.basePower,skills:Object.freeze([JOKRO_AREA_SKILL]),acquisitionEnabled:false,packAcquisitionEnabled:true,deploymentEnabled:true,
- combatLinkDescription:'족로 · SSS 리미티드. 할로윈팩에서 서버 2장 한정이며 기존 지정 계정 지급분은 팩 수량에서 제외됩니다. 용병 제작은 별도 2장 한도이며 공개·운영 설정에 따라 이용할 수 있습니다. 기본 전투력 1,940,890. 같은 편성·장비 기준 상향된 진무보다 기본·연계 공격력·체력·전체 방벽과 기본 피해 상한이 20% 높으며 전투 행동 속도는 동일합니다. 개인 피해 80% 경감, 상태이상·반격 보호, 베르칸 피해 면역. PVE 청룡단천은 생존한 적 전체에 총 1,512% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 발도 동작은 2배속, 이펙트는 원래 길이를 유지합니다.'
+ combatLinkDescription:'족로 · SSS 리미티드. 할로윈팩에서 서버 3장 한정이며 기존 지정 계정 지급분은 팩 수량에서 제외됩니다. 용병 제작은 별도 2장 한도이며 공개·운영 설정에 따라 이용할 수 있습니다. 기본 전투력 1,940,890. 같은 편성·장비 기준 상향된 진무보다 기본·연계 공격력·체력·전체 방벽과 기본 피해 상한이 20% 높으며 전투 행동 속도는 동일합니다. 개인 피해 80% 경감, 상태이상·반격 보호, 베르칸 피해 면역. PVE 청룡단천은 생존한 적 전체에 총 1,512% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 발도 동작은 2배속, 이펙트는 원래 길이를 유지합니다.'
 });
 export function jokroDeploymentSnapshot(){
  return {...JOKRO_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',attackStyle:'MELEE',skills:[structuredClone(JOKRO_AREA_SKILL)],pendingSkillIds:[],
