@@ -12,7 +12,7 @@
         return `<div><span>${title} ${rows.length}종</span><b>각 1장 · +${escape(level)}</b></div>`;
       }).join('');
     }).join('');
-    const equipmentLabel = rewards.version === 1 ? '프라임 방어구 4종 + M200' : '미스틱 장비 4종 + 소버린 SKS';
+    const equipmentLabel = (rewards.version === 1 ? '프라임 방어구 4종 + M200' : '미스틱 장비 4종 + 소버린 SKS') + (equipment.some(e=>e.code==='BATTLE_SUIT_03') ? ' + G바디' : '');
     const list = (title, values) => `<details><summary>${escape(title)}</summary><div class="new-gift-list">${values.map(escape).join('<br>')}</div></details>`;
     return `<div class="new-gift-rewards"><div><span>코인</span><b>${escape(Number(rewards.coin / 100000000).toLocaleString('ko-KR'))}억</b></div>${cardRows}<div><span>${equipmentLabel}</span><b>각 1개</b></div><div><span>마법카드 전체 ${magic.length}종</span><b>각 1장 · +${escape(rewards.magicLevel)}</b></div></div>${list('카드 목록 확인', cards.map(c => `[${c.grade}] ${c.title} +${c.level ?? rewards.cardLevel}`))}${list('장비·마법카드 목록 확인', [...equipment.map(e => e.name), ...magic.map(m => `${m.name} +${rewards.magicLevel}`)])}`;
   }

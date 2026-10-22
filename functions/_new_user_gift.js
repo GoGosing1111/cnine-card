@@ -2,7 +2,7 @@
 export const NEW_USER_GIFT_CODE = 'NEW_USER_GIFT_BOX';
 export const NEW_USER_GIFT_DAYS = 14;
 export const NEW_USER_GIFT_MESSAGE_CAMPAIGN = 'new-user-gift:first-verification:v1';
-export const NEW_USER_GIFT_VERSION = 3;
+export const NEW_USER_GIFT_VERSION = 4;
 export const NEW_USER_GIFT_COIN = 300_000_000_000;
 export const NEW_USER_GIFT_MAGIC_LEVEL = 9;
 export const NEW_USER_GIFT_CARD_LEVELS = Object.freeze({ SUPERSTAR: 13, FUR: 13, ZENITH: 13 });
@@ -11,14 +11,16 @@ export const NEW_USER_GIFT_FUR_MEMBER_ID = 111;
 const cardLevel = card => card.grade === 'FUR' && Number(card.member_id) === NEW_USER_GIFT_FUR_MEMBER_ID ? 15 : NEW_USER_GIFT_CARD_LEVELS[card.grade];
 const PREVIOUS_COIN = 10_000_000_000;
 const PREVIOUS_CARD_LEVELS = Object.freeze({ SUPERSTAR: 11, FUR: 13, ZENITH: 13 });
-export const NEW_USER_GIFT_DESCRIPTION = '3,000억 코인 · 공개 슈퍼스타 전체 각 1장 +13 · FUR 전체 각 1장 +13(이예준 관련 FUR +15) · 제니스 전체 각 1장 +13 · 미스틱 장비 4종과 소버린 SKS 각 1개 · 활성 마법카드 전체 각 1장 최고 강화 +9. 가입 14일 이내 첫 PLAY DK 2차 인증 완료 시 메시지 자동 지급, 계정·2차 인증 계정당 1회.';
+export const NEW_USER_GIFT_DESCRIPTION = '3,000억 코인 · 공개 슈퍼스타 전체 각 1장 +13 · FUR 전체 각 1장 +13(이예준 관련 FUR +15) · 제니스 전체 각 1장 +13 · 미스틱 장비 4종·소버린 SKS·G바디 각 1개 · 활성 마법카드 전체 각 1장 최고 강화 +9. 가입 14일 이내 첫 PLAY DK 2차 인증 완료 시 메시지 자동 지급, 계정·2차 인증 계정당 1회.';
 export const NEW_USER_GIFT_EQUIPMENT = Object.freeze([
   { code: 'EQ_1787156691265', name: '미스틱 슈트', slot: 'TOP', subtype: 'TOP' },
   { code: 'EQ_1787156640727', name: '미스틱 레깅스', slot: 'BOTTOM', subtype: 'BOTTOM' },
   { code: 'EQ_1787156667357', name: '미스틱 슈즈', slot: 'SHOES', subtype: 'SHOES' },
   { code: 'EQ_1787156718021', name: '미스틱 듀얼디스크', slot: 'ACCESSORY', subtype: 'DUAL_DISK' },
   { code: 'EQ_1786966923833', name: '소버린 SKS', slot: 'WEAPON', subtype: 'RIFLE' },
+  { code: 'BATTLE_SUIT_03', name: 'G-BODY', slot: 'BATTLE_SUIT', subtype: 'BATTLE_SUIT' },
 ]);
+const PREVIOUS_EQUIPMENT_CODES = NEW_USER_GIFT_EQUIPMENT.filter(e => e.code !== 'BATTLE_SUIT_03').map(e => e.code);
 const LEGACY_EQUIPMENT_CODES = ['EQ_1785961398598', 'EQ_1785961420255', 'EQ_1785961440314', 'EQ_1786908918550', 'EQ_1785961300455'];
 const TABLE = 'new_user_gift_receipts_v1';
 const STAMP = "to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')";
@@ -123,7 +125,7 @@ async function catalog(q) {
   const magic = await q('SELECT id,code,name FROM magic_cards WHERE is_active=1 ORDER BY id LIMIT 501');
   const equipment = await q('SELECT id,code,name,slot,subtype FROM character_equipment_items WHERE code=ANY($1::text[]) AND is_active=1 AND is_public=1 ORDER BY code', [NEW_USER_GIFT_EQUIPMENT.map(e => e.code)]);
   if (!Object.keys(NEW_USER_GIFT_CARD_LEVELS).every(grade => cards.some(c => c.grade === grade)) || cards.length > 1000 || !magic.length || magic.length > 500) fail('CATALOG_INVALID', '슈퍼스타·FUR·제니스·마법카드 보상 목록을 확인해야 합니다. 지급하지 않았습니다.');
-  if (equipment.length !== 5 || !NEW_USER_GIFT_EQUIPMENT.every(expected => equipment.some(row => row.code === expected.code && row.slot === expected.slot && row.subtype === expected.subtype && row.name === expected.name))) fail('EQUIPMENT_INVALID', '미스틱 장비 4종과 소버린 SKS의 공개·활성 상태를 확인하세요. 지급하지 않았습니다.');
+  if (equipment.length !== NEW_USER_GIFT_EQUIPMENT.length || !NEW_USER_GIFT_EQUIPMENT.every(expected => equipment.some(row => row.code === expected.code && row.slot === expected.slot && row.subtype === expected.subtype && row.name === expected.name))) fail('EQUIPMENT_INVALID', '미스틱 장비 4종·소버린 SKS·G바디의 공개·활성 상태를 확인하세요. 지급하지 않았습니다.');
   return { version: NEW_USER_GIFT_VERSION, coin: NEW_USER_GIFT_COIN, cardLevels: NEW_USER_GIFT_CARD_LEVELS, magicLevel: NEW_USER_GIFT_MAGIC_LEVEL,
     cards: cards.map(({member_id,...c}) => ({ ...c, memberId: Number(member_id), level: cardLevel({...c,member_id}) })),
     magic: magic.map(m => ({ ...m, id: Number(m.id) })), equipment: equipment.map(e => ({ ...e, id: Number(e.id) })) };
@@ -216,21 +218,24 @@ export async function claimNewUserGiftMessage(env, user, reward, messageId) {
     return { credited: true, duplicate: false, updated: account, receipt: claim, balanceBefore: 0, balanceAfter: 1, itemCode: NEW_USER_GIFT_CODE, rewardLabel: '신규유저 기프트 박스' };
   });
 }
-// The 2026-10-20 contents replacement applies to unopened V1/V2 boxes too.
+// V4 adds one G-BODY to unopened V3 snapshots without changing their other rewards.
+// V1/V2 retain the previously approved contents upgrade before receiving G-BODY.
 // Call only with this receipt row locked. Completed rewards are immutable.
 export async function upgradeNewUserGiftReceipt(q, row) {
   const previous = parseManifest(row);
-  if (row.status !== 'ISSUED' || ![1,2].includes(previous.version)) return previous;
-  const legacy = previous.version === 1, equipmentCodes = legacy ? LEGACY_EQUIPMENT_CODES : NEW_USER_GIFT_EQUIPMENT.map(e=>e.code);
-  if (await digest(row.manifest_json) !== row.manifest_hash || previous.coin !== PREVIOUS_COIN
-    || previous.magicLevel !== 5 || (legacy ? previous.cardLevel !== 10 : !Object.entries(PREVIOUS_CARD_LEVELS).every(([grade,level])=>previous.cardLevels?.[grade]===level))
+  if (row.status !== 'ISSUED' || ![1,2,3].includes(previous.version)) return previous;
+  const legacy = previous.version === 1, v3 = previous.version === 3, equipmentCodes = legacy ? LEGACY_EQUIPMENT_CODES : PREVIOUS_EQUIPMENT_CODES;
+  if (await digest(row.manifest_json) !== row.manifest_hash || previous.coin !== (v3 ? NEW_USER_GIFT_COIN : PREVIOUS_COIN)
+    || previous.magicLevel !== (v3 ? NEW_USER_GIFT_MAGIC_LEVEL : 5) || (legacy ? previous.cardLevel !== 10 : !Object.entries(v3 ? NEW_USER_GIFT_CARD_LEVELS : PREVIOUS_CARD_LEVELS).every(([grade,level])=>previous.cardLevels?.[grade]===level))
     || !Array.isArray(previous.cards) || !previous.cards.length || !Array.isArray(previous.magic) || !previous.magic.length
     || new Set(previous.cards.map(c=>c.id)).size !== previous.cards.length || new Set(previous.magic.map(c=>c.id)).size !== previous.magic.length
-    || !previous.cards.every(c => legacy ? ['FUR', 'ZENITH'].includes(c.grade) : c.level===PREVIOUS_CARD_LEVELS[c.grade] && Number.isInteger(c.level))
+    || !previous.cards.every(c => legacy ? ['FUR', 'ZENITH'].includes(c.grade) : Number.isInteger(c.level) && (v3 ? Number.isInteger(c.memberId) && c.level===cardLevel({...c,member_id:c.memberId}) : c.level===PREVIOUS_CARD_LEVELS[c.grade]))
     || previous.equipment?.length !== 5 || !equipmentCodes.every(code => previous.equipment.some(e => e.code === code)))
     fail('RECEIPT_INVALID', '기존 박스의 보상 구성 검증에 실패했습니다.');
   // Preserve message delivery identifiers so unclaimed verification gifts remain claimable.
-  const rewards = { ...previous, ...await catalog(q), previousManifestHash: row.manifest_hash, previousManifestVersion: previous.version };
+  const current = await catalog(q);
+  const contents = v3 ? { ...previous, version: NEW_USER_GIFT_VERSION, equipment: [...previous.equipment, current.equipment.find(e => e.code === 'BATTLE_SUIT_03')] } : current;
+  const rewards = { ...previous, ...contents, previousManifestHash: row.manifest_hash, previousManifestVersion: previous.version };
   delete rewards.cardLevel;
   const manifest = JSON.stringify(rewards), hash = await digest(manifest);
   const saved = await q(`UPDATE ${TABLE} SET manifest_json=$2,manifest_hash=$3
@@ -322,11 +327,11 @@ export async function openNewUserGift(env, userId) {
     const rewards = await upgradeNewUserGiftReceipt(q, receipt), current = await catalog(q);
     if (rewards.version !== NEW_USER_GIFT_VERSION || rewards.coin !== NEW_USER_GIFT_COIN || rewards.magicLevel !== NEW_USER_GIFT_MAGIC_LEVEL
       || !Object.entries(NEW_USER_GIFT_CARD_LEVELS).every(([grade, level]) => rewards.cardLevels?.[grade] === level)
-      || !Array.isArray(rewards.cards) || !rewards.cards.length || !Array.isArray(rewards.magic) || !rewards.magic.length || rewards.equipment?.length !== 5
+      || !Array.isArray(rewards.cards) || !rewards.cards.length || !Array.isArray(rewards.magic) || !rewards.magic.length || rewards.equipment?.length !== NEW_USER_GIFT_EQUIPMENT.length
       || new Set(rewards.cards.map(c => c.id)).size !== rewards.cards.length || new Set(rewards.magic.map(c => c.id)).size !== rewards.magic.length
       || !rewards.cards.every(c => current.cards.some(r => r.id === c.id && r.grade === c.grade && r.memberId === c.memberId && r.level === c.level))
       || !rewards.magic.every(c => current.magic.some(r => r.id === c.id && r.code === c.code))
-      || new Set(rewards.equipment.map(e => e.id)).size !== 5
+      || new Set(rewards.equipment.map(e => e.id)).size !== NEW_USER_GIFT_EQUIPMENT.length
       || !rewards.equipment.every(e => current.equipment.some(r => r.id === e.id && r.code === e.code))) fail('REWARD_CHANGED', '지급받은 보상 중 삭제·비공개된 항목이 있습니다. 박스는 차감하지 않았습니다. 관리자에게 문의하세요.');
     const coinBefore = Number(user.coin);
     if (!Number.isSafeInteger(coinBefore) || coinBefore < 0 || !Number.isSafeInteger(coinBefore + rewards.coin)) fail('COIN_OVERFLOW', '코인 잔액을 안전하게 지급할 수 없습니다. 관리자에게 문의하세요.');
@@ -361,7 +366,7 @@ export async function openNewUserGift(env, userId) {
     const equipment = await q(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id)
       SELECT $1,id,'NEW_USER_GIFT',$2,$2||':'||id::text FROM character_equipment_items
       WHERE id=ANY($3::bigint[]) AND is_active=1 AND is_public=1 RETURNING id,equipment_id`, [id, `newgift:${id}`, rewards.equipment.map(e => e.id)]);
-    if (cards.length !== cardIds.length || magic.length !== rewards.magic.length || equipment.length !== 5) fail('PARTIAL_GRANT', '보상 수량 검증에 실패해 박스 차감과 지급을 모두 취소했습니다.');
+    if (cards.length !== cardIds.length || magic.length !== rewards.magic.length || equipment.length !== NEW_USER_GIFT_EQUIPMENT.length) fail('PARTIAL_GRANT', '보상 수량 검증에 실패해 박스 차감과 지급을 모두 취소했습니다.');
     const balances = await q('UPDATE users SET coin=coin+$2 WHERE id=$1 RETURNING coin', [id, rewards.coin]);
     if (balances.length !== 1 || Number(balances[0].coin) !== coinBefore + rewards.coin) fail('COIN_MISMATCH', '코인 검증에 실패해 모든 지급을 취소했습니다.');
     await q("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES($1,$2,$3,'신규유저 기프트 박스',$4)", [id, rewards.coin, balances[0].coin, receipt.issued_by]);
