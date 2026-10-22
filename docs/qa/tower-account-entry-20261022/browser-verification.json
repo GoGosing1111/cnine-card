@@ -1,0 +1,54 @@
+{
+  "checkedAt": "2026-10-22T00:47:19.808Z",
+  "source": "Actual game resource loader and Tower controller/API with isolated database; no production account writes",
+  "rows": [
+    {
+      "width": 1440,
+      "userId": 7,
+      "startRequests": 1,
+      "startStatus": 200,
+      "floorNo": 1,
+      "accountKey": "cnine:tower:battle:v2094:7",
+      "legacyKeyUsed": false,
+      "immediatePreparingFeedback": true,
+      "canvasVisible": true,
+      "pause": true,
+      "recovered": false,
+      "overflow": false,
+      "sound": "OFF",
+      "errors": [],
+      "audit": {
+        "coin": 10000000,
+        "progress": {
+          "current_floor": 1,
+          "highest_floor": 0
+        },
+        "grants": 0
+      }
+    },
+    {
+      "width": 390,
+      "userId": 7,
+      "startRequests": 1,
+      "startStatus": 200,
+      "floorNo": 1,
+      "accountKey": "cnine:tower:battle:v2094:7",
+      "legacyKeyUsed": false,
+      "immediatePreparingFeedback": true,
+      "canvasVisible": true,
+      "pause": true,
+      "recovered": true,
+      "overflow": false,
+      "sound": "OFF",
+      "errors": [],
+      "audit": {
+        "coin": 10000000,
+        "progress": {
+          "current_floor": 1,
+          "highest_floor": 0
+        },
+        "grants": 0
+      }
+    }
+  ]
+}

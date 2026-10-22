@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-10-22T00:43:10.254Z",
+  "errors": [],
+  "userShape": [
+    "serverUserId",
+    "nickname",
+    "role"
+  ],
+  "startRequests": 0,
+  "ready": true,
+  "modal": "modal",
+  "buttonText": "110F · ENTER THE ABYSS\n110층 도전 →"
+}

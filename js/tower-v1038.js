@@ -2,10 +2,11 @@
   'use strict';
   const PROTOCOL='TOWER_ABYSS_20261022';
   const ui=()=>window.TowerAbyssUI,user=()=>typeof loadUser==='function'?loadUser():null;
+  function currentUserId(){const account=user(),id=Number(account?.serverUserId??account?.id);return Number.isSafeInteger(id)&&id>0?id:null;}
   const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,tab:'challenge',filter:'all',request:0,battleGeneration:0,releaseFocus:null};
   let requestedTower=new URL(location.href).searchParams.get('pve')==='tower';
-  const pendingKey=()=>`cnine:tower:battle:v2094:${Number(user()?.id||0)}`;
-  function pendingBattle(){try{const p=JSON.parse(sessionStorage.getItem(pendingKey())||'null');return p&&typeof p.requestId==='string'&&Number.isSafeInteger(p.floorNo)&&p.floorNo>0?p:null;}catch{return null;}}
+  const pendingKey=()=>`cnine:tower:battle:v2094:${currentUserId()||0}`;
+  function pendingBattle(){if(!currentUserId())return null;try{const p=JSON.parse(sessionStorage.getItem(pendingKey())||'null');return p&&typeof p.requestId==='string'&&Number.isSafeInteger(p.floorNo)&&p.floorNo>0?p:null;}catch{return null;}}
   function rememberBattle(value,key=pendingKey()){try{sessionStorage.setItem(key,JSON.stringify(value));}catch(error){console.warn('무한의탑 전투 복구 기록을 저장하지 못했습니다.',error);}}
   function acknowledgeBattle(){try{sessionStorage.removeItem(pendingKey());}catch{}}
   function currentDeckCards(){const list=typeof cards==='undefined'?[]:cards;return (S.data?.deck||[]).map(id=>list.find(x=>String(x.id)===String(id))).filter(Boolean);}
@@ -76,7 +77,8 @@
     if(!d.active){ui().state(box,{title:'지금은 성소의 문이 닫혀 있습니다',description:d.message||'무한의탑 운영이 재개되면 다시 도전할 수 있습니다.',error:true});return;}
     if(d.configured===false||Number(d.maxFloor||0)<1){ui().state(box,{title:'첫 번째 봉인을 준비하고 있습니다',description:d.message||'아직 개방된 층이 없습니다. 운영 준비가 끝나면 이곳에서 도전할 수 있습니다.',error:true});return;}
     const deckCards=currentDeckCards();
-    ui().render(box,{data:d,tab:S.tab,filter:S.filter,cards:deckCards,power:currentPower(deckCards),records:ui().readRecords(user()?.id),userId:user()?.id});
+    ui().render(box,{data:d,tab:S.tab,filter:S.filter,cards:deckCards,power:currentPower(deckCards),records:ui().readRecords(currentUserId()),userId:currentUserId()});
+    if(S.busy)ui().starting?.(box);
   }
   async function settleBattle(data,view,isCurrent){
     for(let attempt=0;attempt<2;attempt++){
@@ -120,6 +122,8 @@
   }
   async function startFight(){
     if(S.busy)return;
+    const accountId=currentUserId();
+    if(!accountId){const box=document.getElementById('pveTowerView');if(box)ui().state(box,{title:'로그인 정보를 확인해 주세요',description:'새로고침 후 다시 도전해 주세요.',error:true});return;}
     const pending=pendingBattle(),saved=pending?.result,deckCards=currentDeckCards();
     if(!saved&&deckCards.length!==5){S.tab='formation';render();return;}
     if(!pending&&(S.data?.completed||S.data?.blocked||!S.data?.floor))return;
@@ -127,8 +131,9 @@
     const f=saved?{floorNo,monsterName:saved.monster?.name}:S.data.floor||{floorNo};
     const modal=document.getElementById('modal');if(!modal)return;
     S.busy=true;let view=null;
-    const generation=++S.battleGeneration,accountId=Number(user()?.id),recordKey=pendingKey(),isCurrent=()=>generation===S.battleGeneration&&Number(user()?.id)===accountId;
+    const generation=++S.battleGeneration,recordKey=pendingKey(),isCurrent=()=>generation===S.battleGeneration&&currentUserId()===accountId;
     try{
+      ui().starting?.(document.getElementById('pveTowerView'));
       if(typeof ensureFeatureResources==='function')await ensureFeatureResources('battleV2');
       if(!isCurrent())return;
       if(!window.ProjectVBattleV3Live?.ready?.())throw Error('전투 화면을 준비하지 못했습니다. 다시 연결해 주세요.');
@@ -156,8 +161,8 @@
         if(!isCurrent()||!view.stage.isConnected)return;
         lockBattleFocus(view.stage);
       }
-      ui().remember(user()?.id,data);
-      renderer.showResult?.();view.phase.textContent=data.result==='WIN'?'한계 돌파':'도전 기록';ui().result(view,data,ui().readRecords(user()?.id));
+      ui().remember(accountId,data);
+      renderer.showResult?.();view.phase.textContent=data.result==='WIN'?'한계 돌파':'도전 기록';ui().result(view,data,ui().readRecords(accountId));
       view.towerMsg.onclick=event=>{
         const action=event.target.closest('[data-abyss-action]')?.dataset.abyssAction;if(!action)return;event.stopPropagation();
         view.towerMsg.querySelectorAll('button').forEach(b=>b.disabled=true);
@@ -172,6 +177,8 @@
       ui().errorResult(view,error.message,Boolean(pendingBattle()));
       view.towerMsg.onclick=event=>{const action=event.target.closest('[data-abyss-action]')?.dataset.abyssAction;if(!action)return;event.stopPropagation();view.towerMsg.querySelectorAll('button').forEach(b=>b.disabled=true);void closeBattle({acknowledge:false,retry:action==='resume'});};
       view.towerMsg.querySelector('button')?.focus({preventScroll:true});
+    }finally{
+      if(generation===S.battleGeneration&&!isCurrent())disposeBattle();
     }
   }
   window.addEventListener('cnine:character-power-changed',event=>{const bonuses=event.detail?.bonuses;if(!bonuses)return;if(S.data)S.data.characterBonus=bonuses;const view=document.getElementById('pveTowerView');if(view&&!view.hidden&&S.data)render();});
