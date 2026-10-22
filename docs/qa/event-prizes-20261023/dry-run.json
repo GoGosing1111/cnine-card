@@ -1,0 +1,21 @@
+{
+  "verified": true,
+  "rollbackVerified": true,
+  "injectedFailureRolledBack": true,
+  "idempotentReplay": true,
+  "sourceSha256": "0a6233ebda97dfa02c97c91ecb292e37a6f46416760397244a46069d51d7b87d",
+  "planHash": "fb4ce6dc81273f21b89e066ffb017b425f7a03136a61ad001dfc79d1917fef65",
+  "verification": {
+    "status": "VERIFIED",
+    "recipients": 13,
+    "mercenaries": 10,
+    "equipment": 3,
+    "coin": "500000000000000",
+    "stockConsumed": 1,
+    "limitedIssueRecordsAdded": 1,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 10,
+    "coinLogs": 4,
+    "auditRecords": 1
+  }
+}

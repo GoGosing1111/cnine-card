@@ -1,0 +1,257 @@
+{
+  "operationKey": "ops:event-prizes:20261023:v1",
+  "title": "2026-10-23 당첨 상품 지급",
+  "authorization": "족로 단정한밤, 핫시 / 진무 단정한밤*2, 핫시, 씨나인택갓 / 카이론 간장왕대개찜, Moo날두, 숭구릭 / x바디 굳건창수 / z바디 스갤가축, 단정한밤 / 100조 전게씹선미아웃, 고라니ㅇ, 학벌*2, 족게이다 / 더듬이구 진무 상점 1장 차감 / 나머지 한정 수량 미차감 지급",
+  "delivery": "DIRECT",
+  "automaticLoadout": false,
+  "cost": 0,
+  "recipients": [
+    {
+      "id": "62",
+      "nickname": "숭구릭",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "3d0f5f8aeafda0c692e2c8feca1b69bee61e3c211b63550c711b4358e767fded"
+    },
+    {
+      "id": "277",
+      "nickname": "스갤가축",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "19528fabfdfeb568d802b9cdb7ab2fdf955cb64af0f006d0ee6638dc82ec5118"
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "17850f115029985e3c4c5a7c59596074414292214549184a92d199ef4acc2c05"
+    },
+    {
+      "id": "1255",
+      "nickname": "전게씹선미아웃",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "c52449af0f0027152625945987b3c4e9b9b068f9e805ef804b77966bfaa6665c"
+    },
+    {
+      "id": "1768",
+      "nickname": "핫시",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "6202cde047aec1dbd6a2e3078f87d138cb0581c3496d16eb35aa897724c7c7e1"
+    },
+    {
+      "id": "4111",
+      "nickname": "족게이다",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "3359892e211e4b81aebd2928068ef48b8e543ccafbe022d69fe176e18f29737b"
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "e3a5106d954725ea57feb9fc2b29e938fe43aed43dedb1843bcc9fa4c1cfbb89"
+    },
+    {
+      "id": "4415",
+      "nickname": "Moo날두",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "545f7fa624f25bd6a9833e79475419aa0571a0b0a8a085dbba9b14de981f94fe"
+    },
+    {
+      "id": "4610",
+      "nickname": "고라니ㅇ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "4e5963a28f00a9e059c4d63b920c0e39279838d9273d3daf80b46eb91d9c56aa"
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "cc225638bec5ef6513c0c0a4365b4df20de606081790e6380e9caafc96a4a563"
+    },
+    {
+      "id": "4908",
+      "nickname": "굳건창수",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "611ca1add2371b50424cf43c62aa1f6c9de9705aec188cbed069ef6d2943cd33"
+    },
+    {
+      "id": "4981",
+      "nickname": "간장왕대게찜",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "192c01214a71494434f0966fb4ce0c9ffb8fc494b184ebc804495b6330e9583e"
+    },
+    {
+      "id": "5008",
+      "nickname": "단정한밤",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "18ae9b9bcebd7796f752826f71458a4fbe2cc01ac6edf309cb813bf8118f6e48"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "name": "족로",
+      "code": "V-979",
+      "kind": "MERCENARY",
+      "quantity": 1,
+      "stockPolicy": "EXEMPT"
+    },
+    {
+      "userId": "1768",
+      "nickname": "핫시",
+      "name": "족로",
+      "code": "V-979",
+      "kind": "MERCENARY",
+      "quantity": 1,
+      "stockPolicy": "EXEMPT"
+    },
+    {
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "name": "진무",
+      "code": "V-989",
+      "kind": "MERCENARY",
+      "quantity": 2,
+      "stockPolicy": "EXEMPT"
+    },
+    {
+      "userId": "1768",
+      "nickname": "핫시",
+      "name": "진무",
+      "code": "V-989",
+      "kind": "MERCENARY",
+      "quantity": 1,
+      "stockPolicy": "EXEMPT"
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "name": "진무",
+      "code": "V-989",
+      "kind": "MERCENARY",
+      "quantity": 1,
+      "stockPolicy": "EXEMPT"
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "name": "진무",
+      "code": "V-989",
+      "kind": "MERCENARY",
+      "quantity": 1,
+      "stockPolicy": "CONSUME_ONE"
+    },
+    {
+      "userId": "4981",
+      "nickname": "간장왕대게찜",
+      "name": "카이론",
+      "code": "V-988",
+      "kind": "MERCENARY",
+      "quantity": 1,
+      "stockPolicy": "EXEMPT"
+    },
+    {
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "name": "카이론",
+      "code": "V-988",
+      "kind": "MERCENARY",
+      "quantity": 1,
+      "stockPolicy": "EXEMPT"
+    },
+    {
+      "userId": "62",
+      "nickname": "숭구릭",
+      "name": "카이론",
+      "code": "V-988",
+      "kind": "MERCENARY",
+      "quantity": 1,
+      "stockPolicy": "EXEMPT"
+    },
+    {
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "name": "X-BODY",
+      "code": "BATTLE_SUIT_X_BODY",
+      "kind": "EQUIPMENT",
+      "quantity": 1,
+      "equipmentId": "49"
+    },
+    {
+      "userId": "277",
+      "nickname": "스갤가축",
+      "name": "Z-BODY",
+      "code": "BATTLE_SUIT_Z_BODY",
+      "kind": "EQUIPMENT",
+      "quantity": 1,
+      "equipmentId": "48"
+    },
+    {
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "name": "Z-BODY",
+      "code": "BATTLE_SUIT_Z_BODY",
+      "kind": "EQUIPMENT",
+      "quantity": 1,
+      "equipmentId": "48"
+    },
+    {
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "name": "코인",
+      "code": "COIN",
+      "kind": "COIN",
+      "amount": "100000000000000"
+    },
+    {
+      "userId": "4610",
+      "nickname": "고라니ㅇ",
+      "name": "코인",
+      "code": "COIN",
+      "kind": "COIN",
+      "amount": "100000000000000"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "name": "코인",
+      "code": "COIN",
+      "kind": "COIN",
+      "amount": "200000000000000"
+    },
+    {
+      "userId": "4111",
+      "nickname": "족게이다",
+      "name": "코인",
+      "code": "COIN",
+      "kind": "COIN",
+      "amount": "100000000000000"
+    }
+  ],
+  "totals": {
+    "recipients": 13,
+    "grantRows": 16,
+    "mercenaries": 10,
+    "equipment": 3,
+    "coin": "500000000000000",
+    "stockConsumed": 1
+  },
+  "nicknameResolution": {
+    "requested": "간장왕대개찜",
+    "actual": "간장왕대게찜",
+    "id": "4981"
+  },
+  "inspectedAt": "2026-10-22T16:07:55.650Z"
+}

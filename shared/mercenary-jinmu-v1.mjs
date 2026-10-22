@@ -5,6 +5,8 @@ import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
 // The recalled Heeya grant remains invalid. Authenticated Halloween pack
 // recipients may also use one of four separate public copies.
 // Keep this identity out of the ordinary and old limited acquisition pools.
+// 2026-10-23 direct prizes: 1195, 1768, 5008 are stock-exempt; 4391 consumes one shop copy.
+// These account permissions still require an actual holding at every entry point.
 export const JINMU_CODE='V-989';
 export const JINMU_PACK_SERVER_LIMIT=4;
 export const JINMU_OWNER_ID=1;
@@ -22,7 +24,7 @@ export const JINMU_COMBAT=Object.freeze({
  basicCapScale:2.88,damageTakenScale:.25,hardCounter:BERKAN_CODE
 });
 export const isJinmu=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===JINMU_CODE;
-export const jinmuAccountAllowed=(userId,code,hasPackIssue=false)=>code!==JINMU_CODE||Number(userId)===JINMU_OWNER_ID||Number(userId)===2||Number(userId)===5663||Number(userId)===4651||Number(userId)===4817||hasPackIssue===true;
+export const jinmuAccountAllowed=(userId,code,hasPackIssue=false)=>code!==JINMU_CODE||Number(userId)===JINMU_OWNER_ID||Number(userId)===2||Number(userId)===5663||Number(userId)===4651||Number(userId)===4817||Number(userId)===1195||Number(userId)===1768||Number(userId)===4391||Number(userId)===5008||hasPackIssue===true;
 export const jinmuActionCredit=actors=>actors.some(a=>isJinmu(a)&&a.alive!==false&&a.hp>0)?JINMU_COMBAT.actionCredit:1;
 export function jinmuIncomingDamage(target,incoming,source){
  if(!isJinmu(target))return incoming;
