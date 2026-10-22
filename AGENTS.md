@@ -4,6 +4,8 @@
 - 코인 99개 층만 일회 변경한다. 난도·아이템·계급 EXP·진행도·수령 이력과 이미 시작된 전투 영수증은 유지하며 소급 지급하지 않는다. 새 전투부터 변경된 CMS를 읽는다.
 - 일회 키 `ops:tower-rewards:20261022:low10-high5-through100-v1`, 구현과 검증은 `scripts/ops/tower-reward-boost-20261022.mjs`, `docs/qa/tower-reward-boost-20261022/`를 따른다. 재배포나 운영 도구 재실행으로 다시 곱하지 않는다.
 
+- **09:29 KST 적용 완료:** 소스 `1b977a8a7`, 감사 `49922`. 관련 검사 3개, 원복 예행연습·재실행 추가 쓰기 0·독립 연결 120층 재조회로 검증했다. 전체 기본 코인 11조 5,187억 5,000만. 런타임 재배포 없음.
+
 ## 시그헌터 박스 · 재료 등록 — 2026-10-22
 
 - 사용자 구성은 `SIG_HUNTER_BOX` 1개당 코인 30조, `MASTER_STAR` 2,000만 개, `PINGDU_REPAIR_COUPON` 3장, `SUIT_CORE_6` 10개, **`MERCENARY_SSS_LIMITED_SHARD` 1개**다. 일반 SSS 조각으로 대체하지 않는다.

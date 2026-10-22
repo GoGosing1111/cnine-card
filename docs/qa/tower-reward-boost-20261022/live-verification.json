@@ -1,0 +1,567 @@
+{
+  "checkedAt": "2026-10-22T00:29:22.644Z",
+  "sourceCommit": "1b977a8a7c51aec9205e3cf403dbc3d59b358ba3",
+  "config": {
+    "enabled": true,
+    "protocol": "TOWER_ABYSS_20261022"
+  },
+  "receipt": {
+    "actor": "CODEX_OPERATIONS",
+    "operationKey": "ops:tower-rewards:20261022:low10-high5-through100-v1",
+    "status": "COMPLETED",
+    "completedAt": "2026-10-22T00:29:17.945Z",
+    "sourceCommit": "1b977a8a7c51aec9205e3cf403dbc3d59b358ba3",
+    "seasonId": 1,
+    "beforeHash": "0f9cab93d14d6cbdc80bcb813fd553d074ba5d9d461e19eee0573dc6be7d9bc4",
+    "afterHash": "d3676b97642071e7b68ff1f2946bb2e6cb973edbe112a2ae29c3f7edfaea6806",
+    "planHash": "3c11671d394048e16f6b01f2ff283187efbe0f56cd0c55d802321f22ae6fe928",
+    "changedFloors": 99,
+    "unchangedFloors": [
+      60,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120
+    ],
+    "previousTotalCoin": 4205250000000,
+    "totalCoin": 11518750000000,
+    "accountWrites": 0,
+    "progressReset": false,
+    "retroactiveGrant": false,
+    "pendingBattleChanges": 0,
+    "adminLogId": "49922"
+  },
+  "dryRunRollbackConfirmed": true,
+  "replayAdditionalWrites": 0,
+  "independentReadConnection": true,
+  "activeFloorCount": 120,
+  "excludedFloorsUnchanged": [
+    60,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120
+  ],
+  "floorCoinHash": "76b6b0556fdae5b9485122ca40790a1d276db1364b238f5979cc6b7c333d5364",
+  "totalCoin": 11518750000000,
+  "rows": [
+    {
+      "floor": 1,
+      "coin": 1000000000
+    },
+    {
+      "floor": 2,
+      "coin": 1000000000
+    },
+    {
+      "floor": 3,
+      "coin": 1000000000
+    },
+    {
+      "floor": 4,
+      "coin": 1000000000
+    },
+    {
+      "floor": 5,
+      "coin": 1000000000
+    },
+    {
+      "floor": 6,
+      "coin": 1000000000
+    },
+    {
+      "floor": 7,
+      "coin": 1000000000
+    },
+    {
+      "floor": 8,
+      "coin": 1000000000
+    },
+    {
+      "floor": 9,
+      "coin": 1000000000
+    },
+    {
+      "floor": 10,
+      "coin": 5000000000
+    },
+    {
+      "floor": 11,
+      "coin": 2000000000
+    },
+    {
+      "floor": 12,
+      "coin": 2000000000
+    },
+    {
+      "floor": 13,
+      "coin": 2000000000
+    },
+    {
+      "floor": 14,
+      "coin": 2000000000
+    },
+    {
+      "floor": 15,
+      "coin": 2000000000
+    },
+    {
+      "floor": 16,
+      "coin": 2000000000
+    },
+    {
+      "floor": 17,
+      "coin": 2000000000
+    },
+    {
+      "floor": 18,
+      "coin": 2000000000
+    },
+    {
+      "floor": 19,
+      "coin": 2000000000
+    },
+    {
+      "floor": 20,
+      "coin": 10000000000
+    },
+    {
+      "floor": 21,
+      "coin": 3000000000
+    },
+    {
+      "floor": 22,
+      "coin": 3000000000
+    },
+    {
+      "floor": 23,
+      "coin": 3000000000
+    },
+    {
+      "floor": 24,
+      "coin": 3000000000
+    },
+    {
+      "floor": 25,
+      "coin": 3000000000
+    },
+    {
+      "floor": 26,
+      "coin": 3000000000
+    },
+    {
+      "floor": 27,
+      "coin": 3000000000
+    },
+    {
+      "floor": 28,
+      "coin": 3000000000
+    },
+    {
+      "floor": 29,
+      "coin": 3000000000
+    },
+    {
+      "floor": 30,
+      "coin": 30000000000
+    },
+    {
+      "floor": 31,
+      "coin": 4000000000
+    },
+    {
+      "floor": 32,
+      "coin": 4000000000
+    },
+    {
+      "floor": 33,
+      "coin": 4000000000
+    },
+    {
+      "floor": 34,
+      "coin": 4000000000
+    },
+    {
+      "floor": 35,
+      "coin": 4000000000
+    },
+    {
+      "floor": 36,
+      "coin": 4000000000
+    },
+    {
+      "floor": 37,
+      "coin": 4000000000
+    },
+    {
+      "floor": 38,
+      "coin": 4000000000
+    },
+    {
+      "floor": 39,
+      "coin": 4000000000
+    },
+    {
+      "floor": 40,
+      "coin": 50000000000
+    },
+    {
+      "floor": 41,
+      "coin": 5000000000
+    },
+    {
+      "floor": 42,
+      "coin": 5000000000
+    },
+    {
+      "floor": 43,
+      "coin": 5000000000
+    },
+    {
+      "floor": 44,
+      "coin": 5000000000
+    },
+    {
+      "floor": 45,
+      "coin": 5000000000
+    },
+    {
+      "floor": 46,
+      "coin": 5000000000
+    },
+    {
+      "floor": 47,
+      "coin": 5000000000
+    },
+    {
+      "floor": 48,
+      "coin": 5000000000
+    },
+    {
+      "floor": 49,
+      "coin": 5000000000
+    },
+    {
+      "floor": 50,
+      "coin": 100000000000
+    },
+    {
+      "floor": 51,
+      "coin": 15000000000
+    },
+    {
+      "floor": 52,
+      "coin": 15000000000
+    },
+    {
+      "floor": 53,
+      "coin": 15000000000
+    },
+    {
+      "floor": 54,
+      "coin": 15000000000
+    },
+    {
+      "floor": 55,
+      "coin": 15000000000
+    },
+    {
+      "floor": 56,
+      "coin": 15000000000
+    },
+    {
+      "floor": 57,
+      "coin": 15000000000
+    },
+    {
+      "floor": 58,
+      "coin": 15000000000
+    },
+    {
+      "floor": 59,
+      "coin": 15000000000
+    },
+    {
+      "floor": 60,
+      "coin": 45000000000
+    },
+    {
+      "floor": 61,
+      "coin": 18750000000
+    },
+    {
+      "floor": 62,
+      "coin": 18750000000
+    },
+    {
+      "floor": 63,
+      "coin": 18750000000
+    },
+    {
+      "floor": 64,
+      "coin": 18750000000
+    },
+    {
+      "floor": 65,
+      "coin": 18750000000
+    },
+    {
+      "floor": 66,
+      "coin": 18750000000
+    },
+    {
+      "floor": 67,
+      "coin": 18750000000
+    },
+    {
+      "floor": 68,
+      "coin": 18750000000
+    },
+    {
+      "floor": 69,
+      "coin": 18750000000
+    },
+    {
+      "floor": 70,
+      "coin": 375000000000
+    },
+    {
+      "floor": 71,
+      "coin": 75000000000
+    },
+    {
+      "floor": 72,
+      "coin": 75000000000
+    },
+    {
+      "floor": 73,
+      "coin": 75000000000
+    },
+    {
+      "floor": 74,
+      "coin": 75000000000
+    },
+    {
+      "floor": 75,
+      "coin": 75000000000
+    },
+    {
+      "floor": 76,
+      "coin": 75000000000
+    },
+    {
+      "floor": 77,
+      "coin": 75000000000
+    },
+    {
+      "floor": 78,
+      "coin": 75000000000
+    },
+    {
+      "floor": 79,
+      "coin": 75000000000
+    },
+    {
+      "floor": 80,
+      "coin": 750000000000
+    },
+    {
+      "floor": 81,
+      "coin": 150000000000
+    },
+    {
+      "floor": 82,
+      "coin": 150000000000
+    },
+    {
+      "floor": 83,
+      "coin": 150000000000
+    },
+    {
+      "floor": 84,
+      "coin": 150000000000
+    },
+    {
+      "floor": 85,
+      "coin": 150000000000
+    },
+    {
+      "floor": 86,
+      "coin": 150000000000
+    },
+    {
+      "floor": 87,
+      "coin": 150000000000
+    },
+    {
+      "floor": 88,
+      "coin": 150000000000
+    },
+    {
+      "floor": 89,
+      "coin": 150000000000
+    },
+    {
+      "floor": 90,
+      "coin": 1500000000000
+    },
+    {
+      "floor": 91,
+      "coin": 200000000000
+    },
+    {
+      "floor": 92,
+      "coin": 200000000000
+    },
+    {
+      "floor": 93,
+      "coin": 200000000000
+    },
+    {
+      "floor": 94,
+      "coin": 200000000000
+    },
+    {
+      "floor": 95,
+      "coin": 200000000000
+    },
+    {
+      "floor": 96,
+      "coin": 200000000000
+    },
+    {
+      "floor": 97,
+      "coin": 200000000000
+    },
+    {
+      "floor": 98,
+      "coin": 200000000000
+    },
+    {
+      "floor": 99,
+      "coin": 200000000000
+    },
+    {
+      "floor": 100,
+      "coin": 2000000000000
+    },
+    {
+      "floor": 101,
+      "coin": 50000000000
+    },
+    {
+      "floor": 102,
+      "coin": 50000000000
+    },
+    {
+      "floor": 103,
+      "coin": 50000000000
+    },
+    {
+      "floor": 104,
+      "coin": 50000000000
+    },
+    {
+      "floor": 105,
+      "coin": 50000000000
+    },
+    {
+      "floor": 106,
+      "coin": 50000000000
+    },
+    {
+      "floor": 107,
+      "coin": 50000000000
+    },
+    {
+      "floor": 108,
+      "coin": 50000000000
+    },
+    {
+      "floor": 109,
+      "coin": 50000000000
+    },
+    {
+      "floor": 110,
+      "coin": 600000000000
+    },
+    {
+      "floor": 111,
+      "coin": 60000000000
+    },
+    {
+      "floor": 112,
+      "coin": 60000000000
+    },
+    {
+      "floor": 113,
+      "coin": 60000000000
+    },
+    {
+      "floor": 114,
+      "coin": 60000000000
+    },
+    {
+      "floor": 115,
+      "coin": 60000000000
+    },
+    {
+      "floor": 116,
+      "coin": 60000000000
+    },
+    {
+      "floor": 117,
+      "coin": 60000000000
+    },
+    {
+      "floor": 118,
+      "coin": 60000000000
+    },
+    {
+      "floor": 119,
+      "coin": 60000000000
+    },
+    {
+      "floor": 120,
+      "coin": 800000000000
+    }
+  ],
+  "validation": {
+    "testsPassed": 3,
+    "testsFailed": 0,
+    "liveAccountWrites": 0,
+    "runtimeRedeployed": false
+  }
+}
