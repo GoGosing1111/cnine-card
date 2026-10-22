@@ -49,10 +49,12 @@ try{
   assert.equal(await page.locator('#totalCount').textContent(),String(expected.cards.length));
   await page.locator('[data-code="V-979"]').click();
   assert.match(await page.locator('#inspection').textContent(),/청룡단천/);
-  assert.match(await page.locator('#inspection').textContent(),/할로윈 리미티드 용병팩 3장/);
-  assert.equal(await page.locator('[data-equip="V-979"]').isEnabled(),true);
+  assert.ok((await page.locator('#inspection').textContent()).includes(`할로윈 리미티드 용병팩 ${expected.cards.find(c=>c.code==='V-979').serverLimit}장`));
+  assert.equal(await page.locator('[data-equip="V-979"]').count(),2);
+  for(const button of await page.locator('[data-equip="V-979"]').all())assert.equal(await button.isEnabled(),true);
   await page.waitForFunction(()=>[...document.querySelectorAll('[data-code="V-979"] img,#portraitDisplay .source-art')].every(img=>img.complete&&img.naturalWidth>0));
   await page.screenshot({path:path.join(out,'owned-'+width+'.png')});
+  if(await page.locator('#inspectionSheet').evaluate(dialog=>dialog.open))await page.locator('#closeInspection').click();
   await page.locator('#allView').click();
   assert.equal(await page.locator('.roster-row').count(),expected.cards.length);
   await page.locator('#limitedView').click();

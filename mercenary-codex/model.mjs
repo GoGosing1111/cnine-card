@@ -1,5 +1,6 @@
 import {CRYVERN_CODE} from '../shared/mercenary-cryvern-v1.mjs';
 import {AZANT_CODE} from '../shared/mercenary-azant-v1.mjs';
+import {JOKRO_PACK_SERVER_LIMIT} from '../shared/mercenary-jokro-v1.mjs?codexStock=20261023-v1';
 export const RANKS=['C','B','A','S','SS','SSS'];
 export const POSITIONS={FRONT:'전열',MIDDLE:'중열',REAR:'후열'};
 export const FRAME='/assets/ui/card-frames/mercenary-contract-frame-premium-v2.png';
@@ -11,7 +12,7 @@ export function validateCatalog(data){
   for(const c of data.cards){const titleDeferred=c.edition==='LIMITED'&&c.titleStatus==='DEFERRED_BY_USER';if(!/^V-\d{3}$/.test(c.code)||!c.name||((c.code===CRYVERN_CODE||titleDeferred)?c.title!=='':c.code===AZANT_CODE?typeof c.title!=='string':!c.title)||(!POSITIONS[c.position]&&!(c.artOnly===true&&c.position===null))||!data.roles?.[c.role]||(c.rank!==null&&!RANKS.includes(c.rank))||!Array.isArray(c.skills))throw Error('용병 설정을 확인하세요.');asset(c.sourceArt);if(c.thumbnailArt)asset(c.thumbnailArt);if(c.displayArt)asset(c.displayArt);if(c.battleSprite)asset(c.battleSprite);
     if(c.edition==='LIMITED'){
       const battleReady=c.releaseStatus==='OWNER_PACK_CONTROLLED'&&(c.season==='HALLOWEEN'||c.code==='V-989'||c.code==='V-979')&&c.deploymentEnabled===true&&Number.isSafeInteger(c.basePower)&&c.basePower>0&&c.skills.length>0;
-      const jokroReady=c.code==='V-979'&&battleReady&&c.artOnly===false&&c.packAcquisitionEnabled===true&&c.exclusiveGrant===false&&c.excludedFromLimitedCount===false&&c.serverLimit===3&&c.skills.length===1;
+      const jokroReady=c.code==='V-979'&&battleReady&&c.artOnly===false&&c.packAcquisitionEnabled===true&&c.exclusiveGrant===false&&c.excludedFromLimitedCount===false&&c.serverLimit===JOKRO_PACK_SERVER_LIMIT&&c.skills.length===1;
       const leonelReady=c.code==='V-978'&&c.releaseStatus==='BATTLE_RELEASED_ACQUISITION_LOCKED'&&c.artOnly===false&&c.acquisition==='LOCKED'&&c.deploymentEnabled===true&&Number.isSafeInteger(c.basePower)&&c.basePower>=2300000&&c.skills.length===1;
       const shiranuiReady=c.code==='V-987'&&c.releaseStatus==='RANK_REWARD_RELEASED'&&c.acquisition==='ACCOUNT_RANK_REWARD'&&c.minimumAccountLevel===235&&c.artOnly===false&&c.acquisitionEnabled===true&&c.packAcquisitionEnabled===false&&c.deploymentEnabled===true&&Number.isSafeInteger(c.basePower)&&c.basePower>0&&c.skills.length===1;
       const primeReady=c.code==='V-975'&&c.releaseStatus==='BATTLE_RELEASED_ACQUISITION_LOCKED'&&c.artOnly===false&&c.acquisition==='LOCKED'&&c.deploymentEnabled===true&&c.basePower===2300000&&c.packAcquisitionEnabled===false&&c.skills.length===7;

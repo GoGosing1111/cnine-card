@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 import {validateCatalog} from '../mercenary-codex/model.mjs';
-import {JOKRO_CODE,JOKRO_ART,JOKRO_COMBAT,JOKRO_AREA_SKILL} from '../shared/mercenary-jokro-v1.mjs';
+import {JOKRO_CODE,JOKRO_ART,JOKRO_COMBAT,JOKRO_AREA_SKILL,JOKRO_PACK_SERVER_LIMIT} from '../shared/mercenary-jokro-v1.mjs';
 
 const catalog=()=>mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:61,updated_at:'2026-10-21T00:00:00Z'});
 
@@ -20,13 +20,21 @@ test('the complete public catalog including pack-released Jokro passes the actua
  assert.equal(card.acquisitionEnabled,false);
  assert.equal(card.exclusiveGrant,false);
  assert.equal(card.excludedFromLimitedCount,false);
- assert.equal(card.serverLimit,3);
+ assert.equal(card.serverLimit,JOKRO_PACK_SERVER_LIMIT);
  assert.equal(card.sourceArt,JOKRO_ART.sourceArt);
  assert.equal(card.thumbnailArt,JOKRO_ART.sourceArt);
  assert.equal(card.battleSprite,JOKRO_ART.battleSprite);
  assert.equal(card.skills[0].ready,true);
  assert.deepEqual(card.skills[0].balance,JOKRO_AREA_SKILL.balance);
  for(const field of ['target','effect','trigger','counterplay','bossRule','procRule'])assert.equal(typeof card.skills[0][field],'string',field);
+});
+
+test('the reduced two-copy Jokro policy cannot blank the full catalog or fall back to the retired limit',()=>{
+ const data=catalog(),card=data.cards.find(c=>c.code===JOKRO_CODE);
+ assert.equal(card.serverLimit,2);
+ assert.equal(validateCatalog(data).cards.length,data.cards.length);
+ card.serverLimit=3;
+ assert.throws(()=>validateCatalog(data),/리미티드 획득 정보/);
 });
 
 test('the codex still rejects incomplete or unauthorized limited release metadata',()=>{
