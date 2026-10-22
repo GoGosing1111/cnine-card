@@ -57,7 +57,9 @@ test('already issued third copy cannot be retired',async t=>{
  await assert.rejects(reduceJokroLimit(f.pg,{...f.options,dryRun:false}),/already issued/);assert.deepEqual(await snapshot(f),before);
 });
 test('cube and Halloween openings share the reduced final slot and both retain valid ownership',async t=>{
- const f=await beforeReduction(t);await ensureSssCubeCatalog(f.env);
+ const f=await beforeReduction(t);
+ await f.pg.exec('ALTER TABLE inventory_items ADD COLUMN name TEXT, ADD COLUMN subtitle TEXT, ADD COLUMN description TEXT, ADD COLUMN category TEXT, ADD COLUMN rarity TEXT, ADD COLUMN image_url TEXT, ADD COLUMN sort_order BIGINT');
+ await ensureSssCubeCatalog(f.env);
  assert.equal((await readSssCubeCatalog(f.env)).catalog.find(c=>c.code==='V-979').available,true);
  await reduceJokroLimit(f.pg,{...f.options,dryRun:false});
  const card=(await readSssCubeCatalog(f.env)).catalog.find(c=>c.code==='V-979');assert.equal(card.stockLimit,2);assert.equal(card.remaining,1);assert(card.available);
