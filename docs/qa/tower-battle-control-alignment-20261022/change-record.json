@@ -33,5 +33,7 @@
     "reason": "무한의탑 전투 버튼 글자 정렬 CSS 및 캐시 버전만 수정. 실제 전투 PC 1440px·모바일 390px/360px 중앙 정렬·일시정지/재개·클릭/터치 검수 후 자산 전달 검사만 수행."
   },
   "visualReview": "Screenshots checked by the implementing agent; not user visual approval.",
-  "productionStatus": "pending"
+  "productionStatus": "verified",
+  "deployedSource": "228a0e5a4d7ebeac07d3432880eb5d2e46c025e3",
+  "verification": "production-verification.json"
 }

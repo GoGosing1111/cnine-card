@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-10-22T01:03:32.352Z",
+  "sourceCommit": "228a0e5a4d7ebeac07d3432880eb5d2e46c025e3",
+  "pages": {
+    "id": "fc3af34a-2045-4d1f-a95f-47a7b7c87e2a",
+    "url": "https://fc3af34a.cnine-card.pages.dev",
+    "status": "success"
+  },
+  "production": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "150dd3565477d39c1e7a0804bd05c3c8c31ea17425173af5a69ebc022855d5d0",
+      "matchesCommittedSource": true
+    },
+    {
+      "file": "css/tower-abyss-ui.css",
+      "status": 200,
+      "sha256": "ba253fe68ae4cd7dc72eb2105aa3112355ffc4e6a9cea0bdfea9ea33578d0723",
+      "matchesCommittedSource": true
+    }
+  ]
+}
