@@ -1,0 +1,402 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:halloween-stock-increase:20261023:v1",
+  "authorization": "할로윈팩 SS리미티드 2장씩 한도 늘리고 바토리는 5장늘려 그리고 SSS리미티드에서 진무랑 족로 1장씩 늘려",
+  "completedAt": "2026-10-22T22:26:02.983Z",
+  "verifiedAt": "2026-10-22T22:26:14.004Z",
+  "auditId": "50377",
+  "stockAdded": 21,
+  "targets": [
+    {
+      "code": "V-980",
+      "name": "나무늘봉순",
+      "before": 11,
+      "after": 13,
+      "issued": 11,
+      "remaining": 2,
+      "issuedAtCommit": 11,
+      "remainingBefore": 0,
+      "remainingAtCommit": 2
+    },
+    {
+      "code": "V-981",
+      "name": "조은",
+      "before": 11,
+      "after": 13,
+      "issued": 11,
+      "remaining": 2,
+      "issuedAtCommit": 11,
+      "remainingBefore": 0,
+      "remainingAtCommit": 2
+    },
+    {
+      "code": "V-982",
+      "name": "하이희야",
+      "before": 11,
+      "after": 13,
+      "issued": 11,
+      "remaining": 2,
+      "issuedAtCommit": 11,
+      "remainingBefore": 0,
+      "remainingAtCommit": 2
+    },
+    {
+      "code": "V-983",
+      "name": "오리꿍",
+      "before": 11,
+      "after": 13,
+      "issued": 11,
+      "remaining": 2,
+      "issuedAtCommit": 11,
+      "remainingBefore": 0,
+      "remainingAtCommit": 2
+    },
+    {
+      "code": "V-984",
+      "name": "디임",
+      "before": 11,
+      "after": 13,
+      "issued": 11,
+      "remaining": 2,
+      "issuedAtCommit": 11,
+      "remainingBefore": 0,
+      "remainingAtCommit": 2
+    },
+    {
+      "code": "V-985",
+      "name": "아윤",
+      "before": 11,
+      "after": 13,
+      "issued": 11,
+      "remaining": 2,
+      "issuedAtCommit": 11,
+      "remainingBefore": 0,
+      "remainingAtCommit": 2
+    },
+    {
+      "code": "V-986",
+      "name": "남수댕",
+      "before": 11,
+      "after": 13,
+      "issued": 11,
+      "remaining": 2,
+      "issuedAtCommit": 11,
+      "remainingBefore": 0,
+      "remainingAtCommit": 2
+    },
+    {
+      "code": "V-977",
+      "name": "바토리",
+      "before": 15,
+      "after": 20,
+      "issued": 15,
+      "remaining": 5,
+      "issuedAtCommit": 15,
+      "remainingBefore": 0,
+      "remainingAtCommit": 5
+    },
+    {
+      "code": "V-989",
+      "name": "진무",
+      "before": 4,
+      "after": 5,
+      "issued": 3,
+      "remaining": 2,
+      "issuedAtCommit": 3,
+      "remainingBefore": 1,
+      "remainingAtCommit": 2
+    },
+    {
+      "code": "V-979",
+      "name": "족로",
+      "before": 2,
+      "after": 3,
+      "issued": 1,
+      "remaining": 2,
+      "issuedAtCommit": 1,
+      "remainingBefore": 1,
+      "remainingAtCommit": 2
+    }
+  ],
+  "packRevisionBefore": 22,
+  "packRevisionAfter": 23,
+  "mode": "ON",
+  "issuesUnchanged": true,
+  "otherStocksUnchanged": true,
+  "pricesAndConfiguredRatesUnchanged": true,
+  "grants": 0,
+  "craftLimitChanged": false,
+  "dryRunRolledBack": true,
+  "replayedWithoutWrites": true,
+  "independentConnection": true,
+  "publicReadback": {
+    "status": "VERIFIED",
+    "verifiedAt": "2026-10-22T22:26:10.256Z",
+    "http": 200,
+    "revision": 23,
+    "openingEnabled": true,
+    "blockers": [],
+    "stock": [
+      {
+        "code": "V-980",
+        "limit": 13,
+        "issued": 11,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-981",
+        "limit": 13,
+        "issued": 11,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-982",
+        "limit": 13,
+        "issued": 11,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-983",
+        "limit": 13,
+        "issued": 11,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-984",
+        "limit": 13,
+        "issued": 11,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-985",
+        "limit": 13,
+        "issued": 11,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-986",
+        "limit": 13,
+        "issued": 11,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-977",
+        "limit": 20,
+        "issued": 15,
+        "remaining": 5,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-999",
+        "limit": 8,
+        "issued": 8,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      },
+      {
+        "code": "V-989",
+        "limit": 5,
+        "issued": 3,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      },
+      {
+        "code": "V-996",
+        "limit": 15,
+        "issued": 15,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      },
+      {
+        "code": "V-979",
+        "limit": 3,
+        "issued": 1,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      }
+    ],
+    "pricesAndConfiguredRatesUnchanged": true
+  },
+  "production": {
+    "status": "VERIFIED",
+    "verifiedAt": "2026-10-22T22:25:55.816Z",
+    "sourceCommit": "f72e9d463d5d788f7160d6592cccd21206119c52",
+    "apiVersion": "c0a88bce-90b7-4c79-9cea-c43682ebba53",
+    "clanVersion": "009cde1e-e022-4fe4-bed7-a4d025f3d2b7",
+    "pages": {
+      "id": "bef4acd9-0792-4411-8470-04cf26c84d23",
+      "url": "https://bef4acd9.cnine-card.pages.dev",
+      "status": "success"
+    },
+    "publicFiles": [
+      {
+        "file": "shared/mercenary-halloween-catalog-v1.mjs",
+        "sha256": "9c623eaabf236b9c76b4f17dd139b6d71437141f90c85a2a1e8e9ca6b8ea1aae"
+      },
+      {
+        "file": "shared/mercenary-halloween-pool-v3.mjs",
+        "sha256": "46b728e012967aa8420a0b50c7fc6b1708bc93390d15c0cca948804337a282f1"
+      },
+      {
+        "file": "shared/mercenary-halloween-pack-v1.mjs",
+        "sha256": "829ed33d36dd50c9792c4124b41530895a067cd1ed3624adfec1652c35b26e04"
+      },
+      {
+        "file": "shared/mercenary-bathory-v1.mjs",
+        "sha256": "35a23e9327f8edc00b6df2e8fa2c471b7c97c26318cbd5f8670d3826306aa58b"
+      },
+      {
+        "file": "shared/mercenary-jinmu-v1.mjs",
+        "sha256": "75bd3f619e7f25b6a662059f0a9417d0500fe6589517a0f03a0b4462185dc34e"
+      },
+      {
+        "file": "shared/mercenary-jokro-v1.mjs",
+        "sha256": "e4b0a06d46607c4e89fdbc67eda9c26858e948336289dd34f4f355e82c5ea13e"
+      },
+      {
+        "file": "admin/mercenary-halloween-admin-v1.mjs",
+        "sha256": "4bcf23d9298dc45fc798a98925f935bef0024f9dfe13cf937c0c903591884325"
+      },
+      {
+        "file": "mercenary-codex/model.mjs",
+        "sha256": "906d46253d27adc95835537d8618a68f5642e1bfa072de1c6e704aa2a805a349"
+      },
+      {
+        "file": "mercenary-codex/app.mjs",
+        "sha256": "49c3a05bd5d71b14d734357fa785abe053d9472e8efac5124648d07e0063424b"
+      },
+      {
+        "file": "mercenary-codex/index.html",
+        "sha256": "51d9a2883ce3fad71c2e8bc87c452a2c4584a1539f6875aef3588942047e87a5"
+      },
+      {
+        "file": "js/mercenary-halloween-pack-live.mjs",
+        "sha256": "af6574ad6ebcb37f547a70a0a2fd6143c3c5fb059e0675815cd62c0136f9ca16"
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "fb29ab731657bebe4fd76b3baeb67ddb9135d7c05df000b1cfa86b37ae9410a2"
+      }
+    ],
+    "catalogCount": 81,
+    "openingEnabled": true,
+    "stock": [
+      {
+        "code": "V-980",
+        "limit": 11,
+        "issued": 11,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-981",
+        "limit": 11,
+        "issued": 11,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-982",
+        "limit": 11,
+        "issued": 11,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-983",
+        "limit": 11,
+        "issued": 11,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-984",
+        "limit": 11,
+        "issued": 11,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-985",
+        "limit": 11,
+        "issued": 11,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-986",
+        "limit": 11,
+        "issued": 11,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-977",
+        "limit": 15,
+        "issued": 15,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-999",
+        "limit": 8,
+        "issued": 8,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      },
+      {
+        "code": "V-989",
+        "limit": 4,
+        "issued": 3,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      },
+      {
+        "code": "V-996",
+        "limit": 15,
+        "issued": 15,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      },
+      {
+        "code": "V-979",
+        "limit": 2,
+        "issued": 1,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      }
+    ],
+    "productionOpenRequests": 0
+  }
+}
