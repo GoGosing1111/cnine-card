@@ -1,0 +1,175 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:owner-jinmu-exempt-grant:20261023:v1",
+  "planHash": "8c3a39879d25e884252564bf902ec2e315458afc94e7511a79f852f5d6722b60",
+  "plan": {
+    "operationKey": "ops:owner-jinmu-exempt-grant:20261023:v1",
+    "authorization": "비숑,인셉션(영어로) OWNER 계정에 진무 지급해 차감없이",
+    "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+    "cost": 0,
+    "automaticLoadout": false,
+    "totalQuantity": 2,
+    "recipientCount": 2,
+    "recipients": [
+      {
+        "id": "2",
+        "nickname": "Inception",
+        "role": "OWNER",
+        "status": "ACTIVE",
+        "identityHash": "e9508363ca4b1bb1eb2de9c933539a931115093b50ef32b7fccc258503cfc242"
+      },
+      {
+        "id": "5663",
+        "nickname": "비숑",
+        "role": "OWNER",
+        "status": "ACTIVE",
+        "identityHash": "4e20330d91fbd5e52c5a21fa720d69468fcf0d7952b847d8787df45edf81c305"
+      }
+    ],
+    "grants": [
+      {
+        "userId": "2",
+        "nickname": "Inception",
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "quantity": 1
+      },
+      {
+        "userId": "5663",
+        "nickname": "비숑",
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "quantity": 1
+      }
+    ]
+  },
+  "completedAt": "2026-10-22T22:18:21.647Z",
+  "grants": [
+    {
+      "userId": "2",
+      "nickname": "Inception",
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "quantity": 1,
+      "copiesBefore": 1,
+      "copiesAfter": 2,
+      "holdingBefore": {
+        "user_id": 2,
+        "total_copies": 1,
+        "mercenary_code": "V-989",
+        "duplicate_count": 0,
+        "last_obtained_at": "2026-10-20T07:03:37.460Z",
+        "first_obtained_at": "2026-10-20T07:03:37.460Z"
+      }
+    },
+    {
+      "userId": "5663",
+      "nickname": "비숑",
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "quantity": 1,
+      "copiesBefore": 1,
+      "copiesAfter": 2,
+      "holdingBefore": {
+        "user_id": 5663,
+        "total_copies": 1,
+        "mercenary_code": "V-989",
+        "duplicate_count": 0,
+        "last_obtained_at": "2026-10-20T07:42:45.860Z",
+        "first_obtained_at": "2026-10-20T07:42:45.860Z"
+      }
+    }
+  ],
+  "acquisitions": [
+    "ops:owner-jinmu-exempt-grant:20261023:v1:2:V-989:1",
+    "ops:owner-jinmu-exempt-grant:20261023:v1:5663:V-989:1"
+  ],
+  "stockBefore": [
+    {
+      "code": "V-989",
+      "issued": 3,
+      "revision": 4,
+      "last_token": "9e7b69c3-8dce-4acb-b31a-52dc74765ed6",
+      "stock_limit": 4
+    }
+  ],
+  "stockAfter": [
+    {
+      "code": "V-989",
+      "issued": 3,
+      "revision": 4,
+      "last_token": "9e7b69c3-8dce-4acb-b31a-52dc74765ed6",
+      "stock_limit": 4
+    }
+  ],
+  "issuesBefore": [
+    {
+      "code": "V-989",
+      "serial": 1,
+      "user_id": 4977,
+      "created_at": "2026-10-21T17:04:19.526Z",
+      "request_id": "9d83ee76-cff9-4dd2-bd47-692495b77d38",
+      "acquisition_id": "9d83ee76-cff9-4dd2-bd47-692495b77d38:0"
+    },
+    {
+      "code": "V-989",
+      "serial": 2,
+      "user_id": 1545,
+      "created_at": "2026-10-21T19:10:01.064Z",
+      "request_id": "291b7897-86a0-4c30-a7a3-09f045feea7e",
+      "acquisition_id": "291b7897-86a0-4c30-a7a3-09f045feea7e:2"
+    },
+    {
+      "code": "V-989",
+      "serial": 3,
+      "user_id": 4391,
+      "created_at": "2026-10-22T16:21:40.253Z",
+      "request_id": "ops:event-prizes:20261023:v1",
+      "acquisition_id": "ops:event-prizes:20261023:v1:4391:V-989:1"
+    }
+  ],
+  "issuesAfter": [
+    {
+      "code": "V-989",
+      "serial": 1,
+      "user_id": 4977,
+      "created_at": "2026-10-21T17:04:19.526Z",
+      "request_id": "9d83ee76-cff9-4dd2-bd47-692495b77d38",
+      "acquisition_id": "9d83ee76-cff9-4dd2-bd47-692495b77d38:0"
+    },
+    {
+      "code": "V-989",
+      "serial": 2,
+      "user_id": 1545,
+      "created_at": "2026-10-21T19:10:01.064Z",
+      "request_id": "291b7897-86a0-4c30-a7a3-09f045feea7e",
+      "acquisition_id": "291b7897-86a0-4c30-a7a3-09f045feea7e:2"
+    },
+    {
+      "code": "V-989",
+      "serial": 3,
+      "user_id": 4391,
+      "created_at": "2026-10-22T16:21:40.253Z",
+      "request_id": "ops:event-prizes:20261023:v1",
+      "acquisition_id": "ops:event-prizes:20261023:v1:4391:V-989:1"
+    }
+  ],
+  "craftBefore": [],
+  "craftAfter": [],
+  "protectedBeforeHash": "391c5748b09e8f90c2a625d25dace7e8d6cbc9f3f650bd64bcec6d64693211ec",
+  "protectedAfterHash": "391c5748b09e8f90c2a625d25dace7e8d6cbc9f3f650bd64bcec6d64693211ec",
+  "preserved": {
+    "currency": true,
+    "stockCounters": true,
+    "numberedIssues": true,
+    "craftCounts": true,
+    "packAndCraftSettings": true,
+    "otherCards": true,
+    "inventory": true,
+    "loadouts": true,
+    "levels": true,
+    "growth": true,
+    "accountSettings": true
+  },
+  "auditId": "50373"
+}

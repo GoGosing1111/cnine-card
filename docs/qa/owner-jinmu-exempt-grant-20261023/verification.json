@@ -1,0 +1,20 @@
+{
+  "verification": {
+    "status": "VERIFIED",
+    "recipientCount": 2,
+    "totalQuantity": 2,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 2,
+    "auditRecords": 1
+  },
+  "sourceSha256": "5aed6ef6b8bb9b8f2ad2de4d1555f0a69601dae0cfdd45d3d2e41f6e3c2d2877",
+  "verifiedAt": "2026-10-22T22:18:28.324Z",
+  "independentConnection": true,
+  "replay": {
+    "verified": true,
+    "additionalWrites": 0,
+    "operationKey": "ops:owner-jinmu-exempt-grant:20261023:v1"
+  }
+}
