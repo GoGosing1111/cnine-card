@@ -1,0 +1,310 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:new-user-gift-gbody:20261022:v1",
+  "authorization": "신규 기프트박스에 G슈트 포함시켜 → G바디",
+  "completedAt": "2026-10-22T14:48:42.156Z",
+  "verifiedAt": "2026-10-22T14:49:16.397Z",
+  "auditId": "50224",
+  "giftVersion": 4,
+  "body": {
+    "id": 38,
+    "code": "BATTLE_SUIT_03",
+    "name": "G-BODY",
+    "quantity": 1
+  },
+  "updatedUnopenedReceipts": 38,
+  "verifiedUnopenedWithGBody": 38,
+  "converted": [
+    {
+      "userId": 8,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 16,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 65,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 183,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 315,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 521,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 4501,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 4602,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 4627,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 4676,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 4910,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 4933,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5008,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5148,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5614,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5621,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5624,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5771,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5823,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5828,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5834,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5841,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5842,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5861,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5877,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5882,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5901,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5914,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5918,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5930,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5942,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5944,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5971,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5988,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 5996,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 6011,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 6015,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    },
+    {
+      "userId": 6041,
+      "fromVersion": 3,
+      "toVersion": 4,
+      "bodyQuantity": 1
+    }
+  ],
+  "priorReceiptsArchived": 38,
+  "otherV3RewardsPreserved": true,
+  "completedReceiptsChanged": false,
+  "newBoxesIssued": 0,
+  "boxesOpened": 0,
+  "equipmentDirectlyGranted": 0,
+  "active": 1,
+  "dryRunRolledBack": true,
+  "replayedWithoutWrites": true,
+  "independentConnection": true,
+  "production": {
+    "status": "VERIFIED",
+    "verifiedAt": "2026-10-22T14:48:22.447Z",
+    "sourceCommit": "376d9ab6191443ceec1999079736adc63fb8e832",
+    "apiVersion": "3987be94-9b71-4083-b1a0-3ab077dae1df",
+    "clanVersion": "6b9cea08-1bcc-4369-b7d4-a70a7442bb97",
+    "pages": {
+      "id": "91887b44-0f44-4178-a012-1670c2290776",
+      "url": "https://91887b44.cnine-card.pages.dev",
+      "status": "success"
+    },
+    "giftVersion": 4,
+    "body": {
+      "code": "BATTLE_SUIT_03",
+      "id": 38,
+      "name": "G-BODY",
+      "quantity": 1
+    },
+    "publicFiles": [
+      {
+        "file": "js/new-user-gift-v2075.js",
+        "sha256": "645d0f812bc9e617383686cbfb1f64e48d4a575bab9b95d019a435108d8a4572"
+      },
+      {
+        "file": "index.html",
+        "sha256": "8f2754429c213c34a5a2bc5eec57796e67b89b64ccd3e060811842807446ddea"
+      },
+      {
+        "file": "admin/index.html",
+        "sha256": "e2f4b8fe0033afaf1d15fd8621cdd3e1a0ef74adf62714bc49405138a76ba382"
+      }
+    ],
+    "unitTests": 29,
+    "browserViews": [
+      {
+        "mode": "player",
+        "width": 1280
+      },
+      {
+        "mode": "cms",
+        "width": 1280
+      },
+      {
+        "mode": "player",
+        "width": 390
+      },
+      {
+        "mode": "cms",
+        "width": 390
+      }
+    ],
+    "productionBoxOpens": 0
+  }
+}
