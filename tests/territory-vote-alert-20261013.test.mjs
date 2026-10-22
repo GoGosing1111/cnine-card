@@ -8,11 +8,11 @@ const {pollsFor,createTracker,createPreferences}=globals.CNineTerritoryVoteAlert
 const now=Date.now();
 function fixture(){
   const skill=(side,code,votes)=>({ready:true,readyAt:null,voteKey:`V25:7:11:${side}:${code}:0`,votes,voted:false});
-  return {mode:'ON',round:{id:7,status:'ACTIVE',ends_at:new Date(now+60000).toISOString()},front:{id:11},mine:{user_id:1,side:'A',status:'ACTIVE'},truce:{active:false},counter:{model:'SKILL_COOLDOWN',canVote:true,requiredVotes:25,operations:{ASSAULT:{name:'총공세'},INFILTRATION:{name:'기습 침투'}},A:{skills:{ASSAULT:skill('A','ASSAULT',0),INFILTRATION:skill('A','INFILTRATION',7)}},B:{skills:{ASSAULT:skill('B','ASSAULT',20)}}}};
+  return {mode:'ON',round:{id:7,status:'ACTIVE',ends_at:new Date(now+60000).toISOString()},front:{id:11},mine:{user_id:1,side:'A',status:'ACTIVE'},truce:{active:false},counter:{model:'SKILL_COOLDOWN',canVote:true,requiredVotes:15,operations:{ASSAULT:{name:'총공세'},INFILTRATION:{name:'기습 침투'}},A:{skills:{ASSAULT:skill('A','ASSAULT',0),INFILTRATION:skill('A','INFILTRATION',7)}},B:{skills:{ASSAULT:skill('B','ASSAULT',20)}}}};
 }
 test('only a ready ballot with actual allied votes on the selected front is highlighted',()=>{
   const s=fixture(),polls=pollsFor(s,now);
-  assert.equal(polls.length,1);assert.equal(polls[0].code,'INFILTRATION');assert.equal(polls[0].votes,7);
+  assert.equal(polls.length,1);assert.equal(polls[0].code,'INFILTRATION');assert.equal(polls[0].votes,7);assert.equal(polls[0].required,15);
   s.counter.A.skills.INFILTRATION.voted=true;
   assert.equal(pollsFor(s,now).length,1,'voters still see an ongoing ballot');
   s.front.id=12;assert.equal(pollsFor(s,now).length,0,'old front votes must not leak');

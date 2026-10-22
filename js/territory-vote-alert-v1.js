@@ -6,7 +6,7 @@
     if(state?.mode==='OFF'||state?.round?.status!=='ACTIVE'||state?.mine?.status!=='ACTIVE'||
       !['A','B'].includes(side)||counter?.model!=='SKILL_COOLDOWN'||!counter.canVote||state.truce?.active||
       Date.parse(state.round.ends_at)<=now)return [];
-    const required=Math.max(1,Number(counter.requiredVotes)||25);
+    const required=Math.max(1,Number(counter.requiredVotes)||15);
     const prefix=`V25:${state.round.id}:${state.front?.id}:${side}:`;
     return Object.entries(counter[side]?.skills||{}).flatMap(([code,skill])=>{
       const votes=Math.max(0,Math.floor(Number(skill.votes)||0)),operation=counter.operations?.[code];

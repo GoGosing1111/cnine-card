@@ -63,10 +63,10 @@ for(const postgres of [false,true]){const dialect=postgres?'PostgreSQL':'SQLite'
     assert.equal(Number((await f.p('SELECT energy FROM territory_war_v3_users WHERE user_id=?',mine.user_id).first()).energy),before-1);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM territory_war_mutation_guards').first()).n),0);
   });
-  test(`${dialect}: 25 votes affect the chosen northern node; another node keeps its HP and cannot bypass cooldown`,async t=>{
+  test(`${dialect}: 15 votes affect the chosen northern node; another node keeps its HP and cannot bypass cooldown`,async t=>{
     const f=await territoryNetworkFixture(t,postgres);await f.form();const front=await networkFront(f.env,await f.round(),{nodeIndex:2}),central=await networkFront(f.env,await f.round(),{nodeIndex:4});
     const voters=(await f.p("SELECT * FROM territory_war_v3_users WHERE side='A' ORDER BY user_id").all()).results,key=territorySkillVoteKey(1,front.id,'A','ASSAULT',0);
-    for(const [i,mine] of voters.slice(0,25).entries())await recordTerritorySkillVote(f.env,{round:await f.round(),front,mine,operation:'ASSAULT',voteKey:key,requestId:'NETWORK_VOTE:'+i});
+    for(const [i,mine] of voters.slice(0,15).entries())await recordTerritorySkillVote(f.env,{round:await f.round(),front,mine,operation:'ASSAULT',voteKey:key,requestId:'NETWORK_VOTE:'+i});
     const result=await T.activateVotedTerritorySkill(f.env,key,f.cfg);assert.equal(result.activated,true);assert.equal(Number(result.frontId),Number(front.id));
     assert.ok(Number((await networkFront(f.env,await f.round(),{nodeIndex:2})).b_hp)<Number(front.b_hp));
     assert.deepEqual(await networkFront(f.env,await f.round(),{nodeIndex:4}),central);

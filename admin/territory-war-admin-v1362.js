@@ -9,7 +9,7 @@
     const root=document.getElementById('territoryWarAdminRoot');if(!root||document.getElementById('territoryWarAdminV1402'))return;
     root.innerHTML='';const box=document.createElement('section');box.id='territoryWarAdminV1402';box.className='panel';box.innerHTML=`
       <div class="maintenanceHead"><div><small>TERRITORY WAR · FACILITIES & COMMAND</small><h2>영토전 전선 공성 관리</h2><p>A·B 진영 참가자를 매칭해 실제 교전을 실행합니다. 공성·중계탑·열차 호위의 목표를 선택할 수 있습니다.</p></div><button id="tw3Reload" class="ghost">새로고침</button></div>
-      <div class="inlineNotice"><b>다중 거점 · 개인 균형 편성</b><p>새 회차는 북부·중부·남부 경로가 연결된 9거점에서 동시에 교전합니다. 개인별로 참가 신청하며, 모집 마감 시 인원·전투력·최근 5회 참여 이력으로 양 진영을 배분합니다. 같은 클랜도 서로 다른 진영에 편성됩니다. 적 본진 점령 시 즉시 승리하며, 시간 종료 시 점령 거점 수 → 누적 공성 피해 순으로 판정합니다.</p><p>중지된 미개막 회차의 대기 명단은 다음 모집으로 유지합니다. 개인전 보상은 유지하고, 개인 편성 회차는 클랜 시즌 승점을 지급하지 않습니다.</p><p>새 회차의 스킬은 같은 진영 25명 투표로 자동 발동하며 각각 45분 쿨타임입니다. 기존 8종과 시설 스킬 4종을 사용합니다. EMP는 중계탑 점령, 공성포는 진영 전력이 필요합니다. 개편 배포는 운영 OFF를 자동으로 켜지 않습니다.</p></div>
+      <div class="inlineNotice"><b>다중 거점 · 개인 균형 편성</b><p>새 회차는 북부·중부·남부 경로가 연결된 9거점에서 동시에 교전합니다. 개인별로 참가 신청하며, 모집 마감 시 인원·전투력·최근 5회 참여 이력으로 양 진영을 배분합니다. 같은 클랜도 서로 다른 진영에 편성됩니다. 적 본진 점령 시 즉시 승리하며, 시간 종료 시 점령 거점 수 → 누적 공성 피해 순으로 판정합니다.</p><p>중지된 미개막 회차의 대기 명단은 다음 모집으로 유지합니다. 개인전 보상은 유지하고, 개인 편성 회차는 클랜 시즌 승점을 지급하지 않습니다.</p><p>새 회차의 스킬은 같은 진영 15명 투표로 자동 발동하며 각각 45분 쿨타임입니다. 기존 8종과 시설 스킬 4종을 사용합니다. EMP는 중계탑 점령, 공성포는 진영 전력이 필요합니다. 개편 배포는 운영 OFF를 자동으로 켜지 않습니다.</p></div>
       <div class="formgrid">
         <label class="field"><span>운영 모드</span><select id="tw3Mode"><option>OFF</option><option>TEST</option><option>ON</option></select></label>
         <label class="field"><span>영토전 이름</span><input id="tw3BattleName" type="text" maxlength="40" placeholder="예: 오렌성 전투"></label>

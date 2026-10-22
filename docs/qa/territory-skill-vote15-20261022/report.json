@@ -1,0 +1,30 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "threshold": 15,
+      "heading": true,
+      "alert": true,
+      "skillCard": true,
+      "cannon": true,
+      "activationToast": true,
+      "voteCalls": 1,
+      "cooldown": true,
+      "cms": true,
+      "pageErrors": []
+    },
+    {
+      "width": 390,
+      "threshold": 15,
+      "heading": true,
+      "alert": true,
+      "skillCard": true,
+      "cannon": true,
+      "activationToast": true,
+      "voteCalls": 1,
+      "cooldown": true,
+      "cms": true,
+      "pageErrors": []
+    }
+  ]
+}

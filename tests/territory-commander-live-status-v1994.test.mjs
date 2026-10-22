@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 
 const read=path=>readFile(new URL(`../${path}`,import.meta.url),'utf8');
 
-test('현재 영토전은 두 API 모두 25명 자동 발동 투표로 연결하며 구회차 지휘권은 보존한다',async()=>{
+test('현재 영토전은 두 API 모두 15명 자동 발동 투표로 연결하며 구회차 지휘권은 보존한다',async()=>{
   const [server,client,legacy]=await Promise.all([
     read('functions/_territory_war.js'),
     read('js/territory-war-v1811.js'),

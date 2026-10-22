@@ -1281,7 +1281,7 @@ async function submitTerritoryVote(env,deps,user,cfg,body,round,oldReceipt=null)
     return deps.json({ok:true,activated:result.activated,result,state:await publicState(env,user.id,false,selected?.node_index)});
   }catch(error){
     // An ambiguous response never creates another vote. Its receipt is retried
-    // using the same request id, and the normal lifecycle resumes 25-vote polls.
+    // using the same request id, and the normal lifecycle resumes polls that reach the current threshold.
     const receipt=await territorySkillReceipt(env,user.id,body.requestId,operation);
     if(receipt?.voted&&!oldReceipt)return submitTerritoryVote(env,deps,user,cfg,body,round,receipt);
     return deps.json({error:'전황 또는 투표가 변경되었습니다. 새로고침 후 다시 투표해 주세요.',retryable:true},409);

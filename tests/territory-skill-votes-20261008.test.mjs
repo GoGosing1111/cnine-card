@@ -44,27 +44,27 @@ async function fixture(t,postgres){
 }
 for(const postgres of [false,true]){
   const dialect=postgres?'PostgreSQL':'SQLite';
-  test(dialect+': 24 distinct participants cannot fire; the 25th ordinary participant triggers exactly once',async t=>{
+  test(dialect+': 14 distinct participants cannot fire; the 15th ordinary participant triggers exactly once',async t=>{
     const f=await fixture(t,postgres),key=territorySkillVoteKey(1,1,'A','INFILTRATION');
-    for(let user=1;user<=24;user++)await f.vote(user);
+    for(let user=1;user<=14;user++)await f.vote(user);
     await f.vote(1);await f.vote(1);await f.vote(27);
-    assert.equal((await territoryVoteRows(f.env,1)).find(v=>v.operation===key).votes,24);
+    assert.equal((await territoryVoteRows(f.env,1)).find(v=>v.operation===key).votes,14);
     assert.equal(await f.cast(key),null);assert.equal((await f.front()).b_hp,500000);
     const commander=await f.mine(1);
     await assert.rejects(applyTerritorySkill(f.env,{round:await f.round(),front:await f.front(),mine:commander,operation:'INFILTRATION',cfg,voteKey:key,requestId:'BYPASS:COMMANDER',damageFor:territorySiegeDamage,definition:territorySkillCatalog(T.OPERATIONS,cfg).INFILTRATION}));
-    const vote=await f.vote(25),result=await f.cast(key);assert.equal(result.damage,120000);assert.equal(result.activated,true);
+    const vote=await f.vote(15),result=await f.cast(key);assert.equal(vote.requiredVotes,15);assert.equal(key,'V25:1:1:A:INFILTRATION:0');assert.equal(result.damage,120000);assert.equal(result.activated,true);
     assert.equal((await f.front()).b_hp,380000);assert.equal((await f.round()).a_total_damage,120000);
-    assert.equal((await f.cast(key)).replayed,true);assert.equal((await f.vote(25,'INFILTRATION',{requestId:vote.requestId})).replayed,true);
+    assert.equal((await f.cast(key)).replayed,true);assert.equal((await f.vote(15,'INFILTRATION',{requestId:vote.requestId})).replayed,true);
     assert.equal((await f.front()).b_hp,380000);assert.equal((await f.p('SELECT COUNT(*) n FROM territory_war_skill_cooldowns').first()).n,1);
     assert.equal((await territoryVoteRows(f.env,1)).filter(v=>v.side==='A').length,0);
     assert.equal(Number((await f.p('SELECT SUM(attacks) n FROM territory_war_v3_users').first()).n),0);
     const state=await territorySkillState(f.env,await f.round(),T.OPERATIONS,'A',{A:{user_id:1}},25,NOW+1000);
-    assert.equal(state.canVote,true);assert.equal(state.canActivate,false);assert.equal(state.requiredVotes,25);assert.equal(state.A.skills.INFILTRATION.ready,false);
+    assert.equal(state.canVote,true);assert.equal(state.canActivate,false);assert.equal(state.requiredVotes,15);assert.equal(state.A.skills.INFILTRATION.ready,false);
   });
   test(dialect+': a participant has one choice; opposing, inactive, stale-front and stale-cooldown votes cannot qualify',async t=>{
     const f=await fixture(t,postgres),oldKey=territorySkillVoteKey(1,1,'A','INFILTRATION');
-    for(let user=1;user<=24;user++)await f.vote(user);
-    await f.vote(24,'ASSAULT');assert.equal((await territoryVoteRows(f.env,1)).find(v=>v.operation===oldKey).votes,23);
+    for(let user=1;user<=14;user++)await f.vote(user);
+    await f.vote(14,'ASSAULT');assert.equal((await territoryVoteRows(f.env,1)).find(v=>v.operation===oldKey).votes,13);
     await assert.rejects(f.vote(27,'INFILTRATION',{voteKey:oldKey}));
     await f.p("UPDATE territory_war_v3_users SET status='WAITING' WHERE user_id=25").run();await assert.rejects(f.vote(25));
     await f.p('UPDATE territory_war_v3_rounds SET truce_ends_at=?',iso(NOW+60000)).run();await assert.rejects(f.vote(26));
@@ -74,10 +74,10 @@ for(const postgres of [false,true]){
     const newKey=territorySkillVoteKey(1,1,'A','INFILTRATION',NOW-1);await f.vote(26,'INFILTRATION',{voteKey:newKey});assert.equal(await f.cast(newKey),null);
     assert.equal((await f.front()).b_hp,500000);
   });
-  test(dialect+': competing 25th/26th votes and automatic activations share one cooldown, damage and receipt',async t=>{
-    const f=await fixture(t,postgres);for(let user=1;user<=24;user++)await f.vote(user,'ASSAULT');
+  test(dialect+': competing 15th/16th votes and automatic activations share one cooldown, damage and receipt',async t=>{
+    const f=await fixture(t,postgres);for(let user=1;user<=14;user++)await f.vote(user,'ASSAULT');
     const key=territorySkillVoteKey(1,1,'A','ASSAULT');
-    await Promise.all([f.vote(25,'ASSAULT'),f.vote(26,'ASSAULT')]);
+    await Promise.all([f.vote(15,'ASSAULT'),f.vote(16,'ASSAULT')]);
     const results=await Promise.all([f.cast(key),f.cast(key)]);assert.ok(results.every(r=>r?.activated));
     assert.equal((await f.front()).b_hp,499200);assert.equal((await f.round()).a_total_damage,800);
     assert.equal((await f.p("SELECT COUNT(*) n FROM territory_war_skill_receipts WHERE request_id LIKE 'TW_AUTO:%'").first()).n,1);
@@ -86,7 +86,7 @@ for(const postgres of [false,true]){
     const f=await fixture(t,postgres),key=await seedTerritorySkillVotes(f,'REGROUP'),batch=f.env.DB.batch.bind(f.env.DB);
     f.env.DB.batch=statements=>batch([...statements,f.p("INSERT INTO territory_war_mutation_guards(token,ok) VALUES('forced-failure',0)")]);
     assert.equal(await f.cast(key),null);assert.equal((await f.front()).b_hp,500000);assert.equal((await f.mine(1)).energy,1);
-    assert.equal((await f.p('SELECT COUNT(*) n FROM territory_war_skill_cooldowns').first()).n,0);assert.equal(Number((await territoryVoteRows(f.env,1))[0].votes),25);
+    assert.equal((await f.p('SELECT COUNT(*) n FROM territory_war_skill_cooldowns').first()).n,0);assert.equal(Number((await territoryVoteRows(f.env,1))[0].votes),15);
     f.env.DB.batch=batch;assert.equal(await T.settlePendingTerritoryVotes(f.env,await f.round(),cfg),true);
     assert.equal((await f.front()).b_hp,499400);assert.equal((await f.mine(1)).energy,4);assert.equal(await T.settlePendingTerritoryVotes(f.env,await f.round(),cfg),false);
   });

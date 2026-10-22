@@ -178,7 +178,7 @@
     if(fatigue?.active)return{tag:'FRONT FATIGUE',title:sideName(fatigue.side)+' 전선 피로',value:fmt(fatigue.percent)+'%',icon:'≋'};
     if(team?.operation?.active)return{tag:'ACTIVE OPERATION',title:team.operation.name,value:remaining(team.operation.endsAt),icon:'◆'};
     const deadlock=tw4DeadlockState();if(deadlock.active)return{tag:'FRONTLINE DEADLOCK',title:'현재 초접전',value:'HP 차이 '+deadlock.gap+'%P',icon:'⚔'};
-    if(team&&state.counter?.model==='SKILL_COOLDOWN')return{tag:'SKILL COMMAND',title:'지휘관 스킬 · 25명 투표 시 자동 발동',value:`${team.readyCount}개 준비`,icon:'•'};
+    if(team&&state.counter?.model==='SKILL_COOLDOWN')return{tag:'SKILL COMMAND',title:'지휘관 스킬 · '+fmt(state.counter.requiredVotes)+'명 투표 시 자동 발동',value:`${team.readyCount}개 준비`,icon:'•'};
     if(team)return{tag:'TACTICAL ALERT',title:team.ready?(state.counter?.canActivate?'지휘관 작전 명령 가능':'지휘관 작전 명령 대기'):`전술 게이지 ${fmt(team.gauge)} / ${fmt(team.max)}`,value:team.ready?(state.counter?.canActivate?'즉시 발동':'지휘관 전용'):'충전 중',icon:'•'};
     return{tag:'FRONTLINE STATUS',title:'전선 작전 대기',value:statusText(state.round),icon:'•'};
   }
@@ -302,7 +302,7 @@
     if(busy)return;
     const voteKey=state?.counter?.[state?.mine?.side]?.skills?.[operation]?.voteKey,key=skillRequestKey(operation),requestId=localStorage.getItem(key)||makeId('TW_SKILL');
     localStorage.setItem(key,requestId);setBusy(true);
-    try{const data=await api(voteKey?'territory-war/vote-operation':'territory-war/activate-operation',{method:'POST',body:JSON.stringify({operation,requestId,...(voteKey?{voteKey}:{})})},{timeoutMs:20000,replaceInflight:true});localStorage.removeItem(key);state=data.state;render();if(voteKey)tw4OpenDrawer('operations');showToast(data.activated?'25명 투표 달성 · 스킬이 자동 발동되었습니다.':data.result?.voted?'투표 완료 · '+fmt(data.result.votes)+' / 25명':'전술 작전이 발동되었습니다.','resolve')}
+    try{const data=await api(voteKey?'territory-war/vote-operation':'territory-war/activate-operation',{method:'POST',body:JSON.stringify({operation,requestId,...(voteKey?{voteKey}:{})})},{timeoutMs:20000,replaceInflight:true});localStorage.removeItem(key);state=data.state;render();if(voteKey)tw4OpenDrawer('operations');showToast(data.activated?fmt(state.counter.requiredVotes)+'명 투표 달성 · 스킬이 자동 발동되었습니다.':data.result?.voted?'투표 완료 · '+fmt(data.result.votes)+' / '+fmt(state.counter.requiredVotes)+'명':'전술 작전이 발동되었습니다.','resolve')}
     catch(error){alert(error.message);await loadFull(true)}finally{setBusy(false)}
   }
 

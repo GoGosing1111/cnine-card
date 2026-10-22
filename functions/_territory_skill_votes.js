@@ -2,7 +2,9 @@ import {networkActionGuards,networkActionCleanup} from './_territory_network_v6.
 import {isNetworkWar,hasTerritorySkills} from '../shared/territory-network-v6.mjs';
 // Existing vote rows hold one current choice per participant. Poll identities
 // include the front and cooldown generation so old votes cannot fire again.
-export const TERRITORY_SKILL_REQUIRED_VOTES=25;
+export const TERRITORY_SKILL_REQUIRED_VOTES=15;
+// V25 is the persisted ballot namespace, not the current threshold. Preserve it
+// so ongoing votes and activation receipts remain valid across this adjustment.
 export const territorySkillVoteKey=(roundId,frontId,side,operation,readyAt=0)=>`V25:${Number(roundId)}:${Number(frontId)}:${side}:${operation}:${Number(readyAt)}`;
 const fail=message=>{throw Object.assign(new Error(message),{status:409})};
 export function parseTerritorySkillVoteKey(key){
