@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_ART_APPROVED",
+  "approvalDate": "2026-10-22",
+  "timezone": "Asia/Seoul",
+  "userApproval": "호박봉순 호박조은 펫 승인 반영해",
+  "authoritativeSource": "사용자가 재첨부한 두 PNG가 최종 승인 원본이다. 생성 순서나 이전 manifest의 선택본보다 이 기록을 우선한다.",
+  "scope": {
+    "approved": [
+      "펫 이름",
+      "정지 전신 원화",
+      "펫 도감 및 OWNER CMS 승인 원화 목록 반영"
+    ],
+    "animationApproved": false,
+    "acquisitionApproved": false,
+    "battleBuffPolicyApproved": false,
+    "accountGrantsPerformed": false
+  },
+  "preservation": {
+    "byteForByte": true,
+    "postProcessing": "none",
+    "faceOutfitPoseAndCompositionLocked": true,
+    "regenerationAllowedWithoutNewUserDirection": false
+  },
+  "assets": [
+    {
+      "code": "PET-PUMPKIN-BONGSOON",
+      "name": "호박봉순",
+      "animal": "호박 인형탈",
+      "approvedAsset": "assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png",
+      "sha256": "e2a44d08be09b436676acd22173a1ed8b246f54352659c97aaf1f5dfac556fee",
+      "sourceAttachment": "codex-clipboard-f2083c88-3277-4eea-a515-cf2c7157731f.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "mode": "RGBA",
+      "bytes": 1725984,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "generationHistory": "preview/pet-pumpkin-photo-face-20261022-v1/manifest.json",
+      "prompt": "preview/pet-pumpkin-photo-face-20261022-v1/prompt-v2-edge-cleanup.txt",
+      "notes": "사용자가 재첨부한 앞머리 봉순 최종본. 이전 V1 선택 기록을 대체한다."
+    },
+    {
+      "code": "PET-PUMPKIN-JOEUN",
+      "name": "호박조은",
+      "animal": "호박 인형탈",
+      "approvedAsset": "assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png",
+      "sha256": "e5eb156285075caf10847c85264cf2a965bd6c7f31cef809446491468adb450f",
+      "sourceAttachment": "codex-clipboard-410afcf2-4919-49ce-bcb1-67c401d6e45a.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "mode": "RGBA",
+      "bytes": 1755498,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "generationHistory": "preview/pet-pumpkin-photo-face-02-20261022-v1/manifest.json",
+      "prompt": "preview/pet-pumpkin-photo-face-02-20261022-v1/prompt-v4-full-face.txt",
+      "notes": "새 사진의 정면 얼굴이 탈 안을 꽉 채운 최종본. 웃는 기울임 얼굴과 작은 얼굴 시안을 현재 기준으로 사용하지 않는다."
+    }
+  ],
+  "runtime": {
+    "catalog": "shared/pet-art-catalog-v1.mjs",
+    "registration": "approval-art-catalog-only",
+    "cmsConfigured": false,
+    "buffs": [],
+    "acquisitionPoolChanged": false,
+    "existingPetsChanged": false
+  }
+}

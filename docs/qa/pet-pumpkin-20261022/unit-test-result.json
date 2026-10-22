@@ -1,0 +1,8 @@
+{
+  "command": "node --test tests/pet-pumpkin-approval-20261022.test.mjs",
+  "tests": 2,
+  "passed": 2,
+  "failed": 0,
+  "existingRegressionSuiteRun": false,
+  "scope": "Exact reattached PNG identity; actual codex/CMS candidates; unowned equip rejection; unchanged CMS/opening/collection/loadout/inventory/potential fixture records"
+}

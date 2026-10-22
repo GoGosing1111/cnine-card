@@ -1,0 +1,241 @@
+{
+  "status": "PASSED",
+  "scope": "Local fixture; actual pet codex and actual OWNER pet management component. Read-only selection only.",
+  "fixtureOnlyStubs": [
+    "Realtime account socket disabled",
+    "Unrelated shell endpoints return inert fixture data"
+  ],
+  "protectedStateUnchanged": true,
+  "mutationRequests": [],
+  "reports": [
+    {
+      "viewport": "desktop",
+      "size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "route": "/pet-codex/",
+      "catalogCount": 21,
+      "pets": [
+        {
+          "code": "PET-PUMPKIN-BONGSOON",
+          "name": "호박봉순",
+          "image": {
+            "src": "/assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png",
+            "width": 1254,
+            "height": 1254,
+            "fit": "contain",
+            "visible": true
+          },
+          "equipDisabled": true,
+          "buffUnconfigured": true,
+          "widths": {
+            "viewport": 1440,
+            "document": 1440,
+            "body": 1235
+          },
+          "screenshot": "desktop-pet-pumpkin-bongsoon.png",
+          "mobileStageViewport": null
+        },
+        {
+          "code": "PET-PUMPKIN-JOEUN",
+          "name": "호박조은",
+          "image": {
+            "src": "/assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png",
+            "width": 1254,
+            "height": 1254,
+            "fit": "contain",
+            "visible": true
+          },
+          "equipDisabled": true,
+          "buffUnconfigured": true,
+          "widths": {
+            "viewport": 1440,
+            "document": 1440,
+            "body": 1235
+          },
+          "screenshot": "desktop-pet-pumpkin-joeun.png",
+          "mobileStageViewport": null
+        }
+      ],
+      "ownerCms": {
+        "mode": "actual component in local harness",
+        "candidates": [
+          {
+            "code": "PET-PUMPKIN-BONGSOON",
+            "name": "호박봉순"
+          },
+          {
+            "code": "PET-PUMPKIN-JOEUN",
+            "name": "호박조은"
+          }
+        ],
+        "existingDefinitions": 1,
+        "saveDisabled": true,
+        "widths": {
+          "viewport": 1440,
+          "document": 1440,
+          "body": 1440
+        },
+        "screenshot": "desktop-owner-pumpkin-candidates.png"
+      }
+    },
+    {
+      "viewport": "mobile",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/pet-codex/",
+      "catalogCount": 21,
+      "pets": [
+        {
+          "code": "PET-PUMPKIN-BONGSOON",
+          "name": "호박봉순",
+          "image": {
+            "src": "/assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png",
+            "width": 1254,
+            "height": 1254,
+            "fit": "contain",
+            "visible": true
+          },
+          "equipDisabled": true,
+          "buffUnconfigured": true,
+          "widths": {
+            "viewport": 390,
+            "document": 390,
+            "body": 390
+          },
+          "screenshot": "mobile-pet-pumpkin-bongsoon.png",
+          "mobileStageViewport": {
+            "imageTop": 94.3125,
+            "imageBottom": 329.3125,
+            "footerTop": 673,
+            "viewport": 844,
+            "screenshot": "mobile-pet-pumpkin-bongsoon-stage-viewport.png",
+            "note": "Existing fixed footer may overlap lower content at the initial scroll position; the complete image is visible after normal scrolling."
+          }
+        },
+        {
+          "code": "PET-PUMPKIN-JOEUN",
+          "name": "호박조은",
+          "image": {
+            "src": "/assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png",
+            "width": 1254,
+            "height": 1254,
+            "fit": "contain",
+            "visible": true
+          },
+          "equipDisabled": true,
+          "buffUnconfigured": true,
+          "widths": {
+            "viewport": 390,
+            "document": 390,
+            "body": 390
+          },
+          "screenshot": "mobile-pet-pumpkin-joeun.png",
+          "mobileStageViewport": {
+            "imageTop": 94.37297058105469,
+            "imageBottom": 329.37298583984375,
+            "footerTop": 673,
+            "viewport": 844,
+            "screenshot": "mobile-pet-pumpkin-joeun-stage-viewport.png",
+            "note": "Existing fixed footer may overlap lower content at the initial scroll position; the complete image is visible after normal scrolling."
+          }
+        }
+      ],
+      "ownerCms": {
+        "mode": "actual component in local harness",
+        "candidates": [
+          {
+            "code": "PET-PUMPKIN-BONGSOON",
+            "name": "호박봉순"
+          },
+          {
+            "code": "PET-PUMPKIN-JOEUN",
+            "name": "호박조은"
+          }
+        ],
+        "existingDefinitions": 1,
+        "saveDisabled": true,
+        "widths": {
+          "viewport": 390,
+          "document": 390,
+          "body": 390
+        },
+        "screenshot": "mobile-owner-pumpkin-candidates.png"
+      }
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "httpErrors": [],
+  "unrelatedApiStubs": [
+    "server-support/info",
+    "shell/summary",
+    "me/menu-favorites",
+    "jokgak-city/notifications"
+  ],
+  "apiRequests": [
+    {
+      "path": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "path": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "path": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "path": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "path": "jokgak-city/notifications",
+      "method": "GET"
+    },
+    {
+      "path": "admin/pets/potential",
+      "method": "GET"
+    },
+    {
+      "path": "admin/pets",
+      "method": "GET"
+    },
+    {
+      "path": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "path": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "path": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "path": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "path": "admin/pets/potential",
+      "method": "GET"
+    },
+    {
+      "path": "admin/pets",
+      "method": "GET"
+    }
+  ],
+  "visualReview": {
+    "reviewer": "Codex independent QA agent",
+    "screenshotsInspected": 8,
+    "desktop": "Both names, exact approved artwork, pending buffs and disabled unowned equip state are readable. Full bodies are visible without clipping.",
+    "mobile": "Both full bodies, names, selection states and disabled equip controls are visible at 390px after normal scrolling. Initial full-page captures retain the existing fixed footer overlay; the stage-viewport captures show the unobscured complete pet.",
+    "ownerCms": "Both approved names appear as unregistered candidates. Existing pet definition and disabled save button remain unchanged.",
+    "userApprovalNotInferredFromTests": true
+  }
+}

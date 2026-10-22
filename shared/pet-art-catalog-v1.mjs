@@ -21,4 +21,6 @@ export const PET_ART_CATALOG=Object.freeze([
   ["WHITE-SPIRIT", "흰 정령", "흰 정령", "assets/ui/pets/approved-nine-20261014/pet-white-spirit-v1.png", "888eb0f9fe355fdbdf662af592254315d1a853cd014ddddc2550cb71bdcc723e", "흰 정령 승인 전신 리소스.", "SOURCE_ART_APPROVED"],
   ["BULLDOG", "금방울 불독", "금방울 불독", "assets/ui/pets/approved-nine-20261014/pet-bell-bulldog-v1.png", "70f637d222ed371dbeae6310f00c4db8765213cdbcb47115f743467e83b419f1", "금방울 불독 승인 전신 리소스.", "SOURCE_ART_APPROVED"],
   ["CRIMSON-DEMON", "붉은 날개 마신", "붉은 날개 마신", "assets/ui/pets/approved-nine-20261014/pet-crimson-wing-demon-v1.png", "6fd7dafa0989c012b382d1580ec2fc1178637d86450b5fa4cac57a4a56071a3d", "붉은 날개 마신 승인 전신 리소스.", "SOURCE_ART_APPROVED"],
+  ['PUMPKIN-BONGSOON','호박봉순','호박 인형탈','assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png','e2a44d08be09b436676acd22173a1ed8b246f54352659c97aaf1f5dfac556fee','검은 앞머리와 사진 얼굴을 살린 포동포동한 호박 인형탈 봉순.','SOURCE_ART_APPROVED'],
+  ['PUMPKIN-JOEUN','호박조은','호박 인형탈','assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png','e5eb156285075caf10847c85264cf2a965bd6c7f31cef809446491468adb450f','정면 얼굴이 호박 탈 안을 꽉 채운 조은.','SOURCE_ART_APPROVED'],
 ].map(([slug,name,animal,file,sha256,description,artStatus='USER_REVIEW_PENDING'])=>Object.freeze({code:`PET-${slug}`,name,animal,sourceArt:file.startsWith('assets/')?file:base+file,sha256,description,artStatus})));
