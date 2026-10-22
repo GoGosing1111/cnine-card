@@ -1,0 +1,23 @@
+{
+  "actor": "CODEX_OPERATIONS",
+  "operationKey": "ops:tower-boss-rewards:20261022:110-3t-120-4t-v1",
+  "status": "COMPLETED",
+  "completedAt": "2026-10-22T00:36:14.437Z",
+  "sourceCommit": "277fa700e87f164675a3ceac78ba8b683d68514d",
+  "seasonId": 1,
+  "beforeHash": "d3676b97642071e7b68ff1f2946bb2e6cb973edbe112a2ae29c3f7edfaea6806",
+  "afterHash": "581fd01cf747e9637fb96cb860c7f857ff0fce83eaec699bcd0aa97fa38a68ad",
+  "planHash": "6b784f263f881d027985f4d46475165f9df43eaeedbb46661de91137db9ba63e",
+  "changedFloors": [
+    110,
+    120
+  ],
+  "unchangedFloorCount": 118,
+  "previousTotalCoin": 11518750000000,
+  "totalCoin": 17118750000000,
+  "accountWrites": 0,
+  "progressReset": false,
+  "retroactiveGrant": false,
+  "pendingBattleChanges": 0,
+  "adminLogId": "49928"
+}
