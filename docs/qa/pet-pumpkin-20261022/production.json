@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "status": "PRODUCTION_VERIFIED",
+  "recordedAt": "2026-10-22T15:26:43.643Z",
+  "sourceCommit": "275d701e68d7d586550a466e12448d87d8c55628",
+  "remoteBranch": "main",
+  "command": "npm run deploy:production -- --scoped",
+  "exitCode": 0,
+  "scopedBase": "376d9ab6191443ceec1999079736adc63fb8e832",
+  "pages": {
+    "id": "c12df717-69c1-4fb1-8f6d-0b4f29df85c0",
+    "environment": "Production",
+    "branch": "main",
+    "source": "275d701",
+    "url": "https://c12df717.cnine-card.pages.dev",
+    "productionUrl": "https://cnine-card.pages.dev/pet-codex/",
+    "verifiedBy": "wrangler pages deployment list --project-name cnine-card --environment production --json"
+  },
+  "workers": {
+    "apiVersion": "1c4e0f56-37d3-4912-a361-3552f51b3785",
+    "clanVersion": "2b3ae9e5-1d75-4bab-951d-7d1510f3e903"
+  },
+  "tests": [
+    {
+      "file": "tests/pet-pumpkin-approval-20261022.test.mjs",
+      "passed": 2
+    },
+    {
+      "file": "tests/pet-pumpkin-production-assets-20261022.test.mjs",
+      "passed": 1
+    },
+    {
+      "file": "tests/pet-equipment-20261002.test.mjs",
+      "passed": 9
+    }
+  ],
+  "totalTestsPassed": 12,
+  "totalTestsFailed": 0,
+  "packaging": {
+    "files": 20000,
+    "limit": 20000,
+    "approvalJsonSourceOnly": true,
+    "approvedPngIncluded": true
+  },
+  "browserQa": "browser-report.json",
+  "publicVerification": {
+    "deployment": {
+      "checkedAt": "2026-10-22T15:24:25.648Z",
+      "base": "https://c12df717.cnine-card.pages.dev",
+      "results": [
+        {
+          "name": "bongsoon",
+          "url": "https://c12df717.cnine-card.pages.dev/assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png",
+          "status": 200,
+          "contentType": "image/png",
+          "bytes": 1725984,
+          "sha256": "E2A44D08BE09B436676ACD22173A1ED8B246F54352659C97AAF1F5DFAC556FEE",
+          "expectedSha256": "E2A44D08BE09B436676ACD22173A1ED8B246F54352659C97AAF1F5DFAC556FEE",
+          "matches": true
+        },
+        {
+          "name": "joeun",
+          "url": "https://c12df717.cnine-card.pages.dev/assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png",
+          "status": 200,
+          "contentType": "image/png",
+          "bytes": 1755498,
+          "sha256": "E5EB156285075CAF10847C85264CF2A965BD6C7F31CEF809446491468ADB450F",
+          "expectedSha256": "E5EB156285075CAF10847C85264CF2A965BD6C7F31CEF809446491468ADB450F",
+          "matches": true
+        },
+        {
+          "name": "catalog",
+          "url": "https://c12df717.cnine-card.pages.dev/shared/pet-art-catalog-v1.mjs",
+          "status": 200,
+          "contentType": "application/javascript",
+          "bytes": 5920,
+          "sha256": "52BB7677817DD8F064D14DB1A02D1BAD26870E14DC533203B62569F58E87221E",
+          "entriesPresent": true
+        },
+        {
+          "name": "codex",
+          "url": "https://c12df717.cnine-card.pages.dev/pet-codex/",
+          "status": 200,
+          "contentType": "text/html; charset=utf-8",
+          "bytes": 902,
+          "sha256": "85396A708986F03CBEB7161165007B07BDE645C7F1075D2EC66C7A059DC09F1C"
+        }
+      ],
+      "passed": true
+    },
+    "alias": {
+      "status": "VERIFIED",
+      "sourceCommit": "275d701e6",
+      "startedAt": "2026-10-22T15:24:44.563Z",
+      "verifiedAt": "2026-10-22T15:25:39.763Z",
+      "base": "https://cnine-card.pages.dev",
+      "operation": "Read-only HTTP GET verification; no production writes",
+      "results": [
+        {
+          "path": "assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png",
+          "expectedSha256": "e2a44d08be09b436676acd22173a1ed8b246f54352659c97aaf1f5dfac556fee",
+          "type": "approved-image",
+          "url": "https://cnine-card.pages.dev/assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png",
+          "status": 200,
+          "ok": true,
+          "contentType": "image/png",
+          "bytes": 1725984,
+          "sha256": "e2a44d08be09b436676acd22173a1ed8b246f54352659c97aaf1f5dfac556fee",
+          "hashMatches": true
+        },
+        {
+          "path": "assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png",
+          "expectedSha256": "e5eb156285075caf10847c85264cf2a965bd6c7f31cef809446491468adb450f",
+          "type": "approved-image",
+          "url": "https://cnine-card.pages.dev/assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png",
+          "status": 200,
+          "ok": true,
+          "contentType": "image/png",
+          "bytes": 1755498,
+          "sha256": "e5eb156285075caf10847c85264cf2a965bd6c7f31cef809446491468adb450f",
+          "hashMatches": true
+        },
+        {
+          "path": "shared/pet-art-catalog-v1.mjs",
+          "type": "catalog",
+          "url": "https://cnine-card.pages.dev/shared/pet-art-catalog-v1.mjs",
+          "status": 200,
+          "ok": true,
+          "contentType": "application/javascript",
+          "bytes": 5920,
+          "sha256": "52bb7677817dd8f064d14db1a02d1bad26870e14dc533203b62569f58e87221e",
+          "entries": {
+            "bongsoon": true,
+            "joeun": true
+          },
+          "definitionNote": "Catalog stores PUMPKIN-* suffixes in rows and derives PET-* runtime codes; checks use actual row format."
+        },
+        {
+          "path": "pet-codex/",
+          "type": "codex-page",
+          "url": "https://cnine-card.pages.dev/pet-codex/",
+          "status": 200,
+          "ok": true,
+          "contentType": "text/html; charset=utf-8",
+          "bytes": 902,
+          "sha256": "85396a708986f03cbeb7161165007b07bde645c7f1075d2ec66c7a059dc09f1c",
+          "title": "펫 도감 · 리버스콜",
+          "html": true
+        }
+      ]
+    }
+  },
+  "scope": {
+    "catalogArtPublished": true,
+    "sourceBytesPreserved": true,
+    "productionAccountWrites": 0,
+    "cmsConfigurationWrites": 0,
+    "acquisitionPoolChanged": false,
+    "buffsConfigured": false,
+    "animatedAssetsAdded": false
+  },
+  "localDeployLog": "output/pet-pumpkin-approval-20261022/deploy.log"
+}
