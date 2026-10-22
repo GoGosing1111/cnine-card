@@ -1,0 +1,49 @@
+{
+  "status": "VERIFIED",
+  "verifiedAt": "2026-10-22T16:28:33.924Z",
+  "sourceCommit": "132412e16e8743932f39c734ef52afc95b4407c9",
+  "baseCommit": "cd345c6203254c10140d0b63aeb397c11f5dcb31",
+  "apiVersion": "0ce8130e-c6aa-46b5-910c-4d549ff06b9a",
+  "clanVersion": "7636c170-0258-45e3-88d4-21e71c990b90",
+  "pages": {
+    "id": "12a88635-63f4-4645-8081-616d46e35716",
+    "url": "https://12a88635.cnine-card.pages.dev",
+    "status": "success"
+  },
+  "checks": {
+    "jinmuAllows1195": true,
+    "jinmuAllows1768": true,
+    "jinmuAllows4391": true,
+    "jinmuAllows5008": true,
+    "jinmuExcludes303": true,
+    "jinmuExcludes7": true,
+    "jinmuExcludes4977": true,
+    "jinmuExcludes5950": true,
+    "jokroAllows1768": true,
+    "jokroAllows5008": true,
+    "jokroExcludes1195": true,
+    "jokroExcludes4391": true,
+    "jokroExcludes4651": true,
+    "jokroExcludes7": true,
+    "jokroExcludes4977": true,
+    "jokroExcludes5950": true
+  },
+  "publicFiles": [
+    {
+      "file": "shared/mercenary-jinmu-v1.mjs",
+      "sha256": "8de106b3794a1d854f780469e7c22c735924d16c03937a86937cb46612e82fbf"
+    },
+    {
+      "file": "shared/mercenary-jokro-v1.mjs",
+      "sha256": "67e989e86ac3093026e464485b5a3f61357471249a90bb45bcecc6154284ff8e"
+    }
+  ],
+  "workerResponseSha256": "c5ae349ec9289274c500332b2700a0f1318662994bf3faa740ffcaae4c12d317",
+  "tests": {
+    "uniqueTests": 6,
+    "releaseBoundaryTests": 3,
+    "failed": 0
+  },
+  "scope": "Exact direct prize recipients; existing holding required. DB reward grant committed once before this runtime release.",
+  "paidOpenRequests": 0
+}
