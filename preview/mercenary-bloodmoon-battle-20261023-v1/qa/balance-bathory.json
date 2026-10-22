@@ -1,0 +1,921 @@
+{
+  "dateKST": "2026-10-23",
+  "scope": "CANONICAL_SERVER_SIMULATION_WITH_PREVIEW_ONLY_POLICY_ADAPTER",
+  "rank": "SS simulation parity only; actual rarity unassigned",
+  "notes": "Identical five cards, equipment, magic, mercenary growth on both sides; mirrored positions and fixed seeds. No account/opponent/winner-specific buffs. This is not a live-player win-rate claim.",
+  "seedCount": 4,
+  "formations": [
+    {
+      "id": "basic-10000-balanced",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-balanced",
+      "level": 1
+    },
+    {
+      "id": "basic-2000000000-balanced",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-attack",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-defense",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-speed",
+      "level": 1
+    },
+    {
+      "id": "equipped-F01",
+      "level": 5
+    },
+    {
+      "id": "equipped-F23",
+      "level": 10
+    },
+    {
+      "id": "level20-balanced-250000",
+      "level": 20
+    }
+  ],
+  "profiles": {
+    "V-960": {
+      "version": 1,
+      "slug": "bongsoon",
+      "code": "V-960",
+      "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+      "name": "나무늘봉순",
+      "rank": null,
+      "position": "BACK",
+      "role": "RANGED",
+      "attackStyle": "RANGED",
+      "basePower": 356400,
+      "scale": 8.1,
+      "speedScale": 3.05,
+      "actionCredit": 3.75,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 3.25,
+      "basicCapScale": 1.7,
+      "pveSkillMinimumDamage": false,
+      "link": {
+        "attackPercent": 1782,
+        "hpPercent": 2268,
+        "shieldPercent": 1215
+      },
+      "skill": {
+        "id": "BM-BONGSOON",
+        "name": "적월 섬멸탄",
+        "nameStatus": "WORKING_LABEL",
+        "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+        "effect": "세 차례 탄막을 나누어 발사합니다.",
+        "target": "적 표적",
+        "ready": true,
+        "trigger": "기존 서버의 에너지·재사용·행동 조건",
+        "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+        "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+        "balance": {
+          "damageRatio": 14.4,
+          "cooldownTurns": 2,
+          "cost": 20
+        }
+      },
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    "V-961": {
+      "version": 1,
+      "slug": "joeun",
+      "code": "V-961",
+      "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+      "name": "조은",
+      "rank": null,
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "attackStyle": "MELEE",
+      "basePower": 356400,
+      "scale": 7.8,
+      "speedScale": 2.95,
+      "actionCredit": 3.5,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 3.1,
+      "basicCapScale": 1.7,
+      "pveSkillMinimumDamage": false,
+      "link": {
+        "attackPercent": 1716,
+        "hpPercent": 2184,
+        "shieldPercent": 1170
+      },
+      "skill": {
+        "id": "BM-JOEUN",
+        "name": "홍련의 속박",
+        "nameStatus": "WORKING_LABEL",
+        "mechanic": "REPEAT_OFFENDER_RESTRAINT",
+        "effect": "행동을 거듭한 적을 채찍으로 공격하고 조건 충족 시 다음 공격을 약화합니다.",
+        "target": "적 표적",
+        "ready": true,
+        "trigger": "기존 서버의 에너지·재사용·행동 조건",
+        "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+        "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+        "balance": {
+          "damageRatio": 12.1,
+          "cooldownTurns": 1,
+          "cost": 20
+        }
+      },
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    "V-962": {
+      "version": 1,
+      "slug": "diim",
+      "code": "V-962",
+      "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+      "name": "디임",
+      "rank": null,
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "attackStyle": "MELEE",
+      "basePower": 356400,
+      "scale": 7.7,
+      "speedScale": 2.95,
+      "actionCredit": 3.5,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 3.1,
+      "basicCapScale": 1.7,
+      "pveSkillMinimumDamage": false,
+      "link": {
+        "attackPercent": 1694,
+        "hpPercent": 2156,
+        "shieldPercent": 1155
+      },
+      "skill": {
+        "id": "BM-DIIM",
+        "name": "적월 단죄",
+        "nameStatus": "WORKING_LABEL",
+        "mechanic": "WOUNDED_MOON_DRAW",
+        "effect": "잃은 체력이 많은 적을 큰 낫으로 마무리합니다.",
+        "target": "적 표적",
+        "ready": true,
+        "trigger": "기존 서버의 에너지·재사용·행동 조건",
+        "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+        "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+        "balance": {
+          "damageRatio": 11.6,
+          "cooldownTurns": 1,
+          "cost": 20
+        }
+      },
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    "V-963": {
+      "version": 1,
+      "slug": "claws",
+      "code": "V-963",
+      "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+      "name": "독자 캐릭터 A",
+      "rank": null,
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "attackStyle": "MELEE",
+      "basePower": 356400,
+      "scale": 8.15,
+      "speedScale": 3.05,
+      "actionCredit": 3.75,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 3.3,
+      "basicCapScale": 1.7,
+      "pveSkillMinimumDamage": false,
+      "link": {
+        "attackPercent": 1793,
+        "hpPercent": 2282,
+        "shieldPercent": 1222.5
+      },
+      "skill": {
+        "id": "BM-CLAWS",
+        "name": "혈조 교차참",
+        "nameStatus": "WORKING_LABEL",
+        "mechanic": "TWO_BEAT_FOLLOWUP",
+        "effect": "양손 클로의 교차 공격을 두 행동에 나누어 이어갑니다.",
+        "target": "적 표적",
+        "ready": true,
+        "trigger": "기존 서버의 에너지·재사용·행동 조건",
+        "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+        "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+        "balance": {
+          "damageRatio": 13.2,
+          "cooldownTurns": 1,
+          "cost": 20
+        }
+      },
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    "V-964": {
+      "version": 1,
+      "slug": "dagger",
+      "code": "V-964",
+      "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+      "name": "독자 캐릭터 B",
+      "rank": null,
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "attackStyle": "MELEE",
+      "basePower": 356400,
+      "scale": 7.9,
+      "speedScale": 3.15,
+      "actionCredit": 3.75,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 3.2,
+      "basicCapScale": 1.65,
+      "pveSkillMinimumDamage": false,
+      "link": {
+        "attackPercent": 1738,
+        "hpPercent": 2212,
+        "shieldPercent": 1185
+      },
+      "skill": {
+        "id": "BM-DAGGER",
+        "name": "월영 급습",
+        "nameStatus": "WORKING_LABEL",
+        "mechanic": "INTERRUPT_WINDUP",
+        "effect": "단검으로 급습해 적의 준비 중인 기술을 중단합니다. 보스와 제어 면역은 중단되지 않습니다.",
+        "target": "적 표적",
+        "ready": true,
+        "trigger": "기존 서버의 에너지·재사용·행동 조건",
+        "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+        "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+        "balance": {
+          "damageRatio": 11.8,
+          "cooldownTurns": 1,
+          "cost": 20
+        }
+      },
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    }
+  },
+  "references": {
+    "bathory": {
+      "version": 1,
+      "code": "V-977",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "attackStyle": "MELEE",
+      "basePower": 297000,
+      "scale": 6.6,
+      "speedScale": 2.75,
+      "actionCredit": 3.25,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 2.7,
+      "basicCapScale": 1.5,
+      "pveSkillMinimumDamage": false,
+      "link": {
+        "attackPercent": 1452,
+        "hpPercent": 1848,
+        "shieldPercent": 990
+      },
+      "skill": {
+        "id": "MS-977",
+        "name": "핏빛 만찬",
+        "mechanic": "WOUNDED_MOON_DRAW",
+        "target": "적 표적",
+        "effect": "붉은 눈으로 약해진 적을 포착하고 대검으로 베어냅니다. 잃은 체력에 따라 피해가 증가합니다.",
+        "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+        "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+        "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+        "procRule": "두 시각적 검격은 한 번의 서버 피해를 표현하며 추가 비용이나 재귀 시전을 만들지 않습니다.",
+        "ready": true,
+        "balance": {
+          "damageRatio": 10.08,
+          "cooldownTurns": 1,
+          "cost": 20
+        }
+      }
+    },
+    "halloween": {
+      "V-980": {
+        "code": "V-980",
+        "position": "FRONT",
+        "role": "VANGUARD",
+        "attackStyle": "MELEE",
+        "basePower": 237600,
+        "scale": 5.28,
+        "speedScale": 2.5,
+        "actionCredit": 3,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 2.4,
+        "basicCapScale": 1.35,
+        "pvpIncomingDamageScale": 0.85,
+        "link": {
+          "attackPercent": 1161.6,
+          "shieldPercent": 792,
+          "hpPercent": 1478.4
+        },
+        "skill": {
+          "id": "MS-980",
+          "name": "카니발 브레이크",
+          "mechanic": "WOUNDED_MOON_DRAW",
+          "effect": "약해진 적 하나를 몽둥이로 강타합니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 8.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-981": {
+        "code": "V-981",
+        "position": "BACK",
+        "role": "RANGED",
+        "attackStyle": "RANGED",
+        "basePower": 237600,
+        "scale": 3.3,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 1.8,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 726,
+          "shieldPercent": 495,
+          "hpPercent": 924
+        },
+        "skill": {
+          "id": "MS-981",
+          "name": "유령 탄막",
+          "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+          "effect": "적 진형에 세 차례의 유령 탄막을 나누어 발사합니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-982": {
+        "code": "V-982",
+        "position": "BACK",
+        "role": "CASTER",
+        "attackStyle": "CAST",
+        "basePower": 237600,
+        "scale": 3.465,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 2.2,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 762.3,
+          "shieldPercent": 519.75,
+          "hpPercent": 970.2
+        },
+        "skill": {
+          "id": "MS-982",
+          "name": "잭오랜턴 행진",
+          "mechanic": "TIDAL_BARRAGE",
+          "effect": "호박불 행렬을 전방 표적에게 쏟아붓습니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 7.56,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-983": {
+        "code": "V-983",
+        "position": "BACK",
+        "role": "CASTER",
+        "attackStyle": "CAST",
+        "basePower": 237600,
+        "scale": 3.08,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 1.6,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 677.6,
+          "shieldPercent": 462,
+          "hpPercent": 862.4
+        },
+        "skill": {
+          "id": "MS-983",
+          "name": "호박 유령서",
+          "mechanic": "RIFT_MARK_DETONATION",
+          "effect": "유령서의 표식을 새기고 다음 행동에 폭발시킵니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        }
+      },
+      "V-984": {
+        "code": "V-984",
+        "position": "FRONT",
+        "role": "GUARD",
+        "attackStyle": "MELEE",
+        "basePower": 237600,
+        "scale": 2.42,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 1.8,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 532.4,
+          "shieldPercent": 363,
+          "hpPercent": 677.6
+        },
+        "skill": {
+          "id": "MS-984",
+          "name": "성야의 방패",
+          "mechanic": "FRONT_SHARED_BARRIER",
+          "effect": "아군 전열에 성야의 방벽을 나누어 부여합니다. 방벽 사용 후 기본 공격을 계속합니다.",
+          "target": "아군 전열",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-985": {
+        "code": "V-985",
+        "position": "BACK",
+        "role": "RANGED",
+        "attackStyle": "RANGED",
+        "basePower": 237600,
+        "scale": 3.19,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 1.75,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 701.8,
+          "shieldPercent": 478.5,
+          "hpPercent": 893.2
+        },
+        "skill": {
+          "id": "MS-985",
+          "name": "박쥐 별무리",
+          "mechanic": "TWO_BEAT_FOLLOWUP",
+          "effect": "박쥐 별을 던지고 다음 행동에 후속타를 이어갑니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-986": {
+        "code": "V-986",
+        "position": "FRONT",
+        "role": "VANGUARD",
+        "attackStyle": "MELEE",
+        "basePower": 237600,
+        "scale": 5.17,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 2.15,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 1137.4,
+          "shieldPercent": 775.5,
+          "hpPercent": 1447.6
+        },
+        "skill": {
+          "id": "MS-986",
+          "name": "월하 화접",
+          "mechanic": "WOUNDED_MOON_DRAW",
+          "effect": "꽃나비 검기로 약해진 적을 벱니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 1,
+            "cost": 20
+          }
+        }
+      }
+    }
+  },
+  "pvp": [
+    {
+      "slug": "bongsoon",
+      "opponent": "V-977",
+      "wins": 47,
+      "draws": 0,
+      "total": 72,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 5,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.625
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 6,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.75
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        }
+      ],
+      "winRate": 0.6527777777777778
+    },
+    {
+      "slug": "joeun",
+      "opponent": "V-977",
+      "wins": 65,
+      "draws": 0,
+      "total": 72,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 6,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.75
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 7,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.875
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 6,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.75
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 6,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.75
+        }
+      ],
+      "winRate": 0.9027777777777778
+    },
+    {
+      "slug": "diim",
+      "opponent": "V-977",
+      "wins": 47,
+      "draws": 0,
+      "total": 72,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 5,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.625
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 6,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.75
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        }
+      ],
+      "winRate": 0.6527777777777778
+    },
+    {
+      "slug": "claws",
+      "opponent": "V-977",
+      "wins": 60,
+      "draws": 0,
+      "total": 72,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 7,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.875
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 5,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.625
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        }
+      ],
+      "winRate": 0.8333333333333334
+    },
+    {
+      "slug": "dagger",
+      "opponent": "V-977",
+      "wins": 59,
+      "draws": 0,
+      "total": 72,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 6,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.75
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 5,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.625
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 8,
+          "draws": 0,
+          "total": 8,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 4,
+          "draws": 0,
+          "total": 8,
+          "winRate": 0.5
+        }
+      ],
+      "winRate": 0.8194444444444444
+    }
+  ],
+  "pve": [],
+  "totalPvp": 360,
+  "totalPve": 0,
+  "everyMatchupAboveHalf": true,
+  "profileSha256": "e307d093e0c1633e46400fa7d7ed65df5e1cfa1fec61b27fbbf65481777dcec6"
+}
