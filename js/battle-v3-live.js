@@ -1169,14 +1169,28 @@
             return event;
           };
           if (options.continuousPlayback && !destroyed) {
-            // The continuous engine owns the entire ordered server timeline,
+            // The skill-chip engine owns its entire ordered server timeline,
             // including the shared skill-chip clock and drained spawn barriers.
             // Per-event two-second guards restart that clock and cut off valid
             // attacks/queued shots. Cancellation is owned by the live modal;
             // actual playback failures propagate so its saved receipt can resume.
-            await root.ProjectVPixiBattle.playEvents(timeline, {
-              beforeEvent: prepareEvent, afterEvent: options.onCombatEvent, isPaused: options.isPlaybackPaused
-            });
+            if (timedSkillChips) {
+              await root.ProjectVPixiBattle.playEvents(timeline, {
+                beforeEvent: prepareEvent, afterEvent: options.onCombatEvent, isPaused: options.isPlaybackPaused
+              });
+            } else {
+              // The ordinary engine plays events without invoking these hooks.
+              // Own the ordered callbacks here so pause and official HUD values
+              // also work for parties without a skill-chip combat clock.
+              for (const sourceEvent of timeline) {
+                if (destroyed) return false;
+                const event = await prepareEvent(sourceEvent);
+                if (!event || destroyed) continue;
+                await root.ProjectVPixiBattle.playEvents([event], { isPaused: options.isPlaybackPaused });
+                if (destroyed) return false;
+                options.onCombatEvent?.(event);
+              }
+            }
             if (destroyed) return false;
             await stopAccountBattleUnitContinuousFire({ drain: true });
           } else if (timedSkillChips && !destroyed) {

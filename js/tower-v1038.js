@@ -3,7 +3,7 @@
   const PROTOCOL='TOWER_ABYSS_20261022';
   const ui=()=>window.TowerAbyssUI,user=()=>typeof loadUser==='function'?loadUser():null;
   function currentUserId(){const account=user(),id=Number(account?.serverUserId??account?.id);return Number.isSafeInteger(id)&&id>0?id:null;}
-  const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,tab:'challenge',filter:'all',request:0,battleGeneration:0,releaseFocus:null};
+  const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,autoNext:false,autoAccount:null,autoTimer:null,autoGeneration:0,autoResult:null,tab:'challenge',filter:'all',request:0,battleGeneration:0,releaseFocus:null};
   let requestedTower=new URL(location.href).searchParams.get('pve')==='tower';
   const pendingKey=()=>`cnine:tower:battle:v2094:${currentUserId()||0}`;
   function pendingBattle(){if(!currentUserId())return null;try{const p=JSON.parse(sessionStorage.getItem(pendingKey())||'null');return p&&typeof p.requestId==='string'&&Number.isSafeInteger(p.floorNo)&&p.floorNo>0?p:null;}catch{return null;}}
@@ -13,7 +13,32 @@
   function currentPower(deckCards){const state=typeof battleState==='undefined'?{}:battleState;return deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,user(),state.config):Number(c.basePower||0)),0)+Number(S.data?.characterBonus?.pve||state.characterBonus?.pve||0);}
   function privileged(){return String(user()?.role||'').toUpperCase()==='OWNER';}
   function scheduleEnsure(){clearTimeout(S.ensureTimer);S.ensureTimer=setTimeout(ensure,40);}
-  function exitTower(){document.querySelector('[data-pve-mode="hunt"]')?.click();}
+  function autoNextEnabled(){return S.autoNext&&S.autoAccount===currentUserId();}
+  function clearAutoTimer(){clearTimeout(S.autoTimer);S.autoTimer=null;}
+  function setAutoNext(enabled){
+    clearAutoTimer();S.autoGeneration++;S.autoNext=Boolean(enabled&&currentUserId()&&!document.hidden);S.autoAccount=S.autoNext?currentUserId():null;
+    ui()?.syncAutoNext?.(document,autoNextEnabled());
+    if(S.autoNext&&S.autoResult)scheduleAutoNext();
+  }
+  function scheduleAutoNext(){
+    clearAutoTimer();
+    const result=S.autoResult;if(!result||!autoNextEnabled())return;
+    const {data,view,isCurrent}=result,token=S.autoGeneration;
+    if(data.result!=='WIN'||data.completed||data.settlement?.protocol!==PROTOCOL||data.settlement?.status!=='COMPLETED'){setAutoNext(false);return;}
+    const until=performance.now()+3000;
+    const tick=()=>{
+      S.autoTimer=null;
+      if(token!==S.autoGeneration||!autoNextEnabled())return;
+      if(document.hidden||!isCurrent()||!view.stage.isConnected){setAutoNext(false);return;}
+      const seconds=Math.max(0,Math.ceil((until-performance.now())/1000));
+      ui().syncAutoNext(document,true,seconds);
+      if(seconds>0){S.autoTimer=setTimeout(tick,200);return;}
+      view.towerMsg.querySelectorAll('button').forEach(b=>b.disabled=true);
+      void closeBattle({automatic:true,expectedFloor:Number(data.floorNo)+1});
+    };
+    tick();
+  }
+  function exitTower(){setAutoNext(false);document.querySelector('[data-pve-mode="hunt"]')?.click();}
   function editDeck(){exitTower();setTimeout(()=>document.querySelector('[data-pve-tab="deck"]')?.click(),120);}
   function bindView(box){
     if(box.dataset.abyssBound)return;box.dataset.abyssBound='1';
@@ -23,6 +48,7 @@
       if(action==='exit')exitTower();
       else if(action==='refresh')void openTower();
       else if(action==='tab'){S.tab=target.dataset.tab;render();box.querySelector(`[data-tab="${S.tab}"][data-abyss-action]`)?.focus({preventScroll:true});}
+      else if(action==='auto-next')setAutoNext(!autoNextEnabled());
       else if(action==='fight')void startFight();
       else if(action==='deck')editDeck();
       else if(action==='guide')ui().guide(box);
@@ -49,7 +75,7 @@
       bindView(box);
       if(tabs.dataset.towerBound!=='1'){
         tabs.dataset.towerBound='1';
-        tabs.addEventListener('click',event=>{const btn=event.target.closest('[data-pve-mode]');if(!btn)return;if(btn.dataset.pveMode==='tower'){event.preventDefault();void openTower();}else{S.request++;box.hidden=true;}});
+        tabs.addEventListener('click',event=>{const btn=event.target.closest('[data-pve-mode]');if(!btn)return;if(btn.dataset.pveMode==='tower'){event.preventDefault();void openTower();}else{setAutoNext(false);S.request++;box.hidden=true;}});
       }
       tabs.dataset.towerReady='1';
       if(requestedTower){requestedTower=false;const url=new URL(location.href);url.searchParams.delete('pve');history.replaceState(history.state,'',url);void openTower();}
@@ -77,7 +103,7 @@
     if(!d.active){ui().state(box,{title:'지금은 성소의 문이 닫혀 있습니다',description:d.message||'무한의탑 운영이 재개되면 다시 도전할 수 있습니다.',error:true});return;}
     if(d.configured===false||Number(d.maxFloor||0)<1){ui().state(box,{title:'첫 번째 봉인을 준비하고 있습니다',description:d.message||'아직 개방된 층이 없습니다. 운영 준비가 끝나면 이곳에서 도전할 수 있습니다.',error:true});return;}
     const deckCards=currentDeckCards();
-    ui().render(box,{data:d,tab:S.tab,filter:S.filter,cards:deckCards,power:currentPower(deckCards),records:ui().readRecords(currentUserId()),userId:currentUserId()});
+    ui().render(box,{data:d,tab:S.tab,filter:S.filter,cards:deckCards,power:currentPower(deckCards),records:ui().readRecords(currentUserId()),userId:currentUserId(),autoNext:autoNextEnabled()});
     if(S.busy)ui().starting?.(box);
   }
   async function settleBattle(data,view,isCurrent){
@@ -108,37 +134,44 @@
     stage.tabIndex=-1;document.addEventListener('keydown',onKey,true);stage.focus({preventScroll:true});
     S.releaseFocus=()=>{document.removeEventListener('keydown',onKey,true);S.releaseFocus=null;};
   }
-  function disposeBattle(){
+  function disposeBattle({keepAutoNext=false}={}){
+    clearAutoTimer();S.autoResult=null;if(!keepAutoNext)setAutoNext(false);
     S.battleGeneration++;
     S.releaseFocus?.();const modal=document.getElementById('modal');
     if(modal){modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';}
     S.busy=false;
   }
-  async function closeBattle({acknowledge=true,tab='challenge',retry=false}={}){
-    if(acknowledge)acknowledgeBattle();disposeBattle();S.tab=tab;
+  async function closeBattle({acknowledge=true,tab='challenge',retry=false,automatic=false,expectedFloor=null}={}){
+    const accountId=currentUserId(),autoToken=S.autoGeneration;
+    if(acknowledge)acknowledgeBattle();disposeBattle({keepAutoNext:automatic});S.tab=tab;
     const opened=await openTower(false);
-    if(opened&&retry)await startFight();
+    if(automatic){
+      if(opened&&autoToken===S.autoGeneration&&accountId===currentUserId()&&autoNextEnabled()&&!document.hidden&&!S.data.completed&&!S.data.blocked&&Number(S.data.floor?.floorNo)===expectedFloor&&!pendingBattle())await startFight({automatic:true,autoToken});
+      else setAutoNext(false);
+    }else if(opened&&retry&&accountId===currentUserId())await startFight();
     else if(opened)document.querySelector('#pveTowerView [data-abyss-action="fight"],#pveTowerView .abyss-nav .is-active')?.focus({preventScroll:true});
   }
-  async function startFight(){
+  async function startFight({automatic=false,autoToken=null}={}){
     if(S.busy)return;
     const accountId=currentUserId();
     if(!accountId){const box=document.getElementById('pveTowerView');if(box)ui().state(box,{title:'로그인 정보를 확인해 주세요',description:'새로고침 후 다시 도전해 주세요.',error:true});return;}
     const pending=pendingBattle(),saved=pending?.result,deckCards=currentDeckCards();
-    if(!saved&&deckCards.length!==5){S.tab='formation';render();return;}
-    if(!pending&&(S.data?.completed||S.data?.blocked||!S.data?.floor))return;
+    if(!saved&&deckCards.length!==5){setAutoNext(false);S.tab='formation';render();return;}
+    if(!pending&&(S.data?.completed||S.data?.blocked||!S.data?.floor)){setAutoNext(false);return;}
     const floorNo=pending?.floorNo||Number(S.data.floor.floorNo);
     const f=saved?{floorNo,monsterName:saved.monster?.name}:S.data.floor||{floorNo};
     const modal=document.getElementById('modal');if(!modal)return;
+    clearAutoTimer();S.autoResult=null;if(saved)setAutoNext(false);
     S.busy=true;let view=null;
     const generation=++S.battleGeneration,recordKey=pendingKey(),isCurrent=()=>generation===S.battleGeneration&&currentUserId()===accountId;
     try{
       ui().starting?.(document.getElementById('pveTowerView'));
       if(typeof ensureFeatureResources==='function')await ensureFeatureResources('battleV2');
       if(!isCurrent())return;
+      if(automatic&&(autoToken!==S.autoGeneration||!autoNextEnabled()||document.hidden)){disposeBattle();render();return;}
       if(!window.ProjectVBattleV3Live?.ready?.())throw Error('전투 화면을 준비하지 못했습니다. 다시 연결해 주세요.');
       view=window.prepareBattleV2LiveLoading({modal,mode:'TOWER',playerName:user()?.nickname||'원정대',opponentName:f.monsterName||'탑의 수호자',autoText:'나락의 시련 · 원정대 준비'});
-      ui().prepareBattle(view,{floorNo});lockBattleFocus(view.stage);
+      ui().prepareBattle(view,{floorNo});ui().battleAutoControl?.(view,autoNextEnabled(),()=>setAutoNext(!autoNextEnabled()));lockBattleFocus(view.stage);
       window.ensureBattleSoundButton?.(view.stage);
       const ticket=pending||{requestId:crypto.randomUUID(),floorNo};
       if(!saved)rememberBattle(ticket,recordKey);
@@ -147,7 +180,7 @@
       if(!isCurrent())return;
       const playbackComplete=Boolean(saved?.settlement?.protocol===PROTOCOL&&ticket.playbackComplete);
       const renderer=playbackComplete?{showResult(){modal.classList.remove('battle-v3-preparing');view.stage.querySelector('.battle-v3-loader')?.remove();}}:await window.playTowerBattleV3Live({...view,modal,data,floor:{...f,floorNo:data.floorNo},cards:data.cards?.length?data.cards:deckCards,isActive:()=>isCurrent()&&view.stage.isConnected&&modal.classList.contains('show')});
-      if(!renderer||!isCurrent()){if(isCurrent()){S.releaseFocus?.();S.busy=false;}return;}
+      if(!renderer||!isCurrent()){if(isCurrent()){setAutoNext(false);S.releaseFocus?.();S.busy=false;}return;}
       modal.__battleV2Renderer=renderer;
       rememberBattle({requestId:data.requestId,floorNo:data.floorNo,result:data,playbackComplete:true},recordKey);
       if(data.settlement?.protocol===PROTOCOL&&data.settlement.status!=='COMPLETED'){
@@ -162,14 +195,20 @@
         lockBattleFocus(view.stage);
       }
       ui().remember(accountId,data);
-      renderer.showResult?.();view.phase.textContent=data.result==='WIN'?'한계 돌파':'도전 기록';ui().result(view,data,ui().readRecords(accountId));
+      renderer.showResult?.();view.phase.textContent=data.result==='WIN'?'한계 돌파':'도전 기록';ui().result(view,data,ui().readRecords(accountId),{autoNext:autoNextEnabled()});
+      S.autoResult={data,view,isCurrent};
+      if(data.result!=='WIN'||data.completed)setAutoNext(false);
+      ui().syncAutoNext?.(document,autoNextEnabled());
+      if(autoNextEnabled())scheduleAutoNext();
       view.towerMsg.onclick=event=>{
         const action=event.target.closest('[data-abyss-action]')?.dataset.abyssAction;if(!action)return;event.stopPropagation();
+        if(action==='auto-next'){setAutoNext(!autoNextEnabled());return;}
         view.towerMsg.querySelectorAll('button').forEach(b=>b.disabled=true);
         void closeBattle({tab:action==='formation'?'formation':action==='records'||data.completed?'records':'challenge',retry:action==='retry'});
       };
     }catch(error){
       if(!isCurrent())return;
+      setAutoNext(false);S.autoResult=null;
       const stale=['TOWER_FLOOR_CHANGED','TOWER_COMPLETED','TOWER_CLIENT_UPDATE'].includes(error.code);
       if(stale)acknowledgeBattle();
       if(!view){disposeBattle();const box=document.getElementById('pveTowerView');if(box)ui().state(box,{title:'전장을 열지 못했습니다',description:error.message,error:true});return;}
@@ -182,6 +221,8 @@
     }
   }
   window.addEventListener('cnine:character-power-changed',event=>{const bonuses=event.detail?.bonuses;if(!bonuses)return;if(S.data)S.data.characterBonus=bonuses;const view=document.getElementById('pveTowerView');if(view&&!view.hidden&&S.data)render();});
-  window.addEventListener('cnine:route-will-change',()=>{S.request++;S.battleGeneration++;S.releaseFocus?.();S.busy=false;});
+  window.addEventListener('cnine:route-will-change',()=>{setAutoNext(false);S.autoResult=null;S.request++;S.battleGeneration++;S.releaseFocus?.();S.busy=false;});
+  document.addEventListener?.('visibilitychange',()=>{if(document.hidden)setAutoNext(false);});
+  window.addEventListener('pagehide',()=>setAutoNext(false));
   const observer=new MutationObserver(scheduleEnsure);observer.observe(document.documentElement,{childList:true,subtree:true});void ensure();
 })();

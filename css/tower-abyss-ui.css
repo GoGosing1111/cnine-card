@@ -94,3 +94,15 @@ html:has(.modal.show .tower-abyss-battle),body:has(.modal.show .tower-abyss-batt
 @media(prefers-reduced-motion:reduce){.abyss-loading{animation:none}.abyss-button{transition:none}.abyss-button:hover:not(:disabled){transform:none}}
 @media(max-width:360px){.abyss-topbar>span{display:none}.abyss-topbar .abyss-button{white-space:nowrap;min-width:85px}.tower-abyss .abyss-nav .abyss-button{font-size:11px!important;padding-inline:0}.abyss-summary dd.is-power{font-size:15px}}
 @media(max-width:760px){.pve-continuous-live .tower-abyss-battle .pve-continuous-controls{top:8px;right:11px}.pve-continuous-live .tower-abyss-battle .pve-continuous-controls button{padding-inline:10px}.tower-abyss-battle .battle-v3-header{padding-right:95px}.tower-abyss-battle .battle-v3-header strong{font-size:15px}.tower-abyss .abyss-nav .abyss-button{font-size:12px}.tower-abyss .abyss-action-note,.tower-abyss .abyss-party-note{font-size:11px}}
+
+/* Tower's own image controls; the official clock includes hundredths. */
+.abyss-auto-toggle{min-height:44px;line-height:1.2}
+.abyss-auto-toggle[aria-pressed="true"]{filter:brightness(1.4);color:#ffe2b6!important}
+.abyss-challenge-info>.abyss-auto-toggle{margin-bottom:8px;font-size:12px}
+.abyss-battle-auto{position:absolute;z-index:18;top:14px;right:105px}
+.tower-abyss-battle .battle-v3-header{padding-right:260px}
+.abyss-battle-auto .abyss-auto-toggle{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 10px;font-size:11px}
+.tower-abyss-battle.is-result-visible .abyss-battle-auto{display:none}
+.abyss-auto-result{margin-top:12px;text-align:center}.abyss-auto-result .abyss-auto-toggle{width:100%}
+.abyss-combat-clock strong{font-size:23px}
+@media(max-width:760px){.tower-abyss-battle .battle-v3-header{padding-right:95px}.abyss-combat-clock strong{font-size:18px}.abyss-battle-auto{top:156px;right:10px}.abyss-battle-auto .abyss-auto-toggle{font-size:10px}}

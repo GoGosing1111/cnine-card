@@ -1,0 +1,113 @@
+{
+  "checkedAt": "2026-10-22T02:14:21.338Z",
+  "rows": [
+    {
+      "width": 1440,
+      "auto": {
+        "x": 1201.15625,
+        "y": 14,
+        "right": 1335,
+        "bottom": 58,
+        "width": 133.84375,
+        "height": 44
+      },
+      "pause": {
+        "x": 1350,
+        "y": 14,
+        "right": 1422,
+        "bottom": 58,
+        "width": 72,
+        "height": 44
+      },
+      "hud": {
+        "x": 480,
+        "y": 82,
+        "right": 960,
+        "bottom": 185,
+        "width": 480,
+        "height": 103
+      },
+      "title": {
+        "x": 26,
+        "y": 32,
+        "right": 497.484375,
+        "bottom": 57,
+        "width": 471.484375,
+        "height": 25
+      },
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "auto": {
+        "x": 254.328125,
+        "y": 156,
+        "right": 380,
+        "bottom": 200,
+        "width": 125.671875,
+        "height": 44
+      },
+      "pause": {
+        "x": 315,
+        "y": 8,
+        "right": 379,
+        "bottom": 52,
+        "width": 64,
+        "height": 44
+      },
+      "hud": {
+        "x": 9,
+        "y": 68,
+        "right": 381,
+        "bottom": 155,
+        "width": 372,
+        "height": 87
+      },
+      "title": {
+        "x": 13,
+        "y": 28,
+        "right": 281,
+        "bottom": 48,
+        "width": 268,
+        "height": 20
+      },
+      "overflow": false
+    },
+    {
+      "width": 360,
+      "auto": {
+        "x": 224.328125,
+        "y": 156,
+        "right": 350,
+        "bottom": 200,
+        "width": 125.671875,
+        "height": 44
+      },
+      "pause": {
+        "x": 285,
+        "y": 8,
+        "right": 349,
+        "bottom": 52,
+        "width": 64,
+        "height": 44
+      },
+      "hud": {
+        "x": 9,
+        "y": 68,
+        "right": 351,
+        "bottom": 155,
+        "width": 342,
+        "height": 87
+      },
+      "title": {
+        "x": 13,
+        "y": 28,
+        "right": 251,
+        "bottom": 48,
+        "width": 238,
+        "height": 20
+      },
+      "overflow": false
+    }
+  ]
+}

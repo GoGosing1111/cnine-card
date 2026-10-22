@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>무한의탑 120층 · 격리 검수</title>
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/battle-v2-live.css"><link rel="stylesheet" href="css/battle-v3-live.css"><link rel="stylesheet" href="css/tower-abyss-ui.css">
+<style>body{margin:0;background:#090909;color:#ece5d8;font-family:Arial,"Malgun Gothic",sans-serif}.qa-host{max-width:1160px;margin:24px auto}.qa-label{padding:10px 20px;font-size:12px;color:#ab9a81}.pve-mode-tabs{display:none}.qa-host>[hidden]{display:none!important}@media(max-width:760px){.qa-host{margin:0}}</style>
+<script>localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('cnine:project-v:sound','OFF');</script></head>
+<body><div class="qa-label">도전 버튼 계정 연결 검수 · 실제 운영 경로 + 격리 DB · 운영 계정 사용 없음</div><main class="qa-host"><div class="pve-mode-tabs"><button class="pve-mode-btn" data-pve-mode="hunt">토벌</button><button data-pve-tab="deck">PVE 덱</button></div><div id="pveRaidView"></div></main><div id="modal" class="modal"></div>
+<script src="js/tower-abyss-ui.js"></script><script>
+const params=new URL(location.href).searchParams,profile=params.get('profile')||'desktop';
+window.QA={errors:[],calls:[],profile,loseFinishResponse:params.has('loseFinish')};
+window.addEventListener('error',e=>QA.errors.push(e.message));window.addEventListener('unhandledrejection',e=>QA.errors.push(String(e.reason)));
+(async()=>{
+ const fixture=await(await fetch(`/qa-api/${profile}/fixture`)).json();
+ window.cards=fixture.cards;window.loadUser=()=>({serverUserId:7,nickname:'격리 검수 계정',role:'OWNER'});window.saveUser=()=>{};window.battleState={config:{},characterBonus:{pve:0}};window.battleCardPower=c=>c.power;
+ const app=await(await fetch('/js/app.js')).text(),loader=app.slice(app.indexOf('const FEATURE_RESOURCE_MANIFEST='),app.indexOf('function featureKeyForTab('));window.ensureFeatureResources=Function(loader+';return ensureFeatureResources;')();
+ window.apiRequest=async(path,options={})=>{
+  const entry={path,body:options.body,at:Date.now()};QA.calls.push(entry);
+  const res=await fetch(`/qa-api/${profile}/${path}`,{...options,headers:{'content-type':'application/json'}}),data=await res.json();entry.status=res.status;
+  if(!res.ok)throw Object.assign(Error(data.error),data,{status:res.status});
+  if(path==='tower/finish'&&QA.loseFinishResponse){QA.loseFinishResponse=false;throw Error('검수: 보상 확정 후 응답 유실');}
+  return data;
+ };
+ document.querySelector('[data-pve-mode="hunt"]').addEventListener('click',()=>QA.exited=true);
+ const s=document.createElement('script');s.src='/js/tower-v1038.js';document.head.append(s);QA.ready=true;
+})();
+</script></body></html>

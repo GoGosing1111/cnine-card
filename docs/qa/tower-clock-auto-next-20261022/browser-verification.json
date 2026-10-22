@@ -1,0 +1,95 @@
+{
+  "checkedAt": "2026-10-22T02:10:47.852Z",
+  "rows": [
+    {
+      "width": 1440,
+      "source": "Real main resource loader, Tower controller/API and shared V3 engine; isolated SQLite; reduced-motion playback without skipping",
+      "firstClock": "03:00.00",
+      "lastClock": "02:59.82",
+      "clockUpdates": 177,
+      "distinctClockValues": 4,
+      "pauseFrozen": "02:59.94",
+      "countdown": "3초 후 다음 층에 도전합니다. 끄면 중단됩니다.",
+      "layout": {
+        "button": {
+          "x": 1290.15625,
+          "y": 176,
+          "width": 133.84375,
+          "height": 44
+        },
+        "hud": {
+          "x": 480,
+          "y": 82,
+          "right": 960,
+          "bottom": 185
+        },
+        "overflow": false
+      },
+      "starts": [
+        {
+          "floor": 1,
+          "status": 200
+        },
+        {
+          "floor": 2,
+          "status": 200
+        }
+      ],
+      "audit": {
+        "coin": 1010000000,
+        "progress": {
+          "current_floor": 2,
+          "highest_floor": 1
+        },
+        "grants": 1
+      },
+      "sound": "OFF",
+      "errors": []
+    },
+    {
+      "width": 390,
+      "source": "Real main resource loader, Tower controller/API and shared V3 engine; isolated SQLite; reduced-motion playback without skipping",
+      "firstClock": "03:00.00",
+      "lastClock": "02:59.82",
+      "clockUpdates": 174,
+      "distinctClockValues": 4,
+      "pauseFrozen": "02:59.94",
+      "countdown": "3초 후 다음 층에 도전합니다. 끄면 중단됩니다.",
+      "layout": {
+        "button": {
+          "x": 254.328125,
+          "y": 156,
+          "width": 125.671875,
+          "height": 44
+        },
+        "hud": {
+          "x": 9,
+          "y": 68,
+          "right": 381,
+          "bottom": 155
+        },
+        "overflow": false
+      },
+      "starts": [
+        {
+          "floor": 1,
+          "status": 200
+        },
+        {
+          "floor": 2,
+          "status": 200
+        }
+      ],
+      "audit": {
+        "coin": 1010000000,
+        "progress": {
+          "current_floor": 2,
+          "highest_floor": 1
+        },
+        "grants": 1
+      },
+      "sound": "OFF",
+      "errors": []
+    }
+  ]
+}
