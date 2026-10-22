@@ -1,0 +1,52 @@
+{
+  "status": "VERIFIED",
+  "verifiedAt": "2026-10-22T22:29:18.410Z",
+  "sourceCommit": "f76cea14f21481be220cde0a98da60af9fb297f0",
+  "baseCommit": "f72e9d463d5d788f7160d6592cccd21206119c52",
+  "apiVersion": "5223b78f-71cd-49b7-9ecf-987bb8f8f918",
+  "clanVersion": "f99c4c5b-9f3f-4b41-8fd3-1ccb8718df65",
+  "pages": {
+    "id": "cb7f339e-17f3-4f6e-a610-2c75fe524aa1",
+    "url": "https://cb7f339e.cnine-card.pages.dev",
+    "status": "success"
+  },
+  "checks": {
+    "jinmuAllows1195": true,
+    "jinmuAllows1768": true,
+    "jinmuAllows4391": true,
+    "jinmuAllows5008": true,
+    "jinmuExcludes303": true,
+    "jinmuExcludes7": true,
+    "jinmuExcludes4977": true,
+    "jinmuExcludes5950": true,
+    "jokroAllows2": true,
+    "jokroAllows5663": true,
+    "jokroAllows1768": true,
+    "jokroAllows5008": true,
+    "jokroExcludes1195": true,
+    "jokroExcludes4391": true,
+    "jokroExcludes4651": true,
+    "jokroExcludes7": true,
+    "jokroExcludes4779": true,
+    "jokroExcludes4977": true,
+    "jokroExcludes5950": true
+  },
+  "publicFiles": [
+    {
+      "file": "shared/mercenary-jinmu-v1.mjs",
+      "sha256": "75bd3f619e7f25b6a662059f0a9417d0500fe6589517a0f03a0b4462185dc34e"
+    },
+    {
+      "file": "shared/mercenary-jokro-v1.mjs",
+      "sha256": "6ab04e06e07c400d45111392a5b4fd8793d1932f05369c81d312fec6bc7d17ed"
+    }
+  ],
+  "workerResponseSha256": "0fe1b671e01f04688d19970db8ef1576610934793eb48c7c5207a8a337d47eae",
+  "tests": {
+    "uniqueTests": 3,
+    "releaseBoundaryTests": 3,
+    "failed": 0
+  },
+  "scope": "Exact OWNER Jokro gifts for IDs 2 and 5663; existing holding required. Stock-exempt DB grant committed once before this runtime release.",
+  "paidOpenRequests": 0
+}
