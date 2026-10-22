@@ -136,8 +136,15 @@ export class BattleEngine extends LiveBattleEngine {
         // A final shot must visibly land on the retiring instance before KO.
         if (event.type === 'KO' && this.instances.has(event.targetId)) await this.drainGeneration();
         if (!this.visible || epoch !== this.playbackEpoch) return false;
-        if (this.retiredIds.has(event.targetId) || this.retiredIds.has(event.actorId)) throw new Error('STALE_ENEMY_INSTANCE');
-        await super.playEvents([event], options);
+        const retiredTarget = this.retiredIds.has(event.targetId);
+        // ICON effects can expire after their dead target has left a slot.
+        // These terminal notifications have no actor left to update. Consume
+        // them in order (including HUD callbacks), never resolve the replacement
+        // by slot or relax the guard for damage, new effects or retired actors.
+        const retiredStatusCleanup = retiredTarget && event.type === 'ICON_STATUS'
+          && ['EXPIRED', 'CLEANSED', 'WARD_END'].includes(event.status);
+        if (this.retiredIds.has(event.actorId) || retiredTarget && !retiredStatusCleanup) throw new Error('STALE_ENEMY_INSTANCE');
+        if (!retiredStatusCleanup) await super.playEvents([event], options);
         // Backpressure on the visual producer, NOT damage/shot-rate tuning.
         // Weak decks may emit hundreds of independent shots before one KO.
         // Never enqueue the full wave then time out while draining it.

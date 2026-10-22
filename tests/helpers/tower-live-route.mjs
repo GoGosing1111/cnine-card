@@ -15,7 +15,7 @@ const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 const names=['accountRankAward','collectionRewardCoin','prepareTowerForgeProtectionClear','authenticate','json','readBody','towerSettings','isAdminRole','raidDeckPower','battleSettings','evaluateDeckSynergies','resolveUniqueBattleRuntime','loadScrapyardV3Snapshot','cardBattlePower','magicBattleLoadout','selectActivatedUltimate','releasedMercenarySnapshot','buildTowerV3Battle','TOWER_V3_DRAFT','magicSettings','magicRewardForTowerFloor','resolveMagicCrystalReward','safeEquipmentDrop','rollBlackMiracleDrop','deferWrite','grantWeeklyPremiumCube','uniqueBattleResponsePayload','grantHighGradeRerollDrop','userEquipmentBonuses','pveDeckCards'];
 names.push('towerAbyssStart','towerAbyssFinish','towerAbyssPending','TOWER_ABYSS_PROTOCOL','withJointUserMutationLock','grantEquipmentDrop');
 const execute=new AsyncFunction('path','request','env','deps',`const {${names.join(',')}}=deps;\n${block}`);
-export async function operatingTowerFixture(f,{floorNo=1,maxFloor=70,monsterPower=1000000,rewardCoin=1000000}={}){
+export async function operatingTowerFixture(f,{floorNo=1,maxFloor=70,monsterPower=1000000,rewardCoin=1000000,mercenary=null}={}){
   await ensureJointTransactionSchema(f.env);
   const integer=f.env.DB.dialect==='postgres'?'BIGINT':'INTEGER';
   const ddl=sql=>f.pg?f.pg.exec(sql):f.p(sql).run();
@@ -38,7 +38,7 @@ export async function operatingTowerFixture(f,{floorNo=1,maxFloor=70,monsterPowe
   const deps={accountRankAward,collectionRewardCoin,prepareTowerForgeProtectionClear,...f.deps,readBody:r=>r.json(),towerSettings:async()=>({enabled:true}),isAdminRole:u=>u.role==='OWNER',
     raidDeckPower:async(...args)=>{const d=await baseDeck(...args);return {...d,basePower:d.cards.reduce((n,c)=>n+Number(c.base_power),0)};},
     battleSettings:async()=>({engine:{}}),evaluateDeckSynergies:async()=>({totals:{attackPercent:0,bossDamagePercent:0}}),resolveUniqueBattleRuntime:()=>null,
-    loadScrapyardV3Snapshot,buildTowerV3Battle,TOWER_V3_DRAFT,releasedMercenarySnapshot:async()=>null,
+    loadScrapyardV3Snapshot,buildTowerV3Battle,TOWER_V3_DRAFT,releasedMercenarySnapshot:async()=>mercenary,
     magicSettings:async()=>({acquisition:{tower:{enabled:false}}}),magicRewardForTowerFloor:()=>0,resolveMagicCrystalReward:async()=>null,
     safeEquipmentDrop:async()=>null,grantEquipmentDrop:async()=>null,rollBlackMiracleDrop:async()=>null,grantWeeklyPremiumCube:async()=>null,
     TOWER_ABYSS_PROTOCOL,withJointUserMutationLock:f.deps.withUserMutationLock,

@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-10-22T04:32:34.414Z",
+  "source": "Actual index.html start buttons and loader; isolated QA API",
+  "rows": [
+    {
+      "width": 1440,
+      "calls": [
+        {
+          "url": "http://127.0.0.1:8942/api/battle/fight",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:8942/api/pvp/match",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:8942/api/pvp/fight",
+          "status": 200
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "calls": [
+        {
+          "url": "http://127.0.0.1:8942/api/battle/fight",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:8942/api/pvp/match",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:8942/api/pvp/fight",
+          "status": 200
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

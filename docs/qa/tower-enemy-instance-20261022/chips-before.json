@@ -1,0 +1,5558 @@
+{
+  "failed": [],
+  "trace": [
+    {
+      "type": "DEPLOY"
+    },
+    {
+      "type": "GUARD_PROTECT",
+      "seq": 1,
+      "group": 0,
+      "at": 0
+    },
+    {
+      "type": "DEPLOY",
+      "seq": 2,
+      "group": 0,
+      "at": 0
+    },
+    {
+      "type": "SINGLE_HEALER_AURA",
+      "actor": "A:3:CN-AD85A1AFB7234D1B",
+      "seq": 3,
+      "group": 0,
+      "at": 0
+    },
+    {
+      "type": "START_EFFECT",
+      "target": "A:0:CN-02D9DC1E8A8A4209",
+      "seq": 4,
+      "group": 0,
+      "at": 0
+    },
+    {
+      "type": "START_EFFECT",
+      "target": "A:1:CN-F500880B2ED34350",
+      "seq": 5,
+      "group": 0,
+      "at": 0
+    },
+    {
+      "type": "START_EFFECT",
+      "target": "A:2:CN-BEE87AB06483449A",
+      "seq": 6,
+      "group": 0,
+      "at": 0
+    },
+    {
+      "type": "START_EFFECT",
+      "target": "A:3:CN-AD85A1AFB7234D1B",
+      "seq": 7,
+      "group": 0,
+      "at": 0
+    },
+    {
+      "type": "START_EFFECT",
+      "target": "A:4:CN-2CEC24C0087A4B61",
+      "seq": 8,
+      "group": 0,
+      "at": 0
+    },
+    {
+      "type": "START_EFFECT",
+      "target": "A:MERCENARY:V-990",
+      "seq": 9,
+      "group": 0,
+      "at": 0
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 10,
+      "group": 1,
+      "at": 0
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:1",
+      "seq": 11,
+      "group": 2,
+      "at": 643.4399999999999
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 12,
+      "group": 3,
+      "at": 1020
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 13,
+      "group": 4,
+      "at": 1080
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 14,
+      "group": 5,
+      "at": 1140
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 15,
+      "group": 6,
+      "at": 1200
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 16,
+      "group": 7,
+      "at": 1260
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 17,
+      "group": 8,
+      "at": 1320
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 18,
+      "group": 9,
+      "at": 1380
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 19,
+      "group": 10,
+      "at": 1440
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:0:ENCOUNTER:TOWER:1:1",
+      "seq": 20,
+      "group": 11,
+      "at": 1532
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:1",
+      "seq": 21,
+      "group": 12,
+      "at": 2102
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:1",
+      "seq": 22,
+      "group": 12,
+      "at": 2102
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 23,
+      "group": 12,
+      "at": 2102
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:1",
+      "seq": 24,
+      "group": 13,
+      "at": 2102
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:1",
+      "seq": 25,
+      "group": 13,
+      "at": 2102
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 26
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 27,
+      "group": 14,
+      "at": 2216
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 28,
+      "group": 15,
+      "at": 2672
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 29,
+      "group": 15,
+      "at": 2672
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "seq": 30,
+      "group": 15,
+      "at": 2672
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 31
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 32,
+      "group": 16,
+      "at": 3000
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 33,
+      "group": 17,
+      "at": 3242
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 34,
+      "group": 17,
+      "at": 3242
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 35,
+      "group": 17,
+      "at": 3242
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 36,
+      "group": 18,
+      "at": 3242
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 37,
+      "group": 19,
+      "at": 3356
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 38,
+      "group": 20,
+      "at": 3360
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 39,
+      "group": 20,
+      "at": 3360
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:7",
+      "seq": 40
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:0:ENCOUNTER:TOWER:1:7",
+      "seq": 41,
+      "group": 21,
+      "at": 3812
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:7",
+      "seq": 42,
+      "group": 22,
+      "at": 4382
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:7",
+      "seq": 43,
+      "group": 22,
+      "at": 4382
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 44,
+      "group": 22,
+      "at": 4382
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:7",
+      "seq": 45,
+      "group": 23,
+      "at": 4382
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:7",
+      "seq": 46,
+      "group": 23,
+      "at": 4382
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:10",
+      "seq": 47
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 48,
+      "group": 24,
+      "at": 4496
+    },
+    {
+      "type": "TURN",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "target": "B:0:ENCOUNTER:TOWER:1:10",
+      "seq": 49,
+      "group": 25,
+      "at": 4952
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:10",
+      "seq": 50,
+      "group": 26,
+      "at": 5522
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:10",
+      "seq": 51,
+      "group": 26,
+      "at": 5522
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 52,
+      "group": 26,
+      "at": 5522
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:10",
+      "seq": 53,
+      "group": 27,
+      "at": 5522
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:10",
+      "seq": 54,
+      "group": 27,
+      "at": 5522
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:13",
+      "seq": 55
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 56,
+      "group": 28,
+      "at": 5636
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:13",
+      "seq": 57,
+      "group": 29,
+      "at": 6000
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:0:ENCOUNTER:TOWER:1:13",
+      "seq": 58,
+      "group": 30,
+      "at": 6092
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:13",
+      "seq": 59,
+      "group": 31,
+      "at": 6360
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:13",
+      "seq": 60,
+      "group": 32,
+      "at": 6662
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:13",
+      "seq": 61,
+      "group": 32,
+      "at": 6662
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:13",
+      "seq": 62,
+      "group": 32,
+      "at": 6662
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 63,
+      "group": 32,
+      "at": 6662
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 64
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 65,
+      "group": 33,
+      "at": 6662
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 66,
+      "group": 34,
+      "at": 6776
+    },
+    {
+      "type": "TURN",
+      "actor": "B:2:ENCOUNTER:TOWER:1:3",
+      "target": "A:1:CN-F500880B2ED34350",
+      "seq": 67,
+      "group": 35,
+      "at": 7232
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 68,
+      "group": 36,
+      "at": 7346
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 69,
+      "group": 37,
+      "at": 7802
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 70,
+      "group": 37,
+      "at": 7802
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "seq": 71,
+      "group": 37,
+      "at": 7802
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 72
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 73,
+      "group": 38,
+      "at": 8372
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 74,
+      "group": 38,
+      "at": 8372
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 75,
+      "group": 38,
+      "at": 8372
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 76,
+      "group": 39,
+      "at": 8372
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 77,
+      "group": 40,
+      "at": 8486
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 78,
+      "group": 41,
+      "at": 8942
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 79,
+      "group": 41,
+      "at": 8942
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "seq": 80,
+      "group": 41,
+      "at": 8942
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 81
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 82,
+      "group": 42,
+      "at": 9000
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 83,
+      "group": 43,
+      "at": 9360
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 84,
+      "group": 44,
+      "at": 9512
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 85,
+      "group": 44,
+      "at": 9512
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 86,
+      "group": 44,
+      "at": 9512
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 87,
+      "group": 45,
+      "at": 9512
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 88,
+      "group": 46,
+      "at": 9626
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 89,
+      "group": 47,
+      "at": 10000
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 90,
+      "group": 48,
+      "at": 10082
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 91,
+      "group": 49,
+      "at": 10652
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 92,
+      "group": 49,
+      "at": 10652
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 93,
+      "group": 49,
+      "at": 10652
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 94,
+      "group": 49,
+      "at": 10652
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 95
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 96,
+      "group": 50,
+      "at": 10652
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 97,
+      "group": 50,
+      "at": 10652
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 98
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 99,
+      "group": 51,
+      "at": 10766
+    },
+    {
+      "type": "TURN",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 100,
+      "group": 56,
+      "at": 11222
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "seq": 101,
+      "group": 56,
+      "at": 11222
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 102,
+      "group": 61,
+      "at": 11792
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 103,
+      "group": 61,
+      "at": 11792
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 104,
+      "group": 61,
+      "at": 11792
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 105,
+      "group": 62,
+      "at": 11792
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 106,
+      "group": 63,
+      "at": 11906
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 107,
+      "group": 63,
+      "at": 11906
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:3",
+      "seq": 108,
+      "group": 64,
+      "at": 12000
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:3",
+      "seq": 109,
+      "group": 65,
+      "at": 12360
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:2:ENCOUNTER:TOWER:1:3",
+      "seq": 110,
+      "group": 66,
+      "at": 12362
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 111,
+      "group": 67,
+      "at": 12932
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 112,
+      "group": 67,
+      "at": 12932
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 113,
+      "group": 67,
+      "at": 12932
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:3",
+      "seq": 114,
+      "group": 68,
+      "at": 12932
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:3",
+      "seq": 115,
+      "group": 68,
+      "at": 12932
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 116
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 117,
+      "group": 69,
+      "at": 13046
+    },
+    {
+      "type": "TURN",
+      "actor": "B:1:ENCOUNTER:TOWER:1:11",
+      "target": "A:1:CN-F500880B2ED34350",
+      "seq": 118,
+      "group": 70,
+      "at": 13502
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 119,
+      "group": 71,
+      "at": 13616
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 120,
+      "group": 72,
+      "at": 14072
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 121,
+      "group": 73,
+      "at": 14642
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 122,
+      "group": 73,
+      "at": 14642
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 123,
+      "group": 73,
+      "at": 14642
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 124,
+      "group": 73,
+      "at": 14642
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 125
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 126,
+      "group": 74,
+      "at": 14642
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 127,
+      "group": 75,
+      "at": 14756
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 128,
+      "group": 76,
+      "at": 15000
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 129,
+      "group": 77,
+      "at": 15000
+    },
+    {
+      "type": "TURN",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 130,
+      "group": 78,
+      "at": 15212
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "seq": 131,
+      "group": 78,
+      "at": 15212
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 132,
+      "group": 79,
+      "at": 15360
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 133,
+      "group": 80,
+      "at": 15610
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 134,
+      "group": 81,
+      "at": 15610
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 135,
+      "group": 82,
+      "at": 15782
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 136,
+      "group": 82,
+      "at": 15782
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 137,
+      "group": 82,
+      "at": 15782
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 138,
+      "group": 83,
+      "at": 15782
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 139,
+      "group": 83,
+      "at": 15782
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 140
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 141,
+      "group": 85,
+      "at": 15830
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 142,
+      "group": 86,
+      "at": 15896
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 143,
+      "group": 88,
+      "at": 16050
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 144,
+      "group": 90,
+      "at": 16270
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 145,
+      "group": 91,
+      "at": 16352
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 146,
+      "group": 91,
+      "at": 16352
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 147
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 148,
+      "group": 92,
+      "at": 16922
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 149,
+      "group": 92,
+      "at": 16922
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 150,
+      "group": 92,
+      "at": 16922
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 151,
+      "group": 93,
+      "at": 16922
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 152,
+      "group": 94,
+      "at": 17036
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 153,
+      "group": 95,
+      "at": 17492
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 154,
+      "group": 96,
+      "at": 18000
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 155,
+      "group": 97,
+      "at": 18208
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 156,
+      "group": 97,
+      "at": 18208
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 157,
+      "group": 97,
+      "at": 18208
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 158,
+      "group": 97,
+      "at": 18208
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:20",
+      "seq": 159
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:20",
+      "seq": 160,
+      "group": 98,
+      "at": 18208
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 161,
+      "group": 99,
+      "at": 18322
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 162,
+      "group": 100,
+      "at": 18360
+    },
+    {
+      "type": "TURN",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "target": "B:1:ENCOUNTER:TOWER:1:20",
+      "seq": 163,
+      "group": 101,
+      "at": 18778
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "seq": 164,
+      "group": 101,
+      "at": 18778
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:20",
+      "seq": 165,
+      "group": 102,
+      "at": 19348
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:20",
+      "seq": 166,
+      "group": 102,
+      "at": 19348
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:20",
+      "seq": 167,
+      "group": 102,
+      "at": 19348
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 168,
+      "group": 102,
+      "at": 19348
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:23",
+      "seq": 169
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:23",
+      "seq": 170,
+      "group": 103,
+      "at": 19348
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 171,
+      "group": 104,
+      "at": 19462
+    },
+    {
+      "type": "TURN",
+      "actor": "B:2:ENCOUNTER:TOWER:1:9",
+      "target": "A:1:CN-F500880B2ED34350",
+      "seq": 172,
+      "group": 105,
+      "at": 19918
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:23",
+      "seq": 173,
+      "group": 106,
+      "at": 20000
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:23",
+      "seq": 174,
+      "group": 107,
+      "at": 20032
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:23",
+      "seq": 175,
+      "group": 108,
+      "at": 20488
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 176,
+      "group": 109,
+      "at": 21000
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:23",
+      "seq": 177,
+      "group": 110,
+      "at": 21020
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:23",
+      "seq": 178,
+      "group": 110,
+      "at": 21020
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 179,
+      "group": 111,
+      "at": 21058
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 180,
+      "group": 111,
+      "at": 21058
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 181,
+      "group": 111,
+      "at": 21058
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 182,
+      "group": 112,
+      "at": 21058
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 183,
+      "group": 112,
+      "at": 21058
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 184
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 185,
+      "group": 115,
+      "at": 21172
+    },
+    {
+      "type": "TURN",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 186,
+      "group": 122,
+      "at": 21628
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 187,
+      "group": 123,
+      "at": 22198
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 188,
+      "group": 123,
+      "at": 22198
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 189,
+      "group": 123,
+      "at": 22198
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 190,
+      "group": 124,
+      "at": 22198
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 191,
+      "group": 124,
+      "at": 22198
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 192
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 193,
+      "group": 125,
+      "at": 22312
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 194,
+      "group": 126,
+      "at": 22768
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 195,
+      "group": 127,
+      "at": 23338
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 196,
+      "group": 127,
+      "at": 23338
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 197,
+      "group": 127,
+      "at": 23338
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 198,
+      "group": 128,
+      "at": 23338
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 199,
+      "group": 128,
+      "at": 23338
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 200
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 201,
+      "group": 129,
+      "at": 23452
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 202,
+      "group": 130,
+      "at": 23908
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 203,
+      "group": 131,
+      "at": 24000
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 204,
+      "group": 132,
+      "at": 24360
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 205,
+      "group": 133,
+      "at": 24478
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 206,
+      "group": 133,
+      "at": 24478
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 207,
+      "group": 133,
+      "at": 24478
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 208,
+      "group": 133,
+      "at": 24478
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 209
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 210,
+      "group": 134,
+      "at": 24478
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 211,
+      "group": 135,
+      "at": 24592
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 212,
+      "group": 136,
+      "at": 25048
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 213,
+      "group": 137,
+      "at": 25618
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 214,
+      "group": 137,
+      "at": 25618
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 215,
+      "group": 137,
+      "at": 25618
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 216,
+      "group": 137,
+      "at": 25618
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 217
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 218,
+      "group": 138,
+      "at": 25618
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 219,
+      "group": 139,
+      "at": 25732
+    },
+    {
+      "type": "TURN",
+      "actor": "B:2:ENCOUNTER:TOWER:1:24",
+      "target": "A:1:CN-F500880B2ED34350",
+      "seq": 220,
+      "group": 140,
+      "at": 26188
+    },
+    {
+      "type": "COUNTER",
+      "actor": "A:1:CN-F500880B2ED34350",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 221,
+      "group": 140,
+      "at": 26188
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 222,
+      "group": 141,
+      "at": 26416
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 223,
+      "group": 142,
+      "at": 27000
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 224,
+      "group": 143,
+      "at": 27328
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 225,
+      "group": 143,
+      "at": 27328
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 226
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 227,
+      "group": 145,
+      "at": 27898
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 228,
+      "group": 145,
+      "at": 27898
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 229,
+      "group": 145,
+      "at": 27898
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 230,
+      "group": 146,
+      "at": 27898
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 231,
+      "group": 147,
+      "at": 28012
+    },
+    {
+      "type": "TURN",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 232,
+      "group": 148,
+      "at": 28468
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 233,
+      "group": 148,
+      "at": 28468
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "seq": 234,
+      "group": 148,
+      "at": 28468
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 235
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 236,
+      "group": 149,
+      "at": 29038
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 237,
+      "group": 149,
+      "at": 29038
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 238,
+      "group": 149,
+      "at": 29038
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 239,
+      "group": 150,
+      "at": 29038
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 240,
+      "group": 151,
+      "at": 29152.000000000004
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 241,
+      "group": 152,
+      "at": 29608
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 242,
+      "group": 152,
+      "at": 29608
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 243
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 244,
+      "group": 153,
+      "at": 30000
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 245,
+      "group": 154,
+      "at": 30000
+    },
+    {
+      "type": "SKILL_CHIP_CAST",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 246,
+      "group": 155,
+      "at": 30000
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 247,
+      "group": 156,
+      "at": 30178
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 248,
+      "group": 156,
+      "at": 30178
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 249,
+      "group": 156,
+      "at": 30178
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 250,
+      "group": 157,
+      "at": 30178
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 251,
+      "group": 158,
+      "at": 30292
+    },
+    {
+      "type": "SKILL_CHIP_HIT",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 252,
+      "group": 159,
+      "at": 30360
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 253,
+      "group": 159,
+      "at": 30360
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:28",
+      "seq": 254
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:28",
+      "seq": 255,
+      "group": 161,
+      "at": 30748
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:28",
+      "seq": 256,
+      "group": 170,
+      "at": 31318
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:28",
+      "seq": 257,
+      "group": 170,
+      "at": 31318
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 258,
+      "group": 170,
+      "at": 31318
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:28",
+      "seq": 259,
+      "group": 171,
+      "at": 31318
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:28",
+      "seq": 260,
+      "group": 171,
+      "at": 31318
+    },
+    {
+      "type": "RESULT",
+      "seq": 261,
+      "group": 172,
+      "at": 31888
+    },
+    {
+      "type": "GUARD_PROTECT",
+      "seq": 1,
+      "group": 0,
+      "at": 0,
+      "internal": true
+    },
+    {
+      "type": "DEPLOY",
+      "seq": 2,
+      "group": 0,
+      "at": 0,
+      "internal": true
+    },
+    {
+      "type": "SINGLE_HEALER_AURA",
+      "actor": "A:3:CN-AD85A1AFB7234D1B",
+      "seq": 3,
+      "group": 0,
+      "at": 0,
+      "internal": true
+    },
+    {
+      "type": "START_EFFECT",
+      "target": "A:0:CN-02D9DC1E8A8A4209",
+      "seq": 4,
+      "group": 0,
+      "at": 0,
+      "internal": true
+    },
+    {
+      "type": "START_EFFECT",
+      "target": "A:1:CN-F500880B2ED34350",
+      "seq": 5,
+      "group": 0,
+      "at": 0,
+      "internal": true
+    },
+    {
+      "type": "START_EFFECT",
+      "target": "A:2:CN-BEE87AB06483449A",
+      "seq": 6,
+      "group": 0,
+      "at": 0,
+      "internal": true
+    },
+    {
+      "type": "START_EFFECT",
+      "target": "A:3:CN-AD85A1AFB7234D1B",
+      "seq": 7,
+      "group": 0,
+      "at": 0,
+      "internal": true
+    },
+    {
+      "type": "START_EFFECT",
+      "target": "A:4:CN-2CEC24C0087A4B61",
+      "seq": 8,
+      "group": 0,
+      "at": 0,
+      "internal": true
+    },
+    {
+      "type": "START_EFFECT",
+      "target": "A:MERCENARY:V-990",
+      "seq": 9,
+      "group": 0,
+      "at": 0,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:1",
+      "seq": 11,
+      "group": 2,
+      "at": 643.4399999999999,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:0:ENCOUNTER:TOWER:1:1",
+      "seq": 20,
+      "group": 11,
+      "at": 1532,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:1",
+      "seq": 21,
+      "group": 12,
+      "at": 2102,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:1",
+      "seq": 22,
+      "group": 12,
+      "at": 2102,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 23,
+      "group": 12,
+      "at": 2102,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:1",
+      "seq": 24,
+      "group": 13,
+      "at": 2102,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:1",
+      "seq": 25,
+      "group": 13,
+      "at": 2102,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 26,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 27,
+      "group": 14,
+      "at": 2216,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 28,
+      "group": 15,
+      "at": 2672,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:2",
+      "seq": 29,
+      "group": 15,
+      "at": 2672,
+      "internal": true
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "seq": 30,
+      "group": 15,
+      "at": 2672,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 31,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 33,
+      "group": 17,
+      "at": 3242,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 34,
+      "group": 17,
+      "at": 3242,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 35,
+      "group": 17,
+      "at": 3242,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 36,
+      "group": 18,
+      "at": 3242,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 37,
+      "group": 19,
+      "at": 3356,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:4",
+      "seq": 39,
+      "group": 20,
+      "at": 3360,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:7",
+      "seq": 40,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:0:ENCOUNTER:TOWER:1:7",
+      "seq": 41,
+      "group": 21,
+      "at": 3812,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:7",
+      "seq": 42,
+      "group": 22,
+      "at": 4382,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:7",
+      "seq": 43,
+      "group": 22,
+      "at": 4382,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 44,
+      "group": 22,
+      "at": 4382,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:7",
+      "seq": 45,
+      "group": 23,
+      "at": 4382,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:7",
+      "seq": 46,
+      "group": 23,
+      "at": 4382,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:10",
+      "seq": 47,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 48,
+      "group": 24,
+      "at": 4496,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "target": "B:0:ENCOUNTER:TOWER:1:10",
+      "seq": 49,
+      "group": 25,
+      "at": 4952,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:10",
+      "seq": 50,
+      "group": 26,
+      "at": 5522,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:10",
+      "seq": 51,
+      "group": 26,
+      "at": 5522,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 52,
+      "group": 26,
+      "at": 5522,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:10",
+      "seq": 53,
+      "group": 27,
+      "at": 5522,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:10",
+      "seq": 54,
+      "group": 27,
+      "at": 5522,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:13",
+      "seq": 55,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 56,
+      "group": 28,
+      "at": 5636,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:0:ENCOUNTER:TOWER:1:13",
+      "seq": 58,
+      "group": 30,
+      "at": 6092,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:13",
+      "seq": 60,
+      "group": 32,
+      "at": 6662,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:13",
+      "seq": 61,
+      "group": 32,
+      "at": 6662,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:13",
+      "seq": 62,
+      "group": 32,
+      "at": 6662,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 63,
+      "group": 32,
+      "at": 6662,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 64,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 65,
+      "group": 33,
+      "at": 6662,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 66,
+      "group": 34,
+      "at": 6776,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "B:2:ENCOUNTER:TOWER:1:3",
+      "target": "A:1:CN-F500880B2ED34350",
+      "seq": 67,
+      "group": 35,
+      "at": 7232,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 68,
+      "group": 36,
+      "at": 7346,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 69,
+      "group": 37,
+      "at": 7802,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:5",
+      "seq": 70,
+      "group": 37,
+      "at": 7802,
+      "internal": true
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "seq": 71,
+      "group": 37,
+      "at": 7802,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 72,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 73,
+      "group": 38,
+      "at": 8372,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 74,
+      "group": 38,
+      "at": 8372,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 75,
+      "group": 38,
+      "at": 8372,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 76,
+      "group": 39,
+      "at": 8372,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 77,
+      "group": 40,
+      "at": 8486,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 78,
+      "group": 41,
+      "at": 8942,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:16",
+      "seq": 79,
+      "group": 41,
+      "at": 8942,
+      "internal": true
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "seq": 80,
+      "group": 41,
+      "at": 8942,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 81,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 84,
+      "group": 44,
+      "at": 9512,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 85,
+      "group": 44,
+      "at": 9512,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 86,
+      "group": 44,
+      "at": 9512,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 87,
+      "group": 45,
+      "at": 9512,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 88,
+      "group": 46,
+      "at": 9626,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 90,
+      "group": 48,
+      "at": 10082,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 91,
+      "group": 49,
+      "at": 10652,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 92,
+      "group": 49,
+      "at": 10652,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:19",
+      "seq": 93,
+      "group": 49,
+      "at": 10652,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 94,
+      "group": 49,
+      "at": 10652,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 95,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 96,
+      "group": 50,
+      "at": 10652,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:8",
+      "seq": 97,
+      "group": 50,
+      "at": 10652,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 98,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 99,
+      "group": 51,
+      "at": 10766,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 100,
+      "group": 56,
+      "at": 11222,
+      "internal": true
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "seq": 101,
+      "group": 56,
+      "at": 11222,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 102,
+      "group": 61,
+      "at": 11792,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 103,
+      "group": 61,
+      "at": 11792,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 104,
+      "group": 61,
+      "at": 11792,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 105,
+      "group": 62,
+      "at": 11792,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 106,
+      "group": 63,
+      "at": 11906,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:22",
+      "seq": 107,
+      "group": 63,
+      "at": 11906,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:2:ENCOUNTER:TOWER:1:3",
+      "seq": 110,
+      "group": 66,
+      "at": 12362,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 111,
+      "group": 67,
+      "at": 12932,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 112,
+      "group": 67,
+      "at": 12932,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 113,
+      "group": 67,
+      "at": 12932,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:3",
+      "seq": 114,
+      "group": 68,
+      "at": 12932,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:3",
+      "seq": 115,
+      "group": 68,
+      "at": 12932,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 116,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 117,
+      "group": 69,
+      "at": 13046,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "B:1:ENCOUNTER:TOWER:1:11",
+      "target": "A:1:CN-F500880B2ED34350",
+      "seq": 118,
+      "group": 70,
+      "at": 13502,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 119,
+      "group": 71,
+      "at": 13616,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 120,
+      "group": 72,
+      "at": 14072,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 121,
+      "group": 73,
+      "at": 14642,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 122,
+      "group": 73,
+      "at": 14642,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:11",
+      "seq": 123,
+      "group": 73,
+      "at": 14642,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 124,
+      "group": 73,
+      "at": 14642,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 125,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 126,
+      "group": 74,
+      "at": 14642,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 127,
+      "group": 75,
+      "at": 14756,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 130,
+      "group": 78,
+      "at": 15212,
+      "internal": true
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "seq": 131,
+      "group": 78,
+      "at": 15212,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 135,
+      "group": 82,
+      "at": 15782,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 136,
+      "group": 82,
+      "at": 15782,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 137,
+      "group": 82,
+      "at": 15782,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 138,
+      "group": 83,
+      "at": 15782,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:14",
+      "seq": 139,
+      "group": 83,
+      "at": 15782,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 140,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 142,
+      "group": 86,
+      "at": 15896,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 145,
+      "group": 91,
+      "at": 16352,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:6",
+      "seq": 146,
+      "group": 91,
+      "at": 16352,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 147,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 148,
+      "group": 92,
+      "at": 16922,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 149,
+      "group": 92,
+      "at": 16922,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 150,
+      "group": 92,
+      "at": 16922,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 151,
+      "group": 93,
+      "at": 16922,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 152,
+      "group": 94,
+      "at": 17036,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 153,
+      "group": 95,
+      "at": 17492,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 155,
+      "group": 97,
+      "at": 18208,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 156,
+      "group": 97,
+      "at": 18208,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:17",
+      "seq": 157,
+      "group": 97,
+      "at": 18208,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 158,
+      "group": 97,
+      "at": 18208,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:20",
+      "seq": 159,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:20",
+      "seq": 160,
+      "group": 98,
+      "at": 18208,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 161,
+      "group": 99,
+      "at": 18322,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "target": "B:1:ENCOUNTER:TOWER:1:20",
+      "seq": 163,
+      "group": 101,
+      "at": 18778,
+      "internal": true
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "seq": 164,
+      "group": 101,
+      "at": 18778,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:20",
+      "seq": 165,
+      "group": 102,
+      "at": 19348,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:20",
+      "seq": 166,
+      "group": 102,
+      "at": 19348,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:20",
+      "seq": 167,
+      "group": 102,
+      "at": 19348,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 168,
+      "group": 102,
+      "at": 19348,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:23",
+      "seq": 169,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:23",
+      "seq": 170,
+      "group": 103,
+      "at": 19348,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 171,
+      "group": 104,
+      "at": 19462,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "B:2:ENCOUNTER:TOWER:1:9",
+      "target": "A:1:CN-F500880B2ED34350",
+      "seq": 172,
+      "group": 105,
+      "at": 19918,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:23",
+      "seq": 174,
+      "group": 107,
+      "at": 20032,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:23",
+      "seq": 175,
+      "group": 108,
+      "at": 20488,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:23",
+      "seq": 178,
+      "group": 110,
+      "at": 21020,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 179,
+      "group": 111,
+      "at": 21058,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 180,
+      "group": 111,
+      "at": 21058,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 181,
+      "group": 111,
+      "at": 21058,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 182,
+      "group": 112,
+      "at": 21058,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:9",
+      "seq": 183,
+      "group": 112,
+      "at": 21058,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 184,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 185,
+      "group": 115,
+      "at": 21172,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 186,
+      "group": 122,
+      "at": 21628,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 187,
+      "group": 123,
+      "at": 22198,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 188,
+      "group": 123,
+      "at": 22198,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 189,
+      "group": 123,
+      "at": 22198,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 190,
+      "group": 124,
+      "at": 22198,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:12",
+      "seq": 191,
+      "group": 124,
+      "at": 22198,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 192,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 193,
+      "group": 125,
+      "at": 22312,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 194,
+      "group": 126,
+      "at": 22768,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 195,
+      "group": 127,
+      "at": 23338,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 196,
+      "group": 127,
+      "at": 23338,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 197,
+      "group": 127,
+      "at": 23338,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 198,
+      "group": 128,
+      "at": 23338,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:15",
+      "seq": 199,
+      "group": 128,
+      "at": 23338,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 200,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 201,
+      "group": 129,
+      "at": 23452,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 202,
+      "group": 130,
+      "at": 23908,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 205,
+      "group": 133,
+      "at": 24478,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 206,
+      "group": 133,
+      "at": 24478,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:18",
+      "seq": 207,
+      "group": 133,
+      "at": 24478,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 208,
+      "group": 133,
+      "at": 24478,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 209,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 210,
+      "group": 134,
+      "at": 24478,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 211,
+      "group": 135,
+      "at": 24592,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 212,
+      "group": 136,
+      "at": 25048,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 213,
+      "group": 137,
+      "at": 25618,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 214,
+      "group": 137,
+      "at": 25618,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:21",
+      "seq": 215,
+      "group": 137,
+      "at": 25618,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 216,
+      "group": 137,
+      "at": 25618,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 217,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 218,
+      "group": 138,
+      "at": 25618,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 219,
+      "group": 139,
+      "at": 25732,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "B:2:ENCOUNTER:TOWER:1:24",
+      "target": "A:1:CN-F500880B2ED34350",
+      "seq": 220,
+      "group": 140,
+      "at": 26188,
+      "internal": true
+    },
+    {
+      "type": "COUNTER",
+      "actor": "A:1:CN-F500880B2ED34350",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 221,
+      "group": 140,
+      "at": 26188,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 222,
+      "group": 141,
+      "at": 26416,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 224,
+      "group": 143,
+      "at": 27328,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:24",
+      "seq": 225,
+      "group": 143,
+      "at": 27328,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 226,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 227,
+      "group": 145,
+      "at": 27898,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 228,
+      "group": 145,
+      "at": 27898,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 229,
+      "group": 145,
+      "at": 27898,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 230,
+      "group": 146,
+      "at": 27898,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 231,
+      "group": 147,
+      "at": 28012,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 232,
+      "group": 148,
+      "at": 28468,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:0:ENCOUNTER:TOWER:1:25",
+      "seq": 233,
+      "group": 148,
+      "at": 28468,
+      "internal": true
+    },
+    {
+      "type": "HUNT_ACCELERATION",
+      "actor": "A:0:CN-02D9DC1E8A8A4209",
+      "seq": 234,
+      "group": 148,
+      "at": 28468,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 235,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 236,
+      "group": 149,
+      "at": 29038,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 237,
+      "group": 149,
+      "at": 29038,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 238,
+      "group": 149,
+      "at": 29038,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 239,
+      "group": 150,
+      "at": 29038,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 240,
+      "group": 151,
+      "at": 29152.000000000004,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 241,
+      "group": 152,
+      "at": 29608,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:26",
+      "seq": 242,
+      "group": 152,
+      "at": 29608,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 243,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 247,
+      "group": 156,
+      "at": 30178,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 248,
+      "group": 156,
+      "at": 30178,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 249,
+      "group": 156,
+      "at": 30178,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 250,
+      "group": 157,
+      "at": 30178,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_03",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 251,
+      "group": 158,
+      "at": 30292,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:2:ENCOUNTER:TOWER:1:27",
+      "seq": 253,
+      "group": 159,
+      "at": 30360,
+      "internal": true
+    },
+    {
+      "type": "ENEMY_SPAWN",
+      "target": "B:1:ENCOUNTER:TOWER:1:28",
+      "seq": 254,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:2:CN-BEE87AB06483449A",
+      "target": "B:1:ENCOUNTER:TOWER:1:28",
+      "seq": 255,
+      "group": 161,
+      "at": 30748,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_WINDUP",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:28",
+      "seq": 256,
+      "group": 170,
+      "at": 31318,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_HIT",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:28",
+      "seq": 257,
+      "group": 170,
+      "at": 31318,
+      "internal": true
+    },
+    {
+      "type": "MERCENARY_END",
+      "actor": "A:MERCENARY:V-990",
+      "seq": 258,
+      "group": 170,
+      "at": 31318,
+      "internal": true
+    },
+    {
+      "type": "TURN",
+      "actor": "A:MERCENARY:V-990",
+      "target": "B:1:ENCOUNTER:TOWER:1:28",
+      "seq": 259,
+      "group": 171,
+      "at": 31318,
+      "internal": true
+    },
+    {
+      "type": "KO",
+      "target": "B:1:ENCOUNTER:TOWER:1:28",
+      "seq": 260,
+      "group": 171,
+      "at": 31318,
+      "internal": true
+    },
+    {
+      "type": "RESULT",
+      "seq": 261,
+      "group": 172,
+      "at": 31888,
+      "internal": true
+    }
+  ],
+  "calls": [
+    {
+      "path": "tower/config",
+      "at": 1792642757204,
+      "status": 200
+    },
+    {
+      "path": "tower/status",
+      "at": 1792642757213,
+      "status": 200
+    },
+    {
+      "path": "tower/pending",
+      "at": 1792642757213,
+      "status": 200
+    },
+    {
+      "path": "tower/start",
+      "body": "{\"requestId\":\"b221e4ce-74ec-4608-8dc6-a25d064ed3f2\",\"floorNo\":1,\"protocol\":\"TOWER_ABYSS_20261022\"}",
+      "at": 1792642757592,
+      "status": 200
+    },
+    {
+      "path": "tower/finish",
+      "body": "{\"requestId\":\"b221e4ce-74ec-4608-8dc6-a25d064ed3f2\"}",
+      "at": 1792642790802,
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "diag": {
+    "equipmentSets": [],
+    "mounted": true,
+    "visible": false,
+    "playing": false,
+    "petSupport": [],
+    "renderer": 1,
+    "resolution": 1,
+    "pools": [
+      {
+        "name": "damage-text",
+        "available": 28,
+        "inUse": 0,
+        "total": 28
+      }
+    ],
+    "layerOrder": [
+      "BackgroundLayer",
+      "CombatBillboardLayer",
+      "EffectLayer",
+      "UiLayer"
+    ],
+    "backgroundDepth": [
+      {
+        "layer": "Sky",
+        "coefficient": 0.2
+      },
+      {
+        "layer": "City",
+        "coefficient": 0.5
+      },
+      {
+        "layer": "Ground",
+        "coefficient": 1
+      }
+    ],
+    "cooperativePlayback": null,
+    "iconTechniques": {
+      "active": null,
+      "last": null,
+      "metrics": null,
+      "actors": [
+        {
+          "id": "A:0:CN-02D9DC1E8A8A4209",
+          "hp": 100,
+          "x": 170,
+          "y": 240,
+          "badges": []
+        },
+        {
+          "id": "A:1:CN-F500880B2ED34350",
+          "hp": 100,
+          "x": 590,
+          "y": 240,
+          "badges": []
+        },
+        {
+          "id": "A:2:CN-BEE87AB06483449A",
+          "hp": 100,
+          "x": 170,
+          "y": 416,
+          "badges": []
+        },
+        {
+          "id": "A:3:CN-AD85A1AFB7234D1B",
+          "hp": 100,
+          "x": 590,
+          "y": 416,
+          "badges": []
+        },
+        {
+          "id": "A:4:CN-2CEC24C0087A4B61",
+          "hp": 100,
+          "x": 380,
+          "y": 592,
+          "badges": []
+        },
+        {
+          "id": "B:0:ENCOUNTER:TOWER:1:25",
+          "hp": 0,
+          "x": 1430,
+          "y": 240,
+          "badges": []
+        },
+        {
+          "id": "B:1:ENCOUNTER:TOWER:1:28",
+          "hp": 0,
+          "x": 1010,
+          "y": 240,
+          "badges": []
+        },
+        {
+          "id": "B:2:ENCOUNTER:TOWER:1:27",
+          "hp": 0,
+          "x": 1430,
+          "y": 416,
+          "badges": []
+        },
+        {
+          "id": "ENEMY-04",
+          "hp": 0,
+          "x": 1010,
+          "y": 416,
+          "badges": []
+        },
+        {
+          "id": "ENEMY-05",
+          "hp": 0,
+          "x": 1220,
+          "y": 592,
+          "badges": []
+        },
+        {
+          "id": "A:MERCENARY:V-990",
+          "hp": 100,
+          "x": 380,
+          "y": 240,
+          "badges": []
+        }
+      ],
+      "weapons": []
+    },
+    "iconRoles": {
+      "last": null,
+      "muzzle": null,
+      "metrics": null
+    },
+    "battlefield": {
+      "mode": "TOWER",
+      "asset": "/assets/ui/tower-abyss-20261021/sanctum.webp",
+      "loading": "LAZY_ACTIVE_SCENE_ONLY",
+      "available": [
+        "HUNT",
+        "TOWER",
+        "PVP",
+        "RAID",
+        "ESCORT",
+        "SIEGE"
+      ]
+    },
+    "objectiveHud": {
+      "native": true,
+      "visible": false,
+      "hp": 0,
+      "maxHp": 0,
+      "ratio": 0
+    },
+    "formation": {
+      "version": "OCCUPIED_GRID_V1",
+      "layoutVersion": "UNIFORM_LATTICE_V2",
+      "mode": "wide",
+      "scenario": "PVE",
+      "mobile": false,
+      "grid": {
+        "kind": "OCCUPIED_STATIONS",
+        "mercenariesPerTeam": 1
+      },
+      "tiles": [
+        {
+          "id": "ALLY:cards:0",
+          "x": 170,
+          "y": 240,
+          "kind": "cards",
+          "style": "ally",
+          "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+        },
+        {
+          "id": "ALLY:cards:1",
+          "x": 590,
+          "y": 240,
+          "kind": "cards",
+          "style": "ally",
+          "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+        },
+        {
+          "id": "ALLY:cards:2",
+          "x": 170,
+          "y": 416,
+          "kind": "cards",
+          "style": "ally",
+          "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+        },
+        {
+          "id": "ALLY:cards:3",
+          "x": 590,
+          "y": 416,
+          "kind": "cards",
+          "style": "ally",
+          "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+        },
+        {
+          "id": "ALLY:cards:4",
+          "x": 380,
+          "y": 592,
+          "kind": "cards",
+          "style": "ally",
+          "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+        },
+        {
+          "id": "ALLY:mercenaries:0",
+          "x": 380,
+          "y": 240,
+          "kind": "mercenaries",
+          "style": "ally",
+          "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+        },
+        {
+          "id": "ALLY:support:0",
+          "x": 380,
+          "y": 416,
+          "kind": "support",
+          "style": "ally",
+          "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+        }
+      ],
+      "floor": {
+        "left": 75,
+        "right": 685,
+        "top": 208,
+        "bottom": 624,
+        "width": 610,
+        "height": 416
+      },
+      "mercenaries": [
+        {
+          "code": "V-990",
+          "team": "ALLY",
+          "index": 0,
+          "x": 380,
+          "y": 240,
+          "scale": 0.5
+        }
+      ],
+      "rootScale": 0.9,
+      "scene": {
+        "width": 1600,
+        "height": 820
+      },
+      "viewportFit": null,
+      "actors": [
+        {
+          "id": "A:0:CN-02D9DC1E8A8A4209",
+          "team": "ALLY",
+          "active": true,
+          "grid": {
+            "x": -4.128289473684211,
+            "y": 2.5032894736842106
+          },
+          "x": 170,
+          "y": 240,
+          "scale": 0.5,
+          "depth": 0.5
+        },
+        {
+          "id": "A:1:CN-F500880B2ED34350",
+          "team": "ALLY",
+          "active": true,
+          "grid": {
+            "x": -1.917763157894737,
+            "y": 0.29276315789473695
+          },
+          "x": 590,
+          "y": 240,
+          "scale": 0.5,
+          "depth": 0.5
+        },
+        {
+          "id": "A:2:CN-BEE87AB06483449A",
+          "team": "ALLY",
+          "active": true,
+          "grid": {
+            "x": -1.3782894736842106,
+            "y": 5.253289473684211
+          },
+          "x": 170,
+          "y": 416,
+          "scale": 0.5,
+          "depth": 0.5
+        },
+        {
+          "id": "A:3:CN-AD85A1AFB7234D1B",
+          "team": "ALLY",
+          "active": true,
+          "grid": {
+            "x": 0.832236842105263,
+            "y": 3.042763157894737
+          },
+          "x": 590,
+          "y": 416,
+          "scale": 0.5,
+          "depth": 0.5
+        },
+        {
+          "id": "A:4:CN-2CEC24C0087A4B61",
+          "team": "ALLY",
+          "active": true,
+          "grid": {
+            "x": 2.476973684210526,
+            "y": 6.898026315789474
+          },
+          "x": 380,
+          "y": 592,
+          "scale": 0.5,
+          "depth": 0.5
+        },
+        {
+          "id": "B:0:ENCOUNTER:TOWER:1:25",
+          "team": "ENEMY",
+          "active": true,
+          "grid": {
+            "x": 2.5032894736842106,
+            "y": -4.128289473684211
+          },
+          "x": 1430,
+          "y": 240,
+          "scale": 0.5,
+          "depth": 0.5
+        },
+        {
+          "id": "B:1:ENCOUNTER:TOWER:1:28",
+          "team": "ENEMY",
+          "active": true,
+          "grid": {
+            "x": 0.29276315789473695,
+            "y": -1.917763157894737
+          },
+          "x": 1010,
+          "y": 240,
+          "scale": 0.5,
+          "depth": 0.5
+        },
+        {
+          "id": "B:2:ENCOUNTER:TOWER:1:27",
+          "team": "ENEMY",
+          "active": true,
+          "grid": {
+            "x": 5.253289473684211,
+            "y": -1.3782894736842106
+          },
+          "x": 1430,
+          "y": 416,
+          "scale": 0.5,
+          "depth": 0.5
+        },
+        {
+          "id": "ENEMY-04",
+          "team": "ENEMY",
+          "active": false,
+          "grid": {
+            "x": 3.042763157894737,
+            "y": 0.832236842105263
+          },
+          "x": 1010,
+          "y": 416,
+          "scale": 0.5,
+          "depth": 0.5
+        },
+        {
+          "id": "ENEMY-05",
+          "team": "ENEMY",
+          "active": false,
+          "grid": {
+            "x": 6.898026315789474,
+            "y": 2.476973684210526
+          },
+          "x": 1220,
+          "y": 592,
+          "scale": 0.5,
+          "depth": 0.5
+        }
+      ],
+      "support": {
+        "x": 380,
+        "y": 416,
+        "scale": 0.5
+      },
+      "objective": null
+    },
+    "accountBattleUnit": {
+      "skillChips": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 32655,
+        "endMs": 33600,
+        "active": false,
+        "completed": true,
+        "casts": 16,
+        "hits": 22,
+        "barrierPauses": 0,
+        "dispatchWaits": 69,
+        "suppressedCasts": 5,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "active": true,
+      "id": "ACCOUNT_BATTLE_UNIT",
+      "role": "PVE_AUTHORITATIVE_RANGED_SUPPORT",
+      "fixedPosition": true,
+      "sword": null,
+      "bodySource": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v7.png",
+      "weaponSource": "",
+      "weaponFlipX": true,
+      "separateWeaponAttachment": false,
+      "authoredComposite": true,
+      "authoredSheetSource": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v7.png",
+      "authoredFrame": "ready",
+      "authoredWeaponCode": "EQ_1785427638137",
+      "authoredContentTop": 0.0703125,
+      "authoredContentBottom": 0.93359375,
+      "authoredPivot": {
+        "x": 0.20904166666666668,
+        "y": 0.93359375
+      },
+      "authoredPivots": {
+        "ready": {
+          "unit": "NORMALIZED_FRAME",
+          "x": 0.20904166666666668,
+          "y": 0.93359375
+        },
+        "fire": {
+          "unit": "NORMALIZED_FRAME",
+          "x": 0.20383333333333334,
+          "y": 0.93359375
+        },
+        "recoil": {
+          "unit": "NORMALIZED_FRAME",
+          "x": 0.19602083333333334,
+          "y": 0.927734375
+        },
+        "recover": {
+          "unit": "NORMALIZED_FRAME",
+          "x": 0.20383333333333334,
+          "y": 0.931640625
+        }
+      },
+      "authoredMuzzle": {
+        "frame": "fire",
+        "unit": "NORMALIZED_FRAME",
+        "x": 0.9869791666666666,
+        "y": 0.232421875
+      },
+      "weaponSpriteVisible": false,
+      "shotCount": 28,
+      "ballisticVfx": {
+        "renderer": "PIXI_RASTER_ATLAS",
+        "cssEffects": false,
+        "ready": true,
+        "assetVersion": "1970-ballistic-impact-v1",
+        "atlasUrls": {
+          "muzzle": "/assets/ui/project-v/fx/ballistic-impact-v1/muzzle-flash-atlas-v1.png?v=1970-ballistic-impact-v1",
+          "tracer": "/assets/ui/project-v/fx/ballistic-impact-v1/tracer-atlas-v1.png?v=1970-ballistic-impact-v1",
+          "impact": "/assets/ui/project-v/fx/ballistic-impact-v1/monster-impact-atlas-v1.png?v=1970-ballistic-impact-v1"
+        },
+        "lastWeaponCode": "EQ_1785427638137",
+        "shots": 28,
+        "failures": 0
+      },
+      "nickname": {
+        "fullText": "검수 계정 7",
+        "displayText": "검수 계정 7",
+        "truncated": false,
+        "panelWidth": 96,
+        "panelHeight": 24,
+        "maxTextWidth": 164,
+        "hudScale": 1.88,
+        "screenScale": 0.94,
+        "cssFontSize": 11.844000000000001,
+        "fontSize": 14
+      },
+      "affectsDeck": false,
+      "affectsDamage": true,
+      "damageAuthority": "SERVER_BATTLE_V2_TIMELINE",
+      "enabled": true,
+      "pveOnly": true,
+      "pvePower": 300000,
+      "metadataContract": [
+        "equippedBattleSuit",
+        "equippedWeapon"
+      ],
+      "metadataFallback": "characterBonus",
+      "canonicalAllyFormationCount": 5,
+      "cosmeticShots": 28,
+      "authoritativeDamageEvents": 28,
+      "authoritativeDamageTotal": 707392,
+      "formation": {
+        "gridX": -0.2730263157894739,
+        "gridY": 4.148026315789474
+      },
+      "sustainedFire": {
+        "active": false,
+        "weaponCode": "EQ_1785427638137",
+        "weaponClass": "M4A1_AR",
+        "fireMode": "FULL_AUTO",
+        "roundsPerBurst": 4,
+        "intraBurstDelayMs": 40,
+        "burstDelayMs": 140,
+        "playbackRate": 1.85,
+        "totalShots": 28,
+        "queuedDamageEvents": 0,
+        "independentOfCardTurns": true,
+        "independentOfActionGauge": true,
+        "firesOnlyServerShots": true,
+        "damagePerShot": true,
+        "affectsDamage": false
+      }
+    },
+    "targetSelection": {
+      "currentEnemy": null,
+      "currentAlly": "A:0:CN-02D9DC1E8A8A4209",
+      "aliveEnemies": [],
+      "lastSwitch": null
+    },
+    "projection": {
+      "type": "ISOMETRIC",
+      "grid": {
+        "columns": 7,
+        "rows": 6
+      },
+      "config": {
+        "originX": 800,
+        "originY": 292,
+        "tileWidth": 190,
+        "tileHeight": 64,
+        "farY": 405,
+        "nearY": 650,
+        "minScale": 1,
+        "maxScale": 1
+      }
+    },
+    "depthSorting": "REALTIME_SCREEN_Y",
+    "billboard": {
+      "layer": "CombatBillboardLayer",
+      "rotation": 0,
+      "scale": [
+        1,
+        1
+      ],
+      "floorProjectionInherited": false
+    },
+    "characterAssetContract": {
+      "width": 256,
+      "height": 384,
+      "anchor": [
+        0.5,
+        1
+      ],
+      "localOrigin": "SOLE_CENTER",
+      "skinSlots": [
+        "backAccessory",
+        "armFarUpper",
+        "armFarLower",
+        "handFar",
+        "legFarUpper",
+        "legFarLower",
+        "footFar",
+        "torso",
+        "head",
+        "face",
+        "hairBack",
+        "hairFront",
+        "legNearUpper",
+        "legNearLower",
+        "footNear",
+        "armNearUpper",
+        "armNearLower",
+        "handNear",
+        "weapon",
+        "frontAccessory"
+      ],
+      "animation": "INTACT_SD_FULL_BODY_SPRITE"
+    },
+    "effectSystem": {
+      "renderer": "SkillEffectFX",
+      "layer": "EffectLayer",
+      "mode": "ROLE_ATLAS_V2_PLUS_SERVER_ADVANCEMENT_V1",
+      "kinds": [
+        "ATTACK",
+        "DEFENSE",
+        "SPEED",
+        "HP"
+      ],
+      "blendModes": [
+        "screen",
+        "normal"
+      ],
+      "roleFx": {
+        "renderer": "atlas-only",
+        "ready": [
+          "ATTACK",
+          "DEFENSE",
+          "SPEED",
+          "HP"
+        ],
+        "failures": [],
+        "proceduralFallback": false
+      },
+      "advancementFx": {
+        "renderer": "atlas-only",
+        "frameClock": "gsap-only",
+        "autoUpdate": false,
+        "frameCount": 12,
+        "blendMode": "screen",
+        "ready": [],
+        "retained": [],
+        "failures": [],
+        "proceduralFallback": false,
+        "eagerPreloadAll": false
+      },
+      "apocalypseBossUltimateFx": {
+        "renderer": "pixi-animated-sprite-atlas-only",
+        "binding": "PVE_APOCALYPSE_BOSS_ULTIMATE",
+        "ready": false,
+        "failed": false,
+        "frameCount": 12,
+        "collisionFrame": 6,
+        "impactAtMs": 560,
+        "hitStopMs": 148,
+        "visualPolicy": "LOW_AFTERIMAGE_CRIMSON_CORE",
+        "proceduralFallback": false,
+        "screenOverlay": false
+      },
+      "apocalypseSignatureSkillFx": [
+        {
+          "code": "NIGHT_GUY",
+          "ready": false,
+          "failed": false,
+          "frameCount": 12,
+          "collisionFrame": 6,
+          "impactAtMs": 960,
+          "renderer": "PixiJS AnimatedSprite + GSAP",
+          "proceduralFallback": false
+        },
+        {
+          "code": "WOOD_DRAGON",
+          "ready": false,
+          "failed": false,
+          "frameCount": 12,
+          "collisionFrame": 6,
+          "impactAtMs": 1120,
+          "renderer": "PixiJS AnimatedSprite + GSAP",
+          "proceduralFallback": false
+        }
+      ],
+      "apocalypseBossUltimateActive": false,
+      "apocalypseBossUltimateLoadTimeouts": 0,
+      "advancementActivation": [
+        "SHATTER:TURN",
+        "AFTERIMAGE:DODGE_TURN",
+        "RIPOSTE:COUNTER",
+        "IMMORTAL:ADVANCEMENT"
+      ],
+      "bossUltimateAdvancementFx": false,
+      "advancementImpactAtMs": {
+        "SHATTER": 420,
+        "RIPOSTE": 460,
+        "AFTERIMAGE": 320,
+        "IMMORTAL": 500
+      },
+      "advancementWhiteFlash": {
+        "scope": "FULL_STAGE",
+        "durationMs": 50,
+        "alpha": 0.26
+      },
+      "advancementLoading": "BACKGROUND_TIMELINE_CODES",
+      "advancementLoadDeadlineMs": 900,
+      "advancementLoadTimeouts": 0,
+      "playbackEpoch": 4,
+      "damageTypography": "ROLE_AWARE_BITMAP_TEXT",
+      "audio": {
+        "enabled": false,
+        "state": "locked",
+        "graph": "compressor-v3-role-assets",
+        "assetState": "fetched",
+        "ready": [],
+        "failures": [],
+        "advancement": {
+          "strategy": "timeline-codes-only",
+          "fetched": [],
+          "ready": [],
+          "failures": [],
+          "eagerPreloadAll": false,
+          "proceduralFallback": false
+        },
+        "apocalypseBossUltimate": {
+          "fetched": false,
+          "ready": false,
+          "failed": false,
+          "sourceType": "RECORDED_FOLEY",
+          "proceduralFallback": false
+        },
+        "activeSources": 0,
+        "requestCount": 4,
+        "contextOwner": "shared-live",
+        "proceduralFallback": false,
+        "retiredAudioSprite": false
+      },
+      "collisionAtMs": [
+        250,
+        350
+      ],
+      "whiteFlashMs": 50,
+      "releasePolicy": "AUTHORED_TAIL"
+    },
+    "characterStates": [
+      {
+        "id": "A:0:CN-02D9DC1E8A8A4209",
+        "state": "IDLE",
+        "team": "ALLY",
+        "anchor": [
+          0.5,
+          1
+        ],
+        "gridPosition": {
+          "x": -4.128289473684211,
+          "y": 2.5032894736842106
+        },
+        "perspectiveDepth": 0.5,
+        "facingX": 1,
+        "shield": 389376,
+        "maxShield": 389376,
+        "rig": {
+          "rigId": "project-v-sd-humanoid-v1",
+          "bones": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "slots": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "hairBack",
+            "head",
+            "face",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "skinReady": {
+            "armFarUpper": false,
+            "armFarLower": false,
+            "handFar": false,
+            "legFarUpper": false,
+            "legFarLower": false,
+            "footFar": false,
+            "torso": false,
+            "hairBack": false,
+            "head": false,
+            "face": false,
+            "hairFront": false,
+            "legNearUpper": false,
+            "legNearLower": false,
+            "footNear": false,
+            "armNearUpper": false,
+            "armNearLower": false,
+            "handNear": false,
+            "weapon": false,
+            "backAccessory": false,
+            "frontAccessory": false
+          }
+        }
+      },
+      {
+        "id": "A:1:CN-F500880B2ED34350",
+        "state": "IDLE",
+        "team": "ALLY",
+        "anchor": [
+          0.5,
+          1
+        ],
+        "gridPosition": {
+          "x": -1.917763157894737,
+          "y": 0.29276315789473695
+        },
+        "perspectiveDepth": 0.5,
+        "facingX": 1,
+        "shield": 770206,
+        "maxShield": 801216,
+        "rig": {
+          "rigId": "project-v-sd-humanoid-v1",
+          "bones": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "slots": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "hairBack",
+            "head",
+            "face",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "skinReady": {
+            "armFarUpper": false,
+            "armFarLower": false,
+            "handFar": false,
+            "legFarUpper": false,
+            "legFarLower": false,
+            "footFar": false,
+            "torso": false,
+            "hairBack": false,
+            "head": false,
+            "face": false,
+            "hairFront": false,
+            "legNearUpper": false,
+            "legNearLower": false,
+            "footNear": false,
+            "armNearUpper": false,
+            "armNearLower": false,
+            "handNear": false,
+            "weapon": false,
+            "backAccessory": false,
+            "frontAccessory": false
+          }
+        }
+      },
+      {
+        "id": "A:2:CN-BEE87AB06483449A",
+        "state": "IDLE",
+        "team": "ALLY",
+        "anchor": [
+          0.5,
+          1
+        ],
+        "gridPosition": {
+          "x": -1.3782894736842106,
+          "y": 5.253289473684211
+        },
+        "perspectiveDepth": 0.5,
+        "facingX": 1,
+        "shield": 389376,
+        "maxShield": 389376,
+        "rig": {
+          "rigId": "project-v-sd-humanoid-v1",
+          "bones": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "slots": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "hairBack",
+            "head",
+            "face",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "skinReady": {
+            "armFarUpper": false,
+            "armFarLower": false,
+            "handFar": false,
+            "legFarUpper": false,
+            "legFarLower": false,
+            "footFar": false,
+            "torso": false,
+            "hairBack": false,
+            "head": false,
+            "face": false,
+            "hairFront": false,
+            "legNearUpper": false,
+            "legNearLower": false,
+            "footNear": false,
+            "armNearUpper": false,
+            "armNearLower": false,
+            "handNear": false,
+            "weapon": false,
+            "backAccessory": false,
+            "frontAccessory": false
+          }
+        }
+      },
+      {
+        "id": "A:3:CN-AD85A1AFB7234D1B",
+        "state": "IDLE",
+        "team": "ALLY",
+        "anchor": [
+          0.5,
+          1
+        ],
+        "gridPosition": {
+          "x": 0.832236842105263,
+          "y": 3.042763157894737
+        },
+        "perspectiveDepth": 0.5,
+        "facingX": 1,
+        "shield": 389376,
+        "maxShield": 389376,
+        "rig": {
+          "rigId": "project-v-sd-humanoid-v1",
+          "bones": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "slots": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "hairBack",
+            "head",
+            "face",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "skinReady": {
+            "armFarUpper": false,
+            "armFarLower": false,
+            "handFar": false,
+            "legFarUpper": false,
+            "legFarLower": false,
+            "footFar": false,
+            "torso": false,
+            "hairBack": false,
+            "head": false,
+            "face": false,
+            "hairFront": false,
+            "legNearUpper": false,
+            "legNearLower": false,
+            "footNear": false,
+            "armNearUpper": false,
+            "armNearLower": false,
+            "handNear": false,
+            "weapon": false,
+            "backAccessory": false,
+            "frontAccessory": false
+          }
+        }
+      },
+      {
+        "id": "A:4:CN-2CEC24C0087A4B61",
+        "state": "IDLE",
+        "team": "ALLY",
+        "anchor": [
+          0.5,
+          1
+        ],
+        "gridPosition": {
+          "x": 2.476973684210526,
+          "y": 6.898026315789474
+        },
+        "perspectiveDepth": 0.5,
+        "facingX": 1,
+        "shield": 389376,
+        "maxShield": 389376,
+        "rig": {
+          "rigId": "project-v-sd-humanoid-v1",
+          "bones": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "slots": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "hairBack",
+            "head",
+            "face",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "skinReady": {
+            "armFarUpper": false,
+            "armFarLower": false,
+            "handFar": false,
+            "legFarUpper": false,
+            "legFarLower": false,
+            "footFar": false,
+            "torso": false,
+            "hairBack": false,
+            "head": false,
+            "face": false,
+            "hairFront": false,
+            "legNearUpper": false,
+            "legNearLower": false,
+            "footNear": false,
+            "armNearUpper": false,
+            "armNearLower": false,
+            "handNear": false,
+            "weapon": false,
+            "backAccessory": false,
+            "frontAccessory": false
+          }
+        }
+      },
+      {
+        "id": "B:0:ENCOUNTER:TOWER:1:25",
+        "state": "DEAD",
+        "team": "ENEMY",
+        "anchor": [
+          0.5,
+          1
+        ],
+        "gridPosition": {
+          "x": 2.5032894736842106,
+          "y": -4.128289473684211
+        },
+        "perspectiveDepth": 0.5,
+        "facingX": -1,
+        "shield": 0,
+        "maxShield": 0,
+        "rig": {
+          "rigId": "project-v-sd-humanoid-v1",
+          "bones": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "slots": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "hairBack",
+            "head",
+            "face",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "skinReady": {
+            "armFarUpper": false,
+            "armFarLower": false,
+            "handFar": false,
+            "legFarUpper": false,
+            "legFarLower": false,
+            "footFar": false,
+            "torso": false,
+            "hairBack": false,
+            "head": false,
+            "face": false,
+            "hairFront": false,
+            "legNearUpper": false,
+            "legNearLower": false,
+            "footNear": false,
+            "armNearUpper": false,
+            "armNearLower": false,
+            "handNear": false,
+            "weapon": false,
+            "backAccessory": false,
+            "frontAccessory": false
+          }
+        }
+      },
+      {
+        "id": "B:1:ENCOUNTER:TOWER:1:28",
+        "state": "DEAD",
+        "team": "ENEMY",
+        "anchor": [
+          0.5,
+          1
+        ],
+        "gridPosition": {
+          "x": 0.29276315789473695,
+          "y": -1.917763157894737
+        },
+        "perspectiveDepth": 0.5,
+        "facingX": -1,
+        "shield": 0,
+        "maxShield": 0,
+        "rig": {
+          "rigId": "project-v-sd-humanoid-v1",
+          "bones": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "slots": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "hairBack",
+            "head",
+            "face",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "skinReady": {
+            "armFarUpper": false,
+            "armFarLower": false,
+            "handFar": false,
+            "legFarUpper": false,
+            "legFarLower": false,
+            "footFar": false,
+            "torso": false,
+            "hairBack": false,
+            "head": false,
+            "face": false,
+            "hairFront": false,
+            "legNearUpper": false,
+            "legNearLower": false,
+            "footNear": false,
+            "armNearUpper": false,
+            "armNearLower": false,
+            "handNear": false,
+            "weapon": false,
+            "backAccessory": false,
+            "frontAccessory": false
+          }
+        }
+      },
+      {
+        "id": "B:2:ENCOUNTER:TOWER:1:27",
+        "state": "DEAD",
+        "team": "ENEMY",
+        "anchor": [
+          0.5,
+          1
+        ],
+        "gridPosition": {
+          "x": 5.253289473684211,
+          "y": -1.3782894736842106
+        },
+        "perspectiveDepth": 0.5,
+        "facingX": -1,
+        "shield": 0,
+        "maxShield": 0,
+        "rig": {
+          "rigId": "project-v-sd-humanoid-v1",
+          "bones": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "slots": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "hairBack",
+            "head",
+            "face",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "skinReady": {
+            "armFarUpper": false,
+            "armFarLower": false,
+            "handFar": false,
+            "legFarUpper": false,
+            "legFarLower": false,
+            "footFar": false,
+            "torso": false,
+            "hairBack": false,
+            "head": false,
+            "face": false,
+            "hairFront": false,
+            "legNearUpper": false,
+            "legNearLower": false,
+            "footNear": false,
+            "armNearUpper": false,
+            "armNearLower": false,
+            "handNear": false,
+            "weapon": false,
+            "backAccessory": false,
+            "frontAccessory": false
+          }
+        }
+      },
+      {
+        "id": "ENEMY-04",
+        "state": "DEAD",
+        "team": "ENEMY",
+        "anchor": [
+          0.5,
+          1
+        ],
+        "gridPosition": {
+          "x": 3.042763157894737,
+          "y": 0.832236842105263
+        },
+        "perspectiveDepth": 0.5,
+        "facingX": -1,
+        "shield": 0,
+        "maxShield": 0,
+        "rig": {
+          "rigId": "project-v-sd-humanoid-v1",
+          "bones": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "slots": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "hairBack",
+            "head",
+            "face",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "skinReady": {
+            "armFarUpper": false,
+            "armFarLower": false,
+            "handFar": false,
+            "legFarUpper": false,
+            "legFarLower": false,
+            "footFar": false,
+            "torso": false,
+            "hairBack": false,
+            "head": false,
+            "face": false,
+            "hairFront": false,
+            "legNearUpper": false,
+            "legNearLower": false,
+            "footNear": false,
+            "armNearUpper": false,
+            "armNearLower": false,
+            "handNear": false,
+            "weapon": false,
+            "backAccessory": false,
+            "frontAccessory": false
+          }
+        }
+      },
+      {
+        "id": "ENEMY-05",
+        "state": "DEAD",
+        "team": "ENEMY",
+        "anchor": [
+          0.5,
+          1
+        ],
+        "gridPosition": {
+          "x": 6.898026315789474,
+          "y": 2.476973684210526
+        },
+        "perspectiveDepth": 0.5,
+        "facingX": -1,
+        "shield": 0,
+        "maxShield": 0,
+        "rig": {
+          "rigId": "project-v-sd-humanoid-v1",
+          "bones": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "slots": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "hairBack",
+            "head",
+            "face",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "skinReady": {
+            "armFarUpper": false,
+            "armFarLower": false,
+            "handFar": false,
+            "legFarUpper": false,
+            "legFarLower": false,
+            "footFar": false,
+            "torso": false,
+            "hairBack": false,
+            "head": false,
+            "face": false,
+            "hairFront": false,
+            "legNearUpper": false,
+            "legNearLower": false,
+            "footNear": false,
+            "armNearUpper": false,
+            "armNearLower": false,
+            "handNear": false,
+            "weapon": false,
+            "backAccessory": false,
+            "frontAccessory": false
+          }
+        }
+      },
+      {
+        "id": "A:MERCENARY:V-990",
+        "state": "IDLE",
+        "team": "ALLY",
+        "anchor": [
+          0.5,
+          1
+        ],
+        "gridPosition": {
+          "x": 0,
+          "y": 0
+        },
+        "perspectiveDepth": 0.5,
+        "facingX": 1,
+        "shield": 7065146,
+        "maxShield": 7065146,
+        "rig": {
+          "rigId": "project-v-sd-humanoid-v1",
+          "bones": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "slots": [
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "hairBack",
+            "head",
+            "face",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "backAccessory",
+            "frontAccessory"
+          ],
+          "skinReady": {
+            "armFarUpper": false,
+            "armFarLower": false,
+            "handFar": false,
+            "legFarUpper": false,
+            "legFarLower": false,
+            "footFar": false,
+            "torso": false,
+            "hairBack": false,
+            "head": false,
+            "face": false,
+            "hairFront": false,
+            "legNearUpper": false,
+            "legNearLower": false,
+            "footNear": false,
+            "armNearUpper": false,
+            "armNearLower": false,
+            "handNear": false,
+            "weapon": false,
+            "backAccessory": false,
+            "frontAccessory": false
+          }
+        }
+      }
+    ],
+    "mercenaryPlayback": {
+      "last": {
+        "code": "V-990",
+        "eventType": "ATTACK",
+        "visualVersion": "20261017-halloween-ready-v1",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "authoritative": true,
+        "damageApplications": 1,
+        "supportApplications": 0,
+        "playbackRate": 1,
+        "contactSeconds": 1.68,
+        "durationSeconds": 3.6
+      },
+      "active": null,
+      "audio": null,
+      "limited": [
+        {
+          "code": "V-990",
+          "version": "20261017-halloween-ready-v1",
+          "bodyHeight": 312.3894230769231,
+          "textureHeight": 355.69322004903916,
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "station": {
+            "x": 380,
+            "y": 240
+          },
+          "scale": 0.5,
+          "auraColor": "#8beaff",
+          "rearAura": true,
+          "originalValterFx": null,
+          "emission": {
+            "emission": {
+              "x": 441.48212885613276,
+              "y": 109.16232465644067
+            },
+            "direction": {
+              "x": 0.9998052854172773,
+              "y": 0.01973299905428769
+            },
+            "height": 156.1947115384616,
+            "origin": {
+              "x": 444.29308622283963,
+              "y": 109.21780407815199
+            },
+            "angle": 0.01973427992160857
+          },
+          "ownedAmbientClock": false,
+          "busy": false
+        }
+      ]
+    },
+    "previewBattlefieldAsset": "/assets/ui/tower-abyss-20261021/sanctum.webp",
+    "scrapyard": {
+      "spawned": 28,
+      "defeated": 28,
+      "survivors": 5,
+      "maxQueuedDamageEvents": 1,
+      "events": 224,
+      "retiredIds": [
+        "B:0:ENCOUNTER:TOWER:1:1",
+        "B:1:ENCOUNTER:TOWER:1:2",
+        "B:0:ENCOUNTER:TOWER:1:4",
+        "B:0:ENCOUNTER:TOWER:1:7",
+        "B:0:ENCOUNTER:TOWER:1:10",
+        "B:0:ENCOUNTER:TOWER:1:13",
+        "B:1:ENCOUNTER:TOWER:1:5",
+        "B:0:ENCOUNTER:TOWER:1:16",
+        "B:0:ENCOUNTER:TOWER:1:19",
+        "B:1:ENCOUNTER:TOWER:1:8",
+        "B:2:ENCOUNTER:TOWER:1:3",
+        "B:1:ENCOUNTER:TOWER:1:11",
+        "B:1:ENCOUNTER:TOWER:1:14",
+        "B:2:ENCOUNTER:TOWER:1:6",
+        "B:1:ENCOUNTER:TOWER:1:17",
+        "B:1:ENCOUNTER:TOWER:1:20",
+        "B:2:ENCOUNTER:TOWER:1:9",
+        "B:2:ENCOUNTER:TOWER:1:12",
+        "B:2:ENCOUNTER:TOWER:1:15",
+        "B:2:ENCOUNTER:TOWER:1:18",
+        "B:2:ENCOUNTER:TOWER:1:21",
+        "B:0:ENCOUNTER:TOWER:1:22",
+        "B:1:ENCOUNTER:TOWER:1:23",
+        "B:2:ENCOUNTER:TOWER:1:24",
+        "B:1:ENCOUNTER:TOWER:1:26"
+      ],
+      "active": []
+    }
+  }
+}

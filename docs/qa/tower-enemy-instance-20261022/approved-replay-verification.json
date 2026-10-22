@@ -1,0 +1,50 @@
+{
+  "checkedAt": "2026-10-22T04:31:36.770Z",
+  "source": "Explicitly approved stored timeline, identity labels replaced, local-only replay; raw record excluded from repository",
+  "rows": [
+    {
+      "width": 1440,
+      "retiredStatusCleanup": [
+        {
+          "seq": 110,
+          "status": "EXPIRED",
+          "targetRetired": true
+        },
+        {
+          "seq": 111,
+          "status": "EXPIRED",
+          "targetRetired": true
+        }
+      ],
+      "events": 199,
+      "firstClock": "03:00.00",
+      "lastClock": "02:59.46",
+      "defeated": 28,
+      "errors": [],
+      "productionWrites": 0,
+      "settlement": "LOCAL MOCK ONLY"
+    },
+    {
+      "width": 390,
+      "retiredStatusCleanup": [
+        {
+          "seq": 110,
+          "status": "EXPIRED",
+          "targetRetired": true
+        },
+        {
+          "seq": 111,
+          "status": "EXPIRED",
+          "targetRetired": true
+        }
+      ],
+      "events": 199,
+      "firstClock": "03:00.00",
+      "lastClock": "02:59.46",
+      "defeated": 28,
+      "errors": [],
+      "productionWrites": 0,
+      "settlement": "LOCAL MOCK ONLY"
+    }
+  ]
+}
