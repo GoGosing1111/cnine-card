@@ -1,0 +1,267 @@
+{
+  "checkedAt": "2026-10-22T01:00:32.417Z",
+  "source": "Actual Tower controller and battle renderer; isolated API/database fixture; no production account writes",
+  "rows": [
+    {
+      "width": 1440,
+      "initial": {
+        "label": "일시정지",
+        "box": {
+          "x": 1326,
+          "y": 14,
+          "width": 96,
+          "height": 44,
+          "top": 14,
+          "right": 1422,
+          "bottom": 58,
+          "left": 1326
+        },
+        "text": {
+          "x": 1350,
+          "y": 28,
+          "width": 48,
+          "height": 16,
+          "top": 28,
+          "right": 1398,
+          "bottom": 44,
+          "left": 1350
+        },
+        "centerOffsetX": 0,
+        "centerOffsetY": 0,
+        "css": {
+          "display": "flex",
+          "boxSizing": "border-box",
+          "height": "44px",
+          "minHeight": "44px",
+          "lineHeight": "12px",
+          "paddingTop": "0px",
+          "paddingBottom": "0px",
+          "borderTopWidth": "12px",
+          "borderBottomWidth": "12px",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "fontSize": "12px"
+        }
+      },
+      "paused": {
+        "label": "재개",
+        "box": {
+          "x": 1350,
+          "y": 14,
+          "width": 72,
+          "height": 44,
+          "top": 14,
+          "right": 1422,
+          "bottom": 58,
+          "left": 1350
+        },
+        "text": {
+          "x": 1374,
+          "y": 28,
+          "width": 24,
+          "height": 16,
+          "top": 28,
+          "right": 1398,
+          "bottom": 44,
+          "left": 1374
+        },
+        "centerOffsetX": 0,
+        "centerOffsetY": 0,
+        "css": {
+          "display": "flex",
+          "boxSizing": "border-box",
+          "height": "44px",
+          "minHeight": "44px",
+          "lineHeight": "12px",
+          "paddingTop": "0px",
+          "paddingBottom": "0px",
+          "borderTopWidth": "12px",
+          "borderBottomWidth": "12px",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "fontSize": "12px"
+        }
+      },
+      "resumed": true,
+      "startRequests": 1,
+      "sharedStylesheetLoadedAfterTower": true,
+      "overflow": false,
+      "sound": "OFF",
+      "errors": []
+    },
+    {
+      "width": 390,
+      "initial": {
+        "label": "일시정지",
+        "box": {
+          "x": 295,
+          "y": 8,
+          "width": 84,
+          "height": 44,
+          "top": 8,
+          "right": 379,
+          "bottom": 52,
+          "left": 295
+        },
+        "text": {
+          "x": 317,
+          "y": 23,
+          "width": 40,
+          "height": 13,
+          "top": 23,
+          "right": 357,
+          "bottom": 36,
+          "left": 317
+        },
+        "centerOffsetX": 0,
+        "centerOffsetY": -0.5,
+        "css": {
+          "display": "flex",
+          "boxSizing": "border-box",
+          "height": "44px",
+          "minHeight": "44px",
+          "lineHeight": "10px",
+          "paddingTop": "0px",
+          "paddingBottom": "0px",
+          "borderTopWidth": "12px",
+          "borderBottomWidth": "12px",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "fontSize": "10px"
+        }
+      },
+      "paused": {
+        "label": "재개",
+        "box": {
+          "x": 315,
+          "y": 8,
+          "width": 64,
+          "height": 44,
+          "top": 8,
+          "right": 379,
+          "bottom": 52,
+          "left": 315
+        },
+        "text": {
+          "x": 337,
+          "y": 23,
+          "width": 20,
+          "height": 13,
+          "top": 23,
+          "right": 357,
+          "bottom": 36,
+          "left": 337
+        },
+        "centerOffsetX": 0,
+        "centerOffsetY": -0.5,
+        "css": {
+          "display": "flex",
+          "boxSizing": "border-box",
+          "height": "44px",
+          "minHeight": "44px",
+          "lineHeight": "10px",
+          "paddingTop": "0px",
+          "paddingBottom": "0px",
+          "borderTopWidth": "12px",
+          "borderBottomWidth": "12px",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "fontSize": "10px"
+        }
+      },
+      "resumed": true,
+      "startRequests": 1,
+      "sharedStylesheetLoadedAfterTower": true,
+      "overflow": false,
+      "sound": "OFF",
+      "errors": []
+    },
+    {
+      "width": 360,
+      "initial": {
+        "label": "일시정지",
+        "box": {
+          "x": 265,
+          "y": 8,
+          "width": 84,
+          "height": 44,
+          "top": 8,
+          "right": 349,
+          "bottom": 52,
+          "left": 265
+        },
+        "text": {
+          "x": 287,
+          "y": 23,
+          "width": 40,
+          "height": 13,
+          "top": 23,
+          "right": 327,
+          "bottom": 36,
+          "left": 287
+        },
+        "centerOffsetX": 0,
+        "centerOffsetY": -0.5,
+        "css": {
+          "display": "flex",
+          "boxSizing": "border-box",
+          "height": "44px",
+          "minHeight": "44px",
+          "lineHeight": "10px",
+          "paddingTop": "0px",
+          "paddingBottom": "0px",
+          "borderTopWidth": "12px",
+          "borderBottomWidth": "12px",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "fontSize": "10px"
+        }
+      },
+      "paused": {
+        "label": "재개",
+        "box": {
+          "x": 285,
+          "y": 8,
+          "width": 64,
+          "height": 44,
+          "top": 8,
+          "right": 349,
+          "bottom": 52,
+          "left": 285
+        },
+        "text": {
+          "x": 307,
+          "y": 23,
+          "width": 20,
+          "height": 13,
+          "top": 23,
+          "right": 327,
+          "bottom": 36,
+          "left": 307
+        },
+        "centerOffsetX": 0,
+        "centerOffsetY": -0.5,
+        "css": {
+          "display": "flex",
+          "boxSizing": "border-box",
+          "height": "44px",
+          "minHeight": "44px",
+          "lineHeight": "10px",
+          "paddingTop": "0px",
+          "paddingBottom": "0px",
+          "borderTopWidth": "12px",
+          "borderBottomWidth": "12px",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "fontSize": "10px"
+        }
+      },
+      "resumed": true,
+      "startRequests": 1,
+      "sharedStylesheetLoadedAfterTower": true,
+      "overflow": false,
+      "sound": "OFF",
+      "errors": []
+    }
+  ]
+}

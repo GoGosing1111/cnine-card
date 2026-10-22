@@ -1,0 +1,37 @@
+{
+  "scope": "Tower battle pause/resume button text alignment only; existing dedicated image frame preserved.",
+  "cause": "Shared battle stylesheet loads after Tower CSS. Equal selector specificity overwrote vertical padding with 9px desktop/8px mobile while Tower retained 12px borders and a 44px height.",
+  "before": [
+    {
+      "width": 1440,
+      "verticalTextCenterOffsetPx": 7,
+      "paddingTopPx": 9,
+      "paddingBottomPx": 9
+    },
+    {
+      "width": 390,
+      "verticalTextCenterOffsetPx": 4.5,
+      "paddingTopPx": 8,
+      "paddingBottomPx": 8
+    }
+  ],
+  "fix": "Tower-specific selector outranks shared controls, centers text with inline-flex, removes vertical padding, normalizes line-height, retains 44px touch target and horizontal spacing.",
+  "runtimeFiles": [
+    "css/tower-abyss-ui.css",
+    "index.html"
+  ],
+  "cacheVersion": "20261022-control-align-v2",
+  "previousProduction": {
+    "sha": "b6549db0ae0dc2847f35bcc2645c383cb0b05eb4",
+    "pagesDeployment": "226f7cea-f0b5-46dd-b96d-5ed36db0402e"
+  },
+  "scopedRelease": {
+    "tests": [
+      "tests/tower-abyss-delivery-20261021.test.mjs"
+    ],
+    "checks": [],
+    "reason": "무한의탑 전투 버튼 글자 정렬 CSS 및 캐시 버전만 수정. 실제 전투 PC 1440px·모바일 390px/360px 중앙 정렬·일시정지/재개·클릭/터치 검수 후 자산 전달 검사만 수행."
+  },
+  "visualReview": "Screenshots checked by the implementing agent; not user visual approval.",
+  "productionStatus": "pending"
+}
