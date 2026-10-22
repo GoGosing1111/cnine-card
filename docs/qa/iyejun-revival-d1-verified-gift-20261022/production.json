@@ -1,0 +1,37 @@
+{
+  "operationKey": "ops:iyejun-revival-d1:verified-coin-repair:20261022:v1",
+  "committed": true,
+  "replayed": false,
+  "recipientCount": 588,
+  "recipientHash": "ae8b397d19b0190ec0b06a238308f1b1c845abb16c821b6041cec5b313bac175",
+  "roles": {
+    "OWNER": 2,
+    "USER": 583,
+    "ADMIN": 3
+  },
+  "coinPerUser": "10000000000000",
+  "itemCode": "PINGDU_REPAIR_COUPON",
+  "itemPerUser": "2",
+  "totalCoin": "5880000000000000",
+  "totalItems": "1176",
+  "auditId": "49924",
+  "completedAt": "2026-10-22T00:31:01.001Z",
+  "replay": {
+    "replayed": true,
+    "additionalGrants": 0
+  },
+  "independentVerification": {
+    "status": "VERIFIED",
+    "recipientCount": 588,
+    "coinLogs": 588,
+    "itemLogs": 588,
+    "coinPerUser": "10000000000000",
+    "itemCode": "PINGDU_REPAIR_COUPON",
+    "itemPerUser": "2",
+    "totalCoin": "5880000000000000",
+    "totalItems": "1176",
+    "duplicates": 0,
+    "auditId": "49924",
+    "completedAt": "2026-10-22T00:31:01.001Z"
+  }
+}
