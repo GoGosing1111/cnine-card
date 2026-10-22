@@ -1,0 +1,42 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:eumsooni-helios-level11:20261023:v1",
+  "planHash": "858394738ae39973462c7a8dbc5187fa644220247c48a4339cab55e68d2cb2dd",
+  "authorization": "음순이 헬리오스 11레벨로 변경",
+  "userId": "65",
+  "nickname": "음순이",
+  "mercenaryCode": "V-999",
+  "mercenaryName": "헬리오스",
+  "before": {
+    "user_id": "65",
+    "mercenary_code": "V-999",
+    "level": 6,
+    "experience": "50",
+    "breakthrough_mask": 1,
+    "revision": 3,
+    "updated_at": "2026-10-21T09:07:47.487Z"
+  },
+  "after": {
+    "user_id": "65",
+    "mercenary_code": "V-999",
+    "level": 11,
+    "experience": "50",
+    "breakthrough_mask": 3,
+    "revision": 4,
+    "updated_at": "2026-10-22T19:56:22.466Z"
+  },
+  "adminId": "1",
+  "adminLogId": "50329",
+  "completedAt": "2026-10-22T19:56:22.466Z",
+  "preserved": {
+    "experience": true,
+    "otherMercenaryLevels": true,
+    "holdings": true,
+    "loadouts": true,
+    "balances": true,
+    "limitedStock": true,
+    "levelPolicy": true
+  },
+  "accountSyncAdvanced": true,
+  "materialConsumption": 0
+}

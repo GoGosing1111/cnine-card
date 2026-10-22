@@ -1,0 +1,17 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:eumsooni-helios-level11:20261023:v1",
+  "planHash": "858394738ae39973462c7a8dbc5187fa644220247c48a4339cab55e68d2cb2dd",
+  "scriptHash": "461b1085edd9a0e686d32ef766a6473bb28749082bae4d9088e50fd2986161fd",
+  "completedAt": "2026-10-22T19:56:22.466Z",
+  "replayed": true,
+  "nickname": "음순이",
+  "mercenaryName": "헬리오스",
+  "level": 11,
+  "experience": 50,
+  "requiredXp": 11250,
+  "level5Breakthrough": true,
+  "level10Breakthrough": true,
+  "heldCopies": 1,
+  "adminLogId": "50329"
+}
