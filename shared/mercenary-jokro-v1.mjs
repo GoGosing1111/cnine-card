@@ -18,7 +18,9 @@ export const isJokro=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId
 // User-authorized loan. The server closes access at 04:00 KST even if the
 // scheduled holding cleanup is delayed; the original owner never expires.
 export const JOKRO_LOAN=Object.freeze({userId:5950,expiresAt:Date.parse('2026-10-19T04:00:00+09:00')});
-export const jokroAccountAllowed=(userId,code,now=Date.now(),hasPackIssue=false)=>code!==JOKRO_CODE||Number(userId)===JOKRO_OWNER_ID||hasPackIssue===true||
+// Exact stock-exempt gifts approved on 2026-10-22: [C9] Jokjjogi (303), Eumju (4817).
+// Callers still require a positive holding; this does not grant or restore cards.
+export const jokroAccountAllowed=(userId,code,now=Date.now(),hasPackIssue=false)=>code!==JOKRO_CODE||Number(userId)===JOKRO_OWNER_ID||Number(userId)===303||Number(userId)===4817||hasPackIssue===true||
  (Number(userId)===JOKRO_LOAN.userId&&now<JOKRO_LOAN.expiresAt);
 export const jokroActionCredit=actors=>actors.some(a=>isJokro(a)&&a.alive!==false&&a.hp>0)?JOKRO_COMBAT.actionCredit:1;
 export function jokroIncomingDamage(target,incoming,source){
