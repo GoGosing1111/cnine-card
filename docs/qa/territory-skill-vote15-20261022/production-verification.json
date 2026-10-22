@@ -1,0 +1,74 @@
+{
+  "checkedAt": "2026-10-22T04:28:52.685Z",
+  "source": "ee06fb2dacf5838418b7baef4ae5898273974aee",
+  "pages": {
+    "id": "e85387ee-9f7e-437a-8288-f62e0ecc5af5",
+    "url": "https://e85387ee.cnine-card.pages.dev"
+  },
+  "apiRuntime": {
+    "version": "2c99a9de-93a5-4038-9e84-c900bec42b79",
+    "checkedAt": "2026-10-22T04:26:25.471Z",
+    "status": 200,
+    "requiredVotes": 15,
+    "preservedBallotNamespace": true,
+    "sha256": "7efd69b4330e5b406e81ee647d7d0744410d7ecad920f20026e15a4a7bb6a34e"
+  },
+  "scheduler": {
+    "version": "a64a76d8-a16c-43b9-a46d-123d43490c79",
+    "territorySkillModule": false
+  },
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "c53e2eac3a171afa589134123e8cf8f31f688df90989ffdcb2cdf8c099a03031",
+      "sourceMatches": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "830c2b0e1e11de20391a7420567fcca1c335add5495d3600ab6b22515f25f123",
+      "sourceMatches": true
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "f631d3e83c6d7a53e892cc65c79899ec10a71e6c04a6438dd78a4db3e96ca072",
+      "sourceMatches": true
+    },
+    {
+      "file": "admin/territory-war-admin-v1362.js",
+      "status": 200,
+      "sha256": "dc91e6e4ef52229b65380a9e82487a8622dc67f90aa90cb1b1e83288ad7093eb",
+      "sourceMatches": true
+    },
+    {
+      "file": "js/territory-war-v1811.js",
+      "status": 200,
+      "sha256": "7796e87ac989dee831063456192183928f69325499c709c8a8c15ae281bfa8c5",
+      "sourceMatches": true
+    },
+    {
+      "file": "js/territory-battlefield-v5.js",
+      "status": 200,
+      "sha256": "7e7cd5443e1a0212a4bec41eacdbd9477c90f4878567cfdfef064efea0ee6ac5",
+      "sourceMatches": true
+    },
+    {
+      "file": "js/territory-vote-alert-v1.js",
+      "status": 200,
+      "sha256": "10a006d0cb62b1bf9eb0be5b14ae552010995eee3570ea8e1bdaa0dc70d59ca7",
+      "sourceMatches": true
+    }
+  ],
+  "relatedTests": {
+    "passed": 40,
+    "failed": 0
+  },
+  "service": {
+    "status": 200,
+    "maintenance": false
+  },
+  "productionTestVotes": 0,
+  "productionAccountWrites": 0
+}
