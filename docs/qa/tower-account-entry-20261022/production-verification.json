@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-10-22T00:53:05.958Z",
+  "sourceCommit": "b6549db0ae0dc2847f35bcc2645c383cb0b05eb4",
+  "pages": {
+    "id": "226f7cea-f0b5-46dd-b96d-5ed36db0402e",
+    "url": "https://226f7cea.cnine-card.pages.dev",
+    "status": "success"
+  },
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "dab1c608427652ed3d3250b339d0f02845b584bcbd2604b4ff5be17146701fc7"
+    },
+    {
+      "file": "js/tower-v1038.js",
+      "sha256": "9fa5bee8875274f5ec9db39aa2acf2d84c656eee4746612705fccd9d7b8e3531"
+    },
+    {
+      "file": "js/tower-abyss-ui.js",
+      "sha256": "ed5015667360c8a98a902f3aa3584d45873658ae915518a29329e39143987326"
+    }
+  ],
+  "config": {
+    "enabled": true,
+    "protocol": "TOWER_ABYSS_20261022"
+  },
+  "cms": {
+    "hash": "581fd01cf747e9637fb96cb860c7f857ff0fce83eaec699bcd0aa97fa38a68ad",
+    "unchanged": true,
+    "maxFloor": 120,
+    "floorCount": 120,
+    "coins": [
+      {
+        "floor": 1,
+        "coin": 1000000000
+      },
+      {
+        "floor": 100,
+        "coin": 2000000000000
+      },
+      {
+        "floor": 110,
+        "coin": 3000000000000
+      },
+      {
+        "floor": 120,
+        "coin": 4000000000000
+      }
+    ]
+  },
+  "validation": {
+    "testsPassed": 11,
+    "testsFailed": 0,
+    "desktop": 1440,
+    "mobile": 390,
+    "productionAccountWrites": 0
+  }
+}
