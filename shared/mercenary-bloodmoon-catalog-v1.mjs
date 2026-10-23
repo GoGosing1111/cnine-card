@@ -280,8 +280,8 @@ export const BLOODMOON_MERCENARIES=Object.freeze([
   },
   {
     "code": "V-964",
-    "name": "독자 캐릭터 B",
-    "nameStatus": "WORKING_LABEL",
+    "name": "네베라",
+    "nameStatus": "USER_APPROVED_20261023",
     "title": "블러드문 SS 리미티드",
     "rank": "SS",
     "rankStatus": "USER_DESIGNATED_20261023",
