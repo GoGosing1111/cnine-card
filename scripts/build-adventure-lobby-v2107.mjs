@@ -3,7 +3,7 @@ import {createHash} from 'node:crypto';
 const root=new URL('../',import.meta.url),read=file=>fs.readFileSync(new URL(file,root),'utf8').replace(/\r\n/g,'\n');
 const sources=['preview/lobby-clarity-v1/index.html','preview/lobby-clarity-v1/style.css','preview/lobby-clarity-v1/app.js','ui/adventure-lobby/component.js'];
 let body=read(sources[0]).match(/<body>([\s\S]*?)<\/body>/)[1];
-body=body.replace(/<div class="review-ribbon">[\s\S]*?<\/div>/,'')
+body=body.replace('src="/assets/items/pig-coin-v1.png"','src="/assets/ui/project-v/mercenaries/codex-loading-20261023/f028ff947ceca03c4508-icon.webp"').replace(/<div class="review-ribbon">[\s\S]*?<\/div>/,'')
   .replace('href="./" class="brand" aria-label="리버스콜 로비 시안 처음으로"','href="/?screen=home" class="brand" aria-label="리버스콜 로비 처음으로"')
   .replace(/<a class="sidebar-return"[^>]*>[^<]*<\/a>/,'')
   .replace('개편 시안 · 실제 보유량·완료 상태·운영 상태는 연결 전입니다.','내 덱으로 시작하는 새로운 모험')

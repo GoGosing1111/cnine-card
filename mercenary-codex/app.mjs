@@ -1,3 +1,5 @@
+import {requestPublicCodex,loadCodexPanels} from './loading.mjs?v=20261023-v1';
+import {CODEX_MEDIA} from './media-map.mjs?v=20261023-v1';
 import {jointAccountRequest as api} from '/js/joint-account-transport.mjs';
 import {withMercenaryDeadline} from '/shared/mercenary-loading-v1.mjs?v=20260925';
 import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCatalog} from './model.mjs?eunseol=20261023-v1&generalJok=20261023-v15&bloodmoon=20261023-codex-v1&stockLimit=20261023-halloween-stock-v1&jokro=20261021-codex-v1&prime=20261021-v1&zero=20261020-v1&rankReward=20261020-v1&leonel=20261018-live-v1&v=20261017-halloween-ready';
@@ -12,7 +14,7 @@ function growthHref(code){
   return '/mercenary-codex/leveling/'+(query.size?'?'+query:'');
 }
 const filters={q:params.get('q')||'',position:params.get('position')||'',rank:params.get('rank')||'',sort:params.get('sort')||'code',saved:params.get('saved')==='1'};
-let catalog,account=null,accountError='',selected=location.hash.slice(1),media='art',view=['all','limited'].includes(params.get('view'))?params.get('view'):'owned',favorites=new Set(),loading=false,loadoutBusy=false,lastCheck=0,toastTimer;
+let catalog,account=null,accountError='',accountPending=false,selected=location.hash.slice(1),media='art',view=['all','limited'].includes(params.get('view'))?params.get('view'):'owned',favorites=new Set(),loading=false,loadoutBusy=false,lastCheck=0,toastTimer;
 try{const saved=JSON.parse(localStorage.getItem(storageKey)||'[]');if(Array.isArray(saved))favorites=new Set(saved);}catch{}
 
 const catalogCards=()=>[...(catalog?.cards||[]),...(account?.cards||[]).filter(c=>c.exclusiveGrant&&!catalog?.cards.some(a=>a.code===c.code))];
@@ -22,7 +24,8 @@ const ownedCard=code=>account?.cards?.find(c=>c.code===code)||null;
 let loadoutMode=params.get('mode')==='PVP'?'PVP':'PVE';
 const activeLoadout=(mode=loadoutMode)=>account?.loadouts?.[mode]||account?.loadout||{mercenaryCode:null,revision:0};
 const activeCode=(mode=loadoutMode)=>activeLoadout(mode).mercenaryCode||null;
-const thumbnail=c=>c.thumbnailArt||c.artOnly?asset(c.thumbnailArt||c.sourceArt):thumb(c.code);
+const displayImage=source=>CODEX_MEDIA[source]?.display||source;
+const thumbnail=c=>CODEX_MEDIA[asset(c.thumbnailArt||c.sourceArt)]?.thumb||(c.thumbnailArt||c.artOnly?asset(c.thumbnailArt||c.sourceArt):thumb(c.code));
 const positionLabel=c=>c.season==='BLOODMOON'?'블러드문 리미티드':c.season==='HALLOWEEN'?'할로윈 리미티드':c.edition==='LIMITED'?'리미티드':c.artOnly?'신규 원화':POSITIONS[c.position];
 const pendingKey=()=>`cnine.mercenary.pending:${account?.accountId||''}`;
 const pendingLoadout=()=>{try{return account?.accountId?JSON.parse(localStorage.getItem(pendingKey())||'null'):null;}catch{return null;}};
@@ -64,6 +67,7 @@ function visibleCards(){
 }
 function emptyListHtml(){
   if(view!=='owned')return '<li class="empty-state">조건에 맞는 용병이 없습니다.<button type="button" data-reset>전체 용병 보기</button></li>';
+  if(!account&&accountPending)return '<li class="empty-state"><b>보유 용병을 불러오는 중…</b><button type="button" data-switch-all>전체 도감 먼저 보기</button></li>';
   if(!account)return `<li class="empty-state"><b>보유 용병을 표시하지 못했습니다.</b><span>${esc(accountError||'계정 정보를 확인하고 있습니다.')}</span><button type="button" data-retry-account>다시 불러오기</button><button type="button" data-switch-all>전체 도감 먼저 보기</button></li>`;
   if(!account.cards.length)return '<li class="empty-state"><b>아직 보유한 용병이 없습니다.</b><span>전체 도감을 살펴보거나 하이퍼팩에서 용병을 획득할 수 있습니다.</span><button type="button" data-switch-all>전체 도감 보기</button><a href="/?screen=buy&amp;pack=hyper">하이퍼팩 확인 ↗</a></li>';
   return '<li class="empty-state">조건에 맞는 보유 용병이 없습니다.<button type="button" data-reset>검색 조건 초기화</button></li>';
@@ -72,7 +76,7 @@ function renderList(){
   if(!catalog)return;
   const rows=visibleCards(),list=$('cardGrid'),denominator=view==='owned'?(account?.cards?.length||0):view==='limited'?catalogCards().filter(countedLimited).length:catalogCards().length;
   list.setAttribute('aria-busy','false');$('resultCount').textContent=`${rows.length} / ${denominator}`;
-  list.innerHTML=rows.length?rows.map(c=>{const owned=ownedCard(c.code),modes=['PVE','PVP'].filter(mode=>activeCode(mode)===c.code);return `<li><button class="roster-row" type="button" data-code="${c.code}" aria-pressed="${c.code===selected}" aria-label="${esc(c.name)} ${esc(c.rank||'미정')} ${positionLabel(c)} 선택"><span class="row-portrait"><img src="${thumbnail(c)}" alt="" loading="lazy" width="160" height="110"><span class="rank-chip" data-rank="${c.rank||''}">${c.rank||'—'}</span></span><span class="row-identity"><b>${esc(c.name)}</b>${c.title?`<em>${esc(c.title)}</em>`:''}<small>${positionLabel(c)} · ${esc(catalog.roles[c.role].label)}</small>${owned?`<span class="ownership-meta">Lv.${fmt(owned.level)} · 보유 ${fmt(Number(owned.duplicates||0)+1)}장</span>`:''}${modes.length?`<span class="row-active">✓ ${modes.join(' · ')} 편성 중</span>`:`<span class="row-availability">${owned?(owned.canDeploy===false?'편성 조건 확인':'보유 · 편성 가능'):'미보유'}</span>`}</span>${favorites.has(c.code)?'<span class="row-favorite" aria-label="즐겨찾기">★</span>':''}</button></li>`;}).join(''):emptyListHtml();
+  list.innerHTML=rows.length?rows.map(c=>{const owned=ownedCard(c.code),modes=['PVE','PVP'].filter(mode=>activeCode(mode)===c.code);return `<li><button class="roster-row" type="button" data-code="${c.code}" aria-pressed="${c.code===selected}" aria-label="${esc(c.name)} ${esc(c.rank||'미정')} ${positionLabel(c)} 선택"><span class="row-portrait"><img src="${thumbnail(c)}" alt="" loading="lazy" decoding="async" width="160" height="110"><span class="rank-chip" data-rank="${c.rank||''}">${c.rank||'—'}</span></span><span class="row-identity"><b>${esc(c.name)}</b>${c.title?`<em>${esc(c.title)}</em>`:''}<small>${positionLabel(c)} · ${esc(catalog.roles[c.role].label)}</small>${owned?`<span class="ownership-meta">Lv.${fmt(owned.level)} · 보유 ${fmt(Number(owned.duplicates||0)+1)}장</span>`:''}${modes.length?`<span class="row-active">✓ ${modes.join(' · ')} 편성 중</span>`:`<span class="row-availability">${owned?(owned.canDeploy===false?'편성 조건 확인':'보유 · 편성 가능'):'미보유'}</span>`}</span>${favorites.has(c.code)?'<span class="row-favorite" aria-label="즐겨찾기">★</span>':''}</button></li>`;}).join(''):emptyListHtml();
 }
 function skillHtml(s,index){const balance=s.balance,ratio=Number.isFinite(balance.damageRatio)?balance.damageRatio:undefined,pveRatio=s.pveBalance?.damageRatio;
   return `<article class="skill-entry"><header><span class="skill-number">${String(index+1).padStart(2,'0')}</span><div><small>${s.id} · ${esc(s.target)}</small><h3>${esc(s.name)}</h3></div><span class="skill-state ${s.ready?'':'pending'}">${s.ready?'사용 가능':s.id.match(/^MS-96[0-4]$/)?'출시 대기':'설정 대기'}</span></header><p class="skill-effect">${esc(s.effect)}</p><dl class="skill-stats"><div><dt>효과 배율</dt><dd>${Number.isFinite(pveRatio)?'<small>PVE</small> '+fmt(pveRatio*100)+'<small>%</small><br><small>PVP</small> '+fmt(ratio*100)+'<small>%</small>':ratio===undefined?'미설정':ratio===0?'지원 효과':`${fmt(ratio*100)}<small>%</small>`}</dd></div><div><dt>재사용</dt><dd>${Number.isFinite(balance.cooldownTurns)?`${fmt(balance.cooldownTurns)}<small>턴</small>`:'미설정'}</dd></div><div><dt>에너지</dt><dd>${Number.isFinite(balance.cost)?fmt(balance.cost):'미설정'}</dd></div></dl><details><summary>발동 조건 · 대응 방법 <span>+</span></summary><dl class="skill-rules">${[['발동',s.trigger],['대응',s.counterplay],['보스',s.bossRule],['추가 발동',s.procRule]].map(([label,value])=>`<div><dt>${label}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl></details></article>`;
@@ -110,8 +114,10 @@ function renderSelection(){
   renderMedia();
 }
 function bloodmoonSprite(c){const v=c.battleSpriteViewport;return `<svg class="bloodmoon-sprite" viewBox="${v.x} ${v.y} ${v.width} ${v.height}" preserveAspectRatio="xMidYMax meet" role="img" aria-label="${esc(c.name)} 전투 SD"><image href="${asset(c.battleSprite)}" width="${v.imageWidth}" height="${v.imageHeight}" /></svg>`;}
-function renderMedia(){const c=current();if(!c)return;const art=media==='art';
-  $('portraitDisplay').innerHTML=art?`<button class="art-card ${c.edition==='LIMITED'?'limited-art-card':''}" ${c.edition==='LIMITED'?`style="--art-left:${c.artWindow.left}%;--art-top:${c.artWindow.top}%;--art-width:${c.artWindow.width}%;--art-height:${c.artWindow.height}%"`:''} type="button" data-art-code="${esc(c.code)}" data-zoom aria-label="${esc(c.name)} 카드 원화 확대"><img class="source-art" src="${asset(c.displayArt||c.sourceArt)}" alt="${esc(c.name)} 카드 원화"><img class="card-frame" src="${c.frame?asset(c.frame):FRAME}" alt="" aria-hidden="true"></button>`:`<button class="sd-display" type="button" data-zoom aria-label="${esc(c.name)} 전투 SD 확대">${c.season==='BLOODMOON'?bloodmoonSprite(c):`<span></span><img src="${asset(c.battleSprite)}" alt="${esc(c.name)} 전투 SD">`}</button>`;
+function renderMedia(){const c=current();if(!c||!$('portraitDisplay'))return;
+  if(matchMedia('(max-width: 760px)').matches&&!$('inspectionSheet').open){$('portraitDisplay').replaceChildren();return;}
+  const art=media==='art';
+  $('portraitDisplay').innerHTML=art?`<button class="art-card ${c.edition==='LIMITED'?'limited-art-card':''}" ${c.edition==='LIMITED'?`style="--art-left:${c.artWindow.left}%;--art-top:${c.artWindow.top}%;--art-width:${c.artWindow.width}%;--art-height:${c.artWindow.height}%"`:''} type="button" data-art-code="${esc(c.code)}" data-zoom aria-label="${esc(c.name)} 카드 원화 확대"><img class="source-art" decoding="async" fetchpriority="high" src="${displayImage(asset(c.displayArt||c.sourceArt))}" data-display-original="${asset(c.displayArt||c.sourceArt)}" alt="${esc(c.name)} 카드 원화"><img class="card-frame" decoding="async" src="${displayImage(c.frame?asset(c.frame):FRAME)}" data-display-original="${c.frame?asset(c.frame):FRAME}" alt="" aria-hidden="true"></button>`:`<button class="sd-display" type="button" data-zoom aria-label="${esc(c.name)} 전투 SD 확대">${c.season==='BLOODMOON'?bloodmoonSprite(c):`<span></span><img src="${asset(c.battleSprite)}" alt="${esc(c.name)} 전투 SD">`}</button>`;
   $('portraitDisplay').setAttribute('role','tabpanel');$('portraitDisplay').setAttribute('aria-labelledby',art?'artTab':'sdTab');
   document.querySelectorAll('[data-media]').forEach(b=>{b.setAttribute('aria-selected',String(b.dataset.media===media));b.tabIndex=b.dataset.media===media?0:-1;});
 }
@@ -120,33 +126,41 @@ function openInspection(){
   if(!current())return;
   $('inspectionSheetBody').append($('inspection'));
   if(!$('inspectionSheet').open)$('inspectionSheet').showModal();
-  document.body.classList.add('inspection-open');
+  document.body.classList.add('inspection-open');renderMedia();
 }
 function closeInspection(){if($('inspectionSheet').open)$('inspectionSheet').close();}
 $('inspectionSheet').addEventListener('close',()=>{
   $('inspectionHome').append($('inspection'));document.body.classList.remove('inspection-open');
-  document.body.append($('toast'));
+  document.body.append($('toast'));renderMedia();
   document.querySelector(`.roster-row[data-code="${selected}"]`)?.focus({preventScroll:true});
 });
 $('closeInspection').onclick=closeInspection;
-matchMedia('(max-width: 760px)').addEventListener('change',event=>{if(!event.matches)closeInspection();});
+matchMedia('(max-width: 760px)').addEventListener('change',event=>{if(!event.matches)closeInspection();renderMedia();});
+document.addEventListener('error',event=>{const img=event.target;if(img instanceof HTMLImageElement&&img.dataset.displayOriginal){const original=img.dataset.displayOriginal;delete img.dataset.displayOriginal;if(img.getAttribute('src')!==original)img.src=original;}},true);
 function setView(next,{scroll=false}={}){if(!['owned','all','limited'].includes(next))return;if(view===next){if(scroll)$('catalogControls').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});return;}view=next;if(next==='limited')filters.position='';controls();const rows=visibleCards();if(!rows.some(c=>c.code===selected))selected=next==='owned'?(activeCode()&&ownedCard(activeCode())?activeCode():rows[0]?.code||''):(rows[0]?.code||'');urlState();renderAccountSummary();renderList();renderSelection();if(scroll)$('catalogControls').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});}
 function setLoadoutMode(mode){if(loadoutBusy||!['PVE','PVP'].includes(mode))return;loadoutMode=mode;urlState();renderAccountSummary();renderList();renderSelection();}
 function updateFilters(){urlState();controls();renderList();}
 async function refresh({quiet=false}={}){
-  if(loading||document.hidden&&quiet)return;loading=true;lastCheck=Date.now();$('refreshCatalog').disabled=true;
-  const [catalogResult,accountResult]=await Promise.allSettled([api('mercenary-codex',{timeoutMs:15000}),api('mercenaries/v3/state',{timeoutMs:15000})]);
-  try{
-    if(catalogResult.status==='fulfilled')catalog=validateCatalog(catalogResult.value);else throw catalogResult.reason;
-    if(accountResult.status==='fulfilled'){account=accountResult.value;accountError='';}else{account=null;accountError=accountResult.reason?.message||'로그인 후 보유 용병을 확인할 수 있습니다.';}
+  if(loading||document.hidden&&quiet)return;loading=true;accountPending=true;lastCheck=Date.now();$('refreshCatalog').disabled=true;
+  const renderReady=()=>{
+    if(!catalog)return;
     $('skillCount').textContent=new Set(catalog.cards.flatMap(c=>c.skills.map(s=>s.id))).size;
     const rows=visibleCards(),preferred=view==='owned'?(activeCode()&&ownedCard(activeCode())?activeCode():account?.cards?.[0]?.code):catalog.cards[0]?.code;
-    if(!current()||view==='owned'&&!ownedCard(selected)||view==='limited'&&current()?.edition!=='LIMITED')selected=rows[0]?.code||(view==='limited'?'':preferred)||'';
+    if(!(view==='owned'&&accountPending&&!account)&&(!current()||view==='owned'&&!ownedCard(selected)||view==='limited'&&current()?.edition!=='LIMITED'))selected=rows[0]?.code||(view==='limited'?'':preferred)||'';
     controls();renderAccountSummary();renderList();renderSelection();urlState();
-  }catch(error){
-    $('catalogStatus').textContent=catalog?'최신 정보 조회 실패 · 마지막 정보를 표시합니다.':error.message;
-    if(!catalog){$('cardGrid').setAttribute('aria-busy','false');$('cardGrid').innerHTML='<li class="empty-state">용병 정보를 불러오지 못했습니다.<button type="button" data-retry>다시 불러오기</button></li>';}
-  }finally{loading=false;$('refreshCatalog').disabled=false;}
+  };
+  try{
+    await loadCodexPanels({
+      catalog:()=>requestPublicCodex(),account:()=>api('mercenaries/v3/state',{timeoutMs:15000}),
+      onCatalog:value=>{catalog=validateCatalog(value);renderReady();},
+      onAccount:value=>{account=value;accountError='';accountPending=false;renderReady();},
+      onCatalogError:error=>{
+        $('catalogStatus').textContent=catalog?'최신 정보 조회 실패 · 마지막 정보를 표시합니다.':error.message;
+        if(!catalog){$('cardGrid').setAttribute('aria-busy','false');$('cardGrid').innerHTML='<li class="empty-state">용병 정보를 불러오지 못했습니다.<button type="button" data-retry>다시 불러오기</button></li>';}
+      },
+      onAccountError:error=>{account=null;accountPending=false;accountError=error?.message||'로그인 후 보유 용병을 확인할 수 있습니다.';renderReady();}
+    });
+  }finally{loading=false;accountPending=false;$('refreshCatalog').disabled=false;}
 }
 async function runLoadout(mercenaryCode,{recover=false,mode=loadoutMode}={}){
   if(loadoutBusy||!account)return;

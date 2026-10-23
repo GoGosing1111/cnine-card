@@ -2,7 +2,8 @@
   'use strict';
   if(window.JokgakCity)return;
   const VERSION='20261023-supply-hover1',ART='/assets/ui/jokgak-city/',PREVIEW=location.pathname.startsWith('/preview/jokgak-city-v1/');
-  const config=Promise.all([import('/shared/jokgak-city-v1.mjs?v='+VERSION),import('/shared/jokgak-city-settings-v1.mjs?v='+VERSION),import('/js/jokgak-city-life-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-expansion-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-career-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-notice-layer-v1.mjs?v='+VERSION),import('/js/jokgak-city-comms-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-exploration-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-conflict-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-supply-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-disguise-ui-v1.mjs?v='+VERSION)]).then(([city,settings,life,expansion,career,notices,comms,exploration,conflict,supply,disguise])=>({...city,...settings,...life,...expansion,...career,...notices,...comms,...exploration,...conflict,...supply,...disguise}));
+  let config,stylesReady,rendererReady;
+  const loadConfig=()=>config??=(Promise.all([import('/shared/jokgak-city-v1.mjs?v='+VERSION),import('/shared/jokgak-city-settings-v1.mjs?v='+VERSION),import('/js/jokgak-city-life-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-expansion-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-career-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-notice-layer-v1.mjs?v='+VERSION),import('/js/jokgak-city-comms-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-exploration-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-conflict-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-supply-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-disguise-ui-v1.mjs?v='+VERSION)]).then(([city,settings,life,expansion,career,notices,comms,exploration,conflict,supply,disguise])=>({...city,...settings,...life,...expansion,...career,...notices,...comms,...exploration,...conflict,...supply,...disguise})).catch(error=>{config=null;throw error;}));
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const paths={bed:'M2 4v18m20-11v11M2 17h20M5 11h5V7H5Zm7 0h10v6H2',cash:'M2 5h20v14H2ZM8 12a4 4 0 1 0 8 0 4 4 0 0 0-8 0ZM5 9v6m14-6v6',meal:'M3 2v6m3-6v6m3-6v6M3 6h6v4H3Zm3 4v12M18 2v20m0-20c-5 2-5 9 0 9',bottle:'M9 2h6v5l3 4v11H6V11l3-4ZM9 2v5h6M6 14h12',shield:'M12 2 21 6v6c0 5-9 10-9 10S3 17 3 12V6ZM8 11l3 3 5-6',cross:'M9 3h6v6h6v6h-6v6H9v-6H3V9h6Z',medical:'M9 3h6v6h6v6h-6v6H9v-6H3V9h6ZM5 3v2M19 19v2',person:'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 22v-3a8 8 0 0 1 16 0v3',bag:'M8 3h8l-2 4 6 7v6H4v-6l6-7ZM9 7h6M10 14h4',swords:'m4 2 8 8-3 3-7-7Zm16 0-8 8 3 3 7-7ZM5 11l-4 4m8 2-4 5m14-11 4 4m-8 2 4 5',bolt:'m13 2-9 12h7l-1 8 10-13h-7Z',store:'M3 9h18v12H3ZM2 9l3-6h14l3 6M8 21v-7h8v7M8 3 6 9m10-6 2 6',mail:'M2 5h20v15H2Zm0 0 10 8L22 5',market:'M3 10v11h18V10M2 10l3-7h14l3 7ZM8 3v7m8-7v7M8 21v-6h8v6',home:'m2 11 10-9 10 9M5 9v13h14V9M9 22v-8h6v8',warehouse:'M2 8 12 2l10 6v14H2ZM6 22V11h12v11M6 15h12M6 19h12',arrow:'M3 12h18m-7-7 7 7-7 7',target:'M12 3v4m0 10v4M3 12h4m10 0h4M18 12a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z',clock:'M12 6v6l4 3M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z',close:'m5 5 14 14M19 5 5 19',refresh:'M3 10a9 9 0 1 1 2 9M3 3v7h7',map:'m2 5 6-3 8 3 6-3v17l-6 3-8-3-6 3ZM8 2v17m8-14v17'};
   const icon=name=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[name]||paths.person}"/></svg>`;
@@ -16,8 +17,8 @@
     const value=await response.json();if(!response.ok)throw Object.assign(Error(value.error||'요청을 처리하지 못했습니다.'),{status:response.status,code:value.code,cooldown:value.cooldown});return value;
   }
   function css(){const current=document.getElementById('jokgakStyle');if(current?.sheet)return Promise.resolve();const link=current||document.createElement('link');const ready=new Promise(resolve=>{link.addEventListener('load',resolve,{once:true});link.addEventListener('error',resolve,{once:true});});if(!current){link.id='jokgakStyle';link.rel='stylesheet';link.href='/css/jokgak-city-v1.css?v='+VERSION;document.head.append(link);}return ready;}
-  const stylesReady=css();
-  const rendererReady=import('/js/jokgak-city-render-v1.mjs?v='+VERSION);
+  const loadStyles=()=>stylesReady??=css();
+  const loadRenderer=()=>rendererReady??=import('/js/jokgak-city-render-v1.mjs?v='+VERSION).catch(error=>{rendererReady=null;throw error;});
   let patchView,viewHidden=document.hidden;
   const cityHidden=()=>viewHidden||document.hidden;
   let C,root,state=null,selected='MARKET',selectedUser=null,cursor=0,pages=[0],busy=false,poll,clock,offset=0,seq=0,zoom=1,dialog=null,battleModal=null,lifecycle=null,fetchingKey=null,desk=null,deskTab='profile',organization=null,orgBusy=false;
@@ -304,7 +305,7 @@
   }
   function stop(){bountyQueue=[];bountyCurrent=null;bountyContext='';bountySeen.clear();closeDesk();closeDialog();organization=null;activity=null;logSeq++;logBusy=false;broadcastQueue=[];broadcastCurrent=null;broadcastSeen.clear();seq++;fetchingKey=null;lifecycle?.abort();lifecycle=null;clearTimeout(poll);clearInterval(clock);poll=clock=null;root=null;if(battleModal){battleModal.cityFinish?.();battleModal.__battleV2Renderer?.destroy?.();battleModal.remove();battleModal=null;}}
   async function bind(){
-    stop();root=document.getElementById('jokgakCity');if(!root)return;const mounted=root;const modules=await Promise.all([config,rendererReady,stylesReady]);if(root!==mounted)return;C=modules[0];patchView=modules[1].patchCityView;state=null;selected='MARKET';cursor=0;pages=[0];selectedUser=null;busy=false;viewHidden=document.hidden;lifecycle=new AbortController();
+    stop();root=document.getElementById('jokgakCity');if(!root)return;const mounted=root;const modules=await Promise.all([loadConfig(),loadRenderer(),loadStyles()]);if(root!==mounted)return;C=modules[0];patchView=modules[1].patchCityView;state=null;selected='MARKET';cursor=0;pages=[0];selectedUser=null;busy=false;viewHidden=document.hidden;lifecycle=new AbortController();
     root.addEventListener('click',cityClick,{signal:lifecycle.signal});
     document.addEventListener('visibilitychange',()=>cityVisibility(document.hidden),{signal:lifecycle.signal});
     document.addEventListener('freeze',()=>cityVisibility(true),{signal:lifecycle.signal});
@@ -374,7 +375,10 @@
     return showNotice({id,action:'hospitalExit',actorName:'도시 의료센터',location:transfer.to,health:mine.health,maxHealth:mine.maxHealth,createdAt:transfer.at,expiresAt:result.shift.endsAt});
   }
   async function showNotice(item){
-    const uid=noticeAccountId();C||=await config;if(notice||noticeHidden||document.hidden||uid!==noticeAccountId()||item.expiresAt&&item.expiresAt<=Date.now()+noticeOffset)return false;noticeUserId=uid;
+    const uid=noticeAccountId(),unavailable=()=>notice||noticeHidden||document.hidden||uid!==noticeAccountId()||item.expiresAt&&item.expiresAt<=Date.now()+noticeOffset;
+    if(unavailable())return false;
+    const [loaded]=await Promise.all([loadConfig(),loadStyles()]);C||=loaded;
+    if(unavailable())return false;noticeUserId=uid;
     notice=document.createElement('aside');notice.className='jc-dispatch';notice.setAttribute('role','alertdialog');notice.setAttribute('aria-label','족각도시 피격 및 행동 알림');notice.setAttribute('aria-modal','false');
     const attack=['attack','arrest','attackSupply'].includes(item.action),donated=item.action==='donate',title=donated?'따뜻한 손길이 도착했습니다':item.deadUntil>time()?'사망 · 병원 부활 대기':attack?'도시에서 공격받았습니다':item.action==='heal'?'치료를 받았습니다':'검문을 받았습니다';
     notice.innerHTML=`<div class="jc-dispatch-stripe"></div><header><span>${icon(attack?'swords':'cross')}족각도시 · ${esc(place(item.location)?.name||'도시')}</span><button data-notice-dismiss aria-label="나중에">${icon('close')}</button></header><h2>${title}</h2><p><b>${esc(item.actorName)}</b> 님이 ${donated?`동냥으로 ${money(item.donation?.amount)}원을 건넸습니다.`:attack?'교전을 걸었습니다.':item.action==='heal'?'도시 체력을 회복했습니다.':'PVP 카드 편성을 확인했습니다.'}</p>${C.cityTheftHtml(item.theft,true)}${C.cityBountyReceipt(item.bounty,noticeAccountId())}<div class="jc-dispatch-bottom"><span>도시 체력 <b>${item.health} / ${item.maxHealth||100}</b>${item.deadUntil>time()?' · 부활 장소 병원':''}</span><button data-notice-record>기록 보기 →</button></div>`;
@@ -415,13 +419,13 @@
       notifying=true;const uid=noticeAccountId();
       try{
         const read=async()=>{
-          C||=await config;
-          await stylesReady;
           const leaseKey='jokgak:poll-after:'+uid,until=Number(storage.get(leaseKey)||0);
           if(until>Date.now()){delay=Math.min(8000,until-Date.now());return;}
           storage.set(leaseKey,Date.now()+12000);
           delay=8000;
-          const result=await api('notifications');if(noticeAccountId()!==uid)return;syncNoticeContext(result);updateGlobalDeath(result.active?result.mine:null,result.serverNow);delay=result.active||result.mine?.deadUntil>result.serverNow?8000:60000;storage.set(leaseKey,Date.now()+delay);
+          const result=await api('notifications');if(noticeAccountId()!==uid)return;syncNoticeContext(result);
+          if(result.active&&result.mine?.deadUntil>result.serverNow&&!noticeHidden){const [loaded]=await Promise.all([loadConfig(),loadStyles()]);if(noticeAccountId()!==uid)return;C||=loaded;}
+          updateGlobalDeath(result.active?result.mine:null,result.serverNow);delay=result.active||result.mine?.deadUntil>result.serverNow?8000:60000;storage.set(leaseKey,Date.now()+delay);
           if(document.hidden)return;
           const seen=storage.get(seenKey(uid))||[],alreadyShown=result.items.filter(item=>seen.includes(item.id)).map(item=>item.id);
           if(alreadyShown.length)await api('ack',{ids:alreadyShown});

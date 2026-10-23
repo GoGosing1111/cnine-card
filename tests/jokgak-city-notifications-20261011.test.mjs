@@ -11,7 +11,7 @@ const result=items=>({items,active:true,mine:null,serverNow:Date.now()});
 function deferred(){let resolve;const promise=new Promise(r=>resolve=r);return {promise,resolve};}
 function harness(initialUser={serverUserId:42,nickname:'실제 로그인 형태'}){
  let account=initialUser,handler=async()=>result([]),serial=0;
- const values=new Map(),timers=new Map(),windowEvents=new Map(),documentEvents=new Map(),requests=[],notices=new Set();
+ const values=new Map(),timers=new Map(),windowEvents=new Map(),documentEvents=new Map(),requests=[],imports=[],notices=new Set();
  const storage={getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,String(value))};
  const listen=map=>(type,fn)=>{if(!map.has(type))map.set(type,[]);map.get(type).push(fn);};
  const emit=map=>(type,event={})=>{for(const fn of map.get(type)||[])fn(event);};
@@ -19,14 +19,14 @@ function harness(initialUser={serverUserId:42,nickname:'실제 로그인 형태'
   const buttons=new Map();
   return {dataset:{},setAttribute(){},insertAdjacentHTML(){},remove(){notices.delete(this);},querySelector(selector){if(!buttons.has(selector))buttons.set(selector,{});return buttons.get(selector);}};
  }};
- const config={cityPlace:()=>({name:'시장'}),cityTheftHtml:()=>'',deathClock:()=>'03:00',mountCityNoticeLayer:node=>{notices.add(node);return ()=>notices.delete(node);}};
+ const config={cityPlace:()=>({name:'시장'}),cityTheftHtml:()=>'',cityBountyReceipt:()=>'',deathClock:()=>'03:00',mountCityNoticeLayer:node=>{notices.add(node);return ()=>notices.delete(node);}};
  const sandbox={document,location:{pathname:'/'},navigator:{locks:{request:async(_name,_options,fn)=>fn({})}},localStorage:storage,sessionStorage:storage,loadUser:()=>account,
-  AbortSignal,__cityImport:async()=>config,addEventListener:listen(windowEvents),
+  AbortSignal,__cityImport:async path=>{imports.push(path);return config;},addEventListener:listen(windowEvents),
   setTimeout:(fn,ms)=>{timers.set(++serial,{fn,ms});return serial;},clearTimeout:id=>timers.delete(id),setInterval:()=>++serial,clearInterval(){},
   fetch:async(url,options)=>{const request={url,body:options.body?JSON.parse(options.body):null};requests.push(request);return {ok:true,json:async()=>handler(request)};}
  };
  sandbox.window=sandbox;vm.runInNewContext(source,sandbox,{filename:'jokgak-city-v1.js'});
- return {document,requests,notices,values,timers,
+ return {document,requests,imports,notices,values,timers,
   handle:fn=>{handler=fn;},user:value=>{account=value;emit(windowEvents)('cnine:player-updated');},
   wake:()=>emit(documentEvents)('visibilitychange'),
   async tick(){const next=timers.entries().next().value;assert.ok(next,'notification timer exists');timers.delete(next[0]);await next[1].fn();},
@@ -39,6 +39,15 @@ test('serverUserId-only accounts poll on the existing global city entry; login w
  const loggedOut=harness(null);await loggedOut.tick();assert.equal(loggedOut.requests.length,0);
  loggedOut.user({serverUserId:9});assert.equal([...loggedOut.timers.values()][0].ms,1000);await loggedOut.tick();assert.equal(loggedOut.gets.length,1);
  const compatibility=harness({id:7});await compatibility.tick();assert.equal(compatibility.gets.length,1);
+});
+
+test('inactive polling loads no city modules; a real notice lazily loads its UI without the city renderer',async()=>{
+ const h=harness();assert.equal(h.imports.length,0);await h.tick();assert.equal(h.imports.length,0);
+ h.wake();h.handle(async()=>result([item('lazy')]));await h.tick();assert.equal(h.notice.dataset.cityNoticeId,'lazy');
+ assert.ok(h.imports.some(p=>p.includes('jokgak-city-notice-layer')));
+ assert.ok(!h.imports.some(p=>p.includes('jokgak-city-render')));
+ const count=h.imports.length;await h.notice.querySelector('[data-notice-dismiss]').onclick();h.handle(async()=>result([item('lazy-next')]));await h.tick();
+ assert.equal(h.notice.dataset.cityNoticeId,'lazy-next');assert.equal(h.imports.length,count,'configuration is loaded once');
 });
 
 test('display and page recreation preserve unread alerts; explicit dismissal records and acknowledges only that item',async()=>{

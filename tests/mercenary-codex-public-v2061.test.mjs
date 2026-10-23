@@ -106,7 +106,8 @@ test('codex keeps public catalog browsing while account writes are limited to th
   assert.match(client, /pending\.body\.mercenaryCode/);
   assert.doesNotMatch(client, /mercenaries\/v3\/(?:open|draw|train)|new Audio|AudioContext/);
   assert.match(client, /storageKey='cnine\.mercenaryCodex\.public\.v1'/);
-  assert.match(client, /api\('mercenary-codex'/);
+  assert.match(client, /catalog:\(\)=>requestPublicCodex\(\)/);
+  assert.match(read('mercenary-codex/loading.mjs'), /fetchImpl\('\/api\/mercenary-codex'/);
   assert.match(client, /c\.skills\.map\(skillHtml\)/);
 });
 
