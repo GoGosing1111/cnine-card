@@ -7,6 +7,7 @@ export const ACTIONS = Object.freeze({
   defeat: { label: '쓰러짐', duration: 1.1, sheet: 'skillMotion', frames: [6, 7] }
 });
 export const clamp = (n, a = 0, b = 1) => Math.min(b, Math.max(a, n));
+export const DEFAULT_PLAYBACK_SPEED=2;
 export const RAPID_PROJECTILES=Object.freeze({flight:.12,interval:.07,impactFade:.46,attackLaunch:.18,skillLaunch:.24});
 export const isProjectileKind=kind=>kind==='barrage'||kind==='projectile';
 export function track(keys, t) {
@@ -42,6 +43,20 @@ export function sample(plan, time) {
       if(age>=0&&age<.09)state.impacts.push({index,strength:Math.sin(age/.09*Math.PI)});
     }
     if(t>=launch){const leading=state.projectiles[0];state.effectStage=leading?.stage??null;state.effectFrame=leading?.frame??null;state.progress=leading?.progress??0;state.label=state.projectiles.some(p=>p.stage==='travel')?'직선 고속 사격':leading?'적중 · 잔광':'자세 회복';}
+    return state;
+  }
+  if(plan.kind==='melee'&&['attack','skill'].includes(plan.action)){
+    const skill=plan.action==='skill',launch=skill?.4:.1,arrival=skill?1.5:.4,retreat=skill?2.2:.72,home=skill?3.5:1.04;
+    state.travel=track([[0,0],[launch,0],[arrival,1],[retreat,1],[home,0]],t);
+    if(t>=launch&&t<arrival)state.pose={sheet:'basic',frame:2+Math.floor((t-launch)/.18)%2};
+    else if(t>=retreat&&t<home)state.pose={sheet:'basic',frame:3-Math.floor((t-retreat)/.18)%2};
+    else if(skill)state.pose={sheet:'skillMotion',frame:t<launch?0:t<plan.contact?1:t<2.18?2:3};
+    else state.pose={sheet:'basic',frame:t<plan.contact?4:t<.6?5:6};
+    const age=t-plan.contact,fade=skill?.72:.5;
+    state.label=t<launch?'공격 준비':t<arrival?'표적 접근':t<plan.contact?'타격 준비':t<retreat?'명중':'원위치 복귀';
+    // A melee slash is an impact, not a projectile. Do not show it in transit.
+    if(age>=0&&age<fade){state.effectStage='impact';state.progress=age/fade;state.effectFrame=8+Math.min(7,Math.floor(state.progress*8));}
+    if(age>=0&&age<.18)state.strike=Math.sin(age/.18*Math.PI);
     return state;
   }
   if (plan.action === 'dash') {

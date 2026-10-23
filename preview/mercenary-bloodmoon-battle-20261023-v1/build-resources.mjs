@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import sharp from 'sharp';
 import {BLOODMOON_COMBAT,RELEASE} from './balance.mjs';
+import {applyIdleFeetRepairs} from './idle-feet-repairs.mjs';
 const dir=path.dirname(fileURLToPath(import.meta.url)),prefix='preview/mercenary-bloodmoon-battle-20261023-v1/';
 const sha=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
 const sources=[
@@ -61,6 +62,7 @@ for(const [slug,file,hash,bodyPixels,skillKind]of sources){
   motion:{basic:{frames:m.frames.slice(0,8),bodyPixels},skillMotion:{frames:m.frames.slice(8).map((f,i)=>({...f,index:i})),bodyPixels}},effects:{skill:fx},pixelAudit:m.pixelAudit,
   bodyPixels,battleBodyHeight:345,sourceArtApproval:'USER_APPROVED',motionSelection:slug==='bongsoon'?'USER_SELECTED_ORIGINAL_DO_NOT_SHRINK':'USER_REVIEW_PENDING',generatedArtApproval:'USER_REVIEW_PENDING',missing:[],ready:true,runtimeEnabled:false});
 }
+for(const character of characters)await applyIdleFeetRepairs(character,dir);
 // Remove exterior UI padding by alpha bounds; the raw generated master remains.
 const buttonMaster=path.join(dir,'assets/ui/button-source.png'),buttonRaw=await sharp(buttonMaster).ensureAlpha().raw().toBuffer({resolveWithObject:true});
 let bx0=buttonRaw.info.width,by0=buttonRaw.info.height,bx1=0,by1=0;
@@ -71,5 +73,7 @@ const manifest={format:'PROJECT_V_BLOODMOON_BATTLE_REVIEW_V1',dateKST:'2026-10-2
  assetPolicy:{originalPixelsPreserved:true,characterResampling:false,frameIsolation:'COPY_EACH_NONTRANSPARENT_PIXEL_EXACTLY_ONCE',bodyScale:'FIXED_PER_CHARACTER_NOT_PER_POSE'},
  renderer:{engine:'preview/project-v-v3/source/battle/BattleEngine.js',implementation:prefix+'source/BloodmoonFX.js',adapter:'js/project-v-mercenary-battle-art-adapter-v1.js',cardDock:'js/battle-v3-live.js',clock:'ONE_V3_REGISTERED_GSAP_TIMELINE',damageAuthority:'CANONICAL_SERVER_SIMULATION_ONLY',newSound:false},
  ui:{panel:await info('assets/ui/panel.png'),button:await info('assets/ui/button.png')},validation:{browserReview:'PENDING',visualApproval:'USER_REVIEW_PENDING'}};
+manifest.additionalPromptRecords=['prompts-idle-feet-v2.json'];
+manifest.userCorrections.push({instruction:'다리 짤렸는데? 나무늘봉순',resolved:'Both cropped idle boot bottoms repaired with ImageGen; selected source atlas and other fourteen poses preserved.'});
 await fs.writeFile(path.join(dir,'manifest.json'),JSON.stringify(manifest,null,2)+'\n');
 console.log(JSON.stringify({characters:5,motionFrames:80,effectFrames:80,pixelsUnchanged:characters.every(c=>c.pixelAudit.allOriginalRgbaPreserved)}));

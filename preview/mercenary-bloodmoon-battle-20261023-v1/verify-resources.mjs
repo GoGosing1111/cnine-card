@@ -23,15 +23,21 @@ for(const c of manifest.characters){
  let copied=0;
  for(const frame of frames){
   assert.equal(frame.scaleApplied,1);assert.equal(sha(await readReviewFile(frame.path)),frame.sha256);
-  const dest=await raw(frame.path);let count=0;
+  const preserved=frame.restoration?.preservedOriginalFrame??frame;
+  if(frame.restoration){
+   const restored=await raw(frame.path);assert.equal(frame.bodyPixelDensity,restored.info.width/preserved.rect.width);
+   assert(frame.foot.y<restored.info.height-20);assert(frame.foot.y/frame.bodyPixelDensity>preserved.foot.y+10,'Both complete soles must extend below the old cutoff');
+   assert.equal(sha(await readReviewFile(preserved.path)),preserved.sha256);
+  }
+  const dest=await raw(preserved.path);let count=0;
   for(let y=0;y<dest.info.height;y++)for(let x=0;x<dest.info.width;x++){
    const dp=(y*dest.info.width+x)*4;if(!dest.data[dp+3])continue;
-   const sx=x+frame.sourceOffset.x,sy=y+frame.sourceOffset.y;
+   const sx=x+preserved.sourceOffset.x,sy=y+preserved.sourceOffset.y;
    assert(sx>=0&&sx<w&&sy>=0&&sy<h);const sp=sy*w+sx;
    assert.equal(seen[sp],0,`${c.slug}: duplicate source pixel`);seen[sp]=1;
    assert(dest.data.subarray(dp,dp+4).equals(original.data.subarray(sp*4,sp*4+4)),`${c.slug}: altered RGBA`);count++;copied++;
   }
-  assert.equal(count,frame.sourcePixels);
+  assert.equal(count,preserved.sourcePixels);
  }
  let sourcePixels=0;for(let p=0;p<w*h;p++)if(original.data[p*4+3]){sourcePixels++;assert.equal(seen[p],1,`${c.slug}: lost source pixel`);}
  assert.equal(copied,sourcePixels);assert.equal(c.pixelAudit.sourcePixels,sourcePixels);
@@ -64,7 +70,7 @@ for(const p of Object.values(BLOODMOON_COMBAT)){
  assert.equal(p.pveSkillMinimumDamage,false,'Do not bypass existing melee PVE damage rules');
  assert.equal(p.acquisitionEnabled,false);assert.equal(p.deploymentEnabled,false);
 }
-report.checks=['approved-source-hashes','exact-user-selected-bongsoon','80-lossless-pixel-copies','80-distinct-effect-frames','six-state-frame-bounds','skill-contact-and-completion','late-load-failure-cleanup','current-canonical-balance-report','unassigned-rank-and-release-gates'];
+report.checks=['approved-source-hashes','exact-user-selected-bongsoon','80-preserved-lossless-pixel-copies','two-repaired-idle-feet-with-originals-preserved','80-distinct-effect-frames','six-state-frame-bounds','skill-contact-and-completion','late-load-failure-cleanup','current-canonical-balance-report','unassigned-rank-and-release-gates'];
 report.reviewFingerprint=await reviewFingerprint();
 await fs.writeFile(new URL('qa/resource-report.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({status:report.status,checks:report.checks.length,characters:report.characters.length}));

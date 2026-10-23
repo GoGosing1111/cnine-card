@@ -1,6 +1,6 @@
 import { Assets, Container, Sprite, Texture, Rectangle, Graphics } from 'pixi.js';
 import { gsap } from 'gsap';
-import { makePlan, sample, clamp, RAPID_PROJECTILES } from './PlaybackPlan.mjs';
+import { makePlan, sample, clamp, RAPID_PROJECTILES, DEFAULT_PLAYBACK_SPEED } from './PlaybackPlan.mjs';
 import { settleAssetBatch } from './ResourceLoader.mjs';
 const mix = (a, b, q) => ({ x: a.x + (b.x - a.x) * q, y: a.y + (b.y - a.y) * q });
 export async function loadCharacterAssets(character, root) {
@@ -22,7 +22,7 @@ export async function loadCharacterAssets(character, root) {
 export class BloodmoonFX {
   constructor(engine, actor, targets, assets, character, onUpdate = () => {}) {
     Object.assign(this, { engine, actor, targets, assets, character, onUpdate });
-    actor.animationController.kill(); this.clock = { time: 0 }; this.speed = 1; this.destroyed = false;
+    actor.animationController.kill(); this.clock = { time: 0 }; this.speed = DEFAULT_PLAYBACK_SPEED; this.destroyed = false;
     this.plan = makePlan(character.skillKind, 'idle');
     this.bodyHeight = character.battleBodyHeight;
     // kill() restores the engine's initial canvas-sized pose. Register the
@@ -60,7 +60,9 @@ export class BloodmoonFX {
     const current=pose??{sheet:'basic',frame:0};
     const sheet = this.character.motion[current.sheet], frame = sheet.frames[current.frame];
     s.texture = this.assets[current.sheet][current.frame]; s.anchor.set(frame.foot.x / frame.rect.width, frame.foot.y / frame.rect.height);
-    s.scale.set(this.bodyHeight / sheet.bodyPixels); // One uniform scale for the entire sheet, including crouch/defeat frames.
+    // Higher-resolution repaired art uses its canvas density, never a pose-bounds fit.
+    this.bodyPixelDensity=frame.bodyPixelDensity??1;
+    s.scale.set(this.bodyHeight / (sheet.bodyPixels*this.bodyPixelDensity));
     const neutral = this.actor.neutralAvatarPose?.mainSprite; if (neutral) { neutral.scaleX = s.scale.x; neutral.scaleY = s.scale.y; }
     return pose?frame:null;
   }
@@ -123,7 +125,7 @@ export class BloodmoonFX {
       if(!this.engine.reducedMotion)for(const impact of state.impacts){const t=this.targets[impact.index%this.targets.length];t.view.x+=impact.strength*3;t.fullBodySprite.tint=Number.parseInt(this.character.accent.slice(1),16);}
       this.onUpdate(this);return;
     }
-    if (this.plan.action === 'attack' && time >= .43 && time < .95) this.draw(8 + Math.min(7, Math.floor((time - .43) / .065)), targetPoints[0], size * .62, .9);
+    if (this.plan.kind!=='melee' && this.plan.action === 'attack' && time >= .43 && time < .95) this.draw(8 + Math.min(7, Math.floor((time - .43) / .065)), targetPoints[0], size * .62, .9);
     if (state.effectFrame !== null) {
       const f = state.effectFrame, q = state.progress, stage = state.effectStage;
       if (stage === 'cast') this.draw(f, kind === 'guard' ? center : origin, size * (kind === 'guard' ? 1.05 : .65), .92);
@@ -150,7 +152,8 @@ export class BloodmoonFX {
   diagnostics() { return { ready: !this.destroyed, character: this.character.id, action: this.plan.action, kind: this.plan.kind, time: this.time, playing: this.playing, speed: this.speed, pose: this.state?.pose, effectFrame: this.state?.effectFrame, effectStage: this.state?.effectStage,
     visibleEffects: this.pool.filter(s => s.visible).length, ownTimelines: this.timeline ? 1 : 0, registeredTimelines: this.registration && this.engine.simpleTimelines.has(this.registration) ? 1 : 0,
     effectLayers: this.engine.effectLayer.children.filter(c => c.label === 'BloodmoonSkillFX').length, regularAllies: this.engine.allies.length, mercenaryInRegularArray: this.engine.allies.includes(this.actor), contactDistance: this.lastContactDistance ?? null,
-    spriteScale: { x: this.actor.fullBodySprite.scale?.x ?? null, y: this.actor.fullBodySprite.scale?.y ?? null }, expectedSheetScale: !this.destroyed ? this.bodyHeight / this.character.motion[this.state?.pose?.sheet??'basic'].bodyPixels : null,
+    spriteScale: { x: this.actor.fullBodySprite.scale?.x ?? null, y: this.actor.fullBodySprite.scale?.y ?? null }, expectedSheetScale: !this.destroyed ? this.bodyHeight / (this.character.motion[this.state?.pose?.sheet??'basic'].bodyPixels*this.bodyPixelDensity) : null,
+    bodyPixelDensity:this.bodyPixelDensity,
     projectiles:this.lastProjectiles??[],
     effectBounds:this.pool.filter(s=>s.visible).map(s=>{const b=s.getBounds();return {x:b.x,y:b.y,width:b.width,height:b.height};}),viewport:{width:this.engine.app?.screen?.width??0,height:this.engine.app?.screen?.height??0},
     clock: 'ONE_GSAP', damageAuthority: 'NONE_VISUAL_PREVIEW', fixedSheetScale: true };

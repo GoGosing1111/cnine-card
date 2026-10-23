@@ -15,7 +15,7 @@ try{
    await page.waitForTimeout(150);
    const states=await page.evaluate(()=>{
     const f=window.BloodmoonPreview.fx,a=f.actor,c=f.character;
-    const measure=label=>{const s=a.fullBodySprite,o=s.toGlobal({x:0,y:0}),v=s.toGlobal({x:0,y:c.bodyPixels});return {label,bodyScreenPixels:Math.hypot(v.x-o.x,v.y-o.y),spriteScale:s.scale.x,rootScale:a.root.scale.x,viewScale:a.view.scale.y};};
+    const measure=label=>{const s=a.fullBodySprite,o=s.toGlobal({x:0,y:0}),v=s.toGlobal({x:0,y:c.bodyPixels*(f.bodyPixelDensity??1)});return {label,bodyScreenPixels:Math.hypot(v.x-o.x,v.y-o.y),spriteScale:s.scale.x,artPixelDensity:f.bodyPixelDensity??1,rootScale:a.root.scale.x,viewScale:a.view.scale.y};};
     f.setAction('idle');f.seek(.2);const rows=[measure('idle')];
     for(const action of ['dash','attack','skill','hit','defeat']){
      f.setAction(action);f.seek(0);rows.push(measure(action+':start'));
@@ -69,7 +69,7 @@ try{
    }
    // Actual GSAP playback must also settle at the canonical size, not only seeking.
    const completion=await page.evaluate(async()=>{
-    const f=window.BloodmoonPreview.fx,s=f.actor.fullBodySprite,measure=()=>{const a=s.toGlobal({x:0,y:0}),b=s.toGlobal({x:0,y:f.character.bodyPixels});return Math.hypot(a.x-b.x,a.y-b.y);};
+    const f=window.BloodmoonPreview.fx,s=f.actor.fullBodySprite,measure=()=>{const a=s.toGlobal({x:0,y:0}),b=s.toGlobal({x:0,y:f.character.bodyPixels*(f.bodyPixelDensity??1)});return Math.hypot(a.x-b.x,a.y-b.y);};
     f.setAction('idle');f.seek(.2);const before=measure();f.setAction('skill');f.setSpeed(1);f.play();await new Promise(resolve=>setTimeout(resolve,1450));
     return {sizeRatio:measure()/before,playing:f.playing,effects:f.diagnostics().visibleEffects,registeredTimelines:f.diagnostics().registeredTimelines};
    });

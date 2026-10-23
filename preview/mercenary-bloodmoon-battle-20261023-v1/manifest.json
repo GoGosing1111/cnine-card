@@ -87,141 +87,240 @@
         "bytes": 2122323
       },
       "battleSprite": {
-        "path": "assets/bongsoon/frames/00.png",
-        "width": 512,
-        "height": 512,
-        "sha256": "F66A01AA2B677279B6C304AE49EF06EB4014A017AB198E70588E0DFA86F8CAED",
+        "path": "assets/bongsoon/idle-feet-v2/00.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "044565913CE77B068955ADC3D3D6B5DED046A38844AC1C01838EC21282787728",
         "hasAlpha": true,
-        "bytes": 121954,
+        "bytes": 586319,
         "frames": [
           {
             "index": 0,
-            "path": "assets/bongsoon/frames/00.png",
+            "path": "assets/bongsoon/idle-feet-v2/00.png",
             "rect": {
               "x": 0,
               "y": 0,
-              "width": 512,
-              "height": 512
+              "width": 1254,
+              "height": 1254
             },
             "foot": {
-              "x": 132.3464566929134,
-              "y": 319
+              "x": 324.1454232283465,
+              "y": 915
             },
             "emitter": {
-              "x": 299,
-              "y": 200.9090909090909
+              "x": 732.31640625,
+              "y": 492.0703125
             },
             "bounds": [
-              12,
-              12,
-              299,
-              319
+              27,
+              23,
+              736,
+              915
             ],
-            "visibleHeight": 308,
-            "sourceBounds": [
-              19,
-              0,
-              325,
-              337
-            ],
-            "sourceOffset": {
-              "x": 11,
-              "y": -8
-            },
-            "sourcePixels": 40424,
-            "sourcePixelSha": "C9E0461673C5FBD5C46A5A38C4DCFADCF232988A643E4F7689E72E673FDF9F6E",
-            "copiedPixelSha": "C9E0461673C5FBD5C46A5A38C4DCFADCF232988A643E4F7689E72E673FDF9F6E",
-            "sha256": "F66A01AA2B677279B6C304AE49EF06EB4014A017AB198E70588E0DFA86F8CAED",
-            "scaleApplied": 1
+            "visibleHeight": 754.359375,
+            "bodyPixelDensity": 2.44921875,
+            "scaleApplied": 1,
+            "sha256": "044565913CE77B068955ADC3D3D6B5DED046A38844AC1C01838EC21282787728",
+            "restoration": {
+              "reason": "USER_REPORTED_MISSING_IDLE_BOOT_TOES",
+              "method": "BUILT_IN_IMAGEGEN",
+              "promptRecord": "prompts-idle-feet-v2.json",
+              "preservedOriginalFrame": {
+                "index": 0,
+                "path": "assets/bongsoon/frames/00.png",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 512,
+                  "height": 512
+                },
+                "foot": {
+                  "x": 132.3464566929134,
+                  "y": 319
+                },
+                "emitter": {
+                  "x": 299,
+                  "y": 200.9090909090909
+                },
+                "bounds": [
+                  12,
+                  12,
+                  299,
+                  319
+                ],
+                "visibleHeight": 308,
+                "sourceBounds": [
+                  19,
+                  0,
+                  325,
+                  337
+                ],
+                "sourceOffset": {
+                  "x": 11,
+                  "y": -8
+                },
+                "sourcePixels": 40424,
+                "sourcePixelSha": "C9E0461673C5FBD5C46A5A38C4DCFADCF232988A643E4F7689E72E673FDF9F6E",
+                "copiedPixelSha": "C9E0461673C5FBD5C46A5A38C4DCFADCF232988A643E4F7689E72E673FDF9F6E",
+                "sha256": "F66A01AA2B677279B6C304AE49EF06EB4014A017AB198E70588E0DFA86F8CAED",
+                "scaleApplied": 1
+              }
+            }
           }
         ]
       },
       "battleSpriteFootAnchor": {
         "x": 0.25848917322834647,
-        "y": 0.623046875
+        "y": 0.7296650717703349
       },
       "motion": {
         "basic": {
           "frames": [
             {
               "index": 0,
-              "path": "assets/bongsoon/frames/00.png",
+              "path": "assets/bongsoon/idle-feet-v2/00.png",
               "rect": {
                 "x": 0,
                 "y": 0,
-                "width": 512,
-                "height": 512
+                "width": 1254,
+                "height": 1254
               },
               "foot": {
-                "x": 132.3464566929134,
-                "y": 319
+                "x": 324.1454232283465,
+                "y": 915
               },
               "emitter": {
-                "x": 299,
-                "y": 200.9090909090909
+                "x": 732.31640625,
+                "y": 492.0703125
               },
               "bounds": [
-                12,
-                12,
-                299,
-                319
+                27,
+                23,
+                736,
+                915
               ],
-              "visibleHeight": 308,
-              "sourceBounds": [
-                19,
-                0,
-                325,
-                337
-              ],
-              "sourceOffset": {
-                "x": 11,
-                "y": -8
-              },
-              "sourcePixels": 40424,
-              "sourcePixelSha": "C9E0461673C5FBD5C46A5A38C4DCFADCF232988A643E4F7689E72E673FDF9F6E",
-              "copiedPixelSha": "C9E0461673C5FBD5C46A5A38C4DCFADCF232988A643E4F7689E72E673FDF9F6E",
-              "sha256": "F66A01AA2B677279B6C304AE49EF06EB4014A017AB198E70588E0DFA86F8CAED",
-              "scaleApplied": 1
+              "visibleHeight": 754.359375,
+              "bodyPixelDensity": 2.44921875,
+              "scaleApplied": 1,
+              "sha256": "044565913CE77B068955ADC3D3D6B5DED046A38844AC1C01838EC21282787728",
+              "restoration": {
+                "reason": "USER_REPORTED_MISSING_IDLE_BOOT_TOES",
+                "method": "BUILT_IN_IMAGEGEN",
+                "promptRecord": "prompts-idle-feet-v2.json",
+                "preservedOriginalFrame": {
+                  "index": 0,
+                  "path": "assets/bongsoon/frames/00.png",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 512,
+                    "height": 512
+                  },
+                  "foot": {
+                    "x": 132.3464566929134,
+                    "y": 319
+                  },
+                  "emitter": {
+                    "x": 299,
+                    "y": 200.9090909090909
+                  },
+                  "bounds": [
+                    12,
+                    12,
+                    299,
+                    319
+                  ],
+                  "visibleHeight": 308,
+                  "sourceBounds": [
+                    19,
+                    0,
+                    325,
+                    337
+                  ],
+                  "sourceOffset": {
+                    "x": 11,
+                    "y": -8
+                  },
+                  "sourcePixels": 40424,
+                  "sourcePixelSha": "C9E0461673C5FBD5C46A5A38C4DCFADCF232988A643E4F7689E72E673FDF9F6E",
+                  "copiedPixelSha": "C9E0461673C5FBD5C46A5A38C4DCFADCF232988A643E4F7689E72E673FDF9F6E",
+                  "sha256": "F66A01AA2B677279B6C304AE49EF06EB4014A017AB198E70588E0DFA86F8CAED",
+                  "scaleApplied": 1
+                }
+              }
             },
             {
               "index": 1,
-              "path": "assets/bongsoon/frames/01.png",
+              "path": "assets/bongsoon/idle-feet-v2/01.png",
               "rect": {
                 "x": 0,
                 "y": 0,
-                "width": 512,
-                "height": 512
+                "width": 1254,
+                "height": 1254
               },
               "foot": {
-                "x": 153.29457364341084,
-                "y": 319
+                "x": 375.45194404069764,
+                "y": 887
               },
               "emitter": {
-                "x": 310,
-                "y": 201.06
+                "x": 759.2578125,
+                "y": 492.439921875
               },
               "bounds": [
-                44,
-                12,
-                310,
-                319
+                102,
+                23,
+                766,
+                887
               ],
-              "visibleHeight": 308,
-              "sourceBounds": [
-                321,
-                0,
-                628,
-                347
-              ],
-              "sourceOffset": {
-                "x": 313,
-                "y": -8
-              },
-              "sourcePixels": 38811,
-              "sourcePixelSha": "D1AB3A64BDE3D4A1560A9EA59C0EF842CF347CF810C92FAA864E282670AA6EDD",
-              "copiedPixelSha": "D1AB3A64BDE3D4A1560A9EA59C0EF842CF347CF810C92FAA864E282670AA6EDD",
-              "sha256": "4A27B4FC7C50EA6D6272E9580572591778F4DAC78B8238BD54621439C368B676",
-              "scaleApplied": 1
+              "visibleHeight": 754.359375,
+              "bodyPixelDensity": 2.44921875,
+              "scaleApplied": 1,
+              "sha256": "CD8DA14B561A784C23F59FF462E9A287EA1EDADA009D8CC999F0FA7A4BEFAE94",
+              "restoration": {
+                "reason": "USER_REPORTED_MISSING_IDLE_BOOT_TOES",
+                "method": "BUILT_IN_IMAGEGEN",
+                "promptRecord": "prompts-idle-feet-v2.json",
+                "preservedOriginalFrame": {
+                  "index": 1,
+                  "path": "assets/bongsoon/frames/01.png",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 512,
+                    "height": 512
+                  },
+                  "foot": {
+                    "x": 153.29457364341084,
+                    "y": 319
+                  },
+                  "emitter": {
+                    "x": 310,
+                    "y": 201.06
+                  },
+                  "bounds": [
+                    44,
+                    12,
+                    310,
+                    319
+                  ],
+                  "visibleHeight": 308,
+                  "sourceBounds": [
+                    321,
+                    0,
+                    628,
+                    347
+                  ],
+                  "sourceOffset": {
+                    "x": 313,
+                    "y": -8
+                  },
+                  "sourcePixels": 38811,
+                  "sourcePixelSha": "D1AB3A64BDE3D4A1560A9EA59C0EF842CF347CF810C92FAA864E282670AA6EDD",
+                  "copiedPixelSha": "D1AB3A64BDE3D4A1560A9EA59C0EF842CF347CF810C92FAA864E282670AA6EDD",
+                  "sha256": "4A27B4FC7C50EA6D6272E9580572591778F4DAC78B8238BD54621439C368B676",
+                  "scaleApplied": 1
+                }
+              }
             },
             {
               "index": 2,
@@ -965,7 +1064,18 @@
       "generatedArtApproval": "USER_REVIEW_PENDING",
       "missing": [],
       "ready": true,
-      "runtimeEnabled": false
+      "runtimeEnabled": false,
+      "displayBodyHeight": 407.9487976138694,
+      "idleRestoration": {
+        "status": "USER_REQUESTED_REPAIR_VISUAL_REVIEW_PENDING",
+        "frames": [
+          0,
+          1
+        ],
+        "unchangedOtherFrames": 14,
+        "selectedAtlasPreserved": true,
+        "pixelDensityPolicy": "CANVAS_RESOLUTION_RATIO_ONLY_NEVER_FIT_POSE_BOUNDS"
+      }
     },
     {
       "id": "BLOODMOON-JOEUN",
@@ -4784,6 +4894,10 @@
       "asset": "dagger/motion.png",
       "instruction": "왼쪽 상단2개 다리짤림",
       "resolved": "ImageGen repaired both idle frames with complete calves and boots."
+    },
+    {
+      "instruction": "다리 짤렸는데? 나무늘봉순",
+      "resolved": "Both cropped idle boot bottoms repaired with ImageGen; selected source atlas and other fourteen poses preserved."
     }
   ],
   "assetPolicy": {
@@ -4823,17 +4937,23 @@
     "browserReview": "PASS",
     "resourceReview": "PASS",
     "motionRegression": "PASS",
+    "contactAndDoubleSpeed": "PASS",
     "pvpSimulations": 11520,
     "pveSimulations": 104,
     "visualApproval": "USER_REVIEW_PENDING",
-    "reviewFingerprint": "d3c42bb4f400505bc1b806c2fc2b26ff0db25f4dd201ba57fe22bd393779525c",
+    "reviewFingerprint": "5e76a78606b1736dce03d228b5f119beb311b62e89babfd44b2ceb45084805e3",
     "evidence": [
       "qa/browser-report.json",
       "qa/resource-report.json",
       "qa/motion-regression.json",
       "qa/scale-before.json",
+      "qa/contact-speed.json",
+      "qa/contact-before.json",
       "qa/balance-report.json",
       "qa/visual-review.json"
     ]
-  }
+  },
+  "additionalPromptRecords": [
+    "prompts-idle-feet-v2.json"
+  ]
 }

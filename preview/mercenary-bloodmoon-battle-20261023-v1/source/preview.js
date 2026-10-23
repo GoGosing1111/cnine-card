@@ -15,7 +15,7 @@ function update(instance) {
   for (const b of parentDoc.querySelectorAll('[data-action]')) b.setAttribute('aria-pressed', String(b.dataset.action === instance.plan.action));
 }
 function controls(enabled) { parentDoc.querySelectorAll('[data-action], .playback button, .playback select, #scrub').forEach(e => e.disabled = !enabled); }
-function resize() { if (!fx || disposed) return; const playing=fx.playing; fx.pause(); engine.setFormationMercenaries([actor]); fx.captureFormation(); fx.render(fx.time); if(playing)fx.play(); }
+function resize() { if (!fx || disposed) return; const playing=fx.playing; fx.pause(); engine.setFormationMercenaries([actor]); actor.cooperativeScaleLocked=true; fx.captureFormation(); fx.render(fx.time); if(playing)fx.play(); }
 function selectCharacter(slug) {
   const seq=++selection; currentSlug=slug; controls(false);
   selectionQueue=selectionQueue.catch(()=>{}).then(()=>performSelection(slug,seq));
@@ -52,6 +52,7 @@ async function performSelection(slug,seq) {
   actor.fullBodySprite.anchor.set(art.footAnchor.x, art.footAnchor.y); engine.combatLayer.addChild(actor.root); engine.setFormationMercenaries([actor]); actor.root.visible = true; actor.root.alpha = 1; engine.sortCombatDepth();
   actor.fullBodySprite.scale.set(character.battleBodyHeight/character.bodyPixels);
   actor.fullBodyHeight=character.battleBodyHeight; actor.art={bodyHeight:character.battleBodyHeight,calmIdle:true}; actor.cooperativeScaleLocked=true;actor.isMercenary=true; actor.cardId=character.previewCode;
+  if(character.displayBodyHeight){actor.formationHudY=-Math.max(410,character.displayBodyHeight+55);actor.hud.y=actor.formationHudY;}
   const targets = engine.enemies.slice().sort((a, b) => b.baseY - a.baseY).slice(0, 3);
   fx = new BloodmoonFX(engine, actor, targets, assets, character, update); fx.setSpeed(Number($('speed').value)); controls(true);
   $('health').textContent = character.name + ' · 동작과 스킬을 재생할 수 있습니다.';

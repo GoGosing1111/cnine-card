@@ -14,7 +14,7 @@
           "kind": "barrage",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 0
@@ -27,12 +27,13 @@
           "effectLayers": 1,
           "regularAllies": 5,
           "mercenaryInRegularArray": false,
-          "contactDistance": 827.0766958449335,
+          "contactDistance": 840.6798726830986,
           "spriteScale": {
-            "x": 1.12012987012987,
-            "y": 1.12012987012987
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
           },
-          "expectedSheetScale": 1.12012987012987,
+          "expectedSheetScale": 0.4573417013608401,
+          "bodyPixelDensity": 2.44921875,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -50,7 +51,7 @@
           "kind": "barrage",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 3
@@ -69,6 +70,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -86,7 +88,7 @@
           "kind": "barrage",
           "time": 0.31,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 6
@@ -105,6 +107,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
           "projectiles": [
             {
               "index": 0,
@@ -149,7 +152,7 @@
           "kind": "barrage",
           "time": 0.36,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 2
@@ -168,6 +171,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
           "projectiles": [
             {
               "index": 0,
@@ -237,7 +241,7 @@
           "kind": "barrage",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 4
@@ -256,6 +260,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -273,7 +278,7 @@
           "kind": "barrage",
           "time": 1.1,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 7
@@ -292,6 +297,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -332,6 +338,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
           "projectiles": [
             {
               "index": 0,
@@ -413,10 +420,11 @@
           "mercenaryInRegularArray": false,
           "contactDistance": 784.4926725870497,
           "spriteScale": {
-            "x": 1.12012987012987,
-            "y": 1.12012987012987
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
           },
-          "expectedSheetScale": 1.12012987012987,
+          "expectedSheetScale": 0.4573417013608401,
+          "bodyPixelDensity": 2.44921875,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -440,7 +448,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 0
@@ -459,6 +467,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -476,7 +485,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 3
@@ -495,6 +504,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -512,13 +522,13 @@
           "kind": "melee",
           "time": 0.44,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 5
           },
-          "effectFrame": null,
-          "effectStage": null,
+          "effectFrame": 8,
+          "effectStage": "impact",
           "visibleEffects": 1,
           "ownTimelines": 1,
           "registeredTimelines": 0,
@@ -531,13 +541,14 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
-              "x": 720.6705000000001,
-              "y": 303.66749999999996,
-              "width": 101.95900000000006,
-              "height": 101.95899999999995
+              "x": 683.6692500000001,
+              "y": 266.66625,
+              "width": 175.9614999999999,
+              "height": 175.9614999999999
             }
           ],
           "viewport": {
@@ -555,7 +566,7 @@
           "kind": "melee",
           "time": 1.72,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 2
@@ -574,6 +585,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -598,7 +610,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 4
@@ -617,6 +629,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -634,7 +647,7 @@
           "kind": "melee",
           "time": 1.1,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 7
@@ -653,6 +666,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -693,6 +707,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -733,6 +748,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -756,7 +772,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 0
@@ -775,6 +791,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -792,7 +809,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 3
@@ -811,6 +828,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -828,13 +846,13 @@
           "kind": "melee",
           "time": 0.44,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 5
           },
-          "effectFrame": null,
-          "effectStage": null,
+          "effectFrame": 8,
+          "effectStage": "impact",
           "visibleEffects": 1,
           "ownTimelines": 1,
           "registeredTimelines": 0,
@@ -847,13 +865,14 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
-              "x": 720.6705000000001,
-              "y": 303.66749999999996,
-              "width": 101.95900000000006,
-              "height": 101.95899999999995
+              "x": 683.6692500000001,
+              "y": 266.66625,
+              "width": 175.9614999999999,
+              "height": 175.9614999999999
             }
           ],
           "viewport": {
@@ -871,7 +890,7 @@
           "kind": "melee",
           "time": 1.72,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 2
@@ -890,6 +909,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -914,7 +934,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 4
@@ -933,6 +953,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -950,7 +971,7 @@
           "kind": "melee",
           "time": 1.1,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 7
@@ -969,6 +990,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1009,6 +1031,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -1049,6 +1072,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1072,7 +1096,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 0
@@ -1091,6 +1115,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1108,7 +1133,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 3
@@ -1127,6 +1152,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1144,13 +1170,13 @@
           "kind": "melee",
           "time": 0.44,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 5
           },
-          "effectFrame": null,
-          "effectStage": null,
+          "effectFrame": 8,
+          "effectStage": "impact",
           "visibleEffects": 1,
           "ownTimelines": 1,
           "registeredTimelines": 0,
@@ -1163,13 +1189,14 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
-              "x": 720.6705000000001,
-              "y": 320.6606666666666,
-              "width": 101.95900000000006,
-              "height": 67.97266666666667
+              "x": 683.6692500000001,
+              "y": 295.9931666666666,
+              "width": 175.9614999999999,
+              "height": 117.3076666666667
             }
           ],
           "viewport": {
@@ -1187,7 +1214,7 @@
           "kind": "melee",
           "time": 1.72,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 2
@@ -1206,6 +1233,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -1230,7 +1258,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 4
@@ -1249,6 +1277,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1266,7 +1295,7 @@
           "kind": "melee",
           "time": 1.1,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 7
@@ -1285,6 +1314,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1325,6 +1355,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -1365,6 +1396,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1388,7 +1420,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 0
@@ -1407,6 +1439,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1424,7 +1457,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 3
@@ -1443,6 +1476,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1460,13 +1494,13 @@
           "kind": "melee",
           "time": 0.44,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 5
           },
-          "effectFrame": null,
-          "effectStage": null,
+          "effectFrame": 8,
+          "effectStage": "impact",
           "visibleEffects": 1,
           "ownTimelines": 1,
           "registeredTimelines": 0,
@@ -1479,13 +1513,14 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
-              "x": 720.6705000000001,
-              "y": 320.6606666666666,
-              "width": 101.95900000000006,
-              "height": 67.97266666666667
+              "x": 683.6692500000001,
+              "y": 295.9931666666666,
+              "width": 175.9614999999999,
+              "height": 117.3076666666667
             }
           ],
           "viewport": {
@@ -1503,7 +1538,7 @@
           "kind": "melee",
           "time": 1.72,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 2
@@ -1522,6 +1557,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -1546,7 +1582,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 4
@@ -1565,6 +1601,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1582,7 +1619,7 @@
           "kind": "melee",
           "time": 1.1,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 7
@@ -1601,6 +1638,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1641,6 +1679,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -1681,6 +1720,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1704,7 +1744,7 @@
           "kind": "barrage",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 0
@@ -1717,12 +1757,13 @@
           "effectLayers": 1,
           "regularAllies": 5,
           "mercenaryInRegularArray": false,
-          "contactDistance": 1046.969395303331,
+          "contactDistance": 1081.5045096373126,
           "spriteScale": {
-            "x": 1.12012987012987,
-            "y": 1.12012987012987
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
           },
-          "expectedSheetScale": 1.12012987012987,
+          "expectedSheetScale": 0.4573417013608401,
+          "bodyPixelDensity": 2.44921875,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1740,7 +1781,7 @@
           "kind": "barrage",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 3
@@ -1759,6 +1800,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1776,7 +1818,7 @@
           "kind": "barrage",
           "time": 0.31,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 6
@@ -1795,6 +1837,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
           "projectiles": [
             {
               "index": 0,
@@ -1839,7 +1882,7 @@
           "kind": "barrage",
           "time": 0.36,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 2
@@ -1858,6 +1901,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
           "projectiles": [
             {
               "index": 0,
@@ -1927,7 +1971,7 @@
           "kind": "barrage",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 4
@@ -1946,6 +1990,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -1963,7 +2008,7 @@
           "kind": "barrage",
           "time": 1.1,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 7
@@ -1982,6 +2027,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2022,6 +2068,7 @@
             "y": 1.12012987012987
           },
           "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
           "projectiles": [
             {
               "index": 0,
@@ -2103,10 +2150,11 @@
           "mercenaryInRegularArray": false,
           "contactDistance": 1063.0955049957074,
           "spriteScale": {
-            "x": 1.12012987012987,
-            "y": 1.12012987012987
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
           },
-          "expectedSheetScale": 1.12012987012987,
+          "expectedSheetScale": 0.4573417013608401,
+          "bodyPixelDensity": 2.44921875,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2130,7 +2178,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 0
@@ -2149,6 +2197,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2166,7 +2215,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 3
@@ -2185,6 +2234,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2202,13 +2252,13 @@
           "kind": "melee",
           "time": 0.44,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 5
           },
-          "effectFrame": null,
-          "effectStage": null,
+          "effectFrame": 8,
+          "effectStage": "impact",
           "visibleEffects": 1,
           "ownTimelines": 1,
           "registeredTimelines": 0,
@@ -2221,13 +2271,14 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
-              "x": 260.38239999999996,
-              "y": 300.6268814814815,
-              "width": 57.635200000000054,
-              "height": 57.635200000000054
+              "x": 250.39999999999998,
+              "y": 290.64448148148153,
+              "width": 77.60000000000002,
+              "height": 77.60000000000002
             }
           ],
           "viewport": {
@@ -2245,7 +2296,7 @@
           "kind": "melee",
           "time": 1.72,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 2
@@ -2264,6 +2315,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -2288,7 +2340,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 4
@@ -2307,6 +2359,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2324,7 +2377,7 @@
           "kind": "melee",
           "time": 1.1,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 7
@@ -2343,6 +2396,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2383,6 +2437,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -2423,6 +2478,7 @@
             "y": 1.055045871559633
           },
           "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2446,7 +2502,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 0
@@ -2465,6 +2521,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2482,7 +2539,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 3
@@ -2501,6 +2558,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2518,13 +2576,13 @@
           "kind": "melee",
           "time": 0.44,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 5
           },
-          "effectFrame": null,
-          "effectStage": null,
+          "effectFrame": 8,
+          "effectStage": "impact",
           "visibleEffects": 1,
           "ownTimelines": 1,
           "registeredTimelines": 0,
@@ -2537,13 +2595,14 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
-              "x": 260.38239999999996,
-              "y": 300.6268814814815,
-              "width": 57.635200000000054,
-              "height": 57.635200000000054
+              "x": 250.39999999999998,
+              "y": 290.64448148148153,
+              "width": 77.60000000000002,
+              "height": 77.60000000000002
             }
           ],
           "viewport": {
@@ -2561,7 +2620,7 @@
           "kind": "melee",
           "time": 1.72,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 2
@@ -2580,6 +2639,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -2604,7 +2664,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 4
@@ -2623,6 +2683,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2640,7 +2701,7 @@
           "kind": "melee",
           "time": 1.1,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 7
@@ -2659,6 +2720,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2699,6 +2761,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -2739,6 +2802,7 @@
             "y": 1.1815068493150684
           },
           "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2762,7 +2826,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 0
@@ -2781,6 +2845,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2798,7 +2863,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 3
@@ -2817,6 +2882,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2834,13 +2900,13 @@
           "kind": "melee",
           "time": 0.44,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 5
           },
-          "effectFrame": null,
-          "effectStage": null,
+          "effectFrame": 8,
+          "effectStage": "impact",
           "visibleEffects": 1,
           "ownTimelines": 1,
           "registeredTimelines": 0,
@@ -2853,13 +2919,14 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
-              "x": 260.38239999999996,
-              "y": 310.23274814814823,
-              "width": 57.635200000000054,
-              "height": 38.42346666666663
+              "x": 250.39999999999998,
+              "y": 303.5778148148149,
+              "width": 77.60000000000002,
+              "height": 51.73333333333335
             }
           ],
           "viewport": {
@@ -2877,7 +2944,7 @@
           "kind": "melee",
           "time": 1.72,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 2
@@ -2896,6 +2963,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -2920,7 +2988,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 4
@@ -2939,6 +3007,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -2956,7 +3025,7 @@
           "kind": "melee",
           "time": 1.1,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 7
@@ -2975,6 +3044,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -3015,6 +3085,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -3055,6 +3126,7 @@
             "y": 1.1311475409836065
           },
           "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -3078,7 +3150,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 0
@@ -3097,6 +3169,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -3114,7 +3187,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 3
@@ -3133,6 +3206,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -3150,13 +3224,13 @@
           "kind": "melee",
           "time": 0.44,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "basic",
             "frame": 5
           },
-          "effectFrame": null,
-          "effectStage": null,
+          "effectFrame": 8,
+          "effectStage": "impact",
           "visibleEffects": 1,
           "ownTimelines": 1,
           "registeredTimelines": 0,
@@ -3169,13 +3243,14 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
-              "x": 260.38239999999996,
-              "y": 310.23274814814823,
-              "width": 57.635200000000054,
-              "height": 38.42346666666663
+              "x": 250.39999999999998,
+              "y": 303.5778148148149,
+              "width": 77.60000000000002,
+              "height": 51.73333333333335
             }
           ],
           "viewport": {
@@ -3193,7 +3268,7 @@
           "kind": "melee",
           "time": 1.72,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 2
@@ -3212,6 +3287,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -3236,7 +3312,7 @@
           "kind": "melee",
           "time": 0.22,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 4
@@ -3255,6 +3331,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -3272,7 +3349,7 @@
           "kind": "melee",
           "time": 1.1,
           "playing": false,
-          "speed": 1,
+          "speed": 2,
           "pose": {
             "sheet": "skillMotion",
             "frame": 7
@@ -3291,6 +3368,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -3331,6 +3409,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [
             {
@@ -3371,6 +3450,7 @@
             "y": 0.9857142857142858
           },
           "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
           "projectiles": [],
           "effectBounds": [],
           "viewport": {
@@ -3385,5 +3465,5 @@
     }
   ],
   "status": "PASS",
-  "reviewFingerprint": "d3c42bb4f400505bc1b806c2fc2b26ff0db25f4dd201ba57fe22bd393779525c"
+  "reviewFingerprint": "5e76a78606b1736dce03d228b5f119beb311b62e89babfd44b2ceb45084805e3"
 }

@@ -1,0 +1,1451 @@
+{
+  "dateKST": "2026-10-23",
+  "baseline": false,
+  "cases": [
+    {
+      "screen": "desktop",
+      "slug": "joeun",
+      "actions": [
+        {
+          "action": "attack",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.043000000000000003,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 836.7126236344369,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.129,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 798.405962093493,
+              "travel": 0.02622674074074073,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.215,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 539.0653214547856,
+              "travel": 0.32817592592592576,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 0.301,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 227.07659631677654,
+              "travel": 0.7451739999999998,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 0.387,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 28.325644291928427,
+              "travel": 0.9945294074074074,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 0.42957,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 53.65631712216656,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 1.1368683772161603e-13,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "basic",
+              "frame": 5
+            }
+          },
+          "endEffects": 0
+        },
+        {
+          "action": "skill",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.17200000000000001,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 0
+              },
+              "distance": 850.9310991893548,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.516,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 794.5357015404511,
+              "travel": 0.03101653493613823,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.86,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 498.93218073737046,
+              "travel": 0.3783681442524417,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 1.204,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 121.77935141697934,
+              "travel": 0.8217399489105934,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 1.548,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 24.63852495400101,
+              "travel": 1,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 1.71828,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 24.63852495400101,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 2.5421149729252077e-13,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "skillMotion",
+              "frame": 2
+            }
+          },
+          "endEffects": 0
+        }
+      ]
+    },
+    {
+      "screen": "desktop",
+      "slug": "diim",
+      "actions": [
+        {
+          "action": "attack",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.043000000000000003,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 848.0897943413346,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.129,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 838.1129875819682,
+              "travel": 0.02622674074074073,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.215,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 587.5567622268296,
+              "travel": 0.32817592592592576,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 0.301,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 264.092508390579,
+              "travel": 0.7451739999999998,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 0.387,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 59.25823875449868,
+              "travel": 0.9945294074074074,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 0.42957,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 28.60898635453355,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 1.1368683772161603e-13,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "basic",
+              "frame": 5
+            }
+          },
+          "endEffects": 0
+        },
+        {
+          "action": "skill",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.17200000000000001,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 0
+              },
+              "distance": 859.5170728899943,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.516,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 833.4474858536457,
+              "travel": 0.03101653493613823,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.86,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 537.4343098108445,
+              "travel": 0.3783681442524417,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 1.204,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 159.5927381481259,
+              "travel": 0.8217399489105934,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 1.548,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 62.119408910857494,
+              "travel": 1,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 1.71828,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 62.119408910857494,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 1.1368683772161603e-13,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "skillMotion",
+              "frame": 2
+            }
+          },
+          "endEffects": 0
+        }
+      ]
+    },
+    {
+      "screen": "desktop",
+      "slug": "claws",
+      "actions": [
+        {
+          "action": "attack",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.043000000000000003,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 823.0520226547462,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.129,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 796.3811339102642,
+              "travel": 0.02622674074074073,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.215,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 571.4977349385119,
+              "travel": 0.32817592592592576,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 0.301,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 353.8045552277247,
+              "travel": 0.7451739999999998,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 0.387,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 175.7561877275347,
+              "travel": 0.9945294074074074,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 0.42957,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 95.02860229291896,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 1.1368683772161603e-13,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "basic",
+              "frame": 5
+            }
+          },
+          "endEffects": 0
+        },
+        {
+          "action": "skill",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.17200000000000001,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 0
+              },
+              "distance": 755.0481032265241,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.516,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 790.4836936643877,
+              "travel": 0.03101653493613823,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.86,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 505.64910332071514,
+              "travel": 0.3783681442524417,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 1.204,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 142.43849724977687,
+              "travel": 0.8217399489105934,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 1.548,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 51.946783718934334,
+              "travel": 1,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 1.71828,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 51.946783718934334,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 3.2155493553843715e-13,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "skillMotion",
+              "frame": 2
+            }
+          },
+          "endEffects": 0
+        }
+      ]
+    },
+    {
+      "screen": "desktop",
+      "slug": "dagger",
+      "actions": [
+        {
+          "action": "attack",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.043000000000000003,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 862.0913232106262,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.129,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 895.8115638182245,
+              "travel": 0.02622674074074073,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.215,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 659.3526020032394,
+              "travel": 0.32817592592592576,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 0.301,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 225.70494322669848,
+              "travel": 0.7451739999999998,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 0.387,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 29.75756719195007,
+              "travel": 0.9945294074074074,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 0.42957,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 121.89907225324855,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 0,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "basic",
+              "frame": 5
+            }
+          },
+          "endEffects": 0
+        },
+        {
+          "action": "skill",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.17200000000000001,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 0
+              },
+              "distance": 864.6216317954915,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.516,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 889.8271580936683,
+              "travel": 0.03101653493613823,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.86,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 592.5697219064965,
+              "travel": 0.3783681442524417,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 1.204,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 213.2151867982938,
+              "travel": 0.8217399489105934,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 1.548,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 64.68783253763233,
+              "travel": 1,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 1.71828,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 64.68783253763233,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 1.1368683772161603e-13,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "skillMotion",
+              "frame": 2
+            }
+          },
+          "endEffects": 0
+        }
+      ]
+    },
+    {
+      "screen": "desktop",
+      "speed": {
+        "speed": 2,
+        "wallSeconds": 0.2112999999821186,
+        "duration": 0.42,
+        "effects": 0
+      }
+    },
+    {
+      "screen": "mobile",
+      "slug": "joeun",
+      "actions": [
+        {
+          "action": "attack",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.043000000000000003,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 1043.1440185826198,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.129,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 1037.314003655088,
+              "travel": 0.02622674074074073,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.215,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 704.7579098604342,
+              "travel": 0.32817592592592576,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 0.301,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 271.97357969533954,
+              "travel": 0.7451739999999998,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 0.387,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 33.41583169932428,
+              "travel": 0.9945294074074074,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 0.42957,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 69.7532122588168,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 0,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "basic",
+              "frame": 5
+            }
+          },
+          "endEffects": 0
+        },
+        {
+          "action": "skill",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.17200000000000001,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 0
+              },
+              "distance": 1070.277126834403,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.516,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 1032.319245707261,
+              "travel": 0.03101653493613823,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.86,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 652.9100452677205,
+              "travel": 0.3783681442524417,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 1.204,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 170.2786671887963,
+              "travel": 0.8217399489105934,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 1.548,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 32.030082440200985,
+              "travel": 1,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 1.71828,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 32.030082440200985,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 0,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "skillMotion",
+              "frame": 2
+            }
+          },
+          "endEffects": 0
+        }
+      ]
+    },
+    {
+      "screen": "mobile",
+      "slug": "diim",
+      "actions": [
+        {
+          "action": "attack",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.043000000000000003,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 1046.3969711926065,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.129,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 1031.235998022513,
+              "travel": 0.02622674074074073,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.215,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 716.6245675151829,
+              "travel": 0.32817592592592576,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 0.301,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 313.72553437551176,
+              "travel": 0.7451739999999998,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 0.387,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 74.97265335404626,
+              "travel": 0.9945294074074074,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 0.42957,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 37.19168226089337,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 0,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "basic",
+              "frame": 5
+            }
+          },
+          "endEffects": 0
+        },
+        {
+          "action": "skill",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.17200000000000001,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 0
+              },
+              "distance": 1115.2556471614182,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.516,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 1025.99738685621,
+              "travel": 0.03101653493613823,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.86,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 661.1580180127459,
+              "travel": 0.3783681442524417,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 1.204,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 195.5118419156183,
+              "travel": 0.8217399489105934,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 1.548,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 80.75523158411463,
+              "travel": 1,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 1.71828,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 80.75523158411463,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 0,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "skillMotion",
+              "frame": 2
+            }
+          },
+          "endEffects": 0
+        }
+      ]
+    },
+    {
+      "screen": "mobile",
+      "slug": "claws",
+      "actions": [
+        {
+          "action": "attack",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.043000000000000003,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 1036.3784204787419,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.129,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 1066.714720587324,
+              "travel": 0.02622674074074073,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.215,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 765.9031300030333,
+              "travel": 0.32817592592592576,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 0.301,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 410.4617333710625,
+              "travel": 0.7451739999999998,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 0.387,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 226.28823287406473,
+              "travel": 0.9945294074074074,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 0.42957,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 123.53718298079448,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 0,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "basic",
+              "frame": 5
+            }
+          },
+          "endEffects": 0
+        },
+        {
+          "action": "skill",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.17200000000000001,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 0
+              },
+              "distance": 989.7755795359712,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.516,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 1059.1074819094783,
+              "travel": 0.03101653493613823,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.86,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 681.3101701810053,
+              "travel": 0.3783681442524417,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 1.204,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 199.51555407936166,
+              "travel": 0.8217399489105934,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 1.548,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 67.5308188346146,
+              "travel": 1,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 1.71828,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 67.5308188346146,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 3.2155493553843715e-13,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "skillMotion",
+              "frame": 2
+            }
+          },
+          "endEffects": 0
+        }
+      ]
+    },
+    {
+      "screen": "mobile",
+      "slug": "dagger",
+      "actions": [
+        {
+          "action": "attack",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.043000000000000003,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 1049.1720088606075,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.129,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 1109.0518956662722,
+              "travel": 0.02622674074074073,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.215,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 800.6425058971867,
+              "travel": 0.32817592592592576,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 0.301,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 290.8057856032542,
+              "travel": 0.7451739999999998,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 0.387,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 3
+              },
+              "distance": 37.67216794706856,
+              "travel": 0.9945294074074074,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 0.42957,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 4
+              },
+              "distance": 158.4687939292231,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 0,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "basic",
+              "frame": 5
+            }
+          },
+          "endEffects": 0
+        },
+        {
+          "action": "skill",
+          "before": [
+            {
+              "fraction": 0.1,
+              "time": 0.17200000000000001,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 0
+              },
+              "distance": 1045.0572835708228,
+              "travel": 0,
+              "tinted": false
+            },
+            {
+              "fraction": 0.3,
+              "time": 0.516,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 1102.6662857159133,
+              "travel": 0.03101653493613823,
+              "tinted": false
+            },
+            {
+              "fraction": 0.5,
+              "time": 0.86,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 729.963178287136,
+              "travel": 0.3783681442524417,
+              "tinted": false
+            },
+            {
+              "fraction": 0.7,
+              "time": 1.204,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "basic",
+                "frame": 2
+              },
+              "distance": 256.88839544107833,
+              "travel": 0.8217399489105934,
+              "tinted": false
+            },
+            {
+              "fraction": 0.9,
+              "time": 1.548,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 84.09418229892202,
+              "travel": 1,
+              "tinted": false
+            },
+            {
+              "fraction": 0.999,
+              "time": 1.71828,
+              "visibleEffects": 0,
+              "pose": {
+                "sheet": "skillMotion",
+                "frame": 1
+              },
+              "distance": 84.09418229892202,
+              "travel": 1,
+              "tinted": false
+            }
+          ],
+          "hit": {
+            "distance": 2.2737367544323206e-13,
+            "visibleEffects": 1,
+            "pose": {
+              "sheet": "skillMotion",
+              "frame": 2
+            }
+          },
+          "endEffects": 0
+        }
+      ]
+    },
+    {
+      "screen": "mobile",
+      "speed": {
+        "speed": 2,
+        "wallSeconds": 0.21169999998807906,
+        "duration": 0.42,
+        "effects": 0
+      }
+    }
+  ],
+  "errors": [],
+  "status": "PASS",
+  "reviewFingerprint": "5e76a78606b1736dce03d228b5f119beb311b62e89babfd44b2ceb45084805e3"
+}
