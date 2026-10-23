@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {PGlite} from '@electric-sql/pglite';
 import {BLOODMOON_MERCENARIES as cards,BLOODMOON_CODES} from '../shared/mercenary-bloodmoon-catalog-v1.mjs';
-import {BLOODMOON_PACK,BLOODMOON_PACK_KEY,bloodmoonPackDraft} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
+import {BLOODMOON_PACK,BLOODMOON_PACK_KEY,bloodmoonPackDraft,legacyBloodmoonPackDraft} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
 import {ALL_LIMITED_MERCENARIES,LIMITED_MERCENARIES,isLimitedMercenary} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {HALLOWEEN_PACK_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
@@ -15,6 +15,7 @@ import {handleBloodmoonPack} from '../functions/_mercenary_bloodmoon_pack.js';
 import {validateCatalog,filterCatalog} from '../mercenary-codex/model.mjs';
 import {readBloodmoonRegistration,registerBloodmoonCodex} from '../scripts/ops/bloodmoon-codex-registration-20261023.mjs';
 import {isProductionFile,bloodmoonNodeQaOnly} from '../scripts/prepare-production-assets.mjs';
+import {bloodmoonFixture} from './helpers/bloodmoon-pack-fixture.mjs';
 const catalog=()=>mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1,updated_at:'2026-10-23'});
 test('five separate SS limited entries publish approved originals, full idle sprites and the reviewed balance',()=>{
  const document=validateCatalog(catalog()),found=filterCatalog(document.cards,{q:'블러드문',rank:'SS'},new Set());assert.deepEqual(found.map(c=>c.code),BLOODMOON_CODES);
@@ -33,10 +34,12 @@ test('opening always returns 423 before DB, account, body or currency access',as
  for(const body of ['{}','{"count":1}','{"count":10,"mode":"ON"}']){const r=await handleBloodmoonPack({path:BLOODMOON_PACK.openPath,request:new Request('https://test/api/'+BLOODMOON_PACK.openPath,{method:'POST',body}),env:never,deps:{json}});assert.equal(r.status,423);assert.equal(r.body.code,'MERCENARY_BLOODMOON_CLOSED');}
  assert.equal(await handleBloodmoonPack({path:'other',request:{},env:never,deps:{json}}),null);
 });
-test('public feature stays OFF and reports ten copies per character without writing',async()=>{
- const env={DB:{prepare(sql){assert(sql.startsWith('SELECT code,stock_limit,issued'));return {bind(...codes){assert.deepEqual(codes,BLOODMOON_CODES);return {all:async()=>({results:codes.map(code=>({code,stock_limit:10,issued:0}))})};}}}}};
- const r=await handleBloodmoonPack({path:BLOODMOON_PACK.featurePath,request:{method:'GET'},env,deps:{json:(body,status)=>({body,status})}});
- assert.equal(r.status,200);assert.equal(r.body.userOpeningEnabled,false);assert.equal(r.body.packSettings.mode,'OFF');assert(r.body.stock.every(s=>s.limit===10&&s.issued===0&&s.remaining===10));
+test('public feature preserves the legacy OFF draft and ten copies without writing',async t=>{
+ const f=await bloodmoonFixture(t);await f.setting(BLOODMOON_PACK_KEY,{revision:1,settings:legacyBloodmoonPackDraft()});
+ const before=JSON.stringify((await f.pg.query('SELECT * FROM app_meta ORDER BY key')).rows);
+ const r=await handleBloodmoonPack({path:BLOODMOON_PACK.featurePath,request:{method:'GET'},env:f.env,deps:{json:(body,status)=>({body,status})}});
+ assert.equal(r.status,200);assert.equal(r.body.userOpeningEnabled,false);assert.equal(r.body.packSettings.mode,'OFF');assert(r.body.stock.filter(s=>BLOODMOON_CODES.includes(s.code)).every(s=>s.limit===10&&s.issued===0&&s.remaining===10));
+ assert.equal(JSON.stringify((await f.pg.query('SELECT * FROM app_meta ORDER BY key')).rows),before);
 });
 test('delivery includes codex assets and retains Node-only QA and local authoring in Git',()=>{
  for(const card of cards)for(const field of ['sourceArt','battleSprite','thumbnailArt','displayArt','frame'])assert(isProductionFile(card[field]));
@@ -51,5 +54,5 @@ test('registration is atomic, dry-run rolls back, replay writes nothing and exis
  const result=await registerBloodmoonCodex(db);assert.equal(result.status,'APPLIED');assert.equal(result.stock.length,5);assert(result.stock.every(s=>s.limit===10&&s.issued===0));assert.equal(result.settings.settings.mode,'OFF');assert.equal(result.ownershipRows,0);assert.equal(result.issueRows,0);
  const replay=await registerBloodmoonCodex({query:(sql,args)=>{assert(!/^(INSERT|UPDATE|DELETE)/.test(sql));return db.query(sql,args);}});assert(replay.replayed);
  assert.equal((await db.query('SELECT coin FROM users WHERE id=1')).rows[0].coin,123456);assert.deepEqual((await db.query("SELECT * FROM mercenary_limited_stock_v1 WHERE code='V-980'")).rows,[{code:'V-980',stock_limit:13,issued:9,revision:7}]);assert.equal((await db.query('SELECT COUNT(*) AS count FROM admin_logs')).rows[0].count,1);
- const settings=(await db.query('SELECT value FROM app_meta WHERE key=$1',[BLOODMOON_PACK_KEY])).rows[0];assert.deepEqual(JSON.parse(settings.value).settings,bloodmoonPackDraft());
+ const settings=(await db.query('SELECT value FROM app_meta WHERE key=$1',[BLOODMOON_PACK_KEY])).rows[0];assert.deepEqual(JSON.parse(settings.value).settings,legacyBloodmoonPackDraft());
 });

@@ -1,0 +1,174 @@
+{
+  "createdAt": "2026-10-23T00:55:31.584Z",
+  "generator": "built-in image_gen",
+  "status": "IMPLEMENTED_USER_REVIEW_PENDING",
+  "purpose": "Halloween pack interface clone, Blood Pack skin; opening OFF",
+  "assets": [
+    {
+      "key": "pack",
+      "prompt": "Edit the referenced card pack image into the BLOOD PACK skin for the same Korean fantasy collection game. Preserve its exact tall portrait layout, proportions, luxury metal typography positions, fine borders and REVERSE CALL logo/text. Replace every pumpkin motif with an ornate crimson blood moon eclipse crest in dark polished silver, ruby and restrained gold; replace orange/amber with deep crimson and garnet. Main English label exactly BLOOD, then LIMITED EDITION, then MERCENARY PACK. Bottom Korean label exactly 블러드팩. An imposing ruby eclipse royal crest with two crossed elegant blades at center, NOT a pumpkin or face. Black brushed metal surface, premium readable type. Keep whole item uncropped with thin transparent outside margin. Output a clean high-resolution standalone game pack asset with genuine alpha outside the metal border.",
+      "transparentBackground": true,
+      "source": "C:/Users/User/.codex/generated_images/01a15c43-b5f5-73f3-8cc5-3db34ce58fae/exec-dad18988-2094-4c41-a41a-3cd24402ea26.png",
+      "original": "pack-source.png",
+      "sha256": "6d981afb0f6138fc574fe0dfdfc74f02e047a921bd3f009828692443a4e3c9cc",
+      "width": 941,
+      "height": 1672,
+      "hasAlpha": true,
+      "outputs": [
+        {
+          "file": "pack-320.webp",
+          "sha256": "47d24d54b696e97b984777eefaadaa9ad2603211185013120256070e82425968",
+          "bytes": 72568
+        },
+        {
+          "file": "pack-320.avif",
+          "sha256": "5d75718fb4e07f4ec0918d23e33e895e5430e5170ee960acb6e5f14576fdc7ad",
+          "bytes": 68258
+        },
+        {
+          "file": "pack-768.webp",
+          "sha256": "2aac5cfd3d8ea95ee44dcf74104fb42fcd8cb99fb5b4563adccf01e51e630251",
+          "bytes": 317182
+        },
+        {
+          "file": "pack-768.avif",
+          "sha256": "d29a7fb4f768db8a9303ba39aaf0aec93d1a16b3739022303b3f7048d0d203ef",
+          "bytes": 260879
+        }
+      ]
+    },
+    {
+      "key": "background",
+      "prompt": "A polished dark fantasy game UI backdrop for REVERSE CALL Blood Pack opening room, wide 1536x1024. Gothic ruined cathedral courtyard at night under a huge crimson blood moon, black obsidian and weathered silver arches, deep burgundy mist, restrained tiny crimson embers, distant dark rose bushes and low candles. Elegant frightening noble atmosphere, painterly high-end RPG environment art matching a silver and garnet premium collection pack. Keep central and lower 75 percent dark, low detail and calm enough for interface text and character cards to overlay; architecture concentrated at far sides and moon in upper right. Full bleed environment only. No text, no numbers, no characters, no cards, no buttons, no pumpkins, no orange Halloween motifs.",
+      "transparentBackground": false,
+      "source": "C:/Users/User/.codex/generated_images/01a15c43-b5f5-73f3-8cc5-3db34ce58fae/exec-60f8f51e-a855-48d9-aff2-5a3e211626f7.png",
+      "original": "moonlit-courtyard-source.png",
+      "sha256": "6904afa4fabf42b7b7c7e119b6ba6848b63b7a7f84ea3b1bb1dc0cdee30ba51c",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": false,
+      "outputs": [
+        {
+          "file": "moonlit-courtyard.webp",
+          "sha256": "fc371363320624cac4350a125eec65e7b8f2b450c650bd68cd5c6d0d3645a169",
+          "bytes": 237788
+        }
+      ]
+    },
+    {
+      "key": "frame",
+      "prompt": "Edit this game result card frame into a Blood Pack skin, preserving exact 2:3 portrait frame geometry, the spacious fully transparent interior opening and transparent outside, edge thickness and frame coverage. Replace pumpkin face at bottom with a small ruby blood-moon eclipse crest; replace leafy pumpkin vines with thin dark silver thorn filigree. Blackened polished silver, garnet inlaid gems, restrained gold accents, delicate crimson inner illumination. Small elegant gothic wing shape on top, premium Bloodmoon nobility theme. No text or numbers, no character portrait, no background. Interior must remain completely transparent. Whole frame uncropped.",
+      "transparentBackground": true,
+      "source": "C:/Users/User/.codex/generated_images/01a15c43-b5f5-73f3-8cc5-3db34ce58fae/exec-d4b744ba-dbad-495b-9deb-29c90a97e1dd.png",
+      "original": "card-frame-source.png",
+      "sha256": "6248406a1740bfe1549172607b00eab5f75ce35ee8cfd598dffcc62f187908bd",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "outputs": [
+        {
+          "file": "card-frame.webp",
+          "sha256": "4fb494ebe7933604e8ec36279dbcda6c50ebb10d2294422db601e7500d15ea52",
+          "bytes": 155330
+        }
+      ]
+    },
+    {
+      "key": "button-crimson",
+      "prompt": "Edit this wide horizontal game button into a Blood Pack primary button skin. Preserve exact outer silhouette and proportions, broad blank center area for live UI label, and transparent exterior padding. Replace both pumpkin faces with small faceted ruby eclipse gems; charcoal silver gothic metal frame with fine pointed finials and restrained gold engraving. Dark garnet lacquer central plate and rich crimson edge illumination. Elegant high-end dark fantasy RPG, clear edges at mobile scale. No text, no letters, no numbers. One single standalone button, not a sheet. Genuine transparent background.",
+      "transparentBackground": true,
+      "source": "C:/Users/User/.codex/generated_images/01a15c43-b5f5-73f3-8cc5-3db34ce58fae/exec-bc532204-1bbd-4f0e-9e58-8f4aa1b6ac49.png",
+      "original": "button-ember-source.png",
+      "sha256": "cb0c7f81d623f551add7273288c9d0a16034357c76d9cc153311ec7db9d5fcfd",
+      "width": 2170,
+      "height": 725,
+      "hasAlpha": true,
+      "outputs": [
+        {
+          "file": "button-ember.webp",
+          "sha256": "5d0527277cd88b1778ea6a7c0df4c0d271342c32df0f2239e9b109d9c43bd628",
+          "bytes": 48842
+        }
+      ]
+    },
+    {
+      "key": "button-night",
+      "prompt": "Edit this wide horizontal game button into a Blood Pack secondary button skin. Preserve exact outer silhouette and proportions, broad blank center area for live UI label, and transparent exterior padding. Replace pumpkin faces with small dark garnet eclipse gems. Blackened silver gothic metal frame, soft moon silver edges, graphite-black enamel center, very subtle burgundy rim illumination. Luxurious quiet secondary action, matching a blood-moon primary crimson button. No text, letters, numbers or orange pumpkins. One single standalone button, not a sheet. Genuine transparent background.",
+      "transparentBackground": true,
+      "source": "C:/Users/User/.codex/generated_images/01a15c43-b5f5-73f3-8cc5-3db34ce58fae/exec-99ac37db-8df8-4885-9259-ef2f4a2df2f0.png",
+      "original": "button-night-source.png",
+      "sha256": "025a0bc9fb21f7549a94ba0581affc274f2020e5cb40f8d197d3de0f63a56720",
+      "width": 2170,
+      "height": 725,
+      "hasAlpha": true,
+      "outputs": [
+        {
+          "file": "button-night.webp",
+          "sha256": "792371093d5d85b521663ccc1ae6ef691871806212bb35e3168ff33751986aa4",
+          "bytes": 42392
+        }
+      ]
+    },
+    {
+      "key": "auto-panel",
+      "prompt": "Edit the attached wide horizontal game UI panel into the Blood Pack visual skin. Preserve exact horizontal frame proportions, wide nearly black empty central plate, small corner decorations, the consistent border width and genuine transparent exterior. Replace all orange pumpkin faces with polished faceted deep crimson ruby blood-moon eclipse gems, replace purple glow with soft garnet and crimson illumination, use blackened silver gothic thorn filigree, restrained thin golden detail, high-end dark fantasy RPG. Keep four small bat-wing corner flourishes consistent with the referenced outline. No text, no buttons, no symbols inside the central blank panel. No pumpkins. The entire panel must remain uncropped. Real alpha outside the ornamental edge.",
+      "transparentBackground": true,
+      "source": "C:/Users/User/.codex/generated_images/01a15c43-b5f5-73f3-8cc5-3db34ce58fae/exec-944d6b4e-3a92-4b8c-a8e3-4a06fe9fc78c.png",
+      "original": "auto-panel-source.png",
+      "sha256": "7b37330e654c00cb529d4308e42c3cf1cb7d33a2c25fa5052acc76d5d08610ba",
+      "outputs": [
+        {
+          "file": "auto-panel.webp",
+          "sha256": "5402410918f86b4c38ad6bc751993261ba560c19aa5bfff4eb9cedcad6952d5a"
+        }
+      ]
+    }
+  ],
+  "rosterPortraits": [
+    {
+      "code": "V-978",
+      "source": "assets/ui/project-v/mercenaries/leonel-20261018/source-art.png",
+      "sourceSha256": "43d4c211ff58bff672e8614aa50fcd8f6c5099c667dd2f4c42c44bde75ab2e00",
+      "outputs": [
+        {
+          "file": "v-978-320.webp",
+          "sha256": "8ce19ddeb1de8b005bae33de9eb077984e417e63800d528caa424cf84aa93afa"
+        },
+        {
+          "file": "v-978-640.webp",
+          "sha256": "150742bb5bc354b1f185c2d13775e7be3a8d481317c530a06aa27236daef5ace"
+        }
+      ]
+    },
+    {
+      "code": "V-974",
+      "source": "assets/ui/project-v/mercenaries/general-jok-20261023/source-art.png",
+      "sourceSha256": "2fc1c16d414920e1f8576de5a32a15b5c1a3e1ddcd57c464f60be63e31bf16b8",
+      "outputs": [
+        {
+          "file": "v-974-320.webp",
+          "sha256": "a9165f51d832a2bb8192c0d3336184a9c88b490a7be34832388283762c7ac2fe"
+        },
+        {
+          "file": "v-974-640.webp",
+          "sha256": "c610534df8e8eb7a7b3fa1cf7c6ac8744fe6a74446cd30292ef3e2127cbd255b"
+        }
+      ]
+    },
+    {
+      "code": "V-975",
+      "source": "assets/ui/project-v/mercenaries/prime-requiem-20261021/source-art.png",
+      "sourceSha256": "b2d1c5df8553370ec9ff90d72e27562c404c24dcecf33935bb74f0edc13d2fdc",
+      "outputs": [
+        {
+          "file": "v-975-320.webp",
+          "sha256": "f2dbca7a2f26950c85f719b0d5f16173d6116f9035191eb391894196af822328"
+        },
+        {
+          "file": "v-975-640.webp",
+          "sha256": "bd552ecde69520bf96303a8da2e93469a1549d29b63e90a66a52ea4745c8ff59"
+        }
+      ]
+    }
+  ]
+}

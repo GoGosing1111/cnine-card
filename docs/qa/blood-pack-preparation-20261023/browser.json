@@ -1,0 +1,38 @@
+{
+  "status": "PASSED",
+  "at": "2026-10-23T01:09:00.155Z",
+  "fixtureOnly": true,
+  "productionTransactions": 0,
+  "reports": [
+    {
+      "width": 1440,
+      "shopOff": true,
+      "roster": 8,
+      "cmsSaveReload": true,
+      "cmsIsolation": true,
+      "opening": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 390,
+      "shopOff": true,
+      "roster": 8,
+      "cmsSaveReload": true,
+      "cmsIsolation": true,
+      "opening": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 320,
+      "shopOff": true,
+      "roster": 8,
+      "cmsSaveReload": true,
+      "cmsIsolation": true,
+      "opening": false,
+      "errors": [],
+      "failed": []
+    }
+  ]
+}
