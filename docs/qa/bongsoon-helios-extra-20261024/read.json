@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-10-23T23:10:34.735Z",
+  "user": {
+    "id": "5426",
+    "nickname": "나무늘봉순",
+    "status": "ACTIVE",
+    "role": "USER",
+    "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98"
+  },
+  "card": {
+    "code": "V-999",
+    "name": "헬리오스",
+    "rank": "SSS"
+  },
+  "owned": [
+    {
+      "user_id": "5426",
+      "mercenary_code": "V-999",
+      "total_copies": 1,
+      "duplicate_count": 0,
+      "first_obtained_at": "2026-10-18T15:39:06.262Z",
+      "last_obtained_at": "2026-10-18T15:39:06.262Z"
+    }
+  ],
+  "stock": [
+    {
+      "code": "V-999",
+      "stock_limit": "8",
+      "issued": "8",
+      "revision": "13",
+      "last_token": "33c0429d-59b9-4e8a-b0ff-d2778c59677d"
+    }
+  ],
+  "operationExists": false
+}

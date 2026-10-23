@@ -1,0 +1,258 @@
+{
+  "mode": "verify",
+  "sourceSha256": "284c8474a22b8f59a957811eb165404993f197952bd319deac78ba2613a6259e",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bongsoon-helios-extra-grant:20261024:v1",
+    "planHash": "8235371fe78700459c599e3deb75e5e507227c68bc094d77a9600772fef7dd23",
+    "plan": {
+      "operationKey": "ops:bongsoon-helios-extra-grant:20261024:v1",
+      "authorization": "나무늘봉순 계정에 SSS 헬리오스 1장더 지급",
+      "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+      "cost": 0,
+      "automaticLoadout": false,
+      "totalQuantity": 1,
+      "recipientCount": 1,
+      "recipients": [
+        {
+          "id": "5426",
+          "nickname": "나무늘봉순",
+          "status": "ACTIVE",
+          "role": "USER",
+          "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98"
+        }
+      ],
+      "grants": [
+        {
+          "userId": "5426",
+          "nickname": "나무늘봉순",
+          "code": "V-999",
+          "name": "헬리오스",
+          "rank": "SSS",
+          "quantity": 1
+        }
+      ],
+      "context": "Explicit additional one-copy gift; preserve existing ownership, growth, loadout and sold-out public pack counters."
+    },
+    "completedAt": "2026-10-23T23:12:46.200Z",
+    "grants": [
+      {
+        "userId": "5426",
+        "nickname": "나무늘봉순",
+        "code": "V-999",
+        "name": "헬리오스",
+        "rank": "SSS",
+        "quantity": 1,
+        "copiesBefore": 1,
+        "copiesAfter": 2,
+        "holdingBefore": {
+          "user_id": 5426,
+          "total_copies": 1,
+          "mercenary_code": "V-999",
+          "duplicate_count": 0,
+          "last_obtained_at": "2026-10-18T15:39:06.262Z",
+          "first_obtained_at": "2026-10-18T15:39:06.262Z"
+        }
+      }
+    ],
+    "acquisitions": [
+      "ops:bongsoon-helios-extra-grant:20261024:v1:5426:V-999:1"
+    ],
+    "stockBefore": [
+      {
+        "code": "V-999",
+        "issued": 8,
+        "revision": 13,
+        "last_token": "33c0429d-59b9-4e8a-b0ff-d2778c59677d",
+        "stock_limit": 8
+      }
+    ],
+    "stockAfter": [
+      {
+        "code": "V-999",
+        "issued": 8,
+        "revision": 13,
+        "last_token": "33c0429d-59b9-4e8a-b0ff-d2778c59677d",
+        "stock_limit": 8
+      }
+    ],
+    "issuesBefore": [
+      {
+        "code": "V-999",
+        "serial": 1,
+        "user_id": 65,
+        "created_at": "2026-10-11T20:23:47.754Z",
+        "request_id": "ops:limited-reset-helios:20261012:v1",
+        "acquisition_id": "ops:limited-reset-helios:20261012:v1:65"
+      },
+      {
+        "code": "V-999",
+        "serial": 2,
+        "user_id": 25,
+        "created_at": "2026-10-11T20:44:39.901Z",
+        "request_id": "0a61a41f-75d5-42e1-ad84-be15498cbcd5",
+        "acquisition_id": "0a61a41f-75d5-42e1-ad84-be15498cbcd5:5"
+      },
+      {
+        "code": "V-999",
+        "serial": 3,
+        "user_id": 1,
+        "created_at": "2026-10-12T10:47:33.368Z",
+        "request_id": "ops:pingdu-helios-sss-limited:20261012:v1",
+        "acquisition_id": "ops:pingdu-helios-sss-limited:20261012:v1"
+      },
+      {
+        "code": "V-999",
+        "serial": 4,
+        "user_id": 4977,
+        "created_at": "2026-10-14T15:28:32.115Z",
+        "request_id": "ops:heeya-helios-grant:20261015:v1",
+        "acquisition_id": "ops:heeya-helios-grant:20261015:v1"
+      },
+      {
+        "code": "V-999",
+        "serial": 5,
+        "user_id": 88,
+        "created_at": "2026-10-15T13:33:50.999Z",
+        "request_id": "ops:playdk-1322742-raffle:20261015:v1:1:88:V-999",
+        "acquisition_id": "ops:playdk-1322742-raffle:20261015:v1:1:88:V-999"
+      },
+      {
+        "code": "V-999",
+        "serial": 6,
+        "user_id": 1195,
+        "created_at": "2026-10-15T13:33:50.999Z",
+        "request_id": "ops:playdk-1322742-raffle:20261015:v1:8:1195:V-999",
+        "acquisition_id": "ops:playdk-1322742-raffle:20261015:v1:8:1195:V-999"
+      },
+      {
+        "code": "V-999",
+        "serial": 7,
+        "user_id": 4774,
+        "created_at": "2026-10-17T20:38:09.167Z",
+        "request_id": "ops:room-sponsor-rewards:20261018:v1",
+        "acquisition_id": "ops:room-sponsor-rewards:20261018:v1:4774:V-999"
+      },
+      {
+        "code": "V-999",
+        "serial": 8,
+        "user_id": 4965,
+        "created_at": "2026-10-20T15:51:07.386Z",
+        "request_id": "e89ff5cc-25d7-4b9d-80c0-4e4946ca6d54",
+        "acquisition_id": "e89ff5cc-25d7-4b9d-80c0-4e4946ca6d54:1"
+      }
+    ],
+    "issuesAfter": [
+      {
+        "code": "V-999",
+        "serial": 1,
+        "user_id": 65,
+        "created_at": "2026-10-11T20:23:47.754Z",
+        "request_id": "ops:limited-reset-helios:20261012:v1",
+        "acquisition_id": "ops:limited-reset-helios:20261012:v1:65"
+      },
+      {
+        "code": "V-999",
+        "serial": 2,
+        "user_id": 25,
+        "created_at": "2026-10-11T20:44:39.901Z",
+        "request_id": "0a61a41f-75d5-42e1-ad84-be15498cbcd5",
+        "acquisition_id": "0a61a41f-75d5-42e1-ad84-be15498cbcd5:5"
+      },
+      {
+        "code": "V-999",
+        "serial": 3,
+        "user_id": 1,
+        "created_at": "2026-10-12T10:47:33.368Z",
+        "request_id": "ops:pingdu-helios-sss-limited:20261012:v1",
+        "acquisition_id": "ops:pingdu-helios-sss-limited:20261012:v1"
+      },
+      {
+        "code": "V-999",
+        "serial": 4,
+        "user_id": 4977,
+        "created_at": "2026-10-14T15:28:32.115Z",
+        "request_id": "ops:heeya-helios-grant:20261015:v1",
+        "acquisition_id": "ops:heeya-helios-grant:20261015:v1"
+      },
+      {
+        "code": "V-999",
+        "serial": 5,
+        "user_id": 88,
+        "created_at": "2026-10-15T13:33:50.999Z",
+        "request_id": "ops:playdk-1322742-raffle:20261015:v1:1:88:V-999",
+        "acquisition_id": "ops:playdk-1322742-raffle:20261015:v1:1:88:V-999"
+      },
+      {
+        "code": "V-999",
+        "serial": 6,
+        "user_id": 1195,
+        "created_at": "2026-10-15T13:33:50.999Z",
+        "request_id": "ops:playdk-1322742-raffle:20261015:v1:8:1195:V-999",
+        "acquisition_id": "ops:playdk-1322742-raffle:20261015:v1:8:1195:V-999"
+      },
+      {
+        "code": "V-999",
+        "serial": 7,
+        "user_id": 4774,
+        "created_at": "2026-10-17T20:38:09.167Z",
+        "request_id": "ops:room-sponsor-rewards:20261018:v1",
+        "acquisition_id": "ops:room-sponsor-rewards:20261018:v1:4774:V-999"
+      },
+      {
+        "code": "V-999",
+        "serial": 8,
+        "user_id": 4965,
+        "created_at": "2026-10-20T15:51:07.386Z",
+        "request_id": "e89ff5cc-25d7-4b9d-80c0-4e4946ca6d54",
+        "acquisition_id": "e89ff5cc-25d7-4b9d-80c0-4e4946ca6d54:1"
+      }
+    ],
+    "craftBefore": [],
+    "craftAfter": [],
+    "protectedBeforeHash": "73e8ff084a88d5289b39db2714a8939fbffd077941948d51cc057f58ab97eac2",
+    "protectedAfterHash": "73e8ff084a88d5289b39db2714a8939fbffd077941948d51cc057f58ab97eac2",
+    "preserved": {
+      "currency": true,
+      "stockCounters": true,
+      "numberedIssues": true,
+      "craftCounts": true,
+      "packAndCraftSettings": true,
+      "otherCards": true,
+      "inventory": true,
+      "loadouts": true,
+      "levels": true,
+      "growth": true,
+      "accountSettings": true
+    },
+    "auditId": "50635"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "recipientCount": 1,
+    "totalQuantity": 1,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 1,
+    "auditRecords": 1
+  },
+  "currentHolding": {
+    "user_id": 5426,
+    "total_copies": 2,
+    "mercenary_code": "V-999",
+    "duplicate_count": 1,
+    "last_obtained_at": "2026-10-23T23:12:46.200Z",
+    "first_obtained_at": "2026-10-18T15:39:06.262Z"
+  },
+  "currentStock": [
+    {
+      "code": "V-999",
+      "issued": 8,
+      "revision": 13,
+      "last_token": "33c0429d-59b9-4e8a-b0ff-d2778c59677d",
+      "stock_limit": 8
+    }
+  ],
+  "independentConnection": true
+}

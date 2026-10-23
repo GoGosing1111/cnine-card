@@ -1,0 +1,29 @@
+{
+  "operationKey": "ops:bongsoon-helios-extra-grant:20261024:v1",
+  "authorization": "나무늘봉순 계정에 SSS 헬리오스 1장더 지급",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "5426",
+      "nickname": "나무늘봉순",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "5426",
+      "nickname": "나무늘봉순",
+      "code": "V-999",
+      "name": "헬리오스",
+      "rank": "SSS",
+      "quantity": 1
+    }
+  ],
+  "context": "Explicit additional one-copy gift; preserve existing ownership, growth, loadout and sold-out public pack counters."
+}
