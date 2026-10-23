@@ -5,7 +5,7 @@
     "pixi.js": "8.20.0",
     "gsap": "3.13.0"
   },
-  "bundleBytes": 2404003,
+  "bundleBytes": 2467685,
   "commonV3": [
     "preview/project-v-v3/source/battle/EquipmentSetFX.js",
     "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",
@@ -51,6 +51,7 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "preview/project-v-v3/source/battle/GeneralJokCombatPlayback.js",
     "preview/project-v-v3/source/battle/PrimeRequiemCombatPlayback.js",
     "preview/project-v-v3/source/battle/ZeroCombatPlayback.js",
     "preview/project-v-v3/source/battle/BathoryCombatPlayback.js",

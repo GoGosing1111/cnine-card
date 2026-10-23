@@ -9,10 +9,11 @@
     "preview/project-v-v3/source/battle/ObjectPool.js",
     "preview/project-v-v3/source/battle/SealDragonPlayback.js",
     "shared/mercenary-halloween-combat-v1.mjs",
-    "shared/mercenary-bathory-v1.mjs?v=20261021-stock15-v1",
+    "shared/mercenary-bathory-v1.mjs?v=20261023-halloween-stock-v1",
     "shared/mercenary-halloween-visual-v1.mjs",
     "shared/mercenary-harlequin-skill-v1.mjs",
     "shared/mercenary-halloween-catalog-v1.mjs",
+    "shared/mercenary-bloodmoon-catalog-v1.mjs",
     "shared/mercenary-limited-catalog-v1.mjs",
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",
@@ -106,6 +107,16 @@
     "shared/mercenary-leonel-v1.mjs",
     "shared/mercenary-zero-v1.mjs",
     "shared/mercenary-prime-requiem-v1.mjs",
+    "shared/mercenary-general-jok-v1.mjs",
+    "preview/mercenary-general-jok-battle-20261022-v1/skill.mjs",
+    "preview/mercenary-general-jok-battle-20261022-v1/source/GoldenRimFilter.js",
+    "preview/mercenary-general-jok-battle-20261022-v1/source/BombardmentVisuals.js",
+    "preview/mercenary-general-jok-battle-20261022-v1/source/GeneralJokArtillery.js",
+    "preview/mercenary-general-jok-battle-20261022-v1/source/GeneralJokNaval.js",
+    "preview/mercenary-general-jok-battle-20261022-v1/source/GeneralJokCritical.js",
+    "preview/mercenary-general-jok-battle-20261022-v1/source/C9AuraFlag.js",
+    "preview/mercenary-general-jok-battle-20261022-v1/source/GeneralJokFX.js",
+    "preview/project-v-v3/source/battle/GeneralJokCombatPlayback.js",
     "preview/prime-requiem-blood-skills-20261021-v1/source/MotionAtlas.mjs",
     "preview/prime-requiem-blood-skills-20261021-v1/source/SkillPlan.mjs",
     "preview/prime-requiem-blood-skills-20261021-v1/source/PrimeNeonRim.js",
@@ -249,5 +260,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2273942
+  "outputBytes": 2337576
 }

@@ -1,0 +1,28 @@
+{
+  "operationKey": "ops:general-jok-grant:20261023:v1",
+  "authorization": "승인하고 도감에 추가,라이브반영해 현재 획득불가, 핑크빛유두에 지급해",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "1",
+      "nickname": "핑크빛유두",
+      "role": "OWNER",
+      "status": "ACTIVE",
+      "identityHash": "4e20330d91fbd5e52c5a21fa720d69468fcf0d7952b847d8787df45edf81c305"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "1",
+      "nickname": "핑크빛유두",
+      "code": "V-974",
+      "name": "제너럴 족",
+      "quantity": 1
+    }
+  ],
+  "context": "승인 V15 SSS 리미티드; 현재 일반 획득 불가; 모션 2배; 지정 계정 1장"
+}

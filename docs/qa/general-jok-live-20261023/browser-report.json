@@ -1,0 +1,1425 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "codex",
+      "unowned": true,
+      "locked": true,
+      "overflow": false
+    },
+    {
+      "label": "mobile",
+      "mode": "area",
+      "idle": {
+        "d": {
+          "artilleryModel": "M777 155mm",
+          "artilleryVisible": 0,
+          "artilleryPhase": "NONE",
+          "artilleryFires": [],
+          "artilleryShells": [],
+          "largeBlasts": [],
+          "largestBlastWidth": 0,
+          "breakerPhase": null,
+          "shipVisible": false,
+          "shipWidth": 0,
+          "shipBehindCharacter": true,
+          "navalPhase": "NONE",
+          "navalFires": [],
+          "navalShells": [],
+          "navalBlasts": [],
+          "navalLargestBlast": 0,
+          "airburstFragments": [],
+          "monkeyVisible": false,
+          "monkeyWidth": 0,
+          "monkeyPosition": null,
+          "monkeyAnchor": "HIT_TARGET_HEAD",
+          "monkeyAge": null,
+          "monkeyMarks": [],
+          "cameraShake": 0,
+          "criticalPhase": "NONE",
+          "criticalHits": [],
+          "criticalProjectileVisible": false,
+          "criticalFocus": null,
+          "criticalTargetKnockback": 0,
+          "criticalExplosionCount": 0,
+          "flagType": "TRANSLUCENT_GOLD_NEON_C9_MANTLE",
+          "flagVisible": true,
+          "flagRotation": 0.00833744276874622,
+          "flagWidth": 540,
+          "flagOpacity": 0.641244291794252,
+          "flagGlowOpacity": 0.12874657507655124,
+          "flagAttachment": {
+            "x": 105,
+            "y": -480
+          },
+          "flagFollowsRecoilError": 0,
+          "flagBehindBody": true,
+          "flagLayerCount": 1,
+          "poolOverflow": 0,
+          "ready": true,
+          "mode": "ready",
+          "time": 0,
+          "playing": false,
+          "speed": 1,
+          "standingLocked": true,
+          "pose": "ready",
+          "poseFile": "assets/frames/ready-v6.png",
+          "poseHeight": 360,
+          "muzzleAngleDegrees": 0,
+          "recoilX": 0,
+          "recoilY": 0,
+          "rotation": 0,
+          "uniformScale": true,
+          "muzzle": {
+            "x": 591.9771830043492,
+            "y": 359.5818333890933
+          },
+          "restMuzzle": {
+            "x": 591.9771830043492,
+            "y": 359.5818333890933
+          },
+          "projectiles": [],
+          "impactCount": 0,
+          "goldImpactCount": 0,
+          "groundSmoke": [],
+          "targetOffsets": [],
+          "auraType": "GOLDEN_FULL_BODY_HELIX",
+          "auraRearVisible": true,
+          "auraFrontVisible": true,
+          "auraOffsetX": 0,
+          "neonRimEnabled": true,
+          "neonStrength": 1.0599726006124097,
+          "neonFilterCount": 1,
+          "bodyLightning": false,
+          "visibleSprites": 0,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "cancelled": false,
+          "reducedMotion": false,
+          "motionOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "liveDamageWrites": 0,
+          "liveInventoryWrites": 0,
+          "sourceResolution": {
+            "width": 1536,
+            "height": 1024
+          },
+          "liveEnabled": true,
+          "damageAuthority": "SERVER_ONLY",
+          "cameraZoom": false,
+          "playbackRate": 2
+        },
+        "rootScale": 0.65,
+        "scene": {
+          "width": 1150.8196721311474,
+          "height": 2313.4426229508194
+        },
+        "at": {
+          "x": 359.40983606557376,
+          "y": 557.0491803278688
+        },
+        "facing": 1
+      },
+      "outcomes": [
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-974",
+            "eventType": "ATTACK",
+            "mode": "attack",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.23,
+            "durationSeconds": 3.55,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": "ready",
+          "scaleX": 0.3673469387755102,
+          "scaleY": 0.3673469387755102,
+          "returned": 0,
+          "effects": 0,
+          "diagnostics": {
+            "artilleryModel": "M777 155mm",
+            "artilleryVisible": 0,
+            "artilleryPhase": "NONE",
+            "artilleryFires": [],
+            "artilleryShells": [],
+            "largeBlasts": [],
+            "largestBlastWidth": 0,
+            "breakerPhase": null,
+            "shipVisible": false,
+            "shipWidth": 0,
+            "shipBehindCharacter": true,
+            "navalPhase": "NONE",
+            "navalFires": [],
+            "navalShells": [],
+            "navalBlasts": [],
+            "navalLargestBlast": 0,
+            "airburstFragments": [],
+            "monkeyVisible": false,
+            "monkeyWidth": 0,
+            "monkeyPosition": null,
+            "monkeyAnchor": "HIT_TARGET_HEAD",
+            "monkeyAge": null,
+            "monkeyMarks": [],
+            "cameraShake": 0,
+            "criticalPhase": "NONE",
+            "criticalHits": [],
+            "criticalProjectileVisible": false,
+            "criticalFocus": null,
+            "criticalTargetKnockback": 0,
+            "criticalExplosionCount": 0,
+            "flagType": "TRANSLUCENT_GOLD_NEON_C9_MANTLE",
+            "flagVisible": true,
+            "flagRotation": 0,
+            "flagWidth": 540,
+            "flagOpacity": 0.66,
+            "flagGlowOpacity": 0.14,
+            "flagAttachment": {
+              "x": 105,
+              "y": -480
+            },
+            "flagFollowsRecoilError": 0,
+            "flagBehindBody": true,
+            "flagLayerCount": 1,
+            "poolOverflow": 0,
+            "ready": true,
+            "mode": "ready",
+            "time": 0,
+            "playing": false,
+            "speed": 1,
+            "standingLocked": true,
+            "pose": "ready",
+            "poseFile": "assets/frames/ready-v6.png",
+            "poseHeight": 360,
+            "muzzleAngleDegrees": 0,
+            "recoilX": 0,
+            "recoilY": 0,
+            "rotation": 0,
+            "uniformScale": true,
+            "muzzle": {
+              "x": 591.9771830043492,
+              "y": 359.5818333890933
+            },
+            "restMuzzle": {
+              "x": 591.9771830043492,
+              "y": 359.5818333890933
+            },
+            "projectiles": [],
+            "impactCount": 0,
+            "goldImpactCount": 0,
+            "groundSmoke": [],
+            "targetOffsets": [],
+            "auraType": "GOLDEN_FULL_BODY_HELIX",
+            "auraRearVisible": true,
+            "auraFrontVisible": true,
+            "auraOffsetX": 0,
+            "neonRimEnabled": true,
+            "neonStrength": 1.15,
+            "neonFilterCount": 1,
+            "bodyLightning": false,
+            "visibleSprites": 0,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "cancelled": false,
+            "reducedMotion": false,
+            "motionOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "registeredTimelines": 0,
+            "effectLayers": 1,
+            "liveDamageWrites": 0,
+            "liveInventoryWrites": 0,
+            "sourceResolution": {
+              "width": 1536,
+              "height": 1024
+            },
+            "liveEnabled": true,
+            "damageAuthority": "SERVER_ONLY",
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        },
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-974",
+            "eventType": "ATTACK",
+            "mode": "critical",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.22,
+            "durationSeconds": 3.5,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": "ready",
+          "scaleX": 0.3673469387755102,
+          "scaleY": 0.3673469387755102,
+          "returned": 0,
+          "effects": 0,
+          "diagnostics": {
+            "artilleryModel": "M777 155mm",
+            "artilleryVisible": 0,
+            "artilleryPhase": "NONE",
+            "artilleryFires": [],
+            "artilleryShells": [],
+            "largeBlasts": [],
+            "largestBlastWidth": 0,
+            "breakerPhase": null,
+            "shipVisible": false,
+            "shipWidth": 0,
+            "shipBehindCharacter": true,
+            "navalPhase": "NONE",
+            "navalFires": [],
+            "navalShells": [],
+            "navalBlasts": [],
+            "navalLargestBlast": 0,
+            "airburstFragments": [],
+            "monkeyVisible": false,
+            "monkeyWidth": 0,
+            "monkeyPosition": null,
+            "monkeyAnchor": "HIT_TARGET_HEAD",
+            "monkeyAge": null,
+            "monkeyMarks": [],
+            "cameraShake": 0,
+            "criticalPhase": "NONE",
+            "criticalHits": [],
+            "criticalProjectileVisible": false,
+            "criticalFocus": null,
+            "criticalTargetKnockback": 0,
+            "criticalExplosionCount": 0,
+            "flagType": "TRANSLUCENT_GOLD_NEON_C9_MANTLE",
+            "flagVisible": true,
+            "flagRotation": 0,
+            "flagWidth": 540,
+            "flagOpacity": 0.66,
+            "flagGlowOpacity": 0.14,
+            "flagAttachment": {
+              "x": 105,
+              "y": -480
+            },
+            "flagFollowsRecoilError": 0,
+            "flagBehindBody": true,
+            "flagLayerCount": 1,
+            "poolOverflow": 0,
+            "ready": true,
+            "mode": "ready",
+            "time": 0,
+            "playing": false,
+            "speed": 1,
+            "standingLocked": true,
+            "pose": "ready",
+            "poseFile": "assets/frames/ready-v6.png",
+            "poseHeight": 360,
+            "muzzleAngleDegrees": 0,
+            "recoilX": 0,
+            "recoilY": 0,
+            "rotation": 0,
+            "uniformScale": true,
+            "muzzle": {
+              "x": 591.9771830043492,
+              "y": 359.5818333890933
+            },
+            "restMuzzle": {
+              "x": 591.9771830043492,
+              "y": 359.5818333890933
+            },
+            "projectiles": [],
+            "impactCount": 0,
+            "goldImpactCount": 0,
+            "groundSmoke": [],
+            "targetOffsets": [],
+            "auraType": "GOLDEN_FULL_BODY_HELIX",
+            "auraRearVisible": true,
+            "auraFrontVisible": true,
+            "auraOffsetX": 0,
+            "neonRimEnabled": true,
+            "neonStrength": 1.15,
+            "neonFilterCount": 1,
+            "bodyLightning": false,
+            "visibleSprites": 0,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "cancelled": false,
+            "reducedMotion": false,
+            "motionOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "registeredTimelines": 0,
+            "effectLayers": 1,
+            "liveDamageWrites": 0,
+            "liveInventoryWrites": 0,
+            "sourceResolution": {
+              "width": 1536,
+              "height": 1024
+            },
+            "liveEnabled": true,
+            "damageAuthority": "SERVER_ONLY",
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        },
+        {
+          "skill": "MS-952",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-974",
+            "eventType": "MERCENARY_GENERAL_JOK_AREA",
+            "mode": "ultimate",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 8.35,
+            "durationSeconds": 11.6,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": "ready",
+          "scaleX": 0.3673469387755102,
+          "scaleY": 0.3673469387755102,
+          "returned": 0,
+          "effects": 0,
+          "diagnostics": {
+            "artilleryModel": "M777 155mm",
+            "artilleryVisible": 0,
+            "artilleryPhase": "NONE",
+            "artilleryFires": [],
+            "artilleryShells": [],
+            "largeBlasts": [],
+            "largestBlastWidth": 0,
+            "breakerPhase": null,
+            "shipVisible": false,
+            "shipWidth": 0,
+            "shipBehindCharacter": true,
+            "navalPhase": "NONE",
+            "navalFires": [],
+            "navalShells": [],
+            "navalBlasts": [],
+            "navalLargestBlast": 0,
+            "airburstFragments": [],
+            "monkeyVisible": false,
+            "monkeyWidth": 0,
+            "monkeyPosition": null,
+            "monkeyAnchor": "HIT_TARGET_HEAD",
+            "monkeyAge": null,
+            "monkeyMarks": [],
+            "cameraShake": 0,
+            "criticalPhase": "NONE",
+            "criticalHits": [],
+            "criticalProjectileVisible": false,
+            "criticalFocus": null,
+            "criticalTargetKnockback": 0,
+            "criticalExplosionCount": 0,
+            "flagType": "TRANSLUCENT_GOLD_NEON_C9_MANTLE",
+            "flagVisible": true,
+            "flagRotation": 0,
+            "flagWidth": 540,
+            "flagOpacity": 0.66,
+            "flagGlowOpacity": 0.14,
+            "flagAttachment": {
+              "x": 105,
+              "y": -480
+            },
+            "flagFollowsRecoilError": 0,
+            "flagBehindBody": true,
+            "flagLayerCount": 1,
+            "poolOverflow": 0,
+            "ready": true,
+            "mode": "ready",
+            "time": 0,
+            "playing": false,
+            "speed": 1,
+            "standingLocked": true,
+            "pose": "ready",
+            "poseFile": "assets/frames/ready-v6.png",
+            "poseHeight": 360,
+            "muzzleAngleDegrees": 0,
+            "recoilX": 0,
+            "recoilY": 0,
+            "rotation": 0,
+            "uniformScale": true,
+            "muzzle": {
+              "x": 591.9771830043492,
+              "y": 359.5818333890933
+            },
+            "restMuzzle": {
+              "x": 591.9771830043492,
+              "y": 359.5818333890933
+            },
+            "projectiles": [],
+            "impactCount": 0,
+            "goldImpactCount": 0,
+            "groundSmoke": [],
+            "targetOffsets": [],
+            "auraType": "GOLDEN_FULL_BODY_HELIX",
+            "auraRearVisible": true,
+            "auraFrontVisible": true,
+            "auraOffsetX": 0,
+            "neonRimEnabled": true,
+            "neonStrength": 1.15,
+            "neonFilterCount": 1,
+            "bodyLightning": false,
+            "visibleSprites": 0,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "cancelled": false,
+            "reducedMotion": false,
+            "motionOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "registeredTimelines": 0,
+            "effectLayers": 1,
+            "liveDamageWrites": 0,
+            "liveInventoryWrites": 0,
+            "sourceResolution": {
+              "width": 1536,
+              "height": 1024
+            },
+            "liveEnabled": true,
+            "damageAuthority": "SERVER_ONLY",
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        }
+      ],
+      "visual": [
+        {
+          "skill": "critical",
+          "artilleryModel": "M777 155mm",
+          "artilleryVisible": 0,
+          "artilleryPhase": "NONE",
+          "artilleryFires": [],
+          "artilleryShells": [],
+          "largeBlasts": [],
+          "largestBlastWidth": 0,
+          "breakerPhase": null,
+          "shipVisible": false,
+          "shipWidth": 0,
+          "shipBehindCharacter": true,
+          "navalPhase": "NONE",
+          "navalFires": [],
+          "navalShells": [],
+          "navalBlasts": [],
+          "navalLargestBlast": 0,
+          "airburstFragments": [],
+          "monkeyVisible": true,
+          "monkeyWidth": 57.2,
+          "monkeyPosition": {
+            "x": 684.9425939256561,
+            "y": 454.93999850968703
+          },
+          "monkeyAnchor": "HIT_TARGET_HEAD",
+          "monkeyAge": 0.19999999999999996,
+          "monkeyMarks": [
+            {
+              "target": 0,
+              "at": 1.46,
+              "age": 0.19999999999999996,
+              "duration": 1.1,
+              "width": 57.2,
+              "critical": true,
+              "position": {
+                "x": 684.9425939256561,
+                "y": 454.93999850968703
+              },
+              "head": {
+                "x": 684.9425939256561,
+                "y": 486.49418032786883
+              }
+            }
+          ],
+          "cameraShake": 0,
+          "criticalPhase": "GOLDEN_SEAL",
+          "criticalHits": [
+            {
+              "target": 0,
+              "position": {
+                "x": 684.9425939256561,
+                "y": 510.6051803278688
+              },
+              "width": 290,
+              "age": 0.43999999999999995,
+              "frame": 4
+            }
+          ],
+          "criticalProjectileVisible": false,
+          "criticalFocus": {
+            "x": 684.9425939256561,
+            "y": 510.6051803278688
+          },
+          "criticalTargetKnockback": 104.44343484224966,
+          "criticalExplosionCount": 0,
+          "flagType": "TRANSLUCENT_GOLD_NEON_C9_MANTLE",
+          "flagVisible": true,
+          "flagRotation": 0.013131024658723282,
+          "flagWidth": 540,
+          "flagOpacity": 0.6515590278464656,
+          "flagGlowOpacity": 0.13994602949561685,
+          "flagAttachment": {
+            "x": 88.52065127588544,
+            "y": -480
+          },
+          "flagFollowsRecoilError": 0,
+          "flagBehindBody": true,
+          "flagLayerCount": 1,
+          "poolOverflow": 0,
+          "ready": true,
+          "mode": "critical",
+          "time": 1.66,
+          "playing": false,
+          "speed": 1,
+          "standingLocked": true,
+          "pose": "ready",
+          "poseFile": "assets/frames/ready-v6.png",
+          "poseHeight": 360,
+          "muzzleAngleDegrees": 0,
+          "recoilX": -16.479348724114562,
+          "recoilY": 0,
+          "rotation": 0,
+          "uniformScale": true,
+          "muzzle": {
+            "x": 581.2656063336748,
+            "y": 359.5818333890933
+          },
+          "restMuzzle": {
+            "x": 591.9771830043492,
+            "y": 359.5818333890933
+          },
+          "projectiles": [],
+          "impactCount": 1,
+          "goldImpactCount": 0,
+          "groundSmoke": [
+            {
+              "shot": 0,
+              "frame": 3,
+              "origin": {
+                "x": 359.40983606557376,
+                "y": 557.0491803278687
+              },
+              "position": {
+                "x": 359.40983606557376,
+                "y": 557.0491803278687
+              },
+              "stationary": true
+            }
+          ],
+          "targetOffsets": [
+            {
+              "x": 104.44343484224966,
+              "y": 0,
+              "rotation": 0
+            }
+          ],
+          "auraType": "GOLDEN_FULL_BODY_HELIX",
+          "auraRearVisible": true,
+          "auraFrontVisible": true,
+          "auraOffsetX": -16.479348724114562,
+          "neonRimEnabled": true,
+          "neonStrength": 1.126185376288826,
+          "neonFilterCount": 1,
+          "bodyLightning": false,
+          "visibleSprites": 3,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "cancelled": false,
+          "reducedMotion": false,
+          "motionOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "liveDamageWrites": 0,
+          "liveInventoryWrites": 0,
+          "sourceResolution": {
+            "width": 1536,
+            "height": 1024
+          },
+          "liveEnabled": true,
+          "damageAuthority": "SERVER_ONLY",
+          "cameraZoom": false,
+          "playbackRate": 2
+        },
+        {
+          "skill": "ultimate",
+          "artilleryModel": "M777 155mm",
+          "artilleryVisible": 0,
+          "artilleryPhase": "NONE",
+          "artilleryFires": [],
+          "artilleryShells": [],
+          "largeBlasts": [],
+          "largestBlastWidth": 0,
+          "breakerPhase": null,
+          "shipVisible": true,
+          "shipWidth": 494,
+          "shipBehindCharacter": true,
+          "navalPhase": "ARSENAL_BROADSIDE",
+          "navalFires": [
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "navalShells": [],
+          "navalBlasts": [
+            {
+              "x": 625.4098360655737,
+              "y": 607.0491803278688,
+              "width": 680,
+              "phase": 0,
+              "age": 0.1200000000000001,
+              "effect": "cataclysm"
+            },
+            {
+              "x": 767.4098360655738,
+              "y": 607.0491803278688,
+              "width": 680,
+              "phase": 0,
+              "age": 0.04499999999999993,
+              "effect": "cataclysm"
+            },
+            {
+              "x": 650.9698360655738,
+              "y": 821.0491803278688,
+              "width": 680,
+              "phase": 0,
+              "age": 0.010000000000000231,
+              "effect": "cataclysm"
+            }
+          ],
+          "navalLargestBlast": 680,
+          "airburstFragments": [],
+          "monkeyVisible": false,
+          "monkeyWidth": 0,
+          "monkeyPosition": null,
+          "monkeyAnchor": "HIT_TARGET_HEAD",
+          "monkeyAge": null,
+          "monkeyMarks": [],
+          "cameraShake": 7.623050681899141,
+          "criticalPhase": "NONE",
+          "criticalHits": [],
+          "criticalProjectileVisible": false,
+          "criticalFocus": null,
+          "criticalTargetKnockback": 0,
+          "criticalExplosionCount": 0,
+          "flagType": "TRANSLUCENT_GOLD_NEON_C9_MANTLE",
+          "flagVisible": true,
+          "flagRotation": -0.004390585261437472,
+          "flagWidth": 540,
+          "flagOpacity": 0.6366883015905229,
+          "flagGlowOpacity": 0.12601298095431374,
+          "flagAttachment": {
+            "x": 105,
+            "y": -480
+          },
+          "flagFollowsRecoilError": 0,
+          "flagBehindBody": true,
+          "flagLayerCount": 1,
+          "poolOverflow": 0,
+          "ready": true,
+          "mode": "ultimate",
+          "time": 2.42,
+          "playing": false,
+          "speed": 1,
+          "standingLocked": true,
+          "pose": "ready",
+          "poseFile": "assets/frames/ready-v6.png",
+          "poseHeight": 360,
+          "muzzleAngleDegrees": 0,
+          "recoilX": 0,
+          "recoilY": 0,
+          "rotation": 0,
+          "uniformScale": true,
+          "muzzle": {
+            "x": 591.9771830043492,
+            "y": 359.5818333890933
+          },
+          "restMuzzle": {
+            "x": 591.9771830043492,
+            "y": 359.5818333890933
+          },
+          "projectiles": [],
+          "impactCount": 3,
+          "goldImpactCount": 0,
+          "groundSmoke": [
+            {
+              "shot": 0,
+              "frame": 5,
+              "origin": {
+                "x": 359.40983606557376,
+                "y": 557.0491803278687
+              },
+              "position": {
+                "x": 359.40983606557376,
+                "y": 557.0491803278687
+              },
+              "stationary": true
+            }
+          ],
+          "targetOffsets": [
+            {
+              "x": 66.30841685786737,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 63.19169053499337,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 16.449410659296195,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            }
+          ],
+          "auraType": "GOLDEN_FULL_BODY_HELIX",
+          "auraRearVisible": true,
+          "auraFrontVisible": true,
+          "auraOffsetX": 0,
+          "neonRimEnabled": true,
+          "neonStrength": 1.0381038476345097,
+          "neonFilterCount": 1,
+          "bodyLightning": false,
+          "visibleSprites": 17,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "cancelled": false,
+          "reducedMotion": false,
+          "motionOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "liveDamageWrites": 0,
+          "liveInventoryWrites": 0,
+          "sourceResolution": {
+            "width": 1536,
+            "height": 1024
+          },
+          "liveEnabled": true,
+          "damageAuthority": "SERVER_ONLY",
+          "cameraZoom": false,
+          "playbackRate": 2
+        },
+        {
+          "skill": "artillery",
+          "artilleryModel": "M777 155mm",
+          "artilleryVisible": 3,
+          "artilleryPhase": "CONCENTRATED_BARRAGE",
+          "artilleryFires": [
+            3,
+            4
+          ],
+          "artilleryShells": [],
+          "largeBlasts": [
+            {
+              "x": 625.4098360655737,
+              "y": 607.0491803278688,
+              "width": 680,
+              "phase": 2,
+              "age": 0.49999999999999956,
+              "effect": "cataclysm"
+            },
+            {
+              "x": 767.4098360655738,
+              "y": 607.0491803278688,
+              "width": 680,
+              "phase": 1,
+              "age": 0.31999999999999984,
+              "effect": "cataclysm"
+            },
+            {
+              "x": 909.4098360655738,
+              "y": 607.0491803278688,
+              "width": 680,
+              "phase": 0,
+              "age": 0.13999999999999968,
+              "effect": "cataclysm"
+            }
+          ],
+          "largestBlastWidth": 680,
+          "breakerPhase": null,
+          "shipVisible": false,
+          "shipWidth": 0,
+          "shipBehindCharacter": true,
+          "navalPhase": "NONE",
+          "navalFires": [],
+          "navalShells": [],
+          "navalBlasts": [],
+          "navalLargestBlast": 0,
+          "airburstFragments": [],
+          "monkeyVisible": false,
+          "monkeyWidth": 0,
+          "monkeyPosition": null,
+          "monkeyAnchor": "HIT_TARGET_HEAD",
+          "monkeyAge": null,
+          "monkeyMarks": [],
+          "cameraShake": 0,
+          "criticalPhase": "NONE",
+          "criticalHits": [],
+          "criticalProjectileVisible": false,
+          "criticalFocus": null,
+          "criticalTargetKnockback": 0,
+          "criticalExplosionCount": 0,
+          "flagType": "TRANSLUCENT_GOLD_NEON_C9_MANTLE",
+          "flagVisible": true,
+          "flagRotation": -0.01796269942268252,
+          "flagWidth": 540,
+          "flagOpacity": 0.6758905642961207,
+          "flagGlowOpacity": 0.14953433857767245,
+          "flagAttachment": {
+            "x": 105,
+            "y": -480
+          },
+          "flagFollowsRecoilError": 0,
+          "flagBehindBody": true,
+          "flagLayerCount": 1,
+          "poolOverflow": 0,
+          "ready": true,
+          "mode": "artillery",
+          "time": 3.32,
+          "playing": false,
+          "speed": 1,
+          "standingLocked": true,
+          "pose": "ready",
+          "poseFile": "assets/frames/ready-v6.png",
+          "poseHeight": 360,
+          "muzzleAngleDegrees": 0,
+          "recoilX": 0,
+          "recoilY": 0,
+          "rotation": 0,
+          "uniformScale": true,
+          "muzzle": {
+            "x": 591.9771830043492,
+            "y": 359.5818333890933
+          },
+          "restMuzzle": {
+            "x": 591.9771830043492,
+            "y": 359.5818333890933
+          },
+          "projectiles": [],
+          "impactCount": 3,
+          "goldImpactCount": 0,
+          "groundSmoke": [],
+          "targetOffsets": [
+            {
+              "x": 22.754396022594594,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 45.17969954073011,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 75.22114387634568,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            }
+          ],
+          "auraType": "GOLDEN_FULL_BODY_HELIX",
+          "auraRearVisible": true,
+          "auraFrontVisible": true,
+          "auraOffsetX": 0,
+          "neonRimEnabled": true,
+          "neonStrength": 1.2262747086213794,
+          "neonFilterCount": 1,
+          "bodyLightning": false,
+          "visibleSprites": 12,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "cancelled": false,
+          "reducedMotion": false,
+          "motionOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "liveDamageWrites": 0,
+          "liveInventoryWrites": 0,
+          "sourceResolution": {
+            "width": 1536,
+            "height": 1024
+          },
+          "liveEnabled": true,
+          "damageAuthority": "SERVER_ONLY",
+          "cameraZoom": false,
+          "playbackRate": 2
+        },
+        {
+          "skill": "breaker",
+          "artilleryModel": "M777 155mm",
+          "artilleryVisible": 0,
+          "artilleryPhase": "NONE",
+          "artilleryFires": [],
+          "artilleryShells": [
+            {
+              "type": "BREAKER",
+              "position": {
+                "x": 726.6121437578813,
+                "y": 359.5818333890933
+              },
+              "horizontalError": 0
+            }
+          ],
+          "largeBlasts": [
+            {
+              "x": 783.6293916211292,
+              "y": 401.8318333890933,
+              "width": 680,
+              "phase": 3,
+              "age": 0.16999999999999993
+            }
+          ],
+          "largestBlastWidth": 680,
+          "breakerPhase": "PIERCE",
+          "shipVisible": false,
+          "shipWidth": 0,
+          "shipBehindCharacter": true,
+          "navalPhase": "NONE",
+          "navalFires": [],
+          "navalShells": [],
+          "navalBlasts": [],
+          "navalLargestBlast": 0,
+          "airburstFragments": [],
+          "monkeyVisible": false,
+          "monkeyWidth": 0,
+          "monkeyPosition": null,
+          "monkeyAnchor": "HIT_TARGET_HEAD",
+          "monkeyAge": null,
+          "monkeyMarks": [],
+          "cameraShake": 0,
+          "criticalPhase": "NONE",
+          "criticalHits": [],
+          "criticalProjectileVisible": false,
+          "criticalFocus": null,
+          "criticalTargetKnockback": 0,
+          "criticalExplosionCount": 0,
+          "flagType": "TRANSLUCENT_GOLD_NEON_C9_MANTLE",
+          "flagVisible": true,
+          "flagRotation": 0.00833744276874622,
+          "flagWidth": 540,
+          "flagOpacity": 0.641244291794252,
+          "flagGlowOpacity": 0.13089415327869128,
+          "flagAttachment": {
+            "x": 97.93685391296168,
+            "y": -480
+          },
+          "flagFollowsRecoilError": 0,
+          "flagBehindBody": true,
+          "flagLayerCount": 1,
+          "poolOverflow": 0,
+          "ready": true,
+          "mode": "breaker",
+          "time": 1.9,
+          "playing": false,
+          "speed": 1,
+          "standingLocked": true,
+          "pose": "ready",
+          "poseFile": "assets/frames/ready-v6.png",
+          "poseHeight": 360,
+          "muzzleAngleDegrees": 0,
+          "recoilX": -7.063146087038316,
+          "recoilY": 0,
+          "rotation": 0,
+          "uniformScale": true,
+          "muzzle": {
+            "x": 587.3861380477744,
+            "y": 359.5818333890933
+          },
+          "restMuzzle": {
+            "x": 591.9771830043492,
+            "y": 359.5818333890933
+          },
+          "projectiles": [],
+          "impactCount": 1,
+          "goldImpactCount": 0,
+          "groundSmoke": [
+            {
+              "shot": 0,
+              "frame": 4,
+              "origin": {
+                "x": 359.40983606557376,
+                "y": 557.0491803278687
+              },
+              "position": {
+                "x": 359.40983606557376,
+                "y": 557.0491803278687
+              },
+              "stationary": true
+            }
+          ],
+          "targetOffsets": [
+            {
+              "x": 67.25445394178202,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 56.13077354459898,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "rotation": 0
+            }
+          ],
+          "auraType": "GOLDEN_FULL_BODY_HELIX",
+          "auraRearVisible": true,
+          "auraFrontVisible": true,
+          "auraOffsetX": -7.063146087038316,
+          "neonRimEnabled": true,
+          "neonStrength": 1.0671311946195432,
+          "neonFilterCount": 1,
+          "bodyLightning": false,
+          "visibleSprites": 5,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "cancelled": false,
+          "reducedMotion": false,
+          "motionOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "liveDamageWrites": 0,
+          "liveInventoryWrites": 0,
+          "sourceResolution": {
+            "width": 1536,
+            "height": 1024
+          },
+          "liveEnabled": true,
+          "damageAuthority": "SERVER_ONLY",
+          "cameraZoom": false,
+          "playbackRate": 2
+        }
+      ],
+      "cancel": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "resumed": true,
+        "states": 0,
+        "destroyed": true,
+        "reduced": {
+          "artilleryModel": "M777 155mm",
+          "artilleryVisible": 0,
+          "artilleryPhase": "NONE",
+          "artilleryFires": [],
+          "artilleryShells": [],
+          "largeBlasts": [],
+          "largestBlastWidth": 0,
+          "breakerPhase": null,
+          "shipVisible": false,
+          "shipWidth": 0,
+          "shipBehindCharacter": true,
+          "navalPhase": "NONE",
+          "navalFires": [],
+          "navalShells": [],
+          "navalBlasts": [],
+          "navalLargestBlast": 0,
+          "airburstFragments": [],
+          "monkeyVisible": true,
+          "monkeyWidth": 57.2,
+          "monkeyPosition": {
+            "x": 634.935077323187,
+            "y": 456.75818032786884
+          },
+          "monkeyAnchor": "HIT_TARGET_HEAD",
+          "monkeyAge": 0.19999999999999996,
+          "monkeyMarks": [
+            {
+              "target": 0,
+              "at": 1.46,
+              "age": 0.19999999999999996,
+              "duration": 1.1,
+              "width": 57.2,
+              "critical": true,
+              "position": {
+                "x": 634.935077323187,
+                "y": 456.75818032786884
+              },
+              "head": {
+                "x": 634.935077323187,
+                "y": 486.49418032786883
+              }
+            }
+          ],
+          "cameraShake": 0,
+          "criticalPhase": "GOLDEN_SEAL",
+          "criticalHits": [
+            {
+              "target": 0,
+              "position": {
+                "x": 634.935077323187,
+                "y": 510.6051803278688
+              },
+              "width": 290,
+              "age": 0.43999999999999995,
+              "frame": 4
+            }
+          ],
+          "criticalProjectileVisible": false,
+          "criticalFocus": {
+            "x": 634.935077323187,
+            "y": 510.6051803278688
+          },
+          "criticalTargetKnockback": 16.710949574759944,
+          "criticalExplosionCount": 0,
+          "flagType": "TRANSLUCENT_GOLD_NEON_C9_MANTLE",
+          "flagVisible": true,
+          "flagRotation": 0,
+          "flagWidth": 540,
+          "flagOpacity": 0.66,
+          "flagGlowOpacity": 0.14,
+          "flagAttachment": {
+            "x": 102.36330420414167,
+            "y": -480
+          },
+          "flagFollowsRecoilError": 0,
+          "flagBehindBody": true,
+          "flagLayerCount": 1,
+          "poolOverflow": 0,
+          "ready": true,
+          "mode": "critical",
+          "time": 0,
+          "playing": false,
+          "speed": 1,
+          "standingLocked": true,
+          "pose": "ready",
+          "poseFile": "assets/frames/ready-v6.png",
+          "poseHeight": 360,
+          "muzzleAngleDegrees": 0,
+          "recoilX": -2.63669579585833,
+          "recoilY": 0,
+          "rotation": 0,
+          "uniformScale": true,
+          "muzzle": {
+            "x": 590.2633307370413,
+            "y": 359.5818333890933
+          },
+          "restMuzzle": {
+            "x": 591.9771830043492,
+            "y": 359.5818333890933
+          },
+          "projectiles": [],
+          "impactCount": 1,
+          "goldImpactCount": 0,
+          "groundSmoke": [
+            {
+              "shot": 0,
+              "frame": 3,
+              "origin": {
+                "x": 359.40983606557376,
+                "y": 557.0491803278687
+              },
+              "position": {
+                "x": 359.40983606557376,
+                "y": 557.0491803278687
+              },
+              "stationary": true
+            }
+          ],
+          "targetOffsets": [
+            {
+              "x": 16.710949574759944,
+              "y": 0,
+              "rotation": 0
+            }
+          ],
+          "auraType": "GOLDEN_FULL_BODY_HELIX",
+          "auraRearVisible": true,
+          "auraFrontVisible": true,
+          "auraOffsetX": -2.63669579585833,
+          "neonRimEnabled": true,
+          "neonStrength": 1.05,
+          "neonFilterCount": 1,
+          "bodyLightning": false,
+          "visibleSprites": 3,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "cancelled": false,
+          "reducedMotion": true,
+          "motionOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "liveDamageWrites": 0,
+          "liveInventoryWrites": 0,
+          "sourceResolution": {
+            "width": 1536,
+            "height": 1024
+          },
+          "liveEnabled": true,
+          "damageAuthority": "SERVER_ONLY",
+          "cameraZoom": false,
+          "playbackRate": 2
+        }
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "codex",
+      "unowned": true,
+      "locked": true,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}
