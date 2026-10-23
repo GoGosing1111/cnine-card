@@ -41,7 +41,8 @@ try{
    const rest=await assertClear('rest');assert.ok(rest.width>=44&&rest.height>=44);
    await pin.hover();await page.waitForTimeout(180);const hover=await assertClear('hover');assert.equal(hover.transform,rest.transform);
    await page.locator('.jc-map-panel').screenshot({path:path.join(out,width+'-hover.png')});
-   await page.mouse.down();await page.waitForTimeout(180);const active=await assertClear('pressed');assert.equal(active.transform,rest.transform,'Map pin must not jump when pressed');
+   // A tall map-panel screenshot may scroll the viewport; target the pin again.
+   await pin.hover();await page.mouse.down();assert.ok(await pin.evaluate(n=>n.matches(':active')));await page.waitForTimeout(180);const active=await assertClear('pressed');assert.equal(active.transform,rest.transform,'Map pin must not jump when pressed');
    await page.mouse.up();
    await page.keyboard.press('Tab');await pin.focus();const focus=await assertClear('focus');assert.notEqual(focus.outline,'none','Keyboard focus remains visible');
    if(width===390){await pin.tap();await assertClear('after touch');}
