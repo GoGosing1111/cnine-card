@@ -103,3 +103,14 @@ test('approved V15 images and every production V3 entry contain General Jok',()=
  for(const file of ['preview/project-v-v3/project-v-pixi-battle.bundle.js','preview/sustained-hunt-v2/battle.bundle.js','pve-v3/battle.bundle.js','preview/coop-defense-v1/defense.bundle.js']){const s=fs.readFileSync(file,'utf8');assert(s.includes(GENERAL_JOK_AREA_EVENT),file);assert(s.includes('GENERAL_JOK_MOTION_ASSETS'),file);}
  assert(fs.readFileSync('js/app.js','utf8').includes('generalJok=20261023-v15'));
 });
+
+test('delivery omits only Node build and QA commands while approved battle textures ship',()=>{
+ const paths=JSON.parse(fs.readFileSync('scripts/preview-node-authoring-only-20261023.json'));
+ assert.equal(paths.length,150);
+ for(const file of paths){
+  assert(/^preview\/.+\/(?:build|qa)[^/]*\.[mc]?js$/.test(file),file);
+  assert(/from\s*['"]node:|import\s*['"]node:/.test(fs.readFileSync(file,'utf8')),file);
+  assert.equal(isProductionFile(file),false,file);
+ }
+ for(const file of [GENERAL_JOK_ART.sourceArt,GENERAL_JOK_ART.battleSprite,root+'manifest.json','preview/project-v-v3/project-v-pixi-battle.bundle.js'])assert.equal(isProductionFile(file),true,file);
+});

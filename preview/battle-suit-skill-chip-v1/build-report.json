@@ -13,6 +13,7 @@
     "shared/mercenary-halloween-visual-v1.mjs",
     "shared/mercenary-harlequin-skill-v1.mjs",
     "shared/mercenary-halloween-catalog-v1.mjs",
+    "shared/mercenary-bloodmoon-catalog-v1.mjs",
     "shared/mercenary-limited-catalog-v1.mjs",
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",
@@ -259,5 +260,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2323758
+  "outputBytes": 2337576
 }

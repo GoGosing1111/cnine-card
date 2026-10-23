@@ -1607,8 +1607,8 @@
     "navalSource": "source/GeneralJokNaval.js",
     "files": [
       {
-        "file": "source/GeneralJokFX.js",
-        "sha256": "0b1bd337eaa56db66abdd72ec6a8361a617a92a5e0bc09b1d02c10cd1e9c2163"
+        "file": "source/BombardmentVisuals.js",
+        "sha256": "6e4f50c03841c4d05b4b0ec2c7fc38bc680d7a9ad4b3f939e7ebed51ca885bb2"
       },
       {
         "file": "source/C9AuraFlag.js",
@@ -1616,50 +1616,32 @@
       },
       {
         "file": "source/GeneralJokArtillery.js",
-        "sha256": "be73dcbca7fafe271bbe17c69e824d643934a8da4485029263593fc92866184a"
-      },
-      {
-        "file": "source/GeneralJokNaval.js",
-        "sha256": "1b82eec35e75136f5b8e9e51642656abccec1ac0cc863fb7d251269fff444d44"
+        "sha256": "baee859c82a7f562c0dc53dabc5ce9bb47e38151bc68e979ee425b2a69817a1f"
       },
       {
         "file": "source/GeneralJokCritical.js",
-        "sha256": "ec0aba3f451d142cc6fd691e6a16bcf10c9c24eb57e567f3141fc6545786e53c"
+        "sha256": "f5ae11c55de6462f59e07e59a10bb59e849b2bc56c58f41d714bac343407687d"
       },
       {
-        "file": "source/BombardmentVisuals.js",
-        "sha256": "f55afa218a543b2a156be47829d3cd608752908e74fb8a5896e962d3a53a01c0"
+        "file": "source/GeneralJokFX.js",
+        "sha256": "4d8ab0f6bbd721e76d7c8e028ad4a9acfe7000598b3ebfb65acde50bbc954d92"
       },
       {
-        "file": "source/studio.js",
-        "sha256": "d2d310e2ccb868406b9a0d99fbf9446a7ea8aad5bb0b557ef33927217900508c"
+        "file": "source/GeneralJokNaval.js",
+        "sha256": "04887ce7baa1bd9209765089657743eaa6604c73ab976a9de4c40598c9fafe6d"
       },
       {
         "file": "source/GoldenRimFilter.js",
-        "sha256": "125bdd88d2df0f346b28a1a7c89f27bac844cd6368610b5f52169036b60ba3c9"
+        "sha256": "b2ad48fbfecc98d8fb01559654eca0e0bc61bd49610d960b9626499456f2a1e6"
       },
       {
         "file": "skill.mjs",
         "sha256": "84f97e43d216b1e0b3cfd97af49dfabb219d7663de7d03ede7dfc79bbf041e34"
-      },
-      {
-        "file": "balance.mjs",
-        "sha256": "142448d9a22fd1192e63e6d7f26f9bb50099e21d6f0bc95e0eac01256478d817"
-      },
-      {
-        "file": "studio.bundle.js",
-        "sha256": "edb65ee6dff0dcf5d4d785bd2a602b095fd24246d9b37ef8c1dea91b069edeea"
-      },
-      {
-        "file": "index.html",
-        "sha256": "241e409fecd3d13be8d66e0759d58baf3380430a248dbf4ca306c55368caf64a"
-      },
-      {
-        "file": "studio.css",
-        "sha256": "10916e6bd133ac5889ff3cb67c472ebd9453b458ee85723f611621cb48cd79ff"
       }
     ],
-    "practiceTargetSha256": "6d592a363a0fc513d10a5aeb6ffee4b33b2a013e1d2e0f01f96b60ad5abe45df"
+    "practiceTargetSha256": "6d592a363a0fc513d10a5aeb6ffee4b33b2a013e1d2e0f01f96b60ad5abe45df",
+    "playbackRate": 2,
+    "liveAdapter": "preview/project-v-v3/source/battle/GeneralJokCombatPlayback.js"
   },
   "navalGenerationRecords": "generation-naval-v11.json",
   "navalRequest": "references/naval-request-20261023.json",
