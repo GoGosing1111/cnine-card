@@ -1,0 +1,323 @@
+{
+  "status": "LIVE_VERIFIED",
+  "verifiedAt": "2026-10-23T06:11:33.823Z",
+  "featureCommit": "40b1aa799421db45b187a7c94884a2f09d520b89",
+  "deployment": {
+    "id": "59eb0236-d729-495c-8313-ba94f19217ee",
+    "url": "https://59eb0236.cnine-card.pages.dev",
+    "status": "success",
+    "environment": "production",
+    "commit": "71abc1e5fbf1750cb104df2dd00b6dabec9e906f",
+    "ancestry": {
+      "requiredCommit": "40b1aa799421db45b187a7c94884a2f09d520b89",
+      "included": true
+    }
+  },
+  "worker": {
+    "fixedSchedule": true,
+    "joinReview": true
+  },
+  "schedule": {
+    "version": "20261023-fixed-evenings",
+    "effectiveAt": 1792681200000,
+    "timeZone": "Asia/Seoul",
+    "weekdays": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "startHour": 20,
+    "endHour": 22,
+    "label": "화·목·토·일 20:00~22:00 (한국시간)",
+    "nextStartsAt": 1792839600000,
+    "nextStartsAtKst": "2026-10-24 20:00:00",
+    "day": "2026-10-23",
+    "plan": [],
+    "queue": []
+  },
+  "preservation": {
+    "existingMembersPreserved": true,
+    "existingEldersPreserved": true,
+    "baselineMembers": 129,
+    "currentMembers": 129
+  },
+  "roleVerification": {
+    "at": "2026-10-23T06:11:08.494Z",
+    "verification": "SOURCE_WITH_PRODUCTION_DATA_READ_ONLY",
+    "httpVerification": false,
+    "scopeNote": "운영 데이터와 통합 배포 소스를 이용한 읽기 전용 역할 판정 검증입니다. 실제 HTTP API 호출·인증·라우팅 검증이 아닙니다.",
+    "sourceCommit": "71abc1e5fbf1750cb104df2dd00b6dabec9e906f",
+    "sourceFiles": [
+      {
+        "path": "functions/_organization_join.js",
+        "sha256": "e1691ca263d29a776549df30bdb4d8d25055ae2c476b4a35a458b4eeec368a6e",
+        "matchesIntegrationCommit": true
+      },
+      {
+        "path": "shared/organization-faction-v1.mjs",
+        "sha256": "e72135bc36e435b0d2f20e0d51d54941ed167fe55d9860a05b936c71865654cb",
+        "matchesIntegrationCommit": true
+      },
+      {
+        "path": "shared/organization-system-v1.mjs",
+        "sha256": "9261510c7c16628fd26f5e2a99459ab6a171d14e476c44dd196f47e621841c10",
+        "matchesIntegrationCommit": true
+      },
+      {
+        "path": "shared/organization-preparation-v1.mjs",
+        "sha256": "e825b9cc0af5336900980af27585f5ddc7e9375d10ab9bb7e06c61f499bfddf1",
+        "matchesIntegrationCommit": true
+      },
+      {
+        "path": "shared/organization-schedule-v1.mjs",
+        "sha256": "f372ce87be313ad4b3a1019a3cb3ce21c03322326fec93420c1545cf9d266370",
+        "matchesIntegrationCommit": true
+      }
+    ],
+    "round": {
+      "scope": "LIVE",
+      "phase": "ASSIGNED",
+      "liveRoundCount": 1,
+      "memberCount": 129,
+      "activeMemberCount": 129
+    },
+    "transaction": {
+      "readOnly": true,
+      "isolation": "repeatable read",
+      "selectOnlyQueries": true,
+      "selectCount": 19,
+      "rolledBack": true
+    },
+    "roles": [
+      {
+        "role": "NONMEMBER",
+        "enabled": true,
+        "canApply": true,
+        "canReview": false,
+        "matched": true
+      },
+      {
+        "role": "CURRENT_ELDER",
+        "enabled": true,
+        "canApply": false,
+        "canReview": true,
+        "matched": true
+      },
+      {
+        "role": "ORDINARY_MEMBER",
+        "enabled": true,
+        "canApply": false,
+        "canReview": false,
+        "matched": true
+      }
+    ],
+    "credentialsOrSessionsCreated": false
+  },
+  "hunts": {
+    "status": "PREPARATION",
+    "enabled": false,
+    "stages": [
+      3,
+      4,
+      5
+    ],
+    "stats": null,
+    "rewards": null,
+    "entryCost": null,
+    "artworkCount": 9,
+    "visualApproval": "PENDING"
+  },
+  "checks": {
+    "organizationTests": 59,
+    "organizationTestsPassed": 59,
+    "browser": [
+      {
+        "width": 1440,
+        "height": 1000,
+        "errors": [],
+        "failed": [],
+        "joinApproved": true,
+        "stages": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "errors": [],
+        "failed": [],
+        "joinApproved": true,
+        "stages": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "width": 320,
+        "height": 740,
+        "errors": [],
+        "failed": [],
+        "joinApproved": true,
+        "stages": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "verificationFixturesPassed": 25
+  },
+  "publishedFiles": [
+    {
+      "path": "organization/index.html",
+      "status": 200,
+      "sha256": "03db7b03e4c03eaa233615fc63b03e1b1e724a9015485230e52226e9b63a1d59",
+      "expected": "03db7b03e4c03eaa233615fc63b03e1b1e724a9015485230e52226e9b63a1d59",
+      "match": true
+    },
+    {
+      "path": "organization/faction/index.html",
+      "status": 200,
+      "sha256": "66da61ed22dfaadd4b5f9b95fa833f39d4d7f41f8be9f8faef8ebf8ff7c7f530",
+      "expected": "66da61ed22dfaadd4b5f9b95fa833f39d4d7f41f8be9f8faef8ebf8ff7c7f530",
+      "match": true
+    },
+    {
+      "path": "js/organization-public-v1.mjs",
+      "status": 200,
+      "sha256": "bfa48c80afcb32c206696053744d783489f31fbcb2541cd9b25029c0a645b299",
+      "expected": "bfa48c80afcb32c206696053744d783489f31fbcb2541cd9b25029c0a645b299",
+      "match": true
+    },
+    {
+      "path": "js/organization-system-v1.mjs",
+      "status": 200,
+      "sha256": "3ae284e9be181045f60a4f4d38788e52b68d1d71e11b956014e1e5790d0c5da5",
+      "expected": "3ae284e9be181045f60a4f4d38788e52b68d1d71e11b956014e1e5790d0c5da5",
+      "match": true
+    },
+    {
+      "path": "js/organization-headquarters-v1.mjs",
+      "status": 200,
+      "sha256": "e69e71585c7cf0b7ae7ec1e0017f374778ae3ba991a7cabc80ad165a03312c7a",
+      "expected": "e69e71585c7cf0b7ae7ec1e0017f374778ae3ba991a7cabc80ad165a03312c7a",
+      "match": true
+    },
+    {
+      "path": "js/organization-faction-window-v1.mjs",
+      "status": 200,
+      "sha256": "e941df8e02db21afaabc327c8c425957e1e8abc58b471286d409a000aa6a37e2",
+      "expected": "e941df8e02db21afaabc327c8c425957e1e8abc58b471286d409a000aa6a37e2",
+      "match": true
+    },
+    {
+      "path": "js/organization-faction-v1.mjs",
+      "status": 200,
+      "sha256": "e6bb8685e1d53e22c5f5184714f0c86f3462e476df4502a4d544de4028998df7",
+      "expected": "e6bb8685e1d53e22c5f5184714f0c86f3462e476df4502a4d544de4028998df7",
+      "match": true
+    },
+    {
+      "path": "js/organization-join-v1.mjs",
+      "status": 200,
+      "sha256": "09f7d73f03c2479c10ae0f82cdcce7767587406f2dfabfe6d2ee1b14e73e28dc",
+      "expected": "09f7d73f03c2479c10ae0f82cdcce7767587406f2dfabfe6d2ee1b14e73e28dc",
+      "match": true
+    },
+    {
+      "path": "js/organization-hunts-v1.mjs",
+      "status": 200,
+      "sha256": "a662ea664fd58e0f9ac02e8c094fff0e2029d0c8a473e757d3017e08cf6753c5",
+      "expected": "a662ea664fd58e0f9ac02e8c094fff0e2029d0c8a473e757d3017e08cf6753c5",
+      "match": true
+    },
+    {
+      "path": "shared/organization-hunts-v1.mjs",
+      "status": 200,
+      "sha256": "bdb26c5c38dceb53d8726cb40dbc05239f4905c9abdd68e12fa95b426fc75244",
+      "expected": "bdb26c5c38dceb53d8726cb40dbc05239f4905c9abdd68e12fa95b426fc75244",
+      "match": true
+    },
+    {
+      "path": "shared/organization-schedule-v1.mjs",
+      "status": 200,
+      "sha256": "f372ce87be313ad4b3a1019a3cb3ce21c03322326fec93420c1545cf9d266370",
+      "expected": "f372ce87be313ad4b3a1019a3cb3ce21c03322326fec93420c1545cf9d266370",
+      "match": true
+    },
+    {
+      "path": "css/organization-access-20261023.css",
+      "status": 200,
+      "sha256": "eac4755e8ff059da1e39611afb905a84863b3528d6986db76b6f88c953b71d08",
+      "expected": "eac4755e8ff059da1e39611afb905a84863b3528d6986db76b6f88c953b71d08",
+      "match": true
+    },
+    {
+      "path": "assets/ui/organization/hunts-20261023/stage3-dockyard.webp",
+      "status": 200,
+      "sha256": "ac9715dcf7e7c4579066a36221d34873af9376280b18954fd1f6ae4fc33b4e8b",
+      "expected": "ac9715dcf7e7c4579066a36221d34873af9376280b18954fd1f6ae4fc33b4e8b",
+      "match": true
+    },
+    {
+      "path": "assets/ui/organization/hunts-20261023/stage4-garden.webp",
+      "status": 200,
+      "sha256": "8e6cb416b14b4e916f8d2e4d19512c4dcd1dc274248713d9cdceeb90abc0789a",
+      "expected": "8e6cb416b14b4e916f8d2e4d19512c4dcd1dc274248713d9cdceeb90abc0789a",
+      "match": true
+    },
+    {
+      "path": "assets/ui/organization/hunts-20261023/stage5-vault.webp",
+      "status": 200,
+      "sha256": "369c8d9d9f8b0338c7b8613c1bbb075f72522b3624f5764e384c5a44d3b9341c",
+      "expected": "369c8d9d9f8b0338c7b8613c1bbb075f72522b3624f5764e384c5a44d3b9341c",
+      "match": true
+    },
+    {
+      "path": "assets/ui/organization/hunts-20261023/stage3-monster.webp",
+      "status": 200,
+      "sha256": "7c43f25f3016c1022c46ec807db068d29655a708bc9e626fdcea6fe81c4b2264",
+      "expected": "7c43f25f3016c1022c46ec807db068d29655a708bc9e626fdcea6fe81c4b2264",
+      "match": true
+    },
+    {
+      "path": "assets/ui/organization/hunts-20261023/stage3-boss.webp",
+      "status": 200,
+      "sha256": "cb39d0c91264697352ceeb10e72ce2920d8151348d4cd35ce8fceb9e88312568",
+      "expected": "cb39d0c91264697352ceeb10e72ce2920d8151348d4cd35ce8fceb9e88312568",
+      "match": true
+    },
+    {
+      "path": "assets/ui/organization/hunts-20261023/stage4-monster.webp",
+      "status": 200,
+      "sha256": "efe27ea7279a8a8de864d6e9eee552372a176b6f98fa43f6eceae47c48d1e53d",
+      "expected": "efe27ea7279a8a8de864d6e9eee552372a176b6f98fa43f6eceae47c48d1e53d",
+      "match": true
+    },
+    {
+      "path": "assets/ui/organization/hunts-20261023/stage4-boss.webp",
+      "status": 200,
+      "sha256": "67bbde1ed56e0c33dc6301ecf93982faad69df83598356df29a01d0a37f2e858",
+      "expected": "67bbde1ed56e0c33dc6301ecf93982faad69df83598356df29a01d0a37f2e858",
+      "match": true
+    },
+    {
+      "path": "assets/ui/organization/hunts-20261023/stage5-monster.webp",
+      "status": 200,
+      "sha256": "ee54b405826e8b3f51c380a70582436c834bbfaf392f629406c2f9193629dfd3",
+      "expected": "ee54b405826e8b3f51c380a70582436c834bbfaf392f629406c2f9193629dfd3",
+      "match": true
+    },
+    {
+      "path": "assets/ui/organization/hunts-20261023/stage5-boss.webp",
+      "status": 200,
+      "sha256": "1ecd4a0db87de5fdb8898d2d1593f9c66644f7289a92b894c6c179c122b53484",
+      "expected": "1ecd4a0db87de5fdb8898d2d1593f9c66644f7289a92b894c6c179c122b53484",
+      "match": true
+    }
+  ]
+}
