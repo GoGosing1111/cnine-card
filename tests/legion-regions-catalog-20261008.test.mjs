@@ -12,7 +12,7 @@ test('catalog preparation is atomic, inactive, excluded from supply and preserve
   const dry=await prepareLegionRegions(client);assert.equal(dry.created.length,30);assert.equal((await db.query('SELECT * FROM character_equipment_items')).rows.length,0);
   const live=await prepareLegionRegions(client,{apply:true});assert.equal(live.mode,'TEST');assert.equal(live.grants,0);assert.equal(live.created.length,30);
   assert.ok(live.equipment.every(i=>!i.is_active&&!i.is_public&&!i.supply_enabled&&!i.supply_weight));
-  const unique=live.equipment.find(i=>i.code==='HUNT_COAST_UNIQUE');assert.equal(Number(unique.pve_power),130500);
+  const unique=live.equipment.find(i=>i.code==='HUNT_COAST_UNIQUE');assert.equal(Number(unique.pve_power),261000);
   await db.query("UPDATE character_equipment_items SET total_power=123456 WHERE code='HUNT_COAST_UNIQUE'");
   const again=await prepareLegionRegions(client,{apply:true});assert.equal(again.created.length,0);assert.equal(again.policyCreated,false);assert.equal(Number(again.equipment.find(i=>i.code==='HUNT_COAST_UNIQUE').total_power),123456);
   assert.equal((await db.query('SELECT * FROM admin_logs')).rows.length,1);

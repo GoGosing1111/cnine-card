@@ -335,10 +335,11 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(browserProof.has(path))continue;
     if(lobbySourceRepair&&(lobbySources.has(path)||(lobbyBundleRepair&&path==='js/adventure-lobby-v2107.js')))continue;
     // Legacy gate entry points also use .mjs without the .test suffix. Require
-    // direct membership in a gate command below; shared helpers remain excluded.
+    // membership in a gate command or its exact registered child commands;
+    // shared helpers remain excluded and the complete parent is always rerun.
     if(!gateTestPath(path))throw Error(`Runtime/shared helper changed (${path}): run a fresh full gate.`);
     let matched=false;
-    for(let i=0;i<names.length-1;i++)if(scripts[names[i]].split(/\s+/).includes(path)){matched=true;if(i<failedIndex&&(!changesAfterLastRun||changesAfterLastRun.has(path)))rerun.add(i);}
+    for(let i=0;i<names.length-1;i++)if([names[i],...nestedStages(names[i])].some(name=>scripts[name].split(/\s+/).includes(path))){matched=true;if(i<failedIndex&&(!changesAfterLastRun||changesAfterLastRun.has(path)))rerun.add(i);}
     if(!matched&&operations.length&&path.endsWith('.test.mjs')&&operations.some(operation=>read(path).includes('../'+operation)))operationTests.add(path);
     else if(!matched)throw Error(`Cannot map changed test to the full gate: ${path}`);
   }

@@ -403,3 +403,29 @@ test('registered nested npm tests belong to their parent and cannot be omitted f
   // A parent summary is not sufficient evidence that the nested command ran.
   assert.throws(()=>fullGateResumePlan(stopped),/Resume requires/);
 });
+
+test('changed nested test reruns its whole parent and unrelated registered scripts remain rejected',()=>{
+  const f=fixture({changed:['tests/nested.test.mjs']});
+  f.scripts['test:c']='node --test tests/c.test.mjs && npm run test:nested';
+  f.scripts['test:nested']='node --test tests/nested.test.mjs';
+  const logText=`> release:gate\n> ${f.scripts['release:gate']}\n> test:a\nℹ fail 0\n> test:b\nℹ fail 0\n> test:c\nℹ fail 0\n> test:nested\nℹ fail 1\n`;
+  const args={...f,logText,env:{...f.env,RELEASE_GATE_RESUME_SHA256:createHash('sha256').update(logText).digest('hex')}};
+  const plan=fullGateResumePlan(args);
+  assert.equal(plan.reused,2);
+  assert.deepEqual(plan.commands.slice(1),['npm run test:c','node scripts/verify-production-release.mjs']);
+  const git=f.git;
+  args.scripts['test:unrelated']='node --test tests/unrelated.test.mjs';
+  args.git=(...a)=>a[0]==='diff'?'tests/unrelated.test.mjs':git(...a);
+  assert.throws(()=>fullGateResumePlan(args),/Cannot map changed test/);
+});
+
+test('a changed descendant of a completed nested stage reruns all ancestor checks',()=>{
+  const f=fixture({changed:['tests/leaf.test.mjs']});
+  f.scripts['test:a']='node --test tests/a.test.mjs && npm run test:nested';
+  f.scripts['test:nested']='node --test tests/nested.test.mjs && npm run test:leaf';
+  f.scripts['test:leaf']='node --test tests/leaf.test.mjs';
+  const logText=`> release:gate\n> ${f.scripts['release:gate']}\n> test:a\nℹ fail 0\n> test:nested\nℹ fail 0\n> test:leaf\nℹ fail 0\n> test:b\nℹ fail 1\n`;
+  const plan=fullGateResumePlan({...f,logText,env:{...f.env,RELEASE_GATE_RESUME_SHA256:createHash('sha256').update(logText).digest('hex')}});
+  assert.equal(plan.reused,0);
+  assert.deepEqual(plan.commands.slice(1),['npm run test:a','npm run test:b','npm run test:c','node scripts/verify-production-release.mjs']);
+});
