@@ -1,0 +1,72 @@
+{
+  "verifiedAt": "2026-10-23T15:25:22.897Z",
+  "source": "90b75728a1a8713764b2edcff8201fc8cb1c5701",
+  "pages": {
+    "id": "a4c1bd9f-9ac9-4d67-a02d-a35b256e2346",
+    "url": "https://a4c1bd9f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "90b75728a1a8713764b2edcff8201fc8cb1c5701",
+    "createdAt": "2026-10-23T15:21:38.481505Z"
+  },
+  "apiVersion": "b56d908b-b750-4d9a-ad02-2f6cda5ff1bf",
+  "focusedTests": 36,
+  "browserChecks": 31,
+  "liveFilesVerified": 103,
+  "liveCards": 88,
+  "originalsUnchanged": 95,
+  "productionAccountWrites": 0,
+  "assetCount": 19986,
+  "baseline": {
+    "firstRowsMs": 2303.3,
+    "loadMs": 9815.4,
+    "requests": 98,
+    "encodedMiB": 7.73
+  },
+  "cold": {
+    "firstRowsMs": 3335.0999999940395,
+    "loadMs": 3099.2000000178814,
+    "requests": 58,
+    "encodedBytes": 1068609
+  },
+  "cacheBypassReload": {
+    "at": "2026-10-23T15:23:39.594Z",
+    "conditions": "Fast 4G, CPU4x, 390x844, HTTP cache bypass reload, signed out, existing TLS connection",
+    "rows": 88,
+    "firstRowsMs": 2198,
+    "domContentLoadedMs": 1430.300000011921,
+    "loadMs": 1464,
+    "lastResourceMs": 2161.9000000059605,
+    "requests": 57,
+    "encodedBytes": 1048198,
+    "cityUi": [],
+    "hiddenDetailImages": 0,
+    "longTasks": [
+      {
+        "start": 673.0999999940395,
+        "duration": 126
+      },
+      {
+        "start": 1187.7000000178814,
+        "duration": 197
+      },
+      {
+        "start": 2126.9000000059605,
+        "duration": 73
+      },
+      {
+        "start": 2199.9000000059605,
+        "duration": 279
+      },
+      {
+        "start": 2707.2000000178814,
+        "duration": 96
+      }
+    ]
+  },
+  "encodedReductionPercent": 86.81623599507677,
+  "notes": [
+    "First fresh-context measurement includes a new connection and cold CDN asset fetches; initial row time is not a universal improvement.",
+    "A historical pumpkin packaging test expects a Node test to ship, but baseline 678a76be7 already excludes it via bloodmoonNodeQaOnly. Current focused packaging and official release checks pass.",
+    "Announcement drafted only; no user notifications sent."
+  ]
+}

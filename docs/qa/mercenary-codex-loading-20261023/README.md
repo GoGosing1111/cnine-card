@@ -17,4 +17,10 @@
 
 Pages의 20,000개 파일 제한을 위해 기존 Node 전용 명령·검사 112개는 Git과 로컬 검사에 보존하고 공개 정적 배포에서만 제외했다. 명단은 `scripts/node-command-authoring-only-20261024.json`. 게임·브라우저 프리뷰의 실행 참조가 없음을 확인했다. 원화·기존 게임 자산을 삭제하지 않았다. 현재 예상 공개 파일 수 19,986개.
 
-로컬 상세 증거: `C:/Users/User/Downloads/upload/cnine-card/output/mercenary-codex-loading-20261023/`. 운영 배포 및 같은 조건의 재측정 결과는 배포 후 추가한다. `user-notice.txt`는 게시용 초안이며 자동 발송하지 않는다.
+운영 반영 완료: 소스 `90b75728a`, Pages `a4c1bd9f`, API `b56d908b`. 공식 관련 검사 36개 통과, 공개 파일 103개 바이트 SHA-256 일치, 운영 88종·은설 상세 원화/프레임·전투력 1,940,890을 확인했다. 기존 임시 보존 파일 73개를 해시 일치로 복원했다.
+
+운영 재측정(Fast 4G, CPU 4배, 모바일 390×844): 새 격리 브라우저에서 58개 요청, 1,068,609바이트(1.02MiB)로 기존 7.73MiB 대비 약 87% 감소. load 이벤트 3,099ms, 첫 목록 표시 3,335ms였다. 같은 연결에서 HTTP 캐시를 무시한 재측정은 57개 요청, 1,048,198바이트, load 1,464ms, 첫 목록 2,198ms였다. 새 연결·CDN 초기 응답에 따라 첫 목록 시간은 편차가 있으므로 모든 환경에서 첫 목록이 일정 배수 빨라졌다고 안내하지 않는다. 두 측정 모두 숨겨진 상세 이미지와 도시 UI 선행 요청은 0개였다.
+
+참고: 별도로 확인한 과거 호박펫 배포 검사는 `tests/navigation-deck-ui-v1880.mjs`의 공개 배포를 요구해 실패한다. 이 파일은 이번 변경 전 `678a76be7`에서도 기존 `bloodmoonNodeQaOnly`가 이미 제외하던 Node 검사로, 현재 원화 무결성·배포 확인 및 공식 36개 검사에는 실패가 없다. 이 과거 검사 정책은 이번 로딩 수정에서 변경하지 않았다.
+
+로컬 상세 증거: `C:/Users/User/Downloads/upload/cnine-card/output/mercenary-codex-loading-20261023/`. 저장소 증거는 `verification.json`, `browser-results.json`, PC·모바일 이미지에 보존한다. `user-notice.txt`는 운영 반영 후 게시 가능한 문안이며 자동 발송하지 않았다.
