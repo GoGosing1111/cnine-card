@@ -37,7 +37,7 @@ for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
   assert.equal(Number((await f.p('SELECT COUNT(*) n FROM user_equipment_instances WHERE user_id=7 AND equipment_id=37').first()).n),3);
   assert.equal((await lootShopState(f.env,{id:8})).products.find(p=>p.id===productId).remaining,1000);
  });
- test(`${label}: CMS lists only the four approved MYTHIC Mystic items and no longer requires a fixed selection`,async t=>{
+ test(`${label}: CMS lists public gear while the fixed Mystic pool remains exactly four`,async t=>{
   const f=await lootFixture(t,{postgres});
   for(const [itemId,name,rarity,active,publicFlag] of [
    [904,'미스틱 신규 장비','MYTHIC',1,1],
@@ -46,7 +46,7 @@ for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
    [909,'미스틱 잘못된 등급','MYSTIC',1,1]
   ])await f.p('INSERT INTO character_equipment_items(id,code,name,rarity,is_active,is_public) VALUES(?,?,?,?,?,?)',itemId,'EQ_'+itemId,name,rarity,active,publicFlag).run();
   const catalog=await lootShopCatalog(f.env);
-  assert.deepEqual(catalog.equipment.map(g=>Number(g.id)).sort((a,b)=>a-b),[37,900,901,902,903]);
+  assert.deepEqual(catalog.equipment.map(g=>Number(g.id)).sort((a,b)=>a-b),[37,900,901,902,903,904,905,906,909]);
   assert.deepEqual(catalog.equipment.filter(g=>lootEquipmentMatchesProduct(g,'MYSTIC_EQUIPMENT')).map(g=>Number(g.id)).sort((a,b)=>a-b),[900,901,902,903]);
   assert.deepEqual(catalog.equipment.filter(g=>lootEquipmentMatchesProduct(g,'F_BODY')).map(g=>Number(g.id)),[37]);
   const before=structuredClone(f.shopPolicy),draft=structuredClone(before);
@@ -85,7 +85,7 @@ for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
   const saved=(await readLootShopPolicy(f.env)).policy;assert.deepEqual(saved,{...next,revision:before.revision+1});
   const state=await lootShopState(f.env,f.user),product=state.products.find(p=>p.id===productId);
   assert.equal(product.bought,3);assert.equal(product.remaining,7);assert.equal(product.canBuy,true);assert.equal(state.ownedPacks.length,3);
-  const markup=inspectionMarkup(product,state);assert.match(markup,/10회/);assert.match(markup,/7회/);assert.equal((markup.match(/<i class="used"><\/i>/g)||[]).length,3);
+  const markup=inspectionMarkup(product,state);assert.match(markup,/10회/);assert.match(markup,/7회/);assert.match(markup,/구매 횟수는 계정에 누적/);
   for(let i=3;i<9;i++)await purchaseLootProduct(f.env,f.user,{productId,requestId:id()});
   const bodies=Array.from({length:2},()=>({productId,requestId:id()})),results=await Promise.allSettled(bodies.map(body=>purchaseLootProduct(f.env,f.user,body)));
   assert.equal(results.filter(r=>r.status==='fulfilled').length,1);

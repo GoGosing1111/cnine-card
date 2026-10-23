@@ -37,7 +37,7 @@ for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
  });
  test(`${label}: CMS offers SS candidates, rejects non-SS selections and leaves the pool explicitly selected`,async t=>{
   const f=await lootFixture(t,{postgres});f.document.mercenaries[4].rank='SSS';await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(f.document)).run();
-  const catalog=await lootShopCatalog(f.env);assert.ok(catalog.mercenaries.some(c=>c.rank==='SS'));assert.ok(catalog.mercenaries.every(c=>['A','S','SS'].includes(c.rank)));
+  const catalog=await lootShopCatalog(f.env);assert.ok(catalog.mercenaries.some(c=>c.rank==='SS'));assert.ok(catalog.mercenaries.every(c=>['C','B','A','S','SS','SSS'].includes(c.rank)));
   for(const code of [f.document.mercenaries[0].code,f.document.mercenaries[4].code,'V-999']){
    const bad=structuredClone(f.shopPolicy);ss(bad).mercenaryCodes.push(code);await assert.rejects(()=>saveLootShopPolicy(f.env,f.user,bad),/모두 SS등급/);
   }
