@@ -92,12 +92,11 @@
   $('chief-shortcut').onclick=()=>options.openChief?options.openChief():selectCategory('administration');
   $('account-shortcut').onclick=()=>options.openAccount?.();
 
-  // The main lobby stays quiet. Its menus and the original proposal each
-  // open only in their own explicit dialog.
+  // Menus and the production growth guide open only on explicit interaction.
   function openMenu(){if($('menu-dialog').open)return;menuOpener=document.activeElement;$('menu-dialog').showModal();$('close-menu').focus({preventScroll:true});}
   function closeMenu(){$('menu-dialog').close();fromAll=false;setRoute(activeRoute);menuOpener?.focus({preventScroll:true});}
   $('close-menu').onclick=closeMenu;listen($('menu-dialog'),'cancel',event=>{event.preventDefault();closeMenu();});
-  function openGuide(opener){guideOpener=opener;const frame=$('guide-frame');if(!frame.getAttribute('src')){const url=new URL(frame.dataset.src,location.origin);url.searchParams.set('account',String(options.accountId||'preview'));frame.src=url.href;}$('guide-dialog').showModal();$('close-guide').focus({preventScroll:true});}
+  function openGuide(opener){guideOpener=opener;const frame=$('guide-frame');if(!frame.getAttribute('src')){const url=new URL(frame.dataset.src,location.origin);url.searchParams.set('account',String(options.getAccountId?.()||options.accountId||'guest'));frame.src=url.href;}$('guide-dialog').showModal();$('close-guide').focus({preventScroll:true});}
   function closeGuide(){$('guide-dialog').close();guideOpener?.focus({preventScroll:true});}
   $('start-tutorial').onclick=event=>openGuide(event.currentTarget);$('close-guide').onclick=closeGuide;
   listen($('guide-dialog'),'cancel',event=>{event.preventDefault();closeGuide();});

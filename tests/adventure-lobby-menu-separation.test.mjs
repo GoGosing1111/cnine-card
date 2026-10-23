@@ -33,14 +33,23 @@ test('card and equipment destinations use separate top-level categories',async()
   assert.doesNotMatch(app,/mercenaryHangar',title:'용병 지휘소',category:'cards'/);
 });
 
-test('optional tutorial mirrors the same card and equipment split',async()=>{
-  const [html,app]=await Promise.all([
-    read('preview/lobby-clarity-v1/tutorial/index.html'),
-    read('preview/lobby-clarity-v1/tutorial/app.js')
+test('legacy tutorial opens the growth guide and every destination exists in the live route contract',async()=>{
+  const [legacy,bridge,lobby,adapter]=await Promise.all([
+    read('preview/lobby-clarity-v1/tutorial/index.html'),read('preview/lobby-clarity-v1/tutorial/bridge.js'),
+    read('preview/lobby-clarity-v1/index.html'),read('js/soopketmon-v21-exact-shell-adapter.js')
   ]);
-  assert.doesNotMatch(html,/sidebar-label[^>]*>콘텐츠|data-category="growth"|성장·수집/);
-  assert.match(html,/data-category="cards"/);
-  assert.match(html,/data-category="equipment"/);
-  assert.match(app,/cards:\{title:'카드·용병',icon:'cards'/);
-  assert.match(app,/equipment:\{title:'장비·제작',icon:'forge'/);
+  const {STEPS,ROUTES,LIMITED_NOTICE}=await import('../growth-guide/content.mjs');
+  assert.match(legacy,/bridge\.js\?v=20261024-growth-guide/);
+  assert.match(bridge,/location\.replace\(guide.href\)/);
+  assert.match(bridge,/searchParams\.set\('account',account\)/);
+  assert.match(lobby,/data-src="\/growth-guide\/\?v=20261024-1"/);
+  assert.match(lobby,/초보유저 성장팁/);
+  assert.doesNotMatch(lobby,/처음 오셨나요|첫 이용 안내/);
+  for(const step of STEPS)for(const block of step.blocks)for(const [route] of block.links||[]){
+    assert.ok(ROUTES[route],route+' must have a standalone fallback');
+    assert.ok(adapter.includes(route+': Object.freeze('),route+' must exist in the live navigation contract');
+  }
+  assert.match(LIMITED_NOTICE,/GM 권한.*수량이 늘어날.*복각 시즌/);
+  assert.ok(STEPS.some(step=>step.id==='icons')&&STEPS.some(step=>step.id==='equipment'));
 });
+

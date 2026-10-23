@@ -1,0 +1,57 @@
+{
+  "checkedAt": "2026-10-23T20:04:25.812Z",
+  "timezone": "Asia/Seoul",
+  "season": "시즌 23",
+  "population": "Current Challenger ranks 1–20",
+  "rankingFilter": "ACTIVE, non-OWNER, not banned; season_score DESC, wins DESC, nickname, id (same as public ranking)",
+  "source": "Production PostgreSQL; REPEATABLE READ READ ONLY, no mutation",
+  "sample": 20,
+  "results": {
+    "iconPair": 20,
+    "registeredThreeDistinctMercenaries": 20,
+    "emperorFourPieces": 20,
+    "easternWeapon": 20,
+    "twoFurOneZenith": 19,
+    "atLeastOneRegisteredMercenaryLevel10": 12,
+    "battleSuits": {
+      "Z-BODY": 18,
+      "S-BODY": 1,
+      "H-BODY": 1
+    }
+  },
+  "publicData": "Aggregates only; no account identifiers or hidden mercenary order published",
+  "runtimeAuthority": [
+    "functions/_new_user_gift.js",
+    "shared/icon-fusion-policy-v1.mjs",
+    "shared/icon-card-choice-v1.mjs",
+    "shared/icon-supremacy-v1.mjs",
+    "functions/_ranked_series.js",
+    "shared/mercenary-level-v1.mjs",
+    "shared/mercenary-kangyun-v1.mjs",
+    "functions/_equipment.js",
+    "shared/battle-suit-skill-chips.mjs"
+  ],
+  "limitedPolicy": "User correction: GM can increase limited mercenary quantities; rerun seasons can make them obtainable again. Tutorial points to current shop/announcements and does not label them unobtainable.",
+  "browser": {
+    "checks": 134,
+    "viewports": [
+      [
+        1440,
+        950
+      ],
+      [
+        390,
+        844
+      ],
+      [
+        320,
+        740
+      ]
+    ],
+    "status": "PASS",
+    "errors": [],
+    "productionWrites": 0
+  },
+  "privateEvidenceSha256": "898435c6780a0300b33562885cd1b6371b79d20cc8d5b46f95a0494f1e48efc9",
+  "userVisualApproval": false
+}

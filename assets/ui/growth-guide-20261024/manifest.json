@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-24",
+  "tool": "built-in image_gen",
+  "status": "TECHNICAL_QA_COMPLETE",
+  "userVisualApproval": false,
+  "prompt": "Use case: ui-mockup. Asset type: ONE production RPG beginner growth guide nine-slice UI plate skin, square 1024x1024, not a screenshot or mockup of a full interface. Subject: a premium crafted dark navy leather field guide plaque with a restrained antique warm gold and jade-green metal rim, unique small engraved botanical corner fittings, subtle embossed grain and tiny metal rivets. Straight-on orthographic, perfectly straight aligned edges. Outer shape almost fills image with about 16px transparent margin; corners occupy only outer 70px. Center 80 percent is uninterrupted nearly black navy tactile material with extremely subtle texture, calm and absolutely empty so white Korean DOM text can be placed on top at any size. No text, lettering, numerals, logos, icons, objects, characters, UI controls, dividing lines, or inner compartments. Real alpha outside silhouette. Clean sharp 2D collectible RPG UI art, soft premium material shading. Symmetrical nine-slice-friendly border, no center illustration. This one skin will be used for panels and buttons of the same beginner guide; prioritize legibility and flexible resizing.",
+  "source": {
+    "file": "guide-plate-source.png",
+    "sha256": "dded21a1b81d534ba23263196766c1a6ff719b4e4eb9d02d9d7fc7f7a9d9e663"
+  },
+  "runtime": {
+    "file": "guide-plate.webp",
+    "sha256": "85ab75f88ae8599e3f096c737fe4673d412b73c9ec5864abc299c3a1ac9b9f36",
+    "derivation": "uniform resize to 1024px and WebP encoding; original preserved"
+  },
+  "consumers": [
+    "growth-guide/style.css",
+    "preview/lobby-clarity-v1/style.css",
+    "js/adventure-lobby-v2107.js"
+  ],
+  "purpose": "Production beginner guide UI skin; no new battle preview UI"
+}
