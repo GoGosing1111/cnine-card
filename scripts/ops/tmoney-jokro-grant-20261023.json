@@ -1,0 +1,28 @@
+{
+  "operationKey": "ops:tmoney-jokro-exempt-grant:20261023:v1",
+  "authorization": "추가로 티머니 계정에 족로 지급해",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "5147",
+      "nickname": "T-Money™",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "35fe97106d5fff7ffeeb25a7c64196327dedda8f907ffd336af1f0baa5d75fed"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "5147",
+      "nickname": "T-Money™",
+      "code": "V-979",
+      "name": "족로",
+      "quantity": 1
+    }
+  ],
+  "context": "기존 진무 PVE/PVP 편성을 유지하고 족로 1장 추가 지급; 별도 메시지 요청 없음"
+}

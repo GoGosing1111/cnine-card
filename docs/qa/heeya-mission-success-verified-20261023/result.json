@@ -1,0 +1,39 @@
+{
+  "operationKey": "ops:heeya-mission-success-verified-coins:20261023:v1",
+  "actor": "CODEX_OPERATIONS",
+  "completedAt": "2026-10-23T14:21:17.997Z",
+  "auditId": "50549",
+  "planHash": "69e387d5b8ace5d454ee927781c73fb94694c1806e27734e52dbfe32b165439e",
+  "sourceSha256": "1321ed8492f614a5bdae6ddb1beee155724210ab98f32fa765666f41f749c5c4",
+  "title": "희야 미션 성공 보상",
+  "body": "희야 미션 성공 보상으로 30조 코인을 드립니다. 메시지함에서 보상을 수령해 주세요.",
+  "roleCounts": {
+    "OWNER": 2,
+    "USER": 589,
+    "ADMIN": 3
+  },
+  "providerCounts": {
+    "PLAYDK": 593,
+    "WAGO": 1
+  },
+  "excluded": [
+    {
+      "status": "BANNED",
+      "count": "1"
+    }
+  ],
+  "verification": {
+    "status": "VERIFIED",
+    "recipients": 594,
+    "messages": 594,
+    "rewardAttachments": 594,
+    "coinPerRecipient": "30000000000000",
+    "totalCoin": "17820000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "claimed": 0,
+    "noImmediateWalletCredit": true
+  },
+  "verifiedAt": "2026-10-23T14:21:23.081Z",
+  "independentConnection": true
+}

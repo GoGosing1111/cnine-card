@@ -23,7 +23,8 @@ export const JOKRO_LOAN=Object.freeze({userId:5950,expiresAt:Date.parse('2026-10
 // 2026-10-23 direct prizes add Hatsi (1768) and Danjeonghanbam (5008), stock-exempt.
 // 2026-10-23 stock-exempt OWNER gifts: Inception (2) and Bichon (5663).
 // Callers still require a positive holding; this does not grant or restore cards.
-export const jokroAccountAllowed=(userId,code,now=Date.now(),hasPackIssue=false)=>code!==JOKRO_CODE||Number(userId)===JOKRO_OWNER_ID||Number(userId)===2||Number(userId)===5663||Number(userId)===303||Number(userId)===4817||Number(userId)===1768||Number(userId)===5008||hasPackIssue===true||
+// T-Money (5147) is an authorized permanent direct-grant recipient; ownership is required.
+export const jokroAccountAllowed=(userId,code,now=Date.now(),hasPackIssue=false)=>code!==JOKRO_CODE||Number(userId)===JOKRO_OWNER_ID||Number(userId)===2||Number(userId)===5663||Number(userId)===303||Number(userId)===4817||Number(userId)===1768||Number(userId)===5008||Number(userId)===5147||hasPackIssue===true||
  (Number(userId)===JOKRO_LOAN.userId&&now<JOKRO_LOAN.expiresAt);
 export const jokroActionCredit=actors=>actors.some(a=>isJokro(a)&&a.alive!==false&&a.hp>0)?JOKRO_COMBAT.actionCredit:1;
 export function jokroIncomingDamage(target,incoming,source){
