@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {BLOODMOON_CODES,BLOODMOON_SERVER_LIMIT} from '../../shared/mercenary-bloodmoon-catalog-v1.mjs';
-import {BLOODMOON_PACK_KEY,bloodmoonPackDraft} from '../../shared/mercenary-bloodmoon-pack-v1.mjs';
+import {BLOODMOON_PACK_KEY,legacyBloodmoonPackDraft as bloodmoonPackDraft} from '../../shared/mercenary-bloodmoon-pack-v1.mjs';
 export const BLOODMOON_REGISTRATION_KEY='ops:bloodmoon-codex-registration:20261023:v1';
 export async function readBloodmoonRegistration(db){
  const stock=(await db.query('SELECT code,stock_limit,issued,revision FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code',[BLOODMOON_CODES])).rows;

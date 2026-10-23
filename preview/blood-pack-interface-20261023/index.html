@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>리버스콜 · 블러드 UI 시연</title><link rel="stylesheet" href="/css/mercenary-bloodmoon-pack-v2.css?v=20261018-valter-v1"><style>
+body{margin:0;background:#060915;color:#eee3d3;font-family:'Noto Sans KR',sans-serif}.review-head{max-width:1180px;margin:20px auto 8px;padding:0 16px;box-sizing:border-box}.review-head h1{font-size:21px;margin:0 0 8px}.review-head p{font-size:13px;color:#c8b5c8;line-height:1.7;margin:0}.review-nav{display:flex;flex-wrap:wrap;gap:5px;max-width:1180px;margin:auto;padding:0 12px}.review-nav button{width:155px;font-size:12px}.review-nav button[aria-pressed=true]{background-image:url('/assets/ui/packs/blood-pack-20261023/button-ember.webp')}.review-link{font-size:12px;color:#e7c79c;display:block;margin:0 0 15px}.bwp-preview{position:relative;max-height:none;margin:0 auto 24px;overflow:visible}.bwp-preview .bwp-header{position:static}.bwp-preview .bwp-actions{position:static}.bwp-preview .bwp-confirm{position:relative;min-height:560px}.bwp-preview .bwp-confirm[hidden]{display:none}.bwp-preview .bwp-film{max-width:760px;margin:20px auto}.bwp-preview .bwp-reveal{display:block}.bwp-preview video{display:block}.bwp-preview .bwp-status{color:#f3be87}@media(max-width:600px){.review-head{margin-top:14px}.review-head h1{font-size:18px}.review-nav{gap:0;padding:0 6px}.review-nav button{width:33.33%;min-height:54px;padding:10px 16px;font-size:11px}.bwp-preview .bwp-confirm{min-height:480px}}
+</style></head><body><header class="review-head"><h1>블러드팩 · 화면 시연</h1><p>판매 OFF · 계정 연결 없음 · 실제 추첨·차감·지급 없음</p><a class="review-link" href="/?screen=buy">라이브 카드상점으로</a></header><nav class="review-nav" aria-label="시연 화면"><button class="bwp-button" data-view="room">계약실</button><button class="bwp-button" data-view="auto">자동뽑기</button><button class="bwp-button" data-view="confirm">구매 확인</button><button class="bwp-button" data-view="results">10회 결과</button><button class="bwp-button" data-view="ss">SS 영상</button><button class="bwp-button" data-view="sss">SSS 영상</button></nav><section id="room" class="bwp-dialog bwp-preview" aria-label="블러드팩 화면 시연"></section><script type="module">
+import {BLOODMOON_PACK} from '/shared/mercenary-bloodmoon-pack-v1.mjs';
+import {BLOODMOON_PACK_CARDS} from '/shared/mercenary-bloodmoon-pool-v3.mjs?v=20261018-valter-v1';
+import {bloodmoonRoomMarkup,bloodmoonCollectionMarkup,bloodmoonResultsMarkup} from '/js/mercenary-bloodmoon-presentation-v2.mjs?v=20261018-stock-visible-v1';
+import {MERCENARY_CINEMATICS} from '/js/mercenary-acquisition-video.mjs?v=2145';
+const host=document.querySelector('#room'),$=s=>host.querySelector(s);let liveStock=[];
+function render(mode){
+ host.querySelector('video')?.pause();host.innerHTML=bloodmoonRoomMarkup(BLOODMOON_PACK);host.dataset.resultCount=mode==='results'?'10':'';
+ $('[data-bwp-status]').textContent='화면 시연 · 실제 개봉 결과가 아닙니다.';
+ $('[data-bwp-close]').onclick=()=>render('room');$('[data-bwp-recover]').disabled=true;$('[data-bwp-auto-toggle]').onclick=()=>render('auto');if(mode==='auto'){$('[data-bwp-auto-panel]').hidden=false;$('[data-bwp-auto-quote]').textContent='화면 시연 · 실제 추첨·차감 없음';$('[data-bwp-auto-start]').disabled=true;}
+ $('[data-bwp-roster]').innerHTML=bloodmoonCollectionMarkup(BLOODMOON_PACK_CARDS,liveStock);
+ document.querySelectorAll('[data-view]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===mode)));
+ if(mode==='confirm'){
+  $('[data-bwp-shell]').hidden=true;$('[data-bwp-confirm]').hidden=false;$('[data-bwp-confirm-text]').textContent='가격 미정 · 판매 OFF';
+  $('[data-bwp-confirm-start]').disabled=true;$('[data-bwp-confirm-start]').textContent='시연 화면';$('[data-bwp-confirm-cancel]').onclick=()=>render('room');
+ }else if(mode==='results'){
+  $('[data-bwp-off]').hidden=true;$('[data-bwp-collection]').hidden=true;$('[data-bwp-reveal]').hidden=false;
+  $('[data-bwp-result-total]').textContent='10장 동시 공개 · 시연';
+  const rows=Array.from({length:10},(_,i)=>{const c=BLOODMOON_PACK_CARDS[i%BLOODMOON_PACK_CARDS.length];return {rank:c.rank,name:c.name,mercenaryCode:c.code,artUrl:'/'+c.displayArt,limited:true,serial:'—'};});
+  $('[data-bwp-results]').innerHTML=bloodmoonResultsMarkup(rows,BLOODMOON_PACK.image);
+  host.querySelectorAll('.bwp-result>small').forEach(node=>node.textContent='시연 · 실제 지급 없음');
+ }else if(mode==='ss'||mode==='sss'){
+  const rank=mode.toUpperCase();$('[data-bwp-off]').hidden=true;$('[data-bwp-collection]').hidden=true;$('[data-bwp-reveal]').hidden=false;$('.bwp-result-area').hidden=true;
+  $('[data-bwp-film]').hidden=false;$('[data-bwp-video]').hidden=false;$('[data-bwp-film-rank]').textContent=rank+' 영상 시연';
+  const video=document.createElement('video');video.src=MERCENARY_CINEMATICS[rank].src;video.controls=true;video.muted=true;video.playsInline=true;video.preload='metadata';$('[data-bwp-video]').replaceChildren(video);video.play().catch(()=>{});
+  $('.bwp-film>p').textContent='하이퍼팩과 같은 원본 영상입니다. 실제 획득 결과는 없습니다.';
+ }
+}
+document.querySelectorAll('[data-view]').forEach(button=>button.onclick=()=>render(button.dataset.view));render('room');
+// Public, read-only stock; no account, purchase or receipt API is used in this preview.
+fetch('/api/mercenaries/v3/bloodmoon-pack/feature',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Stock unavailable');return r.json();}).then(data=>{liveStock=data.stock||[];const roster=$('[data-bwp-roster]');if(roster)roster.innerHTML=bloodmoonCollectionMarkup(BLOODMOON_PACK_CARDS,liveStock);}).catch(()=>{});
+</script></body></html>
