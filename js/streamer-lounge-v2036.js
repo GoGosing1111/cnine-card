@@ -106,6 +106,9 @@ function card(row, index, width, mobile) {
   const lineY = nameY + 24, linkY = lineY + 33, height = linkY + 24;
   const x = (width-photo)/2, handle = stationUrl(row.stationUrl).split('/').pop();
   const nameSize = Math.min(mobile ? 20 : 29, (width-pad*2)/(Array.from(row.name).length*.93));
+  const cnine = row.id === 'mew030709' || row.id === 'zalalz';
+  const logoSize = mobile ? 28 : 38, logoGap = mobile ? 5 : 8;
+  const nameX = (width - (cnine ? logoSize + logoGap : 0)) / 2;
   const id = `sl40Photo-${row.id}`, href = portraitSourceUrl(row.imageUrl), fallback = profileImageUrl(row.imageUrl);
   return { height, markup: `<g class="sl40-card" role="listitem" data-profile-id="${esc(row.id)}">
     <image href="${art}member-card.png" width="${width}" height="${height}" preserveAspectRatio="none" aria-hidden="true"/>
@@ -116,7 +119,8 @@ function card(row, index, width, mobile) {
       <text data-sl40-photo-initial x="${width/2}" y="${top+photo/2+8}" text-anchor="middle" fill="#bda988" font-size="26" font-family="${sans}" aria-hidden="true">${esc(Array.from(row.name)[0])}</text>
       ${href ? `<image data-sl40-photo data-fallback="${esc(fallback)}" href="${esc(href)}" x="${x}" y="${top}" width="${photo}" height="${photo}" clip-path="url(#${id})" preserveAspectRatio="xMidYMid slice" aria-label="${esc(row.name)} 프로필"/>` : ''}
       <text x="${width/2}" y="${handleY}" text-anchor="middle" fill="#b1a99b" font-family="Arial,sans-serif" font-size="${mobile ? 8 : 10}" letter-spacing=".5">@${esc(handle)}</text>
-      <text role="heading" aria-level="3" x="${width/2}" y="${nameY}" text-anchor="middle" fill="#f1ebe0" font-family="${sans}" font-size="${nameSize}" font-weight="550" letter-spacing="-.6">${esc(row.name)}</text>
+      <text role="heading" aria-level="3" x="${nameX}" y="${nameY}" text-anchor="middle" fill="#f1ebe0" font-family="${sans}" font-size="${nameSize}" font-weight="550" letter-spacing="-.6">${esc(row.name)}</text>
+      ${cnine ? `<image data-sl40-cnine-logo data-name-gap="${logoGap}" href="/preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png" x="${nameX + Array.from(row.name).length * nameSize / 2 + logoGap}" y="${nameY - nameSize * .38 - logoSize / 2}" width="${logoSize}" height="${logoSize}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="씨나인 로고"/>` : ''}
       ${row.description ? `<title>${esc(row.description)}</title>` : ''}
     </g>
     <line x1="${pad}" x2="${width-pad}" y1="${lineY}" y2="${lineY}" stroke="#a58c64" stroke-opacity=".34" stroke-width=".65"/>
@@ -170,6 +174,10 @@ function paintGrid() {
   const height = Math.ceil(cards.length/columns)*(cardHeight+gap)-gap;
   host.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="${height}" viewBox="0 0 ${width} ${height}" display="block" role="list" aria-label="스트리머 방송국 목록">${cards.map((item,i) => `<g transform="translate(${(i%columns)*(cardWidth+gap)},${Math.floor(i/columns)*(cardHeight+gap)})">${item.markup}</g>`).join('')}</svg>`;
   bindPortraits(host);
+  host.querySelectorAll('[data-sl40-cnine-logo]').forEach(logo => {
+    const name = logo.previousElementSibling.getBBox();
+    logo.setAttribute('x', String(name.x + name.width + Number(logo.dataset.nameGap)));
+  });
   host.querySelectorAll('.sl40-station-link').forEach(link => {
     const highlight = link.querySelector('[data-sl40-link-highlight]');
     const glow = () => highlight.setAttribute('fill-opacity','.10');
