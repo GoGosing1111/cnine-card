@@ -7,6 +7,7 @@ import {readRankedRosters,rankedRosterState,saveRankedRoster,saveRankedSeriesTic
 import {simulateRankedSeries,rankedSeriesReceipt} from '../../shared/ranked-series-v1.mjs';
 import {presentBrandedSystemMessage} from '../../shared/brand-presentation-20261016.mjs';
 import {handleHalloweenPack,halloweenPackShopRow} from '../_mercenary_halloween_pack.js';
+import {handleBloodmoonPack} from '../_mercenary_bloodmoon_pack.js';
 import {WORM_CONTEST_GIFT,ensureWormContestGiftCatalog,openWormContestGift,grantWormContestGift} from '../_worm_contest_gift.js';
 import {ensureMercenarySssShardCatalog} from '../_mercenary_sss_shard.js';
 import {ensureLimitedShardCatalog} from '../_support_package.js';
@@ -5109,6 +5110,7 @@ async function handleRequest(context){
     const sssCubeResponse=await handleSssCube({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(sssCubeResponse)return sssCubeResponse;
     const mineResponse=await handleMasterStarMine({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mineResponse)return mineResponse;
     const halloweenPackResponse=await handleHalloweenPack({path,request,env,deps:{json,requirePermission,authenticate,withUserMutationLock:withJointUserMutationLock}});if(halloweenPackResponse)return halloweenPackResponse;
+    const bloodmoonPackResponse=await handleBloodmoonPack({path,request,env,deps:{json}});if(bloodmoonPackResponse)return bloodmoonPackResponse;
     const limitedPackResponse=await handleLimitedPack({path,request,env,deps:{authenticate,json,requirePermission,withUserMutationLock:withJointUserMutationLock}});if(limitedPackResponse)return limitedPackResponse;
     const mercenaryAccountResponse=await handleMercenaryAccount({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mercenaryAccountResponse)return mercenaryAccountResponse;
     const hyperPackResponse=await handleHyperPack({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(hyperPackResponse)return hyperPackResponse;

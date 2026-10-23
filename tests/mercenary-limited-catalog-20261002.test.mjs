@@ -5,6 +5,7 @@ import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {handleLimitedMercenaryCms} from '../functions/_mercenary_limited_cms.js';
 import {LIMITED_MERCENARIES as cards} from '../shared/mercenary-limited-catalog-v1.mjs';
+import {BLOODMOON_CODES} from '../shared/mercenary-bloodmoon-catalog-v1.mjs';
 import {LIMITED_POLICY_KEY,limitedPolicyDraft,validateLimitedPolicy} from '../shared/mercenary-limited-policy-v1.mjs';
 import {mercenaryAcquisitionEnabled,assertMercenaryAcquisitionEnabled} from '../shared/mercenary-acquisition-release-v1.mjs';
 import {mercenaryCardAcquisitionStatements} from '../functions/_mercenary_draw_accounting.js';
@@ -12,7 +13,7 @@ import {validateCatalog,filterCatalog} from '../mercenary-codex/model.mjs';
 const digest=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
 test('read-only codex preserves the nine original limited cards alongside Prime Requiem, Zero, Jokro, Shiranui, Leonel, Jinmu and craft-only Kairon',()=>{
  const catalog=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1,updated_at:'2026-10-02'}));
- assert.deepEqual(catalog.cards.filter(c=>c.edition==='LIMITED'&&c.season!=='HALLOWEEN').map(c=>c.code).sort(),[...cards.map(c=>c.code),'V-975','V-976','V-978','V-979','V-987','V-988','V-989'].sort());assert.equal(new Set(catalog.cards.map(c=>c.code)).size,catalog.cards.length);
+ assert.deepEqual(catalog.cards.filter(c=>c.edition==='LIMITED'&&c.season!=='HALLOWEEN').map(c=>c.code).sort(),[...cards.map(c=>c.code),...BLOODMOON_CODES,'V-975','V-976','V-978','V-979','V-987','V-988','V-989'].sort());assert.equal(new Set(catalog.cards.map(c=>c.code)).size,catalog.cards.length);
  const kairon=catalog.cards.find(c=>c.code==='V-988');assert.equal(kairon.acquisition,'CRAFT_ONLY');assert.equal(kairon.packAcquisitionEnabled,false);
  assert.equal(cards.find(c=>c.name==='나무늘봉순').rank,'SS');assert.equal(cards.find(c=>c.name==='조은').rank,'SS');
  assert.deepEqual(cards.filter(c=>c.rank==='SSS').map(c=>c.name),['발테르','헬리오스']);

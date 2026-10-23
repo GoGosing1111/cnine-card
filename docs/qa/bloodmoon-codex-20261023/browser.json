@@ -1,0 +1,34 @@
+{
+  "status": "PASSED",
+  "scope": "Actual codex and server projection, isolated empty account; no production account writes",
+  "reports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "characters": 5,
+      "rank": "SS",
+      "limit": 10,
+      "openingDisabled": true,
+      "originalAndCorrectedIdle": true,
+      "skillsVisible": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "characters": 5,
+      "rank": "SS",
+      "limit": 10,
+      "openingDisabled": true,
+      "originalAndCorrectedIdle": true,
+      "skillsVisible": true,
+      "errors": [],
+      "failed": []
+    }
+  ]
+}
