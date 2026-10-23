@@ -1,0 +1,1524 @@
+{
+  "status": "PASS",
+  "publicBase": "https://cnine-card.pages.dev",
+  "publicFiles": 345,
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "hunt",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "canvas": 0,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "activeProjectiles": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 291.76875,
+            "top": 177.76250000000002,
+            "right": 384.75,
+            "bottom": 311.35625
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.4557291666666667,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 21,
+            "uniqueBodyDrawings": 20,
+            "effects": 48
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "블러드문 남수댕",
+          "code": "V-965",
+          "liveEnabled": true,
+          "playbackRate": 2,
+          "cameraZoom": false
+        }
+      },
+      "outcomes": [
+        {
+          "elapsedMs": 1696.0999999940395,
+          "last": {
+            "code": "V-965",
+            "eventType": "MERCENARY_BLOODMOON_ARROW",
+            "mode": "pierce",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": [
+              1.6
+            ],
+            "durationSeconds": 3.4,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "targets": 1,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0,
+              "phase": "idle"
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "activeProjectiles": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 291.76875,
+              "top": 177.76250000000002,
+              "right": 384.75,
+              "bottom": 311.35625
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.4557291666666667,
+                "y": 0.8463541666666666
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 21,
+              "uniqueBodyDrawings": 20,
+              "effects": 48
+            },
+            "targets": 0,
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "블러드문 남수댕",
+            "code": "V-965",
+            "liveEnabled": true,
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 2197,
+          "last": {
+            "code": "V-965",
+            "eventType": "MERCENARY_BLOODMOON_ARROW",
+            "mode": "volley",
+            "authoritative": true,
+            "damageApplications": 3,
+            "contactSeconds": [
+              1.35,
+              1.98,
+              2.55
+            ],
+            "durationSeconds": 4.4,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL"
+          ],
+          "targets": 3,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0,
+              "phase": "idle"
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "activeProjectiles": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 291.76875,
+              "top": 177.76250000000002,
+              "right": 384.75,
+              "bottom": 311.35625
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.4557291666666667,
+                "y": 0.8463541666666666
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 21,
+              "uniqueBodyDrawings": 20,
+              "effects": 48
+            },
+            "targets": 0,
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "블러드문 남수댕",
+            "code": "V-965",
+            "liveEnabled": true,
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 2748.0999999940395,
+          "last": {
+            "code": "V-965",
+            "eventType": "MERCENARY_BLOODMOON_ARROW",
+            "mode": "rain",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": [
+              2.95,
+              3.04,
+              3.1300000000000003,
+              3.22,
+              3.31,
+              3.4000000000000004,
+              3.49,
+              3.58,
+              3.67,
+              3.7600000000000002,
+              3.85,
+              3.9400000000000004
+            ],
+            "durationSeconds": 5.5,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "targets": 12,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0,
+              "phase": "idle"
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "activeProjectiles": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 291.76875,
+              "top": 177.76250000000002,
+              "right": 384.75,
+              "bottom": 311.35625
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.4557291666666667,
+                "y": 0.8463541666666666
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 21,
+              "uniqueBodyDrawings": 20,
+              "effects": 48
+            },
+            "targets": 0,
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "블러드문 남수댕",
+            "code": "V-965",
+            "liveEnabled": true,
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        }
+      ],
+      "basic": {
+        "count": 1,
+        "last": {
+          "code": "V-965",
+          "eventType": "ATTACK",
+          "mode": "pierce",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": [
+            1.6
+          ],
+          "durationSeconds": 3.4,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "cameraZoom": false
+        }
+      },
+      "lifecycle": {
+        "stopped": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "activeProjectiles": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 291.76875,
+            "top": 177.76250000000002,
+            "right": 384.75,
+            "bottom": 311.35625
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.4557291666666667,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 21,
+            "uniqueBodyDrawings": 20,
+            "effects": 48
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "블러드문 남수댕",
+          "code": "V-965",
+          "liveEnabled": true,
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "dead": {
+          "string": false,
+          "arrow": false,
+          "effects": false
+        },
+        "revived": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "activeProjectiles": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 291.76875,
+            "top": 177.76250000000002,
+            "right": 384.75,
+            "bottom": 311.35625
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.4557291666666667,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 21,
+            "uniqueBodyDrawings": 20,
+            "effects": 48
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "블러드문 남수댕",
+          "code": "V-965",
+          "liveEnabled": true,
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "timelines": 0
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "hunt",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "canvas": 0,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "activeProjectiles": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 97.21149305555555,
+            "top": 123.55719907407406,
+            "right": 142.7263888888889,
+            "bottom": 188.95216435185185
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.4557291666666667,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 21,
+            "uniqueBodyDrawings": 20,
+            "effects": 48
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "블러드문 남수댕",
+          "code": "V-965",
+          "liveEnabled": true,
+          "playbackRate": 2,
+          "cameraZoom": false
+        }
+      },
+      "outcomes": [
+        {
+          "elapsedMs": 1699.5,
+          "last": {
+            "code": "V-965",
+            "eventType": "MERCENARY_BLOODMOON_ARROW",
+            "mode": "pierce",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": [
+              1.6
+            ],
+            "durationSeconds": 3.4,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "targets": 1,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0,
+              "phase": "idle"
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "activeProjectiles": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 97.21149305555555,
+              "top": 123.55719907407406,
+              "right": 142.7263888888889,
+              "bottom": 188.95216435185185
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.4557291666666667,
+                "y": 0.8463541666666666
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688,
+              "scale": 0.65
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 21,
+              "uniqueBodyDrawings": 20,
+              "effects": 48
+            },
+            "targets": 0,
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "블러드문 남수댕",
+            "code": "V-965",
+            "liveEnabled": true,
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 2196.699999988079,
+          "last": {
+            "code": "V-965",
+            "eventType": "MERCENARY_BLOODMOON_ARROW",
+            "mode": "volley",
+            "authoritative": true,
+            "damageApplications": 3,
+            "contactSeconds": [
+              1.35,
+              1.98,
+              2.55
+            ],
+            "durationSeconds": 4.4,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL"
+          ],
+          "targets": 3,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0,
+              "phase": "idle"
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "activeProjectiles": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 97.21149305555555,
+              "top": 123.55719907407406,
+              "right": 142.7263888888889,
+              "bottom": 188.95216435185185
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.4557291666666667,
+                "y": 0.8463541666666666
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688,
+              "scale": 0.65
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 21,
+              "uniqueBodyDrawings": 20,
+              "effects": 48
+            },
+            "targets": 0,
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "블러드문 남수댕",
+            "code": "V-965",
+            "liveEnabled": true,
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 2748.5,
+          "last": {
+            "code": "V-965",
+            "eventType": "MERCENARY_BLOODMOON_ARROW",
+            "mode": "rain",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": [
+              2.95,
+              3.04,
+              3.1300000000000003,
+              3.22,
+              3.31,
+              3.4000000000000004,
+              3.49,
+              3.58,
+              3.67,
+              3.7600000000000002,
+              3.85,
+              3.9400000000000004
+            ],
+            "durationSeconds": 5.5,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "targets": 12,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0,
+              "phase": "idle"
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "activeProjectiles": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 97.21149305555555,
+              "top": 123.55719907407406,
+              "right": 142.7263888888889,
+              "bottom": 188.95216435185185
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.4557291666666667,
+                "y": 0.8463541666666666
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688,
+              "scale": 0.65
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 21,
+              "uniqueBodyDrawings": 20,
+              "effects": 48
+            },
+            "targets": 0,
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "블러드문 남수댕",
+            "code": "V-965",
+            "liveEnabled": true,
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        }
+      ],
+      "basic": {
+        "count": 1,
+        "last": {
+          "code": "V-965",
+          "eventType": "ATTACK",
+          "mode": "pierce",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": [
+            1.6
+          ],
+          "durationSeconds": 3.4,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "cameraZoom": false
+        }
+      },
+      "lifecycle": {
+        "stopped": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "activeProjectiles": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 97.21149305555555,
+            "top": 123.55719907407406,
+            "right": 142.7263888888889,
+            "bottom": 188.95216435185185
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.4557291666666667,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 21,
+            "uniqueBodyDrawings": 20,
+            "effects": 48
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "블러드문 남수댕",
+          "code": "V-965",
+          "liveEnabled": true,
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "dead": {
+          "string": false,
+          "arrow": false,
+          "effects": false
+        },
+        "revived": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "activeProjectiles": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 97.21149305555555,
+            "top": 123.55719907407406,
+            "right": 142.7263888888889,
+            "bottom": 188.95216435185185
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.4557291666666667,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 21,
+            "uniqueBodyDrawings": 20,
+            "effects": 48
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "블러드문 남수댕",
+          "code": "V-965",
+          "liveEnabled": true,
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "timelines": 0
+      }
+    },
+    {
+      "label": "enemy",
+      "mode": "enemy",
+      "setup": {
+        "allies": 5,
+        "enemies": 5,
+        "mercenaries": 1,
+        "canvas": 0,
+        "facing": -1,
+        "body": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "activeProjectiles": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 1148.23125,
+            "top": 177.76250000000002,
+            "right": 1055.25,
+            "bottom": 311.35625
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.4557291666666667,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 5,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 1220,
+            "y": 240,
+            "scale": 0.5
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 21,
+            "uniqueBodyDrawings": 20,
+            "effects": 48
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "블러드문 남수댕",
+          "code": "V-965",
+          "liveEnabled": true,
+          "playbackRate": 2,
+          "cameraZoom": false
+        }
+      },
+      "outcomes": [
+        {
+          "elapsedMs": 1699.0999999940395,
+          "last": {
+            "code": "V-965",
+            "eventType": "MERCENARY_BLOODMOON_ARROW",
+            "mode": "pierce",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": [
+              1.6
+            ],
+            "durationSeconds": 3.4,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "CN-02D9DC1E8A8A4209"
+          ],
+          "targets": 1,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0,
+              "phase": "idle"
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "activeProjectiles": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 1148.23125,
+              "top": 177.76250000000002,
+              "right": 1055.25,
+              "bottom": 311.35625
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.4557291666666667,
+                "y": 0.8463541666666666
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 5,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 1220,
+              "y": 240,
+              "scale": 0.5
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 21,
+              "uniqueBodyDrawings": 20,
+              "effects": 48
+            },
+            "targets": 0,
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "블러드문 남수댕",
+            "code": "V-965",
+            "liveEnabled": true,
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 2196.199999988079,
+          "last": {
+            "code": "V-965",
+            "eventType": "MERCENARY_BLOODMOON_ARROW",
+            "mode": "volley",
+            "authoritative": true,
+            "damageApplications": 3,
+            "contactSeconds": [
+              1.35,
+              1.98,
+              2.55
+            ],
+            "durationSeconds": 4.4,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "CN-02D9DC1E8A8A4209",
+            "CN-0505936A0CBB4E59",
+            "CN-25F931CE393D474E"
+          ],
+          "targets": 3,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0,
+              "phase": "idle"
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "activeProjectiles": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 1148.23125,
+              "top": 177.76250000000002,
+              "right": 1055.25,
+              "bottom": 311.35625
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.4557291666666667,
+                "y": 0.8463541666666666
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 5,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 1220,
+              "y": 240,
+              "scale": 0.5
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 21,
+              "uniqueBodyDrawings": 20,
+              "effects": 48
+            },
+            "targets": 0,
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "블러드문 남수댕",
+            "code": "V-965",
+            "liveEnabled": true,
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 2747.699999988079,
+          "last": {
+            "code": "V-965",
+            "eventType": "MERCENARY_BLOODMOON_ARROW",
+            "mode": "rain",
+            "authoritative": true,
+            "damageApplications": 5,
+            "contactSeconds": [
+              2.95,
+              3.04,
+              3.1300000000000003,
+              3.22,
+              3.31
+            ],
+            "durationSeconds": 5.5,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "CN-02D9DC1E8A8A4209",
+            "CN-0505936A0CBB4E59",
+            "CN-25F931CE393D474E",
+            "CN-23EB4B19986D4818",
+            "CN-519C181C18DF4B8E"
+          ],
+          "targets": 5,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0,
+              "phase": "idle"
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "activeProjectiles": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 1148.23125,
+              "top": 177.76250000000002,
+              "right": 1055.25,
+              "bottom": 311.35625
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.4557291666666667,
+                "y": 0.8463541666666666
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 5,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 1220,
+              "y": 240,
+              "scale": 0.5
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 21,
+              "uniqueBodyDrawings": 20,
+              "effects": 48
+            },
+            "targets": 0,
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "블러드문 남수댕",
+            "code": "V-965",
+            "liveEnabled": true,
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        }
+      ],
+      "basic": {
+        "count": 1,
+        "last": {
+          "code": "V-965",
+          "eventType": "ATTACK",
+          "mode": "pierce",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": [
+            1.6
+          ],
+          "durationSeconds": 3.4,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "cameraZoom": false
+        }
+      },
+      "lifecycle": {
+        "stopped": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "activeProjectiles": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 1148.23125,
+            "top": 177.76250000000002,
+            "right": 1055.25,
+            "bottom": 311.35625
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.4557291666666667,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 5,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 1220,
+            "y": 240,
+            "scale": 0.5
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 21,
+            "uniqueBodyDrawings": 20,
+            "effects": 48
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "블러드문 남수댕",
+          "code": "V-965",
+          "liveEnabled": true,
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "dead": {
+          "string": false,
+          "arrow": false,
+          "effects": false
+        },
+        "revived": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "activeProjectiles": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 1148.23125,
+            "top": 177.76250000000002,
+            "right": 1055.25,
+            "bottom": 311.35625
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.4557291666666667,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 5,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 1220,
+            "y": 240,
+            "scale": 0.5
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 21,
+            "uniqueBodyDrawings": 20,
+            "effects": 48
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "블러드문 남수댕",
+          "code": "V-965",
+          "liveEnabled": true,
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "timelines": 0
+      }
+    },
+    {
+      "label": "desktop",
+      "codex": true,
+      "name": "블러드문 남수댕",
+      "skills": 3,
+      "basePower": 356400
+    },
+    {
+      "label": "mobile",
+      "codex": true,
+      "name": "블러드문 남수댕",
+      "skills": 3,
+      "basePower": 356400
+    }
+  ],
+  "errors": [],
+  "missing": []
+}

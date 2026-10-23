@@ -1,0 +1,21 @@
+{
+  "status": "LIVE_VERIFIED",
+  "source": "f03d7ee89f224775dae618af26d1e4193fa5d4f9",
+  "pages": "761b84d9-cc94-4a2b-b1d3-1ac7f0acc9d0",
+  "apiWorker": "df163b92-6e79-44da-a1f8-2351e744a6a3",
+  "scheduler": "9b597463-9984-4790-b39a-d9fa726c229d",
+  "tests": 37,
+  "publicFiles": 58,
+  "publicBrowserChecks": 5,
+  "name": "블러드문 남수댕",
+  "code": "V-965",
+  "rank": "SS",
+  "limit": 10,
+  "issued": 0,
+  "remaining": 10,
+  "packOpening": false,
+  "adminLogId": "50609",
+  "accountGrants": 0,
+  "ignoredFilesRestored": 73,
+  "temporaryReleaseRemoved": true
+}

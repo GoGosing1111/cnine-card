@@ -1,0 +1,29 @@
+{
+  "stock": [
+    {
+      "code": "V-965",
+      "limit": 10,
+      "issued": 0,
+      "revision": 0
+    }
+  ],
+  "packSha256": "29eb5c7c7526b04c5adc23962c0b26828f573ccd478045e203a05076acae65ae",
+  "packMode": "OFF",
+  "packRevision": 1,
+  "receipt": {
+    "operationKey": "ops:bloodmoon-namsudaeng-registration:20261024:v1",
+    "approval": "승인하고 라이브 반영, 그리고 블러드문팩에도 올려 10장 똑같이 / 이름 블러드문 남수댕",
+    "code": "V-965",
+    "name": "블러드문 남수댕",
+    "rank": "SS",
+    "limit": 10,
+    "grants": 0,
+    "packSha256": "29eb5c7c7526b04c5adc23962c0b26828f573ccd478045e203a05076acae65ae",
+    "packSettingsChanged": false,
+    "createdAt": "2026-10-23T20:59:26.345Z",
+    "adminLogId": "50609"
+  },
+  "ownershipRows": 0,
+  "issueRows": 0,
+  "checkedAt": "2026-10-23T21:08:03.896Z"
+}

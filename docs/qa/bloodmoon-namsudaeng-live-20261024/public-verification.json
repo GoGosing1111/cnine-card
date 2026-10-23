@@ -1,0 +1,442 @@
+{
+  "status": "PASS",
+  "source": "f03d7ee89f224775dae618af26d1e4193fa5d4f9",
+  "verifiedAt": "2026-10-23T21:09:20.238Z",
+  "files": [
+    {
+      "file": "admin/index.html",
+      "bytes": 81469,
+      "sha256": "dd90983d1e9024ec233ffb3903808f617becfd08e095274c8be64d58a232b606",
+      "localSha256": "dd90983d1e9024ec233ffb3903808f617becfd08e095274c8be64d58a232b606"
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "bytes": 27765,
+      "sha256": "d9c62f9fed25812813eff8254a59107b7f108478c97cb6cfcc62375b570da282",
+      "localSha256": "d9c62f9fed25812813eff8254a59107b7f108478c97cb6cfcc62375b570da282"
+    },
+    {
+      "file": "admin/mercenary-bloodmoon-admin-v1.mjs",
+      "bytes": 11259,
+      "sha256": "5048ec2fb3221b1595c21c9092af1a06c4b927c1a12488b0b01bf65496ad865b",
+      "localSha256": "5048ec2fb3221b1595c21c9092af1a06c4b927c1a12488b0b01bf65496ad865b"
+    },
+    {
+      "file": "AGENTS.md",
+      "bytes": 510186,
+      "sha256": "8cf6783aeeb3afb3081b716c5a946bd61f60e2414b293e942f709635184df0b6",
+      "localSha256": "8cf6783aeeb3afb3081b716c5a946bd61f60e2414b293e942f709635184df0b6"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/art-320.webp",
+      "bytes": 71494,
+      "sha256": "96e9425a740e972a3a97ed70b0099a03a02edf615cc18975d215e3621e15bcd4",
+      "localSha256": "96e9425a740e972a3a97ed70b0099a03a02edf615cc18975d215e3621e15bcd4"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/art-640.webp",
+      "bytes": 224026,
+      "sha256": "bec60ed23a9045a31759254f0e7b60bb035c7b247053e7c970094037279f2564",
+      "localSha256": "bec60ed23a9045a31759254f0e7b60bb035c7b247053e7c970094037279f2564"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/cast.png",
+      "bytes": 892746,
+      "sha256": "23f91dbc77989e448b7dbfa018d2d88d9836e09b3bf58e47060ddff63c72c8d1",
+      "localSha256": "23f91dbc77989e448b7dbfa018d2d88d9836e09b3bf58e47060ddff63c72c8d1"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/dash.png",
+      "bytes": 574623,
+      "sha256": "1025236be867e1c19b926cef92ad24b4e89d759abacd1e181ff461a65fb06def",
+      "localSha256": "1025236be867e1c19b926cef92ad24b4e89d759abacd1e181ff461a65fb06def"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/defeat.png",
+      "bytes": 389220,
+      "sha256": "106297cb20de46277c30e3b8f74790abb74365598a433437088f293ce05e0a60",
+      "localSha256": "106297cb20de46277c30e3b8f74790abb74365598a433437088f293ce05e0a60"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/draw.png",
+      "bytes": 841971,
+      "sha256": "8c3e2f8fa6898105a9f6e8e266302da576034bda45c09cf6b87198b68e6ee136",
+      "localSha256": "8c3e2f8fa6898105a9f6e8e266302da576034bda45c09cf6b87198b68e6ee136"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-charge.png",
+      "bytes": 1244452,
+      "sha256": "89b3a834ba232497c97ffb9ae31028d1c74eb5aa53f8c820b597aee338d190b3",
+      "localSha256": "89b3a834ba232497c97ffb9ae31028d1c74eb5aa53f8c820b597aee338d190b3"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-pierce.png",
+      "bytes": 965295,
+      "sha256": "afc25d63b5d735cd1f5c120f205f516a1cf8b6a6c91154f41fcd5b1382979a01",
+      "localSha256": "afc25d63b5d735cd1f5c120f205f516a1cf8b6a6c91154f41fcd5b1382979a01"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-rain.png",
+      "bytes": 2040393,
+      "sha256": "226f0a764c7f0c5d7f79484c383f3e19ae28a6d5d7e1fc3f3d0d60e0c0985057",
+      "localSha256": "226f0a764c7f0c5d7f79484c383f3e19ae28a6d5d7e1fc3f3d0d60e0c0985057"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-volley.png",
+      "bytes": 824428,
+      "sha256": "c2e75a48d31a2b9f6ad8e7e3830a1743092b64a5df5fd481289e78125f370b2a",
+      "localSha256": "c2e75a48d31a2b9f6ad8e7e3830a1743092b64a5df5fd481289e78125f370b2a"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/hit.png",
+      "bytes": 357339,
+      "sha256": "997e602fb1dbf6e278b040ebfc01aa0b74ce2c9448d893e4206e0420cec716ee",
+      "localSha256": "997e602fb1dbf6e278b040ebfc01aa0b74ce2c9448d893e4206e0420cec716ee"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/idle.png",
+      "bytes": 185579,
+      "sha256": "a780d7efde66c51787ff0ad82d11f6de8f9bcbc8593d2a203bc3bf1c7f21ddbc",
+      "localSha256": "a780d7efde66c51787ff0ad82d11f6de8f9bcbc8593d2a203bc3bf1c7f21ddbc"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/release.png",
+      "bytes": 894117,
+      "sha256": "ab820d11877df02d613df78e5bb36a662ef98c660fce2b0a4dee69ee1fbf1559",
+      "localSha256": "ab820d11877df02d613df78e5bb36a662ef98c660fce2b0a4dee69ee1fbf1559"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/locked/approved-arrow.png",
+      "bytes": 16879,
+      "sha256": "d2869bcc99cd0408cfe36d0cf41b9b4c44d9901d9070136fc00ddae9073ea998",
+      "localSha256": "d2869bcc99cd0408cfe36d0cf41b9b4c44d9901d9070136fc00ddae9073ea998"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/idle.png",
+      "bytes": 179498,
+      "sha256": "f92f48030f9ae6cb7c888f0f70f3ce4fd963bd4225c32651762003e0761beaa6",
+      "localSha256": "f92f48030f9ae6cb7c888f0f70f3ce4fd963bd4225c32651762003e0761beaa6"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/live-approval.json",
+      "bytes": 900,
+      "sha256": "786cb2a4b3a317609acd96086e58f2f944ee6117b0a4873720ef77b2d3a410f1",
+      "localSha256": "786cb2a4b3a317609acd96086e58f2f944ee6117b0a4873720ef77b2d3a410f1"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/manifest.json",
+      "bytes": 4748,
+      "sha256": "33c924ef0d2bc988435f6bc0441a18e8b7d52e484ba9d2416dd7f8ab07249006",
+      "localSha256": "33c924ef0d2bc988435f6bc0441a18e8b7d52e484ba9d2416dd7f8ab07249006"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/motion-manifest.json",
+      "bytes": 83442,
+      "sha256": "864f7b7921bb3a32109292397f95fd8166d80416bc5d3245c7b663d6eeb1232b",
+      "localSha256": "864f7b7921bb3a32109292397f95fd8166d80416bc5d3245c7b663d6eeb1232b"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/source-art.png",
+      "bytes": 2711243,
+      "sha256": "fa4375975e256f84e6c4cdb877b69c239805da303b1233ebf71b7a6f5f32d9d8",
+      "localSha256": "fa4375975e256f84e6c4cdb877b69c239805da303b1233ebf71b7a6f5f32d9d8"
+    },
+    {
+      "file": "index.html",
+      "bytes": 34380,
+      "sha256": "d0a44ade7241ecbe857e2fe29cffdffad4a219957c614aee515b53ecb42d39eb",
+      "localSha256": "d0a44ade7241ecbe857e2fe29cffdffad4a219957c614aee515b53ecb42d39eb"
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 777424,
+      "sha256": "705fdc5133188b8f3d4211c6ba7d3f6b3aa5ad1c9e93fdf2bb2585e7492b0ffe",
+      "localSha256": "705fdc5133188b8f3d4211c6ba7d3f6b3aa5ad1c9e93fdf2bb2585e7492b0ffe"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "bytes": 87323,
+      "sha256": "d71e6caa9d9dd7f55d0192c1beb89eedbd0bca15976b206e6f7e3c69e9edc517",
+      "localSha256": "d71e6caa9d9dd7f55d0192c1beb89eedbd0bca15976b206e6f7e3c69e9edc517"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "bytes": 16068,
+      "sha256": "7584de3924581030a7a596bc3a27055a182fc37ea112137f38c49feaa094effa",
+      "localSha256": "7584de3924581030a7a596bc3a27055a182fc37ea112137f38c49feaa094effa"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-presentation-v2.mjs",
+      "bytes": 6994,
+      "sha256": "a55fef197ccdbeed513659c9a39982ef5ba1bb55a7fb791b92e4c3973b34628c",
+      "localSha256": "a55fef197ccdbeed513659c9a39982ef5ba1bb55a7fb791b92e4c3973b34628c"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "bytes": 35686,
+      "sha256": "c4bb1c963c4d84aa0b7dc13e954e866b93072808dddc786b76e6bf05355b3a5a",
+      "localSha256": "c4bb1c963c4d84aa0b7dc13e954e866b93072808dddc786b76e6bf05355b3a5a"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "bytes": 9759,
+      "sha256": "2057770de587046cb955b429349909b821731a0130feaec917b7a08e23abf597",
+      "localSha256": "2057770de587046cb955b429349909b821731a0130feaec917b7a08e23abf597"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "bytes": 7609,
+      "sha256": "df059d4a0d68c145a1236b7fbe5d30e8757bef86f3d43f73531fd02eeda9f9dd",
+      "localSha256": "df059d4a0d68c145a1236b7fbe5d30e8757bef86f3d43f73531fd02eeda9f9dd"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/build-report.json",
+      "bytes": 16730,
+      "sha256": "f273b8800a5171c5e6936a7c2974dddf6bd1740f21a3b19b4dd30174e52d5d72",
+      "localSha256": "f273b8800a5171c5e6936a7c2974dddf6bd1740f21a3b19b4dd30174e52d5d72"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "bytes": 2389630,
+      "sha256": "5e5358884888a1508bf473db79a1e6ba10fc8ee7e934f76e948d50679ae4e96d",
+      "localSha256": "5e5358884888a1508bf473db79a1e6ba10fc8ee7e934f76e948d50679ae4e96d"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "bytes": 2384965,
+      "sha256": "7938a2b19049c3474c55dcf5f7f61058a66580aa0023abe3532a1638980d496e",
+      "localSha256": "7938a2b19049c3474c55dcf5f7f61058a66580aa0023abe3532a1638980d496e"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "bytes": 2387982,
+      "sha256": "881f6ec621b5c71843819ed59c2fc819d658409410b0ecff86b8f6e17bad6ac0",
+      "localSha256": "881f6ec621b5c71843819ed59c2fc819d658409410b0ecff86b8f6e17bad6ac0"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "bytes": 2387971,
+      "sha256": "e91ab8a6c8a6faf573c37f615012d7e118cfe8130097d8903e0e530c5b50905e",
+      "localSha256": "e91ab8a6c8a6faf573c37f615012d7e118cfe8130097d8903e0e530c5b50905e"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "bytes": 2434535,
+      "sha256": "93b75d3425b351aa5342fbbe218673711cd50ac159007bd9d29ea28edba01bab",
+      "localSha256": "93b75d3425b351aa5342fbbe218673711cd50ac159007bd9d29ea28edba01bab"
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "bytes": 33621,
+      "sha256": "e570c131210372f6d3f1b843850981fb9b0b3313fc5b81642c613345e3f6b431",
+      "localSha256": "e570c131210372f6d3f1b843850981fb9b0b3313fc5b81642c613345e3f6b431"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 2388356,
+      "sha256": "2f4f4194a3c4e7b95a83927fc476780c4055eaaf395b57256ac040fd940f7c3d",
+      "localSha256": "2f4f4194a3c4e7b95a83927fc476780c4055eaaf395b57256ac040fd940f7c3d"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/bloodmoon-namsudaeng/BloodmoonFX.js",
+      "bytes": 11397,
+      "sha256": "fe85b26eed732e74ae2a0bafcd0b533864d31996272f54c2b6a29b0e4b684ad4",
+      "localSha256": "fe85b26eed732e74ae2a0bafcd0b533864d31996272f54c2b6a29b0e4b684ad4"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/bloodmoon-namsudaeng/skills.mjs",
+      "bytes": 2219,
+      "sha256": "02dc2b35b9d96056d3e9eaa3a531552f20a7aacdc3ff8e43c0902d69b9870121",
+      "localSha256": "02dc2b35b9d96056d3e9eaa3a531552f20a7aacdc3ff8e43c0902d69b9870121"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/BloodmoonNamsudaengPlayback.js",
+      "bytes": 8981,
+      "sha256": "020b864436f44dcf13785eeeece84a3d4299431bd0ef540e35cdc5756e645edb",
+      "localSha256": "020b864436f44dcf13785eeeece84a3d4299431bd0ef540e35cdc5756e645edb"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
+      "bytes": 34259,
+      "sha256": "a1510dff9b9c05818ea825438af3ed45ca5d8cf4fe0c3a92f816951b594e0525",
+      "localSha256": "a1510dff9b9c05818ea825438af3ed45ca5d8cf4fe0c3a92f816951b594e0525"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "bytes": 10360,
+      "sha256": "88a4385b7418845266626ab4bfdbf8bd268fe5eef5b904362701c390d61fad88",
+      "localSha256": "88a4385b7418845266626ab4bfdbf8bd268fe5eef5b904362701c390d61fad88"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "bytes": 2387873,
+      "sha256": "eb4e13ad6685f63fe4a41d4e848c4f0c8608a8ad72d4e39dfdd57f225b4a9618",
+      "localSha256": "eb4e13ad6685f63fe4a41d4e848c4f0c8608a8ad72d4e39dfdd57f225b4a9618"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "bytes": 2411875,
+      "sha256": "50e0834272257e1f11b370d3dece77ff474d75853fb21e398f0cfadbda8ec540",
+      "localSha256": "50e0834272257e1f11b370d3dece77ff474d75853fb21e398f0cfadbda8ec540"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/engine-build.json",
+      "bytes": 6642,
+      "sha256": "956022f1e8f7624acf2510584b65670ac317ba19290a92b55dc5a54e08fda89d",
+      "localSha256": "956022f1e8f7624acf2510584b65670ac317ba19290a92b55dc5a54e08fda89d"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "bytes": 409093,
+      "sha256": "a27b1b1ed13babfefd9e3af2fa7fdd942e713ecf188fc6ecac4ed0fdd9369f4f",
+      "localSha256": "a27b1b1ed13babfefd9e3af2fa7fdd942e713ecf188fc6ecac4ed0fdd9369f4f"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "bytes": 2391527,
+      "sha256": "c8193ee0e928856ac0f9e7f3585ca97e8205ec7f44b0634d2ff5c2b92f4694bc",
+      "localSha256": "c8193ee0e928856ac0f9e7f3585ca97e8205ec7f44b0634d2ff5c2b92f4694bc"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "bytes": 2388330,
+      "sha256": "e095327e1a62cf1ac2dc4919f9edd4683bccfe5be623ab97e70ff79c9df8f0d7",
+      "localSha256": "e095327e1a62cf1ac2dc4919f9edd4683bccfe5be623ab97e70ff79c9df8f0d7"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-auto-v1.mjs",
+      "bytes": 3840,
+      "sha256": "1764606097010b29b997022af77381ee37c7a5e75a0380ceccfcadf0ceb45f57",
+      "localSha256": "1764606097010b29b997022af77381ee37c7a5e75a0380ceccfcadf0ceb45f57"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-catalog-v1.mjs",
+      "bytes": 14884,
+      "sha256": "5a992f24a70a62397acf8e0c8f5da275c0e3ad7ebe6319e4cf6bb4652601a2cc",
+      "localSha256": "5a992f24a70a62397acf8e0c8f5da275c0e3ad7ebe6319e4cf6bb4652601a2cc"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-namsudaeng-v1.mjs",
+      "bytes": 4390,
+      "sha256": "6ff97b226f22299758c6ec7d6c7aafca481afe8a4bd5b8361d5c23fbcf644e40",
+      "localSha256": "6ff97b226f22299758c6ec7d6c7aafca481afe8a4bd5b8361d5c23fbcf644e40"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "bytes": 14596,
+      "sha256": "c9fbf1f01b060cc98f44174d28e9d656ab450ac2944373bbac52c7eff97a08c4",
+      "localSha256": "c9fbf1f01b060cc98f44174d28e9d656ab450ac2944373bbac52c7eff97a08c4"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pool-v3.mjs",
+      "bytes": 1334,
+      "sha256": "12cf75d6a5dbd424a4728913252e77e4f9c123845cc4a8bd2b0a3fb378fd1f19",
+      "localSha256": "12cf75d6a5dbd424a4728913252e77e4f9c123845cc4a8bd2b0a3fb378fd1f19"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-session-v2.mjs",
+      "bytes": 6430,
+      "sha256": "e370796ae6fcad56eadddc454769bcc31ad4ee4a897bed30a94e5c0888746225",
+      "localSha256": "e370796ae6fcad56eadddc454769bcc31ad4ee4a897bed30a94e5c0888746225"
+    },
+    {
+      "file": "shared/mercenary-limited-deployment-v1.mjs",
+      "bytes": 3494,
+      "sha256": "6a249942070f041ef63f16e11df3e5d33eb701de7663b1f9cc777c152d6dbcfe",
+      "localSha256": "6a249942070f041ef63f16e11df3e5d33eb701de7663b1f9cc777c152d6dbcfe"
+    },
+    {
+      "file": "shared/mercenary-ss-limited-v1.mjs",
+      "bytes": 5233,
+      "sha256": "36704d263de1e1179437f7d40950727f7b29f41c0878dd27e3e89b8047e33b4a",
+      "localSha256": "36704d263de1e1179437f7d40950727f7b29f41c0878dd27e3e89b8047e33b4a"
+    }
+  ],
+  "codex": {
+    "code": "V-965",
+    "name": "블러드문 남수댕",
+    "rank": "SS",
+    "edition": "LIMITED",
+    "basePower": 356400,
+    "skills": [
+      {
+        "id": "MS-947",
+        "name": "적월 관통"
+      },
+      {
+        "id": "MS-948",
+        "name": "혈월 연사"
+      },
+      {
+        "id": "MS-949",
+        "name": "월식 화살비"
+      }
+    ],
+    "sourceArtSha256": "FA4375975E256F84E6C4CDB877B69C239805DA303B1233EBF71B7A6F5F32D9D8"
+  },
+  "pack": {
+    "cards": [
+      {
+        "code": "V-960",
+        "name": "나무늘봉순",
+        "rank": "SS"
+      },
+      {
+        "code": "V-961",
+        "name": "조은",
+        "rank": "SS"
+      },
+      {
+        "code": "V-962",
+        "name": "디임",
+        "rank": "SS"
+      },
+      {
+        "code": "V-963",
+        "name": "카르베나",
+        "rank": "SS"
+      },
+      {
+        "code": "V-964",
+        "name": "네베라",
+        "rank": "SS"
+      },
+      {
+        "code": "V-965",
+        "name": "블러드문 남수댕",
+        "rank": "SS"
+      },
+      {
+        "code": "V-978",
+        "name": "레오넬",
+        "rank": "SSS"
+      },
+      {
+        "code": "V-974",
+        "name": "제너럴 족",
+        "rank": "SSS"
+      },
+      {
+        "code": "V-975",
+        "name": "프라임 레퀴엠",
+        "rank": "SSS"
+      }
+    ],
+    "mode": "OFF",
+    "enabled": false,
+    "revision": 1,
+    "prices": {
+      "single": null,
+      "ten": null
+    },
+    "newCardRate": null,
+    "stock": {
+      "code": "V-965",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    }
+  }
+}

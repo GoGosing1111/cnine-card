@@ -1,0 +1,102 @@
+[SCOPED RELEASE] {"base":"e65bcf79633fdc678e6770a3a143c5b2c4546e79","reason":"Approved Namsudaeng archer, exact art/motion, three-skill gameplay, nine-card Blood Pack and ten-copy stock. Verify focused gameplay, stock transactions, pack isolation, Pages delivery and current V3 entry. Supplemental five SS cadence checks passed; unrelated legacy undefined-SSS-description expectation is recorded separately.","changed":["AGENTS.md","admin/index.html","admin/mercenary-admin-v1.js","admin/mercenary-bloodmoon-admin-v1.mjs","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/art-320.webp","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/art-640.webp","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/cast.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/dash.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/defeat.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/draw.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-charge.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-pierce.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-rain.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-volley.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/hit.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/idle.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/release.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/locked/approved-arrow.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/idle.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/live-approval.json","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/manifest.json","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/motion-manifest.json","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/source-art.png","docs/qa/bloodmoon-namsudaeng-live-20261024/README.md","docs/qa/bloodmoon-namsudaeng-live-20261024/apply.json","docs/qa/bloodmoon-namsudaeng-live-20261024/browser-failure.json","docs/qa/bloodmoon-namsudaeng-live-20261024/browser-report.json","docs/qa/bloodmoon-namsudaeng-live-20261024/desktop-battle-idle.png","docs/qa/bloodmoon-namsudaeng-live-20261024/desktop-battle-pierce.png","docs/qa/bloodmoon-namsudaeng-live-20261024/desktop-battle-rain.png","docs/qa/bloodmoon-namsudaeng-live-20261024/desktop-battle-volley.png","docs/qa/bloodmoon-namsudaeng-live-20261024/desktop-codex-art.png","docs/qa/bloodmoon-namsudaeng-live-20261024/desktop-codex-sd.png","docs/qa/bloodmoon-namsudaeng-live-20261024/dry-run.json","docs/qa/bloodmoon-namsudaeng-live-20261024/enemy-battle-idle.png","docs/qa/bloodmoon-namsudaeng-live-20261024/enemy-battle-pierce.png","docs/qa/bloodmoon-namsudaeng-live-20261024/enemy-battle-rain.png","docs/qa/bloodmoon-namsudaeng-live-20261024/enemy-battle-volley.png","docs/qa/bloodmoon-namsudaeng-live-20261024/mobile-battle-idle.png","docs/qa/bloodmoon-namsudaeng-live-20261024/mobile-battle-pierce.png","docs/qa/bloodmoon-namsudaeng-live-20261024/mobile-battle-rain.png","docs/qa/bloodmoon-namsudaeng-live-20261024/mobile-battle-volley.png","docs/qa/bloodmoon-namsudaeng-live-20261024/mobile-codex-art.png","docs/qa/bloodmoon-namsudaeng-live-20261024/mobile-codex-sd.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/cms-1440.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/cms-390.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/room-off-1440.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/room-off-390.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/shop-1440.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/shop-390.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/sss-roster-1440.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/sss-roster-390.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/visual-check.json","docs/qa/bloodmoon-namsudaeng-live-20261024/pages-authoring-exclusions.json","docs/qa/bloodmoon-namsudaeng-live-20261024/read.json","docs/qa/new-user-growth-20261024/README.md","docs/qa/new-user-growth-20261024/live-limited-390.png","docs/qa/new-user-growth-20261024/live-pve-1440.png","docs/qa/new-user-growth-20261024/production.json","docs/qa/workshop-master-star-cap-20261024/1440x1000-live-lounge.png","docs/qa/workshop-master-star-cap-20261024/1440x1000-star-cost.png","docs/qa/workshop-master-star-cap-20261024/390x844-live-lounge.png","docs/qa/workshop-master-star-cap-20261024/390x844-star-cost.png","docs/qa/workshop-master-star-cap-20261024/README.md","docs/qa/workshop-master-star-cap-20261024/browser-qa.json","docs/qa/workshop-master-star-cap-20261024/browser-qa.mjs","docs/qa/workshop-master-star-cap-20261024/deploy.log","docs/qa/workshop-master-star-cap-20261024/deployment.json","docs/qa/workshop-master-star-cap-20261024/live-verification.json","docs/qa/workshop-master-star-cap-20261024/verify-live.mjs","functions/_mercenary_bloodmoon_namsudaeng.js","functions/_mercenary_combat.js","index.html","js/app.js","js/battle-v3-live.js","js/mercenary-bloodmoon-pack-live.mjs","js/mercenary-bloodmoon-presentation-v2.mjs","mercenary-codex/app.mjs","mercenary-codex/index.html","mercenary-codex/model.mjs","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/BloodmoonNamsudaengPlayback.js","preview/project-v-v3/source/battle/MercenaryCombatPlayback.js","preview/project-v-v3/source/battle/bloodmoon-namsudaeng/BloodmoonFX.js","preview/project-v-v3/source/battle/bloodmoon-namsudaeng/skills.mjs","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","scripts/build-v3-grid-consumers.mjs","scripts/namsudaeng-node-authoring-only-20261024.json","scripts/ops/bloodmoon-codex-registration-20261023.mjs","scripts/ops/bloodmoon-namsudaeng-registration-20261024.mjs","scripts/ops/run-bloodmoon-namsudaeng-registration-20261024.mjs","scripts/prepare-production-assets.mjs","shared/mercenary-bloodmoon-auto-v1.mjs","shared/mercenary-bloodmoon-catalog-v1.mjs","shared/mercenary-bloodmoon-namsudaeng-v1.mjs","shared/mercenary-bloodmoon-pack-v1.mjs","shared/mercenary-bloodmoon-pool-v3.mjs","shared/mercenary-bloodmoon-session-v2.mjs","shared/mercenary-limited-deployment-v1.mjs","shared/mercenary-ss-limited-v1.mjs","tests/bloodmoon-namsudaeng-live-20261024.browser.mjs","tests/bloodmoon-namsudaeng-live-20261024.test.mjs","tests/mercenary-bloodmoon-codex-20261023.test.mjs","tests/mercenary-bloodmoon-isolation-20261023.test.mjs","tests/mercenary-bloodmoon-pack-20261023.browser.mjs"],"tests":["tests/bloodmoon-namsudaeng-live-20261024.test.mjs","tests/mercenary-bloodmoon-pack-20261023.test.mjs","tests/mercenary-bloodmoon-isolation-20261023.test.mjs","tests/mercenary-bloodmoon-codex-20261023.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+NamSuDaeng approved delivery: 19998/20000 files, authoring originals retained.
+✔ approved assets fit Pages while exact local Node authoring files remain preserved (17406.4938ms)
+✔ approved SS identity, original art, three skills, Blood Pack only and ten global copies (51.0319ms)
+✔ old five-card and eight-card drafts read without changes, odds redistribution or release (2.89ms)
+✔ three casts select unique living targets and share a fixed total damage budget in both modes (8.4047ms)
+✔ actual combat rotates three skills with one energy payment and shared two-action cooldown (3.7874ms)
+✔ canonical PVE/PVP battles carry NamSuDaeng skill receipts and never lose normal five-card formation (20.5703ms)
+✔ ownership is required; fixture holders can deploy in both modes without a grant (2160.3721ms)
+✔ last NamSuDaeng copy is awarded once; nine remaining draws use normal SSS and retry cannot duplicate it (1536.7541ms)
+✔ stock registration rolls back on failure and dry run, preserves pack/settings/other stock, and replay writes nothing (1388.8168ms)
+✔ five separate SS limited entries publish approved originals, full idle sprites and the reviewed balance (98.0393ms)
+✔ Bloodmoon cannot enter existing packs, normal acquisition, synthesis or deployment (0.9669ms)
+✔ opening always returns 423 before DB, account, body or currency access (48.824ms)
+✔ public feature preserves the legacy OFF draft and ten copies without writing (2830.5706ms)
+✔ delivery includes codex assets and retains Node-only QA and local authoring in Git (7.9463ms)
+✔ registration is atomic, dry-run rolls back, replay writes nothing and existing balances remain intact (1827.073ms)
+✔ the approved six Bloodmoon cards and three requested SSS cards are the only pack targets (2.2581ms)
+✔ independent CMS draft save is atomic, idempotent, version guarded and leaves Halloween untouched (2746.0417ms)
+✔ only OWNER may read/save Blood Pack CMS; public opening remains closed before auth and DB (1784.7374ms)
+✔ browser requests, history, tab locks, receipts and one-time entitlements never cross packs (1615.2689ms)
+✔ two independent rate totals, exact effective odds, null drafts and old absolute rates are not reinterpreted (4.3659ms)
+✔ only the SSS interval enters the second lottery; SS remains ordinary and misses stay misses (2.2242ms)
+✔ unauthenticated opening performs no database query; OFF and incomplete ON never charge (2760.5025ms)
+✔ one prepared ten-draw transaction grants both ordinary and limited cards once and survives a lost response (1905.7828ms)
+✔ failure after stock reservation rolls back stock, coins and cards; retry uses the original fixed draw (1651.7264ms)
+✔ last remaining card is granted once and the other nine slots award ordinary SSS (1492.3508ms)
+✔ prepared request cancels on settings change without charging or resampling (11335.1312ms)
+✔ SS videos use the awarded rank, never the SSS entry gate or fake preview results (0.3389ms)
+✔ client persists one request before POST, recovers without a new lottery, and isolates accounts (1.3457ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (24.3721ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (15.5069ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (6.4975ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (17.6403ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (18.5156ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (50.5977ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (13.41ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (3.6758ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.6697ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23360.3917
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19998 files; 7429 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8261.75 KiB / gzip: 1774.63 KiB
+Worker Startup Time: 53 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (6.52 sec)
+No targets deployed for cnine-card-api-runtime (0.60 sec)
+Current Version ID: df163b92-6e79-44da-a1f8-2351e744a6a3
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19939/19998)
+Uploading... (19959/19998)
+Uploading... (19979/19998)
+Uploading... (19998/19998)
+✨ Success! Uploaded 59 files (19939 already uploaded) (4.99 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://761b84d9.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 2937.29 KiB / gzip: 660.96 KiB
+Worker Startup Time: 38 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (3.09 sec)
+Deployed cnine-card-clan-draft triggers (1.04 sec)
+  schedule: * * * * *
+Current Version ID: 9b597463-9984-4790-b39a-d9fa726c229d

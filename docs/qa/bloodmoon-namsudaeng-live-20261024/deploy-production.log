@@ -1,0 +1,78 @@
+[SCOPED RELEASE] {"base":"e65bcf79633fdc678e6770a3a143c5b2c4546e79","reason":"Approved Blood Moon Namsudaeng SS archer, exact battle assets, isolated three-skill profile, Blood Pack roster and 10-copy stock; focused new gameplay, pack isolation, existing SS cadence and V3 entry checks.","changed":["AGENTS.md","admin/index.html","admin/mercenary-admin-v1.js","admin/mercenary-bloodmoon-admin-v1.mjs","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/art-320.webp","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/art-640.webp","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/cast.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/dash.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/defeat.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/draw.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-charge.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-pierce.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-rain.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-volley.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/hit.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/idle.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/release.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/locked/approved-arrow.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/idle.png","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/live-approval.json","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/manifest.json","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/motion-manifest.json","assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/source-art.png","docs/qa/bloodmoon-namsudaeng-live-20261024/README.md","docs/qa/bloodmoon-namsudaeng-live-20261024/apply.json","docs/qa/bloodmoon-namsudaeng-live-20261024/browser-failure.json","docs/qa/bloodmoon-namsudaeng-live-20261024/browser-report.json","docs/qa/bloodmoon-namsudaeng-live-20261024/desktop-battle-idle.png","docs/qa/bloodmoon-namsudaeng-live-20261024/desktop-battle-pierce.png","docs/qa/bloodmoon-namsudaeng-live-20261024/desktop-battle-rain.png","docs/qa/bloodmoon-namsudaeng-live-20261024/desktop-battle-volley.png","docs/qa/bloodmoon-namsudaeng-live-20261024/desktop-codex-art.png","docs/qa/bloodmoon-namsudaeng-live-20261024/desktop-codex-sd.png","docs/qa/bloodmoon-namsudaeng-live-20261024/dry-run.json","docs/qa/bloodmoon-namsudaeng-live-20261024/enemy-battle-idle.png","docs/qa/bloodmoon-namsudaeng-live-20261024/enemy-battle-pierce.png","docs/qa/bloodmoon-namsudaeng-live-20261024/enemy-battle-rain.png","docs/qa/bloodmoon-namsudaeng-live-20261024/enemy-battle-volley.png","docs/qa/bloodmoon-namsudaeng-live-20261024/mobile-battle-idle.png","docs/qa/bloodmoon-namsudaeng-live-20261024/mobile-battle-pierce.png","docs/qa/bloodmoon-namsudaeng-live-20261024/mobile-battle-rain.png","docs/qa/bloodmoon-namsudaeng-live-20261024/mobile-battle-volley.png","docs/qa/bloodmoon-namsudaeng-live-20261024/mobile-codex-art.png","docs/qa/bloodmoon-namsudaeng-live-20261024/mobile-codex-sd.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/cms-1440.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/cms-390.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/room-off-1440.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/room-off-390.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/shop-1440.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/shop-390.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/sss-roster-1440.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/sss-roster-390.png","docs/qa/bloodmoon-namsudaeng-live-20261024/pack/visual-check.json","docs/qa/bloodmoon-namsudaeng-live-20261024/pages-authoring-exclusions.json","docs/qa/bloodmoon-namsudaeng-live-20261024/read.json","docs/qa/new-user-growth-20261024/README.md","docs/qa/new-user-growth-20261024/live-limited-390.png","docs/qa/new-user-growth-20261024/live-pve-1440.png","docs/qa/new-user-growth-20261024/production.json","docs/qa/workshop-master-star-cap-20261024/1440x1000-live-lounge.png","docs/qa/workshop-master-star-cap-20261024/1440x1000-star-cost.png","docs/qa/workshop-master-star-cap-20261024/390x844-live-lounge.png","docs/qa/workshop-master-star-cap-20261024/390x844-star-cost.png","docs/qa/workshop-master-star-cap-20261024/README.md","docs/qa/workshop-master-star-cap-20261024/browser-qa.json","docs/qa/workshop-master-star-cap-20261024/browser-qa.mjs","docs/qa/workshop-master-star-cap-20261024/deploy.log","docs/qa/workshop-master-star-cap-20261024/deployment.json","docs/qa/workshop-master-star-cap-20261024/live-verification.json","docs/qa/workshop-master-star-cap-20261024/verify-live.mjs","functions/_mercenary_bloodmoon_namsudaeng.js","functions/_mercenary_combat.js","index.html","js/app.js","js/battle-v3-live.js","js/mercenary-bloodmoon-pack-live.mjs","js/mercenary-bloodmoon-presentation-v2.mjs","mercenary-codex/app.mjs","mercenary-codex/index.html","mercenary-codex/model.mjs","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/BloodmoonNamsudaengPlayback.js","preview/project-v-v3/source/battle/MercenaryCombatPlayback.js","preview/project-v-v3/source/battle/bloodmoon-namsudaeng/BloodmoonFX.js","preview/project-v-v3/source/battle/bloodmoon-namsudaeng/skills.mjs","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","scripts/build-v3-grid-consumers.mjs","scripts/namsudaeng-node-authoring-only-20261024.json","scripts/ops/bloodmoon-codex-registration-20261023.mjs","scripts/ops/bloodmoon-namsudaeng-registration-20261024.mjs","scripts/ops/run-bloodmoon-namsudaeng-registration-20261024.mjs","scripts/prepare-production-assets.mjs","shared/mercenary-bloodmoon-auto-v1.mjs","shared/mercenary-bloodmoon-catalog-v1.mjs","shared/mercenary-bloodmoon-namsudaeng-v1.mjs","shared/mercenary-bloodmoon-pack-v1.mjs","shared/mercenary-bloodmoon-pool-v3.mjs","shared/mercenary-bloodmoon-session-v2.mjs","shared/mercenary-limited-deployment-v1.mjs","shared/mercenary-ss-limited-v1.mjs","tests/bloodmoon-namsudaeng-live-20261024.browser.mjs","tests/bloodmoon-namsudaeng-live-20261024.test.mjs","tests/mercenary-bloodmoon-codex-20261023.test.mjs","tests/mercenary-bloodmoon-isolation-20261023.test.mjs","tests/mercenary-bloodmoon-pack-20261023.browser.mjs"],"tests":["tests/bloodmoon-namsudaeng-live-20261024.test.mjs","tests/mercenary-bloodmoon-pack-20261023.test.mjs","tests/mercenary-bloodmoon-isolation-20261023.test.mjs","tests/mercenary-bloodmoon-codex-20261023.test.mjs","tests/mercenary-ss-limited-tempo-20261009.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+NamSuDaeng approved delivery: 19998/20000 files, authoring originals retained.
+✔ approved assets fit Pages while exact local Node authoring files remain preserved (1409.0871ms)
+✔ approved SS identity, original art, three skills, Blood Pack only and ten global copies (138.6083ms)
+✔ old five-card and eight-card drafts read without changes, odds redistribution or release (12.2096ms)
+✔ three casts select unique living targets and share a fixed total damage budget in both modes (14.5306ms)
+✔ actual combat rotates three skills with one energy payment and shared two-action cooldown (5.0031ms)
+✔ canonical PVE/PVP battles carry NamSuDaeng skill receipts and never lose normal five-card formation (30.8273ms)
+✔ ownership is required; fixture holders can deploy in both modes without a grant (3258.5007ms)
+✔ last NamSuDaeng copy is awarded once; nine remaining draws use normal SSS and retry cannot duplicate it (1632.0557ms)
+✔ stock registration rolls back on failure and dry run, preserves pack/settings/other stock, and replay writes nothing (1328.4542ms)
+✔ five separate SS limited entries publish approved originals, full idle sprites and the reviewed balance (81.8691ms)
+✔ Bloodmoon cannot enter existing packs, normal acquisition, synthesis or deployment (0.7371ms)
+✔ opening always returns 423 before DB, account, body or currency access (25.4867ms)
+✔ public feature preserves the legacy OFF draft and ten copies without writing (3175.8323ms)
+✔ delivery includes codex assets and retains Node-only QA and local authoring in Git (8.3693ms)
+✔ registration is atomic, dry-run rolls back, replay writes nothing and existing balances remain intact (1943.3913ms)
+✔ the approved six Bloodmoon cards and three requested SSS cards are the only pack targets (1.9909ms)
+✔ independent CMS draft save is atomic, idempotent, version guarded and leaves Halloween untouched (3202.9648ms)
+✔ only OWNER may read/save Blood Pack CMS; public opening remains closed before auth and DB (1974.9576ms)
+✔ browser requests, history, tab locks, receipts and one-time entitlements never cross packs (1524.0537ms)
+✔ two independent rate totals, exact effective odds, null drafts and old absolute rates are not reinterpreted (4.119ms)
+✔ only the SSS interval enters the second lottery; SS remains ordinary and misses stay misses (2.2557ms)
+✔ unauthenticated opening performs no database query; OFF and incomplete ON never charge (3120.4421ms)
+✔ one prepared ten-draw transaction grants both ordinary and limited cards once and survives a lost response (2220.0427ms)
+✔ failure after stock reservation rolls back stock, coins and cards; retry uses the original fixed draw (1507.0641ms)
+✔ last remaining card is granted once and the other nine slots award ordinary SSS (1469.6529ms)
+✔ prepared request cancels on settings change without charging or resampling (1134.4543ms)
+✔ SS videos use the awarded rank, never the SSS entry gate or fake preview results (0.368ms)
+✔ client persists one request before POST, recovers without a new lottery, and isolates accounts (1.0329ms)
+✔ all seven receive two reserved actions and doubled natural speed in PVE and PVP (63.2545ms)
+✔ both sides accrue only allied card actions, with no ghost turns or suit/monster recursion (17.7772ms)
+✔ duo credit remains owner-local and last-stand PVP responses preserve the same cadence (2.666ms)
+✔ additional visual impacts cannot recover energy or repeat a paid cast (1.6649ms)
+✔ canonical PVE, PVP and duo publish adjusted speed without changing regular cards or ordinary SSS (87.9901ms)
+✖ codex explains the SS limited tier and action policy without applying it to SSS limited (30.7088ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (21.6596ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (14.7464ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (5.744ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (19.8141ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (26.87ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (50.6334ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (15.088ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (4.1283ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.6605ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 42
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9866.4584
+
+✖ failing tests:
+
+test at tests\mercenary-ss-limited-tempo-20261009.test.mjs:78:1
+✖ codex explains the SS limited tier and action policy without applying it to SSS limited (30.7088ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '기본 전투력 1,080,000. 아군 일반 카드 평균 공격력의 1,830.4%를 최소 공격력, 평균 최대 체력의 1,164.8%를 최소 체력으로 사용하며 전열 보너스를 포함한 시작 방벽은 686.4%입니다. 자연 행동 속도와 추가 행동·연계 효과는 헬리오스와 같습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. 고유 방어력이 12% 증가하며 장비 방어력은 이 보너스에서 제외합니다. 피해 경감 75%와 개인 면역은 유지합니다. PVE 종결 집행은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). PVP는 기본 공격을 사용합니다. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다.'
+  - undefined
+
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/cnine-z-body-sword-20260918/site/tests/mercenary-ss-limited-tempo-20261009.test.mjs:81:54)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '기본 전투력 1,080,000. 아군 일반 카드 평균 공격력의 1,830.4%를 최소 공격력, 평균 최대 체력의 1,164.8%를 최소 체력으로 사용하며 전열 보너스를 포함한 시작 방벽은 686.4%입니다. 자연 행동 속도와 추가 행동·연계 효과는 헬리오스와 같습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. 고유 방어력이 12% 증가하며 장비 방어력은 이 보너스에서 제외합니다. 피해 경감 75%와 개인 면역은 유지합니다. PVE 종결 집행은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). PVP는 기본 공격을 사용합니다. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다.',
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

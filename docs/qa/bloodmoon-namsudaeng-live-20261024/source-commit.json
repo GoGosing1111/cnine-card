@@ -1,0 +1,20 @@
+{
+  "base": "e8e0b1671de09bce3b297040ef0938e03f882eaf",
+  "commit": "b1ef8f1e5fe1ecba528da4ce1ab24d29a67a01c2",
+  "branch": "refs/heads/codex/bloodmoon-namsudaeng-bow-20261024",
+  "files": [
+    "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/app.mjs",
+    "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/build.mjs",
+    "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/index.html",
+    "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/live-approval-20261024.json",
+    "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/live-release-20261024.json",
+    "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/manifest.json",
+    "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/preview.bundle.js",
+    "preview/mercenary-bloodmoon-namsudaeng-bow-20261024-v1/manifest.json"
+  ],
+  "indexOrCheckoutMutated": false,
+  "productionDeployment": false,
+  "sourceArtApproved": true,
+  "battleVisualApproval": true,
+  "pcMobileRuntimeQa": true
+}
