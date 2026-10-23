@@ -278,5 +278,18 @@
   "sourceArtSha256": "2fc1c16d414920e1f8576de5a32a15b5c1a3e1ddcd57c464f60be63e31bf16b8",
   "motionAuthorization": "모션속도는 2배로",
   "playbackRate": 2,
-  "damageAndCadence": "PRIME_REQUIEM_PARITY_UNCHANGED"
+  "damageAndCadence": "PRIME_REQUIEM_PARITY_UNCHANGED",
+  "production": {
+    "sourceCommit": "7d0dc1c07a4957be195a3c4988c5f5333f66d49d",
+    "pagesDeployment": "2f2a57bd-861b-4e52-bfaf-150d9d9b65b3",
+    "verifiedAt": "2026-10-23T00:38:26.523Z",
+    "playbackRate": 2,
+    "acquisitionEnabled": false,
+    "grant": {
+      "nickname": "핑크빛유두",
+      "quantity": 1,
+      "auditId": "50390",
+      "operationKey": "ops:general-jok-grant:20261023:v1"
+    }
+  }
 }

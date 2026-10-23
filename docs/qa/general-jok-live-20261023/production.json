@@ -1,0 +1,473 @@
+{
+  "status": "VERIFIED",
+  "at": "2026-10-23T00:38:26.523Z",
+  "deployment": {
+    "id": "2f2a57bd-861b-4e52-bfaf-150d9d9b65b3",
+    "url": "https://2f2a57bd.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "7d0dc1c07a4957be195a3c4988c5f5333f66d49d",
+    "createdAt": "2026-10-23T00:37:45.410856Z"
+  },
+  "sourceCommit": "7d0dc1c07a4957be195a3c4988c5f5333f66d49d",
+  "url": "https://cnine-card.pages.dev/mercenary-codex/?view=limited&q=제너럴&rank=SSS#V-974",
+  "card": {
+    "code": "V-974",
+    "name": "제너럴 족",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "basePower": 2300000,
+    "acquisition": "LOCKED",
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "skills": [
+      "MS-950",
+      "MS-951",
+      "MS-952",
+      "MS-953",
+      "MS-954",
+      "MS-955",
+      "MS-956",
+      "MS-957"
+    ],
+    "playbackRate": 2
+  },
+  "files": [
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraFront-v1-0.png",
+      "sha256": "792ca56bc9b95317b922aaddbc8c79b1d455b16239866f2227c03110268ac63b",
+      "bytes": 433194
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraFront-v1-3.png",
+      "sha256": "7ebc1080934510a0d123ab74c785dfa3c7fd7facc8903e02aabfbdad58700959",
+      "bytes": 437111
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraFront-v1-2.png",
+      "sha256": "7807da946d68a70c9b271ede73136c8c085ad621de5bc744b4e1ed19703d0864",
+      "bytes": 451353
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraFront-v1-1.png",
+      "sha256": "8ba553442c518c13082173f4da2fb2df264e8326417ce7344632b29e7eef0d42",
+      "bytes": 423288
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraRear-v1-0.png",
+      "sha256": "88ee5c3c10728a673168385cfc212781568d049764bc69b80799d9d084978347",
+      "bytes": 524399
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraRear-v1-2.png",
+      "sha256": "dd82791df4968ae25165bd3145aa2ac12113acfabb4fd1ea818dd33d76b7fa03",
+      "bytes": 546835
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/batteryMuzzle-v1-0.png",
+      "sha256": "7fe1ad410e5659a074e65ee68c1ac8f5e4dfcf13ca8dba046b08e92e3f4639b3",
+      "bytes": 464540
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraRear-v1-3.png",
+      "sha256": "20951fb191aebe6227e72e11e9d62623afe40c0cfb3ae179b275e6f2156b98df",
+      "bytes": 528827
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/batteryMuzzle-v1-1.png",
+      "sha256": "039cfd7a9170c201ef5689c915f0a561f05d000a5a20302d5be914111b21d7bc",
+      "bytes": 616018
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/batteryMuzzle-v1-2.png",
+      "sha256": "42b41e8c453bc3978b0908fb7ce1121848808314f55638cd22f407be98b5122d",
+      "bytes": 689511
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/batteryMuzzle-v1-3.png",
+      "sha256": "c81d98e33ed770d95c67490eacdc0ea8e2ed2a3e4bd5d70c9dcb7bb812804437",
+      "bytes": 682090
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/breaker-v1-1.png",
+      "sha256": "b2d8b45d43aeaa92699362c2c1e37c503530b49e06177d2ee502ecb7915cb8d8",
+      "bytes": 627204
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/breaker-v1-0.png",
+      "sha256": "7ac34bfecb94303cae1c30a9a35baf49d563b33fdcb9359b4a70ab0909f4a808",
+      "bytes": 528941
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/breaker-v1-2.png",
+      "sha256": "502d2cfafcc8c0d4d9e28c3d33d5d6210cffff5c57870f9cfffff66b41f5827c",
+      "bytes": 406405
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraRear-v1-1.png",
+      "sha256": "9b85f2fbe3fdc4fd1ce72a432eb2d5be44e667afc3949f4a2de4304f6bb23a45",
+      "bytes": 542384
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/breaker-v1-5.png",
+      "sha256": "fc3e16795fe10360628bd78e3f255b7a09d1c169463ecda231024be663039411",
+      "bytes": 617931
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/bullet-0.png",
+      "sha256": "9fda5358c0a203269fda4eb3f92a999abac0a6cfdbcd96ce4f4faa2a8ceefe53",
+      "bytes": 117140
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/bullet-2.png",
+      "sha256": "74e5b3b29302f1e487150dff73889115e78e42cacfbb7933c0e20857d9c2478e",
+      "bytes": 129153
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/breaker-v1-3.png",
+      "sha256": "e9c905dc8057b177f5752cba2845bfaf0ce67dbf3a15749ba6423d78abdef5dd",
+      "bytes": 542058
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/breaker-v1-4.png",
+      "sha256": "77dd7bc704707059b3a4732eaf0cc50cb1b2d179151ad17dc2e3c03f88d51ebd",
+      "bytes": 661830
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/bullet-3.png",
+      "sha256": "f60abd0488528fa65817b275844ff23926c847fb41294a44061771ea866abd25",
+      "bytes": 79110
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/bullet-1.png",
+      "sha256": "cc01df865269c74de12bb45cee423c702e763f1e466682b9701a08210b28daef",
+      "bytes": 146073
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/cataclysm-v1-0.png",
+      "sha256": "8c003b2bb16c77e7367940989b3e78e29d9e6453d55b2e21b567785622f417c8",
+      "bytes": 448720
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/cataclysm-v1-2.png",
+      "sha256": "827b04446aadafab3a1874f3f80670255a17b94b7d73a12db877ac7061d6bc37",
+      "bytes": 662239
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/cataclysm-v1-1.png",
+      "sha256": "94f972e3ced0b68ea6c351899da57941902fa5795a677795dc12411f0fa15f20",
+      "bytes": 561597
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/cataclysm-v1-4.png",
+      "sha256": "faeb84983cc2e39fc5da92aec94603402a33299f71b7a8bf9bd9dbf62c272d81",
+      "bytes": 649195
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/cataclysm-v1-5.png",
+      "sha256": "08a138795806898006f5c4ef0db23c8268253eee8d9d6536047986ad137a3411",
+      "bytes": 577594
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/cataclysm-v1-3.png",
+      "sha256": "a4d3a075ff35da6d33474274bb5c34399fbe8b2c0b8ce6e73956e55c7543a6ef",
+      "bytes": 694070
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/criticalImpact-v1-0.png",
+      "sha256": "b068c23de3bcb5ff4d12e575c75a9b66a623de1d8ddca31dbc6491a3845369c0",
+      "bytes": 297458
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/criticalImpact-v1-1.png",
+      "sha256": "c8d8d7261ab4b3e1d1ac71fc23d225d4405019b3ca119cbd4e02d7a403744617",
+      "bytes": 408044
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/criticalImpact-v1-3.png",
+      "sha256": "69cffc105779645bfc6f47e3d22ee4592fd81d38ddb9238df58bc84e061bd1d5",
+      "bytes": 475141
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/criticalImpact-v1-5.png",
+      "sha256": "74ab4eedfa1fd5192c24fe4815618c4bb614a44bd1f39b9b7dcdbef8fa7b891e",
+      "bytes": 260268
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/criticalImpact-v1-4.png",
+      "sha256": "fbffc3b8a52c521c03ddfdd65a2ab36aff4bba0d11e11884ea8b95f58f77026e",
+      "bytes": 378696
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/goldBreach-v1-0.png",
+      "sha256": "c58b4d098554c9fe58ce9c9eca846b179466e1a1441650dceb612d780cb20428",
+      "bytes": 433235
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/goldBreach-v1-1.png",
+      "sha256": "206f6e8ccc199756c0a8e795ae429e477b2a710930c164018bd3341df28d8da4",
+      "bytes": 576129
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/criticalImpact-v1-2.png",
+      "sha256": "fe12af2665260ea06560d1d80256fb5ae64d79c6a6f9da8d1d85abedef11278e",
+      "bytes": 563934
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/goldBreach-v1-2.png",
+      "sha256": "50e2cfb348b44a836d4659da7e78d8a9876c09b29902ff86b19ad59d85d08d2e",
+      "bytes": 667360
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/goldBreach-v1-4.png",
+      "sha256": "63098c8f90493dea5c8261218068444f5a2df628222a7315ef99ba65787096ea",
+      "bytes": 639871
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/goldBreach-v1-5.png",
+      "sha256": "b5af00f9b907da4c1e98848851af269c19ee652f552f33e7c2fe7f4af20a7dbe",
+      "bytes": 535441
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/goldBreach-v1-3.png",
+      "sha256": "a3d6de022a9d4ece12d3d567e9f1f9b89c7804c8e86fde69092f912f28ea234b",
+      "bytes": 687211
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/fire-v7.png",
+      "sha256": "3e19c306e018084a3dc67a73fd07e8128513c6249d92d81dc49b4f540fb450c9",
+      "bytes": 1136268
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/groundSmoke-v1-3.png",
+      "sha256": "e46a831d39d50b13046081c741933d642c52132a88ba0a3e5c4b7e46b58c0954",
+      "bytes": 513302
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/groundSmoke-v1-1.png",
+      "sha256": "f8839980c8fa07aa3b166f25a4cd9125b52c5d28c71c4b3ff9d9b66342902db2",
+      "bytes": 414370
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/groundSmoke-v1-2.png",
+      "sha256": "0cba6b8b24db6706719c0d8e96b5ca867ae11d958a4f1f2dfeda506d97c0e15d",
+      "bytes": 492616
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/groundSmoke-v1-4.png",
+      "sha256": "254f89158bf6ce54050bf735dda6e468650a4680632d99b22577b1665285c474",
+      "bytes": 480884
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/groundSmoke-v1-0.png",
+      "sha256": "b9baf284de877fcf1897e4d3b4367722c787505eaf1cf6de7e595b4276870195",
+      "bytes": 304735
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/groundSmoke-v1-5.png",
+      "sha256": "ee9f57447398f7da5e3c1e5cb5c7833ca462aee3c81675d0969837b0e62964c8",
+      "bytes": 403188
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/impact-0.png",
+      "sha256": "a7fe0c31b0b35c0e332dcab9be4e4a4f0349bf56b452a3e94b717d8c3471b6c3",
+      "bytes": 297833
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/impact-2.png",
+      "sha256": "a2d6bf6c3c968cd3995d666baa058f79afedab0e8229092f0952a6ea5b4075af",
+      "bytes": 786196
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/muzzle-0.png",
+      "sha256": "7c2a58acfc621bce9bc34efde4d90f5238e71fabce68514001b5947d45018426",
+      "bytes": 91876
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/muzzle-1.png",
+      "sha256": "c2a0bc429cc452f6380a35288b503592abe50e4a184b91114d64011b0039f311",
+      "bytes": 142643
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/impact-3.png",
+      "sha256": "fe4436f7c4c991304af196abc565800b9dfef2a77690f23a0030de5f421b0434",
+      "bytes": 857346
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/muzzle-2.png",
+      "sha256": "37d86f11e48937a76c7b3f477d469199b06ed35a9df1ee52563119c96a008905",
+      "bytes": 166034
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/impact-1.png",
+      "sha256": "a2d6bf6c3c968cd3995d666baa058f79afedab0e8229092f0952a6ea5b4075af",
+      "bytes": 786196
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/muzzle-3.png",
+      "sha256": "41ced75582b14d1247a945c720af1071c120a47091de2121a3d77b8fa8375c28",
+      "bytes": 79567
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/navalBlast-v1-0.png",
+      "sha256": "0b7a1347dbaf87874c3807cb46ed405b89e66a92ac449070ddd93dcd5d50e974",
+      "bytes": 418585
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/navalBlast-v1-3.png",
+      "sha256": "ceadb4753eea6adf68311372878077b661ae6f0ff9ce11a1d096eee4bf6f16b8",
+      "bytes": 704222
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/navalBlast-v1-5.png",
+      "sha256": "6c683b3d70943db18479b96574a4716a983a4d9889950dceb496cdb4fcad50e3",
+      "bytes": 629885
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/navalBlast-v1-2.png",
+      "sha256": "d421230793d31cab351aa438e161082e66b3d22d402a29c289ebb75747452147",
+      "bytes": 650922
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/navalBlast-v1-4.png",
+      "sha256": "b15c2fb9ca8afe2abb133a8e10d42ce8eee180e0b36f309dcf097b7db804cbfb",
+      "bytes": 642266
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/ready-v6.png",
+      "sha256": "0fa82890ac46d11459d72f80f8dff256c6e5b8d6fcf8efc1bc362b0f2dbf7609",
+      "bytes": 1666106
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/navalBlast-v1-1.png",
+      "sha256": "0f42fd47b04fdeac50b55bbd9a88b29978b1c8dc22bd7e7c9422abc8ba6b71ea",
+      "bytes": 602191
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/sources/c9-flag-neon-v14.png",
+      "sha256": "86092e0f25083d986e7a59e280295cf1e6de9097f088a608684668f00cb91744",
+      "bytes": 2133734
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/sources/battleship-fantasy-v11.png",
+      "sha256": "4fe242f40c0feced819c02626a58e1f434a320bff984f7c3a7330527c7ebcc0e",
+      "bytes": 1841570
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/general-jok-20261023/idle.png",
+      "sha256": "0fa82890ac46d11459d72f80f8dff256c6e5b8d6fcf8efc1bc362b0f2dbf7609",
+      "bytes": 1666106
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/sources/monkey-emblem-v9.png",
+      "sha256": "e635fead4ddc4013a412e0cf67a8159be6166851a932aabe95bb3da8aa4eb876",
+      "bytes": 2299565
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/ui/panel.webp",
+      "sha256": "96f008bee0ba444f1aab4d8385b9a2636891ff6a5d55023a467124698c61816a",
+      "bytes": 1711866
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/codex-v1/v-974-art-320.webp",
+      "sha256": "ca4e3d3364f85ce884921684dc23a948ce4f1e9d7b783b686f203c0a492d652a",
+      "bytes": 75528
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "43a117d9bcdcc947777187c6b52c9a74a0438ccdc396216c24dd6f6b9ff33484",
+      "bytes": 9616
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "4d3a6b367c9759e1cadb0a4064f154a40e85b50ced9d5ebd28d679493ba6c7b0",
+      "bytes": 34322
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "7d035751a26cd08bbbcaf75bdb405e7b21a052c661e9755d7ae7118a700b6f65",
+      "bytes": 6585
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "f9e287187f5817652e9a952cdb5cf397cc8d2271e8827c60e1477999543f3bf2",
+      "bytes": 2336302
+    },
+    {
+      "file": "shared/mercenary-general-jok-v1.mjs",
+      "sha256": "e85cfd04359addb18aa51c7d864ef900f53abec5aabe9ed95133ac98e6df66b5",
+      "bytes": 4371
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/manifest.json",
+      "sha256": "c3c874c86e4225a0cacdeef413fef900a064f0da8e435e5ed6b59abf8d64a3a0",
+      "bytes": 45178
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/general-jok-20261023/source-art.png",
+      "sha256": "2fc1c16d414920e1f8576de5a32a15b5c1a3e1ddcd57c464f60be63e31bf16b8",
+      "bytes": 3053879
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "3cb2e860c4787243f383885973701df1ecffa0b4054ca824190700658a520c62",
+      "bytes": 771814
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "6558d682dcf4189319bcb5080e3333f8e5a973834f7d221c09dd06bbc8ce94a7",
+      "bytes": 88115
+    },
+    {
+      "file": "index.html",
+      "sha256": "7ee63513746444c4b9c292ae46c64928ba3d05c27a9467e31480dbee48a5bd8c",
+      "bytes": 33989
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "da459957f4f676cb3918d97ec5bb7992459f478b6f7bf58512aecd0778f40d35",
+      "bytes": 18317
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/sources/m777-v8.png",
+      "sha256": "62e975bb6dbf50def70ac200d5752dbadc92dac00a0bf2c8df6ca7b1a24edce4",
+      "bytes": 1359489
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "553b3ee10bef6f6fa73f6ea713789e1e25f213e65e79f0a778e35cb310304f04",
+      "bytes": 2359821
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "18bf5cf3b72b258d48a6a65db48a87c4df573c0363c9fce7c2056c278d56e31a",
+      "bytes": 2336276
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "ed4d00c1ebb26b434f9478f1659175887a11ff04092969e5394af5f338145c9d",
+      "bytes": 2467685
+    }
+  ],
+  "screens": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "skills": 8,
+      "locked": true,
+      "playbackRate": 2,
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "skills": 8,
+      "locked": true,
+      "playbackRate": 2,
+      "errors": []
+    }
+  ],
+  "accountWrites": 0
+}

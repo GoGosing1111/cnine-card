@@ -1,0 +1,85 @@
+{
+  "replayed": false,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:general-jok-grant:20261023:v1",
+    "planHash": "e115e03d0715f76e23a4ebe2d7d3002bd752489a182a30be387946616dd42b5f",
+    "plan": {
+      "operationKey": "ops:general-jok-grant:20261023:v1",
+      "authorization": "승인하고 도감에 추가,라이브반영해 현재 획득불가, 핑크빛유두에 지급해",
+      "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+      "cost": 0,
+      "automaticLoadout": false,
+      "totalQuantity": 1,
+      "recipientCount": 1,
+      "recipients": [
+        {
+          "id": "1",
+          "nickname": "핑크빛유두",
+          "role": "OWNER",
+          "status": "ACTIVE",
+          "identityHash": "4e20330d91fbd5e52c5a21fa720d69468fcf0d7952b847d8787df45edf81c305"
+        }
+      ],
+      "grants": [
+        {
+          "userId": "1",
+          "nickname": "핑크빛유두",
+          "code": "V-974",
+          "name": "제너럴 족",
+          "quantity": 1
+        }
+      ],
+      "context": "승인 V15 SSS 리미티드; 현재 일반 획득 불가; 모션 2배; 지정 계정 1장"
+    },
+    "completedAt": "2026-10-23T00:38:52.432Z",
+    "grants": [
+      {
+        "userId": "1",
+        "nickname": "핑크빛유두",
+        "code": "V-974",
+        "name": "제너럴 족",
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "holdingBefore": null
+      }
+    ],
+    "acquisitions": [
+      "ops:general-jok-grant:20261023:v1:1:V-974:1"
+    ],
+    "stockBefore": [],
+    "stockAfter": [],
+    "issuesBefore": [],
+    "issuesAfter": [],
+    "craftBefore": [],
+    "craftAfter": [],
+    "protectedBeforeHash": "71b05d239d09aa7665b980c2fdf8f859521b4f7c0e7b9f7c34d7b4f6b5167925",
+    "protectedAfterHash": "71b05d239d09aa7665b980c2fdf8f859521b4f7c0e7b9f7c34d7b4f6b5167925",
+    "preserved": {
+      "currency": true,
+      "stockCounters": true,
+      "numberedIssues": true,
+      "craftCounts": true,
+      "packAndCraftSettings": true,
+      "otherCards": true,
+      "inventory": true,
+      "loadouts": true,
+      "levels": true,
+      "growth": true,
+      "accountSettings": true
+    },
+    "auditId": "50390"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "recipientCount": 1,
+    "totalQuantity": 1,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 1,
+    "auditRecords": 1
+  },
+  "sourceSha256": "dd5b7530b11ba34213ff0483370c194ed157c6d5bf6d7dc5f41f19743e2c4c18"
+}

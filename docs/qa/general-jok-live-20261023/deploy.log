@@ -1,0 +1,111 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"01be0a216644cc160d39d2f066bccdf2bb21e85e","reason":"Approved General Jok SSS limited V15: codex, acquisition lock, Requiem combat parity and 2x motion; preserve merged Bloodmoon catalog; verify both catalogs, shared combat, locked cube pool and static delivery exclusions.","changed":["AGENTS.md","assets/ui/project-v/mercenaries/codex-v1/v-974-art-320.webp","assets/ui/project-v/mercenaries/general-jok-20261023/idle.png","assets/ui/project-v/mercenaries/general-jok-20261023/source-art.png","defense/index.html","docs/qa/bloodmoon-codex-20261023/README.md","docs/qa/bloodmoon-codex-20261023/production-desktop.png","docs/qa/bloodmoon-codex-20261023/production-mobile.png","docs/qa/bloodmoon-codex-20261023/production.json","docs/qa/bloodmoon-codex-20261023/verify-production.mjs","docs/qa/general-jok-live-20261023/README.md","docs/qa/general-jok-live-20261023/browser-checkpoint.json","docs/qa/general-jok-live-20261023/browser-report.json","docs/qa/general-jok-live-20261023/desktop-area-artillery.png","docs/qa/general-jok-live-20261023/desktop-area-breaker.png","docs/qa/general-jok-live-20261023/desktop-area-critical.png","docs/qa/general-jok-live-20261023/desktop-area-idle.png","docs/qa/general-jok-live-20261023/desktop-area-ultimate.png","docs/qa/general-jok-live-20261023/desktop-codex.png","docs/qa/general-jok-live-20261023/desktop-enemy-critical.png","docs/qa/general-jok-live-20261023/desktop-enemy-idle.png","docs/qa/general-jok-live-20261023/desktop-single-artillery.png","docs/qa/general-jok-live-20261023/desktop-single-breaker.png","docs/qa/general-jok-live-20261023/desktop-single-critical.png","docs/qa/general-jok-live-20261023/desktop-single-idle.png","docs/qa/general-jok-live-20261023/desktop-single-ultimate.png","docs/qa/general-jok-live-20261023/mobile-area-artillery.png","docs/qa/general-jok-live-20261023/mobile-area-breaker.png","docs/qa/general-jok-live-20261023/mobile-area-critical.png","docs/qa/general-jok-live-20261023/mobile-area-idle.png","docs/qa/general-jok-live-20261023/mobile-area-ultimate.png","docs/qa/general-jok-live-20261023/mobile-codex.png","functions/_battle_v2_preview.js","functions/_mercenary_account.js","functions/_mercenary_codex.js","functions/_mercenary_combat.js","functions/_mercenary_general_jok.js","functions/_sss_miracle_cube.js","index.html","js/app.js","js/battle-v3-live.js","mercenary-codex/app.mjs","mercenary-codex/index.html","mercenary-codex/model.mjs","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/coop-defense-v1/build-report.json","preview/coop-defense-v1/defense.bundle.js","preview/coop-defense-v1/index.html","preview/cow-room-v3-v1/battle.bundle.js","preview/defense-roguelike-v2/preview.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraFront-v1-0.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraFront-v1-1.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraFront-v1-2.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraFront-v1-3.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraRear-v1-0.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraRear-v1-1.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraRear-v1-2.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/auraRear-v1-3.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/batteryMuzzle-v1-0.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/batteryMuzzle-v1-1.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/batteryMuzzle-v1-2.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/batteryMuzzle-v1-3.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/breaker-v1-0.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/breaker-v1-1.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/breaker-v1-2.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/breaker-v1-3.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/breaker-v1-4.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/breaker-v1-5.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/bullet-0.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/bullet-1.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/bullet-2.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/bullet-3.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/cataclysm-v1-0.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/cataclysm-v1-1.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/cataclysm-v1-2.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/cataclysm-v1-3.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/cataclysm-v1-4.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/cataclysm-v1-5.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/criticalImpact-v1-0.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/criticalImpact-v1-1.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/criticalImpact-v1-2.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/criticalImpact-v1-3.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/criticalImpact-v1-4.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/criticalImpact-v1-5.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/fire-v7.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/goldBreach-v1-0.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/goldBreach-v1-1.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/goldBreach-v1-2.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/goldBreach-v1-3.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/goldBreach-v1-4.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/goldBreach-v1-5.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/groundSmoke-v1-0.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/groundSmoke-v1-1.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/groundSmoke-v1-2.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/groundSmoke-v1-3.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/groundSmoke-v1-4.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/groundSmoke-v1-5.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/impact-0.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/impact-1.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/impact-2.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/impact-3.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/muzzle-0.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/muzzle-1.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/muzzle-2.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/muzzle-3.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/navalBlast-v1-0.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/navalBlast-v1-1.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/navalBlast-v1-2.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/navalBlast-v1-3.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/navalBlast-v1-4.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/navalBlast-v1-5.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/ready-v6.png","preview/mercenary-general-jok-battle-20261022-v1/assets/sources/battleship-fantasy-v11.png","preview/mercenary-general-jok-battle-20261022-v1/assets/sources/c9-flag-neon-v14.png","preview/mercenary-general-jok-battle-20261022-v1/assets/sources/m777-v8.png","preview/mercenary-general-jok-battle-20261022-v1/assets/sources/monkey-emblem-v9.png","preview/mercenary-general-jok-battle-20261022-v1/assets/ui/panel.webp","preview/mercenary-general-jok-battle-20261022-v1/live-approval-20261023.json","preview/mercenary-general-jok-battle-20261022-v1/manifest.json","preview/mercenary-general-jok-battle-20261022-v1/skill.mjs","preview/mercenary-general-jok-battle-20261022-v1/source/BombardmentVisuals.js","preview/mercenary-general-jok-battle-20261022-v1/source/C9AuraFlag.js","preview/mercenary-general-jok-battle-20261022-v1/source/GeneralJokArtillery.js","preview/mercenary-general-jok-battle-20261022-v1/source/GeneralJokCritical.js","preview/mercenary-general-jok-battle-20261022-v1/source/GeneralJokFX.js","preview/mercenary-general-jok-battle-20261022-v1/source/GeneralJokNaval.js","preview/mercenary-general-jok-battle-20261022-v1/source/GoldenRimFilter.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/GeneralJokCombatPlayback.js","preview/project-v-v3/source/battle/MercenaryCombatPlayback.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","scripts/build-coop-defense-v1.mjs","scripts/build-v3-grid-consumers.mjs","scripts/ops/general-jok-grant-20261023.json","scripts/ops/general-jok-grant-20261023.mjs","scripts/prepare-production-assets.mjs","scripts/preview-node-authoring-only-20261023.json","service-worker.js","shared/mercenary-acquisition-release-v1.mjs","shared/mercenary-combat-link-v2103.mjs","shared/mercenary-general-jok-v1.mjs","shared/mercenary-level-v1.mjs","shared/mercenary-limited-deployment-v1.mjs","tests/general-jok-live-20261023.browser.mjs","tests/general-jok-live-20261023.test.mjs","tests/mercenary-limited-catalog-20261002.test.mjs"],"tests":["tests/general-jok-live-20261023.test.mjs","tests/prime-requiem-live-20261021.test.mjs","tests/sss-miracle-cube-20261021.test.mjs","tests/mercenary-bloodmoon-codex-20261023.test.mjs","tests/mercenary-limited-catalog-20261002.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ GeneralJok equals Prime Requiem in actual PVE/PVP stats, gear, links, mitigation and action cadence (14.5273ms)
+✔ normal/limited/Halloween/fusion selection cannot award GeneralJok even with positive CMS weight (1.9231ms)
+✔ six PVE area skills retain one 1512% budget per cast and use the shared Requiem budget (43.8364ms)
+✔ PVE cadence is ten casts per thirty own actions instead of six, with shared cooldown and no PVP casts (2.1111ms)
+✔ public codex exposes eight skills and acquisition lock while deployment requires ownership (4036.1355ms)
+✔ approved V15 images and every production V3 entry contain General Jok (108.1889ms)
+✔ delivery omits only Node build and QA commands while approved battle textures ship (119.9022ms)
+✔ five separate SS limited entries publish approved originals, full idle sprites and the reviewed balance (97.3489ms)
+✔ Bloodmoon cannot enter existing packs, normal acquisition, synthesis or deployment (0.8139ms)
+✔ opening always returns 423 before DB, account, body or currency access (31.3321ms)
+✔ public feature stays OFF and reports ten copies per character without writing (0.5978ms)
+✔ delivery includes codex assets and retains Node-only QA and local authoring in Git (6.2486ms)
+✔ registration is atomic, dry-run rolls back, replay writes nothing and existing balances remain intact (3685.0871ms)
+✔ read-only codex preserves the nine original limited cards alongside General Jok, Prime Requiem, Zero, Jokro, Shiranui, Leonel, Jinmu and craft-only Kairon (163.9931ms)
+✔ limited grants remain blocked independent of saved weight and never enter general catalog (4.6071ms)
+✔ SSS Valter exposes preserved approved SD, V17 motion and effects without runtime activation (212.538ms)
+✔ older six-card CMS policy loads with zero for later artwork cards without changing saved rates or writing on GET (3636.9506ms)
+✔ limited CMS saves separately with audited atomic rollback, stale protection and safe retry (1453.5159ms)
+✔ concurrent limited policy edits have one winner and one audit (1178.3547ms)
+✔ Prime equals Zero in actual PVE/PVP stats, gear, links, mitigation and action cadence (11.9981ms)
+✔ normal/limited/Halloween/fusion selection cannot award Prime even with positive CMS weight (1.2669ms)
+✔ four PVE area skills retain one 1512% budget per cast and rotate more frequently (51.1508ms)
+✔ PVE cadence is ten casts per thirty own actions instead of six, with shared cooldown and no PVP casts (1.9855ms)
+✔ public codex exposes seven skills and acquisition lock while deployment requires ownership (4152.8663ms)
+✔ approved V7 assets stay byte-identical and all actual V3 consumers ship Prime (80.6308ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (115.2564ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (28.6438ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (7.3956ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (58.0177ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (42.305ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (137.4424ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (5.0606ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (38.1908ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (2.1258ms)
+✔ SSS-only direct percentages preserve exact eight-decimal boundaries and explicit exclusions (3.4719ms)
+✔ older CMS documents include released Azant/Kangyun without overriding acquisition OFF or writing defaults (113.2136ms)
+✔ OFF/null defaults, SS exclusion, unreleased and sold-out locks, OWNER authorization and version checks (91.376ms)
+✔ normal/limited debit, shared last serial, duplicate and replay accounting (SQLite) (73.7981ms)
+✔ normal/limited debit, shared last serial, duplicate and replay accounting (Postgres) (4202.1833ms)
+✔ failed payment/grant rolls back, retry reuses draw; changed settings cancel without debit (1598.4296ms)
+✔ another pack consuming the last stock during commit cannot over-issue or debit a cube (31.6027ms)
+✔ Jinmu/Jokro entitlement requires a completed cube receipt, acquisition and a valid serial within each approved limit (1261.1305ms)
+✔ preparation is OFF, no grants or stock changes, dry-run-safe and preserves later CMS settings (1214.2923ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9273.9676
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19925 files; 6916 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8102.57 KiB / gzip: 1747.05 KiB
+Worker Startup Time: 53 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.90 sec)
+No targets deployed for cnine-card-api-runtime (0.57 sec)
+Current Version ID: d6da1165-6a02-483a-b3c3-e8f2e5ccadf6
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19805/19925)
+Uploading... (19845/19925)
+Uploading... (19885/19925)
+Uploading... (19925/19925)
+✨ Success! Uploaded 120 files (19805 already uploaded) (6.05 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://2f2a57bd.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 2835.11 KiB / gzip: 642.83 KiB
+Worker Startup Time: 42 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (2.86 sec)
+Deployed cnine-card-clan-draft triggers (1.03 sec)
+  schedule: * * * * *
+Current Version ID: 7f8822f9-c505-4377-b58a-a5b0f7af6bfc

@@ -1,0 +1,15 @@
+{
+  "head": "7d0dc1c07a4957be195a3c4988c5f5333f66d49d",
+  "base": "01be0a216644cc160d39d2f066bccdf2bb21e85e",
+  "tests": [
+    "tests/general-jok-live-20261023.test.mjs",
+    "tests/prime-requiem-live-20261021.test.mjs",
+    "tests/sss-miracle-cube-20261021.test.mjs",
+    "tests/mercenary-bloodmoon-codex-20261023.test.mjs",
+    "tests/mercenary-limited-catalog-20261002.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "startedAt": "2026-10-23T00:34:52.571Z"
+}
