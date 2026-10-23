@@ -1,0 +1,21 @@
+{
+  "code": 0,
+  "finishedAt": "2026-10-23T13:12:09.566Z",
+  "head": "1ed057a3445af9161fec05483715d31f2b059ed6",
+  "base": "0b950ee9cb28e71fd31b35451a79729f4186c8f0",
+  "tests": [
+    "tests/mercenary-manual-grant-access-20261022.test.mjs",
+    "tests/inception-jinmu-grant-20261020.test.mjs",
+    "tests/bichon-jinmu-grant-20261020.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "previouslyPassed": {
+    "file": "tests/tmoney-jinmu-access-20261023.test.mjs",
+    "count": 2,
+    "unchangedRuntime": true
+  },
+  "reason": "User-authorized T-Money Jinmu PVE/PVP equipment. New exact-account, ownership, dual-mode battle and unchanged-stock tests passed; run existing direct-grant access regressions and Worker/release guards once.",
+  "startedAt": "2026-10-23T13:09:38.158Z"
+}

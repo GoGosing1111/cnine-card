@@ -1,0 +1,174 @@
+{
+  "receipt": {
+    "status": "COMPLETED",
+    "actor": "CODEX_OPERATIONS",
+    "operationKey": "ops:tmoney-jinmu-pve-pvp-equip:20261023:v1",
+    "planHash": "fd18474fe847bfae2be72b2ea09632a37689946ec2523b898054a4d99d2f88fb",
+    "plan": {
+      "operationKey": "ops:tmoney-jinmu-pve-pvp-equip:20261023:v1",
+      "authorization": "pve,pvp장착까지 해놔",
+      "context": "티머니(T-Money™) 기존 보유 천룡검황 진무 장착",
+      "recipients": [
+        {
+          "id": "5147",
+          "nickname": "T-Money™",
+          "status": "ACTIVE",
+          "role": "USER",
+          "identityHash": "35fe97106d5fff7ffeeb25a7c64196327dedda8f907ffd336af1f0baa5d75fed"
+        }
+      ],
+      "recipientCount": 1,
+      "code": "V-989",
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "totalQuantity": 0
+    },
+    "completedAt": "2026-10-23T13:13:20.349Z",
+    "before": {
+      "PVE": {
+        "mercenaryCode": "V-057",
+        "revision": 12
+      },
+      "PVP": {
+        "mercenaryCode": "V-057",
+        "revision": 14
+      }
+    },
+    "after": {
+      "PVE": {
+        "mercenaryCode": "V-989",
+        "revision": 13
+      },
+      "PVP": {
+        "mercenaryCode": "V-989",
+        "revision": 15
+      }
+    },
+    "changes": [
+      {
+        "mode": "PVE",
+        "before": {
+          "mercenaryCode": "V-057",
+          "revision": 12
+        },
+        "after": {
+          "mercenaryCode": "V-989",
+          "revision": 13
+        }
+      },
+      {
+        "mode": "PVP",
+        "before": {
+          "mercenaryCode": "V-057",
+          "revision": 14
+        },
+        "after": {
+          "mercenaryCode": "V-989",
+          "revision": 15
+        }
+      }
+    ],
+    "syncBefore": [
+      {
+        "domains": {
+          "pvp": "115979",
+          "wallet": "120442",
+          "loadout": "116226",
+          "messages": "117812",
+          "inventory": "120416",
+          "collection": "120414"
+        },
+        "user_id": "5147",
+        "revision": "120442"
+      }
+    ],
+    "syncAfter": [
+      {
+        "domains": {
+          "pvp": "115979",
+          "wallet": "120442",
+          "loadout": "120444",
+          "messages": "117812",
+          "inventory": "120416",
+          "collection": "120414"
+        },
+        "user_id": "5147",
+        "revision": "120444"
+      }
+    ],
+    "protectedBeforeHash": "b6ddc21429812fb495c4f72ddf1b0480eeefed92d0f7ed3c1c2b2af053fec2b6",
+    "protectedAfterHash": "b6ddc21429812fb495c4f72ddf1b0480eeefed92d0f7ed3c1c2b2af053fec2b6",
+    "runtimeVersion": [
+      {
+        "version_id": "f90cc435-4e6f-498d-8dc3-e2dd50f888b5",
+        "percentage": 100
+      }
+    ],
+    "battleSnapshots": {
+      "PVE": {
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "rank": "SSS",
+        "basePower": 1617408,
+        "statMode": "RANK_FIXED"
+      },
+      "PVP": {
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "rank": "SSS",
+        "basePower": 1617408,
+        "statMode": "RANK_FIXED"
+      }
+    },
+    "preserved": {
+      "balances": true,
+      "holdings": true,
+      "inventory": true,
+      "levels": true,
+      "growth": true,
+      "stock": true,
+      "issues": true,
+      "otherSettings": true
+    },
+    "auditId": "50527"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "userId": "5147",
+    "nickname": "T-Money™",
+    "loadouts": {
+      "PVE": {
+        "mercenaryCode": "V-989",
+        "revision": 13
+      },
+      "PVP": {
+        "mercenaryCode": "V-989",
+        "revision": 15
+      }
+    },
+    "battleSnapshots": {
+      "PVE": {
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "rank": "SSS",
+        "basePower": 1617408,
+        "statMode": "RANK_FIXED"
+      },
+      "PVP": {
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "rank": "SSS",
+        "basePower": 1617408,
+        "statMode": "RANK_FIXED"
+      }
+    },
+    "currentCopies": 1,
+    "additionalGrants": 0,
+    "additionalMessages": 0
+  },
+  "sourceSha256": "152abc8bb4d31baab851672030f6df412cd31c4ed5ae54938950f4b8a8ace998",
+  "verifiedAt": "2026-10-23T13:13:32.276Z",
+  "independentConnection": true
+}

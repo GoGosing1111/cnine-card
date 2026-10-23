@@ -1,0 +1,42 @@
+{
+  "verified": true,
+  "rollbackVerified": true,
+  "injectedFailureRolledBack": true,
+  "idempotentReplay": true,
+  "sourceSha256": "152abc8bb4d31baab851672030f6df412cd31c4ed5ae54938950f4b8a8ace998",
+  "planHash": "fd18474fe847bfae2be72b2ea09632a37689946ec2523b898054a4d99d2f88fb",
+  "verification": {
+    "status": "VERIFIED",
+    "userId": "5147",
+    "nickname": "T-Money™",
+    "loadouts": {
+      "PVE": {
+        "mercenaryCode": "V-989",
+        "revision": 13
+      },
+      "PVP": {
+        "mercenaryCode": "V-989",
+        "revision": 15
+      }
+    },
+    "battleSnapshots": {
+      "PVE": {
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "rank": "SSS",
+        "basePower": 1617408,
+        "statMode": "RANK_FIXED"
+      },
+      "PVP": {
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "rank": "SSS",
+        "basePower": 1617408,
+        "statMode": "RANK_FIXED"
+      }
+    },
+    "currentCopies": 1,
+    "additionalGrants": 0,
+    "additionalMessages": 0
+  }
+}

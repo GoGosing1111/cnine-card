@@ -1,0 +1,60 @@
+{
+  "verifiedAt": "2026-10-23T13:14:30.343Z",
+  "sourceCommit": "1ed057a3445af9161fec05483715d31f2b059ed6",
+  "pages": {
+    "id": "90a66ed4-94dd-41c2-baca-ba58c43212a0",
+    "url": "https://90a66ed4.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "1ed057a3445af9161fec05483715d31f2b059ed6",
+    "createdAt": "2026-10-23T13:11:51.625345Z"
+  },
+  "workerVersions": [
+    {
+      "version_id": "f90cc435-4e6f-498d-8dc3-e2dd50f888b5",
+      "percentage": 100
+    }
+  ],
+  "liveAccountAccess": true,
+  "publicModule": {
+    "url": "https://cnine-card.pages.dev/shared/mercenary-jinmu-v1.mjs?verify=tmoney-jinmu-20261023",
+    "sha256": "d62bf66dd598383e74b4dc5b92085610482961b6a50da9a509278ed783b1ff19"
+  },
+  "restoredIgnoredFiles": 73,
+  "restoredIgnoredBytes": 47807662,
+  "verification": {
+    "status": "VERIFIED",
+    "userId": "5147",
+    "nickname": "T-Money™",
+    "loadouts": {
+      "PVE": {
+        "mercenaryCode": "V-989",
+        "revision": 13
+      },
+      "PVP": {
+        "mercenaryCode": "V-989",
+        "revision": 15
+      }
+    },
+    "battleSnapshots": {
+      "PVE": {
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "rank": "SSS",
+        "basePower": 1617408,
+        "statMode": "RANK_FIXED"
+      },
+      "PVP": {
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "rank": "SSS",
+        "basePower": 1617408,
+        "statMode": "RANK_FIXED"
+      }
+    },
+    "currentCopies": 1,
+    "additionalGrants": 0,
+    "additionalMessages": 0
+  },
+  "auditId": "50527",
+  "completedAt": "2026-10-23T13:13:20.349Z"
+}

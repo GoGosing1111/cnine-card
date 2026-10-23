@@ -1,0 +1,21 @@
+{
+  "operationKey": "ops:tmoney-jinmu-pve-pvp-equip:20261023:v1",
+  "authorization": "pve,pvp장착까지 해놔",
+  "context": "티머니(T-Money™) 기존 보유 천룡검황 진무 장착",
+  "recipients": [
+    {
+      "id": "5147",
+      "nickname": "T-Money™",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "35fe97106d5fff7ffeeb25a7c64196327dedda8f907ffd336af1f0baa5d75fed"
+    }
+  ],
+  "recipientCount": 1,
+  "code": "V-989",
+  "modes": [
+    "PVE",
+    "PVP"
+  ],
+  "totalQuantity": 0
+}
