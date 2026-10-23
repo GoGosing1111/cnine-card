@@ -15,7 +15,8 @@ CREATE TABLE cards_effective_v1210(id TEXT PRIMARY KEY,is_active INTEGER,card_st
 CREATE TABLE user_cards(user_id INTEGER,card_id TEXT,quantity INTEGER,PRIMARY KEY(user_id,card_id));
 CREATE TABLE character_garage_items(id INTEGER PRIMARY KEY,is_active INTEGER,is_public INTEGER,code TEXT);
 CREATE TABLE user_garage_vehicles(user_id INTEGER,garage_id INTEGER,PRIMARY KEY(user_id,garage_id));
-CREATE TABLE pvp_season_settlements(id INTEGER PRIMARY KEY,season_name TEXT,status TEXT,started_at TEXT,completed_at TEXT);
+CREATE TABLE pvp_season_settlements(id INTEGER PRIMARY KEY,season_key TEXT,season_name TEXT,status TEXT,started_at TEXT,completed_at TEXT);
+CREATE TABLE user_mercenary_cards_v1(user_id INTEGER,mercenary_code TEXT,total_copies INTEGER);
 CREATE TABLE pvp_season_settlement_ranks(settlement_id INTEGER,user_id INTEGER,tier_id TEXT,tier_name TEXT,final_rank INTEGER,season_score INTEGER,wins INTEGER,losses INTEGER);
 CREATE TABLE clan_season_settlements(season_id INTEGER,champion_clan_id INTEGER,status TEXT,reward_status TEXT,completed_at TEXT);
 CREATE TABLE clan_seasons(id INTEGER,phase TEXT);
@@ -154,6 +155,26 @@ for (const postgres of [false, true]) {
     assert.deepEqual(await powers(), [50000, 80000], 'redeployment cannot overwrite an operator edit after the approved update');
   });
 
+  test(`${label}: new official trophy kinds count toward TROPHY_HUNTER and grant it once`, async t => {
+    const f=await fixture(t,postgres);await ensureAchievementTitles(f.env);
+    for(let id=1;id<=20;id++){
+      const at=new Date(Date.UTC(2026,7,id)).toISOString();
+      await f.p("INSERT INTO pvp_season_settlements VALUES(?,?,?,'COMPLETED',?,?)",id,'season-'+id,'시즌 '+id,at,at).run();
+      await f.p("INSERT INTO pvp_season_settlement_ranks VALUES(?,7,'challenger','챌린저',1,3000,10,0)",id).run();
+    }
+    const before=await syncAchievementTitles(f.env,7);
+    assert.equal(before.progress.TROPHY_HUNTER.owned,3);assert(before.progress.TROPHY_HUNTER.codes.includes('BLUE_EMPIRE_20'));
+    assert.deepEqual(before.granted,[]);
+    const codexHoldings=['V-973','V-974','V-975','V-976','V-987','V-978','V-996','V-999','V-988'];
+    for(const code of codexHoldings.slice(0,8))await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,99)',code).run();
+    const partial=await syncAchievementTitles(f.env,7);assert.equal(partial.progress.TROPHY_HUNTER.owned,3);assert.deepEqual(partial.granted,[],'Copies of eight distinct codex types cannot satisfy 9/11');
+    await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,99)',codexHoldings[8]).run();
+    const earned=await syncAchievementTitles(f.env,7);
+    assert.equal(earned.progress.TROPHY_HUNTER.owned,4);assert(earned.progress.TROPHY_HUNTER.codes.includes('LIMITED_EDITION_80'));assert.equal(earned.granted.length,1);
+    assert.deepEqual((await syncAchievementTitles(f.env,7)).granted,[]);
+    assert.equal(Number((await f.p("SELECT COUNT(*) n FROM user_character_titles u JOIN character_titles t ON t.id=u.title_id WHERE u.user_id=7 AND t.code='TROPHY_HUNTER'").first()).n),1);
+  });
+
   test(`${label}: visible distinct card/vehicle ownership, official trophy kinds, atomic grants and lost-response retries`, async t => {
     const f = await fixture(t, postgres); await ensureAchievementTitles(f.env);
     for (let i = 1; i <= 10; i++) {
@@ -172,7 +193,7 @@ for (const postgres of [false, true]) {
     await f.p("UPDATE user_cards SET quantity=1 WHERE user_id=7 AND card_id='c10'").run();
     // Three official kinds: ranked champion, a 3-season challenger streak, regular clan winner.
     for (let i = 1; i <= 3; i++) {
-      await f.p("INSERT INTO pvp_season_settlements VALUES(?,?,'COMPLETED',?,?)", i, '시즌'+i, `2026-08-0${i}`, `2026-08-0${i}`).run();
+      await f.p("INSERT INTO pvp_season_settlements VALUES(?,?,?,'COMPLETED',?,?)", i, 'season-'+i, '시즌'+i, `2026-08-0${i}`, `2026-08-0${i}`).run();
       await f.p("INSERT INTO pvp_season_settlement_ranks VALUES(?,7,'challenger','챌린저',1,3000,10,0)",i).run();
     }
     await f.p("INSERT INTO clan_seasons VALUES(1,'CHAMPIONS')").run();

@@ -1,3 +1,4 @@
+import {readNewTrophyMilestones} from './_trophy_milestones.js';
 import { readDuoHonors } from './_ranked_duo_honors.js';
 import { readPredictionStakeHonors, PREDICTION_TROPHY_GOAL } from './_prediction_trophy.js';
 import {readCityTopHonors,readLichClearHonors,CITY_TOP_GOAL,LICH_CLEAR_GOAL} from './_milestone_trophies.js';
@@ -40,7 +41,7 @@ export const CHAMPIONS_HONORS_SQL = `SELECT COUNT(DISTINCT r.season_id) wins,MIN
         WHERE r.user_id=? AND r.reward_type='CLAN_CHAMPIONS_TROPHY' AND r.reward_amount=1 AND r.status='SENT'
           AND c.status='COMPLETED' AND c.completed_at IS NOT NULL AND c.reward_status<>'DISABLED_TEST'`;
 
-export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo = {}, prediction = {}, cityTop = {}, lichClear = {}, worldRaid = {} }) {
+export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo = {}, prediction = {}, cityTop = {}, lichClear = {}, worldRaid = {}, blueEmpire = {}, limitedEdition = {}, loyalServicePost = {} }) {
   return {
       DUO_CHALLENGER: { count: n(duo.count), acquiredAt: duo.acquiredAt, progress: n(duo.count), goal: 1 },
       CLAN_CHAMPION: { count: n(clanStats.wins), acquiredAt: clanStats.first_at || null, progress: n(clanStats.wins), goal: 1 },
@@ -50,17 +51,20 @@ export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo =
       PREDICTION_STAKE_300T: { count: n(prediction.count), acquiredAt: prediction.acquiredAt || null, progress: n(prediction.progress), goal: PREDICTION_TROPHY_GOAL },
       CITY_TOP_25: {count:n(cityTop.count),acquiredAt:cityTop.acquiredAt||null,progress:n(cityTop.progress),goal:CITY_TOP_GOAL},
       LICH_KING_CLEAR_1000: {count:n(lichClear.count),acquiredAt:lichClear.acquiredAt||null,progress:n(lichClear.progress),goal:LICH_CLEAR_GOAL},
+      BLUE_EMPIRE_20: {count:n(blueEmpire.count),acquiredAt:blueEmpire.acquiredAt||null,progress:n(blueEmpire.progress),goal:20},
+      LIMITED_EDITION_80: {count:n(limitedEdition.count),acquiredAt:null,progress:n(limitedEdition.progress),goal:n(limitedEdition.goal),total:n(limitedEdition.total)},
+      LOYAL_SERVICE_POST_20: {count:n(loyalServicePost.count),acquiredAt:loyalServicePost.acquiredAt||null,progress:n(loyalServicePost.progress),goal:20},
       WORLD_RAID_CLEAR_5000: {count:n(worldRaid.count),acquiredAt:worldRaid.acquiredAt||null,progress:n(worldRaid.progress),goal:WORLD_RAID_CLEAR_GOAL}
     };
 }
 
-export async function readTrophyHonors(env, userId) {
-  const [stats, clanStats, champions, duo, prediction, cityTop, lichClear, worldRaid, manualGrants] = await Promise.all([
+export async function readTrophyHonors(env, userId, {newMilestoneCodes} = {}) {
+  const [stats, clanStats, champions, duo, prediction, cityTop, lichClear, worldRaid, manualGrants, milestones] = await Promise.all([
     env.DB.prepare(RANKED_HONORS_SQL).bind(userId).first(),
     env.DB.prepare(`SELECT COUNT(*) wins,MIN(x.completed_at) first_at ${CLAN_HONORS}`).bind(userId).first(),
     env.DB.prepare(CHAMPIONS_HONORS_SQL).bind(userId).first(),
     readDuoHonors(env, userId),
-    readPredictionStakeHonors(env, userId),readCityTopHonors(env,userId),readLichClearHonors(env,userId),readWorldRaidClearHonors(env,userId),readTrophyManualGrants(env,userId)
+    readPredictionStakeHonors(env, userId),readCityTopHonors(env,userId),readLichClearHonors(env,userId),readWorldRaidClearHonors(env,userId),readTrophyManualGrants(env,userId),readNewTrophyMilestones(env,userId,{codes:newMilestoneCodes})
   ]);
-  return applyTrophyManualGrants(trophyHonors({ stats: stats || {}, clanStats: clanStats || {}, champions: champions || {}, duo, prediction, cityTop, lichClear, worldRaid }),manualGrants);
+  return applyTrophyManualGrants(trophyHonors({ stats: stats || {}, clanStats: clanStats || {}, champions: champions || {}, duo, prediction, cityTop, lichClear, worldRaid, ...milestones }),manualGrants);
 }

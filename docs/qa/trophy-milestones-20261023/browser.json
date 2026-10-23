@@ -1,0 +1,32 @@
+{
+  "source": "UI fixture only; no operational trophy grant",
+  "checks": [
+    {
+      "width": 1440,
+      "trophies": [
+        "푸른제국",
+        "리미티드 에디션",
+        "충신 무공훈장"
+      ],
+      "artDecoded": true,
+      "noHorizontalOverflow": true,
+      "selection": true,
+      "lockedState": true,
+      "close": true
+    },
+    {
+      "width": 390,
+      "trophies": [
+        "푸른제국",
+        "리미티드 에디션",
+        "충신 무공훈장"
+      ],
+      "artDecoded": true,
+      "noHorizontalOverflow": true,
+      "selection": true,
+      "lockedState": true,
+      "close": true
+    }
+  ],
+  "errors": []
+}

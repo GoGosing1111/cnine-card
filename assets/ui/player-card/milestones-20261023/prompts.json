@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-23",
+  "generator": "OpenAI built-in image_gen",
+  "approval": "Generated artwork; user visual approval not recorded",
+  "prompts": [
+    {
+      "key": "blue-empire-v1",
+      "prompt": "Use case: stylized-concept. Asset type: one premium achievement trophy for the REVERSE CALL collectible RPG player-card trophy shelf. Primary request: '푸른제국' (Blue Empire), awarded for twenty cumulative Challenger season achievements. Create a NEW magnificent sapphire imperial crown trophy on a compact substantial tiered obsidian-and-silver pedestal: a regal crown enclosing a tall architectural royal spire, a few balanced smaller spires and elegant silver-gold laurel wings, intensely blue faceted gems and disciplined fine filigree. It should feel like the higher lifetime achievement beyond a three-crystal blue dynasty trophy, with an unmistakable crown silhouette, not a generic sports cup. Style: exquisitely painted high-end 3D-like fantasy game inventory artwork, tangible mirror metal edges, solid opaque metal body, controlled sapphire translucency, refined blue inner light, crisp clear silhouette readable at 96px. Composition: exactly one freestanding object centered, entire trophy including base visible, slightly elevated frontal three-quarter view, square canvas, object occupies about 82% of image height, generous transparent padding all around. True transparent background with clean alpha, no backdrop, no cast shadow plane. No text, no digits, no lettering, no logo, no watermark, no extra objects or particles outside the silhouette. Do not bake the name or achievement count into the artwork."
+    },
+    {
+      "key": "limited-edition-v1",
+      "prompt": "Use case: stylized-concept. Asset type: one premium achievement trophy for the REVERSE CALL collectible RPG player-card trophy shelf. Primary request: '리미티드 에디션' (Limited Edition), celebrating ownership of 80 percent of SSS Limited mercenary varieties. Create a NEW collector's treasury trophy: one extraordinary prismatic diamond held within an open ornate black-and-gold royal reliquary, framed by a graceful halo made of several polished collectible-card-shaped gold plaques fanning out in an elegant balanced arrangement; plaques are abstract metal surfaces with inset small gems, NO characters, illustrations, letters or card UI. The huge central diamond reflects violet, cyan and warm champagne light. Compact faceted black obsidian and rich gold display pedestal. Extremely prestigious, rare, sculptural and readable; a distinct collection-shaped silhouette, not a cup and not a copy of a sapphire crown. Style: exquisitely painted high-end 3D-like fantasy game inventory artwork, tangible opaque metal and obsidian body, finely faceted gem, disciplined reflections and controlled magical light, crisp silhouette readable at 96px. Composition: exactly one freestanding object centered, full object and pedestal visible, slightly elevated frontal three-quarter view, square canvas, object about 82% of image height with transparent padding on every side. Genuine transparent background and clean alpha. No scenery, no floor, no text, no digits, no percent sign, no letters, no brand logos, no watermark, no scattered particles. Name and progress will be HTML, never printed in the art."
+    },
+    {
+      "key": "loyal-service-medal-v1",
+      "prompt": "Use case: stylized-concept. Asset type: one premium achievement trophy for the REVERSE CALL collectible RPG player-card trophy shelf. Primary request: '충신 무공훈장' (Medal of Loyal Service), awarded for completing twenty weekly quests. Create a NEW prestigious ceremonial military-order medal displayed upright on a small formal black lacquer and gold plinth. Main subject is a lavish eight-point gold star medallion with a polished deep-jade circular center, a single sculpted gold phoenix emblem, symmetrical engraved laurel branches, and a restrained crimson-and-midnight-blue folded silk ribbon with a small traditional knot at the top. The complete medal and ribbon must read as one coherent trophy, dimensional tangible metal rather than a flat icon. Heroic dignified loyal-service theme, exquisite craftsmanship, warm gold/jade palette, distinguishable from a crown and a collector's diamond. Style: exquisitely painted high-end 3D-like fantasy RPG inventory artwork with opaque solid metal, realistic silk texture rendered in the same polished illustrative style, clean highlights and sharp silhouette readable at 96px. Composition: exactly one centered object with its support base, full ribbon and pedestal visible, slightly elevated frontal three-quarter view, square canvas, about 82 percent image height, generous transparent margins. Genuine transparent alpha background, no floor or backdrop. No text, no Korean or other letters, no digits, no government insignia, no real-world flag, no watermark, no humans, no scattered effects. Labels and achievement count are separate UI text."
+    }
+  ],
+  "criteria": {
+    "BLUE_EMPIRE_20": "공식 랭크 시즌 종료 챌린저 누적 20회",
+    "LIMITED_EDITION_80": "전체 도감에 등록된 SSS 리미티드 용병의 서로 다른 종류 80% 보유. 획득 불가·한정 수량 소진 포함.",
+    "LOYAL_SERVICE_POST_20": "글 작성 주간 퀘스트 완료·보상 수령 누적 20회"
+  },
+  "criteriaClarification": "사용자 최신 정정: ㄴㄴ / 전체도감기준으로해 / 리미티드. 주간은 글작성만 인정, 챌린저는 공식시즌 종료 누적20회 유지."
+}

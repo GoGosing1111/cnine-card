@@ -6,7 +6,7 @@ export async function collectionFixture(t,{postgres=false}={}){
   const f=await jointFixture(t,{postgres});
   if(postgres)await f.pg.exec("CREATE FUNCTION sqlite_datetime(text) RETURNS text LANGUAGE SQL STABLE AS $$SELECT CASE WHEN $1='now' THEN sqlite_now() ELSE to_char(timezone('UTC',$1::timestamptz),'YYYY-MM-DD HH24:MI:SS') END$$;");
   const sql=[
-    'CREATE TABLE pvp_season_settlements(id INTEGER,season_name TEXT,started_at TEXT,completed_at TEXT,status TEXT)',
+    'CREATE TABLE pvp_season_settlements(id INTEGER,season_key TEXT,season_name TEXT,started_at TEXT,completed_at TEXT,status TEXT)',
     'CREATE TABLE pvp_season_settlement_ranks(settlement_id INTEGER,user_id INTEGER,tier_id TEXT,tier_name TEXT,final_rank INTEGER,season_score INTEGER,wins INTEGER,losses INTEGER)',
     'CREATE TABLE clan_season_settlements(season_id INTEGER,champion_clan_id INTEGER,status TEXT,completed_at TEXT,reward_status TEXT)',
     'CREATE TABLE clan_seasons(id INTEGER,phase TEXT)',
@@ -23,6 +23,6 @@ export async function collectionFixture(t,{postgres=false}={}){
   const trophies=emptyTrophyBonuses();trophies.trophies.find(t=>t.code==='RANKED_CHAMPION').rewardBonuses={dropPercent:5,accountXpPercent:10,coinPercent:15};trophies.trophies.find(t=>t.code==='CITY_TOP_25').rewardBonuses={dropPercent:2,accountXpPercent:5,coinPercent:5};
   await write(PET_CMS_KEY,pets);await write('pet_collection_v1:7',{revision:1,pets:{[pet.code]:10}});await write('pet_loadout_v1:7',{revision:1,petCode:pet.code,audit:[]});await write(TROPHY_BONUSES_KEY,{revision:1,audit:[],document:trophies});
   await write('trophy_lich_legacy_baseline_v1',{ready:true});await write('trophy_city_top_v1:7',{count:25,acquiredAt:'2026-10-14T00:00:00Z'});
-  for(const id of [1,2]){await f.p('INSERT INTO pvp_season_settlements VALUES(?,?,?,?,?)',id,'시즌 '+id,'2026-08-0'+id,'2026-09-0'+id,'COMPLETED').run();await f.p("INSERT INTO pvp_season_settlement_ranks VALUES(?,7,'challenger','챌린저',1,3000,10,0)",id).run();}
+  for(const id of [1,2]){await f.p('INSERT INTO pvp_season_settlements VALUES(?,?,?,?,?,?)',id,'season-'+id,'시즌 '+id,'2026-08-0'+id,'2026-09-0'+id,'COMPLETED').run();await f.p("INSERT INTO pvp_season_settlement_ranks VALUES(?,7,'challenger','챌린저',1,3000,10,0)",id).run();}
   return {...f,write,pet,pets,trophies};
 }

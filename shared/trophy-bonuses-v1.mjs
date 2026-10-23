@@ -1,6 +1,7 @@
-import {TROPHY_CATALOG} from '../js/player-card-model-v2052.js';
+import {TROPHY_CATALOG} from '../js/player-card-model-v2052.js?v=20261023-milestones1';
 import {ZERO_REWARD_BONUSES,validateRewardBonuses,hasRewardBonuses,rewardBonusDescription,sumRewardBonuses} from './collection-bonuses-v1.mjs';
 export const TROPHY_BONUSES_KEY='trophy_reward_bonuses_v1';
+const LEGACY_OPTIONAL_CODES=new Set(['WORLD_RAID_CLEAR_5000','BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20']);
 export function emptyTrophyBonuses(){return {version:1,trophies:TROPHY_CATALOG.map(t=>({code:t.code,rewardBonuses:{...ZERO_REWARD_BONUSES}}))};}
 export function validateTrophyBonuses(raw,{allowLegacy=false}={}){
   if(!raw||Object.keys(raw).sort().join(',')!=='trophies,version'||raw.version!==1||!Array.isArray(raw.trophies))throw Error('전체 트로피의 보너스 설정을 확인해 주세요.');
@@ -10,11 +11,12 @@ export function validateTrophyBonuses(raw,{allowLegacy=false}={}){
     codes.add(row.code);return {code:row.code,rewardBonuses:validateRewardBonuses(row.rewardBonuses)};
   });
   const missing=TROPHY_CATALOG.filter(t=>!codes.has(t.code));
-  // Reads of the existing eight-trophy CMS document preserve every saved rate.
-  // Saving still requires the full catalog; no new economic reward is implied.
+  // Read old eight/nine-trophy CMS documents without changing any saved rate.
+  // Only known additions receive zero defaults; the original eight remain required.
+  // Saving still requires the full current catalog and never grants a new bonus.
   if(missing.length){
-    if(!allowLegacy||missing.length!==1||missing[0].code!=='WORLD_RAID_CLEAR_5000')throw Error('전체 트로피의 보너스 설정을 확인해 주세요.');
-    trophies.push({code:missing[0].code,rewardBonuses:{...ZERO_REWARD_BONUSES}});
+    if(!allowLegacy||missing.some(t=>!LEGACY_OPTIONAL_CODES.has(t.code)))throw Error('전체 트로피의 보너스 설정을 확인해 주세요.');
+    trophies.push(...missing.map(t=>({code:t.code,rewardBonuses:{...ZERO_REWARD_BONUSES}})));
   }
   return {version:1,trophies};
 }

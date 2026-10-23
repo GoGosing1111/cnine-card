@@ -23,6 +23,7 @@ async function fixture() {
     INSERT INTO users VALUES(1,'OWNER','ACTIVE','OWNER',NULL,999,'secret'),(2,'기록유저','ACTIVE','USER',NULL,555,'secret'),(3,'다른유저','ACTIVE','USER',NULL,666,'secret'),(4,'정지유저','ACTIVE','USER','2099-01-01',777,'secret');
     CREATE TABLE pvp_profiles(user_id bigint,season_score int,wins int,losses int);
     CREATE TABLE app_meta(key text PRIMARY KEY,value text);
+    CREATE TABLE user_mercenary_cards_v1(user_id bigint,mercenary_code text,total_copies int,first_obtained_at text);
     CREATE TABLE ranked_duo_trophies_v2(season_id text,user_id bigint,acquired_at text,PRIMARY KEY(season_id,user_id));
     INSERT INTO pvp_profiles VALUES(1,99999,999,0),(2,100,10,3),(3,100,9,2),(4,99998,998,0);
     CREATE TABLE pvp_season_settlements(id bigint PRIMARY KEY,season_key text,season_name text,status text,started_at text,completed_at text);
@@ -84,8 +85,8 @@ test('explicit trophy grant appears in the card and bonuses without changing rec
   await f.pg.query('INSERT INTO app_meta VALUES($1,$2)',[TROPHY_BONUSES_KEY,JSON.stringify({revision:1,audit:[],document:bonus})]);
   const result=await grantPinkAllTrophies(f.opsDb);assert.equal(result.added.length,8);
   const card=await f.call('userId=1'),honors=await readTrophyHonors({DB:f.db},1),effects=await readCollectionBonuses({DB:f.db},1);
-  assert.equal(card.status,200);assert.ok(card.body.trophies.filter(t=>t.code!=='WORLD_RAID_CLEAR_5000').every(t=>t.owned&&t.count===1&&t.adminGranted&&t.officialCount===0));
-  assert.equal(trophy(card,'WORLD_RAID_CLEAR_5000').owned,false,'Historical eight-trophy authorization never grants future additions');
+  assert.equal(card.status,200);assert.ok(card.body.trophies.filter(t=>!['WORLD_RAID_CLEAR_5000','BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20'].includes(t.code)).every(t=>t.owned&&t.count===1&&t.adminGranted&&t.officialCount===0));
+  for(const code of ['WORLD_RAID_CLEAR_5000','BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20'])assert.equal(trophy(card,code).owned,false,'Historical eight-trophy authorization never grants future additions');
   assert.deepEqual(card.body.ranked,before.body.ranked);assert.deepEqual(card.body.clanHistory,before.body.clanHistory);
   assert.deepEqual(card.body.trophyBonuses,{coinPercent:8,accountXpPercent:16,dropPercent:24});assert.deepEqual(effects.totals,card.body.trophyBonuses);
   for(const t of card.body.trophies){assert.equal(t.count,honors[t.code].count);assert.equal(t.progress,before.body.trophies.find(b=>b.code===t.code).progress);}
@@ -480,4 +481,22 @@ test('empty trophy shelves keep border FX without creating an empty GSAP tween',
     assert.equal(tweens,owned?1:0);
     controller.abort(); assert.equal(destroyed,1); renderer.destroy(); assert.equal(destroyed,1);
   }
+});
+
+
+test('new milestones show season, distinct-type percentage, and post-only receipt progress without invented dates', () => {
+  const window={location:{origin:'https://game.test'}};
+  vm.runInNewContext(read('js/player-card-v2052.js'),{window,URL,Intl,AbortController});
+  const ui=window.PlayerCallingCard;
+  const rows=TROPHY_CATALOG.filter(t=>['BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20'].includes(t.code));
+  assert.deepEqual(rows.map(t=>t.name),['푸른제국','리미티드 에디션','충신 무공훈장']);
+  const trophy=code=>rows.find(t=>t.code===code);
+  const empire=ui.detail({...trophy('BLUE_EMPIRE_20'),progress:19,goal:20,owned:false});
+  assert.match(empire,/공식 챌린저 19 \/ 20시즌/);
+  const limited=ui.detail({...trophy('LIMITED_EDITION_80'),progress:9,goal:9,total:11,owned:true,acquiredAt:null});
+  assert.match(limited,/보유 9 \/ 11종 · 81\.8%/);assert.match(limited,/목표 80% · 9종/);assert.match(limited,/달성 조건 충족/);assert.doesNotMatch(limited,/기록 없음 달성/);
+  const empty=ui.detail({...trophy('LIMITED_EDITION_80'),progress:0,goal:0,total:0,owned:false});
+  assert.match(empty,/도감에 등록된 종류 없음/);assert.doesNotMatch(empty,/NaN|Infinity/);
+  const loyal=ui.detail({...trophy('LOYAL_SERVICE_POST_20'),progress:20,goal:20,owned:true,acquiredAt:'2026-10-23T00:00:00Z'});
+  assert.match(loyal,/글 작성 퀘스트 20 \/ 20회/);assert.match(loyal,/다른 주간 퀘스트 제외/);
 });

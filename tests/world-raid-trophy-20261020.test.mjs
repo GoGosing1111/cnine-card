@@ -87,12 +87,12 @@ for(const postgres of [false,true]){
   assert.match(statusPath,/prepareWorldRaidClearStatements[\s\S]*env\.DB\.batch\(\[\.\.\.trophyWrites/);
  });
  test(label+': reading the saved eight-trophy CMS document adds only a zero default; incomplete saves remain invalid',async t=>{
-  const f=await fixture(t,postgres),legacy=emptyTrophyBonuses();legacy.trophies.pop();legacy.trophies[0].rewardBonuses.coinPercent=12.5;
+  const f=await fixture(t,postgres),legacy=emptyTrophyBonuses(),laterCodes=new Set(['WORLD_RAID_CLEAR_5000','BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20']);legacy.trophies=legacy.trophies.filter(t=>!laterCodes.has(t.code));legacy.trophies[0].rewardBonuses.coinPercent=12.5;
   const state={revision:7,document:legacy,audit:[]};await f.put(TROPHY_BONUSES_KEY,state);
-  const result=await readTrophyBonusSettings(f.env);assert.equal(result.revision,7);assert.equal(result.document.trophies.length,9);
-  assert.deepEqual(result.document.trophies.slice(0,8),legacy.trophies);assert.deepEqual(result.document.trophies[8].rewardBonuses,{coinPercent:0,accountXpPercent:0,dropPercent:0});
+  const result=await readTrophyBonusSettings(f.env);assert.equal(result.revision,7);assert.equal(result.document.trophies.length,emptyTrophyBonuses().trophies.length);
+  assert.equal(legacy.trophies.length,8);assert.deepEqual(result.document.trophies.slice(0,8),legacy.trophies);for(const row of result.document.trophies.filter(t=>laterCodes.has(t.code)))assert.deepEqual(row.rewardBonuses,{coinPercent:0,accountXpPercent:0,dropPercent:0});
   assert.deepEqual(JSON.parse((await f.p('SELECT value FROM app_meta WHERE key=?',TROPHY_BONUSES_KEY).first()).value),state);
-  assert.throws(()=>validateTrophyBonuses(legacy));assert.equal(validateTrophyBonuses(result.document).trophies.length,9);
+  assert.throws(()=>validateTrophyBonuses(legacy));assert.equal(validateTrophyBonuses(result.document).trophies.length,emptyTrophyBonuses().trophies.length);
   const broken=structuredClone(result.document);broken.trophies.splice(0,1);assert.throws(()=>validateTrophyBonuses(broken,{allowLegacy:true}));
  });
 }

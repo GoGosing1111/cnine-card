@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-23",
+  "generator": "OpenAI built-in image_gen",
+  "promptSet": "prompts.json",
+  "status": "Generated and technically verified; user visual approval not recorded",
+  "assets": [
+    {
+      "code": "BLUE_EMPIRE_20",
+      "name": "푸른제국",
+      "original": "blue-empire-v1.png",
+      "runtime": "blue-empire-v1.webp",
+      "originalSha256": "cffc94f76d20f6291d608cb3d3a5af40d2d8b67944dcca900a4060517c11e0a2",
+      "runtimeSha256": "071b745c2b21d23e60d61f4073c43d5c9448e92731df57af9c80e7203ece3d1d",
+      "width": 1254,
+      "height": 1254,
+      "runtimeWidth": 512,
+      "runtimeHeight": 512,
+      "hasAlpha": true,
+      "transparentPixels": 141703,
+      "opaquePixels": 99954
+    },
+    {
+      "code": "LIMITED_EDITION_80",
+      "name": "리미티드 에디션",
+      "original": "limited-edition-v1.png",
+      "runtime": "limited-edition-v1.webp",
+      "originalSha256": "08800b0352feaa63271202e444c169e69161ecd16f0c69f5ee1a13702914a1d5",
+      "runtimeSha256": "fe03e1de6fd5b95e8fe1f83ceced8a2ac6b31182d1cc090648284746e68c189d",
+      "width": 1254,
+      "height": 1254,
+      "runtimeWidth": 512,
+      "runtimeHeight": 512,
+      "hasAlpha": true,
+      "transparentPixels": 128799,
+      "opaquePixels": 123389
+    },
+    {
+      "code": "LOYAL_SERVICE_POST_20",
+      "name": "충신 무공훈장",
+      "original": "loyal-service-medal-v1.png",
+      "runtime": "loyal-service-medal-v1.webp",
+      "originalSha256": "e973119ccf992cdfc12f904c5b5e545588e43ed5df4a52a330f4b3a5d631a4ba",
+      "runtimeSha256": "1380ffcb703a53f2ae75b54a4065faf85f487187847439ead8ec888534719b83",
+      "width": 1254,
+      "height": 1254,
+      "runtimeWidth": 512,
+      "runtimeHeight": 512,
+      "hasAlpha": true,
+      "transparentPixels": 141547,
+      "opaquePixels": 111124
+    }
+  ]
+}

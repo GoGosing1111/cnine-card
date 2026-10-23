@@ -27,8 +27,10 @@ export async function readCollectionBonuses(env,userId){
     const pet=COMPANION_RELEASE.pets&&Number.isSafeInteger(quantity)&&quantity>0?pets.find(p=>p.code===code&&p.liveEnabled!==false):null;
     const petBonuses=pet?.rewardBonuses||ZERO_REWARD_BONUSES;
     const trophyDocument=map.has(TROPHY_BONUSES_KEY)?validateTrophyBonuses(map.get(TROPHY_BONUSES_KEY).document,{allowLegacy:true}):emptyTrophyBonuses();
-    // Zero defaults avoid querying season history on every reward request.
-    const honors=trophyDocument.trophies.some(t=>hasRewardBonuses(t.rewardBonuses))?await readTrophyHonors(env,uid):{};
+    // Only configured new trophy effects need their additional milestone sources.
+    const activeCodes=trophyDocument.trophies.filter(t=>hasRewardBonuses(t.rewardBonuses)).map(t=>t.code);
+    const newMilestoneCodes=activeCodes.filter(code=>['BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20'].includes(code));
+    const honors=activeCodes.length?await readTrophyHonors(env,uid,{newMilestoneCodes}):{};
     const projection=trophyBonusProjection(trophyDocument,honors);
     return {pet:pet?{code:pet.code,name:pet.name,rewardBonuses:petBonuses}:null,trophies:projection.trophies.filter(t=>t.owned&&hasRewardBonuses(t.rewardBonuses)),petBonuses,trophyBonuses:projection.totals,totals:sumRewardBonuses([petBonuses,projection.totals])};
   };
