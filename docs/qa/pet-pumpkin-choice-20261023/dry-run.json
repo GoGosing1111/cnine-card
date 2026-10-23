@@ -1,0 +1,18 @@
+{
+  "operationKey": "ops:pet-pumpkin-choice:20261023:v1",
+  "completedAt": "2026-10-23T06:13:51.756Z",
+  "itemCode": "PET_PUMPKIN_CHOICE_TICKET",
+  "name": "호박펫 선택권",
+  "choices": [
+    "PET-PUMPKIN-BONGSOON",
+    "PET-PUMPKIN-JOEUN"
+  ],
+  "preservedHashes": {
+    "pet_cms_preparation_v1": "1ba3b91a3f54f1528eec09ade2b0d8c5d1f6f4aedfbd2d94f8cf674be1c368a1",
+    "pet_opening_settings_v1": "015474e372c95c7bc1f55d8426dbc3b5dd93c1e2c16fbae3ff3885a86e9066fd",
+    "supporter_season_pass_v1": "41d309741cd86d7989f926b461284999a184bf77cd6c39cca36140f6da7a296b"
+  },
+  "granted": 0,
+  "committed": false,
+  "auditId": "50454"
+}

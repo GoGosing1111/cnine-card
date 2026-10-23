@@ -1,0 +1,138 @@
+{
+  "scope": "Production static app/chooser/shared/CSS/art with isolated local API fixtures; no live API or account access",
+  "origin": "https://cnine-card.pages.dev",
+  "checkedAt": "2026-10-23T06:23:05.534Z",
+  "checks": [
+    {
+      "viewportWidth": 1440,
+      "viewportHeight": 1000,
+      "overflow": false,
+      "width": 760,
+      "panel": "url(\"http://127.0.0.1:14734/assets/items/pumpkin-pet-choice-20261023/panel.webp\")",
+      "button": "url(\"http://127.0.0.1:14734/assets/items/pumpkin-pet-choice-20261023/button.webp\")",
+      "cancelHeight": 52,
+      "confirmHeight": 52,
+      "explicitCancelFree": true,
+      "keyboardSelection": true,
+      "receiptRecoveryWithoutSecondPost": true,
+      "errors": [],
+      "httpErrors": []
+    },
+    {
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "overflow": false,
+      "width": 390,
+      "panel": "url(\"http://127.0.0.1:14734/assets/items/pumpkin-pet-choice-20261023/panel.webp\")",
+      "button": "url(\"http://127.0.0.1:14734/assets/items/pumpkin-pet-choice-20261023/button.webp\")",
+      "cancelHeight": 50,
+      "confirmHeight": 50,
+      "explicitCancelFree": true,
+      "keyboardSelection": true,
+      "receiptRecoveryWithoutSecondPost": true,
+      "errors": [],
+      "httpErrors": []
+    },
+    {
+      "viewportWidth": 320,
+      "viewportHeight": 740,
+      "overflow": false,
+      "width": 320,
+      "panel": "url(\"http://127.0.0.1:14734/assets/items/pumpkin-pet-choice-20261023/panel.webp\")",
+      "button": "url(\"http://127.0.0.1:14734/assets/items/pumpkin-pet-choice-20261023/button.webp\")",
+      "cancelHeight": 50,
+      "confirmHeight": 50,
+      "explicitCancelFree": true,
+      "keyboardSelection": true,
+      "receiptRecoveryWithoutSecondPost": true,
+      "errors": [],
+      "httpErrors": []
+    }
+  ],
+  "accountChangeBeforePostBlocked": true,
+  "accountChangeAfterPostPreservesOriginalRecovery": true,
+  "serverTransactionTestsSeparate": true,
+  "liveApiCalls": 0,
+  "liveAssets": [
+    {
+      "path": "/shared/pet-pumpkin-choice-v1.mjs",
+      "url": "https://cnine-card.pages.dev/shared/pet-pumpkin-choice-v1.mjs?pumpkinLiveCheck=1792736581198",
+      "status": 200,
+      "contentType": "application/javascript",
+      "sha256": "123f4ff83129654d7c2d5cb7bdcdf57c5b63d368589ed7e6cd6fcddeab840ccc",
+      "byteLength": 909
+    },
+    {
+      "path": "/js/app.js",
+      "url": "https://cnine-card.pages.dev/js/app.js?pumpkinLiveCheck=1792736581198",
+      "status": 200,
+      "contentType": "application/javascript",
+      "sha256": "101affa46747f7fa7ad3238dcb07ab45eafc2748b91349f360f831c4e89f0ef2",
+      "byteLength": 783357
+    },
+    {
+      "path": "/css/inventory-v2125.css",
+      "url": "https://cnine-card.pages.dev/css/inventory-v2125.css?pumpkinLiveCheck=1792736581198",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "sha256": "ee3f64c2c7c43d9e33cffc51923e67a675540720e28d6052dd0a7d1adeba30ae",
+      "byteLength": 18946
+    },
+    {
+      "path": "/js/pet-pumpkin-choice-v1.mjs?v=20261023-v1",
+      "url": "https://cnine-card.pages.dev/js/pet-pumpkin-choice-v1.mjs?v=20261023-v1&pumpkinLiveCheck=1792736581198",
+      "status": 200,
+      "contentType": "application/javascript",
+      "sha256": "83d006e367516869b0400d3a73c768ed0e84c51400c32c248924626c7f96a188",
+      "byteLength": 11303
+    },
+    {
+      "path": "/css/pet-pumpkin-choice-v1.css?v=20261023-v1",
+      "url": "https://cnine-card.pages.dev/css/pet-pumpkin-choice-v1.css?v=20261023-v1&pumpkinLiveCheck=1792736581198",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "sha256": "c3fc2d5a15598ec73682ffc24b6ea8cae4ee629934e60a6a7deafd114b68abe2",
+      "byteLength": 5478
+    },
+    {
+      "path": "/assets/items/pumpkin-pet-choice-20261023/ticket.webp",
+      "url": "https://cnine-card.pages.dev/assets/items/pumpkin-pet-choice-20261023/ticket.webp?pumpkinLiveCheck=1792736581198",
+      "status": 200,
+      "contentType": "image/webp",
+      "sha256": "d7ec197c7fec196d50c97bcc67b0d1d5045a8c898e2b0ac618bba3b2aefa6221",
+      "byteLength": 75678
+    },
+    {
+      "path": "/assets/items/pumpkin-pet-choice-20261023/panel.webp",
+      "url": "https://cnine-card.pages.dev/assets/items/pumpkin-pet-choice-20261023/panel.webp?pumpkinLiveCheck=1792736581198",
+      "status": 200,
+      "contentType": "image/webp",
+      "sha256": "5dc8bb24cac24a6e1babc47fe65af7dfdbda9aafcb8af5e05368da047b3e088b",
+      "byteLength": 148086
+    },
+    {
+      "path": "/assets/items/pumpkin-pet-choice-20261023/button.webp",
+      "url": "https://cnine-card.pages.dev/assets/items/pumpkin-pet-choice-20261023/button.webp?pumpkinLiveCheck=1792736581198",
+      "status": 200,
+      "contentType": "image/webp",
+      "sha256": "8ed9db4470915feba9e6d6abf08cc3b3c24ae1031c23b8f7a970d12c45cad3a5",
+      "byteLength": 80246
+    },
+    {
+      "path": "/assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png",
+      "url": "https://cnine-card.pages.dev/assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png?pumpkinLiveCheck=1792736581198",
+      "status": 200,
+      "contentType": "image/png",
+      "sha256": "e2a44d08be09b436676acd22173a1ed8b246f54352659c97aaf1f5dfac556fee",
+      "byteLength": 1725984
+    },
+    {
+      "path": "/assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png",
+      "url": "https://cnine-card.pages.dev/assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png?pumpkinLiveCheck=1792736581198",
+      "status": 200,
+      "contentType": "image/png",
+      "sha256": "e5eb156285075caf10847c85264cf2a965bd6c7f31cef809446491468adb450f",
+      "byteLength": 1755498
+    }
+  ]
+}

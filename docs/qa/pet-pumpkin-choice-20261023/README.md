@@ -15,3 +15,5 @@
 독립 코드 검토에서 영수증 당시 보유량을 현재 수량으로 표시하는 문구를 발견해 “이번 사용 직후”로 수정했다. 추가 중대 문제는 발견되지 않았다.
 
 배포 기준: 71abc1e5fbf1750cb104df2dd00b6dabec9e906f, Pages 59eb0236. 작은 신규 아이템 거래·UI이며 공통 인증/DB/트랜잭션 구조 변경이 없으므로 scoped 배포를 사용한다. 배포 게이트는 관련 거래 검사와 worker 구문·기존 운영 안전 검사를 유지한다. 공개 파일 수 19,978개(원본/QA는 Git 보존, 배포 제외). 운영 등록 도구는 기본 dry-run이며 명시적 commit 시 카탈로그 1종과 감사 기록만 저장한다. 운영 결과는 후속 registration.json/live-verification.json에 기록한다.
+
+최종 운영 정적 UI: cnine-card.pages.dev의 실제 리소스 10개를 불러온 격리 HTTP 거래 fixture에서 1440/390/320 화면과 복구·계정 전환을 재확인했다. live-browser.json 및 live-choice/result PNG 참조. 실제 운영 계정 사용·지급은 없었다.

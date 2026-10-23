@@ -1,0 +1,16 @@
+{
+  "source": "ce7e5c42effa37f845ccb2fe417016fcdde0a451",
+  "pages": "76e576ea",
+  "url": "https://76e576ea.cnine-card.pages.dev",
+  "apiRuntimeVersion": "f7113c02-2e4f-4d8b-a094-c0245373a46f",
+  "clanWorkerVersion": "ca134391-e119-4c2a-9c31-79f189a4f8fc",
+  "command": "npm run deploy:production -- --scoped",
+  "base": "71abc1e5fbf1750cb104df2dd00b6dabec9e906f",
+  "tests": 17,
+  "assetCount": 19978,
+  "publicHashes": 12,
+  "registrationAuditId": "50455",
+  "automaticGrants": 0,
+  "temporaryReleaseStageRemoved": true,
+  "recordedAt": "2026-10-23T06:23:11.988Z"
+}

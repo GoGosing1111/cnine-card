@@ -1,0 +1,109 @@
+{
+  "checkedAt": "2026-10-23T06:22:17.169Z",
+  "source": "ce7e5c42effa37f845ccb2fe417016fcdde0a451",
+  "publicFiles": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "331990c5dab0862fe1768524a3a965c195a8a11e9631b14d431d514d138f3e20"
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "101affa46747f7fa7ad3238dcb07ab45eafc2748b91349f360f831c4e89f0ef2"
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "sha256": "5ac950d334a255444c4449c783543bc7814b113dd07476fc723c1bf9fd72cb22"
+    },
+    {
+      "path": "admin/admin-v1276.js",
+      "status": 200,
+      "sha256": "22d4b376a00f74afa935383fea70e44cf0def8f014a1f0dae26b6ad2f493d451"
+    },
+    {
+      "path": "shared/pet-pumpkin-choice-v1.mjs",
+      "status": 200,
+      "sha256": "123f4ff83129654d7c2d5cb7bdcdf57c5b63d368589ed7e6cd6fcddeab840ccc"
+    },
+    {
+      "path": "js/pet-pumpkin-choice-v1.mjs",
+      "status": 200,
+      "sha256": "83d006e367516869b0400d3a73c768ed0e84c51400c32c248924626c7f96a188"
+    },
+    {
+      "path": "css/pet-pumpkin-choice-v1.css",
+      "status": 200,
+      "sha256": "c3fc2d5a15598ec73682ffc24b6ea8cae4ee629934e60a6a7deafd114b68abe2"
+    },
+    {
+      "path": "assets/items/pumpkin-pet-choice-20261023/ticket.webp",
+      "status": 200,
+      "sha256": "d7ec197c7fec196d50c97bcc67b0d1d5045a8c898e2b0ac618bba3b2aefa6221"
+    },
+    {
+      "path": "assets/items/pumpkin-pet-choice-20261023/panel.webp",
+      "status": 200,
+      "sha256": "5dc8bb24cac24a6e1babc47fe65af7dfdbda9aafcb8af5e05368da047b3e088b"
+    },
+    {
+      "path": "assets/items/pumpkin-pet-choice-20261023/button.webp",
+      "status": 200,
+      "sha256": "8ed9db4470915feba9e6d6abf08cc3b3c24ae1031c23b8f7a970d12c45cad3a5"
+    },
+    {
+      "path": "assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png",
+      "status": 200,
+      "sha256": "e2a44d08be09b436676acd22173a1ed8b246f54352659c97aaf1f5dfac556fee"
+    },
+    {
+      "path": "assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png",
+      "status": 200,
+      "sha256": "e5eb156285075caf10847c85264cf2a965bd6c7f31cef809446491468adb450f"
+    }
+  ],
+  "api": {
+    "path": "/api/pets/choice/options",
+    "status": 401,
+    "code": "PET_CHOICE_AUTH"
+  },
+  "browserUsesIsolatedTransactions": true,
+  "catalog": {
+    "code": "PET_PUMPKIN_CHOICE_TICKET",
+    "name": "호박펫 선택권",
+    "category": "EVENT",
+    "rarity": "SPECIAL",
+    "image_url": "assets/items/pumpkin-pet-choice-20261023/ticket.webp",
+    "is_active": "1"
+  },
+  "registration": {
+    "operationKey": "ops:pet-pumpkin-choice:20261023:v1",
+    "completedAt": "2026-10-23T06:22:07.365Z",
+    "itemCode": "PET_PUMPKIN_CHOICE_TICKET",
+    "name": "호박펫 선택권",
+    "choices": [
+      "PET-PUMPKIN-BONGSOON",
+      "PET-PUMPKIN-JOEUN"
+    ],
+    "preservedHashes": {
+      "pet_cms_preparation_v1": "1ba3b91a3f54f1528eec09ade2b0d8c5d1f6f4aedfbd2d94f8cf674be1c368a1",
+      "pet_opening_settings_v1": "015474e372c95c7bc1f55d8426dbc3b5dd93c1e2c16fbae3ff3885a86e9066fd",
+      "pet_potential_settings_v1": "f4c4f91e1b820b31919a32d8a27fe4f46089a3c425685e06587f0652ff7ca90a",
+      "supporter_season_pass_v1": "41d309741cd86d7989f926b461284999a184bf77cd6c39cca36140f6da7a296b"
+    },
+    "granted": 0,
+    "committed": true,
+    "auditId": "50455"
+  },
+  "preservedHashes": {
+    "pet_cms_preparation_v1": "1ba3b91a3f54f1528eec09ade2b0d8c5d1f6f4aedfbd2d94f8cf674be1c368a1",
+    "pet_opening_settings_v1": "015474e372c95c7bc1f55d8426dbc3b5dd93c1e2c16fbae3ff3885a86e9066fd",
+    "pet_potential_settings_v1": "f4c4f91e1b820b31919a32d8a27fe4f46089a3c425685e06587f0652ff7ca90a",
+    "supporter_season_pass_v1": "41d309741cd86d7989f926b461284999a184bf77cd6c39cca36140f6da7a296b"
+  },
+  "inventory": {
+    "accounts": "0",
+    "quantity": "0"
+  }
+}
