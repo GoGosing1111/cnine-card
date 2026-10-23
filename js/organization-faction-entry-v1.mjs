@@ -1,5 +1,5 @@
-import {mount} from './organization-faction-v1.mjs?v=20261022-self-squads';
-import {observeOrganizationHeight} from './organization-embed-size-v1.mjs?v=20261022-self-squads';
+import {mount} from './organization-faction-v1.mjs?v=20261023-access';
+import {observeOrganizationHeight} from './organization-embed-size-v1.mjs?v=20261023-access';
 const root=document.getElementById('organizationFactionRoot');
 const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const roundId=new URL(location.href).searchParams.get('roundId');

@@ -5,6 +5,7 @@ import {ORGANIZATIONS,ORGANIZATION_LIMITS,ORGANIZATION_RECRUITMENT_MS,ORGANIZATI
 import {readJointBody} from './_joint_request.js';
 import {jointHash} from './_joint_transactions.js';
 import {allocateAdditionalOrganizations} from '../shared/organization-additional-v1.mjs';
+import {organizationJoinOverview,organizationJoinCommand,organizationJoinOpen} from './_organization_join.js';
 
 const parse=JSON.parse;
 const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])])):value;
@@ -82,10 +83,10 @@ export async function organizationOverview(env,user,{roundId,admin=false,now=Dat
       q('SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM organization_progress_v1 p LEFT JOIN organization_members_v1 m ON m.round_id=p.round_id AND m.organization_id=p.organization_id WHERE p.round_id=$1 GROUP BY p.round_id,p.organization_id,p.points,p.stage ORDER BY p.organization_id',[r.id])
     ]):[[],[],[],[],[],[]];
     const roster=r&&membership[0]?await q('SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND m.organization_id=$2 ORDER BY m.slot LIMIT 25',[r.id,membership[0].organization_id]):[];
-    const latest=proposal[0];
+    const latest=proposal[0],join=await organizationJoinOverview(q,r,user,now);
     const applicants=admin&&r?await q('SELECT s.user_id,u.nickname,s.preferred_id,s.updated_at,s.revision,s.active,x.expires_at,x.round_revision FROM organization_surveys_v1 s JOIN users u ON u.id=s.user_id LEFT JOIN organization_ratings_v1 x ON x.round_id=s.round_id AND x.user_id=s.user_id WHERE s.round_id=$1 ORDER BY s.active DESC,s.updated_at,s.user_id',[r.id]):[];
     const allMembers=admin&&r?await q('SELECT m.user_id,m.organization_id,m.slot,m.seed_power,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 ORDER BY m.organization_id,m.slot',[r.id]):[];
-    return {ok:true,viewerId:Number(user.id),releaseEnabled:ORGANIZATION_RELEASE_ENABLED,admissionEnabled:!!r&&(surveyOpen(r,now)||survey[0]?.active===1),serverNow:now,capacity:150,limits:ORGANIZATION_LIMITS,preparation:{...ORGANIZATION_PREPARATION,status:r?.phase||'PREPARATION',registrationOpen:surveyOpen(r,now)&&!membership[0]},round:roundView(r,now),policy:admin?p:{pointsPerRegion:p.pointsPerRegion,settlementMinutes:p.settlementMinutes,growthMode:p.growthMode,hideoutThresholds:p.hideoutThresholds,unlocks:p.unlocks},...(admin?{rounds:rounds.map(row=>roundView(row,now)),participants:applicants.map(a=>({userId:Number(a.user_id),nickname:a.nickname,preferredOrganizationId:Number(a.preferred_id),submittedAt:Number(a.updated_at),surveyRevision:Number(a.revision),assignedOrganizationId:Number(allMembers.find(m=>Number(m.user_id)===Number(a.user_id))?.organization_id)||null,active:a.active===1,rated:Number(a.expires_at)>now&&Number(a.round_revision)===Number(r.revision)}))}:{}),survey:survey[0]?{answers:parse(survey[0].answers_json),submitted:survey[0].active===1,preferredOrganizationId:Number(survey[0].preferred_id),revision:Number(survey[0].revision)}:null,membership:membership[0]?{organizationId:Number(membership[0].organization_id),slot:Number(membership[0].slot)}:null,roster:roster.map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),joinedAt:Number(m.joined_at),isSelf:Number(m.user_id)===Number(user.id)})),participantCount:counts.reduce((n,c)=>n+c.n,0),pendingApplicantCount:counts.reduce((n,c)=>n+c.pending,0),memberCount:progress.reduce((n,p)=>n+Number(p.member_count),0),ratedCount:ratingCount[0]?.n||0,organizations:ORGANIZATIONS.map(o=>{const s=progress.find(p=>Number(p.organization_id)===o.id);return {...o,...(admin?{roster:allMembers.filter(m=>Number(m.organization_id)===o.id).map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),power:Number(m.seed_power)}))}:{}),applicants:counts.find(c=>Number(c.preferred_id)===o.id)?.n||0,memberCount:s?.member_count||0,power:Number(s?.power||0),hideout:organizationHeadquartersState(s,p)};}),proposal:latest?{id:latest.id,expiresAt:Number(latest.expires_at),appliedAt:latest.applied_at?Number(latest.applied_at):null,...parse(latest.result_json)}:null};
+    return {ok:true,join,viewerId:Number(user.id),releaseEnabled:ORGANIZATION_RELEASE_ENABLED,admissionEnabled:join.enabled||!!r&&(surveyOpen(r,now)||survey[0]?.active===1),serverNow:now,capacity:150,limits:ORGANIZATION_LIMITS,preparation:{...ORGANIZATION_PREPARATION,status:r?.phase||'PREPARATION',registrationOpen:join.canApply||surveyOpen(r,now)&&!membership[0]},round:roundView(r,now),policy:admin?p:{pointsPerRegion:p.pointsPerRegion,settlementMinutes:p.settlementMinutes,growthMode:p.growthMode,hideoutThresholds:p.hideoutThresholds,unlocks:p.unlocks},...(admin?{rounds:rounds.map(row=>roundView(row,now)),participants:applicants.map(a=>({userId:Number(a.user_id),nickname:a.nickname,preferredOrganizationId:Number(a.preferred_id),submittedAt:Number(a.updated_at),surveyRevision:Number(a.revision),assignedOrganizationId:Number(allMembers.find(m=>Number(m.user_id)===Number(a.user_id))?.organization_id)||null,active:a.active===1,rated:Number(a.expires_at)>now&&Number(a.round_revision)===Number(r.revision)}))}:{}),survey:survey[0]?{answers:parse(survey[0].answers_json),submitted:survey[0].active===1,preferredOrganizationId:Number(survey[0].preferred_id),revision:Number(survey[0].revision)}:null,membership:membership[0]?{organizationId:Number(membership[0].organization_id),slot:Number(membership[0].slot)}:null,roster:roster.map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),joinedAt:Number(m.joined_at),isSelf:Number(m.user_id)===Number(user.id)})),participantCount:counts.reduce((n,c)=>n+c.n,0),pendingApplicantCount:counts.reduce((n,c)=>n+c.pending,0),memberCount:progress.reduce((n,p)=>n+Number(p.member_count),0),ratedCount:ratingCount[0]?.n||0,organizations:ORGANIZATIONS.map(o=>{const s=progress.find(p=>Number(p.organization_id)===o.id);return {...o,...(admin?{roster:allMembers.filter(m=>Number(m.organization_id)===o.id).map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),power:Number(m.seed_power)}))}:{}),applicants:counts.find(c=>Number(c.preferred_id)===o.id)?.n||0,memberCount:s?.member_count||0,power:Number(s?.power||0),hideout:organizationHeadquartersState(s,p)};}),proposal:latest?{id:latest.id,expiresAt:Number(latest.expires_at),appliedAt:latest.applied_at?Number(latest.applied_at):null,...parse(latest.result_json)}:null};
   });
 }
 async function refreshRatings(env,user,body,deps,now){
@@ -110,6 +111,9 @@ export async function handleOrganization({path,request,env,deps}){
     if(request.method==='GET'&&['organization/overview','admin/organization'].includes(path))return json(await organizationOverview(env,user,{roundId:url.searchParams.get('roundId')||undefined,admin,now}));
     orgAssert(request.method==='POST','METHOD','지원하지 않는 요청입니다.',405);
     const fields={
+      'organization/join/apply':['requestId','roundId','revision','organizationId','message'],
+      'organization/join/cancel':['requestId','roundId','revision'],
+      'organization/join/review':['requestId','roundId','revision','userId','decision'],
       'admin/organization/policy':['requestId','policy'],
       'admin/organization/create':['requestId','scope','name'],
       'admin/organization/phase':['requestId','roundId','revision','phase','autoAssign'],
@@ -126,6 +130,7 @@ export async function handleOrganization({path,request,env,deps}){
 }
 
 async function organizationCommand(env,user,path,body,deps,now){
+    if(path.startsWith('organization/join/'))return organizationJoinCommand(env,user,path,body,deps,now,{mutation,lockedContext,qFor});
     if(path==='admin/organization/ratings')return refreshRatings(env,user,body,deps,now);
     return mutation(env,user,path,body,async q=>{
       if(path==='admin/organization/policy'){
@@ -165,6 +170,7 @@ async function organizationCommand(env,user,path,body,deps,now){
         return {ok:true,phase:body.phase,revision:Number(r.revision)+1,round:{id:r.id,phase:body.phase,revision:Number(r.revision)+1,opened_at:opened,closes_at:closes,auto_assign:automatic}};
       }
       if(path==='organization/survey'||path==='organization/withdraw'){
+        if(path==='organization/survey')orgAssert(!organizationJoinOpen(r,now),'ELDER_ADMISSION','가입 신청 메뉴에서 원하는 조직을 선택하세요. 해당 조직 원로가 승인합니다.');
         orgAssert(surveyOpen(r,now),'SURVEY_CLOSED','조직 입단 접수가 마감되었거나 아직 시작되지 않았습니다.');
         const [member]=await q('SELECT user_id FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2',[r.id,user.id]);
         orgAssert(!member,'ALREADY_ASSIGNED','이미 조직 배정이 완료됐습니다. 추가 모집은 미배정 계정만 신청할 수 있습니다.');

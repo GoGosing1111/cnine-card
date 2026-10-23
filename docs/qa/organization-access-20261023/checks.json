@@ -1,0 +1,38 @@
+[
+  {
+    "width": 1440,
+    "height": 1000,
+    "errors": [],
+    "failed": [],
+    "joinApproved": true,
+    "stages": [
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "failed": [],
+    "joinApproved": true,
+    "stages": [
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "failed": [],
+    "joinApproved": true,
+    "stages": [
+      3,
+      4,
+      5
+    ]
+  }
+]

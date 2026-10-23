@@ -1,7 +1,9 @@
 import {readFileSync} from 'node:fs';
-import {execFileSync} from 'node:child_process';
+import {execFileSync,spawn} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
-import {mkdtemp,mkdir,link,copyFile,symlink,realpath,rm} from 'node:fs/promises';
+import {mkdtemp,mkdir,link,copyFile,symlink,realpath,rm,readFile,lstat,open} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {buildClientManifest} from './build-windows-client-manifest.mjs';
@@ -46,7 +48,7 @@ const nodeBuildCommand=file=>/^scripts\/(?:build|measure)-[^/]+\.mjs$/.test(file
 // Zero uses the packed atlases directly in both live combat and its frame gallery.
 // Authoring originals, prompts, rejected variants and QA remain preserved in Git.
 const zeroRoot='preview/mercenary-cyan-knight-battle-20261020-v1/';
-const zeroManifest=JSON.parse(readFileSync(new URL('../'+zeroRoot+'manifest.json',import.meta.url),'utf8'));
+const zeroManifest=readReleaseJson(zeroRoot+'manifest.json');
 const zeroRuntimeFiles=new Set(['index.html','battle.html','preview.css','preview.bundle.js','manifest.json','motion.mjs','array-motion-v4.mjs','live-approval-20261020.json','appearance-approval-20261020.json','prompt-zero-blade-wings-v1.json','zero-blade-wings-review-v1.json','assets/thumbs/idle-01.png',zeroManifest.sourceArt,zeroManifest.weapon.url,zeroManifest.appearance.url,zeroManifest.summonedWeapons.url,...Object.values(zeroManifest.motion).map(s=>s.url),...Object.values(zeroManifest.effects).map(s=>s.url),...Object.values(zeroManifest.backdropVariants).flatMap(s=>[s.url,s.effect?.url].filter(Boolean))].map(p=>zeroRoot+p));
 const zeroAuthoringOnly=file=>file.startsWith(zeroRoot)&&!file.startsWith(zeroRoot+'source/')&&!zeroRuntimeFiles.has(file);
 // Rank potions load only three WebPs. Keep exact PNG originals, prompts and
@@ -69,14 +71,14 @@ const dragonSlayerAuthoringOnly=file=>/^assets\/ui\/player-card\/dragon-slayer-2
 // Preserve them in Git; the live client uses the shared combat modules.
 const diimGrowthQaOnly=new Set(['docs/mercenary-halloween-diim-level11-review-20261020.md','docs/mercenary-diim-growth-duo-20261020.md','tests/fixtures/mercenary-diim-growth-20261020.json']);
 const primeRoot='preview/prime-requiem-blood-skills-20261021-v1/';
-const primeManifest=JSON.parse(readFileSync(new URL('../'+primeRoot+'manifest.json',import.meta.url),'utf8'));
+const primeManifest=readReleaseJson(primeRoot+'manifest.json');
 const primeRuntimeFiles=new Set(['index.html','preview.css','battle-skin.css','battle-preview.bundle.js','manifest.json','live-approval-20261021.json','prompts-idle-v7.json','prompts-showcase-v3.json','prime-requiem-idle-v7.webm','prime-requiem-showcase-v3.webm','prime-requiem-five-skills.webm',primeManifest.sourceArt.path,primeManifest.approvedOriginal.path,primeManifest.battleSprite.path,...Object.values(primeManifest.sheets).map(s=>s.path)].map(p=>primeRoot+p));
 const primeAuthoringOnly=file=>file.startsWith(primeRoot)&&!file.startsWith(primeRoot+'source/')&&!primeRuntimeFiles.has(file)&&!/^assets\/(?:icon-[^/]+\.png|ui-blood-forged-frame\.png|blood-sanctum\.png)$/.test(file.slice(primeRoot.length));
 // Manual grant receipts have no browser imports. Keep their source history in
 // Git and reserve the limited Pages asset slots for live artwork and runtimes.
 const grantAuditOnly=file=>/^docs\/[^/]+-grant-\d{8}\.(?:md|json)$/.test(file);
 // Organization UI authoring originals and operations notes stay in Git; only the WebP is runtime.
-const organizationAuthoringOnly=file=>/^assets\/ui\/organization\/command-20261021\/(?:seoul-source\.png|prompt\.json|manifest\.json)$/.test(file)||/^docs\/organization-[^/]+\.md$/.test(file);
+const organizationAuthoringOnly=file=>/^assets\/ui\/organization\/hunts-20261023\/(?:.*-source\.png|prompts\.json|manifest\.json)$/.test(file)||/^assets\/ui\/organization\/command-20261021\/(?:seoul-source\.png|prompt\.json|manifest\.json)$/.test(file)||/^docs\/organization-[^/]+\.md$/.test(file);
 // Seal Battle consumes six WebPs and the two browser previews plus their fixture.
 // Exact PNGs, prompts, hashes and QA stay in Git; no browser imports those files.
 const sealPreviewRoot='preview/seal-battle-rework-20261021/';
@@ -111,18 +113,108 @@ export const bloodmoonNodeQaOnly=new Set(["tests/navigation-deck-ui-v1880.mjs","
 // commands stay in Git and local previews; excluding them preserves the asset cap.
 export const previewNodeAuthoringOnly=new Set(JSON.parse(readFileSync(new URL('./preview-node-authoring-only-20261023.json',import.meta.url),'utf8')));
 export const isProductionFile=file=>file!=='scripts/preview-node-authoring-only-20261023.json'&&!previewNodeAuthoringOnly.has(file)&&!file.startsWith('preview/mercenary-bloodmoon-battle-20261023-v1/')&&!bloodmoonNodeQaOnly.has(file)&&!pumpkinPetAuthoringOnly.has(file)&&!file.startsWith('preview/sig-hunter-box-20261022/')&&!sigHunterQaOnly.has(file)&&file!=='docs/prime-requiem-pve-entry-20261021.md'&&!towerMonsterQaOnly.has(file)&&!cityDisguiseQaOnly.has(file)&&!sealOrbQaOnly.has(file)&&!towerAuthoringOnly.has(file)&&!sealAuthoringOnly(file)&&!organizationAuthoringOnly(file)&&!grantAuditOnly(file)&&!primeAuthoringOnly(file)&&!diimGrowthQaOnly.has(file)&&!dragonSlayerAuthoringOnly(file)&&!file.startsWith('tests/helpers/')&&!zeroAuthoringOnly(file)&&!rankPotionAuthoringOnly(file)&&!operationAuditOnly.has(file)&&!nodeBuildCommand(file)&&!bathoryAuthoringOnly(file)&&!rankedAuthoringOnly(file)&&!equipmentSetAuthoringOnly(file)&&!leonelAuthoringOnly(file)&&! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&! /^scripts\/qa-[^/]+\.[cm]?js$/.test(file)&&!file.startsWith('scripts/ops/')&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/')&&!file.startsWith('preview/mercenary-jokro-iaido-20261017-v1/assets/frames/')&&!martialAuthoringOnly.has(file)&&!isolatedQaFixtures.has(file);
+// A sparse checkout deliberately omits tracked files. Only unchanged, regular
+// skip-worktree entries may fall back to HEAD; ordinary missing files and staged
+// changes must still fail instead of silently deploying an older version.
+function sparseReleaseIndex(root){
+ const git=args=>execFileSync('git',args,{cwd:root,maxBuffer:40e6}).toString();
+ const index=new Map(git(['ls-files','-v','-s','-z']).split('\0').filter(Boolean).map(row=>{
+  const match=row.match(/^([A-Za-z?]) (\d+) ([0-9a-f]+) (\d+)\t([\s\S]+)$/);
+  if(!match)throw Error('Invalid Git index entry');
+  return [match[5],{tag:match[1],mode:match[2],oid:match[3],stage:match[4]}];
+ }));
+ const head=new Map(git(['ls-tree','-r','-z','HEAD']).split('\0').filter(Boolean).map(row=>{
+  const match=row.match(/^(\d+) (\w+) ([0-9a-f]+)\t([\s\S]+)$/);
+  return [match[4],{mode:match[1],type:match[2],oid:match[3]}];
+ }));
+ const common=git(['rev-parse','--path-format=absolute','--git-common-dir']).trim();
+ const primary=path.basename(common)==='.git'?path.dirname(common):null;
+ const algorithm=git(['rev-parse','--show-object-format']).trim();
+ return {primary,algorithm,entry(file){
+  const entry=index.get(file),committed=head.get(file);
+  if(!entry||entry.tag.toUpperCase()!=='S'||entry.stage!=='0'||!/^100(?:644|755)$/.test(entry.mode)||committed?.type!=='blob'||entry.oid!==committed.oid||entry.mode!==committed.mode)
+   throw Error('Refusing to restore missing release file unless its skip-worktree entry matches HEAD: '+file);
+  return entry;
+ }};
+}
+function readReleaseJson(file){
+ const root=fileURLToPath(new URL('../',import.meta.url));
+ try{return JSON.parse(readFileSync(path.join(root,file),'utf8'));}catch(error){
+  if(error.code!=='ENOENT')throw error;
+  const entry=sparseReleaseIndex(root).entry(file);
+  return JSON.parse(execFileSync('git',['cat-file','blob',entry.oid],{cwd:root,maxBuffer:40e6}).toString());
+ }
+}
+// Keep one Git process for all absent assets rather than launching one process
+// per image. Stream bounded chunks directly into staging, never into the sparse
+// worktree or .codex storage.
+function gitBlobWriter(root){
+ const child=spawn('git',['cat-file','--batch'],{cwd:root,stdio:['pipe','pipe','pipe']});
+ let errors='',pending=Buffer.alloc(0),closed=false;
+ child.stderr.on('data',chunk=>{errors=(errors+chunk).slice(-4000);});
+ const finished=new Promise((resolve,reject)=>{child.once('error',reject);child.once('close',code=>code===0?resolve():reject(Error('git cat-file failed: '+errors)));});
+ finished.catch(()=>{});
+ const chunks=child.stdout[Symbol.asyncIterator]();
+ async function more(){const next=await chunks.next();if(next.done)throw Error('Unexpected end of Git blob stream: '+errors);pending=Buffer.concat([pending,next.value]);}
+ async function take(size){while(pending.length<size)await more();const value=pending.subarray(0,size);pending=pending.subarray(size);return value;}
+ return {async write(oid,target,mode){
+  child.stdin.write(oid+'\n');
+  while(!pending.includes(10))await more();
+  const end=pending.indexOf(10),header=pending.subarray(0,end).toString();pending=pending.subarray(end+1);
+  const match=header.match(/^([0-9a-f]+) blob (\d+)$/);
+  if(!match||match[1]!==oid)throw Error('Git did not return the requested release blob: '+header);
+  let remaining=Number(match[2]);
+  const output=await open(target,'wx',mode==='100755'?0o755:0o644);
+  try{while(remaining){const chunk=await take(Math.min(remaining,65536));await output.writeFile(chunk);remaining-=chunk.length;}}finally{await output.close();}
+  if((await take(1))[0]!==10)throw Error('Invalid Git blob separator');
+ },async close(){if(!closed){closed=true;child.stdin.end();}await finished;},async abort(){if(!closed){closed=true;child.kill();}await finished.catch(()=>{});}};
+}
 export async function prepareProductionAssets({root=process.cwd(),files,tempRoot=tmpdir(),dependencies}={}){
  files||=execFileSync('git',['ls-files','-z'],{cwd:root,maxBuffer:40e6}).toString().split('\0').filter(Boolean);
  const selected=files.filter(isProductionFile),assetCount=selected.filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;
  if(assetCount>20000)throw Error('Pages asset count exceeds the verified 20,000-file limit: '+assetCount);
  const directory=await mkdtemp(path.join(tempRoot,'cnine-release-')),prefix=path.resolve(root)+path.sep;
- for(const file of selected){const source=path.resolve(root,file),target=path.resolve(directory,file);if(!source.startsWith(prefix)||!target.startsWith(directory+path.sep))throw Error('Invalid release path');await mkdir(path.dirname(target),{recursive:true});try{await link(source,target);}catch{await copyFile(source,target);}}
- await buildClientManifest({root:directory,files:selected,writeTo:path.join(directory,'client/windows/manifest.json')});
- dependencies||=path.dirname(path.dirname(createRequire(import.meta.url).resolve('pg/package.json')));
- await symlink(dependencies,path.join(directory,'node_modules'),process.platform==='win32'?'junction':'dir');
- return {directory,assetCount,excluded:files.length-selected.length,async dispose(){
+ let sparse,blobs;
+ const restored={hardlinked:0,gitBlobs:0};
+ async function dispose(){
   const actual=await realpath(directory),parent=await realpath(tempRoot);
   if(path.dirname(actual)!==parent||!path.basename(actual).startsWith('cnine-release-'))throw Error('Refusing cleanup outside the release staging directory');
   await rm(actual,{recursive:true,force:true});
- }};
+ }
+ try{
+  for(const file of selected){
+   const source=path.resolve(root,file),target=path.resolve(directory,file);
+   if(!source.startsWith(prefix)||!target.startsWith(directory+path.sep))throw Error('Invalid release path');
+   await mkdir(path.dirname(target),{recursive:true});
+   let missing=false;
+   try{await lstat(source);}catch(error){if(error.code!=='ENOENT')throw error;missing=true;}
+   if(!missing){try{await link(source,target);}catch{await copyFile(source,target);}continue;}
+   sparse||=sparseReleaseIndex(root);
+   const entry=sparse.entry(file),candidate=sparse.primary&&path.resolve(sparse.primary,file);
+   let reused=false;
+   // A primary checkout can be ahead, behind or dirty. Compare raw Git blob
+   // bytes before reuse; a mismatch always reads the exact committed object.
+   if(candidate&&candidate!==source){
+    try{
+     if((await lstat(candidate)).isFile()){
+      const bytes=await readFile(candidate),hash=createHash(sparse.algorithm).update('blob '+bytes.length+'\0').update(bytes).digest('hex');
+      if(hash===entry.oid){
+       try{await link(candidate,target);}catch{await copyFile(candidate,target);}
+       // Recheck the staged inode in case the other checkout changed while
+       // it was being read/linked. Never ship an unverified sibling asset.
+       const staged=await readFile(target);
+       if(createHash(sparse.algorithm).update('blob '+staged.length+'\0').update(staged).digest('hex')!==entry.oid)throw Error('Reused release asset changed during staging: '+file);
+       reused=true;restored.hardlinked++;
+      }
+     }
+    }catch(error){if(error.code!=='ENOENT')throw error;}
+   }
+   if(!reused){blobs||=gitBlobWriter(root);await blobs.write(entry.oid,target,entry.mode);restored.gitBlobs++;}
+  }
+  await blobs?.close();
+  await buildClientManifest({root:directory,files:selected,writeTo:path.join(directory,'client/windows/manifest.json')});
+  dependencies||=path.dirname(path.dirname(createRequire(import.meta.url).resolve('pg/package.json')));
+  await symlink(dependencies,path.join(directory,'node_modules'),process.platform==='win32'?'junction':'dir');
+  return {directory,assetCount,excluded:files.length-selected.length,restored,dispose};
+ }catch(error){await blobs?.abort();await dispose();throw error;}
 }

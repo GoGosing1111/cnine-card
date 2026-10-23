@@ -1,6 +1,7 @@
 import {ORGANIZATIONS,orgAssert} from '../shared/organization-system-v1.mjs';
 import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES,organizationDistrictById,defaultOrganizationFactionPolicy,validateOrganizationFactionPolicy,FACTION_RULES as R,SQUADS,isSelfJoinSquad} from '../shared/organization-faction-v1.mjs';
 import {createFactionDay,factionDayKey} from '../shared/clan-faction-sessions-v1.mjs';
+import {createOrganizationDay,ORGANIZATION_FIXED_SCHEDULE} from '../shared/organization-schedule-v1.mjs';
 import {factionEvent,finishFactionBattle,factionStrikeDamage} from './_clan_faction_model.js';
 import {newOrganizationFactionState,restrictOrganizationDistricts,advanceOrganizationFaction,changeOrganizationSelfMembership,validateOrganizationFormation as validateFormation,organizationCaptains as factionCaptains,validateOrganizationCaptains as validateFactionCaptains,assignOrganizationGarrison} from './_organization_faction_model.js';
 import {buildClanBattle} from './_clan.js';
@@ -28,11 +29,11 @@ export async function organizationFactionLiveOperation(env,now=Date.now()){
  if(!row||JSON.parse(row.policy_json).mode!=='ON')return null;
  const session=JSON.parse(row.state_json).session;
  if(!session?.key||!['ACTIVE','PAUSED'].includes(session.status)||!Number.isFinite(session.startsAt)||session.startsAt>now)return null;
- if(session.status==='ACTIVE'&&(!Number.isFinite(session.endsAt)||session.endsAt<=now))return null;
+ if((session.status==='ACTIVE'||session.hardEndsAt)&&(!Number.isFinite(session.endsAt)||session.endsAt<=now))return null;
  const paused=session.status==='PAUSED',required=session.rewardRules?.requiredTerritories??FACTION_SESSION_RULES.requiredTerritories;
  return {kind:'ORGANIZATION_FACTION',phase:session.status,entityId:session.key,roundId:row.id,
-   title:'서울 세력전',detail:paused?'영토전 진행으로 일시중단 · 종료 후 재개':`서울 25개 구 · 종료 시 ${required}곳 이상 점령 보상`,
-   startedAt:new Date(session.startsAt).toISOString(),deadlineAt:paused?null:new Date(session.endsAt).toISOString(),
+   title:'서울 세력전',detail:paused?(session.hardEndsAt?'영토전으로 일시중단 · 22시 종료 유지':'영토전 진행으로 일시중단 · 종료 후 재개'):`서울 25개 구 · 종료 시 ${required}곳 이상 점령 보상`,
+   startedAt:new Date(session.startsAt).toISOString(),deadlineAt:paused&&!session.hardEndsAt?null:new Date(session.endsAt).toISOString(),
    requiredTerritories:required,sortOrder:0};
 }
 export async function installOrganizationFactionSchema(DB){
@@ -122,7 +123,7 @@ async function sync(q,r,row,roster,policy,now,deps){
  const enabled=r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST');
  if(!enabled)return {active:false,enabled:false,state:'CLOSED',schedule:[],history:[],current:null,rules:FACTION_SESSION_RULES,recipientPolicy:'PARTICIPANTS',mapPolicy:'KEEP'};
  const day=factionDayKey(now);
- await q('INSERT INTO organization_faction_days_v1 VALUES($1,$2,$3) ON CONFLICT DO NOTHING',[r.id,day,JSON.stringify(createFactionDay(day,deps.randomFactionSchedule))]);
+ await q('INSERT INTO organization_faction_days_v1 VALUES($1,$2,$3) ON CONFLICT DO NOTHING',[r.id,day,JSON.stringify(now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt?createOrganizationDay(day):createFactionDay(day,deps.randomFactionSchedule))]);
  const [published]=await q('SELECT schedule_json FROM organization_faction_days_v1 WHERE round_id=$1 AND day_key=$2',[r.id,day]);
  const wars=await q("SELECT id,status,starts_at,ends_at,settled_at FROM territory_war_v3_rounds WHERE status IN ('ACTIVE','PREPARING') OR id IN (SELECT id FROM territory_war_v3_rounds WHERE status='FINISHED' ORDER BY id DESC LIMIT 32)");
  const paused=(row.state.session?.pauses?.at(-1)?.territoryRoundIds||[]).filter(id=>!wars.some(w=>Number(w.id)===Number(id)));

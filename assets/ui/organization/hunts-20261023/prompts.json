@@ -1,0 +1,56 @@
+{
+  "generator": "built-in image_gen",
+  "status": "PREPARATION_NOT_USER_APPROVED",
+  "stages": [
+    3,
+    4,
+    5
+  ],
+  "prompts": [
+    {
+      "id": "stage3-dockyard",
+      "prompt": "Use case: stylized-concept. Asset type: polished 2D RPG game art for a Korean urban-noir organization game. Unified crisp detailed painterly illustration, mature dramatic lighting, no photoreal pasted components, no text, no logos, no UI, no watermark. Generate one wide landscape 16:9 battle environment: sealed riverside freight depot behind a Seoul criminal organization's brick headquarters at night. Rain-slick broad concrete loading yard in the foreground, abandoned cargo containers and steel loading cranes at both sides, distant navy Seoul skyline, amber industrial lights with restrained teal reflections. Unoccupied open central and lower arena suitable for transparent combat sprites. Layered readable depth, cinematic but clear gameplay space, architectural integrity. No people, no monsters.",
+      "transparent_background": false
+    },
+    {
+      "id": "stage4-garden",
+      "prompt": "Use case: stylized-concept. Asset type: polished 2D RPG game art for a Korean urban-noir organization game. Unified crisp detailed painterly illustration, mature dramatic lighting, no photoreal pasted components, no text, no logos, no UI, no watermark. Generate one wide landscape 16:9 battle environment: abandoned walled conservatory and secret garden behind a luxurious Seoul mansion at midnight. Cracked pale stone courtyard open across the central and lower arena, wrought iron gates and rose-covered columns framing the side edges, ruined glass greenhouse in the background, moonlit navy foliage, faint crimson roses and warm old lanterns. Rich moody controlled light, readable terrain and layered depth. No people, no monsters.",
+      "transparent_background": false
+    },
+    {
+      "id": "stage5-vault",
+      "prompt": "Use case: stylized-concept. Asset type: polished 2D RPG game art for a Korean urban-noir organization game. Unified crisp detailed painterly illustration, mature dramatic lighting, no photoreal pasted components, no text, no logos, no UI, no watermark. Generate one wide landscape 16:9 battle environment: monumental open-air vault terrace beneath a luxury penthouse on a Seoul skyscraper. Broad dark marble arena center and lower half, imposing sealed black-and-gold circular vault door at the far back, steel and glass architecture at edges, blue night skyline and a restrained gold light beam. Premium urban-noir fantasy materials, excellent readable perspective, dramatic vertical architecture with clear ground space. No people, no monsters.",
+      "transparent_background": false
+    },
+    {
+      "id": "stage3-monster",
+      "prompt": "Use case: stylized-concept. Asset type: polished 2D RPG game art for a Korean urban-noir organization game. Unified crisp detailed painterly illustration, mature dramatic lighting, no photoreal pasted components, no text, no logos, no UI, no watermark. Transparent-background single full-body enemy sprite: a lean nonhuman industrial stalker with a doglike skull mask integrated into a wire-and-charcoal armored body, long articulated arms ending in cable claws, low agile two-legged stance. A few dim amber lights, worn steel and black leather. Three-quarter view facing left, readable compact silhouette, feet completely visible, centered with 12 percent breathing room on all sides. 2D painted game character, anatomically coherent joints, no separate prop, no circular effects, no ground, no border.",
+      "transparent_background": true
+    },
+    {
+      "id": "stage3-boss",
+      "prompt": "Use case: stylized-concept. Asset type: polished 2D RPG game art for a Korean urban-noir organization game. Unified crisp detailed painterly illustration, mature dramatic lighting, no photoreal pasted components, no text, no logos, no UI, no watermark. Transparent-background single full-body boss sprite: IRON ENFORCER, a massive nonhuman armored freight-yard guardian, broad dark gunmetal shoulders, heavy industrial plated torso, one coherent oversized piston gauntlet and a heavy intact demolition hammer held naturally in its other hand, narrow amber furnace eyes, short hanging weathered coat. Powerful upright three-quarter stance facing left. Full hammer and both feet in frame, clear separated limbs, 12 percent margin, rich sculptural 2D painting, no ground, no frame, no title, no circular effects.",
+      "transparent_background": true
+    },
+    {
+      "id": "stage4-monster",
+      "prompt": "Use case: stylized-concept. Asset type: polished 2D RPG game art for a Korean urban-noir organization game. Unified crisp detailed painterly illustration, mature dramatic lighting, no photoreal pasted components, no text, no logos, no UI, no watermark. Transparent-background single full-body enemy sprite: a sinister obsidian garden hound, clearly nonhuman four-legged animal, sleek long canine body wrapped in sparse dark thorny vines, crimson glass eyes, small rose-like crystal growths at shoulder and tail base. Restrained supernatural look and predatory low stance, three-quarter view facing left, all four paws and entire tail visible, centered with 12 percent breathing room. Consistent elegant 2D RPG painting, no ground, no aura circle, no text.",
+      "transparent_background": true
+    },
+    {
+      "id": "stage4-boss",
+      "prompt": "Use case: stylized-concept. Asset type: polished 2D RPG game art for a Korean urban-noir organization game. Unified crisp detailed painterly illustration, mature dramatic lighting, no photoreal pasted components, no text, no logos, no UI, no watermark. Transparent-background single full-body boss sprite: THORN CROWN DEVOURER, an original huge nonhuman guardian beast with a dignified feline skull-shaped mask, a natural crown of black branching thorns, deep wine-red mane of interwoven roots, strong four-legged obsidian stone body with rose crystal accents and a long organic tail. Regal threatening pose, three-quarter view facing left, full crown, tail and all paws visible, coherent natural anatomy, 12 percent margin, refined high-end 2D paint, no ground, no frame or circular aura.",
+      "transparent_background": true
+    },
+    {
+      "id": "stage5-monster",
+      "prompt": "Use case: stylized-concept. Asset type: polished 2D RPG game art for a Korean urban-noir organization game. Unified crisp detailed painterly illustration, mature dramatic lighting, no photoreal pasted components, no text, no logos, no UI, no watermark. Transparent-background single full-body enemy sprite: an original black-and-gold airborne security sentinel shaped as a compact angular raven construct, two complete swept metallic wings, a sleek obsidian chest and single small amber optic, short articulated talons, delicate filigree only in armored joints. Hovering three-quarter view facing left, symmetrical understandable mechanical construction with both wing tips entirely in frame, 12 percent margin, refined readable 2D painted RPG enemy, no platform, no aura circles, no background.",
+      "transparent_background": true
+    },
+    {
+      "id": "stage5-boss",
+      "prompt": "Use case: stylized-concept. Asset type: polished 2D RPG game art for a Korean urban-noir organization game. Unified crisp detailed painterly illustration, mature dramatic lighting, no photoreal pasted components, no text, no logos, no UI, no watermark. Transparent-background single full-body boss sprite: VAULT ADJUDICATOR, an original colossal humanoid nonhuman obsidian-and-antique-gold construct. A faceless narrow glowing amber slit, layered black stone plate armor, austere gold engraved shoulder arches, a long heavy black mantle naturally behind the legs, one enormous straight rectangular vault key sword held as a single rigid object angled down to the side, both hands and feet naturally articulated. Imposing three-quarter upright pose facing left. Full sword and feet visible, 12 percent margin, elegant ultra-polished 2D painterly RPG boss art, no throne, no text, no circular effects, no platform.",
+      "transparent_background": true
+    }
+  ]
+}
