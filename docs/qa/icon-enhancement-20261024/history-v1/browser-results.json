@@ -1,0 +1,35 @@
+[
+  {
+    "width": 1440,
+    "cardDetail": true,
+    "purchase": true,
+    "chargedOnce": true,
+    "cmsSaved": true,
+    "nullableCosts": true,
+    "overflow": false,
+    "pageErrors": [],
+    "attempts": 1
+  },
+  {
+    "width": 390,
+    "cardDetail": true,
+    "purchase": true,
+    "chargedOnce": true,
+    "cmsSaved": true,
+    "nullableCosts": true,
+    "overflow": false,
+    "pageErrors": [],
+    "attempts": 1
+  },
+  {
+    "width": 320,
+    "cardDetail": true,
+    "purchase": true,
+    "chargedOnce": true,
+    "cmsSaved": true,
+    "nullableCosts": true,
+    "overflow": false,
+    "pageErrors": [],
+    "attempts": 1
+  }
+]

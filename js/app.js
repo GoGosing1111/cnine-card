@@ -2003,7 +2003,7 @@ window.activeBattleEnergy=activeBattleEnergy;window.applyPveEnergyResponse=apply
 
 function battleCardPower(card,user,settings){const grade=String(card?.grade||card?.rarity||'').trim().toUpperCase(),rawCardId=String(card?.id??card?.card_id??'').trim(),cardId=rawCardId.toUpperCase(),gradePower=Number(settings?.powerByGrade?.[grade]),savedPower=Number(card?.basePower??card?.base_power),base=['PRESTIGE','ZENITH','SUPERSTAR'].includes(grade)&&Number.isFinite(gradePower)?Math.max(0,gradePower):(Number.isFinite(savedPower)&&savedPower>0?savedPower:(Number.isFinite(gradePower)?Math.max(0,gradePower):0)),lv=Math.max(0,Math.min(grade==='FUR'?15:13,Number(user.breakthroughs?.[rawCardId]??user.breakthroughs?.[cardId]??0))),pct=clientBreakthroughBonusPercent(grade,lv,settings),power=Math.floor(base*(1+pct/100)),specialBonus=grade==='FUR'&&cardId===FAKER_CHAMPIONSHIP_CARD_ID?FAKER_FLAT_POWER_BONUS:0;
   // 서버와 동일: 강화가 끝난 일반 FUR/ZENITH 전투력 중 높은 값에 +10,000.
-  if(grade==='ICON')return 180000;
+  if(grade==='ICON')return 180000+36000*Math.floor(Math.min(10,lv));
   if(grade==='SUPERSTAR'){
     const referenceUser={breakthroughs:{SUPERSTAR_REFERENCE:lv}};
     return Math.max(battleCardPower({grade:'FUR',id:'SUPERSTAR_REFERENCE'},referenceUser,settings),battleCardPower({grade:'ZENITH',id:'SUPERSTAR_REFERENCE'},referenceUser,settings))+10000;

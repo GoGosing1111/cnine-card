@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
+import {iconEnhancementPower} from '../shared/icon-enhancement-v1.mjs';
 import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {iconLiveCardHtml} from '../js/icon-fusion-v1.mjs';
 import {iconFusionFixture} from './helpers/icon-fusion-db.mjs';
@@ -122,8 +123,8 @@ test('all seven ICONs retain photo frames and separate SDs through the shipped P
  const pve=createPveBattleV2({cards:cards.slice(0,5),monster:{id:1,battle_power:300000},seed:10}),pvp=createPvpBattleV2({attackerCards:cards.slice(0,5),defenderCards:cards.slice(2,7),seed:10});
  for(const battleV2 of [pve,pvp]){assert.equal(battleV2.teams.A.cards.length,5);assert.ok(battleV2.result.timeline.length>0);const after=adapter.adaptBattlePayload({battleV2});assert.ok(after.battleV2.teams.A.cards.every(c=>c.projectVBattleArt.kind==='ICON_SD'));assert.ok(after.battleV2.teams.A.cards.every(c=>c.originalCardArt.includes('assets/cards/ICON/')));}
  const server=read('functions/api/[[path]].js'),client=read('js/app.js');
- const ctx={FUR_MAX_ENHANCEMENT:15,FAKER_CHAMPIONSHIP_CARD_ID:'other',FAKER_FLAT_POWER_BONUS:3000,breakthroughBonusPercent:()=>9999,clientBreakthroughBonusPercent:()=>9999};
+ const ctx={iconEnhancementPower,FUR_MAX_ENHANCEMENT:15,FAKER_CHAMPIONSHIP_CARD_ID:'other',FAKER_FLAT_POWER_BONUS:3000,breakthroughBonusPercent:()=>9999,clientBreakthroughBonusPercent:()=>9999};
  const serverPower=vm.runInNewContext(server.slice(server.indexOf('function cardPowerBase('),server.indexOf('function sqlUtcNow('))+';cardBattlePower',ctx);
  const clientPower=vm.runInNewContext(client.slice(client.indexOf('function battleCardPower('),client.indexOf('function pveDeckCardMini('))+';battleCardPower',ctx);
- for(const c of cards)for(const level of [0,13]){assert.equal(serverPower(c,level,{}),180000);assert.equal(clientPower(c,{breakthroughs:{[c.id]:level}},{}),180000);}
+ for(const c of cards)for(const level of [0,1,10,13]){assert.equal(serverPower(c,level,{}),iconEnhancementPower(level));assert.equal(clientPower(c,{breakthroughs:{[c.id]:level}},{}),iconEnhancementPower(level));}
 });

@@ -1,5 +1,6 @@
 import {ICON_ROLES,ICON_ROLES_KEY,ICON_ROLES_VERSION,defaultIconRoles,validateIconRoles,iconDefinition,iconRoleSnapshot} from '../shared/icon-roles-v1.mjs';
 import {ICON_SUPREMACY,iconStatFloor} from '../shared/icon-supremacy-v1.mjs';
+import {iconEnhancementLevel} from '../shared/icon-enhancement-v1.mjs';
 
 export async function readIconRoleState(env){
  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(ICON_ROLES_KEY).first();
@@ -18,9 +19,10 @@ export function applyIconRoleDeckState(state,settings,scope){
   // Old stat drafts never stack with the RPG role. The server attaches one
   // current FUR+15 benchmark shared by both parties, independent of opponent.
   const role=iconRoleSnapshot(card,settings.document,scope,settings.revision);
+  if(role)role.enhancementLevel=iconEnhancementLevel(card.breakthrough_level??card.breakthroughLevel);
   const result={...card,power:card.baseBattlePower,uniqueAbility:null,uniqueAdvancement:null,uniqueDefensePercent:0,uniqueSpeedPercent:0,power_type:'NONE',powerType:'NONE',iconRole:role?{...role,...(settings.supremacy?{supremacy:settings.supremacy}:{})}:null};
   if(scope==='CAPTAIN'&&role&&settings.supremacy?.CAPTAIN){
-   const floor=key=>iconStatFloor(settings.supremacy,'CAPTAIN',key,0,role.role);
+   const floor=key=>iconStatFloor(settings.supremacy,'CAPTAIN',key,0,role.role,role.enhancementLevel);
    result.power=Math.max(result.power,floor('attack'));result.maxHp=Math.max(result.maxHp,floor('maxHp'));
    result.uniqueDefensePercent=Math.max(0,floor('defense')-100);result.uniqueSpeedPercent=Math.max(0,floor('speed')-100);
   }

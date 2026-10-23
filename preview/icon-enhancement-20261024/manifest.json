@@ -1,0 +1,85 @@
+{
+  "created": "2026-10-24",
+  "tool": "image_gen built-in",
+  "status": "IMPLEMENTED_UI_ASSET_NOT_USER_VISUAL_APPROVAL",
+  "assets": [
+    {
+      "name": "panel",
+      "source": "preview/icon-enhancement-20261024/panel-source.png",
+      "sourceSha256": "24084a5b5dcd751d10a43bc8a6e365c78e6d7110954cb16c4515d9d57bb220cc",
+      "runtime": "assets/ui/icons/enhancement-20261024/panel.webp",
+      "runtimeSha256": "e8cee5b77b971949968e5b141829d58fea3c765939cebf080d639f02c1e4691c",
+      "metadata": {
+        "format": "webp",
+        "mediaType": "image/webp",
+        "width": 1000,
+        "height": 667,
+        "space": "srgb",
+        "channels": 3,
+        "depth": "uchar",
+        "isProgressive": false,
+        "isPalette": false,
+        "hasProfile": false,
+        "hasAlpha": false,
+        "autoOrient": {
+          "width": 1000,
+          "height": 667
+        }
+      }
+    },
+    {
+      "name": "button",
+      "source": "preview/icon-enhancement-20261024/button-source.png",
+      "sourceSha256": "456ab58a43aaf59d85b676ebb3df15c34c15a50117b851604fb404e9d81cebb9",
+      "runtime": "assets/ui/icons/enhancement-20261024/button.webp",
+      "runtimeSha256": "6c02cd762adeff920101986f6c17554c57073885f041886ce62595c9790ce71a",
+      "metadata": {
+        "format": "webp",
+        "mediaType": "image/webp",
+        "width": 1000,
+        "height": 226,
+        "space": "srgb",
+        "channels": 4,
+        "depth": "uchar",
+        "isProgressive": false,
+        "isPalette": false,
+        "hasProfile": false,
+        "hasAlpha": true,
+        "autoOrient": {
+          "width": 1000,
+          "height": 226
+        }
+      }
+    },
+    {
+      "name": "materials-v2",
+      "source": "preview/icon-enhancement-20261024/materials-v2-source.png",
+      "runtime": "assets/ui/icons/enhancement-20261024/materials-v2.webp",
+      "sourceSha256": "228a4745e3bda7a32e9ae8244c4ddcae627723197c34315f0f2240ae770ae306",
+      "runtimeSha256": "414261bc5617f0823dc8134787b597d7647c529e7b927aada2c46d37444482b1",
+      "metadata": {
+        "format": "webp",
+        "mediaType": "image/webp",
+        "width": 1200,
+        "height": 160,
+        "space": "srgb",
+        "channels": 4,
+        "depth": "uchar",
+        "isProgressive": false,
+        "isPalette": false,
+        "hasProfile": false,
+        "hasAlpha": true,
+        "autoOrient": {
+          "width": 1200,
+          "height": 160
+        }
+      }
+    }
+  ],
+  "prompts": {
+    "panel": "Create one production UI background image for an ICON-grade card enhancement console in a premium Korean collectible fantasy RPG. Landscape 3:2 canvas. The image is a single cohesive panel made of obsidian enamel and warm champagne-gold metal, with cut crystal faceted corners, very thin elegant inlaid edges, tiny amethyst star sockets and a stylized celestial master star crest centered on the top edge. Rich tactile detail concentrated along outer edges, not a generic CSS rectangle. The central 75% must be extremely dark, clean and calm with generous empty room for live DOM text, a level progression and controls, so content is readable. Bottom edge has a subtle forged gold rail. No letters, no words, no numbers, no drawn buttons, no icons in the central content area, no characters, no card portrait, no dragon, no background scenery. Orthographic front view, precise symmetrical silhouette, crisp high-end game UI material rendering. This asset will be used as an actual panel background in the existing card detail and OWNER CMS, not an illustrative mockup.",
+    "button": "A single standalone premium Korean fantasy RPG ICON card enhancement action button image, transparent background. A very wide horizontal shape, ratio about 5:1, centered and filling the canvas with minimal transparent margin. Long dark obsidian and champagne gold forged metal plate with beveled gold rims, clipped crystal corners, one small amethyst master star socket on each end. Center 70 percent is blank satin dark gold for readable white DOM button text. Symmetrical, orthographic, crisp detailed premium game UI, coherent with an obsidian gold celestial star enhancement console. No words, no letters, no text, no numbers. Actual reusable UI asset, not mockup. True alpha transparency outside the button.",
+    "materialsV2": "Production game UI resource tray for an ICON enhancement screen, one transparent image. Precisely two equally sized wide horizontal recessed compartments side by side, separated by a narrow gap. Overall aspect ratio 4:1. Each compartment has dark midnight obsidian enamel, a restrained warm champagne gold machined rim with clipped corners, a subtle violet crystal inset only at the OUTER left and OUTER right tips. The two compartments have identical internal dimensions, alignment and symmetry. Centers are empty near-black, about 85 percent of each compartment clean and available for live DOM item icon, name, required amount and owned amount. Elegant premium collectible fantasy RPG, crisp realistic material detail, very little ornament, no stars in the center, no icons, no labels, no letters, no numbers, no text. Straight-on orthographic reusable UI asset, not a whole mockup. True alpha outside the two compartments. Fill the canvas with only minimal transparent margin. Do not add an external frame, backdrop, pedestal or shadow below the image."
+  },
+  "layoutRevision": "User requested better PC alignment and visual composition; V2 uses a central power comparison, aligned resource trays and a compact footer."
+}

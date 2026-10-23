@@ -86,6 +86,8 @@ import {handleJokgakCity} from '../_jokgak_city.js';
 import {handlePetPotential,ensurePetPotentialItem} from '../_pet_potential.js';
 import {handlePetOpening,ensurePetOpeningItems,openPetSeal} from '../_pet_opening.js';
 import {handleIconFusion} from '../_icon_fusion.js';
+import {handleIconEnhancement} from '../_icon_enhancement.js';
+import {iconEnhancementPower} from '../../shared/icon-enhancement-v1.mjs';
 import {handleIconCardChoice} from '../_icon_card_choice.js';
 import {handlePetPumpkinChoice} from '../_pet_pumpkin_choice.js';
 import {handleRankExpPotion} from '../_rank_exp_potion.js';
@@ -1651,7 +1653,7 @@ const FAKER_FLAT_POWER_BONUS=3000;
 function cardPowerBase(card,settings){const grade=String(card.rarity||card.grade||'').trim().toUpperCase(),gradePower=Number(settings?.powerByGrade?.[grade]);if(['PRESTIGE','ZENITH','SUPERSTAR'].includes(grade)&&Number.isFinite(gradePower))return Math.max(0,gradePower);const saved=Number(card.base_power??card.basePower);return Number.isFinite(saved)&&saved>0?saved:(Number.isFinite(gradePower)?Math.max(0,gradePower):0)}
 function cardBattlePower(card,level,settings){const grade=String(card?.rarity||card?.grade||'').trim().toUpperCase(),cardId=String(card?.id??card?.card_id??'').trim().toUpperCase(),lv=Math.max(0,Math.min(grade==='FUR'?FUR_MAX_ENHANCEMENT:13,Number(level)||0)),base=cardPowerBase(card,settings),pct=breakthroughBonusPercent(grade,lv,settings),power=Math.floor(base*(1+pct/100)),specialBonus=grade==='FUR'&&cardId===FAKER_CHAMPIONSHIP_CARD_ID?FAKER_FLAT_POWER_BONUS:0;
   // 동일 강화 단계의 일반 FUR/ZENITH 중 높은 전투력에만 +10,000. 강화 배율을 보너스에 다시 곱하지 않는다.
-  if(grade==='ICON')return 180000;
+  if(grade==='ICON')return iconEnhancementPower(lv);
   if(grade==='SUPERSTAR')return Math.max(cardBattlePower({rarity:'FUR'},lv,settings),cardBattlePower({rarity:'ZENITH'},lv,settings))+10000;
   if(grade!=='LIMITED'||lv<11)return power+specialBonus;const prestigeBase=Math.max(0,Number(settings?.powerByGrade?.PRESTIGE||0)),prestigePct=Number(settings?.breakthroughBonus?.[10]||0),prestige10=Math.floor(prestigeBase*(1+prestigePct/100));if(prestige10<=0)return power+specialBonus;const limited10=Math.floor(base*(1+Number(settings?.breakthroughBonus?.[10]||0)/100)),stepCap=Math.floor(limited10+Math.max(0,prestige10-limited10)*(lv-10)/3);return Math.min(power,prestige10,stepCap)+specialBonus;}
 function sqlUtcNow(){return new Date().toISOString().replace('T',' ').slice(0,19)}
@@ -5193,6 +5195,7 @@ async function handleRequest(context){
     const iconChoiceResponse=await handleIconCardChoice({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(iconChoiceResponse)return iconChoiceResponse;
     const rankPotionResponse=await handleRankExpPotion({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(rankPotionResponse)return rankPotionResponse;
     const iconFusionResponse=await handleIconFusion({path,request,env,deps:{requirePermission,json,authenticate,withUserMutationLock:withJointUserMutationLock}});if(iconFusionResponse)return iconFusionResponse;
+    const iconEnhancementResponse=await handleIconEnhancement({path,request,env,deps:{requirePermission,json,authenticate,withUserMutationLock:withJointUserMutationLock}});if(iconEnhancementResponse)return iconEnhancementResponse;
     const avatarResponse=await handleAvatar({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(avatarResponse)return avatarResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;
     const rerollResponse=await handleHighGradeReroll({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(rerollResponse)return rerollResponse;
@@ -5912,7 +5915,7 @@ async function handleRequest(context){
       const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,COALESCE(uc.breakthrough_fail_count,0) AS breakthrough_fail_count,COALESCE(uc.quantity,0) AS quantity,c.rarity,c.title FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
       if(!owned)return json({error:'보유한 카드만 강화할 수 있습니다.'},404);
       const grade=String(owned.rarity||'').trim().toUpperCase();
-      if(grade==='ICON')return json({error:'아이콘은 현재 추가 강화할 수 없습니다.',code:'ICON_ENHANCEMENT_CLOSED'},409);
+      if(grade==='ICON')return json({error:'아이콘은 카드 상세의 전용 강화 메뉴에서 강화할 수 있습니다.',code:'ICON_ENHANCEMENT_CLOSED'},409);
       if((ORDER[grade]||0)<BREAKTHROUGH_MIN_ORDER)return json({error:'SR 등급 이상 카드만 강화할 수 있습니다.'},400);
       const [config,pity,high,balances]=await Promise.all([
         breakthroughConfig(env),breakthroughPity(env),
@@ -5992,7 +5995,7 @@ async function handleRequest(context){
       const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,COALESCE(uc.breakthrough_fail_count,0) AS breakthrough_fail_count,COALESCE(uc.quantity,0) AS quantity,c.rarity,c.title FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
       if(!owned) return json({error:'보유한 카드만 돌파할 수 있습니다.'},404);
       const grade=String(owned.rarity||'').trim().toUpperCase();
-      if(grade==='ICON')return json({error:'아이콘은 현재 추가 강화할 수 없습니다.',code:'ICON_ENHANCEMENT_CLOSED'},409);
+      if(grade==='ICON')return json({error:'아이콘은 카드 상세의 전용 강화 메뉴에서 강화할 수 있습니다.',code:'ICON_ENHANCEMENT_CLOSED'},409);
       if((ORDER[grade]||0)<BREAKTHROUGH_MIN_ORDER) return json({error:'SR 등급 이상 카드만 돌파할 수 있습니다.'},400);
       const level=Number(owned.breakthrough_level||0),isMasterStarHigh=HIGH_BREAKTHROUGH_GRADES.includes(grade)&&level>=10,usesMasterStars=ALL_LEVEL_MASTER_STAR_GRADES.includes(grade)||isMasterStarHigh,maxLevel=grade==='FUR'?FUR_MAX_ENHANCEMENT:HIGH_BREAKTHROUGH_GRADES.includes(grade)?13:10;
       if(level>=maxLevel) return json({error:'이미 최대 강화 단계입니다.'},409);

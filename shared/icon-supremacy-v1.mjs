@@ -1,4 +1,5 @@
 // Highest-grade floor; source photography/collection base power stays unchanged.
+import {iconEnhancementMultiplier} from './icon-enhancement-v1.mjs';
 export const ICON_SUPREMACY = Object.freeze({version:'20261005-fur15-v1',deckLimit:2,margin:1.2});
 export const ICON_ROLE_STAT_BONUS = Object.freeze({
  ATTACK:{attack:1.12},ASSASSIN:{attack:1.06,speed:1.08},ASSAULT:{attack:1.06,maxHp:1.08},
@@ -11,8 +12,11 @@ export function validatedIconSupremacy(value){
  }
  return value;
 }
-export function iconStatFloor(reference,mode,key,equipmentShare=0,role=''){
+export function iconStatFloor(reference,mode,key,equipmentShare=0,role='',level=0){
  const row=reference?.[mode]?.[key];if(!row)return 0;
  // Reserve one integer unit for the comparator's final stat rounding.
- return Math.ceil((row.base+(equipmentShare>0?1:0)+Math.max(0,equipmentShare)*row.perPower)*ICON_SUPREMACY.margin*(ICON_ROLE_STAT_BONUS[role]?.[key]||1));
+ // Growth affects the card itself; equipment, speed and captain percentage
+ // defenses keep their original contribution. +0 is exactly unchanged.
+ const growth=key==='speed'||(mode==='CAPTAIN'&&key==='defense')?1:iconEnhancementMultiplier(level);
+ return Math.ceil((row.base*growth+(equipmentShare>0?1:0)+Math.max(0,equipmentShare)*row.perPower)*ICON_SUPREMACY.margin*(ICON_ROLE_STAT_BONUS[role]?.[key]||1));
 }

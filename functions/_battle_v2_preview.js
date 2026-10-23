@@ -35,6 +35,7 @@ import {createIconCombatRuntime} from './_icon_combat.js';
 import {ICON_TECHNIQUE_PREPARATION} from '../shared/icon-techniques-v1.mjs';
 import {createIconTechniqueRuntime} from './_icon_technique_combat.js';
 import {ICON_SUPREMACY,iconStatFloor} from '../shared/icon-supremacy-v1.mjs';
+import {iconEnhancementLevel,iconEnhancementMultiplier} from '../shared/icon-enhancement-v1.mjs';
 import {valterIncomingDamage,valterActionCredit} from '../shared/mercenary-valter-v1.mjs';
 import {kaironIncomingDamage,kaironActionCredit} from '../shared/mercenary-kairon-v1.mjs';
 import {jinmuIncomingDamage,jinmuActionCredit} from '../shared/mercenary-jinmu-v1.mjs';
@@ -265,12 +266,14 @@ export function applyTypeStacking(cards = []) {
 }
 
 export function distributeEquipment(cards = [], equipmentBonus = 0) {
-  const total = cards.reduce((sum, card) => sum + Math.max(0, Number(card.power || 0)), 0);
+  // ICON growth must not move equipment (and thus speed) between party slots.
+  const weight=card=>Math.max(0,Number(card.power||0)-(String(card.rarity??card.grade??'').toUpperCase()==='ICON'?36000*iconEnhancementLevel(card.iconRole?.enhancementLevel??card.breakthrough_level??card.breakthroughLevel):0));
+  const total = cards.reduce((sum, card) => sum + weight(card), 0);
   let assigned = 0;
   return cards.map((card, index) => {
     const share = index === cards.length - 1
       ? Math.max(0, Math.round(equipmentBonus - assigned))
-      : Math.max(0, Math.floor(Number(equipmentBonus || 0) * Math.max(0, Number(card.power || 0)) / Math.max(1, total)));
+      : Math.max(0, Math.floor(Number(equipmentBonus || 0) * weight(card) / Math.max(1, total)));
     assigned += share;
     return { ...card, equipmentShare: share, effectivePower: Math.max(1, Math.round(Number(card.power || 0) + share)) };
   });
@@ -304,7 +307,10 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
     label:   baseProfile.label
   };
   const superiority=iconRole?.supremacy;
-  const power = Math.max(1, Number(card.effectivePower || card.power || 1),superiority?Math.ceil(superiority.power*ICON_SUPREMACY.margin)+Number(card.equipmentShare||0):0);
+  const iconLevel=iconRole?iconEnhancementLevel(iconRole.enhancementLevel??card.breakthrough_level??card.breakthroughLevel):0;
+  const iconGrowth=iconEnhancementMultiplier(iconLevel);
+  const power = Math.max(1, Number(card.effectivePower || card.power || 1),superiority?Math.ceil(superiority.power*ICON_SUPREMACY.margin*iconGrowth)+Number(card.equipmentShare||0):0);
+  const speedPower=iconRole?Math.max(1,Number(card.effectivePower||card.power||1)-36000*iconLevel,superiority?Math.ceil(superiority.power*ICON_SUPREMACY.margin)+Number(card.equipmentShare||0):0):power;
   const mode = String(battleMode || 'PVP').toUpperCase();
   const attackRoleMultiplier = type === 'ATTACK' ? (mode === 'PVE' ? 1.15 : 1.05) : 1;
   const defenseRoleMultiplier = type === 'DEFENSE' ? (mode === 'PVE' ? 1.15 : 1.10) : 1;
@@ -328,12 +334,12 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
   const hpScale = mode === 'PVE' ? 2.34 : 2.6;
   const rankHp=mode==='PVE'&&side==='A'?clamp(card.accountRankBonus?.hpBp||0,0,1500):0;
   const rankAttack=mode==='PVE'&&side==='A'?clamp(card.accountRankBonus?.attackBp||0,0,1000):0;
-  const floor=key=>iconStatFloor(superiority,mode,key,Number(card.equipmentShare||0),iconDef?.role);
+  const floor=key=>iconStatFloor(superiority,mode,key,Number(card.equipmentShare||0),iconDef?.role,iconLevel);
   const maxHp = Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100) * (1 + Number(advancementModifiers.maxHpPercent || 0) / 100) * (1 + rankHp / 10000)),Math.ceil(floor('maxHp')*(1+rankHp/10000)));
   const attack = Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100) * (1 + rankAttack / 10000)),Math.ceil(floor('attack')*(1+rankAttack/10000)));
   const defense = Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)),floor('defense'));
   // V1936: 기저값을 더해 행동 빈도 격차를 압축한다(속도형 1.6배 -> 1.2배).
-  const speed = Math.max(35, Math.round((70 + power * S1.speedBaseK + power * profile.speed * 0.10) * (1 + speedPct / 100)),floor('speed'));
+  const speed = Math.max(35, Math.round((70 + speedPower * S1.speedBaseK + speedPower * profile.speed * 0.10) * (1 + speedPct / 100)),floor('speed'));
   const shieldFloor = mode === 'PVE' ? 0.22 : 0.18;
   const shieldCap = mode === 'PVE' ? 0.38 : 0.32;
   // V1830 호송작전은 구간 사이 카드 체력을 계승한다. 값이 없는 기존 PVE/PVP는

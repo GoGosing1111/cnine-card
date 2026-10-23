@@ -1,5 +1,6 @@
 import {ICON_ROLES,iconDefinition} from '../shared/icon-roles-v1.mjs';
 import {ICON_SUPREMACY} from '../shared/icon-supremacy-v1.mjs';
+import {mountIconEnhancement} from './icon-enhancement-v1.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const paths={link:'M6 8a4 4 0 1 0 0 8h5m2-8h5a4 4 0 1 1 0 8h-5M8 12h8',lightning:'M14 2 4 14h7l-1 8 10-13h-7z',daggers:'M5 3l6 10-3 3L2 7zm14 0-6 10 3 3 6-9zM8 16l-4 5m12-5 4 5M4 13l7 6m9-6-7 6',barrage:'M3 6h13l5 3-5 3H3zM5 15h11m-9 4h7m-3-9v5',arcane:'M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3zM4 3l2 2m12 14 2 2',resonance:'M12 3v18m-4-15v12m8-12v12M4 9v6m16-6v6',curse:'M3 9c5-6 13-6 18 0-5 6-13 6-18 0zm9-3v6M5 16l3 3m11-3-3 3m-4-4v7',guard:'M12 2 3 6v7c0 4 9 9 9 9s9-5 9-9V6zM8 12l3 3 5-6',charge:'M3 17 14 6m-6 0h6v6M9 21 21 9m-6 0h6v6'};
 export const iconRoleGlyph=def=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${paths[def.glyph]||paths.arcane}"/></svg>`;
@@ -19,11 +20,12 @@ export function openIconRoleProfile(card){
  const d=iconDefinition(card),modal=document.getElementById('modal');if(!d||!modal)return;
  const previous=document.activeElement;
  modal.className='modal show detail-modal card-profile-modal';
- modal.innerHTML=`<div class="modal-panel ir-modal" role="dialog" aria-modal="true" aria-label="${esc(d.name)} ICON 고유효과"><header class="ir-modal-head"><div><small>ICON / COMBAT IDENTITY</small><h2>${esc(d.name)}</h2></div><button type="button" class="ir-close" aria-label="닫기">×</button></header><div class="ir-modal-body"><aside>${globalThis.IconFusion?.cardHtml({...card,id:d.cardId},true,'ir-portrait')||''}<p>기본 전투력 <b>180,000</b></p><small>전투 시 FUR +15 상위 보정 · 추가 강화 불가</small></aside><div class="ir-modal-profile">${iconRoleDescription(card)}</div></div><p class="ir-load-status" role="status"></p></div>`;
- const close=()=>{modal.className='modal';modal.innerHTML='';document.removeEventListener('keydown',key);previous?.focus?.();};
+ modal.innerHTML=`<div class="modal-panel ir-modal" role="dialog" aria-modal="true" aria-label="${esc(d.name)} ICON 고유효과"><header class="ir-modal-head"><div><small>ICON / COMBAT IDENTITY</small><h2>${esc(d.name)}</h2></div><button type="button" class="ir-close" aria-label="닫기">×</button></header><div class="ir-modal-body"><aside>${globalThis.IconFusion?.cardHtml({...card,id:d.cardId},true,'ir-portrait')||''}<p>기본 전투력 <b>180,000</b></p><small>전투 시 FUR +15 상위 보정 · 최대 +10 강화</small></aside><div class="ir-modal-profile"><div class="ir-role-copy">${iconRoleDescription(card)}</div><div class="ir-enhancement"></div></div></div><p class="ir-load-status" role="status"></p></div>`;
+ const enhancement=mountIconEnhancement(modal.querySelector('.ir-enhancement'),{cardId:String(card.id||d.cardId)});
+ const close=()=>{enhancement.dispose();modal.className='modal';modal.innerHTML='';document.removeEventListener('keydown',key);previous?.focus?.();};
  const key=e=>{if(e.key==='Escape')close();if(e.key==='Tab'){const nodes=[...modal.querySelectorAll('button,summary,a,input')].filter(n=>n.getClientRects().length),first=nodes[0],last=nodes.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}};
  modal.querySelector('.ir-close').onclick=close;document.addEventListener('keydown',key);modal.querySelector('.ir-close').focus();
- const panel=modal.querySelector('.ir-modal-profile'),status=modal.querySelector('.ir-load-status');
+ const panel=modal.querySelector('.ir-role-copy'),status=modal.querySelector('.ir-load-status');
  loadIconRoleView().then(()=>{if(panel.isConnected)panel.innerHTML=iconRoleDescription(card);}).catch(e=>{if(status.isConnected)status.textContent=e.message;});
 }
 if(typeof window!=='undefined')window.IconRoles={definition:iconDefinition,description:iconRoleDescription,load:loadIconRoleView,open:openIconRoleProfile,roles:ICON_ROLES};
