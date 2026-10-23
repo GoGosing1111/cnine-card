@@ -1,0 +1,20 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "target": true,
+      "rules": true,
+      "police": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "target": true,
+      "rules": true,
+      "police": true,
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "fixture": "Actual city UI and local DB fixture; no live account actions"
+}

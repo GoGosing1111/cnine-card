@@ -6,6 +6,8 @@ import {defaultCityCareer,validateCityCareer} from './jokgak-city-career-v1.mjs'
 import {defaultCityRoundRewards,validateCityRoundRewards} from './jokgak-city-round-rewards-v1.mjs';
 import {defaultCityExploration,validateCityExploration} from './jokgak-city-exploration-v1.mjs';
 import {defaultCityConflict,validateCityConflict} from './jokgak-city-conflict-v1.mjs';
+import {CITY_GANG_COUNTER_DESCRIPTION} from './jokgak-city-counter-v1.mjs';
+export {CITY_GANG_COUNTER,CITY_GANG_COUNTER_DESCRIPTION} from './jokgak-city-counter-v1.mjs';
 
 export const CITY_SETTINGS_KEY='jokgak_city_settings_v1';
 export const CITY_MODES=['OFF','TEST','ON'];
@@ -25,7 +27,7 @@ export const cityCanAccess=(policy,user)=>!!user&&(policy.mode==='ON'||policy.mo
 export const cityRolePolicy=(policy,code)=>policy.roles.find(role=>role.code===code);
 export function cityRoleDescription(r){
   const common=`최대 체력 ${r.maxHealth} · 분당 회복 ${r.regenPerMinute} · ${r.attackEnabled?`승리 피해 ${r.defeatDamage} / 공격 대기 ${r.attackCooldownMs/1000}초`:'공격 사용 안 함'}`;
-  return common+(r.code==='POLICE'?` · 검문 ${r.inspectEnabled?'사용':'OFF'} · 체포 ${r.arrestEnabled?`수배 ${r.arrestMinWanted} 이상 / ${r.arrestMs/1000}초 구금`:'OFF'}`:['NURSE','DOCTOR'].includes(r.code)?` · 치료 ${r.healAmount} / ${r.healCooldownMs/1000}초`:r.code==='BEGGAR'?` · 구걸·동냥 ${r.begEnabled?r.begCash+'원 / 대기 '+r.begCooldownMs/1000+'초':'OFF'}`:r.code==='GANG'?` · 처치 시 강탈 +${r.killTheftBonusPercent}%p / 최대 ${r.killTheftMaxCash.toLocaleString('ko-KR')}원`:'');
+  return common+(r.code==='POLICE'?` · 검문 ${r.inspectEnabled?'사용':'OFF'} · 체포 ${r.arrestEnabled?`수배 ${r.arrestMinWanted} 이상 / ${r.arrestMs/1000}초 구금`:'OFF'}`:['NURSE','DOCTOR'].includes(r.code)?` · 치료 ${r.healAmount} / ${r.healCooldownMs/1000}초`:r.code==='BEGGAR'?` · 구걸·동냥 ${r.begEnabled?r.begCash+'원 / 대기 '+r.begCooldownMs/1000+'초':'OFF'}`:r.code==='GANG'?` · 처치 시 강탈 +${r.killTheftBonusPercent}%p / 최대 ${r.killTheftMaxCash.toLocaleString('ko-KR')}원 · ${CITY_GANG_COUNTER_DESCRIPTION}`:'');
 }
 const object=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).every(key=>keys.includes(key));
 const number=(v,min,max)=>Number.isSafeInteger(v)&&v>=min&&v<=max;

@@ -1,5 +1,6 @@
 import {buildFighter,publicFighter,simulateBattleV2Preview,resolvePvpOutcome,teamSummary} from './_battle_v2_preview.js';
 import {defaultCityArsenal} from '../shared/jokgak-city-expansion-v1.mjs';
+import {cityCombatMatchup} from '../shared/jokgak-city-counter-v1.mjs';
 
 // Five identical city roles for both sides. The PVP deck supplies portraits,
 // never growth, type combinations, unique skills or a sixth mercenary actor.
@@ -25,8 +26,9 @@ export function createCityBattle({attackerCards,defenderCards,attackerPower,defe
 export async function prepareCityBattle(env,deps,attacker,defender,{attacker:aCity,defender:dCity,policy}={}){
   const decks=await Promise.all([deps.pvpDeckSnapshot(env,attacker.id),deps.pvpDeckSnapshot(env,defender.id,true)]);
   if(decks.some(deck=>deck.length!==5||new Set(deck.map(c=>String(c.id))).size!==5))throw Object.assign(Error('양쪽 모두 PVP 덱에 일반 카드 5장이 필요합니다.'),{status:409,code:'CITY_DECK'});
-  const cfg=policy?.arsenal||defaultCityArsenal(),powers=[aCity?.cityPower||cfg.basePower,dCity?.cityPower||cfg.basePower],seed=crypto.getRandomValues(new Uint32Array(1))[0];
+  const cfg=policy?.arsenal||defaultCityArsenal(),matchup=cityCombatMatchup(aCity,dCity,cfg.basePower),powers=[matchup.attackerPower,matchup.defenderPower],seed=crypto.getRandomValues(new Uint32Array(1))[0];
   const battleV2=createCityBattle({attackerCards:decks[0],defenderCards:decks[1],attackerPower:powers[0],defenderPower:powers[1],basePower:cfg.basePower,seed});
+  if(matchup.counter)battleV2.rules.cityGangCounter=matchup.counter;
   const cards=side=>battleV2.teams[side].cards.map(c=>({id:c.cardId,name:c.name,title:c.title,rarity:c.grade,image:c.image,power:c.power,type:c.type}));
   return {battleV2,battleSeed:seed,attackerCards:cards('A'),defenderCards:cards('B'),attackerPower:powers[0],defenderPower:powers[1],cityWeapons:{A:aCity?.weapon||null,B:dCity?.weapon||null},cityArmors:{A:aCity?.armor||null,B:dCity?.armor||null},attackerCharacterBonus:{pvp:0},defenderCharacterBonus:{pvp:0},attackerNickname:attacker.nickname,defenderNickname:defender.nickname,opponent:{id:defender.id,nickname:defender.nickname},mode:'PVP',sceneAssetKey:'JOKGAK_CITY',battleEngine:{active:true}};
 }

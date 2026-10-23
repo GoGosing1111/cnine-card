@@ -1,0 +1,42 @@
+{
+  "stage": "validated",
+  "date": "2026-10-24",
+  "newRegressionTests": {
+    "pass": 7,
+    "fail": 0,
+    "engines": [
+      "SQLite",
+      "Postgres"
+    ]
+  },
+  "matchups": 49,
+  "simulation": {
+    "sameEquipment": true,
+    "seeds": 200,
+    "directions": 2,
+    "gangWins": 400,
+    "total": 400,
+    "liveStatistics": false
+  },
+  "browser": {
+    "checks": [
+      {
+        "width": 1440,
+        "target": true,
+        "rules": true,
+        "police": true,
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "target": true,
+        "rules": true,
+        "police": true,
+        "overflow": false
+      }
+    ],
+    "errors": [],
+    "fixture": "Actual city UI and local DB fixture; no live account actions"
+  },
+  "deployment": null
+}

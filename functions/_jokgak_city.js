@@ -6,6 +6,7 @@ import {CITY_PLACES,cityShift,cityState,cityPlace} from '../shared/jokgak-city-v
 import {ensureCitySchema} from './_jokgak_city_schema.js';
 import {readJointBody} from './_joint_request.js';
 import {prepareCityBattle} from './_jokgak_city_battle.js';
+import {cityCombatDamage} from '../shared/jokgak-city-counter-v1.mjs';
 import {CITY_SETTINGS_KEY,cityCanAccess,cityRolePolicy} from '../shared/jokgak-city-settings-v1.mjs';
 import {readCitySettings,cityRoleWeights,cityPublicPolicy,handleCityCms,requireCityAccess} from './_jokgak_city_settings.js';
 import {prepareCityReward,cityRewardEvent,cityGuard,cityGuardEnd} from './_jokgak_city_rewards.js';
@@ -233,8 +234,8 @@ export async function cityAction(env,deps,user,action,body){
           if(action==='arrest'&&(me.role!=='POLICE'||!role.arrestEnabled||target.wanted<role.arrestMinWanted))fail('ARREST','경찰은 설정된 수배 단계 이상의 상대만 체포할 수 있습니다.',403);
           simulation=await (deps.prepareCityBattle||prepareCityBattle)(env,deps,{...user,nickname:cityDisplayName(me)},{id:targetId,nickname:cityDisplayName(target),role:targetRaw.account_role},{attacker:me,defender:target,policy});
           const winner=simulation.battleV2?.result?.winner;if(!['A','B','DRAW'].includes(winner))fail('BATTLE','전투 결과를 확인하지 못했습니다.',503);
-          if(winner==='A')target.health=Math.max(0,target.health-role.defeatDamage);
-          else if(winner==='B')me.health=Math.max(0,me.health-cityRolePolicy(policy,target.role).defeatDamage);
+          if(winner==='A')target.health=Math.max(0,target.health-cityCombatDamage(me,target,role.defeatDamage));
+          else if(winner==='B')me.health=Math.max(0,me.health-cityCombatDamage(target,me,cityRolePolicy(policy,target.role).defeatDamage));
           if(action==='attack')me.wanted=Math.min(5,me.wanted+role.wantedPerAttack);
           if(action==='arrest'&&winner==='A'){target.jailedUntil=now+role.arrestMs;target.location='POLICE';target.wanted=0;}
           me.nextActionAt=now+role.attackCooldownMs;me.protectedUntil=0;target.protectedUntil=now+rules.targetProtectionMs;
