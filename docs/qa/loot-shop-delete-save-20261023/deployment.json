@@ -1,0 +1,102 @@
+{
+  "status": "LIVE_VERIFIED",
+  "verifiedAt": "2026-10-23T09:50:40.905Z",
+  "sourceCommit": "fab2a5f466bb0e8a471eeca6115c9e33e054ac92",
+  "equivalentLocalCommit": "f5e76f6ec94751030eb3374be83a946c09907707",
+  "featureCommit": "384a91d7882ca0ad6a50f3f29ffe99a60b3457ca",
+  "delivery": "Included in successful concurrent main deployment; duplicate deployment skipped because source trees are identical.",
+  "pages": {
+    "id": "8e20b2b5-fe97-485d-a9a2-22b004b747b5",
+    "url": "https://8e20b2b5.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "fab2a5f466bb0e8a471eeca6115c9e33e054ac92",
+    "createdAt": "2026-10-23T09:31:11.762664Z"
+  },
+  "apiWorkerVersion": "f7338dbe-a269-41e9-be20-8919bd1eac6e",
+  "schedulerWorkerVersion": "c696da56-3a59-46b8-9970-1cd99ec46580",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "909229b0-68ae-443f-87fc-45b35199dd25",
+      "createdAt": "2026-10-23T09:28:42.073113Z",
+      "versionId": "f7338dbe-a269-41e9-be20-8919bd1eac6e",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "fb30ca5f-d43e-4b1f-89c0-0e3d57b7caef",
+      "createdAt": "2026-10-23T09:31:26.963772Z",
+      "versionId": "c696da56-3a59-46b8-9970-1cd99ec46580",
+      "percentage": 100
+    }
+  ],
+  "validation": {
+    "lootShopTests": 127,
+    "streamerLoungeTests": 18,
+    "workerSyntax": true,
+    "releaseGate": true,
+    "viewports": [
+      "desktop",
+      390
+    ],
+    "checks": [
+      "native input validation feedback",
+      "policy validation feedback",
+      "valid save",
+      "saved-product deletion",
+      "deletion persistence after reload",
+      "purchase/history/pack preservation",
+      "owner and revision enforcement"
+    ],
+    "publicAssets": [
+      {
+        "file": "admin/index.html",
+        "bytes": 81477,
+        "sha256": "0146c4e23c940c0a5484ae0257536954f963b0e3eee6eb07be462f5d8abecbdb",
+        "localSha256": "0146c4e23c940c0a5484ae0257536954f963b0e3eee6eb07be462f5d8abecbdb",
+        "byteIdentical": true,
+        "matched": true,
+        "comparison": "exact bytes"
+      },
+      {
+        "file": "admin/loot-shop-admin-v1.mjs",
+        "bytes": 21216,
+        "sha256": "986f53de0328a4b092f9abd2c9bb55874a533c18c8412eaa5a3dbcc465a6455a",
+        "localSha256": "ca831c1b280fc283ae84499b144dc7f04ff51f13a1b7a38894a46e7d96d75df5",
+        "byteIdentical": false,
+        "matched": true,
+        "comparison": "LF-normalized (only line endings differ)"
+      },
+      {
+        "file": "admin/loot-shop-admin-v1.css",
+        "bytes": 7989,
+        "sha256": "c0980d3162840850d54118783ef72e45ece85d9a3e45d6a3f7fb390e6d1d29a9",
+        "localSha256": "c86bb336d162fe127da8517b0259cbc8cf644fbc68da5f17543308d94eaa7cf7",
+        "byteIdentical": false,
+        "matched": true,
+        "comparison": "LF-normalized (only line endings differ)"
+      },
+      {
+        "file": "shared/loot-shop-policy-v1.mjs",
+        "bytes": 14769,
+        "sha256": "e342e8444982589486e11bf6b8839d0b41c10c67d48f30f5bbed194d36a3eba2",
+        "localSha256": "e342e8444982589486e11bf6b8839d0b41c10c67d48f30f5bbed194d36a3eba2",
+        "byteIdentical": true,
+        "matched": true,
+        "comparison": "exact bytes"
+      },
+      {
+        "file": "service-worker.js",
+        "bytes": 18654,
+        "sha256": "b78824b9e81d31bde9583676af785efd81e21956c7e141823123f9029d0a38ad",
+        "localSha256": "6674d25bed32897e788809d1eccfcffbb08194ea865666633e1c16ecf9c530b6",
+        "byteIdentical": false,
+        "matched": true,
+        "comparison": "LF-normalized (only line endings differ)"
+      }
+    ]
+  },
+  "restoredOriginalFiles": 73,
+  "databaseWrites": 0,
+  "productionProductDeletions": 0
+}
