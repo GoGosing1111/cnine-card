@@ -4,6 +4,11 @@ export const LOOT_MYSTIC_NAME_PREFIX='미스틱 ';
 // User-approved fixed pool: adding other MYTHIC/Mystic gear never changes these odds.
 export const LOOT_MYSTIC_NAMES=Object.freeze(['미스틱 슈트','미스틱 레깅스','미스틱 슈즈','미스틱 듀얼디스크']);
 export const LOOT_MYSTIC_CHANCE_PERCENT=25;
+export const LOOT_PURCHASE_MAX_QUANTITY=100;
+export function lootPurchaseMaximum(product,balance){
+ if(!product?.canBuy||!Number.isSafeInteger(product.price)||product.price<1)return 0;
+ return Math.max(0,Math.min(LOOT_PURCHASE_MAX_QUANTITY,Number(product.remaining)||0,Math.floor(Number(balance)/product.price)||0));
+}
 export function lootEquipmentMatchesProduct(item,type){
  if(type==='F_BODY')return item?.code==='BATTLE_SUIT_02';
  return type==='MYSTIC_EQUIPMENT'&&item?.rarity===LOOT_MYSTIC_RARITY&&LOOT_MYSTIC_NAMES.includes(item.name);

@@ -7,6 +7,7 @@ import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {mercenaryRandomInt,mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
 
 import {mercenaryAcquisitionEnabled} from '../shared/mercenary-acquisition-release-v1.mjs';
+import {LOOT_PURCHASE_MAX_QUANTITY} from '../shared/loot-shop-policy-v1.mjs';
 
 export const LOOT_SHOP_KEY='loot_shop_policy_v1';
 export const LOOT_SHOP_SCHEMA=[
@@ -113,15 +114,42 @@ function mysticPoolGuard(DB,pool){
   pool.flatMap(item=>[item.id,item.code,item.name]),[])];
 }
 export async function purchaseLootProduct(env,user,body,{randomInt=mercenaryRandomInt}={}){
- const {productId,requestId}=body;
- const result=await runJointOperation(env,user,{requestId,kind:'LOOT_PURCHASE',input:{productId},prepare:async()=>{const {policy}=await readLootShopPolicy(env),product=policy.products.find(p=>p.id===productId);if(!policy.salesEnabled||!product||lootSaleState(product)!=='ACTIVE')throw fail('현재 판매 중인 상품이 아닙니다.');const pool=await validateProductCatalog(env,product);if(await pigCoinBalance(env,user.id)<product.price)throw fail('피그 코인이 부족합니다.');if(product.type==='ITEM_BUNDLE')return {product,bundleReward:{kind:'BUNDLE',name:product.name,items:pool}};if(product.type==='EQUIPMENT_DIRECT')return {product,equipmentReward:{...pool,kind:'EQUIPMENT',quantity:1}};if(product.type!=='MYSTIC_EQUIPMENT')return {product};const roll=randomInt(pool.length);if(!Number.isSafeInteger(roll)||roll<0||roll>=pool.length)throw fail('장비 추첨을 완료하지 못했습니다.');return {product,equipmentPool:pool.map(({id,code,name})=>({id,code,name})),equipmentReward:{...pool[roll],kind:'EQUIPMENT',quantity:1}};},statements:async plan=>{
+ const {productId,requestId}=body,quantity=body.quantity===undefined?1:body.quantity;
+ if(!Number.isSafeInteger(quantity)||quantity<1||quantity>LOOT_PURCHASE_MAX_QUANTITY)throw jointError('JOINT_LOOT_QUANTITY',`구매 수량은 1~${LOOT_PURCHASE_MAX_QUANTITY}개로 입력하세요.`);
+ // Keep the original single-purchase hash for old pending/completed receipts.
+ const input=quantity===1?{productId}:{productId,quantity};
+ const result=await runJointOperation(env,user,{requestId,kind:'LOOT_PURCHASE',input,prepare:async()=>{
+  const {policy}=await readLootShopPolicy(env),product=policy.products.find(p=>p.id===productId);
+  if(!policy.salesEnabled||!product||lootSaleState(product)!=='ACTIVE')throw fail('현재 판매 중인 상품이 아닙니다.');
+  const totalPrice=product.price*quantity;
+  if(!Number.isSafeInteger(totalPrice))throw fail('구매 금액을 확인하세요.');
+  if(await pigCoinBalance(env,user.id)<totalPrice)throw fail('피그 코인이 부족합니다.');
+  const pool=await validateProductCatalog(env,product),plan={product,...(quantity>1?{quantity}:{})};
+  if(product.type==='ITEM_BUNDLE')return {...plan,bundleReward:{kind:'BUNDLE',name:product.name,items:pool.map(item=>({...item,quantity:item.quantity*quantity}))}};
+  if(product.type==='MYSTIC_EQUIPMENT'){
+   const rewards=Array.from({length:quantity},()=>{const roll=randomInt(pool.length);if(!Number.isSafeInteger(roll)||roll<0||roll>=pool.length)throw fail('장비 추첨을 완료하지 못했습니다.');return {...pool[roll],kind:'EQUIPMENT',quantity:1};});
+   return {...plan,equipmentPool:pool.map(({id,code,name})=>({id,code,name})),...(quantity===1?{equipmentReward:rewards[0]}:{equipmentRewards:rewards})};
+  }
+  if(product.type==='EQUIPMENT_DIRECT'||(product.type==='F_BODY'&&quantity>1)){
+   const reward={...pool,kind:'EQUIPMENT',quantity:1};return {...plan,...(quantity===1?{equipmentReward:reward}:{equipmentRewards:Array.from({length:quantity},()=>reward)})};
+  }
+  return plan;
+ },statements:async plan=>{
   const {policy,raw}=await readLootShopPolicy(env),current=policy.products.find(p=>p.id===productId);if(!current)throw Object.assign(fail('삭제된 상품입니다. 최신 상품을 다시 선택하세요.'),{terminal:true});if(!policy.salesEnabled||lootSaleState(current)!=='ACTIVE')throw fail('현재 판매가 중지되었거나 판매 기간이 아닙니다.');if(JSON.stringify(current)!==JSON.stringify(plan.product))throw Object.assign(fail('상품 설정이 변경됐습니다. 최신 상품을 다시 선택하세요.'),{terminal:true});
-  const DB=env.DB,p=pFor(DB),product=plan.product,now=new Date().toISOString();
+  const DB=env.DB,p=pFor(DB),product=plan.product,now=new Date().toISOString(),amount=plan.quantity||1,totalPrice=product.price*amount;
   const count=purchaseCountQuery(product,user.id,Date.now()),prior=await p(count.sql,...count.bindings).first();
-  if(Number(prior.count)>=product.accountLimit)throw Object.assign(fail('이 상품의 계정 구매 한도를 모두 사용했습니다.'),{terminal:true});
-  if(await pigCoinBalance(env,user.id)<product.price)throw Object.assign(fail('피그 코인이 부족합니다.'),{terminal:true});
-  return [...policyGuard(DB,raw),...saleTimeGuard(DB,product,count.window),...(plan.equipmentPool?mysticPoolGuard(DB,plan.equipmentPool):[]),...guarded(DB,`(${count.sql})<?`,[...count.bindings,product.accountLimit],[]),...debitPigCoins(DB,user.id,product.price,requestId),p('INSERT INTO loot_shop_purchases_v1(request_id,user_id,product_id,price,product_json,created_at) VALUES(?,?,?,?,?,?)',requestId,user.id,productId,product.price,JSON.stringify(plan.equipmentReward?{...product,equipmentReward:plan.equipmentReward}:product),now),...(product.type==='ITEM_BUNDLE'?bundleGrant(DB,user.id,product,requestId):lootIsDirect(product.type)?gearGrant(DB,user.id,product,requestId,plan.equipmentReward):[p('INSERT INTO loot_shop_packs_v1(id,user_id,product_json,created_at) VALUES(?,?,?,?)',requestId,user.id,JSON.stringify(product),now)])];
- }});return {ok:true,requestId:result.requestId,replayed:result.replayed,product:result.plan.product,...(result.plan.equipmentReward||result.plan.bundleReward?{reward:result.plan.equipmentReward||result.plan.bundleReward}:{}),state:await lootShopState(env,user)};
+  if(Number(prior.count)+amount>product.accountLimit)throw Object.assign(fail('선택한 수량이 이 상품의 남은 구매 한도를 초과합니다.'),{terminal:true});
+  if(await pigCoinBalance(env,user.id)<totalPrice)throw Object.assign(fail('피그 코인이 부족합니다.'),{terminal:true});
+  // One row per unit preserves lifetime/period counts and independent pack opening.
+  // ':' cannot occur in client request IDs, preventing collisions with unit IDs.
+  const units=Array.from({length:amount},(_,i)=>{const unitId=amount===1?requestId:`${requestId}:${i+1}`,reward=plan.equipmentRewards?.[i]||plan.equipmentReward;
+   return [p('INSERT INTO loot_shop_purchases_v1(request_id,user_id,product_id,price,product_json,created_at) VALUES(?,?,?,?,?,?)',unitId,user.id,productId,product.price,JSON.stringify(reward?{...product,equipmentReward:reward}:product),now),...(product.type==='ITEM_BUNDLE'?[]:lootIsDirect(product.type)?gearGrant(DB,user.id,product,unitId,reward):[p('INSERT INTO loot_shop_packs_v1(id,user_id,product_json,created_at) VALUES(?,?,?,?)',unitId,user.id,JSON.stringify(product),now)])];
+  }).flat();
+  return [...policyGuard(DB,raw),...saleTimeGuard(DB,product,count.window),...(plan.equipmentPool?mysticPoolGuard(DB,plan.equipmentPool):[]),...guarded(DB,`(${count.sql})<=?`,[...count.bindings,product.accountLimit-amount],[]),...debitPigCoins(DB,user.id,totalPrice,requestId),...units,...(product.type==='ITEM_BUNDLE'?bundleGrant(DB,user.id,{...product,items:product.items.map(item=>({...item,quantity:item.quantity*amount}))},requestId):[])];
+ }});
+ const plan=result.plan,rewards=plan.equipmentRewards,amount=plan.quantity||1;
+ const reward=rewards?{kind:'EQUIPMENT_BATCH',name:plan.product.name,items:[...rewards.reduce((map,item)=>{const entry=map.get(item.id);if(entry)entry.quantity++;else map.set(item.id,{...item});return map;},new Map()).values()]}:plan.equipmentReward||plan.bundleReward;
+ return {ok:true,requestId:result.requestId,replayed:result.replayed,product:plan.product,quantity:amount,totalPrice:plan.product.price*amount,...(reward?{reward}:{}),state:await lootShopState(env,user)};
 }
 async function ownedPack(env,user,packId){const pack=await env.DB.prepare('SELECT * FROM loot_shop_packs_v1 WHERE id=? AND user_id=?').bind(packId,user.id).first();if(!pack)throw jointError('JOINT_NOT_FOUND','보유한 팩을 찾을 수 없습니다.',404);return {...pack,product:JSON.parse(pack.product_json)};}
 export async function lootPackOptions(env,user,packId){const pack=await ownedPack(env,user,packId);if(pack.opened_at)throw fail('이미 개봉한 팩입니다.');return {packId,product:pack.product,cards:pack.product.type.endsWith('_CHOICE')?await cardPool(env,pack.product):[],mercenaries:lootMercenaryRanks(pack.product.type).length?(await mercenaryPool(env,pack.product)).pool:[]};}
@@ -175,7 +203,7 @@ export async function handleLootShop({path,request,env,deps}){
    if(path==='loot-shop/pack')return deps.json(await lootPackOptions(env,user,new URL(request.url).searchParams.get('id')));
   }
   if(request.method!==(admin?'PATCH':'POST'))throw jointError('JOINT_METHOD','지원하지 않는 요청입니다.',405);
-  const fields=path==='admin/loot-shop/source'?['code','revision','source','rewardsEnabled']:path==='admin/loot-shop'?['policy']:path==='loot-shop/purchase'?['requestId','productId']:path==='loot-shop/open'?['requestId','packId','cardId']:null;if(!fields)throw jointError('JOINT_NOT_FOUND','상점 경로를 찾을 수 없습니다.',404);
+  const fields=path==='admin/loot-shop/source'?['code','revision','source','rewardsEnabled']:path==='admin/loot-shop'?['policy']:path==='loot-shop/purchase'?['requestId','productId','quantity']:path==='loot-shop/open'?['requestId','packId','cardId']:null;if(!fields)throw jointError('JOINT_NOT_FOUND','상점 경로를 찾을 수 없습니다.',404);
   const body=await readJointBody(request,{fields,maxBytes:131072});return deps.json(await deps.withUserMutationLock(env,user.id,path,()=>path==='admin/loot-shop/source'?saveLootSourcePolicy(env,user,body):admin?saveLootShopPolicy(env,user,body.policy).then(policy=>({policy})):path==='loot-shop/purchase'?purchaseLootProduct(env,user,body):openLootPack(env,user,body)));
  }catch(error){return jointResponseError(error,deps.json);}
 }

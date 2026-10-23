@@ -10,6 +10,7 @@ const host=`127.0.0.1:${port}`,origin=`http://${host}`,f=await lootFixture(null)
 await f.p("INSERT INTO character_equipment_items(id,code,name,rarity,image_url) VALUES(904,'EXCLUDED','엠퍼러 슈트','MYTHIC','assets/items/pig-coin-v1.png')").run();
 // Representative offers in this isolated database only; never writes live settings.
 for(const p of f.shopPolicy.products){p.description='';p.visible=true;p.featured=p.type==='MERCENARY_SS_PACK';if(p.featured)p.badge='추천';}
+if(process.env.LOOT_QA_BULK==='1')for(const p of f.shopPolicy.products)p.accountLimit=100;
 await f.p("UPDATE inventory_items SET name='마스터 스타',image_url='assets/items/pig-coin-v1.png' WHERE code='MASTER_STAR'").run();
 await f.p("UPDATE inventory_items SET name='강화 코어',image_url='assets/items/pig-coin-v1.png' WHERE code='STARLIGHT_ARMOR_CORE'").run();
 await f.setShop(f.shopPolicy);
