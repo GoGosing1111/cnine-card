@@ -1,3 +1,4 @@
+import {GENERAL_JOK_ART} from '../shared/mercenary-general-jok-v1.mjs';
 import {SSS_CUBE,emptySssCubePolicy,validateSssCubePolicy,sssCubeReadiness,pickSssCubeBatch,sssCubePercent} from '../shared/sss-miracle-cube-v1.mjs';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs';
@@ -15,7 +16,7 @@ import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError,readJointBody} from './_joint_request.js';
 
 export const SSS_CUBE_KEY='sss_miracle_cube_policy_20261021_v1',SSS_CUBE_KIND='SSS_MIRACLE_CUBE_OPEN';
-const limitedCards=[...new Map([...HALLOWEEN_SSS_CARDS,PRIME_ART,ZERO_ART,LEONEL_ART,SHIRANUI_ART,KAIRON_ART].filter(c=>c.rank==='SSS').map(c=>[c.code,c])).values()];
+const limitedCards=[...new Map([...HALLOWEEN_SSS_CARDS,GENERAL_JOK_ART,PRIME_ART,ZERO_ART,LEONEL_ART,SHIRANUI_ART,KAIRON_ART].filter(c=>c.rank==='SSS').map(c=>[c.code,c])).values()];
 const releasedLimited=new Set(HALLOWEEN_SSS_CARDS.map(c=>c.code));
 const fail=(code,message,status=409)=>jointError('SSS_CUBE_'+code,message,status);
 const terminal=(code,message)=>Object.assign(fail(code,message),{terminal:true});
