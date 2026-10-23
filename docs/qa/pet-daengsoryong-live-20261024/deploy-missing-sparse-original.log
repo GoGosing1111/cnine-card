@@ -1,0 +1,41 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"f03d7ee89f224775dae618af26d1e4193fa5d4f9","reason":"Daengsoryong approved art and registered pet CMS listing; eight new regressions and desktop/mobile UI passed; run adjacent pet equipment checks","changed":["AGENTS.md","assets/ui/pets/daengsoryong-20261024/approval-20261024.json","assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png","docs/qa/bloodmoon-namsudaeng-live-20261024/README.md","docs/qa/bloodmoon-namsudaeng-live-20261024/deploy-production-final.log","docs/qa/bloodmoon-namsudaeng-live-20261024/deploy-production-success.log","docs/qa/bloodmoon-namsudaeng-live-20261024/deploy-production.log","docs/qa/bloodmoon-namsudaeng-live-20261024/deployment.json","docs/qa/bloodmoon-namsudaeng-live-20261024/ignored-preservation.json","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/browser-report.json","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/desktop-battle-idle.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/desktop-battle-pierce.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/desktop-battle-rain.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/desktop-battle-volley.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/desktop-codex-art.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/desktop-codex-sd.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/enemy-battle-idle.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/enemy-battle-pierce.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/enemy-battle-rain.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/enemy-battle-volley.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/mobile-battle-idle.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/mobile-battle-pierce.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/mobile-battle-rain.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/mobile-battle-volley.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/mobile-codex-art.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/mobile-codex-sd.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-verification.json","docs/qa/bloodmoon-namsudaeng-live-20261024/source-commit.json","docs/qa/bloodmoon-namsudaeng-live-20261024/verify.json","docs/qa/pet-daengsoryong-live-20261024/README.md","docs/qa/pet-daengsoryong-live-20261024/browser/browser-report.json","docs/qa/pet-daengsoryong-live-20261024/browser/desktop-owner-daengsoryong-registered.png","docs/qa/pet-daengsoryong-live-20261024/browser/desktop-pet-daengsoryong.png","docs/qa/pet-daengsoryong-live-20261024/browser/mobile-owner-daengsoryong-registered.png","docs/qa/pet-daengsoryong-live-20261024/browser/mobile-pet-daengsoryong-stage-viewport.png","docs/qa/pet-daengsoryong-live-20261024/browser/mobile-pet-daengsoryong.png","docs/qa/pet-daengsoryong-live-20261024/run-browser.mjs","preview/pet-daengsoryong-20261024-v1/manifest.json","preview/pet-daengsoryong-20261024-v1/prompt-v1.txt","preview/pet-daengsoryong-20261024-v1/source-record.json","scripts/ops/pet-daengsoryong-registration-20261024.mjs","scripts/prepare-production-assets.mjs","shared/pet-art-catalog-v1.mjs","tests/pet-daengsoryong-approval-20261024.test.mjs","tests/pet-daengsoryong-registration-20261024.test.mjs"],"tests":["tests/pet-equipment-20261002.test.mjs"],"checks":[]}
+✖ four recovered originals are unchanged; source and serving copies share their hashes (6.0533ms)
+✔ Tokki Gusudaeng catalog uses the exact user-approved art and keeps unfinished pet definitions unavailable (1424.4463ms)
+✔ one separate support slot rejects unknown/unowned codes and client-forged fields (0.8812ms)
+✔ CMS adds separate source art without altering legacy documents or replay hashes (919.4775ms)
+✔ OWNER access and GET do not seed inventory or config; live equipment requires actual ownership (979.3725ms)
+✔ equipping, swapping and clearing persist separately per OWNER; exact retries commit once (1025.1886ms)
+[pet-equipment] unavailable Error
+✔ concurrent equip requests use CAS; failed and ambiguous retries retain one receipt (1069.7116ms)
+✔ equipment reads CMS buffs and prevents stale config saves; removing custom pet leaves empty UI (978.4162ms)
+[pet-equipment] unavailable SyntaxError
+[pet-equipment] unavailable Error
+✔ mutations reject cross-origin, oversized and non-JSON input; corrupt records fail closed (947.2094ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7725.2333
+
+✖ failing tests:
+
+test at tests\pet-equipment-20261002.test.mjs:12:1
+✖ four recovered originals are unchanged; source and serving copies share their hashes (6.0533ms)
+  Error: ENOENT: no such file or directory, open 'C:\Users\User\.codex\worktrees\pet-daengsoryong-live\cnine-card\preview\pets-gugugaga-four-v1\assets\pet-bongsoon-gugugaga-nametag-v2.png'
+      at async open (node:internal/fs/promises:640:25)
+      at async readFile (node:internal/fs/promises:1290:14)
+      at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/pet-daengsoryong-live/cnine-card/tests/pet-equipment-20261002.test.mjs:18:107)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    errno: -4058,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: 'C:\\Users\\User\\.codex\\worktrees\\pet-daengsoryong-live\\cnine-card\\preview\\pets-gugugaga-four-v1\\assets\\pet-bongsoon-gugugaga-nametag-v2.png'
+  }

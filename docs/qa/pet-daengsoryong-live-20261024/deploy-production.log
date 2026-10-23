@@ -1,0 +1,66 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"f03d7ee89f224775dae618af26d1e4193fa5d4f9","reason":"Daengsoryong retry after temporary upload assets disappeared; all seventeen regressions passed; recheck focused approved art and CMS visibility with isolated staging","changed":["AGENTS.md","assets/ui/pets/daengsoryong-20261024/approval-20261024.json","assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png","docs/qa/bloodmoon-namsudaeng-live-20261024/README.md","docs/qa/bloodmoon-namsudaeng-live-20261024/deploy-production-final.log","docs/qa/bloodmoon-namsudaeng-live-20261024/deploy-production-success.log","docs/qa/bloodmoon-namsudaeng-live-20261024/deploy-production.log","docs/qa/bloodmoon-namsudaeng-live-20261024/deployment.json","docs/qa/bloodmoon-namsudaeng-live-20261024/ignored-preservation.json","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/browser-report.json","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/desktop-battle-idle.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/desktop-battle-pierce.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/desktop-battle-rain.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/desktop-battle-volley.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/desktop-codex-art.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/desktop-codex-sd.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/enemy-battle-idle.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/enemy-battle-pierce.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/enemy-battle-rain.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/enemy-battle-volley.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/mobile-battle-idle.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/mobile-battle-pierce.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/mobile-battle-rain.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/mobile-battle-volley.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/mobile-codex-art.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-browser/mobile-codex-sd.png","docs/qa/bloodmoon-namsudaeng-live-20261024/public-verification.json","docs/qa/bloodmoon-namsudaeng-live-20261024/source-commit.json","docs/qa/bloodmoon-namsudaeng-live-20261024/verify.json","docs/qa/pet-daengsoryong-live-20261024/README.md","docs/qa/pet-daengsoryong-live-20261024/browser/browser-report.json","docs/qa/pet-daengsoryong-live-20261024/browser/desktop-owner-daengsoryong-registered.png","docs/qa/pet-daengsoryong-live-20261024/browser/desktop-pet-daengsoryong.png","docs/qa/pet-daengsoryong-live-20261024/browser/mobile-owner-daengsoryong-registered.png","docs/qa/pet-daengsoryong-live-20261024/browser/mobile-pet-daengsoryong-stage-viewport.png","docs/qa/pet-daengsoryong-live-20261024/browser/mobile-pet-daengsoryong.png","docs/qa/pet-daengsoryong-live-20261024/run-browser.mjs","preview/pet-daengsoryong-20261024-v1/manifest.json","preview/pet-daengsoryong-20261024-v1/prompt-v1.txt","preview/pet-daengsoryong-20261024-v1/source-record.json","scripts/ops/pet-daengsoryong-registration-20261024.mjs","scripts/prepare-production-assets.mjs","shared/pet-art-catalog-v1.mjs","tests/pet-daengsoryong-approval-20261024.test.mjs","tests/pet-daengsoryong-registration-20261024.test.mjs"],"tests":["tests/pet-daengsoryong-approval-20261024.test.mjs"],"checks":[]}
+✔ Daengsoryong catalog uses the exact approved image and retains approval boundaries (5.3865ms)
+✔ registered Daengsoryong appears in codex and OWNER management without grants or economic changes (1473.0563ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1804.6034
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19999 files; 7469 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8263.43 KiB / gzip: 1774.89 KiB
+Worker Startup Time: 48 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (4.80 sec)
+No targets deployed for cnine-card-api-runtime (0.63 sec)
+Current Version ID: 12286fd2-cbef-4607-bf1a-2da602d328b3
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19956/19999)
+Uploading... (19971/19999)
+Uploading... (19985/19999)
+Uploading... (19999/19999)
+✨ Success! Uploaded 43 files (19956 already uploaded) (4.51 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://990f2951.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 2938.96 KiB / gzip: 661.15 KiB
+Worker Startup Time: 37 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (3.13 sec)
+Deployed cnine-card-clan-draft triggers (0.89 sec)
+  schedule: * * * * *
+Current Version ID: 424e0ebf-40cf-4e3b-a474-7cf2213a3bc4

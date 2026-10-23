@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-10-23T21:35:48.297Z",
+  "origin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png",
+      "status": 200,
+      "sha256": "cd3d76da195a5f3f82c8ae7711447a6d18cbf4fe934e04524f1ec348beea2d43",
+      "bytes": 1067730,
+      "contentType": "image/png"
+    },
+    {
+      "path": "shared/pet-art-catalog-v1.mjs",
+      "status": 200,
+      "sha256": "4e0e926b80ebd1ac7825294d3131dd89a849bdd938b5d2a1f1fe3d6c95d3aab7",
+      "bytes": 6243,
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "pet-codex/index.html",
+      "status": 200,
+      "sha256": "85396a708986f03cbeb7161165007b07bde645c7f1075d2ec66c7a059dc09f1c",
+      "bytes": 902,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "pet-codex/app.mjs",
+      "status": 200,
+      "sha256": "13c0696c3e3f7e9a9af870da3f7a6591aa867f51323165d72f7cd8885d6f00cd",
+      "bytes": 673,
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "js/pet-equipment-window-v1.mjs",
+      "status": 200,
+      "sha256": "9d1f4ff2b291871d3add7622598913c374008deb9c76d11dbc3c3d51df9ca59f",
+      "bytes": 30194,
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "admin/companion-admin-v2.mjs",
+      "status": 200,
+      "sha256": "7b0fbb51c5bee253dd99481d601b786d16d36ee3cf990e65a0b3229c50068a46",
+      "bytes": 24312,
+      "contentType": "application/javascript"
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "d61da39d08bd612fa51eb79daaa213323780d05e5335b5e138ab6bd63ba5abd1",
+    "approvedArt": {
+      "path": "/assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png",
+      "sha256": "cd3d76da195a5f3f82c8ae7711447a6d18cbf4fe934e04524f1ec348beea2d43",
+      "bytes": 1067730,
+      "essential": false
+    }
+  },
+  "passed": true
+}

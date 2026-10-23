@@ -1,0 +1,52 @@
+{
+  "verification": {
+    "verified": true,
+    "revision": 35,
+    "petCount": 23,
+    "registeredCodes": [
+      "PET-DAENGSORYONG"
+    ],
+    "auditId": "50614"
+  },
+  "receipt": {
+    "operationKey": "ops:pet-daengsoryong-registration:20261024:v1",
+    "previousRevision": 34,
+    "revision": 35,
+    "addedPets": [
+      {
+        "code": "PET-DAENGSORYONG",
+        "name": "댕소룡",
+        "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png",
+        "battleSprite": "",
+        "enabled": false,
+        "liveEnabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": null
+          }
+        ],
+        "notes": "2026-10-24 사용자 승인 및 라이브 반영 요청. 댕소룡 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정."
+      }
+    ],
+    "preservedRows": 22,
+    "preservedPetsHash": "dd6ae52439a8f1739f02e3ecb155ecf08edf4583de18ca581b9a2d33fae1eb55",
+    "beforeRawHash": "7b2908b1193c130bfbeb4c9b3b747752333c477b18f8b9ae1c16742aa3f67289",
+    "afterDocumentHash": "737dd8275e3e97d1a36426d747e868d8661d0c1ae01976180cc5b846b8cf4a9f",
+    "settingsHash": "91e135136d5013be5159a5ee4d146c6fdbe6e4ebf5dca96c6885963be57f7e5a",
+    "completedAt": "2026-10-23T21:35:59.877Z",
+    "accountGrants": 0,
+    "openingPoolChanged": false,
+    "potentialSettingsChanged": false,
+    "liveEffectsEnabled": false,
+    "auditId": "50614"
+  },
+  "independentConnection": true,
+  "checkedAt": "2026-10-23T21:36:05.470Z",
+  "sourceHash": "5874d38b430d396772f40e26e652bfb45309c5fca56dc7acb79a4b3704061b54"
+}
