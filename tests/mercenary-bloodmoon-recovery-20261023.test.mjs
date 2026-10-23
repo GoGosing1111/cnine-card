@@ -93,4 +93,3 @@ test('an account switch during an automatic read keeps the old result isolated',
  const reading=f.session.reconcilePending({signal:new AbortController().signal});f.changeAccount();finish();
  await assert.rejects(reading,{code:'BLOODMOON_ACCOUNT_CHANGED'});assert(f.data.has(f.session.pendingKey));assert.equal(f.confirmed.length,0);
 });
-
