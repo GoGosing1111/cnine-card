@@ -10,7 +10,12 @@ import {defaultLegionHuntPolicy,LEGION_HUNT_SETTINGS_KEY} from '../functions/_le
 import {saveRegionPolicy} from '../functions/_legion_regions.js';
 import {legionFixture} from './helpers/legion-hunt-fixture.mjs';
 import {seedRegionalCatalog} from './helpers/legion-regions-fixture.mjs';
-import {OPERATION_KEY,EQUIPMENT_RATES,raiseEquipmentRates,equipmentChancePerClear,applyMercenaryEquipmentBalance,verifyMercenaryEquipmentBalance} from '../scripts/ops/mercenary-equipment-balance-20261023.mjs';
+import {OPERATION_KEY,raiseEquipmentRates as tuneRates,equipmentChancePerClear,applyMercenaryEquipmentBalance as applyOperation,verifyMercenaryEquipmentBalance} from '../scripts/ops/mercenary-equipment-balance-20261023.mjs';
+
+// Synthetic regression inputs only. Live rates and frequency range are private.
+const EQUIPMENT_RATES={eliteSetPercent:.004,bossSetPercent:.08,bossUniquePercent:.03},TEST_RANGE={min:600,max:1300};
+const raiseEquipmentRates=raw=>tuneRates(raw,EQUIPMENT_RATES);
+const applyMercenaryEquipmentBalance=(client,options={})=>applyOperation(client,{rates:EQUIPMENT_RATES,frequencyRange:TEST_RANGE,...options});
 
 const oldPowers={WEAPON:100000,TOP:70000,BOTTOM:65000,SHOES:50000,ACCESSORY:60000};
 function previousPolicy(){
@@ -46,7 +51,7 @@ test('per-clear equipment odds meet the target across zero to four elites, with 
  protectedAfter.revision=protectedBefore.revision;assert.deepEqual(protectedAfter,protectedBefore);
  assert.deepEqual(raiseEquipmentRates(policy),{policy,changes:[]});
  for(const d of policy.difficulties)for(let elites=0;elites<=4;elites++){
-  const mean=1/equipmentChancePerClear(d.loot,elites);assert.ok(mean>=750&&mean<=1000,JSON.stringify({id:d.id,elites,mean}));
+  const mean=1/equipmentChancePerClear(d.loot,elites);assert.ok(mean>=TEST_RANGE.min&&mean<=TEST_RANGE.max,JSON.stringify({id:d.id,elites,mean}));
  }
  const base={id:'enemy',isMonster:true,side:'B',hp:100,maxHp:100,alive:true,speed:100,attack:10};
  for(const d of REGION_DIFFICULTIES){

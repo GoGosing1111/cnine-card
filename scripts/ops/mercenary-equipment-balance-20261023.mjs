@@ -6,8 +6,8 @@ import {validateRegionPolicy} from '../../functions/_legion_regions.js';
 import {LEGION_HUNT_SETTINGS_KEY} from '../../functions/_legion_hunt_settings.js';
 
 export const OPERATION_KEY='ops:mercenary-equipment-balance:20261023:v1';
-export const EQUIPMENT_RATES=Object.freeze({eliteSetPercent:.005,bossSetPercent:.085,bossUniquePercent:.02});
-export const AUTHORIZATION='용병장비 전투력 2배, 고유효과 강화, 평균 750~1000판당 1개 수준으로 드랍 상향; 유저 공지에서 세부 드랍 수치 비공개';
+export const EQUIPMENT_PERCENT_KEYS=Object.freeze(['eliteSetPercent','bossSetPercent','bossUniquePercent']);
+export const AUTHORIZATION='용병장비 전투력 2배, 고유효과 강화, 요청한 획득 빈도로 드랍 상향; 세부 드랍 수치 비공개';
 const codes=REGION_EQUIPMENT.map(i=>i.code);
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const stable=row=>Object.fromEntries(Object.entries(row).filter(([key])=>!['total_power','pve_power','pvp_power','description','updated_at'].includes(key)));
@@ -15,9 +15,10 @@ const powers=row=>['total_power','pve_power','pvp_power'].map(k=>Number(row[k]))
 const readGear=async client=>(await client.query('SELECT * FROM character_equipment_items ORDER BY id')).rows;
 const canonical=value=>JSON.parse(JSON.stringify(value));
 
-export function raiseEquipmentRates(raw){
+export function raiseEquipmentRates(raw,rates){
+ assert.deepEqual(Object.keys(rates||{}).sort(),[...EQUIPMENT_PERCENT_KEYS].sort(),'Private operator rates are required');
  const policy=validateRegionPolicy(raw),changes=[];
- for(const d of policy.difficulties)for(const [field,rate] of Object.entries(EQUIPMENT_RATES)){
+ for(const d of policy.difficulties)for(const [field,rate] of Object.entries(rates)){
   const before=d.loot[field],after=before===0?0:rate;
   assert.ok(after>=before,'Unexpected higher live odds: '+d.id+'/'+field);
   if(before!==after){d.loot[field]=after;changes.push({difficulty:d.id,field,before,after});}
@@ -34,7 +35,7 @@ function receiptValid(receipt){
  assert.deepEqual(receipt.equipment.map(c=>c.after.code).sort(),[...codes].sort());
  assert.ok(receipt.auditId);
 }
-export async function applyMercenaryEquipmentBalance(client,{apply=false}={}){
+export async function applyMercenaryEquipmentBalance(client,{apply=false,rates,frequencyRange}={}){
  await client.query('BEGIN');
  try{
   await client.query("SET LOCAL lock_timeout='3s'");
@@ -62,9 +63,10 @@ export async function applyMercenaryEquipmentBalance(client,{apply=false}={}){
    return {id:Number(row.id),code:row.code,total_power:Number(row.total_power)*2,pve_power:Number(row.pve_power)*2,pvp_power:Number(row.pvp_power)*2,
     description:item.kind==='UNIQUE'?item.description+' · 용병 전용 · 고유효과는 PVE에서 적용':row.description};
   });
-  const {policy,changes}=raiseEquipmentRates(original),afterRaw=JSON.stringify(policy);
+  assert.ok(Number.isFinite(frequencyRange?.min)&&Number.isFinite(frequencyRange?.max)&&frequencyRange.min>0&&frequencyRange.max>=frequencyRange.min,'Private frequency range is required');
+  const {policy,changes}=raiseEquipmentRates(original,rates),afterRaw=JSON.stringify(policy);
   for(const d of policy.difficulties)for(let n=0;n<=4;n++){
-   const expected=1/equipmentChancePerClear(d.loot,n);assert.ok(expected>=750&&expected<=1000,'Target clear frequency not met');
+   const expected=1/equipmentChancePerClear(d.loot,n);assert.ok(expected>=frequencyRange.min&&expected<=frequencyRange.max,'Target clear frequency not met');
   }
   const owner=(await client.query("SELECT id FROM users WHERE role='OWNER' AND status='ACTIVE' ORDER BY id LIMIT 1 FOR SHARE")).rows[0];assert.ok(owner);
   const at=new Date().toISOString();
@@ -79,7 +81,7 @@ export async function applyMercenaryEquipmentBalance(client,{apply=false}={}){
    return {before:old,after:row};
   });
   assert.equal((await client.query('UPDATE app_meta SET value=$1,updated_at=CURRENT_TIMESTAMP WHERE key=$2 AND value=$3 RETURNING key',[afterRaw,LEGION_REGIONS_KEY,beforeRaw])).rows.length,1);
-  const receipt={operationKey:OPERATION_KEY,status:'COMPLETED',at,equipment,oddsChanges:changes,beforePolicy:original,afterPolicy:policy,
+  const receipt={operationKey:OPERATION_KEY,status:'COMPLETED',at,equipment,oddsChanges:changes,beforePolicy:original,afterPolicy:policy,frequencyRange,
    beforeSha256:hash(beforeRaw),afterSha256:hash(afterRaw),sourceSha256:hash(sourceRaw),accountGrants:0,privateDropRates:true};
   const audit=(await client.query("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,'MERCENARY_EQUIPMENT_BALANCE','EQUIPMENT_POLICY',$2,$3,$4) RETURNING id",
    [owner.id,OPERATION_KEY,JSON.stringify({equipment:selected,policy:original}),JSON.stringify({authorization:AUTHORIZATION,equipment:updated,policy,operationKey:OPERATION_KEY})])).rows;
