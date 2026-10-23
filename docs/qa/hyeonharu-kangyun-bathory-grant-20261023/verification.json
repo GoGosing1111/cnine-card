@@ -1,0 +1,87 @@
+{
+  "operationKey": "ops:hyeonharu-kangyun-bathory-grant:20261023:v1",
+  "actor": "CODEX_OPERATIONS",
+  "status": "COMPLETED_AND_VERIFIED",
+  "planHash": "1c9ce1ea1691418e26792e5c38059a1a87a139e104e6b92201704394fcb65c35",
+  "sourceSha256": "ef74b74538dd51195bc263f7802d72a4ddb8cf7ebe14b164777c40432712463a",
+  "completedAt": "2026-10-23T03:59:05.768Z",
+  "verifiedAt": "2026-10-23T03:59:11.521Z",
+  "recipientCount": 1,
+  "totalQuantity": 2,
+  "grants": [
+    {
+      "userId": "218",
+      "nickname": "현하루",
+      "code": "V-057",
+      "name": "신궁 강윤",
+      "rank": "SSS",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "218",
+      "nickname": "현하루",
+      "code": "V-977",
+      "name": "바토리",
+      "rank": "SS",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    }
+  ],
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "stockBefore": [
+    {
+      "code": "V-977",
+      "limit": 20,
+      "issued": 20,
+      "remaining": 0
+    }
+  ],
+  "stockAfter": [
+    {
+      "code": "V-977",
+      "limit": 20,
+      "issued": 20,
+      "remaining": 0
+    }
+  ],
+  "auditId": "50433",
+  "acquisitions": [
+    "ops:hyeonharu-kangyun-bathory-grant:20261023:v1:218:V-057:1",
+    "ops:hyeonharu-kangyun-bathory-grant:20261023:v1:218:V-977:1"
+  ],
+  "protectedBeforeHash": "8c572ce170191adc7673acf22da2c26f6c4c8e193360216cbf0655fac8602766",
+  "protectedAfterHash": "8c572ce170191adc7673acf22da2c26f6c4c8e193360216cbf0655fac8602766",
+  "preserved": {
+    "currency": true,
+    "stockCounters": true,
+    "numberedIssues": true,
+    "craftCounts": true,
+    "packAndCraftSettings": true,
+    "otherCards": true,
+    "inventory": true,
+    "loadouts": true,
+    "levels": true,
+    "growth": true,
+    "accountSettings": true
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "recipientCount": 1,
+    "totalQuantity": 2,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 2,
+    "auditRecords": 1
+  },
+  "checks": {
+    "injectedFailureRolledBack": true,
+    "dryRunRolledBack": true,
+    "idempotentReplay": true,
+    "replayAdditionalWrites": 0,
+    "independentConnection": true
+  }
+}

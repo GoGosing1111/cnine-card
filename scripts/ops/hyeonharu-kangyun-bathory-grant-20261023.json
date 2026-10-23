@@ -1,0 +1,23 @@
+{
+  "operationKey": "ops:hyeonharu-kangyun-bathory-grant:20261023:v1",
+  "authorization": "현하루 계정에 강윤 바토리 지급해",
+  "exceptionAuthorization": "현하루에게만 한도 외 예외 지급",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "totalQuantity": 2,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "218",
+      "nickname": "현하루",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "7416a162e1d11e4085ef3d7ce3df1e13e68fa740aa05df7c4ec24dd0a233e285"
+    }
+  ],
+  "grants": [
+    {"userId": "218", "nickname": "현하루", "code": "V-057", "name": "신궁 강윤", "rank": "SSS", "quantity": 1},
+    {"userId": "218", "nickname": "현하루", "code": "V-977", "name": "바토리", "rank": "SS", "quantity": 1}
+  ]
+}
