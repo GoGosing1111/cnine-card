@@ -1,12 +1,12 @@
-import {mount} from './organization-faction-v1.mjs?v=20261023-access';
-import {observeOrganizationHeight} from './organization-embed-size-v1.mjs?v=20261023-access';
+import {mount} from './organization-faction-v1.mjs?v=20261023-clan-identity';
+import {observeOrganizationHeight} from './organization-embed-size-v1.mjs?v=20261023-clan-identity';
 const root=document.getElementById('organizationFactionRoot');
 const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const roundId=new URL(location.href).searchParams.get('roundId');
 async function apiRequest(path,options={}){
  const url='/api/'+path+(roundId&&!options.body?'?roundId='+encodeURIComponent(roundId):'');
  const response=await fetch(url,{...options,headers:{'Content-Type':'application/json',Authorization:'Bearer '+token(),...options.headers},cache:'no-store'});
- const data=await response.json();if(!response.ok)throw Object.assign(Error(data.error||'조직 전황을 불러오지 못했습니다.'),{status:response.status,code:data.code});return data;
+ const data=await response.json();if(!response.ok)throw Object.assign(Error(data.error||'클랜 전황을 불러오지 못했습니다.'),{status:response.status,code:data.code});return data;
 }
 let battleLoading;
 async function loadLocalBattle(){
@@ -34,10 +34,10 @@ async function playFactionBattle(data){
  const close=()=>{modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';};
  try{
   const live=host.prepareBattleV2LiveLoading({modal,mode:'PVP',playerName:data.player.nickname,opponentName:data.opponent.nickname});
-  live.stage.querySelector('.battle-v3-header strong').textContent='조직 세력전';
-  live.stage.querySelector('.battle-v3-header small').textContent='ORGANIZATION · TERRITORY WAR';
+  live.stage.querySelector('.battle-v3-header strong').textContent='클랜 세력전';
+  live.stage.querySelector('.battle-v3-header small').textContent='CLAN · TERRITORY WAR';
   await host.playPvpBattleV2Live({...live,modal,data});
-  await new Promise(resolve=>{const button=host.document.createElement('button');button.className='fw-battle-close';button.textContent='조직 전투실로 복귀';Object.assign(button.style,{position:'absolute',right:'20px',bottom:'20px',padding:'16px 26px',zIndex:'1000',background:'transparent url(/assets/ui/organization/interface-v2/action-primary.webp) center/100% 100% no-repeat',color:'#eee5cf',border:'0',fontWeight:'700',minHeight:'52px'});button.onclick=()=>{close();resolve();};modal.append(button);});
+  await new Promise(resolve=>{const button=host.document.createElement('button');button.className='fw-battle-close';button.textContent='클랜 전투실로 복귀';Object.assign(button.style,{position:'absolute',right:'20px',bottom:'20px',padding:'16px 26px',zIndex:'1000',background:'transparent url(/assets/ui/organization/interface-v2/action-primary.webp) center/100% 100% no-repeat',color:'#eee5cf',border:'0',fontWeight:'700',minHeight:'52px'});button.onclick=()=>{close();resolve();};modal.append(button);});
  }catch(error){close();throw error;}
 }
 mount(root,{apiRequest,ensureFeatureResources:ensureBattle,playFactionBattle});

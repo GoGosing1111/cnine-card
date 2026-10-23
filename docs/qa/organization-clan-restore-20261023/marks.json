@@ -1,0 +1,26 @@
+[
+  {
+    "path": "assets/ui/clan/marks/dk-clan-mark-v1.webp",
+    "sha256": "03c3667dc94a525438b656b666526667017c4b311243b9142926f72e01ea4602"
+  },
+  {
+    "path": "assets/ui/clan/marks/samsung-clan-mark-v1.webp",
+    "sha256": "89b95dd0c819ce3377e4a59448ee89687b1151ec09ebe2b42832942d761f7645"
+  },
+  {
+    "path": "assets/ui/clan/marks/t1-clan-mark-v1.webp",
+    "sha256": "4d7f00d4069c6be3ece082ef88e9d4da4114971b9e61620eb0d790b2da67601d"
+  },
+  {
+    "path": "assets/ui/clan/marks/hanwha-clan-mark-v1.webp",
+    "sha256": "4b8770d062b1ebdef19770155dd836d8f694280012be49b34436867dc8eb5a0a"
+  },
+  {
+    "path": "assets/ui/clan/marks/lg-clan-mark-v1.webp",
+    "sha256": "af1ff1aa101ef0004b7ac174ccf09f273bf2f0dd986bce689e608ad5f73acd06"
+  },
+  {
+    "path": "assets/ui/clan/marks/lotte-clan-mark-v1.webp",
+    "sha256": "4ddae75eda4050330bcbea44407db9356a9dfc1344d9f4b628cf576eede52314"
+  }
+]

@@ -1,4 +1,4 @@
-import {ORGANIZATION_HUNTS} from '../shared/organization-hunts-v1.mjs?v=20261023-access';
+import {ORGANIZATION_HUNTS} from '../shared/organization-hunts-v1.mjs?v=20261023-clan-identity';
 export function organizationHuntView(stage,{kind='boss'}={}){
  const zone=ORGANIZATION_HUNTS.find(z=>z.stage===stage);
  if(!zone)return '<section class="org-hunt-intro"><span class="org-kicker">UPPER HEADQUARTERS</span><h3>더 높은 아지트, 새로운 사냥터</h3><p>3·4·5단계 아지트에서 사냥터와 일반 몬스터·전용 보스를 미리 확인할 수 있습니다.</p><button type="button" data-stage="2">상위 사냥터 살펴보기</button></section>';

@@ -12,8 +12,8 @@ export function validateOrganizationFormation(formation,memberIds){
   const ids=formation?.[squad.id];
   if(!Array.isArray(ids)||ids.length>FACTION_RULES.squadSize)throw Object.assign(Error(`공격대·방어대 각각 5개를 확인하세요. 각 부대는 최대 ${FACTION_RULES.squadSize}명입니다. 새로고침 후 다시 저장하세요.`),{status:400});
   for(const id of ids){
-   if(!Number.isSafeInteger(id)||!allowed.has(id))throw Object.assign(Error('현재 조직원만 편성할 수 있습니다.'),{status:403});
-   if(used.has(id))throw Object.assign(Error('한 조직원은 하나의 부대에만 편성할 수 있습니다.'),{status:400});
+   if(!Number.isSafeInteger(id)||!allowed.has(id))throw Object.assign(Error('현재 클랜원만 편성할 수 있습니다.'),{status:403});
+   if(used.has(id))throw Object.assign(Error('한 클랜원은 하나의 부대에만 편성할 수 있습니다.'),{status:400});
    used.add(id);
   }
   clean[squad.id]=[...ids];
@@ -40,7 +40,7 @@ export function validateOrganizationCaptains(captains,memberIds){
  const ids=SQUADS.filter(s=>s.role==='ATTACK').map(s=>s.id),used=new Set();
  const fail=(message,status=400)=>{throw Object.assign(Error(message),{status});};
  if(!captains||Array.isArray(captains)||Object.keys(captains).some(key=>!ids.includes(key))||ids.some(key=>!Object.hasOwn(captains,key)))fail('제1~제5 공격대의 행동대장을 각각 선택하세요. 새로고침 후 다시 저장하세요.');
- for(const key of ids){const id=captains[key]??0;if(!Number.isSafeInteger(id)||id<0)fail('행동대장 계정을 확인하세요.');if(id&&!memberIds.includes(id))fail('현재 조직원만 행동대장으로 지정할 수 있습니다.',403);if(id&&used.has(id))fail('한 사람은 하나의 공격대 행동대장만 맡을 수 있습니다.');if(id)used.add(id);}
+ for(const key of ids){const id=captains[key]??0;if(!Number.isSafeInteger(id)||id<0)fail('행동대장 계정을 확인하세요.');if(id&&!memberIds.includes(id))fail('현재 클랜원만 행동대장으로 지정할 수 있습니다.',403);if(id&&used.has(id))fail('한 사람은 하나의 공격대 행동대장만 맡을 수 있습니다.');if(id)used.add(id);}
  return organizationCaptains(captains,memberIds);
 }
 export function assignOrganizationGarrison(state,organizationId,districtId,squad,formation){

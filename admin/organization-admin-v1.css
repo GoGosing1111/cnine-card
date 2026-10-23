@@ -16,3 +16,5 @@
 /* Preserve the generated panel corners on long rosters and narrow screens. */
 .orgcms .orgcms-hero,.orgcms-status,.orgcms-warning,.orgcms-empty,.orgcms-panel,.orgcms-team,.orgcms-stage,.orgcms-metrics>div,.orgcms-rule-grid>div,.orgcms-timeline>div{background-image:none;border:0 solid transparent;border-image-source:var(--org-panel);border-image-slice:12% 11% 12% 11% fill;border-image-width:18px;border-image-repeat:stretch}
 .orgcms-status,.orgcms-warning,.orgcms-empty,.orgcms-metrics>div,.orgcms-rule-grid>div,.orgcms-timeline>div{border-image-width:12px}
+
+.orgcms img.org-clan-mark{display:block;object-fit:contain;object-position:center;flex-shrink:0}

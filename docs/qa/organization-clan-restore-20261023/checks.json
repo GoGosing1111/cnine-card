@@ -1,0 +1,36 @@
+[
+  {
+    "width": 1440,
+    "height": 1000,
+    "errors": [],
+    "failed": [],
+    "joinApproved": true,
+    "restoredClans": [
+      "DK",
+      "삼성",
+      "T1",
+      "한화",
+      "LG",
+      "롯데"
+    ],
+    "mapMarks": 6,
+    "cms": true
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "failed": [],
+    "joinApproved": true,
+    "restoredClans": [
+      "DK",
+      "삼성",
+      "T1",
+      "한화",
+      "LG",
+      "롯데"
+    ],
+    "mapMarks": 1,
+    "cms": true
+  }
+]

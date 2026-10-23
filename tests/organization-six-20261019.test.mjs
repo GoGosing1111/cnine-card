@@ -11,7 +11,7 @@ import {consolidateOrganizations,OPERATION_KEY} from '../scripts/ops/organizatio
 const empty=()=>Object.fromEntries(SQUADS.map(s=>[s.id,[]]));
 const captains=()=>Object.fromEntries(SQUADS.filter(s=>s.role==='ATTACK').map(s=>[s.id,0]));
 test('six active organizations balance 129 and 150 members and return six interview recommendations',()=>{
- assert.deepEqual(ORGANIZATIONS.map(o=>o.name),['도끼파','쌍칼파','독사파','불곰파','백상어파','까마귀파']);
+ assert.deepEqual(ORGANIZATIONS.map(o=>o.name),['DK','삼성','T1','한화','LG','롯데']);
  for(const count of [129,150]){const people=Array.from({length:count},(_,i)=>({userId:i+2,power:1000+(i*173)%8500,preferredOrganizationId:i%15+1}));const plan=allocateOrganizations(people);assert.deepEqual(plan.organizations.map(o=>o.memberCount).sort((a,b)=>a-b),count===129?[21,21,21,22,22,22]:[25,25,25,25,25,25]);assert.equal(new Set(plan.organizations.flatMap(o=>o.members.map(m=>m.userId))).size,count);assert.deepEqual(allocateOrganizations(people.reverse()),plan);assert(plan.stats.powerSpreadPercent<1);}
  const interview=reviewOrganizationAnswers(Object.fromEntries(ORGANIZATION_INTERVIEW.map(q=>[q.id,q.options[0].id])));assert.equal(interview.recommendations.length,6);assert.equal(interview.organizationFit.length,6);
  assert.equal(ORGANIZATION_SESSION_RULES.requiredTerritories,8);

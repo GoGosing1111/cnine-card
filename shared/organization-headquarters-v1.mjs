@@ -1,10 +1,10 @@
-import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs?v=20261019-six-organizations';
-import {orgInteger} from './organization-system-v1.mjs?v=20261019-six-organizations';
+import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs?v=20261023-clan-identity';
+import {orgInteger} from './organization-system-v1.mjs?v=20261023-clan-identity';
 
 // Reading a policy never upgrades an existing headquarters. The stored stage is
 // the result of an eventual authorized growth receipt, not a UI calculation.
 export function organizationHeadquartersState(progress,policy){
- const points=orgInteger(Number(progress?.points??0),0,Number.MAX_SAFE_INTEGER,'조직 점수');
+ const points=orgInteger(Number(progress?.points??0),0,Number.MAX_SAFE_INTEGER,'클랜 점수');
  const stage=orgInteger(Number(progress?.stage??1),1,5,'현재 아지트 단계');
  const nextThreshold=policy.growthMode==='CUMULATIVE'&&stage<5?(policy.hideoutThresholds[stage]??null):null;
  return {stage,name:ORGANIZATION_PREPARATION.hideouts[stage-1],points,

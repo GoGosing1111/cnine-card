@@ -1,10 +1,10 @@
 (function(global){
   function banner(d){
     if(!d.organizationPreparation)return'';
-    return `<aside class="org-transition-banner"><span><small>THE FINAL CHAPTER</small><b>이번 챔피언스리그를 끝으로 클랜 운영 종료</b><em>6개 조직의 입단 접수와 새로운 세력도를 확인하세요.</em></span><button type="button" data-clan-tab="organization">조직 본부 열기 ↗</button></aside>`;
+    return `<aside class="org-transition-banner"><span><small>SIX CLANS</small><b>기존 이름과 마크로 돌아온 6개 클랜</b><em>가입 신청과 원로 승인, 클랜 세력도를 확인하세요.</em></span><button type="button" data-clan-tab="organization">클랜 본부 열기 ↗</button></aside>`;
   }
   function render(){
-    return '<section class="org-live-shell" aria-label="조직 본부"><iframe class="org-live-frame" src="/organization/?embed=1&amp;v=20261021-command" title="조직 본부 및 아지트" height="1150"></iframe><noscript><a href="/organization/">조직 본부 열기</a></noscript></section>';
+    return '<section class="org-live-shell" aria-label="클랜 본부"><iframe class="org-live-frame" src="/organization/?embed=1&amp;v=20261023-clan-identity" title="클랜 본부 및 아지트" height="1150"></iframe><noscript><a href="/organization/">클랜 본부 열기</a></noscript></section>';
   }
   function bind(root){
     const frame=root?.querySelector('.org-live-frame');

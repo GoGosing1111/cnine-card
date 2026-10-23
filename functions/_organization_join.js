@@ -29,9 +29,9 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
  if(!replay&&path==='organization/join/review'&&body.decision==='APPROVED'){
   await env.DB.enqueue(async()=>{
    const q=qFor(env.DB),[r]=await q('SELECT * FROM organization_rounds_v1 WHERE id=$1',[body.roundId]);
-   orgAssert(organizationJoinOpen(r,now),'JOIN_CLOSED','가입 신청은 조직 배정 완료 후 이용할 수 있습니다.');
+   orgAssert(organizationJoinOpen(r,now),'JOIN_CLOSED','가입 신청은 클랜 배정 완료 후 이용할 수 있습니다.');
    const auth=await authority(q,r,user),a=await application(q,r,body.userId);
-   orgAssert(auth.canReview&&a?.organizationId===auth.organizationId,'ELDER','우리 조직의 원로만 가입 신청을 심사할 수 있습니다.',403);
+   orgAssert(auth.canReview&&a?.organizationId===auth.organizationId,'ELDER','우리 클랜의 원로만 가입 신청을 심사할 수 있습니다.',403);
    orgAssert(a.status==='PENDING'&&a.revision===body.revision,'STALE','신청 상태가 변경되었습니다. 다시 불러오세요.');
   });
   const loader=deps.loadOrganizationRatings||(await import('./_organization_ratings.js')).loadOrganizationRatings;
@@ -39,7 +39,7 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
  }
  return mutation(env,user,path,body,async q=>{
   const {r}=await lockedContext(q,user,body);
-  orgAssert(organizationJoinOpen(r,now),'JOIN_CLOSED','가입 신청은 조직 배정 완료 후 이용할 수 있습니다.');
+  orgAssert(organizationJoinOpen(r,now),'JOIN_CLOSED','가입 신청은 클랜 배정 완료 후 이용할 수 있습니다.');
   const [actor]=await q('SELECT status,banned_until FROM users WHERE id=$1 FOR SHARE',[user.id]);
   orgAssert(actor?.status==='ACTIVE'&&(!actor.banned_until||Date.parse(actor.banned_until)<=now),'ACCOUNT','활성 계정만 가입 신청과 심사를 진행할 수 있습니다.',403);
   const review=path==='organization/join/review',id=review?orgInteger(body.userId,1,Number.MAX_SAFE_INTEGER,'신청자'):Number(user.id);
@@ -48,26 +48,26 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
   orgAssert((before?.revision||0)===body.revision,'STALE','신청 상태가 변경되었습니다. 다시 불러오세요.');
   let next;
   if(path==='organization/join/apply'){
-   orgAssert(!await membership(q,r,id),'MEMBER','이미 조직에 가입되어 있습니다.');
-   const organizationId=orgInteger(body.organizationId,1,6,'희망 조직');
+   orgAssert(!await membership(q,r,id),'MEMBER','이미 클랜에 가입되어 있습니다.');
+   const organizationId=orgInteger(body.organizationId,1,6,'희망 클랜');
    orgAssert(typeof body.message==='string'&&body.message.length<=300,'INPUT','가입 인사는 300자 이내로 입력하세요.',400);
-   orgAssert(before?.status!=='PENDING','PENDING','기존 신청을 취소한 뒤 다른 조직에 신청하세요.');
+   orgAssert(before?.status!=='PENDING','PENDING','기존 신청을 취소한 뒤 다른 클랜에 신청하세요.');
    const [{n}]=await q('SELECT COUNT(*)::integer AS n FROM organization_members_v1 WHERE round_id=$1 AND organization_id=$2',[r.id,organizationId]);
-   orgAssert(n<25,'FULL','이 조직은 정원 25명이 찼습니다. 다른 조직을 선택하세요.');
+   orgAssert(n<25,'FULL','이 클랜은 정원 25명이 찼습니다. 다른 클랜을 선택하세요.');
    next={userId:id,organizationId,message:body.message.trim(),status:'PENDING',revision:body.revision+1,createdAt:now,updatedAt:now};
   }else{
    orgAssert(before?.status==='PENDING','STALE','심사 대기 중인 신청이 아닙니다.');
    if(review){
     orgAssert(['APPROVED','REJECTED'].includes(body.decision),'INPUT','승인 또는 거절을 선택하세요.',400);
     const auth=await authority(q,r,user,{lock:true});
-    orgAssert(auth.canReview&&auth.organizationId===before.organizationId,'ELDER','우리 조직의 원로만 가입 신청을 심사할 수 있습니다.',403);
+    orgAssert(auth.canReview&&auth.organizationId===before.organizationId,'ELDER','우리 클랜의 원로만 가입 신청을 심사할 수 있습니다.',403);
     if(body.decision==='APPROVED'){
      const [applicant]=await q('SELECT status,banned_until FROM users WHERE id=$1 FOR SHARE',[id]);
      orgAssert(applicant?.status==='ACTIVE'&&(!applicant.banned_until||Date.parse(applicant.banned_until)<=now),'ACCOUNT','현재 가입할 수 없는 계정입니다.');
-     orgAssert(!await membership(q,r,id),'MEMBER','신청자가 이미 조직에 가입되어 있습니다.');
+     orgAssert(!await membership(q,r,id),'MEMBER','신청자가 이미 클랜에 가입되어 있습니다.');
      const slots=await q('SELECT slot FROM organization_members_v1 WHERE round_id=$1 AND organization_id=$2',[r.id,before.organizationId]);
      const slot=Array.from({length:25},(_,i)=>i+1).find(n=>!slots.some(s=>Number(s.slot)===n));
-     orgAssert(slot,'FULL','조직 정원 25명이 찼습니다.');
+     orgAssert(slot,'FULL','클랜 정원 25명이 찼습니다.');
      orgAssert(rating?.userId===id&&Number.isSafeInteger(rating.power)&&rating.power>0&&rating.power<=1e12&&rating.expiresAt>now,'RATING_INVALID','신청자의 전력 평가를 다시 진행하세요.',503);
      const validate=deps.validateOrganizationRatingsLocked||(await import('./_organization_ratings.js')).validateOrganizationRatingsLocked;
      orgAssert(await validate(q,[rating],{now,requireCurrentSource:false}),'RATING_INVALID','신청자의 전력 평가가 만료되었습니다. 다시 시도하세요.');

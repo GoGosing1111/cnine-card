@@ -1,6 +1,6 @@
 import {DISTRICTS as SEOUL_DISTRICTS,FACTION_RULES as CLAN_FACTION_RULES} from './clan-faction-rules-v1.mjs';
 import {FACTION_SESSION_RULES} from './clan-faction-sessions-v1.mjs';
-import {ORGANIZATIONS} from './organization-system-v1.mjs?v=20261019-six-organizations';
+import {ORGANIZATIONS} from './organization-system-v1.mjs?v=20261023-clan-identity';
 export const SELF_JOIN_SQUAD_IDS=Object.freeze(['attack4','attack5']);
 export const isSelfJoinSquad=id=>SELF_JOIN_SQUAD_IDS.includes(id);
 export const SQUADS=Object.freeze(['ATTACK','DEFENSE'].flatMap(role=>Array.from({length:5},(_,i)=>Object.freeze({id:role.toLowerCase()+(i+1),name:'제'+(i+1)+(role==='ATTACK'?' 공격대':' 방어대'),role,selfJoin:role==='ATTACK'&&i>=3}))));
@@ -38,8 +38,8 @@ export function organizationElderIds(state,roster,organizationId){
 }
 export function validateOrganizationElders(ids,roster,organizationId){
  const fail=(message,status=409)=>{throw Object.assign(Error(message),{status,code:'ORG_ELDERS'});};
- if(!Array.isArray(ids)||ids.length>ORGANIZATION_ELDER_LIMIT||ids.some(id=>!Number.isSafeInteger(id)||id<1)||new Set(ids).size!==ids.length)fail('원로는 서로 다른 조직원 최대 3명까지 지정할 수 있습니다.',400);
- if(ids.some(id=>!roster.some(m=>m.clanId===organizationId&&m.userId===id&&m.status==='ACTIVE')))fail('해당 조직의 활성 구성원만 원로로 지정할 수 있습니다.');
+ if(!Array.isArray(ids)||ids.length>ORGANIZATION_ELDER_LIMIT||ids.some(id=>!Number.isSafeInteger(id)||id<1)||new Set(ids).size!==ids.length)fail('원로는 서로 다른 클랜원 최대 3명까지 지정할 수 있습니다.',400);
+ if(ids.some(id=>!roster.some(m=>m.clanId===organizationId&&m.userId===id&&m.status==='ACTIVE')))fail('해당 클랜의 활성 구성원만 원로로 지정할 수 있습니다.');
  return [...ids];
 }
 export function rankedOrganizationElders(members,organizations=ORGANIZATIONS){
@@ -49,8 +49,8 @@ export function rankedOrganizationElders(members,organizations=ORGANIZATIONS){
 export const defaultOrganizationFactionPolicy=()=>({revision:0,mode:'OFF',fundsPerRegion:null,upgradeCosts:[0,null,null,null,null]});
 export function validateOrganizationFactionPolicy(value){
  const fail=message=>{throw Object.assign(Error(message),{status:400,code:'ORG_FACTION_POLICY'});};
- if(!value||!['OFF','TEST','ON'].includes(value.mode)||!Number.isSafeInteger(value.revision)||value.revision<0)fail('조직 세력전 운영 설정을 확인하세요.');
+ if(!value||!['OFF','TEST','ON'].includes(value.mode)||!Number.isSafeInteger(value.revision)||value.revision<0)fail('클랜 세력전 운영 설정을 확인하세요.');
  const amount=(v,label)=>{if(v!==null&&(!Number.isSafeInteger(v)||v<1||v>1000000000000))fail(label+'은 1~1조 또는 미입력이어야 합니다.');return v;};
  if(!Array.isArray(value.upgradeCosts)||value.upgradeCosts.length!==5||value.upgradeCosts[0]!==0)fail('아지트 단계별 비용을 확인하세요.');
- return {revision:value.revision,mode:value.mode,fundsPerRegion:amount(value.fundsPerRegion,'지역당 조직자금'),upgradeCosts:value.upgradeCosts.map((v,i)=>i?amount(v,(i+1)+'단계 비용'):0)};
+ return {revision:value.revision,mode:value.mode,fundsPerRegion:amount(value.fundsPerRegion,'지역당 클랜자금'),upgradeCosts:value.upgradeCosts.map((v,i)=>i?amount(v,(i+1)+'단계 비용'):0)};
 }

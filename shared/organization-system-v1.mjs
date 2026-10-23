@@ -1,16 +1,17 @@
-import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs?v=20261019-six-organizations';
+import {ORGANIZATION_IDENTITIES} from './organization-identity-v1.mjs?v=20261023-clan-identity';
+import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs?v=20261023-clan-identity';
 
 // Live release approved 2026-10-15. A round still requires an explicit 24-hour opening.
 export const ORGANIZATION_RELEASE_ENABLED = true;
 export const ORGANIZATION_RECRUITMENT_MS = 24*60*60*1000;
 export const ORGANIZATION_LIMITS = Object.freeze({organizations:6,members:25,participants:150,ratingBatch:12});
-export const ORGANIZATIONS = Object.freeze(ORGANIZATION_PREPARATION.names.map((name,index)=>Object.freeze({id:index+1,name,color:['#d5795f','#79a9e9','#83bc8c','#c78e62','#72bdd6','#ae96cf','#d28b85','#c3cbd3','#d5bb6c','#73b5bf','#b6a2de','#e0bd6e','#b0c9e1','#afb7c1','#db706a'][index]})));
+export const ORGANIZATIONS = ORGANIZATION_IDENTITIES;
 export const organizationError=(code,message,status=409)=>Object.assign(new Error(message),{code:'ORG_'+code,status});
 export function orgAssert(condition,code,message,status=409){if(!condition)throw organizationError(code,message,status);}
 export function orgInteger(value,min,max,label){orgAssert(Number.isSafeInteger(value)&&value>=min&&value<=max,'INPUT',label+' 값을 확인하세요.',400);return value;}
 export function defaultOrganizationPolicy(){return {revision:0,testUserIds:[],pointsPerRegion:null,settlementMinutes:null,growthMode:null,hideoutThresholds:[0,null,null,null,null],unlocks:{internal:null,hunting:null,boss:null}};}
 export function validateOrganizationPolicy(value){
-  orgAssert(value&&typeof value==='object'&&!Array.isArray(value),'POLICY','조직 설정을 확인하세요.',400);
+  orgAssert(value&&typeof value==='object'&&!Array.isArray(value),'POLICY','클랜 설정을 확인하세요.',400);
   const nullable=(n,min,max,label)=>n===null?null:orgInteger(n,min,max,label);
   orgAssert(Array.isArray(value.testUserIds)&&value.testUserIds.length<=1000,'POLICY','테스트 계정 목록을 확인하세요.',400);
   const ids=value.testUserIds.map(id=>orgInteger(id,1,Number.MAX_SAFE_INTEGER,'계정 번호'));
@@ -22,7 +23,7 @@ export function validateOrganizationPolicy(value){
   return {revision:orgInteger(value.revision,0,2147483646,'설정 버전'),testUserIds:ids.sort((a,b)=>a-b),pointsPerRegion:nullable(value.pointsPerRegion,1,1e9,'지역당 점수'),settlementMinutes:nullable(value.settlementMinutes,1,10080,'정산 간격'),growthMode:value.growthMode,hideoutThresholds:thresholds,unlocks:Object.fromEntries(['internal','hunting','boss'].map(key=>[key,nullable(value.unlocks?.[key],1,5,'콘텐츠 해금 단계')]))};
 }
 export function organizationHideout(points,policy){
-  orgInteger(points,0,Number.MAX_SAFE_INTEGER,'조직 점수');
+  orgInteger(points,0,Number.MAX_SAFE_INTEGER,'클랜 점수');
   // A spend-based upgrade requires a separate receipt; never infer it from balance.
   let stage=1;
   if(policy.growthMode==='CUMULATIVE')for(let i=1;i<5;i++){const required=policy.hideoutThresholds[i];if(required===null||points<required)break;stage=i+1;}
@@ -39,8 +40,8 @@ export function allocateOrganizations(input,{seed='organization-v1'}={}){
   orgAssert(input.length<=150,'OVERFLOW','150석을 초과했습니다. 초과 신청자 처리 정책을 정한 뒤 배정하세요.');
   const ids=new Set();const players=input.map(value=>{
     const userId=orgInteger(value.userId,1,Number.MAX_SAFE_INTEGER,'계정 번호');orgAssert(!ids.has(userId),'DUPLICATE','중복된 참가자가 있습니다.',400);ids.add(userId);
-    const fit=value.organizationFit??Array(N).fill(0);orgAssert(Array.isArray(fit)&&(fit.length===N||fit.length===15)&&fit.every(n=>Number.isSafeInteger(n)&&n>=0&&n<=100),'INTERVIEW','조직 성향 점수를 확인하세요.',400);
-    return {...value,organizationFit:fit.slice(0,N),userId,power:orgInteger(value.power,1,1e12,'평가 전력'),preferredOrganizationId:orgInteger(value.preferredOrganizationId,1,15,'희망 조직')};
+    const fit=value.organizationFit??Array(N).fill(0);orgAssert(Array.isArray(fit)&&(fit.length===N||fit.length===15)&&fit.every(n=>Number.isSafeInteger(n)&&n>=0&&n<=100),'INTERVIEW','클랜 성향 점수를 확인하세요.',400);
+    return {...value,organizationFit:fit.slice(0,N),userId,power:orgInteger(value.power,1,1e12,'평가 전력'),preferredOrganizationId:orgInteger(value.preferredOrganizationId,1,15,'희망 클랜')};
   }).sort((a,b)=>b.power-a.power||seeded(a.userId,seed)-seeded(b.userId,seed)||a.userId-b.userId);
   const total=players.reduce((sum,p)=>sum+p.power,0),mean=total/N;
   const teams=Array.from({length:N},(_,i)=>({bucket:i,members:[],power:0}));

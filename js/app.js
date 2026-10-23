@@ -801,7 +801,7 @@ function renderMainNavigation(tab){
   ];
   const primaryHtml=`<nav class="tabs primary-tabs" aria-label="메인 메뉴">${primary.map(item=>`<button class="tab ${((item.id===group)||(item.id===tab))?'active':''}" data-tab="${item.tab||item.id}">${item.label}</button>`).join('')}</nav>`;
   if(group==='dex')return `${primaryHtml}<nav class="sub-tabs" aria-label="도감과 강화 메뉴"><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">카드 도감</button><button class="tab" data-tab="mercenaryDex">용병도감</button><button class="tab ${tab==='upgrade'?'active':''}" data-tab="upgrade">일괄 강화</button><button class="tab ${tab==='evolution'?'active':''}" data-tab="evolution">카드 진화</button>${magicSystemState.visible?`<button class="tab ${tab==='magic'?'active':''}" data-tab="magic">마법카드</button>`:''}</nav>`;
-  if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='duo'?'active':''}" data-tab="duo">랭크 듀오</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE 전투</button><button class="tab ${tab==='scrapyard'?'active':''}" data-tab="scrapyard">폐차장 원정</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP·경쟁</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">시즌 랭킹</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">조직</button>`:''}</nav>`;
+  if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='duo'?'active':''}" data-tab="duo">랭크 듀오</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE 전투</button><button class="tab ${tab==='scrapyard'?'active':''}" data-tab="scrapyard">폐차장 원정</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP·경쟁</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">시즌 랭킹</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">클랜</button>`:''}</nav>`;
   if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호·차고</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작소</button>${alchemyFeatureVisible()?`<button class="tab ${tab==='alchemy'?'active':''}" data-tab="alchemy">연금술</button>`:''}${avatarFeatureVisible()?`<button class="tab ${tab==='avatar'?'active':''}" data-tab="avatar">아바타</button>`:''}</nav>`;
   if(group==='market')return `${primaryHtml}<nav class="sub-tabs" aria-label="승부와 경매 메뉴"><button class="tab ${tab==='prediction'?'active':''}" data-tab="prediction">승부예측</button><button class="tab ${tab==='auction'?'active':''}" data-tab="auction">경매장</button></nav>`;
   if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일·주간 퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
@@ -842,7 +842,7 @@ function mobileNavigationHtml(tab){
         <button type="button" data-mobile-tab="escort"><i>▰</i><span><b>호송작전</b><small>5구간 장갑 수송차 호위전</small></span><em>입장</em></button>
         <button type="button" data-v21-route="scrapyard"><i>W</i><span><b>폐차장 원정</b><small>PVE 전용 원정과 보상</small></span><em>입장</em></button>
         ${pvpFeatureEnabled?'<button type="button" data-mobile-tab="pvp"><i>V</i><span><b>PVP·경쟁</b><small>랭크전 자동 균형 매칭</small></span><em>입장</em></button><button type="button" data-mobile-tab="rank"><i>R</i><span><b>시즌 랭킹</b><small>현재 시즌 순위와 보상</small></span><em>확인</em></button>':''}
-        ${clanFeatureVisible()?'<button type="button" data-mobile-tab="clan"><i>C</i><span><b>조직</b><small>조직 본부 · 아지트</small></span><em>입장</em></button>':''}
+        ${clanFeatureVisible()?'<button type="button" data-mobile-tab="clan"><i>C</i><span><b>클랜</b><small>클랜 본부 · 아지트</small></span><em>입장</em></button>':''}
         <button type="button" data-mobile-territory-war><i>♜</i><span><b>영토전</b><small>실시간 진영 공성전</small></span><em>입장</em></button>
       </div>
     </section>
@@ -1422,7 +1422,7 @@ function renderShell(tab,routeOptions={}) {
         <button type="button" data-v21-route="escort"><span>5구간 장갑 수송차 호위전</span><b>호송작전</b></button>
         <button type="button" data-v21-route="scrapyard"><span>PVE 전용 원정과 보상</span><b>폐차장 원정</b></button>
         ${pvpFeatureEnabled?'<button type="button" data-tab="pvp"><span>자동 균형 매칭</span><b>PVP·경쟁</b></button><button type="button" data-tab="rank"><span>현재 시즌 순위</span><b>시즌 랭킹</b></button>':''}
-        ${clanFeatureVisible()?'<button type="button" data-tab="clan"><span>조직 본부 · 아지트</span><b>조직</b></button>':''}
+        ${clanFeatureVisible()?'<button type="button" data-tab="clan"><span>클랜 본부 · 아지트</span><b>클랜</b></button>':''}
       </div>
     </div>
     <div class="main-nav-group ${characterActive?'active':''}" data-nav-group="character">
@@ -1530,7 +1530,7 @@ async function loadShellSummary(){
 async function loadInventorySummary(){const card=document.getElementById('inventorySummary');if(!card)return;card.onclick=()=>renderShell('inventory');if(!API_MODE)return;try{const d=await apiRequest('inventory',{}, {ttl:3000}),meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');if(meta)meta.textContent=d.totalQuantity>0?`보유 ${Number(d.totalQuantity).toLocaleString()}개 · ${Number(d.ownedTypes)}종`:'획득한 특별 보관품 없음';if(badge){badge.hidden=!d.unseenTotal;badge.textContent=d.unseenTotal>99?'99+':`NEW ${d.unseenTotal}`}}catch{}}
 
 const LIVE_OPERATION_META=Object.freeze({
-  ORGANIZATION:{label:'조직',state:'입단 모집',deadline:'모집 마감'},
+  ORGANIZATION:{label:'클랜',state:'입단 모집',deadline:'모집 마감'},
   ORGANIZATION_FACTION:{label:'세력전',state:'진행 중',deadline:'종료까지'},
   RANKED_DUO:{label:'랭크 듀오',state:'대전중',deadline:'종료까지'},
   TERRITORY:{label:'영토전',state:'작전 진행',deadline:'다음 단계'},
@@ -1543,7 +1543,7 @@ let liveOperationsServerOffset=0,liveOperationsClockTimer=0,liveOperationsRefres
 let liveOperationsItems=[],liveOperationsFailed=false,liveOperationsReady=false;
 let organizationStartNotice;
 function syncOrganizationStartNotice(){
-  if(!organizationStartNotice)organizationStartNotice=import('./organization-start-notice-20261021.mjs?v=20261021-command').then(m=>m.createFactionStartNotice({getContext:()=>({userId:loadUser()?.serverUserId,inLobby:runtimeCommandContext==='buy'&&!!API_TOKEN}),onEnter:roundId=>import('./organization-faction-window-v1.mjs?v=20261021-command').then(m=>m.openOrganizationFaction({roundId}))})).catch(()=>{organizationStartNotice=null;return null;});
+  if(!organizationStartNotice)organizationStartNotice=import('./organization-start-notice-20261021.mjs?v=20261023-clan-identity').then(m=>m.createFactionStartNotice({getContext:()=>({userId:loadUser()?.serverUserId,inLobby:runtimeCommandContext==='buy'&&!!API_TOKEN}),onEnter:roundId=>import('./organization-faction-window-v1.mjs?v=20261023-clan-identity').then(m=>m.openOrganizationFaction({roundId}))})).catch(()=>{organizationStartNotice=null;return null;});
   organizationStartNotice.then(notice=>notice?.update({items:liveOperationsFailed?[]:liveOperationsItems,offset:liveOperationsServerOffset}));
 }
 let rankExpPotionState=null,rankExpPotionServerOffset=0;
@@ -1579,7 +1579,7 @@ function liveOperationIcon(kind){if(kind==='ORGANIZATION_FACTION')kind='ORGANIZA
   RAID:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9l8-6 8 6v10M8 19v-6h8v6M6 21h12M9 8h6"/></svg>'
 }[kind]||'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16"/></svg>')}
 function liveOperationCardHtml(item){
-  const kind=String(item?.kind||'').toUpperCase(),phase=String(item?.phase||'').toUpperCase(),base=LIVE_OPERATION_META[kind]||{label:'콘텐츠',state:'진행 중',deadline:'종료까지'},organizationPhase=kind==='ORGANIZATION'?({FORMATION:{state:'입단 모집',deadline:'모집 마감'},PREPARING:{state:'균등 배정 중',deadline:'배정 진행'},ACTIVE:{state:'조직 본부',deadline:'시즌 상태'}}[phase]||null):null,raidLobby=kind==='RAID'&&phase==='LOBBY',territoryPhase=kind==='TERRITORY'?({FORMATION:{state:'편성 접수',deadline:'편성 마감'},PREPARING:{state:'개전 준비',deadline:'개전까지'},BATTLE:{state:'공성 진행',deadline:'종료까지'},ACTIVE:{state:'공성 진행',deadline:'종료까지'}}[phase]||null):null,coupRecruiting=kind==='COUP'&&phase==='RECRUITING',duoAdditional=kind==='RANKED_DUO'&&phase==='ACTIVE'&&item.additionalRecruiting===true,duoRecruiting=kind==='RANKED_DUO'&&(phase==='RECRUITING'||duoAdditional),state=(kind==='ORGANIZATION_FACTION'&&phase==='PAUSED'?'일시중단':null)||organizationPhase?.state||(duoAdditional?'추가모집중':duoRecruiting?'모집중':coupRecruiting?'참가 모집':raidLobby?'참가 대기':territoryPhase?.state||base.state),deadline=organizationPhase?.deadline||(duoRecruiting?'모집 마감':coupRecruiting?'모집 상태':raidLobby?'전투 시작':territoryPhase?.deadline||base.deadline),title=String(item?.title||base.label),detail=String(item?.detail||'참여 가능한 콘텐츠');
+  const kind=String(item?.kind||'').toUpperCase(),phase=String(item?.phase||'').toUpperCase(),base=LIVE_OPERATION_META[kind]||{label:'콘텐츠',state:'진행 중',deadline:'종료까지'},organizationPhase=kind==='ORGANIZATION'?({FORMATION:{state:'입단 모집',deadline:'모집 마감'},PREPARING:{state:'균등 배정 중',deadline:'배정 진행'},ACTIVE:{state:'클랜 본부',deadline:'시즌 상태'}}[phase]||null):null,raidLobby=kind==='RAID'&&phase==='LOBBY',territoryPhase=kind==='TERRITORY'?({FORMATION:{state:'편성 접수',deadline:'편성 마감'},PREPARING:{state:'개전 준비',deadline:'개전까지'},BATTLE:{state:'공성 진행',deadline:'종료까지'},ACTIVE:{state:'공성 진행',deadline:'종료까지'}}[phase]||null):null,coupRecruiting=kind==='COUP'&&phase==='RECRUITING',duoAdditional=kind==='RANKED_DUO'&&phase==='ACTIVE'&&item.additionalRecruiting===true,duoRecruiting=kind==='RANKED_DUO'&&(phase==='RECRUITING'||duoAdditional),state=(kind==='ORGANIZATION_FACTION'&&phase==='PAUSED'?'일시중단':null)||organizationPhase?.state||(duoAdditional?'추가모집중':duoRecruiting?'모집중':coupRecruiting?'참가 모집':raidLobby?'참가 대기':territoryPhase?.state||base.state),deadline=organizationPhase?.deadline||(duoRecruiting?'모집 마감':coupRecruiting?'모집 상태':raidLobby?'전투 시작':territoryPhase?.deadline||base.deadline),title=String(item?.title||base.label),detail=String(item?.detail||'참여 가능한 콘텐츠');
   return `<button type="button" class="live-operation-card kind-${escapeHtml(kind.toLowerCase())}" data-live-operation-kind="${escapeHtml(kind)}" aria-label="${escapeHtml(base.label)} ${escapeHtml(state)}"><span class="live-operation-icon">${liveOperationIcon(kind)}</span><span class="live-operation-copy"><small><i aria-hidden="true"></i>${escapeHtml(base.label)}<em>${escapeHtml(state)}</em></small><b>${escapeHtml(title)}</b><span>${escapeHtml(detail)}</span></span><strong><small>${escapeHtml(deadline)}</small><b ${coupRecruiting||(kind==='ORGANIZATION_FACTION'&&phase==='PAUSED')?'':`data-live-operation-deadline="${escapeHtml(item?.deadlineAt||'')}"`}>${kind==='ORGANIZATION_FACTION'&&phase==='PAUSED'?'영토전 종료 후 재개':coupRecruiting?'개전 대기':liveOperationClock(item?.deadlineAt)}</b></strong><i class="live-operation-enter" aria-hidden="true">›</i></button>`;
 }
 function updateLiveOperationClocks(){
@@ -1591,7 +1591,7 @@ function updateLiveOperationClocks(){
 function openLiveOperation(kind){
   document.getElementById('liveOperationsDialog')?.close();
   const key=String(kind||'').toUpperCase();
-  if(key==='ORGANIZATION_FACTION'){import('./organization-faction-window-v1.mjs?v=20261021-command').then(m=>m.openOrganizationFaction({roundId:liveOperationsItems.find(i=>i.kind===key)?.roundId}));return}
+  if(key==='ORGANIZATION_FACTION'){import('./organization-faction-window-v1.mjs?v=20261023-clan-identity').then(m=>m.openOrganizationFaction({roundId:liveOperationsItems.find(i=>i.kind===key)?.roundId}));return}
   if(key==='ORGANIZATION'){renderShell('clan');return}
   if(key==='AUCTION'){renderShell('auction');return}
   if(key==='COUP'){renderShell('coup');return}
