@@ -38,17 +38,19 @@ test('legacy tutorial opens the growth guide and every destination exists in the
     read('preview/lobby-clarity-v1/tutorial/index.html'),read('preview/lobby-clarity-v1/tutorial/bridge.js'),
     read('preview/lobby-clarity-v1/index.html'),read('js/soopketmon-v21-exact-shell-adapter.js')
   ]);
-  const {STEPS,ROUTES,LIMITED_NOTICE}=await import('../growth-guide/content.mjs');
+  const {STEPS,ROUTES,LIMITED_NOTICE}=await import('../ui/growth-guide/content.mjs');
   assert.match(legacy,/bridge\.js\?v=20261024-growth-guide/);
   assert.match(bridge,/location\.replace\(guide.href\)/);
   assert.match(bridge,/searchParams\.set\('account',account\)/);
-  assert.match(lobby,/data-src="\/growth-guide\/\?v=20261024-1"/);
+  assert.match(lobby,/data-src="\/ui\/growth-guide\/\?v=20261024-1"/);
   assert.match(lobby,/초보유저 성장팁/);
   assert.doesNotMatch(lobby,/처음 오셨나요|첫 이용 안내/);
   for(const step of STEPS)for(const block of step.blocks)for(const [route] of block.links||[]){
     assert.ok(ROUTES[route],route+' must have a standalone fallback');
     assert.ok(adapter.includes(route+': Object.freeze('),route+' must exist in the live navigation contract');
   }
+  const {safePublicPath}=await import('../packaging/windows-client/lib/policy.mjs');
+  for(const file of ['index.html','app.js','content.mjs','style.css'])assert.ok(safePublicPath('/ui/growth-guide/'+file),'guide must be downloadable by the desktop client');
   assert.match(LIMITED_NOTICE,/GM 권한.*수량이 늘어날.*복각 시즌/);
   assert.ok(STEPS.some(step=>step.id==='icons')&&STEPS.some(step=>step.id==='equipment'));
 });
