@@ -1,0 +1,18 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "clan": "LG",
+      "role": "클랜원",
+      "reopen": true
+    },
+    {
+      "width": 390,
+      "clan": "LG",
+      "role": "클랜원",
+      "reopen": true
+    }
+  ],
+  "errors": [],
+  "source": "Read-only production DB response rendered with unchanged production UI assets"
+}

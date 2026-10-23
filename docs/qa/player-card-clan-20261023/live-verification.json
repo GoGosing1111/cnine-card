@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-23T07:09:40.825Z",
+  "policy": {
+    "databaseWrites": false,
+    "apiCalls": false,
+    "credentialOutput": false,
+    "accountIdentifiers": "private local JSON only",
+    "realUserJoinChanges": "require approved application evidence; removals/transfers fail"
+  },
+  "production": {
+    "pages": {
+      "id": "81a52c21-1681-4037-8a6b-8428cbaaa4c6",
+      "commit": "7aa15eda8e3563d0342eb2bd4fcf3f764bf1fee0",
+      "status": "success",
+      "createdAt": "2026-10-23T07:08:47.98952Z",
+      "url": "https://81a52c21.cnine-card.pages.dev"
+    },
+    "worker": {
+      "sha256": "119e7f33745884d87c7374678bc6c94e9509f13b6aebf9522ffde3f5439929df",
+      "bytes": 8399782,
+      "currentMembershipQuery": true,
+      "currentMembershipHelper": true
+    }
+  },
+  "checks": {
+    "productionContainsRequiredCommit": true,
+    "productionSuccessful": true,
+    "workerHasNewMembershipQuery": true,
+    "requiredSourceIdentical": true,
+    "sameLiveRound": true,
+    "existingMembershipPreserved": true,
+    "newMembershipsHaveApproval": true,
+    "eldersPreserved": true,
+    "targetMembershipPreserved": true,
+    "projectionUsesCurrentClan": true
+  },
+  "requiredCommit": "7aa15eda8e3563d0342eb2bd4fcf3f764bf1fee0",
+  "summary": {
+    "readOnly": true,
+    "roundCount": 1,
+    "roundPhase": "ASSIGNED",
+    "memberCount": 129,
+    "organizationCounts": [
+      {
+        "id": 1,
+        "members": 22
+      },
+      {
+        "id": 2,
+        "members": 22
+      },
+      {
+        "id": 3,
+        "members": 21
+      },
+      {
+        "id": 4,
+        "members": 22
+      },
+      {
+        "id": 5,
+        "members": 21
+      },
+      {
+        "id": 6,
+        "members": 21
+      }
+    ],
+    "target": {
+      "nickname": "ShowMaker",
+      "clan": "LG",
+      "markKey": "LG",
+      "profileClan": {
+        "id": 5,
+        "name": "LG",
+        "markKey": "LG",
+        "role": "클랜원",
+        "season": null
+      }
+    },
+    "membershipSha256": "54855aa5b732e983b4ddaf3c340911ce599e9f7d242e355badbc4d482c6e07f6",
+    "addedMembers": 0
+  },
+  "validation": {
+    "relatedTests": 28,
+    "newClanCases": 3,
+    "workerCompile": "PASS",
+    "browserWidths": [
+      1440,
+      390
+    ],
+    "frontendChanged": false,
+    "profileEvidence": "READ ONLY internal production DB projection; no game HTTP authentication or write"
+  }
+}
