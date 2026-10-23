@@ -71,6 +71,8 @@ for(const postgres of [false,true]){
   });
   test(`${db}: actual inventory API exposes only own quantities and refuses direct coupon consumption`,async t=>{
     const f=await forgeFixture(t,{postgres});await ensureForgeRepairCatalog(f.env);
+    if(f.pg)await f.pg.exec('ALTER TABLE inventory_items ADD COLUMN updated_at TEXT');
+    else f.DB.sql.exec('ALTER TABLE inventory_items ADD COLUMN updated_at TEXT');
     await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,?,2,1),(8,?,99,0)',item.code,item.code).run();
     const result=await inventory(deps(f)),coupon=result.body.items.find(x=>x.code===item.code);
     assert.equal(coupon.quantity,2);assert.equal(coupon.unseenQuantity,1);assert.equal(coupon.usable,false);assert.equal(coupon.image,item.image);assert.match(coupon.useDisabledMessage,/파괴 기록/);

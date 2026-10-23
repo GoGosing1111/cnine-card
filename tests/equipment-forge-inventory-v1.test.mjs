@@ -57,6 +57,8 @@ for(const postgres of [false,true]){
   });
   test(`${label}: actual inventory route returns owned protection artwork and quantity but no direct-use action`,async t=>{
     const f=await forgeFixture(t,{postgres});
+    if(f.pg)await f.pg.exec('ALTER TABLE inventory_items ADD COLUMN updated_at TEXT');
+    else f.DB.sql.exec('ALTER TABLE inventory_items ADD COLUMN updated_at TEXT');
     await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,?,3,1)',FORGE_PROTECTION_ITEM.code).run();
     await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(8,?,99)',FORGE_PROTECTION_ITEM.code).run();
     const deps={env:f.env,request:new Request('https://qa.test/api/inventory'),authenticate:async()=>f.user,json:(body,status=200)=>({body,status}),ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,LICH_TICKET,MADARA_TICKET,presentMiracleInventory,ensureWormContestGiftCatalog,ensureMercenarySssShardCatalog,ensureSssRerollCatalog,presentSssRerollInventory,presentSssCubeInventory,ensureLimitedShardCatalog,ensureSigHunterBoxCatalog};
