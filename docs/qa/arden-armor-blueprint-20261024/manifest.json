@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "name": "아르덴 방어구 설계도",
+  "code": "ARDEN_ARMOR_BLUEPRINT",
+  "tool": "image_gen.imagegen",
+  "source": {
+    "path": "assets/items/arden-armor-blueprint-v1.png",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 2528571,
+    "sha256": "b5ccecbac4ef9ea2ac91e00a73ed3ed4ebf40b7bb43db30a15b964e6c8aca22c",
+    "hasAlpha": true,
+    "transparentPixels": 561752,
+    "visibleBounds": {
+      "minX": 30,
+      "minY": 95,
+      "maxX": 1233,
+      "maxY": 1149
+    },
+    "edgeVisiblePixels": 0
+  },
+  "runtime": {
+    "path": "assets/items/arden-armor-blueprint-v1.webp",
+    "width": 512,
+    "height": 512,
+    "bytes": 99044,
+    "sha256": "4f38a86a50750df49b9c649a045f6a8a491ef31fc08a8fb31d54137dbb30dc92",
+    "hasAlpha": true,
+    "transparentPixels": 93392,
+    "visibleBounds": {
+      "minX": 12,
+      "minY": 38,
+      "maxX": 503,
+      "maxY": 469
+    },
+    "edgeVisiblePixels": 0
+  },
+  "generatedOriginal": "C:/Users/User/.codex/generated_images/01a16a3d-6c8b-75c3-8a28-f479829ed2af/exec-fb20ceba-3e7f-43b1-8caf-f67e5dc9414d.png",
+  "originalBytesPreserved": true,
+  "export": {
+    "tool": "Sharp",
+    "size": 512,
+    "quality": 92,
+    "alphaQuality": 100,
+    "effort": 6
+  },
+  "prompts": "docs/qa/arden-armor-blueprint-20261024/prompts.json",
+  "artStatus": "GENERATED_TECHNICALLY_REVIEWED",
+  "visualApprovalByUser": false,
+  "registrationRequestedByUser": true
+}

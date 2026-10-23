@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "useCase": "precise-object-edit",
+  "userRequest": "아르덴 방어구 설계도 리소스 만들고 재료로 추가해",
+  "prompt": "Use case: precise-object-edit.\nAsset type: premium Korean fantasy RPG inventory crafting material icon, Arden Armor Blueprint.\nInput image 1 is the document-format edit target: turn that weapon blueprint into a NEW sibling ARMOR blueprint asset. Input image 2 is the approved Arden armor design reference. Input image 3 is the approved Arden Energy palette/material reference.\nReplace the weapon drawing and red/navy identity with an ARDEN ARMOR blueprint. Keep one broad expensive vellum sheet with slightly curled ivory corners and refined platinum-and-gold corner fittings. Use deep emerald-petrol drawing paper, ivory/platinum and champagne-gold ink, small emerald jewels. The document is near overhead with a slight dimensional tilt. Fully visible centered SQUARE composition, occupying about 82% of canvas width and height, at least 8% genuine transparent padding at every edge.\nThe document's central printed artwork is one large FRONT-VIEW schematic of the Arden breastplate from image 2: high split collar, elegant wing-shaped paired shoulder plates, tapered armored torso, a large diamond emerald breast jewel. Translate these recognizable shapes into crisp platinum-white and gold engraved LINE ART that is visibly FLAT ON THE PAPER, with restrained teal ink accents and just a few fine drafting arcs. Broad readable armor silhouette, no person, no helmet, no weapon, no floating physical armor in front of the page. Keep detail coherent at 64 and 128px.\nReplace the bottom Roman numeral plaque with a small elegant emerald seal bearing a simple shield emblem, no letter or numeral. No words, labels, quantities, or chapter numbering.\nStyle: richly painted 2D fantasy RPG item art with precise edges, tactile vellum, high-quality gold/platinum metal and emerald glass, consistent with supplied material references. Distinct clean outline, restrained glow contained inside the object.\nOutput a square high-resolution RGBA PNG with genuinely TRANSPARENT background and clean alpha. No scenery, tabletop, ground shadow, external inventory card frame, background fill, checkerboard pattern, watermark, extra sheets, red jewels or purple. Preserve the original referenced files; deliver this as a separate new variant.",
+  "references": [
+    {
+      "path": "assets/items/secret-weapon-blueprint-chapter-1-v1.png",
+      "role": "Document shape reference / edit target; existing file preserved"
+    },
+    {
+      "path": "preview/mythic-emperor-successor-v1/assets/mythic-armor-fantasy-v5.png",
+      "role": "Approved Arden armor design reference"
+    },
+    {
+      "path": "assets/items/arden-energy-v1.png",
+      "role": "Approved Arden palette and materials reference"
+    }
+  ],
+  "transparentBackground": true
+}
