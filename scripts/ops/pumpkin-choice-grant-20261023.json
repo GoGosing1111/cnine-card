@@ -1,0 +1,737 @@
+{
+  "operationKey": "ops:pumpkin-pet-choice:named-one-each:20261023:v1",
+  "dateKST": "2026-10-23",
+  "authorization": "뒤에 갯수는 무시하고 해당 명단에 1개씩만 지급해",
+  "correctionAuthorization": "이전에 승인된 동일 명단의 3개 닉네임 정정 재사용",
+  "correctionSourceOperation": "ops:sighunter-boxes:named-recipients:20261023:v1",
+  "corrections": [
+    {
+      "sourceNickname": "간장왕대개찜",
+      "nickname": "간장왕대게찜",
+      "userId": "4981",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "승구릭",
+      "nickname": "숭구릭",
+      "userId": "62",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "#크래파스",
+      "nickname": "#크레파스",
+      "userId": "4222",
+      "quantity": 1
+    }
+  ],
+  "delivery": "DIRECT_INVENTORY",
+  "itemCode": "PET_PUMPKIN_CHOICE_TICKET",
+  "itemName": "호박펫 선택권",
+  "reason": "호박펫 선택권 명단 1개씩 지급",
+  "recipientCount": 70,
+  "totalTickets": 70,
+  "recipients": [
+    {
+      "sourceNickname": "여우",
+      "userId": "25",
+      "nickname": "여우",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "fd8e8c81",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "폭군#",
+      "userId": "52",
+      "nickname": "폭군#",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "cd3ea662",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "승구릭",
+      "userId": "62",
+      "nickname": "숭구릭",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "6d611603",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "비쥬얼깡패",
+      "userId": "81",
+      "nickname": "비쥬얼깡패",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "03320b3e",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "0수표",
+      "userId": "88",
+      "nickname": "0수표",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "2ed65346",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "쁠리의무사시",
+      "userId": "115",
+      "nickname": "쁠리의무사시",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "4859c4a2",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "족구선생",
+      "userId": "130",
+      "nickname": "족구선생",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "7a5d068c",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "차단하다",
+      "userId": "162",
+      "nickname": "차단하다",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "0cd6253c",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "박사",
+      "userId": "164",
+      "nickname": "박사",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "00a28fb2",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "x수댕",
+      "userId": "216",
+      "nickname": "x수댕",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "968bf91a",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "현하루",
+      "userId": "218",
+      "nickname": "현하루",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "a05e2d57",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "스갤가축",
+      "userId": "277",
+      "nickname": "스갤가축",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "c9386209",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "베베킹",
+      "userId": "289",
+      "nickname": "베베킹",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "94502a2d",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "Mild7",
+      "userId": "290",
+      "nickname": "Mild7",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "c080c2f3",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "점크루지",
+      "userId": "297",
+      "nickname": "점크루지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "42f5659f",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "[C9]족쪽이",
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "4779b1f1",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "라피e",
+      "userId": "360",
+      "nickname": "라피e",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "06e56898",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "족구조아",
+      "userId": "525",
+      "nickname": "족구조아",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "cba2b411",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "페이트런",
+      "userId": "681",
+      "nickname": "페이트런",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "fc573edd",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "뚱초환",
+      "userId": "787",
+      "nickname": "뚱초환",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "74c50775",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "센텀신사",
+      "userId": "792",
+      "nickname": "센텀신사",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "b6e04c16",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "씨나인택갓",
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "5c0809e6",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "전게씹선미아웃",
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "561a0ff8",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "좋은하루",
+      "userId": "1545",
+      "nickname": "좋은하루",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "5655d558",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "핫시",
+      "userId": "1768",
+      "nickname": "핫시",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "8dd27727",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "옹가망함1",
+      "userId": "2246",
+      "nickname": "옹가망함1",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "91254f22",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "블랙캐슬",
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "a2c1e499",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "레드클라우드",
+      "userId": "3867",
+      "nickname": "레드클라우드",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "6fc616f7",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "우회하세요",
+      "userId": "3974",
+      "nickname": "우회하세요",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "9f8e3d1b",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "족게이다",
+      "userId": "4111",
+      "nickname": "족게이다",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "6c8a26e9",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "#유나랜드",
+      "userId": "4209",
+      "nickname": "#유나랜드",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "d98a8c3a",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "#크래파스",
+      "userId": "4222",
+      "nickname": "#크레파스",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "979169df",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "도댕",
+      "userId": "4235",
+      "nickname": "도댕",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "1e59de3c",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "더듬이구",
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "b86ce1fb",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "레가파",
+      "userId": "4408",
+      "nickname": "레가파",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "0c98c0a7",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "Moo날두",
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "119ccbaf",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "대지",
+      "userId": "4479",
+      "nickname": "대지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "22ca5c12",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "장씨아저씨",
+      "userId": "4501",
+      "nickname": "장씨아저씨",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "ce44a7ee",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "찡찡ෆ",
+      "userId": "4562",
+      "nickname": "찡찡ෆ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "5425756a",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "혜정",
+      "userId": "4570",
+      "nickname": "혜정",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "0e8cf635",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "응맨",
+      "userId": "4572",
+      "nickname": "응맨",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "2ab08a59",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "CHO22",
+      "userId": "4580",
+      "nickname": "CHO22",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "ec40706c",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "족단",
+      "userId": "4582",
+      "nickname": "족단",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "22c31ef9",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "비니",
+      "userId": "4595",
+      "nickname": "비니",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "76aa86ba",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "암살자..",
+      "userId": "4598",
+      "nickname": "암살자..",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "4c7adda2",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "오랜만에",
+      "userId": "4609",
+      "nickname": "오랜만에",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "1e30db15",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "고라니ㅇ",
+      "userId": "4610",
+      "nickname": "고라니ㅇ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "372f52a0",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "공단",
+      "userId": "4614",
+      "nickname": "공단",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "0559204b",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "랭비!",
+      "userId": "4615",
+      "nickname": "랭비!",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "70f6dcb8",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "리이렐",
+      "userId": "4621",
+      "nickname": "리이렐",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "53bc438a",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "학벌",
+      "userId": "4627",
+      "nickname": "학벌",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "6da5a7a7",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "망순이ෆ",
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "0b464ee5",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "Veil",
+      "userId": "4629",
+      "nickname": "Veil",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "0791c490",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "세라네꼬라지",
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "644d3393",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "화성가뿌자",
+      "userId": "4668",
+      "nickname": "화성가뿌자",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "704b0297",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "짝밤",
+      "userId": "4691",
+      "nickname": "짝밤",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "09096e0b",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "시소둥이",
+      "userId": "4693",
+      "nickname": "시소둥이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "b629d0b0",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "˚쟁이。",
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "634d4201",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "음주",
+      "userId": "4817",
+      "nickname": "음주",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "d5dc4495",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "조은홧팅",
+      "userId": "4828",
+      "nickname": "조은홧팅",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "f6ec95f7",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "[C9]가시",
+      "userId": "4866",
+      "nickname": "[C9]가시",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "f4345135",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "굳건창수",
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "6a375b2a",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "심심이",
+      "userId": "4933",
+      "nickname": "심심이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "bdff325e",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "쁴로리",
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "f3aa85e5",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "간장왕대개찜",
+      "userId": "4981",
+      "nickname": "간장왕대게찜",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "62187eac",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "단정한밤",
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "aa18e32d",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "꼰머냥",
+      "userId": "5429",
+      "nickname": "꼰머냥",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "f594094d",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "예지앙",
+      "userId": "5650",
+      "nickname": "예지앙",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "5579baaf",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "남수댕ㅗ",
+      "userId": "5950",
+      "nickname": "남수댕ㅗ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "aac30f81",
+      "quantity": 1
+    },
+    {
+      "sourceNickname": "관종이얌",
+      "userId": "5996",
+      "nickname": "관종이얌",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerUserId": "a65c9744",
+      "quantity": 1
+    }
+  ],
+  "inspectedAt": "2026-10-23T06:27:45.799Z",
+  "requestHash": "0ccd87eb3167641614d68576f082ab1deccd8445ec9b93165d35107d5db10e49"
+}

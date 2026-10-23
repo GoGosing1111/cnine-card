@@ -1,0 +1,29 @@
+{
+  "operationKey": "ops:pumpkin-pet-choice:named-one-each:20261023:v1",
+  "mode": "apply",
+  "status": "COMPLETED",
+  "planHash": "e5e43f70a2110a4348210b1a5ec5f49a2459f2b94274555ed85702b89f9f0cc1",
+  "sourceHash": "f8cef90796e903ee96a540a033b0f141a6d8dce71d1c4a2055f08cbe16c9c1b2",
+  "replayed": false,
+  "auditId": "50457",
+  "completedAt": "2026-10-23T06:32:01.926Z",
+  "verification": {
+    "recipients": 70,
+    "totalTickets": 70,
+    "inventoryLogs": 70,
+    "adminLogs": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "openedByOperation": 0
+  },
+  "checks": {
+    "wrongPlanRejected": true,
+    "ledgerFailureRestoresInventory": true,
+    "exactIndividualQuantities": true,
+    "unseenQuantitiesAdded": true,
+    "sameKeyReplayNoDuplicates": true,
+    "rollbackRestoresInventory": true,
+    "noWalletMessageOrCardWrites": true
+  },
+  "checkedAt": "2026-10-23T06:32:02.592Z"
+}
