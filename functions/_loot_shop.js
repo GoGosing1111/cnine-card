@@ -58,10 +58,15 @@ export async function lootShopCatalog(env){
 }
 export async function saveLootShopPolicy(env,user,raw){
  if(user.role!=='OWNER')throw jointError('JOINT_PERMISSION','OWNER만 상점을 설정할 수 있습니다.',403);
- const before=await readLootShopPolicy(env),next=validateLootShopPolicy(raw);if(next.revision!==before.policy.revision)throw jointError('JOINT_POLICY_CONFLICT','설정이 변경됐습니다. 다시 불러오세요.',409);
+ const before=await readLootShopPolicy(env),draft=raw&&typeof raw==='object'&&!Array.isArray(raw)?{...raw}:raw;
+ // Deletion history is server-owned. Older/modified clients cannot clear it,
+ // reserve arbitrary IDs, or reactivate a retired purchase identity.
+ if(draft&&typeof draft==='object'&&!Array.isArray(draft)){delete draft.retiredProductIds;if(Object.hasOwn(before.policy,'retiredProductIds'))draft.retiredProductIds=[...before.policy.retiredProductIds];}
+ const next=validateLootShopPolicy(draft);if(next.revision!==before.policy.revision)throw jointError('JOINT_POLICY_CONFLICT','설정이 변경됐습니다. 다시 불러오세요.',409);
+ const retired=new Set(before.policy.retiredProductIds||[]);
+ for(const prior of before.policy.products){const updated=next.products.find(p=>p.id===prior.id);if(!updated)retired.add(prior.id);else if(updated.type!==prior.type)throw fail('기존 상품의 종류는 변경할 수 없습니다. 새 상품을 추가하세요.');}
+ if(retired.size)next.retiredProductIds=[...retired];
  for(const product of next.products)if(product.enabled)await validateProductCatalog(env,product);
- // Product identities never change reward kind, and IDs cannot be removed: purchase caps are lifetime.
- for(const prior of before.policy.products){const updated=next.products.find(p=>p.id===prior.id);if(!updated||updated.type!==prior.type)throw fail('기존 상품의 코드·종류는 유지하세요. 판매 중지로 관리할 수 있습니다.');}
  await ensureLootShopSchema(env);next.revision++;return saveJointPolicyDraft(env,user,LOOT_SHOP_KEY,before.raw,next);
 }
 export async function saveLootSourcePolicy(env,user,body){
@@ -110,7 +115,7 @@ function mysticPoolGuard(DB,pool){
 export async function purchaseLootProduct(env,user,body,{randomInt=mercenaryRandomInt}={}){
  const {productId,requestId}=body;
  const result=await runJointOperation(env,user,{requestId,kind:'LOOT_PURCHASE',input:{productId},prepare:async()=>{const {policy}=await readLootShopPolicy(env),product=policy.products.find(p=>p.id===productId);if(!policy.salesEnabled||!product||lootSaleState(product)!=='ACTIVE')throw fail('현재 판매 중인 상품이 아닙니다.');const pool=await validateProductCatalog(env,product);if(await pigCoinBalance(env,user.id)<product.price)throw fail('피그 코인이 부족합니다.');if(product.type==='ITEM_BUNDLE')return {product,bundleReward:{kind:'BUNDLE',name:product.name,items:pool}};if(product.type==='EQUIPMENT_DIRECT')return {product,equipmentReward:{...pool,kind:'EQUIPMENT',quantity:1}};if(product.type!=='MYSTIC_EQUIPMENT')return {product};const roll=randomInt(pool.length);if(!Number.isSafeInteger(roll)||roll<0||roll>=pool.length)throw fail('장비 추첨을 완료하지 못했습니다.');return {product,equipmentPool:pool.map(({id,code,name})=>({id,code,name})),equipmentReward:{...pool[roll],kind:'EQUIPMENT',quantity:1}};},statements:async plan=>{
-  const {policy,raw}=await readLootShopPolicy(env),current=policy.products.find(p=>p.id===productId);if(!policy.salesEnabled||!current||lootSaleState(current)!=='ACTIVE')throw fail('현재 판매가 중지되었거나 판매 기간이 아닙니다.');if(JSON.stringify(current)!==JSON.stringify(plan.product))throw Object.assign(fail('상품 설정이 변경됐습니다. 최신 상품을 다시 선택하세요.'),{terminal:true});
+  const {policy,raw}=await readLootShopPolicy(env),current=policy.products.find(p=>p.id===productId);if(!current)throw Object.assign(fail('삭제된 상품입니다. 최신 상품을 다시 선택하세요.'),{terminal:true});if(!policy.salesEnabled||lootSaleState(current)!=='ACTIVE')throw fail('현재 판매가 중지되었거나 판매 기간이 아닙니다.');if(JSON.stringify(current)!==JSON.stringify(plan.product))throw Object.assign(fail('상품 설정이 변경됐습니다. 최신 상품을 다시 선택하세요.'),{terminal:true});
   const DB=env.DB,p=pFor(DB),product=plan.product,now=new Date().toISOString();
   const count=purchaseCountQuery(product,user.id,Date.now()),prior=await p(count.sql,...count.bindings).first();
   if(Number(prior.count)>=product.accountLimit)throw Object.assign(fail('이 상품의 계정 구매 한도를 모두 사용했습니다.'),{terminal:true});

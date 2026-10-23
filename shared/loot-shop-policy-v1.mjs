@@ -58,7 +58,7 @@ export function upgradeLootShopPolicy(raw){
  const next=structuredClone(raw);
  // Expose the new draft on existing installations without rewriting saved settings.
  // Price, lifetime cap and candidates remain unset until the OWNER saves them.
- if(Array.isArray(next?.products)&&!next.products.some(p=>p.type==='MERCENARY_SS_PACK'))next.products.push(structuredClone(LOOT_SHOP_DEFAULTS.products.find(p=>p.type==='MERCENARY_SS_PACK')));
+ if(Array.isArray(next?.products)&&!next.products.some(p=>p.type==='MERCENARY_SS_PACK')&&!(Array.isArray(next.retiredProductIds)&&next.retiredProductIds.includes('mercenary_ss_pack')))next.products.push(structuredClone(LOOT_SHOP_DEFAULTS.products.find(p=>p.type==='MERCENARY_SS_PACK')));
  if(!Array.isArray(next?.sources))return next;
  next.sources=next.sources.map(s=>PIG_COIN_SOURCE_FIELDS[s.code]?.some(([key])=>!Object.hasOwn(s,key))?structuredClone(PIG_COIN_SOURCE_DEFAULTS.find(d=>d.code===s.code)):s);
  if(!next.sources.some(s=>s.enabled))next.rewardsEnabled=false;return next;
@@ -76,12 +76,15 @@ const error=message=>Object.assign(new Error(message),{code:'JOINT_LOOT_CONFIG',
 const int=(v,min,max,label)=>{if(!Number.isSafeInteger(v)||v<min||v>max)throw error(`${label} 값을 확인하세요.`);return v;};
 const nullable=(v,min,max,label)=>v===null?null:int(v,min,max,label);
 const bool=(v,label)=>{if(typeof v!=='boolean')throw error(`${label} 설정을 확인하세요.`);return v;};
-const ids=(v,pattern,label)=>{if(!Array.isArray(v)||v.length>500||new Set(v).size!==v.length||v.some(id=>typeof id!=='string'||!pattern.test(id)))throw error(`${label} 목록을 확인하세요.`);return [...v];};
+const ids=(v,pattern,label,max=500)=>{if(!Array.isArray(v)||v.length>max||new Set(v).size!==v.length||v.some(id=>typeof id!=='string'||!pattern.test(id)))throw error(`${label} 목록을 확인하세요.`);return [...v];};
 // 2026-10-03: every product has an OWNER-configured lifetime cap of 1–1,000.
 export const lootProductMaxAccountLimit=()=>1000;
 export function validateLootShopPolicy(raw){
  if(!raw||!Array.isArray(raw.products)||raw.products.length>100||!Array.isArray(raw.sources))throw error('상점 설정을 확인하세요.');
  const next={revision:int(raw.revision,0,2147483646,'수정 버전'),salesEnabled:bool(raw.salesEnabled,'판매'),rewardsEnabled:bool(raw.rewardsEnabled,'재화 지급'),sources:[],products:[]};
+ // Keep legacy snapshots unchanged; only stored deletion history reserves IDs.
+ // Retired identities do not consume the 100 currently registered product slots.
+ if(Object.hasOwn(raw,'retiredProductIds'))next.retiredProductIds=ids(raw.retiredProductIds,/^[a-z0-9_-]{3,70}$/,'삭제된 상품 코드',Infinity);
  for(const code of Object.keys(LOOT_SOURCE_LABELS)){
   const rows=raw.sources.filter(s=>s.code===code);if(rows.length!==1)throw error('콘텐츠별 지급 설정이 필요합니다.');
   const s=rows[0],r={code,enabled:bool(s.enabled,'콘텐츠 지급')};
@@ -124,6 +127,7 @@ export function validateLootShopPolicy(raw){
   next.products.push(r);
  }
  if(new Set(next.products.map(p=>p.id)).size!==next.products.length)throw error('상품 코드가 중복되었습니다.');
+ if(next.products.some(p=>next.retiredProductIds?.includes(p.id)))throw error('삭제한 상품 코드는 다시 사용할 수 없습니다. 새 상품을 추가하세요.');
  if(next.salesEnabled&&!next.products.some(p=>p.enabled))throw error('판매할 상품을 먼저 설정하세요.');
  if(next.rewardsEnabled&&!next.sources.some(s=>s.enabled))throw error('지급 콘텐츠를 먼저 설정하세요.');
  return next;
