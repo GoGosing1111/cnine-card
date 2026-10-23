@@ -1,0 +1,427 @@
+{
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:ppeulli-musashi-bathory-exempt-grant:20261023:v1",
+    "planHash": "f596dcef25a788c76668dd422b2e12c595bcdac449fb58ad4effc9fcedb1ca33",
+    "plan": {
+      "operationKey": "ops:ppeulli-musashi-bathory-exempt-grant:20261023:v1",
+      "authorization": "쁠리의무사시 바토리한장 지급해 횟수차감없이",
+      "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+      "cost": 0,
+      "materialConsumption": 0,
+      "automaticLoadout": false,
+      "levelPolicy": "PRESERVE_EXISTING_DEFAULT_ON_FIRST_USE",
+      "totalQuantity": 1,
+      "recipientCount": 1,
+      "recipients": [
+        {
+          "id": "115",
+          "nickname": "쁠리의무사시",
+          "role": "USER",
+          "status": "ACTIVE",
+          "identityHash": "c699e17dde7c2dabf259ef99df0d1a9ace12e3e7b1f9658dbcadc1453ce19460"
+        }
+      ],
+      "grants": [
+        {
+          "userId": "115",
+          "nickname": "쁠리의무사시",
+          "code": "V-977",
+          "name": "바토리",
+          "quantity": 1
+        }
+      ]
+    },
+    "completedAt": "2026-10-23T01:33:02.804Z",
+    "grants": [
+      {
+        "userId": "115",
+        "nickname": "쁠리의무사시",
+        "code": "V-977",
+        "name": "바토리",
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "holdingBefore": null
+      }
+    ],
+    "acquisitions": [
+      "ops:ppeulli-musashi-bathory-exempt-grant:20261023:v1:115:V-977:1"
+    ],
+    "stockBefore": [
+      {
+        "code": "V-977",
+        "issued": 20,
+        "revision": 22,
+        "last_token": "bb17208b-c5fa-4883-9158-3cec8ac9392e",
+        "stock_limit": 20
+      }
+    ],
+    "stockAfter": [
+      {
+        "code": "V-977",
+        "issued": 20,
+        "revision": 22,
+        "last_token": "bb17208b-c5fa-4883-9158-3cec8ac9392e",
+        "stock_limit": 20
+      }
+    ],
+    "issuesBefore": [
+      {
+        "code": "V-977",
+        "serial": 1,
+        "user_id": 220,
+        "created_at": "2026-10-19T09:03:07.949Z",
+        "request_id": "29e34c35-1643-4244-8b82-ea0e62eba858",
+        "acquisition_id": "29e34c35-1643-4244-8b82-ea0e62eba858:4"
+      },
+      {
+        "code": "V-977",
+        "serial": 2,
+        "user_id": 45,
+        "created_at": "2026-10-19T09:10:09.842Z",
+        "request_id": "ops:sera-bathory-grant:20261019:v1",
+        "acquisition_id": "ops:sera-bathory-grant:20261019:v1"
+      },
+      {
+        "code": "V-977",
+        "serial": 3,
+        "user_id": 216,
+        "created_at": "2026-10-19T10:43:50.412Z",
+        "request_id": "3d62af6f-af39-4020-b67e-793cdb18fb65",
+        "acquisition_id": "3d62af6f-af39-4020-b67e-793cdb18fb65:7"
+      },
+      {
+        "code": "V-977",
+        "serial": 4,
+        "user_id": 4580,
+        "created_at": "2026-10-19T14:50:42.051Z",
+        "request_id": "5a69a1aa-1c8a-4796-a049-f70c4d08d909",
+        "acquisition_id": "5a69a1aa-1c8a-4796-a049-f70c4d08d909:1"
+      },
+      {
+        "code": "V-977",
+        "serial": 5,
+        "user_id": 4836,
+        "created_at": "2026-10-20T03:16:39.574Z",
+        "request_id": "a17ee8cd-5a7a-4ad1-a465-37cd7919fb5e",
+        "acquisition_id": "a17ee8cd-5a7a-4ad1-a465-37cd7919fb5e:4"
+      },
+      {
+        "code": "V-977",
+        "serial": 6,
+        "user_id": 289,
+        "created_at": "2026-10-20T04:16:26.764Z",
+        "request_id": "692489ea-bedb-452a-96dc-c5e5dd0d60af",
+        "acquisition_id": "692489ea-bedb-452a-96dc-c5e5dd0d60af:1"
+      },
+      {
+        "code": "V-977",
+        "serial": 7,
+        "user_id": 4598,
+        "created_at": "2026-10-20T05:54:36.270Z",
+        "request_id": "5caaf885-edb6-4522-9b1c-6303dbb16f17",
+        "acquisition_id": "5caaf885-edb6-4522-9b1c-6303dbb16f17:9"
+      },
+      {
+        "code": "V-977",
+        "serial": 8,
+        "user_id": 303,
+        "created_at": "2026-10-20T07:08:56.911Z",
+        "request_id": "f02462dd-2fd8-4977-9fbf-6fe114951021",
+        "acquisition_id": "f02462dd-2fd8-4977-9fbf-6fe114951021:1"
+      },
+      {
+        "code": "V-977",
+        "serial": 9,
+        "user_id": 4628,
+        "created_at": "2026-10-20T09:07:15.900Z",
+        "request_id": "e9f850a6-0322-4f14-8fb7-86dfafffe59b",
+        "acquisition_id": "e9f850a6-0322-4f14-8fb7-86dfafffe59b:9"
+      },
+      {
+        "code": "V-977",
+        "serial": 10,
+        "user_id": 4610,
+        "created_at": "2026-10-20T10:10:27.295Z",
+        "request_id": "15db805e-671f-45b0-9cc7-a03cdf408806",
+        "acquisition_id": "15db805e-671f-45b0-9cc7-a03cdf408806:6"
+      },
+      {
+        "code": "V-977",
+        "serial": 11,
+        "user_id": 130,
+        "created_at": "2026-10-20T19:37:26.970Z",
+        "request_id": "94366920-bea8-405a-a8f3-1c87bc208585",
+        "acquisition_id": "94366920-bea8-405a-a8f3-1c87bc208585:6"
+      },
+      {
+        "code": "V-977",
+        "serial": 12,
+        "user_id": 4933,
+        "created_at": "2026-10-20T20:11:43.138Z",
+        "request_id": "c16a9925-ce5e-44b6-8517-2f01dc3a8425",
+        "acquisition_id": "c16a9925-ce5e-44b6-8517-2f01dc3a8425:2"
+      },
+      {
+        "code": "V-977",
+        "serial": 13,
+        "user_id": 5008,
+        "created_at": "2026-10-20T21:16:02.780Z",
+        "request_id": "51498a46-b7da-4b3b-b883-98710c06bd38",
+        "acquisition_id": "51498a46-b7da-4b3b-b883-98710c06bd38:0"
+      },
+      {
+        "code": "V-977",
+        "serial": 14,
+        "user_id": 4595,
+        "created_at": "2026-10-20T22:04:43.397Z",
+        "request_id": "34c87c15-517c-4a42-8d87-a0c7d3d39e18",
+        "acquisition_id": "34c87c15-517c-4a42-8d87-a0c7d3d39e18:7"
+      },
+      {
+        "code": "V-977",
+        "serial": 15,
+        "user_id": 1249,
+        "created_at": "2026-10-20T22:14:56.409Z",
+        "request_id": "953eab30-8992-4af6-8f53-79ff72488c9b",
+        "acquisition_id": "953eab30-8992-4af6-8f53-79ff72488c9b:2"
+      },
+      {
+        "code": "V-977",
+        "serial": 16,
+        "user_id": 4628,
+        "created_at": "2026-10-23T00:13:31.470Z",
+        "request_id": "efeadd32-c8f9-453b-a786-3a8af3a9e2d2",
+        "acquisition_id": "efeadd32-c8f9-453b-a786-3a8af3a9e2d2:5"
+      },
+      {
+        "code": "V-977",
+        "serial": 17,
+        "user_id": 4598,
+        "created_at": "2026-10-23T00:22:15.927Z",
+        "request_id": "e87bdf8b-a772-4779-a59f-57cd8266c99e",
+        "acquisition_id": "e87bdf8b-a772-4779-a59f-57cd8266c99e:1"
+      },
+      {
+        "code": "V-977",
+        "serial": 18,
+        "user_id": 4628,
+        "created_at": "2026-10-23T01:14:56.111Z",
+        "request_id": "d1ea899b-fb47-461e-b8f3-fa081e322491",
+        "acquisition_id": "d1ea899b-fb47-461e-b8f3-fa081e322491:2"
+      },
+      {
+        "code": "V-977",
+        "serial": 19,
+        "user_id": 4628,
+        "created_at": "2026-10-23T01:25:43.918Z",
+        "request_id": "92a07787-824e-4f6b-ac69-1578d8801761",
+        "acquisition_id": "92a07787-824e-4f6b-ac69-1578d8801761:2"
+      },
+      {
+        "code": "V-977",
+        "serial": 20,
+        "user_id": 1768,
+        "created_at": "2026-10-23T01:26:24.659Z",
+        "request_id": "3f369266-ecfc-473a-9ebc-aaaacb852e7b",
+        "acquisition_id": "3f369266-ecfc-473a-9ebc-aaaacb852e7b:6"
+      }
+    ],
+    "issuesAfter": [
+      {
+        "code": "V-977",
+        "serial": 1,
+        "user_id": 220,
+        "created_at": "2026-10-19T09:03:07.949Z",
+        "request_id": "29e34c35-1643-4244-8b82-ea0e62eba858",
+        "acquisition_id": "29e34c35-1643-4244-8b82-ea0e62eba858:4"
+      },
+      {
+        "code": "V-977",
+        "serial": 2,
+        "user_id": 45,
+        "created_at": "2026-10-19T09:10:09.842Z",
+        "request_id": "ops:sera-bathory-grant:20261019:v1",
+        "acquisition_id": "ops:sera-bathory-grant:20261019:v1"
+      },
+      {
+        "code": "V-977",
+        "serial": 3,
+        "user_id": 216,
+        "created_at": "2026-10-19T10:43:50.412Z",
+        "request_id": "3d62af6f-af39-4020-b67e-793cdb18fb65",
+        "acquisition_id": "3d62af6f-af39-4020-b67e-793cdb18fb65:7"
+      },
+      {
+        "code": "V-977",
+        "serial": 4,
+        "user_id": 4580,
+        "created_at": "2026-10-19T14:50:42.051Z",
+        "request_id": "5a69a1aa-1c8a-4796-a049-f70c4d08d909",
+        "acquisition_id": "5a69a1aa-1c8a-4796-a049-f70c4d08d909:1"
+      },
+      {
+        "code": "V-977",
+        "serial": 5,
+        "user_id": 4836,
+        "created_at": "2026-10-20T03:16:39.574Z",
+        "request_id": "a17ee8cd-5a7a-4ad1-a465-37cd7919fb5e",
+        "acquisition_id": "a17ee8cd-5a7a-4ad1-a465-37cd7919fb5e:4"
+      },
+      {
+        "code": "V-977",
+        "serial": 6,
+        "user_id": 289,
+        "created_at": "2026-10-20T04:16:26.764Z",
+        "request_id": "692489ea-bedb-452a-96dc-c5e5dd0d60af",
+        "acquisition_id": "692489ea-bedb-452a-96dc-c5e5dd0d60af:1"
+      },
+      {
+        "code": "V-977",
+        "serial": 7,
+        "user_id": 4598,
+        "created_at": "2026-10-20T05:54:36.270Z",
+        "request_id": "5caaf885-edb6-4522-9b1c-6303dbb16f17",
+        "acquisition_id": "5caaf885-edb6-4522-9b1c-6303dbb16f17:9"
+      },
+      {
+        "code": "V-977",
+        "serial": 8,
+        "user_id": 303,
+        "created_at": "2026-10-20T07:08:56.911Z",
+        "request_id": "f02462dd-2fd8-4977-9fbf-6fe114951021",
+        "acquisition_id": "f02462dd-2fd8-4977-9fbf-6fe114951021:1"
+      },
+      {
+        "code": "V-977",
+        "serial": 9,
+        "user_id": 4628,
+        "created_at": "2026-10-20T09:07:15.900Z",
+        "request_id": "e9f850a6-0322-4f14-8fb7-86dfafffe59b",
+        "acquisition_id": "e9f850a6-0322-4f14-8fb7-86dfafffe59b:9"
+      },
+      {
+        "code": "V-977",
+        "serial": 10,
+        "user_id": 4610,
+        "created_at": "2026-10-20T10:10:27.295Z",
+        "request_id": "15db805e-671f-45b0-9cc7-a03cdf408806",
+        "acquisition_id": "15db805e-671f-45b0-9cc7-a03cdf408806:6"
+      },
+      {
+        "code": "V-977",
+        "serial": 11,
+        "user_id": 130,
+        "created_at": "2026-10-20T19:37:26.970Z",
+        "request_id": "94366920-bea8-405a-a8f3-1c87bc208585",
+        "acquisition_id": "94366920-bea8-405a-a8f3-1c87bc208585:6"
+      },
+      {
+        "code": "V-977",
+        "serial": 12,
+        "user_id": 4933,
+        "created_at": "2026-10-20T20:11:43.138Z",
+        "request_id": "c16a9925-ce5e-44b6-8517-2f01dc3a8425",
+        "acquisition_id": "c16a9925-ce5e-44b6-8517-2f01dc3a8425:2"
+      },
+      {
+        "code": "V-977",
+        "serial": 13,
+        "user_id": 5008,
+        "created_at": "2026-10-20T21:16:02.780Z",
+        "request_id": "51498a46-b7da-4b3b-b883-98710c06bd38",
+        "acquisition_id": "51498a46-b7da-4b3b-b883-98710c06bd38:0"
+      },
+      {
+        "code": "V-977",
+        "serial": 14,
+        "user_id": 4595,
+        "created_at": "2026-10-20T22:04:43.397Z",
+        "request_id": "34c87c15-517c-4a42-8d87-a0c7d3d39e18",
+        "acquisition_id": "34c87c15-517c-4a42-8d87-a0c7d3d39e18:7"
+      },
+      {
+        "code": "V-977",
+        "serial": 15,
+        "user_id": 1249,
+        "created_at": "2026-10-20T22:14:56.409Z",
+        "request_id": "953eab30-8992-4af6-8f53-79ff72488c9b",
+        "acquisition_id": "953eab30-8992-4af6-8f53-79ff72488c9b:2"
+      },
+      {
+        "code": "V-977",
+        "serial": 16,
+        "user_id": 4628,
+        "created_at": "2026-10-23T00:13:31.470Z",
+        "request_id": "efeadd32-c8f9-453b-a786-3a8af3a9e2d2",
+        "acquisition_id": "efeadd32-c8f9-453b-a786-3a8af3a9e2d2:5"
+      },
+      {
+        "code": "V-977",
+        "serial": 17,
+        "user_id": 4598,
+        "created_at": "2026-10-23T00:22:15.927Z",
+        "request_id": "e87bdf8b-a772-4779-a59f-57cd8266c99e",
+        "acquisition_id": "e87bdf8b-a772-4779-a59f-57cd8266c99e:1"
+      },
+      {
+        "code": "V-977",
+        "serial": 18,
+        "user_id": 4628,
+        "created_at": "2026-10-23T01:14:56.111Z",
+        "request_id": "d1ea899b-fb47-461e-b8f3-fa081e322491",
+        "acquisition_id": "d1ea899b-fb47-461e-b8f3-fa081e322491:2"
+      },
+      {
+        "code": "V-977",
+        "serial": 19,
+        "user_id": 4628,
+        "created_at": "2026-10-23T01:25:43.918Z",
+        "request_id": "92a07787-824e-4f6b-ac69-1578d8801761",
+        "acquisition_id": "92a07787-824e-4f6b-ac69-1578d8801761:2"
+      },
+      {
+        "code": "V-977",
+        "serial": 20,
+        "user_id": 1768,
+        "created_at": "2026-10-23T01:26:24.659Z",
+        "request_id": "3f369266-ecfc-473a-9ebc-aaaacb852e7b",
+        "acquisition_id": "3f369266-ecfc-473a-9ebc-aaaacb852e7b:6"
+      }
+    ],
+    "craftBefore": [],
+    "craftAfter": [],
+    "protectedBeforeHash": "db3cf432a56b4c18a49bfec7fcd6a3a076f72d30836600c5dcc7968a43492936",
+    "protectedAfterHash": "db3cf432a56b4c18a49bfec7fcd6a3a076f72d30836600c5dcc7968a43492936",
+    "preserved": {
+      "currency": true,
+      "stockCounters": true,
+      "numberedIssues": true,
+      "craftCounts": true,
+      "packAndCraftSettings": true,
+      "otherCards": true,
+      "inventory": true,
+      "loadouts": true,
+      "levels": true,
+      "growth": true,
+      "accountSettings": true
+    },
+    "auditId": "50402"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "nickname": "쁠리의무사시",
+    "mercenary": "바토리",
+    "recipientCount": 1,
+    "totalQuantity": 1,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 1,
+    "auditRecords": 1
+  },
+  "sourceSha256": "023d8475ddd5ddd5aadf9cf04f0199f5ec43e6234f1e18b65f0cdb777424d4d6",
+  "verifiedAt": "2026-10-23T01:33:07.993Z",
+  "independentConnection": true
+}

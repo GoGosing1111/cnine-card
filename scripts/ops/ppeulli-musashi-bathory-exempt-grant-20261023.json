@@ -1,0 +1,29 @@
+{
+  "operationKey": "ops:ppeulli-musashi-bathory-exempt-grant:20261023:v1",
+  "authorization": "쁠리의무사시 바토리한장 지급해 횟수차감없이",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "materialConsumption": 0,
+  "automaticLoadout": false,
+  "levelPolicy": "PRESERVE_EXISTING_DEFAULT_ON_FIRST_USE",
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "115",
+      "nickname": "쁠리의무사시",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "c699e17dde7c2dabf259ef99df0d1a9ace12e3e7b1f9658dbcadc1453ce19460"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "115",
+      "nickname": "쁠리의무사시",
+      "code": "V-977",
+      "name": "바토리",
+      "quantity": 1
+    }
+  ]
+}

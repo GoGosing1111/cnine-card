@@ -1,0 +1,20 @@
+{
+  "verified": true,
+  "rollbackVerified": true,
+  "injectedFailureRolledBack": true,
+  "idempotentReplay": true,
+  "sourceSha256": "023d8475ddd5ddd5aadf9cf04f0199f5ec43e6234f1e18b65f0cdb777424d4d6",
+  "planHash": "f596dcef25a788c76668dd422b2e12c595bcdac449fb58ad4effc9fcedb1ca33",
+  "verification": {
+    "status": "VERIFIED",
+    "nickname": "쁠리의무사시",
+    "mercenary": "바토리",
+    "recipientCount": 1,
+    "totalQuantity": 1,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 1,
+    "auditRecords": 1
+  }
+}
