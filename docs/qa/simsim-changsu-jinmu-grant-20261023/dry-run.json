@@ -1,0 +1,18 @@
+{
+  "verified": true,
+  "rollbackVerified": true,
+  "injectedFailureRolledBack": true,
+  "idempotentReplay": true,
+  "sourceSha256": "5d8c653046e46184c365c82510b478761a45b45591efbf3924df70319387463b",
+  "planHash": "62dd665ec423c1072cae61c55402a460067d4ddf4689cf4f8442fae6f29a5e4d",
+  "verification": {
+    "status": "VERIFIED",
+    "recipientCount": 2,
+    "totalQuantity": 2,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 2,
+    "auditRecords": 1
+  }
+}

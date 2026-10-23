@@ -1,0 +1,20 @@
+{
+  "code": 0,
+  "finishedAt": "2026-10-23T14:41:14.846Z",
+  "head": "6187019098643aaeb422826f3fbab5719af6883b",
+  "base": "b323ff31bdd612c88ecb91b5c01af8b76a2d4bc8",
+  "tests": [
+    "tests/mercenary-manual-grant-access-20261022.test.mjs",
+    "tests/tmoney-jinmu-access-20261023.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "previouslyPassed": {
+    "file": "tests/simsim-changsu-jinmu-access-20261023.test.mjs",
+    "count": 3,
+    "unchangedRuntime": true
+  },
+  "reason": "User-authorized Jinmu grants for Simsim and Changsu, with exact-account equipment permission. Three new ownership, PVE/PVP save and battle tests passed; run existing manual grant and T-Money Jinmu regressions plus Worker and release guards once.",
+  "startedAt": "2026-10-23T14:39:02.701Z"
+}

@@ -1,0 +1,156 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:simsim-changsu-jinmu-exempt-grant:20261023:v1",
+  "actor": "CODEX_OPERATIONS",
+  "auditId": "50557",
+  "completedAt": "2026-10-23T14:41:43.838Z",
+  "planHash": "62dd665ec423c1072cae61c55402a460067d4ddf4689cf4f8442fae6f29a5e4d",
+  "sourceSha256": "5d8c653046e46184c365c82510b478761a45b45591efbf3924df70319387463b",
+  "grants": [
+    {
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "holdingBefore": null
+    },
+    {
+      "userId": "4933",
+      "nickname": "심심이",
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "holdingBefore": null
+    }
+  ],
+  "stockBefore": [
+    {
+      "code": "V-989",
+      "issued": 5,
+      "revision": 7,
+      "last_token": "9a10494c-7173-436d-8453-9982b582c14b",
+      "stock_limit": 5
+    }
+  ],
+  "stockAfter": [
+    {
+      "code": "V-989",
+      "issued": 5,
+      "revision": 7,
+      "last_token": "9a10494c-7173-436d-8453-9982b582c14b",
+      "stock_limit": 5
+    }
+  ],
+  "preserved": {
+    "currency": true,
+    "stockCounters": true,
+    "numberedIssues": true,
+    "craftCounts": true,
+    "packAndCraftSettings": true,
+    "otherCards": true,
+    "inventory": true,
+    "loadouts": true,
+    "levels": true,
+    "growth": true,
+    "accountSettings": true
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "recipientCount": 2,
+    "totalQuantity": 2,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 2,
+    "auditRecords": 1
+  },
+  "collection": {
+    "checkedAt": "2026-10-23T14:42:04.414Z",
+    "accounts": [
+      {
+        "accountId": 4908,
+        "nickname": "굳건창수",
+        "jinmu": {
+          "code": "V-989",
+          "name": "천룡검황 진무",
+          "rank": "SSS",
+          "totalCopies": 1,
+          "canDeploy": true
+        },
+        "loadouts": {
+          "PVE": {
+            "mercenaryCode": "V-055",
+            "revision": 71
+          },
+          "PVP": {
+            "mercenaryCode": "V-055",
+            "revision": 75
+          }
+        },
+        "battleSnapshots": {
+          "PVE": {
+            "code": "V-055",
+            "name": "베르칸"
+          },
+          "PVP": {
+            "code": "V-055",
+            "name": "베르칸"
+          }
+        }
+      },
+      {
+        "accountId": 4933,
+        "nickname": "심심이",
+        "jinmu": {
+          "code": "V-989",
+          "name": "천룡검황 진무",
+          "rank": "SSS",
+          "totalCopies": 1,
+          "canDeploy": true
+        },
+        "loadouts": {
+          "PVE": {
+            "mercenaryCode": "V-996",
+            "revision": 27
+          },
+          "PVP": {
+            "mercenaryCode": "V-996",
+            "revision": 20
+          }
+        },
+        "battleSnapshots": {
+          "PVE": {
+            "code": "V-996",
+            "name": "발테르"
+          },
+          "PVP": {
+            "code": "V-996",
+            "name": "발테르"
+          }
+        }
+      }
+    ],
+    "publicHash": "62ec52f4aba1749fd970e2b8a1ed2d00c0972e24cd99f8eb17c6927d3bea6f25"
+  },
+  "sourceCommit": "6187019098643aaeb422826f3fbab5719af6883b",
+  "pages": {
+    "id": "bb58c81c-482f-401f-8662-bb4b8799dcf4",
+    "url": "https://bb58c81c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "6187019098643aaeb422826f3fbab5719af6883b",
+    "createdAt": "2026-10-23T14:40:57.660055Z"
+  },
+  "versions": [
+    {
+      "version_id": "39656868-72a9-4830-957f-bc0211718460",
+      "percentage": 100
+    }
+  ],
+  "restoredIgnoredFiles": 73,
+  "restoredIgnoredBytes": 47807662
+}
