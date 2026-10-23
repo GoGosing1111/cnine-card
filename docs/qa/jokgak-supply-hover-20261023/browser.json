@@ -1,0 +1,80 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "rest": {
+        "background": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+        "outline": "none",
+        "width": 103.484375,
+        "height": 113
+      },
+      "hover": {
+        "background": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+        "outline": "none",
+        "width": 103.484375,
+        "height": 113
+      },
+      "active": {
+        "background": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+        "outline": "none",
+        "width": 103.484375,
+        "height": 113
+      },
+      "focus": {
+        "background": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+        "outline": "solid",
+        "width": 103.484375,
+        "height": 113
+      },
+      "locationSelection": true,
+      "touch": false
+    },
+    {
+      "width": 390,
+      "rest": {
+        "background": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+        "outline": "none",
+        "width": 103.484375,
+        "height": 113
+      },
+      "hover": {
+        "background": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+        "outline": "none",
+        "width": 103.484375,
+        "height": 113
+      },
+      "active": {
+        "background": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+        "outline": "none",
+        "width": 103.484375,
+        "height": 113
+      },
+      "focus": {
+        "background": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+        "outline": "solid",
+        "width": 103.484375,
+        "height": 113
+      },
+      "locationSelection": true,
+      "touch": true
+    }
+  ],
+  "errors": [],
+  "fixture": "Actual city UI and local fixture only; no live account requests"
+}

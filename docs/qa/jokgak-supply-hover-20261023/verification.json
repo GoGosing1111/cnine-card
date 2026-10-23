@@ -1,0 +1,112 @@
+{
+  "deployment": {
+    "id": "1b0ea676-e483-4661-9284-37d27c6aeccb",
+    "url": "https://1b0ea676.cnine-card.pages.dev",
+    "commit": "0244fe84c1576ec974fa85f72e6febefb03ffc7b",
+    "createdAt": "2026-10-23T14:52:20.385843Z"
+  },
+  "files": [
+    {
+      "file": "css/jokgak-city-supply-v1.css",
+      "sha256": "8d16cdf47a9961a970a020f8606307b37ae9594307bda2495bbdd48e449584c0",
+      "status": 200
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "sha256": "67fb659864618ca1ff1c690d1752c4474f04d764b067641de6f06afa14be1d1d",
+      "status": 200
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "sha256": "a753e5a8c1ad9ada532219f44a12bfd76f464df8e83854dc3ba89cc402a2bd23",
+      "status": 200
+    },
+    {
+      "file": "index.html",
+      "sha256": "b7a4516f2241c719001d5c43a6b0290e3b10650ec82d59e287155a087e9da22c",
+      "status": 200
+    }
+  ],
+  "preservedFilesRestored": 73,
+  "browser": {
+    "checks": [
+      {
+        "width": 1440,
+        "rest": {
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+          "outline": "none",
+          "width": 103.484375,
+          "height": 113
+        },
+        "hover": {
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+          "outline": "none",
+          "width": 103.484375,
+          "height": 113
+        },
+        "active": {
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+          "outline": "none",
+          "width": 103.484375,
+          "height": 113
+        },
+        "focus": {
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+          "outline": "solid",
+          "width": 103.484375,
+          "height": 113
+        },
+        "locationSelection": true,
+        "touch": false
+      },
+      {
+        "width": 390,
+        "rest": {
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+          "outline": "none",
+          "width": 103.484375,
+          "height": 113
+        },
+        "hover": {
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+          "outline": "none",
+          "width": 103.484375,
+          "height": 113
+        },
+        "active": {
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+          "outline": "none",
+          "width": 103.484375,
+          "height": 113
+        },
+        "focus": {
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "transform": "matrix(1, 0, 0, 1, -51.7422, -28.25)",
+          "outline": "solid",
+          "width": 103.484375,
+          "height": 113
+        },
+        "locationSelection": true,
+        "touch": true
+      }
+    ],
+    "errors": [],
+    "fixture": "Actual city UI and local fixture only; no live account requests"
+  },
+  "checkedAt": "2026-10-23T14:52:44.379Z"
+}
