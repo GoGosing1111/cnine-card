@@ -73,12 +73,13 @@ test('a mobile freeze crossing boss and result consumes each server receipt once
   const session=createHuntSession({...LEGION_HUNT_REVIEW_FIXTURE,seed:1731,now:()=>now});
   const server=restoreHuntSession(session.exportState(),{now:()=>now});server.begin();
   const h=harness(session.payload);h.engine.huntBackground=true;const done=h.run();
+  const bossAt=session.payload.huntPlayback.boss.combatAtMs;
   try{
-    await flush();now+=749000;h.engine.huntRun.wake();await flush();
+    await flush();now+=bossAt-1000;h.engine.huntRun.wake();await flush();
     assert.equal(h.engine.huntRun.bossEntered,false);
     now+=1000;h.engine.huntRun.wake();await flush();assert.equal(h.engine.huntRun.bossEntered,true);
-    assert.equal(h.notified.at(-1).seq,h.events.filter(e=>e.combatAtMs<=750000).at(-1).seq);
-    now+=300000;h.engine.show();assert.equal(await done,true);
+    assert.equal(h.notified.at(-1).seq,h.events.filter(e=>e.combatAtMs<=bossAt).at(-1).seq);
+    now+=session.payload.huntPlayback.limitMs-bossAt+1000;h.engine.show();assert.equal(await done,true);
     assert.deepEqual(h.notified.map(e=>e.seq),h.events.map(e=>e.seq));
     assert.deepEqual(h.snapshots.at(-1),session.payload.huntPlayback.final);
     const receipt=server.finish(h.notified.at(-1).seq);

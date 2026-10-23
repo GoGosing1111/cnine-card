@@ -1,4 +1,5 @@
 import {prepareEquipmentSetFX} from './EquipmentSetFX.js';
+import {battleAssetMemory,battleImageUrl} from './BattleAssetMemory.mjs';
 import {attachSealDragon,playSealDragonBreath} from './SealDragonPlayback.js';
 import {drawBattleGroundStations} from './BattleGroundSigil.js';
 import {preloadBattleHud} from './BattleHud.js';
@@ -349,12 +350,7 @@ const LOW_MEMORY_DEVICE=(()=>{
 // 변형이 없는 이미지(몬스터·이펙트)는 원본 그대로 통과한다.
 function cutInVariantUrl(value){
   const url=rootAssetPath(value);
-  if(!url)return '';
-  try{
-    const mapped=globalThis.cnineBattleSpriteUrl?.(url,384);
-    if(mapped)return mapped;
-  }catch(error){/* 매핑 실패는 원본 유지 */}
-  return url;
+  return battleImageUrl(url,{cutIn:true});
 }
 
 function originalCardArtUrl(card,art){
@@ -802,6 +798,7 @@ export class BaseBattleEngine{
     // Backgrounds are decorative. A rejected or stalled image request must not
     // prevent the authoritative battle/replay from mounting and playing.
     for(const source of new Set([primary,LEGACY_BATTLEFIELD])){
+      battleAssetMemory.remember(source);
       let timer;
       try{
         return await Promise.race([Assets.load(source),new Promise((_,reject)=>{
@@ -1191,6 +1188,7 @@ export class BaseBattleEngine{
   }
 
   rememberPendingLiveAsset(url,resource){
+    battleAssetMemory.remember(url);
     if(url&&this.pendingLiveAssets instanceof Map)this.pendingLiveAssets.set(url,resource||null);
     return resource;
   }
@@ -1742,6 +1740,7 @@ export class BaseBattleEngine{
   //       번들 정적 자산(ASSETS/BUNDLE)과 전장 배경은 애초에 추적하지 않으므로 절대 안 지운다.
   async trackLiveAssetPreload(preloadUrls,artEntries=[]){
     const unique=[...new Set(preloadUrls)].filter(Boolean);
+    unique.forEach(url=>battleAssetMemory.remember(url));
     const settled=await Promise.allSettled(unique.map(url=>Assets.load(url)));
     const pending=new Map();
     unique.forEach((url,index)=>{
@@ -1854,10 +1853,13 @@ export class BaseBattleEngine{
       :[];
     await this.prepareAdvancementRuntime(payload);
     this.prepareApocalypseBossUltimateRuntime(payload);
-    const resolveCardArt=(card,team)=>card?.projectVMonsterArt || (legion&&team==='ENEMY'?adapter?.resolveForV3?.(card):null) || card?.projectVBattleArt
+    const resolveCardArt=(card,team)=>{
+      const art=card?.projectVMonsterArt || (legion&&team==='ENEMY'?adapter?.resolveForV3?.(card):null) || card?.projectVBattleArt
       ||zenithAdapter?.resolveForBattle?.(card,{consumer:'BATTLE_ENGINE'})
       ||tierAdapter?.resolveForV3?.(card)
       ||fallback?.resolveForV3({kind:'CARD',team});
+      return art?{...art,primaryUrl:battleImageUrl(art.primaryUrl)}:art;
+    };
     const allyArt=allyCards.map(card=>resolveCardArt(card,'ALLY'));
     const enemyArt=enemyCards.map(card=>resolveCardArt(card,'ENEMY'));
     const monster=this.monsterFromPayload(payload);

@@ -1,0 +1,147 @@
+{
+  "date": "2026-10-24",
+  "browser": "Chrome desktop 1440x1000 and mobile viewport 390x844, DPR 3; not physical iPhone Safari",
+  "baseline": [
+    {
+      "name": "apocalypse-initial",
+      "rgbaEquivalentMiB": 203.609,
+      "textures": 41,
+      "canvas": {
+        "width": 585,
+        "height": 1176
+      }
+    },
+    {
+      "name": "apocalypse-20s",
+      "rgbaEquivalentMiB": 254.762,
+      "textures": 57,
+      "canvas": {
+        "width": 585,
+        "height": 1176
+      }
+    },
+    {
+      "name": "apocalypse-result",
+      "rgbaEquivalentMiB": 266.676,
+      "textures": 59,
+      "canvas": {
+        "width": 585,
+        "height": 1176
+      }
+    },
+    {
+      "name": "apocalypse-closed",
+      "rgbaEquivalentMiB": 256.012,
+      "textures": 58,
+      "canvas": {
+        "width": 585,
+        "height": 1176
+      }
+    },
+    {
+      "name": "legion-initial",
+      "rgbaEquivalentMiB": 157.293,
+      "textures": 46,
+      "canvas": {
+        "width": 585,
+        "height": 1008
+      }
+    },
+    {
+      "name": "legion-20s",
+      "rgbaEquivalentMiB": 158.543,
+      "textures": 47,
+      "canvas": {
+        "width": 585,
+        "height": 1008
+      }
+    },
+    {
+      "name": "parent-while-legion",
+      "rgbaEquivalentMiB": 256.012,
+      "textures": 58,
+      "canvas": {
+        "width": 585,
+        "height": 1176
+      }
+    }
+  ],
+  "after": [
+    {
+      "name": "apocalypse-initial",
+      "rgbaEquivalentMiB": 182.958,
+      "textures": 41,
+      "canvas": {
+        "width": 585,
+        "height": 1176
+      }
+    },
+    {
+      "name": "apocalypse-20s",
+      "rgbaEquivalentMiB": 234.112,
+      "textures": 57,
+      "canvas": {
+        "width": 585,
+        "height": 1176
+      }
+    },
+    {
+      "name": "apocalypse-result",
+      "rgbaEquivalentMiB": 246.026,
+      "textures": 59,
+      "canvas": {
+        "width": 585,
+        "height": 1176
+      }
+    },
+    {
+      "name": "apocalypse-closed",
+      "rgbaEquivalentMiB": 61.19,
+      "textures": 16,
+      "canvas": {}
+    },
+    {
+      "name": "apocalypse-reentry",
+      "rgbaEquivalentMiB": 189.708,
+      "textures": 45,
+      "canvas": {}
+    },
+    {
+      "name": "legion-initial",
+      "rgbaEquivalentMiB": 142.748,
+      "textures": 46,
+      "canvas": {
+        "width": 585,
+        "height": 1008
+      }
+    },
+    {
+      "name": "legion-20s",
+      "rgbaEquivalentMiB": 143.998,
+      "textures": 47,
+      "canvas": {
+        "width": 585,
+        "height": 1008
+      }
+    },
+    {
+      "name": "parent-while-legion",
+      "rgbaEquivalentMiB": 61.19,
+      "textures": 16,
+      "canvas": {}
+    },
+    {
+      "name": "legion-reentry",
+      "rgbaEquivalentMiB": 143.998,
+      "textures": 47,
+      "canvas": {
+        "width": 585,
+        "height": 1008
+      }
+    }
+  ],
+  "claim": "Isolated Apocalypse fixture reached CLAIMED. Actual Legion entry, retreat/result and same-difficulty retry passed. No page errors in corrected user-flow runners.",
+  "limitation": "TextureSource width * height * 4 estimate. Not process RSS, GPU memory, device memory limit, or proof that a reported iOS termination was reproduced.",
+  "artifacts": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\mobile-battle-memory-fix-20261024",
+  "scope": "Frontend resource lifecycle, existing responsive art variants, shared V3 bundle and cache refresh. No backend/account/energy/refund/balance changes."
+}

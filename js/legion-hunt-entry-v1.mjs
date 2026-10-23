@@ -134,9 +134,12 @@ export function openLegionHunt(button){
     find('[data-hunt-entry-limit]').textContent=unlimited?'무제한':data?.entries?data.entries.limit+'회':'—';
     dialog.dataset.difficulty=state.difficulty;
   };
-  const controller=createHuntEntry({render,enter:()=>{
+  const controller=createHuntEntry({render,enter:async()=>{
+    try{await window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true});}
+    catch(error){console.warn('[Legion Hunt] Previous battle resource release failed',error);}
+    if(controller.state.phase!=='battle')return;
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
-    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20261018-coins-paced-v2';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
+    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20261024-mobile-memory-v1';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
   },dispose:()=>{clearInterval(energyTimer);clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus();}});
   energyTimer=setInterval(()=>{
     const state=controller.state;if(state.phase!=='lobby'||!state.data)return;

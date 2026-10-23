@@ -3,24 +3,34 @@ import {prepareSealDragon} from './battle/SealDragonPlayback.js';
 import {createEffectScene} from './battle/EffectScene.js';
 import {BattleEngine as ExpeditionBattleEngine} from '../../../pve-v3/BattleEngine.js';
 import {Assets,Container,Graphics,Sprite,Texture,Rectangle} from 'pixi.js';
+import {battleAssetMemory,battleWarmupWork} from './battle/BattleAssetMemory.mjs';
 
 let engine=null;
 let effectMountPromise=null;
 let accountPreviewFirearmHook=null;
+let releasePromise=null;
+const pendingOperations=new Set();
+function trackOperation(promise){
+  pendingOperations.add(promise);
+  void promise.then(()=>pendingOperations.delete(promise),()=>pendingOperations.delete(promise));
+  return promise;
+}
 const engineType=payload=>typeof __CNINE_NATIVE_CONTINUOUS__!=='undefined'&&__CNINE_NATIVE_CONTINUOUS__&&payload?.continuousEncounter?ExpeditionBattleEngine:BattleEngine;
 
 async function mount(target=document.getElementById('pvPixiBattle')){
+  if(releasePromise)await releasePromise;
   if(effectMountPromise)await effectMountPromise.catch(()=>{});
   if(engine?.effectScene)destroy();
   if(engine)return engine;
   const candidate=engine=new BattleEngine({host:target});
   candidate.setAccountBattleUnitPreviewFireHook(accountPreviewFirearmHook);
-  await candidate.mount();
+  await trackOperation(candidate.mount());
   if(engine!==candidate)throw Error('취소된 전투 화면 초기화입니다.');
   return candidate;
 }
 
 async function mountForBattle(payload,target=document.getElementById('pvPixiBattle')){
+  if(releasePromise)await releasePromise;
   if(effectMountPromise)await effectMountPromise.catch(()=>{});
   if(engine?.effectScene)destroy();
   if(engine)return resetSession(payload,target);
@@ -28,7 +38,7 @@ async function mountForBattle(payload,target=document.getElementById('pvPixiBatt
   const candidate=engine=new Engine({host:target,battleData:payload});
   candidate.setAccountBattleUnitPreviewFireHook(accountPreviewFirearmHook);
   try{
-    await candidate.mount();
+    await trackOperation(candidate.mount());
     if(engine!==candidate)throw Error('취소된 전투 화면 초기화입니다.');
     return candidate;
   }catch(error){
@@ -40,12 +50,13 @@ async function mountForBattle(payload,target=document.getElementById('pvPixiBatt
 }
 
 async function resetSession(payload,target=document.getElementById('pvPixiBattle')){
+  if(releasePromise)await releasePromise;
   if(effectMountPromise)await effectMountPromise.catch(()=>{});
   if(engine?.effectScene)destroy();
   const Engine=engineType(payload);
   if(engine&&(engine.constructor!==Engine||engine.battleData?.title!==payload?.title&&payload?.continuousEncounter))destroy();
   if(!engine)return mountForBattle(payload,target);
-  return engine.resetSession(payload,target);
+  return trackOperation(engine.resetSession(payload,target));
 }
 
 async function setVisible(next){
@@ -55,7 +66,7 @@ async function setVisible(next){
 
 async function runSequence(){
   if(!engine)await mount();
-  return engine.runSequence();
+  return trackOperation(engine.runSequence());
 }
 
 function destroy(){
@@ -63,7 +74,27 @@ function destroy(){
   previous?.destroy();
 }
 
+// Explicitly leaving a battle differs from a hidden tab or paused replay.
+// Finish initialization and authored warm-ups before unloading owned images;
+// new mounts must wait so the old release cannot destroy the next battle.
+function releaseBattle({onlyIfIdle=false}={}){
+  if(releasePromise)return releasePromise;
+  if(engine?.effectScene||onlyIfIdle&&(engine?.visible||engine?.playing))return Promise.resolve(false);
+  const previous=engine;engine=null;
+  const hidden=previous?.setVisible(false);
+  releasePromise=(async()=>{
+    await Promise.allSettled([hidden,...pendingOperations]);
+    const work=battleWarmupWork(previous);
+    previous?.destroy();
+    await battleAssetMemory.release(work);
+    return true;
+  })().finally(()=>{releasePromise=null;});
+  return releasePromise;
+}
+function whenReleased(){return releasePromise||Promise.resolve();}
+
 async function mountEffectScene(target){
+  if(releasePromise)await releasePromise;
   if(effectMountPromise)await effectMountPromise.catch(()=>{});
   if(engine?.effectScene&&engine.mounted)return engine.attachTo(target);
   // An active personal battle owns the singleton. The territory scene retries
@@ -82,7 +113,7 @@ function releaseEffectScene(scene){if(engine===scene&&engine?.effectScene)destro
 
 async function playEvents(events,options){
   if(!engine)await mount();
-  return engine.playEvents(events,options);
+  return trackOperation(engine.playEvents(events,options));
 }
 
 async function restoreDeployedFormation(){
@@ -168,7 +199,7 @@ async function playAccountPreviewShot({onAnticipation,onFire,damage=100000}={}){
 }
 
 const fxRuntime=Object.freeze({Assets,Container,Graphics,Sprite,Texture,Rectangle});
-const api={runtimeVersion:'20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1',prepareSealDragon,fxRuntime,mountEffectScene,releaseEffectScene,mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,syncCooperativeState,restorePetSupport,diagnostics,destroy};
+const api={runtimeVersion:'20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-mobile-memory-20261024-v1',prepareSealDragon,fxRuntime,mountEffectScene,releaseEffectScene,mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,syncCooperativeState,restorePetSupport,diagnostics,destroy,releaseBattle,whenReleased};
 if(typeof window!=='undefined')window.ProjectVPixiBattle=api;
 
-export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,syncCooperativeState,restorePetSupport,diagnostics,destroy};
+export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,syncCooperativeState,restorePetSupport,diagnostics,destroy,releaseBattle,whenReleased};
