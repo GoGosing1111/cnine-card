@@ -1,0 +1,84 @@
+{
+  "status": "COMPLETED",
+  "actor": "CODEX_OPERATIONS",
+  "operationKey": "ops:rapi-ddungcho-grant-message:20261023:v1",
+  "planHash": "0392bda9635252d19c820689a34e2dff2f1fdf2620902d38321ac3e07579da34",
+  "sourceSha256": "d4bfca0be1186685974bf85ade36c9126f6b0caea32c8ca8f6c440ae76b5c1ea",
+  "completedAt": "2026-10-23T10:59:22.028Z",
+  "verifiedAt": "2026-10-23T10:59:29.183Z",
+  "auditId": "50518",
+  "grants": [
+    {
+      "userId": "360",
+      "nickname": "라피e",
+      "code": "V-999",
+      "name": "헬리오스",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "messageId": "253914",
+      "messageTitle": "헬리오스 지급 완료",
+      "messageBody": "헬리오스 1장이 지급되었습니다. 용병 보유 목록에서 확인하실 수 있습니다."
+    },
+    {
+      "userId": "787",
+      "nickname": "뚱초환",
+      "code": "V-057",
+      "name": "신궁 강윤",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "messageId": "253915",
+      "messageTitle": "강윤 지급 완료",
+      "messageBody": "신궁 강윤 1장이 지급되었습니다. 용병 보유 목록에서 확인하실 수 있습니다."
+    }
+  ],
+  "acquisitions": [
+    "ops:rapi-ddungcho-grant-message:20261023:v1:360:V-999:1",
+    "ops:rapi-ddungcho-grant-message:20261023:v1:787:V-057:1"
+  ],
+  "stockBefore": [
+    {
+      "code": "V-999",
+      "issued": 8,
+      "revision": 13,
+      "last_token": "33c0429d-59b9-4e8a-b0ff-d2778c59677d",
+      "stock_limit": 8
+    }
+  ],
+  "stockAfter": [
+    {
+      "code": "V-999",
+      "issued": 8,
+      "revision": 13,
+      "last_token": "33c0429d-59b9-4e8a-b0ff-d2778c59677d",
+      "stock_limit": 8
+    }
+  ],
+  "preserved": {
+    "currency": true,
+    "stockCounters": true,
+    "numberedIssues": true,
+    "craftCounts": true,
+    "packAndCraftSettings": true,
+    "otherCards": true,
+    "inventory": true,
+    "loadouts": true,
+    "levels": true,
+    "growth": true,
+    "accountSettings": true
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "recipientCount": 2,
+    "totalQuantity": 2,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 2,
+    "auditRecords": 1,
+    "messageRecords": 2,
+    "attachedRewardRecords": 0
+  },
+  "independentConnection": true
+}

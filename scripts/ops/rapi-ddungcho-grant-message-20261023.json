@@ -1,0 +1,51 @@
+{
+  "operationKey": "ops:rapi-ddungcho-grant-message:20261023:v1",
+  "authorization": [
+    "라피e계정에 헬리오스 지급하고 메세지 전송해",
+    "뚱초환은 강윤 지급 후 메세지 전송"
+  ],
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "totalQuantity": 2,
+  "recipientCount": 2,
+  "recipients": [
+    {
+      "id": "360",
+      "nickname": "라피e",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "57fc3c6413bfff808081b3915dd54e2797ba3772572ef07c70c3f714e50017d9"
+    },
+    {
+      "id": "787",
+      "nickname": "뚱초환",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "c954ddbe54280bb78c3762207c1a123446f285103d36287f2a61cb386b49ba4e"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "360",
+      "nickname": "라피e",
+      "code": "V-999",
+      "name": "헬리오스",
+      "rank": "SSS",
+      "quantity": 1,
+      "messageTitle": "헬리오스 지급 완료",
+      "messageBody": "헬리오스 1장이 지급되었습니다. 용병 보유 목록에서 확인하실 수 있습니다."
+    },
+    {
+      "userId": "787",
+      "nickname": "뚱초환",
+      "code": "V-057",
+      "name": "신궁 강윤",
+      "rank": "SSS",
+      "quantity": 1,
+      "messageTitle": "강윤 지급 완료",
+      "messageBody": "신궁 강윤 1장이 지급되었습니다. 용병 보유 목록에서 확인하실 수 있습니다."
+    }
+  ],
+  "messagePolicy": "NOTICE_ONLY_NO_ATTACHED_REWARD"
+}
