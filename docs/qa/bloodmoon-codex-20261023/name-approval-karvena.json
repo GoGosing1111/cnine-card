@@ -1,0 +1,11 @@
+{
+  "dateKST": "2026-10-23",
+  "code": "V-963",
+  "slug": "claws",
+  "previousName": "독자 캐릭터 A",
+  "name": "카르베나",
+  "nameStatus": "USER_APPROVED_20261023",
+  "userInstruction": "카르베나 승인 실렌 다른이름 추천해",
+  "scope": "NAME_ONLY",
+  "otherCharacter": {"code": "V-964", "name": "독자 캐릭터 B", "nameStatus": "WORKING_LABEL"}
+}
