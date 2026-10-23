@@ -34,9 +34,9 @@ test('card and equipment destinations use separate top-level categories',async()
 });
 
 test('legacy tutorial opens the growth guide and every destination exists in the live route contract',async()=>{
-  const [legacy,bridge,lobby,adapter]=await Promise.all([
+  const [legacy,bridge,lobby,adapter,app]=await Promise.all([
     read('preview/lobby-clarity-v1/tutorial/index.html'),read('preview/lobby-clarity-v1/tutorial/bridge.js'),
-    read('preview/lobby-clarity-v1/index.html'),read('js/soopketmon-v21-exact-shell-adapter.js')
+    read('preview/lobby-clarity-v1/index.html'),read('js/soopketmon-v21-exact-shell-adapter.js'),read('preview/lobby-clarity-v1/app.js')
   ]);
   const {STEPS,ROUTES,LIMITED_NOTICE}=await import('../ui/growth-guide/content.mjs');
   assert.match(legacy,/bridge\.js\?v=20261024-growth-guide/);
@@ -47,7 +47,9 @@ test('legacy tutorial opens the growth guide and every destination exists in the
   assert.doesNotMatch(lobby,/처음 오셨나요|첫 이용 안내/);
   for(const step of STEPS)for(const block of step.blocks)for(const [route] of block.links||[]){
     assert.ok(ROUTES[route],route+' must have a standalone fallback');
-    assert.ok(adapter.includes(route+': Object.freeze('),route+' must exist in the live navigation contract');
+    const inAdapter=adapter.includes(route+': Object.freeze(');
+    const standaloneEntry=app.includes("{id:'"+route+"',title:")&&app.includes(route+":'"+ROUTES[route]+"'");
+    assert.ok(inAdapter||standaloneEntry,route+' must exist in the live navigation contract or an explicit standalone lobby destination');
   }
   const {safePublicPath}=await import('../packaging/windows-client/lib/policy.mjs');
   for(const file of ['index.html','app.js','content.mjs','style.css'])assert.ok(safePublicPath('/ui/growth-guide/'+file),'guide must be downloadable by the desktop client');
