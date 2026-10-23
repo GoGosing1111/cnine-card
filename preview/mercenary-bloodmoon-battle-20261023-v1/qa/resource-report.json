@@ -1,0 +1,59 @@
+{
+  "dateKST": "2026-10-23",
+  "status": "PASS",
+  "checks": [
+    "approved-source-hashes",
+    "exact-user-selected-bongsoon",
+    "80-preserved-lossless-pixel-copies",
+    "two-repaired-idle-feet-with-originals-preserved",
+    "80-distinct-effect-frames",
+    "six-state-frame-bounds",
+    "skill-contact-and-completion",
+    "late-load-failure-cleanup",
+    "current-canonical-balance-report",
+    "unassigned-rank-and-release-gates"
+  ],
+  "characters": [
+    {
+      "slug": "bongsoon",
+      "frames": 16,
+      "effectFrames": 16,
+      "sourcePixels": 730800,
+      "copiedPixels": 730800,
+      "approvedSourceSha": "F72CFF4055340C7859649F0A971B2557E16DDFC57F7AB8EBD7E1309B070E4A8E"
+    },
+    {
+      "slug": "joeun",
+      "frames": 16,
+      "effectFrames": 16,
+      "sourcePixels": 897249,
+      "copiedPixels": 897249,
+      "approvedSourceSha": "2756F59F1703411C57D7257FB10F049DF046241CF395A646610B9EA19E567787"
+    },
+    {
+      "slug": "diim",
+      "frames": 16,
+      "effectFrames": 16,
+      "sourcePixels": 795359,
+      "copiedPixels": 795359,
+      "approvedSourceSha": "EC0AE02A8DCF159DDEA5BAC6215EB56CA271FADA9EA19E4A4DB2589513A5D537"
+    },
+    {
+      "slug": "claws",
+      "frames": 16,
+      "effectFrames": 16,
+      "sourcePixels": 1002741,
+      "copiedPixels": 1002741,
+      "approvedSourceSha": "4A3CE150F220EF56CBE8C457F1CD4329650C0DA8092848D90E54873D058E728F"
+    },
+    {
+      "slug": "dagger",
+      "frames": 16,
+      "effectFrames": 16,
+      "sourcePixels": 802012,
+      "copiedPixels": 802012,
+      "approvedSourceSha": "B438EA1FCD38F7D04C960FEDD04EF350A99EFB0B21940C27444E4E90860F2EC8"
+    }
+  ],
+  "reviewFingerprint": "5e76a78606b1736dce03d228b5f119beb311b62e89babfd44b2ceb45084805e3"
+}

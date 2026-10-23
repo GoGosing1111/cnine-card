@@ -1,0 +1,47 @@
+{
+  "dateKST": "2026-10-23",
+  "reviewer": "CODEX_TECHNICAL_VISUAL_QA",
+  "userApproval": "PENDING",
+  "checked": [
+    "Desktop and mobile panels, image buttons and DOM labels have no overlapping decoration or horizontal page overflow",
+    "Selected Bongsoon source is byte-identical; world body scale now remains fixed across action start, progress, completion and cancellation",
+    "All five mercenaries hold the first idle pose with fixed world foot position and scale through actual idle playback loops on desktop and mobile",
+    "Bongsoon basic and skill shots travel straight at constant speed for 0.12 seconds, with skill shots separated by 0.07 seconds and impact reaction only after arrival",
+    "Bongsoon both idle boot bottoms are complete in separate ImageGen repairs; original atlas and other fourteen active poses remain unchanged, with resolution-density calibration only",
+    "All four melee characters use running poses during approach, show no separate skill effects before contact, then align weapon contact and impact effects on the target",
+    "Default playback is now 2x; desktop and mobile render a 0.42-second motion in approximately 0.211 seconds of real time",
+    "Both dagger idle frames show complete calves and boots on white, dark and actual V3 backgrounds",
+    "Diim complete-weapon revision shows the full crescent silhouette and shaft in idle, running, recovery and kneeling frames",
+    "Existing V3 formation, five-card dock and separate mercenary slot are retained",
+    "Skill effects contain changing cast, travel, impact and fade frames"
+  ],
+  "evidence": [
+    "desktop-page.png",
+    "mobile-page.png",
+    "desktop-bongsoon-skill.png",
+    "desktop-bongsoon-idle.png",
+    "mobile-bongsoon-idle.png",
+    "motion-regression.json",
+    "scale-before.json",
+    "contact-speed.json",
+    "contact-before.json",
+    "desktop-bongsoon-feet-fixed.png",
+    "mobile-bongsoon-feet-fixed.png",
+    "desktop-diim-approach.png",
+    "desktop-diim-contact.png",
+    "mobile-diim-approach.png",
+    "mobile-diim-contact.png",
+    "desktop-dagger-idle.png",
+    "desktop-diim-skill.png",
+    "mobile-diim-skill.png",
+    "dagger-alpha-composite.png",
+    "weapon-feet-detail.png"
+  ],
+  "storageAudit": {
+    "measuredAtUTC": "2026-10-22T23:37:36.028528+00:00",
+    "codexLogicalGiB": 49.131,
+    "scanErrors": 0,
+    "newProjectOrDependencyCopies": 0,
+    "preserved": ["approved originals", "generated_images", "prompts", "hashes", "review artifacts"]
+  }
+}

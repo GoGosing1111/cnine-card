@@ -1,0 +1,5781 @@
+{
+  "dateKST": "2026-10-23",
+  "mode": "REGRESSION",
+  "cases": [
+    {
+      "screen": "desktop",
+      "slug": "bongsoon",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.12012987012987,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.12012987012987,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.12012987012987,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.12012987012987,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.12012987012987,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.12012987012987,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        }
+      ],
+      "minRatio": 1,
+      "maxRatio": 1.0000000000000002,
+      "idle": [
+        {
+          "time": 0,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.35,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.7,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 1.05,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 1.4,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.108,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.213,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.316,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.416,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.52,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.62,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.716,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.824,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.924,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 1.024,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 1.13,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 1.234,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 1.339,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.042,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.152,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.259,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        }
+      ]
+    },
+    {
+      "screen": "desktop",
+      "slug": "joeun",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 109.10624999999993,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.9999999999999998
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        }
+      ],
+      "minRatio": 0.9999999999999998,
+      "maxRatio": 1.0000000000000002,
+      "idle": [
+        {
+          "time": 0,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.35,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.7,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 1.05,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 1.4,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.107,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.211,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.312,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.417,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.518,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.62,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.723,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.824,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.928,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 1.033,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 1.139,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 1.24,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 1.348,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.053,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.157,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.257,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        }
+      ]
+    },
+    {
+      "screen": "desktop",
+      "slug": "diim",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        }
+      ],
+      "minRatio": 1,
+      "maxRatio": 1.0000000000000002,
+      "idle": [
+        {
+          "time": 0,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.35,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.7,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 1.05,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 1.4,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.102,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.208,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.312,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.415,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.519,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.626,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.728,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.827,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.931,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 1.033,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 1.138,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 1.24,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 1.339,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.036,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.14,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.245,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        }
+      ]
+    },
+    {
+      "screen": "desktop",
+      "slug": "claws",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 109.10624999999993,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.9999999999999998
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        }
+      ],
+      "minRatio": 0.9999999999999998,
+      "maxRatio": 1.0000000000000002,
+      "idle": [
+        {
+          "time": 0,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.35,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.7,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 1.05,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 1.4,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.1,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.203,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.303,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.404,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.508,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.608,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.712,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.812,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.912,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 1.012,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 1.116,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 1.22,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 1.324,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.021,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.125,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.224,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        }
+      ]
+    },
+    {
+      "screen": "desktop",
+      "slug": "dagger",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.9999999999999998
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.9999999999999998
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.9999999999999998
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        }
+      ],
+      "minRatio": 0.9999999999999998,
+      "maxRatio": 1,
+      "idle": [
+        {
+          "time": 0,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.35,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.7,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 1.05,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 1.4,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.102,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.202,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.302,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.402,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.506,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.61,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.711,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.81,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.909,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 1.015,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 1.114,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 1.215,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 1.32,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.02,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.119,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.22,
+          "frame": 0,
+          "foot": {
+            "x": 240.35000000000005,
+            "y": 171.475
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        }
+      ]
+    },
+    {
+      "screen": "mobile",
+      "slug": "bongsoon",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.4573417013608401,
+          "artPixelDensity": 2.44921875,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        }
+      ],
+      "minRatio": 1,
+      "maxRatio": 1,
+      "idle": [
+        {
+          "time": 0,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.35,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.7,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 1.05,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 1.4,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.106,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.209,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.314,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.418,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.518,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.622,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.722,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.822,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.929,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 1.036,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 1.139,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 1.243,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 1.343,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.046,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.15,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        },
+        {
+          "time": 0.25,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          }
+        }
+      ]
+    },
+    {
+      "screen": "mobile",
+      "slug": "joeun",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        }
+      ],
+      "minRatio": 1,
+      "maxRatio": 1,
+      "idle": [
+        {
+          "time": 0,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.35,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.7,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 1.05,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 1.4,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.103,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.206,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.306,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.407,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.511,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.615,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.719,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.823,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.923,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 1.027,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 1.127,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 1.227,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 1.331,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.029,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.133,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        },
+        {
+          "time": 0.233,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          }
+        }
+      ]
+    },
+    {
+      "screen": "mobile",
+      "slug": "diim",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        }
+      ],
+      "minRatio": 1,
+      "maxRatio": 1,
+      "idle": [
+        {
+          "time": 0,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.35,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.7,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 1.05,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 1.4,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.104,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.204,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.304,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.408,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.508,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.612,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.716,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.816,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.916,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 1.016,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 1.12,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 1.22,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 1.324,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.02,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.125,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        },
+        {
+          "time": 0.225,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          }
+        }
+      ]
+    },
+    {
+      "screen": "mobile",
+      "slug": "claws",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 63.952777777777754,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.9999999999999996
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        }
+      ],
+      "minRatio": 0.9999999999999996,
+      "maxRatio": 1,
+      "idle": [
+        {
+          "time": 0,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.35,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.7,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 1.05,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 1.4,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.102,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.205,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.306,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.41,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.51,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.61,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.714,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.819,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.922,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 1.026,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 1.127,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 1.23,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 1.331,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.034,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.138,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        },
+        {
+          "time": 0.238,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          }
+        }
+      ]
+    },
+    {
+      "screen": "mobile",
+      "slug": "dagger",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 63.95277777777781,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1.0000000000000004
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "artPixelDensity": 1,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        }
+      ],
+      "minRatio": 1,
+      "maxRatio": 1.0000000000000004,
+      "idle": [
+        {
+          "time": 0,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.35,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.7,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 1.05,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 1.4,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.103,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.203,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.304,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.407,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.508,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.612,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.712,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.816,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.916,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 1.016,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 1.12,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 1.22,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 1.324,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.021,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.125,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        },
+        {
+          "time": 0.229,
+          "frame": 0,
+          "foot": {
+            "x": 104.40000000000002,
+            "y": 95.91203703703701
+          },
+          "scale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          }
+        }
+      ]
+    }
+  ],
+  "projectileCases": [
+    {
+      "screen": "desktop",
+      "action": "attack",
+      "duration": 0.82,
+      "contact": 0.3,
+      "count": 1,
+      "samples": [
+        {
+          "index": 0,
+          "progress": 0,
+          "time": 0.18,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 503.30044955044946,
+              "y": 114.73214285714282
+            },
+            "target": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "point": {
+              "x": 503.30044955044946,
+              "y": 114.73214285714282
+            },
+            "rotation": 0.5247294507667414,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.25,
+          "time": 0.21,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 503.30044955044946,
+              "y": 114.73214285714282
+            },
+            "target": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "point": {
+              "x": 682.4753371628371,
+              "y": 218.4491071428571
+            },
+            "rotation": 0.5247294507667414,
+            "progress": 0.25,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.5,
+          "time": 0.24,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 503.30044955044946,
+              "y": 114.73214285714282
+            },
+            "target": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "point": {
+              "x": 861.6502247752248,
+              "y": 322.16607142857134
+            },
+            "rotation": 0.5247294507667414,
+            "progress": 0.5,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.75,
+          "time": 0.27,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 503.30044955044946,
+              "y": 114.73214285714282
+            },
+            "target": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "point": {
+              "x": 1040.8251123876125,
+              "y": 425.8830357142857
+            },
+            "rotation": 0.5247294507667414,
+            "progress": 0.7500000000000002,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.999,
+          "time": 0.29988,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 503.30044955044946,
+              "y": 114.73214285714282
+            },
+            "target": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "point": {
+              "x": 1219.2833004495506,
+              "y": 529.185132142857
+            },
+            "rotation": 0.5247294507667414,
+            "progress": 0.9989999999999999,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 1,
+          "time": 0.3,
+          "shot": {
+            "index": 0,
+            "stage": "impact",
+            "origin": {
+              "x": 503.30044955044946,
+              "y": 114.73214285714282
+            },
+            "target": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "point": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "rotation": 0,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        }
+      ],
+      "endEffects": 0,
+      "cancelEffects": 0,
+      "cancelTimelines": 0
+    },
+    {
+      "screen": "desktop",
+      "action": "skill",
+      "duration": 1.2,
+      "contact": 0.36,
+      "count": 3,
+      "samples": [
+        {
+          "index": 0,
+          "progress": 0,
+          "time": 0.24,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "point": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "rotation": 0.5481134039679756,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.25,
+          "time": 0.27,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "point": {
+              "x": 717.8212714704651,
+              "y": 223.01363636363644
+            },
+            "rotation": 0.5481134039679756,
+            "progress": 0.2500000000000002,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.5,
+          "time": 0.3,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "point": {
+              "x": 885.2141809803101,
+              "y": 325.2090909090909
+            },
+            "rotation": 0.5481134039679756,
+            "progress": 0.5,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.75,
+          "time": 0.32999999999999996,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "point": {
+              "x": 1052.6070904901549,
+              "y": 427.4045454545453
+            },
+            "rotation": 0.5481134039679756,
+            "progress": 0.7499999999999998,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.999,
+          "time": 0.35988,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "point": {
+              "x": 1219.330428361961,
+              "y": 529.191218181818
+            },
+            "rotation": 0.5481134039679756,
+            "progress": 0.9989999999999999,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 1,
+          "time": 0.36,
+          "shot": {
+            "index": 0,
+            "stage": "impact",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "point": {
+              "x": 1220.0000000000002,
+              "y": 529.5999999999999
+            },
+            "rotation": 0,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 1,
+          "progress": 0,
+          "time": 0.31,
+          "shot": {
+            "index": 1,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1429.9999999999998,
+              "y": 353.6
+            },
+            "point": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "rotation": 0.2587220513038294,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 1,
+          "progress": 0.25,
+          "time": 0.33999999999999997,
+          "shot": {
+            "index": 1,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1429.9999999999998,
+              "y": 353.6
+            },
+            "point": {
+              "x": 770.3212714704647,
+              "y": 179.01363636363632
+            },
+            "rotation": 0.2587220513038294,
+            "progress": 0.24999999999999978,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 1,
+          "progress": 0.5,
+          "time": 0.37,
+          "shot": {
+            "index": 1,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1429.9999999999998,
+              "y": 353.6
+            },
+            "point": {
+              "x": 990.2141809803098,
+              "y": 237.20909090909095
+            },
+            "rotation": 0.2587220513038294,
+            "progress": 0.5,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 1,
+          "progress": 0.75,
+          "time": 0.4,
+          "shot": {
+            "index": 1,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1429.9999999999998,
+              "y": 353.6
+            },
+            "point": {
+              "x": 1210.1070904901549,
+              "y": 295.40454545454554
+            },
+            "rotation": 0.2587220513038294,
+            "progress": 0.7500000000000002,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 1,
+          "progress": 0.999,
+          "time": 0.42988,
+          "shot": {
+            "index": 1,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1429.9999999999998,
+              "y": 353.6
+            },
+            "point": {
+              "x": 1429.1204283619604,
+              "y": 353.3672181818182
+            },
+            "rotation": 0.2587220513038294,
+            "progress": 0.9989999999999999,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 1,
+          "progress": 1,
+          "time": 0.43,
+          "shot": {
+            "index": 1,
+            "stage": "impact",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1429.9999999999998,
+              "y": 353.6
+            },
+            "point": {
+              "x": 1429.9999999999998,
+              "y": 353.6
+            },
+            "rotation": 0,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 2,
+          "progress": 0,
+          "time": 0.38,
+          "shot": {
+            "index": 2,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1009.9999999999999,
+              "y": 353.6
+            },
+            "point": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "rotation": 0.46884928774819895,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 2,
+          "progress": 0.25,
+          "time": 0.41000000000000003,
+          "shot": {
+            "index": 2,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1009.9999999999999,
+              "y": 353.6
+            },
+            "point": {
+              "x": 665.321271470465,
+              "y": 179.01363636363644
+            },
+            "rotation": 0.46884928774819895,
+            "progress": 0.2500000000000002,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 2,
+          "progress": 0.5,
+          "time": 0.44,
+          "shot": {
+            "index": 2,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1009.9999999999999,
+              "y": 353.6
+            },
+            "point": {
+              "x": 780.21418098031,
+              "y": 237.20909090909095
+            },
+            "rotation": 0.46884928774819895,
+            "progress": 0.5,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 2,
+          "progress": 0.75,
+          "time": 0.47,
+          "shot": {
+            "index": 2,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1009.9999999999999,
+              "y": 353.6
+            },
+            "point": {
+              "x": 895.1070904901549,
+              "y": 295.4045454545454
+            },
+            "rotation": 0.46884928774819895,
+            "progress": 0.7499999999999998,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 2,
+          "progress": 0.999,
+          "time": 0.49988,
+          "shot": {
+            "index": 2,
+            "stage": "travel",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1009.9999999999999,
+              "y": 353.6
+            },
+            "point": {
+              "x": 1009.5404283619605,
+              "y": 353.3672181818182
+            },
+            "rotation": 0.46884928774819895,
+            "progress": 0.9989999999999999,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 2,
+          "progress": 1,
+          "time": 0.5,
+          "shot": {
+            "index": 2,
+            "stage": "impact",
+            "origin": {
+              "x": 550.4283619606199,
+              "y": 120.81818181818183
+            },
+            "target": {
+              "x": 1009.9999999999999,
+              "y": 353.6
+            },
+            "point": {
+              "x": 1009.9999999999999,
+              "y": 353.6
+            },
+            "rotation": 0,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        }
+      ],
+      "endEffects": 0,
+      "cancelEffects": 0,
+      "cancelTimelines": 0,
+      "realTimeCompletion": {
+        "sizeRatio": 1,
+        "playing": false,
+        "effects": 0,
+        "registeredTimelines": 0
+      }
+    },
+    {
+      "screen": "mobile",
+      "action": "attack",
+      "duration": 0.82,
+      "contact": 0.3,
+      "count": 1,
+      "samples": [
+        {
+          "index": 0,
+          "progress": 0,
+          "time": 0.18,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 526.3685064935065,
+              "y": 173.46672077922065
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "point": {
+              "x": 526.3685064935065,
+              "y": 173.46672077922065
+            },
+            "rotation": 1.1097227456581769,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.25,
+          "time": 0.21,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 526.3685064935065,
+              "y": 173.46672077922065
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "point": {
+              "x": 648.2958603896104,
+              "y": 418.8987743506493
+            },
+            "rotation": 1.1097227456581769,
+            "progress": 0.25,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.5,
+          "time": 0.24,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 526.3685064935065,
+              "y": 173.46672077922065
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "point": {
+              "x": 770.2232142857142,
+              "y": 664.3308279220779
+            },
+            "rotation": 1.1097227456581769,
+            "progress": 0.5,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.75,
+          "time": 0.27,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 526.3685064935065,
+              "y": 173.46672077922065
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "point": {
+              "x": 892.1505681818182,
+              "y": 909.7628814935067
+            },
+            "rotation": 1.1097227456581769,
+            "progress": 0.7500000000000002,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.999,
+          "time": 0.29988,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 526.3685064935065,
+              "y": 173.46672077922065
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "point": {
+              "x": 1013.5902126623375,
+              "y": 1154.2132068506494
+            },
+            "rotation": 1.1097227456581769,
+            "progress": 0.9989999999999999,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 1,
+          "time": 0.3,
+          "shot": {
+            "index": 0,
+            "stage": "impact",
+            "origin": {
+              "x": 526.3685064935065,
+              "y": 173.46672077922065
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "point": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "rotation": 0,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        }
+      ],
+      "endEffects": 0,
+      "cancelEffects": 0,
+      "cancelTimelines": 0
+    },
+    {
+      "screen": "mobile",
+      "action": "skill",
+      "duration": 1.2,
+      "contact": 0.36,
+      "count": 3,
+      "samples": [
+        {
+          "index": 0,
+          "progress": 0,
+          "time": 0.24,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "point": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "rotation": 1.1580424903202147,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.25,
+          "time": 0.27,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "point": {
+              "x": 694.2455749895266,
+              "y": 424.8326623376625
+            },
+            "rotation": 1.1580424903202147,
+            "progress": 0.2500000000000002,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.5,
+          "time": 0.3,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "point": {
+              "x": 800.856357352325,
+              "y": 668.2867532467533
+            },
+            "rotation": 1.1580424903202147,
+            "progress": 0.5,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.75,
+          "time": 0.32999999999999996,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "point": {
+              "x": 907.4671397151234,
+              "y": 911.7408441558439
+            },
+            "rotation": 1.1580424903202147,
+            "progress": 0.7499999999999998,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 0.999,
+          "time": 0.35988,
+          "shot": {
+            "index": 0,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "point": {
+              "x": 1013.6514789484706,
+              "y": 1154.2211187012986
+            },
+            "rotation": 1.1580424903202147,
+            "progress": 0.9989999999999999,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 0,
+          "progress": 1,
+          "time": 0.36,
+          "shot": {
+            "index": 0,
+            "stage": "impact",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "point": {
+              "x": 1014.0779220779219,
+              "y": 1155.1949350649352
+            },
+            "rotation": 0,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 1,
+          "progress": 0,
+          "time": 0.31,
+          "shot": {
+            "index": 1,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 855.194935064935
+            },
+            "point": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "rotation": 1.0065524285678453,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 1,
+          "progress": 0.25,
+          "time": 0.33999999999999997,
+          "shot": {
+            "index": 1,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 855.194935064935
+            },
+            "point": {
+              "x": 694.2455749895264,
+              "y": 349.8326623376621
+            },
+            "rotation": 1.0065524285678453,
+            "progress": 0.24999999999999978,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 1,
+          "progress": 0.5,
+          "time": 0.37,
+          "shot": {
+            "index": 1,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 855.194935064935
+            },
+            "point": {
+              "x": 800.856357352325,
+              "y": 518.286753246753
+            },
+            "rotation": 1.0065524285678453,
+            "progress": 0.5,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 1,
+          "progress": 0.75,
+          "time": 0.4,
+          "shot": {
+            "index": 1,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 855.194935064935
+            },
+            "point": {
+              "x": 907.4671397151235,
+              "y": 686.7408441558441
+            },
+            "rotation": 1.0065524285678453,
+            "progress": 0.7500000000000002,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 1,
+          "progress": 0.999,
+          "time": 0.42988,
+          "shot": {
+            "index": 1,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 855.194935064935
+            },
+            "point": {
+              "x": 1013.6514789484706,
+              "y": 854.5211187012985
+            },
+            "rotation": 1.0065524285678453,
+            "progress": 0.9989999999999999,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 1,
+          "progress": 1,
+          "time": 0.43,
+          "shot": {
+            "index": 1,
+            "stage": "impact",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 1014.0779220779219,
+              "y": 855.194935064935
+            },
+            "point": {
+              "x": 1014.0779220779219,
+              "y": 855.194935064935
+            },
+            "rotation": 0,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 2,
+          "progress": 0,
+          "time": 0.38,
+          "shot": {
+            "index": 2,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 798.0779220779219,
+              "y": 855.194935064935
+            },
+            "point": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "rotation": 1.2680797758577378,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 2,
+          "progress": 0.25,
+          "time": 0.41000000000000003,
+          "shot": {
+            "index": 2,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 798.0779220779219,
+              "y": 855.194935064935
+            },
+            "point": {
+              "x": 640.2455749895266,
+              "y": 349.8326623376623
+            },
+            "rotation": 1.2680797758577378,
+            "progress": 0.2500000000000002,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 2,
+          "progress": 0.5,
+          "time": 0.44,
+          "shot": {
+            "index": 2,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 798.0779220779219,
+              "y": 855.194935064935
+            },
+            "point": {
+              "x": 692.856357352325,
+              "y": 518.286753246753
+            },
+            "rotation": 1.2680797758577378,
+            "progress": 0.5,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 2,
+          "progress": 0.75,
+          "time": 0.47,
+          "shot": {
+            "index": 2,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 798.0779220779219,
+              "y": 855.194935064935
+            },
+            "point": {
+              "x": 745.4671397151234,
+              "y": 686.7408441558439
+            },
+            "rotation": 1.2680797758577378,
+            "progress": 0.7499999999999998,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 2,
+          "progress": 0.999,
+          "time": 0.49988,
+          "shot": {
+            "index": 2,
+            "stage": "travel",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 798.0779220779219,
+              "y": 855.194935064935
+            },
+            "point": {
+              "x": 797.8674789484708,
+              "y": 854.5211187012985
+            },
+            "rotation": 1.2680797758577378,
+            "progress": 0.9989999999999999,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        },
+        {
+          "index": 2,
+          "progress": 1,
+          "time": 0.5,
+          "shot": {
+            "index": 2,
+            "stage": "impact",
+            "origin": {
+              "x": 587.6347926267281,
+              "y": 181.37857142857132
+            },
+            "target": {
+              "x": 798.0779220779219,
+              "y": 855.194935064935
+            },
+            "point": {
+              "x": 798.0779220779219,
+              "y": 855.194935064935
+            },
+            "rotation": 0,
+            "progress": 0,
+            "flightSeconds": 0.12
+          },
+          "earlyImpacts": 0
+        }
+      ],
+      "endEffects": 0,
+      "cancelEffects": 0,
+      "cancelTimelines": 0,
+      "realTimeCompletion": {
+        "sizeRatio": 1,
+        "playing": false,
+        "effects": 0,
+        "registeredTimelines": 0
+      }
+    }
+  ],
+  "errors": [],
+  "status": "PASS",
+  "reviewFingerprint": "5e76a78606b1736dce03d228b5f119beb311b62e89babfd44b2ceb45084805e3"
+}

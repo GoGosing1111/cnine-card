@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-23",
+  "userRequest": "리미티드 도감에 반영해 한도 10장씩 현재는 개봉불가",
+  "rankConfirmation": "SS 리미티드",
+  "rank": "SS",
+  "serverLimitPerCharacter": 10,
+  "mode": "OFF",
+  "acquisitionEnabled": false,
+  "deploymentEnabled": false,
+  "originalsModified": false,
+  "assets": [
+    {
+      "code": "V-960",
+      "slug": "bongsoon",
+      "sourceArt": {
+        "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-960-source.png",
+        "sha256": "F72CFF4055340C7859649F0A971B2557E16DDFC57F7AB8EBD7E1309B070E4A8E",
+        "original": "preview/mercenary-bloodmoon-battle-20261023-v1/assets/sources/01-bongsoon-gatling-v4-photo-face-approved.png"
+      },
+      "battleSprite": {
+        "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-960-idle.png",
+        "sha256": "044565913CE77B068955ADC3D3D6B5DED046A38844AC1C01838EC21282787728",
+        "original": "preview/mercenary-bloodmoon-battle-20261023-v1/assets/bongsoon/idle-feet-v2/00.png"
+      },
+      "previewCodeNowAssigned": true
+    },
+    {
+      "code": "V-961",
+      "slug": "joeun",
+      "sourceArt": {
+        "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-961-source.png",
+        "sha256": "2756F59F1703411C57D7257FB10F049DF046241CF395A646610B9EA19E567787",
+        "original": "preview/mercenary-bloodmoon-battle-20261023-v1/assets/sources/02-joeun-whip-approved.png"
+      },
+      "battleSprite": {
+        "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-961-idle.png",
+        "sha256": "DC95449200629518CA158CD6E5E5C805CDFE7CC8A18B539AAE9E7B64A32A7278",
+        "original": "preview/mercenary-bloodmoon-battle-20261023-v1/assets/joeun/frames/00.png"
+      },
+      "previewCodeNowAssigned": true
+    },
+    {
+      "code": "V-962",
+      "slug": "diim",
+      "sourceArt": {
+        "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-962-source.png",
+        "sha256": "EC0AE02A8DCF159DDEA5BAC6215EB56CA271FADA9EA19E4A4DB2589513A5D537",
+        "original": "preview/mercenary-bloodmoon-battle-20261023-v1/assets/sources/03-diim-scythe-approved.png"
+      },
+      "battleSprite": {
+        "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-962-idle.png",
+        "sha256": "CB9BAC03F199DEFB9F1AC22834DE4CE87F89E490F896B622638F5D1E524B14FB",
+        "original": "preview/mercenary-bloodmoon-battle-20261023-v1/assets/diim/frames/00.png"
+      },
+      "previewCodeNowAssigned": true
+    },
+    {
+      "code": "V-963",
+      "slug": "claws",
+      "sourceArt": {
+        "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-963-source.png",
+        "sha256": "4A3CE150F220EF56CBE8C457F1CD4329650C0DA8092848D90E54873D058E728F",
+        "original": "preview/mercenary-bloodmoon-battle-20261023-v1/assets/sources/04-original-claws-approved.png"
+      },
+      "battleSprite": {
+        "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-963-idle.png",
+        "sha256": "C729CC2489870EC2D2608D9FFD79D9DD51C7838842E2AF8D5A7F46528A351A1C",
+        "original": "preview/mercenary-bloodmoon-battle-20261023-v1/assets/claws/frames/00.png"
+      },
+      "previewCodeNowAssigned": true
+    },
+    {
+      "code": "V-964",
+      "slug": "dagger",
+      "sourceArt": {
+        "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-964-source.png",
+        "sha256": "B438EA1FCD38F7D04C960FEDD04EF350A99EFB0B21940C27444E4E90860F2EC8",
+        "original": "preview/mercenary-bloodmoon-battle-20261023-v1/assets/sources/05-original-dagger-approved.png"
+      },
+      "battleSprite": {
+        "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-964-idle.png",
+        "sha256": "76D1D632AE2FA8E7CD13698B9459885FCF7E337FCB647409A22874CAFD8D72A7",
+        "original": "preview/mercenary-bloodmoon-battle-20261023-v1/assets/dagger/frames/00.png"
+      },
+      "previewCodeNowAssigned": true
+    }
+  ]
+}

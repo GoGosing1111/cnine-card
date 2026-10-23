@@ -1,0 +1,84 @@
+{
+  "status": "APPLIED",
+  "replayed": false,
+  "stock": [
+    {
+      "code": "V-960",
+      "limit": 10,
+      "issued": 0,
+      "revision": 0
+    },
+    {
+      "code": "V-961",
+      "limit": 10,
+      "issued": 0,
+      "revision": 0
+    },
+    {
+      "code": "V-962",
+      "limit": 10,
+      "issued": 0,
+      "revision": 0
+    },
+    {
+      "code": "V-963",
+      "limit": 10,
+      "issued": 0,
+      "revision": 0
+    },
+    {
+      "code": "V-964",
+      "limit": 10,
+      "issued": 0,
+      "revision": 0
+    }
+  ],
+  "settings": {
+    "revision": 1,
+    "settings": {
+      "version": 1,
+      "mode": "OFF",
+      "prices": {
+        "single": null,
+        "ten": null
+      },
+      "cardRatesPpm": {
+        "V-960": null,
+        "V-961": null,
+        "V-962": null,
+        "V-963": null,
+        "V-964": null
+      },
+      "stockLimits": {
+        "V-960": 10,
+        "V-961": 10,
+        "V-962": 10,
+        "V-963": 10,
+        "V-964": 10
+      },
+      "missRatePpm": null
+    },
+    "updatedAt": "2026-10-23T00:25:53.391Z"
+  },
+  "receipt": {
+    "operationKey": "ops:bloodmoon-codex-registration:20261023:v1",
+    "approval": "리미티드 도감에 반영해 한도 10장씩 현재는 개봉불가 / SS 리미티드",
+    "codes": [
+      "V-960",
+      "V-961",
+      "V-962",
+      "V-963",
+      "V-964"
+    ],
+    "rank": "SS",
+    "limitPerCharacter": 10,
+    "mode": "OFF",
+    "grants": 0,
+    "createdAt": "2026-10-23T00:25:53.391Z",
+    "adminLogId": "50386"
+  },
+  "ownershipRows": 0,
+  "issueRows": 0,
+  "noWriteReplayVerified": true,
+  "checkedAt": "2026-10-23T00:25:54.945Z"
+}

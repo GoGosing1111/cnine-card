@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>블러드문 · 전투 리소스</title><link rel="icon" href="data:,"><link rel="stylesheet" href="preview.css"></head>
+<body><main>
+ <header><div class="eyebrow">BLOODMOON · LIMITED</div><h1>붉은 달의 다섯 용병</h1><p>승인 원화에서 이어진 전투 동작과 고유 스킬</p></header>
+ <nav id="characters" aria-label="용병 선택"></nav>
+ <div class="layout">
+  <section class="stage-panel panel" aria-label="전투 시연">
+   <div class="stage-top"><h2 id="stage-name">나무늘봉순</h2><span id="cue" aria-live="polite">전장 준비 중</span></div>
+   <div id="viewport"><iframe id="battle" src="battle.html" title="블러드문 용병 전투 시연" allow="fullscreen"></iframe></div>
+   <div class="actions" aria-label="전투 동작">
+    <button data-action="idle" aria-pressed="true" disabled>대기</button><button data-action="dash" aria-pressed="false" disabled>이동</button><button data-action="attack" aria-pressed="false" disabled>기본 공격</button><button data-action="skill" aria-pressed="false" disabled>고유 스킬</button><button data-action="hit" aria-pressed="false" disabled>피격</button><button data-action="defeat" aria-pressed="false" disabled>쓰러짐</button>
+   </div>
+   <div class="playback"><button id="play" disabled>재생</button><button id="restart" disabled>처음부터</button><button id="impact" disabled>타격 순간</button><button id="cancel" disabled>취소</button><label>속도 <select id="speed" disabled><option value=".25">0.25배</option><option value=".5">0.5배</option><option value="1">1배</option><option value="2" selected>2배</option></select></label></div>
+   <label class="scrubber"><span class="sr-only">동작 재생 위치</span><input id="scrub" type="range" min="0" max="3.6" step=".01" value="0" disabled><output id="time">0.00초</output></label>
+   <p id="health" role="status">전투 리소스를 준비하고 있습니다.</p>
+  </section>
+  <aside class="panel detail"><a id="source-link" target="_blank" rel="noopener"><img id="portrait" alt="승인된 블러드문 원화"></a><div class="detail-copy"><div class="eyebrow" id="weapon">GATLING</div><h2 id="name">나무늘봉순</h2><h3 id="skill-name"></h3><p id="skill-description"></p><dl id="stats"></dl><p class="footnote">신규 전투 리소스 검수본 · 등급·획득·운영 공개 미확정</p></div></aside>
+ </div>
+ <section class="panel balance"><h2>할로윈 SS 상위 밸런스</h2><p>기본 전투력 <strong>356,400</strong> · 바토리 대비 <strong>20% 증가</strong> · 할로윈 기본 7종 대비 <strong>50% 증가</strong></p><div class="table-scroll"><table><thead><tr><th>용병</th><th>스킬 배율</th><th>재사용</th><th>자연 속도</th><th>바토리 비교</th></tr></thead><tbody id="balance-rows"></tbody></table></div><p id="balance-note" class="footnote">동일 편성·성장·장비, 진영을 바꾼 서버 시뮬레이션 기준입니다.</p></section>
+ <footer>동작 80프레임 · 스킬 효과 80프레임 · 승인 원화와 전투 리소스 별도 보존</footer>
+</main><script type="module" src="source/gallery.js"></script></body></html>

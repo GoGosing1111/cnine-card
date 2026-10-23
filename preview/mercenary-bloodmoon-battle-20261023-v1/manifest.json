@@ -1,0 +1,4959 @@
+{
+  "format": "PROJECT_V_BLOODMOON_BATTLE_REVIEW_V1",
+  "dateKST": "2026-10-23",
+  "title": "블러드문 리미티드 · 전투 리소스",
+  "prefix": "preview/mercenary-bloodmoon-battle-20261023-v1/",
+  "status": "IMPLEMENTED_USER_VISUAL_REVIEW_PENDING",
+  "rank": null,
+  "namesPending": [
+    "claws",
+    "dagger"
+  ],
+  "acquisitionEnabled": false,
+  "deploymentEnabled": false,
+  "visualApproval": "USER_REVIEW_PENDING",
+  "totalCharacters": 5,
+  "totalMotionFrames": 80,
+  "totalEffectFrames": 80,
+  "characters": [
+    {
+      "id": "BLOODMOON-BONGSOON",
+      "slug": "bongsoon",
+      "name": "나무늘봉순",
+      "previewCode": "V-960",
+      "previewCodeIsAssignment": false,
+      "rank": null,
+      "accent": "#eb4164",
+      "skillKind": "barrage",
+      "skillName": "적월 섬멸탄",
+      "skillId": "BM-BONGSOON",
+      "combat": {
+        "version": 1,
+        "slug": "bongsoon",
+        "code": "V-960",
+        "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+        "name": "나무늘봉순",
+        "rank": null,
+        "position": "BACK",
+        "role": "RANGED",
+        "attackStyle": "RANGED",
+        "basePower": 356400,
+        "scale": 8.1,
+        "speedScale": 3.05,
+        "actionCredit": 3.75,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 3.25,
+        "basicCapScale": 1.7,
+        "pveSkillMinimumDamage": false,
+        "link": {
+          "attackPercent": 1782,
+          "hpPercent": 2268,
+          "shieldPercent": 1215
+        },
+        "skill": {
+          "id": "BM-BONGSOON",
+          "name": "적월 섬멸탄",
+          "nameStatus": "WORKING_LABEL",
+          "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+          "effect": "세 차례 탄막을 나누어 발사합니다.",
+          "target": "적 표적",
+          "ready": true,
+          "trigger": "기존 서버의 에너지·재사용·행동 조건",
+          "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+          "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        },
+        "acquisitionEnabled": false,
+        "deploymentEnabled": false
+      },
+      "sourceArt": {
+        "path": "assets/sources/01-bongsoon-gatling-v4-photo-face-approved.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "F72CFF4055340C7859649F0A971B2557E16DDFC57F7AB8EBD7E1309B070E4A8E",
+        "hasAlpha": false,
+        "bytes": 2891641
+      },
+      "originalMotion": {
+        "path": "assets/bongsoon/motion.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "879FC5E4486698648E2285A0431275542432AA70C96231623A5AE437CF2457FF",
+        "hasAlpha": true,
+        "bytes": 2122323
+      },
+      "battleSprite": {
+        "path": "assets/bongsoon/idle-feet-v2/00.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "044565913CE77B068955ADC3D3D6B5DED046A38844AC1C01838EC21282787728",
+        "hasAlpha": true,
+        "bytes": 586319,
+        "frames": [
+          {
+            "index": 0,
+            "path": "assets/bongsoon/idle-feet-v2/00.png",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 1254,
+              "height": 1254
+            },
+            "foot": {
+              "x": 324.1454232283465,
+              "y": 915
+            },
+            "emitter": {
+              "x": 732.31640625,
+              "y": 492.0703125
+            },
+            "bounds": [
+              27,
+              23,
+              736,
+              915
+            ],
+            "visibleHeight": 754.359375,
+            "bodyPixelDensity": 2.44921875,
+            "scaleApplied": 1,
+            "sha256": "044565913CE77B068955ADC3D3D6B5DED046A38844AC1C01838EC21282787728",
+            "restoration": {
+              "reason": "USER_REPORTED_MISSING_IDLE_BOOT_TOES",
+              "method": "BUILT_IN_IMAGEGEN",
+              "promptRecord": "prompts-idle-feet-v2.json",
+              "preservedOriginalFrame": {
+                "index": 0,
+                "path": "assets/bongsoon/frames/00.png",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 512,
+                  "height": 512
+                },
+                "foot": {
+                  "x": 132.3464566929134,
+                  "y": 319
+                },
+                "emitter": {
+                  "x": 299,
+                  "y": 200.9090909090909
+                },
+                "bounds": [
+                  12,
+                  12,
+                  299,
+                  319
+                ],
+                "visibleHeight": 308,
+                "sourceBounds": [
+                  19,
+                  0,
+                  325,
+                  337
+                ],
+                "sourceOffset": {
+                  "x": 11,
+                  "y": -8
+                },
+                "sourcePixels": 40424,
+                "sourcePixelSha": "C9E0461673C5FBD5C46A5A38C4DCFADCF232988A643E4F7689E72E673FDF9F6E",
+                "copiedPixelSha": "C9E0461673C5FBD5C46A5A38C4DCFADCF232988A643E4F7689E72E673FDF9F6E",
+                "sha256": "F66A01AA2B677279B6C304AE49EF06EB4014A017AB198E70588E0DFA86F8CAED",
+                "scaleApplied": 1
+              }
+            }
+          }
+        ]
+      },
+      "battleSpriteFootAnchor": {
+        "x": 0.25848917322834647,
+        "y": 0.7296650717703349
+      },
+      "motion": {
+        "basic": {
+          "frames": [
+            {
+              "index": 0,
+              "path": "assets/bongsoon/idle-feet-v2/00.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1254,
+                "height": 1254
+              },
+              "foot": {
+                "x": 324.1454232283465,
+                "y": 915
+              },
+              "emitter": {
+                "x": 732.31640625,
+                "y": 492.0703125
+              },
+              "bounds": [
+                27,
+                23,
+                736,
+                915
+              ],
+              "visibleHeight": 754.359375,
+              "bodyPixelDensity": 2.44921875,
+              "scaleApplied": 1,
+              "sha256": "044565913CE77B068955ADC3D3D6B5DED046A38844AC1C01838EC21282787728",
+              "restoration": {
+                "reason": "USER_REPORTED_MISSING_IDLE_BOOT_TOES",
+                "method": "BUILT_IN_IMAGEGEN",
+                "promptRecord": "prompts-idle-feet-v2.json",
+                "preservedOriginalFrame": {
+                  "index": 0,
+                  "path": "assets/bongsoon/frames/00.png",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 512,
+                    "height": 512
+                  },
+                  "foot": {
+                    "x": 132.3464566929134,
+                    "y": 319
+                  },
+                  "emitter": {
+                    "x": 299,
+                    "y": 200.9090909090909
+                  },
+                  "bounds": [
+                    12,
+                    12,
+                    299,
+                    319
+                  ],
+                  "visibleHeight": 308,
+                  "sourceBounds": [
+                    19,
+                    0,
+                    325,
+                    337
+                  ],
+                  "sourceOffset": {
+                    "x": 11,
+                    "y": -8
+                  },
+                  "sourcePixels": 40424,
+                  "sourcePixelSha": "C9E0461673C5FBD5C46A5A38C4DCFADCF232988A643E4F7689E72E673FDF9F6E",
+                  "copiedPixelSha": "C9E0461673C5FBD5C46A5A38C4DCFADCF232988A643E4F7689E72E673FDF9F6E",
+                  "sha256": "F66A01AA2B677279B6C304AE49EF06EB4014A017AB198E70588E0DFA86F8CAED",
+                  "scaleApplied": 1
+                }
+              }
+            },
+            {
+              "index": 1,
+              "path": "assets/bongsoon/idle-feet-v2/01.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1254,
+                "height": 1254
+              },
+              "foot": {
+                "x": 375.45194404069764,
+                "y": 887
+              },
+              "emitter": {
+                "x": 759.2578125,
+                "y": 492.439921875
+              },
+              "bounds": [
+                102,
+                23,
+                766,
+                887
+              ],
+              "visibleHeight": 754.359375,
+              "bodyPixelDensity": 2.44921875,
+              "scaleApplied": 1,
+              "sha256": "CD8DA14B561A784C23F59FF462E9A287EA1EDADA009D8CC999F0FA7A4BEFAE94",
+              "restoration": {
+                "reason": "USER_REPORTED_MISSING_IDLE_BOOT_TOES",
+                "method": "BUILT_IN_IMAGEGEN",
+                "promptRecord": "prompts-idle-feet-v2.json",
+                "preservedOriginalFrame": {
+                  "index": 1,
+                  "path": "assets/bongsoon/frames/01.png",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 512,
+                    "height": 512
+                  },
+                  "foot": {
+                    "x": 153.29457364341084,
+                    "y": 319
+                  },
+                  "emitter": {
+                    "x": 310,
+                    "y": 201.06
+                  },
+                  "bounds": [
+                    44,
+                    12,
+                    310,
+                    319
+                  ],
+                  "visibleHeight": 308,
+                  "sourceBounds": [
+                    321,
+                    0,
+                    628,
+                    347
+                  ],
+                  "sourceOffset": {
+                    "x": 313,
+                    "y": -8
+                  },
+                  "sourcePixels": 38811,
+                  "sourcePixelSha": "D1AB3A64BDE3D4A1560A9EA59C0EF842CF347CF810C92FAA864E282670AA6EDD",
+                  "copiedPixelSha": "D1AB3A64BDE3D4A1560A9EA59C0EF842CF347CF810C92FAA864E282670AA6EDD",
+                  "sha256": "4A27B4FC7C50EA6D6272E9580572591778F4DAC78B8238BD54621439C368B676",
+                  "scaleApplied": 1
+                }
+              }
+            },
+            {
+              "index": 2,
+              "path": "assets/bongsoon/frames/02.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 210.91999999999996,
+                "y": 321
+              },
+              "emitter": {
+                "x": 337,
+                "y": 215.17073170731706
+              },
+              "bounds": [
+                48,
+                13,
+                337,
+                321
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                624,
+                0,
+                970,
+                354
+              ],
+              "sourceOffset": {
+                "x": 616,
+                "y": -8
+              },
+              "sourcePixels": 41955,
+              "sourcePixelSha": "7BEB0368602AA1BE031B3A427EB6A5D6AA5F126E84AEE2BF73B8D11A6C8960E4",
+              "copiedPixelSha": "7BEB0368602AA1BE031B3A427EB6A5D6AA5F126E84AEE2BF73B8D11A6C8960E4",
+              "sha256": "87BD14D5CF4CEE2CBB29B6227691BD82D2EC1BE76AF4F7D1693BB5AC4932E9AB",
+              "scaleApplied": 1
+            },
+            {
+              "index": 3,
+              "path": "assets/bongsoon/frames/03.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 269.7241379310344,
+                "y": 321
+              },
+              "emitter": {
+                "x": 353,
+                "y": 188.1764705882353
+              },
+              "bounds": [
+                64,
+                13,
+                353,
+                321
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                907,
+                0,
+                1253,
+                347
+              ],
+              "sourceOffset": {
+                "x": 899,
+                "y": -8
+              },
+              "sourcePixels": 41691,
+              "sourcePixelSha": "CE2B43D6ABA2F734B73A92E722ED3959F3E149BD1E873F0FC54BCDE6F653D899",
+              "copiedPixelSha": "CE2B43D6ABA2F734B73A92E722ED3959F3E149BD1E873F0FC54BCDE6F653D899",
+              "sha256": "7111EEFC52F4F29FBF09F9AD5F1C4BE77B3FE9C3622CF6957CDD3BC9E28324E3",
+              "scaleApplied": 1
+            },
+            {
+              "index": 4,
+              "path": "assets/bongsoon/frames/04.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 141.36144578313252,
+                "y": 330
+              },
+              "emitter": {
+                "x": 323,
+                "y": 111.77906976744185
+              },
+              "bounds": [
+                27,
+                28,
+                323,
+                330
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                0,
+                300,
+                340,
+                684
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 292
+              },
+              "sourcePixels": 45638,
+              "sourcePixelSha": "E5E8F34F93D36017567ED7844B50F345F1DB1029A59500A3B05BB69FF23C0FCD",
+              "copiedPixelSha": "E5E8F34F93D36017567ED7844B50F345F1DB1029A59500A3B05BB69FF23C0FCD",
+              "sha256": "DDE209A51E8BEA70EE57C3DBE987508A787DA7B3C527DFA66D8EAF631EC15330",
+              "scaleApplied": 1
+            },
+            {
+              "index": 5,
+              "path": "assets/bongsoon/frames/05.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 157.84615384615387,
+                "y": 317
+              },
+              "emitter": {
+                "x": 378,
+                "y": 93.33333333333331
+              },
+              "bounds": [
+                61,
+                13,
+                378,
+                317
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                274,
+                313,
+                656,
+                660
+              ],
+              "sourceOffset": {
+                "x": 266,
+                "y": 305
+              },
+              "sourcePixels": 47712,
+              "sourcePixelSha": "3D19B4DE72B67F037A7A2A6B34F329F131C23D34EC2379A31D4AB128A419B2E3",
+              "copiedPixelSha": "3D19B4DE72B67F037A7A2A6B34F329F131C23D34EC2379A31D4AB128A419B2E3",
+              "sha256": "7955C50BBFBA0EDC1A9DA0317ED70A9108E990072B07A66EAD824CD73150846D",
+              "scaleApplied": 1
+            },
+            {
+              "index": 6,
+              "path": "assets/bongsoon/frames/06.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 169.73300970873788,
+                "y": 304
+              },
+              "emitter": {
+                "x": 356,
+                "y": 96.42857142857144
+              },
+              "bounds": [
+                19,
+                18,
+                356,
+                304
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                612,
+                319,
+                974,
+                656
+              ],
+              "sourceOffset": {
+                "x": 604,
+                "y": 311
+              },
+              "sourcePixels": 50371,
+              "sourcePixelSha": "E3DD87A3F70BC9EFFF72E3A5DD43BCE394701FE6FE7C96D7DF622142839A7934",
+              "copiedPixelSha": "E3DD87A3F70BC9EFFF72E3A5DD43BCE394701FE6FE7C96D7DF622142839A7934",
+              "sha256": "9DC3C80C3D7CDD24F9D16187B66C4DCD97044A352A1F311E1C7E251A5972A3AE",
+              "scaleApplied": 1
+            },
+            {
+              "index": 7,
+              "path": "assets/bongsoon/frames/07.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 175.57627118644064,
+                "y": 350
+              },
+              "emitter": {
+                "x": 325,
+                "y": 137.24358974358972
+              },
+              "bounds": [
+                31,
+                51,
+                325,
+                350
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                931,
+                279,
+                1253,
+                666
+              ],
+              "sourceOffset": {
+                "x": 923,
+                "y": 271
+              },
+              "sourcePixels": 43334,
+              "sourcePixelSha": "4CC9866F96FFF10A1F9C6846CD9025EF9892A5F7E673D9B84241703EB20DDB0B",
+              "copiedPixelSha": "4CC9866F96FFF10A1F9C6846CD9025EF9892A5F7E673D9B84241703EB20DDB0B",
+              "sha256": "CB9C41F06A5FB75812468A445FE4C70A821D6056882208754BDCE020A8012D5A",
+              "scaleApplied": 1
+            }
+          ],
+          "bodyPixels": 308
+        },
+        "skillMotion": {
+          "frames": [
+            {
+              "index": 0,
+              "path": "assets/bongsoon/frames/08.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 43.16346153846154,
+                "y": 340
+              },
+              "emitter": {
+                "x": 333,
+                "y": 257.2222222222222
+              },
+              "bounds": [
+                14,
+                48,
+                341,
+                340
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                0,
+                586,
+                339,
+                958
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 578
+              },
+              "sourcePixels": 47191,
+              "sourcePixelSha": "D8B122ED074A7ED458EFE87AC704EAEE73CED018DAE2904A393FA585E6C67A63",
+              "copiedPixelSha": "D8B122ED074A7ED458EFE87AC704EAEE73CED018DAE2904A393FA585E6C67A63",
+              "sha256": "3DDF73D48690420B63AE5ADD4A8C914357F0C63AB6D7218489D167C6A82D3F0C",
+              "scaleApplied": 1
+            },
+            {
+              "index": 1,
+              "path": "assets/bongsoon/frames/09.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 78.38372093023258,
+                "y": 362
+              },
+              "emitter": {
+                "x": 336,
+                "y": 154.30769230769226
+              },
+              "bounds": [
+                35,
+                70,
+                336,
+                362
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                302,
+                571,
+                636,
+                972
+              ],
+              "sourceOffset": {
+                "x": 294,
+                "y": 563
+              },
+              "sourcePixels": 49233,
+              "sourcePixelSha": "CAB42012ADFE200AB150692A5707FFE7B07DBB8355630B7970E08185E5C93AB0",
+              "copiedPixelSha": "CAB42012ADFE200AB150692A5707FFE7B07DBB8355630B7970E08185E5C93AB0",
+              "sha256": "7290D2846CF8DB1CE89EAE511C22520E52A82EC341E0852510AFBFE9828F8294",
+              "scaleApplied": 1
+            },
+            {
+              "index": 2,
+              "path": "assets/bongsoon/frames/10.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 92.69892473118284,
+                "y": 320
+              },
+              "emitter": {
+                "x": 397,
+                "y": 107.20000000000005
+              },
+              "bounds": [
+                55,
+                31,
+                397,
+                320
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                592,
+                610,
+                1006,
+                1000
+              ],
+              "sourceOffset": {
+                "x": 584,
+                "y": 602
+              },
+              "sourcePixels": 53809,
+              "sourcePixelSha": "AD0B67694BD83AB5FEF0E905FB38E974DF4B1BA95A6002873E6143015EB0F666",
+              "copiedPixelSha": "AD0B67694BD83AB5FEF0E905FB38E974DF4B1BA95A6002873E6143015EB0F666",
+              "sha256": "A02BFC13CBC1A155685C7A66BF47E94E94C5E9F2D30E092AE690B0556A7F2D7B",
+              "scaleApplied": 1
+            },
+            {
+              "index": 3,
+              "path": "assets/bongsoon/frames/11.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 86.61904761904759,
+                "y": 348
+              },
+              "emitter": {
+                "x": 342,
+                "y": 160.3943661971831
+              },
+              "bounds": [
+                53,
+                50,
+                346,
+                348
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                911,
+                582,
+                1253,
+                1008
+              ],
+              "sourceOffset": {
+                "x": 903,
+                "y": 574
+              },
+              "sourcePixels": 44839,
+              "sourcePixelSha": "CE0163F89897A3A48B2EF4CEF917D1318BA05760594E8C93F861617C92708972",
+              "copiedPixelSha": "CE0163F89897A3A48B2EF4CEF917D1318BA05760594E8C93F861617C92708972",
+              "sha256": "1E4C5E3561C6D2884E1E04E1E24EA3662DE025F7250F8DA39555AEB8670E8A3A",
+              "scaleApplied": 1
+            },
+            {
+              "index": 4,
+              "path": "assets/bongsoon/frames/12.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 89.03809523809524,
+                "y": 354
+              },
+              "emitter": {
+                "x": 337,
+                "y": 148.75362318840575
+              },
+              "bounds": [
+                25,
+                55,
+                337,
+                354
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                0,
+                881,
+                340,
+                1233
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 873
+              },
+              "sourcePixels": 50609,
+              "sourcePixelSha": "1EF70700CDF73BB08C206F0BD9B512B058F1F918CF3B0F7ED92DB80429BE99E9",
+              "copiedPixelSha": "1EF70700CDF73BB08C206F0BD9B512B058F1F918CF3B0F7ED92DB80429BE99E9",
+              "sha256": "BF127853552A921C8C3B6C9136C8445ED81985199404C2D9B08D5932374F35CE",
+              "scaleApplied": 1
+            },
+            {
+              "index": 5,
+              "path": "assets/bongsoon/frames/13.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 212.1358024691358,
+                "y": 347
+              },
+              "emitter": {
+                "x": 372,
+                "y": 164.5256410256411
+              },
+              "bounds": [
+                62,
+                45,
+                372,
+                347
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                278,
+                888,
+                674,
+                1253
+              ],
+              "sourceOffset": {
+                "x": 270,
+                "y": 880
+              },
+              "sourcePixels": 49887,
+              "sourcePixelSha": "C3FC4AD511898FD6817D6A198F975625CA1CA420884D46B019320C8484E05A1C",
+              "copiedPixelSha": "C3FC4AD511898FD6817D6A198F975625CA1CA420884D46B019320C8484E05A1C",
+              "sha256": "3531795DB5EF85472D1E8A4C553E09750BEF1E9D40316FBC830FB72468C3473C",
+              "scaleApplied": 1
+            },
+            {
+              "index": 6,
+              "path": "assets/bongsoon/frames/14.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 88.38823529411764,
+                "y": 342
+              },
+              "emitter": {
+                "x": 290,
+                "y": 269.57142857142867
+              },
+              "bounds": [
+                14,
+                85,
+                329,
+                342
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                652,
+                877,
+                982,
+                1235
+              ],
+              "sourceOffset": {
+                "x": 644,
+                "y": 869
+              },
+              "sourcePixels": 45396,
+              "sourcePixelSha": "9093C5493F238CC56A0B321C334FA32ED91B9A13360B356A2800BF7D7F5DFBB8",
+              "copiedPixelSha": "9093C5493F238CC56A0B321C334FA32ED91B9A13360B356A2800BF7D7F5DFBB8",
+              "sha256": "990BADCCEFCF172205B0BE7BF7C06227E4EDF91F1BE8D176677B534E6B9C9D86",
+              "scaleApplied": 1
+            },
+            {
+              "index": 7,
+              "path": "assets/bongsoon/frames/15.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 118.60714285714289,
+                "y": 325
+              },
+              "emitter": {
+                "x": 244,
+                "y": 257.42857142857133
+              },
+              "bounds": [
+                15,
+                89,
+                301,
+                325
+              ],
+              "visibleHeight": 308,
+              "sourceBounds": [
+                951,
+                895,
+                1253,
+                1253
+              ],
+              "sourceOffset": {
+                "x": 943,
+                "y": 887
+              },
+              "sourcePixels": 39900,
+              "sourcePixelSha": "EDC0DDC38816B1BC57A75D6030B3A568B8180A1FD0F340F9DE55D4B08847D279",
+              "copiedPixelSha": "EDC0DDC38816B1BC57A75D6030B3A568B8180A1FD0F340F9DE55D4B08847D279",
+              "sha256": "70F37066EEF5420260597A7DFFD3E2ED40604FB544A614AF4881F2D6028BC65A",
+              "scaleApplied": 1
+            }
+          ],
+          "bodyPixels": 308
+        }
+      },
+      "effects": {
+        "skill": {
+          "path": "assets/bongsoon/skill-fx.png",
+          "width": 1254,
+          "height": 1254,
+          "sha256": "3C0EAE632DC66E4FC84150E2EA3D9C8E1870104DF02A285C32134787BC015016",
+          "hasAlpha": true,
+          "bytes": 1799666,
+          "columns": 4,
+          "rows": 4,
+          "frames": [
+            {
+              "index": 0,
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 314,
+                "height": 314
+              }
+            },
+            {
+              "index": 1,
+              "rect": {
+                "x": 314,
+                "y": 0,
+                "width": 313,
+                "height": 314
+              }
+            },
+            {
+              "index": 2,
+              "rect": {
+                "x": 627,
+                "y": 0,
+                "width": 314,
+                "height": 314
+              }
+            },
+            {
+              "index": 3,
+              "rect": {
+                "x": 941,
+                "y": 0,
+                "width": 313,
+                "height": 314
+              }
+            },
+            {
+              "index": 4,
+              "rect": {
+                "x": 0,
+                "y": 314,
+                "width": 314,
+                "height": 313
+              }
+            },
+            {
+              "index": 5,
+              "rect": {
+                "x": 314,
+                "y": 314,
+                "width": 313,
+                "height": 313
+              }
+            },
+            {
+              "index": 6,
+              "rect": {
+                "x": 627,
+                "y": 314,
+                "width": 314,
+                "height": 313
+              }
+            },
+            {
+              "index": 7,
+              "rect": {
+                "x": 941,
+                "y": 314,
+                "width": 313,
+                "height": 313
+              }
+            },
+            {
+              "index": 8,
+              "rect": {
+                "x": 0,
+                "y": 627,
+                "width": 314,
+                "height": 314
+              }
+            },
+            {
+              "index": 9,
+              "rect": {
+                "x": 314,
+                "y": 627,
+                "width": 313,
+                "height": 314
+              }
+            },
+            {
+              "index": 10,
+              "rect": {
+                "x": 627,
+                "y": 627,
+                "width": 314,
+                "height": 314
+              }
+            },
+            {
+              "index": 11,
+              "rect": {
+                "x": 941,
+                "y": 627,
+                "width": 313,
+                "height": 314
+              }
+            },
+            {
+              "index": 12,
+              "rect": {
+                "x": 0,
+                "y": 941,
+                "width": 314,
+                "height": 313
+              }
+            },
+            {
+              "index": 13,
+              "rect": {
+                "x": 314,
+                "y": 941,
+                "width": 313,
+                "height": 313
+              }
+            },
+            {
+              "index": 14,
+              "rect": {
+                "x": 627,
+                "y": 941,
+                "width": 314,
+                "height": 313
+              }
+            },
+            {
+              "index": 15,
+              "rect": {
+                "x": 941,
+                "y": 941,
+                "width": 313,
+                "height": 313
+              }
+            }
+          ]
+        }
+      },
+      "pixelAudit": {
+        "sourcePixels": 730800,
+        "copiedPixels": 730800,
+        "scaleApplied": 1,
+        "coreAlpha": 80,
+        "allOriginalRgbaPreserved": true,
+        "method": "16_ALPHA_COMPONENTS_PLUS_NEAREST_FRINGE_PIXEL_COPY"
+      },
+      "bodyPixels": 308,
+      "battleBodyHeight": 345,
+      "sourceArtApproval": "USER_APPROVED",
+      "motionSelection": "USER_SELECTED_ORIGINAL_DO_NOT_SHRINK",
+      "generatedArtApproval": "USER_REVIEW_PENDING",
+      "missing": [],
+      "ready": true,
+      "runtimeEnabled": false,
+      "displayBodyHeight": 407.9487976138694,
+      "idleRestoration": {
+        "status": "USER_REQUESTED_REPAIR_VISUAL_REVIEW_PENDING",
+        "frames": [
+          0,
+          1
+        ],
+        "unchangedOtherFrames": 14,
+        "selectedAtlasPreserved": true,
+        "pixelDensityPolicy": "CANVAS_RESOLUTION_RATIO_ONLY_NEVER_FIT_POSE_BOUNDS"
+      }
+    },
+    {
+      "id": "BLOODMOON-JOEUN",
+      "slug": "joeun",
+      "name": "조은",
+      "previewCode": "V-961",
+      "previewCodeIsAssignment": false,
+      "rank": null,
+      "accent": "#eb4164",
+      "skillKind": "melee",
+      "skillName": "홍련의 속박",
+      "skillId": "BM-JOEUN",
+      "combat": {
+        "version": 1,
+        "slug": "joeun",
+        "code": "V-961",
+        "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+        "name": "조은",
+        "rank": null,
+        "position": "FRONT",
+        "role": "VANGUARD",
+        "attackStyle": "MELEE",
+        "basePower": 356400,
+        "scale": 7.4,
+        "speedScale": 2.9,
+        "actionCredit": 3.5,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 3.1,
+        "basicCapScale": 1.7,
+        "pveSkillMinimumDamage": false,
+        "link": {
+          "attackPercent": 1628,
+          "hpPercent": 2072,
+          "shieldPercent": 1110
+        },
+        "skill": {
+          "id": "BM-JOEUN",
+          "name": "홍련의 속박",
+          "nameStatus": "WORKING_LABEL",
+          "mechanic": "REPEAT_OFFENDER_RESTRAINT",
+          "effect": "행동을 거듭한 적을 채찍으로 공격하고 조건 충족 시 다음 공격을 약화합니다.",
+          "target": "적 표적",
+          "ready": true,
+          "trigger": "기존 서버의 에너지·재사용·행동 조건",
+          "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+          "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+          "balance": {
+            "damageRatio": 11.6,
+            "cooldownTurns": 1,
+            "cost": 20
+          }
+        },
+        "acquisitionEnabled": false,
+        "deploymentEnabled": false
+      },
+      "sourceArt": {
+        "path": "assets/sources/02-joeun-whip-approved.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "2756F59F1703411C57D7257FB10F049DF046241CF395A646610B9EA19E567787",
+        "hasAlpha": false,
+        "bytes": 3052649
+      },
+      "originalMotion": {
+        "path": "assets/joeun/motion.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "DA72CC08B67A9D4D149A520D2625497B1FAA0CDAE5A2BD6ED2D928EA88C52336",
+        "hasAlpha": true,
+        "bytes": 2420854
+      },
+      "battleSprite": {
+        "path": "assets/joeun/frames/00.png",
+        "width": 512,
+        "height": 512,
+        "sha256": "DC95449200629518CA158CD6E5E5C805CDFE7CC8A18B539AAE9E7B64A32A7278",
+        "hasAlpha": true,
+        "bytes": 165595,
+        "frames": [
+          {
+            "index": 0,
+            "path": "assets/joeun/frames/00.png",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            },
+            "foot": {
+              "x": 157.46762589928056,
+              "y": 343
+            },
+            "emitter": {
+              "x": 267,
+              "y": 247.69230769230768
+            },
+            "bounds": [
+              27,
+              17,
+              272,
+              343
+            ],
+            "visibleHeight": 327,
+            "sourceBounds": [
+              21,
+              0,
+              319,
+              386
+            ],
+            "sourceOffset": {
+              "x": 13,
+              "y": -8
+            },
+            "sourcePixels": 53936,
+            "sourcePixelSha": "7752E341538E97CE3AC51E7008B7FF40D79BCFB6007CE6042F96160B7E276323",
+            "copiedPixelSha": "7752E341538E97CE3AC51E7008B7FF40D79BCFB6007CE6042F96160B7E276323",
+            "sha256": "DC95449200629518CA158CD6E5E5C805CDFE7CC8A18B539AAE9E7B64A32A7278",
+            "scaleApplied": 1
+          }
+        ]
+      },
+      "battleSpriteFootAnchor": {
+        "x": 0.30755395683453235,
+        "y": 0.669921875
+      },
+      "motion": {
+        "basic": {
+          "frames": [
+            {
+              "index": 0,
+              "path": "assets/joeun/frames/00.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 157.46762589928056,
+                "y": 343
+              },
+              "emitter": {
+                "x": 267,
+                "y": 247.69230769230768
+              },
+              "bounds": [
+                27,
+                17,
+                272,
+                343
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                21,
+                0,
+                319,
+                386
+              ],
+              "sourceOffset": {
+                "x": 13,
+                "y": -8
+              },
+              "sourcePixels": 53936,
+              "sourcePixelSha": "7752E341538E97CE3AC51E7008B7FF40D79BCFB6007CE6042F96160B7E276323",
+              "copiedPixelSha": "7752E341538E97CE3AC51E7008B7FF40D79BCFB6007CE6042F96160B7E276323",
+              "sha256": "DC95449200629518CA158CD6E5E5C805CDFE7CC8A18B539AAE9E7B64A32A7278",
+              "scaleApplied": 1
+            },
+            {
+              "index": 1,
+              "path": "assets/joeun/frames/01.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 155.44736842105266,
+                "y": 343
+              },
+              "emitter": {
+                "x": 257,
+                "y": 247.56521739130434
+              },
+              "bounds": [
+                37,
+                17,
+                263,
+                343
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                310,
+                0,
+                616,
+                364
+              ],
+              "sourceOffset": {
+                "x": 302,
+                "y": -8
+              },
+              "sourcePixels": 52815,
+              "sourcePixelSha": "CFFA5BC46FF5A26B127923F3332CA66986265E3444EA6DB7C2F8EDC2984F84ED",
+              "copiedPixelSha": "CFFA5BC46FF5A26B127923F3332CA66986265E3444EA6DB7C2F8EDC2984F84ED",
+              "sha256": "112645E8B3A2962AA5B7CA28379F04B3AB617845A51324AEB45E2A4DCBF2A6D3",
+              "scaleApplied": 1
+            },
+            {
+              "index": 2,
+              "path": "assets/joeun/frames/02.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 132.5813953488372,
+                "y": 313
+              },
+              "emitter": {
+                "x": 350,
+                "y": 133.05405405405406
+              },
+              "bounds": [
+                42,
+                15,
+                350,
+                313
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                588,
+                19,
+                962,
+                331
+              ],
+              "sourceOffset": {
+                "x": 580,
+                "y": 11
+              },
+              "sourcePixels": 53191,
+              "sourcePixelSha": "C55D9F442F8010885C66605787E341601D4B340406EC531DB8F3715C1E83D90C",
+              "copiedPixelSha": "C55D9F442F8010885C66605787E341601D4B340406EC531DB8F3715C1E83D90C",
+              "sha256": "43BD90B067B6FE473CDC5E8380373F39A421A9FF3C55C52101AB10525C7C9CEE",
+              "scaleApplied": 1
+            },
+            {
+              "index": 3,
+              "path": "assets/joeun/frames/03.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 236.64814814814804,
+                "y": 304
+              },
+              "emitter": {
+                "x": 350,
+                "y": 140.4
+              },
+              "bounds": [
+                72,
+                16,
+                378,
+                304
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                883,
+                31,
+                1253,
+                417
+              ],
+              "sourceOffset": {
+                "x": 875,
+                "y": 23
+              },
+              "sourcePixels": 53627,
+              "sourcePixelSha": "7D0A50D7075CD491CFA546B027DF16B8202296D1C3DCFAE9CC9F300249C64612",
+              "copiedPixelSha": "7D0A50D7075CD491CFA546B027DF16B8202296D1C3DCFAE9CC9F300249C64612",
+              "sha256": "F92D870B182CC3AD6FD82613F1F0D01BED00E4B166F4530113D78EFA1C321C40",
+              "scaleApplied": 1
+            },
+            {
+              "index": 4,
+              "path": "assets/joeun/frames/04.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 197.07079646017698,
+                "y": 304
+              },
+              "emitter": {
+                "x": 342,
+                "y": 204.33333333333337
+              },
+              "bounds": [
+                15,
+                15,
+                342,
+                304
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                0,
+                339,
+                340,
+                664
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 331
+              },
+              "sourcePixels": 57014,
+              "sourcePixelSha": "7C9CF8837D85D3089B3DFA76A0420D00193F65327DC1CE7E45B4E791D115ED48",
+              "copiedPixelSha": "7C9CF8837D85D3089B3DFA76A0420D00193F65327DC1CE7E45B4E791D115ED48",
+              "sha256": "64AFAEF55FEA50AD5079D676F1CC2DEBDA5CD00493070D4ECC74211E5AB10539",
+              "scaleApplied": 1
+            },
+            {
+              "index": 5,
+              "path": "assets/joeun/frames/05.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 219.70833333333331,
+                "y": 330
+              },
+              "emitter": {
+                "x": 367,
+                "y": 128.6470588235294
+              },
+              "bounds": [
+                68,
+                42,
+                367,
+                330
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                284,
+                313,
+                653,
+                657
+              ],
+              "sourceOffset": {
+                "x": 276,
+                "y": 305
+              },
+              "sourcePixels": 60484,
+              "sourcePixelSha": "E621D1D11A9BF8B3E896D4A22EF64B0AD48A0D46EBA696FC9A2E9697FF73673F",
+              "copiedPixelSha": "E621D1D11A9BF8B3E896D4A22EF64B0AD48A0D46EBA696FC9A2E9697FF73673F",
+              "sha256": "5AF3E54E902D701F3FA79CA2F67BB7763093A7C2992DB84BD3F0CE3D894A24C0",
+              "scaleApplied": 1
+            },
+            {
+              "index": 6,
+              "path": "assets/joeun/frames/06.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 202.1056910569106,
+                "y": 337
+              },
+              "emitter": {
+                "x": 393,
+                "y": 124.80000000000001
+              },
+              "bounds": [
+                24,
+                57,
+                393,
+                337
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                602,
+                306,
+                988,
+                674
+              ],
+              "sourceOffset": {
+                "x": 594,
+                "y": 298
+              },
+              "sourcePixels": 56734,
+              "sourcePixelSha": "6FCC1C2087337B018C64D95D34D2B53FCF9E547D37D2CC56170F51F7156D8728",
+              "copiedPixelSha": "6FCC1C2087337B018C64D95D34D2B53FCF9E547D37D2CC56170F51F7156D8728",
+              "sha256": "88CCBD7001E08DDF6877C271A69CFB5D2615BCC9BFBDCD2A3C47EBFCD2A4992D",
+              "scaleApplied": 1
+            },
+            {
+              "index": 7,
+              "path": "assets/joeun/frames/07.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 171.99242424242425,
+                "y": 335
+              },
+              "emitter": {
+                "x": 323,
+                "y": 251.13333333333333
+              },
+              "bounds": [
+                31,
+                45,
+                325,
+                335
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                931,
+                308,
+                1253,
+                684
+              ],
+              "sourceOffset": {
+                "x": 923,
+                "y": 300
+              },
+              "sourcePixels": 50062,
+              "sourcePixelSha": "12AC057EB528B811BF592FCCB1E4E76E8F8DECD88E01ED38A2E9987E37B0C987",
+              "copiedPixelSha": "12AC057EB528B811BF592FCCB1E4E76E8F8DECD88E01ED38A2E9987E37B0C987",
+              "sha256": "121217513E2322DD27886D8962265B7AC2128DA35F3F176C5B5884D30EB2F083",
+              "scaleApplied": 1
+            }
+          ],
+          "bodyPixels": 327
+        },
+        "skillMotion": {
+          "frames": [
+            {
+              "index": 0,
+              "path": "assets/joeun/frames/08.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 167.6629213483146,
+                "y": 364
+              },
+              "emitter": {
+                "x": 301,
+                "y": 225.02702702702697
+              },
+              "bounds": [
+                16,
+                54,
+                301,
+                364
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                0,
+                597,
+                329,
+                990
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 589
+              },
+              "sourcePixels": 62547,
+              "sourcePixelSha": "001CA9F27119ABB518B2B12480DFD6036E9AF5E65738150E699F6B27A00F9DCB",
+              "copiedPixelSha": "001CA9F27119ABB518B2B12480DFD6036E9AF5E65738150E699F6B27A00F9DCB",
+              "sha256": "E178D5277B4517E55D3263C1617986BDDAA878CDB227FF2293FAF2DA3C86D2EC",
+              "scaleApplied": 1
+            },
+            {
+              "index": 1,
+              "path": "assets/joeun/frames/09.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 205.30588235294118,
+                "y": 367
+              },
+              "emitter": {
+                "x": 340,
+                "y": 134.63063063063066
+              },
+              "bounds": [
+                47,
+                54,
+                340,
+                367
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                282,
+                594,
+                634,
+                1038
+              ],
+              "sourceOffset": {
+                "x": 274,
+                "y": 586
+              },
+              "sourcePixels": 71161,
+              "sourcePixelSha": "1EABD70C0981DE17598B2AB6F809F6B275301BCCFBD5478FCE29F27933DCF2FB",
+              "copiedPixelSha": "1EABD70C0981DE17598B2AB6F809F6B275301BCCFBD5478FCE29F27933DCF2FB",
+              "sha256": "A742226B004F2EA12F0A9348C920372BC4DB54FB997B1CF90CFE2FE9387661EE",
+              "scaleApplied": 1
+            },
+            {
+              "index": 2,
+              "path": "assets/joeun/frames/10.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 221.33027522935777,
+                "y": 329
+              },
+              "emitter": {
+                "x": 381,
+                "y": 136.0980392156863
+              },
+              "bounds": [
+                17,
+                43,
+                381,
+                329
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                592,
+                630,
+                985,
+                978
+              ],
+              "sourceOffset": {
+                "x": 584,
+                "y": 622
+              },
+              "sourcePixels": 74074,
+              "sourcePixelSha": "86FBABB5D2BB782E4D5DEF256D40AF2715AD11D652F6D5B0F57DD9EAD69AFC31",
+              "copiedPixelSha": "86FBABB5D2BB782E4D5DEF256D40AF2715AD11D652F6D5B0F57DD9EAD69AFC31",
+              "sha256": "88C82224C46532D268147F74D9D3D08BA004712F34C90C3757ED68D1289852C6",
+              "scaleApplied": 1
+            },
+            {
+              "index": 3,
+              "path": "assets/joeun/frames/11.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 254.891304347826,
+                "y": 313
+              },
+              "emitter": {
+                "x": 346,
+                "y": 188.8888888888889
+              },
+              "bounds": [
+                31,
+                56,
+                346,
+                313
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                905,
+                646,
+                1253,
+                992
+              ],
+              "sourceOffset": {
+                "x": 897,
+                "y": 638
+              },
+              "sourcePixels": 54787,
+              "sourcePixelSha": "F3C5157E85B9DAB990E8BC315A4AA2D02477E33EA330CA6FE4CBFBE60348D44F",
+              "copiedPixelSha": "F3C5157E85B9DAB990E8BC315A4AA2D02477E33EA330CA6FE4CBFBE60348D44F",
+              "sha256": "27CC365A7548A02F041EF4B9E01C08CE2AFBBF98B2D1B5F2E31B6274BBBD0D28",
+              "scaleApplied": 1
+            },
+            {
+              "index": 4,
+              "path": "assets/joeun/frames/12.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 79.8780487804878,
+                "y": 310
+              },
+              "emitter": {
+                "x": 320,
+                "y": 180.74683544303798
+              },
+              "bounds": [
+                46,
+                30,
+                320,
+                310
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                0,
+                931,
+                333,
+                1253
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 923
+              },
+              "sourcePixels": 56371,
+              "sourcePixelSha": "755391A581130DCED5CFAE40F5F0054AD3EF34B3FCF7832CB1D8BA0CFC25AAE3",
+              "copiedPixelSha": "755391A581130DCED5CFAE40F5F0054AD3EF34B3FCF7832CB1D8BA0CFC25AAE3",
+              "sha256": "FF38E9DE3975BB71ED52ED4EBAD3D07BEAC4EFD3DF41EBB2BAD08CD8641BE3CE",
+              "scaleApplied": 1
+            },
+            {
+              "index": 5,
+              "path": "assets/joeun/frames/13.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 92.36842105263156,
+                "y": 306
+              },
+              "emitter": {
+                "x": 305,
+                "y": 223.81395348837214
+              },
+              "bounds": [
+                37,
+                32,
+                305,
+                306
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                298,
+                931,
+                608,
+                1253
+              ],
+              "sourceOffset": {
+                "x": 290,
+                "y": 923
+              },
+              "sourcePixels": 48683,
+              "sourcePixelSha": "B1F96FC3F975CEDA77A305379A3D113088665AC01E4E3760D2258D6AF0DAC2D8",
+              "copiedPixelSha": "B1F96FC3F975CEDA77A305379A3D113088665AC01E4E3760D2258D6AF0DAC2D8",
+              "sha256": "EB60BB345BCA848283C24315FB47D66C9441B47D888FDF2AEB85C4F77C5B1E91",
+              "scaleApplied": 1
+            },
+            {
+              "index": 6,
+              "path": "assets/joeun/frames/14.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 232.62871287128712,
+                "y": 272
+              },
+              "emitter": {
+                "x": 307,
+                "y": 208.57142857142867
+              },
+              "bounds": [
+                24,
+                49,
+                338,
+                272
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                600,
+                971,
+                956,
+                1253
+              ],
+              "sourceOffset": {
+                "x": 592,
+                "y": 963
+              },
+              "sourcePixels": 48917,
+              "sourcePixelSha": "D46D6A586DAE84A1EFD11A8A727927C8FE936C787AE4F0598F139614C871E515",
+              "copiedPixelSha": "D46D6A586DAE84A1EFD11A8A727927C8FE936C787AE4F0598F139614C871E515",
+              "sha256": "88D56EBBBEE67DA86A176384FF520558CF2288727AC8698A856495F414D0957C",
+              "scaleApplied": 1
+            },
+            {
+              "index": 7,
+              "path": "assets/joeun/frames/15.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 216.91732283464557,
+                "y": 257
+              },
+              "emitter": {
+                "x": 316,
+                "y": 198.57142857142867
+              },
+              "bounds": [
+                16,
+                50,
+                327,
+                257
+              ],
+              "visibleHeight": 327,
+              "sourceBounds": [
+                926,
+                986,
+                1253,
+                1253
+              ],
+              "sourceOffset": {
+                "x": 918,
+                "y": 978
+              },
+              "sourcePixels": 42846,
+              "sourcePixelSha": "1EABA4FFD4FD75E980975760DA1430C9E374F15F85AD06543AB5D7B3C360D3FF",
+              "copiedPixelSha": "1EABA4FFD4FD75E980975760DA1430C9E374F15F85AD06543AB5D7B3C360D3FF",
+              "sha256": "B89A868DD6649091EC298E14C47E57B4FBE4DB9341BD9F046A05CF2828A88B14",
+              "scaleApplied": 1
+            }
+          ],
+          "bodyPixels": 327
+        }
+      },
+      "effects": {
+        "skill": {
+          "path": "assets/joeun/skill-fx.png",
+          "width": 1254,
+          "height": 1254,
+          "sha256": "0C2D0F9814CED880E23569D460754FFDC0F4CE5F02ED2DE5E07FB63918879E3A",
+          "hasAlpha": true,
+          "bytes": 1730445,
+          "columns": 4,
+          "rows": 4,
+          "frames": [
+            {
+              "index": 0,
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 314,
+                "height": 314
+              }
+            },
+            {
+              "index": 1,
+              "rect": {
+                "x": 314,
+                "y": 0,
+                "width": 313,
+                "height": 314
+              }
+            },
+            {
+              "index": 2,
+              "rect": {
+                "x": 627,
+                "y": 0,
+                "width": 314,
+                "height": 314
+              }
+            },
+            {
+              "index": 3,
+              "rect": {
+                "x": 941,
+                "y": 0,
+                "width": 313,
+                "height": 314
+              }
+            },
+            {
+              "index": 4,
+              "rect": {
+                "x": 0,
+                "y": 314,
+                "width": 314,
+                "height": 313
+              }
+            },
+            {
+              "index": 5,
+              "rect": {
+                "x": 314,
+                "y": 314,
+                "width": 313,
+                "height": 313
+              }
+            },
+            {
+              "index": 6,
+              "rect": {
+                "x": 627,
+                "y": 314,
+                "width": 314,
+                "height": 313
+              }
+            },
+            {
+              "index": 7,
+              "rect": {
+                "x": 941,
+                "y": 314,
+                "width": 313,
+                "height": 313
+              }
+            },
+            {
+              "index": 8,
+              "rect": {
+                "x": 0,
+                "y": 627,
+                "width": 314,
+                "height": 314
+              }
+            },
+            {
+              "index": 9,
+              "rect": {
+                "x": 314,
+                "y": 627,
+                "width": 313,
+                "height": 314
+              }
+            },
+            {
+              "index": 10,
+              "rect": {
+                "x": 627,
+                "y": 627,
+                "width": 314,
+                "height": 314
+              }
+            },
+            {
+              "index": 11,
+              "rect": {
+                "x": 941,
+                "y": 627,
+                "width": 313,
+                "height": 314
+              }
+            },
+            {
+              "index": 12,
+              "rect": {
+                "x": 0,
+                "y": 941,
+                "width": 314,
+                "height": 313
+              }
+            },
+            {
+              "index": 13,
+              "rect": {
+                "x": 314,
+                "y": 941,
+                "width": 313,
+                "height": 313
+              }
+            },
+            {
+              "index": 14,
+              "rect": {
+                "x": 627,
+                "y": 941,
+                "width": 314,
+                "height": 313
+              }
+            },
+            {
+              "index": 15,
+              "rect": {
+                "x": 941,
+                "y": 941,
+                "width": 313,
+                "height": 313
+              }
+            }
+          ]
+        }
+      },
+      "pixelAudit": {
+        "sourcePixels": 897249,
+        "copiedPixels": 897249,
+        "scaleApplied": 1,
+        "coreAlpha": 80,
+        "allOriginalRgbaPreserved": true,
+        "method": "16_ALPHA_COMPONENTS_PLUS_NEAREST_FRINGE_PIXEL_COPY"
+      },
+      "bodyPixels": 327,
+      "battleBodyHeight": 345,
+      "sourceArtApproval": "USER_APPROVED",
+      "motionSelection": "USER_REVIEW_PENDING",
+      "generatedArtApproval": "USER_REVIEW_PENDING",
+      "missing": [],
+      "ready": true,
+      "runtimeEnabled": false
+    },
+    {
+      "id": "BLOODMOON-DIIM",
+      "slug": "diim",
+      "name": "디임",
+      "previewCode": "V-962",
+      "previewCodeIsAssignment": false,
+      "rank": null,
+      "accent": "#eb4164",
+      "skillKind": "melee",
+      "skillName": "적월 단죄",
+      "skillId": "BM-DIIM",
+      "combat": {
+        "version": 1,
+        "slug": "diim",
+        "code": "V-962",
+        "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+        "name": "디임",
+        "rank": null,
+        "position": "FRONT",
+        "role": "VANGUARD",
+        "attackStyle": "MELEE",
+        "basePower": 356400,
+        "scale": 7.7,
+        "speedScale": 2.95,
+        "actionCredit": 3.5,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 3.1,
+        "basicCapScale": 1.7,
+        "pveSkillMinimumDamage": false,
+        "link": {
+          "attackPercent": 1694,
+          "hpPercent": 2156,
+          "shieldPercent": 1155
+        },
+        "skill": {
+          "id": "BM-DIIM",
+          "name": "적월 단죄",
+          "nameStatus": "WORKING_LABEL",
+          "mechanic": "WOUNDED_MOON_DRAW",
+          "effect": "잃은 체력이 많은 적을 큰 낫으로 마무리합니다.",
+          "target": "적 표적",
+          "ready": true,
+          "trigger": "기존 서버의 에너지·재사용·행동 조건",
+          "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+          "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+          "balance": {
+            "damageRatio": 11.6,
+            "cooldownTurns": 1,
+            "cost": 20
+          }
+        },
+        "acquisitionEnabled": false,
+        "deploymentEnabled": false
+      },
+      "sourceArt": {
+        "path": "assets/sources/03-diim-scythe-approved.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "EC0AE02A8DCF159DDEA5BAC6215EB56CA271FADA9EA19E4A4DB2589513A5D537",
+        "hasAlpha": false,
+        "bytes": 3212127
+      },
+      "originalMotion": {
+        "path": "assets/diim/motion-v2-complete.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "DC179E7C03FE432C0BC7A6D7E229AC33019FB624DDDEF53FF7BD480D7EBFE55C",
+        "hasAlpha": true,
+        "bytes": 2115866
+      },
+      "battleSprite": {
+        "path": "assets/diim/frames/00.png",
+        "width": 512,
+        "height": 512,
+        "sha256": "CB9BAC03F199DEFB9F1AC22834DE4CE87F89E490F896B622638F5D1E524B14FB",
+        "hasAlpha": true,
+        "bytes": 145594,
+        "frames": [
+          {
+            "index": 0,
+            "path": "assets/diim/frames/00.png",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            },
+            "foot": {
+              "x": 113.06666666666666,
+              "y": 315
+            },
+            "emitter": {
+              "x": 305,
+              "y": 215.22857142857143
+            },
+            "bounds": [
+              28,
+              24,
+              305,
+              315
+            ],
+            "visibleHeight": 292,
+            "sourceBounds": [
+              0,
+              23,
+              322,
+              373
+            ],
+            "sourceOffset": {
+              "x": -8,
+              "y": 15
+            },
+            "sourcePixels": 51533,
+            "sourcePixelSha": "C93E1A1F0A8469971E6CAE3D2A270679C27BA79A6E117E283C9BFF522C0086BB",
+            "copiedPixelSha": "C93E1A1F0A8469971E6CAE3D2A270679C27BA79A6E117E283C9BFF522C0086BB",
+            "sha256": "CB9BAC03F199DEFB9F1AC22834DE4CE87F89E490F896B622638F5D1E524B14FB",
+            "scaleApplied": 1
+          }
+        ]
+      },
+      "battleSpriteFootAnchor": {
+        "x": 0.22083333333333333,
+        "y": 0.615234375
+      },
+      "motion": {
+        "basic": {
+          "frames": [
+            {
+              "index": 0,
+              "path": "assets/diim/frames/00.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 113.06666666666666,
+                "y": 315
+              },
+              "emitter": {
+                "x": 305,
+                "y": 215.22857142857143
+              },
+              "bounds": [
+                28,
+                24,
+                305,
+                315
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                0,
+                23,
+                322,
+                373
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 15
+              },
+              "sourcePixels": 51533,
+              "sourcePixelSha": "C93E1A1F0A8469971E6CAE3D2A270679C27BA79A6E117E283C9BFF522C0086BB",
+              "copiedPixelSha": "C93E1A1F0A8469971E6CAE3D2A270679C27BA79A6E117E283C9BFF522C0086BB",
+              "sha256": "CB9BAC03F199DEFB9F1AC22834DE4CE87F89E490F896B622638F5D1E524B14FB",
+              "scaleApplied": 1
+            },
+            {
+              "index": 1,
+              "path": "assets/diim/frames/01.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 122.56043956043953,
+                "y": 315
+              },
+              "emitter": {
+                "x": 308,
+                "y": 222.17105263157896
+              },
+              "bounds": [
+                23,
+                22,
+                309,
+                315
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                308,
+                23,
+                636,
+                365
+              ],
+              "sourceOffset": {
+                "x": 300,
+                "y": 15
+              },
+              "sourcePixels": 51928,
+              "sourcePixelSha": "EE65F71210FF3FE16FB8DC3B42C7B1110271FC9499359D22027824B7EA76033C",
+              "copiedPixelSha": "EE65F71210FF3FE16FB8DC3B42C7B1110271FC9499359D22027824B7EA76033C",
+              "sha256": "0B0E49809C3996C115B6F40511C2620240CA076BB1254B8D4DDBF4A2CB2CCBF4",
+              "scaleApplied": 1
+            },
+            {
+              "index": 2,
+              "path": "assets/diim/frames/02.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 276.55319148936167,
+                "y": 315
+              },
+              "emitter": {
+                "x": 361,
+                "y": 230.89361702127658
+              },
+              "bounds": [
+                38,
+                59,
+                361,
+                315
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                589,
+                25,
+                961,
+                395
+              ],
+              "sourceOffset": {
+                "x": 581,
+                "y": 17
+              },
+              "sourcePixels": 49539,
+              "sourcePixelSha": "6DED1E98C83D23A4D395FC2151277A0024CCFD9C87FCA6F275ACC4F74EC527F5",
+              "copiedPixelSha": "6DED1E98C83D23A4D395FC2151277A0024CCFD9C87FCA6F275ACC4F74EC527F5",
+              "sha256": "7B19C2E58527293CE65EA11DCC33DFEB1DD8E41C9CAEBCA83BA8AADA4FBE23AC",
+              "scaleApplied": 1
+            },
+            {
+              "index": 3,
+              "path": "assets/diim/frames/03.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 284.2459016393443,
+                "y": 303
+              },
+              "emitter": {
+                "x": 338,
+                "y": 194.03846153846155
+              },
+              "bounds": [
+                42,
+                44,
+                338,
+                303
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                916,
+                35,
+                1253,
+                363
+              ],
+              "sourceOffset": {
+                "x": 908,
+                "y": 27
+              },
+              "sourcePixels": 48884,
+              "sourcePixelSha": "7996352B3DFA77E59E96EB9D25A881927DF0D0885B735BFB9979CB04374C5CEC",
+              "copiedPixelSha": "7996352B3DFA77E59E96EB9D25A881927DF0D0885B735BFB9979CB04374C5CEC",
+              "sha256": "D4E549D354888803E2FB51D312F4FD28744AFA5C040214FE05EA34C7AF29BB22",
+              "scaleApplied": 1
+            },
+            {
+              "index": 4,
+              "path": "assets/diim/frames/04.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 236.66666666666666,
+                "y": 277
+              },
+              "emitter": {
+                "x": 340,
+                "y": 199.49333333333334
+              },
+              "bounds": [
+                20,
+                39,
+                340,
+                277
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                0,
+                353,
+                359,
+                668
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 345
+              },
+              "sourcePixels": 46838,
+              "sourcePixelSha": "744EDA521ECBA996A3146C340B745BBE1011F1B0647FF2693ECCCDAFB3A32D4E",
+              "copiedPixelSha": "744EDA521ECBA996A3146C340B745BBE1011F1B0647FF2693ECCCDAFB3A32D4E",
+              "sha256": "E8210D69C4968282EA60077B149172099F9CA3EB0BE0F50AED86FDEC9B579093",
+              "scaleApplied": 1
+            },
+            {
+              "index": 5,
+              "path": "assets/diim/frames/05.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 188.68115942028987,
+                "y": 285
+              },
+              "emitter": {
+                "x": 335,
+                "y": 185.18831168831173
+              },
+              "bounds": [
+                22,
+                45,
+                335,
+                285
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                306,
+                343,
+                649,
+                670
+              ],
+              "sourceOffset": {
+                "x": 298,
+                "y": 335
+              },
+              "sourcePixels": 49646,
+              "sourcePixelSha": "CC526D26664632F707C17F9C86BB1ACA1524205E0A66AB2C7001AA296F7CA233",
+              "copiedPixelSha": "CC526D26664632F707C17F9C86BB1ACA1524205E0A66AB2C7001AA296F7CA233",
+              "sha256": "93CAF5ED9EBB943B3ADEC675C7F6C22D3057612EFD465A08F64C98FD49E221A6",
+              "scaleApplied": 1
+            },
+            {
+              "index": 6,
+              "path": "assets/diim/frames/06.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 166.48031496062993,
+                "y": 309
+              },
+              "emitter": {
+                "x": 354,
+                "y": 237.13461538461536
+              },
+              "bounds": [
+                29,
+                80,
+                355,
+                309
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                609,
+                322,
+                971,
+                690
+              ],
+              "sourceOffset": {
+                "x": 601,
+                "y": 314
+              },
+              "sourcePixels": 47393,
+              "sourcePixelSha": "EE74827B43A5D8FE8B1DAEE6561DE48CC1412A915245B6224B43F073ADBFF329",
+              "copiedPixelSha": "EE74827B43A5D8FE8B1DAEE6561DE48CC1412A915245B6224B43F073ADBFF329",
+              "sha256": "8E7E3FDAA1CF5B9462AF2DC656E453F65B6129502C8AD410E29A93682D4F6014",
+              "scaleApplied": 1
+            },
+            {
+              "index": 7,
+              "path": "assets/diim/frames/07.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 101.94318181818176,
+                "y": 320
+              },
+              "emitter": {
+                "x": 324,
+                "y": 209.74050632911394
+              },
+              "bounds": [
+                27,
+                74,
+                324,
+                320
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                934,
+                313,
+                1253,
+                650
+              ],
+              "sourceOffset": {
+                "x": 926,
+                "y": 305
+              },
+              "sourcePixels": 44325,
+              "sourcePixelSha": "47FC3CA49241808E0AB0BD0D20000DD07C960DF936C1920E9FB5BCD04093AD01",
+              "copiedPixelSha": "47FC3CA49241808E0AB0BD0D20000DD07C960DF936C1920E9FB5BCD04093AD01",
+              "sha256": "E5A5A0C06364CF565200835819C1E739CDCD1B79DAA8086A1C42AE92B1C4D377",
+              "scaleApplied": 1
+            }
+          ],
+          "bodyPixels": 292
+        },
+        "skillMotion": {
+          "frames": [
+            {
+              "index": 0,
+              "path": "assets/diim/frames/08.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 163.34306569343065,
+                "y": 343
+              },
+              "emitter": {
+                "x": 308,
+                "y": 136.44444444444446
+              },
+              "bounds": [
+                21,
+                37,
+                308,
+                343
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                0,
+                600,
+                312,
+                988
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 592
+              },
+              "sourcePixels": 56950,
+              "sourcePixelSha": "57C870A6A5526D2DEC6806155D8AC4991BD8649C41DF9D817EE12765B255A22E",
+              "copiedPixelSha": "57C870A6A5526D2DEC6806155D8AC4991BD8649C41DF9D817EE12765B255A22E",
+              "sha256": "571853EF1EC5952B75BD992E8014EF7CD0D52F1FF7431CBAB1CD4E1E471327A7",
+              "scaleApplied": 1
+            },
+            {
+              "index": 1,
+              "path": "assets/diim/frames/09.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 248.05487804878044,
+                "y": 344
+              },
+              "emitter": {
+                "x": 341,
+                "y": 159.66666666666663
+              },
+              "bounds": [
+                36,
+                41,
+                343,
+                344
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                290,
+                606,
+                635,
+                974
+              ],
+              "sourceOffset": {
+                "x": 282,
+                "y": 598
+              },
+              "sourcePixels": 61778,
+              "sourcePixelSha": "ED1C9DB04C527EACA6797982EFF17DCF1E01E0EF71306A1C1A19FD78963E277A",
+              "copiedPixelSha": "ED1C9DB04C527EACA6797982EFF17DCF1E01E0EF71306A1C1A19FD78963E277A",
+              "sha256": "F8AADEDC52C3DED582EFC069EC07A1DE610F9CFF989E3A5C055F0BC33127CD93",
+              "scaleApplied": 1
+            },
+            {
+              "index": 2,
+              "path": "assets/diim/frames/10.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 287.49541284403665,
+                "y": 270
+              },
+              "emitter": {
+                "x": 384,
+                "y": 190.75925925925924
+              },
+              "bounds": [
+                48,
+                14,
+                384,
+                270
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                567,
+                676,
+                969,
+                1008
+              ],
+              "sourceOffset": {
+                "x": 559,
+                "y": 668
+              },
+              "sourcePixels": 50131,
+              "sourcePixelSha": "CDC78AC2609EA94B47256D565C1F514429098CDBF859AD7E761279485095142B",
+              "copiedPixelSha": "CDC78AC2609EA94B47256D565C1F514429098CDBF859AD7E761279485095142B",
+              "sha256": "01D9441D781BCD5239E5DD7A5C2051065BB53089F434CB3F222CF48C089B8C47",
+              "scaleApplied": 1
+            },
+            {
+              "index": 3,
+              "path": "assets/diim/frames/11.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 302.60833333333335,
+                "y": 319
+              },
+              "emitter": {
+                "x": 370,
+                "y": 192.83233532934128
+              },
+              "bounds": [
+                32,
+                79,
+                370,
+                319
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                882,
+                631,
+                1253,
+                989
+              ],
+              "sourceOffset": {
+                "x": 874,
+                "y": 623
+              },
+              "sourcePixels": 52794,
+              "sourcePixelSha": "49070E5D2A1AA3709D8A986D6100517B5EFC25665792E1EF8F8D3032A5D083F2",
+              "copiedPixelSha": "49070E5D2A1AA3709D8A986D6100517B5EFC25665792E1EF8F8D3032A5D083F2",
+              "sha256": "461388BE7E274A2BFEA3165B3846386012A768AD6AB1BA50DF2B6F3D7DFB00E8",
+              "scaleApplied": 1
+            },
+            {
+              "index": 4,
+              "path": "assets/diim/frames/12.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 83.45,
+                "y": 294
+              },
+              "emitter": {
+                "x": 314,
+                "y": 207.90370370370374
+              },
+              "bounds": [
+                14,
+                49,
+                314,
+                294
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                15,
+                920,
+                339,
+                1253
+              ],
+              "sourceOffset": {
+                "x": 7,
+                "y": 912
+              },
+              "sourcePixels": 52286,
+              "sourcePixelSha": "075FC43B3EB8CD08D42B838D88C59CCB03366AF1559C5D34C9B1C93896FF5720",
+              "copiedPixelSha": "075FC43B3EB8CD08D42B838D88C59CCB03366AF1559C5D34C9B1C93896FF5720",
+              "sha256": "4EF6F6AE59A8D292116D13D36EA14F232FE3F6C7EB0C7D402307967C0DA148E1",
+              "scaleApplied": 1
+            },
+            {
+              "index": 5,
+              "path": "assets/diim/frames/13.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 167.04166666666669,
+                "y": 263
+              },
+              "emitter": {
+                "x": 343,
+                "y": 186.54166666666674
+              },
+              "bounds": [
+                19,
+                38,
+                343,
+                263
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                318,
+                944,
+                666,
+                1229
+              ],
+              "sourceOffset": {
+                "x": 310,
+                "y": 936
+              },
+              "sourcePixels": 52522,
+              "sourcePixelSha": "2BCB05A01DE211BC8F2C60FB2B3AFADD0D25FB6A02FEC7DDFB63A7F5651A5898",
+              "copiedPixelSha": "2BCB05A01DE211BC8F2C60FB2B3AFADD0D25FB6A02FEC7DDFB63A7F5651A5898",
+              "sha256": "A0A4B6FA98694F6C1505AE29311290EAD5C16C05A96BB1F034A0130837E632FC",
+              "scaleApplied": 1
+            },
+            {
+              "index": 6,
+              "path": "assets/diim/frames/14.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 217.70000000000005,
+                "y": 273
+              },
+              "emitter": {
+                "x": 273,
+                "y": 203.1875
+              },
+              "bounds": [
+                10,
+                33,
+                281,
+                273
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                638,
+                941,
+                932,
+                1253
+              ],
+              "sourceOffset": {
+                "x": 630,
+                "y": 933
+              },
+              "sourcePixels": 38955,
+              "sourcePixelSha": "267D6B83E22E3D66481CB4D2D6D9324E487933514914637D4DD019A9536E12E4",
+              "copiedPixelSha": "267D6B83E22E3D66481CB4D2D6D9324E487933514914637D4DD019A9536E12E4",
+              "sha256": "105867A738B55604959EAA26DB3F71999E3D0936285A68039A7B71DDEC336FC3",
+              "scaleApplied": 1
+            },
+            {
+              "index": 7,
+              "path": "assets/diim/frames/15.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 319.25,
+                "y": 285
+              },
+              "emitter": {
+                "x": 344,
+                "y": 216.19318181818176
+              },
+              "bounds": [
+                16,
+                84,
+                344,
+                285
+              ],
+              "visibleHeight": 292,
+              "sourceBounds": [
+                904,
+                953,
+                1253,
+                1253
+              ],
+              "sourceOffset": {
+                "x": 896,
+                "y": 945
+              },
+              "sourcePixels": 39857,
+              "sourcePixelSha": "7419AC8C62003012CB147438A527AB416EDAB3CA6C8C74033DA80CC4F7CD10CA",
+              "copiedPixelSha": "7419AC8C62003012CB147438A527AB416EDAB3CA6C8C74033DA80CC4F7CD10CA",
+              "sha256": "B7C01419CFC396E4A300181067750069354CB77B4071DA55954C4DE0B32214DE",
+              "scaleApplied": 1
+            }
+          ],
+          "bodyPixels": 292
+        }
+      },
+      "effects": {
+        "skill": {
+          "path": "assets/diim/skill-fx.png",
+          "width": 1254,
+          "height": 1254,
+          "sha256": "A778729D82D8A91F4155DC2FEEF906E98B15A343576DEBA44D04D4B575EE53CD",
+          "hasAlpha": true,
+          "bytes": 2669683,
+          "columns": 4,
+          "rows": 4,
+          "frames": [
+            {
+              "index": 0,
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 314,
+                "height": 314
+              }
+            },
+            {
+              "index": 1,
+              "rect": {
+                "x": 314,
+                "y": 0,
+                "width": 313,
+                "height": 314
+              }
+            },
+            {
+              "index": 2,
+              "rect": {
+                "x": 627,
+                "y": 0,
+                "width": 314,
+                "height": 314
+              }
+            },
+            {
+              "index": 3,
+              "rect": {
+                "x": 941,
+                "y": 0,
+                "width": 313,
+                "height": 314
+              }
+            },
+            {
+              "index": 4,
+              "rect": {
+                "x": 0,
+                "y": 314,
+                "width": 314,
+                "height": 313
+              }
+            },
+            {
+              "index": 5,
+              "rect": {
+                "x": 314,
+                "y": 314,
+                "width": 313,
+                "height": 313
+              }
+            },
+            {
+              "index": 6,
+              "rect": {
+                "x": 627,
+                "y": 314,
+                "width": 314,
+                "height": 313
+              }
+            },
+            {
+              "index": 7,
+              "rect": {
+                "x": 941,
+                "y": 314,
+                "width": 313,
+                "height": 313
+              }
+            },
+            {
+              "index": 8,
+              "rect": {
+                "x": 0,
+                "y": 627,
+                "width": 314,
+                "height": 314
+              }
+            },
+            {
+              "index": 9,
+              "rect": {
+                "x": 314,
+                "y": 627,
+                "width": 313,
+                "height": 314
+              }
+            },
+            {
+              "index": 10,
+              "rect": {
+                "x": 627,
+                "y": 627,
+                "width": 314,
+                "height": 314
+              }
+            },
+            {
+              "index": 11,
+              "rect": {
+                "x": 941,
+                "y": 627,
+                "width": 313,
+                "height": 314
+              }
+            },
+            {
+              "index": 12,
+              "rect": {
+                "x": 0,
+                "y": 941,
+                "width": 314,
+                "height": 313
+              }
+            },
+            {
+              "index": 13,
+              "rect": {
+                "x": 314,
+                "y": 941,
+                "width": 313,
+                "height": 313
+              }
+            },
+            {
+              "index": 14,
+              "rect": {
+                "x": 627,
+                "y": 941,
+                "width": 314,
+                "height": 313
+              }
+            },
+            {
+              "index": 15,
+              "rect": {
+                "x": 941,
+                "y": 941,
+                "width": 313,
+                "height": 313
+              }
+            }
+          ]
+        }
+      },
+      "pixelAudit": {
+        "sourcePixels": 795359,
+        "copiedPixels": 795359,
+        "scaleApplied": 1,
+        "coreAlpha": 128,
+        "allOriginalRgbaPreserved": true,
+        "method": "16_ALPHA_COMPONENTS_PLUS_NEAREST_FRINGE_PIXEL_COPY"
+      },
+      "bodyPixels": 292,
+      "battleBodyHeight": 345,
+      "sourceArtApproval": "USER_APPROVED",
+      "motionSelection": "USER_REVIEW_PENDING",
+      "generatedArtApproval": "USER_REVIEW_PENDING",
+      "missing": [],
+      "ready": true,
+      "runtimeEnabled": false
+    },
+    {
+      "id": "BLOODMOON-CLAWS",
+      "slug": "claws",
+      "name": "독자 캐릭터 A",
+      "previewCode": "V-963",
+      "previewCodeIsAssignment": false,
+      "rank": null,
+      "accent": "#eb4164",
+      "skillKind": "melee",
+      "skillName": "혈조 교차참",
+      "skillId": "BM-CLAWS",
+      "combat": {
+        "version": 1,
+        "slug": "claws",
+        "code": "V-963",
+        "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+        "name": "독자 캐릭터 A",
+        "rank": null,
+        "position": "FRONT",
+        "role": "VANGUARD",
+        "attackStyle": "MELEE",
+        "basePower": 356400,
+        "scale": 8.15,
+        "speedScale": 3.05,
+        "actionCredit": 3.75,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 3.3,
+        "basicCapScale": 1.7,
+        "pveSkillMinimumDamage": false,
+        "link": {
+          "attackPercent": 1793,
+          "hpPercent": 2282,
+          "shieldPercent": 1222.5
+        },
+        "skill": {
+          "id": "BM-CLAWS",
+          "name": "혈조 교차참",
+          "nameStatus": "WORKING_LABEL",
+          "mechanic": "TWO_BEAT_FOLLOWUP",
+          "effect": "양손 클로의 교차 공격을 두 행동에 나누어 이어갑니다.",
+          "target": "적 표적",
+          "ready": true,
+          "trigger": "기존 서버의 에너지·재사용·행동 조건",
+          "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+          "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+          "balance": {
+            "damageRatio": 26.4,
+            "cooldownTurns": 1,
+            "cost": 20
+          }
+        },
+        "acquisitionEnabled": false,
+        "deploymentEnabled": false
+      },
+      "sourceArt": {
+        "path": "assets/sources/04-original-claws-approved.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "4A3CE150F220EF56CBE8C457F1CD4329650C0DA8092848D90E54873D058E728F",
+        "hasAlpha": false,
+        "bytes": 3326203
+      },
+      "originalMotion": {
+        "path": "assets/claws/motion.png",
+        "width": 1402,
+        "height": 1122,
+        "sha256": "678FB53965EAD3634A34CF9689CD26CBF58C07C49E1A936040E355845A326668",
+        "hasAlpha": true,
+        "bytes": 2752378
+      },
+      "battleSprite": {
+        "path": "assets/claws/frames/00.png",
+        "width": 512,
+        "height": 512,
+        "sha256": "C729CC2489870EC2D2608D9FFD79D9DD51C7838842E2AF8D5A7F46528A351A1C",
+        "hasAlpha": true,
+        "bytes": 161420,
+        "frames": [
+          {
+            "index": 0,
+            "path": "assets/claws/frames/00.png",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            },
+            "foot": {
+              "x": 207.02777777777777,
+              "y": 315
+            },
+            "emitter": {
+              "x": 324,
+              "y": 228.42857142857142
+            },
+            "bounds": [
+              85,
+              11,
+              351,
+              315
+            ],
+            "visibleHeight": 305,
+            "sourceBounds": [
+              0,
+              0,
+              368,
+              354
+            ],
+            "sourceOffset": {
+              "x": -8,
+              "y": -8
+            },
+            "sourcePixels": 58432,
+            "sourcePixelSha": "59479FA0E6D964AE7798BFE5C2BF3809D56D969F71047EAF9B0AC27733AD78F0",
+            "copiedPixelSha": "59479FA0E6D964AE7798BFE5C2BF3809D56D969F71047EAF9B0AC27733AD78F0",
+            "sha256": "C729CC2489870EC2D2608D9FFD79D9DD51C7838842E2AF8D5A7F46528A351A1C",
+            "scaleApplied": 1
+          }
+        ]
+      },
+      "battleSpriteFootAnchor": {
+        "x": 0.4043511284722222,
+        "y": 0.615234375
+      },
+      "motion": {
+        "basic": {
+          "frames": [
+            {
+              "index": 0,
+              "path": "assets/claws/frames/00.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 207.02777777777777,
+                "y": 315
+              },
+              "emitter": {
+                "x": 324,
+                "y": 228.42857142857142
+              },
+              "bounds": [
+                85,
+                11,
+                351,
+                315
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                0,
+                0,
+                368,
+                354
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": -8
+              },
+              "sourcePixels": 58432,
+              "sourcePixelSha": "59479FA0E6D964AE7798BFE5C2BF3809D56D969F71047EAF9B0AC27733AD78F0",
+              "copiedPixelSha": "59479FA0E6D964AE7798BFE5C2BF3809D56D969F71047EAF9B0AC27733AD78F0",
+              "sha256": "C729CC2489870EC2D2608D9FFD79D9DD51C7838842E2AF8D5A7F46528A351A1C",
+              "scaleApplied": 1
+            },
+            {
+              "index": 1,
+              "path": "assets/claws/frames/01.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 141,
+                "y": 316
+              },
+              "emitter": {
+                "x": 304,
+                "y": 228.72727272727272
+              },
+              "bounds": [
+                64,
+                12,
+                317,
+                316
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                366,
+                0,
+                696,
+                332
+              ],
+              "sourceOffset": {
+                "x": 358,
+                "y": -8
+              },
+              "sourcePixels": 53682,
+              "sourcePixelSha": "3FCD8E501594B2E0D47E583C69FCE3A6DA18C6632C1B46625E85DBF5CA0DF05D",
+              "copiedPixelSha": "3FCD8E501594B2E0D47E583C69FCE3A6DA18C6632C1B46625E85DBF5CA0DF05D",
+              "sha256": "E1B43831A787DDC94F8815BC1BB7ABB059D9F9F8A1574688B112BF4AD6B5B849",
+              "scaleApplied": 1
+            },
+            {
+              "index": 2,
+              "path": "assets/claws/frames/02.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 94.14814814814815,
+                "y": 313
+              },
+              "emitter": {
+                "x": 343,
+                "y": 81.66666666666667
+              },
+              "bounds": [
+                53,
+                16,
+                343,
+                313
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                680,
+                0,
+                1075,
+                336
+              ],
+              "sourceOffset": {
+                "x": 672,
+                "y": -8
+              },
+              "sourcePixels": 55496,
+              "sourcePixelSha": "3FCC21F25D041041D1F0F1CEBB722C7D9CB068C7E8F586108A06CCD11790748C",
+              "copiedPixelSha": "3FCC21F25D041041D1F0F1CEBB722C7D9CB068C7E8F586108A06CCD11790748C",
+              "sha256": "DFD3B10BCDF6EF03E58FD717DDF16125B38356D067229625B145DB31DEEB0AE5",
+              "scaleApplied": 1
+            },
+            {
+              "index": 3,
+              "path": "assets/claws/frames/03.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 364.0392156862745,
+                "y": 305
+              },
+              "emitter": {
+                "x": 392,
+                "y": 156.51685393258427
+              },
+              "bounds": [
+                58,
+                17,
+                396,
+                305
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                1006,
+                0,
+                1401,
+                332
+              ],
+              "sourceOffset": {
+                "x": 998,
+                "y": -8
+              },
+              "sourcePixels": 59563,
+              "sourcePixelSha": "7B970DF0E49578307677BA426224864015B4EBEEAFADE684999573F08B2123B4",
+              "copiedPixelSha": "7B970DF0E49578307677BA426224864015B4EBEEAFADE684999573F08B2123B4",
+              "sha256": "96175789FC46E0CD8E7869AAB2035EFD76B8EB7CCEA427184536E524A54E9BCE",
+              "scaleApplied": 1
+            },
+            {
+              "index": 4,
+              "path": "assets/claws/frames/04.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 170.95,
+                "y": 328
+              },
+              "emitter": {
+                "x": 336,
+                "y": 227.74358974358972
+              },
+              "bounds": [
+                16,
+                29,
+                355,
+                328
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                0,
+                288,
+                354,
+                647
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 280
+              },
+              "sourcePixels": 72055,
+              "sourcePixelSha": "CD79319609479CB2F0887BA46FDB826A02A5C6655D28FC5F4CBB86F2A44421E2",
+              "copiedPixelSha": "CD79319609479CB2F0887BA46FDB826A02A5C6655D28FC5F4CBB86F2A44421E2",
+              "sha256": "C66592F805E94C51470F60C15A4B898DF58B3FF28BAAA397A0AFCA589F0A05C4",
+              "scaleApplied": 1
+            },
+            {
+              "index": 5,
+              "path": "assets/claws/frames/05.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 68.76470588235293,
+                "y": 345
+              },
+              "emitter": {
+                "x": 400,
+                "y": 219.97058823529414
+              },
+              "bounds": [
+                19,
+                45,
+                400,
+                345
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                334,
+                271,
+                746,
+                623
+              ],
+              "sourceOffset": {
+                "x": 326,
+                "y": 263
+              },
+              "sourcePixels": 65388,
+              "sourcePixelSha": "95D12E974ACA295F871E8B4E77112EF82B3A63277D33EB714DA155B6C8BE9DC0",
+              "copiedPixelSha": "95D12E974ACA295F871E8B4E77112EF82B3A63277D33EB714DA155B6C8BE9DC0",
+              "sha256": "252941235ADA0B33BAE70EDA7DD1648E22A7E0798C0B7D91525D6BD093617EAB",
+              "scaleApplied": 1
+            },
+            {
+              "index": 6,
+              "path": "assets/claws/frames/06.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 297.7246376811594,
+                "y": 344
+              },
+              "emitter": {
+                "x": 410,
+                "y": 133.64285714285717
+              },
+              "bounds": [
+                49,
+                48,
+                410,
+                344
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                710,
+                272,
+                1130,
+                633
+              ],
+              "sourceOffset": {
+                "x": 702,
+                "y": 264
+              },
+              "sourcePixels": 73713,
+              "sourcePixelSha": "688F924E3571A4855549C05049F5975A904CB6917E5FC29807D0045DA17DB9C3",
+              "copiedPixelSha": "688F924E3571A4855549C05049F5975A904CB6917E5FC29807D0045DA17DB9C3",
+              "sha256": "14E03E8DD5E41AF8DB34C3F8559AAF438B215AF2129C7581813615B685597123",
+              "scaleApplied": 1
+            },
+            {
+              "index": 7,
+              "path": "assets/claws/frames/07.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 262.766355140187,
+                "y": 355
+              },
+              "emitter": {
+                "x": 346,
+                "y": 232.79166666666669
+              },
+              "bounds": [
+                45,
+                56,
+                351,
+                355
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                1048,
+                264,
+                1401,
+                658
+              ],
+              "sourceOffset": {
+                "x": 1040,
+                "y": 256
+              },
+              "sourcePixels": 64918,
+              "sourcePixelSha": "D7C5812694F7031FE860967C468C1EB6C319B4EE647EA918B06FE1D20007D66E",
+              "copiedPixelSha": "D7C5812694F7031FE860967C468C1EB6C319B4EE647EA918B06FE1D20007D66E",
+              "sha256": "CA58B3C3CFD6F94CAB3C356DEBF4874D6ABF94BA74A8D72A6C6CA277DD4077C4",
+              "scaleApplied": 1
+            }
+          ],
+          "bodyPixels": 305
+        },
+        "skillMotion": {
+          "frames": [
+            {
+              "index": 0,
+              "path": "assets/claws/frames/08.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 51.333333333333336,
+                "y": 279
+              },
+              "emitter": {
+                "x": 350,
+                "y": 179.20000000000005
+              },
+              "bounds": [
+                22,
+                27,
+                358,
+                279
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                0,
+                581,
+                404,
+                892
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 573
+              },
+              "sourcePixels": 61398,
+              "sourcePixelSha": "16A8726EDB88625252FEFBB83947C7B5AC8D99C0A07F1A9F6E539F17692D003D",
+              "copiedPixelSha": "16A8726EDB88625252FEFBB83947C7B5AC8D99C0A07F1A9F6E539F17692D003D",
+              "sha256": "DEBDF34EABDE155E0CD4A5EE4D6192E1FC083D1AC749D98DEC64D18C9D761705",
+              "scaleApplied": 1
+            },
+            {
+              "index": 1,
+              "path": "assets/claws/frames/09.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 181.8,
+                "y": 283
+              },
+              "emitter": {
+                "x": 437,
+                "y": 156.44444444444446
+              },
+              "bounds": [
+                41,
+                42,
+                437,
+                283
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                329,
+                552,
+                776,
+                843
+              ],
+              "sourceOffset": {
+                "x": 321,
+                "y": 544
+              },
+              "sourcePixels": 62501,
+              "sourcePixelSha": "FBA5E988C1BD0C5CFAC82FE6790CDFE4A668F6CD4058BF3CFB5423A482C0F1CD",
+              "copiedPixelSha": "FBA5E988C1BD0C5CFAC82FE6790CDFE4A668F6CD4058BF3CFB5423A482C0F1CD",
+              "sha256": "8A4751D719A7B0CD47AFB73CDC73B0B1EC732C7DECD184DF65CC0E34C7822E1E",
+              "scaleApplied": 1
+            },
+            {
+              "index": 2,
+              "path": "assets/claws/frames/10.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 167.57142857142856,
+                "y": 315
+              },
+              "emitter": {
+                "x": 398,
+                "y": 100
+              },
+              "bounds": [
+                48,
+                33,
+                398,
+                315
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                667,
+                560,
+                1081,
+                891
+              ],
+              "sourceOffset": {
+                "x": 659,
+                "y": 552
+              },
+              "sourcePixels": 78184,
+              "sourcePixelSha": "86031965B6C546252E84DC169207E61D7C24CE452263B0581AE5945DCD797F18",
+              "copiedPixelSha": "86031965B6C546252E84DC169207E61D7C24CE452263B0581AE5945DCD797F18",
+              "sha256": "E41E21F573FB76136F7F40C4FAD6F759798099CAC65CA6A33CAB538BBF4E7EBE",
+              "scaleApplied": 1
+            },
+            {
+              "index": 3,
+              "path": "assets/claws/frames/11.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 150.6695652173912,
+                "y": 263
+              },
+              "emitter": {
+                "x": 387,
+                "y": 194.34285714285716
+              },
+              "bounds": [
+                58,
+                36,
+                388,
+                263
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                1010,
+                597,
+                1401,
+                937
+              ],
+              "sourceOffset": {
+                "x": 1002,
+                "y": 589
+              },
+              "sourcePixels": 67990,
+              "sourcePixelSha": "3E70935266C2C89B1CF4601EE38170C7D9249CF42D41AE808664EEDE97F87EBC",
+              "copiedPixelSha": "3E70935266C2C89B1CF4601EE38170C7D9249CF42D41AE808664EEDE97F87EBC",
+              "sha256": "3469693D9E228B58E8C564EA045213A2A5233316F5B9D2FBAF3B174AF0DDA801",
+              "scaleApplied": 1
+            },
+            {
+              "index": 4,
+              "path": "assets/claws/frames/12.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 163.27586206896552,
+                "y": 282
+              },
+              "emitter": {
+                "x": 377,
+                "y": 203.1500000000001
+              },
+              "bounds": [
+                27,
+                12,
+                387,
+                282
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                0,
+                844,
+                392,
+                1121
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 836
+              },
+              "sourcePixels": 73175,
+              "sourcePixelSha": "E44FE1CABB124FF6D40EE767F99B46A1BBA82C604B6E08DA0FAC1851D0F6C6BB",
+              "copiedPixelSha": "E44FE1CABB124FF6D40EE767F99B46A1BBA82C604B6E08DA0FAC1851D0F6C6BB",
+              "sha256": "7A657832F5C2CCD01CC27E14B4D98F9DD6326DA6D280AD29249102615CFB0C6F",
+              "scaleApplied": 1
+            },
+            {
+              "index": 5,
+              "path": "assets/claws/frames/13.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 111.54216867469881,
+                "y": 304
+              },
+              "emitter": {
+                "x": 315,
+                "y": 230
+              },
+              "bounds": [
+                35,
+                44,
+                335,
+                304
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                368,
+                809,
+                720,
+                1121
+              ],
+              "sourceOffset": {
+                "x": 360,
+                "y": 801
+              },
+              "sourcePixels": 55558,
+              "sourcePixelSha": "F8E11AD21C9760B1CE80B3EAD8C716A60F2BC44BF9DA6F481193F03597F232C5",
+              "copiedPixelSha": "F8E11AD21C9760B1CE80B3EAD8C716A60F2BC44BF9DA6F481193F03597F232C5",
+              "sha256": "67B331A7DD3E887D9663E281DA08AD57F3D2F27D9D471330B58C0BDF681DFEF5",
+              "scaleApplied": 1
+            },
+            {
+              "index": 6,
+              "path": "assets/claws/frames/14.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 224.1875,
+                "y": 270
+              },
+              "emitter": {
+                "x": 352,
+                "y": 196.57142857142867
+              },
+              "bounds": [
+                14,
+                29,
+                352,
+                270
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                700,
+                847,
+                1052,
+                1121
+              ],
+              "sourceOffset": {
+                "x": 692,
+                "y": 839
+              },
+              "sourcePixels": 52709,
+              "sourcePixelSha": "D1664A5822A95FE4BFDD81B019B5BA6EEC945ED5DCFDBB0B3DDE620CBCB865A4",
+              "copiedPixelSha": "D1664A5822A95FE4BFDD81B019B5BA6EEC945ED5DCFDBB0B3DDE620CBCB865A4",
+              "sha256": "DC7D4621E91CDA28679526559DA0D2433C5D5E490E5ABEA462A8752FA8C73F03",
+              "scaleApplied": 1
+            },
+            {
+              "index": 7,
+              "path": "assets/claws/frames/15.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 311.2357723577236,
+                "y": 256
+              },
+              "emitter": {
+                "x": 364,
+                "y": 197
+              },
+              "bounds": [
+                19,
+                57,
+                374,
+                256
+              ],
+              "visibleHeight": 305,
+              "sourceBounds": [
+                1022,
+                855,
+                1401,
+                1121
+              ],
+              "sourceOffset": {
+                "x": 1014,
+                "y": 847
+              },
+              "sourcePixels": 47979,
+              "sourcePixelSha": "8B00F2846E0EB0621BFD3F9438FD525AD1C854DC4E35AD1E302517086E58AC13",
+              "copiedPixelSha": "8B00F2846E0EB0621BFD3F9438FD525AD1C854DC4E35AD1E302517086E58AC13",
+              "sha256": "5B1CF6F25CD3E5CE33651AA62BE2E45FE838D5391C8C9E83C536351CCEC3B5B3",
+              "scaleApplied": 1
+            }
+          ],
+          "bodyPixels": 305
+        }
+      },
+      "effects": {
+        "skill": {
+          "path": "assets/claws/skill-fx.png",
+          "width": 1536,
+          "height": 1024,
+          "sha256": "2BA58E5BF06B6A70115178191A7BD6A9DEED3979B278D3367982E4BC556FC291",
+          "hasAlpha": true,
+          "bytes": 2238975,
+          "columns": 4,
+          "rows": 4,
+          "frames": [
+            {
+              "index": 0,
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 1,
+              "rect": {
+                "x": 384,
+                "y": 0,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 2,
+              "rect": {
+                "x": 768,
+                "y": 0,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 3,
+              "rect": {
+                "x": 1152,
+                "y": 0,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 4,
+              "rect": {
+                "x": 0,
+                "y": 256,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 5,
+              "rect": {
+                "x": 384,
+                "y": 256,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 6,
+              "rect": {
+                "x": 768,
+                "y": 256,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 7,
+              "rect": {
+                "x": 1152,
+                "y": 256,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 8,
+              "rect": {
+                "x": 0,
+                "y": 512,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 9,
+              "rect": {
+                "x": 384,
+                "y": 512,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 10,
+              "rect": {
+                "x": 768,
+                "y": 512,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 11,
+              "rect": {
+                "x": 1152,
+                "y": 512,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 12,
+              "rect": {
+                "x": 0,
+                "y": 768,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 13,
+              "rect": {
+                "x": 384,
+                "y": 768,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 14,
+              "rect": {
+                "x": 768,
+                "y": 768,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 15,
+              "rect": {
+                "x": 1152,
+                "y": 768,
+                "width": 384,
+                "height": 256
+              }
+            }
+          ]
+        }
+      },
+      "pixelAudit": {
+        "sourcePixels": 1002741,
+        "copiedPixels": 1002741,
+        "scaleApplied": 1,
+        "coreAlpha": 80,
+        "allOriginalRgbaPreserved": true,
+        "method": "16_ALPHA_COMPONENTS_PLUS_NEAREST_FRINGE_PIXEL_COPY"
+      },
+      "bodyPixels": 305,
+      "battleBodyHeight": 345,
+      "sourceArtApproval": "USER_APPROVED",
+      "motionSelection": "USER_REVIEW_PENDING",
+      "generatedArtApproval": "USER_REVIEW_PENDING",
+      "missing": [],
+      "ready": true,
+      "runtimeEnabled": false
+    },
+    {
+      "id": "BLOODMOON-DAGGER",
+      "slug": "dagger",
+      "name": "독자 캐릭터 B",
+      "previewCode": "V-964",
+      "previewCodeIsAssignment": false,
+      "rank": null,
+      "accent": "#eb4164",
+      "skillKind": "melee",
+      "skillName": "월영 급습",
+      "skillId": "BM-DAGGER",
+      "combat": {
+        "version": 1,
+        "slug": "dagger",
+        "code": "V-964",
+        "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+        "name": "독자 캐릭터 B",
+        "rank": null,
+        "position": "FRONT",
+        "role": "VANGUARD",
+        "attackStyle": "MELEE",
+        "basePower": 356400,
+        "scale": 7.9,
+        "speedScale": 3.15,
+        "actionCredit": 3.75,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 3.2,
+        "basicCapScale": 1.65,
+        "pveSkillMinimumDamage": false,
+        "link": {
+          "attackPercent": 1738,
+          "hpPercent": 2212,
+          "shieldPercent": 1185
+        },
+        "skill": {
+          "id": "BM-DAGGER",
+          "name": "월영 급습",
+          "nameStatus": "WORKING_LABEL",
+          "mechanic": "INTERRUPT_WINDUP",
+          "effect": "단검으로 급습해 적의 준비 중인 기술을 중단합니다. 보스와 제어 면역은 중단되지 않습니다.",
+          "target": "적 표적",
+          "ready": true,
+          "trigger": "기존 서버의 에너지·재사용·행동 조건",
+          "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+          "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+          "balance": {
+            "damageRatio": 11.8,
+            "cooldownTurns": 1,
+            "cost": 20
+          }
+        },
+        "acquisitionEnabled": false,
+        "deploymentEnabled": false
+      },
+      "sourceArt": {
+        "path": "assets/sources/05-original-dagger-approved.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "B438EA1FCD38F7D04C960FEDD04EF350A99EFB0B21940C27444E4E90860F2EC8",
+        "hasAlpha": false,
+        "bytes": 3198567
+      },
+      "originalMotion": {
+        "path": "assets/dagger/motion.png",
+        "width": 1536,
+        "height": 1024,
+        "sha256": "41EBA1C752A68DCEC245A97B37BBC2AA5A1A045ABF46A4198C49715DB7F4DBC4",
+        "hasAlpha": true,
+        "bytes": 2629914
+      },
+      "battleSprite": {
+        "path": "assets/dagger/frames/00.png",
+        "width": 512,
+        "height": 512,
+        "sha256": "76D1D632AE2FA8E7CD13698B9459885FCF7E337FCB647409A22874CAFD8D72A7",
+        "hasAlpha": true,
+        "bytes": 154410,
+        "frames": [
+          {
+            "index": 0,
+            "path": "assets/dagger/frames/00.png",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            },
+            "foot": {
+              "x": 231.32530120481928,
+              "y": 362
+            },
+            "emitter": {
+              "x": 268,
+              "y": 194.3859649122807
+            },
+            "bounds": [
+              54,
+              12,
+              268,
+              362
+            ],
+            "visibleHeight": 350,
+            "sourceBounds": [
+              32,
+              0,
+              401,
+              375
+            ],
+            "sourceOffset": {
+              "x": 24,
+              "y": -8
+            },
+            "sourcePixels": 45718,
+            "sourcePixelSha": "F2A9E64A7B8E5BD1B1A2CE34FC1CD9E565582BDBDFF7715C05950F94A6D1149B",
+            "copiedPixelSha": "F2A9E64A7B8E5BD1B1A2CE34FC1CD9E565582BDBDFF7715C05950F94A6D1149B",
+            "sha256": "76D1D632AE2FA8E7CD13698B9459885FCF7E337FCB647409A22874CAFD8D72A7",
+            "scaleApplied": 1
+          }
+        ]
+      },
+      "battleSpriteFootAnchor": {
+        "x": 0.45180722891566266,
+        "y": 0.70703125
+      },
+      "motion": {
+        "basic": {
+          "frames": [
+            {
+              "index": 0,
+              "path": "assets/dagger/frames/00.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 231.32530120481928,
+                "y": 362
+              },
+              "emitter": {
+                "x": 268,
+                "y": 194.3859649122807
+              },
+              "bounds": [
+                54,
+                12,
+                268,
+                362
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                32,
+                0,
+                401,
+                375
+              ],
+              "sourceOffset": {
+                "x": 24,
+                "y": -8
+              },
+              "sourcePixels": 45718,
+              "sourcePixelSha": "F2A9E64A7B8E5BD1B1A2CE34FC1CD9E565582BDBDFF7715C05950F94A6D1149B",
+              "copiedPixelSha": "F2A9E64A7B8E5BD1B1A2CE34FC1CD9E565582BDBDFF7715C05950F94A6D1149B",
+              "sha256": "76D1D632AE2FA8E7CD13698B9459885FCF7E337FCB647409A22874CAFD8D72A7",
+              "scaleApplied": 1
+            },
+            {
+              "index": 1,
+              "path": "assets/dagger/frames/01.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 289.7738095238095,
+                "y": 363
+              },
+              "emitter": {
+                "x": 325,
+                "y": 191.05
+              },
+              "bounds": [
+                112,
+                14,
+                325,
+                363
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                351,
+                0,
+                731,
+                379
+              ],
+              "sourceOffset": {
+                "x": 343,
+                "y": -8
+              },
+              "sourcePixels": 45022,
+              "sourcePixelSha": "F26C2050048136744B27BDCB23B1B75AE3B4853FC14112748515F33A2AC238A8",
+              "copiedPixelSha": "F26C2050048136744B27BDCB23B1B75AE3B4853FC14112748515F33A2AC238A8",
+              "sha256": "4B1B69A62AB13DBA2F38D0EB1A50D256B22AC560657C50CCB416FC79CA7FF59D",
+              "scaleApplied": 1
+            },
+            {
+              "index": 2,
+              "path": "assets/dagger/frames/02.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 396.38059701492534,
+                "y": 314
+              },
+              "emitter": {
+                "x": 411,
+                "y": 125.81818181818181
+              },
+              "bounds": [
+                68,
+                16,
+                420,
+                314
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                715,
+                6,
+                1157,
+                347
+              ],
+              "sourceOffset": {
+                "x": 707,
+                "y": -2
+              },
+              "sourcePixels": 55853,
+              "sourcePixelSha": "92BDD939E93455A53C1BEC46B136470EE355822AE136239C28DDB0BE32906217",
+              "copiedPixelSha": "92BDD939E93455A53C1BEC46B136470EE355822AE136239C28DDB0BE32906217",
+              "sha256": "D24CF784E294AFB9DBD31F2830F7CF5465DCA06A60197474C2343E6EF8E9E4FC",
+              "scaleApplied": 1
+            },
+            {
+              "index": 3,
+              "path": "assets/dagger/frames/03.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 92.37931034482767,
+                "y": 321
+              },
+              "emitter": {
+                "x": 352,
+                "y": 119.22222222222223
+              },
+              "bounds": [
+                41,
+                21,
+                352,
+                321
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                1147,
+                0,
+                1507,
+                329
+              ],
+              "sourceOffset": {
+                "x": 1139,
+                "y": -8
+              },
+              "sourcePixels": 52525,
+              "sourcePixelSha": "28A63FDD5E25D060108F743F5EE1FF108BDBA599A5C8F08B8B645104E56B6CA7",
+              "copiedPixelSha": "28A63FDD5E25D060108F743F5EE1FF108BDBA599A5C8F08B8B645104E56B6CA7",
+              "sha256": "14A947B377D8C9D39655C9B46B8A0BFEC8892F14A5E9857BFD840FA5022060AC",
+              "scaleApplied": 1
+            },
+            {
+              "index": 4,
+              "path": "assets/dagger/frames/04.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 233.84615384615384,
+                "y": 274
+              },
+              "emitter": {
+                "x": 318,
+                "y": 202.375
+              },
+              "bounds": [
+                23,
+                21,
+                375,
+                274
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                0,
+                335,
+                391,
+                672
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 327
+              },
+              "sourcePixels": 49629,
+              "sourcePixelSha": "7DDEF6D8CB5D19F2A7E94044E3188E381A772B3C02EA84573E6ACCD7480DDDE0",
+              "copiedPixelSha": "7DDEF6D8CB5D19F2A7E94044E3188E381A772B3C02EA84573E6ACCD7480DDDE0",
+              "sha256": "62B45329B73FDBC4AD5DA8B0AFCE26B5CC6619CBD6F57220F278419758F570A5",
+              "scaleApplied": 1
+            },
+            {
+              "index": 5,
+              "path": "assets/dagger/frames/05.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 79.52272727272725,
+                "y": 282
+              },
+              "emitter": {
+                "x": 386,
+                "y": 102
+              },
+              "bounds": [
+                48,
+                27,
+                386,
+                282
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                371,
+                329,
+                775,
+                635
+              ],
+              "sourceOffset": {
+                "x": 363,
+                "y": 321
+              },
+              "sourcePixels": 49746,
+              "sourcePixelSha": "8DE743AEA7BC118275C5DC2680D41262D92C697DE21AD875071D9979CDBBED55",
+              "copiedPixelSha": "8DE743AEA7BC118275C5DC2680D41262D92C697DE21AD875071D9979CDBBED55",
+              "sha256": "E0851B3FEB688E6025E0B5BA8424F3B75C47116C976BB9ECB15414EEF98B3C5C",
+              "scaleApplied": 1
+            },
+            {
+              "index": 6,
+              "path": "assets/dagger/frames/06.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 107.58778625954199,
+                "y": 317
+              },
+              "emitter": {
+                "x": 448,
+                "y": 117.57142857142856
+              },
+              "bounds": [
+                14,
+                61,
+                448,
+                317
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                777,
+                294,
+                1255,
+                631
+              ],
+              "sourceOffset": {
+                "x": 769,
+                "y": 286
+              },
+              "sourcePixels": 65371,
+              "sourcePixelSha": "69A5E95B136DD863C0C3B38B8EB3A433BC5A951271FF53FF64773CBD59D24F9B",
+              "copiedPixelSha": "69A5E95B136DD863C0C3B38B8EB3A433BC5A951271FF53FF64773CBD59D24F9B",
+              "sha256": "A29A66DFB53F8B873CF8E549C4B5F6DF9AF4E4535F4BAF41E0EB4EBE9FD98251",
+              "scaleApplied": 1
+            },
+            {
+              "index": 7,
+              "path": "assets/dagger/frames/07.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 141.43678160919535,
+                "y": 299
+              },
+              "emitter": {
+                "x": 298,
+                "y": 192.79545454545456
+              },
+              "bounds": [
+                48,
+                40,
+                351,
+                299
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                1177,
+                313,
+                1534,
+                618
+              ],
+              "sourceOffset": {
+                "x": 1169,
+                "y": 305
+              },
+              "sourcePixels": 46729,
+              "sourcePixelSha": "A5EA25DDCEBD32A03913C9F5376AE0922404C36901145C9FDAADCF48B68DEE30",
+              "copiedPixelSha": "A5EA25DDCEBD32A03913C9F5376AE0922404C36901145C9FDAADCF48B68DEE30",
+              "sha256": "5F5D82737C1A34FEBDD2C261FE9B570674E5CA94ABBB1066068F2093E69EC42C",
+              "scaleApplied": 1
+            }
+          ],
+          "bodyPixels": 350
+        },
+        "skillMotion": {
+          "frames": [
+            {
+              "index": 0,
+              "path": "assets/dagger/frames/08.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 251.8529411764706,
+                "y": 232
+              },
+              "emitter": {
+                "x": 324,
+                "y": 176.54999999999995
+              },
+              "bounds": [
+                24,
+                55,
+                350,
+                232
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                13,
+                569,
+                379,
+                837
+              ],
+              "sourceOffset": {
+                "x": 5,
+                "y": 561
+              },
+              "sourcePixels": 50482,
+              "sourcePixelSha": "A3310BD5D7FB164404293DC35D60D733A2C787780B6A1942BE885FC59A87EA58",
+              "copiedPixelSha": "A3310BD5D7FB164404293DC35D60D733A2C787780B6A1942BE885FC59A87EA58",
+              "sha256": "CBCC9C06F3E8B63C4E91BF6A1B6F0C8C8EB884ED0399ACE56CDE6E32484E6C45",
+              "scaleApplied": 1
+            },
+            {
+              "index": 1,
+              "path": "assets/dagger/frames/09.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 396.37190082644634,
+                "y": 239
+              },
+              "emitter": {
+                "x": 418,
+                "y": 158
+              },
+              "bounds": [
+                71,
+                36,
+                418,
+                239
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                347,
+                573,
+                780,
+                881
+              ],
+              "sourceOffset": {
+                "x": 339,
+                "y": 565
+              },
+              "sourcePixels": 56166,
+              "sourcePixelSha": "B4E488AE7015520DF4FB713C639C40DD5D171BF7CEDAACBE99CEFA8FF6318508",
+              "copiedPixelSha": "B4E488AE7015520DF4FB713C639C40DD5D171BF7CEDAACBE99CEFA8FF6318508",
+              "sha256": "EA7A56626D8415AFBDD9A767DE668CA74B188CEEBC1DD73AF58F144A2A6AB24E",
+              "scaleApplied": 1
+            },
+            {
+              "index": 2,
+              "path": "assets/dagger/frames/10.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 349.2760736196319,
+                "y": 244
+              },
+              "emitter": {
+                "x": 482,
+                "y": 93.11111111111109
+              },
+              "bounds": [
+                39,
+                39,
+                482,
+                244
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                751,
+                576,
+                1235,
+                885
+              ],
+              "sourceOffset": {
+                "x": 743,
+                "y": 568
+              },
+              "sourcePixels": 68812,
+              "sourcePixelSha": "53FC5077DD5D1C34363E1D3B1CFD633888A2892564CAE76A6DC304DE2D8CA069",
+              "copiedPixelSha": "53FC5077DD5D1C34363E1D3B1CFD633888A2892564CAE76A6DC304DE2D8CA069",
+              "sha256": "87B32D501CE99C20FF286407899B7F30B756F30656E131B46FFB9BA130FD230F",
+              "scaleApplied": 1
+            },
+            {
+              "index": 3,
+              "path": "assets/dagger/frames/11.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 203.4874371859296,
+                "y": 240
+              },
+              "emitter": {
+                "x": 299,
+                "y": 151.41666666666663
+              },
+              "bounds": [
+                15,
+                35,
+                308,
+                240
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                1231,
+                581,
+                1535,
+                837
+              ],
+              "sourceOffset": {
+                "x": 1223,
+                "y": 573
+              },
+              "sourcePixels": 46653,
+              "sourcePixelSha": "061FB8B701F549AB4B351D61BFF96B315CBD2F300EC1D85058290170293A5486",
+              "copiedPixelSha": "061FB8B701F549AB4B351D61BFF96B315CBD2F300EC1D85058290170293A5486",
+              "sha256": "DE52D209C2BFAA699B77D4103750B63990FFE766E52720710B4E559D9531C1C9",
+              "scaleApplied": 1
+            },
+            {
+              "index": 4,
+              "path": "assets/dagger/frames/12.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 315.8970588235294,
+                "y": 251
+              },
+              "emitter": {
+                "x": 334,
+                "y": 166.70833333333337
+              },
+              "bounds": [
+                48,
+                20,
+                386,
+                251
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                0,
+                774,
+                386,
+                1023
+              ],
+              "sourceOffset": {
+                "x": -8,
+                "y": 766
+              },
+              "sourcePixels": 44982,
+              "sourcePixelSha": "88C0F89DF6333E4EF60649B39E65AC0481E807DD91020E550262BCF3D88203D7",
+              "copiedPixelSha": "88C0F89DF6333E4EF60649B39E65AC0481E807DD91020E550262BCF3D88203D7",
+              "sha256": "2FB372209E2B78219C4A37590798763B34800C9D4E18C2659368F71321233452",
+              "scaleApplied": 1
+            },
+            {
+              "index": 5,
+              "path": "assets/dagger/frames/13.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 166.2048192771084,
+                "y": 244
+              },
+              "emitter": {
+                "x": 316,
+                "y": 177.28571428571433
+              },
+              "bounds": [
+                30,
+                15,
+                364,
+                244
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                409,
+                782,
+                771,
+                1023
+              ],
+              "sourceOffset": {
+                "x": 401,
+                "y": 774
+              },
+              "sourcePixels": 45870,
+              "sourcePixelSha": "01776768A6B5F84E1EC2F5D4AFCDF615892D1FDBC136548BBA3A655472E35D59",
+              "copiedPixelSha": "01776768A6B5F84E1EC2F5D4AFCDF615892D1FDBC136548BBA3A655472E35D59",
+              "sha256": "42CC873F23023535A4349E09E444B245F1B83EAD7372E58E8E81C84445EF6A93",
+              "scaleApplied": 1
+            },
+            {
+              "index": 6,
+              "path": "assets/dagger/frames/14.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 315.758064516129,
+                "y": 217
+              },
+              "emitter": {
+                "x": 311,
+                "y": 80.9310344827586
+              },
+              "bounds": [
+                15,
+                41,
+                361,
+                217
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                781,
+                795,
+                1162,
+                1023
+              ],
+              "sourceOffset": {
+                "x": 773,
+                "y": 787
+              },
+              "sourcePixels": 42837,
+              "sourcePixelSha": "C89A6313880DAD0B8FEF52C637FBCA148E293B40E6CB851138F92171D25A7E67",
+              "copiedPixelSha": "C89A6313880DAD0B8FEF52C637FBCA148E293B40E6CB851138F92171D25A7E67",
+              "sha256": "012AE2AA2BAC364D899DE4BBD805BF457D58F247DCE63D287CA583933E586AC6",
+              "scaleApplied": 1
+            },
+            {
+              "index": 7,
+              "path": "assets/dagger/frames/15.png",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 512,
+                "height": 512
+              },
+              "foot": {
+                "x": 202.24698795180734,
+                "y": 216
+              },
+              "emitter": {
+                "x": 290,
+                "y": 85.77777777777783
+              },
+              "bounds": [
+                25,
+                31,
+                361,
+                216
+              ],
+              "visibleHeight": 350,
+              "sourceBounds": [
+                1163,
+                795,
+                1521,
+                1013
+              ],
+              "sourceOffset": {
+                "x": 1155,
+                "y": 787
+              },
+              "sourcePixels": 35617,
+              "sourcePixelSha": "F374A527B88BAD5E4E065592A6F471C36CE98943390A1B4B7BCE8D22B625322F",
+              "copiedPixelSha": "F374A527B88BAD5E4E065592A6F471C36CE98943390A1B4B7BCE8D22B625322F",
+              "sha256": "5D116FEB12449E8F67F109BA56D952FB2BA46EFC031F11405ADA0B355BBB8956",
+              "scaleApplied": 1
+            }
+          ],
+          "bodyPixels": 350
+        }
+      },
+      "effects": {
+        "skill": {
+          "path": "assets/dagger/skill-fx.png",
+          "width": 1536,
+          "height": 1024,
+          "sha256": "82C61E1EF0C2938D40D8B5021424BDA345904E27CD21FA6FAB9B7DE4DB67E83F",
+          "hasAlpha": true,
+          "bytes": 1743783,
+          "columns": 4,
+          "rows": 4,
+          "frames": [
+            {
+              "index": 0,
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 1,
+              "rect": {
+                "x": 384,
+                "y": 0,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 2,
+              "rect": {
+                "x": 768,
+                "y": 0,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 3,
+              "rect": {
+                "x": 1152,
+                "y": 0,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 4,
+              "rect": {
+                "x": 0,
+                "y": 256,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 5,
+              "rect": {
+                "x": 384,
+                "y": 256,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 6,
+              "rect": {
+                "x": 768,
+                "y": 256,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 7,
+              "rect": {
+                "x": 1152,
+                "y": 256,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 8,
+              "rect": {
+                "x": 0,
+                "y": 512,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 9,
+              "rect": {
+                "x": 384,
+                "y": 512,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 10,
+              "rect": {
+                "x": 768,
+                "y": 512,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 11,
+              "rect": {
+                "x": 1152,
+                "y": 512,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 12,
+              "rect": {
+                "x": 0,
+                "y": 768,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 13,
+              "rect": {
+                "x": 384,
+                "y": 768,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 14,
+              "rect": {
+                "x": 768,
+                "y": 768,
+                "width": 384,
+                "height": 256
+              }
+            },
+            {
+              "index": 15,
+              "rect": {
+                "x": 1152,
+                "y": 768,
+                "width": 384,
+                "height": 256
+              }
+            }
+          ]
+        }
+      },
+      "pixelAudit": {
+        "sourcePixels": 802012,
+        "copiedPixels": 802012,
+        "scaleApplied": 1,
+        "coreAlpha": 80,
+        "allOriginalRgbaPreserved": true,
+        "method": "16_ALPHA_COMPONENTS_PLUS_NEAREST_FRINGE_PIXEL_COPY"
+      },
+      "bodyPixels": 350,
+      "battleBodyHeight": 345,
+      "sourceArtApproval": "USER_APPROVED",
+      "motionSelection": "USER_REVIEW_PENDING",
+      "generatedArtApproval": "USER_REVIEW_PENDING",
+      "missing": [],
+      "ready": true,
+      "runtimeEnabled": false
+    }
+  ],
+  "promptRecord": "prompts-v3-current.json",
+  "userCorrections": [
+    {
+      "asset": "bongsoon/motion.png",
+      "instruction": "이거 써 캐릭터 줄이지말고",
+      "sha256": "879FC5E4486698648E2285A0431275542432AA70C96231623A5AE437CF2457FF",
+      "resolved": "Original file preserved byte-for-byte; unpacking never resizes pixels."
+    },
+    {
+      "asset": "dagger/motion.png",
+      "instruction": "왼쪽 상단2개 다리짤림",
+      "resolved": "ImageGen repaired both idle frames with complete calves and boots."
+    },
+    {
+      "instruction": "다리 짤렸는데? 나무늘봉순",
+      "resolved": "Both cropped idle boot bottoms repaired with ImageGen; selected source atlas and other fourteen poses preserved."
+    }
+  ],
+  "assetPolicy": {
+    "originalPixelsPreserved": true,
+    "characterResampling": false,
+    "frameIsolation": "COPY_EACH_NONTRANSPARENT_PIXEL_EXACTLY_ONCE",
+    "bodyScale": "FIXED_PER_CHARACTER_NOT_PER_POSE"
+  },
+  "renderer": {
+    "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+    "implementation": "preview/mercenary-bloodmoon-battle-20261023-v1/source/BloodmoonFX.js",
+    "adapter": "js/project-v-mercenary-battle-art-adapter-v1.js",
+    "cardDock": "js/battle-v3-live.js",
+    "clock": "ONE_V3_REGISTERED_GSAP_TIMELINE",
+    "damageAuthority": "CANONICAL_SERVER_SIMULATION_ONLY",
+    "newSound": false
+  },
+  "ui": {
+    "panel": {
+      "path": "assets/ui/panel.png",
+      "width": 1448,
+      "height": 1086,
+      "sha256": "F57061BF44B97F78901247C7502FCDB1452E4ACE2B86DC05FCC8AE8764678265",
+      "hasAlpha": false,
+      "bytes": 3232595
+    },
+    "button": {
+      "path": "assets/ui/button.png",
+      "width": 1950,
+      "height": 436,
+      "sha256": "2E7C0164D7781380C31B94116BBA79A2B8980E7A551C2A05233B65D6D6F46C15",
+      "hasAlpha": true,
+      "bytes": 1521579
+    }
+  },
+  "validation": {
+    "browserReview": "PASS",
+    "resourceReview": "PASS",
+    "motionRegression": "PASS",
+    "contactAndDoubleSpeed": "PASS",
+    "pvpSimulations": 11520,
+    "pveSimulations": 104,
+    "visualApproval": "USER_REVIEW_PENDING",
+    "reviewFingerprint": "5e76a78606b1736dce03d228b5f119beb311b62e89babfd44b2ceb45084805e3",
+    "evidence": [
+      "qa/browser-report.json",
+      "qa/resource-report.json",
+      "qa/motion-regression.json",
+      "qa/scale-before.json",
+      "qa/contact-speed.json",
+      "qa/contact-before.json",
+      "qa/balance-report.json",
+      "qa/visual-review.json"
+    ]
+  },
+  "additionalPromptRecords": [
+    "prompts-idle-feet-v2.json"
+  ]
+}

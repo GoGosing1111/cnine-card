@@ -1,0 +1,3789 @@
+{
+  "dateKST": "2026-10-23",
+  "scope": "CANONICAL_SERVER_SIMULATION_WITH_PREVIEW_ONLY_POLICY_ADAPTER",
+  "rank": "SS simulation parity only; actual rarity unassigned",
+  "notes": "Identical five cards, equipment, magic, mercenary growth on both sides; mirrored positions and fixed seeds. No account/opponent/winner-specific buffs. This is not a live-player win-rate claim.",
+  "seedCount": 16,
+  "formations": [
+    {
+      "id": "basic-10000-balanced",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-balanced",
+      "level": 1
+    },
+    {
+      "id": "basic-2000000000-balanced",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-attack",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-defense",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-speed",
+      "level": 1
+    },
+    {
+      "id": "equipped-F01",
+      "level": 5
+    },
+    {
+      "id": "equipped-F23",
+      "level": 10
+    },
+    {
+      "id": "level20-balanced-250000",
+      "level": 20
+    }
+  ],
+  "profiles": {
+    "V-960": {
+      "version": 1,
+      "slug": "bongsoon",
+      "code": "V-960",
+      "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+      "name": "나무늘봉순",
+      "rank": null,
+      "position": "BACK",
+      "role": "RANGED",
+      "attackStyle": "RANGED",
+      "basePower": 356400,
+      "scale": 8.1,
+      "speedScale": 3.05,
+      "actionCredit": 3.75,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 3.25,
+      "basicCapScale": 1.7,
+      "pveSkillMinimumDamage": true,
+      "link": {
+        "attackPercent": 1782,
+        "hpPercent": 2268,
+        "shieldPercent": 1215
+      },
+      "skill": {
+        "id": "BM-BONGSOON",
+        "name": "적월 섬멸탄",
+        "nameStatus": "WORKING_LABEL",
+        "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+        "effect": "세 차례 탄막을 나누어 발사합니다.",
+        "target": "적 표적",
+        "ready": true,
+        "trigger": "기존 서버의 에너지·재사용·행동 조건",
+        "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+        "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+        "balance": {
+          "damageRatio": 14.4,
+          "cooldownTurns": 2,
+          "cost": 20
+        }
+      },
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    "V-961": {
+      "version": 1,
+      "slug": "joeun",
+      "code": "V-961",
+      "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+      "name": "조은",
+      "rank": null,
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "attackStyle": "MELEE",
+      "basePower": 356400,
+      "scale": 7.4,
+      "speedScale": 2.9,
+      "actionCredit": 3.5,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 3.1,
+      "basicCapScale": 1.7,
+      "pveSkillMinimumDamage": true,
+      "link": {
+        "attackPercent": 1628,
+        "hpPercent": 2072,
+        "shieldPercent": 1110
+      },
+      "skill": {
+        "id": "BM-JOEUN",
+        "name": "홍련의 속박",
+        "nameStatus": "WORKING_LABEL",
+        "mechanic": "REPEAT_OFFENDER_RESTRAINT",
+        "effect": "행동을 거듭한 적을 채찍으로 공격하고 조건 충족 시 다음 공격을 약화합니다.",
+        "target": "적 표적",
+        "ready": true,
+        "trigger": "기존 서버의 에너지·재사용·행동 조건",
+        "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+        "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+        "balance": {
+          "damageRatio": 11.6,
+          "cooldownTurns": 1,
+          "cost": 20
+        }
+      },
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    "V-962": {
+      "version": 1,
+      "slug": "diim",
+      "code": "V-962",
+      "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+      "name": "디임",
+      "rank": null,
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "attackStyle": "MELEE",
+      "basePower": 356400,
+      "scale": 7.7,
+      "speedScale": 2.95,
+      "actionCredit": 3.5,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 3.1,
+      "basicCapScale": 1.7,
+      "pveSkillMinimumDamage": true,
+      "link": {
+        "attackPercent": 1694,
+        "hpPercent": 2156,
+        "shieldPercent": 1155
+      },
+      "skill": {
+        "id": "BM-DIIM",
+        "name": "적월 단죄",
+        "nameStatus": "WORKING_LABEL",
+        "mechanic": "WOUNDED_MOON_DRAW",
+        "effect": "잃은 체력이 많은 적을 큰 낫으로 마무리합니다.",
+        "target": "적 표적",
+        "ready": true,
+        "trigger": "기존 서버의 에너지·재사용·행동 조건",
+        "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+        "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+        "balance": {
+          "damageRatio": 11.6,
+          "cooldownTurns": 1,
+          "cost": 20
+        }
+      },
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    "V-963": {
+      "version": 1,
+      "slug": "claws",
+      "code": "V-963",
+      "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+      "name": "독자 캐릭터 A",
+      "rank": null,
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "attackStyle": "MELEE",
+      "basePower": 356400,
+      "scale": 8.15,
+      "speedScale": 3.05,
+      "actionCredit": 3.75,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 3.3,
+      "basicCapScale": 1.7,
+      "pveSkillMinimumDamage": true,
+      "link": {
+        "attackPercent": 1793,
+        "hpPercent": 2282,
+        "shieldPercent": 1222.5
+      },
+      "skill": {
+        "id": "BM-CLAWS",
+        "name": "혈조 교차참",
+        "nameStatus": "WORKING_LABEL",
+        "mechanic": "TWO_BEAT_FOLLOWUP",
+        "effect": "양손 클로의 교차 공격을 두 행동에 나누어 이어갑니다.",
+        "target": "적 표적",
+        "ready": true,
+        "trigger": "기존 서버의 에너지·재사용·행동 조건",
+        "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+        "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+        "balance": {
+          "damageRatio": 13.2,
+          "cooldownTurns": 1,
+          "cost": 20
+        }
+      },
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    "V-964": {
+      "version": 1,
+      "slug": "dagger",
+      "code": "V-964",
+      "codeStatus": "PREVIEW_ALIAS_NOT_ASSIGNED",
+      "name": "독자 캐릭터 B",
+      "rank": null,
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "attackStyle": "MELEE",
+      "basePower": 356400,
+      "scale": 7.9,
+      "speedScale": 3.15,
+      "actionCredit": 3.75,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 3.2,
+      "basicCapScale": 1.65,
+      "pveSkillMinimumDamage": true,
+      "link": {
+        "attackPercent": 1738,
+        "hpPercent": 2212,
+        "shieldPercent": 1185
+      },
+      "skill": {
+        "id": "BM-DAGGER",
+        "name": "월영 급습",
+        "nameStatus": "WORKING_LABEL",
+        "mechanic": "INTERRUPT_WINDUP",
+        "effect": "단검으로 급습해 적의 준비 중인 기술을 중단합니다. 보스와 제어 면역은 중단되지 않습니다.",
+        "target": "적 표적",
+        "ready": true,
+        "trigger": "기존 서버의 에너지·재사용·행동 조건",
+        "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+        "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+        "balance": {
+          "damageRatio": 11.8,
+          "cooldownTurns": 1,
+          "cost": 20
+        }
+      },
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    }
+  },
+  "references": {
+    "bathory": {
+      "version": 1,
+      "code": "V-977",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "attackStyle": "MELEE",
+      "basePower": 297000,
+      "scale": 6.6,
+      "speedScale": 2.75,
+      "actionCredit": 3.25,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 2.7,
+      "basicCapScale": 1.5,
+      "pveSkillMinimumDamage": false,
+      "link": {
+        "attackPercent": 1452,
+        "hpPercent": 1848,
+        "shieldPercent": 990
+      },
+      "skill": {
+        "id": "MS-977",
+        "name": "핏빛 만찬",
+        "mechanic": "WOUNDED_MOON_DRAW",
+        "target": "적 표적",
+        "effect": "붉은 눈으로 약해진 적을 포착하고 대검으로 베어냅니다. 잃은 체력에 따라 피해가 증가합니다.",
+        "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+        "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+        "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+        "procRule": "두 시각적 검격은 한 번의 서버 피해를 표현하며 추가 비용이나 재귀 시전을 만들지 않습니다.",
+        "ready": true,
+        "balance": {
+          "damageRatio": 10.08,
+          "cooldownTurns": 1,
+          "cost": 20
+        }
+      }
+    },
+    "halloween": {
+      "V-980": {
+        "code": "V-980",
+        "position": "FRONT",
+        "role": "VANGUARD",
+        "attackStyle": "MELEE",
+        "basePower": 237600,
+        "scale": 5.28,
+        "speedScale": 2.5,
+        "actionCredit": 3,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 2.4,
+        "basicCapScale": 1.35,
+        "pvpIncomingDamageScale": 0.85,
+        "link": {
+          "attackPercent": 1161.6,
+          "shieldPercent": 792,
+          "hpPercent": 1478.4
+        },
+        "skill": {
+          "id": "MS-980",
+          "name": "카니발 브레이크",
+          "mechanic": "WOUNDED_MOON_DRAW",
+          "effect": "약해진 적 하나를 몽둥이로 강타합니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 8.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-981": {
+        "code": "V-981",
+        "position": "BACK",
+        "role": "RANGED",
+        "attackStyle": "RANGED",
+        "basePower": 237600,
+        "scale": 3.3,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 1.8,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 726,
+          "shieldPercent": 495,
+          "hpPercent": 924
+        },
+        "skill": {
+          "id": "MS-981",
+          "name": "유령 탄막",
+          "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+          "effect": "적 진형에 세 차례의 유령 탄막을 나누어 발사합니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-982": {
+        "code": "V-982",
+        "position": "BACK",
+        "role": "CASTER",
+        "attackStyle": "CAST",
+        "basePower": 237600,
+        "scale": 3.465,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 2.2,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 762.3,
+          "shieldPercent": 519.75,
+          "hpPercent": 970.2
+        },
+        "skill": {
+          "id": "MS-982",
+          "name": "잭오랜턴 행진",
+          "mechanic": "TIDAL_BARRAGE",
+          "effect": "호박불 행렬을 전방 표적에게 쏟아붓습니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 7.56,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-983": {
+        "code": "V-983",
+        "position": "BACK",
+        "role": "CASTER",
+        "attackStyle": "CAST",
+        "basePower": 237600,
+        "scale": 3.08,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 1.6,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 677.6,
+          "shieldPercent": 462,
+          "hpPercent": 862.4
+        },
+        "skill": {
+          "id": "MS-983",
+          "name": "호박 유령서",
+          "mechanic": "RIFT_MARK_DETONATION",
+          "effect": "유령서의 표식을 새기고 다음 행동에 폭발시킵니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        }
+      },
+      "V-984": {
+        "code": "V-984",
+        "position": "FRONT",
+        "role": "GUARD",
+        "attackStyle": "MELEE",
+        "basePower": 237600,
+        "scale": 2.42,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 1.8,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 532.4,
+          "shieldPercent": 363,
+          "hpPercent": 677.6
+        },
+        "skill": {
+          "id": "MS-984",
+          "name": "성야의 방패",
+          "mechanic": "FRONT_SHARED_BARRIER",
+          "effect": "아군 전열에 성야의 방벽을 나누어 부여합니다. 방벽 사용 후 기본 공격을 계속합니다.",
+          "target": "아군 전열",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-985": {
+        "code": "V-985",
+        "position": "BACK",
+        "role": "RANGED",
+        "attackStyle": "RANGED",
+        "basePower": 237600,
+        "scale": 3.19,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 1.75,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 701.8,
+          "shieldPercent": 478.5,
+          "hpPercent": 893.2
+        },
+        "skill": {
+          "id": "MS-985",
+          "name": "박쥐 별무리",
+          "mechanic": "TWO_BEAT_FOLLOWUP",
+          "effect": "박쥐 별을 던지고 다음 행동에 후속타를 이어갑니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-986": {
+        "code": "V-986",
+        "position": "FRONT",
+        "role": "VANGUARD",
+        "attackStyle": "MELEE",
+        "basePower": 237600,
+        "scale": 5.17,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 2.15,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 1137.4,
+          "shieldPercent": 775.5,
+          "hpPercent": 1447.6
+        },
+        "skill": {
+          "id": "MS-986",
+          "name": "월하 화접",
+          "mechanic": "WOUNDED_MOON_DRAW",
+          "effect": "꽃나비 검기로 약해진 적을 벱니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 1,
+            "cost": 20
+          }
+        }
+      }
+    }
+  },
+  "pvp": [
+    {
+      "slug": "bongsoon",
+      "opponent": "V-977",
+      "wins": 192,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 19,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.59375
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 18,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5625
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 16,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 16,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 17,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.53125
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 27,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.84375
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 16,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5
+        }
+      ],
+      "winRate": 0.6666666666666666
+    },
+    {
+      "slug": "bongsoon",
+      "opponent": "V-980",
+      "wins": 268,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 23,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.71875
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        }
+      ],
+      "winRate": 0.9305555555555556
+    },
+    {
+      "slug": "bongsoon",
+      "opponent": "V-981",
+      "wins": 270,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 21,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.65625
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9375
+    },
+    {
+      "slug": "bongsoon",
+      "opponent": "V-982",
+      "wins": 278,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 24,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.75
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9652777777777778
+    },
+    {
+      "slug": "bongsoon",
+      "opponent": "V-983",
+      "wins": 278,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 26,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.8125
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 28,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.875
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9652777777777778
+    },
+    {
+      "slug": "bongsoon",
+      "opponent": "V-984",
+      "wins": 287,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        }
+      ],
+      "winRate": 0.9965277777777778
+    },
+    {
+      "slug": "bongsoon",
+      "opponent": "V-985",
+      "wins": 263,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 22,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.6875
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 19,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.59375
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        }
+      ],
+      "winRate": 0.9131944444444444
+    },
+    {
+      "slug": "bongsoon",
+      "opponent": "V-986",
+      "wins": 267,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 19,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.59375
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9270833333333334
+    },
+    {
+      "slug": "joeun",
+      "opponent": "V-977",
+      "wins": 249,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 18,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5625
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 20,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.625
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 22,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.6875
+        }
+      ],
+      "winRate": 0.8645833333333334
+    },
+    {
+      "slug": "joeun",
+      "opponent": "V-980",
+      "wins": 274,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9513888888888888
+    },
+    {
+      "slug": "joeun",
+      "opponent": "V-981",
+      "wins": 271,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 21,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.65625
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 26,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.8125
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9409722222222222
+    },
+    {
+      "slug": "joeun",
+      "opponent": "V-982",
+      "wins": 277,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 27,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.84375
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 29,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.90625
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        }
+      ],
+      "winRate": 0.9618055555555556
+    },
+    {
+      "slug": "joeun",
+      "opponent": "V-983",
+      "wins": 280,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 29,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.90625
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 27,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.84375
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9722222222222222
+    },
+    {
+      "slug": "joeun",
+      "opponent": "V-984",
+      "wins": 275,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 20,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.625
+        }
+      ],
+      "winRate": 0.9548611111111112
+    },
+    {
+      "slug": "joeun",
+      "opponent": "V-985",
+      "wins": 271,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 27,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.84375
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 20,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.625
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9409722222222222
+    },
+    {
+      "slug": "joeun",
+      "opponent": "V-986",
+      "wins": 273,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 24,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.75
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9479166666666666
+    },
+    {
+      "slug": "diim",
+      "opponent": "V-977",
+      "wins": 188,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 16,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 18,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5625
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 16,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 16,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 16,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 28,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.875
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 29,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.90625
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 17,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.53125
+        }
+      ],
+      "winRate": 0.6527777777777778
+    },
+    {
+      "slug": "diim",
+      "opponent": "V-980",
+      "wins": 260,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 24,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.75
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 24,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.75
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 29,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.90625
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        }
+      ],
+      "winRate": 0.9027777777777778
+    },
+    {
+      "slug": "diim",
+      "opponent": "V-981",
+      "wins": 267,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 19,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.59375
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9270833333333334
+    },
+    {
+      "slug": "diim",
+      "opponent": "V-982",
+      "wins": 270,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 22,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.6875
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 26,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.8125
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        }
+      ],
+      "winRate": 0.9375
+    },
+    {
+      "slug": "diim",
+      "opponent": "V-983",
+      "wins": 279,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 27,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.84375
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 28,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.875
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.96875
+    },
+    {
+      "slug": "diim",
+      "opponent": "V-984",
+      "wins": 279,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 23,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.71875
+        }
+      ],
+      "winRate": 0.96875
+    },
+    {
+      "slug": "diim",
+      "opponent": "V-985",
+      "wins": 263,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 21,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.65625
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 19,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.59375
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9131944444444444
+    },
+    {
+      "slug": "diim",
+      "opponent": "V-986",
+      "wins": 258,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 20,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.625
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 29,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.90625
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 18,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5625
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        }
+      ],
+      "winRate": 0.8958333333333334
+    },
+    {
+      "slug": "claws",
+      "opponent": "V-977",
+      "wins": 243,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 19,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.59375
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 21,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.65625
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 17,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.53125
+        }
+      ],
+      "winRate": 0.84375
+    },
+    {
+      "slug": "claws",
+      "opponent": "V-980",
+      "wins": 279,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.96875
+    },
+    {
+      "slug": "claws",
+      "opponent": "V-981",
+      "wins": 272,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 26,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.8125
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 22,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.6875
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9444444444444444
+    },
+    {
+      "slug": "claws",
+      "opponent": "V-982",
+      "wins": 277,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 29,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.90625
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        }
+      ],
+      "winRate": 0.9618055555555556
+    },
+    {
+      "slug": "claws",
+      "opponent": "V-983",
+      "wins": 277,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 26,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.8125
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 27,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.84375
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9618055555555556
+    },
+    {
+      "slug": "claws",
+      "opponent": "V-984",
+      "wins": 251,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 28,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.875
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 0,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0
+        }
+      ],
+      "winRate": 0.8715277777777778
+    },
+    {
+      "slug": "claws",
+      "opponent": "V-985",
+      "wins": 270,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 21,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.65625
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9375
+    },
+    {
+      "slug": "claws",
+      "opponent": "V-986",
+      "wins": 269,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 20,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.625
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9340277777777778
+    },
+    {
+      "slug": "dagger",
+      "opponent": "V-977",
+      "wins": 246,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 18,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5625
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 29,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.90625
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 18,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.5625
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 23,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.71875
+        }
+      ],
+      "winRate": 0.8541666666666666
+    },
+    {
+      "slug": "dagger",
+      "opponent": "V-980",
+      "wins": 276,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 27,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.84375
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9583333333333334
+    },
+    {
+      "slug": "dagger",
+      "opponent": "V-981",
+      "wins": 271,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 22,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.6875
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 25,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.78125
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9409722222222222
+    },
+    {
+      "slug": "dagger",
+      "opponent": "V-982",
+      "wins": 277,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 27,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.84375
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 28,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.875
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        }
+      ],
+      "winRate": 0.9618055555555556
+    },
+    {
+      "slug": "dagger",
+      "opponent": "V-983",
+      "wins": 282,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 28,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.875
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 30,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.9375
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9791666666666666
+    },
+    {
+      "slug": "dagger",
+      "opponent": "V-984",
+      "wins": 270,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 31,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.96875
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 15,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.46875
+        }
+      ],
+      "winRate": 0.9375
+    },
+    {
+      "slug": "dagger",
+      "opponent": "V-985",
+      "wins": 270,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 26,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.8125
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 20,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.625
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9375
+    },
+    {
+      "slug": "dagger",
+      "opponent": "V-986",
+      "wins": 273,
+      "draws": 0,
+      "total": 288,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-attack",
+          "wins": 22,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.6875
+        },
+        {
+          "id": "basic-20000000-defense",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "basic-20000000-speed",
+          "wins": 27,
+          "draws": 0,
+          "total": 32,
+          "winRate": 0.84375
+        },
+        {
+          "id": "equipped-F01",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "equipped-F23",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        },
+        {
+          "id": "level20-balanced-250000",
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "winRate": 1
+        }
+      ],
+      "winRate": 0.9479166666666666
+    }
+  ],
+  "pve": [
+    {
+      "code": "V-960",
+      "slug": "bongsoon",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 20,
+      "damage": 44721600000,
+      "casts": 16,
+      "averageTurns": 5,
+      "averageDamage": 11180400000
+    },
+    {
+      "code": "V-960",
+      "slug": "bongsoon",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 16,
+      "damage": 454608000000,
+      "casts": 16,
+      "averageTurns": 4,
+      "averageDamage": 113652000000
+    },
+    {
+      "code": "V-961",
+      "slug": "joeun",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 8,
+      "damage": 44721600000,
+      "casts": 24,
+      "averageTurns": 2,
+      "averageDamage": 11180400000
+    },
+    {
+      "code": "V-961",
+      "slug": "joeun",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 4,
+      "damage": 454608000000,
+      "casts": 24,
+      "averageTurns": 1,
+      "averageDamage": 113652000000
+    },
+    {
+      "code": "V-962",
+      "slug": "diim",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 8,
+      "damage": 44721600000,
+      "casts": 20,
+      "averageTurns": 2,
+      "averageDamage": 11180400000
+    },
+    {
+      "code": "V-962",
+      "slug": "diim",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 4,
+      "damage": 454608000000,
+      "casts": 20,
+      "averageTurns": 1,
+      "averageDamage": 113652000000
+    },
+    {
+      "code": "V-963",
+      "slug": "claws",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 12,
+      "damage": 43982400000,
+      "casts": 20,
+      "averageTurns": 3,
+      "averageDamage": 10995600000
+    },
+    {
+      "code": "V-963",
+      "slug": "claws",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 4,
+      "damage": 454608000000,
+      "casts": 20,
+      "averageTurns": 1,
+      "averageDamage": 113652000000
+    },
+    {
+      "code": "V-964",
+      "slug": "dagger",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 8,
+      "damage": 44721600000,
+      "casts": 24,
+      "averageTurns": 2,
+      "averageDamage": 11180400000
+    },
+    {
+      "code": "V-964",
+      "slug": "dagger",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 4,
+      "damage": 454608000000,
+      "casts": 20,
+      "averageTurns": 1,
+      "averageDamage": 113652000000
+    },
+    {
+      "code": "V-977",
+      "slug": "V-977",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 36,
+      "damage": 41764800000,
+      "casts": 56,
+      "averageTurns": 9,
+      "averageDamage": 10441200000
+    },
+    {
+      "code": "V-977",
+      "slug": "V-977",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 259,
+      "damage": 254634897993,
+      "casts": 303,
+      "averageTurns": 64.75,
+      "averageDamage": 63658724498.25
+    },
+    {
+      "code": "V-980",
+      "slug": "V-980",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 95,
+      "damage": 38835319620,
+      "casts": 57,
+      "averageTurns": 23.75,
+      "averageDamage": 9708829905
+    },
+    {
+      "code": "V-980",
+      "slug": "V-980",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 255,
+      "damage": 292723115968,
+      "casts": 161,
+      "averageTurns": 63.75,
+      "averageDamage": 73180778992
+    },
+    {
+      "code": "V-981",
+      "slug": "V-981",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 56,
+      "damage": 41025600000,
+      "casts": 32,
+      "averageTurns": 14,
+      "averageDamage": 10256400000
+    },
+    {
+      "code": "V-981",
+      "slug": "V-981",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 48,
+      "damage": 424393200000,
+      "casts": 32,
+      "averageTurns": 12,
+      "averageDamage": 106098300000
+    },
+    {
+      "code": "V-982",
+      "slug": "V-982",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 154,
+      "damage": 33079200000,
+      "casts": 80,
+      "averageTurns": 38.5,
+      "averageDamage": 8269800000
+    },
+    {
+      "code": "V-982",
+      "slug": "V-982",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 259,
+      "damage": 258737814845,
+      "casts": 144,
+      "averageTurns": 64.75,
+      "averageDamage": 64684453711.25
+    },
+    {
+      "code": "V-983",
+      "slug": "V-983",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 182,
+      "damage": 27720000000,
+      "casts": 77,
+      "averageTurns": 45.5,
+      "averageDamage": 6930000000
+    },
+    {
+      "code": "V-983",
+      "slug": "V-983",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 261,
+      "damage": 213207872380,
+      "casts": 118,
+      "averageTurns": 65.25,
+      "averageDamage": 53301968095
+    },
+    {
+      "code": "V-984",
+      "slug": "V-984",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 258,
+      "damage": 31599058762,
+      "casts": 88,
+      "averageTurns": 64.5,
+      "averageDamage": 7899764690.5
+    },
+    {
+      "code": "V-984",
+      "slug": "V-984",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 255,
+      "damage": 329683156786,
+      "casts": 93,
+      "averageTurns": 63.75,
+      "averageDamage": 82420789196.5
+    },
+    {
+      "code": "V-985",
+      "slug": "V-985",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 32,
+      "damage": 40286400000,
+      "casts": 36,
+      "averageTurns": 8,
+      "averageDamage": 10071600000
+    },
+    {
+      "code": "V-985",
+      "slug": "V-985",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 24,
+      "damage": 417001200000,
+      "casts": 34,
+      "averageTurns": 6,
+      "averageDamage": 104250300000
+    },
+    {
+      "code": "V-986",
+      "slug": "V-986",
+      "formation": "basic-20000000-balanced",
+      "total": 4,
+      "clears": 4,
+      "turns": 79,
+      "damage": 37061951696,
+      "casts": 84,
+      "averageTurns": 19.75,
+      "averageDamage": 9265487924
+    },
+    {
+      "code": "V-986",
+      "slug": "V-986",
+      "formation": "equipped-F23",
+      "total": 4,
+      "clears": 4,
+      "turns": 268,
+      "damage": 201030132270,
+      "casts": 255,
+      "averageTurns": 67,
+      "averageDamage": 50257533067.5
+    }
+  ],
+  "totalPvp": 11520,
+  "totalPve": 104,
+  "everyMatchupAboveHalf": true,
+  "profileSha256": "5c9b3ff30cb7515abaaf07c231b5ab22adbc9155fca3d8933e87ab283d353d27"
+}

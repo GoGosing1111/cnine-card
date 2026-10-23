@@ -1,0 +1,1345 @@
+{
+  "dateKST": "2026-10-23",
+  "errors": [],
+  "requests": [
+    {
+      "screen": "desktop",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/fonts/battle/RussoOne-Regular.ttf"
+    },
+    {
+      "screen": "desktop",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649"
+    },
+    {
+      "screen": "desktop",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.avif?v=9C436C2EC93500B9"
+    },
+    {
+      "screen": "desktop",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8"
+    },
+    {
+      "screen": "desktop",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649"
+    },
+    {
+      "screen": "desktop",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8"
+    },
+    {
+      "screen": "desktop",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.avif?v=9C436C2EC93500B9"
+    },
+    {
+      "screen": "desktop",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649"
+    },
+    {
+      "screen": "desktop",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8"
+    },
+    {
+      "screen": "desktop",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.avif?v=9C436C2EC93500B9"
+    },
+    {
+      "screen": "mobile",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/fonts/battle/RussoOne-Regular.ttf"
+    },
+    {
+      "screen": "mobile",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649"
+    },
+    {
+      "screen": "mobile",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8"
+    },
+    {
+      "screen": "mobile",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.avif?v=9C436C2EC93500B9"
+    },
+    {
+      "screen": "mobile",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649"
+    },
+    {
+      "screen": "mobile",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8"
+    },
+    {
+      "screen": "mobile",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.avif?v=9C436C2EC93500B9"
+    },
+    {
+      "screen": "mobile",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649"
+    },
+    {
+      "screen": "mobile",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8"
+    },
+    {
+      "screen": "mobile",
+      "status": 404,
+      "url": "http://127.0.0.1:8467/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.avif?v=9C436C2EC93500B9"
+    }
+  ],
+  "cases": [
+    {
+      "screen": "desktop",
+      "slug": "bongsoon",
+      "actions": [
+        {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "idle",
+          "kind": "barrage",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 0
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 827.0766958449335,
+          "spriteScale": {
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
+          },
+          "expectedSheetScale": 1.12012987012987,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "dash",
+          "kind": "barrage",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 3
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 447.22059872075846,
+          "spriteScale": {
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
+          },
+          "expectedSheetScale": 1.12012987012987,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "attack",
+          "kind": "barrage",
+          "time": 0.44,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 5
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 828.1144754832476,
+          "spriteScale": {
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
+          },
+          "expectedSheetScale": 1.12012987012987,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "skill",
+          "kind": "barrage",
+          "time": 1.72,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 3,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 784.4926725870497,
+          "spriteScale": {
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
+          },
+          "expectedSheetScale": 1.12012987012987,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "hit",
+          "kind": "barrage",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 4
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 816.5997304481302,
+          "spriteScale": {
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
+          },
+          "expectedSheetScale": 1.12012987012987,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "defeat",
+          "kind": "barrage",
+          "time": 1.1,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 7
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 816.5997304481302,
+          "spriteScale": {
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
+          },
+          "expectedSheetScale": 1.12012987012987,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        }
+      ],
+      "overflow": false,
+      "control": {
+        "pauseStable": true,
+        "contact": {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "skill",
+          "kind": "barrage",
+          "time": 1.72,
+          "playing": false,
+          "speed": 0.25,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 3,
+          "ownTimelines": 1,
+          "registeredTimelines": 1,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 784.4926725870497,
+          "spriteScale": {
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
+          },
+          "expectedSheetScale": 1.12012987012987,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        "cancel": {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "skill",
+          "kind": "barrage",
+          "time": 0,
+          "playing": false,
+          "speed": 0.25,
+          "pose": null,
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 784.4926725870497,
+          "spriteScale": {
+            "x": 0.673828125,
+            "y": 0.673828125
+          },
+          "expectedSheetScale": null,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        }
+      }
+    },
+    {
+      "screen": "desktop",
+      "slug": "joeun",
+      "actions": [
+        {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 0
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 852.8676250092735,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "dash",
+          "kind": "melee",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 3
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 421.0500304848148,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "attack",
+          "kind": "melee",
+          "time": 0.44,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 5
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 1.1368683772161603e-13,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "skill",
+          "kind": "melee",
+          "time": 1.72,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 2.5421149729252077e-13,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "hit",
+          "kind": "melee",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 4
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 805.3861125273659,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "defeat",
+          "kind": "melee",
+          "time": 1.1,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 7
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 805.3861125273659,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        }
+      ],
+      "overflow": false,
+      "control": {
+        "pauseStable": true,
+        "contact": {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "skill",
+          "kind": "melee",
+          "time": 1.72,
+          "playing": false,
+          "speed": 0.25,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 1,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 2.5421149729252077e-13,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        "cancel": {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 0.25,
+          "pose": null,
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 2.5421149729252077e-13,
+          "spriteScale": {
+            "x": 0.673828125,
+            "y": 0.673828125
+          },
+          "expectedSheetScale": null,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        }
+      }
+    },
+    {
+      "screen": "desktop",
+      "slug": "diim",
+      "actions": [
+        {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 0
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 835.2189494099055,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "dash",
+          "kind": "melee",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 3
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 470.85584621842685,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "attack",
+          "kind": "melee",
+          "time": 0.44,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 5
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 1.1368683772161603e-13,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "skill",
+          "kind": "melee",
+          "time": 1.72,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 2.2737367544323206e-13,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "hit",
+          "kind": "melee",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 4
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 761.115479268054,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "defeat",
+          "kind": "melee",
+          "time": 1.1,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 7
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 761.115479268054,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        }
+      ],
+      "overflow": false,
+      "control": {
+        "pauseStable": true,
+        "contact": {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "skill",
+          "kind": "melee",
+          "time": 1.72,
+          "playing": false,
+          "speed": 0.25,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 1,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 2.2737367544323206e-13,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        "cancel": {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 0.25,
+          "pose": null,
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 2.2737367544323206e-13,
+          "spriteScale": {
+            "x": 0.673828125,
+            "y": 0.673828125
+          },
+          "expectedSheetScale": null,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        }
+      }
+    },
+    {
+      "screen": "desktop",
+      "slug": "claws",
+      "actions": [
+        {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 0
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 844.6647094271224,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "dash",
+          "kind": "melee",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 3
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 520.4088773529078,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "attack",
+          "kind": "melee",
+          "time": 0.44,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 5
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 1.1368683772161603e-13,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "skill",
+          "kind": "melee",
+          "time": 1.72,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 3.2155493553843715e-13,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "hit",
+          "kind": "melee",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 4
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 800.4483638450396,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "defeat",
+          "kind": "melee",
+          "time": 1.1,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 7
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 800.4483638450396,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        }
+      ],
+      "overflow": false,
+      "control": {
+        "pauseStable": true,
+        "contact": {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "skill",
+          "kind": "melee",
+          "time": 1.72,
+          "playing": false,
+          "speed": 0.25,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 1,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 3.2155493553843715e-13,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        "cancel": {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 0.25,
+          "pose": null,
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 3.2155493553843715e-13,
+          "spriteScale": {
+            "x": 0.673828125,
+            "y": 0.673828125
+          },
+          "expectedSheetScale": null,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        }
+      }
+    },
+    {
+      "screen": "desktop",
+      "slug": "dagger",
+      "actions": [
+        {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 0
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 902.275005310507,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "dash",
+          "kind": "melee",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 3
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 403.8286194200838,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "attack",
+          "kind": "melee",
+          "time": 0.44,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "basic",
+            "frame": 5
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 0,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "skill",
+          "kind": "melee",
+          "time": 1.72,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 1.1368683772161603e-13,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "hit",
+          "kind": "melee",
+          "time": 0.22,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 4
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 902.2639555840697,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "defeat",
+          "kind": "melee",
+          "time": 1.1,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 7
+          },
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 1,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 902.2639555840697,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        }
+      ],
+      "overflow": false,
+      "control": {
+        "pauseStable": true,
+        "contact": {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "skill",
+          "kind": "melee",
+          "time": 1.72,
+          "playing": false,
+          "speed": 0.25,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 1,
+          "registeredTimelines": 1,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 1.1368683772161603e-13,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        },
+        "cancel": {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 0.25,
+          "pose": null,
+          "effectFrame": null,
+          "effectStage": null,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 1.1368683772161603e-13,
+          "spriteScale": {
+            "x": 0.673828125,
+            "y": 0.673828125
+          },
+          "expectedSheetScale": null,
+          "clock": "ONE_GSAP",
+          "damageAuthority": "NONE_VISUAL_PREVIEW",
+          "fixedSheetScale": true
+        }
+      }
+    }
+  ],
+  "status": "FAIL",
+  "failure": "locator.screenshot: Timeout 29961.190000000002ms exceeded.\nCall log:\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    2 × waiting for element to be stable\u001b[22m\n\u001b[2m      - element is not stable\u001b[22m\n\u001b[2m    - retrying scroll into view action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be stable\u001b[22m\n\u001b[2m      - element is not stable\u001b[22m\n\u001b[2m    - retrying scroll into view action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    53 × waiting for element to be stable\u001b[22m\n\u001b[2m       - element is not stable\u001b[22m\n\u001b[2m     - retrying scroll into view action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n    at C:\\Users\\User\\Downloads\\cnine-avatar-bongsoon-20260919\\site\\preview\\mercenary-bloodmoon-battle-20261023-v1\\qa-browser.mjs:16:83"
+}

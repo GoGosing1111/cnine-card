@@ -1,0 +1,24 @@
+{
+  "dateKST": "2026-10-23",
+  "method": "BUILT_IN_IMAGEGEN",
+  "instruction": "다리 짤렸는데? 나무늘봉순",
+  "status": "USER_REQUESTED_REPAIR_TECHNICAL_REVIEW",
+  "assets": [
+    {
+      "id": "bongsoon-idle-0-feet-v2",
+      "prompt": "Use case: precise-object-edit. Repair ONLY the missing bottom of BOTH boots in edit target Image 1, an isolated game sprite of adult Bongsoon. Image 2 is supporting reference ONLY for the black buckled military ankle/boot shape, complete toes, soles and heels. Do not copy Image 2's pose, body, face, weapon or photographic shading. The two boots in Image 1 are abruptly cut off at the bottom; extend their missing ankles, complete toes, rounded toe boxes, outsoles and heels naturally beneath the cut. Follow the shin angle and stance of Image 1. Keep the long leg proportions and current pose. Every visible body, face, hair, coat, outfit, hand, gatling gun and upper shin in Image 1 must remain unchanged in design, placement and scale. The gun is one rigid straight assembly; no bent barrels. This is a surgical local restoration, NOT a new character design. Maintain the original square canvas composition and exact placement: keep the character in the upper-left portion, leave the large existing empty right and bottom area. DO NOT enlarge, shrink, re-center or reposition the existing drawing, and DO NOT fit the full character into a smaller box. Add the missing boot bottoms into the empty space below. Preserve the original 2D linework and painterly style, natural continuous hair. No floor, no shadow, no background, no glow, no text, no extra props. Output genuine transparent alpha. Both feet must be fully visible and closed silhouettes with ample transparent margin below.",
+      "path": "assets/bongsoon/idle-feet-v2/00.png",
+      "editTarget": "assets/bongsoon/frames/00.png",
+      "supportingReference": "assets/sources/01-bongsoon-gatling-v4-photo-face-approved.png",
+      "output_hint": "Generated images are saved to C:\\Users\\User\\.codex\\generated_images\\01a165ac-c393-7ee3-9c22-ab9179bae71f as C:\\Users\\User\\.codex\\generated_images\\01a165ac-c393-7ee3-9c22-ab9179bae71f\\exec-ced49641-8e6c-4c94-b925-79e77421e359.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "id": "bongsoon-idle-1-feet-v2",
+      "prompt": "Use case: precise-object-edit. Repair ONLY the missing bottom of BOTH boots in edit target Image 1, an isolated game sprite of adult Bongsoon. Image 2 is supporting reference ONLY for the black buckled military ankle/boot shape, complete toes, soles and heels. Do not copy Image 2's pose, body, face, weapon or photographic shading. The two boots in Image 1 are abruptly cut off at the bottom; extend their missing ankles, complete toes, rounded toe boxes, outsoles and heels naturally beneath the cut. Follow the shin angle and stance of Image 1. Keep the long leg proportions and current pose. Every visible body, face, hair, coat, outfit, hand, gatling gun and upper shin in Image 1 must remain unchanged in design, placement and scale. The gun is one rigid straight assembly; no bent barrels. This is a surgical local restoration, NOT a new character design. Maintain the original square canvas composition and exact placement: keep the character in the upper-left portion, leave the large existing empty right and bottom area. DO NOT enlarge, shrink, re-center or reposition the existing drawing, and DO NOT fit the full character into a smaller box. Add the missing boot bottoms into the empty space below. Preserve the original 2D linework and painterly style, natural continuous hair. No floor, no shadow, no background, no glow, no text, no extra props. Output genuine transparent alpha. Both feet must be fully visible and closed silhouettes with ample transparent margin below.",
+      "path": "assets/bongsoon/idle-feet-v2/01.png",
+      "editTarget": "assets/bongsoon/frames/01.png",
+      "supportingReference": "assets/sources/01-bongsoon-gatling-v4-photo-face-approved.png",
+      "output_hint": "Generated images are saved to C:\\Users\\User\\.codex\\generated_images\\01a165ac-c393-7ee3-9c22-ab9179bae71f as C:\\Users\\User\\.codex\\generated_images\\01a165ac-c393-7ee3-9c22-ab9179bae71f\\exec-b3531439-9bf5-404e-87a1-aa33149b62a8.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  ]
+}

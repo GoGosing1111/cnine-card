@@ -1,0 +1,1769 @@
+{
+  "dateKST": "2026-10-23",
+  "mode": "BEFORE_FIX",
+  "cases": [
+    {
+      "screen": "desktop",
+      "slug": "bongsoon",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 65.63422851562498,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6015625000000001
+        }
+      ],
+      "minRatio": 0.6015625000000001,
+      "maxRatio": 1.0000000000000002
+    },
+    {
+      "screen": "desktop",
+      "slug": "joeun",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 109.10624999999993,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.9999999999999998
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 69.68309326171874,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6386718750000001
+        }
+      ],
+      "minRatio": 0.6386718750000001,
+      "maxRatio": 1.0000000000000002
+    },
+    {
+      "screen": "desktop",
+      "slug": "diim",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 62.22465820312499,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        }
+      ],
+      "minRatio": 0.5703125000000001,
+      "maxRatio": 1.0000000000000002
+    },
+    {
+      "screen": "desktop",
+      "slug": "claws",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1.0000000000000002
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 109.10624999999993,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.9999999999999998
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 109.10624999999996,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 64.99493408203125,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.5957031250000002
+        }
+      ],
+      "minRatio": 0.5957031250000002,
+      "maxRatio": 1.0000000000000002
+    },
+    {
+      "screen": "desktop",
+      "slug": "dagger",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.9999999999999998
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.9999999999999998
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 109.10624999999999,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.9999999999999998
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 109.10625000000002,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 74.58435058593747,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.5,
+          "viewScale": 1,
+          "ratio": 0.6835937499999997
+        }
+      ],
+      "minRatio": 0.6835937499999997,
+      "maxRatio": 1
+    },
+    {
+      "screen": "mobile",
+      "slug": "bongsoon",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.12012987012987,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 38.471592881944446,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6015625
+        }
+      ],
+      "minRatio": 0.6015625,
+      "maxRatio": 1
+    },
+    {
+      "screen": "mobile",
+      "slug": "joeun",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.055045871559633,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 40.84484049479167,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.638671875
+        }
+      ],
+      "minRatio": 0.638671875,
+      "maxRatio": 1
+    },
+    {
+      "screen": "mobile",
+      "slug": "diim",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1815068493150684,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 36.4730685763889,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5703125000000001
+        }
+      ],
+      "minRatio": 0.5703125000000001,
+      "maxRatio": 1
+    },
+    {
+      "screen": "mobile",
+      "slug": "claws",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 63.952777777777754,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.9999999999999996
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 1.1311475409836065,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 38.09686957465277,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.5957031249999999
+        }
+      ],
+      "minRatio": 0.5957031249999999,
+      "maxRatio": 1
+    },
+    {
+      "screen": "mobile",
+      "slug": "dagger",
+      "states": [
+        {
+          "label": "idle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "dash:start",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "dash:middle",
+          "bodyScreenPixels": 63.95277777777781,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1.0000000000000004
+        },
+        {
+          "label": "dash:end",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "dash:cancel",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "attack:start",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "attack:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "attack:end",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "attack:cancel",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "skill:start",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "skill:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "skill:end",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "skill:cancel",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "hit:start",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "hit:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "hit:end",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "hit:cancel",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "defeat:start",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        },
+        {
+          "label": "defeat:middle",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:end",
+          "bodyScreenPixels": 63.95277777777778,
+          "spriteScale": 0.9857142857142858,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 1
+        },
+        {
+          "label": "defeat:cancel",
+          "bodyScreenPixels": 43.71771918402777,
+          "spriteScale": 0.673828125,
+          "rootScale": 0.65,
+          "viewScale": 1,
+          "ratio": 0.6835937499999999
+        }
+      ],
+      "minRatio": 0.6835937499999999,
+      "maxRatio": 1.0000000000000004
+    }
+  ],
+  "errors": [],
+  "status": "BASELINE_RECORDED",
+  "reviewFingerprint": "7fd627f556bea5111013c85db10a611c0787dffdb56772271e3d93f8eee67511"
+}
