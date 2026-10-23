@@ -1,0 +1,53 @@
+{
+  "scope": "Real inventory entry and recovery functions, actual selector and approved art; isolated HTTP fixtures",
+  "checks": [
+    {
+      "viewportWidth": 1440,
+      "viewportHeight": 1000,
+      "overflow": false,
+      "width": 760,
+      "panel": "url(\"http://127.0.0.1:7614/assets/items/pumpkin-pet-choice-20261023/panel.webp\")",
+      "button": "url(\"http://127.0.0.1:7614/assets/items/pumpkin-pet-choice-20261023/button.webp\")",
+      "cancelHeight": 52,
+      "confirmHeight": 52,
+      "explicitCancelFree": true,
+      "keyboardSelection": true,
+      "receiptRecoveryWithoutSecondPost": true,
+      "errors": [],
+      "httpErrors": []
+    },
+    {
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "overflow": false,
+      "width": 390,
+      "panel": "url(\"http://127.0.0.1:7614/assets/items/pumpkin-pet-choice-20261023/panel.webp\")",
+      "button": "url(\"http://127.0.0.1:7614/assets/items/pumpkin-pet-choice-20261023/button.webp\")",
+      "cancelHeight": 50,
+      "confirmHeight": 50,
+      "explicitCancelFree": true,
+      "keyboardSelection": true,
+      "receiptRecoveryWithoutSecondPost": true,
+      "errors": [],
+      "httpErrors": []
+    },
+    {
+      "viewportWidth": 320,
+      "viewportHeight": 740,
+      "overflow": false,
+      "width": 320,
+      "panel": "url(\"http://127.0.0.1:7614/assets/items/pumpkin-pet-choice-20261023/panel.webp\")",
+      "button": "url(\"http://127.0.0.1:7614/assets/items/pumpkin-pet-choice-20261023/button.webp\")",
+      "cancelHeight": 50,
+      "confirmHeight": 50,
+      "explicitCancelFree": true,
+      "keyboardSelection": true,
+      "receiptRecoveryWithoutSecondPost": true,
+      "errors": [],
+      "httpErrors": []
+    }
+  ],
+  "accountChangeBeforePostBlocked": true,
+  "accountChangeAfterPostPreservesOriginalRecovery": true,
+  "serverTransactionTestsSeparate": true
+}

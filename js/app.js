@@ -4269,6 +4269,7 @@ function inventoryPendingGifts(){
     {code:'RECRUITMENT_GIFT_BOX',key:'recruitment-gift',name:'영입전 사은품'},
     {code:'PINGDU_THANKS_GIFT_BOX',key:'pingdu-thanks-gift',name:'핑두의 감사 선물'},
     {code:'TOURNAMENT_GIFT_BOX',key:'tournament-gift',name:'대회 사은품'},
+    {code:'PET_PUMPKIN_CHOICE_TICKET',storageKey:`cnine.pet-pumpkin-choice.v1:${owner}`,name:'호박펫 선택권',image:'assets/items/pumpkin-pet-choice-20261023/ticket.webp'},
     {code:'ICON_CARD_CHOICE_TICKET',storageKey:`cnine.icon-choice.v1:${owner}`,name:'아이콘 카드 선택권',image:'assets/items/icon-card-choice-20261020/ticket.webp'},
     ...(multiplier?[{code:potion.itemCode,storageKey:potionKey,name:`계급 경험치 ${multiplier}배 물약`,image:`assets/items/rank-exp-potions-20261020/${multiplier}x.webp`}]:[])
   ].filter(gift=>localStorage.getItem(gift.storageKey||`cnine:${gift.key}:${owner}:pending`));}catch{return [];}
@@ -4418,6 +4419,12 @@ async function openInventoryPack(itemCode,ownedQuantity=0){
     const dialog=document.getElementById('inventoryDetailDialog'),body=document.getElementById('inventoryDialogContent');
     if(!dialog||!body)return renderShell('inventory');
     try{const {openRankExpPotion}=await import('/js/rank-exp-potion-v1.mjs?v=20261020-v1');await openRankExpPotion({itemCode,userId:loadUser()?.serverUserId,dialog,body,token:()=>API_TOKEN,onClose:inventoryRenderGiftRecovery,onApplied:buff=>{setRankExpPotionState(buff);renderLiveOperations();},refresh:async()=>{clearApiCache('inventory');clearApiCache('account-rank/status');clearApiCache('rank-exp-potion/status');await loadInventory();}});}catch(error){alert(error.message)}
+    return;
+  }
+  if(itemCode==='PET_PUMPKIN_CHOICE_TICKET'){
+    const dialog=document.getElementById('inventoryDetailDialog'),body=document.getElementById('inventoryDialogContent');
+    if(!dialog||!body)return renderShell('inventory');
+    try{const {openPetPumpkinChoice}=await import('/js/pet-pumpkin-choice-v1.mjs?v=20261023-v1');await openPetPumpkinChoice({userId:loadUser()?.serverUserId,dialog,body,token:()=>API_TOKEN,onClose:inventoryRenderGiftRecovery,refresh:async()=>{clearApiCache('inventory');clearApiCache('pets');clearApiCache('shell/summary');await loadInventory();}});}catch(error){alert(error.message)}
     return;
   }
   if(itemCode==='ICON_CARD_CHOICE_TICKET'){

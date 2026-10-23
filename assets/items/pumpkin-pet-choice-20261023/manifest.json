@@ -1,0 +1,173 @@
+{
+  "name": "호박펫 선택권 전용 UI 원화",
+  "createdDate": "2026-10-23",
+  "tool": "builtin image_gen",
+  "prompts": "prompts.json",
+  "scope": "Dedicated pumpkin pet choice ticket icon, dialog panel and confirmation button. Approved pet character originals are not modified.",
+  "approval": "Generated and inspected implementation assets; not recorded as user visual approval.",
+  "processing": "PNG sources are byte-for-byte copies. WebP derivatives resized and encoded with alpha preserved. Panel/button only trim outside transparent padding at alpha threshold 10 (out of 255), excluding stray pixels of at most 3.9% opacity; offsets recorded. No recoloring, compositing or artwork pixel edits inside retained crop.",
+  "assets": {
+    "ticket": {
+      "source": "ticket-source.png",
+      "runtime": "ticket.webp",
+      "generatedOriginal": "C:/Users/User/.codex/generated_images/01a1675c-0295-7a30-85fe-cf6e872f456d/exec-e094f70d-c8d1-4f02-9c2e-636c209206e1.png",
+      "sourceInfo": {
+        "width": 1254,
+        "height": 1254,
+        "hasAlpha": true,
+        "bytes": 1868280,
+        "sha256": "FDE5D6683DCB1C8566243A7D5DB9B5513FE27F226AF9B851CBFDAC8930A66813",
+        "transparentPixelRatio": 0.5234496819110267,
+        "visibleBoundsAlphaThreshold": 10,
+        "visibleBounds": {
+          "left": 19,
+          "top": 191,
+          "width": 1233,
+          "height": 860
+        },
+        "nonzeroAlphaBounds": {
+          "left": 16,
+          "top": 31,
+          "width": 1238,
+          "height": 1223
+        }
+      },
+      "transparentPaddingTrim": null,
+      "trimAlphaThreshold": null,
+      "runtimeInfo": {
+        "width": 512,
+        "height": 512,
+        "hasAlpha": true,
+        "bytes": 75678,
+        "sha256": "D7EC197C7FEC196D50C97BCC67B0D1D5045A8C898E2B0AC618BBA3B2AEFA6221",
+        "transparentPixelRatio": 0.520965576171875,
+        "visibleBoundsAlphaThreshold": 10,
+        "visibleBounds": {
+          "left": 7,
+          "top": 78,
+          "width": 504,
+          "height": 351
+        },
+        "nonzeroAlphaBounds": {
+          "left": 5,
+          "top": 36,
+          "width": 507,
+          "height": 449
+        }
+      }
+    },
+    "panel": {
+      "source": "panel-source.png",
+      "runtime": "panel.webp",
+      "generatedOriginal": "C:/Users/User/.codex/generated_images/01a1675c-0295-7a30-85fe-cf6e872f456d/exec-7d18ff22-ce82-487a-af75-8cf724768c77.png",
+      "sourceInfo": {
+        "width": 1254,
+        "height": 1254,
+        "hasAlpha": true,
+        "bytes": 2138092,
+        "sha256": "32327C9545318B47D27DD5BA96F01D4B9B5912DB2E1C1013D5311E8798F0438A",
+        "transparentPixelRatio": 0.17567325229123265,
+        "visibleBoundsAlphaThreshold": 10,
+        "visibleBounds": {
+          "left": 38,
+          "top": 44,
+          "width": 1180,
+          "height": 1151
+        },
+        "nonzeroAlphaBounds": {
+          "left": 31,
+          "top": 37,
+          "width": 1192,
+          "height": 1217
+        }
+      },
+      "transparentPaddingTrim": {
+        "left": 38,
+        "top": 44,
+        "width": 1180,
+        "height": 1151
+      },
+      "trimAlphaThreshold": 10,
+      "runtimeInfo": {
+        "width": 1024,
+        "height": 999,
+        "hasAlpha": true,
+        "bytes": 148086,
+        "sha256": "5DC8BB24CAC24A6E1BABC47FE65AF7DFDBDA9AAFCB8AF5E05368DA047B3E088B",
+        "transparentPixelRatio": 0.0463207347972973,
+        "visibleBoundsAlphaThreshold": 10,
+        "visibleBounds": {
+          "left": 0,
+          "top": 0,
+          "width": 1024,
+          "height": 999
+        },
+        "nonzeroAlphaBounds": {
+          "left": 0,
+          "top": 0,
+          "width": 1024,
+          "height": 999
+        }
+      }
+    },
+    "button": {
+      "source": "button-source.png",
+      "runtime": "button.webp",
+      "generatedOriginal": "C:/Users/User/.codex/generated_images/01a1675c-0295-7a30-85fe-cf6e872f456d/exec-a65c5a41-e415-4221-a796-7b12cd6a7279.png",
+      "sourceInfo": {
+        "width": 2172,
+        "height": 724,
+        "hasAlpha": true,
+        "bytes": 1385289,
+        "sha256": "69F1C54CAF393D2435C19EB0D32B5DDF3651BEFC869D4F221AF00F6E46E1CD1A",
+        "transparentPixelRatio": 0.5353761586439161,
+        "visibleBoundsAlphaThreshold": 10,
+        "visibleBounds": {
+          "left": 8,
+          "top": 143,
+          "width": 2157,
+          "height": 388
+        },
+        "nonzeroAlphaBounds": {
+          "left": 0,
+          "top": 9,
+          "width": 2172,
+          "height": 715
+        }
+      },
+      "transparentPaddingTrim": {
+        "left": 8,
+        "top": 143,
+        "width": 2157,
+        "height": 388
+      },
+      "trimAlphaThreshold": 10,
+      "runtimeInfo": {
+        "width": 1200,
+        "height": 216,
+        "hasAlpha": true,
+        "bytes": 80246,
+        "sha256": "8ED9DB4470915FEBA9E6D6ABF08CC3B3C24AE1031C23B8F7A970D12C45CAD3A5",
+        "transparentPixelRatio": 0.15280478395061728,
+        "visibleBoundsAlphaThreshold": 10,
+        "visibleBounds": {
+          "left": 0,
+          "top": 0,
+          "width": 1200,
+          "height": 216
+        },
+        "nonzeroAlphaBounds": {
+          "left": 0,
+          "top": 0,
+          "width": 1200,
+          "height": 216
+        }
+      }
+    }
+  },
+  "layoutNotes": {
+    "panel": "Runtime has outside transparent padding removed at recorded threshold only. Suggested border-image: url(panel.webp) 230 fill / 64px / 0 stretch; keep DOM content at least 40px from edge and labels clear of corner motifs. Final implementation must inspect mobile/desktop.",
+    "button": "Runtime has outside transparent padding removed at recorded threshold only. Suggested border-image: url(button.webp) 105 210 fill / 28px 58px / 0 stretch at 60px button height; adjust border widths proportionally for 44-64px heights. Plain dark central label area, no baked text.",
+    "ticket": "Icon has genuine alpha; centered pumpkin remains recognizable when downscaled."
+  }
+}

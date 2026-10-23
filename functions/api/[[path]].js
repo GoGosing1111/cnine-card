@@ -87,6 +87,7 @@ import {handlePetPotential,ensurePetPotentialItem} from '../_pet_potential.js';
 import {handlePetOpening,ensurePetOpeningItems,openPetSeal} from '../_pet_opening.js';
 import {handleIconFusion} from '../_icon_fusion.js';
 import {handleIconCardChoice} from '../_icon_card_choice.js';
+import {handlePetPumpkinChoice} from '../_pet_pumpkin_choice.js';
 import {handleRankExpPotion} from '../_rank_exp_potion.js';
 import {handleMercenaryCodex} from '../_mercenary_codex.js';
 import {handleMercenaryAccount,mercenaryUsesInnerLock} from '../_mercenary_account_routes.js';
@@ -5188,6 +5189,7 @@ async function handleRequest(context){
     const petGrantsResponse=await handlePetGrants({path,request,env,deps:{requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petGrantsResponse)return petGrantsResponse;
     const petPotentialResponse=await handlePetPotential({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petPotentialResponse)return petPotentialResponse;
     const petOpeningResponse=await handlePetOpening({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petOpeningResponse)return petOpeningResponse;
+    const petPumpkinChoiceResponse=await handlePetPumpkinChoice({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(petPumpkinChoiceResponse)return petPumpkinChoiceResponse;
     const iconChoiceResponse=await handleIconCardChoice({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(iconChoiceResponse)return iconChoiceResponse;
     const rankPotionResponse=await handleRankExpPotion({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(rankPotionResponse)return rankPotionResponse;
     const iconFusionResponse=await handleIconFusion({path,request,env,deps:{requirePermission,json,authenticate,withUserMutationLock:withJointUserMutationLock}});if(iconFusionResponse)return iconFusionResponse;
