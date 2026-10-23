@@ -1,0 +1,191 @@
+[SCOPED RELEASE] {"base":"fab2a5f466bb0e8a471eeca6115c9e33e054ac92","reason":"User-approved bulk loot purchases and quantity controls. New 25 SQLite/PostgreSQL atomicity/retry tests passed on this runtime; run existing 127 shop regressions and Worker/release guards once.","changed":["css/loot-shop-command-v2.css","docs/qa/loot-shop-bulk-20261023/README.md","docs/qa/loot-shop-bulk-20261023/desktop-quantity.png","docs/qa/loot-shop-bulk-20261023/mobile-quantity.png","docs/qa/loot-shop-delete-save-20261023/README.md","docs/qa/loot-shop-delete-save-20261023/deployment.json","functions/_loot_shop.js","js/loot-shop-presentation-v2.mjs","js/loot-shop-v1.mjs","loot-shop/index.html","package.json","scripts/qa-loot-shop-renewal-20261023.mjs","service-worker.js","shared/loot-shop-policy-v1.mjs","tests/loot-shop-bulk-20261023.test.mjs"],"tests":["tests/loot-shop-delete-20261023.test.mjs","tests/loot-shop-renewal-20261023.test.mjs","tests/loot-shop-ss-pack.test.mjs","tests/loot-shop-v1.test.mjs","tests/loot-shop-lifecycle-v1.test.mjs","tests/loot-shop-mystic-random.test.mjs","tests/pig-coin-content-rewards-v2.test.mjs","tests/clan-war-pig-rewards.test.mjs"],"checks":["check:worker"]}
+✔ SQLite: each completed regular match pays independent 30/30, excludes defense/errors/late joins (13.4343ms)
+✔ SQLite: duplicate/concurrent retries and lost response cannot pay again; next match earns separately (6.8157ms)
+✔ SQLite: ledger/wallet failure and overflow roll back every recipient and receipt (7.1575ms)
+✔ SQLite: OFF, unreleased, active, pending battles and championships do not pay (7.0272ms)
+✔ SQLite: actual match finalization pays once; failed payout is recovered after match completion (50.8211ms)
+✔ PostgreSQL: each completed regular match pays independent 30/30, excludes defense/errors/late joins (5907.9293ms)
+✔ PostgreSQL: duplicate/concurrent retries and lost response cannot pay again; next match earns separately (3695.8566ms)
+✔ PostgreSQL: ledger/wallet failure and overflow roll back every recipient and receipt (3246.3358ms)
+✔ PostgreSQL: OFF, unreleased, active, pending battles and championships do not pay (3315.8481ms)
+✔ PostgreSQL: actual match finalization pays once; failed payout is recovered after match completion (3127.9637ms)
+✔ deletion metadata preserves legacy snapshots, validates IDs and does not consume product slots (7.2346ms)
+✔ SQLite: saved product deletion hides offers, preserves payment history and replays completed purchases once (87.521ms)
+✔ SQLite: purchased selection and mercenary packs still open exactly once after listing deletion (104.1757ms)
+✔ SQLite: unpaid prepared purchases are cancelled after deletion without debit or reward (53.3983ms)
+✔ SQLite: deletion committed before a prepared payment batch causes atomic rollback (48.9744ms)
+✔ SQLite: server owns retired IDs; omitted, cleared or forged metadata cannot reactivate or reserve IDs (92.818ms)
+✔ SQLite: deleted legacy SS packs never reappear, while pre-deletion installs still receive their draft (37.376ms)
+✔ SQLite: deletion requires OWNER, rejects stale settings and preserves product kinds (33.0911ms)
+✔ SQLite: PATCH can delete every listing with sales OFF without changing rewards or wallets (71.5218ms)
+✔ PostgreSQL: saved product deletion hides offers, preserves payment history and replays completed purchases once (7798.9915ms)
+✔ PostgreSQL: purchased selection and mercenary packs still open exactly once after listing deletion (4702.6005ms)
+✔ PostgreSQL: unpaid prepared purchases are cancelled after deletion without debit or reward (3655.5382ms)
+✔ PostgreSQL: deletion committed before a prepared payment batch causes atomic rollback (3495.5432ms)
+✔ PostgreSQL: server owns retired IDs; omitted, cleared or forged metadata cannot reactivate or reserve IDs (3071.1432ms)
+✔ PostgreSQL: deleted legacy SS packs never reappear, while pre-deletion installs still receive their draft (2521.3172ms)
+✔ PostgreSQL: deletion requires OWNER, rejects stale settings and preserves product kinds (1969.3385ms)
+✔ PostgreSQL: PATCH can delete every listing with sales OFF without changing rewards or wallets (1736.1619ms)
+✔ SQLite: content CMS shares one policy, preserves products and other source rates, rejects stale/invalid/non-OWNER saves (53.5868ms)
+✔ SQLite: first deployment reads OFF without storage; explicit CMS save prepares storage (29.17ms)
+✔ SQLite: simultaneous different purchase requests cannot exceed lifetime cap (63.1148ms)
+✔ SQLite: last limited card cannot be granted to two pack owners (70.1823ms)
+✔ SQLite: changed product cancels an unpaid prepared purchase; CMS edits preserve purchase counts (87.4163ms)
+✔ PostgreSQL: content CMS shares one policy, preserves products and other source rates, rejects stale/invalid/non-OWNER saves (6427.6399ms)
+✔ PostgreSQL: first deployment reads OFF without storage; explicit CMS save prepares storage (4528.3522ms)
+✔ PostgreSQL: simultaneous different purchase requests cannot exceed lifetime cap (4150.5762ms)
+✔ PostgreSQL: last limited card cannot be granted to two pack owners (3430.2291ms)
+✔ PostgreSQL: changed product cancels an unpaid prepared purchase; CMS edits preserve purchase counts (3356.611ms)
+✔ Mystic no longer needs a selected equipment; fixed F-body still does (3.7148ms)
+✔ SQLite: all four equal integer outcomes grant exactly one item and disclose 25% (243.1134ms)
+✔ SQLite: invalid random values never record or debit a purchase (49.2398ms)
+✔ SQLite: hidden, inactive, missing, wrong rarity or duplicate candidates fail closed; a fifth Mystic never enters (76.184ms)
+✔ SQLite: a failed grant freezes its roll and the whole pool is checked again inside the debit transaction (40.9053ms)
+✔ SQLite: replacing a frozen catalog identity cannot grant a different item (31.1053ms)
+✔ SQLite: a lost commit acknowledgement succeeds and repeated requests never pay or grant twice (45.9176ms)
+✔ SQLite: same request concurrency freezes one result and last-slot races cannot bypass the cap (130.9641ms)
+✔ SQLite: legacy pending fixed purchases and completed receipts never turn into another random grant (106.3321ms)
+✔ SQLite: pending random purchase honors sales OFF, rejects changed policy and cannot cross accounts (29.3294ms)
+✔ PostgreSQL: all four equal integer outcomes grant exactly one item and disclose 25% (8067.5153ms)
+✔ PostgreSQL: invalid random values never record or debit a purchase (3839.9928ms)
+✔ PostgreSQL: hidden, inactive, missing, wrong rarity or duplicate candidates fail closed; a fifth Mystic never enters (3853.6567ms)
+✔ PostgreSQL: a failed grant freezes its roll and the whole pool is checked again inside the debit transaction (3454.8625ms)
+✔ PostgreSQL: replacing a frozen catalog identity cannot grant a different item (2922.9467ms)
+✔ PostgreSQL: a lost commit acknowledgement succeeds and repeated requests never pay or grant twice (2550.523ms)
+✔ PostgreSQL: same request concurrency freezes one result and last-slot races cannot bypass the cap (2136.9209ms)
+✔ PostgreSQL: legacy pending fixed purchases and completed receipts never turn into another random grant (1837.3019ms)
+✔ PostgreSQL: pending random purchase honors sales OFF, rejects changed policy and cannot cross accounts (1541.021ms)
+✔ purchase route rejects client-selected reward and uses server randomness with exact-field validation (39.9629ms)
+✔ legacy snapshots are byte-compatible and new drafts never create automatic offers (4.5554ms)
+✔ new merchandising settings reject malformed images, periods, items and weights (8.047ms)
+✔ KST daily, Monday weekly, month rollover and editor conversion agree (0.4547ms)
+✔ store search, category, available filter, recommendation and escaped bundle contents (41.0902ms)
+✔ SQLite: bundle grants all quantities atomically, records unseen/logs and replays once (100.5185ms)
+✔ SQLite: unavailable bundle and overflow cannot charge or partially grant (29.9224ms)
+✔ SQLite: custom gear catalog and exact direct delivery respect public/active guards (65.112ms)
+✔ SQLite: general card pack freezes candidates and preserves last-card stock on retry (66.436ms)
+✔ SQLite: custom rank pack allows normal SSS, freezes retries and excludes limited candidates (90.1962ms)
+✔ SQLite: period caps include historical purchases, isolate accounts and guard final slot (59.7567ms)
+✔ SQLite: hidden, scheduled and expired offers cannot charge; owner revision and identities stay guarded (52.0701ms)
+✔ PostgreSQL: bundle grants all quantities atomically, records unseen/logs and replays once (7571.7395ms)
+✔ PostgreSQL: unavailable bundle and overflow cannot charge or partially grant (3994.5888ms)
+✔ PostgreSQL: custom gear catalog and exact direct delivery respect public/active guards (3784.0466ms)
+✔ PostgreSQL: general card pack freezes candidates and preserves last-card stock on retry (3542.3163ms)
+✔ PostgreSQL: custom rank pack allows normal SSS, freezes retries and excludes limited candidates (3059.8056ms)
+✔ PostgreSQL: period caps include historical purchases, isolate accounts and guard final slot (2531.7998ms)
+✔ PostgreSQL: hidden, scheduled and expired offers cannot charge; owner revision and identities stay guarded (2227.8858ms)
+✔ SS purchase cap is unset by default and accepts an explicit owner-defined integer beyond three (4.8556ms)
+✔ existing SS product configuration is never reset or duplicated by policy upgrade (0.7133ms)
+✔ SS shop discloses its guaranteed grade and renders large manual caps without unbounded dot allocation (33.538ms)
+✔ SQLite: an existing saved shop gains only an inactive SS draft and reads do not rewrite live settings (83.9381ms)
+✔ SQLite: CMS offers SS candidates, rejects non-SS selections and leaves the pool explicitly selected (95.6033ms)
+✔ SQLite: manual lifetime cap guards concurrent last purchases, survives edits and replays without a second debit (164.9857ms)
+✔ SQLite: SS pack delivery and opening roll back atomically and reuse frozen awards on retry (130.9909ms)
+✔ SQLite: an SS rank change blocks an unopened pack and further payment without granting another grade (78.3794ms)
+✔ PostgreSQL: an existing saved shop gains only an inactive SS draft and reads do not rewrite live settings (7019.3573ms)
+✔ PostgreSQL: CMS offers SS candidates, rejects non-SS selections and leaves the pool explicitly selected (4549.2752ms)
+✔ PostgreSQL: manual lifetime cap guards concurrent last purchases, survives edits and replays without a second debit (4262.6906ms)
+✔ PostgreSQL: SS pack delivery and opening roll back atomically and reuse frozen awards on retry (3622.3979ms)
+✔ PostgreSQL: an SS rank change blocks an unopened pack and further payment without granting another grade (2890.5061ms)
+✔ unconfigured economy stays OFF; prices, caps and weights must be explicit (4.6625ms)
+✔ all six product types accept owner-configured lifetime caps through 1,000 (10.8409ms)
+✔ choice art resolves trusted repository originals locally and rejects foreign URLs (0.5869ms)
+✔ SQLite: CMS saves 1,000 without resetting history and the final purchase remains atomic (154.5111ms)
+✔ SQLite: CMS lists public gear while the fixed Mystic pool remains exactly four (36.1423ms)
+✔ SQLite: Mystic purchase grants MYTHIC gear atomically and blocks unavailable gear (62.1968ms)
+✔ SQLite: raising FUR cap from three to ten preserves purchases and atomically guards the last slot (283.2365ms)
+✔ SQLite: lifetime cap, replay and account isolation (96.6792ms)
+✔ SQLite: failed delivery rolls back debit, purchase count, and ledger (53.5801ms)
+✔ SQLite: false entitlement predicate grants zero coins; each content pays only once (53.1353ms)
+✔ SQLite: choice pack selects eligible card, preserves pack on failure and never double opens (74.1295ms)
+✔ SQLite: mercenary packs always grant one A/S card and freeze rolls for retry (69.7566ms)
+✔ SQLite: OFF, insufficient balance, inactive equipment, and stale CMS edits reject safely (73.202ms)
+✔ PostgreSQL: CMS saves 1,000 without resetting history and the final purchase remains atomic (7774.9056ms)
+✔ PostgreSQL: CMS lists public gear while the fixed Mystic pool remains exactly four (4136.6248ms)
+✔ PostgreSQL: Mystic purchase grants MYTHIC gear atomically and blocks unavailable gear (3813.8125ms)
+✔ PostgreSQL: raising FUR cap from three to ten preserves purchases and atomically guards the last slot (4370.0946ms)
+✔ PostgreSQL: lifetime cap, replay and account isolation (2709.9915ms)
+✔ PostgreSQL: failed delivery rolls back debit, purchase count, and ledger (2480.069ms)
+✔ PostgreSQL: false entitlement predicate grants zero coins; each content pays only once (1942.9717ms)
+✔ PostgreSQL: choice pack selects eligible card, preserves pack on failure and never double opens (1705.5966ms)
+✔ PostgreSQL: mercenary packs always grant one A/S card and freeze rolls for retry (1513.0974ms)
+✔ PostgreSQL: OFF, insufficient balance, inactive equipment, and stale CMS edits reject safely (1167.7916ms)
+✔ route requires login, OWNER for CMS, same-origin JSON and exact fields (28.9766ms)
+✔ approved separate rewards are explicit, additive and legacy flat policies require a CMS save (5.3281ms)
+✔ operator publication is atomic, preserves shop products, rejects stale inspection and never resets later CMS edits (6465.2581ms)
+✔ operator first publication prepares an absent policy with sales OFF and no account grants (4187.7605ms)
+✔ SQLite: late historical claims retain normal rewards but never receive pig coins; current/future rounds pay once (53.2958ms)
+✔ SQLite: missing/corrupt release boundary fails closed and a stale prepared claim cannot bypass a changed boundary (84.5191ms)
+✔ SQLite: territory WIN/LOSE/DRAW and CMS attack threshold pay independent 100+50 once (51.0912ms)
+✔ SQLite: clan 29/30 completed attacks, defeat participation, champion bonus, defense and retries (38.9301ms)
+✔ SQLite: core 30 per clear, independent weekly 90 cap, next-week replay, rollback and account isolation (32.6984ms)
+✔ SQLite: completed content and disabled source cannot issue a new reward (31.8538ms)
+✔ PostgreSQL: late historical claims retain normal rewards but never receive pig coins; current/future rounds pay once (3957.5466ms)
+✔ PostgreSQL: missing/corrupt release boundary fails closed and a stale prepared claim cannot bypass a changed boundary (3363.4491ms)
+✔ PostgreSQL: territory WIN/LOSE/DRAW and CMS attack threshold pay independent 100+50 once (3660.7307ms)
+✔ PostgreSQL: clan 29/30 completed attacks, defeat participation, champion bonus, defense and retries (2620.853ms)
+✔ PostgreSQL: core 30 per clear, independent weekly 90 cap, next-week replay, rollback and account isolation (2367.4907ms)
+✔ PostgreSQL: completed content and disabled source cannot issue a new reward (1835.5345ms)
+ℹ tests 127
+ℹ suites 0
+ℹ pass 127
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 33465.2832
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 7123 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8231.08 KiB / gzip: 1768.45 KiB
+Worker Startup Time: 39 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.01 sec)
+No targets deployed for cnine-card-api-runtime (0.64 sec)
+Current Version ID: b41a33ba-ea52-49ba-bedc-63d42b30ae22
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19989/20000)
+Uploading... (19992/20000)
+Uploading... (19996/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 11 files (19989 already uploaded) (2.58 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://01a90414.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 2924.63 KiB / gzip: 657.68 KiB
+Worker Startup Time: 37 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (4.18 sec)
+Deployed cnine-card-clan-draft triggers (1.61 sec)
+  schedule: * * * * *
+Current Version ID: 1d0a839c-0503-450c-9af5-eb4ec771e750

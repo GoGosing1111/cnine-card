@@ -1,0 +1,108 @@
+{
+  "status": "LIVE_VERIFIED",
+  "verifiedAt": "2026-10-23T10:34:14.209Z",
+  "sourceCommit": "0b950ee9cb28e71fd31b35451a79729f4186c8f0",
+  "pages": {
+    "id": "01a90414-d484-4d26-83c5-c98b4c195328",
+    "url": "https://01a90414.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "0b950ee9cb28e71fd31b35451a79729f4186c8f0",
+    "createdAt": "2026-10-23T10:33:45.710103Z"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "481fb360-aaf9-47fa-9759-9d77bec0b72c",
+      "createdAt": "2026-10-23T10:32:32.094903Z",
+      "versionId": "b41a33ba-ea52-49ba-bedc-63d42b30ae22",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "99452fe9-4368-4c5b-9ec6-a5bb91bc5047",
+      "createdAt": "2026-10-23T10:34:00.755356Z",
+      "versionId": "1d0a839c-0503-450c-9af5-eb4ec771e750",
+      "percentage": 100
+    }
+  ],
+  "validation": {
+    "newBulkTests": 25,
+    "existingShopTests": 127,
+    "totalTests": 152,
+    "workerSyntax": true,
+    "releaseGate": true,
+    "viewports": [
+      "desktop",
+      "390x844"
+    ],
+    "checks": [
+      "quantity input and minus/plus/max",
+      "balance and account limit cap",
+      "total price and confirmation",
+      "atomic delivery",
+      "receipt recovery after reload/lost response",
+      "independent frozen random results",
+      "legacy one-purchase compatibility"
+    ],
+    "publicAssets": [
+      {
+        "file": "loot-shop/index.html",
+        "bytes": 5274,
+        "sha256": "4cb5101c6a177445f66089e60425d80f559e1d84f6c3dcb2737cd3b12f9a0417",
+        "localSha256": "4cb5101c6a177445f66089e60425d80f559e1d84f6c3dcb2737cd3b12f9a0417",
+        "byteIdentical": true,
+        "matched": true,
+        "comparison": "exact bytes"
+      },
+      {
+        "file": "js/loot-shop-v1.mjs",
+        "bytes": 12713,
+        "sha256": "5ff516faf669895b31ff871ca5b5aa2422f161ce53604c6ca495d29aa3f996fd",
+        "localSha256": "5ff516faf669895b31ff871ca5b5aa2422f161ce53604c6ca495d29aa3f996fd",
+        "byteIdentical": true,
+        "matched": true,
+        "comparison": "exact bytes"
+      },
+      {
+        "file": "js/loot-shop-presentation-v2.mjs",
+        "bytes": 10823,
+        "sha256": "cd41c0bd4a3c889195d4ab4e058899c41315d6ffad9a1db47458d245adad3b3c",
+        "localSha256": "cd41c0bd4a3c889195d4ab4e058899c41315d6ffad9a1db47458d245adad3b3c",
+        "byteIdentical": true,
+        "matched": true,
+        "comparison": "exact bytes"
+      },
+      {
+        "file": "css/loot-shop-command-v2.css",
+        "bytes": 16532,
+        "sha256": "d7ee4d3eb97176af8d116fe6f6ed043ce40868907ff1c1ca555d7da3e55c78f8",
+        "localSha256": "d7ee4d3eb97176af8d116fe6f6ed043ce40868907ff1c1ca555d7da3e55c78f8",
+        "byteIdentical": true,
+        "matched": true,
+        "comparison": "exact bytes"
+      },
+      {
+        "file": "shared/loot-shop-policy-v1.mjs",
+        "bytes": 15093,
+        "sha256": "efc0d33ce622cbe411a176cd5dbf54671084f9a2050610b6970e34290fae91b9",
+        "localSha256": "efc0d33ce622cbe411a176cd5dbf54671084f9a2050610b6970e34290fae91b9",
+        "byteIdentical": true,
+        "matched": true,
+        "comparison": "exact bytes"
+      },
+      {
+        "file": "service-worker.js",
+        "bytes": 18744,
+        "sha256": "4f39c4043858af06f7704a9b28c48c3a46170ca26cb392d89f271b625f423257",
+        "localSha256": "4f39c4043858af06f7704a9b28c48c3a46170ca26cb392d89f271b625f423257",
+        "byteIdentical": true,
+        "matched": true,
+        "comparison": "exact bytes"
+      }
+    ]
+  },
+  "restoredOriginalFiles": 73,
+  "productionPurchases": 0,
+  "productionCoinDebits": 0,
+  "productionSettingsWrites": 0
+}
