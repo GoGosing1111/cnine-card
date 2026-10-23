@@ -1,0 +1,553 @@
+{
+  "format": "ORGANIZATION_CLAN_IDENTITY_LIVE_VERIFY_V1",
+  "at": "2026-10-23T06:44:01.091Z",
+  "productionPages": {
+    "id": "a7afd1a0-1d45-4d93-b80a-4c61c5c64bbd",
+    "commit": "89143fa93c05df636a152462379260cabd048ae3",
+    "status": "success",
+    "createdAt": "2026-10-23T06:43:26.282224Z",
+    "url": "https://a7afd1a0.cnine-card.pages.dev",
+    "aliases": []
+  },
+  "policy": {
+    "databaseWritesPerformed": false,
+    "existingDataMigrationRequired": false,
+    "legacyDisplayNamesAreNotRewritten": true,
+    "clockAndActualJoinChangesAllowed": true,
+    "strictStateDriftRequiresReview": true
+  },
+  "runtime": {
+    "ok": true,
+    "requiredCommit": "89143fa93c05df636a152462379260cabd048ae3",
+    "productionCommit": "89143fa93c05df636a152462379260cabd048ae3",
+    "workerOk": true,
+    "worker": {
+      "sha256": "ca649874c7746f6e797d0c3c2fdd2bdd4649ec1dd140080fc77dd6a031d51c69",
+      "bytes": 8398843,
+      "hasIdentityMarkImages": [
+        {
+          "path": "assets/ui/clan/marks/dk-clan-mark-v1.webp",
+          "present": true
+        },
+        {
+          "path": "assets/ui/clan/marks/samsung-clan-mark-v1.webp",
+          "present": true
+        },
+        {
+          "path": "assets/ui/clan/marks/t1-clan-mark-v1.webp",
+          "present": true
+        },
+        {
+          "path": "assets/ui/clan/marks/hanwha-clan-mark-v1.webp",
+          "present": true
+        },
+        {
+          "path": "assets/ui/clan/marks/lg-clan-mark-v1.webp",
+          "present": true
+        },
+        {
+          "path": "assets/ui/clan/marks/lotte-clan-mark-v1.webp",
+          "present": true
+        }
+      ],
+      "hasIdentityNames": [
+        {
+          "name": "DK",
+          "present": true
+        },
+        {
+          "name": "삼성",
+          "present": true
+        },
+        {
+          "name": "T1",
+          "present": true
+        },
+        {
+          "name": "한화",
+          "present": true
+        },
+        {
+          "name": "LG",
+          "present": true
+        },
+        {
+          "name": "롯데",
+          "present": true
+        }
+      ],
+      "hasMarkImageProperty": true
+    },
+    "publicFileCount": 41,
+    "publicFiles": [
+      {
+        "path": "admin/index.html",
+        "sha256": "0d25f615207a1557dd0df09a24bb7db74c9b7da92797d9b85cb37280902ec41a",
+        "bytes": 81465,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "0d25f615207a1557dd0df09a24bb7db74c9b7da92797d9b85cb37280902ec41a",
+        "servedBytes": 81465,
+        "match": true
+      },
+      {
+        "path": "admin/organization-admin-v1.css",
+        "sha256": "b13c51c2e379c008e870d7dacbe08adb88d18c7adf99c12990c384e348eb792e",
+        "bytes": 14495,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "b13c51c2e379c008e870d7dacbe08adb88d18c7adf99c12990c384e348eb792e",
+        "servedBytes": 14495,
+        "match": true
+      },
+      {
+        "path": "admin/organization-admin-v1.mjs",
+        "sha256": "8338a5f6a36241770c31793ee312d9cfdaee6ef58e24285de8a57b9ca62ccb3b",
+        "bytes": 35699,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "8338a5f6a36241770c31793ee312d9cfdaee6ef58e24285de8a57b9ca62ccb3b",
+        "servedBytes": 35699,
+        "match": true
+      },
+      {
+        "path": "assets/ui/clan/marks/dk-clan-mark-v1.webp",
+        "sha256": "03c3667dc94a525438b656b666526667017c4b311243b9142926f72e01ea4602",
+        "bytes": 74816,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "03c3667dc94a525438b656b666526667017c4b311243b9142926f72e01ea4602",
+        "servedBytes": 74816,
+        "match": true
+      },
+      {
+        "path": "assets/ui/clan/marks/hanwha-clan-mark-v1.webp",
+        "sha256": "4b8770d062b1ebdef19770155dd836d8f694280012be49b34436867dc8eb5a0a",
+        "bytes": 83598,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "4b8770d062b1ebdef19770155dd836d8f694280012be49b34436867dc8eb5a0a",
+        "servedBytes": 83598,
+        "match": true
+      },
+      {
+        "path": "assets/ui/clan/marks/lg-clan-mark-v1.webp",
+        "sha256": "af1ff1aa101ef0004b7ac174ccf09f273bf2f0dd986bce689e608ad5f73acd06",
+        "bytes": 90558,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "af1ff1aa101ef0004b7ac174ccf09f273bf2f0dd986bce689e608ad5f73acd06",
+        "servedBytes": 90558,
+        "match": true
+      },
+      {
+        "path": "assets/ui/clan/marks/lotte-clan-mark-v1.webp",
+        "sha256": "4ddae75eda4050330bcbea44407db9356a9dfc1344d9f4b628cf576eede52314",
+        "bytes": 67328,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "4ddae75eda4050330bcbea44407db9356a9dfc1344d9f4b628cf576eede52314",
+        "servedBytes": 67328,
+        "match": true
+      },
+      {
+        "path": "assets/ui/clan/marks/samsung-clan-mark-v1.webp",
+        "sha256": "89b95dd0c819ce3377e4a59448ee89687b1151ec09ebe2b42832942d761f7645",
+        "bytes": 73192,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "89b95dd0c819ce3377e4a59448ee89687b1151ec09ebe2b42832942d761f7645",
+        "servedBytes": 73192,
+        "match": true
+      },
+      {
+        "path": "assets/ui/clan/marks/t1-clan-mark-v1.webp",
+        "sha256": "4d7f00d4069c6be3ece082ef88e9d4da4114971b9e61620eb0d790b2da67601d",
+        "bytes": 52862,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "4d7f00d4069c6be3ece082ef88e9d4da4114971b9e61620eb0d790b2da67601d",
+        "servedBytes": 52862,
+        "match": true
+      },
+      {
+        "path": "css/organization-command-20261021.css",
+        "sha256": "0edec925e37a08abc125832b7a096183cfba4e94b6f210c2d3645dc470183cd1",
+        "bytes": 42814,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "0edec925e37a08abc125832b7a096183cfba4e94b6f210c2d3645dc470183cd1",
+        "servedBytes": 42814,
+        "match": true
+      },
+      {
+        "path": "index.html",
+        "sha256": "0c4925a8c500d199a21f0b37d75df6ff95323c98d94ea128f67384ad37150efe",
+        "bytes": 34211,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "0c4925a8c500d199a21f0b37d75df6ff95323c98d94ea128f67384ad37150efe",
+        "servedBytes": 34211,
+        "match": true
+      },
+      {
+        "path": "js/adventure-lobby-v2107.js",
+        "sha256": "33c20e20ffc78b06da183fd08de3b9d214754d2da2eda218b10cc175173471cd",
+        "bytes": 101300,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "33c20e20ffc78b06da183fd08de3b9d214754d2da2eda218b10cc175173471cd",
+        "servedBytes": 101300,
+        "match": true
+      },
+      {
+        "path": "js/app.js",
+        "sha256": "a8104f454f258f8e82e518e088af0cfbc5beb544bc5f9169d6e80ecd0b5912d3",
+        "bytes": 783375,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "a8104f454f258f8e82e518e088af0cfbc5beb544bc5f9169d6e80ecd0b5912d3",
+        "servedBytes": 783375,
+        "match": true
+      },
+      {
+        "path": "js/clan-v1.js",
+        "sha256": "905e2287e3c8b4943c6d3ae7cfc42e3c4c0614023e95c1884418235657c452bc",
+        "bytes": 46842,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "905e2287e3c8b4943c6d3ae7cfc42e3c4c0614023e95c1884418235657c452bc",
+        "servedBytes": 46842,
+        "match": true
+      },
+      {
+        "path": "js/organization-admission-v1.mjs",
+        "sha256": "e73ff33efab9cd6bf08995f89e015e5eb72b1b946acb3e3cdcff7823e51b7176",
+        "bytes": 15830,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "e73ff33efab9cd6bf08995f89e015e5eb72b1b946acb3e3cdcff7823e51b7176",
+        "servedBytes": 15830,
+        "match": true
+      },
+      {
+        "path": "js/organization-api-v1.mjs",
+        "sha256": "e5154b09186b93ab7d60a9b388d2b08f322a1140ef3c10b0d00533d055b58215",
+        "bytes": 1358,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "e5154b09186b93ab7d60a9b388d2b08f322a1140ef3c10b0d00533d055b58215",
+        "servedBytes": 1358,
+        "match": true
+      },
+      {
+        "path": "js/organization-dashboard-v1.mjs",
+        "sha256": "f2b4362097b861c44e74237b16152aa6950026c768a6f87c9965c00f352be68d",
+        "bytes": 6483,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "f2b4362097b861c44e74237b16152aa6950026c768a6f87c9965c00f352be68d",
+        "servedBytes": 6483,
+        "match": true
+      },
+      {
+        "path": "js/organization-faction-entry-v1.mjs",
+        "sha256": "5e33acd51c7f38ccc3b3b9c797d75b02e1d7cd81c54ed650aeaf762b6ab06cba",
+        "bytes": 4467,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "5e33acd51c7f38ccc3b3b9c797d75b02e1d7cd81c54ed650aeaf762b6ab06cba",
+        "servedBytes": 4467,
+        "match": true
+      },
+      {
+        "path": "js/organization-faction-v1.mjs",
+        "sha256": "0c13bcbc29f4f7291983d3c46ae0d903265ac123f7cfef0497589f742e400a60",
+        "bytes": 55044,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "0c13bcbc29f4f7291983d3c46ae0d903265ac123f7cfef0497589f742e400a60",
+        "servedBytes": 55044,
+        "match": true
+      },
+      {
+        "path": "js/organization-faction-window-v1.mjs",
+        "sha256": "f2fcbd0260aa5427dceb3f641a7a382c91e89fc46201143f3f8b33432c1b23d2",
+        "bytes": 2208,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "f2fcbd0260aa5427dceb3f641a7a382c91e89fc46201143f3f8b33432c1b23d2",
+        "servedBytes": 2208,
+        "match": true
+      },
+      {
+        "path": "js/organization-headquarters-v1.mjs",
+        "sha256": "8b92d4035d64a225a9d08adc5e556e8696232d2f2c945f0d200ee982af223e75",
+        "bytes": 5905,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "8b92d4035d64a225a9d08adc5e556e8696232d2f2c945f0d200ee982af223e75",
+        "servedBytes": 5905,
+        "match": true
+      },
+      {
+        "path": "js/organization-hunts-v1.mjs",
+        "sha256": "f51cc6e6427d12ebb1b92705bde95fbf7493847b20db51a427f58188ad32b864",
+        "bytes": 2007,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "f51cc6e6427d12ebb1b92705bde95fbf7493847b20db51a427f58188ad32b864",
+        "servedBytes": 2007,
+        "match": true
+      },
+      {
+        "path": "js/organization-identity-v1.mjs",
+        "sha256": "740ac1df4de97f6c5011f445c14c47fa2ab8756997a7fcc5e01800cd3ec154e1",
+        "bytes": 653,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "740ac1df4de97f6c5011f445c14c47fa2ab8756997a7fcc5e01800cd3ec154e1",
+        "servedBytes": 653,
+        "match": true
+      },
+      {
+        "path": "js/organization-join-v1.mjs",
+        "sha256": "77a3e76ebb8fde4b410c814efd96678638640a1c0e4af4b21b71672bc5258983",
+        "bytes": 3221,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "77a3e76ebb8fde4b410c814efd96678638640a1c0e4af4b21b71672bc5258983",
+        "servedBytes": 3221,
+        "match": true
+      },
+      {
+        "path": "js/organization-preparation-v1.js",
+        "sha256": "1cb7ca3d19024f68bbdcedacabebb86a9e99f3c19950dc03ccfd1b96bc8234ba",
+        "bytes": 1489,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "1cb7ca3d19024f68bbdcedacabebb86a9e99f3c19950dc03ccfd1b96bc8234ba",
+        "servedBytes": 1489,
+        "match": true
+      },
+      {
+        "path": "js/organization-public-v1.mjs",
+        "sha256": "7596e63cea0039d428db0eeda83d4445fb8071c569a6ae13e8114a5e62591931",
+        "bytes": 906,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "7596e63cea0039d428db0eeda83d4445fb8071c569a6ae13e8114a5e62591931",
+        "servedBytes": 906,
+        "match": true
+      },
+      {
+        "path": "js/organization-start-notice-20261021.mjs",
+        "sha256": "39ac6353ce7dcec011f5173611d145a34cc6ce600a53e426b0f4771028a41847",
+        "bytes": 4318,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "39ac6353ce7dcec011f5173611d145a34cc6ce600a53e426b0f4771028a41847",
+        "servedBytes": 4318,
+        "match": true
+      },
+      {
+        "path": "js/organization-system-v1.mjs",
+        "sha256": "b25c04688bdf1ecfe2fa82c48130fc58f150e5eabba7f99904d69bc2fc09e670",
+        "bytes": 22399,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "b25c04688bdf1ecfe2fa82c48130fc58f150e5eabba7f99904d69bc2fc09e670",
+        "servedBytes": 22399,
+        "match": true
+      },
+      {
+        "path": "js/soopketmon-v21-exact-shell-adapter.js",
+        "sha256": "b9c5a562d16333c6824919b6991d9fe7953cd261f24456bd735f7695e59e313f",
+        "bytes": 54482,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "b9c5a562d16333c6824919b6991d9fe7953cd261f24456bd735f7695e59e313f",
+        "servedBytes": 54482,
+        "match": true
+      },
+      {
+        "path": "organization/faction/index.html",
+        "sha256": "e02a0be9caec6be8a9e6529dccd15c3701e63d23aa2dfc387bd0e860859b2675",
+        "bytes": 788,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "e02a0be9caec6be8a9e6529dccd15c3701e63d23aa2dfc387bd0e860859b2675",
+        "servedBytes": 788,
+        "match": true
+      },
+      {
+        "path": "organization/index.html",
+        "sha256": "f24f72d8218ee35ef811442c339129dd501d094dc67ea6bd310b6a3856db15a6",
+        "bytes": 1044,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "f24f72d8218ee35ef811442c339129dd501d094dc67ea6bd310b6a3856db15a6",
+        "servedBytes": 1044,
+        "match": true
+      },
+      {
+        "path": "preview/lobby-clarity-v1/app.js",
+        "sha256": "6647f6fba9b05d50729b3ce6b0bca458912f17c6f6aebf9e8a5feebf7f327553",
+        "bytes": 20676,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "6647f6fba9b05d50729b3ce6b0bca458912f17c6f6aebf9e8a5feebf7f327553",
+        "servedBytes": 20676,
+        "match": true
+      },
+      {
+        "path": "preview/lobby-clarity-v1/index.html",
+        "sha256": "92a970223b9e8354bd323f82c2ff682f6ad05d10ff2e83cb1fa960ab7c2ef167",
+        "bytes": 12518,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "92a970223b9e8354bd323f82c2ff682f6ad05d10ff2e83cb1fa960ab7c2ef167",
+        "servedBytes": 12518,
+        "match": true
+      },
+      {
+        "path": "shared/organization-additional-v1.mjs",
+        "sha256": "779a592d6af7dda6d483c89f0016a87d2967344b04fd5386d896ee4e576fc0fa",
+        "bytes": 5273,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "779a592d6af7dda6d483c89f0016a87d2967344b04fd5386d896ee4e576fc0fa",
+        "servedBytes": 5273,
+        "match": true
+      },
+      {
+        "path": "shared/organization-faction-v1.mjs",
+        "sha256": "9ce2b7e5d1513bd301314dc5a65d019a6110f52dca167a77ab17478d734991bf",
+        "bytes": 5392,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "9ce2b7e5d1513bd301314dc5a65d019a6110f52dca167a77ab17478d734991bf",
+        "servedBytes": 5392,
+        "match": true
+      },
+      {
+        "path": "shared/organization-headquarters-v1.mjs",
+        "sha256": "6c446976ab59ecbeb436e767b187cd73875abc900cdba399f6803aa001f874a2",
+        "bytes": 1029,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "6c446976ab59ecbeb436e767b187cd73875abc900cdba399f6803aa001f874a2",
+        "servedBytes": 1029,
+        "match": true
+      },
+      {
+        "path": "shared/organization-identity-v1.mjs",
+        "sha256": "d07db5b7798be94c4098fd5ba1582c2d19f333a48ce16e6ddcf152247147716b",
+        "bytes": 1097,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "d07db5b7798be94c4098fd5ba1582c2d19f333a48ce16e6ddcf152247147716b",
+        "servedBytes": 1097,
+        "match": true
+      },
+      {
+        "path": "shared/organization-interview-v1.mjs",
+        "sha256": "7d2590d10b812caaeb236b447cbc60152e2d193ee555a7ffd2fbc4234533dcce",
+        "bytes": 10962,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "7d2590d10b812caaeb236b447cbc60152e2d193ee555a7ffd2fbc4234533dcce",
+        "servedBytes": 10962,
+        "match": true
+      },
+      {
+        "path": "shared/organization-preparation-v1.mjs",
+        "sha256": "7827ddc8214acb89f7142827c34bde573dc6170f61a848b250ada4d9ee191765",
+        "bytes": 619,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "7827ddc8214acb89f7142827c34bde573dc6170f61a848b250ada4d9ee191765",
+        "servedBytes": 619,
+        "match": true
+      },
+      {
+        "path": "shared/organization-public-v1.mjs",
+        "sha256": "ed068a3bb676efb405b24d3cce5f68006008f3ac44c26f8c2b93e7713675fc60",
+        "bytes": 1219,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "ed068a3bb676efb405b24d3cce5f68006008f3ac44c26f8c2b93e7713675fc60",
+        "servedBytes": 1219,
+        "match": true
+      },
+      {
+        "path": "shared/organization-system-v1.mjs",
+        "sha256": "8301603b51020fb9db83205b54b9bbfc238f68dc03a06f6bfc0d8a0436861b52",
+        "bytes": 9002,
+        "source": "working-tree",
+        "status": 200,
+        "servedSha256": "8301603b51020fb9db83205b54b9bbfc238f68dc03a06f6bfc0d8a0436861b52",
+        "servedBytes": 9002,
+        "match": true
+      }
+    ]
+  },
+  "preservation": {
+    "ok": true,
+    "checks": {
+      "sameLiveRound": true,
+      "storedRoundNamePreserved": true,
+      "existingMembershipPreserved": true,
+      "additionsHaveLiveApproval": true,
+      "capacityPreserved": true,
+      "eldersPreserved": true,
+      "commandersPreserved": true,
+      "formationsPreserved": true,
+      "captainsPreserved": true,
+      "holdingsAndGarrisonsPreserved": true,
+      "treasuryPreserved": true,
+      "progressPreserved": true,
+      "policyPreserved": true,
+      "otherFinancePreserved": true,
+      "poolsPreserved": true
+    },
+    "details": {
+      "approvedMemberAdditions": 0,
+      "unexplainedMemberAdditions": 0,
+      "joinApplicationCounts": {
+        "before": 0,
+        "after": 0
+      },
+      "joinChangesAllowed": true,
+      "sessionClockChangesAllowed": false,
+      "factionRevisionChanged": false,
+      "ledgerCounts": {
+        "before": 69,
+        "after": 69
+      }
+    }
+  },
+  "ok": true,
+  "databaseSummary": {
+    "memberCount": 129,
+    "membersByClan": [
+      22,
+      22,
+      21,
+      22,
+      21,
+      21
+    ],
+    "occupiedDistricts": 25,
+    "readOnly": true
+  },
+  "verification": {
+    "scopedTests": 17,
+    "browserWidths": [
+      1440,
+      390
+    ],
+    "workerCompile": "passed",
+    "sourceCommit": "89143fa93c05df636a152462379260cabd048ae3"
+  }
+}
