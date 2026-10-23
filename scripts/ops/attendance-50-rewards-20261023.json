@@ -1,0 +1,2109 @@
+{
+  "operationKey": "ops:attendance-50-reward:20261023:v1",
+  "authorization": {
+    "request": "출석 50일까지 조회하고 sss조각 3개씩 지급해",
+    "followup": "메세지로 누적출석 50일 보상"
+  },
+  "cutoff": "2026-10-23 01:03:36.843483+00",
+  "kstDate": "2026-10-23",
+  "minimumAttendanceDays": 50,
+  "amount": 3,
+  "title": "누적출석 50일 보상",
+  "body": "누적출석 50일 달성을 축하합니다.\n\n보상: SSS 용병 카드 조각 3개\n\n첨부 보상을 수령해 주세요.",
+  "delivery": "MESSAGE",
+  "item": {
+    "code": "MERCENARY_SSS_CARD_SHARD",
+    "name": "SSS 용병 카드 조각",
+    "category": "MATERIAL",
+    "rarity": "SSS",
+    "image_url": "assets/items/mercenary-sss-card-shard-v1.png",
+    "is_active": "1"
+  },
+  "recipients": [
+    {
+      "userId": "3",
+      "nickname": "ε연두з",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 105,
+      "distinctDays": 105,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "5",
+      "nickname": "싸이타마",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 93,
+      "distinctDays": 93,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "7",
+      "nickname": "에비런",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "8",
+      "nickname": "최성수",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 69,
+      "distinctDays": 69,
+      "firstAttendance": "2026-08-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "10",
+      "nickname": "관상은과학",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 96,
+      "distinctDays": 96,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-19"
+    },
+    {
+      "userId": "13",
+      "nickname": "불법사행산업신고센터",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 102,
+      "distinctDays": 102,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "16",
+      "nickname": "오승환이다",
+      "status": "ACTIVE",
+      "role": "ADMIN",
+      "attendanceDays": 85,
+      "distinctDays": 85,
+      "firstAttendance": "2026-07-31",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "19",
+      "nickname": "토닭토닭",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "23",
+      "nickname": "하이희야",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 95,
+      "distinctDays": 95,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-12"
+    },
+    {
+      "userId": "24",
+      "nickname": "만봄",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 104,
+      "distinctDays": 104,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "25",
+      "nickname": "여우",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 101,
+      "distinctDays": 101,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "26",
+      "nickname": "깅예솔",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 65,
+      "distinctDays": 65,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-09-19"
+    },
+    {
+      "userId": "29",
+      "nickname": "엑셀괴물",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 96,
+      "distinctDays": 96,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "32",
+      "nickname": "쑤댕",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "34",
+      "nickname": "씨나인짱",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 92,
+      "distinctDays": 92,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "35",
+      "nickname": "철거용역깡패",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 63,
+      "distinctDays": 63,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-09-13"
+    },
+    {
+      "userId": "38",
+      "nickname": "MCsniper",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 58,
+      "distinctDays": 58,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-04"
+    },
+    {
+      "userId": "39",
+      "nickname": "라네트",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 97,
+      "distinctDays": 97,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-15"
+    },
+    {
+      "userId": "45",
+      "nickname": "박세라-ㅂ-",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 105,
+      "distinctDays": 105,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "52",
+      "nickname": "폭군#",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 105,
+      "distinctDays": 105,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "53",
+      "nickname": "씨파타",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 100,
+      "distinctDays": 100,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "62",
+      "nickname": "숭구릭",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 101,
+      "distinctDays": 101,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "65",
+      "nickname": "음순이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 105,
+      "distinctDays": 105,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "67",
+      "nickname": "다케나카유다이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 70,
+      "distinctDays": 70,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-09-23"
+    },
+    {
+      "userId": "71",
+      "nickname": "진땅콩_",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "72",
+      "nickname": "일반상식",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 53,
+      "distinctDays": 53,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-21"
+    },
+    {
+      "userId": "73",
+      "nickname": "란x2",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 101,
+      "distinctDays": 101,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-19"
+    },
+    {
+      "userId": "75",
+      "nickname": "미미미눙",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 86,
+      "distinctDays": 86,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-11"
+    },
+    {
+      "userId": "76",
+      "nickname": "랄네미탱탱",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 95,
+      "distinctDays": 95,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "77",
+      "nickname": "육수킬러",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 56,
+      "distinctDays": 56,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-09-04"
+    },
+    {
+      "userId": "81",
+      "nickname": "비쥬얼깡패",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "83",
+      "nickname": "애장이",
+      "status": "ACTIVE",
+      "role": "ADMIN",
+      "attendanceDays": 92,
+      "distinctDays": 92,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "84",
+      "nickname": "와고왕코",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 53,
+      "distinctDays": 53,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-09-12"
+    },
+    {
+      "userId": "85",
+      "nickname": "카르푸",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 102,
+      "distinctDays": 102,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "87",
+      "nickname": "설윤이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 92,
+      "distinctDays": 92,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-12"
+    },
+    {
+      "userId": "88",
+      "nickname": "0수표",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 104,
+      "distinctDays": 104,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "91",
+      "nickname": "정원이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "92",
+      "nickname": "불곰덫",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "98",
+      "nickname": "디프스",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 71,
+      "distinctDays": 71,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-11"
+    },
+    {
+      "userId": "99",
+      "nickname": "회피구",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 50,
+      "distinctDays": 50,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-09-24"
+    },
+    {
+      "userId": "115",
+      "nickname": "쁠리의무사시",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 98,
+      "distinctDays": 98,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "118",
+      "nickname": "mse56",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 83,
+      "distinctDays": 83,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-03"
+    },
+    {
+      "userId": "120",
+      "nickname": "롤리",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 88,
+      "distinctDays": 88,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-05"
+    },
+    {
+      "userId": "130",
+      "nickname": "족구선생",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 104,
+      "distinctDays": 104,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "132",
+      "nickname": "채리",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 53,
+      "distinctDays": 53,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-09-07"
+    },
+    {
+      "userId": "143",
+      "nickname": "족카다시안",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 77,
+      "distinctDays": 77,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-02"
+    },
+    {
+      "userId": "145",
+      "nickname": "슬랜더조아",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 81,
+      "distinctDays": 81,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-09-29"
+    },
+    {
+      "userId": "148",
+      "nickname": "혜루",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 103,
+      "distinctDays": 103,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "156",
+      "nickname": "좌지구녕",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 97,
+      "distinctDays": 97,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-18"
+    },
+    {
+      "userId": "162",
+      "nickname": "차단하다",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 96,
+      "distinctDays": 96,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "164",
+      "nickname": "박사",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "176",
+      "nickname": "시우스",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 103,
+      "distinctDays": 103,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-20"
+    },
+    {
+      "userId": "180",
+      "nickname": "에필로그1",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 55,
+      "distinctDays": 55,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-18"
+    },
+    {
+      "userId": "183",
+      "nickname": "남수댕",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 104,
+      "distinctDays": 104,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "185",
+      "nickname": "지유나",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 86,
+      "distinctDays": 86,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-14"
+    },
+    {
+      "userId": "187",
+      "nickname": "파르르구",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "190",
+      "nickname": "557",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 59,
+      "distinctDays": 59,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "197",
+      "nickname": "무버지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 105,
+      "distinctDays": 105,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "202",
+      "nickname": "진땅콩간바레",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 99,
+      "distinctDays": 99,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "214",
+      "nickname": "졈니2",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 54,
+      "distinctDays": 54,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-09-14"
+    },
+    {
+      "userId": "216",
+      "nickname": "x수댕",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "218",
+      "nickname": "현하루",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 70,
+      "distinctDays": 70,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "220",
+      "nickname": "족알못",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "226",
+      "nickname": "햬카세",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 105,
+      "distinctDays": 105,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 74,
+      "distinctDays": 74,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "234",
+      "nickname": "졈신사입니도",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 50,
+      "distinctDays": 50,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-09-04"
+    },
+    {
+      "userId": "236",
+      "nickname": "유나이은",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 101,
+      "distinctDays": 101,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "242",
+      "nickname": "벚꽃엔딩",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 98,
+      "distinctDays": 98,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "243",
+      "nickname": "해카세",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 72,
+      "distinctDays": 72,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-09-30"
+    },
+    {
+      "userId": "249",
+      "nickname": "댕졈먕1",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 59,
+      "distinctDays": 59,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-18"
+    },
+    {
+      "userId": "261",
+      "nickname": "둘리소다",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 103,
+      "distinctDays": 103,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "266",
+      "nickname": "에렌25",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 87,
+      "distinctDays": 87,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-04"
+    },
+    {
+      "userId": "274",
+      "nickname": "안드리셰우첸코",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 50,
+      "distinctDays": 50,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-09-01"
+    },
+    {
+      "userId": "277",
+      "nickname": "스갤가축",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 98,
+      "distinctDays": 98,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "289",
+      "nickname": "베베킹",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "290",
+      "nickname": "Mild7",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 103,
+      "distinctDays": 103,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "295",
+      "nickname": "모래",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 106,
+      "distinctDays": 106,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "297",
+      "nickname": "점크루지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 91,
+      "distinctDays": 91,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "300",
+      "nickname": "상마마",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 52,
+      "distinctDays": 52,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-09-08"
+    },
+    {
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 102,
+      "distinctDays": 102,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "312",
+      "nickname": "밍",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 96,
+      "distinctDays": 96,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "313",
+      "nickname": "족구짱구",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 69,
+      "distinctDays": 69,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-03"
+    },
+    {
+      "userId": "315",
+      "nickname": "에타",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 79,
+      "distinctDays": 79,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "352",
+      "nickname": "경북",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 93,
+      "distinctDays": 93,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-11"
+    },
+    {
+      "userId": "359",
+      "nickname": "갓삼족삼",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 96,
+      "distinctDays": 96,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-19"
+    },
+    {
+      "userId": "360",
+      "nickname": "라피e",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 94,
+      "distinctDays": 94,
+      "firstAttendance": "2026-07-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "364",
+      "nickname": "풍으로말해요",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 100,
+      "distinctDays": 100,
+      "firstAttendance": "2026-07-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "426",
+      "nickname": "모리",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 52,
+      "distinctDays": 52,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-09-11"
+    },
+    {
+      "userId": "431",
+      "nickname": "아바이도망왕순대",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 83,
+      "distinctDays": 83,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-07"
+    },
+    {
+      "userId": "490",
+      "nickname": "경화수월팬",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 104,
+      "distinctDays": 104,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "493",
+      "nickname": "치타구",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 104,
+      "distinctDays": 104,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "518",
+      "nickname": "moo우에디아",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 74,
+      "distinctDays": 74,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-09-23"
+    },
+    {
+      "userId": "521",
+      "nickname": "대저동토마토",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 103,
+      "distinctDays": 103,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "525",
+      "nickname": "족구조아",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 102,
+      "distinctDays": 102,
+      "firstAttendance": "2026-07-14",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "567",
+      "nickname": "망순이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 91,
+      "distinctDays": 91,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-21"
+    },
+    {
+      "userId": "619",
+      "nickname": "PangEEE",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 83,
+      "distinctDays": 83,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-16"
+    },
+    {
+      "userId": "631",
+      "nickname": "키친789",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 84,
+      "distinctDays": 84,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-02"
+    },
+    {
+      "userId": "660",
+      "nickname": "Bazzi3",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 101,
+      "distinctDays": 101,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "681",
+      "nickname": "페이트런",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 104,
+      "distinctDays": 104,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "685",
+      "nickname": "앵무새ㅇ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 52,
+      "distinctDays": 52,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-08"
+    },
+    {
+      "userId": "706",
+      "nickname": "꼬망이자동차",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 84,
+      "distinctDays": 84,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "750",
+      "nickname": "라페스타다",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 102,
+      "distinctDays": 102,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "787",
+      "nickname": "뚱초환",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 105,
+      "distinctDays": 105,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "792",
+      "nickname": "센텀신사",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 102,
+      "distinctDays": 102,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "850",
+      "nickname": "뽑기고수71",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 103,
+      "distinctDays": 103,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "969",
+      "nickname": "메시",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 63,
+      "distinctDays": 63,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-09-11"
+    },
+    {
+      "userId": "1068",
+      "nickname": "툰",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 60,
+      "distinctDays": 60,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-09"
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 104,
+      "distinctDays": 104,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "1212",
+      "nickname": "구두닦기장인",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 51,
+      "distinctDays": 51,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-09-14"
+    },
+    {
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 103,
+      "distinctDays": 103,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "1301",
+      "nickname": "팩트만쓴다15",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 102,
+      "distinctDays": 102,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "1421",
+      "nickname": "다시생각",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 105,
+      "distinctDays": 105,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "1545",
+      "nickname": "좋은하루",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 50,
+      "distinctDays": 50,
+      "firstAttendance": "2026-07-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "1578",
+      "nickname": "빵빡이4호",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 66,
+      "distinctDays": 66,
+      "firstAttendance": "2026-07-11",
+      "lastAttendance": "2026-10-06"
+    },
+    {
+      "userId": "1768",
+      "nickname": "핫시",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 104,
+      "distinctDays": 104,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "1843",
+      "nickname": "흐린눈깔",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 88,
+      "distinctDays": 88,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-20"
+    },
+    {
+      "userId": "1845",
+      "nickname": "잔구",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 58,
+      "distinctDays": 58,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-09-11"
+    },
+    {
+      "userId": "1916",
+      "nickname": "정보확인",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 58,
+      "distinctDays": 58,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-19"
+    },
+    {
+      "userId": "1944",
+      "nickname": "족메시",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 88,
+      "distinctDays": 88,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "2246",
+      "nickname": "옹가망함1",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 104,
+      "distinctDays": 104,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "2282",
+      "nickname": "블랙랜드",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 87,
+      "distinctDays": 87,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-14"
+    },
+    {
+      "userId": "2300",
+      "nickname": "싸우지마애들아",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 97,
+      "distinctDays": 97,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "2333",
+      "nickname": "구와함",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 103,
+      "distinctDays": 103,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 102,
+      "distinctDays": 102,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "2429",
+      "nickname": "노사람졈니",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 71,
+      "distinctDays": 71,
+      "firstAttendance": "2026-07-12",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "2505",
+      "nickname": "모아가려아가",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 102,
+      "distinctDays": 102,
+      "firstAttendance": "2026-07-14",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "2545",
+      "nickname": "연",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 78,
+      "distinctDays": 78,
+      "firstAttendance": "2026-07-13",
+      "lastAttendance": "2026-10-06"
+    },
+    {
+      "userId": "2734",
+      "nickname": "그냥지은닉",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 102,
+      "distinctDays": 102,
+      "firstAttendance": "2026-07-13",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "3004",
+      "nickname": "간지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 58,
+      "distinctDays": 58,
+      "firstAttendance": "2026-07-13",
+      "lastAttendance": "2026-09-16"
+    },
+    {
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 98,
+      "distinctDays": 98,
+      "firstAttendance": "2026-07-14",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "3480",
+      "nickname": "족짜미♡",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 99,
+      "distinctDays": 99,
+      "firstAttendance": "2026-07-15",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "3646",
+      "nickname": "까잡셔",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 72,
+      "distinctDays": 72,
+      "firstAttendance": "2026-07-16",
+      "lastAttendance": "2026-10-08"
+    },
+    {
+      "userId": "3674",
+      "nickname": "연보라",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 100,
+      "distinctDays": 100,
+      "firstAttendance": "2026-07-16",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "3739",
+      "nickname": "미오탱ㅋㅋ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 66,
+      "distinctDays": 66,
+      "firstAttendance": "2026-07-19",
+      "lastAttendance": "2026-10-07"
+    },
+    {
+      "userId": "3867",
+      "nickname": "레드클라우드",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 92,
+      "distinctDays": 92,
+      "firstAttendance": "2026-07-20",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "3877",
+      "nickname": "<#ever_wC>",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 54,
+      "distinctDays": 54,
+      "firstAttendance": "2026-07-19",
+      "lastAttendance": "2026-09-25"
+    },
+    {
+      "userId": "3884",
+      "nickname": "zkzk9999",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 96,
+      "distinctDays": 96,
+      "firstAttendance": "2026-07-20",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "3887",
+      "nickname": "하와이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 56,
+      "distinctDays": 56,
+      "firstAttendance": "2026-07-20",
+      "lastAttendance": "2026-09-13"
+    },
+    {
+      "userId": "3892",
+      "nickname": "슈파두파",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 80,
+      "distinctDays": 80,
+      "firstAttendance": "2026-07-20",
+      "lastAttendance": "2026-10-10"
+    },
+    {
+      "userId": "3974",
+      "nickname": "우회하세요",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 92,
+      "distinctDays": 92,
+      "firstAttendance": "2026-07-21",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4010",
+      "nickname": "슈라",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 94,
+      "distinctDays": 94,
+      "firstAttendance": "2026-07-22",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4084",
+      "nickname": "게임닉네임",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 89,
+      "distinctDays": 89,
+      "firstAttendance": "2026-07-24",
+      "lastAttendance": "2026-10-21"
+    },
+    {
+      "userId": "4086",
+      "nickname": "수민입니다",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 50,
+      "distinctDays": 50,
+      "firstAttendance": "2026-07-23",
+      "lastAttendance": "2026-10-19"
+    },
+    {
+      "userId": "4111",
+      "nickname": "족게이다",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 83,
+      "distinctDays": 83,
+      "firstAttendance": "2026-07-25",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4161",
+      "nickname": "chorong2",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 51,
+      "distinctDays": 51,
+      "firstAttendance": "2026-07-25",
+      "lastAttendance": "2026-10-17"
+    },
+    {
+      "userId": "4199",
+      "nickname": "택신",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 88,
+      "distinctDays": 88,
+      "firstAttendance": "2026-07-26",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4209",
+      "nickname": "#유나랜드",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 87,
+      "distinctDays": 87,
+      "firstAttendance": "2026-07-27",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4212",
+      "nickname": "루루핑",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 88,
+      "distinctDays": 88,
+      "firstAttendance": "2026-07-27",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4222",
+      "nickname": "#크레파스",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 85,
+      "distinctDays": 85,
+      "firstAttendance": "2026-07-27",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4235",
+      "nickname": "도댕",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 88,
+      "distinctDays": 88,
+      "firstAttendance": "2026-07-28",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4371",
+      "nickname": "건빵3개",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 77,
+      "distinctDays": 77,
+      "firstAttendance": "2026-08-02",
+      "lastAttendance": "2026-10-20"
+    },
+    {
+      "userId": "4389",
+      "nickname": "다르",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 81,
+      "distinctDays": 81,
+      "firstAttendance": "2026-08-01",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 84,
+      "distinctDays": 84,
+      "firstAttendance": "2026-08-01",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4400",
+      "nickname": "키위🥝",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 65,
+      "distinctDays": 65,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4408",
+      "nickname": "레가파",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 82,
+      "distinctDays": 82,
+      "firstAttendance": "2026-08-02",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 83,
+      "distinctDays": 83,
+      "firstAttendance": "2026-08-02",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4479",
+      "nickname": "대지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 76,
+      "distinctDays": 76,
+      "firstAttendance": "2026-08-09",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4501",
+      "nickname": "장씨아저씨",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 74,
+      "distinctDays": 74,
+      "firstAttendance": "2026-08-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4504",
+      "nickname": "깜찍소녀",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 65,
+      "distinctDays": 65,
+      "firstAttendance": "2026-08-10",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4540",
+      "nickname": "지아영",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 70,
+      "distinctDays": 70,
+      "firstAttendance": "2026-08-15",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4562",
+      "nickname": "찡찡ෆ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 66,
+      "distinctDays": 66,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4566",
+      "nickname": "나야",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 57,
+      "distinctDays": 57,
+      "firstAttendance": "2026-08-24",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4567",
+      "nickname": "힘내보자",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 51,
+      "distinctDays": 51,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 65,
+      "distinctDays": 65,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4572",
+      "nickname": "응맨",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 64,
+      "distinctDays": 64,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "4580",
+      "nickname": "CHO22",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 63,
+      "distinctDays": 63,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4581",
+      "nickname": "나도한번",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 56,
+      "distinctDays": 56,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-14"
+    },
+    {
+      "userId": "4582",
+      "nickname": "족단",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 63,
+      "distinctDays": 63,
+      "firstAttendance": "2026-08-22",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4589",
+      "nickname": "악마족숭이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 51,
+      "distinctDays": 51,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-19"
+    },
+    {
+      "userId": "4590",
+      "nickname": "무명",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 50,
+      "distinctDays": 50,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-14"
+    },
+    {
+      "userId": "4595",
+      "nickname": "비니",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 65,
+      "distinctDays": 65,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4597",
+      "nickname": "찬호",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 66,
+      "distinctDays": 66,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4598",
+      "nickname": "암살자..",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 66,
+      "distinctDays": 66,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4609",
+      "nickname": "오랜만에",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 65,
+      "distinctDays": 65,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4610",
+      "nickname": "고라니ㅇ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 66,
+      "distinctDays": 66,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4613",
+      "nickname": "#설현",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 53,
+      "distinctDays": 53,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "4614",
+      "nickname": "공단",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 66,
+      "distinctDays": 66,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4615",
+      "nickname": "랭비!",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 65,
+      "distinctDays": 65,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4621",
+      "nickname": "리이렐",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 63,
+      "distinctDays": 63,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4625",
+      "nickname": "제롬",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 65,
+      "distinctDays": 65,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 66,
+      "distinctDays": 66,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 66,
+      "distinctDays": 66,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4629",
+      "nickname": "Veil",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 66,
+      "distinctDays": 66,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4631",
+      "nickname": "깽구",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 65,
+      "distinctDays": 65,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4641",
+      "nickname": "의지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 62,
+      "distinctDays": 62,
+      "firstAttendance": "2026-08-19",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4643",
+      "nickname": "깡총",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 57,
+      "distinctDays": 57,
+      "firstAttendance": "2026-08-20",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "4647",
+      "nickname": "피카츄",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 62,
+      "distinctDays": 62,
+      "firstAttendance": "2026-08-20",
+      "lastAttendance": "2026-10-21"
+    },
+    {
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 65,
+      "distinctDays": 65,
+      "firstAttendance": "2026-08-20",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4652",
+      "nickname": "묘목산다람쥐",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 65,
+      "distinctDays": 65,
+      "firstAttendance": "2026-08-20",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4668",
+      "nickname": "화성가뿌자",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 57,
+      "distinctDays": 57,
+      "firstAttendance": "2026-08-28",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4675",
+      "nickname": "옴마니반메훔",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 63,
+      "distinctDays": 63,
+      "firstAttendance": "2026-08-21",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4693",
+      "nickname": "시소둥이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 63,
+      "distinctDays": 63,
+      "firstAttendance": "2026-08-22",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 60,
+      "distinctDays": 60,
+      "firstAttendance": "2026-08-24",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4712",
+      "nickname": "겨밥디임",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 56,
+      "distinctDays": 56,
+      "firstAttendance": "2026-08-23",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "4718",
+      "nickname": "강구열",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 53,
+      "distinctDays": 53,
+      "firstAttendance": "2026-08-24",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4757",
+      "nickname": "음주플레이어",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 56,
+      "distinctDays": 56,
+      "firstAttendance": "2026-08-26",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4760",
+      "nickname": "추종",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 55,
+      "distinctDays": 55,
+      "firstAttendance": "2026-08-26",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4772",
+      "nickname": "펜타",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 58,
+      "distinctDays": 58,
+      "firstAttendance": "2026-08-27",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4773",
+      "nickname": "진짜디임",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 55,
+      "distinctDays": 55,
+      "firstAttendance": "2026-08-27",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4774",
+      "nickname": "딤럼프",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 57,
+      "distinctDays": 57,
+      "firstAttendance": "2026-08-28",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4824",
+      "nickname": "헬로희야",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 54,
+      "distinctDays": 54,
+      "firstAttendance": "2026-08-28",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4836",
+      "nickname": "딤키우기",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 53,
+      "distinctDays": 53,
+      "firstAttendance": "2026-08-28",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4866",
+      "nickname": "[C9]가시",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 54,
+      "distinctDays": 54,
+      "firstAttendance": "2026-08-29",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 52,
+      "distinctDays": 52,
+      "firstAttendance": "2026-08-31",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4910",
+      "nickname": "스루형2↑",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 54,
+      "distinctDays": 54,
+      "firstAttendance": "2026-08-31",
+      "lastAttendance": "2026-10-23"
+    },
+    {
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 51,
+      "distinctDays": 51,
+      "firstAttendance": "2026-09-01",
+      "lastAttendance": "2026-10-22"
+    },
+    {
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "status": "ACTIVE",
+      "role": "USER",
+      "attendanceDays": 51,
+      "distinctDays": 51,
+      "firstAttendance": "2026-09-03",
+      "lastAttendance": "2026-10-23"
+    }
+  ],
+  "totals": {
+    "recipients": 208,
+    "messages": 208,
+    "totalShards": "624"
+  }
+}

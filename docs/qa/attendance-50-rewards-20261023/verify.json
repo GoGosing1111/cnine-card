@@ -1,0 +1,21 @@
+{
+  "operationKey": "ops:attendance-50-reward:20261023:v1",
+  "planHash": "e405a46175d5cd669d3573a0b75472478959541cb0b104bce7a38f418bd3ad08",
+  "sourceHash": "f1683234a2591fa70ca685270b720da8ac9fbc474e0f7ada33071c360abe5300",
+  "mode": "verify",
+  "status": "COMPLETED",
+  "replayed": true,
+  "auditId": "50396",
+  "verification": {
+    "recipients": 208,
+    "messages": 208,
+    "totalShards": "624",
+    "rewards": 208,
+    "claimed": 0,
+    "pending": 208,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "checks": {},
+  "checkedAt": "2026-10-23T01:07:16.976Z"
+}
