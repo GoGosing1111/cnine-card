@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "createdDateLocal": "2026-10-24",
+  "timezone": "Asia/Seoul",
+  "title": "댕소룡 펫",
+  "status": "SOURCE_ART_APPROVED",
+  "userRequest": "댕소룡 펫으로 만들어",
+  "userChoice": "댕소룡 카드의 얼굴·의상을 살린 새 펫",
+  "userApproval": "승인하고 라이브 반영해",
+  "approvalRecord": "assets/ui/pets/daengsoryong-20261024/approval-20261024.json",
+  "sourceRecord": "source-record.json",
+  "generation": {
+    "tool": "built-in image_gen.imagegen",
+    "prompt": "prompt-v1.txt",
+    "transparentBackground": true,
+    "originalGeneratedFile": "C:/Users/User/.codex/generated_images/01a16a98-5425-7ef0-a0db-2373d475cdbb/exec-095c8bbb-3660-43bf-aa95-427a3f566899.png"
+  },
+  "asset": {
+    "code": "PET-DAENGSORYONG",
+    "name": "댕소룡",
+    "animal": "무술 인형",
+    "approvedAsset": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png",
+    "sha256": "cd3d76da195a5f3f82c8ae7711447a6d18cbf4fe934e04524f1ec348beea2d43",
+    "width": 1254,
+    "height": 1254,
+    "format": "PNG",
+    "mode": "RGBA",
+    "bytes": 1067730,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "originalGeneratedFile": "C:/Users/User/.codex/generated_images/01a16a98-5425-7ef0-a0db-2373d475cdbb/exec-095c8bbb-3660-43bf-aa95-427a3f566899.png",
+    "generationHistory": "preview/pet-daengsoryong-20261024-v1/manifest.json",
+    "prompt": "preview/pet-daengsoryong-20261024-v1/prompt-v1.txt",
+    "notes": "댕소룡 카드의 얼굴·노란 검정 줄무늬 무술복·고양이 귀·양갈래 머리·무술 자세 승인"
+  },
+  "rejectedPumpkinDraftsUsed": false
+}

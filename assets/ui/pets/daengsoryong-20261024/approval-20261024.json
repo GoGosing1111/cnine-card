@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_ART_APPROVED",
+  "approvalDate": "2026-10-24",
+  "timezone": "Asia/Seoul",
+  "userApproval": "승인하고 라이브 반영해",
+  "authoritativeSource": "이 대화에서 바로 앞에 제시된 댕소룡 V1 생성 PNG를 사용자가 승인함",
+  "preservation": {
+    "byteForByte": true,
+    "postProcessing": "none",
+    "faceOutfitPoseAndCompositionLocked": true,
+    "regenerationAllowedWithoutNewUserDirection": false
+  },
+  "assets": [
+    {
+      "code": "PET-DAENGSORYONG",
+      "name": "댕소룡",
+      "animal": "무술 인형",
+      "approvedAsset": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png",
+      "sha256": "cd3d76da195a5f3f82c8ae7711447a6d18cbf4fe934e04524f1ec348beea2d43",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "mode": "RGBA",
+      "bytes": 1067730,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "originalGeneratedFile": "C:/Users/User/.codex/generated_images/01a16a98-5425-7ef0-a0db-2373d475cdbb/exec-095c8bbb-3660-43bf-aa95-427a3f566899.png",
+      "generationHistory": "preview/pet-daengsoryong-20261024-v1/manifest.json",
+      "prompt": "preview/pet-daengsoryong-20261024-v1/prompt-v1.txt",
+      "notes": "댕소룡 카드의 얼굴·노란 검정 줄무늬 무술복·고양이 귀·양갈래 머리·무술 자세 승인"
+    }
+  ],
+  "scope": {
+    "approved": [
+      "댕소룡 이름",
+      "정지 전신 원화",
+      "라이브 도감 공개",
+      "OWNER 펫 관리 등록"
+    ],
+    "animationApproved": false,
+    "battleBuffPolicyApproved": false,
+    "acquisitionApproved": false,
+    "accountGrantsPerformed": false
+  }
+}

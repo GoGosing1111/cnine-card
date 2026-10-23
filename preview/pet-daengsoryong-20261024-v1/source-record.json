@@ -1,0 +1,23 @@
+{
+  "retrievedDateLocal": "2026-10-24",
+  "timezone": "Asia/Seoul",
+  "endpoint": "https://cnine-card.pages.dev/api/cards",
+  "card": {
+    "id": "CN-7423CEDA6AB94157",
+    "title": "댕소룡",
+    "name": "남수댕",
+    "grade": "SSR",
+    "image": "assets\\cards\\new0712\\nam1.png"
+  },
+  "soleReference": {
+    "path": "assets/cards/new0712/nam1.png",
+    "sha256": "7DC67E6B59EA50A8BC4FF27DD37337C66FC03A952D9A0552E348453C442F9093",
+    "width": 308,
+    "height": 372,
+    "role": "댕소룡 본인의 얼굴·표정·검은 고양이 귀·양갈래 머리·노란 검정 줄무늬 의상",
+    "unchanged": true
+  },
+  "userRequest": "댕소룡 펫으로 만들어",
+  "userChoice": "댕소룡 카드의 얼굴·의상을 살린 새 펫",
+  "rejectedPumpkinDraftsUsed": false
+}
