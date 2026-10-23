@@ -1,0 +1,206 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-23T00:32:39.202Z",
+  "deployment": "209f615d",
+  "sourceCommit": "01be0a216644cc160d39d2f066bccdf2bb21e85e",
+  "url": "https://cnine-card.pages.dev/mercenary-codex/?view=limited&q=블러드문&rank=SS#V-960",
+  "cards": [
+    {
+      "code": "V-960",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "limit": 10
+    },
+    {
+      "code": "V-961",
+      "name": "조은",
+      "rank": "SS",
+      "limit": 10
+    },
+    {
+      "code": "V-962",
+      "name": "디임",
+      "rank": "SS",
+      "limit": 10
+    },
+    {
+      "code": "V-963",
+      "name": "독자 캐릭터 A",
+      "rank": "SS",
+      "limit": 10
+    },
+    {
+      "code": "V-964",
+      "name": "독자 캐릭터 B",
+      "rank": "SS",
+      "limit": 10
+    }
+  ],
+  "packMode": "OFF",
+  "stock": [
+    {
+      "code": "V-960",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10
+    },
+    {
+      "code": "V-961",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10
+    },
+    {
+      "code": "V-962",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10
+    },
+    {
+      "code": "V-963",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10
+    },
+    {
+      "code": "V-964",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10
+    }
+  ],
+  "openingProbe": {
+    "status": 423,
+    "code": "MERCENARY_BLOODMOON_CLOSED",
+    "error": "블러드문 SS 리미티드 팩은 현재 개봉할 수 없습니다. 코인은 차감되지 않았습니다."
+  },
+  "files": [
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-960-source.png",
+      "sha256": "f72cff4055340c7859649f0a971b2557e16ddfc57f7ab8ebd7e1309b070e4a8e"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-960-idle.png",
+      "sha256": "044565913ce77b068955adc3d3d6b5ded046a38844ac1c01838ec21282787728"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-960-320.webp",
+      "sha256": "b9f9d679b5cb8be6f3b7eca3ef66404a6601af8cf8f2739ed8be029590f60459"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-960-640.webp",
+      "sha256": "0c618ac1ed85d8020358c5e420c6a21cb9940aae6ea7a441c80e5e2087dc8467"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-961-source.png",
+      "sha256": "2756f59f1703411c57d7257fb10f049df046241cf395a646610b9ea19e567787"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-961-idle.png",
+      "sha256": "dc95449200629518ca158cd6e5e5c805cdfe7cc8a18b539aae9e7b64a32a7278"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-961-320.webp",
+      "sha256": "bd23cd643d64b4e313b68276c20ad249ea53b87ebe857700c1cee6ea4fac2fc7"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-961-640.webp",
+      "sha256": "cf9c89a05e031c7e9f571ec25044e39bd4aa2dcb07ff6286c26293f1067492ef"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-962-source.png",
+      "sha256": "ec0ae02a8dcf159ddea5bac6215eb56ca271fada9ea19e4a4db2589513a5d537"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-962-idle.png",
+      "sha256": "cb9bac03f199defb9f1ac22834de4ce87f89e490f896b622638f5d1e524b14fb"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-962-320.webp",
+      "sha256": "af61eee62f4a71088cd0c7f1dc183b012ed3e1fd68d715aca698e0bcc09c5976"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-962-640.webp",
+      "sha256": "947337c3001baf67e2bb0dc766f81ad85579c2c2c334256ee40706ecff35285b"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-963-source.png",
+      "sha256": "4a3ce150f220ef56cbe8c457f1cd4329650c0da8092848d90e54873d058e728f"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-963-idle.png",
+      "sha256": "c729cc2489870ec2d2608d9ffd79d9dd51c7838842e2af8d5a7f46528a351a1c"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-963-320.webp",
+      "sha256": "75b0f304bbb08a3a1908fc909b5fab0c6f6b25f1861f04f81dd62d53d10d77c7"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-963-640.webp",
+      "sha256": "5f5ffc954bddfdad2f5a31335426e527cea39250ad28b28ff25e942db71904b3"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-964-source.png",
+      "sha256": "b438ea1fcd38f7d04c960fedd04ef350a99efb0b21940c27444e4e90860f2ec8"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-964-idle.png",
+      "sha256": "76d1d632ae2fa8e7cd13698b9459885fcf7e337fcb647409a22874cafd8d72a7"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-964-320.webp",
+      "sha256": "ec7d43b867798cc3964f3dda4f7e0e4ce0a6e8ec638345601279f825f138ff55"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-964-640.webp",
+      "sha256": "0770c589b09468c02eed830b7bc43d87e351bddcfd8a1090ef9e32014e1f6bce"
+    },
+    {
+      "path": "mercenary-codex/index.html",
+      "sha256": "fd8d6e33a920015f58abc813ac746a0152cdf9d0f923761316bf6fdb18e95798"
+    },
+    {
+      "path": "mercenary-codex/app.mjs",
+      "sha256": "23bedcad85e62191a6581d7da1b73611470713dc28bbd07481146bca2b5c1cff"
+    },
+    {
+      "path": "mercenary-codex/model.mjs",
+      "sha256": "287adbeccfd5c181ffc4ff69065ed40165c42fa7fbe3f2e8939feb9325c6d062"
+    },
+    {
+      "path": "mercenary-codex/limited.css",
+      "sha256": "51fd396a1218c53a5ab6cd0122750fddf931fbec438a3804099037764f03417b"
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-catalog-v1.mjs",
+      "sha256": "1b414a17c731f408f8b67eb3d52f2b7c356fb3b86fb86bd95f22275d7bf709a2"
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "sha256": "921954dc74344c2f28a5c3e32c45893153f6b62c1ad7d9eedf2f67326126d7b6"
+    },
+    {
+      "path": "shared/mercenary-limited-catalog-v1.mjs",
+      "sha256": "bd85d9f81e2996fb3f5c8b18939c7b65eb374189d917776d5ed909a2e797c382"
+    }
+  ],
+  "screens": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "visibleCards": 5,
+      "openingDisabled": true,
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "visibleCards": 5,
+      "openingDisabled": true,
+      "errors": []
+    }
+  ],
+  "accountWrites": 0
+}
