@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-23T05:04:37.167Z",
+  "status": "PREPARATION",
+  "visualApproval": "PENDING",
+  "gameplayEnabled": false,
+  "prompts": "assets/ui/organization/hunts-20261023/prompts.json",
+  "assets": [
+    {
+      "id": "stage3-dockyard",
+      "source": "assets/ui/organization/hunts-20261023/stage3-dockyard-source.png",
+      "sourceSha256": "0c37415de77c319366948a1cf8cb749317f17cc19ac52685eb19f1fe61da8ba7",
+      "runtime": "assets/ui/organization/hunts-20261023/stage3-dockyard.webp",
+      "runtimeSha256": "ac9715dcf7e7c4579066a36221d34873af9376280b18954fd1f6ae4fc33b4e8b",
+      "width": 1536,
+      "height": 864,
+      "transparent": false
+    },
+    {
+      "id": "stage4-garden",
+      "source": "assets/ui/organization/hunts-20261023/stage4-garden-source.png",
+      "sourceSha256": "028b0965ed90291c0e7728d7e11094ba61691f0c7fd569dbb30263c18ca639a2",
+      "runtime": "assets/ui/organization/hunts-20261023/stage4-garden.webp",
+      "runtimeSha256": "8e6cb416b14b4e916f8d2e4d19512c4dcd1dc274248713d9cdceeb90abc0789a",
+      "width": 1536,
+      "height": 864,
+      "transparent": false
+    },
+    {
+      "id": "stage5-vault",
+      "source": "assets/ui/organization/hunts-20261023/stage5-vault-source.png",
+      "sourceSha256": "0df89505112abade03832220d45f9fdb6599068526b78e74458cdc2b34fa9a4a",
+      "runtime": "assets/ui/organization/hunts-20261023/stage5-vault.webp",
+      "runtimeSha256": "369c8d9d9f8b0338c7b8613c1bbb075f72522b3624f5764e384c5a44d3b9341c",
+      "width": 1536,
+      "height": 864,
+      "transparent": false
+    },
+    {
+      "id": "stage3-monster",
+      "source": "assets/ui/organization/hunts-20261023/stage3-monster-source.png",
+      "sourceSha256": "af850e0f725d057e1dce3fbbbe6b567120ac0480ea16ac75a24e9cea9f00dea9",
+      "runtime": "assets/ui/organization/hunts-20261023/stage3-monster.webp",
+      "runtimeSha256": "7c43f25f3016c1022c46ec807db068d29655a708bc9e626fdcea6fe81c4b2264",
+      "width": 1000,
+      "height": 1143,
+      "transparent": true
+    },
+    {
+      "id": "stage3-boss",
+      "source": "assets/ui/organization/hunts-20261023/stage3-boss-source.png",
+      "sourceSha256": "8187c2fee90acf0cb87f61acf700b64db0d52832e7fe1ac2ff761257d5761eba",
+      "runtime": "assets/ui/organization/hunts-20261023/stage3-boss.webp",
+      "runtimeSha256": "cb39d0c91264697352ceeb10e72ce2920d8151348d4cd35ce8fceb9e88312568",
+      "width": 800,
+      "height": 1200,
+      "transparent": true
+    },
+    {
+      "id": "stage4-monster",
+      "source": "assets/ui/organization/hunts-20261023/stage4-monster-source.png",
+      "sourceSha256": "e5fd1531149e5c47113a23343198d8aabb04fc6a2cb6a22dd8b7b27dbc0f36ad",
+      "runtime": "assets/ui/organization/hunts-20261023/stage4-monster.webp",
+      "runtimeSha256": "efe27ea7279a8a8de864d6e9eee552372a176b6f98fa43f6eceae47c48d1e53d",
+      "width": 1000,
+      "height": 667,
+      "transparent": true
+    },
+    {
+      "id": "stage4-boss",
+      "source": "assets/ui/organization/hunts-20261023/stage4-boss-source.png",
+      "sourceSha256": "359d52bf26fad0a7715c11f21413295385c415ce0404bad1a4c31d8400aa5104",
+      "runtime": "assets/ui/organization/hunts-20261023/stage4-boss.webp",
+      "runtimeSha256": "67bbde1ed56e0c33dc6301ecf93982faad69df83598356df29a01d0a37f2e858",
+      "width": 1000,
+      "height": 667,
+      "transparent": true
+    },
+    {
+      "id": "stage5-monster",
+      "source": "assets/ui/organization/hunts-20261023/stage5-monster-source.png",
+      "sourceSha256": "abe65234f19b088edf61fd9fc1c3f6fa080431d528bc2bf0b7561a5fd32405d6",
+      "runtime": "assets/ui/organization/hunts-20261023/stage5-monster.webp",
+      "runtimeSha256": "ee54b405826e8b3f51c380a70582436c834bbfaf392f629406c2f9193629dfd3",
+      "width": 1000,
+      "height": 667,
+      "transparent": true
+    },
+    {
+      "id": "stage5-boss",
+      "source": "assets/ui/organization/hunts-20261023/stage5-boss-source.png",
+      "sourceSha256": "60fe0580063e3f36f1fd14a5883c2e05f4fd2ae57de49be40cef23ac71a66b20",
+      "runtime": "assets/ui/organization/hunts-20261023/stage5-boss.webp",
+      "runtimeSha256": "1ecd4a0db87de5fdb8898d2d1593f9c66644f7289a92b894c6c179c122b53484",
+      "width": 800,
+      "height": 1200,
+      "transparent": true
+    }
+  ]
+}

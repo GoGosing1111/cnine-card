@@ -2,6 +2,8 @@ import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as RULES,FACTION_RULES
 import {factionDayKey,factionTime} from '../shared/clan-faction-sessions-v1.mjs';
 import {newFactionState,advanceFactionState,factionEvent} from './_clan_faction_model.js';
 import {reconcilePauses,closeSession,sessionView} from './_clan_faction_sessions.js';
+import {advanceFixedOrganizationFaction} from './_organization_fixed_sessions.js';
+import {ORGANIZATION_FIXED_SCHEDULE} from '../shared/organization-schedule-v1.mjs';
 export const ORGANIZATION_SESSION_POLICY=Object.freeze({recipients:'PARTICIPANTS',interruption:'PAUSE',overlap:'DEFER',mapPolicy:'KEEP',rewardRules:RULES});
 export function validateOrganizationFormation(formation,memberIds){
  const allowed=new Set(memberIds),used=new Set(),clean={};
@@ -72,6 +74,7 @@ export function restrictOrganizationDistricts(state,now){
  return true;
 }
 export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now,assignedAt,policy}){
+ if(now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt)return advanceFixedOrganizationFaction(state,{wars,roster,now,assignedAt,policy});
  const settlements=[];
  // Apply the explicit 8-district correction to an unfinished legacy session,
  // including a paused one. Settled history and all payout amounts stay intact.
