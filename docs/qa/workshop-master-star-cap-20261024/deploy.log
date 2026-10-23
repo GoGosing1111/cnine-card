@@ -1,0 +1,127 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"b0e9c3cba679afa6c59a15fdb345b60dd8ea3111","reason":"Raise MATERIAL_CRAFT master-star cost cap to 100 million; verify exact PostgreSQL batch debit, replay and rollback, category constraints, and requested lounge mark removal. Previous guide deployment b0e9c3c is already live.","changed":["admin/index.html","admin/workshop-admin-v1668.js","functions/_workshop.js","index.html","js/streamer-lounge-v2036.js","tests/streamer-lounge-v2036.test.mjs","tests/workshop-coin-postgres.test.mjs"],"tests":["tests/workshop-coin-postgres.test.mjs","tests/workshop-vehicle-coin-cost-v2028.test.mjs","tests/workshop-mystic-energy-v1931.test.mjs","tests/workshop-extension-v1.test.mjs","tests/streamer-lounge-v2036.test.mjs"],"checks":["check:worker"]}
+✔ defaults match all five user-supplied names, stations and observed profile photos in order (2.7527ms)
+✔ station validation rejects spoofed domains, protocols, credentials and non-station paths (0.2102ms)
+✔ image validation allows public photos/assets and rejects executable/traversal addresses (0.3183ms)
+✔ input schema rejects duplicates, missing names, malformed flags and unbounded roster (1.1107ms)
+✔ public default read is read-only and never publishes private account fields or live guesses (24.4242ms)
+✔ CMS settings save persists reorder, photo, introduction and hidden users; public read filters hidden records (4.6495ms)
+✔ off, empty roster and all-hidden settings stay empty, never reseed removed profiles (4.2554ms)
+✔ CMS requires SETTINGS permission before reading or writing any settings (0.6532ms)
+✔ stale CMS revision cannot overwrite a newer saved roster (1.311ms)
+✔ two simultaneous first saves result in exactly one write and a conflict (1.4327ms)
+✔ invalid or oversized body cannot change stored settings (1.8755ms)
+✔ wrong method is read-only and unrelated paths do not query the DB (0.3991ms)
+✔ corrupt persisted config fails closed, not silently replaced by initial roster (0.5587ms)
+✔ isolated live and CMS wiring, safe new-tab links and permanent no-LIVE contract (111.4629ms)
+✔ the lounge entry preserves mobile geometry and stays isolated from battle styles (1.4921ms)
+✔ premium lounge uses generated image plates, native station links and no new CSS rules (7.5295ms)
+✔ SOOP portraits use the larger animated source; custom CMS image URLs stay unchanged (0.5112ms)
+✔ portrait raster pixels are never enlarged beyond their resolution on high-density screens (0.1268ms)
+✔ unary parameters retain large integer, fractional and null values in PostgreSQL (1824.2438ms)
+✔ material star cost saves and reloads 100 million for new and edited recipes while other categories keep their cap (1520.8626ms)
+✔ 100 million star cost supports 100 attempts with exact bigint debit, replay, insufficient funds and rollback (1560.4483ms)
+✔ suit-core bulk synthesis uses CMS costs, per-attempt rolls and output quantity; replay never charges or rerolls (1128.1761ms)
+✔ suit-core counts and all three balances are checked; 100 failed attempts consume inputs without awarding cores (1191.477ms)
+✔ suit-core bulk revalidates the total under lock and rolls back costs and output on a ledger failure (1102.0654ms)
+✔ overlapping suit-core bulk submissions keep one receipt and one debit (1097.6003ms)
+✔ material batch independently rolls each attempt, spends the total once and replays its receipt (1088.3443ms)
+✔ all-failed material batches spend every attempt; 100 attempts use a fixed number of SQL statements (1088.7959ms)
+✔ CMS material recipe multiplies inventory inputs, combined stars and output quantity (1208.8896ms)
+✔ invalid counts, unsafe totals, non-material batch and insufficient funds reserve nothing (1254.1675ms)
+✔ material batch rechecks total inputs under the transaction lock and rolls back a late failure (1178.2351ms)
+✔ overlapping duplicate material submissions cannot debit twice (1159.4386ms)
+✔ PostgreSQL VEHICLE craft spends 5000000000 exactly once (success=true) (1237.4939ms)
+✔ PostgreSQL VEHICLE craft spends 5000000000 exactly once (success=false) (1395.8346ms)
+✔ PostgreSQL EQUIPMENT craft spends 10000000000 exactly once (success=true) (1270.1271ms)
+✔ S-BODY spends 100 billion coin and 1 million stars together, rejects stale choice, and replays once (1224.7728ms)
+✔ post-debit SQL failure rolls back large coin, stars, materials, output and logs (1193.3003ms)
+✔ extension categories preserve unspecified costs/rate instead of inventing defaults (2.8236ms)
+✔ shared UI resolves every payment mode and all material shortages without mutating state (18.4603ms)
+✔ SQLite core synthesis is atomic and replay-safe, success=true (21.1779ms)
+✔ SQLite core synthesis is atomic and replay-safe, success=false (18.8671ms)
+✔ PostgreSQL core synthesis is atomic and replay-safe, success=true (2264.7072ms)
+✔ PostgreSQL core synthesis is atomic and replay-safe, success=false (1728.9304ms)
+✔ Mystic Energy is a 10% material-craft recipe with the canonical item identity (1.4444ms)
+✔ canonical Mystic Energy contract overrides stored and CMS-submitted structure (0.4228ms)
+✔ workshop state and craft transaction expose and atomically spend card shards (0.4978ms)
+✔ material-craft runtime upgrade is DML-only and never performs schema DDL (0.1909ms)
+✔ recipe output joins never cast an inventory item code to PostgreSQL bigint (0.2577ms)
+✔ a non-owner PostgreSQL workshop request cannot prepare ALTER TABLE or call execSchema (206.924ms)
+✔ CMS locks the canonical recipe and reports shard spend without schema DDL (0.3043ms)
+✔ client keeps all four existing facilities and preserves synthesis extensions and appends mercenary crafting (0.4474ms)
+✔ four-facility navigation and craft layouts collapse to one column on mobile (0.3293ms)
+✔ 차량 제작 코인 비용은 기존 10억 상한을 넘겨 저장할 수 있다 (1.0568ms)
+✔ 모든 제작 분류는 10억 제한 없이 안전한 정수 범위로 저장한다 (0.2383ms)
+✔ CMS는 모든 제작 분류에서 코인 입력 max를 제거하고 캐시를 갱신한다 (2.8709ms)
+✔ VEHICLE: 신규·수정 저장과 결제에서 50억·100억이 유지된다 (2.5469ms)
+✔ EQUIPMENT_SYNTHESIS: 신규·수정 저장과 결제에서 50억·100억이 유지된다 (0.4965ms)
+✔ MATERIAL_CRAFT: 신규·수정 저장과 결제에서 50억·100억이 유지된다 (0.5195ms)
+✔ BATTLE_SUIT_CRAFT: 신규·수정 저장과 결제에서 50억·100억이 유지된다 (0.4579ms)
+✔ 제작 상한 해제는 서버 고정 미스틱 에너지 제작비·확률을 바꾸지 않는다 (0.5267ms)
+ℹ tests 59
+ℹ suites 0
+ℹ pass 59
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23200.7899
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 7353 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8252.98 KiB / gzip: 1772.45 KiB
+Worker Startup Time: 48 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (5.29 sec)
+No targets deployed for cnine-card-api-runtime (0.92 sec)
+Current Version ID: d1c5d8fe-425c-4887-bee3-213004644b70
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19985/20000)
+Uploading... (19990/20000)
+Uploading... (19995/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 15 files (19985 already uploaded) (1.97 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://ef202330.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 2928.55 KiB / gzip: 658.38 KiB
+Worker Startup Time: 34 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (3.99 sec)
+Deployed cnine-card-clan-draft triggers (0.97 sec)
+  schedule: * * * * *
+Current Version ID: b0c9ee8a-e7d8-43c9-bf14-762481e23d63

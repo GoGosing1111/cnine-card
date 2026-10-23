@@ -1,0 +1,60 @@
+{
+  "startedAt": "2026-10-23T20:35:00.913Z",
+  "source": "e65bcf79633fdc678e6770a3a143c5b2c4546e79",
+  "status": "PASSED",
+  "productionWrites": 0,
+  "blockedWrites": [],
+  "files": [
+    {
+      "file": "admin/workshop-admin-v1668.js",
+      "status": 200,
+      "expectedSha256": "a6240d76d24d6eb1ac366bbc639e56acba8d7e5c9ee94061763838916ec14045",
+      "deployedSha256": "a6240d76d24d6eb1ac366bbc639e56acba8d7e5c9ee94061763838916ec14045",
+      "matches": true
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "expectedSha256": "4544f1658be634199ed325060c7049d36f238948d08cd32de6c3bdfe93d76264",
+      "deployedSha256": "4544f1658be634199ed325060c7049d36f238948d08cd32de6c3bdfe93d76264",
+      "matches": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "expectedSha256": "bd04461d920f10e3fe8feda20231b74691a3b9c0098054675839bd10a1501130",
+      "deployedSha256": "bd04461d920f10e3fe8feda20231b74691a3b9c0098054675839bd10a1501130",
+      "matches": true
+    },
+    {
+      "file": "js/streamer-lounge-v2036.js",
+      "status": 200,
+      "expectedSha256": "d1dfa13c0184177519a5a4c0a31d4af0e58414730bfa2cd8178f3fcdf390cb82",
+      "deployedSha256": "d1dfa13c0184177519a5a4c0a31d4af0e58414730bfa2cd8178f3fcdf390cb82",
+      "matches": true
+    }
+  ],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "errors": [],
+      "markIds": [
+        "mew030709",
+        "zalalz"
+      ],
+      "orderPreserved": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "errors": [],
+      "markIds": [
+        "mew030709",
+        "zalalz"
+      ],
+      "orderPreserved": true
+    }
+  ],
+  "completedAt": "2026-10-23T20:35:06.201Z"
+}

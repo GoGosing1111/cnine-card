@@ -1,0 +1,36 @@
+{
+  "startedAt": "2026-10-23T20:22:57.557Z",
+  "status": "PASSED",
+  "productionWrites": 0,
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "errors": [],
+      "checks": {
+        "materialCapSaveReloadAndCategoryChange": true,
+        "otherCategoryAndCanonicalLimitsPreserved": true,
+        "onlyJoeunAndNamsudaengKeepMarks": true,
+        "loungeOrderPreserved": true
+      },
+      "isolatedCmsWrites": 1
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "errors": [],
+      "checks": {
+        "materialCapSaveReloadAndCategoryChange": true,
+        "otherCategoryAndCanonicalLimitsPreserved": true,
+        "onlyJoeunAndNamsudaengKeepMarks": true,
+        "loungeOrderPreserved": true
+      },
+      "isolatedCmsWrites": 1
+    }
+  ],
+  "sourceHashes": {
+    "admin/workshop-admin-v1668.js": "a6240d76d24d6eb1ac366bbc639e56acba8d7e5c9ee94061763838916ec14045",
+    "js/streamer-lounge-v2036.js": "d1dfa13c0184177519a5a4c0a31d4af0e58414730bfa2cd8178f3fcdf390cb82"
+  },
+  "completedAt": "2026-10-23T20:23:02.567Z"
+}

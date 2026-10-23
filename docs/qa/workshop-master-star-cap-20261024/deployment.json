@@ -1,0 +1,9 @@
+{
+  "Id": "ef202330-87b2-43ab-821b-01f11f0af39b",
+  "Environment": "Production",
+  "Branch": "main",
+  "Source": "e65bcf7",
+  "Deployment": "https://ef202330.cnine-card.pages.dev",
+  "Status": "36 seconds ago",
+  "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/ef202330-87b2-43ab-821b-01f11f0af39b"
+}
