@@ -1,0 +1,113 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-10-23T20:30:20.628Z",
+  "sourceCommit": "b0e9c3cba679afa6c59a15fdb345b60dd8ea3111",
+  "pages": {
+    "id": "782460b5-3891-4128-9850-0fc1f5c732cf",
+    "url": "https://782460b5.cnine-card.pages.dev",
+    "createdAt": "2026-10-23T20:28:52.974385Z"
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "f97a05aa60462b5efbf445890667ef6519d55dd8e041e62ef360a68f04434ce8",
+      "bytes": 34111,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "4aaf945d61beae380a21f7156600ecdd8bf2026c83ae4f55937bc594c91c4271",
+      "bytes": 102455,
+      "contentType": "application/javascript"
+    },
+    {
+      "file": "preview/lobby-clarity-v1/index.html",
+      "sha256": "3a1e8404ec15cfba42ec116261e7c2b03f2e18e69f6f75c4753c46fde3f53629",
+      "bytes": 12489,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "file": "preview/lobby-clarity-v1/app.js",
+      "sha256": "140ed85abbfbd35d95907a5f739145c5eb0ee27906b8b22b38f41daf6b0a92b7",
+      "bytes": 20547,
+      "contentType": "application/javascript"
+    },
+    {
+      "file": "preview/lobby-clarity-v1/style.css",
+      "sha256": "6f00cdbab0270fa8f4764043e4c6fd294619a7e4adf185bc3f7ca5dfd7cb1906",
+      "bytes": 47910,
+      "contentType": "text/css; charset=utf-8"
+    },
+    {
+      "file": "preview/lobby-clarity-v1/tutorial/index.html",
+      "sha256": "f5cd23b044e485da47ec9669da049e26a4e8c8f576c116c3846c79dcc0e610bc",
+      "bytes": 359,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "file": "preview/lobby-clarity-v1/tutorial/bridge.js",
+      "sha256": "01ec723cef3e07b6dcc0842801951f6354a2081da105800a95bae291c1e40766",
+      "bytes": 301,
+      "contentType": "application/javascript"
+    },
+    {
+      "file": "ui/growth-guide/index.html",
+      "sha256": "eee2aafb1060de89bed4494143461945c8c1c6ec88096bac2d25f9295b49b654",
+      "bytes": 1608,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "file": "ui/growth-guide/app.js",
+      "sha256": "e4526587a99bf399c5bc32a24a87b69997d66667bf6252d7ccb872caab957520",
+      "bytes": 4640,
+      "contentType": "application/javascript"
+    },
+    {
+      "file": "ui/growth-guide/content.mjs",
+      "sha256": "03ed3dd7fafe06a6911555eb14e7b1f0c52b00d2a886174d5dda06765e2a2b02",
+      "bytes": 14443,
+      "contentType": "application/javascript"
+    },
+    {
+      "file": "ui/growth-guide/style.css",
+      "sha256": "613d754e59aa85ae24a5c52f252df11526a8999c8042eada1794fd1b80bef4fe",
+      "bytes": 6695,
+      "contentType": "text/css; charset=utf-8"
+    },
+    {
+      "file": "assets/ui/growth-guide-20261024/guide-plate.webp",
+      "sha256": "85ab75f88ae8599e3f096c737fe4673d412b73c9ec5864abc299c3a1ac9b9f36",
+      "bytes": 257536,
+      "contentType": "image/webp"
+    }
+  ],
+  "windows": {
+    "releaseId": "8d404bd8457370d45c63219e9c0478acede9b74bc276abd26996b954c34bc7a7",
+    "guideFiles": [
+      "ui/growth-guide/index.html",
+      "ui/growth-guide/app.js",
+      "ui/growth-guide/content.mjs",
+      "ui/growth-guide/style.css",
+      "assets/ui/growth-guide-20261024/guide-plate.webp"
+    ],
+    "authoringFilesExcluded": true
+  },
+  "checks": [
+    "1440 start rendered with loaded art and no horizontal overflow",
+    "1440 challengers rendered with loaded art and no horizontal overflow",
+    "1440 icons rendered with loaded art and no horizontal overflow",
+    "1440 mercenaries rendered with loaded art and no horizontal overflow",
+    "1440 equipment rendered with loaded art and no horizontal overflow",
+    "1440 pve rendered with loaded art and no horizontal overflow",
+    "1440 legacy URL redirects with account",
+    "390 start rendered with loaded art and no horizontal overflow",
+    "390 challengers rendered with loaded art and no horizontal overflow",
+    "390 icons rendered with loaded art and no horizontal overflow",
+    "390 mercenaries rendered with loaded art and no horizontal overflow",
+    "390 equipment rendered with loaded art and no horizontal overflow",
+    "390 pve rendered with loaded art and no horizontal overflow",
+    "390 legacy URL redirects with account"
+  ],
+  "errors": [],
+  "productionAccountWrites": 0
+}
