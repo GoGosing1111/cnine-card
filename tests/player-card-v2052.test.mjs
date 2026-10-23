@@ -37,6 +37,11 @@ async function fixture() {
     INSERT INTO clan_members VALUES(1,8,2,'MEMBER','2026-07-01'),(2,8,2,'MEMBER','2026-07-01'),(3,8,2,'MEMBER','2026-07-01'),(4,9,2,'MEMBER','2026-09-01'),(4,8,3,'MEMBER','2026-09-01');
     CREATE TABLE clan_season_settlements(season_id bigint,champion_clan_id bigint,status text,reward_status text,completed_at text);
     INSERT INTO clan_season_settlements VALUES(1,8,'COMPLETED','PAID','2026-08-01'),(2,8,'COMPLETED','DISABLED_TEST','2026-08-02'),(3,8,'PROCESSING','PAID',NULL);
+    CREATE TABLE organization_rounds_v1(id text PRIMARY KEY,scope text,phase text,created_at bigint);
+    CREATE TABLE organization_members_v1(round_id text,user_id bigint,organization_id int,PRIMARY KEY(round_id,user_id));
+    CREATE TABLE organization_faction_state_v1(round_id text PRIMARY KEY,state_json text);
+    INSERT INTO organization_rounds_v1 VALUES('live','LIVE','ASSIGNED',100);
+    INSERT INTO organization_members_v1 VALUES('live',2,6);
     CREATE TABLE avatar_user_loadout_v1(user_id bigint,avatar_code text);
     CREATE TABLE avatar_user_ownership_v1(user_id bigint,avatar_code text,expires_at text);
     CREATE TABLE avatar_catalog_v1(code text,name text,lobby_image text,is_active int,is_public int);
@@ -185,7 +190,7 @@ test('duo challenger trophy is projected only from each owner’s permanent seas
 test('official records: historical clan affiliation, all three trophies, public-only read with no side effects', async () => {
   const f = await fixture(); try {
     const r = await f.call(); assert.equal(r.status, 200, JSON.stringify(r.body));
-    assert.equal(r.body.player.clan.name, '현재클랜'); assert.equal(r.body.clanHistory[0].clan, '이전클랜');
+    assert.equal(r.body.player.clan.name, '롯데'); assert.equal(r.body.clanHistory[0].clan, '이전클랜');
     assert.equal(trophy(r, 'CLAN_CHAMPION').count, 1); assert.equal(trophy(r, 'CHALLENGER_STREAK_3').owned, true); assert.equal(trophy(r, 'RANKED_CHAMPION').count, 1);
     assert.equal(r.body.ranked.rank, 1); assert.equal(r.body.ranked.tier.id, 'challenger'); assert.equal(r.body.ranked.longestStreak, 3);
     assert.equal(r.body.ranked.bestRank, 1); assert.equal(r.body.player.avatar.name, '아바타');
@@ -197,6 +202,70 @@ test('official records: historical clan affiliation, all three trophies, public-
     assert.equal(trophy(await f.call(),'CLAN_CHAMPION').owned,false,'mixed timestamp formats cannot count a member admitted after settlement');
   } finally { await f.close(); }
 });
+test('current LIVE clan replaces retired affiliation for the requested player while preserving historical honors',async()=>{
+  const f=await fixture();try{
+    const before=await f.call();
+    await f.pg.exec(`INSERT INTO app_meta VALUES('clan_retirement_20261012_v1:completed','retained');
+      INSERT INTO organization_members_v1 VALUES('live',3,3)`);
+    const current=await f.call();assert.equal(current.status,200);
+    assert.deepEqual(current.body.player.clan,{id:6,name:'롯데',markKey:'LOTTE',role:'클랜원',season:null});
+    assert.deepEqual(current.body.clanHistory,before.body.clanHistory);assert.equal(current.body.clanHistory[0].clan,'이전클랜');
+    assert.deepEqual(current.body.trophies,before.body.trophies);
+    const other=await f.call('userId=3'),byName=await f.call('nickname='+encodeURIComponent('다른유저'));
+    assert.deepEqual(other.body.player.clan,{id:3,name:'T1',markKey:'T1',role:'클랜원',season:null});
+    assert.deepEqual(byName.body.player.clan,other.body.player.clan);
+    assert.equal((await f.call('userId=1')).body.player.clan,null,'viewer membership never substitutes for the requested player');
+    assert.equal((await f.pg.query("SELECT value FROM app_meta WHERE key='clan_retirement_20261012_v1:completed'")).rows[0].value,'retained');
+    assert.ok(f.sql.every(s=>/^\s*(SELECT|WITH)\b/i.test(s)),f.sql.join('\n'));
+  }finally{await f.close();}
+});
+
+test('current LIVE clan excludes TEST, previous rounds, non-assigned rounds and former members without a legacy fallback',async()=>{
+  const f=await fixture();try{
+    await f.pg.exec(`INSERT INTO organization_rounds_v1 VALUES('older','LIVE','ASSIGNED',10),('test','TEST','ASSIGNED',1000);
+      INSERT INTO organization_members_v1 VALUES('older',2,1),('test',2,2),('test',3,3)`);
+    assert.equal((await f.call()).body.player.clan.name,'롯데','newer TEST assignments never replace LIVE');
+    assert.equal((await f.call('userId=3')).body.player.clan,null,'TEST and old clan membership are not public current affiliation');
+    await f.pg.exec("DELETE FROM organization_members_v1 WHERE round_id='live' AND user_id=2");
+    assert.equal((await f.call()).body.player.clan,null,'leaving the current roster never falls back to a prior round');
+    await f.pg.exec("INSERT INTO organization_members_v1 VALUES('live',2,6)");
+    for(const phase of ['PREPARATION','SURVEY','CLOSED']){
+      await f.pg.query("UPDATE organization_rounds_v1 SET phase=$1 WHERE id='live'",[phase]);
+      assert.equal((await f.call()).body.player.clan,null,'latest LIVE '+phase+' cannot fall back to older ASSIGNED');
+    }
+    await f.pg.exec("UPDATE organization_rounds_v1 SET phase='ASSIGNED' WHERE id='live'; UPDATE organization_members_v1 SET organization_id=7 WHERE round_id='live' AND user_id=2");
+    assert.equal((await f.call()).body.player.clan,null,'retired identities outside the current six are not displayed');
+    await f.pg.exec("DELETE FROM organization_rounds_v1 WHERE scope='LIVE'");
+    assert.equal((await f.call()).body.player.clan,null,'TEST alone cannot supply current affiliation');
+    assert.ok(f.sql.every(s=>/^\s*(SELECT|WITH)\b/i.test(s)),f.sql.join('\n'));
+  }finally{await f.close();}
+});
+
+test('current LIVE clan roles follow current canonical elders and attack captains without changing stored state',async()=>{
+  const f=await fixture();try{
+    await f.pg.exec(`INSERT INTO users(id,nickname,status,role) VALUES(5,'휴면원로','INACTIVE','USER'),(6,'다른클랜원','ACTIVE','USER'),(7,'세번째원로','ACTIVE','USER');
+      INSERT INTO organization_members_v1 VALUES('live',1,6),('live',3,6),('live',5,6),('live',6,1),('live',7,6);
+      INSERT INTO organization_faction_state_v1 VALUES('live','{}')`);
+    const checkRole=async(state,role)=>{
+      const stored=JSON.stringify(state);
+      await f.pg.query("UPDATE organization_faction_state_v1 SET state_json=$1 WHERE round_id='live'",[stored]);
+      const byId=await f.call(),byName=await f.call('nickname='+encodeURIComponent('기록유저'));
+      assert.equal(byId.status,200);assert.equal(byId.body.player.clan.role,role);assert.equal(byName.body.player.clan.role,role);
+      assert.equal((await f.pg.query("SELECT state_json FROM organization_faction_state_v1 WHERE round_id='live'")).rows[0].state_json,stored);
+    };
+    await checkRole({elders:{6:[5,6,1,3,2]},captains:{6:{attack1:2}}},'원로');
+    await checkRole({elders:{6:[1,3,7,2]}},'클랜원'); // The fourth valid member is not an elder.
+    await checkRole({commanders:{6:2}},'원로');
+    await checkRole({commanders:{6:2},elders:{6:[]},captains:{6:{attack5:2}}},'행동대장');
+    await checkRole({commanders:{6:2},elders:{6:[]},captains:{6:{defense1:2},1:{attack1:2}}},'클랜원');
+    await checkRole({elders:{6:['2'],1:[2]},captains:{6:{attack1:'2'}}},'클랜원');
+    await f.pg.exec("DELETE FROM organization_faction_state_v1 WHERE round_id='live'");
+    assert.equal((await f.call()).body.player.clan.role,'클랜원','uninitialized faction state does not create or assign a role');
+    assert.equal((await f.pg.query('SELECT COUNT(*) AS count FROM organization_faction_state_v1')).rows[0].count,0);
+    assert.ok(f.sql.every(s=>/^\s*(SELECT|WITH)\b/i.test(s)),f.sql.join('\n'));
+  }finally{await f.close();}
+});
+
 test('missing participation, non-challenger final tier and rank 21 all break consecutive official seasons', async () => {
   const f = await fixture(); try {
     await f.pg.exec('DELETE FROM pvp_season_settlement_ranks WHERE settlement_id=2');

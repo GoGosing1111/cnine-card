@@ -10,8 +10,28 @@ import { readPredictionStakeHonors } from './_prediction_trophy.js';
 import {readCityTopHonors,readLichClearHonors} from './_milestone_trophies.js';
 import {readWorldRaidClearHonors} from './_world_raid_trophy.js';
 import {readTrophyManualGrants,applyTrophyManualGrants} from './_trophy_manual_grants.js';
+import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261023-clan-identity';
+import {organizationElderIds,SQUADS} from '../shared/organization-faction-v1.mjs';
 export { RANKED_HONORS_SQL };
 const n = value => Math.max(0, Number(value) || 0);
+
+// Current membership belongs to the latest LIVE round; historical clan seasons only supply honors.
+async function readCurrentClan(env,userId){
+  const member=await env.DB.prepare(`SELECT r.id AS round_id,m.organization_id,s.state_json
+    FROM organization_rounds_v1 r JOIN organization_members_v1 m ON m.round_id=r.id AND m.user_id=?
+    LEFT JOIN organization_faction_state_v1 s ON s.round_id=r.id
+    WHERE r.id=(SELECT id FROM organization_rounds_v1 WHERE scope='LIVE' ORDER BY created_at DESC,id DESC LIMIT 1)
+      AND r.phase='ASSIGNED'`).bind(userId).first();
+  const identity=member&&organizationIdentity(member.organization_id);
+  if(!identity)return null;
+  const state=JSON.parse(member.state_json||'{}');
+  const rows=await env.DB.prepare(`SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m
+    JOIN users u ON u.id=m.user_id WHERE m.round_id=? AND m.organization_id=?`).bind(member.round_id,identity.id).all();
+  const roster=(rows.results||[]).map(m=>({userId:Number(m.user_id),clanId:Number(m.organization_id),status:m.status}));
+  const elder=organizationElderIds(state,roster,identity.id).includes(userId);
+  const captain=SQUADS.some(s=>s.role==='ATTACK'&&state.captains?.[identity.id]?.[s.id]===userId);
+  return {id:identity.id,name:identity.name,markKey:identity.markKey,role:elder?'원로':captain?'행동대장':'클랜원',season:null};
+}
 
 export async function handlePlayerCard({ path, request, env, deps, now = Date.now() }) {
   if (path !== 'player-card') return null;
@@ -40,9 +60,7 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
         FROM official WHERE final_rank IS NOT NULL ORDER BY ordinal DESC LIMIT 12`).bind(id).all(),
       env.DB.prepare(`SELECT COUNT(*) wins,MIN(x.completed_at) first_at ${CLAN_HONORS}`).bind(id).first(),
       env.DB.prepare(`SELECT s.id,s.season_no,o.name,x.completed_at ${CLAN_HONORS} ORDER BY s.season_no DESC,s.id DESC LIMIT 12`).bind(id).all(),
-      env.DB.prepare(`SELECT o.id,o.name,o.mark_key,m.member_role,s.season_no FROM clan_members m
-        JOIN clan_seasons s ON s.id=m.season_id JOIN clan_organizations o ON o.id=m.clan_id
-        WHERE m.user_id=? AND s.id=(SELECT id FROM clan_seasons ORDER BY season_no DESC,id DESC LIMIT 1) AND o.is_active=1 AND NOT EXISTS(SELECT 1 FROM app_meta WHERE key='clan_retirement_20261012_v1:completed')`).bind(id).first(),
+      readCurrentClan(env,id),
       env.DB.prepare(`SELECT a.name,a.lobby_image FROM avatar_user_loadout_v1 l
         JOIN avatar_user_ownership_v1 o ON o.user_id=l.user_id AND o.avatar_code=l.avatar_code AND (o.expires_at IS NULL OR o.expires_at>CURRENT_TIMESTAMP)
         JOIN avatar_catalog_v1 a ON a.code=l.avatar_code AND a.is_active=1 AND a.is_public=1 WHERE l.user_id=?`).bind(id).first(),
@@ -63,7 +81,7 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
     return json({ version: PLAYER_CARD_VERSION, serverNow: new Date(now).toISOString(),
       player: { id, accountRank:deps.readAccountRank?await deps.readAccountRank(env,id):null, nickname: user.nickname, title: title ? { name: title.name, badgeText: title.badge_text, stylePreset: title.style_preset } : null,
         avatar: avatar ? { name: avatar.name, image: avatar.lobby_image } : null,
-        clan: clan ? { id: n(clan.id), name: clan.name, markKey: clan.mark_key, role: clan.member_role === 'MASTER' ? '클랜장' : '클랜원', season: n(clan.season_no) } : null },
+        clan },
       ranked: { season: settings.seasonName, state: !openSeason ? 'SETTLING' : rank ? 'RANKED' : 'UNRANKED',
         rank: tier ? n(rank.position) : null, score: tier ? n(rank.season_score) : null,
         wins: tier ? n(rank.wins) : 0, losses: tier ? n(rank.losses) : 0,
