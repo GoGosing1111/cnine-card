@@ -1,0 +1,30 @@
+[
+  {
+    "width": 1440,
+    "source": "production static files",
+    "accountData": "isolated local fixture, OFF and null costs",
+    "cardDetail": true,
+    "disabled": true,
+    "tenStages": true,
+    "overflow": false,
+    "pageErrors": [],
+    "locallyBlockedApiPosts": [
+      "sync/ticket"
+    ],
+    "productionAccountWrites": 0
+  },
+  {
+    "width": 390,
+    "source": "production static files",
+    "accountData": "isolated local fixture, OFF and null costs",
+    "cardDetail": true,
+    "disabled": true,
+    "tenStages": true,
+    "overflow": false,
+    "pageErrors": [],
+    "locallyBlockedApiPosts": [
+      "sync/ticket"
+    ],
+    "productionAccountWrites": 0
+  }
+]

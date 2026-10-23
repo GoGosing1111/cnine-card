@@ -1,0 +1,168 @@
+{
+  "at": "2026-10-23T20:09:52.547Z",
+  "source": "6f3858858115f363537a53b0aa8feabd53193e22",
+  "pages": {
+    "id": "b3ca4272-d654-493d-aac7-bb8ce783f06b",
+    "url": "https://b3ca4272.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "6f3858858115f363537a53b0aa8feabd53193e22",
+    "createdAt": "2026-10-23T20:08:15.713078Z"
+  },
+  "runtimeVersion": "5c0d8b4d-fa46-4274-b4b1-a663793cf8fc",
+  "mode": "PREPARATION",
+  "initialSettings": {
+    "enabled": false,
+    "masterStarCost": null,
+    "coinCost": null,
+    "levels": 10
+  },
+  "productionAccountWrites": 0,
+  "productionSettingsWrites": 0,
+  "tests": {
+    "existingRelatedRegressions": 101,
+    "focusedFeatureRegressions": 46,
+    "cacheCorrectionChecks": 10,
+    "workerSyntax": true,
+    "releaseGate": true,
+    "hyperdriveCacheDisabled": true
+  },
+  "delivery": {
+    "assetCount": 19997,
+    "limit": 20000,
+    "verifiedPublicFiles": 15,
+    "protectedRoutes": [
+      {
+        "route": "icons/enhancement?cardId=CN-ICON-CHEOLGU",
+        "status": 401
+      },
+      {
+        "route": "admin/icons/enhancement",
+        "status": 401
+      }
+    ]
+  },
+  "ui": {
+    "revision": "V2",
+    "localWidths": [
+      1440,
+      390,
+      320
+    ],
+    "liveStaticFileWidths": [
+      1440,
+      390
+    ],
+    "accountData": "Local isolated fixtures; production APIs intercepted; sample wallet amounts only",
+    "pageErrors": [],
+    "controls": [
+      "strengthen",
+      "receipt reentry",
+      "CMS save OFF/null",
+      "expand 10-step power table"
+    ]
+  },
+  "firstReleaseAttempt": {
+    "source": "45bd45e67fe93558c7f73ab2a11254d4d27c256a",
+    "testsPassed": 46,
+    "stoppedBeforeUpload": true,
+    "reason": "Application v query and service-worker shell cache differed; aligned and tested on next commit"
+  },
+  "preservation": {
+    "sourceOriginals": "preview/icon-enhancement-20261024/manifest.json",
+    "firstUi": "history-v1/",
+    "ignoredFilesRestored": 73,
+    "originalHashesVerified": true
+  },
+  "liveFiles": [
+    {
+      "file": "index.html",
+      "bytes": 34327,
+      "sha256": "a0c9055eaee8e1293b5fa1740891f5b51bdc86d4df768d54d9da182d0c071901",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 783504,
+      "sha256": "3e84a47a47e76b1e5e6f7265183411032df26508bbb036a509e5cb51423c7d57",
+      "status": 200
+    },
+    {
+      "file": "js/icon-fusion-v1.bundle.js",
+      "bytes": 57526,
+      "sha256": "92456af6cda71380cc003e14e482a1fb08342c921ea3cbb47b7be196c239697f",
+      "status": 200
+    },
+    {
+      "file": "admin/icon-admin-v1.mjs",
+      "bytes": 11278,
+      "sha256": "539b9900cd758734b6cab604452a17c11fe2fcf3b67ef6172f435467ea6036cc",
+      "status": 200
+    },
+    {
+      "file": "admin/icon-enhancement-admin-v1.mjs",
+      "bytes": 4695,
+      "sha256": "b1bebc9d40ec11cb1a3642dc8ceb56644bc3d995059032079e89fa395163c7c2",
+      "status": 200
+    },
+    {
+      "file": "admin/index.html",
+      "bytes": 81437,
+      "sha256": "723f1345fbf8e874cfb7ba040ba71232a872e051685382cf0225d0fa67f704da",
+      "status": 200
+    },
+    {
+      "file": "js/icon-role-view-v1.mjs",
+      "bytes": 5654,
+      "sha256": "b3faa21c34a013cec435af2d3651dc7bcdbef59dd7b8803fe4b7e2735a83d4d4",
+      "status": 200
+    },
+    {
+      "file": "js/icon-enhancement-v1.mjs",
+      "bytes": 8860,
+      "sha256": "87444fa7d432c706d70ad0bd0b2306fa846e2008d978e9200fcbca237e66ead5",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 18800,
+      "sha256": "a2ec5d23a086f99765796204002d7b481ad41d219b4e3331836e4514f5926ccb",
+      "status": 200
+    },
+    {
+      "file": "css/icon-enhancement-v1.css",
+      "bytes": 8233,
+      "sha256": "ed8bcf88d1b1042839efa03f5244e57c7f1fe3b64dbcb0124d196b15cca8518f",
+      "status": 200
+    },
+    {
+      "file": "shared/icon-enhancement-v1.mjs",
+      "bytes": 2213,
+      "sha256": "09311e60630eb4e48b7f0388e4c82d12ff23a8d61a5f928a023a6f7d0a6b6d58",
+      "status": 200
+    },
+    {
+      "file": "shared/icon-supremacy-v1.mjs",
+      "bytes": 1641,
+      "sha256": "1d011630f134cf13772bcbdcef66a28e015c4bc5426bcef852e9215b17588c6d",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/icons/enhancement-20261024/button.webp",
+      "bytes": 63560,
+      "sha256": "6c02cd762adeff920101986f6c17554c57073885f041886ce62595c9790ce71a",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/icons/enhancement-20261024/materials-v2.webp",
+      "bytes": 38502,
+      "sha256": "414261bc5617f0823dc8134787b597d7647c529e7b927aada2c46d37444482b1",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/icons/enhancement-20261024/panel.webp",
+      "bytes": 57862,
+      "sha256": "e8cee5b77b971949968e5b141829d58fea3c765939cebf080d639f02c1e4691c",
+      "status": 200
+    }
+  ]
+}
