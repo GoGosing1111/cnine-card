@@ -1,5 +1,5 @@
 {
-  "stage": "validated",
+  "stage": "live_verified",
   "date": "2026-10-24",
   "newRegressionTests": {
     "pass": 7,
@@ -38,5 +38,59 @@
     "errors": [],
     "fixture": "Actual city UI and local DB fixture; no live account actions"
   },
-  "deployment": null
+  "deployment": {
+    "id": "507f5055-1435-4724-9e32-9c678ef647a2",
+    "url": "https://507f5055.cnine-card.pages.dev",
+    "commit": "43cf5ef0f28d2bd5175668740a65948d68bbf70d",
+    "createdAt": "2026-10-23T15:26:22.065551Z"
+  },
+  "regressionTests": {
+    "pass": 45,
+    "fail": 0
+  },
+  "totalServerTests": 52,
+  "checkWorker": true,
+  "hyperdriveCache": false,
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "bc3fead1be9254e84d8f9cb92fdffdd4924b00517b8146bbdb737009f5f4a3d9"
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "sha256": "d65a5d823ca07f4845f7823162871349279272a30c6159c28b2e113db863cf76"
+    },
+    {
+      "file": "js/jokgak-city-career-ui-v1.mjs",
+      "sha256": "3e8b8b9eb80b23e72771903d18e0f40ce7235bbfbdf06835e06d5f4796ded033"
+    },
+    {
+      "file": "shared/jokgak-city-v1.mjs",
+      "sha256": "654264a8d2b5f78962d19330d0a06f6e3115322c67052926c73ecc57aa7c3fd0"
+    },
+    {
+      "file": "shared/jokgak-city-settings-v1.mjs",
+      "sha256": "8b399ce3c7057f9d2decd64ef1c89b5738ea48553839cbf561989525e21952b9"
+    },
+    {
+      "file": "shared/jokgak-city-counter-v1.mjs",
+      "sha256": "f50b4ec3252f157cbc71fa525a766a1081b483e386b6ae59a8f909bbe241bede"
+    }
+  ],
+  "activeWorker": {
+    "sha256": "645a534ef4443b10c03ce2e44b2e58e91f719df5a74d295beb88fd1ac471a8b9",
+    "bytes": 8432086,
+    "checks": {
+      "power30": true,
+      "damage40": true,
+      "rankIgnored": true,
+      "battleConnected": true,
+      "damageConnected": true
+    },
+    "versionId": "426dbcc6-4af5-4b39-ac16-e81e7efa95ca"
+  },
+  "schedulerVersionId": "356e342e-44bb-4862-a868-73870c3cae7b",
+  "liveAccountActions": 0,
+  "checkedAt": "2026-10-23T15:26:55.590Z",
+  "integratedBase": "90b75728a1a8713764b2edcff8201fc8cb1c5701"
 }
