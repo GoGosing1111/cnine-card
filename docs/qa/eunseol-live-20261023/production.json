@@ -1,0 +1,221 @@
+{
+  "status": "VERIFIED",
+  "at": "2026-10-23T07:34:07.203Z",
+  "deployment": {
+    "id": "a4a06704-2321-4615-813a-df2a4cdd2fea",
+    "url": "https://a4a06704.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "bafb6ca507bf56fccb132a205ad80be8557fe495",
+    "createdAt": "2026-10-23T07:33:15.159265Z"
+  },
+  "sourceCommit": "bafb6ca507bf56fccb132a205ad80be8557fe495",
+  "url": "https://cnine-card.pages.dev/mercenary-codex/?view=limited&q=은설&rank=SSS#V-973",
+  "card": {
+    "code": "V-973",
+    "name": "은설",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "basePower": 1940890,
+    "acquisition": "LOCKED",
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "skills": [
+      "MS-958"
+    ],
+    "playbackRate": 2
+  },
+  "files": [
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/source-art.png",
+      "sha256": "6aa7e0309223acddc02cfaf0830ee45f39ffba3f5736002b38071749a0e1a3fe",
+      "bytes": 3471290
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/idle.png",
+      "sha256": "77aaf16ca9415cc218e4a074690b58aa9aecb597902c3cb32f1074491b1e2184",
+      "bytes": 491344
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/idle.png",
+      "sha256": "3c8ae874051baf023250c461f968ce0645beb77b3e9300053f63f7f902b9ad64",
+      "bytes": 2997227
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/dash.png",
+      "sha256": "472242145f0364452694d4fbabec03e5c5970ac46a556e88587555fabb776dd7",
+      "bytes": 2726512
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/slash.png",
+      "sha256": "7056c8df47094d414cd39a08c2a5344ba0ae1e3aad1ffeb5937a6e6bdc66388a",
+      "bytes": 3063745
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/hit.png",
+      "sha256": "9a7c2cf3b902a06d6aaacfd0ca35361b99e28ab95cdb88b6c92556a8d0a4ce49",
+      "bytes": 2876579
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/ultimate.png",
+      "sha256": "1269279e684027185d9fa505def0ceffbe713f467ef2b223220690db1d6ddec9",
+      "bytes": 3093231
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/fx-aura.png",
+      "sha256": "4bac12066abd59ca178c8fbaa4541495983e19b65037597d86948731927095a9",
+      "bytes": 1052826
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/defeat.png",
+      "sha256": "40dbf9feabd8dd2dfefb5e08e91a5486847066610d4b389b374c1ad56b9d17dc",
+      "bytes": 1612850
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/fx-slash.png",
+      "sha256": "64a83cc34cf78695e9fe3ee707b6d0a6031f2ae5a8135fd8d4a0df4e0f9ff424",
+      "bytes": 951286
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/motion-manifest.json",
+      "sha256": "adcc5b30f57bbc5798664135ac070e54f89e03f9d94e84cd705822d0af7f296d",
+      "bytes": 97039
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/manifest.json",
+      "sha256": "a36d49e5d4757d2f2ecace8cb24bf62a19d104beabfcfcc25b4bcbd832bf3175",
+      "bytes": 4044
+    },
+    {
+      "file": "shared/mercenary-eunseol-v1.mjs",
+      "sha256": "fd841d43b35c189754cb8771f0947cd9ba6e4772240e2a0e282128d4d530e635",
+      "bytes": 3659
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "84f9b0529c4406a403003dd9fd595fc672c81e9212d28e9cd5e409c18a24c84f",
+      "bytes": 9640
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/cast.png",
+      "sha256": "10be268627ac99123b2f7efb3afe96827e95a0867484a0822112c192ad78fb67",
+      "bytes": 2794912
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/fx-tiger.png",
+      "sha256": "d6fab104311e0a2e4e8b5e11875f93bea5d6e826d68a3f121ba7b84dcd73ad27",
+      "bytes": 1282932
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "0777867240687d0e35623101f8f67c98f00c18319f51e49a06d873a1b5d30b16",
+      "bytes": 7041
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "aa5358fc402d21166f551990a8d64db74565a37875b184e64ad79995dcb2d534",
+      "bytes": 34360
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "382890e0fbddb611e3fffb8218a0451d67d5fa694da099ded7c1da2aa9089e2e",
+      "bytes": 2362596
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/fx-impact.png",
+      "sha256": "fe57daba7049c668481d034a4bf19981aad354d0507617f031c03abedae415ff",
+      "bytes": 1063857
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "70c765f5bd9110785e23a7bfe4cbd9deac1777d58c14565e016e095827d20d69",
+      "bytes": 2362113
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/codex-v1/v-973-art-320.webp",
+      "sha256": "3069050506b0046c749c7013fe35a3f54954c3d4919ca96025ca0a88b260f589",
+      "bytes": 71598
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "5c87dda0807ef966560e7449f83c51f1f20d69812916a9878e0c1e2b01771d79",
+      "bytes": 2362222
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "97e0690f4f15710f4ff99af6f2d9492d411b10114047c90dbca3a9f032d47c33",
+      "bytes": 2362211
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "6d35978379c485071fd6994701a874da4a6caa59181a6bdc38a6a49ea6b1a88d",
+      "bytes": 2362570
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "a716e3ebf87e6a67a2a0a2bfb2704db81f67424c4e4cff848c16b8d9847d06b9",
+      "bytes": 2365767
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "8ded833b067a5b3cfd501a53357f7924525afc0d8fa32075ccfe010862139bce",
+      "bytes": 2359205
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "52cacac649b2d6d90491f2d133f7e6b10c5cd2082874ae326d0ec16c8c09e8fa",
+      "bytes": 2363870
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "8e6460d1ded177a4425999a9949e35edb87b19d00d73cc58bed184086f91d395",
+      "bytes": 88160
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "25a2cf5256e8ae2a0210b4de917c50fb73592f9d4fbc4f7ec5c27532d4aa3f4a",
+      "bytes": 783420
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "4217afce8ec1a7b1cfb7e0b791635bb4636d2db21177ba658bca6e2b7737dc8d",
+      "bytes": 2408775
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "43a9194bd33f51b8b71c145a68e00f00e4c22395ef453d5430acfe594fc3685e",
+      "bytes": 18473
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "c9b6ad22ed2600d5552511c610e131cc512f8ce37c27e5b03b91300104ed1c8d",
+      "bytes": 2386115
+    },
+    {
+      "file": "index.html",
+      "sha256": "05af0e43e6c4f9d16d59298dbf3cbde3807da575823773ac7c8ef1f8b56f85c2",
+      "bytes": 34236
+    }
+  ],
+  "screens": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "skills": 1,
+      "locked": true,
+      "playbackRate": 2,
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "skills": 1,
+      "locked": true,
+      "playbackRate": 2,
+      "errors": []
+    }
+  ],
+  "accountWrites": 0
+}

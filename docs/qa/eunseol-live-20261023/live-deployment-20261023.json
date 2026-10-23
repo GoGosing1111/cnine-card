@@ -1,0 +1,17 @@
+{
+  "status": "LIVE_VERIFIED",
+  "name": "은설",
+  "code": "V-973",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "acquisition": "LOCKED",
+  "sourceCommit": "bafb6ca507bf56fccb132a205ad80be8557fe495",
+  "deploymentId": "a4a06704-2321-4615-813a-df2a4cdd2fea",
+  "url": "https://cnine-card.pages.dev/mercenary-codex/?view=limited&q=은설&rank=SSS#V-973",
+  "verifiedAt": "2026-10-23T07:34:07.203Z",
+  "basePower": 1940890,
+  "staticIdle": true,
+  "defaultMotionPlaybackRate": 2,
+  "accountWrites": 0,
+  "verifiedPublicFiles": 34
+}
