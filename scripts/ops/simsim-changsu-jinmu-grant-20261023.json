@@ -1,0 +1,45 @@
+{
+  "operationKey": "ops:simsim-changsu-jinmu-exempt-grant:20261023:v1",
+  "authorization": [
+    "심심이,굳건창수 진무 지급",
+    "장착도 가능하게 설정풀어"
+  ],
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "totalQuantity": 2,
+  "recipientCount": 2,
+  "recipients": [
+    {
+      "id": "4908",
+      "nickname": "굳건창수",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "611ca1add2371b50424cf43c62aa1f6c9de9705aec188cbed069ef6d2943cd33"
+    },
+    {
+      "id": "4933",
+      "nickname": "심심이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "ae7c825987b8e894d74116a7e201164850e631a7f167bd8d800aee12c7de5b15"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "quantity": 1
+    },
+    {
+      "userId": "4933",
+      "nickname": "심심이",
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "quantity": 1
+    }
+  ],
+  "context": "지정 두 계정에 진무 1장씩 추가 지급 및 PVE/PVP 장착 허용. 기존 편성 유지; 메시지 요청 없음."
+}
