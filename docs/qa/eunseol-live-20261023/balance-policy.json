@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "dateKST": "2026-10-23",
+  "name": "은설",
+  "status": "USER_APPROVED_JOKRO_PARITY",
+  "userRequest": "승인하고 전투력,밸런스 족로랑 동급으로",
+  "reference": {
+    "name": "족로",
+    "code": "V-979",
+    "source": "C:/Users/User/Downloads/cnine-z-body-sword-20260918/site/shared/mercenary-jokro-v1.mjs",
+    "sha256": "01C402CD35141B65F06277BE7B51923BB0CD60F3F9BCBC442FB87BDF3FE12EA0",
+    "combatVersion": 2
+  },
+  "combat": {
+    "version": 2,
+    "basePower": 1940890,
+    "statsReferencePower": 1123200,
+    "statScale": 1.728,
+    "speedReferencePower": 1080000,
+    "speedScale": 3.12,
+    "actionCredit": 3.12,
+    "motionPlaybackRate": 2,
+    "effectPlaybackRate": 1,
+    "link": {
+      "attackPercent": 3162.9312,
+      "hpPercent": 2012.7744,
+      "shieldPercent": 1126.0992
+    },
+    "basicCapScale": 3.456,
+    "damageTakenScale": 0.2,
+    "hardCounter": "V-055"
+  },
+  "position": "FRONT",
+  "role": "VANGUARD",
+  "attackStyle": "MELEE",
+  "statMode": "RANK_FIXED",
+  "protections": [
+    "counterattack immunity",
+    "control immunity",
+    "poison immunity",
+    "sovereign status protection"
+  ],
+  "pveArea": {
+    "damageRatio": 15.12,
+    "cooldownTurns": 5,
+    "cost": 35,
+    "target": "ALL_ENEMIES",
+    "totalDamageRatioShared": true,
+    "oneHitPerUniqueLivingTarget": true,
+    "presentationVariants": [
+      "moon",
+      "tiger",
+      "domain"
+    ],
+    "sharedCooldown": true,
+    "sharedEnergyCost": true,
+    "independentExtraCasts": false
+  },
+  "pvp": {
+    "areaSkillEnabled": false,
+    "basicAttack": true
+  },
+  "presentation": {
+    "approvedStaticIdleFrame": 0,
+    "approvedDefaultMotionRate": 2,
+    "existingApprovedEffectsPreserved": true
+  },
+  "referenceAccessRulesCopied": false,
+  "acquisitionAssigned": false,
+  "accountGrantsAssigned": false,
+  "serverRegistrationComplete": false
+}

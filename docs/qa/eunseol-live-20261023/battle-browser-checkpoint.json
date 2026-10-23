@@ -1,0 +1,1933 @@
+{
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "area",
+      "idle": {
+        "before": {
+          "x": 380,
+          "y": 240,
+          "viewX": 0,
+          "viewY": 0,
+          "angle": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073,
+          "texture": 146,
+          "frame": 0
+        },
+        "after": {
+          "x": 380,
+          "y": 240,
+          "viewX": 0,
+          "viewY": 0,
+          "angle": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073,
+          "texture": 146,
+          "frame": 0
+        },
+        "d": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 4,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "aura": true,
+          "auraFrame": 1,
+          "motionOnly": false,
+          "reduced": false,
+          "actorBounds": {
+            "left": 285.15532909831177,
+            "top": 185.0940403274011,
+            "right": 403.8310455421872,
+            "bottom": 311.9972749280998
+          },
+          "effectBounds": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "viewport": {
+            "width": 1440,
+            "height": 928,
+            "mobile": false
+          },
+          "scene": {
+            "width": 1600,
+            "height": 820
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "scale": 0.5540416267221073,
+            "rootScale": 0.5,
+            "footAnchor": {
+              "x": 0.4869791666666667,
+              "y": 0.8255208333333334
+            },
+            "bodyPixels": 514.4017818411115,
+            "facing": "RIGHT"
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "ambientAuraOnly": true,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "formationVersion": "UNIFORM_LATTICE_V2",
+          "registeredTimelines": 1,
+          "counts": {
+            "motion": 40,
+            "uniqueDrawnMotionFrames": 38,
+            "effects": 24
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "renderer": "DEPLOYED_V3_7D0DC1C07",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "blade": {
+            "x": 447.87009927345815,
+            "y": 100.65853087939004
+          },
+          "cue": "대기",
+          "name": "대기",
+          "liveEnabled": true,
+          "bodyFacing": 1,
+          "cameraZoom": false,
+          "playbackRate": 2
+        },
+        "facing": 1,
+        "regularAllies": 5,
+        "regularEnemies": 12
+      },
+      "outcomes": [
+        {
+          "visualMode": "basic",
+          "done": true,
+          "elapsedMs": 1797.0999999940395,
+          "hpCalls": 1,
+          "unique": 1,
+          "last": {
+            "code": "V-973",
+            "eventType": "ATTACK",
+            "mode": "moon",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.99,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        },
+        {
+          "visualMode": "moon",
+          "done": true,
+          "elapsedMs": 1797.8999999761581,
+          "hpCalls": 12,
+          "unique": 12,
+          "last": {
+            "code": "V-973",
+            "eventType": "MERCENARY_EUNSEOL_AREA",
+            "mode": "moon",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 0.99,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        },
+        {
+          "visualMode": "tiger",
+          "done": true,
+          "elapsedMs": 2397.800000011921,
+          "hpCalls": 12,
+          "unique": 12,
+          "last": {
+            "code": "V-973",
+            "eventType": "MERCENARY_EUNSEOL_AREA",
+            "mode": "tiger",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 2.25,
+            "durationSeconds": 4.8,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        },
+        {
+          "visualMode": "domain",
+          "done": true,
+          "elapsedMs": 3148.5999999940395,
+          "hpCalls": 12,
+          "unique": 12,
+          "last": {
+            "code": "V-973",
+            "eventType": "MERCENARY_EUNSEOL_AREA",
+            "mode": "domain",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 1.93,
+            "durationSeconds": 6.3,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        }
+      ],
+      "visual": [
+        {
+          "visualMode": "moon",
+          "d": {
+            "ready": true,
+            "mode": "skill:moon",
+            "time": 1.12,
+            "duration": 3.6,
+            "pose": {
+              "key": "slash",
+              "frame": 3,
+              "phase": "slash"
+            },
+            "playing": false,
+            "speed": 2,
+            "aura": true,
+            "auraFrame": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "actorBounds": {
+              "left": 610.7570101235415,
+              "top": 205.70830044612217,
+              "right": 789.6952479409746,
+              "bottom": 320.60295984900483
+            },
+            "effectBounds": [
+              {
+                "left": 809.5232770892009,
+                "top": 73.57315730086577,
+                "right": 1203.8190134787624,
+                "bottom": 462.67820446864033
+              }
+            ],
+            "activeEffects": 1,
+            "activeImpacts": 3,
+            "viewport": {
+              "width": 1440,
+              "height": 928,
+              "mobile": false
+            },
+            "scene": {
+              "width": 1600,
+              "height": 820
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "scale": 0.5330301990391215,
+              "rootScale": 0.5,
+              "footAnchor": {
+                "x": 0.42364296636085624,
+                "y": 0.8079247897553516
+              },
+              "bodyPixels": 534.6788990825688,
+              "facing": "RIGHT"
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "ambientAuraOnly": true,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "formationVersion": "UNIFORM_LATTICE_V2",
+            "registeredTimelines": 1,
+            "counts": {
+              "motion": 40,
+              "uniqueDrawnMotionFrames": 38,
+              "effects": 24
+            },
+            "targets": 12,
+            "visualOnly": false,
+            "renderer": "DEPLOYED_V3_7D0DC1C07",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "blade": {
+              "x": 876.4,
+              "y": 189.0599078341014
+            },
+            "cue": "전열 관통",
+            "name": "설백월참",
+            "liveEnabled": true,
+            "bodyFacing": 1,
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        },
+        {
+          "visualMode": "tiger",
+          "d": {
+            "ready": true,
+            "mode": "skill:tiger",
+            "time": 2.36,
+            "duration": 4.8,
+            "pose": {
+              "key": "slash",
+              "frame": 3,
+              "phase": "slash"
+            },
+            "playing": false,
+            "speed": 2,
+            "aura": true,
+            "auraFrame": 4,
+            "motionOnly": false,
+            "reduced": false,
+            "actorBounds": {
+              "left": 610.7570101235415,
+              "top": 205.70830044612217,
+              "right": 789.6952479409746,
+              "bottom": 320.60295984900483
+            },
+            "effectBounds": [
+              {
+                "left": 780.7905689655172,
+                "top": 163.62172381365042,
+                "right": 1186.8599294306337,
+                "bottom": 441.72381683690634
+              }
+            ],
+            "activeEffects": 1,
+            "activeImpacts": 3,
+            "viewport": {
+              "width": 1440,
+              "height": 928,
+              "mobile": false
+            },
+            "scene": {
+              "width": 1600,
+              "height": 820
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "scale": 0.5330301990391215,
+              "rootScale": 0.5,
+              "footAnchor": {
+                "x": 0.42364296636085624,
+                "y": 0.8079247897553516
+              },
+              "bodyPixels": 534.6788990825688,
+              "facing": "RIGHT"
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "ambientAuraOnly": true,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "formationVersion": "UNIFORM_LATTICE_V2",
+            "registeredTimelines": 1,
+            "counts": {
+              "motion": 40,
+              "uniqueDrawnMotionFrames": 38,
+              "effects": 24
+            },
+            "targets": 12,
+            "visualOnly": false,
+            "renderer": "DEPLOYED_V3_7D0DC1C07",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "blade": {
+              "x": 876.4,
+              "y": 189.0599078341014
+            },
+            "cue": "광역 충돌",
+            "name": "백호천류",
+            "liveEnabled": true,
+            "bodyFacing": 1,
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        },
+        {
+          "visualMode": "domain",
+          "d": {
+            "ready": true,
+            "mode": "skill:domain",
+            "time": 4.2,
+            "duration": 6.3,
+            "pose": {
+              "key": "ultimate",
+              "frame": 4,
+              "phase": "ultimate"
+            },
+            "playing": false,
+            "speed": 2,
+            "aura": true,
+            "auraFrame": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "actorBounds": {
+              "left": 604.564824344384,
+              "top": 203.8071499257793,
+              "right": 784.2163582384958,
+              "bottom": 320.76150420583866
+            },
+            "effectBounds": [
+              {
+                "left": 782.527652057245,
+                "top": 61.29477247316635,
+                "right": 1243.711721824687,
+                "bottom": 515.0643073568874
+              },
+              {
+                "left": 739.5627023255814,
+                "top": 151.9075069767442,
+                "right": 1167.4384000000002,
+                "bottom": 494.4590186046513
+              }
+            ],
+            "activeEffects": 2,
+            "activeImpacts": 2,
+            "viewport": {
+              "width": 1440,
+              "height": 928,
+              "mobile": false
+            },
+            "scene": {
+              "width": 1600,
+              "height": 820
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "scale": 0.5358733300346363,
+              "rootScale": 0.5,
+              "footAnchor": {
+                "x": 0.45490679824561403,
+                "y": 0.8109923245614036
+              },
+              "bodyPixels": 531.8421052631579,
+              "facing": "RIGHT"
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "ambientAuraOnly": true,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "formationVersion": "UNIFORM_LATTICE_V2",
+            "registeredTimelines": 1,
+            "counts": {
+              "motion": 40,
+              "uniqueDrawnMotionFrames": 38,
+              "effects": 24
+            },
+            "targets": 12,
+            "visualOnly": false,
+            "renderer": "DEPLOYED_V3_7D0DC1C07",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "blade": {
+              "x": 870.7,
+              "y": 232.63488372093025
+            },
+            "cue": "백호 종결참",
+            "name": "만월검역",
+            "liveEnabled": true,
+            "bodyFacing": 1,
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        }
+      ],
+      "lifecycle": {
+        "atCancel": {
+          "cancelled": false,
+          "hits": 0,
+          "ambient": false,
+          "effects": false,
+          "pose": "idle"
+        },
+        "resumed": true,
+        "hidden": {
+          "result": false,
+          "hits": 0
+        },
+        "reduced": {
+          "result": true,
+          "hits": 1,
+          "reduced": true,
+          "ambient": false,
+          "pose": "idle"
+        },
+        "death": {
+          "poseWrites": 0,
+          "state": "DEAD",
+          "hp": 0,
+          "moved": 0,
+          "aura": false,
+          "effects": false
+        },
+        "revived": {
+          "pose": "idle",
+          "ambient": true,
+          "hp": 100
+        },
+        "cold": {
+          "result": true,
+          "hits": 12
+        },
+        "states": 0,
+        "destroyed": true
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "enemy",
+      "idle": {
+        "before": {
+          "x": 1220,
+          "y": 240,
+          "viewX": 0,
+          "viewY": 0,
+          "angle": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073,
+          "texture": 157,
+          "frame": 0
+        },
+        "after": {
+          "x": 1220,
+          "y": 240,
+          "viewX": 0,
+          "viewY": 0,
+          "angle": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073,
+          "texture": 157,
+          "frame": 0
+        },
+        "d": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 4,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "aura": true,
+          "auraFrame": 1,
+          "motionOnly": false,
+          "reduced": false,
+          "actorBounds": {
+            "left": 1036.1689544578128,
+            "top": 185.0940403274011,
+            "right": 1154.8446709016882,
+            "bottom": 311.9972749280998
+          },
+          "effectBounds": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "viewport": {
+            "width": 1440,
+            "height": 928,
+            "mobile": false
+          },
+          "scene": {
+            "width": 1600,
+            "height": 820
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "scale": 0.5540416267221073,
+            "rootScale": 0.5,
+            "footAnchor": {
+              "x": 0.4869791666666667,
+              "y": 0.8255208333333334
+            },
+            "bodyPixels": 514.4017818411115,
+            "facing": "RIGHT"
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "ambientAuraOnly": true,
+          "regularAllies": 5,
+          "regularEnemies": 5,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 1220,
+            "y": 240,
+            "scale": 0.5
+          },
+          "formationVersion": "UNIFORM_LATTICE_V2",
+          "registeredTimelines": 1,
+          "counts": {
+            "motion": 40,
+            "uniqueDrawnMotionFrames": 38,
+            "effects": 24
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "renderer": "DEPLOYED_V3_7D0DC1C07",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "blade": {
+            "x": 1152.129900726542,
+            "y": 100.65853087939004
+          },
+          "cue": "대기",
+          "name": "대기",
+          "liveEnabled": true,
+          "bodyFacing": -1,
+          "cameraZoom": false,
+          "playbackRate": 2
+        },
+        "facing": -1,
+        "regularAllies": 5,
+        "regularEnemies": 5
+      },
+      "outcomes": [
+        {
+          "visualMode": "basic",
+          "done": true,
+          "elapsedMs": 1797.5,
+          "hpCalls": 1,
+          "unique": 1,
+          "last": {
+            "code": "V-973",
+            "eventType": "ATTACK",
+            "mode": "moon",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.99,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        }
+      ],
+      "visual": [
+        {
+          "visualMode": "tiger",
+          "d": {
+            "ready": true,
+            "mode": "skill:tiger",
+            "time": 2.36,
+            "duration": 4.8,
+            "pose": {
+              "key": "slash",
+              "frame": 3,
+              "phase": "slash"
+            },
+            "playing": false,
+            "speed": 2,
+            "aura": true,
+            "auraFrame": 4,
+            "motionOnly": false,
+            "reduced": false,
+            "actorBounds": {
+              "left": 519.8047520590254,
+              "top": 196.70830044612217,
+              "right": 698.7429898764585,
+              "bottom": 311.60295984900483
+            },
+            "effectBounds": [
+              {
+                "left": 276.0982569074871,
+                "top": 129.58399495529954,
+                "right": 671.2171786833856,
+                "bottom": 400.1865319531854
+              }
+            ],
+            "activeEffects": 1,
+            "activeImpacts": 3,
+            "viewport": {
+              "width": 1440,
+              "height": 928,
+              "mobile": false
+            },
+            "scene": {
+              "width": 1600,
+              "height": 820
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "scale": 0.5330301990391215,
+              "rootScale": 0.5,
+              "footAnchor": {
+                "x": 0.42364296636085624,
+                "y": 0.8079247897553516
+              },
+              "bodyPixels": 534.6788990825688,
+              "facing": "RIGHT"
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "ambientAuraOnly": true,
+            "regularAllies": 5,
+            "regularEnemies": 5,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 1220,
+              "y": 240,
+              "scale": 0.5
+            },
+            "formationVersion": "UNIFORM_LATTICE_V2",
+            "registeredTimelines": 1,
+            "counts": {
+              "motion": 40,
+              "uniqueDrawnMotionFrames": 38,
+              "effects": 24
+            },
+            "targets": 5,
+            "visualOnly": false,
+            "renderer": "DEPLOYED_V3_7D0DC1C07",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "blade": {
+              "x": 578.6,
+              "y": 179.0599078341014
+            },
+            "cue": "광역 충돌",
+            "name": "백호천류",
+            "liveEnabled": true,
+            "bodyFacing": -1,
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        }
+      ],
+      "lifecycle": {
+        "atCancel": {
+          "cancelled": false,
+          "hits": 0,
+          "ambient": false,
+          "effects": false,
+          "pose": "idle"
+        },
+        "resumed": true,
+        "hidden": {
+          "result": false,
+          "hits": 0
+        },
+        "reduced": {
+          "result": true,
+          "hits": 1,
+          "reduced": true,
+          "ambient": false,
+          "pose": "idle"
+        },
+        "death": {
+          "poseWrites": 0,
+          "state": "DEAD",
+          "hp": 0,
+          "moved": 0,
+          "aura": false,
+          "effects": false
+        },
+        "revived": {
+          "pose": "idle",
+          "ambient": true,
+          "hp": 100
+        },
+        "cold": null,
+        "states": 0,
+        "destroyed": true
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "single",
+      "idle": {
+        "before": {
+          "x": 380,
+          "y": 240,
+          "viewX": 0,
+          "viewY": 0,
+          "angle": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073,
+          "texture": 189,
+          "frame": 0
+        },
+        "after": {
+          "x": 380,
+          "y": 240,
+          "viewX": 0,
+          "viewY": 0,
+          "angle": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073,
+          "texture": 189,
+          "frame": 0
+        },
+        "d": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 4,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "aura": true,
+          "auraFrame": 1,
+          "motionOnly": false,
+          "reduced": false,
+          "actorBounds": {
+            "left": 285.15532909831177,
+            "top": 185.0940403274011,
+            "right": 403.8310455421872,
+            "bottom": 311.9972749280998
+          },
+          "effectBounds": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "viewport": {
+            "width": 1440,
+            "height": 928,
+            "mobile": false
+          },
+          "scene": {
+            "width": 1600,
+            "height": 820
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "scale": 0.5540416267221073,
+            "rootScale": 0.5,
+            "footAnchor": {
+              "x": 0.4869791666666667,
+              "y": 0.8255208333333334
+            },
+            "bodyPixels": 514.4017818411115,
+            "facing": "RIGHT"
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "ambientAuraOnly": true,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "formationVersion": "UNIFORM_LATTICE_V2",
+          "registeredTimelines": 1,
+          "counts": {
+            "motion": 40,
+            "uniqueDrawnMotionFrames": 38,
+            "effects": 24
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "renderer": "DEPLOYED_V3_7D0DC1C07",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "blade": {
+            "x": 447.87009927345815,
+            "y": 100.65853087939004
+          },
+          "cue": "대기",
+          "name": "대기",
+          "liveEnabled": true,
+          "bodyFacing": 1,
+          "cameraZoom": false,
+          "playbackRate": 2
+        },
+        "facing": 1,
+        "regularAllies": 5,
+        "regularEnemies": 12
+      },
+      "outcomes": [
+        {
+          "visualMode": "basic",
+          "done": true,
+          "elapsedMs": 1797.4000000059605,
+          "hpCalls": 1,
+          "unique": 1,
+          "last": {
+            "code": "V-973",
+            "eventType": "ATTACK",
+            "mode": "moon",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.99,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        },
+        {
+          "visualMode": "moon",
+          "done": true,
+          "elapsedMs": 1797.300000011921,
+          "hpCalls": 1,
+          "unique": 1,
+          "last": {
+            "code": "V-973",
+            "eventType": "MERCENARY_EUNSEOL_AREA",
+            "mode": "moon",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.99,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        },
+        {
+          "visualMode": "tiger",
+          "done": true,
+          "elapsedMs": 2402.4000000059605,
+          "hpCalls": 1,
+          "unique": 1,
+          "last": {
+            "code": "V-973",
+            "eventType": "MERCENARY_EUNSEOL_AREA",
+            "mode": "tiger",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 2.25,
+            "durationSeconds": 4.8,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        },
+        {
+          "visualMode": "domain",
+          "done": true,
+          "elapsedMs": 3148,
+          "hpCalls": 1,
+          "unique": 1,
+          "last": {
+            "code": "V-973",
+            "eventType": "MERCENARY_EUNSEOL_AREA",
+            "mode": "domain",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.93,
+            "durationSeconds": 6.3,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        }
+      ],
+      "visual": [
+        {
+          "visualMode": "moon",
+          "d": {
+            "ready": true,
+            "mode": "skill:moon",
+            "time": 1.12,
+            "duration": 3.6,
+            "pose": {
+              "key": "slash",
+              "frame": 3,
+              "phase": "slash"
+            },
+            "playing": false,
+            "speed": 2,
+            "aura": true,
+            "auraFrame": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "actorBounds": {
+              "left": 610.7570101235415,
+              "top": 205.70830044612217,
+              "right": 789.6952479409746,
+              "bottom": 320.60295984900483
+            },
+            "effectBounds": [
+              {
+                "left": 766.3183717227836,
+                "top": 51.63791886327283,
+                "right": 1026.6609833227858,
+                "bottom": 308.55326137744134
+              }
+            ],
+            "activeEffects": 1,
+            "activeImpacts": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 928,
+              "mobile": false
+            },
+            "scene": {
+              "width": 1600,
+              "height": 820
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "scale": 0.5330301990391215,
+              "rootScale": 0.5,
+              "footAnchor": {
+                "x": 0.42364296636085624,
+                "y": 0.8079247897553516
+              },
+              "bodyPixels": 534.6788990825688,
+              "facing": "RIGHT"
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "ambientAuraOnly": true,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "formationVersion": "UNIFORM_LATTICE_V2",
+            "registeredTimelines": 1,
+            "counts": {
+              "motion": 40,
+              "uniqueDrawnMotionFrames": 38,
+              "effects": 24
+            },
+            "targets": 1,
+            "visualOnly": false,
+            "renderer": "DEPLOYED_V3_7D0DC1C07",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "blade": {
+              "x": 876.4,
+              "y": 189.0599078341014
+            },
+            "cue": "전열 관통",
+            "name": "설백월참",
+            "liveEnabled": true,
+            "bodyFacing": 1,
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        },
+        {
+          "visualMode": "tiger",
+          "d": {
+            "ready": true,
+            "mode": "skill:tiger",
+            "time": 2.36,
+            "duration": 4.8,
+            "pose": {
+              "key": "slash",
+              "frame": 3,
+              "phase": "slash"
+            },
+            "playing": false,
+            "speed": 2,
+            "aura": true,
+            "auraFrame": 4,
+            "motionOnly": false,
+            "reduced": false,
+            "actorBounds": {
+              "left": 610.7570101235415,
+              "top": 205.70830044612217,
+              "right": 789.6952479409746,
+              "bottom": 320.60295984900483
+            },
+            "effectBounds": [
+              {
+                "left": 748.7109169278997,
+                "top": 112.36007751708418,
+                "right": 1016.8273281329737,
+                "bottom": 295.98322762279236
+              }
+            ],
+            "activeEffects": 1,
+            "activeImpacts": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 928,
+              "mobile": false
+            },
+            "scene": {
+              "width": 1600,
+              "height": 820
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "scale": 0.5330301990391215,
+              "rootScale": 0.5,
+              "footAnchor": {
+                "x": 0.42364296636085624,
+                "y": 0.8079247897553516
+              },
+              "bodyPixels": 534.6788990825688,
+              "facing": "RIGHT"
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "ambientAuraOnly": true,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "formationVersion": "UNIFORM_LATTICE_V2",
+            "registeredTimelines": 1,
+            "counts": {
+              "motion": 40,
+              "uniqueDrawnMotionFrames": 38,
+              "effects": 24
+            },
+            "targets": 1,
+            "visualOnly": false,
+            "renderer": "DEPLOYED_V3_7D0DC1C07",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "blade": {
+              "x": 876.4,
+              "y": 189.0599078341014
+            },
+            "cue": "광역 충돌",
+            "name": "백호천류",
+            "liveEnabled": true,
+            "bodyFacing": 1,
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        },
+        {
+          "visualMode": "domain",
+          "d": {
+            "ready": true,
+            "mode": "skill:domain",
+            "time": 4.2,
+            "duration": 6.3,
+            "pose": {
+              "key": "ultimate",
+              "frame": 4,
+              "phase": "ultimate"
+            },
+            "playing": false,
+            "speed": 2,
+            "aura": true,
+            "auraFrame": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "actorBounds": {
+              "left": 604.564824344384,
+              "top": 203.8071499257793,
+              "right": 784.2163582384958,
+              "bottom": 320.76150420583866
+            },
+            "effectBounds": [
+              {
+                "left": 745.0273520084568,
+                "top": 48.29530035371613,
+                "right": 1049.5344873150104,
+                "bottom": 347.9068225524475
+              },
+              {
+                "left": 742.5414651162791,
+                "top": 135.44733023255816,
+                "right": 1025.056,
+                "bottom": 361.6246558139535
+              }
+            ],
+            "activeEffects": 2,
+            "activeImpacts": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 928,
+              "mobile": false
+            },
+            "scene": {
+              "width": 1600,
+              "height": 820
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "scale": 0.5358733300346363,
+              "rootScale": 0.5,
+              "footAnchor": {
+                "x": 0.45490679824561403,
+                "y": 0.8109923245614036
+              },
+              "bodyPixels": 531.8421052631579,
+              "facing": "RIGHT"
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "ambientAuraOnly": true,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "formationVersion": "UNIFORM_LATTICE_V2",
+            "registeredTimelines": 1,
+            "counts": {
+              "motion": 40,
+              "uniqueDrawnMotionFrames": 38,
+              "effects": 24
+            },
+            "targets": 1,
+            "visualOnly": false,
+            "renderer": "DEPLOYED_V3_7D0DC1C07",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "blade": {
+              "x": 870.7,
+              "y": 232.63488372093025
+            },
+            "cue": "백호 종결참",
+            "name": "만월검역",
+            "liveEnabled": true,
+            "bodyFacing": 1,
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        }
+      ],
+      "lifecycle": {
+        "atCancel": {
+          "cancelled": false,
+          "hits": 0,
+          "ambient": false,
+          "effects": false,
+          "pose": "idle"
+        },
+        "resumed": true,
+        "hidden": {
+          "result": false,
+          "hits": 0
+        },
+        "reduced": {
+          "result": true,
+          "hits": 1,
+          "reduced": true,
+          "ambient": false,
+          "pose": "idle"
+        },
+        "death": {
+          "poseWrites": 0,
+          "state": "DEAD",
+          "hp": 0,
+          "moved": 0,
+          "aura": false,
+          "effects": false
+        },
+        "revived": {
+          "pose": "idle",
+          "ambient": true,
+          "hp": 100
+        },
+        "cold": {
+          "result": true,
+          "hits": 12
+        },
+        "states": 0,
+        "destroyed": true
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "area",
+      "idle": {
+        "before": {
+          "x": 359.40983606557376,
+          "y": 557.0491803278688,
+          "viewX": 0,
+          "viewY": 0,
+          "angle": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073,
+          "texture": 171,
+          "frame": 0
+        },
+        "after": {
+          "x": 359.40983606557376,
+          "y": 557.0491803278688,
+          "viewX": 0,
+          "viewY": 0,
+          "angle": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073,
+          "texture": 171,
+          "frame": 0
+        },
+        "d": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 4,
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "playing": false,
+          "speed": 2,
+          "aura": true,
+          "auraFrame": 1,
+          "motionOnly": false,
+          "reduced": false,
+          "actorBounds": {
+            "left": 93.97418270059336,
+            "top": 127.14603332075868,
+            "right": 152.06667846602124,
+            "bottom": 189.2659500111007
+          },
+          "effectBounds": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "viewport": {
+            "width": 390,
+            "height": 784,
+            "mobile": true
+          },
+          "scene": {
+            "width": 1150.8196721311474,
+            "height": 2313.4426229508194
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "scale": 0.5540416267221073,
+            "rootScale": 0.65,
+            "footAnchor": {
+              "x": 0.4869791666666667,
+              "y": 0.8255208333333334
+            },
+            "bodyPixels": 514.4017818411115,
+            "facing": "RIGHT"
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "ambientAuraOnly": true,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "formationVersion": "UNIFORM_LATTICE_V2",
+          "registeredTimelines": 1,
+          "counts": {
+            "motion": 40,
+            "uniqueDrawnMotionFrames": 38,
+            "effects": 24
+          },
+          "targets": 0,
+          "visualOnly": false,
+          "renderer": "DEPLOYED_V3_7D0DC1C07",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "blade": {
+            "x": 447.6409651210693,
+            "y": 375.90527047107577
+          },
+          "cue": "대기",
+          "name": "대기",
+          "liveEnabled": true,
+          "bodyFacing": 1,
+          "cameraZoom": false,
+          "playbackRate": 2
+        },
+        "facing": 1,
+        "regularAllies": 5,
+        "regularEnemies": 12
+      },
+      "outcomes": [
+        {
+          "visualMode": "basic",
+          "done": true,
+          "elapsedMs": 1797.7000000178814,
+          "hpCalls": 1,
+          "unique": 1,
+          "last": {
+            "code": "V-973",
+            "eventType": "ATTACK",
+            "mode": "moon",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.99,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        },
+        {
+          "visualMode": "moon",
+          "done": true,
+          "elapsedMs": 1796.9000000059605,
+          "hpCalls": 12,
+          "unique": 12,
+          "last": {
+            "code": "V-973",
+            "eventType": "MERCENARY_EUNSEOL_AREA",
+            "mode": "moon",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 0.99,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        },
+        {
+          "visualMode": "tiger",
+          "done": true,
+          "elapsedMs": 2398.2999999821186,
+          "hpCalls": 12,
+          "unique": 12,
+          "last": {
+            "code": "V-973",
+            "eventType": "MERCENARY_EUNSEOL_AREA",
+            "mode": "tiger",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 2.25,
+            "durationSeconds": 4.8,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        },
+        {
+          "visualMode": "domain",
+          "done": true,
+          "elapsedMs": 3148.4000000059605,
+          "hpCalls": 12,
+          "unique": 12,
+          "last": {
+            "code": "V-973",
+            "eventType": "MERCENARY_EUNSEOL_AREA",
+            "mode": "domain",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 1.93,
+            "durationSeconds": 6.3,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": {
+            "key": "idle",
+            "frame": 0,
+            "phase": "idle"
+          },
+          "returned": 0,
+          "effects": 0,
+          "sx": 0.5540416267221073,
+          "sy": 0.5540416267221073
+        }
+      ],
+      "visual": [
+        {
+          "visualMode": "moon",
+          "d": {
+            "ready": true,
+            "mode": "skill:moon",
+            "time": 1.12,
+            "duration": 3.6,
+            "pose": {
+              "key": "slash",
+              "frame": 3,
+              "phase": "slash"
+            },
+            "playing": false,
+            "speed": 2,
+            "aura": true,
+            "auraFrame": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "actorBounds": {
+              "left": 129.83321544936322,
+              "top": 149.7757297862808,
+              "right": 217.42458741802028,
+              "bottom": 206.01737479028446
+            },
+            "effectBounds": [
+              {
+                "left": 574.5137193051924,
+                "top": 512.0454748501236,
+                "right": 912.9591143851952,
+                "bottom": 846.0354201185426
+              }
+            ],
+            "activeEffects": 1,
+            "activeImpacts": 3,
+            "viewport": {
+              "width": 390,
+              "height": 784,
+              "mobile": true
+            },
+            "scene": {
+              "width": 1150.8196721311474,
+              "height": 2313.4426229508194
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "scale": 0.5330301990391215,
+              "rootScale": 0.65,
+              "footAnchor": {
+                "x": 0.42364296636085624,
+                "y": 0.8079247897553516
+              },
+              "bodyPixels": 534.6788990825688,
+              "facing": "RIGHT"
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "ambientAuraOnly": true,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688,
+              "scale": 0.65
+            },
+            "formationVersion": "UNIFORM_LATTICE_V2",
+            "registeredTimelines": 1,
+            "counts": {
+              "motion": 40,
+              "uniqueDrawnMotionFrames": 38,
+              "effects": 24
+            },
+            "targets": 12,
+            "visualOnly": false,
+            "renderer": "DEPLOYED_V3_7D0DC1C07",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "blade": {
+              "x": 640.2298360655737,
+              "y": 527.8270605122007
+            },
+            "cue": "전열 관통",
+            "name": "설백월참",
+            "liveEnabled": true,
+            "bodyFacing": 1,
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        },
+        {
+          "visualMode": "tiger",
+          "d": {
+            "ready": true,
+            "mode": "skill:tiger",
+            "time": 2.36,
+            "duration": 4.8,
+            "pose": {
+              "key": "slash",
+              "frame": 3,
+              "phase": "slash"
+            },
+            "playing": false,
+            "speed": 2,
+            "aura": true,
+            "auraFrame": 4,
+            "motionOnly": false,
+            "reduced": false,
+            "actorBounds": {
+              "left": 129.8332154493632,
+              "top": 149.7757297862808,
+              "right": 217.42458741802025,
+              "bottom": 206.01737479028446
+            },
+            "effectBounds": [
+              {
+                "left": 550.0228556580502,
+                "top": 587.6146190311126,
+                "right": 898.5741902246463,
+                "bottom": 826.3247141685333
+              }
+            ],
+            "activeEffects": 1,
+            "activeImpacts": 3,
+            "viewport": {
+              "width": 390,
+              "height": 784,
+              "mobile": true
+            },
+            "scene": {
+              "width": 1150.8196721311474,
+              "height": 2313.4426229508194
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "scale": 0.5330301990391215,
+              "rootScale": 0.65,
+              "footAnchor": {
+                "x": 0.42364296636085624,
+                "y": 0.8079247897553516
+              },
+              "bodyPixels": 534.6788990825688,
+              "facing": "RIGHT"
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "ambientAuraOnly": true,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688,
+              "scale": 0.65
+            },
+            "formationVersion": "UNIFORM_LATTICE_V2",
+            "registeredTimelines": 1,
+            "counts": {
+              "motion": 40,
+              "uniqueDrawnMotionFrames": 38,
+              "effects": 24
+            },
+            "targets": 12,
+            "visualOnly": false,
+            "renderer": "DEPLOYED_V3_7D0DC1C07",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "blade": {
+              "x": 640.2298360655736,
+              "y": 527.8270605122007
+            },
+            "cue": "광역 충돌",
+            "name": "백호천류",
+            "liveEnabled": true,
+            "bodyFacing": 1,
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        },
+        {
+          "visualMode": "domain",
+          "d": {
+            "ready": true,
+            "mode": "skill:domain",
+            "time": 4.2,
+            "duration": 6.3,
+            "pose": {
+              "key": "ultimate",
+              "frame": 4,
+              "phase": "ultimate"
+            },
+            "playing": false,
+            "speed": 2,
+            "aura": true,
+            "auraFrame": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "actorBounds": {
+              "left": 126.80210228709656,
+              "top": 148.84510487107593,
+              "right": 214.74263708835008,
+              "bottom": 206.0949832316235
+            },
+            "effectBounds": [
+              {
+                "left": 549.8119321381057,
+                "top": 513.9641861723152,
+                "right": 945.6712080366258,
+                "bottom": 903.4591650306661
+              },
+              {
+                "left": 515.7433407167365,
+                "top": 562.3655896301944,
+                "right": 883.0122360655737,
+                "bottom": 856.3961128860084
+              }
+            ],
+            "activeEffects": 2,
+            "activeImpacts": 2,
+            "viewport": {
+              "width": 390,
+              "height": 784,
+              "mobile": true
+            },
+            "scene": {
+              "width": 1150.8196721311474,
+              "height": 2313.4426229508194
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "scale": 0.5358733300346363,
+              "rootScale": 0.65,
+              "footAnchor": {
+                "x": 0.45490679824561403,
+                "y": 0.8109923245614036
+              },
+              "bodyPixels": 531.8421052631579,
+              "facing": "RIGHT"
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "ambientAuraOnly": true,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688,
+              "scale": 0.65
+            },
+            "formationVersion": "UNIFORM_LATTICE_V2",
+            "registeredTimelines": 1,
+            "counts": {
+              "motion": 40,
+              "uniqueDrawnMotionFrames": 38,
+              "effects": 24
+            },
+            "targets": 12,
+            "visualOnly": false,
+            "renderer": "DEPLOYED_V3_7D0DC1C07",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "blade": {
+              "x": 632.8198360655736,
+              "y": 584.4745291650781
+            },
+            "cue": "백호 종결참",
+            "name": "만월검역",
+            "liveEnabled": true,
+            "bodyFacing": 1,
+            "cameraZoom": false,
+            "playbackRate": 2
+          }
+        }
+      ],
+      "lifecycle": {
+        "atCancel": {
+          "cancelled": false,
+          "hits": 0,
+          "ambient": false,
+          "effects": false,
+          "pose": "idle"
+        },
+        "resumed": true,
+        "hidden": {
+          "result": false,
+          "hits": 0
+        },
+        "reduced": {
+          "result": true,
+          "hits": 1,
+          "reduced": true,
+          "ambient": false,
+          "pose": "idle"
+        },
+        "death": {
+          "poseWrites": 0,
+          "state": "DEAD",
+          "hp": 0,
+          "moved": 0,
+          "aura": false,
+          "effects": false
+        },
+        "revived": {
+          "pose": "idle",
+          "ambient": true,
+          "hp": 100
+        },
+        "cold": {
+          "result": true,
+          "hits": 12
+        },
+        "states": 0,
+        "destroyed": true
+      }
+    }
+  ],
+  "errors": [],
+  "missing": []
+}

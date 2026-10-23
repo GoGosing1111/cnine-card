@@ -1,0 +1,128 @@
+{
+  "status": "PASS",
+  "fixture": "Read-only local API projection from actual server code; unchanged production codex UI",
+  "checks": [
+    {
+      "label": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "limitedTab": true,
+      "name": "은설",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "basePower": 1940890,
+      "acquisitionLocked": true,
+      "unowned": true,
+      "equipButton": false,
+      "skillCount": 1,
+      "variants": [
+        "설백월참",
+        "백호천류",
+        "만월검역"
+      ],
+      "overflow": false,
+      "sourceArt": "assets/ui/project-v/mercenaries/eunseol-20261023/source-art.png",
+      "battleSprite": "/assets/ui/project-v/mercenaries/eunseol-20261023/idle.png"
+    },
+    {
+      "label": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "limitedTab": true,
+      "name": "은설",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "basePower": 1940890,
+      "acquisitionLocked": true,
+      "unowned": true,
+      "equipButton": false,
+      "skillCount": 1,
+      "variants": [
+        "설백월참",
+        "백호천류",
+        "만월검역"
+      ],
+      "overflow": false,
+      "sourceArt": "assets/ui/project-v/mercenaries/eunseol-20261023/source-art.png",
+      "battleSprite": "/assets/ui/project-v/mercenaries/eunseol-20261023/idle.png"
+    }
+  ],
+  "errors": [],
+  "missing": [],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/shell/summary",
+      "blockedWrite": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/menu-favorites",
+      "blockedWrite": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenary-codex",
+      "blockedWrite": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/state",
+      "blockedWrite": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket",
+      "blockedWrite": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket",
+      "blockedWrite": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/jokgak-city/notifications",
+      "blockedWrite": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/shell/summary",
+      "blockedWrite": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/menu-favorites",
+      "blockedWrite": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenary-codex",
+      "blockedWrite": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/state",
+      "blockedWrite": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket",
+      "blockedWrite": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket",
+      "blockedWrite": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/jokgak-city/notifications",
+      "blockedWrite": false
+    }
+  ]
+}

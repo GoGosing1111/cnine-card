@@ -1,3 +1,4 @@
+import {EUNSEOL_CODE,eunseolDeploymentSnapshot} from './mercenary-eunseol-v1.mjs';
 import {GENERAL_JOK_CODE,generalJokDeploymentSnapshot} from './mercenary-general-jok-v1.mjs';
 import {PRIME_CODE,primeDeploymentSnapshot} from './mercenary-prime-requiem-v1.mjs';
 import {ZERO_CODE,zeroDeploymentSnapshot} from './mercenary-zero-v1.mjs';
@@ -19,6 +20,7 @@ import {KAIRON_CODE,kaironDeploymentSnapshot} from './mercenary-kairon-v1.mjs';
 // Artwork provenance, acquisition and pack release remain separate contracts.
 export const LIMITED_DEPLOYMENT_VERSION='20261012-helios-deployment-v1';
 export function limitedDeploymentSnapshot(code){
+ if(code===EUNSEOL_CODE)return eunseolDeploymentSnapshot();
  if(code===GENERAL_JOK_CODE)return generalJokDeploymentSnapshot();
  if(code===PRIME_CODE)return primeDeploymentSnapshot();
  if(code===ZERO_CODE)return zeroDeploymentSnapshot();

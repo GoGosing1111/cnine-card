@@ -1,0 +1,159 @@
+{
+  "format": "SEOLHWI_IMAGEGEN_PRODUCTION_V2",
+  "dateKST": "2026-10-23",
+  "mode": "built-in image_gen",
+  "currentName": "은설",
+  "previousName": "설휘",
+  "nameBasis": "사용자 최종 지시: 은설로 해",
+  "status": "ART_AND_CURRENT_BATTLE_USER_APPROVED_NAME_CONFIRMED",
+  "userCorrections": [
+    "포즈는 > 여기를 바라보고 새 파지방식으로 그리는게 좋아보이는데 칼 안휘게 신경쓰고, 캐릭터크기 안줄어들게 비율도 신경쓰고.",
+    "일러스트 포즈를 그대로 취할필요없음",
+    "진무 만들듯이 만들어~",
+    "불필요한 대기자세 움직임 없애고",
+    "현 전투화면에 반영된걸 갖고오라니까 그리고 다시는 프리뷰 UI 꾸미지마라",
+    "모션속도 2배로 적용"
+  ],
+  "artReference": "../mercenary-maehwa-sss-limited-20261023-v1/assets/maehwa-sss-limited-source-art-v1.png",
+  "artReferenceSha256": "6AA7E0309223ACDDC02CFAF0830EE45F39FFBA3F5736002B38071749A0E1A3FE",
+  "productionReference": "../mercenary-golden-dragon-battle-v1",
+  "renderingContract": "명확한 오른쪽 방향, 양손 검 파지, 단일 직선 강체 검, 원화와 독립된 자연 비율 전투 자세, 실제 연속 작화, 발 접점 및 자연 신장 기준 균일배율",
+  "rootGenerations": [
+    {
+      "file": "assets/sources/master-v2.png",
+      "original": "C:/Users/User/.codex/generated_images/01a1672f-243e-73d2-b40f-7ee1f05be048/exec-40a8ae69-2b51-461e-8f84-9b11de01b6b6.png",
+      "prompt": "prompts/v2/master-v2.txt",
+      "role": "오른쪽 양손 중단 파지 전신 기준",
+      "sha256": "550EC8BE0F30C12E0847DBBB212DCCC2EF896BF23B3D52F9801FB71F583E79BB",
+      "bytes": 2530054,
+      "byteForByteCopy": true,
+      "promptSha256": "0283903173F3C1708FB731AD9F902AC79BD756C6A0D0A8877AAD619820D3FEE7"
+    },
+    {
+      "file": "assets/sources/idle-v2-sheet.png",
+      "original": "C:/Users/User/.codex/generated_images/01a1672f-243e-73d2-b40f-7ee1f05be048/exec-93421195-ec29-40fc-9137-2c15c6fb91f6.png",
+      "prompt": "prompts/v2/idle-v2-sheet.txt",
+      "frames": 6,
+      "sha256": "0DEEA0B06D6413B145638E90A7BFD26161514DDB15AD5FA85939D38C1418DA25",
+      "bytes": 2884067,
+      "byteForByteCopy": true,
+      "promptSha256": "A459259E03BB497B5DBB26C7026BACAC6A47B2B54F02C566A89A8A22B9046837"
+    },
+    {
+      "file": "assets/sources/slash-v2-sheet.png",
+      "original": "C:/Users/User/.codex/generated_images/01a1672f-243e-73d2-b40f-7ee1f05be048/exec-e8f2a59c-9ba8-401b-bddd-a91d50adbb1f.png",
+      "prompt": "prompts/v2/slash-v2-sheet.txt",
+      "frames": 6,
+      "sha256": "14CBE5A2C66E0A8D13E0CD60D5176441E26903D099701C562AB17B3072B333EB",
+      "bytes": 2748909,
+      "byteForByteCopy": true,
+      "promptSha256": "29BF4D3F9DE206A7BCE97A8BF499730F9F5E5F82879EBC3A4118717379F16AD0"
+    },
+    {
+      "file": "assets/sources/ultimate-v2-sheet.png",
+      "original": "C:/Users/User/.codex/generated_images/01a1672f-243e-73d2-b40f-7ee1f05be048/exec-5ba81de4-2f44-4849-a496-6e644908e254.png",
+      "prompt": "prompts/v2/ultimate-v2-sheet.txt",
+      "frames": 6,
+      "sha256": "BFFFE1BC18620E4FCD8BCA459F5F7859F013B1C4281B18A8CAE935D9891FF24D",
+      "bytes": 2659699,
+      "byteForByteCopy": true,
+      "promptSha256": "871CBFE991651937E1472A357BEA773A81C08D8D35428FB904ADEDA820ACA6AA"
+    },
+    {
+      "file": "assets/sources/defeat-v6-sheet.png",
+      "original": "C:/Users/User/.codex/generated_images/01a16730-3e10-7553-ad44-cee9bf0cda0d/exec-a173b886-246a-42e0-8014-e87ffe4eb557.png",
+      "prompt": "prompts/v2/defeat-v6-sheet.txt",
+      "role": "Final defeat uses intact frames 0,3,4,5; overlapping frames 1,2 excluded",
+      "sha256": "DCD367827D2EECE0720E4985709CA4A2D8A72E4DFBD5D830F70F78B5940254DB",
+      "bytes": 2593172,
+      "byteForByteCopy": true,
+      "promptSha256": "25CA032C3BBB66A2D41B7B9AE567D9ADD6985ECACE159E9CB90719FB72A8CDD6"
+    },
+    {
+      "file": "assets/sources/defeat-v7-sheet.png",
+      "original": "C:/Users/User/.codex/generated_images/01a16730-3e10-7553-ad44-cee9bf0cda0d/exec-7ed86c10-e26f-487a-9559-411b0e41da6b.png",
+      "prompt": "prompts/v2/defeat-v7-sheet-tip-margin.txt",
+      "role": "Historical tip correction; not adopted because neighboring figures overlap",
+      "sha256": "8E6CEE4A9EB66947FBB6F5D367C6E315B1BC82B0B09A5A3001104D6E93BCD206",
+      "bytes": 2545421,
+      "byteForByteCopy": true,
+      "promptSha256": "DC2FB38FD50A77849DE5616DC0B564944FBABEC6C04F42358CA7C091A4F89198"
+    },
+    {
+      "file": "assets/sources/contact-v4-individual.png",
+      "original": "C:/Users/User/.codex/generated_images/01a1672f-243e-73d2-b40f-7ee1f05be048/exec-3c91484d-4162-4745-a55a-f4a445268463.png",
+      "prompt": "prompts/v2/contact-v4-individual.txt",
+      "replaces": [
+        {
+          "sequence": "slash",
+          "frameIndex": 3
+        },
+        {
+          "sequence": "ultimate",
+          "frameIndex": 3
+        }
+      ],
+      "sha256": "5E081418A55590ACF48AC8177626CE7C5BCB2A81F8B4F513EEF39595FA62BBD5",
+      "bytes": 2308848,
+      "byteForByteCopy": true,
+      "promptSha256": "8B243BC13EC2FABB5A85F2BE699172F302974C70872FB34B376E90E84BE1A643"
+    },
+    {
+      "file": "assets/sources/followthrough-v4-individual.png",
+      "original": "C:/Users/User/.codex/generated_images/01a1672f-243e-73d2-b40f-7ee1f05be048/exec-e21060b2-d65c-414f-a2ed-cfaccc167f97.png",
+      "prompt": "prompts/v2/followthrough-v4-individual.txt",
+      "replaces": [
+        {
+          "sequence": "slash",
+          "frameIndex": 4
+        },
+        {
+          "sequence": "ultimate",
+          "frameIndex": 4
+        }
+      ],
+      "sha256": "A10E11C998ADE6805038537B21A719235758789AAED89BD62F97C7517E389C9E",
+      "bytes": 2450084,
+      "byteForByteCopy": true,
+      "promptSha256": "0B986AF27AD659A336AAB3B57F670335B0623D2F211AD2C1BF40321564586FD5"
+    }
+  ],
+  "additionalRecords": [
+    "contact-repairs-manifest.json",
+    "pose-sheets-extra-manifest.json",
+    "fx-v2-manifest.json",
+    "fx-manifest.json",
+    "defeat-grip-repair-manifest.json",
+    "defeat-v7-manifest.json"
+  ],
+  "priorVersion": {
+    "status": "SUPERSEDED_BY_DIRECTION_GRIP_AND_ANIMATION_CORRECTION",
+    "files": [
+      "assets/idle.png",
+      "assets/windup.png",
+      "history/poses-extra-v1",
+      "assets/sources/slash-v1-illustration-grip-history.png"
+    ],
+    "reason": "원화식 정면 시선/파지의 단일 자세 대신 오른쪽 새 파지 연속 프레임으로 변경"
+  },
+  "runtimeScope": {
+    "localPreview": true,
+    "catalogRegistration": false,
+    "statsAssigned": false,
+    "acquisitionEnabled": false,
+    "liveDeployed": false
+  },
+  "currentPresentation": "Current verified production battle renderer; no custom preview scene or decorative UI",
+  "rejectedPresentation": {
+    "path": "history/rejected-custom-preview-20261023/",
+    "status": "REJECTED_CUSTOM_UI_AND_INDEPENDENT_STAGE",
+    "historicalVideo": "qa/showcase.webm",
+    "historicalQA": "qa/runtime.json"
+  },
+  "approval": "approval-20261023.json",
+  "nameHistory": [
+    "매화",
+    "설휘",
+    "은설"
+  ]
+}

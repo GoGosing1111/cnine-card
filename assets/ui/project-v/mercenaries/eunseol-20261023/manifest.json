@@ -1,0 +1,99 @@
+{
+  "name": "은설",
+  "code": "V-973",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "acquisition": "LOCKED",
+  "userApproval": "승인하고 전투력,밸런스 족로랑 동급으로",
+  "liveRequest": "라이브 올리라니까",
+  "acquisitionRequest": "획득불가,리미티드로",
+  "sourceApproval": "preview/mercenary-seolhwi-battle-20261023-v1/approval-20261023.json",
+  "originalsUnmodified": true,
+  "files": [
+    {
+      "file": "source-art.png",
+      "sha256": "6AA7E0309223ACDDC02CFAF0830EE45F39FFBA3F5736002B38071749A0E1A3FE",
+      "bytes": 3471290,
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-maehwa-sss-limited-20261023-v1/assets/maehwa-sss-limited-source-art-v1.png"
+    },
+    {
+      "file": "idle.png",
+      "sha256": "77AAF16CA9415CC218E4A074690B58AA9AECB597902C3CB32F1074491B1E2184",
+      "bytes": 491344,
+      "source": "preview/mercenary-seolhwi-battle-20261023-v1/assets/frames/idle-00.png"
+    },
+    {
+      "file": "assets/atlases/idle.png",
+      "sha256": "3C8AE874051BAF023250C461F968CE0645BEB77B3E9300053F63F7F902B9AD64",
+      "bytes": 2997227,
+      "source": "preview/mercenary-seolhwi-battle-20261023-v1/assets/atlases/idle.png"
+    },
+    {
+      "file": "assets/atlases/dash.png",
+      "sha256": "472242145F0364452694D4FBABEC03E5C5970AC46A556E88587555FABB776DD7",
+      "bytes": 2726512,
+      "source": "preview/mercenary-seolhwi-battle-20261023-v1/assets/atlases/dash.png"
+    },
+    {
+      "file": "assets/atlases/slash.png",
+      "sha256": "7056C8DF47094D414CD39A08C2A5344BA0AE1E3AAD1FFEB5937A6E6BDC66388A",
+      "bytes": 3063745,
+      "source": "preview/mercenary-seolhwi-battle-20261023-v1/assets/atlases/slash.png"
+    },
+    {
+      "file": "assets/atlases/cast.png",
+      "sha256": "10BE268627AC99123B2F7EFB3AFE96827E95A0867484A0822112C192AD78FB67",
+      "bytes": 2794912,
+      "source": "preview/mercenary-seolhwi-battle-20261023-v1/assets/atlases/cast.png"
+    },
+    {
+      "file": "assets/atlases/ultimate.png",
+      "sha256": "1269279E684027185D9FA505DEF0CEFFBE713F467EF2B223220690DB1D6DDEC9",
+      "bytes": 3093231,
+      "source": "preview/mercenary-seolhwi-battle-20261023-v1/assets/atlases/ultimate.png"
+    },
+    {
+      "file": "assets/atlases/hit.png",
+      "sha256": "9A7C2CF3B902A06D6AAACFD0CA35361B99E28AB95CDB88B6C92556A8D0A4CE49",
+      "bytes": 2876579,
+      "source": "preview/mercenary-seolhwi-battle-20261023-v1/assets/atlases/hit.png"
+    },
+    {
+      "file": "assets/atlases/defeat.png",
+      "sha256": "40DBF9FEABD8DD2DFEFB5E08E91A5486847066610D4B389B374C1AD56B9D17DC",
+      "bytes": 1612850,
+      "source": "preview/mercenary-seolhwi-battle-20261023-v1/assets/atlases/defeat.png"
+    },
+    {
+      "file": "assets/atlases/fx-aura.png",
+      "sha256": "4BAC12066ABD59CA178C8FBAA4541495983E19B65037597D86948731927095A9",
+      "bytes": 1052826,
+      "source": "preview/mercenary-seolhwi-battle-20261023-v1/assets/atlases/fx-aura.png"
+    },
+    {
+      "file": "assets/atlases/fx-slash.png",
+      "sha256": "64A83CC34CF78695E9FE3EE707B6D0A6031F2AE5A8135FD8D4A0DF4E0F9FF424",
+      "bytes": 951286,
+      "source": "preview/mercenary-seolhwi-battle-20261023-v1/assets/atlases/fx-slash.png"
+    },
+    {
+      "file": "assets/atlases/fx-tiger.png",
+      "sha256": "D6FAB104311E0A2E4E8B5E11875F93BEA5D6E826D68A3F121BA7B84DCD73AD27",
+      "bytes": 1282932,
+      "source": "preview/mercenary-seolhwi-battle-20261023-v1/assets/atlases/fx-tiger.png"
+    },
+    {
+      "file": "assets/atlases/fx-impact.png",
+      "sha256": "FE57DABA7049C668481D034A4BF19981AAD354D0507617F031C03ABEDAE415FF",
+      "bytes": 1063857,
+      "source": "preview/mercenary-seolhwi-battle-20261023-v1/assets/atlases/fx-impact.png"
+    }
+  ],
+  "thumbnail": {
+    "file": "assets/ui/project-v/mercenaries/codex-v1/v-973-art-320.webp",
+    "source": "source-art.png",
+    "width": 320,
+    "operation": "proportional resize only; original preserved",
+    "sha256": "3069050506B0046C749C7013FE35A3F54954C3D4919CA96025CA0A88B260F589"
+  }
+}

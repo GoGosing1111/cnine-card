@@ -1,0 +1,3634 @@
+{
+  "version": 2,
+  "name": "은설",
+  "rank": "SSS LIMITED",
+  "facing": "RIGHT",
+  "status": "USER_APPROVED_LIVE",
+  "runtimeEnabled": true,
+  "displaySizing": {
+    "physicalBodyHeight": 285
+  },
+  "motion": {
+    "idle": {
+      "atlas": "assets/atlases/idle.png",
+      "sha256": "3C8AE874051BAF023250C461F968CE0645BEB77B3E9300053F63F7F902B9AD64",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "contentScale": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/idle-00.png",
+          "sha256": "77AAF16CA9415CC218E4A074690B58AA9AECB597902C3CB32F1074491B1E2184",
+          "sourceFile": "assets/sources/idle-v2-sheet.png",
+          "sourceSha256": "0DEEA0B06D6413B145638E90A7BFD26161514DDB15AD5FA85939D38C1418DA25",
+          "sourceIndex": 0,
+          "sourceRect": {
+            "left": 52,
+            "top": 12,
+            "width": 490,
+            "height": 523
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 146,
+            "top": 129,
+            "right": 622,
+            "bottom": 638
+          },
+          "solidEdgePixels": 0,
+          "componentId": 2,
+          "footAnchor": {
+            "x": 0.4869791666666667,
+            "y": 0.8255208333333334
+          },
+          "bodyPixels": 514.4017818411115,
+          "anatomicalChainPixels": 514.4017818411115,
+          "bodyChain": [
+            [
+              290,
+              64
+            ],
+            [
+              286,
+              139
+            ],
+            [
+              263,
+              288
+            ],
+            [
+              348,
+              364
+            ],
+            [
+              405,
+              486
+            ],
+            [
+              417,
+              524
+            ]
+          ],
+          "sourceFoot": [
+            287,
+            524
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 492,
+            "y": 295
+          },
+          "contactPoint": {
+            "x": 619,
+            "y": 131
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/idle-01.png",
+          "sha256": "94C46388CDD1825EDAEAB661E598C6039B203741601B6C33D6D6762B65A97F7B",
+          "sourceFile": "assets/sources/idle-v2-sheet.png",
+          "sourceSha256": "0DEEA0B06D6413B145638E90A7BFD26161514DDB15AD5FA85939D38C1418DA25",
+          "sourceIndex": 1,
+          "sourceRect": {
+            "left": 559,
+            "top": 13,
+            "width": 461,
+            "height": 521
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 160,
+            "top": 130,
+            "right": 607,
+            "bottom": 637
+          },
+          "solidEdgePixels": 0,
+          "componentId": 3,
+          "footAnchor": {
+            "x": 0.5130208333333334,
+            "y": 0.82421875
+          },
+          "bodyPixels": 525.471105146252,
+          "anatomicalChainPixels": 525.471105146252,
+          "bodyChain": [
+            [
+              804,
+              60
+            ],
+            [
+              794,
+              134
+            ],
+            [
+              768,
+              282
+            ],
+            [
+              860,
+              360
+            ],
+            [
+              923,
+              480
+            ],
+            [
+              934,
+              523
+            ]
+          ],
+          "sourceFoot": [
+            800,
+            523
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 489,
+            "y": 287
+          },
+          "contactPoint": {
+            "x": 604,
+            "y": 130
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/idle-02.png",
+          "sha256": "31A14C68240F060820C290ADC43472967E7985991C8888E616D270F56BACF4C4",
+          "sourceFile": "assets/sources/idle-v2-sheet.png",
+          "sourceSha256": "0DEEA0B06D6413B145638E90A7BFD26161514DDB15AD5FA85939D38C1418DA25",
+          "sourceIndex": 2,
+          "sourceRect": {
+            "left": 1046,
+            "top": 9,
+            "width": 482,
+            "height": 525
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 150,
+            "top": 128,
+            "right": 618,
+            "bottom": 639
+          },
+          "solidEdgePixels": 0,
+          "componentId": 1,
+          "footAnchor": {
+            "x": 0.5299479166666666,
+            "y": 0.828125
+          },
+          "bodyPixels": 542.7447795045658,
+          "anatomicalChainPixels": 542.7447795045658,
+          "bodyChain": [
+            [
+              1315,
+              65
+            ],
+            [
+              1300,
+              135
+            ],
+            [
+              1267,
+              285
+            ],
+            [
+              1370,
+              361
+            ],
+            [
+              1450,
+              480
+            ],
+            [
+              1464,
+              524
+            ]
+          ],
+          "sourceFoot": [
+            1310,
+            524
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 500,
+            "y": 294
+          },
+          "contactPoint": {
+            "x": 616,
+            "y": 129
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/idle-03.png",
+          "sha256": "FB6C8BB0B1923053D034F338354BCDA52A1B4AAF6785C6273351DF3B21601270",
+          "sourceFile": "assets/sources/idle-v2-sheet.png",
+          "sourceSha256": "0DEEA0B06D6413B145638E90A7BFD26161514DDB15AD5FA85939D38C1418DA25",
+          "sourceIndex": 3,
+          "sourceRect": {
+            "left": 53,
+            "top": 520,
+            "width": 462,
+            "height": 501
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 160,
+            "top": 140,
+            "right": 609,
+            "bottom": 627
+          },
+          "solidEdgePixels": 0,
+          "componentId": 58,
+          "footAnchor": {
+            "x": 0.51171875,
+            "y": 0.8111979166666666
+          },
+          "bodyPixels": 502.92124820999595,
+          "anatomicalChainPixels": 502.92124820999595,
+          "bodyChain": [
+            [
+              295,
+              570
+            ],
+            [
+              283,
+              647
+            ],
+            [
+              256,
+              793
+            ],
+            [
+              345,
+              878
+            ],
+            [
+              406,
+              976
+            ],
+            [
+              423,
+              1010
+            ]
+          ],
+          "sourceFoot": [
+            293,
+            1010
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 497,
+            "y": 307
+          },
+          "contactPoint": {
+            "x": 606,
+            "y": 142
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/idle-04.png",
+          "sha256": "4990D67BC4E5355D161E1A492A053E2C4F722D63CC68D30A38CE4F4BC0D68E73",
+          "sourceFile": "assets/sources/idle-v2-sheet.png",
+          "sourceSha256": "0DEEA0B06D6413B145638E90A7BFD26161514DDB15AD5FA85939D38C1418DA25",
+          "sourceIndex": 4,
+          "sourceRect": {
+            "left": 557,
+            "top": 523,
+            "width": 454,
+            "height": 499
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 164,
+            "top": 141,
+            "right": 604,
+            "bottom": 626
+          },
+          "solidEdgePixels": 0,
+          "componentId": 59,
+          "footAnchor": {
+            "x": 0.5182291666666666,
+            "y": 0.8098958333333334
+          },
+          "bodyPixels": 509.91592426896,
+          "anatomicalChainPixels": 509.91592426896,
+          "bodyChain": [
+            [
+              806,
+              572
+            ],
+            [
+              790,
+              649
+            ],
+            [
+              766,
+              794
+            ],
+            [
+              862,
+              872
+            ],
+            [
+              927,
+              973
+            ],
+            [
+              941,
+              1011
+            ]
+          ],
+          "sourceFoot": [
+            798,
+            1011
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 485,
+            "y": 304
+          },
+          "contactPoint": {
+            "x": 603,
+            "y": 143
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/idle-05.png",
+          "sha256": "0726BC413EB04AEFBE10F6CAA6917294E4C0080716BF185B7890460ADFE7E898",
+          "sourceFile": "assets/sources/idle-v2-sheet.png",
+          "sourceSha256": "0DEEA0B06D6413B145638E90A7BFD26161514DDB15AD5FA85939D38C1418DA25",
+          "sourceIndex": 5,
+          "sourceRect": {
+            "left": 1077,
+            "top": 519,
+            "width": 449,
+            "height": 503
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 166,
+            "top": 139,
+            "right": 601,
+            "bottom": 628
+          },
+          "solidEdgePixels": 0,
+          "componentId": 57,
+          "footAnchor": {
+            "x": 0.5247395833333334,
+            "y": 0.81640625
+          },
+          "bodyPixels": 500.23389580790615,
+          "anatomicalChainPixels": 500.23389580790615,
+          "bodyChain": [
+            [
+              1327,
+              577
+            ],
+            [
+              1315,
+              652
+            ],
+            [
+              1291,
+              798
+            ],
+            [
+              1382,
+              882
+            ],
+            [
+              1443,
+              982
+            ],
+            [
+              1458,
+              1014
+            ]
+          ],
+          "sourceFoot": [
+            1321,
+            1014
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 482,
+            "y": 325
+          },
+          "contactPoint": {
+            "x": 599,
+            "y": 141
+          }
+        }
+      ],
+      "visibleBounds": {
+        "left": 146,
+        "top": 128,
+        "right": 622,
+        "bottom": 639
+      },
+      "source": {
+        "file": "assets/sources/idle-v2-sheet.png",
+        "sha256": "0DEEA0B06D6413B145638E90A7BFD26161514DDB15AD5FA85939D38C1418DA25",
+        "nativeAlpha": true,
+        "excludedIndices": []
+      }
+    },
+    "dash": {
+      "atlas": "assets/atlases/dash.png",
+      "sha256": "472242145F0364452694D4FBABEC03E5C5970AC46A556E88587555FABB776DD7",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "contentScale": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/dash-00.png",
+          "sha256": "F79FEAA7D5D206BD1733C50C5E9999C6E2681FC660AD362498F8471FC8A1ED6F",
+          "sourceFile": "assets/sources/dash-v2-sheet.png",
+          "sourceSha256": "E0C754C0C4EC261B8D46F2B13CDB6B722882F519D90E95B8710848377C803C0F",
+          "sourceIndex": 0,
+          "sourceRect": {
+            "left": 43,
+            "top": 2,
+            "width": 463,
+            "height": 517
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 159,
+            "top": 132,
+            "right": 608,
+            "bottom": 635
+          },
+          "solidEdgePixels": 0,
+          "componentId": 1,
+          "footAnchor": {
+            "x": 0.4739583333333333,
+            "y": 0.8203125
+          },
+          "bodyPixels": 492.16311653458644,
+          "anatomicalChainPixels": 492.16311653458644,
+          "bodyChain": [
+            [
+              298,
+              44
+            ],
+            [
+              278,
+              118
+            ],
+            [
+              262,
+              250
+            ],
+            [
+              315,
+              349
+            ],
+            [
+              365,
+              466
+            ],
+            [
+              378,
+              507
+            ]
+          ],
+          "sourceFoot": [
+            255,
+            507
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 477,
+            "y": 288
+          },
+          "contactPoint": {
+            "x": 604,
+            "y": 133
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/dash-01.png",
+          "sha256": "8301F6B47CC2FF1CE6DDFF3ED0E4F8FCFD9CC557224263585827CE2751AF533E",
+          "sourceFile": "assets/sources/dash-v2-sheet.png",
+          "sourceSha256": "E0C754C0C4EC261B8D46F2B13CDB6B722882F519D90E95B8710848377C803C0F",
+          "sourceIndex": 1,
+          "sourceRect": {
+            "left": 526,
+            "top": 67,
+            "width": 524,
+            "height": 448
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 128,
+            "top": 167,
+            "right": 640,
+            "bottom": 601
+          },
+          "solidEdgePixels": 0,
+          "componentId": 3,
+          "footAnchor": {
+            "x": 0.51953125,
+            "y": 0.7760416666666666
+          },
+          "bodyPixels": 505.4784969383287,
+          "anatomicalChainPixels": 505.4784969383287,
+          "bodyChain": [
+            [
+              870,
+              121
+            ],
+            [
+              849,
+              191
+            ],
+            [
+              776,
+              324
+            ],
+            [
+              874,
+              349
+            ],
+            [
+              805,
+              458
+            ],
+            [
+              828,
+              503
+            ]
+          ],
+          "sourceFoot": [
+            803,
+            503
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 480,
+            "y": 336
+          },
+          "contactPoint": {
+            "x": 638,
+            "y": 168
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/dash-02.png",
+          "sha256": "9C3F99B9E5EEBB27790FB4B59795C9E7A13C913D4AD0040FE7CF351C4F474D84",
+          "sourceFile": "assets/sources/dash-v2-sheet.png",
+          "sourceSha256": "E0C754C0C4EC261B8D46F2B13CDB6B722882F519D90E95B8710848377C803C0F",
+          "sourceIndex": 2,
+          "sourceRect": {
+            "left": 1016,
+            "top": 9,
+            "width": 514,
+            "height": 507
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 134,
+            "top": 137,
+            "right": 634,
+            "bottom": 630
+          },
+          "solidEdgePixels": 0,
+          "componentId": 2,
+          "footAnchor": {
+            "x": 0.49609375,
+            "y": 0.8138020833333334
+          },
+          "bodyPixels": 511.3218358626103,
+          "anatomicalChainPixels": 511.3218358626103,
+          "bodyChain": [
+            [
+              1339,
+              111
+            ],
+            [
+              1315,
+              180
+            ],
+            [
+              1300,
+              307
+            ],
+            [
+              1420,
+              323
+            ],
+            [
+              1473,
+              457
+            ],
+            [
+              1487,
+              500
+            ]
+          ],
+          "sourceFoot": [
+            1270,
+            504
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 506,
+            "y": 311
+          },
+          "contactPoint": {
+            "x": 631,
+            "y": 138
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/dash-03.png",
+          "sha256": "E7597238FC6DC1CC12CEEE962F1A79032AD73EA01388B752878136A01CDC9895",
+          "sourceFile": "assets/sources/dash-v2-sheet.png",
+          "sourceSha256": "E0C754C0C4EC261B8D46F2B13CDB6B722882F519D90E95B8710848377C803C0F",
+          "sourceIndex": 3,
+          "sourceRect": {
+            "left": 36,
+            "top": 503,
+            "width": 494,
+            "height": 503
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 144,
+            "top": 139,
+            "right": 624,
+            "bottom": 628
+          },
+          "solidEdgePixels": 0,
+          "componentId": 44,
+          "footAnchor": {
+            "x": 0.27734375,
+            "y": 0.8072916666666666
+          },
+          "bodyPixels": 513.9787600681959,
+          "anatomicalChainPixels": 513.9787600681959,
+          "bodyChain": [
+            [
+              380,
+              582
+            ],
+            [
+              356,
+              654
+            ],
+            [
+              296,
+              758
+            ],
+            [
+              201,
+              871
+            ],
+            [
+              104,
+              940
+            ],
+            [
+              110,
+              991
+            ]
+          ],
+          "sourceFoot": [
+            112,
+            991
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 515,
+            "y": 315
+          },
+          "contactPoint": {
+            "x": 621,
+            "y": 141
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/dash-04.png",
+          "sha256": "E8A21C4118C4EC506929521FB65FF66FEAE9A08EF1A27CB182F5905F0AE9D980",
+          "sourceFile": "assets/sources/dash-v2-sheet.png",
+          "sourceSha256": "E0C754C0C4EC261B8D46F2B13CDB6B722882F519D90E95B8710848377C803C0F",
+          "sourceIndex": 4,
+          "sourceRect": {
+            "left": 535,
+            "top": 536,
+            "width": 503,
+            "height": 474
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 139,
+            "top": 154,
+            "right": 628,
+            "bottom": 614
+          },
+          "solidEdgePixels": 0,
+          "componentId": 46,
+          "footAnchor": {
+            "x": 0.578125,
+            "y": 0.79296875
+          },
+          "bodyPixels": 569.9152033288667,
+          "anatomicalChainPixels": 569.9152033288667,
+          "bodyChain": [
+            [
+              884,
+              630
+            ],
+            [
+              850,
+              708
+            ],
+            [
+              774,
+              839
+            ],
+            [
+              931,
+              837
+            ],
+            [
+              974,
+              955
+            ],
+            [
+              1001,
+              998
+            ]
+          ],
+          "sourceFoot": [
+            847,
+            998
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 515,
+            "y": 340
+          },
+          "contactPoint": {
+            "x": 628,
+            "y": 155
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/dash-05.png",
+          "sha256": "015BAFC2703EFCED0D839CE7FF6951D08204F743E2DC89812C8E5ED4FDD32C0F",
+          "sourceFile": "assets/sources/dash-v2-sheet.png",
+          "sourceSha256": "E0C754C0C4EC261B8D46F2B13CDB6B722882F519D90E95B8710848377C803C0F",
+          "sourceIndex": 5,
+          "sourceRect": {
+            "left": 1057,
+            "top": 520,
+            "width": 476,
+            "height": 494
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 153,
+            "top": 143,
+            "right": 615,
+            "bottom": 624
+          },
+          "solidEdgePixels": 0,
+          "componentId": 45,
+          "footAnchor": {
+            "x": 0.5325520833333334,
+            "y": 0.8059895833333334
+          },
+          "bodyPixels": 472.0277654649896,
+          "anatomicalChainPixels": 472.0277654649896,
+          "bodyChain": [
+            [
+              1324,
+              586
+            ],
+            [
+              1313,
+              657
+            ],
+            [
+              1299,
+              793
+            ],
+            [
+              1384,
+              877
+            ],
+            [
+              1439,
+              967
+            ],
+            [
+              1455,
+              1002
+            ]
+          ],
+          "sourceFoot": [
+            1320,
+            1002
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 486,
+            "y": 305
+          },
+          "contactPoint": {
+            "x": 613,
+            "y": 147
+          }
+        }
+      ],
+      "visibleBounds": {
+        "left": 128,
+        "top": 132,
+        "right": 640,
+        "bottom": 635
+      },
+      "source": {
+        "file": "assets/sources/dash-v2-sheet.png",
+        "sha256": "E0C754C0C4EC261B8D46F2B13CDB6B722882F519D90E95B8710848377C803C0F",
+        "nativeAlpha": true,
+        "excludedIndices": []
+      }
+    },
+    "slash": {
+      "atlas": "assets/atlases/slash.png",
+      "sha256": "7056C8DF47094D414CD39A08C2A5344BA0AE1E3AAD1FFEB5937A6E6BDC66388A",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "contentScale": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/slash-00.png",
+          "sha256": "5362857DB42A622FC033D7242A97781E8BA4B379808785D9A78FB7DF0BECC845",
+          "sourceFile": "assets/sources/slash-v2-sheet.png",
+          "sourceSha256": "14CBE5A2C66E0A8D13E0CD60D5176441E26903D099701C562AB17B3072B333EB",
+          "sourceIndex": 0,
+          "sourceRect": {
+            "left": 61,
+            "top": 48,
+            "width": 447,
+            "height": 493
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 167,
+            "top": 144,
+            "right": 600,
+            "bottom": 623
+          },
+          "solidEdgePixels": 0,
+          "componentId": 3,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.8059895833333334
+          },
+          "bodyPixels": 499.0362922887825,
+          "anatomicalChainPixels": 499.0362922887825,
+          "bodyChain": [
+            [
+              285,
+              90
+            ],
+            [
+              272,
+              163
+            ],
+            [
+              251,
+              296
+            ],
+            [
+              341,
+              372
+            ],
+            [
+              395,
+              492
+            ],
+            [
+              410,
+              530
+            ]
+          ],
+          "sourceFoot": [
+            285,
+            530
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 469,
+            "y": 324
+          },
+          "contactPoint": {
+            "x": 598,
+            "y": 146
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/slash-01.png",
+          "sha256": "373D59663DC924B9CC368F2405FCAE62C189094D891B63ED05EB51E8683F640A",
+          "sourceFile": "assets/sources/slash-v2-sheet.png",
+          "sourceSha256": "14CBE5A2C66E0A8D13E0CD60D5176441E26903D099701C562AB17B3072B333EB",
+          "sourceIndex": 1,
+          "sourceRect": {
+            "left": 586,
+            "top": 0,
+            "width": 383,
+            "height": 541
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 199,
+            "top": 119,
+            "right": 568,
+            "bottom": 648
+          },
+          "solidEdgePixels": 0,
+          "componentId": 1,
+          "footAnchor": {
+            "x": 0.5286458333333334,
+            "y": 0.8359375
+          },
+          "bodyPixels": 499.26135282847974,
+          "anatomicalChainPixels": 499.26135282847974,
+          "bodyChain": [
+            [
+              881,
+              114
+            ],
+            [
+              865,
+              185
+            ],
+            [
+              813,
+              310
+            ],
+            [
+              903,
+              367
+            ],
+            [
+              831,
+              492
+            ],
+            [
+              847,
+              529
+            ]
+          ],
+          "sourceFoot": [
+            800,
+            529
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 384,
+            "y": 219
+          },
+          "contactPoint": {
+            "x": 231,
+            "y": 121
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/slash-02.png",
+          "sha256": "D7739FA1EFA654C39F2177244B5B97CF318D15B164B4B0ABED776AA8EDBEAF62",
+          "sourceFile": "assets/sources/slash-v2-sheet.png",
+          "sourceSha256": "14CBE5A2C66E0A8D13E0CD60D5176441E26903D099701C562AB17B3072B333EB",
+          "sourceIndex": 2,
+          "sourceRect": {
+            "left": 1044,
+            "top": 15,
+            "width": 478,
+            "height": 526
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 152,
+            "top": 128,
+            "right": 616,
+            "bottom": 641
+          },
+          "solidEdgePixels": 0,
+          "componentId": 2,
+          "footAnchor": {
+            "x": 0.5260416666666666,
+            "y": 0.8294270833333334
+          },
+          "bodyPixels": 489.1279896481933,
+          "anatomicalChainPixels": 489.1279896481933,
+          "bodyChain": [
+            [
+              1300,
+              112
+            ],
+            [
+              1280,
+              178
+            ],
+            [
+              1265,
+              303
+            ],
+            [
+              1363,
+              375
+            ],
+            [
+              1419,
+              493
+            ],
+            [
+              1437,
+              531
+            ]
+          ],
+          "sourceFoot": [
+            1303,
+            531
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 489,
+            "y": 285
+          },
+          "contactPoint": {
+            "x": 613,
+            "y": 129
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/slash-03.png",
+          "sha256": "1099DBF35FAE93E75511CE93743C5BA048F7E297A2AD27B9A86FD16F2AB80DCC",
+          "sourceFile": "assets/sources/contact-v4-individual.png",
+          "sourceSha256": "5E081418A55590ACF48AC8177626CE7C5BCB2A81F8B4F513EEF39595FA62BBD5",
+          "sourceIndex": null,
+          "sourceRect": {
+            "left": 6,
+            "top": 1,
+            "width": 1526,
+            "height": 984
+          },
+          "packingScale": 0.4927916120576671,
+          "visibleBounds": {
+            "left": 11,
+            "top": 144,
+            "right": 757,
+            "bottom": 623
+          },
+          "solidEdgePixels": 0,
+          "componentId": 1,
+          "footAnchor": {
+            "x": 0.42364296636085624,
+            "y": 0.8079247897553516
+          },
+          "bodyPixels": 534.6788990825688,
+          "anatomicalChainPixels": 617.9698115448365,
+          "bodyChain": [
+            [
+              720,
+              64
+            ],
+            [
+              655,
+              222
+            ],
+            [
+              648,
+              536
+            ],
+            [
+              971,
+              569
+            ],
+            [
+              1100,
+              842
+            ],
+            [
+              1156,
+              973
+            ]
+          ],
+          "sourceFoot": [
+            650,
+            974
+          ],
+          "naturalBodyMethod": "Standing idle neck-to-hip reference: 149px torso / 514.4px natural body. Individual lunge torso is 314px; use 1085px natural reference to prevent longer independently drawn lunge legs from shrinking the head/torso. Applied uniformly to the entire native actor.",
+          "bladeRoot": {
+            "x": 538.7365661861076,
+            "y": 348.46526867627784
+          },
+          "contactPoint": {
+            "x": 753.1009174311927,
+            "y": 391.8309305373525
+          },
+          "notes": "Genuine newly drawn right-facing two-hand forward contact. Shared by slash/ultimate contact phase. Two distinct hands are on one straight handle/guard/blade axis; no body-part composite."
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/slash-04.png",
+          "sha256": "AFEFECCBD0900CBA3267EB584380BD6AD58388EBE067A2B67F99588BA7E2CBE8",
+          "sourceFile": "assets/sources/followthrough-v4-individual.png",
+          "sourceSha256": "A10E11C998ADE6805038537B21A719235758789AAED89BD62F97C7517E389C9E",
+          "sourceIndex": null,
+          "sourceRect": {
+            "left": 7,
+            "top": 0,
+            "width": 1520,
+            "height": 992
+          },
+          "packingScale": 0.49473684210526314,
+          "visibleBounds": {
+            "left": 11,
+            "top": 141,
+            "right": 756,
+            "bottom": 626
+          },
+          "solidEdgePixels": 0,
+          "componentId": 1,
+          "footAnchor": {
+            "x": 0.45490679824561403,
+            "y": 0.8109923245614036
+          },
+          "bodyPixels": 531.8421052631579,
+          "anatomicalChainPixels": 599.5407424948613,
+          "bodyChain": [
+            [
+              864,
+              72
+            ],
+            [
+              792,
+              234
+            ],
+            [
+              723,
+              537
+            ],
+            [
+              1004,
+              589
+            ],
+            [
+              1155,
+              844
+            ],
+            [
+              1201,
+              978
+            ]
+          ],
+          "sourceFoot": [
+            697,
+            980
+          ],
+          "naturalBodyMethod": "Standing idle neck-to-hip reference: 149px torso / 514.4px natural body. Individual follow-through torso is 311px; use 1075px natural reference consistently with the contact pose. Applied uniformly to whole actor independently of sword bounds.",
+          "bladeRoot": {
+            "x": 557.1578947368421,
+            "y": 433.85263157894735
+          },
+          "contactPoint": {
+            "x": 753.5684210526316,
+            "y": 558.0315789473684
+          },
+          "notes": "Genuine newly drawn two-handed down-right follow-through. Shared by slash/ultimate follow-through phase; the whole sword is straight and hands grip the same handle."
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/slash-05.png",
+          "sha256": "D5363AECAE5250E7277A3C8F52AE2D34EAA3206F03ACFC68A16611C36FDD1C62",
+          "sourceFile": "assets/sources/slash-v2-sheet.png",
+          "sourceSha256": "14CBE5A2C66E0A8D13E0CD60D5176441E26903D099701C562AB17B3072B333EB",
+          "sourceIndex": 5,
+          "sourceRect": {
+            "left": 1098,
+            "top": 530,
+            "width": 422,
+            "height": 486
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 180,
+            "top": 148,
+            "right": 588,
+            "bottom": 620
+          },
+          "solidEdgePixels": 0,
+          "componentId": 35,
+          "footAnchor": {
+            "x": 0.4973958333333333,
+            "y": 0.8020833333333334
+          },
+          "bodyPixels": 485.0114404554813,
+          "anatomicalChainPixels": 485.0114404554813,
+          "bodyChain": [
+            [
+              1301,
+              589
+            ],
+            [
+              1280,
+              659
+            ],
+            [
+              1265,
+              788
+            ],
+            [
+              1367,
+              864
+            ],
+            [
+              1417,
+              972
+            ],
+            [
+              1431,
+              1005
+            ]
+          ],
+          "sourceFoot": [
+            1307,
+            1005
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 465,
+            "y": 321
+          },
+          "contactPoint": {
+            "x": 586,
+            "y": 149
+          }
+        }
+      ],
+      "visibleBounds": {
+        "left": 11,
+        "top": 119,
+        "right": 757,
+        "bottom": 648
+      },
+      "source": {
+        "file": "assets/sources/slash-v2-sheet.png",
+        "sha256": "14CBE5A2C66E0A8D13E0CD60D5176441E26903D099701C562AB17B3072B333EB",
+        "nativeAlpha": true,
+        "excludedIndices": []
+      }
+    },
+    "cast": {
+      "atlas": "assets/atlases/cast.png",
+      "sha256": "10BE268627AC99123B2F7EFB3AFE96827E95A0867484A0822112C192AD78FB67",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "contentScale": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/cast-00.png",
+          "sha256": "552E4932B2384A21D4EDF26B14FE5F3A4071B91AC7662AE2A851F72026D05700",
+          "sourceFile": "assets/sources/cast-v2-sheet.png",
+          "sourceSha256": "6E1083D1E572D66C7E30307992A8626CC212692CC50E3FA0D4E2052C62BD6DB3",
+          "sourceIndex": 0,
+          "sourceRect": {
+            "left": 30,
+            "top": 25,
+            "width": 470,
+            "height": 507
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 155,
+            "top": 137,
+            "right": 612,
+            "bottom": 631
+          },
+          "solidEdgePixels": 0,
+          "componentId": 3,
+          "footAnchor": {
+            "x": 0.4856770833333333,
+            "y": 0.8138020833333334
+          },
+          "bodyPixels": 496.0485174637108,
+          "anatomicalChainPixels": 496.0485174637108,
+          "bodyChain": [
+            [
+              265,
+              79
+            ],
+            [
+              251,
+              153
+            ],
+            [
+              228,
+              286
+            ],
+            [
+              311,
+              366
+            ],
+            [
+              369,
+              484
+            ],
+            [
+              384,
+              520
+            ]
+          ],
+          "sourceFoot": [
+            254,
+            520
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 465,
+            "y": 288
+          },
+          "contactPoint": {
+            "x": 609,
+            "y": 137
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/cast-01.png",
+          "sha256": "E6918DDD203365C1BD4D4F4F2BB45926AFB71264D488F77DBED2278FDAFA7A5B",
+          "sourceFile": "assets/sources/cast-v2-sheet.png",
+          "sourceSha256": "6E1083D1E572D66C7E30307992A8626CC212692CC50E3FA0D4E2052C62BD6DB3",
+          "sourceIndex": 1,
+          "sourceRect": {
+            "left": 550,
+            "top": 39,
+            "width": 440,
+            "height": 498
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 170,
+            "top": 142,
+            "right": 597,
+            "bottom": 626
+          },
+          "solidEdgePixels": 0,
+          "componentId": 5,
+          "footAnchor": {
+            "x": 0.4947916666666667,
+            "y": 0.80859375
+          },
+          "bodyPixels": 474.55398705707313,
+          "anatomicalChainPixels": 474.55398705707313,
+          "bodyChain": [
+            [
+              784,
+              113
+            ],
+            [
+              759,
+              181
+            ],
+            [
+              736,
+              300
+            ],
+            [
+              826,
+              366
+            ],
+            [
+              871,
+              494
+            ],
+            [
+              884,
+              525
+            ]
+          ],
+          "sourceFoot": [
+            766,
+            525
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 428,
+            "y": 292
+          },
+          "contactPoint": {
+            "x": 568,
+            "y": 145
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/cast-02.png",
+          "sha256": "1E1022C050F4F6D858B79A61EE62C02CD0038B997CC65E9106949CFD37E4F43B",
+          "sourceFile": "assets/sources/cast-v2-sheet.png",
+          "sourceSha256": "6E1083D1E572D66C7E30307992A8626CC212692CC50E3FA0D4E2052C62BD6DB3",
+          "sourceIndex": 2,
+          "sourceRect": {
+            "left": 1033,
+            "top": 0,
+            "width": 493,
+            "height": 537
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 144,
+            "top": 122,
+            "right": 623,
+            "bottom": 645
+          },
+          "solidEdgePixels": 0,
+          "componentId": 1,
+          "footAnchor": {
+            "x": 0.4947916666666667,
+            "y": 0.8359375
+          },
+          "bodyPixels": 459.22041905306827,
+          "anatomicalChainPixels": 459.22041905306827,
+          "bodyChain": [
+            [
+              1268,
+              119
+            ],
+            [
+              1250,
+              189
+            ],
+            [
+              1248,
+              311
+            ],
+            [
+              1329,
+              384
+            ],
+            [
+              1375,
+              493
+            ],
+            [
+              1391,
+              527
+            ]
+          ],
+          "sourceFoot": [
+            1276,
+            527
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 487,
+            "y": 250
+          },
+          "contactPoint": {
+            "x": 620,
+            "y": 125
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/cast-03.png",
+          "sha256": "DA9B97F2C42259F59D2B026957B3376F5A8078FF08E5A68113A50C15294E3D5C",
+          "sourceFile": "assets/sources/cast-v2-sheet.png",
+          "sourceSha256": "6E1083D1E572D66C7E30307992A8626CC212692CC50E3FA0D4E2052C62BD6DB3",
+          "sourceIndex": 3,
+          "sourceRect": {
+            "left": 25,
+            "top": 492,
+            "width": 470,
+            "height": 529
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 155,
+            "top": 126,
+            "right": 612,
+            "bottom": 641
+          },
+          "solidEdgePixels": 0,
+          "componentId": 38,
+          "footAnchor": {
+            "x": 0.4921875,
+            "y": 0.8294270833333334
+          },
+          "bodyPixels": 454.6100640840022,
+          "anatomicalChainPixels": 454.6100640840022,
+          "bodyChain": [
+            [
+              249,
+              612
+            ],
+            [
+              233,
+              681
+            ],
+            [
+              229,
+              793
+            ],
+            [
+              319,
+              873
+            ],
+            [
+              369,
+              975
+            ],
+            [
+              383,
+              1010
+            ]
+          ],
+          "sourceFoot": [
+            254,
+            1010
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 489,
+            "y": 244
+          },
+          "contactPoint": {
+            "x": 608,
+            "y": 129
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/cast-04.png",
+          "sha256": "A336862011974FFEDB94AAE97EA81D5CEF00DE6B2DE0BCBCBBDC256433C5FBD6",
+          "sourceFile": "assets/sources/cast-v2-sheet.png",
+          "sourceSha256": "6E1083D1E572D66C7E30307992A8626CC212692CC50E3FA0D4E2052C62BD6DB3",
+          "sourceIndex": 4,
+          "sourceRect": {
+            "left": 493,
+            "top": 597,
+            "width": 630,
+            "height": 422
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 76,
+            "top": 180,
+            "right": 692,
+            "bottom": 588
+          },
+          "solidEdgePixels": 0,
+          "componentId": 40,
+          "footAnchor": {
+            "x": 0.3997395833333333,
+            "y": 0.7604166666666666
+          },
+          "bodyPixels": 446.5490537035233,
+          "anatomicalChainPixels": 446.5490537035233,
+          "bodyChain": [
+            [
+              774,
+              630
+            ],
+            [
+              750,
+              706
+            ],
+            [
+              722,
+              803
+            ],
+            [
+              809,
+              861
+            ],
+            [
+              858,
+              978
+            ],
+            [
+              875,
+              1008
+            ]
+          ],
+          "sourceFoot": [
+            731,
+            1008
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 500,
+            "y": 270
+          },
+          "contactPoint": {
+            "x": 689,
+            "y": 204
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/cast-05.png",
+          "sha256": "ECF0AB6588FA708FFADF0FCF81830A9F55D3046E3BA2E28CFEA344B7B7C042E6",
+          "sourceFile": "assets/sources/cast-v2-sheet.png",
+          "sourceSha256": "6E1083D1E572D66C7E30307992A8626CC212692CC50E3FA0D4E2052C62BD6DB3",
+          "sourceIndex": 5,
+          "sourceRect": {
+            "left": 1090,
+            "top": 544,
+            "width": 432,
+            "height": 477
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 175,
+            "top": 152,
+            "right": 594,
+            "bottom": 615
+          },
+          "solidEdgePixels": 0,
+          "componentId": 39,
+          "footAnchor": {
+            "x": 0.4856770833333333,
+            "y": 0.796875
+          },
+          "bodyPixels": 458.4746753090828,
+          "anatomicalChainPixels": 458.4746753090828,
+          "bodyChain": [
+            [
+              1299,
+              604
+            ],
+            [
+              1282,
+              677
+            ],
+            [
+              1273,
+              797
+            ],
+            [
+              1356,
+              880
+            ],
+            [
+              1406,
+              981
+            ],
+            [
+              1420,
+              1011
+            ]
+          ],
+          "sourceFoot": [
+            1295,
+            1011
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 469,
+            "y": 322
+          },
+          "contactPoint": {
+            "x": 590,
+            "y": 153
+          }
+        }
+      ],
+      "visibleBounds": {
+        "left": 76,
+        "top": 122,
+        "right": 692,
+        "bottom": 645
+      },
+      "source": {
+        "file": "assets/sources/cast-v2-sheet.png",
+        "sha256": "6E1083D1E572D66C7E30307992A8626CC212692CC50E3FA0D4E2052C62BD6DB3",
+        "nativeAlpha": true,
+        "excludedIndices": []
+      }
+    },
+    "ultimate": {
+      "atlas": "assets/atlases/ultimate.png",
+      "sha256": "1269279E684027185D9FA505DEF0CEFFBE713F467EF2B223220690DB1D6DDEC9",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "contentScale": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/ultimate-00.png",
+          "sha256": "2BC628257991221A91327CEB6DF9D63D88F2B2C777090C4149CA127C768B8FF6",
+          "sourceFile": "assets/sources/ultimate-v2-sheet.png",
+          "sourceSha256": "BFFFE1BC18620E4FCD8BCA459F5F7859F013B1C4281B18A8CAE935D9891FF24D",
+          "sourceIndex": 0,
+          "sourceRect": {
+            "left": 5,
+            "top": 14,
+            "width": 535,
+            "height": 518
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 123,
+            "top": 132,
+            "right": 644,
+            "bottom": 637
+          },
+          "solidEdgePixels": 0,
+          "componentId": 3,
+          "footAnchor": {
+            "x": 0.4778645833333333,
+            "y": 0.82421875
+          },
+          "bodyPixels": 542.2791416601369,
+          "anatomicalChainPixels": 542.2791416601369,
+          "bodyChain": [
+            [
+              266,
+              58
+            ],
+            [
+              249,
+              130
+            ],
+            [
+              230,
+              267
+            ],
+            [
+              333,
+              356
+            ],
+            [
+              417,
+              485
+            ],
+            [
+              432,
+              522
+            ]
+          ],
+          "sourceFoot": [
+            256,
+            522
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 462,
+            "y": 336
+          },
+          "contactPoint": {
+            "x": 640,
+            "y": 229
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/ultimate-01.png",
+          "sha256": "D40C44A00CE61893EB8273587EA3AC7E4B1240D7CA1B2534BF62B05B5DC7CE31",
+          "sourceFile": "assets/sources/ultimate-v2-sheet.png",
+          "sourceSha256": "BFFFE1BC18620E4FCD8BCA459F5F7859F013B1C4281B18A8CAE935D9891FF24D",
+          "sourceIndex": 1,
+          "sourceRect": {
+            "left": 560,
+            "top": 0,
+            "width": 456,
+            "height": 534
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 162,
+            "top": 122,
+            "right": 605,
+            "bottom": 644
+          },
+          "solidEdgePixels": 0,
+          "componentId": 2,
+          "footAnchor": {
+            "x": 0.5872395833333334,
+            "y": 0.8346354166666666
+          },
+          "bodyPixels": 515.9155843732065,
+          "anatomicalChainPixels": 515.9155843732065,
+          "bodyChain": [
+            [
+              833,
+              91
+            ],
+            [
+              817,
+              159
+            ],
+            [
+              782,
+              286
+            ],
+            [
+              843,
+              366
+            ],
+            [
+              963,
+              489
+            ],
+            [
+              986,
+              524
+            ]
+          ],
+          "sourceFoot": [
+            855,
+            524
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 310,
+            "y": 237
+          },
+          "contactPoint": {
+            "x": 170,
+            "y": 124
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/ultimate-02.png",
+          "sha256": "775F9344FE19970FF73C95B772538CEF1BF05821F920133016720005A94143F0",
+          "sourceFile": "assets/sources/ultimate-v2-sheet.png",
+          "sourceSha256": "BFFFE1BC18620E4FCD8BCA459F5F7859F013B1C4281B18A8CAE935D9891FF24D",
+          "sourceIndex": 2,
+          "sourceRect": {
+            "left": 1074,
+            "top": 0,
+            "width": 461,
+            "height": 540
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 159,
+            "top": 114,
+            "right": 607,
+            "bottom": 647
+          },
+          "solidEdgePixels": 0,
+          "componentId": 1,
+          "footAnchor": {
+            "x": 0.5403645833333334,
+            "y": 0.8372395833333334
+          },
+          "bodyPixels": 486.15939498247076,
+          "anatomicalChainPixels": 486.15939498247076,
+          "bodyChain": [
+            [
+              1360,
+              121
+            ],
+            [
+              1343,
+              195
+            ],
+            [
+              1334,
+              307
+            ],
+            [
+              1448,
+              363
+            ],
+            [
+              1471,
+              492
+            ],
+            [
+              1490,
+              527
+            ]
+          ],
+          "sourceFoot": [
+            1336,
+            529
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 441,
+            "y": 174
+          },
+          "contactPoint": {
+            "x": 604,
+            "y": 120
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/ultimate-03.png",
+          "sha256": "1099DBF35FAE93E75511CE93743C5BA048F7E297A2AD27B9A86FD16F2AB80DCC",
+          "sourceFile": "assets/sources/contact-v4-individual.png",
+          "sourceSha256": "5E081418A55590ACF48AC8177626CE7C5BCB2A81F8B4F513EEF39595FA62BBD5",
+          "sourceIndex": null,
+          "sourceRect": {
+            "left": 6,
+            "top": 1,
+            "width": 1526,
+            "height": 984
+          },
+          "packingScale": 0.4927916120576671,
+          "visibleBounds": {
+            "left": 11,
+            "top": 144,
+            "right": 757,
+            "bottom": 623
+          },
+          "solidEdgePixels": 0,
+          "componentId": 1,
+          "footAnchor": {
+            "x": 0.42364296636085624,
+            "y": 0.8079247897553516
+          },
+          "bodyPixels": 534.6788990825688,
+          "anatomicalChainPixels": 617.9698115448365,
+          "bodyChain": [
+            [
+              720,
+              64
+            ],
+            [
+              655,
+              222
+            ],
+            [
+              648,
+              536
+            ],
+            [
+              971,
+              569
+            ],
+            [
+              1100,
+              842
+            ],
+            [
+              1156,
+              973
+            ]
+          ],
+          "sourceFoot": [
+            650,
+            974
+          ],
+          "naturalBodyMethod": "Standing idle neck-to-hip reference: 149px torso / 514.4px natural body. Individual lunge torso is 314px; use 1085px natural reference to prevent longer independently drawn lunge legs from shrinking the head/torso. Applied uniformly to the entire native actor.",
+          "bladeRoot": {
+            "x": 538.7365661861076,
+            "y": 348.46526867627784
+          },
+          "contactPoint": {
+            "x": 753.1009174311927,
+            "y": 391.8309305373525
+          },
+          "notes": "Genuine newly drawn right-facing two-hand forward contact. Shared by slash/ultimate contact phase. Two distinct hands are on one straight handle/guard/blade axis; no body-part composite."
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/ultimate-04.png",
+          "sha256": "AFEFECCBD0900CBA3267EB584380BD6AD58388EBE067A2B67F99588BA7E2CBE8",
+          "sourceFile": "assets/sources/followthrough-v4-individual.png",
+          "sourceSha256": "A10E11C998ADE6805038537B21A719235758789AAED89BD62F97C7517E389C9E",
+          "sourceIndex": null,
+          "sourceRect": {
+            "left": 7,
+            "top": 0,
+            "width": 1520,
+            "height": 992
+          },
+          "packingScale": 0.49473684210526314,
+          "visibleBounds": {
+            "left": 11,
+            "top": 141,
+            "right": 756,
+            "bottom": 626
+          },
+          "solidEdgePixels": 0,
+          "componentId": 1,
+          "footAnchor": {
+            "x": 0.45490679824561403,
+            "y": 0.8109923245614036
+          },
+          "bodyPixels": 531.8421052631579,
+          "anatomicalChainPixels": 599.5407424948613,
+          "bodyChain": [
+            [
+              864,
+              72
+            ],
+            [
+              792,
+              234
+            ],
+            [
+              723,
+              537
+            ],
+            [
+              1004,
+              589
+            ],
+            [
+              1155,
+              844
+            ],
+            [
+              1201,
+              978
+            ]
+          ],
+          "sourceFoot": [
+            697,
+            980
+          ],
+          "naturalBodyMethod": "Standing idle neck-to-hip reference: 149px torso / 514.4px natural body. Individual follow-through torso is 311px; use 1075px natural reference consistently with the contact pose. Applied uniformly to whole actor independently of sword bounds.",
+          "bladeRoot": {
+            "x": 557.1578947368421,
+            "y": 433.85263157894735
+          },
+          "contactPoint": {
+            "x": 753.5684210526316,
+            "y": 558.0315789473684
+          },
+          "notes": "Genuine newly drawn two-handed down-right follow-through. Shared by slash/ultimate follow-through phase; the whole sword is straight and hands grip the same handle."
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/ultimate-05.png",
+          "sha256": "AC30C7A70A6B991DA0444644056CD180C6DC4540EA31461A8CC5E830E0CE5D71",
+          "sourceFile": "assets/sources/ultimate-v2-sheet.png",
+          "sourceSha256": "BFFFE1BC18620E4FCD8BCA459F5F7859F013B1C4281B18A8CAE935D9891FF24D",
+          "sourceIndex": 5,
+          "sourceRect": {
+            "left": 1090,
+            "top": 529,
+            "width": 440,
+            "height": 488
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 171,
+            "top": 147,
+            "right": 598,
+            "bottom": 621
+          },
+          "solidEdgePixels": 0,
+          "componentId": 43,
+          "footAnchor": {
+            "x": 0.53515625,
+            "y": 0.8020833333333334
+          },
+          "bodyPixels": 496.4112150609759,
+          "anatomicalChainPixels": 496.4112150609759,
+          "bodyChain": [
+            [
+              1320,
+              588
+            ],
+            [
+              1300,
+              657
+            ],
+            [
+              1290,
+              779
+            ],
+            [
+              1375,
+              862
+            ],
+            [
+              1471,
+              974
+            ],
+            [
+              1489,
+              1005
+            ]
+          ],
+          "sourceFoot": [
+            1337,
+            1005
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 487,
+            "y": 303
+          },
+          "contactPoint": {
+            "x": 596,
+            "y": 148
+          }
+        }
+      ],
+      "visibleBounds": {
+        "left": 11,
+        "top": 114,
+        "right": 757,
+        "bottom": 647
+      },
+      "source": {
+        "file": "assets/sources/ultimate-v2-sheet.png",
+        "sha256": "BFFFE1BC18620E4FCD8BCA459F5F7859F013B1C4281B18A8CAE935D9891FF24D",
+        "nativeAlpha": true,
+        "excludedIndices": []
+      }
+    },
+    "hit": {
+      "atlas": "assets/atlases/hit.png",
+      "sha256": "9A7C2CF3B902A06D6AAACFD0CA35361B99E28AB95CDB88B6C92556A8D0A4CE49",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "contentScale": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/hit-00.png",
+          "sha256": "C62C72A6A6F9322A212FB844AD239E345398E67F01FF556879024F3FC33FD21B",
+          "sourceFile": "assets/sources/hit-v2-sheet.png",
+          "sourceSha256": "5C62F23030601845C1EA8AA4812443DEA0A6147B34DAFC7181E77526EB133590",
+          "sourceIndex": 0,
+          "sourceRect": {
+            "left": 48,
+            "top": 12,
+            "width": 465,
+            "height": 505
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 158,
+            "top": 138,
+            "right": 609,
+            "bottom": 629
+          },
+          "solidEdgePixels": 0,
+          "componentId": 3,
+          "footAnchor": {
+            "x": 0.5091145833333334,
+            "y": 0.8138020833333334
+          },
+          "bodyPixels": 495.249991746085,
+          "anatomicalChainPixels": 495.249991746085,
+          "bodyChain": [
+            [
+              351,
+              61
+            ],
+            [
+              326,
+              130
+            ],
+            [
+              284,
+              269
+            ],
+            [
+              359,
+              357
+            ],
+            [
+              407,
+              471
+            ],
+            [
+              420,
+              506
+            ]
+          ],
+          "sourceFoot": [
+            288,
+            506
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 488,
+            "y": 286
+          },
+          "contactPoint": {
+            "x": 608,
+            "y": 141
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/hit-01.png",
+          "sha256": "E684F3C19160E978AC03FE0B56DF1128434DB25EAE4AE36D609BDD937B6788C5",
+          "sourceFile": "assets/sources/hit-v2-sheet.png",
+          "sourceSha256": "5C62F23030601845C1EA8AA4812443DEA0A6147B34DAFC7181E77526EB133590",
+          "sourceIndex": 1,
+          "sourceRect": {
+            "left": 561,
+            "top": 9,
+            "width": 463,
+            "height": 503
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 159,
+            "top": 139,
+            "right": 608,
+            "bottom": 629
+          },
+          "solidEdgePixels": 0,
+          "componentId": 1,
+          "footAnchor": {
+            "x": 0.4830729166666667,
+            "y": 0.8125
+          },
+          "bodyPixels": 485.5632228531106,
+          "anatomicalChainPixels": 485.5632228531106,
+          "bodyChain": [
+            [
+              832,
+              77
+            ],
+            [
+              801,
+              142
+            ],
+            [
+              782,
+              268
+            ],
+            [
+              848,
+              350
+            ],
+            [
+              765,
+              469
+            ],
+            [
+              781,
+              501
+            ]
+          ],
+          "sourceFoot": [
+            780,
+            501
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 477,
+            "y": 291
+          },
+          "contactPoint": {
+            "x": 605,
+            "y": 140
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/hit-02.png",
+          "sha256": "FDF61FA71811428D37D121A36345B1F86395161FA822CBF4E9EF9FBBE65792A9",
+          "sourceFile": "assets/sources/hit-v2-sheet.png",
+          "sourceSha256": "5C62F23030601845C1EA8AA4812443DEA0A6147B34DAFC7181E77526EB133590",
+          "sourceIndex": 2,
+          "sourceRect": {
+            "left": 1039,
+            "top": 11,
+            "width": 489,
+            "height": 506
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 146,
+            "top": 138,
+            "right": 622,
+            "bottom": 630
+          },
+          "solidEdgePixels": 0,
+          "componentId": 2,
+          "footAnchor": {
+            "x": 0.5703125,
+            "y": 0.8138020833333334
+          },
+          "bodyPixels": 493.6512193026819,
+          "anatomicalChainPixels": 493.6512193026819,
+          "bodyChain": [
+            [
+              1212,
+              84
+            ],
+            [
+              1235,
+              147
+            ],
+            [
+              1303,
+              280
+            ],
+            [
+              1378,
+              352
+            ],
+            [
+              1317,
+              473
+            ],
+            [
+              1337,
+              505
+            ]
+          ],
+          "sourceFoot": [
+            1338,
+            505
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 477,
+            "y": 288
+          },
+          "contactPoint": {
+            "x": 619,
+            "y": 142
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/hit-03.png",
+          "sha256": "0B49B59775CA897E54E4594012F77D5148F9178C6C0E466AC5DD153107441C08",
+          "sourceFile": "assets/sources/hit-v2-sheet.png",
+          "sourceSha256": "5C62F23030601845C1EA8AA4812443DEA0A6147B34DAFC7181E77526EB133590",
+          "sourceIndex": 3,
+          "sourceRect": {
+            "left": 28,
+            "top": 521,
+            "width": 490,
+            "height": 486
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 146,
+            "top": 148,
+            "right": 622,
+            "bottom": 620
+          },
+          "solidEdgePixels": 0,
+          "componentId": 44,
+          "footAnchor": {
+            "x": 0.5611979166666666,
+            "y": 0.80078125
+          },
+          "bodyPixels": 503.7968889202676,
+          "anatomicalChainPixels": 503.7968889202676,
+          "bodyChain": [
+            [
+              319,
+              582
+            ],
+            [
+              291,
+              652
+            ],
+            [
+              253,
+              793
+            ],
+            [
+              327,
+              849
+            ],
+            [
+              224,
+              962
+            ],
+            [
+              240,
+              995
+            ]
+          ],
+          "sourceFoot": [
+            320,
+            995
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 485,
+            "y": 343
+          },
+          "contactPoint": {
+            "x": 621,
+            "y": 150
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/hit-04.png",
+          "sha256": "8948514F265C15C13AEAFF1626535BBF89F638A8322F6362718876EDAD90F6CC",
+          "sourceFile": "assets/sources/hit-v2-sheet.png",
+          "sourceSha256": "5C62F23030601845C1EA8AA4812443DEA0A6147B34DAFC7181E77526EB133590",
+          "sourceIndex": 4,
+          "sourceRect": {
+            "left": 566,
+            "top": 522,
+            "width": 487,
+            "height": 491
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 147,
+            "top": 145,
+            "right": 620,
+            "bottom": 622
+          },
+          "solidEdgePixels": 0,
+          "componentId": 45,
+          "footAnchor": {
+            "x": 0.4921875,
+            "y": 0.8046875
+          },
+          "bodyPixels": 487.4946326736205,
+          "anatomicalChainPixels": 487.4946326736205,
+          "bodyChain": [
+            [
+              819,
+              573
+            ],
+            [
+              797,
+              647
+            ],
+            [
+              773,
+              779
+            ],
+            [
+              858,
+              866
+            ],
+            [
+              916,
+              968
+            ],
+            [
+              931,
+              1002
+            ]
+          ],
+          "sourceFoot": [
+            804,
+            1002
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 473,
+            "y": 304
+          },
+          "contactPoint": {
+            "x": 616,
+            "y": 148
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/hit-05.png",
+          "sha256": "BB35B0E950A361D14C212C9BC0A3D3E5A9C7CF33A916F52B1F56A4A3136C0997",
+          "sourceFile": "assets/sources/hit-v2-sheet.png",
+          "sourceSha256": "5C62F23030601845C1EA8AA4812443DEA0A6147B34DAFC7181E77526EB133590",
+          "sourceIndex": 5,
+          "sourceRect": {
+            "left": 1071,
+            "top": 511,
+            "width": 459,
+            "height": 505
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 161,
+            "top": 138,
+            "right": 606,
+            "bottom": 629
+          },
+          "solidEdgePixels": 0,
+          "componentId": 43,
+          "footAnchor": {
+            "x": 0.5338541666666666,
+            "y": 0.8138020833333334
+          },
+          "bodyPixels": 501.0303891747911,
+          "anatomicalChainPixels": 501.0303891747911,
+          "bodyChain": [
+            [
+              1338,
+              562
+            ],
+            [
+              1318,
+              636
+            ],
+            [
+              1303,
+              776
+            ],
+            [
+              1383,
+              860
+            ],
+            [
+              1448,
+              972
+            ],
+            [
+              1467,
+              1005
+            ]
+          ],
+          "sourceFoot": [
+            1327,
+            1005
+          ],
+          "naturalBodyMethod": "CROWN_NECK_HIP_KNEE_ANKLE_SOLE_CHAIN",
+          "bladeRoot": {
+            "x": 490,
+            "y": 303
+          },
+          "contactPoint": {
+            "x": 603,
+            "y": 140
+          }
+        }
+      ],
+      "visibleBounds": {
+        "left": 146,
+        "top": 138,
+        "right": 622,
+        "bottom": 630
+      },
+      "source": {
+        "file": "assets/sources/hit-v2-sheet.png",
+        "sha256": "5C62F23030601845C1EA8AA4812443DEA0A6147B34DAFC7181E77526EB133590",
+        "nativeAlpha": true,
+        "excludedIndices": []
+      }
+    },
+    "defeat": {
+      "atlas": "assets/atlases/defeat.png",
+      "sha256": "40DBF9FEABD8DD2DFEFB5E08E91A5486847066610D4B389B374C1AD56B9D17DC",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 4,
+      "contentScale": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/defeat-00.png",
+          "sha256": "704834915168A608F58A7B0992D5BBC666BE6659C0C5A5E3E21FC4F072302147",
+          "sourceFile": "assets/sources/defeat-v6-sheet.png",
+          "sourceSha256": "DCD367827D2EECE0720E4985709CA4A2D8A72E4DFBD5D830F70F78B5940254DB",
+          "sourceIndex": 0,
+          "sourceRect": {
+            "left": 9,
+            "top": 2,
+            "width": 554,
+            "height": 549
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 113,
+            "top": 116,
+            "right": 654,
+            "bottom": 651
+          },
+          "solidEdgePixels": 0,
+          "componentId": 1,
+          "footAnchor": {
+            "x": 0.4713541666666667,
+            "y": 0.8424479166666666
+          },
+          "bodyPixels": 540,
+          "anatomicalChainPixels": 556.6528759278476,
+          "bodyChain": [
+            [
+              271,
+              35
+            ],
+            [
+              254,
+              116
+            ],
+            [
+              248,
+              269
+            ],
+            [
+              340,
+              392
+            ],
+            [
+              388,
+              495
+            ],
+            [
+              417,
+              540
+            ]
+          ],
+          "sourceFoot": [
+            264,
+            540
+          ],
+          "naturalBodyMethod": "Shared V6 source body scale, calibrated to the standing frame anatomical chain and consistent head/torso proportions. The four independently drawn poses retain this same scale; folding knees and bowing reduce pose height, never physical actor scale.",
+          "bladeRoot": {
+            "x": 473,
+            "y": 332
+          },
+          "contactPoint": {
+            "x": 649,
+            "y": 381
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/defeat-01.png",
+          "sha256": "FC08787EDE1E308F63C0545D7A4CF6110F55685B3A6F6DA3742D20AC682E3971",
+          "sourceFile": "assets/sources/defeat-v6-sheet.png",
+          "sourceSha256": "DCD367827D2EECE0720E4985709CA4A2D8A72E4DFBD5D830F70F78B5940254DB",
+          "sourceIndex": 3,
+          "sourceRect": {
+            "left": 0,
+            "top": 583,
+            "width": 572,
+            "height": 416
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 103,
+            "top": 183,
+            "right": 669,
+            "bottom": 585
+          },
+          "solidEdgePixels": 0,
+          "componentId": 46,
+          "footAnchor": {
+            "x": 0.47265625,
+            "y": 0.7552083333333334
+          },
+          "bodyPixels": 540,
+          "anatomicalChainPixels": 562.9357982478924,
+          "bodyChain": [
+            [
+              270,
+              614
+            ],
+            [
+              257,
+              703
+            ],
+            [
+              254,
+              865
+            ],
+            [
+              309,
+              974
+            ],
+            [
+              156,
+              965
+            ],
+            [
+              128,
+              987
+            ]
+          ],
+          "sourceFoot": [
+            265,
+            987
+          ],
+          "naturalBodyMethod": "Shared V6 source body scale, calibrated to the standing frame anatomical chain and consistent head/torso proportions. The four independently drawn poses retain this same scale; folding knees and bowing reduce pose height, never physical actor scale.",
+          "bladeRoot": {
+            "x": 489,
+            "y": 413
+          },
+          "contactPoint": {
+            "x": 658,
+            "y": 444
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/defeat-02.png",
+          "sha256": "F0C2B775C85605C7DDABA7E5A5ACEC835ED5CA326C5D42602780B81E0C1E6F5A",
+          "sourceFile": "assets/sources/defeat-v6-sheet.png",
+          "sourceSha256": "DCD367827D2EECE0720E4985709CA4A2D8A72E4DFBD5D830F70F78B5940254DB",
+          "sourceIndex": 4,
+          "sourceRect": {
+            "left": 498,
+            "top": 595,
+            "width": 558,
+            "height": 403
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 112,
+            "top": 189,
+            "right": 656,
+            "bottom": 578
+          },
+          "solidEdgePixels": 0,
+          "componentId": 47,
+          "footAnchor": {
+            "x": 0.4830729166666667,
+            "y": 0.7473958333333334
+          },
+          "bodyPixels": 540,
+          "anatomicalChainPixels": 557.263536822844,
+          "bodyChain": [
+            [
+              790,
+              650
+            ],
+            [
+              758,
+              733
+            ],
+            [
+              747,
+              872
+            ],
+            [
+              819,
+              970
+            ],
+            [
+              648,
+              963
+            ],
+            [
+              621,
+              987
+            ]
+          ],
+          "sourceFoot": [
+            764,
+            987
+          ],
+          "naturalBodyMethod": "Shared V6 source body scale, calibrated to the standing frame anatomical chain and consistent head/torso proportions. The four independently drawn poses retain this same scale; folding knees and bowing reduce pose height, never physical actor scale.",
+          "bladeRoot": {
+            "x": 486,
+            "y": 420
+          },
+          "contactPoint": {
+            "x": 653,
+            "y": 454
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/defeat-03.png",
+          "sha256": "4A1EA3E04F59AD03D3ABB0205F8D754267A46052F255ADFFED05C3F66A002247",
+          "sourceFile": "assets/sources/defeat-v6-sheet.png",
+          "sourceSha256": "DCD367827D2EECE0720E4985709CA4A2D8A72E4DFBD5D830F70F78B5940254DB",
+          "sourceIndex": 5,
+          "sourceRect": {
+            "left": 992,
+            "top": 629,
+            "width": 544,
+            "height": 372
+          },
+          "packingScale": 1,
+          "visibleBounds": {
+            "left": 119,
+            "top": 205,
+            "right": 652,
+            "bottom": 563
+          },
+          "solidEdgePixels": 0,
+          "componentId": 48,
+          "footAnchor": {
+            "x": 0.49609375,
+            "y": 0.7278645833333334
+          },
+          "bodyPixels": 540,
+          "anatomicalChainPixels": 523.3057812149682,
+          "bodyChain": [
+            [
+              1296,
+              695
+            ],
+            [
+              1255,
+              769
+            ],
+            [
+              1244,
+              888
+            ],
+            [
+              1316,
+              970
+            ],
+            [
+              1137,
+              972
+            ],
+            [
+              1111,
+              989
+            ]
+          ],
+          "sourceFoot": [
+            1261,
+            990
+          ],
+          "naturalBodyMethod": "Shared V6 source body scale, calibrated to the standing frame anatomical chain and consistent head/torso proportions. The four independently drawn poses retain this same scale; folding knees and bowing reduce pose height, never physical actor scale.",
+          "bladeRoot": {
+            "x": 483,
+            "y": 413
+          },
+          "contactPoint": {
+            "x": 645,
+            "y": 450
+          }
+        }
+      ],
+      "visibleBounds": {
+        "left": 103,
+        "top": 116,
+        "right": 669,
+        "bottom": 651
+      },
+      "source": {
+        "file": "assets/sources/defeat-v6-sheet.png",
+        "sha256": "DCD367827D2EECE0720E4985709CA4A2D8A72E4DFBD5D830F70F78B5940254DB",
+        "nativeAlpha": true,
+        "excludedIndices": [
+          1,
+          2
+        ]
+      }
+    }
+  },
+  "effects": {
+    "aura": {
+      "atlas": "assets/atlases/fx-aura.png",
+      "sha256": "4BAC12066ABD59CA178C8FBAA4541495983E19B65037597D86948731927095A9",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 512,
+      "frameCount": 6,
+      "contentScale": 0.83984375,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-aura-00.png",
+          "sha256": "34D41A8516348556B890EF61FD9BC844F115C597248744EDDA99A382F666746E",
+          "sourceFile": "assets/sources/fx-aura-v2-sheet.png",
+          "sourceSha256": "E102A98A73355BBC9C87FB2B442A1E9F53CF5B67426DBE10A8B563102E0E3AF7",
+          "sourceIndex": 0,
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 133,
+            "top": 113,
+            "right": 388,
+            "bottom": 404
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-aura-01.png",
+          "sha256": "BE6F5E056A9C4485AEC73B11DEC61180CAB20D1FB45F0620F970C144D5743574",
+          "sourceFile": "assets/sources/fx-aura-v2-sheet.png",
+          "sourceSha256": "E102A98A73355BBC9C87FB2B442A1E9F53CF5B67426DBE10A8B563102E0E3AF7",
+          "sourceIndex": 1,
+          "sourceRect": {
+            "left": 512,
+            "top": 0,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 130,
+            "top": 111,
+            "right": 384,
+            "bottom": 400
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-aura-02.png",
+          "sha256": "CDF05CE7802963D54A35175AEC97A2186ECD78D0B1FB9BD5A5C2FD33910CCA52",
+          "sourceFile": "assets/sources/fx-aura-v2-sheet.png",
+          "sourceSha256": "E102A98A73355BBC9C87FB2B442A1E9F53CF5B67426DBE10A8B563102E0E3AF7",
+          "sourceIndex": 2,
+          "sourceRect": {
+            "left": 1024,
+            "top": 0,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 125,
+            "top": 112,
+            "right": 387,
+            "bottom": 405
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-aura-03.png",
+          "sha256": "8C17A2C3AE95C0B9F6E5CA78D84BBB7FD427D68636EFE20895E2A1C1BF09DDA4",
+          "sourceFile": "assets/sources/fx-aura-v2-sheet.png",
+          "sourceSha256": "E102A98A73355BBC9C87FB2B442A1E9F53CF5B67426DBE10A8B563102E0E3AF7",
+          "sourceIndex": 3,
+          "sourceRect": {
+            "left": 0,
+            "top": 512,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 130,
+            "top": 107,
+            "right": 403,
+            "bottom": 400
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-aura-04.png",
+          "sha256": "1E969DAD1ED38F34BC8C59CC609CC56C0BCDA300FEC7B4D1194F345B7A776ACB",
+          "sourceFile": "assets/sources/fx-aura-v2-sheet.png",
+          "sourceSha256": "E102A98A73355BBC9C87FB2B442A1E9F53CF5B67426DBE10A8B563102E0E3AF7",
+          "sourceIndex": 4,
+          "sourceRect": {
+            "left": 512,
+            "top": 512,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 124,
+            "top": 105,
+            "right": 392,
+            "bottom": 397
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-aura-05.png",
+          "sha256": "42969849A9A17F0AB34343F3465CCEABE1B24179D32AC59A25351E4413A56909",
+          "sourceFile": "assets/sources/fx-aura-v2-sheet.png",
+          "sourceSha256": "E102A98A73355BBC9C87FB2B442A1E9F53CF5B67426DBE10A8B563102E0E3AF7",
+          "sourceIndex": 5,
+          "sourceRect": {
+            "left": 1024,
+            "top": 512,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 124,
+            "top": 103,
+            "right": 387,
+            "bottom": 399
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "visibleBounds": {
+        "left": 124,
+        "top": 103,
+        "right": 403,
+        "bottom": 405
+      },
+      "source": {
+        "file": "assets/sources/fx-aura-v2-sheet.png",
+        "sha256": "E102A98A73355BBC9C87FB2B442A1E9F53CF5B67426DBE10A8B563102E0E3AF7",
+        "nativeAlpha": true,
+        "excludedIndices": []
+      }
+    },
+    "slash": {
+      "atlas": "assets/atlases/fx-slash.png",
+      "sha256": "64A83CC34CF78695E9FE3EE707B6D0A6031F2AE5A8135FD8D4A0DF4E0F9FF424",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 512,
+      "frameCount": 6,
+      "contentScale": 0.83984375,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-slash-00.png",
+          "sha256": "C63BF4FF44D728B50F7550C7F417760E5EE18E3E36DC5D3CB76A65106F277958",
+          "sourceFile": "assets/sources/fx-slash-v2-sheet.png",
+          "sourceSha256": "AA03C88FCF8F5C371E2112FAC23C477E34BD1B627D554F12C5E138E2EC064504",
+          "sourceIndex": 0,
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 110,
+            "top": 169,
+            "right": 404,
+            "bottom": 403
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-slash-01.png",
+          "sha256": "EBB38C66F89A6B5DA05A2975F52546AE2A25C8E7E8BDCC3FE458F1B979066594",
+          "sourceFile": "assets/sources/fx-slash-v2-sheet.png",
+          "sourceSha256": "AA03C88FCF8F5C371E2112FAC23C477E34BD1B627D554F12C5E138E2EC064504",
+          "sourceIndex": 1,
+          "sourceRect": {
+            "left": 512,
+            "top": 0,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 97,
+            "top": 153,
+            "right": 417,
+            "bottom": 404
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-slash-02.png",
+          "sha256": "D503147DB8CE98E57EA17BB2058A967DE0269C3DF3BC8976DC5A42DF6C24A2C1",
+          "sourceFile": "assets/sources/fx-slash-v2-sheet.png",
+          "sourceSha256": "AA03C88FCF8F5C371E2112FAC23C477E34BD1B627D554F12C5E138E2EC064504",
+          "sourceIndex": 2,
+          "sourceRect": {
+            "left": 1024,
+            "top": 0,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 82,
+            "top": 131,
+            "right": 421,
+            "bottom": 416
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-slash-03.png",
+          "sha256": "430B79D113778E3858640153BD348ACD4AAE505C3D3DAC8081A051E84034CEE3",
+          "sourceFile": "assets/sources/fx-slash-v2-sheet.png",
+          "sourceSha256": "AA03C88FCF8F5C371E2112FAC23C477E34BD1B627D554F12C5E138E2EC064504",
+          "sourceIndex": 3,
+          "sourceRect": {
+            "left": 0,
+            "top": 512,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 108,
+            "top": 86,
+            "right": 419,
+            "bottom": 392
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-slash-04.png",
+          "sha256": "D5D6B1D98AC345C3F5FD767AF396E1C55BF865CE38C438BF40FECEF63CFA8D92",
+          "sourceFile": "assets/sources/fx-slash-v2-sheet.png",
+          "sourceSha256": "AA03C88FCF8F5C371E2112FAC23C477E34BD1B627D554F12C5E138E2EC064504",
+          "sourceIndex": 4,
+          "sourceRect": {
+            "left": 512,
+            "top": 512,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 102,
+            "top": 109,
+            "right": 423,
+            "bottom": 371
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-slash-05.png",
+          "sha256": "E62A2F9C40EB8E138CBE86049AC791682702FE2E7F5996024DB471000FA03D26",
+          "sourceFile": "assets/sources/fx-slash-v2-sheet.png",
+          "sourceSha256": "AA03C88FCF8F5C371E2112FAC23C477E34BD1B627D554F12C5E138E2EC064504",
+          "sourceIndex": 5,
+          "sourceRect": {
+            "left": 1024,
+            "top": 512,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 111,
+            "top": 126,
+            "right": 424,
+            "bottom": 379
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "visibleBounds": {
+        "left": 82,
+        "top": 86,
+        "right": 424,
+        "bottom": 416
+      },
+      "source": {
+        "file": "assets/sources/fx-slash-v2-sheet.png",
+        "sha256": "AA03C88FCF8F5C371E2112FAC23C477E34BD1B627D554F12C5E138E2EC064504",
+        "nativeAlpha": true,
+        "excludedIndices": []
+      }
+    },
+    "tiger": {
+      "atlas": "assets/atlases/fx-tiger.png",
+      "sha256": "D6FAB104311E0A2E4E8B5E11875F93BEA5D6E826D68A3F121BA7B84DCD73AD27",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 512,
+      "frameCount": 6,
+      "contentScale": 0.83984375,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-tiger-00.png",
+          "sha256": "46A811294A4C8156307CA230A30413129788FFA5334C12B68CD42F2C7361574B",
+          "sourceFile": "assets/sources/fx-tiger-v2-sheet.png",
+          "sourceSha256": "5FFCA8C761F98837A76B7952EC59AFC465824B3D017C0020FF03DAFBD35D3186",
+          "sourceIndex": 0,
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 107,
+            "top": 143,
+            "right": 438,
+            "bottom": 425
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-tiger-01.png",
+          "sha256": "5DD6AD55D6C5C02F18F73694BB87B8643D42B755147E3BA47B6C6C696519DE34",
+          "sourceFile": "assets/sources/fx-tiger-v2-sheet.png",
+          "sourceSha256": "5FFCA8C761F98837A76B7952EC59AFC465824B3D017C0020FF03DAFBD35D3186",
+          "sourceIndex": 1,
+          "sourceRect": {
+            "left": 512,
+            "top": 0,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 87,
+            "top": 152,
+            "right": 428,
+            "bottom": 425
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-tiger-02.png",
+          "sha256": "AA6C005914D970FDF6E0ED34F37DE1A5A96166C154ECC61D225A593531696032",
+          "sourceFile": "assets/sources/fx-tiger-v2-sheet.png",
+          "sourceSha256": "5FFCA8C761F98837A76B7952EC59AFC465824B3D017C0020FF03DAFBD35D3186",
+          "sourceIndex": 2,
+          "sourceRect": {
+            "left": 1024,
+            "top": 0,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 41,
+            "top": 134,
+            "right": 444,
+            "bottom": 410
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-tiger-03.png",
+          "sha256": "21F05BE5D4CA60727EE0FBDC5725EE3BB41E5BB653228025CDDC6D7A72AF5FB8",
+          "sourceFile": "assets/sources/fx-tiger-v2-sheet.png",
+          "sourceSha256": "5FFCA8C761F98837A76B7952EC59AFC465824B3D017C0020FF03DAFBD35D3186",
+          "sourceIndex": 3,
+          "sourceRect": {
+            "left": 0,
+            "top": 512,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 101,
+            "top": 103,
+            "right": 452,
+            "bottom": 375
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-tiger-04.png",
+          "sha256": "70B5529901658D8DC1C3FFB8581839C0F2B36015E64F38F6521301C4A222DD98",
+          "sourceFile": "assets/sources/fx-tiger-v2-sheet.png",
+          "sourceSha256": "5FFCA8C761F98837A76B7952EC59AFC465824B3D017C0020FF03DAFBD35D3186",
+          "sourceIndex": 4,
+          "sourceRect": {
+            "left": 512,
+            "top": 512,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 83,
+            "top": 117,
+            "right": 428,
+            "bottom": 364
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-tiger-05.png",
+          "sha256": "F9C7378FB846D415E35491D8CA49F367CB2D18B204B08D0C33F3AC83C7AC563C",
+          "sourceFile": "assets/sources/fx-tiger-v2-sheet.png",
+          "sourceSha256": "5FFCA8C761F98837A76B7952EC59AFC465824B3D017C0020FF03DAFBD35D3186",
+          "sourceIndex": 5,
+          "sourceRect": {
+            "left": 1024,
+            "top": 512,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 54,
+            "top": 119,
+            "right": 429,
+            "bottom": 382
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "visibleBounds": {
+        "left": 41,
+        "top": 103,
+        "right": 452,
+        "bottom": 425
+      },
+      "source": {
+        "file": "assets/sources/fx-tiger-v2-sheet.png",
+        "sha256": "5FFCA8C761F98837A76B7952EC59AFC465824B3D017C0020FF03DAFBD35D3186",
+        "nativeAlpha": true,
+        "excludedIndices": []
+      }
+    },
+    "impact": {
+      "atlas": "assets/atlases/fx-impact.png",
+      "sha256": "FE57DABA7049C668481D034A4BF19981AAD354D0507617F031C03ABEDAE415FF",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 512,
+      "frameCount": 6,
+      "contentScale": 0.83984375,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-impact-00.png",
+          "sha256": "6E9BC4144B9ACCE40E12FF7D6BD954747BB3CC094ACF98D503E70B7EF3AEC98E",
+          "sourceFile": "assets/sources/fx-impact-v2-sheet.png",
+          "sourceSha256": "949D05AE5D9C4E96AB941A34CABB56957C14C14E8F90581BEAA1C8D08EED2CCD",
+          "sourceIndex": 0,
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 115,
+            "top": 147,
+            "right": 375,
+            "bottom": 399
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-impact-01.png",
+          "sha256": "562F9CB61D94E251BD7D26125410CB9243461E719AAE6B0486061A13A96BA8B2",
+          "sourceFile": "assets/sources/fx-impact-v2-sheet.png",
+          "sourceSha256": "949D05AE5D9C4E96AB941A34CABB56957C14C14E8F90581BEAA1C8D08EED2CCD",
+          "sourceIndex": 1,
+          "sourceRect": {
+            "left": 512,
+            "top": 0,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 94,
+            "top": 107,
+            "right": 408,
+            "bottom": 427
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-impact-02.png",
+          "sha256": "0D6006AEADC4E1691623A1C28937FDC24FBCE74D9A87BB6525040406287C50D1",
+          "sourceFile": "assets/sources/fx-impact-v2-sheet.png",
+          "sourceSha256": "949D05AE5D9C4E96AB941A34CABB56957C14C14E8F90581BEAA1C8D08EED2CCD",
+          "sourceIndex": 2,
+          "sourceRect": {
+            "left": 1024,
+            "top": 0,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 59,
+            "top": 91,
+            "right": 437,
+            "bottom": 426
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-impact-03.png",
+          "sha256": "9F1391F3DC8701205F0AB91DEF9BA5750D1454FAD728D8EF469AD787C8B92D7E",
+          "sourceFile": "assets/sources/fx-impact-v2-sheet.png",
+          "sourceSha256": "949D05AE5D9C4E96AB941A34CABB56957C14C14E8F90581BEAA1C8D08EED2CCD",
+          "sourceIndex": 3,
+          "sourceRect": {
+            "left": 0,
+            "top": 512,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 85,
+            "top": 78,
+            "right": 436,
+            "bottom": 413
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-impact-04.png",
+          "sha256": "F0BCF04B14BAC60B4035DC875EA1D28A704429D0CD46F83D236E71CD5DB3E541",
+          "sourceFile": "assets/sources/fx-impact-v2-sheet.png",
+          "sourceSha256": "949D05AE5D9C4E96AB941A34CABB56957C14C14E8F90581BEAA1C8D08EED2CCD",
+          "sourceIndex": 4,
+          "sourceRect": {
+            "left": 512,
+            "top": 512,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 82,
+            "top": 113,
+            "right": 431,
+            "bottom": 409
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-impact-05.png",
+          "sha256": "D7976AC7634FB4E88DE93D9168391D8DDB123F42EBE3036BF59D41046294106B",
+          "sourceFile": "assets/sources/fx-impact-v2-sheet.png",
+          "sourceSha256": "949D05AE5D9C4E96AB941A34CABB56957C14C14E8F90581BEAA1C8D08EED2CCD",
+          "sourceIndex": 5,
+          "sourceRect": {
+            "left": 1024,
+            "top": 512,
+            "width": 512,
+            "height": 512
+          },
+          "packingScale": 0.83984375,
+          "visibleBounds": {
+            "left": 123,
+            "top": 135,
+            "right": 385,
+            "bottom": 403
+          },
+          "solidEdgePixels": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "visibleBounds": {
+        "left": 59,
+        "top": 78,
+        "right": 437,
+        "bottom": 427
+      },
+      "source": {
+        "file": "assets/sources/fx-impact-v2-sheet.png",
+        "sha256": "949D05AE5D9C4E96AB941A34CABB56957C14C14E8F90581BEAA1C8D08EED2CCD",
+        "nativeAlpha": true,
+        "excludedIndices": []
+      }
+    }
+  },
+  "counts": {
+    "motion": 40,
+    "uniqueDrawnMotionFrames": 38,
+    "effects": 24
+  },
+  "registration": "JINMU_INTACT_RGBA_NATURAL_BODY_AND_FOOT",
+  "referenceImplementation": "../mercenary-golden-dragon-battle-v1/source/GoldenDragonFX.js#applyPose",
+  "packaging": "Native-alpha connected figures extracted intact with Jinmu components(), preserving source RGBA and fringe while excluding neighboring actors. One uniform scale uses natural-body references independently of sword/cape bounds. Sole anchors register the floor. No repainting, keying, limb deformation or weapon replacement. FX use authored 3x2 cells.",
+  "visualApproval": true,
+  "idlePolicy": {
+    "frame": 0,
+    "bodyMotion": false,
+    "auraSeparate": true
+  },
+  "defaultPlaybackRate": 2
+}

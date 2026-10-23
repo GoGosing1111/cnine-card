@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "tests": 7,
+  "passed": 7,
+  "failed": 0,
+  "durationMs": 3245.574,
+  "runMode": "Read-only staging overlay against current live source; no repository/dependency copies",
+  "sourceRoot": "C:/Users/User/Downloads/cnine-z-body-sword-20260918/site",
+  "staging": "C:/Users/User/Downloads/upload/cnine-card/output/eunseol-live-20261023/staging",
+  "coverage": [
+    "PVE/PVP stats, equipment, links, shield, incoming mitigation, Berkan immunity, action credit match Jokro",
+    "Acquisition blocked across normal, limited, Halloween, blood, fusion, craft and cube",
+    "One MS-958 area budget1512%, energy35, shared cooldown5own actions",
+    "Three visual variants rotate without added damage or actions",
+    "Twelve unique living targets, single hit per target, no dead/suit/hidden hits",
+    "PVE actual battle damage and cast count match Jokro; PVP area disabled",
+    "Catalog SSS LIMITED locked; no automatic holdings; owned fixture can deploy",
+    "Approved original art and static idle SHA256"
+  ]
+}
