@@ -11,5 +11,6 @@ test('ICON enhancement ships its actual UI resources and keeps exact generated o
   assert.match(read('admin/icon-admin-v1.mjs'),/mountIconEnhancementSettings\(\$\('\.ic-enhancement-controls'\)\)/);
   assert.match(read('admin/icon-admin-v1.mjs'),/b.closest\('\.ic-fusion-controls,\.ic-enhancement-controls,/);
   assert.match(read('index.html'),/iconEnhancement=20261024-v1/);assert.match(read('service-worker.js'),/icon-enhancement-20261024-v1/);
+  assert.equal(read('index.html').match(/js\/app\.js\?v=([^"'&]+)/)[1],read('service-worker.js').match(/soop-card-shell-v([^']+)/)[1]);
   for(const asset of art.assets)assert.ok(read('css/icon-enhancement-v1.css').includes(asset.runtime));
 });
