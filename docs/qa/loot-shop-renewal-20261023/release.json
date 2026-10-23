@@ -1,0 +1,142 @@
+{
+  "at": "2026-10-23T06:09:53.304Z",
+  "origin": "https://cnine-card.pages.dev",
+  "checks": [
+    {
+      "file": "loot-shop/index.html",
+      "status": 200,
+      "bytes": 5280,
+      "sha256": "0403b657b037668fb7e6943049f6cd9a4dd799d5d985649eb8b55c7fdfb8267f",
+      "expected": "0403b657b037668fb7e6943049f6cd9a4dd799d5d985649eb8b55c7fdfb8267f",
+      "matches": true
+    },
+    {
+      "file": "css/loot-shop-command-v2.css",
+      "status": 200,
+      "bytes": 15383,
+      "sha256": "c2c198a0f756f4c6514362e9d1ae5b804ca7f69ead727c6795ccb907e82023eb",
+      "expected": "c2c198a0f756f4c6514362e9d1ae5b804ca7f69ead727c6795ccb907e82023eb",
+      "matches": true
+    },
+    {
+      "file": "js/loot-shop-v1.mjs",
+      "status": 200,
+      "bytes": 10705,
+      "sha256": "3496ea05cacbe29e358cfeae6bfc314e37a2ef5eea451534d5fa50ef1ef41984",
+      "expected": "3496ea05cacbe29e358cfeae6bfc314e37a2ef5eea451534d5fa50ef1ef41984",
+      "matches": true
+    },
+    {
+      "file": "js/loot-shop-presentation-v2.mjs",
+      "status": 200,
+      "bytes": 9722,
+      "sha256": "6beebced88e54a5d911a2f88c7591a75ce0b0008d82870c309149cc4bd76bcde",
+      "expected": "6beebced88e54a5d911a2f88c7591a75ce0b0008d82870c309149cc4bd76bcde",
+      "matches": true
+    },
+    {
+      "file": "shared/loot-shop-policy-v1.mjs",
+      "status": 200,
+      "bytes": 14174,
+      "sha256": "f65c711c53cdae9fc0435a69d43ec0800001192e07b3ca941cfd4fcae1e4860b",
+      "expected": "f65c711c53cdae9fc0435a69d43ec0800001192e07b3ca941cfd4fcae1e4860b",
+      "matches": true
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "bytes": 81438,
+      "sha256": "6f2ada95cbbbb7649393b9b40811130f9897e484ffa12728147a5309b9401188",
+      "expected": "6f2ada95cbbbb7649393b9b40811130f9897e484ffa12728147a5309b9401188",
+      "matches": true
+    },
+    {
+      "file": "admin/loot-shop-admin-v1.mjs",
+      "status": 200,
+      "bytes": 19059,
+      "sha256": "4ebd56d84ed67d2fa1719eeebd5db1fbab3662cde93cb7023efafd19be58baf0",
+      "expected": "4ebd56d84ed67d2fa1719eeebd5db1fbab3662cde93cb7023efafd19be58baf0",
+      "matches": true
+    },
+    {
+      "file": "admin/loot-shop-admin-v1.css",
+      "status": 200,
+      "bytes": 7487,
+      "sha256": "591f77f0201f6f8a47e4c35b21b55b0d179f23ecc5de2521e5a6e82194c7f5c8",
+      "expected": "591f77f0201f6f8a47e4c35b21b55b0d179f23ecc5de2521e5a6e82194c7f5c8",
+      "matches": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 34216,
+      "sha256": "d0d240608ce8adadd8f605dcaab8bd1fd7c7b0e706bbb038722e5fe1b6b9b8f0",
+      "expected": "d0d240608ce8adadd8f605dcaab8bd1fd7c7b0e706bbb038722e5fe1b6b9b8f0",
+      "matches": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "bytes": 782548,
+      "sha256": "97f20e9d3a7decbac5d90209b6cdeba3eac3f86e8b063641aa0f88237c17c469",
+      "expected": "97f20e9d3a7decbac5d90209b6cdeba3eac3f86e8b063641aa0f88237c17c469",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "status": 200,
+      "bytes": 5180,
+      "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+      "expected": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "status": 200,
+      "bytes": 4454,
+      "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+      "expected": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+      "matches": true
+    }
+  ],
+  "unauthenticatedState": {
+    "status": 401
+  },
+  "productionPurchases": 0,
+  "productionPolicyWrites": 0,
+  "sourceCommit": "71abc1e5fbf1750cb104df2dd00b6dabec9e906f",
+  "pagesDeployment": "59eb0236",
+  "pagesUrl": "https://59eb0236.cnine-card.pages.dev",
+  "apiVersion": "cc9a47db-cdf8-4dbd-8f10-b939e7238525",
+  "clanWorkerVersion": "594e56eb-88d7-4838-a6c8-eba5025a01ec",
+  "fullReleaseGate": {
+    "passed": true,
+    "command": "npm run deploy:production",
+    "baseCandidate": "470aa4ab130049ce2f802a84fcc0ac777f605305",
+    "reusedCompletedStages": 75,
+    "failedParentRerun": "test:legion-hunt (includes test:legion-regions)",
+    "toolingRegressionChecked": true,
+    "productionGuardPassed": true,
+    "hyperdriveQueryCache": "disabled",
+    "logs": [
+      {
+        "file": "loot-shop-full-deploy-v6.txt",
+        "sha256": "9b105dda8398c60963b235dcc1741e1402ab4ca2cbe33444afe65a971d3fcbb6"
+      },
+      {
+        "file": "loot-shop-full-deploy-v7.txt",
+        "sha256": "3a49d0397d070307533e8a428ef495be17f93d4cf48d6edf3dce9ab665f414c9"
+      }
+    ]
+  },
+  "lootShopTests": 110,
+  "browserQa": {
+    "isolatedPcAnd390pxMobile": true,
+    "cmsCreateSaveBundleBuy": true,
+    "mobileSsPackBuyAndOpen": true,
+    "liveLoggedOutScreen": true,
+    "liveAccountPurchases": 0
+  },
+  "preservedProductionPolicy": true,
+  "productionAssetCount": 19972
+}
