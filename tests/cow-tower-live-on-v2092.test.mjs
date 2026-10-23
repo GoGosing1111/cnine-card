@@ -24,8 +24,9 @@ test('legacy tower completion wins over absent next floor and never offers re-as
  const source=read('js/tower-v1038.js'),start=source.indexOf('  function render(){'),end=source.indexOf('  function lockBattleFocus',start),body={innerHTML:''},box={innerHTML:'',classList:{add(){}},querySelector:()=>body};
  const S={data:{active:true,completed:true,maxFloor:70,floor:null,progress:{currentFloor:71,highestFloor:70,completed:true}}};
  const root={};vm.runInNewContext(read('js/tower-abyss-ui.js'),{window:root});
- const context=vm.createContext({S,document:{getElementById:()=>box},currentDeckCards:()=>[],currentPower:()=>0,user:()=>({id:7}),ui:()=>root.TowerAbyssUI});
- vm.runInContext(source.slice(start,end)+'\nrender();',context);
+ const context=vm.createContext({S,document:{getElementById:()=>box},currentDeckCards:()=>[],currentPower:()=>0,user:()=>({serverUserId:7}),ui:()=>root.TowerAbyssUI});
+ const helpers=['currentUserId','autoNextEnabled'].map(name=>source.split('\n').find(line=>line.trim().startsWith('function '+name+'('))).join('\n');
+ vm.runInContext(helpers+'\n'+source.slice(start,end)+'\nrender();',context);
  assert.match(body.innerHTML,/현재 열린 모든 문을 돌파했습니다/);assert.doesNotMatch(body.innerHTML,/아직 열리지|다시 등반|재등반|data-abyss-action="fight"/);
  assert.match(source,/playTowerBattleV3Live/);assert.match(source,/apiRequest\('tower\/start'/);
 });

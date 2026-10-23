@@ -1122,7 +1122,7 @@ function loadFeatureScript(src){
 let battleFeatureRecoverySequence=0;
 function refreshBattleFeatureRuntime(){
   const token=Date.now().toString(36)+'-'+(++battleFeatureRecoverySequence);
-  const sources=FEATURE_RESOURCE_MANIFEST.battleV2.scripts.filter(src=>src.includes('/project-v-pixi-battle.bundle.js?&generalJok=20261023-v15')||src.includes('/battle-v3-live.js?'));
+  const sources=FEATURE_RESOURCE_MANIFEST.battleV2.scripts.filter(src=>src.includes('/project-v-pixi-battle.bundle.js?')||src.includes('/battle-v3-live.js?'));
   return Promise.all(sources.map(src=>loadFeatureScript(src+'&battleRecovery='+token)));
 }
 function ensureFeatureResources(key){
