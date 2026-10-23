@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {PGlite} from '@electric-sql/pglite';
-import {BLOODMOON_MERCENARIES as cards,BLOODMOON_CODES} from '../shared/mercenary-bloodmoon-catalog-v1.mjs';
+import {BLOODMOON_MERCENARIES,BLOODMOON_ORIGINAL_CODES as BLOODMOON_CODES} from '../shared/mercenary-bloodmoon-catalog-v1.mjs';
 import {BLOODMOON_PACK,BLOODMOON_PACK_KEY,bloodmoonPackDraft,legacyBloodmoonPackDraft} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
 import {ALL_LIMITED_MERCENARIES,LIMITED_MERCENARIES,isLimitedMercenary} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {HALLOWEEN_PACK_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
@@ -17,8 +17,9 @@ import {readBloodmoonRegistration,registerBloodmoonCodex} from '../scripts/ops/b
 import {isProductionFile,bloodmoonNodeQaOnly} from '../scripts/prepare-production-assets.mjs';
 import {bloodmoonFixture} from './helpers/bloodmoon-pack-fixture.mjs';
 const catalog=()=>mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1,updated_at:'2026-10-23'});
+const cards=BLOODMOON_MERCENARIES.filter(c=>BLOODMOON_CODES.includes(c.code));
 test('five separate SS limited entries publish approved originals, full idle sprites and the reviewed balance',()=>{
- const document=validateCatalog(catalog()),found=filterCatalog(document.cards,{q:'블러드문',rank:'SS'},new Set());assert.deepEqual(found.map(c=>c.code),BLOODMOON_CODES);
+ const document=validateCatalog(catalog()),found=filterCatalog(document.cards,{q:'블러드문',rank:'SS'},new Set()).filter(c=>BLOODMOON_CODES.includes(c.code));assert.deepEqual(found.map(c=>c.code),BLOODMOON_CODES);
  const manifest=JSON.parse(fs.readFileSync('assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/manifest.json'));
  for(const c of found){assert.equal(c.serverLimit,10);assert.equal(c.basePower,356400);assert.equal(c.skills[0].ready,false);assert.equal(c.skills.length,1);assert.equal(c.deploymentEnabled,false);
   for(const field of ['sourceArt','battleSprite']){const b=fs.readFileSync(c[field]);assert.equal(createHash('sha256').update(b).digest('hex').toUpperCase(),c[field+'Sha256']);assert.deepEqual(b,fs.readFileSync(manifest.assets.find(a=>a.code===c.code)[field].original));}

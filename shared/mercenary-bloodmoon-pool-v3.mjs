@@ -1,4 +1,4 @@
-import {BLOODMOON_MERCENARIES,BLOODMOON_SERVER_LIMIT} from './mercenary-bloodmoon-catalog-v1.mjs';
+import {BLOODMOON_MERCENARIES,BLOODMOON_SERVER_LIMIT} from './mercenary-bloodmoon-catalog-v1.mjs?v=20261024-namsudaeng-v1';
 import {LEONEL_ART} from './mercenary-leonel-v1.mjs';
 import {GENERAL_JOK_ART} from './mercenary-general-jok-v1.mjs';
 import {PRIME_ART} from './mercenary-prime-requiem-v1.mjs';

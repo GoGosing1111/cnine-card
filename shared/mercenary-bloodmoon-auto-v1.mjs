@@ -1,4 +1,4 @@
-import {bloodmoonPackPrice} from './mercenary-bloodmoon-pack-v1.mjs?v=20261023-blood-pack-v1';
+import {bloodmoonPackPrice} from './mercenary-bloodmoon-pack-v1.mjs?v=20261024-namsudaeng-v1';
 
 export const BLOODMOON_AUTO_MAX_BATCHES=100;
 const fail=(message,code)=>Object.assign(Error(message),{code});

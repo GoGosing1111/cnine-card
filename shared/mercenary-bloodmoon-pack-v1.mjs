@@ -1,5 +1,5 @@
-import {BLOODMOON_PACK_CARDS,bloodmoonStockLimit,isBloodmoonStockLimit} from './mercenary-bloodmoon-pool-v3.mjs?v=20261023-blood-pack-v1';
-import {BLOODMOON_MERCENARIES,BLOODMOON_SERVER_LIMIT} from './mercenary-bloodmoon-catalog-v1.mjs?v=20261023-blood-pack-v1';
+import {BLOODMOON_PACK_CARDS,bloodmoonStockLimit,isBloodmoonStockLimit} from './mercenary-bloodmoon-pool-v3.mjs?v=20261024-namsudaeng-v1';
+import {BLOODMOON_MERCENARIES,BLOODMOON_ORIGINAL_CODES,BLOODMOON_SERVER_LIMIT} from './mercenary-bloodmoon-catalog-v1.mjs?v=20261024-namsudaeng-v1';
 import {isLimitedRate,limitedRateUnits,LIMITED_RATE_TOTAL,LIMITED_RATE_SCALE} from './mercenary-limited-rates-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 
@@ -11,7 +11,7 @@ export {BLOODMOON_SERVER_LIMIT};
 export const BLOODMOON_PACK=Object.freeze({id:'mercenary-bloodmoon-ss-limited',name:'블러드팩',rank:'SSS',edition:'BLOODMOON_LIMITED',maxBatch:10,featurePath:'mercenaries/v3/bloodmoon-pack/feature',openPath:'mercenaries/v3/bloodmoon-pack/open',receiptPath:'mercenaries/v3/bloodmoon-pack/receipt',adminPath:'admin/mercenaries/bloodmoon-pack',image:'assets/ui/packs/blood-pack-20261023/pack-768.webp'});
 export const BLOODMOON_NORMAL_RANKS=MERCENARY_RANKS;
 export const BLOODMOON_OPEN_KIND='MERCENARY_BLOODMOON_OPEN';
-const legacyCodes=BLOODMOON_MERCENARIES.map(c=>c.code),codes=BLOODMOON_PACK_CARDS.map(c=>c.code);
+const legacyCodes=BLOODMOON_ORIGINAL_CODES,codes=BLOODMOON_PACK_CARDS.map(c=>c.code);
 const exact=(value,keys)=>value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).sort().join(',')===[...keys].sort().join(',');
 // Original codex registration format is retained for audit replay.
 export function legacyBloodmoonPackDraft(){
@@ -23,13 +23,13 @@ export function bloodmoonPackDraft(){
 export function validateBloodmoonPack(raw,{releaseEnabled=BLOODMOON_PACK_RELEASE_ENABLED}={}){
  if(!exact(raw,['format','mode','prices','normalRankRatesPpm','cardRatesPpm','normalSssRatePpm','missRatePpm','stockLimits'])||raw.format!=='MERCENARY_BLOODMOON_SS_PACK_V3'||!['OFF','ON'].includes(raw.mode)||!releaseEnabled&&raw.mode!=='OFF')throw Error('블러드 팩은 출시 준비 중입니다. OFF 초안만 저장할 수 있습니다.');
  if(!exact(raw.prices,['single','ten'])||Object.values(raw.prices).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<1||n>100000000000000)))throw Error('가격은 미정 또는 1~100조 코인 정수로 입력하세요.');
- if(!exact(raw.normalRankRatesPpm,MERCENARY_RANKS)||!exact(raw.cardRatesPpm,codes))throw Error('일반 6등급·블러드 SS 5종·SSS 리미티드 3종의 확률을 확인하세요.');
+ if(!exact(raw.normalRankRatesPpm,MERCENARY_RANKS)||!exact(raw.cardRatesPpm,codes))throw Error('일반 6등급·블러드 SS 6종·SSS 리미티드 3종의 확률을 확인하세요.');
  const first=[...Object.values(raw.normalRankRatesPpm),raw.missRatePpm],second=[...Object.values(raw.cardRatesPpm),raw.normalSssRatePpm];
  for(const rates of [first,second]){
   if(rates.some(n=>n!==null&&!isLimitedRate(n)))throw Error('확률은 미정 또는 0~100%, 소수점 8자리까지 입력하세요.');
   if(rates.reduce((sum,n)=>sum+(n===null?0:limitedRateUnits(n)),0)>LIMITED_RATE_TOTAL)throw Error('각 단계 확률 합계는 100%를 초과할 수 없습니다.');
  }
- if(!exact(raw.stockLimits,codes)||!codes.every(code=>isBloodmoonStockLimit(code,raw.stockLimits[code])))throw Error('블러드문 SS 5종은 각 10장, SSS 3종 발행 한도는 아직 미정입니다.');
+ if(!exact(raw.stockLimits,codes)||!codes.every(code=>isBloodmoonStockLimit(code,raw.stockLimits[code])))throw Error('블러드문 SS 6종은 각 10장, SSS 3종 발행 한도는 아직 미정입니다.');
  return structuredClone(raw);
 }
 export function readBloodmoonPackSettings(raw=bloodmoonPackDraft(),options){
@@ -38,13 +38,18 @@ export function readBloodmoonPackSettings(raw=bloodmoonPackDraft(),options){
   // Loading is read-only. Never reinterpret old absolute odds as conditional odds.
   return {...bloodmoonPackDraft(),prices:{...raw.prices},missRatePpm:raw.missRatePpm};
  }
+ // The previous eight-card V3 draft remains valid and unchanged in storage.
+ // A newly listed SS starts unset; never redistribute a saved probability.
+ if(raw.format==='MERCENARY_BLOODMOON_SS_PACK_V3'&&exact(raw.cardRatesPpm,codes.filter(c=>c!=='V-965'))&&exact(raw.stockLimits,codes.filter(c=>c!=='V-965'))){
+  raw={...raw,cardRatesPpm:{...raw.cardRatesPpm,'V-965':null},stockLimits:{...raw.stockLimits,'V-965':10}};
+ }
  return validateBloodmoonPack(raw,options);
 }
 export function bloodmoonPackReadiness(settings,stock=[],normalCards=[]){
  const blockers=[],first=[...Object.values(settings.normalRankRatesPpm),settings.missRatePpm],second=[...Object.values(settings.cardRatesPpm),settings.normalSssRatePpm];
  if(Object.values(settings.prices).some(n=>n===null))blockers.push('1회·10회 가격을 설정하세요.');
  if(first.some(n=>n===null)||first.reduce((s,n)=>s+(limitedRateUnits(n)||0),0)!==LIMITED_RATE_TOTAL)blockers.push('1단계 일반 등급·꽝 확률 합계를 100%로 설정하세요.');
- if(second.some(n=>n===null)||second.reduce((s,n)=>s+(limitedRateUnits(n)||0),0)!==LIMITED_RATE_TOTAL)blockers.push('SSS 내부의 블러드 SS 5종·SSS 리미티드 3종·일반 SSS 확률 합계를 100%로 설정하세요.');
+ if(second.some(n=>n===null)||second.reduce((s,n)=>s+(limitedRateUnits(n)||0),0)!==LIMITED_RATE_TOTAL)blockers.push('SSS 내부의 블러드 SS 6종·SSS 리미티드 3종·일반 SSS 확률 합계를 100%로 설정하세요.');
  for(const rank of MERCENARY_RANKS){
   // Ordinary SSS is also the destination of every exhausted limited interval.
   const needed=settings.normalRankRatesPpm[rank]>0;
@@ -84,7 +89,7 @@ export function bloodmoonPackState(settings=bloodmoonPackDraft(),stockRows=[],no
 export function bloodmoonPackCatalogRow(settings=bloodmoonPackDraft(),stockRows=[]){
  settings=readBloodmoonPackSettings(settings);
  const enabled=BLOODMOON_PACK_RELEASE_ENABLED&&settings.mode==='ON',stock=bloodmoonPackState(settings,stockRows).stock;
- return {id:BLOODMOON_PACK.id,name:BLOODMOON_PACK.name,subtitle:'BLOODMOON LIMITED',theme:'bloodmoon',description:'블러드 SS 5종 · SSS 리미티드 레오넬·제너럴 족·프라임 레퀴엠',range:'일반 C~SSS · SS·SSS 리미티드',price:settings.prices.single,prices:settings.prices,allowed:[],drawMode:'MERCENARY_BLOODMOON',drawEnabled:enabled,ownerDrawEnabled:false,maxDrawCount:10,imageUrl:BLOODMOON_PACK.image,revealMode:'BLOODMOON_FAST_GRID',comingSoon:!enabled,previewCards:BLOODMOON_PACK_CARDS.map(({code,name,rank,thumbnailArt,group})=>({code,name,rank,thumbnailArt,group,...stock.find(s=>s.code===code)}))};
+ return {id:BLOODMOON_PACK.id,name:BLOODMOON_PACK.name,subtitle:'BLOODMOON LIMITED',theme:'bloodmoon',description:'블러드 SS 6종 · SSS 리미티드 레오넬·제너럴 족·프라임 레퀴엠',range:'일반 C~SSS · SS·SSS 리미티드',price:settings.prices.single,prices:settings.prices,allowed:[],drawMode:'MERCENARY_BLOODMOON',drawEnabled:enabled,ownerDrawEnabled:false,maxDrawCount:10,imageUrl:BLOODMOON_PACK.image,revealMode:'BLOODMOON_FAST_GRID',comingSoon:!enabled,previewCards:BLOODMOON_PACK_CARDS.map(({code,name,rank,thumbnailArt,group})=>({code,name,rank,thumbnailArt,group,...stock.find(s=>s.code===code)}))};
 }
 export function bloodmoonPackPrice(settings,count){
  if(![1,10].includes(count))throw Error('1회 또는 10회를 선택하세요.');

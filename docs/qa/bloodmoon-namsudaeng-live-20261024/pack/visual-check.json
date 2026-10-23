@@ -1,0 +1,28 @@
+{
+  "status": "PASSED",
+  "at": "2026-10-23T20:54:20.458Z",
+  "fixtureOnly": true,
+  "productionTransactions": 0,
+  "reports": [
+    {
+      "width": 1440,
+      "shopOff": true,
+      "roster": 9,
+      "cmsSaveReload": true,
+      "cmsIsolation": true,
+      "opening": false,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 390,
+      "shopOff": true,
+      "roster": 9,
+      "cmsSaveReload": true,
+      "cmsIsolation": true,
+      "opening": false,
+      "errors": [],
+      "failed": []
+    }
+  ]
+}

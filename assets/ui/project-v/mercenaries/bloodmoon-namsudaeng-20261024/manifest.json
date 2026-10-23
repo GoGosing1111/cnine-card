@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "name": "블러드문 남수댕",
+  "code": "V-965",
+  "approval": "live-approval.json",
+  "assets": [
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/locked/approved-arrow.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/locked/approved-arrow.png",
+      "bytes": 16879,
+      "sha256": "D2869BCC99CD0408CFE36D0CF41B9B4C44D9901D9070136FC00DDAE9073EA998"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/idle.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/atlases/idle.png",
+      "bytes": 185579,
+      "sha256": "A780D7EFDE66C51787FF0AD82D11F6DE8F9BCBC8593D2A203BC3BF1C7F21DDBC"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/dash.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/atlases/dash.png",
+      "bytes": 574623,
+      "sha256": "1025236BE867E1C19B926CEF92AD24B4E89D759ABACD1E181FF461A65FB06DEF"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/draw.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/atlases/draw.png",
+      "bytes": 841971,
+      "sha256": "8C3E2F8FA6898105A9F6E8E266302DA576034BDA45C09CF6B87198B68E6EE136"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/release.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/atlases/release.png",
+      "bytes": 894117,
+      "sha256": "AB820D11877DF02D613DF78E5BB36A662EF98C660FCE2B0A4DEE69EE1FBF1559"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/cast.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/atlases/cast.png",
+      "bytes": 892746,
+      "sha256": "23F91DBC77989E448B7DBFA018D2D88D9836E09B3BF58E47060DDFF63C72C8D1"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/hit.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/atlases/hit.png",
+      "bytes": 357339,
+      "sha256": "997E602FB1DBF6E278B040EBFC01AA0B74CE2C9448D893E4206E0420CEC716EE"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/defeat.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/atlases/defeat.png",
+      "bytes": 389220,
+      "sha256": "106297CB20DE46277C30E3B8F74790ABB74365598A433437088F293CE05E0A60"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-charge.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/atlases/fx-charge.png",
+      "bytes": 1244452,
+      "sha256": "89B3A834BA232497C97FFB9AE31028D1C74EB5AA53F8C820B597AEE338D190B3"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-pierce.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/atlases/fx-pierce.png",
+      "bytes": 965295,
+      "sha256": "AFC25D63B5D735CD1F5C120F205F516A1CF8B6A6C91154F41FCD5B1382979A01"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-volley.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/atlases/fx-volley.png",
+      "bytes": 824428,
+      "sha256": "C2E75A48D31A2B9F6AD8E7E3830A1743092B64A5DF5FD481289E78125F370B2A"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/assets/atlases/fx-rain.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/atlases/fx-rain.png",
+      "bytes": 2040393,
+      "sha256": "226F0A764C7F0C5D7F79484C383F3E19AE28A6D5D7E1FC3F3D0D60E0C0985057"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/source-art.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-bow-20261024-v1/approved-20261024/bloodmoon-namsudaeng-bow-v6.png",
+      "bytes": 2711243,
+      "sha256": "FA4375975E256F84E6C4CDB877B69C239805DA303B1233EBF71B7A6F5F32D9D8"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/idle.png",
+      "original": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/assets/battle-sprite.png",
+      "bytes": 179498,
+      "sha256": "F92F48030F9AE6CB7C888F0F70F3CE4FD963BD4225C32651762003E0761BEAA6"
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "reason": "Preserve exact Node-only authoring commands in Git; browser runtime uses their outputs. Make room for approved NamSuDaeng live assets.",
+  "records": [
+    {
+      "file": "preview/account-rank-v1/serve.mjs",
+      "sha256": "8c4056fbf2c9d2d3da28b560da89593abb4a3f0078f6193d8beec0be5db67da7",
+      "bytes": 2026
+    },
+    {
+      "file": "preview/avatar-cheon-v1/remove-equipment-background.cjs",
+      "sha256": "3b2df9dd817c3a85c699938b2f4a7818b6dea2a09e2ccf1da06f5218c24d9c28",
+      "bytes": 6971
+    },
+    {
+      "file": "preview/avatar-clan-hanbok-v1/apply-joeun-balance-v2.mjs",
+      "sha256": "e77984d60babcb173f52ae0a2a0c979f28e4a722ac42d7f98aabb22037c90196",
+      "bytes": 4218
+    },
+    {
+      "file": "preview/avatar-clan-hanbok-v1/apply-joeun-balance-v3.mjs",
+      "sha256": "36b3683305d22c8ad503b2d0866abdc7dc25402dc28a35eaa1464bbe4fb409fa",
+      "bytes": 4238
+    },
+    {
+      "file": "preview/avatar-hanbok-diim-v1/remove-equipment-background.cjs",
+      "sha256": "0b38f70a5a84653ed87dac09cd6c8caceb5f8efd78af79c678f20bcbe0979377",
+      "bytes": 8343
+    },
+    {
+      "file": "preview/avatar-hi-heeya-v1/remove-equipment-background.cjs",
+      "sha256": "286db3ba001b4a4f8b9f87711522ccf2662e4f9bf9ecbdf4dcfa14a47f5fb175",
+      "bytes": 7644
+    },
+    {
+      "file": "preview/avatar-orikkung-v1/remove-equipment-background.cjs",
+      "sha256": "680c031b8aa59d6233e7f16c6928dc043fb9b2e0cdeefa29e3dbae3808af1999",
+      "bytes": 6651
+    },
+    {
+      "file": "preview/avatar-orikkung-v1/serve.mjs",
+      "sha256": "61efb1516a68a2cc9802544f6c5ddcd3b9376a1bea59cf7b8ff084fa0fc0d4f6",
+      "bytes": 1791
+    },
+    {
+      "file": "preview/avatar-saengbyuwang-v1/remove-equipment-background.cjs",
+      "sha256": "537c4b607e2b6f6371d4c52094265bc3a393eaa293dc9a902af71c463e9e4d32",
+      "bytes": 7872
+    },
+    {
+      "file": "preview/battle-suit-crimson-gold-knight-20261005-v1/bind-valter-aura.mjs",
+      "sha256": "a92c88edca4efe25f90ef82b0e40ebcc8798fea0002cf8b11d696405fbff9f42",
+      "bytes": 4551
+    },
+    {
+      "file": "preview/battle-suit-crimson-gold-knight-20261005-v1/extract-weapon.mjs",
+      "sha256": "4fc724f6e6b77984b2e8c8555ee428e9a616ba683bf270b109a7dcd2c354f14d",
+      "bytes": 1942
+    },
+    {
+      "file": "preview/battle-suit-crimson-gold-knight-20261005-v1/inspect-assets.mjs",
+      "sha256": "8f61f2440fb5080261ac3f2f5dd356200c59af473a01a05fa95a683182989bb2",
+      "bytes": 1249
+    },
+    {
+      "file": "preview/battle-suit-crimson-gold-knight-20261005-v1/pack-assets.mjs",
+      "sha256": "8b9a4b1feebda0b7f76c7fced24205f61b3e44dd16c4b729daa7262eee48ec20",
+      "bytes": 8804
+    },
+    {
+      "file": "preview/battle-suit-crimson-gold-knight-20261005-v1/pack-aura.mjs",
+      "sha256": "27a2869c5839b13ec6d379e96533e4648d750059db13836fb0db0a5b2fd8d2e1",
+      "bytes": 3095
+    },
+    {
+      "file": "preview/battle-suit-crimson-gold-knight-20261005-v1/serve.mjs",
+      "sha256": "b15f4f7477c12bcafb56e836ca18304cf2640fc58e6b746262758d5f1d41b67a",
+      "bytes": 1824
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/serve.mjs",
+      "sha256": "02b5ef74fa6716a7389b71f0a904266141f9c1408e3a891a21f3087c0e556382",
+      "bytes": 1797
+    },
+    {
+      "file": "preview/battle-suit-sx-v1/extract-locked-parts.mjs",
+      "sha256": "555b360267f129ae2068d16e606b1bf364037a88fa7c56d2c3aa8640f61d1522",
+      "bytes": 2122
+    },
+    {
+      "file": "preview/battle-suit-sx-v1/inspect-references.mjs",
+      "sha256": "b1212fae8683581ee84d593f4fed8a115768c70d6cf3cda19f70b14dd39a6dff",
+      "bytes": 2711
+    },
+    {
+      "file": "preview/battle-suit-sx-v1/pack-assets.mjs",
+      "sha256": "0b3d0b97e656aa46428f65b03b75359670f179bad64dc8ed367f42d58d407fc7",
+      "bytes": 8382
+    },
+    {
+      "file": "preview/battle-suit-sx-v1/pack-connected.mjs",
+      "sha256": "0983aa8a63280df12d6a58fd73cbd25440d4538a170ff9b593e014d18c8d6415",
+      "bytes": 8309
+    },
+    {
+      "file": "preview/battle-suit-sx-v1/record-review.mjs",
+      "sha256": "53d3b4b9357822fd335f79d6847b9668edb98dcb159e457c1ce01c57796a307e",
+      "bytes": 2392
+    },
+    {
+      "file": "preview/battle-suit-sx-v1/serve.mjs",
+      "sha256": "54f5390e4edf8472f3b68dd8159a44f9bce1024c974d80dc823e454096b7dc64",
+      "bytes": 1770
+    },
+    {
+      "file": "preview/battle-suit-sx-v1/ultimate-v3/pack.mjs",
+      "sha256": "f41449b5bce3007776b5134dcd61e8c14f77337517a87f0a86b5304b2bf5e030",
+      "bytes": 2829
+    },
+    {
+      "file": "preview/battle-suit-sz-v1/prepare-inputs.mjs",
+      "sha256": "7068adf818ce98915576c4efa8e876c5a310e617f19c72f9f893ddfe14053f0a",
+      "bytes": 4511
+    },
+    {
+      "file": "preview/battle-suit-sz-v1/serve.mjs",
+      "sha256": "2f6730ec3f2c4a67e94521ef2c539a0bdb0001425abbe1521b3d0a28d1c5574d",
+      "bytes": 1370
+    }
+  ]
+}

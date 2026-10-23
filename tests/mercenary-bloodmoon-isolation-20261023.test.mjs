@@ -12,8 +12,8 @@ import {readBloodmoonSsOnce,bloodmoonSsOnceKey} from '../functions/_mercenary_bl
 import {halloweenSsOnceKey} from '../functions/_mercenary_halloween_once.js';
 import {BLOODMOON_PACK_CARDS} from '../shared/mercenary-bloodmoon-pool-v3.mjs';
 
-test('the approved five Bloodmoon cards and three requested SSS cards are the only pack targets',()=>{
- assert.deepEqual(BLOODMOON_PACK_CARDS.map(c=>c.code),['V-960','V-961','V-962','V-963','V-964','V-978','V-974','V-975']);
+test('the approved six Bloodmoon cards and three requested SSS cards are the only pack targets',()=>{
+ assert.deepEqual(BLOODMOON_PACK_CARDS.map(c=>c.code),['V-960','V-961','V-962','V-963','V-964','V-965','V-978','V-974','V-975']);
  assert.deepEqual(BLOODMOON_PACK_CARDS.filter(c=>c.rank==='SSS').map(c=>c.name),['레오넬','제너럴 족','프라임 레퀴엠']);
  const draft=bloodmoonPackDraft();assert.equal(draft.mode,'OFF');
  for(const code of ['V-978','V-974','V-975']){assert.equal(draft.stockLimits[code],null);assert.equal(draft.cardRatesPpm[code],null);}

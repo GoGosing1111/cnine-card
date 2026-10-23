@@ -1,3 +1,4 @@
+import {NAMSUDAENG_ART} from './mercenary-bloodmoon-namsudaeng-v1.mjs';
 // User: SS limited, 10 server-wide copies each, opening unavailable (2026-10-23).
 export const BLOODMOON_SERVER_LIMIT=10;
 export const BLOODMOON_BASE_POWER=356400;
@@ -347,5 +348,6 @@ export const BLOODMOON_MERCENARIES=Object.freeze([
       "imageHeight": 512
     }
   }
-].map(card=>Object.freeze(card)));
+,NAMSUDAENG_ART].map(card=>Object.freeze(card)));
+export const BLOODMOON_ORIGINAL_CODES=Object.freeze(['V-960','V-961','V-962','V-963','V-964']);
 export const BLOODMOON_CODES=Object.freeze(BLOODMOON_MERCENARIES.map(c=>c.code));

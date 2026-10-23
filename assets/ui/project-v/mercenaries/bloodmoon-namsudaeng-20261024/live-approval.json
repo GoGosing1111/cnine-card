@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "approvedAt": "2026-10-23T20:44:57.830Z",
+  "name": "블러드문 남수댕",
+  "code": "V-965",
+  "rank": "SS",
+  "edition": "LIMITED",
+  "userInstructions": [
+    "승인하고 라이브 반영, 그리고 블러드문팩에도 올려 10장 똑같이",
+    "이름 블러드문 남수댕"
+  ],
+  "sourceArtSha256": "FA4375975E256F84E6C4CDB877B69C239805DA303B1233EBF71B7A6F5F32D9D8",
+  "battleVisualApproval": true,
+  "skillVisualApproval": true,
+  "liveReleaseAuthorized": true,
+  "packInclusionAuthorized": true,
+  "serverLimit": 10,
+  "packOpeningState": "PRESERVE_EXISTING_OFF",
+  "packPricesAndProbabilities": "PRESERVE_EXISTING",
+  "accountGrants": 0,
+  "originalBattleManifest": "preview/mercenary-bloodmoon-namsudaeng-battle-20261024-v1/manifest.json",
+  "preservedSourceCommit": "e8e0b1671de09bce3b297040ef0938e03f882eaf",
+  "status": "APPROVED_READY_FOR_DEPLOY"
+}

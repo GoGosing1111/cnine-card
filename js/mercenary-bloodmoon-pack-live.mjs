@@ -1,10 +1,10 @@
-import {jointAccountRequest} from './joint-account-transport.mjs?v=20261023-blood-pack-v1';
-import {BLOODMOON_PACK,bloodmoonReceiptResults,bloodmoonPackPrice} from '../shared/mercenary-bloodmoon-pack-v1.mjs?v=20261023-blood-pack-v1';
-import {BloodmoonOpeningSession} from '../shared/mercenary-bloodmoon-session-v2.mjs?v=20261023-blood-pack-v1';
-import {BloodmoonReceiptRecovery,bloodmoonReceiptRetryable} from '../shared/mercenary-bloodmoon-recovery-v1.mjs?v=20261023-blood-pack-v1';
-import {BloodmoonAutoOpening,bloodmoonAutoQuote} from '../shared/mercenary-bloodmoon-auto-v1.mjs?v=20261023-blood-pack-v1';
-import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=20261023-blood-pack-v1';
-import {bloodmoonStockText,bloodmoonCollectionMarkup,bloodmoonResultsMarkup,bloodmoonRoomMarkup} from './mercenary-bloodmoon-presentation-v2.mjs?v=20261023-blood-pack-v1';
+import {jointAccountRequest} from './joint-account-transport.mjs?v=20261024-namsudaeng-v1';
+import {BLOODMOON_PACK,bloodmoonReceiptResults,bloodmoonPackPrice} from '../shared/mercenary-bloodmoon-pack-v1.mjs?v=20261024-namsudaeng-v1';
+import {BloodmoonOpeningSession} from '../shared/mercenary-bloodmoon-session-v2.mjs?v=20261024-namsudaeng-v1';
+import {BloodmoonReceiptRecovery,bloodmoonReceiptRetryable} from '../shared/mercenary-bloodmoon-recovery-v1.mjs?v=20261024-namsudaeng-v1';
+import {BloodmoonAutoOpening,bloodmoonAutoQuote} from '../shared/mercenary-bloodmoon-auto-v1.mjs?v=20261024-namsudaeng-v1';
+import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=20261024-namsudaeng-v1';
+import {bloodmoonStockText,bloodmoonCollectionMarkup,bloodmoonResultsMarkup,bloodmoonRoomMarkup} from './mercenary-bloodmoon-presentation-v2.mjs?namsudaeng=20261024-v1&v=20261024-namsudaeng-v1';
 const fmt=n=>n==null?'미정':BigInt(n).toLocaleString('ko-KR');
 const currentAccount=()=>Number(globalThis.loadUser?.()?.serverUserId)||0;
 const browserLock=(key,work)=>{if(!navigator.locks?.request)throw Error('안전한 개봉을 지원하는 최신 브라우저에서 이용해 주세요.');return navigator.locks.request(key,{ifAvailable:true},lock=>{if(!lock)throw Error('다른 창에서 블러드팩을 처리 중입니다.');return work();});};
@@ -14,7 +14,7 @@ export function bloodmoonBatchCinematic(results){return bloodmoonBatchCinematics
 export function openBloodmoonPack(){return mountBloodmoonPack();}
 export async function mountBloodmoonPack({api=jointAccountRequest,accountId=currentAccount(),getAccountId=currentAccount,storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
  if(active)return active;
- if(!document.querySelector('[data-bloodmoon-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-bloodmoon-pack-v2.css?v=20261023-blood-pack-v1';link.dataset.bloodmoonPackStyle='';document.head.append(link);}
+ if(!document.querySelector('[data-bloodmoon-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-bloodmoon-pack-v2.css?v=20261024-namsudaeng-v1';link.dataset.bloodmoonPackStyle='';document.head.append(link);}
  const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='bwp-dialog';active=dialog;
  dialog.setAttribute('aria-labelledby','bwp-title');dialog.innerHTML=bloodmoonRoomMarkup(BLOODMOON_PACK);
  const $=selector=>dialog.querySelector(selector);let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null,recovery=null;

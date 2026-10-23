@@ -1,0 +1,6 @@
+{
+  "message": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 0\n\n    at file:///C:/Users/User/Downloads/cnine-z-body-sword-20260918/site/tests/bloodmoon-namsudaeng-live-20261024.browser.mjs:86:148",
+  "checks": [],
+  "errors": [],
+  "missing": []
+}
