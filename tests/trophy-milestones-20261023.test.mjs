@@ -94,7 +94,7 @@ test('limited edition preserves account collection entitlements for Jinmu and Jo
 test('shared milestone reader remains read only when new sources have no records; limited holdings failures are not invented as zero',async t=>{
  const f=await fixture(t),result=await f.readonly(()=>readNewTrophyMilestones(f.env,1));
  assert.deepEqual(result,{blueEmpire:{count:0,progress:0,goal:20,acquiredAt:null},limitedEdition:{count:0,acquiredAt:null,progress:0,goal:9,total:11},loyalServicePost:{count:0,progress:0,goal:20,acquiredAt:null}});
- await f.pg.exec('DROP TABLE user_mercenary_cards_v1');await assert.rejects(readNewTrophyMilestones(f.env,1),/does not exist/);
+ await f.pg.exec('DROP TABLE user_mercenary_cards_v1');await assert.rejects(readLimitedEditionHonors(f.env,1),/does not exist/);
 });
 
 
