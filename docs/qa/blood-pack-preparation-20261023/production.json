@@ -1,0 +1,331 @@
+{
+  "status": "VERIFIED",
+  "at": "2026-10-23T01:24:26.035Z",
+  "sourceCommit": "da60d8c64c0077b71b45e08e6907453d0857bff6",
+  "verificationBase": "9eef99a56540a8d9e9779c7655f62f1aa0b163de",
+  "deployment": {
+    "id": "00314c89-85aa-4be0-b7d5-7e46eaa13eaf",
+    "url": "https://00314c89.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "da60d8c64c0077b71b45e08e6907453d0857bff6",
+    "createdAt": "2026-10-23T01:23:34.93041Z"
+  },
+  "hashes": [
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "2fbdd092af2df139e19a2a349b8b90d58a063ae6ab740c69c7b26115d0761696"
+    },
+    {
+      "file": "admin/mercenary-bloodmoon-admin-v1.mjs",
+      "sha256": "bd24ee74f876e39cc19a643a3a50da0a7a7703a4577740fbb1fb9d04d26d05c1"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "00f8a5fc8b436ace8bebafccfcbde23c699bc0beb09301b5b0c9dc98b8f33804"
+    },
+    {
+      "file": "AGENTS.md",
+      "sha256": "e475ef315408241f1c1860e6c25dcd06512646ebeb7783db20415091a4938060"
+    },
+    {
+      "file": "admin/mercenary-request-v1.mjs",
+      "sha256": "510a2361a82427446944523bc04bbe6a436b4bc2bb20c5587dc5de818e46baaa"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/auto-panel.webp",
+      "sha256": "5402410918f86b4c38ad6bc751993261ba560c19aa5bfff4eb9cedcad6952d5a"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/button-ember-source.png",
+      "sha256": "cb0c7f81d623f551add7273288c9d0a16034357c76d9cc153311ec7db9d5fcfd"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/auto-panel-source.png",
+      "sha256": "7b37330e654c00cb529d4308e42c3cf1cb7d33a2c25fa5052acc76d5d08610ba"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/button-night.webp",
+      "sha256": "792371093d5d85b521663ccc1ae6ef691871806212bb35e3168ff33751986aa4"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/button-ember.webp",
+      "sha256": "5d0527277cd88b1778ea6a7c0df4c0d271342c32df0f2239e9b109d9c43bd628"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/card-frame-source.png",
+      "sha256": "6248406a1740bfe1549172607b00eab5f75ce35ee8cfd598dffcc62f187908bd"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/button-night-source.png",
+      "sha256": "025a0bc9fb21f7549a94ba0581affc274f2020e5cb40f8d197d3de0f63a56720"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/card-frame.webp",
+      "sha256": "4fb494ebe7933604e8ec36279dbcda6c50ebb10d2294422db601e7500d15ea52"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/moonlit-courtyard.webp",
+      "sha256": "fc371363320624cac4350a125eec65e7b8f2b450c650bd68cd5c6d0d3645a169"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/manifest.json",
+      "sha256": "264bff9ecca94e90c894c3a2407240cdea4cae545640a44883a787cfe5af169f"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/moonlit-courtyard-source.png",
+      "sha256": "6904afa4fabf42b7b7c7e119b6ba6848b63b7a7f84ea3b1bb1dc0cdee30ba51c"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/pack-320.avif",
+      "sha256": "5d75718fb4e07f4ec0918d23e33e895e5430e5170ee960acb6e5f14576fdc7ad"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/pack-768.avif",
+      "sha256": "d29a7fb4f768db8a9303ba39aaf0aec93d1a16b3739022303b3f7048d0d203ef"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/pack-320.webp",
+      "sha256": "47d24d54b696e97b984777eefaadaa9ad2603211185013120256070e82425968"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/pack-768.webp",
+      "sha256": "2aac5cfd3d8ea95ee44dcf74104fb42fcd8cb99fb5b4563adccf01e51e630251"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/v-975-320.webp",
+      "sha256": "f2dbca7a2f26950c85f719b0d5f16173d6116f9035191eb391894196af822328"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/v-974-320.webp",
+      "sha256": "a9165f51d832a2bb8192c0d3336184a9c88b490a7be34832388283762c7ac2fe"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/v-974-640.webp",
+      "sha256": "c610534df8e8eb7a7b3fa1cf7c6ac8744fe6a74446cd30292ef3e2127cbd255b"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/pack-source.png",
+      "sha256": "6d981afb0f6138fc574fe0dfdfc74f02e047a921bd3f009828692443a4e3c9cc"
+    },
+    {
+      "file": "css/mercenary-bloodmoon-pack-v2.css",
+      "sha256": "42b9ef337fe045c66a6e2de81b7b9ce269228c9ce26acc31f34c4bcef4ab10e7"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/v-978-320.webp",
+      "sha256": "8ce19ddeb1de8b005bae33de9eb077984e417e63800d528caa424cf84aa93afa"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/v-978-640.webp",
+      "sha256": "150742bb5bc354b1f185c2d13775e7be3a8d481317c530a06aa27236daef5ace"
+    },
+    {
+      "file": "assets/ui/packs/blood-pack-20261023/v-975-640.webp",
+      "sha256": "bd552ecde69520bf96303a8da2e93469a1549d29b63e90a66a52ea4745c8ff59"
+    },
+    {
+      "file": "index.html",
+      "sha256": "8adec1ebd7e9e14f453e29c44979c1c85540c42e3325b2c5963ba9167335fa4c"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "a9e8ef12d4b01782639b0a36c7b4d66ff235fe09c2336afb0cb1cc0b96ebc1a0"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-presentation-v2.mjs",
+      "sha256": "261ac2e6067352ab136904063a94140d3432e78eb755d6182d8d2b150e361452"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "sha256": "f43bf684830c11e774a30528588ff7bd6fb169eb0e9f849f76d404acfff38adb"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "78b2ca6394968a07bede01fdd212d0d8357ea733545960bc0b38cebda2800017"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-catalog-v1.mjs",
+      "sha256": "61c8d4a4cef1fca5e3a113b62f687fc90a69aecae5c3d240a054275e2d2beb08"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-auto-v1.mjs",
+      "sha256": "a7c16e17e0918861d370a3cd37d4571475940318432899aa4362a78447c75f41"
+    },
+    {
+      "file": "preview/blood-pack-interface-20261023/index.html",
+      "sha256": "ab552352f8971a996eacc934f80c3b9fd169f8b01447b446633101ca5dcfe9b5"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pool-v3.mjs",
+      "sha256": "db8830449f8ad235760afe96cb208f879dec60ef1e472ec6b9add3118dfbb732"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-session-v2.mjs",
+      "sha256": "8294432d03dc79949cf7356295efc5e7f85c0802b4cf2815e67db67f661108ff"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "sha256": "802a930b49929399d5307558f3190507035300f72f9c43bb6ba30b0013c3565d"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-recovery-v1.mjs",
+      "sha256": "1e38d956c6a0549cca7694849ad48c0e51dd1a58204e497ddbc0d839e3884f1f"
+    }
+  ],
+  "api": {
+    "packId": "mercenary-bloodmoon-ss-limited",
+    "mode": "OFF",
+    "releaseEnabled": false,
+    "userOpeningEnabled": false,
+    "prices": {
+      "single": null,
+      "ten": null
+    },
+    "cards": [
+      {
+        "code": "V-960",
+        "name": "나무늘봉순",
+        "rank": "SS"
+      },
+      {
+        "code": "V-961",
+        "name": "조은",
+        "rank": "SS"
+      },
+      {
+        "code": "V-962",
+        "name": "디임",
+        "rank": "SS"
+      },
+      {
+        "code": "V-963",
+        "name": "카르베나",
+        "rank": "SS"
+      },
+      {
+        "code": "V-964",
+        "name": "네베라",
+        "rank": "SS"
+      },
+      {
+        "code": "V-978",
+        "name": "레오넬",
+        "rank": "SSS"
+      },
+      {
+        "code": "V-974",
+        "name": "제너럴 족",
+        "rank": "SSS"
+      },
+      {
+        "code": "V-975",
+        "name": "프라임 레퀴엠",
+        "rank": "SSS"
+      }
+    ],
+    "stock": [
+      {
+        "code": "V-960",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-961",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-962",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-963",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-964",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-978",
+        "limit": null,
+        "issued": 0,
+        "remaining": null,
+        "prepared": false,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      },
+      {
+        "code": "V-974",
+        "limit": null,
+        "issued": 0,
+        "remaining": null,
+        "prepared": false,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      },
+      {
+        "code": "V-975",
+        "limit": null,
+        "issued": 0,
+        "remaining": null,
+        "prepared": false,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      }
+    ],
+    "openStatus": 423,
+    "unauthorizedCmsStatus": 401
+  },
+  "preservedSettings": [
+    {
+      "key": "mercenary_bloodmoon_ss_pack_v1",
+      "sha256": "29eb5c7c7526b04c5adc23962c0b26828f573ccd478045e203a05076acae65ae",
+      "revision": 1
+    },
+    {
+      "key": "mercenary_halloween_ss_pack_v1",
+      "sha256": "d53f4db42e5af9bb2327afbe283a3c2a31d9b52a5950f7bb97320ce0c00968b4",
+      "revision": 23
+    }
+  ],
+  "views": [
+    {
+      "width": 1440,
+      "publicShopOff": true,
+      "previewOnly": true,
+      "roster": 8,
+      "requestsWithMutation": 0,
+      "errors": [],
+      "failed": [],
+      "shopUnobstructed": true
+    },
+    {
+      "width": 390,
+      "publicShopOff": true,
+      "previewOnly": true,
+      "roster": 8,
+      "requestsWithMutation": 0,
+      "errors": [],
+      "failed": [],
+      "shopUnobstructed": true
+    }
+  ],
+  "productionWrites": 0,
+  "visualCheckAt": "2026-10-23T01:25:48.419Z"
+}

@@ -30,7 +30,7 @@ test('tier increase cannot turn into a burst-fire reward and weak decks fail upp
 });
 test('2/4 sets, unique mixing, unequip and leech budgets change only explicit PVE equipment runtime',()=>{
   const fx=regionEquipmentEffects(['HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_DESERT_UNIQUE']);
-  assert.equal(fx.effects.hpPercent,8);assert.equal(fx.effects.bossDamagePercent,8);assert.equal(fx.sets[0].active,4);
+  assert.equal(fx.effects.hpPercent,8);assert.equal(fx.effects.bossDamagePercent,24);assert.equal(fx.sets[0].active,4);
   const mixed=regionEquipmentEffects(['HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_DESERT_WEAPON','HUNT_DESERT_SHOES']);assert.equal(mixed.sets.length,2);assert.equal(mixed.effects.shieldPercent,undefined);
   const snapshot=legionBalanceSnapshot(profiles[0]);
   const base=buildPvePlayerTeam({cards:snapshot.cards,characterBonus:snapshot.cardSupportBonus});

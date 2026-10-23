@@ -1,0 +1,18 @@
+{
+  "head": "da60d8c64c0077b71b45e08e6907453d0857bff6",
+  "base": "9fd4f406ea11276437a9ec06f1b2809383959336",
+  "tests": [
+    "tests/mercenary-bloodmoon-pack-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-isolation-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-codex-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-auto-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-recovery-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-storage-20261023.test.mjs",
+    "tests/mercenary-halloween-pack-20261017.test.mjs",
+    "tests/mercenary-halloween-auto-20261017.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "startedAt": "2026-10-23T01:20:53.592Z"
+}

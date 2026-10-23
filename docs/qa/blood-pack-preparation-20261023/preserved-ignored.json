@@ -1,0 +1,373 @@
+{
+  "createdAt": "2026-10-23T01:14:24.698Z",
+  "root": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site",
+  "storage": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\blood-pack-preparation-20261023\\preserved-ignored",
+  "files": [
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/PROMPTS-V4.md",
+      "hash": "40cc1ba46cc43e70d2701ae7c44efa9bbbda760954783e9f5f3a1d0108c1295b",
+      "size": 14771
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/README-V4.md",
+      "hash": "6d8e0ac72125a1daeb7742a47c84ce194c23d38710e20d62b7a1335bb79e7416",
+      "size": 3794
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/README.md",
+      "hash": "050f8c31ae1c968a4a2edada1f1086a4cb006afb940038ecfbc7661832974b24",
+      "size": 5921
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/REJECTED.txt",
+      "hash": "566f33c8929ec1e383cdc51329b7b67e11a32100b2808416ba1981f533a99228",
+      "size": 162
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/blade-atlas.png",
+      "hash": "d65b79ba18521bff102a6b1e33a94be7dbf5c3880760fe82c4e6916aa1c0ff07",
+      "size": 963561
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/blade-loop.webp",
+      "hash": "f36b639cdd0cb5148ad1105ad846aa19a6742c7d7d13946309421dbb860ce55d",
+      "size": 672660
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/cast-atlas.png",
+      "hash": "a150a6d1d56641bd350d932e22dacb45919444a1705371c26ce91f90b49566db",
+      "size": 5310678
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/blade-01.png",
+      "hash": "c98cd13ae610d08eb0d0574cc3edb2a5fc6b099bd4aebf8edc6c1d728e9ec848",
+      "size": 93798
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/blade-02.png",
+      "hash": "7cb6d352b9ecaf48b634f211710a98d04ec3e788ba581d649076c62d466b2059",
+      "size": 115831
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/blade-03.png",
+      "hash": "5e5f434ee1a0ca0dd1c888eb39f29c6892d0127a80b688e2de8d700dc5f04af4",
+      "size": 85555
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/blade-04.png",
+      "hash": "d9e8e5ee9aa82c72cce4b4effc6d98fd8eb690a7ad0f773bbb8db28b8222e9ae",
+      "size": 169705
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/blade-05.png",
+      "hash": "4a48dc76c84daa97c42ce69a7639cb9ebad85fb4b86f36eac17337694626f9cc",
+      "size": 178515
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/blade-06.png",
+      "hash": "a3cb6b274cc1f3068c36e1132aa25f1b17ec179286870aeac6a5648a881d217d",
+      "size": 129561
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/blade-07.png",
+      "hash": "ddb5972c0acc71cd46599e657773a1de0b3fbb6b1c2d83bcf3961278c7c2edbf",
+      "size": 102380
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/blade-08.png",
+      "hash": "8652a72625b242b956b1ca90173520b60d5cee38c4fad42ccb2998bbe6b74473",
+      "size": 72126
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/cast-C01.png",
+      "hash": "883ed302305897c5ea8c53400df1af102ab43cc98b660ccb884bc18f5b8ed4e3",
+      "size": 429261
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/cast-C02.png",
+      "hash": "73d955ce1f8c3178724d1445ede89707a9d02aef4919eb9d45b326d4af904597",
+      "size": 437362
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/cast-C03.png",
+      "hash": "478fdb4e4b38310615fbc6d4da0a7fdbda0661271cf0b14d21aca29af0c7f266",
+      "size": 410683
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/cast-C04.png",
+      "hash": "0e88b549f0b86e054e9d85d30337b7482d67916d23bdb1a18f43b75ec84dc9d2",
+      "size": 446553
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/cast-C05.png",
+      "hash": "769d339d634334449707e744ba77de969b0d90cd35f938b058610d271dfae5b8",
+      "size": 414170
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/cast-C06.png",
+      "hash": "54a8e4cb48c39d798d94986a49ac61384ced4030c982471c95c49e3584d8203c",
+      "size": 453604
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/cast-C07.png",
+      "hash": "26cc30a8931036275dc060aa98e923b9d0a9961c7a0a92e6a3428de6c14c132f",
+      "size": 455784
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/cast-C08.png",
+      "hash": "4b9b21669baf5642110fcca651a37b263117a53d9c39556dfc3a8bbccdf0baa9",
+      "size": 464512
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/cast-C09.png",
+      "hash": "3f3353b2799d28b3ac369613bec5ab8d4a13c4d6bfc030e7e9854c4356b92411",
+      "size": 470666
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/cast-C10.png",
+      "hash": "5a19e8e6829dd22207f7320f2e04d54f8a9e92e3580836ba6f5d09608b9dcbbe",
+      "size": 452300
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/cast-C11.png",
+      "hash": "71c71223be17f876c1de447d03b6521ebb226bab3d4d9af4084e8227f9b3d0e3",
+      "size": 426235
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/cast-C12.png",
+      "hash": "be5d32de1df86f766a2182c7bf6d1d2e5cef5c012fad711a3bf09ecadbe816e2",
+      "size": 427304
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/ground-01.png",
+      "hash": "656a9ee02576dcf5b5087c86c570005883fd10664a6587629d2a6815d3199f26",
+      "size": 53716
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/ground-02.png",
+      "hash": "f1ac0d9b07d81954abc2427e135a266d81540a5c163d0d6256a37dbe2b2e35ae",
+      "size": 76746
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/ground-03.png",
+      "hash": "a1ebea2c61eb6347d128531a16ef8b800f98b8fe18f4f27949b1cf29551a4d0e",
+      "size": 95891
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/ground-04.png",
+      "hash": "1453962adf60d0c8c18205983aecc40d7f094f78158e8a8a8e1296eedd82c67d",
+      "size": 79969
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/ground-05.png",
+      "hash": "743031e72dad716766333bf860d2a965940fdc8984f8ef000fe79c16ce435c81",
+      "size": 58722
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/ground-06.png",
+      "hash": "b090935a49d03e5760e361c932cd8592caf4664580fb4d69a392271d862abd6b",
+      "size": 51611
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/ground-07.png",
+      "hash": "8e92144522eaaed6a7be0a30cd5b11c00e988a77a6ac16aed5c990082dee35fb",
+      "size": 40629
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/frames/ground-08.png",
+      "hash": "06d5bb96a8b01199b589527679cf1a7b45f601e98b8e22c991ea6265236227b2",
+      "size": 21487
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/ground-atlas.png",
+      "hash": "6df63d94e41c98bfb1435756f8ad6579d47616bdff84e4da6ed77b547d5634df",
+      "size": 478557
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/ground-loop.webp",
+      "hash": "870a126154e77a7f9f3baf3562ff96851c555b97e119711de7952a0f4e58bd7e",
+      "size": 372880
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/individual/cast-01-source.png",
+      "hash": "0d13969ead3c7a208a14cb453a5aa39c06d35e894b93da17090fbaf809196e52",
+      "size": 311728
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/individual/cast-02-source.png",
+      "hash": "b5fc778e296d875a4527aeca5a83445d1c840995cda1b11f1cddea8cd1d16173",
+      "size": 306096
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/individual/cast-03-source.png",
+      "hash": "9039f35577fedebc3f4e706868e797ab48c7098b99505f891626ed02707a90cb",
+      "size": 298653
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/individual/cast-04-source.png",
+      "hash": "bbc79af4cf36349bc1c951edff582d63b6f1d4fc79f208e7a1db7ef35e30f7ad",
+      "size": 329891
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/individual/cast-05-source.png",
+      "hash": "e65a10975d7457a93daba84a21bb925593d60adfd4bbb6c35f8b42b95351291e",
+      "size": 308364
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/individual/cast-06-source.png",
+      "hash": "159b4aab1cbe5d5acbd08147e0431b7f281fc13c0c43294b5c49d55091483f9a",
+      "size": 306309
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/individual/cast-07-source.png",
+      "hash": "b911d52f49fce68b5c76c15fc0f680c55132eeaf2b5a468733e641fcd177cee3",
+      "size": 312628
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/individual/cast-08-source.png",
+      "hash": "d6cc4d7684f52ea4dd21bf4ec9f87d0af433908e5078e36bebca30900b80a68a",
+      "size": 301885
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/individual/cast-09-source.png",
+      "hash": "864da9c986a3d10527bc8b806c1d55e69a8ac54f41b315b134a0aff9f57a0cbc",
+      "size": 434623
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/individual/cast-10-source.png",
+      "hash": "5f659a3966399c541a68205351ba3e1501cdf9e53a476749ca143a23c105b8cc",
+      "size": 417847
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/individual/cast-11-source.png",
+      "hash": "3d37aa4a2fedbfe66697fe3d68c69b5401782749a1061537a909c60fc9bddee4",
+      "size": 406158
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/individual/cast-12-source.png",
+      "hash": "eb969372bacc5ed887048b5a16a96c1f084ce66eb36c7f0297eb3e128b707ecb",
+      "size": 409708
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/sources/blade-descent.png",
+      "hash": "53de2c340d77ec914dacaace472a60776b40a8acff899088a30d47a852c3fbbd",
+      "size": 835773
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/sources/cast-anticipation.png",
+      "hash": "1fbefd3e8daf704c840a76e7c3ddb3e6ff14feb3573504854cdc4a058541d43e",
+      "size": 1108518
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/sources/cast-recovery.png",
+      "hash": "bfc581d3b4b91926acc91144559c51fede8d1d320c2ee2566ba78e63ccb07ad8",
+      "size": 1447423
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/sources/cast-release.png",
+      "hash": "12ed738152b313ae023eb277f3dcd49f088fbf387e89cb163fcce33c459d1dd3",
+      "size": 1111557
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/sources/ground-discharge.png",
+      "hash": "42e5b99d5bbf2cd8237205ae20e88f16a57528550b99f27e108735eda886c8c0",
+      "size": 485189
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/z-body-sword-rain-v4.gif",
+      "hash": "a516b6bb978e2024993a6741daef1187d0419d4887cb0fcd3847383c7442154a",
+      "size": 6848630
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/assets/v4/z-body-sword-rain-v4.zip",
+      "hash": "f81bb23daa2823bfa0c8bc7f92c7d411c0b5753ab8d332e02a4ed211e2a1b8ec",
+      "size": 14334471
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/build-cast-v4.mjs",
+      "hash": "182899f85d673709ddda48a856f90641973b5eeb09d260789d8e51366c288b27",
+      "size": 5437
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/build-rain-assets-v4.mjs",
+      "hash": "4ed8340b52f3b31cd5839c2f60ee4b8516a0f6a8449cd84b462dfcaabefedc63",
+      "size": 4416
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/cast-v4.json",
+      "hash": "33a515a4a7e10724853d945f025093d8f6a71f47b7bf727c7c5d7e6daf519164",
+      "size": 15895
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/export-rain-gif-v4.mjs",
+      "hash": "9052b9a899f6d3c88a36e82eb187816c55415731239354812357f08375c42d5a",
+      "size": 4867
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/index.html",
+      "hash": "68012d4c7e3765f4f1673cf61b2c5e13f0b010d0515d731f8973544124d98a8c",
+      "size": 5217
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/manifest-v4.json",
+      "hash": "91444a6d3d2c77d905e9fa36635374d72cb4f2bf510204cf9b6f7127344fd577",
+      "size": 34819
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/pack-resources-v4.py",
+      "hash": "450ec05cf5e2cf7456701237a45510ff03c30b6fc880f1bb147e67315217d535",
+      "size": 1161
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/pack-resources.py",
+      "hash": "26791911e45bec3186fbc719612247581847079794dd2e8892e7b16e337d80e1",
+      "size": 1196
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/preview.bundle.js",
+      "hash": "cfeaa2686bcbb61881e8a4f66a6ebacbc7fa35420982cfb6c6d30d6102dd5a8f",
+      "size": 697067
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/qa/v4/asset-verification.json",
+      "hash": "2ca4d292f8749642c7b3ca2462db8e3165a7d985ad51785453ef48ea6a191d03",
+      "size": 1380
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/qa/v4/browser-verification.md",
+      "hash": "350a30d0e24bf5d3dbb6d565687d6fbce6c04df17b2b75593ddbb574e467e992",
+      "size": 1829
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/qa/v4/cast-contact.png",
+      "hash": "259f9aac1453b8dc5e5ee811038bdac81a6c57674090a81f014bf984c2d61161",
+      "size": 1192713
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/qa/v4/rain-impact.png",
+      "hash": "8cf077a21a09fa65773034ea457e717f5f02f173797e07a1e454a7ea92993d1b",
+      "size": 959796
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/source/SwordRainFX.mjs",
+      "hash": "482f34c83ce690ce4eeff06323db50a57fb7ce9109d4f720c6db460f5604974c",
+      "size": 5004
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/source/preview.js",
+      "hash": "ef03445658d4b161256bd28b871aec5db479a2154bbc5fe7dd5b2364b0b359e8",
+      "size": 15601
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/source/rain-model.mjs",
+      "hash": "582b1b5745dafc35f9efbb4063a07791cc2e30560bf6e77c9d26cfb54eeb62d6",
+      "size": 1887
+    },
+    {
+      "file": "output/rejected/battle-suit-z-sword-v4-20260918/verify-v4.mjs",
+      "hash": "14de1ab96cda92edeee9ee25519b1b96c1656698292ed5d4a530851a80727a1e",
+      "size": 6266
+    }
+  ],
+  "restoredAt": "2026-10-23T01:26:04.205Z"
+}
