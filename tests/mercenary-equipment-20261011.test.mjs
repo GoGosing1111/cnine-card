@@ -35,12 +35,12 @@ for(const postgres of [false,true]){
     const f=await fixture(t,postgres),coin=await f.coin();
     await save(f,'PVE','WEAPON','1000',0);await save(f,'PVP','WEAPON','1000',0);
     let state=await mercenaryEquipmentState(f.env,f.user);
-    assert.equal(state.loadouts.PVE.power,90000);assert.equal(state.loadouts.PVP.power,10000);
+    assert.equal(state.loadouts.PVE.power,180000);assert.equal(state.loadouts.PVP.power,20000);
     await saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode:'PVE',mercenaryCode:'V-002',revision:1});
     const snapshot=await releasedMercenarySnapshot(f.env,f.user,'PVE');assert.equal(snapshot.code,'V-002');assert.equal(snapshot.equipment.items[0].instanceId,'1000');
-    assert.equal((await releasedMercenarySnapshots(f.env,[7],'PVE')).get(7).equipment.power,90000);
+    assert.equal((await releasedMercenarySnapshots(f.env,[7],'PVE')).get(7).equipment.power,180000);
     await save(f,'PVE','WEAPON',null,1);state=await mercenaryEquipmentState(f.env,f.user);
-    assert.equal(state.loadouts.PVE.power,0);assert.equal(state.loadouts.PVP.power,10000);assert.equal(await f.coin(),coin);
+    assert.equal(state.loadouts.PVE.power,0);assert.equal(state.loadouts.PVP.power,20000);assert.equal(await f.coin(),coin);
     assert.equal(Number((await f.p('SELECT COUNT(*) AS n FROM user_equipment_instances').first()).n),7);
   });
   test(`${db}: ownership, slot, publication, corrupt state and optimistic revision checks fail closed`,async t=>{
@@ -72,8 +72,8 @@ for(const postgres of [false,true]){
     await f.p('INSERT INTO equipment_forge_states_v1 VALUES(1000,7,3,1)').run();
     await f.setting(polishStateKey('1000',7),{schemaVersion:1,userId:7,instanceId:'1000',attempts:1,levels:[1,0,0,0,0],values:[.5,0,0,0,0]});
     await save(f,'PVE','WEAPON','1000',0);await save(f,'PVP','WEAPON','1000',0);
-    const state=await mercenaryEquipmentState(f.env,f.user);assert.equal(state.loadouts.PVE.power,forgePower(100000,3).pve);assert.equal(state.loadouts.PVE.effects.attackPercent,.5);assert.deepEqual(state.loadouts.PVP.effects,{});
-    const item=state.items.find(i=>i.instanceId==='1000');assert.equal(item.level,3);assert.equal(item.polish.attempts,1);assert.equal(item.totalPower,118000);
+    const state=await mercenaryEquipmentState(f.env,f.user);assert.equal(state.loadouts.PVE.power,forgePower(200000,3).pve);assert.equal(state.loadouts.PVE.effects.attackPercent,.5);assert.deepEqual(state.loadouts.PVP.effects,{});
+    const item=state.items.find(i=>i.instanceId==='1000');assert.equal(item.level,3);assert.equal(item.polish.attempts,1);assert.equal(item.totalPower,236000);
     const forged=(await readForgePreparationInventory(f.env.DB,7,{focusId:'1000',includeEnhancement:true})).items[0];assert.equal(forged.equipped,true);assert.deepEqual(forged.mercenaryModes,['PVE','PVP']);
     await f.p("INSERT INTO user_equipment_loadout(user_id,slot,instance_id) VALUES(7,'WEAPON',1000)").run();
     assert.deepEqual(await forgeEquipmentBonus(f.env,7),{pve:0,pvp:0});assert.equal((await equipmentGrowthRuntime(f.env,7)).effects.attackPercent,undefined);
@@ -90,7 +90,7 @@ test('actual PVE/PVP fighter power and personal set effects follow the selected 
   const fighter=buildMercenaryFighter(snapshot,'A','PVE',buildFighter),base=buildMercenaryFighter(bare,'A','PVE',buildFighter);
   assert.equal(fighter.power,mercenarySnapshotPower(snapshot));assert.ok(fighter.attack>base.attack);assert.equal(fighter.equipmentEffects.hpPercent,8);assert.ok(fighter.shield>0);
   const mismatched=buildMercenaryFighter(snapshot,'A','PVP',buildFighter);assert.equal(mismatched.power,buildMercenaryFighter(bare,'A','PVP',buildFighter).power);assert.equal(mismatched.equipmentEffects,undefined);
-  const pvp=buildMercenaryFighter(await releasedMercenarySnapshot(f.env,f.user,'PVP'),'A','PVP',buildFighter);assert.equal(pvp.power,base.power+10000);assert.equal(pvp.equipmentEffects,undefined);
+  const pvp=buildMercenaryFighter(await releasedMercenarySnapshot(f.env,f.user,'PVP'),'A','PVP',buildFighter);assert.equal(pvp.power,base.power+20000);assert.equal(pvp.equipmentEffects,undefined);
   const cards=Array.from({length:5},(_,i)=>({id:String(i),title:'검수',rarity:'FUR',power:10000,power_type:'ATTACK'}));
   const run=mercenary=>createPveBattleV2({cards,mercenary,monster:{id:1,name:'검수',battle_power:100000},seed:7});
   assert.deepEqual(run(snapshot).teams.A.cards,run(bare).teams.A.cards);

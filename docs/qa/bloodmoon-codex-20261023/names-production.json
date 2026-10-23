@@ -1,0 +1,83 @@
+{
+  "status": "PASSED",
+  "checkedAt": "2026-10-23T01:20:15.328Z",
+  "names": {
+    "V-963": "카르베나",
+    "V-964": "네베라"
+  },
+  "codexAndPackNamesMatch": true,
+  "mode": "OFF",
+  "openingEnabled": false,
+  "ssStock": [
+    {
+      "code": "V-960",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-961",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-962",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-963",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-964",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    }
+  ],
+  "checks": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "names": {
+        "V-963": "카르베나",
+        "V-964": "네베라"
+      },
+      "errors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "names": {
+        "V-963": "카르베나",
+        "V-964": "네베라"
+      },
+      "errors": []
+    }
+  ],
+  "accountWrites": 0,
+  "deployment": "72689be0",
+  "sourceCommit": "9fd4f406e",
+  "apiRuntimeVersion": "081d5eba-56ab-4708-bbcc-5a69c2d776c2",
+  "catalogSha256": "4e372e75a57fd6e91c444a20d31ca7e549d1565a11e869b5d65b0317f28f57f9",
+  "testsPassed": 10
+}

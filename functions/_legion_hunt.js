@@ -8,7 +8,7 @@ import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {contentEnergy,LEGION_ENERGY_MAXIMUM} from '../shared/content-energy-v1.mjs';
 import {legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs';
 import {readMiracleDropPercent,applyMiracleDropChance} from './_miracle_burning.js';
-import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog} from './_legion_regions.js';
+import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog,publicRegionHuntPayload} from './_legion_regions.js';
 import {regionalDifficulty,regionById} from '../shared/legion-regions-v1.mjs';
 import {readSupportBenefits} from './_supporter_benefits.js';
 import {SUPPORT_PLAN} from '../shared/server-support-v1.mjs';
@@ -179,7 +179,7 @@ export async function handleLegionHunt({path,request,env,deps}){
         dropPolicy.coinCap=coins.cap;
         const session=(deps.createSession||createHuntSession)({snapshot,...body,regionDifficulty,now,dropPolicy});
         await saveRun(env,key,before.raw,{daily:before.run?.daily||null,coinDaily:before.run?.coinDaily||null,energy:legionHuntEnergy(before.run,now(),support,user),coins,expiresAt:now()+TTL,configRevision:policy.revision,regionRevision:regionPolicy?.revision??null,liveRewards:paying,rewardTiming:'FINISH',entry:{charged:false,status:'READY'},state:session.exportState()});
-        return {ok:true,id:session.id,payload:session.payload,entries,...legionCoinSummary(coins),access:{...access,liveRewards:paying,...(regionPolicy&&!paying?{mode:'TEST'}:{})},recovery,configRevision:policy.revision};
+        return {ok:true,id:session.id,payload:publicRegionHuntPayload(session.payload),entries,...legionCoinSummary(coins),access:{...access,liveRewards:paying,...(regionPolicy&&!paying?{mode:'TEST'}:{})},recovery,configRevision:policy.revision};
       }
       if(!before.run||before.run.state?.id!==body.id)throw jointError('HUNT_SESSION_EXPIRED','원정이 만료됐습니다. 입장 화면에서 복구 후 다시 출전하세요.',409);
       if(action==='cancel'){

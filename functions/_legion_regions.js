@@ -56,8 +56,18 @@ export async function saveRegionPolicy(env,user,value){
   ]);}catch(error){if((await readRegionPolicy(env)).raw!==before.raw)throw jointError('HUNT_REGION_CONFLICT','설정이 변경됐습니다. 다시 불러오세요.',409);throw error;}
   return next;
 }
+export function publicRegionLoot(loot){
+  if(!loot)return loot;
+  const {eliteSetPercent,bossSetPercent,bossUniquePercent,...visible}=loot;
+  return visible;
+}
+export function publicRegionHuntPayload(payload){
+  if(!payload?.huntPolicy?.regionId)return payload;
+  const policy=payload.huntPolicy;
+  return {...payload,huntPolicy:{...policy,loot:publicRegionLoot(policy.loot),regionLoot:publicRegionLoot(policy.regionLoot)}};
+}
 export function regionBootstrap(policy,user,catalog=[]){
   if(!regionAccess(policy,user))return null;
   return {mode:policy.mode,revision:policy.revision,regions:LEGION_REGIONS.filter(r=>policy.regions.find(p=>p.id===r.id)?.enabled),
-    difficulties:REGION_DIFFICULTIES.map(d=>({...d,...policy.difficulties.find(p=>p.id===d.id)})),equipment:REGION_EQUIPMENT.map(item=>{const row=catalog.find(r=>r.equipmentCode===item.code);return row?{...item,name:row.name,image:row.image,rarity:row.rarity,totalPower:row.totalPower}:item;})};
+    difficulties:REGION_DIFFICULTIES.map(d=>{const live={...d,...policy.difficulties.find(p=>p.id===d.id)};return {...live,loot:publicRegionLoot(live.loot)};}),equipment:REGION_EQUIPMENT.map(item=>{const row=catalog.find(r=>r.equipmentCode===item.code);return row?{...item,name:row.name,image:row.image,rarity:row.rarity,totalPower:row.totalPower}:item;})};
 }
