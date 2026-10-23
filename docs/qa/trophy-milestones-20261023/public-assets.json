@@ -1,0 +1,46 @@
+{
+  "at": "2026-10-23T07:53:40.224Z",
+  "ok": true,
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "2096ce25830acde0d67cf2b00cfa68a660be6cdcc21698e61ac20f1e28bfda6d",
+      "status": 200
+    },
+    {
+      "file": "js/player-card-model-v2052.js",
+      "sha256": "4ce9b0b155a3553961b57e6b8dc7c8f2f43abf97309702fe01fd010fc6cf8f26",
+      "status": 200
+    },
+    {
+      "file": "js/player-card-v2052.js",
+      "sha256": "0e4606f8003d28243900b1378374a4cb7da54cfb7066295c76dc3e29918a966d",
+      "status": 200
+    },
+    {
+      "file": "shared/trophy-bonuses-v1.mjs",
+      "sha256": "803621e6cf9948aa95e714c53567ad4739b6b243f7a558bf79b31b3df91955ec",
+      "status": 200
+    },
+    {
+      "file": "admin/trophy-bonuses-v1.mjs",
+      "sha256": "90a4cd70f6b33c9afc9f0ba9e056c09b697af1dda5a1719c940bfa18f4c47787",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+      "sha256": "071b745c2b21d23e60d61f4073c43d5c9448e92731df57af9c80e7203ece3d1d",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+      "sha256": "fe03e1de6fd5b95e8fe1f83ceced8a2ac6b31182d1cc090648284746e68c189d",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+      "sha256": "1380ffcb703a53f2ae75b54a4065faf85f487187847439ead8ec888534719b83",
+      "status": 200
+    }
+  ]
+}

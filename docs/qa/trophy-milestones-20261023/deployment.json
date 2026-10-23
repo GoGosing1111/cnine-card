@@ -1,0 +1,62 @@
+{
+  "status": "LIVE_VERIFIED",
+  "sourceCommit": "89ba891f84d7384b0c58ce2811d17b98e988565c",
+  "verifiedAt": "2026-10-23T07:53:32.622Z",
+  "pages": {
+    "id": "0dc84a42-deeb-432e-aab4-dff224026c27",
+    "commit": "89ba891f84d7384b0c58ce2811d17b98e988565c",
+    "status": "success",
+    "createdAt": "2026-10-23T07:52:08.948846Z",
+    "url": "https://0dc84a42.cnine-card.pages.dev"
+  },
+  "apiWorkerVersion": "bd8189e7-8cb3-4623-922c-1308d22d2ce0",
+  "clanDraftWorkerVersion": "66311d92-3176-4416-a6d1-90ef2cae6ea1",
+  "criteria": {
+    "BLUE_EMPIRE_20": "공식 시즌 챌린저 최종 정산 누적 20시즌",
+    "LIMITED_EDITION_80": {
+      "basis": "전체 공개 도감의 SSS LIMITED 종류",
+      "total": 11,
+      "goal": 9,
+      "duplicateCopiesCountOnce": true,
+      "lockedAndSoldOutIncluded": true
+    },
+    "LOYAL_SERVICE_POST_20": "주간 글 작성 퀘스트 완료 및 실제 보상 수령 누적 20회"
+  },
+  "checks": {
+    "existingBonusStorageUnchanged": true,
+    "existingBonusValuesPreserved": true,
+    "newDefaultsZero": true,
+    "fullCatalogPresent": true,
+    "allSamplesHaveNewCodes": true,
+    "projectionMatchesHonors": true,
+    "directReaderMatches": true,
+    "publicCodexMatchesMilestoneCodes": true,
+    "limitedIndependentOwnershipMatches": true,
+    "bonusProjectionMatches": true,
+    "readersNoQueryErrors": true,
+    "productionContainsRequiredCommit": true,
+    "productionSuccessful": true,
+    "workerContainsAllNewCodes": true,
+    "workerHasReader": true,
+    "workerHasCodexLimitedReader": true,
+    "workerHasWeeklyCreditReceipts": true
+  },
+  "validation": {
+    "focusedReleaseTests": 71,
+    "releasePolicyTests": 18,
+    "trophyHunterSelectedTests": 4,
+    "viewports": [
+      1440,
+      390
+    ],
+    "publicFileHashes": 8
+  },
+  "writes": {
+    "account": 0,
+    "manualGrants": 0,
+    "existingBonusSettings": 0
+  },
+  "newBonusDefaultPercent": 0,
+  "pagesAssetCount": 20000,
+  "artApproval": "Generated with built-in ImageGen and technically reviewed; not recorded as user visual approval"
+}
