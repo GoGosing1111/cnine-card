@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PGlite } from '@electric-sql/pglite';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
-import { __workshopCraftTest } from '../functions/_workshop.js';
+import { __workshopCraftTest, __workshopBattleSuitTest, __workshopReadTest } from '../functions/_workshop.js';
 
 // Execute the production craft handler and SQL adapter against PostgreSQL WASM.
 // The live money columns are already bigint; parameter inference caused the error.
@@ -87,6 +87,63 @@ async function materialFixture({ mystic = true } = {}) {
   if (!mystic) await f.pg.exec("INSERT INTO workshop_recipe_materials_v1668(recipe_id,item_code,quantity) VALUES(1,'TIRE',2),(1,'MASTER_STAR',5)");
   return f;
 }
+
+async function saveMaterialStarRecipe(f,masterStarCost,patch={}) {
+  return __workshopBattleSuitTest.saveRecipe({DB:f.DB},{id:1,role:'OWNER'},{
+    id:1,code:'QA_MATERIAL_STAR_100M',name:'재료 제작 별 상한 검증',category:'MATERIAL_CRAFT',
+    outputType:'INVENTORY_ITEM',outputRef:'EMPEROR_ENERGY',outputQuantity:2,paymentMode:'BOTH',
+    coinCost:200000000,masterStarCost,successRate:100,isActive:true,isPublic:true,ownerTestOnly:false,
+    materials:[{itemCode:'TIRE',quantity:2},{itemCode:'MASTER_STAR',quantity:5}],...patch
+  },{});
+}
+
+test('material star cost saves and reloads 100 million for new and edited recipes while other categories keep their cap', async () => {
+  const f=await materialFixture({mystic:false});
+  try {
+    for(const amount of [1000001,25000000,100000000,'100000000']){
+      await saveMaterialStarRecipe(f,amount);
+      assert.equal(Number((await f.row('SELECT master_star_cost FROM workshop_recipes_v1668 WHERE id=1')).master_star_cost),Number(amount));
+      const state=await __workshopReadTest.userWorkshopState({DB:f.DB},{id:1,role:'USER'});
+      assert.equal(state.recipes.find(row=>Number(row.id)===1).master_star_cost,Number(amount));
+    }
+    await f.pg.exec("SELECT setval(pg_get_serial_sequence('workshop_recipes_v1668','id'),1,true)");
+    const id=await saveMaterialStarRecipe(f,100000000,{id:0,code:'QA_NEW_MATERIAL_STAR_100M'});
+    assert(id>1);
+    assert.equal(Number((await f.row(`SELECT master_star_cost FROM workshop_recipes_v1668 WHERE id=${id}`)).master_star_cost),100000000);
+    await saveMaterialStarRecipe(f,100000001);
+    assert.equal(Number((await f.row('SELECT master_star_cost FROM workshop_recipes_v1668 WHERE id=1')).master_star_cost),100000000);
+    await saveMaterialStarRecipe(f,100000000,{category:'BATTLE_SUIT_CRAFT',outputType:'EQUIPMENT',outputRef:'1'});
+    assert.equal(Number((await f.row('SELECT master_star_cost FROM workshop_recipes_v1668 WHERE id=1')).master_star_cost),1000000);
+  } finally { await f.close(); }
+});
+
+test('100 million star cost supports 100 attempts with exact bigint debit, replay, insufficient funds and rollback', async () => {
+  const f=await materialFixture({mystic:false});
+  try {
+    await saveMaterialStarRecipe(f,100000000);
+    await f.pg.exec("UPDATE cnine_user_inventory SET quantity=10000000507,unseen_quantity=10000000507 WHERE item_code='MASTER_STAR'");
+    const first=await f.craft('star-100m-hundred',{attempts:100});
+    assert.equal(first.masterStarSpent,10000000000);
+    assert.equal(first.state.wallet.masterStars,7);
+    assert.equal(first.output.quantity,200);
+    assert.equal(first.state.inventory.TIRE.quantity,67);
+    assert.equal(Number((await f.row("SELECT change_amount FROM inventory_logs WHERE item_code='MASTER_STAR' AND reason='WORKSHOP_PAYMENT'")).change_amount),-10000000000);
+    const replay=await f.craft('star-100m-hundred',{attempts:1});
+    assert.equal(replay.replayed,true);assert.equal(replay.masterStarSpent,10000000000);
+    assert.deepEqual(replay.state.wallet,first.state.wallet);
+    await assert.rejects(f.craft('star-100m-short'),/재료가 부족|마스터의 별이 부족/);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM workshop_craft_receipts_v1668')).n),1);
+    await f.pg.exec("UPDATE users SET coin=20000000000; UPDATE cnine_user_inventory SET quantity=10000000507,unseen_quantity=10000000507 WHERE item_code='MASTER_STAR'; UPDATE cnine_user_inventory SET quantity=267,unseen_quantity=267 WHERE item_code='TIRE'");
+    f.failCoinLog();
+    await assert.rejects(f.craft('star-100m-rollback',{attempts:100}),/QA coin log failure/);
+    assert.equal(Number((await f.row("SELECT quantity FROM cnine_user_inventory WHERE item_code='MASTER_STAR'")).quantity),10000000507);
+    assert.equal(Number((await f.row("SELECT quantity FROM cnine_user_inventory WHERE item_code='TIRE'")).quantity),267);
+    assert.equal(Number((await f.row("SELECT quantity FROM cnine_user_inventory WHERE item_code='EMPEROR_ENERGY'")).quantity),200);
+    assert.equal(Number((await f.row('SELECT coin FROM users')).coin),20000000000);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM workshop_craft_logs_v1668')).n),1);
+    assert.equal((await f.row("SELECT status FROM workshop_craft_receipts_v1668 WHERE request_id='star-100m-rollback'")).status,'FAILED');
+  } finally { await f.close(); }
+});
 
 async function suitCoreFixture() {
   const f = await fixture({cost:200000000, output:'INVENTORY_ITEM'});
