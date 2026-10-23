@@ -48,5 +48,7 @@
   "prompts": "docs/qa/arden-armor-blueprint-20261024/prompts.json",
   "artStatus": "GENERATED_TECHNICALLY_REVIEWED",
   "visualApprovalByUser": false,
-  "registrationRequestedByUser": true
+  "registrationRequestedByUser": true,
+  "registrationStatus": "LIVE_REGISTERED_VERIFIED",
+  "productionRecord": "docs/qa/arden-armor-blueprint-20261024/production.json"
 }

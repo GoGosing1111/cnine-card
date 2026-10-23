@@ -1,0 +1,127 @@
+{
+  "status": "LIVE_REGISTERED_VERIFIED",
+  "checkedAt": "2026-10-23T19:53:44.235Z",
+  "sourceCommit": "d8ba10959475b66ac8eb5172dc52238aa0216a21",
+  "baseCommit": "b7519410ba1dad6d85df938afb6acdabfa5df02a",
+  "pages": {
+    "id": "5c1b12c2-345c-4dfc-bef2-c2387154d1f8",
+    "url": "https://5c1b12c2.cnine-card.pages.dev",
+    "commit": "d8ba10959475b66ac8eb5172dc52238aa0216a21",
+    "status": "success",
+    "createdAt": "2026-10-23T19:52:43.598658Z"
+  },
+  "workers": {
+    "apiRuntimeVersion": "3a86bef1-9889-4dfc-9c66-bbc36bc9668c",
+    "clanDraftVersion": "0a8434e1-581d-47da-91ae-e24765a40cfc"
+  },
+  "deployment": {
+    "command": "npm run deploy:production -- --scoped",
+    "exitCode": 0,
+    "focusedTests": {
+      "file": "tests/arden-armor-blueprint-20261024.test.mjs",
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "releaseGuard": "PASS",
+    "hyperdriveQueryCache": "DISABLED",
+    "publishedAssetCount": 19990
+  },
+  "registration": {
+    "status": "LIVE_REGISTERED_VERIFIED",
+    "checkedAt": "2026-10-23T19:53:33.469Z",
+    "alreadyRegistered": false,
+    "verification": {
+      "verified": true,
+      "checkedAt": "2026-10-23T19:53:33.235Z",
+      "cmsVisible": true,
+      "directUse": false,
+      "items": [
+        {
+          "code": "ARDEN_ARMOR_BLUEPRINT",
+          "name": "아르덴 방어구 설계도",
+          "subtitle": "ARDEN ARMOR BLUEPRINT",
+          "description": "백금과 금세공, 청록 보석으로 이루어진 아르덴 방어구의 도안이 담긴 제작 재료입니다. 인벤토리에서 직접 사용할 수 없습니다.",
+          "category": "MATERIAL",
+          "rarity": "SPECIAL",
+          "image_url": "assets/items/arden-armor-blueprint-v1.webp",
+          "sort_order": "215007",
+          "is_active": "1",
+          "created_at": "2026-10-23 19:53:27",
+          "updated_at": "2026-10-23 19:53:27"
+        }
+      ],
+      "receipt": {
+        "operationKey": "ops:arden-armor-blueprint:20261024:v1",
+        "status": "COMPLETED",
+        "authorization": "아르덴 방어구 설계도 리소스 만들고 재료로 추가해",
+        "scope": "LIVE_MATERIAL_CATALOG",
+        "item": {
+          "code": "ARDEN_ARMOR_BLUEPRINT",
+          "name": "아르덴 방어구 설계도",
+          "subtitle": "ARDEN ARMOR BLUEPRINT",
+          "description": "백금과 금세공, 청록 보석으로 이루어진 아르덴 방어구의 도안이 담긴 제작 재료입니다. 인벤토리에서 직접 사용할 수 없습니다.",
+          "category": "MATERIAL",
+          "rarity": "SPECIAL",
+          "image_url": "assets/items/arden-armor-blueprint-v1.webp",
+          "sort_order": "215007",
+          "is_active": "1",
+          "created_at": "2026-10-23 19:53:27",
+          "updated_at": "2026-10-23 19:53:27"
+        },
+        "assets": [
+          {
+            "url": "https://cnine-card.pages.dev/assets/items/arden-armor-blueprint-v1.png",
+            "status": 200,
+            "bytes": 2528571,
+            "sha256": "b5ccecbac4ef9ea2ac91e00a73ed3ed4ebf40b7bb43db30a15b964e6c8aca22c",
+            "contentType": "image/png"
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/items/arden-armor-blueprint-v1.webp",
+            "status": 200,
+            "bytes": 99044,
+            "sha256": "4f38a86a50750df49b9c649a045f6a8a491ef31fc08a8fb31d54137dbb30dc92",
+            "contentType": "image/webp"
+          }
+        ],
+        "directUse": false,
+        "grantedQuantity": 0,
+        "recipesCreated": 0,
+        "rewardPoolsModified": false,
+        "preservedCatalogCount": 83,
+        "completedAt": "2026-10-23T19:53:29.747Z",
+        "adminLogId": "50576"
+      }
+    },
+    "inventoryDisplay": {
+      "code": "ARDEN_ARMOR_BLUEPRINT",
+      "name": "아르덴 방어구 설계도",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image": "assets/items/arden-armor-blueprint-v1.webp",
+      "usable": 0
+    },
+    "counts": {
+      "inventory_rows": 0,
+      "recipe_rows": 0
+    },
+    "assets": [
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/arden-armor-blueprint-v1.png",
+        "status": 200,
+        "bytes": 2528571,
+        "sha256": "b5ccecbac4ef9ea2ac91e00a73ed3ed4ebf40b7bb43db30a15b964e6c8aca22c",
+        "contentType": "image/png"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/arden-armor-blueprint-v1.webp",
+        "status": 200,
+        "bytes": 99044,
+        "sha256": "4f38a86a50750df49b9c649a045f6a8a491ef31fc08a8fb31d54137dbb30dc92",
+        "contentType": "image/webp"
+      }
+    ],
+    "accountGrants": 0
+  }
+}

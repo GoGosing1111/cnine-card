@@ -1,6 +1,6 @@
 {
   "date": "2026-10-24",
-  "status": "PREPARED_FOR_LIVE_REGISTRATION",
+  "status": "LIVE_REGISTERED_VERIFIED",
   "scope": "One new MATERIAL catalog entry and its generated image",
   "userRequest": "아르덴 방어구 설계도 리소스 만들고 재료로 추가해",
   "itemCode": "ARDEN_ARMOR_BLUEPRINT",
@@ -29,8 +29,17 @@
     "screenshots": [
       "desktop.png",
       "mobile.png"
-    ]
+    ],
+    "productionWrites": 0
   },
-  "productionWrites": 0,
-  "visualApprovalByUser": false
+  "visualApprovalByUser": false,
+  "production": {
+    "catalogRowsCreated": 1,
+    "adminLogId": "50576",
+    "cmsVisible": true,
+    "accountGrants": 0,
+    "recipeRows": 0,
+    "publicAssetHashMatches": 2,
+    "focusedTestsPassed": 5
+  }
 }
