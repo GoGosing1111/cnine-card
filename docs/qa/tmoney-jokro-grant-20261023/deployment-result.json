@@ -1,0 +1,21 @@
+{
+  "code": 0,
+  "finishedAt": "2026-10-23T14:25:43.926Z",
+  "head": "b323ff31bdd612c88ecb91b5c01af8b76a2d4bc8",
+  "base": "1ed057a3445af9161fec05483715d31f2b059ed6",
+  "tests": [
+    "tests/mercenary-manual-grant-access-20261022.test.mjs",
+    "tests/tmoney-jinmu-access-20261023.test.mjs",
+    "tests/jokro-loan-20261019.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "previouslyPassed": {
+    "file": "tests/tmoney-jokro-access-20261023.test.mjs",
+    "count": 2,
+    "unchangedRuntime": true
+  },
+  "reason": "User-authorized T-Money Jokro direct grant. New exact-account, ownership and battle tests passed; run existing manual access, Jinmu equipment and Jokro loan regressions plus Worker/release guards once.",
+  "startedAt": "2026-10-23T14:23:14.978Z"
+}
