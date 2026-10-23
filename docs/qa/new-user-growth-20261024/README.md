@@ -10,6 +10,8 @@
 
 내장 ImageGen으로 만든 성장팁 전용 패널 스킨을 버튼·패널·목차에 실제 적용했다. 원본·프롬프트·SHA-256은 assets/ui/growth-guide-20261024/manifest.json이다. 기존 캐릭터·장비 승인 원화는 그대로 참조한다. 전투 프리뷰 장식은 만들지 않았다.
 
+현재 안내는 /ui/growth-guide/에서 실행하며 Windows 런처의 공개 리소스 목록에도 포함한다. Pages의 20,000개 파일 한도를 지키기 위해 성장팁 제작 원본·메타데이터와 더 이상 참조하지 않는 이전 튜토리얼 app.js·style.css는 Git에 보존한다. 현재 안내 4개 파일·WebP·기존 주소의 index.html·bridge.js는 모두 배포하며 이 구성을 회귀 검사한다.
+
 실제 로비 컴포넌트와 iframe에서 PC 1440px·모바일 390/320px, 6항목, 모든 획득처 연결, Escape/닫기/초점 복원, 이전 튜토리얼 URL, 계정별 수동 체크 기록, 저장소 차단을 검증했다. 134개 확인, 브라우저 오류 0. 테스트 계정 fixture만 사용했고 운영 계정 쓰기는 0건이다. 기술 검수는 사용자 시각 승인이 아니다.
 
 공유 작업 폴더의 기존 변경을 보존하고 작은 범위 커밋과 sparse 관리형 worktree로 검수·배포한다. npm run deploy:production -- --scoped에서 test:lobby를 실행한다. 전체 프로젝트/node_modules 복사 없이 기존 의존성을 공유한다.

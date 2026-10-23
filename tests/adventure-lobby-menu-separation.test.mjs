@@ -57,3 +57,11 @@ test('legacy tutorial opens the growth guide and every destination exists in the
   assert.ok(STEPS.some(step=>step.id==='icons')&&STEPS.some(step=>step.id==='equipment'));
 });
 
+test('release ships the current guide and legacy redirect while preserving authoring files in Git',async()=>{
+  const {isProductionFile}=await import('../scripts/prepare-production-assets.mjs');
+  for(const file of ['ui/growth-guide/index.html','ui/growth-guide/app.js','ui/growth-guide/content.mjs','ui/growth-guide/style.css','assets/ui/growth-guide-20261024/guide-plate.webp','preview/lobby-clarity-v1/tutorial/index.html','preview/lobby-clarity-v1/tutorial/bridge.js'])assert.ok(isProductionFile(file),file+' must ship');
+  for(const file of ['assets/ui/growth-guide-20261024/guide-plate-source.png','assets/ui/growth-guide-20261024/manifest.json','preview/lobby-clarity-v1/tutorial/app.js','preview/lobby-clarity-v1/tutorial/style.css'])assert.ok(!isProductionFile(file),file+' must remain authoring-only');
+  const legacy=await read('preview/lobby-clarity-v1/tutorial/index.html');
+  assert.doesNotMatch(legacy,/(?:src="app\.js|href="style\.css)/);
+});
+
