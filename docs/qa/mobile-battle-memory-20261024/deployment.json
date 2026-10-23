@@ -1,0 +1,82 @@
+{
+  "source": "b7519410ba1dad6d85df938afb6acdabfa5df02a",
+  "pages": {
+    "id": "40172595-24cd-472e-90b1-d131acda6190",
+    "url": "https://40172595.cnine-card.pages.dev",
+    "commit": "b7519410ba1dad6d85df938afb6acdabfa5df02a",
+    "createdAt": "2026-10-23T18:00:45.952166Z"
+  },
+  "apiWorkerVersion": "24039182-0978-4cfd-b1c4-f221b3247287",
+  "schedulerVersion": "c07d1bc4-660b-4505-b0a6-a0f7b9b6a225",
+  "scopedTests": {
+    "total": 47,
+    "passed": 47,
+    "failed": 0
+  },
+  "pagesAssetCount": 19988,
+  "hyperdriveQueryCache": "OFF",
+  "liveFilesMatched": 25,
+  "browser": [
+    "Chrome 390x844 DPR3 mobile viewport",
+    "Chrome 1440x1000 DPR3 desktop"
+  ],
+  "physicalIphoneSafariTested": false,
+  "liveAccountMutations": 0,
+  "artifacts": [
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\mobile-battle-memory-fix-20261024\\release-qa.log",
+      "bytes": 730,
+      "sha256": "0699386f0c2bbdd3952900167e15ad942f9390f24b003795a85fd61d79afa6e4"
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\mobile-battle-memory-fix-20261024\\release-qa\\profile-390.json",
+      "bytes": 82016,
+      "sha256": "eb06c742c0617fad5cf26fed67e0abbb15ef51029ec4d8fc45d63d148724f227"
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\mobile-battle-memory-fix-20261024\\release-qa\\errors-390.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\mobile-battle-memory-fix-20261024\\release-qa\\apocalypse-390.png",
+      "bytes": 2968453,
+      "sha256": "a17a4b7e892ba096b01e1a2f1b3a703463fc59362d59fde5014cf8ab6e4d119a"
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\mobile-battle-memory-fix-20261024\\release-qa\\legion-390.png",
+      "bytes": 2550414,
+      "sha256": "d55e7d63d0a718ead16e4346ea5b0f354f4c1b40a8a51c7b41e6311be03f0899"
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\mobile-battle-memory-fix-20261024\\desktop.log",
+      "bytes": 7494,
+      "sha256": "ac4c61a7a584c84b431643d7d0793ed2c8aa0448fbf58136ac39581d45a07d5d"
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\mobile-battle-memory-fix-20261024\\desktop\\profile.json",
+      "bytes": 82373,
+      "sha256": "57097f459a99d978ecf4ec96949d2c43308240874ef6dc013921b17d47893b4a"
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\mobile-battle-memory-fix-20261024\\desktop\\errors.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\mobile-battle-memory-fix-20261024\\desktop\\apocalypse-1440.png",
+      "bytes": 12268161,
+      "sha256": "ac9b310596a24e10ae8f626a9dcddfb8a9f0d8e73768ac988fd19840ad23499b"
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\mobile-battle-memory-fix-20261024\\desktop\\legion-1440.png",
+      "bytes": 11293685,
+      "sha256": "760ffa9123ecff0202f00eb94532e91884293943f1d77d121b2cf1500be2fa91"
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\mobile-battle-memory-fix-20261024\\deploy.log",
+      "bytes": 13558,
+      "sha256": "473ab903fc0ff7626c4f092f191c419d458573d77ebebedd85c2d7fc14cec337"
+    }
+  ]
+}

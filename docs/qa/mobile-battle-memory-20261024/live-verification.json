@@ -1,0 +1,173 @@
+{
+  "at": "2026-10-23T18:01:30.262Z",
+  "deployment": {
+    "id": "40172595-24cd-472e-90b1-d131acda6190",
+    "url": "https://40172595.cnine-card.pages.dev",
+    "commit": "b7519410ba1dad6d85df938afb6acdabfa5df02a",
+    "createdAt": "2026-10-23T18:00:45.952166Z"
+  },
+  "publicFiles": [
+    {
+      "file": "AGENTS.md",
+      "status": 200,
+      "bytes": 507923,
+      "sha256": "6a53ddc87c5af89a2a345d2acd55c45ca14e2ef6a420efe2cf706d32bff7b5d6"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 34075,
+      "sha256": "67ae4d3753c9d676e20bff29fc45a8ba296dd724a2b7be3ba59ec4763b33ef20"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "bytes": 777311,
+      "sha256": "f30a03f8f63ee82295530c31f6abd058a868ddb4091e5520d1b58879dd173a5f"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "bytes": 87267,
+      "sha256": "4793150c3cc729b869e13c1b16e7f51b4690e0d049a0f8db70bc88e117c4d3ba"
+    },
+    {
+      "file": "js/legion-hunt-entry-v1.mjs",
+      "status": 200,
+      "bytes": 21257,
+      "sha256": "3eed5b6cb4e77ef6897de26b097d6234bf1e70a8f46176aa010e8d27c4fdd71c"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/build-report.json",
+      "status": 200,
+      "bytes": 16415,
+      "sha256": "2017ee0a848c0de7734781f4f699eae1e6db1030e0141c1199f1d76731e1e6fb"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "status": 200,
+      "bytes": 2366325,
+      "sha256": "d5d3563f50a56879e3b77321140c141c9cd6b393a4609c11382bb2ccb263ba7d"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "status": 200,
+      "bytes": 2361660,
+      "sha256": "b587f511f6482959e1e90df2074e7af9a34cb2f463d4bed1ed2f6375244e5ce4"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "status": 200,
+      "bytes": 2364677,
+      "sha256": "6e6cc308fad54ef1106d0dbfe678f0a54cb0c64733b7f36df6a29b6578bab9bf"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "status": 200,
+      "bytes": 2364666,
+      "sha256": "d0a62243abd6bf4ee70bdfa2e8a13518acdd6f14749659055c8b09748fc80b52"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "status": 200,
+      "bytes": 2411230,
+      "sha256": "48e1ce0f834d9806b677517e4c996c7e6b257215fc944071c25faf06ea4ca65c"
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "status": 200,
+      "bytes": 32920,
+      "sha256": "f66e6d51496918928c9e65eba0b15ff5c6eb56a8e24d6e1571c021bd8360726f"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "bytes": 2365051,
+      "sha256": "482d184a88f135714cd543d09a1a949bff60fc594815ec13506f9a5aa42eca0a"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/BattleAssetMemory.mjs",
+      "status": 200,
+      "bytes": 3533,
+      "sha256": "b77dbcb7fd8605bc03af8df25c6280d9b72af5c624716c3871187101b9ecdfed"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/BattleEngine.js",
+      "status": 200,
+      "bytes": 202208,
+      "sha256": "409f678021318ff8d90cb9e1fbb9ff5dce465e9ae1c91e56cbe8011cefc1045f"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
+      "status": 200,
+      "bytes": 33536,
+      "sha256": "1b66bd94074ecf037ef10e9b58460359845b8aa58bdd4466218eac812760053d"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "status": 200,
+      "bytes": 10327,
+      "sha256": "14162e504db8329960850bfea050e3f0fd8a865571de5b4bd7e634f37bdc7484"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "status": 200,
+      "bytes": 2364568,
+      "sha256": "0e0cbdaf035dc992bc265376513c44569aa47e549314a5782e5d0509931fbeb4"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "bytes": 2388570,
+      "sha256": "8a7b95148650db306a9023d870c50e8dc37be5f788c80f5cd2294875045a39b3"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/engine-build.json",
+      "status": 200,
+      "bytes": 6417,
+      "sha256": "f17743d5dbf5c2d085703631d609c684c07f0d01d3ee0995e8d6bf826484a032"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/index.html",
+      "status": 200,
+      "bytes": 5742,
+      "sha256": "88f86133868928c6384d7e7d43295f908602f46ac650430bbdbbeadc877552c0"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "status": 200,
+      "bytes": 2368222,
+      "sha256": "c06e2f0e1282f734ba2a572473a80f36875b0a76c9a8a82fb00b15914800ee3f"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "status": 200,
+      "bytes": 2365025,
+      "sha256": "3a7213f4d3f65bbcacdccab14a0a87c9de4a9bf9ac91f5f8d018e745ac32a1a3"
+    },
+    {
+      "file": "pve/legion-hunt/index.html",
+      "status": 200,
+      "bytes": 5531,
+      "sha256": "efb732d53a24116d09d62733c50acc85719344452649ca75c43572e10d9ad4ae"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "bytes": 18534,
+      "sha256": "c9979eb076a7dd87c23b5a9a7c848042248f6d130ac8de4b77a0daaa74598b0d"
+    }
+  ],
+  "serviceStatus": {
+    "status": 200,
+    "maintenance": {
+      "active": false,
+      "title": "",
+      "message": "",
+      "startAt": "",
+      "endAt": "",
+      "testUsers": []
+    }
+  },
+  "liveAccountActions": 0
+}

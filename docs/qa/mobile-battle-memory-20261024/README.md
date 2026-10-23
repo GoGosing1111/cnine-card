@@ -35,6 +35,6 @@
 ## 배포
 
 직전 운영: `43cf5ef0f28d2bd5175668740a65948d68bbf70d`, Pages `507f5055-1435-4724-9e32-9c678ef647a2`.
-공식 `npm run deploy:production -- --scoped`를 사용한다. 배포 결과·공개 파일 해시·최종 브라우저 검사 기록은 완료 후 이 폴더에 추가한다.
+공식 `npm run deploy:production -- --scoped`로 운영 반영 완료. 소스 `b7519410ba1dad6d85df938afb6acdabfa5df02a`, Pages `40172595-24cd-472e-90b1-d131acda6190`. 관련 검사 47/47, 공개 파일 25개 SHA-256 일치, 서비스 응답 200·점검 OFF. Hyperdrive 쿼리 캐시 OFF 유지. 운영 계정 변경 0건. 자세한 기록은 `deployment.json`, `live-verification.json`이다.
 
 로컬 검수: `C:/Users/User/Downloads/upload/cnine-card/output/mobile-battle-memory-fix-20261024/`.
