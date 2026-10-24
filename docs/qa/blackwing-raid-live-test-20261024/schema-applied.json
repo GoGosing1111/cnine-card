@@ -1,0 +1,18 @@
+{
+  "replayed": true,
+  "appliedAt": "2026-10-24T03:53:40.682Z",
+  "auditId": 50684,
+  "settings": {
+    "revision": 1,
+    "mode": "TEST",
+    "testUserIds": [],
+    "bossCombatPower": 21148000,
+    "lobbyMinutes": 15,
+    "enrageSeconds": 300,
+    "mechanicTimePercent": 100
+  },
+  "entryCost": 0,
+  "rewardLocked": true,
+  "scope": "LIVE_TEST",
+  "tables": 3
+}

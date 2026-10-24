@@ -1,0 +1,202 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-24T04:49:37.510Z",
+  "sourceCommit": "caf475f60679b543c1f4c20d1c3b21b34b23e7c2",
+  "pages": {
+    "id": "a5faa60b-1a79-4686-85d3-92563c797145",
+    "url": "https://a5faa60b.cnine-card.pages.dev",
+    "status": "success",
+    "createdAt": "2026-10-24T04:48:56.972889Z"
+  },
+  "runtime": {
+    "sha256": "78838306e34f282a5a8f4a141d6b42d80d6973e3b51f920f4230b5b3644e796b",
+    "markers": {
+      "rooms": true,
+      "membership": true,
+      "receipts": true,
+      "settings": true,
+      "admin": true,
+      "gatedTest": true,
+      "parry": true,
+      "rewardLock": true,
+      "eunseolPreserved": true
+    }
+  },
+  "access": [
+    {
+      "route": "raid/blackwing/feature",
+      "status": 401
+    },
+    {
+      "route": "raid/blackwing/lobby",
+      "status": 401
+    },
+    {
+      "route": "admin/raid/blackwing/settings",
+      "status": 401
+    }
+  ],
+  "eunseolPreserved": {
+    "code": "V-973",
+    "deploymentModes": [
+      "PVE"
+    ]
+  },
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "7d3d517dc1d63a0a86614da134529343083484f5ec4c634117c05e1fcc28e218",
+      "bytes": 34510
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "538d066a4872fb43777fe400b3ff06e62a52bfc70323a60d01b9e14fcfa04da2",
+      "bytes": 81621
+    },
+    {
+      "file": "admin/blackwing-raid-admin-v1.mjs",
+      "sha256": "6c5fc748a027a35bbedb843a623069e322108b447f47c1e0600d2b6e3b52ce6f",
+      "bytes": 5748
+    },
+    {
+      "file": "js/blackwing-raid-entry-v1.js",
+      "sha256": "3ec671a67b76a189fdf34f80f866a500b364fef1ce6c776133c8a329654e17af",
+      "bytes": 4347
+    },
+    {
+      "file": "js/core-protocol-raid-v1924.js",
+      "sha256": "6c43687b4e4d05f9f1f3c201df45bba41818e49e6199a6a058ca63cdbb30e598",
+      "bytes": 46429
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "e7aa58ec2cedf6bc05deee5ea8c84c23976450473a6e423cf580f43e5fa4b2ae",
+      "bytes": 19078
+    },
+    {
+      "file": "raid/blackwing/inline.mjs",
+      "sha256": "784564638e257e38397cb019e2524ea812cc79d3309b128eabaa36fbe7baff7b",
+      "bytes": 15959
+    },
+    {
+      "file": "raid/blackwing/battle.mjs",
+      "sha256": "4536280a482347d35e2f3161347fce15c80b28681fadededb664ea3c3ca0cb54",
+      "bytes": 3650
+    },
+    {
+      "file": "raid/blackwing/presentation.mjs",
+      "sha256": "fd2a0174d0716f208cbce383501910c6fd5b2458a6d6e4c37b8c76abdf38ba52",
+      "bytes": 3638
+    },
+    {
+      "file": "raid/blackwing/live.css",
+      "sha256": "9241bd631d3edc50d3e0a16364282f65045f45149f7276a0e15b959634bf489c",
+      "bytes": 5384
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/body.webp",
+      "sha256": "239d4e965e85a3815299ca41d9e104fb09ffb0fe9f8801df9e42955c75f7c20b",
+      "bytes": 673808
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/fire.webp",
+      "sha256": "8b30b7a046120609172edf40c1eb69ae505236b7dde8b0c7d83fb03c07f2ba73",
+      "bytes": 687452
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/oath.webp",
+      "sha256": "581c7875d4ddec2aa94cdd8bfc00fec79cdcb5f2ec7f197c6cba382e30728484",
+      "bytes": 787732
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/slash.webp",
+      "sha256": "2f6801fd3aaa62724130b9c5c00b6390863f3c5670c7dc7767593dab1dfba377",
+      "bytes": 863828
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/idle.webp",
+      "sha256": "a20e452c01378ee8f1d0af131a1156b354f12735f335badda798ac806d52ad07",
+      "bytes": 62060
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/boss-art.webp",
+      "sha256": "50e71a4c373db229ad9b0e3647c887067e6053b5f8ca93aa911a08aa2dc8b718",
+      "bytes": 464702
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/panel.webp",
+      "sha256": "d5df4e23de316affcd160ae2e07c815b2996823ecacda61e727f44e8382f5859",
+      "bytes": 322822
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/button.webp",
+      "sha256": "a1fc884504c27741e979f63cb19b0f97079fbe0a124af9459a2c3af3ad846870",
+      "bytes": 253436
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/seal.webp",
+      "sha256": "0a17812c189d126cc4ca78ee5bc29da52d70b1c2f3fbc10e9ee5050f4a93a78b",
+      "bytes": 535338
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/manifest.json",
+      "sha256": "b8e37033cc399a04fa100a81af0a91a6284316559e660da0bdfe83037688f17a",
+      "bytes": 11743
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "3732f73b636155b1a82d34f85094b32a21d0a4f208aad3477b0c357297d2350f",
+      "bytes": 2388942
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "d40af8d30bd2a59e00ddf99f0273654de0bd26b1a49a0512a6f7103a9d10f583",
+      "bytes": 2388459
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "745d6bfe0aa6ef25e04cd456badb2495223c767a0ebad34e21ef4f2e2315c52e",
+      "bytes": 2388568
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "fbbf21282c58718ff1b756e6a7113df9c8f2ce49a2680168cc87dde96ffc1958",
+      "bytes": 2388557
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "f0a0ef46b7669f2192826605eddf8178121fede052bda71b617bda0448302f65",
+      "bytes": 2388916
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "3309f72a33d85970b6536dc8881a269b3b9df6724cc9618bb9ccbec0f735fe6d",
+      "bytes": 2392113
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "5cfd00217da8452646b7d96bf0849553c57adfad771318f5a51081db599b0af0",
+      "bytes": 2385551
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "aac90d3591e6ef127422cc980927743b12e0128e6640b81d993cc56e2f79bd29",
+      "bytes": 2390216
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "ca79186ef043b31586f4c9a0846a62ca545cbec0cf7b6f2629df9c722c4955ff",
+      "bytes": 2435121
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "1bcd3029c9ebd6fdfcebc3445f417ebbadc01f95a826bbffa07f0a50d567efa7",
+      "bytes": 2412461
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "036bfe2713c31c360fb5289dc18d1878408d44a02d31fb073cdecb73b761200f",
+      "bytes": 409177
+    }
+  ]
+}

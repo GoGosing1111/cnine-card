@@ -1,0 +1,35 @@
+{
+  "at": "2026-10-24T04:49:43.461Z",
+  "settings": {
+    "revision": 1,
+    "mode": "TEST",
+    "testUserIds": [],
+    "bossCombatPower": 21148000,
+    "lobbyMinutes": 15,
+    "enrageSeconds": 300,
+    "mechanicTimePercent": 100
+  },
+  "counts": {
+    "rooms": 0,
+    "active": 0,
+    "receipts": 0
+  },
+  "grants": [
+    {
+      "name": "raid_blackwing_rooms_v1",
+      "usable": true
+    },
+    {
+      "name": "raid_blackwing_active_v1",
+      "usable": true
+    },
+    {
+      "name": "raid_blackwing_receipts_v1",
+      "usable": true
+    }
+  ],
+  "auditIds": [
+    50684
+  ],
+  "madaraUnchanged": true
+}
