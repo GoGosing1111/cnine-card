@@ -2,6 +2,11 @@ import {JOKRO_COMBAT,JOKRO_AREA_SKILL} from './mercenary-jokro-v1.mjs';
 
 // User-approved Eunseol: live SSS LIMITED, acquisition locked; PVE-only from 2026-10-24.
 export const EUNSEOL_CODE='V-973';
+export const MERCENARY_DEPLOYMENT_MODE_VERSION='20261024-eunseol-pve-only';
+export const PVE_ONLY_MERCENARY_CODES=Object.freeze([EUNSEOL_CODE]);
+export const mercenaryModeAllowed=(code,mode)=>!PVE_ONLY_MERCENARY_CODES.includes(code)||mode==='PVE';
+export const MERCENARY_PVE_ONLY_REASON='은설은 PVE 전용 용병입니다. PVP에는 편성할 수 없습니다.';
+
 export const EUNSEOL_AREA_EVENT='MERCENARY_EUNSEOL_AREA';
 export const EUNSEOL_AREA_MECHANIC='EUNSEOL_WHITE_TIGER_SWORD';
 export const EUNSEOL_COMBAT=JOKRO_COMBAT;

@@ -1,4 +1,4 @@
-import {mercenaryModeAllowed,MERCENARY_PVE_ONLY_REASON} from '../shared/mercenary-deployment-modes-v1.mjs';
+import {mercenaryModeAllowed,MERCENARY_PVE_ONLY_REASON} from '../shared/mercenary-eunseol-v1.mjs';
 import {jointError} from './_joint_request.js';
 import {jointGuard} from './_joint_atomic.js';
 

@@ -1,4 +1,4 @@
-import {mercenaryModeAllowed,MERCENARY_DEPLOYMENT_MODE_VERSION} from '../shared/mercenary-deployment-modes-v1.mjs';
+import {mercenaryModeAllowed,MERCENARY_DEPLOYMENT_MODE_VERSION} from '../shared/mercenary-eunseol-v1.mjs';
 import {equipmentSetVisualFromRows} from '../shared/equipment-set-visual-v1.mjs';
 import {SHIRANUI_CODE} from '../shared/mercenary-shiranui-v1.mjs';
 import {readShiranuiEligibleUsers} from './_mercenary_shiranui_access.js';

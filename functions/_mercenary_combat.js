@@ -1,4 +1,4 @@
-import {mercenaryModeAllowed} from '../shared/mercenary-deployment-modes-v1.mjs';
+import {mercenaryModeAllowed} from '../shared/mercenary-eunseol-v1.mjs';
 import {NAMSUDAENG_MECHANIC,isBloodmoonNamsudaeng} from '../shared/mercenary-bloodmoon-namsudaeng-v1.mjs';
 import {namsudaengTargets,resolveNamsudaengCast} from './_mercenary_bloodmoon_namsudaeng.js';
 import {EUNSEOL_CODE,EUNSEOL_COMBAT,EUNSEOL_AREA_SKILL,EUNSEOL_AREA_MECHANIC,isEunseol,eunseolActionCredit} from '../shared/mercenary-eunseol-v1.mjs';

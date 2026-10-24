@@ -1,4 +1,4 @@
-import {PVE_ONLY_MERCENARY_CODES,mercenaryModeAllowed} from '../shared/mercenary-deployment-modes-v1.mjs';
+import {PVE_ONLY_MERCENARY_CODES,mercenaryModeAllowed} from '../shared/mercenary-eunseol-v1.mjs';
 import {DUO_LIMITS} from '../shared/ranked-duo-v1.mjs';
 import {duoRandomInt,shuffleDuo} from '../shared/ranked-duo-random-v4.mjs';
 

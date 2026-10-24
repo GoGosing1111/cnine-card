@@ -1,4 +1,4 @@
-import {mercenaryModeAllowed,MERCENARY_PVE_ONLY_REASON} from '../shared/mercenary-deployment-modes-v1.mjs';
+import {mercenaryModeAllowed,MERCENARY_PVE_ONLY_REASON} from '../shared/mercenary-eunseol-v1.mjs';
 import {EUNSEOL_CODE,EUNSEOL_ART} from '../shared/mercenary-eunseol-v1.mjs';
 import {GENERAL_JOK_CODE,GENERAL_JOK_ART} from '../shared/mercenary-general-jok-v1.mjs';
 import {PRIME_CODE,PRIME_ART} from '../shared/mercenary-prime-requiem-v1.mjs';

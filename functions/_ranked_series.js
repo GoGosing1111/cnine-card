@@ -1,4 +1,4 @@
-import {mercenaryModeAllowed,MERCENARY_PVE_ONLY_REASON} from '../shared/mercenary-deployment-modes-v1.mjs';
+import {mercenaryModeAllowed,MERCENARY_PVE_ONLY_REASON} from '../shared/mercenary-eunseol-v1.mjs';
 import {rankedOwnedMercenaries,rankedSelectedMercenaries} from './_mercenary_account.js';
 import {rankedSeriesCodes,rankedPublicMercenary,rankedPublicRoster,RANKED_SERIES_VERSION} from '../shared/ranked-series-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
