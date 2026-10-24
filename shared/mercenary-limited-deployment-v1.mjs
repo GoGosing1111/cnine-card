@@ -1,3 +1,4 @@
+import {RAZAK_CODE,razakDeploymentSnapshot} from './mercenary-razak-v1.mjs';
 import {NAMSUDAENG_CODE,namsudaengDeploymentSnapshot} from './mercenary-bloodmoon-namsudaeng-v1.mjs';
 import {EUNSEOL_CODE,eunseolDeploymentSnapshot} from './mercenary-eunseol-v1.mjs';
 import {GENERAL_JOK_CODE,generalJokDeploymentSnapshot} from './mercenary-general-jok-v1.mjs';
@@ -21,6 +22,7 @@ import {KAIRON_CODE,kaironDeploymentSnapshot} from './mercenary-kairon-v1.mjs';
 // Artwork provenance, acquisition and pack release remain separate contracts.
 export const LIMITED_DEPLOYMENT_VERSION='20261012-helios-deployment-v1';
 export function limitedDeploymentSnapshot(code){
+ if(code===RAZAK_CODE)return razakDeploymentSnapshot();
  if(code===NAMSUDAENG_CODE)return namsudaengDeploymentSnapshot();
  if(code===EUNSEOL_CODE)return eunseolDeploymentSnapshot();
  if(code===GENERAL_JOK_CODE)return generalJokDeploymentSnapshot();

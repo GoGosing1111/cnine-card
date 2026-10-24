@@ -1,0 +1,16 @@
+{
+  "name": "라자크",
+  "code": "V-058",
+  "rank": "SSS",
+  "edition": "STANDARD",
+  "basePower": 800000,
+  "sourceArt": "source-art.png",
+  "sourceArtSha256": "2B9331D3A1A753234AF7E0AC7CCAA2764451DE6E843AE7A7912BFD5A298E8A06",
+  "battleSprite": "idle.png",
+  "battleSpriteSha256": "7460D2757DBAB2F3AFEDEDE1ED1815EC47A6D4A1509A3CC3699287D980A4770E",
+  "motion": "motion-manifest.json",
+  "approval": "live-approval.json",
+  "authoringSource": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-hooded-assassin-battle-20261024-v1",
+  "acquisitionEnabled": false,
+  "accountGrants": 0
+}

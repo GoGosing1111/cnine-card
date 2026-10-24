@@ -1,0 +1,85 @@
+{
+  "reason": "Preserve exact Node-only commands in Git outside Pages; approved images and browser previews remain intact.",
+  "records": [
+    {
+      "file": "output/posters/fortress-chuseok-tournament-20260926/draw.mjs",
+      "sha256": "77efe25d2f57a1e3769608ff09096eee89d8d98dd0669e9d032b2c0c5ae33f31"
+    },
+    {
+      "file": "output/posters/ranked-reform-20260930/build.mjs",
+      "sha256": "4398d8a9c8bad405899c214fdbf0174019ccd5cc911915764c206d5f725a9006"
+    },
+    {
+      "file": "output/posters/ranked-reform-20260930/prepare-font.mjs",
+      "sha256": "d19155de6ec1a99a4518725c9bcbd634e6bba61d18391c94aa24563ac67616d5"
+    },
+    {
+      "file": "output/posters/reward-reveal-guide-20261016/build.mjs",
+      "sha256": "d663f771798978a2fbd4a6419cf48b898497ffd092b84525698327ef70ba96b5"
+    },
+    {
+      "file": "output/posters/sudden-attack-soopketmon-cup-20260930/build.mjs",
+      "sha256": "17e15fdd82a3526e038489310eb05c97ac0b5d8fee67b203c44e32852f69f879"
+    },
+    {
+      "file": "preview/battle-suit-x-dragon-v1/pack-assets.mjs",
+      "sha256": "b45341df2e7158c4014d4170fde4b44c24a12d64382c65de28f23f617287baf0"
+    },
+    {
+      "file": "preview/battle-suit-x-dragon-v1/record-review.mjs",
+      "sha256": "02ea9bf9c35a53af7f1f8a5485adc8c5f9742c38d13f5dc14914512b2d1de89a"
+    },
+    {
+      "file": "preview/battle-suit-x-v1/extract-approved-blade.mjs",
+      "sha256": "3d75ef69cf0435500bcd4bb1c9fd3b8a69ffb6ae5fa3154ee516e92ea3f140d1"
+    },
+    {
+      "file": "preview/battle-suit-x-v1/pack-assets.mjs",
+      "sha256": "234d7a51e5d87bc5a37ca75ae93a312e8bd958a505d621958f10a0635977a74e"
+    },
+    {
+      "file": "preview/battle-suit-x-v1/record-review.mjs",
+      "sha256": "37cd01e67a1a8b6d38de3ace78656fd617dc4e270564c07f036f22cc6a2a5e5d"
+    },
+    {
+      "file": "preview/battle-suit-x-v1/serve.mjs",
+      "sha256": "ec661737a443210889a9774c7017f1b4c8c6c33a9f643c21d07c80ba504bf3a6"
+    },
+    {
+      "file": "preview/clan-avatar-hanbok-v1/inspect-assets.mjs",
+      "sha256": "a71fd274715e6d92a8fde3ed61b7bbc78d797dfc18981b13d93c743d7b8b53d4"
+    },
+    {
+      "file": "preview/core-raid-rewards-v2/serve.mjs",
+      "sha256": "f6f08610f432e6ca29d30942e8f9c51abed305d74f72965c4f037187cd781684"
+    },
+    {
+      "file": "preview/equipment-forge-v1/release/check.mjs",
+      "sha256": "993c96ace1659b49239a9acaba1c96a48a88577c324ec0c7b0e1d9cc297e1f25"
+    },
+    {
+      "file": "preview/equipment-forge-v1/serve.mjs",
+      "sha256": "acc9f85d64dfebaacda8de784b1d016f62308ba4d682d4820b6328f52c95effb"
+    },
+    {
+      "file": "preview/equipment-polish-premium-v1/serve.mjs",
+      "sha256": "d880587c3e8abcf994db0b03ccdd78baac4b08e20a22091ce69f6c1c05d195f5"
+    },
+    {
+      "file": "preview/fps-rank-square-fx-v1/review.mjs",
+      "sha256": "1037f404f75bcc2a9f6162533420106c1519e365bc2259dad668a1cce9d510a7"
+    },
+    {
+      "file": "preview/icon-fur15-audit-20261006/replay-losses.mjs",
+      "sha256": "240eddd4363b095c11a6fb90659ecc36ed0ee2567e4435454b6a2c7fd5a91df6"
+    },
+    {
+      "file": "preview/lich-king-raid-v1/server.mjs",
+      "sha256": "f8af71ebe283f7f20872833dbc7a3c3424e9786537ff9b152007037e13d2c409"
+    },
+    {
+      "file": "preview/madara-raid-v1/pack-presentation.mjs",
+      "sha256": "b6f032001d4691d8e848c93d39bf6d3872aaa60eb947c25755df33fbad85a580"
+    }
+  ]
+}

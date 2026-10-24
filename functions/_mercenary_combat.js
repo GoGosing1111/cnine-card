@@ -1,3 +1,5 @@
+import {RAZAK_CODE,RAZAK_COMBAT,RAZAK_SKILLS,RAZAK_MECHANIC,isRazak} from '../shared/mercenary-razak-v1.mjs';
+import {razakTargets,resolveRazakCast} from './_mercenary_razak.js';
 import {mercenaryModeAllowed} from '../shared/mercenary-eunseol-v1.mjs';
 import {NAMSUDAENG_MECHANIC,isBloodmoonNamsudaeng} from '../shared/mercenary-bloodmoon-namsudaeng-v1.mjs';
 import {namsudaengTargets,resolveNamsudaengCast} from './_mercenary_bloodmoon_namsudaeng.js';
@@ -150,6 +152,8 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  snapshot={...snapshot};delete snapshot.pvpPowerBalance;delete snapshot.pvpBalanceVersion;
  // Limited account/release gates remain outside this canonical fighter builder.
  // Trusted prepared limited snapshots always use their server-owned policy.
+ const razak=snapshot.code===RAZAK_CODE;
+ if(razak)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'MIDDLE',role:'ASSASSIN',attackStyle:'MELEE',skills:structuredClone(RAZAK_SKILLS.filter(s=>!s.pveOnly||mode==='PVE')),counterImmune:false,controlImmune:false,poisonImmune:false};
  const valter=snapshot.code===VALTER_CODE;
  if(valter)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?[structuredClone(VALTER_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,valterPolicyVersion:VALTER_COMBAT.version};
  const helios=snapshot.code===HELIOS_CODE;
@@ -176,7 +180,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  const limited=ssLimitedProfile({...snapshot,isMercenary:true});
  if(limited)snapshot={...snapshot,rank:'SS',statMode:'RANK_FIXED',position:limited.position,role:limited.role,attackStyle:limited.attackStyle,skills:structuredClone(limited.skills||[limited.skill]),ssLimitedPolicyVersion:SS_LIMITED_BALANCE_VERSION};
  if(snapshot.statMode==='RANK_FIXED'){
-  const rankPower=isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.basePower:supreme?supreme.basePower:limited?limited.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
+  const rankPower=razak?RAZAK_COMBAT.basePower:isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.basePower:supreme?supreme.basePower:limited?limited.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
   const power=rankPower?rankPower+mercenaryEquipmentPower(snapshot,mode):0;
   if(!power||typeof buildCardFighter!=='function')throw Error('INVALID_MERCENARY_RANK_POWER');
   const statsPower=jinmu||kairon||shiranui||jokro||leonel||zero||prime||generalJok||eunseol?supreme.statsReferencePower+mercenaryEquipmentPower(snapshot,mode):power;
@@ -223,6 +227,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
  const friendly=a=>ordered(teams[a.side]),enemies=a=>ordered(teams[a.side==='A'?'B':'A']);
  const send=(a,s,phase,t,data={})=>emit(`MERCENARY_${phase}`,{actorId:a.id,actorKind:'MERCENARY',skillId:s.id,skillName:s.name,mechanic:s.mechanic,skillPhaseIndex:['DOT','RIPOSTE'].includes(phase)?1:state(a).pending?.step||0,targetId:t?.id,...data,label:s.name});
  function targets(a,s){const en=enemies(a),fr=front(en),friends=friendly(a);
+  if(s.mechanic===RAZAK_MECHANIC)return razakTargets(a,s,en);
   if(s.mechanic===NAMSUDAENG_MECHANIC)return namsudaengTargets(a,s,en);
   if([ARCHER_VOLLEY,ARCHER_RAIN].includes(s.mechanic))return imperialArcherTargets(a,s,en);
   if(s.mechanic===VALTER_AREA_MECHANIC)return isValter(a)&&a.battleMode==='PVE'?en:[];
@@ -342,6 +347,10 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   if(!ts.length){cancel(a,'TARGET_LOST');return;}
   const once=(fn)=>{for(const t of ts)fn(t);finish(a,s);};
   switch(s.mechanic){
+   case RAZAK_MECHANIC:{
+    const damageScale=offensiveSkillScale(a,s);
+    resolveRazakCast({actor:a,skill:s,targets:ts,hit,damage:(t,n)=>damage(t,s.pveOnly?n:interceptDamage(a,t,n),{actor:a,direct:true}),knockout,emit,damageScale,capActions:mercenarySkillCapActions(a,s,false)*(a.battleMode==='PVP'?damageScale:1)});
+    finish(a,s);break;}
    case NAMSUDAENG_MECHANIC:{
     resolveNamsudaengCast({actor:a,skill:s,targets:ts,hit,damage:(t,n)=>damage(t,n,{actor:a,direct:true}),knockout,emit,damageScale:offensiveSkillScale(a,s),capActions:mercenarySkillCapActions(a,s,false)});
     finish(a,s);break;}
@@ -508,7 +517,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
     if(isMercenaryGuardSkill(s)&&friendly(a).some(t=>activeIntercept(t)?.actor.id===a.id))continue;
     let selected=targets(a,s);if(!selected.length)continue;
     if(selected.length===1&&selected[0].side!==a.side&&!['PLATINUM_SANCTUARY','CRYSTAL_CROWN','GOLDEN_ORCHID_VOLLEY','DISTRIBUTED_CORAL_VOLLEY','DANCING_TARGET_VOLLEY','RIFT_MARK_DETONATION','ADVANCE_SUPPRESSION','FRONT_OFFENSE_VEIL',NAMSUDAENG_MECHANIC,VALTER_AREA_MECHANIC,EUNSEOL_AREA_MECHANIC,GENERAL_JOK_AREA_MECHANIC,PRIME_AREA_MECHANIC,ZERO_AREA_MECHANIC,LEONEL_AREA_MECHANIC,JOKRO_AREA_MECHANIC,SHIRANUI_AREA_MECHANIC,KAIRON_AREA_MECHANIC,JINMU_AREA_MECHANIC,HELIOS_AREA_MECHANIC,AZANT_AREA_MECHANIC,AZANT_VOLLEY_MECHANIC,BERKAN_MECHANIC,ARCHER_RAIN].includes(s.mechanic)&&!isBerkanAreaSkill(s)&&techniques()){selected=techniques().filterTargets(a,selected,enemies(a)).slice(0,1);if(!selected.length)continue;techniques().singleTarget(a,selected[0]);}
-    st.energy-=s.balance.cost;if(isBloodmoonNamsudaeng(a)&&s.mechanic===NAMSUDAENG_MECHANIC)for(const other of skills.filter(k=>k.mechanic===NAMSUDAENG_MECHANIC))st.cooldown.set(other.id,a.actions+Math.max(1,s.balance.cooldownTurns));st.cooldown.set(s.id,a.actions+Math.max(1,s.balance.cooldownTurns));if(isGeneralJok(a)&&s.mechanic===GENERAL_JOK_AREA_MECHANIC)for(const other of skills.filter(k=>k.mechanic===GENERAL_JOK_AREA_MECHANIC))st.cooldown.set(other.id,a.actions+Math.max(1,s.balance.cooldownTurns));if(isPrime(a)&&s.mechanic===PRIME_AREA_MECHANIC)for(const other of skills.filter(k=>k.mechanic===PRIME_AREA_MECHANIC))st.cooldown.set(other.id,a.actions+Math.max(1,s.balance.cooldownTurns));if(isZero(a)&&s.mechanic===ZERO_AREA_MECHANIC)for(const other of skills.filter(k=>k.mechanic===ZERO_AREA_MECHANIC))st.cooldown.set(other.id,a.actions+Math.max(1,s.balance.cooldownTurns));st.used.add(s.id);st.nextIndex=(index+1)%skills.length;st.pending={skill:s,targets:selected.map(t=>t.id),due:a.actions+a.combat.windupTurns,hits:st.hits,step:0};
+    st.energy-=s.balance.cost;if(isRazak(a)&&s.mechanic===RAZAK_MECHANIC)for(const other of skills.filter(k=>k.mechanic===RAZAK_MECHANIC))st.cooldown.set(other.id,a.actions+Math.max(1,s.balance.cooldownTurns));if(isBloodmoonNamsudaeng(a)&&s.mechanic===NAMSUDAENG_MECHANIC)for(const other of skills.filter(k=>k.mechanic===NAMSUDAENG_MECHANIC))st.cooldown.set(other.id,a.actions+Math.max(1,s.balance.cooldownTurns));st.cooldown.set(s.id,a.actions+Math.max(1,s.balance.cooldownTurns));if(isGeneralJok(a)&&s.mechanic===GENERAL_JOK_AREA_MECHANIC)for(const other of skills.filter(k=>k.mechanic===GENERAL_JOK_AREA_MECHANIC))st.cooldown.set(other.id,a.actions+Math.max(1,s.balance.cooldownTurns));if(isPrime(a)&&s.mechanic===PRIME_AREA_MECHANIC)for(const other of skills.filter(k=>k.mechanic===PRIME_AREA_MECHANIC))st.cooldown.set(other.id,a.actions+Math.max(1,s.balance.cooldownTurns));if(isZero(a)&&s.mechanic===ZERO_AREA_MECHANIC)for(const other of skills.filter(k=>k.mechanic===ZERO_AREA_MECHANIC))st.cooldown.set(other.id,a.actions+Math.max(1,s.balance.cooldownTurns));st.used.add(s.id);st.nextIndex=(index+1)%skills.length;st.pending={skill:s,targets:selected.map(t=>t.id),due:a.actions+a.combat.windupTurns,hits:st.hits,step:0};
     // v2119: 모든 용병 스킬은 시전한 그 행동에서 해결한다(준비만 하는 행동 없음).
     st.cancelled=false;send(a,s,'WINDUP',selected[0],{targetIds:st.pending.targets,energyAfter:st.energy});
     if(ranged)resolveRanged(a,st.pending);

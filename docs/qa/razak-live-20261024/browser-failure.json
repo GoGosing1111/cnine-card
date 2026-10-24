@@ -1,0 +1,751 @@
+{
+  "message": "page.evaluate: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at eval (eval at evaluate (:311:30), <anonymous>:1:166)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\tests\\razak-live-20261024.browser.mjs:86:15",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "hunt",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "canvas": 0,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 0,
+          "afterimageSamples": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 272.175,
+            "top": 182.75,
+            "right": 397.93125,
+            "bottom": 311.35625
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "position": {
+            "x": 380,
+            "y": 240
+          },
+          "destination": {
+            "x": 380,
+            "y": 240
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 24,
+            "uniqueBodyDrawings": 23,
+            "effects": 36
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "라자크",
+          "code": "V-058",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        }
+      },
+      "outcomes": [
+        {
+          "elapsedMs": 898.1000000014901,
+          "last": {
+            "code": "V-058",
+            "eventType": "MERCENARY_RAZAK_ASSASSINATION",
+            "mode": "cross",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": [
+              0.52
+            ],
+            "durationSeconds": 1.8,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "targets": 1,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 272.175,
+              "top": 182.75,
+              "right": 397.93125,
+              "bottom": 311.35625
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5,
+                "y": 0.8463541666666666
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "position": {
+              "x": 380,
+              "y": 240
+            },
+            "destination": {
+              "x": 380,
+              "y": 240
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 24,
+              "uniqueBodyDrawings": 23,
+              "effects": 36
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "라자크",
+            "code": "V-058",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 1173.300000000745,
+          "last": {
+            "code": "V-058",
+            "eventType": "MERCENARY_RAZAK_ASSASSINATION",
+            "mode": "flurry",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": [
+              0.52
+            ],
+            "durationSeconds": 2.35,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "targets": 1,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 272.175,
+              "top": 182.75,
+              "right": 397.93125,
+              "bottom": 311.35625
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5,
+                "y": 0.8463541666666666
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "position": {
+              "x": 380,
+              "y": 240
+            },
+            "destination": {
+              "x": 380,
+              "y": 240
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 24,
+              "uniqueBodyDrawings": 23,
+              "effects": 36
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "라자크",
+            "code": "V-058",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 1694.4000000022352,
+          "last": {
+            "code": "V-058",
+            "eventType": "MERCENARY_RAZAK_ASSASSINATION",
+            "mode": "eclipse",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": [
+              1.03,
+              1.085,
+              1.1400000000000001,
+              1.195,
+              1.25,
+              1.3050000000000002,
+              1.36,
+              1.415,
+              1.47,
+              1.525,
+              1.58,
+              1.635
+            ],
+            "durationSeconds": 3.385,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "targets": 12,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 272.175,
+              "top": 182.75,
+              "right": 397.93125,
+              "bottom": 311.35625
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 285,
+              "renderedBodyReference": 285,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5,
+                "y": 0.8463541666666666
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "position": {
+              "x": 380,
+              "y": 240
+            },
+            "destination": {
+              "x": 380,
+              "y": 240
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 24,
+              "uniqueBodyDrawings": 23,
+              "effects": 36
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "라자크",
+            "code": "V-058",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        }
+      ],
+      "basic": {
+        "count": 1,
+        "last": {
+          "code": "V-058",
+          "eventType": "ATTACK",
+          "mode": "cross",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": [
+            0.52
+          ],
+          "durationSeconds": 1.8,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "cameraZoom": false
+        }
+      },
+      "lifecycle": {
+        "stopped": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 0,
+          "afterimageSamples": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 272.175,
+            "top": 182.75,
+            "right": 397.93125,
+            "bottom": 311.35625
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "position": {
+            "x": 380,
+            "y": 240
+          },
+          "destination": {
+            "x": 380,
+            "y": 240
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 24,
+            "uniqueBodyDrawings": 23,
+            "effects": 36
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "라자크",
+          "code": "V-058",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "dead": {
+          "effects": false,
+          "ghosts": false
+        },
+        "revived": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 0,
+          "afterimageSamples": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 272.175,
+            "top": 182.75,
+            "right": 397.93125,
+            "bottom": 311.35625
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "position": {
+            "x": 380,
+            "y": 240
+          },
+          "destination": {
+            "x": 380,
+            "y": 240
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 24,
+            "uniqueBodyDrawings": 23,
+            "effects": 36
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "라자크",
+          "code": "V-058",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "timelines": 0
+      },
+      "afterimage": {
+        "d": {
+          "ready": true,
+          "mode": "skill:cross",
+          "time": 0.27,
+          "duration": 1.8,
+          "pose": {
+            "key": "dash",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 2,
+          "afterimageSamples": [
+            {
+              "sampleTime": 0.23500000000000001,
+              "pose": {
+                "key": "dash",
+                "frame": 0
+              },
+              "x": 525.9469766000875,
+              "y": 243.4443796471789,
+              "progress": 0.34443796471788907,
+              "alpha": 0.32
+            },
+            {
+              "sampleTime": 0.2,
+              "pose": {
+                "key": "dash",
+                "frame": 0
+              },
+              "x": 428.43277445691797,
+              "y": 241.14302376439716,
+              "progress": 0.11430237643971432,
+              "alpha": 0.26666666666666666
+            }
+          ],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 490.5361222481412,
+            "top": 207.18818249744868,
+            "right": 633.3923722481412,
+            "bottom": 316.91318249744864
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 285,
+            "renderedBodyReference": 285,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 0.8463541666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "position": {
+            "x": 641.6234691646014,
+            "y": 246.17436944160957
+          },
+          "destination": {
+            "x": 803.725,
+            "y": 250
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 24,
+            "uniqueBodyDrawings": 23,
+            "effects": 36
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "잔상 돌진",
+          "name": "라자크",
+          "code": "V-058",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "signs": [
+          0.7916666666666666,
+          0.7916666666666666
+        ]
+      }
+    }
+  ],
+  "errors": [
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)",
+    "mobile: TypeError: Cannot set properties of undefined (setting 'texture')\n    at j4.fxFrame (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:249484)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:252032)\n    at j4.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:254991)\n    at e.onUpdate [as _onUpdate] (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1504:257956)\n    at fs (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:15550)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:43683)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at t.render (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:30975)\n    at TR (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:5986)\n    at e.updateRoot (http://127.0.0.1:13235/preview/sustained-hunt-v2/battle.bundle.js:1435:35751)"
+  ],
+  "missing": []
+}

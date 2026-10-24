@@ -1,0 +1,12 @@
+import fs from 'node:fs/promises';
+let s=await fs.readFile('tests/bloodmoon-namsudaeng-live-20261024.browser.mjs','utf8');
+s=s.replaceAll('NAMSUDAENG','RAZAK').replaceAll('Namsudaeng','Razak').replaceAll('namsudaeng','razak').replaceAll('bloodmoon-razak','razak').replaceAll('블러드문 남수댕','라자크').replaceAll('V-965','V-058').replaceAll('MERCENARY_BLOODMOON_ARROW','MERCENARY_RAZAK_ASSASSINATION').replaceAll('356400','800000').replaceAll('356,400','800,000');
+s=s.replaceAll("ns.fx.begin('rain',targets);ns.fx.render(3.1)","ns.fx.begin('eclipse',targets);ns.fx.render(1.15)");
+s=s.replace("skill.visualMode==='rain'?3.18:skill.visualMode==='volley'?2.05:1.65","skill.visualMode==='eclipse'?1.15:skill.visualMode==='flurry'?1.17:.68");
+s=s.replace("const dead={string:ns.fx.string.visible,arrow:ns.fx.nockedArrow.visible,effects:ns.fx.layer.children.some(c=>c.visible)}", "const dead={effects:ns.fx.layer.children.some(c=>c.visible),ghosts:ns.fx.ghosts.some(g=>g.holder.visible)}");
+s=s.replace("/mercenary-codex/?view=limited&q=","/mercenary-codex/?view=all&q=");
+s=s.replace("assert.match(panel,/800,000/);", "assert.match(panel,/800,000/);assert.match(await page.locator('.deployment-card').innerText(),/현재 획득 불가/);assert.equal(await page.locator('.deployment-card a[href*=buy]').count(),0);");
+s=s.replace("checks.push({label,mode,setup,outcomes,basic,lifecycle});",`const afterimage=await page.evaluate(()=>{const e=RazakQA.engine,targets=(ns.actor.team==='ENEMY'?e.allies:e.enemies).slice(0,1);ns.fx.begin('cross',targets);ns.fx.render(.27);const d=ns.fx.diagnostics();const signs=ns.fx.ghosts.filter(g=>g.holder.visible).map(g=>g.sprite.scale.x);ns.fx.cancel();return{d,signs};});assert(afterimage.d.afterimages>0);if(mode==='enemy')assert(afterimage.signs.every(s=>s<0));
+  checks.push({label,mode,setup,outcomes,basic,lifecycle,afterimage});`);
+await fs.writeFile('tests/razak-live-20261024.browser.mjs',s);
+const m=JSON.parse(await fs.readFile('assets/ui/project-v/mercenaries/razak-20261024/motion-manifest.json','utf8'));console.log(JSON.stringify({keys:Object.keys(m),runtime:m.runtime,counts:m.counts}));

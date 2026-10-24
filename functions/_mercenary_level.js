@@ -1,3 +1,4 @@
+import {RAZAK_CODE} from '../shared/mercenary-razak-v1.mjs';
 import {ZERO_CODE} from '../shared/mercenary-zero-v1.mjs';
 import {LEONEL_CODE} from '../shared/mercenary-leonel-v1.mjs';
 import {JOKRO_CODE,jokroAccountAllowed} from '../shared/mercenary-jokro-v1.mjs';
@@ -26,7 +27,7 @@ function captureGrowth(policy,result){
  return result;
 }
 const terminal=message=>Object.assign(levelError('MERCENARY_LEVEL_CONFLICT',message,409),{terminal:true});
-function levelCatalog(document,userId,hasJinmuPackIssue,hasJokroPackIssue){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE].filter(code=>jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&jokroAccountAllowed(userId,code,Date.now(),hasJokroPackIssue)).map(limitedDeploymentSnapshot).filter(Boolean)];}
+function levelCatalog(document,userId,hasJinmuPackIssue,hasJokroPackIssue){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),RAZAK_CODE,JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE].filter(code=>jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&jokroAccountAllowed(userId,code,Date.now(),hasJokroPackIssue)).map(limitedDeploymentSnapshot).filter(Boolean)];}
 function normalize(body,action){
  if(!['TRAIN','BREAKTHROUGH'].includes(action)||!SEED.catalog.cards.some(c=>c.code===body.mercenaryCode)&&!limitedDeploymentSnapshot(body.mercenaryCode))throw levelError('MERCENARY_LEVEL_TARGET','성장 대상 용병을 확인하세요.');
  if(!Number.isSafeInteger(body.revision)||body.revision<0)throw levelError('MERCENARY_LEVEL_REVISION','최신 성장 상태를 불러오세요.');

@@ -1,0 +1,32 @@
+{
+  "dateKST": "2026-10-24",
+  "userInstruction": "라자크로 채택하고 전투력 80만정도로 맞춰 도감에는 올리고 SSS등급, 현재 획득불가",
+  "sourceArtApproval": "승인하고 전투 리소스 만들어 공격기2개 광역기1개",
+  "motionInstruction": "빠른 암살,그에 맞는 이동에 맞는 잔상,모션속도는 2배",
+  "effectInstruction": "이펙트 크기들 더 키워",
+  "name": "라자크",
+  "code": "V-058",
+  "rank": "SSS",
+  "edition": "STANDARD",
+  "basePower": 800000,
+  "sourceArtSha256": "2B9331D3A1A753234AF7E0AC7CCAA2764451DE6E843AE7A7912BFD5A298E8A06",
+  "approvedScope": [
+    "NAME",
+    "SSS_RANK",
+    "BASE_POWER_APPROX_800000",
+    "CODEX_PUBLICATION",
+    "ACQUISITION_LOCK"
+  ],
+  "retainedBattleResources": {
+    "attacks": 2,
+    "area": 1,
+    "playbackRate": 2,
+    "effectScale": 1.65,
+    "idle": "FIXED",
+    "afterimages": "ACTUAL_MOVEMENT_HISTORY"
+  },
+  "acquisitionEnabled": false,
+  "accountGrants": 0,
+  "sourceProject": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-hooded-assassin-battle-20261024-v1",
+  "status": "PREPARED_FOR_RELEASE"
+}
