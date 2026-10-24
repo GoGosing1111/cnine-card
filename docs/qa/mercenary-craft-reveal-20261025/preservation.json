@@ -1,0 +1,15 @@
+{
+  "sourceCommit": "10deebc8281e4ebc79a0bdf1a165313d3256d41a",
+  "verificationCommit": "f30b90226",
+  "branch": "codex/mercenary-craft-reveal-20261025",
+  "preservedProject": "C:/Users/User/Downloads/cnine-z-body-sword-20260918/site",
+  "worktree": "C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card",
+  "archiveAttempt": "native archive_worktree",
+  "archiveResult": "The task's primary checkout cannot be removed.",
+  "action": "Protected checkout retained; no manual deletion. Source, original art, prompts and QA are preserved in the project and pushed commits.",
+  "storageGiB": 63.925,
+  "storageAudit": "2026-10-24T22:38:54.644527+00:00",
+  "localPreview": "http://127.0.0.1:8920/preview/mercenary-craft-reveal-20261025/",
+  "localPreviewSource": "preservedProject",
+  "temporaryQaServer": "stopped"
+}
