@@ -1,0 +1,62 @@
+{
+  "mode": "dry-run",
+  "sourceSha256": "6b707be2e3be8d58944ec710992cc3aa88462e9653f04bf771c9630bf781efcb",
+  "replayed": false,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:visualgang-valter-level14:20261024:v1",
+    "planHash": "f5fe0e76057709ea6462f890a78d951d1377a394e850726625029e53b406334c",
+    "plan": {
+      "userId": 81,
+      "nickname": "비쥬얼깡패",
+      "code": "V-996",
+      "name": "발테르",
+      "rank": "SSS",
+      "authorization": "비쥬얼깡패 발테르 14레벨 만들어",
+      "before": {
+        "level": 3,
+        "experience": 0,
+        "breakthroughMask": 0,
+        "revision": 1
+      },
+      "after": {
+        "level": 14,
+        "experience": 0,
+        "breakthroughMask": 3,
+        "revision": 2
+      },
+      "cost": 0,
+      "materialsConsumed": 0
+    },
+    "before": {
+      "level": 3,
+      "experience": 0,
+      "breakthroughMask": 0,
+      "revision": 1
+    },
+    "after": {
+      "level": 14,
+      "experience": 0,
+      "breakthroughMask": 3,
+      "revision": 2
+    },
+    "protectedBefore": "81f3e33b84b1113925c4b7dff4122dce6c955494755727639a19e6dc4dd6ee19",
+    "protectedAfter": "81f3e33b84b1113925c4b7dff4122dce6c955494755727639a19e6dc4dd6ee19",
+    "completedAt": "2026-10-24T06:10:47.308Z",
+    "auditId": "50712"
+  },
+  "verification": {
+    "verified": true,
+    "currentLevel": 14,
+    "currentState": {
+      "level": 14,
+      "experience": 0,
+      "breakthroughMask": 3,
+      "revision": 2
+    },
+    "cost": 0,
+    "materialsConsumed": 0
+  },
+  "rollbackVerified": true,
+  "leasesReleased": true
+}
