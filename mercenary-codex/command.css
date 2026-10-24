@@ -129,3 +129,15 @@
 .command-codex .inspection .unequip-button{border:0;background:none;padding:4px;min-height:44px}
 .command-codex .inspection .recover-button{border:7px solid transparent;border-image:var(--command-panel) 48 fill / 16px stretch;background:none;padding:2px 10px;min-height:48px}
 @media(prefers-reduced-motion:reduce){.command-codex *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Keep native filter menus readable in both the standalone and embedded codex. */
+.command-codex :is(#rank,#sort){color-scheme:dark}
+.command-codex :is(#rank,#sort) option{background-color:#111828;color:#f0f4fc}
+.command-codex #rank{font-weight:800}
+.command-codex #rank option{font-weight:700}
+.command-codex #rank:has(option[value="C"]:checked),.command-codex #rank option[value="C"]{color:#98a6bd}
+.command-codex #rank:has(option[value="B"]:checked),.command-codex #rank option[value="B"]{color:#84c599}
+.command-codex #rank:has(option[value="A"]:checked),.command-codex #rank option[value="A"]{color:#86b4f9}
+.command-codex #rank:has(option[value="S"]:checked),.command-codex #rank option[value="S"]{color:#bfa0fb}
+.command-codex #rank:has(option[value="SS"]:checked),.command-codex #rank option[value="SS"]{color:#f1d493}
+.command-codex #rank:has(option[value="SSS"]:checked),.command-codex #rank option[value="SSS"]{color:#ffaca7}
