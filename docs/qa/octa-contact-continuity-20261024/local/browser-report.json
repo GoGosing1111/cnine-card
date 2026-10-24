@@ -1,0 +1,2207 @@
+{
+  "status": "PASS",
+  "publicBase": "",
+  "publicFiles": 0,
+  "checks": [
+    {
+      "label": "desktop",
+      "samples": [
+        {
+          "time": 0.34,
+          "hits": 0,
+          "fx": {
+            "key": "octaseeker",
+            "time": 0.34,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 8,
+            "impacts": 0,
+            "sprites": 257,
+            "visible": 49,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": true,
+              "x": 644.2147640033295,
+              "y": 279.564169851172,
+              "frame": 112
+            },
+            {
+              "visible": true,
+              "x": 597.4209310342521,
+              "y": 359.98287843115116,
+              "frame": 114
+            },
+            {
+              "visible": true,
+              "x": 494.3200225983813,
+              "y": 390.1047282399847,
+              "frame": 115
+            },
+            {
+              "visible": true,
+              "x": 397.0004735140547,
+              "y": 355.47341813694675,
+              "frame": 117
+            },
+            {
+              "visible": true,
+              "x": 360.77743480124553,
+              "y": 279.564169851172,
+              "frame": 119
+            },
+            {
+              "visible": true,
+              "x": 402.7818328655988,
+              "y": 208.16438185960166,
+              "frame": 121
+            },
+            {
+              "visible": true,
+              "x": 494.3200225983813,
+              "y": 181.77829127645305,
+              "frame": 123
+            },
+            {
+              "visible": true,
+              "x": 580.0768529796196,
+              "y": 212.67384215380608,
+              "frame": 124
+            }
+          ],
+          "contacts": [],
+          "canvas": 1
+        },
+        {
+          "time": 0.72,
+          "hits": 0,
+          "fx": {
+            "key": "octaseeker",
+            "time": 0.72,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 8,
+            "impacts": 0,
+            "sprites": 257,
+            "visible": 105,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": true,
+              "x": 931.3873745520849,
+              "y": 320.2667212612886,
+              "frame": 126
+            },
+            {
+              "visible": true,
+              "x": 856.8664733948258,
+              "y": 437.9877905054735,
+              "frame": 108
+            },
+            {
+              "visible": true,
+              "x": 664.6539004739343,
+              "y": 499.9745016990828,
+              "frame": 110
+            },
+            {
+              "visible": true,
+              "x": 451.537911129915,
+              "y": 447.0356997265161,
+              "frame": 112
+            },
+            {
+              "visible": true,
+              "x": 334.9331001550173,
+              "y": 296.11529702120714,
+              "frame": 114
+            },
+            {
+              "visible": true,
+              "x": 426.6674154950034,
+              "y": 147.49755186585872,
+              "frame": 115
+            },
+            {
+              "visible": true,
+              "x": 633.5983638112281,
+              "y": 101.07749565007089,
+              "frame": 117
+            },
+            {
+              "visible": true,
+              "x": 822.8119760070851,
+              "y": 176.07737239911194,
+              "frame": 119
+            }
+          ],
+          "contacts": [],
+          "canvas": 1
+        },
+        {
+          "time": 1,
+          "hits": 0,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 8,
+            "impacts": 0,
+            "sprites": 257,
+            "visible": 105,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": true,
+              "x": 1014.7406049285798,
+              "y": 353.7864694813846,
+              "frame": 117
+            },
+            {
+              "visible": true,
+              "x": 1006.8781825079514,
+              "y": 386.40435163259224,
+              "frame": 118
+            },
+            {
+              "visible": true,
+              "x": 908.5111210305821,
+              "y": 446.14576826081907,
+              "frame": 120
+            },
+            {
+              "visible": true,
+              "x": 737.8589804979988,
+              "y": 434.41997886687153,
+              "frame": 122
+            },
+            {
+              "visible": true,
+              "x": 597.7720006964275,
+              "y": 325.12491246512633,
+              "frame": 124
+            },
+            {
+              "visible": true,
+              "x": 690.3844884208114,
+              "y": 215.6665596972019,
+              "frame": 125
+            },
+            {
+              "visible": true,
+              "x": 869.8231470568894,
+              "y": 210.60502428313902,
+              "frame": 108
+            },
+            {
+              "visible": true,
+              "x": 992.089489431064,
+              "y": 288.7728868823025,
+              "frame": 110
+            }
+          ],
+          "contacts": [],
+          "canvas": 1
+        },
+        {
+          "time": 1.02,
+          "hits": 1,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.02,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 7,
+            "impacts": 1,
+            "sprites": 257,
+            "visible": 109,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 1014.7406049285798,
+              "y": 353.7864694813846,
+              "frame": 117
+            },
+            {
+              "visible": true,
+              "x": 1009.8825973168234,
+              "y": 379.0483246368044,
+              "frame": 119
+            },
+            {
+              "visible": true,
+              "x": 923.1711944886919,
+              "y": 438.718640018542,
+              "frame": 121
+            },
+            {
+              "visible": true,
+              "x": 759.6347332854261,
+              "y": 431.27864662463867,
+              "frame": 123
+            },
+            {
+              "visible": true,
+              "x": 620.1388754195427,
+              "y": 327.2179139545063,
+              "frame": 124
+            },
+            {
+              "visible": true,
+              "x": 711.4987762374054,
+              "y": 222.56232798364712,
+              "frame": 126
+            },
+            {
+              "visible": true,
+              "x": 885.4012166902041,
+              "y": 221.2336494040722,
+              "frame": 109
+            },
+            {
+              "visible": true,
+              "x": 998.3754226561543,
+              "y": 298.30913298903636,
+              "frame": 111
+            }
+          ],
+          "contacts": [
+            1.02
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.04,
+          "hits": 1,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.04,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 7,
+            "impacts": 1,
+            "sprites": 257,
+            "visible": 108,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 1014.7406049285798,
+              "y": 353.7864694813846,
+              "frame": 117
+            },
+            {
+              "visible": true,
+              "x": 1011.4548769448802,
+              "y": 371.1963875352072,
+              "frame": 120
+            },
+            {
+              "visible": true,
+              "x": 937.0403530737935,
+              "y": 430.86749485817654,
+              "frame": 122
+            },
+            {
+              "visible": true,
+              "x": 781.153901382005,
+              "y": 427.86388507786023,
+              "frame": 123
+            },
+            {
+              "visible": true,
+              "x": 642.6182551080184,
+              "y": 329.27942563078165,
+              "frame": 125
+            },
+            {
+              "visible": true,
+              "x": 732.5382469555493,
+              "y": 229.61803134002542,
+              "frame": 108
+            },
+            {
+              "visible": true,
+              "x": 900.4353301916664,
+              "y": 232.05433716665794,
+              "frame": 110
+            },
+            {
+              "visible": true,
+              "x": 1003.5304470368458,
+              "y": 307.8371844856569,
+              "frame": 112
+            }
+          ],
+          "contacts": [
+            1.02
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.08,
+          "hits": 2,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.08,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 6,
+            "impacts": 2,
+            "sprites": 257,
+            "visible": 110,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 1014.7406049285798,
+              "y": 353.7864694813846,
+              "frame": 117
+            },
+            {
+              "visible": false,
+              "x": 1011.4548769448802,
+              "y": 371.1963875352072,
+              "frame": 120
+            },
+            {
+              "visible": true,
+              "x": 962.0885694140945,
+              "y": 413.93336296571135,
+              "frame": 123
+            },
+            {
+              "visible": true,
+              "x": 823.0976202012239,
+              "y": 420.23302302462594,
+              "frame": 125
+            },
+            {
+              "visible": true,
+              "x": 687.6396413509127,
+              "y": 333.2822735741371,
+              "frame": 108
+            },
+            {
+              "visible": true,
+              "x": 774.1088888690306,
+              "y": 244.12653922089618,
+              "frame": 109
+            },
+            {
+              "visible": true,
+              "x": 928.5932346171383,
+              "y": 254.1354245761692,
+              "frame": 111
+            },
+            {
+              "visible": true,
+              "x": 1010.1801194051104,
+              "y": 326.71390104089426,
+              "frame": 113
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.14,
+          "hits": 3,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.14,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 5,
+            "impacts": 3,
+            "sprites": 257,
+            "visible": 113,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 1014.7406049285798,
+              "y": 353.7864694813846,
+              "frame": 117
+            },
+            {
+              "visible": false,
+              "x": 1011.4548769448802,
+              "y": 371.1963875352072,
+              "frame": 120
+            },
+            {
+              "visible": true,
+              "x": 991.7455560590037,
+              "y": 385.60334563216924,
+              "frame": 125
+            },
+            {
+              "visible": true,
+              "x": 882.0584176149816,
+              "y": 406.8544411229294,
+              "frame": 108
+            },
+            {
+              "visible": true,
+              "x": 754.2974577670934,
+              "y": 338.88970957912704,
+              "frame": 110
+            },
+            {
+              "visible": true,
+              "x": 834.1296720792786,
+              "y": 266.57191380616837,
+              "frame": 112
+            },
+            {
+              "visible": true,
+              "x": 965.0100816296087,
+              "y": 287.84455024896926,
+              "frame": 113
+            },
+            {
+              "visible": false,
+              "x": 1010.1801194051104,
+              "y": 326.71390104089426,
+              "frame": 113
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.2,
+          "hits": 4,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.2,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 4,
+            "impacts": 4,
+            "sprites": 257,
+            "visible": 111,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 1014.7406049285798,
+              "y": 353.7864694813846,
+              "frame": 117
+            },
+            {
+              "visible": false,
+              "x": 1011.4548769448802,
+              "y": 371.1963875352072,
+              "frame": 120
+            },
+            {
+              "visible": false,
+              "x": 991.7455560590037,
+              "y": 385.60334563216924,
+              "frame": 125
+            },
+            {
+              "visible": true,
+              "x": 934.3242982422985,
+              "y": 391.27080635877525,
+              "frame": 110
+            },
+            {
+              "visible": true,
+              "x": 818.2568304646518,
+              "y": 343.86670667277724,
+              "frame": 112
+            },
+            {
+              "visible": true,
+              "x": 889.6451503328246,
+              "y": 289.3401994580894,
+              "frame": 114
+            },
+            {
+              "visible": true,
+              "x": 992.772191999826,
+              "y": 321.43981314830273,
+              "frame": 115
+            },
+            {
+              "visible": false,
+              "x": 1010.1801194051104,
+              "y": 326.71390104089426,
+              "frame": 113
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.26,
+          "hits": 5,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.26,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 3,
+            "impacts": 5,
+            "sprites": 257,
+            "visible": 108,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 1014.7406049285798,
+              "y": 353.7864694813846,
+              "frame": 117
+            },
+            {
+              "visible": false,
+              "x": 1011.4548769448802,
+              "y": 371.1963875352072,
+              "frame": 120
+            },
+            {
+              "visible": false,
+              "x": 991.7455560590037,
+              "y": 385.60334563216924,
+              "frame": 125
+            },
+            {
+              "visible": true,
+              "x": 977.702434798772,
+              "y": 373.61002417139,
+              "frame": 112
+            },
+            {
+              "visible": true,
+              "x": 877.6622652401547,
+              "y": 348.03974955838873,
+              "frame": 114
+            },
+            {
+              "visible": true,
+              "x": 938.7393480943438,
+              "y": 311.8731438952847,
+              "frame": 116
+            },
+            {
+              "visible": false,
+              "x": 992.772191999826,
+              "y": 321.43981314830273,
+              "frame": 115
+            },
+            {
+              "visible": false,
+              "x": 1010.1801194051104,
+              "y": 326.71390104089426,
+              "frame": 113
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.32,
+          "hits": 6,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.32,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 2,
+            "impacts": 6,
+            "sprites": 257,
+            "visible": 103,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 1014.7406049285798,
+              "y": 353.7864694813846,
+              "frame": 117
+            },
+            {
+              "visible": false,
+              "x": 1011.4548769448802,
+              "y": 371.1963875352072,
+              "frame": 120
+            },
+            {
+              "visible": false,
+              "x": 991.7455560590037,
+              "y": 385.60334563216924,
+              "frame": 125
+            },
+            {
+              "visible": false,
+              "x": 977.702434798772,
+              "y": 373.61002417139,
+              "frame": 112
+            },
+            {
+              "visible": true,
+              "x": 930.6582678901693,
+              "y": 351.2353229392623,
+              "frame": 116
+            },
+            {
+              "visible": true,
+              "x": 979.4962898285107,
+              "y": 333.6124948363798,
+              "frame": 118
+            },
+            {
+              "visible": false,
+              "x": 992.772191999826,
+              "y": 321.43981314830273,
+              "frame": 115
+            },
+            {
+              "visible": false,
+              "x": 1010.1801194051104,
+              "y": 326.71390104089426,
+              "frame": 113
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26,
+            1.32
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.38,
+          "hits": 7,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.38,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 1,
+            "impacts": 7,
+            "sprites": 257,
+            "visible": 97,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 1014.7406049285798,
+              "y": 353.7864694813846,
+              "frame": 117
+            },
+            {
+              "visible": false,
+              "x": 1011.4548769448802,
+              "y": 371.1963875352072,
+              "frame": 120
+            },
+            {
+              "visible": false,
+              "x": 991.7455560590037,
+              "y": 385.60334563216924,
+              "frame": 125
+            },
+            {
+              "visible": false,
+              "x": 977.702434798772,
+              "y": 373.61002417139,
+              "frame": 112
+            },
+            {
+              "visible": true,
+              "x": 975.389344211262,
+              "y": 353.279911518699,
+              "frame": 118
+            },
+            {
+              "visible": false,
+              "x": 979.4962898285107,
+              "y": 333.6124948363798,
+              "frame": 118
+            },
+            {
+              "visible": false,
+              "x": 992.772191999826,
+              "y": 321.43981314830273,
+              "frame": 115
+            },
+            {
+              "visible": false,
+              "x": 1010.1801194051104,
+              "y": 326.71390104089426,
+              "frame": 113
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26,
+            1.32,
+            1.38
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.44,
+          "hits": 8,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.44,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 0,
+            "impacts": 8,
+            "sprites": 257,
+            "visible": 90,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 1014.7406049285798,
+              "y": 353.7864694813846,
+              "frame": 117
+            },
+            {
+              "visible": false,
+              "x": 1011.4548769448802,
+              "y": 371.1963875352072,
+              "frame": 120
+            },
+            {
+              "visible": false,
+              "x": 991.7455560590037,
+              "y": 385.60334563216924,
+              "frame": 125
+            },
+            {
+              "visible": false,
+              "x": 977.702434798772,
+              "y": 373.61002417139,
+              "frame": 112
+            },
+            {
+              "visible": false,
+              "x": 975.389344211262,
+              "y": 353.279911518699,
+              "frame": 118
+            },
+            {
+              "visible": false,
+              "x": 979.4962898285107,
+              "y": 333.6124948363798,
+              "frame": 118
+            },
+            {
+              "visible": false,
+              "x": 992.772191999826,
+              "y": 321.43981314830273,
+              "frame": 115
+            },
+            {
+              "visible": false,
+              "x": 1010.1801194051104,
+              "y": 326.71390104089426,
+              "frame": 113
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26,
+            1.32,
+            1.38,
+            1.44
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.7,
+          "hits": 8,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.7,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 0,
+            "impacts": 8,
+            "sprites": 257,
+            "visible": 38,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 1014.7406049285798,
+              "y": 353.7864694813846,
+              "frame": 117
+            },
+            {
+              "visible": false,
+              "x": 1011.4548769448802,
+              "y": 371.1963875352072,
+              "frame": 120
+            },
+            {
+              "visible": false,
+              "x": 991.7455560590037,
+              "y": 385.60334563216924,
+              "frame": 125
+            },
+            {
+              "visible": false,
+              "x": 977.702434798772,
+              "y": 373.61002417139,
+              "frame": 112
+            },
+            {
+              "visible": false,
+              "x": 975.389344211262,
+              "y": 353.279911518699,
+              "frame": 118
+            },
+            {
+              "visible": false,
+              "x": 979.4962898285107,
+              "y": 333.6124948363798,
+              "frame": 118
+            },
+            {
+              "visible": false,
+              "x": 992.772191999826,
+              "y": 321.43981314830273,
+              "frame": 115
+            },
+            {
+              "visible": false,
+              "x": 1010.1801194051104,
+              "y": 326.71390104089426,
+              "frame": 113
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26,
+            1.32,
+            1.38,
+            1.44
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 2.1,
+          "hits": 8,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 2.1,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 0,
+            "impacts": 8,
+            "sprites": 257,
+            "visible": 16,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 242
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 1014.7406049285798,
+              "y": 353.7864694813846,
+              "frame": 117
+            },
+            {
+              "visible": false,
+              "x": 1011.4548769448802,
+              "y": 371.1963875352072,
+              "frame": 120
+            },
+            {
+              "visible": false,
+              "x": 991.7455560590037,
+              "y": 385.60334563216924,
+              "frame": 125
+            },
+            {
+              "visible": false,
+              "x": 977.702434798772,
+              "y": 373.61002417139,
+              "frame": 112
+            },
+            {
+              "visible": false,
+              "x": 975.389344211262,
+              "y": 353.279911518699,
+              "frame": 118
+            },
+            {
+              "visible": false,
+              "x": 979.4962898285107,
+              "y": 333.6124948363798,
+              "frame": 118
+            },
+            {
+              "visible": false,
+              "x": 992.772191999826,
+              "y": 321.43981314830273,
+              "frame": 115
+            },
+            {
+              "visible": false,
+              "x": 1010.1801194051104,
+              "y": 326.71390104089426,
+              "frame": 113
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26,
+            1.32,
+            1.38,
+            1.44
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 3.3,
+          "hits": 8,
+          "waiting": true,
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26,
+            1.32,
+            1.38,
+            1.44
+          ],
+          "canvas": 1
+        }
+      ],
+      "completed": {
+        "hits": 8,
+        "allies": 5,
+        "enemies": 5
+      },
+      "pveEntryResultReturn": true,
+      "pvpEntryResultReturn": true
+    },
+    {
+      "label": "mobile",
+      "samples": [
+        {
+          "time": 0.34,
+          "hits": 0,
+          "fx": {
+            "key": "octaseeker",
+            "time": 0.34,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 8,
+            "impacts": 0,
+            "sprites": 193,
+            "visible": 37,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": true,
+              "x": 626.4933475119954,
+              "y": 679.6863754899,
+              "frame": 116
+            },
+            {
+              "visible": true,
+              "x": 589.5122673748759,
+              "y": 743.2411329829469,
+              "frame": 118
+            },
+            {
+              "visible": true,
+              "x": 508.03180905045684,
+              "y": 767.0463754899,
+              "frame": 119
+            },
+            {
+              "visible": true,
+              "x": 431.1203483890893,
+              "y": 739.6773148057667,
+              "frame": 121
+            },
+            {
+              "visible": true,
+              "x": 402.49334751199524,
+              "y": 679.6863754899,
+              "frame": 123
+            },
+            {
+              "visible": true,
+              "x": 435.6893460521408,
+              "y": 623.2592543512135,
+              "frame": 125
+            },
+            {
+              "visible": true,
+              "x": 508.03180905045684,
+              "y": 602.4063754899,
+              "frame": 127
+            },
+            {
+              "visible": true,
+              "x": 575.8052743857213,
+              "y": 626.8230725283937,
+              "frame": 128
+            }
+          ],
+          "contacts": [],
+          "canvas": 1
+        },
+        {
+          "time": 0.72,
+          "hits": 0,
+          "fx": {
+            "key": "octaseeker",
+            "time": 0.72,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 8,
+            "impacts": 0,
+            "sprites": 193,
+            "visible": 74,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": true,
+              "x": 785.5513199821802,
+              "y": 742.7683681988456,
+              "frame": 130
+            },
+            {
+              "visible": true,
+              "x": 735.957242105482,
+              "y": 831.5686112005375,
+              "frame": 112
+            },
+            {
+              "visible": true,
+              "x": 597.8762917930176,
+              "y": 874.261845532257,
+              "frame": 114
+            },
+            {
+              "visible": true,
+              "x": 439.3668946681911,
+              "y": 827.9093604151911,
+              "frame": 116
+            },
+            {
+              "visible": true,
+              "x": 354.4604598299712,
+              "y": 705.3377916123173,
+              "frame": 118
+            },
+            {
+              "visible": true,
+              "x": 424.6271978817902,
+              "y": 588.9467315415238,
+              "frame": 119
+            },
+            {
+              "visible": true,
+              "x": 581.3820331284186,
+              "y": 555.3493028328744,
+              "frame": 121
+            },
+            {
+              "visible": true,
+              "x": 721.2276513406321,
+              "y": 619.033605185738,
+              "frame": 123
+            }
+          ],
+          "contacts": [],
+          "canvas": 1
+        },
+        {
+          "time": 1,
+          "hits": 0,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 8,
+            "impacts": 0,
+            "sprites": 193,
+            "visible": 74,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": true,
+              "x": 795.5125076471063,
+              "y": 794.7182445473888,
+              "frame": 121
+            },
+            {
+              "visible": true,
+              "x": 793.5119395446088,
+              "y": 818.5777096539912,
+              "frame": 122
+            },
+            {
+              "visible": true,
+              "x": 730.2592106446867,
+              "y": 859.1949265563944,
+              "frame": 124
+            },
+            {
+              "visible": true,
+              "x": 610.8248385051534,
+              "y": 842.9013904782208,
+              "frame": 126
+            },
+            {
+              "visible": true,
+              "x": 513.7919831003426,
+              "y": 750.2977335944258,
+              "frame": 128
+            },
+            {
+              "visible": true,
+              "x": 581.0542417234254,
+              "y": 666.4928081349171,
+              "frame": 129
+            },
+            {
+              "visible": true,
+              "x": 708.7175171032725,
+              "y": 668.9342707366093,
+              "frame": 112
+            },
+            {
+              "visible": true,
+              "x": 789.5761429330055,
+              "y": 737.8900946551338,
+              "frame": 114
+            }
+          ],
+          "contacts": [],
+          "canvas": 1
+        },
+        {
+          "time": 1.02,
+          "hits": 1,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.02,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 7,
+            "impacts": 1,
+            "sprites": 193,
+            "visible": 79,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 795.5125076471063,
+              "y": 794.7182445473888,
+              "frame": 121
+            },
+            {
+              "visible": true,
+              "x": 793.940757787991,
+              "y": 813.6501481883876,
+              "frame": 123
+            },
+            {
+              "visible": true,
+              "x": 738.5294726538019,
+              "y": 854.8349901573272,
+              "frame": 125
+            },
+            {
+              "visible": true,
+              "x": 624.4282468724111,
+              "y": 842.0607240959939,
+              "frame": 127
+            },
+            {
+              "visible": true,
+              "x": 527.9772456190262,
+              "y": 753.5415279050709,
+              "frame": 128
+            },
+            {
+              "visible": true,
+              "x": 594.1171791839993,
+              "y": 673.5925108022504,
+              "frame": 130
+            },
+            {
+              "visible": true,
+              "x": 717.3494559870403,
+              "y": 679.0094218950294,
+              "frame": 113
+            },
+            {
+              "visible": true,
+              "x": 791.468295904102,
+              "y": 746.827019130571,
+              "frame": 115
+            }
+          ],
+          "contacts": [
+            1.02
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.04,
+          "hits": 1,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.04,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 7,
+            "impacts": 1,
+            "sprites": 193,
+            "visible": 77,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 795.5125076471063,
+              "y": 794.7182445473888,
+              "frame": 121
+            },
+            {
+              "visible": true,
+              "x": 793.7494872002717,
+              "y": 808.0976611736928,
+              "frame": 124
+            },
+            {
+              "visible": true,
+              "x": 746.4277498189426,
+              "y": 850.0247194480344,
+              "frame": 126
+            },
+            {
+              "visible": true,
+              "x": 637.9513007373973,
+              "y": 840.9482225695494,
+              "frame": 127
+            },
+            {
+              "visible": true,
+              "x": 542.303947282549,
+              "y": 756.7365183915858,
+              "frame": 129
+            },
+            {
+              "visible": true,
+              "x": 607.2026147198558,
+              "y": 680.7814423509471,
+              "frame": 112
+            },
+            {
+              "visible": true,
+              "x": 725.7319242212202,
+              "y": 689.1542088336105,
+              "frame": 114
+            },
+            {
+              "visible": true,
+              "x": 792.8515137444983,
+              "y": 755.5822435667828,
+              "frame": 116
+            }
+          ],
+          "contacts": [
+            1.02
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.08,
+          "hits": 2,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.08,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 6,
+            "impacts": 2,
+            "sprites": 193,
+            "visible": 82,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 795.5125076471063,
+              "y": 794.7182445473888,
+              "frame": 121
+            },
+            {
+              "visible": false,
+              "x": 793.7494872002717,
+              "y": 808.0976611736928,
+              "frame": 124
+            },
+            {
+              "visible": true,
+              "x": 760.9479270609203,
+              "y": 839.0437971561819,
+              "frame": 127
+            },
+            {
+              "visible": true,
+              "x": 664.5604378459619,
+              "y": 837.8949902930892,
+              "frame": 129
+            },
+            {
+              "visible": true,
+              "x": 571.2073034599456,
+              "y": 762.9402480357919,
+              "frame": 112
+            },
+            {
+              "visible": true,
+              "x": 633.2688958552615,
+              "y": 695.3378440338156,
+              "frame": 113
+            },
+            {
+              "visible": true,
+              "x": 741.6076910364962,
+              "y": 709.5087229698458,
+              "frame": 115
+            },
+            {
+              "visible": true,
+              "x": 794.0084308994303,
+              "y": 772.366599769348,
+              "frame": 117
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.14,
+          "hits": 3,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.14,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 5,
+            "impacts": 3,
+            "sprites": 193,
+            "visible": 84,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 795.5125076471063,
+              "y": 794.7182445473888,
+              "frame": 121
+            },
+            {
+              "visible": false,
+              "x": 793.7494872002717,
+              "y": 808.0976611736928,
+              "frame": 124
+            },
+            {
+              "visible": true,
+              "x": 778.9356656167004,
+              "y": 819.1362942505233,
+              "frame": 129
+            },
+            {
+              "visible": true,
+              "x": 702.6470652755618,
+              "y": 831.1968546035259,
+              "frame": 112
+            },
+            {
+              "visible": true,
+              "x": 614.5333526612994,
+              "y": 771.6308147184186,
+              "frame": 114
+            },
+            {
+              "visible": true,
+              "x": 671.4615271095199,
+              "y": 717.2844878019987,
+              "frame": 116
+            },
+            {
+              "visible": true,
+              "x": 762.6705757355058,
+              "y": 739.6629682665986,
+              "frame": 117
+            },
+            {
+              "visible": false,
+              "x": 794.0084308994303,
+              "y": 772.366599769348,
+              "frame": 117
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.2,
+          "hits": 4,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.2,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 4,
+            "impacts": 4,
+            "sprites": 193,
+            "visible": 82,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 795.5125076471063,
+              "y": 794.7182445473888,
+              "frame": 121
+            },
+            {
+              "visible": false,
+              "x": 793.7494872002717,
+              "y": 808.0976611736928,
+              "frame": 124
+            },
+            {
+              "visible": false,
+              "x": 778.9356656167004,
+              "y": 819.1362942505233,
+              "frame": 129
+            },
+            {
+              "visible": true,
+              "x": 737.3657561377029,
+              "y": 821.8804314386025,
+              "frame": 114
+            },
+            {
+              "visible": true,
+              "x": 656.7784322799735,
+              "y": 779.3443089220289,
+              "frame": 116
+            },
+            {
+              "visible": true,
+              "x": 707.5335048522277,
+              "y": 738.8306927111475,
+              "frame": 118
+            },
+            {
+              "visible": true,
+              "x": 779.587995579916,
+              "y": 768.5003799857765,
+              "frame": 119
+            },
+            {
+              "visible": false,
+              "x": 794.0084308994303,
+              "y": 772.366599769348,
+              "frame": 117
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.26,
+          "hits": 5,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.26,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 3,
+            "impacts": 5,
+            "sprites": 193,
+            "visible": 84,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 795.5125076471063,
+              "y": 794.7182445473888,
+              "frame": 121
+            },
+            {
+              "visible": false,
+              "x": 793.7494872002717,
+              "y": 808.0976611736928,
+              "frame": 124
+            },
+            {
+              "visible": false,
+              "x": 778.9356656167004,
+              "y": 819.1362942505233,
+              "frame": 129
+            },
+            {
+              "visible": true,
+              "x": 767.3941374088763,
+              "y": 809.8598352096174,
+              "frame": 116
+            },
+            {
+              "visible": true,
+              "x": 696.7655813728527,
+              "y": 785.811811615701,
+              "frame": 118
+            },
+            {
+              "visible": true,
+              "x": 740.3232609888375,
+              "y": 759.3747093656106,
+              "frame": 120
+            },
+            {
+              "visible": false,
+              "x": 779.587995579916,
+              "y": 768.5003799857765,
+              "frame": 119
+            },
+            {
+              "visible": false,
+              "x": 794.0084308994303,
+              "y": 772.366599769348,
+              "frame": 117
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.32,
+          "hits": 6,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.32,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 2,
+            "impacts": 6,
+            "sprites": 193,
+            "visible": 81,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 795.5125076471063,
+              "y": 794.7182445473888,
+              "frame": 121
+            },
+            {
+              "visible": false,
+              "x": 793.7494872002717,
+              "y": 808.0976611736928,
+              "frame": 124
+            },
+            {
+              "visible": false,
+              "x": 778.9356656167004,
+              "y": 819.1362942505233,
+              "frame": 129
+            },
+            {
+              "visible": false,
+              "x": 767.3941374088763,
+              "y": 809.8598352096174,
+              "frame": 116
+            },
+            {
+              "visible": true,
+              "x": 733.3178389968225,
+              "y": 790.7644037685129,
+              "frame": 120
+            },
+            {
+              "visible": true,
+              "x": 768.6692274248021,
+              "y": 778.314788369735,
+              "frame": 122
+            },
+            {
+              "visible": false,
+              "x": 779.587995579916,
+              "y": 768.5003799857765,
+              "frame": 119
+            },
+            {
+              "visible": false,
+              "x": 794.0084308994303,
+              "y": 772.366599769348,
+              "frame": 117
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26,
+            1.32
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.38,
+          "hits": 7,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.38,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 1,
+            "impacts": 7,
+            "sprites": 193,
+            "visible": 77,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 795.5125076471063,
+              "y": 794.7182445473888,
+              "frame": 121
+            },
+            {
+              "visible": false,
+              "x": 793.7494872002717,
+              "y": 808.0976611736928,
+              "frame": 124
+            },
+            {
+              "visible": false,
+              "x": 778.9356656167004,
+              "y": 819.1362942505233,
+              "frame": 129
+            },
+            {
+              "visible": false,
+              "x": 767.3941374088763,
+              "y": 809.8598352096174,
+              "frame": 116
+            },
+            {
+              "visible": true,
+              "x": 765.2582442087677,
+              "y": 793.933166349543,
+              "frame": 122
+            },
+            {
+              "visible": false,
+              "x": 768.6692274248021,
+              "y": 778.314788369735,
+              "frame": 122
+            },
+            {
+              "visible": false,
+              "x": 779.587995579916,
+              "y": 768.5003799857765,
+              "frame": 119
+            },
+            {
+              "visible": false,
+              "x": 794.0084308994303,
+              "y": 772.366599769348,
+              "frame": 117
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26,
+            1.32,
+            1.38
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.44,
+          "hits": 8,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.44,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 0,
+            "impacts": 8,
+            "sprites": 193,
+            "visible": 71,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 795.5125076471063,
+              "y": 794.7182445473888,
+              "frame": 121
+            },
+            {
+              "visible": false,
+              "x": 793.7494872002717,
+              "y": 808.0976611736928,
+              "frame": 124
+            },
+            {
+              "visible": false,
+              "x": 778.9356656167004,
+              "y": 819.1362942505233,
+              "frame": 129
+            },
+            {
+              "visible": false,
+              "x": 767.3941374088763,
+              "y": 809.8598352096174,
+              "frame": 116
+            },
+            {
+              "visible": false,
+              "x": 765.2582442087677,
+              "y": 793.933166349543,
+              "frame": 122
+            },
+            {
+              "visible": false,
+              "x": 768.6692274248021,
+              "y": 778.314788369735,
+              "frame": 122
+            },
+            {
+              "visible": false,
+              "x": 779.587995579916,
+              "y": 768.5003799857765,
+              "frame": 119
+            },
+            {
+              "visible": false,
+              "x": 794.0084308994303,
+              "y": 772.366599769348,
+              "frame": 117
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26,
+            1.32,
+            1.38,
+            1.44
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 1.7,
+          "hits": 8,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 1.7,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 0,
+            "impacts": 8,
+            "sprites": 193,
+            "visible": 34,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 795.5125076471063,
+              "y": 794.7182445473888,
+              "frame": 121
+            },
+            {
+              "visible": false,
+              "x": 793.7494872002717,
+              "y": 808.0976611736928,
+              "frame": 124
+            },
+            {
+              "visible": false,
+              "x": 778.9356656167004,
+              "y": 819.1362942505233,
+              "frame": 129
+            },
+            {
+              "visible": false,
+              "x": 767.3941374088763,
+              "y": 809.8598352096174,
+              "frame": 116
+            },
+            {
+              "visible": false,
+              "x": 765.2582442087677,
+              "y": 793.933166349543,
+              "frame": 122
+            },
+            {
+              "visible": false,
+              "x": 768.6692274248021,
+              "y": 778.314788369735,
+              "frame": 122
+            },
+            {
+              "visible": false,
+              "x": 779.587995579916,
+              "y": 768.5003799857765,
+              "frame": 119
+            },
+            {
+              "visible": false,
+              "x": 794.0084308994303,
+              "y": 772.366599769348,
+              "frame": 117
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26,
+            1.32,
+            1.38,
+            1.44
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 2.1,
+          "hits": 8,
+          "waiting": true,
+          "fx": {
+            "key": "octaseeker",
+            "time": 2.1,
+            "playing": false,
+            "targetId": "B:0:MONSTER:68",
+            "targetCount": 1,
+            "rocketCount": 8,
+            "activeRockets": 0,
+            "impacts": 8,
+            "sprites": 193,
+            "visible": 16,
+            "ownedTimelines": 1,
+            "groundChildren": 17,
+            "foregroundChildren": 178
+          },
+          "rockets": [
+            {
+              "visible": false,
+              "x": 795.5125076471063,
+              "y": 794.7182445473888,
+              "frame": 121
+            },
+            {
+              "visible": false,
+              "x": 793.7494872002717,
+              "y": 808.0976611736928,
+              "frame": 124
+            },
+            {
+              "visible": false,
+              "x": 778.9356656167004,
+              "y": 819.1362942505233,
+              "frame": 129
+            },
+            {
+              "visible": false,
+              "x": 767.3941374088763,
+              "y": 809.8598352096174,
+              "frame": 116
+            },
+            {
+              "visible": false,
+              "x": 765.2582442087677,
+              "y": 793.933166349543,
+              "frame": 122
+            },
+            {
+              "visible": false,
+              "x": 768.6692274248021,
+              "y": 778.314788369735,
+              "frame": 122
+            },
+            {
+              "visible": false,
+              "x": 779.587995579916,
+              "y": 768.5003799857765,
+              "frame": 119
+            },
+            {
+              "visible": false,
+              "x": 794.0084308994303,
+              "y": 772.366599769348,
+              "frame": 117
+            }
+          ],
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26,
+            1.32,
+            1.38,
+            1.44
+          ],
+          "canvas": 1
+        },
+        {
+          "time": 3.3,
+          "hits": 8,
+          "waiting": true,
+          "contacts": [
+            1.02,
+            1.08,
+            1.14,
+            1.2,
+            1.26,
+            1.32,
+            1.38,
+            1.44
+          ],
+          "canvas": 1
+        }
+      ],
+      "completed": {
+        "hits": 8,
+        "allies": 5,
+        "enemies": 5
+      },
+      "pveEntryResultReturn": true,
+      "pvpEntryResultReturn": true
+    }
+  ],
+  "traffic": [
+    "battle/fight",
+    "pvp/match",
+    "pvp/fight",
+    "battle/fight",
+    "pvp/match",
+    "pvp/fight"
+  ],
+  "errors": [],
+  "missing": []
+}

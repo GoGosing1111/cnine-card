@@ -49,6 +49,8 @@ export class BattleSuitSkillChipPlayback{
         group.events.every(event=>event.type==='SKILL_CHIP_HIT'||event.type==='KO');
       const previous=groups.at(-1);
       group.areaImpact=Boolean(areaImpact);
+      group.octaImpact=!group.external&&!group.blocking&&skillChipByCode(hit?.chipCode)?.effectKey==='octaseeker'&&
+        group.events.every(event=>event.type==='SKILL_CHIP_HIT'||event.type==='KO');
       group.impactKey=areaImpact?`${hit.castId||hit.chipCode}:${Number(hit.hitIndex)||0}`:null;
       if(areaImpact&&previous?.areaImpact&&previous.at===group.at&&previous.impactKey===group.impactKey)previous.events.push(...group.events);
       else groups.push(group);
@@ -133,18 +135,22 @@ export class BattleSuitSkillChipPlayback{
     // sword animation waiting behind the body lock.
     const continuousArea=Boolean(this.engine.continuousAreaPlayback&&chip.targeting==='ALL_LIVING_ENEMIES');
     const started=continuousArea||Boolean(fx.cosmeticOnly)||(!this.sequential&&!fx.deferUntilImpact);
-    const entry={fx,chip,at,castId,castAtMs:event.combatAtMs,started,continuousArea,targetId:target.id,targetIds,impacts:new Map(),scheduledImpacts:new Map()};
+    const continuousVolley=chip.effectKey==='octaseeker';
+    const entry={fx,chip,at,castId,castAtMs:event.combatAtMs,started,continuousArea,continuousVolley,targetId:target.id,targetIds,impacts:new Map(),scheduledImpacts:new Map()};
     this.fx.set(castId,entry);
     if(started&&!chip.silent)this.audio.schedule(chip.effectKey,0,this.rate,{append:true,phase:'launch'});
-    if(continuousArea){
-      // Reserve the entire authored volley at CAST. Rearming at each HIT
-      // repeated the 1.08s windup, then added 0.30s before every later blade.
-      for(const index of new Set(hits.map(hit=>Number(hit.hitIndex)||0))){
-        const contact=chip.impactOffsetsMs[index]/1000;
-        entry.scheduledImpacts.set(index,contact);fx.scheduleImpact?.(index,contact);
-      }
-      if(!chip.silent)this.audio.schedule(chip.effectKey,0,this.rate,{append:true,phase:'impact',impactTimes:entry.scheduledImpacts,indices:[...entry.scheduledImpacts.keys()]});
+    if(started)this.reserveVolley(entry);
+  }
+  reserveVolley(entry){
+    if(!(entry.continuousArea||entry.continuousVolley)||entry.scheduledImpacts.size)return;
+    // Arm the whole flight before launch. Adding audio lead separately at each
+    // contact stretched eight missiles into a queue of frozen arrival frames.
+    const {chip,fx,castId}=entry;
+    for(const index of new Set((this.castHits.get(castId)||[]).map(hit=>Number(hit.hitIndex)||0))){
+      const contact=chip.impactOffsetsMs[index]/1000;
+      entry.scheduledImpacts.set(index,contact);fx.scheduleImpact?.(index,contact);
     }
+    if(!chip.silent)this.audio.schedule(chip.effectKey,0,this.rate,{append:true,phase:'impact',impactTimes:entry.scheduledImpacts,indices:[...entry.scheduledImpacts.keys()]});
   }
   hit(event){
     const target=this.engine.combatantById(event.targetId);if(!target)return;
@@ -202,19 +208,21 @@ export class BattleSuitSkillChipPlayback{
       if(hold){this.holds--;if(this.valid()&&!this.holds&&!this.userPaused){this.resyncAudio();this.timeline?.play();}}
     }
   }
-  pumpScheduledAreaContacts(){
-    if(!this.engine.continuousAreaPlayback||this.engine.accountBattleUnitDamageQueue?.length||this.engine.accountBattleUnit?.fireTimeline)return;
-    if(![...this.fx.values()].some(entry=>entry.continuousArea&&entry.started))return;
+  pumpScheduledContacts(){
+    if(![...this.fx.values()].some(entry=>(entry.continuousArea||entry.continuousVolley)&&entry.started))return;
+    const pendingShots=this.engine.accountBattleUnitDamageQueue?.length||this.engine.accountBattleUnit?.fireTimeline;
     // An unrelated KO can hold the main generation cursor behind a returning
-    // card. Already launched area contacts still own their authored clock.
+    // card. Already launched area and homing contacts own their authored clock.
     // Exact instance IDs and the unchanged spawn fence prevent retargeting.
     for(let i=this.index;i<this.groups.length;i++){
       const group=this.groups[i];if(group.external)break;
-      if(group.areaDispatched||!group.areaImpact||group.at>this.clock.time*1000+.001)continue;
+      if(group.areaDispatched||!(group.areaImpact||group.octaImpact)||group.at>this.clock.time*1000+.001)continue;
       const hits=group.events.filter(e=>e.type==='SKILL_CHIP_HIT');
       if(!hits.every(event=>{
         const entry=this.fx.get(event.castId||event.chipCode),index=Number(event.hitIndex)||0;
-        return entry?.continuousArea&&entry.started&&this.engine.combatantById(event.targetId)?.id===event.targetId&&
+        // Keep the existing lethal-shot drain and area-collision safeguards.
+        if(pendingShots&&(entry?.continuousArea||finite(event.targetHpAfter)&&Number(event.targetHpAfter)<=0))return false;
+        return (entry?.continuousArea||entry?.continuousVolley)&&entry.started&&this.engine.combatantById(event.targetId)?.id===event.targetId&&
           entry.scheduledImpacts.has(index)&&this.clock.time-entry.at+.001>=entry.scheduledImpacts.get(index);
       }))continue;
       group.areaDispatched=true;
@@ -240,7 +248,7 @@ export class BattleSuitSkillChipPlayback{
   pump(){
     this.syncPause();
     if(!this.valid()||this.holds||this.userPaused)return;
-    this.pumpScheduledAreaContacts();
+    this.pumpScheduledContacts();
     if(this.waiting){this.render();return;}
     const nextRate=this.engine.combatClockRate??(this.engine.paceScale||1);
     if(nextRate!==this.rate){this.rate=nextRate;this.timeline?.timeScale(this.rate);this.resyncAudio();}
@@ -291,6 +299,7 @@ export class BattleSuitSkillChipPlayback{
           for(const other of this.fx.values())if(!other.started&&other.castAtMs===entry.castAtMs){
             other.started=true;other.at=this.clock.time;
             if(!other.chip.silent)this.audio.schedule(other.chip.effectKey,0,this.rate,{append:true,phase:'launch'});
+            this.reserveVolley(other);
           }
         }
         const index=Number(event.hitIndex)||0,from=this.clock.time-entry.at;

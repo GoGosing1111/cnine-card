@@ -142,6 +142,53 @@ test('late octa texture decode cannot attach a stale battle effect after cancell
   assert.equal(await run,false);const loaded=textures();resolve(loaded);await flush();
   assert.ok([...loaded.flight,...loaded.impact].every(t=>t.destroyed));assert.equal(e.effectLayer.children.length,0);assert.equal(p.timeline,null);
 });
+
+test('eight homing contacts keep one flight schedule despite output latency and an unrelated retirement',async t=>{
+  t.mock.method(OctaSeekerFX,'preload',async()=>textures());
+  for(const sequential of [false,true]){
+    const e=engine(),contacts=[],notified=[];let release;
+    e.playEvents=async([event])=>{if(event.type==='KO')await new Promise(resolve=>{release=resolve;});};
+    e.showAccountBattleUnitDamage=()=>contacts.push(p.clock.time);
+    const rows=events().slice(0,-1).map(event=>({...event,combatAtMs:event.combatAtMs-17000}));
+    // Retiring another slot must not park this volley at its living target.
+    rows.splice(2,0,{type:'KO',targetId:'unrelated',combatAtMs:1040,combatClock:SKILL_CHIP_CLOCK},
+      {type:'TURN',targetId:'unrelated',combatAtMs:1050,combatClock:SKILL_CHIP_CLOCK,combatGroupDurationMs:500});
+    rows.forEach((event,i)=>Object.assign(event,{seq:i+1,combatGroup:i}));
+    const p=new BattleSuitSkillChipPlayback(e,rows,{sequential,afterEvent:event=>notified.push(event.seq)});
+    const run=p.play();await p.ready;p.timeline.pause();
+    t.mock.method(p.audio,'presentationLead',()=>.18);
+    try{
+      for(let ms=0;ms<=4500;ms+=10){p.timeline?.time(ms/1000,true);p.pump();await flush();}
+      assert.equal(contacts.length,8,'all eight server hits land while the unrelated return is pending');
+      for(let i=1;i<8;i++)assert.ok(Math.abs(contacts[i]-contacts[0]-i*.06)<.021,JSON.stringify(contacts));
+      assert.equal(p.fx.size,0,'no missile or frozen smoke stays at the impact point');
+      assert.equal(e.target.hp,20);assert.ok(p.pending.size>0,'the old generation fence remains intact');
+      release();await flush();p.pump();await flush();
+      assert.equal(await run,true);assert.deepEqual(notified,rows.map(event=>event.seq));
+      assert.equal(contacts.length,8,'catch-up never duplicates a receipt');
+    }finally{release?.();p.cancel();}
+  }
+});
+
+test('reserved homing contacts obey user pause, QTE order, speed changes and cancellation',async t=>{
+  t.mock.method(OctaSeekerFX,'preload',async()=>textures());
+  const e=engine(),seen=[];let release;
+  const rows=events().slice(0,-1).map(event=>({...event,combatAtMs:event.combatAtMs-17000}));
+  rows.splice(1,0,{type:'RAID_QTE_SEQUENCE',seq:1.5});
+  const p=new BattleSuitSkillChipPlayback(e,rows,{beforeEvent:async event=>{
+    if(event.type==='RAID_QTE_SEQUENCE'){seen.push('QTE');await new Promise(resolve=>{release=resolve;});return null;}return event;
+  }}),run=p.play();await p.ready;await flush();
+  try{
+    assert.equal(p.holds,1);assert.deepEqual(seen,['QTE']);assert.equal(p.timeline.paused(),true);
+    p.timeline.time(2,true);p.pump();assert.equal(p.hits,0,'a reserved volley cannot bypass a QTE');
+    p.timeline.time(.4,true);release();await flush();p.timeline.pause();
+    e.paused=true;p.pump();const fx=[...p.fx.values()][0].fx,positions=fx.rockets.map(r=>[r.body.x,r.body.y]);
+    for(const speed of [.25,2]){e.combatClockRate=speed;p.pump();assert.deepEqual(fx.rockets.map(r=>[r.body.x,r.body.y]),positions);assert.equal(p.hits,0);}
+    e.paused=false;p.syncPause();p.timeline.pause();p.timeline.time(.8,true);p.pump();assert.equal(p.rate,2);
+    assert.deepEqual([...p.fx.values()][0].scheduledImpacts.values().toArray(),chip.impactOffsetsMs.map(ms=>ms/1000));
+    p.cancel();p.timeline?.time(3,true);p.pump();assert.equal(await run,false);assert.equal(p.hits,0);assert.equal(e.effectLayer.children.length,0);
+  }finally{release?.();p.cancel();}
+});
 test('shared audio preserves launch/impact phases, shifted server timings and simultaneous legacy sounds',()=>{
   const a=new OctaSeekerAudio();
   const param=()=>({value:0,setValueAtTime(){},linearRampToValueAtTime(){}});
