@@ -1,0 +1,117 @@
+{
+  "status": "IMPLEMENTED_LOCAL_VERIFIED_NOT_DEPLOYED",
+  "dateKst": "2026-10-24",
+  "baseCommit": "228895746d960fe7fb6acf1633403359d8fd5ba9",
+  "branch": "codex/faction-weekly-rewards-20261024",
+  "policy": {
+    "pigCoinReward": {
+      "enabled": true,
+      "requiredTerritories": 8,
+      "amount": 200
+    },
+    "weeklySettlement": "MONDAY_00:00_ASIA_SEOUL",
+    "pointsPerTerritory": 1,
+    "seasonWeeks": 4,
+    "rankTies": "1,1,3",
+    "firstWeek": "CURRENT_KST_WEEK_NO_BACKFILL"
+  },
+  "serverChecks": {
+    "passed": 53,
+    "failed": 0,
+    "engine": "PGlite PostgreSQL + existing SQLite/PostgreSQL claim fixtures"
+  },
+  "browser": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "errors": [],
+      "failed": [],
+      "rankingRows": 6,
+      "weeklyReceipts": 4,
+      "seasonReceipts": 1,
+      "cmsRoundTrip": true,
+      "keyboard": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "errors": [],
+      "failed": [],
+      "rankingRows": 6,
+      "weeklyReceipts": 4,
+      "seasonReceipts": 1,
+      "cmsRoundTrip": true,
+      "keyboard": true
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "errors": [],
+      "failed": [],
+      "rankingRows": 6,
+      "weeklyReceipts": 4,
+      "seasonReceipts": 1,
+      "cmsRoundTrip": true,
+      "keyboard": true
+    }
+  ],
+  "builds": [
+    {
+      "entry": "API_RUNTIME",
+      "tool": "Wrangler 4.125.0 --dry-run",
+      "bytes": 8474030,
+      "sha256": "67b69db86e315e36e8645d67aafdc362fb90e98e44b498db11fe1c8c0d01b884",
+      "weeklySettlement": true,
+      "seasonSettlement": true,
+      "pigCoinReward": true,
+      "uploaded": false
+    },
+    {
+      "entry": "CLAN_SCHEDULER",
+      "tool": "Wrangler 4.125.0 --dry-run",
+      "bytes": 3018132,
+      "sha256": "8f56e96c073482ec2e47002bc2ff4fec7f721840f142d2bb07999eb8f5ea07d0",
+      "weeklySettlement": true,
+      "seasonSettlement": true,
+      "pigCoinReward": true,
+      "uploaded": false
+    }
+  ],
+  "artReuse": [
+    {
+      "path": "assets/ui/organization/interface-v2/dossier-panel.webp",
+      "sha256": "d80c107e10aeb53741504f344c78f4b438a84bbc1fcdbde67346e4b0c7dd5719",
+      "mode": "REUSE_EXISTING_CONTENT_IMAGEGEN_ASSET"
+    },
+    {
+      "path": "assets/ui/organization/interface-v2/tab-default.webp",
+      "sha256": "26e6e2d17722531ac626f9b1cb408b23a65a59dca080ccddc2658b57d8c28694",
+      "mode": "REUSE_EXISTING_CONTENT_IMAGEGEN_ASSET"
+    },
+    {
+      "path": "assets/ui/organization/interface-v2/tab-selected.webp",
+      "sha256": "2b4d891104cf80f5417bc3f1c25a9b76d8cd90daf28ed7da2cf86525b5ef7642",
+      "mode": "REUSE_EXISTING_CONTENT_IMAGEGEN_ASSET"
+    },
+    {
+      "path": "assets/ui/organization/interface-v2/action-default.webp",
+      "sha256": "ebe1e35a3de1947573a256c15fa96fb0dbb8bb98af56880da60aebfe9001c548",
+      "mode": "REUSE_EXISTING_CONTENT_IMAGEGEN_ASSET"
+    },
+    {
+      "path": "assets/ui/organization/interface-v2/action-primary.webp",
+      "sha256": "c403e2a7df9a83dbad6a164dcb8e1f910159e7e3029031c1796b81f585a5352a",
+      "mode": "REUSE_EXISTING_CONTENT_IMAGEGEN_ASSET"
+    },
+    {
+      "path": "assets/ui/organization/interface-v2/choice-selected.webp",
+      "sha256": "34743900831531d3c5a8f60797499b500562d49907608573c41273d60c20d000",
+      "mode": "REUSE_EXISTING_CONTENT_IMAGEGEN_ASSET"
+    }
+  ],
+  "production": {
+    "deployed": false,
+    "databaseWrites": 0,
+    "accountGrants": 0
+  }
+}

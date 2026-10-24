@@ -1,7 +1,9 @@
 import {organizationCrest} from './organization-identity-v1.mjs?v=20261023-clan-identity';
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261023-clan-identity';
-import {ORGANIZATION_DISTRICTS as DISTRICTS,ORGANIZATION_SESSION_RULES as SESSION_RULES,SQUADS,FACTION_RULES as R,organizationDistrictById as districtById,historicalOrganizationDistrictById,isSelfJoinSquad,organizationSquadChangeBlocked} from '../shared/organization-faction-v1.mjs?v=20261023-clan-identity';
+import {ORGANIZATION_DISTRICTS as DISTRICTS,ORGANIZATION_SESSION_RULES as SESSION_RULES,SQUADS,FACTION_RULES as R,organizationDistrictById as districtById,historicalOrganizationDistrictById,isSelfJoinSquad,organizationSquadChangeBlocked} from '../shared/organization-faction-v1.mjs?v=20261024-weekly';
 import {factionCombatOpen,factionSessionStrip,factionRewardView} from './clan-faction-sessions-v1.mjs?v=20261018-session-rules';
+import {renderOrganizationRankings} from './organization-rankings-v1.mjs?v=20261024-weekly';
+let rankingView='season';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num=n=>Math.max(0,Number(n)||0).toLocaleString('ko-KR');
 const compact=n=>n>=1e8?(n/1e8).toLocaleString('ko-KR',{maximumFractionDigits:1})+'억':n>=1e4?(n/1e4).toLocaleString('ko-KR',{maximumFractionDigits:1})+'만':num(n);
@@ -11,7 +13,7 @@ const ART='/assets/ui/organization/faction-v3-20261019/';
 function clashMarker(f,unit){
  return `<g class="fw-map-battle-pin" data-fw-pick="${f.id}" role="button" tabindex="0" aria-label="${f.name} 격돌 중 · 전투 정보 보기" transform="translate(${f.x} ${f.y}) scale(${unit})"><rect class="fw-pin-hit" x="-35" y="-63" width="70" height="94"/><image class="fw-clash-art" href="${ART}clash.webp" x="-32" y="-62" width="64" height="64"/><text class="fw-pin-name" y="10">${f.name.replace(/[시구]$/,'')}</text><text class="fw-pin-status" y="28">격돌 중</text></g>`;
 }
-const state={data:null,map:null,tab:['map','formation','treasury','log'].includes(new URL(location.href).searchParams.get('tab'))?new URL(location.href).searchParams.get('tab'):'map',selected:'11680',squad:'attack1',squadSelected:false,edit:null,editBase:null,editCaptains:null,busy:false,error:'',ctx:null,root:null,offset:0,timer:null,alertTimer:null,alertBusy:false,notice:'',mapFocus:'all',camera:null,sequence:0,room:null,roomId:'',playing:false};
+const state={data:null,map:null,tab:['map','formation','treasury','rankings','log'].includes(new URL(location.href).searchParams.get('tab'))?new URL(location.href).searchParams.get('tab'):'map',selected:'11680',squad:'attack1',squadSelected:false,edit:null,editBase:null,editCaptains:null,busy:false,error:'',ctx:null,root:null,offset:0,timer:null,alertTimer:null,alertBusy:false,notice:'',mapFocus:'all',camera:null,sequence:0,room:null,roomId:'',playing:false};
 const now=()=>Date.now()+state.offset;
 const ruleMinutes=key=>`${num((state.data?.rules?.[key]??R[key])/60000)}분`;
 const left=until=>{const seconds=Math.max(0,Math.ceil((until-now())/1000));return seconds>=3600?`${Math.floor(seconds/3600)}시간 ${Math.floor(seconds%3600/60)}분`:seconds>=60?`${Math.floor(seconds/60)}분 ${seconds%60}초`:`${seconds}초`;};
@@ -149,7 +151,12 @@ function organizationSessionStrip(data){
   return '<section class="fw-session-strip" aria-label="세력전 고정 일정"><div><span class="fw-eyebrow">WEEKLY OPERATIONS · KST</span><h3>'+label+'</h3><p>화·목·토·일 20:00~22:00 (한국시간)</p><p>영토전 중 교전은 일시중단되며, 종료 시간은 22시로 유지됩니다.</p></div><div class="fw-session-times"><div><b>'+(s.active?'종료 시각':'다음 개전')+'</b><span>'+new Date(at).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false})+'</span></div></div></section>';
  }
  return data.sessions.enabled?factionSessionStrip(data):'<section class="fw-session-strip"><div><span class="fw-eyebrow">CLAN OPERATIONS</span><h3>클랜 세력전 준비</h3><p>아직 시즌 시작 전입니다. 세력전·부대 편성·아지트 승급은 개방 전까지 잠겨 있습니다.</p></div></section>';}
-function organizationRewardView(data){return factionRewardView(data).replaceAll('클랜','클랜').replace('3시간 종료 시점',data.sessions.fixedSchedule?'22시 종료 시점':'3시간 종료 시점').replace(/시간당 징수세와 수동 분배는 폐지되었습니다[\s\S]*?자동 전환되지 않습니다\. /,'클랜자금은 공동 금고에 별도 정산됩니다. ');}
+function organizationRewardView(data){
+ const reward=data.sessions.rules?.pigCoinReward,planned=data.policy?.pigCoinReward;
+ const history=data.sessions.history||[];
+ const pig=`<section class="fw-pig-reward" aria-label="피그코인 점령 보상"><h3>추가 점령 보상 · 피그코인</h3><p>${reward?.enabled?`회차 종료 시 <strong>${reward.requiredTerritories}개 이상</strong> 점령한 클랜의 해당 회차 참여자에게 <strong>피그코인 ${num(reward.amount)}개</strong>를 1회 지급합니다.`:reward?'이 회차는 피그코인 보상 OFF입니다.':'이전 규칙으로 시작한 회차에는 피그코인 보상을 소급 지급하지 않습니다.'}</p><p>메시지함에서 수령합니다. 진행 중 회차는 시작 당시 설정을 유지합니다.${planned?' 다음 회차 설정: '+(planned.enabled?`${planned.requiredTerritories}개 이상 · 피그코인 ${num(planned.amount)}개`:'OFF')+'.':''}</p>${history.length?`<ul>${history.map(h=>`<li>${esc(h.dayKey)} · ${h.myPigCoins?`<strong>피그코인 ${num(h.myPigCoins)}개</strong> · 메시지함 지급`:'피그코인 지급 없음'}</li>`).join('')}</ul>`:''}</section>`;
+ return pig+factionRewardView(data).replace('3시간 종료 시점',data.sessions.fixedSchedule?'22시 종료 시점':'3시간 종료 시점').replaceAll('보상 조건 미충족','기본 보상 조건 미충족').replace(/시간당 징수세와 수동 분배는 폐지되었습니다[\s\S]*?자동 전환되지 않습니다\. /,'클랜자금은 공동 금고에 별도 정산됩니다. ');
+}
 function organizationTreasuryView(){
  const t=state.data.treasury,p=state.data.policy;
  return '<section class="fw-org-funds"><div><span class="fw-eyebrow">CLAN TREASURY</span><h2>클랜 공동 자금</h2><strong>'+num(t.funds)+'</strong><p>개인 코인과 별도로 보관하며 아지트 업그레이드에 사용합니다.</p></div><dl><div><dt>지역당 회차 수입</dt><dd>'+(p.fundsPerRegion===null?'CMS 설정 대기':num(p.fundsPerRegion)+' 클랜자금')+'</dd></div><div><dt>현재 아지트</dt><dd>'+t.stage+'단계</dd></div><div><dt>다음 단계 비용</dt><dd>'+(t.stage===5?'최고 단계':t.nextCost===null?'CMS 설정 대기':num(t.nextCost)+' 클랜자금')+'</dd></div></dl><a href="/organization/" target="_top">클랜 본부에서 아지트 확인 →</a></section>';
@@ -167,9 +174,9 @@ function draw(){
   if(!state.data||!state.map){state.root.innerHTML=`<div class="fw-loading">${state.error?esc(state.error):'서울 전황을 불러오는 중입니다.'}<button data-fw-reload>다시 불러오기</button></div>`;bind();return;}
   const d=state.data,active=d.battles.filter(b=>b.status==='ACTIVE');
   state.root.innerHTML=`<section class="faction-war"><header class="fw-heading"><div class="fw-command-brand"><span class="fw-eyebrow">CLAN OPERATIONS</span><h2>세력전 <span>서울</span></h2></div><div class="fw-command-summary"><span>우리 상권 <b>${d.holdings}<small> / ${DISTRICTS.length}</small></b></span><span>격돌 <b>${active.length}<small>곳</small></b></span><span class="fw-round-state">${d.sessions?.current?.status==='PAUSED'?'영토전 중 · 일시중단':factionCombatOpen(d)?'작전 진행 중':'작전 대기'}${d.sessions?.active&&d.sessions.current?.endsAt?'<small>종료까지 '+clock(d.sessions.current.endsAt)+'</small>':''}</span></div><details class="fw-operation-info"><summary>일정 · 보상</summary><div>${organizationSessionStrip(d)}<p>종료 시 ${d.sessions?.rules?.requiredTerritories??SESSION_RULES.requiredTerritories}개 이상 점령 · 1인당 ${compact(d.sessions?.rules?.coinPerRecipient??SESSION_RULES.coinPerRecipient)} 코인</p><button data-fw-tab="treasury">보상 상세 보기</button></div></details><button data-fw-leave class="fw-exit">본부로 돌아가기 ↗</button></header>
-    <nav class="fw-tabs" aria-label="세력전 메뉴">${[['map','map','전황 지도'],['formation','users','부대 편성'],['treasury','coin','클랜자금 · 보상'],['log','clock','전황 기록']].map(([id,i,label])=>`<button data-fw-tab="${id}" class="${state.tab===id?'active':''}" aria-current="${state.tab===id?'page':'false'}">${icon(i)}${label}</button>`).join('')}<button class="fw-reload" data-fw-reload aria-label="전황 새로고침">↻</button></nav>
+    <nav class="fw-tabs" aria-label="세력전 메뉴">${[['map','map','전황 지도'],['formation','users','부대 편성'],['treasury','coin','클랜자금 · 보상'],['rankings','shield','순위표'],['log','clock','전황 기록']].map(([id,i,label])=>`<button data-fw-tab="${id}" class="${state.tab===id?'active':''}" aria-current="${state.tab===id?'page':'false'}">${icon(i)}${label}</button>`).join('')}<button class="fw-reload" data-fw-reload aria-label="전황 새로고침">↻</button></nav>
     ${state.notice?`<div class="fw-notice" role="status">${esc(state.notice)}</div>`:''}${state.error?`<div class="fw-error" role="alert">${esc(state.error)}<button data-fw-reload>다시 확인</button></div>`:''}
-    ${state.tab==='map'?`<div class="fw-mobile-select"><label>지역 선택<select data-fw-district-select>${DISTRICTS.map(z=>`<option value="${z.id}" ${z.id===state.selected?'selected':''}>${z.name} · ${team(d.districts.find(t=>t.id===z.id)?.owner)?.name||'무주지'}</option>`).join('')}</select></label></div><div class="fw-battlefield">${mapView()}${detailView()}</div>`:state.tab==='formation'?formationView():state.tab==='treasury'?treasuryView():logView()}</section>`;
+    ${state.tab==='map'?`<div class="fw-mobile-select"><label>지역 선택<select data-fw-district-select>${DISTRICTS.map(z=>`<option value="${z.id}" ${z.id===state.selected?'selected':''}>${z.name} · ${team(d.districts.find(t=>t.id===z.id)?.owner)?.name||'무주지'}</option>`).join('')}</select></label></div><div class="fw-battlefield">${mapView()}${detailView()}</div>`:state.tab==='formation'?formationView():state.tab==='treasury'?treasuryView():state.tab==='rankings'?renderOrganizationRankings(d.competition,{mine:mine(),view:rankingView}):logView()}</section>`;
   bind();
   state.root.querySelectorAll('button,select').forEach(b=>{if(state.busy)b.disabled=true;});
   if(!factionCombatOpen(d))state.root.querySelectorAll('[data-fw-launch],[data-fw-enter]').forEach(b=>{b.disabled=true;});
@@ -177,6 +184,7 @@ function draw(){
 function selectDistrict(id){if(state.selected!==id&&state.mapFocus==='selected')state.mapFocus='custom';state.selected=id;state.tab='map';draw();}
 function bind(){
   const root=state.root;if(!root)return;
+  root.querySelectorAll('[data-org-rank-view]').forEach(button=>button.onclick=()=>{rankingView=button.dataset.orgRankView;draw();});
   requestAnimationFrame(fitMapViewport);
   bindMapDrag(root.querySelector('.fw-seoul-map'));
   root.querySelectorAll('[data-fw-front]').forEach(b=>b.onclick=()=>{state.selected=b.dataset.fwFront;state.tab='map';focusMap('selected');});

@@ -1,6 +1,7 @@
 import {DISTRICTS as SEOUL_DISTRICTS,FACTION_RULES as CLAN_FACTION_RULES} from './clan-faction-rules-v1.mjs';
 import {FACTION_SESSION_RULES} from './clan-faction-sessions-v1.mjs';
 import {ORGANIZATIONS} from './organization-system-v1.mjs?v=20261023-clan-identity';
+import {defaultOrganizationPigCoinReward,defaultOrganizationCompetitionPolicy,validateOrganizationCompetitionSettings} from './organization-competition-v1.mjs?v=20261024-weekly';
 export const SELF_JOIN_SQUAD_IDS=Object.freeze(['attack4','attack5']);
 export const isSelfJoinSquad=id=>SELF_JOIN_SQUAD_IDS.includes(id);
 export const SQUADS=Object.freeze(['ATTACK','DEFENSE'].flatMap(role=>Array.from({length:5},(_,i)=>Object.freeze({id:role.toLowerCase()+(i+1),name:'제'+(i+1)+(role==='ATTACK'?' 공격대':' 방어대'),role,selfJoin:role==='ATTACK'&&i>=3}))));
@@ -46,11 +47,11 @@ export function rankedOrganizationElders(members,organizations=ORGANIZATIONS){
  return organizations.map(o=>({organizationId:o.id,userIds:members.filter(m=>m.clanId===o.id&&m.status==='ACTIVE')
   .sort((a,b)=>b.seedPower-a.seedPower||a.slot-b.slot||a.userId-b.userId).slice(0,ORGANIZATION_ELDER_LIMIT).map(m=>m.userId)}));
 }
-export const defaultOrganizationFactionPolicy=()=>({revision:0,mode:'OFF',fundsPerRegion:null,upgradeCosts:[0,null,null,null,null]});
+export const defaultOrganizationFactionPolicy=()=>({revision:0,mode:'OFF',fundsPerRegion:null,upgradeCosts:[0,null,null,null,null],pigCoinReward:defaultOrganizationPigCoinReward(),competition:defaultOrganizationCompetitionPolicy()});
 export function validateOrganizationFactionPolicy(value){
  const fail=message=>{throw Object.assign(Error(message),{status:400,code:'ORG_FACTION_POLICY'});};
  if(!value||!['OFF','TEST','ON'].includes(value.mode)||!Number.isSafeInteger(value.revision)||value.revision<0)fail('클랜 세력전 운영 설정을 확인하세요.');
  const amount=(v,label)=>{if(v!==null&&(!Number.isSafeInteger(v)||v<1||v>1000000000000))fail(label+'은 1~1조 또는 미입력이어야 합니다.');return v;};
  if(!Array.isArray(value.upgradeCosts)||value.upgradeCosts.length!==5||value.upgradeCosts[0]!==0)fail('아지트 단계별 비용을 확인하세요.');
- return {revision:value.revision,mode:value.mode,fundsPerRegion:amount(value.fundsPerRegion,'지역당 클랜자금'),upgradeCosts:value.upgradeCosts.map((v,i)=>i?amount(v,(i+1)+'단계 비용'):0)};
+ return {revision:value.revision,mode:value.mode,fundsPerRegion:amount(value.fundsPerRegion,'지역당 클랜자금'),upgradeCosts:value.upgradeCosts.map((v,i)=>i?amount(v,(i+1)+'단계 비용'):0),...validateOrganizationCompetitionSettings(value)};
 }

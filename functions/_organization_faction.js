@@ -9,6 +9,7 @@ import {buildClanBattle} from './_clan.js';
 import {readJointBody} from './_joint_request.js';
 import {jointHash} from './_joint_transactions.js';
 import {organizationElderIds,validateOrganizationElders} from '../shared/organization-faction-v1.mjs';
+import {advanceOrganizationCompetition,organizationCompetitionView,recordOrganizationCompetition} from './_organization_competition.js';
 
 export const ORGANIZATION_FACTION_SCHEMA=[
  'CREATE TABLE IF NOT EXISTS organization_faction_policy_v1(id INTEGER PRIMARY KEY CHECK(id=1),revision INTEGER NOT NULL DEFAULT 0,policy_json TEXT NOT NULL)',
@@ -107,7 +108,7 @@ async function settle(q,r,snapshot,now){
  }
  if(r.scope!=='LIVE')return; // TEST is isolated and never awards live accounts.
  const rewards=[];
- for(const recipient of snapshot.recipients)for(const reward of [{type:'COIN',amount:recipient.amount,label:'코인'},{type:'MASTER_STAR',amount:recipient.masterStars,label:'마스터의 별'},{type:'STARLIGHT_ARMOR_CORE',amount:recipient.mysticEnergy,label:'미스틱 에너지'}]){
+ for(const recipient of snapshot.recipients)for(const reward of [{type:'COIN',amount:recipient.amount,label:'코인'},{type:'MASTER_STAR',amount:recipient.masterStars,label:'마스터의 별'},{type:'STARLIGHT_ARMOR_CORE',amount:recipient.mysticEnergy,label:'미스틱 에너지'},{type:'PIG_COIN',amount:recipient.pigCoins,label:'피그코인'}]){
   if(!reward.amount)continue;
   rewards.push({user_id:recipient.userId,reward_type:reward.type,reward_amount:reward.amount,title:'클랜 세력전 점령 보상 · '+reward.label,body:snapshot.dayKey+' '+snapshot.ordinal+'회차 종료 시 '+recipient.territories+'개 지역 점령. '+reward.label+' '+reward.amount.toLocaleString('ko-KR')+'개를 수령하세요.',message_type:reward.type==='COIN'?'COIN_REWARD':'ITEM_REWARD',campaign_key:'organization-faction:'+r.id+':'+snapshot.key+':'+reward.type});
  }
@@ -122,15 +123,23 @@ async function settle(q,r,snapshot,now){
 }
 async function sync(q,r,row,roster,policy,now,deps){
  const enabled=r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST');
- if(!enabled)return {active:false,enabled:false,state:'CLOSED',schedule:[],history:[],current:null,rules:FACTION_SESSION_RULES,recipientPolicy:'PARTICIPANTS',mapPolicy:'KEEP'};
+ const before=JSON.stringify(row.state);
+ if(!enabled){
+  if(r?.phase==='ASSIGNED'){
+   await recordOrganizationCompetition(q,r,advanceOrganizationCompetition(row.state,{now,enabled:false,policy}),now);
+   if(before!==JSON.stringify(row.state)){await saveState(q,r,row.state);row.revision++;}
+  }
+  return {active:false,enabled:false,state:'CLOSED',schedule:[],history:[],current:null,rules:FACTION_SESSION_RULES,recipientPolicy:'PARTICIPANTS',mapPolicy:'KEEP'};
+ }
  const day=factionDayKey(now);
  await q('INSERT INTO organization_faction_days_v1 VALUES($1,$2,$3) ON CONFLICT DO NOTHING',[r.id,day,JSON.stringify(now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt?createOrganizationDay(day):createFactionDay(day,deps.randomFactionSchedule))]);
  const [published]=await q('SELECT schedule_json FROM organization_faction_days_v1 WHERE round_id=$1 AND day_key=$2',[r.id,day]);
  const wars=await q("SELECT id,status,starts_at,ends_at,settled_at FROM territory_war_v3_rounds WHERE status IN ('ACTIVE','PREPARING') OR id IN (SELECT id FROM territory_war_v3_rounds WHERE status='FINISHED' ORDER BY id DESC LIMIT 32)");
  const paused=(row.state.session?.pauses?.at(-1)?.territoryRoundIds||[]).filter(id=>!wars.some(w=>Number(w.id)===Number(id)));
  if(paused.length)wars.push(...await q('SELECT id,status,starts_at,ends_at,settled_at FROM territory_war_v3_rounds WHERE id=ANY($1::bigint[])',[paused]));
- const before=JSON.stringify(row.state),result=advanceOrganizationFaction(row.state,{schedule:JSON.parse(published.schedule_json),wars,roster,policy,now,assignedAt:Number(r.assigned_at||r.created_at)});
+ const result=advanceOrganizationFaction(row.state,{schedule:JSON.parse(published.schedule_json),wars,roster,policy,now,assignedAt:Number(r.assigned_at||r.created_at)});
  for(const snapshot of result.settlements)await settle(q,r,snapshot,now);
+ await recordOrganizationCompetition(q,r,advanceOrganizationCompetition(row.state,{now,enabled:true,policy}),now);
  if(before!==JSON.stringify(row.state)){await saveState(q,r,row.state);row.revision++;}
  return result.view;
 }
@@ -145,21 +154,21 @@ async function treasuryFor(q,r,roster,state,policy){
  return ORGANIZATIONS.map(o=>({...o,memberCount:roster.filter(m=>m.clanId===o.id).length,roster:roster.filter(m=>m.clanId===o.id).map(({userId,nickname,slot})=>({userId,nickname,slot})),funds:Number(funds.find(f=>Number(f.organization_id)===o.id)?.balance||0),stage:Number(progress.find(p=>Number(p.organization_id)===o.id)?.stage||1),elderIds:organizationElderIds(state,roster,o.id),commanderId:organizationElderIds(state,roster,o.id)[0]||null,upgradeCosts:policy.upgradeCosts}));
 }
 async function overview(q,user,r,policy,row,roster,sessions,now,{admin=false,alertsOnly=false}={}){
- const s=row.state,my=roster.find(m=>m.userId===Number(user.id)),id=my?.clanId||0,userId=Number(user.id);
+ const s=row.state,my=roster.find(m=>m.userId===Number(user.id)),id=my?.clanId||0,userId=Number(user.id),competition=organizationCompetitionView(s,policy,Boolean(sessions.enabled));
  if(alertsOnly)return {ok:true,roundId:r?.id,userId,serverNow:now,alerts:alertsFor(s,id,userId,sessions)};
  const all=await treasuryFor(q,r,roster,s,policy),own=all.find(o=>o.id===id),isMaster=Boolean(id)&&organizationElderIds(s,roster,id).includes(userId),formation=formationOf(s,roster,id),captains=factionCaptains(s.captains[id],roster.filter(m=>m.clanId===id).map(m=>m.userId));
  const treasury={funds:own?.funds||0,stage:own?.stage||1,nextCost:own&&own.stage<5?policy.upgradeCosts[own.stage]:null,elderIds:own?.elderIds||[],commanderId:own?.commanderId||null,canUpgrade:isMaster&&r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST')&&own.stage<5&&policy.upgradeCosts[own.stage]!==null&&own.funds>=policy.upgradeCosts[own.stage]};
  if(admin){
   const ledger=r?(await q('SELECT * FROM organization_faction_ledger_v1 WHERE round_id=$1 ORDER BY created_at DESC,id DESC LIMIT 100',[r.id])).map(x=>({id:x.id,organizationId:Number(x.organization_id),delta:Number(x.delta),balance:Number(x.balance),reason:x.reason,createdAt:Number(x.created_at)})):[];
-  return {ok:true,policy,round:publicRound(r),organizations:all,ledger,state:{...s,battles:s.battles.map(displayBattle)},sessions};
+  return {ok:true,policy,round:publicRound(r),organizations:all,ledger,state:{...s,battles:s.battles.map(displayBattle)},sessions,competition};
  }
  const clans=all.map(o=>({clanId:o.id,name:o.name,color:o.color,accentColor:o.accentColor,masterUserId:o.commanderId,markKey:o.markKey,markImage:o.markImage}));
- return {ok:true,serverNow:now,roundId:r?.id,revision:row.revision,organizationMode:true,policy,round:publicRound(r),
+ return {ok:true,serverNow:now,roundId:r?.id,revision:row.revision,organizationMode:true,policy,round:publicRound(r),competition,
   season:{id:r?.id,seasonNo:1,phase:r?.phase==='ASSIGNED'&&policy.mode!=='OFF'?'ACTIVE':'PREPARATION',active:r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST'),endsAt:null},
   userId,mine:id?{clanId:id,isElder:isMaster,isMaster,canManageFormation:isMaster||Object.values(captains).includes(userId),canManageGarrison:isMaster||Object.values(captains).includes(userId)}:null,
   clans,organizations:all.map(({roster,...o})=>o),roster:roster.filter(m=>m.clanId===id),formation,captains,
   districts:s.districts.map(d=>({...d,defenders:d.owner?(formationOf(s,roster,d.owner)[d.defense]||[]).map(userId=>roster.find(m=>m.userId===userId)).filter(Boolean):[]})),
-  battles:s.battles.map(displayBattle),events:s.events,alerts:alertsFor(s,id,userId,sessions),holdings:s.districts.filter(d=>d.owner===id&&id).length,sessions:{...sessions,history:(sessions.history||[]).map(h=>{const receipt=s.sessionHistory?.find(x=>x.key===h.key)?.recipients?.find(x=>x.userId===userId);return {...h,myReward:r?.scope==='LIVE'?receipt?.amount||0:0,myMasterStars:r?.scope==='LIVE'?receipt?.masterStars||0:0,myMysticEnergy:r?.scope==='LIVE'?receipt?.mysticEnergy||0:0};})},treasury,
+  battles:s.battles.map(displayBattle),events:s.events,alerts:alertsFor(s,id,userId,sessions),holdings:s.districts.filter(d=>d.owner===id&&id).length,sessions:{...sessions,history:(sessions.history||[]).map(h=>{const receipt=s.sessionHistory?.find(x=>x.key===h.key)?.recipients?.find(x=>x.userId===userId);return {...h,myReward:r?.scope==='LIVE'?receipt?.amount||0:0,myMasterStars:r?.scope==='LIVE'?receipt?.masterStars||0:0,myMysticEnergy:r?.scope==='LIVE'?receipt?.mysticEnergy||0:0,myPigCoins:r?.scope==='LIVE'?receipt?.pigCoins||0:0};})},treasury,
   tax:{pool:0,balance:0,totalEarned:0,perHour:0,abolished:true,pendingSeasons:[]},
   squadReady:Object.fromEntries(SQUADS.map(x=>[x.id,s.squadReady[id+':'+x.id]||0])),targetReady:Object.fromEntries(s.districts.map(d=>[d.id,s.targetReady[id+':'+d.id]||0])),strikeReady:s.strikeReady[userId]||0,rules:R};
 }
@@ -203,11 +212,20 @@ async function mutation(env,user,action,body,deps){
   const now=nowOf(deps);
   let result={ok:true,kind:action};
   if(action==='policy'){
-   const before=await readPolicy(q,' FOR UPDATE'),next=validateOrganizationFactionPolicy(body.policy);
+   const before=await readPolicy(q,' FOR UPDATE'),next=validateOrganizationFactionPolicy({...before,...body.policy,revision:body.policy?.revision});
    orgAssert(before.revision===next.revision,'STALE','클랜 세력전 설정이 변경되었습니다. 새로고침하세요.');
+   // Settle elapsed cutoffs using the old mode/settings before applying a change.
+   // Older CMS clients may omit the new fields; they must not reset them.
+   const rounds=await q("SELECT * FROM organization_rounds_v1 WHERE phase='ASSIGNED' ORDER BY id FOR SHARE");
+   for(const r of rounds){const roster=await rosterFor(q,r),row=await stateFor(q,r,now);await sync(q,r,row,roster,before,now,deps);}
    next.revision++;
    await q('UPDATE organization_faction_policy_v1 SET policy_json=$1,revision=$2 WHERE id=1',[JSON.stringify(next),next.revision]);
+   for(const r of rounds){const roster=await rosterFor(q,r),row=await stateFor(q,r,now);await sync(q,r,row,roster,next,now,deps);}
    result.policy=next;
+  }else if(action==='settle'){
+   const c=await context(q,user,body.roundId,now,deps);
+   orgAssert(c.r?.phase==='ASSIGNED','ASSIGNMENT','배정된 클랜 회차를 선택하세요.');
+   result.competition=organizationCompetitionView(c.row.state,c.policy,Boolean(c.sessions.enabled));
   }else{
    const c=await context(q,user,body.roundId,now,deps,{write:!['commander','elders'].includes(action)}),{r,policy,roster,row,sessions}=c,s=row.state;
    orgAssert(r?.phase==='ASSIGNED','ASSIGNMENT','클랜 배정이 완료된 뒤 설정할 수 있습니다.');
@@ -295,21 +313,36 @@ export async function handleOrganizationFaction({path,request,env,deps}){
   const user=await deps.authenticate(request,env);orgAssert(user,'AUTH','로그인이 필요합니다.',401);
   if(admin)orgAssert(user.role==='OWNER','PERMISSION','클랜 운영 설정은 OWNER 전용입니다.',403);
   const action=admin?path.slice('admin/organization/faction'.length).replace(/^\//,''):path.slice('organization/faction/'.length);
+  if(request.method==='GET'&&action==='rankings'){
+   const url=new URL(request.url),data=await tx(env,async q=>{
+    const c=await context(q,user,url.searchParams.get('roundId')||undefined,nowOf(deps),deps);
+    const competition=organizationCompetitionView(c.row.state,c.policy,Boolean(c.sessions.enabled));
+    let archive=null;
+    if(url.searchParams.has('seasonNo')){
+     const seasonNo=Number(url.searchParams.get('seasonNo'));
+     orgAssert(Number.isSafeInteger(seasonNo)&&seasonNo>0,'INPUT','시즌 번호를 확인하세요.',400);
+     const [row]=await q('SELECT snapshot_json FROM organization_faction_settlements_v1 WHERE round_id=$1 AND session_key=$2',[c.r?.id||'', 'competition:v1:season:'+seasonNo]);
+     orgAssert(row,'SEASON','완료된 시즌 정산이 없습니다.',404);archive=JSON.parse(row.snapshot_json);
+    }
+    return {ok:true,round:publicRound(c.r),competition,archive};
+   });return json(data);
+  }
   if(request.method==='GET'&&['','overview','alerts'].includes(action)){
    const url=new URL(request.url),data=await tx(env,async q=>{const now=nowOf(deps),c=await context(q,user,url.searchParams.get('roundId')||undefined,now,deps);return overview(q,user,c.r,c.policy,c.row,c.roster,c.sessions,now,{admin,alertsOnly:action==='alerts'});});return json(data);
   }
   orgAssert(request.method==='POST','METHOD','지원하지 않는 요청 방식입니다.',405);
-  orgAssert(admin?['policy','commander','elders'].includes(action):['formation','captains','join-squad','leave-squad','garrison','launch','enter','strike','upgrade'].includes(action),'ROUTE','지원하지 않는 요청입니다.',404);
-  const fields={policy:['requestId','policy'],commander:['requestId','roundId','organizationId','userId'],elders:['requestId','roundId','organizationId','userIds','baseUserIds'],formation:['requestId','roundId','formation','captains','baseFormation'],captains:['requestId','roundId','captains'],'join-squad':['requestId','roundId','squad','baseSquad'],'leave-squad':['requestId','roundId','squad','baseSquad'],garrison:['requestId','roundId','districtId','squad'],launch:['requestId','roundId','districtId','squad'],enter:['requestId','roundId','battleId'],strike:['requestId','roundId','battleId'],upgrade:['requestId','roundId','expectedStage','policyRevision']}[action];
+  orgAssert(admin?['policy','commander','elders','settle'].includes(action):['formation','captains','join-squad','leave-squad','garrison','launch','enter','strike','upgrade'].includes(action),'ROUTE','지원하지 않는 요청입니다.',404);
+  const fields={policy:['requestId','policy'],settle:['requestId','roundId'],commander:['requestId','roundId','organizationId','userId'],elders:['requestId','roundId','organizationId','userIds','baseUserIds'],formation:['requestId','roundId','formation','captains','baseFormation'],captains:['requestId','roundId','captains'],'join-squad':['requestId','roundId','squad','baseSquad'],'leave-squad':['requestId','roundId','squad','baseSquad'],garrison:['requestId','roundId','districtId','squad'],launch:['requestId','roundId','districtId','squad'],enter:['requestId','roundId','battleId'],strike:['requestId','roundId','battleId'],upgrade:['requestId','roundId','expectedStage','policyRevision']}[action];
   const body=await readJointBody(request,{fields,maxBytes:16000});
   return json(await mutation(env,user,action,body,deps));
  }catch(error){deps.onError?.(error);return json({ok:false,error:error.status?error.message:'클랜 세력전 처리 중 오류가 발생했습니다. 같은 요청으로 다시 확인하세요.',code:error.code||'ORG_FACTION_ERROR'},error.status||503);}
 }
 export async function tickOrganizationFaction(env,deps={}){
  return tx(env,async q=>{
-  const policy=await readPolicy(q,' FOR SHARE');if(policy.mode==='OFF')return {enabled:false};
-  const rounds=await q("SELECT * FROM organization_rounds_v1 WHERE scope=$1 AND phase='ASSIGNED' LIMIT 1 FOR SHARE",[policy.mode==='ON'?'LIVE':'TEST']);
-  for(const r of rounds){const now=nowOf(deps),roster=await rosterFor(q,r),row=await stateFor(q,r,now);await sync(q,r,row,roster,policy,now,deps);}
-  return {enabled:true,rounds:rounds.length};
+  const policy=await readPolicy(q,' FOR SHARE');
+  const rounds=await q("SELECT * FROM organization_rounds_v1 WHERE phase='ASSIGNED' ORDER BY id FOR SHARE");
+  let changed=false;
+  for(const r of rounds){const now=nowOf(deps),roster=await rosterFor(q,r),row=await stateFor(q,r,now),revision=row.revision;await sync(q,r,row,roster,policy,now,deps);changed||=revision!==row.revision;}
+  return {enabled:policy.mode!=='OFF',rounds:rounds.length,changed};
  });
 }

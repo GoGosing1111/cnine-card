@@ -45,7 +45,8 @@ test('API fixed settlement rolls back on failure and retries once; old published
  assert.equal((await f.overview()).status,503);f.fail('');
  assert.equal((await f.pg.query("SELECT count(*)::int n FROM organization_faction_settlements_v1 WHERE session_key LIKE '%fixed%'")).rows[0].n,0);
  r=await f.overview();assert.equal(r.status,200);assert.equal(r.data.sessions.active,false);
- const once=(await f.pg.query('SELECT count(*)::int n FROM user_message_rewards')).rows[0].n;assert.equal(once,3);
+ const once=(await f.pg.query('SELECT count(*)::int n FROM user_message_rewards')).rows[0].n;assert.equal(once,4);
+ assert.equal(Number((await f.pg.query("SELECT reward_amount FROM user_message_rewards WHERE reward_type='PIG_COIN'")).rows[0].reward_amount),200);
  await f.overview();assert.equal((await f.pg.query('SELECT count(*)::int n FROM user_message_rewards')).rows[0].n,once);
  assert.equal(r.data.sessions.nextStartsAt,at('2026-10-25T20:00:00'));
 });

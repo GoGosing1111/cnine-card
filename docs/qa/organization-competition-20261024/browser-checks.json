@@ -1,0 +1,35 @@
+[
+  {
+    "width": 1440,
+    "height": 1000,
+    "errors": [],
+    "failed": [],
+    "rankingRows": 6,
+    "weeklyReceipts": 4,
+    "seasonReceipts": 1,
+    "cmsRoundTrip": true,
+    "keyboard": true
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "failed": [],
+    "rankingRows": 6,
+    "weeklyReceipts": 4,
+    "seasonReceipts": 1,
+    "cmsRoundTrip": true,
+    "keyboard": true
+  },
+  {
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "failed": [],
+    "rankingRows": 6,
+    "weeklyReceipts": 4,
+    "seasonReceipts": 1,
+    "cmsRoundTrip": true,
+    "keyboard": true
+  }
+]

@@ -9444,6 +9444,6 @@ export async function runOrganizationOwnerAllocation(env,body){
 }
 export async function runOrganizationMaintenance(env,{now=Date.now()}={}){
  const recruitment=await reconcileOrganizationRecruitment(env,{readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts},{now});
- const faction=await tickOrganizationFaction(env,{now:()=>Date.now(),pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout});
+ const faction=await tickOrganizationFaction(env,{now:()=>now,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout});
  return {changed:!!recruitment.changed||!!faction?.changed,recruitment,faction};
 }
