@@ -1,0 +1,63 @@
+{
+  "mode": "apply",
+  "sourceSha256": "32889e9ed14d81264ff2d76b00ad4b968cc19d1a4f9474185f9c8ae4a6e7ee9b",
+  "replayed": false,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:jokgeida-jokro-level7:20261024:v1",
+    "planHash": "34999a064ee3ca6a914fb7e3ff8040fbe72c0b3d3b9d59e155e06b2cbf3e58bc",
+    "plan": {
+      "userId": 4111,
+      "nickname": "족게이다",
+      "code": "V-979",
+      "name": "족로",
+      "rank": "SSS",
+      "authorization": "족게이다 계정 족로 7레벨로 변경",
+      "before": {
+        "level": 5,
+        "experience": 1800,
+        "breakthroughMask": 0,
+        "revision": 11
+      },
+      "after": {
+        "level": 7,
+        "experience": 0,
+        "breakthroughMask": 1,
+        "revision": 12
+      },
+      "cost": 0,
+      "materialsConsumed": 0
+    },
+    "before": {
+      "level": 5,
+      "experience": 1800,
+      "breakthroughMask": 0,
+      "revision": 11
+    },
+    "after": {
+      "level": 7,
+      "experience": 0,
+      "breakthroughMask": 1,
+      "revision": 12
+    },
+    "policyRevision": 1,
+    "protectedBefore": "8a82238d7775dcc2e0178ee3fb20732a81a4f7aed757e63c9cf5c2ab0d91c6dd",
+    "protectedAfter": "8a82238d7775dcc2e0178ee3fb20732a81a4f7aed757e63c9cf5c2ab0d91c6dd",
+    "completedAt": "2026-10-24T13:44:39.430Z",
+    "auditId": "50835"
+  },
+  "verification": {
+    "verified": true,
+    "currentLevel": 7,
+    "currentState": {
+      "level": 7,
+      "experience": 0,
+      "breakthroughMask": 1,
+      "revision": 12
+    },
+    "cost": 0,
+    "materialsConsumed": 0
+  },
+  "noWriteReplayVerified": true,
+  "leasesReleased": true
+}
