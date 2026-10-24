@@ -1,0 +1,101 @@
+{
+  "origin": "http://127.0.0.1:12829",
+  "account": "isolated PostgreSQL-compatible PGlite; no production writes",
+  "reports": [
+    {
+      "width": 1440,
+      "fonts": {
+        "family": "\"Pretendard Variable\", Pretendard, \"Noto Sans KR\", \"Malgun Gothic\", sans-serif",
+        "loaded": [
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable"
+        ]
+      },
+      "requests": 7,
+      "independentModes": true,
+      "sameMercenaryBothModes": true,
+      "unequip": true,
+      "lostResponseReplay": true,
+      "ownershipGuard": true,
+      "accountRecovery": true,
+      "artAndSd": true,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "fonts": {
+        "family": "\"Pretendard Variable\", Pretendard, \"Noto Sans KR\", \"Malgun Gothic\", sans-serif",
+        "loaded": [
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable"
+        ]
+      },
+      "requests": 7,
+      "independentModes": true,
+      "sameMercenaryBothModes": true,
+      "unequip": true,
+      "lostResponseReplay": true,
+      "ownershipGuard": true,
+      "accountRecovery": true,
+      "artAndSd": true,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "fonts": {
+        "family": "\"Pretendard Variable\", Pretendard, \"Noto Sans KR\", \"Malgun Gothic\", sans-serif",
+        "loaded": [
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable",
+          "Pretendard Variable"
+        ]
+      },
+      "requests": 7,
+      "independentModes": true,
+      "sameMercenaryBothModes": true,
+      "unequip": true,
+      "lostResponseReplay": true,
+      "ownershipGuard": true,
+      "accountRecovery": true,
+      "artAndSd": true,
+      "overflow": false,
+      "errors": []
+    }
+  ]
+}

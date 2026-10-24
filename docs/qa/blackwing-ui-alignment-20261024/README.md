@@ -63,3 +63,13 @@
 - 상세 산출물: `C:/Users/User/Downloads/upload/cnine-card/output/blackwing-ui-alignment-20261024/`. 운영 조회에는 계정 식별자/자격증명을 보존하지 않았다.
 
 근거 소스: `functions/_raid_blackwing.js`, `_raid_blackwing_live.js`, `_raid_madara.js`, `_raid_madara_live.js`, `_raid_madara_decisions.js`, `_battle_v2_preview.js`.
+
+## 운영 반영 결과
+
+- 최종 소스 `e53aba7dde035ed86605b25aeda7321f520642a1`, Pages `862db88a-29e1-478b-ba70-fe72c04ab5b3`, 2026-10-24 16:16 KST 반영. 후속 문서 기록 커밋은 게임 코드 변경/재배포 대상이 아니다.
+- 최초 표시 필드 변경의 흑익 관련 검사 **17개**, 최종 공통 도감·메뉴·캐시·PC/390/320px 관련 검사 **10개** 통과. 흑익 전체 전투 흐름은 PC 1440×1000 / 모바일 390×844에서 단일 캔버스·왼쪽 공격 방향·복귀·예외 0을 확인했다.
+- 최종 공개 파일 13개 SHA-256 일치. 운영에서 내려받은 실제 정적 파일을 루프백 서버로 읽고 합성 계정 API와 연결해 PC·모바일 역할 변경/공대 생성/준비/6명 초상화/내 5장/재참가/마감 역할 잠금을 다시 확인했다. 선택 탭 글씨는 짙은 색, 비선택 탭도 승인 남색 프레임으로 표시된다. 이 검수는 운영 계정으로 실제 출정한 기록이 아니며 운영 API 쓰기는 0건이다.
+- 최종 확인 시 운영 점검 **갤주 방송중**, 16:14~18:00 설정이 활성화돼 비로그인 입장 API는 503 MAINTENANCE를 반환했다. 공개 service/status의 점검 상태와 일치하며, 점검 설정을 변경하지 않았다. 앞선 점검 시작 전 배포에서 비로그인 401을 확인했고 최종 Runtime에도 TEST 접근·보상 잠금이 존재한다.
+- 동시 반영된 용병도감 등급 필터 가독성 수정 `bb529d050`을 병합해 보존했다. 이번 작업으로 전투 수치·기믹·무료 입장·보상 잠금을 변경하지 않았다.
+- 기존 폴더의 배포 제외 파일 74개/47,809,697바이트는 배포 검사 동안 별도 경로에 안전하게 보존한 뒤 원위치에 복구했고 길이·SHA-256 전부 일치했다. 새 프로젝트/의존성 복사본을 만들지 않았다.
+- 근거: `production-verification.json`, `production-ui-browser.json`, `codex-regression.json`, `deployment-result.json`, `restored-files.json`. 최종 PC/모바일 화면은 작업 산출물의 `production-ui/`에 있다. 이전 `codex-ui/` 화면과 실패 자료는 수정 이력이며 최종 탭 검수본으로 사용하지 않는다.
