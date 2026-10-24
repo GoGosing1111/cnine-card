@@ -1,0 +1,181 @@
+{
+  "localFixture": true,
+  "berkan": "V-055",
+  "region": "theatre",
+  "difficulty": "nightmare",
+  "fault": "never-resolving drop texture",
+  "qaClock": "boss checkpoint then 30x presentation",
+  "reports": [
+    {
+      "width": 1440,
+      "baseline": true,
+      "result": false,
+      "time": "00:58",
+      "ack": 1911,
+      "kills": 220,
+      "picked": 0,
+      "bosses": 1,
+      "canvasCount": 1,
+      "overflow": false,
+      "errors": [
+        "Cannot read properties of null (reading 'set')"
+      ],
+      "requests": [
+        {
+          "path": "/api/legion-hunt/start",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/begin",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "baseline": false,
+      "result": true,
+      "time": "01:00",
+      "ack": 1911,
+      "kills": 220,
+      "picked": 220,
+      "bosses": 1,
+      "canvasCount": 1,
+      "overflow": false,
+      "errors": [],
+      "requests": [
+        {
+          "path": "/api/legion-hunt/start",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/begin",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/finish",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "baseline": false,
+      "result": true,
+      "time": "00:58",
+      "ack": 1911,
+      "kills": 220,
+      "picked": 220,
+      "bosses": 1,
+      "canvasCount": 1,
+      "overflow": false,
+      "errors": [],
+      "requests": [
+        {
+          "path": "/api/legion-hunt/start",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/begin",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/reveal",
+          "status": 200
+        },
+        {
+          "path": "/api/legion-hunt/finish",
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

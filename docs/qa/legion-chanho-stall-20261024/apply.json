@@ -1,0 +1,90 @@
+{
+  "mode": "apply",
+  "sourceSha256": "bb85c740a9b341b7a0208d4836602c48efb7c1a5231794d52421bd7bb5d51b86",
+  "replayed": false,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:chanho-legion-recovery:20261024:v1",
+    "planHash": "936a37388793ebf15e37a517df811da622a52570771bca3b2e0af83bcdcd7353",
+    "plan": {
+      "userId": 4597,
+      "nickname": "찬호",
+      "sessionId": "90c91d30-2793-4f60-b952-fbf9c0b73ab4",
+      "paidCoins": 2651362984,
+      "evidenceSha256": "5B79B3858A78053FDEE52B5913105C2716FA53BC72830276EFADD249CC5A758A",
+      "items": [
+        {
+          "code": "VEHICLE_PART_ENGINE",
+          "quantity": 8
+        },
+        {
+          "code": "VEHICLE_PART_FRAME",
+          "quantity": 5
+        },
+        {
+          "code": "MASTER_STAR",
+          "quantity": 49866
+        },
+        {
+          "code": "EQUIPMENT_POLISH_STONE",
+          "quantity": 2
+        },
+        {
+          "code": "VEHICLE_PART_TIRE",
+          "quantity": 3
+        }
+      ]
+    },
+    "grants": [
+      {
+        "code": "VEHICLE_PART_ENGINE",
+        "quantity": 8,
+        "name": "고출력 엔진",
+        "before": "3294",
+        "after": "3302",
+        "logId": "86683889"
+      },
+      {
+        "code": "VEHICLE_PART_FRAME",
+        "quantity": 5,
+        "name": "강화 차체 프레임",
+        "before": "3730",
+        "after": "3735",
+        "logId": "86683893"
+      },
+      {
+        "code": "MASTER_STAR",
+        "quantity": 49866,
+        "name": "마스터의 별",
+        "before": "460753019",
+        "after": "460802885",
+        "logId": "86683895"
+      },
+      {
+        "code": "EQUIPMENT_POLISH_STONE",
+        "quantity": 2,
+        "name": "연마석",
+        "before": "921",
+        "after": "923",
+        "logId": "86683898"
+      },
+      {
+        "code": "VEHICLE_PART_TIRE",
+        "quantity": 3,
+        "name": "고성능 타이어",
+        "before": "4660",
+        "after": "4663",
+        "logId": "86683900"
+      }
+    ],
+    "completedAt": "2026-10-24T05:40:13.981Z",
+    "coinsAndEnergyPreserved": true,
+    "auditId": "50710"
+  },
+  "verification": {
+    "verified": true,
+    "grantLogs": 5
+  },
+  "noWriteReplayVerified": true,
+  "leasesReleased": true
+}

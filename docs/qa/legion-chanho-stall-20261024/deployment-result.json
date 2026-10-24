@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "b59792466e36c90c1d80b526923610173663f0c6",
+  "base": "caf475f60679b543c1f4c20d1c3b21b34b23e7c2",
+  "mode": "scoped",
+  "exitCode": 0,
+  "tests": 82,
+  "passed": 82,
+  "failed": 0,
+  "skipped": 0,
+  "workerVersion": "248e9932-d132-4335-8cc0-4875ecb4c23d",
+  "schedulerVersion": "3ce2a306-aba9-4733-975e-3e896f62d30b",
+  "pagesAssetCount": 19987,
+  "log": "C:/Users/User/Downloads/upload/cnine-card/output/legion-chanho-stall-20261024/deploy.log"
+}

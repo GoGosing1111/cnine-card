@@ -1,0 +1,45 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-24T05:40:51.946Z",
+  "sourceCommit": "b59792466e36c90c1d80b526923610173663f0c6",
+  "pages": {
+    "id": "cc79745c-16b6-4364-a93e-1d9ff707eae5",
+    "url": "https://cc79745c.cnine-card.pages.dev",
+    "status": "success",
+    "createdAt": "2026-10-24T05:39:29.735676Z"
+  },
+  "runtime": {
+    "sha256": "1755d0b79c2ab9fa74a968996865f055f0e2a60b6f7dffef0980a4e6414db575",
+    "collectedOnlySettlement": true
+  },
+  "access": {
+    "route": "legion-hunt/bootstrap",
+    "status": 401
+  },
+  "files": [
+    {
+      "file": "pve/legion-hunt/index.html",
+      "url": "https://cnine-card.pages.dev/pve/legion-hunt/index.html?qa=b59792466",
+      "bytes": 5583,
+      "sha256": "a7007e98d8615ef4e563a13f53bb891be9c8ba9afb4aa32338120ffc46987f22"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/index.html",
+      "url": "https://cnine-card.pages.dev/preview/sustained-hunt-v2/index.html?qa=b59792466",
+      "bytes": 5796,
+      "sha256": "d20d1d960e276331c0040e5cfe743ef54e24a820df8665c34604652785f030f0"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/app.js",
+      "url": "https://cnine-card.pages.dev/preview/sustained-hunt-v2/app.js?v=20261024-settlement-stall-v1&amp;petLive=20261006-v1&iconCadence=20261006-v1",
+      "bytes": 24293,
+      "sha256": "b234bb962ffab04c585a1352944af7c3d64315deee27089ad44075dafe8e5bdb"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?settlement=20261024-v1&mobileMemory=20261024-v1&monsterHud=20261019-v1&petHud=20261018-icons-v1&coinFx=20261018-v2&v=20261012-pet-fx2-jinmu-jokro-v2&amp;petLive=20261006-v1&iconCadence=20261006-v1",
+      "bytes": 2412554,
+      "sha256": "29be30808fc20656bc360d63e288bce15f3499e24bdc9a9f7dad2203db16325a"
+    }
+  ]
+}
