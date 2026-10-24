@@ -30,16 +30,16 @@ const count=async f=>Number((await f.DB.prepare('SELECT COALESCE(SUM(quantity),0
 
 for(const postgres of [false,true]){
   const dialect=postgres?'PostgreSQL':'SQLite';
-  test(dialect+': unfinished items never pay; already-paid coins consume the entry through recovery and repeated cancel',async()=>{
+  test(dialect+': paid interruption settles the saved bag and consumes one entry through repeated recovery',async()=>{
     const f=await fixture(postgres);try{
       const id=await start(f),claim=await pick(f,id);
       const run=await saved(f);run.energy.current=8;await write(f,run);
       assert.equal(await count(f),0);f.loseReply();assert.equal((await recover(f)).status,503);
       const r=await recover(f);assert.equal(r.status,200);assert.equal(r.body.entries.current,8);
-      assert.equal((await saved(f)).interruption.refunded,false);assert.equal((await saved(f)).state.receipt,null);
+      assert.equal((await saved(f)).rewardStatus,'SETTLED');assert.equal((await saved(f)).state.receipt.reason,'RETREAT');
       assert.equal((await f.call('legion-hunt/cancel',{id})).body.entries.current,8);
-      assert.equal((await f.call('legion-hunt/finish',{id,seq:2})).status,409);
-      assert.equal((await f.call('legion-hunt/claim',claim)).status,409);assert.equal(await count(f),0);
+      assert.equal((await f.call('legion-hunt/finish',{id,seq:2})).body.reason,'RETREAT');
+      assert.equal((await f.call('legion-hunt/claim',claim)).status,409);assert.equal(await count(f),3);
       const next=await start(f);assert.equal((await saved(f)).energy.current,7);
       const replacement=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(replacement.status,200);assert.equal(replacement.body.entries.current,8);
       assert.equal((await f.call('legion-hunt/cancel',{id:next})).status,409);

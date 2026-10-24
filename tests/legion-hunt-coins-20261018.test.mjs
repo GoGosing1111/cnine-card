@@ -80,9 +80,9 @@ for(const postgres of [false,true]){
   test(dialect+': paid retreat/disconnect consumes entries and keeps coins; zero-kill interruption refunds once',async()=>{
     const f=await fixture(postgres);try{
       const id=await start(f);f.clock.now+=1000;await f.call('legion-hunt/reveal',{id,seqs:[1]});const paid=await wallet(f);
-      const cancel=await f.call('legion-hunt/cancel',{id});assert.equal(cancel.body.recovery.refunded,false);assert.equal(cancel.body.entries.current,9);
+      const cancel=await f.call('legion-hunt/cancel',{id});assert.equal(cancel.body.recovery.kind,'SETTLED');assert.equal(cancel.body.entries.current,9);
       assert.equal((await read(f)).energy.current,9);assert.equal(await wallet(f),paid);
-      assert.equal((await f.call('legion-hunt/finish',{id,seq:3})).status,409);
+      assert.equal((await f.call('legion-hunt/finish',{id,seq:3})).body.reason,'RETREAT');
       const empty=await start(f);assert.equal((await f.call('legion-hunt/cancel',{id:empty})).body.entries.current,9);
       assert.equal((await read(f)).energy.current,9);assert.equal((await f.call('legion-hunt/cancel',{id:empty})).body.entries.current,9);
       const retreat=await start(f);f.clock.now+=1000;const result=await f.call('legion-hunt/finish',{id:retreat,seq:2});

@@ -86,7 +86,11 @@
       if(r.coinDelta>0)void engine.groundDrops?.collectCoins(batch.map(row=>row.position).filter(Boolean));
       if(r.inventory)inventory(r.inventory);
       const automatic=new Map((r.autoClaims||[]).map(receipt=>[receipt.dropId,{...receipt,inventory:r.inventory,picked:r.picked,pendingRewards:r.pendingRewards===true}]));
-      await Promise.all((r.drops||[]).filter(Boolean).map(drop=>engine.groundDrops.add(drop,r.serverNow,automatic.get(drop.id))));
+      // A texture download is cosmetic. Holding this receipt queue on it also
+      // held every later KO and finish, leaving an empty field after boss KO.
+      // GroundDrops owns its revision guard when an old load completes later.
+      void Promise.all((r.drops||[]).filter(Boolean).map(drop=>engine.groundDrops.add(drop,r.serverNow,automatic.get(drop.id))))
+        .catch(e=>{if(token===epoch&&playing&&!finishing)message(errorText(e));});
       if(r.drops?.some(Boolean))message(automatic.size?'자석 펫이 드랍 아이템을 흡수했습니다. 종료 시 획득 보상을 정산합니다.':'아이템 드랍 · 필드의 빛나는 아이템을 직접 클릭하세요.');
     }).catch(e=>{if(token===epoch)message(errorText(e));});
   }
@@ -234,7 +238,7 @@
   window.addEventListener('pageshow',()=>background(document.hidden));
   window.addEventListener('pagehide',event=>{
     if(event.persisted){background(true);return;}
-    ++epoch;clearInterval(finishTimer);clearInterval(clockTimer);clearTimeout(toastTimer);clearTimeout(coinGainTimer);engine?.setHuntPaused(false);api.destroy();
+    ++epoch;playing=paused=starting=false;clearInterval(finishTimer);clearInterval(clockTimer);clearTimeout(toastTimer);clearTimeout(coinGainTimer);engine?.setHuntPaused(false);api.destroy();engine=null;
   });
   window.HuntPreviewV2={diagnostics:()=>({playing,paused,ending,ack,kills,bosses,picked,renderedAt,session,canvasCount:document.querySelectorAll('canvas').length,engine:engine?.diagnostics()})};
   if(liveMode){

@@ -78,10 +78,26 @@ async function recoverRun(env,user,{key,before,policyRaw,access,at,support}){
     const settled=await settleRun(env,user,{key,before,policyRaw,access});
     return {...settled,recovery:{kind:'SETTLED',receipt:settled.result}};
   }
-  if(state.receipt||run.interruption)return {saved:before,recovery:null};
+  if(state.receipt)return {saved:before,recovery:null};
+  const hasCoins=Number(run.coins?.paid||0)>0;
+  if(hasCoins&&run.rewardTiming==='FINISH'&&state.startedAt!=null){
+    // A paid run consumes its entry, so retain its already collected bag too.
+    // Use only the persisted acknowledgement/items: reconnect must not roll
+    // unseen drops, advance combat, or credit coins a second time. This also
+    // repairs the old interrupted record while that record still exists.
+    const session=restoreHuntSession({...state,ended:false},{now:()=>at});
+    Object.assign(session.finish(state.lastAck,{collectedOnly:true}),{
+      previewOnly:run.liveRewards!==true,liveRewards:false,
+      entries:legionHuntEntries(run,at,user,support),...legionCoinSummary(run.coins)
+    });
+    const pending={...run,entry:{...run.entry,status:'CONSUMED'},rewardStatus:'PENDING',finishRequestedAt:at,state:session.exportState()};
+    const saved=await saveRun(env,key,before.raw,pending);
+    const settled=await settleRun(env,user,{key,before:saved,policyRaw,access});
+    return {...settled,recovery:{kind:'SETTLED',receipt:settled.result}};
+  }
+  if(run.interruption)return {saved:before,recovery:null};
   const charged=run.entry?run.entry.charged:state.startedAt!=null&&user.role!=='OWNER';
   const day=run.entry?.day||(state.startedAt!=null?new Date(state.startedAt+9*3600000).toISOString().slice(0,10):null);
-  const hasCoins=Number(run.coins?.paid||0)>0;
   const refund=!hasCoins&&charged&&run.daily?.day===day&&Number(run.daily.used)>0;
   const daily=refund?{...run.daily,used:run.daily.used-1}:run.daily;
   const coinRefund=!hasCoins&&run.entry?.coinCharged&&run.coinDaily?.day===run.entry.coinDay&&run.coinDaily.used>0;

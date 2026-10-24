@@ -31,8 +31,8 @@ test('owned magnet snapshot uses real Legion API; bag, finish rollback, replay a
   r=await f.call('legion-hunt/finish',{id,seq:2});assert.equal(r.status,200,JSON.stringify(r.body));assert.equal(r.body.picked,1);assert.equal(r.body.inventory[0].quantity,3);assert.equal(await count(),3);
   assert.deepEqual((await f.call('legion-hunt/finish',{id,seq:2})).body,r.body);assert.equal(await count(),3);
   const interrupted=await start();assert.equal((await f.call('legion-hunt/reveal',{id:interrupted,seqs:[1]})).body.picked,1);
-  assert.equal((await f.call('legion-hunt/cancel',{id:interrupted})).status,200);assert.equal(await count(),3);
-  assert.equal(Number((await f.DB.prepare('SELECT COUNT(*) n FROM inventory_logs').first()).n),1);
+  assert.equal((await f.call('legion-hunt/cancel',{id:interrupted})).body.recovery.kind,'SETTLED');assert.equal(await count(),6);
+  assert.equal(Number((await f.DB.prepare('SELECT COUNT(*) n FROM inventory_logs').first()).n),2);
   assert.equal(Number((await f.DB.prepare('SELECT COUNT(*) n FROM joint_atomic_guards_v1').first()).n),0);
 });
 

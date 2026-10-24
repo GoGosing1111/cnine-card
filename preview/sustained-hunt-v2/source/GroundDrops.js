@@ -1,4 +1,4 @@
-import {Container,Graphics,Sprite,Assets} from 'pixi.js';
+import {Container,Graphics,Sprite,Assets,Texture} from 'pixi.js';
 import {gsap} from 'gsap';
 // Items are rendered inside the existing V3 effect layer. A matched DOM button
 // supplies a keyboard/touch target; it never grants an item without a receipt.
@@ -11,8 +11,10 @@ export class GroundDrops{
   async add(drop,serverNow,automaticReceipt=null){
     if(drop?.state==='CLAIMED'&&automaticReceipt?.automatic)return this.absorb(drop,automaticReceipt);
     if(!drop||this.rows.has(drop.id))return;
-    const rev=this.revision,receivedAt=Date.now(),texture=await Assets.load(drop.item.image);if(rev!==this.revision)return;
-    const remaining=Math.max(0,drop.expiresAt-serverNow-(Date.now()-receivedAt));
+    // Register the server drop and its touch target immediately. The image is
+    // decoration of an existing drop, never a prerequisite for collecting it.
+    const rev=this.revision,texture=Texture.EMPTY;
+    const remaining=Math.max(0,drop.expiresAt-serverNow);
     if(!remaining){this.onExpired?.(drop);return;}
     const rarity=drop.item.tier||drop.item.rarity;
     const root=new Container({label:'HUNT_GROUND_DROP_'+drop.id}),color=rarity==='epic'?0xd4a1ff:rarity==='rare'?0x69dcff:0xd5ff87;
@@ -39,18 +41,23 @@ export class GroundDrops{
     };
     row.tween=gsap.fromTo(root.scale,{x:.5,y:.5},{x:1,y:1,duration:.22,ease:'back.out(1.7)'});
     this.render();
+    void Assets.load(drop.item.image).then(loaded=>{
+      if(rev!==this.revision||this.rows.get(drop.id)!==row||row.expired||root.destroyed)return;
+      icon.texture=loaded;row.iconScale=54/Math.max(loaded.width,loaded.height);this.render();
+    }).catch(()=>{/* The named pickup target and original expiry remain usable. */});
   }
-  async absorb(drop,receipt){
+  absorb(drop,receipt){
     if(this.absorbed.has(drop.id))return;this.absorbed.add(drop.id);
-    if(this.engine.huntBackground){this.onPicked?.(receipt);return;}
-    const revision=this.revision;let texture;
-    try{texture=await Assets.load(drop.item.image);}catch{if(revision===this.revision)this.onPicked?.(receipt);return;}
-    if(revision!==this.revision)return;
+    this.onPicked?.(receipt);
+    if(!this.engine.huntBackground)void this.animateAbsorb(drop).catch(()=>{});
+  }
+  async animateAbsorb(drop){
+    const revision=this.revision,texture=await Assets.load(drop.item.image);
+    if(revision!==this.revision||this.engine.huntBackground)return;
     const field=this.field(),pet=this.engine.petSupports?.get('A'),destination=pet?.root.position||{x:field.x,y:field.y+field.height};
     const root=new Container({label:'PET_MAGNET_DROP_'+drop.id}),halo=new Graphics().circle(0,0,32).stroke({color:0xc4f588,width:3,alpha:.8}),icon=new Sprite(texture);
     icon.anchor.set(.5);icon.scale.set(52/Math.max(texture.width,texture.height));root.addChild(halo,icon);
     root.position.set(field.x+drop.position.x*field.width,field.y+drop.position.y*field.height);this.engine.effectLayer.addChild(root);
-    this.onPicked?.(receipt);
     void this.engine.timeline(t=>{
       t.fromTo(root.scale,{x:.65,y:.65},{x:1,y:1,duration:.12},0);
       t.to(root,{x:destination.x,y:destination.y-55,duration:this.engine.reducedMotion ? .15 : .6,ease:'power2.in'},.08);

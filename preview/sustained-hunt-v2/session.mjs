@@ -148,13 +148,13 @@ export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
     const r={dropId:d.id,item:d.item,inventory:[...inventory.values()],serverNow:now(),...(automatic?{automatic:true}:{})};
     claims.set(d.id,r);return r;
   }
-  function finish(seq){
+  function finish(seq,{collectedOnly=false}={}){
     if(receipt)return receipt;
     acknowledge(seq);
     // A final acknowledgement also absorbs reached kills whose reveal response
     // was delayed. The start-of-run server snapshot alone grants this ability.
-    if(magnet)for(const event of timeline)if(event.seq<=lastAck&&event.huntKill&&!observed.has(event.seq))revealDrop(event.seq,true);
-    if(policy.regionId)for(const event of timeline)if(event.seq<=lastAck&&event.huntKill&&event.boss)guarantee(event);
+    if(magnet&&!collectedOnly)for(const event of timeline)if(event.seq<=lastAck&&event.huntKill&&!observed.has(event.seq))revealDrop(event.seq,true);
+    if(policy.regionId&&!collectedOnly)for(const event of timeline)if(event.seq<=lastAck&&event.huntKill&&event.boss)guarantee(event);
     expire();ended=true;
     for(const d of drops.values())if(d.state==='GROUND')d.state='MISSED';
     const seen=timeline.filter(e=>e.seq<=lastAck),terminal=seen.find(e=>e.type==='RESULT');
