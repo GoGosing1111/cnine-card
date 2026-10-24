@@ -12,6 +12,7 @@ import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v
 import {MERCENARY_EQUIPMENT_SQL_CODES} from '../shared/mercenary-equipment-v1.mjs';
 import {rankedMatchPower} from '../shared/ranked-matchmaking-v2.mjs';
 import {avatarScaledPower} from '../shared/avatar-power-v1.mjs';
+import {iconEnhancementPower} from '../shared/icon-enhancement-v1.mjs';
 
 const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
 const api=read('functions/api/[[path]].js'),app=read('js/app.js'),pve=read('js/pve-command-v2-live.js');
@@ -30,7 +31,7 @@ function constantSource(source,name){
 function server(overrides={}){
   const context=vm.createContext({
     releasedMercenarySnapshots,mercenarySnapshotPower,forgeEquipmentBonuses,V3_JOINT_RELEASE_ENABLED,FORGE_RUNTIME_RELEASE_ENABLED,FUR_MAX_ENHANCEMENT,extendFurHighBreakthrough,MERCENARY_EQUIPMENT_SQL_CODES,rankedMatchPower,
-    avatarScaledPower,avatarBattlePowerPercents:async()=>new Map(), // These deck fixtures have no equipped avatars.
+    avatarScaledPower,iconEnhancementPower,avatarBattlePowerPercents:async()=>new Map(), // These deck fixtures have no equipped avatars.
     normalizeBattleEngineSettings:x=>x||{},normalizeNightmareSettings:x=>x||{},normalizeApocalypseSettings:x=>x||{},normalizeUltimateRequiredGrade:x=>x,
     async pvpDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},
     async pveDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},...overrides
