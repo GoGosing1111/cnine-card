@@ -1,0 +1,50 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-24T03:07:31.600Z",
+  "sourceCommit": "00e800f4c9f33632eca44e4cc7538dc0d3552256",
+  "pages": {
+    "id": "108905d7-f868-4843-8516-a7d0534d04f8",
+    "url": "https://108905d7.cnine-card.pages.dev",
+    "status": "success",
+    "createdAt": "2026-10-24T03:06:42.247988Z"
+  },
+  "runtime": {
+    "sha256": "51ab2c557c59b7cca6d9b4933b725c1451d86b45e84f066d2605bc4c1d422661",
+    "markers": {
+      "policyVersion": true,
+      "saveRejection": true,
+      "legacySlot": true,
+      "battleGuard": true,
+      "duoPool": true,
+      "duoProfile": true
+    }
+  },
+  "card": {
+    "code": "V-973",
+    "name": "은설",
+    "rank": "SSS",
+    "basePower": 1940890,
+    "deploymentEnabled": true,
+    "deploymentModes": [
+      "PVE"
+    ],
+    "acquisitionEnabled": false
+  },
+  "files": [
+    {
+      "file": "shared/mercenary-eunseol-v1.mjs",
+      "sha256": "394fd65678728a74ac9d80ca19d38c4288ebc587eaaa65b89dba84e2058ae119",
+      "bytes": 4131
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "1184ec091aa0e9cf5565b29294224a35aa7f7ba771e284bc1958e30a9ca3d034",
+      "bytes": 36090
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "e71e4e84fd414f17b52ff3eebf7f4213abfefa22152d8264e043d9973e814c9f",
+      "bytes": 9765
+    }
+  ]
+}

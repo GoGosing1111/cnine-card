@@ -1,0 +1,96 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:bus-driver-eunseol:20261024:v1",
+  "independentConnection": true,
+  "checkedAt": "2026-10-24T03:08:39.576Z",
+  "titleOwners": [
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "unlocked_at": "2026-10-24T03:07:44.972Z",
+      "expires_at": null
+    },
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "unlocked_at": "2026-10-24T03:07:44.972Z",
+      "expires_at": null
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "unlocked_at": "2026-10-24T03:07:44.972Z",
+      "expires_at": null
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "unlocked_at": "2026-10-24T03:07:44.972Z",
+      "expires_at": null
+    }
+  ],
+  "eunseolOwners": [
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "mercenary_code": "V-973",
+      "total_copies": "1",
+      "duplicate_count": "0"
+    },
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "mercenary_code": "V-973",
+      "total_copies": "1",
+      "duplicate_count": "0"
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "mercenary_code": "V-973",
+      "total_copies": "1",
+      "duplicate_count": "0"
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "mercenary_code": "V-973",
+      "total_copies": "1",
+      "duplicate_count": "0"
+    }
+  ],
+  "acquisitions": 4,
+  "auditId": "50678",
+  "remainingOperationLocks": 0,
+  "nonrecipientTitleLoadouts": 0,
+  "mercenaryLoadout": [
+    {
+      "user_id": "1195",
+      "mercenary_code": "V-984",
+      "revision": 303
+    },
+    {
+      "user_id": "22",
+      "mercenary_code": "V-057",
+      "revision": 45
+    },
+    {
+      "user_id": "4391",
+      "mercenary_code": "V-979",
+      "revision": 185
+    },
+    {
+      "user_id": "45",
+      "mercenary_code": "V-977",
+      "revision": 222
+    }
+  ]
+}

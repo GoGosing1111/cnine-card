@@ -1,0 +1,202 @@
+{
+  "replayed": false,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bus-driver-eunseol:20261024:v1",
+    "authorization": "버스기사 칭호 전체 회수 후 지정 네 계정 재지급. 버스기사 네 계정에 은설 각 1장 지급, 은설 PVE 편성 전용·PVP 차단.",
+    "completedAt": "2026-10-24T03:07:44.972Z",
+    "titleId": "655095",
+    "titleCode": "RAID_BUS_DRIVER",
+    "titleName": "버스기사",
+    "targets": [
+      {
+        "id": "1195",
+        "nickname": "씨나인택갓"
+      },
+      {
+        "id": "22",
+        "nickname": "커피먹는철구"
+      },
+      {
+        "id": "45",
+        "nickname": "박세라-ㅂ-"
+      },
+      {
+        "id": "4391",
+        "nickname": "더듬이구"
+      }
+    ],
+    "revoked": [
+      {
+        "user_id": 22,
+        "title_id": 655095,
+        "source_id": "1",
+        "expires_at": null,
+        "source_type": "ADMIN",
+        "unlocked_at": "2026-10-16 06:23:08"
+      },
+      {
+        "user_id": 45,
+        "title_id": 655095,
+        "source_id": "1",
+        "expires_at": null,
+        "source_type": "ADMIN",
+        "unlocked_at": "2026-10-05 09:01:59"
+      },
+      {
+        "user_id": 88,
+        "title_id": 655095,
+        "source_id": "1",
+        "expires_at": null,
+        "source_type": "ADMIN",
+        "unlocked_at": "2026-10-16 06:23:00"
+      },
+      {
+        "user_id": 303,
+        "title_id": 655095,
+        "source_id": "1",
+        "expires_at": null,
+        "source_type": "ADMIN",
+        "unlocked_at": "2026-10-05 12:38:56"
+      },
+      {
+        "user_id": 309,
+        "title_id": 655095,
+        "source_id": "1",
+        "expires_at": null,
+        "source_type": "ADMIN",
+        "unlocked_at": "2026-10-09 11:34:13"
+      },
+      {
+        "user_id": 1195,
+        "title_id": 655095,
+        "source_id": "1",
+        "expires_at": null,
+        "source_type": "ADMIN",
+        "unlocked_at": "2026-10-05 09:01:52"
+      }
+    ],
+    "removedLoadout": [
+      {
+        "user_id": 22,
+        "title_id": 655095,
+        "updated_at": "2026-10-16 07:25:27"
+      },
+      {
+        "user_id": 45,
+        "title_id": 655095,
+        "updated_at": "2026-10-13 02:38:16"
+      },
+      {
+        "user_id": 88,
+        "title_id": 655095,
+        "updated_at": "2026-10-16 06:24:31"
+      },
+      {
+        "user_id": 1195,
+        "title_id": 655095,
+        "updated_at": "2026-10-05 09:06:29"
+      }
+    ],
+    "grantedTitles": [
+      {
+        "user_id": "1195",
+        "title_id": "655095",
+        "source_type": "ADMIN",
+        "source_id": "1",
+        "unlocked_at": "2026-10-24T03:07:44.972Z",
+        "expires_at": null
+      },
+      {
+        "user_id": "22",
+        "title_id": "655095",
+        "source_type": "ADMIN",
+        "source_id": "1",
+        "unlocked_at": "2026-10-24T03:07:44.972Z",
+        "expires_at": null
+      },
+      {
+        "user_id": "45",
+        "title_id": "655095",
+        "source_type": "ADMIN",
+        "source_id": "1",
+        "unlocked_at": "2026-10-24T03:07:44.972Z",
+        "expires_at": null
+      },
+      {
+        "user_id": "4391",
+        "title_id": "655095",
+        "source_type": "ADMIN",
+        "source_id": "1",
+        "unlocked_at": "2026-10-24T03:07:44.972Z",
+        "expires_at": null
+      }
+    ],
+    "grants": [
+      {
+        "userId": "1195",
+        "nickname": "씨나인택갓",
+        "code": "V-973",
+        "name": "은설",
+        "quantity": 1,
+        "before": 0,
+        "after": 1,
+        "acquisitionId": "ops:bus-driver-eunseol:20261024:v1:1195:V-973"
+      },
+      {
+        "userId": "22",
+        "nickname": "커피먹는철구",
+        "code": "V-973",
+        "name": "은설",
+        "quantity": 1,
+        "before": 0,
+        "after": 1,
+        "acquisitionId": "ops:bus-driver-eunseol:20261024:v1:22:V-973"
+      },
+      {
+        "userId": "45",
+        "nickname": "박세라-ㅂ-",
+        "code": "V-973",
+        "name": "은설",
+        "quantity": 1,
+        "before": 0,
+        "after": 1,
+        "acquisitionId": "ops:bus-driver-eunseol:20261024:v1:45:V-973"
+      },
+      {
+        "userId": "4391",
+        "nickname": "더듬이구",
+        "code": "V-973",
+        "name": "은설",
+        "quantity": 1,
+        "before": 0,
+        "after": 1,
+        "acquisitionId": "ops:bus-driver-eunseol:20261024:v1:4391:V-973"
+      }
+    ],
+    "protectedBeforeHash": "091323456ba337c61b4645e7bc7fb04626629190efd57f08c45c123e693b2120",
+    "protectedAfterHash": "091323456ba337c61b4645e7bc7fb04626629190efd57f08c45c123e693b2120",
+    "preserved": {
+      "currency": true,
+      "otherTitles": true,
+      "otherCards": true,
+      "mercenaryLoadouts": true,
+      "levels": true,
+      "growth": true,
+      "stock": true,
+      "packSettings": true
+    },
+    "automaticEquip": false,
+    "auditId": "50678"
+  },
+  "verification": {
+    "verified": true,
+    "titleOwners": 4,
+    "revokedCount": 6,
+    "grantedTitleCount": 4,
+    "eunseolGranted": 4,
+    "acquisitionRecords": 4,
+    "auditId": "50678"
+  },
+  "sourceSha256": "cab6c107cc75029ecf41457840ef3f7e4b235aadd39185455f3d22cf24425680"
+}

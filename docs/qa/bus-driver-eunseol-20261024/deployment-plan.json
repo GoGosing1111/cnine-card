@@ -1,0 +1,17 @@
+{
+  "head": "00e800f4c9f33632eca44e4cc7538dc0d3552256",
+  "base": "8bb9b8c2eb35eefbc41df62dd81b8cc1b989393d",
+  "tests": [
+    "tests/eunseol-pve-only-20261024.test.mjs",
+    "tests/eunseol-live-20261023.test.mjs",
+    "tests/mercenary-loadout-modes.test.mjs",
+    "tests/ranked-series-20261019.test.mjs",
+    "tests/ranked-duo-batch.test.mjs",
+    "tests/ranked-duo-open-pool-20261020.test.mjs",
+    "tests/general-jok-live-20261023.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "startedAt": "2026-10-24T03:03:19.579Z"
+}
