@@ -1,3 +1,4 @@
+import {PVE_ONLY_MERCENARY_CODES,mercenaryModeAllowed} from '../shared/mercenary-deployment-modes-v1.mjs';
 import {DUO_LIMITS} from '../shared/ranked-duo-v1.mjs';
 import {duoRandomInt,shuffleDuo} from '../shared/ranked-duo-random-v4.mjs';
 
@@ -11,6 +12,7 @@ const source=`FROM pvp_decks d JOIN users u ON u.id=d.user_id
  LEFT JOIN user_mercenary_loadout_v1 ml ON ml.user_id=d.user_id
  LEFT JOIN app_meta mp ON mp.key='mercenary_pvp_loadout_v1:' || CAST(d.user_id AS TEXT)
  JOIN user_mercenary_cards_v1 mc ON mc.user_id=d.user_id AND mc.total_copies>0
+  AND mc.mercenary_code NOT IN (${PVE_ONLY_MERCENARY_CODES.map(code=>`'${code}'`).join(',')})
   AND mc.mercenary_code=CASE WHEN mp.value IS NULL THEN ml.mercenary_code
    WHEN json_valid(mp.value) THEN json_extract(mp.value,'$.mercenaryCode') END`;
 const attack=`CASE WHEN COALESCE(a.preset_no,1)=1 THEN COALESCE(pr.card_ids,d.card_ids) ELSE pr.card_ids END`;
@@ -25,7 +27,7 @@ export const rankedDuoPoolMemberCountSql=count=>`SELECT COUNT(*) AS n ${source} 
 export async function rankedDuoPoolContains(env,ids,now){
  return Number((await p(env)(rankedDuoPoolMemberCountSql(ids.length),stamp(now),...ids).first())?.n||0)===ids.length;
 }
-export const hasRankedDuoMercenary=profile=>Boolean(profile?.attack?.mercenary?.code&&profile?.defense?.mercenary?.code);
+export const hasRankedDuoMercenary=profile=>[profile?.attack?.mercenary?.code,profile?.defense?.mercenary?.code].every(code=>Boolean(code)&&mercenaryModeAllowed(code,'PVP'));
 
 export async function rankedDuoPoolCount(env,now=Date.now()){
  return Number((await p(env)(`SELECT COUNT(*) AS n ${source} WHERE ${eligible}`,stamp(now)).first())?.n||0);

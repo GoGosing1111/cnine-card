@@ -1,0 +1,27 @@
+{
+  "screens": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "pveEnabled": true,
+      "pveSaved": true,
+      "pvpDisabled": true,
+      "pvpApiStatus": 409,
+      "existingPvpPreserved": true,
+      "noOverflow": true
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "pveEnabled": true,
+      "pveSaved": true,
+      "pvpDisabled": true,
+      "pvpApiStatus": 409,
+      "existingPvpPreserved": true,
+      "noOverflow": true
+    }
+  ],
+  "errors": []
+}

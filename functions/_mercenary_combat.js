@@ -1,3 +1,4 @@
+import {mercenaryModeAllowed} from '../shared/mercenary-deployment-modes-v1.mjs';
 import {NAMSUDAENG_MECHANIC,isBloodmoonNamsudaeng} from '../shared/mercenary-bloodmoon-namsudaeng-v1.mjs';
 import {namsudaengTargets,resolveNamsudaengCast} from './_mercenary_bloodmoon_namsudaeng.js';
 import {EUNSEOL_CODE,EUNSEOL_COMBAT,EUNSEOL_AREA_SKILL,EUNSEOL_AREA_MECHANIC,isEunseol,eunseolActionCredit} from '../shared/mercenary-eunseol-v1.mjs';
@@ -145,7 +146,7 @@ export function mercenarySkillCapActions(actor,skill,ranged,sequentialCount){
 const MERCENARY_SUPPORT_MECHANICS=new Set(['INTERCEPT_ONE_HIT','FRONT_STAND_FAST','MELEE_PARRY_RIPOSTE','NEXT_BASIC_ORDER','FRONT_SHARED_BARRIER','FRONT_OFFENSE_VEIL','CLEANSE_THEN_MEND','WHITE_OATH_GROUP_HEAL']);
 export const isMercenarySupportSkill=skill=>MERCENARY_SUPPORT_MECHANICS.has(skill?.mechanic);
 export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
- if(!snapshot)return null;
+ if(!snapshot||!mercenaryModeAllowed(snapshot.code||snapshot.cardId,mode))return null;
  snapshot={...snapshot};delete snapshot.pvpPowerBalance;delete snapshot.pvpBalanceVersion;
  // Limited account/release gates remain outside this canonical fighter builder.
  // Trusted prepared limited snapshots always use their server-owned policy.

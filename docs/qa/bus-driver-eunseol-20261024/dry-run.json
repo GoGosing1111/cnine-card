@@ -1,0 +1,15 @@
+{
+  "sourceSha256": "cab6c107cc75029ecf41457840ef3f7e4b235aadd39185455f3d22cf24425680",
+  "rollbackVerified": true,
+  "failureRolledBack": true,
+  "replayAdditionalWrites": 0,
+  "verification": {
+    "verified": true,
+    "titleOwners": 4,
+    "revokedCount": 6,
+    "grantedTitleCount": 4,
+    "eunseolGranted": 4,
+    "acquisitionRecords": 4,
+    "auditId": "50677"
+  }
+}

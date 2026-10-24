@@ -1,3 +1,4 @@
+import {mercenaryModeAllowed,MERCENARY_PVE_ONLY_REASON} from '../shared/mercenary-deployment-modes-v1.mjs';
 import {rankedOwnedMercenaries,rankedSelectedMercenaries} from './_mercenary_account.js';
 import {rankedSeriesCodes,rankedPublicMercenary,rankedPublicRoster,RANKED_SERIES_VERSION} from '../shared/ranked-series-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -22,7 +23,7 @@ export async function rankedRosterState(env,id){return rankedRosterPublic((await
 export function rankedOwnershipGuard(env,selections){
   const token=crypto.randomUUID(),pairs=[...selections].sort(([a],[b])=>a-b),locks=[],values=[];
   const predicate=pairs.map(([id,raw])=>{
-    const codes=rankedSeriesCodes(raw);values.push(id,...codes);
+    const codes=rankedSeriesCodes(raw);if(codes.some(code=>!mercenaryModeAllowed(code,'PVP')))throw fail(MERCENARY_PVE_ONLY_REASON);values.push(id,...codes);
     if(env.DB.dialect==='postgres')locks.push(env.DB.prepare('SELECT mercenary_code FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code IN (?,?,?) ORDER BY mercenary_code FOR SHARE').bind(id,...codes));
     let predicate='(SELECT COUNT(*) FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code IN (?,?,?) AND total_copies>0)=3';
     if(codes.includes(SHIRANUI_CODE)){values.push(id,SHIRANUI_MIN_RANK_TICKS);predicate+=' AND EXISTS(SELECT 1 FROM account_rank_progress_v1 WHERE user_id=? AND total_ticks>=?)';if(env.DB.dialect==='postgres')locks.push(env.DB.prepare('SELECT user_id FROM account_rank_progress_v1 WHERE user_id=? FOR SHARE').bind(id));}

@@ -1,0 +1,375 @@
+{
+  "inspectedAt": "2026-10-24T02:54:43.938Z",
+  "names": [
+    "씨나인택갓",
+    "커피먹는철구",
+    "박세라-ㅂ-",
+    "더듬이구"
+  ],
+  "titles": [
+    {
+      "id": "655095",
+      "code": "RAID_BUS_DRIVER",
+      "name": "버스기사",
+      "description": "행정부 정직원 · 모두를 함께 데려가는 레이드 버스기사. 활동 확인 후 운영자가 지급합니다.",
+      "badge_text": "버스기사",
+      "image_url": "/assets/ui/titles/raid-bus-driver-v1.png",
+      "pve_power": "95000",
+      "unlock_type": "MANUAL",
+      "unlock_config_json": "{\"fontPreset\":\"DISPLAY\"}",
+      "is_active": "1",
+      "is_public": "1",
+      "sort_order": "906",
+      "created_at": "2026-10-05 08:54:58",
+      "updated_at": "2026-10-05 09:01:32",
+      "style_preset": "BUS_DRIVER"
+    }
+  ],
+  "recipients": [
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "status": "ACTIVE",
+      "role": "USER"
+    }
+  ],
+  "holdings": [
+    {
+      "user_id": "22",
+      "title_id": "655095",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "unlocked_at": "2026-10-16 06:23:08",
+      "expires_at": null,
+      "nickname": "커피먹는철구",
+      "status": "ACTIVE"
+    },
+    {
+      "user_id": "45",
+      "title_id": "655095",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "unlocked_at": "2026-10-05 09:01:59",
+      "expires_at": null,
+      "nickname": "박세라-ㅂ-",
+      "status": "ACTIVE"
+    },
+    {
+      "user_id": "88",
+      "title_id": "655095",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "unlocked_at": "2026-10-16 06:23:00",
+      "expires_at": null,
+      "nickname": "0수표",
+      "status": "ACTIVE"
+    },
+    {
+      "user_id": "303",
+      "title_id": "655095",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "unlocked_at": "2026-10-05 12:38:56",
+      "expires_at": null,
+      "nickname": "[C9]족쪽이",
+      "status": "ACTIVE"
+    },
+    {
+      "user_id": "309",
+      "title_id": "655095",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "unlocked_at": "2026-10-09 11:34:13",
+      "expires_at": null,
+      "nickname": "처음와봄",
+      "status": "ACTIVE"
+    },
+    {
+      "user_id": "1195",
+      "title_id": "655095",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "unlocked_at": "2026-10-05 09:01:52",
+      "expires_at": null,
+      "nickname": "씨나인택갓",
+      "status": "ACTIVE"
+    }
+  ],
+  "equipped": [
+    {
+      "user_id": "22",
+      "title_id": "655095",
+      "updated_at": "2026-10-16 07:25:27",
+      "nickname": "커피먹는철구"
+    },
+    {
+      "user_id": "45",
+      "title_id": "655095",
+      "updated_at": "2026-10-13 02:38:16",
+      "nickname": "박세라-ㅂ-"
+    },
+    {
+      "user_id": "88",
+      "title_id": "655095",
+      "updated_at": "2026-10-16 06:24:31",
+      "nickname": "0수표"
+    },
+    {
+      "user_id": "1195",
+      "title_id": "655095",
+      "updated_at": "2026-10-05 09:06:29",
+      "nickname": "씨나인택갓"
+    }
+  ],
+  "columns": [
+    {
+      "table_name": "admin_logs",
+      "column_name": "id",
+      "data_type": "bigint",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "admin_logs",
+      "column_name": "admin_id",
+      "data_type": "bigint",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "admin_logs",
+      "column_name": "action_type",
+      "data_type": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "admin_logs",
+      "column_name": "target_type",
+      "data_type": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "admin_logs",
+      "column_name": "target_id",
+      "data_type": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "table_name": "admin_logs",
+      "column_name": "before_data",
+      "data_type": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "table_name": "admin_logs",
+      "column_name": "after_data",
+      "data_type": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "table_name": "admin_logs",
+      "column_name": "created_at",
+      "data_type": "text",
+      "column_default": "to_char((now() AT TIME ZONE 'UTC'::text), 'YYYY-MM-DD HH24:MI:SS'::text)",
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "app_meta",
+      "column_name": "key",
+      "data_type": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "app_meta",
+      "column_name": "value",
+      "data_type": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "app_meta",
+      "column_name": "updated_at",
+      "data_type": "text",
+      "column_default": "to_char((now() AT TIME ZONE 'UTC'::text), 'YYYY-MM-DD HH24:MI:SS'::text)",
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "user_character_titles",
+      "column_name": "user_id",
+      "data_type": "bigint",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "user_character_titles",
+      "column_name": "title_id",
+      "data_type": "bigint",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "user_character_titles",
+      "column_name": "source_type",
+      "data_type": "text",
+      "column_default": "'SYSTEM'::text",
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "user_character_titles",
+      "column_name": "source_id",
+      "data_type": "text",
+      "column_default": "''::text",
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "user_character_titles",
+      "column_name": "unlocked_at",
+      "data_type": "text",
+      "column_default": "to_char((now() AT TIME ZONE 'UTC'::text), 'YYYY-MM-DD HH24:MI:SS'::text)",
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "user_character_titles",
+      "column_name": "expires_at",
+      "data_type": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "table_name": "user_title_loadout",
+      "column_name": "user_id",
+      "data_type": "bigint",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "user_title_loadout",
+      "column_name": "title_id",
+      "data_type": "bigint",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "user_title_loadout",
+      "column_name": "updated_at",
+      "data_type": "text",
+      "column_default": "to_char((now() AT TIME ZONE 'UTC'::text), 'YYYY-MM-DD HH24:MI:SS'::text)",
+      "is_nullable": "NO"
+    }
+  ],
+  "related": [
+    {
+      "table_name": "pvp_season_title_grants_v1671",
+      "column_name": "title_id"
+    },
+    {
+      "table_name": "user_character_titles",
+      "column_name": "title_id"
+    },
+    {
+      "table_name": "user_title_loadout",
+      "column_name": "title_id"
+    }
+  ],
+  "triggers": [
+    {
+      "event_object_table": "user_title_loadout",
+      "trigger_name": "ranked_duo_touch_v1",
+      "action_statement": "EXECUTE FUNCTION ranked_duo_touch_account_v1()"
+    },
+    {
+      "event_object_table": "user_title_loadout",
+      "trigger_name": "ranked_duo_touch_v1",
+      "action_statement": "EXECUTE FUNCTION ranked_duo_touch_account_v1()"
+    },
+    {
+      "event_object_table": "user_title_loadout",
+      "trigger_name": "ranked_duo_touch_v1",
+      "action_statement": "EXECUTE FUNCTION ranked_duo_touch_account_v1()"
+    },
+    {
+      "event_object_table": "user_character_titles",
+      "trigger_name": "ranked_duo_touch_v1",
+      "action_statement": "EXECUTE FUNCTION ranked_duo_touch_account_v1()"
+    },
+    {
+      "event_object_table": "user_character_titles",
+      "trigger_name": "ranked_duo_touch_v1",
+      "action_statement": "EXECUTE FUNCTION ranked_duo_touch_account_v1()"
+    },
+    {
+      "event_object_table": "user_character_titles",
+      "trigger_name": "ranked_duo_touch_v1",
+      "action_statement": "EXECUTE FUNCTION ranked_duo_touch_account_v1()"
+    },
+    {
+      "event_object_table": "user_title_loadout",
+      "trigger_name": "cnine_sync_insert_v1",
+      "action_statement": "EXECUTE FUNCTION cnine_account_sync_stamp_v1('user_id', 'loadout')"
+    },
+    {
+      "event_object_table": "user_title_loadout",
+      "trigger_name": "cnine_sync_update_v1",
+      "action_statement": "EXECUTE FUNCTION cnine_account_sync_stamp_v1('user_id', 'loadout')"
+    },
+    {
+      "event_object_table": "user_title_loadout",
+      "trigger_name": "cnine_sync_delete_v1",
+      "action_statement": "EXECUTE FUNCTION cnine_account_sync_stamp_v1('user_id', 'loadout')"
+    }
+  ],
+  "eunseolHoldings": [],
+  "recipientLoadouts": [
+    {
+      "user_id": "22",
+      "mercenary_code": "V-057",
+      "revision": 45,
+      "updated_at": "2026-10-18T17:13:00.363Z"
+    },
+    {
+      "user_id": "45",
+      "mercenary_code": "V-977",
+      "revision": 222,
+      "updated_at": "2026-10-20T18:44:20.922Z"
+    },
+    {
+      "user_id": "1195",
+      "mercenary_code": "V-984",
+      "revision": 303,
+      "updated_at": "2026-10-24T02:44:52.697Z"
+    },
+    {
+      "user_id": "4391",
+      "mercenary_code": "V-979",
+      "revision": 185,
+      "updated_at": "2026-10-23T00:45:51.838Z"
+    }
+  ],
+  "stock": [],
+  "savedPvp": [],
+  "legacyEunseol": []
+}

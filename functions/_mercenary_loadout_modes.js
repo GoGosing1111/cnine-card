@@ -1,3 +1,4 @@
+import {mercenaryModeAllowed,MERCENARY_PVE_ONLY_REASON} from '../shared/mercenary-deployment-modes-v1.mjs';
 import {jointError} from './_joint_request.js';
 import {jointGuard} from './_joint_atomic.js';
 
@@ -27,7 +28,8 @@ export async function readMercenaryModes(env,userIds){
   ]);
   const old=new Map(legacy.results.map(r=>[Number(r.user_id),r])),saved=new Map(overrides.results.map(r=>[r.key,r.value]));
   return new Map(ids.map(id=>{const key=mercenaryPvpLoadoutKey(id),raw=saved.has(key)?saved.get(key):null,PVE=slot(old.get(id));
-    return [id,{key,raw,loadouts:{PVE,PVP:pvpSlot(raw,PVE)}}];}));
+    const selected=pvpSlot(raw,PVE),PVP=mercenaryModeAllowed(selected.mercenaryCode,'PVP')?selected:{...selected,mercenaryCode:null,blockedMercenaryCode:selected.mercenaryCode,blockedReason:MERCENARY_PVE_ONLY_REASON};
+    return [id,{key,raw,loadouts:{PVE,PVP}}];}));
 }
 export function mercenaryModeGuard(DB,token,userId,record){
   const predicate='COALESCE((SELECT revision FROM user_mercenary_loadout_v1 WHERE user_id=?),0)=?';
