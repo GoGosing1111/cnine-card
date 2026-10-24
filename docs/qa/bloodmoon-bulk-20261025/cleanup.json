@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-24T22:00:58.354Z",
+  "sourceCommit": "bc34d2e8d68f3be08f811a5065073e301ac93c41",
+  "verificationCommit": "a9362b04eb35bb7af46644c806510aff98bb6581",
+  "branch": "codex/bloodmoon-bulk-20261025",
+  "remote": "origin/main",
+  "managedWorktree": "C:/Users/User/.codex/worktrees/bloodmoon-bulk-release/cnine-card",
+  "archiveAttempt": {
+    "success": false,
+    "message": "The task's primary checkout cannot be removed.",
+    "action": "Preserved protected checkout; no forced delete or alternate removal"
+  },
+  "ignoredFiles": 0,
+  "uncommittedBeforeCleanupRecord": 0,
+  "dependencyCopiesCreated": 0,
+  "dependencyJunctionRemoved": true,
+  "sharedDependenciesPreserved": true,
+  "releaseStagingRemoved": true,
+  "storageAudit": {
+    "measuredAt": "2026-10-24T22:00:22.816836+00:00",
+    "logicalGiB": 63.909,
+    "scanErrors": 0,
+    "above50GiB": true
+  },
+  "originalEvidence": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\docs\\qa\\bloodmoon-bulk-20261025\\"
+}
