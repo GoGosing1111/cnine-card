@@ -1,0 +1,10 @@
+{
+  "status": "PRESERVED_BY_PROTECTION",
+  "archiveError": "The task’s primary checkout cannot be removed.",
+  "dependencyLinkRemoval": "Automatic approval rejected the removal command: blocked by policy. No alternate deletion attempted.",
+  "bytes": 249821104,
+  "GiB": 0.23266403377056122,
+  "files": 10575,
+  "fullCheckoutAvoidedGiB": 11.178,
+  "dependencyCopies": 0
+}
