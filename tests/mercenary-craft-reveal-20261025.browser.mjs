@@ -22,20 +22,32 @@ try{
    check(await page.locator('.mc-charge-label').evaluate(e=>e.getBoundingClientRect().bottom<=document.querySelector('.mc-track').getBoundingClientRect().top),label+' instruction stays above the gold rail');
    check(await page.locator('.mc-heading').evaluate(e=>e.getBoundingClientRect().width>=240),label+' title uses its reserved column');
    check(await page.locator('.mc-handle').evaluate(e=>getComputedStyle(e).backgroundImage.includes('relic.webp')),label+' generated relic handle visible');
+   check(await page.locator('.mc-handle').evaluate(e=>{const r=e.getBoundingClientRect();return r.width>=92&&r.height>=80;}),label+' large handle target');
+   check(await page.locator('.mc-track').evaluate(e=>e.getBoundingClientRect().height>=88&&getComputedStyle(e).touchAction==='none'),label+' entire tall rail captures touch');
+   const rail=await page.locator('.mc-track').boundingBox();
+   await page.mouse.click(rail.x+rail.width-15,rail.y+rail.height/2);
+   check(await page.locator('.mc-reveal').getAttribute('data-phase')==='sealed'&&await page.locator('.mc-handle').getAttribute('aria-valuenow')==='0',label+' tapping rail never opens');
    if(!success){
     await page.screenshot({path:path.join(out,label+'-sealed.png')});
     const h=await page.locator('.mc-handle').boundingBox(),t=await page.locator('.mc-track').boundingBox();
-    await page.mouse.move(h.x+h.width/2,h.y+h.height/2);await page.mouse.down();await page.mouse.move(h.x+h.width/2+(t.width-h.width)*.4,h.y+h.height/2,{steps:5});await page.mouse.up();
+    const startX=t.x+t.width/2,startY=t.y+10;
+    await page.mouse.move(startX,startY);await page.mouse.down();await page.mouse.move(startX+20,startY,{steps:5});await page.mouse.up();
     check(await page.locator('.mc-handle').getAttribute('aria-valuenow')==='0',label+' incomplete drag resets');
+    await page.mouse.move(startX,startY);await page.mouse.down();await page.mouse.move(startX-80,startY,{steps:5});await page.mouse.up();
+    check(await page.locator('.mc-reveal').getAttribute('data-phase')==='sealed'&&await page.locator('.mc-handle').getAttribute('aria-valuenow')==='0',label+' backward drag never opens');
     await page.locator('.mc-handle').press('Enter');await page.locator('.mc-reveal[data-phase=opening]').waitFor();
     if(width===1440){await page.waitForTimeout(400);await page.screenshot({path:path.join(out,'desktop-opening.png')});}
    }else if(width<600){
-    const h=await page.locator('.mc-handle').boundingBox(),t=await page.locator('.mc-track').boundingBox(),cdp=await page.context().newCDPSession(page),x=h.x+h.width/2,y=h.y+h.height/2;
+    const t=await page.locator('.mc-track').boundingBox(),cdp=await page.context().newCDPSession(page),x=t.x+t.width*(width===390?.85:.5),y=t.y+10,distance=Math.min(130,t.x+t.width-x-1);
     await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]});
-    for(let i=1;i<=12;i++)await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+(t.width-h.width)*i/12,y}]});
+    for(let i=1;i<=12;i++)await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+distance*i/12,y:y+4*i/12}]});
     await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await cdp.detach();
-   }else await page.locator('.mc-handle').press('End');
+   }else{
+    const t=await page.locator('.mc-track').boundingBox(),x=t.x+t.width/2,y=t.y+10;
+    await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(Math.min(x+130,t.x+t.width-1),y,{steps:12});await page.mouse.up();
+   }
    await page.locator(`.mc-reveal[data-phase=result][data-outcome=${success?'success':'failure'}]`).waitFor();await page.waitForTimeout(950);
+   check(!((await page.locator('.mc-reveal').getAttribute('class')).includes('mc-dragging')),label+' gesture capture and dragging state cleared');
    check(await page.locator('.mc-dialog').evaluate(e=>e.scrollWidth<=e.clientWidth+1&&e.scrollHeight<=e.clientHeight+1),label+' result dialog fits without scrollbars');
    check((await page.locator('.mc-result').innerText()).includes('족로'),label+' correct target name');
    check(!(await page.locator('.mc-result').innerText()).includes('카이론'),label+' no hardcoded Kairon label');
