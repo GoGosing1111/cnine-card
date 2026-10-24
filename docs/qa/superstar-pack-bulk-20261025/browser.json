@@ -1,12 +1,12 @@
 {
-  "at": "2026-10-24T23:06:12.915Z",
+  "at": "2026-10-24T23:13:58.868Z",
   "realModules": true,
   "productionWrites": 0,
   "reports": [
     {
       "width": 1440,
       "count": 1000,
-      "ms": 257,
+      "ms": 89,
       "posts": 1,
       "images": 7,
       "overflow": false,
@@ -15,7 +15,7 @@
     {
       "width": 1440,
       "count": 10000,
-      "ms": 228,
+      "ms": 84,
       "posts": 1,
       "images": 7,
       "overflow": false,
@@ -24,7 +24,7 @@
     {
       "width": 390,
       "count": 1000,
-      "ms": 230,
+      "ms": 148,
       "posts": 1,
       "images": 7,
       "overflow": false,
@@ -33,7 +33,7 @@
     {
       "width": 390,
       "count": 10000,
-      "ms": 144,
+      "ms": 111,
       "posts": 1,
       "images": 7,
       "overflow": false,
@@ -49,7 +49,7 @@
     {
       "width": 320,
       "count": 1000,
-      "ms": 60,
+      "ms": 76,
       "posts": 1,
       "images": 7,
       "overflow": false,
@@ -58,7 +58,7 @@
     {
       "width": 320,
       "count": 10000,
-      "ms": 89,
+      "ms": 107,
       "posts": 1,
       "images": 7,
       "overflow": false,

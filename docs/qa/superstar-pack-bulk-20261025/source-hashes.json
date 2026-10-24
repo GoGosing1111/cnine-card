@@ -12,6 +12,10 @@
     {
       "file": "js/ultimate-pack-bulk.mjs",
       "sha256": "a43282591ed166771aad74be993b277777c4461df6c0a57d394c19e7c06e8c28"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "de73cd0fa2f4e4d04d0aff6679c312710827b5e1a1fbba2ce9f64bc112ce18db"
     }
   ]
 }

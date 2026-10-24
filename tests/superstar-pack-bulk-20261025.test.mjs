@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
 import {superstarFixture} from './helpers/superstar-pack-bulk-fixture.mjs';
 import {rollSuperstarBulk,resolveSuperstarPackRoll,handleSuperstarPackDraw} from '../functions/_superstar_pack.js';
 import {superstarBulkRequestId,superstarBulkCost,validateSuperstarBulkReceipt} from '../shared/superstar-pack-bulk-v1.mjs';
@@ -8,6 +10,11 @@ test('bulk permits only 1000/10000 attempts and safe current-price totals',()=>{
  assert.equal(superstarBulkCost(300000000,1000),300000000000);assert.equal(superstarBulkCost(300000000,10000),3000000000000);
  for(const n of [1,10,999,1001,2000,100000,'1000',NaN])assert.throws(()=>superstarBulkCost(1,n));
  for(const p of [0,-1,1.5,Number.MAX_SAFE_INTEGER])assert.throws(()=>superstarBulkCost(p,10000));
+});
+test('real server-pack normalization preserves advertised bulk buttons and hides unsupported counts',()=>{
+ const source=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8'),start=source.indexOf('function packRangeFromAllowed('),end=source.indexOf('const BURNING_EVENT_SYNC_KEY=',start),ctx=vm.createContext({PACKS:[],selectedPackId:'superstar'});
+ vm.runInContext(source.slice(start,end),ctx);
+ for(const [advertised,expected]of [[[1000,10000],[1000,10000]],[[1000,100000],[1000]],[undefined,[]]]){ctx.applyServerPacks([{id:'superstar',bulkDrawCounts:advertised,maxDrawCount:10000}]);assert.deepEqual(Array.from(ctx.PACKS[0].bulkDrawCounts),expected);}
 });
 test('bulk keeps exactly the existing independent hit/card selection rolls',()=>{
  const cards=Array.from({length:40},(_,i)=>({id:String(i)}));

@@ -96,6 +96,7 @@ function applyServerPacks(rows = []) {
       drawEnabled: row.drawEnabled === undefined ? Number(row.draw_enabled ?? 1) !== 0 : row.drawEnabled === true,
       ownerDrawEnabled: row.ownerDrawEnabled === undefined ? row.owner_draw_enabled === true : row.ownerDrawEnabled === true,
       maxDrawCount: Math.max(1, Number(row.maxDrawCount || row.max_draw_count || 100)),
+      bulkDrawCounts: String(row.id)==='superstar'&&Array.isArray(row.bulkDrawCounts)?[1000,10000].filter(count=>row.bulkDrawCounts.includes(count)):[],
       successRate: Number(row.successRate || row.success_rate || 0),
       missRate: Number(row.missRate || row.miss_rate || 0),
       imageUrl: row.imageUrl || row.image_url || '',
