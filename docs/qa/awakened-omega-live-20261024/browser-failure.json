@@ -1,0 +1,2418 @@
+{
+  "message": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 4\n\n    at file:///C:/Users/User/.codex/worktrees/omega-awakened-release/cnine-card/tests/awakened-omega-live-20261024.browser.mjs:115:444",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "hunt",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "canvas": 0,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 0,
+          "afterimageSamples": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 282.6998488440844,
+            "top": 147.63528649102105,
+            "right": 393.3060845823284,
+            "bottom": 311.4132826145872
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 330,
+            "renderedBodyReference": 330,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5238486842105263,
+              "y": 0.9728618421052632
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "position": {
+            "x": 380,
+            "y": 240
+          },
+          "destination": {
+            "x": 380,
+            "y": 240
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 25,
+            "uniqueFullBodyDrawings": 23,
+            "effects": 48
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "각성 오메가",
+          "code": "V-972",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        }
+      },
+      "outcomes": [
+        {
+          "elapsedMs": 1099.1999999955297,
+          "last": {
+            "code": "V-972",
+            "eventType": "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD",
+            "mode": "cleave",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": [
+              1.03
+            ],
+            "durationSeconds": 2.2,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "targets": 1,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 282.6998488440844,
+              "top": 147.63528649102105,
+              "right": 393.3060845823284,
+              "bottom": 311.4132826145872
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 330,
+              "renderedBodyReference": 330,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5238486842105263,
+                "y": 0.9728618421052632
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "position": {
+              "x": 380,
+              "y": 240
+            },
+            "destination": {
+              "x": 380,
+              "y": 240
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 25,
+              "uniqueFullBodyDrawings": 23,
+              "effects": 48
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "각성 오메가",
+            "code": "V-972",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 1298.8999999985099,
+          "last": {
+            "code": "V-972",
+            "eventType": "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD",
+            "mode": "sever",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": [
+              1.18
+            ],
+            "durationSeconds": 2.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "targets": 1,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 282.6998488440844,
+              "top": 147.63528649102105,
+              "right": 393.3060845823284,
+              "bottom": 311.4132826145872
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 330,
+              "renderedBodyReference": 330,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5238486842105263,
+                "y": 0.9728618421052632
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "position": {
+              "x": 380,
+              "y": 240
+            },
+            "destination": {
+              "x": 380,
+              "y": 240
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 25,
+              "uniqueFullBodyDrawings": 23,
+              "effects": 48
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "각성 오메가",
+            "code": "V-972",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 1398.6000000014901,
+          "last": {
+            "code": "V-972",
+            "eventType": "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD",
+            "mode": "orbit",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": [
+              1.2,
+              1.2349999999999999,
+              1.27,
+              1.305,
+              1.3399999999999999,
+              1.375,
+              1.41,
+              1.445,
+              1.48,
+              1.5150000000000001,
+              1.55,
+              1.585
+            ],
+            "durationSeconds": 2.8,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "targets": 12,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 282.6998488440844,
+              "top": 147.63528649102105,
+              "right": 393.3060845823284,
+              "bottom": 311.4132826145872
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 330,
+              "renderedBodyReference": 330,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5238486842105263,
+                "y": 0.9728618421052632
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "position": {
+              "x": 380,
+              "y": 240
+            },
+            "destination": {
+              "x": 380,
+              "y": 240
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 25,
+              "uniqueFullBodyDrawings": 23,
+              "effects": 48
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "각성 오메가",
+            "code": "V-972",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 1697.5,
+          "last": {
+            "code": "V-972",
+            "eventType": "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD",
+            "mode": "rupture",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": [
+              1.65,
+              1.6949999999999998,
+              1.74,
+              1.785,
+              1.8299999999999998,
+              1.875,
+              1.92,
+              1.9649999999999999,
+              2.01,
+              2.0549999999999997,
+              2.0999999999999996,
+              2.145
+            ],
+            "durationSeconds": 3.4,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "targets": 12,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 282.6998488440844,
+              "top": 147.63528649102105,
+              "right": 393.3060845823284,
+              "bottom": 311.4132826145872
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 330,
+              "renderedBodyReference": 330,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5238486842105263,
+                "y": 0.9728618421052632
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 380,
+              "y": 240,
+              "scale": 0.5
+            },
+            "position": {
+              "x": 380,
+              "y": 240
+            },
+            "destination": {
+              "x": 380,
+              "y": 240
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 25,
+              "uniqueFullBodyDrawings": 23,
+              "effects": 48
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "각성 오메가",
+            "code": "V-972",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        }
+      ],
+      "basic": {
+        "count": 1,
+        "last": {
+          "code": "V-972",
+          "eventType": "ATTACK",
+          "mode": "cleave",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": [
+            1.03
+          ],
+          "durationSeconds": 2.2,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "cameraZoom": false
+        }
+      },
+      "lifecycle": {
+        "stopped": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 0,
+          "afterimageSamples": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 282.6998488440844,
+            "top": 147.63528649102105,
+            "right": 393.3060845823284,
+            "bottom": 311.4132826145872
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 330,
+            "renderedBodyReference": 330,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5238486842105263,
+              "y": 0.9728618421052632
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "position": {
+            "x": 380,
+            "y": 240
+          },
+          "destination": {
+            "x": 380,
+            "y": 240
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 25,
+            "uniqueFullBodyDrawings": 23,
+            "effects": 48
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "각성 오메가",
+          "code": "V-972",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "dead": {
+          "effects": false,
+          "ghosts": false
+        },
+        "revived": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 0,
+          "afterimageSamples": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 282.6998488440844,
+            "top": 147.63528649102105,
+            "right": 393.3060845823284,
+            "bottom": 311.4132826145872
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 330,
+            "renderedBodyReference": 330,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5238486842105263,
+              "y": 0.9728618421052632
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "position": {
+            "x": 380,
+            "y": 240
+          },
+          "destination": {
+            "x": 380,
+            "y": 240
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 25,
+            "uniqueFullBodyDrawings": 23,
+            "effects": 48
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "각성 오메가",
+          "code": "V-972",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "timelines": 0
+      },
+      "afterimage": {
+        "d": {
+          "ready": true,
+          "mode": "skill:cleave",
+          "time": 0.6,
+          "duration": 2.2,
+          "pose": {
+            "key": "cleave",
+            "frame": 1
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 5,
+          "afterimageSamples": [
+            {
+              "sampleTime": 0.565,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 614.0828695486715,
+              "y": 268.4378960884912,
+              "progress": 0.5918416021847974,
+              "alpha": 0.32
+            },
+            {
+              "sampleTime": 0.53,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 582.3213262234599,
+              "y": 264.5792990436328,
+              "progress": 0.5115375512061904,
+              "alpha": 0.26666666666666666
+            },
+            {
+              "sampleTime": 0.495,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 550.4539278895463,
+              "y": 260.70784204988655,
+              "progress": 0.43096586253982705,
+              "alpha": 0.21333333333333337
+            },
+            {
+              "sampleTime": 0.45999999999999996,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 519.2216596078431,
+              "y": 256.9135447494671,
+              "progress": 0.352,
+              "alpha": 0.16
+            },
+            {
+              "sampleTime": 0.42499999999999993,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 489.36550643926205,
+              "y": 253.2864267845891,
+              "progress": 0.2765134274010013,
+              "alpha": 0.10666666666666669
+            }
+          ],
+          "activeEffects": 1,
+          "activeImpacts": 0,
+          "effectFrames": [
+            {
+              "kind": "charge",
+              "frame": 3,
+              "x": 604.191041271633,
+              "y": 108.44192030824436,
+              "size": 283.94137542277343,
+              "layer": "front",
+              "visualBounds": {
+                "left": 480.384243373331,
+                "top": 126.21534031236922,
+                "right": 601.6693582267696,
+                "bottom": 255.48630634957334
+              }
+            }
+          ],
+          "contacts": [],
+          "actorBounds": {
+            "left": 488.5986534337833,
+            "top": 167.32545870265358,
+            "right": 644.0163540272661,
+            "bottom": 340.31211675453005
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 330,
+            "renderedBodyReference": 330,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5546875,
+              "y": 0.8307291666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "position": {
+            "x": 644.9975728042696,
+            "y": 272.1936135422472
+          },
+          "destination": {
+            "x": 775.5160784313725,
+            "y": 288.04984303825887
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 25,
+            "uniqueFullBodyDrawings": 23,
+            "effects": 48
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "접근",
+          "name": "각성 오메가",
+          "code": "V-972",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "signs": [
+          0.7508101477946028,
+          0.7508101477946028,
+          0.7508101477946028,
+          0.7508101477946028,
+          0.7508101477946028
+        ]
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "hunt",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "canvas": 0,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 0,
+          "afterimageSamples": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 92.77220995886353,
+            "top": 108.8097420909751,
+            "right": 146.91464510727556,
+            "bottom": 188.98008216874547
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 330,
+            "renderedBodyReference": 330,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5238486842105263,
+              "y": 0.9728618421052632
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "position": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688
+          },
+          "destination": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 25,
+            "uniqueFullBodyDrawings": 23,
+            "effects": 48
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "각성 오메가",
+          "code": "V-972",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        }
+      },
+      "outcomes": [
+        {
+          "elapsedMs": 1098.1000000014901,
+          "last": {
+            "code": "V-972",
+            "eventType": "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD",
+            "mode": "cleave",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": [
+              1.03
+            ],
+            "durationSeconds": 2.2,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "targets": 1,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 92.77220995886353,
+              "top": 108.8097420909751,
+              "right": 146.91464510727556,
+              "bottom": 188.98008216874547
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 330,
+              "renderedBodyReference": 330,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5238486842105263,
+                "y": 0.9728618421052632
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688,
+              "scale": 0.65
+            },
+            "position": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688
+            },
+            "destination": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 25,
+              "uniqueFullBodyDrawings": 23,
+              "effects": 48
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "각성 오메가",
+            "code": "V-972",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 1298.8999999985099,
+          "last": {
+            "code": "V-972",
+            "eventType": "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD",
+            "mode": "sever",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": [
+              1.18
+            ],
+            "durationSeconds": 2.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "targets": 1,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 92.77220995886353,
+              "top": 108.8097420909751,
+              "right": 146.91464510727556,
+              "bottom": 188.98008216874547
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 330,
+              "renderedBodyReference": 330,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5238486842105263,
+                "y": 0.9728618421052632
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688,
+              "scale": 0.65
+            },
+            "position": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688
+            },
+            "destination": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 25,
+              "uniqueFullBodyDrawings": 23,
+              "effects": 48
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "각성 오메가",
+            "code": "V-972",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 1398.7999999970198,
+          "last": {
+            "code": "V-972",
+            "eventType": "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD",
+            "mode": "orbit",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": [
+              1.2,
+              1.2349999999999999,
+              1.27,
+              1.305,
+              1.3399999999999999,
+              1.375,
+              1.41,
+              1.445,
+              1.48,
+              1.5150000000000001,
+              1.55,
+              1.585
+            ],
+            "durationSeconds": 2.8,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "targets": 12,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 92.77220995886353,
+              "top": 108.8097420909751,
+              "right": 146.91464510727556,
+              "bottom": 188.98008216874547
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 330,
+              "renderedBodyReference": 330,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5238486842105263,
+                "y": 0.9728618421052632
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688,
+              "scale": 0.65
+            },
+            "position": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688
+            },
+            "destination": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 25,
+              "uniqueFullBodyDrawings": 23,
+              "effects": 48
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "각성 오메가",
+            "code": "V-972",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 1697.4000000059605,
+          "last": {
+            "code": "V-972",
+            "eventType": "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD",
+            "mode": "rupture",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": [
+              1.65,
+              1.6949999999999998,
+              1.74,
+              1.785,
+              1.8299999999999998,
+              1.875,
+              1.92,
+              1.9649999999999999,
+              2.01,
+              2.0549999999999997,
+              2.0999999999999996,
+              2.145
+            ],
+            "durationSeconds": 3.4,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "targets": 12,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 92.77220995886353,
+              "top": 108.8097420909751,
+              "right": 146.91464510727556,
+              "bottom": 188.98008216874547
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 330,
+              "renderedBodyReference": 330,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5238486842105263,
+                "y": 0.9728618421052632
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 12,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688,
+              "scale": 0.65
+            },
+            "position": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688
+            },
+            "destination": {
+              "x": 359.40983606557376,
+              "y": 557.0491803278688
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 25,
+              "uniqueFullBodyDrawings": 23,
+              "effects": 48
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "각성 오메가",
+            "code": "V-972",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        }
+      ],
+      "basic": {
+        "count": 1,
+        "last": {
+          "code": "V-972",
+          "eventType": "ATTACK",
+          "mode": "cleave",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": [
+            1.03
+          ],
+          "durationSeconds": 2.2,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "cameraZoom": false
+        }
+      },
+      "lifecycle": {
+        "stopped": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 0,
+          "afterimageSamples": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 92.77220995886353,
+            "top": 108.8097420909751,
+            "right": 146.91464510727556,
+            "bottom": 188.98008216874547
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 330,
+            "renderedBodyReference": 330,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5238486842105263,
+              "y": 0.9728618421052632
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "position": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688
+          },
+          "destination": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 25,
+            "uniqueFullBodyDrawings": 23,
+            "effects": 48
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "각성 오메가",
+          "code": "V-972",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "dead": {
+          "effects": false,
+          "ghosts": false
+        },
+        "revived": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 0,
+          "afterimageSamples": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 92.77220995886353,
+            "top": 108.8097420909751,
+            "right": 146.91464510727556,
+            "bottom": 188.98008216874547
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 330,
+            "renderedBodyReference": 330,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5238486842105263,
+              "y": 0.9728618421052632
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "position": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688
+          },
+          "destination": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 25,
+            "uniqueFullBodyDrawings": 23,
+            "effects": 48
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "각성 오메가",
+          "code": "V-972",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "timelines": 0
+      },
+      "afterimage": {
+        "d": {
+          "ready": true,
+          "mode": "skill:cleave",
+          "time": 0.6,
+          "duration": 2.2,
+          "pose": {
+            "key": "cleave",
+            "frame": 1
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 5,
+          "afterimageSamples": [
+            {
+              "sampleTime": 0.565,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 447.9913024824881,
+              "y": 620.952269804811,
+              "progress": 0.5918416021847974,
+              "alpha": 0.32
+            },
+            {
+              "sampleTime": 0.53,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 435.97212274141515,
+              "y": 612.2815766056456,
+              "progress": 0.5115375512061904,
+              "alpha": 0.26666666666666666
+            },
+            {
+              "sampleTime": 0.495,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 423.91288542621703,
+              "y": 603.5819856827566,
+              "progress": 0.43096586253982705,
+              "alpha": 0.21333333333333337
+            },
+            {
+              "sampleTime": 0.45999999999999996,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 412.0939935557698,
+              "y": 595.0557811022093,
+              "progress": 0.352,
+              "alpha": 0.16
+            },
+            {
+              "sampleTime": 0.42499999999999993,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 400.79585014894946,
+              "y": 586.905246930069,
+              "progress": 0.2765134274010013,
+              "alpha": 0.10666666666666669
+            }
+          ],
+          "activeEffects": 1,
+          "activeImpacts": 0,
+          "effectFrames": [
+            {
+              "kind": "charge",
+              "frame": 3,
+              "x": 406.6415306381322,
+              "y": 416.51458000998366,
+              "size": 369.12378804960554,
+              "layer": "front",
+              "visualBounds": {
+                "left": 106.777629111001,
+                "top": 108.65757454888629,
+                "right": 166.14744150530768,
+                "bottom": 171.93651039302387
+              }
+            }
+          ],
+          "contacts": [],
+          "actorBounds": {
+            "left": 110.79863354182734,
+            "top": 128.78123126709343,
+            "right": 186.87655735085934,
+            "bottom": 213.45926820236383
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 330,
+            "renderedBodyReference": 330,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5546875,
+              "y": 0.8307291666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "position": {
+            "x": 459.6900216305599,
+            "y": 629.3917812141874
+          },
+          "destination": {
+            "x": 509.08073802635806,
+            "y": 665.0224779822452
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 25,
+            "uniqueFullBodyDrawings": 23,
+            "effects": 48
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "접근",
+          "name": "각성 오메가",
+          "code": "V-972",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "signs": [
+          0.7508101477946028,
+          0.7508101477946028,
+          0.7508101477946028,
+          0.7508101477946028,
+          0.7508101477946028
+        ]
+      }
+    },
+    {
+      "label": "enemy",
+      "mode": "enemy",
+      "setup": {
+        "allies": 5,
+        "enemies": 5,
+        "mercenaries": 1,
+        "canvas": 0,
+        "facing": -1,
+        "body": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 0,
+          "afterimageSamples": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 1157.3001511559155,
+            "top": 147.63528649102105,
+            "right": 1046.6939154176716,
+            "bottom": 311.4132826145872
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 330,
+            "renderedBodyReference": 330,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5238486842105263,
+              "y": 0.9728618421052632
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 5,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 1220,
+            "y": 240,
+            "scale": 0.5
+          },
+          "position": {
+            "x": 1220,
+            "y": 240
+          },
+          "destination": {
+            "x": 1220,
+            "y": 240
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 25,
+            "uniqueFullBodyDrawings": 23,
+            "effects": 48
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "각성 오메가",
+          "code": "V-972",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        }
+      },
+      "outcomes": [
+        {
+          "elapsedMs": 1092.8999999985099,
+          "last": {
+            "code": "V-972",
+            "eventType": "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD",
+            "mode": "cleave",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": [
+              1.03
+            ],
+            "durationSeconds": 2.2,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "CN-02D9DC1E8A8A4209"
+          ],
+          "targets": 1,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 1157.3001511559155,
+              "top": 147.63528649102105,
+              "right": 1046.6939154176716,
+              "bottom": 311.4132826145872
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 330,
+              "renderedBodyReference": 330,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5238486842105263,
+                "y": 0.9728618421052632
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 5,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 1220,
+              "y": 240,
+              "scale": 0.5
+            },
+            "position": {
+              "x": 1220,
+              "y": 240
+            },
+            "destination": {
+              "x": 1220,
+              "y": 240
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 25,
+              "uniqueFullBodyDrawings": 23,
+              "effects": 48
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "각성 오메가",
+            "code": "V-972",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 1299.1000000014901,
+          "last": {
+            "code": "V-972",
+            "eventType": "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD",
+            "mode": "sever",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": [
+              1.18
+            ],
+            "durationSeconds": 2.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "CN-02D9DC1E8A8A4209"
+          ],
+          "targets": 1,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 1157.3001511559155,
+              "top": 147.63528649102105,
+              "right": 1046.6939154176716,
+              "bottom": 311.4132826145872
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 330,
+              "renderedBodyReference": 330,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5238486842105263,
+                "y": 0.9728618421052632
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 5,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 1220,
+              "y": 240,
+              "scale": 0.5
+            },
+            "position": {
+              "x": 1220,
+              "y": 240
+            },
+            "destination": {
+              "x": 1220,
+              "y": 240
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 25,
+              "uniqueFullBodyDrawings": 23,
+              "effects": 48
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "각성 오메가",
+            "code": "V-972",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 1397.2999999970198,
+          "last": {
+            "code": "V-972",
+            "eventType": "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD",
+            "mode": "orbit",
+            "authoritative": true,
+            "damageApplications": 5,
+            "contactSeconds": [
+              1.2,
+              1.2349999999999999,
+              1.27,
+              1.305,
+              1.3399999999999999
+            ],
+            "durationSeconds": 2.8,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "CN-02D9DC1E8A8A4209",
+            "CN-0505936A0CBB4E59",
+            "CN-25F931CE393D474E",
+            "CN-23EB4B19986D4818",
+            "CN-519C181C18DF4B8E"
+          ],
+          "targets": 5,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 1157.3001511559155,
+              "top": 147.63528649102105,
+              "right": 1046.6939154176716,
+              "bottom": 311.4132826145872
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 330,
+              "renderedBodyReference": 330,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5238486842105263,
+                "y": 0.9728618421052632
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 5,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 1220,
+              "y": 240,
+              "scale": 0.5
+            },
+            "position": {
+              "x": 1220,
+              "y": 240
+            },
+            "destination": {
+              "x": 1220,
+              "y": 240
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 25,
+              "uniqueFullBodyDrawings": 23,
+              "effects": 48
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "각성 오메가",
+            "code": "V-972",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        },
+        {
+          "elapsedMs": 1696.8999999985099,
+          "last": {
+            "code": "V-972",
+            "eventType": "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD",
+            "mode": "rupture",
+            "authoritative": true,
+            "damageApplications": 5,
+            "contactSeconds": [
+              1.65,
+              1.6949999999999998,
+              1.74,
+              1.785,
+              1.8299999999999998
+            ],
+            "durationSeconds": 3.4,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "cameraZoom": false
+          },
+          "applied": [
+            "CN-02D9DC1E8A8A4209",
+            "CN-0505936A0CBB4E59",
+            "CN-25F931CE393D474E",
+            "CN-23EB4B19986D4818",
+            "CN-519C181C18DF4B8E"
+          ],
+          "targets": 5,
+          "diagnostics": {
+            "ready": true,
+            "mode": "idle",
+            "time": 0,
+            "duration": 1,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "playing": false,
+            "speed": 2,
+            "motionOnly": false,
+            "reduced": false,
+            "afterimagesEnabled": true,
+            "afterimages": 0,
+            "afterimageSamples": [],
+            "activeEffects": 0,
+            "activeImpacts": 0,
+            "effectFrames": [],
+            "contacts": [],
+            "actorBounds": {
+              "left": 1157.3001511559155,
+              "top": 147.63528649102105,
+              "right": 1046.6939154176716,
+              "bottom": 311.4132826145872
+            },
+            "bodyRegistration": {
+              "physicalBodyHeight": 330,
+              "renderedBodyReference": 330,
+              "uniformScale": true,
+              "footAnchor": {
+                "x": 0.5238486842105263,
+                "y": 0.9728618421052632
+              }
+            },
+            "idleBodyFixed": true,
+            "idleFrame": 0,
+            "idleControllerTimeline": false,
+            "regularAllies": 5,
+            "regularEnemies": 5,
+            "mercenaryInRegularArray": false,
+            "formationSlot": {
+              "x": 1220,
+              "y": 240,
+              "scale": 0.5
+            },
+            "position": {
+              "x": 1220,
+              "y": 240
+            },
+            "destination": {
+              "x": 1220,
+              "y": 240
+            },
+            "registeredTimelines": 0,
+            "counts": {
+              "motion": 25,
+              "uniqueFullBodyDrawings": 23,
+              "effects": 48
+            },
+            "visualOnly": false,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY",
+            "cue": "고정 대기",
+            "name": "각성 오메가",
+            "code": "V-972",
+            "liveEnabled": true,
+            "clockSource": "LIVE_BATTLE_ENGINE",
+            "playbackRate": 2,
+            "cameraZoom": false
+          }
+        }
+      ],
+      "basic": {
+        "count": 1,
+        "last": {
+          "code": "V-972",
+          "eventType": "ATTACK",
+          "mode": "cleave",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": [
+            1.03
+          ],
+          "durationSeconds": 2.2,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "cameraZoom": false
+        }
+      },
+      "lifecycle": {
+        "stopped": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 0,
+          "afterimageSamples": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 1157.3001511559155,
+            "top": 147.63528649102105,
+            "right": 1046.6939154176716,
+            "bottom": 311.4132826145872
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 330,
+            "renderedBodyReference": 330,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5238486842105263,
+              "y": 0.9728618421052632
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 5,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 1220,
+            "y": 240,
+            "scale": 0.5
+          },
+          "position": {
+            "x": 1220,
+            "y": 240
+          },
+          "destination": {
+            "x": 1220,
+            "y": 240
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 25,
+            "uniqueFullBodyDrawings": 23,
+            "effects": 48
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "각성 오메가",
+          "code": "V-972",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "dead": {
+          "effects": false,
+          "ghosts": false
+        },
+        "revived": {
+          "ready": true,
+          "mode": "idle",
+          "time": 0,
+          "duration": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 0,
+          "afterimageSamples": [],
+          "activeEffects": 0,
+          "activeImpacts": 0,
+          "effectFrames": [],
+          "contacts": [],
+          "actorBounds": {
+            "left": 1157.3001511559155,
+            "top": 147.63528649102105,
+            "right": 1046.6939154176716,
+            "bottom": 311.4132826145872
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 330,
+            "renderedBodyReference": 330,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5238486842105263,
+              "y": 0.9728618421052632
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 5,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 1220,
+            "y": 240,
+            "scale": 0.5
+          },
+          "position": {
+            "x": 1220,
+            "y": 240
+          },
+          "destination": {
+            "x": 1220,
+            "y": 240
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 25,
+            "uniqueFullBodyDrawings": 23,
+            "effects": 48
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "고정 대기",
+          "name": "각성 오메가",
+          "code": "V-972",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "timelines": 0
+      },
+      "afterimage": {
+        "d": {
+          "ready": true,
+          "mode": "skill:cleave",
+          "time": 0.6,
+          "duration": 2.2,
+          "pose": {
+            "key": "cleave",
+            "frame": 1
+          },
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "reduced": false,
+          "afterimagesEnabled": true,
+          "afterimages": 5,
+          "afterimageSamples": [
+            {
+              "sampleTime": 0.565,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 651.526625216918,
+              "y": 257.53477235972554,
+              "progress": 0.5918416021847974,
+              "alpha": 0.32
+            },
+            {
+              "sampleTime": 0.53,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 728.6599573450426,
+              "y": 255.15556608514873,
+              "progress": 0.5115375512061904,
+              "alpha": 0.26666666666666666
+            },
+            {
+              "sampleTime": 0.495,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 806.0503597754514,
+              "y": 252.76843038162949,
+              "progress": 0.43096586253982705,
+              "alpha": 0.21333333333333337
+            },
+            {
+              "sampleTime": 0.45999999999999996,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 881.8983403921569,
+              "y": 250.4288712517647,
+              "progress": 0.352,
+              "alpha": 0.16
+            },
+            {
+              "sampleTime": 0.42499999999999993,
+              "pose": {
+                "key": "cleave",
+                "frame": 1
+              },
+              "x": 954.4044070791722,
+              "y": 248.19239469815122,
+              "progress": 0.2765134274010013,
+              "alpha": 0.10666666666666669
+            }
+          ],
+          "activeEffects": 1,
+          "activeImpacts": 0,
+          "effectFrames": [
+            {
+              "kind": "charge",
+              "frame": 3,
+              "x": 617.2563870397006,
+              "y": 96.0988499687603,
+              "size": 283.9413754227734,
+              "layer": "front",
+              "visualBounds": {
+                "left": 497.63332725343065,
+                "top": 115.10657700683355,
+                "right": 618.9184421068692,
+                "bottom": 244.37754304403762
+              }
+            }
+          ],
+          "contacts": [],
+          "actorBounds": {
+            "left": 610.704032046417,
+            "top": 156.21669539711792,
+            "right": 455.28633145293423,
+            "bottom": 329.2033534489944
+          },
+          "bodyRegistration": {
+            "physicalBodyHeight": 330,
+            "renderedBodyReference": 330,
+            "uniformScale": true,
+            "footAnchor": {
+              "x": 0.5546875,
+              "y": 0.8307291666666666
+            }
+          },
+          "idleBodyFixed": true,
+          "idleFrame": 0,
+          "idleControllerTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 5,
+          "mercenaryInRegularArray": false,
+          "formationSlot": {
+            "x": 1220,
+            "y": 240,
+            "scale": 0.5
+          },
+          "position": {
+            "x": 576.449855507064,
+            "y": 259.8505432027631
+          },
+          "destination": {
+            "x": 259.48392156862747,
+            "y": 269.6274751470588
+          },
+          "registeredTimelines": 0,
+          "counts": {
+            "motion": 25,
+            "uniqueFullBodyDrawings": 23,
+            "effects": 48
+          },
+          "visualOnly": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "cue": "접근",
+          "name": "각성 오메가",
+          "code": "V-972",
+          "liveEnabled": true,
+          "clockSource": "LIVE_BATTLE_ENGINE",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "signs": [
+          -0.7508101477946028,
+          -0.7508101477946028,
+          -0.7508101477946028,
+          -0.7508101477946028,
+          -0.7508101477946028
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "missing": []
+}

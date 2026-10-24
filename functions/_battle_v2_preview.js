@@ -1,3 +1,4 @@
+import {awakenedOmegaIncomingDamage} from '../shared/mercenary-awakened-omega-v1.mjs';
 import {eunseolIncomingDamage,eunseolActionCredit} from '../shared/mercenary-eunseol-v1.mjs';
 import {generalJokIncomingDamage,generalJokActionCredit} from '../shared/mercenary-general-jok-v1.mjs';
 import {primeIncomingDamage,primeActionCredit} from '../shared/mercenary-prime-requiem-v1.mjs';
@@ -596,6 +597,7 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   incoming = halloweenIncomingDamage(target,incoming);
   incoming = valterIncomingDamage(target,incoming,options.actor);
   incoming = heliosIncomingDamage(target,incoming,options.actor);
+  incoming = awakenedOmegaIncomingDamage(target,incoming);
   incoming = jinmuIncomingDamage(target,incoming,options.actor);
   incoming = kaironIncomingDamage(target,incoming,options.actor);
   incoming = eunseolIncomingDamage(target,incoming,options.actor);

@@ -1,0 +1,94 @@
+{
+  "dateKST": "2026-10-24",
+  "userStatement": "각성 오메가 전투력 175만으로 밸런스 조정하고 제작 전용으로 획득불가, 도감에 올려 SSS리미티드",
+  "name": "각성 오메가",
+  "code": "V-972",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "basePower": 1750000,
+  "acquisition": "CRAFT_ONLY",
+  "acquisitionEnabled": false,
+  "accountGrants": 0,
+  "acceptedMotionFrames": 25,
+  "cosmicEffectFrames": 48,
+  "defaultPlaybackRate": 2,
+  "effectLayer": "front",
+  "sourcePreview": "C:/Users/User/Downloads/upload/cnine-card/preview/omega-evolved-awakened-battle-20261024-v1",
+  "records": [
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/source-art.png",
+      "sha256": "ab09619faee3aca132da86ba43256480b4ca3c5b94bc2f778f0bac2f24aa4a8e",
+      "bytes": 3215740
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/idle.png",
+      "sha256": "7a7fbc793db983ecc54ba4aa04da18ee48db79c837a636f7ee32891244ef5b27",
+      "bytes": 707263
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/originals/battle-master-complete.png",
+      "sha256": "35430ca6bc3229ad020f5e1f93a10a17af72ecde70dd31ee0533afc723ef25ca",
+      "bytes": 2770163
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/idle.png",
+      "sha256": "837a946e5fe1aac44c59480492cfa79dc2c6cfcdbc7ad36d4940b58c3948259e",
+      "bytes": 730330
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/cleave.png",
+      "sha256": "f7cdda5a184deeb37364e68c592360a3c1410769e6a453f0175490d219a97909",
+      "bytes": 3191578
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/sever.png",
+      "sha256": "959f3192c078e573f87c1b86f12a89e07adab9cbecb82ab33333e952706c98be",
+      "bytes": 3186832
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/orbit.png",
+      "sha256": "57ed5d58ed0bbd262eb96d3e4f519a99c2ac4debe8b83d20096f4e2985f9a1bf",
+      "bytes": 2891051
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/rupture.png",
+      "sha256": "1d014b31c879d19c9e17992755f3ee904fc6c3834b2d04402c18cdb74251ae80",
+      "bytes": 3016245
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/cleave.png",
+      "sha256": "3239ebad9ae3926748bcf31d1d515d0eb40ba9ac49287565340cfe4dd1ef923b",
+      "bytes": 1565345
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/sever.png",
+      "sha256": "47781fd30c3688b5b4e6f262b1f709fe244196f8302550a5738aefeef016f9ea",
+      "bytes": 809922
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/orbit.png",
+      "sha256": "3794387bf3f34dab30cdd1f141fb453bbb49b86bd05c2fcde5c39ceb37274679",
+      "bytes": 1503553
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/rupture.png",
+      "sha256": "3917d7021cd3d167ab90fc4606766d3800d590310fbd564eb19b06a84f0c120c",
+      "bytes": 1714809
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/charge.png",
+      "sha256": "e9f72a70005364da2e55b7b801d6127840531e0e4055e8282d1a986c9f070f35",
+      "bytes": 979468
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/impact.png",
+      "sha256": "732b9562dad2549b2af3725e02c590480578f685da9d1dfde96935568233325d",
+      "bytes": 1248787
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/originals/prompts-cosmic-fx-v4.json",
+      "sha256": "c81f2b26a909c0ecdbf057a460fcc4230b764e91777a0252033e61b107da4092",
+      "bytes": 18927
+    }
+  ]
+}

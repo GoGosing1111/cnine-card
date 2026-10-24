@@ -1,0 +1,19 @@
+{
+  "scope": "각성 오메가 / V-972 / SSS LIMITED / 기본 전투력 1,750,000 / 제작 전용·현재 획득 잠금",
+  "lastDeployedCommit": "a4631dec2d3d6c642ca110658e1a2b15dd0cffbd",
+  "lastPagesDeployment": "4020965f-eba5-42ab-8002-b872c69f942b",
+  "command": "npm run deploy:production -- --scoped",
+  "reason": "Register one locked craft-only SSS limited mercenary, scale canonical combat stats to 1,750,000, and connect approved atlases to existing codex and V3 consumers. Validate combat, acquisition locks, codex, delivery preservation, battlefield entry and Worker compilation; no authentication, database or dependency changes.",
+  "tests": [
+    "tests/awakened-omega-live-20261024.test.mjs",
+    "tests/mercenary-codex-live-v2098.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": ["check:worker"],
+  "browser": "PASS: desktop/mobile production V3 Hunt with 12 targets, mirrored enemy PVP, desktop/mobile codex",
+  "productionAssetCount": 19984,
+  "accountWrites": 0,
+  "grants": 0,
+  "recipeAdded": false,
+  "acquisitionEnabled": false
+}

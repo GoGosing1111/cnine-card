@@ -1,0 +1,3020 @@
+{
+  "schemaVersion": 3,
+  "name": "각성 오메가",
+  "status": "USER_REGISTERED_CRAFT_ONLY_LOCKED",
+  "sourceArt": "source-art.png",
+  "master": "assets/battle-master-complete.png",
+  "masterSha256": "35430ca6bc3229ad020f5e1f93a10a17af72ecde70dd31ee0533afc723ef25ca",
+  "registration": "JINMU_INTACT_NATIVE_RGBA_BODY_CHAIN_AND_FOOT",
+  "motion": {
+    "idle": {
+      "atlas": "motion/idle.png",
+      "sha256": "837a946e5fe1aac44c59480492cfa79dc2c6cfcdbc7ad36d4940b58c3948259e",
+      "columns": 3,
+      "rows": 1,
+      "cellSize": 768,
+      "frameCount": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/fullbody-v3/frames/idle-0.png",
+          "sha256": "7a7fbc793db983ecc54ba4aa04da18ee48db79c837a636f7ee32891244ef5b27",
+          "sourceFile": "assets/battle-master-complete.png",
+          "sourceSha256": "35430ca6bc3229ad020f5e1f93a10a17af72ecde70dd31ee0533afc723ef25ca",
+          "sourceComponent": 1,
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 1024,
+            "height": 1520
+          },
+          "packingScale": 0.4842105263157895,
+          "bodyPixels": 661.9021026378372,
+          "anatomicalChainPixels": 661.9021026378372,
+          "bodyChain": [
+            [
+              637,
+              170
+            ],
+            [
+              629,
+              294
+            ],
+            [
+              600,
+              733
+            ],
+            [
+              503,
+              1107
+            ],
+            [
+              406,
+              1454
+            ],
+            [
+              403,
+              1510
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.5238486842105263,
+            "y": 0.9728618421052632
+          },
+          "contactPoint": {
+            "x": 626.021052631579,
+            "y": 736.9894736842106
+          },
+          "bladeRoot": {
+            "x": 341.30526315789473,
+            "y": 360.7578947368421
+          },
+          "visibleBounds": {
+            "left": 138,
+            "top": 19,
+            "right": 631,
+            "bottom": 749,
+            "edge": 0,
+            "visible": 195478,
+            "zero": 382190
+          }
+        }
+      ]
+    },
+    "cleave": {
+      "atlas": "motion/cleave.png",
+      "sha256": "f7cdda5a184deeb37364e68c592360a3c1410769e6a453f0175490d219a97909",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/fullbody-v3/frames/cleave-0.png",
+          "sha256": "b6c75133e80e721c9188c293fd0ff90706b8fc83c52e96f6db8f153fe48bbe57",
+          "sourceFile": "assets/sources/fullbody-v2-cleave-sheet.png",
+          "sourceSha256": "d90c840988794af316f7709e21b05b094a3f61fdd7704fe6ec1c79b17dc2a1e0",
+          "sourceComponent": 3,
+          "sourceRect": {
+            "left": 9,
+            "top": 11,
+            "width": 483,
+            "height": 512
+          },
+          "packingScale": 1,
+          "bodyPixels": 436.6764666098857,
+          "anatomicalChainPixels": 436.6764666098857,
+          "bodyChain": [
+            [
+              281,
+              91
+            ],
+            [
+              280,
+              153
+            ],
+            [
+              268,
+              283
+            ],
+            [
+              230,
+              383
+            ],
+            [
+              193,
+              485
+            ],
+            [
+              187,
+              513
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.5338541666666666,
+            "y": 0.8229166666666666
+          },
+          "contactPoint": {
+            "x": 617,
+            "y": 622
+          },
+          "bladeRoot": {
+            "x": 323,
+            "y": 428
+          },
+          "visibleBounds": {
+            "left": 149,
+            "top": 135,
+            "right": 618,
+            "bottom": 633,
+            "edge": 0,
+            "visible": 115754,
+            "zero": 447138
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/fullbody-v3/frames/cleave-1.png",
+          "sha256": "9aa1eb40ce21a6f08e70f8f9c112bd0de2d854fb072b6567ed3b680e25aab585",
+          "sourceFile": "assets/sources/fullbody-v2-cleave-sheet.png",
+          "sourceSha256": "d90c840988794af316f7709e21b05b094a3f61fdd7704fe6ec1c79b17dc2a1e0",
+          "sourceComponent": 1,
+          "sourceRect": {
+            "left": 522,
+            "top": 0,
+            "width": 474,
+            "height": 524
+          },
+          "packingScale": 1,
+          "bodyPixels": 439.5252261431571,
+          "anatomicalChainPixels": 439.5252261431571,
+          "bodyChain": [
+            [
+              840,
+              114
+            ],
+            [
+              827,
+              179
+            ],
+            [
+              817,
+              287
+            ],
+            [
+              740,
+              400
+            ],
+            [
+              693,
+              484
+            ],
+            [
+              686,
+              515
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.5546875,
+            "y": 0.8307291666666666
+          },
+          "contactPoint": {
+            "x": 157,
+            "y": 129
+          },
+          "bladeRoot": {
+            "x": 386,
+            "y": 233
+          },
+          "visibleBounds": {
+            "left": 154,
+            "top": 127,
+            "right": 614,
+            "bottom": 639,
+            "edge": 0,
+            "visible": 107409,
+            "zero": 453924
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/fullbody-v3/frames/cleave-2.png",
+          "sha256": "eff642fdf535a1c56ca8a986eedb0499b8da9bc49d458a4dbaf76ce0b9ed004a",
+          "sourceFile": "assets/sources/fullbody-v2-cleave-sheet.png",
+          "sourceSha256": "d90c840988794af316f7709e21b05b094a3f61fdd7704fe6ec1c79b17dc2a1e0",
+          "sourceComponent": 2,
+          "sourceRect": {
+            "left": 982,
+            "top": 6,
+            "width": 540,
+            "height": 518
+          },
+          "packingScale": 1,
+          "bodyPixels": 450,
+          "anatomicalChainPixels": 473.3259194445436,
+          "bodyChain": [
+            [
+              1300,
+              121
+            ],
+            [
+              1290,
+              186
+            ],
+            [
+              1267,
+              307
+            ],
+            [
+              1182,
+              399
+            ],
+            [
+              1100,
+              485
+            ],
+            [
+              1072,
+              514
+            ]
+          ],
+          "bodyMethod": "Visual calibration against adjacent helmet and torso scale: wide-stride 2D joint-chain projection changes do not set a new smaller body size. Whole drawing uniformly scaled, limbs and sword unmodified.",
+          "footAnchor": {
+            "x": 0.4973958333333333,
+            "y": 0.8268229166666666
+          },
+          "contactPoint": {
+            "x": 645,
+            "y": 133
+          },
+          "bladeRoot": {
+            "x": 471,
+            "y": 252
+          },
+          "visibleBounds": {
+            "left": 121,
+            "top": 132,
+            "right": 647,
+            "bottom": 636,
+            "edge": 0,
+            "visible": 101925,
+            "zero": 461529
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/fullbody-v3/frames/cleave-3.png",
+          "sha256": "ab785b55d5556637f2c12e97cbbb7a78fc7be6ba87a5c14b40e54c1d39bd9b82",
+          "sourceFile": "assets/sources/fullbody-v3-cleave-contact-pair.png",
+          "sourceSha256": "72f5d141cfb60628388b3f8bed3afc0f24480e57c072a4bcb50f8638e06dbeca",
+          "sourceComponent": 1,
+          "sourceRect": {
+            "left": 0,
+            "top": 4,
+            "width": 1024,
+            "height": 757
+          },
+          "packingScale": 0.71875,
+          "bodyPixels": 549.84375,
+          "anatomicalChainPixels": 564.2192403474277,
+          "bodyChain": [
+            [
+              502,
+              139
+            ],
+            [
+              500,
+              245
+            ],
+            [
+              510,
+              379
+            ],
+            [
+              316,
+              565
+            ],
+            [
+              141,
+              698
+            ],
+            [
+              126,
+              752
+            ]
+          ],
+          "bodyMethod": "Visual calibration against adjacent helmet and torso scale: wide-stride 2D joint-chain projection changes do not set a new smaller body size. Whole drawing uniformly scaled, limbs and sword unmodified.",
+          "footAnchor": {
+            "x": 0.4794108072916667,
+            "y": 0.8468017578125
+          },
+          "contactPoint": {
+            "x": 747.6875,
+            "y": 322.59375
+          },
+          "bladeRoot": {
+            "x": 457.3125,
+            "y": 320.4375
+          },
+          "visibleBounds": {
+            "left": 17,
+            "top": 117,
+            "right": 749,
+            "bottom": 651,
+            "edge": 0,
+            "visible": 146191,
+            "zero": 413682
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/fullbody-v3/frames/cleave-4.png",
+          "sha256": "fe7050c93640a3d145a36864128c3eb510b44c9c21e0850218c88408f3bb61f5",
+          "sourceFile": "assets/sources/fullbody-v3-cleave-contact-pair.png",
+          "sourceSha256": "72f5d141cfb60628388b3f8bed3afc0f24480e57c072a4bcb50f8638e06dbeca",
+          "sourceComponent": 3,
+          "sourceRect": {
+            "left": 0,
+            "top": 795,
+            "width": 1024,
+            "height": 736
+          },
+          "packingScale": 0.71875,
+          "bodyPixels": 535.46875,
+          "anatomicalChainPixels": 504.5898150522944,
+          "bodyChain": [
+            [
+              651,
+              920
+            ],
+            [
+              636,
+              1010
+            ],
+            [
+              602,
+              1180
+            ],
+            [
+              470,
+              1350
+            ],
+            [
+              360,
+              1450
+            ],
+            [
+              332,
+              1518
+            ]
+          ],
+          "bodyMethod": "Visual calibration against adjacent helmet and torso scale: wide-stride 2D joint-chain projection changes do not set a new smaller body size. Whole drawing uniformly scaled, limbs and sword unmodified.",
+          "footAnchor": {
+            "x": 0.6207275390625,
+            "y": 0.8362630208333334
+          },
+          "contactPoint": {
+            "x": 747.6875,
+            "y": 626.4375
+          },
+          "bladeRoot": {
+            "x": 457.3125,
+            "y": 406.5
+          },
+          "visibleBounds": {
+            "left": 21,
+            "top": 124,
+            "right": 749,
+            "bottom": 643,
+            "edge": 0,
+            "visible": 154810,
+            "zero": 406118
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/fullbody-v3/frames/cleave-5.png",
+          "sha256": "e4f62d084e0cf32291f9f59431bcf603ce0b099db7569178cbdeb71e2e4f333d",
+          "sourceFile": "assets/sources/fullbody-v3-sever-sheet.png",
+          "sourceSha256": "47eb04d19b94b12c0c6d3c81cacbd82093d2a213199cc55e86104e299ea9fc97",
+          "sourceComponent": 16,
+          "sourceRect": {
+            "left": 1074,
+            "top": 508,
+            "width": 462,
+            "height": 509
+          },
+          "packingScale": 1,
+          "bodyPixels": 433.7254850803997,
+          "anatomicalChainPixels": 433.7254850803997,
+          "bodyChain": [
+            [
+              1355,
+              591
+            ],
+            [
+              1358,
+              656
+            ],
+            [
+              1319,
+              790
+            ],
+            [
+              1288,
+              890
+            ],
+            [
+              1257,
+              976
+            ],
+            [
+              1249,
+              1008
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.5325520833333334,
+            "y": 0.8190104166666666
+          },
+          "contactPoint": {
+            "x": 611,
+            "y": 608
+          },
+          "bladeRoot": {
+            "x": 444,
+            "y": 400
+          },
+          "visibleBounds": {
+            "left": 160,
+            "top": 136,
+            "right": 612,
+            "bottom": 631,
+            "edge": 0,
+            "visible": 98151,
+            "zero": 464977
+          }
+        }
+      ]
+    },
+    "sever": {
+      "atlas": "motion/sever.png",
+      "sha256": "959f3192c078e573f87c1b86f12a89e07adab9cbecb82ab33333e952706c98be",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/fullbody-v3/frames/sever-0.png",
+          "sha256": "97d441f169022b11bbdb6dd1cdd225f30402204f42c61ea9ef2d8ad8c405b225",
+          "sourceFile": "assets/sources/fullbody-v3-sever-sheet.png",
+          "sourceSha256": "47eb04d19b94b12c0c6d3c81cacbd82093d2a213199cc55e86104e299ea9fc97",
+          "sourceComponent": 3,
+          "sourceRect": {
+            "left": 3,
+            "top": 2,
+            "width": 448,
+            "height": 542
+          },
+          "packingScale": 1,
+          "bodyPixels": 457.87130760872395,
+          "anatomicalChainPixels": 457.87130760872395,
+          "bodyChain": [
+            [
+              246,
+              94
+            ],
+            [
+              243,
+              159
+            ],
+            [
+              222,
+              288
+            ],
+            [
+              184,
+              396
+            ],
+            [
+              142,
+              501
+            ],
+            [
+              136,
+              535
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.4830729166666667,
+            "y": 0.8424479166666666
+          },
+          "contactPoint": {
+            "x": 599,
+            "y": 638
+          },
+          "bladeRoot": {
+            "x": 347,
+            "y": 418
+          },
+          "visibleBounds": {
+            "left": 167,
+            "top": 120,
+            "right": 601,
+            "bottom": 648,
+            "edge": 0,
+            "visible": 113576,
+            "zero": 449149
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/fullbody-v3/frames/sever-1.png",
+          "sha256": "34b555d20b9945b1d5b209f03a319c78660f08fbe8671b1bb774103eb94af522",
+          "sourceFile": "assets/sources/fullbody-v3-sever-sheet.png",
+          "sourceSha256": "47eb04d19b94b12c0c6d3c81cacbd82093d2a213199cc55e86104e299ea9fc97",
+          "sourceComponent": 1,
+          "sourceRect": {
+            "left": 479,
+            "top": 0,
+            "width": 546,
+            "height": 543
+          },
+          "packingScale": 1,
+          "bodyPixels": 470,
+          "anatomicalChainPixels": 508.9740094567828,
+          "bodyChain": [
+            [
+              864,
+              145
+            ],
+            [
+              857,
+              217
+            ],
+            [
+              833,
+              323
+            ],
+            [
+              714,
+              420
+            ],
+            [
+              594,
+              517
+            ],
+            [
+              585,
+              535
+            ]
+          ],
+          "bodyMethod": "Visual calibration against adjacent helmet and torso scale: wide-stride 2D joint-chain projection changes do not set a new smaller body size. Whole drawing uniformly scaled, limbs and sword unmodified.",
+          "footAnchor": {
+            "x": 0.5494791666666666,
+            "y": 0.8424479166666666
+          },
+          "contactPoint": {
+            "x": 123,
+            "y": 122
+          },
+          "bladeRoot": {
+            "x": 365,
+            "y": 215
+          },
+          "visibleBounds": {
+            "left": 118,
+            "top": 119,
+            "right": 650,
+            "bottom": 648,
+            "edge": 0,
+            "visible": 105096,
+            "zero": 454983
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/fullbody-v3/frames/sever-2.png",
+          "sha256": "d67407c5398517f186e8c1c834e225c6c6c22bed328eb6d506712af5c2007bad",
+          "sourceFile": "assets/sources/fullbody-v3-sever-sheet.png",
+          "sourceSha256": "47eb04d19b94b12c0c6d3c81cacbd82093d2a213199cc55e86104e299ea9fc97",
+          "sourceComponent": 2,
+          "sourceRect": {
+            "left": 986,
+            "top": 0,
+            "width": 540,
+            "height": 543
+          },
+          "packingScale": 1,
+          "bodyPixels": 470,
+          "anatomicalChainPixels": 497.4703564136328,
+          "bodyChain": [
+            [
+              1390,
+              173
+            ],
+            [
+              1370,
+              236
+            ],
+            [
+              1330,
+              327
+            ],
+            [
+              1210,
+              418
+            ],
+            [
+              1084,
+              512
+            ],
+            [
+              1074,
+              534
+            ]
+          ],
+          "bodyMethod": "Visual calibration against adjacent helmet and torso scale: wide-stride 2D joint-chain projection changes do not set a new smaller body size. Whole drawing uniformly scaled, limbs and sword unmodified.",
+          "footAnchor": {
+            "x": 0.5442708333333334,
+            "y": 0.8424479166666666
+          },
+          "contactPoint": {
+            "x": 233,
+            "y": 120
+          },
+          "bladeRoot": {
+            "x": 426,
+            "y": 222
+          },
+          "visibleBounds": {
+            "left": 121,
+            "top": 119,
+            "right": 647,
+            "bottom": 648,
+            "edge": 0,
+            "visible": 104129,
+            "zero": 454133
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/fullbody-v3/frames/sever-3.png",
+          "sha256": "559146b0e842e33bb1ff4ba9faf095d43ac5e964a37faa8b3e0ec6f18d92abe0",
+          "sourceFile": "assets/sources/fullbody-v3-sever-contact-pair.png",
+          "sourceSha256": "f7985b573571213b84252b93c08b4c9d0ea0d2946a795e6bda0271eb8a715132",
+          "sourceComponent": 1,
+          "sourceRect": {
+            "left": 11,
+            "top": 0,
+            "width": 1013,
+            "height": 779
+          },
+          "packingScale": 0.7265547877591313,
+          "bodyPixels": 573.9782823297137,
+          "anatomicalChainPixels": 613.0953678211661,
+          "bodyChain": [
+            [
+              613,
+              170
+            ],
+            [
+              607,
+              275
+            ],
+            [
+              536,
+              445
+            ],
+            [
+              342,
+              574
+            ],
+            [
+              112,
+              724
+            ],
+            [
+              103,
+              770
+            ]
+          ],
+          "bodyMethod": "Visual calibration against adjacent helmet and torso scale: wide-stride 2D joint-chain projection changes do not set a new smaller body size. Whole drawing uniformly scaled, limbs and sword unmodified.",
+          "footAnchor": {
+            "x": 0.46263162224415927,
+            "y": 0.8609033090654821
+          },
+          "contactPoint": {
+            "x": 749.8203356367226,
+            "y": 611.7680157946693
+          },
+          "bladeRoot": {
+            "x": 486.0809476801579,
+            "y": 402.5202369200395
+          },
+          "visibleBounds": {
+            "left": 21,
+            "top": 103,
+            "right": 750,
+            "bottom": 662,
+            "edge": 0,
+            "visible": 157599,
+            "zero": 409884
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/fullbody-v3/frames/sever-4.png",
+          "sha256": "b292e94cb4a3673df5818163ec4b8af8241ebb2c496a7368417044b974a52fd8",
+          "sourceFile": "assets/sources/fullbody-v3-sever-contact-pair.png",
+          "sourceSha256": "f7985b573571213b84252b93c08b4c9d0ea0d2946a795e6bda0271eb8a715132",
+          "sourceComponent": 8,
+          "sourceRect": {
+            "left": 21,
+            "top": 774,
+            "width": 1003,
+            "height": 753
+          },
+          "packingScale": 0.7337986041874377,
+          "bodyPixels": 579.7008973080758,
+          "anatomicalChainPixels": 544.5543232309993,
+          "bodyChain": [
+            [
+              680,
+              910
+            ],
+            [
+              668,
+              1000
+            ],
+            [
+              582,
+              1163
+            ],
+            [
+              435,
+              1324
+            ],
+            [
+              286,
+              1440
+            ],
+            [
+              270,
+              1498
+            ]
+          ],
+          "bodyMethod": "Visual calibration against adjacent helmet and torso scale: wide-stride 2D joint-chain projection changes do not set a new smaller body size. Whole drawing uniformly scaled, limbs and sword unmodified.",
+          "footAnchor": {
+            "x": 0.5167206713193752,
+            "y": 0.8377692443502825
+          },
+          "contactPoint": {
+            "x": 750.5324027916251,
+            "y": 652.2123629112662
+          },
+          "bladeRoot": {
+            "x": 492.2352941176471,
+            "y": 415.1954137587238
+          },
+          "visibleBounds": {
+            "left": 21,
+            "top": 112,
+            "right": 751,
+            "bottom": 655,
+            "edge": 0,
+            "visible": 152845,
+            "zero": 413839
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/fullbody-v3/frames/sever-5.png",
+          "sha256": "e4f62d084e0cf32291f9f59431bcf603ce0b099db7569178cbdeb71e2e4f333d",
+          "sourceFile": "assets/sources/fullbody-v3-sever-sheet.png",
+          "sourceSha256": "47eb04d19b94b12c0c6d3c81cacbd82093d2a213199cc55e86104e299ea9fc97",
+          "sourceComponent": 16,
+          "sourceRect": {
+            "left": 1074,
+            "top": 508,
+            "width": 462,
+            "height": 509
+          },
+          "packingScale": 1,
+          "bodyPixels": 433.7254850803997,
+          "anatomicalChainPixels": 433.7254850803997,
+          "bodyChain": [
+            [
+              1355,
+              591
+            ],
+            [
+              1358,
+              656
+            ],
+            [
+              1319,
+              790
+            ],
+            [
+              1288,
+              890
+            ],
+            [
+              1257,
+              976
+            ],
+            [
+              1249,
+              1008
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.5325520833333334,
+            "y": 0.8190104166666666
+          },
+          "contactPoint": {
+            "x": 611,
+            "y": 608
+          },
+          "bladeRoot": {
+            "x": 444,
+            "y": 400
+          },
+          "visibleBounds": {
+            "left": 160,
+            "top": 136,
+            "right": 612,
+            "bottom": 631,
+            "edge": 0,
+            "visible": 98151,
+            "zero": 464977
+          }
+        }
+      ]
+    },
+    "orbit": {
+      "atlas": "motion/orbit.png",
+      "sha256": "57ed5d58ed0bbd262eb96d3e4f519a99c2ac4debe8b83d20096f4e2985f9a1bf",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/fullbody-v3/frames/orbit-0.png",
+          "sha256": "44050c05a1bc3ad994c6004f52098cc02c6005e6135b51190e5e43f0941b85f4",
+          "sourceFile": "assets/sources/fullbody-v3-orbit-sheet.png",
+          "sourceSha256": "9e8ca02cf8684af2d63a1742094227dff3d748035c3421227612fd1e3719e47c",
+          "sourceComponent": 1,
+          "sourceRect": {
+            "left": 9,
+            "top": 5,
+            "width": 442,
+            "height": 520
+          },
+          "packingScale": 1,
+          "bodyPixels": 466.0961838348722,
+          "anatomicalChainPixels": 466.0961838348722,
+          "bodyChain": [
+            [
+              282,
+              75
+            ],
+            [
+              280,
+              142
+            ],
+            [
+              251,
+              281
+            ],
+            [
+              208,
+              388
+            ],
+            [
+              162,
+              480
+            ],
+            [
+              150,
+              517
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.5104166666666666,
+            "y": 0.828125
+          },
+          "contactPoint": {
+            "x": 595,
+            "y": 611
+          },
+          "bladeRoot": {
+            "x": 345,
+            "y": 399
+          },
+          "visibleBounds": {
+            "left": 170,
+            "top": 131,
+            "right": 598,
+            "bottom": 637,
+            "edge": 0,
+            "visible": 111957,
+            "zero": 454284
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/fullbody-v3/frames/orbit-1.png",
+          "sha256": "4d0901321184b6ce02040bb2bca374422ae73a3634617f16df246e2c7c435b2c",
+          "sourceFile": "assets/sources/fullbody-v3-orbit-sheet.png",
+          "sourceSha256": "9e8ca02cf8684af2d63a1742094227dff3d748035c3421227612fd1e3719e47c",
+          "sourceComponent": 3,
+          "sourceRect": {
+            "left": 447,
+            "top": 39,
+            "width": 626,
+            "height": 464
+          },
+          "packingScale": 1,
+          "bodyPixels": 456.46402232788904,
+          "anatomicalChainPixels": 456.46402232788904,
+          "bodyChain": [
+            [
+              886,
+              124
+            ],
+            [
+              875,
+              190
+            ],
+            [
+              849,
+              299
+            ],
+            [
+              771,
+              377
+            ],
+            [
+              663,
+              477
+            ],
+            [
+              651,
+              493
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.6223958333333334,
+            "y": 0.7916666666666666
+          },
+          "contactPoint": {
+            "x": 78,
+            "y": 159
+          },
+          "bladeRoot": {
+            "x": 274,
+            "y": 224
+          },
+          "visibleBounds": {
+            "left": 78,
+            "top": 159,
+            "right": 690,
+            "bottom": 609,
+            "edge": 0,
+            "visible": 107949,
+            "zero": 450493
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/fullbody-v3/frames/orbit-2.png",
+          "sha256": "c52f4cb524457f74bb9f0c622f1a35c86faab0bdf39535cf818f3b167df989e3",
+          "sourceFile": "assets/sources/fullbody-v3-orbit-sheet.png",
+          "sourceSha256": "9e8ca02cf8684af2d63a1742094227dff3d748035c3421227612fd1e3719e47c",
+          "sourceComponent": 2,
+          "sourceRect": {
+            "left": 1019,
+            "top": 5,
+            "width": 510,
+            "height": 498
+          },
+          "packingScale": 1,
+          "bodyPixels": 440,
+          "anatomicalChainPixels": 448.4419216940816,
+          "bodyChain": [
+            [
+              1280,
+              121
+            ],
+            [
+              1265,
+              186
+            ],
+            [
+              1280,
+              286
+            ],
+            [
+              1380,
+              355
+            ],
+            [
+              1410,
+              456
+            ],
+            [
+              1447,
+              495
+            ]
+          ],
+          "bodyMethod": "Front three-quarter pivot projects the bent legs; standing-height reference from adjacent same-scale helmet and torso, not compressed vertical extent.",
+          "footAnchor": {
+            "x": 0.5859375,
+            "y": 0.8138020833333334
+          },
+          "contactPoint": {
+            "x": 631,
+            "y": 143
+          },
+          "bladeRoot": {
+            "x": 458,
+            "y": 221
+          },
+          "visibleBounds": {
+            "left": 136,
+            "top": 142,
+            "right": 632,
+            "bottom": 626,
+            "edge": 0,
+            "visible": 81680,
+            "zero": 482813
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/fullbody-v3/frames/orbit-3.png",
+          "sha256": "dcbf273850f4dd824ee3dc370ee0c12326f05dfb928750dbb0c692485c578258",
+          "sourceFile": "assets/sources/fullbody-v3-orbit-sheet.png",
+          "sourceSha256": "9e8ca02cf8684af2d63a1742094227dff3d748035c3421227612fd1e3719e47c",
+          "sourceComponent": 27,
+          "sourceRect": {
+            "left": 7,
+            "top": 515,
+            "width": 725,
+            "height": 472
+          },
+          "packingScale": 1,
+          "bodyPixels": 465,
+          "anatomicalChainPixels": 510.73099697424846,
+          "bodyChain": [
+            [
+              313,
+              576
+            ],
+            [
+              310,
+              640
+            ],
+            [
+              319,
+              746
+            ],
+            [
+              207,
+              839
+            ],
+            [
+              90,
+              938
+            ],
+            [
+              76,
+              977
+            ]
+          ],
+          "bodyMethod": "Visual calibration against adjacent helmet and torso scale: wide-stride 2D joint-chain projection changes do not set a new smaller body size. Whole drawing uniformly scaled, limbs and sword unmodified.",
+          "footAnchor": {
+            "x": 0.4518229166666667,
+            "y": 0.796875
+          },
+          "contactPoint": {
+            "x": 737,
+            "y": 269
+          },
+          "bladeRoot": {
+            "x": 464,
+            "y": 268
+          },
+          "visibleBounds": {
+            "left": 28,
+            "top": 155,
+            "right": 739,
+            "bottom": 613,
+            "edge": 0,
+            "visible": 116369,
+            "zero": 441095
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/fullbody-v3/frames/orbit-4.png",
+          "sha256": "34269bef1c1ea889a82469bdc845ea77a7c8f15d2dbe884889fb4a4f6347d9e1",
+          "sourceFile": "assets/sources/fullbody-v3-orbit-sheet.png",
+          "sourceSha256": "9e8ca02cf8684af2d63a1742094227dff3d748035c3421227612fd1e3719e47c",
+          "sourceComponent": 25,
+          "sourceRect": {
+            "left": 651,
+            "top": 506,
+            "width": 523,
+            "height": 474
+          },
+          "packingScale": 1,
+          "bodyPixels": 440,
+          "anatomicalChainPixels": 404.2243824056177,
+          "bodyChain": [
+            [
+              972,
+              595
+            ],
+            [
+              957,
+              659
+            ],
+            [
+              905,
+              773
+            ],
+            [
+              847,
+              868
+            ],
+            [
+              803,
+              927
+            ],
+            [
+              799,
+              955
+            ]
+          ],
+          "bodyMethod": "Visual calibration against adjacent helmet and torso scale: wide-stride 2D joint-chain projection changes do not set a new smaller body size. Whole drawing uniformly scaled, limbs and sword unmodified.",
+          "footAnchor": {
+            "x": 0.4700520833333333,
+            "y": 0.7981770833333334
+          },
+          "contactPoint": {
+            "x": 637,
+            "y": 554
+          },
+          "bladeRoot": {
+            "x": 425,
+            "y": 389
+          },
+          "visibleBounds": {
+            "left": 129,
+            "top": 154,
+            "right": 638,
+            "bottom": 614,
+            "edge": 0,
+            "visible": 97174,
+            "zero": 466009
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/fullbody-v3/frames/orbit-5.png",
+          "sha256": "6b0830dbe7d5526bde9feee32cd3d11195e5b4333d8a79a42a2972f9f83b42d8",
+          "sourceFile": "assets/sources/fullbody-v3-orbit-sheet.png",
+          "sourceSha256": "9e8ca02cf8684af2d63a1742094227dff3d748035c3421227612fd1e3719e47c",
+          "sourceComponent": 26,
+          "sourceRect": {
+            "left": 1098,
+            "top": 506,
+            "width": 416,
+            "height": 499
+          },
+          "packingScale": 1,
+          "bodyPixels": 434.3142654634237,
+          "anatomicalChainPixels": 434.3142654634237,
+          "bodyChain": [
+            [
+              1361,
+              580
+            ],
+            [
+              1368,
+              648
+            ],
+            [
+              1328,
+              787
+            ],
+            [
+              1290,
+              879
+            ],
+            [
+              1262,
+              967
+            ],
+            [
+              1257,
+              996
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.5481770833333334,
+            "y": 0.8138020833333334
+          },
+          "contactPoint": {
+            "x": 575,
+            "y": 605
+          },
+          "bladeRoot": {
+            "x": 362,
+            "y": 379
+          },
+          "visibleBounds": {
+            "left": 183,
+            "top": 141,
+            "right": 585,
+            "bottom": 626,
+            "edge": 0,
+            "visible": 103735,
+            "zero": 463191
+          }
+        }
+      ]
+    },
+    "rupture": {
+      "atlas": "motion/rupture.png",
+      "sha256": "1d014b31c879d19c9e17992755f3ee904fc6c3834b2d04402c18cdb74251ae80",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/fullbody-v3/frames/rupture-0.png",
+          "sha256": "39305f4df6bd3384ac13694fd1c13c31eca9870dd0f5ca1aa039b300b98e5b9e",
+          "sourceFile": "assets/sources/fullbody-v3-rupture-sheet.png",
+          "sourceSha256": "bce89428fb52628f91b41ae64f54519b03c19fb10e116605a6c22869ca426552",
+          "sourceComponent": 2,
+          "sourceRect": {
+            "left": 23,
+            "top": 11,
+            "width": 426,
+            "height": 563
+          },
+          "packingScale": 1,
+          "bodyPixels": 490.17909560407566,
+          "anatomicalChainPixels": 490.17909560407566,
+          "bodyChain": [
+            [
+              300,
+              93
+            ],
+            [
+              295,
+              169
+            ],
+            [
+              267,
+              304
+            ],
+            [
+              229,
+              423
+            ],
+            [
+              188,
+              535
+            ],
+            [
+              177,
+              565
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.5364583333333334,
+            "y": 0.85546875
+          },
+          "contactPoint": {
+            "x": 555,
+            "y": 652
+          },
+          "bladeRoot": {
+            "x": 358,
+            "y": 380
+          },
+          "visibleBounds": {
+            "left": 178,
+            "top": 109,
+            "right": 590,
+            "bottom": 658,
+            "edge": 0,
+            "visible": 120914,
+            "zero": 441947
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/fullbody-v3/frames/rupture-1.png",
+          "sha256": "7fe73a230ed25e05f45611d46cdf116f108b118bbd2f94b9229ed5554bfaa61f",
+          "sourceFile": "assets/sources/fullbody-v3-rupture-sheet.png",
+          "sourceSha256": "bce89428fb52628f91b41ae64f54519b03c19fb10e116605a6c22869ca426552",
+          "sourceComponent": 3,
+          "sourceRect": {
+            "left": 531,
+            "top": 59,
+            "width": 570,
+            "height": 506
+          },
+          "packingScale": 1,
+          "bodyPixels": 499.7427255087144,
+          "anatomicalChainPixels": 499.7427255087144,
+          "bodyChain": [
+            [
+              921,
+              161
+            ],
+            [
+              911,
+              235
+            ],
+            [
+              899,
+              343
+            ],
+            [
+              807,
+              436
+            ],
+            [
+              683,
+              527
+            ],
+            [
+              670,
+              556
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.5703125,
+            "y": 0.8190104166666666
+          },
+          "contactPoint": {
+            "x": 142,
+            "y": 139
+          },
+          "bladeRoot": {
+            "x": 368,
+            "y": 222
+          },
+          "visibleBounds": {
+            "left": 106,
+            "top": 138,
+            "right": 662,
+            "bottom": 630,
+            "edge": 0,
+            "visible": 101046,
+            "zero": 459567
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/fullbody-v3/frames/rupture-2.png",
+          "sha256": "60746d0b3b7a1dd214690dd3d737d47e926f7a15f6eb2d4045370d1ab8e69576",
+          "sourceFile": "assets/sources/fullbody-v3-rupture-apex.png",
+          "sourceSha256": "35f646690048c022a27843cc67b0598f673b91bf911eeccdf168e81666790a0f",
+          "sourceComponent": 1,
+          "sourceRect": {
+            "left": 2,
+            "top": 3,
+            "width": 1017,
+            "height": 1530
+          },
+          "packingScale": 0.48104575163398694,
+          "bodyPixels": 599.3799181441892,
+          "anatomicalChainPixels": 599.3799181441892,
+          "bodyChain": [
+            [
+              653,
+              397
+            ],
+            [
+              664,
+              505
+            ],
+            [
+              717,
+              793
+            ],
+            [
+              514,
+              1092
+            ],
+            [
+              339,
+              1429
+            ],
+            [
+              298,
+              1524
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.5943882761437909,
+            "y": 0.9741557734204793
+          },
+          "contactPoint": {
+            "x": 172.1921568627451,
+            "y": 19.848366013071896
+          },
+          "bladeRoot": {
+            "x": 481.9856209150327,
+            "y": 138.18562091503267
+          },
+          "visibleBounds": {
+            "left": 142,
+            "top": 19,
+            "right": 625,
+            "bottom": 749,
+            "edge": 0,
+            "visible": 153285,
+            "zero": 421113
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/fullbody-v3/frames/rupture-3.png",
+          "sha256": "6d3c2f7e67fbed95a46c8135b7d7f1df5fc948c0cc628e93a85de8cb96481d9d",
+          "sourceFile": "assets/sources/fullbody-v3-rupture-sheet.png",
+          "sourceSha256": "bce89428fb52628f91b41ae64f54519b03c19fb10e116605a6c22869ca426552",
+          "sourceComponent": 18,
+          "sourceRect": {
+            "left": 3,
+            "top": 577,
+            "width": 618,
+            "height": 434
+          },
+          "packingScale": 1,
+          "bodyPixels": 450,
+          "anatomicalChainPixels": 504.8721413951248,
+          "bodyChain": [
+            [
+              396,
+              673
+            ],
+            [
+              392,
+              748
+            ],
+            [
+              351,
+              827
+            ],
+            [
+              227,
+              901
+            ],
+            [
+              84,
+              969
+            ],
+            [
+              67,
+              1003
+            ]
+          ],
+          "bodyMethod": "Visual calibration against adjacent helmet and torso scale: wide-stride 2D joint-chain projection changes do not set a new smaller body size. Whole drawing uniformly scaled, limbs and sword unmodified.",
+          "footAnchor": {
+            "x": 0.4322916666666667,
+            "y": 0.7721354166666666
+          },
+          "contactPoint": {
+            "x": 685,
+            "y": 590
+          },
+          "bladeRoot": {
+            "x": 515,
+            "y": 428
+          },
+          "visibleBounds": {
+            "left": 82,
+            "top": 174,
+            "right": 686,
+            "bottom": 594,
+            "edge": 0,
+            "visible": 99942,
+            "zero": 462120
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/fullbody-v3/frames/rupture-4.png",
+          "sha256": "f3082b68ff6417737bc46837aa82c12abd66240f7bb80438d0a4482711a01a17",
+          "sourceFile": "assets/sources/fullbody-v3-rupture-sheet.png",
+          "sourceSha256": "bce89428fb52628f91b41ae64f54519b03c19fb10e116605a6c22869ca426552",
+          "sourceComponent": 17,
+          "sourceRect": {
+            "left": 554,
+            "top": 562,
+            "width": 582,
+            "height": 451
+          },
+          "packingScale": 1,
+          "bodyPixels": 450,
+          "anatomicalChainPixels": 485.061499162899,
+          "bodyChain": [
+            [
+              976,
+              690
+            ],
+            [
+              973,
+              753
+            ],
+            [
+              906,
+              831
+            ],
+            [
+              793,
+              905
+            ],
+            [
+              654,
+              967
+            ],
+            [
+              633,
+              991
+            ]
+          ],
+          "bodyMethod": "Visual calibration against adjacent helmet and torso scale: wide-stride 2D joint-chain projection changes do not set a new smaller body size. Whole drawing uniformly scaled, limbs and sword unmodified.",
+          "footAnchor": {
+            "x": 0.4518229166666667,
+            "y": 0.7825520833333334
+          },
+          "contactPoint": {
+            "x": 667,
+            "y": 601
+          },
+          "bladeRoot": {
+            "x": 548,
+            "y": 457
+          },
+          "visibleBounds": {
+            "left": 100,
+            "top": 165,
+            "right": 668,
+            "bottom": 602,
+            "edge": 0,
+            "visible": 97394,
+            "zero": 465844
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/fullbody-v3/frames/rupture-5.png",
+          "sha256": "e4f62d084e0cf32291f9f59431bcf603ce0b099db7569178cbdeb71e2e4f333d",
+          "sourceFile": "assets/sources/fullbody-v3-sever-sheet.png",
+          "sourceSha256": "47eb04d19b94b12c0c6d3c81cacbd82093d2a213199cc55e86104e299ea9fc97",
+          "sourceComponent": 16,
+          "sourceRect": {
+            "left": 1074,
+            "top": 508,
+            "width": 462,
+            "height": 509
+          },
+          "packingScale": 1,
+          "bodyPixels": 433.7254850803997,
+          "anatomicalChainPixels": 433.7254850803997,
+          "bodyChain": [
+            [
+              1355,
+              591
+            ],
+            [
+              1358,
+              656
+            ],
+            [
+              1319,
+              790
+            ],
+            [
+              1288,
+              890
+            ],
+            [
+              1257,
+              976
+            ],
+            [
+              1249,
+              1008
+            ]
+          ],
+          "bodyMethod": "ANATOMICAL_CHAIN",
+          "footAnchor": {
+            "x": 0.5325520833333334,
+            "y": 0.8190104166666666
+          },
+          "contactPoint": {
+            "x": 611,
+            "y": 608
+          },
+          "bladeRoot": {
+            "x": 444,
+            "y": 400
+          },
+          "visibleBounds": {
+            "left": 160,
+            "top": 136,
+            "right": 612,
+            "bottom": 631,
+            "edge": 0,
+            "visible": 98151,
+            "zero": 464977
+          }
+        }
+      ]
+    }
+  },
+  "effects": {
+    "cleave": {
+      "atlas": "effects/cleave.png",
+      "sha256": "3239ebad9ae3926748bcf31d1d515d0eb40ba9ac49287565340cfe4dd1ef923b",
+      "source": "assets/cosmic-fx-v4/sources/cleave.png",
+      "sourceSha256": "110e2807764b8bc1d0f6f3a83c3709446457e5f3aa634fd61bec4a5d4fb9005a",
+      "columns": 4,
+      "rows": 2,
+      "cellSize": 512,
+      "frameCount": 8,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/cosmic-fx-v4/frames/cleave-0.png",
+          "sha256": "478dbe3f4a9f55d77ec5d40c00eaf465cc532300549b05e5c80039da38a2d4b2",
+          "visibleBounds": {
+            "left": 163,
+            "top": 211,
+            "right": 373,
+            "bottom": 344,
+            "edge": 0,
+            "visible": 12193
+          },
+          "sourceRegion": {
+            "left": 105,
+            "top": 149,
+            "right": 372,
+            "bottom": 333,
+            "count": 31839
+          },
+          "sourceCenter": [
+            221.75,
+            221.75
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 1,
+          "file": "assets/cosmic-fx-v4/frames/cleave-1.png",
+          "sha256": "ec9766062c8eebbab687da1d67e67283c62ccdcec8b0d256397328f91b29fdbe",
+          "visibleBounds": {
+            "left": 105,
+            "top": 174,
+            "right": 404,
+            "bottom": 373,
+            "edge": 0,
+            "visible": 21544
+          },
+          "sourceRegion": {
+            "left": 479,
+            "top": 109,
+            "right": 845,
+            "bottom": 370,
+            "count": 54407
+          },
+          "sourceCenter": [
+            665.25,
+            221.75
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 2,
+          "file": "assets/cosmic-fx-v4/frames/cleave-2.png",
+          "sha256": "36dbfe9aa7c00ee8cfbebe91b05afe942f24f7d2e52ec10e15a1d83eaae181f7",
+          "visibleBounds": {
+            "left": 60,
+            "top": 152,
+            "right": 427,
+            "bottom": 399,
+            "edge": 0,
+            "visible": 39263
+          },
+          "sourceRegion": {
+            "left": 866,
+            "top": 82,
+            "right": 1312,
+            "bottom": 421,
+            "count": 75461
+          },
+          "sourceCenter": [
+            1108.75,
+            221.75
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 3,
+          "file": "assets/cosmic-fx-v4/frames/cleave-3.png",
+          "sha256": "a80b7480790d352b863802a4876392aa442a4a290fe47e855f0b8f38e71b6e86",
+          "visibleBounds": {
+            "left": 66,
+            "top": 129,
+            "right": 434,
+            "bottom": 412,
+            "edge": 0,
+            "visible": 53705
+          },
+          "sourceRegion": {
+            "left": 1313,
+            "top": 61,
+            "right": 1762,
+            "bottom": 420,
+            "count": 95863
+          },
+          "sourceCenter": [
+            1552.25,
+            221.75
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 4,
+          "file": "assets/cosmic-fx-v4/frames/cleave-4.png",
+          "sha256": "acaa3c41fd259e8a4477bcf89c1e45e35510940b18639d505c3ee8a333f6be3b",
+          "visibleBounds": {
+            "left": 72,
+            "top": 81,
+            "right": 469,
+            "bottom": 391,
+            "edge": 0,
+            "visible": 76279
+          },
+          "sourceRegion": {
+            "left": 0,
+            "top": 424,
+            "right": 475,
+            "bottom": 847,
+            "count": 138094
+          },
+          "sourceCenter": [
+            221.75,
+            665.25
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 5,
+          "file": "assets/cosmic-fx-v4/frames/cleave-5.png",
+          "sha256": "0359d3765644a853f0600f9ebb766f67c582e7ddd87ab3f6292f679234e3accb",
+          "visibleBounds": {
+            "left": 86,
+            "top": 105,
+            "right": 436,
+            "bottom": 389,
+            "edge": 0,
+            "visible": 57574
+          },
+          "sourceRegion": {
+            "left": 457,
+            "top": 480,
+            "right": 896,
+            "bottom": 855,
+            "count": 124830
+          },
+          "sourceCenter": [
+            665.25,
+            665.25
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 6,
+          "file": "assets/cosmic-fx-v4/frames/cleave-6.png",
+          "sha256": "a544f6d6978a0c290a0f3fd61437f6b9b77dc375d9878b76cd24730a8edcf136",
+          "visibleBounds": {
+            "left": 82,
+            "top": 126,
+            "right": 432,
+            "bottom": 397,
+            "edge": 0,
+            "visible": 41131
+          },
+          "sourceRegion": {
+            "left": 890,
+            "top": 499,
+            "right": 1324,
+            "bottom": 858,
+            "count": 109654
+          },
+          "sourceCenter": [
+            1108.75,
+            665.25
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 7,
+          "file": "assets/cosmic-fx-v4/frames/cleave-7.png",
+          "sha256": "4959dafe39e57592159cac1d4268f0e7b2ba2097985ff9a1f26b6a53231163aa",
+          "visibleBounds": {
+            "left": 114,
+            "top": 168,
+            "right": 418,
+            "bottom": 344,
+            "edge": 0,
+            "visible": 10238
+          },
+          "sourceRegion": {
+            "left": 1374,
+            "top": 520,
+            "right": 1754,
+            "bottom": 784,
+            "count": 55232
+          },
+          "sourceCenter": [
+            1552.25,
+            665.25
+          ],
+          "packingScale": 0.8715953307392996
+        }
+      ],
+      "canonicalContentPixels": 386.55252918287937,
+      "displayCompensation": 1.3245289096472863
+    },
+    "sever": {
+      "atlas": "effects/sever.png",
+      "sha256": "47781fd30c3688b5b4e6f262b1f709fe244196f8302550a5738aefeef016f9ea",
+      "source": "assets/cosmic-fx-v4/sources/sever.png",
+      "sourceSha256": "90d8295eb88be2d9850c485308c8d174e84343bbc66ef5ea5790748cbcf96f5c",
+      "columns": 4,
+      "rows": 2,
+      "cellSize": 512,
+      "frameCount": 8,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/cosmic-fx-v4/frames/sever-0.png",
+          "sha256": "0376ef959675079544b7cff083b78384d165c34c49d42c639a34e00ac8a6b56b",
+          "visibleBounds": {
+            "left": 157,
+            "top": 149,
+            "right": 348,
+            "bottom": 340,
+            "edge": 0,
+            "visible": 10005
+          },
+          "sourceRegion": {
+            "left": 26,
+            "top": 0,
+            "right": 625,
+            "bottom": 439,
+            "count": 89960
+          },
+          "sourceCenter": [
+            221.75,
+            221.75
+          ],
+          "packingScale": 0.5503685503685504
+        },
+        {
+          "index": 1,
+          "file": "assets/cosmic-fx-v4/frames/sever-1.png",
+          "sha256": "940ed3fc1a760f04b8830d0eb46b09459db61b2bbd27f01ea54c4857c1f80ead",
+          "visibleBounds": {
+            "left": 148,
+            "top": 148,
+            "right": 361,
+            "bottom": 356,
+            "edge": 0,
+            "visible": 16010
+          },
+          "sourceRegion": {
+            "left": 456,
+            "top": 5,
+            "right": 949,
+            "bottom": 457,
+            "count": 89445
+          },
+          "sourceCenter": [
+            665.25,
+            221.75
+          ],
+          "packingScale": 0.5503685503685504
+        },
+        {
+          "index": 2,
+          "file": "assets/cosmic-fx-v4/frames/sever-2.png",
+          "sha256": "360036c6f359218c6c5f906c522d9235200eb93daa8cf8ffad3e3f9c7923dce0",
+          "visibleBounds": {
+            "left": 148,
+            "top": 145,
+            "right": 369,
+            "bottom": 359,
+            "edge": 0,
+            "visible": 18440
+          },
+          "sourceRegion": {
+            "left": 896,
+            "top": 0,
+            "right": 1346,
+            "bottom": 424,
+            "count": 91492
+          },
+          "sourceCenter": [
+            1108.75,
+            221.75
+          ],
+          "packingScale": 0.5503685503685504
+        },
+        {
+          "index": 3,
+          "file": "assets/cosmic-fx-v4/frames/sever-3.png",
+          "sha256": "a64b6d8a6a5b3743a68c99447f0c95349ed4df1a7b40741b1ba44a616cbe8914",
+          "visibleBounds": {
+            "left": 148,
+            "top": 147,
+            "right": 366,
+            "bottom": 365,
+            "edge": 0,
+            "visible": 21994
+          },
+          "sourceRegion": {
+            "left": 1337,
+            "top": 0,
+            "right": 1765,
+            "bottom": 437,
+            "count": 120023
+          },
+          "sourceCenter": [
+            1552.25,
+            221.75
+          ],
+          "packingScale": 0.5503685503685504
+        },
+        {
+          "index": 4,
+          "file": "assets/cosmic-fx-v4/frames/sever-4.png",
+          "sha256": "f06ebff960dce69293b2c8bc84d7f08281959c81daa49ad1db052c57312705d1",
+          "visibleBounds": {
+            "left": 149,
+            "top": 144,
+            "right": 375,
+            "bottom": 368,
+            "edge": 0,
+            "visible": 37642
+          },
+          "sourceRegion": {
+            "left": 0,
+            "top": 346,
+            "right": 475,
+            "bottom": 886,
+            "count": 184288
+          },
+          "sourceCenter": [
+            221.75,
+            665.25
+          ],
+          "packingScale": 0.5503685503685504
+        },
+        {
+          "index": 5,
+          "file": "assets/cosmic-fx-v4/frames/sever-5.png",
+          "sha256": "945b87855604d3989f0ba153be4b84cfb35683881afd608cfcab2e57c7000dc5",
+          "visibleBounds": {
+            "left": 148,
+            "top": 147,
+            "right": 369,
+            "bottom": 360,
+            "edge": 0,
+            "visible": 32501
+          },
+          "sourceRegion": {
+            "left": 435,
+            "top": 411,
+            "right": 902,
+            "bottom": 878,
+            "count": 161735
+          },
+          "sourceCenter": [
+            665.25,
+            665.25
+          ],
+          "packingScale": 0.5503685503685504
+        },
+        {
+          "index": 6,
+          "file": "assets/cosmic-fx-v4/frames/sever-6.png",
+          "sha256": "f99b02770c7aebcdba91629908e242c0f86a1733341c58dfacaad60747b126e7",
+          "visibleBounds": {
+            "left": 151,
+            "top": 145,
+            "right": 367,
+            "bottom": 358,
+            "edge": 0,
+            "visible": 20031
+          },
+          "sourceRegion": {
+            "left": 870,
+            "top": 380,
+            "right": 1489,
+            "bottom": 883,
+            "count": 144628
+          },
+          "sourceCenter": [
+            1108.75,
+            665.25
+          ],
+          "packingScale": 0.5503685503685504
+        },
+        {
+          "index": 7,
+          "file": "assets/cosmic-fx-v4/frames/sever-7.png",
+          "sha256": "60c93a0f2bc8191c58cf228f8a1b37d1d2357ceb3075367be3f34e6c9739b36e",
+          "visibleBounds": {
+            "left": 154,
+            "top": 149,
+            "right": 358,
+            "bottom": 355,
+            "edge": 0,
+            "visible": 4214
+          },
+          "sourceRegion": {
+            "left": 1346,
+            "top": 435,
+            "right": 1773,
+            "bottom": 872,
+            "count": 81274
+          },
+          "sourceCenter": [
+            1552.25,
+            665.25
+          ],
+          "packingScale": 0.5503685503685504
+        }
+      ],
+      "canonicalContentPixels": 244.0884520884521,
+      "displayCompensation": 2.0976002576904493
+    },
+    "orbit": {
+      "atlas": "effects/orbit.png",
+      "sha256": "3794387bf3f34dab30cdd1f141fb453bbb49b86bd05c2fcde5c39ceb37274679",
+      "source": "assets/cosmic-fx-v4/sources/orbit.png",
+      "sourceSha256": "da21f7736f473cc1b8b801beca64be481433344e3f0b4967299d6c011eb8bf29",
+      "columns": 4,
+      "rows": 2,
+      "cellSize": 512,
+      "frameCount": 8,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/cosmic-fx-v4/frames/orbit-0.png",
+          "sha256": "f1ee29280fe3b308e31eb9b0924aa496f78d5128e54e92ffb9d220024b24b92a",
+          "visibleBounds": {
+            "left": 184,
+            "top": 160,
+            "right": 361,
+            "bottom": 330,
+            "edge": 0,
+            "visible": 6109
+          },
+          "sourceRegion": {
+            "left": 127,
+            "top": 94,
+            "right": 363,
+            "bottom": 326,
+            "count": 30643
+          },
+          "sourceCenter": [
+            221.75,
+            221.75
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 1,
+          "file": "assets/cosmic-fx-v4/frames/orbit-1.png",
+          "sha256": "76396091a387b7933a959ed2f11c8f4f66c8275f9f438fe6db38f1c17b353071",
+          "visibleBounds": {
+            "left": 134,
+            "top": 120,
+            "right": 387,
+            "bottom": 371,
+            "edge": 0,
+            "visible": 19833
+          },
+          "sourceRegion": {
+            "left": 509,
+            "top": 50,
+            "right": 829,
+            "bottom": 372,
+            "count": 60343
+          },
+          "sourceCenter": [
+            665.25,
+            221.75
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 2,
+          "file": "assets/cosmic-fx-v4/frames/orbit-2.png",
+          "sha256": "29caa87ac3e52b2aa429cb90d326b8eb90ec708f7fe5452cbf3ac4b2b98201f8",
+          "visibleBounds": {
+            "left": 114,
+            "top": 109,
+            "right": 398,
+            "bottom": 399,
+            "edge": 0,
+            "visible": 44926
+          },
+          "sourceRegion": {
+            "left": 933,
+            "top": 39,
+            "right": 1281,
+            "bottom": 397,
+            "count": 89540
+          },
+          "sourceCenter": [
+            1108.75,
+            221.75
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 3,
+          "file": "assets/cosmic-fx-v4/frames/orbit-3.png",
+          "sha256": "5de854c0c557ac890fc54cb05d47565413029d1c20e7d5a9efe94068ecc2dc67",
+          "visibleBounds": {
+            "left": 105,
+            "top": 108,
+            "right": 387,
+            "bottom": 402,
+            "edge": 0,
+            "visible": 50733
+          },
+          "sourceRegion": {
+            "left": 1362,
+            "top": 24,
+            "right": 1713,
+            "bottom": 404,
+            "count": 93491
+          },
+          "sourceCenter": [
+            1552.25,
+            221.75
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 4,
+          "file": "assets/cosmic-fx-v4/frames/orbit-4.png",
+          "sha256": "0dc0d9f323c953bfa7a85fc4f18a284117e7b334534e2ef14e32bb929de2075d",
+          "visibleBounds": {
+            "left": 109,
+            "top": 57,
+            "right": 437,
+            "bottom": 411,
+            "edge": 0,
+            "visible": 66206
+          },
+          "sourceRegion": {
+            "left": 27,
+            "top": 412,
+            "right": 451,
+            "bottom": 873,
+            "count": 135909
+          },
+          "sourceCenter": [
+            221.75,
+            665.25
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 5,
+          "file": "assets/cosmic-fx-v4/frames/orbit-5.png",
+          "sha256": "1c1209bd2021f378350b53f8d55565a9a5afa920d82adf8f5a1211f59908d275",
+          "visibleBounds": {
+            "left": 111,
+            "top": 71,
+            "right": 430,
+            "bottom": 381,
+            "edge": 0,
+            "visible": 50917
+          },
+          "sourceRegion": {
+            "left": 480,
+            "top": 440,
+            "right": 880,
+            "bottom": 827,
+            "count": 116564
+          },
+          "sourceCenter": [
+            665.25,
+            665.25
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 6,
+          "file": "assets/cosmic-fx-v4/frames/orbit-6.png",
+          "sha256": "52eee53dc76642a5ffb9bffe186d9af2244429ad518ff4fe61c2f8317f0bddbb",
+          "visibleBounds": {
+            "left": 101,
+            "top": 102,
+            "right": 423,
+            "bottom": 365,
+            "edge": 0,
+            "visible": 33772
+          },
+          "sourceRegion": {
+            "left": 912,
+            "top": 454,
+            "right": 1314,
+            "bottom": 806,
+            "count": 100344
+          },
+          "sourceCenter": [
+            1108.75,
+            665.25
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 7,
+          "file": "assets/cosmic-fx-v4/frames/orbit-7.png",
+          "sha256": "a594b86fa15bb8157dfe3ffdf0ec8eb63b4e2660c17f29ec1a7a153ecf684be8",
+          "visibleBounds": {
+            "left": 132,
+            "top": 126,
+            "right": 387,
+            "bottom": 355,
+            "edge": 0,
+            "visible": 11141
+          },
+          "sourceRegion": {
+            "left": 1363,
+            "top": 493,
+            "right": 1722,
+            "bottom": 797,
+            "count": 72999
+          },
+          "sourceCenter": [
+            1552.25,
+            665.25
+          ],
+          "packingScale": 0.8715953307392996
+        }
+      ],
+      "canonicalContentPixels": 386.55252918287937,
+      "displayCompensation": 1.3245289096472863
+    },
+    "rupture": {
+      "atlas": "effects/rupture.png",
+      "sha256": "3917d7021cd3d167ab90fc4606766d3800d590310fbd564eb19b06a84f0c120c",
+      "source": "assets/cosmic-fx-v4/sources/rupture.png",
+      "sourceSha256": "4975f6303e86d7efb57fd0c825e11137c5286f4154b32ee5735a434328555aee",
+      "columns": 4,
+      "rows": 2,
+      "cellSize": 512,
+      "frameCount": 8,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/cosmic-fx-v4/frames/rupture-0.png",
+          "sha256": "8d64ff7de4986b98e77a814a05190b0371f08177ddc09e06edf2a440e57eadaf",
+          "visibleBounds": {
+            "left": 154,
+            "top": 184,
+            "right": 339,
+            "bottom": 325,
+            "edge": 0,
+            "visible": 9334
+          },
+          "sourceRegion": {
+            "left": 71,
+            "top": 98,
+            "right": 343,
+            "bottom": 357,
+            "count": 35061
+          },
+          "sourceCenter": [
+            221.75,
+            221.75
+          ],
+          "packingScale": 0.8175182481751825
+        },
+        {
+          "index": 1,
+          "file": "assets/cosmic-fx-v4/frames/rupture-1.png",
+          "sha256": "2ec424469bae154eb58d832f82d510573a1a1a2e4a527cd3b77cfdc55fbcebf8",
+          "visibleBounds": {
+            "left": 120,
+            "top": 133,
+            "right": 386,
+            "bottom": 398,
+            "edge": 0,
+            "visible": 38895
+          },
+          "sourceRegion": {
+            "left": 467,
+            "top": 41,
+            "right": 850,
+            "bottom": 460,
+            "count": 90753
+          },
+          "sourceCenter": [
+            665.25,
+            221.75
+          ],
+          "packingScale": 0.8175182481751825
+        },
+        {
+          "index": 2,
+          "file": "assets/cosmic-fx-v4/frames/rupture-2.png",
+          "sha256": "ac6f39ce3e4750f2a0644ed43309cf5e91cc84b39af0340849e2b2b597649154",
+          "visibleBounds": {
+            "left": 119,
+            "top": 93,
+            "right": 389,
+            "bottom": 411,
+            "edge": 0,
+            "visible": 55382
+          },
+          "sourceRegion": {
+            "left": 838,
+            "top": 0,
+            "right": 1301,
+            "bottom": 432,
+            "count": 113749
+          },
+          "sourceCenter": [
+            1108.75,
+            221.75
+          ],
+          "packingScale": 0.8175182481751825
+        },
+        {
+          "index": 3,
+          "file": "assets/cosmic-fx-v4/frames/rupture-3.png",
+          "sha256": "5abd9b9aee36791f51ac53b8b81dd0eab26ee2a2e568e27ea0d3ae20d92bc5b8",
+          "visibleBounds": {
+            "left": 111,
+            "top": 83,
+            "right": 412,
+            "bottom": 417,
+            "edge": 0,
+            "visible": 71068
+          },
+          "sourceRegion": {
+            "left": 1361,
+            "top": 0,
+            "right": 1773,
+            "bottom": 435,
+            "count": 138326
+          },
+          "sourceCenter": [
+            1552.25,
+            221.75
+          ],
+          "packingScale": 0.8175182481751825
+        },
+        {
+          "index": 4,
+          "file": "assets/cosmic-fx-v4/frames/rupture-4.png",
+          "sha256": "a8a0d0e96e21cbc404114483c9e5b7cfd83c4b150ce99357d04683dee47c5f25",
+          "visibleBounds": {
+            "left": 88,
+            "top": 71,
+            "right": 425,
+            "bottom": 420,
+            "edge": 0,
+            "visible": 91141
+          },
+          "sourceRegion": {
+            "left": 0,
+            "top": 402,
+            "right": 469,
+            "bottom": 876,
+            "count": 172719
+          },
+          "sourceCenter": [
+            221.75,
+            665.25
+          ],
+          "packingScale": 0.8175182481751825
+        },
+        {
+          "index": 5,
+          "file": "assets/cosmic-fx-v4/frames/rupture-5.png",
+          "sha256": "0c7fc5639a53bf249f41d89e12c6b3642ff0554786f04025badda66bcbdb434c",
+          "visibleBounds": {
+            "left": 114,
+            "top": 105,
+            "right": 405,
+            "bottom": 404,
+            "edge": 0,
+            "visible": 62063
+          },
+          "sourceRegion": {
+            "left": 460,
+            "top": 449,
+            "right": 904,
+            "bottom": 869,
+            "count": 131054
+          },
+          "sourceCenter": [
+            665.25,
+            665.25
+          ],
+          "packingScale": 0.8175182481751825
+        },
+        {
+          "index": 6,
+          "file": "assets/cosmic-fx-v4/frames/rupture-6.png",
+          "sha256": "4c7e94c5f064e9c59d47f62901879474347d6b440d77ea270e585f7b73bf1fb5",
+          "visibleBounds": {
+            "left": 120,
+            "top": 134,
+            "right": 391,
+            "bottom": 382,
+            "edge": 0,
+            "visible": 42014
+          },
+          "sourceRegion": {
+            "left": 919,
+            "top": 468,
+            "right": 1284,
+            "bottom": 839,
+            "count": 96739
+          },
+          "sourceCenter": [
+            1108.75,
+            665.25
+          ],
+          "packingScale": 0.8175182481751825
+        },
+        {
+          "index": 7,
+          "file": "assets/cosmic-fx-v4/frames/rupture-7.png",
+          "sha256": "cedd3037f8296def2ea7ee9d0150eac099053995fe3204c619869a7e2cdb04f3",
+          "visibleBounds": {
+            "left": 149,
+            "top": 192,
+            "right": 374,
+            "bottom": 370,
+            "edge": 0,
+            "visible": 4601
+          },
+          "sourceRegion": {
+            "left": 1408,
+            "top": 523,
+            "right": 1713,
+            "bottom": 835,
+            "count": 51682
+          },
+          "sourceCenter": [
+            1552.25,
+            665.25
+          ],
+          "packingScale": 0.8175182481751825
+        }
+      ],
+      "canonicalContentPixels": 362.56934306569343,
+      "displayCompensation": 1.4121436624255113
+    },
+    "charge": {
+      "atlas": "effects/charge.png",
+      "sha256": "e9f72a70005364da2e55b7b801d6127840531e0e4055e8282d1a986c9f070f35",
+      "source": "assets/cosmic-fx-v4/sources/charge.png",
+      "sourceSha256": "0b247e3a3857b02d7c87982b8446d53aa4d02a2403c99348b070231b47f62efe",
+      "columns": 4,
+      "rows": 2,
+      "cellSize": 512,
+      "frameCount": 8,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/cosmic-fx-v4/frames/charge-0.png",
+          "sha256": "ddaa4c6f7b20aaa886d74418a2b242897b9f269cc7984678d5104589c1ab2f07",
+          "visibleBounds": {
+            "left": 194,
+            "top": 226,
+            "right": 338,
+            "bottom": 305,
+            "edge": 0,
+            "visible": 1611
+          },
+          "sourceRegion": {
+            "left": 108,
+            "top": 152,
+            "right": 359,
+            "bottom": 321,
+            "count": 14691
+          },
+          "sourceCenter": [
+            221.75,
+            221.75
+          ],
+          "packingScale": 0.7044025157232704
+        },
+        {
+          "index": 1,
+          "file": "assets/cosmic-fx-v4/frames/charge-1.png",
+          "sha256": "41bb1a76fade06f3af8c2edb560e89d3f74a58e341d2430a47cdf9b899e21133",
+          "visibleBounds": {
+            "left": 155,
+            "top": 168,
+            "right": 361,
+            "bottom": 350,
+            "edge": 0,
+            "visible": 11305
+          },
+          "sourceRegion": {
+            "left": 504,
+            "top": 55,
+            "right": 868,
+            "bottom": 386,
+            "count": 65540
+          },
+          "sourceCenter": [
+            665.25,
+            221.75
+          ],
+          "packingScale": 0.7044025157232704
+        },
+        {
+          "index": 2,
+          "file": "assets/cosmic-fx-v4/frames/charge-2.png",
+          "sha256": "8a11f9929a48b74bd1168a074075cdd588e7ad2654b8d4e8b1f1420442d70705",
+          "visibleBounds": {
+            "left": 133,
+            "top": 148,
+            "right": 374,
+            "bottom": 377,
+            "edge": 0,
+            "visible": 29637
+          },
+          "sourceRegion": {
+            "left": 903,
+            "top": 33,
+            "right": 1316,
+            "bottom": 435,
+            "count": 114705
+          },
+          "sourceCenter": [
+            1108.75,
+            221.75
+          ],
+          "packingScale": 0.7044025157232704
+        },
+        {
+          "index": 3,
+          "file": "assets/cosmic-fx-v4/frames/charge-3.png",
+          "sha256": "03da889c8a80dbee4da7892776c0b95b730cb2989696baab60242f032d768397",
+          "visibleBounds": {
+            "left": 129,
+            "top": 123,
+            "right": 372,
+            "bottom": 382,
+            "edge": 0,
+            "visible": 32679
+          },
+          "sourceRegion": {
+            "left": 1339,
+            "top": 9,
+            "right": 1751,
+            "bottom": 426,
+            "count": 117636
+          },
+          "sourceCenter": [
+            1552.25,
+            221.75
+          ],
+          "packingScale": 0.7044025157232704
+        },
+        {
+          "index": 4,
+          "file": "assets/cosmic-fx-v4/frames/charge-4.png",
+          "sha256": "e88f7a0ad344f43d34e87592f17ff60bfd9a75682df0b104c4c6fa54fc761003",
+          "visibleBounds": {
+            "left": 114,
+            "top": 69,
+            "right": 414,
+            "bottom": 373,
+            "edge": 0,
+            "visible": 49968
+          },
+          "sourceRegion": {
+            "left": 7,
+            "top": 351,
+            "right": 458,
+            "bottom": 860,
+            "count": 153391
+          },
+          "sourceCenter": [
+            221.75,
+            665.25
+          ],
+          "packingScale": 0.7044025157232704
+        },
+        {
+          "index": 5,
+          "file": "assets/cosmic-fx-v4/frames/charge-5.png",
+          "sha256": "38b8181a6c427f577807c63038f5e3719a251436f4544a5e9f0e2a922cf0c8b0",
+          "visibleBounds": {
+            "left": 123,
+            "top": 106,
+            "right": 390,
+            "bottom": 365,
+            "edge": 0,
+            "visible": 35279
+          },
+          "sourceRegion": {
+            "left": 444,
+            "top": 420,
+            "right": 900,
+            "bottom": 850,
+            "count": 128491
+          },
+          "sourceCenter": [
+            665.25,
+            665.25
+          ],
+          "packingScale": 0.7044025157232704
+        },
+        {
+          "index": 6,
+          "file": "assets/cosmic-fx-v4/frames/charge-6.png",
+          "sha256": "48bc52f73e94c5d39b9d4fd03b3c96d47d36c232fbe1568b42e4773a7447d2dd",
+          "visibleBounds": {
+            "left": 146,
+            "top": 136,
+            "right": 369,
+            "bottom": 354,
+            "edge": 0,
+            "visible": 18831
+          },
+          "sourceRegion": {
+            "left": 932,
+            "top": 454,
+            "right": 1299,
+            "bottom": 826,
+            "count": 94915
+          },
+          "sourceCenter": [
+            1108.75,
+            665.25
+          ],
+          "packingScale": 0.7044025157232704
+        },
+        {
+          "index": 7,
+          "file": "assets/cosmic-fx-v4/frames/charge-7.png",
+          "sha256": "f73852201abf2d9db7420fb62555fa0378b6dd0d2b1999f8d9c86f94074084dd",
+          "visibleBounds": {
+            "left": 180,
+            "top": 173,
+            "right": 336,
+            "bottom": 331,
+            "edge": 0,
+            "visible": 2523
+          },
+          "sourceRegion": {
+            "left": 1412,
+            "top": 521,
+            "right": 1681,
+            "bottom": 792,
+            "count": 34738
+          },
+          "sourceCenter": [
+            1552.25,
+            665.25
+          ],
+          "packingScale": 0.7044025157232704
+        }
+      ],
+      "canonicalContentPixels": 312.4025157232704,
+      "displayCompensation": 1.638911257851506
+    },
+    "impact": {
+      "atlas": "effects/impact.png",
+      "sha256": "732b9562dad2549b2af3725e02c590480578f685da9d1dfde96935568233325d",
+      "source": "assets/cosmic-fx-v4/sources/impact.png",
+      "sourceSha256": "8b83343929fedea19cf8e067bf229131735ffdeb94475dbd0f24f6d2c95562cd",
+      "columns": 4,
+      "rows": 2,
+      "cellSize": 512,
+      "frameCount": 8,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/cosmic-fx-v4/frames/impact-0.png",
+          "sha256": "4c335566237a1c687770a199099d02728f4c444df0e63fe8e8a6ee1c9b98ff75",
+          "visibleBounds": {
+            "left": 217,
+            "top": 217,
+            "right": 300,
+            "bottom": 298,
+            "edge": 0,
+            "visible": 3035
+          },
+          "sourceRegion": {
+            "left": 153,
+            "top": 161,
+            "right": 286,
+            "bottom": 277,
+            "count": 9573
+          },
+          "sourceCenter": [
+            221.75,
+            221.75
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 1,
+          "file": "assets/cosmic-fx-v4/frames/impact-1.png",
+          "sha256": "2ebd59bf573121298885aa5db1fbd562742c26aaa9a4fc6a1e7b7d1018b1db43",
+          "visibleBounds": {
+            "left": 164,
+            "top": 166,
+            "right": 337,
+            "bottom": 347,
+            "edge": 0,
+            "visible": 15795
+          },
+          "sourceRegion": {
+            "left": 541,
+            "top": 104,
+            "right": 774,
+            "bottom": 340,
+            "count": 34663
+          },
+          "sourceCenter": [
+            665.25,
+            221.75
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 2,
+          "file": "assets/cosmic-fx-v4/frames/impact-2.png",
+          "sha256": "82ea08545f32659aeaacc84cd058df031444257838cbe13c33e83d76a8c8b72a",
+          "visibleBounds": {
+            "left": 114,
+            "top": 118,
+            "right": 398,
+            "bottom": 400,
+            "edge": 0,
+            "visible": 37014
+          },
+          "sourceRegion": {
+            "left": 934,
+            "top": 48,
+            "right": 1287,
+            "bottom": 402,
+            "count": 77824
+          },
+          "sourceCenter": [
+            1108.75,
+            221.75
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 3,
+          "file": "assets/cosmic-fx-v4/frames/impact-3.png",
+          "sha256": "8828d3d449d392b67c32e72ec559b53f5917574906b16bd8056437671cc5786d",
+          "visibleBounds": {
+            "left": 112,
+            "top": 107,
+            "right": 394,
+            "bottom": 402,
+            "edge": 0,
+            "visible": 44152
+          },
+          "sourceRegion": {
+            "left": 1371,
+            "top": 39,
+            "right": 1723,
+            "bottom": 401,
+            "count": 81410
+          },
+          "sourceCenter": [
+            1552.25,
+            221.75
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 4,
+          "file": "assets/cosmic-fx-v4/frames/impact-4.png",
+          "sha256": "ca52f8faa7dfa69c3a780cc7a9900cc75952aae139cfaa54ac59f647bf2a76a4",
+          "visibleBounds": {
+            "left": 69,
+            "top": 55,
+            "right": 450,
+            "bottom": 446,
+            "edge": 0,
+            "visible": 82780
+          },
+          "sourceRegion": {
+            "left": 0,
+            "top": 412,
+            "right": 462,
+            "bottom": 886,
+            "count": 148459
+          },
+          "sourceCenter": [
+            221.75,
+            665.25
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 5,
+          "file": "assets/cosmic-fx-v4/frames/impact-5.png",
+          "sha256": "eb9515b9bf9ad25195b2cd7b4b8dbc4d6f5a38a3d8dca2f98f348dc419504eb1",
+          "visibleBounds": {
+            "left": 96,
+            "top": 100,
+            "right": 425,
+            "bottom": 394,
+            "edge": 0,
+            "visible": 34466
+          },
+          "sourceRegion": {
+            "left": 460,
+            "top": 477,
+            "right": 870,
+            "bottom": 829,
+            "count": 98030
+          },
+          "sourceCenter": [
+            665.25,
+            665.25
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 6,
+          "file": "assets/cosmic-fx-v4/frames/impact-6.png",
+          "sha256": "f568bcf26d40c650397b114caeb2f4dc4e0b59a9b22cf200c5e87df5ed27ca47",
+          "visibleBounds": {
+            "left": 103,
+            "top": 114,
+            "right": 421,
+            "bottom": 395,
+            "edge": 0,
+            "visible": 24872
+          },
+          "sourceRegion": {
+            "left": 924,
+            "top": 495,
+            "right": 1308,
+            "bottom": 841,
+            "count": 84957
+          },
+          "sourceCenter": [
+            1108.75,
+            665.25
+          ],
+          "packingScale": 0.8715953307392996
+        },
+        {
+          "index": 7,
+          "file": "assets/cosmic-fx-v4/frames/impact-7.png",
+          "sha256": "d054da6b1200cea99e372750a21756ec90f8d8f2ff1b68f538a12043d4179eb6",
+          "visibleBounds": {
+            "left": 180,
+            "top": 206,
+            "right": 342,
+            "bottom": 354,
+            "edge": 0,
+            "visible": 2172
+          },
+          "sourceRegion": {
+            "left": 1446,
+            "top": 598,
+            "right": 1662,
+            "bottom": 789,
+            "count": 17873
+          },
+          "sourceCenter": [
+            1552.25,
+            665.25
+          ],
+          "packingScale": 0.8715953307392996
+        }
+      ],
+      "canonicalContentPixels": 386.55252918287937,
+      "displayCompensation": 1.3245289096472863
+    }
+  },
+  "runtime": {
+    "renderer": "PRODUCTION_V3",
+    "clock": "V3_REGISTERED_GSAP",
+    "defaultSpeed": 2,
+    "idleBody": "ONE_FIXED_FRAME",
+    "physicalBodyHeight": 330,
+    "effectLayer": "front"
+  },
+  "battleVisualApproval": false,
+  "runtimeConnected": true,
+  "accountGrants": 0,
+  "balanceAssigned": false,
+  "liveDeployed": false,
+  "authoring": {
+    "body": "Whole-body ImageGen drawings directly referenced to fixed original master; no articulated cutout rig",
+    "limbStretch": false,
+    "swordWarp": false,
+    "stance": "Dynamic broad strides allowed by latest user correction",
+    "texture": "Native alpha and source colors preserved during extraction"
+  },
+  "counts": {
+    "motion": 25,
+    "uniqueFullBodyDrawings": 23,
+    "effects": 48
+  },
+  "promptSet": "prompts-cosmic-fx-v4.json",
+  "battleSprite": "assets/fullbody-v3/frames/idle-0.png",
+  "qa": "qa/cosmic-fx-v4-front/runtime-report.json",
+  "video": "qa/cosmic-fx-v4-front/battle-four-skills-preview.webm",
+  "motionAccepted": true,
+  "motionAcceptance": "motion-accepted-20261024.json",
+  "skillVisualApproval": true,
+  "qaPassed": true,
+  "effectLayerPolicy": {
+    "layer": "front",
+    "parent": "engine.effectLayer",
+    "scope": [
+      "cleave",
+      "sever",
+      "orbit",
+      "rupture",
+      "charge",
+      "impact"
+    ],
+    "userRequest": "스킬들이 캐릭터 위로 보여야하는데 레이어 뒤로 가는느낌이네?",
+    "correctedAt": "2026-10-24",
+    "acceptedBodyAndTimingPreserved": true
+  }
+}

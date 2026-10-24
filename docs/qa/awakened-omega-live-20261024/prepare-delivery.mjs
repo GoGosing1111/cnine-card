@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import {isProductionFile} from '../../../scripts/prepare-production-assets.mjs';
+const files=execFileSync('git',['ls-files','-z'],{maxBuffer:40e6}).toString().split('\0').filter(Boolean);
+const candidates=files.filter(f=>f.startsWith('preview/')&&f.endsWith('.mjs')&&isProductionFile(f)&&fs.existsSync(f)&&/node:(fs|child_process|test)/.test(fs.readFileSync(f,'utf8')));
+const selected=candidates.slice(0,32);if(selected.length<24)throw Error('Insufficient verified Node-only authoring commands: '+candidates.length);
+const records=selected.map(file=>({file,sha256:createHash('sha256').update(fs.readFileSync(file)).digest('hex'),reason:'Node-only authoring command; no browser execution; retained byte-for-byte in Git'}));
+fs.writeFileSync('scripts/awakened-omega-node-authoring-only-20261024.json',JSON.stringify(selected,null,2)+'\n');
+fs.writeFileSync('docs/qa/awakened-omega-live-20261024/pages-authoring-exclusions.json',JSON.stringify({records},null,2)+'\n');
+console.log(JSON.stringify({selected:selected.length,files:selected}));

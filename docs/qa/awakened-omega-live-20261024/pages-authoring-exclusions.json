@@ -1,0 +1,164 @@
+{
+  "records": [
+    {
+      "file": "preview/madara-raid-v1/prepare.mjs",
+      "sha256": "476771eb49b0f8711e325d7690f350fa805054a1e65753a5df11cff6bb2691c4",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/madara-raid-v1/server.mjs",
+      "sha256": "090f0b1ec74116443ff5e3098664095a82c2af314cc3abdb7097f25681547435",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/magic-card-season2-v1/export-art.mjs",
+      "sha256": "e890f8b12b4283e4698ba22710bbbde9e7501490fd28c833b9a03c5cd279d24f",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/magic-card-season2-v1/review-battles.mjs",
+      "sha256": "89e51f7d5372b4797c1122cd1ebc946aa89ec4bcdf94ed4a52567ef13df9e307",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-berkan-area-v1/pack.mjs",
+      "sha256": "d477b932533eed8d2932fedecf0828f5888d5f1181d3935dd501b7d23980461d",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-berkan-sss-v1/image-tools.mjs",
+      "sha256": "55c675d91963cba1210d24e97ceae8805338e1ea2070ff5f7c9d91da2c71323f",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-berkan-sss-v1/serve.mjs",
+      "sha256": "6b821d75536879bdbf766b9999e4f58e341a46c6985940a296c6e76d53601a9b",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-black-moon-swordsman-ss-v1/inspect-assets.mjs",
+      "sha256": "3d86a2b2e9d51fb7df5f138ea1cb6fdf89839be499b7bf8df0f149e9513755ea",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-black-moon-swordsman-ss-v1/serve.mjs",
+      "sha256": "f5ec8116dc9d1e70b17849bccee386efedbc9d74ed8cfe30c2e9eed386197843",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-black-uniform-dual-uzi-v1/serve.mjs",
+      "sha256": "b19aa8f9a90c3100f9faa6790dc948773970ad7bc49e3906f2f1ead2e5a03fa5",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-crimson-silver-knight-battle-v1/release/review-browser.mjs",
+      "sha256": "45bbe1d9e58cfc0879603d0d2cdeecb821aed788471ffd280ab90773debf9cee",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-crimson-silver-knight-battle-v1/release/verify-candidate-20261001.mjs",
+      "sha256": "275b9645df34e35de61ca6848177c08b2b4ab0f4e2887074378a08f2179f668d",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-crimson-silver-knight-battle-v1/release/verify.mjs",
+      "sha256": "73132748b610ff2c26d427325dd8904ba316023055397fe9314d0682184ab856",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-crimson-silver-knight-battle-v1/serve.mjs",
+      "sha256": "0229002be6d27f85bd0dea559f79ddec14c2ac24d24aaa4e2d562a39dad4dbab",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-golden-dragon-battle-v1/finalize.mjs",
+      "sha256": "2da281affbd5182fefa3543dead97714b6cefc91d2469d8163a7d6735b946d36",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-golden-dragon-battle-v1/inspect-sources.mjs",
+      "sha256": "35c4c49aeebff8bcce5b890430fd78550b058dbe781623cb649172db2b4a1cfa",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-golden-dragon-battle-v1/record-demo.mjs",
+      "sha256": "9f96f14785a2c733214faa6e306be09278a02937f6764be902b9f5a2aea31f7d",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-heeya-maid-arsenal-v1/record-assets.mjs",
+      "sha256": "eecb7703217376d86947191daf5edfe86a2178ecfee34643798e9a04d3c70b0d",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-ice-crystal-dual-sword-v1/serve.mjs",
+      "sha256": "65633df2a006ba8aa4add6a450ea0652c9c5bbf977689610bdab8bc9f28a9486",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-imperial-archer-sss-v1/extract-approved-bow.mjs",
+      "sha256": "ef3962d3a6318ccabfc72f9f9aa852236ef52531faa5a20e15ea9386ed05ccbb",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-imperial-archer-sss-v1/inspect-arrow-video.mjs",
+      "sha256": "3abdbdd43515afa64f9a94d29648317f8ddd4df87a76fc66faa4aa1899677c0e",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-imperial-archer-sss-v1/inspect-reference.mjs",
+      "sha256": "6eef72190aec22614d9483b8ac41777d1d1fe2f58f3ef088454cbdb699f417e1",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-imperial-archer-sss-v1/measure-balance.mjs",
+      "sha256": "af9504c27c3b5258202b092c3f62190bf8097ec17b26849a06841bc6cc893b51",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-imperial-archer-sss-v1/pack-arrow-assets.mjs",
+      "sha256": "0283d1c2c8f3581364e9fa9ebd2d73dc72c642d54b7837e23e7cdc19b43ad219",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-imperial-archer-sss-v1/pack-assets.mjs",
+      "sha256": "0a04d6eae0a41e2d9a4233e1b13cd3d943b34f40f1d8af2425ce78ab818e963a",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-jokro-iaido-20261017-v1/qa/awakening-runtime.mjs",
+      "sha256": "b6e550a2635898f436b477e45f7a90488be10b2c2f91a55befef6667100b19d3",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-jokro-iaido-20261017-v1/qa/dialogue-neon-runtime.mjs",
+      "sha256": "589e4c1445a0ff084e8d9d3596579b78c45f4a2a882f34eaebcdee6ce1e68396",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-jokro-iaido-20261017-v1/qa/final-review.mjs",
+      "sha256": "0268e6a1b18fda8ffa9fe65ce00f6e615ac201cecde6b381336a101ef9807918",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-jokro-iaido-20261017-v1/qa/finalize-package.mjs",
+      "sha256": "c4d7b2bdfd4e9b779d27a2116c6570b3b2749ace8fdf18c821109070e8098ef6",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-jokro-iaido-20261017-v1/qa/prepare-runtime.mjs",
+      "sha256": "06cb8ffcff99c229f3180f0867b66910ef2185577d45dc7fe04c5044e3dd7ff3",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-jokro-iaido-20261017-v1/qa/verify-assets.mjs",
+      "sha256": "d524a8ede0e09bc6d86985fa69f4491cc781357b8b7b6664c08d47d8a7f69a7f",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    },
+    {
+      "file": "preview/mercenary-jokro-iaido-20261017-v1/record-demo.mjs",
+      "sha256": "ed7b4d33fb4fa3f91b49b5fdd5e6dfa3106e99bdf139085e527ac1c3ae21ffcb",
+      "reason": "Node-only authoring command; no browser execution; retained byte-for-byte in Git"
+    }
+  ]
+}
