@@ -13,7 +13,7 @@ import {
 const root = path.resolve(import.meta.dirname, '..');
 const read = (relative) => readFileSync(path.join(root, relative), 'utf8');
 
-test('슈퍼스타팩 기본 운영값은 공개·일반 개봉 ON·1장 3억·10%와 최대 10회다', () => {
+test('슈퍼스타팩 기본 운영값은 공개·일반 개봉 ON·1장 3억·10%와 빠른 개봉 최대 10,000회다', () => {
   const settings = __superstarPackTest.cleanSuperstarPackSettings({});
   assert.deepEqual(settings, {
     visible: true,
@@ -24,7 +24,8 @@ test('슈퍼스타팩 기본 운영값은 공개·일반 개봉 ON·1장 3억·1
     imageUrl: 'assets/ui/packs/reverse-call-20261016/superstar-768.webp',
   });
   const row = __superstarPackTest.superstarPackCatalogRow(settings);
-  assert.equal(row.maxDrawCount, 10);
+  assert.equal(row.maxDrawCount, 10000);
+  assert.deepEqual(row.allowedDrawCounts,[1,10,1000,10000]);
   assert.equal(row.price, 300_000_000);
   assert.equal(row.successRate, 10);
   assert.equal(row.missRate, 90);

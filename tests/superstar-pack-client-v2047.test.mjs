@@ -46,7 +46,7 @@ test('receipt validation rejects incomplete or invalid current inventory snapsho
 
 function opening({pending=null,coin=5000000000,enabled=true}={}){
   let mounted=null,writes=[],calls=[];
-  const ctx=context({getPack:()=>({price:300000000,drawEnabled:enabled}),loadUser:()=>({id:1,coin}),readPendingSuperstarDraw:()=>pending,writePendingSuperstarDraw:value=>writes.push(value),superstarPackAccess:()=>({owner:false,early:false}),showSupplyNotice:()=>{},alert:()=>{},superstarPackOpeningBusy:false,crypto:{randomUUID:()=> 'new-request-1234'},mountSuperstarPackOpening:(pack,cost,factory,options)=>{mounted={cost,factory,options}},requestSuperstarPackDraw:async(...args)=>{calls.push(args);return response()},validateSuperstarPackResponse:r=>r});
+  const ctx=context({hasPendingSuperstarBulk:()=>false,drawRequestInFlight:false,getPack:()=>({price:300000000,drawEnabled:enabled}),loadUser:()=>({id:1,coin}),readPendingSuperstarDraw:()=>pending,writePendingSuperstarDraw:value=>writes.push(value),superstarPackAccess:()=>({owner:false,early:false}),showSupplyNotice:()=>{},alert:()=>{},superstarPackOpeningBusy:false,crypto:{randomUUID:()=> 'new-request-1234'},mountSuperstarPackOpening:(pack,cost,factory,options)=>{mounted={cost,factory,options}},requestSuperstarPackDraw:async(...args)=>{calls.push(args);return response()},validateSuperstarPackResponse:r=>r});
   vm.runInContext(snippet('async function openSuperstarPack(','window.SuperstarPackV1894='),ctx);
   return {ctx,writes,calls,get mounted(){return mounted}};
 }

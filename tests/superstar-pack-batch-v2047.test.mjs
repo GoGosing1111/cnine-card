@@ -66,7 +66,7 @@ test('public release changes only visibility/opening, preserves CMS odds/price, 
   assert.deepEqual(raw,{drawEnabled:true,price:400000000,successRate:7.5,imageUrl:'custom.png',operatorNote:'preserve',visible:true});
   f.sqlite.prepare('UPDATE app_meta SET value=? WHERE key=?').run(JSON.stringify({...raw,drawEnabled:false}),SETTINGS);
   assert.equal((await superstarPackSettings(f.env,true)).drawEnabled,false);
-  assert.equal(__superstarPackTest.superstarPackCatalogRow(raw).maxDrawCount,10);
+  assert.equal(__superstarPackTest.superstarPackCatalogRow(raw).maxDrawCount,10000);
 });
 
 test('release completion is isolated by database and failed checks are retried',async()=>{

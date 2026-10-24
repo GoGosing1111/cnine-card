@@ -1,4 +1,5 @@
 import { readRuntimeData,cacheRuntimeData } from './_runtime_data_cache.js';
+import {SUPERSTAR_BULK,superstarBulkCost,validateSuperstarBulkReceipt} from '../shared/superstar-pack-bulk-v1.mjs';
 
 const SETTINGS_KEY = "superstar_pack_settings_v1";
 const PUBLIC_RELEASE_KEY = "superstar_pack_public_release_v2047";
@@ -104,8 +105,9 @@ export function superstarPackCatalogRow(settings = SUPERSTAR_PACK_DEFAULTS) {
     drawMode: "SUPERSTAR_CHANCE",
     drawEnabled: clean.drawEnabled,
     ownerDrawEnabled: true,
-    maxDrawCount: 10,
-    allowedDrawCounts: [1,10],
+    maxDrawCount: 10000,
+    allowedDrawCounts: [1,10,...SUPERSTAR_BULK.counts],
+    bulkDrawCounts: [...SUPERSTAR_BULK.counts],
     successRate: clean.successRate,
     missRate: Math.max(0, 100 - clean.successRate),
     imageUrl: clean.imageUrl,
@@ -135,6 +137,21 @@ const secureUnit = () => {
   crypto.getRandomValues(values);
   return values[0] / 0x1_0000_0000;
 };
+
+// Keep independent cryptographic rolls while amortizing the RNG call overhead.
+function bufferedSecureUnit(){
+  const values=new Uint32Array(4096);let index=values.length;
+  return ()=>{if(index===values.length){crypto.getRandomValues(values);index=0;}return values[index++]/0x1_0000_0000;};
+}
+
+export function rollSuperstarBulk({count,successRate,cards,random=bufferedSecureUnit()}){
+  superstarBulkCost(1,count);const wins=new Map();
+  for(let i=0;i<count;i++){
+    const roll=resolveSuperstarPackRoll({successRate,hitRoll:random(),cardRoll:random(),cards});
+    if(roll.hit){const row=wins.get(roll.card.id)||{card:roll.card,count:0};row.count++;wins.set(roll.card.id,row);}
+  }
+  return [...wins.values()];
+}
 
 function superstarPackSchemaStatements(env) {
   const postgres = env.DB?.dialect === "postgres";
@@ -260,9 +277,11 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
   const body = await readBody(request);
   if(!body||typeof body!=='object'||Array.isArray(body))return json({error:'올바른 개봉 요청이 아닙니다.'},400);
   const count=body.count??1;
-  if(![1,10].includes(count))return json({error:'슈퍼스타팩은 1회 또는 10회만 개봉할 수 있습니다.',code:'SUPERSTAR_DRAW_COUNT_INVALID'},400);
+  if(![1,10,...SUPERSTAR_BULK.counts].includes(count))return json({error:'슈퍼스타팩은 1회, 10회, 1,000회 또는 10,000회 개봉할 수 있습니다.',code:'SUPERSTAR_DRAW_COUNT_INVALID'},400);
+  const bulk=SUPERSTAR_BULK.counts.includes(count);
   const requestId=body.requestId??crypto.randomUUID();
   if(typeof requestId!=='string'||!/^[a-zA-Z0-9_-]{8,100}$/.test(requestId))return json({error:'올바른 개봉 요청번호가 필요합니다.'},400);
+  if((bulk&&(!/^ssb-\d{13}-[a-zA-Z0-9_-]{16,64}$/.test(requestId)||!Number.isSafeInteger(body.expectedCost)||body.expectedCost<=0))||(!bulk&&requestId.startsWith('ssb-')))return json({error:'일괄 개봉 요청 번호·가격을 확인하세요.',code:'SUPERSTAR_BULK_INPUT'},400);
 
   await ensureSuperstarPackFoundation(env);
   // V2062: 정상 신규 요청에서는 불필요한 만료 영수증 청소 쓰기를 생략한다.
@@ -277,6 +296,10 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
   }
   const replay=async response=>{
     if(Number(response.count||1)!==count)return json({error:'이 요청번호는 다른 개봉 수량에 사용됐습니다.',code:'SUPERSTAR_DRAW_COUNT_MISMATCH'},409);
+    if(bulk){
+      try{validateSuperstarBulkReceipt(response,{requestId,userId:user.id,count});if(response.cost!==body.expectedCost)throw Error('결제 금액이 다른 요청입니다.');}
+      catch{return json({error:'저장된 일괄 개봉 기록과 요청이 다릅니다. 새로 결제하지 않습니다.',code:'SUPERSTAR_BULK_RECEIPT'},409);}
+    }
     try{return json(await currentSuperstarInventory(env,user.id,response));}
     catch{return json({error:'현재 보유 수량 확인이 지연되고 있습니다. 같은 요청으로 다시 확인해주세요.',code:'SUPERSTAR_DRAW_PENDING',requestId},503);}
   };
@@ -290,7 +313,10 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
     }, 409);
   }
 
-  const settings=await superstarPackSettings(env,true),cost=settings.price*count;
+  if(bulk){const age=Date.now()-Number(requestId.split('-')[1]);if(age>SUPERSTAR_BULK.maxAgeMs||age< -60000)return json({error:'오래된 개봉 요청입니다. 운영자에게 지급 기록 확인을 요청하세요.',code:'SUPERSTAR_BULK_EXPIRED'},409);}
+  let settings=await superstarPackSettings(env,true),bulkSettingsValue=null;
+  if(bulk){bulkSettingsValue=(await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SETTINGS_KEY).first())?.value??'{}';settings=cleanSuperstarPackSettings(JSON.parse(bulkSettingsValue));}
+  const cost=bulk?superstarBulkCost(settings.price,count):settings.price*count;
   if(!canOpenSuperstarPack(settings,user))return json({error:'슈퍼스타팩 일반 유저 개봉은 OFF 상태입니다.',code:'SUPERSTAR_PACK_OFF',drawEnabled:false},423);
   if(body.expectedCost!==undefined&&body.expectedCost!==cost)return json({error:'개봉 가격이 변경됐습니다. 새로고침 후 다시 확인해주세요.',code:'SUPERSTAR_PRICE_CHANGED'},409);
 
@@ -326,28 +352,33 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
       await env.DB.prepare("UPDATE superstar_pack_receipts_v1 SET status='FAILED',cost=?,error_message='코인이 부족합니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?")
         .bind(cost, requestId, user.id)
         .run();
-      return json({ error: "코인이 부족합니다." }, 400);
+      return json({ error: "코인이 부족합니다.", code:'SUPERSTAR_INSUFFICIENT_COIN' }, 400);
     }
     const candidates = (candidateRows.results || []).map(cardRow);
     if (!candidates.length) throw new Error("개봉 가능한 SUPERSTAR 카드가 등록되지 않았습니다.");
 
-    const random=deps.randomUnit||secureUnit;
-    const rolls=Array.from({length:count},()=>resolveSuperstarPackRoll({successRate:settings.successRate,hitRoll:random(),cardRoll:random(),cards:candidates}));
-    const ids=[...new Set(rolls.filter(roll=>roll.hit).map(roll=>roll.card.id))].sort();
+    const random=deps.randomUnit||(bulk?bufferedSecureUnit():secureUnit);
+    const bulkWins=bulk?rollSuperstarBulk({count,successRate:settings.successRate,cards:candidates,random}):null;
+    const rolls=bulk?null:Array.from({length:count},()=>resolveSuperstarPackRoll({successRate:settings.successRate,hitRoll:random(),cardRoll:random(),cards:candidates}));
+    const ids=bulk?bulkWins.map(row=>row.card.id).sort():[...new Set(rolls.filter(roll=>roll.hit).map(roll=>roll.card.id))].sort();
     const ownedRows=ids.length?await env.DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${ids.map(()=>'?').join(',')})`).bind(user.id,...ids).all():{results:[]};
     const beforeQuantities=new Map(ids.map(id=>[id,0]));
     for(const row of ownedRows.results||[])beforeQuantities.set(String(row.card_id),Math.max(0,Number(row.quantity||0)));
     const afterQuantities=new Map(beforeQuantities);
     const coinBefore=Number(fresh.coin||0),shardsBefore=Number(fresh.card_shards||0);
     let shardGained=0;
-    const results=rolls.map((roll,slot)=>{
+    const results=bulk?bulkWins.map(row=>{
+      const quantityBefore=beforeQuantities.get(row.card.id),quantityAfter=quantityBefore+row.count,duplicateCount=row.count-(quantityBefore===0?1:0),gained=duplicateCount*600;
+      afterQuantities.set(row.card.id,quantityAfter);shardGained+=gained;
+      return {...row,hit:true,outcome:'WIN',quantityBefore,quantityAfter,duplicateCount,duplicate:duplicateCount>0,shardGained:gained};
+    }).sort((a,b)=>b.count-a.count||a.card.id.localeCompare(b.card.id)):rolls.map((roll,slot)=>{
       const quantityBefore=roll.hit?afterQuantities.get(roll.card.id):0,duplicate=roll.hit&&quantityBefore>0,gained=duplicate?600:0;
       const quantityAfter=quantityBefore+(roll.hit?1:0);
       if(roll.hit)afterQuantities.set(roll.card.id,quantityAfter);
       shardGained+=gained;
       return {slot,outcome:roll.outcome,hit:roll.hit,card:roll.card,duplicate,shardGained:gained,quantityBefore,quantityAfter,cost:settings.price};
     });
-    const coinAfter=coinBefore-cost,shardsAfter=shardsBefore+shardGained,hitCount=results.filter(result=>result.hit).length;
+    const coinAfter=coinBefore-cost,shardsAfter=shardsBefore+shardGained,hitCount=bulk?results.reduce((n,row)=>n+row.count,0):results.filter(result=>result.hit).length;
     if(![coinBefore,shardsBefore,coinAfter,shardsAfter,...afterQuantities.values()].every(Number.isSafeInteger))throw new Error('개봉 재화 범위를 확인해주세요.');
     const response = {
       requestId,
@@ -359,8 +390,10 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
       shardGained,
       coin: coinAfter,
       cardShards: shardsAfter,
-      drawProtocol: { version: 2, status: "COMPLETED", revealMode: "SWIPE",count },
+      drawProtocol: { version: bulk?3:2, status: "COMPLETED", revealMode: bulk?'SUMMARY':"SWIPE",count },
+      ...(bulk?{format:SUPERSTAR_BULK.format,userId:Number(user.id),coinBefore,coinAfter}:{}),
     };
+    if(bulk)validateSuperstarBulkReceipt(response,{requestId,userId:user.id,count});
 
     const guarded = "EXISTS(SELECT 1 FROM superstar_pack_debits_v1 d WHERE d.request_id=? AND d.user_id=?)";
     const statements=[];
@@ -371,6 +404,7 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
       "EXISTS(SELECT 1 FROM superstar_pack_receipts_v1 WHERE request_id=? AND user_id=? AND status='PENDING')",
       "NOT EXISTS(SELECT 1 FROM superstar_pack_debits_v1 WHERE request_id=?)"
     ],preBindings=[user.id,coinBefore,shardsBefore,requestId,user.id,requestId];
+    if(bulk){preConditions.push("COALESCE((SELECT value FROM app_meta WHERE key=?),'{}')=?");preBindings.push(SETTINGS_KEY,bulkSettingsValue);}
     for(const id of ids){
       preConditions.push('COALESCE((SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?),0)=?');
       preBindings.push(user.id,id,beforeQuantities.get(id));
@@ -390,7 +424,15 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
     // existing (user_id,created_at) index then visits this opening's time slice,
     // not a heavy user's entire draw history while holding the wallet lock.
     const drawLoggedAt = new Date().toISOString().replace('T',' ').slice(0,19);
-    for(const result of results.filter(result=>result.hit)) {
+    if(bulk){
+      // Card writes scale with unique types. Preserve every win's draw log in
+      // multi-row inserts so 10,000 wins do not create 20,000 SQL statements.
+      for(const row of results)statements.push(env.DB.prepare('INSERT INTO user_cards(user_id,card_id,quantity) VALUES(?,?,?) ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP').bind(user.id,row.card.id,row.count));
+      let logRows=[];
+      const flush=()=>{if(!logRows.length)return;statements.push(env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new,created_at) VALUES '+logRows.map(()=>'(?,?,?,?,?,?,?,?)').join(',')).bind(...logRows.flat()));logRows=[];};
+      for(const row of results)for(let n=0;n<row.count;n++){logRows.push([requestId,user.id,SUPERSTAR_PACK_ID,row.card.id,'SUPERSTAR',settings.price,row.quantityBefore+n===0?1:0,drawLoggedAt]);if(logRows.length===30)flush();}
+      flush();
+    }else for(const result of results.filter(result=>result.hit)) {
       statements.push(
         env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity)
           SELECT ?,?,1 WHERE ${guarded}
@@ -438,6 +480,9 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
       return json({ error: "코인이 부족합니다." }, 400);
     }
     committed = true;
+    // Bulk receipts stay immutable; both first delivery and recovery hydrate
+    // current inventory so another committed action cannot be overwritten.
+    if(bulk)return replay(response);
     const actual = await env.DB.prepare("SELECT coin,card_shards FROM users WHERE id=?").bind(user.id).first().catch(() => null);
     if (actual) {
       response.coin = Number(actual.coin ?? response.coin);
