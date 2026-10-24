@@ -43,5 +43,45 @@
     }
   ],
   "currentBrand": "리버스콜",
-  "brandSource": "assets/ui/brand/reverse-call-20261016/manifest.json"
+  "brandSource": "assets/ui/brand/reverse-call-20261016/manifest.json",
+  "currentTheme": {
+    "name": "Amethyst gateway",
+    "date": "2026-10-24",
+    "sharedManifest": "assets/ui/loading/reverse-call-purple-20261024/manifest.json",
+    "promptSet": "assets/ui/loading/reverse-call-purple-20261024/prompts.json",
+    "existingREmblemUnchanged": true,
+    "assets": [
+      {
+        "file": "packaging/windows-client/renderer/assets/launcher-purple-gate-v1.webp",
+        "bytes": 152036,
+        "sha256": "9a0c3d9537dc67485d9aecbd0c73b81c2dbc8017236a438b12e12841c4e65077"
+      },
+      {
+        "file": "packaging/windows-client/renderer/assets/action-purple-v1.webp",
+        "bytes": 10100,
+        "sha256": "a43618d59b6f9318e465018ee66b6efed817bf9b7a2b923954848cae40f72242"
+      },
+      {
+        "file": "packaging/windows-client/renderer/assets/reverse-call-title-purple.webp",
+        "bytes": 246032,
+        "sha256": "e9e6ed775a9fd0b15062c34243398fda1e4372194efbb5f316eb8de617d6bea8"
+      },
+      {
+        "file": "packaging/windows-client/art/reverse-call-title-purple-source-20261024.png",
+        "bytes": 1957680,
+        "sha256": "7b5cc66a2fafa4ba98048e112234ce99b23e190583b921c8f0e59d91538c3aa9"
+      },
+      {
+        "file": "packaging/windows-client/art/panel-purple-source-20261024.png",
+        "bytes": 1491891,
+        "sha256": "8bdd1ffd1da64c67aff37508458e93408e5d5bca70cdfda9c6e7b9d75b22d5dc"
+      },
+      {
+        "file": "packaging/windows-client/renderer/assets/panel-purple-v1.webp",
+        "bytes": 11416,
+        "sha256": "9892c648c6d22a444f968564055f10c89470751dea295b7fef666932b3ae4280"
+      }
+    ],
+    "panelRequest": "Replace navy launcher panels with dark purple; preserve common frame silhouette."
+  }
 }

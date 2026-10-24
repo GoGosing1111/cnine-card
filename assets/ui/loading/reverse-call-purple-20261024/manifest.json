@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-24",
+  "request": "런처랑 로딩화면 보라색느낌으로 새로 만들어봐",
+  "scope": "Windows PC launcher and game initial loading screen; Android launcher excluded by user",
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "prompts": "prompts.json",
+  "files": [
+    {
+      "file": "scene-source.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2179913,
+      "sha256": "cf3d101029bf0019eac0659e20bb68114001447888047353a0ca74a6163008a5"
+    },
+    {
+      "file": "action-source.png",
+      "width": 2170,
+      "height": 725,
+      "bytes": 1557269,
+      "sha256": "f0d221d1517f9935d00887e943a6c093397fe449d365317c3c25ab2e73aedf0d"
+    },
+    {
+      "file": "scene-wide.webp",
+      "width": 1672,
+      "height": 941,
+      "bytes": 152036,
+      "sha256": "9a0c3d9537dc67485d9aecbd0c73b81c2dbc8017236a438b12e12841c4e65077"
+    },
+    {
+      "file": "scene-mobile.webp",
+      "width": 1100,
+      "height": 619,
+      "bytes": 77160,
+      "sha256": "8083627f3ab8b2c7ace50bda070b42123bcf080a691dc71391cea0eaf9cffa86"
+    },
+    {
+      "file": "action.webp",
+      "width": 640,
+      "height": 214,
+      "bytes": 10100,
+      "sha256": "a43618d59b6f9318e465018ee66b6efed817bf9b7a2b923954848cae40f72242"
+    }
+  ],
+  "commonUI": {
+    "panel": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+    "actionSource": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+    "variant": "The same approved action frame, purple inset requested for launcher only; existing green common UI preserved.",
+    "panelVariant": {
+      "request": "남색 UI 변경해 안어올려",
+      "source": {
+        "file": "packaging/windows-client/art/panel-purple-source-20261024.png",
+        "bytes": 1491891,
+        "sha256": "8bdd1ffd1da64c67aff37508458e93408e5d5bca70cdfda9c6e7b9d75b22d5dc"
+      },
+      "runtime": {
+        "file": "packaging/windows-client/renderer/assets/panel-purple-v1.webp",
+        "bytes": 11416,
+        "sha256": "9892c648c6d22a444f968564055f10c89470751dea295b7fef666932b3ae4280"
+      },
+      "scope": "Windows launcher panels only; existing common codex original preserved."
+    }
+  },
+  "derivation": "Exact generated PNGs retained. Aspect-preserving resize and WebP encoding only.",
+  "consumers": [
+    "index.html .v21-renewal-boot",
+    "packaging/windows-client/renderer"
+  ],
+  "visualApproval": "Implementation and technical verification do not claim user visual approval",
+  "title": {
+    "request": "Decorate the English REVERSE CALL lettering as a dimensional image; the R emblem is unchanged.",
+    "source": {
+      "file": "packaging/windows-client/art/reverse-call-title-purple-source-20261024.png",
+      "bytes": 1957680,
+      "sha256": "7b5cc66a2fafa4ba98048e112234ce99b23e190583b921c8f0e59d91538c3aa9"
+    },
+    "runtime": {
+      "file": "assets/ui/loading/reverse-call-purple-20261024/title.webp",
+      "bytes": 246032,
+      "sha256": "e9e6ed775a9fd0b15062c34243398fda1e4372194efbb5f316eb8de617d6bea8"
+    },
+    "transparent": true,
+    "approval": "Technical verification only; no visual approval claimed."
+  }
+}

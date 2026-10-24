@@ -130,7 +130,7 @@ async function start(){
     // original HTTPS service. They are never written to the resource store.
     return forwardNetworkRequest(gameSession,request,fixtureOrigin);
   });
-  launcher=new BrowserWindow({width:1120,height:760,minWidth:950,minHeight:680,show:!qa,title:'리버스콜 런처',titleBarStyle:'hidden',titleBarOverlay:{color:'#0b101b',symbolColor:'#9caac0',height:38},backgroundColor:'#080c17',icon:path.join(here,'renderer/assets/icon.png'),autoHideMenuBar:true,webPreferences:{preload:path.join(here,'preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true,spellcheck:false}});
+  launcher=new BrowserWindow({width:1120,height:760,minWidth:950,minHeight:680,show:!qa,title:'리버스콜 런처',titleBarStyle:'hidden',titleBarOverlay:{color:'#100c1d',symbolColor:'#cbb9df',height:38},backgroundColor:'#080c17',icon:path.join(here,'renderer/assets/icon.png'),autoHideMenuBar:true,webPreferences:{preload:path.join(here,'preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true,spellcheck:false}});
   launcher.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   launcher.webContents.on('will-navigate',event=>event.preventDefault());
   launcher.on('close',event=>{if(hasGameWindows()&&!quitting){event.preventDefault();launcher.hide();}else operation?.abort();});

@@ -69,6 +69,14 @@
   .burning-command-notice{display:grid!important;visibility:visible!important;opacity:0;position:fixed!important;left:var(--burning-vv-left,0)!important;top:var(--burning-vv-top,0)!important;width:var(--burning-vv-width,100vw)!important;height:var(--burning-vv-height,100dvh)!important;z-index:2147483000!important}
   .burning-command-notice.show{opacity:1!important}
 }
+/* Dimensional English title art; the existing R emblem is unchanged. */
+.v21-renewal-boot main{width:min(620px,55%)}
+.v21-renewal-boot h1{font-size:0;line-height:1;margin:0;letter-spacing:0;transform:none}
+.v21-renewal-boot .boot-title-art{display:block;width:100%;height:auto;object-fit:contain}
+@media(max-width:640px){.v21-renewal-boot main{width:100%}.v21-renewal-boot h1{font-size:0}.v21-renewal-boot .boot-tagline{margin-top:24px}}
+@media(max-height:420px) and (min-width:641px){.v21-renewal-boot main{width:min(360px,47%)}.v21-renewal-boot h1{font-size:0}.v21-renewal-boot .boot-tagline{margin-top:14px}}
+
+
 </style>
 <link rel="stylesheet" href="css/burning-event-v1871.css?v=1902-burning-owner-timer" />
 <style id="v21-renewal-only-gate">
@@ -150,7 +158,7 @@ body.v21-ui-ready .v21-renewal-boot{display:none}
   <div class="v21-renewal-boot" aria-label="게임 로딩 화면">
     <picture class="boot-scene" aria-hidden="true"><source media="(max-width:640px)" srcset="/assets/ui/loading/reverse-call-purple-20261024/scene-mobile.webp"><img src="/assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp" alt="" width="1672" height="941" fetchpriority="high" decoding="async"></picture>
     <header class="boot-topline"><div class="boot-identity"><img src="/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent" alt="" width="38" height="38"><span>리버스콜</span></div><span class="boot-genre">카드 수집 · 용병 성장 · 협동 전투</span></header>
-    <main><p class="boot-overline">REVERSE CALL</p><h1 aria-label="리버스콜"><span aria-hidden="true">REVERSE</span><span aria-hidden="true">CALL</span></h1><p class="boot-tagline">다시, 전장으로.</p></main>
+    <main><h1 aria-label="리버스콜 · REVERSE CALL"><img class="boot-title-art" src="assets/ui/loading/reverse-call-purple-20261024/title.webp" alt="REVERSE CALL" width="1200" height="480" fetchpriority="high" decoding="async"></h1><p class="boot-tagline">다시, 전장으로.</p></main>
     <footer class="boot-loading"><div class="boot-statusline"><strong role="status" aria-live="polite">게임을 불러오고 있습니다</strong><span aria-hidden="true">LOADING</span></div><div class="boot-track" role="progressbar" aria-label="게임 로딩 중"></div><p class="boot-footnote"><span>잠시만 기다려 주세요.</span><span aria-hidden="true">REVERSE CALL</span></p></footer>
   </div>
   <div id="app"></div>

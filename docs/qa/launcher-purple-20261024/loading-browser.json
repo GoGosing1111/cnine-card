@@ -1,0 +1,319 @@
+{
+  "origin": "http://127.0.0.1:13221",
+  "production": false,
+  "results": [
+    {
+      "label": "1440x900",
+      "geometry": {
+        "width": 1440,
+        "height": 900,
+        "title": {
+          "x": 69.109375,
+          "y": 283.75,
+          "width": 620,
+          "height": 332,
+          "right": 689.109375,
+          "bottom": 615.75
+        },
+        "footer": {
+          "x": 69.109375,
+          "y": 790.40625,
+          "width": 1301.78125,
+          "height": 79.59375,
+          "right": 1370.890625,
+          "bottom": 870
+        },
+        "heading": {
+          "x": 69.109375,
+          "y": 283.75,
+          "width": 620,
+          "height": 248,
+          "right": 689.109375,
+          "bottom": 531.75
+        },
+        "headingText": {
+          "x": 69.109375,
+          "y": 283.75,
+          "width": 620,
+          "height": 248,
+          "top": 283.75,
+          "right": 689.109375,
+          "bottom": 531.75,
+          "left": 69.109375
+        },
+        "overflow": false,
+        "scene": "http://127.0.0.1:13221/assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp",
+        "rail": "url(\"http://127.0.0.1:13221/assets/ui/loading/reverse-call-20261018/rail.webp\")",
+        "animation": "reverseCallBootScan",
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "ready": {
+        "bootDisplay": "none",
+        "appVisibility": "visible",
+        "login": true
+      }
+    },
+    {
+      "label": "963x588",
+      "geometry": {
+        "width": 963,
+        "height": 588,
+        "title": {
+          "x": 46.21875,
+          "y": 148.546875,
+          "width": 478.796875,
+          "height": 267.515625,
+          "right": 525.015625,
+          "bottom": 416.0625
+        },
+        "footer": {
+          "x": 46.21875,
+          "y": 478.40625,
+          "width": 870.5625,
+          "height": 79.59375,
+          "right": 916.78125,
+          "bottom": 558
+        },
+        "heading": {
+          "x": 46.21875,
+          "y": 148.546875,
+          "width": 478.796875,
+          "height": 191.515625,
+          "right": 525.015625,
+          "bottom": 340.0625
+        },
+        "headingText": {
+          "x": 46.21875,
+          "y": 148.546875,
+          "width": 478.796875,
+          "height": 191.515625,
+          "top": 148.546875,
+          "right": 525.015625,
+          "bottom": 340.0625,
+          "left": 46.21875
+        },
+        "overflow": false,
+        "scene": "http://127.0.0.1:13221/assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp",
+        "rail": "url(\"http://127.0.0.1:13221/assets/ui/loading/reverse-call-20261018/rail.webp\")",
+        "animation": "reverseCallBootScan",
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "ready": {
+        "bootDisplay": "none",
+        "appVisibility": "visible",
+        "login": true
+      }
+    },
+    {
+      "label": "390x844",
+      "geometry": {
+        "width": 390,
+        "height": 844,
+        "title": {
+          "x": 24,
+          "y": 64,
+          "width": 342,
+          "height": 284.75,
+          "right": 366,
+          "bottom": 348.75
+        },
+        "footer": {
+          "x": 24,
+          "y": 747,
+          "width": 342,
+          "height": 73,
+          "right": 366,
+          "bottom": 820
+        },
+        "heading": {
+          "x": 24,
+          "y": 139.953125,
+          "width": 342,
+          "height": 136.796875,
+          "right": 366,
+          "bottom": 276.75
+        },
+        "headingText": {
+          "x": 24,
+          "y": 139.953125,
+          "width": 342,
+          "height": 136.796875,
+          "top": 139.953125,
+          "right": 366,
+          "bottom": 276.75,
+          "left": 24
+        },
+        "overflow": false,
+        "scene": "http://127.0.0.1:13221/assets/ui/loading/reverse-call-purple-20261024/scene-mobile.webp",
+        "rail": "url(\"http://127.0.0.1:13221/assets/ui/loading/reverse-call-20261018/rail.webp\")",
+        "animation": "reverseCallBootScan",
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "reducedMotion": true,
+      "ready": {
+        "bootDisplay": "none",
+        "appVisibility": "visible",
+        "login": true
+      }
+    },
+    {
+      "label": "320x568",
+      "geometry": {
+        "width": 320,
+        "height": 568,
+        "title": {
+          "x": 24,
+          "y": 64,
+          "width": 272,
+          "height": 208.796875,
+          "right": 296,
+          "bottom": 272.796875
+        },
+        "footer": {
+          "x": 24,
+          "y": 471,
+          "width": 272,
+          "height": 73,
+          "right": 296,
+          "bottom": 544
+        },
+        "heading": {
+          "x": 24,
+          "y": 92,
+          "width": 272,
+          "height": 108.796875,
+          "right": 296,
+          "bottom": 200.796875
+        },
+        "headingText": {
+          "x": 24,
+          "y": 92,
+          "width": 272,
+          "height": 108.796875,
+          "top": 92,
+          "right": 296,
+          "bottom": 200.796875,
+          "left": 24
+        },
+        "overflow": false,
+        "scene": "http://127.0.0.1:13221/assets/ui/loading/reverse-call-purple-20261024/scene-mobile.webp",
+        "rail": "url(\"http://127.0.0.1:13221/assets/ui/loading/reverse-call-20261018/rail.webp\")",
+        "animation": "reverseCallBootScan",
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "ready": {
+        "bootDisplay": "none",
+        "appVisibility": "visible",
+        "login": true
+      }
+    },
+    {
+      "label": "844x390",
+      "geometry": {
+        "width": 844,
+        "height": 390,
+        "title": {
+          "x": 32,
+          "y": 76.703125,
+          "width": 360,
+          "height": 198,
+          "right": 392,
+          "bottom": 274.703125
+        },
+        "footer": {
+          "x": 32,
+          "y": 303.40625,
+          "width": 780,
+          "height": 68.59375,
+          "right": 812,
+          "bottom": 372
+        },
+        "heading": {
+          "x": 32,
+          "y": 86.703125,
+          "width": 360,
+          "height": 144,
+          "right": 392,
+          "bottom": 230.703125
+        },
+        "headingText": {
+          "x": 32,
+          "y": 86.703125,
+          "width": 360,
+          "height": 144,
+          "top": 86.703125,
+          "right": 392,
+          "bottom": 230.703125,
+          "left": 32
+        },
+        "overflow": false,
+        "scene": "http://127.0.0.1:13221/assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp",
+        "rail": "url(\"http://127.0.0.1:13221/assets/ui/loading/reverse-call-20261018/rail.webp\")",
+        "animation": "reverseCallBootScan",
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "ready": {
+        "bootDisplay": "none",
+        "appVisibility": "visible",
+        "login": true
+      }
+    },
+    {
+      "label": "320x568-fallback",
+      "geometry": {
+        "width": 320,
+        "height": 568,
+        "title": {
+          "x": 24,
+          "y": 64,
+          "width": 272,
+          "height": 208.796875,
+          "right": 296,
+          "bottom": 272.796875
+        },
+        "footer": {
+          "x": 24,
+          "y": 471,
+          "width": 272,
+          "height": 73,
+          "right": 296,
+          "bottom": 544
+        },
+        "heading": {
+          "x": 24,
+          "y": 92,
+          "width": 272,
+          "height": 108.796875,
+          "right": 296,
+          "bottom": 200.796875
+        },
+        "headingText": {
+          "x": 24,
+          "y": 92,
+          "width": 272,
+          "height": 108.796875,
+          "top": 92,
+          "right": 296,
+          "bottom": 200.796875,
+          "left": 24
+        },
+        "overflow": false,
+        "scene": "http://127.0.0.1:13221/assets/ui/loading/reverse-call-purple-20261024/scene-mobile.webp",
+        "rail": "url(\"http://127.0.0.1:13221/assets/ui/loading/reverse-call-20261018/rail.webp\")",
+        "animation": "reverseCallBootScan",
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "ready": {
+        "bootDisplay": "none",
+        "appVisibility": "visible",
+        "login": true
+      }
+    }
+  ]
+}

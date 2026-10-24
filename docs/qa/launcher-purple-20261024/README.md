@@ -1,0 +1,31 @@
+# Windows launcher and initial loading — 2026-10-24
+
+User scope: Windows PC launcher plus the game's first loading screen. Android launcher is excluded. Follow-up corrections require dimensional image lettering for **REVERSE CALL**, preserving the existing R emblem, and replacing the mismatched navy launcher panels with dark purple.
+
+## Result
+
+- Shared amethyst cathedral gateway background, silver/amethyst dimensional English title with real alpha, lavender status/progress treatment.
+- Existing codex metal panel and action frame adapted to purple through built-in ImageGen; original common navy/green assets remain intact. Launcher home, navigation selection, resource/help cards, disabled action and footer use the purple panel.
+- Windows client version 0.1.9. Existing application ID, GUID, login profile, cache policy, download/repair, auto-update and actual progress remain unchanged.
+- Boot uses the existing readiness signal and reduced-motion behavior. No artificial delay or fabricated percentage.
+
+## Artwork and preservation
+
+Source/derivative hashes and prompts: `assets/ui/loading/reverse-call-purple-20261024/manifest.json` and `prompts.json`; Windows references: `packaging/windows-client/art/manifest.json`.
+Built-in `image_gen.imagegen` was used for the scene, button/panel recolors and title. Original PNGs are retained; WebPs use aspect-preserving encoding. The existing R emblem bytes are unchanged. Technical checks are not recorded as user visual approval.
+
+## Validation
+
+- Actual Electron renderer at 1120×760 and minimum 950×680: home, resources, help, readable title, contained content and usable buttons. Native screenshots respect Windows display scaling.
+- Native local fixture: download → start → close → repair → repeat start; cached resources do not redownload; session/API transport preserved; remote Node/launcher bridge disabled. `native-functions.json`.
+- Final purple panel visual pass: `native-visual.json`, `native-screens.json` and screenshots. Initial hidden-window CDP screenshot timed out; Electron's native `capturePage` with `stayHidden` produced the verified captures without displaying a test window.
+- Actual first-loading renderer: 1440×900, 963×588, 390×844, 320×568, 844×390, and 320px with fallback fonts; no clipping/errors, real login transition and reduced-motion verified. `loading-browser.json`.
+- Scoped release checks: existing Windows client, updater and installer unit checks plus the existing boot-readiness regression. UI/art-only change; no economy, combat or permissions changes.
+
+## Release scope
+
+Production base verified through Cloudflare: `9f4aecd09cb6590af7f6bedc0e7454ae9e8e435b` / Pages `a36716fa-bb99-4c0b-8584-230d968643af`. This release starts from the latest main and preserves the concurrent Razak release.
+
+The original shared source checkout had unrelated active changes. A managed sparse worktree isolates this release; existing build dependencies and the previous client-only build directory were reused. No project/node_modules copy was made. New disposable dependencies are removed after verification; artwork/prompts and latest installer are retained.
+
+Deployment and public verification receipts will be added after the official scoped release and Windows publisher complete.

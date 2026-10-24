@@ -1,3 +1,9 @@
+## Windows 런처·첫 로딩 보라색 테마 — 2026-10-24
+
+- 사용자 범위는 **Windows PC 런처 + 게임 첫 로딩 화면**이다. Android 런처는 제외한다.
+- 보라색 성문 배경과 **영어 REVERSE CALL 입체 이미지 글자**를 사용한다. 기존 R 심벌 자체를 교체하는 지시가 아니며 원본을 그대로 유지한다.
+- 후속 `남색 UI 변경해 안어올려`에 따라 런처의 공통 패널을 짙은 보라색 변형으로 사용한다. 금속 프레임 윤곽을 유지하며 기존 도감의 남색/연두색 원본은 보존한다.
+- 리소스·프롬프트 정본 `assets/ui/loading/reverse-call-purple-20261024/manifest.json`, Windows 원화 색인 `packaging/windows-client/art/manifest.json`. 실제 구현·검수 기록 `docs/qa/launcher-purple-20261024/README.md`. 기술 검수를 사용자 시각 승인으로 기록하지 않는다.
 ## 라자크 SSS · 도감 공개·획득 불가 — 2026-10-24
 
 - **운영 반영 완료:** 소스 `9f4aecd09`, Pages `a36716fa`. 관련 검사 19개·PC/모바일 도감·공개 파일 38개 해시 확인. 계정 지급 0건, 획득 잠금.

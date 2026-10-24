@@ -1,0 +1,302 @@
+[
+  {
+    "width": 1120,
+    "height": 760,
+    "panel": "game",
+    "metrics": {
+      "width": 1120,
+      "height": 762,
+      "bodyOverflow": false,
+      "title": {
+        "x": 130,
+        "y": 230.8000030517578,
+        "right": 575,
+        "bottom": 408.8000030517578,
+        "width": 445,
+        "height": 178
+      },
+      "hero": {
+        "x": 90,
+        "y": 98,
+        "right": 1120,
+        "bottom": 596.6000061035156,
+        "width": 1030,
+        "height": 498.6000061035156
+      },
+      "account": {
+        "x": 130,
+        "y": 503,
+        "right": 1080,
+        "bottom": 518.1999998092651,
+        "width": 950,
+        "height": 15.199999809265137
+      },
+      "play": {
+        "x": 861.2000122070312,
+        "y": 622.2000122070312,
+        "right": 1089.2000122070312,
+        "bottom": 694.2000122070312,
+        "width": 228,
+        "height": 72
+      },
+      "stage": {
+        "x": 90,
+        "y": 98,
+        "right": 1120,
+        "bottom": 596.6000061035156,
+        "width": 1030,
+        "height": 498.6000061035156
+      }
+    }
+  },
+  {
+    "width": 1120,
+    "height": 760,
+    "panel": "resources",
+    "metrics": {
+      "width": 1120,
+      "height": 762,
+      "bodyOverflow": false,
+      "title": {
+        "x": 0,
+        "y": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "account": {
+        "x": 0,
+        "y": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "play": {
+        "x": 861.2000122070312,
+        "y": 623.2000122070312,
+        "right": 1089.2000122070312,
+        "bottom": 695.2000122070312,
+        "width": 228,
+        "height": 72
+      },
+      "stage": {
+        "x": 90,
+        "y": 98,
+        "right": 1120,
+        "bottom": 596.6000061035156,
+        "width": 1030,
+        "height": 498.6000061035156
+      }
+    }
+  },
+  {
+    "width": 1120,
+    "height": 760,
+    "panel": "help",
+    "metrics": {
+      "width": 1120,
+      "height": 762,
+      "bodyOverflow": false,
+      "title": {
+        "x": 0,
+        "y": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "account": {
+        "x": 0,
+        "y": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "play": {
+        "x": 861.2000122070312,
+        "y": 623.2000122070312,
+        "right": 1089.2000122070312,
+        "bottom": 695.2000122070312,
+        "width": 228,
+        "height": 72
+      },
+      "stage": {
+        "x": 90,
+        "y": 98,
+        "right": 1120,
+        "bottom": 596.6000061035156,
+        "width": 1030,
+        "height": 498.6000061035156
+      }
+    }
+  },
+  {
+    "width": 950,
+    "height": 680,
+    "panel": "game",
+    "metrics": {
+      "width": 952,
+      "height": 682,
+      "bodyOverflow": false,
+      "title": {
+        "x": 120,
+        "y": 187.8000030517578,
+        "right": 505,
+        "bottom": 341.8000030517578,
+        "width": 385,
+        "height": 154
+      },
+      "hero": {
+        "x": 90,
+        "y": 92,
+        "right": 952,
+        "bottom": 521.3999938964844,
+        "width": 862,
+        "height": 429.3999938964844
+      },
+      "account": {
+        "x": 120,
+        "y": 412.3999938964844,
+        "right": 918,
+        "bottom": 427.5999937057495,
+        "width": 798,
+        "height": 15.199999809265137
+      },
+      "play": {
+        "x": 716.2000122070312,
+        "y": 548,
+        "right": 921.2000122070312,
+        "bottom": 612,
+        "width": 205,
+        "height": 64
+      },
+      "stage": {
+        "x": 90,
+        "y": 92,
+        "right": 952,
+        "bottom": 521.3999938964844,
+        "width": 862,
+        "height": 429.3999938964844
+      }
+    }
+  },
+  {
+    "width": 950,
+    "height": 680,
+    "panel": "resources",
+    "metrics": {
+      "width": 952,
+      "height": 682,
+      "bodyOverflow": false,
+      "title": {
+        "x": 0,
+        "y": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "account": {
+        "x": 0,
+        "y": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "play": {
+        "x": 716.2000122070312,
+        "y": 548,
+        "right": 921.2000122070312,
+        "bottom": 612,
+        "width": 205,
+        "height": 64
+      },
+      "stage": {
+        "x": 90,
+        "y": 92,
+        "right": 952,
+        "bottom": 521.3999938964844,
+        "width": 862,
+        "height": 429.3999938964844
+      }
+    }
+  },
+  {
+    "width": 950,
+    "height": 680,
+    "panel": "help",
+    "metrics": {
+      "width": 952,
+      "height": 682,
+      "bodyOverflow": false,
+      "title": {
+        "x": 0,
+        "y": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "account": {
+        "x": 0,
+        "y": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "play": {
+        "x": 716.2000122070312,
+        "y": 548,
+        "right": 921.2000122070312,
+        "bottom": 612,
+        "width": 205,
+        "height": 64
+      },
+      "stage": {
+        "x": 90,
+        "y": 92,
+        "right": 952,
+        "bottom": 521.3999938964844,
+        "width": 862,
+        "height": 429.3999938964844
+      }
+    }
+  }
+]

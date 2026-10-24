@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "profile": "C:\\Users\\User\\AppData\\Local\\Temp\\soop-client-browser-EETQwo",
+  "staticDownloads": 3,
+  "repeatStaticDownloads": 0,
+  "apiRequests": 2,
+  "authorizationBodyAndSessionCookieVerified": true,
+  "remoteNodeAndBridgeDisabled": true,
+  "serviceWorkers": 0,
+  "errors": []
+}
