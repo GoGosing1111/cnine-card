@@ -1,0 +1,26 @@
+{
+  "before": "2026-10-24T22:33:52.952Z",
+  "after": "2026-10-24T22:53:56.780Z",
+  "mode": "READ ONLY",
+  "checks": [
+    {
+      "field": "pack",
+      "unchanged": true
+    },
+    {
+      "field": "rates",
+      "unchanged": true
+    },
+    {
+      "field": "settings",
+      "unchanged": true
+    },
+    {
+      "field": "critical",
+      "unchanged": true
+    }
+  ],
+  "productionSettingWrites": 0,
+  "productionAccountCharges": 0,
+  "productionAccountGrants": 0
+}

@@ -1,0 +1,67 @@
+{
+  "at": "2026-10-24T22:53:53.878Z",
+  "pages": {
+    "id": "016a9f1e-34dd-4e28-b116-f743f3c1a71f",
+    "url": "https://016a9f1e.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "88615e2b2be29e161f5954e99dbcc9dad5c8ab8c"
+  },
+  "runtime": {
+    "id": "fc50928f-ee21-4212-80b1-ebb947237845",
+    "source": "wrangler",
+    "strategy": "percentage",
+    "annotations": {
+      "workers/triggered_by": "deployment"
+    },
+    "versions": [
+      {
+        "version_id": "0a2985ec-de60-418c-b4d1-c84f153adbcb",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-10-24T22:52:27.127421Z"
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "a31bfb53013ea6f91b4b44a1d557b29ea22071a7b950d9a64ba702f941d7f39a",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "5a990f2b9b9a1d8c808eeddb8212580edf050a0377b26b5b474b78784e987db1",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "78ff0411ae8e6c604d3e9dc4c947d2020b1a74ccc24d9cc19788adb700d621b8",
+      "status": 200
+    },
+    {
+      "file": "js/soopketmon-v21-login-shop-adapter.js",
+      "sha256": "77f57a9f4e054b506acddd483eb46f6acfbec984379b34d1643ae5d248626ce2",
+      "status": 200
+    },
+    {
+      "file": "js/ultimate-pack-bulk.mjs",
+      "sha256": "37087d36919994fd5df90ac7adf7208fc36edf81f37f6e0679fd8f2c3ac327f0",
+      "status": 200
+    },
+    {
+      "file": "css/ultimate-pack-bulk.css",
+      "sha256": "524c4c22271892d0f6ab238ac2ee7b609b607e774c8fe764ece2e8052cd3a53a",
+      "status": 200
+    },
+    {
+      "file": "shared/ultimate-pack-bulk-v1.mjs",
+      "sha256": "19ce6092370625a117b6686d311f5a72bde4a6fb9a790a209a6e55c072f9eeb6",
+      "status": 200
+    }
+  ],
+  "unauthenticatedOpening": 401,
+  "apiRuntimeBulkRoute": true,
+  "bloodmoonSalesLocked": true,
+  "permanentBenchmarkWorkerStatus": 404,
+  "productionAccountCharges": 0,
+  "productionAccountGrants": 0
+}

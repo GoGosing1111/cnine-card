@@ -1,6 +1,6 @@
 # 얼티메이트팩 100,000장 빠른 개봉
 
-2026-10-25. 구현·검증 완료. **이번 변경은 아직 운영 배포하지 않았다.**
+2026-10-25 07:53 KST 운영 반영 및 확인 완료. 소스 `88615e2b2be29e161f5954e99dbcc9dad5c8ab8c`, Pages `016a9f1e-34dd-4e28-b116-f743f3c1a71f`, API Runtime `0a2985ec-de60-418c-b4d1-c84f153adbcb`.
 
 ## 사용자 범위
 
@@ -43,4 +43,12 @@
 
 `remote.json`, `remote-cleanup.json`, `browser.json`, PC/모바일 캡처와 소스 해시는 이 폴더에 보존한다. 재현 코드는 테스트 및 이 폴더의 READ ONLY 점검/원격 프리뷰 스크립트다. 원시 후보 풀·개별 임시 영수증은 `C:/Users/User/Downloads/cnine-z-body-sword-20260918/site/docs/qa/ultimate-pack-bulk-20261025/`에 보존한다. 실제 계정·설정 쓰기 0건이다.
 
-이 작업은 기존 보호된 작업 폴더를 재사용했다. 이전 작업에서 자동 승인 검토가 차단한 `.wrangler/cache/cf.json` 및 의존성 junction을 삭제하거나 우회 정리하지 않았다. 운영 배포는 기존 scoped 게이트와 깨끗한 배포 폴더 규칙을 그대로 따른다.
+## 운영 확인
+
+- `npm run deploy:production -- --scoped`로 관련 검사 45개·Worker 검사·릴리스 캐시 일치·Hyperdrive 캐시 OFF 검사를 통과한 뒤 배포했다. 앞선 캐시 버전 불일치 검사는 업로드 전 실패했으며 앱과 서비스워커 버전을 맞춰 재검사했다. 실패/성공 원시 로그는 위 보존 경로에 있다.
+- 공개 `index.html`, `service-worker.js`, 앱/상점 어댑터, 신규 일괄 모듈/CSS/공유 규칙 총 7개 파일이 로컬 SHA-256과 일치한다. 운영 API 번들의 실제 신규 경로와 미인증 구매 401 차단을 확인했다.
+- 배포 전후 READ ONLY 조회에서 얼티메이트 가격·판매 상태·확률·크리티컬 및 블러드문/할로윈 설정 해시가 일치했다. 블러드문 공개 API는 `releaseEnabled=false`, `userOpeningEnabled=false`를 유지한다.
+- 임시 성능 Worker는 상시 배포되지 않았으며 조회 404를 확인했다. 검증을 위한 실제 계정 구매·차감·지급·운영 설정 쓰기는 없다.
+- `live-verification.json`, `settings-verification.json`, `deployment-result.json`에 운영 확인 결과를 보존한다. 검수용 거래·성능 테스트 결과와 실제 운영 계정 거래를 구분한다.
+
+이 작업은 기존 보호된 작업 폴더와 의존성 junction을 재사용했다. 이전 작업에서 자동 승인 검토가 차단한 삭제는 재시도하지 않았다. 2,035바이트의 `.wrangler/cache/cf.json`은 원시 증빙 경로에 비파괴 이동하고 전후 SHA-256 일치를 확인했다(`cache-preservation.json`). 공유 의존성과 보호된 작업 폴더는 유지하며, 배포 후 작업 폴더에 새 ignored 산출물이 없음을 확인했다.
