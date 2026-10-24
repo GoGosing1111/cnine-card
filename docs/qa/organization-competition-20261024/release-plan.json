@@ -1,0 +1,33 @@
+{
+  "requested": "배포하고 유저공지용 작성해",
+  "previousPages": {
+    "id": "990f2951-9556-4f8b-b0b8-f2ca49402ffa",
+    "commit": "335eafc712dc9188c8a98b9eeba9f77a64e431ec"
+  },
+  "featureCommit": "e52c4dbc29ec5d38ddef5a97a79db67228ae5f13",
+  "command": "npm run deploy:production -- --scoped",
+  "reason": "세력전 회차 피그코인·주간 승점·4주 시즌 및 순위 UI만 변경. 공통 인증/DB/의존성 변경 없음. 원자성·중복·OFF/TEST 및 기존 세력전 회귀와 배포 자산 정책 검사.",
+  "tests": [
+    "tests/organization-competition-20261024.test.mjs",
+    "tests/organization-schedule-20261023.test.mjs",
+    "tests/organization-faction-20261015.test.mjs",
+    "tests/organization-command-20261021.test.mjs",
+    "tests/organization-self-squads-20261022.test.mjs",
+    "tests/organization-elders-20261019.test.mjs",
+    "tests/pig-coin-message-reward.test.mjs"
+  ],
+  "checks": [
+    "test:release-policy",
+    "check:worker"
+  ],
+  "pagesCapacity": {
+    "before": 20002,
+    "after": 20000,
+    "excludedCommands": [
+      "scripts/postgres-load.py",
+      "scripts/postgres-verify.py"
+    ],
+    "preservedInGit": true
+  },
+  "noticePublished": false
+}
