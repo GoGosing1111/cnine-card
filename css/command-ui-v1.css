@@ -30,7 +30,8 @@
 .cn-command-ui .cn-ui-button:hover:not(:disabled){filter:brightness(1.08);background:none;transform:none}
 .cn-command-ui .cn-ui-button:disabled{filter:saturate(.3);opacity:.65;cursor:not-allowed}
 .cn-command-ui .cn-ui-button:focus-visible{outline:2px solid var(--command-lime);outline-offset:3px}
-.pvev2-live-root .raid-content-tabs button{border:7px solid transparent;border-image:var(--command-panel) 48 fill / 16px stretch;border-radius:0;background:none;box-shadow:none;color:var(--command-muted)}
-.pvev2-live-root .raid-content-tabs button.active{border-image:var(--command-action) 38 fill / 9px stretch;background:none;color:#18240a;text-shadow:none}
-.pvev2-live-root .raid-content-tabs button.active::after{display:none}
+.pvev2-live-root .raid-content-tabs > button[data-raid-content]{border:7px solid transparent;border-image:var(--command-panel) 48 fill / 16px stretch;border-radius:0;background:none;box-shadow:none;color:var(--command-muted);-webkit-text-fill-color:currentColor}
+.pvev2-live-root .raid-content-tabs > button[data-raid-content].active{border-image:var(--command-action) 38 fill / 9px stretch;background:none;color:#18240a;-webkit-text-fill-color:#18240a;text-shadow:none}
+.pvev2-live-root .raid-content-tabs > button[data-raid-content] :is(small,b){color:inherit;-webkit-text-fill-color:inherit}
+.pvev2-live-root .raid-content-tabs > button[data-raid-content].active::after{display:none}
 @media(prefers-reduced-motion:reduce){.cn-command-ui .cn-ui-button{transition:none}}

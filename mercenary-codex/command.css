@@ -1,4 +1,4 @@
-@import url('/css/command-ui-v1.css?v=20261024-codex-common1');
+@import url('/css/command-ui-v1.css?v=20261024-codex-common2');
 /* Approved command preview: original green action and matte navy image, 9-sliced. */
 .command-codex{--muted:#b9c5d9;--text:#f0f4fc;--line:#33415b;font-family:'Pretendard Variable',Pretendard,'Noto Sans KR','Malgun Gothic',sans-serif;font-size:15px;line-height:1.55;font-synthesis:none;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#080c17;color:var(--text)}
 .command-codex :is(button,input,select){font-family:inherit}

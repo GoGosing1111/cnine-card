@@ -1,6 +1,6 @@
 /* Existing raid layout; the user-selected mercenary codex is the common image UI. */
 @import url('/raid/madara/live.css?v=20261021-varsen1');
-@import url('/css/command-ui-v1.css?v=20261024-codex-common1');
+@import url('/css/command-ui-v1.css?v=20261024-codex-common2');
 
 .bw-root,.bw-combat{--mr-bg:#080c17;--mr-panel:#111828;--mr-line:#28324a;--mr-text:#f3f5ff;--mr-muted:#9da9c0;--mr-lime:#c8ff6b;--mr-cyan:#83d7ff;--mr-red:#ff807c;color:var(--mr-text);background:var(--mr-bg);font-family:'Pretendard Variable',Pretendard,'Noto Sans KR','Malgun Gothic',sans-serif;color-scheme:dark}
 .bw-root *,.bw-combat *{box-sizing:border-box}

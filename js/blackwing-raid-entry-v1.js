@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261024-codex-ui3';
+  const VERSION = '20261024-codex-ui4';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, activeRoot = null, revision = 0;
   const host = () => document.getElementById('pveBlackwingRaidView');
   async function refresh() {

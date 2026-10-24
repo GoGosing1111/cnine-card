@@ -1,4 +1,5 @@
-// Loopback-only UI regression with synthetic accounts; never calls production APIs.
+// Loopback UI regression with synthetic accounts; never calls production APIs.
+// Optional production static files are read through the local server only.
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import fs from 'node:fs';
@@ -13,8 +14,10 @@ import { REVIEW_DECK } from '../preview/lich-king-raid-v1/fixture.mjs';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const root = path.resolve(fileURLToPath(new URL('../', import.meta.url)));
 const out=process.env.BLACKWING_QA_DIR;if(!out)throw Error('BLACKWING_QA_DIR is required outside the release tree');fs.mkdirSync(out,{recursive:true});
+const staticOrigin=process.env.BLACKWING_STATIC_ORIGIN;
+if(staticOrigin)assert.equal(new URL(staticOrigin).origin,'https://cnine-card.pages.dev');
 const lich = await blackwingLiveFixture();
-await lich.configure({enrageSeconds:600,mechanicTimePercent:200});
+await lich.configure(process.env.BLACKWING_UI_ONLY==='1'?{enrageSeconds:300,mechanicTimePercent:100}:{enrageSeconds:600,mechanicTimePercent:200});
 for(const [i,id] of [1,2,3,6,7,8].entries())lich.setDeck(id,{cards:[...REVIEW_DECK.slice(i%5),...REVIEW_DECK.slice(0,i%5)]});
 const user = {id:1,serverUserId:1,nickname:'로컬 정벌 검수',role:'OWNER',coin:123456789,pigCoin:0,cardShards:12000,
   masterStars:2000,owned:REVIEW_DECK.map(c=>c.id),quantities:Object.fromEntries(REVIEW_DECK.map(c=>[c.id,1])),
@@ -47,6 +50,11 @@ const server = http.createServer(async (req,res) => {
         'admin/mercenaries/opening':{mode:'OFF',rankCounts:{},ready:false},
       }[key]||{visible:false,enabled:false,items:[],profiles:[],cards:[],loadouts:[],settings:{}});
     }
+    if(staticOrigin){
+      const response=await fetch(new URL(url.pathname+url.search,staticOrigin));
+      res.writeHead(response.status,{'content-type':response.headers.get('content-type')||'application/octet-stream','cache-control':'no-store'});
+      return res.end(Buffer.from(await response.arrayBuffer()));
+    }
     let file=path.resolve(root,'.'+decodeURIComponent(url.pathname));
     if(file!==root&&!file.startsWith(root+path.sep)) {res.writeHead(403);return res.end();}
     if(fs.existsSync(file)&&fs.statSync(file).isDirectory()) file=path.join(file,'index.html');
@@ -76,6 +84,8 @@ try {
    const lobbyLayout=await page.evaluate(()=>({overflow:document.querySelector('.bw-root').scrollWidth>document.querySelector('.bw-root').clientWidth,tabImage:getComputedStyle(document.querySelector('#blackwingRaidTab')).backgroundImage,tabFrame:getComputedStyle(document.querySelector('#blackwingRaidTab')).borderImageSource,buttonImage:getComputedStyle(document.querySelector('[data-create]')).backgroundImage,buttonFrame:getComputedStyle(document.querySelector('[data-create]')).borderImageSource,panelFrame:getComputedStyle(document.querySelector('.bw-preparation')).borderImageSource,buttonHeight:document.querySelector('[data-create]').getBoundingClientRect().height,bossPosition:getComputedStyle(document.querySelector('.bw-boss-art')).objectPosition}));
    assert.equal(lobbyLayout.overflow,false);assert.ok(!/blackwing.*button/.test(lobbyLayout.tabImage));assert.equal(lobbyLayout.buttonImage,'none');assert.ok(lobbyLayout.buttonHeight>=44);assert.ok(lobbyLayout.bossPosition.endsWith('0%'));
    assert.match(lobbyLayout.buttonFrame,/mercenary-codex\/command-20261021\/action-user-approved.webp/);assert.match(lobbyLayout.panelFrame,/mercenary-codex\/command-20261021\/panel-v3.webp/);assert.match(lobbyLayout.tabFrame,/action-user-approved.webp/);
+   const tabStyles=await page.locator('.raid-content-tabs > button:visible').evaluateAll(tabs=>tabs.map(el=>({active:el.classList.contains('active'),frame:getComputedStyle(el).borderImageSource,labels:[...el.querySelectorAll('small,b')].map(label=>({color:getComputedStyle(label).color,fill:getComputedStyle(label).webkitTextFillColor}))})));
+   for(const tab of tabStyles){assert.match(tab.frame,tab.active?/action-user-approved.webp/:/panel-v3.webp/);if(tab.active)for(const label of tab.labels){assert.equal(label.color,'rgb(24, 36, 10)');assert.equal(label.fill,'rgb(24, 36, 10)');}}
    await page.locator('.bw-heading').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`lobby-${width}.png`)});
    assert.ok(await page.locator('.bw-boss-art').isVisible());
    await page.locator('[data-create]').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`roles-${width}.png`)});
