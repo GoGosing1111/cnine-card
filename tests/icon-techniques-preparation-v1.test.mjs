@@ -93,6 +93,7 @@ test('CMS mount isolates editing events and route remains OWNER-only preparation
  assert.match(read('admin/icon-admin-v1.mjs'),/event.target.closest\('\.ic-technique-editor'\)/);
  assert.match(read('admin/icon-technique-editor-v1.mjs'),/\/api\/admin\/icon-techniques/);
  assert.match(read('admin/icon-technique-editor-v1.mjs'),/preview\/icon-techniques-20261015/);
- assert.match(read('admin/index.html'),/icon-admin-v1\.mjs[^"]*techniques=20261015-public-off-v1/);
+ assert.match(read('admin/index.html'),/icon-admin-v1\.mjs\?v=20261024-enhancement-v1/);
+ assert.match(read('admin/icon-admin-v1.mjs'),/icon-technique-editor-v1\.mjs\?v=20261016-bongsoon-icon-v1/);
  assert.doesNotMatch(read('functions/_icon_roles.js'),/icon-techniques|icon_technique_preparation/);
 });
