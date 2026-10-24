@@ -1,0 +1,17 @@
+{
+  "branch": "codex/omega-awakened-live-20261024",
+  "evidenceCommit": "ad23cc3a4a7573c8482579d42685d1b0632f8d22",
+  "liveSource": "79f6ebda1fe0b723d10793351eb9dcf78e4df1c8",
+  "managedWorktree": "C:\\Users\\User\\.codex\\worktrees\\omega-awakened-release\\cnine-card",
+  "originalResources": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\omega-evolved-awakened-battle-20261024-v1",
+  "resourceOriginalsPreserved": true,
+  "gitPushed": true,
+  "archivePlanned": false,
+  "archived": false,
+  "archiveBlocked": "The task's primary checkout cannot be removed.",
+  "dependencyJunctionRetained": true,
+  "dependencyCopyCreated": false,
+  "cleanupReview": "Junction removal rejected: blocked by policy",
+  "codexLogicalGiB": 64.142,
+  "storageAuditedAt": "2026-10-24T13:56:59.503034+00:00"
+}
