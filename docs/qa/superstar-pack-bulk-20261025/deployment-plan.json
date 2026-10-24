@@ -1,0 +1,17 @@
+{
+  "base": "88615e2b2be29e161f5954e99dbcc9dad5c8ab8c",
+  "reason": "슈퍼스타 1000/10000회 빠른 개봉. 기존 확률·가격·중복 조각·개별 당첨 로그와 영수증 원자성 및 복구 보존. 공유 결과 UI의 얼티메이트 회귀 확인.",
+  "tests": [
+    "tests/superstar-pack-bulk-20261025.test.mjs",
+    "tests/superstar-pack-batch-v2047.test.mjs",
+    "tests/superstar-pack-postgres-v2048.test.mjs",
+    "tests/superstar-pack-client-v2047.test.mjs",
+    "tests/superstar-pack-v1894.test.mjs",
+    "tests/superstar-duplicates-v2051.test.mjs",
+    "tests/ultimate-pack-bulk-20261025.test.mjs",
+    "tests/mercenary-craft-materials-20261025.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

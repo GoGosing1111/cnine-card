@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-24T23:18:37.362Z",
+  "head": "57cefb04064942da3aacfc1880582ce6bf3db9e7",
+  "source": "live API packs + live app normalization + live shop renderer",
+  "counts": [
+    1000,
+    10000
+  ],
+  "price": 300000000,
+  "successRate": 10,
+  "accountWrites": 0
+}

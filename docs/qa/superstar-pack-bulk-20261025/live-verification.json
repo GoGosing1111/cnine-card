@@ -1,0 +1,82 @@
+{
+  "at": "2026-10-24T23:18:38.676Z",
+  "pages": {
+    "id": "c70ff3c8-689a-44fc-a985-79f16028c983",
+    "url": "https://c70ff3c8.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "57cefb04064942da3aacfc1880582ce6bf3db9e7"
+  },
+  "runtime": {
+    "id": "3c0e7986-34d4-4e40-bf0a-f73cb9a223ff",
+    "source": "wrangler",
+    "strategy": "percentage",
+    "annotations": {
+      "workers/triggered_by": "deployment"
+    },
+    "versions": [
+      {
+        "version_id": "5b025e82-6769-4b81-93c6-e4a6733d6be4",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-10-24T23:16:50.143808Z"
+  },
+  "superstarCatalog": {
+    "bulkDrawCounts": [
+      1000,
+      10000
+    ],
+    "maxDrawCount": 10000,
+    "price": 300000000,
+    "successRate": 10,
+    "drawEnabled": true
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "f6f9d4a222faccdb6b9a656a162ec84b8c4fe163a9d38dba20a6d15ea269cb44",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "af6883d4b0bfd047a87657baac26f2690e82df2d1ccfc65abd30606ff1353630",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "a6aa00cedd31c795adce41a6f672a61bb49b49caf958325dd1cf6d18fde85f94",
+      "status": 200
+    },
+    {
+      "file": "js/soopketmon-v21-login-shop-adapter.js",
+      "sha256": "77f57a9f4e054b506acddd483eb46f6acfbec984379b34d1643ae5d248626ce2",
+      "status": 200
+    },
+    {
+      "file": "js/ultimate-pack-bulk.mjs",
+      "sha256": "82f8f68999560549ca11d6977dc60672ab63048d14abe64f7fb94c74a712741d",
+      "status": 200
+    },
+    {
+      "file": "css/ultimate-pack-bulk.css",
+      "sha256": "524c4c22271892d0f6ab238ac2ee7b609b607e774c8fe764ece2e8052cd3a53a",
+      "status": 200
+    },
+    {
+      "file": "shared/ultimate-pack-bulk-v1.mjs",
+      "sha256": "19ce6092370625a117b6686d311f5a72bde4a6fb9a790a209a6e55c072f9eeb6",
+      "status": 200
+    },
+    {
+      "file": "shared/superstar-pack-bulk-v1.mjs",
+      "sha256": "d614821a73d1124918a82f22d9197ccb6fa1c93508fc393a6066f83329399868",
+      "status": 200
+    }
+  ],
+  "unauthenticatedOpening": 401,
+  "apiRuntimeBulkRoute": true,
+  "bloodmoonSalesLocked": true,
+  "permanentBenchmarkWorkerStatus": 404,
+  "productionAccountCharges": 0,
+  "productionAccountGrants": 0
+}

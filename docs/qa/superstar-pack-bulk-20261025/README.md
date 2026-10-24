@@ -1,6 +1,6 @@
 # 슈퍼스타팩 1,000회·10,000회 빠른 개봉
 
-2026-10-25. 구현·검증 완료, 운영 배포 준비 중.
+2026-10-25 08:18 KST 운영 반영 및 확인 완료. 소스 `57cefb04064942da3aacfc1880582ce6bf3db9e7`, Pages `c70ff3c8-689a-44fc-a985-79f16028c983`, API Runtime `5b025e82-6769-4b81-93c6-e4a6733d6be4`.
 
 ## 범위와 규칙
 
@@ -41,3 +41,11 @@
 `browser.json`, PC/모바일 캡처, `remote.json`, `remote-cleanup.json`과 재현 스크립트를 이 폴더에 보존한다. 원시 운영 조회·중간/최종 검사 로그와 테스트 영수증은 `C:/Users/User/Downloads/cnine-z-body-sword-20260918/site/docs/qa/superstar-pack-bulk-20261025/`에 있다. 기존 보호 작업 폴더·공유 의존성을 재사용한다. 블러드문 판매 잠금·할로윈 가격/확률/상태는 유지한다.
 
 첫 배포 준비 중 서버 팩 변환의 일괄 수량 필드 누락을 발견해 업로드 전에 자체 배포 프로세스를 중단했다. 변환 경로를 수정하고 실제 `applyServerPacks()`를 거친 PC/모바일 검증과 회귀 검사를 추가했다. 중단한 실행의 원시 로그와 종료 결과도 보존한다.
+
+## 운영 확인
+
+- `npm run deploy:production -- --scoped` 배포 검사 84개(관련 81개와 함께 보존한 제작 영수증 회귀 3개), Worker 구문 검사, 앱/서비스워커 릴리스 일치, Hyperdrive 캐시 OFF 검사를 통과했다. 최신 용병 제작 드래그 수정 `1e3f744a8`과 `mercenaryReveal=20261025-v4`도 유지했다.
+- 공개 파일 8개 SHA-256이 소스와 일치한다. 운영 API 번들의 `SUPERSTAR_BULK_V1`, 미인증 개봉 401, 팩 목록의 `[1000,10000]`·최대 10,000을 확인했다. 실제 공개 앱 코드를 읽어 운영 팩 목록→`applyServerPacks()`→상점 렌더러까지 실행해 두 버튼을 재확인했다.
+- 배포 전후 READ ONLY 조회에서 가격·확률·판매 상태·후보 7종·관련 컬럼과 슈퍼스타/블러드문/할로윈/크리티컬 설정 해시가 동일하다. 블러드문 공개 API는 판매 잠금을 유지한다.
+- 상시 성능 Worker는 404이며 임시 프리뷰는 종료됐다. 운영 계정 구매·차감·지급은 검증에 사용하지 않았다. `live-verification.json`, `live-client-mapping.json`, `settings-verification.json`, `deployment-result.json`에 결과를 보존한다.
+- `.wrangler/cache/cf.json`은 원시 증빙 경로로 비파괴 이동했고 SHA-256 일치를 기록했다. 공유 의존성 junction·보호된 작업 폴더를 유지하며 배포 완료 후 ignored 산출물은 없다. 중단한 첫 배포는 업로드 전이며 새 임시 배포 폴더가 남지 않았음을 확인했다.
