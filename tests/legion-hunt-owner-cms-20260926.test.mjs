@@ -100,7 +100,9 @@ test('actual PVE renderer hides the entry until the server mode check and main/C
   const context={window:{},battleState:{},battleView(){},renderBattleBuilder(){},switchPveMode(){},renderPveMonsterBrowser:null,renderBattleSnapshot:null,summaryBar:()=>''};
   vm.createContext(context);vm.runInContext(source,context);
   for(const role of ['OWNER','USER','ADMIN',undefined])assert.match(context.battleView({role}),/data-legion-hunt-entry hidden/);
-  assert.match(fs.readFileSync('index.html','utf8'),/legion-hunt-entry-v1\.mjs\?v=\d{8}-[a-z0-9-]+/);
+  const entry=fs.readFileSync('index.html','utf8').match(/<script\b[^>]*\bsrc="([^"]*\/legion-hunt-entry-v1\.mjs\?[^"]+)"/)?.[1];
+  assert.ok(entry,'main page loads the Legion Hunt entry module');
+  assert.match(new URL(entry.replaceAll('&amp;','&'),'https://fixture.invalid/').searchParams.get('v')||'',/^\d{8}-[a-z0-9-]+$/);
   assert.match(fs.readFileSync('admin/index.html','utf8'),/legion-hunt-admin-v1.mjs\?v=20261020-energy-v1/);
   assert.match(fs.readFileSync('functions/api/[[path]].js','utf8'),/await handleLegionHunt/);
 });
