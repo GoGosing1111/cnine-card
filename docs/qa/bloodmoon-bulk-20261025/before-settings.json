@@ -1,0 +1,132 @@
+{
+  "at": "2026-10-24T21:50:02.460Z",
+  "transactionMode": "READ ONLY",
+  "writes": 0,
+  "settings": [
+    {
+      "key": "mercenary_bloodmoon_ss_pack_v1",
+      "sha256": "29eb5c7c7526b04c5adc23962c0b26828f573ccd478045e203a05076acae65ae",
+      "document": {
+        "revision": 1,
+        "settings": {
+          "version": 1,
+          "mode": "OFF",
+          "prices": {
+            "single": null,
+            "ten": null
+          },
+          "cardRatesPpm": {
+            "V-960": null,
+            "V-961": null,
+            "V-962": null,
+            "V-963": null,
+            "V-964": null
+          },
+          "stockLimits": {
+            "V-960": 10,
+            "V-961": 10,
+            "V-962": 10,
+            "V-963": 10,
+            "V-964": 10
+          },
+          "missRatePpm": null
+        },
+        "updatedAt": "2026-10-23T00:25:53.391Z"
+      }
+    },
+    {
+      "key": "mercenary_halloween_ss_pack_v1",
+      "sha256": "d53f4db42e5af9bb2327afbe283a3c2a31d9b52a5950f7bb97320ce0c00968b4",
+      "document": {
+        "revision": 23,
+        "settings": {
+          "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+          "mode": "ON",
+          "prices": {
+            "single": 1000000000,
+            "ten": 10000000000
+          },
+          "cardRatesPpm": {
+            "V-980": 10000,
+            "V-981": 10000,
+            "V-982": 10000,
+            "V-983": 10000,
+            "V-984": 10000,
+            "V-985": 10000,
+            "V-986": 10000,
+            "V-999": 200,
+            "V-989": 300,
+            "V-996": 200,
+            "V-977": 5000,
+            "V-979": 300
+          },
+          "missRatePpm": 800000,
+          "stockLimits": {
+            "V-980": 13,
+            "V-981": 13,
+            "V-982": 13,
+            "V-983": 13,
+            "V-984": 13,
+            "V-985": 13,
+            "V-986": 13,
+            "V-999": null,
+            "V-989": 5,
+            "V-996": null,
+            "V-977": 20,
+            "V-979": 3
+          },
+          "normalRankRatesPpm": {
+            "C": 104500,
+            "B": 30000,
+            "A": 30000,
+            "S": 30000,
+            "SS": 5000,
+            "SSS": 500
+          },
+          "normalSssRatePpm": 924000
+        },
+        "updatedAt": "2026-10-22T22:26:02.983Z",
+        "updatedBy": 1,
+        "lastRequestId": "ops:halloween-stock-increase:20261023:v1"
+      }
+    }
+  ],
+  "stock": [
+    {
+      "code": "V-960",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-961",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-962",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-963",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-964",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-965",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "0"
+    }
+  ]
+}

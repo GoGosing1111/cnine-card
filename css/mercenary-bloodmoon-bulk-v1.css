@@ -1,0 +1,45 @@
+/* Reuse the existing Bloodmoon pack artwork, slices, typography and controls. */
+.bwp-dialog .bwp-bulk-panel,.bwp-dialog .bwp-count-summary{border:solid transparent;border-width:34px 50px;border-image:url('/assets/ui/packs/blood-pack-20261023/auto-panel.webp') 110 170 fill / 34px 50px / 0 stretch;padding:8px 12px;color:var(--bwp-text);background:none}
+.bwp-dialog .bwp-bulk-panel{margin:8px 0 22px}
+.bwp-dialog .bwp-budget-presets{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:14px 0}
+.bwp-dialog .bwp-budget-presets .bwp-button{min-width:0;min-height:60px;padding:12px 8px;font-size:13px}
+.bwp-dialog .bwp-budget-label{display:block;font-size:13px;color:var(--bwp-muted);max-width:540px}
+.bwp-dialog .bwp-budget-label>span{float:right}
+.bwp-dialog .bwp-budget-label [data-bwp-budget]{box-sizing:border-box;display:block;width:100%;min-height:66px;margin:7px 0;padding:18px 34px;border:0;border-radius:0;background:transparent url('/assets/ui/packs/blood-pack-20261023/button-night.webp') center/100% 100% no-repeat!important;color:#fff1d8;font:600 17px/1.4 monospace;text-align:center}
+.bwp-dialog .bwp-budget-label [data-bwp-budget]:focus-visible{outline:2px solid #ffb4c7;outline-offset:-8px}
+.bwp-dialog .bwp-bulk-quote{font-size:20px;line-height:1.6;font-weight:750;color:#ffe2b0;margin:12px 0;overflow-wrap:anywhere}
+.bwp-dialog .bwp-bulk-note{font-size:12px;color:var(--bwp-muted);line-height:1.8;margin:8px 0}
+.bwp-dialog .bwp-bulk-panel [data-bwp-bulk-start]{min-width:240px;margin-top:8px}
+.bwp-dialog .bwp-result-area [data-bwp-results].bwp-results{display:block;max-width:none;width:100%;margin:0}
+.bwp-dialog .bwp-rank-counts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:20px 0;text-align:center}
+.bwp-dialog .bwp-rank-counts dt{font-weight:700;font-size:14px;color:var(--bwp-muted)}
+.bwp-dialog .bwp-rank-counts dd{font-size:25px;font-weight:750;margin:6px 0 0;overflow-wrap:anywhere;color:#f8e3ba}
+.bwp-dialog .bwp-rank-counts dd small{font-size:11px;margin-left:3px;color:var(--bwp-muted)}
+.bwp-dialog .bwp-miss-count{font-size:13px;color:var(--bwp-muted);text-align:right}
+.bwp-dialog .bwp-count-details{border-top:1px solid #9f78ba44;margin-top:12px}
+.bwp-dialog .bwp-count-details summary{cursor:pointer;min-height:48px;display:list-item;align-content:center;color:#ffe2b0;font-size:14px;padding:12px 0}
+.bwp-dialog .bwp-count-details table{border-collapse:collapse;width:100%;font-size:13px}
+.bwp-dialog .bwp-count-details :is(th,td){padding:10px 4px;border-bottom:1px solid #9f78ba44;text-align:left;overflow-wrap:anywhere}
+.bwp-dialog .bwp-count-details :is(th,td):last-child{text-align:right;white-space:nowrap}
+.bwp-dialog .bwp-featured-results{margin:26px 0 12px}
+.bwp-dialog .bwp-featured-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,190px));gap:20px;justify-content:center}
+.bwp-dialog .bwp-result-area .bwp-featured-grid .bwp-result{width:100%;max-width:none}
+.bwp-dialog .bwp-result-quantity{display:block;font-size:22px;line-height:1.5;color:#ffe2b0}
+.bwp-dialog .bwp-serial-details{font-size:11px;margin:8px 0;color:var(--bwp-muted)}
+.bwp-dialog .bwp-serial-details summary{padding:8px 2px;cursor:pointer}
+.bwp-dialog .bwp-serial-details p{line-height:1.7;overflow-wrap:anywhere;max-height:150px;overflow:auto}
+.bwp-dialog .bwp-no-featured{font-size:13px;color:var(--bwp-muted);line-height:1.8}
+@media(max-width:600px){
+ .bwp-dialog .bwp-bulk-panel{border-width:30px 25px;border-image-width:30px 25px;padding:4px 0}
+ .bwp-dialog .bwp-count-summary{border-width:30px 16px;border-image-width:30px 16px;padding:4px 0}
+ .bwp-dialog .bwp-budget-presets{grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
+ .bwp-dialog .bwp-budget-presets .bwp-button{font-size:11px;padding:12px 6px;min-height:54px}
+ .bwp-dialog .bwp-bulk-quote{font-size:16px}
+ .bwp-dialog .bwp-budget-label [data-bwp-budget]{font-size:14px;padding-inline:23px}
+ .bwp-dialog .bwp-rank-counts{gap:3px}
+ .bwp-dialog .bwp-rank-counts dd{font-size:17px}
+ .bwp-dialog .bwp-rank-counts dd small{display:block;margin:0}
+ .bwp-dialog .bwp-featured-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 10px}
+ .bwp-dialog .bwp-bulk-panel [data-bwp-bulk-start]{width:100%;min-width:0;font-size:13px}
+ .bwp-dialog .bwp-featured-results .bwp-section-heading{flex-wrap:wrap}
+}

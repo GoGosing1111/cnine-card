@@ -1,0 +1,21 @@
+✔ 100 trillion reference is exactly 100,000 draws with integer accounting and bounded input (2.0276ms)
+✔ buffered cryptographic sampler rejects out-of-range samples without modulo bias (0.2347ms)
+✔ bulk sampler preserves exact ordinary, conditional and sold-out results for the same random stream (1835.9794ms)
+✔ 100,000 draws use one compact transaction and recover the identical receipt without another charge (1119.8855ms)
+✔ a failed bulk grant rolls back everything and retry never rerolls (1251.6175ms)
+✔ stock race replaces only unavailable serials, preserving normal quantities and total draws (1160.1321ms)
+✔ changed settings, insufficient funds and forged budget/count fail before payment (1187.9022ms)
+✔ SS and below use counts without images, while limited SS and ordinary/limited SSS retain images (1.1909ms)
+✔ compact receipts validate totals and client recovery uses the same durable bulk request (1.0647ms)
+✔ production release stays hard-locked before authentication, body parsing, or any DB access (0.3592ms)
+✔ two accounts racing for the final limited copy receive at most one serial and exact totals (1168.9522ms)
+✔ simultaneous retries of the same bulk ID debit and grant only once (1143.7685ms)
+✔ an already armed indexed guarantee keeps its original slot and is consumed atomically (1172.3639ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10378.535

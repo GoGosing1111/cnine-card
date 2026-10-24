@@ -1,0 +1,33 @@
+✔ five separate SS limited entries publish approved originals, full idle sprites and the reviewed balance (153.7256ms)
+✔ Bloodmoon cannot enter existing packs, normal acquisition, synthesis or deployment (0.6753ms)
+✔ opening always returns 423 before DB, account, body or currency access (23.501ms)
+✔ public feature preserves the legacy OFF draft and ten copies without writing (2263.9845ms)
+✔ delivery includes codex assets and retains Node-only QA and local authoring in Git (53.5758ms)
+✔ registration is atomic, dry-run rolls back, replay writes nothing and existing balances remain intact (1960.6428ms)
+✔ bounded automatic quote includes exact maximum cost and rejects malformed counts (1.0334ms)
+✔ a mixed confirmed batch shows SS then SSS once per grade, never previews or gate ranks (0.864ms)
+✔ automatic batches wait for presentation and hold the account lock across the entire sequence (3.2866ms)
+✔ stop during a paid request finishes that receipt and never starts another request (0.9022ms)
+✔ OFF, changed revision, unavailable stock and network errors halt before another charge (1.2985ms)
+✔ lost response never becomes a fresh lottery; explicit recovery stays outside automation (0.7069ms)
+✔ account changes and background transitions halt before the next request (0.8826ms)
+✔ insufficient next-batch funds and terminal server failures do not retry automatically (1.1898ms)
+✔ two tabs cannot own an automatic sequence simultaneously (0.5401ms)
+✔ three automatic ten-batches use the production service, separate receipts and exact coin debits (2794.8467ms)
+✔ two independent rate totals, exact effective odds, null drafts and old absolute rates are not reinterpreted (11.726ms)
+✔ only the SSS interval enters the second lottery; SS remains ordinary and misses stay misses (2.453ms)
+✔ unauthenticated opening performs no database query; OFF and incomplete ON never charge (2168.6332ms)
+✔ one prepared ten-draw transaction grants both ordinary and limited cards once and survives a lost response (1247.7955ms)
+✔ failure after stock reservation rolls back stock, coins and cards; retry uses the original fixed draw (1350.8246ms)
+✔ last remaining card is granted once and the other nine slots award ordinary SSS (1421.2313ms)
+✔ prepared request cancels on settings change without charging or resampling (1186.2045ms)
+✔ SS videos use the awarded rank, never the SSS entry gate or fake preview results (0.3687ms)
+✔ client persists one request before POST, recovers without a new lottery, and isolates accounts (1.115ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16023.153

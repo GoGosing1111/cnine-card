@@ -1,3 +1,4 @@
+@import url('./mercenary-bloodmoon-bulk-v1.css');
 /* Generated Blood Pack artwork supplies the surfaces. CSS controls layout and states. */
 .bloodmoon-shop-hero,.bwp-dialog,.bloodmoon-cms{--bwp-ember:#ff7794;--bwp-ink:#0a0d18;--bwp-text:#f8eedf;--bwp-muted:#c6b8c9;font-family:'Noto Sans KR',sans-serif;color:var(--bwp-text)}
 .bloodmoon-shop-hero *,.bwp-dialog *{box-sizing:border-box}

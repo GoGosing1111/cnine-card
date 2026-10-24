@@ -1,0 +1,58 @@
+{
+  "status": "PASSED",
+  "fixtureOnly": true,
+  "productionTransactions": 0,
+  "reports": [
+    {
+      "width": 1440,
+      "lockedPurchase": true,
+      "count": 100000,
+      "posts": 1,
+      "compactResults": true,
+      "ordinaryImages": 0,
+      "exampleFeaturedImages": 4,
+      "referenceStyle": {
+        "color": "rgb(255, 240, 207)",
+        "text": "rgb(255, 240, 207)",
+        "image": "url(\"http://127.0.0.1:6684/assets/ui/packs/blood-pack-20261023/button-ember.webp\")",
+        "height": 60
+      },
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 390,
+      "lockedPurchase": true,
+      "count": 100000,
+      "posts": 1,
+      "compactResults": true,
+      "ordinaryImages": 0,
+      "exampleFeaturedImages": 4,
+      "referenceStyle": {
+        "color": "rgb(255, 240, 207)",
+        "text": "rgb(255, 240, 207)",
+        "image": "url(\"http://127.0.0.1:6684/assets/ui/packs/blood-pack-20261023/button-ember.webp\")",
+        "height": 53.99998474121094
+      },
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 320,
+      "lockedPurchase": true,
+      "count": 100000,
+      "posts": 1,
+      "compactResults": true,
+      "ordinaryImages": 0,
+      "exampleFeaturedImages": 4,
+      "referenceStyle": {
+        "color": "rgb(255, 240, 207)",
+        "text": "rgb(255, 240, 207)",
+        "image": "url(\"http://127.0.0.1:6684/assets/ui/packs/blood-pack-20261023/button-ember.webp\")",
+        "height": 54
+      },
+      "errors": [],
+      "failed": []
+    }
+  ]
+}

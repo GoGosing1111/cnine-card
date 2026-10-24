@@ -1,4 +1,4 @@
-import {BLOODMOON_PACK,validateBloodmoonOpeningBody,bloodmoonReceiptResults} from './mercenary-bloodmoon-pack-v1.mjs?v=20261024-namsudaeng-v1';
+import {BLOODMOON_PACK,validateBloodmoonOpeningBody,bloodmoonReceiptResults} from './mercenary-bloodmoon-pack-v1.mjs?v=20261025-bulk-v1';
 const fail=(message,code)=>Object.assign(Error(message),{code});
 const terminal=new Set(['MERCENARY_BLOODMOON_CLOSED','MERCENARY_BLOODMOON_CHANGED','MERCENARY_BLOODMOON_NOT_READY','MERCENARY_BLOODMOON_FUNDS','MERCENARY_BLOODMOON_INPUT','MERCENARY_BLOODMOON_SOLD_OUT','MERCENARY_BLOODMOON_NORMAL_POOL','JOINT_OPERATION_SUPERSEDED']);
 export class BloodmoonOpeningSession{
@@ -13,7 +13,7 @@ export class BloodmoonOpeningSession{
   this.assertAccount();bloodmoonReceiptResults(receipt);
   if(Number(receipt.accountId)!==this.accountId)throw fail('계정의 개봉 영수증이 일치하지 않습니다.','BLOODMOON_RECEIPT_INVALID');
   const pending=this.read(this.pendingKey);
-  if(pending&&(pending.accountId!==this.accountId||pending.body.requestId!==receipt.requestId||pending.body.count!==receipt.count))throw fail('요청과 개봉 결과가 일치하지 않습니다.','BLOODMOON_RECEIPT_INVALID');
+  if(pending&&(pending.accountId!==this.accountId||pending.body.requestId!==receipt.requestId||pending.body.count!==receipt.count||pending.body.budget!==receipt.budget))throw fail('요청과 개봉 결과가 일치하지 않습니다.','BLOODMOON_RECEIPT_INVALID');
   // The server has confirmed this exact request. Optional history storage must
   // not leave it pending when a large receipt exceeds the browser's quota.
   this.storage.removeItem(this.pendingKey);
@@ -31,14 +31,15 @@ export class BloodmoonOpeningSession{
   }
  }
  start(config,count){return this.exclusive(()=>this.#start(config,count));}
+ startBulk(config,quote){return this.exclusive(()=>this.#start(config,quote.count,undefined,quote.budget));}
  // Keep the same account/tab lock through the whole automatic run, including
  // result videos and pauses. Every batch still gets its own durable receipt.
  sequence(work){return this.exclusive(()=>work((config,count,onReceipt)=>this.#start(config,count,onReceipt)));}
- async #start(config,count,onReceipt){
+ async #start(config,count,onReceipt,budget){
   this.assertAccount();
   if(!config.userOpeningEnabled)throw fail('블러드팩은 출시 준비 중입니다.','MERCENARY_BLOODMOON_CLOSED');
   if(this.read(this.pendingKey))throw fail('이전 개봉 결과부터 확인해 주세요.','BLOODMOON_RECOVERY_REQUIRED');
-  const body=validateBloodmoonOpeningBody({requestId:this.makeId(),count,expectedRevision:config.revision});
+  const body=validateBloodmoonOpeningBody({requestId:this.makeId(),count,expectedRevision:config.revision,...(budget?{budget}:{})});
   const pending=JSON.stringify({accountId:this.accountId,body});
   try{this.storage.setItem(this.pendingKey,pending);}
   catch(error){

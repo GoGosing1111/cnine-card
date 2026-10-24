@@ -1,0 +1,21 @@
+{
+  "base": "3a19b319925ea62961193cfc430b3842e7e4b67c",
+  "basePages": "93035bc9-7fca-46d5-81b1-ca85257e69c5",
+  "reason": "Bloodmoon-only 100 trillion budget opening and compact quantities using existing Bloodmoon art. Keep server release OFF and protect independent Halloween settings. Check bulk atomicity, duplicate/recovery, stock races, codex and existing Halloween regressions. No shared database/authentication/schema changes.",
+  "tests": [
+    "tests/mercenary-bloodmoon-bulk-20261025.test.mjs",
+    "tests/mercenary-bloodmoon-pack-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-isolation-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-codex-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-auto-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-recovery-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-storage-20261023.test.mjs",
+    "tests/mercenary-halloween-pack-20261017.test.mjs",
+    "tests/mercenary-halloween-auto-20261017.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "productionSalesEnabled": false,
+  "productionWrites": 0
+}

@@ -1,0 +1,10 @@
+{
+  "fixture": "PGlite, one session; not a production load test",
+  "count": 100000,
+  "elapsedMs": 81.47159999999985,
+  "statements": 42,
+  "receiptBytes": 2936,
+  "limitedSerials": 10,
+  "ordinaryRows": 1,
+  "productionTransactions": 0
+}
