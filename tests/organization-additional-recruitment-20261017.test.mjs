@@ -60,6 +60,6 @@ test('season OFF blocks every faction action and upgrade, and its scheduler issu
  const before=(await f.pg.query('SELECT * FROM organization_faction_state_v1')).rows;
  const state=(await f.overview()).data;assert.equal(state.season.active,false);assert.equal(state.season.phase,'PREPARATION');assert.equal(state.sessions.enabled,false);assert.equal(state.treasury.canUpgrade,false);
  for(const action of ['formation','captains','garrison','launch','enter','strike','upgrade'])assert.equal((await f.post('organization/faction/'+action)).data.code,'ORG_FACTION_OFF',action);
- f.advance(day);assert.deepEqual(await tickOrganizationFaction(f.env,f.deps),{enabled:false});assert.deepEqual((await f.pg.query('SELECT * FROM organization_faction_state_v1')).rows,before);
+ f.advance(day);assert.deepEqual(await tickOrganizationFaction(f.env,f.deps),{enabled:false,rounds:1,changed:false});assert.deepEqual((await f.pg.query('SELECT * FROM organization_faction_state_v1')).rows,before);
  for(const table of ['organization_faction_ledger_v1','organization_faction_settlements_v1','user_messages','user_message_rewards'])assert.equal((await f.pg.query('SELECT COUNT(*)::int n FROM '+table)).rows[0].n,0,table);
 });
