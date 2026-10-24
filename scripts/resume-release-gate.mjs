@@ -25,9 +25,12 @@ export function codexCompatibilityRepair({changed,base,git,read,readBytes}){
   if(changed.includes(shell)){
     const normalize=value=>value.replace(/\r\n/g,'\n').trim();
     const before=normalize(git('show',`${base}:${shell}`)),after=normalize(read(shell));
-    const needle='/mercenary-codex/app.mjs?command=',replacement='/mercenary-codex/app.mjs?jinmuStock=20261022-v1&amp;command=';
+    const pairs=[
+      ['/mercenary-codex/app.mjs?command=','/mercenary-codex/app.mjs?jinmuStock=20261022-v1&amp;command='],
+      ['/mercenary-codex/app.mjs?loading=20261023-v1&amp;eunseol=','/mercenary-codex/app.mjs?loading=20261023-v1&amp;namsudaeng=20261024-v1&eunseol=']
+    ];
     const html=normalize(read(page)),previousHtml=normalize(git('show',`${base}:${page}`));
-    if(before.split(needle).length!==2||before.replace(needle,replacement)!==after||html!==previousHtml||!html.includes(replacement))throw Error('Codex template repair must only preserve the existing Jinmu cache token.');
+    if(html!==previousHtml||!pairs.some(([needle,replacement])=>before.split(needle).length===2&&before.replace(needle,replacement)===after&&html.includes(replacement)))throw Error('Codex template repair must only preserve the existing deployed cache token.');
     repaired.add(shell);
   }
   if(changed.includes(model)){

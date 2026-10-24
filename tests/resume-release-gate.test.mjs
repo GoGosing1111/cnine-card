@@ -9,8 +9,18 @@ test('codex authoring template can retain the cache token from unchanged public 
  const html='<script src="/mercenary-codex/app.mjs?jinmuStock=20261022-v1&amp;command=old"></script>';
  const setup=()=>({base:'a'.repeat(40),changed:[shell],git:(cmd,arg)=>arg.endsWith(':'+shell)?old:html,read:p=>p===shell?next:html});
  assert.deepEqual([...codexCompatibilityRepair(setup())],[shell]);
- for(const bad of [next+';run()',next.replace('20261022-v1','changed'),next.replace('command=old','command=new')])assert.throws(()=>codexCompatibilityRepair({...setup(),read:p=>p===shell?bad:html}),/existing Jinmu/);
- assert.throws(()=>codexCompatibilityRepair({...setup(),read:p=>p===shell?next:html+'new markup'}),/existing Jinmu/);
+ for(const bad of [next+';run()',next.replace('20261022-v1','changed'),next.replace('command=old','command=new')])assert.throws(()=>codexCompatibilityRepair({...setup(),read:p=>p===shell?bad:html}),/existing deployed/);
+ assert.throws(()=>codexCompatibilityRepair({...setup(),read:p=>p===shell?next:html+'new markup'}),/existing deployed/);
+});
+
+test('NamSuDaeng template repair is confined to the already deployed cache query',()=>{
+ const shell='mercenary-codex/shell.mjs',page='mercenary-codex/index.html';
+ const needle='/mercenary-codex/app.mjs?loading=20261023-v1&amp;eunseol=',replacement='/mercenary-codex/app.mjs?loading=20261023-v1&amp;namsudaeng=20261024-v1&eunseol=';
+ const old='export function publicCodexHtml(){return `'+needle+'20261024-pve-only`}',next=old.replace(needle,replacement),html='<script src="'+replacement+'20261024-pve-only"></script>';
+ const setup=()=>({base:'a'.repeat(40),changed:[shell],git:(cmd,arg)=>arg.endsWith(':'+shell)?old:html,read:p=>p===shell?next:html});
+ assert.deepEqual([...codexCompatibilityRepair(setup())],[shell]);
+ for(const bad of [next+';run()',next.replace('namsudaeng=20261024-v1','namsudaeng=other'),next.replace('pve-only','pvp-open')])assert.throws(()=>codexCompatibilityRepair({...setup(),read:p=>p===shell?bad:html}),/existing deployed/);
+ assert.throws(()=>codexCompatibilityRepair({...setup(),read:p=>p===shell?next:html+'new markup'}),/existing deployed/);
 });
 
 test('codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources',()=>{
