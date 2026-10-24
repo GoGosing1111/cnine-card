@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-24T03:52:03.223Z",
+  "at": "2026-10-24T03:56:49.088Z",
   "reports": [
     {
       "width": 1440,
@@ -24,7 +24,7 @@
           "pending": 0,
           "cueHistory": [
             {
-              "id": "FD30E6EEED:1",
+              "id": "65E5330585:1",
               "effect": "oath",
               "show": true,
               "delta": 0
@@ -33,13 +33,13 @@
               "id": "qa-fire-1440",
               "effect": "fire",
               "show": true,
-              "delta": 1998
+              "delta": 1842
             },
             {
               "id": "qa-slash-1440",
               "effect": "slash",
               "show": true,
-              "delta": 117
+              "delta": 122
             }
           ],
           "presentation": {
@@ -47,6 +47,9 @@
             "progress": 1,
             "bodyVisible": false,
             "fxVisible": false,
+            "bodyFacing": null,
+            "idleFacing": -1,
+            "hudFacing": 1,
             "disposed": true
           },
           "canvases": 1,
@@ -1505,7 +1508,7 @@
           "pending": 0,
           "cueHistory": [
             {
-              "id": "E0D75A6EFB:1",
+              "id": "DE71C9BBF8:1",
               "effect": "oath",
               "show": true,
               "delta": 0
@@ -1514,13 +1517,13 @@
               "id": "qa-fire-390",
               "effect": "fire",
               "show": true,
-              "delta": 2365
+              "delta": 2450
             },
             {
               "id": "qa-slash-390",
               "effect": "slash",
               "show": true,
-              "delta": 379
+              "delta": 374
             }
           ],
           "presentation": {
@@ -1528,6 +1531,9 @@
             "progress": 1,
             "bodyVisible": false,
             "fxVisible": false,
+            "bodyFacing": null,
+            "idleFacing": -1,
+            "hudFacing": 1,
             "disposed": true
           },
           "canvases": 1,
