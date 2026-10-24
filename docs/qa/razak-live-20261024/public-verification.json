@@ -1,0 +1,309 @@
+{
+  "status": "PASS",
+  "verifiedAt": "2026-10-24T08:01:34.906Z",
+  "deployment": {
+    "Id": "a36716fa-bb99-4c0b-8584-230d968643af",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "9f4aecd",
+    "Deployment": "https://a36716fa.cnine-card.pages.dev",
+    "Status": "59 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/a36716fa-bb99-4c0b-8584-230d968643af"
+  },
+  "source": "9f4aecd09cb6590af7f6bedc0e7454ae9e8e435b",
+  "card": {
+    "code": "V-058",
+    "name": "라자크",
+    "title": "쌍곡도의 암살자",
+    "rank": "SSS",
+    "edition": "STANDARD",
+    "nameStatus": "USER_CONFIRMED_20261024",
+    "rankStatus": "USER_ASSIGNED_RANK",
+    "position": "MIDDLE",
+    "role": "ASSASSIN",
+    "attackStyle": "MELEE",
+    "basicTarget": "약화된 전열 우선",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+    "acquisition": "LOCKED",
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "acquisitionDescription": "현재 획득 불가. 팩·합성·제작·기적의 큐브에서 획득할 수 없습니다.",
+    "sourceArt": "assets/ui/project-v/mercenaries/razak-20261024/source-art.png",
+    "sourceArtSha256": "2B9331D3A1A753234AF7E0AC7CCAA2764451DE6E843AE7A7912BFD5A298E8A06",
+    "battleSprite": "assets/ui/project-v/mercenaries/razak-20261024/idle.png",
+    "battleSpriteSha256": "7460D2757DBAB2F3AFEDEDE1ED1815EC47A6D4A1509A3CC3699287D980A4770E",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/razak-20261024/art-320.webp",
+    "displayArt": "assets/ui/project-v/mercenaries/razak-20261024/art-640.webp",
+    "accent": "#d5bf85",
+    "battleSpriteViewport": {
+      "x": 172,
+      "y": 275,
+      "width": 385,
+      "height": 391,
+      "imageWidth": 768,
+      "imageHeight": 768
+    },
+    "basePower": 800000,
+    "skills": [
+      {
+        "id": "MS-061",
+        "name": "그림자 교차",
+        "visualMode": "cross",
+        "targetCount": 1,
+        "target": "약화된 적 하나",
+        "effect": "약화된 적에게 순간 돌진해 쌍곡도를 교차합니다. 한 시전의 총 440% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "ASSASSIN",
+        "mechanic": "CURVED_BLADE_ASSASSINATION",
+        "ready": true,
+        "balance": {
+          "damageRatio": 4.4,
+          "cooldownTurns": 3,
+          "cost": 25
+        },
+        "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동",
+        "counterplay": "회피·방어·방벽·피해 경감·기절·침묵에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 검격·잔상·2배속 재생은 추가 피해나 행동을 만들지 않습니다."
+      },
+      {
+        "id": "MS-062",
+        "name": "무영 연살",
+        "visualMode": "flurry",
+        "targetCount": 1,
+        "target": "후열 우선 적 하나",
+        "effect": "후열 핵심 적을 향해 낮은 베기·올려 베기·종결 참격을 이어갑니다. 한 시전의 총 560% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "ASSASSIN",
+        "mechanic": "CURVED_BLADE_ASSASSINATION",
+        "ready": true,
+        "balance": {
+          "damageRatio": 5.6,
+          "cooldownTurns": 3,
+          "cost": 25
+        },
+        "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동",
+        "counterplay": "회피·방어·방벽·피해 경감·기절·침묵에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 검격·잔상·2배속 재생은 추가 피해나 행동을 만들지 않습니다."
+      },
+      {
+        "id": "MS-063",
+        "name": "월식 난무",
+        "visualMode": "eclipse",
+        "targetCount": null,
+        "target": "적 전체 · PVE",
+        "pveOnly": true,
+        "effect": "적 진형에 진입해 거대한 원형 검격을 펼칩니다. 한 시전의 총 700% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "ASSASSIN",
+        "mechanic": "CURVED_BLADE_ASSASSINATION",
+        "ready": true,
+        "balance": {
+          "damageRatio": 7,
+          "cooldownTurns": 3,
+          "cost": 25
+        },
+        "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동 · PVE 전용",
+        "counterplay": "회피·방어·방벽·피해 경감·기절·침묵에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 검격·잔상·2배속 재생은 추가 피해나 행동을 만들지 않습니다."
+      }
+    ],
+    "specialty": "쌍곡도 기습 · 이동 궤적을 따르는 잔상 · PVE 광역 참격",
+    "weakness": "집중 공격·방어·보호막·행동 제어에 취약",
+    "combatLinkDescription": "기본 전투력 800,000의 SSS 기습 용병. 일반 SSS의 능력치 환산·전력 연계·행동 규칙을 따릅니다. 그림자 교차·무영 연살·월식 난무는 에너지 25와 공통 재사용 3행동을 사용하며, 월식 난무는 PVE 전용입니다. 빠른 암살 모션은 2배속이며 대기 몸체는 고정됩니다. 현재 획득 불가. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+  },
+  "files": [
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/art-320.webp",
+      "sha256": "1faa78b3efa84c3babbe91dd0775e18f79924d8155e447fb21abdf33ef5c6d3b",
+      "bytes": 61062
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/atlases/dash.png",
+      "sha256": "e4282a50046719678553895f9b420186265c0ce0ae25ede8a930aafe70c3ff47",
+      "bytes": 377469
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/atlases/cross.png",
+      "sha256": "53af9593feda4b231e2c273c4b430d72c8751c6f9d0dd54ff87b7812517e08e1",
+      "bytes": 861523
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/art-640.webp",
+      "sha256": "774643bdaf1c9d04ace487daee9ebec03230f3e5ea3a5429634c97a51eb20a2e",
+      "bytes": 184840
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/atlases/defeat.png",
+      "sha256": "1e87a3a262592ac0450cac23f73fed8f5955d1667ba3537d7f3de3c9ff892a31",
+      "bytes": 306686
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/atlases/eclipse.png",
+      "sha256": "1174eb302794fcdaf0996af17f52f7b7bd121aca1d064cc24d55884cbe65058c",
+      "bytes": 962154
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/atlases/flurry.png",
+      "sha256": "7ecce6cc2d75cf945bd9789a553855a51b1cd630d98862f823b5300810cdd8a8",
+      "bytes": 1053499
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/atlases/fx-cross.png",
+      "sha256": "65b12d4d8fa41570bf3701bee9de4461d917bd0b236e3277b49b3112a0aaf505",
+      "bytes": 2013973
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/atlases/idle.png",
+      "sha256": "3f6669fe03368641799f698972e146a9545a82b7accb61e4de6b30988a3b0012",
+      "bytes": 211772
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/atlases/fx-eclipse.png",
+      "sha256": "a0a56894b0d2937167481392a977f23d002aba1e85cf3df4185b5015eb3ebedf",
+      "bytes": 2719775
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/atlases/hit.png",
+      "sha256": "996c9dda358665721767275a4feb22f448292f285cfb72a2922056b11370f435",
+      "bytes": 453009
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/atlases/fx-flurry.png",
+      "sha256": "9ea9416d28a4a3188105d643a16aa42ce66496e7db0e8d440e1dc1397c6a02ed",
+      "bytes": 1761432
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/motion-manifest.json",
+      "sha256": "e911ba84cf699c6a3d7f1b0dc056d5163069c63fd2ec9386d8e952194ccb439f",
+      "bytes": 19032
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/manifest.json",
+      "sha256": "58e5d5380c9c045638abcb758e379b7b2a154cf426dcfd41d27328807c997f19",
+      "bytes": 640
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/live-approval.json",
+      "sha256": "4bd806fb4a55851244d94b821e9f1028dfb59f96ea8b7a5e7f9733f105bee541",
+      "bytes": 1254
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/idle.png",
+      "sha256": "7460d2757dbab2f3afedede1ed1815ec47a6d4a1509a3cc3699287d980a4770e",
+      "bytes": 211773
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "385f63e4540ee461f18a4240a74c90770b8b99112f8b0901eb2be084cac30f2b",
+      "bytes": 88803
+    },
+    {
+      "file": "index.html",
+      "sha256": "de0a8bacbfe534d2611a49ea393da40b493efd97b26353b1cc6df0095ec26838",
+      "bytes": 35891
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "66a94628ddc2088a9a29f4f06fc15dd96dbca4d53d90efb582f607e9a3cc1ec9",
+      "bytes": 783675
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/source-art.png",
+      "sha256": "2b9331d3a1a753234af7e0ac7ccaa2764451de6e843ae7a7912bfd5a298e8a06",
+      "bytes": 2540854
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "63003e5a13af54ae68ca1d31fc8e3463c4b09a294a7b32a6a2cf2cbd5f9b4934",
+      "bytes": 8116
+    },
+    {
+      "file": "mercenary-codex/shell.mjs",
+      "sha256": "f5cf17fbfd21f768f195dfd6e255f1f70c0df86ded1bf0a293080ab19484e53b",
+      "bytes": 9993
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "4f303a248031e5c1c8f169452c62e2aed8bde83a07906c3d03cbd22c662e2c0e",
+      "bytes": 9872
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "b180ab023ed3041a14d743dcb8da342409d8d9bf295bc7adf95988a886ec7979",
+      "bytes": 36579
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "5560e744d0e96bc611e237e3a7f5c608735eed90173ff27e9754d6430b2111ec",
+      "bytes": 2416361
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "c539480f6a394e276b36323406bfb76d1e578911e9371d2913179a9c8aff12a5",
+      "bytes": 2411696
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "b0ae32a4f9525cf9608c7b0b5239787cf8b8a4ddc55cd4d9730c278a3f78bef9",
+      "bytes": 2414713
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "1efee6a68db4605f438d84b479152b0259735f6538e548500c6660eb45e00bd3",
+      "bytes": 2414702
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "13ea42952bfedb5c7e18ee3ff90b3c73b80df4a998c8cb61038207f35b51178f",
+      "bytes": 2415087
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "4301f3077a4c68b599bf73c2b6c7e09546f229dacea0cabd221a679d0aff2009",
+      "bytes": 2438699
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "af41a9ac23748f4e94f6ef081556672190897b22314286d9e550286f4804ff09",
+      "bytes": 2414604
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "2052d215f9a96891fed8bcd4fa8bf635912978b4239708701ae31f12ac29fc77",
+      "bytes": 2461268
+    },
+    {
+      "file": "shared/mercenary-acquisition-release-v1.mjs",
+      "sha256": "04f09cc3567f941419440b4fca8bc19097168e0146c63ca3048c22acfd6d1f32",
+      "bytes": 1301
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "326ab426090c9a12424a4f9241d8eef03fc8242849ff0940ffe88aae26f408bb",
+      "bytes": 415198
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "1732dcc919fd2d2fc8087e63af37f458dadf404da7fcc571eac4139cb2c6bf87",
+      "bytes": 2418258
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "a4cdc8980602f9a553608d6059378815a3e5ba9fa64099f32c06cd77358afc17",
+      "bytes": 2415061
+    },
+    {
+      "file": "shared/mercenary-limited-deployment-v1.mjs",
+      "sha256": "0ddb1ce70c4dceada419547d60e44657f87aac8b99ac595db16b6cc9273f2c9f",
+      "bytes": 3675
+    },
+    {
+      "file": "shared/mercenary-razak-v1.mjs",
+      "sha256": "c304a5278ca858bc81ba7b5f1a50bb1901ffd06922be546a66b66d187e2e7ca4",
+      "bytes": 3841
+    }
+  ],
+  "accountWrites": 0
+}

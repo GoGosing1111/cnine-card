@@ -1,0 +1,24 @@
+{
+  "branch": "codex/razak-art-battle-20261024",
+  "commit": "5adcb14886b5be49dc42e4c2d1f3dee39d681034",
+  "sourceRoot": "C:/Users/User/Downloads/upload/cnine-card",
+  "folders": [
+    "preview/mercenary-hooded-dual-sword-assassin-20261024-v1",
+    "preview/mercenary-hooded-assassin-battle-20261024-v1"
+  ],
+  "registration": {
+    "name": "라자크",
+    "code": "V-058",
+    "rank": "SSS",
+    "edition": "STANDARD",
+    "basePower": 800000,
+    "status": "LIVE_CODEX_REGISTERED_ACQUISITION_LOCKED",
+    "sourceCommit": "9f4aecd09cb6590af7f6bedc0e7454ae9e8e435b",
+    "pages": "a36716fa-bb99-4c0b-8584-230d968643af",
+    "url": "https://cnine-card.pages.dev/mercenary-codex/?view=all&q=%EB%9D%BC%EC%9E%90%ED%81%AC#V-058",
+    "acquisitionEnabled": false,
+    "accountGrants": 0,
+    "productionAssets": "assets/ui/project-v/mercenaries/razak-20261024/",
+    "userInstruction": "라자크로 채택하고 전투력 80만정도로 맞춰 도감에는 올리고 SSS등급, 현재 획득불가"
+  }
+}

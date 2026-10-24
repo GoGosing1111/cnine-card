@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "publicBase": "https://cnine-card.pages.dev",
+  "publicFiles": 54,
+  "checks": [
+    {
+      "label": "desktop",
+      "codex": true,
+      "name": "라자크",
+      "skills": 3,
+      "basePower": 800000
+    },
+    {
+      "label": "mobile",
+      "codex": true,
+      "name": "라자크",
+      "skills": 3,
+      "basePower": 800000
+    }
+  ],
+  "errors": [],
+  "missing": []
+}

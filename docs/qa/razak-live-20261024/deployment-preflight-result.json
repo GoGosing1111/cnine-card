@@ -1,0 +1,8 @@
+{
+  "head": "4df255c1388d36e1a2c9d8f2661dfb5943cd3934",
+  "base": "6238a4c548d57f98051a14364ae3c10a8cbd7cd8",
+  "startedAt": "2026-10-24T07:55:03.015Z",
+  "command": "npm run deploy:production -- --scoped",
+  "finishedAt": "2026-10-24T07:55:13.372Z",
+  "exitCode": 1
+}

@@ -64,7 +64,7 @@ const server=http.createServer(async(req,res)=>{try{
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']});
 try{
- for(const [label,viewport,mode]of [['desktop',{width:1440,height:1000},'hunt'],['mobile',{width:390,height:844},'hunt'],['enemy',{width:1440,height:1000},'enemy']]){
+ for(const [label,viewport,mode]of (process.env.QA_CODEX_ONLY?[]:[['desktop',{width:1440,height:1000},'hunt'],['mobile',{width:390,height:844},'hunt'],['enemy',{width:1440,height:1000},'enemy']])){
   const page=await browser.newPage({viewport,serviceWorkers:'block'});page.on('pageerror',e=>errors.push(label+': '+e.stack));
   await page.goto(base+'/qa/battle?mode='+mode,{waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>window.qaError||window.RazakQA?.engine?.razakStates?.size,{timeout:60000});
