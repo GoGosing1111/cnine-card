@@ -12,5 +12,6 @@
   "approval": "live-approval.json",
   "authoringSource": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-hooded-assassin-battle-20261024-v1",
   "acquisitionEnabled": false,
-  "accountGrants": 0
+  "accountGrants": 0,
+  "status": "VERIFIED_RELEASE_CANDIDATE"
 }

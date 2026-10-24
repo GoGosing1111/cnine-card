@@ -1,0 +1,22 @@
+{
+  "mode": "scoped",
+  "base": "6238a4c548d57f98051a14364ae3c10a8cbd7cd8",
+  "basePages": "0dd316e9-8d08-4c19-bb84-d07e83a0ac0f",
+  "reason": "라자크 SSS 800000 도감 공개와 획득 잠금, 기존 전장 연결 검수; 인증 DB 의존성 변경 없음",
+  "tests": [
+    "tests/razak-live-20261024.test.mjs",
+    "tests/mercenary-codex-live-v2098.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "assetCount": 19991,
+  "sourceHash": "2b9331d3a1a753234af7e0ac7ccaa2764451de6e843ae7a7912bfd5a298e8a06",
+  "accountWrites": 0,
+  "storage": {
+    "managedSparseCheckout": true,
+    "fullCheckoutAvoidedGiB": 11.178,
+    "dependencyCopies": 0
+  }
+}

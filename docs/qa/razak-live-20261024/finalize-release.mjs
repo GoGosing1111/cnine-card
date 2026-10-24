@@ -1,0 +1,18 @@
+import fs from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import {isProductionFile} from '../../../scripts/prepare-production-assets.mjs';
+const root='assets/ui/project-v/mercenaries/razak-20261024';
+const read=p=>JSON.parse(fs.readFileSync(p,'utf8')),save=(p,v)=>fs.writeFileSync(p,JSON.stringify(v,null,2)+'\n');
+const original=read(root+'/motion-manifest.json');
+const compact=kind=>Object.fromEntries(Object.entries(original[kind]).map(([k,s])=>[k,{atlas:s.atlas,sha256:s.sha256,columns:s.columns,rows:s.rows,cellSize:s.cellSize,frameCount:s.frameCount,frames:s.frames.map(f=>({index:f.index,footAnchor:f.footAnchor,bodyPixels:f.bodyPixels,visibleBounds:f.visibleBounds}))}]));
+save(root+'/motion-manifest.json',{schemaVersion:1,name:'라자크',code:'V-058',rank:'SSS',basePower:800000,releaseAuthorization:'live-approval.json',motion:compact('motion'),effects:compact('effects'),counts:original.counts,runtime:{defaultSpeed:2,effectScale:1.65,idleBody:'ONE_FIXED_FRAME',afterimages:original.runtime.afterimages,clock:'V3_REGISTERED_GSAP'},acquisitionEnabled:false,accountGrants:0});
+const approval=read(root+'/live-approval.json');approval.status='VERIFIED_RELEASE_CANDIDATE';approval.validation={serverTests:19,browserScenarios:5,errors:0,missingAssets:0};save(root+'/live-approval.json',approval);
+const m=read(root+'/manifest.json');m.status='VERIFIED_RELEASE_CANDIDATE';save(root+'/manifest.json',m);
+const files=execFileSync('git',['ls-files','-z'],{maxBuffer:40e6}).toString().split('\0').filter(Boolean);
+const assetCount=files.filter(isProductionFile).filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;
+if(assetCount>20000)throw Error('Pages cap '+assetCount);
+const sourceHash=createHash('sha256').update(fs.readFileSync(root+'/source-art.png')).digest('hex');
+save('docs/qa/razak-live-20261024/deployment-plan.json',{mode:'scoped',base:'6238a4c548d57f98051a14364ae3c10a8cbd7cd8',basePages:'0dd316e9-8d08-4c19-bb84-d07e83a0ac0f',reason:'라자크 SSS 800000 도감 공개와 획득 잠금, 기존 전장 연결 검수; 인증 DB 의존성 변경 없음',tests:['tests/razak-live-20261024.test.mjs','tests/mercenary-codex-live-v2098.test.mjs','tests/pve-battlefield-entry-v2117.test.mjs'],checks:['check:worker'],assetCount,sourceHash,accountWrites:0,storage:{managedSparseCheckout:true,fullCheckoutAvoidedGiB:11.178,dependencyCopies:0}});
+const agents=fs.readFileSync('AGENTS.md','utf8');fs.writeFileSync('AGENTS.md','## 라자크 SSS · 도감 공개·획득 불가 — 2026-10-24\n\n- 사용자 `라자크로 채택하고 전투력 80만정도로 맞춰 도감에는 올리고 SSS등급, 현재 획득불가`에 따라 **라자크 / V-058 / 일반 SSS / 기본 전투력 800,000**으로 등록한다. 리미티드 수량·계정 지급·팩·합성·제작·큐브 획득을 추가하지 않는다.\n- 승인 V3 원화·쌍곡도·얼굴을 가리는 두건·긴 다리를 보존한다. 그림자 교차·무영 연살·월식 난무, 이동 잔상·모션 2배·이펙트 1.65배·고정 대기를 유지한다. 실제 운영 V3 진형·HUD·도크·용병 슬롯을 사용한다.\n- 기준: `shared/mercenary-razak-v1.mjs`, 승인·원본 해시 `assets/ui/project-v/mercenaries/razak-20261024/`, 검수·배포 기록 `docs/qa/razak-live-20261024/README.md`.\n\n'+agents);
+console.log(JSON.stringify({assetCount,sourceHash}));

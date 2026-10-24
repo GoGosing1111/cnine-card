@@ -28,5 +28,11 @@
   "acquisitionEnabled": false,
   "accountGrants": 0,
   "sourceProject": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-hooded-assassin-battle-20261024-v1",
-  "status": "PREPARED_FOR_RELEASE"
+  "status": "VERIFIED_RELEASE_CANDIDATE",
+  "validation": {
+    "serverTests": 19,
+    "browserScenarios": 5,
+    "errors": 0,
+    "missingAssets": 0
+  }
 }

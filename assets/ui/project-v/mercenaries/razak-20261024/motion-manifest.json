@@ -1,18 +1,10 @@
 {
   "schemaVersion": 1,
-  "dateKST": "2026-10-24",
   "name": "라자크",
-  "reviewLabel": "라자크",
+  "code": "V-058",
   "rank": "SSS",
-  "status": "RELEASE_CANDIDATE",
-  "sourceApproval": "live-approval.json",
-  "sourceArt": "source-art.png",
-  "sourceArtSha256": "2B9331D3A1A753234AF7E0AC7CCAA2764451DE6E843AE7A7912BFD5A298E8A06",
-  "battleVisualApproval": false,
-  "runtimeConnected": true,
-  "acquisitionEnabled": false,
-  "accountGrants": 0,
-  "balanceAssigned": true,
+  "basePower": 800000,
+  "releaseAuthorization": "live-approval.json",
   "motion": {
     "idle": {
       "atlas": "atlases/idle.png",
@@ -24,28 +16,11 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/idle-0.png",
-          "sha256": "7460d2757dbab2f3afedede1ed1815ec47a6d4a1509a3cc3699287d980a4770e",
-          "source": "assets/sources/support.png",
-          "sourceSha256": "439d57e54af71348f18a54d35e20e85425a2a052fbea04eb727db15c1f88b080",
-          "sourceComponent": 0,
-          "sourceRect": {
-            "left": 11,
-            "top": 5,
-            "width": 612,
-            "height": 626
-          },
-          "sourceFoot": [
-            350,
-            628
-          ],
-          "sourceUprightHeight": 621,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 188,
             "top": 290,
@@ -66,28 +41,11 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/dash-0.png",
-          "sha256": "0997b8602c6b989cc59ba190bce80301ae7a1b23781bafc7b05b6273b2a65936",
-          "source": "assets/sources/support.png",
-          "sourceSha256": "439d57e54af71348f18a54d35e20e85425a2a052fbea04eb727db15c1f88b080",
-          "sourceComponent": 2,
-          "sourceRect": {
-            "left": 8,
-            "top": 673,
-            "width": 696,
-            "height": 535
-          },
-          "sourceFoot": [
-            430,
-            1205
-          ],
-          "sourceUprightHeight": 621,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 140,
             "top": 343,
@@ -98,28 +56,11 @@
         },
         {
           "index": 1,
-          "file": "assets/frames/dash-1.png",
-          "sha256": "27c6465e619f40ecf962f3b4fa3aeb25b8c88be3829cece48ed5ec24dbf5c240",
-          "source": "assets/sources/support.png",
-          "sourceSha256": "439d57e54af71348f18a54d35e20e85425a2a052fbea04eb727db15c1f88b080",
-          "sourceComponent": 3,
-          "sourceRect": {
-            "left": 627,
-            "top": 676,
-            "width": 625,
-            "height": 550
-          },
-          "sourceFoot": [
-            1010,
-            1223
-          ],
-          "sourceUprightHeight": 621,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 162,
             "top": 334,
@@ -140,28 +81,11 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/hit-0.png",
-          "sha256": "83156814536f7fbe8d9bf62683c8b92fa66fadc38de38e62589c3f1cc515ff0c",
-          "source": "assets/sources/reactions.png",
-          "sourceSha256": "f6b3898388cf5a6edba01d84f159751d9d4ba05ea5e9d9637cb16bb25dfb99eb",
-          "sourceComponent": 0,
-          "sourceRect": {
-            "left": 25,
-            "top": 23,
-            "width": 655,
-            "height": 607
-          },
-          "sourceFoot": [
-            415,
-            627
-          ],
-          "sourceUprightHeight": 605,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 153,
             "top": 292,
@@ -172,28 +96,11 @@
         },
         {
           "index": 1,
-          "file": "assets/frames/hit-1.png",
-          "sha256": "7460d2757dbab2f3afedede1ed1815ec47a6d4a1509a3cc3699287d980a4770e",
-          "source": "assets/sources/support.png",
-          "sourceSha256": "439d57e54af71348f18a54d35e20e85425a2a052fbea04eb727db15c1f88b080",
-          "sourceComponent": 0,
-          "sourceRect": {
-            "left": 11,
-            "top": 5,
-            "width": 612,
-            "height": 626
-          },
-          "sourceFoot": [
-            350,
-            628
-          ],
-          "sourceUprightHeight": 621,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 188,
             "top": 290,
@@ -214,28 +121,11 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/defeat-0.png",
-          "sha256": "3d9a03a0008c2644e47f127608fd7c6695c8428a1ffb1f966e5b359e9224cafe",
-          "source": "assets/sources/reactions.png",
-          "sourceSha256": "f6b3898388cf5a6edba01d84f159751d9d4ba05ea5e9d9637cb16bb25dfb99eb",
-          "sourceComponent": 2,
-          "sourceRect": {
-            "left": 20,
-            "top": 723,
-            "width": 639,
-            "height": 471
-          },
-          "sourceFoot": [
-            420,
-            1162
-          ],
-          "sourceUprightHeight": 605,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 147,
             "top": 390,
@@ -246,28 +136,11 @@
         },
         {
           "index": 1,
-          "file": "assets/frames/defeat-1.png",
-          "sha256": "e3f08ec70f606aa5b18f9a288b0c63c1c269146af6b6e2b111a8a5f1d593ab7a",
-          "source": "assets/sources/reactions.png",
-          "sourceSha256": "f6b3898388cf5a6edba01d84f159751d9d4ba05ea5e9d9637cb16bb25dfb99eb",
-          "sourceComponent": 3,
-          "sourceRect": {
-            "left": 650,
-            "top": 760,
-            "width": 603,
-            "height": 421
-          },
-          "sourceFoot": [
-            1000,
-            1178
-          ],
-          "sourceUprightHeight": 605,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 176,
             "top": 402,
@@ -288,28 +161,11 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/cross-0.png",
-          "sha256": "f6e0bc1e542f4f9217a2f0e0fcae27a3662535c19801c99590da43d156f2b088",
-          "source": "assets/sources/cross.png",
-          "sourceSha256": "a1fe671d96ae2203af8650cd59374db3cf6128b91f39d8b23493a5481f5f475d",
-          "sourceComponent": 0,
-          "sourceRect": {
-            "left": 15,
-            "top": 82,
-            "width": 374,
-            "height": 527
-          },
-          "sourceFoot": [
-            270,
-            606
-          ],
-          "sourceUprightHeight": 520,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 208,
             "top": 288,
@@ -320,31 +176,11 @@
         },
         {
           "index": 1,
-          "file": "assets/frames/cross-1.png",
-          "sha256": "a498d5416e77b46f8aa02de36beffba3a306f8e754adef428086b9ab7ad03584",
-          "source": "assets/sources/cross.png",
-          "sourceSha256": "a1fe671d96ae2203af8650cd59374db3cf6128b91f39d8b23493a5481f5f475d",
-          "sourceComponent": 1,
-          "sourceRect": {
-            "left": 418,
-            "top": 256,
-            "width": 439,
-            "height": 341
-          },
-          "sourceFoot": [
-            610,
-            594
-          ],
-          "sourceUprightHeight": 500,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": {
-            "x": 542.64,
-            "y": 587.72
-          },
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 246,
             "top": 408,
@@ -355,31 +191,11 @@
         },
         {
           "index": 2,
-          "file": "assets/frames/cross-2.png",
-          "sha256": "31a89e47308ded470d1565a4e505d3ca8f9f768842ca3796dd058b9fa916f65a",
-          "source": "assets/sources/cross.png",
-          "sourceSha256": "a1fe671d96ae2203af8650cd59374db3cf6128b91f39d8b23493a5481f5f475d",
-          "sourceComponent": 3,
-          "sourceRect": {
-            "left": 8,
-            "top": 740,
-            "width": 426,
-            "height": 418
-          },
-          "sourceFoot": [
-            250,
-            1155
-          ],
-          "sourceUprightHeight": 510,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": {
-            "x": 482.64705882352945,
-            "y": 443.11764705882354
-          },
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 214,
             "top": 358,
@@ -390,31 +206,11 @@
         },
         {
           "index": 3,
-          "file": "assets/frames/cross-3.png",
-          "sha256": "fd4999e58a7fad6b432d1c99fe538518fa73ab1dd42e7b715b5f837fb333ea7b",
-          "source": "assets/sources/cross.png",
-          "sourceSha256": "a1fe671d96ae2203af8650cd59374db3cf6128b91f39d8b23493a5481f5f475d",
-          "sourceComponent": 4,
-          "sourceRect": {
-            "left": 426,
-            "top": 685,
-            "width": 437,
-            "height": 473
-          },
-          "sourceFoot": [
-            670,
-            1155
-          ],
-          "sourceUprightHeight": 510,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": {
-            "x": 504.2352941176471,
-            "y": 421.05882352941177
-          },
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 213,
             "top": 320,
@@ -425,28 +221,11 @@
         },
         {
           "index": 4,
-          "file": "assets/frames/cross-4.png",
-          "sha256": "28be41b1c1ec3b708bc13287fa94da4beb3ff12dc0de72598263b5afc18e3adc",
-          "source": "assets/sources/cross.png",
-          "sourceSha256": "a1fe671d96ae2203af8650cd59374db3cf6128b91f39d8b23493a5481f5f475d",
-          "sourceComponent": 5,
-          "sourceRect": {
-            "left": 857,
-            "top": 784,
-            "width": 391,
-            "height": 379
-          },
-          "sourceFoot": [
-            1080,
-            1160
-          ],
-          "sourceUprightHeight": 470,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 214,
             "top": 364,
@@ -467,28 +246,11 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/flurry-0.png",
-          "sha256": "3594b8736baa92b72353cd62358d8665c264e81bdd18414c4c21306139d058e9",
-          "source": "assets/sources/flurry.png",
-          "sourceSha256": "564f008254d3f069eff33e1de519a2acc732600bcc5056562170e15439ce7f98",
-          "sourceComponent": 0,
-          "sourceRect": {
-            "left": 19,
-            "top": 240,
-            "width": 442,
-            "height": 333
-          },
-          "sourceFoot": [
-            235,
-            570
-          ],
-          "sourceUprightHeight": 470,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 220,
             "top": 398,
@@ -499,31 +261,11 @@
         },
         {
           "index": 1,
-          "file": "assets/frames/flurry-1.png",
-          "sha256": "0d9667ac751f6c4d436e03d43c84257addcee22afb68027c421f26f125416d2a",
-          "source": "assets/sources/flurry-four.png",
-          "sourceSha256": "8ae58bc7d6cf133cc120a4aa2519e5405f776ef1002532be6e66c2778f7791e8",
-          "sourceComponent": 0,
-          "sourceRect": {
-            "left": 17,
-            "top": 186,
-            "width": 783,
-            "height": 447
-          },
-          "sourceFoot": [
-            340,
-            629
-          ],
-          "sourceUprightHeight": 620,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": {
-            "x": 641.9354838709678,
-            "y": 455.7096774193548
-          },
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 197,
             "top": 394,
@@ -534,31 +276,11 @@
         },
         {
           "index": 2,
-          "file": "assets/frames/flurry-2.png",
-          "sha256": "e71860a2ec8447914a6fd5fa0be9530d1ab533361a46ced070cc8411ef654bfc",
-          "source": "assets/sources/flurry-four.png",
-          "sourceSha256": "8ae58bc7d6cf133cc120a4aa2519e5405f776ef1002532be6e66c2778f7791e8",
-          "sourceComponent": 1,
-          "sourceRect": {
-            "left": 698,
-            "top": 14,
-            "width": 520,
-            "height": 631
-          },
-          "sourceFoot": [
-            1040,
-            640
-          ],
-          "sourceUprightHeight": 620,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": {
-            "x": 457.90322580645164,
-            "y": 313.7096774193548
-          },
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 186,
             "top": 288,
@@ -569,28 +291,11 @@
         },
         {
           "index": 3,
-          "file": "assets/frames/flurry-3.png",
-          "sha256": "62a8cfafe22e7263b3a630f753d669bfb66b55f64ee44007787873bd4eb573b5",
-          "source": "assets/sources/flurry-four.png",
-          "sourceSha256": "8ae58bc7d6cf133cc120a4aa2519e5405f776ef1002532be6e66c2778f7791e8",
-          "sourceComponent": 2,
-          "sourceRect": {
-            "left": 26,
-            "top": 649,
-            "width": 565,
-            "height": 567
-          },
-          "sourceFoot": [
-            395,
-            1214
-          ],
-          "sourceUprightHeight": 620,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 171,
             "top": 323,
@@ -601,31 +306,11 @@
         },
         {
           "index": 4,
-          "file": "assets/frames/flurry-4.png",
-          "sha256": "5f2341178c44b7e8f260ce4e0575708ec7fed442304622928ea98019ef2cc1e5",
-          "source": "assets/sources/flurry.png",
-          "sourceSha256": "564f008254d3f069eff33e1de519a2acc732600bcc5056562170e15439ce7f98",
-          "sourceComponent": 3,
-          "sourceRect": {
-            "left": 428,
-            "top": 751,
-            "width": 424,
-            "height": 394
-          },
-          "sourceFoot": [
-            665,
-            1142
-          ],
-          "sourceUprightHeight": 470,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": {
-            "x": 513.7446808510638,
-            "y": 557.0425531914893
-          },
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 203,
             "top": 353,
@@ -636,28 +321,11 @@
         },
         {
           "index": 5,
-          "file": "assets/frames/flurry-5.png",
-          "sha256": "563617d66e4ae93a03b7f62752bd13c925f1e5997c275e8904159e4c2a365ae4",
-          "source": "assets/sources/flurry.png",
-          "sourceSha256": "564f008254d3f069eff33e1de519a2acc732600bcc5056562170e15439ce7f98",
-          "sourceComponent": 4,
-          "sourceRect": {
-            "left": 864,
-            "top": 751,
-            "width": 383,
-            "height": 395
-          },
-          "sourceFoot": [
-            1080,
-            1143
-          ],
-          "sourceUprightHeight": 470,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 219,
             "top": 351,
@@ -678,28 +346,11 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/eclipse-0.png",
-          "sha256": "d6a50bc2ec07334ad1cd0e7f1235837c5e052dfd77bf6bb0debb31ea2bf65bfa",
-          "source": "assets/sources/eclipse.png",
-          "sourceSha256": "4b2b2ecf95ebe98550445cd6bb30b47dec355b4a947b461f2afbd7dc1d767e82",
-          "sourceComponent": 0,
-          "sourceRect": {
-            "left": 3,
-            "top": 262,
-            "width": 461,
-            "height": 311
-          },
-          "sourceFoot": [
-            240,
-            570
-          ],
-          "sourceUprightHeight": 480,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 207,
             "top": 421,
@@ -710,28 +361,11 @@
         },
         {
           "index": 1,
-          "file": "assets/frames/eclipse-1.png",
-          "sha256": "da3372c48c1878b4bc13874472a38ab24c2b9457ac9306471a773d4736599e6d",
-          "source": "assets/sources/eclipse.png",
-          "sourceSha256": "4b2b2ecf95ebe98550445cd6bb30b47dec355b4a947b461f2afbd7dc1d767e82",
-          "sourceComponent": 1,
-          "sourceRect": {
-            "left": 442,
-            "top": 208,
-            "width": 439,
-            "height": 375
-          },
-          "sourceFoot": [
-            665,
-            580
-          ],
-          "sourceUprightHeight": 480,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 219,
             "top": 373,
@@ -742,28 +376,11 @@
         },
         {
           "index": 2,
-          "file": "assets/frames/eclipse-2.png",
-          "sha256": "23b4b1f5dd2d7d44701be5752db67f2bb7dc8ea4eecc792676e0674c522f987e",
-          "source": "assets/sources/eclipse.png",
-          "sourceSha256": "4b2b2ecf95ebe98550445cd6bb30b47dec355b4a947b461f2afbd7dc1d767e82",
-          "sourceComponent": 2,
-          "sourceRect": {
-            "left": 869,
-            "top": 127,
-            "width": 383,
-            "height": 456
-          },
-          "sourceFoot": [
-            1070,
-            580
-          ],
-          "sourceUprightHeight": 480,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 234,
             "top": 312,
@@ -774,28 +391,11 @@
         },
         {
           "index": 3,
-          "file": "assets/frames/eclipse-3.png",
-          "sha256": "401db5460aa802d23dda1d59ae00398b7c1e736e8b8f2bc1e0f5be41cc918328",
-          "source": "assets/sources/eclipse.png",
-          "sourceSha256": "4b2b2ecf95ebe98550445cd6bb30b47dec355b4a947b461f2afbd7dc1d767e82",
-          "sourceComponent": 3,
-          "sourceRect": {
-            "left": 8,
-            "top": 737,
-            "width": 453,
-            "height": 422
-          },
-          "sourceFoot": [
-            235,
-            1156
-          ],
-          "sourceUprightHeight": 480,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 215,
             "top": 337,
@@ -806,28 +406,11 @@
         },
         {
           "index": 4,
-          "file": "assets/frames/eclipse-4.png",
-          "sha256": "062fe0230fd7fd4f3d69ac48a60e2c010682ff5aec527d1b13e9d1c2d0982111",
-          "source": "assets/sources/eclipse.png",
-          "sourceSha256": "4b2b2ecf95ebe98550445cd6bb30b47dec355b4a947b461f2afbd7dc1d767e82",
-          "sourceComponent": 4,
-          "sourceRect": {
-            "left": 435,
-            "top": 672,
-            "width": 458,
-            "height": 490
-          },
-          "sourceFoot": [
-            665,
-            1159
-          ],
-          "sourceUprightHeight": 480,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 213,
             "top": 287,
@@ -838,28 +421,11 @@
         },
         {
           "index": 5,
-          "file": "assets/frames/eclipse-5.png",
-          "sha256": "c4941464b85d4c7b6b461347f9026a191bae0ac73c34785738854c1d0a5a83ae",
-          "source": "assets/sources/eclipse.png",
-          "sourceSha256": "4b2b2ecf95ebe98550445cd6bb30b47dec355b4a947b461f2afbd7dc1d767e82",
-          "sourceComponent": 5,
-          "sourceRect": {
-            "left": 884,
-            "top": 803,
-            "width": 369,
-            "height": 355
-          },
-          "sourceFoot": [
-            1075,
-            1155
-          ],
-          "sourceUprightHeight": 460,
-          "bodyPixels": 360,
           "footAnchor": {
             "x": 0.5,
             "y": 0.8463541666666666
           },
-          "contactPoint": null,
+          "bodyPixels": 360,
           "visibleBounds": {
             "left": 236,
             "top": 376,
@@ -875,8 +441,6 @@
     "cross": {
       "atlas": "atlases/fx-cross.png",
       "sha256": "65b12d4d8fa41570bf3701bee9de4461d917bd0b236e3277b49b3112a0aaf505",
-      "source": "assets/sources/fx-cross.png",
-      "sourceSha256": "08deaed89e092fddb4147b74b4a1aa637090bd2c87c985ed3dc67d387ca87584",
       "columns": 4,
       "rows": 3,
       "cellSize": 512,
@@ -884,18 +448,6 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/fx-cross-0.png",
-          "sha256": "00ebea526742925a8a852fa007958f37dbd6b20c516f3f5ac0fa130ed51ebb19",
-          "sourceRect": {
-            "left": 0,
-            "top": 0,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 110,
             "top": 138,
@@ -906,18 +458,6 @@
         },
         {
           "index": 1,
-          "file": "assets/frames/fx-cross-1.png",
-          "sha256": "19bb0f5fcfdde520cd96fd389f9c334ddd8fa042efb41dad343037aae242c498",
-          "sourceRect": {
-            "left": 362,
-            "top": 0,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 120,
             "top": 126,
@@ -928,18 +468,6 @@
         },
         {
           "index": 2,
-          "file": "assets/frames/fx-cross-2.png",
-          "sha256": "d0842561a6c311dfa64479608a391fcd5d2fa684d5b5535bcc6533d5dd6c15c1",
-          "sourceRect": {
-            "left": 724,
-            "top": 0,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 104,
             "top": 99,
@@ -950,18 +478,6 @@
         },
         {
           "index": 3,
-          "file": "assets/frames/fx-cross-3.png",
-          "sha256": "c6b007729df7edb31b6dda1ecfe7b44194847b8746b6539fc549293962c835fa",
-          "sourceRect": {
-            "left": 1086,
-            "top": 0,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 89,
             "top": 100,
@@ -972,18 +488,6 @@
         },
         {
           "index": 4,
-          "file": "assets/frames/fx-cross-4.png",
-          "sha256": "559065511b1c0c8ff11e98a7e0b79e03d3c0f804e90ddb486738b2dc6ae20609",
-          "sourceRect": {
-            "left": 0,
-            "top": 362,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 109,
             "top": 100,
@@ -994,18 +498,6 @@
         },
         {
           "index": 5,
-          "file": "assets/frames/fx-cross-5.png",
-          "sha256": "e69164862646d982b83ab2e25f15a3e0867289da76d936f6fb429cc7194c0e10",
-          "sourceRect": {
-            "left": 362,
-            "top": 362,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 107,
             "top": 95,
@@ -1016,18 +508,6 @@
         },
         {
           "index": 6,
-          "file": "assets/frames/fx-cross-6.png",
-          "sha256": "b55be127e039437531e986c1152f26c8616cc35e4222324a782b483c9e6d098c",
-          "sourceRect": {
-            "left": 724,
-            "top": 362,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 100,
             "top": 101,
@@ -1038,18 +518,6 @@
         },
         {
           "index": 7,
-          "file": "assets/frames/fx-cross-7.png",
-          "sha256": "11d7e3548ac9cbe92790d667919a244a43b298931db1970d5e98d2a565b6b31e",
-          "sourceRect": {
-            "left": 1086,
-            "top": 362,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 96,
             "top": 96,
@@ -1060,18 +528,6 @@
         },
         {
           "index": 8,
-          "file": "assets/frames/fx-cross-8.png",
-          "sha256": "551408e4c5d38265466d7a72d470c334a3838d3996a128bd2409eebdacb67f8e",
-          "sourceRect": {
-            "left": 0,
-            "top": 724,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 103,
             "top": 81,
@@ -1082,18 +538,6 @@
         },
         {
           "index": 9,
-          "file": "assets/frames/fx-cross-9.png",
-          "sha256": "5cd92151262b4ed6ea60451da601f2e40b08fa377f87fdd063e428c4b7ca46e5",
-          "sourceRect": {
-            "left": 362,
-            "top": 724,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 101,
             "top": 93,
@@ -1104,18 +548,6 @@
         },
         {
           "index": 10,
-          "file": "assets/frames/fx-cross-10.png",
-          "sha256": "6886db9665cbe53e729bd0f30cc2333f33ed5129526c18de9b2b5864f9167784",
-          "sourceRect": {
-            "left": 724,
-            "top": 724,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 111,
             "top": 119,
@@ -1126,18 +558,6 @@
         },
         {
           "index": 11,
-          "file": "assets/frames/fx-cross-11.png",
-          "sha256": "a39360ecc4b8e7835e31223e3084ed598d584419cc83983e26fe28447197f0e9",
-          "sourceRect": {
-            "left": 1086,
-            "top": 724,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 147,
             "top": 155,
@@ -1151,8 +571,6 @@
     "flurry": {
       "atlas": "atlases/fx-flurry.png",
       "sha256": "9ea9416d28a4a3188105d643a16aa42ce66496e7db0e8d440e1dc1397c6a02ed",
-      "source": "assets/sources/fx-flurry.png",
-      "sourceSha256": "e6c3adcd241076e4d124cae08a545463fa265c509bce5c5dceff081963b34f65",
       "columns": 4,
       "rows": 3,
       "cellSize": 512,
@@ -1160,18 +578,6 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/fx-flurry-0.png",
-          "sha256": "e12a6e9e7582ad17b611a2e9c808f33b59e20e2682c91093bd8242ca6189b07e",
-          "sourceRect": {
-            "left": 0,
-            "top": 0,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 102,
             "top": 242,
@@ -1182,18 +588,6 @@
         },
         {
           "index": 1,
-          "file": "assets/frames/fx-flurry-1.png",
-          "sha256": "02227e8a5698a996500f6361210e02498ea5ab8e205ea759d97a0d06901c9c3f",
-          "sourceRect": {
-            "left": 362,
-            "top": 0,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 101,
             "top": 208,
@@ -1204,18 +598,6 @@
         },
         {
           "index": 2,
-          "file": "assets/frames/fx-flurry-2.png",
-          "sha256": "21760e4df353d84a973d195057259a54814d34b2ee115c53cfd06477e46fc740",
-          "sourceRect": {
-            "left": 724,
-            "top": 0,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 84,
             "top": 199,
@@ -1226,18 +608,6 @@
         },
         {
           "index": 3,
-          "file": "assets/frames/fx-flurry-3.png",
-          "sha256": "b09a2e139fe925918a5716b36f4d8617ca7d591004ab60d4ce416e8687b57032",
-          "sourceRect": {
-            "left": 1086,
-            "top": 0,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 87,
             "top": 173,
@@ -1248,18 +618,6 @@
         },
         {
           "index": 4,
-          "file": "assets/frames/fx-flurry-4.png",
-          "sha256": "665397fd5b62a24169385eace3fc44f9cac9dc6bb981456d30f2c10d1eb4a443",
-          "sourceRect": {
-            "left": 0,
-            "top": 362,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 108,
             "top": 88,
@@ -1270,18 +628,6 @@
         },
         {
           "index": 5,
-          "file": "assets/frames/fx-flurry-5.png",
-          "sha256": "7f79c17c5bef707a313143201657aa204f767594c47b42d13dab7cb4c95c3b3a",
-          "sourceRect": {
-            "left": 362,
-            "top": 362,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 110,
             "top": 77,
@@ -1292,18 +638,6 @@
         },
         {
           "index": 6,
-          "file": "assets/frames/fx-flurry-6.png",
-          "sha256": "21a659135ebc8150c09284843edd1d9b965ed2bd84320544c7aae462762e822d",
-          "sourceRect": {
-            "left": 724,
-            "top": 362,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 108,
             "top": 79,
@@ -1314,18 +648,6 @@
         },
         {
           "index": 7,
-          "file": "assets/frames/fx-flurry-7.png",
-          "sha256": "1cfac3105c0b285175b136c5101005a7db0c931ed826364afecbd4e877ed0d14",
-          "sourceRect": {
-            "left": 1086,
-            "top": 362,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 106,
             "top": 86,
@@ -1336,18 +658,6 @@
         },
         {
           "index": 8,
-          "file": "assets/frames/fx-flurry-8.png",
-          "sha256": "23a24066f7a98aa6d59ab0281cc9105739741b60f3724acc6f1e4f3712836bf1",
-          "sourceRect": {
-            "left": 0,
-            "top": 724,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 83,
             "top": 103,
@@ -1358,18 +668,6 @@
         },
         {
           "index": 9,
-          "file": "assets/frames/fx-flurry-9.png",
-          "sha256": "ad8989a39557c29d95467880254ce7ef5cc8b63ad9aa26bcd08ae070f139a238",
-          "sourceRect": {
-            "left": 362,
-            "top": 724,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 86,
             "top": 99,
@@ -1380,18 +678,6 @@
         },
         {
           "index": 10,
-          "file": "assets/frames/fx-flurry-10.png",
-          "sha256": "881ec3153b761a3fab5f8bbafced4ea535b750dde23d936fab3c13e0bdc2c9cb",
-          "sourceRect": {
-            "left": 724,
-            "top": 724,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 108,
             "top": 82,
@@ -1402,18 +688,6 @@
         },
         {
           "index": 11,
-          "file": "assets/frames/fx-flurry-11.png",
-          "sha256": "3edb5d8f44b80a9dbdd740a16cca37042efd811c833b5f414283e076cdc0a5f6",
-          "sourceRect": {
-            "left": 1086,
-            "top": 724,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 93,
             "top": 122,
@@ -1427,8 +701,6 @@
     "eclipse": {
       "atlas": "atlases/fx-eclipse.png",
       "sha256": "a0a56894b0d2937167481392a977f23d002aba1e85cf3df4185b5015eb3ebedf",
-      "source": "assets/sources/fx-eclipse.png",
-      "sourceSha256": "2a2e36340ff1e88aff463ba825c4093c7ea68ff338a4582db2b3b5baf8cf5023",
       "columns": 4,
       "rows": 3,
       "cellSize": 512,
@@ -1436,18 +708,6 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/fx-eclipse-0.png",
-          "sha256": "857b88c8a5b93c49c8388326ac9a778afa0edba0e0fc2b26df83955840f8704f",
-          "sourceRect": {
-            "left": 0,
-            "top": 0,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 117,
             "top": 179,
@@ -1458,18 +718,6 @@
         },
         {
           "index": 1,
-          "file": "assets/frames/fx-eclipse-1.png",
-          "sha256": "05e88627ef885499900dbe680533755dfb9ad7cae927ff511d8e66dda2c5e1ed",
-          "sourceRect": {
-            "left": 362,
-            "top": 0,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 97,
             "top": 180,
@@ -1480,18 +728,6 @@
         },
         {
           "index": 2,
-          "file": "assets/frames/fx-eclipse-2.png",
-          "sha256": "a44d41d028d9612bd922483e8e6c315359c1a14cd93f60bd4f312efa059c9d1a",
-          "sourceRect": {
-            "left": 724,
-            "top": 0,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 84,
             "top": 163,
@@ -1502,18 +738,6 @@
         },
         {
           "index": 3,
-          "file": "assets/frames/fx-eclipse-3.png",
-          "sha256": "166aa2b5383e4710c3182f8c1113acef534c1b2e2d5c3ad7056b780a94a41f57",
-          "sourceRect": {
-            "left": 1086,
-            "top": 0,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 76,
             "top": 168,
@@ -1524,18 +748,6 @@
         },
         {
           "index": 4,
-          "file": "assets/frames/fx-eclipse-4.png",
-          "sha256": "7fb2fd14af96902f0c57a59fd339488cb08284bdc38c79d2be39db8b43b5d150",
-          "sourceRect": {
-            "left": 0,
-            "top": 362,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 89,
             "top": 142,
@@ -1546,18 +758,6 @@
         },
         {
           "index": 5,
-          "file": "assets/frames/fx-eclipse-5.png",
-          "sha256": "111fa2b7319d12c67a7de9c9f75e14b6811e29a8183ebc2917739fa0cb4fe276",
-          "sourceRect": {
-            "left": 362,
-            "top": 362,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 76,
             "top": 130,
@@ -1568,18 +768,6 @@
         },
         {
           "index": 6,
-          "file": "assets/frames/fx-eclipse-6.png",
-          "sha256": "77a17b861e9f909dfffdae903bbc306c13b35e12e50a9e13b50d30521c8227ff",
-          "sourceRect": {
-            "left": 724,
-            "top": 362,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 76,
             "top": 125,
@@ -1590,18 +778,6 @@
         },
         {
           "index": 7,
-          "file": "assets/frames/fx-eclipse-7.png",
-          "sha256": "f87422ec7eec78a85cd761a83de9590d4eb5123a696e6523f9f3503c19220d0a",
-          "sourceRect": {
-            "left": 1086,
-            "top": 362,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 76,
             "top": 76,
@@ -1612,18 +788,6 @@
         },
         {
           "index": 8,
-          "file": "assets/frames/fx-eclipse-8.png",
-          "sha256": "a43a2e2f8ceedb8cbb885be3528c1a9cb13ec5d89cb30678f9839ce566248723",
-          "sourceRect": {
-            "left": 0,
-            "top": 724,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 92,
             "top": 96,
@@ -1634,18 +798,6 @@
         },
         {
           "index": 9,
-          "file": "assets/frames/fx-eclipse-9.png",
-          "sha256": "30672da290d0464ebdd5f7c21a2c346c50ab79a80f574f52fa12215a4e0c3aef",
-          "sourceRect": {
-            "left": 362,
-            "top": 724,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 76,
             "top": 112,
@@ -1656,18 +808,6 @@
         },
         {
           "index": 10,
-          "file": "assets/frames/fx-eclipse-10.png",
-          "sha256": "be916aa371bcf67f779ab1d42af4da6fc928de9669673ebbe19336d1866bbbc8",
-          "sourceRect": {
-            "left": 724,
-            "top": 724,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 100,
             "top": 111,
@@ -1678,18 +818,6 @@
         },
         {
           "index": 11,
-          "file": "assets/frames/fx-eclipse-11.png",
-          "sha256": "7fdb62f95d9de5244d1d7662c66516523d4bfb7265bb7b4c72ecc3f2fd3672b3",
-          "sourceRect": {
-            "left": 1086,
-            "top": 724,
-            "width": 362,
-            "height": 362
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          },
           "visibleBounds": {
             "left": 91,
             "top": 122,
@@ -1701,10 +829,14 @@
       ]
     }
   },
+  "counts": {
+    "motion": 24,
+    "uniqueBodyDrawings": 23,
+    "effects": 36
+  },
   "runtime": {
-    "renderer": "CURRENT_DEPLOYED_V3_FULL_SHELL",
-    "clock": "DEPLOYED_V3_GSAP",
     "defaultSpeed": 2,
+    "effectScale": 1.65,
     "idleBody": "ONE_FIXED_FRAME",
     "afterimages": {
       "enabled": true,
@@ -1715,228 +847,8 @@
       "idleDisabled": true,
       "reducedMotionDisabled": true
     },
-    "fastAssassination": true,
-    "effectScale": 1.65,
-    "mobileArea": "FULL_SIZE_TARGET_SWEEPS_FOLLOW_VERTICAL_FORMATION",
-    "productionSourceCommit": "45ca6bbbea164abc187c2b7113b1a5a4dc2b305c",
-    "productionFiles": [
-      {
-        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-        "sha256": "3732f73b636155b1a82d34f85094b32a21d0a4f208aad3477b0c357297d2350f",
-        "servedUnmodified": true
-      },
-      {
-        "file": "js/battle-v3-live.js",
-        "sha256": "71edfbfb5a80266d36c36e899760493a5d82f7ddb4bd6360c8a4ecbcfe29f150",
-        "servedUnmodified": true
-      },
-      {
-        "file": "css/battle-v3-live.css",
-        "sha256": "c6859ca4630c9dd575c4a055a56374ea13b2b0ad70c2d83d2050653c7ad07861",
-        "servedUnmodified": true
-      },
-      {
-        "file": "css/style.css",
-        "sha256": "f4b2c2858c2ff9f88e40a97c4ac6122f881bb9c09a3f8f03022ba54e18996eb9",
-        "servedUnmodified": true
-      },
-      {
-        "file": "css/card.css",
-        "sha256": "bf9862d096cc83e5805aaee15e9c47613c4a0c19720d2ad1ebfb99c72f69a62d",
-        "servedUnmodified": true
-      }
-    ],
-    "libraries": {
-      "pixi": "8.20.0",
-      "gsap": "3.13.0"
-    },
-    "implementation": {
-      "controller": "source/AssassinFX.js",
-      "choreography": "skills.mjs",
-      "integration": "app.mjs",
-      "sharedRenderer": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "nativeBattleShell": "js/battle-v3-live.js"
-    }
+    "clock": "V3_REGISTERED_GSAP"
   },
-  "audio": {
-    "enabled": false
-  },
-  "generation": "generation-records.json",
-  "battleSprite": "assets/battle-sprite.png",
-  "battleSpriteSha256": "7460d2757dbab2f3afedede1ed1815ec47a6d4a1509a3cc3699287d980a4770e",
-  "counts": {
-    "motion": 24,
-    "uniqueBodyDrawings": 23,
-    "effects": 36
-  },
-  "visualTimings": {
-    "cross": {
-      "name": "그림자 교차",
-      "type": "ATTACK",
-      "provisionalName": true,
-      "baseDuration": 1.8,
-      "durationAtDefault2x": 0.9,
-      "contactTimes": [
-        0.52,
-        0.68
-      ],
-      "effects": [
-        {
-          "key": "cross",
-          "start": 0.36,
-          "end": 0.52,
-          "from": 0,
-          "to": 3,
-          "target": 0,
-          "size": 1.4
-        },
-        {
-          "key": "cross",
-          "start": 0.52,
-          "end": 0.8,
-          "from": 4,
-          "to": 6,
-          "target": 0,
-          "size": 1.4
-        },
-        {
-          "key": "cross",
-          "start": 0.8,
-          "end": 1.28,
-          "from": 7,
-          "to": 11,
-          "target": 0,
-          "size": 1.4
-        }
-      ]
-    },
-    "flurry": {
-      "name": "무영 연살",
-      "type": "ATTACK",
-      "provisionalName": true,
-      "baseDuration": 2.35,
-      "durationAtDefault2x": 1.175,
-      "contactTimes": [
-        0.52,
-        0.8,
-        1.17
-      ],
-      "effects": [
-        {
-          "key": "flurry",
-          "start": 0.34,
-          "end": 0.67,
-          "from": 0,
-          "to": 3,
-          "target": 0,
-          "size": 1.28,
-          "y": 0.17
-        },
-        {
-          "key": "flurry",
-          "start": 0.67,
-          "end": 0.92,
-          "from": 4,
-          "to": 5,
-          "target": 0,
-          "size": 1.28
-        },
-        {
-          "key": "flurry",
-          "start": 0.92,
-          "end": 1.28,
-          "from": 6,
-          "to": 7,
-          "target": 0,
-          "size": 1.4
-        },
-        {
-          "key": "flurry",
-          "start": 1.28,
-          "end": 1.8,
-          "from": 8,
-          "to": 11,
-          "target": 0,
-          "size": 1.4
-        }
-      ]
-    },
-    "eclipse": {
-      "name": "월식 난무",
-      "type": "AREA",
-      "provisionalName": true,
-      "baseDuration": 3,
-      "durationAtDefault2x": 1.5,
-      "contactTimes": [
-        1.03,
-        1.085,
-        1.1400000000000001,
-        1.195,
-        1.25
-      ],
-      "effects": [
-        {
-          "key": "eclipse",
-          "start": 0.53,
-          "end": 1.95,
-          "from": 0,
-          "to": 11,
-          "target": "area",
-          "size": 3.4
-        }
-      ]
-    }
-  },
-  "userDirectives": [
-    "승인하고 전투 리소스 만들어 공격기2개 광역기1개",
-    "빠른 암살,그에 맞는 이동에 맞는 잔상,모션속도는 2배",
-    "이펙트 크기들 더 키워"
-  ],
-  "qa": {
-    "assets": "qa/assets-report.json",
-    "runtime": "qa/runtime-report.json",
-    "surfaces": [
-      "desktop",
-      "mobile"
-    ],
-    "passed": true,
-    "visualReview": "ASSISTANT_REVIEWED_NATIVE_BATTLE_STILLS_AND_EXERCISED_PLAYBACK_USER_BATTLE_APPROVAL_PENDING",
-    "checks": [
-      "true alpha and clear cell borders",
-      "approved V3 source hash unchanged",
-      "one fixed idle",
-      "actual production shell and 5+1 formation",
-      "default 2x wall-clock duration",
-      "path and pose sampled afterimages",
-      "pause and deterministic seek",
-      "replay and repeated cancel cleanup",
-      "unchanged target HP",
-      "mobile controls and horizontal overflow",
-      "resize and disposal"
-    ],
-    "recordings": [
-      "qa/desktop-demo.webm",
-      "qa/mobile-demo.webm"
-    ],
-    "commands": [
-      "node preview/mercenary-hooded-assassin-battle-20261024-v1/pack-assets.mjs",
-      "node preview/mercenary-hooded-assassin-battle-20261024-v1/build.mjs",
-      "node preview/mercenary-hooded-assassin-battle-20261024-v1/qa-assets.mjs",
-      "node preview/mercenary-hooded-assassin-battle-20261024-v1/qa-runtime.mjs",
-      "node preview/mercenary-hooded-assassin-battle-20261024-v1/record-demo.mjs"
-    ]
-  },
-  "storage": {
-    "workspaceReused": true,
-    "dependenciesCopied": false,
-    "projectCopied": false,
-    "generatedOriginalsPreserved": true
-  },
-  "sourceApprovalHash": "5993002c2b01eef98a27307816ee9333eec17fa343c1323e296510d4f87df1a7",
-  "finalPromptSet": "prompts/current-prompts.json",
-  "code": "V-058",
-  "edition": "STANDARD",
-  "basePower": 800000,
-  "runtimeApproval": "live-approval.json",
-  "authoringSource": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-hooded-assassin-battle-20261024-v1"
+  "acquisitionEnabled": false,
+  "accountGrants": 0
 }
