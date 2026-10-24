@@ -1,0 +1,24 @@
+{
+  "remotePreviewStopped": true,
+  "permanentBenchmarkWorkerStatus": 404,
+  "temporaryDatabaseTablesRemoved": true,
+  "localCleanup": {
+    "status": "BLOCKED_BY_POLICY",
+    "message": "Automatic approval review rejected deletion of the local benchmark cache and dependency junction; no detailed reason was provided. No alternate deletion was attempted.",
+    "retainedCache": ".wrangler/cache/cf.json",
+    "cacheBytes": 2035,
+    "retainedDependencyJunction": "C:/Users/User/.codex/worktrees/bloodmoon-bulk-release/node_modules",
+    "target": "C:/Users/User/Downloads/upload/cnine-card/node_modules",
+    "dependencyCopiesCreated": 0
+  },
+  "worktree": {
+    "reused": true,
+    "primaryProtectionPreviouslyConfirmed": true,
+    "newLargeWorktreeCreated": false
+  },
+  "storageAudit": {
+    "at": "2026-10-24T22:18:26.655993+00:00",
+    "logicalGiB": 63.905,
+    "scanErrors": 0
+  }
+}

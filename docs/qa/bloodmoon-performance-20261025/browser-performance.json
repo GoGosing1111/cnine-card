@@ -1,0 +1,120 @@
+{
+  "status": "PASSED",
+  "at": "2026-10-24T22:14:04.916Z",
+  "actualProductionComponents": true,
+  "api": "mocked with verified remote benchmark receipt; no production purchase",
+  "reports": [
+    {
+      "width": 1440,
+      "cpuThrottle": 1,
+      "watchVideos": true,
+      "domMs": 13.099999994039536,
+      "paintMs": 53.70000000298023,
+      "images": 15,
+      "nodes": 386,
+      "resultsBeforeVideoEnd": true,
+      "finishedMs": 18669.5,
+      "videos": [
+        {
+          "rank": "SS",
+          "duration": 8
+        },
+        {
+          "rank": "SSS",
+          "duration": 10.005
+        }
+      ],
+      "apiCalls": [
+        {
+          "path": "mercenaries/v3/bloodmoon-pack/feature",
+          "method": "GET"
+        },
+        {
+          "path": "mercenaries/v3/bloodmoon-pack/open",
+          "method": "POST"
+        },
+        {
+          "path": "mercenaries/v3/bloodmoon-pack/feature",
+          "method": "GET"
+        }
+      ],
+      "detailRows": 51,
+      "ordinaryImages": 0,
+      "errors": [],
+      "bad": [],
+      "realApiWrites": 0
+    },
+    {
+      "width": 390,
+      "cpuThrottle": 4,
+      "watchVideos": false,
+      "domMs": 92,
+      "paintMs": 140.20000000298023,
+      "images": 15,
+      "nodes": 386,
+      "resultsBeforeVideoEnd": true,
+      "finishedMs": 842.7000000029802,
+      "videos": [
+        {
+          "rank": "SSS",
+          "duration": 10.005
+        }
+      ],
+      "apiCalls": [
+        {
+          "path": "mercenaries/v3/bloodmoon-pack/feature",
+          "method": "GET"
+        },
+        {
+          "path": "mercenaries/v3/bloodmoon-pack/open",
+          "method": "POST"
+        },
+        {
+          "path": "mercenaries/v3/bloodmoon-pack/feature",
+          "method": "GET"
+        }
+      ],
+      "detailRows": 51,
+      "ordinaryImages": 0,
+      "errors": [],
+      "bad": [],
+      "realApiWrites": 0
+    },
+    {
+      "width": 320,
+      "cpuThrottle": 4,
+      "watchVideos": false,
+      "domMs": 78.79999999701977,
+      "paintMs": 122.19999998807907,
+      "images": 15,
+      "nodes": 386,
+      "resultsBeforeVideoEnd": true,
+      "finishedMs": 732.7999999970198,
+      "videos": [
+        {
+          "rank": "SSS",
+          "duration": 10.005
+        }
+      ],
+      "apiCalls": [
+        {
+          "path": "mercenaries/v3/bloodmoon-pack/feature",
+          "method": "GET"
+        },
+        {
+          "path": "mercenaries/v3/bloodmoon-pack/open",
+          "method": "POST"
+        },
+        {
+          "path": "mercenaries/v3/bloodmoon-pack/feature",
+          "method": "GET"
+        }
+      ],
+      "detailRows": 51,
+      "ordinaryImages": 0,
+      "errors": [],
+      "bad": [],
+      "realApiWrites": 0
+    }
+  ]
+}

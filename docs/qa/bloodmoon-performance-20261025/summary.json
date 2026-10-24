@@ -1,0 +1,173 @@
+{
+  "status": "PASSED",
+  "at": "2026-10-24T22:19:10.129Z",
+  "deployedSource": "bc34d2e8d68f3be08f811a5065073e301ac93c41",
+  "sourceFiles": [
+    {
+      "path": "functions/_mercenary_bloodmoon_opening.js",
+      "sha256": "3429b26ba1f780177153f5548a5b7b24e5aa233e1fd741aa2af092c2655dea37",
+      "matchesDeployedSource": true
+    },
+    {
+      "path": "functions/_mercenary_bloodmoon_bulk.js",
+      "sha256": "0e432ce3092e1e00bdb6c1dd380eb8eba576f457287cab1eac4c89a4f23df3e5",
+      "matchesDeployedSource": true
+    },
+    {
+      "path": "functions/_mercenary_bloodmoon_pack.js",
+      "sha256": "300a2dde5b45ebe996f9f90e9b337592345af05448a19af22cb6fd7916c82d23",
+      "matchesDeployedSource": true
+    },
+    {
+      "path": "functions/_postgres_d1_compat.js",
+      "sha256": "3a5dae6084f3d8d4b1b3f1fa127dcc2db300acda1575508c28a98cb17ce9efe3",
+      "matchesDeployedSource": true
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-bulk-v1.mjs",
+      "sha256": "de79460b979f9fc8cb466436ddced40e039e336ca40bddc6b3aa436d41c9aa7c",
+      "matchesDeployedSource": true
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "sha256": "844bbfaf5395d9554792b9b74ad8f2e70a5c0381d272d6066212a5f882a710f2",
+      "matchesDeployedSource": true
+    },
+    {
+      "path": "js/mercenary-bloodmoon-pack-live.mjs",
+      "sha256": "e4d2bc2d597110b95f1afcc0b79740e0f903c3a2235b38549c16263d6ba62934",
+      "matchesDeployedSource": true
+    },
+    {
+      "path": "js/mercenary-bloodmoon-presentation-v2.mjs",
+      "sha256": "ffa9ebe424ca9fdd88fd4ed38f2cadbb7eacf10d0ad178429867bae36632c96e",
+      "matchesDeployedSource": true
+    }
+  ],
+  "remoteServiceMs": {
+    "n": 20,
+    "minMs": 992,
+    "meanMs": 1187.05,
+    "medianMs": 1220.5,
+    "p95Ms": 1369,
+    "maxMs": 1546
+  },
+  "remoteReplayMs": {
+    "n": 20,
+    "minMs": 332,
+    "meanMs": 379.25,
+    "medianMs": 386,
+    "p95Ms": 415,
+    "maxMs": 417
+  },
+  "scenarios": [
+    {
+      "scenario": "mixed_all_grades",
+      "n": 5,
+      "minMs": 1117,
+      "meanMs": 1148.2,
+      "medianMs": 1134,
+      "p95Ms": 1225,
+      "maxMs": 1225,
+      "maxOrdinaryTypes": 57,
+      "maxSerials": 69,
+      "maxReceiptBytes": 26891,
+      "maxSqlStatements": 416,
+      "maxWireCalls": 12
+    },
+    {
+      "scenario": "mostly_misses",
+      "n": 5,
+      "minMs": 1258,
+      "meanMs": 1281.4,
+      "medianMs": 1260,
+      "p95Ms": 1369,
+      "maxMs": 1369,
+      "maxOrdinaryTypes": 57,
+      "maxSerials": 69,
+      "maxReceiptBytes": 26760,
+      "maxSqlStatements": 416,
+      "maxWireCalls": 12
+    },
+    {
+      "scenario": "all_sss_sold_out",
+      "n": 5,
+      "minMs": 992,
+      "meanMs": 1015.4,
+      "medianMs": 1002,
+      "p95Ms": 1086,
+      "maxMs": 1086,
+      "maxOrdinaryTypes": 6,
+      "maxSerials": 0,
+      "maxReceiptBytes": 1403,
+      "maxSqlStatements": 38,
+      "maxWireCalls": 12
+    },
+    {
+      "scenario": "limited_serial_cap",
+      "n": 5,
+      "minMs": 1216,
+      "meanMs": 1303.2,
+      "medianMs": 1252,
+      "p95Ms": 1546,
+      "maxMs": 1546,
+      "maxOrdinaryTypes": 57,
+      "maxSerials": 256,
+      "maxReceiptBytes": 72456,
+      "maxSqlStatements": 790,
+      "maxWireCalls": 12
+    }
+  ],
+  "localServiceMs": {
+    "n": 40,
+    "minMs": 49.82169999999951,
+    "meanMs": 106.39,
+    "medianMs": 94.731,
+    "p95Ms": 188.64969999999994,
+    "maxMs": 200.43910000000142
+  },
+  "remoteDraws": 2000000,
+  "localDraws": 4000000,
+  "browser": [
+    {
+      "width": 1440,
+      "cpuThrottle": 1,
+      "domMs": 13.099999994039536,
+      "paintMs": 53.70000000298023,
+      "finishedMs": 18669.5,
+      "watchVideos": true,
+      "images": 15,
+      "nodes": 386
+    },
+    {
+      "width": 390,
+      "cpuThrottle": 4,
+      "domMs": 92,
+      "paintMs": 140.20000000298023,
+      "finishedMs": 842.7000000029802,
+      "watchVideos": false,
+      "images": 15,
+      "nodes": 386
+    },
+    {
+      "width": 320,
+      "cpuThrottle": 4,
+      "domMs": 78.79999999701977,
+      "paintMs": 122.19999998807907,
+      "finishedMs": 732.7999999970198,
+      "watchVideos": false,
+      "images": 15,
+      "nodes": 386
+    }
+  ],
+  "productionReleaseEnabled": false,
+  "productionAccountWrites": 0,
+  "productionSettingWrites": 0,
+  "permanentBenchmarkWorker": false,
+  "remotePreviewStopped": true,
+  "limitations": [
+    "Synthetic users and temporary table indexes; no live table-size contention",
+    "One outer read-only transaction; batch commits use savepoints",
+    "No real account auth or Durable Object lock included"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "at": "2026-10-24T22:15:41.901Z",
+  "salesLocked": true,
+  "settings": [
+    {
+      "key": "mercenary_bloodmoon_ss_pack_v1",
+      "sha256": "29eb5c7c7526b04c5adc23962c0b26828f573ccd478045e203a05076acae65ae"
+    },
+    {
+      "key": "mercenary_halloween_ss_pack_v1",
+      "sha256": "d53f4db42e5af9bb2327afbe283a3c2a31d9b52a5950f7bb97320ce0c00968b4"
+    }
+  ],
+  "stock": [
+    {
+      "code": "V-960",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-961",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-962",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-963",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-964",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-965",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "0"
+    }
+  ],
+  "settingsUnchanged": true,
+  "stockUnchanged": true,
+  "normalPoolUnchanged": true,
+  "databaseAuditMode": "READ ONLY",
+  "productionAccountWrites": 0,
+  "permanentBenchmarkWorkerStatus": 404,
+  "pages": {
+    "id": "73795b31-e8a5-4043-8e86-dd335cee7a70",
+    "commit": "bc34d2e8d68f3be08f811a5065073e301ac93c41"
+  },
+  "runtime": {
+    "id": "870a63de-9629-441b-8de1-8e715de90c0a",
+    "source": "wrangler",
+    "strategy": "percentage",
+    "author_email": "wlgks6344@naver.com",
+    "annotations": {
+      "workers/triggered_by": "deployment"
+    },
+    "versions": [
+      {
+        "version_id": "bf12b666-ce00-4472-b6f5-66a12dd919a1",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-10-24T21:56:36.495627Z"
+  }
+}
