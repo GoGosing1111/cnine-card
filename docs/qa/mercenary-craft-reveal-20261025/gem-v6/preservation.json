@@ -1,0 +1,17 @@
+{
+  "sourceCommit": "ea4db15de352507014bfe83fab069fa32d059649",
+  "failedStage": "C:/Users/User/AppData/Local/Temp/cnine-release-wc2cBw",
+  "failure": "Temporary asset paths disappeared between staging and Wrangler upload; source image remained intact. Deletion cause not established.",
+  "cleanup": "Automatic approval review rejected the cleanup command with blocked by policy; no deletion was executed.",
+  "retained": {
+    "files": 13454,
+    "logicalBytes": 6804980703,
+    "junctionsNotTraversed": 1
+  },
+  "retryTemp": "C:/Users/User/AppData/Local/Temp/mercenary-gem-release-20261025",
+  "storageAudit": {
+    "logicalGiB": 63.965,
+    "at": "2026-10-24T23:28:57.671629+00:00"
+  },
+  "primaryCheckout": "Protected by native archive_worktree; preserved without manual deletion."
+}

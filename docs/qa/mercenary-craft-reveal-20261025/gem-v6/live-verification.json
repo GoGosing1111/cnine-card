@@ -1,0 +1,66 @@
+{
+  "checkedAt": "2026-10-24T23:32:58.079Z",
+  "sourceCommit": "ea4db15de352507014bfe83fab069fa32d059649",
+  "deployment": "83ddf22c",
+  "domain": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 36586,
+      "expected": "c6c52c1a6194413f8c128992d85d3ad6292d601febafc6a53c4d755b53f7f584",
+      "actual": "c6c52c1a6194413f8c128992d85d3ad6292d601febafc6a53c4d755b53f7f584",
+      "match": true
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "bytes": 790628,
+      "expected": "1c08edf8a43dab751620581dea6c9173fa78633d408dc657b5ed5b6135e93f19",
+      "actual": "1c08edf8a43dab751620581dea6c9173fa78633d408dc657b5ed5b6135e93f19",
+      "match": true
+    },
+    {
+      "path": "js/mercenary-craft-reveal-v1.js",
+      "status": 200,
+      "bytes": 15948,
+      "expected": "25da804b4699631a29b4cd0bf4ff3de0a1108163b6a69213684e6994d0a5f677",
+      "actual": "25da804b4699631a29b4cd0bf4ff3de0a1108163b6a69213684e6994d0a5f677",
+      "match": true
+    },
+    {
+      "path": "css/mercenary-craft-reveal-v1.css",
+      "status": 200,
+      "bytes": 25931,
+      "expected": "283c74c613d2a42849fe94872c74cfd9bce64041db80c3072676fcbd5dac3e3c",
+      "actual": "283c74c613d2a42849fe94872c74cfd9bce64041db80c3072676fcbd5dac3e3c",
+      "match": true
+    },
+    {
+      "path": "preview/mercenary-craft-reveal-20261025/index.html",
+      "status": 200,
+      "bytes": 1777,
+      "expected": "707547169a46e4b3013fd1f45793b9ebc7d3bbb57b0dba87717443e98d08fcbd",
+      "actual": "707547169a46e4b3013fd1f45793b9ebc7d3bbb57b0dba87717443e98d08fcbd",
+      "match": true
+    },
+    {
+      "path": "assets/ui/workshop/mercenary-atelier-20261025/action-track-v6.webp",
+      "status": 200,
+      "bytes": 165076,
+      "expected": "77ed684758908d57f3d847b7cb87caac2c7c4a132fb5d77d81b46203f044d4fb",
+      "actual": "77ed684758908d57f3d847b7cb87caac2c7c4a132fb5d77d81b46203f044d4fb",
+      "match": true
+    },
+    {
+      "path": "assets/ui/workshop/mercenary-atelier-20261025/action.webp",
+      "status": 200,
+      "bytes": 218550,
+      "expected": "0ed6729b838b3a4c4f25a85443a96b6e4629563f372e6971de609fbe7c5012cd",
+      "actual": "0ed6729b838b3a4c4f25a85443a96b6e4629563f372e6971de609fbe7c5012cd",
+      "match": true
+    }
+  ],
+  "allMatch": true,
+  "productionAccountWrites": 0
+}
