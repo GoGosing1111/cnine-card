@@ -1,0 +1,18 @@
+[
+  "CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT)",
+  "CREATE TABLE users(id BIGINT PRIMARY KEY,nickname TEXT,role TEXT DEFAULT 'USER',status TEXT DEFAULT 'ACTIVE',coin BIGINT,card_shards BIGINT DEFAULT 0)",
+  "CREATE TABLE members(id BIGINT PRIMARY KEY,name TEXT,is_active INTEGER DEFAULT 1)",
+  "CREATE TABLE cards(id TEXT PRIMARY KEY,title TEXT,rarity TEXT DEFAULT 'SUPERSTAR',image_url TEXT DEFAULT sqlite_now(),focus_x INTEGER DEFAULT 50,focus_y INTEGER DEFAULT 50,power_type TEXT DEFAULT 'FIXED',base_power BIGINT DEFAULT 15500,member_id BIGINT DEFAULT 1,is_active INTEGER DEFAULT 1,card_status TEXT DEFAULT 'PUBLIC')",
+  "CREATE VIEW cards_effective_v1210 AS SELECT * FROM cards",
+  "CREATE TABLE user_cards(user_id BIGINT,card_id TEXT,quantity BIGINT,last_obtained_at TEXT,PRIMARY KEY(user_id,card_id))",
+  "CREATE TABLE draw_logs(draw_group_id TEXT,user_id BIGINT,pack_id TEXT,card_id TEXT,rarity TEXT,coin_used BIGINT,is_new INTEGER,created_at TEXT)",
+  "CREATE INDEX idx_draw_logs_user ON draw_logs(user_id,created_at)",
+  "CREATE TABLE coin_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT)",
+  "CREATE TABLE shard_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT,card_id TEXT)",
+  "CREATE TABLE superstar_pack_receipts_v1(request_id TEXT PRIMARY KEY,user_id BIGINT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',outcome TEXT,card_id TEXT,cost BIGINT NOT NULL DEFAULT 0,response_json TEXT,error_message TEXT,created_at TEXT DEFAULT sqlite_now(),updated_at TEXT DEFAULT sqlite_now())",
+  "CREATE TABLE superstar_pack_debits_v1(request_id TEXT PRIMARY KEY,user_id BIGINT NOT NULL,cost BIGINT NOT NULL,created_at TEXT DEFAULT sqlite_now())",
+  "CREATE INDEX idx_superstar_pack_receipts_user ON superstar_pack_receipts_v1(user_id,created_at DESC)",
+  "CREATE UNIQUE INDEX idx_superstar_pack_one_pending_per_user ON superstar_pack_receipts_v1(user_id) WHERE status='PENDING'",
+  "CREATE INDEX idx_superstar_pack_debits_user ON superstar_pack_debits_v1(user_id,created_at DESC)",
+  "CREATE TABLE superstar_pack_atomic_guard_v2047(id TEXT PRIMARY KEY,verified INTEGER NOT NULL CHECK(verified=1))"
+]

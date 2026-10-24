@@ -1,0 +1,252 @@
+{
+  "reports": [
+    {
+      "at": "2026-10-24T23:08:39.439Z",
+      "scenario": "live",
+      "count": 1000,
+      "colo": "HKG",
+      "samples": [
+        {
+          "ms": 463,
+          "replayMs": 84,
+          "wire": 11,
+          "hits": 94,
+          "misses": 906,
+          "types": 7,
+          "bytes": 2927
+        },
+        {
+          "ms": 340,
+          "replayMs": 83,
+          "wire": 8,
+          "hits": 112,
+          "misses": 888,
+          "types": 7,
+          "bytes": 2934
+        },
+        {
+          "ms": 341,
+          "replayMs": 83,
+          "wire": 8,
+          "hits": 112,
+          "misses": 888,
+          "types": 7,
+          "bytes": 2936
+        },
+        {
+          "ms": 339,
+          "replayMs": 83,
+          "wire": 8,
+          "hits": 95,
+          "misses": 905,
+          "types": 7,
+          "bytes": 2934
+        },
+        {
+          "ms": 340,
+          "replayMs": 83,
+          "wire": 8,
+          "hits": 119,
+          "misses": 881,
+          "types": 7,
+          "bytes": 2938
+        }
+      ],
+      "readOnly": true,
+      "temporaryTables": 11,
+      "removed": true,
+      "productionWrites": 0,
+      "limits": [
+        "Temporary tables; no live account authentication or shared account contention",
+        "SAVEPOINT inside outer read-only transaction; no real COMMIT durability",
+        "Production handler, cryptographic RNG and current pool; changed rates only in temporary worst-case scenarios"
+      ]
+    },
+    {
+      "at": "2026-10-24T23:08:45.491Z",
+      "scenario": "live",
+      "count": 10000,
+      "colo": "HKG",
+      "samples": [
+        {
+          "ms": 634,
+          "replayMs": 93,
+          "wire": 11,
+          "hits": 973,
+          "misses": 9027,
+          "types": 7,
+          "bytes": 2976
+        },
+        {
+          "ms": 422,
+          "replayMs": 95,
+          "wire": 8,
+          "hits": 959,
+          "misses": 9041,
+          "types": 7,
+          "bytes": 2976
+        },
+        {
+          "ms": 418,
+          "replayMs": 94,
+          "wire": 8,
+          "hits": 1035,
+          "misses": 8965,
+          "types": 7,
+          "bytes": 2977
+        },
+        {
+          "ms": 403,
+          "replayMs": 97,
+          "wire": 8,
+          "hits": 963,
+          "misses": 9037,
+          "types": 7,
+          "bytes": 2976
+        },
+        {
+          "ms": 425,
+          "replayMs": 95,
+          "wire": 8,
+          "hits": 1053,
+          "misses": 8947,
+          "types": 7,
+          "bytes": 2978
+        }
+      ],
+      "readOnly": true,
+      "temporaryTables": 11,
+      "removed": true,
+      "productionWrites": 0,
+      "limits": [
+        "Temporary tables; no live account authentication or shared account contention",
+        "SAVEPOINT inside outer read-only transaction; no real COMMIT durability",
+        "Production handler, cryptographic RNG and current pool; changed rates only in temporary worst-case scenarios"
+      ]
+    },
+    {
+      "at": "2026-10-24T23:08:53.297Z",
+      "scenario": "maximum",
+      "count": 10000,
+      "colo": "HKG",
+      "samples": [
+        {
+          "ms": 963,
+          "replayMs": 109,
+          "wire": 11,
+          "hits": 10000,
+          "misses": 0,
+          "types": 7,
+          "bytes": 3013
+        },
+        {
+          "ms": 563,
+          "replayMs": 118,
+          "wire": 8,
+          "hits": 10000,
+          "misses": 0,
+          "types": 7,
+          "bytes": 3013
+        },
+        {
+          "ms": 608,
+          "replayMs": 118,
+          "wire": 8,
+          "hits": 10000,
+          "misses": 0,
+          "types": 7,
+          "bytes": 3013
+        },
+        {
+          "ms": 579,
+          "replayMs": 119,
+          "wire": 8,
+          "hits": 10000,
+          "misses": 0,
+          "types": 7,
+          "bytes": 3013
+        },
+        {
+          "ms": 593,
+          "replayMs": 124,
+          "wire": 8,
+          "hits": 10000,
+          "misses": 0,
+          "types": 7,
+          "bytes": 3013
+        }
+      ],
+      "readOnly": true,
+      "temporaryTables": 11,
+      "removed": true,
+      "productionWrites": 0,
+      "limits": [
+        "Temporary tables; no live account authentication or shared account contention",
+        "SAVEPOINT inside outer read-only transaction; no real COMMIT durability",
+        "Production handler, cryptographic RNG and current pool; changed rates only in temporary worst-case scenarios"
+      ]
+    },
+    {
+      "at": "2026-10-24T23:08:58.494Z",
+      "scenario": "miss",
+      "count": 10000,
+      "colo": "HKG",
+      "samples": [
+        {
+          "ms": 393,
+          "replayMs": 83,
+          "wire": 9,
+          "hits": 0,
+          "misses": 10000,
+          "types": 0,
+          "bytes": 508
+        },
+        {
+          "ms": 293,
+          "replayMs": 82,
+          "wire": 7,
+          "hits": 0,
+          "misses": 10000,
+          "types": 0,
+          "bytes": 508
+        },
+        {
+          "ms": 293,
+          "replayMs": 83,
+          "wire": 7,
+          "hits": 0,
+          "misses": 10000,
+          "types": 0,
+          "bytes": 508
+        },
+        {
+          "ms": 292,
+          "replayMs": 83,
+          "wire": 7,
+          "hits": 0,
+          "misses": 10000,
+          "types": 0,
+          "bytes": 508
+        },
+        {
+          "ms": 295,
+          "replayMs": 83,
+          "wire": 7,
+          "hits": 0,
+          "misses": 10000,
+          "types": 0,
+          "bytes": 508
+        }
+      ],
+      "readOnly": true,
+      "temporaryTables": 11,
+      "removed": true,
+      "productionWrites": 0,
+      "limits": [
+        "Temporary tables; no live account authentication or shared account contention",
+        "SAVEPOINT inside outer read-only transaction; no real COMMIT durability",
+        "Production handler, cryptographic RNG and current pool; changed rates only in temporary worst-case scenarios"
+      ]
+    }
+  ]
+}

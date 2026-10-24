@@ -1,0 +1,17 @@
+{
+  "normalization": "UTF-8 LF",
+  "files": [
+    {
+      "file": "functions/_superstar_pack.js",
+      "sha256": "d98c4a8c7db96de2116fc8fb6f9b423ef6481611c843931b2292ed280b452ff9"
+    },
+    {
+      "file": "shared/superstar-pack-bulk-v1.mjs",
+      "sha256": "5bcc7f605d0e5a530a11bdc85795c069dbab5bf8d2db66b97038d5970058a052"
+    },
+    {
+      "file": "js/ultimate-pack-bulk.mjs",
+      "sha256": "a43282591ed166771aad74be993b277777c4461df6c0a57d394c19e7c06e8c28"
+    }
+  ]
+}

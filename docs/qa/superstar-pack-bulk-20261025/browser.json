@@ -1,0 +1,68 @@
+{
+  "at": "2026-10-24T23:06:12.915Z",
+  "realModules": true,
+  "productionWrites": 0,
+  "reports": [
+    {
+      "width": 1440,
+      "count": 1000,
+      "ms": 257,
+      "posts": 1,
+      "images": 7,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "count": 10000,
+      "ms": 228,
+      "posts": 1,
+      "images": 7,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "count": 1000,
+      "ms": 230,
+      "posts": 1,
+      "images": 7,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "count": 10000,
+      "ms": 144,
+      "posts": 1,
+      "images": 7,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "recovery": "lost POST + reload + same-ID replay",
+      "extraCharges": 0
+    },
+    {
+      "accountSwitch": "original account request retained, result not applied"
+    },
+    {
+      "width": 320,
+      "count": 1000,
+      "ms": 60,
+      "posts": 1,
+      "images": 7,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "count": 10000,
+      "ms": 89,
+      "posts": 1,
+      "images": 7,
+      "overflow": false,
+      "errors": []
+    }
+  ]
+}
