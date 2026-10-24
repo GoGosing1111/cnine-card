@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "publicBase": "https://cnine-card.pages.dev",
+  "publicFiles": 55,
+  "checks": [
+    {
+      "label": "desktop",
+      "codex": true,
+      "name": "각성 오메가",
+      "skills": 4,
+      "basePower": 1750000
+    },
+    {
+      "label": "mobile",
+      "codex": true,
+      "name": "각성 오메가",
+      "skills": 4,
+      "basePower": 1750000
+    }
+  ],
+  "errors": [],
+  "missing": []
+}

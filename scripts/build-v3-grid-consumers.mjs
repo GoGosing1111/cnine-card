@@ -37,7 +37,10 @@ for (const [entryPoint, outfile, constructor] of jobs) {
         if (args.importer.replaceAll('\\', '/').endsWith('/project-v-pixi-battle.src.js')) return {path: path.resolve(constructor)};
       });
     }}] : []});
-  const bundle = result.outputFiles[0].text.replace(/[ \t]+$/gm, '');
+  // Rotate the delivery object after the first Omega Scrapyard blob timed out
+  // on both production and its immutable Pages URL. Runtime bytes stay intact.
+  const deliveryFooter = outfile === 'preview/scrapyard-v3-v1/battle.bundle.js' ? '\n/* delivery: awakened-omega-20261024-v1 */\n' : '';
+  const bundle = result.outputFiles[0].text.replace(/[ \t]+$/gm, '') + deliveryFooter;
   await writeBundle(outfile, bundle);
   const inputs = Object.keys(result.metafile.inputs).map(p => p.replaceAll('\\', '/'));
   if (!inputs.includes('preview/project-v-v3/source/battle/OccupiedGridLayout.js')) throw new Error(`Missing common grid: ${outfile}`);

@@ -1,0 +1,87 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"a4631dec2d3d6c642ca110658e1a2b15dd0cffbd","reason":"Register one locked craft-only SSS limited mercenary with canonical 1,750,000 stats, approved atlases, codex and V3 integration; validate combat, acquisition locks, codex, asset preservation and entry contracts.","changed":["AGENTS.md","assets/ui/project-v/mercenaries/awakened-omega-20261024/approval-20261024.json","assets/ui/project-v/mercenaries/awakened-omega-20261024/art-320.webp","assets/ui/project-v/mercenaries/awakened-omega-20261024/art-640.webp","assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/charge.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/cleave.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/impact.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/orbit.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/rupture.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/sever.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/idle.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/manifest.json","assets/ui/project-v/mercenaries/awakened-omega-20261024/motion-manifest.json","assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/cleave.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/idle.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/orbit.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/rupture.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/sever.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/originals/battle-master-complete.png","assets/ui/project-v/mercenaries/awakened-omega-20261024/originals/prompts-cosmic-fx-v4.json","assets/ui/project-v/mercenaries/awakened-omega-20261024/source-art.png","docs/qa/awakened-omega-live-20261024/README.md","docs/qa/awakened-omega-live-20261024/battle-report.json","docs/qa/awakened-omega-live-20261024/browser-failure.json","docs/qa/awakened-omega-live-20261024/browser-report.json","docs/qa/awakened-omega-live-20261024/deployment-plan.json","docs/qa/awakened-omega-live-20261024/deployments-before.json","docs/qa/awakened-omega-live-20261024/desktop-battle-cleave.png","docs/qa/awakened-omega-live-20261024/desktop-battle-idle.png","docs/qa/awakened-omega-live-20261024/desktop-battle-orbit.png","docs/qa/awakened-omega-live-20261024/desktop-battle-rupture.png","docs/qa/awakened-omega-live-20261024/desktop-battle-sever.png","docs/qa/awakened-omega-live-20261024/desktop-codex-art.png","docs/qa/awakened-omega-live-20261024/desktop-codex-sd.png","docs/qa/awakened-omega-live-20261024/enemy-battle-cleave.png","docs/qa/awakened-omega-live-20261024/enemy-battle-idle.png","docs/qa/awakened-omega-live-20261024/enemy-battle-orbit.png","docs/qa/awakened-omega-live-20261024/enemy-battle-rupture.png","docs/qa/awakened-omega-live-20261024/enemy-battle-sever.png","docs/qa/awakened-omega-live-20261024/mobile-battle-cleave.png","docs/qa/awakened-omega-live-20261024/mobile-battle-idle.png","docs/qa/awakened-omega-live-20261024/mobile-battle-orbit.png","docs/qa/awakened-omega-live-20261024/mobile-battle-rupture.png","docs/qa/awakened-omega-live-20261024/mobile-battle-sever.png","docs/qa/awakened-omega-live-20261024/mobile-codex-art.png","docs/qa/awakened-omega-live-20261024/mobile-codex-sd.png","docs/qa/awakened-omega-live-20261024/pages-authoring-exclusions.json","docs/qa/awakened-omega-live-20261024/prepare-delivery.mjs","docs/qa/launcher-purple-20261024/README.md","docs/qa/launcher-purple-20261024/deploy.log","docs/qa/launcher-purple-20261024/deployment-initial-result.json","docs/qa/launcher-purple-20261024/deployment-result.json","docs/qa/launcher-purple-20261024/production-loading.png","docs/qa/launcher-purple-20261024/production-verification.json","docs/qa/launcher-purple-20261024/verify-public.mjs","functions/_battle_v2_preview.js","functions/_mercenary_account.js","functions/_mercenary_awakened_omega.js","functions/_mercenary_codex.js","functions/_mercenary_combat.js","functions/_mercenary_level.js","index.html","js/app.js","js/battle-v3-live.js","mercenary-codex/app.mjs","mercenary-codex/index.html","mercenary-codex/model.mjs","mercenary-codex/shell.mjs","packaging/windows-client/README.md","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/AwakenedOmegaCombatPlayback.js","preview/project-v-v3/source/battle/MercenaryCombatPlayback.js","preview/project-v-v3/source/battle/awakened-omega/OmegaEvolvedFX.js","preview/project-v-v3/source/battle/awakened-omega/motion.mjs","preview/project-v-v3/source/battle/awakened-omega/skills.mjs","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","scripts/awakened-omega-node-authoring-only-20261024.json","scripts/build-awakened-omega-assets.mjs","scripts/build-awakened-omega-integration.mjs","scripts/build-awakened-omega-qa.mjs","scripts/build-v3-grid-consumers.mjs","scripts/prepare-production-assets.mjs","shared/mercenary-acquisition-release-v1.mjs","shared/mercenary-awakened-omega-v1.mjs","shared/mercenary-combat-link-v2103.mjs","shared/mercenary-level-v1.mjs","shared/mercenary-limited-deployment-v1.mjs","tests/awakened-omega-live-20261024.browser.mjs","tests/awakened-omega-live-20261024.test.mjs"],"tests":["tests/awakened-omega-live-20261024.test.mjs","tests/mercenary-codex-live-v2098.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ Pages excludes only preserved Node authoring files and keeps every runtime atlas (33.3466ms)
+✔ SSS LIMITED 1,750,000 is enforced by real stats, cadence and linkage between Jinmu and Jokro (8.0921ms)
+✔ craft-only remains locked across all positive-weight, pack, fusion and cube candidates; no recipe or grant (2287.9491ms)
+✔ two single attacks and two PVE areas share one per-cast budget without duplicate or dead-target hits (2.4735ms)
+✔ all four skills pay once and share five-action cooldown; PVP only uses the two single attacks (3.3663ms)
+✔ actual PVE/PVP timelines emit authoritative Omega skills and keep legacy Omega-X intact (17.8774ms)
+✔ public codex and accepted original/atlas bytes retain the exact art, proportions, 2x motion and foreground FX (47.4715ms)
+✔ sqlite: public codex reads exact saved CMS ranks, assignments, names and skill balances (108.2245ms)
+✔ postgres: public codex reads exact saved CMS ranks, assignments, names and skill balances (2254.7507ms)
+✔ codex search, grade filters and escaped presentation use current CMS skill data (0.8382ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (20.4554ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (32.3332ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (7.8652ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (15.5553ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (15.8242ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (70.3744ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (4.469ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (3.7622ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.4181ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2863.6051
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19984 files; 7812 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8356.13 KiB / gzip: 1797.52 KiB
+Worker Startup Time: 40 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (5.24 sec)
+No targets deployed for cnine-card-api-runtime (0.71 sec)
+Current Version ID: 02c20c55-82fd-4392-afad-806ff270df94
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19936/19984)
+Uploading... (19952/19984)
+Uploading... (19968/19984)
+Uploading... (19984/19984)
+✨ Success! Uploaded 48 files (19936 already uploaded) (5.50 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://3d20fde0.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 2972.41 KiB / gzip: 667.81 KiB
+Worker Startup Time: 36 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (5.28 sec)
+Deployed cnine-card-clan-draft triggers (1.20 sec)
+  schedule: * * * * *
+Current Version ID: b08f56ca-8579-4082-ac5a-ede960e8a417

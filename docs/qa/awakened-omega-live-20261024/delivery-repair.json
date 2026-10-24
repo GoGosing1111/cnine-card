@@ -1,0 +1,28 @@
+{
+  "initialSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de",
+  "initialPages": "3d20fde0-aea4-49d8-b434-335261ea2e09",
+  "checks": 19,
+  "publicHashMatches": 39,
+  "publicCodex": "PASS: desktop/mobile",
+  "networkFailure": {
+    "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+    "production": true,
+    "immutableDeployment": true,
+    "previousDeploymentHealthy": true,
+    "attemptTimeoutSeconds": [
+      60,
+      90,
+      90,
+      20,
+      20,
+      8
+    ]
+  },
+  "repair": "Add only a reproducible delivery footer to create a fresh CDN object; runtime bytes are identical.",
+  "command": "npm run deploy:production -- --scoped",
+  "base": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de",
+  "tests": [
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "accountWrites": 0
+}
