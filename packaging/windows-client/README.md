@@ -2,6 +2,10 @@
 
 독립 Electron 런처와 전용 WPF 화면의 Windows x64 설치 파일. 실제 파일 설치·제거는 내장 NSIS 엔진이 무인으로 수행한다. 게임의 기존 HTTPS 원점과 계정을 사용하며 웹/PWA 소스·계정·서비스워커 저장소를 변경하지 않는다. 0.1.5부터 게임 파일과 런처 실행 파일 모두 업데이트한다.
 
+## 보라색 런처 — 0.1.9
+
+성문 배경과 REVERSE CALL 입체 글자, 짙은 보라색 패널·행동 버튼을 사용한다. 기존 R 심벌·계정·설치 GUID·자동 업데이트를 유지한다. 첫 게임 로딩도 같은 배경과 제목을 쓴다. 원화·프롬프트 색인은 `art/manifest.json`, 검수 기록은 `docs/qa/launcher-purple-20261024/README.md`다.
+
 ## 리버스콜 전환 — 0.1.7
 
 사용자 첨부 R 심벌을 웹·PWA·Windows 공통 아이콘으로 적용하고 모든 화면의 서비스명을 리버스콜로 변경했다. 실행 파일은 `ReverseCall.exe`이며 기존 0.1.5/0.1.6 자동 업데이트 공급처와 설치 GUID는 유지한다. 기존 `%APPDATA%/숲켓몬` 프로필을 명시적으로 사용하여 이름 변경으로 로그인과 리소스 캐시가 초기화되지 않는다. 새 설치 및 업데이트 바로가기는 리버스콜로 표시한다.
@@ -19,7 +23,7 @@ Pop-Location
 node scripts/build-windows-client.mjs C:/Users/User/.codex/tmp/soopketmon-windows-build-20261015
 ```
 
-결과: 외부 빌드 디렉터리의 `release/ReverseCall-Setup-0.1.7-x64.exe`. 사용자에게는 `Setup`을 안내한다. `Engine`과 `.blockmap`, `latest.yml`은 자동 업데이트에 필요하며 공개 릴리스에 함께 업로드한다. 현재 코드 서명 인증서는 설정되지 않았다. 일반 사용자 권한으로 설치하며 바로가기와 제거 프로그램을 제공한다. 사용자 범위 선택 화면은 생략하고 현재 사용자로 자동 설정한다. 삭제 시 앱 데이터는 보존한다.
+결과: 외부 빌드 디렉터리의 `release/ReverseCall-Setup-0.1.9-x64.exe`. 사용자에게는 `Setup`을 안내한다. `Engine`과 `.blockmap`, `latest.yml`은 자동 업데이트에 필요하며 공개 릴리스에 함께 업로드한다. 현재 코드 서명 인증서는 설정되지 않았다. 일반 사용자 권한으로 설치하며 바로가기와 제거 프로그램을 제공한다. 사용자 범위 선택 화면은 생략하고 현재 사용자로 자동 설정한다. 삭제 시 앱 데이터는 보존한다.
 
 설치 안내문 원본 `LICENSE.txt`는 UTF-8로 관리한다. 빌드 스크립트가 NSIS에 넣는 `build-resources/LICENSE.txt`를 UTF-8 BOM·CRLF로 생성하므로 반드시 위 스크립트로 스테이징한 뒤 빌드한다. 명시적 `nsis.license` 경로는 electron-builder의 지역별 라이선스 인코딩 보정을 거치지 않는다. 관련 회귀 검사는 `node --test tests/windows-installer-20261015.test.mjs`다.
 

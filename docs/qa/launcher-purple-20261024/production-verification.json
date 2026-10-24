@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-24T08:22:18.959Z",
+  "at": "2026-10-24T08:43:14.869Z",
   "origin": "https://cnine-card.pages.dev",
   "files": [
     {
@@ -24,8 +24,8 @@
   "boot": {
     "title": "https://cnine-card.pages.dev/assets/ui/loading/reverse-call-purple-20261024/title.webp",
     "titleSize": [
-      550,
-      220
+      620,
+      248
     ],
     "scene": "https://cnine-card.pages.dev/assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp",
     "logo": "https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent",

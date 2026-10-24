@@ -9,7 +9,8 @@ try{
  const page=await browser.newPage({viewport:{width:1440,height:900},serviceWorkers:'block'});const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const gate=new Promise(resolve=>release=resolve);await page.route('**/js/app.js?*',async r=>{await gate;await r.continue();});
  await page.goto(origin+'/?theme=purple-20261024',{waitUntil:'commit'});await page.locator('.boot-title-art').waitFor({state:'visible'});
- await page.evaluate(async()=>{await Promise.all([...document.querySelectorAll('.v21-renewal-boot img')].map(i=>i.decode()));await document.fonts.ready;});
+ await page.waitForFunction(()=>Array.from(document.querySelectorAll('link[rel="stylesheet"]')).every(l=>!!l.sheet));
+ await page.evaluate(async()=>{await Promise.all([...document.querySelectorAll('.v21-renewal-boot img')].map(i=>i.decode()));await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});
  const boot=await page.evaluate(()=>{const art=document.querySelector('.boot-title-art'),r=art.getBoundingClientRect();return {title:art.currentSrc,titleSize:[r.width,r.height],scene:document.querySelector('.boot-scene img').currentSrc,logo:document.querySelector('.boot-identity img').currentSrc,overflow:document.documentElement.scrollWidth>innerWidth};});
  assert(boot.title.includes('/reverse-call-purple-20261024/title.webp'));assert.equal(boot.overflow,false);await page.screenshot({path:path.join(out,'production-loading.png')});
  release();await page.waitForLoadState('domcontentloaded');await page.locator('.v21-renewal-boot').waitFor({state:'hidden',timeout:30000});
