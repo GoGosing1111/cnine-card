@@ -27,7 +27,7 @@
           <figure class="mc-art" hidden><img alt=""><figcaption>SSS <span>LIMITED</span></figcaption></figure><div class="mc-broken" hidden><span>결속 소멸</span><small>CONTRACT LOST</small></div>
           <span class="mc-scene-label">SSS <i></i> LIMITED</span>
         </div>
-        <div class="mc-controls"><div class="mc-unseal"><div class="mc-charge-label"><span data-instruction>조각의 힘을 결속하는 중</span><b data-charge>0<small>%</small></b></div><div class="mc-track"><span data-track-label>봉인에 힘을 모으는 중</span><div class="mc-track-fill"></div><button type="button" class="mc-handle" role="slider" aria-label="오른쪽으로 밀어 용병 제작 결과 확인" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-describedby="mc-hint" disabled><span aria-hidden="true">→</span><small aria-hidden="true">밀기</small></button></div><p id="mc-hint">개방 조작은 제작 확률에 영향을 주지 않습니다.</p></div>
+        <div class="mc-controls"><div class="mc-unseal"><div class="mc-charge-label"><span data-instruction>조각의 힘을 결속하는 중</span><b data-charge>0<small>%</small></b></div><div class="mc-track"><span data-track-label>봉인에 힘을 모으는 중</span><div class="mc-track-fill"></div><button type="button" class="mc-handle" role="slider" aria-label="오른쪽으로 밀어 용병 제작 결과 확인" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-describedby="mc-hint" disabled><svg class="mc-gem" viewBox="145 224 133 258" aria-hidden="true" focusable="false"><defs><clipPath id="mc-gem-cut"><path d="M211.5 224 278 353 211.5 482 145 353Z"/></clipPath></defs><image href="${assets}action.webp" width="2172" height="724" clip-path="url(#mc-gem-cut)"/></svg></button></div><p id="mc-hint">개방 조작은 제작 확률에 영향을 주지 않습니다.</p></div>
           <div class="mc-result" hidden aria-live="polite"><div><p data-result-name></p><p data-result-note></p><small data-spent></small></div><button class="mc-done" type="button">확인</button></div>
         </div>
         <footer class="mc-footer"><ol aria-label="제작 연출 단계"><li data-step="charging">01 결속</li><li data-step="sealed">02 개방</li><li data-step="result">03 결과</li></ol><button class="mc-sound" type="button" aria-pressed="false">소리 OFF</button></footer>
@@ -56,15 +56,16 @@
       }
       function soundLabel(){$('.mc-sound').textContent='소리 '+(sound?'ON':'OFF');$('.mc-sound').setAttribute('aria-pressed',String(sound));}
       function setPhase(next){phase=next;root.dataset.phase=next;root.querySelectorAll('[data-step]').forEach(n=>n.setAttribute('aria-current',n.dataset.step===(next==='opening'?'sealed':next)?'step':'false'));}
+      const slideTravel=()=>Math.max(0,track.clientWidth-2*(handle.offsetLeft+handle.offsetWidth/2));
       function setCharge(value){
         charge=Math.max(0,Math.min(1,value));const percent=Math.round(charge*100);
-        root.style.setProperty('--mc-charge',charge);handle.style.transform=`translateX(${charge*Math.max(0,track.clientWidth-handle.offsetWidth)}px)`;
+        root.style.setProperty('--mc-charge',charge);handle.style.transform=`translateX(${charge*slideTravel()}px)`;
         handle.setAttribute('aria-valuenow',String(percent));handle.setAttribute('aria-valuetext',`${percent}%, 끝까지 밀어 결과 확인`);$('[data-charge]').innerHTML=`${percent}<small>%</small>`;
       }
       function ready(){
         if(!valid()){finish();return;}if(phase!=='charging')return;setPhase('sealed');handle.disabled=false;setCharge(0);
         $('[data-eyebrow]').textContent='THE SOUL ATELIER';$('#mc-title').textContent='영혼의 주조실';$('[data-caption]').textContent='봉인된 힘이, 당신의 손길을 기다립니다.';
-        $('[data-instruction]').textContent='바 어디서든 오른쪽으로 밀기';$('[data-track-label]').textContent='밀어서 봉인 개방';
+        $('[data-instruction]').textContent='결속 완료 · 봉인 개방 준비';$('[data-track-label]').textContent='밀어서 봉인 개방';
       }
       function showResult(){
         if(!valid()){finish();return;}if(phase==='result')return;setPhase('result');resultAt=performance.now();stopDrag();root.dataset.outcome=success?'success':'failure';
@@ -97,7 +98,7 @@
       on(track,'pointerdown',e=>{
         if(phase!=='sealed'||drag||e.isPrimary===false||e.button!==0)return;
         e.preventDefault();unlockAudio();handle.focus({preventScroll:true});
-        const box=track.getBoundingClientRect(),travel=box.width-handle.offsetWidth;
+        const box=track.getBoundingClientRect(),travel=slideTravel();
         const distance=Math.min(120,Math.max(72,travel*.45),Math.max(16,box.right-e.clientX-12));
         drag={id:e.pointerId,start:e.clientX,initial:charge,distance};
         track.setPointerCapture(e.pointerId);root.classList.add('mc-dragging');

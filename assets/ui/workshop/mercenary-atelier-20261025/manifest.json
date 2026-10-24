@@ -35,5 +35,19 @@
       "runtimeSha256": "0ed6729b838b3a4c4f25a85443a96b6e4629563f372e6971de609fbe7c5012cd"
     }
   ],
-  "review": "Dedicated V2 replaces the user-rejected plain panel concept; browser checks are not user visual approval."
+  "review": "Dedicated V2 replaces the user-rejected plain panel concept; browser checks are not user visual approval.",
+  "edits": [
+    {
+      "name": "actionTrackV6",
+      "original": "originals/action-track-v6.png",
+      "runtime": "action-track-v6.webp",
+      "width": 2172,
+      "height": 724,
+      "alpha": true,
+      "sourceSha256": "599cd8852f00ea363ee0cfe785d7be5a08cbe1a91d9deec3222839d246e3584b",
+      "runtimeSha256": "77ed684758908d57f3d847b7cb87caac2c7c4a132fb5d77d81b46203f044d4fb",
+      "prompt": "prompts-v6.json",
+      "purpose": "Remove baked gemstones from the static frame so the original blue crystal is a single movable handle in the left channel."
+    }
+  ]
 }

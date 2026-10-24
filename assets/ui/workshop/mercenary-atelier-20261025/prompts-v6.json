@@ -1,0 +1,7 @@
+{
+  "generator": "Built-in image_gen",
+  "userDirection": "밀기 없애고 고급스럽게 하면되잖아 보석 왼쪽으로 시작하게 해서; attached gold-rail reference with left channel marked",
+  "editTarget": "originals/action.png",
+  "trackEdit": "Precise production UI sprite edit of the supplied existing transparent golden horizontal frame. Remove ONLY the two luminous turquoise blue crystal gemstones embedded at the far left and far right ends. Replace the interiors of those two gem sockets with the same dark black gunmetal material as the surrounding socket, keeping the thin gold socket bezels intact. The static frame must contain NO blue crystal; a separate movable crystal will be rendered by code. Preserve the exact existing gold sculpted border, silhouette, tips, width, height, proportions, black central rail, metallic material, perspective, lighting and all other design details. Do not redesign the frame, add new decorations, add text, arrows, buttons or extra elements. Keep the original wide 3:1 composition, the same position and scale, and real transparent alpha outside the frame. One frame sprite only.",
+  "movableGem": "The original action.webp crystal is displayed through an SVG viewBox 145 224 133 258 with a diamond clip. It is not redrawn or baked with words. The gemstone starts inside the left channel, with its center at 20% of rail width."
+}

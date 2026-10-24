@@ -2,12 +2,12 @@
 <html lang="ko">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>용병 제작 연출 검수</title>
-<link rel="stylesheet" href="/css/mercenary-craft-reveal-v1.css?v=20261025-v4">
+<link rel="stylesheet" href="/css/mercenary-craft-reveal-v1.css?v=20261025-v6">
 <style>body{background:#08111c;color:#edf3ff;font:15px system-ui,sans-serif;margin:24px}button,select{font:inherit;padding:8px;margin:4px}</style>
 <p>용병 제작 연출 검수 · 실제 제작과 같은 연출입니다. 재료 소모·계정 지급은 없습니다.</p>
 <select id="mercenary" aria-label="제작 용병"><option value="WORKSHOP_JOKRO">족로</option><option value="WORKSHOP_KAIRON">카이론</option></select>
 <button type="button" id="success">성공 연출</button><button type="button" id="failure">실패 연출</button>
-<script src="/js/mercenary-craft-reveal-v1.js?v=20261025-v4"></script>
+<script src="/js/mercenary-craft-reveal-v1.js?v=20261025-v6"></script>
 <script type="module">
 import {MERCENARY_CRAFTS} from '/shared/mercenary-craft-v1.mjs';
 const show=success=>{const def=MERCENARY_CRAFTS.find(d=>d.recipeCode===document.querySelector('select').value);

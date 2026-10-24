@@ -21,7 +21,10 @@ try{
    check(await page.locator('.mc-dialog').evaluate(e=>e.scrollWidth<=e.clientWidth+1&&e.scrollHeight<=e.clientHeight+1),label+' sealed dialog fits without scrollbars');
    check(await page.locator('.mc-charge-label').evaluate(e=>e.getBoundingClientRect().bottom<=document.querySelector('.mc-track').getBoundingClientRect().top),label+' instruction stays above the gold rail');
    check(await page.locator('.mc-heading').evaluate(e=>e.getBoundingClientRect().width>=240),label+' title uses its reserved column');
-   check(await page.locator('.mc-handle').evaluate(e=>getComputedStyle(e).backgroundImage.includes('relic.webp')),label+' generated relic handle visible');
+   check(await page.locator('.mc-handle').evaluate(e=>{const s=getComputedStyle(e);return s.backgroundImage==='none'&&s.borderImageSource==='none'&&e.textContent.trim()===''&&e.querySelector('image')?.getAttribute('href').endsWith('/action.webp');}),label+' original blue gem handle without arrow, words or extra button art');
+   check(await page.locator('.mc-track').evaluate(e=>getComputedStyle(e).backgroundImage.includes('action-track-v6.webp')),label+' gold rail uses empty sockets and one moving gem');
+   check(await page.locator('[data-track-label]').evaluate(e=>{const range=document.createRange();range.selectNodeContents(e);return range.getBoundingClientRect().left>=document.querySelector('.mc-gem').getBoundingClientRect().right+8;}),label+' gem and rail wording stay separate');
+   check(await page.locator('.mc-gem').evaluate(e=>{const g=e.getBoundingClientRect(),t=document.querySelector('.mc-track').getBoundingClientRect(),center=(g.x+g.width/2-t.x)/t.width;return center>=.19&&center<=.21&&g.y>=t.y&&g.bottom<=t.bottom;}),label+' gemstone starts in the left channel');
    check(await page.locator('.mc-handle').evaluate(e=>{const r=e.getBoundingClientRect();return r.width>=92&&r.height>=80;}),label+' large handle target');
    check(await page.locator('.mc-track').evaluate(e=>e.getBoundingClientRect().height>=88&&getComputedStyle(e).touchAction==='none'),label+' entire tall rail captures touch');
    const rail=await page.locator('.mc-track').boundingBox();
