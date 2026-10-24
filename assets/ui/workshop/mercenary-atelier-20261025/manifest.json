@@ -1,0 +1,39 @@
+{
+  "createdAt": "2026-10-24T22:13:43.056Z",
+  "method": "Built-in image_gen",
+  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "sourcePrompts": "prompts.json",
+  "assets": [
+    {
+      "name": "chamber",
+      "original": "originals/chamber.png",
+      "runtime": "chamber.webp",
+      "width": 1536,
+      "height": 1024,
+      "alpha": false,
+      "sourceSha256": "d4edb45c8ff34fb925a97a22abdb1ee6a0fc04387f8a2afa0da01a3201231bf8",
+      "runtimeSha256": "391f56097c73efde9db483368c14bd1d6bda5d46e21dc74df0241b56f0545d61"
+    },
+    {
+      "name": "relic",
+      "original": "originals/relic.png",
+      "runtime": "relic.webp",
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "sourceSha256": "8940477bdbd3f0be43e42e955034183896e5e2efaf8b6993975cc20c6a716e5a",
+      "runtimeSha256": "f77444e0c67433bc67c30524b066aa4d5b2e1ddf7131c900995ac4c29dc5c3c1"
+    },
+    {
+      "name": "action",
+      "original": "originals/action.png",
+      "runtime": "action.webp",
+      "width": 2172,
+      "height": 724,
+      "alpha": true,
+      "sourceSha256": "8d3da9138183bc02cb975070388bd93dbb2d4287609795158754c6884bd1bcd5",
+      "runtimeSha256": "0ed6729b838b3a4c4f25a85443a96b6e4629563f372e6971de609fbe7c5012cd"
+    }
+  ],
+  "review": "Dedicated V2 replaces the user-rejected plain panel concept; browser checks are not user visual approval."
+}

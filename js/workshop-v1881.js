@@ -794,6 +794,18 @@
     }
   }
 
+  async function presentMercenaryCraft(data, recipe, canPresent) {
+    // A saved result remains valid even if an optional visual resource fails.
+    try {
+      const handled = await window.MercenaryCraftReveal?.play({data, recipe, isActive:canPresent});
+      if (!handled && canPresent()) showMaterialResult(data);
+    } catch (error) {
+      window.MercenaryCraftReveal?.cancel();
+      console.warn('Saved mercenary result presentation failed:', error);
+      if (canPresent()) { try { showMaterialResult(data); } catch (_) {} }
+    }
+  }
+
   async function craftMaterial() {
     const recipe = (workshopState?.recipes || []).find(row => ['MATERIAL_CRAFT','SUIT_CORE_SYNTHESIS','ITEM_SYNTHESIS','MERCENARY_CRAFT'].includes(row.category) && Number(row.id) === selectedMaterialRecipe);
     if (!recipe || workshopBusy) return;
@@ -831,6 +843,7 @@
         workshopState = data.state;
         syncWorkshopBalances(data);
         if (info.equipment) await presentEquipmentCraft(data, recipe, canPresent);
+        else if (data?.category === 'MERCENARY_CRAFT') await presentMercenaryCraft(data, recipe, canPresent);
         else showMaterialResult(data);
       }
     } catch (error) {
@@ -880,7 +893,7 @@
     const summary = `<div class="ws28-material-summary"><span>제작 <b>${fmt(attempts)}회</b></span><span>성공 <b>${fmt(successCount)}회</b></span><span>실패 <b>${fmt(data?.failureCount ?? attempts - successCount)}회</b></span></div>`;
     if (data?.category === 'MERCENARY_CRAFT') {
       modal.className = `modal show ws76-simple-result ws81-material-result ${success ? 'is-success' : 'is-failed'}`;
-      modal.innerHTML = `<section><small>SSS LIMITED · CRAFT EXCLUSIVE</small><h2>${success?'카이론 제작 성공':'카이론 제작 실패'}</h2>${success?`<img src="${esc(asset(output.image))}" alt="카이론"><b>흑탄의 집행관 카이론</b><p>용병 보관함에 카이론 1장이 지급되었습니다.</p>`:'<div class="ws76-result-failure-mark"><b>FAILED</b></div><p>투입한 재료와 비용이 소모되었습니다.</p>'}<button type="button">확인</button></section>`;
+      modal.innerHTML = `<section><small>SSS LIMITED · MERCENARY CRAFT</small><h2>${success?'용병 제작 성공':'용병 제작 실패'}</h2>${success?`<img src="${esc(asset(output.image))}" alt="${esc(outputName)}"><b>${esc(outputName)}</b><p>용병 보관함에 ${esc(outputName)} ${fmt(output.quantity || 1)}장이 지급되었습니다.</p>`:`<div class="ws76-result-failure-mark"><b>FAILED</b></div><b>${esc(outputName)}</b><p>투입한 재료와 비용이 소모되었습니다.</p>`}<button type="button">확인</button></section>`;
       modal.querySelector('button').onclick=()=>{modal.className='modal';modal.innerHTML='';renderWorkshop();};return;
     }
     if (data?.equipmentCraft) {
