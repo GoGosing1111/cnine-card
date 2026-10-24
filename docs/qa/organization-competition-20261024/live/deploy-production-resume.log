@@ -1,0 +1,82 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"335eafc712dc9188c8a98b9eeba9f77a64e431ec","reason":"동일 커밋 0f0617e8a의 관련 53건·배포정책 18건 통과 기록 유지. sparse service-worker 파일 복원 후 필수 직접 회귀와 운영 가드 재확인으로 배포 재개.","changed":["AGENTS.md","admin/index.html","admin/organization-admin-v1.css","admin/organization-admin-v1.mjs","css/organization-rankings-v1.css","docs/qa/bongsoon-helios-extra-20261024/README.md","docs/qa/bongsoon-helios-extra-20261024/apply.json","docs/qa/bongsoon-helios-extra-20261024/dry-run.json","docs/qa/bongsoon-helios-extra-20261024/lock-worker.mjs","docs/qa/bongsoon-helios-extra-20261024/read.json","docs/qa/bongsoon-helios-extra-20261024/run.mjs","docs/qa/bongsoon-helios-extra-20261024/verify.json","docs/qa/bongsoon-helios-extra-20261024/wrangler.jsonc","docs/qa/organization-competition-20261024/1440-cms.png","docs/qa/organization-competition-20261024/1440-rankings.png","docs/qa/organization-competition-20261024/1440-season-result.png","docs/qa/organization-competition-20261024/320-cms.png","docs/qa/organization-competition-20261024/320-rankings.png","docs/qa/organization-competition-20261024/320-season-result.png","docs/qa/organization-competition-20261024/390-cms.png","docs/qa/organization-competition-20261024/390-rankings.png","docs/qa/organization-competition-20261024/390-season-result.png","docs/qa/organization-competition-20261024/README.md","docs/qa/organization-competition-20261024/browser-checks.json","docs/qa/organization-competition-20261024/release-plan.json","docs/qa/organization-competition-20261024/user-notice.txt","docs/qa/organization-competition-20261024/verification.json","docs/qa/pet-daengsoryong-live-20261024/README.md","docs/qa/pet-daengsoryong-live-20261024/apply.json","docs/qa/pet-daengsoryong-live-20261024/deploy-missing-sparse-original.log","docs/qa/pet-daengsoryong-live-20261024/deploy-missing-temp-assets.log","docs/qa/pet-daengsoryong-live-20261024/deploy-production.log","docs/qa/pet-daengsoryong-live-20261024/deployment.json","docs/qa/pet-daengsoryong-live-20261024/dry-run.json","docs/qa/pet-daengsoryong-live-20261024/public-verification.json","docs/qa/pet-daengsoryong-live-20261024/source-commit.json","docs/qa/pet-daengsoryong-live-20261024/verify.json","functions/_organization_competition.js","functions/_organization_faction.js","functions/_organization_fixed_sessions.js","functions/api/[[path]].js","js/organization-faction-entry-v1.mjs","js/organization-faction-v1.mjs","js/organization-rankings-v1.mjs","organization/faction/index.html","package.json","scripts/ops/bongsoon-helios-extra-grant-20261024.json","scripts/ops/bongsoon-helios-extra-grant-20261024.mjs","scripts/prepare-production-assets.mjs","shared/organization-competition-v1.mjs","shared/organization-faction-v1.mjs","tests/organization-competition-20261024.browser.mjs","tests/organization-competition-20261024.test.mjs","tests/organization-schedule-20261023.test.mjs"],"tests":["tests/organization-competition-20261024.test.mjs"],"checks":["check:worker"]}
+✔ weekly cutoff is Monday 00:00 KST across UTC, month and year boundaries; ties share ranks (1.4486ms)
+✔ default 8 territories / 200 pig coins / four weeks; reject malformed and unclaimable policy values (0.6567ms)
+✔ 7 territories never pay pig coins; at 8, only active same-clan session participants receive 200 once (1541.3373ms)
+✔ pig threshold is independent of existing rewards; settings freeze when a session opens (1116.7971ms)
+✔ OFF pig reward does not erase existing standard rewards and old clients preserve configured fields (1164.6569ms)
+✔ legacy in-flight reward snapshot is not backfilled with a new pig reward (1285.6257ms)
+✔ reward insert failure rolls back the entire settlement and retries with exactly one pig reward (1120.7595ms)
+✔ weekly scoring takes one ownership snapshot, includes 1..7 territories, and never pays a second round reward (1119.5645ms)
+✔ four weekly settlements then one final settlement, independent next-season totals, persistent historical ranking (1100.5706ms)
+✔ final receipt failure rolls back fourth weekly points and season rollover together (1044.2591ms)
+✔ period changes apply next season; manual settlement cannot award early or accept a non-OWNER (1176.9604ms)
+✔ OFF cutoffs receive no points, prior ON cutoff settles before disabling, no retroactive OFF points on re-enable (1023.394ms)
+✔ TEST points are isolated and no LIVE pig coin or other account reward is created (991.3139ms)
+✔ initial late activation starts in the current week without backfilling past weeks (1004.1759ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14044.547
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 7506 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8275.42 KiB / gzip: 1777.55 KiB
+Worker Startup Time: 56 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (8.04 sec)
+No targets deployed for cnine-card-api-runtime (1.24 sec)
+Current Version ID: b0e0b1d3-ca6c-4c35-8945-93733185d8a1
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19968/20000)
+Uploading... (19978/20000)
+Uploading... (19989/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 32 files (19968 already uploaded) (2.34 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://95f4c480.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 2947.39 KiB / gzip: 663.15 KiB
+Worker Startup Time: 39 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.81 sec)
+Deployed cnine-card-clan-draft triggers (0.99 sec)
+  schedule: * * * * *
+Current Version ID: 2171230d-dde3-468b-ab30-773f21e5ea7d

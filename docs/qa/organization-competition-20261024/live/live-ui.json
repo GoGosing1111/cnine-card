@@ -1,0 +1,258 @@
+{
+  "checkedAt": "2026-10-24T00:47:15.902Z",
+  "productionOrigin": "https://cnine-card.pages.dev",
+  "productionStaticAssets": true,
+  "api": "isolated PostgreSQL fixture",
+  "productionApiRequests": 0,
+  "checks": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "errors": [],
+      "rankingRows": 6,
+      "weeklyPoints": 9,
+      "pigCoins": 200,
+      "requiredTerritories": 8,
+      "seasonWeeks": 4,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "errors": [],
+      "rankingRows": 6,
+      "weeklyPoints": 9,
+      "pigCoins": 200,
+      "requiredTerritories": 8,
+      "seasonWeeks": 4,
+      "overflow": false
+    }
+  ],
+  "assets": [
+    {
+      "path": "/organization/faction/",
+      "sha256": "5db0c6fa034428aba15897f391d3ba07df6de678c1b89e736d6a87d73fbf6d7d",
+      "bytes": 863
+    },
+    {
+      "path": "/css/organization-system-v1.css",
+      "sha256": "52771030c8d1820404faca01b82bf36f2fb08852899f5ad07e06ac5b4ce9f89d",
+      "bytes": 22178
+    },
+    {
+      "path": "/css/clan-faction-v1.css",
+      "sha256": "29942887939d7bbe0889a490102725c2a118726c953fa0c9150c0c04a127d7f4",
+      "bytes": 33999
+    },
+    {
+      "path": "/css/organization-command-20261021.css",
+      "sha256": "0edec925e37a08abc125832b7a096183cfba4e94b6f210c2d3645dc470183cd1",
+      "bytes": 42814
+    },
+    {
+      "path": "/css/organization-faction-v1.css",
+      "sha256": "a504c7e6e47a206d64c66aa49407790c714726027389dfab10bb42593a49b459",
+      "bytes": 29140
+    },
+    {
+      "path": "/css/organization-rankings-v1.css",
+      "sha256": "c9bb21877b307ec942fc4fd5fd2b4ea38e77fc863c0105ad27c4a58610f00a3e",
+      "bytes": 4259
+    },
+    {
+      "path": "/js/organization-faction-entry-v1.mjs",
+      "sha256": "2b7b7d0c31fa86623555a250ab897e3ebcfa24d8fbe01d965dabe02901f18652",
+      "bytes": 4460
+    },
+    {
+      "path": "/js/organization-embed-size-v1.mjs",
+      "sha256": "5516dc35ae947d3d5e612ed65f443ef76bdaab407ee44914def02b4416c26593",
+      "bytes": 1261
+    },
+    {
+      "path": "/js/organization-faction-v1.mjs",
+      "sha256": "c75d460942f5d8ff4b889b5078e16924ccb4d5718e456ae2badf6377ca77529c",
+      "bytes": 56616
+    },
+    {
+      "path": "/js/clan-faction-sessions-v1.mjs",
+      "sha256": "68284d9898d9dc3010a774376916f9eca246c0afdbe2c84d88b48056bd6b784b",
+      "bytes": 5615
+    },
+    {
+      "path": "/js/organization-identity-v1.mjs",
+      "sha256": "740ac1df4de97f6c5011f445c14c47fa2ab8756997a7fcc5e01800cd3ec154e1",
+      "bytes": 653
+    },
+    {
+      "path": "/shared/organization-identity-v1.mjs",
+      "sha256": "d07db5b7798be94c4098fd5ba1582c2d19f333a48ce16e6ddcf152247147716b",
+      "bytes": 1097
+    },
+    {
+      "path": "/js/organization-rankings-v1.mjs",
+      "sha256": "c2752ed64609e9deaf1c6b752b5e9846991d9b98531919c2ba7e066d0c4664ff",
+      "bytes": 4316
+    },
+    {
+      "path": "/shared/organization-faction-v1.mjs",
+      "sha256": "046d3792eebcc15371147217d20b8b69e1488b55241b20932d3ba32afb4f1578",
+      "bytes": 5722
+    },
+    {
+      "path": "/shared/clan-faction-rules-v1.mjs",
+      "sha256": "fb9b9ba695f46dcc986273a58cda2109ea39e1f13b1597030229523c1acb9aaa",
+      "bytes": 2355
+    },
+    {
+      "path": "/shared/organization-system-v1.mjs",
+      "sha256": "8301603b51020fb9db83205b54b9bbfc238f68dc03a06f6bfc0d8a0436861b52",
+      "bytes": 9002
+    },
+    {
+      "path": "/shared/clan-faction-sessions-v1.mjs",
+      "sha256": "53fe9251d93a35a16c2dda7aa446cb13964d632b468824829984f4fe42428312",
+      "bytes": 4663
+    },
+    {
+      "path": "/shared/organization-preparation-v1.mjs",
+      "sha256": "7827ddc8214acb89f7142827c34bde573dc6170f61a848b250ada4d9ee191765",
+      "bytes": 619
+    },
+    {
+      "path": "/shared/organization-competition-v1.mjs",
+      "sha256": "77e54a0835493fa932aadc0fbebb3ddf05b9b7ce3c2d50819857574d3a1802b5",
+      "bytes": 3449
+    },
+    {
+      "path": "/assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+      "bytes": 5180
+    },
+    {
+      "path": "/organization/faction/districts-v1.json",
+      "sha256": "0a9e8730ae4f7a93f0475f9cef75ae813ea4ec2a3e1f8c661ea73ebc687479dd",
+      "bytes": 43831
+    },
+    {
+      "path": "/assets/ui/clan/marks/t1-clan-mark-v1.webp",
+      "sha256": "4d7f00d4069c6be3ece082ef88e9d4da4114971b9e61620eb0d790b2da67601d",
+      "bytes": 52862
+    },
+    {
+      "path": "/assets/ui/clan/marks/hanwha-clan-mark-v1.webp",
+      "sha256": "4b8770d062b1ebdef19770155dd836d8f694280012be49b34436867dc8eb5a0a",
+      "bytes": 83598
+    },
+    {
+      "path": "/assets/ui/clan/marks/dk-clan-mark-v1.webp",
+      "sha256": "03c3667dc94a525438b656b666526667017c4b311243b9142926f72e01ea4602",
+      "bytes": 74816
+    },
+    {
+      "path": "/assets/ui/clan/marks/lg-clan-mark-v1.webp",
+      "sha256": "af1ff1aa101ef0004b7ac174ccf09f273bf2f0dd986bce689e608ad5f73acd06",
+      "bytes": 90558
+    },
+    {
+      "path": "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+      "bytes": 4454
+    },
+    {
+      "path": "/assets/ui/clan/marks/samsung-clan-mark-v1.webp",
+      "sha256": "89b95dd0c819ce3377e4a59448ee89687b1151ec09ebe2b42832942d761f7645",
+      "bytes": 73192
+    },
+    {
+      "path": "/assets/ui/clan/marks/lotte-clan-mark-v1.webp",
+      "sha256": "4ddae75eda4050330bcbea44407db9356a9dfc1344d9f4b628cf576eede52314",
+      "bytes": 67328
+    },
+    {
+      "path": "/assets/ui/organization/interface-v2/dossier-panel.webp",
+      "sha256": "d80c107e10aeb53741504f344c78f4b438a84bbc1fcdbde67346e4b0c7dd5719",
+      "bytes": 116236
+    },
+    {
+      "path": "/assets/ui/organization/interface-v2/tab-selected.webp",
+      "sha256": "2b4d891104cf80f5417bc3f1c25a9b76d8cd90daf28ed7da2cf86525b5ef7642",
+      "bytes": 12374
+    },
+    {
+      "path": "/assets/ui/organization/interface-v2/choice-selected.webp",
+      "sha256": "34743900831531d3c5a8f60797499b500562d49907608573c41273d60c20d000",
+      "bytes": 27516
+    },
+    {
+      "path": "/assets/ui/organization/interface-v2/tab-default.webp",
+      "sha256": "26e6e2d17722531ac626f9b1cb408b23a65a59dca080ccddc2658b57d8c28694",
+      "bytes": 14432
+    },
+    {
+      "path": "/favicon.ico",
+      "sha256": "8bb1bc2ddf3ce031a99d9cdff033f8029448da6431a8330836b9c2b60bb69188",
+      "bytes": 123859
+    },
+    {
+      "path": "/admin/organization-admin-v1.css",
+      "sha256": "674d9db2150b2d1966e0b1eb479ce668db94b1873504690bb7e26de8261545eb",
+      "bytes": 14563
+    },
+    {
+      "path": "/admin/organization-admin-v1.mjs",
+      "sha256": "27482c861576f7c9cca79b7a3fa1bbeda67a9b6b4897dcf12874e393da778621",
+      "bytes": 39290
+    },
+    {
+      "path": "/js/joint-account-transport.mjs",
+      "sha256": "513432ff8b5d596778dcd39ae6c2456d67a0bafbf521666769d0e88ac6c1b785",
+      "bytes": 2994
+    },
+    {
+      "path": "/shared/organization-schedule-v1.mjs",
+      "sha256": "f372ce87be313ad4b3a1019a3cb3ce21c03322326fec93420c1545cf9d266370",
+      "bytes": 1221
+    },
+    {
+      "path": "/js/account-sync-client-v1.mjs",
+      "sha256": "6770f06fb5f82167591fc3866a188abcad206a2eceabd36571c7a99289d940d1",
+      "bytes": 5029
+    },
+    {
+      "path": "/shared/account-sync-v1.mjs",
+      "sha256": "cb3eb63500c40bdd72cf530bc1164fd5d4409e72b5cbcb1acbe90f688a7cbda9",
+      "bytes": 1223
+    },
+    {
+      "path": "/assets/ui/organization/interface-v2/choice-default.webp",
+      "sha256": "3859514830cf2cb2a92c3dcf738095c3023eb4f3da9c91f914da8109544232f4",
+      "bytes": 27626
+    },
+    {
+      "path": "/assets/ui/organization/interface-v2/action-default.webp",
+      "sha256": "ebe1e35a3de1947573a256c15fa96fb0dbb8bb98af56880da60aebfe9001c548",
+      "bytes": 29954
+    },
+    {
+      "path": "/assets/ui/organization/interface-v2/action-primary.webp",
+      "sha256": "c403e2a7df9a83dbad6a164dcb8e1f910159e7e3029031c1796b81f585a5352a",
+      "bytes": 26648
+    },
+    {
+      "path": "/assets/ui/organization/interface-v2/icon-default.webp",
+      "sha256": "b36fae5b51d0b58fd5c0ca29daedd0fda122782d5e144f76cf983621dcb83468",
+      "bytes": 11552
+    },
+    {
+      "path": "/assets/ui/organization/interface-v2/action-disabled.webp",
+      "sha256": "df0a10284f3c865a3bdc7fd5e2a1fe3327eb249af91ec70da362fdb2145c331d",
+      "bytes": 19752
+    },
+    {
+      "path": "/assets/ui/organization/interface-v2/icon-selected.webp",
+      "sha256": "4dbbfd9576f95f1172bb14f04dc4e21a0a85bc684f85593473f5fdc816deca79",
+      "bytes": 8020
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "checkedAt": "2026-10-24T00:47:17.882Z",
+  "sourceCommit": "0f0617e8acc849d16a722e145bbbcd2299da4ee0",
+  "pages": {
+    "id": "95f4c480-4b86-46d7-8afd-8e5137811b88",
+    "url": "https://95f4c480.cnine-card.pages.dev",
+    "createdAt": "2026-10-24T00:46:12.750729Z",
+    "status": "success"
+  },
+  "runtime": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployment": {
+        "id": "db02edaa-bc82-4c61-ab3c-7db639cc202c",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "versions": [
+          {
+            "version_id": "b0e0b1d3-ca6c-4c35-8945-93733185d8a1",
+            "percentage": 100
+          }
+        ],
+        "createdAt": "2026-10-24T00:45:10.29605Z"
+      },
+      "bundleSha256": "b3bdfc1a1257aad50d703d3d5a1a1fe22d92a723ed72aa2ef33f5670a29834a4",
+      "marker": {
+        "weekly": true,
+        "season": true,
+        "pigCoin": true
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployment": {
+        "id": "f43ca355-91bb-4ae9-a229-0b714068ab45",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "versions": [
+          {
+            "version_id": "2171230d-dde3-468b-ab30-773f21e5ea7d",
+            "percentage": 100
+          }
+        ],
+        "createdAt": "2026-10-24T00:46:42.117558Z"
+      },
+      "bundleSha256": "7e1c69eb84ae7aed1de6389774a9622696f541961129c64ff2bdd4cfc9838989",
+      "marker": {
+        "weekly": true,
+        "season": true,
+        "pigCoin": true
+      }
+    }
+  ],
+  "publicFiles": [
+    {
+      "path": "admin/index.html",
+      "bytes": 81537,
+      "sha256": "fa09362e27a89fd7c2a4e4b14e3599acfc2609c6f1a23dfcc3d92b39edf88fb4"
+    },
+    {
+      "path": "admin/organization-admin-v1.css",
+      "bytes": 14563,
+      "sha256": "674d9db2150b2d1966e0b1eb479ce668db94b1873504690bb7e26de8261545eb"
+    },
+    {
+      "path": "admin/organization-admin-v1.mjs",
+      "bytes": 39290,
+      "sha256": "27482c861576f7c9cca79b7a3fa1bbeda67a9b6b4897dcf12874e393da778621"
+    },
+    {
+      "path": "css/organization-rankings-v1.css",
+      "bytes": 4259,
+      "sha256": "c9bb21877b307ec942fc4fd5fd2b4ea38e77fc863c0105ad27c4a58610f00a3e"
+    },
+    {
+      "path": "js/organization-faction-entry-v1.mjs",
+      "bytes": 4460,
+      "sha256": "2b7b7d0c31fa86623555a250ab897e3ebcfa24d8fbe01d965dabe02901f18652"
+    },
+    {
+      "path": "js/organization-faction-v1.mjs",
+      "bytes": 56616,
+      "sha256": "c75d460942f5d8ff4b889b5078e16924ccb4d5718e456ae2badf6377ca77529c"
+    },
+    {
+      "path": "js/organization-rankings-v1.mjs",
+      "bytes": 4316,
+      "sha256": "c2752ed64609e9deaf1c6b752b5e9846991d9b98531919c2ba7e066d0c4664ff"
+    },
+    {
+      "path": "organization/faction/index.html",
+      "bytes": 863,
+      "sha256": "5db0c6fa034428aba15897f391d3ba07df6de678c1b89e736d6a87d73fbf6d7d"
+    },
+    {
+      "path": "shared/organization-competition-v1.mjs",
+      "bytes": 3449,
+      "sha256": "77e54a0835493fa932aadc0fbebb3ddf05b9b7ce3c2d50819857574d3a1802b5"
+    },
+    {
+      "path": "shared/organization-faction-v1.mjs",
+      "bytes": 5722,
+      "sha256": "046d3792eebcc15371147217d20b8b69e1488b55241b20932d3ba32afb4f1578"
+    }
+  ],
+  "database": {
+    "readOnly": true,
+    "policyRevision": 5,
+    "mode": "ON",
+    "pigCoinReward": {
+      "enabled": true,
+      "requiredTerritories": 8,
+      "amount": 200
+    },
+    "competitionPolicy": {
+      "seasonWeeks": 4
+    },
+    "round": {
+      "id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+      "scope": "LIVE",
+      "phase": "ASSIGNED"
+    },
+    "stateRevision": 8071,
+    "holdings": {
+      "1": 9,
+      "2": 7,
+      "3": 1,
+      "5": 7,
+      "6": 1
+    },
+    "competition": {
+      "version": 1,
+      "initializedAt": 1792802827253,
+      "nextWeeklyAt": 1792940400000,
+      "season": {
+        "number": 1,
+        "startsAt": 1792335600000,
+        "endsAt": 1794754800000,
+        "weeks": 4,
+        "weeksSettled": 0,
+        "points": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "weeklyHistory": [],
+      "seasonHistory": []
+    },
+    "settlementReceipts": 0,
+    "oldSessionPreserved": true
+  },
+  "manualAccountGrants": 0,
+  "noticePublished": false
+}

@@ -1,0 +1,131 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"335eafc712dc9188c8a98b9eeba9f77a64e431ec","reason":"세력전 회차 피그코인·주간 승점·4주 시즌 및 순위 UI만 변경. 공통 인증/DB/의존성 변경 없음. 원자성·중복·OFF/TEST 및 기존 세력전 회귀와 배포 자산 정책 검사.","changed":["AGENTS.md","admin/index.html","admin/organization-admin-v1.css","admin/organization-admin-v1.mjs","css/organization-rankings-v1.css","docs/qa/bongsoon-helios-extra-20261024/README.md","docs/qa/bongsoon-helios-extra-20261024/apply.json","docs/qa/bongsoon-helios-extra-20261024/dry-run.json","docs/qa/bongsoon-helios-extra-20261024/lock-worker.mjs","docs/qa/bongsoon-helios-extra-20261024/read.json","docs/qa/bongsoon-helios-extra-20261024/run.mjs","docs/qa/bongsoon-helios-extra-20261024/verify.json","docs/qa/bongsoon-helios-extra-20261024/wrangler.jsonc","docs/qa/organization-competition-20261024/1440-cms.png","docs/qa/organization-competition-20261024/1440-rankings.png","docs/qa/organization-competition-20261024/1440-season-result.png","docs/qa/organization-competition-20261024/320-cms.png","docs/qa/organization-competition-20261024/320-rankings.png","docs/qa/organization-competition-20261024/320-season-result.png","docs/qa/organization-competition-20261024/390-cms.png","docs/qa/organization-competition-20261024/390-rankings.png","docs/qa/organization-competition-20261024/390-season-result.png","docs/qa/organization-competition-20261024/README.md","docs/qa/organization-competition-20261024/browser-checks.json","docs/qa/organization-competition-20261024/release-plan.json","docs/qa/organization-competition-20261024/user-notice.txt","docs/qa/organization-competition-20261024/verification.json","docs/qa/pet-daengsoryong-live-20261024/README.md","docs/qa/pet-daengsoryong-live-20261024/apply.json","docs/qa/pet-daengsoryong-live-20261024/deploy-missing-sparse-original.log","docs/qa/pet-daengsoryong-live-20261024/deploy-missing-temp-assets.log","docs/qa/pet-daengsoryong-live-20261024/deploy-production.log","docs/qa/pet-daengsoryong-live-20261024/deployment.json","docs/qa/pet-daengsoryong-live-20261024/dry-run.json","docs/qa/pet-daengsoryong-live-20261024/public-verification.json","docs/qa/pet-daengsoryong-live-20261024/source-commit.json","docs/qa/pet-daengsoryong-live-20261024/verify.json","functions/_organization_competition.js","functions/_organization_faction.js","functions/_organization_fixed_sessions.js","functions/api/[[path]].js","js/organization-faction-entry-v1.mjs","js/organization-faction-v1.mjs","js/organization-rankings-v1.mjs","organization/faction/index.html","package.json","scripts/ops/bongsoon-helios-extra-grant-20261024.json","scripts/ops/bongsoon-helios-extra-grant-20261024.mjs","scripts/prepare-production-assets.mjs","shared/organization-competition-v1.mjs","shared/organization-faction-v1.mjs","tests/organization-competition-20261024.browser.mjs","tests/organization-competition-20261024.test.mjs","tests/organization-schedule-20261023.test.mjs"],"tests":["tests/organization-competition-20261024.test.mjs","tests/organization-schedule-20261023.test.mjs","tests/organization-faction-20261015.test.mjs","tests/organization-command-20261021.test.mjs","tests/organization-self-squads-20261022.test.mjs","tests/organization-elders-20261019.test.mjs","tests/pig-coin-message-reward.test.mjs"],"checks":["test:release-policy","check:worker"]}
+✔ public faction status exposes only an actual LIVE ON session and preserves paused state and deferred identity (4382.7304ms)
+✔ start notice rejects unauthenticated, nonlobby, paused, scheduled, expired and future sessions (1.0297ms)
+✔ unfinished legacy session adopts eight while past reward records stay unchanged (2665.066ms)
+✔ actual lobby renderer keeps faction countdown, pause state and dedicated entry visible (9.9694ms)
+✔ weekly cutoff is Monday 00:00 KST across UTC, month and year boundaries; ties share ranks (2.2836ms)
+✔ default 8 territories / 200 pig coins / four weeks; reject malformed and unclaimable policy values (1.0801ms)
+✔ 7 territories never pay pig coins; at 8, only active same-clan session participants receive 200 once (4834.1058ms)
+✔ pig threshold is independent of existing rewards; settings freeze when a session opens (2824.626ms)
+✔ OFF pig reward does not erase existing standard rewards and old clients preserve configured fields (2065.4021ms)
+✔ legacy in-flight reward snapshot is not backfilled with a new pig reward (1844.0654ms)
+✔ reward insert failure rolls back the entire settlement and retries with exactly one pig reward (1613.2096ms)
+✔ weekly scoring takes one ownership snapshot, includes 1..7 territories, and never pays a second round reward (1577.6304ms)
+✔ four weekly settlements then one final settlement, independent next-season totals, persistent historical ranking (1757.743ms)
+✔ final receipt failure rolls back fourth weekly points and season rollover together (1211.731ms)
+✔ period changes apply next season; manual settlement cannot award early or accept a non-OWNER (1153.7414ms)
+✔ OFF cutoffs receive no points, prior ON cutoff settles before disabling, no retroactive OFF points on re-enable (1115.5379ms)
+✔ TEST points are isolated and no LIVE pig coin or other account reward is created (1102.2842ms)
+✔ initial late activation starts in the current week without backfilling past weeks (1103.2103ms)
+✔ top three use evaluated power with stable ties and exclude inactive members; empty lists override legacy roles (2.3274ms)
+✔ all three elders can manage formation, captains, garrison, launch and upgrade; other members cannot manage (5202.5457ms)
+✔ elder edits are OWNER only, stale-safe, replay-safe and atomic; lineup can be prepared outside combat hours (2821.9505ms)
+✔ one-time 15-organization appointment rolls back dry run/failure, preserves gameplay, requires reviewed roster and never reapplies (2057.3628ms)
+✔ organization attack and defense squads allow three, reject four atomically, and leave clan capacity unchanged (5398.5265ms)
+✔ old five-member formations expose and launch only the first three on each side (2473.0785ms)
+✔ 25 Seoul districts, policy nulls, own-member authority and no clan data writes (2036.706ms)
+✔ shared HP, real server damage, entry guard, replay and member cooldown remain unchanged (1936.004ms)
+✔ session rewards pay 300 billion at nine territories, treasury snapshot is separate, duplicate tick is harmless and upgrade is atomic (1768.858ms)
+✔ TEST does not award live accounts and null treasury rate does not mint funds (1481.4187ms)
+✔ territory interruption freezes timers and resumes the same three-hour session (1566.3267ms)
+✔ organization schedule uses KST Tue Thu Sat Sun 20–22, including midnight/week rollover (3.2635ms)
+✔ 20:00 opens, 22:00 closes once; settled history and holdings persist; no random/deferred starts (3.5257ms)
+✔ territory wars pause and resume inside the fixed window without extending 22:00 (2.2074ms)
+✔ late first visit never backfills an unplayed session; assignment after start waits for next slot (2.241ms)
+✔ API fixed settlement rolls back on failure and retries once; old published schedule cannot reopen (4779.6341ms)
+✔ ordinary members join, move and leave themselves without elder or captain appointment; existing state is preserved (4944.9184ms)
+✔ three-seat capacity is enforced atomically under competing joins; stale intent and arbitrary users/organizations are rejected (2738.2231ms)
+✔ joined ordinary members launch and fight; unjoined elders cannot launch autonomous squads and busy membership cannot change (2128.2985ms)
+✔ source defense is locked during combat while an unrelated idle squad stays open (1778.7134ms)
+✔ leader saves cannot erase self-joined members, including old clients without a base; prior membership and captains are preserved (1706.0932ms)
+✔ receipt failure rolls membership and events back; retries join once and do not rejoin after leaving (1557.3171ms)
+✔ OFF, unassigned and inactive accounts cannot self-join; pause still prevents launch (1611.4971ms)
+✔ SQLite: real message claim credits only Pig Coin and an owned receipt exactly once (8.4171ms)
+✔ SQLite: ledger, wallet or message failures roll back fully and permit retry (3.9755ms)
+✔ SQLite: concurrent duplicate and different message claims keep exact wallet deltas (5.4718ms)
+✔ SQLite: mixed bulk rewards support Pig Coin and keep ordinary coin accounting (4.4081ms)
+✔ SQLite: uncertain commit can be retried and wallet overflow never consumes message (4.2283ms)
+✔ PostgreSQL: real message claim credits only Pig Coin and an owned receipt exactly once (4078.1653ms)
+✔ PostgreSQL: ledger, wallet or message failures roll back fully and permit retry (2435.4576ms)
+✔ PostgreSQL: concurrent duplicate and different message claims keep exact wallet deltas (2142.7775ms)
+✔ PostgreSQL: mixed bulk rewards support Pig Coin and keep ordinary coin accounting (1685.373ms)
+✔ PostgreSQL: uncertain commit can be retried and wallet overflow never consumes message (1556.3643ms)
+✔ Pig Coin appears in claim-all and invalidates the real loot-shop balances (27.2485ms)
+✔ server reward metadata keeps the real inbox claim controls visible without a local reward type (7.5803ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 53
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22708.1528
+
+> test:release-policy
+> node --test tests/production-sparse-staging-20261023.test.mjs tests/scoped-release-policy-20260923.test.mjs tests/hyperdrive-cache-deploy-guard.test.mjs && node --test --test-name-pattern="30s defaults, public countdown and scheduled deployment" tests/clan-draft-timeouts-20260915.test.mjs
+
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (1.3053ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (2.1968ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.4595ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (2.467ms)
+✔ sparse staging reuses only exact sibling blobs and streams remaining HEAD blobs without expanding checkout (1148.104ms)
+✔ a present working-tree change is preserved, never hidden by a HEAD fallback (772.311ms)
+✔ missing non-sparse files fail and remove only the failed staging directory (1105.3204ms)
+✔ a changed staged sparse blob cannot silently deploy the old HEAD image (1221.6375ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.4795ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.5101ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.5481ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.7424ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1663ms)
+✔ an unshipped QA Wrangler record does not classify an art release as production infrastructure (1125.2013ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.5455ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (3.1394ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (1.8302ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5510.1243
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+✔ 30s defaults, public countdown and scheduled deployment are included in the release (27.9603ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 370.9871
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+node:fs:441
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open 'C:\Users\User\.codex\worktrees\faction-weekly-rewards\cnine-card\service-worker.js'
+    at readFileSync (node:fs:441:20)
+    at read (file:///C:/Users/User/.codex/worktrees/faction-weekly-rewards/cnine-card/scripts/verify-production-release.mjs:4:22)
+    at file:///C:/Users/User/.codex/worktrees/faction-weekly-rewards/cnine-card/scripts/verify-production-release.mjs:14:16
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\User\\.codex\\worktrees\\faction-weekly-rewards\\cnine-card\\service-worker.js'
+}
+
+Node.js v24.18.0
