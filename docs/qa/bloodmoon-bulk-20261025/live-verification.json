@@ -1,0 +1,258 @@
+{
+  "status": "PASSED",
+  "checkedAt": "2026-10-24T21:58:50.233Z",
+  "source": "bc34d2e8d68f3be08f811a5065073e301ac93c41",
+  "origin": "https://cnine-card.pages.dev",
+  "publicFiles": [
+    {
+      "path": "index.html",
+      "bytes": 36786,
+      "sha256": "841ada7192af1159e3a462123fda80e10135f27e6ce151552dc29c625098284f",
+      "matched": true
+    },
+    {
+      "path": "service-worker.js",
+      "bytes": 19217,
+      "sha256": "9085b7f712c00738eb95bae76ff0f2bb43a53336cf4336a6615ad465cc0b00ce",
+      "matched": true
+    },
+    {
+      "path": "js/app.js",
+      "bytes": 783722,
+      "sha256": "a5ba76927bdbf011d88dc9746b10a1dcaa2794d4d2f2d97c66cc305f62ffa957",
+      "matched": true
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-bulk-v1.mjs",
+      "bytes": 7442,
+      "sha256": "de79460b979f9fc8cb466436ddced40e039e336ca40bddc6b3aa436d41c9aa7c",
+      "matched": true
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "bytes": 15682,
+      "sha256": "844bbfaf5395d9554792b9b74ad8f2e70a5c0381d272d6066212a5f882a710f2",
+      "matched": true
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-session-v2.mjs",
+      "bytes": 6680,
+      "sha256": "4cd91e500fe2f44bc0603def7f904b0ade8364a12297255875fa8a96a80a5c83",
+      "matched": true
+    },
+    {
+      "path": "js/mercenary-bloodmoon-pack-live.mjs",
+      "bytes": 18776,
+      "sha256": "e4d2bc2d597110b95f1afcc0b79740e0f903c3a2235b38549c16263d6ba62934",
+      "matched": true
+    },
+    {
+      "path": "js/mercenary-bloodmoon-presentation-v2.mjs",
+      "bytes": 10346,
+      "sha256": "ffa9ebe424ca9fdd88fd4ed38f2cadbb7eacf10d0ad178429867bae36632c96e",
+      "matched": true
+    },
+    {
+      "path": "css/mercenary-bloodmoon-pack-v2.css",
+      "bytes": 23742,
+      "sha256": "dc7c4b6826f0f7fbeffbeb481a1bf0d6497e3c0612aa663de91232ab4d0ddeb1",
+      "matched": true
+    },
+    {
+      "path": "css/mercenary-bloodmoon-bulk-v1.css",
+      "bytes": 4395,
+      "sha256": "24d33e8009819fb6e22afac1d7c934612845d0cf90f502420721b67ac14d5e46",
+      "matched": true
+    },
+    {
+      "path": "preview/blood-pack-interface-20261023/index.html",
+      "bytes": 7441,
+      "sha256": "c362aa5007b93f92d5a631b7d1d5b9deb11330cd1ea3eecda29bf859948cf11f",
+      "matched": true
+    },
+    {
+      "path": "assets/ui/packs/blood-pack-20261023/auto-panel.webp",
+      "bytes": 99082,
+      "sha256": "5402410918f86b4c38ad6bc751993261ba560c19aa5bfff4eb9cedcad6952d5a",
+      "matched": true
+    },
+    {
+      "path": "assets/ui/packs/blood-pack-20261023/button-night.webp",
+      "bytes": 42392,
+      "sha256": "792371093d5d85b521663ccc1ae6ef691871806212bb35e3168ff33751986aa4",
+      "matched": true
+    },
+    {
+      "path": "assets/ui/packs/blood-pack-20261023/button-ember.webp",
+      "bytes": 48842,
+      "sha256": "5d0527277cd88b1778ea6a7c0df4c0d271342c32df0f2239e9b109d9c43bd628",
+      "matched": true
+    },
+    {
+      "path": "assets/ui/packs/blood-pack-20261023/pack-768.webp",
+      "bytes": 317182,
+      "sha256": "2aac5cfd3d8ea95ee44dcf74104fb42fcd8cb99fb5b4563adccf01e51e630251",
+      "matched": true
+    },
+    {
+      "path": "css/mercenary-halloween-pack-v2.css",
+      "bytes": 23740,
+      "sha256": "f8d73afda1f14ad4629eae391d6828fd34b4e630f14b65e7f4f239a60240e191",
+      "matched": true
+    },
+    {
+      "path": "shared/mercenary-halloween-auto-v1.mjs",
+      "bytes": 3899,
+      "sha256": "66c533f93fe44cc98649b39b094e4fb19840c7b26d1a4617cfe6af2e995f9d64",
+      "matched": true
+    },
+    {
+      "path": "shared/mercenary-halloween-catalog-v1.mjs",
+      "bytes": 12250,
+      "sha256": "cee016ff4db2c12f0a453dc8ad5423127b8d5b5d55af98734847eecac9a29d19",
+      "matched": true
+    },
+    {
+      "path": "shared/mercenary-halloween-pool-v3.mjs",
+      "bytes": 2558,
+      "sha256": "0a7f739419d35ac29838e4a6bb5a80e67ef0ae856e0f70ceefe8870f9b8bc917",
+      "matched": true
+    },
+    {
+      "path": "shared/mercenary-halloween-pack-v1.mjs",
+      "bytes": 16920,
+      "sha256": "07012a116dbac44696150d5079377928143055443ddb641a0aa3293959e8051f",
+      "matched": true
+    },
+    {
+      "path": "shared/mercenary-halloween-combat-v1.mjs",
+      "bytes": 5993,
+      "sha256": "2817dfc8ad56981f88805846e818db08f38b3383eeeb8152329d5b9d30382c15",
+      "matched": true
+    },
+    {
+      "path": "shared/mercenary-halloween-session-v2.mjs",
+      "bytes": 6500,
+      "sha256": "02b7740a3fb9668dc8b533aa9b824eceb544ae904ead6f0514d233de2d2cefdd",
+      "matched": true
+    },
+    {
+      "path": "shared/mercenary-halloween-recovery-v1.mjs",
+      "bytes": 3050,
+      "sha256": "7b92fc11e09e5691f1ef07e34c7ab1f4263e07e74074085ad121c77028439050",
+      "matched": true
+    },
+    {
+      "path": "shared/mercenary-halloween-visual-v1.mjs",
+      "bytes": 93211,
+      "sha256": "b51e448a849ab3af7b5bcab3051471be7954cdc49fa6f4e150bcf4e9ac4e9e96",
+      "matched": true
+    },
+    {
+      "path": "js/mercenary-halloween-pack-live.mjs",
+      "bytes": 16184,
+      "sha256": "92f91bf9a771001cbc6a692ac1cae4600893fcc20b8405ae33f1f11fdcd9ed38",
+      "matched": true
+    },
+    {
+      "path": "js/mercenary-halloween-presentation-v2.mjs",
+      "bytes": 6954,
+      "sha256": "4cb3ea207bdcbc18d862ed9f30a61da7e37e238138be6361a3bc743a0aabb823",
+      "matched": true
+    }
+  ],
+  "feature": {
+    "status": 200,
+    "releaseEnabled": false,
+    "userOpeningEnabled": false,
+    "settings": {
+      "mode": "OFF",
+      "prices": {
+        "single": null,
+        "ten": null
+      }
+    }
+  },
+  "anonymousEmptyOpeningProbe": {
+    "status": 423,
+    "body": "{}",
+    "accountCredentials": false,
+    "blockedBeforeAuthenticationAndDatabase": true
+  },
+  "halloweenFilesUnchanged": [
+    "css/mercenary-halloween-pack-v2.css",
+    "shared/mercenary-halloween-auto-v1.mjs",
+    "shared/mercenary-halloween-catalog-v1.mjs",
+    "shared/mercenary-halloween-pool-v3.mjs",
+    "shared/mercenary-halloween-pack-v1.mjs",
+    "shared/mercenary-halloween-combat-v1.mjs",
+    "shared/mercenary-halloween-session-v2.mjs",
+    "shared/mercenary-halloween-recovery-v1.mjs",
+    "shared/mercenary-halloween-visual-v1.mjs",
+    "js/mercenary-halloween-pack-live.mjs",
+    "js/mercenary-halloween-presentation-v2.mjs",
+    "functions/_mercenary_halloween_opening.js",
+    "functions/_mercenary_halloween_once.js",
+    "functions/_mercenary_halloween_pack.js"
+  ],
+  "settingsUnchanged": true,
+  "stockUnchanged": true,
+  "salesReleaseFlag": false,
+  "productionTransactions": 0,
+  "reports": [
+    {
+      "width": 1440,
+      "salesLocked": true,
+      "referenceBudget": "100000000000000",
+      "referenceDraws": 100000,
+      "ordinaryImages": 0,
+      "featuredImages": 4,
+      "detailRows": 5,
+      "horizontalOverflow": false,
+      "errors": [],
+      "expectedLockedResponses": [],
+      "writeRequests": [],
+      "style": {
+        "color": "rgb(255, 240, 207)",
+        "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/blood-pack-20261023/button-ember.webp\")",
+        "height": 60
+      }
+    },
+    {
+      "width": 390,
+      "salesLocked": true,
+      "referenceBudget": "100000000000000",
+      "referenceDraws": 100000,
+      "ordinaryImages": 0,
+      "featuredImages": 4,
+      "detailRows": 5,
+      "horizontalOverflow": false,
+      "errors": [],
+      "expectedLockedResponses": [],
+      "writeRequests": [],
+      "style": {
+        "color": "rgb(255, 240, 207)",
+        "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/blood-pack-20261023/button-ember.webp\")",
+        "height": 54
+      }
+    },
+    {
+      "width": 320,
+      "salesLocked": true,
+      "referenceBudget": "100000000000000",
+      "referenceDraws": 100000,
+      "ordinaryImages": 0,
+      "featuredImages": 4,
+      "detailRows": 5,
+      "horizontalOverflow": false,
+      "errors": [],
+      "expectedLockedResponses": [],
+      "writeRequests": [],
+      "style": {
+        "color": "rgb(255, 240, 207)",
+        "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/blood-pack-20261023/button-ember.webp\")",
+        "height": 54.000030517578125
+      }
+    }
+  ]
+}

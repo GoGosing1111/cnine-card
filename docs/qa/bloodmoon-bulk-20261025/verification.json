@@ -1,0 +1,173 @@
+{
+  "status": "PASSED",
+  "date": "2026-10-25",
+  "productionDeployed": true,
+  "productionTransactions": 0,
+  "salesReleaseFlag": false,
+  "ui": "EXISTING_BLOODMOON_ASSETS",
+  "unitTests": 74,
+  "browserWidths": [
+    1440,
+    390,
+    320
+  ],
+  "halloweenFiles": [
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\css\\mercenary-halloween-pack-v2.css",
+      "sha256": "f8d73afda1f14ad4629eae391d6828fd34b4e630f14b65e7f4f239a60240e191",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\shared\\mercenary-halloween-auto-v1.mjs",
+      "sha256": "66c533f93fe44cc98649b39b094e4fb19840c7b26d1a4617cfe6af2e995f9d64",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\shared\\mercenary-halloween-catalog-v1.mjs",
+      "sha256": "cee016ff4db2c12f0a453dc8ad5423127b8d5b5d55af98734847eecac9a29d19",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\shared\\mercenary-halloween-pool-v3.mjs",
+      "sha256": "0a7f739419d35ac29838e4a6bb5a80e67ef0ae856e0f70ceefe8870f9b8bc917",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\shared\\mercenary-halloween-pack-v1.mjs",
+      "sha256": "07012a116dbac44696150d5079377928143055443ddb641a0aa3293959e8051f",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\shared\\mercenary-halloween-combat-v1.mjs",
+      "sha256": "2817dfc8ad56981f88805846e818db08f38b3383eeeb8152329d5b9d30382c15",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\shared\\mercenary-halloween-session-v2.mjs",
+      "sha256": "02b7740a3fb9668dc8b533aa9b824eceb544ae904ead6f0514d233de2d2cefdd",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\shared\\mercenary-halloween-recovery-v1.mjs",
+      "sha256": "7b92fc11e09e5691f1ef07e34c7ab1f4263e07e74074085ad121c77028439050",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\shared\\mercenary-halloween-visual-v1.mjs",
+      "sha256": "b51e448a849ab3af7b5bcab3051471be7954cdc49fa6f4e150bcf4e9ac4e9e96",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\js\\mercenary-halloween-pack-live.mjs",
+      "sha256": "92f91bf9a771001cbc6a692ac1cae4600893fcc20b8405ae33f1f11fdcd9ed38",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\js\\mercenary-halloween-presentation-v2.mjs",
+      "sha256": "4cb3ea207bdcbc18d862ed9f30a61da7e37e238138be6361a3bc743a0aabb823",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\functions\\_mercenary_halloween_opening.js",
+      "sha256": "54ebc909af910ec4f96b16d86c0e54aa85fe385e8dddf1e8a866ff0b0383294a",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\functions\\_mercenary_halloween_once.js",
+      "sha256": "3596bb2d2638e48f6abf1af0fe6c6296980052200ed25a78378d92f87f47eeb5",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\functions\\_mercenary_halloween_pack.js",
+      "sha256": "669e9029483985555a3d5ba961b34b931fa66ee5c29e15242f9d47c696017152",
+      "unchanged": true
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "bytes": 15682,
+      "sha256": "844bbfaf5395d9554792b9b74ad8f2e70a5c0381d272d6066212a5f882a710f2"
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-session-v2.mjs",
+      "bytes": 6680,
+      "sha256": "4cd91e500fe2f44bc0603def7f904b0ade8364a12297255875fa8a96a80a5c83"
+    },
+    {
+      "path": "functions/_mercenary_bloodmoon_opening.js",
+      "bytes": 14870,
+      "sha256": "3429b26ba1f780177153f5548a5b7b24e5aa233e1fd741aa2af092c2655dea37"
+    },
+    {
+      "path": "functions/_mercenary_bloodmoon_pack.js",
+      "bytes": 8268,
+      "sha256": "300a2dde5b45ebe996f9f90e9b337592345af05448a19af22cb6fd7916c82d23"
+    },
+    {
+      "path": "js/mercenary-bloodmoon-pack-live.mjs",
+      "bytes": 18776,
+      "sha256": "e4d2bc2d597110b95f1afcc0b79740e0f903c3a2235b38549c16263d6ba62934"
+    },
+    {
+      "path": "js/mercenary-bloodmoon-presentation-v2.mjs",
+      "bytes": 10346,
+      "sha256": "ffa9ebe424ca9fdd88fd4ed38f2cadbb7eacf10d0ad178429867bae36632c96e"
+    },
+    {
+      "path": "css/mercenary-bloodmoon-pack-v2.css",
+      "bytes": 23742,
+      "sha256": "dc7c4b6826f0f7fbeffbeb481a1bf0d6497e3c0612aa663de91232ab4d0ddeb1"
+    },
+    {
+      "path": "preview/blood-pack-interface-20261023/index.html",
+      "bytes": 7441,
+      "sha256": "c362aa5007b93f92d5a631b7d1d5b9deb11330cd1ea3eecda29bf859948cf11f"
+    },
+    {
+      "path": "tests/mercenary-bloodmoon-pack-20261023.browser.mjs",
+      "bytes": 13886,
+      "sha256": "fab9177573e1834d80e2ac0bec6f6c485ccb1c12786236b187bf2627a016a23d"
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-bulk-v1.mjs",
+      "bytes": 7442,
+      "sha256": "de79460b979f9fc8cb466436ddced40e039e336ca40bddc6b3aa436d41c9aa7c"
+    },
+    {
+      "path": "functions/_mercenary_bloodmoon_bulk.js",
+      "bytes": 2384,
+      "sha256": "0e432ce3092e1e00bdb6c1dd380eb8eba576f457287cab1eac4c89a4f23df3e5"
+    },
+    {
+      "path": "css/mercenary-bloodmoon-bulk-v1.css",
+      "bytes": 4395,
+      "sha256": "24d33e8009819fb6e22afac1d7c934612845d0cf90f502420721b67ac14d5e46"
+    },
+    {
+      "path": "tests/mercenary-bloodmoon-bulk-20261025.test.mjs",
+      "bytes": 13724,
+      "sha256": "b290370ce4eae99278acede1ebce8f28d4869aa2a3e76e6e3cb6a5aa0a68c02d"
+    },
+    {
+      "path": "tests/mercenary-bloodmoon-bulk-20261025.browser.mjs",
+      "bytes": 9480,
+      "sha256": "c976fd3b9de972eec44d273c6fdf451079ab923ee0454f7aedb1240cb8d002d5"
+    },
+    {
+      "path": "docs/qa/bloodmoon-bulk-20261025/README.md",
+      "bytes": 6747,
+      "sha256": "502af193bf36050559b155a937c3724b7ec717472fdb869ddab4d0d0b3e2abe0"
+    },
+    {
+      "path": "js/app.js",
+      "bytes": 783722,
+      "sha256": "a5ba76927bdbf011d88dc9746b10a1dcaa2794d4d2f2d97c66cc305f62ffa957"
+    }
+  ],
+  "sourceCommit": "bc34d2e8d68f3be08f811a5065073e301ac93c41",
+  "pagesDeployment": "73795b31-e8a5-4043-8e86-dd335cee7a70",
+  "productionSettingsUnchanged": true,
+  "livePublicFileCount": 26,
+  "liveVerification": "live-verification.json"
+}

@@ -4,10 +4,10 @@
 
 ## 현재 상태
 
-- 로컬 구현·검수 완료. 이번 작업에서 운영 배포·운영 설정 저장·계정 차감/지급은 하지 않았다.
+- **운영 배포 완료:** 소스 `bc34d2e8d68f3be08f811a5065073e301ac93c41`, Pages `73795b31-e8a5-4043-8e86-dd335cee7a70`. 배포 후 공개 26개 파일 SHA-256 일치, PC 1440px / 모바일 390px·320px 확인. 운영 설정 저장·계정 차감/지급은 0건이다.
 - `BLOODMOON_PACK_RELEASE_ENABLED=false`. 일반·대량 모두 같은 공개 개봉 경로에서 인증·요청 본문·DB 접근 전에 423으로 차단한다. OWNER 우회나 HTTP 출시 스위치를 추가하지 않았다.
 - 블러드문 저장 가격·확률·재고는 변경하지 않았다. 준비 화면의 참고 단가는 기존 할로윈 기록의 **1회 10억 / 10회 100억**, 따라서 **100조 = 100,000회**다. 실제 가격이 미설정이면 참고 계산만 하고 구매를 허용하지 않는다.
-- 할로윈의 코드·UI·가격·확률·개봉 방식은 변경하지 않았다. `halloween-before.json`과 `verification.json`의 해시 비교로 확인한다.
+- 할로윈의 코드·UI·가격·확률·개봉 방식은 변경하지 않았다. `before-settings.json`·`after-settings.json`의 운영 읽기 전용 비교와 `live-verification.json`의 코드·공개 파일 해시로 확인한다.
 
 ## 사용자 화면
 
@@ -36,3 +36,11 @@
 - 재현: `node --test --test-concurrency=1 tests/mercenary-bloodmoon-bulk-20261025.test.mjs`, `node tests/mercenary-bloodmoon-bulk-20261025.browser.mjs`. 기존 브라우저 회귀는 반드시 `QA_OUT`을 이 작업의 하위 폴더로 지정한다.
 
 검수 이미지는 최종 기존 블러드문 UI 상태다. 사용자 시각 승인 또는 판매 개방으로 기록하지 않는다. `changes.patch`에는 이 작업의 변경만 보존하며, 기존 `js/app.js`의 다른 미완료 변경을 포함하지 않는다.
+
+## 운영 검증
+
+- 사용자 후속 `라이브 배포해`에 따라 기존 운영 `main`의 최신 변경을 포함한 소스를 정식 scoped 게이트로 배포했다. 관련 74개 검사·Worker 문법·릴리스 검사·Hyperdrive 캐시 OFF 확인을 통과했다.
+- API 런타임·Pages·스케줄러 배포 성공. `after-deploy.json`, `deploy-live.log`, `deployment-result.json`에 결과를 보존한다.
+- 블러드문 서버 출시 플래그 false, 저장 모드 OFF·가격 null 유지. 공개 기능 조회는 HTTP 200으로 releaseEnabled=false·userOpeningEnabled=false를 확인했다. 빈 본문의 비인증 개봉 요청은 HTTP 423·undefined로 인증·본문·DB 처리 전에 차단했다.
+- 할로윈 저장 모드 ON·1회 10억/10회 100억·설정 문서 해시 불변, 블러드문 한정 발행 카운터 불변. DB 검증은 READ ONLY 거래 두 번으로 실행했다.
+- 운영 프리뷰는 GET만 사용했다. 100조=100,000회 표기, 구매 버튼 비활성, 일반 C~SS 5행 상세·이미지 0개, 상위 예시 이미지 4개, 가로 넘침·스크립트 오류 0건을 확인했다. 프리뷰는 실제 추첨·지급 결과가 아니다.

@@ -1,0 +1,214 @@
+{
+  "at": "2026-10-24T21:58:08.058Z",
+  "canonical": {
+    "id": "73795b31-e8a5-4043-8e86-dd335cee7a70",
+    "url": "https://73795b31.cnine-card.pages.dev",
+    "environment": "production",
+    "status": "success",
+    "created": "2026-10-24T21:57:47.598543Z",
+    "commit": "bc34d2e8d68f3be08f811a5065073e301ac93c41",
+    "branch": "main"
+  },
+  "deployments": [
+    {
+      "id": "73795b31-e8a5-4043-8e86-dd335cee7a70",
+      "url": "https://73795b31.cnine-card.pages.dev",
+      "environment": "production",
+      "status": "success",
+      "created": "2026-10-24T21:57:47.598543Z",
+      "commit": "bc34d2e8d68f3be08f811a5065073e301ac93c41",
+      "branch": "main"
+    },
+    {
+      "id": "93035bc9-7fca-46d5-81b1-ca85257e69c5",
+      "url": "https://93035bc9.cnine-card.pages.dev",
+      "environment": "production",
+      "status": "success",
+      "created": "2026-10-24T21:46:29.728026Z",
+      "commit": "3a19b319925ea62961193cfc430b3842e7e4b67c",
+      "branch": "main"
+    },
+    {
+      "id": "2dfdab0a-eab4-49ab-b809-51dc506747cb",
+      "url": "https://2dfdab0a.cnine-card.pages.dev",
+      "environment": "production",
+      "status": "success",
+      "created": "2026-10-24T13:53:02.223407Z",
+      "commit": "79f6ebda1fe0b723d10793351eb9dcf78e4df1c8",
+      "branch": "main"
+    },
+    {
+      "id": "3d20fde0-aea4-49d8-b434-335261ea2e09",
+      "url": "https://3d20fde0.cnine-card.pages.dev",
+      "environment": "production",
+      "status": "success",
+      "created": "2026-10-24T13:40:53.790054Z",
+      "commit": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de",
+      "branch": "main"
+    }
+  ],
+  "runtime": {
+    "deployments": [
+      {
+        "id": "870a63de-9629-441b-8de1-8e715de90c0a",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "bf12b666-ce00-4472-b6f5-66a12dd919a1",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-24T21:56:36.495627Z"
+      },
+      {
+        "id": "151c96a1-e53d-49d3-9f77-875dfbbcafd2",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "9edd5d37-9a1a-4715-9a21-c3a934ad1335",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-24T21:45:14.497936Z"
+      },
+      {
+        "id": "8d6e5b7f-c1c6-40bb-af9b-b5561d402bcc",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "0d874cd7-5305-4e64-b78c-2f053468f73a",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-24T13:52:06.932397Z"
+      },
+      {
+        "id": "9bfc7c81-e9a8-4c8c-b8ea-c671576a92a0",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "02c20c55-82fd-4392-afad-806ff270df94",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-24T13:39:44.594487Z"
+      },
+      {
+        "id": "76fbe3bf-c19b-4cbd-a4e0-5293f1da0090",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "808a9073-4119-4909-a991-e515ba6dcb0f",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-24T08:26:08.309252Z"
+      },
+      {
+        "id": "48e3060d-64b6-44d1-83d1-bb8f0b4136bb",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "9f65fa15-ab72-480c-b8ff-358fd428c455",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-24T08:19:51.144015Z"
+      },
+      {
+        "id": "e47ddfef-e276-4e2c-9c8a-9dafce787c6d",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "8057ec92-80e1-45aa-bb48-9cc0a64c71ac",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-24T07:59:06.209407Z"
+      },
+      {
+        "id": "56b92699-9e18-4852-9704-a3563970c460",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "46e19fe7-0998-44e7-be32-9cbc03a38e99",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-24T07:29:01.154463Z"
+      },
+      {
+        "id": "94ae374f-3db6-4df9-9ebb-3f2557158273",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "95ac299e-72a6-4503-8d46-b19ff2427e40",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-24T07:14:52.584499Z"
+      },
+      {
+        "id": "6f3c5518-baf2-4c4e-bb54-b2d1c7a07db6",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "42a45280-6a73-4df4-ab65-d64788a9a298",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-24T07:12:21.403214Z"
+      }
+    ]
+  }
+}
