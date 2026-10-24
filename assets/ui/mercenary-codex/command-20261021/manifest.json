@@ -22,7 +22,9 @@
     "stylesheet": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
   },
   "consumers": [
-    "mercenary-codex/command.css"
+    "mercenary-codex/command.css",
+    "css/command-ui-v1.css",
+    "raid/blackwing/ui.css"
   ],
   "liveText": "DOM only",
   "files": [
@@ -51,5 +53,11 @@
       "bytes": 1990,
       "sha256": "07035ae9e0a89dd61070471bfbf6d756be4daeb93d66bf5f4aad1848f2161483"
     }
-  ]
+  ],
+  "commonUiAdoption": {
+    "date": "2026-10-24",
+    "instruction": "용병도감에있는 리소스 공통 ui로 채택하고 그거로사용해서 꾸며라",
+    "stylesheet": "css/command-ui-v1.css",
+    "originalsUnchanged": true
+  }
 }

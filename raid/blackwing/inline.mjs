@@ -1,7 +1,7 @@
 import {jointAccountRequest as api} from '/js/joint-account-transport.mjs';
 import {createBlackwingBattle} from './battle.mjs?v=20261024-test1';
-import {ART,roles,roleDetails,esc,lobbyMarkup,configMarkup,partyMarkup,roomsMarkup,partyStripMarkup} from './lobby-ui.mjs?v=20261024-ui2';
-const VERSION='20261024-ui2',wardNames=['재의 성역','뼈의 성역','피의 성역'];
+import {ART,roles,roleDetails,esc,lobbyMarkup,configMarkup,partyMarkup,roomsMarkup,partyStripMarkup} from './lobby-ui.mjs?v=20261024-codex-ui3';
+const VERSION='20261024-codex-ui3',wardNames=['재의 성역','뼈의 성역','피의 성역'];
 const styles=new Map();
 function loadStyle(file){
  if(!styles.has(file))styles.set(file,new Promise((resolve,reject)=>{const l=document.createElement('link');l.rel='stylesheet';l.href='/raid/blackwing/'+file+'?v='+VERSION;l.onload=resolve;l.onerror=()=>{styles.delete(file);l.remove();reject(Error('흑익 화면을 불러오지 못했습니다.'));};document.head.appendChild(l);}));
@@ -15,8 +15,8 @@ export async function mountInlineRaid(root,{current=()=>true}={}){
  root.innerHTML=lobbyMarkup();
  const $=s=>root.querySelector(s),note=s=>{if(!stopped){$('[data-status]').textContent=s;combat.querySelector('[data-status]').textContent=s;}};
  const selectedRole=()=> $('[data-role]:checked')?.value||'BREAKER';
- const combat=document.createElement('section');combat.className='bw-combat';combat.hidden=true;combat.setAttribute('role','dialog');combat.setAttribute('aria-modal','true');combat.setAttribute('aria-label','흑익의 맹약 전투');combat.tabIndex=-1;
- combat.innerHTML='<header class="bw-top"><span class="bw-boss-portrait" role="img" aria-label="모르드레인 얼굴"></span><div><h3>흑익의 맹약</h3><span class="bw-clock" data-clock></span></div><span data-strain></span><button type="button" class="mr-button" data-exit>공대 나가기</button></header><div class="bw-battle-mount"></div><div class="bw-party-strip" aria-label="공대원 전황" data-party-strip></div><section class="bw-command"><h4 data-phase></h4><p data-detail></p><div class="bw-actions" data-actions></div><p class="bw-status" role="status" aria-live="polite" data-status></p></section><section class="bw-result" hidden><h3 data-result></h3><p data-result-detail></p><p>TEST · 입장 비용 0 · 계정 보상 미지급</p><button type="button" class="mr-button" data-result-exit>공대 목록으로</button></section>';document.body.appendChild(combat);const battle=createBlackwingBattle(combat.querySelector('.bw-battle-mount'));
+ const combat=document.createElement('section');combat.className='bw-combat cn-command-ui';combat.hidden=true;combat.setAttribute('role','dialog');combat.setAttribute('aria-modal','true');combat.setAttribute('aria-label','흑익의 맹약 전투');combat.tabIndex=-1;
+ combat.innerHTML='<header class="bw-top cn-ui-panel"><span class="bw-boss-portrait" role="img" aria-label="모르드레인 얼굴"></span><div><h3>흑익의 맹약</h3><span class="bw-clock" data-clock></span></div><span data-strain></span><button type="button" class="mr-button cn-ui-button" data-exit>공대 나가기</button></header><div class="bw-battle-mount"></div><div class="bw-party-strip" aria-label="공대원 전황" data-party-strip></div><section class="bw-command cn-ui-panel"><h4 data-phase></h4><p data-detail></p><div class="bw-actions" data-actions></div><p class="bw-status" role="status" aria-live="polite" data-status></p></section><section class="bw-result cn-ui-panel" hidden><h3 data-result></h3><p data-result-detail></p><p>TEST · 입장 비용 0 · 계정 보상 미지급</p><button type="button" class="mr-button cn-ui-button" data-result-exit>공대 목록으로</button></section>';document.body.appendChild(combat);const battle=createBlackwingBattle(combat.querySelector('.bw-battle-mount'));
  function fullscreen(on){if(on&&!locked.length){previousFocus=document.activeElement;bodyOverflow=document.body.style.overflow;locked=[...document.body.children].filter(e=>e!==combat&&!['SCRIPT','LINK','STYLE'].includes(e.tagName)).map(e=>[e,e.inert]);for(const[e]of locked)e.inert=true;document.body.style.overflow='hidden';combat.hidden=false;combat.focus({preventScroll:true});}else if(!on){combat.hidden=true;for(const[e,v]of locked)e.inert=v;locked=[];document.body.style.overflow=bodyOverflow;if(previousFocus?.isConnected)previousFocus.focus({preventScroll:true});}}
  async function request(path,options={}){return api('raid/blackwing/'+path,{...options,signal:abort.signal,timeoutMs:15000});}
  function lobbyControls(){const create=$('[data-create]');create.disabled=busy;create.innerHTML=busy?'공대 처리 중…':roles[selectedRole()]+'로 공대 만들기 <span aria-hidden="true">→</span>';root.querySelectorAll('[data-role],[data-refresh]').forEach(el=>el.disabled=busy);$('[data-lobby]').setAttribute('aria-busy',String(busy));drawRooms();}
@@ -25,10 +25,10 @@ export async function mountInlineRaid(root,{current=()=>true}={}){
   catch(e){if(stopped)return;if(!e.retryable&&e.name!=='AbortError')pending=null;note(e.message+(pending?' · 같은 요청으로 재시도하세요.':''));}
   finally{busy=false;if(!stopped){drawActions();drawParty();lobbyControls();}}
  }
- function button(label,action,target,disabled=false){return `<button type="button" class="mr-button primary" data-action="${action}"${target!==undefined?` data-target="${esc(target)}"`:''}${disabled||busy?' disabled':''}>${label}</button>`;}
+ function button(label,action,target,disabled=false){return `<button type="button" class="mr-button cn-ui-button primary" data-action="${action}"${target!==undefined?` data-target="${esc(target)}"`:''}${disabled||busy?' disabled':''}>${label}</button>`;}
  function drawActions(){if(stopped||!state?.challenge)return;const q=state.challenge,m=state.me,now=Date.now()+offset,d=q.debt,h=q.hearts,box=combat.querySelector('[data-actions]');let html='',detail='';
   combat.querySelector('[data-phase]').textContent=state.phase+'/5 · '+state.phaseName+' · '+roles[m.role]+' '+(m.slot+1);
-  if(pending){html='<button type="button" class="mr-button" data-retry>같은 요청 재시도</button>';detail='이전 요청의 결과를 확인하고 있습니다.';}
+  if(pending){html='<button type="button" class="mr-button cn-ui-button" data-retry>같은 요청 재시도</button>';detail='이전 요청의 결과를 확인하고 있습니다.';}
   else if(state.step==='DAMAGE'){html=button('편성 공격','STRIKE',undefined,state.attackRemaining<=0||now<state.nextStrikeAt);detail='역린 노출 · 내 남은 공격 몫 '+Math.ceil(state.attackRemaining).toLocaleString()+' · 보스 '+Math.ceil(state.bossHp/state.bossMaxHp*100)+'%';}
   else if(state.step==='TRANSITION'){detail='다음 맹약으로 이동 중입니다.';}
   else if(state.status==='ACTIVE'){

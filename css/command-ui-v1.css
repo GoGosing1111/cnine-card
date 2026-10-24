@@ -1,0 +1,36 @@
+/* 2026-10-24 user-selected common UI: the approved mercenary codex originals.
+   Preserve the source art, 48/16 panel slices and 38/9 action slices. */
+.command-codex,.cn-command-ui,.raid-content-tabs{
+ --command-panel:url('/assets/ui/mercenary-codex/command-20261021/panel-v3.webp');
+ --command-action:url('/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp');
+ --command-text:#f0f4fc;
+ --command-muted:#b9c5d9;
+ --command-lime:#c8ff6b;
+}
+.cn-command-ui .cn-ui-panel{
+ border:8px solid transparent;
+ border-image:var(--command-panel) 48 fill / 16px stretch;
+ border-radius:0;background:none;box-shadow:none;
+}
+.cn-command-ui .cn-ui-button{
+ display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ min-height:48px;padding:3px 12px;
+ border:7px solid transparent;
+ border-image:var(--command-panel) 48 fill / 16px stretch;
+ border-radius:0;background:none;box-shadow:none;
+ color:var(--command-text);font-family:inherit;font-size:14px;font-weight:650;line-height:1.45;text-shadow:none;
+ touch-action:manipulation;cursor:pointer;
+}
+.cn-command-ui .cn-ui-button.primary{
+ border-width:9px;border-image:var(--command-action) 38 fill / 9px stretch;
+ min-height:54px;padding:4px 14px;
+ background:none;color:#18240a;-webkit-text-fill-color:#18240a;
+ font-weight:750;box-shadow:none;text-shadow:none;
+}
+.cn-command-ui .cn-ui-button:hover:not(:disabled){filter:brightness(1.08);background:none;transform:none}
+.cn-command-ui .cn-ui-button:disabled{filter:saturate(.3);opacity:.65;cursor:not-allowed}
+.cn-command-ui .cn-ui-button:focus-visible{outline:2px solid var(--command-lime);outline-offset:3px}
+.pvev2-live-root .raid-content-tabs button{border:7px solid transparent;border-image:var(--command-panel) 48 fill / 16px stretch;border-radius:0;background:none;box-shadow:none;color:var(--command-muted)}
+.pvev2-live-root .raid-content-tabs button.active{border-image:var(--command-action) 38 fill / 9px stretch;background:none;color:#18240a;text-shadow:none}
+.pvev2-live-root .raid-content-tabs button.active::after{display:none}
+@media(prefers-reduced-motion:reduce){.cn-command-ui .cn-ui-button{transition:none}}

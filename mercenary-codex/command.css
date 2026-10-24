@@ -1,5 +1,6 @@
+@import url('/css/command-ui-v1.css?v=20261024-codex-common1');
 /* Approved command preview: original green action and matte navy image, 9-sliced. */
-.command-codex{--command-panel:url('/assets/ui/mercenary-codex/command-20261021/panel-v3.webp');--command-action:url('/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp');--muted:#b9c5d9;--text:#f0f4fc;--line:#33415b;font-family:'Pretendard Variable',Pretendard,'Noto Sans KR','Malgun Gothic',sans-serif;font-size:15px;line-height:1.55;font-synthesis:none;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#080c17;color:var(--text)}
+.command-codex{--muted:#b9c5d9;--text:#f0f4fc;--line:#33415b;font-family:'Pretendard Variable',Pretendard,'Noto Sans KR','Malgun Gothic',sans-serif;font-size:15px;line-height:1.55;font-synthesis:none;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#080c17;color:var(--text)}
 .command-codex :is(button,input,select){font-family:inherit}
 .command-codex :is(.archive-ribbon,.topbar,.heading-index,.heading-tag){display:none}
 .command-codex .archive-shell{max-width:1540px;padding:0 28px}
