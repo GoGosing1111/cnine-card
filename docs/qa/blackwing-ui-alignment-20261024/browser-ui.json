@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-24T06:50:27.110Z",
+  "reports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "lobbyLayout": {
+        "overflow": false,
+        "tabImage": "none",
+        "buttonImage": "none",
+        "buttonHeight": 50,
+        "bossPosition": "68% 0%"
+      },
+      "uiOnly": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lobbyLayout": {
+        "overflow": false,
+        "tabImage": "none",
+        "buttonImage": "none",
+        "buttonHeight": 50,
+        "bossPosition": "69% 0%"
+      },
+      "uiOnly": true,
+      "errors": []
+    }
+  ]
+}

@@ -19,7 +19,32 @@ test('time advance processes missed mechanics, enrage and stale phase inputs wit
 test('per-person damage cap prevents one overgeared member skipping other five',()=>{const r=room();debt(r);for(let i=0;i<3;i++)action(r,'1','STRIKE',undefined,r.clock+1200);assert.equal(blackwingView(r,'1').attackRemaining,0);assert.equal(r.step,'DAMAGE');assert.throws(()=>action(r,'1','STRIKE',undefined,r.clock+1200),/공격 몫/);assert.ok(blackwingView(r,'2').attackRemaining>0);});
 test('three wrong reversals fail; request retry never adds duplicate strain',()=>{const r=room(),input={requestId:'same_request_123',action:'REFLECT',token:blackwingView(r,'3').challenge.tokens.REFLECT};actBlackwingRoom(r,'3',input);actBlackwingRoom(r,'3',input);assert.equal(r.strain,1);assert.throws(()=>actBlackwingRoom(r,'3',{...input,action:'ANCHOR'}),/요청 내용/);action(r,'3','REFLECT');action(r,'3','REFLECT');assert.equal(r.status,'FAILED');assert.equal(r.strain,3);});
 test('V3 payload preserves cards, dedicated transparent body and mercenary lane',()=>{const r=room(),p=blackwingBattlePayload(r,'1');assert.equal(p.cards.length,5);assert.ok(p.cards.every(c=>c.image!==c.battleSprite));assert.equal(p.monster.battleSprite,'/assets/raids/blackwing-20261024/idle.webp');assert.equal(p.battleV2.teams.A.cards.length,5);assert.equal(p.battleV2.teams.B.cards[0].projectVMonsterArt.kind,'BLACKWING_BOSS');});
+
+test('party display uses snapshotted card portraits without exposing other players decks',()=>{
+ const r=room(),view=blackwingView(r,'1');
+ assert.equal(view.members.length,6);
+ assert.equal(view.lineup.length,5);
+ assert.equal(view.members[0].portrait.image,REVIEW_DECK[0].image);
+ assert.deepEqual(Object.keys(view.lineup[0]).sort(),['focusX','focusY','image','title']);
+ assert.ok(view.members.every(m=>!m.cards&&!m.loadouts&&!m.characterBonus));
+ view.lineup[0].image='/changed';
+ assert.equal(r.loadouts['1'].cards[0].image,REVIEW_DECK[0].image,'display projection cannot mutate the combat snapshot');
+});
 const setup=async(t,options)=>{const h=await blackwingLiveFixture(options);t.after(()=>h.close());return h;};
+test('lobby portrait follows ready-time deck refresh using the existing room read',async t=>{
+ const h=await setup(t);await h.configure();
+ const opened=await h.command('create'),roomId=opened.body.roomId;
+ const before=await h.call('lobby',{user:2});
+ assert.equal(before.body.rooms[0].portrait.image,REVIEW_DECK[0].image);
+ h.setDeck(1,{cards:[REVIEW_DECK[1],REVIEW_DECK[0],...REVIEW_DECK.slice(2)]});
+ const refreshed=await h.command('ready',{roomId,ready:true});
+ assert.equal(refreshed.body.state.members[0].portrait.image,REVIEW_DECK[1].image);
+ assert.equal(refreshed.body.state.lineup[0].image,REVIEW_DECK[1].image);
+ const count=h.count();const lobby=await h.call('lobby',{user:2});
+ assert.equal(lobby.body.rooms[0].portrait.image,REVIEW_DECK[1].image);
+ assert.ok(h.count()-count<10,'portrait reads must remain bounded and must not query each member');
+ assert.equal(lobby.body.settings.bossCombatPower,21148000);
+});
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: production access, CAS settings, atomic reservation/receipt and zero economy writes`,async t=>{const h=await setup(t,{postgres});assert.equal((await h.call('feature')).body.mode,'TEST');for(const user of [2,4,5]){assert.equal((await h.call('feature',{user})).body.visible,false);assert.equal((await h.call('lobby',{user})).status,403);assert.equal((await h.call('admin/raid/blackwing/settings',{user})).status,403);}assert.equal((await h.configure({mode:'ON'})).status,400);assert.equal((await h.configure()).status,200);const cfg=(await h.call('admin/raid/blackwing/settings')).body.settings;assert.equal((await h.configure({bossCombatPower:22000000})).status,200);assert.equal((await h.call('admin/raid/blackwing/settings',{body:{settings:cfg}})).status,409);
  h.inject('INSERT INTO raid_blackwing_receipts');assert.equal((await h.command('create')).status,503);h.inject('');assert.equal(Number((await h.one('SELECT COUNT(*) n FROM raid_blackwing_active_v1')).n),0);assert.equal(Number((await h.one('SELECT COUNT(*) n FROM raid_blackwing_rooms_v1')).n),0);
  const requestId=h.uid(),a=await h.call('create',{body:{requestId}}),b=await h.call('create',{body:{requestId}});assert.equal(a.status,200,JSON.stringify(a.body));assert.equal(a.body.roomId,b.body.roomId);assert.equal(a.body.entryReceipt.cost,0);assert.equal(Number((await h.one('SELECT COUNT(*) n FROM inventory_logs')).n),0);assert.equal(Number((await h.one('SELECT COUNT(*) n FROM coin_logs')).n),0);assert.equal((await h.call('create',{body:{requestId,role:'GUARD'}})).status,409);assert.equal((await h.call('state?roomId='+a.body.roomId,{user:2})).status,403);

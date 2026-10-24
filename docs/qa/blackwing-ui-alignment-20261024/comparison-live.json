@@ -1,0 +1,55 @@
+{
+  "at": "2026-10-24T06:44:56.844Z",
+  "settings": {
+    "raid_blackwing_settings_v1": {
+      "mode": "TEST",
+      "revision": 1,
+      "bossCombatPower": 21148000,
+      "enrageSeconds": 300,
+      "mechanicTimePercent": 100,
+      "testerCount": 0
+    },
+    "raid_madara_settings_v1": {
+      "mode": "ON",
+      "revision": 7,
+      "bossCombatPower": 12440000,
+      "enrageSeconds": 360,
+      "mechanicTimePercent": 100,
+      "testerCount": 18
+    }
+  },
+  "counts": {
+    "madara": [
+      {
+        "status": "CANCELLED",
+        "rooms": 682
+      },
+      {
+        "status": "CLEAR",
+        "rooms": 4
+      },
+      {
+        "status": "FAILED",
+        "rooms": 8
+      }
+    ],
+    "blackwing": []
+  },
+  "varsen": {
+    "hp": 86551300,
+    "attack": 1132040,
+    "defense": 1541316
+  },
+  "blackwing": {
+    "hp": 158908187,
+    "attack": 2116915,
+    "defense": 2882261
+  },
+  "ratios": {
+    "power": 1.7,
+    "hp": 1.8360000023107683,
+    "attack": 1.8700001766722023,
+    "defense": 1.870000051903698,
+    "hpPerEnrageSecond": 2.2032000027729217
+  }
+}

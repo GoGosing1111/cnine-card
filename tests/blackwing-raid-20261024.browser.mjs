@@ -15,6 +15,7 @@ const root = path.resolve(fileURLToPath(new URL('../', import.meta.url)));
 const out=process.env.BLACKWING_QA_DIR;if(!out)throw Error('BLACKWING_QA_DIR is required outside the release tree');fs.mkdirSync(out,{recursive:true});
 const lich = await blackwingLiveFixture();
 await lich.configure({enrageSeconds:600,mechanicTimePercent:200});
+for(const [i,id] of [1,2,3,6,7,8].entries())lich.setDeck(id,{cards:[...REVIEW_DECK.slice(i%5),...REVIEW_DECK.slice(0,i%5)]});
 const user = {id:1,serverUserId:1,nickname:'로컬 정벌 검수',role:'OWNER',coin:123456789,pigCoin:0,cardShards:12000,
   masterStars:2000,owned:REVIEW_DECK.map(c=>c.id),quantities:Object.fromEntries(REVIEW_DECK.map(c=>[c.id,1])),
   breakthroughs:{},history:[],attendance:{totalDays:0},testCoinGrantedV13:true,collectionRepairR6:true};
@@ -68,11 +69,36 @@ try {
   try {
    await page.goto(origin+'/');await page.waitForFunction(()=>typeof renderShell==='function');await page.evaluate(()=>renderShell('battle'));await page.locator('[data-pve-mode="raid"]').click();
    await page.locator('#blackwingRaidTab').waitFor({state:'visible'});await page.locator('#blackwingRaidTab').click();await page.locator('#pveBlackwingRaidView [data-create]').waitFor();
-   await page.locator('#pveBlackwingRaidView [data-config]').filter({hasText:'TEST'}).waitFor();await page.screenshot({path:path.join(out,`lobby-${width}.png`),fullPage:true});
+   await page.locator('#pveBlackwingRaidView [data-config]').filter({hasText:'TEST'}).waitFor();
+   await page.locator('[data-role][value="GUARD"]').check();assert.match(await page.locator('[data-create]').innerText(),/수호/);
+   await page.locator('[data-role][value="BREAKER"]').check();assert.match(await page.locator('[data-create]').innerText(),/파쇄/);
+   await page.waitForFunction(()=>{const i=document.querySelector('.bw-boss-art');return i?.complete&&i.naturalWidth>0;});
+   const lobbyLayout=await page.evaluate(()=>({overflow:document.querySelector('.bw-root').scrollWidth>document.querySelector('.bw-root').clientWidth,tabImage:getComputedStyle(document.querySelector('#blackwingRaidTab')).backgroundImage,buttonImage:getComputedStyle(document.querySelector('[data-create]')).backgroundImage,buttonHeight:document.querySelector('[data-create]').getBoundingClientRect().height,bossPosition:getComputedStyle(document.querySelector('.bw-boss-art')).objectPosition}));
+   assert.equal(lobbyLayout.overflow,false);assert.ok(!/blackwing.*button/.test(lobbyLayout.tabImage));assert.equal(lobbyLayout.buttonImage,'none');assert.ok(lobbyLayout.buttonHeight>=44);assert.ok(lobbyLayout.bossPosition.endsWith('0%'));
+   await page.locator('.bw-heading').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`lobby-${width}.png`)});
+   assert.ok(await page.locator('.bw-boss-art').isVisible());
+   await page.locator('[data-create]').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`roles-${width}.png`)});
+   await page.locator('.bw-guide').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`guide-${width}.png`)});
    assert.equal(await page.locator('#pveRaidView').isVisible(),false);assert.equal(await page.locator('.bw-combat').isVisible(),false);
    await page.locator('#pveBlackwingRaidView [data-create]').click();await page.waitForFunction(()=>BlackwingRaidDiagnostics().roomId);const roomId=await page.evaluate(()=>BlackwingRaidDiagnostics().roomId);
    for(const[id,role]of [[2,'BREAKER'],[3,'GUARD'],[6,'GUARD'],[7,'SEALER'],[8,'SEALER']]){assert.equal((await lich.command('join',{roomId,role},id)).status,200);assert.equal((await lich.command('ready',{roomId,ready:true},id)).status,200);}
-   await page.locator('#pveBlackwingRaidView [data-ready]').click();await page.locator('#pveBlackwingRaidView [data-start]:not([disabled])').waitFor();await page.screenshot({path:path.join(out,`party-${width}.png`),fullPage:true});await page.locator('#pveBlackwingRaidView [data-start]').click();
+   await page.locator('#pveBlackwingRaidView [data-ready]').click();await page.locator('#pveBlackwingRaidView [data-start]:not([disabled])').waitFor();
+   assert.equal(await page.locator('.bw-member img.bw-face').count(),6);assert.equal(await page.locator('.bw-lineup img.bw-face').count(),5);
+   await page.waitForFunction(()=>[...document.querySelectorAll('.bw-member img.bw-face,.bw-lineup img.bw-face')].every(i=>i.complete&&i.naturalWidth>0));
+   await page.locator('.bw-assembly').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`party-${width}.png`)});
+   if(process.env.BLACKWING_UI_ONLY==='1'){
+    await page.locator('[data-leave]').click();await page.locator('[data-create]').waitFor({state:'visible'});
+    await page.locator('[data-role][value="BREAKER"]').check();await page.locator('[data-refresh]').click();
+    await page.locator('[data-join]:not([disabled])').waitFor();
+    await page.locator('[data-role][value="GUARD"]').check();assert.ok(await page.locator('[data-join]').isDisabled(),'a filled role must not offer an enabled join button');
+    await page.locator('[data-role][value="BREAKER"]').check();await page.locator('[data-join]').click();
+    await page.waitForFunction(()=>BlackwingRaidDiagnostics().state?.status==='LOBBY');
+    assert.equal(await page.locator('.bw-member img').count(),6);
+    await page.locator('[data-leave]').click();await page.locator('[data-create]').waitFor({state:'visible'});
+    for(const id of [2,3,6,7,8])await lich.command('leave',{roomId},id);
+    assert.deepEqual(errors,[]);reports.push({width,height,lobbyLayout,uiOnly:true,errors});continue;
+   }
+   await page.locator('#pveBlackwingRaidView [data-start]').click();
    await page.waitForFunction(()=>BlackwingRaidDiagnostics().battle.ready,{},{timeout:90000});await page.locator('.bw-battle-mount canvas').waitFor();
    await page.waitForTimeout(700);await page.screenshot({path:path.join(out,`battle-${width}.png`),fullPage:true});
    const geometry=await page.locator('.bw-combat').evaluate(el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height,overflow:el.scrollWidth>el.clientWidth,body:el.parentElement===document.body,viewport:{w:innerWidth,h:innerHeight},inert:document.querySelector('#app').inert};});
@@ -89,5 +115,5 @@ try {
    assert.deepEqual(errors,[]);reports.push({width,height,geometry,ready,errors});
   }catch(e){await page.screenshot({path:path.join(out,`failure-${width}.png`),fullPage:true});fs.writeFileSync(path.join(out,`failure-${width}.json`),JSON.stringify({error:e.stack,errors,diagnostics:await page.evaluate(()=>globalThis.BlackwingRaidDiagnostics?.()),body:await page.locator('body').innerText()},null,2));throw e;}finally{await context.close();}
  }
- fs.writeFileSync(path.join(out,'browser.json'),JSON.stringify({at:new Date().toISOString(),reports},null,2));console.log(JSON.stringify(reports.map(r=>({width:r.width,height:r.height,geometry:r.geometry,canvases:r.ready.battle.canvases,ready:r.ready.battle.ready,errors:r.errors}))));
+ fs.writeFileSync(path.join(out,process.env.BLACKWING_UI_ONLY==='1'?'browser-ui.json':'browser.json'),JSON.stringify({at:new Date().toISOString(),reports},null,2));console.log(JSON.stringify(reports.map(r=>({width:r.width,height:r.height,geometry:r.geometry,canvases:r.ready?.battle.canvases,ready:r.ready?.battle.ready,errors:r.errors,uiOnly:r.uiOnly}))));
 }finally{await browser.close();server.close();await lich.close();}

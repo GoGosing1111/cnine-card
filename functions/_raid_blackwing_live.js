@@ -1,4 +1,4 @@
-import {BLACKWING_ROLES,createBlackwingRoom,addBlackwingMember,readyBlackwingMember,startBlackwingRoom,actBlackwingRoom,leaveBlackwingRoom,kickBlackwingMember,tickBlackwingRoom,blackwingView,blackwingBattlePayload} from './_raid_blackwing.js';
+import {blackwingCardArt,BLACKWING_ROLES,createBlackwingRoom,addBlackwingMember,readyBlackwingMember,startBlackwingRoom,actBlackwingRoom,leaveBlackwingRoom,kickBlackwingMember,tickBlackwingRoom,blackwingView,blackwingBattlePayload} from './_raid_blackwing.js';
 import {readJointBody,jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
@@ -151,7 +151,7 @@ export async function handleBlackwingRaid({path,request,env,deps}){
     const kind=path.slice('raid/blackwing/'.length);if(kind!=='leave')requireAccess(user,cfg);
     if(kind==='lobby'&&request.method==='GET'){
       const active=await currentRoom(env,user,now),list=await env.DB.prepare(`SELECT state_json FROM ${ROOMS} WHERE status='LOBBY' AND expires_at>? ORDER BY created_at DESC LIMIT 40`).bind(now).all();
-      const rooms=list.results.map(row=>{const r=JSON.parse(row.state_json);return {id:r.id,hostName:r.members.find(m=>m.id===r.hostId)?.name||'공대장',status:r.status,createdAt:r.createdAt,members:r.members.length,maxMembers:6,roles:Object.fromEntries(Object.keys(BLACKWING_ROLES).map(role=>[role,r.members.filter(m=>m.role===role).length])),canJoin:!active&&r.members.length<6&&!r.banned.includes(id(user.id)),blocked:r.banned.includes(id(user.id))?'강퇴된 공대':active?'공대 참가 중':'인원 마감'};});
+      const rooms=list.results.map(row=>{const r=JSON.parse(row.state_json);return {id:r.id,hostName:r.members.find(m=>m.id===r.hostId)?.name||'공대장',portrait:blackwingCardArt(r.loadouts[r.hostId]?.cards?.[0]),status:r.status,createdAt:r.createdAt,members:r.members.length,maxMembers:6,roles:Object.fromEntries(Object.keys(BLACKWING_ROLES).map(role=>[role,r.members.filter(m=>m.role===role).length])),canJoin:!active&&r.members.length<6&&!r.banned.includes(id(user.id)),blocked:r.banned.includes(id(user.id))?'강퇴된 공대':active?'공대 참가 중':'인원 마감'};});
       return json({ok:true,account:await account(env,user,cfg,active?.room.id||null),rooms,feature:blackwingAccess(user,cfg),settings:{bossCombatPower:cfg.bossCombatPower,enrageSeconds:cfg.enrageSeconds,mechanicTimePercent:cfg.mechanicTimePercent,rewardsEnabled:false},serverNow:now});
     }
     if(kind==='state'&&request.method==='GET'){

@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261024-test1';
+  const VERSION = '20261024-ui2';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, activeRoot = null, revision = 0;
   const host = () => document.getElementById('pveBlackwingRaidView');
   async function refresh() {
@@ -58,7 +58,6 @@
       const tab = document.createElement('button');
       tab.type = 'button'; tab.id = 'blackwingRaidTab'; tab.hidden = true;
       tab.dataset.raidContent = 'blackwing';
-      Object.assign(tab.style,{backgroundImage:'url(/assets/raids/blackwing-20261024/button.webp)',backgroundSize:'100% 100%',backgroundColor:'transparent',border:'0',color:'#fff2cf'});
       tab.setAttribute('aria-selected', 'false'); tab.setAttribute('aria-hidden', 'true');
       tab.innerHTML = '<small>RAID · BLACKWING</small><b>흑익의 맹약</b>';
       tabs.appendChild(tab);
