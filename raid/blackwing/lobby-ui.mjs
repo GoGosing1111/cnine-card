@@ -18,7 +18,7 @@ export function lobbyMarkup(){return `
   <header class="mr-top bw-heading"><span class="mr-brand">흑익의 맹약 <span>레이드 작전실</span></span><span class="mr-development">TEST · 무료 입장</span></header>
   <div class="bw-staging">
    <section class="bw-keyart" aria-label="타락한 용기사 모르드레인">
-    <img class="bw-boss-art" src="${ART}boss-art.webp" alt="얼굴과 흑익, 대검이 보이는 타락한 용기사 모르드레인" fetchpriority="high">
+    <img class="bw-boss-art" src="${ART}boss-art.webp?v=20261024-hilt-short1" alt="얼굴과 흑익, 대검이 보이는 타락한 용기사 모르드레인" fetchpriority="high">
     <div class="bw-intro"><p class="mr-eyebrow">6인 협동 레이드</p><h2>흑익의 맹약</h2><p>타락한 용기사 <strong>모르드레인</strong></p><div class="mr-facts"><span><b>6</b>인 고정 공대</span><span><b>3</b>역할 · 각 2명</span><span><b>5</b>단계 공략</span></div></div>
    </section>
    <section class="bw-preparation cn-ui-panel" data-lobby>

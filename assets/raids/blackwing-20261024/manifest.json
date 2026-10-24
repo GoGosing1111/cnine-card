@@ -568,5 +568,31 @@
       11
     ]
   },
-  "processing": "Connected character components extracted without painting; original RGBA retained with 3-pixel antialias margin, aligned feet and transparent padded cells. Original PNG unchanged."
+  "processing": "Connected character components extracted without painting; original RGBA retained with 3-pixel antialias margin, aligned feet and transparent padded cells. Original PNG unchanged.",
+  "illustrationEdit": {
+    "date": "2026-10-24",
+    "request": "일러스트 보니까 손 뒤에 손잡이 꺽여있는데 손잡이 줄여서 그냥 없애",
+    "tool": "image_gen.imagegen",
+    "mode": "built-in",
+    "scope": "lobby illustration and HUD portrait only",
+    "prompt": "Use case: precise-object-edit.\nEdit target: the attached 1536x1024 original Blackwing raid boss illustration. This is a VERY LOCAL sword-hilt cleanup, not a redraw or redesign.\nUser request: the sword handle behind the hands is bent; shorten it so that protruding rear handle disappears.\nRemove ONLY the exposed wrapped rear grip and spiked pommel sticking out to the viewer's RIGHT beyond the rear/rightmost armored gripping hand (roughly x=1095–1230, y=385–452 in the 1536x1024 image). End the hilt immediately at the outer edge of that hand with at most a tiny flush plain end-cap. No shaft, long grip, spike, or pommel may protrude to the right of the hand. Reconstruct the small underlying dark armor/cape area naturally.\nPreserve exactly: both gauntlets and their current grip/position, the blade and ornate crossguard extending down-left, straight blade direction, face/helmet/horns, all armor, chest glow, wings, legs, ruins, sky, lighting, composition, crop and original 1536x1024 aspect ratio. Keep the existing detailed dark fantasy painting style. No text, no extra objects. Everything outside the tiny rear-hilt area should look unchanged.\n",
+    "previous": {
+      "file": "originals/boss-art-before-hilt-20261024.png",
+      "sha256": "551ac9ed276d1504723374a664c932e093cc6919f217beb242dd9972452ec371"
+    },
+    "original": {
+      "file": "originals/boss-art-hilt-short-20261024.png",
+      "sha256": "8071d610fe654ac4ffc076a5e4f697b25756d1eefd6ce25a380ea8ec1a5d928a",
+      "bytes": 2704045
+    },
+    "display": {
+      "file": "boss-art.webp",
+      "sha256": "d21b4b7316a3448e25a1cbde2460a163925a05bee8dcd18129c2d6b6a1bb2975",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 361864
+    },
+    "processing": "Generated PNG preserved byte-for-byte; same-size WebP quality 90 encoding only; no pixel compositing.",
+    "verification": "Rear grip and spiked pommel no longer protrude beyond the rear hand. Existing composition, blade, hands, helmet and wings visually checked. No battle sprites or mechanics changed."
+  }
 }

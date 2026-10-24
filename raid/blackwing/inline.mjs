@@ -1,7 +1,7 @@
 import {jointAccountRequest as api} from '/js/joint-account-transport.mjs';
 import {createBlackwingBattle} from './battle.mjs?v=20261024-test1';
-import {ART,roles,roleDetails,esc,lobbyMarkup,configMarkup,partyMarkup,roomsMarkup,partyStripMarkup} from './lobby-ui.mjs?v=20261024-codex-ui4';
-const VERSION='20261024-codex-ui4',wardNames=['재의 성역','뼈의 성역','피의 성역'];
+import {ART,roles,roleDetails,esc,lobbyMarkup,configMarkup,partyMarkup,roomsMarkup,partyStripMarkup} from './lobby-ui.mjs?v=20261024-hilt-short1';
+const VERSION='20261024-hilt-short1',wardNames=['재의 성역','뼈의 성역','피의 성역'];
 const styles=new Map();
 function loadStyle(file){
  if(!styles.has(file))styles.set(file,new Promise((resolve,reject)=>{const l=document.createElement('link');l.rel='stylesheet';l.href='/raid/blackwing/'+file+'?v='+VERSION;l.onload=resolve;l.onerror=()=>{styles.delete(file);l.remove();reject(Error('흑익 화면을 불러오지 못했습니다.'));};document.head.appendChild(l);}));

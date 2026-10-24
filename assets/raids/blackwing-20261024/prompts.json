@@ -20,5 +20,10 @@
       "key": "slashfx",
       "prompt": "Use case: stylized-concept. A production game VFX spritesheet of a black dragon knight's greatsword slash and its bone-white sanctuary interception. Exactly 4 columns x 3 rows of twelve sequential frames left-to-right, top-to-bottom on genuine transparency. Cells all identical and each complete effect fits CENTRAL 76% with transparent gutters. Frames1-3 a sharp narrow diagonal crimson slash gathers, frames4-6 thick black-red crescent sword shockwave descends, frames7-8 hits an ornate translucent ivory dragon-bone ward and throws sparks, frames9-12 ward cracks, slash fades to floating ember fragments. No characters, no swords, no scenery, no text, no grid lines, no opaque rectangle. Premium painted RPG materials and layered glowing edge detail, not a simple geometric circle. Consistent camera and central contact point."
     }
-  ]
+  ],
+  "illustrationHiltEdit": {
+    "date": "2026-10-24",
+    "useCase": "precise-object-edit",
+    "prompt": "Use case: precise-object-edit.\nEdit target: the attached 1536x1024 original Blackwing raid boss illustration. This is a VERY LOCAL sword-hilt cleanup, not a redraw or redesign.\nUser request: the sword handle behind the hands is bent; shorten it so that protruding rear handle disappears.\nRemove ONLY the exposed wrapped rear grip and spiked pommel sticking out to the viewer's RIGHT beyond the rear/rightmost armored gripping hand (roughly x=1095–1230, y=385–452 in the 1536x1024 image). End the hilt immediately at the outer edge of that hand with at most a tiny flush plain end-cap. No shaft, long grip, spike, or pommel may protrude to the right of the hand. Reconstruct the small underlying dark armor/cape area naturally.\nPreserve exactly: both gauntlets and their current grip/position, the blade and ornate crossguard extending down-left, straight blade direction, face/helmet/horns, all armor, chest glow, wings, legs, ruins, sky, lighting, composition, crop and original 1536x1024 aspect ratio. Keep the existing detailed dark fantasy painting style. No text, no extra objects. Everything outside the tiny rear-hilt area should look unchanged.\n"
+  }
 }
