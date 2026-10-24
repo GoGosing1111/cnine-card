@@ -1,0 +1,381 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-10-24T13:54:00.903Z",
+  "source": "79f6ebda1fe0b723d10793351eb9dcf78e4df1c8",
+  "base": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/art-320.webp",
+      "bytes": 85638,
+      "sha256": "ff587eb60b2a474fd112a86e4a32967b545fac229504d669032bfb7124da00a1",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/art-640.webp",
+      "bytes": 286454,
+      "sha256": "5d9a7fda27b48d8635a99f8418c19e66b6d3c8f1d766aa427969a0904eee023c",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/charge.png",
+      "bytes": 979468,
+      "sha256": "e9f72a70005364da2e55b7b801d6127840531e0e4055e8282d1a986c9f070f35",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/cleave.png",
+      "bytes": 1565345,
+      "sha256": "3239ebad9ae3926748bcf31d1d515d0eb40ba9ac49287565340cfe4dd1ef923b",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/impact.png",
+      "bytes": 1248787,
+      "sha256": "732b9562dad2549b2af3725e02c590480578f685da9d1dfde96935568233325d",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/orbit.png",
+      "bytes": 1503553,
+      "sha256": "3794387bf3f34dab30cdd1f141fb453bbb49b86bd05c2fcde5c39ceb37274679",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/rupture.png",
+      "bytes": 1714809,
+      "sha256": "3917d7021cd3d167ab90fc4606766d3800d590310fbd564eb19b06a84f0c120c",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/sever.png",
+      "bytes": 809922,
+      "sha256": "47781fd30c3688b5b4e6f262b1f709fe244196f8302550a5738aefeef016f9ea",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/idle.png",
+      "bytes": 707263,
+      "sha256": "7a7fbc793db983ecc54ba4aa04da18ee48db79c837a636f7ee32891244ef5b27",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/motion-manifest.json",
+      "bytes": 82067,
+      "sha256": "714a354e950ae36f470acdc04f250218bfb75a91ec2919eb02db519c49e85219",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/cleave.png",
+      "bytes": 3191578,
+      "sha256": "f7cdda5a184deeb37364e68c592360a3c1410769e6a453f0175490d219a97909",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/idle.png",
+      "bytes": 730330,
+      "sha256": "837a946e5fe1aac44c59480492cfa79dc2c6cfcdbc7ad36d4940b58c3948259e",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/orbit.png",
+      "bytes": 2891051,
+      "sha256": "57ed5d58ed0bbd262eb96d3e4f519a99c2ac4debe8b83d20096f4e2985f9a1bf",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/rupture.png",
+      "bytes": 3016245,
+      "sha256": "1d014b31c879d19c9e17992755f3ee904fc6c3834b2d04402c18cdb74251ae80",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/sever.png",
+      "bytes": 3186832,
+      "sha256": "959f3192c078e573f87c1b86f12a89e07adab9cbecb82ab33333e952706c98be",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/awakened-omega-20261024/source-art.png",
+      "bytes": 3215740,
+      "sha256": "ab09619faee3aca132da86ba43256480b4ca3c5b94bc2f778f0bac2f24aa4a8e",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "index.html",
+      "bytes": 36347,
+      "sha256": "5960e439315496c19cc32371d41cac04354f359070776532217221d0254fd89e",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 783728,
+      "sha256": "3e2a76a347bb517167d58f046ddfaefe43a7f62970e3729f4a89ad94d9fb735a",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "bytes": 87393,
+      "sha256": "d189ae7eaae183540add734b288dcf51241bdb9e86d0ee592b3e430a32074034",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "bytes": 36768,
+      "sha256": "e086b5ea6ed13fe647e40fe25d8090ad56e408b76addd1184d1968fc5a7349d7",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "bytes": 9898,
+      "sha256": "e2f3cc44ecc84a8e1eaad63b6b6b6b383e4a96dbc2053035e3b855f3f51b8637",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "bytes": 8784,
+      "sha256": "d026611d62724f2f41d8674ebbb3c14855cfce53cc0d40a0b6df38f190da29f2",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "mercenary-codex/shell.mjs",
+      "bytes": 10019,
+      "sha256": "76c37e0f057b005ea4aad4ba0fd86c7ae6613a0bc92ecbae90cd3e371c6a1ad4",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "bytes": 2442005,
+      "sha256": "d68216483e5b418f4e20b2f2dcc490d69cf26c9e1ce2cd5906d3fb6ed08b1824",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "bytes": 2437340,
+      "sha256": "c0fe5a2c4494c1fba025f4745ac10891955d6a363add7b103a95503e3ef25637",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "bytes": 2440357,
+      "sha256": "6da1fb24baacd5b4a94abe05c3388b69014a3b6d3218b23dbb58d32d6d651f0a",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "bytes": 2440346,
+      "sha256": "163cac4d7d7b7ea3c5d6f6e460c835a3bd05459865c413ebafb9a1a24de143a3",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "bytes": 2486985,
+      "sha256": "bee939df7326779b6aeef080b3b7e5122172d93158d1bb399e14f49b930e378f",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "bytes": 35978,
+      "sha256": "19fa33afa2bb5dd3b3d94ea10a67d208cfe930fa35319d05fe611c64b328f081",
+      "verifiedSource": "79f6ebda1fe0b723d10793351eb9dcf78e4df1c8"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 2440731,
+      "sha256": "0d1813ca6cb5425eda9a7fd770e6e078c3094474c954d048f73336087d13ae4e",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "bytes": 2442058,
+      "sha256": "9edf09bedc12f4dd29a6d4bc7582726b7a8b08ee34326945fa235bce2d4c5320",
+      "verifiedSource": "79f6ebda1fe0b723d10793351eb9dcf78e4df1c8"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "bytes": 2464343,
+      "sha256": "ed159f198374afe5da9155b2c915a94466627f93bc2c0da610595ff9034e6bde",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "bytes": 422439,
+      "sha256": "166ab0443dc0e21f54441326d808391670f25ad6fb5e5a81b21c22d904831c63",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "bytes": 2443902,
+      "sha256": "73f9c8d6f4ed5e74558391260209ab8a0054386f3773285a35edd9c44e405728",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "bytes": 2440705,
+      "sha256": "82bfa77211e8272f401b4802de2c89c815d3a126233149f3490f87f4c716111d",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "shared/mercenary-acquisition-release-v1.mjs",
+      "bytes": 1384,
+      "sha256": "a126373c8caab9eed382618977fd52727c8447d470189b5405bad5adb6d309c0",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "shared/mercenary-awakened-omega-v1.mjs",
+      "bytes": 5254,
+      "sha256": "9098383d342d5433bfd28d1d14abb191d5392ac9c59eba809b989e0a55f2967a",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "shared/mercenary-combat-link-v2103.mjs",
+      "bytes": 10629,
+      "sha256": "5f0ca4baaab42da6ffb0d31b08853857e55db5dff3ba01919a2e43628f9e30d9",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "shared/mercenary-level-v1.mjs",
+      "bytes": 17137,
+      "sha256": "9ca185d963dc059a71129b9d2b21d1daf4b8ac39453ae2c386c9529b034702b2",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    },
+    {
+      "file": "shared/mercenary-limited-deployment-v1.mjs",
+      "bytes": 3803,
+      "sha256": "f12eb613d24b76d307f0697f47dac3351198e5a34a677be968e9d5e1324bc365",
+      "verifiedSource": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de"
+    }
+  ],
+  "card": {
+    "code": "V-972",
+    "name": "각성 오메가",
+    "title": "우주의 검신",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "nameStatus": "USER_CONFIRMED_20261024",
+    "rankStatus": "USER_ASSIGNED_RANK",
+    "position": "FRONT",
+    "role": "VANGUARD",
+    "attackStyle": "MELEE",
+    "basicTarget": "적 전열 우선",
+    "artOnly": false,
+    "releaseStatus": "CRAFT_ONLY_LOCKED",
+    "acquisition": "CRAFT_ONLY",
+    "acquisitionEnabled": false,
+    "craftAcquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "acquisitionDescription": "제작 전용 · 현재 획득 불가. 제작은 아직 개방되지 않았으며 팩·합성·기적의 큐브에서 획득할 수 없습니다.",
+    "sourceArt": "assets/ui/project-v/mercenaries/awakened-omega-20261024/source-art.png",
+    "sourceArtSha256": "AB09619FAEE3ACA132DA86BA43256480B4CA3C5B94BC2F778F0BAC2F24AA4A8E",
+    "battleSprite": "assets/ui/project-v/mercenaries/awakened-omega-20261024/idle.png",
+    "battleSpriteSha256": "7A7FBC793DB983ECC54BA4AA04DA18EE48DB79C837A636F7EE32891244EF5B27",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/awakened-omega-20261024/art-320.webp",
+    "displayArt": "assets/ui/project-v/mercenaries/awakened-omega-20261024/art-640.webp",
+    "accent": "#b88aff",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "battleSpriteViewport": {
+      "x": 138,
+      "y": 19,
+      "width": 493,
+      "height": 730,
+      "imageWidth": 768,
+      "imageHeight": 768
+    },
+    "basePower": 1750000,
+    "skills": [
+      {
+        "id": "MS-064",
+        "name": "성운 횡참",
+        "visualMode": "cleave",
+        "targetCount": 1,
+        "target": "적 전열 하나",
+        "effect": "성운을 두른 검으로 적 하나를 가로 벱니다. 한 시전의 총 640% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "VANGUARD",
+        "mechanic": "AWAKENED_OMEGA_COSMIC_SWORD",
+        "ready": true,
+        "balance": {
+          "damageRatio": 6.4,
+          "cooldownTurns": 5,
+          "cost": 35
+        },
+        "trigger": "자기 행동 · 에너지 35 · 네 기술 공통 재사용 5행동",
+        "counterplay": "회피·방어·방벽·피해 경감에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 모션 2배속·다중 참격은 추가 피해나 행동을 만들지 않습니다."
+      },
+      {
+        "id": "MS-065",
+        "name": "천극 단절",
+        "visualMode": "sever",
+        "targetCount": 1,
+        "target": "적 전열 하나",
+        "effect": "검에 우주 에너지를 모아 적 하나를 내려 벱니다. 한 시전의 총 727% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "VANGUARD",
+        "mechanic": "AWAKENED_OMEGA_COSMIC_SWORD",
+        "ready": true,
+        "balance": {
+          "damageRatio": 7.27,
+          "cooldownTurns": 5,
+          "cost": 35
+        },
+        "trigger": "자기 행동 · 에너지 35 · 네 기술 공통 재사용 5행동",
+        "counterplay": "회피·방어·방벽·피해 경감에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 모션 2배속·다중 참격은 추가 피해나 행동을 만들지 않습니다."
+      },
+      {
+        "id": "MS-066",
+        "name": "성환 검역",
+        "visualMode": "orbit",
+        "targetCount": null,
+        "target": "적 전체 · PVE",
+        "pveOnly": true,
+        "effect": "교차하는 천체 궤도의 검격으로 적 진형을 휩씁니다. 한 시전의 총 727% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "VANGUARD",
+        "mechanic": "AWAKENED_OMEGA_COSMIC_SWORD",
+        "ready": true,
+        "balance": {
+          "damageRatio": 7.27,
+          "cooldownTurns": 5,
+          "cost": 35
+        },
+        "trigger": "자기 행동 · 에너지 35 · 네 기술 공통 재사용 5행동 · PVE 전용",
+        "counterplay": "회피·방어·방벽·피해 경감에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 모션 2배속·다중 참격은 추가 피해나 행동을 만들지 않습니다."
+      },
+      {
+        "id": "MS-067",
+        "name": "종언의 열개",
+        "visualMode": "rupture",
+        "targetCount": null,
+        "target": "적 전체 · PVE",
+        "pveOnly": true,
+        "effect": "특이점과 공간 균열을 일으켜 적 진형을 가릅니다. 한 시전의 총 727% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "VANGUARD",
+        "mechanic": "AWAKENED_OMEGA_COSMIC_SWORD",
+        "ready": true,
+        "balance": {
+          "damageRatio": 7.27,
+          "cooldownTurns": 5,
+          "cost": 35
+        },
+        "trigger": "자기 행동 · 에너지 35 · 네 기술 공통 재사용 5행동 · PVE 전용",
+        "counterplay": "회피·방어·방벽·피해 경감에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 모션 2배속·다중 참격은 추가 피해나 행동을 만들지 않습니다."
+      }
+    ],
+    "specialty": "우주 검격 · 공격기 2종 · PVE 광역기 2종",
+    "weakness": "적 방어·방벽·피해 경감과 공통 재사용 시간의 영향을 받음",
+    "combatLinkDescription": "기본 전투력 1,750,000. 진무와 족로 사이의 공격·체력·방벽 기준, 아군 카드 행동당 3.12회 추가 행동, 개인 피해 75% 경감과 상태이상·반격 보호를 적용합니다. 성운 횡참 640%, 천극 단절 727%, PVE 성환 검역·종언의 열개는 각각 총 727% 분산 피해입니다. 네 기술은 에너지 35와 공통 재사용 5행동을 공유합니다. 대기 자세 고정·모션 2배속·스킬은 캐릭터 앞에 표시됩니다. 제작 전용 · 현재 획득 불가. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+  },
+  "accountWrites": 0,
+  "grants": 0
+}
