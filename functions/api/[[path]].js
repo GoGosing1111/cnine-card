@@ -130,6 +130,7 @@ import { BURNING_EVENT_DURATION_MINUTES,BURNING_EVENT_DEFAULT_DURATION_MINUTES,b
 import { handleEscortOperation } from '../_escort_operation.js';
 import { handleLichRaid,ensureLichLive,LICH_TICKET } from '../_raid_lich_live.js';
 import {handleMadaraRaid,ensureMadaraLive,MADARA_TICKET} from '../_raid_madara_live.js';
+import {handleBlackwingRaid} from '../_raid_blackwing_live.js';
 import { handleRaidCoreProtocol } from '../_raid_core_protocol.js';
 import { handleCoinPrediction } from '../_coin_prediction.js';
 import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
@@ -5167,6 +5168,7 @@ async function handleRequest(context){
     const revealResponse=await handleRewardReveal({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(revealResponse)return revealResponse;
     const defenseResponse=await handleMonsterDefense({path,request,env,deps:{authenticate,json,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,withUserMutationLock:withJointUserMutationLock}});if(defenseResponse)return defenseResponse;
     const cooperativeResponse=await handleCooperative({path,request,env,deps:{authenticate,json,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,userEquipmentBonuses,withUserMutationLock:withJointUserMutationLock}});if(cooperativeResponse)return cooperativeResponse;
+    const blackwingRaidResponse=await handleBlackwingRaid({path,request,env,deps:{authenticate,json,raidDeckPower,withUserMutationLock:withJointUserMutationLock}});if(blackwingRaidResponse)return blackwingRaidResponse;
     const madaraRaidResponse=await handleMadaraRaid({path,request,env,deps:{authenticate,json,raidDeckPower,withUserMutationLock:withJointUserMutationLock}});if(madaraRaidResponse)return madaraRaidResponse;
     const lichRaidResponse=await handleLichRaid({path,request,env,deps:{authenticate,json,raidDeckPower,withUserMutationLock:withJointUserMutationLock}});if(lichRaidResponse)return lichRaidResponse;
     const coreRaidResponse=await handleRaidCoreProtocol({path,request,env,deps:{authenticate,readBody,json,raidDeckPower,createPveBattleV2,profile,writeAdminLog}});if(coreRaidResponse)return coreRaidResponse;

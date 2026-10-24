@@ -773,7 +773,8 @@
   async function activate(tab = 'world') {
     activationRevision++;
     const previousTab = activeTab;
-    activeTab = tab === 'madara' && globalThis.MadaraRaidEntry?.isVisible() ? 'madara' :
+    activeTab = tab === 'blackwing' && globalThis.BlackwingRaidEntry?.isVisible() ? 'blackwing' :
+      tab === 'madara' && globalThis.MadaraRaidEntry?.isVisible() ? 'madara' :
       tab === 'lich' && globalThis.LichKingRaidEntry?.isVisible() ? 'lich' :
       tab === 'core' && feature?.visible === true ? 'core' : 'world';
     sessionStorage.setItem(TAB_KEY, activeTab);
@@ -786,6 +787,7 @@
     });
     if (legacy) legacy.hidden = activeTab !== 'world';
     if (core) core.hidden = activeTab !== 'core';
+    if (activeTab !== 'blackwing') globalThis.BlackwingRaidEntry?.deactivate();
     if (activeTab !== 'madara') globalThis.MadaraRaidEntry?.deactivate();
     if (activeTab !== 'lich') globalThis.LichKingRaidEntry?.deactivate();
     stopPoll();
@@ -794,6 +796,7 @@
       return;
     }
     bridge()?.stopLegacyRaid?.();
+    if (activeTab === 'blackwing') { await globalThis.BlackwingRaidEntry.open(); return; }
     if (activeTab === 'madara') { await globalThis.MadaraRaidEntry.open(); return; }
     if (activeTab === 'lich') {
       await globalThis.LichKingRaidEntry.open();
@@ -818,7 +821,7 @@
     if (!wire()) return false;
     const revision = activationRevision;
     try {
-      await Promise.all([loadFeature(), globalThis.LichKingRaidEntry?.refresh(), globalThis.MadaraRaidEntry?.refresh()]);
+      await Promise.all([loadFeature(), globalThis.BlackwingRaidEntry?.refresh(), globalThis.LichKingRaidEntry?.refresh(), globalThis.MadaraRaidEntry?.refresh()]);
     } catch (error) {
       console.warn('[CORE RAID] feature gate unavailable', error);
       feature = { visible: false, accessible: false };
@@ -829,6 +832,7 @@
 
   function deactivate() {
     activationRevision++;
+    globalThis.BlackwingRaidEntry?.deactivate();
     globalThis.LichKingRaidEntry?.deactivate();
     stopPoll();
     void abandonActive().catch(() => {});

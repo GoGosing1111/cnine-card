@@ -1,0 +1,62 @@
+{
+  "assets/raids/blackwing-20261024/body.webp": {
+    "bytes": 673808,
+    "sha256": "239d4e965e85a3815299ca41d9e104fb09ffb0fe9f8801df9e42955c75f7c20b"
+  },
+  "assets/raids/blackwing-20261024/boss-art.webp": {
+    "bytes": 464702,
+    "sha256": "50e71a4c373db229ad9b0e3647c887067e6053b5f8ca93aa911a08aa2dc8b718"
+  },
+  "assets/raids/blackwing-20261024/button.webp": {
+    "bytes": 253436,
+    "sha256": "a1fc884504c27741e979f63cb19b0f97079fbe0a124af9459a2c3af3ad846870"
+  },
+  "assets/raids/blackwing-20261024/fire.webp": {
+    "bytes": 687452,
+    "sha256": "8b30b7a046120609172edf40c1eb69ae505236b7dde8b0c7d83fb03c07f2ba73"
+  },
+  "assets/raids/blackwing-20261024/idle.webp": {
+    "bytes": 62060,
+    "sha256": "a20e452c01378ee8f1d0af131a1156b354f12735f335badda798ac806d52ad07"
+  },
+  "assets/raids/blackwing-20261024/manifest.json": {
+    "bytes": 11172,
+    "sha256": "3abfe329c68e575d0c5f22c69d3c8625344606597619f1136c10c750ef7dd1fb"
+  },
+  "assets/raids/blackwing-20261024/oath.webp": {
+    "bytes": 787732,
+    "sha256": "581c7875d4ddec2aa94cdd8bfc00fec79cdcb5f2ec7f197c6cba382e30728484"
+  },
+  "assets/raids/blackwing-20261024/panel.webp": {
+    "bytes": 322822,
+    "sha256": "d5df4e23de316affcd160ae2e07c815b2996823ecacda61e727f44e8382f5859"
+  },
+  "assets/raids/blackwing-20261024/prompts.json": {
+    "bytes": 5787,
+    "sha256": "55af1bb025d5da54b84c208e041aa65069ca9c3b5bab79f3ffd6a1698326349b"
+  },
+  "assets/raids/blackwing-20261024/seal.webp": {
+    "bytes": 535338,
+    "sha256": "0a17812c189d126cc4ca78ee5bc29da52d70b1c2f3fbc10e9ee5050f4a93a78b"
+  },
+  "assets/raids/blackwing-20261024/slash.webp": {
+    "bytes": 863828,
+    "sha256": "2f6801fd3aaa62724130b9c5c00b6390863f3c5670c7dc7767593dab1dfba377"
+  },
+  "assets/raids/blackwing-20261024/originals/body.png": {
+    "bytes": 2346336,
+    "sha256": "89998b07b109c390bde734a1325f5a40c9fdf23f645dbdd287f4e51008798e94"
+  },
+  "assets/raids/blackwing-20261024/originals/fire.png": {
+    "bytes": 1926435,
+    "sha256": "0de9b80f83dc4d3f475219bb9a16443349971447e9384d4ec7f073973e48da14"
+  },
+  "assets/raids/blackwing-20261024/originals/oath.png": {
+    "bytes": 2259325,
+    "sha256": "c02dc4e215e71a7a109a4eae848168a7da073228b9bf0c709822be71bf1d518f"
+  },
+  "assets/raids/blackwing-20261024/originals/slash.png": {
+    "bytes": 2381950,
+    "sha256": "c1630d1fa6f48b6efb9c933c21dbd036c4813c0f529d22535cff3136e93a2cfa"
+  }
+}
