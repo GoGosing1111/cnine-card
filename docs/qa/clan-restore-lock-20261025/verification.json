@@ -315,5 +315,17 @@
         }
       }
     }
-  ]
+  ],
+  "cleanup": {
+    "worktree": "C:/Users/User/.codex/worktrees/clan-restore-lock/cnine-card",
+    "archive": "protected_primary_checkout",
+    "reason": "The task's primary checkout cannot be removed.",
+    "sourceMiB": 41.45,
+    "releaseStagingRemoved": true,
+    "ownDependencyJunctionRemoved": true,
+    "sharedDependenciesPreserved": true,
+    "storageGiB": 64.283,
+    "storageMeasuredAt": "2026-10-24T21:51:06.450544+00:00",
+    "sourceRecoveryBranch": "codex/clan-restore-lock-20261025"
+  }
 }
