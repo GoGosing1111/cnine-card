@@ -210,6 +210,7 @@ async function safePveUnifiedDrop(env,payload){
 }
 
 const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,LIMITED:3000,PRESTIGE:3100,FUR:5000,ZENITH:8000,SUPERSTAR:12000};
+import {handleUltimateBulk} from '../_ultimate_pack_bulk.js';
 const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,PRESTIGE:10,FUR:11,ZENITH:12,SUPERSTAR:13,ICON:14};
 function drawIntegrityHash(input=''){
   let hash=0x811c9dc5;
@@ -4372,6 +4373,8 @@ function applyCriticalRateBonus(rates,bonus){
   const boosted=new Set(['SR','HR','UR','SSR','MA','FUR']);
   return rates.map(row=>({...row,rate:Number(row.rate||0)*(boosted.has(row.rarity)?1+bonus/100:1)}));
 }
+// One dependency set for the live bulk route and its isolated transaction tests.
+export function ultimateBulkDependencies(){return {loadContext:loadDrawContext,queryContext:queryDrawContext,criticalSettings,draw:drawOneFromContext,order:ORDER,shardRewards:SHARD_REWARD,audit:limitedAuditUpsertStatement};}
 
 let maintenanceSettingsCache=null;
 async function maintenanceSettings(env,{fresh=false}={}){
@@ -5462,6 +5465,7 @@ async function handleRequest(context){
       await grantHighGradeRerollDrop(env,{userId:user.id,content:'ATTENDANCE',referenceId:date});
       return json({reward,streak,user:await profile(env,updated)});
     }
+    const ultimateBulkResponse=await handleUltimateBulk({path,request,env,deps:{...ultimateBulkDependencies(),authenticate,json,withUserMutationLock:withJointUserMutationLock,claimBrowser:claimDrawBrowserLease}});if(ultimateBulkResponse)return ultimateBulkResponse;
     if(path==='draw/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const requestId=String(url.searchParams.get('requestId')||'').trim().slice(0,100);
@@ -5505,6 +5509,7 @@ async function handleRequest(context){
       }
       const payload=await readBody(request);
       const requestedPackId=String(payload.packId||'');
+      if(String(payload.requestId||'').startsWith('ult-'))return json({error:'얼티메이트 일괄 개봉 전용 경로에서 이전 결과를 확인하세요.',code:'ULTIMATE_BULK_ROUTE_REQUIRED'},400);
       if(requestedPackId==='basic')return json({error:'일반 카드팩은 판매가 종료되었습니다.',code:'BASIC_PACK_RETIRED'},410);
       if(requestedPackId==='hyper')return json({error:'하이퍼팩은 용병 출시 준비 중입니다.',code:'HYPER_PACK_NOT_RELEASED'},409);
       if(requestedPackId===SUPERSTAR_PACK_ID)return json({error:'슈퍼스타팩은 전용 개봉 경로를 사용해야 합니다.',code:'SUPERSTAR_DRAW_ROUTE_REQUIRED'},400);

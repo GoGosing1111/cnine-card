@@ -312,6 +312,20 @@
       if (!twenty || !hundred || !auto) return;
 
       const unitCost = Math.max(0, Math.round(Number(twenty.dataset.cost || 0) / 20));
+      if(String(hundred.dataset.packId||twenty.dataset.packId)==='ultimate'){
+        const controls=[twenty,hundred];
+        for(const count of [1000,10000,100000]){
+          let button=options.querySelector(`.v21-bulk-draw[data-count="${count}"]`);
+          if(!button){button=document.createElement('button');button.type='button';button.className='btn v21-bulk-draw';button.dataset.count=String(count);}
+          button.dataset.packId='ultimate';button.dataset.cost=String(unitCost*count);
+          button.setAttribute('aria-label',`얼티메이트 ${count.toLocaleString('ko-KR')}장 빠른 개봉`);
+          const markup=`<small>${count.toLocaleString('ko-KR')}장 · 빠른 개봉</small>${(unitCost*count).toLocaleString('ko-KR')}코인`;
+          if(button.innerHTML!==markup)button.innerHTML=markup;
+          button.onclick=()=>global.openUltimateBulk?.(count);controls.push(button);
+        }
+        if(options.dataset.v21DrawOrder!=='ultimate-bulk-100000'){[...controls,auto].forEach(control=>options.appendChild(control));options.dataset.v21DrawOrder='ultimate-bulk-100000';}
+        return;
+      }
       const bulkCost = unitCost * 1000;
       let bulk = options.querySelector('.v21-bulk-draw[data-count="1000"]');
       if (!bulk) {

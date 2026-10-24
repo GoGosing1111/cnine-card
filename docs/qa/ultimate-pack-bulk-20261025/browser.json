@@ -1,0 +1,38 @@
+{
+  "at": "2026-10-24T22:42:31.501Z",
+  "reports": [
+    {
+      "crossTab": "existing production lock excludes second tab"
+    },
+    {
+      "width": 1440,
+      "ms": 359,
+      "posts": 1,
+      "featuredImages": 24,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "ms": 432,
+      "posts": 1,
+      "featuredImages": 24,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "recovery": "lost POST + reload + GET",
+      "extraCharges": 0
+    },
+    {
+      "width": 320,
+      "ms": 276,
+      "posts": 1,
+      "featuredImages": 24,
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "productionAccountWrites": 0,
+  "realModules": true
+}

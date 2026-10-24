@@ -1,0 +1,228 @@
+{
+  "reports": [
+    {
+      "at": "2026-10-24T22:40:48.672Z",
+      "scenario": "live",
+      "colo": "HKG",
+      "samples": [
+        {
+          "ms": 555,
+          "replayMs": 120,
+          "wire": 7,
+          "types": 154,
+          "limited": 0,
+          "bytes": 43363
+        },
+        {
+          "ms": 365,
+          "replayMs": 124,
+          "wire": 5,
+          "types": 153,
+          "limited": 0,
+          "bytes": 43076
+        },
+        {
+          "ms": 354,
+          "replayMs": 120,
+          "wire": 5,
+          "types": 154,
+          "limited": 0,
+          "bytes": 43372
+        },
+        {
+          "ms": 346,
+          "replayMs": 135,
+          "wire": 5,
+          "types": 154,
+          "limited": 0,
+          "bytes": 43323
+        },
+        {
+          "ms": 340,
+          "replayMs": 118,
+          "wire": 5,
+          "types": 154,
+          "limited": 0,
+          "bytes": 43343
+        }
+      ],
+      "readOnly": true,
+      "temporaryTables": 16,
+      "removed": true,
+      "productionWrites": 0,
+      "limits": [
+        "Temporary tables; no live account authentication or Durable Object wait",
+        "SAVEPOINT inside outer read-only transaction; no real COMMIT durability",
+        "Production draw helper and current pack probabilities; temporary stock only"
+      ]
+    },
+    {
+      "at": "2026-10-24T22:40:56.852Z",
+      "scenario": "stock",
+      "colo": "HKG",
+      "samples": [
+        {
+          "ms": 776,
+          "replayMs": 114,
+          "wire": 8,
+          "types": 154,
+          "limited": 328,
+          "bytes": 43345
+        },
+        {
+          "ms": 387,
+          "replayMs": 123,
+          "wire": 5,
+          "types": 154,
+          "limited": 328,
+          "bytes": 43377
+        },
+        {
+          "ms": 404,
+          "replayMs": 132,
+          "wire": 5,
+          "types": 154,
+          "limited": 313,
+          "bytes": 43330
+        },
+        {
+          "ms": 400,
+          "replayMs": 132,
+          "wire": 5,
+          "types": 154,
+          "limited": 311,
+          "bytes": 43293
+        },
+        {
+          "ms": 403,
+          "replayMs": 128,
+          "wire": 5,
+          "types": 154,
+          "limited": 319,
+          "bytes": 43336
+        }
+      ],
+      "readOnly": true,
+      "temporaryTables": 16,
+      "removed": true,
+      "productionWrites": 0,
+      "limits": [
+        "Temporary tables; no live account authentication or Durable Object wait",
+        "SAVEPOINT inside outer read-only transaction; no real COMMIT durability",
+        "Production draw helper and current pack probabilities; temporary stock only"
+      ]
+    },
+    {
+      "at": "2026-10-24T22:41:03.718Z",
+      "scenario": "soldout",
+      "colo": "HKG",
+      "samples": [
+        {
+          "ms": 441,
+          "replayMs": 97,
+          "wire": 7,
+          "types": 112,
+          "limited": 0,
+          "bytes": 31593
+        },
+        {
+          "ms": 266,
+          "replayMs": 103,
+          "wire": 5,
+          "types": 112,
+          "limited": 0,
+          "bytes": 31582
+        },
+        {
+          "ms": 272,
+          "replayMs": 105,
+          "wire": 5,
+          "types": 112,
+          "limited": 0,
+          "bytes": 31585
+        },
+        {
+          "ms": 281,
+          "replayMs": 103,
+          "wire": 5,
+          "types": 112,
+          "limited": 0,
+          "bytes": 31585
+        },
+        {
+          "ms": 279,
+          "replayMs": 107,
+          "wire": 5,
+          "types": 112,
+          "limited": 0,
+          "bytes": 31587
+        }
+      ],
+      "readOnly": true,
+      "temporaryTables": 16,
+      "removed": true,
+      "productionWrites": 0,
+      "limits": [
+        "Temporary tables; no live account authentication or Durable Object wait",
+        "SAVEPOINT inside outer read-only transaction; no real COMMIT durability",
+        "Production draw helper and current pack probabilities; temporary stock only"
+      ]
+    },
+    {
+      "at": "2026-10-24T22:41:13.693Z",
+      "scenario": "maximum",
+      "colo": "HKG",
+      "samples": [
+        {
+          "ms": 953,
+          "replayMs": 192,
+          "wire": 8,
+          "types": 154,
+          "limited": 1000,
+          "bytes": 43519
+        },
+        {
+          "ms": 622,
+          "replayMs": 145,
+          "wire": 5,
+          "types": 154,
+          "limited": 1000,
+          "bytes": 43524
+        },
+        {
+          "ms": 670,
+          "replayMs": 152,
+          "wire": 5,
+          "types": 154,
+          "limited": 1000,
+          "bytes": 43531
+        },
+        {
+          "ms": 741,
+          "replayMs": 156,
+          "wire": 5,
+          "types": 154,
+          "limited": 1000,
+          "bytes": 43511
+        },
+        {
+          "ms": 698,
+          "replayMs": 162,
+          "wire": 5,
+          "types": 154,
+          "limited": 1000,
+          "bytes": 43540
+        }
+      ],
+      "readOnly": true,
+      "temporaryTables": 16,
+      "removed": true,
+      "productionWrites": 0,
+      "limits": [
+        "Temporary tables; no live account authentication or Durable Object wait",
+        "SAVEPOINT inside outer read-only transaction; no real COMMIT durability",
+        "Production draw helper and current pack probabilities; temporary stock only"
+      ]
+    }
+  ]
+}

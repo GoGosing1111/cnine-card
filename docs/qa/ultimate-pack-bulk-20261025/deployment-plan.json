@@ -1,0 +1,13 @@
+{
+  "base": "10deebc8281e4ebc79a0bdf1a165313d3256d41a",
+  "reason": "얼티메이트만 최대 100000장 원자 일괄 개봉과 결과 집계 UI 추가. 기존 카드팩 확률·원자성·중복 복구·관련 회귀 및 Worker 검사.",
+  "tests": [
+    "tests/ultimate-pack-bulk-20261025.test.mjs",
+    "tests/iyejun-fur-card-pack-eligibility.test.mjs",
+    "tests/draw-territory-perf-20260919.test.mjs",
+    "tests/treasury-draw-alchemy-perf-v2062.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

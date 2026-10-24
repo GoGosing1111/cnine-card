@@ -3513,6 +3513,7 @@ async function freshAutoDrawUserState(){
   const next=apiUserToLocal(data.user);saveUser(next);return next;
 }
 async function startOfficialAutoDraw(packId,prefs){
+  if(hasPendingUltimateBulk()&&!readPendingDraw()){void openUltimateBulk();return false;}
   if(['hyper','premium'].includes(String(packId)))return showSupplyNotice('이 카드팩은 자동 개봉할 수 없습니다.',true);
   if(autoDrawState.active||autoDrawState.startInFlight||drawRequestInFlight){alert('현재 카드 개봉 요청을 처리 중입니다.');return false}
   const pack=getPack(packId);if(!pack){alert('카드팩 정보를 찾지 못했습니다.');return false}
@@ -5610,7 +5611,32 @@ window.SuperstarPackV1894=Object.freeze({
   }
 });
 
+function hasPendingUltimateBulk(){try{return Boolean(localStorage.getItem('cnine:ultimate-bulk:v1:'+Number(loadUser()?.serverUserId||0)));}catch{return true;}}
+async function openUltimateBulk(initialCount=100000){
+  if(!API_MODE)return showSupplyNotice('서버 연결을 확인한 뒤 다시 시도하세요.',true);
+  if(autoDrawState.active||autoDrawState.startInFlight||drawRequestInFlight)return showSupplyNotice('현재 카드 개봉이 끝난 뒤 다시 시도하세요.',true);
+  const previous=readPendingDraw();if(previous)return openPack(previous.packId,previous.count,0,{preflightRecovery:true});
+  const accountId=Number(loadUser()?.serverUserId||0);if(!accountId)return showSupplyNotice('로그인이 필요합니다.',true);
+  if(!acquireAutoDrawLock())return showSupplyNotice('다른 창에서 카드 개봉 중입니다.',true);
+  drawRequestInFlight=true;
+  const done=()=>{drawRequestInFlight=false;releaseAutoDrawLock();};
+  try{
+    const {mountUltimateBulk}=await import('./ultimate-pack-bulk.mjs?v=20261025-v1');
+    await mountUltimateBulk({pack:getPack('ultimate'),accountId,initialCount,getAccountId:()=>Number(loadUser()?.serverUserId||0),onClose:done,
+      api:(path,options={})=>apiRequest(path,{...options,headers:{...options.headers,'x-cnine-draw-client':drawBrowserId()}},{ttl:0,timeoutMs:45000}),
+      accept:receipt=>{
+        if(Number(loadUser()?.serverUserId)!==accountId)throw Error('계정이 변경되었습니다.');
+        const state=receipt.current;if(!state||!Array.isArray(state.cards))throw Error('최신 보유 정보를 확인하지 못했습니다.');
+        const snapshot={profileScope:'DRAW_PARTIAL',id:accountId,coin:state.coin,cardShards:state.cardShards,masterStars:state.masterStars,owned:state.cards.filter(r=>Number(r.quantity)>0).map(r=>String(r.card_id)),quantities:Object.fromEntries(state.cards.map(r=>[String(r.card_id),Number(r.quantity)])),breakthroughs:Object.fromEntries(state.cards.map(r=>[String(r.card_id),Number(r.breakthrough_level||0)]))};
+        const next=mergeApiUserSummary(snapshot,loadUser()||{});next.quantities={...(next.quantities||{}),...snapshot.quantities};next.breakthroughs={...(next.breakthroughs||{}),...snapshot.breakthroughs};
+        next.owned=[...new Set([...(next.owned||[]).map(String),...snapshot.owned])].filter(id=>!(id in snapshot.quantities)||snapshot.quantities[id]>0);
+        mergeClientCards(receipt.results.map(r=>r.card));saveUser(next,{source:'draw'});clearApiCache('shell/summary');clearApiCache('cards');
+      }});
+  }catch(error){done();showSupplyNotice(error.message||'일괄 개봉 화면을 불러오지 못했습니다.',true);}
+}
 openPack=async function(packId,count,cost,options={}){
+  if(hasPendingUltimateBulk()&&!readPendingDraw())return openUltimateBulk();
+  if(String(packId)==='ultimate'&&Number(count)>=1000)return openUltimateBulk(Number(count));
   if(String(packId)==='hyper'){await import('./mercenary-pack-live.mjs?v=2145-acquisition-video&draw=20260922-weighted&auto=20260924-response&sync=20261015-v1');return globalThis.MercenaryPack.open(Number(count));}
   if(String(packId)==='premium'&&!readPendingDraw())return showSupplyNotice('이 카드팩은 현재 개봉할 수 없습니다.',true);
   const autoRun=Boolean(options?.autoRun&&autoDrawState.active);

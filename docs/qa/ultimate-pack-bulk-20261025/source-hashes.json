@@ -1,0 +1,22 @@
+[
+  {
+    "file": "functions/_ultimate_pack_bulk.js",
+    "sha256": "3d6b1595e93f4c4392edd8a8b19d0cd8ee7dcd749685d3ff6164f0f22ed9644f",
+    "encoding": "UTF-8 with LF line endings"
+  },
+  {
+    "file": "shared/ultimate-pack-bulk-v1.mjs",
+    "sha256": "b90512be4b63159e27302f149367c44c9e54e7cbaca9406be474ee51f4737d1f",
+    "encoding": "UTF-8 with LF line endings"
+  },
+  {
+    "file": "js/ultimate-pack-bulk.mjs",
+    "sha256": "b07535cbbc47293b6246ecdc2bb2b3754c7f421964a11f0926bc58cf2342617a",
+    "encoding": "UTF-8 with LF line endings"
+  },
+  {
+    "file": "css/ultimate-pack-bulk.css",
+    "sha256": "3170d2d8a6724a420c0854f810f848921bae261b3a1b87e71b25a3ea9b49619c",
+    "encoding": "UTF-8 with LF line endings"
+  }
+]

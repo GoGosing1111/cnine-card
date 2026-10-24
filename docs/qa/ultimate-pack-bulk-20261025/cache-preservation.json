@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-24T22:47:26.085Z",
+  "action": "Moved single cache file without deleting content",
+  "source": ".wrangler/cache/cf.json",
+  "destination": "C:/Users/User/Downloads/cnine-z-body-sword-20260918/site/docs/qa/ultimate-pack-bulk-20261025/wrangler-cache-preserved.json",
+  "bytes": 2035,
+  "sha256": "1fb068f6a965f543b51a5e25f9c4ba616ca0cd65f112bf51467d8671a847fbf3",
+  "oldDeletionNotRetried": true,
+  "dependencyJunctionPreserved": true,
+  "newDependencyCopies": 0,
+  "storageGiB": 63.922
+}
