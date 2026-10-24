@@ -1,0 +1,115 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-24T07:30:34.150Z",
+  "source": "6238a4c548d57f98051a14364ae3c10a8cbd7cd8",
+  "pages": {
+    "id": "0dd316e9-8d08-4c19-bb84-d07e83a0ac0f",
+    "url": "https://0dd316e9.cnine-card.pages.dev",
+    "createdAt": "2026-10-24T07:30:08.662758Z"
+  },
+  "runtime": {
+    "sha256": "294fe7241ce3f95b9039fefb58611247128b5fc4651dc685ca25cd690933b101",
+    "markers": {
+      "portraitProjection": true,
+      "partyLineup": true,
+      "testAccess": true,
+      "rewardLock": true,
+      "blackwingRooms": true
+    }
+  },
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "258591f26fb31dd8e56bfbb7df792e86198c448e602b1692361202745eb118c3",
+      "bytes": 34272
+    },
+    {
+      "file": "js/blackwing-raid-entry-v1.js",
+      "sha256": "185da0da1baef34b6bfbd324d3b2a64281ab471714fb1106d948a4e1b9eab0a8",
+      "bytes": 4081
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "02b8d13615898a3a5d6bd2d906e8cf8bd216de4a33236a4c97fe72cacfd154bd",
+      "bytes": 18952
+    },
+    {
+      "file": "raid/blackwing/inline.mjs",
+      "sha256": "36c1c81002c3794de37dc08c551fe63378c1a3d41963fa666f67f196b4170be5",
+      "bytes": 14154
+    },
+    {
+      "file": "raid/blackwing/lobby-ui.mjs",
+      "sha256": "154ab3d90c7c12679ecf252076ecd03b4a0a3e5a35b6ac920e5de404a91e11de",
+      "bytes": 9029
+    },
+    {
+      "file": "raid/blackwing/ui.css",
+      "sha256": "0af703765f5c14158d54b72af2ed941961a1f965e689cfb3feb76d430f6d04f5",
+      "bytes": 15015
+    },
+    {
+      "file": "raid/madara/live.css",
+      "sha256": "5cd1ad2aedc408b93882e278fbff371c57261d13d53c890ce5131a9f56ed3ae1",
+      "bytes": 34096
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/boss-art.webp",
+      "sha256": "d21b4b7316a3448e25a1cbde2460a163925a05bee8dcd18129c2d6b6a1bb2975",
+      "bytes": 361864
+    },
+    {
+      "file": "css/command-ui-v1.css",
+      "sha256": "43ae7ec820741b4454e05de25cfd03758f733655917d98123f83ad5eba2cb01e",
+      "bytes": 2401
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "379998306082aefe9c7e6e4866078ec03d86e40d29a1fe96b4a53b303f87eb63",
+      "bytes": 9850
+    },
+    {
+      "file": "mercenary-codex/command.css",
+      "sha256": "00b81447ad299ce7588fadc2cf01124067c4c2633a9376a67e0f52608b035b34",
+      "bytes": 22554
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+      "bytes": 5180
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+      "bytes": 4454
+    }
+  ],
+  "access": [
+    {
+      "route": "raid/blackwing/feature",
+      "status": 503,
+      "code": "MAINTENANCE",
+      "maintenance": {
+        "active": true,
+        "title": "갤주 방송중",
+        "message": "갤주 방송중",
+        "startAt": "2026-10-24 16:14:00",
+        "endAt": "2026-10-24 18:00:00",
+        "testUsers": []
+      }
+    },
+    {
+      "route": "raid/blackwing/lobby",
+      "status": 503,
+      "code": "MAINTENANCE",
+      "maintenance": {
+        "active": true,
+        "title": "갤주 방송중",
+        "message": "갤주 방송중",
+        "startAt": "2026-10-24 16:14:00",
+        "endAt": "2026-10-24 18:00:00",
+        "testUsers": []
+      }
+    }
+  ]
+}

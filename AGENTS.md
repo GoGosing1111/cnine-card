@@ -1,3 +1,9 @@
+## 흑익 보스 원화 손잡이 정정 — 2026-10-24
+
+- 사용자 `일러스트 보니까 손 뒤에 손잡이 꺽여있는데 손잡이 줄여서 그냥 없애`에 따라 후방 손잡이와 가시 끝 장식을 제거했다. 칼날·양손 파지·투구·날개·구도를 유지하며 기존 전투 스프라이트는 변경하지 않았다.
+- 현재 표시 정본은 `assets/raids/blackwing-20261024/boss-art.webp`, 수정 PNG는 같은 폴더 `originals/boss-art-hilt-short-20261024.png`다. 이전 원본도 `originals/boss-art-before-hilt-20261024.png`로 보존하며 이전의 긴 손잡이로 되돌리지 않는다. 프롬프트·해시는 manifest.json의 illustrationEdit에 있다.
+- 운영 소스 `6238a4c54`, Pages `0dd316e9`. 실제 소스 `C:/Users/User/Downloads/cnine-z-body-sword-20260918/site`, 검수 기록 `docs/qa/blackwing-hilt-fix-20261024/README.md`.
+
 ## 용병 도감 승인 리소스 · 프로젝트 공통 UI — 2026-10-24 최우선
 
 - **운영 UI 반영 완료:** 소스 `e53aba7dd`, Pages `862db88a`. 도감 승인 남색 패널·연두색 버튼, 보스 얼굴, 실제 RAID 초상화와 버튼 상태를 적용했다. 공통 기준과 바르센 비교는 아래 기록을 따른다.

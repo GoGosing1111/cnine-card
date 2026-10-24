@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-24T07:28:20.161Z",
+  "reports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "lobbyLayout": {
+        "overflow": false,
+        "tabImage": "none",
+        "tabFrame": "url(\"http://127.0.0.1:14872/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp\")",
+        "buttonImage": "none",
+        "buttonFrame": "url(\"http://127.0.0.1:14872/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp\")",
+        "panelFrame": "url(\"http://127.0.0.1:14872/assets/ui/mercenary-codex/command-20261021/panel-v3.webp\")",
+        "buttonHeight": 54,
+        "bossPosition": "68% 0%"
+      },
+      "uiOnly": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lobbyLayout": {
+        "overflow": false,
+        "tabImage": "none",
+        "tabFrame": "url(\"http://127.0.0.1:14872/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp\")",
+        "buttonImage": "none",
+        "buttonFrame": "url(\"http://127.0.0.1:14872/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp\")",
+        "panelFrame": "url(\"http://127.0.0.1:14872/assets/ui/mercenary-codex/command-20261021/panel-v3.webp\")",
+        "buttonHeight": 54,
+        "bossPosition": "69% 0%"
+      },
+      "uiOnly": true,
+      "errors": []
+    }
+  ]
+}
