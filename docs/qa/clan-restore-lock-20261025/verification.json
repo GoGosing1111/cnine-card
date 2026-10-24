@@ -1,0 +1,319 @@
+{
+  "deployment": {
+    "id": "93035bc9-7fca-46d5-81b1-ca85257e69c5",
+    "url": "https://93035bc9.cnine-card.pages.dev",
+    "source": "3a19b319925ea62961193cfc430b3842e7e4b67c",
+    "status": "success"
+  },
+  "regression": {
+    "passed": 50,
+    "failed": 0
+  },
+  "browser": {
+    "checks": [
+      {
+        "width": 1440,
+        "clanLocked": true,
+        "championsVisible": true,
+        "factionLocked": true,
+        "randomDailyCount": 2,
+        "pointsIncluded": false,
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "clanLocked": true,
+        "championsVisible": true,
+        "factionLocked": true,
+        "randomDailyCount": 2,
+        "pointsIncluded": false,
+        "overflow": false
+      }
+    ],
+    "errors": [],
+    "failed": []
+  },
+  "readOnly": {
+    "checks": [
+      {
+        "path": "clan/overview",
+        "role": "USER",
+        "status": 200,
+        "locked": true,
+        "seasonNo": 3,
+        "phase": "COMPLETE",
+        "champions": "COMPLETED",
+        "rewardStatus": "SENT",
+        "teams": 8
+      },
+      {
+        "path": "clan/overview",
+        "role": "OWNER",
+        "status": 200,
+        "locked": true,
+        "seasonNo": 3,
+        "phase": "COMPLETE",
+        "champions": "COMPLETED",
+        "rewardStatus": "SENT",
+        "teams": 8
+      },
+      {
+        "path": "admin/clan-war/settings",
+        "role": "OWNER",
+        "status": 200,
+        "locked": true,
+        "seasonNo": 3,
+        "phase": "COMPLETE",
+        "champions": "COMPLETED",
+        "rewardStatus": "SENT",
+        "teams": 0
+      }
+    ],
+    "queries": 35,
+    "writes": 0
+  },
+  "preserved": [
+    {
+      "table": "clan_seasons",
+      "equal": true
+    },
+    {
+      "table": "clan_members",
+      "equal": true
+    },
+    {
+      "table": "clan_wars",
+      "equal": true
+    },
+    {
+      "table": "clan_championships",
+      "equal": true
+    },
+    {
+      "table": "clan_season_teams",
+      "equal": true
+    },
+    {
+      "table": "organization_members_v1",
+      "equal": true
+    },
+    {
+      "table": "organization_faction_state_v1",
+      "equal": true
+    },
+    {
+      "table": "organization_faction_days_v1",
+      "equal": true
+    },
+    {
+      "table": "organization_faction_treasury_v1",
+      "equal": true
+    },
+    {
+      "table": "organization_faction_settlements_v1",
+      "equal": true
+    }
+  ],
+  "tables": {
+    "clan_seasons": {
+      "count": 3,
+      "sha256": "48eb047ab98edca530d2508af9606b48954cf2f0032a71ce49ca30fd77d99018"
+    },
+    "clan_members": {
+      "count": 463,
+      "sha256": "34c92113b45942f21b77b55203120d580889d709cbcf8bcd99b56cd5e9659c57"
+    },
+    "clan_wars": {
+      "count": 90,
+      "sha256": "edfa38ed20550b5e2e912359b8490bcbf714ff04ed960eed37852d2592d5a167"
+    },
+    "clan_championships": {
+      "count": 3,
+      "sha256": "d871d432414805a48ed159d87e44c17b38912159c564fc90c6da90b34253a74c"
+    },
+    "clan_season_teams": {
+      "count": 24,
+      "sha256": "29e96625d32914f45b31b9256883a2378057fdfd774b1ab05d7ccccb8af5a0f3"
+    },
+    "organization_members_v1": {
+      "count": 129,
+      "sha256": "948f0886b2262f9cdf489f460a097513beddbe20e83ecff9fa1caf85d0abd392"
+    },
+    "organization_faction_state_v1": {
+      "count": 1,
+      "sha256": "09fb1a7a862d9922a8c29430e232634f6433f1c00b90d71d3e903fcc20e38538"
+    },
+    "organization_faction_days_v1": {
+      "count": 9,
+      "sha256": "e024d6e30a27830d530f40da7695782cd73ee7027c20110717d3315cbccca169"
+    },
+    "organization_faction_treasury_v1": {
+      "count": 15,
+      "sha256": "678570864a30adb1b46bad024abb55a4bfed541ce20c1557d07cb87baa33cfb0"
+    },
+    "organization_faction_settlements_v1": {
+      "count": 11,
+      "sha256": "95c8d94e59f3d5c34f19c3fa8e5848fb6685bd329145e4574d8219d564ad87de"
+    }
+  },
+  "publicFiles": [
+    {
+      "file": "admin/clan-war-admin-v1943.js",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "admin/organization-admin-v1.mjs",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "css/clan-v1.css",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "js/clan-v1.js",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "js/organization-dashboard-v1.mjs",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "js/organization-faction-entry-v1.mjs",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "js/organization-faction-v1.mjs",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "js/organization-public-v1.mjs",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "js/organization-rankings-v1.mjs",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "js/organization-system-v1.mjs",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "js/soopketmon-v21-exact-shell-adapter.js",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "organization/faction/index.html",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "organization/index.html",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "shared/clan-restoration-v1.mjs",
+      "status": 200,
+      "equal": true
+    },
+    {
+      "file": "shared/organization-schedule-v1.mjs",
+      "status": 200,
+      "equal": true
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "restoration": true,
+      "locked": true,
+      "noPoints": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "restoration": true,
+      "locked": true,
+      "noPoints": true
+    }
+  ],
+  "schedulerObservations": [
+    {
+      "key": "clan_draft_scheduler_v1",
+      "value": {
+        "version": "20261012-clan-retirement",
+        "source": "DURABLE_ALARM",
+        "checkedAt": "2026-10-24T21:46:59.715Z",
+        "phase": "SCHEDULE_LOCKED",
+        "nextCheckAt": null,
+        "registrationOpen": false,
+        "nextSupportMessageExpiryAt": null
+      }
+    },
+    {
+      "key": "organization_scheduler_v1",
+      "value": {
+        "version": "20261015-live-24h",
+        "checkedAt": "2026-10-24T21:46:10.324Z",
+        "changed": false,
+        "recruitment": {
+          "changed": false,
+          "status": "IDLE"
+        },
+        "faction": {
+          "enabled": true,
+          "rounds": 1,
+          "changed": false
+        }
+      }
+    },
+    {
+      "key": "clan_draft_scheduler_v1",
+      "value": {
+        "version": "20260915-alarm-1h-30s",
+        "source": "DURABLE_ALARM",
+        "checkedAt": "2026-10-24T21:47:39.074Z",
+        "phase": "OFF",
+        "nextCheckAt": null
+      }
+    },
+    {
+      "key": "organization_scheduler_v1",
+      "value": {
+        "version": "20261015-live-24h",
+        "checkedAt": "2026-10-24T21:47:28.924Z",
+        "changed": false,
+        "recruitment": {
+          "changed": false,
+          "status": "IDLE"
+        },
+        "faction": {
+          "enabled": false,
+          "scheduleLocked": true,
+          "rounds": 0,
+          "changed": false
+        }
+      }
+    }
+  ]
+}
