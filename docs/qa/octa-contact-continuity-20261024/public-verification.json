@@ -1,0 +1,134 @@
+{
+  "status": "PASS",
+  "base": "0f0617e8acc849d16a722e145bbbcd2299da4ee0",
+  "source": "8bb9b8c2eb35eefbc41df62dd81b8cc1b989393d",
+  "verifiedAt": "2026-10-24T00:51:39.337Z",
+  "checks": [
+    {
+      "file": "index.html",
+      "localHash": "20e2f70ab2f2cbb2b8dd2e9ed58932c762fdea8a44965990d39fe366c20575dc",
+      "publicHash": "20e2f70ab2f2cbb2b8dd2e9ed58932c762fdea8a44965990d39fe366c20575dc",
+      "bytes": 34403
+    },
+    {
+      "file": "js/app.js",
+      "localHash": "45e58f26bb1973ca4c20aed904940b83df7324c82e2c736c1a1a293b192ce18f",
+      "publicHash": "45e58f26bb1973ca4c20aed904940b83df7324c82e2c736c1a1a293b192ce18f",
+      "bytes": 783657
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "localHash": "71edfbfb5a80266d36c36e899760493a5d82f7ddb4bd6360c8a4ecbcfe29f150",
+      "publicHash": "71edfbfb5a80266d36c36e899760493a5d82f7ddb4bd6360c8a4ecbcfe29f150",
+      "bytes": 88785
+    },
+    {
+      "file": "preview/battle-suit-octaseeker-v1/assets/textures/flight-atlas.webp",
+      "localHash": "307158d696e42c791bd892d9565f8312bbc249d775ce19cbee41f3f70d5e70a5",
+      "publicHash": "307158d696e42c791bd892d9565f8312bbc249d775ce19cbee41f3f70d5e70a5",
+      "bytes": 719920
+    },
+    {
+      "file": "preview/battle-suit-octaseeker-v1/assets/textures/impact-atlas.webp",
+      "localHash": "78186e55c6cf41e95b5e57057243a226507d155531aafc64af81aa9024c4a61b",
+      "publicHash": "78186e55c6cf41e95b5e57057243a226507d155531aafc64af81aa9024c4a61b",
+      "bytes": 1058516
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/build-report.json",
+      "localHash": "7012a811509696f08cda52501b92d52b44e50f254d3b8673645701bee2e6893b",
+      "publicHash": "7012a811509696f08cda52501b92d52b44e50f254d3b8673645701bee2e6893b",
+      "bytes": 17004
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "localHash": "97e2810680870944f9a11b18ddfa37e9746247128748d9c83a17895947006d70",
+      "publicHash": "97e2810680870944f9a11b18ddfa37e9746247128748d9c83a17895947006d70",
+      "bytes": 2391895
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "localHash": "98fcc083ffa8d97e79621c711bbad71995e011c442f100e5e416878b6307d2ef",
+      "publicHash": "98fcc083ffa8d97e79621c711bbad71995e011c442f100e5e416878b6307d2ef",
+      "bytes": 2387230
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "localHash": "b58cb3549351c75c1521ea8a47bcc48a76221f914c112736fbaff31c010ddfbc",
+      "publicHash": "b58cb3549351c75c1521ea8a47bcc48a76221f914c112736fbaff31c010ddfbc",
+      "bytes": 2390247
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "localHash": "97325df0b8cba92511efcf29374e33559783c35d6e39b0a03947901d81624f23",
+      "publicHash": "97325df0b8cba92511efcf29374e33559783c35d6e39b0a03947901d81624f23",
+      "bytes": 2390236
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "localHash": "33cc70da47c752c702c67c7985bd2a3e88b69367078ad8c36004bbabbf683d55",
+      "publicHash": "33cc70da47c752c702c67c7985bd2a3e88b69367078ad8c36004bbabbf683d55",
+      "bytes": 2436801
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "localHash": "b38136b585e3efc5d4adc764dc18efcf49f3f1652887051c2a036a4b8d543938",
+      "publicHash": "b38136b585e3efc5d4adc764dc18efcf49f3f1652887051c2a036a4b8d543938",
+      "bytes": 34435
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "localHash": "f154c1043c53101482407e135a33c7d7a40c5d2d82238933763bd9b4782706de",
+      "publicHash": "f154c1043c53101482407e135a33c7d7a40c5d2d82238933763bd9b4782706de",
+      "bytes": 2390621
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js",
+      "localHash": "94405071b093e5c0201403cda7e443cdbdd4d1b8745a86a4eac4c13659270abb",
+      "publicHash": "94405071b093e5c0201403cda7e443cdbdd4d1b8745a86a4eac4c13659270abb",
+      "bytes": 25454
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "localHash": "b7e4449d5f5f0a300612df7ab0fe5d3cf79220325ddece0bb09651e286343f63",
+      "publicHash": "b7e4449d5f5f0a300612df7ab0fe5d3cf79220325ddece0bb09651e286343f63",
+      "bytes": 10590
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "localHash": "48c69d6b2afe00c2742423ce0ee86ad8a021b28f44d95946f2af7e64e0fa86cb",
+      "publicHash": "48c69d6b2afe00c2742423ce0ee86ad8a021b28f44d95946f2af7e64e0fa86cb",
+      "bytes": 2390138
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "localHash": "a56967622d0407148d8ce1cac0d448f8d678ee27c78602dfe1eb1074ff949011",
+      "publicHash": "a56967622d0407148d8ce1cac0d448f8d678ee27c78602dfe1eb1074ff949011",
+      "bytes": 2414140
+    },
+    {
+      "file": "preview/sustained-hunt-v2/engine-build.json",
+      "localHash": "bdd70e3d1a2f5b343946488f5f872ae70f40f1cc1c3013e90f39fd66fc24a82e",
+      "publicHash": "bdd70e3d1a2f5b343946488f5f872ae70f40f1cc1c3013e90f39fd66fc24a82e",
+      "bytes": 6749
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "localHash": "4c4623f026c5f8c538a271f1f8221b921224748bfdc56b3fb4bd45a0569134ee",
+      "publicHash": "4c4623f026c5f8c538a271f1f8221b921224748bfdc56b3fb4bd45a0569134ee",
+      "bytes": 2393792
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "localHash": "d4505ffbae4ae9afd5b7c03fca0e2b6e4cb370d8c76ac4b4b0d54479ee7cade4",
+      "publicHash": "d4505ffbae4ae9afd5b7c03fca0e2b6e4cb370d8c76ac4b4b0d54479ee7cade4",
+      "bytes": 2390595
+    },
+    {
+      "file": "shared/battle-suit-skill-chips.mjs",
+      "localHash": "db4b53525aa6a23176607e4c03ad8d290706de6d32d20da6dc33dd35c1c7b5ad",
+      "publicHash": "db4b53525aa6a23176607e4c03ad8d290706de6d32d20da6dc33dd35c1c7b5ad",
+      "bytes": 5555
+    }
+  ]
+}

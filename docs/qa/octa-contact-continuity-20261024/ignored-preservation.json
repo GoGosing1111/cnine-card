@@ -1,0 +1,374 @@
+{
+  "original": "C:\\Users\\User\\Downloads\\cnine-z-body-sword-20260918\\site\\output\\rejected\\battle-suit-z-sword-v4-20260918",
+  "preserved": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\octa-contact-continuity-20261024\\preserved-ignored-battle-suit-z-sword-v4-20260918",
+  "files": [
+    {
+      "path": "assets\\v4\\blade-atlas.png",
+      "bytes": 963561,
+      "sha256": "D65B79BA18521BFF102A6B1E33A94BE7DBF5C3880760FE82C4E6916AA1C0FF07"
+    },
+    {
+      "path": "assets\\v4\\blade-loop.webp",
+      "bytes": 672660,
+      "sha256": "F36B639CDD0CB5148AD1105AD846AA19A6742C7D7D13946309421DBB860CE55D"
+    },
+    {
+      "path": "assets\\v4\\cast-atlas.png",
+      "bytes": 5310678,
+      "sha256": "A150A6D1D56641BD350D932E22DACB45919444A1705371C26CE91F90B49566DB"
+    },
+    {
+      "path": "assets\\v4\\frames\\blade-01.png",
+      "bytes": 93798,
+      "sha256": "C98CD13AE610D08EB0D0574CC3EDB2A5FC6B099BD4AEBF8EDC6C1D728E9EC848"
+    },
+    {
+      "path": "assets\\v4\\frames\\blade-02.png",
+      "bytes": 115831,
+      "sha256": "7CB6D352B9ECAF48B634F211710A98D04EC3E788BA581D649076C62D466B2059"
+    },
+    {
+      "path": "assets\\v4\\frames\\blade-03.png",
+      "bytes": 85555,
+      "sha256": "5E5F434EE1A0CA0DD1C888EB39F29C6892D0127A80B688E2DE8D700DC5F04AF4"
+    },
+    {
+      "path": "assets\\v4\\frames\\blade-04.png",
+      "bytes": 169705,
+      "sha256": "D9E8E5EE9AA82C72CCE4B4EFFC6D98FD8EB690A7AD0F773BBB8DB28B8222E9AE"
+    },
+    {
+      "path": "assets\\v4\\frames\\blade-05.png",
+      "bytes": 178515,
+      "sha256": "4A48DC76C84DAA97C42CE69A7639CB9EBAD85FB4B86F36EAC17337694626F9CC"
+    },
+    {
+      "path": "assets\\v4\\frames\\blade-06.png",
+      "bytes": 129561,
+      "sha256": "A3CB6B274CC1F3068C36E1132AA25F1B17EC179286870AEAC6A5648A881D217D"
+    },
+    {
+      "path": "assets\\v4\\frames\\blade-07.png",
+      "bytes": 102380,
+      "sha256": "DDB5972C0ACC71CD46599E657773A1DE0B3FBB6B1C2D83BCF3961278C7C2EDBF"
+    },
+    {
+      "path": "assets\\v4\\frames\\blade-08.png",
+      "bytes": 72126,
+      "sha256": "8652A72625B242B956B1CA90173520B60D5CEE38C4FAD42CCB2998BBE6B74473"
+    },
+    {
+      "path": "assets\\v4\\frames\\cast-C01.png",
+      "bytes": 429261,
+      "sha256": "883ED302305897C5EA8C53400DF1AF102AB43CC98B660CCB884BC18F5B8ED4E3"
+    },
+    {
+      "path": "assets\\v4\\frames\\cast-C02.png",
+      "bytes": 437362,
+      "sha256": "73D955CE1F8C3178724D1445EDE89707A9D02AEF4919EB9D45B326D4AF904597"
+    },
+    {
+      "path": "assets\\v4\\frames\\cast-C03.png",
+      "bytes": 410683,
+      "sha256": "478FDB4E4B38310615FBC6D4DA0A7FDBDA0661271CF0B14D21ACA29AF0C7F266"
+    },
+    {
+      "path": "assets\\v4\\frames\\cast-C04.png",
+      "bytes": 446553,
+      "sha256": "0E88B549F0B86E054E9D85D30337B7482D67916D23BDB1A18F43B75EC84DC9D2"
+    },
+    {
+      "path": "assets\\v4\\frames\\cast-C05.png",
+      "bytes": 414170,
+      "sha256": "769D339D634334449707E744BA77DE969B0D90CD35F938B058610D271DFAE5B8"
+    },
+    {
+      "path": "assets\\v4\\frames\\cast-C06.png",
+      "bytes": 453604,
+      "sha256": "54A8E4CB48C39D798D94986A49AC61384CED4030C982471C95C49E3584D8203C"
+    },
+    {
+      "path": "assets\\v4\\frames\\cast-C07.png",
+      "bytes": 455784,
+      "sha256": "26CC30A8931036275DC060AA98E923B9D0A9961C7A0A92E6A3428DE6C14C132F"
+    },
+    {
+      "path": "assets\\v4\\frames\\cast-C08.png",
+      "bytes": 464512,
+      "sha256": "4B9B21669BAF5642110FCCA651A37B263117A53D9C39556DFC3A8BBCCDF0BAA9"
+    },
+    {
+      "path": "assets\\v4\\frames\\cast-C09.png",
+      "bytes": 470666,
+      "sha256": "3F3353B2799D28B3AC369613BEC5AB8D4A13C4D6BFC030E7E9854C4356B92411"
+    },
+    {
+      "path": "assets\\v4\\frames\\cast-C10.png",
+      "bytes": 452300,
+      "sha256": "5A19E8E6829DD22207F7320F2E04D54F8A9E92E3580836BA6F5D09608B9DCBBE"
+    },
+    {
+      "path": "assets\\v4\\frames\\cast-C11.png",
+      "bytes": 426235,
+      "sha256": "71C71223BE17F876C1DE447D03B6521EBB226BAB3D4D9AF4084E8227F9B3D0E3"
+    },
+    {
+      "path": "assets\\v4\\frames\\cast-C12.png",
+      "bytes": 427304,
+      "sha256": "BE5D32DE1DF86F766A2182C7BF6D1D2E5CEF5C012FAD711A3BF09ECADBE816E2"
+    },
+    {
+      "path": "assets\\v4\\frames\\ground-01.png",
+      "bytes": 53716,
+      "sha256": "656A9EE02576DCF5B5087C86C570005883FD10664A6587629D2A6815D3199F26"
+    },
+    {
+      "path": "assets\\v4\\frames\\ground-02.png",
+      "bytes": 76746,
+      "sha256": "F1AC0D9B07D81954ABC2427E135A266D81540A5C163D0D6256A37DBE2B2E35AE"
+    },
+    {
+      "path": "assets\\v4\\frames\\ground-03.png",
+      "bytes": 95891,
+      "sha256": "A1EBEA2C61EB6347D128531A16EF8B800F98B8FE18F4F27949B1CF29551A4D0E"
+    },
+    {
+      "path": "assets\\v4\\frames\\ground-04.png",
+      "bytes": 79969,
+      "sha256": "1453962ADF60D0C8C18205983AECC40D7F094F78158E8A8A8E1296EEDD82C67D"
+    },
+    {
+      "path": "assets\\v4\\frames\\ground-05.png",
+      "bytes": 58722,
+      "sha256": "743031E72DAD716766333BF860D2A965940FDC8984F8EF000FE79C16CE435C81"
+    },
+    {
+      "path": "assets\\v4\\frames\\ground-06.png",
+      "bytes": 51611,
+      "sha256": "B090935A49D03E5760E361C932CD8592CAF4664580FB4D69A392271D862ABD6B"
+    },
+    {
+      "path": "assets\\v4\\frames\\ground-07.png",
+      "bytes": 40629,
+      "sha256": "8E92144522EAAED6A7BE0A30CD5B11C00E988A77A6AC16AED5C990082DEE35FB"
+    },
+    {
+      "path": "assets\\v4\\frames\\ground-08.png",
+      "bytes": 21487,
+      "sha256": "06D5BB96A8B01199B589527679CF1A7B45F601E98B8E22C991EA6265236227B2"
+    },
+    {
+      "path": "assets\\v4\\ground-atlas.png",
+      "bytes": 478557,
+      "sha256": "6DF63D94E41C98BFB1435756F8AD6579D47616BDFF84E4DA6ED77B547D5634DF"
+    },
+    {
+      "path": "assets\\v4\\ground-loop.webp",
+      "bytes": 372880,
+      "sha256": "870A126154E77A7F9F3BAF3562FF96851C555B97E119711DE7952A0F4E58BD7E"
+    },
+    {
+      "path": "assets\\v4\\individual\\cast-01-source.png",
+      "bytes": 311728,
+      "sha256": "0D13969EAD3C7A208A14CB453A5AA39C06D35E894B93DA17090FBAF809196E52"
+    },
+    {
+      "path": "assets\\v4\\individual\\cast-02-source.png",
+      "bytes": 306096,
+      "sha256": "B5FC778E296D875A4527AECA5A83445D1C840995CDA1B11F1CDDEA8CD1D16173"
+    },
+    {
+      "path": "assets\\v4\\individual\\cast-03-source.png",
+      "bytes": 298653,
+      "sha256": "9039F35577FEDEBC3F4E706868E797AB48C7098B99505F891626ED02707A90CB"
+    },
+    {
+      "path": "assets\\v4\\individual\\cast-04-source.png",
+      "bytes": 329891,
+      "sha256": "BBC79AF4CF36349BC1C951EDFF582D63B6F1D4FC79F208E7A1DB7EF35E30F7AD"
+    },
+    {
+      "path": "assets\\v4\\individual\\cast-05-source.png",
+      "bytes": 308364,
+      "sha256": "E65A10975D7457A93DABA84A21BB925593D60ADFD4BBB6C35F8B42B95351291E"
+    },
+    {
+      "path": "assets\\v4\\individual\\cast-06-source.png",
+      "bytes": 306309,
+      "sha256": "159B4AAB1CBE5D5ACBD08147E0431B7F281FC13C0C43294B5C49D55091483F9A"
+    },
+    {
+      "path": "assets\\v4\\individual\\cast-07-source.png",
+      "bytes": 312628,
+      "sha256": "B911D52F49FCE68B5C76C15FC0F680C55132EEAF2B5A468733E641FCD177CEE3"
+    },
+    {
+      "path": "assets\\v4\\individual\\cast-08-source.png",
+      "bytes": 301885,
+      "sha256": "D6CC4D7684F52EA4DD21BF4EC9F87D0AF433908E5078E36BEBCA30900B80A68A"
+    },
+    {
+      "path": "assets\\v4\\individual\\cast-09-source.png",
+      "bytes": 434623,
+      "sha256": "864DA9C986A3D10527BC8B806C1D55E69A8AC54F41B315B134A0AFF9F57A0CBC"
+    },
+    {
+      "path": "assets\\v4\\individual\\cast-10-source.png",
+      "bytes": 417847,
+      "sha256": "5F659A3966399C541A68205351BA3E1501CDF9E53A476749CA143A23C105B8CC"
+    },
+    {
+      "path": "assets\\v4\\individual\\cast-11-source.png",
+      "bytes": 406158,
+      "sha256": "3D37AA4A2FEDBFE66697FE3D68C69B5401782749A1061537A909C60FC9BDDEE4"
+    },
+    {
+      "path": "assets\\v4\\individual\\cast-12-source.png",
+      "bytes": 409708,
+      "sha256": "EB969372BACC5ED887048B5A16A96C1F084CE66EB36C7F0297EB3E128B707ECB"
+    },
+    {
+      "path": "assets\\v4\\sources\\blade-descent.png",
+      "bytes": 835773,
+      "sha256": "53DE2C340D77EC914DACAACE472A60776B40A8ACFF899088A30D47A852C3FBBD"
+    },
+    {
+      "path": "assets\\v4\\sources\\cast-anticipation.png",
+      "bytes": 1108518,
+      "sha256": "1FBEFD3E8DAF704C840A76E7C3DDB3E6FF14FEB3573504854CDC4A058541D43E"
+    },
+    {
+      "path": "assets\\v4\\sources\\cast-recovery.png",
+      "bytes": 1447423,
+      "sha256": "BFC581D3B4B91926ACC91144559C51FEDE8D1D320C2EE2566BA78E63CCB07AD8"
+    },
+    {
+      "path": "assets\\v4\\sources\\cast-release.png",
+      "bytes": 1111557,
+      "sha256": "12ED738152B313AE023EB277F3DCD49F088FBF387E89CB163FCCE33C459D1DD3"
+    },
+    {
+      "path": "assets\\v4\\sources\\ground-discharge.png",
+      "bytes": 485189,
+      "sha256": "42E5B99D5BBF2CD8237205AE20E88F16A57528550B99F27E108735EDA886C8C0"
+    },
+    {
+      "path": "assets\\v4\\z-body-sword-rain-v4.gif",
+      "bytes": 6848630,
+      "sha256": "A516B6BB978E2024993A6741DAEF1187D0419D4887CB0FCD3847383C7442154A"
+    },
+    {
+      "path": "assets\\v4\\z-body-sword-rain-v4.zip",
+      "bytes": 14334471,
+      "sha256": "F81BB23DAA2823BFA0C8BC7F92C7D411C0B5753AB8D332E02A4ED211E2A1B8EC"
+    },
+    {
+      "path": "build-cast-v4.mjs",
+      "bytes": 5437,
+      "sha256": "182899F85D673709DDDA48A856F90641973B5EEB09D260789D8E51366C288B27"
+    },
+    {
+      "path": "build-rain-assets-v4.mjs",
+      "bytes": 4416,
+      "sha256": "4ED8340B52F3B31CD5839C2F60EE4B8516A0F6A8449CD84B462DFCAABEFEDC63"
+    },
+    {
+      "path": "cast-v4.json",
+      "bytes": 15895,
+      "sha256": "33A515A4A7E10724853D945F025093D8F6A71F47B7BF727C7C5D7E6DAF519164"
+    },
+    {
+      "path": "export-rain-gif-v4.mjs",
+      "bytes": 4867,
+      "sha256": "9052B9A899F6D3C88A36E82EB187816C55415731239354812357F08375C42D5A"
+    },
+    {
+      "path": "index.html",
+      "bytes": 5217,
+      "sha256": "68012D4C7E3765F4F1673CF61B2C5E13F0B010D0515D731F8973544124D98A8C"
+    },
+    {
+      "path": "manifest-v4.json",
+      "bytes": 34819,
+      "sha256": "91444A6D3D2C77D905E9FA36635374D72CB4F2BF510204CF9B6F7127344FD577"
+    },
+    {
+      "path": "pack-resources-v4.py",
+      "bytes": 1161,
+      "sha256": "450EC05CF5E2CF7456701237A45510FF03C30B6FC880F1BB147E67315217D535"
+    },
+    {
+      "path": "pack-resources.py",
+      "bytes": 1196,
+      "sha256": "26791911E45BEC3186FBC719612247581847079794DD2E8892E7B16E337D80E1"
+    },
+    {
+      "path": "preview.bundle.js",
+      "bytes": 697067,
+      "sha256": "CFEAA2686BCBB61881E8A4F66A6EBACBC7FA35420982CFB6C6D30D6102DD5A8F"
+    },
+    {
+      "path": "PROMPTS-V4.md",
+      "bytes": 14771,
+      "sha256": "40CC1BA46CC43E70D2701AE7C44EFA9BBBDA760954783E9F5F3A1D0108C1295B"
+    },
+    {
+      "path": "qa\\v4\\asset-verification.json",
+      "bytes": 1380,
+      "sha256": "2CA4D292F8749642C7B3CA2462DB8E3165A7D985AD51785453EF48EA6A191D03"
+    },
+    {
+      "path": "qa\\v4\\browser-verification.md",
+      "bytes": 1829,
+      "sha256": "350A30D0E24BF5D3DBB6D565687D6FBCE6C04DF17B2B75593DDBB574E467E992"
+    },
+    {
+      "path": "qa\\v4\\cast-contact.png",
+      "bytes": 1192713,
+      "sha256": "259F9AAC1453B8DC5E5EE811038BDAC81A6C57674090A81F014BF984C2D61161"
+    },
+    {
+      "path": "qa\\v4\\rain-impact.png",
+      "bytes": 959796,
+      "sha256": "8CF077A21A09FA65773034EA457E717F5F02F173797E07A1E454A7EA92993D1B"
+    },
+    {
+      "path": "README-V4.md",
+      "bytes": 3794,
+      "sha256": "6D8E0AC72125A1DAEB7742A47C84CE194C23D38710E20D62B7A1335BB79E7416"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5921,
+      "sha256": "050F8C31AE1C968A4A2EDADA1F1086A4CB006AFB940038ECFBC7661832974B24"
+    },
+    {
+      "path": "REJECTED.txt",
+      "bytes": 162,
+      "sha256": "566F33C8929EC1E383CDC51329B7B67E11A32100B2808416BA1981F533A99228"
+    },
+    {
+      "path": "source\\preview.js",
+      "bytes": 15601,
+      "sha256": "EF03445658D4B161256BD28B871AEC5DB479A2154BBC5FE7DD5B2364B0B359E8"
+    },
+    {
+      "path": "source\\rain-model.mjs",
+      "bytes": 1887,
+      "sha256": "582B1B5745DAFC35F9EFBB4063A07791CC2E30560BF6E77C9D26CFB54EEB62D6"
+    },
+    {
+      "path": "source\\SwordRainFX.mjs",
+      "bytes": 5004,
+      "sha256": "482F34C83CE690CE4EEFF06323DB50A57FB7CE9109D4F720C6DB460F5604974C"
+    },
+    {
+      "path": "verify-v4.mjs",
+      "bytes": 6266,
+      "sha256": "14DE1AB96CDA92EDEEE9EE25519B1B96C1656698292ED5D4A530851A80727A1E"
+    }
+  ],
+  "preservedAt": "2026-10-24T00:46:43.3630156Z",
+  "restored": true,
+  "restoredAt": "2026-10-24T00:51:49.7458263Z"
+}

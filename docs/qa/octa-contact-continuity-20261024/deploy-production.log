@@ -1,0 +1,128 @@
+[SCOPED RELEASE] {"base":"0f0617e8acc849d16a722e145bbbcd2299da4ee0","reason":"8방향 유도탄 발사 시 8개 접촉을 함께 예약하고 기존 공용 시계로 명중시켜 다른 슬롯 처치 대기와 출력 지연에 의한 정지 프레임을 수정. 피해, 서버 판정, 경제, 인증, DB는 그대로 유지.","changed":["docs/qa/octa-contact-continuity-20261024/README.md","docs/qa/octa-contact-continuity-20261024/before/before-0.72.png","docs/qa/octa-contact-continuity-20261024/before/before-1.14.png","docs/qa/octa-contact-continuity-20261024/before/before-1.7.png","docs/qa/octa-contact-continuity-20261024/before/browser-report.json","docs/qa/octa-contact-continuity-20261024/local/browser-report.json","docs/qa/octa-contact-continuity-20261024/local/desktop-0.72.png","docs/qa/octa-contact-continuity-20261024/local/desktop-1.14.png","docs/qa/octa-contact-continuity-20261024/local/desktop-1.7.png","docs/qa/octa-contact-continuity-20261024/local/desktop-result.png","docs/qa/octa-contact-continuity-20261024/local/mobile-0.72.png","docs/qa/octa-contact-continuity-20261024/local/mobile-1.14.png","docs/qa/octa-contact-continuity-20261024/local/mobile-1.7.png","docs/qa/octa-contact-continuity-20261024/local/mobile-result.png","index.html","js/app.js","js/battle-v3-live.js","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","tests/battle-suit-octaseeker-live-20260924.test.mjs","tests/octa-contact-continuity-20261024.browser.mjs"],"tests":["tests/battle-suit-octaseeker-live-20260924.test.mjs","tests/battle-suit-octaseeker-preview-v1.test.mjs","tests/battle-suit-skill-chip-runtime-v2046.test.mjs","tests/legion-hunt-area-cadence-20260927.test.mjs","tests/battle-hunt-presentation-20260928.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":[]}
+✔ twelve same-time hunt reinforcements enter together, without a twelve-animation queue (5.75ms)
+✔ final boss waits for all minion retirements, then appears once before subsequent damage (2.2663ms)
+✔ result rendering holds the finished corpse pose while stopping all actor loops (3.7097ms)
+✔ approved total is exactly helicopter x2, not per-hit x2, with an immediate first cast and independent 10s cadence (1.8164ms)
+✔ opening octa cast precedes the 3s rocket in any equipped order and keeps every other cadence (1.1692ms)
+✔ server applies eight fixed-target impacts and conserves x10 total for normal and apocalypse shields (194.5868ms)
+✔ server opening octa launches and finishes its eight impacts before the first rocket (12.0867ms)
+✔ PC and mobile playback launch a zero-time octa once without waiting for a later tick (24.3055ms)
+✔ live Pixi effects wait for server hits, map arrival indices and preserve fatal collision without retargeting (7.3343ms)
+✔ real playback dispatches eight confirmed impacts once and cleans up; lethal first hit cancels the remaining seven (17.4105ms)
+✔ late octa texture decode cannot attach a stale battle effect after cancellation (1.0374ms)
+✔ eight homing contacts keep one flight schedule despite output latency and an unrelated retirement (75.8514ms)
+✔ reserved homing contacts obey user pause, QTE order, speed changes and cancellation (4.7345ms)
+✔ shared audio preserves launch/impact phases, shifted server timings and simultaneous legacy sounds (2.3498ms)
+✔ shipped consumers and lobby loader contain the new approved runtime (6352.1719ms)
+✔ approved chip reads x10 / opening cast / 10s from the shared catalog without inventing acquisition (1.2053ms)
+✔ exactly eight distinct 45-degree launch directions, followed by one common endpoint (0.504ms)
+✔ radial departure joins its homing cubic continuously in both position and velocity (1.905ms)
+✔ dedicated impact animation traverses real frames and finishes within its visual budget (1.3029ms)
+✔ PC and mobile show 8 projectiles, freeze one target, keep exact sole anchors and never mutate HP (10.4906ms)
+✔ dead or rebound target cancels pending rockets without retargeting another enemy (5.5395ms)
+✔ reverse seek is deterministic; 50 repeats own one timeline and bounded sprite pool (23.8882ms)
+✔ pause leaves visual clock stable and speed changes do not change hit timings (2.396ms)
+✔ generated atlases have 24 distinct RGBA frames, transparent gutters and locked source hashes (1119.7585ms)
+✔ existing engine, source-art adapters and grade frames are reused; preview never mutates accounts (97.0457ms)
+✔ Pages extensionless battle URL resolves existing engine assets from the site root (2.5577ms)
+✔ recorded audio uses one launch, eight measured impact peaks and one shared tail (1.955ms)
+✔ original licensed recording bytes and no synthesized sound are preserved (5.9816ms)
+✔ each game owns a deduplicated 3s / 15s schedule; simultaneous casts are stable (1.9066ms)
+✔ four helicopter hits conserve the single x5 total, including integer remainder (0.6024ms)
+✔ server casts at exact combat intervals and applies damage only at approved explosion frames (37.2395ms)
+✔ same seed and loadout replay identically; the following battle starts at activation one (34.7128ms)
+✔ no suit, invalid chips, and zero-power suits cannot generate skill damage (60.5283ms)
+✔ a short battle does not invent a last-second rocket or helicopter (0.8905ms)
+✔ own-power reform preserves the legacy ordinary firing cadence and opening RNG stream without chips (145.0114ms)
+✔ PVP does not enable the PVE chip clock even if a support object contains chips (15.354ms)
+✔ combat budgets use presentation milliseconds and never the legacy speed gauge (0.2013ms)
+✔ live clock displays both simultaneous skills, four separate hits, then releases all owned FX (24.6011ms)
+✔ slow card animation delays dispatch without stopping the effect clock or replaying a chip twice (2.6611ms)
+✔ closing during first texture decode settles immediately and cannot start a stale next-game clock (2.2992ms)
+✔ late ordinary impacts cannot restore pre-chip HP or shield and a later heal remains authoritative (1.699ms)
+✔ event revisions prevent a delayed old card callback from replacing a newer chip or heal snapshot (0.1922ms)
+✔ raid QTE holds the same game clock in event order, skips rejected branches, and settles at the final timestamp (4.2964ms)
+✔ live adapter batches the full server clock and cancel/reset stops the clock (2.1956ms)
+✔ continuous combat keeps one absolute clock across turns beyond the old two-second guard (2.4752ms)
+✔ continuous generation barrier holds later shots and chip impacts until the retiring actor is drained (0.8074ms)
+✔ explicit continuous pause freezes the same clock and cancellation cannot run later events (0.7028ms)
+✔ unresolved casts cannot launch into an empty or replacement monster slot (0.6605ms)
+✔ enqueuing a future killing bullet cannot make an earlier bullet kill the monster (0.5369ms)
+✔ a delayed continuous collision plays a complete missile flight directly into the live target (1.9904ms)
+✔ only confirmed helicopter hits explode, and their frames expire while generation dispatch waits (1.4352ms)
+✔ an exact live target cannot fall back to another monster after death or slot retirement (0.2753ms)
+✔ simultaneous audio schedules append voices instead of cutting off the other chip (0.0996ms)
+✔ helicopter area receipts remain visible after the primary dies without multiplying effects or moving smoke (0.9614ms)
+✔ hunt five area contacts retain their authored 1080–1540ms cadence without rearming each blade (43.1369ms)
+✔ lethal area contact starts all retirements immediately while old card return still fences respawn (3.2981ms)
+✔ an unrelated retirement followed by another card cannot freeze a launched area volley (20.2722ms)
+✔ early area dispatch honors user pause and cancellation while the normal lane waits (1.3572ms)
+✔ early area dispatch cannot hit a new monster returned through an old slot alias (6.9419ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (1483.7572ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (12.2678ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (3.5856ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (13.09ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (11.3142ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (27.5181ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (8.0146ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (3.0521ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.0455ms)
+ℹ tests 68
+ℹ suites 0
+ℹ pass 68
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7712.6595
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 7521 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8274.19 KiB / gzip: 1777.50 KiB
+Worker Startup Time: 35 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.10 sec)
+No targets deployed for cnine-card-api-runtime (0.56 sec)
+Current Version ID: ec53fe7e-9eb3-4f59-aa87-4abadf15e1f2
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19977/20000)
+Uploading... (19985/20000)
+Uploading... (19992/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 23 files (19977 already uploaded) (15.94 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://4951d37e.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 2946.16 KiB / gzip: 663.12 KiB
+Worker Startup Time: 44 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.47 sec)
+Deployed cnine-card-clan-draft triggers (0.91 sec)
+  schedule: * * * * *
+Current Version ID: 8295c13c-526a-4f87-b9f1-d826421c7d27
