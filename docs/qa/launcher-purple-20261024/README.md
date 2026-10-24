@@ -28,4 +28,10 @@ Production base verified through Cloudflare: `9f4aecd09cb6590af7f6bedc0e7454ae9e
 
 The original shared source checkout had unrelated active changes. A managed sparse worktree isolates this release; existing build dependencies and the previous client-only build directory were reused. No project/node_modules copy was made. New disposable dependencies are removed after verification; artwork/prompts and latest installer are retained.
 
-Deployment and public verification receipts will be added after the official scoped release and Windows publisher complete.
+Production source **c3d4a2f92c469baf02c822e67782ad05e63aa2db**, Pages **6742467d**, Windows **0.1.9** published at https://github.com/GoGosing1111/cnine-card/releases/tag/v0.1.9.
+
+All 40 scoped checks passed. The initial sparse checkout omitted three unrelated prison fixture PNGs used by the existing boot-regression file; materializing those tracked fixtures resolved preflight without changing tests or game logic. Pages publishes 19,999 files (14 uploaded, 19,985 reused). The three loading runtime WebPs match public SHA-256, and the real public first-loading screen loads the dimensional title then releases to the visible app without errors.
+
+Final installation download: https://github.com/GoGosing1111/cnine-card/releases/download/v0.1.9/ReverseCall-Setup-0.1.9-x64.exe. Installer/package/source verification and all five uploaded artifact digests passed. The existing R logo files remain unchanged.
+
+The temporary client dependencies and unpacked build were reclaimed (861,063,166 bytes); published installers, hashes, receipts, source and unique artwork are preserved.

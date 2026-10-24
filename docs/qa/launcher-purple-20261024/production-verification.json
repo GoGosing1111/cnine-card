@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-24T08:22:18.959Z",
+  "origin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp",
+      "status": 200,
+      "bytes": 152036,
+      "sha256": "9a0c3d9537dc67485d9aecbd0c73b81c2dbc8017236a438b12e12841c4e65077"
+    },
+    {
+      "file": "assets/ui/loading/reverse-call-purple-20261024/scene-mobile.webp",
+      "status": 200,
+      "bytes": 77160,
+      "sha256": "8083627f3ab8b2c7ace50bda070b42123bcf080a691dc71391cea0eaf9cffa86"
+    },
+    {
+      "file": "assets/ui/loading/reverse-call-purple-20261024/title.webp",
+      "status": 200,
+      "bytes": 246032,
+      "sha256": "e9e6ed775a9fd0b15062c34243398fda1e4372194efbb5f316eb8de617d6bea8"
+    }
+  ],
+  "boot": {
+    "title": "https://cnine-card.pages.dev/assets/ui/loading/reverse-call-purple-20261024/title.webp",
+    "titleSize": [
+      550,
+      220
+    ],
+    "scene": "https://cnine-card.pages.dev/assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp",
+    "logo": "https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent",
+    "overflow": false
+  },
+  "ready": {
+    "appVisibility": "visible",
+    "bodyReady": true
+  },
+  "errors": []
+}

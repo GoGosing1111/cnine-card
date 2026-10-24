@@ -1,0 +1,16 @@
+{
+  "preserved": "Published 0.1.9 Setup/Engine installers, hashes, receipt, source, original artwork and prompts",
+  "targets": [
+    {
+      "path": "C:\\Users\\User\\.codex\\tmp\\reverse-call-windows-build-20261018\\node_modules",
+      "existsAfter": false,
+      "bytes": 471459944.0
+    },
+    {
+      "path": "C:\\Users\\User\\.codex\\tmp\\reverse-call-windows-build-20261018\\release\\win-unpacked",
+      "existsAfter": false,
+      "bytes": 389603222.0
+    }
+  ],
+  "at": "2026-10-24T08:20:34.7195767Z"
+}
