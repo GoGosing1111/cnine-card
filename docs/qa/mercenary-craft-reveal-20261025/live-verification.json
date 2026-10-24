@@ -1,0 +1,82 @@
+{
+  "checkedAt": "2026-10-24T22:36:58.996Z",
+  "source": "10deebc8281e4ebc79a0bdf1a165313d3256d41a",
+  "base": "https://cnine-card.pages.dev",
+  "build": "https://bba00068.cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 36818,
+      "expected": "df5114e55174a4adccb30b5e27af0b6f51a4c6a3130ba51419f0c7e662da0b63",
+      "actual": "df5114e55174a4adccb30b5e27af0b6f51a4c6a3130ba51419f0c7e662da0b63",
+      "match": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "bytes": 783914,
+      "expected": "440a949e220d2e1f97b3b974b0c2a4bb5bef82e8050aa2f428ee968143a60d89",
+      "actual": "440a949e220d2e1f97b3b974b0c2a4bb5bef82e8050aa2f428ee968143a60d89",
+      "match": true
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "status": 200,
+      "bytes": 118247,
+      "expected": "766fb4617b85dc256e5ea8c4325b74ca1012b5a2576a927fb3d2add79a3bf902",
+      "actual": "766fb4617b85dc256e5ea8c4325b74ca1012b5a2576a927fb3d2add79a3bf902",
+      "match": true
+    },
+    {
+      "file": "js/mercenary-craft-reveal-v1.js",
+      "status": 200,
+      "bytes": 14918,
+      "expected": "429be39b44ef514f0b9a1b245286f57618a6240c1594fc0882e761e578f8b63f",
+      "actual": "429be39b44ef514f0b9a1b245286f57618a6240c1594fc0882e761e578f8b63f",
+      "match": true
+    },
+    {
+      "file": "css/mercenary-craft-reveal-v1.css",
+      "status": 200,
+      "bytes": 25396,
+      "expected": "6b373982c68a8a6a7e17326adcdee6b6d87d76872483decec0ea803c517c18e5",
+      "actual": "6b373982c68a8a6a7e17326adcdee6b6d87d76872483decec0ea803c517c18e5",
+      "match": true
+    },
+    {
+      "file": "preview/mercenary-craft-reveal-20261025/index.html",
+      "status": 200,
+      "bytes": 1777,
+      "expected": "5f310c1fc2f5d7f88c1a1543c249c8b1e41c92c51279ba0ed9432a81eddf27fc",
+      "actual": "5f310c1fc2f5d7f88c1a1543c249c8b1e41c92c51279ba0ed9432a81eddf27fc",
+      "match": true
+    },
+    {
+      "file": "assets/ui/workshop/mercenary-atelier-20261025/chamber.webp",
+      "status": 200,
+      "bytes": 411676,
+      "expected": "391f56097c73efde9db483368c14bd1d6bda5d46e21dc74df0241b56f0545d61",
+      "actual": "391f56097c73efde9db483368c14bd1d6bda5d46e21dc74df0241b56f0545d61",
+      "match": true
+    },
+    {
+      "file": "assets/ui/workshop/mercenary-atelier-20261025/relic.webp",
+      "status": 200,
+      "bytes": 434218,
+      "expected": "f77444e0c67433bc67c30524b066aa4d5b2e1ddf7131c900995ac4c29dc5c3c1",
+      "actual": "f77444e0c67433bc67c30524b066aa4d5b2e1ddf7131c900995ac4c29dc5c3c1",
+      "match": true
+    },
+    {
+      "file": "assets/ui/workshop/mercenary-atelier-20261025/action.webp",
+      "status": 200,
+      "bytes": 218550,
+      "expected": "0ed6729b838b3a4c4f25a85443a96b6e4629563f372e6971de609fbe7c5012cd",
+      "actual": "0ed6729b838b3a4c4f25a85443a96b6e4629563f372e6971de609fbe7c5012cd",
+      "match": true
+    }
+  ],
+  "allMatch": true,
+  "productionAccountWrites": 0
+}
