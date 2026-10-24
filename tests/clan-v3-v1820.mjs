@@ -140,11 +140,11 @@ test('OWNER TEST 잠금과 정식 ON 공개 게이트가 서버·유저 메뉴�
   assert.match(server,/clan\/admin\/mode/);
   assert.match(app,/CLAN_FEATURE_MODE='ON'/);
   assert.doesNotMatch(app,/클랜 TEST/);
-  assert.match(app,/data-tab="clan">조직<\/button>/);
+  assert.match(app,/data-tab="clan">클랜<\/button>/);
   assert.doesNotMatch(shell,/clanTestVisible|클랜 TEST|OWNER\s*·\s*블라인드|OWNER·V3/);
   assert.match(shell,/function clanFeatureVisible\(\)/);
-  assert.match(shell,/pcCommand\('clan', '조직', '조직 본부 · 아지트'/);
-  assert.match(shell,/mobileCommand\('clan', '조직', '조직 본부 · 아지트'/);
+  assert.match(shell,/pcCommand\('clan', '클랜', '클랜 본부 · 아지트'/);
+  assert.match(shell,/mobileCommand\('clan', '클랜', '클랜 본부 · 아지트'/);
   assert.match(postgresMigration,/\{"mode":"TEST"\}/);
   assert.equal((postgresMigration.match(/CREATE TABLE IF NOT EXISTS clan_/g)||[]).length,9);
 });
@@ -179,7 +179,7 @@ test('현 로비 기준 클랜 본부와 정규·세력전 진입을 제공한�
   assert.match(html,/clan-v1\.css\?v=20261005-reform/);
   assert.match(html,/clan-command-v1\.css\?v=2127/);
   assert.match(html,/clan-faction-v1\.css\?v=20261001-session-rewards/);
-  assert.match(html,/clan-v1\.js\?v=20261021-organization-no-archive/);
+  assert.match(html,/clan-v1\.js\?v=20261023-clan-identity/);
   assert.match(html,/js\/app\.js\?[^"\n]+clanFaction=20261001-session-rewards/);
   for(const loader of [app,client])assert.match(loader,/import\('\.\/clan-faction-v1\.mjs\?v=20261005-executives'\)/);
 });
