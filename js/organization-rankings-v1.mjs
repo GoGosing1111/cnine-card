@@ -8,6 +8,7 @@ export function organizationRankingTable(rows,{mine=0,pending=false,current=fals
 }
 export function renderOrganizationRankings(c,{mine=0,view='season'}={}){
   if(!c)return '<section class="org-rank-panel"><h2>세력전 순위표</h2><p>순위 정보를 불러오는 중입니다.</p></section>';
+  if(c.pointsIncluded===false)return '<section class="org-rank-panel" aria-label="세력전 승점 미포함"><h2>세력전 승점 미포함</h2><p>세력전 점령 결과는 정규 클랜전·주간·시즌 승점에 합산하지 않습니다. 주간·시즌 승점 정산은 중지되었습니다.</p><p>기존 점령지·소속·부대 편성과 과거 정산 기록은 보존됩니다.</p></section>';
   const s=c.season,tabs=[['season','시즌 누적'],['weekly','이번 주 예상'],['weeks','주간 정산'],['seasons','시즌 결과']];
   const history=view==='weeks'?c.weeklyHistory:c.seasonHistory;
   let content='';

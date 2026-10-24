@@ -82,7 +82,7 @@
     store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop']) }),
     collection: Object.freeze({ title: '카드·용병·펫', routes: Object.freeze(['dex', 'mercenaryDex', 'petDex', 'upgrade', 'evolution', 'iconfusion', 'magic']) }),
     pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'defense', 'coop', 'legion', 'raid', 'escort', 'seal', 'tower', 'scrapyard', 'masterStarMine']) }),
-    pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'jokgakCity', 'duo', 'rank', 'clanFaction', 'clan', 'territory']) }),
+    pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'jokgakCity', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작소', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
     rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral']) }),

@@ -4,6 +4,8 @@ import {newFactionState,advanceFactionState,factionEvent} from './_clan_faction_
 import {reconcilePauses,closeSession,sessionView} from './_clan_faction_sessions.js';
 import {advanceFixedOrganizationFaction} from './_organization_fixed_sessions.js';
 import {ORGANIZATION_FIXED_SCHEDULE} from '../shared/organization-schedule-v1.mjs';
+import {clanRestorationActive,CLAN_RESTORATION,lockedFactionSessions} from '../shared/clan-restoration-v1.mjs';
+import {organizationSessionRewardRules,addOrganizationPigCoinRecipients} from '../shared/organization-competition-v1.mjs';
 export const ORGANIZATION_SESSION_POLICY=Object.freeze({recipients:'PARTICIPANTS',interruption:'PAUSE',overlap:'DEFER',mapPolicy:'KEEP',rewardRules:RULES});
 export function validateOrganizationFormation(formation,memberIds){
  const allowed=new Set(memberIds),used=new Set(),clean={};
@@ -74,7 +76,9 @@ export function restrictOrganizationDistricts(state,now){
  return true;
 }
 export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now,assignedAt,policy}){
- if(now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt)return advanceFixedOrganizationFaction(state,{wars,roster,now,assignedAt,policy});
+ const restored=clanRestorationActive(now);
+ if(restored&&CLAN_RESTORATION.factionScheduleLocked)return {state,settlements:[],view:lockedFactionSessions(organizationSessionRewardRules(RULES,policy,now))};
+ if(!restored&&now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt)return advanceFixedOrganizationFaction(state,{wars,roster,now,assignedAt,policy});
  const settlements=[];
  // Apply the explicit 8-district correction to an unfinished legacy session,
  // including a paused one. Settled history and all payout amounts stay intact.
@@ -85,16 +89,17 @@ export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now
  if(['ACTIVE','PAUSED'].includes(state.session?.status))reconcilePauses(state,wars,now,Infinity);
  else advanceFactionState(state,now,Infinity);
  if(state.session?.status==='ACTIVE'&&state.session.endsAt<=now)
-  settlements.push(closeSession(state,state.session,state.session.endsAt,'SESSION_END',roster,{...ORGANIZATION_SESSION_POLICY,rewardRules:state.session.rewardRules||RULES}));
+  settlements.push(addOrganizationPigCoinRecipients(closeSession(state,state.session,state.session.endsAt,'SESSION_END',roster,{...ORGANIZATION_SESSION_POLICY,rewardRules:state.session.rewardRules||RULES}),roster));
  const busy=()=>['ACTIVE','PAUSED'].includes(state.session?.status);
  const overlaps=slot=>busy()||state.sessionQueue.length||(state.session?.key!==slot.key&&state.session?.closedAt>slot.startsAt);
  const queue=slot=>{slot.status='QUEUED';slot.reason='PREVIOUS_SESSION';if(!state.sessionQueue.some(s=>s.key===slot.key))state.sessionQueue.push({...slot,plannedStartsAt:slot.startsAt,plannedEndsAt:slot.endsAt});state.sessionQueue.sort((a,b)=>a.plannedStartsAt-b.plannedStartsAt);};
  const open=slot=>{
-  state.session={...slot,status:'ACTIVE',participants:[],participantClans:{},fundsPerRegion:policy.fundsPerRegion,rewardRules:RULES};
+  state.session={...slot,status:'ACTIVE',participants:[],participantClans:{},fundsPerRegion:policy.fundsPerRegion,rewardRules:organizationSessionRewardRules(RULES,policy,slot.startsAt)};
   const displayed=state.sessionPlan.find(s=>s.key===slot.key);if(displayed)Object.assign(displayed,slot,{status:'ACTIVE'});
   factionEvent(state,{id:'start:'+slot.key,kind:'SESSION_START',at:slot.startsAt});
  };
- if(state.sessionDay!==factionDayKey(now)){
+ if(state.sessionDay!==factionDayKey(now)||(restored&&state.scheduleVersion!==CLAN_RESTORATION.version)){
+  if(restored&&state.scheduleVersion!==CLAN_RESTORATION.version){state.sessionQueue=[];state.sessionPlan=[];state.scheduleVersion=CLAN_RESTORATION.version;}
   for(const slot of state.sessionPlan||[])if(slot.status==='SCHEDULED'&&slot.startsAt<=now&&slot.startsAt>=assignedAt&&overlaps(slot))queue(slot);
   state.sessionDay=factionDayKey(now);state.sessionPlan=schedule.map(slot=>({...slot,status:'SCHEDULED'}));
  }

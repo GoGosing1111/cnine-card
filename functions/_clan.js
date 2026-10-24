@@ -1,4 +1,6 @@
 import {readClanRetirementPlan,clanRetirementPublicState,finishClanRetirement,handleClanRetirementRoute,saveLegacyClanSettings} from './_clan_retirement.js';
+import {handleClanRestorationRoute} from './_clan_restoration.js';
+import {clanRestorationActive} from '../shared/clan-restoration-v1.mjs';
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {clanReformEnabled,ensureClanReform,refreshClanExecutives,clanExecutive} from './_clan_governance.js';
 import {clanReformState,handleClanReform} from './_clan_war_reform.js';
@@ -670,6 +672,7 @@ async function startScheduledRedraft(env,season,settings){
 
 // Registration/draft plus explicitly armed post-championship season transitions.
 export async function reconcileClanDraft(env,{retire=finishClanRetirement}={}){
+  if(clanRestorationActive())return{phase:'SCHEDULE_LOCKED',nextCheckAt:null,registrationOpen:false};
   const ready=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_FOUNDATION_VERSION).first();
   if(!ready)return{phase:'NOT_READY',nextCheckAt:null};
   const settings=await clanSettings(env);if(settings.mode!=='ON')return{phase:settings.mode,nextCheckAt:null};
@@ -704,6 +707,7 @@ export async function reconcileClanDraft(env,{retire=finishClanRetirement}={}){
   return{phase:season?.phase||'NONE',seasonId:Number(season?.id||0),nextCheckAt:['REGISTRATION','REDRAFT_WAIT'].includes(season?.phase)?season.registration_ends_at:season?.phase==='DRAFT'?nextDraftCheckAt(season):followupCheckAt};
 }
 async function advanceLifecycle(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
+  if(clanRestorationActive())return season;
   let fresh=season;
   if(fresh.phase==='REDRAFT_WAIT')fresh=await startScheduledRedraft(env,fresh,settings);
   if(fresh.phase==='REGISTRATION'&&Date.now()>=sqlMs(fresh.registration_ends_at))fresh=await beginDraft(env,fresh,settings);
@@ -721,8 +725,8 @@ async function advanceLifecycle(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS
 
 function publicSeason(season){const registrationOpen=clanRegistrationOpen(season);return season?{id:Number(season.id),seasonNo:Number(season.season_no),phase:season.phase,maxMembers:Number(season.max_members||CLAN_MAX_MEMBERS),registrationOpen,lateRegistration:registrationOpen&&String(season.phase).toUpperCase()==='DRAFT',registrationEndsAt:season.registration_ends_at,draftEndsAt:['REGISTRATION','DRAFT','REDRAFT_WAIT'].includes(season.phase)?iso(clanDraftDeadlineMs(season)):season.draft_ends_at,startsAt:season.starts_at,endsAt:season.ends_at,nextPickDeadline:season.phase==='DRAFT'&&season.next_pick_deadline?nextDraftCheckAt(season):season.next_pick_deadline,draftPickCount:Number(season.draft_pick_count||0)}:null}
 function publicTeam(row){return row?{clanId:Number(row.clan_id),name:row.name,markKey:row.mark_key,primaryColor:row.primary_color,accentColor:row.accent_color,slogan:row.slogan||'',masterUserId:Number(row.master_user_id),masterNickname:row.master_nickname||'',memberCount:Number(row.member_count||0),score:Number(row.score||0),wins:Number(row.wins||0),losses:Number(row.losses||0),draftPosition:Number(row.draft_position||0),...clanCombatStats(row)}:null}
-async function clanAdminState(env,settings){
-  let season=await latestSeason(env);if(season)season=await advanceLifecycle(env,season,settings);if(!season)season=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();const seasonId=Number(season?.id||0);
+async function clanAdminState(env,settings,{readOnly=false}={}){
+  let season=await latestSeason(env);if(season&&!readOnly)season=await advanceLifecycle(env,season,settings);if(!season)season=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();const seasonId=Number(season?.id||0);
   const [organizationsResult,warsResult,poolResult,battleStatusResult,recentResult,settlement,rankedResult]=await Promise.all([
     env.DB.prepare(`SELECT o.*,t.master_user_id,t.draft_position,t.score,t.wins,t.losses,u.nickname master_nickname,
       (SELECT COUNT(*) FROM clan_members m WHERE m.season_id=? AND m.clan_id=o.id) member_count
@@ -790,8 +794,8 @@ async function opponentMatchState(env,deps,user,season,war,mine,settings,selecti
   const candidates=raw.map(row=>{const defenseCount=Number(row.defense_count||0),alreadyFaced=Number(row.faced_count||0)>=settings.repeatTargetLimit,liveDeck=safeJson(row.live_deck,[]),deckReady=Array.isArray(liveDeck)&&liveDeck.length===5;return{userId:Number(row.user_id),nickname:row.nickname,preferredRole:row.preferred_role,battleWins:Number(row.battle_wins),battleLosses:Number(row.battle_losses),defenseCount,alreadyFaced,deckReady,available:(settings.sharedDefenseLimit===false||defenseCount<settings.defensesPerTarget)&&!alreadyFaced&&deckReady}}),availableOpponentCount=candidates.filter(candidate=>candidate.available).length;
   return{enemyClan,attackerPower,attackerDeckReady:attackerDeckIds.length===5,availableOpponentCount,opponents:randomMatchCandidates(candidates,`${season.id}:${war.id}:${user.id}:${selectionKey}`)};
 }
-async function overview(env,user,season,deps,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
-  const reformOn=await clanReformEnabled(env),reform=reformOn?await clanReformState(env,user,season):null;
+async function overview(env,user,season,deps,settings=CLAN_ADMIN_SETTINGS_DEFAULTS,{readOnly=false}={}){
+  const reformOn=!readOnly&&await clanReformEnabled(env),reform=reformOn?await clanReformState(env,user,season):null;
   const isExecutive=reform?.executives?.some(e=>e.userId===Number(user.id))||false;
   settings=await championsBattleSettings(env,season,settings);
   const ownerBypass=isOwner(user),overviewStatements=[
@@ -805,11 +809,11 @@ async function overview(env,user,season,deps,settings=CLAN_ADMIN_SETTINGS_DEFAUL
   let roster=[],candidates=[],war=null,opponents=[],registration=null,draft=null;
   if(membership){
     roster=rows(await env.DB.prepare(`SELECT m.user_id,u.nickname,m.joined_at,m.member_role,m.preferred_role,m.draft_pick_no,m.contribution_score,m.battle_wins,m.battle_losses FROM clan_members m JOIN users u ON u.id=m.user_id WHERE m.season_id=? AND m.clan_id=? ORDER BY CASE WHEN m.member_role='MASTER' THEN 0 ELSE 1 END,m.draft_pick_no,u.nickname`).bind(season.id,membership.clan_id).all()).map(r=>({userId:Number(r.user_id),nickname:r.nickname,joinedAt:r.joined_at,memberRole:r.member_role,preferredRole:r.preferred_role,draftPickNo:Number(r.draft_pick_no),contributionScore:Number(r.contribution_score),battleWins:Number(r.battle_wins),battleLosses:Number(r.battle_losses)}));
-    if(season.phase==='DRAFT'){
+    if(!readOnly&&season.phase==='DRAFT'){
       const ctx=await draftContext(env,season);draft={isMyTurn:Number(ctx.current?.clan_id)===Number(membership.clan_id),pickNo:ctx.pickNo,currentClan:ctx.current?publicTeam({...ctx.current,member_count:teams.find(t=>t.clanId===Number(ctx.current.clan_id))?.memberCount}):null};
       if(draft.isMyTurn&&(reformOn?isExecutive:Number(membership.master_user_id)===Number(user.id)))candidates=rows(await env.DB.prepare("SELECT candidate_key,preferred_role,activity_window,activity_band,rank_band,activity_score,rank_score,contribution_score,reliability_score,total_score FROM clan_draft_pool WHERE season_id=? AND status='AVAILABLE' ORDER BY total_score DESC,user_id LIMIT 80").bind(season.id).all()).map(r=>({candidateKey:r.candidate_key,preferredRole:r.preferred_role,activityWindow:r.activity_window,activityBand:r.activity_band,rankBand:r.rank_band,activityScore:Number(r.activity_score),rankScore:Number(r.rank_score),contributionScore:Number(r.contribution_score),reliabilityScore:Number(r.reliability_score),totalScore:Number(r.total_score)}));
     }
-    if(['ACTIVE','CHAMPIONS'].includes(season.phase)){
+    if(!readOnly&&['ACTIVE','CHAMPIONS'].includes(season.phase)){
       war=await env.DB.prepare("SELECT * FROM clan_wars WHERE season_id=? AND status IN ('ACTIVE','SCHEDULED') AND (clan_a_id=? OR clan_b_id=?) ORDER BY CASE status WHEN 'ACTIVE' THEN 0 ELSE 1 END,starts_at,round_no,id LIMIT 1").bind(season.id,membership.clan_id,membership.clan_id).first();
       if(war){
         settings=await clanWarParticipationSettings(env,war,settings);
@@ -1048,6 +1052,18 @@ export async function reconcileClanCampSeason(env){
 }
 
 export async function handleClan({path,request,env,deps}){
+  const restorationResponse=await handleClanRestorationRoute({path,request,env,deps,
+    readOverview:async user=>{
+      const stored=await clanSettings(env),settings={...stored,mode:'OFF',scheduleEnabled:false,championsEnabled:true};
+      const season=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();
+      const data=season?await overview(env,user,season,deps,settings,{readOnly:true}):{ok:true,season:null,membership:null,teams:[],roster:[],champions:await championsPublicState(env,0,settings)};
+      return {...data,mode:'OFF',war:null,draft:null,candidates:[],registration:{registered:false,locked:true},
+        membership:data.membership?{...data.membership,isMaster:false,isExecutive:false}:null,
+        season:data.season?{...data.season,registrationOpen:false}:null,organizationPreparation:{restored:true,legacyClosed:false}};
+    },
+    readAdmin:async()=>clanAdminState(env,{...await clanSettings(env),mode:'OFF',scheduleEnabled:false,championsEnabled:true},{readOnly:true})
+  });
+  if(restorationResponse)return restorationResponse;
   const retirementResponse=await handleClanRetirementRoute({path,request,env,deps});
   if(retirementResponse)return retirementResponse;
   if(path==='admin/clan-war/member-assignment'){

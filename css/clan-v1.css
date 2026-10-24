@@ -70,3 +70,17 @@
 @media(max-width:760px){.clan-participation{padding:18px}.clan-participation>header{display:block}.clan-participation>header>b{display:block;margin:12px 0}.clan-participation-progress{flex-wrap:wrap;gap:10px}.clan-participation h3{font-size:21px}}
 .clan-phase-card>.clan-draft-end{margin:12px 0 0;padding-top:10px;border-top:1px solid rgba(137,169,191,.2);color:#c7d8e5;font-size:12px;line-height:1.6;letter-spacing:0}.clan-draft-end>span{color:#8da9bc;font-size:11px;letter-spacing:0}
 @media(max-width:760px){.clan-phase-card>small:nth-of-type(2){grid-column:2;text-align:right}.clan-phase-card>.clan-draft-end{grid-column:1/-1;width:100%;margin-top:8px;font-size:12px}}
+
+/* Restored competition controls use the approved shared codex image set. */
+.clan-restored .clan-restoration-notice{padding:20px 24px;margin:16px 0;color:#f0f4fc}
+.clan-restored .clan-restoration-notice p{color:#b9c5d9;line-height:1.65}
+.clan-restored .clan-tabs{display:flex;flex-wrap:wrap;gap:6px}
+.clan-restored .clan-tabs .cn-ui-button{flex:1 1 140px;white-space:normal}
+.clan-restored .clan-tabs .cn-ui-button::after{display:none}
+#clanRoot.clan-restored .clan-panel{border:8px solid transparent;border-image:var(--command-panel) 48 fill / 16px stretch;border-radius:0;background:none;box-shadow:none;clip-path:none}
+#clanRoot.clan-restored .cn-ui-button,#clanRoot.clan-restored .clan-tabs .cn-ui-button{min-height:54px;padding:4px 14px;border:7px solid transparent;border-image:var(--command-panel) 48 fill / 16px stretch;border-radius:0;background:none;box-shadow:none;clip-path:none;color:var(--command-text);-webkit-text-fill-color:currentColor;text-shadow:none}
+#clanRoot.clan-restored .cn-ui-button.primary,#clanRoot.clan-restored .clan-tabs .cn-ui-button.primary{border-width:9px;border-image:var(--command-action) 38 fill / 9px stretch;color:#18240a;-webkit-text-fill-color:#18240a}
+#clanRoot.clan-restored .cn-ui-button b,#clanRoot.clan-restored .clan-tabs .cn-ui-button b{color:inherit;-webkit-text-fill-color:inherit}
+@media(max-width:480px){.clan-restored .clan-restoration-notice{padding:14px}.clan-restored .clan-tabs .cn-ui-button{flex-basis:40%;min-width:0;font-size:13px}}
+
+#clanRoot.clan-restored .clan-refresh.cn-ui-button{flex:0 0 54px;min-width:54px;max-width:54px;padding:4px}

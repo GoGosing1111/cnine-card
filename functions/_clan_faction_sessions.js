@@ -1,3 +1,4 @@
+import {clanRestorationActive} from '../shared/clan-restoration-v1.mjs';
 import {FACTION_SESSION_RULES as R, factionPolicy, factionTime as time, factionDayKey, createFactionDay, factionSessionRewards} from '../shared/clan-faction-sessions-v1.mjs';
 import {newFactionState, advanceFactionState, finishFactionBattle, factionEvent, upgradeFactionCooldowns} from './_clan_faction_model.js';
 import {readRuntimeData, cacheRuntimeData} from './_runtime_data_cache.js';
@@ -324,6 +325,7 @@ export async function syncFactionSessions(env, season, deps = {}) {
 }
 
 export async function reconcileFactionSessions(env, options = {}) {
+  if(clanRestorationActive((options.now||Date.now)()))return {enabled:false,mode:'SCHEDULE_LOCKED'};
   if (!factionPolicy(options.factionSessionPolicy)) return {enabled:false};
   const settings = await p(env, "SELECT value FROM app_meta WHERE key='clan_settings_v1'").first();
   if (JSON.parse(settings?.value || '{}').mode !== 'ON') return {enabled:true,mode:'DISABLED'};

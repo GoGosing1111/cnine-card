@@ -3,7 +3,7 @@ import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=202
 import {openOrganizationFaction} from './organization-faction-window-v1.mjs?v=20261023-clan-identity';
 import {currentOrganization,organizationRosterView,organizationHideoutView} from './organization-headquarters-v1.mjs?v=20261023-clan-identity';
 import {createOrganizationAdmission} from './organization-admission-v1.mjs?v=20261023-clan-identity';
-import {organizationDashboardHeader,organizationDashboardView} from './organization-dashboard-v1.mjs?v=20261023-clan-identity';
+import {organizationDashboardHeader,organizationDashboardView} from './organization-dashboard-v1.mjs?v=20261023-clan-identity&clanRestore=20261025';
 import {organizationJoinView} from './organization-join-v1.mjs?v=20261023-clan-identity';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>Number(value||0).toLocaleString('ko-KR');

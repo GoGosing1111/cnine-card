@@ -1,4 +1,5 @@
 import {ORGANIZATIONS} from '../shared/organization-system-v1.mjs';
+import {clanRestorationActive} from '../shared/clan-restoration-v1.mjs';
 import {ORGANIZATION_COMPETITION_RELEASE,ORGANIZATION_WEEK_MS as WEEK,organizationWeekStart,organizationPointRanking} from '../shared/organization-competition-v1.mjs';
 
 const zeroPoints=()=>Object.fromEntries(ORGANIZATIONS.map(o=>[o.id,0]));
@@ -13,6 +14,7 @@ const season=(number,startsAt,weeks)=>({number,startsAt,endsAt:startsAt+weeks*WE
 // With no intervening actions the persisted map also represents missed cutoffs.
 export function advanceOrganizationCompetition(state,{now,enabled,policy}) {
   const records=[];
+  if(clanRestorationActive(now))return records;
   if(now<ORGANIZATION_COMPETITION_RELEASE)return records;
   if(!state.competition){
     if(!enabled)return records;
@@ -41,7 +43,10 @@ export function advanceOrganizationCompetition(state,{now,enabled,policy}) {
   return records;
 }
 
-export function organizationCompetitionView(state,policy,enabled) {
+export function organizationCompetitionView(state,policy,enabled,now=Date.now()) {
+  if(clanRestorationActive(now))return {enabled:false,pointsIncluded:false,pointsPerTerritory:0,timeZone:'Asia/Seoul',
+    nextWeeklyAt:null,season:null,standings:[],weeklyStandings:[],
+    holdings:organizationHoldings(state),weeklyHistory:state.competition?.weeklyHistory||[],seasonHistory:state.competition?.seasonHistory||[]};
   const c=state.competition,holdings=organizationHoldings(state),pending=enabled?holdings:zeroPoints();
   return {enabled,initializedAt:c?.initializedAt||null,pointsPerTerritory:1,timeZone:'Asia/Seoul',
     weeklySchedule:'매주 월요일 00:00 (한국시간)',nextWeeklyAt:c?.nextWeeklyAt||null,

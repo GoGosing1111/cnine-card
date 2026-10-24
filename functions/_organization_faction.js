@@ -1,8 +1,10 @@
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261023-clan-identity';
 import {ORGANIZATIONS,orgAssert} from '../shared/organization-system-v1.mjs';
 import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES,organizationDistrictById,defaultOrganizationFactionPolicy,validateOrganizationFactionPolicy,FACTION_RULES as R,SQUADS,isSelfJoinSquad} from '../shared/organization-faction-v1.mjs';
-import {createFactionDay,factionDayKey} from '../shared/clan-faction-sessions-v1.mjs';
-import {createOrganizationDay,ORGANIZATION_FIXED_SCHEDULE} from '../shared/organization-schedule-v1.mjs';
+import {factionDayKey} from '../shared/clan-faction-sessions-v1.mjs';
+import {createOrganizationFactionDay} from '../shared/organization-schedule-v1.mjs';
+import {clanRestorationActive,lockedFactionSessions} from '../shared/clan-restoration-v1.mjs';
+import {organizationSessionRewardRules} from '../shared/organization-competition-v1.mjs';
 import {factionEvent,finishFactionBattle,factionStrikeDamage} from './_clan_faction_model.js';
 import {newOrganizationFactionState,restrictOrganizationDistricts,advanceOrganizationFaction,changeOrganizationSelfMembership,validateOrganizationFormation as validateFormation,organizationCaptains as factionCaptains,validateOrganizationCaptains as validateFactionCaptains,assignOrganizationGarrison} from './_organization_faction_model.js';
 import {buildClanBattle} from './_clan.js';
@@ -24,6 +26,7 @@ export const ORGANIZATION_FACTION_SCHEMA=[
 // Read the scheduler's actual LIVE session. Scheduled/queued slots are not starts.
 // Never expose roster, battle entries or other private state through the public ticker.
 export async function organizationFactionLiveOperation(env,now=Date.now()){
+ if(clanRestorationActive(now))return null;
  const row=await env.DB.prepare(`SELECT r.id,p.policy_json,s.state_json
    FROM organization_rounds_v1 r JOIN organization_faction_state_v1 s ON s.round_id=r.id
    JOIN organization_faction_policy_v1 p ON p.id=1
@@ -77,9 +80,10 @@ async function rosterFor(q,r){
 }
 async function stateFor(q,r,now){
  if(!r||r.phase!=='ASSIGNED')return {revision:0,state:newOrganizationFactionState(now)};
- await q('INSERT INTO organization_faction_state_v1(round_id,state_json) VALUES($1,$2) ON CONFLICT(round_id) DO NOTHING',[r.id,JSON.stringify(newOrganizationFactionState(now))]);
+ if(!clanRestorationActive(now))await q('INSERT INTO organization_faction_state_v1(round_id,state_json) VALUES($1,$2) ON CONFLICT(round_id) DO NOTHING',[r.id,JSON.stringify(newOrganizationFactionState(now))]);
  const [row]=await q('SELECT * FROM organization_faction_state_v1 WHERE round_id=$1 FOR UPDATE',[r.id]);
- const state=JSON.parse(row.state_json),changed=restrictOrganizationDistricts(state,now);
+ if(!row)return {revision:0,state:newOrganizationFactionState(now)};
+ const state=JSON.parse(row.state_json),changed=!clanRestorationActive(now)&&restrictOrganizationDistricts(state,now);
  if(changed)await saveState(q,r,state);
  return {revision:Number(row.revision)+(changed?1:0),state};
 }
@@ -122,6 +126,7 @@ async function settle(q,r,snapshot,now){
  }
 }
 async function sync(q,r,row,roster,policy,now,deps){
+ if(clanRestorationActive(now))return lockedFactionSessions(organizationSessionRewardRules(FACTION_SESSION_RULES,policy,now));
  const enabled=r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST');
  const before=JSON.stringify(row.state);
  if(!enabled){
@@ -132,7 +137,7 @@ async function sync(q,r,row,roster,policy,now,deps){
   return {active:false,enabled:false,state:'CLOSED',schedule:[],history:[],current:null,rules:FACTION_SESSION_RULES,recipientPolicy:'PARTICIPANTS',mapPolicy:'KEEP'};
  }
  const day=factionDayKey(now);
- await q('INSERT INTO organization_faction_days_v1 VALUES($1,$2,$3) ON CONFLICT DO NOTHING',[r.id,day,JSON.stringify(now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt?createOrganizationDay(day):createFactionDay(day,deps.randomFactionSchedule))]);
+ await q('INSERT INTO organization_faction_days_v1 VALUES($1,$2,$3) ON CONFLICT DO NOTHING',[r.id,day,JSON.stringify(createOrganizationFactionDay(day,deps.randomFactionSchedule))]);
  const [published]=await q('SELECT schedule_json FROM organization_faction_days_v1 WHERE round_id=$1 AND day_key=$2',[r.id,day]);
  const wars=await q("SELECT id,status,starts_at,ends_at,settled_at FROM territory_war_v3_rounds WHERE status IN ('ACTIVE','PREPARING') OR id IN (SELECT id FROM territory_war_v3_rounds WHERE status='FINISHED' ORDER BY id DESC LIMIT 32)");
  const paused=(row.state.session?.pauses?.at(-1)?.territoryRoundIds||[]).filter(id=>!wars.some(w=>Number(w.id)===Number(id)));
@@ -154,7 +159,7 @@ async function treasuryFor(q,r,roster,state,policy){
  return ORGANIZATIONS.map(o=>({...o,memberCount:roster.filter(m=>m.clanId===o.id).length,roster:roster.filter(m=>m.clanId===o.id).map(({userId,nickname,slot})=>({userId,nickname,slot})),funds:Number(funds.find(f=>Number(f.organization_id)===o.id)?.balance||0),stage:Number(progress.find(p=>Number(p.organization_id)===o.id)?.stage||1),elderIds:organizationElderIds(state,roster,o.id),commanderId:organizationElderIds(state,roster,o.id)[0]||null,upgradeCosts:policy.upgradeCosts}));
 }
 async function overview(q,user,r,policy,row,roster,sessions,now,{admin=false,alertsOnly=false}={}){
- const s=row.state,my=roster.find(m=>m.userId===Number(user.id)),id=my?.clanId||0,userId=Number(user.id),competition=organizationCompetitionView(s,policy,Boolean(sessions.enabled));
+ const s=row.state,my=roster.find(m=>m.userId===Number(user.id)),id=my?.clanId||0,userId=Number(user.id),competition=organizationCompetitionView(s,policy,Boolean(sessions.enabled),now);
  if(alertsOnly)return {ok:true,roundId:r?.id,userId,serverNow:now,alerts:alertsFor(s,id,userId,sessions)};
  const all=await treasuryFor(q,r,roster,s,policy),own=all.find(o=>o.id===id),isMaster=Boolean(id)&&organizationElderIds(s,roster,id).includes(userId),formation=formationOf(s,roster,id),captains=factionCaptains(s.captains[id],roster.filter(m=>m.clanId===id).map(m=>m.userId));
  const treasury={funds:own?.funds||0,stage:own?.stage||1,nextCost:own&&own.stage<5?policy.upgradeCosts[own.stage]:null,elderIds:own?.elderIds||[],commanderId:own?.commanderId||null,canUpgrade:isMaster&&r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST')&&own.stage<5&&policy.upgradeCosts[own.stage]!==null&&own.funds>=policy.upgradeCosts[own.stage]};
@@ -225,7 +230,7 @@ async function mutation(env,user,action,body,deps){
   }else if(action==='settle'){
    const c=await context(q,user,body.roundId,now,deps);
    orgAssert(c.r?.phase==='ASSIGNED','ASSIGNMENT','배정된 클랜 회차를 선택하세요.');
-   result.competition=organizationCompetitionView(c.row.state,c.policy,Boolean(c.sessions.enabled));
+   result.competition=organizationCompetitionView(c.row.state,c.policy,Boolean(c.sessions.enabled),now);
   }else{
    const c=await context(q,user,body.roundId,now,deps,{write:!['commander','elders'].includes(action)}),{r,policy,roster,row,sessions}=c,s=row.state;
    orgAssert(r?.phase==='ASSIGNED','ASSIGNMENT','클랜 배정이 완료된 뒤 설정할 수 있습니다.');
@@ -313,10 +318,12 @@ export async function handleOrganizationFaction({path,request,env,deps}){
   const user=await deps.authenticate(request,env);orgAssert(user,'AUTH','로그인이 필요합니다.',401);
   if(admin)orgAssert(user.role==='OWNER','PERMISSION','클랜 운영 설정은 OWNER 전용입니다.',403);
   const action=admin?path.slice('admin/organization/faction'.length).replace(/^\//,''):path.slice('organization/faction/'.length);
+  if(request.method!=='GET'&&['launch','enter','strike'].includes(action)&&clanRestorationActive(nowOf(deps)))
+   return json({error:'세력전 일정이 잠겨 있습니다. 개최 및 전투 입장은 추후 개방합니다.',code:'CLAN_SCHEDULE_LOCKED'},409);
   if(request.method==='GET'&&action==='rankings'){
    const url=new URL(request.url),data=await tx(env,async q=>{
-    const c=await context(q,user,url.searchParams.get('roundId')||undefined,nowOf(deps),deps);
-    const competition=organizationCompetitionView(c.row.state,c.policy,Boolean(c.sessions.enabled));
+    const now=nowOf(deps),c=await context(q,user,url.searchParams.get('roundId')||undefined,now,deps);
+    const competition=organizationCompetitionView(c.row.state,c.policy,Boolean(c.sessions.enabled),now);
     let archive=null;
     if(url.searchParams.has('seasonNo')){
      const seasonNo=Number(url.searchParams.get('seasonNo'));
@@ -338,6 +345,7 @@ export async function handleOrganizationFaction({path,request,env,deps}){
  }catch(error){deps.onError?.(error);return json({ok:false,error:error.status?error.message:'클랜 세력전 처리 중 오류가 발생했습니다. 같은 요청으로 다시 확인하세요.',code:error.code||'ORG_FACTION_ERROR'},error.status||503);}
 }
 export async function tickOrganizationFaction(env,deps={}){
+ if(clanRestorationActive(nowOf(deps)))return {enabled:false,scheduleLocked:true,rounds:0,changed:false};
  return tx(env,async q=>{
   const policy=await readPolicy(q,' FOR SHARE');
   const rounds=await q("SELECT * FROM organization_rounds_v1 WHERE phase='ASSIGNED' ORDER BY id FOR SHARE");
