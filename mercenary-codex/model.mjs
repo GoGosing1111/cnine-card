@@ -1,6 +1,6 @@
 import {BLOODMOON_COMBAT} from '../shared/mercenary-bloodmoon-combat-v1.mjs';
 import {AWAKENED_OMEGA_CODE,AWAKENED_OMEGA_SKILLS} from '../shared/mercenary-awakened-omega-v1.mjs';
-import {RAZAK_CODE,RAZAK_COMBAT,RAZAK_SKILLS} from '../shared/mercenary-razak-v1.mjs';
+import {RAZAK_CODE,RAZAK_COMBAT,RAZAK_SKILLS} from '../shared/mercenary-razak-v1.mjs?v=20261025-bloodmoon-expansion-v1';
 import {NAMSUDAENG_CODE,NAMSUDAENG_SKILLS} from '../shared/mercenary-bloodmoon-namsudaeng-v1.mjs';
 import {EUNSEOL_CODE,EUNSEOL_COMBAT,EUNSEOL_AREA_SKILL} from '../shared/mercenary-eunseol-v1.mjs';
 import {CRYVERN_CODE} from '../shared/mercenary-cryvern-v1.mjs';
@@ -16,7 +16,7 @@ export const thumb=code=>`/assets/ui/project-v/mercenaries/codex-v1/${code.toLow
 export function validateCatalog(data){
   if(data?.version!=='mercenary-codex-2098'||!Number.isSafeInteger(data.revision)||!Array.isArray(data.cards)||!data.cards.length||new Set(data.cards.map(c=>c.code)).size!==data.cards.length)throw Error('용병 정보 형식을 확인하세요.');
   for(const c of data.cards){const titleDeferred=c.edition==='LIMITED'&&c.titleStatus==='DEFERRED_BY_USER';if(!/^V-\d{3}$/.test(c.code)||!c.name||((c.code===CRYVERN_CODE||titleDeferred)?c.title!=='':c.code===AZANT_CODE?typeof c.title!=='string':!c.title)||(!POSITIONS[c.position]&&!(c.artOnly===true&&c.position===null))||!data.roles?.[c.role]||(c.rank!==null&&!RANKS.includes(c.rank))||!Array.isArray(c.skills))throw Error('용병 설정을 확인하세요.');asset(c.sourceArt);if(c.thumbnailArt)asset(c.thumbnailArt);if(c.displayArt)asset(c.displayArt);if(c.battleSprite)asset(c.battleSprite);
-    if(c.code===RAZAK_CODE&&(c.name!=='라자크'||c.rank!=='SSS'||c.edition!=='STANDARD'||c.basePower!==RAZAK_COMBAT.basePower||c.acquisition!=='LOCKED'||c.acquisitionEnabled!==false||c.packAcquisitionEnabled!==false||c.skills.length!==3||c.skills.some((s,i)=>s.id!==RAZAK_SKILLS[i].id)))throw Error('라자크의 승인 등급·전투력·획득 잠금을 확인하세요.');
+    if(c.code===RAZAK_CODE&&(c.name!=='라자크'||c.rank!=='SSS'||c.edition!=='STANDARD'||c.basePower!==RAZAK_COMBAT.basePower||c.acquisition!=='BLOODMOON_PACK'||c.acquisitionEnabled!==false||c.packAcquisitionEnabled!==true||c.skills.length!==3||c.skills.some((s,i)=>s.id!==RAZAK_SKILLS[i].id)))throw Error('라자크의 승인 등급·전투력·블러드문팩 전용 획득을 확인하세요.');
     if(c.edition==='LIMITED'){
       const awakenedOmegaReady=c.code===AWAKENED_OMEGA_CODE&&c.name==='각성 오메가'&&c.rank==='SSS'&&c.basePower===1750000&&c.releaseStatus==='CRAFT_ONLY_LOCKED'&&c.acquisition==='CRAFT_ONLY'&&c.artOnly===false&&c.deploymentEnabled===true&&c.acquisitionEnabled===false&&c.craftAcquisitionEnabled===false&&c.packAcquisitionEnabled===false&&c.skills.length===4&&c.skills.every((s,i)=>s.id===AWAKENED_OMEGA_SKILLS[i].id&&s.ready===true);
       if(c.code===AWAKENED_OMEGA_CODE&&!awakenedOmegaReady)throw Error('각성 오메가의 등급·전투력·제작 잠금을 확인하세요.');

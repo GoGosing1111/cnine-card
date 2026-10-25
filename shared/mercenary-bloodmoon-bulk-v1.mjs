@@ -1,4 +1,4 @@
-import {BLOODMOON_PACK_CARDS} from './mercenary-bloodmoon-pool-v3.mjs?v=20261025-opening-v1';
+import {BLOODMOON_PACK_CARDS,isBloodmoonLimited,bloodmoonUnlimitedDraw} from './mercenary-bloodmoon-pool-v3.mjs?v=20261025-bloodmoon-expansion-v1';
 import {PRIME_MATERIAL_STOCK_CODE,primeMaterialDraw,isPrimeMaterialDraw,bloodmoonDrawCode} from './mercenary-prime-material-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 import {limitedRateUnits,LIMITED_RATE_TOTAL} from './mercenary-limited-rates-v1.mjs';
@@ -61,7 +61,7 @@ export function pickBloodmoonBulk(state,count,random,{firstLimitedCode=null,slot
  const result={format:BLOODMOON_BULK_FORMAT,draws:[],normalDraws:[],missCount:0};
  const limited=(code,index)=>{
   const c=BLOODMOON_PACK_CARDS.find(c=>c.code===code),s=state.stock.find(s=>s.code===code);
-  if(!c||!s?.prepared)throw fail('리미티드 발행 수량을 확인하세요.');
+  if(!isBloodmoonLimited(code)||!c||!s?.prepared)throw fail('리미티드 발행 수량을 확인하세요.');
   if(!(remaining.get(code)>0))return false;
   // Bound the serial ledger and transaction even if future stock policies grow.
   if(result.draws.length>=256)throw fail('리미티드 결과가 많습니다. 사용 한도를 낮춰 주세요.');
@@ -74,7 +74,7 @@ export function pickBloodmoonBulk(state,count,random,{firstLimitedCode=null,slot
  for(let i=0;i<count;i++){
   if(firstLimitedCode&&i===slotIndex)continue;
   const rank=first();if(rank==='NONE'){result.missCount++;continue;}
-  if(rank==='SSS'){const code=second();if(code!=='STANDARD_SSS'&&limited(code,i))continue;}
+  if(rank==='SSS'){const code=second(),unlimited=bloodmoonUnlimitedDraw(code);if(unlimited){addBloodmoonNormal(result.normalDraws,unlimited);continue;}if(code!=='STANDARD_SSS'&&limited(code,i))continue;}
   addBloodmoonNormal(result.normalDraws,normalCard(rank));
  }
  result.draws.sort((a,b)=>a.drawIndex-b.drawIndex);result.normalDraws.sort((a,b)=>a.mercenaryCode.localeCompare(b.mercenaryCode));return result;
@@ -83,8 +83,8 @@ export function validateBloodmoonBulkReceipt(receipt){
  const {count,draws,normalDraws,missCount}=receipt;
  if(receipt.format!==BLOODMOON_BULK_FORMAT||!Number.isSafeInteger(count)||count<1||count>BLOODMOON_BULK_MAX_COUNT||!Array.isArray(draws)||draws.length>256||!Array.isArray(normalDraws)||normalDraws.length>1000||!Number.isSafeInteger(missCount)||missCount<0)throw Error('대량 개봉 영수증을 확인하세요.');
  const codes=new Set(),indices=new Set();let total=missCount;
- for(const r of normalDraws){if(!r.mercenaryCode||codes.has(r.mercenaryCode)||BLOODMOON_PACK_CARDS.some(c=>c.code===r.mercenaryCode)||!MERCENARY_RANKS.includes(r.rank)||!Number.isSafeInteger(r.quantity)||r.quantity<1)throw Error('일반 용병 수량을 확인하세요.');codes.add(r.mercenaryCode);total+=r.quantity;}
- for(const r of draws){if((r.kind==='ITEM'||r.itemCode||r.stockCode)&&!isPrimeMaterialDraw(r)||!BLOODMOON_PACK_CARDS.some(c=>c.code===bloodmoonDrawCode(r)&&c.rank===r.rank)||r.quantity!==1||!Number.isSafeInteger(r.drawIndex)||r.drawIndex<0||r.drawIndex>=count||indices.has(r.drawIndex))throw Error('리미티드 개봉 영수증을 확인하세요.');indices.add(r.drawIndex);total++;}
+ for(const r of normalDraws){if(!r.mercenaryCode||codes.has(r.mercenaryCode)||isBloodmoonLimited(r.mercenaryCode)||!MERCENARY_RANKS.includes(r.rank)||!Number.isSafeInteger(r.quantity)||r.quantity<1)throw Error('일반 용병 수량을 확인하세요.');codes.add(r.mercenaryCode);total+=r.quantity;}
+ for(const r of draws){if((r.kind==='ITEM'||r.itemCode||r.stockCode)&&!isPrimeMaterialDraw(r)||!(isBloodmoonLimited(bloodmoonDrawCode(r))&&BLOODMOON_PACK_CARDS.some(c=>c.code===bloodmoonDrawCode(r)&&c.rank===r.rank))||r.quantity!==1||!Number.isSafeInteger(r.drawIndex)||r.drawIndex<0||r.drawIndex>=count||indices.has(r.drawIndex))throw Error('리미티드 개봉 영수증을 확인하세요.');indices.add(r.drawIndex);total++;}
  if(total!==count)throw Error('개봉 횟수와 결과 수량이 일치하지 않습니다.');
  return [...normalDraws,...draws,...(missCount?[{outcomeId:'NONE',quantity:missCount}]:[])];
 }

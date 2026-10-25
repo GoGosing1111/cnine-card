@@ -33,27 +33,27 @@ test('approved runtime assets fit Pages and excluded Node commands remain byte-i
  for(const r of records){const bytes=fs.readFileSync(r.file);assert.match(bytes.toString(),/node:(fs|child_process|test)/);assert.equal(createHash('sha256').update(bytes).digest('hex'),r.sha256);assert.equal(isProductionFile(r.file),false);}
  for(const file of [art.sourceArt,art.battleSprite,'shared/mercenary-razak-v1.mjs','assets/ui/project-v/mercenaries/razak-20261024/motion-manifest.json'])assert.equal(isProductionFile(file),true);
 });
-test('Razak is ordinary SSS at 800,000 and uses canonical stats without animation-based bonus actions',()=>{
+test('Razak is ordinary SSS at 1,000,000 and uses canonical stats without animation-based bonus actions',()=>{
  assert.equal(limitedDeploymentSnapshot(code).edition,'STANDARD');assert.equal(mercenaryLevelXpMultiplier({code}),1);
  for(const mode of ['PVE','PVP'])for(const gear of [0,100000]){
-  const actor=fighter(mode,gear),reference=buildFighter({id:code,power:800000+gear,type:'NONE'},5,'A',null,mode);
-  assert.equal(actor.basePower,800000+gear);for(const [a,b]of [['attack','attack'],['maxHp','maxHp'],['defense','defense'],['speed','speed']])assert.equal(actor[a],reference[b]);
+  const actor=fighter(mode,gear),reference=buildFighter({id:code,power:1000000+gear,type:'NONE'},5,'A',null,mode);
+  assert.equal(actor.basePower,1000000+gear);for(const [a,b]of [['attack','attack'],['maxHp','maxHp'],['defense','defense'],['speed','speed']])assert.equal(actor[a],reference[b]);
   assert.equal(actor.rank,'SSS');assert.equal(actor.role,'ASSASSIN');assert.equal(actor.controlImmune,false);assert.equal(actor.counterImmune,false);
   assert.equal(mercenaryBaseActionCredit([actor]),1);assert.deepEqual(actor.skills.map(s=>s.id),skills.filter(s=>!s.pveOnly||mode==='PVE').map(s=>s.id));
  }
 });
-test('all acquisition pools remain closed, including positive CMS weights and limited/craft/cube paths',async t=>{
+test('other acquisition pools remain closed, including positive CMS weights and limited/craft/cube paths',async t=>{
  const rules={cardWeights:{[code]:1000000}},cards=[{code,rank:'SSS'},{code:'V-001',rank:'SSS'}];
  assert.equal(mercenaryAcquisitionEnabled(code,rules),false);assert.throws(()=>assertMercenaryAcquisitionEnabled(code,rules),{code:'MERCENARY_ACQUISITION_DISABLED'});
  assert.deepEqual(mercenaryGradePools(cards,cards.map(c=>c.code),rules).SSS,['V-001']);assert.equal(mercenaryCardChances(1000000,[code],rules)[0].percent,0);assert.deepEqual(limitedNormalCards(cards,cards,rules).map(c=>c.code),['V-001']);
- for(const pool of [ALL_LIMITED_MERCENARIES,HALLOWEEN_PACK_CARDS,BLOODMOON_PACK_CARDS,seed.catalog.cards])assert(!pool.some(c=>c.code===code));assert(!JSON.stringify(MERCENARY_CRAFTS).includes(code));
+ for(const pool of [ALL_LIMITED_MERCENARIES,HALLOWEEN_PACK_CARDS,seed.catalog.cards])assert(!pool.some(c=>c.code===code));assert(!JSON.stringify(MERCENARY_CRAFTS).includes(code));assert.equal(BLOODMOON_PACK_CARDS.find(c=>c.code===code).stockPolicy,'UNLIMITED');
  const f=await mercenaryFixture(t,{postgres:true});await ensureLimitedPackSchema(f.env);assert(!(await readSssCubeCatalog(f.env)).catalog.some(c=>c.code===code&&c.available));
  await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVE',mercenaryCode:code,revision:0}),{code:'MERCENARY_NOT_OWNED'});
  assert(!(await mercenaryAccountState(f.env,f.user)).cards.some(c=>c.code===code));
  // Local fixture only; no operational account receives the new character.
  await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1,0,?,?)',f.user.id,code,'2026-10-24','2026-10-24').run();
- for(const mode of ['PVE','PVP']){await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:code,revision:0});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).basePower,800000);}
- const held=(await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===code);assert(held.canDeploy);assert.equal(held.edition,'STANDARD');assert.equal(held.basePower,800000);
+ for(const mode of ['PVE','PVP']){await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:code,revision:0});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).basePower,1000000);}
+ const held=(await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===code);assert(held.canDeploy);assert.equal(held.edition,'STANDARD');assert.equal(held.basePower,1000000);
 });
 test('assassination targets and one total damage budget are stable across duplicate, dead and hidden targets',()=>{
  for(const mode of ['PVE','PVP'])for(const skill of skills){
@@ -74,14 +74,14 @@ test('three skills share cooldown and pay once per cast; no area cast in PVP',()
   assert(events.length>4);assert(events.every((e,i)=>!i||e.action-events[i-1].action>=3));assert.deepEqual([...new Set(events.map(e=>e.skillId))],skills.filter(s=>!s.pveOnly||mode==='PVE').map(s=>s.id));
  }
 });
-test('actual PVE/PVP server timelines preserve 800,000 and use only the allowed Razak skills',()=>{
+test('actual PVE/PVP server timelines preserve 1,000,000 and use only the allowed Razak skills',()=>{
  const cards=tierCards(2e7),pve=createPveBattleV2({cards,monster:{id:1,battle_power:1.6e10},mercenary:snapshot(),seed:77}).result;
  const pvp=createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:snapshot(),seed:77}).result;
  assert(pve.timeline.some(e=>e.type===eventType));assert(pvp.timeline.some(e=>e.type===eventType));assert(!pvp.timeline.some(e=>e.type===eventType&&e.skillId==='MS-063'));
 });
 test('public codex and byte-identical source retain the accepted name, grade, power and 2+1 skills',()=>{
  const data=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1})),card=data.cards.find(c=>c.code===code);
- assert.equal(card.name,'라자크');assert.equal(card.rank,'SSS');assert.equal(card.edition,'STANDARD');assert.equal(card.basePower,800000);assert.equal(card.acquisitionEnabled,false);assert.equal(card.skills.length,3);assert(!card.skills.some(s=>/0000000/.test(s.effect)));
+ assert.equal(card.name,'라자크');assert.equal(card.rank,'SSS');assert.equal(card.edition,'STANDARD');assert.equal(card.basePower,1000000);assert.equal(card.acquisitionEnabled,false);assert.equal(card.skills.length,3);assert(!card.skills.some(s=>/0000000/.test(s.effect)));
  for(const[file,hash]of [[art.sourceArt,art.sourceArtSha256],[art.battleSprite,art.battleSpriteSha256]])assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex').toUpperCase(),hash);
  const m=JSON.parse(fs.readFileSync('assets/ui/project-v/mercenaries/razak-20261024/motion-manifest.json'));assert.equal(m.runtime.defaultSpeed,2);assert.equal(m.runtime.effectScale,1.65);assert.equal(m.motion.idle.frameCount,1);
 });

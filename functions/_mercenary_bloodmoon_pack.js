@@ -1,4 +1,4 @@
-import {BLOODMOON_PACK_CARDS} from '../shared/mercenary-bloodmoon-pool-v3.mjs';
+import {BLOODMOON_LIMITED_CARDS} from '../shared/mercenary-bloodmoon-pool-v3.mjs';
 import {BLOODMOON_PACK,BLOODMOON_PACK_KEY,BLOODMOON_PACK_RELEASE_ENABLED,bloodmoonPackDraft,validateBloodmoonPack,bloodmoonPackState,bloodmoonPackCatalogRow,bloodmoonPackReadiness} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
 import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
@@ -13,7 +13,7 @@ const initial=()=>({revision:1,settings:bloodmoonPackDraft(),updatedAt:null});
 export async function readBloodmoonPackState(env,{releaseEnabled=BLOODMOON_PACK_RELEASE_ENABLED}={}){
  const [row,stock,cms,normalDraw]=await Promise.all([
   env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BLOODMOON_PACK_KEY).first(),
-  env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code IN ('+BLOODMOON_PACK_CARDS.map(()=>'?').join(',')+') ORDER BY code').bind(...BLOODMOON_PACK_CARDS.map(c=>c.code)).all(),
+  env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code IN ('+BLOODMOON_LIMITED_CARDS.map(()=>'?').join(',')+') ORDER BY code').bind(...BLOODMOON_LIMITED_CARDS.map(c=>c.code)).all(),
   readMercenaryDocument(env),env.DB.prepare('SELECT payload_json,revision FROM mercenary_draw_config_v1 WHERE id=1').first()
  ]);
  const saved=row?JSON.parse(row.value):initial();
@@ -23,7 +23,7 @@ export async function readBloodmoonPackState(env,{releaseEnabled=BLOODMOON_PACK_
 }
 const publicState=state=>{const {rawPack,...safe}=state;return {...safe,id:state.pack.id,name:state.pack.name,packSettings:state.settings};};
 export async function bloodmoonPackShopRow(env){
- const [row,stock]=await Promise.all([env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BLOODMOON_PACK_KEY).first(),env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code IN ('+BLOODMOON_PACK_CARDS.map(()=>'?').join(',')+')').bind(...BLOODMOON_PACK_CARDS.map(c=>c.code)).all()]);
+ const [row,stock]=await Promise.all([env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BLOODMOON_PACK_KEY).first(),env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code IN ('+BLOODMOON_LIMITED_CARDS.map(()=>'?').join(',')+')').bind(...BLOODMOON_LIMITED_CARDS.map(c=>c.code)).all()]);
  return bloodmoonPackCatalogRow(row?JSON.parse(row.value).settings:bloodmoonPackDraft(),stock.results);
 }
 export async function saveBloodmoonPack(env,actor,body){

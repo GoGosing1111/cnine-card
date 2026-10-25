@@ -5,7 +5,7 @@ export const RAZAK_ROOT='assets/ui/project-v/mercenaries/razak-20261024/';
 export const RAZAK_PLAYBACK_RATE=2;
 // Base power uses the ordinary SSS stat conversion and linkage. Animation speed
 // does not grant more actions, damage rolls, immunities or energy.
-export const RAZAK_COMBAT=Object.freeze({basePower:800000,motionPlaybackRate:2,version:1});
+export const RAZAK_COMBAT=Object.freeze({basePower:1000000,motionPlaybackRate:2,version:2});
 export const RAZAK_SKILLS=Object.freeze([
  {id:'MS-061',name:'그림자 교차',visualMode:'cross',targetCount:1,target:'약화된 적 하나',ratio:4.4,effect:'약화된 적에게 순간 돌진해 쌍곡도를 교차합니다.'},
  {id:'MS-062',name:'무영 연살',visualMode:'flurry',targetCount:1,target:'후열 우선 적 하나',ratio:5.6,effect:'후열 핵심 적을 향해 낮은 베기·올려 베기·종결 참격을 이어갑니다.'},
@@ -19,15 +19,15 @@ export const RAZAK_SKILLS=Object.freeze([
 export const RAZAK_ART=Object.freeze({
  code:RAZAK_CODE,name:'라자크',title:'쌍곡도의 암살자',rank:'SSS',edition:'STANDARD',
  nameStatus:'USER_CONFIRMED_20261024',rankStatus:'USER_ASSIGNED_RANK',position:'MIDDLE',role:'ASSASSIN',attackStyle:'MELEE',basicTarget:'약화된 전열 우선',
- artOnly:false,releaseStatus:'BATTLE_RELEASED_ACQUISITION_LOCKED',acquisition:'LOCKED',acquisitionEnabled:false,packAcquisitionEnabled:false,deploymentEnabled:true,
- acquisitionDescription:'현재 획득 불가. 팩·합성·제작·기적의 큐브에서 획득할 수 없습니다.',
+ artOnly:false,releaseStatus:'OWNER_PACK_CONTROLLED',acquisition:'BLOODMOON_PACK',acquisitionEnabled:false,packAcquisitionEnabled:true,deploymentEnabled:true,
+ acquisitionDescription:'블러드문팩의 별도 일반 SSS 항목에서 획득합니다. 발행 한도 없음. 다른 팩·합성·제작·기적의 큐브에서는 획득할 수 없습니다.',
  sourceArt:RAZAK_ROOT+'source-art.png',sourceArtSha256:'2B9331D3A1A753234AF7E0AC7CCAA2764451DE6E843AE7A7912BFD5A298E8A06',
  battleSprite:RAZAK_ROOT+'idle.png',battleSpriteSha256:'7460D2757DBAB2F3AFEDEDE1ED1815EC47A6D4A1509A3CC3699287D980A4770E',
  thumbnailArt:RAZAK_ROOT+'art-320.webp',displayArt:RAZAK_ROOT+'art-640.webp',accent:'#d5bf85',
  battleSpriteViewport:Object.freeze({x:172,y:275,width:385,height:391,imageWidth:768,imageHeight:768}),
  basePower:RAZAK_COMBAT.basePower,skills:RAZAK_SKILLS,
  specialty:'쌍곡도 기습 · 이동 궤적을 따르는 잔상 · PVE 광역 참격',weakness:'집중 공격·방어·보호막·행동 제어에 취약',
- combatLinkDescription:'기본 전투력 800,000의 SSS 기습 용병. 일반 SSS의 능력치 환산·전력 연계·행동 규칙을 따릅니다. 그림자 교차·무영 연살·월식 난무는 에너지 25와 공통 재사용 3행동을 사용하며, 월식 난무는 PVE 전용입니다. 빠른 암살 모션은 2배속이며 대기 몸체는 고정됩니다. 현재 획득 불가.'
+ combatLinkDescription:'기본 전투력 1,000,000의 SSS 기습 용병. 일반 SSS의 능력치 환산·전력 연계·행동 규칙을 따릅니다. 그림자 교차·무영 연살·월식 난무는 에너지 25와 공통 재사용 3행동을 사용하며, 월식 난무는 PVE 전용입니다. 빠른 암살 모션은 2배속이며 대기 몸체는 고정됩니다. 블러드문팩 전용 · 일반 SSS · 발행 한도 없음.'
 });
 export const isRazak=a=>a?.isMercenary===true&&(a.code||a.cardId)===RAZAK_CODE;
-export function razakDeploymentSnapshot(){return {...RAZAK_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',basicTarget:'LOW_HP_ENEMY',skills:structuredClone(RAZAK_SKILLS),pendingSkillIds:[],deploymentVersion:'20261024-razak-v1'};}
+export function razakDeploymentSnapshot(){return {...RAZAK_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',basicTarget:'LOW_HP_ENEMY',skills:structuredClone(RAZAK_SKILLS),pendingSkillIds:[],deploymentVersion:'20261025-razak-1m-v2'};}

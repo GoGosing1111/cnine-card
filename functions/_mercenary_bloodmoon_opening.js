@@ -1,4 +1,4 @@
-import {BLOODMOON_PACK_CARDS} from '../shared/mercenary-bloodmoon-pool-v3.mjs';
+import {isBloodmoonLimited,bloodmoonUnlimitedDraw} from '../shared/mercenary-bloodmoon-pool-v3.mjs';
 import {BLOODMOON_PACK,BLOODMOON_PACK_KEY,BLOODMOON_OPEN_KIND,BLOODMOON_PACK_RELEASE_ENABLED,bloodmoonPackPrice,validateBloodmoonOpeningBody,pickBloodmoonBatch,pickBloodmoonNormalCard} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
 import {limitedPackRandomInt} from './_mercenary_limited_pack.js';
 import {mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
@@ -11,7 +11,8 @@ import {readBloodmoonSsOnce,pickBloodmoonSsOnceCode,consumeBloodmoonSsOnce} from
 import {BLOODMOON_BULK_FORMAT,bloodmoonBulkQuote,pickBloodmoonBulk,addBloodmoonNormal} from '../shared/mercenary-bloodmoon-bulk-v1.mjs';
 import {createBloodmoonBulkRandom,bloodmoonBulkAcquisitionStatements} from './_mercenary_bloodmoon_bulk.js';
 
-const bloodmoon=code=>BLOODMOON_PACK_CARDS.some(c=>c.code===code);
+const bloodmoon=isBloodmoonLimited;
+const ordinaryAllowed=(state,r)=>state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0)||Boolean(bloodmoonUnlimitedDraw(r.mercenaryCode)&&r.rank==='SSS'&&r.edition==='STANDARD'&&state.settings.cardRatesPpm[r.mercenaryCode]>0);
 const terminal=(code,message)=>Object.assign(jointError('MERCENARY_BLOODMOON_'+code,message,409),{terminal:true});
 // Only uncommitted, unavailable limited slots may change. Save their ordinary
 // SSS replacement before charging so retries (including old pending plans) keep it.
@@ -85,9 +86,9 @@ export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_P
      const code=bloodmoonDrawCode(r);
      if((r.kind==='ITEM'||r.itemCode||r.stockCode)&&!isPrimeMaterialDraw(r))throw terminal('MATERIAL','재료 카드 지급 설정을 확인하세요.');
      if(bloodmoon(code)){if(!grouped.has(code))grouped.set(code,[]);grouped.get(code).push(i);}
-     else if(r.mercenaryCode&&!state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
+     else if(r.mercenaryCode&&!ordinaryAllowed(state,r))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
     });
-    for(const r of plan.normalDraws||[])if(!state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
+    for(const r of plan.normalDraws||[])if(!ordinaryAllowed(state,r))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
     // A stock-race fallback must not consume a separately armed guarantee.
     const guaranteedDraw=bulk?plan.draws.find(r=>r.drawIndex===(plan.once?.slotIndex??0)):plan.draws[plan.once?.slotIndex??0];
     const list=await consumeBloodmoonSsOnce(DB,user.id,requestId,bloodmoon(bloodmoonDrawCode(guaranteedDraw))?plan.once:null,guaranteedDraw);
@@ -104,7 +105,11 @@ export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_P
       else list.push(p('INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplicate,total_copies_after,duplicate_count_after,created_at) SELECT ?,user_id,mercenary_code,CASE WHEN total_copies-?>1 THEN 1 ELSE 0 END,total_copies-?,total_copies-?-1,? FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?',aid,offset,offset,offset,timestamp,user.id,code));
      });list.push(jointGuardEnd(DB,claim));
     }
-    plan.draws.forEach((r,i)=>{if(r.mercenaryCode&&!bloodmoon(r.mercenaryCode))list.push(...mercenaryCardAcquisitionStatements(DB,{userId:Number(user.id),mercenaryCode:r.mercenaryCode,acquisitionId:requestId+':'+i}));});
+    plan.draws.forEach((r,i)=>{
+     if(!r.mercenaryCode||bloodmoon(r.mercenaryCode))return;
+     if(bloodmoonUnlimitedDraw(r.mercenaryCode))list.push(...bloodmoonBulkAcquisitionStatements(DB,{userId:Number(user.id),requestId,draw:r,createdAt:timestamp,acquisitionIndex:i}));
+     else list.push(...mercenaryCardAcquisitionStatements(DB,{userId:Number(user.id),mercenaryCode:r.mercenaryCode,acquisitionId:requestId+':'+i}));
+    });
     for(const draw of plan.normalDraws||[])list.push(...bloodmoonBulkAcquisitionStatements(DB,{userId:Number(user.id),requestId,draw,createdAt:timestamp}));
     list.push(...jointCoinDebit(DB,user.id,plan.coinCost,'블러드문팩 '+requestId),jointGuardEnd(DB,token));return list;
    }

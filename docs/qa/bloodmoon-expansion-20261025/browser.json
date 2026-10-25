@@ -1,0 +1,35 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "ssLimit": 40,
+      "ssRemaining": 10,
+      "leonelLimit": 9,
+      "leonelRemaining": 2,
+      "eunseolLimit": 3,
+      "eunseolDoubleGeneral": true,
+      "razakUnlimited": true,
+      "razakPercent": "0.000032%",
+      "imagesDecoded": true,
+      "cmsEditAndCancel": true,
+      "codexRendered": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "ssLimit": 40,
+      "ssRemaining": 10,
+      "leonelLimit": 9,
+      "leonelRemaining": 2,
+      "eunseolLimit": 3,
+      "eunseolDoubleGeneral": true,
+      "razakUnlimited": true,
+      "razakPercent": "0.000032%",
+      "imagesDecoded": true,
+      "cmsEditAndCancel": true,
+      "codexRendered": true,
+      "errors": []
+    }
+  ],
+  "mutations": 0
+}

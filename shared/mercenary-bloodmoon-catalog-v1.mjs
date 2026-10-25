@@ -1,7 +1,7 @@
 import {BLOODMOON_COMBAT,bloodmoonCombatDescription} from './mercenary-bloodmoon-combat-v1.mjs';
-import {NAMSUDAENG_ART} from './mercenary-bloodmoon-namsudaeng-v1.mjs?bloodmoonStock=20261025-ss30-leonel7-v3';
+import {NAMSUDAENG_ART} from './mercenary-bloodmoon-namsudaeng-v1.mjs?bloodmoonStock=20261025-bloodmoon-expansion-v1';
 // User, 2026-10-25: add five more copies to each of the six SS limited characters.
-export const BLOODMOON_SERVER_LIMIT=30;
+export const BLOODMOON_SERVER_LIMIT=40;
 export const BLOODMOON_LEGACY_SERVER_LIMIT=10;
 export const BLOODMOON_BASE_POWER=356400;
 export const BLOODMOON_MERCENARIES=Object.freeze([

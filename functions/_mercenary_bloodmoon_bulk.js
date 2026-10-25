@@ -12,10 +12,11 @@ export function createBloodmoonBulkRandom(fill=words=>crypto.getRandomValues(wor
   return value%max;
  };
 }
-export function bloodmoonBulkAcquisitionStatements(DB,{userId,requestId,draw,createdAt}){
+export function bloodmoonBulkAcquisitionStatements(DB,{userId,requestId,draw,createdAt,acquisitionIndex=null}){
  const {mercenaryCode:code,quantity}=draw;
  if(!Number.isSafeInteger(quantity)||quantity<1||quantity>100000)throw Error('Invalid Bloodmoon quantity');
- const p=(sql,...args)=>DB.prepare(sql).bind(...args),token=crypto.randomUUID(),aid=requestId+':bulk:'+code;
+ if(acquisitionIndex!==null&&(!Number.isSafeInteger(acquisitionIndex)||acquisitionIndex<0||acquisitionIndex>=10||quantity!==1))throw Error('Invalid Bloodmoon acquisition index');
+ const p=(sql,...args)=>DB.prepare(sql).bind(...args),token=crypto.randomUUID(),aid=requestId+(acquisitionIndex===null?':bulk:'+code:':'+acquisitionIndex);
  // The caller locks/rechecks the exact CMS and draw-policy revisions in this
  // same transaction. A bulk acquisition is one event; its quantity is durable
  // in joint_operations_v1.normalDraws, and the ledger stores the exact balance.
