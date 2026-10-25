@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "at": "2026-10-25T05:02:07.173Z",
+  "source": "bd4af001f5432269685ab5afe48ed6ec3b5910ef",
+  "files": [
+    {
+      "file": "shared/support-package-v1.mjs",
+      "sha256": "21543f96169b4073af60f7185fe0241919246c87d65f42aa0194f1cbd69561ed"
+    },
+    {
+      "file": "js/support-package-v1.mjs",
+      "sha256": "cceaa01c0f7def99eb5fa0fb04c46ffcf156e30252e4eb1889810b5234f394d7"
+    },
+    {
+      "file": "js/support-package-alerts-v1.mjs",
+      "sha256": "779701210be299585dbd32d3d660eb61190ba0f9f27c90dad5b8fa44de048d59"
+    },
+    {
+      "file": "js/server-support-v1.mjs",
+      "sha256": "6c2c46bdd88fe7b059a12d13bae7ae17df379af6fa7af50a3cb9584464b9bd18"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "89f703e193a5f4465d2e5b345281e6aa87ac15e2049993f6f597283776ba0fdd"
+    },
+    {
+      "file": "css/support-package-v1.css",
+      "sha256": "da11c59b9b3c3208731777e3348ba4f4c8e1269c6b135cd50446a0ea26d02082"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "693145939c8665db73789a0431840368cdaa64e430096a604120befd53694048"
+    },
+    {
+      "file": "admin/server-support-admin-v1.mjs",
+      "sha256": "808e79c1ba22ca1ba95f58d10640c32a6ebc7693784bc9283d3df3bff00982b1"
+    },
+    {
+      "file": "admin/support-package-admin-v1.mjs",
+      "sha256": "864890c8038a6cd096762e3c1bc9bded894493aa9fc6c1171a8a11d6f035829b"
+    },
+    {
+      "file": "index.html",
+      "sha256": "03815587120a9d0d4376358ddc5004cd18c455f01197fa29f16cc86b8943a0d3"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "4ae4bfd248ed3c9492fa47d7ee2a086166cc6f89fbff3be34c93f1386edc6db9"
+    }
+  ],
+  "offer": {
+    "priceWon": 49800,
+    "eventLabel": "1+1 이벤트",
+    "packages": 2,
+    "coins": "200000000000000",
+    "emperorEnergy": 400,
+    "limitedShards": 10
+  },
+  "extraGrantAudit": "51137",
+  "unauthenticatedPackageStatus": 401
+}
