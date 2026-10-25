@@ -1,0 +1,60 @@
+{
+  "sourceSha256": "1a58fff7022c8422669717b3caf4a45cf42a44c76568816c8dd716946982b0c7",
+  "planHash": "393bf545a197ca1cf7eb68a5185ab4d905bc28c5077ffcc34d51da76629f90be",
+  "verification": {
+    "status": "VERIFIED",
+    "operationKey": "ops:streamer-box-transfer:20261025:bini-dodaeng:v1",
+    "from": {
+      "userId": "4595",
+      "nickname": "비니",
+      "recovered": 2
+    },
+    "to": {
+      "userId": "4235",
+      "nickname": "도댕",
+      "granted": 2
+    },
+    "netChange": 0,
+    "inventoryLogs": 2,
+    "missing": 0,
+    "duplicates": 0,
+    "auditId": "51273",
+    "completedAt": "2026-10-25T10:12:28.421Z"
+  },
+  "allocations": [
+    {
+      "userId": "4235",
+      "nickname": "도댕",
+      "delta": 2,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "2",
+        "unseen": "2"
+      },
+      "logId": "86939043"
+    },
+    {
+      "userId": "4595",
+      "nickname": "비니",
+      "delta": -2,
+      "before": {
+        "quantity": "2",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "logId": "86939044"
+    }
+  ],
+  "dryRunRollback": true,
+  "injectedFailureRollback": true,
+  "noWriteReplay": true,
+  "independentReadOnlyVerification": true,
+  "leasesReleased": true,
+  "testsPassed": 4
+}

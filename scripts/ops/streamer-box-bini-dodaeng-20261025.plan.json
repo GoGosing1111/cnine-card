@@ -1,0 +1,30 @@
+{
+  "operationKey": "ops:streamer-box-transfer:20261025:bini-dodaeng:v1",
+  "authorization": "비니계정에 상품 2개 회수하고 도댕으로 지급해",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "fromUserId": "4595",
+  "toUserId": "4235",
+  "amount": 2,
+  "identityCheckedAt": "2026-10-25T10:07:11.688Z",
+  "targets": [
+    {
+      "order": 1,
+      "inputNickname": "비니",
+      "userId": "4595",
+      "nickname": "비니",
+      "role": "USER",
+      "identityHash": "f6dfe6b8db6880da1ec1b7482905904f2ec843c1f89a58a280b53fea1c92f252",
+      "delta": -2
+    },
+    {
+      "order": 2,
+      "inputNickname": "도댕",
+      "userId": "4235",
+      "nickname": "도댕",
+      "role": "USER",
+      "identityHash": "9adc8ff13b02c1c89e5b488c319364d7e050403a94a6f1be7c5b49e31b889c84",
+      "delta": 2
+    }
+  ]
+}

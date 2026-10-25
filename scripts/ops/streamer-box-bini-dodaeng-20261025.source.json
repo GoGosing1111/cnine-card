@@ -1,0 +1,9 @@
+{
+ "operationKey":"ops:streamer-box-transfer:20261025:bini-dodaeng:v1",
+ "authorization":"비니계정에 상품 2개 회수하고 도댕으로 지급해",
+ "itemCode":"REVERSECALL_STREAMER_GIFT_BOX",
+ "amount":2,
+ "inputNicknames":["비니","도댕"],
+ "fromNickname":"비니",
+ "toNickname":"도댕"
+}
