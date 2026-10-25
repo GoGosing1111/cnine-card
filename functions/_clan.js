@@ -376,7 +376,7 @@ function cleanClanAdminSettings(raw={},current=CLAN_ADMIN_SETTINGS_DEFAULTS){
     rewardsEnabled:cleanBoolean(raw.rewardsEnabled,base.rewardsEnabled),winnerCoin:clampInt(raw.winnerCoin,0,Number.MAX_SAFE_INTEGER,base.winnerCoin),runnerUpCoin:clampInt(raw.runnerUpCoin,0,Number.MAX_SAFE_INTEGER,base.runnerUpCoin),participationCoin:clampInt(raw.participationCoin,0,100000000,base.participationCoin),participationShards:clampInt(raw.participationShards,0,1000000,base.participationShards)
   };
 }
-async function clanSettings(env){const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_ADMIN_SETTINGS_KEY).first(),raw=safeJson(row?.value,{}),settings=cleanClanAdminSettings(raw);return await readClanResumption(env)?resumedClanSettings(settings):settings;}
+async function clanSettings(env){const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_ADMIN_SETTINGS_KEY).first(),raw=safeJson(row?.value,{}),settings=cleanClanAdminSettings(raw),resumption=await readClanResumption(env);return resumption?resumedClanSettings(settings,resumption):settings;}
 
 async function latestSeason(env){return env.DB.prepare("SELECT * FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC LIMIT 1").first()}
 function clanDraftDeadlineMs(season){

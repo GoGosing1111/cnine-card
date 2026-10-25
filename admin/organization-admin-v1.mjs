@@ -3,7 +3,7 @@ import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
 import {ORGANIZATION_PREPARATION} from '../shared/organization-preparation-v1.mjs?v=20261025-clan-eight';
 import {FACTION_RULES,ORGANIZATION_DISTRICTS,organizationDistrictById,validateOrganizationFactionPolicy} from '../shared/organization-faction-v1.mjs?v=20261024-weekly&clanRestore=20261025&clanResume=20261025';
 import {ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES} from '../shared/organization-faction-v1.mjs?v=20261025-restored-locked&clanRestore=20261025&clanResume=20261025';
-import {renderOrganizationRankings} from '../js/organization-rankings-v1.mjs?v=20261024-weekly&clanRestore=20261025&clanResume=20261025';
+import {renderOrganizationRankings} from '../js/organization-rankings-v1.mjs?v=20261025-wed-sat-sun&clanRestore=20261025&clanResume=20261025';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>Number(value||0).toLocaleString('ko-KR');
 const date=value=>value?new Date(Number(value)||value).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'아직 없음';

@@ -2,7 +2,7 @@ import {organizationCrest} from './organization-identity-v1.mjs?v=20261025-clan-
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 import {ORGANIZATION_DISTRICTS as DISTRICTS,ORGANIZATION_SESSION_RULES as SESSION_RULES,SQUADS,FACTION_RULES as R,organizationDistrictById as districtById,historicalOrganizationDistrictById,isSelfJoinSquad,organizationSquadChangeBlocked} from '../shared/organization-faction-v1.mjs?v=20261024-weekly&clanRestore=20261025&clanResume=20261025';
 import {factionCombatOpen,factionSessionStrip,factionRewardView} from './clan-faction-sessions-v1.mjs?v=20261018-session-rules&clanResume=20261025';
-import {renderOrganizationRankings} from './organization-rankings-v1.mjs?v=20261024-weekly&clanRestore=20261025&clanResume=20261025';
+import {renderOrganizationRankings} from './organization-rankings-v1.mjs?v=20261025-wed-sat-sun&clanRestore=20261025&clanResume=20261025';
 let rankingView='season';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num=n=>Math.max(0,Number(n)||0).toLocaleString('ko-KR');

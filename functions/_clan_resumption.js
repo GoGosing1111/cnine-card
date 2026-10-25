@@ -1,4 +1,4 @@
-import {CLAN_RESUMPTION_STATE_KEY,CLAN_RESUMPTION_AVAILABLE_AT,CLAN_RESUMPTION_VERSION,activeClanResumption} from '../shared/clan-resumption-v1.mjs';
+import {CLAN_RESUMPTION_STATE_KEY,CLAN_RESUMPTION_AVAILABLE_AT,CLAN_RESUMPTION_VERSION,activeClanResumption,regularClanRules} from '../shared/clan-resumption-v1.mjs';
 import {CLAN_RANKED_TEAMS_SQL} from './_clan_ranking.js';
 export async function readClanResumption(env,now=Date.now()){
  if(now<CLAN_RESUMPTION_AVAILABLE_AT)return null;
@@ -33,7 +33,7 @@ export async function resumedClanCompetitionView(q,state,enabled,now){
  const teams=await q(CLAN_RANKED_TEAMS_SQL.replace('?', '$1'),[release.seasonId]);
  const records=await q("SELECT snapshot_json FROM organization_faction_settlements_v1 WHERE round_id=$1 AND snapshot_json::jsonb->'clanPoints'->>'seasonId'=$2 ORDER BY created_at DESC",[release.roundId,String(release.seasonId)]);
  const snapshots=records.map(r=>JSON.parse(r.snapshot_json)),holdings=Object.fromEntries(teams.map(t=>[Number(t.clan_id),state.districts.filter(d=>d.owner===Number(t.clan_id)).length]));
- return {enabled,pointsIncluded:true,scoringMode:'REGULAR_SEASON',requiredTerritories:4,pointsPerSession:1,pointsPerTerritory:0,nextWeeklyAt:null,weeklyStandings:[],weeklyHistory:state.competition?.weeklyHistory||[],seasonHistory:state.competition?.seasonHistory||[],
+ return {enabled,pointsIncluded:true,scoringMode:'REGULAR_SEASON',regularScheduleLabel:regularClanRules(release).regularLabel,requiredTerritories:4,pointsPerSession:1,pointsPerTerritory:0,nextWeeklyAt:null,weeklyStandings:[],weeklyHistory:state.competition?.weeklyHistory||[],seasonHistory:state.competition?.seasonHistory||[],
   season:season?{number:Number(season.season_no),id:Number(season.id),startsAt:Date.parse(season.starts_at),endsAt:Date.parse(season.ends_at),phase:season.phase}:null,
   standings:teams.map((t,i)=>({organizationId:Number(t.clan_id),points:Number(t.score),rank:i+1,territories:holdings[t.clan_id],factionPoints:snapshots.filter(s=>s.clanPoints.status==='SETTLED'&&s.clanPoints.clans.includes(Number(t.clan_id))).length})),
   holdings,sessionHistory:snapshots.slice(0,20).map(s=>({key:s.key,endsAt:s.endsAt,...s.clanPoints}))};

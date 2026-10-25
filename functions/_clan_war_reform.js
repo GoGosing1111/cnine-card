@@ -1,4 +1,5 @@
 import {clanAdminTransaction} from './_clan_inactivity_cleanup.js';
+import {readClanResumption} from './_clan_resumption.js';
 import {ensureClanReform,executiveRows,refreshClanExecutives} from './_clan_governance.js';
 import {warDaysAt,CLAN_SKILLS,OPERATION_LIMITS,READY_WINDOW_MS,weekOf,weekDates,readyOpen,utcMs,newField,fieldTeam,fieldPlayer,commandCost,supportEnergy,applyFieldAction} from '../shared/clan-war-reform-v1.mjs';
 
@@ -9,15 +10,15 @@ async function member(env,seasonId,userId){return env.DB.prepare('SELECT m.*,o.m
 async function nextWar(env,seasonId,clanId){return env.DB.prepare("SELECT * FROM clan_wars WHERE season_id=? AND (clan_a_id=? OR clan_b_id=?) AND status IN ('ACTIVE','SCHEDULED') ORDER BY starts_at,id LIMIT 1").bind(seasonId,clanId,clanId).first();}
 
 export async function clanReformState(env,user,season,now=Date.now()){
-  await ensureClanReform(env);const mine=await member(env,season.id,user.id);
-  if(!mine)return {enabled:true,weekStart:weekOf(now),days:weekDates(now),membership:false};
+  await ensureClanReform(env);const mine=await member(env,season.id,user.id),resumption=await readClanResumption(env,now),allowedDays=warDaysAt(now,resumption);
+  if(!mine)return {enabled:true,weekStart:weekOf(now),days:weekDates(now,resumption),membership:false};
   const clanId=Number(mine.clan_id),war=await nextWar(env,season.id,clanId);
   const [availability,roster,executives]=await Promise.all([
     env.DB.prepare('SELECT user_id,days_json FROM clan_weekly_availability WHERE season_id=? AND clan_id=? AND week_start=?').bind(season.id,clanId,weekOf(now)).all(),
     env.DB.prepare('SELECT m.user_id,u.nickname FROM clan_members m JOIN users u ON u.id=m.user_id WHERE m.season_id=? AND m.clan_id=? ORDER BY u.nickname').bind(season.id,clanId).all(),
     executiveRows(env,season.id,clanId)
   ]);
-  const available=new Map(rows(availability).map(r=>[Number(r.user_id),JSON.parse(r.days_json)]));
+  const available=new Map(rows(availability).map(r=>[Number(r.user_id),JSON.parse(r.days_json).filter(day=>allowedDays.includes(day))]));
   const ready=war?rows(await env.DB.prepare('SELECT user_id,status FROM clan_war_readiness WHERE war_id=? AND clan_id=?').bind(war.id,clanId).all()):[];
   const readyById=new Map(ready.map(r=>[Number(r.user_id),r.status]));
   const people=rows(roster).map(r=>({userId:Number(r.user_id),nickname:r.nickname,days:available.get(Number(r.user_id))||[],submitted:available.has(Number(r.user_id)),ready:readyById.get(Number(r.user_id))||'UNANSWERED'}));
@@ -31,7 +32,7 @@ export async function clanReformState(env,user,season,now=Date.now()){
       my:{...ownPlayer,pendingSupply:own.supplies.filter(s=>s.userId===Number(user.id)).reduce((n,s)=>n+s.amount,0)},limits:OPERATION_LIMITS,skillCost:commandCost(own),
       energy:supportEnergy(war,ownPlayer.used,now),skill:CLAN_SKILLS[mine.mark_key],canCommand:own.commander?own.commander===Number(user.id):executives.some(e=>e.userId===Number(user.id))};
   }
-  return {enabled:true,membership:true,weekStart:weekOf(now),days:weekDates(now),myDays:available.get(Number(user.id))||[],submitted:available.has(Number(user.id)),executives,roster:people,field,
+  return {enabled:true,membership:true,weekStart:weekOf(now),days:weekDates(now,resumption),myDays:available.get(Number(user.id))||[],submitted:available.has(Number(user.id)),executives,roster:people,field,
     war:war?{id:Number(war.id),status:war.status,clanAId:Number(war.clan_a_id),clanBId:Number(war.clan_b_id),scoreA:Number(war.score_a),scoreB:Number(war.score_b),startsAt:war.starts_at,endsAt:war.ends_at,readyAt:new Date(utcMs(war.starts_at)-READY_WINDOW_MS).toISOString(),readyOpen:readyOpen(war,now),myReady:readyById.get(Number(user.id))||'UNANSWERED'}:null,serverNow:new Date(now).toISOString()};
 }
 export async function clanReadyAlert(env,user,season,now=Date.now()){
@@ -42,7 +43,8 @@ export async function clanReadyAlert(env,user,season,now=Date.now()){
 }
 export async function saveWeeklyAvailability(env,user,season,body,now=Date.now()){
   await ensureClanReform(env);check(body.weekStart===weekOf(now),'주간 일정이 바뀌었습니다. 새로고침 후 다시 선택하세요.');
-  check(Array.isArray(body.days)&&body.days.length<=4&&body.days.every(day=>Number.isInteger(day)&&warDaysAt(now).includes(day)),'화·목·토·일 중 참여 가능한 날을 선택하세요.',400);
+  const allowedDays=warDaysAt(now,await readClanResumption(env,now)),dayLabel=allowedDays.map(day=>['일','월','화','수','목','금','토'][day]).join('·');
+  check(Array.isArray(body.days)&&body.days.length<=allowedDays.length&&body.days.every(day=>Number.isInteger(day)&&allowedDays.includes(day)),dayLabel+' 중 참여 가능한 날을 선택하세요.',400);
   const days=[...new Set(body.days)].sort();
   return clanAdminTransaction(env.DB,async q=>{
     const [m]=await q('SELECT clan_id FROM clan_members WHERE season_id=$1 AND user_id=$2 FOR UPDATE',[season.id,user.id]);check(m,'클랜 가입 후 신청할 수 있습니다.',403);

@@ -13,7 +13,10 @@ export function activeClanResumption(value,now=Date.now()){
  return value?.version===CLAN_RESUMPTION_VERSION&&value.enabled===true&&Number.isSafeInteger(value.effectiveAt)
   &&value.effectiveAt>=CLAN_RESUMPTION_AVAILABLE_AT&&value.effectiveAt<=now&&Number.isSafeInteger(value.seasonId)&&value.seasonId>0&&typeof value.roundId==='string'?value:null;
 }
-export function resumedClanSettings(settings){return {...settings,scheduleEnabled:true,openDays:[...RESUMED_CLAN_RULES.weekdays],warOpenTime:'21:00',warDurationMinutes:60,maxMembers:25,maxParticipants:200};}
+export const CLAN_WED_SAT_SUN_SCHEDULE=Object.freeze({version:'20261025-wed-sat-sun',firstStartsAt:'2026-10-28T12:00:00.000Z'});
+export const CLAN_WED_SAT_SUN_RULES=Object.freeze({...RESUMED_CLAN_RULES,weekdays:Object.freeze([3,6,0]),regularLabel:'수·토·일 21:00~22:00 (한국시간)'});
+export function regularClanRules(resumption){return resumption?.regularSchedule?.version===CLAN_WED_SAT_SUN_SCHEDULE.version&&resumption.regularSchedule.firstStartsAt===CLAN_WED_SAT_SUN_SCHEDULE.firstStartsAt?CLAN_WED_SAT_SUN_RULES:RESUMED_CLAN_RULES;}
+export function resumedClanSettings(settings,resumption){return {...settings,scheduleEnabled:true,openDays:[...regularClanRules(resumption).weekdays],warOpenTime:'21:00',warDurationMinutes:60,maxMembers:25,maxParticipants:200};}
 export function resumedFactionRules(base,resumption){return {...base,version:CLAN_RESUMPTION_VERSION,dailyCount:1,durationMs:3*3600000,requiredTerritories:4,pointsPerSession:1,regularSeasonId:resumption.seasonId,resumedAt:resumption.effectiveAt};}
 function randomInteger(limit){let value;const ceiling=Math.floor(4294967296/limit)*limit;do{value=crypto.getRandomValues(new Uint32Array(1))[0];}while(value>=ceiling);return value%limit;}
 // The release day draws only a future full window. Once persisted, never reroll.

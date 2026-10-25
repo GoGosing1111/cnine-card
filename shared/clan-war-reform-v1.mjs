@@ -1,7 +1,7 @@
-import {CLAN_RESUMPTION_AVAILABLE_AT,RESUMED_CLAN_RULES} from './clan-resumption-v1.mjs';
+import {CLAN_RESUMPTION_AVAILABLE_AT,regularClanRules} from './clan-resumption-v1.mjs';
 export const CLAN_REFORM_KEY='clan_reform_v1';
 export const WAR_DAYS=[2,4,6,0];
-export const warDaysAt=(now=Date.now())=>now>=CLAN_RESUMPTION_AVAILABLE_AT?RESUMED_CLAN_RULES.weekdays:WAR_DAYS;
+export const warDaysAt=(now=Date.now(),resumption)=>now>=CLAN_RESUMPTION_AVAILABLE_AT?regularClanRules(resumption).weekdays:WAR_DAYS;
 export const READY_WINDOW_MS=15*60*1000;
 export const SUPPORT_RULES=Object.freeze({initial:3,cap:3,limit:3,cooldownMs:5000});
 export const OPERATION_LIMITS=Object.freeze({mission:9,combo:3,skill:3,total:15});
@@ -25,9 +25,9 @@ export function weekOf(now=Date.now()){
   const d=new Date(now+9*3600000);d.setUTCHours(0,0,0,0);d.setUTCDate(d.getUTCDate()-((d.getUTCDay()+6)%7));
   return d.toISOString().slice(0,10);
 }
-export function weekDates(now=Date.now()){
+export function weekDates(now=Date.now(),resumption){
   const monday=Date.parse(weekOf(now)+'T00:00:00+09:00');
-  return warDaysAt(now).map(day=>({day,date:new Date(monday+((day+6)%7)*86400000+9*3600000).toISOString().slice(0,10)}));
+  return warDaysAt(now,resumption).map(day=>({day,date:new Date(monday+((day+6)%7)*86400000+9*3600000).toISOString().slice(0,10)}));
 }
 export function readyOpen(war,now=Date.now()){return Boolean(war&&['SCHEDULED','ACTIVE'].includes(war.status)&&now>=utcMs(war.starts_at)-READY_WINDOW_MS&&now<utcMs(war.starts_at));}
 export function supportEnergy(war,used=0,now=Date.now()){
