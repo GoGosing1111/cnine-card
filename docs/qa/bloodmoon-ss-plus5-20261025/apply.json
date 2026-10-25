@@ -1,0 +1,250 @@
+{
+  "verified": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bloodmoon-ss-restock:20261025:plus5-v2",
+    "authorization": "상점 블러드문 SS리미티드 한도 5장씩 더 늘려 빠르게",
+    "completedAt": "2026-10-25T04:41:34.950Z",
+    "stockAdded": 30,
+    "grants": 0,
+    "issuesBeforeHash": "45a6898386c86a983619604c589ffa54c32cc3e90877931e425770c89a8ef06f",
+    "issuesAfterHash": "45a6898386c86a983619604c589ffa54c32cc3e90877931e425770c89a8ef06f",
+    "protectedPolicyHash": "e957e7e1df71df175022fff4ab05fa978ff17fe8e9bb39027a18d824d0815fb4",
+    "before": {
+      "revision": 5,
+      "settings": {
+        "mode": "ON",
+        "prices": {
+          "single": 1500000000,
+          "ten": 15000000000
+        },
+        "missRatePpm": 800000,
+        "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "normalSssRatePpm": 969789,
+        "cardRatesPpm": {
+          "V-960": 5000,
+          "V-961": 5000,
+          "V-962": 5000,
+          "V-963": 5000,
+          "V-964": 5000,
+          "V-965": 5000,
+          "V-978": 200,
+          "V-974": 10,
+          "V-975": 1
+        },
+        "stockLimits": {
+          "V-960": 20,
+          "V-961": 20,
+          "V-962": 20,
+          "V-963": 20,
+          "V-964": 20,
+          "V-965": 20,
+          "V-978": 5,
+          "V-974": 3,
+          "V-975": 3
+        }
+      },
+      "updatedAt": "2026-10-25T04:26:06.732Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:bloodmoon-ss-restock:20261025:plus10-v1"
+    },
+    "after": {
+      "revision": 6,
+      "settings": {
+        "mode": "ON",
+        "prices": {
+          "single": 1500000000,
+          "ten": 15000000000
+        },
+        "missRatePpm": 800000,
+        "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "normalSssRatePpm": 969789,
+        "cardRatesPpm": {
+          "V-960": 5000,
+          "V-961": 5000,
+          "V-962": 5000,
+          "V-963": 5000,
+          "V-964": 5000,
+          "V-965": 5000,
+          "V-978": 200,
+          "V-974": 10,
+          "V-975": 1
+        },
+        "stockLimits": {
+          "V-960": 25,
+          "V-961": 25,
+          "V-962": 25,
+          "V-963": 25,
+          "V-964": 25,
+          "V-965": 25,
+          "V-978": 5,
+          "V-974": 3,
+          "V-975": 3
+        }
+      },
+      "updatedAt": "2026-10-25T04:41:34.950Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:bloodmoon-ss-restock:20261025:plus5-v2"
+    },
+    "beforeStock": [
+      {
+        "code": "V-960",
+        "stock_limit": 20,
+        "issued": 20,
+        "revision": 19,
+        "last_token": "97da1522-2ff5-4954-b819-8497af8ec836"
+      },
+      {
+        "code": "V-961",
+        "stock_limit": 20,
+        "issued": 20,
+        "revision": 20,
+        "last_token": "88e123c8-d7a0-42bc-9835-50de8dec3ec6"
+      },
+      {
+        "code": "V-962",
+        "stock_limit": 20,
+        "issued": 20,
+        "revision": 19,
+        "last_token": "aaec9621-2a60-426f-be01-8e4f6a1a5473"
+      },
+      {
+        "code": "V-963",
+        "stock_limit": 20,
+        "issued": 20,
+        "revision": 18,
+        "last_token": "0496ed08-01c2-482f-892e-1e3d57082e43"
+      },
+      {
+        "code": "V-964",
+        "stock_limit": 20,
+        "issued": 20,
+        "revision": 17,
+        "last_token": "31f53cba-535e-4b97-8445-63d984b97991"
+      },
+      {
+        "code": "V-965",
+        "stock_limit": 20,
+        "issued": 20,
+        "revision": 17,
+        "last_token": "9242fcd0-b1a5-494f-b68c-930c74dea55e"
+      }
+    ],
+    "afterStock": [
+      {
+        "code": "V-960",
+        "stock_limit": 25,
+        "issued": 20,
+        "revision": 20,
+        "last_token": "97da1522-2ff5-4954-b819-8497af8ec836"
+      },
+      {
+        "code": "V-961",
+        "stock_limit": 25,
+        "issued": 20,
+        "revision": 21,
+        "last_token": "88e123c8-d7a0-42bc-9835-50de8dec3ec6"
+      },
+      {
+        "code": "V-962",
+        "stock_limit": 25,
+        "issued": 20,
+        "revision": 20,
+        "last_token": "aaec9621-2a60-426f-be01-8e4f6a1a5473"
+      },
+      {
+        "code": "V-963",
+        "stock_limit": 25,
+        "issued": 20,
+        "revision": 19,
+        "last_token": "0496ed08-01c2-482f-892e-1e3d57082e43"
+      },
+      {
+        "code": "V-964",
+        "stock_limit": 25,
+        "issued": 20,
+        "revision": 18,
+        "last_token": "31f53cba-535e-4b97-8445-63d984b97991"
+      },
+      {
+        "code": "V-965",
+        "stock_limit": 25,
+        "issued": 20,
+        "revision": 18,
+        "last_token": "9242fcd0-b1a5-494f-b68c-930c74dea55e"
+      }
+    ],
+    "auditId": "51132"
+  },
+  "stock": [
+    {
+      "code": "V-960",
+      "name": "나무늘봉순",
+      "before": 20,
+      "after": 25,
+      "issued": 20,
+      "remaining": 5
+    },
+    {
+      "code": "V-961",
+      "name": "조은",
+      "before": 20,
+      "after": 25,
+      "issued": 20,
+      "remaining": 5
+    },
+    {
+      "code": "V-962",
+      "name": "디임",
+      "before": 20,
+      "after": 25,
+      "issued": 20,
+      "remaining": 5
+    },
+    {
+      "code": "V-963",
+      "name": "카르베나",
+      "before": 20,
+      "after": 25,
+      "issued": 20,
+      "remaining": 5
+    },
+    {
+      "code": "V-964",
+      "name": "네베라",
+      "before": 20,
+      "after": 25,
+      "issued": 20,
+      "remaining": 5
+    },
+    {
+      "code": "V-965",
+      "name": "블러드문 남수댕",
+      "before": 20,
+      "after": 25,
+      "issued": 20,
+      "remaining": 5
+    }
+  ],
+  "currentRevision": 6,
+  "replayed": false,
+  "dryRun": false,
+  "noWriteReplayVerified": true,
+  "checkedAt": "2026-10-25T04:41:37.034Z"
+}

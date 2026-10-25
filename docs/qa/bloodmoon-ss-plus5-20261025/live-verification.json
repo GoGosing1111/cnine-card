@@ -1,0 +1,118 @@
+{
+  "at": "2026-10-25T04:41:43.431Z",
+  "status": "PASS",
+  "files": [
+    {
+      "file": "service-worker.js",
+      "sha256": "8d2f89bedc494bbc86fb52a1d42385553525775cb5bcfa22fd022fe9550ab28b"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "sha256": "f318aa8927f4944f811ab2f634ad8a642d4217acf443017a9aa996a287bd6b40"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "bd051ae86daabfc41f2e22b8001e4e52799621dc2be5208b5d7026342b5a19aa"
+    },
+    {
+      "file": "index.html",
+      "sha256": "93b564b167f44e4f88e160e2d307f4985cd35285d73c6c428cee2ed0ecbf7e7a"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "2b9baa309a30babae746b5631a2a8abef9ec644eaed796e0d4fcc4ba13d59602"
+    },
+    {
+      "file": "admin/mercenary-bloodmoon-admin-v1.mjs",
+      "sha256": "c5ad1b5ad93a5e92bbb99b653d33dbd334f563b560723948bdd59d5a1854a374"
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "47ead306a78e66402cbce0a360ecafe538a9c1613e4075ce9906935b827afbcc"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "135b0d2e09a0873f1424b4dbb3c171e4249b16c16d50785586f5180c1ab6f81a"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-namsudaeng-v1.mjs",
+      "sha256": "ff82fef8184c5bf5f0c452eff6c2582ad43a3660fd2b70702f288cdd51864e0b"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-catalog-v1.mjs",
+      "sha256": "0046db8e93504a76c151431c37b80d69108319009f816dea3b93f1b00abe6bd6"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "sha256": "48eb9338d2214402a39980c4ad00a6cfd83a3fc4326b56615cf50666122d3562"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "d3270829214795ebf7536d2cad4e13067c8fda023f3aabb846fae42f9db8d961"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-session-v2.mjs",
+      "sha256": "493547dde3dafa0fc6b8460d2da8a7ad692144b86d5aaae3c7e6779383ec54e4"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pool-v3.mjs",
+      "sha256": "cb2b55d3be36e2e5c9178bf7466eb963fd26e536e8f0db9416379a4aec4bed0c"
+    }
+  ],
+  "revision": 6,
+  "mode": "ON",
+  "stock": [
+    {
+      "code": "V-960",
+      "limit": 25,
+      "issued": 20,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-961",
+      "limit": 25,
+      "issued": 20,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-962",
+      "limit": 25,
+      "issued": 20,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-963",
+      "limit": 25,
+      "issued": 20,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-964",
+      "limit": 25,
+      "issued": 20,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-965",
+      "limit": 25,
+      "issued": 20,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    }
+  ],
+  "priceProbabilityPreserved": true,
+  "accountGrants": 0,
+  "added": 30,
+  "auditId": "51132"
+}
