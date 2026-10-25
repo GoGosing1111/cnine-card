@@ -130,7 +130,9 @@ if(d.season?.phase==='CHAMPIONS'&&!d.war)return `<section class="clan-panel clan
     if(d.restoration&&state.tab==='command')state.tab='organization';
     const legacyClosed=!d.restoration&&!!d.organizationPreparation?.legacyClosed;
     if(legacyClosed)state.tab='organization';
-    if(d.organizationPreparation&&state.tab==='organization'&&root.dataset.clanView==='organization'&&root.dataset.organizationLegacyClosed===String(legacyClosed)&&root.querySelector('.org-live-frame'))return;
+    // Resumed clans return organizationPreparation:null but still show headquarters.
+    // Detaching its iframe fires pagehide and closes the faction window it opened.
+    if((d.organizationPreparation||d.restoration)&&state.tab==='organization'&&root.dataset.clanView==='organization'&&root.dataset.organizationLegacyClosed===String(legacyClosed)&&root.querySelector('.org-live-frame'))return;
     root.dataset.organizationLegacyClosed=String(legacyClosed);
     if(legacyClosed){root.dataset.clanView='organization';root.innerHTML=global.OrganizationPreparation.render(d.organizationPreparation);bindDom();return}if(state.tab==='faction'&&root.querySelector('.faction-war'))return;root.dataset.clanView=state.tab;root.innerHTML=`${!d.restoration&&state.tab!=='organization'?global.OrganizationPreparation?.banner(d)||'':''}${d.restoration||['champions','organization'].includes(state.tab)?'':phaseHero(d)}${nav(d)}<div class="clan-view">${content(d)}</div>`;bindDom();armDraftCountdown();if(state.tab==='faction'&&!d.restoration)global.ClanFaction?.mount(root.querySelector('#clanFactionRoot'),state.ctx)}
 
