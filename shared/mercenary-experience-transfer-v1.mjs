@@ -2,6 +2,9 @@ import {MERCENARY_LEVEL_RULES,mercenaryLevelState,mercenaryLevelRequiredXp,merce
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 
 export const TRANSFER_VERSION='mercenary-experience-transfer-20261025-v1';
+// Incident containment: extraction was issuing a potion without consuming an item.
+export const TRANSFER_RELEASE_ENABLED=false;
+export const TRANSFER_REPAIR_MESSAGE='물약 보유 검증과 이전 사용 기록 복구 중입니다. 경험치 이전은 잠시 중단됩니다.';
 export const TRANSFER_ITEM={code:'MERCENARY_XP_TRANSFER_POTION',name:'용병 경험치 이전 물약',image:'/assets/items/mercenary-experience-transfer-20261025/potion.webp'};
 export const transferError=(code,message,status=409)=>levelError('MERCENARY_TRANSFER_'+code,message,status);
 const requireValue=(ok,code,message)=>{if(!ok)throw transferError(code,message);};

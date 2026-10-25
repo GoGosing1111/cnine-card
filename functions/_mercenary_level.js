@@ -20,7 +20,7 @@ import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {readJointBody,jointResponseError} from './_joint_request.js';
 import {readMercenaryBreakthroughHistory,mercenaryPityFromHistory} from './_mercenary_level_pity.js';
 import {readExperienceTransfer,readMercenaryGrowthHistory,transferCardView,transferRecordGuard} from './_mercenary_experience_transfer.js';
-import {TRANSFER_ITEM,transferGroup,mercenaryTransferState,retainedMercenaryXp,planExperienceExtraction,planExperienceInfusion,applyTransferXp,transferError} from '../shared/mercenary-experience-transfer-v1.mjs';
+import {TRANSFER_ITEM,TRANSFER_RELEASE_ENABLED,TRANSFER_REPAIR_MESSAGE,transferGroup,mercenaryTransferState,retainedMercenaryXp,planExperienceExtraction,planExperienceInfusion,applyTransferXp,transferError} from '../shared/mercenary-experience-transfer-v1.mjs';
 
 const KIND='MERCENARY_LEVEL_V1';
 // Freeze growth effects in the same receipt as the material/XP change. Replaying
@@ -32,6 +32,7 @@ function captureGrowth(policy,result){
 const terminal=message=>Object.assign(levelError('MERCENARY_LEVEL_CONFLICT',message,409),{terminal:true});
 function levelCatalog(document,userId,hasJinmuPackIssue,hasJokroPackIssue){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),AWAKENED_OMEGA_CODE,RAZAK_CODE,JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE].filter(code=>jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&jokroAccountAllowed(userId,code,Date.now(),hasJokroPackIssue)).map(limitedDeploymentSnapshot).filter(Boolean)];}
 function normalize(body,action,{preview=false}={}){
+ if(!TRANSFER_RELEASE_ENABLED&&['EXTRACT','INFUSE'].includes(action))throw transferError('PAUSED',TRANSFER_REPAIR_MESSAGE,423);
  if(!['TRAIN','BREAKTHROUGH','EXTRACT','INFUSE'].includes(action)||!SEED.catalog.cards.some(c=>c.code===body.mercenaryCode)&&!limitedDeploymentSnapshot(body.mercenaryCode))throw levelError('MERCENARY_LEVEL_TARGET','성장 대상 용병을 확인하세요.');
  if(!Number.isSafeInteger(body.revision)||body.revision<0)throw levelError('MERCENARY_LEVEL_REVISION','최신 성장 상태를 불러오세요.');
  if(action==='TRAIN'&&body.allowOverflow!==undefined&&typeof body.allowOverflow!=='boolean')throw levelError('MERCENARY_LEVEL_OVERFLOW','초과 경험치 동의 항목을 확인하세요.');
@@ -54,6 +55,7 @@ async function context(env,user,input){
  const catalog=levelCatalog(document,user.id,hasJinmuPackIssue,hasJokroPackIssue),target=catalog.find(c=>c.code===input.mercenaryCode);
  if(!target?.rank)throw levelError('MERCENARY_LEVEL_RANK','성장 대상의 등급이 미정입니다.',409);
  const transfer=await readExperienceTransfer(env,user.id),memory=mercenaryTransferState(transfer.state,input.mercenaryCode);
+ if(!TRANSFER_RELEASE_ENABLED&&['TRAIN','BREAKTHROUGH'].includes(input.action)&&transfer.state.mercenaries[input.mercenaryCode])throw transferError('REPAIR_PENDING','이 용병의 경험치 이전 기록을 복구 중입니다. 복구 후 성장할 수 있습니다.',423);
  if(['EXTRACT','INFUSE'].includes(input.action)&&(input.transferRevision!==transfer.state.revision||input.policyRevision!==policy.revision))throw terminal('물약 또는 성장 설정이 변경됐습니다. 다시 확인하세요.');
  const pity=input.action==='BREAKTHROUGH'?mercenaryPityFromHistory(await readMercenaryBreakthroughHistory(env,user.id),input.mercenaryCode,state,memory.resetRevision):null;
  return {policy,raw,cmsRevision,state,target,owned:owned.results,catalog,pity,transfer};
@@ -134,7 +136,7 @@ export async function handleMercenaryLevel({path,request,env,deps}){
  if(!admin&&!['feature','state','preview','train','breakthrough','receipt','extract-preview','extract','infuse'].includes(action))return null;
  const {json,authenticate,withUserMutationLock}=deps,reply=data=>json(data,200,{'cache-control':'no-store'});
  try{
-  if(action==='feature'){if(request.method!=='GET')throw levelError('MERCENARY_LEVEL_METHOD','GET 요청이 필요합니다.',405);return reply({releaseEnabled:RELEASE,rules:RULES});}
+  if(action==='feature'){if(request.method!=='GET')throw levelError('MERCENARY_LEVEL_METHOD','GET 요청이 필요합니다.',405);return reply({releaseEnabled:RELEASE,rules:RULES,transferEnabled:TRANSFER_RELEASE_ENABLED});}
   if(!admin&&['train','breakthrough','preview','extract-preview','extract','infuse'].includes(action)&&!RELEASE)throw levelError('MERCENARY_LEVEL_PREPARATION','용병 레벨 활성화를 준비 중입니다. 카드가 소모되지 않았습니다.',423);
   const user=await authenticate(request,env);if(!user)throw levelError('MERCENARY_LEVEL_AUTH','로그인이 필요합니다.',401);
   if(admin&&user.role!=='OWNER')throw levelError('MERCENARY_LEVEL_PERMISSION','OWNER만 성장 초안을 관리할 수 있습니다.',403);
@@ -149,7 +151,7 @@ export async function handleMercenaryLevel({path,request,env,deps}){
     const [packOwners,jokroPackOwners]=await Promise.all([readJinmuPackOwners(env,owned.results.some(r=>r.mercenary_code===JINMU_CODE)?[user.id]:[]),readJokroPackOwners(env,owned.results.some(r=>r.mercenary_code===JOKRO_CODE)?[user.id]:[])]);
     const catalog=levelCatalog(document,user.id,packOwners.has(Number(user.id)),jokroPackOwners.has(Number(user.id)));
     const transfer=await readExperienceTransfer(env,user.id);
-    return reply({userId:Number(user.id),enabled,policy,rules:RULES,transfer:{revision:transfer.state.revision,potions:transfer.state.potions,item:TRANSFER_ITEM},cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>{const state=mercenaryLevelStateFromStorage(rows.find(s=>s.mercenary_code===r.mercenary_code)),card=catalog.find(c=>c.code===r.mercenary_code),memory=transferCardView(transfer,card);return {code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...card,growth:state,transfer:memory,breakthroughPity:mercenaryPityFromHistory(history,r.mercenary_code,state,memory.resetRevision)};})});
+    return reply({userId:Number(user.id),enabled,policy,rules:RULES,transfer:{enabled:TRANSFER_RELEASE_ENABLED,message:TRANSFER_REPAIR_MESSAGE,revision:transfer.state.revision,potions:transfer.state.potions,item:TRANSFER_ITEM},cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>{const state=mercenaryLevelStateFromStorage(rows.find(s=>s.mercenary_code===r.mercenary_code)),card=catalog.find(c=>c.code===r.mercenary_code),memory=transferCardView(transfer,card);return {code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...card,growth:state,transfer:memory,breakthroughPity:mercenaryPityFromHistory(history,r.mercenary_code,state,memory.resetRevision)};})});
    }
   }
   if(request.method!==(admin?'PATCH':'POST'))throw levelError('MERCENARY_LEVEL_METHOD','지원하지 않는 요청입니다.',405);

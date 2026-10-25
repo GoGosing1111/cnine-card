@@ -1,0 +1,24 @@
+import fs from 'node:fs';import path from 'node:path';import {createRequire} from 'node:module';import {execFileSync,spawn} from 'node:child_process';import {createHash} from 'node:crypto';
+const mode=process.argv[2],out=path.resolve(process.argv[3]),root=process.cwd(),account='1e7c59450a8b6e34a9d87f92ca02aeaa';fs.mkdirSync(out,{recursive:true});
+const git=(...args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true,maxBuffer:32e6}).trim(),head=git('rev-parse','HEAD');
+const wrangler=path.join(path.dirname(createRequire(import.meta.url).resolve('wrangler/package.json')),'bin/wrangler.js');
+const auth=JSON.parse(execFileSync(process.execPath,[wrangler,'auth','token','--json'],{encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe']})),token=auth.token||auth.apiToken||auth.oauthToken;
+if(!token)throw Error('Cloudflare authentication unavailable');
+const api=route=>fetch('https://api.cloudflare.com/client/v4/accounts/'+account+route,{headers:{Authorization:'Bearer '+token}}),hash=b=>createHash('sha256').update(b).digest('hex');
+async function state(){const r=await api('/pages/projects/cnine-card');if(!r.ok)throw Error('Release inspection failed');const d=(await r.json()).result.canonical_deployment;return {at:new Date().toISOString(),pages:{id:d.id,url:d.url,status:d.latest_stage.status,commit:d.deployment_trigger.metadata.commit_hash}};}
+if(mode==='inspect'){
+ const before=await state();fs.writeFileSync(path.join(out,'before-deploy.json'),JSON.stringify(before,null,2));
+ const plan={base:before.pages.commit,reason:'경험치 이전 물약을 별도 아이템 없이 발급한 사고 대응. 무료 추출/사용을 먼저 차단하고 해당 성장만 잠시 잠금해 운영 영수증 기반 복구를 보호한다. 일반 성장 유지, 관련 회귀 9개와 실제 PC/모바일 확인. 사용자 요청한 아이템 소모 방식 수정과 별도 복구 작업을 진행한다.',tests:['tests/mercenary-transfer-item-hold-20261025.test.mjs','tests/mercenary-level-cap21-20261025.test.mjs'],checks:['check:worker']};
+ fs.writeFileSync(path.join(out,'deployment-plan.json'),JSON.stringify(plan,null,2));console.log(JSON.stringify(before));
+}else if(mode==='deploy'){
+ const plan=JSON.parse(fs.readFileSync(path.join(out,'deployment-plan.json'))),logfile=path.join(out,'deploy.log');if(fs.existsSync(logfile))throw Error('Deployment log already exists');
+ const fd=fs.openSync(logfile,'w'),env={...process.env,SCOPED_DEPLOY_BASE:plan.base,SCOPED_DEPLOY_REASON:plan.reason,SCOPED_DEPLOY_TESTS:JSON.stringify(plan.tests),SCOPED_DEPLOY_CHECKS:JSON.stringify(plan.checks)};
+ const child=spawn(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run deploy:production -- --scoped'],{cwd:root,env,windowsHide:true,stdio:['ignore',fd,fd]});console.log(JSON.stringify({head,base:plan.base,pid:child.pid}));
+ const exitCode=await new Promise((resolve,reject)=>{child.once('exit',resolve);child.once('error',reject);});fs.closeSync(fd);fs.writeFileSync(path.join(out,'deployment-result.json'),JSON.stringify({head,exitCode,finishedAt:new Date().toISOString()},null,2));console.log(JSON.stringify({head,exitCode}));process.exitCode=exitCode||0;
+}else if(mode==='verify'){
+ const after=await state(),executed=JSON.parse(fs.readFileSync(path.join(out,'deployment-result.json')));if(executed.exitCode||after.pages.commit!==executed.head||after.pages.status!=='success')throw Error('Canonical production version mismatch');
+ const files=['index.html','service-worker.js','shared/mercenary-experience-transfer-v1.mjs','mercenary-codex/leveling/transfer.html','mercenary-codex/leveling/transfer.mjs'];
+ const checks=await Promise.all(files.map(async file=>{const r=await fetch('https://cnine-card.pages.dev/'+file+'?qa='+executed.head),remote=Buffer.from(await r.arrayBuffer()),local=hash(fs.readFileSync(path.join(root,file)));if(!r.ok||hash(remote)!==local)throw Error('Public file mismatch: '+file);return {file,sha256:local};}));
+ const feature=await (await fetch('https://cnine-card.pages.dev/api/mercenaries/v3/leveling/feature')).json();if(feature.transferEnabled!==false||feature.releaseEnabled!==true)throw Error('Containment flag not active');
+ fs.writeFileSync(path.join(out,'live-verification.json'),JSON.stringify({...after,checks,feature,accountWrites:0},null,2));console.log(JSON.stringify({pages:after.pages,files:checks.length,transferEnabled:feature.transferEnabled}));
+}else throw Error('Expected inspect|deploy|verify');
