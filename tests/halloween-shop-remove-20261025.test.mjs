@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {halloweenFixture} from './helpers/halloween-pack-fixture.mjs';
 import {HALLOWEEN_PACK,HALLOWEEN_PACK_KEY,HALLOWEEN_PACK_SHOP_ENABLED} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {BLOODMOON_PACK_RELEASE_ENABLED} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
-import {halloweenPackShopRow,handleHalloweenPack,readHalloweenPackState} from '../functions/_mercenary_halloween_pack.js';
+import {halloweenPackShopRow,handleHalloweenPack,readHalloweenPackState,saveHalloweenPack} from '../functions/_mercenary_halloween_pack.js';
 import {createHalloweenPackService} from '../functions/_mercenary_halloween_opening.js';
 
 test('removed Halloween pack has no shop row and every new open stops before account, body or DB access',async()=>{
@@ -21,6 +21,12 @@ test('stored ON economics stay readable without mutation, while actual opening s
  const f=await halloweenFixture(t),before=(await f.p('SELECT value FROM app_meta WHERE key=?',HALLOWEEN_PACK_KEY).first()).value;
  const state=await readHalloweenPackState(f.env);assert.equal(state.settings.mode,'ON');assert.equal(state.readiness.ready,true);assert.equal(state.shopEnabled,false);assert.equal(state.userOpeningEnabled,false);
  assert.equal((await f.p('SELECT value FROM app_meta WHERE key=?',HALLOWEEN_PACK_KEY).first()).value,before);assert.equal(await f.coin(),1000000);
+});
+test('OWNER saving a ready ON configuration cannot reopen the removed shop',async t=>{
+ const f=await halloweenFixture(t),before=await f.coin();
+ const saved=await saveHalloweenPack(f.env,f.user,{expectedRevision:1,requestId:crypto.randomUUID(),reason:'상점 종료 후 저장 검수',settings:f.settings});
+ assert.equal(saved.settings.mode,'ON');assert.equal(saved.readiness.ready,true);assert.equal(saved.shopEnabled,false);assert.equal(saved.userOpeningEnabled,false);assert.equal(saved.revision,2);
+ assert.equal(await halloweenPackShopRow(f.env),null);assert.equal(await f.coin(),before);
 });
 test('a historical paid receipt remains authenticated and recoverable after shop removal without new grants',async t=>{
  const f=await halloweenFixture(t),paid=await f.service.open(f.env,f.user,f.body(10)),coin=await f.coin(),before=(await f.pg.query('SELECT * FROM mercenary_limited_stock_v1 ORDER BY code')).rows;

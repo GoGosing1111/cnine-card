@@ -18,7 +18,7 @@ async function state(){
 }
 if(mode==='inspect'){
  fs.mkdirSync(out,{recursive:true});const before={...await state(),packs:await publicState()};fs.writeFileSync(path.join(out,'before-deploy.json'),JSON.stringify(before,null,2));console.log(JSON.stringify({pages:before.pages,shopIds:before.packs.shopIds,bloodmoonOn:before.packs.bloodmoon.userOpeningEnabled}));
- const plan={base:before.pages.commit,reason:'사용자 요청 할로윈팩 상점 제거와 신규 개봉 차단. 저장 가격/확률/한도, 보유 카드, 과거 영수증 및 블러드문팩 ON 보존. 관련 잠금/거래/복구/CMS 검사와 PC·모바일 상점/이전 결과 확인 경로 검수.',tests:['tests/halloween-shop-remove-20261025.test.mjs','tests/mercenary-halloween-pack-20261017.test.mjs','tests/mercenary-halloween-recovery-20261017.test.mjs','tests/mercenary-halloween-storage-recovery-20261021.test.mjs','tests/mercenary-halloween-ready-20261017.test.mjs','tests/mercenary-halloween-jokro-20261021.test.mjs'],checks:['check:worker']};
+ const plan={base:before.pages.commit,reason:'사용자 요청 할로윈팩 상점 제거와 신규 개봉 차단. 저장 가격/확률/한도, 보유 카드, 과거 영수증 및 블러드문팩 ON 보존. 관련 잠금/거래/복구/CMS 검사와 PC·모바일 상점/이전 결과 확인 경로 검수.',tests:['tests/halloween-shop-remove-20261025.test.mjs','tests/mercenary-halloween-pack-20261017.test.mjs','tests/mercenary-halloween-storage-recovery-20261021.test.mjs','tests/mercenary-halloween-jokro-20261021.test.mjs'],checks:['check:worker']};
  fs.writeFileSync(path.join(out,'deployment-plan.json'),JSON.stringify(plan,null,2));
 }else if(mode==='deploy'){
  const plan=JSON.parse(fs.readFileSync(path.join(out,'deployment-plan.json'))),logfile=path.join(out,'deploy.log');if(fs.existsSync(logfile))throw Error('Preserve prior deployment log before retrying');
