@@ -1,0 +1,133 @@
+{
+  "status": "PASSED",
+  "assetSource": "https://cnine-card.pages.dev",
+  "reports": [
+    {
+      "width": 390,
+      "code": "V-960",
+      "mercenaries": [
+        {
+          "code": "V-960",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        },
+        {
+          "code": "V-960",
+          "side": "ENEMY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "impacts": 1,
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 390,
+      "code": "V-961",
+      "mercenaries": [
+        {
+          "code": "V-961",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        },
+        {
+          "code": "V-961",
+          "side": "ENEMY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "impacts": 1,
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 390,
+      "code": "V-962",
+      "mercenaries": [
+        {
+          "code": "V-962",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        },
+        {
+          "code": "V-962",
+          "side": "ENEMY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "impacts": 1,
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 390,
+      "code": "V-963",
+      "mercenaries": [
+        {
+          "code": "V-963",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        },
+        {
+          "code": "V-963",
+          "side": "ENEMY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "impacts": 1,
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 390,
+      "code": "V-964",
+      "mercenaries": [
+        {
+          "code": "V-964",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        },
+        {
+          "code": "V-964",
+          "side": "ENEMY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "impacts": 1,
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 390,
+      "code": "V-965",
+      "mercenaries": [
+        {
+          "code": "V-965",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        },
+        {
+          "code": "V-965",
+          "side": "ENEMY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "impacts": 1,
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    }
+  ],
+  "productionTransactions": 0
+}
