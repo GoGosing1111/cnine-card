@@ -79,3 +79,17 @@ export function playBloodmoonSkill(engine,event){
  if(!engine.bloodmoonStates?.has(actor)){if(actor.hp>0)warmBloodmoonActor(engine,actor);apply();return true;}
  return playback(engine,actor,target,'skill',apply);
 }
+// The whip hit already played. Its subsequent mark/weakening is a status record,
+// not another attack and not a member of the generic authored-skill catalog.
+export function playBloodmoonStatus(engine,event){
+ const actor=engine.combatantById(event.actorId);
+ if(actor?.cardId!=='V-961'||event.skillId!=='MS-961'||event.type!=='MERCENARY_DEBUFF'||event.mechanic!=='REPEAT_OFFENDER_RESTRAINT')return false;
+ const label={OFFENDER_MARK:'위반 표식',BASIC_WEAKENED:'다음 기본 공격 약화',NEXT_BASIC_WEAKENED:'다음 기본 공격 약화'}[event.effect];
+ if(!label)return false;
+ const target=engine.combatantById(event.targetId);
+ if(!target||target.hp<=0||target.battleActive===false||target.root.destroyed||!target.root.visible)return true;
+ if(Number.isFinite(event.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,event.targetHpAfter,event.targetMaxHp));
+ if(Number.isFinite(event.targetShieldAfter))engine.syncTargetShield(target,event.targetShieldAfter,event.targetMaxShield);
+ engine.queueBanner(event.skillName||'홍련의 속박',0xeb4164,label);
+ return true;
+}

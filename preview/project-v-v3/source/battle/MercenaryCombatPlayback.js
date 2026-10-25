@@ -1,4 +1,4 @@
-import {bloodmoonBattleArt,setupBloodmoonActor,warmBloodmoonActor,clearBloodmoonActors,cancelBloodmoonPlayback,resumeBloodmoonPlayback,playBloodmoonBasic,playBloodmoonSkill} from './BloodmoonCombatPlayback.js';
+import {bloodmoonBattleArt,setupBloodmoonActor,warmBloodmoonActor,clearBloodmoonActors,cancelBloodmoonPlayback,resumeBloodmoonPlayback,playBloodmoonBasic,playBloodmoonSkill,playBloodmoonStatus} from './BloodmoonCombatPlayback.js';
 import {AWAKENED_OMEGA_CODE,AWAKENED_OMEGA_EVENT} from '../../../../shared/mercenary-awakened-omega-v1.mjs';
 import {awakenedOmegaBattleArt,setupAwakenedOmegaActor,warmAwakenedOmegaActor,clearAwakenedOmegaActors,cancelAwakenedOmegaPlayback,resumeAwakenedOmegaPlayback,playAwakenedOmegaBasic,playAwakenedOmegaSkill} from './AwakenedOmegaCombatPlayback.js';
 import {RAZAK_CODE,RAZAK_EVENT} from '../../../../shared/mercenary-razak-v1.mjs';
@@ -189,6 +189,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(bloodmoonBattleArt(limitedActor?.cardId)){
    if(['MERCENARY_WINDUP','MERCENARY_CAST','MERCENARY_FINISH'].includes(event.type))return true;
    if(event.type==='MERCENARY_HIT')return playBloodmoonSkill(this,event);
+   if(playBloodmoonStatus(this,event))return true;
   }
   if(limitedActor?.cardId===AWAKENED_OMEGA_CODE){
    if(['MERCENARY_WINDUP','MERCENARY_CAST','MERCENARY_FINISH'].includes(event.type))return true;

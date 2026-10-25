@@ -1,0 +1,99 @@
+{
+  "status": "PASSED",
+  "assetSource": "local source",
+  "reports": [
+    {
+      "width": 1440,
+      "code": "V-961",
+      "mode": "PVE",
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "code": "V-962",
+      "mode": "PVE",
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "code": "V-962",
+      "mode": "PVP",
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-961",
+      "mode": "PVE",
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-962",
+      "mode": "PVE",
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-962",
+      "mode": "PVP",
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    }
+  ],
+  "productionTransactions": 0
+}

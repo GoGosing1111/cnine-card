@@ -1,0 +1,22 @@
+{
+  "status": "REPRODUCED",
+  "beforeSource": "1851613fa",
+  "serverCase": {
+    "code": "V-961",
+    "mode": "PVE",
+    "seed": 77,
+    "monsterPower": 16000000000,
+    "event": "MERCENARY_DEBUFF",
+    "skillId": "MS-961",
+    "effects": [
+      "OFFENDER_MARK",
+      "BASIC_WEAKENED"
+    ]
+  },
+  "error": "정의되지 않은 용병 스킬입니다.",
+  "stack": [
+    "shared/mercenary-skills-v1.mjs:147 skillById",
+    "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js:287 playMercenaryEvent"
+  ],
+  "accountWrites": 0
+}

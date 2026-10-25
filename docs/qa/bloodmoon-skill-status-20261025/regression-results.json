@@ -1,0 +1,14 @@
+{
+  "status": "PASSED",
+  "tests": [
+    {
+      "file": "tests/bloodmoon-skill-status-20261025.test.mjs",
+      "passed": 7
+    },
+    {
+      "file": "tests/mercenary-police-restraint-20260923.test.mjs",
+      "passed": 7
+    }
+  ],
+  "productionAccountWrites": 0
+}

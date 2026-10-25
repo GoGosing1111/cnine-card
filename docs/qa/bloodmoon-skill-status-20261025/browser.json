@@ -1,0 +1,905 @@
+{
+  "status": "PASSED",
+  "assetSource": "local source",
+  "reports": [
+    {
+      "width": 1440,
+      "code": "V-961",
+      "mode": "PVE",
+      "side": "A",
+      "mercenaries": [
+        {
+          "code": "V-961",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "completed": true,
+      "damageApplications": 3,
+      "hpWrites": 3,
+      "banners": [
+        [
+          "홍련의 속박",
+          15417700,
+          "위반 표식"
+        ],
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "홍련의 속박",
+          15417700,
+          "위반 표식"
+        ],
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "홍련의 속박",
+          15417700,
+          "다음 기본 공격 약화"
+        ],
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ]
+      ],
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "OFFENDER_MARK",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "OFFENDER_MARK",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "BASIC_WEAKENED",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        }
+      ],
+      "last": {
+        "code": "V-961",
+        "eventType": "MERCENARY_HIT",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": 1.72,
+        "durationSeconds": 3.6,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 1440,
+      "code": "V-961",
+      "mode": "PVP",
+      "side": "A",
+      "mercenaries": [
+        {
+          "code": "V-961",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "completed": true,
+      "damageApplications": 2,
+      "hpWrites": 2,
+      "banners": [
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ]
+      ],
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        }
+      ],
+      "last": {
+        "code": "V-961",
+        "eventType": "MERCENARY_HIT",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": 1.72,
+        "durationSeconds": 3.6,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 1440,
+      "code": "V-961",
+      "mode": "PVP",
+      "side": "B",
+      "mercenaries": [
+        {
+          "code": "V-961",
+          "side": "ENEMY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "completed": true,
+      "damageApplications": 2,
+      "hpWrites": 2,
+      "banners": [
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ]
+      ],
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        }
+      ],
+      "last": {
+        "code": "V-961",
+        "eventType": "MERCENARY_HIT",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": 1.72,
+        "durationSeconds": 3.6,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 1440,
+      "code": "V-962",
+      "mode": "PVE",
+      "side": "A",
+      "mercenaries": [
+        {
+          "code": "V-962",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "completed": true,
+      "damageApplications": 2,
+      "hpWrites": 2,
+      "banners": [
+        [
+          "적월 단죄",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "적월 단죄",
+          12885247,
+          "시전 완료"
+        ]
+      ],
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-962"
+        }
+      ],
+      "last": {
+        "code": "V-962",
+        "eventType": "MERCENARY_HIT",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": 1.72,
+        "durationSeconds": 3.6,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 1440,
+      "code": "V-962",
+      "mode": "PVP",
+      "side": "A",
+      "mercenaries": [
+        {
+          "code": "V-962",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "completed": true,
+      "damageApplications": 2,
+      "hpWrites": 2,
+      "banners": [
+        [
+          "적월 단죄",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "적월 단죄",
+          12885247,
+          "시전 완료"
+        ]
+      ],
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-962"
+        }
+      ],
+      "last": {
+        "code": "V-962",
+        "eventType": "MERCENARY_HIT",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": 1.72,
+        "durationSeconds": 3.6,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 1440,
+      "code": "V-962",
+      "mode": "PVP",
+      "side": "B",
+      "mercenaries": [
+        {
+          "code": "V-962",
+          "side": "ENEMY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "completed": true,
+      "damageApplications": 2,
+      "hpWrites": 2,
+      "banners": [
+        [
+          "적월 단죄",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "적월 단죄",
+          12885247,
+          "시전 완료"
+        ]
+      ],
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-962"
+        }
+      ],
+      "last": {
+        "code": "V-962",
+        "eventType": "MERCENARY_HIT",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": 1.72,
+        "durationSeconds": 3.6,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 390,
+      "code": "V-961",
+      "mode": "PVE",
+      "side": "A",
+      "mercenaries": [
+        {
+          "code": "V-961",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "completed": true,
+      "damageApplications": 3,
+      "hpWrites": 3,
+      "banners": [
+        [
+          "홍련의 속박",
+          15417700,
+          "위반 표식"
+        ],
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "홍련의 속박",
+          15417700,
+          "위반 표식"
+        ],
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "홍련의 속박",
+          15417700,
+          "다음 기본 공격 약화"
+        ],
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ]
+      ],
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "OFFENDER_MARK",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "OFFENDER_MARK",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "BASIC_WEAKENED",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        }
+      ],
+      "last": {
+        "code": "V-961",
+        "eventType": "MERCENARY_HIT",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": 1.72,
+        "durationSeconds": 3.6,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 390,
+      "code": "V-961",
+      "mode": "PVP",
+      "side": "A",
+      "mercenaries": [
+        {
+          "code": "V-961",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "completed": true,
+      "damageApplications": 2,
+      "hpWrites": 2,
+      "banners": [
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ]
+      ],
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        }
+      ],
+      "last": {
+        "code": "V-961",
+        "eventType": "MERCENARY_HIT",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": 1.72,
+        "durationSeconds": 3.6,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 390,
+      "code": "V-961",
+      "mode": "PVP",
+      "side": "B",
+      "mercenaries": [
+        {
+          "code": "V-961",
+          "side": "ENEMY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "completed": true,
+      "damageApplications": 2,
+      "hpWrites": 2,
+      "banners": [
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "홍련의 속박",
+          12885247,
+          "시전 완료"
+        ]
+      ],
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        }
+      ],
+      "last": {
+        "code": "V-961",
+        "eventType": "MERCENARY_HIT",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": 1.72,
+        "durationSeconds": 3.6,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 390,
+      "code": "V-962",
+      "mode": "PVE",
+      "side": "A",
+      "mercenaries": [
+        {
+          "code": "V-962",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "completed": true,
+      "damageApplications": 2,
+      "hpWrites": 2,
+      "banners": [
+        [
+          "적월 단죄",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "적월 단죄",
+          12885247,
+          "시전 완료"
+        ]
+      ],
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-962"
+        }
+      ],
+      "last": {
+        "code": "V-962",
+        "eventType": "MERCENARY_HIT",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": 1.72,
+        "durationSeconds": 3.6,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 390,
+      "code": "V-962",
+      "mode": "PVP",
+      "side": "A",
+      "mercenaries": [
+        {
+          "code": "V-962",
+          "side": "ALLY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "completed": true,
+      "damageApplications": 2,
+      "hpWrites": 2,
+      "banners": [
+        [
+          "적월 단죄",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "적월 단죄",
+          12885247,
+          "시전 완료"
+        ]
+      ],
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-962"
+        }
+      ],
+      "last": {
+        "code": "V-962",
+        "eventType": "MERCENARY_HIT",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": 1.72,
+        "durationSeconds": 3.6,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    },
+    {
+      "width": 390,
+      "code": "V-962",
+      "mode": "PVP",
+      "side": "B",
+      "mercenaries": [
+        {
+          "code": "V-962",
+          "side": "ENEMY",
+          "visible": true,
+          "textureValid": true
+        }
+      ],
+      "completed": true,
+      "damageApplications": 2,
+      "hpWrites": 2,
+      "banners": [
+        [
+          "적월 단죄",
+          12885247,
+          "시전 완료"
+        ],
+        [
+          "적월 단죄",
+          12885247,
+          "시전 완료"
+        ]
+      ],
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-962"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-962"
+        }
+      ],
+      "last": {
+        "code": "V-962",
+        "eventType": "MERCENARY_HIT",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": 1.72,
+        "durationSeconds": 3.6,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "stalePairReplaced": true,
+      "recoveryRequests": 2
+    }
+  ],
+  "productionTransactions": 0
+}
