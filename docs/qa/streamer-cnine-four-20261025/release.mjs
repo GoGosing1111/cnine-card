@@ -1,0 +1,22 @@
+import fs from 'node:fs';import path from 'node:path';import {createRequire} from 'node:module';import {execFileSync,spawn} from 'node:child_process';import {createHash} from 'node:crypto';
+const mode=process.argv[2],out=path.resolve(process.argv[3]),root=process.cwd(),account='1e7c59450a8b6e34a9d87f92ca02aeaa';
+const git=(...args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true,maxBuffer:32e6}).trim(),head=git('rev-parse','HEAD');
+const wrangler=path.join(path.dirname(createRequire(import.meta.url).resolve('wrangler/package.json')),'bin/wrangler.js');
+const auth=JSON.parse(execFileSync(process.execPath,[wrangler,'auth','token','--json'],{encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe']})),token=auth.token||auth.apiToken||auth.oauthToken;if(!token)throw Error('Cloudflare authentication unavailable');
+const hash=b=>createHash('sha256').update(b).digest('hex');
+async function state(){const r=await fetch('https://api.cloudflare.com/client/v4/accounts/'+account+'/pages/projects/cnine-card',{headers:{Authorization:'Bearer '+token}});if(!r.ok)throw Error('Release inspection failed');const d=(await r.json()).result.canonical_deployment;return {id:d.id,url:d.url,status:d.latest_stage.status,commit:d.deployment_trigger.metadata.commit_hash};}
+async function roster(){const r=await fetch('https://cnine-card.pages.dev/api/streamer-profiles');if(!r.ok)throw Error('Lounge public read failed');return r.json();}
+if(mode==='inspect'){
+ fs.mkdirSync(out,{recursive:true});const before={at:new Date().toISOString(),pages:await state(),roster:await roster()};fs.writeFileSync(path.join(out,'before-deploy.json'),JSON.stringify(before,null,2));
+ const plan={base:before.pages.commit,reason:'스트리머 라운지에서 남수댕과 동일한 씨나인 로고 표시 대상에 나무늘봉순·디임을 추가한다. 기존 로고 이미지·크기·위치와 프로필/방송국 링크 유지, PC·모바일 실제 메인 화면 검수. 계정·설정 쓰기 없음.',tests:['tests/streamer-lounge-v2036.test.mjs'],checks:[]};fs.writeFileSync(path.join(out,'deployment-plan.json'),JSON.stringify(plan,null,2));console.log(JSON.stringify({pages:before.pages,rosterCount:before.roster.profiles.length}));
+}else if(mode==='deploy'){
+ const plan=JSON.parse(fs.readFileSync(path.join(out,'deployment-plan.json'))),logfile=path.join(out,'deploy.log');if(fs.existsSync(logfile))throw Error('Preserve previous deployment log');const fd=fs.openSync(logfile,'w');
+ const child=spawn(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run deploy:production -- --scoped'],{cwd:root,env:{...process.env,SCOPED_DEPLOY_BASE:plan.base,SCOPED_DEPLOY_REASON:plan.reason,SCOPED_DEPLOY_TESTS:JSON.stringify(plan.tests),SCOPED_DEPLOY_CHECKS:JSON.stringify(plan.checks)},windowsHide:true,stdio:['ignore',fd,fd]});console.log(JSON.stringify({head,base:plan.base,logfile,pid:child.pid}));
+ const exitCode=await new Promise((resolve,reject)=>{child.once('exit',resolve);child.once('error',reject);});fs.closeSync(fd);fs.writeFileSync(path.join(out,'deployment-result.json'),JSON.stringify({head,exitCode,finishedAt:new Date().toISOString()},null,2));console.log(JSON.stringify({head,exitCode}));process.exitCode=exitCode||0;
+}else if(mode==='verify'){
+ const before=JSON.parse(fs.readFileSync(path.join(out,'before-deploy.json'))),executed=JSON.parse(fs.readFileSync(path.join(out,'deployment-result.json'))),pages=await state();if(executed.exitCode||pages.commit!==executed.head||pages.status!=='success')throw Error('Canonical production version mismatch');
+ const files=['index.html','service-worker.js','js/streamer-lounge-v2036.js','preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png'];
+ const checks=await Promise.all(files.map(async file=>{const r=await fetch('https://cnine-card.pages.dev/'+file+'?qa='+executed.head),remote=Buffer.from(await r.arrayBuffer()),local=fs.existsSync(file)?fs.readFileSync(file):execFileSync('git',['show','HEAD:'+file],{maxBuffer:32e6});if(!r.ok||hash(remote)!==hash(local))throw Error('Public file mismatch '+file);return {file,sha256:hash(local),status:r.status};}));
+ const after=await roster();if(JSON.stringify(before.roster)!==JSON.stringify(after))throw Error('Public roster changed');
+ const result={at:new Date().toISOString(),pages,publicFiles:checks,rosterUnchanged:true,rosterCount:after.profiles.length,productionAccountWrites:0,productionSettingWrites:0};fs.writeFileSync(path.join(out,'live-verification.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
+}else throw Error('Use inspect, deploy or verify');

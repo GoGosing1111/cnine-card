@@ -108,7 +108,7 @@ function card(row, index, width, mobile) {
   const lineY = nameY + 24, linkY = lineY + 33, height = linkY + 24;
   const x = (width-photo)/2, handle = stationUrl(row.stationUrl).split('/').pop();
   const nameSize = Math.min(mobile ? 20 : 29, (width-pad*2)/(Array.from(row.name).length*.93));
-  const cnine = row.id === 'mew030709' || row.id === 'zalalz';
+  const cnine = ['mew030709', 'zalalz', 'yjk011599', 'qpqpro'].includes(row.id);
   const id = `sl40Photo-${row.id}`, href = portraitSourceUrl(row.imageUrl), fallback = profileImageUrl(row.imageUrl);
   return { height, markup: `<g class="sl40-card" role="listitem" data-profile-id="${esc(row.id)}">
     <image href="${art}member-card.png" width="${width}" height="${height}" preserveAspectRatio="none" aria-hidden="true"/>
