@@ -1,0 +1,22 @@
+{
+  "operationKey": "ops:streamer-box-two-extra:20261025:sunggurik:v1",
+  "authorization": "숭구릭 2개 추가",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "sourceCount": 1,
+  "recipientCount": 1,
+  "totalBoxes": 2,
+  "identityCheckedAt": "2026-10-25T10:02:32.671Z",
+  "pending": [],
+  "targets": [
+    {
+      "order": 1,
+      "inputNickname": "숭구릭",
+      "userId": "62",
+      "nickname": "숭구릭",
+      "role": "USER",
+      "identityHash": "cc667916590a627c5e959a8cf05a0ac8975e96c670121732ecfbecd721e93ed0",
+      "amount": 2
+    }
+  ]
+}

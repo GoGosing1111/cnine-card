@@ -1,0 +1,40 @@
+{
+  "sourceSha256": "cf085fee1fc4a46cf11a3e982867a691659194c98e25e3ff2363c07afd8357e0",
+  "planHash": "8b9509545df4ddabdb9dc60a6cf01dfb0de5b04372d280888a97182c73b3b370",
+  "verification": {
+    "status": "VERIFIED",
+    "operationKey": "ops:streamer-box-two-extra:20261025:sunggurik:v1",
+    "recipientCount": 1,
+    "totalBoxes": 2,
+    "amountEach": 2,
+    "pending": [],
+    "inventoryLogs": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "auditId": "51268",
+    "completedAt": "2026-10-25T10:04:15.424Z"
+  },
+  "allocations": [
+    {
+      "userId": "62",
+      "nickname": "숭구릭",
+      "inputNickname": "숭구릭",
+      "amount": 2,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "2",
+        "unseen": "2"
+      },
+      "logId": "86938028"
+    }
+  ],
+  "dryRunRollback": true,
+  "injectedFailureRollback": true,
+  "noWriteReplay": true,
+  "independentReadOnlyVerification": true,
+  "leasesReleased": true,
+  "testsPassed": 4
+}
