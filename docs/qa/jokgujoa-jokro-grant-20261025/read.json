@@ -1,0 +1,35 @@
+{
+  "mode": "read",
+  "sourceSha256": "7889ea97777e090a5fd579b3f590f064a5f20fe943164d621fd1f882d8548d0a",
+  "checkedAt": "2026-10-25T04:38:46.391Z",
+  "readOnly": true,
+  "account": {
+    "id": "525",
+    "coin": "8563489712785",
+    "role": "USER",
+    "status": "ACTIVE",
+    "nickname": "족구조아",
+    "card_shards": "2083589251",
+    "magic_crystals": "56641",
+    "identityHash": "0f81ee581e853760ce6013e22a34356e5939726950a6dd08aad7df99d4ffc37e"
+  },
+  "holding": [],
+  "stock": [
+    {
+      "code": "V-979",
+      "issued": 3,
+      "revision": 5,
+      "last_token": "408590e6-6b9a-41cb-854d-ca91770aad5f",
+      "stock_limit": 3
+    }
+  ],
+  "craft": [
+    {
+      "rows": "41",
+      "crafted": "3",
+      "output_ref": "V-979"
+    }
+  ],
+  "recipeStored": true,
+  "operationExists": false
+}

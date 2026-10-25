@@ -1,0 +1,12 @@
+{
+  "operationKey": "ops:jokgujoa-jokro-exempt-grant:20261025:v1",
+  "authorization": "족구조아 계정에 족로 지급해 한도 예외로",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [{"id":"525","nickname":"족구조아","status":"ACTIVE","role":"USER","identityHash":"0f81ee581e853760ce6013e22a34356e5939726950a6dd08aad7df99d4ffc37e"}],
+  "grants": [{"userId":"525","nickname":"족구조아","code":"V-979","name":"족로","quantity":1}],
+  "context": "족로 1장 영구 직접 지급. 팩/일반 제작/SSS 리미티드 조각 제작 한도와 발행 원장, 기존 편성·재화·성장 보존. 메시지 발송 없음."
+}

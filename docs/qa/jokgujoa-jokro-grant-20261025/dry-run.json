@@ -1,0 +1,197 @@
+{
+  "mode": "dry-run",
+  "sourceSha256": "6a9937dc56f3a1a0f710bfa0ab2217d14ab324649caa78766791e3fea90414c5",
+  "replayed": false,
+  "receipt": {
+    "status": "COMPLETED",
+    "actor": "CODEX_OPERATIONS",
+    "syncBefore": [
+      {
+        "domains": {
+          "pvp": "212308",
+          "wallet": "217171",
+          "loadout": "212556",
+          "messages": "212572",
+          "inventory": "217172",
+          "collection": "217170"
+        },
+        "user_id": "525",
+        "revision": "217172"
+      }
+    ],
+    "syncAfter": [
+      {
+        "domains": {
+          "pvp": "212308",
+          "wallet": "217171",
+          "loadout": "212556",
+          "messages": "212572",
+          "inventory": "217172",
+          "collection": "217173"
+        },
+        "user_id": "525",
+        "revision": "217173"
+      }
+    ],
+    "operationKey": "ops:jokgujoa-jokro-exempt-grant:20261025:v1",
+    "planHash": "241c89d099e18eada5fda1dd2e9530b6edd35815c68caaff32993668e3d5be17",
+    "plan": {
+      "operationKey": "ops:jokgujoa-jokro-exempt-grant:20261025:v1",
+      "authorization": "족구조아 계정에 족로 지급해 한도 예외로",
+      "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+      "cost": 0,
+      "automaticLoadout": false,
+      "totalQuantity": 1,
+      "recipientCount": 1,
+      "recipients": [
+        {
+          "id": "525",
+          "nickname": "족구조아",
+          "status": "ACTIVE",
+          "role": "USER",
+          "identityHash": "0f81ee581e853760ce6013e22a34356e5939726950a6dd08aad7df99d4ffc37e"
+        }
+      ],
+      "grants": [
+        {
+          "userId": "525",
+          "nickname": "족구조아",
+          "code": "V-979",
+          "name": "족로",
+          "quantity": 1
+        }
+      ],
+      "context": "족로 1장 영구 직접 지급. 팩/일반 제작/SSS 리미티드 조각 제작 한도와 발행 원장, 기존 편성·재화·성장 보존. 메시지 발송 없음."
+    },
+    "completedAt": "2026-10-25T04:41:01.672Z",
+    "grants": [
+      {
+        "userId": "525",
+        "nickname": "족구조아",
+        "code": "V-979",
+        "name": "족로",
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "holdingBefore": null
+      }
+    ],
+    "acquisitions": [
+      "ops:jokgujoa-jokro-exempt-grant:20261025:v1:525:V-979:1"
+    ],
+    "stockBefore": [
+      {
+        "code": "V-979",
+        "issued": 3,
+        "revision": 5,
+        "last_token": "408590e6-6b9a-41cb-854d-ca91770aad5f",
+        "stock_limit": 3
+      }
+    ],
+    "stockAfter": [
+      {
+        "code": "V-979",
+        "issued": 3,
+        "revision": 5,
+        "last_token": "408590e6-6b9a-41cb-854d-ca91770aad5f",
+        "stock_limit": 3
+      }
+    ],
+    "issuesBefore": [
+      {
+        "code": "V-979",
+        "serial": 1,
+        "user_id": 4111,
+        "created_at": "2026-10-22T07:11:44.868Z",
+        "request_id": "ef1e98e4-b8ff-453c-a8bb-263ca9c6e1aa",
+        "acquisition_id": "ef1e98e4-b8ff-453c-a8bb-263ca9c6e1aa:2"
+      },
+      {
+        "code": "V-979",
+        "serial": 2,
+        "user_id": 4391,
+        "created_at": "2026-10-23T00:05:42.877Z",
+        "request_id": "f6a9314e-e083-4c0e-b9e0-4d19bd69a60c",
+        "acquisition_id": "f6a9314e-e083-4c0e-b9e0-4d19bd69a60c:1"
+      },
+      {
+        "code": "V-979",
+        "serial": 3,
+        "user_id": 4595,
+        "created_at": "2026-10-23T10:44:46.586Z",
+        "request_id": "a05cbc5a-2c1a-4465-b717-2f03e71a447c",
+        "acquisition_id": "a05cbc5a-2c1a-4465-b717-2f03e71a447c:8"
+      }
+    ],
+    "issuesAfter": [
+      {
+        "code": "V-979",
+        "serial": 1,
+        "user_id": 4111,
+        "created_at": "2026-10-22T07:11:44.868Z",
+        "request_id": "ef1e98e4-b8ff-453c-a8bb-263ca9c6e1aa",
+        "acquisition_id": "ef1e98e4-b8ff-453c-a8bb-263ca9c6e1aa:2"
+      },
+      {
+        "code": "V-979",
+        "serial": 2,
+        "user_id": 4391,
+        "created_at": "2026-10-23T00:05:42.877Z",
+        "request_id": "f6a9314e-e083-4c0e-b9e0-4d19bd69a60c",
+        "acquisition_id": "f6a9314e-e083-4c0e-b9e0-4d19bd69a60c:1"
+      },
+      {
+        "code": "V-979",
+        "serial": 3,
+        "user_id": 4595,
+        "created_at": "2026-10-23T10:44:46.586Z",
+        "request_id": "a05cbc5a-2c1a-4465-b717-2f03e71a447c",
+        "acquisition_id": "a05cbc5a-2c1a-4465-b717-2f03e71a447c:8"
+      }
+    ],
+    "craftBefore": [
+      {
+        "rows": "41",
+        "crafted": "3",
+        "output_ref": "V-979"
+      }
+    ],
+    "craftAfter": [
+      {
+        "rows": "41",
+        "crafted": "3",
+        "output_ref": "V-979"
+      }
+    ],
+    "protectedBeforeHash": "828afe1a40374cd1d32291f77b77f74475b5614c3859d7c1766623157dbb15e2",
+    "protectedAfterHash": "828afe1a40374cd1d32291f77b77f74475b5614c3859d7c1766623157dbb15e2",
+    "preserved": {
+      "currency": true,
+      "stockCounters": true,
+      "numberedIssues": true,
+      "craftCounts": true,
+      "packAndCraftSettings": true,
+      "otherCards": true,
+      "inventory": true,
+      "loadouts": true,
+      "levels": true,
+      "growth": true,
+      "accountSettings": true
+    },
+    "auditId": "51131"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "recipientCount": 1,
+    "totalQuantity": 1,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 1,
+    "auditRecords": 1
+  },
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "noWriteReplayVerified": true,
+  "leasesReleased": true
+}
