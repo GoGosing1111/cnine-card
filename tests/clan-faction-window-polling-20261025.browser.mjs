@@ -5,6 +5,7 @@ import {createServer} from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
 import {clanResumeFixture} from './helpers/clan-resume-fixture.mjs';
 import {inspectResume,applyResume} from '../scripts/ops/clan-resume-20261025.mjs';
@@ -19,10 +20,18 @@ test('20-second clan refresh preserves headquarters and faction window; explicit
  const overview=await f.call('clan/overview',{regular:true});assert.equal(overview.status,200);
  assert(overview.data.resumption);assert(overview.data.restoration);assert.equal(overview.data.organizationPreparation,null,'Use the actual resumed response that caused the regression');
  const requests=[],errors=[],missing=[],cache=new Map();let failNextClan=false;
+ // Serve the downloaded production bytes unchanged at the local script URL so
+ // its existing relative dynamic imports retain the normal same-origin base.
+ let publicSourceSha256=null;
+ if(clanScriptUrl.startsWith('https:')){
+  const response=await fetch(clanScriptUrl,{headers:{'User-Agent':'Mozilla/5.0'},signal:AbortSignal.timeout(30000)});assert.equal(response.status,200);
+  const bytes=Buffer.from(await response.arrayBuffer());cache.set(path.join(root,'js/clan-v1.js'),bytes);
+  publicSourceSha256=createHash('sha256').update(bytes.toString('utf8').replaceAll('\r\n','\n')).digest('hex');
+ }
  const server=createServer(async(req,res)=>{try{
   const url=new URL(req.url,'http://'+req.headers.host);
   if(url.pathname==='/qa-clan'){
-   res.setHeader('Content-Type','text/html; charset=utf-8');res.end(`<!doctype html><html lang="ko"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/command-ui-v1.css"><link rel="stylesheet" href="/css/clan-v1.css"><link rel="stylesheet" href="/css/clan-champions-v2071.css"><link rel="stylesheet" href="/css/clan-war-reform-v1.css"><link rel="stylesheet" href="/css/organization-preparation-v1.css"><style>body{margin:0;background:#080e15;color:white;font-family:Arial,sans-serif}#clanRoot{max-width:1400px;margin:auto}</style><div id="clanRoot" class="clan-shell"></div><script src="/js/organization-preparation-v1.js"></script><script src="${clanScriptUrl}"></script><script>const apiRequest=async(p,o={})=>{const r=await fetch('/api/'+p,o),d=await r.json();if(!r.ok)throw Error(d.error);return d};ClanV1.bind({apiRequest,renderShell:()=>{},clearApiCache:()=>{}});</script></html>`);return;
+   res.setHeader('Content-Type','text/html; charset=utf-8');res.end(`<!doctype html><html lang="ko"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/command-ui-v1.css"><link rel="stylesheet" href="/css/clan-v1.css"><link rel="stylesheet" href="/css/clan-champions-v2071.css"><link rel="stylesheet" href="/css/clan-war-reform-v1.css"><link rel="stylesheet" href="/css/organization-preparation-v1.css"><style>body{margin:0;background:#080e15;color:white;font-family:Arial,sans-serif}#clanRoot{max-width:1400px;margin:auto}</style><div id="clanRoot" class="clan-shell"></div><script src="/js/organization-preparation-v1.js"></script><script src="/js/clan-v1.js"></script><script>const apiRequest=async(p,o={})=>{const r=await fetch('/api/'+p,o),d=await r.json();if(!r.ok)throw Error(d.error);return d};ClanV1.bind({apiRequest,renderShell:()=>{},clearApiCache:()=>{}});</script></html>`);return;
   }
   if(url.pathname.startsWith('/api/')){
    const p=url.pathname.slice(5);requests.push({path:p,method:req.method});
@@ -90,5 +99,5 @@ test('20-second clan refresh preserves headquarters and faction window; explicit
   await page.close();
  }
  assert.deepEqual(errors,[]);assert.deepEqual(missing,[]);assert(requests.every(r=>r.method==='GET'));
- fs.writeFileSync(path.join(out,'browser-verification.json'),JSON.stringify({status:'PASS',clanScriptUrl,fixture:'real resumed server APIs on isolated PostgreSQL-compatible fixture',automaticRefreshPeriodMs:20000,clock:'Playwright fastForward invokes real page timers',checks,errors,missing,apiWrites:0},null,2)+'\n');
+ fs.writeFileSync(path.join(out,'browser-verification.json'),JSON.stringify({status:'PASS',clanScriptUrl,publicSourceSha256,fixture:'real resumed server APIs on isolated PostgreSQL-compatible fixture',automaticRefreshPeriodMs:20000,clock:'Playwright fastForward invokes real page timers',checks,errors,missing,apiWrites:0},null,2)+'\n');
 });

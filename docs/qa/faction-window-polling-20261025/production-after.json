@@ -1,0 +1,20 @@
+{
+  "id": "c21e5287-04a9-4a62-ba5f-ea402929eef4",
+  "environment": "production",
+  "url": "https://c21e5287.cnine-card.pages.dev",
+  "latest_stage": {
+    "name": "deploy",
+    "started_on": null,
+    "ended_on": "2026-10-25T09:49:11.705749Z",
+    "status": "success"
+  },
+  "deployment_trigger": {
+    "type": "ad_hoc",
+    "metadata": {
+      "branch": "main",
+      "commit_hash": "ae9831fa0091e04b26d145cb1cd471425e37254d",
+      "commit_message": "Preserve faction window during resumed clan polling [CF-Pages-Skip]",
+      "commit_dirty": false
+    }
+  }
+}

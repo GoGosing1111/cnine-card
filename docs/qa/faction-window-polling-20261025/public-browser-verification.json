@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "clanScriptUrl": "https://cnine-card.pages.dev/js/clan-v1.js?factionPollingQA=ae9831fa0091e04b26d145cb1cd471425e37254d",
+  "publicSourceSha256": "d89f71762970071b5db828bc9360a1cd18409509763f310ecc4b6a8ed5c34ae2",
+  "fixture": "real resumed server APIs on isolated PostgreSQL-compatible fixture",
+  "automaticRefreshPeriodMs": 20000,
+  "clock": "Playwright fastForward invokes real page timers",
+  "checks": [
+    {
+      "width": 390,
+      "outage": false,
+      "headquartersSame": true,
+      "windowOpen": true
+    }
+  ],
+  "errors": [],
+  "missing": [],
+  "apiWrites": 0
+}

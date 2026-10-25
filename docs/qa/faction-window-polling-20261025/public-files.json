@@ -1,0 +1,28 @@
+{
+  "revision": "ae9831fa0091e04b26d145cb1cd471425e37254d",
+  "verifiedAt": "2026-10-25T09:49:42.144Z",
+  "normalization": "UTF-8 LF",
+  "checks": [
+    {
+      "file": "js/clan-v1.js",
+      "status": 200,
+      "expectedSha256": "d89f71762970071b5db828bc9360a1cd18409509763f310ecc4b6a8ed5c34ae2",
+      "publicSha256": "d89f71762970071b5db828bc9360a1cd18409509763f310ecc4b6a8ed5c34ae2",
+      "match": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "expectedSha256": "b40e166a50f9efafde24e21c994e40755bcfb5406d890b44ee129ee9bc259805",
+      "publicSha256": "b40e166a50f9efafde24e21c994e40755bcfb5406d890b44ee129ee9bc259805",
+      "match": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "expectedSha256": "d46f14caba32b9fb6361ab89231db63b2d673f2724e8137b8c44cf197ab74721",
+      "publicSha256": "d46f14caba32b9fb6361ab89231db63b2d673f2724e8137b8c44cf197ab74721",
+      "match": true
+    }
+  ]
+}

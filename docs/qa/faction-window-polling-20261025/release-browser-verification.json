@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "clanScriptUrl": "/js/clan-v1.js",
+  "fixture": "real resumed server APIs on isolated PostgreSQL-compatible fixture",
+  "automaticRefreshPeriodMs": 20000,
+  "clock": "Playwright fastForward invokes real page timers",
+  "checks": [
+    {
+      "width": 1440,
+      "outage": false,
+      "headquartersSame": true,
+      "windowOpen": true
+    },
+    {
+      "width": 1440,
+      "outage": true,
+      "headquartersSame": true,
+      "windowOpen": true
+    },
+    {
+      "width": 1440,
+      "outage": false,
+      "headquartersSame": true,
+      "windowOpen": true
+    },
+    {
+      "width": 1440,
+      "explicitExit": true,
+      "headquartersTabPreserved": true,
+      "siblingTab": true,
+      "reopen": true,
+      "escapeClose": true
+    },
+    {
+      "width": 390,
+      "outage": false,
+      "headquartersSame": true,
+      "windowOpen": true
+    },
+    {
+      "width": 390,
+      "outage": true,
+      "headquartersSame": true,
+      "windowOpen": true
+    },
+    {
+      "width": 390,
+      "outage": false,
+      "headquartersSame": true,
+      "windowOpen": true
+    },
+    {
+      "width": 390,
+      "explicitExit": true,
+      "headquartersTabPreserved": true,
+      "siblingTab": true,
+      "reopen": true,
+      "escapeClose": true
+    }
+  ],
+  "errors": [],
+  "missing": [],
+  "apiWrites": 0
+}
