@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-25T19:29:05.463Z",
+  "pages": {
+    "id": "e44cf14c-dede-4d56-9f67-a2e60cb1a10d",
+    "url": "https://e44cf14c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "aa5c28db5a067c8f0804d446cdca9388667d2892"
+  },
+  "releaseCommit": "aa5c28db5a067c8f0804d446cdca9388667d2892",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "eunseolGrowthCatalog": true,
+      "catalogSha256": "6a1061923ed0003d42722030c54659625adb8d5b30bdf579c78c60f479a6970b"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "growthApi": false,
+      "bundleSha256": "d4f44e19fa7592f840031112bd7a50ac9f085126f40fb169859a1cacc94e964d"
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "mercenary-codex/leveling/index.html",
+      "sha256": "79b896197e4acff90d8445eec047030593d07b40a8b270c8994fe9a7c4244ff3"
+    },
+    {
+      "file": "mercenary-codex/leveling/app.mjs",
+      "sha256": "4d1cc11c0507e02bef01ef6d09c56c6a5d56812929651ed80bf49fd5faccf3b9"
+    },
+    {
+      "file": "shared/mercenary-level-v1.mjs",
+      "sha256": "06d5497561f68e8ec1319dfdbd537796bd96c47541cf6185df2b652b1cb0f2e8"
+    },
+    {
+      "file": "shared/mercenary-eunseol-v1.mjs",
+      "sha256": "ce32928d69d74a84cfdfa079d6d5540c2af41181d9154d579b4cd1e522c3434c"
+    }
+  ],
+  "unauthenticatedStateStatus": 401,
+  "operationalAccountWrites": 0
+}

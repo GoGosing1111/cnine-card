@@ -17,7 +17,10 @@ if(mode==='inspect'){
 }else if(mode==='verify'){
  const execution=JSON.parse(fs.readFileSync(path.join(out,'deployment-result.json'))),after=await state();assert.equal(execution.exitCode,0);assert.equal(after.pages.commit,execution.head);assert.equal(after.pages.status,'success');
  const workers=[];for(const name of ['cnine-card-api-runtime','cnine-card-clan-draft']){
-  const body=await(await api('/workers/scripts/'+name)).text(),match=body.match(/function levelCatalog\([^]{0,3000}/);assert(match,'Growth catalog missing from '+name);const end=match[0].indexOf('\n}'),catalog=match[0].slice(0,end+2);assert(end>0);assert.match(catalog,/EUNSEOL_CODE/);assert.match(body,/EUNSEOL_CODE\s*=\s*["']V-973["']/);workers.push({name,eunseolGrowthCatalog:true,catalogSha256:hash(catalog)});
+  const body=await(await api('/workers/scripts/'+name)).text();
+  // Scheduled combat does not expose growth HTTP routes; bundling removes that handler.
+  if(name==='cnine-card-clan-draft'){assert.match(body,/EUNSEOL_CODE\s*=\s*["']V-973["']/);workers.push({name,growthApi:false,bundleSha256:hash(body)});continue;}
+  const match=body.match(/function levelCatalog\([^]{0,3000}/);assert(match,'Growth catalog missing from '+name);const end=match[0].indexOf('\n}'),catalog=match[0].slice(0,end+2);assert(end>0);assert.match(catalog,/EUNSEOL_CODE/);assert.match(body,/EUNSEOL_CODE\s*=\s*["']V-973["']/);workers.push({name,eunseolGrowthCatalog:true,catalogSha256:hash(catalog)});
  }
  const publicFiles=[];for(const file of ['mercenary-codex/leveling/index.html','mercenary-codex/leveling/app.mjs','shared/mercenary-level-v1.mjs','shared/mercenary-eunseol-v1.mjs']){const r=await fetch('https://cnine-card.pages.dev/'+file+'?verify='+execution.head,{signal:AbortSignal.timeout(30000)});assert(r.ok);const actual=(await r.text()).replaceAll('\r\n','\n'),expected=fs.readFileSync(file,'utf8').replaceAll('\r\n','\n');assert.equal(hash(actual),hash(expected));publicFiles.push({file,sha256:hash(actual)});}
  const unauth=await fetch('https://cnine-card.pages.dev/api/mercenaries/v3/leveling/state?verify='+execution.head,{signal:AbortSignal.timeout(30000)});assert.equal(unauth.status,401);

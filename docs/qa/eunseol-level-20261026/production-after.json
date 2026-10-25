@@ -1,0 +1,74 @@
+{
+  "checkedAt": "2026-10-25T19:28:40.301Z",
+  "phase": "after",
+  "readOnly": true,
+  "accountWrites": 0,
+  "owners": 6,
+  "ownershipGrowthHash": "5c7ee1400cdc80a5b35e861cef0f7af9f581f0db822fb3668e34406e8eac008b",
+  "policyHash": "6e60255c851ff333322e23e10a35f8856c3181d11fa842d56c382aaa45cffb85",
+  "cmsRevision": 61,
+  "cmsHasEunseol": false,
+  "sourceHash": "17f2943696bb40ba575d8548d96c35fb059bff1162b38bb2a2a1d1a04e8116eb",
+  "results": [
+    {
+      "ownerIndex": 1,
+      "visible": true,
+      "enabled": true,
+      "rank": "SSS",
+      "previewStatus": 400,
+      "previewError": "MERCENARY_LEVEL_DUPLICATES",
+      "level": 1,
+      "experience": 0
+    },
+    {
+      "ownerIndex": 2,
+      "visible": true,
+      "enabled": true,
+      "rank": "SSS",
+      "previewStatus": 400,
+      "previewError": "MERCENARY_LEVEL_DUPLICATES",
+      "level": 1,
+      "experience": 0
+    },
+    {
+      "ownerIndex": 3,
+      "visible": true,
+      "enabled": true,
+      "rank": "SSS",
+      "previewStatus": 400,
+      "previewError": "MERCENARY_LEVEL_DUPLICATES",
+      "level": 1,
+      "experience": 0
+    },
+    {
+      "ownerIndex": 4,
+      "visible": true,
+      "enabled": true,
+      "rank": "SSS",
+      "previewStatus": 400,
+      "previewError": "MERCENARY_LEVEL_DUPLICATES",
+      "level": 1,
+      "experience": 0
+    },
+    {
+      "ownerIndex": 5,
+      "visible": true,
+      "enabled": true,
+      "rank": "SSS",
+      "previewStatus": 400,
+      "previewError": "MERCENARY_LEVEL_DUPLICATES",
+      "level": 1,
+      "experience": 0
+    },
+    {
+      "ownerIndex": 6,
+      "visible": true,
+      "enabled": true,
+      "rank": "SSS",
+      "previewStatus": 400,
+      "previewError": "MERCENARY_LEVEL_DUPLICATES",
+      "level": 1,
+      "experience": 0
+    }
+  ]
+}

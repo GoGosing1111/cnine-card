@@ -1,0 +1,106 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"81c326b9b2d80967e038268ea36d89f556195ae2","reason":"은설 보유자 6명 모두 성장 목록 누락과 MERCENARY_LEVEL_RANK를 READ ONLY로 재현. 성장 카탈로그에 은설 코드만 연결하며 기존 XP 5배·돌파·이전·소유권·재료 보호를 유지한다. 38개 서버 회귀와 실제 PC/모바일 성장 화면을 검증했다.","changed":[".gitattributes","AGENTS.md","docs/qa/bongsoon-general-jok-loan-20261026/README.md","docs/qa/bongsoon-general-jok-loan-20261026/dry-run.json","docs/qa/bongsoon-general-jok-loan-20261026/grant-replay.json","docs/qa/bongsoon-general-jok-loan-20261026/grant-result.json","docs/qa/bongsoon-general-jok-loan-20261026/lock-worker.mjs","docs/qa/bongsoon-general-jok-loan-20261026/reviewed-source.json","docs/qa/bongsoon-general-jok-loan-20261026/run.mjs","docs/qa/bongsoon-general-jok-loan-20261026/schedule.json","docs/qa/bongsoon-general-jok-loan-20261026/wrangler.jsonc","docs/qa/eunseol-level-20261026/README.md","docs/qa/eunseol-level-20261026/before-deploy.json","docs/qa/eunseol-level-20261026/browser.json","docs/qa/eunseol-level-20261026/deployment-plan.json","docs/qa/eunseol-level-20261026/growth-1440.png","docs/qa/eunseol-level-20261026/growth-390.png","docs/qa/eunseol-level-20261026/materials-1440.png","docs/qa/eunseol-level-20261026/materials-390.png","docs/qa/eunseol-level-20261026/production-before.json","docs/qa/eunseol-level-20261026/read-production.mjs","docs/qa/eunseol-level-20261026/release.mjs","docs/qa/ganjang-package11-20261025/README.md","docs/qa/ganjang-package11-20261025/lock-worker.mjs","docs/qa/ganjang-package11-20261025/run.mjs","docs/qa/ganjang-package11-20261025/wrangler.jsonc","docs/qa/general-jok-grip-fix-20261025/README.md","docs/qa/general-jok-grip-fix-20261025/before-deploy.json","docs/qa/general-jok-grip-fix-20261025/deploy.log","docs/qa/general-jok-grip-fix-20261025/deployment-plan.json","docs/qa/general-jok-grip-fix-20261025/deployment-result.json","docs/qa/general-jok-grip-fix-20261025/live-verification.json","docs/qa/limited-shard-soldout-plus5-20261025/README.md","docs/qa/limited-shard-soldout-plus5-20261025/apply.json","docs/qa/limited-shard-soldout-plus5-20261025/dry-run.json","docs/qa/limited-shard-soldout-plus5-20261025/local-runner.mjs","docs/qa/limited-shard-soldout-plus5-20261025/read.json","docs/qa/limited-shard-soldout-plus5-20261025/verify.json","docs/qa/showmaker-previous-week-20261026/README.md","docs/qa/showmaker-previous-week-20261026/apply.json","docs/qa/showmaker-previous-week-20261026/dry-run.json","docs/qa/showmaker-previous-week-20261026/local-runner.mjs","docs/qa/showmaker-previous-week-20261026/read.json","docs/qa/showmaker-previous-week-20261026/verify.json","functions/_mercenary_level.js","scripts/ops/bongsoon-general-jok-loan-20261026.mjs","scripts/ops/ganjang-package11-20261025.mjs","scripts/ops/limited-shard-soldout-plus5-20261025.mjs","scripts/ops/limited-shard-soldout-plus5-20261025.plan.json","scripts/ops/showmaker-previous-week-20261026.mjs","scripts/ops/showmaker-previous-week-20261026.plan.json","tests/bongsoon-general-jok-loan-20261026.test.mjs","tests/eunseol-level-20261026.browser.mjs","tests/eunseol-level-20261026.test.mjs","tests/helpers/eunseol-level-fixture-20261026.mjs","tests/limited-shard-soldout-plus5-20261025.test.mjs","tests/showmaker-previous-week-20261026.test.mjs"],"tests":["tests/eunseol-level-20261026.test.mjs","tests/mercenary-level-v2-integration-20261015.test.mjs","tests/mercenary-experience-transfer-20261025.test.mjs","tests/mercenary-level-cap21-20261025.test.mjs","tests/eunseol-pve-only-20261024.test.mjs"],"checks":["check:worker"]}
+✔ SQLite: owned Eunseol appears, trains once, breaks through and retains growth in battle (108.1798ms)
+✔ PostgreSQL: owned Eunseol appears, trains once, breaks through and retains growth in battle (4314.0216ms)
+✔ Eunseol ownership, protected original and material grade remain enforced (38.9132ms)
+✔ PostgreSQL: failed Eunseol level save rolls materials back and retries exactly once (2337.6492ms)
+✔ Eunseol uses the existing LIMITED transfer group as source and recipient (45.9729ms)
+✔ SQLite: Eunseol remains deployable in PVE and is accepted by PVP and ranked saves (69.6452ms)
+✔ SQLite: saved and legacy-inherited Eunseol PVP slots are available with ownership, independently from PVE (38.4242ms)
+✔ PostgreSQL: Eunseol remains deployable in PVE and is accepted by PVP and ranked saves (4173.8698ms)
+✔ PostgreSQL: saved and legacy-inherited Eunseol PVP slots are available with ownership, independently from PVE (2383.2383ms)
+✔ stale supplied battle snapshots instantiate Eunseol on either PVP side, with or without avatar power (38.656ms)
+✔ duo matchmaking includes explicit and inherited Eunseol while retaining eligible PVP mercenaries (4.741ms)
+✔ duo profile rebuilding includes Eunseol in potential power and equipped attack/defense (88.4529ms)
+✔ XP grouping, odd XP floor, max level costs and checkpoint banking are exact (2.1853ms)
+✔ completed level costs use the receipt policy and exclude failures/overflow (0.3357ms)
+✔ SQLite: missing or inactive real potion cannot preview, reset, transfer or mint (55.917ms)
+✔ SQLite: one owned item atomically transfers half, banks at checkpoints and replays once (59.1529ms)
+✔ SQLite: wrong rank, own source, nonownership, maximum, stale states and altered quote cannot spend (53.2161ms)
+✔ SQLite: failure after debit and both level writes rolls back; retry and competing requests spend once (80.8341ms)
+✔ PostgreSQL: missing or inactive real potion cannot preview, reset, transfer or mint (4218.8154ms)
+✔ PostgreSQL: one owned item atomically transfers half, banks at checkpoints and replays once (2403.4211ms)
+✔ PostgreSQL: wrong rank, own source, nonownership, maximum, stale states and altered quote cannot spend (1723.4035ms)
+✔ PostgreSQL: failure after debit and both level writes rolls back; retry and competing requests spend once (1622.4622ms)
+✔ 21 is terminal; 22, missing final breakthrough and terminal XP are rejected (2.8844ms)
+✔ SQLite: level 20 final success reaches 21 once; direct requests cannot spend materials or reach 22 (94.9492ms)
+✔ SQLite: existing final completion becomes 21 on current reads without rewriting rows or old receipts (23.2013ms)
+✔ PostgreSQL: level 20 final success reaches 21 once; direct requests cannot spend materials or reach 22 (4124.8634ms)
+✔ PostgreSQL: existing final completion becomes 21 on current reads without rewriting rows or old receipts (2337.0918ms)
+✔ legacy growth endpoint remains closed and cannot bypass the cap (0.8257ms)
+✔ SQLite: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x (61.5ms)
+✔ SQLite: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once (89.7301ms)
+✔ SQLite: committed V2 growth summaries survive policy replacement, OFF and receipt recovery (33.3847ms)
+✔ SQLite: partially configured growth can be saved OFF but cannot consume cards or grow (36.8126ms)
+✔ PostgreSQL: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x (4445.4634ms)
+✔ PostgreSQL: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once (2433.4466ms)
+✔ PostgreSQL: committed V2 growth summaries survive policy replacement, OFF and receipt recovery (1634.9794ms)
+✔ PostgreSQL: partially configured growth can be saved OFF but cannot consume cards or grow (1540.1561ms)
+✔ both previous OFF policy versions adapt in memory without writing or filling a growth profile (0.9025ms)
+✔ released leveling mutations and preview require authentication before database access (22.6162ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10821.5898
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 8805 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8503.70 KiB / gzip: 1830.95 KiB
+Worker Startup Time: 45 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.10 sec)
+No targets deployed for cnine-card-api-runtime (0.62 sec)
+Current Version ID: d089713d-7147-4374-8186-cf9a4ee7744d
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19997/20000)
+Uploading... (19998/20000)
+Uploading... (19999/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 3 files (19997 already uploaded) (2.47 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://e44cf14c.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3183.88 KiB / gzip: 715.29 KiB
+Worker Startup Time: 50 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.36 sec)
+Deployed cnine-card-clan-draft triggers (1.02 sec)
+  schedule: * * * * *
+Current Version ID: 92c587db-58f3-456e-b476-b14191c044bd

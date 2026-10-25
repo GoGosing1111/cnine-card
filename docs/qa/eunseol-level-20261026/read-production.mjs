@@ -1,5 +1,5 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {createRequire} from 'node:module';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';import {pathToFileURL} from 'node:url';
-const root='C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site',require=createRequire(path.join(root,'package.json')),pg=require('pg'),phase=process.argv[2];assert(['before','after'].includes(phase));
+const root='C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site',require=createRequire(path.join(root,'package.json')),pg=require('pg'),phase=process.argv[2];assert(['before','after','preview'].includes(phase));
 const hash=x=>createHash('sha256').update(typeof x==='string'?x:JSON.stringify(x)).digest('hex');
 const raw=execFileSync(process.execPath,['C:/Users/User/AppData/Local/npm-cache/_npx/74274893b9fe65d3/node_modules/neonctl/bin/cli.js','connection-string','br-misty-hat-az5in4f4','--project-id','purple-king-54735192','--database-name','cnine','--role-name','cnine_migrator','--ssl','verify-full'],{encoding:'utf8',timeout:30000,windowsHide:true,stdio:['ignore','pipe','pipe']});
 const connectionString=raw.trim().replace(/^['"]|['"]$/g,''),url=new URL(connectionString);assert(url.hostname.endsWith('.neon.tech')&&url.pathname==='/cnine');
@@ -14,9 +14,11 @@ try{
   const user={id:Number(owner.user_id),role:'USER'},deps={authenticate:async()=>user,json:(body,status=200,headers={})=>new Response(JSON.stringify(body),{status,headers}),withUserMutationLock:()=>{throw Error('No mutations allowed');}};
   const call=async(action,body)=>{const response=await handleMercenaryLevel({path:'mercenaries/v3/leveling/'+action,request:new Request('https://readonly.test/api/mercenaries/v3/leveling/'+action,{method:body?'POST':'GET',...(body?{body:JSON.stringify(body),headers:{'content-type':'application/json',origin:'https://readonly.test'}}:{})}),env,deps});return {status:response.status,body:await response.json()};};
   const state=await call('state'),card=state.body.cards?.find(c=>c.code==='V-973');assert.equal(state.status,200);
-  const preview=await call('preview',{mercenaryCode:'V-973',revision:Number(owner.revision||0),materials:[{code:'V-973',quantity:1}]});
+  const material=phase==='preview'?state.body.cards.find(c=>c.rank===card?.rank&&c.duplicates>0&&c.totalCopies>1):null;
+  const preview=await call('preview',{mercenaryCode:'V-973',revision:Number(owner.revision||0),materials:[{code:material?.code||'V-973',quantity:1}]});
   if(phase==='before'){assert(!card);assert.equal(preview.body.code,'MERCENARY_LEVEL_RANK');}else{assert(card);assert.equal(card.name,'은설');assert.equal(card.rank,'SSS');assert.notEqual(preview.body.code,'MERCENARY_LEVEL_RANK');}
-  results.push({ownerIndex:results.length+1,visible:!!card,enabled:state.body.enabled,rank:card?.rank??null,previewStatus:preview.status,previewError:preview.body.code??null,level:Number(owner.level||1),experience:Number(owner.experience||0)});
+  if(material)assert.equal(preview.status,200,preview.body.error);
+  results.push({ownerIndex:results.length+1,visible:!!card,enabled:state.body.enabled,rank:card?.rank??null,previewStatus:preview.status,previewError:preview.body.code??null,level:Number(owner.level||1),experience:Number(owner.experience||0),...(phase==='preview'?{hasUsableMaterial:!!material,previewXp:preview.body.xp??null,requiredXpMultiplier:preview.body.requiredXpMultiplier??null}: {})});
  }
  const result={checkedAt:new Date().toISOString(),phase,readOnly:true,accountWrites:0,owners:owners.length,ownershipGrowthHash:hash(owners),policyHash:hash(policy.value),cmsRevision:cms.revision,cmsHasEunseol:JSON.parse(cms.payload_json).mercenaries.some(c=>c.code==='V-973'),sourceHash:hash(fs.readFileSync(path.join(root,'functions/_mercenary_level.js'),'utf8')),results};
  await db.query('ROLLBACK');const out=path.join(root,'docs/qa/eunseol-level-20261026');fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'production-'+phase+'.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));
