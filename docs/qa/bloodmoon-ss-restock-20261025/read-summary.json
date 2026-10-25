@@ -1,0 +1,194 @@
+{
+  "documentHash": "1bfd90b461f9c0796e04ffa86e1ff1a24705e5cde67914796c308b3411e9cf8d",
+  "document": {
+    "revision": 4,
+    "settings": {
+      "mode": "ON",
+      "prices": {
+        "single": 1500000000,
+        "ten": 15000000000
+      },
+      "missRatePpm": 800000,
+      "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "normalSssRatePpm": 969789,
+      "cardRatesPpm": {
+        "V-960": 5000,
+        "V-961": 5000,
+        "V-962": 5000,
+        "V-963": 5000,
+        "V-964": 5000,
+        "V-965": 5000,
+        "V-978": 200,
+        "V-974": 10,
+        "V-975": 1
+      },
+      "stockLimits": {
+        "V-960": 10,
+        "V-961": 10,
+        "V-962": 10,
+        "V-963": 10,
+        "V-964": 10,
+        "V-965": 10,
+        "V-978": 5,
+        "V-974": 3,
+        "V-975": 3
+      }
+    },
+    "updatedAt": "2026-10-25T03:53:13.795Z",
+    "updatedBy": 1,
+    "lastRequestId": "bloodmoon-open-20261025-v1"
+  },
+  "stock": [
+    {
+      "code": "V-960",
+      "stock_limit": 10,
+      "issued": 10,
+      "revision": 9,
+      "last_token": "5f958ddd-b884-4716-b7ca-c3fe322d2407"
+    },
+    {
+      "code": "V-961",
+      "stock_limit": 10,
+      "issued": 10,
+      "revision": 9,
+      "last_token": "788107c2-ec31-473d-91a5-29ea99522181"
+    },
+    {
+      "code": "V-962",
+      "stock_limit": 10,
+      "issued": 10,
+      "revision": 9,
+      "last_token": "3c812e86-38dc-4372-9e18-a15a7e69b862"
+    },
+    {
+      "code": "V-963",
+      "stock_limit": 10,
+      "issued": 10,
+      "revision": 9,
+      "last_token": "0281b56c-41c4-4ebb-8cf0-9fcd937be0b8"
+    },
+    {
+      "code": "V-964",
+      "stock_limit": 10,
+      "issued": 10,
+      "revision": 7,
+      "last_token": "197e7753-380e-4131-be71-243a0d4dc696"
+    },
+    {
+      "code": "V-965",
+      "stock_limit": 10,
+      "issued": 10,
+      "revision": 9,
+      "last_token": "0a6a3184-b3c1-488f-b521-e46c96ddc76b"
+    }
+  ],
+  "protectedPolicy": {
+    "settings": [
+      {
+        "key": "mercenary_halloween_ss_pack_v1",
+        "value": "{\"revision\":23,\"settings\":{\"format\":\"MERCENARY_HALLOWEEN_SS_PACK_V3\",\"mode\":\"ON\",\"prices\":{\"single\":1000000000,\"ten\":10000000000},\"cardRatesPpm\":{\"V-980\":10000,\"V-981\":10000,\"V-982\":10000,\"V-983\":10000,\"V-984\":10000,\"V-985\":10000,\"V-986\":10000,\"V-999\":200,\"V-989\":300,\"V-996\":200,\"V-977\":5000,\"V-979\":300},\"missRatePpm\":800000,\"stockLimits\":{\"V-980\":13,\"V-981\":13,\"V-982\":13,\"V-983\":13,\"V-984\":13,\"V-985\":13,\"V-986\":13,\"V-999\":null,\"V-989\":5,\"V-996\":null,\"V-977\":20,\"V-979\":3},\"normalRankRatesPpm\":{\"C\":104500,\"B\":30000,\"A\":30000,\"S\":30000,\"SS\":5000,\"SSS\":500},\"normalSssRatePpm\":924000},\"updatedAt\":\"2026-10-22T22:26:02.983Z\",\"updatedBy\":1,\"lastRequestId\":\"ops:halloween-stock-increase:20261023:v1\"}"
+      }
+    ],
+    "stockLimits": [
+      {
+        "code": "V-974",
+        "stock_limit": "3"
+      },
+      {
+        "code": "V-975",
+        "stock_limit": "3"
+      },
+      {
+        "code": "V-977",
+        "stock_limit": "20"
+      },
+      {
+        "code": "V-978",
+        "stock_limit": "5"
+      },
+      {
+        "code": "V-979",
+        "stock_limit": "3"
+      },
+      {
+        "code": "V-980",
+        "stock_limit": "13"
+      },
+      {
+        "code": "V-981",
+        "stock_limit": "13"
+      },
+      {
+        "code": "V-982",
+        "stock_limit": "13"
+      },
+      {
+        "code": "V-983",
+        "stock_limit": "13"
+      },
+      {
+        "code": "V-984",
+        "stock_limit": "13"
+      },
+      {
+        "code": "V-985",
+        "stock_limit": "13"
+      },
+      {
+        "code": "V-986",
+        "stock_limit": "13"
+      },
+      {
+        "code": "V-989",
+        "stock_limit": "5"
+      },
+      {
+        "code": "V-990",
+        "stock_limit": "15"
+      },
+      {
+        "code": "V-991",
+        "stock_limit": "10"
+      },
+      {
+        "code": "V-992",
+        "stock_limit": "10"
+      },
+      {
+        "code": "V-993",
+        "stock_limit": "10"
+      },
+      {
+        "code": "V-994",
+        "stock_limit": "12"
+      },
+      {
+        "code": "V-996",
+        "stock_limit": "15"
+      },
+      {
+        "code": "V-997",
+        "stock_limit": "10"
+      },
+      {
+        "code": "V-998",
+        "stock_limit": "10"
+      },
+      {
+        "code": "V-999",
+        "stock_limit": "8"
+      }
+    ]
+  },
+  "receipt": null,
+  "checkedAt": "2026-10-25T04:13:05.467Z",
+  "issueCount": 60
+}
