@@ -1,0 +1,66 @@
+{
+  "checkedAt": "2026-10-25T18:41:30.892Z",
+  "sourceHash": "fecb21bf0fb011b575c55c5c01a16ac8f6287294bb340e36e97146f80a236569",
+  "planHash": "6b94a06e38555c93f8b843eb069fa5183c535d11ef45e4160bb7791885a21ee9",
+  "rolledBack": true,
+  "failureRollbackVerified": true,
+  "grantVerified": true,
+  "revokeVerified": true,
+  "replayedWithoutWrites": true,
+  "before": {
+    "user": {
+      "id": "5426",
+      "nickname": "나무늘봉순",
+      "role": "USER",
+      "status": "ACTIVE",
+      "row_hash": "b2da244cfd2354401f7849d3f570da1f"
+    },
+    "identities": [
+      "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98"
+    ],
+    "holding": [],
+    "loadout": [
+      {
+        "user_id": "5426",
+        "mercenary_code": "V-999",
+        "revision": 10,
+        "updated_at": "2026-10-18T17:37:19.379Z"
+      }
+    ],
+    "pvp": [
+      {
+        "key": "mercenary_pvp_loadout_v1:5426",
+        "value": "{\"mercenaryCode\":\"V-999\",\"revision\":8}"
+      }
+    ],
+    "protectedStateHash": "d61bfbb846d2ccc8c22077395abdc373e39e95773f6a3dd87951c3a7cf86bdb6"
+  },
+  "grant": {
+    "verified": true,
+    "userId": 5426,
+    "nickname": "나무늘봉순",
+    "code": "V-974",
+    "currentCopies": 1,
+    "granted": true,
+    "revoked": false,
+    "expiresAt": "2026-10-26T05:00:00+09:00",
+    "grantAuditId": "51419",
+    "revokeAuditId": null,
+    "removed": 0,
+    "stockCountersChanged": false
+  },
+  "revoke": {
+    "verified": true,
+    "userId": 5426,
+    "nickname": "나무늘봉순",
+    "code": "V-974",
+    "currentCopies": 0,
+    "granted": true,
+    "revoked": true,
+    "expiresAt": "2026-10-26T05:00:00+09:00",
+    "grantAuditId": "51419",
+    "revokeAuditId": "51420",
+    "removed": 1,
+    "stockCountersChanged": false
+  }
+}

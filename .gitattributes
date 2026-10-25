@@ -4,3 +4,7 @@
 preview/v3-wide-grid-v1/battle.bundle.js whitespace=-blank-at-eol
 preview/cow-room-v3-v1/battle.bundle.js whitespace=-blank-at-eol
 preview/sustained-hunt-v2/battle.bundle.js whitespace=-blank-at-eol
+# Preserve reviewed byte hashes for the scheduled 2026-10-26 temporary loan.
+docs/qa/bongsoon-general-jok-loan-20261026/** text eol=lf
+scripts/ops/bongsoon-general-jok-loan-20261026.mjs text eol=lf
+tests/bongsoon-general-jok-loan-20261026.test.mjs text eol=lf

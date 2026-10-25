@@ -1,0 +1,12 @@
+{
+  "id": "5",
+  "kind": "heartbeat",
+  "name": "나무늘봉순 제너럴 족 오전 5시 회수",
+  "active": true,
+  "recallAt": "2026-10-26T05:00:00+09:00",
+  "rrule": "RRULE:FREQ=DAILY;BYHOUR=5;BYMINUTE=0;BYSECOND=0;COUNT=1",
+  "targetThreadId": "01a173fd-8129-72d0-9e45-86cc1aebe3bb",
+  "createdAtMs": 1792953723528,
+  "sourceHash": "fecb21bf0fb011b575c55c5c01a16ac8f6287294bb340e36e97146f80a236569",
+  "confirmedBy": "automation_update create ACTIVE, view, and saved automation.toml"
+}

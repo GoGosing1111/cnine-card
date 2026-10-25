@@ -1,0 +1,11 @@
+{
+  "reviewedAt": "2026-10-25T18:41:09.940Z",
+  "planHash": "6b94a06e38555c93f8b843eb069fa5183c535d11ef45e4160bb7791885a21ee9",
+  "files": {
+    "scripts/ops/bongsoon-general-jok-loan-20261026.mjs": "57a141521dbcded1948f4f55d3d7c3db1b714f3a75af2e02bb048f1d3a839ba4",
+    "tests/bongsoon-general-jok-loan-20261026.test.mjs": "5ec7f81351fa72ad3264b061c1efc5968d46e8c919e53a1f9bb549a7fc996d4f",
+    "docs/qa/bongsoon-general-jok-loan-20261026/run.mjs": "6b7811e599ccd7c11cc039d668086e3e64ac8e6df8e0a82163cea6dab3d8f896",
+    "docs/qa/bongsoon-general-jok-loan-20261026/lock-worker.mjs": "57f1bf906f25ffff7cfc45417846f1d11bde99fa49e1a18216cc39d79e540218",
+    "docs/qa/bongsoon-general-jok-loan-20261026/wrangler.jsonc": "afe0390861796fa73f8c1ca20feed696876e711877d83b4d77f85072269c6f74"
+  }
+}

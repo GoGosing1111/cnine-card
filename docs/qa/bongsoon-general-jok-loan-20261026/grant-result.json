@@ -1,0 +1,82 @@
+{
+  "checkedAt": "2026-10-25T18:42:37.424Z",
+  "sourceHash": "fecb21bf0fb011b575c55c5c01a16ac8f6287294bb340e36e97146f80a236569",
+  "mode": "grant",
+  "replayed": false,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bongsoon:general-jok:loan:20261026:v1",
+    "planHash": "6b94a06e38555c93f8b843eb069fa5183c535d11ef45e4160bb7791885a21ee9",
+    "plan": {
+      "userId": 5426,
+      "nickname": "나무늘봉순",
+      "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98",
+      "code": "V-974",
+      "name": "제너럴 족",
+      "quantity": 1,
+      "expiresAt": "2026-10-26T05:00:00+09:00",
+      "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+      "automaticLoadout": false,
+      "authorization": "나무늘봉순 계정에 예외처리로 제너럴족 지급하고 5시에 회수해"
+    },
+    "completedAt": "2026-10-25T18:42:36.725Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "acquiredAt": "2026-10-25T18:42:35.712Z",
+    "automaticLoadout": false,
+    "stockChanged": false,
+    "protectedHash": "d61bfbb846d2ccc8c22077395abdc373e39e95773f6a3dd87951c3a7cf86bdb6",
+    "auditId": "51423"
+  },
+  "verification": {
+    "verified": true,
+    "userId": 5426,
+    "nickname": "나무늘봉순",
+    "code": "V-974",
+    "currentCopies": 1,
+    "granted": true,
+    "revoked": false,
+    "expiresAt": "2026-10-26T05:00:00+09:00",
+    "grantAuditId": "51423",
+    "revokeAuditId": null,
+    "removed": 0,
+    "stockCountersChanged": false
+  },
+  "snapshot": {
+    "user": {
+      "id": "5426",
+      "nickname": "나무늘봉순",
+      "role": "USER",
+      "status": "ACTIVE",
+      "row_hash": "b2da244cfd2354401f7849d3f570da1f"
+    },
+    "identities": [
+      "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98"
+    ],
+    "holding": [
+      {
+        "user_id": "5426",
+        "mercenary_code": "V-974",
+        "total_copies": 1,
+        "duplicate_count": 0,
+        "first_obtained_at": "2026-10-25T18:42:35.712Z",
+        "last_obtained_at": "2026-10-25T18:42:35.712Z"
+      }
+    ],
+    "loadout": [
+      {
+        "user_id": "5426",
+        "mercenary_code": "V-999",
+        "revision": 10,
+        "updated_at": "2026-10-18T17:37:19.379Z"
+      }
+    ],
+    "pvp": [
+      {
+        "key": "mercenary_pvp_loadout_v1:5426",
+        "value": "{\"mercenaryCode\":\"V-999\",\"revision\":8}"
+      }
+    ],
+    "protectedStateHash": "a287da043ca5a5562fc660841b56150626c5b6e057809f8eba5a919c97dc8099"
+  }
+}
