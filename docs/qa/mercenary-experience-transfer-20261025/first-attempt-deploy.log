@@ -1,0 +1,70 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"04c5d2ecd8fb81d18c6ec72798525f1045a32fd6","reason":"용병 성장에 경험치 50% 추출/이전 물약을 추가한다. 기존 계정 잠금과 원자 거래를 재사용하며 스키마 변경 없음. 일반 SSS와 SSS 리미티드 분리, 용병당 1회, 초기화와 보관 경험치의 서버 거래 및 PC/모바일 경로를 검증한다.","changed":["AGENTS.md","assets/items/mercenary-experience-transfer-20261025/manifest.json","assets/items/mercenary-experience-transfer-20261025/original.png","assets/items/mercenary-experience-transfer-20261025/potion.webp","docs/qa/mercenary-experience-transfer-20261025/README.md","docs/qa/mercenary-experience-transfer-20261025/browser.json","docs/qa/mercenary-experience-transfer-20261025/extract-confirm-1440.png","docs/qa/mercenary-experience-transfer-20261025/extract-confirm-390.png","docs/qa/mercenary-experience-transfer-20261025/release.mjs","docs/qa/mercenary-experience-transfer-20261025/transfer-1440.png","docs/qa/mercenary-experience-transfer-20261025/transfer-390.png","docs/qa/mercenary-experience-transfer-20261025/used-after-reset-1440.png","docs/qa/mercenary-experience-transfer-20261025/used-after-reset-390.png","docs/qa/streamer-cnine-four-20261025/README.md","docs/qa/streamer-cnine-four-20261025/before-deploy.json","docs/qa/streamer-cnine-four-20261025/browser.mjs","docs/qa/streamer-cnine-four-20261025/deploy.log","docs/qa/streamer-cnine-four-20261025/deployment-plan.json","docs/qa/streamer-cnine-four-20261025/deployment-result.json","docs/qa/streamer-cnine-four-20261025/live-verification.json","docs/qa/streamer-cnine-four-20261025/public/browser.json","docs/qa/streamer-cnine-four-20261025/public/lounge-390.png","\"docs/qa/streamer-cnine-four-20261025/public/search-\\353\\202\\230\\353\\254\\264\\353\\212\\230\\353\\264\\211\\354\\210\\234-390.png\"","\"docs/qa/streamer-cnine-four-20261025/public/search-\\353\\224\\224\\354\\236\\204-390.png\"","functions/_mercenary_experience_transfer.js","functions/_mercenary_level.js","functions/_mercenary_level_pity.js","functions/api/[[path]].js","index.html","js/app.js","mercenary-codex/leveling/app.mjs","mercenary-codex/leveling/breakthrough.mjs","mercenary-codex/leveling/client.mjs","mercenary-codex/leveling/index.html","mercenary-codex/leveling/transfer.css","mercenary-codex/leveling/transfer.html","mercenary-codex/leveling/transfer.mjs","service-worker.js","shared/mercenary-experience-transfer-v1.mjs","tests/helpers/mercenary-experience-transfer-db.mjs","tests/mercenary-experience-transfer-20261025.browser.mjs","tests/mercenary-experience-transfer-20261025.test.mjs"],"tests":["tests/mercenary-experience-transfer-20261025.test.mjs","tests/mercenary-level-v2-integration-20261015.test.mjs","tests/mercenary-breakthrough-pity-20261021.test.mjs","tests/mercenary-level-cap21-20261025.test.mjs","tests/mercenary-growth-launch-20261016.test.mjs"],"checks":["check:worker"]}
+✔ exact 10/20 failed-attempt boundary; base 10% chance and XP cost stay unchanged (5.0132ms)
+✔ SQLite: legacy failures are retroactive for each milestone, and guarantee commits only once (168.9186ms)
+✔ SQLite: tenth failure, XP refill and guaranteed eleventh attempt preserve counters and materials (49.5673ms)
+✔ SQLite: rollback, cancelled/pending/test requests, other users and mercenaries cannot inflate pity (49.4694ms)
+✔ SQLite: old completed receipts stay frozen; pre-release pending failure cannot bypass new guarantee (34.4308ms)
+✔ PostgreSQL: legacy failures are retroactive for each milestone, and guarantee commits only once (5052.4353ms)
+✔ PostgreSQL: tenth failure, XP refill and guaranteed eleventh attempt preserve counters and materials (2364.4251ms)
+✔ PostgreSQL: rollback, cancelled/pending/test requests, other users and mercenaries cannot inflate pity (2166.3133ms)
+✔ PostgreSQL: old completed receipts stay frozen; pre-release pending failure cannot bypass new guarantee (1961.8601ms)
+✔ history uses receipt revision, deduplicates IDs, resets after success and ignores later snapshots (18.1647ms)
+✔ XP grouping, odd XP floor, max level costs and checkpoint banking are exact (3.4076ms)
+✔ completed level costs use the receipt policy and exclude failures/overflow (0.4969ms)
+✔ SQLite: extraction, infusion, banked breakthrough, immutable once flag and recovery (101.0711ms)
+✔ SQLite: rank/limited/ownership/quote/stale protections leave both sides unchanged (72.2993ms)
+✔ SQLite: rollback, same-request retry and competing receives cannot duplicate a potion (76.7628ms)
+✔ SQLite: reset ends the old pity cycle; failure refills only from the received reserve (54.1779ms)
+✔ PostgreSQL: extraction, infusion, banked breakthrough, immutable once flag and recovery (4744.231ms)
+✔ PostgreSQL: rank/limited/ownership/quote/stale protections leave both sides unchanged (2561.1353ms)
+✔ PostgreSQL: rollback, same-request retry and competing receives cannot duplicate a potion (2126.0113ms)
+✔ PostgreSQL: reset ends the old pity cycle; failure refills only from the received reserve (2080.8116ms)
+✔ client keeps uncertain requests for recovery, scopes by account, validates extraction receipts (1.5712ms)
+✔ new routes require same-origin authentication, reject unknown fields and honor the growth OFF switch (25.0671ms)
+✔ approved launch triples rising required XP only; both combat flags open and empty CMS stays empty (13.0841ms)
+✔ all four breakthroughs use exact 10% boundaries, preserve earned growth on failure, and finish at 21 (6.0848ms)
+✔ released authenticated state, training, receipt replay and server battle snapshot use the saved launch policy (103.7691ms)
+✔ launch installs only its empty table and audited policy once; dry-run/conflict roll back and replay never resets CMS (4214.6854ms)
+✔ 21 is terminal; 22, missing final breakthrough and terminal XP are rejected (6.5194ms)
+✔ SQLite: level 20 final success reaches 21 once; direct requests cannot spend materials or reach 22 (116.3437ms)
+✔ SQLite: existing final completion becomes 21 on current reads without rewriting rows or old receipts (27.2755ms)
+✔ PostgreSQL: level 20 final success reaches 21 once; direct requests cannot spend materials or reach 22 (4645.2537ms)
+✔ PostgreSQL: existing final completion becomes 21 on current reads without rewriting rows or old receipts (2431.1923ms)
+✔ legacy growth endpoint remains closed and cannot bypass the cap (1.4656ms)
+✔ SQLite: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x (77.5313ms)
+✔ SQLite: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once (85.7668ms)
+✔ SQLite: committed V2 growth summaries survive policy replacement, OFF and receipt recovery (34.355ms)
+✔ SQLite: partially configured growth can be saved OFF but cannot consume cards or grow (20.3026ms)
+✔ PostgreSQL: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x (4585.3904ms)
+✔ PostgreSQL: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once (2710.4616ms)
+✔ PostgreSQL: committed V2 growth summaries survive policy replacement, OFF and receipt recovery (2051.6ms)
+✔ PostgreSQL: partially configured growth can be saved OFF but cannot consume cards or grow (1960.6252ms)
+✔ both previous OFF policy versions adapt in memory without writing or filling a growth profile (1.1188ms)
+✔ released leveling mutations and preview require authentication before database access (26.3958ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 42
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12531.8736
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+file:///C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site/scripts/prepare-production-assets.mjs:217
+ if(assetCount>20000)throw Error('Pages asset count exceeds the verified 20,000-file limit: '+assetCount);
+                           ^
+
+Error: Pages asset count exceeds the verified 20,000-file limit: 20007
+    at prepareProductionAssets (file:///C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site/scripts/prepare-production-assets.mjs:217:28)
+    at file:///C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site/scripts/deploy-production.mjs:66:20
+
+Node.js v24.18.0

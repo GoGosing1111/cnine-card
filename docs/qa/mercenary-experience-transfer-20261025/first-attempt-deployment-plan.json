@@ -1,0 +1,14 @@
+{
+  "base": "04c5d2ecd8fb81d18c6ec72798525f1045a32fd6",
+  "reason": "용병 성장에 경험치 50% 추출/이전 물약을 추가한다. 기존 계정 잠금과 원자 거래를 재사용하며 스키마 변경 없음. 일반 SSS와 SSS 리미티드 분리, 용병당 1회, 초기화와 보관 경험치의 서버 거래 및 PC/모바일 경로를 검증한다.",
+  "tests": [
+    "tests/mercenary-experience-transfer-20261025.test.mjs",
+    "tests/mercenary-level-v2-integration-20261015.test.mjs",
+    "tests/mercenary-breakthrough-pity-20261021.test.mjs",
+    "tests/mercenary-level-cap21-20261025.test.mjs",
+    "tests/mercenary-growth-launch-20261016.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

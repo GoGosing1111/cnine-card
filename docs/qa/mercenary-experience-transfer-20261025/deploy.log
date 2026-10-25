@@ -1,0 +1,70 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"04c5d2ecd8fb81d18c6ec72798525f1045a32fd6","reason":"경험치 이전 물약 게임 코드의 관련 회귀 42개는 첫 공식 배포 검사에서 통과했다. 이후 변경은 원본을 보존한 정확한 배포 파일 7개 제외와 검수 기록뿐임을 Git diff로 확인했다. 중복 게임 검사 없이 새 패키징 회귀와 필수 Worker/캐시 검사를 실행한다.","changed":["AGENTS.md","assets/items/mercenary-experience-transfer-20261025/manifest.json","assets/items/mercenary-experience-transfer-20261025/original.png","assets/items/mercenary-experience-transfer-20261025/potion.webp","docs/qa/mercenary-experience-transfer-20261025/README.md","docs/qa/mercenary-experience-transfer-20261025/browser.json","docs/qa/mercenary-experience-transfer-20261025/extract-confirm-1440.png","docs/qa/mercenary-experience-transfer-20261025/extract-confirm-390.png","docs/qa/mercenary-experience-transfer-20261025/release.mjs","docs/qa/mercenary-experience-transfer-20261025/transfer-1440.png","docs/qa/mercenary-experience-transfer-20261025/transfer-390.png","docs/qa/mercenary-experience-transfer-20261025/used-after-reset-1440.png","docs/qa/mercenary-experience-transfer-20261025/used-after-reset-390.png","docs/qa/streamer-cnine-four-20261025/README.md","docs/qa/streamer-cnine-four-20261025/before-deploy.json","docs/qa/streamer-cnine-four-20261025/browser.mjs","docs/qa/streamer-cnine-four-20261025/deploy.log","docs/qa/streamer-cnine-four-20261025/deployment-plan.json","docs/qa/streamer-cnine-four-20261025/deployment-result.json","docs/qa/streamer-cnine-four-20261025/live-verification.json","docs/qa/streamer-cnine-four-20261025/public/browser.json","docs/qa/streamer-cnine-four-20261025/public/lounge-390.png","\"docs/qa/streamer-cnine-four-20261025/public/search-\\353\\202\\230\\353\\254\\264\\353\\212\\230\\353\\264\\211\\354\\210\\234-390.png\"","\"docs/qa/streamer-cnine-four-20261025/public/search-\\353\\224\\224\\354\\236\\204-390.png\"","functions/_mercenary_experience_transfer.js","functions/_mercenary_level.js","functions/_mercenary_level_pity.js","functions/api/[[path]].js","index.html","js/app.js","mercenary-codex/leveling/app.mjs","mercenary-codex/leveling/breakthrough.mjs","mercenary-codex/leveling/client.mjs","mercenary-codex/leveling/index.html","mercenary-codex/leveling/transfer.css","mercenary-codex/leveling/transfer.html","mercenary-codex/leveling/transfer.mjs","scripts/prepare-production-assets.mjs","service-worker.js","shared/mercenary-experience-transfer-v1.mjs","tests/helpers/mercenary-experience-transfer-db.mjs","tests/mercenary-experience-transfer-20261025.browser.mjs","tests/mercenary-experience-transfer-20261025.test.mjs","tests/mercenary-experience-transfer-production-assets-20261025.test.mjs"],"tests":["tests/mercenary-experience-transfer-production-assets-20261025.test.mjs"],"checks":["check:worker"]}
+Experience transfer delivery 20000/20000; exact originals and Python tools retained in Git.
+✔ exact authoring-only exclusions retain source bytes and ship all experience transfer runtime assets within the Pages cap (154.0669ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 254.526
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 8453 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8490.60 KiB / gzip: 1827.50 KiB
+Worker Startup Time: 43 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.35 sec)
+No targets deployed for cnine-card-api-runtime (0.75 sec)
+Current Version ID: aefa687f-936c-42c9-b3e2-2f6723a63806
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19986/20000)
+Uploading... (19990/20000)
+Uploading... (19995/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 14 files (19986 already uploaded) (2.31 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://57015dc6.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3174.50 KiB / gzip: 712.48 KiB
+Worker Startup Time: 33 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.27 sec)
+Deployed cnine-card-clan-draft triggers (1.04 sec)
+  schedule: * * * * *
+Current Version ID: 872e9582-1d87-4671-ad3d-b8ea1ff1e277

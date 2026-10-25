@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-25T08:06:43.000Z",
+  "pages": {
+    "id": "9b73f18b-a256-405c-ab2b-e2e7650ff79a",
+    "url": "https://9b73f18b.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "04c5d2ecd8fb81d18c6ec72798525f1045a32fd6"
+  },
+  "roster": {
+    "releaseEnabled": true,
+    "rules": {
+      "version": "mercenary-level-20261015-v2",
+      "maxLevel": 21,
+      "levelCapVersion": "20261025-cap21-v1",
+      "milestones": [
+        5,
+        10,
+        15,
+        20
+      ],
+      "materialKind": "MERCENARY",
+      "materialRank": "SAME_RANK",
+      "sameCardMultiplier": 3,
+      "limitedRequiredXpMultiplier": 5,
+      "preserveOriginal": true,
+      "coinCost": 0,
+      "masterStarCost": 0,
+      "maxMaterials": 100,
+      "failure": "CURRENT_LEVEL_EXP_ZERO",
+      "breakthroughPity": {
+        "failuresBeforeGuarantee": {
+          "5": 10,
+          "10": 10,
+          "15": 10,
+          "20": 20
+        },
+        "retroactive": true
+      }
+    }
+  }
+}

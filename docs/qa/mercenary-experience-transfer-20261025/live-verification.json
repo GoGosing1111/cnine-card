@@ -1,0 +1,97 @@
+{
+  "unauthorized": [
+    {
+      "action": "state",
+      "status": 401
+    },
+    {
+      "action": "extract-preview",
+      "status": 401
+    },
+    {
+      "action": "extract",
+      "status": 401
+    },
+    {
+      "action": "infuse",
+      "status": 401
+    }
+  ],
+  "at": "2026-10-25T08:09:23.882Z",
+  "pages": {
+    "id": "57015dc6-75fc-45bd-947b-6e0befd24954",
+    "url": "https://57015dc6.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "d10b2b22bd3809137901fbd76716ee11279a5989"
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "233bb99adfa4f7dc3858e1884d28f341ac7cc29913fade4abba2e6a05257c142",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "bf25285af453d80f6c9f3d7cf1d2ce7dc960be9cd580cb633b32dbcd79a09e51",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "a1c015e64e845d1a62f0a5353ef3c7cbd214b768a589df5e75af7824f418f0d3",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-experience-transfer-v1.mjs",
+      "sha256": "934ac1e06e4fec7ffa90e71d51f20d4db6e8d8d571fd01122982ac018ce9eaad",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/leveling/index.html",
+      "sha256": "5bbefdb47dbb2cef15883b79bd7520fec44f10f6b5bd51ef504f48584ac89969",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/leveling/app.mjs",
+      "sha256": "930a9b7ed112f051adbb81685aa1bb225d881eec284813094785a89d25565a4d",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/leveling/client.mjs",
+      "sha256": "a340a6ae5ab3d445770a988a1e3d2ec02d21efbb24c9a08553e34194fa21dbbd",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/leveling/breakthrough.mjs",
+      "sha256": "416b3105a1c731574c8533c79ddda98752b87e49a44c59907f0ed2108dfd5101",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/leveling/transfer.html",
+      "sha256": "e70fc1abe8372f96bf8ce1f74dd6bea09bedfa8011eb721b9ad37b54fc59647e",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/leveling/transfer.mjs",
+      "sha256": "dc79e8a51189974de6335b98f85d9855a2d502b9c95d61d21f9dc62af0b1b831",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/leveling/transfer.css",
+      "sha256": "a8e6f17d1a89faac6c6daeceb0de0cf0003724c4d0578c40806f5bd88609e115",
+      "status": 200
+    },
+    {
+      "file": "assets/items/mercenary-experience-transfer-20261025/potion.webp",
+      "sha256": "86877b7008885356a6679bcaf47879e9d47cf8e3f09659b224c450a918a6966f",
+      "status": 200
+    },
+    {
+      "file": "css/command-ui-v1.css",
+      "sha256": "59056aaf5d52d053caf00f5b4fc08c26442faabb9f1a59d7221d3713c6e5b898",
+      "status": 200
+    }
+  ],
+  "existingGrowthRulesUnchanged": true,
+  "productionAccountWrites": 0,
+  "productionSettingWrites": 0
+}

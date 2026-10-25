@@ -1,0 +1,18 @@
+{
+  "status": "PASSED",
+  "surface": "real public mobile page, anonymous session",
+  "asset": {
+    "width": 512,
+    "height": 512,
+    "src": "/assets/items/mercenary-experience-transfer-20261025/potion.webp"
+  },
+  "responses": [
+    {
+      "status": 401,
+      "path": "/api/mercenaries/v3/leveling/state"
+    }
+  ],
+  "productionAccountWrites": 0,
+  "noHorizontalOverflow": true,
+  "pageErrors": []
+}
