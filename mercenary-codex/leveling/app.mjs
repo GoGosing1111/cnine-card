@@ -1,9 +1,9 @@
 import {MERCENARY_LEVEL_RULES as RULES, LEVEL_BONUS_TYPES, mercenaryLevelRequiredXp, levelProgress, planMercenaryTraining, planMercenaryBreakthrough} from '../../shared/mercenary-level-v1.mjs?v=20261025-cap21-v1';
 import {mercenaryBreakthroughPity,mercenaryPityResultLabel} from '../../shared/mercenary-breakthrough-pity-v1.mjs';
 import {jointAccountRequest} from '../../js/joint-account-transport.mjs';
-import {createLevelClient} from './client.mjs?v=20261025-cap21-v1';
+import {createLevelClient} from './client.mjs?v=20261025-transfer-v1';
 import {levelDemo} from './demo.mjs?v=20261025-cap21-v1';
-import {showBreakthrough} from './breakthrough.mjs?v=20261025-cap21-v1';
+import {showBreakthrough} from './breakthrough.mjs?v=20261025-transfer-v1';
 import {presentLevelReceipt} from './receipt-presentation.mjs?v=20261016-growth-live-v1';
 import {renderGrowthAnalysis, growthSummary, growthLabel, resultBonusLabel} from './growth-view.mjs?v=20261025-cap21-v1';
 
@@ -41,6 +41,7 @@ function render() {
   const pity = c.breakthroughPity ?? (preview && next ? mercenaryBreakthroughPity(next.level) : null);
   const status = !account.enabled ? '레벨업 준비 중' : s.complete ? '최종 돌파 완료' : s.breakthroughReady ? '돌파 준비 완료' : '성장 진행 중';
   app.innerHTML = `
+    ${!preview?`<aside class="cn-command-ui transfer-entry"><a class="cn-ui-button primary" href="./transfer.html?code=${selected}">경험치 50% 이전 물약</a><p>${c.transfer?.used?'이 용병: 물약 1회 사용 완료':'받는 용병당 1회 · 일반 SSS / SSS 리미티드 분리'}${c.transfer?.bankedXp?` · 보관 경험치 ${fmt(c.transfer.bankedXp)} EXP (돌파 시 자동 적용)`:''}</p></aside>`:''}
     <div class="growth-intro"><div><p>MERCENARY ASCENSION</p><h2>경험을 전수하고,<br><em>한계를 넘어서.</em></h2></div><span>함께 싸운 용병의 가능성을 깨우는 성장실.<br><b>레벨 1—21 · 네 번의 돌파</b></span></div>
     <div class="mode-strip"><span class="status-dot"></span><b>${preview ? '검수 전용 · 실제 소모 없음' : account.enabled ? '용병의 다음 경지를 준비하세요' : '용병 성장 선공개 · 레벨업 준비 중'}</b><span>${preview ? '동일 용병 경험치 ×3 · 리미티드 요구 경험치 ×5 · 성장 후보안 검수' : account.enabled ? '같은 등급의 용병 카드를 경험치로 전수합니다.' : '보유 용병과 성장 화면을 확인할 수 있습니다. 경험치 전수·레벨업·돌파는 아직 이용할 수 없습니다.'}</span>${preview ? `<button id="demo-break" ${blocked ? 'disabled' : ''}>돌파 연출 보기 <span>↗</span></button>` : ''}</div>
     <div class="growth-workspace" id="workbench" tabindex="-1">
@@ -131,8 +132,10 @@ function renderCalculation() {
   forecast.style.width = `${plan && !plan.error ? plan.after.level > s.level ? 100 : levelProgress(account.policy, plan.after, target()).percent : 0}%`;
 }
 function describe(result, action) {
+  if(action==='EXTRACT')return `경험치 물약 추출 완료 · ${fmt(result.xp)} EXP · 원래 용병 Lv.1·EXP 0·돌파 초기화`;
+  if(action==='INFUSE')return `물약 사용 완료 · ${fmt(result.appliedXp)} EXP 적용 · ${fmt(result.bankedXp)} EXP 보관 · 이 용병은 재사용 불가`;
   const description = action === 'TRAIN' ? `경험치 전수 완료 · +${fmt(result.appliedXp)} EXP · Lv.${result.after.level}${result.overflowXp ? ` · 초과 ${fmt(result.overflowXp)} EXP 소멸` : ''}` : result.success ? `Lv.${result.before.level} 돌파 성공 · ${resultBonusLabel(result,effect(result.milestone))} 해금${result.complete ? ' · 최종 돌파 완료' : ` · Lv.${result.after.level}`}` : `돌파 실패 · Lv.${result.before.level} 유지 · 경험치 0%로 재시작합니다. 기존 효과는 유지됩니다.`;
-  return description+(result.pity?' · '+mercenaryPityResultLabel(result):'');
+  return description+(result.pity?' · '+mercenaryPityResultLabel(result):'')+(result.transfer?` · 보관 경험치 ${fmt(result.transfer.appliedXp)} EXP 자동 적용 · 남은 ${fmt(result.transfer.bankedAfter)} EXP`: '');
 }
 async function present(result, action, card) {
   if (action !== 'BREAKTHROUGH') return true;

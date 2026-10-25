@@ -76,6 +76,10 @@ export function showBreakthrough({result, card, bonusLabel, preview = false}) {
     $('.break-result-level').innerHTML = receipt.success ? receipt.complete ? `<b>Lv.${receipt.after.level}</b><small>MAX</small>` : `<span>Lv.${receipt.before.level}</span><i>→</i><b>Lv.${receipt.after.level}</b>` : `<b>Lv.${receipt.after.level}</b><small>유지</small><i>·</i><span>경험치 0%</span>`;
     $('.break-result-effect').textContent = receipt.success ? bonusLabel : '기존 돌파 효과 유지';
     $('.break-result-note').textContent = receipt.success ? receipt.complete ? `최종 돌파를 완료했습니다. Lv.${receipt.after.level} MAX`  : '돌파 효과가 해금되었습니다. 다음 성장을 시작하세요.' : '용병은 보존됩니다. 현재 레벨의 경험치를 다시 채워 도전하세요.';
+    if(receipt.transfer){
+      if(!receipt.success)$('.break-result-level').innerHTML=`<b>Lv.${receipt.after.level}</b><small>유지</small><i>·</i><span>${Number(receipt.after.experience).toLocaleString('ko-KR')} EXP</span>`;
+      $('.break-result-note').textContent=`${receipt.success?'돌파 효과가 해금되었습니다.':'돌파 실패로 현재 경험치가 소모되었습니다.'} 보관 경험치 ${Number(receipt.transfer.appliedXp).toLocaleString('ko-KR')} EXP를 자동 적용했습니다. 남은 ${Number(receipt.transfer.bankedAfter).toLocaleString('ko-KR')} EXP는 보관됩니다.`;
+    }
     if(receipt.pity)$('.break-result-note').append(document.createElement('br'),document.createTextNode(mercenaryPityResultLabel(receipt)+'.'));
     $('.break-result-stats').innerHTML = resultStatsHtml(receipt);
     $('.break-preserved').hidden = receipt.success;

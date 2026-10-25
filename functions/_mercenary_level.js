@@ -19,6 +19,8 @@ import {runJointOperation,readJointOperation} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {readJointBody,jointResponseError} from './_joint_request.js';
 import {readMercenaryBreakthroughHistory,mercenaryPityFromHistory} from './_mercenary_level_pity.js';
+import {readExperienceTransfer,readMercenaryGrowthHistory,transferCardView,transferRecordGuard} from './_mercenary_experience_transfer.js';
+import {TRANSFER_ITEM,transferGroup,mercenaryTransferState,retainedMercenaryXp,planExperienceExtraction,planExperienceInfusion,applyTransferXp,transferError} from '../shared/mercenary-experience-transfer-v1.mjs';
 
 const KIND='MERCENARY_LEVEL_V1';
 // Freeze growth effects in the same receipt as the material/XP change. Replaying
@@ -29,10 +31,16 @@ function captureGrowth(policy,result){
 }
 const terminal=message=>Object.assign(levelError('MERCENARY_LEVEL_CONFLICT',message,409),{terminal:true});
 function levelCatalog(document,userId,hasJinmuPackIssue,hasJokroPackIssue){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),AWAKENED_OMEGA_CODE,RAZAK_CODE,JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE].filter(code=>jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&jokroAccountAllowed(userId,code,Date.now(),hasJokroPackIssue)).map(limitedDeploymentSnapshot).filter(Boolean)];}
-function normalize(body,action){
- if(!['TRAIN','BREAKTHROUGH'].includes(action)||!SEED.catalog.cards.some(c=>c.code===body.mercenaryCode)&&!limitedDeploymentSnapshot(body.mercenaryCode))throw levelError('MERCENARY_LEVEL_TARGET','성장 대상 용병을 확인하세요.');
+function normalize(body,action,{preview=false}={}){
+ if(!['TRAIN','BREAKTHROUGH','EXTRACT','INFUSE'].includes(action)||!SEED.catalog.cards.some(c=>c.code===body.mercenaryCode)&&!limitedDeploymentSnapshot(body.mercenaryCode))throw levelError('MERCENARY_LEVEL_TARGET','성장 대상 용병을 확인하세요.');
  if(!Number.isSafeInteger(body.revision)||body.revision<0)throw levelError('MERCENARY_LEVEL_REVISION','최신 성장 상태를 불러오세요.');
  if(action==='TRAIN'&&body.allowOverflow!==undefined&&typeof body.allowOverflow!=='boolean')throw levelError('MERCENARY_LEVEL_OVERFLOW','초과 경험치 동의 항목을 확인하세요.');
+ if(['EXTRACT','INFUSE'].includes(action)){
+  if(!Number.isSafeInteger(body.transferRevision)||body.transferRevision<0||!Number.isSafeInteger(body.policyRevision)||body.policyRevision<0)throw transferError('REVISION','최신 물약과 성장 설정을 불러오세요.');
+  if(action==='EXTRACT'&&!preview&&(!Number.isSafeInteger(body.expectedXp)||body.expectedXp<1||typeof body.group!=='string'))throw transferError('QUOTE','추출할 경험치와 초기화를 먼저 확인하세요.');
+  if(action==='INFUSE'&&(typeof body.potionId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.potionId)))throw transferError('POTION','보유한 물약을 선택하세요.');
+  return {action,mercenaryCode:body.mercenaryCode,revision:body.revision,transferRevision:body.transferRevision,policyRevision:body.policyRevision,...(action==='INFUSE'?{potionId:body.potionId}:preview?{}:{expectedXp:body.expectedXp,group:body.group})};
+ }
  return {action,mercenaryCode:body.mercenaryCode,revision:body.revision,...(action==='TRAIN'?{materials:normalizeLevelMaterials(body.materials),allowOverflow:body.allowOverflow===true}:{})};
 }
 async function context(env,user,input){
@@ -45,21 +53,45 @@ async function context(env,user,input){
  if(!(jinmuAccountAllowed(user.id,input.mercenaryCode,hasJinmuPackIssue)&&jokroAccountAllowed(user.id,input.mercenaryCode,Date.now(),hasJokroPackIssue))||!owned.results.some(r=>r.mercenary_code===input.mercenaryCode&&Number(r.total_copies)>0))throw levelError('MERCENARY_LEVEL_NOT_OWNED','보유한 용병만 성장시킬 수 있습니다.',403);
  const catalog=levelCatalog(document,user.id,hasJinmuPackIssue,hasJokroPackIssue),target=catalog.find(c=>c.code===input.mercenaryCode);
  if(!target?.rank)throw levelError('MERCENARY_LEVEL_RANK','성장 대상의 등급이 미정입니다.',409);
- const pity=input.action==='BREAKTHROUGH'?mercenaryPityFromHistory(await readMercenaryBreakthroughHistory(env,user.id),input.mercenaryCode,state):null;
- return {policy,raw,cmsRevision,state,target,owned:owned.results,catalog,pity};
+ const transfer=await readExperienceTransfer(env,user.id),memory=mercenaryTransferState(transfer.state,input.mercenaryCode);
+ if(['EXTRACT','INFUSE'].includes(input.action)&&(input.transferRevision!==transfer.state.revision||input.policyRevision!==policy.revision))throw terminal('물약 또는 성장 설정이 변경됐습니다. 다시 확인하세요.');
+ const pity=input.action==='BREAKTHROUGH'?mercenaryPityFromHistory(await readMercenaryBreakthroughHistory(env,user.id),input.mercenaryCode,state,memory.resetRevision):null;
+ return {policy,raw,cmsRevision,state,target,owned:owned.results,catalog,pity,transfer};
 }
 export async function previewMercenaryTraining(env,user,body){const input=normalize(body,'TRAIN'),ctx=await context(env,user,input);return captureGrowth(ctx.policy,planMercenaryTraining({...ctx,materials:input.materials}));}
+export async function previewExperienceExtraction(env,user,body){
+ const input=normalize(body,'EXTRACT',{preview:true}),ctx=await context(env,user,input),history=await readMercenaryGrowthHistory(env,user.id);
+ const amount=retainedMercenaryXp({...ctx,transfer:mercenaryTransferState(ctx.transfer.state,input.mercenaryCode),history});
+ return {...amount,group:transferGroup(ctx.target),mercenaryCode:input.mercenaryCode,name:ctx.target.name,revision:ctx.state.revision,policyRevision:ctx.policy.revision,transferRevision:ctx.transfer.state.revision};
+}
 // Prepared core. Only the release-gated route and isolated transaction tests call it.
 export async function runPreparedMercenaryLevel(env,user,body,action,{randomInt=mercenaryRandomInt}={}){
  const input=normalize(body,action),DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v);
  const op=await runJointOperation(env,user,{requestId:body.requestId,kind:KIND,input,prepare:async()=>{
-  const ctx=await context(env,user,input),result=action==='TRAIN'?planMercenaryTraining({...ctx,materials:input.materials}):planMercenaryBreakthrough({...ctx,roll:randomInt(1000000),pityFailures:ctx.pity?.failures??0});
+  const ctx=await context(env,user,input),createdAt=new Date().toISOString();let result,transferNext=null;
+  if(action==='EXTRACT'||action==='INFUSE'){
+   const options={...ctx,transferState:ctx.transfer.state,requestId:body.requestId,createdAt,potionId:input.potionId};
+   const planned=action==='EXTRACT'?planExperienceExtraction({...options,history:await readMercenaryGrowthHistory(env,user.id)}):planExperienceInfusion(options);
+   result=planned.result;transferNext=planned.next;
+   if(action==='EXTRACT'&&(result.xp!==input.expectedXp||result.potion.group!==input.group))throw transferError('QUOTE','추출 예상 경험치 또는 등급이 변경됐습니다. 다시 확인하세요.');
+  }else{
+   result=action==='TRAIN'?planMercenaryTraining({...ctx,materials:input.materials}):planMercenaryBreakthrough({...ctx,roll:randomInt(1000000),pityFailures:ctx.pity?.failures??0});
+   const memory=mercenaryTransferState(ctx.transfer.state,input.mercenaryCode);
+   if(action==='BREAKTHROUGH'&&memory.bankedXp>0){
+    const applied=applyTransferXp({policy:ctx.policy,state:result.after,target:ctx.target,xp:memory.bankedXp});
+    result.breakthroughAfter={...result.after};result.after=applied.after;result.transfer={bankedBefore:memory.bankedXp,appliedXp:applied.appliedXp,bankedAfter:applied.bankedXp};
+    transferNext=structuredClone(ctx.transfer.state);transferNext.revision++;transferNext.mercenaries[input.mercenaryCode]={...memory,bankedXp:applied.bankedXp};
+   }
+  }
   if(result.overflowXp&&!input.allowOverflow)throw levelError('MERCENARY_LEVEL_OVERFLOW','돌파 구간의 초과 경험치는 저장되지 않습니다. 재료를 줄이거나 초과 경험치 소멸에 동의하세요.',409);
   captureGrowth(ctx.policy,result);
-  return {version:RULES.version,action,mercenaryCode:input.mercenaryCode,name:ctx.target.name,rank:ctx.target.rank,policyRevision:ctx.policy.revision,policyRaw:ctx.raw,cmsRevision:ctx.cmsRevision,result,createdAt:new Date().toISOString()};
+  return {version:RULES.version,action,mercenaryCode:input.mercenaryCode,name:ctx.target.name,rank:ctx.target.rank,policyRevision:ctx.policy.revision,policyRaw:ctx.raw,cmsRevision:ctx.cmsRevision,result,createdAt,transferBeforeRaw:ctx.transfer.raw,transferNext};
  },statements:async plan=>{
   const current=await context(env,user,input);
   if(current.raw!==plan.policyRaw||current.cmsRevision!==plan.cmsRevision)throw terminal('성장 정책 또는 용병 등급이 변경되었습니다. 다시 확인하세요.');
+  // Old pending growth receipts have no transfer snapshot; cancel only if this
+  // account has since started using the new feature. Completed receipts replay.
+  if(current.transfer.raw!==(plan.transferBeforeRaw??null))throw terminal('물약 보관 상태가 변경되었습니다. 다시 확인하세요.');
   const consumed=plan.result.consumed||[],before=plan.result.before,after=plan.result.after;
   for(const m of consumed){const r=current.owned.find(c=>c.mercenary_code===m.code);if(Number(r?.total_copies)!==m.totalBefore||Number(r?.duplicate_count)!==m.duplicatesBefore)throw terminal('재료 수량이 변경되었습니다. 다시 선택하세요.');}
   if(JSON.stringify(current.state)!==JSON.stringify(before))throw terminal('성장 상태가 변경되었습니다. 다시 불러오세요.');
@@ -79,6 +111,7 @@ export async function runPreparedMercenaryLevel(env,user,body,action,{randomInt=
   }
   const predicates=['EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',"EXISTS(SELECT 1 FROM mercenary_cms_documents_v1 WHERE doc_key='config' AND revision=?)",'EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies>=1)'];
   const values=[KEY,plan.policyRaw,plan.cmsRevision,user.id,input.mercenaryCode];
+  const transferGuard=transferRecordGuard(current.transfer);predicates.push(transferGuard.sql);values.push(...transferGuard.values);
   predicates.push('(EXISTS(SELECT 1 FROM user_mercenary_levels_v1 WHERE user_id=? AND mercenary_code=? AND level=? AND experience=? AND breakthrough_mask=? AND revision=?) OR (?=0 AND NOT EXISTS(SELECT 1 FROM user_mercenary_levels_v1 WHERE user_id=? AND mercenary_code=?)))');
   values.push(user.id,input.mercenaryCode,mercenaryLevelStorageLevel(before),before.experience,before.breakthroughMask,before.revision,before.revision,user.id,input.mercenaryCode);
   for(const m of consumed){predicates.push('EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies=? AND duplicate_count=?)');values.push(user.id,m.code,m.totalBefore,m.duplicatesBefore);}
@@ -87,20 +120,22 @@ export async function runPreparedMercenaryLevel(env,user,body,action,{randomInt=
    list.push(p('UPDATE user_mercenary_cards_v1 SET total_copies=total_copies-?,duplicate_count=duplicate_count-? WHERE user_id=? AND mercenary_code=? AND total_copies=? AND duplicate_count=?',m.quantity,m.quantity,user.id,m.code,m.totalBefore,m.duplicatesBefore));
    list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies=? AND duplicate_count=?) THEN 1 ELSE 0 END WHERE token=?',user.id,m.code,m.totalBefore-m.quantity,m.duplicatesBefore-m.quantity,token));
   }
-  list.push(p('INSERT INTO user_mercenary_levels_v1(user_id,mercenary_code,level,experience,breakthrough_mask,revision,updated_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET level=excluded.level,experience=excluded.experience,breakthrough_mask=excluded.breakthrough_mask,revision=excluded.revision,updated_at=excluded.updated_at',user.id,input.mercenaryCode,mercenaryLevelStorageLevel(after),after.experience,after.breakthroughMask,after.revision,plan.createdAt),jointGuardEnd(DB,token));
+  list.push(p('INSERT INTO user_mercenary_levels_v1(user_id,mercenary_code,level,experience,breakthrough_mask,revision,updated_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET level=excluded.level,experience=excluded.experience,breakthrough_mask=excluded.breakthrough_mask,revision=excluded.revision,updated_at=excluded.updated_at',user.id,input.mercenaryCode,mercenaryLevelStorageLevel(after),after.experience,after.breakthroughMask,after.revision,plan.createdAt));
+  if(plan.transferNext)list.push(p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP',current.transfer.key,JSON.stringify(plan.transferNext)));
+  list.push(jointGuardEnd(DB,token));
   return list;
  }});
  return receipt(op);
 }
-function receipt(op){const {policyRaw,...plan}=op.plan;return {requestId:op.requestId??op.request_id,status:op.status,replayed:op.replayed??true,...(op.status==='COMPLETED'?{...plan}:{})};}
+function receipt(op){const {policyRaw,transferBeforeRaw,transferNext,...plan}=op.plan;return {requestId:op.requestId??op.request_id,status:op.status,replayed:op.replayed??true,...(op.status==='COMPLETED'?{...plan}:{})};}
 export async function mercenaryLevelReceipt(env,user,requestId){return receipt(await readJointOperation(env,user.id,requestId,KIND));}
 export async function handleMercenaryLevel({path,request,env,deps}){
  const admin=path==='admin/mercenaries/leveling',base='mercenaries/v3/leveling/',action=path.startsWith(base)?path.slice(base.length):null;
- if(!admin&&!['feature','state','preview','train','breakthrough','receipt'].includes(action))return null;
+ if(!admin&&!['feature','state','preview','train','breakthrough','receipt','extract-preview','extract','infuse'].includes(action))return null;
  const {json,authenticate,withUserMutationLock}=deps,reply=data=>json(data,200,{'cache-control':'no-store'});
  try{
   if(action==='feature'){if(request.method!=='GET')throw levelError('MERCENARY_LEVEL_METHOD','GET 요청이 필요합니다.',405);return reply({releaseEnabled:RELEASE,rules:RULES});}
-  if(!admin&&['train','breakthrough','preview'].includes(action)&&!RELEASE)throw levelError('MERCENARY_LEVEL_PREPARATION','용병 레벨 활성화를 준비 중입니다. 카드가 소모되지 않았습니다.',423);
+  if(!admin&&['train','breakthrough','preview','extract-preview','extract','infuse'].includes(action)&&!RELEASE)throw levelError('MERCENARY_LEVEL_PREPARATION','용병 레벨 활성화를 준비 중입니다. 카드가 소모되지 않았습니다.',423);
   const user=await authenticate(request,env);if(!user)throw levelError('MERCENARY_LEVEL_AUTH','로그인이 필요합니다.',401);
   if(admin&&user.role!=='OWNER')throw levelError('MERCENARY_LEVEL_PERMISSION','OWNER만 성장 초안을 관리할 수 있습니다.',403);
   if(request.method==='GET'){
@@ -113,22 +148,24 @@ export async function handleMercenaryLevel({path,request,env,deps}){
     const history=configured&&rows.length?await readMercenaryBreakthroughHistory(env,user.id):[];
     const [packOwners,jokroPackOwners]=await Promise.all([readJinmuPackOwners(env,owned.results.some(r=>r.mercenary_code===JINMU_CODE)?[user.id]:[]),readJokroPackOwners(env,owned.results.some(r=>r.mercenary_code===JOKRO_CODE)?[user.id]:[])]);
     const catalog=levelCatalog(document,user.id,packOwners.has(Number(user.id)),jokroPackOwners.has(Number(user.id)));
-    return reply({userId:Number(user.id),enabled,policy,rules:RULES,cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>{const state=mercenaryLevelStateFromStorage(rows.find(s=>s.mercenary_code===r.mercenary_code));return {code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...catalog.find(c=>c.code===r.mercenary_code),growth:state,breakthroughPity:mercenaryPityFromHistory(history,r.mercenary_code,state)};})});
+    const transfer=await readExperienceTransfer(env,user.id);
+    return reply({userId:Number(user.id),enabled,policy,rules:RULES,transfer:{revision:transfer.state.revision,potions:transfer.state.potions,item:TRANSFER_ITEM},cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>{const state=mercenaryLevelStateFromStorage(rows.find(s=>s.mercenary_code===r.mercenary_code)),card=catalog.find(c=>c.code===r.mercenary_code),memory=transferCardView(transfer,card);return {code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...card,growth:state,transfer:memory,breakthroughPity:mercenaryPityFromHistory(history,r.mercenary_code,state,memory.resetRevision)};})});
    }
   }
   if(request.method!==(admin?'PATCH':'POST'))throw levelError('MERCENARY_LEVEL_METHOD','지원하지 않는 요청입니다.',405);
-  const fields=admin?['policy']:action==='breakthrough'?['requestId','mercenaryCode','revision']:['requestId','mercenaryCode','revision','materials','allowOverflow'];
+  const fields=admin?['policy']:['extract-preview','extract','infuse'].includes(action)?['requestId','mercenaryCode','revision','policyRevision','transferRevision',...(action==='extract'?['expectedXp','group']:action==='infuse'?['potionId']:[])]:action==='breakthrough'?['requestId','mercenaryCode','revision']:['requestId','mercenaryCode','revision','materials','allowOverflow'];
   const body=await readJointBody(request,{fields,maxBytes:16384});
   if(admin){const policy=await saveMercenaryLevelPolicy(env,user,body.policy);return reply({revision:policy.revision,policy,releaseEnabled:RELEASE});}
   // The historical prepared core remains replay-compatible. Only a complete V2
   // growth policy may enter the future public release route.
-  if(['preview','train','breakthrough'].includes(action)){
+  if(['preview','train','breakthrough','extract-preview','extract','infuse'].includes(action)){
    const {policy}=await readMercenaryLevelPolicy(env);
    if(!mercenaryLevelReadiness(policy,{requireGrowth:true}).ready)throw levelError('MERCENARY_LEVEL_UNCONFIGURED','레벨별 성장과 돌파 능력 설정을 완료해야 합니다.',409);
   }
   if(action==='preview')return reply(await previewMercenaryTraining(env,user,body));
-  if(!['train','breakthrough'].includes(action))throw levelError('MERCENARY_LEVEL_METHOD','GET 요청이 필요합니다.',405);
+  if(action==='extract-preview')return reply(await previewExperienceExtraction(env,user,body));
+  if(!['train','breakthrough','extract','infuse'].includes(action))throw levelError('MERCENARY_LEVEL_METHOD','GET 요청이 필요합니다.',405);
   if(typeof withUserMutationLock!=='function')throw levelError('MERCENARY_LEVEL_LOCK','계정 잠금 서비스를 확인하세요.',503);
-  return reply(await withUserMutationLock(env,user.id,path,()=>runPreparedMercenaryLevel(env,user,body,action==='train'?'TRAIN':'BREAKTHROUGH')));
+  return reply(await withUserMutationLock(env,user.id,path,()=>runPreparedMercenaryLevel(env,user,body,action.toUpperCase())));
  }catch(e){return jointResponseError(e,json);}
 }

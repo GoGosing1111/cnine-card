@@ -1,0 +1,28 @@
+{
+  "version": "20261025-v1",
+  "item": "MERCENARY_XP_TRANSFER_POTION",
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Asset type: transparent RPG inventory item icon for a mercenary level experience transfer potion. Primary request: one exquisite fantasy potion bottle containing condensed earned experience, used once to transfer half of a mercenary's growth. A clear faceted glass flask with luminous teal and soft gold liquid, two delicate descending streams meeting inside the glass, an elegant dark navy metal stopper and restrained brushed gold fittings, bright readable center. Premium hand-painted 2D collectible RPG item illustration, detailed material texture, clean crisp silhouette at 64px. Entire object centered, isolated on truly transparent background, generous clear padding all around. No text, letters, numbers, labels, badges, UI frame, landscape, people, extra bottles, floor or cast shadow. Keep the design recognizable and beautiful rather than overdecorated.",
+  "source": "original.png",
+  "runtime": "potion.webp",
+  "visualApproval": "Not claimed; generated for the requested item",
+  "derived": "PNG preserved; transparent WebP resized for runtime only",
+  "sha256": {
+    "original.png": "1b8501d7eee7136d34317249e960f042f14e17c6b7b4a18936e149ef8d449691",
+    "potion.webp": "86877b7008885356a6679bcaf47879e9d47cf8e3f09659b224c450a918a6966f"
+  },
+  "dimensions": {
+    "original": [
+      1254,
+      1254
+    ],
+    "runtime": [
+      512,
+      512
+    ]
+  },
+  "alphaExtrema": [
+    0,
+    255
+  ]
+}

@@ -8,7 +8,7 @@ export async function readMercenaryBreakthroughHistory(env,userId){
  const rows=(await env.DB.prepare("SELECT request_id,plan_json FROM joint_operations_v1 WHERE user_id=? AND kind='MERCENARY_LEVEL_V1' AND status='COMPLETED'").bind(userId).all()).results;
  return rows.map(row=>({requestId:row.request_id,plan:JSON.parse(row.plan_json)})).filter(row=>row.plan.action==='BREAKTHROUGH');
 }
-export function mercenaryPityFromHistory(history,code,row){
+export function mercenaryPityFromHistory(history,code,row,resetRevision=0){
  const state=mercenaryLevelState(row),level=MERCENARY_LEVEL_RULES.milestones.find((_,i)=>!(state.breakthroughMask&(1<<i)));
  if(!level)return null;
  const seen=new Set(),revisions=new Set(),attempts=[];
@@ -16,9 +16,9 @@ export function mercenaryPityFromHistory(history,code,row){
   if(plan.action!=='BREAKTHROUGH'||plan.mercenaryCode!==code||plan.result?.before?.level!==level||seen.has(requestId))continue;
   // Only real ON operations may contribute; local previews have no receipts.
   if(JSON.parse(plan.policyRaw).mode!=='ON')continue;
-  const {before,after,success}=plan.result;
+  const {before,success}=plan.result,after=plan.result.breakthroughAfter??plan.result.after;
   mercenaryLevelState(before);mercenaryLevelState(after);
-  if(after.revision>state.revision)continue; // GET may race a newer completed attempt.
+  if(after.revision>state.revision||after.revision<=resetRevision)continue; // GET race / extraction starts a new growth cycle.
   const index=MERCENARY_LEVEL_RULES.milestones.indexOf(level);
   if(typeof success!=='boolean'||after.revision!==before.revision+1||after.experience!==0||!(success?(level===20?[20,MERCENARY_LEVEL_RULES.maxLevel]:[level+1]):[level]).includes(after.level)||after.breakthroughMask!==(success?before.breakthroughMask|(1<<index):before.breakthroughMask)||revisions.has(after.revision))throw levelError('MERCENARY_LEVEL_HISTORY','돌파 기록의 순서를 확인하지 못했습니다. 다시 불러오세요.',409);
   seen.add(requestId);revisions.add(after.revision);attempts.push({revision:after.revision,success});

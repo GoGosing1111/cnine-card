@@ -4420,6 +4420,7 @@ async function activateLandHyperTicket(){
   }catch(error){if([400,403,409].includes(Number(error.status)))localStorage.removeItem(key);alert(error.message)}finally{landHyperBusy=false}
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
+  if(itemCode==='MERCENARY_XP_TRANSFER_POTION'){location.href='/mercenary-codex/leveling/transfer.html';return;}
   if(['RANK_EXP_POTION_2X_60M','RANK_EXP_POTION_3X_60M'].includes(itemCode)){
     const dialog=document.getElementById('inventoryDetailDialog'),body=document.getElementById('inventoryDialogContent');
     if(!dialog||!body)return renderShell('inventory');

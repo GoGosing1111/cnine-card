@@ -1,0 +1,278 @@
+{
+  "status": "PASSED",
+  "assets": "local",
+  "api": "real handler, isolated SQLite fixture",
+  "productionWrites": 0,
+  "reports": [
+    {
+      "width": 1440,
+      "art": {
+        "width": 512,
+        "height": 512
+      },
+      "button": {
+        "text": "rgb(24, 36, 10)",
+        "image": "url(\"http://127.0.0.1:1428/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp\")",
+        "height": 54
+      },
+      "extractXp": 2300,
+      "infuseAppliedXp": 1500,
+      "reserveXp": 800,
+      "breakthroughLevel": 8,
+      "reextractXp": 1150,
+      "onceSurvivesReset": true,
+      "wrongRanksDisabled": true,
+      "noHorizontalOverflow": true
+    },
+    {
+      "width": 390,
+      "art": {
+        "width": 512,
+        "height": 512
+      },
+      "button": {
+        "text": "rgb(24, 36, 10)",
+        "image": "url(\"http://127.0.0.1:1428/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp\")",
+        "height": 54
+      },
+      "extractXp": 2300,
+      "infuseAppliedXp": 1500,
+      "reserveXp": 800,
+      "breakthroughLevel": 8,
+      "reextractXp": 1150,
+      "onceSurvivesReset": true,
+      "wrongRanksDisabled": true,
+      "noHorizontalOverflow": true
+    }
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket"
+    },
+    {
+      "method": "GET",
+      "path": "/api/sync/stream"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mercenaries/v3/leveling/extract-preview"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mercenaries/v3/leveling/extract"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mercenaries/v3/leveling/infuse"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "GET",
+      "path": "/api/sync/stream"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "GET",
+      "path": "/api/shell/summary"
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "GET",
+      "path": "/api/sync/stream"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mercenaries/v3/leveling/breakthrough"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket"
+    },
+    {
+      "method": "GET",
+      "path": "/api/sync/stream"
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "GET",
+      "path": "/api/sync/stream"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mercenaries/v3/leveling/extract-preview"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mercenaries/v3/leveling/extract"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "GET",
+      "path": "/api/sync/stream"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mercenaries/v3/leveling/extract-preview"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mercenaries/v3/leveling/extract"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mercenaries/v3/leveling/infuse"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "GET",
+      "path": "/api/sync/stream"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "GET",
+      "path": "/api/shell/summary"
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "GET",
+      "path": "/api/sync/stream"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mercenaries/v3/leveling/breakthrough"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket"
+    },
+    {
+      "method": "GET",
+      "path": "/api/sync/stream"
+    },
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "GET",
+      "path": "/api/sync/stream"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mercenaries/v3/leveling/extract-preview"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mercenaries/v3/leveling/extract"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mercenaries/v3/leveling/state"
+    }
+  ]
+}
