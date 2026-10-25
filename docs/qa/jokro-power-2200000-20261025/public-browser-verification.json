@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-10-25T08:56:24.664Z",
+  "url": "https://cnine-card.pages.dev/mercenary-codex/?view=limited&q=%EC%A1%B1%EB%A1%9C&qa=jokro2200000",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "anonymous": true,
+  "readOnly": true,
+  "fixture": false,
+  "name": "족로",
+  "basePower": 2200000,
+  "skill": "청룡단천",
+  "overflow": false,
+  "errors": [],
+  "blockedWrites": []
+}

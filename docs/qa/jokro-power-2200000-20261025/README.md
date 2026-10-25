@@ -17,7 +17,16 @@
 ## 배포
 
 - 직전 운영: `production-before.json`의 실제 canonical deployment, 소스 `d10b2b22bd3809137901fbd76716ee11279a5989`, Pages `57015dc6-75fc-45bd-947b-6e0befd24954`.
-- 승인된 scoped 배포 명령으로 최종 관련 검사·출시/캐시/Hyperdrive 조건을 확인한 뒤 API runtime과 Pages를 갱신한다. 운영 완료·공개 파일 검증 결과는 후속 기록에 추가한다.
+- `npm run deploy:production -- --scoped`로 관련 검사 25개·서버 구문 검사·출시/캐시/Hyperdrive 조건을 통과하고 API runtime·Pages·clan-draft를 갱신했다. 실행 로그는 `deploy.log`다.
 
 - 작업 도중 블러드문 확장 소스 `9134468eef10def18b31ce7e9919f4497da240b9`가 운영 Pages `70a60fc0-8fdd-4116-baf5-ac2e02992831`로 반영됐다. 해당 최신 소스 위로 재배치하고, 최신 팩 설정·라자크·은설 팩 편입을 보존해 공용 번들과 도감 캐시를 다시 생성했다. 이번 배포의 실제 기준은 `deployment-base.json`이다.
 - 기존 은설 테스트의 ‘블러드문 풀 제외’ 단언 한 곳을 최신 운영 정책의 ‘블러드문에 포함’으로 정정했다. 일반·일반 리미티드·할로윈·합성 차단 검증은 유지했다. 은설 전투 수치 자체는 변하지 않는다.
+
+## 운영 완료 · 2026-10-25 17:56 KST
+
+- 배포 소스 `a90eca955ec592a54dcfd0cc806e443c926fec50`, Pages `1ab925b6-528d-4cd5-9eae-f540efe6f7d6`. Cloudflare canonical production의 성공 상태와 소스 SHA를 `production-after.json`으로 독립 확인했다.
+- 공개 런타임 20개 파일의 SHA-256이 일치한다. Git LF와 Windows CRLF 차이만 정규화해 비교했으며 수신 원본 해시도 보존했다. 전투 번들 10개·레이아웃 번들·메인 로더·서비스워커·도감·족로/은설 설정을 포함한다. `public-verification.json`, 재현 스크립트 `verify-public.mjs` 참조.
+- 실제 공개 `/api/mercenary-codex` HTTP 200과 브라우저 스키마 검증 통과: 족로 V-979 **2,200,000**, 은설 V-973 **1,940,890**, 동시 배포된 라자크 V-058 **1,000,000** 유지.
+- 익명 모바일 390×844에서 실제 공개 도감을 열어 족로 2,200,000·청룡단천·원화 로드·가로 넘침 없음·런타임 오류 0을 확인했다. API/화면 fixture 없이 조회했고 쓰기 요청은 0건이다. `public-browser-verification.json`, `public-mobile-codex.png`, `verify-public-browser.mjs` 참조.
+- 실제 전투 계산은 로컬 서버 PVE/PVP 시뮬레이터로 검증했다. 운영 전투 실행·계정 지급·재화·설정 변경은 수행하지 않았다.
+- 배포 임시 폴더 `C:/Users/User/AppData/Local/Temp/cnine-release-HgzJlF`가 배포 도구에서 회수됐음을 확인했다. 기존 작업 폴더·공유 의존성·승인 원화와 다른 작업 자료를 유지했다.

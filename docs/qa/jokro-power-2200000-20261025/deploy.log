@@ -1,0 +1,93 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"9134468eef10def18b31ce7e9919f4497da240b9","reason":"Raise Jokro from 1940890 to 2200000; verify actual PVE/PVP combat, isolated Eunseol balance, codex and V3 loaders.","changed":["AGENTS.md","docs/qa/bloodmoon-expansion-20261025/README.md","docs/qa/bloodmoon-expansion-20261025/live-verification.json","docs/qa/bloodmoon-expansion-20261025/operation-apply.json","docs/qa/bloodmoon-expansion-20261025/operation-verify.json","docs/qa/bloodmoon-expansion-20261025/read-live-state.mjs","docs/qa/bloodmoon-expansion-20261025/release.mjs","docs/qa/jokro-power-2200000-20261025/README.md","docs/qa/jokro-power-2200000-20261025/balance-verification.json","docs/qa/jokro-power-2200000-20261025/codex-browser-report.json","docs/qa/jokro-power-2200000-20261025/deployment-base.json","docs/qa/jokro-power-2200000-20261025/desktop-codex-combat.png","docs/qa/jokro-power-2200000-20261025/mobile-codex-combat.png","docs/qa/jokro-power-2200000-20261025/production-before.json","docs/qa/jokro-power-2200000-20261025/verify-browser.mjs","index.html","js/app.js","js/battle-v3-live.js","mercenary-codex/app.mjs","mercenary-codex/index.html","mercenary-codex/model.mjs","mercenary-codex/shell.mjs","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","service-worker.js","shared/mercenary-eunseol-v1.mjs","shared/mercenary-jokro-v1.mjs","tests/eunseol-live-20261023.test.mjs","tests/jokro-combat-20261018.test.mjs"],"tests":["tests/jokro-combat-20261018.test.mjs","tests/jokro-live-20261018.test.mjs","tests/eunseol-live-20261023.test.mjs","tests/mercenary-codex-jokro-20261021.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ Eunseol retains its approved 1.94089m stats and cadence independently of the Jokro buff (6.4169ms)
+✔ normal, limited, Halloween and fusion pools remain closed while the current Bloodmoon catalog retains Eunseol (0.9715ms)
+✔ three cosmetic sword forms share one 1512% cast and unique living targets; invalid actors/skills never hit (1.0246ms)
+✔ own-action cooldown and energy are identical to Jokro: six casts per thirty actions, one shared area skill, no PVP area (2.9236ms)
+✔ actual server PVE keeps Eunseol unchanged while buffed Jokro finishes with fewer casts; PVP never emits Eunseol area events (24.3297ms)
+✔ public codex displays SSS LIMITED locked Eunseol; ownership is required and no account is auto-granted (1911.5503ms)
+✔ public catalog art is the exact approved source and fixed idle frame (5.6195ms)
+✔ Jokro scales actual PVE/PVP stats, equipment and linked floors to 2.2m, including the full shield; actions stay equal (14.331ms)
+✔ Jokro stays outside all public acquisition candidates despite contaminated catalogs and high CMS weights (0.7736ms)
+✔ 청룡단천 distributes 1512% once across every living target; repeated visual contacts cannot add damage (0.6971ms)
+✔ actual battle simulator emits stronger area receipts and keeps PVP basics only (27.8272ms)
+✔ approved art, thumbnail, shipped bundles and live cache tags are connected (4051.598ms)
+✔ designated owner retains exclusive metadata; stray holdings and ordinary limited pools stay restricted (2083.5518ms)
+✔ the complete public catalog including pack-released Jokro passes the actual browser validator (12.3656ms)
+✔ the increased three-copy Jokro policy cannot blank the full catalog or fall back to the previous limit (5.0449ms)
+✔ the codex still rejects incomplete or unauthorized limited release metadata (19.7854ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (788.1432ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (10.0925ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (5.4351ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (14.3711ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (13.9193ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (50.7369ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (2.7509ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (2.7973ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (0.7517ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6600.3341
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 8503 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8497.79 KiB / gzip: 1829.60 KiB
+Worker Startup Time: 44 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.59 sec)
+No targets deployed for cnine-card-api-runtime (0.59 sec)
+Current Version ID: 83762841-df25-45b6-94ca-eecc3d13bfe1
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19951/20000)
+Uploading... (19968/20000)
+Uploading... (19984/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 49 files (19951 already uploaded) (3.71 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://1ab925b6.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3181.59 KiB / gzip: 714.73 KiB
+Worker Startup Time: 39 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (2.95 sec)
+Deployed cnine-card-clan-draft triggers (0.83 sec)
+  schedule: * * * * *
+Current Version ID: a98b2488-a868-4efb-abe8-e5ee6dddf75c

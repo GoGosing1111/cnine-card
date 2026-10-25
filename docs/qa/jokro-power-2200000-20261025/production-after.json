@@ -1,0 +1,20 @@
+{
+  "id": "1ab925b6-528d-4cd5-9eae-f540efe6f7d6",
+  "environment": "production",
+  "url": "https://1ab925b6.cnine-card.pages.dev",
+  "latest_stage": {
+    "name": "deploy",
+    "started_on": null,
+    "ended_on": "2026-10-25T08:55:45.355139Z",
+    "status": "success"
+  },
+  "deployment_trigger": {
+    "type": "ad_hoc",
+    "metadata": {
+      "branch": "main",
+      "commit_hash": "a90eca955ec592a54dcfd0cc806e443c926fec50",
+      "commit_message": "Raise Jokro power to 2.2m while preserving Eunseol balance [CF-Pages-Skip]",
+      "commit_dirty": false
+    }
+  }
+}

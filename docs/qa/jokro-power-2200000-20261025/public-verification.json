@@ -1,0 +1,247 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-10-25T08:56:24.415Z",
+  "source": "a90eca955ec592a54dcfd0cc806e443c926fec50",
+  "base": "https://cnine-card.pages.dev",
+  "readOnly": true,
+  "publicFileCount": 20,
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 37494,
+      "sha256": "da984bd8f15c031b28452ff64588909e9ed182e0804f8c8c0c79df3a23045c90",
+      "gitNormalizedSha256": "86ac49adebc41a32138f781542d4c056bfc5ae551261b6eef012bce90ec239d5",
+      "publicNormalizedSha256": "86ac49adebc41a32138f781542d4c056bfc5ae551261b6eef012bce90ec239d5",
+      "match": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "bytes": 791678,
+      "sha256": "40f497ae7a0ec343ef9c53f4199095908629b19866e4b81e1fa9718956fe582d",
+      "gitNormalizedSha256": "9ca3995337e93aacce7a6857a5cc5a555d16373c331c6bdcbb7f14aa216224d9",
+      "publicNormalizedSha256": "9ca3995337e93aacce7a6857a5cc5a555d16373c331c6bdcbb7f14aa216224d9",
+      "match": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "bytes": 89000,
+      "sha256": "3fc3d1c45621124c007c85f9c3ef96b34094c8933531d7c0329c2bedc9c3218b",
+      "gitNormalizedSha256": "31e2afee9249620ac978047792beab037c12954817390a2c7be528c4ae638c0c",
+      "publicNormalizedSha256": "31e2afee9249620ac978047792beab037c12954817390a2c7be528c4ae638c0c",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "status": 200,
+      "bytes": 37190,
+      "sha256": "6a76167f6cb1f0737aa51d7f35b5f8974a6649f0a71e19e507e142be08ba606c",
+      "gitNormalizedSha256": "cdf3d9e80a1352c3d81bad5f8ea88a4db3e154573864122e31531b16d6687fc7",
+      "publicNormalizedSha256": "cdf3d9e80a1352c3d81bad5f8ea88a4db3e154573864122e31531b16d6687fc7",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "status": 200,
+      "bytes": 10081,
+      "sha256": "5cff94820d8c4860482cc74591b5da47188e758a3e635025a7a50f64e048954f",
+      "gitNormalizedSha256": "7fe69b6d9c695cb9deefc9d11a2375f765dde5f2aabbe52f7573a7cbe4e43286",
+      "publicNormalizedSha256": "7fe69b6d9c695cb9deefc9d11a2375f765dde5f2aabbe52f7573a7cbe4e43286",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "status": 200,
+      "bytes": 9067,
+      "sha256": "5eae102c64440483a87101ac47c516c1c0232b237a4b1cd33ffb0bae2ab62940",
+      "gitNormalizedSha256": "473e2c7921e2d090cc5e8e76b27c211b2aa2460a8c3dbe0323071e9e5d1b0b44",
+      "publicNormalizedSha256": "473e2c7921e2d090cc5e8e76b27c211b2aa2460a8c3dbe0323071e9e5d1b0b44",
+      "match": true
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "status": 200,
+      "bytes": 2524616,
+      "sha256": "57ebda295e5d3a01d8daba511b0cba18285f3a6c8a5d04a56ee031bab2990ec2",
+      "gitNormalizedSha256": "47abb23467ffd4032acc055588df438b0fa8eb1153cb59cc1a89ca7d955e3c32",
+      "publicNormalizedSha256": "47abb23467ffd4032acc055588df438b0fa8eb1153cb59cc1a89ca7d955e3c32",
+      "match": true
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "status": 200,
+      "bytes": 2519919,
+      "sha256": "14873283bab4ccfd3d591d563b26569215f486a64e9deef370025021d09ee3dc",
+      "gitNormalizedSha256": "4b893f2d426b0afef4b91190d2b891cba307f3d390a82544379fe92a3590f760",
+      "publicNormalizedSha256": "4b893f2d426b0afef4b91190d2b891cba307f3d390a82544379fe92a3590f760",
+      "match": true
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "status": 200,
+      "bytes": 2522904,
+      "sha256": "1960b9cf49401ee40b083a07faf52ea45db88ecafd6d4360a3f61cf0f12ec415",
+      "gitNormalizedSha256": "b631d5213e5c9893fce92b916da45d42b9cbbbd868d22dd55b9b2dac882e8994",
+      "publicNormalizedSha256": "b631d5213e5c9893fce92b916da45d42b9cbbbd868d22dd55b9b2dac882e8994",
+      "match": true
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "status": 200,
+      "bytes": 2522893,
+      "sha256": "66210e94d8646834f2ba3b52b803b2cb382446274a7c2ef173456cb47a9c5212",
+      "gitNormalizedSha256": "d2752a1c21e32c50317d738be87f3d57e4ea9b1fd478b7f372b9fb416420ede9",
+      "publicNormalizedSha256": "d2752a1c21e32c50317d738be87f3d57e4ea9b1fd478b7f372b9fb416420ede9",
+      "match": true
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "status": 200,
+      "bytes": 2569667,
+      "sha256": "443c1b29ea099e2ef646f7b34d3f6ec36963ff87dd785505ad8be61a2711bc83",
+      "gitNormalizedSha256": "3a2534c5d9e8986225b1bfc04e0010722cf99f1c6eb65cd26685268ea99b2dcc",
+      "publicNormalizedSha256": "3a2534c5d9e8986225b1bfc04e0010722cf99f1c6eb65cd26685268ea99b2dcc",
+      "match": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "bytes": 2523278,
+      "sha256": "4660f0974351dd61bc23ab619c8d204d6fe26faf9ccb5bff636e637fb5f1e2bc",
+      "gitNormalizedSha256": "e3bc14f2b95bee5d329feb831df3b350257b2dec90cf225d54adca1d980e3ca2",
+      "publicNormalizedSha256": "e3bc14f2b95bee5d329feb831df3b350257b2dec90cf225d54adca1d980e3ca2",
+      "match": true
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "status": 200,
+      "bytes": 2522841,
+      "sha256": "8f35f1299ba38d63b5de1cbd3c20dce89f7c181d0b37453404d5b63a722f312a",
+      "gitNormalizedSha256": "1774cb05b2121f7374a61a123b3bc5285de06e2ff2ccabc90eb1530b6382b29d",
+      "publicNormalizedSha256": "1774cb05b2121f7374a61a123b3bc5285de06e2ff2ccabc90eb1530b6382b29d",
+      "match": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "bytes": 2546914,
+      "sha256": "b833df0ed91fd5124af32a29193080ecfccc38d80ae6293b02abb21868931e8c",
+      "gitNormalizedSha256": "d49ad4abc2b72bc00d51c41b03907ba2ad8657dd2f9025db60733d4665007e7c",
+      "publicNormalizedSha256": "d49ad4abc2b72bc00d51c41b03907ba2ad8657dd2f9025db60733d4665007e7c",
+      "match": true
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "status": 200,
+      "bytes": 431523,
+      "sha256": "85a0ccdaa6a01ef02ea2a20d850e3dbc88238d81a8191f9ce58315e3bf6fdc01",
+      "gitNormalizedSha256": "8ef8488e4231177d5ef5eee31254759a0e4fb1873f5da7cf06b2e0fbf034114a",
+      "publicNormalizedSha256": "8ef8488e4231177d5ef5eee31254759a0e4fb1873f5da7cf06b2e0fbf034114a",
+      "match": true
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "status": 200,
+      "bytes": 2526455,
+      "sha256": "610bceefef68c7cfa756728e0459d10948993c98d0329934b1675f8c02a090ba",
+      "gitNormalizedSha256": "c77d8fc3bd1f4af21afc9378174dc43c8b56e55b74e3bd3c2d74baae8c41fd3c",
+      "publicNormalizedSha256": "c77d8fc3bd1f4af21afc9378174dc43c8b56e55b74e3bd3c2d74baae8c41fd3c",
+      "match": true
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "status": 200,
+      "bytes": 2523252,
+      "sha256": "3b38d564d620a835458a98aeda47fbba750d3db13e3d6b0613ba92f9dce5875e",
+      "gitNormalizedSha256": "6f56ad3f79776169ecb89f2da10aeeb6c2938ccf896002417dc87c95b9871fb3",
+      "publicNormalizedSha256": "6f56ad3f79776169ecb89f2da10aeeb6c2938ccf896002417dc87c95b9871fb3",
+      "match": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "bytes": 20027,
+      "sha256": "6156a14e8b8ce77c34815790045ea8641c9f05f558be3942821fcd05fdd12102",
+      "gitNormalizedSha256": "33818a92a0b171c86041fbe7831faca70b4d03130faffe587d5a7f60d27671e0",
+      "publicNormalizedSha256": "33818a92a0b171c86041fbe7831faca70b4d03130faffe587d5a7f60d27671e0",
+      "match": true
+    },
+    {
+      "file": "shared/mercenary-eunseol-v1.mjs",
+      "status": 200,
+      "bytes": 4675,
+      "sha256": "fb9c909726e0da68e4eff8a81419f07c4a463e157a7538470b38899029c0cbc9",
+      "gitNormalizedSha256": "ce32928d69d74a84cfdfa079d6d5540c2af41181d9154d579b4cd1e522c3434c",
+      "publicNormalizedSha256": "ce32928d69d74a84cfdfa079d6d5540c2af41181d9154d579b4cd1e522c3434c",
+      "match": true
+    },
+    {
+      "file": "shared/mercenary-jokro-v1.mjs",
+      "status": 200,
+      "bytes": 4795,
+      "sha256": "f7c332a756dada96fcbb1ef7fa42bf84deff330b795f58b5a4bf4849578b92dc",
+      "gitNormalizedSha256": "04c1a8c31542fbb218d540800a4a26059b06a8786b8aabdf0270c737963efacf",
+      "publicNormalizedSha256": "04c1a8c31542fbb218d540800a4a26059b06a8786b8aabdf0270c737963efacf",
+      "match": true
+    }
+  ],
+  "catalog": {
+    "status": 200,
+    "valid": true,
+    "total": 91,
+    "cards": [
+      {
+        "code": "V-979",
+        "name": "족로",
+        "basePower": 2200000,
+        "rank": "SSS",
+        "edition": "LIMITED",
+        "deploymentEnabled": true,
+        "skills": [
+          {
+            "id": "MS-979",
+            "name": "청룡단천"
+          }
+        ]
+      },
+      {
+        "code": "V-973",
+        "name": "은설",
+        "basePower": 1940890,
+        "rank": "SSS",
+        "edition": "LIMITED",
+        "deploymentEnabled": true,
+        "skills": [
+          {
+            "id": "MS-958",
+            "name": "백호 검술"
+          }
+        ]
+      },
+      {
+        "code": "V-058",
+        "name": "라자크",
+        "basePower": 1000000,
+        "rank": "SSS",
+        "edition": "STANDARD",
+        "deploymentEnabled": true,
+        "skills": [
+          {
+            "id": "MS-061",
+            "name": "그림자 교차"
+          },
+          {
+            "id": "MS-062",
+            "name": "무영 연살"
+          },
+          {
+            "id": "MS-063",
+            "name": "월식 난무"
+          }
+        ]
+      }
+    ]
+  }
+}
