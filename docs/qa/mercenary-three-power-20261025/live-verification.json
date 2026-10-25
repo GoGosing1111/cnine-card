@@ -1,0 +1,199 @@
+{
+  "checkedAt": "2026-10-25T02:54:14.667Z",
+  "sourceCommit": "031fb25fa1ed054bf02241c7fe08ff08e77bc5a2",
+  "deployment": "588b766c",
+  "domain": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "shared/mercenary-zero-v1.mjs",
+      "status": 200,
+      "bytes": 4407,
+      "expected": "3636b451094003d9dd72a47040ce9d8c7c627ca9d20764665a59d93d38f45877",
+      "actual": "3636b451094003d9dd72a47040ce9d8c7c627ca9d20764665a59d93d38f45877",
+      "match": true
+    },
+    {
+      "file": "shared/mercenary-prime-requiem-v1.mjs",
+      "status": 200,
+      "bytes": 4235,
+      "expected": "890afd84139bedf0dd609ca5d2c4c00936c230bdccdd34381a1ce3d321c3af0c",
+      "actual": "890afd84139bedf0dd609ca5d2c4c00936c230bdccdd34381a1ce3d321c3af0c",
+      "match": true
+    },
+    {
+      "file": "shared/mercenary-general-jok-v1.mjs",
+      "status": 200,
+      "bytes": 4879,
+      "expected": "43ca4349ef8bc54932f8ac3e702e984b2191d769a2432d91c1a080a8aeb39d12",
+      "actual": "43ca4349ef8bc54932f8ac3e702e984b2191d769a2432d91c1a080a8aeb39d12",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "status": 200,
+      "bytes": 8829,
+      "expected": "fbbdbdb609c0d52e40db60a340ed73684fc48761980291f0d9a4e352cc84f14b",
+      "actual": "fbbdbdb609c0d52e40db60a340ed73684fc48761980291f0d9a4e352cc84f14b",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "status": 200,
+      "bytes": 37012,
+      "expected": "d0b62bff5c0b3c6e7b708a7deb9ba867da50586853c01ed056201991ac4c22bb",
+      "actual": "d0b62bff5c0b3c6e7b708a7deb9ba867da50586853c01ed056201991ac4c22bb",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "status": 200,
+      "bytes": 9923,
+      "expected": "6a05da24b34c165afa899de81559b5d9e0602130c16babc50188421afbc18431",
+      "actual": "6a05da24b34c165afa899de81559b5d9e0602130c16babc50188421afbc18431",
+      "match": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "bytes": 2441398,
+      "expected": "f6fffa160383cf09b786331e1238e3b00614f31444d98f3dec8baab2f812cd69",
+      "actual": "f6fffa160383cf09b786331e1238e3b00614f31444d98f3dec8baab2f812cd69",
+      "match": true
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "status": 200,
+      "bytes": 2441372,
+      "expected": "9aaa5697a8d5787c74b581232e3c4dd20b3f34265a54b788d077087eef166abe",
+      "actual": "9aaa5697a8d5787c74b581232e3c4dd20b3f34265a54b788d077087eef166abe",
+      "match": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "bytes": 2465010,
+      "expected": "3b227126416f5c7045dd4b6ec107682520f8c18994e41b536bae094ae8ba2fb1",
+      "actual": "3b227126416f5c7045dd4b6ec107682520f8c18994e41b536bae094ae8ba2fb1",
+      "match": true
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "status": 200,
+      "bytes": 2572491,
+      "expected": "214a9e76440f562c5c9e925a1f48a25f9777626b5a760f7421b087a042c42c70",
+      "actual": "214a9e76440f562c5c9e925a1f48a25f9777626b5a760f7421b087a042c42c70",
+      "match": true
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "status": 200,
+      "bytes": 2441024,
+      "expected": "63b4b2c8cd9deb79b089483c5a7474d5e0ebf16092d0c017eb7e29b784b96dc9",
+      "actual": "63b4b2c8cd9deb79b089483c5a7474d5e0ebf16092d0c017eb7e29b784b96dc9",
+      "match": true
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "status": 200,
+      "bytes": 2441013,
+      "expected": "9c16fe029cc72aa5a8837be2864c9a179a38d2c601e44034fbd89f92b06afe32",
+      "actual": "9c16fe029cc72aa5a8837be2864c9a179a38d2c601e44034fbd89f92b06afe32",
+      "match": true
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "status": 200,
+      "bytes": 2440959,
+      "expected": "316cbbbdf7fe6e77acdcc12987ba2a6cd0854f06c8499bb6d5654f581c5c3503",
+      "actual": "316cbbbdf7fe6e77acdcc12987ba2a6cd0854f06c8499bb6d5654f581c5c3503",
+      "match": true
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "status": 200,
+      "bytes": 2444569,
+      "expected": "5378952f061a62caaa50880dee23f4ad4f60b38f5e4a0171f80c73fea73cd66f",
+      "actual": "5378952f061a62caaa50880dee23f4ad4f60b38f5e4a0171f80c73fea73cd66f",
+      "match": true
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "status": 200,
+      "bytes": 423106,
+      "expected": "761d1d45a688adc1f988dda97f6785f7808fb4f6ec9b281d9331807ba6399a80",
+      "actual": "761d1d45a688adc1f988dda97f6785f7808fb4f6ec9b281d9331807ba6399a80",
+      "match": true
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "status": 200,
+      "bytes": 2438007,
+      "expected": "223e4d9694c944d54df6b637fa43a3f1baeca88e1d59a03cf6ab09e45d1cf3a3",
+      "actual": "223e4d9694c944d54df6b637fa43a3f1baeca88e1d59a03cf6ab09e45d1cf3a3",
+      "match": true
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "status": 200,
+      "bytes": 2442672,
+      "expected": "33d22324bcaa750e6ec23ee0ece53f8c1275276bc537d182c78aeffbe14a6cfa",
+      "actual": "33d22324bcaa750e6ec23ee0ece53f8c1275276bc537d182c78aeffbe14a6cfa",
+      "match": true
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "match": false,
+      "error": "TimeoutError: The operation was aborted due to timeout",
+      "retryError": "TimeoutError: The operation was aborted due to timeout"
+    }
+  ],
+  "catalog": {
+    "status": 200,
+    "revision": 61,
+    "validatedWithActualClientModel": true,
+    "cards": [
+      {
+        "code": "V-975",
+        "name": "프라임 레퀴엠",
+        "basePower": 3000000,
+        "expected": 3000000,
+        "acquisitionEnabled": false,
+        "packAcquisitionEnabled": false,
+        "match": true
+      },
+      {
+        "code": "V-976",
+        "name": "제로",
+        "basePower": 3000000,
+        "expected": 3000000,
+        "acquisitionEnabled": false,
+        "packAcquisitionEnabled": false,
+        "match": true
+      },
+      {
+        "code": "V-974",
+        "name": "제너럴 족",
+        "basePower": 2700000,
+        "expected": 2700000,
+        "acquisitionEnabled": false,
+        "packAcquisitionEnabled": false,
+        "match": true
+      },
+      {
+        "code": "V-978",
+        "name": "레오넬",
+        "basePower": 2300000,
+        "expected": 2300000,
+        "acquisitionEnabled": false,
+        "packAcquisitionEnabled": false,
+        "match": true
+      }
+    ]
+  },
+  "allMatch": false,
+  "productionAccountWrites": 0,
+  "deliveryRetry": {
+    "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+    "reason": "Initial asset failed on both production and immutable deployment hosts (60s/30s/15s timeout). Rotate its delivery content hash with a comment-only footer; runtime statements unchanged."
+  }
+}

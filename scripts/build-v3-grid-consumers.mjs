@@ -39,7 +39,8 @@ for (const [entryPoint, outfile, constructor] of jobs) {
     }}] : []});
   // Rotate the delivery object after the first Omega Scrapyard blob timed out
   // on both production and its immutable Pages URL. Runtime bytes stay intact.
-  const deliveryFooter = outfile === 'preview/scrapyard-v3-v1/battle.bundle.js' ? '\n/* delivery: awakened-omega-20261024-v1 */\n' : '';
+  const deliveryFooter = outfile === 'preview/scrapyard-v3-v1/battle.bundle.js' ? '\n/* delivery: awakened-omega-20261024-v1 */\n'
+    : outfile === 'preview/project-v-mercenary-system-v1/skills.bundle.js' ? '\n/* delivery: mercenary-three-power-20261025-v1 */\n' : '';
   const bundle = result.outputFiles[0].text.replace(/[ \t]+$/gm, '') + deliveryFooter;
   await writeBundle(outfile, bundle);
   const inputs = Object.keys(result.metafile.inputs).map(p => p.replaceAll('\\', '/'));
