@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "b8a46054edd34658362b6f141db1219b9e88705f42d36c7c2353ca5a8678a354",
+  "planHash": "4c8ca485b6f6be0a87b3f44c74cc80733a1d509c2568754cc4142a4d00ff568c",
+  "verification": {
+    "status": "VERIFIED",
+    "operationKey": "ops:streamer-box-two:20261025:v1",
+    "recipientCount": 37,
+    "totalBoxes": 74,
+    "amountEach": 2,
+    "pending": [
+      {
+        "order": 13,
+        "inputNickname": "다방커피(겜닉필요)",
+        "reason": "사용자 요청으로 이번 지급 제외",
+        "amount": 2
+      }
+    ],
+    "inventoryLogs": 37,
+    "missing": 0,
+    "duplicates": 0,
+    "auditId": "51252",
+    "completedAt": "2026-10-25T09:43:44.547Z"
+  },
+  "dryRunRollback": true,
+  "injectedFailureRollback": true,
+  "noWriteReplay": true,
+  "independentReadOnlyVerification": true,
+  "leasesReleased": true,
+  "testsPassed": 4
+}
