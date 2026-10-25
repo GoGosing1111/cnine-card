@@ -21,7 +21,7 @@ const cards=BLOODMOON_MERCENARIES.filter(c=>BLOODMOON_CODES.includes(c.code));
 test('five separate SS limited entries publish approved originals, full idle sprites and the reviewed balance',()=>{
  const document=validateCatalog(catalog()),found=filterCatalog(document.cards,{q:'블러드문',rank:'SS'},new Set()).filter(c=>BLOODMOON_CODES.includes(c.code));assert.deepEqual(found.map(c=>c.code),BLOODMOON_CODES);
  const manifest=JSON.parse(fs.readFileSync('assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/manifest.json'));
- for(const c of found){assert.equal(c.serverLimit,20);assert.equal(c.basePower,356400);assert.equal(c.skills[0].ready,true);assert.equal(c.skills.length,1);assert.equal(c.deploymentEnabled,true);
+ for(const c of found){assert.equal(c.serverLimit,25);assert.equal(c.basePower,356400);assert.equal(c.skills[0].ready,true);assert.equal(c.skills.length,1);assert.equal(c.deploymentEnabled,true);
   for(const field of ['sourceArt','battleSprite']){const b=fs.readFileSync(c[field]);assert.equal(createHash('sha256').update(b).digest('hex').toUpperCase(),c[field+'Sha256']);assert.deepEqual(b,fs.readFileSync(manifest.assets.find(a=>a.code===c.code)[field].original));}
  }
  const wrong=catalog();wrong.cards.find(c=>c.code==='V-960').packOpeningEnabled=true;assert.throws(()=>validateCatalog(wrong));

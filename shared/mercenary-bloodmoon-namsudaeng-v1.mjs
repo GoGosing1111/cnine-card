@@ -19,12 +19,12 @@ export const NAMSUDAENG_SKILLS=Object.freeze([
 // No SSS-limited immunities, opponent-dependent bonuses or account exceptions.
 export const NAMSUDAENG_COMBAT=Object.freeze({...HALLOWEEN_COMBAT['V-981'],code:NAMSUDAENG_CODE,
  basePower:356400,role:'MARKSMAN',skill:NAMSUDAENG_SKILLS[0],skills:NAMSUDAENG_SKILLS});
-export const NAMSUDAENG_DESCRIPTION='블러드문 SS 리미티드 · 서버 전체 20장. 기본 전투력 356,400. 후열 궁수이며 표시·성장 등급 SS, 전투 등급 보정은 일반 SSS 기준입니다. 자연 행동 속도 2.25배·아군 카드 4행동마다 9회 추가 행동, 자기 행동마다 에너지 10을 회복합니다. 적월 관통·혈월 연사·월식 화살비는 순환하며 총 1,440% 피해 예산·에너지 20·공통 재사용 2행동을 사용합니다. 기본 공격은 한 발이며 승인 모션은 2배속, 대기 몸체는 고정입니다. 블러드문팩 전용이며 판매 상태와 잔여 수량은 상점에서 확인하세요.';
+export const NAMSUDAENG_DESCRIPTION='블러드문 SS 리미티드 · 서버 전체 25장. 기본 전투력 356,400. 후열 궁수이며 표시·성장 등급 SS, 전투 등급 보정은 일반 SSS 기준입니다. 자연 행동 속도 2.25배·아군 카드 4행동마다 9회 추가 행동, 자기 행동마다 에너지 10을 회복합니다. 적월 관통·혈월 연사·월식 화살비는 순환하며 총 1,440% 피해 예산·에너지 20·공통 재사용 2행동을 사용합니다. 기본 공격은 한 발이며 승인 모션은 2배속, 대기 몸체는 고정입니다. 블러드문팩 전용이며 판매 상태와 잔여 수량은 상점에서 확인하세요.';
 export const NAMSUDAENG_ART=Object.freeze({
  code:NAMSUDAENG_CODE,name:'블러드문 남수댕',nameStatus:'USER_CONFIRMED_20261024',title:'혈월의 궁수',
  rank:'SS',rankStatus:'USER_DESIGNATED',edition:'LIMITED',season:'BLOODMOON',role:'MARKSMAN',position:'REAR',
  artOnly:false,releaseStatus:'BATTLE_RELEASED_PACK_PENDING',acquisition:'BLOODMOON_PACK',acquisitionEnabled:false,
- packAcquisitionEnabled:true,packOpeningEnabled:false,deploymentEnabled:true,serverLimit:20,
+ packAcquisitionEnabled:true,packOpeningEnabled:false,deploymentEnabled:true,serverLimit:25,
  acquisitionPackId:'mercenary-bloodmoon-ss-limited',acquisitionPackName:'블러드문팩',
  sourceArt:NAMSUDAENG_ROOT+'source-art.png',sourceArtSha256:'FA4375975E256F84E6C4CDB877B69C239805DA303B1233EBF71B7A6F5F32D9D8',
  battleSprite:NAMSUDAENG_ROOT+'idle.png',battleSpriteSha256:'F92F48030F9AE6CB7C888F0F70F3CE4FD963BD4225C32651762003E0761BEAA6',

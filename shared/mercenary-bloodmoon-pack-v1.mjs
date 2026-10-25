@@ -1,9 +1,9 @@
-import {BLOODMOON_PACK_CARDS,bloodmoonStockLimit,isBloodmoonStockLimit} from './mercenary-bloodmoon-pool-v3.mjs?v=20261025-ss-stock20-v1';
+import {BLOODMOON_PACK_CARDS,bloodmoonStockLimit,isBloodmoonStockLimit} from './mercenary-bloodmoon-pool-v3.mjs?v=20261025-ss-stock25-v2';
 import {PRIME_MATERIAL,PRIME_MATERIAL_STOCK_CODE,primeMaterialDraw,isPrimeMaterialDraw,bloodmoonDrawCode} from './mercenary-prime-material-v1.mjs';
-import {BLOODMOON_MERCENARIES,BLOODMOON_ORIGINAL_CODES,BLOODMOON_SERVER_LIMIT,BLOODMOON_LEGACY_SERVER_LIMIT} from './mercenary-bloodmoon-catalog-v1.mjs?v=20261025-ss-stock20-v1';
+import {BLOODMOON_MERCENARIES,BLOODMOON_ORIGINAL_CODES,BLOODMOON_SERVER_LIMIT,BLOODMOON_LEGACY_SERVER_LIMIT} from './mercenary-bloodmoon-catalog-v1.mjs?v=20261025-ss-stock25-v2';
 import {isLimitedRate,limitedRateUnits,LIMITED_RATE_TOTAL,LIMITED_RATE_SCALE} from './mercenary-limited-rates-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
-import {BLOODMOON_BULK_FORMAT,BLOODMOON_BULK_MAX_COUNT,bloodmoonBudget,validateBloodmoonBulkReceipt} from './mercenary-bloodmoon-bulk-v1.mjs?v=20261025-ss-stock20-v1';
+import {BLOODMOON_BULK_FORMAT,BLOODMOON_BULK_MAX_COUNT,bloodmoonBudget,validateBloodmoonBulkReceipt} from './mercenary-bloodmoon-bulk-v1.mjs?v=20261025-ss-stock25-v2';
 
 // User authorized public opening on 2026-10-25. CMS mode and readiness still gate sales.
 // CMS drafts, purchases and receipts are isolated from the Halloween pack.
@@ -31,8 +31,8 @@ export function validateBloodmoonPack(raw,{releaseEnabled=BLOODMOON_PACK_RELEASE
   if(rates.some(n=>n!==null&&!isLimitedRate(n)))throw Error('확률은 미정 또는 0~100%, 소수점 8자리까지 입력하세요.');
   if(rates.reduce((sum,n)=>sum+(n===null?0:limitedRateUnits(n)),0)>LIMITED_RATE_TOTAL)throw Error('각 단계 확률 합계는 100%를 초과할 수 없습니다.');
  }
- const legacyStock=allowLegacyStock&&BLOODMOON_MERCENARIES.every(c=>raw.stockLimits?.[c.code]===BLOODMOON_LEGACY_SERVER_LIMIT);
- if(!exact(raw.stockLimits,codes)||!codes.every(code=>isBloodmoonStockLimit(code,raw.stockLimits[code])||legacyStock&&BLOODMOON_MERCENARIES.some(c=>c.code===code)))throw Error('블러드문 SS 각 20장, 레오넬 5장, 제너럴 족 3장, 프라임 재료 3장 한도를 확인하세요.');
+ const legacyStock=allowLegacyStock&&[BLOODMOON_LEGACY_SERVER_LIMIT,20].some(limit=>BLOODMOON_MERCENARIES.every(c=>raw.stockLimits?.[c.code]===limit));
+ if(!exact(raw.stockLimits,codes)||!codes.every(code=>isBloodmoonStockLimit(code,raw.stockLimits[code])||legacyStock&&BLOODMOON_MERCENARIES.some(c=>c.code===code)))throw Error('블러드문 SS 각 25장, 레오넬 5장, 제너럴 족 3장, 프라임 재료 3장 한도를 확인하세요.');
  return structuredClone(raw);
 }
 export function readBloodmoonPackSettings(raw=bloodmoonPackDraft(),options){
@@ -49,7 +49,7 @@ export function readBloodmoonPackSettings(raw=bloodmoonPackDraft(),options){
  }
  // Legacy null SSS limits become the authorized limits in memory; storage is changed only by an audited save.
  if(raw.stockLimits&&codes.every(c=>Object.hasOwn(raw.stockLimits,c)))raw={...raw,stockLimits:Object.fromEntries(Object.entries(raw.stockLimits).map(([code,limit])=>[code,limit===null&&BLOODMOON_PACK_CARDS.some(c=>c.code===code&&c.rank==='SSS')?bloodmoonStockLimit(code):limit]))};
- // Deploy before the audited stock update. Reads retain the complete old ten-copy policy.
+ // Deploy before the audited stock update. Reads retain the complete old ten- or twenty-copy policy.
  return validateBloodmoonPack(raw,{...options,allowLegacyStock:true});
 }
 export function bloodmoonPackReadiness(settings,stock=[],normalCards=[]){

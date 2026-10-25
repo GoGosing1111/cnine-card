@@ -1,0 +1,21 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "roomRemainingPerSs": 5,
+      "cmsLimitPerSs": 25,
+      "issuedPreserved": 20,
+      "priceAndModePreserved": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "roomRemainingPerSs": 5,
+      "cmsLimitPerSs": 25,
+      "issuedPreserved": 20,
+      "priceAndModePreserved": true,
+      "errors": []
+    }
+  ],
+  "mutations": 0
+}
