@@ -1,0 +1,243 @@
+{
+  "operationKey": "ops:clan-reshuffle-bongsoon:20261025:v1",
+  "completedAt": "2026-10-25T08:05:00.661Z",
+  "auditId": "51185",
+  "seasonId": 9,
+  "planHash": "7a70dfb0982e1f7ca8c09869a030882d6a3d769dbedfd1233723abc7d5504f12",
+  "stats": {
+    "moved": 127,
+    "unvisitedMoves": 127,
+    "repeatedMoves": 0,
+    "totalPower": 1157884,
+    "meanPower": 144735.5,
+    "beforeRangePercent": 57.99959235985642,
+    "afterRangePercent": 0.016581971941921642,
+    "before": [
+      {
+        "id": 1,
+        "count": 17,
+        "power": 159235,
+        "top8": 1,
+        "top16": 2,
+        "top32": 7,
+        "inactive3Days": 0
+      },
+      {
+        "id": 2,
+        "count": 16,
+        "power": 139441,
+        "top8": 1,
+        "top16": 2,
+        "top32": 4,
+        "inactive3Days": 0
+      },
+      {
+        "id": 3,
+        "count": 16,
+        "power": 141717,
+        "top8": 2,
+        "top16": 2,
+        "top32": 2,
+        "inactive3Days": 1
+      },
+      {
+        "id": 4,
+        "count": 16,
+        "power": 192157,
+        "top8": 1,
+        "top16": 3,
+        "top32": 7,
+        "inactive3Days": 0
+      },
+      {
+        "id": 5,
+        "count": 16,
+        "power": 122558,
+        "top8": 1,
+        "top16": 1,
+        "top32": 2,
+        "inactive3Days": 1
+      },
+      {
+        "id": 6,
+        "count": 16,
+        "power": 108211,
+        "top8": 1,
+        "top16": 1,
+        "top32": 1,
+        "inactive3Days": 0
+      },
+      {
+        "id": 7,
+        "count": 16,
+        "power": 150392,
+        "top8": 0,
+        "top16": 2,
+        "top32": 5,
+        "inactive3Days": 1
+      },
+      {
+        "id": 8,
+        "count": 15,
+        "power": 144173,
+        "top8": 1,
+        "top16": 3,
+        "top32": 4,
+        "inactive3Days": 0
+      }
+    ],
+    "after": [
+      {
+        "id": 1,
+        "count": 16,
+        "power": 144738,
+        "top8": 1,
+        "top16": 2,
+        "top32": 4,
+        "inactive3Days": 0
+      },
+      {
+        "id": 2,
+        "count": 16,
+        "power": 144721,
+        "top8": 1,
+        "top16": 2,
+        "top32": 4,
+        "inactive3Days": 0
+      },
+      {
+        "id": 3,
+        "count": 16,
+        "power": 144743,
+        "top8": 1,
+        "top16": 2,
+        "top32": 4,
+        "inactive3Days": 0
+      },
+      {
+        "id": 4,
+        "count": 16,
+        "power": 144731,
+        "top8": 1,
+        "top16": 2,
+        "top32": 4,
+        "inactive3Days": 0
+      },
+      {
+        "id": 5,
+        "count": 16,
+        "power": 144732,
+        "top8": 1,
+        "top16": 2,
+        "top32": 4,
+        "inactive3Days": 1
+      },
+      {
+        "id": 6,
+        "count": 16,
+        "power": 144740,
+        "top8": 1,
+        "top16": 2,
+        "top32": 4,
+        "inactive3Days": 1
+      },
+      {
+        "id": 7,
+        "count": 16,
+        "power": 144745,
+        "top8": 1,
+        "top16": 2,
+        "top32": 4,
+        "inactive3Days": 1
+      },
+      {
+        "id": 8,
+        "count": 16,
+        "power": 144734,
+        "top8": 1,
+        "top16": 2,
+        "top32": 4,
+        "inactive3Days": 0
+      }
+    ]
+  },
+  "fixed": {
+    "userId": 5426,
+    "clanId": 6
+  },
+  "tests": {
+    "passed": 3,
+    "failureInjectionPoints": 4
+  },
+  "liveReadOnlyVerification": true,
+  "rollbackVerified": true,
+  "replayWrites": 0,
+  "accountWrites": 0,
+  "publishedMessages": 0,
+  "poster": {
+    "width": 2160,
+    "height": 6403,
+    "names": 128,
+    "elders": 24,
+    "moved": 127,
+    "clippedNames": 0
+  },
+  "artifactRoot": "C:\\Users\\User\\.codex\\visualizations\\2026\\10\\25\\01a170fb-166f-7250-a2e6-d351c185e8ee\\clan-reshuffle-20261025",
+  "files": [
+    {
+      "path": "history.json",
+      "bytes": 4834692,
+      "sha256": "b41276d7684940597815dbeca6e0e93472d7450b13b270ee41710f45a8db0839"
+    },
+    {
+      "path": "ratings.json",
+      "bytes": 651449,
+      "sha256": "ab28f13afc59d7432ea6f46b89df6a2dfcbc5b7669064a7509ed4317db612c97"
+    },
+    {
+      "path": "plan.json",
+      "bytes": 277823,
+      "sha256": "f612b8d7290d9ff16bbe8a28a54d3e07da87f5222a5b32287f3f8fc79777f238"
+    },
+    {
+      "path": "public-roster.json",
+      "bytes": 30653,
+      "sha256": "28c84af58cc307b330b78be9815addf8d8e5ea5152996945a80c150fafaae345"
+    },
+    {
+      "path": "operation/dry-run.json",
+      "bytes": 612973,
+      "sha256": "0a98bb258f8d9cc463494da8e85e4e9468dfcd7c6f4194e67b867dbfb80e8973"
+    },
+    {
+      "path": "operation/apply.json",
+      "bytes": 612979,
+      "sha256": "7f80fbd13351cb7c7f41000ccb98445c1523da62cfa07dd0b117db19b8388a6d"
+    },
+    {
+      "path": "operation/verify.json",
+      "bytes": 612906,
+      "sha256": "b597d08ce4440bd658aab1ad02bc23518d495e375127fe8ce6b31b1774944071"
+    },
+    {
+      "path": "clan-reshuffle-roster-poster.png",
+      "bytes": 2390712,
+      "sha256": "76922684be58e29b0fe818f7d2d9ee9783dc98a3ad235f66d896356d9e09fe47"
+    },
+    {
+      "path": "clan-reshuffle-roster-poster.html",
+      "bytes": 3712195,
+      "sha256": "23f22f35cff91b6f1ef4a1eb6cee5f0d4e42d27773e10e3d4167bf5bea428212"
+    },
+    {
+      "path": "clan-reshuffle-user-notice.txt",
+      "bytes": 10402,
+      "sha256": "1dee084a231ee56b624a78a5f3b47df7582bd77821a31d58ccba87ff2cf03bc2"
+    },
+    {
+      "path": "clan-reshuffle-roster.txt",
+      "bytes": 3666,
+      "sha256": "f001531d8a6f3bc896fc17d260a37c697d577a1eb3532213c1668e1dc2893e70"
+    }
+  ]
+}
