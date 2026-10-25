@@ -1,0 +1,143 @@
+{
+  "verified": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bloodmoon-eunseol-restock:20261025:plus1-v1",
+    "authorization": "은설 한도 한장 추가",
+    "completedAt": "2026-10-25T09:04:55.377Z",
+    "stockAdded": 1,
+    "grants": 0,
+    "issuesBeforeHash": "eec0b3b70dac095800d63a1ce7a4cf2d279a461401352c9525e345e44111f4bd",
+    "issuesAfterHash": "eec0b3b70dac095800d63a1ce7a4cf2d279a461401352c9525e345e44111f4bd",
+    "protectedPolicyHash": "a314597abd27918dcad2667243f699239c636456c6c92e62a53b2b6b5b523c12",
+    "before": {
+      "revision": 8,
+      "settings": {
+        "mode": "ON",
+        "prices": {
+          "single": 1500000000,
+          "ten": 15000000000
+        },
+        "missRatePpm": 800000,
+        "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "normalSssRatePpm": 969369,
+        "cardRatesPpm": {
+          "V-960": 5000,
+          "V-961": 5000,
+          "V-962": 5000,
+          "V-963": 5000,
+          "V-964": 5000,
+          "V-965": 5000,
+          "V-978": 200,
+          "V-974": 10,
+          "V-975": 1,
+          "V-973": 20,
+          "V-058": 400
+        },
+        "stockLimits": {
+          "V-960": 40,
+          "V-961": 40,
+          "V-962": 40,
+          "V-963": 40,
+          "V-964": 40,
+          "V-965": 40,
+          "V-978": 9,
+          "V-974": 3,
+          "V-975": 3,
+          "V-973": 3
+        }
+      },
+      "updatedAt": "2026-10-25T08:43:59.673Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:bloodmoon-expansion:20261025:ss10-leonel2-eunseol3-razak-v1"
+    },
+    "after": {
+      "revision": 9,
+      "settings": {
+        "mode": "ON",
+        "prices": {
+          "single": 1500000000,
+          "ten": 15000000000
+        },
+        "missRatePpm": 800000,
+        "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "normalSssRatePpm": 969369,
+        "cardRatesPpm": {
+          "V-960": 5000,
+          "V-961": 5000,
+          "V-962": 5000,
+          "V-963": 5000,
+          "V-964": 5000,
+          "V-965": 5000,
+          "V-978": 200,
+          "V-974": 10,
+          "V-975": 1,
+          "V-973": 20,
+          "V-058": 400
+        },
+        "stockLimits": {
+          "V-960": 40,
+          "V-961": 40,
+          "V-962": 40,
+          "V-963": 40,
+          "V-964": 40,
+          "V-965": 40,
+          "V-978": 9,
+          "V-974": 3,
+          "V-975": 3,
+          "V-973": 4
+        }
+      },
+      "updatedAt": "2026-10-25T09:04:55.377Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:bloodmoon-eunseol-restock:20261025:plus1-v1"
+    },
+    "beforeStock": [
+      {
+        "code": "V-973",
+        "stock_limit": 3,
+        "issued": 1,
+        "revision": 1,
+        "last_token": "a7da54ea-65c2-4bce-a0d2-d1c819e7a03d"
+      }
+    ],
+    "afterStock": [
+      {
+        "code": "V-973",
+        "stock_limit": 4,
+        "issued": 1,
+        "revision": 2,
+        "last_token": "a7da54ea-65c2-4bce-a0d2-d1c819e7a03d"
+      }
+    ],
+    "auditId": "51209"
+  },
+  "stock": [
+    {
+      "code": "V-973",
+      "name": "은설",
+      "before": 3,
+      "after": 4,
+      "issued": 1,
+      "remaining": 3
+    }
+  ],
+  "currentRevision": 9,
+  "checkedAt": "2026-10-25T09:05:09.892Z"
+}

@@ -1,0 +1,171 @@
+{
+  "at": "2026-10-25T09:05:08.726Z",
+  "pages": {
+    "id": "7fec680e-a250-4e8b-8c04-87ed35267873",
+    "url": "https://7fec680e.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "c9ec8977e4179c945c0303a3fc2d7328b790d380"
+  },
+  "publicFiles": [
+    {
+      "file": "admin/index.html",
+      "sha256": "d2cc13f6842401d51606012820c43ebfd6b79cd0264dde3489b13966fee50fb5"
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "cb37bd49e5559d6b620cdf229e58d8007a277b41c4abcae32b74ac677f22e934"
+    },
+    {
+      "file": "admin/mercenary-bloodmoon-admin-v1.mjs",
+      "sha256": "6f12027c0e3de6738f1243456a002aef0a0a9d7741d11180293305ec3a21d0a6"
+    },
+    {
+      "file": "index.html",
+      "sha256": "69f8676cd16ad6c0c6963cb934cc9b6580df22a66756dfc1bba48c6764d00daf"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "64f744941567f02f56bb871fb22b5bce64afbd0aabd78d0cc747a8d79a86af03"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "sha256": "246ba54bb4ecde02dd155352a0cce2a84ae61d5cfbb7d11eaf858cb4c6c7b592"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "e087c4dab5fa507e8d44386e12cba8ab3f45cf8bdc230776719db702f545ef19"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-bulk-v1.mjs",
+      "sha256": "88375d90825bd53870a7d4cd668abe3ca894736b6ccb14c1319c7d6c462d4db5"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "sha256": "69e1fc231fc8aeffe703173cc62c9fa67f2382e7ed65ddffb395cadda7e8d943"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pool-v3.mjs",
+      "sha256": "48f5fc35d2bf41ed1145ca4ac4a1907dff50cd61969a28a7b3c2b7caa6884b4b"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-session-v2.mjs",
+      "sha256": "9635a9569628a44d64093288e9d31aa82be402773e3c1a56a9971b21b080473f"
+    }
+  ],
+  "publicApi": {
+    "status": 200
+  },
+  "verificationSource": "public API",
+  "revision": 9,
+  "stock": [
+    {
+      "code": "V-960",
+      "limit": 40,
+      "issued": 40,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-961",
+      "limit": 40,
+      "issued": 40,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-962",
+      "limit": 40,
+      "issued": 40,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-963",
+      "limit": 40,
+      "issued": 40,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-964",
+      "limit": 40,
+      "issued": 40,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-965",
+      "limit": 40,
+      "issued": 40,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-978",
+      "limit": 9,
+      "issued": 8,
+      "remaining": 1,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-974",
+      "limit": 3,
+      "issued": 1,
+      "remaining": 2,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-975",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-973",
+      "limit": 4,
+      "issued": 1,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    }
+  ],
+  "configuredRates": {
+    "V-960": 5000,
+    "V-961": 5000,
+    "V-962": 5000,
+    "V-963": 5000,
+    "V-964": 5000,
+    "V-965": 5000,
+    "V-978": 200,
+    "V-974": 10,
+    "V-975": 1,
+    "V-973": 20,
+    "V-058": 400
+  },
+  "effectiveCardPercents": {
+    "V-960": "0",
+    "V-961": "0",
+    "V-962": "0",
+    "V-963": "0",
+    "V-964": "0",
+    "V-965": "0",
+    "V-978": "0.000016",
+    "V-974": "0.0000008",
+    "V-975": "0.00000008",
+    "V-973": "0.0000016",
+    "V-058": "0.000032"
+  },
+  "razakPower": 1000000,
+  "stockAdded": 1,
+  "operationGrants": 0
+}
