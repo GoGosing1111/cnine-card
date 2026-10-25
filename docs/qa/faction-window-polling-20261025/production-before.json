@@ -1,0 +1,20 @@
+{
+  "id": "7fec680e-a250-4e8b-8c04-87ed35267873",
+  "environment": "production",
+  "url": "https://7fec680e.cnine-card.pages.dev",
+  "latest_stage": {
+    "name": "deploy",
+    "started_on": null,
+    "ended_on": "2026-10-25T09:04:10.77752Z",
+    "status": "success"
+  },
+  "deployment_trigger": {
+    "type": "ad_hoc",
+    "metadata": {
+      "branch": "main",
+      "commit_hash": "c9ec8977e4179c945c0303a3fc2d7328b790d380",
+      "commit_message": "Increase Bloodmoon Eunseol stock limit to four [CF-Pages-Skip]",
+      "commit_dirty": false
+    }
+  }
+}
