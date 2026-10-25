@@ -35,7 +35,7 @@ export const PRIME_ART=Object.freeze({
  artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#ff163e',
  basePower:PRIME_COMBAT.basePower,skills:Object.freeze([...PRIME_BASIC_FORMS,...PRIME_AREA_SKILLS]),
  acquisitionEnabled:false,packAcquisitionEnabled:false,deploymentEnabled:true,
- combatLinkDescription:'기본 전투력 2,300,000. 제로와 동일한 공격·생존·속도·연계 기준. 개인 피해 80% 경감, 상태이상·반격 보호. 혈섬 돌진·혈영 연참·혈검 난무가 일반 공격마다 순환합니다. PVE 광역기 네 동작은 공통 재사용 3행동·에너지 20을 사용하며, 시전당 총 1,512% 피해를 생존한 적에게 나누어 한 번씩 적용합니다. 부서진 적월·흑염·붉은 네온. 현재 획득 불가.'
+ combatLinkDescription:'기본 전투력 3,000,000. 제로와 동일한 공격·생존·속도·연계 기준. 개인 피해 80% 경감, 상태이상·반격 보호. 혈섬 돌진·혈영 연참·혈검 난무가 일반 공격마다 순환합니다. PVE 광역기 네 동작은 공통 재사용 3행동·에너지 20을 사용하며, 시전당 총 1,512% 피해를 생존한 적에게 나누어 한 번씩 적용합니다. 부서진 적월·흑염·붉은 네온. 현재 획득 불가.'
 });
 export const primeCodexSkills=()=>PRIME_ART.skills.map(s=>({...s,ready:true,target:s.basicForm?'적 1명':'적 전체',
  effect:s.basicForm?'일반 공격이 세 동작으로 순환합니다. 여러 검격도 일반 공격 한 번의 피해를 적용합니다.':'생존한 적 전체에 총 1,512% 피해를 나누어 대상당 한 번 적용합니다.',
@@ -44,5 +44,5 @@ export const primeCodexSkills=()=>PRIME_ART.skills.map(s=>({...s,ready:true,targ
 export function primeDeploymentSnapshot(){
  return {...PRIME_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',attackStyle:'MELEE',
  skills:structuredClone(PRIME_AREA_SKILLS),pendingSkillIds:[],primePolicyVersion:PRIME_COMBAT.version,primePvePolicyVersion:PRIME_PVE_BALANCE.version,
- deploymentVersion:'20261022-prime-requiem-pve-v2'};
+ deploymentVersion:'20261025-prime-requiem-power-v2'};
 }

@@ -26,13 +26,16 @@ const root='preview/mercenary-general-jok-battle-20261022-v1/';
 const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat});
 const fighter=(code,side='A',mode='PVE',power=0)=>buildMercenaryFighter({...snapshot(code),equipment:{schemaVersion:1,mode,power}},side,mode,buildFighter);
 
-test('GeneralJok equals Prime Requiem in actual PVE/PVP stats, gear, links, mitigation and action cadence',()=>{
- assert.equal(GENERAL_JOK_COMBAT,PRIME_COMBAT);assert.equal(GENERAL_JOK_COMBAT.basePower,2300000);
+test('General Jok uses 2.7 million power independently of Prime while preserving gear, mitigation and cadence',()=>{
+ assert.notEqual(GENERAL_JOK_COMBAT,PRIME_COMBAT);assert.equal(GENERAL_JOK_COMBAT.basePower,2700000);assert.equal(PRIME_COMBAT.basePower,3000000);
+ const scaled=(actual,reference,label)=>assert(Math.abs(actual-reference*.9)<=2,label);
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8]){
   const z=fighter(GENERAL_JOK_CODE,'A',mode,gear),l=fighter(PRIME_CODE,'B',mode,gear);
-  for(const key of ['attack','maxHp','defense','speed','counterImmune','controlImmune','poisonImmune'])assert.equal(z[key],l[key],key);
+  assert.equal(z.basePower,2700000+gear);assert.equal(l.basePower,3000000+gear);
+  for(const key of ['attack','maxHp','defense'])scaled(z[key],l[key],key);
+  for(const key of ['speed','counterImmune','controlImmune','poisonImmune'])assert.equal(z[key],l[key],key);
   applyMercenaryCombatLink(['A','B'].map((side,i)=>[...tierCards(2e7).map((c,n)=>buildFighter(c,n,side,null,mode)),[z,l][i]]));
-  assert.equal(mercenaryEffectiveAttack(z),mercenaryEffectiveAttack(l));assert.equal(z.maxHp,l.maxHp);assert.equal(z.shield,l.shield);
+  scaled(mercenaryEffectiveAttack(z),mercenaryEffectiveAttack(l),'linked attack');scaled(z.maxHp,l.maxHp,'linked HP');scaled(z.shield,l.shield,'opening shield');
   assert.deepEqual(z.skills.map(s=>s.id),mode==='PVE'?GENERAL_JOK_AREA_SKILLS.map(s=>s.id):[]);
  }
  const z=fighter(GENERAL_JOK_CODE),card={id:'card',side:'A',hp:1},enemy={id:'enemy',side:'B',hp:1},cadence=mercenaryTurnCadence({A:[card,z],B:[enemy]});let actions=0;
@@ -56,7 +59,7 @@ test('six PVE area skills retain one 1512% budget per cast and use the shared Re
  const cards=tierCards(2e7),options={cards,monster:{id:1,battle_power:1.6e10},seed:77};
  const generalJok=createPveBattleV2({...options,mercenary:snapshot(GENERAL_JOK_CODE)}).result,zero=createPveBattleV2({...options,mercenary:snapshot(PRIME_CODE)}).result;
  const casts=generalJok.timeline.filter(e=>e.type===GENERAL_JOK_AREA_EVENT),reference=zero.timeline.filter(e=>e.type==='MERCENARY_PRIME_REQUIEM_AREA');
- assert(casts.length===reference.length);assert(casts.length>=2);
+ assert(casts.length>=2);assert(casts[0].damage+casts[0].absorbed<reference[0].damage+reference[0].absorbed);
  casts.forEach((e,i)=>assert.equal(e.skillId,GENERAL_JOK_AREA_SKILLS[i%6].id));
  for(const type of ['MERCENARY_WINDUP','MERCENARY_END'])assert.equal(generalJok.timeline.filter(e=>e.type===type&&GENERAL_JOK_AREA_SKILLS.some(s=>s.id===e.skillId)).length,casts.length);
  assert.equal(generalJok.winner,zero.winner);
@@ -83,14 +86,14 @@ test('PVE cadence is ten casts per thirty own actions instead of six, with share
 });
 test('public codex exposes eight skills and acquisition lock while deployment requires ownership',async t=>{
  const data=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1})),card=data.cards.find(c=>c.code===GENERAL_JOK_CODE);
- assert.equal(card.basePower,2300000);assert.equal(card.title,'황금 함대의 총사령관');assert.equal(card.acquisitionEnabled,false);assert.equal(card.packAcquisitionEnabled,false);assert.equal(card.skills.length,8);assert(card.skills.every(s=>s.ready));
+ assert.equal(card.basePower,2700000);assert.equal(card.title,'황금 함대의 총사령관');assert.equal(card.acquisitionEnabled,false);assert.equal(card.packAcquisitionEnabled,false);assert.equal(card.skills.length,8);assert(card.skills.every(s=>s.ready));
  assert(card.skills.filter(s=>!s.basicForm).every(s=>s.balance.cost===20&&s.balance.cooldownTurns===3));
  const f=await mercenaryFixture(t,{postgres:true});
  for(const mode of ['PVE','PVP'])await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:GENERAL_JOK_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
  assert(!(await mercenaryAccountState(f.env,f.user)).cards.some(c=>c.code===GENERAL_JOK_CODE));
  // Local fixture only: future authorized ownership must use the same server policy.
  await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1,0,?,?)',f.user.id,GENERAL_JOK_CODE,'2026-10-20','2026-10-20').run();
- for(const mode of ['PVE','PVP']){await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:GENERAL_JOK_CODE,revision:0});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).basePower,2300000);}
+ for(const mode of ['PVE','PVP']){await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:GENERAL_JOK_CODE,revision:0});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).basePower,2700000);}
  assert((await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===GENERAL_JOK_CODE).canDeploy);
 });
 

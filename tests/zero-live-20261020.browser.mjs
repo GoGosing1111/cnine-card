@@ -45,7 +45,7 @@ const json=(res,data,status=200)=>{res.writeHead(status,{'content-type':'applica
 const server=http.createServer(async(req,res)=>{try{
  const url=new URL(req.url,'http://127.0.0.1'),mode=url.searchParams.get('mode');
  if(url.pathname==='/qa/battle'){
-  res.writeHead(200,{'content-type':'text/html; charset=utf-8'});return res.end(baseHtml.replace('<script defer src="preview.bundle.js"></script>',`<script defer src="${['array','zenith'].includes(mode)?'/preview/sustained-hunt-v2/battle.bundle.js':'/preview/project-v-v3/project-v-pixi-battle.bundle.js'}"></script><script defer src="/qa-boot.js"></script>`).replace(/<body>[\s\S]*<\/body>/,`<body><header><small>SSS LIMITED · DESIGNATED ACCOUNT</small><h1>제로 · ${['array','zenith'].includes(mode)?'검극 · 전선 단절':'백은일섬'}</h1><p>기본 전투력 2,300,000 · 획득 잠금</p></header><nav class="toolbar"><span id="health">V3 전장 연결 중</span></nav><main id="lab-modal"></main></body>`));
+  res.writeHead(200,{'content-type':'text/html; charset=utf-8'});return res.end(baseHtml.replace('<script defer src="preview.bundle.js"></script>',`<script defer src="${['array','zenith'].includes(mode)?'/preview/sustained-hunt-v2/battle.bundle.js':'/preview/project-v-v3/project-v-pixi-battle.bundle.js'}"></script><script defer src="/qa-boot.js"></script>`).replace(/<body>[\s\S]*<\/body>/,`<body><header><small>SSS LIMITED · DESIGNATED ACCOUNT</small><h1>제로 · ${['array','zenith'].includes(mode)?'검극 · 전선 단절':'백은일섬'}</h1><p>기본 전투력 3,000,000 · 획득 잠금</p></header><nav class="toolbar"><span id="health">V3 전장 연결 중</span></nav><main id="lab-modal"></main></body>`));
  }
  if(url.pathname==='/qa-boot.js'){res.writeHead(200,{'content-type':'text/javascript'});return res.end(boot);}
  if(url.pathname==='/qa-data')return json(res,{deck,payload:['array','zenith'].includes(mode)?areaPayload:mode==='enemy'?enemyPayload:pvpPayload,event:['array','zenith'].includes(mode)?areaEvent:null});
@@ -124,7 +124,7 @@ try{
   if(process.argv.includes('--battle-only'))continue;
   const p=await browser.newPage({viewport,serviceWorkers:'block'});p.on('pageerror',e=>errors.push(label+' codex: '+e.message));await p.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','local-test');localStorage.setItem('cnine_card_user_v10',JSON.stringify({id:1,nickname:'검수'}));});
   await p.goto(base+'/mercenary-codex/?view=limited&q=제로#V-976');await p.locator('[data-code="V-976"]').click();await p.locator('.combat-panel').waitFor();
-  const text=await p.locator('.combat-panel').innerText();assert.match(text,/획득 불가/);assert.match(text,/2,300,000/);assert.equal(await p.locator('.skill-list > *').count(),5);for(const name of ['청광 횡단','섬광 연참','용궤 검격','천검 포위','창천 종단'])assert.match(text,new RegExp(name));
+  const text=await p.locator('.combat-panel').innerText();assert.match(text,/획득 불가/);assert.match(text,/3,000,000/);assert.equal(await p.locator('.skill-list > *').count(),5);for(const name of ['청광 횡단','섬광 연참','용궤 검격','천검 포위','창천 종단'])assert.match(text,new RegExp(name));
   assert.equal(await p.locator('[data-equip="V-976"]').count(),0);assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
   await p.locator('[data-code="V-976"] img').evaluate(img=>img.decode());await p.screenshot({path:path.join(out,label+'-codex.png'),fullPage:true});checks.push({label,mode:'codex',unowned:true,locked:true,overflow:false});await p.close();
  }

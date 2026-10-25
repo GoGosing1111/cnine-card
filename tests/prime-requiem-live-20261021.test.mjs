@@ -27,7 +27,7 @@ const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat}
 const fighter=(code,side='A',mode='PVE',power=0)=>buildMercenaryFighter({...snapshot(code),equipment:{schemaVersion:1,mode,power}},side,mode,buildFighter);
 
 test('Prime equals Zero in actual PVE/PVP stats, gear, links, mitigation and action cadence',()=>{
- assert.equal(PRIME_COMBAT,ZERO_COMBAT);assert.equal(PRIME_COMBAT.basePower,2300000);
+ assert.equal(PRIME_COMBAT,ZERO_COMBAT);assert.equal(PRIME_COMBAT.basePower,3000000);
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8]){
   const z=fighter(PRIME_CODE,'A',mode,gear),l=fighter(ZERO_CODE,'B',mode,gear);
   for(const key of ['attack','maxHp','defense','speed','counterImmune','controlImmune','poisonImmune'])assert.equal(z[key],l[key],key);
@@ -83,14 +83,14 @@ test('PVE cadence is ten casts per thirty own actions instead of six, with share
 });
 test('public codex exposes seven skills and acquisition lock while deployment requires ownership',async t=>{
  const data=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1})),card=data.cards.find(c=>c.code===PRIME_CODE);
- assert.equal(card.basePower,2300000);assert.equal(card.title,'적월의 광전사');assert.equal(card.acquisitionEnabled,false);assert.equal(card.packAcquisitionEnabled,false);assert.equal(card.skills.length,7);assert(card.skills.every(s=>s.ready));
+ assert.equal(card.basePower,3000000);assert.equal(card.title,'적월의 광전사');assert.equal(card.acquisitionEnabled,false);assert.equal(card.packAcquisitionEnabled,false);assert.equal(card.skills.length,7);assert(card.skills.every(s=>s.ready));
  assert(card.skills.filter(s=>!s.basicForm).every(s=>s.balance.cost===20&&s.balance.cooldownTurns===3));
  const f=await mercenaryFixture(t,{postgres:true});
  for(const mode of ['PVE','PVP'])await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:PRIME_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
  assert(!(await mercenaryAccountState(f.env,f.user)).cards.some(c=>c.code===PRIME_CODE));
  // Local fixture only: future authorized ownership must use the same server policy.
  await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1,0,?,?)',f.user.id,PRIME_CODE,'2026-10-20','2026-10-20').run();
- for(const mode of ['PVE','PVP']){await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:PRIME_CODE,revision:0});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).basePower,2300000);}
+ for(const mode of ['PVE','PVP']){await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:PRIME_CODE,revision:0});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).basePower,3000000);}
  assert((await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===PRIME_CODE).canDeploy);
 });
 test('approved V7 assets stay byte-identical and all actual V3 consumers ship Prime',()=>{

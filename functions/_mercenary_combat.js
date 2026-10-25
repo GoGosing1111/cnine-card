@@ -170,7 +170,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  const eunseol=snapshot.code===EUNSEOL_CODE;
  if(eunseol)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?[structuredClone(EUNSEOL_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,eunseolPolicyVersion:1};
  const generalJok=snapshot.code===GENERAL_JOK_CODE;
- if(generalJok)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'RANGED',skills:mode==='PVE'?structuredClone(GENERAL_JOK_AREA_SKILLS):[],counterImmune:true,controlImmune:true,poisonImmune:true,generalJokPolicyVersion:1};
+ if(generalJok)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'RANGED',skills:mode==='PVE'?structuredClone(GENERAL_JOK_AREA_SKILLS):[],counterImmune:true,controlImmune:true,poisonImmune:true,generalJokPolicyVersion:GENERAL_JOK_COMBAT.version};
  const prime=snapshot.code===PRIME_CODE;
  if(prime)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?structuredClone(PRIME_AREA_SKILLS):[],counterImmune:true,controlImmune:true,poisonImmune:true,primePolicyVersion:PRIME_COMBAT.version,primePvePolicyVersion:PRIME_PVE_BALANCE.version};
  const zero=snapshot.code===ZERO_CODE;

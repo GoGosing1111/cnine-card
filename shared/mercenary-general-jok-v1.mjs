@@ -4,7 +4,11 @@ import {PRIME_COMBAT,PRIME_PVE_BALANCE} from './mercenary-prime-requiem-v1.mjs';
 export const GENERAL_JOK_CODE='V-974';
 export const GENERAL_JOK_AREA_EVENT='MERCENARY_GENERAL_JOK_AREA';
 export const GENERAL_JOK_AREA_MECHANIC='GENERAL_JOK_GOLDEN_ARSENAL';
-export const GENERAL_JOK_COMBAT=PRIME_COMBAT;
+const powerScale=2700000/PRIME_COMBAT.basePower;
+export const GENERAL_JOK_COMBAT=Object.freeze({...PRIME_COMBAT,version:2,basePower:2700000,
+ statScale:PRIME_COMBAT.statScale*powerScale,basicCapScale:PRIME_COMBAT.basicCapScale*powerScale,
+ link:Object.freeze({attackPercent:PRIME_COMBAT.link.attackPercent*powerScale,hpPercent:PRIME_COMBAT.link.hpPercent*powerScale,
+  shieldPercent:(PRIME_COMBAT.link.shieldPercent+60)*powerScale-60})});
 export const GENERAL_JOK_PVE_BALANCE=PRIME_PVE_BALANCE;
 export const GENERAL_JOK_PLAYBACK_RATE=2;
 export const GENERAL_JOK_BASIC_FORMS=Object.freeze([
@@ -34,7 +38,7 @@ export const GENERAL_JOK_ART=Object.freeze({
  artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#ffd16b',
  basePower:GENERAL_JOK_COMBAT.basePower,skills:Object.freeze([...GENERAL_JOK_BASIC_FORMS,...GENERAL_JOK_AREA_SKILLS]),
  acquisitionEnabled:false,packAcquisitionEnabled:false,deploymentEnabled:true,
- combatLinkDescription:'기본 전투력 2,300,000. 프라임 레퀴엠과 동일한 공격·생존·속도·연계 기준. 개인 피해 80% 경감, 상태이상·반격 보호. 대물 관통탄과 단일 급소를 꿰뚫는 황금 낙인탄이 일반 공격마다 순환합니다. PVE에서는 황금 함대·M777 야포단·파쇄탄·철갑탄·산개탄·제압 사격을 순환하며, 공통 재사용 3행동·에너지 20으로 총 1,512% 피해를 적 전체에 나눠 한 번씩 적용합니다. 황금 C9 깃발과 전신 네온 아우라. 모션 재생 2배. 현재 획득 불가.'
+ combatLinkDescription:'기본 전투력 2,700,000. 공격·체력·방어·연계는 전투력에 비례하며 기존 속도와 행동 주기를 유지합니다. 개인 피해 80% 경감, 상태이상·반격 보호. 대물 관통탄과 단일 급소를 꿰뚫는 황금 낙인탄이 일반 공격마다 순환합니다. PVE에서는 황금 함대·M777 야포단·파쇄탄·철갑탄·산개탄·제압 사격을 순환하며, 공통 재사용 3행동·에너지 20으로 총 1,512% 피해를 적 전체에 나눠 한 번씩 적용합니다. 황금 C9 깃발과 전신 네온 아우라. 모션 재생 2배. 현재 획득 불가.'
 });
 export const generalJokCodexSkills=()=>GENERAL_JOK_ART.skills.map(s=>({...s,ready:true,target:s.basicForm?'적 1명':'적 전체',
  effect:s.basicForm?'대물 관통탄과 황금 낙인탄이 순환합니다. 기립 반동과 넉백, 머리 위 황금 원숭이 타격 표식. 피해는 일반 공격 한 번입니다.':'생존한 적 전체에 총 1,512% 피해를 나누어 대상당 한 번 적용합니다.',
@@ -42,6 +46,6 @@ export const generalJokCodexSkills=()=>GENERAL_JOK_ART.skills.map(s=>({...s,read
  counterplay:'방어·보호막에 대응됩니다.',bossRule:'서버 전투 규칙 적용',procRule:'한 행동당 한 번 적용'}));
 export function generalJokDeploymentSnapshot(){
  return {...GENERAL_JOK_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',attackStyle:'RANGED',
- skills:structuredClone(GENERAL_JOK_AREA_SKILLS),pendingSkillIds:[],generalJokPolicyVersion:1,
- deploymentVersion:'20261023-general-jok-live-v15'};
+ skills:structuredClone(GENERAL_JOK_AREA_SKILLS),pendingSkillIds:[],generalJokPolicyVersion:GENERAL_JOK_COMBAT.version,
+ deploymentVersion:'20261025-general-jok-power-v2'};
 }

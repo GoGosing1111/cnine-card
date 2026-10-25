@@ -57,7 +57,7 @@ const server=http.createServer(async(req,res)=>{try{
    res.writeHead(200,{'content-type':'text/html; charset=utf-8'});
    return res.end(fs.readFileSync(path.join(root,'index.html'),'utf8').replace('<head>','<head><base href="/">').replace('</body>',`<script defer src="${bundle}"></script><script defer src="/qa-boot.js"></script></body>`));
   }
-  res.writeHead(200,{'content-type':'text/html; charset=utf-8'});return res.end(baseHtml.replace('<script defer src="preview.bundle.js"></script>',`<script defer src="${mode!=='enemy'?'/preview/sustained-hunt-v2/battle.bundle.js':'/preview/project-v-v3/project-v-pixi-battle.bundle.js'}"></script><script defer src="/qa-boot.js"></script>`).replace(/<body>[\s\S]*<\/body>/,`<body><header><small>SSS LIMITED · DESIGNATED ACCOUNT</small><h1>프라임 레퀴엠 · ${mode!=='enemy'?'적월의 광전사':'붉은 검격'}</h1><p>기본 전투력 2,300,000 · 획득 잠금</p></header><nav class="toolbar"><span id="health">V3 전장 연결 중</span></nav><main id="lab-modal"></main></body>`));
+  res.writeHead(200,{'content-type':'text/html; charset=utf-8'});return res.end(baseHtml.replace('<script defer src="preview.bundle.js"></script>',`<script defer src="${mode!=='enemy'?'/preview/sustained-hunt-v2/battle.bundle.js':'/preview/project-v-v3/project-v-pixi-battle.bundle.js'}"></script><script defer src="/qa-boot.js"></script>`).replace(/<body>[\s\S]*<\/body>/,`<body><header><small>SSS LIMITED · DESIGNATED ACCOUNT</small><h1>프라임 레퀴엠 · ${mode!=='enemy'?'적월의 광전사':'붉은 검격'}</h1><p>기본 전투력 3,000,000 · 획득 잠금</p></header><nav class="toolbar"><span id="health">V3 전장 연결 중</span></nav><main id="lab-modal"></main></body>`));
  }
  if(url.pathname==='/qa-boot.js'){res.writeHead(200,{'content-type':'text/javascript'});return res.end(boot);}
  if(url.pathname==='/qa-data')return json(res,{deck,payload:mode!=='enemy'?areaPayload:mode==='enemy'?enemyPayload:pvpPayload,event:mode!=='enemy'?areaEvent:null});
@@ -151,7 +151,7 @@ try{
   if(process.argv.includes('--battle-only'))continue;
   const p=await browser.newPage({viewport,serviceWorkers:'block'});p.on('pageerror',e=>errors.push(label+' codex: '+e.message));await p.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','local-test');localStorage.setItem('cnine_card_user_v10',JSON.stringify({id:1,nickname:'검수'}));});
   await p.goto(base+'/mercenary-codex/?view=limited&q='+encodeURIComponent('프라임')+'#V-975');await p.locator('[data-code="V-975"]').click();await p.locator('.combat-panel').waitFor();
-  const text=await p.locator('.combat-panel').innerText();assert.match(text,/획득 불가/);assert.match(text,/2,300,000/);assert.equal(await p.locator('.skill-list > *').count(),7);
+  const text=await p.locator('.combat-panel').innerText();assert.match(text,/획득 불가/);assert.match(text,/3,000,000/);assert.equal(await p.locator('.skill-list > *').count(),7);
   assert.equal(await p.locator('[data-equip="V-975"]').count(),0);assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
   await p.locator('[data-code="V-975"] img').evaluate(img=>img.decode());await p.screenshot({path:path.join(out,label+'-codex.png'),fullPage:true});checks.push({label,mode:'codex',unowned:true,locked:true,overflow:false});await p.close();
  }

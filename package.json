@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "test:mercenary-three-power": "node --test --test-skip-pattern=\"approved|delivery\" tests/zero-live-20261020.test.mjs tests/prime-requiem-live-20261021.test.mjs tests/general-jok-live-20261023.test.mjs",
     "test:lich-raid": "node --test tests/lich-king-raid-v1.test.mjs tests/lich-raid-live-20260928.test.mjs tests/lich-raid-coop-20261002.test.mjs tests/lich-raid-client-version-20261002.test.mjs",
     "test:z-body-effects": "node --test tests/z-body-area-skill-v3.test.mjs tests/z-body-thunder-fx-v3.test.mjs tests/z-body-normal-fx-v3.test.mjs tests/z-body-release-v3.test.mjs",
     "build:lobby": "node scripts/build-adventure-lobby-v2107.mjs",

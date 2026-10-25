@@ -1,13 +1,13 @@
 {
   "date": "2026-09-26",
   "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
-  "sourceRevision": "785c3da19f97e97bdf31f7e7b8d0930c9bde96de",
+  "sourceRevision": "fd97662a76f43e919842c6e20fc1eaa3e421fddd",
   "pixi": "8.20.0",
   "gsap": "3.13.0",
-  "serverHash": "a931ca426598896587649c9f04d807dd718373595267bdd1bb8e1c244130679d",
+  "serverHash": "ac9368238805ce2c8a11ab421b38e7d0f0292c53305a8cf3583801e8490dd954",
   "engineHash": "409f678021318ff8d90cb9e1fbb9ff5dce465e9ae1c91e56cbe8011cefc1045f",
   "playbackHash": "94405071b093e5c0201403cda7e443cdbdd4d1b8745a86a4eac4c13659270abb",
-  "bundleHash": "ed159f198374afe5da9155b2c915a94466627f93bc2c0da610595ff9034e6bde",
+  "bundleHash": "3b227126416f5c7045dd4b6ec107682520f8c18994e41b536bae094ae8ba2fb1",
   "commonInputs": [
     "preview/project-v-v3/source/battle/EquipmentSetFX.js",
     "preview/project-v-v3/source/battle/BattleAssetMemory.mjs",
