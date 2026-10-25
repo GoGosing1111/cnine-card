@@ -1,0 +1,54 @@
+{
+  "pack": {
+    "revision": 3,
+    "settings": {
+      "mode": "OFF",
+      "prices": {
+        "single": 1500000000,
+        "ten": 15000000000
+      },
+      "missRatePpm": 800000,
+      "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "normalSssRatePpm": 969789,
+      "cardRatesPpm": {
+        "V-960": 5000,
+        "V-961": 5000,
+        "V-962": 5000,
+        "V-963": 5000,
+        "V-964": 5000,
+        "V-965": 5000,
+        "V-978": 200,
+        "V-974": 10,
+        "V-975": 1
+      },
+      "stockLimits": {
+        "V-960": 10,
+        "V-961": 10,
+        "V-962": 10,
+        "V-963": 10,
+        "V-964": 10,
+        "V-965": 10,
+        "V-978": null,
+        "V-974": null,
+        "V-975": null
+      }
+    },
+    "updatedAt": "2026-10-25T02:47:11.331Z",
+    "updatedBy": 1,
+    "lastRequestId": "ae154d5e-b863-41a7-99cb-4f0ba5055255"
+  },
+  "packSha256": "7f7f9a1a2b8dd5abf28b82b560ddd2a796d393f041f9dd6df90b9113e88c4443",
+  "stock": [],
+  "protectedSettingsSha256": "49e6ec321ac7d06eeee45f8ff7b215ea3ce2b7ef5f8897afa7102457cee4d5ec",
+  "ownershipSha256": "79269ccc55975ae06c3f69b6f5fa8bf12882fda84dbb088a43eb89099ba32467",
+  "receipt": null,
+  "checkedAt": "2026-10-25T03:44:33.635Z"
+}

@@ -1,0 +1,23 @@
+{
+  "status": "PASSED",
+  "assetSource": "https://cnine-card.pages.dev",
+  "packSource": "actual public API",
+  "reports": [
+    {
+      "width": 390,
+      "shopName": true,
+      "shopEntry": true,
+      "openingEnabled": true,
+      "stockLimits": [
+        5,
+        3,
+        3
+      ],
+      "bulkCountAt100Trillion": 66666,
+      "confirmationCancelledWithoutCharge": true,
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "productionTransactions": 0
+}

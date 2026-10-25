@@ -1,0 +1,91 @@
+{
+  "status": "DRY_RUN_PASSED",
+  "replayed": false,
+  "pack": {
+    "revision": 4,
+    "settings": {
+      "mode": "ON",
+      "prices": {
+        "single": 1500000000,
+        "ten": 15000000000
+      },
+      "missRatePpm": 800000,
+      "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "normalSssRatePpm": 969789,
+      "cardRatesPpm": {
+        "V-960": 5000,
+        "V-961": 5000,
+        "V-962": 5000,
+        "V-963": 5000,
+        "V-964": 5000,
+        "V-965": 5000,
+        "V-978": 200,
+        "V-974": 10,
+        "V-975": 1
+      },
+      "stockLimits": {
+        "V-960": 10,
+        "V-961": 10,
+        "V-962": 10,
+        "V-963": 10,
+        "V-964": 10,
+        "V-965": 10,
+        "V-978": 5,
+        "V-974": 3,
+        "V-975": 3
+      }
+    },
+    "updatedAt": "2026-10-25T03:45:38.350Z",
+    "updatedBy": 1,
+    "lastRequestId": "bloodmoon-open-20261025-v1"
+  },
+  "packSha256": "ea79d8ba372191eceb4aa6d2d02204921f6aa8208e641930ba2f459336f97ebc",
+  "stock": [
+    {
+      "code": "V-974",
+      "stock_limit": 3,
+      "issued": 0,
+      "revision": 0
+    },
+    {
+      "code": "V-975",
+      "stock_limit": 3,
+      "issued": 0,
+      "revision": 0
+    },
+    {
+      "code": "V-978",
+      "stock_limit": 5,
+      "issued": 0,
+      "revision": 0
+    }
+  ],
+  "protectedSettingsSha256": "49e6ec321ac7d06eeee45f8ff7b215ea3ce2b7ef5f8897afa7102457cee4d5ec",
+  "ownershipSha256": "79269ccc55975ae06c3f69b6f5fa8bf12882fda84dbb088a43eb89099ba32467",
+  "receipt": {
+    "operationKey": "ops:bloodmoon-open:20261025:v1",
+    "approval": "블러드팩 블러드문팩으로 이름바꾸고 개봉 ON시켜 / 레오넬 5장 · 제너럴 족 3장 · 프라임 재료 3장",
+    "limits": {
+      "V-978": 5,
+      "V-974": 3,
+      "V-975": 3
+    },
+    "beforeRevision": 3,
+    "revision": 4,
+    "grants": 0,
+    "charges": 0,
+    "primeCraftLocked": true,
+    "createdAt": "2026-10-25T03:45:38.350Z",
+    "adminLogId": "51108"
+  },
+  "rollbackVerified": true,
+  "checkedAt": "2026-10-25T03:45:40.042Z"
+}

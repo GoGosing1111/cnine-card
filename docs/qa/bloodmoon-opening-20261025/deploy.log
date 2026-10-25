@@ -1,0 +1,130 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"fa6ba9cd097da240c4260d0dada0a6038084c737","reason":"사용자 승인 블러드문팩 명칭/개봉 ON, SSS 팩 전용 한도 5/3/3. 가격/확률/직접 지급/프라임 제작 잠금 보존. 실제 운영 예행연습 롤백·PC/모바일 3크기 확인. 기존 운영 진무 지정 지급 접근 변경 보존.","changed":["AGENTS.md","admin/index.html","admin/mercenary-admin-v1.js","admin/mercenary-bloodmoon-admin-v1.mjs","docs/qa/bloodmoon-opening-20261025/README.md","docs/qa/bloodmoon-opening-20261025/browser.json","docs/qa/bloodmoon-opening-20261025/cms-1440.png","docs/qa/bloodmoon-opening-20261025/cms-320.png","docs/qa/bloodmoon-opening-20261025/cms-390.png","docs/qa/bloodmoon-opening-20261025/release.mjs","docs/qa/bloodmoon-opening-20261025/room-on-1440.png","docs/qa/bloodmoon-opening-20261025/room-on-320.png","docs/qa/bloodmoon-opening-20261025/room-on-390.png","docs/qa/bloodmoon-opening-20261025/shop-1440.png","docs/qa/bloodmoon-opening-20261025/shop-320.png","docs/qa/bloodmoon-opening-20261025/shop-390.png","docs/qa/parksera-jinmu-limited-shard-20261025/README.md","docs/qa/parksera-jinmu-limited-shard-20261025/apply.json","docs/qa/parksera-jinmu-limited-shard-20261025/live-source.json","docs/qa/parksera-jinmu-limited-shard-20261025/verify.json","functions/_mercenary_bloodmoon_opening.js","functions/_mercenary_bloodmoon_pack.js","index.html","js/app.js","js/mercenary-bloodmoon-pack-live.mjs","js/mercenary-bloodmoon-presentation-v2.mjs","mercenary-codex/app.mjs","mercenary-codex/index.html","scripts/ops/bloodmoon-opening-20261025.mjs","scripts/ops/run-bloodmoon-opening-20261025.mjs","service-worker.js","shared/mercenary-bloodmoon-auto-v1.mjs","shared/mercenary-bloodmoon-bulk-v1.mjs","shared/mercenary-bloodmoon-catalog-v1.mjs","shared/mercenary-bloodmoon-namsudaeng-v1.mjs","shared/mercenary-bloodmoon-pack-v1.mjs","shared/mercenary-bloodmoon-pool-v3.mjs","shared/mercenary-bloodmoon-session-v2.mjs","tests/bloodmoon-opening-20261025.browser.mjs","tests/bloodmoon-opening-20261025.test.mjs","tests/bloodmoon-prime-material-20261025.test.mjs","tests/helpers/bloodmoon-pack-fixture.mjs","tests/mercenary-bloodmoon-bulk-20261025.test.mjs","tests/mercenary-bloodmoon-codex-20261023.test.mjs","tests/mercenary-bloodmoon-isolation-20261023.test.mjs","tests/mercenary-bloodmoon-pack-20261023.test.mjs"],"tests":["tests/bloodmoon-opening-20261025.test.mjs","tests/mercenary-bloodmoon-bulk-20261025.test.mjs","tests/mercenary-bloodmoon-pack-20261023.test.mjs","tests/mercenary-bloodmoon-isolation-20261023.test.mjs","tests/mercenary-bloodmoon-auto-20261023.test.mjs","tests/mercenary-bloodmoon-recovery-20261023.test.mjs","tests/mercenary-bloodmoon-storage-20261023.test.mjs","tests/bloodmoon-prime-material-20261025.test.mjs"],"checks":["check:worker"]}
+✔ approved opening registers 5/3/3 pack stock once, preserves direct grants and prices, and supports audited OFF/ON (3926.7667ms)
+✔ failed activation rolls back both new stock and ON; stale preflight cannot overwrite CMS settings (2190.6887ms)
+✔ 1 draws award only depleted Prime items, preserve the slot and replay once (4067.1521ms)
+✔ 10 draws award only depleted Prime items, preserve the slot and replay once (2234.4301ms)
+✔ 100000 draws award only depleted Prime items, preserve the slot and replay once (1714.1871ms)
+ℹ 100,000 draws in isolated PGlite: 125.9ms; no production transactions
+✔ inventory failure rolls back stock, coins, logs and items; lost commit acknowledgement does not duplicate (1556.3611ms)
+✔ a legacy unpaid plan converts to material without rerolling or changing payment (1493.7943ms)
+✔ the last material serial is issued once during a two-account race; exhausted slot becomes ordinary SSS (1408.4348ms)
+✔ an armed Prime slot grants and consumes the material atomically (1408.3072ms)
+✔ material receipts fail closed when their inventory audit is absent (1343.4316ms)
+✔ pre-change completed receipts and directly owned Prime cards remain mercenaries (1061.5902ms)
+✔ Prime craft is visible but has no invented quantity, costs, rate, or limit and cannot be enabled (14.3145ms)
+✔ bounded automatic quote includes exact maximum cost and rejects malformed counts (1.3133ms)
+✔ a mixed confirmed batch shows SS then SSS once per grade, never previews or gate ranks (1.4725ms)
+✔ automatic batches wait for presentation and hold the account lock across the entire sequence (3.1785ms)
+✔ stop during a paid request finishes that receipt and never starts another request (0.8693ms)
+✔ OFF, changed revision, unavailable stock and network errors halt before another charge (1.2357ms)
+✔ lost response never becomes a fresh lottery; explicit recovery stays outside automation (0.4962ms)
+✔ account changes and background transitions halt before the next request (0.782ms)
+✔ insufficient next-batch funds and terminal server failures do not retry automatically (1.4362ms)
+✔ two tabs cannot own an automatic sequence simultaneously (0.3997ms)
+✔ three automatic ten-batches use the production service, separate receipts and exact coin debits (4431.2453ms)
+✔ 100 trillion reference is exactly 100,000 draws with integer accounting and bounded input (3.4632ms)
+✔ buffered cryptographic sampler rejects out-of-range samples without modulo bias (0.4236ms)
+✔ bulk sampler preserves exact ordinary, conditional and sold-out results for the same random stream (3956.8255ms)
+✔ 100,000 draws use one compact transaction and recover the identical receipt without another charge (2244.0621ms)
+✔ a failed bulk grant rolls back everything and retry never rerolls (1705.0332ms)
+✔ stock race replaces only unavailable serials, preserving normal quantities and total draws (1511.3015ms)
+✔ changed settings, insufficient funds and forged budget/count fail before payment (1498.3306ms)
+✔ SS and below use counts without images, while limited SS and ordinary/limited SSS retain images (1.2268ms)
+✔ compact receipts validate totals and client recovery uses the same durable bulk request (1.6698ms)
+✔ authorized production release still requires authentication; an explicit closed service never reads DB (0.4843ms)
+✔ two accounts racing for the final limited copy receive at most one serial and exact totals (1414.7311ms)
+✔ simultaneous retries of the same bulk ID debit and grant only once (1360.7368ms)
+✔ an already armed indexed guarantee keeps its original slot and is consumed atomically (1385.4395ms)
+✔ the approved six Bloodmoon cards and three requested SSS cards are the only pack targets (2.0273ms)
+✔ independent CMS draft save is atomic, idempotent, version guarded and leaves Halloween untouched (4258.6214ms)
+✔ only OWNER may read/save Blood Pack CMS; public opening requires authentication before DB (2068.7071ms)
+✔ browser requests, history, tab locks, receipts and one-time entitlements never cross packs (1664.5741ms)
+✔ two independent rate totals, exact effective odds, null drafts and old absolute rates are not reinterpreted (3.595ms)
+✔ only the SSS interval enters the second lottery; SS remains ordinary and misses stay misses (3.4428ms)
+✔ unauthenticated opening performs no database query; OFF and incomplete ON never charge (3932.5252ms)
+✔ one prepared ten-draw transaction grants both ordinary and limited cards once and survives a lost response (2250.8917ms)
+✔ failure after stock reservation rolls back stock, coins and cards; retry uses the original fixed draw (1644.925ms)
+✔ last remaining card is granted once and the other nine slots award ordinary SSS (1528.078ms)
+✔ prepared request cancels on settings change without charging or resampling (1450.3884ms)
+✔ SS videos use the awarded rank, never the SSS entry gate or fake preview results (0.3769ms)
+✔ client persists one request before POST, recovers without a new lottery, and isolates accounts (1.0175ms)
+✔ an unresolved receipt gets only three delayed reads, even with repeated wake-up events (5.9961ms)
+✔ offline and hidden states defer work; a later visible/online wake-up resumes once (1.0679ms)
+✔ a wake-up during another action waits until that action settles instead of reading concurrently (0.8571ms)
+✔ a wake-up racing an aborted receipt read is not lost (1.0296ms)
+✔ permission, account and storage failures stop; transient transport/sync failures can retry (1.3004ms)
+✔ completion, request replacement and room disposal do not poll indefinitely (0.6395ms)
+✔ bounded automatic recovery reads the original request only, through missing/pending/completed states (5.8741ms)
+✔ an interrupted late response cannot clear pending, present results, or update the wallet (1.1329ms)
+✔ an account switch during an automatic read keeps the old result isolated (0.3416ms)
+✔ a full browser restores a completed ten-pack and permits the next durable request (6.5147ms)
+✔ history writes may fail without blocking confirmed results or read-only recovery (0.5729ms)
+✔ a purchase never reaches the server when its pending request cannot be persisted (1.0203ms)
+✔ unconfirmed, mismatched and other-account results retain the durable pending request (0.8678ms)
+ℹ tests 61
+ℹ suites 0
+ℹ pass 61
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16878.0604
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 8112 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8426.82 KiB / gzip: 1813.44 KiB
+Worker Startup Time: 45 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (4.58 sec)
+No targets deployed for cnine-card-api-runtime (0.56 sec)
+Current Version ID: bc6af8f4-680c-4a68-a39b-ecc9ce3042e6
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19981/20000)
+Uploading... (19988/20000)
+Uploading... (19994/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 19 files (19981 already uploaded) (10.51 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://bac5a26e.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3003.70 KiB / gzip: 674.31 KiB
+Worker Startup Time: 32 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (2.85 sec)
+Deployed cnine-card-clan-draft triggers (0.89 sec)
+  schedule: * * * * *
+Current Version ID: c7e38725-888c-4580-912a-00809cde1915

@@ -1,0 +1,295 @@
+{
+  "at": "2026-10-25T03:48:34.829Z",
+  "pages": {
+    "id": "643ff3fe-2393-47bf-9803-f9efb0998987",
+    "url": "https://643ff3fe.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "fa6ba9cd097da240c4260d0dada0a6038084c737"
+  },
+  "runtime": {
+    "id": "61de4f9c-12a7-4869-8301-c170fee09497",
+    "source": "wrangler",
+    "strategy": "percentage",
+    "annotations": {
+      "workers/triggered_by": "deployment"
+    },
+    "versions": [
+      {
+        "version_id": "52c1e960-77ea-4a05-b170-8a482ba877a3",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-10-25T03:34:53.551625Z"
+  },
+  "packs": {
+    "bloodmoon": {
+      "name": "블러드팩",
+      "revision": 3,
+      "settings": {
+        "mode": "OFF",
+        "prices": {
+          "single": 1500000000,
+          "ten": 15000000000
+        },
+        "missRatePpm": 800000,
+        "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "normalSssRatePpm": 969789,
+        "cardRatesPpm": {
+          "V-960": 5000,
+          "V-961": 5000,
+          "V-962": 5000,
+          "V-963": 5000,
+          "V-964": 5000,
+          "V-965": 5000,
+          "V-978": 200,
+          "V-974": 10,
+          "V-975": 1
+        },
+        "stockLimits": {
+          "V-960": 10,
+          "V-961": 10,
+          "V-962": 10,
+          "V-963": 10,
+          "V-964": 10,
+          "V-965": 10,
+          "V-978": null,
+          "V-974": null,
+          "V-975": null
+        }
+      },
+      "stock": [
+        {
+          "code": "V-960",
+          "limit": 10,
+          "issued": 0,
+          "remaining": 10,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-961",
+          "limit": 10,
+          "issued": 0,
+          "remaining": 10,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-962",
+          "limit": 10,
+          "issued": 0,
+          "remaining": 10,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-963",
+          "limit": 10,
+          "issued": 0,
+          "remaining": 10,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-964",
+          "limit": 10,
+          "issued": 0,
+          "remaining": 10,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-965",
+          "limit": 10,
+          "issued": 0,
+          "remaining": 10,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-978",
+          "limit": null,
+          "issued": 0,
+          "remaining": null,
+          "prepared": false,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        },
+        {
+          "code": "V-974",
+          "limit": null,
+          "issued": 0,
+          "remaining": null,
+          "prepared": false,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        },
+        {
+          "code": "V-975",
+          "limit": null,
+          "issued": 0,
+          "remaining": null,
+          "prepared": false,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        }
+      ],
+      "releaseEnabled": false,
+      "userOpeningEnabled": false
+    },
+    "halloween": {
+      "revision": 23,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 200,
+          "V-989": 300,
+          "V-996": 200,
+          "V-977": 5000,
+          "V-979": 300
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 13,
+          "V-981": 13,
+          "V-982": 13,
+          "V-983": 13,
+          "V-984": 13,
+          "V-985": 13,
+          "V-986": 13,
+          "V-999": null,
+          "V-989": 5,
+          "V-996": null,
+          "V-977": 20,
+          "V-979": 3
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 924000
+      },
+      "stock": [
+        {
+          "code": "V-980",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-981",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-982",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-983",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-984",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-985",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-986",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-977",
+          "limit": 20,
+          "issued": 20,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-999",
+          "limit": 8,
+          "issued": 8,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "EXISTING_SHARED"
+        },
+        {
+          "code": "V-989",
+          "limit": 5,
+          "issued": 5,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        },
+        {
+          "code": "V-996",
+          "limit": 15,
+          "issued": 15,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "EXISTING_SHARED"
+        },
+        {
+          "code": "V-979",
+          "limit": 3,
+          "issued": 3,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        }
+      ],
+      "releaseEnabled": true,
+      "userOpeningEnabled": true
+    }
+  }
+}

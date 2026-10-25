@@ -1,0 +1,357 @@
+{
+  "at": "2026-10-25T03:53:23.525Z",
+  "pages": {
+    "id": "bac5a26e-5d80-48c9-8330-08b6c894b28a",
+    "url": "https://bac5a26e.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "dcf7a19820cd04620fbcf5cce8dc2bf5e9f70d66"
+  },
+  "runtime": {
+    "id": "6bbeb8a3-a5f8-43b7-87ea-d660de74d762",
+    "source": "wrangler",
+    "strategy": "percentage",
+    "annotations": {
+      "workers/triggered_by": "deployment"
+    },
+    "versions": [
+      {
+        "version_id": "bc6af8f4-680c-4a68-a39b-ecc9ce3042e6",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-10-25T03:51:35.201096Z"
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "d6546eb6479f9db76fd8f6d0c755c2f389fad8bba4671e46811b78b1692964ad",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "8cef91dc9605fa199d95f4ff50f8356be3c5b82f488267e69c75e197dc777e27",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "25a353909b3e9e08b9dc282c2d3d0a8aad98600e43d0bb55540303e1a9267b0a",
+      "status": 200
+    },
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "sha256": "092dacbe9f4cd935aacc83e888965e72e7d3b3ba556add168a1d20b098542f53",
+      "status": 200
+    },
+    {
+      "file": "js/mercenary-bloodmoon-presentation-v2.mjs",
+      "sha256": "58e1e46aa7f6b1ed9b04716ac7a2e68f9ef2124a4e797699c164f54b16132cee",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "sha256": "13c16cdf6358bb80815e3a927594c58baef8d95e8f088d82e82b5e662ea40ad4",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-bulk-v1.mjs",
+      "sha256": "1c8a3436c52887c32be8b2c40eab17ba16ba57ec7b880de3e5588528592b7e7b",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-session-v2.mjs",
+      "sha256": "a8727a5520de9a43d6f3e3a69763b08d5fd784bee7b3d492bab080d4f0e37f3a",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pool-v3.mjs",
+      "sha256": "545f28ea925bc089808c641c64d073c34a9747c756e1301c0c5362301606d702",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-auto-v1.mjs",
+      "sha256": "cb37346c674229f73240eed1bdc68d0b72fc4a11af9befe9d55c6b686a3f908e",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-catalog-v1.mjs",
+      "sha256": "f08c6b2fd1e773b385fa82e1ca43b441db991c42ba97f40175493de9f982ca40",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-namsudaeng-v1.mjs",
+      "sha256": "9f6320925bbb0b4301fb416b2384ec9deb0841ac4a8197f48a92f04d92f2b8dd",
+      "status": 200
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "15b60aab1498b4b209dd6edc820c4b703ea040d1fe5cf39bb843f6464af14a20",
+      "status": 200
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "96afb16be372ccf0a6a4afc1fb4489c5ff8800233f48b96bcd78f0a293bd0f60",
+      "status": 200
+    },
+    {
+      "file": "admin/mercenary-bloodmoon-admin-v1.mjs",
+      "sha256": "b81b9015a818b11d41a3e38db9a72bac676b072312081694bfa8c3b27697de02",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "6bcf15718ee393dc809dd0263c59d941f7a0833e2a7eda78b0c04b24870bfbf7",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "3e5f464120d1dca7017c1dc7e9e05d319ef0ae86302c7d5b7b07220464528539",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-jinmu-v1.mjs",
+      "sha256": "e3288c6abaa6c8f2c3d2d09bc0b3bb2cbf76084befd6bb8ef5550444dc7acb76",
+      "status": 200
+    }
+  ],
+  "materialSlot": {
+    "code": "V-975",
+    "name": "기운잃은 프라임 카드",
+    "rewardType": "ITEM",
+    "itemCode": "MERCENARY_PRIME_DEPLETED_CARD"
+  },
+  "openingStatus": 401,
+  "bloodmoonOpeningEnabled": true,
+  "primeCraftLocked": true,
+  "bloodmoonPricesAndOddsUnchanged": true,
+  "stock": [
+    {
+      "code": "V-960",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-961",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-962",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-963",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-964",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-965",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-978",
+      "limit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-974",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-975",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    }
+  ],
+  "prices": {
+    "single": 1500000000,
+    "ten": 15000000000
+  },
+  "revision": 4,
+  "halloweenSettingsUnchanged": true,
+  "halloweenFeature": {
+    "revision": 23,
+    "settings": {
+      "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+      "mode": "ON",
+      "prices": {
+        "single": 1000000000,
+        "ten": 10000000000
+      },
+      "cardRatesPpm": {
+        "V-980": 10000,
+        "V-981": 10000,
+        "V-982": 10000,
+        "V-983": 10000,
+        "V-984": 10000,
+        "V-985": 10000,
+        "V-986": 10000,
+        "V-999": 200,
+        "V-989": 300,
+        "V-996": 200,
+        "V-977": 5000,
+        "V-979": 300
+      },
+      "missRatePpm": 800000,
+      "stockLimits": {
+        "V-980": 13,
+        "V-981": 13,
+        "V-982": 13,
+        "V-983": 13,
+        "V-984": 13,
+        "V-985": 13,
+        "V-986": 13,
+        "V-999": null,
+        "V-989": 5,
+        "V-996": null,
+        "V-977": 20,
+        "V-979": 3
+      },
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 5000,
+        "SSS": 500
+      },
+      "normalSssRatePpm": 924000
+    },
+    "stock": [
+      {
+        "code": "V-980",
+        "limit": 13,
+        "issued": 13,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-981",
+        "limit": 13,
+        "issued": 13,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-982",
+        "limit": 13,
+        "issued": 13,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-983",
+        "limit": 13,
+        "issued": 13,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-984",
+        "limit": 13,
+        "issued": 13,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-985",
+        "limit": 13,
+        "issued": 13,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-986",
+        "limit": 13,
+        "issued": 13,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-977",
+        "limit": 20,
+        "issued": 20,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-999",
+        "limit": 8,
+        "issued": 8,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      },
+      {
+        "code": "V-989",
+        "limit": 5,
+        "issued": 5,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      },
+      {
+        "code": "V-996",
+        "limit": 15,
+        "issued": 15,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      },
+      {
+        "code": "V-979",
+        "limit": 3,
+        "issued": 3,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      }
+    ],
+    "releaseEnabled": true,
+    "userOpeningEnabled": true
+  },
+  "productionAccountCharges": 0,
+  "productionAccountGrants": 0
+}
