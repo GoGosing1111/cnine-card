@@ -1,0 +1,8 @@
+{
+  "base": "bd4af001f5432269685ab5afe48ed6ec3b5910ef",
+  "reason": "블러드문 SS 각 30장·레오넬 7장 총 32장 추가. 관련 50개 및 Worker 검사 완료 후 동시 문서 커밋으로 소스 일치 가드에서 중단. 실행 코드 동일함을 확인해 통과 검사는 재사용하고, 갱신되는 클라이언트 세션의 미확인 요청 보존·저장소 복구 4건을 확인한다.",
+  "tests": [
+    "tests/mercenary-bloodmoon-storage-20261023.test.mjs"
+  ],
+  "checks": []
+}

@@ -1,0 +1,13 @@
+{
+  "passedCandidate": "e9ceb2f1e303bdc184bb5e32eb031cf4170c19e7",
+  "resumedCandidate": "4ae73b5608d54935d46e655294b94299b4b6b8e3",
+  "nonRuntimeChanges": [
+    "AGENTS.md",
+    "docs/qa/support-package-bogo-20261025/README.md",
+    "docs/qa/support-package-bogo-20261025/live-verification.json",
+    "tests/support-package-20261020.browser.mjs"
+  ],
+  "passedTests": 50,
+  "workerCheckPassed": true,
+  "runtimeUnchanged": true
+}

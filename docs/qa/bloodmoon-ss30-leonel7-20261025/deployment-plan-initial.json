@@ -1,0 +1,11 @@
+{
+  "base": "bd4af001f5432269685ab5afe48ed6ec3b5910ef",
+  "reason": "블러드문 SS 6종 각 25→30장과 레오넬 5→7장, 총 32장 추가. 과거 한도 읽기·실제 발행/보유·가격/확률/ON·제너럴 족/프라임 3장 보존. 거래·과거 등록·도감 검사28개와 PC/모바일 검증 통과.",
+  "tests": [
+    "tests/mercenary-bloodmoon-pack-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-bulk-20261025.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

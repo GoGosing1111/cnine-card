@@ -1,0 +1,40 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"bd4af001f5432269685ab5afe48ed6ec3b5910ef","reason":"블러드문 SS 6종 각 25→30장과 레오넬 5→7장, 총 32장 추가. 과거 한도 읽기·실제 발행/보유·가격/확률/ON·제너럴 족/프라임 3장 보존. 거래·과거 등록·도감 검사28개와 PC/모바일 검증 통과.","changed":["AGENTS.md","admin/index.html","admin/mercenary-admin-v1.js","admin/mercenary-bloodmoon-admin-v1.mjs","docs/qa/bloodmoon-ss30-leonel7-20261025/README.md","docs/qa/bloodmoon-ss30-leonel7-20261025/browser/browser.json","docs/qa/bloodmoon-ss30-leonel7-20261025/browser/cms-1440.png","docs/qa/bloodmoon-ss30-leonel7-20261025/browser/cms-390.png","docs/qa/bloodmoon-ss30-leonel7-20261025/browser/room-1440.png","docs/qa/bloodmoon-ss30-leonel7-20261025/browser/room-390.png","docs/qa/bloodmoon-ss30-leonel7-20261025/dry-run.json","docs/qa/bloodmoon-ss30-leonel7-20261025/read-summary.json","docs/qa/bloodmoon-ss30-leonel7-20261025/release.mjs","docs/qa/bloodmoon-ss30-leonel7-20261025/tests-codex.log","docs/qa/bloodmoon-ss30-leonel7-20261025/tests-recheck.json","docs/qa/bloodmoon-ss30-leonel7-20261025/tests-stock.log","index.html","js/app.js","js/mercenary-bloodmoon-pack-live.mjs","mercenary-codex/app.mjs","mercenary-codex/index.html","scripts/ops/bloodmoon-opening-20261025.mjs","scripts/ops/bloodmoon-restock-ss5-leonel2-20261025.mjs","scripts/ops/bloodmoon-ss-restock-plus5-20261025.mjs","scripts/ops/run-bloodmoon-restock-ss5-leonel2-20261025.mjs","service-worker.js","shared/mercenary-bloodmoon-catalog-v1.mjs","shared/mercenary-bloodmoon-namsudaeng-v1.mjs","shared/mercenary-bloodmoon-pack-v1.mjs","shared/mercenary-bloodmoon-pool-v3.mjs","shared/mercenary-bloodmoon-session-v2.mjs","tests/bloodmoon-namsudaeng-live-20261024.test.mjs","tests/bloodmoon-opening-20261025.test.mjs","tests/bloodmoon-ss-plus5-20261025.test.mjs","tests/bloodmoon-ss-restock-20261025.test.mjs","tests/bloodmoon-ss30-leonel7-20261025.browser.mjs","tests/bloodmoon-ss30-leonel7-20261025.test.mjs","tests/mercenary-bloodmoon-codex-20261023.test.mjs"],"tests":["tests/mercenary-bloodmoon-pack-20261023.test.mjs","tests/mercenary-bloodmoon-bulk-20261025.test.mjs"],"checks":["check:worker"]}
+✔ 100 trillion reference is exactly 100,000 draws with integer accounting and bounded input (3.449ms)
+✔ buffered cryptographic sampler rejects out-of-range samples without modulo bias (0.3131ms)
+✔ bulk sampler preserves exact ordinary, conditional and sold-out results for the same random stream (2221.2804ms)
+✔ 100,000 draws use one compact transaction and recover the identical receipt without another charge (1541.1219ms)
+✔ a failed bulk grant rolls back everything and retry never rerolls (1662.6864ms)
+✔ stock race replaces only unavailable serials, preserving normal quantities and total draws (1530.4823ms)
+✔ changed settings, insufficient funds and forged budget/count fail before payment (1605.9022ms)
+✔ SS and below use counts without images, while limited SS and ordinary/limited SSS retain images (1.364ms)
+✔ compact receipts validate totals and client recovery uses the same durable bulk request (1.5533ms)
+✔ authorized production release still requires authentication; an explicit closed service never reads DB (0.4599ms)
+✔ two accounts racing for the final limited copy receive at most one serial and exact totals (1364.0356ms)
+✔ simultaneous retries of the same bulk ID debit and grant only once (1403.6055ms)
+✔ an already armed indexed guarantee keeps its original slot and is consumed atomically (1281.6064ms)
+✔ two independent rate totals, exact effective odds, null drafts and old absolute rates are not reinterpreted (4.4851ms)
+✔ only the SSS interval enters the second lottery; SS remains ordinary and misses stay misses (4.2072ms)
+✔ unauthenticated opening performs no database query; OFF and incomplete ON never charge (2252.393ms)
+✔ one prepared ten-draw transaction grants both ordinary and limited cards once and survives a lost response (1494.8443ms)
+✔ failure after stock reservation rolls back stock, coins and cards; retry uses the original fixed draw (1577.3043ms)
+✔ last remaining card is granted once and the other nine slots award ordinary SSS (1530.4031ms)
+✔ prepared request cancels on settings change without charging or resampling (1562.248ms)
+✔ SS videos use the awarded rank, never the SSS entry gate or fake preview results (0.4236ms)
+✔ client persists one request before POST, recovers without a new lottery, and isolates accounts (1.4423ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12968.1768
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=e9ceb2f1e303bdc184bb5e32eb031cf4170c19e7 origin/main=4ae73b5608d54935d46e655294b94299b4b6b8e3
