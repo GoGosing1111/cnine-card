@@ -32,14 +32,14 @@ test('all 12 SSS LIMITED recipes have separate five-slot drafts, null costs/rate
  const f=await fixture(t),before=await f.balance(),prepare=f.env.DB.prepare.bind(f.env.DB);let queries=0;
  f.env.DB.prepare=(...args)=>{queries++;return prepare(...args);};
  const rows=await decorateMercenaryCraft(f.env,[],{admin:true});assert.equal(queries,3);f.env.DB.prepare=prepare;
- assert.equal(rows.length,14);assert.equal(new Set(rows.map(r=>r.id)).size,14);
+ assert.equal(rows.length,15);assert.equal(new Set(rows.map(r=>r.id)).size,15);
  for(const d of LIMITED_SHARD_CRAFTS){
   const row=rows.find(r=>r.code===d.recipeCode);assert.equal(row.output_rarity,'SSS LIMITED');assert.equal(row.is_active,0);assert.equal(row.is_public,0);
   assert.equal(row.coin_cost,null);assert.equal(row.master_star_cost,null);assert.equal(row.success_rate,null);assert.equal(row.materials[0].quantity,null);
   assert.equal(row.materials[0].item_code,LIMITED_CRAFT_SHARD);assert.deepEqual(row.craftStock,{limit:5,crafted:0,remaining:5,soldOut:false});
   await assert.rejects(f.craft(row.id),/잠금/);
  }
- assert.deepEqual(await decorateMercenaryCraft(f.env,[]),[]);assert.deepEqual(await f.balance(),before);
+ const publicRows=await decorateMercenaryCraft(f.env,[]);assert(publicRows.every(r=>r.code==='WORKSHOP_PRIME_REQUIEM'&&r.craftLocked));assert.deepEqual(await f.balance(),before);
  assert.equal(Number((await f.p("SELECT COUNT(*) n FROM app_meta WHERE key LIKE 'mercenary_limited_shard_craft_v1:%'").first()).n),0);
 });
 
