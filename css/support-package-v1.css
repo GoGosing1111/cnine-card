@@ -12,5 +12,6 @@
 /* Approved codex panel and action art for the 1+1 event. Text remains accessible DOM. */
 .spkg .spkg-event{display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap;padding:10px 14px;border:8px solid transparent;border-image:url('/assets/ui/mercenary-codex/command-20261021/panel-v3.webp') 48 fill / 16px stretch;color:#edf6df;font-size:14px;line-height:1.6;letter-spacing:0}
 .spkg-event b{font-size:19px;color:#c8ff6b}.spkg-event span{font-size:13px}
+.spkg-event .spkg-event-deadline{flex-basis:100%;color:#f7df9d;line-height:1.7}.spkg-event-deadline time{font-weight:700}.spkg-event-deadline small{display:block;color:#c3d4e9;font-size:11px;word-break:keep-all}.spkg .spkg-deadline-note{color:#f7df9d}.ss-info-link-copy .spkg-entry-deadline{color:#f7df9d;font-size:11px;line-height:1.5}
 .spkg .spkg-actions button{border:9px solid transparent;border-image:url('/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp') 38 fill / 9px stretch;background:none;color:#18240a;-webkit-text-fill-color:#18240a;text-shadow:none;padding:4px 14px}
 .spkg .spkg-actions button:hover:not(:disabled){filter:brightness(1.08)}

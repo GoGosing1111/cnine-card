@@ -9,5 +9,12 @@ export const SUPPORT_PACKAGE=Object.freeze({...SUPPORT_PACKAGE_UNIT,
   coins:SUPPORT_PACKAGE_UNIT.coins*2,
   items:Object.freeze(SUPPORT_PACKAGE_UNIT.items.map(item=>Object.freeze({...item,quantity:item.quantity*2})))
 });
+// Display metadata stays outside immutable order/fulfillment products.
+export const SUPPORT_PACKAGE_EVENT_DEADLINE=Object.freeze({
+  eventCode:'SUPPORT_PACKAGE_BOGO_20261025',endsAt:'2026-10-27T00:00:00+09:00',
+  label:'10월 27일 00:00 종료',detail:'10월 26일에서 27일로 넘어가는 자정 · 한국시간',
+  notice:'1+1 이벤트 종료: 2026년 10월 27일 00:00 (한국시간)\n10월 26일에서 27일로 넘어가는 자정'
+});
+export const supportPackageEventDeadline=product=>product?.eventCode===SUPPORT_PACKAGE_EVENT_DEADLINE.eventCode?SUPPORT_PACKAGE_EVENT_DEADLINE:null;
 export const isSupportPackageProduct=product=>[SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE].some(known=>JSON.stringify(product)===JSON.stringify(known));
 export const supportPackageSummary=product=>`${product.coins/1000000000000}조 코인 · ${product.items.map(item=>`${item.name} ${item.quantity}개`).join(' · ')}`;

@@ -1,5 +1,5 @@
 import {readPackageCoinAccounting,packageCoinGuardStatements} from './_package_coin_accounting.js';
-import {SUPPORT_PACKAGE,LIMITED_SHARD,isSupportPackageProduct,supportPackageSummary} from '../shared/support-package-v1.mjs';
+import {SUPPORT_PACKAGE,LIMITED_SHARD,isSupportPackageProduct,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE} from '../shared/support-package-v1.mjs';
 import {supportAccountEligible,supportBenefits,canManageSupport} from '../shared/server-support-v1.mjs';
 import {PASS_KEY} from '../shared/supporter-season-pass-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
@@ -45,7 +45,7 @@ export async function issuePackage(env,user,body,now=Date.now()){
  // Reissuing bank instructions keeps the same pending order and never repeats its owner alert.
  const campaign='support_package_bank_v1:'+id+':'+body.requestId;
  const result={ok:true,order,campaignKey:campaign,issuedAt:now,expiresAt:now+SUPPORT_BANK_MESSAGE_TTL,replayed:false};
- const message=`패키지 구매 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n결제 금액: 49,800원\n\n${SUPPORT_PACKAGE.eventLabel} · 패키지 총 ${SUPPORT_PACKAGE.packageQuantity}개\n${supportPackageSummary(SUPPORT_PACKAGE)}\n신청 번호: ${order.id}\n\n반드시 게임 닉네임으로 입금해 주세요.\n같은 신청에 중복 입금하지 마세요. 운영자의 입금 확인 후 패키지가 지급됩니다. 시즌패스 기간은 연장되지 않습니다. 패키지 코인은 승부예측에 사용할 수 없습니다.\n계좌 안내 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 신청 기록은 유지됩니다.`;
+ const message=`패키지 구매 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n결제 금액: 49,800원\n\n${SUPPORT_PACKAGE.eventLabel} · 패키지 총 ${SUPPORT_PACKAGE.packageQuantity}개\n${supportPackageSummary(SUPPORT_PACKAGE)}\n${SUPPORT_PACKAGE_EVENT_DEADLINE.notice}\n신청 번호: ${order.id}\n\n반드시 게임 닉네임으로 입금해 주세요.\n같은 신청에 중복 입금하지 마세요. 운영자의 입금 확인 후 패키지가 지급됩니다. 시즌패스 기간은 연장되지 않습니다. 패키지 코인은 승부예측에 사용할 수 없습니다.\n계좌 안내 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 신청 기록은 유지됩니다.`;
  const DB=env.DB,token=crypto.randomUUID(),tokens=[],p=(sql,...a)=>DB.prepare(sql).bind(...a),guard=(test,args)=>{const t=token+tokens.length;tokens.push(t);return jointGuard(DB,t,test,args);};
  try{await DB.batch([
   ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id),p('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR UPDATE',support.key,PASS_KEY)]:[]),
@@ -54,7 +54,7 @@ export async function issuePackage(env,user,body,now=Date.now()){
   guard('NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[key]),
   ...(old?[guard('EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[pendingKey(id),order.id,orderKey(order.id),old.raw])]:[
    guard('NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[pendingKey(id)]),p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',pendingKey(id),order.id),p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',orderKey(order.id),JSON.stringify(order)),
-   p("INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key,created_at) VALUES(1,'SYSTEM',?,?,'SYSTEM',?,?)",'[패키지 구매 접수] '+account.nickname,`${account.nickname} (ID ${id})님의 패키지 구매 신청이 접수되었습니다.\n\n금액: 49,800원\n구성: ${SUPPORT_PACKAGE.eventLabel} · 패키지 총 ${SUPPORT_PACKAGE.packageQuantity}개\n${supportPackageSummary(SUPPORT_PACKAGE)}\n신청 번호: ${order.id}\n\nOWNER CMS → 후원 관리 → 패키지 구매 접수에서 확인해 주세요. 실제 입금 확인 후 지급 처리할 수 있습니다.`, 'support_package_owner_alert_v1:'+order.id,new Date(now).toISOString())
+   p("INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key,created_at) VALUES(1,'SYSTEM',?,?,'SYSTEM',?,?)",'[패키지 구매 접수] '+account.nickname,`${account.nickname} (ID ${id})님의 패키지 구매 신청이 접수되었습니다.\n\n금액: 49,800원\n구성: ${SUPPORT_PACKAGE.eventLabel} · 패키지 총 ${SUPPORT_PACKAGE.packageQuantity}개\n${supportPackageSummary(SUPPORT_PACKAGE)}\n${SUPPORT_PACKAGE_EVENT_DEADLINE.notice}\n신청 번호: ${order.id}\n\nOWNER CMS → 후원 관리 → 패키지 구매 접수에서 확인해 주세요. 실제 입금 확인 후 지급 처리할 수 있습니다.`, 'support_package_owner_alert_v1:'+order.id,new Date(now).toISOString())
   ]),
   p("INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key,created_at) VALUES(?,'SYSTEM',?,?,?,?,?)",id,'[패키지 구매] 49,800원 계좌 안내 · 5분 후 삭제',message,SUPPORT_BANK_MESSAGE_TYPE,campaign,new Date(now).toISOString()),
   p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',key,JSON.stringify({payload,result})),...tokens.map(t=>jointGuardEnd(DB,t))
