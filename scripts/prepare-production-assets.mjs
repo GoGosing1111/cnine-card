@@ -137,6 +137,9 @@ const growthGuideAuthoringOnly=new Set(['assets/ui/growth-guide-20261024/guide-p
 // Daengsoryong ships the exact approved PNG. Prompts, approval provenance and
 // authoring records stay in Git and do not occupy Pages asset slots.
 const daengsoryongAuthoringOnly=file=>file.startsWith('preview/pet-daengsoryong-20261024-v1/')||file==='assets/ui/pets/daengsoryong-20261024/approval-20261024.json';
+// Pet equipment implementation notes have no browser imports. Preserve the
+// document in Git and use its Pages delivery slot for Heukgu's approved PNG.
+operationAuditOnly.add('docs/pet-equipment-gugugaga-20261002.md');
 // CLI-only PostgreSQL loading/verification commands stay in Git. Browsers never
 // import these Python files; their two Pages slots hold the faction standings UI.
 const postgresCommandOnly=new Set(['scripts/postgres-load.py','scripts/postgres-verify.py']);

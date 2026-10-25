@@ -1,0 +1,258 @@
+{
+  "status": "PASSED",
+  "scope": "Local fixture; actual pet codex and actual OWNER pet management component. Read-only selection only.",
+  "fixtureOnlyStubs": [
+    "Realtime account socket disabled",
+    "Unrelated shell endpoints return inert fixture data"
+  ],
+  "protectedStateUnchanged": true,
+  "mutationRequests": [],
+  "reports": [
+    {
+      "viewport": "desktop",
+      "size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "route": "/pet-codex/",
+      "catalogCount": 23,
+      "pets": [
+        {
+          "code": "PET-HEUKGU",
+          "name": "흑구",
+          "image": {
+            "src": "/assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png",
+            "width": 1206,
+            "height": 1305,
+            "fit": "contain",
+            "visible": true
+          },
+          "captionGap": 132.5625,
+          "equipDisabled": true,
+          "buffUnconfigured": true,
+          "widths": {
+            "viewport": 1440,
+            "document": 1440,
+            "body": 1235
+          },
+          "screenshot": "desktop-pet-heukgu.png",
+          "mobileStageViewport": null
+        }
+      ],
+      "ownerCms": {
+        "mode": "actual component in local harness",
+        "registeredCode": "PET-HEUKGU",
+        "registeredDefinitions": 2,
+        "sourceArtLoaded": true,
+        "buffUnconfigured": true,
+        "liveEffectsEnabled": false,
+        "saveDisabled": true,
+        "widths": {
+          "viewport": 1440,
+          "document": 1440,
+          "body": 1440
+        },
+        "screenshot": "desktop-owner-heukgu-registered.png"
+      }
+    },
+    {
+      "viewport": "mobile",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/pet-codex/",
+      "catalogCount": 23,
+      "pets": [
+        {
+          "code": "PET-HEUKGU",
+          "name": "흑구",
+          "image": {
+            "src": "/assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png",
+            "width": 1206,
+            "height": 1305,
+            "fit": "contain",
+            "visible": true
+          },
+          "captionGap": 6.96875,
+          "equipDisabled": true,
+          "buffUnconfigured": true,
+          "widths": {
+            "viewport": 390,
+            "document": 390,
+            "body": 390
+          },
+          "screenshot": "mobile-pet-heukgu.png",
+          "mobileStageViewport": {
+            "imageTop": 101.265625,
+            "imageBottom": 311.265625,
+            "footerTop": 673,
+            "viewport": 844,
+            "screenshot": "mobile-pet-heukgu-stage-viewport.png",
+            "note": "Existing fixed footer may overlap lower content at the initial scroll position; the complete image is visible after normal scrolling."
+          }
+        }
+      ],
+      "ownerCms": {
+        "mode": "actual component in local harness",
+        "registeredCode": "PET-HEUKGU",
+        "registeredDefinitions": 2,
+        "sourceArtLoaded": true,
+        "buffUnconfigured": true,
+        "liveEffectsEnabled": false,
+        "saveDisabled": true,
+        "widths": {
+          "viewport": 390,
+          "document": 390,
+          "body": 390
+        },
+        "screenshot": "mobile-owner-heukgu-registered.png"
+      }
+    },
+    {
+      "viewport": "mobile-small",
+      "size": {
+        "width": 320,
+        "height": 740
+      },
+      "route": "/pet-codex/",
+      "catalogCount": 23,
+      "pets": [
+        {
+          "code": "PET-HEUKGU",
+          "name": "흑구",
+          "image": {
+            "src": "/assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png",
+            "width": 1206,
+            "height": 1305,
+            "fit": "contain",
+            "visible": true
+          },
+          "captionGap": 6.96875,
+          "equipDisabled": true,
+          "buffUnconfigured": true,
+          "widths": {
+            "viewport": 320,
+            "document": 320,
+            "body": 320
+          },
+          "screenshot": "mobile-small-pet-heukgu.png",
+          "mobileStageViewport": {
+            "imageTop": 101.25,
+            "imageBottom": 311.25,
+            "footerTop": 569,
+            "viewport": 740,
+            "screenshot": "mobile-small-pet-heukgu-stage-viewport.png",
+            "note": "Existing fixed footer may overlap lower content at the initial scroll position; the complete image is visible after normal scrolling."
+          }
+        }
+      ],
+      "ownerCms": {
+        "mode": "actual component in local harness",
+        "registeredCode": "PET-HEUKGU",
+        "registeredDefinitions": 2,
+        "sourceArtLoaded": true,
+        "buffUnconfigured": true,
+        "liveEffectsEnabled": false,
+        "saveDisabled": true,
+        "widths": {
+          "viewport": 320,
+          "document": 320,
+          "body": 320
+        },
+        "screenshot": "mobile-small-owner-heukgu-registered.png"
+      }
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "httpErrors": [],
+  "unrelatedApiStubs": [
+    "server-support/info",
+    "shell/summary",
+    "me/menu-favorites",
+    "jokgak-city/notifications"
+  ],
+  "apiRequests": [
+    {
+      "path": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "path": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "path": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "path": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "path": "jokgak-city/notifications",
+      "method": "GET"
+    },
+    {
+      "path": "admin/pets/potential",
+      "method": "GET"
+    },
+    {
+      "path": "admin/pets",
+      "method": "GET"
+    },
+    {
+      "path": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "path": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "path": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "path": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "path": "admin/pets/potential",
+      "method": "GET"
+    },
+    {
+      "path": "admin/pets",
+      "method": "GET"
+    },
+    {
+      "path": "jokgak-city/notifications",
+      "method": "GET"
+    },
+    {
+      "path": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "path": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "path": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "path": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "path": "admin/pets/potential",
+      "method": "GET"
+    },
+    {
+      "path": "admin/pets",
+      "method": "GET"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_ART_APPROVED",
+  "approvalDate": "2026-10-25",
+  "timezone": "Asia/Seoul",
+  "userApproval": "흑구로해서 펫 라이브 반영해",
+  "authoritativeSource": "이 대화에서 바로 앞에 제시한 카카오 99% 통 SD 이미지에 흑구 이름을 지정하고 펫 라이브 반영을 요청함",
+  "preservation": {
+    "byteForByte": true,
+    "postProcessing": "none",
+    "faceOutfitPoseAndCompositionLocked": true,
+    "regenerationAllowedWithoutNewUserDirection": false
+  },
+  "assets": [
+    {
+      "code": "PET-HEUKGU",
+      "name": "흑구",
+      "animal": "카카오 통 인형",
+      "approvedAsset": "assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png",
+      "sha256": "940303a2e2c454ceb8aa5de3a9483b4811ddc316ce5b24c662f4779a20394f2e",
+      "width": 1206,
+      "height": 1305,
+      "format": "PNG",
+      "mode": "RGB",
+      "bytes": 1560886,
+      "originalGeneratedFile": "C:\\Users\\User\\.codex\\generated_images\\01a172a0-71a0-7d40-a5ca-76b49d420a0e\\exec-cf2242f9-211b-44c8-8a0a-9a1d439f0018.png",
+      "generationHistory": "docs/qa/pet-heukgu-live-20261025/generation-manifest.json",
+      "prompt": "docs/qa/pet-heukgu-live-20261025/prompt-v1.txt",
+      "notes": "얼굴·표정·카카오 99% 통·짧은 다리·흰 배경을 승인 원본 그대로 보존"
+    }
+  ],
+  "scope": {
+    "approved": [
+      "흑구 이름",
+      "정지 전신 원화",
+      "라이브 도감 공개",
+      "OWNER 펫 관리 등록"
+    ],
+    "animationApproved": false,
+    "battleBuffPolicyApproved": false,
+    "acquisitionApproved": false,
+    "accountGrantsPerformed": false
+  }
+}

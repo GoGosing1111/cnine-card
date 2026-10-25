@@ -1,0 +1,15 @@
+{
+  "createdAtLocal": "2026-10-25",
+  "tool": "built-in image_gen",
+  "status": "SOURCE_ART_APPROVED",
+  "inputRole": "face and hairstyle reference",
+  "originalReference": "C:/Users/User/AppData/Local/Temp/codex-clipboard-31fab6c1-af16-4787-9694-77fb9e4780ff.png",
+  "preservedReference": "cacao99-sd-reference-original.png",
+  "output": "exec-cf2242f9-211b-44c8-8a0a-9a1d439f0018.png",
+  "prompt": "첨부 사진 속 성인 인물을 참고한 귀여운 SD 캐릭터 일러스트 한 장. 사진은 얼굴과 헤어스타일의 유일한 참조다. 원래 인물을 알아볼 수 있도록 얼굴형, 눈매, 코, 입, 짧은 머리와 사진의 표정을 충실히 살린다. 얼굴을 다른 사람이나 흔한 아기 얼굴로 바꾸지 않는다.\n\n캐릭터의 몸은 작은 원통형 카카오 제품 통이다. 통 윗부분의 넓은 얼굴 구멍 안에 얼굴이 꼭 맞게 들어간 코스튬 디자인. 얼굴이 통 바깥 위에 따로 떠 있지 않게 한다. 통 아랫부분에 \"카카오\"와 \"99%\" 글자를 크고 선명하게 표시한다. 짙은 초콜릿색 통과 은은한 금색 테두리. 아래로 매우 짧고 통통한 두 다리와 작은 신발이 나온다. 전체적으로 2등신에 가까운 짧고 둥근 SD 비율. 얼굴은 크게, 몸과 다리는 작게 한다.\n\n존중하는 친근한 캐릭터 디자인, 깨끗한 2D 선화와 부드러운 페인터리 채색. 한 캐릭터의 전신을 정면 중심에 배치하고 발끝까지 잘리지 않게 한다. 단정한 흰 배경. 사진 속 의자, 방, 상체와 앞으로 뻗은 손은 제외한다. 추가 문구나 장식 UI 없이 완성된 캐릭터 이미지 한 장.",
+  "referenceSha256": "722FC26C61DE87FCE51B9A64DB9CD90984F70552D9BC5CCE73A3B6A48F5DAE4D",
+  "outputSha256": "940303A2E2C454CEB8AA5DE3A9483B4811DDC316CE5B24C662F4779A20394F2E",
+  "name": "흑구",
+  "approvedAsset": "assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png",
+  "reference": "docs/qa/pet-heukgu-live-20261025/reference-original.png"
+}
