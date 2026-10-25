@@ -1,4 +1,4 @@
-import {orgAssert,orgInteger,ORGANIZATION_RELEASE_ENABLED} from '../shared/organization-system-v1.mjs';
+import {orgAssert,orgInteger,ORGANIZATION_RELEASE_ENABLED,ORGANIZATION_LIMITS} from '../shared/organization-system-v1.mjs';
 import {organizationElderIds} from '../shared/organization-faction-v1.mjs';
 import {ORGANIZATION_FIXED_SCHEDULE} from '../shared/organization-schedule-v1.mjs';
 const prefix=r=>'organization-join:'+r.id+':';
@@ -49,7 +49,7 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
   let next;
   if(path==='organization/join/apply'){
    orgAssert(!await membership(q,r,id),'MEMBER','이미 클랜에 가입되어 있습니다.');
-   const organizationId=orgInteger(body.organizationId,1,6,'희망 클랜');
+   const organizationId=orgInteger(body.organizationId,1,ORGANIZATION_LIMITS.organizations,'희망 클랜');
    orgAssert(typeof body.message==='string'&&body.message.length<=300,'INPUT','가입 인사는 300자 이내로 입력하세요.',400);
    orgAssert(before?.status!=='PENDING','PENDING','기존 신청을 취소한 뒤 다른 클랜에 신청하세요.');
    const [{n}]=await q('SELECT COUNT(*)::integer AS n FROM organization_members_v1 WHERE round_id=$1 AND organization_id=$2',[r.id,organizationId]);

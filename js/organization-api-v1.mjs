@@ -1,4 +1,4 @@
-import {organizationPublicOverview} from '../shared/organization-public-v1.mjs?v=20261023-clan-identity';
+import {organizationPublicOverview} from '../shared/organization-public-v1.mjs?v=20261025-clan-eight';
 export const organizationToken=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 export async function organizationApi(path,options={}){
  const auth=organizationToken();

@@ -1,6 +1,6 @@
-import {mountOrganization} from './organization-system-v1.mjs?v=20261023-clan-identity&clanRestore=20261025';
-import {observeOrganizationHeight,isOrganizationEmbedded} from './organization-embed-size-v1.mjs?v=20261023-clan-identity';
-import {organizationApi,organizationToken} from './organization-api-v1.mjs?v=20261023-clan-identity';
+import {mountOrganization} from './organization-system-v1.mjs?v=20261025-clan-eight&clanRestore=20261025';
+import {observeOrganizationHeight,isOrganizationEmbedded} from './organization-embed-size-v1.mjs?v=20261025-clan-eight';
+import {organizationApi,organizationToken} from './organization-api-v1.mjs?v=20261025-clan-eight';
 
 const embedded=isOrganizationEmbedded();
 document.documentElement.classList.toggle('org-embedded',embedded);

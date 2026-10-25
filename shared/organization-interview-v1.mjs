@@ -1,4 +1,4 @@
-import {ORGANIZATIONS,orgAssert} from './organization-system-v1.mjs?v=20261023-clan-identity';
+import {ORGANIZATIONS,orgAssert} from './organization-system-v1.mjs?v=20261025-clan-eight';
 export const ORGANIZATION_INTERVIEW_VERSION=1;
 const choice=(id,label,detail,traits)=>({id,label,detail,traits});
 export const ORGANIZATION_INTERVIEW=[

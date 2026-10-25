@@ -1,6 +1,6 @@
 import {DISTRICTS as SEOUL_DISTRICTS,FACTION_RULES as CLAN_FACTION_RULES} from './clan-faction-rules-v1.mjs';
 import {FACTION_SESSION_RULES} from './clan-faction-sessions-v1.mjs';
-import {ORGANIZATIONS} from './organization-system-v1.mjs?v=20261023-clan-identity';
+import {ORGANIZATIONS} from './organization-system-v1.mjs?v=20261025-clan-eight';
 import {defaultOrganizationPigCoinReward,defaultOrganizationCompetitionPolicy,validateOrganizationCompetitionSettings} from './organization-competition-v1.mjs?v=20261024-weekly';
 export const SELF_JOIN_SQUAD_IDS=Object.freeze(['attack4','attack5']);
 export const isSelfJoinSquad=id=>SELF_JOIN_SQUAD_IDS.includes(id);

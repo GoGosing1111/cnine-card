@@ -1544,7 +1544,7 @@ let liveOperationsServerOffset=0,liveOperationsClockTimer=0,liveOperationsRefres
 let liveOperationsItems=[],liveOperationsFailed=false,liveOperationsReady=false;
 let organizationStartNotice;
 function syncOrganizationStartNotice(){
-  if(!organizationStartNotice)organizationStartNotice=import('./organization-start-notice-20261021.mjs?v=20261023-clan-identity').then(m=>m.createFactionStartNotice({getContext:()=>({userId:loadUser()?.serverUserId,inLobby:runtimeCommandContext==='buy'&&!!API_TOKEN}),onEnter:roundId=>import('./organization-faction-window-v1.mjs?v=20261023-clan-identity').then(m=>m.openOrganizationFaction({roundId}))})).catch(()=>{organizationStartNotice=null;return null;});
+  if(!organizationStartNotice)organizationStartNotice=import('./organization-start-notice-20261021.mjs?v=20261025-clan-eight').then(m=>m.createFactionStartNotice({getContext:()=>({userId:loadUser()?.serverUserId,inLobby:runtimeCommandContext==='buy'&&!!API_TOKEN}),onEnter:roundId=>import('./organization-faction-window-v1.mjs?v=20261025-clan-eight').then(m=>m.openOrganizationFaction({roundId}))})).catch(()=>{organizationStartNotice=null;return null;});
   organizationStartNotice.then(notice=>notice?.update({items:liveOperationsFailed?[]:liveOperationsItems,offset:liveOperationsServerOffset}));
 }
 let rankExpPotionState=null,rankExpPotionServerOffset=0;
@@ -1592,7 +1592,7 @@ function updateLiveOperationClocks(){
 function openLiveOperation(kind){
   document.getElementById('liveOperationsDialog')?.close();
   const key=String(kind||'').toUpperCase();
-  if(key==='ORGANIZATION_FACTION'){import('./organization-faction-window-v1.mjs?v=20261023-clan-identity').then(m=>m.openOrganizationFaction({roundId:liveOperationsItems.find(i=>i.kind===key)?.roundId}));return}
+  if(key==='ORGANIZATION_FACTION'){import('./organization-faction-window-v1.mjs?v=20261025-clan-eight').then(m=>m.openOrganizationFaction({roundId:liveOperationsItems.find(i=>i.kind===key)?.roundId}));return}
   if(key==='ORGANIZATION'){renderShell('clan');return}
   if(key==='AUCTION'){renderShell('auction');return}
   if(key==='COUP'){renderShell('coup');return}

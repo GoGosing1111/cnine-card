@@ -1,4 +1,4 @@
-import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261023-clan-identity';
+import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 // The six current IDs keep their membership and state; only their public crest changes.
 export function organizationCrest(id,className='org-emblem-v1'){

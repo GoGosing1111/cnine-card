@@ -1,4 +1,4 @@
-import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261023-clan-identity';
+import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 import {ORGANIZATIONS,orgAssert} from '../shared/organization-system-v1.mjs';
 import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES,organizationDistrictById,defaultOrganizationFactionPolicy,validateOrganizationFactionPolicy,FACTION_RULES as R,SQUADS,isSelfJoinSquad} from '../shared/organization-faction-v1.mjs';
 import {factionDayKey} from '../shared/clan-faction-sessions-v1.mjs';

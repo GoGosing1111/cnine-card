@@ -1,5 +1,5 @@
-import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs?v=20261023-clan-identity';
-import {orgInteger} from './organization-system-v1.mjs?v=20261023-clan-identity';
+import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs?v=20261025-clan-eight';
+import {orgInteger} from './organization-system-v1.mjs?v=20261025-clan-eight';
 
 // Reading a policy never upgrades an existing headquarters. The stored stage is
 // the result of an eventual authorized growth receipt, not a UI calculation.

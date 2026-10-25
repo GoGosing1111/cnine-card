@@ -1,4 +1,4 @@
-import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261023-clan-identity';
+import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const statuses={PENDING:'원로 심사 대기',APPROVED:'가입 승인 완료',REJECTED:'가입 신청 거절',CANCELLED:'신청 취소'};
 export function organizationJoinView(state){

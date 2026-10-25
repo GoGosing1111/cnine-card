@@ -11,7 +11,7 @@ import { readPredictionStakeHonors } from './_prediction_trophy.js';
 import {readCityTopHonors,readLichClearHonors} from './_milestone_trophies.js';
 import {readWorldRaidClearHonors} from './_world_raid_trophy.js';
 import {readTrophyManualGrants,applyTrophyManualGrants} from './_trophy_manual_grants.js';
-import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261023-clan-identity';
+import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 import {organizationElderIds,SQUADS} from '../shared/organization-faction-v1.mjs';
 export { RANKED_HONORS_SQL };
 const n = value => Math.max(0, Number(value) || 0);

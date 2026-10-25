@@ -1,4 +1,4 @@
-import {ORGANIZATIONS,ORGANIZATION_LIMITS,orgAssert,orgInteger} from './organization-system-v1.mjs?v=20261023-clan-identity';
+import {ORGANIZATIONS,ORGANIZATION_LIMITS,orgAssert,orgInteger} from './organization-system-v1.mjs?v=20261025-clan-eight';
 
 // Existing memberships and their slots are immutable. Only the new applicants
 // participate in balancing; explicit OWNER placements remain fixed too.
@@ -6,7 +6,7 @@ export function allocateAdditionalOrganizations(applicants,existing,{seed='addit
  orgAssert(Array.isArray(applicants)&&applicants.length>0,'EMPTY','추가 입단 신청자가 없습니다.');
  orgAssert(Array.isArray(existing)&&existing.length>0,'MEMBERSHIP','기존 클랜 명부를 확인하세요.');
  const totalCount=applicants.length+existing.length,maximum=Math.ceil(totalCount/ORGANIZATIONS.length);
- orgAssert(totalCount<=150,'OVERFLOW','150석을 초과했습니다. 초과 신청자 처리 정책을 정한 뒤 배정하세요.');
+ orgAssert(totalCount<=ORGANIZATION_LIMITS.participants,'OVERFLOW','200석을 초과했습니다. 초과 신청자 처리 정책을 정한 뒤 배정하세요.');
  const ids=new Set(),teams=ORGANIZATIONS.map(o=>({...o,members:[],power:0}));
  const validate=p=>{orgInteger(p.userId,1,Number.MAX_SAFE_INTEGER,'계정 번호');orgInteger(p.power,1,1e12,'평가 전력');orgInteger(p.preferredOrganizationId,1,15,'희망 클랜');orgAssert(!ids.has(p.userId),'DUPLICATE','중복된 참가자가 있습니다.',400);ids.add(p.userId);return {...p};};
  for(const value of existing){const p=validate(value),id=orgInteger(p.organizationId,1,ORGANIZATIONS.length,'기존 클랜'),team=teams[id-1];orgInteger(p.slot,1,ORGANIZATION_LIMITS.members,'기존 슬롯');orgAssert(!team.members.some(m=>m.slot===p.slot),'MEMBERSHIP','기존 클랜 슬롯이 중복됐습니다.');team.members.push({...p,preserved:true});team.power+=p.power;}

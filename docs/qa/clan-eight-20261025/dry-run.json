@@ -1,0 +1,2383 @@
+{
+  "verified": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:organization-eight-balanced:20261025:v1",
+    "authorization": [
+      "클랜 8개로 늘리고 새 가입방식 구상좀 해봐",
+      "전체 129명을 8개 클랜으로 균등 재배정하기"
+    ],
+    "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "completedAt": "2026-10-25T05:59:55.674Z",
+    "memberCount": 129,
+    "grants": 0,
+    "basis": "Saved server-evaluated seed_power; balanced count, then power, then wishes",
+    "before": {
+      "round": {
+        "id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+        "scope": "LIVE",
+        "name": "조직 입단 1차 모집",
+        "phase": "ASSIGNED",
+        "revision": 225,
+        "created_at": "1792053417178",
+        "assigned_at": "1792166775206",
+        "opened_at": "1792167981505",
+        "closes_at": "1792253433603",
+        "auto_assign": 0,
+        "assignment_status": "COMPLETED",
+        "assignment_error": null,
+        "assignment_token": null,
+        "assignment_lease_until": null
+      },
+      "stateRow": {
+        "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+        "revision": 8522,
+        "state_json": "{\"version\":1,\"cooldownVersion\":2,\"districts\":[{\"id\":\"11110\",\"owner\":5,\"protectedUntil\":1792846591337,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11140\",\"owner\":6,\"protectedUntil\":1792629147536,\"defense\":\"defense2\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11170\",\"owner\":1,\"protectedUntil\":1792846729140,\"defense\":\"defense3\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11200\",\"owner\":6,\"protectedUntil\":1792847209177,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11215\",\"owner\":6,\"protectedUntil\":1792847087469,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11230\",\"owner\":4,\"protectedUntil\":1792847586855,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11260\",\"owner\":1,\"protectedUntil\":1792847208769,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11290\",\"owner\":5,\"protectedUntil\":1792847599665,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11305\",\"owner\":2,\"protectedUntil\":1792846887730,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11320\",\"owner\":5,\"protectedUntil\":1792846597513,\"defense\":\"defense1\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11350\",\"owner\":2,\"protectedUntil\":1792847444873,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11380\",\"owner\":5,\"protectedUntil\":1792718955038,\"defense\":\"defense2\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11410\",\"owner\":5,\"protectedUntil\":1792846599457,\"defense\":\"defense3\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11440\",\"owner\":1,\"protectedUntil\":1792847485549,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11470\",\"owner\":2,\"protectedUntil\":1792846637334,\"defense\":\"defense3\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11500\",\"owner\":2,\"protectedUntil\":1792846695142,\"defense\":\"defense4\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11530\",\"owner\":4,\"protectedUntil\":1792847449146,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11545\",\"owner\":1,\"protectedUntil\":1792846648342,\"defense\":\"defense1\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11560\",\"owner\":2,\"protectedUntil\":1792726797754,\"defense\":\"defense5\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11590\",\"owner\":2,\"protectedUntil\":1792846630541,\"defense\":\"defense1\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11620\",\"owner\":1,\"protectedUntil\":1792846605040,\"defense\":\"defense4\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11650\",\"owner\":6,\"protectedUntil\":1792846931987,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11680\",\"owner\":5,\"protectedUntil\":1792847767912,\"defense\":\"defense4\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11710\",\"owner\":5,\"protectedUntil\":1792847033954,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0},{\"id\":\"11740\",\"owner\":6,\"protectedUntil\":1792847751702,\"defense\":\"\",\"taxAt\":1792562285888,\"taxRemainder\":0}],\"formations\":{\"1\":{\"attack1\":[],\"attack2\":[4504],\"attack3\":[197,218],\"attack4\":[1255],\"attack5\":[],\"defense1\":[5426],\"defense2\":[4572],\"defense3\":[4391],\"defense4\":[5008],\"defense5\":[4754,76,4408]},\"2\":{\"attack1\":[1195,303,5504],\"attack2\":[290,360,521],\"attack3\":[3974,4625,2420],\"attack4\":[4540,4010,32],\"attack5\":[19,91,202],\"defense1\":[4610],\"defense2\":[5529],\"defense3\":[5],\"defense4\":[5958],\"defense5\":[4691,706,4760]},\"3\":{\"attack1\":[3011,236],\"attack2\":[4597,4598],\"attack3\":[4908,295],\"attack4\":[5877,5148,4772],\"attack5\":[792,52,4651],\"defense1\":[4965],\"defense2\":[73],\"defense3\":[],\"defense4\":[],\"defense5\":[]},\"4\":{\"attack1\":[3884],\"attack2\":[4836],\"attack3\":[4628],\"attack4\":[5514,4199,4705],\"attack5\":[4629,22,4870],\"defense1\":[65],\"defense2\":[45],\"defense3\":[16],\"defense4\":[],\"defense5\":[]},\"5\":{\"attack1\":[88],\"attack2\":[4627],\"attack3\":[148],\"attack4\":[4614],\"attack5\":[4501,4641,85],\"defense1\":[4111],\"defense2\":[3],\"defense3\":[4981],\"defense4\":[4570],\"defense5\":[]},\"6\":{\"attack1\":[],\"attack2\":[5598,4757,4910],\"attack3\":[81],\"attack4\":[226,4817,289],\"attack5\":[4978,4562,4933],\"defense1\":[1545],\"defense2\":[25],\"defense3\":[],\"defense4\":[],\"defense5\":[277]}},\"captains\":{\"1\":{\"attack1\":525,\"attack2\":2333,\"attack3\":218,\"attack4\":4479,\"attack5\":4582},\"2\":{\"attack1\":5504,\"attack2\":290,\"attack3\":360,\"attack4\":1195,\"attack5\":303},\"3\":{\"attack1\":52,\"attack2\":4597,\"attack3\":4908,\"attack4\":4651,\"attack5\":5148},\"4\":{\"attack1\":65,\"attack2\":3884,\"attack3\":4628,\"attack4\":4595,\"attack5\":62},\"5\":{\"attack1\":4570,\"attack2\":4111,\"attack3\":4627,\"attack4\":4641,\"attack5\":0},\"6\":{\"attack1\":4757,\"attack2\":493,\"attack3\":81,\"attack4\":164,\"attack5\":4562}},\"battles\":[{\"id\":\"d402fe24-9f9a-4bb8-987d-f4b4d4b31d51\",\"districtId\":\"11560\",\"attacker\":1,\"attackerName\":\"DK\",\"defender\":2,\"squad\":\"attack2\",\"defenseSquad\":\"defense5\",\"attackers\":[4504],\"defenders\":[4691,706,4760],\"initiator\":4582,\"initiatorName\":\"족단\",\"attackerHp\":810065,\"defenderHp\":1000000,\"entries\":{\"4760\":{\"enteredAt\":1792846305106,\"hits\":7,\"damage\":189935,\"lastStrikeAt\":1792846794185}},\"status\":\"COMPLETED\",\"startedAt\":1792845425497,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":2,\"reason\":\"SEASON_END\",\"endedAt\":1792846800000},{\"id\":\"76c1264e-41f9-437f-bc64-ff4c621bea72\",\"districtId\":\"11140\",\"attacker\":2,\"attackerName\":\"삼성\",\"defender\":6,\"squad\":\"attack3\",\"defenseSquad\":\"defense2\",\"attackers\":[3974,4625,2420],\"defenders\":[25],\"initiator\":1195,\"initiatorName\":\"씨나인택갓\",\"attackerHp\":1000000,\"defenderHp\":53372,\"entries\":{\"2420\":{\"enteredAt\":1792846307688,\"hits\":8,\"damage\":112560,\"lastStrikeAt\":1792846758973},\"3974\":{\"enteredAt\":1792846305003,\"hits\":8,\"damage\":662168,\"lastStrikeAt\":1792846755652},\"4625\":{\"enteredAt\":1792846298188,\"hits\":8,\"damage\":171900,\"lastStrikeAt\":1792846750966}},\"status\":\"COMPLETED\",\"startedAt\":1792846293296,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":6,\"reason\":\"SEASON_END\",\"endedAt\":1792846800000},{\"id\":\"a4d31ded-c03c-41b1-bc6a-36b1fc4e5e62\",\"districtId\":\"11320\",\"attacker\":2,\"attackerName\":\"삼성\",\"defender\":5,\"squad\":\"attack4\",\"defenseSquad\":\"defense1\",\"attackers\":[4540,4010,32],\"defenders\":[4111],\"initiator\":4540,\"initiatorName\":\"지아영\",\"attackerHp\":1000000,\"defenderHp\":974173,\"entries\":{\"4010\":{\"enteredAt\":1792846602667,\"hits\":3,\"damage\":25211,\"lastStrikeAt\":1792846754836},\"4540\":{\"enteredAt\":1792846600105,\"hits\":1,\"damage\":616,\"lastStrikeAt\":1792846609430}},\"status\":\"COMPLETED\",\"startedAt\":1792846598791,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":5,\"reason\":\"SEASON_END\",\"endedAt\":1792846800000},{\"id\":\"f08e90f7-faf0-4133-a1ce-2169a93c4898\",\"districtId\":\"11410\",\"attacker\":6,\"attackerName\":\"롯데\",\"defender\":5,\"squad\":\"attack5\",\"defenseSquad\":\"defense3\",\"attackers\":[4978,4562,4415],\"defenders\":[4981],\"initiator\":4415,\"initiatorName\":\"Moo날두\",\"attackerHp\":1000000,\"defenderHp\":577303,\"entries\":{\"4415\":{\"enteredAt\":1792846627048,\"hits\":3,\"damage\":422697,\"lastStrikeAt\":1792846753391}},\"status\":\"COMPLETED\",\"startedAt\":1792846625594,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":5,\"reason\":\"SEASON_END\",\"endedAt\":1792846800000},{\"id\":\"45d48e04-23dc-436e-8aed-f0e3477ca09b\",\"districtId\":\"11380\",\"attacker\":6,\"attackerName\":\"롯데\",\"defender\":5,\"squad\":\"attack4\",\"defenseSquad\":\"defense2\",\"attackers\":[226,4817,289],\"defenders\":[3],\"initiator\":226,\"initiatorName\":\"햬카세\",\"attackerHp\":550000,\"defenderHp\":594736,\"entries\":{\"3\":{\"enteredAt\":1792846649496,\"hits\":3,\"damage\":450000,\"lastStrikeAt\":1792846787561},\"226\":{\"enteredAt\":1792846643968,\"hits\":3,\"damage\":86912,\"lastStrikeAt\":1792846770167},\"289\":{\"enteredAt\":1792846652056,\"hits\":3,\"damage\":318352,\"lastStrikeAt\":1792846778819}},\"status\":\"COMPLETED\",\"startedAt\":1792846642794,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":5,\"reason\":\"SEASON_END\",\"endedAt\":1792846800000},{\"id\":\"f155a81e-65b4-44aa-b14e-08a24a2d1916\",\"districtId\":\"11545\",\"attacker\":5,\"attackerName\":\"LG\",\"defender\":1,\"squad\":\"attack1\",\"defenseSquad\":\"defense1\",\"attackers\":[88],\"defenders\":[5426],\"initiator\":88,\"initiatorName\":\"0수표\",\"attackerHp\":1000000,\"defenderHp\":700000,\"entries\":{\"88\":{\"enteredAt\":1792846651398,\"hits\":2,\"damage\":300000,\"lastStrikeAt\":1792846714776}},\"status\":\"COMPLETED\",\"startedAt\":1792846649803,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":1,\"reason\":\"SEASON_END\",\"endedAt\":1792846800000},{\"id\":\"9bc5fbee-2b19-401f-aa42-8db045817c0a\",\"districtId\":\"11590\",\"attacker\":5,\"attackerName\":\"LG\",\"defender\":2,\"squad\":\"attack5\",\"defenseSquad\":\"defense1\",\"attackers\":[4501,4641,85],\"defenders\":[4610],\"initiator\":85,\"initiatorName\":\"카르푸\",\"attackerHp\":850000,\"defenderHp\":998442,\"entries\":{\"85\":{\"enteredAt\":1792846686930,\"hits\":2,\"damage\":1558,\"lastStrikeAt\":1792846750306},\"4610\":{\"enteredAt\":1792846695417,\"hits\":1,\"damage\":150000,\"lastStrikeAt\":1792846699820}},\"status\":\"COMPLETED\",\"startedAt\":1792846685272,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":2,\"reason\":\"SEASON_END\",\"endedAt\":1792846800000},{\"id\":\"9646a735-34cf-4bc3-8c29-cce963a351d6\",\"districtId\":\"11500\",\"attacker\":1,\"attackerName\":\"DK\",\"defender\":2,\"squad\":\"attack5\",\"defenseSquad\":\"defense4\",\"attackers\":[3867,2333,218],\"defenders\":[5958],\"initiator\":2333,\"initiatorName\":\"구와함\",\"attackerHp\":1000000,\"defenderHp\":400000,\"entries\":{\"218\":{\"enteredAt\":1792846704804,\"hits\":2,\"damage\":300000,\"lastStrikeAt\":1792846776451},\"2333\":{\"enteredAt\":1792846699361,\"hits\":2,\"damage\":300000,\"lastStrikeAt\":1792846784104}},\"status\":\"COMPLETED\",\"startedAt\":1792846697843,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":2,\"reason\":\"SEASON_END\",\"endedAt\":1792846800000},{\"id\":\"aa3351da-b432-4967-8924-1d1d889ed4ee\",\"districtId\":\"11380\",\"attacker\":2,\"attackerName\":\"삼성\",\"defender\":5,\"squad\":\"attack2\",\"defenseSquad\":\"defense2\",\"attackers\":[290,360,521],\"defenders\":[3],\"initiator\":1195,\"initiatorName\":\"씨나인택갓\",\"attackerHp\":0,\"defenderHp\":52663,\"entries\":{\"3\":{\"enteredAt\":1792846149452,\"hits\":8,\"damage\":1000000,\"lastStrikeAt\":1792846591229},\"360\":{\"enteredAt\":1792846120841,\"hits\":8,\"damage\":655606,\"lastStrikeAt\":1792846558207},\"521\":{\"enteredAt\":1792846106558,\"hits\":8,\"damage\":291731,\"lastStrikeAt\":1792846539814}},\"status\":\"COMPLETED\",\"startedAt\":1792846096699,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":5,\"reason\":\"HP_ZERO\",\"endedAt\":1792846591229},{\"id\":\"b6ce0436-c464-47dd-82b2-7b050cf71f3f\",\"districtId\":\"11680\",\"attacker\":5,\"attackerName\":\"LG\",\"defender\":4,\"squad\":\"attack4\",\"defenseSquad\":\"\",\"attackers\":[4389,233,4614],\"defenders\":[],\"initiator\":4614,\"initiatorName\":\"공단\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792846567912,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":5,\"reason\":\"UNDEFENDED\",\"endedAt\":1792846567912},{\"id\":\"4dc91583-968e-4b4d-b886-c21eb8bffb62\",\"districtId\":\"11740\",\"attacker\":6,\"attackerName\":\"롯데\",\"defender\":1,\"squad\":\"attack1\",\"defenseSquad\":\"defense3\",\"attackers\":[81],\"defenders\":[4391],\"initiator\":81,\"initiatorName\":\"비쥬얼깡패\",\"attackerHp\":722716,\"defenderHp\":0,\"entries\":{\"81\":{\"enteredAt\":1792846164344,\"hits\":7,\"damage\":1000000,\"lastStrikeAt\":1792846551702},\"4391\":{\"enteredAt\":1792846170444,\"hits\":7,\"damage\":277284,\"lastStrikeAt\":1792846548076}},\"status\":\"COMPLETED\",\"startedAt\":1792846162977,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":6,\"reason\":\"HP_ZERO\",\"endedAt\":1792846551702},{\"id\":\"3220d5ad-0421-4efc-a82f-ac9e2726bd90\",\"districtId\":\"11290\",\"attacker\":5,\"attackerName\":\"LG\",\"defender\":1,\"squad\":\"attack2\",\"defenseSquad\":\"defense2\",\"attackers\":[4627],\"defenders\":[4572],\"initiator\":4627,\"initiatorName\":\"학벌\",\"attackerHp\":564778,\"defenderHp\":0,\"entries\":{\"4572\":{\"enteredAt\":1792846031299,\"hits\":6,\"damage\":435222,\"lastStrikeAt\":1792846353141},\"4627\":{\"enteredAt\":1792846025471,\"hits\":7,\"damage\":1000000,\"lastStrikeAt\":1792846399665}},\"status\":\"COMPLETED\",\"startedAt\":1792846024147,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":5,\"reason\":\"HP_ZERO\",\"endedAt\":1792846399665},{\"id\":\"f3d3b6a1-c9ea-4ecc-8647-640c9d2ac511\",\"districtId\":\"11230\",\"attacker\":4,\"attackerName\":\"한화\",\"defender\":2,\"squad\":\"attack4\",\"defenseSquad\":\"defense3\",\"attackers\":[5514,4199,4705],\"defenders\":[5],\"initiator\":4705,\"initiatorName\":\"˚쟁이。\",\"attackerHp\":1000000,\"defenderHp\":0,\"entries\":{\"4705\":{\"enteredAt\":1792845972992,\"hits\":7,\"damage\":961288,\"lastStrikeAt\":1792846386855},\"5514\":{\"enteredAt\":1792846130134,\"hits\":4,\"damage\":38712,\"lastStrikeAt\":1792846321758}},\"status\":\"COMPLETED\",\"startedAt\":1792845971905,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":4,\"reason\":\"HP_ZERO\",\"endedAt\":1792846386855},{\"id\":\"7ec5fe5a-a0f3-4865-b754-8f826db178ec\",\"districtId\":\"11440\",\"attacker\":1,\"attackerName\":\"DK\",\"defender\":3,\"squad\":\"attack4\",\"defenseSquad\":\"defense1\",\"attackers\":[218,4479,1255],\"defenders\":[4965],\"initiator\":4479,\"initiatorName\":\"대지\",\"attackerHp\":1000000,\"defenderHp\":0,\"entries\":{\"218\":{\"enteredAt\":1792846002314,\"hits\":5,\"damage\":471925,\"lastStrikeAt\":1792846285549},\"1255\":{\"enteredAt\":1792845718691,\"hits\":3,\"damage\":450000,\"lastStrikeAt\":1792845850400},\"4479\":{\"enteredAt\":1792845501737,\"hits\":9,\"damage\":78075,\"lastStrikeAt\":1792846243405}},\"status\":\"COMPLETED\",\"startedAt\":1792845500657,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":1,\"reason\":\"HP_ZERO\",\"endedAt\":1792846285549},{\"id\":\"af2b593f-35a7-4e8b-b3e7-ae81b866a7dd\",\"districtId\":\"11530\",\"attacker\":4,\"attackerName\":\"한화\",\"defender\":2,\"squad\":\"attack5\",\"defenseSquad\":\"defense4\",\"attackers\":[4629,22,4870],\"defenders\":[5958],\"initiator\":4629,\"initiatorName\":\"Veil\",\"attackerHp\":1000000,\"defenderHp\":0,\"entries\":{\"22\":{\"enteredAt\":1792845854095,\"hits\":2,\"damage\":300000,\"lastStrikeAt\":1792845962914},\"4629\":{\"enteredAt\":1792845813231,\"hits\":5,\"damage\":700000,\"lastStrikeAt\":1792846249146}},\"status\":\"COMPLETED\",\"startedAt\":1792845810546,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":4,\"reason\":\"HP_ZERO\",\"endedAt\":1792846249146},{\"id\":\"e766e4ee-5e9c-4014-b6d0-e2a4e589768f\",\"districtId\":\"11350\",\"attacker\":2,\"attackerName\":\"삼성\",\"defender\":1,\"squad\":\"attack1\",\"defenseSquad\":\"defense4\",\"attackers\":[1195,303,5504],\"defenders\":[5008],\"initiator\":1195,\"initiatorName\":\"씨나인택갓\",\"attackerHp\":617270,\"defenderHp\":0,\"entries\":{\"303\":{\"enteredAt\":1792846057796,\"hits\":3,\"damage\":450000,\"lastStrikeAt\":1792846184200},\"1195\":{\"enteredAt\":1792846051304,\"hits\":4,\"damage\":550000,\"lastStrikeAt\":1792846244873},\"5008\":{\"enteredAt\":1792846056009,\"hits\":3,\"damage\":382730,\"lastStrikeAt\":1792846185951}},\"status\":\"COMPLETED\",\"startedAt\":1792846049810,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":2,\"reason\":\"HP_ZERO\",\"endedAt\":1792846244873},{\"id\":\"81ffd849-40a5-42c6-8531-2198709951cb\",\"districtId\":\"11740\",\"attacker\":5,\"attackerName\":\"LG\",\"defender\":1,\"squad\":\"attack5\",\"defenseSquad\":\"defense3\",\"attackers\":[3674,4501,4641],\"defenders\":[4391],\"initiator\":4641,\"initiatorName\":\"의지\",\"attackerHp\":0,\"defenderHp\":972191,\"entries\":{\"3674\":{\"enteredAt\":1792845717935,\"hits\":2,\"damage\":10276,\"lastStrikeAt\":1792845837733},\"4391\":{\"enteredAt\":1792845704183,\"hits\":7,\"damage\":1000000,\"lastStrikeAt\":1792846083618},\"4641\":{\"enteredAt\":1792845694230,\"hits\":3,\"damage\":17533,\"lastStrikeAt\":1792846034808}},\"status\":\"COMPLETED\",\"startedAt\":1792845692739,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":1,\"reason\":\"HP_ZERO\",\"endedAt\":1792846083618},{\"id\":\"880bee8f-89fc-4068-a8b9-300e31100cd2\",\"districtId\":\"11200\",\"attacker\":6,\"attackerName\":\"롯데\",\"defender\":5,\"squad\":\"attack3\",\"defenseSquad\":\"\",\"attackers\":[81],\"defenders\":[],\"initiator\":81,\"initiatorName\":\"비쥬얼깡패\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792846009177,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":6,\"reason\":\"UNDEFENDED\",\"endedAt\":1792846009177},{\"id\":\"723be1a2-1eaf-4b31-8e17-86816aa031e6\",\"districtId\":\"11260\",\"attacker\":1,\"attackerName\":\"DK\",\"defender\":5,\"squad\":\"attack3\",\"defenseSquad\":\"\",\"attackers\":[197],\"defenders\":[],\"initiator\":4582,\"initiatorName\":\"족단\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792846008769,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":1,\"reason\":\"UNDEFENDED\",\"endedAt\":1792846008769},{\"id\":\"3e643618-1a0a-437a-8160-8f712c9f04b3\",\"districtId\":\"11215\",\"attacker\":6,\"attackerName\":\"롯데\",\"defender\":2,\"squad\":\"attack5\",\"defenseSquad\":\"defense1\",\"attackers\":[4978,4562,4415],\"defenders\":[4610],\"initiator\":4415,\"initiatorName\":\"Moo날두\",\"attackerHp\":675136,\"defenderHp\":0,\"entries\":{\"4415\":{\"enteredAt\":1792845424797,\"hits\":8,\"damage\":1000000,\"lastStrikeAt\":1792845887469},\"4610\":{\"enteredAt\":1792845538555,\"hits\":6,\"damage\":324864,\"lastStrikeAt\":1792845867976}},\"status\":\"COMPLETED\",\"startedAt\":1792845423066,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":6,\"reason\":\"HP_ZERO\",\"endedAt\":1792845887469},{\"id\":\"5c5459f3-5c39-4df4-917e-118e4d9bd769\",\"districtId\":\"11710\",\"attacker\":5,\"attackerName\":\"LG\",\"defender\":2,\"squad\":\"attack4\",\"defenseSquad\":\"defense2\",\"attackers\":[4389,4570,233],\"defenders\":[5529],\"initiator\":4389,\"initiatorName\":\"다르\",\"attackerHp\":972250,\"defenderHp\":0,\"entries\":{\"4389\":{\"enteredAt\":1792845514465,\"hits\":6,\"damage\":850000,\"lastStrikeAt\":1792845833954},\"4570\":{\"enteredAt\":1792845780000,\"hits\":1,\"damage\":150000,\"lastStrikeAt\":1792845781811},\"5529\":{\"enteredAt\":1792845533158,\"hits\":1,\"damage\":27750,\"lastStrikeAt\":1792845538483}},\"status\":\"COMPLETED\",\"startedAt\":1792845513013,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":5,\"reason\":\"HP_ZERO\",\"endedAt\":1792845833954},{\"id\":\"7e85642c-b564-44af-8ada-55cbb689508c\",\"districtId\":\"11650\",\"attacker\":6,\"attackerName\":\"롯데\",\"defender\":1,\"squad\":\"attack4\",\"defenseSquad\":\"defense1\",\"attackers\":[226,4817,289],\"defenders\":[5426],\"initiator\":4817,\"initiatorName\":\"음주\",\"attackerHp\":1000000,\"defenderHp\":0,\"entries\":{\"226\":{\"enteredAt\":1792845524703,\"hits\":4,\"damage\":250829,\"lastStrikeAt\":1792845714237},\"289\":{\"enteredAt\":1792845554671,\"hits\":3,\"damage\":124101,\"lastStrikeAt\":1792845681483},\"4817\":{\"enteredAt\":1792845429168,\"hits\":5,\"damage\":625070,\"lastStrikeAt\":1792845731987}},\"status\":\"COMPLETED\",\"startedAt\":1792845428016,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":6,\"reason\":\"HP_ZERO\",\"endedAt\":1792845731987},{\"id\":\"f02d5191-629b-4caf-9049-f19f2c966153\",\"districtId\":\"11305\",\"attacker\":2,\"attackerName\":\"삼성\",\"defender\":1,\"squad\":\"attack3\",\"defenseSquad\":\"defense5\",\"attackers\":[3974,4625,2420],\"defenders\":[4754,76,4408],\"initiator\":3974,\"initiatorName\":\"우회하세요\",\"attackerHp\":998817,\"defenderHp\":0,\"entries\":{\"2420\":{\"enteredAt\":1792845488552,\"hits\":4,\"damage\":503407,\"lastStrikeAt\":1792845687730},\"3974\":{\"enteredAt\":1792845485975,\"hits\":3,\"damage\":450000,\"lastStrikeAt\":1792845612543},\"4408\":{\"enteredAt\":1792845597206,\"hits\":1,\"damage\":1183,\"lastStrikeAt\":1792845599037},\"4625\":{\"enteredAt\":1792845488646,\"hits\":3,\"damage\":46593,\"lastStrikeAt\":1792845616371}},\"status\":\"COMPLETED\",\"startedAt\":1792845484504,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":2,\"reason\":\"HP_ZERO\",\"endedAt\":1792845687730},{\"id\":\"339c449e-10b4-426c-89d7-63896faa11e1\",\"districtId\":\"11170\",\"attacker\":1,\"attackerName\":\"DK\",\"defender\":5,\"squad\":\"attack5\",\"defenseSquad\":\"\",\"attackers\":[3867,2333,525],\"defenders\":[],\"initiator\":525,\"initiatorName\":\"족구조아\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792845529140,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":1,\"reason\":\"UNDEFENDED\",\"endedAt\":1792845529140},{\"id\":\"417dcf9b-f406-4d97-b780-92cdaca6db39\",\"districtId\":\"11500\",\"attacker\":2,\"attackerName\":\"삼성\",\"defender\":5,\"squad\":\"attack4\",\"defenseSquad\":\"\",\"attackers\":[4540,4010,32],\"defenders\":[],\"initiator\":4540,\"initiatorName\":\"지아영\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792845495142,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":2,\"reason\":\"UNDEFENDED\",\"endedAt\":1792845495142},{\"id\":\"bdfe418e-0eca-4c22-baca-ea1e0ca958b3\",\"districtId\":\"11545\",\"attacker\":1,\"attackerName\":\"DK\",\"defender\":2,\"squad\":\"attack1\",\"defenseSquad\":\"\",\"attackers\":[525],\"defenders\":[],\"initiator\":525,\"initiatorName\":\"족구조아\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792845448342,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":1,\"reason\":\"UNDEFENDED\",\"endedAt\":1792845448342},{\"id\":\"b56ff630-8d94-4744-82e5-cc5fefe5470e\",\"districtId\":\"11470\",\"attacker\":2,\"attackerName\":\"삼성\",\"defender\":1,\"squad\":\"attack1\",\"defenseSquad\":\"\",\"attackers\":[1195,303,5504],\"defenders\":[],\"initiator\":1195,\"initiatorName\":\"씨나인택갓\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792845437334,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":2,\"reason\":\"UNDEFENDED\",\"endedAt\":1792845437334},{\"id\":\"4eaf8753-cc97-407f-bb3a-6d8560ae1176\",\"districtId\":\"11590\",\"attacker\":2,\"attackerName\":\"삼성\",\"defender\":1,\"squad\":\"attack2\",\"defenseSquad\":\"\",\"attackers\":[290,360,521],\"defenders\":[],\"initiator\":1195,\"initiatorName\":\"씨나인택갓\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792845430541,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":2,\"reason\":\"UNDEFENDED\",\"endedAt\":1792845430541},{\"id\":\"49b4ebc0-d616-437d-84da-7e6577244c85\",\"districtId\":\"11620\",\"attacker\":1,\"attackerName\":\"DK\",\"defender\":5,\"squad\":\"attack3\",\"defenseSquad\":\"\",\"attackers\":[197],\"defenders\":[],\"initiator\":4582,\"initiatorName\":\"족단\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792845405040,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":1,\"reason\":\"UNDEFENDED\",\"endedAt\":1792845405040},{\"id\":\"b1f618a3-d6a7-4000-b9bc-7bfc4fac0d5f\",\"districtId\":\"11410\",\"attacker\":5,\"attackerName\":\"LG\",\"defender\":1,\"squad\":\"attack3\",\"defenseSquad\":\"\",\"attackers\":[148],\"defenders\":[],\"initiator\":88,\"initiatorName\":\"0수표\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792845399457,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":5,\"reason\":\"UNDEFENDED\",\"endedAt\":1792845399457},{\"id\":\"af306d84-19ed-440b-b09b-c66ef1f7e913\",\"districtId\":\"11320\",\"attacker\":5,\"attackerName\":\"LG\",\"defender\":2,\"squad\":\"attack2\",\"defenseSquad\":\"\",\"attackers\":[4627],\"defenders\":[],\"initiator\":88,\"initiatorName\":\"0수표\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792845397513,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":5,\"reason\":\"UNDEFENDED\",\"endedAt\":1792845397513},{\"id\":\"639aa814-1d47-42c0-a8dd-70c4a0d6e07f\",\"districtId\":\"11110\",\"attacker\":5,\"attackerName\":\"LG\",\"defender\":1,\"squad\":\"attack1\",\"defenseSquad\":\"\",\"attackers\":[88],\"defenders\":[],\"initiator\":88,\"initiatorName\":\"0수표\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792845391337,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":5,\"reason\":\"UNDEFENDED\",\"endedAt\":1792845391337},{\"id\":\"97f508bd-3c72-42ce-8167-e5c861b11e45\",\"districtId\":\"11680\",\"attacker\":4,\"attackerName\":\"한화\",\"defender\":5,\"squad\":\"attack4\",\"defenseSquad\":\"\",\"attackers\":[5514,4199,4705],\"defenders\":[],\"initiator\":5514,\"initiatorName\":\"아프저리가라\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792845367415,\"endsAt\":1792846800000,\"sessionKey\":\"2026-10-24:fixed-20\",\"winner\":4,\"reason\":\"UNDEFENDED\",\"endedAt\":1792845367415},{\"id\":\"f6d3528a-1f07-4067-a0f6-c8c113973f84\",\"districtId\":\"11545\",\"attacker\":3,\"attackerName\":\"독사파\",\"defender\":2,\"squad\":\"attack2\",\"defenseSquad\":\"defense4\",\"attackers\":[4597],\"defenders\":[5958,706],\"initiator\":4597,\"initiatorName\":\"찬호\",\"attackerHp\":1000000,\"defenderHp\":700000,\"entries\":{\"4597\":{\"enteredAt\":1792724026292,\"hits\":2,\"damage\":300000,\"lastStrikeAt\":1792724254956}},\"status\":\"COMPLETED\",\"startedAt\":1792724025361,\"endsAt\":1792725720000,\"sessionKey\":\"2026-10-23:2\",\"winner\":2,\"reason\":\"TIMEOUT\",\"endedAt\":1792725720000},{\"id\":\"7da7a49a-4c34-4e85-8f05-be5d3c0aaf6c\",\"districtId\":\"11650\",\"attacker\":2,\"attackerName\":\"쌍칼파\",\"defender\":1,\"squad\":\"attack1\",\"defenseSquad\":\"defense1\",\"attackers\":[5504,290,360],\"defenders\":[5426],\"initiator\":1195,\"initiatorName\":\"씨나인택갓\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792724542392,\"endsAt\":1792725720000,\"sessionKey\":\"2026-10-23:2\",\"winner\":1,\"reason\":\"TIMEOUT\",\"endedAt\":1792725720000},{\"id\":\"7ae68698-3b78-4046-9e13-87a0a9c895c2\",\"districtId\":\"11740\",\"attacker\":5,\"attackerName\":\"백상어파\",\"defender\":1,\"squad\":\"attack4\",\"defenseSquad\":\"defense3\",\"attackers\":[4389],\"defenders\":[4391],\"initiator\":4389,\"initiatorName\":\"다르\",\"attackerHp\":700000,\"defenderHp\":1000000,\"entries\":{\"4389\":{\"enteredAt\":1792724622243,\"hits\":2,\"damage\":0,\"lastStrikeAt\":1792724701858},\"4391\":{\"enteredAt\":1792724654552,\"hits\":2,\"damage\":300000,\"lastStrikeAt\":1792724743442}},\"status\":\"COMPLETED\",\"startedAt\":1792724620713,\"endsAt\":1792725720000,\"sessionKey\":\"2026-10-23:2\",\"winner\":1,\"reason\":\"TIMEOUT\",\"endedAt\":1792725720000},{\"id\":\"e5c32b02-5db9-461d-9876-cfc324ff76ef\",\"districtId\":\"11290\",\"attacker\":5,\"attackerName\":\"백상어파\",\"defender\":1,\"squad\":\"attack2\",\"defenseSquad\":\"defense2\",\"attackers\":[4627],\"defenders\":[4572],\"initiator\":4111,\"initiatorName\":\"족게이다\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792725042636,\"endsAt\":1792725720000,\"sessionKey\":\"2026-10-23:2\",\"winner\":1,\"reason\":\"TIMEOUT\",\"endedAt\":1792725720000},{\"id\":\"2a5b0a21-310f-41b3-b6bd-12fdccf58086\",\"districtId\":\"11320\",\"attacker\":1,\"attackerName\":\"도끼파\",\"defender\":2,\"squad\":\"attack2\",\"defenseSquad\":\"defense5\",\"attackers\":[4504],\"defenders\":[4691],\"initiator\":4582,\"initiatorName\":\"족단\",\"attackerHp\":1000000,\"defenderHp\":1000000,\"entries\":{},\"status\":\"COMPLETED\",\"startedAt\":1792725085805,\"endsAt\":1792725720000,\"sessionKey\":\"2026-10-23:2\",\"winner\":2,\"reason\":\"TIMEOUT\",\"endedAt\":1792725720000},{\"id\":\"5e16e799-7492-47a4-8ebf-0d4e0b64b93c\",\"districtId\":\"11500\",\"attacker\":4,\"attackerName\":\"불곰파\",\"defender\":5,\"squad\":\"attack2\",\"defenseSquad\":\"defense1\",\"attackers\":[4836],\"defenders\":[4641],\"initiator\":22,\"initiatorName\":\"커피먹는철구\",\"attackerHp\":550000,\"defenderHp\":1000000,\"entries\":{\"4641\":{\"enteredAt\":1792725542821,\"hits\":3,\"damage\":450000,\"lastStrikeAt\":1792725701833}},\"status\":\"COMPLETED\",\"startedAt\":1792725534341,\"endsAt\":1792725720000,\"sessionKey\":\"2026-10-23:2\",\"winner\":5,\"reason\":\"TIMEOUT\",\"endedAt\":1792725720000},{\"id\":\"78b89e6b-6893-4e57-bff4-a5ec1784f215\",\"districtId\":\"11170\",\"attacker\":5,\"attackerName\":\"백상어파\",\"defender\":2,\"squad\":\"attack5\",\"defenseSquad\":\"defense2\",\"attackers\":[3674,4501,233],\"defenders\":[5529,4610],\"initiator\":233,\"initiatorName\":\"ShowMaker\",\"attackerHp\":1000000,\"defenderHp\":0,\"entries\":{\"233\":{\"enteredAt\":1792724969109,\"hits\":10,\"damage\":848442,\"lastStrikeAt\":1792725695771},\"3674\":{\"enteredAt\":1792725519076,\"hits\":3,\"damage\":151558,\"lastStrikeAt\":1792725643722}},\"status\":\"COMPLETED\",\"startedAt\":1792724968147,\"endsAt\":1792725720000,\"sessionKey\":\"2026-10-23:2\",\"winner\":5,\"reason\":\"HP_ZERO\",\"endedAt\":1792725695771}],\"events\":[{\"id\":\"b03b80ac-9ea4-4a27-8505-ba3a10d7a074\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":1,\"squad\":\"attack5\",\"previousSquad\":\"attack5\",\"userId\":3867,\"by\":\"레드클라우드\",\"at\":1792905195174},{\"id\":\"8a9a58f2-b2b5-4129-8844-0c1509cde657\",\"kind\":\"FORMATION\",\"clanId\":3,\"by\":\"쁴로리\",\"at\":1792901032184},{\"id\":\"bd010f7a-f57e-4e19-82c5-9ed179aad1c9\",\"kind\":\"FORMATION\",\"clanId\":5,\"by\":\"혜정\",\"at\":1792859317557},{\"id\":\"5794565c-4a98-47d3-851d-45c46e32388b\",\"kind\":\"SQUAD_JOIN\",\"clanId\":6,\"squad\":\"attack5\",\"previousSquad\":\"\",\"userId\":4933,\"by\":\"심심이\",\"at\":1792849235025},{\"id\":\"97fe1e91-f926-49eb-9c3b-f5d9ad008f38\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":6,\"squad\":\"attack5\",\"previousSquad\":\"attack5\",\"userId\":4415,\"by\":\"Moo날두\",\"at\":1792848115721},{\"id\":\"4437720a-e2ae-4288-b0a4-ae52eb9ebab5\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":1,\"squad\":\"attack4\",\"previousSquad\":\"attack4\",\"userId\":4479,\"by\":\"대지\",\"at\":1792846855819},{\"id\":\"b5475ac1-9041-4ec7-8285-ef10588750a4\",\"kind\":\"FORMATION\",\"clanId\":1,\"by\":\"현하루\",\"at\":1792846846242},{\"id\":\"096c3d29-5362-4d02-b921-4c4813e06e1d\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":1,\"squad\":\"attack5\",\"previousSquad\":\"attack5\",\"userId\":218,\"by\":\"현하루\",\"at\":1792846834745},{\"id\":\"ef97e8b6-6fc8-4cd6-b1e1-c67f0cddda84\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":1,\"squad\":\"attack5\",\"previousSquad\":\"attack5\",\"userId\":2333,\"by\":\"구와함\",\"at\":1792846833503},{\"id\":\"14b814d5-86a6-42fa-ae1a-38656e453b54\",\"kind\":\"FORMATION\",\"clanId\":6,\"by\":\"비쥬얼깡패\",\"at\":1792846824282},{\"id\":\"session:2026-10-24:fixed-20\",\"kind\":\"SESSION_END\",\"at\":1792846800000,\"reason\":\"SESSION_END\",\"recipients\":0},{\"id\":\"end:d402fe24-9f9a-4bb8-987d-f4b4d4b31d51\",\"kind\":\"DEFENDED\",\"districtId\":\"11560\",\"clanId\":2,\"attacker\":1,\"defender\":2,\"at\":1792846800000},{\"id\":\"end:76c1264e-41f9-437f-bc64-ff4c621bea72\",\"kind\":\"DEFENDED\",\"districtId\":\"11140\",\"clanId\":6,\"attacker\":2,\"defender\":6,\"at\":1792846800000},{\"id\":\"end:a4d31ded-c03c-41b1-bc6a-36b1fc4e5e62\",\"kind\":\"DEFENDED\",\"districtId\":\"11320\",\"clanId\":5,\"attacker\":2,\"defender\":5,\"at\":1792846800000},{\"id\":\"end:f08e90f7-faf0-4133-a1ce-2169a93c4898\",\"kind\":\"DEFENDED\",\"districtId\":\"11410\",\"clanId\":5,\"attacker\":6,\"defender\":5,\"at\":1792846800000},{\"id\":\"end:45d48e04-23dc-436e-8aed-f0e3477ca09b\",\"kind\":\"DEFENDED\",\"districtId\":\"11380\",\"clanId\":5,\"attacker\":6,\"defender\":5,\"at\":1792846800000},{\"id\":\"end:f155a81e-65b4-44aa-b14e-08a24a2d1916\",\"kind\":\"DEFENDED\",\"districtId\":\"11545\",\"clanId\":1,\"attacker\":5,\"defender\":1,\"at\":1792846800000},{\"id\":\"end:9bc5fbee-2b19-401f-aa42-8db045817c0a\",\"kind\":\"DEFENDED\",\"districtId\":\"11590\",\"clanId\":2,\"attacker\":5,\"defender\":2,\"at\":1792846800000},{\"id\":\"end:9646a735-34cf-4bc3-8c29-cce963a351d6\",\"kind\":\"DEFENDED\",\"districtId\":\"11500\",\"clanId\":2,\"attacker\":1,\"defender\":2,\"at\":1792846800000},{\"id\":\"c5c12061-362f-4e7e-94d3-811876aff47a\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":5,\"squad\":\"attack4\",\"previousSquad\":\"attack4\",\"userId\":233,\"by\":\"ShowMaker\",\"at\":1792846786514},{\"id\":\"eab1bf5a-dc98-4491-ae1e-017a72143c98\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":1,\"squad\":\"attack4\",\"previousSquad\":\"attack4\",\"userId\":525,\"by\":\"족구조아\",\"at\":1792846761283},{\"id\":\"be3b365d-635e-4f86-b2ba-91f3056ad84b\",\"kind\":\"SQUAD_JOIN\",\"clanId\":1,\"squad\":\"attack4\",\"previousSquad\":\"\",\"userId\":525,\"by\":\"족구조아\",\"at\":1792846735349},{\"id\":\"9646a735-34cf-4bc3-8c29-cce963a351d6\",\"kind\":\"INVASION\",\"districtId\":\"11500\",\"clanId\":1,\"attacker\":1,\"defender\":2,\"by\":\"구와함\",\"at\":1792846697843},{\"id\":\"9bc5fbee-2b19-401f-aa42-8db045817c0a\",\"kind\":\"INVASION\",\"districtId\":\"11590\",\"clanId\":5,\"attacker\":5,\"defender\":2,\"by\":\"카르푸\",\"at\":1792846685272},{\"id\":\"4926a728-5ec0-4269-b33d-bee09cd61774\",\"kind\":\"SQUAD_JOIN\",\"clanId\":1,\"squad\":\"attack5\",\"previousSquad\":\"\",\"userId\":218,\"by\":\"현하루\",\"at\":1792846652729},{\"id\":\"f155a81e-65b4-44aa-b14e-08a24a2d1916\",\"kind\":\"INVASION\",\"districtId\":\"11545\",\"clanId\":5,\"attacker\":5,\"defender\":1,\"by\":\"0수표\",\"at\":1792846649803},{\"id\":\"04c7f21c-7ffa-4481-9d74-3d7c5b9d4e45\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":1,\"squad\":\"attack5\",\"previousSquad\":\"attack5\",\"userId\":218,\"by\":\"현하루\",\"at\":1792846648152},{\"id\":\"c5ab6d98-8363-4f80-b653-2f0b2ec68b49\",\"kind\":\"CAPTAINS\",\"clanId\":6,\"by\":\"비쥬얼깡패\",\"at\":1792846647263},{\"id\":\"45d48e04-23dc-436e-8aed-f0e3477ca09b\",\"kind\":\"INVASION\",\"districtId\":\"11380\",\"clanId\":6,\"attacker\":6,\"defender\":5,\"by\":\"햬카세\",\"at\":1792846642794},{\"id\":\"f08e90f7-faf0-4133-a1ce-2169a93c4898\",\"kind\":\"INVASION\",\"districtId\":\"11410\",\"clanId\":6,\"attacker\":6,\"defender\":5,\"by\":\"Moo날두\",\"at\":1792846625594},{\"id\":\"fff1beb9-5901-401d-9534-a1b21b01215a\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":5,\"squad\":\"attack4\",\"previousSquad\":\"attack4\",\"userId\":4389,\"by\":\"다르\",\"at\":1792846620287},{\"id\":\"24544415-da3f-416c-b98f-9e641699256b\",\"kind\":\"SQUAD_JOIN\",\"clanId\":1,\"squad\":\"attack5\",\"previousSquad\":\"\",\"userId\":218,\"by\":\"현하루\",\"at\":1792846619242},{\"id\":\"3cc1bcec-410b-495a-9842-4ba261053136\",\"kind\":\"CAPTAINS\",\"clanId\":6,\"by\":\"비쥬얼깡패\",\"at\":1792846610099},{\"id\":\"a4d31ded-c03c-41b1-bc6a-36b1fc4e5e62\",\"kind\":\"INVASION\",\"districtId\":\"11320\",\"clanId\":2,\"attacker\":2,\"defender\":5,\"by\":\"지아영\",\"at\":1792846598791},{\"id\":\"end:aa3351da-b432-4967-8924-1d1d889ed4ee\",\"kind\":\"DEFENDED\",\"districtId\":\"11380\",\"clanId\":5,\"attacker\":2,\"defender\":5,\"at\":1792846591229},{\"id\":\"end:b6ce0436-c464-47dd-82b2-7b050cf71f3f\",\"kind\":\"CAPTURE\",\"districtId\":\"11680\",\"clanId\":5,\"attacker\":5,\"defender\":4,\"at\":1792846567912},{\"id\":\"end:4dc91583-968e-4b4d-b886-c21eb8bffb62\",\"kind\":\"CAPTURE\",\"districtId\":\"11740\",\"clanId\":6,\"attacker\":6,\"defender\":1,\"at\":1792846551702},{\"id\":\"cb8527eb-d33d-4ed8-b393-7c76c80b9768\",\"kind\":\"SQUAD_JOIN\",\"clanId\":5,\"squad\":\"attack5\",\"previousSquad\":\"\",\"userId\":85,\"by\":\"카르푸\",\"at\":1792846547802},{\"id\":\"5a423753-df11-4b5d-9105-fae0c9ceeec4\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":5,\"squad\":\"attack5\",\"previousSquad\":\"attack5\",\"userId\":3674,\"by\":\"연보라\",\"at\":1792846535523},{\"id\":\"end:3220d5ad-0421-4efc-a82f-ac9e2726bd90\",\"kind\":\"CAPTURE\",\"districtId\":\"11290\",\"clanId\":5,\"attacker\":5,\"defender\":1,\"at\":1792846399665},{\"id\":\"end:f3d3b6a1-c9ea-4ecc-8647-640c9d2ac511\",\"kind\":\"CAPTURE\",\"districtId\":\"11230\",\"clanId\":4,\"attacker\":4,\"defender\":2,\"at\":1792846386855},{\"id\":\"ac1a11c4-c2df-4b4f-b0f8-8f864df5762e\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":1,\"squad\":\"attack4\",\"previousSquad\":\"attack4\",\"userId\":218,\"by\":\"현하루\",\"at\":1792846301199},{\"id\":\"76c1264e-41f9-437f-bc64-ff4c621bea72\",\"kind\":\"INVASION\",\"districtId\":\"11140\",\"clanId\":2,\"attacker\":2,\"defender\":6,\"by\":\"씨나인택갓\",\"at\":1792846293296},{\"id\":\"end:7ec5fe5a-a0f3-4865-b754-8f826db178ec\",\"kind\":\"CAPTURE\",\"districtId\":\"11440\",\"clanId\":1,\"attacker\":1,\"defender\":3,\"at\":1792846285549},{\"id\":\"end:af2b593f-35a7-4e8b-b3e7-ae81b866a7dd\",\"kind\":\"CAPTURE\",\"districtId\":\"11530\",\"clanId\":4,\"attacker\":4,\"defender\":2,\"at\":1792846249146},{\"id\":\"end:e766e4ee-5e9c-4014-b6d0-e2a4e589768f\",\"kind\":\"CAPTURE\",\"districtId\":\"11350\",\"clanId\":2,\"attacker\":2,\"defender\":1,\"at\":1792846244873},{\"id\":\"baf1d49b-0204-477b-8a66-961709e60da6\",\"kind\":\"SQUAD_JOIN\",\"clanId\":1,\"squad\":\"attack5\",\"previousSquad\":\"\",\"userId\":2333,\"by\":\"구와함\",\"at\":1792846221662},{\"id\":\"be67440b-c1d4-43b7-8269-908ebe3f399a\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":1,\"squad\":\"attack5\",\"previousSquad\":\"attack5\",\"userId\":2333,\"by\":\"구와함\",\"at\":1792846198801},{\"id\":\"4dc91583-968e-4b4d-b886-c21eb8bffb62\",\"kind\":\"INVASION\",\"districtId\":\"11740\",\"clanId\":6,\"attacker\":6,\"defender\":1,\"by\":\"비쥬얼깡패\",\"at\":1792846162977},{\"id\":\"1874035c-9f2a-499e-b757-49d21998f621\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":1,\"squad\":\"attack5\",\"previousSquad\":\"attack5\",\"userId\":525,\"by\":\"족구조아\",\"at\":1792846145200},{\"id\":\"bfc04368-fb2e-4f2b-aab6-80d0eb4fbd0d\",\"kind\":\"SQUAD_JOIN\",\"clanId\":5,\"squad\":\"attack4\",\"previousSquad\":\"\",\"userId\":4614,\"by\":\"공단\",\"at\":1792846116169},{\"id\":\"aa3351da-b432-4967-8924-1d1d889ed4ee\",\"kind\":\"INVASION\",\"districtId\":\"11380\",\"clanId\":2,\"attacker\":2,\"defender\":5,\"by\":\"씨나인택갓\",\"at\":1792846096699},{\"id\":\"end:81ffd849-40a5-42c6-8531-2198709951cb\",\"kind\":\"DEFENDED\",\"districtId\":\"11740\",\"clanId\":1,\"attacker\":5,\"defender\":1,\"at\":1792846083618},{\"id\":\"0772f5ad-12f7-4a2a-9808-974058a31bbd\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":5,\"squad\":\"attack4\",\"previousSquad\":\"attack4\",\"userId\":4614,\"by\":\"공단\",\"at\":1792846073064},{\"id\":\"03bc34e6-8072-4ec4-bec6-412eb1ab7ce4\",\"kind\":\"FORMATION\",\"clanId\":6,\"by\":\"비쥬얼깡패\",\"at\":1792846067229},{\"id\":\"e766e4ee-5e9c-4014-b6d0-e2a4e589768f\",\"kind\":\"INVASION\",\"districtId\":\"11350\",\"clanId\":2,\"attacker\":2,\"defender\":1,\"by\":\"씨나인택갓\",\"at\":1792846049810},{\"id\":\"3220d5ad-0421-4efc-a82f-ac9e2726bd90\",\"kind\":\"INVASION\",\"districtId\":\"11290\",\"clanId\":5,\"attacker\":5,\"defender\":1,\"by\":\"학벌\",\"at\":1792846024147},{\"id\":\"end:880bee8f-89fc-4068-a8b9-300e31100cd2\",\"kind\":\"CAPTURE\",\"districtId\":\"11200\",\"clanId\":6,\"attacker\":6,\"defender\":5,\"at\":1792846009177},{\"id\":\"end:723be1a2-1eaf-4b31-8e17-86816aa031e6\",\"kind\":\"CAPTURE\",\"districtId\":\"11260\",\"clanId\":1,\"attacker\":1,\"defender\":5,\"at\":1792846008769},{\"id\":\"a5703187-8f3f-4f23-a033-563b96f0b491\",\"kind\":\"FORMATION\",\"clanId\":6,\"by\":\"비쥬얼깡패\",\"at\":1792845989345},{\"id\":\"f3d3b6a1-c9ea-4ecc-8647-640c9d2ac511\",\"kind\":\"INVASION\",\"districtId\":\"11230\",\"clanId\":4,\"attacker\":4,\"defender\":2,\"by\":\"˚쟁이。\",\"at\":1792845971905},{\"id\":\"949e633e-8426-451b-b722-d75729b1cc85\",\"kind\":\"CAPTAINS\",\"clanId\":6,\"by\":\"비쥬얼깡패\",\"at\":1792845931947},{\"id\":\"77e3e4ff-c8c7-44de-ae6c-d547be3fa178\",\"kind\":\"SQUAD_JOIN\",\"clanId\":5,\"squad\":\"attack4\",\"previousSquad\":\"\",\"userId\":4614,\"by\":\"공단\",\"at\":1792845914942},{\"id\":\"end:3e643618-1a0a-437a-8160-8f712c9f04b3\",\"kind\":\"CAPTURE\",\"districtId\":\"11215\",\"clanId\":6,\"attacker\":6,\"defender\":2,\"at\":1792845887469},{\"id\":\"0ef6d4b6-8dca-4d91-8373-4534d7281399\",\"kind\":\"CAPTAINS\",\"clanId\":6,\"by\":\"비쥬얼깡패\",\"at\":1792845880456},{\"id\":\"3950e5ea-79a5-41bd-a7ba-51617e77e68f\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":5,\"squad\":\"attack4\",\"previousSquad\":\"attack4\",\"userId\":4570,\"by\":\"혜정\",\"at\":1792845849053},{\"id\":\"end:5c5459f3-5c39-4df4-917e-118e4d9bd769\",\"kind\":\"CAPTURE\",\"districtId\":\"11710\",\"clanId\":5,\"attacker\":5,\"defender\":2,\"at\":1792845833954},{\"id\":\"af2b593f-35a7-4e8b-b3e7-ae81b866a7dd\",\"kind\":\"INVASION\",\"districtId\":\"11530\",\"clanId\":4,\"attacker\":4,\"defender\":2,\"by\":\"Veil\",\"at\":1792845810546},{\"id\":\"cebd48c1-9ab5-4e67-8a9b-9f9935c5f04e\",\"kind\":\"CAPTAINS\",\"clanId\":6,\"by\":\"비쥬얼깡패\",\"at\":1792845798294},{\"id\":\"end:7e85642c-b564-44af-8ada-55cbb689508c\",\"kind\":\"CAPTURE\",\"districtId\":\"11650\",\"clanId\":6,\"attacker\":6,\"defender\":1,\"at\":1792845731987},{\"id\":\"81ffd849-40a5-42c6-8531-2198709951cb\",\"kind\":\"INVASION\",\"districtId\":\"11740\",\"clanId\":5,\"attacker\":5,\"defender\":1,\"by\":\"의지\",\"at\":1792845692739},{\"id\":\"end:f02d5191-629b-4caf-9049-f19f2c966153\",\"kind\":\"CAPTURE\",\"districtId\":\"11305\",\"clanId\":2,\"attacker\":2,\"defender\":1,\"at\":1792845687730},{\"id\":\"912b4d20-d59d-4ab6-800d-5c302d5cb0fe\",\"kind\":\"SQUAD_JOIN\",\"clanId\":3,\"squad\":\"attack4\",\"previousSquad\":\"\",\"userId\":4772,\"by\":\"펜타\",\"at\":1792845551846},{\"id\":\"ebc4b28c-635c-4e0f-8579-189258a62d99\",\"kind\":\"SQUAD_LEAVE\",\"clanId\":3,\"squad\":\"attack4\",\"previousSquad\":\"attack4\",\"userId\":4772,\"by\":\"펜타\",\"at\":1792845549776},{\"id\":\"end:339c449e-10b4-426c-89d7-63896faa11e1\",\"kind\":\"CAPTURE\",\"districtId\":\"11170\",\"clanId\":1,\"attacker\":1,\"defender\":5,\"at\":1792845529140},{\"id\":\"5c5459f3-5c39-4df4-917e-118e4d9bd769\",\"kind\":\"INVASION\",\"districtId\":\"11710\",\"clanId\":5,\"attacker\":5,\"defender\":2,\"by\":\"다르\",\"at\":1792845513013},{\"id\":\"7ec5fe5a-a0f3-4865-b754-8f826db178ec\",\"kind\":\"INVASION\",\"districtId\":\"11440\",\"clanId\":1,\"attacker\":1,\"defender\":3,\"by\":\"대지\",\"at\":1792845500657},{\"id\":\"end:417dcf9b-f406-4d97-b780-92cdaca6db39\",\"kind\":\"CAPTURE\",\"districtId\":\"11500\",\"clanId\":2,\"attacker\":2,\"defender\":5,\"at\":1792845495142},{\"id\":\"0c6f7722-71d6-4e5c-99bb-2122453b615e\",\"kind\":\"SQUAD_JOIN\",\"clanId\":1,\"squad\":\"attack5\",\"previousSquad\":\"attack1\",\"userId\":525,\"by\":\"족구조아\",\"at\":1792845494686},{\"id\":\"f7212d02-84c6-4fbb-a790-b5e0a9e0b83c\",\"kind\":\"FORMATION\",\"clanId\":3,\"by\":\"랭비!\",\"at\":1792845492375}],\"pools\":{},\"squadReady\":{\"5:attack1\":1792847400000,\"5:attack2\":1792846999665,\"5:attack3\":1792845999457,\"2:attack1\":1792846844873,\"1:attack1\":1792846048342,\"5:attack4\":1792847167912,\"4:attack1\":1792623604001,\"2:attack2\":1792847191229,\"5:attack5\":1792847400000,\"2:attack3\":1792847400000,\"1:attack2\":1792847400000,\"2:attack5\":1792719926661,\"4:attack4\":1792846986855,\"2:attack4\":1792847400000,\"1:attack3\":1792846608769,\"4:attack3\":1792722074036,\"1:attack5\":1792847400000,\"4:attack5\":1792846849146,\"1:attack4\":1792846885549,\"3:attack2\":1792726320000,\"4:attack2\":1792726320000,\"3:attack5\":1792724814679,\"3:attack3\":1792712127358,\"3:attack4\":1792627307909,\"3:attack1\":1792710131745,\"6:attack2\":1792724149709,\"6:attack1\":1792847151702,\"6:attack3\":1792846609177,\"6:attack4\":1792847400000,\"6:attack5\":1792847400000},\"targetReady\":{\"5:11560\":1792724766262,\"5:11500\":1792710961874,\"5:11470\":1792720880528,\"2:11740\":1792594130656,\"1:11290\":1792724735110,\"5:11530\":1792720210985,\"4:11650\":1792718888745,\"2:11710\":1792726464402,\"5:11440\":1792718300441,\"2:11680\":1792587984693,\"1:11350\":1792726543310,\"2:11215\":1792724878547,\"4:11620\":1792719631580,\"2:11260\":1792720668703,\"1:11230\":1792717138301,\"4:11545\":1792716244100,\"1:11305\":1792720520916,\"4:11170\":1792595340000,\"1:11320\":1792726620000,\"3:11590\":1792623090267,\"4:11200\":1792621497409,\"3:11110\":1792626457208,\"3:11410\":1792589161624,\"3:11380\":1792601269621,\"3:11140\":1792627646715,\"5:11620\":1792726408615,\"3:11545\":1792726620000,\"5:11170\":1792726595771,\"2:11200\":1792593975647,\"3:11650\":1792623132122,\"2:11320\":1792847700000,\"4:11305\":1792725578652,\"4:11215\":1792611238788,\"1:11260\":1792846908769,\"2:11440\":1792722188567,\"4:11380\":1792725606020,\"4:11740\":1792620018958,\"4:11710\":1792716210548,\"2:11500\":1792846395142,\"1:11590\":1792726082003,\"4:11530\":1792847149146,\"5:11545\":1792847700000,\"1:11410\":1792726516391,\"5:11650\":1792720099932,\"4:11290\":1792587505809,\"5:11305\":1792719318135,\"5:11215\":1792712580000,\"1:11170\":1792846429140,\"5:11680\":1792847467912,\"2:11560\":1792726497754,\"1:11380\":1792708099425,\"2:11230\":1792725654060,\"1:11110\":1792725940266,\"5:11740\":1792846983618,\"4:11260\":1792610224067,\"2:11620\":1792630440000,\"1:11530\":1792708181538,\"1:11545\":1792846348342,\"2:11590\":1792846330541,\"2:11650\":1792726620000,\"1:11560\":1792847700000,\"3:11500\":1792707531964,\"2:11140\":1792847700000,\"2:11350\":1792847144873,\"1:11710\":1792723463699,\"5:11320\":1792846297513,\"3:11350\":1792627003424,\"4:11680\":1792846267415,\"5:11230\":1792724090160,\"2:11470\":1792846337334,\"2:11380\":1792847491229,\"3:11260\":1792710471785,\"4:11440\":1792609607155,\"5:11410\":1792846299457,\"1:11620\":1792846305040,\"3:11305\":1792630403364,\"2:11110\":1792724055920,\"4:11320\":1792722374036,\"6:11215\":1792846787469,\"5:11290\":1792847299665,\"4:11350\":1792712580000,\"3:11440\":1792725114679,\"2:11410\":1792722796212,\"6:11260\":1792608050964,\"5:11140\":1792626292586,\"2:11530\":1792725709159,\"5:11380\":1792718655038,\"6:11620\":1792715904771,\"6:11680\":1792715998833,\"2:11290\":1792718304082,\"4:11500\":1792726620000,\"4:11590\":1792722925476,\"3:11320\":1792592461070,\"2:11170\":1792724559964,\"4:11140\":1792718628857,\"5:11260\":1792722925099,\"6:11440\":1792628690230,\"6:11530\":1792607325733,\"2:11305\":1792846587730,\"3:11230\":1792705344151,\"6:11350\":1792630440000,\"3:11740\":1792712427358,\"3:11710\":1792702406092,\"6:11290\":1792629463615,\"5:11110\":1792846291337,\"2:11545\":1792722622114,\"3:11530\":1792626866194,\"1:11440\":1792847185549,\"3:11470\":1792622934731,\"1:11650\":1792724046886,\"5:11200\":1792726172657,\"3:11620\":1792710431745,\"3:11290\":1792710349380,\"5:11590\":1792847700000,\"4:11470\":1792719586770,\"1:11200\":1792724751001,\"4:11560\":1792583640000,\"5:11350\":1792725337568,\"1:11500\":1792847700000,\"4:11230\":1792847286855,\"4:11110\":1792594061179,\"5:11710\":1792846733954,\"3:11560\":1792723095181,\"1:11470\":1792725439378,\"1:11680\":1792721842583,\"6:11170\":1792626269237,\"4:11410\":1792623904001,\"3:11170\":1792623711514,\"3:11680\":1792723255048,\"6:11710\":1792606124833,\"6:11320\":1792594165504,\"6:11590\":1792627348116,\"6:11740\":1792847451702,\"6:11200\":1792846909177,\"6:11650\":1792846631987,\"6:11140\":1792628847536,\"6:11230\":1792611420000,\"6:11410\":1792847700000,\"6:11545\":1792628769858,\"6:11305\":1792608719500,\"1:11140\":1792625035736,\"6:11470\":1792630440000,\"6:11500\":1792629831814,\"1:11740\":1792709415633,\"6:11380\":1792847700000,\"1:11215\":1792709650183,\"6:11560\":1792626272869,\"3:11200\":1792703920772},\"strikeReady\":{\"3\":1792846847561,\"16\":1792593144078,\"19\":1792718948262,\"22\":1792846022914,\"25\":1792610543666,\"45\":1792609978893,\"52\":1792628462614,\"65\":1792602023340,\"76\":1792582527083,\"81\":1792846611702,\"85\":1792846810306,\"88\":1792846774776,\"148\":1792703069316,\"164\":1792578791537,\"197\":1792719105087,\"216\":1792593927233,\"218\":1792846836451,\"226\":1792846830167,\"233\":1792725755771,\"236\":1792591588785,\"289\":1792846838819,\"295\":1792593087391,\"303\":1792846244200,\"360\":1792846618207,\"521\":1792846599814,\"525\":1792725100266,\"660\":1792576494890,\"787\":1792581613290,\"792\":1792706691964,\"1195\":1792846304873,\"1255\":1792845910400,\"1545\":1792580558721,\"1768\":1792582568407,\"2246\":1792582523381,\"2333\":1792846844104,\"2420\":1792846818973,\"3011\":1792591621070,\"3674\":1792845897733,\"3867\":1792725676391,\"3884\":1792621266395,\"3974\":1792846815652,\"4010\":1792846814836,\"4111\":1792721934599,\"4199\":1792719798445,\"4209\":1792579573894,\"4222\":1792579243506,\"4389\":1792845893954,\"4391\":1792846608076,\"4408\":1792845659037,\"4415\":1792846813391,\"4479\":1792846303405,\"4501\":1792574619724,\"4540\":1792846669430,\"4562\":1792607853958,\"4570\":1792845841811,\"4572\":1792846413141,\"4582\":1792725622433,\"4595\":1792609355888,\"4597\":1792724314956,\"4598\":1792582204597,\"4610\":1792846759820,\"4614\":1792610211675,\"4615\":1792711470990,\"4625\":1792846810966,\"4627\":1792846459665,\"4628\":1792610306263,\"4629\":1792846309146,\"4641\":1792846094808,\"4651\":1792724274679,\"4693\":1792601969454,\"4705\":1792846446855,\"4754\":1792582041402,\"4757\":1792579627890,\"4760\":1792846854185,\"4772\":1792582198985,\"4817\":1792845791987,\"4836\":1792582550386,\"4866\":1792629572553,\"4910\":1792578781678,\"4933\":1792593292498,\"4965\":1792601705836,\"4981\":1792708672815,\"5008\":1792846245951,\"5426\":1792609253962,\"5504\":1792629405417,\"5514\":1792846381758,\"5529\":1792845598483,\"5598\":1792719437655,\"5877\":1792604314883,\"5958\":1792574741344},\"taxDisabledAt\":1792166776352,\"commanders\":{\"1\":4582,\"2\":1195,\"3\":4965,\"4\":65,\"5\":88,\"6\":25},\"sessionQueue\":[],\"organizationVersion\":2,\"sessionDay\":\"2026-10-25\",\"sessionPlan\":[{\"key\":\"2026-10-25:fixed-20\",\"dayKey\":\"2026-10-25\",\"ordinal\":1,\"startsAt\":1792926000000,\"endsAt\":1792933200000,\"scheduleVersion\":\"20261023-fixed-evenings\",\"status\":\"SCHEDULED\"}],\"session\":{\"key\":\"2026-10-24:fixed-20\",\"dayKey\":\"2026-10-24\",\"ordinal\":1,\"startsAt\":1792839600000,\"endsAt\":1792846800000,\"scheduleVersion\":\"20261023-fixed-evenings\",\"status\":\"SETTLED\",\"participants\":[5514,88,4582,4415,4817,1195,525,3974,2420,4625,4540,4479,4389,226,5529,4610,289,4408,4641,4391,3674,1255,4570,4629,22,4705,218,81,4627,4572,5008,303,521,360,3,4760,4614,4010,85,2333],\"participantClans\":{\"3\":5,\"22\":4,\"81\":6,\"85\":5,\"88\":5,\"218\":1,\"226\":6,\"289\":6,\"303\":2,\"360\":2,\"521\":2,\"525\":1,\"1195\":2,\"1255\":1,\"2333\":1,\"2420\":2,\"3674\":5,\"3974\":2,\"4010\":2,\"4389\":5,\"4391\":1,\"4408\":1,\"4415\":6,\"4479\":1,\"4540\":2,\"4570\":5,\"4572\":1,\"4582\":1,\"4610\":2,\"4614\":5,\"4625\":2,\"4627\":5,\"4629\":4,\"4641\":5,\"4705\":4,\"4760\":2,\"4817\":6,\"5008\":1,\"5514\":4,\"5529\":2},\"fundsPerRegion\":1000000,\"rewardRules\":{\"version\":\"20261023-fixed-evenings\",\"timeZone\":\"Asia/Seoul\",\"dailyCount\":1,\"durationMs\":7200000,\"requiredTerritories\":8,\"coinPerRecipient\":300000000000,\"masterStarsPerRecipient\":300000,\"mysticEnergyPerRecipient\":300,\"pigCoinReward\":{\"enabled\":true,\"requiredTerritories\":8,\"amount\":200}},\"hardEndsAt\":1792846800000,\"pauses\":[{\"startsAt\":1792839600000,\"endsAt\":1792845322000,\"territoryRoundIds\":[83]}],\"pausedTotalMs\":5722000,\"lastResumedAt\":1792845322000,\"closedAt\":1792846800000,\"reason\":\"SESSION_END\",\"holdings\":{\"1\":5,\"2\":6,\"4\":2,\"5\":7,\"6\":5},\"recipients\":[],\"districts\":[{\"id\":\"11110\",\"owner\":5},{\"id\":\"11140\",\"owner\":6},{\"id\":\"11170\",\"owner\":1},{\"id\":\"11200\",\"owner\":6},{\"id\":\"11215\",\"owner\":6},{\"id\":\"11230\",\"owner\":4},{\"id\":\"11260\",\"owner\":1},{\"id\":\"11290\",\"owner\":5},{\"id\":\"11305\",\"owner\":2},{\"id\":\"11320\",\"owner\":5},{\"id\":\"11350\",\"owner\":2},{\"id\":\"11380\",\"owner\":5},{\"id\":\"11410\",\"owner\":5},{\"id\":\"11440\",\"owner\":1},{\"id\":\"11470\",\"owner\":2},{\"id\":\"11500\",\"owner\":2},{\"id\":\"11530\",\"owner\":4},{\"id\":\"11545\",\"owner\":1},{\"id\":\"11560\",\"owner\":2},{\"id\":\"11590\",\"owner\":2},{\"id\":\"11620\",\"owner\":1},{\"id\":\"11650\",\"owner\":6},{\"id\":\"11680\",\"owner\":5},{\"id\":\"11710\",\"owner\":5},{\"id\":\"11740\",\"owner\":6}],\"recipientPolicy\":\"PARTICIPANTS\",\"rewardVersion\":\"20261023-fixed-evenings\"},\"sessionHistory\":[{\"key\":\"2026-10-24:fixed-20\",\"dayKey\":\"2026-10-24\",\"ordinal\":1,\"startsAt\":1792839600000,\"endsAt\":1792846800000,\"scheduleVersion\":\"20261023-fixed-evenings\",\"status\":\"SETTLED\",\"participants\":[5514,88,4582,4415,4817,1195,525,3974,2420,4625,4540,4479,4389,226,5529,4610,289,4408,4641,4391,3674,1255,4570,4629,22,4705,218,81,4627,4572,5008,303,521,360,3,4760,4614,4010,85,2333],\"participantClans\":{\"3\":5,\"22\":4,\"81\":6,\"85\":5,\"88\":5,\"218\":1,\"226\":6,\"289\":6,\"303\":2,\"360\":2,\"521\":2,\"525\":1,\"1195\":2,\"1255\":1,\"2333\":1,\"2420\":2,\"3674\":5,\"3974\":2,\"4010\":2,\"4389\":5,\"4391\":1,\"4408\":1,\"4415\":6,\"4479\":1,\"4540\":2,\"4570\":5,\"4572\":1,\"4582\":1,\"4610\":2,\"4614\":5,\"4625\":2,\"4627\":5,\"4629\":4,\"4641\":5,\"4705\":4,\"4760\":2,\"4817\":6,\"5008\":1,\"5514\":4,\"5529\":2},\"fundsPerRegion\":1000000,\"rewardRules\":{\"version\":\"20261023-fixed-evenings\",\"timeZone\":\"Asia/Seoul\",\"dailyCount\":1,\"durationMs\":7200000,\"requiredTerritories\":8,\"coinPerRecipient\":300000000000,\"masterStarsPerRecipient\":300000,\"mysticEnergyPerRecipient\":300,\"pigCoinReward\":{\"enabled\":true,\"requiredTerritories\":8,\"amount\":200}},\"hardEndsAt\":1792846800000,\"pauses\":[{\"startsAt\":1792839600000,\"endsAt\":1792845322000,\"territoryRoundIds\":[83]}],\"pausedTotalMs\":5722000,\"lastResumedAt\":1792845322000,\"closedAt\":1792846800000,\"reason\":\"SESSION_END\",\"holdings\":{\"1\":5,\"2\":6,\"4\":2,\"5\":7,\"6\":5},\"recipients\":[],\"districts\":[{\"id\":\"11110\",\"owner\":5},{\"id\":\"11140\",\"owner\":6},{\"id\":\"11170\",\"owner\":1},{\"id\":\"11200\",\"owner\":6},{\"id\":\"11215\",\"owner\":6},{\"id\":\"11230\",\"owner\":4},{\"id\":\"11260\",\"owner\":1},{\"id\":\"11290\",\"owner\":5},{\"id\":\"11305\",\"owner\":2},{\"id\":\"11320\",\"owner\":5},{\"id\":\"11350\",\"owner\":2},{\"id\":\"11380\",\"owner\":5},{\"id\":\"11410\",\"owner\":5},{\"id\":\"11440\",\"owner\":1},{\"id\":\"11470\",\"owner\":2},{\"id\":\"11500\",\"owner\":2},{\"id\":\"11530\",\"owner\":4},{\"id\":\"11545\",\"owner\":1},{\"id\":\"11560\",\"owner\":2},{\"id\":\"11590\",\"owner\":2},{\"id\":\"11620\",\"owner\":1},{\"id\":\"11650\",\"owner\":6},{\"id\":\"11680\",\"owner\":5},{\"id\":\"11710\",\"owner\":5},{\"id\":\"11740\",\"owner\":6}],\"recipientPolicy\":\"PARTICIPANTS\",\"rewardVersion\":\"20261023-fixed-evenings\"},{\"key\":\"2026-10-23:2\",\"dayKey\":\"2026-10-23\",\"ordinal\":2,\"startsAt\":1792714920000,\"endsAt\":1792725720000,\"status\":\"SETTLED\",\"participants\":[88,4866,5598,1195,4705,4582,4479,4408,4389,19,197,4570,233,4199,521,4625,4111,5514,4391,218,4760,4628,4610,4597,303,3674,4651,22,3867,3,525,4641],\"participantClans\":{\"3\":5,\"19\":2,\"22\":4,\"88\":5,\"197\":1,\"218\":1,\"233\":5,\"303\":2,\"521\":2,\"525\":1,\"1195\":2,\"3674\":5,\"3867\":1,\"4111\":5,\"4199\":4,\"4389\":5,\"4391\":1,\"4408\":1,\"4479\":1,\"4570\":5,\"4582\":1,\"4597\":3,\"4610\":2,\"4625\":2,\"4628\":4,\"4641\":5,\"4651\":3,\"4705\":4,\"4760\":2,\"4866\":6,\"5514\":4,\"5598\":6},\"fundsPerRegion\":1000000,\"rewardRules\":{\"version\":\"20261021-seoul-eight\",\"timeZone\":\"Asia/Seoul\",\"dailyCount\":2,\"durationMs\":10800000,\"requiredTerritories\":8,\"coinPerRecipient\":300000000000,\"masterStarsPerRecipient\":300000,\"mysticEnergyPerRecipient\":300},\"closedAt\":1792725720000,\"reason\":\"SESSION_END\",\"holdings\":{\"1\":9,\"2\":7,\"3\":1,\"5\":7,\"6\":1},\"recipients\":[{\"userId\":197,\"clanId\":1,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":218,\"clanId\":1,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":525,\"clanId\":1,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":3867,\"clanId\":1,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4391,\"clanId\":1,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4408,\"clanId\":1,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4479,\"clanId\":1,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4582,\"clanId\":1,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300}],\"districts\":[{\"id\":\"11110\",\"owner\":1},{\"id\":\"11140\",\"owner\":6},{\"id\":\"11170\",\"owner\":5},{\"id\":\"11200\",\"owner\":5},{\"id\":\"11215\",\"owner\":2},{\"id\":\"11230\",\"owner\":2},{\"id\":\"11260\",\"owner\":5},{\"id\":\"11290\",\"owner\":1},{\"id\":\"11305\",\"owner\":1},{\"id\":\"11320\",\"owner\":2},{\"id\":\"11350\",\"owner\":1},{\"id\":\"11380\",\"owner\":5},{\"id\":\"11410\",\"owner\":1},{\"id\":\"11440\",\"owner\":3},{\"id\":\"11470\",\"owner\":1},{\"id\":\"11500\",\"owner\":5},{\"id\":\"11530\",\"owner\":2},{\"id\":\"11545\",\"owner\":2},{\"id\":\"11560\",\"owner\":2},{\"id\":\"11590\",\"owner\":1},{\"id\":\"11620\",\"owner\":5},{\"id\":\"11650\",\"owner\":1},{\"id\":\"11680\",\"owner\":5},{\"id\":\"11710\",\"owner\":2},{\"id\":\"11740\",\"owner\":1}],\"recipientPolicy\":\"PARTICIPANTS\",\"rewardVersion\":\"20261021-seoul-eight\"},{\"key\":\"2026-10-23:1\",\"dayKey\":\"2026-10-23\",\"ordinal\":1,\"startsAt\":1792700880000,\"endsAt\":1792711680000,\"status\":\"SETTLED\",\"participants\":[88,1195,218,792,85,4582,148,4981,4610,2333,4572,4389,525,4615,4479,4570,4705],\"participantClans\":{\"85\":5,\"88\":5,\"148\":5,\"218\":1,\"525\":1,\"792\":3,\"1195\":2,\"2333\":1,\"4389\":5,\"4479\":1,\"4570\":5,\"4572\":1,\"4582\":1,\"4610\":2,\"4615\":3,\"4705\":4,\"4981\":5},\"fundsPerRegion\":1000000,\"rewardRules\":{\"version\":\"20261021-seoul-eight\",\"timeZone\":\"Asia/Seoul\",\"dailyCount\":2,\"durationMs\":10800000,\"requiredTerritories\":8,\"coinPerRecipient\":300000000000,\"masterStarsPerRecipient\":300000,\"mysticEnergyPerRecipient\":300},\"closedAt\":1792711680000,\"reason\":\"SESSION_END\",\"holdings\":{\"1\":13,\"2\":1,\"4\":1,\"5\":9,\"6\":1},\"recipients\":[{\"userId\":218,\"clanId\":1,\"territories\":13,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":525,\"clanId\":1,\"territories\":13,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":2333,\"clanId\":1,\"territories\":13,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4479,\"clanId\":1,\"territories\":13,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4572,\"clanId\":1,\"territories\":13,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4582,\"clanId\":1,\"territories\":13,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":85,\"clanId\":5,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":88,\"clanId\":5,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":148,\"clanId\":5,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4389,\"clanId\":5,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4570,\"clanId\":5,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4981,\"clanId\":5,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300}],\"districts\":[{\"id\":\"11110\",\"owner\":4},{\"id\":\"11140\",\"owner\":6},{\"id\":\"11170\",\"owner\":5},{\"id\":\"11200\",\"owner\":5},{\"id\":\"11215\",\"owner\":1},{\"id\":\"11230\",\"owner\":1},{\"id\":\"11260\",\"owner\":1},{\"id\":\"11290\",\"owner\":1},{\"id\":\"11305\",\"owner\":5},{\"id\":\"11320\",\"owner\":1},{\"id\":\"11350\",\"owner\":5},{\"id\":\"11380\",\"owner\":1},{\"id\":\"11410\",\"owner\":5},{\"id\":\"11440\",\"owner\":1},{\"id\":\"11470\",\"owner\":1},{\"id\":\"11500\",\"owner\":5},{\"id\":\"11530\",\"owner\":1},{\"id\":\"11545\",\"owner\":1},{\"id\":\"11560\",\"owner\":2},{\"id\":\"11590\",\"owner\":5},{\"id\":\"11620\",\"owner\":1},{\"id\":\"11650\",\"owner\":5},{\"id\":\"11680\",\"owner\":5},{\"id\":\"11710\",\"owner\":1},{\"id\":\"11740\",\"owner\":1}],\"recipientPolicy\":\"PARTICIPANTS\",\"rewardVersion\":\"20261021-seoul-eight\"},{\"key\":\"2026-10-22:2\",\"dayKey\":\"2026-10-22\",\"ordinal\":2,\"startsAt\":1792618740000,\"endsAt\":1792629540000,\"status\":\"SETTLED\",\"participants\":[4582,3884,88,4628,52,525,4479,4562,25,4866,4615,4572,3,5504],\"participantClans\":{\"3\":5,\"25\":6,\"52\":3,\"88\":5,\"525\":1,\"3884\":4,\"4479\":1,\"4562\":6,\"4572\":1,\"4582\":1,\"4615\":3,\"4628\":4,\"4866\":6,\"5504\":2},\"fundsPerRegion\":1000000,\"rewardRules\":{\"version\":\"20261021-seoul-eight\",\"timeZone\":\"Asia/Seoul\",\"dailyCount\":2,\"durationMs\":10800000,\"requiredTerritories\":8,\"coinPerRecipient\":300000000000,\"masterStarsPerRecipient\":300000,\"mysticEnergyPerRecipient\":300},\"closedAt\":1792629540000,\"reason\":\"SESSION_END\",\"holdings\":{\"1\":8,\"3\":1,\"4\":1,\"5\":7,\"6\":8},\"recipients\":[{\"userId\":525,\"clanId\":1,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4479,\"clanId\":1,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4572,\"clanId\":1,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4582,\"clanId\":1,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":25,\"clanId\":6,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4562,\"clanId\":6,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4866,\"clanId\":6,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300}],\"districts\":[{\"id\":\"11110\",\"owner\":4},{\"id\":\"11140\",\"owner\":6},{\"id\":\"11170\",\"owner\":5},{\"id\":\"11200\",\"owner\":1},{\"id\":\"11215\",\"owner\":1},{\"id\":\"11230\",\"owner\":1},{\"id\":\"11260\",\"owner\":5},{\"id\":\"11290\",\"owner\":6},{\"id\":\"11305\",\"owner\":3},{\"id\":\"11320\",\"owner\":1},{\"id\":\"11350\",\"owner\":5},{\"id\":\"11380\",\"owner\":1},{\"id\":\"11410\",\"owner\":6},{\"id\":\"11440\",\"owner\":6},{\"id\":\"11470\",\"owner\":5},{\"id\":\"11500\",\"owner\":6},{\"id\":\"11530\",\"owner\":5},{\"id\":\"11545\",\"owner\":6},{\"id\":\"11560\",\"owner\":1},{\"id\":\"11590\",\"owner\":6},{\"id\":\"11620\",\"owner\":6},{\"id\":\"11650\",\"owner\":1},{\"id\":\"11680\",\"owner\":5},{\"id\":\"11710\",\"owner\":5},{\"id\":\"11740\",\"owner\":1}],\"recipientPolicy\":\"PARTICIPANTS\",\"rewardVersion\":\"20261021-seoul-eight\"},{\"key\":\"2026-10-22:1\",\"dayKey\":\"2026-10-22\",\"ordinal\":1,\"startsAt\":1792599720000,\"endsAt\":1792610520000,\"status\":\"SETTLED\",\"participants\":[303,1545,88,3884,216,25,4965,4625,4614,218,1195,4562,4570,5877,65,4693,2333,521,4908,226,3,45,4572,233,4595,4627,4628,5426,5504,4111],\"participantClans\":{\"3\":5,\"25\":6,\"45\":4,\"65\":4,\"88\":5,\"216\":4,\"218\":1,\"226\":6,\"233\":5,\"303\":2,\"521\":2,\"1195\":2,\"1545\":6,\"2333\":1,\"3884\":4,\"4111\":5,\"4562\":6,\"4570\":5,\"4572\":1,\"4595\":4,\"4614\":5,\"4625\":2,\"4627\":5,\"4628\":4,\"4693\":6,\"4908\":3,\"4965\":3,\"5426\":1,\"5504\":2,\"5877\":3},\"fundsPerRegion\":1000000,\"rewardRules\":{\"version\":\"20261021-seoul-eight\",\"timeZone\":\"Asia/Seoul\",\"dailyCount\":2,\"durationMs\":10800000,\"requiredTerritories\":8,\"coinPerRecipient\":300000000000,\"masterStarsPerRecipient\":300000,\"mysticEnergyPerRecipient\":300},\"closedAt\":1792610520000,\"reason\":\"SESSION_END\",\"holdings\":{\"1\":2,\"2\":7,\"4\":6,\"5\":6,\"6\":4},\"recipients\":[],\"districts\":[{\"id\":\"11110\",\"owner\":4},{\"id\":\"11140\",\"owner\":5},{\"id\":\"11170\",\"owner\":5},{\"id\":\"11200\",\"owner\":6},{\"id\":\"11215\",\"owner\":4},{\"id\":\"11230\",\"owner\":2},{\"id\":\"11260\",\"owner\":4},{\"id\":\"11290\",\"owner\":5},{\"id\":\"11305\",\"owner\":2},{\"id\":\"11320\",\"owner\":5},{\"id\":\"11350\",\"owner\":4},{\"id\":\"11380\",\"owner\":5},{\"id\":\"11410\",\"owner\":1},{\"id\":\"11440\",\"owner\":2},{\"id\":\"11470\",\"owner\":1},{\"id\":\"11500\",\"owner\":5},{\"id\":\"11530\",\"owner\":2},{\"id\":\"11545\",\"owner\":2},{\"id\":\"11560\",\"owner\":2},{\"id\":\"11590\",\"owner\":6},{\"id\":\"11620\",\"owner\":4},{\"id\":\"11650\",\"owner\":2},{\"id\":\"11680\",\"owner\":6},{\"id\":\"11710\",\"owner\":4},{\"id\":\"11740\",\"owner\":6}],\"recipientPolicy\":\"PARTICIPANTS\",\"rewardVersion\":\"20261021-seoul-eight\"},{\"key\":\"2026-10-21:2\",\"dayKey\":\"2026-10-21\",\"ordinal\":2,\"startsAt\":1792583640000,\"endsAt\":1792594440000,\"status\":\"SETTLED\",\"participants\":[295,4705,1195,65,88,4479,3884,521,4610,19,4628,4010,4627,4582,4615,303,4965,3011,5877,2246,52,4933,3,4570,2333,4598,4908,45,5008,4760,4625,4199,216,4629,236,4572,16,22,233,5504,3974,4614,4866,1768,525,4595],\"participantClans\":{\"3\":5,\"16\":4,\"19\":2,\"22\":4,\"45\":4,\"52\":3,\"65\":4,\"88\":5,\"216\":4,\"233\":5,\"236\":3,\"295\":3,\"303\":2,\"521\":2,\"525\":1,\"1195\":2,\"1768\":4,\"2246\":3,\"2333\":1,\"3011\":3,\"3884\":4,\"3974\":2,\"4010\":2,\"4199\":4,\"4479\":1,\"4570\":5,\"4572\":1,\"4582\":1,\"4595\":4,\"4598\":3,\"4610\":2,\"4614\":5,\"4615\":3,\"4625\":2,\"4627\":5,\"4628\":4,\"4629\":4,\"4705\":4,\"4760\":2,\"4866\":6,\"4908\":3,\"4933\":6,\"4965\":3,\"5008\":1,\"5504\":2,\"5877\":3},\"fundsPerRegion\":1000000,\"rewardRules\":{\"version\":\"20261021-seoul-eight\",\"timeZone\":\"Asia/Seoul\",\"dailyCount\":2,\"durationMs\":10800000,\"requiredTerritories\":8,\"coinPerRecipient\":300000000000,\"masterStarsPerRecipient\":300000,\"mysticEnergyPerRecipient\":300},\"closedAt\":1792594440000,\"reason\":\"SESSION_END\",\"holdings\":{\"1\":1,\"2\":4,\"3\":5,\"4\":6,\"5\":8,\"6\":1},\"recipients\":[{\"userId\":3,\"clanId\":5,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":88,\"clanId\":5,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":233,\"clanId\":5,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4570,\"clanId\":5,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4614,\"clanId\":5,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4627,\"clanId\":5,\"territories\":8,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300}],\"districts\":[{\"id\":\"11110\",\"owner\":4},{\"id\":\"11140\",\"owner\":3},{\"id\":\"11170\",\"owner\":5},{\"id\":\"11200\",\"owner\":5},{\"id\":\"11215\",\"owner\":2},{\"id\":\"11230\",\"owner\":5},{\"id\":\"11260\",\"owner\":2},{\"id\":\"11290\",\"owner\":5},{\"id\":\"11305\",\"owner\":4},{\"id\":\"11320\",\"owner\":3},{\"id\":\"11350\",\"owner\":3},{\"id\":\"11380\",\"owner\":4},{\"id\":\"11410\",\"owner\":4},{\"id\":\"11440\",\"owner\":3},{\"id\":\"11470\",\"owner\":5},{\"id\":\"11500\",\"owner\":1},{\"id\":\"11530\",\"owner\":4},{\"id\":\"11545\",\"owner\":2},{\"id\":\"11560\",\"owner\":3},{\"id\":\"11590\",\"owner\":5},{\"id\":\"11620\",\"owner\":2},{\"id\":\"11650\",\"owner\":5},{\"id\":\"11680\",\"owner\":5},{\"id\":\"11710\",\"owner\":6},{\"id\":\"11740\",\"owner\":4}],\"recipientPolicy\":\"PARTICIPANTS\",\"rewardVersion\":\"20261021-seoul-eight\"},{\"key\":\"2026-10-21:1\",\"dayKey\":\"2026-10-21\",\"ordinal\":1,\"startsAt\":1792571940000,\"endsAt\":1792582740000,\"status\":\"SETTLED\",\"participants\":[88,1195,4582,45,65,16,236,4615,4598,5877,4705,3884,52,4199,4651,4625,19,521,3974,525,4610,4629,4595,148,4391,4501,4754,4570,5958,4010,22,4628,5504,3,4479,4760,4572,4908,218,660,4597,2246,4111,233,4614,4627,360,4641,4981,4693,164,4910,1768,226,4757,85,4222,216,4415,295,792,4933,289,787,4209,1545,4965,4836,4866,3867,76,4772],\"participantClans\":{\"3\":5,\"16\":4,\"19\":2,\"22\":4,\"45\":4,\"52\":3,\"65\":4,\"76\":1,\"85\":5,\"88\":5,\"148\":5,\"164\":6,\"216\":4,\"218\":1,\"226\":6,\"233\":5,\"236\":3,\"289\":6,\"295\":3,\"360\":2,\"521\":2,\"525\":1,\"660\":5,\"787\":6,\"792\":3,\"1195\":2,\"1545\":6,\"1768\":4,\"2246\":3,\"3867\":1,\"3884\":4,\"3974\":2,\"4010\":2,\"4111\":5,\"4199\":4,\"4209\":1,\"4222\":4,\"4391\":1,\"4415\":6,\"4479\":1,\"4501\":5,\"4570\":5,\"4572\":1,\"4582\":1,\"4595\":4,\"4597\":3,\"4598\":3,\"4610\":2,\"4614\":5,\"4615\":3,\"4625\":2,\"4627\":5,\"4628\":4,\"4629\":4,\"4641\":5,\"4651\":3,\"4693\":6,\"4705\":4,\"4754\":1,\"4757\":6,\"4760\":2,\"4772\":3,\"4836\":4,\"4866\":6,\"4908\":3,\"4910\":6,\"4933\":6,\"4965\":3,\"4981\":5,\"5504\":2,\"5877\":3,\"5958\":2},\"fundsPerRegion\":1000000,\"rewardRules\":{\"version\":\"20261021-seoul-eight\",\"timeZone\":\"Asia/Seoul\",\"dailyCount\":2,\"durationMs\":10800000,\"requiredTerritories\":8,\"coinPerRecipient\":300000000000,\"masterStarsPerRecipient\":300000,\"mysticEnergyPerRecipient\":300},\"closedAt\":1792582740000,\"reason\":\"SESSION_END\",\"holdings\":{\"1\":2,\"2\":6,\"3\":6,\"4\":4,\"5\":7},\"recipients\":[],\"districts\":[{\"id\":\"11110\",\"owner\":1},{\"id\":\"11140\",\"owner\":5},{\"id\":\"11170\",\"owner\":5},{\"id\":\"11200\",\"owner\":5},{\"id\":\"11215\",\"owner\":5},{\"id\":\"11230\",\"owner\":3},{\"id\":\"11260\",\"owner\":5},{\"id\":\"11290\",\"owner\":3},{\"id\":\"11305\",\"owner\":4},{\"id\":\"11320\",\"owner\":5},{\"id\":\"11350\",\"owner\":3},{\"id\":\"11380\",\"owner\":1},{\"id\":\"11410\",\"owner\":2},{\"id\":\"11440\",\"owner\":4},{\"id\":\"11470\",\"owner\":4},{\"id\":\"11500\",\"owner\":2},{\"id\":\"11530\",\"owner\":2},{\"id\":\"11545\",\"owner\":3},{\"id\":\"11560\",\"owner\":2},{\"id\":\"11590\",\"owner\":5},{\"id\":\"11620\",\"owner\":3},{\"id\":\"11650\",\"owner\":3},{\"id\":\"11680\",\"owner\":2},{\"id\":\"11710\",\"owner\":4},{\"id\":\"11740\",\"owner\":2}],\"recipientPolicy\":\"PARTICIPANTS\",\"rewardVersion\":\"20261021-seoul-eight\"},{\"key\":\"2026-10-20:1\",\"dayKey\":\"2026-10-20\",\"ordinal\":1,\"startsAt\":1792441560000,\"endsAt\":1792452360000,\"status\":\"SETTLED\",\"participants\":[88,4572,4582,5504,233,2333,4693,4614,25,4910,4562,5773,4570,4647,3974,4415,4479,1195,525,4625,164],\"participantClans\":{\"25\":6,\"88\":5,\"164\":6,\"233\":5,\"525\":1,\"1195\":2,\"2333\":1,\"3974\":2,\"4415\":6,\"4479\":1,\"4562\":6,\"4570\":5,\"4572\":1,\"4582\":1,\"4614\":5,\"4625\":2,\"4647\":6,\"4693\":6,\"4910\":6,\"5504\":2,\"5773\":1},\"fundsPerRegion\":1000000,\"rewardRules\":{\"version\":\"20261019-six-organizations\",\"timeZone\":\"Asia/Seoul\",\"dailyCount\":2,\"durationMs\":10800000,\"requiredTerritories\":9,\"coinPerRecipient\":300000000000,\"masterStarsPerRecipient\":300000,\"mysticEnergyPerRecipient\":300},\"closedAt\":1792452360000,\"reason\":\"SESSION_END\",\"holdings\":{\"1\":12,\"2\":12,\"5\":13,\"6\":9},\"recipients\":[{\"userId\":525,\"clanId\":1,\"territories\":12,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":2333,\"clanId\":1,\"territories\":12,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4479,\"clanId\":1,\"territories\":12,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4572,\"clanId\":1,\"territories\":12,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4582,\"clanId\":1,\"territories\":12,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":5773,\"clanId\":1,\"territories\":12,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":1195,\"clanId\":2,\"territories\":12,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":3974,\"clanId\":2,\"territories\":12,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4625,\"clanId\":2,\"territories\":12,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":5504,\"clanId\":2,\"territories\":12,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":88,\"clanId\":5,\"territories\":13,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":233,\"clanId\":5,\"territories\":13,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4570,\"clanId\":5,\"territories\":13,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4614,\"clanId\":5,\"territories\":13,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":25,\"clanId\":6,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":164,\"clanId\":6,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4415,\"clanId\":6,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4562,\"clanId\":6,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4647,\"clanId\":6,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4693,\"clanId\":6,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300},{\"userId\":4910,\"clanId\":6,\"territories\":9,\"amount\":300000000000,\"masterStars\":300000,\"mysticEnergy\":300}],\"districts\":[{\"id\":\"11110\",\"owner\":1},{\"id\":\"11140\",\"owner\":1},{\"id\":\"11170\",\"owner\":5},{\"id\":\"11200\",\"owner\":2},{\"id\":\"11215\",\"owner\":5},{\"id\":\"11230\",\"owner\":1},{\"id\":\"11260\",\"owner\":5},{\"id\":\"11290\",\"owner\":5},{\"id\":\"11305\",\"owner\":5},{\"id\":\"11320\",\"owner\":5},{\"id\":\"11350\",\"owner\":6},{\"id\":\"11380\",\"owner\":1},{\"id\":\"11410\",\"owner\":1},{\"id\":\"11440\",\"owner\":2},{\"id\":\"11470\",\"owner\":2},{\"id\":\"11500\",\"owner\":5},{\"id\":\"11530\",\"owner\":6},{\"id\":\"11545\",\"owner\":5},{\"id\":\"11560\",\"owner\":5},{\"id\":\"11590\",\"owner\":2},{\"id\":\"11620\",\"owner\":1},{\"id\":\"11650\",\"owner\":1},{\"id\":\"11680\",\"owner\":5},{\"id\":\"11710\",\"owner\":5},{\"id\":\"11740\",\"owner\":6},{\"id\":\"41570\",\"owner\":1},{\"id\":\"41190\",\"owner\":5},{\"id\":\"41210\",\"owner\":2},{\"id\":\"41390\",\"owner\":6},{\"id\":\"41270\",\"owner\":2},{\"id\":\"41170\",\"owner\":6},{\"id\":\"41410\",\"owner\":2},{\"id\":\"41430\",\"owner\":6},{\"id\":\"41290\",\"owner\":5},{\"id\":\"41130\",\"owner\":2},{\"id\":\"41450\",\"owner\":6},{\"id\":\"41610\",\"owner\":1},{\"id\":\"41110\",\"owner\":6},{\"id\":\"41460\",\"owner\":2},{\"id\":\"41370\",\"owner\":2},{\"id\":\"41590\",\"owner\":1},{\"id\":\"41220\",\"owner\":2},{\"id\":\"41550\",\"owner\":1},{\"id\":\"41500\",\"owner\":1},{\"id\":\"41670\",\"owner\":6},{\"id\":\"41830\",\"owner\":2}],\"recipientPolicy\":\"PARTICIPANTS\",\"rewardVersion\":\"20261019-six-organizations\"}],\"elders\":{\"1\":[4582,4391,2333],\"2\":[1195,5504,303],\"3\":[4965,2246,4615],\"4\":[65,22,45],\"5\":[88,3,4111],\"6\":[25,81,4693]},\"retiredDistricts\":[{\"id\":\"41570\",\"owner\":1,\"protectedUntil\":1792452099609,\"defense\":\"defense5\",\"taxAt\":1792407101588,\"taxRemainder\":0},{\"id\":\"41190\",\"owner\":5,\"protectedUntil\":1792446712731,\"defense\":\"defense2\",\"taxAt\":1792166776352,\"taxRemainder\":0},{\"id\":\"41210\",\"owner\":2,\"protectedUntil\":1792452333831,\"defense\":\"\",\"taxAt\":1792407101588,\"taxRemainder\":0},{\"id\":\"41390\",\"owner\":6,\"protectedUntil\":1792452252698,\"defense\":\"defense5\",\"taxAt\":1792407101588,\"taxRemainder\":0},{\"id\":\"41270\",\"owner\":2,\"protectedUntil\":1792452527351,\"defense\":\"\",\"taxAt\":1792407101588,\"taxRemainder\":0},{\"id\":\"41170\",\"owner\":6,\"protectedUntil\":1792450707480,\"defense\":\"defense3\",\"taxAt\":1792166776352,\"taxRemainder\":0},{\"id\":\"41410\",\"owner\":2,\"protectedUntil\":1792453146587,\"defense\":\"\",\"taxAt\":1792407101588,\"taxRemainder\":0},{\"id\":\"41430\",\"owner\":6,\"protectedUntil\":1792453067913,\"defense\":\"\",\"taxAt\":1792407101588,\"taxRemainder\":0},{\"id\":\"41290\",\"owner\":5,\"protectedUntil\":1792448144526,\"defense\":\"defense1\",\"taxAt\":1792407101588,\"taxRemainder\":0},{\"id\":\"41130\",\"owner\":2,\"protectedUntil\":1792449963842,\"defense\":\"\",\"taxAt\":1792407101588,\"taxRemainder\":0},{\"id\":\"41450\",\"owner\":6,\"protectedUntil\":1792447230594,\"defense\":\"defense1\",\"taxAt\":1792407101588,\"taxRemainder\":0},{\"id\":\"41610\",\"owner\":1,\"protectedUntil\":1792453035357,\"defense\":\"defense4\",\"taxAt\":1792166776352,\"taxRemainder\":0},{\"id\":\"41110\",\"owner\":6,\"protectedUntil\":1792452401317,\"defense\":\"\",\"taxAt\":1792166776352,\"taxRemainder\":0},{\"id\":\"41460\",\"owner\":2,\"protectedUntil\":1792453267437,\"defense\":\"defense1\",\"taxAt\":1792166776352,\"taxRemainder\":0},{\"id\":\"41370\",\"owner\":2,\"protectedUntil\":1792451267399,\"defense\":\"defense4\",\"taxAt\":1792407101588,\"taxRemainder\":0},{\"id\":\"41590\",\"owner\":1,\"protectedUntil\":1792452373314,\"defense\":\"defense2\",\"taxAt\":1792166776352,\"taxRemainder\":0},{\"id\":\"41220\",\"owner\":2,\"protectedUntil\":1792453445338,\"defense\":\"\",\"taxAt\":1792407101588,\"taxRemainder\":0},{\"id\":\"41550\",\"owner\":1,\"protectedUntil\":1792445830244,\"defense\":\"defense1\",\"taxAt\":1792166776352,\"taxRemainder\":0},{\"id\":\"41500\",\"owner\":1,\"protectedUntil\":1792448297750,\"defense\":\"defense3\",\"taxAt\":1792166776352,\"taxRemainder\":0},{\"id\":\"41670\",\"owner\":6,\"protectedUntil\":1792447183288,\"defense\":\"defense4\",\"taxAt\":1792166776352,\"taxRemainder\":0},{\"id\":\"41830\",\"owner\":2,\"protectedUntil\":1792450683025,\"defense\":\"defense2\",\"taxAt\":1792166776352,\"taxRemainder\":0}],\"districtScope\":\"SEOUL_25_20261021\",\"mapReset\":{\"key\":\"ops:organization-seoul-reset:20261021:v1\",\"at\":1792562285888,\"scope\":\"SEOUL\",\"districtCount\":25},\"scheduleVersion\":\"20261023-fixed-evenings\",\"competition\":{\"version\":1,\"initializedAt\":1792802827253,\"nextWeeklyAt\":1792940400000,\"season\":{\"number\":1,\"startsAt\":1792335600000,\"endsAt\":1794754800000,\"weeks\":4,\"weeksSettled\":0,\"points\":{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":0}},\"weeklyHistory\":[],\"seasonHistory\":[]}}"
+      },
+      "members": [
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "3",
+          "organization_id": 5,
+          "slot": 2,
+          "seed_power": "5886",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 4
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5",
+          "organization_id": 2,
+          "slot": 18,
+          "seed_power": "1708",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 15
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "7",
+          "organization_id": 3,
+          "slot": 15,
+          "seed_power": "2140",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "13",
+          "organization_id": 3,
+          "slot": 16,
+          "seed_power": "2120",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 15
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "16",
+          "organization_id": 4,
+          "slot": 13,
+          "seed_power": "2182",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 12
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "19",
+          "organization_id": 2,
+          "slot": 13,
+          "seed_power": "2150",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 2
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "22",
+          "organization_id": 4,
+          "slot": 2,
+          "seed_power": "2383",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 1
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "25",
+          "organization_id": 6,
+          "slot": 1,
+          "seed_power": "6293",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 12
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "29",
+          "organization_id": 1,
+          "slot": 19,
+          "seed_power": "1947",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "32",
+          "organization_id": 2,
+          "slot": 12,
+          "seed_power": "2161",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 1
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "45",
+          "organization_id": 4,
+          "slot": 3,
+          "seed_power": "2334",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 12
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "52",
+          "organization_id": 3,
+          "slot": 18,
+          "seed_power": "1925",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 5
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "62",
+          "organization_id": 4,
+          "slot": 15,
+          "seed_power": "2153",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 8
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "65",
+          "organization_id": 4,
+          "slot": 1,
+          "seed_power": "6742",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 12
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "71",
+          "organization_id": 5,
+          "slot": 11,
+          "seed_power": "2162",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "73",
+          "organization_id": 3,
+          "slot": 3,
+          "seed_power": "2328",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 3
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "76",
+          "organization_id": 1,
+          "slot": 17,
+          "seed_power": "2126",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 3
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "81",
+          "organization_id": 6,
+          "slot": 2,
+          "seed_power": "6035",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "85",
+          "organization_id": 5,
+          "slot": 16,
+          "seed_power": "2063",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 15
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "88",
+          "organization_id": 5,
+          "slot": 1,
+          "seed_power": "6565",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 12
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "91",
+          "organization_id": 2,
+          "slot": 14,
+          "seed_power": "2130",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 5
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "92",
+          "organization_id": 4,
+          "slot": 12,
+          "seed_power": "2183",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 4
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "115",
+          "organization_id": 3,
+          "slot": 8,
+          "seed_power": "2191",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 15
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "148",
+          "organization_id": 5,
+          "slot": 10,
+          "seed_power": "2170",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 1
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "162",
+          "organization_id": 1,
+          "slot": 21,
+          "seed_power": "1565",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "164",
+          "organization_id": 6,
+          "slot": 6,
+          "seed_power": "2206",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 8
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "187",
+          "organization_id": 5,
+          "slot": 15,
+          "seed_power": "2129",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 11
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "197",
+          "organization_id": 1,
+          "slot": 18,
+          "seed_power": "2046",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "202",
+          "organization_id": 2,
+          "slot": 15,
+          "seed_power": "2097",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 11
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "216",
+          "organization_id": 4,
+          "slot": 17,
+          "seed_power": "2120",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 8
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "218",
+          "organization_id": 1,
+          "slot": 12,
+          "seed_power": "2182",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "220",
+          "organization_id": 4,
+          "slot": 18,
+          "seed_power": "2042",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "226",
+          "organization_id": 6,
+          "slot": 12,
+          "seed_power": "2159",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 14
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "233",
+          "organization_id": 5,
+          "slot": 7,
+          "seed_power": "2195",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "236",
+          "organization_id": 3,
+          "slot": 11,
+          "seed_power": "2181",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 3
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "277",
+          "organization_id": 6,
+          "slot": 19,
+          "seed_power": "1710",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 4
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "289",
+          "organization_id": 6,
+          "slot": 13,
+          "seed_power": "2147",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 10
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "290",
+          "organization_id": 2,
+          "slot": 4,
+          "seed_power": "2236",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 9
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "295",
+          "organization_id": 3,
+          "slot": 9,
+          "seed_power": "2185",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 3
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "303",
+          "organization_id": 2,
+          "slot": 3,
+          "seed_power": "2269",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 2
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "360",
+          "organization_id": 2,
+          "slot": 5,
+          "seed_power": "2231",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "364",
+          "organization_id": 5,
+          "slot": 19,
+          "seed_power": "1534",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "493",
+          "organization_id": 6,
+          "slot": 4,
+          "seed_power": "2222",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 15
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "521",
+          "organization_id": 2,
+          "slot": 6,
+          "seed_power": "2217",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 10
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "525",
+          "organization_id": 1,
+          "slot": 7,
+          "seed_power": "2231",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "660",
+          "organization_id": 5,
+          "slot": 13,
+          "seed_power": "2153",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "706",
+          "organization_id": 2,
+          "slot": 22,
+          "seed_power": "640",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "750",
+          "organization_id": 4,
+          "slot": 8,
+          "seed_power": "2231",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 8
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "787",
+          "organization_id": 6,
+          "slot": 11,
+          "seed_power": "2162",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 15
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "792",
+          "organization_id": 3,
+          "slot": 10,
+          "seed_power": "2183",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 9
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "1195",
+          "organization_id": 2,
+          "slot": 1,
+          "seed_power": "6565",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 12
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "1255",
+          "organization_id": 1,
+          "slot": 8,
+          "seed_power": "2208",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "1545",
+          "organization_id": 6,
+          "slot": 15,
+          "seed_power": "2064",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "1768",
+          "organization_id": 4,
+          "slot": 14,
+          "seed_power": "2169",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 11
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "2246",
+          "organization_id": 3,
+          "slot": 2,
+          "seed_power": "6035",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 5
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "2333",
+          "organization_id": 1,
+          "slot": 5,
+          "seed_power": "2255",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 8
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "2420",
+          "organization_id": 2,
+          "slot": 23,
+          "seed_power": "6694",
+          "joined_at": "1792753655371",
+          "status": "ACTIVE",
+          "preferred_id": null
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "2505",
+          "organization_id": 5,
+          "slot": 9,
+          "seed_power": "2185",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "3011",
+          "organization_id": 3,
+          "slot": 12,
+          "seed_power": "2175",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "3674",
+          "organization_id": 5,
+          "slot": 14,
+          "seed_power": "2146",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "3867",
+          "organization_id": 1,
+          "slot": 16,
+          "seed_power": "2142",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "3884",
+          "organization_id": 4,
+          "slot": 4,
+          "seed_power": "2285",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 11
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "3974",
+          "organization_id": 2,
+          "slot": 7,
+          "seed_power": "2207",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 2
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4010",
+          "organization_id": 2,
+          "slot": 11,
+          "seed_power": "2162",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 2
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4084",
+          "organization_id": 1,
+          "slot": 13,
+          "seed_power": "2169",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 12
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4111",
+          "organization_id": 5,
+          "slot": 3,
+          "seed_power": "2278",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 2
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4199",
+          "organization_id": 4,
+          "slot": 16,
+          "seed_power": "2140",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 5
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4209",
+          "organization_id": 1,
+          "slot": 15,
+          "seed_power": "2157",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 1
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4222",
+          "organization_id": 4,
+          "slot": 9,
+          "seed_power": "2207",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 1
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4389",
+          "organization_id": 5,
+          "slot": 17,
+          "seed_power": "1986",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4391",
+          "organization_id": 1,
+          "slot": 4,
+          "seed_power": "2328",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 2
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4408",
+          "organization_id": 1,
+          "slot": 9,
+          "seed_power": "2206",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 10
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4415",
+          "organization_id": 6,
+          "slot": 5,
+          "seed_power": "2207",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4479",
+          "organization_id": 1,
+          "slot": 10,
+          "seed_power": "2194",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 8
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4501",
+          "organization_id": 5,
+          "slot": 12,
+          "seed_power": "2158",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 2
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4504",
+          "organization_id": 1,
+          "slot": 11,
+          "seed_power": "2185",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 14
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4540",
+          "organization_id": 2,
+          "slot": 10,
+          "seed_power": "2185",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 12
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4562",
+          "organization_id": 6,
+          "slot": 10,
+          "seed_power": "2167",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 8
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4570",
+          "organization_id": 5,
+          "slot": 4,
+          "seed_power": "2255",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 5
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4572",
+          "organization_id": 1,
+          "slot": 6,
+          "seed_power": "2255",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 12
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4582",
+          "organization_id": 1,
+          "slot": 3,
+          "seed_power": "2363",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4595",
+          "organization_id": 4,
+          "slot": 10,
+          "seed_power": "2207",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 4
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4597",
+          "organization_id": 3,
+          "slot": 5,
+          "seed_power": "2229",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 2
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4598",
+          "organization_id": 3,
+          "slot": 13,
+          "seed_power": "2169",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4610",
+          "organization_id": 2,
+          "slot": 9,
+          "seed_power": "2190",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 8
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4614",
+          "organization_id": 5,
+          "slot": 6,
+          "seed_power": "2213",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 5
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4615",
+          "organization_id": 3,
+          "slot": 6,
+          "seed_power": "2207",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 3
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4621",
+          "organization_id": 4,
+          "slot": 19,
+          "seed_power": "1980",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 12
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4625",
+          "organization_id": 2,
+          "slot": 8,
+          "seed_power": "2197",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 14
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4627",
+          "organization_id": 5,
+          "slot": 5,
+          "seed_power": "2231",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 3
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4628",
+          "organization_id": 4,
+          "slot": 6,
+          "seed_power": "2255",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 4
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4629",
+          "organization_id": 4,
+          "slot": 5,
+          "seed_power": "2262",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 14
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4641",
+          "organization_id": 5,
+          "slot": 8,
+          "seed_power": "2195",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 12
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4651",
+          "organization_id": 3,
+          "slot": 17,
+          "seed_power": "2018",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 1
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4691",
+          "organization_id": 2,
+          "slot": 20,
+          "seed_power": "1164",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4693",
+          "organization_id": 6,
+          "slot": 3,
+          "seed_power": "2233",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 8
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4705",
+          "organization_id": 4,
+          "slot": 11,
+          "seed_power": "2206",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 4
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4754",
+          "organization_id": 1,
+          "slot": 2,
+          "seed_power": "2417",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 9
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4757",
+          "organization_id": 6,
+          "slot": 7,
+          "seed_power": "2190",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 10
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4760",
+          "organization_id": 2,
+          "slot": 16,
+          "seed_power": "2035",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 14
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4772",
+          "organization_id": 3,
+          "slot": 7,
+          "seed_power": "2193",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 10
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4817",
+          "organization_id": 6,
+          "slot": 16,
+          "seed_power": "2036",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 3
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4836",
+          "organization_id": 4,
+          "slot": 7,
+          "seed_power": "2236",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 5
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4866",
+          "organization_id": 6,
+          "slot": 9,
+          "seed_power": "2175",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 10
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4870",
+          "organization_id": 4,
+          "slot": 20,
+          "seed_power": "1813",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4908",
+          "organization_id": 3,
+          "slot": 4,
+          "seed_power": "2255",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 14
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4910",
+          "organization_id": 6,
+          "slot": 8,
+          "seed_power": "2184",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 8
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4917",
+          "organization_id": 2,
+          "slot": 21,
+          "seed_power": "927",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 1
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4933",
+          "organization_id": 6,
+          "slot": 14,
+          "seed_power": "2132",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 1
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4936",
+          "organization_id": 3,
+          "slot": 20,
+          "seed_power": "1145",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 11
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4965",
+          "organization_id": 3,
+          "slot": 1,
+          "seed_power": "6229",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 12
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4978",
+          "organization_id": 6,
+          "slot": 18,
+          "seed_power": "1935",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "4981",
+          "organization_id": 5,
+          "slot": 18,
+          "seed_power": "1758",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 9
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5005",
+          "organization_id": 6,
+          "slot": 21,
+          "seed_power": "912",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5008",
+          "organization_id": 1,
+          "slot": 14,
+          "seed_power": "2162",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 8
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5148",
+          "organization_id": 3,
+          "slot": 14,
+          "seed_power": "2161",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 3
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5404",
+          "organization_id": 5,
+          "slot": 21,
+          "seed_power": "997",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 5
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5426",
+          "organization_id": 1,
+          "slot": 1,
+          "seed_power": "6638",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 3
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5504",
+          "organization_id": 2,
+          "slot": 2,
+          "seed_power": "5813",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 3
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5514",
+          "organization_id": 4,
+          "slot": 21,
+          "seed_power": "1554",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 4
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5529",
+          "organization_id": 2,
+          "slot": 17,
+          "seed_power": "1913",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 7
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5598",
+          "organization_id": 6,
+          "slot": 20,
+          "seed_power": "1331",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 9
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5690",
+          "organization_id": 5,
+          "slot": 20,
+          "seed_power": "1178",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 15
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5773",
+          "organization_id": 1,
+          "slot": 20,
+          "seed_power": "1912",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 5
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5877",
+          "organization_id": 3,
+          "slot": 19,
+          "seed_power": "1530",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 13
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5947",
+          "organization_id": 4,
+          "slot": 22,
+          "seed_power": "752",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 4
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5958",
+          "organization_id": 2,
+          "slot": 19,
+          "seed_power": "1239",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 2
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5972",
+          "organization_id": 1,
+          "slot": 22,
+          "seed_power": "748",
+          "joined_at": "1792166775206",
+          "status": "ACTIVE",
+          "preferred_id": 2
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "user_id": "5988",
+          "organization_id": 3,
+          "slot": 21,
+          "seed_power": "837",
+          "joined_at": "1792255868552",
+          "status": "ACTIVE",
+          "preferred_id": 8
+        }
+      ],
+      "protectedHashes": {
+        "organization_progress_v1": "9ad31e8becb2bc7a4fc71e6fda81dcd0694b21485d68000e56d6826b0c84265a",
+        "organization_faction_treasury_v1": "463249f80669bf046833990426f71973bea27928992449bca23e034c3afbf7de",
+        "organization_surveys_v1": "5e1efe2eee5d889aae8068619ad9902fb6b5f0824ac74e218fc08dc7655f90c5",
+        "organization_faction_days_v1": "d8ac5eb5cd9df75be1da168a3aa6291e54ccadd6801903908cce458158b4fde5",
+        "organization_faction_settlements_v1": "487f6a6fb5e3682d9788d3ea14816f6f01707d734413908f040a18f79cae677d",
+        "organization_faction_ledger_v1": "d67af41ae113944b092304fa7b7b344076e0748e94d8c4182f554a5cecbbd626",
+        "applications": "b09edfd149ec80e83b2b7279c974a7dbf5a5cb70e75e3b574daecfff06fb24ac",
+        "policies": "ecb559321a80a023ac2cc60d4857bf69bbf88f7116d57a6396378bffd23d8aaa"
+      }
+    },
+    "afterRoundRevision": 226,
+    "afterStateRevision": 8523,
+    "assignments": [
+      {
+        "user_id": 3,
+        "organization_id": 4,
+        "slot": 2,
+        "seed_power": 5886,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5,
+        "organization_id": 5,
+        "slot": 13,
+        "seed_power": 1708,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 7,
+        "organization_id": 6,
+        "slot": 11,
+        "seed_power": 2140,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 13,
+        "organization_id": 5,
+        "slot": 11,
+        "seed_power": 2120,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 16,
+        "organization_id": 3,
+        "slot": 9,
+        "seed_power": 2182,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 19,
+        "organization_id": 5,
+        "slot": 10,
+        "seed_power": 2150,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 22,
+        "organization_id": 7,
+        "slot": 2,
+        "seed_power": 2383,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 25,
+        "organization_id": 3,
+        "slot": 1,
+        "seed_power": 6293,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 29,
+        "organization_id": 7,
+        "slot": 14,
+        "seed_power": 1947,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 32,
+        "organization_id": 1,
+        "slot": 10,
+        "seed_power": 2161,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 45,
+        "organization_id": 2,
+        "slot": 2,
+        "seed_power": 2334,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 52,
+        "organization_id": 5,
+        "slot": 12,
+        "seed_power": 1925,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 62,
+        "organization_id": 2,
+        "slot": 11,
+        "seed_power": 2153,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 65,
+        "organization_id": 8,
+        "slot": 1,
+        "seed_power": 6742,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 71,
+        "organization_id": 4,
+        "slot": 7,
+        "seed_power": 2162,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 73,
+        "organization_id": 8,
+        "slot": 2,
+        "seed_power": 2328,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 76,
+        "organization_id": 6,
+        "slot": 12,
+        "seed_power": 2126,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 81,
+        "organization_id": 5,
+        "slot": 1,
+        "seed_power": 6035,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 85,
+        "organization_id": 6,
+        "slot": 13,
+        "seed_power": 2063,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 88,
+        "organization_id": 7,
+        "slot": 1,
+        "seed_power": 6565,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 91,
+        "organization_id": 4,
+        "slot": 10,
+        "seed_power": 2130,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 92,
+        "organization_id": 8,
+        "slot": 8,
+        "seed_power": 2183,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 115,
+        "organization_id": 7,
+        "slot": 8,
+        "seed_power": 2191,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 148,
+        "organization_id": 2,
+        "slot": 8,
+        "seed_power": 2170,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 162,
+        "organization_id": 1,
+        "slot": 15,
+        "seed_power": 1565,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 164,
+        "organization_id": 5,
+        "slot": 6,
+        "seed_power": 2206,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 187,
+        "organization_id": 2,
+        "slot": 12,
+        "seed_power": 2129,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 197,
+        "organization_id": 2,
+        "slot": 13,
+        "seed_power": 2046,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 202,
+        "organization_id": 8,
+        "slot": 14,
+        "seed_power": 2097,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 216,
+        "organization_id": 8,
+        "slot": 13,
+        "seed_power": 2120,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 218,
+        "organization_id": 1,
+        "slot": 8,
+        "seed_power": 2182,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 220,
+        "organization_id": 1,
+        "slot": 14,
+        "seed_power": 2042,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 226,
+        "organization_id": 5,
+        "slot": 9,
+        "seed_power": 2159,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 233,
+        "organization_id": 6,
+        "slot": 7,
+        "seed_power": 2195,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 236,
+        "organization_id": 4,
+        "slot": 6,
+        "seed_power": 2181,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 277,
+        "organization_id": 2,
+        "slot": 16,
+        "seed_power": 1710,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 289,
+        "organization_id": 8,
+        "slot": 12,
+        "seed_power": 2147,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 290,
+        "organization_id": 6,
+        "slot": 4,
+        "seed_power": 2236,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 295,
+        "organization_id": 3,
+        "slot": 8,
+        "seed_power": 2185,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 303,
+        "organization_id": 2,
+        "slot": 3,
+        "seed_power": 2269,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 360,
+        "organization_id": 4,
+        "slot": 3,
+        "seed_power": 2231,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 364,
+        "organization_id": 3,
+        "slot": 13,
+        "seed_power": 1534,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 493,
+        "organization_id": 7,
+        "slot": 5,
+        "seed_power": 2222,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 521,
+        "organization_id": 3,
+        "slot": 5,
+        "seed_power": 2217,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 525,
+        "organization_id": 5,
+        "slot": 5,
+        "seed_power": 2231,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 660,
+        "organization_id": 7,
+        "slot": 13,
+        "seed_power": 2153,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 706,
+        "organization_id": 1,
+        "slot": 17,
+        "seed_power": 640,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 750,
+        "organization_id": 6,
+        "slot": 5,
+        "seed_power": 2231,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 787,
+        "organization_id": 5,
+        "slot": 8,
+        "seed_power": 2162,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 792,
+        "organization_id": 8,
+        "slot": 9,
+        "seed_power": 2183,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 1195,
+        "organization_id": 2,
+        "slot": 1,
+        "seed_power": 6565,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 1255,
+        "organization_id": 1,
+        "slot": 6,
+        "seed_power": 2208,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 1545,
+        "organization_id": 4,
+        "slot": 11,
+        "seed_power": 2064,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 1768,
+        "organization_id": 8,
+        "slot": 10,
+        "seed_power": 2169,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 2246,
+        "organization_id": 5,
+        "slot": 2,
+        "seed_power": 6035,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 2333,
+        "organization_id": 5,
+        "slot": 3,
+        "seed_power": 2255,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 2420,
+        "organization_id": 1,
+        "slot": 1,
+        "seed_power": 6694,
+        "joined_at": 1792753655371
+      },
+      {
+        "user_id": 2505,
+        "organization_id": 7,
+        "slot": 9,
+        "seed_power": 2185,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 3011,
+        "organization_id": 6,
+        "slot": 10,
+        "seed_power": 2175,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 3674,
+        "organization_id": 1,
+        "slot": 12,
+        "seed_power": 2146,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 3867,
+        "organization_id": 4,
+        "slot": 9,
+        "seed_power": 2142,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 3884,
+        "organization_id": 1,
+        "slot": 3,
+        "seed_power": 2285,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 3974,
+        "organization_id": 2,
+        "slot": 5,
+        "seed_power": 2207,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4010,
+        "organization_id": 2,
+        "slot": 9,
+        "seed_power": 2162,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4084,
+        "organization_id": 7,
+        "slot": 10,
+        "seed_power": 2169,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4111,
+        "organization_id": 6,
+        "slot": 3,
+        "seed_power": 2278,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4199,
+        "organization_id": 3,
+        "slot": 10,
+        "seed_power": 2140,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 4209,
+        "organization_id": 1,
+        "slot": 11,
+        "seed_power": 2157,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4222,
+        "organization_id": 1,
+        "slot": 7,
+        "seed_power": 2207,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4389,
+        "organization_id": 3,
+        "slot": 12,
+        "seed_power": 1986,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4391,
+        "organization_id": 7,
+        "slot": 3,
+        "seed_power": 2328,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4408,
+        "organization_id": 2,
+        "slot": 6,
+        "seed_power": 2206,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4415,
+        "organization_id": 3,
+        "slot": 6,
+        "seed_power": 2207,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4479,
+        "organization_id": 7,
+        "slot": 7,
+        "seed_power": 2194,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4501,
+        "organization_id": 2,
+        "slot": 10,
+        "seed_power": 2158,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4504,
+        "organization_id": 6,
+        "slot": 9,
+        "seed_power": 2185,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4540,
+        "organization_id": 4,
+        "slot": 5,
+        "seed_power": 2185,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4562,
+        "organization_id": 7,
+        "slot": 12,
+        "seed_power": 2167,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4570,
+        "organization_id": 5,
+        "slot": 4,
+        "seed_power": 2255,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4572,
+        "organization_id": 1,
+        "slot": 4,
+        "seed_power": 2255,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4582,
+        "organization_id": 6,
+        "slot": 2,
+        "seed_power": 2363,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4595,
+        "organization_id": 4,
+        "slot": 4,
+        "seed_power": 2207,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4597,
+        "organization_id": 1,
+        "slot": 5,
+        "seed_power": 2229,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4598,
+        "organization_id": 7,
+        "slot": 11,
+        "seed_power": 2169,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4610,
+        "organization_id": 8,
+        "slot": 7,
+        "seed_power": 2190,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4614,
+        "organization_id": 8,
+        "slot": 5,
+        "seed_power": 2213,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4615,
+        "organization_id": 3,
+        "slot": 7,
+        "seed_power": 2207,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4621,
+        "organization_id": 2,
+        "slot": 14,
+        "seed_power": 1980,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4625,
+        "organization_id": 6,
+        "slot": 6,
+        "seed_power": 2197,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4627,
+        "organization_id": 3,
+        "slot": 4,
+        "seed_power": 2231,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4628,
+        "organization_id": 3,
+        "slot": 3,
+        "seed_power": 2255,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4629,
+        "organization_id": 8,
+        "slot": 3,
+        "seed_power": 2262,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 4641,
+        "organization_id": 8,
+        "slot": 6,
+        "seed_power": 2195,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4651,
+        "organization_id": 4,
+        "slot": 12,
+        "seed_power": 2018,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4691,
+        "organization_id": 8,
+        "slot": 16,
+        "seed_power": 1164,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4693,
+        "organization_id": 8,
+        "slot": 4,
+        "seed_power": 2233,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4705,
+        "organization_id": 7,
+        "slot": 6,
+        "seed_power": 2206,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4754,
+        "organization_id": 1,
+        "slot": 2,
+        "seed_power": 2417,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4757,
+        "organization_id": 5,
+        "slot": 7,
+        "seed_power": 2190,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4760,
+        "organization_id": 8,
+        "slot": 15,
+        "seed_power": 2035,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4772,
+        "organization_id": 6,
+        "slot": 8,
+        "seed_power": 2193,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4817,
+        "organization_id": 3,
+        "slot": 11,
+        "seed_power": 2036,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4836,
+        "organization_id": 2,
+        "slot": 4,
+        "seed_power": 2236,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4866,
+        "organization_id": 1,
+        "slot": 9,
+        "seed_power": 2175,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4870,
+        "organization_id": 4,
+        "slot": 13,
+        "seed_power": 1813,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4908,
+        "organization_id": 7,
+        "slot": 4,
+        "seed_power": 2255,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4910,
+        "organization_id": 2,
+        "slot": 7,
+        "seed_power": 2184,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4917,
+        "organization_id": 1,
+        "slot": 16,
+        "seed_power": 927,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4933,
+        "organization_id": 1,
+        "slot": 13,
+        "seed_power": 2132,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 4936,
+        "organization_id": 3,
+        "slot": 15,
+        "seed_power": 1145,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4965,
+        "organization_id": 4,
+        "slot": 1,
+        "seed_power": 6229,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4978,
+        "organization_id": 6,
+        "slot": 14,
+        "seed_power": 1935,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 4981,
+        "organization_id": 7,
+        "slot": 15,
+        "seed_power": 1758,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5005,
+        "organization_id": 5,
+        "slot": 15,
+        "seed_power": 912,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5008,
+        "organization_id": 4,
+        "slot": 8,
+        "seed_power": 2162,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5148,
+        "organization_id": 8,
+        "slot": 11,
+        "seed_power": 2161,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5404,
+        "organization_id": 4,
+        "slot": 15,
+        "seed_power": 997,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5426,
+        "organization_id": 6,
+        "slot": 1,
+        "seed_power": 6638,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 5504,
+        "organization_id": 3,
+        "slot": 2,
+        "seed_power": 5813,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5514,
+        "organization_id": 6,
+        "slot": 16,
+        "seed_power": 1554,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5529,
+        "organization_id": 2,
+        "slot": 15,
+        "seed_power": 1913,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5598,
+        "organization_id": 5,
+        "slot": 14,
+        "seed_power": 1331,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5690,
+        "organization_id": 4,
+        "slot": 14,
+        "seed_power": 1178,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5773,
+        "organization_id": 6,
+        "slot": 15,
+        "seed_power": 1912,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 5877,
+        "organization_id": 7,
+        "slot": 16,
+        "seed_power": 1530,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 5947,
+        "organization_id": 3,
+        "slot": 16,
+        "seed_power": 752,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5958,
+        "organization_id": 3,
+        "slot": 14,
+        "seed_power": 1239,
+        "joined_at": 1792255868552
+      },
+      {
+        "user_id": 5972,
+        "organization_id": 5,
+        "slot": 16,
+        "seed_power": 748,
+        "joined_at": 1792166775206
+      },
+      {
+        "user_id": 5988,
+        "organization_id": 4,
+        "slot": 16,
+        "seed_power": 837,
+        "joined_at": 1792255868552
+      }
+    ],
+    "elders": [
+      {
+        "organizationId": 1,
+        "userIds": [
+          2420,
+          4754,
+          3884
+        ]
+      },
+      {
+        "organizationId": 2,
+        "userIds": [
+          1195,
+          45,
+          303
+        ]
+      },
+      {
+        "organizationId": 3,
+        "userIds": [
+          25,
+          5504,
+          4628
+        ]
+      },
+      {
+        "organizationId": 4,
+        "userIds": [
+          4965,
+          3,
+          360
+        ]
+      },
+      {
+        "organizationId": 5,
+        "userIds": [
+          81,
+          2246,
+          2333
+        ]
+      },
+      {
+        "organizationId": 6,
+        "userIds": [
+          5426,
+          4582,
+          4111
+        ]
+      },
+      {
+        "organizationId": 7,
+        "userIds": [
+          88,
+          22,
+          4391
+        ]
+      },
+      {
+        "organizationId": 8,
+        "userIds": [
+          65,
+          73,
+          4629
+        ]
+      }
+    ],
+    "stats": {
+      "participants": 129,
+      "totalPower": 307375,
+      "minMembers": 16,
+      "maxMembers": 17,
+      "minPower": 38421,
+      "maxPower": 38422,
+      "powerSpreadPercent": 0,
+      "preferenceMatched": 26,
+      "preferencePercent": 20.2,
+      "affinityMean": 0,
+      "swaps": 21
+    },
+    "auditId": "51153"
+  },
+  "clans": [
+    {
+      "id": 1,
+      "name": "DK",
+      "memberCount": 17,
+      "totalSeedPower": 38422
+    },
+    {
+      "id": 2,
+      "name": "삼성",
+      "memberCount": 16,
+      "totalSeedPower": 38422
+    },
+    {
+      "id": 3,
+      "name": "T1",
+      "memberCount": 16,
+      "totalSeedPower": 38422
+    },
+    {
+      "id": 4,
+      "name": "한화",
+      "memberCount": 16,
+      "totalSeedPower": 38422
+    },
+    {
+      "id": 5,
+      "name": "LG",
+      "memberCount": 16,
+      "totalSeedPower": 38422
+    },
+    {
+      "id": 6,
+      "name": "롯데",
+      "memberCount": 16,
+      "totalSeedPower": 38421
+    },
+    {
+      "id": 7,
+      "name": "FM",
+      "memberCount": 16,
+      "totalSeedPower": 38422
+    },
+    {
+      "id": 8,
+      "name": "DC",
+      "memberCount": 16,
+      "totalSeedPower": 38422
+    }
+  ],
+  "protectedUnchanged": true,
+  "dryRun": true,
+  "replayed": false,
+  "rollbackVerified": true,
+  "checkedAt": "2026-10-25T06:00:01.017Z"
+}

@@ -1,10 +1,10 @@
-import {ORGANIZATION_IDENTITIES} from './organization-identity-v1.mjs?v=20261023-clan-identity';
-import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs?v=20261023-clan-identity';
+import {ORGANIZATION_IDENTITIES} from './organization-identity-v1.mjs?v=20261025-clan-eight';
+import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs?v=20261025-clan-eight';
 
 // Live release approved 2026-10-15. A round still requires an explicit 24-hour opening.
 export const ORGANIZATION_RELEASE_ENABLED = true;
 export const ORGANIZATION_RECRUITMENT_MS = 24*60*60*1000;
-export const ORGANIZATION_LIMITS = Object.freeze({organizations:6,members:25,participants:150,ratingBatch:12});
+export const ORGANIZATION_LIMITS = Object.freeze({organizations:8,members:25,participants:200,ratingBatch:12});
 export const ORGANIZATIONS = ORGANIZATION_IDENTITIES;
 export const organizationError=(code,message,status=409)=>Object.assign(new Error(message),{code:'ORG_'+code,status});
 export function orgAssert(condition,code,message,status=409){if(!condition)throw organizationError(code,message,status);}
@@ -37,11 +37,11 @@ function seeded(value,seed){let hash=2166136261;for(const c of seed+':'+value){h
 export function allocateOrganizations(input,{seed='organization-v1'}={}){
   const N=ORGANIZATIONS.length;
   orgAssert(Array.isArray(input)&&input.length>0,'EMPTY','설문 참가자가 없습니다.');
-  orgAssert(input.length<=150,'OVERFLOW','150석을 초과했습니다. 초과 신청자 처리 정책을 정한 뒤 배정하세요.');
+  orgAssert(input.length<=ORGANIZATION_LIMITS.participants,'OVERFLOW','200석을 초과했습니다. 초과 신청자 처리 정책을 정한 뒤 배정하세요.');
   const ids=new Set();const players=input.map(value=>{
     const userId=orgInteger(value.userId,1,Number.MAX_SAFE_INTEGER,'계정 번호');orgAssert(!ids.has(userId),'DUPLICATE','중복된 참가자가 있습니다.',400);ids.add(userId);
-    const fit=value.organizationFit??Array(N).fill(0);orgAssert(Array.isArray(fit)&&(fit.length===N||fit.length===15)&&fit.every(n=>Number.isSafeInteger(n)&&n>=0&&n<=100),'INTERVIEW','클랜 성향 점수를 확인하세요.',400);
-    return {...value,organizationFit:fit.slice(0,N),userId,power:orgInteger(value.power,1,1e12,'평가 전력'),preferredOrganizationId:orgInteger(value.preferredOrganizationId,1,15,'희망 클랜')};
+    const fit=value.organizationFit??Array(N).fill(0);orgAssert(Array.isArray(fit)&&(fit.length===N||fit.length===6||fit.length===15)&&fit.every(n=>Number.isSafeInteger(n)&&n>=0&&n<=100),'INTERVIEW','클랜 성향 점수를 확인하세요.',400);
+    return {...value,organizationFit:Array.from({length:N},(_,i)=>fit[i]||0),userId,power:orgInteger(value.power,1,1e12,'평가 전력'),preferredOrganizationId:orgInteger(value.preferredOrganizationId,1,15,'희망 클랜')};
   }).sort((a,b)=>b.power-a.power||seeded(a.userId,seed)-seeded(b.userId,seed)||a.userId-b.userId);
   const total=players.reduce((sum,p)=>sum+p.power,0),mean=total/N;
   const teams=Array.from({length:N},(_,i)=>({bucket:i,members:[],power:0}));
@@ -63,7 +63,7 @@ export function allocateOrganizations(input,{seed='organization-v1'}={}){
     [a.members[ai],b.members[bi]]=[b.members[bi],a.members[ai]];a.power+=delta;b.power-=delta;
   }
   // Exact assignment of balanced buckets to the active organization names.
-  // Six organizations use 64 states; no unbounded search.
+  // Eight organizations use 256 states; no unbounded search.
   const order=ORGANIZATIONS.map(o=>o.id).sort((a,b)=>seeded(a,seed)-seeded(b,seed));
   const score=teams.map(t=>order.map(id=>t.members.reduce((n,p)=>n+(p.preferredOrganizationId===id?15001:0)+p.organizationFit[id-1],0)));
   const dp=new Int32Array(1<<N).fill(-1),chosen=new Int8Array(1<<N).fill(-1),counts=new Uint8Array(1<<N);dp[0]=0;

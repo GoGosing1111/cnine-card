@@ -18,7 +18,7 @@ export async function loadOrganizationRatings(env,userIds,deps,{now=Date.now()}=
   return profiles.map(p=>({userId:p.userId,power:p.power,sourceVersion:p.sourceVersion,policyRevision:p.policyRevision,advancedForgeRevision:after.revision,expiresAt:Date.parse(p.expiresAt),breakdown:p.breakdown,source:'ACCOUNT_POTENTIAL_V1'}));
 }
 export async function validateOrganizationRatings(env,ratings,{now=Date.now()}={}){
-  orgAssert(ratings.length>0&&ratings.length<=150,'RATING_BATCH','전력 평가 범위를 확인하세요.');
+  orgAssert(ratings.length>0&&ratings.length<=ORGANIZATION_LIMITS.participants,'RATING_BATCH','전력 평가 범위를 확인하세요.');
   const rows=await duoVersions(env,ratings.map(r=>r.userId));
   const advanced=await readForgeAdvancedPolicy(env.DB);
   return ratings.every(r=>r.expiresAt>now&&r.advancedForgeRevision===advanced.revision&&rows.some(v=>Number(v.user_id)===r.userId&&v.status==='ACTIVE'&&(!v.banned_until||Date.parse(v.banned_until)<=now)&&Number(v.source_version)===r.sourceVersion&&Number(v.policy_revision)===r.policyRevision));

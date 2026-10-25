@@ -61,7 +61,7 @@ test('banned applicants, removed elders, malformed fields and off-scope users ar
  await f.pg.query("UPDATE organization_faction_state_v1 SET state_json=jsonb_set(state_json::jsonb,'{elders,1}','[3]')::text");
  assert.equal((await f.review(2,5,{decision:'REJECTED'})).status,403);
  assert.equal((await f.apply(6,{message:'x'.repeat(301)})).status,400);
- assert.equal((await f.apply(6,{organizationId:7})).status,400);
+ assert.equal((await f.apply(6,{organizationId:9})).status,400);
  const p=(await f.call('admin/organization')).data.policy;ok(await f.post('admin/organization/policy',{policy:{...p,testUserIds:[2,3,4,5]}}));
  assert.equal((await f.apply(6)).status,403);
 });

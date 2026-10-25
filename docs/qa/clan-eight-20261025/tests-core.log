@@ -1,0 +1,38 @@
+✔ eight identities support 129 and 200 balanced seats, retain six-score inputs, and reject 201 (37.1816ms)
+✔ audited redistribution rolls back every failure and dry run, preserves balances/history, and replays without writes (6176.1408ms)
+✔ FM and DC display in current API and use the existing elder approval, with foreign elders and ninth clan rejected (1925.7361ms)
+✖ server enrollment and proposal include the 200th applicant and reject an over-capacity snapshot (4289.318ms)
+✔ nonmembers apply; only the same organization elders review; approval atomically joins and replays (5692.8201ms)
+✔ pending requests cannot move silently; cancellation/rejection can resubmit and stale review is rejected (1760.8415ms)
+✔ parallel elder approvals cannot exceed 25 members; last slot belongs to one applicant (1570.7193ms)
+✔ receipt failure rolls back membership/application/round revision, then exact retry succeeds (1840.1467ms)
+✔ banned applicants, removed elders, malformed fields and off-scope users are rejected (1509.1083ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12951.1861
+
+✖ failing tests:
+
+test at tests\organization-eight-20261025.test.mjs:68:1
+✖ server enrollment and proposal include the 200th applicant and reject an over-capacity snapshot (4289.318ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'ORG_OVERFLOW'
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/bloodmoon-ss-restock/cnine-card/tests/organization-eight-20261025.test.mjs:73:76)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'ORG_OVERFLOW',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

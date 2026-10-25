@@ -1,5 +1,5 @@
-import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261023-clan-identity';
-import {organizationCrest} from './organization-identity-v1.mjs?v=20261023-clan-identity';
+import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
+import {organizationCrest} from './organization-identity-v1.mjs?v=20261025-clan-eight';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num=v=>Number(v||0).toLocaleString('ko-KR');
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}):'개방 후 확정';

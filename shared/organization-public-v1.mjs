@@ -1,5 +1,5 @@
-import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs?v=20261023-clan-identity';
-import {ORGANIZATIONS,defaultOrganizationPolicy,organizationHideout} from './organization-system-v1.mjs?v=20261023-clan-identity';
+import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs?v=20261025-clan-eight';
+import {ORGANIZATIONS,defaultOrganizationPolicy,organizationHideout} from './organization-system-v1.mjs?v=20261025-clan-eight';
 
 // Public preparation has no accounts, enrollment, fictional participants or DB writes.
 // This adapter is deliberately separate from the authenticated TEST service.

@@ -1,5 +1,5 @@
 import {mount} from './organization-faction-v1.mjs?v=20261024-weekly&clanRestore=20261025';
-import {observeOrganizationHeight} from './organization-embed-size-v1.mjs?v=20261023-clan-identity';
+import {observeOrganizationHeight} from './organization-embed-size-v1.mjs?v=20261025-clan-eight';
 const root=document.getElementById('organizationFactionRoot');
 const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const roundId=new URL(location.href).searchParams.get('roundId');

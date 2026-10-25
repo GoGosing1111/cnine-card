@@ -1,0 +1,40 @@
+[
+  {
+    "width": 1440,
+    "height": 1000,
+    "errors": [],
+    "failed": [],
+    "clans": [
+      "DK",
+      "삼성",
+      "T1",
+      "한화",
+      "LG",
+      "롯데",
+      "FM",
+      "DC"
+    ],
+    "capacity": 200,
+    "newJoinPolicyApplied": false,
+    "schedulesLocked": true
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "failed": [],
+    "clans": [
+      "DK",
+      "삼성",
+      "T1",
+      "한화",
+      "LG",
+      "롯데",
+      "FM",
+      "DC"
+    ],
+    "capacity": 200,
+    "newJoinPolicyApplied": false,
+    "schedulesLocked": true
+  }
+]

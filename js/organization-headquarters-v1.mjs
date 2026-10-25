@@ -1,4 +1,4 @@
-import {organizationHuntView} from './organization-hunts-v1.mjs?v=20261023-clan-identity';
+import {organizationHuntView} from './organization-hunts-v1.mjs?v=20261025-clan-eight';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>Number(value||0).toLocaleString('ko-KR');
 const descriptions=[

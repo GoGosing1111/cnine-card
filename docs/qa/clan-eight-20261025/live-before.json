@@ -1,0 +1,193 @@
+{
+  "checkedAt": "2026-10-25T05:56:03.421Z",
+  "readOnly": true,
+  "round": {
+    "id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "scope": "LIVE",
+    "name": "조직 입단 1차 모집",
+    "phase": "ASSIGNED",
+    "revision": 225,
+    "created_at": "1792053417178",
+    "assigned_at": "1792166775206",
+    "opened_at": "1792167981505",
+    "closes_at": "1792253433603",
+    "auto_assign": 0,
+    "assignment_status": "COMPLETED",
+    "assignment_error": null,
+    "assignment_token": null,
+    "assignment_lease_until": null
+  },
+  "clans": [
+    {
+      "id": 1,
+      "members": 22,
+      "totalSeedPower": 50436,
+      "treasury": {
+        "balance": "32000000",
+        "totalEarned": "52000000"
+      },
+      "progress": {
+        "stage": 3,
+        "points": "0"
+      },
+      "elderCount": 3,
+      "districts": 5
+    },
+    {
+      "id": 2,
+      "members": 23,
+      "totalSeedPower": 57130,
+      "treasury": {
+        "balance": "23000000",
+        "totalEarned": "43000000"
+      },
+      "progress": {
+        "stage": 3,
+        "points": "0"
+      },
+      "elderCount": 3,
+      "districts": 6
+    },
+    {
+      "id": 3,
+      "members": 21,
+      "totalSeedPower": 50436,
+      "treasury": {
+        "balance": "3000000",
+        "totalEarned": "13000000"
+      },
+      "progress": {
+        "stage": 3,
+        "points": "0"
+      },
+      "elderCount": 3,
+      "districts": 0
+    },
+    {
+      "id": 4,
+      "members": 22,
+      "totalSeedPower": 50436,
+      "treasury": {
+        "balance": "10000000",
+        "totalEarned": "20000000"
+      },
+      "progress": {
+        "stage": 2,
+        "points": "0"
+      },
+      "elderCount": 3,
+      "districts": 2
+    },
+    {
+      "id": 5,
+      "members": 21,
+      "totalSeedPower": 50437,
+      "treasury": {
+        "balance": "44000000",
+        "totalEarned": "64000000"
+      },
+      "progress": {
+        "stage": 3,
+        "points": "0"
+      },
+      "elderCount": 3,
+      "districts": 7
+    },
+    {
+      "id": 6,
+      "members": 20,
+      "totalSeedPower": 48500,
+      "treasury": {
+        "balance": "9000000",
+        "totalEarned": "29000000"
+      },
+      "progress": {
+        "stage": 3,
+        "points": "0"
+      },
+      "elderCount": 3,
+      "districts": 5
+    },
+    {
+      "id": 7,
+      "members": 0,
+      "totalSeedPower": 0,
+      "treasury": {
+        "balance": "0",
+        "totalEarned": "0"
+      },
+      "progress": {
+        "stage": 1,
+        "points": "0"
+      },
+      "elderCount": 0,
+      "districts": 0
+    },
+    {
+      "id": 8,
+      "members": 0,
+      "totalSeedPower": 0,
+      "treasury": {
+        "balance": "0",
+        "totalEarned": "0"
+      },
+      "progress": {
+        "stage": 1,
+        "points": "0"
+      },
+      "elderCount": 0,
+      "districts": 0
+    }
+  ],
+  "pendingApplications": 3,
+  "applicationsHash": "cd799571790d42572d2a04510d490dcc70e363aaade76a12b4d154902008929a",
+  "tables": {
+    "organization_members_v1": {
+      "count": 129,
+      "sha256": "e0c8c08a715969d4d52ca7dd6a12b47cb7627822edb7e3e5a0b4cc6a3c79b9d7"
+    },
+    "organization_surveys_v1": {
+      "count": 132,
+      "sha256": "5e1efe2eee5d889aae8068619ad9902fb6b5f0824ac74e218fc08dc7655f90c5"
+    },
+    "organization_progress_v1": {
+      "count": 15,
+      "sha256": "9ad31e8becb2bc7a4fc71e6fda81dcd0694b21485d68000e56d6826b0c84265a"
+    },
+    "organization_faction_treasury_v1": {
+      "count": 15,
+      "sha256": "463249f80669bf046833990426f71973bea27928992449bca23e034c3afbf7de"
+    },
+    "organization_faction_state_v1": {
+      "count": 1,
+      "sha256": "74c1cf42f16fb2f15401b7ea69d77f3fcfcc7b23d2d7f1706f26c1e31899c226"
+    },
+    "organization_faction_days_v1": {
+      "count": 9,
+      "sha256": "d8ac5eb5cd9df75be1da168a3aa6291e54ccadd6801903908cce458158b4fde5"
+    },
+    "organization_faction_settlements_v1": {
+      "count": 11,
+      "sha256": "487f6a6fb5e3682d9788d3ea14816f6f01707d734413908f040a18f79cae677d"
+    }
+  },
+  "factionPolicy": {
+    "revision": 5,
+    "value": {
+      "revision": 5,
+      "mode": "ON",
+      "fundsPerRegion": 1000000,
+      "upgradeCosts": [
+        0,
+        10000000,
+        10000000,
+        100000000,
+        700000000
+      ]
+    }
+  },
+  "session": {
+    "status": "SETTLED",
+    "key": "2026-10-24:fixed-20"
+  }
+}
