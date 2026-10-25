@@ -1,3 +1,4 @@
+import {isRazak,RAZAK_CODE,RAZAK_COMBAT,RAZAK_COMBAT_DESCRIPTION} from './mercenary-razak-v1.mjs';
 import {isAwakenedOmega,AWAKENED_OMEGA_COMBAT} from './mercenary-awakened-omega-v1.mjs';
 import {isEunseol,EUNSEOL_COMBAT} from './mercenary-eunseol-v1.mjs';
 import {isGeneralJok,GENERAL_JOK_COMBAT} from './mercenary-general-jok-v1.mjs';
@@ -34,7 +35,8 @@ export const MERCENARY_COMBAT_LINK=Object.freeze({
 });
 
 export function mercenaryCombatLinkText(rank,position,actor=null){
- const row=isImperialArcher(actor)?IMPERIAL_ARCHER_COMBAT.link:MERCENARY_COMBAT_LINK.ranks[rank];if(!row)return '';
+ if((actor?.code||actor?.cardId)===RAZAK_CODE)return RAZAK_COMBAT_DESCRIPTION;
+ const row=isRazak(actor)?RAZAK_COMBAT.link:isImperialArcher(actor)?IMPERIAL_ARCHER_COMBAT.link:MERCENARY_COMBAT_LINK.ranks[rank];if(!row)return '';
  const frontText=position==='FRONT'?` 전열은 평균 최대 체력의 ${MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent}% 방벽을 추가하며, PVP에서는 ${MERCENARY_COMBAT_LINK.pvpFrontRowShieldBonusByRank[rank]??MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent}%를 추가합니다.`:'';
  const tier=['S','SS','SSS'].includes(rank)?` PVP에서 S·SS·SSS 상대 용병보다 등급이 높으면 전투 시작 시 등급 차이 1단계마다 연계 공격·피해 상한 100%, 연계 체력·방벽 ${MERCENARY_COMBAT_LINK.pvpTierGuardPerStep*100}%를 추가합니다. 동일 등급과 PVE에는 이 등급 차이 보정을 적용하지 않습니다.`:'';
  const pvePolicy=rearPveCurrentPolicy(actor);
@@ -68,7 +70,7 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
   const averageAttack=cards.reduce((sum,c)=>sum+c.attack,0)/cards.length,averageHp=cards.reduce((sum,c)=>sum+c.maxHp,0)/cards.length;
   if(!Number.isFinite(averageAttack)||!Number.isFinite(averageHp)||averageAttack<=0||averageHp<=0)continue;
   for(const m of team.filter(c=>c.isMercenary&&c.statMode==='RANK_FIXED')){
-   const rule=isImperialArcher(m)?IMPERIAL_ARCHER_COMBAT.link:isAwakenedOmega(m)?AWAKENED_OMEGA_COMBAT.link:isEunseol(m)?EUNSEOL_COMBAT.link:isGeneralJok(m)?GENERAL_JOK_COMBAT.link:isPrime(m)?PRIME_COMBAT.link:isZero(m)?ZERO_COMBAT.link:isLeonel(m)?LEONEL_COMBAT.link:isJokro(m)?JOKRO_COMBAT.link:isValter(m)?VALTER_COMBAT.link:isHelios(m)?HELIOS_COMBAT.link:isJinmu(m)?JINMU_COMBAT.link:isKairon(m)?KAIRON_COMBAT.link:isShiranui(m)?SHIRANUI_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
+   const rule=isRazak(m)?RAZAK_COMBAT.link:isImperialArcher(m)?IMPERIAL_ARCHER_COMBAT.link:isAwakenedOmega(m)?AWAKENED_OMEGA_COMBAT.link:isEunseol(m)?EUNSEOL_COMBAT.link:isGeneralJok(m)?GENERAL_JOK_COMBAT.link:isPrime(m)?PRIME_COMBAT.link:isZero(m)?ZERO_COMBAT.link:isLeonel(m)?LEONEL_COMBAT.link:isJokro(m)?JOKRO_COMBAT.link:isValter(m)?VALTER_COMBAT.link:isHelios(m)?HELIOS_COMBAT.link:isJinmu(m)?JINMU_COMBAT.link:isKairon(m)?KAIRON_COMBAT.link:isShiranui(m)?SHIRANUI_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
    const healthRatio=Math.max(0,Math.min(1,m.hp/m.maxHp)),tierGuard=mercenaryPvpTierGuard(m,teams),tierOffense=1+(tierGuard-1)/MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
    const matchupScale=ssLimitedPvpLinkScale(m,teams);
    let attackFloor=Math.round(averageAttack*rule.attackPercent/100*tierOffense*matchupScale);

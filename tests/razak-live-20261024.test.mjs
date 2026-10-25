@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import fixture from './fixtures/mercenary-valter-roster-20261008.json' with {type:'json'};
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {tierCards} from './helpers/mercenary-operating-roster-v2144.mjs';
-import {RAZAK_CODE as code,RAZAK_ART as art,RAZAK_SKILLS as skills,RAZAK_EVENT as eventType,razakDeploymentSnapshot} from '../shared/mercenary-razak-v1.mjs';
+import {RAZAK_CODE as code,RAZAK_ART as art,RAZAK_SKILLS as skills,RAZAK_COMBAT,RAZAK_EVENT as eventType,razakDeploymentSnapshot} from '../shared/mercenary-razak-v1.mjs';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {mercenaryAcquisitionEnabled,assertMercenaryAcquisitionEnabled} from '../shared/mercenary-acquisition-release-v1.mjs';
 import {mercenaryGradePools,mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs';
@@ -33,13 +33,13 @@ test('approved runtime assets fit Pages and excluded Node commands remain byte-i
  for(const r of records){const bytes=fs.readFileSync(r.file);assert.match(bytes.toString(),/node:(fs|child_process|test)/);assert.equal(createHash('sha256').update(bytes).digest('hex'),r.sha256);assert.equal(isProductionFile(r.file),false);}
  for(const file of [art.sourceArt,art.battleSprite,'shared/mercenary-razak-v1.mjs','assets/ui/project-v/mercenaries/razak-20261024/motion-manifest.json'])assert.equal(isProductionFile(file),true);
 });
-test('Razak is ordinary SSS at 1,000,000 and uses canonical stats without animation-based bonus actions',()=>{
+test('Razak remains ordinary SSS at 1,000,000 with an explicit balance policy independent of visual speed',()=>{
  assert.equal(limitedDeploymentSnapshot(code).edition,'STANDARD');assert.equal(mercenaryLevelXpMultiplier({code}),1);
  for(const mode of ['PVE','PVP'])for(const gear of [0,100000]){
   const actor=fighter(mode,gear),reference=buildFighter({id:code,power:1000000+gear,type:'NONE'},5,'A',null,mode);
-  assert.equal(actor.basePower,1000000+gear);for(const [a,b]of [['attack','attack'],['maxHp','maxHp'],['defense','defense'],['speed','speed']])assert.equal(actor[a],reference[b]);
+  assert.equal(actor.basePower,1000000+gear);for(const [a,b]of [['attack','attack'],['maxHp','maxHp'],['defense','defense'],['speed','speed']])assert.equal(actor[a],Math.round(reference[b]*(a==='speed'?RAZAK_COMBAT.speedScale:RAZAK_COMBAT.statScale)));
   assert.equal(actor.rank,'SSS');assert.equal(actor.role,'ASSASSIN');assert.equal(actor.controlImmune,false);assert.equal(actor.counterImmune,false);
-  assert.equal(mercenaryBaseActionCredit([actor]),1);assert.deepEqual(actor.skills.map(s=>s.id),skills.filter(s=>!s.pveOnly||mode==='PVE').map(s=>s.id));
+  assert.equal(mercenaryBaseActionCredit([actor]),RAZAK_COMBAT.actionCredit);assert.deepEqual(actor.skills.map(s=>s.id),skills.filter(s=>!s.pveOnly||mode==='PVE').map(s=>s.id));
  }
 });
 test('other acquisition pools remain closed, including positive CMS weights and limited/craft/cube paths',async t=>{

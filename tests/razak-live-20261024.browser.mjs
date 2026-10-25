@@ -31,7 +31,7 @@ const enemyPayload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{
 const catalog=publicBase?JSON.parse((await publicFile('/api/mercenary-codex')).bytes):mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1});
 assert(catalog.cards.some(card=>card.code==='V-058'));
 const mainHtml=publicBase?(await publicFile('/')).bytes.toString():fs.readFileSync(root+'/index.html','utf8');
-const pack={revision:1,...bloodmoonPackState(undefined,Array.from({length:6},(_,i)=>({code:'V-'+(960+i),stock_limit:10,issued:0})))};
+const pack={revision:1,...bloodmoonPackState()};
 const boot=`document.addEventListener('DOMContentLoaded',async()=>{try{
  const mode=new URLSearchParams(location.search).get('mode');
  if(window.ensureFeatureResources){await window.ensureFeatureResources('battleV2');if(mode!=='enemy')await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='/preview/sustained-hunt-v2/battle.bundle.js';s.onload=resolve;s.onerror=reject;document.head.appendChild(s);});}
@@ -104,10 +104,10 @@ try{
   await page.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','local-read-only-qa');localStorage.setItem('cnine_card_user_v10',JSON.stringify({id:7,nickname:'검수'}));});
   await page.goto(base+'/mercenary-codex/?view=all&q='+encodeURIComponent('라자크'),{waitUntil:'networkidle'});const entry=page.locator('[data-code="V-058"]');await entry.waitFor({state:'visible'});await entry.click();
   assert.equal(await page.locator('.stage-heading h2').innerText(),'라자크');await page.locator('#portraitDisplay img').first().evaluate(i=>i.decode());await page.screenshot({path:path.join(out,label+'-codex-art.png'),fullPage:true});
-  await page.locator('.combat-details > summary').click();const panel=await page.locator('.combat-panel').innerText();assert.match(panel,/800,000/);assert.match(await page.locator('.deployment-card').innerText(),/현재 획득 불가/);assert.equal(await page.locator('.deployment-card a[href*=buy]').count(),0);assert.equal(await page.locator('.skill-list > *').count(),3);
+  await page.locator('.combat-details > summary').click();const panel=await page.locator('.combat-panel').innerText();assert.match(panel,/1,000,000/);assert.match(panel,/3,200%/);assert.match(panel,/80%/);assert.match(await page.locator('.deployment-card').innerText(),/블러드문팩/);assert.equal(await page.locator('.deployment-card a[href*=buy]').count(),1);assert.equal(await page.locator('.skill-list > *').count(),3);
   await page.locator('#sdTab').click();assert.equal(await page.locator('#portraitDisplay svg image').getAttribute('href'),'/'+catalog.cards.find(c=>c.code==='V-058').battleSprite);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await page.screenshot({path:path.join(out,label+'-codex-sd.png'),fullPage:true});
-  checks.push({label,codex:true,name:'라자크',skills:3,basePower:800000});console.log(label+' codex PASS');await page.close();
+  checks.push({label,codex:true,name:'라자크',skills:3,basePower:1000000});console.log(label+' codex PASS');await page.close();
  }
  assert.deepEqual(errors,[]);assert.deepEqual(missing,[]);fs.writeFileSync(path.join(out,'browser-report.json'),JSON.stringify({status:'PASS',publicBase,publicFiles:publicFiles.size,checks,errors,missing},null,2)+'\n');console.log(JSON.stringify({status:'PASS',publicBase,publicFiles:publicFiles.size,checks:checks.length,out}));
 }catch(e){fs.writeFileSync(path.join(out,'browser-failure.json'),JSON.stringify({message:e.stack,checks,errors,missing},null,2)+'\n');throw e;}finally{await browser.close();await new Promise(r=>server.close(r));}

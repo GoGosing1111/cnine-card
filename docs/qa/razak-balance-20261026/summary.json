@@ -1,0 +1,147 @@
+{
+  "scope": "CANONICAL_TEAM_SIMULATION_NOT_LIVE_PLAYER_WIN_RATE",
+  "baselineSeeds": 4,
+  "holdoutSeeds": 32,
+  "scenarios": 13,
+  "baselineTotal": 5824,
+  "holdoutTotal": 46592,
+  "groups": {
+    "ordinarySS": {
+      "before": {
+        "fighters": 17,
+        "wins": 1768,
+        "total": 1768,
+        "winRate": 1,
+        "minimumFighterWinRate": 1
+      },
+      "after": {
+        "fighters": 17,
+        "wins": 14144,
+        "total": 14144,
+        "winRate": 1,
+        "minimumFighterWinRate": 1
+      }
+    },
+    "limitedSS": {
+      "before": {
+        "fighters": 21,
+        "wins": 388,
+        "total": 2184,
+        "winRate": 0.17765567765567766,
+        "minimumFighterWinRate": 0
+      },
+      "after": {
+        "fighters": 21,
+        "wins": 16465,
+        "total": 17472,
+        "winRate": 0.9423649267399268,
+        "minimumFighterWinRate": 0.6826923076923077
+      }
+    },
+    "limitedSSS": {
+      "before": {
+        "fighters": 12,
+        "wins": 0,
+        "total": 1248,
+        "winRate": 0,
+        "minimumFighterWinRate": 0
+      },
+      "after": {
+        "fighters": 12,
+        "wins": 8473,
+        "total": 9984,
+        "winRate": 0.8486578525641025,
+        "minimumFighterWinRate": 0.4206730769230769
+      }
+    }
+  },
+  "limitedOpponents": [
+    {
+      "code": "V-996",
+      "name": "발테르",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1
+    },
+    {
+      "code": "V-999",
+      "name": "헬리오스",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1
+    },
+    {
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "wins": 829,
+      "total": 832,
+      "winRate": 0.9963942307692307
+    },
+    {
+      "code": "V-988",
+      "name": "카이론",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1
+    },
+    {
+      "code": "V-987",
+      "name": "시라누이",
+      "wins": 831,
+      "total": 832,
+      "winRate": 0.9987980769230769
+    },
+    {
+      "code": "V-979",
+      "name": "족로",
+      "wins": 762,
+      "total": 832,
+      "winRate": 0.9158653846153846
+    },
+    {
+      "code": "V-978",
+      "name": "레오넬",
+      "wins": 732,
+      "total": 832,
+      "winRate": 0.8798076923076923
+    },
+    {
+      "code": "V-976",
+      "name": "제로",
+      "wins": 350,
+      "total": 832,
+      "winRate": 0.4206730769230769
+    },
+    {
+      "code": "V-975",
+      "name": "프라임 레퀴엠",
+      "wins": 370,
+      "total": 832,
+      "winRate": 0.44471153846153844
+    },
+    {
+      "code": "V-974",
+      "name": "제너럴 족",
+      "wins": 488,
+      "total": 832,
+      "winRate": 0.5865384615384616
+    },
+    {
+      "code": "V-973",
+      "name": "은설",
+      "wins": 817,
+      "total": 832,
+      "winRate": 0.9819711538461539
+    },
+    {
+      "code": "V-972",
+      "name": "각성 오메가",
+      "wins": 798,
+      "total": 832,
+      "winRate": 0.9591346153846154
+    }
+  ],
+  "unchangedOtherBattles": 1456,
+  "accountWrites": 0,
+  "opponentOpeningStatsUnchanged": true
+}

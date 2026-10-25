@@ -3,9 +3,14 @@ export const RAZAK_EVENT='MERCENARY_RAZAK_ASSASSINATION';
 export const RAZAK_MECHANIC='CURVED_BLADE_ASSASSINATION';
 export const RAZAK_ROOT='assets/ui/project-v/mercenaries/razak-20261024/';
 export const RAZAK_PLAYBACK_RATE=2;
-// Base power uses the ordinary SSS stat conversion and linkage. Animation speed
-// does not grant more actions, damage rolls, immunities or energy.
-export const RAZAK_COMBAT=Object.freeze({basePower:1000000,motionPlaybackRate:2,version:2});
+// Explicit combat policy, independent of the unchanged visual playback rate.
+// Every opponent uses the same policy; acquisition and ordinary SSS growth stay separate.
+export const RAZAK_COMBAT=Object.freeze({
+ version:3,basePower:1000000,statScale:2.4,speedScale:3.5,actionCredit:3.5,actionEnergy:10,
+ link:Object.freeze({attackPercent:3600,hpPercent:3200,shieldPercent:1600}),
+ damageTakenScale:.2,basicCapScale:3,pvpSkillCapScale:4,motionPlaybackRate:2
+});
+export const RAZAK_COMBAT_DESCRIPTION='기본 전투력 1,000,000의 SSS 기습 용병. 고유·장비 능력치 환산은 2.4배이며, 아군 일반 카드 평균 공격력의 3,600%를 최소 공격력, 평균 최대 체력의 3,200%를 최소 체력으로 사용합니다. 시작 방벽은 평균 최대 체력의 1,600%, 받는 피해 경감은 80%입니다. 자연 행동 속도 3.5배·아군 카드 2회 행동당 추가 7회 행동하며 자기 행동마다 에너지 10을 회복합니다. 기본 공격 피해 상한은 3배, PVP 암살 스킬 피해 상한은 4배입니다. 그림자 교차·무영 연살·월식 난무는 에너지 25와 공통 재사용 3행동을 사용하며, 월식 난무는 PVE 전용입니다. 기절·침묵·반격·중독에 면역은 없으며 성장의 피해 경감 관통이 적용됩니다. 모션 2배속·고정 대기, 블러드문팩 전용 일반 SSS·발행 한도 없음.';
 export const RAZAK_SKILLS=Object.freeze([
  {id:'MS-061',name:'그림자 교차',visualMode:'cross',targetCount:1,target:'약화된 적 하나',ratio:4.4,effect:'약화된 적에게 순간 돌진해 쌍곡도를 교차합니다.'},
  {id:'MS-062',name:'무영 연살',visualMode:'flurry',targetCount:1,target:'후열 우선 적 하나',ratio:5.6,effect:'후열 핵심 적을 향해 낮은 베기·올려 베기·종결 참격을 이어갑니다.'},
@@ -27,7 +32,11 @@ export const RAZAK_ART=Object.freeze({
  battleSpriteViewport:Object.freeze({x:172,y:275,width:385,height:391,imageWidth:768,imageHeight:768}),
  basePower:RAZAK_COMBAT.basePower,skills:RAZAK_SKILLS,
  specialty:'쌍곡도 기습 · 이동 궤적을 따르는 잔상 · PVE 광역 참격',weakness:'집중 공격·방어·보호막·행동 제어에 취약',
- combatLinkDescription:'기본 전투력 1,000,000의 SSS 기습 용병. 일반 SSS의 능력치 환산·전력 연계·행동 규칙을 따릅니다. 그림자 교차·무영 연살·월식 난무는 에너지 25와 공통 재사용 3행동을 사용하며, 월식 난무는 PVE 전용입니다. 빠른 암살 모션은 2배속이며 대기 몸체는 고정됩니다. 블러드문팩 전용 · 일반 SSS · 발행 한도 없음.'
+ combatLinkDescription:RAZAK_COMBAT_DESCRIPTION
 });
 export const isRazak=a=>a?.isMercenary===true&&(a.code||a.cardId)===RAZAK_CODE;
-export function razakDeploymentSnapshot(){return {...RAZAK_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',basicTarget:'LOW_HP_ENEMY',skills:structuredClone(RAZAK_SKILLS),pendingSkillIds:[],deploymentVersion:'20261025-razak-1m-v2'};}
+export const razakActionCredit=actors=>actors.some(a=>isRazak(a)&&a.alive!==false&&a.hp>0)?RAZAK_COMBAT.actionCredit:1;
+// Canonical damage calls this after hit caps and before shield/HP consumption.
+// Growth mitigation bypass still applies afterwards; no target-specific immunity.
+export const razakIncomingDamage=(target,incoming)=>isRazak(target)?Math.floor(Math.max(0,Number(incoming)||0)*RAZAK_COMBAT.damageTakenScale):incoming;
+export function razakDeploymentSnapshot(){return {...RAZAK_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',basicTarget:'LOW_HP_ENEMY',skills:structuredClone(RAZAK_SKILLS),pendingSkillIds:[],deploymentVersion:'20261026-razak-balance-v3'};}
