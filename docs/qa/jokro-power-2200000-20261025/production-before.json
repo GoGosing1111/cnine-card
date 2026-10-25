@@ -1,0 +1,24 @@
+{
+  "id": "57015dc6-75fc-45bd-947b-6e0befd24954",
+  "environment": "production",
+  "url": "https://57015dc6.cnine-card.pages.dev",
+  "aliases": null,
+  "stage": {
+    "name": "deploy",
+    "started_on": null,
+    "ended_on": "2026-10-25T08:08:53.932129Z",
+    "status": "success"
+  },
+  "trigger": {
+    "type": "ad_hoc",
+    "metadata": {
+      "branch": "main",
+      "commit_hash": "d10b2b22bd3809137901fbd76716ee11279a5989",
+      "commit_message": "Keep XP potion authoring files out of bounded Pages delivery [CF-Pages-Skip]",
+      "commit_dirty": false
+    }
+  },
+  "domains": [
+    "cnine-card.pages.dev"
+  ]
+}

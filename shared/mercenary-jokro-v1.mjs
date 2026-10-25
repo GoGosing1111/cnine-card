@@ -8,12 +8,14 @@ export const JOKRO_AREA_EVENT='MERCENARY_JOKRO_AREA';
 export const JOKRO_AREA_MECHANIC='AZURE_DRAGON_SKY_CLEAVE';
 export const JOKRO_AREA_SKILL=Object.freeze({id:'MS-979',name:'청룡단천',mechanic:JOKRO_AREA_MECHANIC,target:'ALL_ENEMIES',pveOnly:true,
  balance:Object.freeze({damageRatio:15.12,cooldownTurns:5,cost:35})});
+// 2026-10-25: scale the approved offensive/stat band to 2,200,000; retain cadence/protection.
+const powerScale=2200000/1940890;
 export const JOKRO_COMBAT=Object.freeze({
- version:2,basePower:1940890,statsReferencePower:1123200,statScale:1.728,speedReferencePower:1080000,speedScale:3.12,actionCredit:3.12,
+ version:3,basePower:2200000,statsReferencePower:1123200,statScale:1.728*powerScale,speedReferencePower:1080000,speedScale:3.12,actionCredit:3.12,
  motionPlaybackRate:2,effectPlaybackRate:1,
- // Include the common +60% front shield before increasing the whole shield by 20%.
- link:Object.freeze({attackPercent:3162.9312,hpPercent:2012.7744,shieldPercent:1126.0992}),
- basicCapScale:3.456,damageTakenScale:.2,hardCounter:BERKAN_CODE
+ // Scale the full front shield, including the common +60% contribution.
+ link:Object.freeze({attackPercent:3162.9312*powerScale,hpPercent:2012.7744*powerScale,shieldPercent:(1126.0992+60)*powerScale-60}),
+ basicCapScale:3.456*powerScale,damageTakenScale:.2,hardCounter:BERKAN_CODE
 });
 export const isJokro=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===JOKRO_CODE;
 // User-authorized loan. The server closes access at 04:00 KST even if the
@@ -43,9 +45,9 @@ export const JOKRO_ART=Object.freeze({
  frame:'assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png',
  artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#66ffc2',
  basePower:JOKRO_COMBAT.basePower,skills:Object.freeze([JOKRO_AREA_SKILL]),acquisitionEnabled:false,packAcquisitionEnabled:true,deploymentEnabled:true,
- combatLinkDescription:'족로 · SSS 리미티드. 할로윈팩에서 서버 3장 한정이며 기존 지정 계정 지급분은 팩 수량에서 제외됩니다. 용병 제작은 별도 2장 한도이며 공개·운영 설정에 따라 이용할 수 있습니다. 기본 전투력 1,940,890. 같은 편성·장비 기준 상향된 진무보다 기본·연계 공격력·체력·전체 방벽과 기본 피해 상한이 20% 높으며 전투 행동 속도는 동일합니다. 개인 피해 80% 경감, 상태이상·반격 보호, 베르칸 피해 면역. PVE 청룡단천은 생존한 적 전체에 총 1,512% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 발도 동작은 2배속, 이펙트는 원래 길이를 유지합니다.'
+ combatLinkDescription:'족로 · SSS 리미티드. 할로윈팩에서 서버 3장 한정이며 기존 지정 계정 지급분은 팩 수량에서 제외됩니다. 용병 제작은 별도 2장 한도이며 공개·운영 설정에 따라 이용할 수 있습니다. 기본 전투력 2,200,000. 아군 카드 행동당 3.12회 추가 행동. 개인 피해 80% 경감, 상태이상·반격 보호, 베르칸 피해 면역. PVE 청룡단천은 생존한 적 전체에 총 1,512% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 발도 동작은 2배속, 이펙트는 원래 길이를 유지합니다.'
 });
 export function jokroDeploymentSnapshot(){
  return {...JOKRO_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',attackStyle:'MELEE',skills:[structuredClone(JOKRO_AREA_SKILL)],pendingSkillIds:[],
-  jokroPolicyVersion:JOKRO_COMBAT.version,deploymentVersion:'20261018-jokro-balance-v2'};
+  jokroPolicyVersion:JOKRO_COMBAT.version,deploymentVersion:'20261025-jokro-power-2200000-v3'};
 }

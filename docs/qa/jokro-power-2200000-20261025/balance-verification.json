@@ -1,0 +1,27 @@
+{
+  "oldPower": 1940890,
+  "newPower": 2200000,
+  "increasePercent": 13.350061054464701,
+  "eunseolExactlyMatchesPreviousCombat": true,
+  "areaSkillUnchanged": true,
+  "approvedArtUnchanged": true,
+  "combat": {
+    "version": 3,
+    "basePower": 2200000,
+    "statsReferencePower": 1123200,
+    "statScale": 1.95868905502115,
+    "speedReferencePower": 1080000,
+    "speedScale": 3.12,
+    "actionCredit": 3.12,
+    "motionPlaybackRate": 2,
+    "effectPlaybackRate": 1,
+    "link": {
+      "attackPercent": 3585.184446310713,
+      "hpPercent": 2281.4810112886357,
+      "shieldPercent": 1284.4441673665176
+    },
+    "basicCapScale": 3.9173781100423,
+    "damageTakenScale": 0.2,
+    "hardCounter": "V-055"
+  }
+}

@@ -15,8 +15,10 @@ import {buildFighter,createPveBattleV2,createPvpBattleV2} from '../functions/_ba
 import {tierCards} from './helpers/mercenary-operating-roster-v2144.mjs';
 const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat});
 const fighter=(code=JOKRO_CODE,side='A',mode='PVE',power=0)=>buildMercenaryFighter({...snapshot(code),equipment:{schemaVersion:1,mode,power}},side,mode,buildFighter);
-const higher=(a,b)=>assert(Math.abs(a-b*1.2)<=2,`${a} must be 20% above ${b}`);
-test('Jokro increases Jinmu stats, equipment and linked floors by 20%, full shield included; actions stay equal',()=>{
+const ratio=1.2*(2200000/1940890);
+const higher=(a,b)=>assert(Math.abs(a-b*ratio)<=Math.max(3,a*1e-8),`${a} vs ${b} at ${ratio}`);
+test('Jokro scales actual PVE/PVP stats, equipment and linked floors to 2.2m, including the full shield; actions stay equal',()=>{
+ assert.equal(JOKRO_COMBAT.basePower,2200000);
  higher(JOKRO_COMBAT.basePower,JINMU_COMBAT.basePower);
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8])for(const power of [1e5,2e7,1e9]){
   const k=fighter(JOKRO_CODE,'A',mode,gear),j=fighter('V-989','B',mode,gear);

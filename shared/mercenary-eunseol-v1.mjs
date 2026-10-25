@@ -1,4 +1,5 @@
-import {JOKRO_COMBAT,JOKRO_AREA_SKILL} from './mercenary-jokro-v1.mjs';
+import {JOKRO_AREA_SKILL} from './mercenary-jokro-v1.mjs';
+import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
 
 // 2026-10-25: owned Eunseol may deploy in PVE and PVP; its area skill remains PVE-only.
 export const EUNSEOL_CODE='V-973';
@@ -9,7 +10,14 @@ export const MERCENARY_PVE_ONLY_REASON='이 용병은 PVE에만 편성할 수 �
 
 export const EUNSEOL_AREA_EVENT='MERCENARY_EUNSEOL_AREA';
 export const EUNSEOL_AREA_MECHANIC='EUNSEOL_WHITE_TIGER_SWORD';
-export const EUNSEOL_COMBAT=JOKRO_COMBAT;
+// Preserve the 2026-10-23 approved balance independently of later Jokro buffs.
+export const EUNSEOL_COMBAT=Object.freeze({
+ version:2,basePower:1940890,statsReferencePower:1123200,statScale:1.728,speedReferencePower:1080000,speedScale:3.12,actionCredit:3.12,
+ motionPlaybackRate:2,effectPlaybackRate:1,
+ // Include the common +60% front shield before increasing the whole shield by 20%.
+ link:Object.freeze({attackPercent:3162.9312,hpPercent:2012.7744,shieldPercent:1126.0992}),
+ basicCapScale:3.456,damageTakenScale:.2,hardCounter:BERKAN_CODE
+});
 export const EUNSEOL_PLAYBACK_RATE=2;
 export const EUNSEOL_AREA_VARIANTS=Object.freeze([
  {visualMode:'moon',name:'설백월참'},
@@ -37,7 +45,7 @@ export const EUNSEOL_ART=Object.freeze({
  artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#c3acff',
  basePower:EUNSEOL_COMBAT.basePower,skills:Object.freeze([EUNSEOL_AREA_SKILL]),
  acquisitionEnabled:false,packAcquisitionEnabled:false,deploymentEnabled:true,deploymentModes:Object.freeze(['PVE','PVP']),
- combatLinkDescription:'기본 전투력 1,940,890. 족로와 동일한 공격·체력·방벽·행동 속도·연계 기준. 개인 피해 80% 경감, 상태이상·반격 보호, 베르칸 피해 면역. PVE 백호 검술은 설백월참·백호천류·만월검역 연출을 순환하며 총 1,512% 피해를 생존한 적 전체에 나눠 대상당 한 번 적용합니다. 에너지 35 · 공통 재사용 5행동. 보유 시 PVE·PVP에 편성할 수 있으며 백호 검술의 광역 효과는 PVE에서만 발동합니다. 대기 자세 고정·전신 아우라·모션 2배속.'
+ combatLinkDescription:'기본 전투력 1,940,890. 아군 카드 행동당 3.12회 추가 행동. 개인 피해 80% 경감, 상태이상·반격 보호, 베르칸 피해 면역. PVE 백호 검술은 설백월참·백호천류·만월검역 연출을 순환하며 총 1,512% 피해를 생존한 적 전체에 나눠 대상당 한 번 적용합니다. 에너지 35 · 공통 재사용 5행동. 보유 시 PVE·PVP에 편성할 수 있으며 백호 검술의 광역 효과는 PVE에서만 발동합니다. 대기 자세 고정·전신 아우라·모션 2배속.'
 });
 export const eunseolCodexSkills=()=>EUNSEOL_ART.skills.map(s=>({...s,ready:true,target:'적 전체',
  effect:'설백월참·백호천류·만월검역 연출이 순환하며 생존한 적 전체에 총 1,512% 피해를 나누어 대상당 한 번 적용합니다.',
