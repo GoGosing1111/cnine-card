@@ -41,5 +41,9 @@
       "onlyRuntimeVersionChanged": true
     }
   ],
-  "assetsChanged": false
+  "assetsChanged": false,
+  "phase": "Runtime-only patch before integrating latest main",
+  "baseline": "bc6a85575",
+  "integratedMain": "bc59a503d",
+  "integrationNote": "Regenerated from latest main to retain SS limit 25 metadata and existing Jokro account-access registration; no account operations executed."
 }

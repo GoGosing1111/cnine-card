@@ -18,7 +18,7 @@ async function state(){
 }
 if(mode==='inspect'){
  fs.mkdirSync(out,{recursive:true});const before={...await state(),packs:await publicState()};fs.writeFileSync(path.join(out,'before-deploy.json'),JSON.stringify(before,null,2));console.log(JSON.stringify({pages:before.pages,shopIds:before.packs.shopIds,bloodmoonOn:before.packs.bloodmoon.userOpeningEnabled}));
- const plan={base:before.pages.commit,reason:'블러드문 편성 시 MERCENARY_SD_NOT_READY: 기존 엔진과 신규 엔진의 버전 충돌을 수정한다. 전투 엔진/래퍼/메인 로더 버전 및 캐시를 함께 갱신하고, 실제 구버전 주입 재현과 6종 PC/모바일 양팀 전투를 확인했다. 전투력/보상/계정/팩 설정 변경 없음.',tests:['tests/battle-feature-recovery-20261015.test.mjs','tests/pve-battlefield-entry-v2117.test.mjs','tests/project-v-v3-live-payload-v1.mjs'],checks:[]};
+ const plan={base:before.pages.commit,reason:'블러드문 편성 시 MERCENARY_SD_NOT_READY: 기존 엔진과 신규 엔진의 버전 충돌을 수정한다. 전투 엔진/래퍼/메인 로더 버전 및 캐시를 함께 갱신하고, 실제 구버전 주입 재현과 6종 PC/모바일 양팀 전투를 확인했다. 전투력/보상/계정/팩 설정 변경 없음.',tests:['tests/battle-feature-recovery-20261015.test.mjs','tests/pve-battlefield-entry-v2117.test.mjs','tests/project-v-v3-live-payload-v1.mjs','tests/jokgujoa-jokro-access-20261025.test.mjs'],checks:[]};
  fs.writeFileSync(path.join(out,'deployment-plan.json'),JSON.stringify(plan,null,2));
 }else if(mode==='deploy'){
  const plan=JSON.parse(fs.readFileSync(path.join(out,'deployment-plan.json'))),logfile=path.join(out,'deploy.log');if(fs.existsSync(logfile))throw Error('Preserve prior deployment log before retrying');
