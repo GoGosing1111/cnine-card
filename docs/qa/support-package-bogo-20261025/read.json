@@ -1,0 +1,86 @@
+{
+  "accounts": [
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "status": "ACTIVE",
+      "coin": "1917347254109"
+    },
+    {
+      "id": "4572",
+      "nickname": "응맨",
+      "status": "ACTIVE",
+      "coin": "103279414543545"
+    }
+  ],
+  "inventory": [
+    {
+      "user_id": "1195",
+      "item_code": "EMPEROR_ENERGY",
+      "quantity": "1941",
+      "unseen_quantity": "200"
+    },
+    {
+      "user_id": "1195",
+      "item_code": "MERCENARY_SSS_LIMITED_SHARD",
+      "quantity": "5",
+      "unseen_quantity": "5"
+    },
+    {
+      "user_id": "4572",
+      "item_code": "EMPEROR_ENERGY",
+      "quantity": "936",
+      "unseen_quantity": "200"
+    },
+    {
+      "user_id": "4572",
+      "item_code": "MERCENARY_SSS_LIMITED_SHARD",
+      "quantity": "3",
+      "unseen_quantity": "3"
+    }
+  ],
+  "accounting": [
+    {
+      "userId": "1195",
+      "key": "support_package_coin_v1:1195",
+      "raw": "{\"version\":1,\"revision\":237,\"cursor\":97809833,\"restricted\":100000000000000,\"auctionReserved\":{},\"precredited\":\"1195_e584dc1b-25af-43dd-a2b9-2c904ca31602\"}",
+      "state": {
+        "version": 1,
+        "revision": 237,
+        "cursor": 97817108,
+        "restricted": 1000000000,
+        "auctionReserved": {},
+        "precredited": null
+      },
+      "tracked": true,
+      "total": 1917347254109,
+      "totalExact": "1917347254109",
+      "lastLog": 97817108,
+      "restricted": 1000000000,
+      "available": 1916347254109,
+      "availableExact": "1916347254109"
+    },
+    {
+      "userId": "4572",
+      "key": "support_package_coin_v1:4572",
+      "raw": "{\"version\":1,\"revision\":192,\"cursor\":97815694,\"restricted\":100000000000000,\"auctionReserved\":{},\"precredited\":\"4572_b5b6e536-788a-4c43-a340-ae3de3b67279\"}",
+      "state": {
+        "version": 1,
+        "revision": 192,
+        "cursor": 97819415,
+        "restricted": 99000000000000,
+        "auctionReserved": {},
+        "precredited": null
+      },
+      "tracked": true,
+      "total": 103279414543545,
+      "totalExact": "103279414543545",
+      "lastLog": 97819415,
+      "restricted": 99000000000000,
+      "available": 4279414543545,
+      "availableExact": "4279414543545"
+    }
+  ],
+  "receipt": null,
+  "checkedAt": "2026-10-25T04:51:45.802Z"
+}

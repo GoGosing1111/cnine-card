@@ -1,5 +1,5 @@
 import {readPackageCoinAccounting,packageCoinGuardStatements} from './_package_coin_accounting.js';
-import {SUPPORT_PACKAGE,LIMITED_SHARD} from '../shared/support-package-v1.mjs';
+import {SUPPORT_PACKAGE,LIMITED_SHARD,isSupportPackageProduct,supportPackageSummary} from '../shared/support-package-v1.mjs';
 import {supportAccountEligible,supportBenefits,canManageSupport} from '../shared/server-support-v1.mjs';
 import {PASS_KEY} from '../shared/supporter-season-pass-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
@@ -45,7 +45,7 @@ export async function issuePackage(env,user,body,now=Date.now()){
  // Reissuing bank instructions keeps the same pending order and never repeats its owner alert.
  const campaign='support_package_bank_v1:'+id+':'+body.requestId;
  const result={ok:true,order,campaignKey:campaign,issuedAt:now,expiresAt:now+SUPPORT_BANK_MESSAGE_TTL,replayed:false};
- const message=`패키지 구매 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n결제 금액: 49,800원\n\n100조 코인 + 엠퍼러 에너지 200개 + SSS 리미티드 조각 5개\n신청 번호: ${order.id}\n\n반드시 게임 닉네임으로 입금해 주세요.\n같은 신청에 중복 입금하지 마세요. 운영자의 입금 확인 후 패키지가 지급됩니다. 시즌패스 기간은 연장되지 않습니다. 패키지 코인은 승부예측에 사용할 수 없습니다.\n계좌 안내 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 신청 기록은 유지됩니다.`;
+ const message=`패키지 구매 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n결제 금액: 49,800원\n\n${SUPPORT_PACKAGE.eventLabel} · 패키지 총 ${SUPPORT_PACKAGE.packageQuantity}개\n${supportPackageSummary(SUPPORT_PACKAGE)}\n신청 번호: ${order.id}\n\n반드시 게임 닉네임으로 입금해 주세요.\n같은 신청에 중복 입금하지 마세요. 운영자의 입금 확인 후 패키지가 지급됩니다. 시즌패스 기간은 연장되지 않습니다. 패키지 코인은 승부예측에 사용할 수 없습니다.\n계좌 안내 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 신청 기록은 유지됩니다.`;
  const DB=env.DB,token=crypto.randomUUID(),tokens=[],p=(sql,...a)=>DB.prepare(sql).bind(...a),guard=(test,args)=>{const t=token+tokens.length;tokens.push(t);return jointGuard(DB,t,test,args);};
  try{await DB.batch([
   ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id),p('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR UPDATE',support.key,PASS_KEY)]:[]),
@@ -54,7 +54,7 @@ export async function issuePackage(env,user,body,now=Date.now()){
   guard('NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[key]),
   ...(old?[guard('EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[pendingKey(id),order.id,orderKey(order.id),old.raw])]:[
    guard('NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[pendingKey(id)]),p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',pendingKey(id),order.id),p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',orderKey(order.id),JSON.stringify(order)),
-   p("INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key,created_at) VALUES(1,'SYSTEM',?,?,'SYSTEM',?,?)",'[패키지 구매 접수] '+account.nickname,`${account.nickname} (ID ${id})님의 패키지 구매 신청이 접수되었습니다.\n\n금액: 49,800원\n구성: 100조 코인 + 엠퍼러 에너지 200개 + SSS 리미티드 조각 5개\n신청 번호: ${order.id}\n\nOWNER CMS → 후원 관리 → 패키지 구매 접수에서 확인해 주세요. 실제 입금 확인 후 지급 처리할 수 있습니다.`, 'support_package_owner_alert_v1:'+order.id,new Date(now).toISOString())
+   p("INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key,created_at) VALUES(1,'SYSTEM',?,?,'SYSTEM',?,?)",'[패키지 구매 접수] '+account.nickname,`${account.nickname} (ID ${id})님의 패키지 구매 신청이 접수되었습니다.\n\n금액: 49,800원\n구성: ${SUPPORT_PACKAGE.eventLabel} · 패키지 총 ${SUPPORT_PACKAGE.packageQuantity}개\n${supportPackageSummary(SUPPORT_PACKAGE)}\n신청 번호: ${order.id}\n\nOWNER CMS → 후원 관리 → 패키지 구매 접수에서 확인해 주세요. 실제 입금 확인 후 지급 처리할 수 있습니다.`, 'support_package_owner_alert_v1:'+order.id,new Date(now).toISOString())
   ]),
   p("INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key,created_at) VALUES(?,'SYSTEM',?,?,?,?,?)",id,'[패키지 구매] 49,800원 계좌 안내 · 5분 후 삭제',message,SUPPORT_BANK_MESSAGE_TYPE,campaign,new Date(now).toISOString()),
   p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',key,JSON.stringify({payload,result})),...tokens.map(t=>jointGuardEnd(DB,t))
@@ -69,12 +69,14 @@ export async function processPackage(env,admin,body,now=Date.now()){
  const before=await raw(env,orderKey(body.orderId));if(!before)fail('NOT_FOUND','신청을 찾지 못했습니다.',404);
  const order=JSON.parse(before),grant=body.action==='FULFILL';
  if(order.status!=='PENDING'||order.revision!==body.expectedRevision)fail('REVISION','이미 처리되었거나 변경된 신청입니다. 새로고침해 주세요.',409);
- if(JSON.stringify(order.product)!==JSON.stringify(SUPPORT_PACKAGE))fail('PRODUCT','신청 시점의 상품 구성을 확인해야 합니다.',409);
+ // Existing pending single-package applications also receive the active 1+1 offer.
+ // Completed receipts return above and are never granted a second time.
+ if(!isSupportPackageProduct(order.product))fail('PRODUCT','신청 시점의 상품 구성을 확인해야 합니다.',409);
  const target=await env.DB.prepare('SELECT id,nickname,status FROM users WHERE id=?').bind(order.userId).first();if(!target||grant&&target.status!=='ACTIVE')fail('TARGET','현재 지급할 수 없는 계정입니다.',409);
  if(grant){await ensureLimitedShardCatalog(env);await ensureEmperorEnergyCatalog(env);}
  await ensureJointAtomicSchema(env);
  const coinAccounting=grant?await readPackageCoinAccounting(env,order.userId):null;
- const next={...order,status:grant?'FULFILLED':'REJECTED',revision:order.revision+1,processedAt:now,processedBy:Number(admin.id),note:body.note.trim()},result={ok:true,order:next,replayed:false};
+ const next={...order,...(grant?{fulfillment:SUPPORT_PACKAGE}:{}),status:grant?'FULFILLED':'REJECTED',revision:order.revision+1,processedAt:now,processedBy:Number(admin.id),note:body.note.trim()},result={ok:true,order:next,replayed:false};
  const DB=env.DB,token=crypto.randomUUID(),tokens=[],p=(sql,...a)=>DB.prepare(sql).bind(...a),guard=(test,args)=>{const t=token+tokens.length;tokens.push(t);return jointGuard(DB,t,test,args);};
  try{await DB.batch([
   ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',order.userId)]:[]),
@@ -104,7 +106,7 @@ export async function handleSupportPackage({path,request,env,user,deps,now}){
   if(!canManageSupport(user))fail('ADMIN','패키지 관리는 핑크빛유두 전용입니다.',403);
   if(request.method!=='GET')fail('METHOD','지원하지 않는 요청입니다.',405);
   const rows=await env.DB.prepare("SELECT o.value,u.nickname FROM app_meta p JOIN app_meta o ON o.key='support_package_order_v1:'||p.value JOIN users u ON p.key='support_package_pending_v1:'||u.id WHERE p.key LIKE 'support_package_pending_v1:%' ORDER BY p.updated_at ASC").all();
-  return {pending:rows.results.map(r=>{const o=JSON.parse(r.value);return {id:o.id,userId:o.userId,nickname:r.nickname,createdAt:o.createdAt};})};
+  return {product:SUPPORT_PACKAGE,pending:rows.results.map(r=>{const o=JSON.parse(r.value);return {id:o.id,userId:o.userId,nickname:r.nickname,createdAt:o.createdAt};})};
  }
  const admin=path==='admin/server-support/package';
  if(admin){

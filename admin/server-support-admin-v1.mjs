@@ -1,6 +1,6 @@
 import {mountSupportApplicationAdmin} from './supporter-application-admin-v1.mjs?v=20261011-apply1';
-import {mountSupportPackageAdmin} from './support-package-admin-v1.mjs?v=20261020-package2';
-import {mountPackageAlerts} from '../js/support-package-alerts-v1.mjs?v=20261020-package2';
+import {mountSupportPackageAdmin} from './support-package-admin-v1.mjs?v=20261025-package-bogo-v1';
+import {mountPackageAlerts} from '../js/support-package-alerts-v1.mjs?v=20261025-package-bogo-v1';
 import {jointAdminRequest} from '../js/joint-account-transport.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';

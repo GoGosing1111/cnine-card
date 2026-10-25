@@ -13,7 +13,7 @@ for(const postgres of [false,true]){
    const info=await f.call('server-support/package',{user:2});assert.equal(info.status,200);assert.equal(info.body.product.priceWon,49800);
    const item=await f.one('SELECT * FROM inventory_items WHERE code=?',LIMITED_SHARD.code);assert.equal(item.category,'MATERIAL');assert.equal(item.rarity,'SSS');assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),1234);
    const id=crypto.randomUUID(),applied=await f.apply(2,id);assert.equal(applied.status,200,JSON.stringify(applied.body));const order=applied.body.order;
-   assert.equal(order.product.coins,100000000000000);assert.equal(applied.body.messageExpired,false);
+   assert.equal(order.product.coins,200000000000000);assert.equal(applied.body.messageExpired,false);
    assert.equal((await f.apply(2,id)).body.replayed,true);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM user_messages')).n),2);
    const reissued=await f.apply();assert.equal(reissued.body.order.id,order.id);assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),1);
    const alerts=await f.call('admin/server-support/package/alerts');assert.equal(alerts.body.pending.length,1);assert.equal(alerts.body.pending[0].nickname,'후원 검수 계정');
@@ -21,7 +21,7 @@ for(const postgres of [false,true]){
    assert.equal((await f.call('admin/server-support/package',{user:3})).status,403);
    const beforePass=await f.one('SELECT value FROM app_meta WHERE key=?','server_support_v1:2');
    const rid=crypto.randomUUID(),paid=await f.process(order,'FULFILL',rid);assert.equal(paid.status,200,JSON.stringify(paid.body));assert.equal(paid.body.order.status,'FULFILLED');
-   assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),100000000001234);
+   assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),200000000001234);
    for(const i of SUPPORT_PACKAGE.items){const owned=await f.one('SELECT * FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',i.code);assert.equal(Number(owned.quantity),i.quantity);assert.equal(Number(owned.unseen_quantity),i.quantity);}
    assert.equal((await f.process(order,'FULFILL',rid)).body.replayed,true);assert.equal((await f.process(order)).status,409);
    assert.equal((await f.process(order,'REJECT',rid)).status,409);
@@ -31,7 +31,7 @@ for(const postgres of [false,true]){
    assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),2);
    const next=await f.apply();assert.notEqual(next.body.order.id,order.id);
    assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),2);
-   const rejected=await f.process(next.body.order,'REJECT');assert.equal(rejected.status,200);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),100000000001234);
+   const rejected=await f.process(next.body.order,'REJECT');assert.equal(rejected.status,200);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),200000000001234);
   }finally{await f.close();}
  });
  test(`package eligibility, tampering and rollback (${postgres?'PostgreSQL':'SQLite'})`,async()=>{
@@ -71,6 +71,6 @@ test('competing owner confirmations and duplicate applications cannot repeat a g
   const stale=await f.apply();assert.equal(competitor.status,200);assert.equal(stale.status,409);assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),1);
   entered=false;const order=competitor.body.order;
   f.DB.batch=async statements=>{if(!entered){entered=true;competitor=await f.process(order);}return batch(statements);};
-  const staleConfirm=await f.process(order);assert.equal(competitor.status,200);assert.equal(staleConfirm.status,409);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),100000000001234);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),2);
+  const staleConfirm=await f.process(order);assert.equal(competitor.status,200);assert.equal(staleConfirm.status,409);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),200000000001234);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),2);
  }finally{await f.close();}
 });
