@@ -1,0 +1,12 @@
+{
+  "base": "929f20914d12075b736a8a996a06cd83bdc3f529",
+  "reason": "블러드문 SS 여섯 한도 각 10장 추가. 기존 10장 읽기와 20장 저장 호환, 도감/CMS 표시, 기존 발행·가격·확률·판매 ON·SSS/프라임 제작 잠금 보존. 거래 6개와 선택 도감 검사7개, PC/모바일 검수는 이미 통과.",
+  "tests": [
+    "tests/mercenary-bloodmoon-pack-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-bulk-20261025.test.mjs",
+    "tests/bloodmoon-opening-20261025.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

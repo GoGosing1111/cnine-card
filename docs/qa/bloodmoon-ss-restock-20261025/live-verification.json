@@ -1,0 +1,153 @@
+{
+  "at": "2026-10-25T04:26:16.687Z",
+  "pages": {
+    "id": "0a632c12-05a4-4032-887c-b1e5078895a9",
+    "url": "https://0a632c12.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "9c95400bba4f19f946463f5e95c5ca7d90ed7239"
+  },
+  "publicFiles": [
+    {
+      "file": "admin/index.html",
+      "sha256": "855efa83f7f5e0f7a22f9b7159e51ee8c3063dad287bdae81ddc184ebefedd1a"
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "83aebe68e43f897e80f39bde02c9b17594464928ee1c83ec036625d58a5c064d"
+    },
+    {
+      "file": "admin/mercenary-bloodmoon-admin-v1.mjs",
+      "sha256": "cf232c7e40cd982daa0c97ac258c74204457c8ff663fb0e8b277600d7e467d25"
+    },
+    {
+      "file": "index.html",
+      "sha256": "714819765f61b79903d3d5664fb27eb0a8aed431d920d6d6c49f48523fb8d72a"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "944573732eb90afa32419704aa9e83f30cb76cf5cdd3a1b8142840868a390f4c"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "sha256": "3ca2eec536cca150fb9ea6832fd62d1375c31e37c7078d34db57158ad0559868"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "aebb86b4f31fb75b804b65170339b133a312d82d21df74f7af5cb470009477c2"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "e78efacc8f3bbe6bb1d644e275ab1d5d8cac8661e8c57f0aaf75c3b84070f8fc"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "37dd3cf6f53d1d43e9e893c2bd0157023e4e99b176093adf9af4748b2402b4c4"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "56689cdba731bcd6c36feba74f805b642a143d4de91286b9241a37b9135ffec5"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-catalog-v1.mjs",
+      "sha256": "7c580cdf7bde613df937aa839739469e2722b93d30665ad9b5cdfcd73dc70bb8"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-namsudaeng-v1.mjs",
+      "sha256": "62f3e5735d6b9756d4f3ff6f5ba8690cf3d346f6660ee89af5e1e9b3d0dc33ee"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "sha256": "e0747c55ae863947122db362a2fe6e06fa9de0f51d297211e0969dfb3bc089f0"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pool-v3.mjs",
+      "sha256": "068bca5ead8ddea6777c453ae95769c9cd430485358fc93f325a557b7e9734ed"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-session-v2.mjs",
+      "sha256": "2b5b4c4ebe9b703fb0e997885fc5e2efcfb5b72792fc0bbd92ddd650a1cf206e"
+    }
+  ],
+  "revision": 5,
+  "stock": [
+    {
+      "code": "V-960",
+      "limit": 20,
+      "issued": 10,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-961",
+      "limit": 20,
+      "issued": 10,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-962",
+      "limit": 20,
+      "issued": 10,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-963",
+      "limit": 20,
+      "issued": 10,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-964",
+      "limit": 20,
+      "issued": 10,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-965",
+      "limit": 20,
+      "issued": 10,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-978",
+      "limit": 5,
+      "issued": 3,
+      "remaining": 2,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-974",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-975",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    }
+  ],
+  "prices": {
+    "single": 1500000000,
+    "ten": 15000000000
+  },
+  "priceAndOddsAndModePreserved": true,
+  "stockAdded": 60,
+  "operationGrants": 0
+}

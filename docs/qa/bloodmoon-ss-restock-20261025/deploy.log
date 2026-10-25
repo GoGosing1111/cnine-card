@@ -1,0 +1,92 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"929f20914d12075b736a8a996a06cd83bdc3f529","reason":"블러드문 SS 여섯 한도 각 10장 추가. 기존 10장 읽기와 20장 저장 호환, 도감/CMS 표시, 기존 발행·가격·확률·판매 ON·SSS/프라임 제작 잠금 보존. 거래 6개와 선택 도감 검사7개, PC/모바일 검수는 이미 통과.","changed":["AGENTS.md","admin/index.html","admin/mercenary-admin-v1.js","admin/mercenary-bloodmoon-admin-v1.mjs","docs/qa/bloodmoon-ss-restock-20261025/README.md","docs/qa/bloodmoon-ss-restock-20261025/browser/browser.json","docs/qa/bloodmoon-ss-restock-20261025/browser/cms-1440.png","docs/qa/bloodmoon-ss-restock-20261025/browser/cms-390.png","docs/qa/bloodmoon-ss-restock-20261025/browser/room-1440.png","docs/qa/bloodmoon-ss-restock-20261025/browser/room-390.png","docs/qa/bloodmoon-ss-restock-20261025/dry-run.json","docs/qa/bloodmoon-ss-restock-20261025/read-summary.json","docs/qa/bloodmoon-ss-restock-20261025/release.mjs","docs/qa/halloween-shop-remove-20261025/README.md","docs/qa/halloween-shop-remove-20261025/before-deploy.json","docs/qa/halloween-shop-remove-20261025/deployment-plan.json","docs/qa/halloween-shop-remove-20261025/deployment-result.json","docs/qa/halloween-shop-remove-20261025/live-ui-check.mjs","docs/qa/halloween-shop-remove-20261025/live-ui/browser.json","docs/qa/halloween-shop-remove-20261025/live-ui/shop-390.png","docs/qa/halloween-shop-remove-20261025/live-verification.json","index.html","js/app.js","js/mercenary-bloodmoon-pack-live.mjs","mercenary-codex/app.mjs","mercenary-codex/index.html","mercenary-codex/model.mjs","scripts/ops/bloodmoon-codex-registration-20261023.mjs","scripts/ops/bloodmoon-ss-restock-20261025.mjs","scripts/ops/run-bloodmoon-ss-restock-20261025.mjs","service-worker.js","shared/mercenary-bloodmoon-catalog-v1.mjs","shared/mercenary-bloodmoon-namsudaeng-v1.mjs","shared/mercenary-bloodmoon-pack-v1.mjs","shared/mercenary-bloodmoon-pool-v3.mjs","shared/mercenary-bloodmoon-session-v2.mjs","tests/bloodmoon-namsudaeng-live-20261024.test.mjs","tests/bloodmoon-ss-restock-20261025.browser.mjs","tests/bloodmoon-ss-restock-20261025.test.mjs","tests/mercenary-bloodmoon-bulk-20261025.test.mjs","tests/mercenary-bloodmoon-codex-20261023.test.mjs"],"tests":["tests/mercenary-bloodmoon-pack-20261023.test.mjs","tests/mercenary-bloodmoon-bulk-20261025.test.mjs","tests/bloodmoon-opening-20261025.test.mjs"],"checks":["check:worker"]}
+✔ approved opening registers 5/3/3 pack stock once, preserves direct grants and prices, and supports audited OFF/ON (3088.0882ms)
+✔ failed activation rolls back both new stock and ON; stale preflight cannot overwrite CMS settings (1721.4125ms)
+✔ 100 trillion reference is exactly 100,000 draws with integer accounting and bounded input (3.0507ms)
+✔ buffered cryptographic sampler rejects out-of-range samples without modulo bias (0.2859ms)
+✔ bulk sampler preserves exact ordinary, conditional and sold-out results for the same random stream (2831.2038ms)
+✔ 100,000 draws use one compact transaction and recover the identical receipt without another charge (1796.0005ms)
+✔ a failed bulk grant rolls back everything and retry never rerolls (1727.482ms)
+✔ stock race replaces only unavailable serials, preserving normal quantities and total draws (1543.3135ms)
+✔ changed settings, insufficient funds and forged budget/count fail before payment (1553.973ms)
+✔ SS and below use counts without images, while limited SS and ordinary/limited SSS retain images (0.8544ms)
+✔ compact receipts validate totals and client recovery uses the same durable bulk request (1.1621ms)
+✔ authorized production release still requires authentication; an explicit closed service never reads DB (0.3447ms)
+✔ two accounts racing for the final limited copy receive at most one serial and exact totals (1247.0991ms)
+✔ simultaneous retries of the same bulk ID debit and grant only once (1251.1918ms)
+✔ an already armed indexed guarantee keeps its original slot and is consumed atomically (1246.8218ms)
+✔ two independent rate totals, exact effective odds, null drafts and old absolute rates are not reinterpreted (4.3421ms)
+✔ only the SSS interval enters the second lottery; SS remains ordinary and misses stay misses (3.5164ms)
+✔ unauthenticated opening performs no database query; OFF and incomplete ON never charge (2865.5754ms)
+✔ one prepared ten-draw transaction grants both ordinary and limited cards once and survives a lost response (1763.6635ms)
+✔ failure after stock reservation rolls back stock, coins and cards; retry uses the original fixed draw (1667.1648ms)
+✔ last remaining card is granted once and the other nine slots award ordinary SSS (1544.0865ms)
+✔ prepared request cancels on settings change without charging or resampling (1537.724ms)
+✔ SS videos use the awarded rank, never the SSS entry gate or fake preview results (0.5567ms)
+✔ client persists one request before POST, recovers without a new lottery, and isolates accounts (1.5855ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13589.3409
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] bloodmoon-ss-stock20-20261025-v1-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 8156 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8432.49 KiB / gzip: 1814.54 KiB
+Worker Startup Time: 56 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.13 sec)
+No targets deployed for cnine-card-api-runtime (0.50 sec)
+Current Version ID: 6f058236-6dba-40ed-b12f-9897f904757e
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19983/20000)
+Uploading... (19988/20000)
+Uploading... (19994/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 17 files (19983 already uploaded) (2.70 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://0a632c12.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3008.92 KiB / gzip: 675.43 KiB
+Worker Startup Time: 39 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (2.90 sec)
+Deployed cnine-card-clan-draft triggers (0.84 sec)
+  schedule: * * * * *
+Current Version ID: 59ce31af-6405-4cd8-a952-e0f4fd784b8e
