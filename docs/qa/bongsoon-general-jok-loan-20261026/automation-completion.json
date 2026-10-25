@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-10-25 20:02:29 UTC",
+  "recallCompletedAt": "2026-10-25T20:00:43.008Z",
+  "grantAuditId": "51423",
+  "revokeAuditId": "51506",
+  "independentReadOnlyVerified": true,
+  "replayAdditionalWrites": 0,
+  "automation": {
+    "automationId": "5",
+    "mode": "delete",
+    "deleteStatus": "deleted",
+    "snapshot": {
+      "kind": "heartbeat",
+      "name": "나무늘봉순 제너럴 족 오전 5시 회수",
+      "rrule": "RRULE:FREQ=DAILY;BYHOUR=5;BYMINUTE=0;BYSECOND=0;COUNT=1"
+    }
+  }
+}
