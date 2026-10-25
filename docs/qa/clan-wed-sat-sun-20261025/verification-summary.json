@@ -1,0 +1,106 @@
+{
+  "operationKey": "ops:clan-wed-sat-sun:20261025:v1",
+  "completedAt": "2026-10-25T09:44:03.566Z",
+  "auditId": "51254",
+  "source": "e5b302398bb1c4b4c314b79896ccfd0a2e5a0bc5",
+  "pages": "017d2cac-634e-428f-b438-7401f1d632b9",
+  "apiRuntime": "e58e2ddd-6b47-457f-a32a-e9f0e32aa51a",
+  "clanDraftRuntime": "bdc21194-a748-4ddb-b45e-985bc7ab138f",
+  "seasonId": 9,
+  "warCount": 28,
+  "roundCount": 7,
+  "weekdays": [
+    3,
+    6,
+    0
+  ],
+  "warOpenTime": "21:00",
+  "warDurationMinutes": 60,
+  "roundStarts": [
+    "2026-10-28T12:00:00Z",
+    "2026-10-31T12:00:00Z",
+    "2026-11-01T12:00:00Z",
+    "2026-11-04T12:00:00Z",
+    "2026-11-07T12:00:00Z",
+    "2026-11-08T12:00:00Z",
+    "2026-11-11T12:00:00Z"
+  ],
+  "endsAt": "2026-11-11T13:00:00Z",
+  "protectedUnchanged": true,
+  "rollbackVerified": true,
+  "noWriteReplayVerified": true,
+  "testsPassed": 21,
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "5fc4bda052ec37d2303c4a91a75c822abf6662ac5138dc7c73a13e465bbaf973"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "45192c368b108fe33dd062bb03d069eca58e9acd1dabf66c175718bf190f2827"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "495c42de471f93354cb9d1826313277ef77f6ac83a2f7999fbfec9934a9899a2"
+    },
+    {
+      "file": "admin/organization-admin-v1.mjs",
+      "status": 200,
+      "sha256": "313279c543cfdb7d53f92d0176a690c5ade97d841caa2a78c4757e0774a3853f"
+    },
+    {
+      "file": "js/clan-v1.js",
+      "status": 200,
+      "sha256": "2bd8dd1c638b06c91b10dcfd664dec86f2549c0be1ee51445a247b6877070e55"
+    },
+    {
+      "file": "js/clan-war-reform-v1.mjs",
+      "status": 200,
+      "sha256": "6f7161b6f7e0730d03d4d795f25eb56772036dd04db6eb017ad76853ce5b429b"
+    },
+    {
+      "file": "js/organization-faction-entry-v1.mjs",
+      "status": 200,
+      "sha256": "6861072d2bdab3b725011bacb2bfd46d581890786203176cde2a78f0f57a053f"
+    },
+    {
+      "file": "js/organization-faction-v1.mjs",
+      "status": 200,
+      "sha256": "fcf59ab1774a20bc659c6e9936de307f3fe0293815c02badbe6b596362a085fd"
+    },
+    {
+      "file": "js/organization-rankings-v1.mjs",
+      "status": 200,
+      "sha256": "87b9c320bee23bf310559026e3b25f05842b96d27fd716950fafa243efc465de"
+    },
+    {
+      "file": "organization/faction/index.html",
+      "status": 200,
+      "sha256": "e5c8497b0efda7d9eede85053dccbd56fcf86bfc0ae1be92aa321d13483ea263"
+    },
+    {
+      "file": "shared/clan-resumption-v1.mjs",
+      "status": 200,
+      "sha256": "61e1e056d898aa5e3b23f2e2dd905eee5a3a9cdb9726fb9fa14cdaf47da011fa"
+    },
+    {
+      "file": "shared/clan-war-reform-v1.mjs",
+      "status": 200,
+      "sha256": "b0ffbd4ccf6fe4e32ad1b5d19389273d77464481e892a7cc9a31e782cfb7d778"
+    }
+  ],
+  "scheduler": {
+    "version": "20261012-clan-retirement",
+    "source": "DURABLE_ALARM",
+    "checkedAt": "2026-10-25T09:45:47.638Z",
+    "phase": "ACTIVE",
+    "seasonId": 9,
+    "registrationOpen": false,
+    "nextCheckAt": "2026-10-28T12:00:00Z",
+    "nextSupportMessageExpiryAt": null
+  },
+  "accountGrants": 0
+}
