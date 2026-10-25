@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {BLOODMOON_PACK_KEY,BLOODMOON_PACK_RELEASE_ENABLED,readBloodmoonPackSettings,validateBloodmoonPack} from '../../shared/mercenary-bloodmoon-pack-v1.mjs';
-import {BLOODMOON_SSS_STOCK_LIMITS} from '../../shared/mercenary-bloodmoon-pool-v3.mjs';
+// Preserve the original 5/3/3 opening authorization for this historical operation.
+const BLOODMOON_SSS_STOCK_LIMITS=Object.freeze({'V-978':5,'V-974':3,'V-975':3});
 import {PRIME_CRAFT_RELEASE_ENABLED} from '../../shared/mercenary-prime-material-v1.mjs';
 import {readBloodmoonPackState} from '../../functions/_mercenary_bloodmoon_pack.js';
 import {__postgresCompatTest} from '../../functions/_postgres_d1_compat.js';
@@ -32,7 +33,8 @@ export async function enableBloodmoonOpening(db,{dryRun=false,expectedPackSha256
   assert.equal(before.stock.length,0,'Refuse to reset existing SSS pack stock');
   assert.equal(Number((await db.query('SELECT COUNT(*) AS n FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[])',[codes])).rows[0].n),0,'Unexpected existing SSS pack issues');
   for(const [code,limit] of Object.entries(BLOODMOON_SSS_STOCK_LIMITS))await db.query('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,issued) VALUES($1,$2,0)',[code,limit]);
-  const settings=validateBloodmoonPack({...readBloodmoonPackSettings(before.pack.settings),mode:'ON'});
+  const prior=readBloodmoonPackSettings(before.pack.settings);
+  const settings=validateBloodmoonPack({...prior,stockLimits:{...prior.stockLimits,...BLOODMOON_SSS_STOCK_LIMITS},mode:'ON'},{allowLegacyStock:true});
   const next={...before.pack,revision:before.pack.revision+1,settings,updatedAt:new Date().toISOString(),updatedBy:1,lastRequestId:'bloodmoon-open-20261025-v1'};
   const changed=await db.query('UPDATE app_meta SET value=$1 WHERE key=$2 AND value::jsonb=$3::jsonb RETURNING key',[JSON.stringify(next),BLOODMOON_PACK_KEY,JSON.stringify(before.pack)]);
   assert.equal(changed.rows.length,1,'Pack compare-and-swap failed');

@@ -1,0 +1,12 @@
+{
+  "command": "node --test --test-name-pattern=\"approved opening|current configured\" tests/bloodmoon-opening-20261025.test.mjs",
+  "tests": 2,
+  "pass": 2,
+  "fail": 0,
+  "durationMs": 2788.9426,
+  "cases": [
+    "approved opening registers historical 5/3/3 pack stock once and preserves direct grants and prices",
+    "current configured stock supports audited OFF/ON and an authenticated purchase"
+  ],
+  "reason": "Separate historical 5/3/3 opening from current 30/7 CMS save validation."
+}

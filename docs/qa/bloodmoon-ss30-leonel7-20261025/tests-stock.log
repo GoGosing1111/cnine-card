@@ -1,0 +1,42 @@
+✖ approved opening registers 5/3/3 pack stock once, preserves direct grants and prices, and supports audited OFF/ON (4626.1151ms)
+✔ failed activation rolls back both new stock and ON; stale preflight cannot overwrite CMS settings (2201.4708ms)
+✔ twenty-five-copy policy and codex preserve SSS limits; old twenty-copy documents stay readable without writes (15.6822ms)
+✔ dry run and stale review preserve every stock row, account, issue, receipt and configuration (5418.544ms)
+✔ failure midway through stock, settings, audit or operation receipt rolls back atomically (3026.3378ms)
+✔ adds exactly thirty capacity once, preserves all holdings and SSS/other policies, and replays using reads only (2344.2947ms)
+✔ the next real opening continues serials 21 through 25 and sold-out fallback; stale revision never charges (2073.8228ms)
+✔ inconsistent counters and serials are rejected before any committed change (1767.3982ms)
+✔ twenty-copy policy and codex preserve SSS limits; old ten-copy documents stay readable without writes (15.6858ms)
+✔ dry run and stale review preserve every stock row, account, issue, receipt and configuration (5079.7111ms)
+✔ failure midway through stock, settings, audit or operation receipt rolls back atomically (2625.583ms)
+✔ adds exactly sixty capacity once, preserves all holdings and SSS/other policies, and replays using reads only (2172.326ms)
+✔ the next real opening continues serials 11 through 20 and sold-out fallback; stale revision never charges (1839.9375ms)
+✔ inconsistent counters and serials are rejected before any committed change (1664.9063ms)
+✔ SS30 and Leonel7 policy preserves other SSS limits and reads the prior 25/5 policy without mutation (15.8994ms)
+✔ dry run and stale review preserve every stock row, account, issue, receipt and configuration (7102.818ms)
+✔ failure midway through stock, settings, audit or operation receipt rolls back atomically (3803.6655ms)
+✔ adds exactly 32 capacity once, preserves holdings, direct Leonel gifts and all other policies, and replays using reads only (3010.2732ms)
+✔ real openings continue Leonel serials 6/7 and SS serials 26..30, then fall back without replay charges (2467.9518ms)
+✔ inconsistent counters and serials are rejected before any committed change (2207.7526ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 19
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19230.6347
+
+✖ failing tests:
+
+test at tests\bloodmoon-opening-20261025.test.mjs:17:1
+✖ approved opening registers 5/3/3 pack stock once, preserves direct grants and prices, and supports audited OFF/ON (4626.1151ms)
+  Error: 블러드문 SS 각 30장, 레오넬 7장, 제너럴 족 3장, 프라임 재료 3장 한도를 확인하세요.
+      at jointError (file:///C:/Users/User/.codex/worktrees/bloodmoon-ss-restock/cnine-card/functions/_joint_request.js:1:74)
+      at saveBloodmoonPack (file:///C:/Users/User/.codex/worktrees/bloodmoon-ss-restock/cnine-card/functions/_mercenary_bloodmoon_pack.js:31:81)
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/bloodmoon-ss-restock/cnine-card/tests/bloodmoon-opening-20261025.test.mjs:25:18)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    code: 'MERCENARY_BLOODMOON_CONFIG',
+    status: 400
+  }

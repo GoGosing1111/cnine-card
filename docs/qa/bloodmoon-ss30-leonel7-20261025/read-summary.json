@@ -1,0 +1,111 @@
+{
+  "checkedAt": "2026-10-25T04:53:45.431Z",
+  "documentHash": "6de89423aa50089cb98242ca717367f17b6a82403ed508219e6d6430a79c4ab6",
+  "document": {
+    "revision": 6,
+    "settings": {
+      "mode": "ON",
+      "prices": {
+        "single": 1500000000,
+        "ten": 15000000000
+      },
+      "missRatePpm": 800000,
+      "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "normalSssRatePpm": 969789,
+      "cardRatesPpm": {
+        "V-960": 5000,
+        "V-961": 5000,
+        "V-962": 5000,
+        "V-963": 5000,
+        "V-964": 5000,
+        "V-965": 5000,
+        "V-978": 200,
+        "V-974": 10,
+        "V-975": 1
+      },
+      "stockLimits": {
+        "V-960": 25,
+        "V-961": 25,
+        "V-962": 25,
+        "V-963": 25,
+        "V-964": 25,
+        "V-965": 25,
+        "V-978": 5,
+        "V-974": 3,
+        "V-975": 3
+      }
+    },
+    "updatedAt": "2026-10-25T04:41:34.950Z",
+    "updatedBy": 1,
+    "lastRequestId": "ops:bloodmoon-ss-restock:20261025:plus5-v2"
+  },
+  "stock": [
+    {
+      "code": "V-960",
+      "stock_limit": 25,
+      "issued": 25,
+      "revision": 25,
+      "last_token": "e4bae0c0-c093-406d-81fd-4ee93da1ffc5"
+    },
+    {
+      "code": "V-961",
+      "stock_limit": 25,
+      "issued": 25,
+      "revision": 26,
+      "last_token": "b5d4f62f-0b26-4ca8-8b24-b48663563cf0"
+    },
+    {
+      "code": "V-962",
+      "stock_limit": 25,
+      "issued": 25,
+      "revision": 25,
+      "last_token": "448be3cd-b3b5-4c15-adeb-b68b964c3af6"
+    },
+    {
+      "code": "V-963",
+      "stock_limit": 25,
+      "issued": 25,
+      "revision": 23,
+      "last_token": "3f1ef914-599d-41ce-8ec9-c51897fad449"
+    },
+    {
+      "code": "V-964",
+      "stock_limit": 25,
+      "issued": 25,
+      "revision": 23,
+      "last_token": "6e76d7de-bdf8-4402-97fb-0253a6502853"
+    },
+    {
+      "code": "V-965",
+      "stock_limit": 25,
+      "issued": 25,
+      "revision": 23,
+      "last_token": "1835cd06-a9a0-476a-9903-19613c22f273"
+    },
+    {
+      "code": "V-978",
+      "stock_limit": 5,
+      "issued": 5,
+      "revision": 5,
+      "last_token": "79098535-ef07-4dc9-9e0b-279e5691c9ae"
+    }
+  ],
+  "receipt": null,
+  "issueCounts": {
+    "V-960": 25,
+    "V-961": 25,
+    "V-962": 25,
+    "V-963": 25,
+    "V-964": 25,
+    "V-965": 25,
+    "V-978": 5
+  }
+}

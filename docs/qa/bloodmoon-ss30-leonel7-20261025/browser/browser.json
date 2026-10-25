@@ -1,0 +1,25 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "roomRemainingPerSs": 5,
+      "cmsLimitPerSs": 30,
+      "issuedPreserved": 25,
+      "leonelLimit": 7,
+      "leonelRemaining": 2,
+      "priceAndModePreserved": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "roomRemainingPerSs": 5,
+      "cmsLimitPerSs": 30,
+      "issuedPreserved": 25,
+      "leonelLimit": 7,
+      "leonelRemaining": 2,
+      "priceAndModePreserved": true,
+      "errors": []
+    }
+  ],
+  "mutations": 0
+}

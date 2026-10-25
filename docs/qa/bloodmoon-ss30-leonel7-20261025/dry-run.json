@@ -1,0 +1,272 @@
+{
+  "verified": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bloodmoon-restock:20261025:ss5-leonel2-v3",
+    "authorization": "블러드문팩 레오넬 2장 한도 늘리고 SS리미티드 5장씩 더 늘려",
+    "completedAt": "2026-10-25T04:54:17.375Z",
+    "stockAdded": 32,
+    "grants": 0,
+    "issuesBeforeHash": "59dcf33a3f0f9d3e760e2fa27c9a25c9bdeb2b7eea31a1966bff6e3981dba6e6",
+    "issuesAfterHash": "59dcf33a3f0f9d3e760e2fa27c9a25c9bdeb2b7eea31a1966bff6e3981dba6e6",
+    "protectedPolicyHash": "c3c9eb976d7d052fc0d6e04d8431361d7e3ea639751439b6b62904198328737a",
+    "before": {
+      "revision": 6,
+      "settings": {
+        "mode": "ON",
+        "prices": {
+          "single": 1500000000,
+          "ten": 15000000000
+        },
+        "missRatePpm": 800000,
+        "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "normalSssRatePpm": 969789,
+        "cardRatesPpm": {
+          "V-960": 5000,
+          "V-961": 5000,
+          "V-962": 5000,
+          "V-963": 5000,
+          "V-964": 5000,
+          "V-965": 5000,
+          "V-978": 200,
+          "V-974": 10,
+          "V-975": 1
+        },
+        "stockLimits": {
+          "V-960": 25,
+          "V-961": 25,
+          "V-962": 25,
+          "V-963": 25,
+          "V-964": 25,
+          "V-965": 25,
+          "V-978": 5,
+          "V-974": 3,
+          "V-975": 3
+        }
+      },
+      "updatedAt": "2026-10-25T04:41:34.950Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:bloodmoon-ss-restock:20261025:plus5-v2"
+    },
+    "after": {
+      "revision": 7,
+      "settings": {
+        "mode": "ON",
+        "prices": {
+          "single": 1500000000,
+          "ten": 15000000000
+        },
+        "missRatePpm": 800000,
+        "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "normalSssRatePpm": 969789,
+        "cardRatesPpm": {
+          "V-960": 5000,
+          "V-961": 5000,
+          "V-962": 5000,
+          "V-963": 5000,
+          "V-964": 5000,
+          "V-965": 5000,
+          "V-978": 200,
+          "V-974": 10,
+          "V-975": 1
+        },
+        "stockLimits": {
+          "V-960": 30,
+          "V-961": 30,
+          "V-962": 30,
+          "V-963": 30,
+          "V-964": 30,
+          "V-965": 30,
+          "V-978": 7,
+          "V-974": 3,
+          "V-975": 3
+        }
+      },
+      "updatedAt": "2026-10-25T04:54:17.375Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:bloodmoon-restock:20261025:ss5-leonel2-v3"
+    },
+    "beforeStock": [
+      {
+        "code": "V-960",
+        "stock_limit": 25,
+        "issued": 25,
+        "revision": 25,
+        "last_token": "e4bae0c0-c093-406d-81fd-4ee93da1ffc5"
+      },
+      {
+        "code": "V-961",
+        "stock_limit": 25,
+        "issued": 25,
+        "revision": 26,
+        "last_token": "b5d4f62f-0b26-4ca8-8b24-b48663563cf0"
+      },
+      {
+        "code": "V-962",
+        "stock_limit": 25,
+        "issued": 25,
+        "revision": 25,
+        "last_token": "448be3cd-b3b5-4c15-adeb-b68b964c3af6"
+      },
+      {
+        "code": "V-963",
+        "stock_limit": 25,
+        "issued": 25,
+        "revision": 23,
+        "last_token": "3f1ef914-599d-41ce-8ec9-c51897fad449"
+      },
+      {
+        "code": "V-964",
+        "stock_limit": 25,
+        "issued": 25,
+        "revision": 23,
+        "last_token": "6e76d7de-bdf8-4402-97fb-0253a6502853"
+      },
+      {
+        "code": "V-965",
+        "stock_limit": 25,
+        "issued": 25,
+        "revision": 23,
+        "last_token": "1835cd06-a9a0-476a-9903-19613c22f273"
+      },
+      {
+        "code": "V-978",
+        "stock_limit": 5,
+        "issued": 5,
+        "revision": 5,
+        "last_token": "79098535-ef07-4dc9-9e0b-279e5691c9ae"
+      }
+    ],
+    "afterStock": [
+      {
+        "code": "V-960",
+        "stock_limit": 30,
+        "issued": 25,
+        "revision": 26,
+        "last_token": "e4bae0c0-c093-406d-81fd-4ee93da1ffc5"
+      },
+      {
+        "code": "V-961",
+        "stock_limit": 30,
+        "issued": 25,
+        "revision": 27,
+        "last_token": "b5d4f62f-0b26-4ca8-8b24-b48663563cf0"
+      },
+      {
+        "code": "V-962",
+        "stock_limit": 30,
+        "issued": 25,
+        "revision": 26,
+        "last_token": "448be3cd-b3b5-4c15-adeb-b68b964c3af6"
+      },
+      {
+        "code": "V-963",
+        "stock_limit": 30,
+        "issued": 25,
+        "revision": 24,
+        "last_token": "3f1ef914-599d-41ce-8ec9-c51897fad449"
+      },
+      {
+        "code": "V-964",
+        "stock_limit": 30,
+        "issued": 25,
+        "revision": 24,
+        "last_token": "6e76d7de-bdf8-4402-97fb-0253a6502853"
+      },
+      {
+        "code": "V-965",
+        "stock_limit": 30,
+        "issued": 25,
+        "revision": 24,
+        "last_token": "1835cd06-a9a0-476a-9903-19613c22f273"
+      },
+      {
+        "code": "V-978",
+        "stock_limit": 7,
+        "issued": 5,
+        "revision": 6,
+        "last_token": "79098535-ef07-4dc9-9e0b-279e5691c9ae"
+      }
+    ],
+    "auditId": "51135"
+  },
+  "stock": [
+    {
+      "code": "V-960",
+      "name": "나무늘봉순",
+      "before": 25,
+      "after": 30,
+      "issued": 25,
+      "remaining": 5
+    },
+    {
+      "code": "V-961",
+      "name": "조은",
+      "before": 25,
+      "after": 30,
+      "issued": 25,
+      "remaining": 5
+    },
+    {
+      "code": "V-962",
+      "name": "디임",
+      "before": 25,
+      "after": 30,
+      "issued": 25,
+      "remaining": 5
+    },
+    {
+      "code": "V-963",
+      "name": "카르베나",
+      "before": 25,
+      "after": 30,
+      "issued": 25,
+      "remaining": 5
+    },
+    {
+      "code": "V-964",
+      "name": "네베라",
+      "before": 25,
+      "after": 30,
+      "issued": 25,
+      "remaining": 5
+    },
+    {
+      "code": "V-965",
+      "name": "블러드문 남수댕",
+      "before": 25,
+      "after": 30,
+      "issued": 25,
+      "remaining": 5
+    },
+    {
+      "code": "V-978",
+      "name": "레오넬",
+      "before": 5,
+      "after": 7,
+      "issued": 5,
+      "remaining": 2
+    }
+  ],
+  "currentRevision": 7,
+  "replayed": false,
+  "dryRun": true,
+  "rollbackVerified": true,
+  "checkedAt": "2026-10-25T04:54:19.593Z"
+}

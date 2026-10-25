@@ -27,14 +27,14 @@ async function setup(t){
 }
 
 test('twenty-five-copy policy and codex preserve SSS limits; old twenty-copy documents stay readable without writes',()=>{
- const draft=bloodmoonPackDraft();assert.equal(BLOODMOON_MERCENARIES.length,6);assert(BLOODMOON_MERCENARIES.every(c=>c.serverLimit===25));
- assert.deepEqual(Object.fromEntries(['V-978','V-974','V-975'].map(c=>[c,draft.stockLimits[c]])),{'V-978':5,'V-974':3,'V-975':3});
+ const draft=bloodmoonPackDraft();assert.equal(BLOODMOON_MERCENARIES.length,6);assert(BLOODMOON_MERCENARIES.every(c=>c.serverLimit===30));
+ assert.deepEqual(Object.fromEntries(['V-978','V-974','V-975'].map(c=>[c,draft.stockLimits[c]])),{'V-978':7,'V-974':3,'V-975':3});
  const old=structuredClone(draft);for(const t of TARGETS)old.stockLimits[t.code]=20;const unchanged=structuredClone(old);
  assert.deepEqual(readBloodmoonPackSettings(old),old);assert.deepEqual(old,unchanged);assert.throws(()=>validateBloodmoonPack(old),/한도/);
- const next=prepareStockIncrease(old);assert.deepEqual(next,draft);assert.deepEqual(old,unchanged);
+ const next=prepareStockIncrease(old);assert.deepEqual(next,{...draft,stockLimits:{...draft.stockLimits,...Object.fromEntries(TARGETS.map(t=>[t.code,25]))}});assert.deepEqual(old,unchanged);
  const mixed=structuredClone(old);mixed.stockLimits['V-960']=25;assert.throws(()=>readBloodmoonPackSettings(mixed),/한도/);
  const legacy=legacyBloodmoonPackDraft();assert(Object.values(legacy.stockLimits).every(v=>v===10));const read=readBloodmoonPackSettings(legacy);assert(TARGETS.every(t=>read.stockLimits[t.code]===10));assert.equal(read.mode,'OFF');
- const codex=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}));assert(TARGETS.every(t=>codex.cards.find(c=>c.code===t.code).serverLimit===25));
+ const codex=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}));assert(TARGETS.every(t=>codex.cards.find(c=>c.code===t.code).serverLimit===30));
 });
 
 test('dry run and stale review preserve every stock row, account, issue, receipt and configuration',async t=>{

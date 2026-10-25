@@ -1,0 +1,15 @@
+✔ approved SS identity, original art, three skills, Blood Pack only and twenty global copies (16.5253ms)
+✔ old five-card and eight-card drafts read without changes, odds redistribution or release (1.5258ms)
+✔ last NamSuDaeng copy is awarded once; nine remaining draws use normal SSS and retry cannot duplicate it (1793.8553ms)
+✔ stock registration rolls back on failure and dry run, preserves pack/settings/other stock, and replay writes nothing (1082.6451ms)
+✔ five separate SS limited entries publish approved originals, full idle sprites and the reviewed balance (78.2269ms)
+✔ public feature preserves the legacy OFF draft and ten copies without writing (1703.4486ms)
+✔ registration is atomic, dry-run rolls back, replay writes nothing and existing balances remain intact (1107.0312ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3370.5629

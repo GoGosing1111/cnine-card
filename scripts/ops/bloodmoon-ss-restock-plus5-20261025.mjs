@@ -24,7 +24,7 @@ const protectedPolicy=async db=>({
 export function prepareStockIncrease(settings){
  const next=readBloodmoonPackSettings(settings);
  for(const target of TARGETS){assert.equal(next.stockLimits[target.code],target.before,'Reviewed limit changed: '+target.code);next.stockLimits[target.code]=target.after;}
- return validateBloodmoonPack(next);
+ return validateBloodmoonPack(next,{allowLegacyStock:true});
 }
 export async function inspect(db){
  const raw=one(await q(db,'SELECT value FROM app_meta WHERE key=$1',[BLOODMOON_PACK_KEY])).value;

@@ -14,7 +14,7 @@ async function setup(t){
  await f.setting('mercenary_halloween_ss_pack_v1',{protected:true});await f.setting('mercenary_prime_craft_v1',{isActive:false,materials:[{quantity:null}]});
  return f;
 }
-test('approved opening registers 5/3/3 pack stock once, preserves direct grants and prices, and supports audited OFF/ON',async t=>{
+test('approved opening registers historical 5/3/3 pack stock once and preserves direct grants and prices',async t=>{
  assert.equal(BLOODMOON_PACK.name,'블러드문팩');assert.equal(BLOODMOON_PACK_RELEASE_ENABLED,true);assert.equal(PRIME_CRAFT_RELEASE_ENABLED,false);
  const f=await setup(t),before=await readBloodmoonOpening(f.pg),original=structuredClone(before.pack.settings);
  const migrated=readBloodmoonPackSettings(original);assert.deepEqual(Object.fromEntries(Object.keys(BLOODMOON_SSS_STOCK_LIMITS).map(c=>[c,migrated.stockLimits[c]])),BLOODMOON_SSS_STOCK_LIMITS);assert.equal(original.stockLimits['V-975'],null);assert.throws(()=>readBloodmoonPackSettings({...original,stockLimits:{...original.stockLimits,'V-960':null}}),/한도/);
@@ -22,9 +22,13 @@ test('approved opening registers 5/3/3 pack stock once, preserves direct grants 
  const result=await enableBloodmoonOpening(f.pg,{expectedPackSha256:before.packSha256});assert.equal(result.pack.settings.mode,'ON');assert.equal(result.pack.revision,4);assert.deepEqual(result.stock.map(s=>[s.code,s.stock_limit,s.issued]),[['V-974',3,0],['V-975',3,0],['V-978',5,0]]);assert.equal(result.ownershipSha256,before.ownershipSha256);assert.equal(result.protectedSettingsSha256,before.protectedSettingsSha256);assert.deepEqual(result.pack.settings.prices,original.prices);
  const replay=await enableBloodmoonOpening({query:(sql,args)=>{assert(!/^(INSERT|UPDATE|DELETE)/.test(sql));return f.pg.query(sql,args);}});assert(replay.replayed);assert.equal(Number((await f.pg.query('SELECT COUNT(*) n FROM admin_logs')).rows[0].n),1);
  assert.equal((await readBloodmoonPackState(f.env)).userOpeningEnabled,true);
- const off=await saveBloodmoonPack(f.env,{id:1},{settings:{...result.pack.settings,mode:'OFF'},expectedRevision:4,requestId:crypto.randomUUID(),reason:'검수 판매 중지'});assert.equal(off.userOpeningEnabled,false);
- const on=await saveBloodmoonPack(f.env,{id:1},{settings:{...off.settings,mode:'ON'},expectedRevision:5,requestId:crypto.randomUUID(),reason:'검수 판매 재개'});assert.equal(on.userOpeningEnabled,true);
- const opened=await handleBloodmoonPack({path:BLOODMOON_PACK.openPath,request:new Request('https://qa.test/api/'+BLOODMOON_PACK.openPath,{method:'POST',headers:{'content-type':'application/json',origin:'https://qa.test'},body:JSON.stringify({...f.body(),expectedRevision:6})}),env:f.env,deps:{json:(body,status=200)=>({body,status}),authenticate:async()=>f.user,withUserMutationLock:async(_env,_id,_path,work)=>work()}});
+});
+
+test('current configured stock supports audited OFF/ON and an authenticated purchase',async t=>{
+ const f=await bloodmoonFixture(t);
+ const off=await saveBloodmoonPack(f.env,{id:1},{settings:{...f.settings,mode:'OFF'},expectedRevision:1,requestId:crypto.randomUUID(),reason:'검수 판매 중지'});assert.equal(off.userOpeningEnabled,false);
+ const on=await saveBloodmoonPack(f.env,{id:1},{settings:{...off.settings,mode:'ON'},expectedRevision:2,requestId:crypto.randomUUID(),reason:'검수 판매 재개'});assert.equal(on.userOpeningEnabled,true);
+ const opened=await handleBloodmoonPack({path:BLOODMOON_PACK.openPath,request:new Request('https://qa.test/api/'+BLOODMOON_PACK.openPath,{method:'POST',headers:{'content-type':'application/json',origin:'https://qa.test'},body:JSON.stringify({...f.body(),expectedRevision:3})}),env:f.env,deps:{json:(body,status=200)=>({body,status}),authenticate:async()=>f.user,withUserMutationLock:async(_env,_id,_path,work)=>work()}});
  assert.equal(opened.status,200,JSON.stringify(opened.body));assert.equal(opened.body.status,'COMPLETED');assert.equal(await f.coin(),999900);
 });
 test('failed activation rolls back both new stock and ON; stale preflight cannot overwrite CMS settings',async t=>{
