@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-10-25T18:18:42.229Z",
+  "mode": "verify",
+  "sourceSha": "55d28ac894ecd7864dfc319ebeac72bfad6d60b59f0af5d6b4a611d084a27104",
+  "planHash": "3b6e0e0ff9719f59a98c3c3607f4c9f6d8f5908ce8f7e205a1947115ceecc643",
+  "result": {
+    "verification": {
+      "verified": true,
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "weekKey": "2026-10-19",
+      "lastDate": "2026-10-25",
+      "questId": "POST",
+      "status": "COMPLETED",
+      "observedPosts": 252,
+      "requiredPosts": 300,
+      "completionMode": "OWNER_EXCEPTION",
+      "rewardType": "COIN",
+      "rewardAmount": "1000000000000",
+      "delivery": "MESSAGE",
+      "messageId": "258313",
+      "rewardId": "237313",
+      "rewardCollected": false,
+      "auditId": "51404",
+      "duplicateRewards": 0
+    },
+    "replayVerified": true,
+    "selectQueries": 8,
+    "replayWrites": 0
+  }
+}

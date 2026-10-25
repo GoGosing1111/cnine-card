@@ -1,0 +1,266 @@
+{
+  "checkedAt": "2026-10-25T18:18:16.329Z",
+  "mode": "read",
+  "sourceSha": "55d28ac894ecd7864dfc319ebeac72bfad6d60b59f0af5d6b4a611d084a27104",
+  "planHash": "3b6e0e0ff9719f59a98c3c3607f4c9f6d8f5908ce8f7e205a1947115ceecc643",
+  "result": {
+    "users": [
+      {
+        "id": "233",
+        "nickname": "ShowMaker",
+        "role": "USER",
+        "status": "ACTIVE",
+        "row_hash": "e167559df9fe398f64d3cba067c32c9f"
+      }
+    ],
+    "identities": [
+      {
+        "user_id": "233",
+        "provider": "PLAYDK",
+        "provider_user_id": "25958d94",
+        "provider_name": "ShowMaker"
+      }
+    ],
+    "settings": [
+      {
+        "key": "playdk_daily_quest_settings_v1",
+        "value": "{\"enabled\":true,\"postEnabled\":true,\"commentEnabled\":false,\"requiredPosts\":15,\"postRewardCoin\":100000000000,\"rewardCoin\":100000000000,\"checkCooldownSeconds\":20,\"adminTestAllowed\":true,\"boardSlugs\":[\"skm\"]}"
+      },
+      {
+        "key": "quest_weekly_settings_v20260924",
+        "value": "{\"revision\":5,\"quests\":{\"POST\":{\"enabled\":true,\"rewardType\":\"COIN\",\"rewardAmount\":1000000000000},\"CORE_RAID\":{\"enabled\":true,\"rewardType\":\"MASTER_STAR\",\"rewardAmount\":300000},\"TERRITORY\":{\"enabled\":true,\"rewardType\":\"MASTER_STAR\",\"rewardAmount\":150000},\"CLAN\":{\"enabled\":true,\"rewardType\":\"MASTER_STAR\",\"rewardAmount\":500000}},\"operationToken\":\"e3f61c9f-60fc-4b8a-b4bb-fb203a44ded0\"}"
+      }
+    ],
+    "posts": [
+      {
+        "user_id": "233",
+        "week_key": "2026-09-21",
+        "provider_user_id": "25958d94",
+        "board_slugs_json": "[\"skm\"]",
+        "post_count": "201",
+        "days_json": "[{\"date\":\"2026-09-21\",\"count\":25},{\"date\":\"2026-09-22\",\"count\":23},{\"date\":\"2026-09-23\",\"count\":16},{\"date\":\"2026-09-24\",\"count\":64},{\"date\":\"2026-09-25\",\"count\":15},{\"date\":\"2026-09-26\",\"count\":13},{\"date\":\"2026-09-27\",\"count\":45}]",
+        "checked_at": "2026-09-27T14:44:30.168Z"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-09-28",
+        "provider_user_id": "25958d94",
+        "board_slugs_json": "[\"skm\"]",
+        "post_count": "224",
+        "days_json": "[{\"date\":\"2026-09-28\",\"count\":39},{\"date\":\"2026-09-29\",\"count\":84},{\"date\":\"2026-09-30\",\"count\":20},{\"date\":\"2026-10-01\",\"count\":8},{\"date\":\"2026-10-02\",\"count\":38},{\"date\":\"2026-10-03\",\"count\":21},{\"date\":\"2026-10-04\",\"count\":14}]",
+        "checked_at": "2026-10-04T14:43:40.782Z"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-10-05",
+        "provider_user_id": "25958d94",
+        "board_slugs_json": "[\"skm\"]",
+        "post_count": "78",
+        "days_json": "[{\"date\":\"2026-10-05\",\"count\":15},{\"date\":\"2026-10-06\",\"count\":9},{\"date\":\"2026-10-07\",\"count\":27},{\"date\":\"2026-10-08\",\"count\":8},{\"date\":\"2026-10-09\",\"count\":8},{\"date\":\"2026-10-10\",\"count\":11}]",
+        "checked_at": "2026-10-10T09:20:52.003Z"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-10-12",
+        "provider_user_id": "25958d94",
+        "board_slugs_json": "[\"skm\"]",
+        "post_count": "146",
+        "days_json": "[{\"date\":\"2026-10-12\",\"count\":15},{\"date\":\"2026-10-13\",\"count\":7},{\"date\":\"2026-10-14\",\"count\":7},{\"date\":\"2026-10-15\",\"count\":16},{\"date\":\"2026-10-16\",\"count\":18},{\"date\":\"2026-10-17\",\"count\":13},{\"date\":\"2026-10-18\",\"count\":70}]",
+        "checked_at": "2026-10-18T10:24:22.873Z"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-10-19",
+        "provider_user_id": "25958d94",
+        "board_slugs_json": "[\"skm\"]",
+        "post_count": "252",
+        "days_json": "[{\"date\":\"2026-10-19\",\"count\":42},{\"date\":\"2026-10-20\",\"count\":23},{\"date\":\"2026-10-21\",\"count\":25},{\"date\":\"2026-10-22\",\"count\":20},{\"date\":\"2026-10-23\",\"count\":25},{\"date\":\"2026-10-24\",\"count\":9},{\"date\":\"2026-10-25\",\"count\":108}]",
+        "checked_at": "2026-10-25T13:21:51.115Z"
+      }
+    ],
+    "claims": [
+      {
+        "user_id": "233",
+        "week_key": "2026-09-21",
+        "quest_id": "CLAN",
+        "claim_token": "3859f5f5-e3f8-4cdb-89a7-a78fbad56868",
+        "status": "COMPLETED",
+        "progress": "78",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "200000",
+        "message_id": "153166",
+        "created_at": "2026-09-24 03:56:27"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-09-21",
+        "quest_id": "CORE_RAID",
+        "claim_token": "7415e66c-7a64-4bc7-92a3-e96546b9d1f3",
+        "status": "COMPLETED",
+        "progress": "20",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "100000",
+        "message_id": "153234",
+        "created_at": "2026-09-24 05:58:55"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-09-21",
+        "quest_id": "POST",
+        "claim_token": "4774d6ff-7228-45b9-a1bf-dfd824e464e4",
+        "status": "COMPLETED",
+        "progress": "201",
+        "reward_type": "COIN",
+        "reward_amount": "50000000000",
+        "message_id": "165008",
+        "created_at": "2026-09-27 14:44:30"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-09-21",
+        "quest_id": "TERRITORY",
+        "claim_token": "7f8d7d27-807b-4d82-b6e6-834e2f5b296d",
+        "status": "COMPLETED",
+        "progress": "312",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "150000",
+        "message_id": "153235",
+        "created_at": "2026-09-24 05:59:02"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-09-28",
+        "quest_id": "CLAN",
+        "claim_token": "a4ae0d6b-e2a8-46c4-9228-d7c679d1e6b9",
+        "status": "COMPLETED",
+        "progress": "36",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "200000",
+        "message_id": "173474",
+        "created_at": "2026-10-01 16:00:01"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-09-28",
+        "quest_id": "CORE_RAID",
+        "claim_token": "99140c58-a5a8-4268-a709-0e2750269b51",
+        "status": "COMPLETED",
+        "progress": "5",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "100000",
+        "message_id": "167707",
+        "created_at": "2026-09-28 12:40:58"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-09-28",
+        "quest_id": "POST",
+        "claim_token": "7209a0e6-8d58-480c-8f9c-f7dc4a5e1f12",
+        "status": "COMPLETED",
+        "progress": "224",
+        "reward_type": "COIN",
+        "reward_amount": "50000000000",
+        "message_id": "185138",
+        "created_at": "2026-10-04 14:43:40"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-09-28",
+        "quest_id": "TERRITORY",
+        "claim_token": "a46de140-846c-4a84-9604-775563907f95",
+        "status": "COMPLETED",
+        "progress": "74",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "150000",
+        "message_id": "173475",
+        "created_at": "2026-10-01 16:00:04"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-10-05",
+        "quest_id": "CLAN",
+        "claim_token": "7e72e837-2a1a-43fe-9b22-94814c353994",
+        "status": "COMPLETED",
+        "progress": "72",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "500000",
+        "message_id": "203466",
+        "created_at": "2026-10-10 09:21:01"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-10-05",
+        "quest_id": "CORE_RAID",
+        "claim_token": "afd248e5-0ea4-4ffe-bcb1-452d2d91cbf1",
+        "status": "COMPLETED",
+        "progress": "5",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "300000",
+        "message_id": "203464",
+        "created_at": "2026-10-10 09:20:56"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-10-05",
+        "quest_id": "TERRITORY",
+        "claim_token": "1c34d3e4-a4d6-4216-8f80-373941ba1c79",
+        "status": "COMPLETED",
+        "progress": "219",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "150000",
+        "message_id": "203465",
+        "created_at": "2026-10-10 09:20:58"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-10-12",
+        "quest_id": "CORE_RAID",
+        "claim_token": "00bf5337-4d8e-4179-8784-f6f2d721849e",
+        "status": "COMPLETED",
+        "progress": "3",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "300000",
+        "message_id": "245477",
+        "created_at": "2026-10-18 14:30:21"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-10-12",
+        "quest_id": "TERRITORY",
+        "claim_token": "afa16e39-3d73-4015-be06-38b20323ac67",
+        "status": "COMPLETED",
+        "progress": "60",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "150000",
+        "message_id": "210553",
+        "created_at": "2026-10-14 22:37:07"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-10-19",
+        "quest_id": "CORE_RAID",
+        "claim_token": "ba33318e-53f6-4540-a420-b798c19b46be",
+        "status": "COMPLETED",
+        "progress": "4",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "300000",
+        "message_id": "247121",
+        "created_at": "2026-10-21 06:12:41"
+      },
+      {
+        "user_id": "233",
+        "week_key": "2026-10-19",
+        "quest_id": "TERRITORY",
+        "claim_token": "b3093c1b-d47b-4304-866b-8e1e9ab45ecc",
+        "status": "COMPLETED",
+        "progress": "53",
+        "reward_type": "MASTER_STAR",
+        "reward_amount": "150000",
+        "message_id": "247124",
+        "created_at": "2026-10-21 06:12:43"
+      }
+    ],
+    "messages": [],
+    "receipt": null
+  }
+}

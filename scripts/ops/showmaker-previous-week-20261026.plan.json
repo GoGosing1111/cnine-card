@@ -1,0 +1,23 @@
+{
+  "operationKey": "ops:showmaker-previous-week-post:20261026:v1",
+  "authorization": ["[ShowMaker](https://www.playdk.kr/user/25958d94) 주간퀘스트완료해줘", "저번주꺼"],
+  "userId": "233",
+  "nickname": "ShowMaker",
+  "provider": "PLAYDK",
+  "providerUserId": "25958d94",
+  "operationDateKst": "2026-10-26",
+  "weekKey": "2026-10-19",
+  "lastDate": "2026-10-25",
+  "questId": "POST",
+  "requiredPosts": 300,
+  "observedPosts": 252,
+  "sourceCheckedAt": "2026-10-25T13:21:51.115Z",
+  "boardSlugs": ["skm"],
+  "settingsRevision": 5,
+  "rewardType": "COIN",
+  "rewardAmount": "1000000000000",
+  "delivery": "MESSAGE",
+  "completionMode": "OWNER_EXCEPTION",
+  "preserveObservedPostCounts": true,
+  "autoCollectReward": false
+}

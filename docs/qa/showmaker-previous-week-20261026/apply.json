@@ -1,0 +1,59 @@
+{
+  "checkedAt": "2026-10-25T18:18:37.311Z",
+  "mode": "apply",
+  "sourceSha": "55d28ac894ecd7864dfc319ebeac72bfad6d60b59f0af5d6b4a611d084a27104",
+  "planHash": "3b6e0e0ff9719f59a98c3c3607f4c9f6d8f5908ce8f7e205a1947115ceecc643",
+  "result": {
+    "replayed": false,
+    "committed": true,
+    "rollbackVerified": false,
+    "receipt": {
+      "operationKey": "ops:showmaker-previous-week-post:20261026:v1",
+      "planHash": "3b6e0e0ff9719f59a98c3c3607f4c9f6d8f5908ce8f7e205a1947115ceecc643",
+      "status": "COMPLETED",
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "weekKey": "2026-10-19",
+      "questId": "POST",
+      "completionMode": "OWNER_EXCEPTION",
+      "observedPosts": 252,
+      "requiredPosts": 300,
+      "rewardType": "COIN",
+      "rewardAmount": "1000000000000",
+      "delivery": "MESSAGE",
+      "autoCollectReward": false,
+      "messageId": "258313",
+      "rewardId": "237313",
+      "claimToken": "40841dda-a124-4a44-b75c-edc91aa930a7",
+      "sourceHash": "e57fd05b5045d40ed5a660370d13f10fd5f98ba7334f832dc68523a365dad517",
+      "protectedBefore": "bd835f3f9d5b618af52e792d95991c4a8864a4d8f8716175b9d0537abde6815d",
+      "protectedAfter": "bd835f3f9d5b618af52e792d95991c4a8864a4d8f8716175b9d0537abde6815d",
+      "completedAt": "2026-10-25T18:18:34.474Z",
+      "authorization": [
+        "[ShowMaker](https://www.playdk.kr/user/25958d94) 주간퀘스트완료해줘",
+        "저번주꺼"
+      ],
+      "auditId": "51404"
+    },
+    "verification": {
+      "verified": true,
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "weekKey": "2026-10-19",
+      "lastDate": "2026-10-25",
+      "questId": "POST",
+      "status": "COMPLETED",
+      "observedPosts": 252,
+      "requiredPosts": 300,
+      "completionMode": "OWNER_EXCEPTION",
+      "rewardType": "COIN",
+      "rewardAmount": "1000000000000",
+      "delivery": "MESSAGE",
+      "messageId": "258313",
+      "rewardId": "237313",
+      "rewardCollected": false,
+      "auditId": "51404",
+      "duplicateRewards": 0
+    }
+  }
+}
