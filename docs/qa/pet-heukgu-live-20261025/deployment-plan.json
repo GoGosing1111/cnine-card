@@ -1,0 +1,21 @@
+{
+  "before": {
+    "Id": "b10fe4c8-79c0-4328-9bdc-e8c43b03a746",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "b8f7764",
+    "Deployment": "https://b10fe4c8.cnine-card.pages.dev",
+    "Status": "6 minutes ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/b10fe4c8-79c0-4328-9bdc-e8c43b03a746"
+  },
+  "base": "b8f776440452669859bc0521094863c94823b76d",
+  "head": "8a1264688ebecd441c0644281b2923ce904213a3",
+  "tests": [
+    "tests/pet-heukgu-approval-20261025.test.mjs",
+    "tests/pet-heukgu-registration-20261025.test.mjs",
+    "tests/pet-heukgu-production-assets-20261025.test.mjs",
+    "tests/pet-equipment-20261002.test.mjs"
+  ],
+  "reason": "사용자 정정에 따라 흑구를 실제 알파 투명 PNG로 교체; 알파·공개 바이너리 해시·등록 거래·기존 장착 보존과 배포 검사",
+  "temp": "C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/heukgu-release-temp-20261025"
+}
