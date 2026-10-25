@@ -1,0 +1,74 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"f6835ecb36404bd2bde6c2c9972531bdce55da2f","reason":"족구조아 ID525에 사용자 지정 족로 1장 한도 예외 지급. 해당 계정의 보유 필수 PVE/PVP 접근만 추가하며 기존 허용 계정·대여 만료·팩/제작 발행·재화/자동 편성은 유지한다.","changed":["AGENTS.md","docs/qa/jokgujoa-jokro-grant-20261025/README.md","docs/qa/jokgujoa-jokro-grant-20261025/account-state.mjs","docs/qa/jokgujoa-jokro-grant-20261025/dry-run.json","docs/qa/jokgujoa-jokro-grant-20261025/lock-worker.mjs","docs/qa/jokgujoa-jokro-grant-20261025/read.json","docs/qa/jokgujoa-jokro-grant-20261025/release.mjs","docs/qa/jokgujoa-jokro-grant-20261025/run.mjs","docs/qa/jokgujoa-jokro-grant-20261025/wrangler.jsonc","scripts/ops/jokgujoa-jokro-grant-20261025.json","scripts/ops/jokgujoa-jokro-grant-20261025.mjs","shared/mercenary-jokro-v1.mjs","tests/jokgujoa-jokro-access-20261025.test.mjs"],"tests":["tests/jokgujoa-jokro-access-20261025.test.mjs","tests/tmoney-jokro-access-20261023.test.mjs","tests/jokro-loan-20261019.test.mjs"],"checks":["check:worker"]}
+✔ Jokgujoa direct Jokro access is restricted to the exact account (1.615ms)
+✔ owned Jokro replaces both Jokgujoa modes and enters battle without regrant or stock change (5067.6588ms)
+✔ loan closes exactly at 04:00 KST without changing owner or other account access (0.8542ms)
+✔ loan ownership, PVE/PVP selection and single/batch snapshots expire together (5124.5057ms)
+✔ T-Money direct Jokro access is restricted to the exact account (1.0865ms)
+✔ owned Jokro replaces both T-Money modes and enters battle without regrant or stock change (5171.9611ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5923.6209
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] bloodmoon-ss-stock25-20261025-v2-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19999 files; 8260 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8440.67 KiB / gzip: 1816.17 KiB
+Worker Startup Time: 43 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.86 sec)
+No targets deployed for cnine-card-api-runtime (0.55 sec)
+Current Version ID: 6cba375a-8bf6-4489-8354-7aeca70fa88d
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19985/19999)
+Uploading... (19989/19999)
+Uploading... (19994/19999)
+Uploading... (19999/19999)
+✨ Success! Uploaded 14 files (19985 already uploaded) (3.08 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://6f5bfa09.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3016.43 KiB / gzip: 677.23 KiB
+Worker Startup Time: 57 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.04 sec)
+Deployed cnine-card-clan-draft triggers (1.07 sec)
+  schedule: * * * * *
+Current Version ID: 148cb287-87ed-404e-ad21-c3d96d84e13d

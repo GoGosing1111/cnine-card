@@ -1,0 +1,12 @@
+{
+  "base": "f6835ecb36404bd2bde6c2c9972531bdce55da2f",
+  "reason": "족구조아 ID525에 사용자 지정 족로 1장 한도 예외 지급. 해당 계정의 보유 필수 PVE/PVP 접근만 추가하며 기존 허용 계정·대여 만료·팩/제작 발행·재화/자동 편성은 유지한다.",
+  "tests": [
+    "tests/jokgujoa-jokro-access-20261025.test.mjs",
+    "tests/tmoney-jokro-access-20261023.test.mjs",
+    "tests/jokro-loan-20261019.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

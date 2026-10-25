@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-25T04:47:12.550Z",
+  "pages": {
+    "id": "6f5bfa09-9103-4f61-acda-43826f9c4357",
+    "url": "https://6f5bfa09.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "9071fed0231e3056fd70cc31744e4a988c0f4450"
+  },
+  "publicFiles": [
+    {
+      "file": "shared/mercenary-jokro-v1.mjs",
+      "sha256": "d01d5fc8d822e66cc19ecda886a15e08aec14a05f07dacb0c40f5176939a684d"
+    }
+  ],
+  "apiRuntimeHasExactAccount525": true,
+  "apiRuntimeHasPrior5147": true,
+  "bloodmoonSettingsPreserved": true,
+  "accountGrant": "verified separately by run.mjs verify"
+}

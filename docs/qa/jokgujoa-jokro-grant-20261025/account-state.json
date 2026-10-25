@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-25T04:48:02.992Z",
+  "readOnly": true,
+  "accountId": 525,
+  "nickname": "족구조아",
+  "card": {
+    "code": "V-979",
+    "name": "족로",
+    "totalCopies": 1,
+    "duplicates": 0,
+    "canDeploy": true,
+    "excludedFromLimitedCount": true
+  },
+  "loadouts": {
+    "PVE": {
+      "mercenaryCode": "V-057",
+      "revision": 44
+    },
+    "PVP": {
+      "mercenaryCode": "V-057",
+      "revision": 41
+    }
+  },
+  "accountWrites": 0
+}

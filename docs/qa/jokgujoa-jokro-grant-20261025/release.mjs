@@ -30,7 +30,7 @@ if(mode==='inspect'){
  const publicModule=await fetch('https://cnine-card.pages.dev/shared/mercenary-jokro-v1.mjs?verify='+execution.head).then(r=>r.text());
  assert.match(publicModule,/Number\(userId\)===525/);
  const workerResponse=await fetch('https://api.cloudflare.com/client/v4/accounts/'+account+'/workers/services/cnine-card-api-runtime/environments/production/content',{headers:{Authorization:'Bearer '+token}});assert(workerResponse.ok,'Read deployed API runtime');
- const worker=await workerResponse.text(),predicate=worker.match(/(?:var|const|let) jokroAccountAllowed[\s\S]{0,2500}/)?.[0];assert(predicate,'Deployed account predicate missing');
- assert.match(predicate,/Number\(userId\)\s*===\s*525/);assert.match(predicate,/Number\(userId\)\s*===\s*5147/);
+ const worker=await workerResponse.text(),predicate=worker.match(/\bjokroAccountAllowed\s*=[^;]+;/)?.[0];assert(predicate,'Deployed account predicate missing');
+ assert.match(predicate,/Number\(userId\d*\)\s*===\s*525/);assert.match(predicate,/Number\(userId\d*\)\s*===\s*5147/);
  const result={...after,publicFiles:checks,apiRuntimeHasExactAccount525:true,apiRuntimeHasPrior5147:true,bloodmoonSettingsPreserved:true,accountGrant:'verified separately by run.mjs verify'};save('live-verification.json',result);console.log(JSON.stringify(result));
 }else throw Error('Use inspect|deploy|verify');
