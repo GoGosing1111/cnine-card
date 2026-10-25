@@ -436,7 +436,15 @@
 
   function mercenaryCraftSelector(recipes,selectedId) {
     if(recipes.length<2)return '';
-    return `<nav class="ws-mercenary-select" aria-label="제작할 용병 선택">${recipes.map(r=>`<button type="button" data-material-recipe="${r.id}" aria-pressed="${Number(r.id)===selectedId}"><img src="/${esc(r.output_image)}" alt=""><span><b>${esc(r.output_name)}</b><small>${r.craftStock?.soldOut?'한정 수량 소진':r.craftLocked?'제작 OFF':`남은 ${fmt(r.craftStock?.remaining)} / ${fmt(r.craftStock?.limit)}장`}</small></span></button>`).join('')}</nav>`;
+    return `<nav class="ws-mercenary-select" aria-label="제작할 용병 선택">${recipes.map(r=>`<button type="button" data-material-recipe="${r.id}" aria-pressed="${Number(r.id)===selectedId}"><img src="/${esc(r.output_image)}" alt="" loading="lazy" decoding="async"><span><b>${esc(r.output_name)}</b><small>${r.craftScope==='SSS_LIMITED_SHARD'?'리미티드 조각':'일반 조각'}</small><small>${r.craftStock?.soldOut?'한정 수량 소진':r.craftLocked?'제작 OFF':`남은 ${fmt(r.craftStock?.remaining)} / ${fmt(r.craftStock?.limit)}장`}</small></span></button>`).join('')}</nav>`;
+  }
+
+  function limitedShardCraftPanel(recipe) {
+    const stock=recipe.craftStock,info=materialCraftInfo(recipe),soldOut=stock?.soldOut===true;
+    const locked=recipe.craftLocked||!recipe.is_active||!stock,name=recipe.output_name;
+    const readyCosts=recipe.coin_cost!==null&&recipe.master_star_cost!==null&&recipe.materials.every(m=>m.quantity!==null);
+    const restriction=recipe.output_ref==='V-973'?'은설은 PVE 전용입니다.':recipe.output_ref==='V-987'?'시라누이는 중장 이상에서 편성할 수 있습니다.':'';
+    return `<section class="cn-command-ui ws-shard-craft" aria-label="${esc(name)} SSS 리미티드 조각 제작"><div class="cn-ui-panel ws-shard-art"><img src="/${esc(recipe.output_image)}" alt="${esc(name)} 승인 원화"></div><div class="cn-ui-panel ws-shard-contract"><small>SSS LIMITED · SHARD CRAFT</small><h2>${esc(name)}</h2><p>SSS 리미티드 조각 전용 제작 · 전투력 ${fmt(recipe.output_pve)}</p><div class="shard-craft-stock" aria-live="polite"><h3>SSS 리미티드 조각 발행수량</h3><p>한도 ${fmt(stock?.limit)}장 · 제작 발행 ${fmt(stock?.crafted)}장</p><strong>남은 ${fmt(stock?.remaining)}장</strong><small>일반 조각 제작·팩·직접 지급과 별도</small></div><p>${recipe.success_rate==null?'성공 확률 미설정':`성공 확률 ${recipe.success_rate}%`}</p>${readyCosts?window.WorkshopRecipes.costRows(info.rows):''}${locked?`<p class="ws-kairon-lock">${esc(recipe.lockReason||'제작 준비 중')}</p>`:''}${restriction?`<p>${restriction}</p>`:''}<button id="wsMaterialCraft" type="button" class="cn-ui-button primary" ${workshopBusy||!info.recovering&&(locked||!info.ready)?'disabled':''}>${workshopBusy?'제작 결과 확인 중':info.recovering?'이전 제작 결과 확인':soldOut?'한정 수량 소진':locked?'제작 잠금':info.ready?esc(name)+' 제작':'재료 또는 재화 부족'}</button><p class="ws-shard-note">${locked?'제작 잠금 중에는 재료와 재화가 소모되지 않습니다.':'성공·실패 모두 표시한 재료와 비용을 소모합니다. 성공 시 용병 1장을 획득하며 전용 발행 잔여 수량이 1장 줄어듭니다.'}</p></div></section>`;
   }
 
   function materialCraftPanel() {
@@ -446,7 +454,7 @@
     const [pendingId, pendingPayment] = String(pending?.target || '').split(':');
     if (pending && ['COIN', 'MASTER_STAR'].includes(pendingPayment)) payment = pendingPayment;
     const recipe = recipes.find(row => String(row.id) === pendingId) || recipes.find(row => Number(row.id) === selectedMaterialRecipe) || recipes[0];
-    if (category === 'MERCENARY_CRAFT') { if(recipe)selectedMaterialRecipe=Number(recipe.id);return mercenaryCraftSelector(recipes,selectedMaterialRecipe)+(recipe?.code==='WORKSHOP_JOKRO'?jokroCraftPanel(recipe):kaironCraftPanel(recipe)); }
+    if (category === 'MERCENARY_CRAFT') { if(recipe)selectedMaterialRecipe=Number(recipe.id);return mercenaryCraftSelector(recipes,selectedMaterialRecipe)+(recipe?.craftScope==='SSS_LIMITED_SHARD'?limitedShardCraftPanel(recipe):recipe?.code==='WORKSHOP_JOKRO'?jokroCraftPanel(recipe):kaironCraftPanel(recipe)); }
     if (!recipe) {
       if (all.length) return noRecipeMatch();
       const core = category === 'SUIT_CORE_SYNTHESIS';

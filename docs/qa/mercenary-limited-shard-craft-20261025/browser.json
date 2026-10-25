@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "width": 1440,
+      "draftLocked": true,
+      "independentInitialStock": 5,
+      "stockAdded": 5,
+      "unsavedFormPreserved": true,
+      "requiredMaterialFixed": true,
+      "savedOffThenOn": true,
+      "craftSuccess": true,
+      "outputNameCorrect": true,
+      "duplicateCharge": false,
+      "overflow": false,
+      "approvedPanelAndButton": true
+    },
+    {
+      "width": 390,
+      "draftLocked": true,
+      "independentInitialStock": 5,
+      "stockAdded": 5,
+      "unsavedFormPreserved": true,
+      "requiredMaterialFixed": true,
+      "savedOffThenOn": true,
+      "craftSuccess": true,
+      "outputNameCorrect": true,
+      "duplicateCharge": false,
+      "overflow": false,
+      "approvedPanelAndButton": true
+    },
+    {
+      "width": 320,
+      "draftLocked": true,
+      "independentInitialStock": 5,
+      "stockAdded": 5,
+      "unsavedFormPreserved": true,
+      "requiredMaterialFixed": true,
+      "savedOffThenOn": true,
+      "craftSuccess": true,
+      "outputNameCorrect": true,
+      "duplicateCharge": false,
+      "overflow": false,
+      "approvedPanelAndButton": true
+    }
+  ],
+  "errors": [],
+  "productionMutations": 0,
+  "visualApproval": "not claimed"
+}

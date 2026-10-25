@@ -1,0 +1,54 @@
+{
+  "checkedAt": "2026-10-25T02:57:55.494Z",
+  "readOnly": true,
+  "policies": [
+    {
+      "key": "mercenary_jokro_craft_v1",
+      "sha256": "a04ad6e6e9192da493c851c7fd16612c9caf347468b88a00915169cc386f8345",
+      "policy": {
+        "revision": 2,
+        "coinCost": 1000000000000,
+        "masterStarCost": 10000000,
+        "successRate": 1,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_CARD_SHARD",
+            "quantity": 15
+          }
+        ],
+        "isActive": true,
+        "isPublic": true
+      }
+    },
+    {
+      "key": "mercenary_kairon_craft_v1",
+      "sha256": "1aff0fe5d6fea093a77c3090fc2a94762005bd80730d0d76675b7ffe87213aed",
+      "policy": {
+        "revision": 3,
+        "coinCost": 1000000000000,
+        "masterStarCost": 1000000,
+        "successRate": 2,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_CARD_SHARD",
+            "quantity": 5
+          }
+        ],
+        "isActive": true,
+        "isPublic": true
+      }
+    }
+  ],
+  "counts": [
+    {
+      "code": "WORKSHOP_JOKRO",
+      "output_ref": "V-979",
+      "crafted": "0"
+    },
+    {
+      "code": "WORKSHOP_KAIRON",
+      "output_ref": "V-988",
+      "crafted": "4"
+    }
+  ]
+}

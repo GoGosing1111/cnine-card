@@ -1,4 +1,5 @@
 import {JOKRO_CODE,JOKRO_OWNER_ID} from '../shared/mercenary-jokro-v1.mjs';
+import {readLimitedShardCraftOwners} from './_mercenary_craft_access.js';
 
 // A holding alone is not an entitlement. Accept both approved stock limits
 // during rollout; real issued serials and completed receipts remain mandatory.
@@ -21,5 +22,6 @@ export async function readJokroPackOwners(env,userIds){
    WHERE l.output_type='MERCENARY' AND l.output_ref=? AND l.output_quantity=1 AND l.success=1 AND l.user_id IN (${craftIds.map(()=>'?').join(',')})`).bind(JOKRO_CODE,...craftIds).all();
   for(const row of crafted.results)owners.add(Number(row.user_id));
  }
+ for(const id of await readLimitedShardCraftOwners(env,JOKRO_CODE,ids.filter(id=>!owners.has(id))))owners.add(id);
  return owners;
 }

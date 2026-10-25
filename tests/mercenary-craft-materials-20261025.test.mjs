@@ -11,7 +11,7 @@ async function setup(t,material,successRate){
     await f.p("INSERT INTO inventory_items(code,name,category,is_active) VALUES(?,?,'MATERIAL',1)",code,code).run();
     await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,?,20,20)',code).run();
   }
-  const id=await saveMercenaryCraft(f.env,f.user,{code:'WORKSHOP_JOKRO',category:'MERCENARY_CRAFT',outputType:'MERCENARY',outputRef:'V-979',outputQuantity:1,paymentMode:'BOTH',craftRevision:0,coinCost:100,masterStarCost:10,successRate,materials:[{itemCode:material,quantity:5}],isActive:true,isPublic:true});
+  const id=await saveMercenaryCraft(f.env,f.user,{code:material===limited?'WORKSHOP_SSS_LIMITED_SHARD_V_979':'WORKSHOP_JOKRO',category:'MERCENARY_CRAFT',outputType:'MERCENARY',outputRef:'V-979',outputQuantity:1,paymentMode:'BOTH',craftRevision:0,coinCost:100,masterStarCost:10,successRate,materials:[{itemCode:material,quantity:5}],isActive:true,isPublic:true});
   return {...f,attempt:requestId=>__workshopCraftTest.craft(f.env,f.user,{recipeId:id,requestId,paymentType:'BOTH'})};
 }
 for(const successRate of [0,100])test(`CMS-selected LIMITED shards are consumed on ${successRate?'success':'failure'}; ordinary shards remain and replay never charges again`,async t=>{

@@ -8,6 +8,7 @@ import {decorateEquipmentCraftRecipes,equipmentCraftAccountState,saveEquipmentCr
 import {isMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
 import {decorateMercenaryCraft,saveMercenaryCraft,requireMercenaryCraft,mercenaryCraftGrantStatements,readMercenaryCraftStock,mercenaryCraftStockGuard} from './_mercenary_craft.js';
 import {readJointBody} from './_joint_request.js';
+import {addLimitedShardCraftStock} from './_mercenary_craft_stock.js';
 import {S_BODY_REFUND_KEY,refundSBodyChoiceAttempt} from './_workshop_s_body_refund_20260930.js';
 const forgeSynthesisFilter=FORGE_RUNTIME_RELEASE_ENABLED?' AND NOT EXISTS(SELECT 1 FROM equipment_forge_states_v1 fs WHERE fs.instance_id=x.id AND fs.user_id=x.user_id AND fs.level>0)':'';
 
@@ -276,7 +277,7 @@ function craftBatchPlan(recipe,body){
 }
 
 async function craft(env,user,body){
-  if([-988,-979].includes(Number(body.recipeId)))throw new Error('용병 제작 조건 설정 전 · 제작 잠금');
+  if(Number(body.recipeId)<0)throw new Error('용병 제작 조건 설정 전 · 제작 잠금');
   const recipeId=int(body.recipeId,1,2147483647),requestId=clean(body.requestId,120);
   if(!requestId)throw new Error('제작 요청 번호가 없습니다.');
   const prior=await env.DB.prepare(`SELECT status,result_json,error_message FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
@@ -497,7 +498,7 @@ export async function handleWorkshop({path,request,env,deps}){
   if(path==='admin/workshop'){
     if(!isAdmin(user))return deps.json({error:'제작소 관리 권한이 필요합니다.'},403);
     if(request.method==='GET')return deps.json(await adminSnapshot(env,user));
-    if(request.method==='POST'){try{const body=await deps.readBody(request),action=code(body.action);if(action==='SAVE_RECIPE'){const recipeId=await saveRecipe(env,user,body.recipe||{},deps);return deps.json({ok:true,recipeId,snapshot:await adminSnapshot(env,user)})}if(action==='SAVE_SYNTHESIS_RECIPE'){const recipeId=await saveSynthesisRecipe(env,user,body.recipe||{},deps);return deps.json({ok:true,recipeId,snapshot:await adminSnapshot(env,user)})}if(action==='REFUND_S_BODY_POLICY_20260930'){if(!deps.withUserMutationLock)return deps.json({error:'계정 잠금을 사용할 수 없습니다.'},503);const result=await deps.withUserMutationLock(env,4614,path,()=>refundSBodyChoiceAttempt(env,user,body.craftLogId));return deps.json({ok:true,refund:result,snapshot:await adminSnapshot(env,user)})}return deps.json({error:'지원하지 않는 제작소 작업입니다.'},400)}catch(error){return deps.json({error:error.message||'제작소 작업에 실패했습니다.'},error.status||409)}}
+    if(request.method==='POST'){try{const body=await deps.readBody(request),action=code(body.action);if(action==='ADD_LIMITED_SHARD_STOCK'){const stock=await addLimitedShardCraftStock(env,user,body.stock);return deps.json({ok:true,stock,snapshot:await adminSnapshot(env,user)})}if(action==='SAVE_RECIPE'){const recipeId=await saveRecipe(env,user,body.recipe||{},deps);return deps.json({ok:true,recipeId,snapshot:await adminSnapshot(env,user)})}if(action==='SAVE_SYNTHESIS_RECIPE'){const recipeId=await saveSynthesisRecipe(env,user,body.recipe||{},deps);return deps.json({ok:true,recipeId,snapshot:await adminSnapshot(env,user)})}if(action==='REFUND_S_BODY_POLICY_20260930'){if(!deps.withUserMutationLock)return deps.json({error:'계정 잠금을 사용할 수 없습니다.'},503);const result=await deps.withUserMutationLock(env,4614,path,()=>refundSBodyChoiceAttempt(env,user,body.craftLogId));return deps.json({ok:true,refund:result,snapshot:await adminSnapshot(env,user)})}return deps.json({error:'지원하지 않는 제작소 작업입니다.'},400)}catch(error){return deps.json({error:error.message||'제작소 작업에 실패했습니다.'},error.status||409)}}
   }
   return deps.json({error:'지원하지 않는 요청입니다.'},405);
 }

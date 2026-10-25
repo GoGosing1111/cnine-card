@@ -1,0 +1,29 @@
+/* Reuse the approved command panel/action images; text stays in the DOM. */
+.shard-craft-stock{padding:18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;min-width:0}
+.shard-craft-stock>div{flex:1 1 250px;min-width:0}
+.shard-craft-stock h3{margin:0 0 10px;font-size:18px;line-height:1.5;color:#f0f4fc}
+.shard-craft-stock p{margin:6px 0;line-height:1.7;overflow-wrap:anywhere}
+.shard-craft-stock small{display:block;color:#b9c5d9;line-height:1.65}
+.shard-craft-stock [role=status]{flex-basis:100%;margin:0;color:#c8ff6b}
+.shard-craft-list-title{margin:24px 8px 12px;color:#c8ff6b;font-size:16px;line-height:1.5}
+.ws-shard-craft{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.ws-shard-art{display:grid;place-items:center;padding:12px;min-width:0}
+.ws-shard-art img{display:block;max-width:100%;width:100%;height:560px;object-fit:contain}
+.ws-shard-contract{min-width:0;padding:24px;color:#f0f4fc}
+.ws-shard-contract h2{font-size:30px;line-height:1.35;margin:10px 0;overflow-wrap:anywhere}
+.ws-shard-contract p{line-height:1.75;overflow-wrap:anywhere}
+.ws-shard-contract>.shard-craft-stock{display:block;padding:16px 0}
+.ws-shard-contract>.shard-craft-stock strong{display:block;color:#c8ff6b;font-size:26px;margin:8px 0}
+.ws-shard-contract>.cn-ui-button{width:100%;margin-top:16px}
+.ws-shard-note{font-size:13px;color:#b9c5d9}
+.ws-mercenary-select{flex-wrap:wrap}
+.ws-mercenary-select>button{min-width:0}
+.ws-mercenary-select>button span{min-width:0;overflow-wrap:anywhere}
+@media(max-width:700px){
+ .ws-shard-craft{grid-template-columns:minmax(0,1fr)}
+ .ws-shard-art img{height:320px}
+ .ws-shard-contract{padding:18px}
+ .shard-craft-stock{padding:12px}
+ .shard-craft-stock>.cn-ui-button{width:100%}
+ .ws-shard-contract h2{font-size:26px}
+}

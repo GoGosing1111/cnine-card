@@ -1,4 +1,5 @@
 import {JINMU_CODE,JINMU_OWNER_ID,JINMU_PACK_SERVER_LIMIT} from '../shared/mercenary-jinmu-v1.mjs';
+import {readLimitedShardCraftOwners} from './_mercenary_craft_access.js';
 
 // The original exclusive grant stays valid. Other accounts require a real,
 // completed Halloween pack or SSS cube issuance; a stray holding or recalled grant is not
@@ -11,5 +12,7 @@ export async function readJinmuPackOwners(env,userIds){
  JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code=i.code
  JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'
  WHERE i.code=? AND i.serial<=s.stock_limit AND i.user_id IN (${ids.map(()=>'?').join(',')})`).bind(JINMU_CODE,...ids).all();
- return new Set(rows.results.map(r=>Number(r.user_id)));
+ const owners=new Set(rows.results.map(r=>Number(r.user_id)));
+ for(const id of await readLimitedShardCraftOwners(env,JINMU_CODE,ids.filter(id=>!owners.has(id))))owners.add(id);
+ return owners;
 }
