@@ -1,0 +1,132 @@
+{
+  "operationKey": "ops:clan-inactive-withdraw:20261025:v1",
+  "completedAt": "2026-10-25T08:21:00.581Z",
+  "auditId": "51191",
+  "seasonId": 9,
+  "targets": [
+    {
+      "id": 4084,
+      "nickname": "게임닉네임",
+      "clanId": 5
+    },
+    {
+      "id": 5947,
+      "nickname": "Balance",
+      "clanId": 7
+    },
+    {
+      "id": 5972,
+      "nickname": "아까르씨",
+      "clanId": 6
+    }
+  ],
+  "memberCount": 125,
+  "elders": 24,
+  "clans": [
+    {
+      "id": 1,
+      "count": 16,
+      "power": 144738
+    },
+    {
+      "id": 2,
+      "count": 16,
+      "power": 144721
+    },
+    {
+      "id": 3,
+      "count": 16,
+      "power": 144743
+    },
+    {
+      "id": 4,
+      "count": 16,
+      "power": 144731
+    },
+    {
+      "id": 5,
+      "count": 15,
+      "power": 142296
+    },
+    {
+      "id": 6,
+      "count": 15,
+      "power": 143936
+    },
+    {
+      "id": 7,
+      "count": 15,
+      "power": 143924
+    },
+    {
+      "id": 8,
+      "count": 16,
+      "power": 144734
+    }
+  ],
+  "rangePercent": 1.6966207121889578,
+  "otherMembersMoved": 0,
+  "accountWrites": 0,
+  "replayWrites": 0,
+  "testsPassed": 2,
+  "failureInjectionPoints": 4,
+  "rollbackVerified": true,
+  "independentReadOnlyVerified": true,
+  "posted": false,
+  "poster": {
+    "width": 2160,
+    "height": 6344,
+    "names": 125,
+    "elders": 24,
+    "moved": 124,
+    "clippedNames": 0
+  },
+  "artifactRoot": "C:\\Users\\User\\.codex\\visualizations\\2026\\10\\25\\01a170fb-166f-7250-a2e6-d351c185e8ee\\clan-inactive-withdraw-20261025",
+  "files": [
+    {
+      "path": "operation/read.json",
+      "bytes": 323486,
+      "sha256": "d03461478988e7d3a4ac5fb30fc075f1d802f43811b6ac23abd6efab5770cf7a"
+    },
+    {
+      "path": "operation/dry-run.json",
+      "bytes": 339799,
+      "sha256": "1ae4b7ab9a98ef1faa156018c6899df4ccbf510fb9d0fb9fcbaef7e4b2a8883b"
+    },
+    {
+      "path": "operation/apply.json",
+      "bytes": 339805,
+      "sha256": "1abc32d6fd205343393da125417dfb5a67772fb1f28db7e29f6d7618e0858837"
+    },
+    {
+      "path": "operation/verify.json",
+      "bytes": 339732,
+      "sha256": "c6522d92d94b22e0b844ecc953bc96ac1b3ddcf36deb369ad958be2460a96cbc"
+    },
+    {
+      "path": "public-roster.json",
+      "bytes": 30078,
+      "sha256": "6268d0dd4374cf13e76713d1028eee8328ba28cf5963ba67846d7cbab8a19bb0"
+    },
+    {
+      "path": "clan-final-roster-poster.png",
+      "bytes": 2374159,
+      "sha256": "fcc077763faf13b433d959bacb59c08e8b2c57fd33ee02174adaf456d54aeb75"
+    },
+    {
+      "path": "clan-final-roster-poster.html",
+      "bytes": 3711740,
+      "sha256": "64338a4f61927420eb9e69c3ff3bf11239d51da3d06eb9dc44aa9f0d75998141"
+    },
+    {
+      "path": "clan-final-user-notice.txt",
+      "bytes": 10752,
+      "sha256": "81101f6dfd9efe553e624801dcf9e257a5bd90eea4475811964f77760f0f2e30"
+    },
+    {
+      "path": "clan-final-roster.txt",
+      "bytes": 3596,
+      "sha256": "c53628d86f38074617b00d8128f2f7faedc5428e5d298c7f60535de49bbb53cc"
+    }
+  ]
+}
