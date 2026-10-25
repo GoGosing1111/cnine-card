@@ -22,3 +22,12 @@
 - 이번 변경은 블러드문 한 보상 구간과 잠긴 제작 연결에 한정된다. 공통 DB/인증/의존성 변경이 없어 scoped 배포를 사용한다. 직전 운영 커밋은 Cloudflare 조회값으로 선정하고 관련 검사/배포 결과를 별도 기록한다.
 
 블러드문 판매 잠금(`BLOODMOON_PACK_RELEASE_ENABLED=false`)과 제작 잠금(`PRIME_CRAFT_RELEASE_ENABLED=false`)을 유지한다. 운영 계정 재화 차감·카드 지급은 검증에 사용하지 않는다.
+
+## 운영 반영 완료
+
+- 2026-10-25 12:16 KST 확인. 구현 `a079fc5c7`, 최종 전달 `a761dcb0b06633c847e5721da4a45bf5da2d526f`, Pages `7112785b-8fb9-4599-bf0d-69fa9ef88155`, API Runtime `727f5c23-3031-4ba6-9159-ff39a41a91f4`.
+- 지정 명령 `npm run deploy:production -- --scoped`로 배포했다. 직전 운영 `15241e1a0` 대비 관련 검사 108개 통과. 첫 시도는 sparse checkout에서 원화 파일이 빠져 106개 통과/2개 ENOENT로 업로드 전에 중단됐고, Git 원본 21개(39,146,656 bytes)를 복원한 뒤 해당 두 검사 파일의 14개 검사만 재실행해 모두 통과했다. 같은 런타임의 기존 통과 결과를 재사용했다. `deployment-plan-all.json`, `deployment-plan.json`, `test-verification.json`, 두 배포 로그를 보존한다.
+- 출시 정책·worker 문법·Hyperdrive 쿼리 캐시 OFF 검사 통과. Pages 파일은 20,000개(새 업로드 20개). 이번 배포 임시 폴더 `cnine-release-2J78TF`는 배포 도구가 정리했고, 의존성 복사본·새 작업 폴더를 만들지 않았다.
+- 공개 파일 17개 SHA-256이 로컬 배포 소스와 일치한다. 실제 공개 API에서 V-975 슬롯의 `ITEM / MERCENARY_PRIME_DEPLETED_CARD`를 확인했고 블러드문 개봉 요청은 423 잠금이다. 판매 플래그 false, 저장 OFF, 배포 전후 설정·팩 재고 일치. 배포 전 저장 단가는 1회 15억/10회 150억이며 그대로 보존했다(초기 가격 null 초안과 구분). 제작의 수량·비용·성공률은 여전히 null이다. Halloween feature는 전후 동일한 423 응답이며 이 확인을 비공개 Halloween 설정 전체 조회로 해석하지 않는다.
+- 활성 API 번들에서 새 재료/레시피 및 `PRIME_CRAFT_RELEASE_ENABLED=false`를 확인했다. 운영 파일을 직접 읽은 모바일 390px 팩 결과·제작소·CMS 검수도 통과했다. API는 격리 fixture를 사용하고 운영 계정 요청/지급을 하지 않았다. 이미지/페이지 오류·가로 넘침·UI POST 0. `live-ui/browser.json`과 캡처 보존.
+- 운영 계정 차감·지급 0건. 기존 프라임 보유분·완료 영수증과 조각 제작 12종·현재 전투력 기준을 보존한다. 제작 조건과 개방은 이후 사용자 지시에 따른다. 기록만 추가하는 후속 커밋은 운영 재배포하지 않는다.

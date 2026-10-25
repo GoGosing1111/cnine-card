@@ -1,0 +1,31 @@
+{
+  "status": "PASSED",
+  "uniqueTests": 108,
+  "firstAttempt": {
+    "source": "215f87fdbcd84cd9f60d2be9a3f65eced32f103e",
+    "tests": 108,
+    "pass": 106,
+    "fail": 2,
+    "failureCause": "Two approved-art tests lacked sparse checkout originals; no runtime failures; no upload began."
+  },
+  "resumed": {
+    "source": "a761dcb0b06633c847e5721da4a45bf5da2d526f",
+    "tests": 14,
+    "pass": 14,
+    "fail": 0,
+    "runtimeUnchanged": true,
+    "restoredOriginalFiles": 21,
+    "restoredBytes": 39146656,
+    "testFiles": [
+      "tests/kairon-craft-combat-20261014.test.mjs",
+      "tests/prime-requiem-live-20261021.test.mjs"
+    ]
+  },
+  "workerSyntaxCheck": "PASSED",
+  "productionReleasePolicy": "PASSED",
+  "hyperdriveQueryCache": "disabled",
+  "rawLogs": [
+    "deploy-attempt-1.log",
+    "deploy.log"
+  ]
+}

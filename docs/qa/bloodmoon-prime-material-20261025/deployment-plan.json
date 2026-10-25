@@ -1,0 +1,11 @@
+{
+  "base": "15241e1a0205bc74ec310d2793a3c0e48b9807e5",
+  "reason": "블러드문 V-975 구간을 제작 재료로 지급하고 프라임 제작은 조건 미정/서버 잠금 유지. 일반·대량·재시도·원자 거래와 기존 용병 제작 회귀 확인. 할로윈 가격/확률/재고 및 기존 프라임 보존. 같은 소스 215f87fdb에서 108개 중 106개 통과. 원화 파일 21개만 sparse checkout으로 복원하고 ENOENT였던 2개 파일의 검사를 재실행한다. 나머지는 deploy-attempt-1.log 통과 기록 재사용. 최신 a761dcb0b는 검증 문서만 추가하며 런타임은 215f87fdb와 동일하다.",
+  "tests": [
+    "tests/kairon-craft-combat-20261014.test.mjs",
+    "tests/prime-requiem-live-20261021.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

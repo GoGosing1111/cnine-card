@@ -1,0 +1,930 @@
+{
+  "at": "2026-10-25T03:07:26.869Z",
+  "pages": {
+    "id": "bcf07158-a1b2-44dd-9ee5-5009cb5b039d",
+    "url": "https://bcf07158.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "15241e1a0205bc74ec310d2793a3c0e48b9807e5"
+  },
+  "runtime": {
+    "id": "2eca92a1-9be9-42d2-a5fe-086a90041713",
+    "source": "wrangler",
+    "strategy": "percentage",
+    "annotations": {
+      "workers/triggered_by": "deployment"
+    },
+    "versions": [
+      {
+        "version_id": "a8fb169d-ef24-490f-bc8c-1ea0afee1b68",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-10-25T03:04:29.099692Z"
+  },
+  "packs": {
+    "bloodmoon": {
+      "settings": {
+        "mode": "OFF",
+        "prices": {
+          "single": 1500000000,
+          "ten": 15000000000
+        },
+        "missRatePpm": 800000,
+        "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "normalSssRatePpm": 969789,
+        "cardRatesPpm": {
+          "V-960": 5000,
+          "V-961": 5000,
+          "V-962": 5000,
+          "V-963": 5000,
+          "V-964": 5000,
+          "V-965": 5000,
+          "V-978": 200,
+          "V-974": 10,
+          "V-975": 1
+        },
+        "stockLimits": {
+          "V-960": 10,
+          "V-961": 10,
+          "V-962": 10,
+          "V-963": 10,
+          "V-964": 10,
+          "V-965": 10,
+          "V-978": null,
+          "V-974": null,
+          "V-975": null
+        }
+      },
+      "stock": [
+        {
+          "code": "V-960",
+          "limit": 10,
+          "issued": 0,
+          "remaining": 10,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-961",
+          "limit": 10,
+          "issued": 0,
+          "remaining": 10,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-962",
+          "limit": 10,
+          "issued": 0,
+          "remaining": 10,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-963",
+          "limit": 10,
+          "issued": 0,
+          "remaining": 10,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-964",
+          "limit": 10,
+          "issued": 0,
+          "remaining": 10,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-965",
+          "limit": 10,
+          "issued": 0,
+          "remaining": 10,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-978",
+          "limit": null,
+          "issued": 0,
+          "remaining": null,
+          "prepared": false,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        },
+        {
+          "code": "V-974",
+          "limit": null,
+          "issued": 0,
+          "remaining": null,
+          "prepared": false,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        },
+        {
+          "code": "V-975",
+          "limit": null,
+          "issued": 0,
+          "remaining": null,
+          "prepared": false,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        }
+      ],
+      "releaseEnabled": false,
+      "userOpeningEnabled": false,
+      "cards": [
+        {
+          "code": "V-960",
+          "name": "나무늘봉순",
+          "nameStatus": "CONFIRMED",
+          "title": "블러드문 SS 리미티드",
+          "rank": "SS",
+          "rankStatus": "USER_DESIGNATED_20261023",
+          "edition": "LIMITED",
+          "season": "BLOODMOON",
+          "role": "LIMITED",
+          "position": null,
+          "artOnly": true,
+          "releaseStatus": "CODEX_RELEASED_ACQUISITION_LOCKED",
+          "sourceArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-960-source.png",
+          "sourceArtSha256": "F72CFF4055340C7859649F0A971B2557E16DDFC57F7AB8EBD7E1309B070E4A8E",
+          "battleSprite": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-960-idle.png",
+          "battleSpriteSha256": "044565913CE77B068955ADC3D3D6B5DED046A38844AC1C01838EC21282787728",
+          "thumbnailArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-960-320.webp",
+          "displayArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-960-640.webp",
+          "accent": "#eb4164",
+          "basePower": 356400,
+          "skills": [
+            {
+              "id": "MS-960",
+              "name": "적월 섬멸탄",
+              "nameStatus": "WORKING_LABEL",
+              "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+              "effect": "세 차례 탄막을 나누어 발사합니다.",
+              "target": "적 표적",
+              "ready": false,
+              "trigger": "기존 서버의 에너지·재사용·행동 조건",
+              "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+              "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+              "balance": {
+                "damageRatio": 14.4,
+                "cooldownTurns": 2,
+                "cost": 20
+              },
+              "bossRule": "공개된 전투 검수 기준이며 현재 획득·편성은 잠겨 있습니다."
+            }
+          ],
+          "acquisition": "LOCKED",
+          "acquisitionEnabled": false,
+          "packAcquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "packOpeningEnabled": false,
+          "acquisitionPackId": "mercenary-bloodmoon-ss-limited",
+          "acquisitionPackName": "블러드문 SS 리미티드 팩",
+          "serverLimit": 10,
+          "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+          "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+          "artWindow": {
+            "left": 5.957,
+            "top": 5.794,
+            "width": 88.086,
+            "height": 88.086
+          },
+          "resourceStatus": "ART_AND_BATTLE_RESOURCES_CODEX_RELEASED",
+          "visualApproval": "SOURCE_ART_USER_APPROVED_BATTLE_REVIEW_PENDING",
+          "combatLinkDescription": "기본 전투력 356,400 · 할로윈 SS 리미티드 상위 기준. 현재 팩 개봉 및 전투 편성은 불가합니다.",
+          "battleSpriteViewport": {
+            "x": 15,
+            "y": 11,
+            "width": 734,
+            "height": 917,
+            "imageWidth": 1254,
+            "imageHeight": 1254
+          }
+        },
+        {
+          "code": "V-961",
+          "name": "조은",
+          "nameStatus": "CONFIRMED",
+          "title": "블러드문 SS 리미티드",
+          "rank": "SS",
+          "rankStatus": "USER_DESIGNATED_20261023",
+          "edition": "LIMITED",
+          "season": "BLOODMOON",
+          "role": "LIMITED",
+          "position": null,
+          "artOnly": true,
+          "releaseStatus": "CODEX_RELEASED_ACQUISITION_LOCKED",
+          "sourceArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-961-source.png",
+          "sourceArtSha256": "2756F59F1703411C57D7257FB10F049DF046241CF395A646610B9EA19E567787",
+          "battleSprite": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-961-idle.png",
+          "battleSpriteSha256": "DC95449200629518CA158CD6E5E5C805CDFE7CC8A18B539AAE9E7B64A32A7278",
+          "thumbnailArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-961-320.webp",
+          "displayArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-961-640.webp",
+          "accent": "#eb4164",
+          "basePower": 356400,
+          "skills": [
+            {
+              "id": "MS-961",
+              "name": "홍련의 속박",
+              "nameStatus": "WORKING_LABEL",
+              "mechanic": "REPEAT_OFFENDER_RESTRAINT",
+              "effect": "행동을 거듭한 적을 채찍으로 공격하고 조건 충족 시 다음 공격을 약화합니다.",
+              "target": "적 표적",
+              "ready": false,
+              "trigger": "기존 서버의 에너지·재사용·행동 조건",
+              "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+              "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+              "balance": {
+                "damageRatio": 11.6,
+                "cooldownTurns": 1,
+                "cost": 20
+              },
+              "bossRule": "공개된 전투 검수 기준이며 현재 획득·편성은 잠겨 있습니다."
+            }
+          ],
+          "acquisition": "LOCKED",
+          "acquisitionEnabled": false,
+          "packAcquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "packOpeningEnabled": false,
+          "acquisitionPackId": "mercenary-bloodmoon-ss-limited",
+          "acquisitionPackName": "블러드문 SS 리미티드 팩",
+          "serverLimit": 10,
+          "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+          "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+          "artWindow": {
+            "left": 5.957,
+            "top": 5.794,
+            "width": 88.086,
+            "height": 88.086
+          },
+          "resourceStatus": "ART_AND_BATTLE_RESOURCES_CODEX_RELEASED",
+          "visualApproval": "SOURCE_ART_USER_APPROVED_BATTLE_REVIEW_PENDING",
+          "combatLinkDescription": "기본 전투력 356,400 · 할로윈 SS 리미티드 상위 기준. 현재 팩 개봉 및 전투 편성은 불가합니다.",
+          "battleSpriteViewport": {
+            "x": 15,
+            "y": 5,
+            "width": 270,
+            "height": 351,
+            "imageWidth": 512,
+            "imageHeight": 512
+          }
+        },
+        {
+          "code": "V-962",
+          "name": "디임",
+          "nameStatus": "CONFIRMED",
+          "title": "블러드문 SS 리미티드",
+          "rank": "SS",
+          "rankStatus": "USER_DESIGNATED_20261023",
+          "edition": "LIMITED",
+          "season": "BLOODMOON",
+          "role": "LIMITED",
+          "position": null,
+          "artOnly": true,
+          "releaseStatus": "CODEX_RELEASED_ACQUISITION_LOCKED",
+          "sourceArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-962-source.png",
+          "sourceArtSha256": "EC0AE02A8DCF159DDEA5BAC6215EB56CA271FADA9EA19E4A4DB2589513A5D537",
+          "battleSprite": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-962-idle.png",
+          "battleSpriteSha256": "CB9BAC03F199DEFB9F1AC22834DE4CE87F89E490F896B622638F5D1E524B14FB",
+          "thumbnailArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-962-320.webp",
+          "displayArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-962-640.webp",
+          "accent": "#eb4164",
+          "basePower": 356400,
+          "skills": [
+            {
+              "id": "MS-962",
+              "name": "적월 단죄",
+              "nameStatus": "WORKING_LABEL",
+              "mechanic": "WOUNDED_MOON_DRAW",
+              "effect": "잃은 체력이 많은 적을 큰 낫으로 마무리합니다.",
+              "target": "적 표적",
+              "ready": false,
+              "trigger": "기존 서버의 에너지·재사용·행동 조건",
+              "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+              "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+              "balance": {
+                "damageRatio": 11.6,
+                "cooldownTurns": 1,
+                "cost": 20
+              },
+              "bossRule": "공개된 전투 검수 기준이며 현재 획득·편성은 잠겨 있습니다."
+            }
+          ],
+          "acquisition": "LOCKED",
+          "acquisitionEnabled": false,
+          "packAcquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "packOpeningEnabled": false,
+          "acquisitionPackId": "mercenary-bloodmoon-ss-limited",
+          "acquisitionPackName": "블러드문 SS 리미티드 팩",
+          "serverLimit": 10,
+          "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+          "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+          "artWindow": {
+            "left": 5.957,
+            "top": 5.794,
+            "width": 88.086,
+            "height": 88.086
+          },
+          "resourceStatus": "ART_AND_BATTLE_RESOURCES_CODEX_RELEASED",
+          "visualApproval": "SOURCE_ART_USER_APPROVED_BATTLE_REVIEW_PENDING",
+          "combatLinkDescription": "기본 전투력 356,400 · 할로윈 SS 리미티드 상위 기준. 현재 팩 개봉 및 전투 편성은 불가합니다.",
+          "battleSpriteViewport": {
+            "x": 16,
+            "y": 12,
+            "width": 302,
+            "height": 316,
+            "imageWidth": 512,
+            "imageHeight": 512
+          }
+        },
+        {
+          "code": "V-963",
+          "name": "카르베나",
+          "nameStatus": "USER_APPROVED_20261023",
+          "title": "블러드문 SS 리미티드",
+          "rank": "SS",
+          "rankStatus": "USER_DESIGNATED_20261023",
+          "edition": "LIMITED",
+          "season": "BLOODMOON",
+          "role": "LIMITED",
+          "position": null,
+          "artOnly": true,
+          "releaseStatus": "CODEX_RELEASED_ACQUISITION_LOCKED",
+          "sourceArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-963-source.png",
+          "sourceArtSha256": "4A3CE150F220EF56CBE8C457F1CD4329650C0DA8092848D90E54873D058E728F",
+          "battleSprite": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-963-idle.png",
+          "battleSpriteSha256": "C729CC2489870EC2D2608D9FFD79D9DD51C7838842E2AF8D5A7F46528A351A1C",
+          "thumbnailArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-963-320.webp",
+          "displayArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-963-640.webp",
+          "accent": "#eb4164",
+          "basePower": 356400,
+          "skills": [
+            {
+              "id": "MS-963",
+              "name": "혈조 교차참",
+              "nameStatus": "WORKING_LABEL",
+              "mechanic": "TWO_BEAT_FOLLOWUP",
+              "effect": "양손 클로의 교차 공격을 두 행동에 나누어 이어갑니다.",
+              "target": "적 표적",
+              "ready": false,
+              "trigger": "기존 서버의 에너지·재사용·행동 조건",
+              "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+              "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+              "balance": {
+                "damageRatio": 26.4,
+                "cooldownTurns": 1,
+                "cost": 20
+              },
+              "bossRule": "공개된 전투 검수 기준이며 현재 획득·편성은 잠겨 있습니다."
+            }
+          ],
+          "acquisition": "LOCKED",
+          "acquisitionEnabled": false,
+          "packAcquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "packOpeningEnabled": false,
+          "acquisitionPackId": "mercenary-bloodmoon-ss-limited",
+          "acquisitionPackName": "블러드문 SS 리미티드 팩",
+          "serverLimit": 10,
+          "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+          "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+          "artWindow": {
+            "left": 5.957,
+            "top": 5.794,
+            "width": 88.086,
+            "height": 88.086
+          },
+          "resourceStatus": "ART_AND_BATTLE_RESOURCES_CODEX_RELEASED",
+          "visualApproval": "SOURCE_ART_USER_APPROVED_BATTLE_REVIEW_PENDING",
+          "combatLinkDescription": "기본 전투력 356,400 · 할로윈 SS 리미티드 상위 기준. 현재 팩 개봉 및 전투 편성은 불가합니다.",
+          "battleSpriteViewport": {
+            "x": 73,
+            "y": 0,
+            "width": 291,
+            "height": 329,
+            "imageWidth": 512,
+            "imageHeight": 512
+          }
+        },
+        {
+          "code": "V-964",
+          "name": "네베라",
+          "nameStatus": "USER_APPROVED_20261023",
+          "title": "블러드문 SS 리미티드",
+          "rank": "SS",
+          "rankStatus": "USER_DESIGNATED_20261023",
+          "edition": "LIMITED",
+          "season": "BLOODMOON",
+          "role": "LIMITED",
+          "position": null,
+          "artOnly": true,
+          "releaseStatus": "CODEX_RELEASED_ACQUISITION_LOCKED",
+          "sourceArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-964-source.png",
+          "sourceArtSha256": "B438EA1FCD38F7D04C960FEDD04EF350A99EFB0B21940C27444E4E90860F2EC8",
+          "battleSprite": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-964-idle.png",
+          "battleSpriteSha256": "76D1D632AE2FA8E7CD13698B9459885FCF7E337FCB647409A22874CAFD8D72A7",
+          "thumbnailArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-964-320.webp",
+          "displayArt": "assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/v-964-640.webp",
+          "accent": "#eb4164",
+          "basePower": 356400,
+          "skills": [
+            {
+              "id": "MS-964",
+              "name": "월영 급습",
+              "nameStatus": "WORKING_LABEL",
+              "mechanic": "INTERRUPT_WINDUP",
+              "effect": "단검으로 급습해 적의 준비 중인 기술을 중단합니다. 보스와 제어 면역은 중단되지 않습니다.",
+              "target": "적 표적",
+              "ready": false,
+              "trigger": "기존 서버의 에너지·재사용·행동 조건",
+              "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+              "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+              "balance": {
+                "damageRatio": 11.8,
+                "cooldownTurns": 1,
+                "cost": 20
+              },
+              "bossRule": "공개된 전투 검수 기준이며 현재 획득·편성은 잠겨 있습니다."
+            }
+          ],
+          "acquisition": "LOCKED",
+          "acquisitionEnabled": false,
+          "packAcquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "packOpeningEnabled": false,
+          "acquisitionPackId": "mercenary-bloodmoon-ss-limited",
+          "acquisitionPackName": "블러드문 SS 리미티드 팩",
+          "serverLimit": 10,
+          "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+          "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+          "artWindow": {
+            "left": 5.957,
+            "top": 5.794,
+            "width": 88.086,
+            "height": 88.086
+          },
+          "resourceStatus": "ART_AND_BATTLE_RESOURCES_CODEX_RELEASED",
+          "visualApproval": "SOURCE_ART_USER_APPROVED_BATTLE_REVIEW_PENDING",
+          "combatLinkDescription": "기본 전투력 356,400 · 할로윈 SS 리미티드 상위 기준. 현재 팩 개봉 및 전투 편성은 불가합니다.",
+          "battleSpriteViewport": {
+            "x": 42,
+            "y": 0,
+            "width": 239,
+            "height": 375,
+            "imageWidth": 512,
+            "imageHeight": 512
+          }
+        },
+        {
+          "code": "V-965",
+          "name": "블러드문 남수댕",
+          "nameStatus": "USER_CONFIRMED_20261024",
+          "title": "혈월의 궁수",
+          "rank": "SS",
+          "rankStatus": "USER_DESIGNATED",
+          "edition": "LIMITED",
+          "season": "BLOODMOON",
+          "role": "MARKSMAN",
+          "position": "REAR",
+          "artOnly": false,
+          "releaseStatus": "BATTLE_RELEASED_PACK_PENDING",
+          "acquisition": "BLOODMOON_PACK",
+          "acquisitionEnabled": false,
+          "packAcquisitionEnabled": true,
+          "packOpeningEnabled": false,
+          "deploymentEnabled": true,
+          "serverLimit": 10,
+          "acquisitionPackId": "mercenary-bloodmoon-ss-limited",
+          "acquisitionPackName": "블러드팩",
+          "sourceArt": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/source-art.png",
+          "sourceArtSha256": "FA4375975E256F84E6C4CDB877B69C239805DA303B1233EBF71B7A6F5F32D9D8",
+          "battleSprite": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/idle.png",
+          "battleSpriteSha256": "F92F48030F9AE6CB7C888F0F70F3CE4FD963BD4225C32651762003E0761BEAA6",
+          "thumbnailArt": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/art-320.webp",
+          "displayArt": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/art-640.webp",
+          "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+          "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+          "artWindow": {
+            "left": 5.957,
+            "top": 5.794,
+            "width": 88.086,
+            "height": 88.086
+          },
+          "accent": "#eb4164",
+          "basePower": 356400,
+          "skills": [
+            {
+              "id": "MS-947",
+              "name": "적월 관통",
+              "visualMode": "pierce",
+              "targetCount": 1,
+              "target": "적 하나",
+              "effect": "응축한 화살로 적 하나를 관통합니다. 한 시전의 총 1,440% 피해를 실제 대상 수에 나누어 적용합니다.",
+              "mechanic": "BLOODMOON_ARCHERY",
+              "ready": true,
+              "balance": {
+                "damageRatio": 14.4,
+                "cooldownTurns": 2,
+                "cost": 20
+              },
+              "trigger": "자기 행동 · 에너지 20 · 세 기술 공통 재사용 2행동",
+              "counterplay": "회피·방어·보호막·행동 제어의 영향을 받습니다.",
+              "bossRule": "보스도 같은 총 피해 예산을 사용합니다.",
+              "procRule": "서버 피해는 대상당 한 번이며 연출 화살은 추가 피해·비용·행동을 만들지 않습니다."
+            },
+            {
+              "id": "MS-948",
+              "name": "혈월 연사",
+              "visualMode": "volley",
+              "targetCount": 3,
+              "target": "최대 3명",
+              "effect": "서로 다른 적 최대 3명에게 세 발을 나누어 발사합니다. 한 시전의 총 1,440% 피해를 실제 대상 수에 나누어 적용합니다.",
+              "mechanic": "BLOODMOON_ARCHERY",
+              "ready": true,
+              "balance": {
+                "damageRatio": 14.4,
+                "cooldownTurns": 2,
+                "cost": 20
+              },
+              "trigger": "자기 행동 · 에너지 20 · 세 기술 공통 재사용 2행동",
+              "counterplay": "회피·방어·보호막·행동 제어의 영향을 받습니다.",
+              "bossRule": "보스도 같은 총 피해 예산을 사용합니다.",
+              "procRule": "서버 피해는 대상당 한 번이며 연출 화살은 추가 피해·비용·행동을 만들지 않습니다."
+            },
+            {
+              "id": "MS-949",
+              "name": "월식 화살비",
+              "visualMode": "rain",
+              "targetCount": null,
+              "target": "적 전체",
+              "effect": "상공의 화살이 적 진형 전체로 쏟아집니다. 한 시전의 총 1,440% 피해를 실제 대상 수에 나누어 적용합니다.",
+              "mechanic": "BLOODMOON_ARCHERY",
+              "ready": true,
+              "balance": {
+                "damageRatio": 14.4,
+                "cooldownTurns": 2,
+                "cost": 20
+              },
+              "trigger": "자기 행동 · 에너지 20 · 세 기술 공통 재사용 2행동",
+              "counterplay": "회피·방어·보호막·행동 제어의 영향을 받습니다.",
+              "bossRule": "보스도 같은 총 피해 예산을 사용합니다.",
+              "procRule": "서버 피해는 대상당 한 번이며 연출 화살은 추가 피해·비용·행동을 만들지 않습니다."
+            }
+          ],
+          "combatLinkDescription": "블러드문 SS 리미티드 · 서버 전체 10장. 기본 전투력 356,400. 후열 궁수이며 표시·성장 등급 SS, 전투 등급 보정은 일반 SSS 기준입니다. 자연 행동 속도 2.25배·아군 카드 4행동마다 9회 추가 행동, 자기 행동마다 에너지 10을 회복합니다. 적월 관통·혈월 연사·월식 화살비는 순환하며 총 1,440% 피해 예산·에너지 20·공통 재사용 2행동을 사용합니다. 기본 공격은 한 발이며 승인 모션은 2배속, 대기 몸체는 고정입니다. 블러드팩 개봉은 현재 준비 중입니다.",
+          "battleSpriteViewport": {
+            "x": 209,
+            "y": 276,
+            "width": 261,
+            "height": 375,
+            "imageWidth": 768,
+            "imageHeight": 768
+          },
+          "visualApproval": "USER_APPROVED_20261024",
+          "approvalRecord": "assets/ui/project-v/mercenaries/bloodmoon-namsudaeng-20261024/live-approval.json",
+          "resourceStatus": "BATTLE_RELEASED"
+        },
+        {
+          "code": "V-978",
+          "name": "레오넬",
+          "title": "백은의 서약",
+          "rank": "SSS",
+          "edition": "LIMITED",
+          "role": "VANGUARD",
+          "position": "FRONT",
+          "artOnly": false,
+          "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+          "acquisition": "LOCKED",
+          "sourceArt": "assets/ui/project-v/mercenaries/leonel-20261018/source-art.png",
+          "sourceArtSha256": "43D4C211FF58BFF672E8614AA50FCD8F6C5099C667DD2F4C42C44BDE75AB2E00",
+          "battleSprite": "assets/ui/project-v/mercenaries/leonel-20261018/idle.png",
+          "battleSpriteSha256": "AB6D401C93CCBECE50912CDADDCFC6F0D099BD720A6149729AF275F28CA53683",
+          "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+          "artWindow": {
+            "left": 5.957,
+            "top": 5.794,
+            "width": 88.086,
+            "height": 88.086
+          },
+          "accent": "#c6b6ff",
+          "basePower": 2300000,
+          "skills": [
+            {
+              "id": "MS-978",
+              "name": "검극 · 전선 단절",
+              "mechanic": "SWORD_APEX_FRONTLINE_SEVER",
+              "target": "ALL_ENEMIES",
+              "pveOnly": true,
+              "balance": {
+                "damageRatio": 15.12,
+                "cooldownTurns": 5,
+                "cost": 35
+              }
+            }
+          ],
+          "acquisitionEnabled": false,
+          "packAcquisitionEnabled": false,
+          "deploymentEnabled": true,
+          "combatLinkDescription": "기본 전투력 2,300,000. 인간계 최강의 검사로서 백은일섬·절명삼연과 검극 · 전선 단절을 펼칩니다. 개인 피해 80% 경감, 상태이상·반격 보호. PVE 광역기는 생존한 적 전체에 총 1,512% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 공격 동작 2배, 스킬 이펙트는 원래 속도입니다. 획득 잠금 · 획득 방법은 추후 지정됩니다.",
+          "group": "SSS_LIMITED",
+          "stockPolicy": "PACK_ONLY",
+          "serverLimit": null,
+          "thumbnailArt": "assets/ui/packs/blood-pack-20261023/v-978-320.webp",
+          "displayArt": "assets/ui/packs/blood-pack-20261023/v-978-640.webp"
+        },
+        {
+          "code": "V-974",
+          "name": "제너럴 족",
+          "title": "황금 함대의 총사령관",
+          "rank": "SSS",
+          "edition": "LIMITED",
+          "role": "VANGUARD",
+          "position": "FRONT",
+          "artOnly": false,
+          "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+          "acquisition": "LOCKED",
+          "sourceArt": "assets/ui/project-v/mercenaries/general-jok-20261023/source-art.png",
+          "sourceArtSha256": "2FC1C16D414920E1F8576DE5A32A15B5C1A3E1DDCD57C464F60BE63E31BF16B8",
+          "battleSprite": "assets/ui/project-v/mercenaries/general-jok-20261023/idle.png",
+          "battleSpriteSha256": "0FA82890AC46D11459D72F80F8DFF256C6E5B8D6FCF8EFC1BC362B0F2DBF7609",
+          "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+          "artWindow": {
+            "left": 5.957,
+            "top": 5.794,
+            "width": 88.086,
+            "height": 88.086
+          },
+          "accent": "#ffd16b",
+          "basePower": 2700000,
+          "skills": [
+            {
+              "id": "MS-950",
+              "name": "대물 관통탄",
+              "visualMode": "attack",
+              "mechanic": "GENERAL_JOK_BASIC_FORM",
+              "target": "ENEMY",
+              "basicForm": true,
+              "balance": {
+                "damageRatio": 1,
+                "cooldownTurns": 0,
+                "cost": 0
+              }
+            },
+            {
+              "id": "MS-951",
+              "name": "황금 낙인탄",
+              "visualMode": "critical",
+              "mechanic": "GENERAL_JOK_BASIC_FORM",
+              "target": "ENEMY",
+              "basicForm": true,
+              "balance": {
+                "damageRatio": 1,
+                "cooldownTurns": 0,
+                "cost": 0
+              }
+            },
+            {
+              "id": "MS-952",
+              "name": "황금 함대 · 종결 포격",
+              "visualMode": "ultimate",
+              "mechanic": "GENERAL_JOK_GOLDEN_ARSENAL",
+              "target": "ALL_ENEMIES",
+              "pveOnly": true,
+              "balance": {
+                "version": 2,
+                "damageRatio": 15.12,
+                "cooldownTurns": 3,
+                "cost": 20
+              }
+            },
+            {
+              "id": "MS-953",
+              "name": "M777 야포단",
+              "visualMode": "artillery",
+              "mechanic": "GENERAL_JOK_GOLDEN_ARSENAL",
+              "target": "ALL_ENEMIES",
+              "pveOnly": true,
+              "balance": {
+                "version": 2,
+                "damageRatio": 15.12,
+                "cooldownTurns": 3,
+                "cost": 20
+              }
+            },
+            {
+              "id": "MS-954",
+              "name": "황금 파쇄탄",
+              "visualMode": "breaker",
+              "mechanic": "GENERAL_JOK_GOLDEN_ARSENAL",
+              "target": "ALL_ENEMIES",
+              "pveOnly": true,
+              "balance": {
+                "version": 2,
+                "damageRatio": 15.12,
+                "cooldownTurns": 3,
+                "cost": 20
+              }
+            },
+            {
+              "id": "MS-955",
+              "name": "초고속 철갑탄",
+              "visualMode": "sabotage",
+              "mechanic": "GENERAL_JOK_GOLDEN_ARSENAL",
+              "target": "ALL_ENEMIES",
+              "pveOnly": true,
+              "balance": {
+                "version": 2,
+                "damageRatio": 15.12,
+                "cooldownTurns": 3,
+                "cost": 20
+              }
+            },
+            {
+              "id": "MS-956",
+              "name": "공중 산개탄",
+              "visualMode": "airburst",
+              "mechanic": "GENERAL_JOK_GOLDEN_ARSENAL",
+              "target": "ALL_ENEMIES",
+              "pveOnly": true,
+              "balance": {
+                "version": 2,
+                "damageRatio": 15.12,
+                "cooldownTurns": 3,
+                "cost": 20
+              }
+            },
+            {
+              "id": "MS-957",
+              "name": "제압 사격",
+              "visualMode": "barrage",
+              "mechanic": "GENERAL_JOK_GOLDEN_ARSENAL",
+              "target": "ALL_ENEMIES",
+              "pveOnly": true,
+              "balance": {
+                "version": 2,
+                "damageRatio": 15.12,
+                "cooldownTurns": 3,
+                "cost": 20
+              }
+            }
+          ],
+          "acquisitionEnabled": false,
+          "packAcquisitionEnabled": false,
+          "deploymentEnabled": true,
+          "combatLinkDescription": "기본 전투력 2,700,000. 공격·체력·방어·연계는 전투력에 비례하며 기존 속도와 행동 주기를 유지합니다. 개인 피해 80% 경감, 상태이상·반격 보호. 대물 관통탄과 단일 급소를 꿰뚫는 황금 낙인탄이 일반 공격마다 순환합니다. PVE에서는 황금 함대·M777 야포단·파쇄탄·철갑탄·산개탄·제압 사격을 순환하며, 공통 재사용 3행동·에너지 20으로 총 1,512% 피해를 적 전체에 나눠 한 번씩 적용합니다. 황금 C9 깃발과 전신 네온 아우라. 모션 재생 2배. 현재 획득 불가.",
+          "group": "SSS_LIMITED",
+          "stockPolicy": "PACK_ONLY",
+          "serverLimit": null,
+          "thumbnailArt": "assets/ui/packs/blood-pack-20261023/v-974-320.webp",
+          "displayArt": "assets/ui/packs/blood-pack-20261023/v-974-640.webp"
+        },
+        {
+          "code": "V-975",
+          "name": "프라임 레퀴엠",
+          "title": "적월의 광전사",
+          "rank": "SSS",
+          "edition": "LIMITED",
+          "role": "VANGUARD",
+          "position": "FRONT",
+          "artOnly": false,
+          "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+          "acquisition": "LOCKED",
+          "sourceArt": "assets/ui/project-v/mercenaries/prime-requiem-20261021/source-art.png",
+          "sourceArtSha256": "B2D1C5DF8553370EC9FF90D72E27562C404C24DCECF33935BB74F0EDC13D2FDC",
+          "battleSprite": "assets/ui/project-v/mercenaries/prime-requiem-20261021/idle.png",
+          "battleSpriteSha256": "EA00ECB24265DCF168F139361FF09D538486048A384A3BFF872E174479116830",
+          "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+          "artWindow": {
+            "left": 5.957,
+            "top": 5.794,
+            "width": 88.086,
+            "height": 88.086
+          },
+          "accent": "#ff163e",
+          "basePower": 3000000,
+          "skills": [
+            {
+              "id": "MS-960",
+              "name": "혈섬 돌진",
+              "visualMode": "blood-dash",
+              "mechanic": "PRIME_REQUIEM_BASIC_FORM",
+              "target": "ENEMY",
+              "basicForm": true,
+              "balance": {
+                "damageRatio": 1,
+                "cooldownTurns": 0,
+                "cost": 0
+              }
+            },
+            {
+              "id": "MS-961",
+              "name": "혈영 연참",
+              "visualMode": "blood-echo",
+              "mechanic": "PRIME_REQUIEM_BASIC_FORM",
+              "target": "ENEMY",
+              "basicForm": true,
+              "balance": {
+                "damageRatio": 1,
+                "cooldownTurns": 0,
+                "cost": 0
+              }
+            },
+            {
+              "id": "MS-962",
+              "name": "혈검 난무",
+              "visualMode": "blood-frenzy",
+              "mechanic": "PRIME_REQUIEM_BASIC_FORM",
+              "target": "ENEMY",
+              "basicForm": true,
+              "balance": {
+                "damageRatio": 1,
+                "cooldownTurns": 0,
+                "cost": 0
+              }
+            },
+            {
+              "id": "MS-963",
+              "name": "혈호 강림",
+              "visualMode": "blood-tiger",
+              "mechanic": "CRIMSON_ECLIPSE_BERSERKER",
+              "target": "ALL_ENEMIES",
+              "pveOnly": true,
+              "balance": {
+                "version": 2,
+                "damageRatio": 15.12,
+                "cooldownTurns": 3,
+                "cost": 20
+              }
+            },
+            {
+              "id": "MS-964",
+              "name": "혈영섬 · 참형",
+              "visualMode": "blood-execution",
+              "mechanic": "CRIMSON_ECLIPSE_BERSERKER",
+              "target": "ALL_ENEMIES",
+              "pveOnly": true,
+              "balance": {
+                "version": 2,
+                "damageRatio": 15.12,
+                "cooldownTurns": 3,
+                "cost": 20
+              }
+            },
+            {
+              "id": "MS-965",
+              "name": "혈천개벽",
+              "visualMode": "blood-cataclysm",
+              "mechanic": "CRIMSON_ECLIPSE_BERSERKER",
+              "target": "ALL_ENEMIES",
+              "pveOnly": true,
+              "balance": {
+                "version": 2,
+                "damageRatio": 15.12,
+                "cooldownTurns": 3,
+                "cost": 20
+              }
+            },
+            {
+              "id": "MS-966",
+              "name": "적월 무간참",
+              "visualMode": "blood-moonfall",
+              "mechanic": "CRIMSON_ECLIPSE_BERSERKER",
+              "target": "ALL_ENEMIES",
+              "pveOnly": true,
+              "balance": {
+                "version": 2,
+                "damageRatio": 15.12,
+                "cooldownTurns": 3,
+                "cost": 20
+              }
+            }
+          ],
+          "acquisitionEnabled": false,
+          "packAcquisitionEnabled": false,
+          "deploymentEnabled": true,
+          "combatLinkDescription": "기본 전투력 3,000,000. 제로와 동일한 공격·생존·속도·연계 기준. 개인 피해 80% 경감, 상태이상·반격 보호. 혈섬 돌진·혈영 연참·혈검 난무가 일반 공격마다 순환합니다. PVE 광역기 네 동작은 공통 재사용 3행동·에너지 20을 사용하며, 시전당 총 1,512% 피해를 생존한 적에게 나누어 한 번씩 적용합니다. 부서진 적월·흑염·붉은 네온. 현재 획득 불가.",
+          "group": "SSS_LIMITED",
+          "stockPolicy": "PACK_ONLY",
+          "serverLimit": null,
+          "thumbnailArt": "assets/ui/packs/blood-pack-20261023/v-975-320.webp",
+          "displayArt": "assets/ui/packs/blood-pack-20261023/v-975-640.webp"
+        }
+      ]
+    },
+    "halloween": {
+      "status": 423,
+      "code": "MERCENARY_OPENING_DISABLED",
+      "error": "용병 공동 업데이트를 준비 중입니다."
+    }
+  }
+}

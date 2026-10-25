@@ -1,0 +1,82 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"15241e1a0205bc74ec310d2793a3c0e48b9807e5","reason":"블러드문 V-975 구간을 제작 재료로 지급하고 프라임 제작은 조건 미정/서버 잠금 유지. 일반·대량·재시도·원자 거래와 기존 용병 제작 회귀 확인. 할로윈 가격/확률/재고 및 기존 프라임 보존. 같은 소스 215f87fdb에서 108개 중 106개 통과. 원화 파일 21개만 sparse checkout으로 복원하고 ENOENT였던 2개 파일의 검사를 재실행한다. 나머지는 deploy-attempt-1.log 통과 기록 재사용. 최신 a761dcb0b는 검증 문서만 추가하며 런타임은 215f87fdb와 동일하다.","changed":["AGENTS.md","admin/index.html","admin/workshop-admin-v1668.js","assets/items/prime-depleted-20261025/card.webp","css/workshop-v1881.css","docs/qa/bloodmoon-prime-material-20261025/README.md","docs/qa/bloodmoon-prime-material-20261025/browser.json","docs/qa/bloodmoon-prime-material-20261025/build-asset.mjs","docs/qa/bloodmoon-prime-material-20261025/cms-locked-1440.png","docs/qa/bloodmoon-prime-material-20261025/cms-locked-320.png","docs/qa/bloodmoon-prime-material-20261025/cms-locked-390.png","docs/qa/bloodmoon-prime-material-20261025/craft-locked-1440.png","docs/qa/bloodmoon-prime-material-20261025/craft-locked-320.png","docs/qa/bloodmoon-prime-material-20261025/craft-locked-390.png","docs/qa/bloodmoon-prime-material-20261025/manifest.json","docs/qa/bloodmoon-prime-material-20261025/merge-crafting.py","docs/qa/bloodmoon-prime-material-20261025/originals/prime-depleted-source.png","docs/qa/bloodmoon-prime-material-20261025/pack-card-1440.png","docs/qa/bloodmoon-prime-material-20261025/pack-card-320.png","docs/qa/bloodmoon-prime-material-20261025/pack-card-390.png","docs/qa/bloodmoon-prime-material-20261025/pack-result-1440.png","docs/qa/bloodmoon-prime-material-20261025/pack-result-320.png","docs/qa/bloodmoon-prime-material-20261025/pack-result-390.png","docs/qa/bloodmoon-prime-material-20261025/prompt.json","docs/qa/bloodmoon-prime-material-20261025/release.mjs","docs/qa/mercenary-limited-shard-craft-20261025/README.md","docs/qa/mercenary-limited-shard-craft-20261025/live-files.json","docs/qa/mercenary-limited-shard-craft-20261025/production-after.json","docs/qa/mercenary-three-power-20261025/README.md","docs/qa/mercenary-three-power-20261025/live-verification.json","functions/_mercenary_bloodmoon_once.js","functions/_mercenary_bloodmoon_opening.js","functions/_mercenary_craft.js","functions/_mercenary_prime_material.js","functions/_workshop.js","functions/api/[[path]].js","index.html","js/app.js","js/mercenary-bloodmoon-pack-live.mjs","js/mercenary-bloodmoon-presentation-v2.mjs","js/workshop-v1881.js","preview/blood-pack-interface-20261023/index.html","scripts/prepare-production-assets.mjs","service-worker.js","shared/mercenary-bloodmoon-bulk-v1.mjs","shared/mercenary-bloodmoon-pack-v1.mjs","shared/mercenary-bloodmoon-pool-v3.mjs","shared/mercenary-bloodmoon-session-v2.mjs","shared/mercenary-craft-v1.mjs","shared/mercenary-prime-material-v1.mjs","tests/bloodmoon-prime-material-20261025.browser.mjs","tests/bloodmoon-prime-material-20261025.test.mjs","tests/helpers/bloodmoon-pack-fixture.mjs","tests/jokro-craft-20261021.test.mjs","tests/mercenary-bloodmoon-isolation-20261023.test.mjs","tests/mercenary-bloodmoon-pack-20261023.browser.mjs","tests/mercenary-limited-shard-craft-20261025.test.mjs"],"tests":["tests/kairon-craft-combat-20261014.test.mjs","tests/prime-requiem-live-20261021.test.mjs"],"checks":["check:worker"]}
+✔ Kairon keeps its original baseline while Jinmu is 20% stronger with the same equipment and cadence (8.545ms)
+✔ Kairon packs remain impossible even with a contaminated catalog and maximum CMS weight (0.8044ms)
+✔ one quantum cast keeps the original 560% budget and applies one receipt per living target; PVP only fires basics (21.5122ms)
+✔ unset/partial CMS drafts remain null and locked; no recipe economics or acquisition is seeded (1785.3517ms)
+✔ configured craft charges and grants atomically, replays without reroll, tracks duplicates and obeys OFF (1409.0578ms)
+✔ failed craft consumes only configured inputs; an acquisition insert failure rolls everything back (1299.9622ms)
+✔ ordinary owners may deploy a crafted Kairon in PVE/PVP; the public codex describes craft-only acquisition (61.3973ms)
+✔ approved art stays byte-identical and the production PVE/PVP consumers include the Kairon renderer (1183.6141ms)
+✔ Prime equals Zero in actual PVE/PVP stats, gear, links, mitigation and action cadence (5.9881ms)
+✔ normal/limited/Halloween/fusion selection cannot award Prime even with positive CMS weight (1.0531ms)
+✔ four PVE area skills retain one 1512% budget per cast and rotate more frequently (25.6953ms)
+✔ PVE cadence is ten casts per thirty own actions instead of six, with shared cooldown and no PVP casts (1.2252ms)
+✔ public codex exposes seven skills and acquisition lock while deployment requires ownership (1879.1113ms)
+✔ approved V7 assets stay byte-identical and all actual V3 consumers ship Prime (4942.1827ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7220.0486
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 8071 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8426.16 KiB / gzip: 1813.30 KiB
+Worker Startup Time: 60 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.50 sec)
+No targets deployed for cnine-card-api-runtime (0.65 sec)
+Current Version ID: 727f5c23-3031-4ba6-9159-ff39a41a91f4
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19980/20000)
+Uploading... (19986/20000)
+Uploading... (19993/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 20 files (19980 already uploaded) (3.26 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://7112785b.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3003.05 KiB / gzip: 674.19 KiB
+Worker Startup Time: 35 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (4.61 sec)
+Deployed cnine-card-clan-draft triggers (1.33 sec)
+  schedule: * * * * *
+Current Version ID: 1340d4d6-afff-4c4b-8589-2cc2f5480af3

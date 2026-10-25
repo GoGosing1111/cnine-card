@@ -1,0 +1,21 @@
+{
+  "status": "PASSED",
+  "assetSource": "https://cnine-card.pages.dev",
+  "apiSource": "isolated local fixtures",
+  "reports": [
+    {
+      "width": 390,
+      "packMaterialImage": true,
+      "recoveredItemReceipt": true,
+      "craftLocked": true,
+      "cmsEnableDisabled": true,
+      "unknownConditionsPreserved": true,
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "failed": [],
+  "uiPosts": 0,
+  "productionAccountWrites": 0,
+  "visualApproval": "not claimed"
+}

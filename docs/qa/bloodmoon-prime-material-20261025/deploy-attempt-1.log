@@ -1,0 +1,160 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"15241e1a0205bc74ec310d2793a3c0e48b9807e5","reason":"블러드문 V-975 구간을 제작 재료로 지급하고 프라임 제작은 조건 미정/서버 잠금 유지. 일반·대량·재시도·원자 거래와 기존 용병 제작 회귀 확인. 할로윈 가격/확률/재고 및 기존 프라임 보존.","changed":["AGENTS.md","admin/index.html","admin/workshop-admin-v1668.js","assets/items/prime-depleted-20261025/card.webp","css/workshop-v1881.css","docs/qa/bloodmoon-prime-material-20261025/README.md","docs/qa/bloodmoon-prime-material-20261025/browser.json","docs/qa/bloodmoon-prime-material-20261025/build-asset.mjs","docs/qa/bloodmoon-prime-material-20261025/cms-locked-1440.png","docs/qa/bloodmoon-prime-material-20261025/cms-locked-320.png","docs/qa/bloodmoon-prime-material-20261025/cms-locked-390.png","docs/qa/bloodmoon-prime-material-20261025/craft-locked-1440.png","docs/qa/bloodmoon-prime-material-20261025/craft-locked-320.png","docs/qa/bloodmoon-prime-material-20261025/craft-locked-390.png","docs/qa/bloodmoon-prime-material-20261025/manifest.json","docs/qa/bloodmoon-prime-material-20261025/merge-crafting.py","docs/qa/bloodmoon-prime-material-20261025/originals/prime-depleted-source.png","docs/qa/bloodmoon-prime-material-20261025/pack-card-1440.png","docs/qa/bloodmoon-prime-material-20261025/pack-card-320.png","docs/qa/bloodmoon-prime-material-20261025/pack-card-390.png","docs/qa/bloodmoon-prime-material-20261025/pack-result-1440.png","docs/qa/bloodmoon-prime-material-20261025/pack-result-320.png","docs/qa/bloodmoon-prime-material-20261025/pack-result-390.png","docs/qa/bloodmoon-prime-material-20261025/prompt.json","docs/qa/bloodmoon-prime-material-20261025/release.mjs","docs/qa/mercenary-three-power-20261025/README.md","docs/qa/mercenary-three-power-20261025/live-verification.json","functions/_mercenary_bloodmoon_once.js","functions/_mercenary_bloodmoon_opening.js","functions/_mercenary_craft.js","functions/_mercenary_prime_material.js","functions/_workshop.js","functions/api/[[path]].js","index.html","js/app.js","js/mercenary-bloodmoon-pack-live.mjs","js/mercenary-bloodmoon-presentation-v2.mjs","js/workshop-v1881.js","preview/blood-pack-interface-20261023/index.html","scripts/prepare-production-assets.mjs","service-worker.js","shared/mercenary-bloodmoon-bulk-v1.mjs","shared/mercenary-bloodmoon-pack-v1.mjs","shared/mercenary-bloodmoon-pool-v3.mjs","shared/mercenary-bloodmoon-session-v2.mjs","shared/mercenary-craft-v1.mjs","shared/mercenary-prime-material-v1.mjs","tests/bloodmoon-prime-material-20261025.browser.mjs","tests/bloodmoon-prime-material-20261025.test.mjs","tests/helpers/bloodmoon-pack-fixture.mjs","tests/jokro-craft-20261021.test.mjs","tests/mercenary-bloodmoon-isolation-20261023.test.mjs","tests/mercenary-bloodmoon-pack-20261023.browser.mjs","tests/mercenary-limited-shard-craft-20261025.test.mjs"],"tests":["tests/bloodmoon-prime-material-20261025.test.mjs","tests/mercenary-bloodmoon-bulk-20261025.test.mjs","tests/mercenary-bloodmoon-pack-20261023.test.mjs","tests/mercenary-bloodmoon-isolation-20261023.test.mjs","tests/mercenary-bloodmoon-auto-20261023.test.mjs","tests/mercenary-bloodmoon-recovery-20261023.test.mjs","tests/mercenary-bloodmoon-storage-20261023.test.mjs","tests/jokro-craft-20261021.test.mjs","tests/kairon-craft-stock-20261018.test.mjs","tests/kairon-craft-combat-20261014.test.mjs","tests/mercenary-craft-materials-20261025.test.mjs","tests/prime-requiem-live-20261021.test.mjs","tests/mercenary-limited-shard-craft-20261025.test.mjs","tests/scoped-release-policy-20260923.test.mjs"],"checks":["check:worker"]}
+✔ 1 draws award only depleted Prime items, preserve the slot and replay once (6634.9471ms)
+✔ 10 draws award only depleted Prime items, preserve the slot and replay once (2937.8446ms)
+✔ 100000 draws award only depleted Prime items, preserve the slot and replay once (2538.486ms)
+ℹ 100,000 draws in isolated PGlite: 168.6ms; no production transactions
+✔ inventory failure rolls back stock, coins, logs and items; lost commit acknowledgement does not duplicate (2066.3972ms)
+✔ a legacy unpaid plan converts to material without rerolling or changing payment (1643.9145ms)
+✔ the last material serial is issued once during a two-account race; exhausted slot becomes ordinary SSS (1442.546ms)
+✔ an armed Prime slot grants and consumes the material atomically (1474.2154ms)
+✔ material receipts fail closed when their inventory audit is absent (1292.0935ms)
+✔ pre-change completed receipts and directly owned Prime cards remain mercenaries (1054.0001ms)
+✔ Prime craft is visible but has no invented quantity, costs, rate, or limit and cannot be enabled (13.1689ms)
+✔ prepared Jokro is OFF/hidden with exact requested economics; Kairon settings and two policies remain separate (6847.8902ms)
+✔ 1 percent boundary; failed attempts consume exact inputs, success gets a usable Jokro, replay and OFF never recharge (3342.3148ms)
+✔ two craft successes are the global limit; cross-account last-slot race has no losing charge (69.858ms)
+✔ grant failure rolls back currencies, materials, holdings and craft count; no partial receipt authorizes access (2694.923ms)
+✔ insufficient SSS fragments or Master Stars cannot charge coins or consume a craft slot (1887.8049ms)
+✔ a real craft recipient is visible, deployable in PVE/PVP and available in ranked ownership; a stray holding stays blocked (1922.3147ms)
+✔ production preparation dry-run rolls back; apply is audited, OFF, idempotent and never changes pack stock or accounts (1550.0118ms)
+✔ Kairon keeps its original baseline while Jinmu is 20% stronger with the same equipment and cadence (15.6279ms)
+✔ Kairon packs remain impossible even with a contaminated catalog and maximum CMS weight (2.8929ms)
+✔ one quantum cast keeps the original 560% budget and applies one receipt per living target; PVP only fires basics (107.4984ms)
+✔ unset/partial CMS drafts remain null and locked; no recipe economics or acquisition is seeded (6435.4837ms)
+✔ configured craft charges and grants atomically, replays without reroll, tracks duplicates and obeys OFF (3358.0286ms)
+✔ failed craft consumes only configured inputs; an acquisition insert failure rolls everything back (2811.5777ms)
+✔ ordinary owners may deploy a crafted Kairon in PVE/PVP; the public codex describes craft-only acquisition (100.3156ms)
+✖ approved art stays byte-identical and the production PVE/PVP consumers include the Kairon renderer (2.0835ms)
+✔ eight lifetime craft slots include historical success, exclude failed attempts and direct exceptions (6919.5811ms)
+✔ five prior successes leave three added slots; the eighth exhausts crafting and receipt replay stays free (3914.073ms)
+✔ different accounts racing the last slot yield one success and no charge for the losing request (101.3391ms)
+✔ an acquisition failure rolls back costs and keeps the last craft slot available (2968.1453ms)
+✔ existing excess successes display zero and stay locked without rewriting prior records (0.5328ms)
+✔ bounded automatic quote includes exact maximum cost and rejects malformed counts (2.2559ms)
+✔ a mixed confirmed batch shows SS then SSS once per grade, never previews or gate ranks (1.6265ms)
+✔ automatic batches wait for presentation and hold the account lock across the entire sequence (4.4078ms)
+✔ stop during a paid request finishes that receipt and never starts another request (2.626ms)
+✔ OFF, changed revision, unavailable stock and network errors halt before another charge (3.8044ms)
+✔ lost response never becomes a fresh lottery; explicit recovery stays outside automation (1.1561ms)
+✔ account changes and background transitions halt before the next request (2.5375ms)
+✔ insufficient next-batch funds and terminal server failures do not retry automatically (4.0503ms)
+✔ two tabs cannot own an automatic sequence simultaneously (1.117ms)
+✔ three automatic ten-batches use the production service, separate receipts and exact coin debits (6716.8132ms)
+✔ 100 trillion reference is exactly 100,000 draws with integer accounting and bounded input (3.7057ms)
+✔ buffered cryptographic sampler rejects out-of-range samples without modulo bias (0.3892ms)
+✔ bulk sampler preserves exact ordinary, conditional and sold-out results for the same random stream (6402.3126ms)
+✔ 100,000 draws use one compact transaction and recover the identical receipt without another charge (2875.3376ms)
+✔ a failed bulk grant rolls back everything and retry never rerolls (2713.4476ms)
+✔ stock race replaces only unavailable serials, preserving normal quantities and total draws (1993.446ms)
+✔ changed settings, insufficient funds and forged budget/count fail before payment (1584.653ms)
+✔ SS and below use counts without images, while limited SS and ordinary/limited SSS retain images (1.8121ms)
+✔ compact receipts validate totals and client recovery uses the same durable bulk request (2.8075ms)
+✔ production release stays hard-locked before authentication, body parsing, or any DB access (0.4054ms)
+✔ two accounts racing for the final limited copy receive at most one serial and exact totals (1517.2928ms)
+✔ simultaneous retries of the same bulk ID debit and grant only once (1439.301ms)
+✔ an already armed indexed guarantee keeps its original slot and is consumed atomically (1338.8158ms)
+✔ the approved six Bloodmoon cards and three requested SSS cards are the only pack targets (2.3971ms)
+✔ independent CMS draft save is atomic, idempotent, version guarded and leaves Halloween untouched (6523.4ms)
+✔ only OWNER may read/save Blood Pack CMS; public opening remains closed before auth and DB (2701.6349ms)
+✔ browser requests, history, tab locks, receipts and one-time entitlements never cross packs (2549.8632ms)
+✔ two independent rate totals, exact effective odds, null drafts and old absolute rates are not reinterpreted (10.2552ms)
+✔ only the SSS interval enters the second lottery; SS remains ordinary and misses stay misses (4.679ms)
+✔ unauthenticated opening performs no database query; OFF and incomplete ON never charge (6643.6622ms)
+✔ one prepared ten-draw transaction grants both ordinary and limited cards once and survives a lost response (3031.3617ms)
+✔ failure after stock reservation rolls back stock, coins and cards; retry uses the original fixed draw (2427.8934ms)
+✔ last remaining card is granted once and the other nine slots award ordinary SSS (2004.0705ms)
+✔ prepared request cancels on settings change without charging or resampling (1580.2252ms)
+✔ SS videos use the awarded rank, never the SSS entry gate or fake preview results (0.5913ms)
+✔ client persists one request before POST, recovers without a new lottery, and isolates accounts (1.6763ms)
+✔ an unresolved receipt gets only three delayed reads, even with repeated wake-up events (10.694ms)
+✔ offline and hidden states defer work; a later visible/online wake-up resumes once (1.1056ms)
+✔ a wake-up during another action waits until that action settles instead of reading concurrently (0.9519ms)
+✔ a wake-up racing an aborted receipt read is not lost (1.2838ms)
+✔ permission, account and storage failures stop; transient transport/sync failures can retry (1.4109ms)
+✔ completion, request replacement and room disposal do not poll indefinitely (0.6605ms)
+✔ bounded automatic recovery reads the original request only, through missing/pending/completed states (6.0323ms)
+✔ an interrupted late response cannot clear pending, present results, or update the wallet (1.507ms)
+✔ an account switch during an automatic read keeps the old result isolated (0.388ms)
+✔ a full browser restores a completed ten-pack and permits the next durable request (9.2888ms)
+✔ history writes may fail without blocking confirmed results or read-only recovery (0.6056ms)
+✔ a purchase never reaches the server when its pending request cannot be persisted (1.3241ms)
+✔ unconfirmed, mismatched and other-account results retain the durable pending request (2.507ms)
+✔ CMS-selected LIMITED shards are consumed on failure; ordinary shards remain and replay never charges again (77.9343ms)
+✔ CMS-selected LIMITED shards are consumed on success; ordinary shards remain and replay never charges again (22.0653ms)
+✔ LIMITED shards cannot replace missing ordinary shards without an explicit CMS material change (28.0107ms)
+✔ all 12 SSS LIMITED recipes have separate five-slot drafts, null costs/rates, required shards and no implicit publication or writes (66.9598ms)
+✔ incomplete settings stay locked; mandatory LIMITED material cannot be removed, swapped or mixed with ordinary shards (55.8004ms)
+✔ +5 is OWNER-only, audited, replay-safe and independent of costs / existing issues (SQLite) (64.3563ms)
+✔ +5 is OWNER-only, audited, replay-safe and independent of costs / existing issues (PostgreSQL) (6931.7823ms)
+✔ simultaneous +5 calls apply once per revision and a lost response retries the same receipt (49.5308ms)
+✔ stock audit failure rolls back the increase and receipt; retry adds exactly five (2763.6623ms)
+✔ ordinary craft / LIMITED shard craft / pack and gifts use independent counts; failure and replay cannot issue again (62.8058ms)
+✔ last-slot race stops at five, losing request spends nothing, and +5 makes exactly five further slots available (88.523ms)
+✔ grant failure rolls back cards, currencies, materials and slots (2633.4553ms)
+✔ verified new Jinmu/Jokro recipients can deploy and rank; incomplete receipts and stray holdings never grant access; Eunseol PVE-only remains (130.2842ms)
+✔ CMS route accepts only an authenticated OWNER and returns the separated updated snapshot (44.6905ms)
+✔ Prime equals Zero in actual PVE/PVP stats, gear, links, mitigation and action cadence (39.7013ms)
+✔ normal/limited/Halloween/fusion selection cannot award Prime even with positive CMS weight (2.3006ms)
+✔ four PVE area skills retain one 1512% budget per cast and rotate more frequently (112.2549ms)
+✔ PVE cadence is ten casts per thirty own actions instead of six, with shared cooldown and no PVP casts (6.6356ms)
+✔ public codex exposes seven skills and acquisition lock while deployment requires ownership (6981.6218ms)
+✖ approved V7 assets stay byte-identical and all actual V3 consumers ship Prime (2.9969ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (5.0625ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (1.4017ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.8936ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.9612ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.2837ms)
+✔ an unshipped QA Wrangler record does not classify an art release as production infrastructure (46.2657ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.8525ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (5.8284ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (3.3831ms)
+ℹ tests 108
+ℹ suites 0
+ℹ pass 106
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22077.1931
+
+✖ failing tests:
+
+test at tests\kairon-craft-combat-20261014.test.mjs:118:1
+✖ approved art stays byte-identical and the production PVE/PVP consumers include the Kairon renderer (2.0835ms)
+  Error: ENOENT: no such file or directory, open 'C:\Users\User\.codex\worktrees\bloodmoon-bulk-release\cnine-card\assets\ui\project-v\mercenaries\kairon-20261014\source-art.png'
+      at Object.openSync (node:fs:561:18)
+      at Object.readFileSync (node:fs:445:35)
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/bloodmoon-bulk-release/cnine-card/tests/kairon-craft-combat-20261014.test.mjs:119:177)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    errno: -4058,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: 'C:\\Users\\User\\.codex\\worktrees\\bloodmoon-bulk-release\\cnine-card\\assets\\ui\\project-v\\mercenaries\\kairon-20261014\\source-art.png'
+  }
+
+test at tests\prime-requiem-live-20261021.test.mjs:96:1
+✖ approved V7 assets stay byte-identical and all actual V3 consumers ship Prime (2.9969ms)
+  Error: ENOENT: no such file or directory, open 'C:\Users\User\.codex\worktrees\bloodmoon-bulk-release\cnine-card\assets\ui\project-v\mercenaries\prime-requiem-20261021\source-art.png'
+      at Object.openSync (node:fs:561:18)
+      at Object.readFileSync (node:fs:445:35)
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/bloodmoon-bulk-release/cnine-card/tests/prime-requiem-live-20261021.test.mjs:97:174)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    errno: -4058,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: 'C:\\Users\\User\\.codex\\worktrees\\bloodmoon-bulk-release\\cnine-card\\assets\\ui\\project-v\\mercenaries\\prime-requiem-20261021\\source-art.png'
+  }

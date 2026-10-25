@@ -1,0 +1,129 @@
+{
+  "at": "2026-10-25T03:16:19.476Z",
+  "pages": {
+    "id": "7112785b-8fb9-4599-bf0d-69fa9ef88155",
+    "url": "https://7112785b.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "a761dcb0b06633c847e5721da4a45bf5da2d526f"
+  },
+  "runtime": {
+    "id": "646056b1-8bab-46b6-a3be-98a7f526c98c",
+    "source": "wrangler",
+    "strategy": "percentage",
+    "annotations": {
+      "workers/triggered_by": "deployment"
+    },
+    "versions": [
+      {
+        "version_id": "727f5c23-3031-4ba6-9159-ff39a41a91f4",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-10-25T03:14:19.318832Z"
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "78c07583cc085fd03047cbd20cd678d34058ac0af8451fefb407b14775e08b10",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "78b7df8917a9477a4fcd8f05b64c000d9d2564743a9e4e2bd617dd81b62409e5",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "454f4c12ec9fd2d2faecaab08d1d287be7e589a6f4568e007f69938eeae9bb64",
+      "status": 200
+    },
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "sha256": "426e2fb9c744ee892d7e9974d6c65c37d8165ceda7831354d128d721ecfb890c",
+      "status": 200
+    },
+    {
+      "file": "js/mercenary-bloodmoon-presentation-v2.mjs",
+      "sha256": "56786d7699843ab1d83868e59fe5a8b2e0d74dfaf2cc40247dc85d20ae18fb5b",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "sha256": "c36dfe1788f0af05df49ced44eff9d16dff22506156036c2a454eac358116161",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-bulk-v1.mjs",
+      "sha256": "2df22beaf3c087b05bb6f601fd7807ad5b25475be3c3c8eade6124eb6a9d6d39",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-session-v2.mjs",
+      "sha256": "017be4463846d94e8cbeeb9e7565e72e28e1f21df3732eb59b577dca38ef445d",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pool-v3.mjs",
+      "sha256": "b774358b7e3111966aa95b9b6055016a217a36008ee5bbb7638932b08d406bff",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-prime-material-v1.mjs",
+      "sha256": "61ba2e8b7a796b15007a8465b8a18700a9cbed4cc7643e4fadf2e70c2f4b2e6f",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-craft-v1.mjs",
+      "sha256": "f52e7026535ee689d44033f94f7c7fe00f35071dfff0a0275e867e0ab3260e69",
+      "status": 200
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "sha256": "98cc22a3ce15cb847c5a4b41c4c3cd26d6514beba4d5367079556b4588cf57f9",
+      "status": 200
+    },
+    {
+      "file": "css/workshop-v1881.css",
+      "sha256": "41a21c6042ac60f27a0e2db12cebe17618c24b388fa81106f5ed9cedbcebb5d0",
+      "status": 200
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "92dac4b0cb1235ee6ed713841b292c08b88066f2da3ad4b81c06ed2ecb787b7e",
+      "status": 200
+    },
+    {
+      "file": "admin/workshop-admin-v1668.js",
+      "sha256": "1484a035a292ca0a43388d8e041907aedd6d5c927641b7faf9ce9e55ac7d6116",
+      "status": 200
+    },
+    {
+      "file": "assets/items/prime-depleted-20261025/card.webp",
+      "sha256": "e7d4e185c059ba7c3d517ff2f644f8842d818e51d45b616277b30aa9738bc227",
+      "status": 200
+    },
+    {
+      "file": "preview/blood-pack-interface-20261023/index.html",
+      "sha256": "c6c41ac9f6a3b5b46f170a8fdcb8cc3bee95c4dccc9503de525e2446f262b16b",
+      "status": 200
+    }
+  ],
+  "materialSlot": {
+    "code": "V-975",
+    "name": "기운잃은 프라임 카드",
+    "rewardType": "ITEM",
+    "itemCode": "MERCENARY_PRIME_DEPLETED_CARD"
+  },
+  "openingStatus": 423,
+  "bloodmoonSalesLocked": true,
+  "primeCraftLocked": true,
+  "bloodmoonSettingsAndStockUnchanged": true,
+  "halloweenFeatureUnchanged": true,
+  "halloweenFeature": {
+    "status": 423,
+    "code": "MERCENARY_OPENING_DISABLED",
+    "error": "용병 공동 업데이트를 준비 중입니다."
+  },
+  "productionAccountCharges": 0,
+  "productionAccountGrants": 0
+}
