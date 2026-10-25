@@ -1,0 +1,13 @@
+{
+  "base": "dcf7a19820cd04620fbcf5cce8dc2bf5e9f70d66",
+  "reason": "사용자 요청 할로윈팩 상점 제거와 신규 개봉 차단. 저장 가격/확률/한도, 보유 카드, 과거 영수증 및 블러드문팩 ON 보존. 관련 잠금/거래/복구/CMS 검사와 PC·모바일 상점/이전 결과 확인 경로 검수.",
+  "tests": [
+    "tests/halloween-shop-remove-20261025.test.mjs",
+    "tests/mercenary-halloween-pack-20261017.test.mjs",
+    "tests/mercenary-halloween-storage-recovery-20261021.test.mjs",
+    "tests/mercenary-halloween-jokro-20261021.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

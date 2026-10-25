@@ -1,0 +1,17 @@
+{
+  "status": "PASSED",
+  "width": 390,
+  "assetSource": "https://cnine-card.pages.dev",
+  "packSource": "actual public API",
+  "shopIds": [
+    "pickup",
+    "ultimate",
+    "superstar",
+    "hyper",
+    "mercenary-bloodmoon-ss-limited"
+  ],
+  "halloweenRemoved": true,
+  "bloodmoonOpeningEnabled": true,
+  "errors": [],
+  "productionTransactions": 0
+}

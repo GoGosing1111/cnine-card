@@ -1,0 +1,84 @@
+{
+  "at": "2026-10-25T04:18:09.713Z",
+  "pages": {
+    "id": "6a8cd4a6-1cf0-4191-93f5-72c6fe7c9a6d",
+    "url": "https://6a8cd4a6.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "929f20914d12075b736a8a996a06cd83bdc3f529"
+  },
+  "runtime": {
+    "id": "ec091d15-b64d-4e36-aff9-846980324acc",
+    "source": "wrangler",
+    "strategy": "percentage",
+    "annotations": {
+      "workers/triggered_by": "deployment"
+    },
+    "versions": [
+      {
+        "version_id": "579206cf-7813-4110-a2d5-f7a69695a319",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-10-25T04:16:27.860437Z"
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "7818b24d0af6f7f0a0ab614509fdfc58123c40cb0456e6b07edf84704b81cf60",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "a76e98b59a01f678736f5cec4106c4570ad3ebbf941d9a7a7acf73e302de18e1",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "cf01223eeabeda1ea71aa1d8f3c7b6eb363c2438ddba8c429a2d5d9a1b6465e7",
+      "status": 200
+    },
+    {
+      "file": "js/mercenary-halloween-pack-live.mjs",
+      "sha256": "4d01bbe19414198fddfecb91cac3905362694cfb3c9f2ab213f9d526aba620ba",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-halloween-pack-v1.mjs",
+      "sha256": "ed40e3313b8aef23faf9a301a6bff57b8f19b6056971e2408615e066ffab0153",
+      "status": 200
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "4b05df0ce7e116dd12843263c04bcad2c331df384c90b5102e526cd6c1c9c9db",
+      "status": 200
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "e9638f6e0b285b13e18b4a4d3fedaea86d595ffc84ca1cc13d4ebc61230e70d3",
+      "status": 200
+    },
+    {
+      "file": "admin/mercenary-halloween-admin-v1.mjs",
+      "sha256": "37c7ca568dc201d57afad434762d1c3c182aed743ef9151d9ccdd6c698efe6db",
+      "status": 200
+    }
+  ],
+  "shopIds": [
+    "pickup",
+    "ultimate",
+    "superstar",
+    "hyper",
+    "mercenary-bloodmoon-ss-limited"
+  ],
+  "halloweenOpeningStatus": 423,
+  "halloweenOpeningCode": "MERCENARY_HALLOWEEN_SHOP_REMOVED",
+  "halloweenReceiptUnauthenticatedStatus": 401,
+  "halloweenRemoved": true,
+  "halloweenSavedSettingsUnchanged": true,
+  "bloodmoonOpeningEnabled": true,
+  "bloodmoonSavedSettingsUnchanged": true,
+  "primeCraftLocked": true,
+  "productionAccountCharges": 0,
+  "productionAccountGrants": 0,
+  "productionSettingWrites": 0
+}
