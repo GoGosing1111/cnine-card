@@ -1,5 +1,4 @@
 import {ensureSigHunterBoxCatalog,openSigHunterBox,grantSigHunterBox} from '../_sig_hunter_box.js';
-import {experienceTransferInventory} from '../_mercenary_experience_transfer.js';
 import {ensureReversecallStreamerGiftCatalog,openReversecallStreamerGift,grantReversecallStreamerGift} from '../_reversecall_streamer_gift.js';
 import {visibleAdminLogs} from '../_admin_log_visibility.js';
 import {deleteReadPackageNotice,presentPackageNotice} from '../_support_package_notice.js';
@@ -5359,7 +5358,7 @@ async function handleRequest(context){
           AND (i.code NOT IN ('MADARA_RAID_ENTRY_TICKET','SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET','NEW_USER_GIFT_BOX','CHUSEOK_COIN','PINGDU_WISH_TICKET','PINGDU_BAEMIN_TICKET','PINGDU_OLD_AXE','SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE') OR COALESCE(ui.quantity,0)>0)
         ORDER BY i.sort_order,i.code`).bind(blackMiracleUseEnabled?1:0,user.id).all();
       const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.code==='SIG_HUNTER_BOX'?'':x.code===FORGE_REPAIR_ITEM.code?'장비 강화 센터 → 파괴 기록에서 복구할 장비를 선택하세요.':x.code===FORGE_PROTECTION_ITEM.code?'장비 강화에서 보호권 사용을 선택하세요.':x.code==='PINGDU_BAEMIN_TICKET'?'종료된 치킨집 이벤트 참가권':x.code==='PINGDU_OLD_AXE'?'종료된 금도끼 은도끼 이벤트 참가권':x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code===MADARA_TICKET?'바르센 레이드 공대 생성 시 사용':x.code===LICH_TICKET?'리치왕 정벌 공대 생성 시 사용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
-      const presented=[...presentSssRerollInventory(presentSssCubeInventory(presentMiracleInventory(items))),...await experienceTransferInventory(env,user.id)];
+      const presented=presentSssRerollInventory(presentSssCubeInventory(presentMiracleInventory(items)));
       return json({items:presented,totalQuantity:presented.reduce((n,x)=>n+x.quantity,0),ownedTypes:presented.filter(x=>x.quantity>0).length,unseenTotal:presented.reduce((n,x)=>n+x.unseenQuantity,0)});
     }
     if(path==='inventory/seen'&&request.method==='POST'){
@@ -5371,7 +5370,7 @@ async function handleRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100),rawOpenCount=body.count===undefined?1:Number(body.count),openCount=Number.isInteger(rawOpenCount)?rawOpenCount:0;
       // inventory/use already holds the request-level user lock. A second lock rejects the same request.
-      if(itemCode==='MERCENARY_XP_TRANSFER_POTION')return json({code:'MERCENARY_TRANSFER_SELECTION_REQUIRED',error:'경험치 이전 화면에서 물약과 받을 용병을 선택하세요.',url:'/mercenary-codex/leveling/transfer.html'},400);
+      if(itemCode==='MERCENARY_XP_TRANSFER_POTION')return json({code:'MERCENARY_TRANSFER_SELECTION_REQUIRED',error:'경험치 이전 화면에서 보낼 용병과 받을 용병을 선택하세요. 별도로 획득한 물약 1개가 필요합니다.',url:'/mercenary-codex/leveling/transfer.html'},400);
       if(itemCode==='PET_SEAL_ORB'){
         try{return json(await openPetSeal(env,user,{requestId:body.requestId,count:body.count,expectedRevision:body.expectedRevision}));}catch(error){return json({code:error.code||'PET_OPEN_RETRYABLE',error:error.status?error.message:'개봉 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.',retryable:!error.status||error.status>=500},error.status||503);}
       }

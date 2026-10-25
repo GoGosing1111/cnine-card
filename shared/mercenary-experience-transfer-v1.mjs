@@ -2,10 +2,9 @@ import {MERCENARY_LEVEL_RULES,mercenaryLevelState,mercenaryLevelRequiredXp,merce
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 
 export const TRANSFER_VERSION='mercenary-experience-transfer-20261025-v1';
-// Incident containment: extraction was issuing a potion without consuming an item.
-export const TRANSFER_RELEASE_ENABLED=false;
-export const TRANSFER_REPAIR_MESSAGE='물약 보유 검증과 이전 사용 기록 복구 중입니다. 경험치 이전은 잠시 중단됩니다.';
-export const TRANSFER_ITEM={code:'MERCENARY_XP_TRANSFER_POTION',name:'용병 경험치 이전 물약',image:'/assets/items/mercenary-experience-transfer-20261025/potion.webp'};
+export const TRANSFER_RELEASE_ENABLED=true;
+export const TRANSFER_REPAIR_MESSAGE='별도로 획득한 물약 1개를 소모해 두 용병 사이에 경험치를 이전합니다.';
+export const TRANSFER_ITEM={code:'MERCENARY_XP_TRANSFER_POTION',name:'용병 경험치 50% 이전 물약',image:'/assets/items/mercenary-experience-transfer-20261025/potion.webp'};
 export const transferError=(code,message,status=409)=>levelError('MERCENARY_TRANSFER_'+code,message,status);
 const requireValue=(ok,code,message)=>{if(!ok)throw transferError(code,message);};
 const integer=(n,max=100000000000000)=>Number.isSafeInteger(n)&&n>=0&&n<=max;
@@ -64,26 +63,20 @@ export function applyTransferXp({policy,state,target,xp}){
  }
  return {after,appliedXp:xp-remaining,bankedXp:remaining};
 }
-export function planExperienceExtraction({policy,state,target,transferState,history,requestId,createdAt}){
- const before=mercenaryLevelState(state),prior=mercenaryTransferState(transferState,target.code),amount=retainedMercenaryXp({policy,state,target,transfer:prior,history});
- requireValue(amount.xp>0,'EMPTY','추출할 누적 성장 경험치가 부족합니다. 최소 2 EXP가 필요합니다.');
- requireValue(transferState.potions.length<200,'STORAGE','물약 보관함이 가득 찼습니다. 보관 중인 물약을 먼저 사용하세요.');
- const potion={id:requestId,sourceCode:target.code,sourceName:target.name,group:transferGroup(target),xp:amount.xp,createdAt};
- const after={level:1,experience:0,breakthroughMask:0,revision:before.revision+1},next=structuredClone(transferState);
- next.revision++;next.potions.push(potion);
- next.mercenaries[target.code]={...prior,bankedXp:0,resetRevision:after.revision};
- return {result:{before,after,...amount,potion},next};
-}
-export function planExperienceInfusion({policy,state,target,transferState,potionId,requestId}){
- const before=mercenaryLevelState(state),prior=mercenaryTransferState(transferState,target.code);
- requireValue(!prior.used,'USED','이 용병은 경험치 이전 물약을 이미 1회 사용했습니다. 초기화해도 다시 사용할 수 없습니다.');
- const potion=transferState.potions.find(p=>p.id===potionId);
- requireValue(potion,'POTION','보유한 경험치 이전 물약을 선택하세요.');
- requireValue(potion.group===transferGroup(target),'RANK','대상과 같은 등급의 물약만 사용할 수 있습니다. 일반 SSS와 SSS 리미티드는 별도입니다.');
- requireValue(potion.sourceCode!==target.code,'SOURCE','경험치를 추출한 용병이 아닌 다른 용병에게 사용하세요.');
+// One real inventory item pays for both sides of one atomic transfer. Resetting
+// a source never issues a potion. The target's lifetime usage flag is preserved.
+export function planItemExperienceTransfer({policy,state,target,source,sourceState,transferState,history,requestId}){
+ requireValue(source.code!==target.code,'SOURCE','서로 다른 두 용병을 선택하세요.');
+ requireValue(transferGroup(source)===transferGroup(target),'RANK','같은 등급끼리만 이전할 수 있습니다. 일반 SSS와 SSS 리미티드는 별도입니다.');
+ const before=mercenaryLevelState(state),sourceBefore=mercenaryLevelState(sourceState),prior=mercenaryTransferState(transferState,target.code),sourceMemory=mercenaryTransferState(transferState,source.code);
+ requireValue(!prior.used,'USED','받는 용병은 경험치 이전 물약을 이미 1회 사용했습니다.');
  requireValue(!levelProgress(policy,before,target).complete,'MAX','최대 레벨 용병에게는 물약을 사용할 수 없습니다.');
- const applied=applyTransferXp({policy,state:before,target,xp:potion.xp}),after={...applied.after,revision:before.revision+1},next=structuredClone(transferState);
- next.revision++;next.potions=next.potions.filter(p=>p.id!==potionId);
+ requireValue(transferState.potions.length===0,'REPAIR_PENDING','이전 사용 기록을 먼저 복구해야 합니다.');
+ const amount=retainedMercenaryXp({policy,state:sourceBefore,target:source,transfer:sourceMemory,history});
+ requireValue(amount.xp>0,'EMPTY','이전할 누적 경험치가 부족합니다. 최소 2 EXP가 필요합니다.');
+ const applied=applyTransferXp({policy,state:before,target,xp:amount.xp}),after={...applied.after,revision:before.revision+1};
+ const sourceAfter={level:1,experience:0,breakthroughMask:0,revision:sourceBefore.revision+1},next=structuredClone(transferState);
+ next.revision++;next.mercenaries[source.code]={...sourceMemory,bankedXp:0,resetRevision:sourceAfter.revision};
  next.mercenaries[target.code]={...prior,used:true,usedRequestId:requestId,bankedXp:applied.bankedXp};
- return {result:{before,after,potion,appliedXp:applied.appliedXp,bankedXp:applied.bankedXp},next};
+ return {result:{before,after,...amount,appliedXp:applied.appliedXp,bankedXp:applied.bankedXp,source:{code:source.code,name:source.name,before:sourceBefore,after:sourceAfter},item:{code:TRANSFER_ITEM.code,quantity:1}},next};
 }

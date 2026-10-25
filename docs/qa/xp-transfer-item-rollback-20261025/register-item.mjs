@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';import pg from 'pg';
+import {TRANSFER_ITEM} from '../../../shared/mercenary-experience-transfer-v1.mjs';
+const mode=process.argv[2],out=path.resolve(process.argv[3]),OP='ops:mercenary-xp-transfer-item:20261025:v2';assert(['dry-run','apply','verify'].includes(mode));fs.mkdirSync(out,{recursive:true});
+const item={code:TRANSFER_ITEM.code,name:TRANSFER_ITEM.name,subtitle:'별도 획득 아이템 · 사용 시 1개 소모',description:'물약 1개를 소모해 보낼 용병의 누적 경험치 50%를 같은 등급의 다른 용병에게 이전합니다. 보내는 용병은 레벨·경험치·돌파가 초기화됩니다. 받는 용병당 1회이며 일반 SSS와 SSS 리미티드는 서로 이전할 수 없습니다.',category:'POTION',rarity:'SPECIAL',image_url:TRANSFER_ITEM.image,sort_order:1880,is_active:1};
+const hash=v=>createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v)).digest('hex'),sourceHash=hash(fs.readFileSync(import.meta.filename,'utf8').replace(/\r\n/g,'\n')+JSON.stringify(item));
+const raw=execFileSync(process.execPath,['C:/Users/User/AppData/Local/npm-cache/_npx/74274893b9fe65d3/node_modules/neonctl/bin/cli.js','connection-string','br-misty-hat-az5in4f4','--project-id','purple-king-54735192','--database-name','cnine','--role-name','cnine_migrator','--ssl','verify-full'],{encoding:'utf8',timeout:30000,windowsHide:true,stdio:['ignore','pipe','pipe']});
+const db=new pg.Client({connectionString:raw.trim().replace(/^['"]|['"]$/g,''),application_name:'xp-transfer-item-register',connectionTimeoutMillis:15000}),q=async(sql,args=[])=>(await db.query(sql,args)).rows;
+const state=async()=>({catalog:await q('SELECT * FROM inventory_items ORDER BY code'),inventory:await q('SELECT * FROM cnine_user_inventory WHERE item_code=$1 ORDER BY user_id',[item.code]),logs:await q('SELECT * FROM inventory_logs WHERE item_code=$1 ORDER BY id',[item.code]),receipt:await q('SELECT value FROM app_meta WHERE key=$1',[OP]),audit:await q('SELECT id::text FROM admin_logs WHERE action_type=$1 AND target_id=$2',['OPS_XP_TRANSFER_ITEM_REGISTER',OP])});
+try{
+ await db.connect();await db.query(mode==='verify'?'BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY':'BEGIN ISOLATION LEVEL REPEATABLE READ');await db.query("SET LOCAL statement_timeout='15s'");
+ if(mode!=='verify')await q('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[OP]);const before=await state();if(mode==='dry-run')await db.query('SAVEPOINT item_registration');let replayed=before.receipt.length>0;
+ if(mode==='apply'){const dry=JSON.parse(fs.readFileSync(path.join(out,'item-dry-run.json')));assert.equal(dry.sourceHash,sourceHash);assert.equal(dry.rollbackVerified,true);}
+ if(!replayed&&mode!=='verify'){
+  assert.equal(before.catalog.some(r=>r.code===item.code),false);assert.equal(before.inventory.length,0);assert.equal(before.logs.length,0);
+  const cols=Object.keys(item);await q(`INSERT INTO inventory_items(${cols.join(',')}) VALUES(${cols.map((_,i)=>'$'+(i+1)).join(',')})`,Object.values(item));
+  await q("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,'OPS_XP_TRANSFER_ITEM_REGISTER','INVENTORY_ITEM',$1,$2,$3)",[OP,JSON.stringify(null),JSON.stringify({item,accountGrants:0})]);
+  await q('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,CURRENT_TIMESTAMP)',[OP,JSON.stringify({item,sourceHash,registeredAt:new Date().toISOString(),accountGrants:0})]);
+ }
+ const after=await state(),registered=after.catalog.find(r=>r.code===item.code);for(const [key,value] of Object.entries(item))assert.equal(typeof value==='number'?Number(registered?.[key]):registered?.[key],value);assert.equal(after.receipt.length,1);assert.equal(after.audit.length,1);
+ assert.deepEqual(after.inventory,before.inventory);assert.deepEqual(after.logs,before.logs);assert.deepEqual(after.catalog.filter(r=>r.code!==item.code),before.catalog.filter(r=>r.code!==item.code));
+ if(mode==='dry-run'){await db.query('ROLLBACK TO SAVEPOINT item_registration');assert.deepEqual(await state(),before);await db.query('ROLLBACK');}else await db.query(mode==='apply'?'COMMIT':'ROLLBACK');
+ const result={mode,sourceHash,item,replayed,accountGrants:0,inventoryDebits:0,auditId:after.audit[0].id,rollbackVerified:mode==='dry-run',status:'VERIFIED'};fs.writeFileSync(path.join(out,'item-'+mode+'.json'),JSON.stringify(result,null,2),{flag:'wx'});console.log(JSON.stringify({mode,replayed,status:result.status,accountGrants:0,auditId:result.auditId}));
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(String(e.message).replace(/postgres(?:ql)?:\/\/\S+/g,'[withheld]'));process.exitCode=1;}finally{await db.end();}

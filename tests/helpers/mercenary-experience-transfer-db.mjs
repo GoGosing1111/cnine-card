@@ -1,7 +1,8 @@
 import {mercenaryFixture} from './mercenary-db.mjs';
 import {ensureMercenaryLevelSchema,readMercenaryLevelState} from '../../functions/_mercenary_level_policy.js';
 import {MERCENARY_LEVEL_KEY,mercenaryLevelDraft,mercenaryGrowthDraft} from '../../shared/mercenary-level-v1.mjs';
-import {runPreparedMercenaryLevel,previewExperienceExtraction} from '../../functions/_mercenary_level.js';
+import {runPreparedMercenaryLevel,previewExperienceExtraction,previewItemExperienceTransfer} from '../../functions/_mercenary_level.js';
+import {TRANSFER_ITEM} from '../../shared/mercenary-experience-transfer-v1.mjs';
 import {readExperienceTransfer} from '../../functions/_mercenary_experience_transfer.js';
 const codes=['V-049','V-055','V-001','V-996','V-999'];
 export function transferFixturePolicy(){const p=mercenaryLevelDraft();p.mode='ON';p.revision=7;p.xpPerCard=Object.fromEntries(Object.keys(p.xpPerCard).map(r=>[r,100]));p.levels.forEach(r=>r.requiredXp=300);p.milestones.forEach(r=>r.successChancePpm=500000);p.growth=mercenaryGrowthDraft();Object.assign(p.growth.perLevel,{hpPercent:2,attackPercent:3,defensePercent:1,speedPercent:.25});p.growth.milestones.forEach(r=>Object.assign(r,{hpPercent:10,attackPercent:15,defensePercent:4,speedPercent:.5,skillPowerPercent:2.5,mitigationBypassPercent:5,actionCatchupPercent:2,actionCreditPercent:1}));return p;}
@@ -13,5 +14,8 @@ export async function transferFixture(t,postgres=false){
  f.setState=(code,state)=>f.p('INSERT INTO user_mercenary_levels_v1(user_id,mercenary_code,level,experience,breakthrough_mask,revision,updated_at) VALUES(7,?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET level=excluded.level,experience=excluded.experience,breakthrough_mask=excluded.breakthrough_mask,revision=excluded.revision,updated_at=excluded.updated_at',code,state.level===21?20:state.level,state.experience,state.breakthroughMask,state.revision,'2026-10-25').run();
  f.body=async(code,extra={})=>({requestId:crypto.randomUUID(),mercenaryCode:code,revision:(await readMercenaryLevelState(f.env,7,code)).revision,policyRevision:policy.revision,transferRevision:(await readExperienceTransfer(f.env,7)).state.revision,...extra});
  f.extract=async code=>{const b=await f.body(code),q=await previewExperienceExtraction(f.env,f.user,b);return runPreparedMercenaryLevel(f.env,f.user,{...b,expectedXp:q.xp,group:q.group},'EXTRACT');};
+ f.givePotion=async(quantity=1)=>{await f.p('INSERT INTO inventory_items(code,name,rarity,image_url,category,is_active) VALUES(?,?,?,?,?,1) ON CONFLICT(code) DO NOTHING',TRANSFER_ITEM.code,TRANSFER_ITEM.name,'SPECIAL',TRANSFER_ITEM.image,'POTION').run();await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,?,?,?) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=excluded.quantity,unseen_quantity=excluded.unseen_quantity',TRANSFER_ITEM.code,quantity,quantity).run();};
+ f.transferBody=async(sourceCode='V-049',targetCode='V-055')=>f.body(targetCode,{sourceCode,sourceRevision:(await readMercenaryLevelState(f.env,7,sourceCode)).revision});
+ f.transfer=async(sourceCode='V-049',targetCode='V-055')=>{const b=await f.transferBody(sourceCode,targetCode),q=await previewItemExperienceTransfer(f.env,f.user,b);return runPreparedMercenaryLevel(f.env,f.user,{...b,expectedXp:q.expectedXp},'TRANSFER');};
  return {...f,policy};
 }
