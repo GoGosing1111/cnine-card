@@ -1,0 +1,14 @@
+{
+  "base": "a1594009aeb37a158ce4f6e7467bcbefcd0f5107",
+  "previousPages": "0df84dd5-63d8-41e4-ba6d-327e5d62c409",
+  "reason": "49,800원 패키지 1+1 표시 및 OWNER 2개 원자 지급; 관련 거래 11개와 PC/모바일 검증 완료, 인접 제한 코인과 CMS 복구만 추가 검사",
+  "tests": [
+    "tests/support-package-prediction-20261020.test.mjs",
+    "tests/support-package-cms-recovery-20261020.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "accountOperation": "ops:support-package-bogo-extra:20261025:v1",
+  "auditId": "51137"
+}

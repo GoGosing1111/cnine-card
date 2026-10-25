@@ -1,0 +1,120 @@
+{
+  "verified": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:support-package-bogo-extra:20261025:v1",
+    "authorization": "응맨하고 씨나인택갓 49800원패키지 1개 추가 지급하고",
+    "targets": [
+      {
+        "id": "1195",
+        "nickname": "씨나인택갓",
+        "sourceOrder": "1195_e584dc1b-25af-43dd-a2b9-2c904ca31602"
+      },
+      {
+        "id": "4572",
+        "nickname": "응맨",
+        "sourceOrder": "4572_b5b6e536-788a-4c43-a340-ae3de3b67279"
+      }
+    ],
+    "completedAt": "2026-10-25T04:57:05.308Z",
+    "grants": [
+      {
+        "userId": "1195",
+        "nickname": "씨나인택갓",
+        "sourceOrder": "1195_e584dc1b-25af-43dd-a2b9-2c904ca31602",
+        "packageQuantity": 1,
+        "coin": {
+          "before": "1917347254109",
+          "after": "101917347254109",
+          "logId": "97820655"
+        },
+        "accountingBefore": {
+          "version": 1,
+          "revision": 237,
+          "cursor": 97817108,
+          "restricted": 1000000000,
+          "auctionReserved": {},
+          "precredited": null
+        },
+        "accountingAfter": {
+          "version": 1,
+          "revision": 238,
+          "cursor": 97820655,
+          "restricted": 100001000000000,
+          "auctionReserved": {},
+          "precredited": null
+        },
+        "items": [
+          {
+            "code": "EMPEROR_ENERGY",
+            "before": "1941",
+            "after": "2141",
+            "unseenBefore": "0",
+            "unseenAfter": "200",
+            "logId": "86927279"
+          },
+          {
+            "code": "MERCENARY_SSS_LIMITED_SHARD",
+            "before": "5",
+            "after": "10",
+            "unseenBefore": "0",
+            "unseenAfter": "5",
+            "logId": "86927280"
+          }
+        ]
+      },
+      {
+        "userId": "4572",
+        "nickname": "응맨",
+        "sourceOrder": "4572_b5b6e536-788a-4c43-a340-ae3de3b67279",
+        "packageQuantity": 1,
+        "coin": {
+          "before": "103279419418545",
+          "after": "203279419418545",
+          "logId": "97820664"
+        },
+        "accountingBefore": {
+          "version": 1,
+          "revision": 192,
+          "cursor": 97820535,
+          "restricted": 99000000000000,
+          "auctionReserved": {},
+          "precredited": null
+        },
+        "accountingAfter": {
+          "version": 1,
+          "revision": 193,
+          "cursor": 97820664,
+          "restricted": 199000000000000,
+          "auctionReserved": {},
+          "precredited": null
+        },
+        "items": [
+          {
+            "code": "EMPEROR_ENERGY",
+            "before": "936",
+            "after": "1136",
+            "unseenBefore": "200",
+            "unseenAfter": "400",
+            "logId": "86927281"
+          },
+          {
+            "code": "MERCENARY_SSS_LIMITED_SHARD",
+            "before": "3",
+            "after": "8",
+            "unseenBefore": "3",
+            "unseenAfter": "8",
+            "logId": "86927282"
+          }
+        ]
+      }
+    ],
+    "protectedBeforeHash": "48fd9b53358fe5d6b33799b5d9fcb395fab8a6dbd2533e940cfeec4cd5ae7ce9",
+    "protectedAfterHash": "48fd9b53358fe5d6b33799b5d9fcb395fab8a6dbd2533e940cfeec4cd5ae7ce9",
+    "auditId": "51137"
+  },
+  "dryRun": false,
+  "replayed": false,
+  "noWriteReplayVerified": true,
+  "checkedAt": "2026-10-25T04:57:22.281Z"
+}
