@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-10-25T02:54:14.667Z",
-  "sourceCommit": "031fb25fa1ed054bf02241c7fe08ff08e77bc5a2",
-  "deployment": "588b766c",
+  "checkedAt": "2026-10-25T03:01:41.796Z",
+  "sourceCommit": "ae6b1fe46166254c3a22cbb1bbef96f60f89d7af",
+  "deployment": "d7f5b839-5537-49c8-87bf-b64e1a5d0962",
   "domain": "https://cnine-card.pages.dev",
   "files": [
     {
@@ -142,9 +142,11 @@
     },
     {
       "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
-      "match": false,
-      "error": "TimeoutError: The operation was aborted due to timeout",
-      "retryError": "TimeoutError: The operation was aborted due to timeout"
+      "status": 200,
+      "bytes": 2487707,
+      "expected": "44e341ba1de474ba93675b71ffc73ea39a40a5cf7656d7e09bf45f205e08ab04",
+      "actual": "44e341ba1de474ba93675b71ffc73ea39a40a5cf7656d7e09bf45f205e08ab04",
+      "match": true
     }
   ],
   "catalog": {
@@ -190,10 +192,28 @@
       }
     ]
   },
-  "allMatch": false,
+  "allMatch": true,
   "productionAccountWrites": 0,
   "deliveryRetry": {
     "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
-    "reason": "Initial asset failed on both production and immutable deployment hosts (60s/30s/15s timeout). Rotate its delivery content hash with a comment-only footer; runtime statements unchanged."
+    "reason": "Initial asset failed on both production and immutable deployment hosts (60s/30s/15s timeout). Rotate its delivery content hash with a comment-only footer; runtime statements unchanged.",
+    "previousFailure": {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "match": false,
+      "error": "TimeoutError: The operation was aborted due to timeout",
+      "retryError": "TimeoutError: The operation was aborted due to timeout"
+    },
+    "resolved": true
+  },
+  "initialDeployment": {
+    "deployment": "588b766c",
+    "sourceCommit": "031fb25fa1ed054bf02241c7fe08ff08e77bc5a2",
+    "checkedAt": "2026-10-25T02:54:14.667Z"
+  },
+  "apiRuntime": "e6072dbb-badf-4c5c-b9cd-3e2618f55c67",
+  "scheduler": {
+    "version": "61647f09-1957-457e-87bd-4cb7f982e5bb",
+    "deployedAt": "2026-10-25T02:59:30.77143Z",
+    "percentage": 100
   }
 }
