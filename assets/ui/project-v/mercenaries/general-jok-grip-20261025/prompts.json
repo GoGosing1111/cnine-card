@@ -1,0 +1,51 @@
+{
+  "tool": "built-in image_gen",
+  "userRequests": [
+    "수정해 그럼",
+    "손잡이를 잡게해야지 엄지만 집어넣는게 아니라",
+    "방아쇠에 검지 방아쇠에 연결된 손잡이 파지",
+    "손가락 엄지야 그거"
+  ],
+  "selected": [
+    {
+      "pose": "anatomy-reference",
+      "prompt": "Use case: style-transfer with exact hand anatomy preservation.\nImage 1 is the structural reference: a real hand gripping the handle of an electric drill. Follow the hand anatomy in this photo EXACTLY. The three lower fingers wrap around the handle, the short thick THUMB bends down diagonally over the near side, and only the tip of the INDEX finger appears on the opposite/front side on the black switch above the middle finger. Do not change which digit is which. Do not invent an extended thumb.\nRender an isolated anime-painted WHITE GLOVED hand with a small GOLD cuff in this exact photo grip, around a plain black handle. Mirror the entire reference layout horizontally so that the wrist enters from the LEFT and the index fingertip/switch is on the RIGHT. The index finger is mostly occluded behind the handle and only its bent fingertip reaches the black switch; the thumb stays visibly on the near side over the gripping fingers, distinctly away from the switch. Exactly three curled fingers below the index, plus one short thumb.\nUse a fine white fabric glove with subtle pale violet-gray folds and crisp painted line work. No skin visible. Remove the electric drill body, battery, background and blue branding; keep only the hand, a short portion of wrist with gold cuff, and a plain black handle extending down below the hand. No weapon, no text, no arrows. Transparent background. The photo's firm anatomical grasp is the priority, not the old incorrect pointing-hand pose.",
+      "output": "exec-63d52080-e37f-48a6-8736-393d20f5d7cd.png",
+      "source": "https://www.hikoki-powertools.jp/products/diy/assets/cb072f4f0d51066aafd058951b62c5b55a24d6d3.jpg",
+      "purpose": "Grip anatomy only; no product design copied into live assets."
+    },
+    {
+      "pose": "ready",
+      "prompt": "Use case: precise-object-edit / compositing.\nImage 1 is the target cropped game illustration. Image 2 is the exact CORRECT HAND ANATOMY reference.\nReplace ONLY the white glove in Image 1 with the grasp shown in Image 2, fitting its wrist naturally into the original cuff and preserving the original hand's overall size. Follow Image 2's digit layout: the thumb is the short curved digit on the NEAR side, pointing DOWN over the grip; three fingers curl beneath it around the handle; the INDEX FINGERTIP is the small separate tip on the FAR RIGHT, with the rest of that index naturally hidden behind the held object. Do not retain Image 1's old extended upper digit. Do not add a sixth finger. The thumb must never be in the small opening at the right.\nKeep every existing object, its shape, position, dimensions, black/gold material, and the surrounding arm and sleeve from Image 1. Transfer ONLY the hand anatomy from Image 2, NOT Image 2's black handle or its proportions. Paint clean continuous outlines at the wrist and glove-to-object contact so there are no leftover old glove arcs, cutout seams, floating fingertips or doubled contours. Match Image 1's soft painted anime rendering, original hand scale and original crop exactly. Preserve existing transparency. No labels or arrows.",
+      "output": "exec-52e25bf1-0691-4ec3-8f93-ecdcf29c702d.png"
+    },
+    {
+      "pose": "fire",
+      "prompt": "Use case: precise-object-edit / compositing.\nImage 1 is the target cropped game illustration in its raised action pose. Image 2 is the CORRECT HAND ANATOMY reference.\nReplace ONLY the white glove in Image 1 with the grasp shown in Image 2, fitting its wrist naturally into the original cuff and preserving the original hand's overall size and raised angle. Follow Image 2's digit layout: the thumb is the short curved digit on the NEAR side, pointing DOWN over the grip; exactly three fingers curl beneath it around the handle; the INDEX FINGERTIP is the small separate tip on the FAR RIGHT in the existing opening, with the rest of that index naturally hidden behind the held object. Do not retain Image 1's old extended upper digit. Do not add a sixth finger. The thumb must never be in the small opening at the right.\nKeep every existing object from Image 1, its shape, position, raised angle, dimensions, black/gold material, and surrounding arm and sleeve. Transfer ONLY the hand anatomy from Image 2, NOT its handle or straight pose. Paint clean continuous outlines at the wrist and glove-to-object contact so there are no leftover old glove arcs, cutout seams, floating fingertips or doubled contours. Match Image 1's soft painted anime rendering, original hand scale and exact crop. Preserve existing transparency. No labels or arrows.",
+      "output": "exec-6fcf2776-2531-468a-af98-ca601e2a467a.png"
+    }
+  ],
+  "rejected": [
+    {
+      "output": "exec-dff44207-ef8f-45ee-a9aa-9e09d44484bb.png",
+      "reason": "Wrong hand orientation retained"
+    },
+    {
+      "output": "exec-5b168a7e-d9a1-41aa-a052-cfce9e144b61.png",
+      "reason": "User rejected grip; did not clearly grasp handle"
+    },
+    {
+      "output": "exec-81797cec-728e-4b9c-b863-11dbeabd150d.png",
+      "reason": "User identified extended digit as thumb"
+    },
+    {
+      "output": "exec-630fa95e-0192-40e6-9b9c-f3e34162a5b3.png",
+      "reason": "Incorrect thumb and finger arrangement, unused"
+    }
+  ],
+  "blockedRequests": [
+    "73df06b4-f181-481d-8ee8-34fa7707a01a",
+    "0292d31e-4c7c-4850-9c5e-f4e0e7c55e6f"
+  ],
+  "userVisualApproval": false
+}

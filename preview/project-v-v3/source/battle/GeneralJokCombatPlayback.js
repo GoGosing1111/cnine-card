@@ -3,7 +3,7 @@ import {GENERAL_JOK_CODE,GENERAL_JOK_ART,GENERAL_JOK_BASIC_FORMS,GENERAL_JOK_ARE
 import {GeneralJokFX,loadGeneralJokAssets,ROOT} from '../../../mercenary-general-jok-battle-20261022-v1/source/GeneralJokFX.js';
 import {makePlan} from '../../../mercenary-general-jok-battle-20261022-v1/skill.mjs';
 let manifestPromise;
-const manifest=()=>manifestPromise||=fetch(ROOT+'manifest.json?general-jok=20261023-approved-v15').then(r=>{
+const manifest=()=>manifestPromise||=fetch(ROOT+'manifest.json?general-jok=20261025-grip-v16').then(r=>{
  if(!r.ok)throw Error('GENERAL_JOK_MOTION_ASSETS');return r.json();
 }).catch(e=>{manifestPromise=null;throw e;});
 export const generalJokBattleArt=code=>code===GENERAL_JOK_CODE?{...GENERAL_JOK_ART,calmIdle:true,spriteUrl:'/'+GENERAL_JOK_ART.battleSprite,

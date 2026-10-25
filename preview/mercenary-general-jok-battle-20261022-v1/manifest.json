@@ -1,25 +1,25 @@
 {
   "format": "GENERAL_JOK_BATTLE_RESOURCE_V1",
-  "revision": 15,
-  "dateKST": "2026-10-23",
+  "revision": 16,
+  "dateKST": "2026-10-25",
   "name": "제너럴 족",
   "rank": "SSS",
   "edition": "LIMITED",
   "productionCode": "V-974",
-  "status": "USER_APPROVED_BATTLE_RELEASE",
+  "status": "USER_REQUESTED_GRIP_REPAIR",
   "sourceArtApproval": "USER_APPROVED",
   "sourceArt": "/assets/ui/project-v/mercenaries/general-jok-20261023/source-art.png",
   "sourceArtSha256": "2fc1c16d414920e1f8576de5a32a15b5c1a3e1ddcd57c464f60be63e31bf16b8",
-  "battleSprite": "assets/frames/ready-v6.png",
-  "battleSpriteSha256": "0fa82890ac46d11459d72f80f8dff256c6e5b8d6fcf8efc1bc362b0f2dbf7609",
+  "battleSprite": "assets/frames/ready-grip-v16.png",
+  "battleSpriteSha256": "fc466726bb0da9a70857e202669f9fb5e26bac216f6735b6c871afc05b170e86",
   "sprite": {
     "physicalBodyHeight": 360,
     "camera": "SIDE_SCROLL_EYE_LEVEL",
     "standingLocked": true,
     "scalePolicy": "UNIFORM_ONLY",
     "rotation": 0,
-    "file": "assets/frames/ready-v6.png",
-    "sha256": "0fa82890ac46d11459d72f80f8dff256c6e5b8d6fcf8efc1bc362b0f2dbf7609",
+    "file": "assets/frames/ready-grip-v16.png",
+    "sha256": "fc466726bb0da9a70857e202669f9fb5e26bac216f6735b6c871afc05b170e86",
     "width": 1536,
     "height": 1024,
     "foot": {
@@ -43,8 +43,8 @@
       "standingLocked": true,
       "scalePolicy": "UNIFORM_ONLY",
       "rotation": 0,
-      "file": "assets/frames/ready-v6.png",
-      "sha256": "0fa82890ac46d11459d72f80f8dff256c6e5b8d6fcf8efc1bc362b0f2dbf7609",
+      "file": "assets/frames/ready-grip-v16.png",
+      "sha256": "fc466726bb0da9a70857e202669f9fb5e26bac216f6735b6c871afc05b170e86",
       "width": 1536,
       "height": 1024,
       "foot": {
@@ -67,8 +67,8 @@
       "standingLocked": true,
       "scalePolicy": "UNIFORM_ONLY",
       "rotation": 0,
-      "file": "assets/frames/fire-v7.png",
-      "sha256": "3e19c306e018084a3dc67a73fd07e8128513c6249d92d81dc49b4f540fb450c9",
+      "file": "assets/frames/fire-grip-v16.png",
+      "sha256": "08a4f5a0813b73bf1730b514467b7dfc69f03b0545baf4caa698c0803e3a1651",
       "width": 1254,
       "height": 1254,
       "foot": {
@@ -1678,8 +1678,20 @@
   "criticalRequest": "references/critical-request-20261023.json",
   "flagGenerationRecords": "generation-flag-v14.json",
   "flagRequest": "references/flag-request-20261023.json",
-  "battleVisualApproval": true,
+  "battleVisualApproval": false,
   "liveApproval": {
+    "dateKST": "2026-10-25",
+    "userVisualApproval": false,
+    "revision": 16,
+    "authorization": "제너럴 족 손 방향 수정; 방아쇠에 검지, 연결된 손잡이 파지",
+    "motionAuthorization": "모션속도는 2배로",
+    "playbackRate": 2,
+    "acquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "record": "/assets/ui/project-v/mercenaries/general-jok-grip-20261025/manifest.json",
+    "previousRecord": "live-approval-20261023.json"
+  },
+  "previousLiveApproval": {
     "dateKST": "2026-10-23",
     "userVisualApproval": true,
     "revision": 15,
@@ -1689,5 +1701,12 @@
     "acquisitionEnabled": false,
     "deploymentEnabled": true,
     "record": "live-approval-20261023.json"
+  },
+  "handCorrection": {
+    "manifest": "/assets/ui/project-v/mercenaries/general-jok-grip-20261025/manifest.json",
+    "prompts": "/assets/ui/project-v/mercenaries/general-jok-grip-20261025/prompts.json",
+    "scope": "READY_AND_FIRE_GLOVE_ONLY",
+    "userVisualApproval": false,
+    "originalTexturesPreserved": true
   }
 }

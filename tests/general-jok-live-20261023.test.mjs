@@ -97,14 +97,14 @@ test('public codex exposes eight skills and acquisition lock while deployment re
  assert((await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===GENERAL_JOK_CODE).canDeploy);
 });
 
-test('approved V15 images and every production V3 entry contain General Jok',()=>{
+test('historical V15 images stay intact and corrected grip reaches every production V3 entry',()=>{
  for(const [file,hash]of [[GENERAL_JOK_ART.sourceArt,GENERAL_JOK_ART.sourceArtSha256],[GENERAL_JOK_ART.battleSprite,GENERAL_JOK_ART.battleSpriteSha256]])assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex').toUpperCase(),hash);
  const approval=JSON.parse(fs.readFileSync(root+'live-approval-20261023.json'));
  assert.equal(approval.status,'USER_APPROVED');assert.equal(approval.revision,15);
  for(const f of approval.files){const file=root+f.file;assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex'),f.sha256);assert(isProductionFile(file),file);}
- const m=JSON.parse(fs.readFileSync(root+'manifest.json'));assert.equal(m.liveApproval.userVisualApproval,true);assert.equal(m.productionCode,GENERAL_JOK_CODE);
+ const m=JSON.parse(fs.readFileSync(root+'manifest.json'));assert.equal(m.liveApproval.userVisualApproval,false);assert.equal(m.previousLiveApproval.userVisualApproval,true);assert.equal(m.revision,16);for(const pose of Object.values(m.poses))assert.equal(createHash('sha256').update(fs.readFileSync(root+pose.file)).digest('hex'),pose.sha256);assert.equal(m.productionCode,GENERAL_JOK_CODE);
  for(const file of ['preview/project-v-v3/project-v-pixi-battle.bundle.js','preview/sustained-hunt-v2/battle.bundle.js','pve-v3/battle.bundle.js','preview/coop-defense-v1/defense.bundle.js']){const s=fs.readFileSync(file,'utf8');assert(s.includes(GENERAL_JOK_AREA_EVENT),file);assert(s.includes('GENERAL_JOK_MOTION_ASSETS'),file);}
- assert(fs.readFileSync('js/app.js','utf8').includes('generalJok=20261023-v15'));
+ assert(fs.readFileSync('js/app.js','utf8').includes('generalJok=20261025-grip-v16'));
 });
 
 test('delivery omits only Node build and QA commands while approved battle textures ship',()=>{
@@ -116,4 +116,10 @@ test('delivery omits only Node build and QA commands while approved battle textu
   assert.equal(isProductionFile(file),false,file);
  }
  for(const file of [GENERAL_JOK_ART.sourceArt,GENERAL_JOK_ART.battleSprite,root+'manifest.json','preview/project-v-v3/project-v-pixi-battle.bundle.js'])assert.equal(isProductionFile(file),true,file);
+ for(const name of ['extract-approved-blade.mjs','inspect-assets.mjs','pack-assets.mjs']){
+  const file='preview/mercenary-limited-solar-sword-20261009-v1/'+name;
+  assert.match(fs.readFileSync(file,'utf8'),/node:fs/);assert.equal(isProductionFile(file),false);
+ }
+ for(const file of ['assets/ui/project-v/mercenaries/general-jok-grip-20261025/prompts.json','assets/ui/project-v/mercenaries/general-jok-grip-20261025/sources/ready-grip-edit.png'])assert.equal(isProductionFile(file),false);
+ for(const file of ['ready-grip-v16.png','fire-grip-v16.png'])assert.equal(isProductionFile(root+'assets/frames/'+file),true);
 });

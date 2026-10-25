@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "dateKST": "2026-10-25",
+  "scope": "Only grip anatomy in ready and fire textures; thumb wraps grip; index on trigger; three fingers below.",
+  "status": "TECHNICAL_REPAIR_REVIEW",
+  "userVisualApproval": false,
+  "tool": "built-in image_gen",
+  "records": {
+    "ready": {
+      "source": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/ready-v6.png",
+      "sourceSha256": "0fa82890ac46d11459d72f80f8dff256c6e5b8d6fcf8efc1bc362b0f2dbf7609",
+      "generationSource": "assets\\ui\\project-v\\mercenaries\\general-jok-grip-20261025\\sources\\ready-grip-edit.png",
+      "generationSha256": "d6253e55637d04322ff8e40956b37be17e047e4326c167efe9b5040a90d9bedb",
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/ready-grip-v16.png",
+      "sha256": "fc466726bb0da9a70857e202669f9fb5e26bac216f6735b6c871afc05b170e86",
+      "width": 1536,
+      "height": 1024,
+      "crop": {
+        "left": 520,
+        "top": 145,
+        "width": 240,
+        "height": 155
+      },
+      "oldSelection": "398,278 471,219 499,200 552,194 600,198 673,214 715,246 716,268 698,280 636,250 620,250 653,295 646,327 632,337 620,366 604,371 597,391 580,405 563,394 489,392 452,376 420,347 398,306",
+      "newSelection": "397,277 442,235 494,197 547,189 615,192 674,211 710,223 725,246 724,276 707,296 693,308 687,331 676,349 672,375 658,395 640,422 615,426 585,402 528,403 493,392 449,376 420,348 397,307",
+      "changedPixels": 3051,
+      "changedBounds": {
+        "left": 620,
+        "top": 192,
+        "right": 700,
+        "bottom": 250
+      },
+      "alphaChangedPixels": 1394,
+      "outsideCropChangedPixels": 0
+    },
+    "fire": {
+      "source": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/fire-v7.png",
+      "sourceSha256": "3e19c306e018084a3dc67a73fd07e8128513c6249d92d81dc49b4f540fb450c9",
+      "generationSource": "assets\\ui\\project-v\\mercenaries\\general-jok-grip-20261025\\sources\\fire-grip-edit.png",
+      "generationSha256": "10b7cfef3257e0ae7a77daba0dadb480f918e3dfbfd2d665770b513ef02b92a8",
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/fire-grip-v16.png",
+      "sha256": "08a4f5a0813b73bf1730b514467b7dfc69f03b0545baf4caa698c0803e3a1651",
+      "width": 1254,
+      "height": 1254,
+      "crop": {
+        "left": 405,
+        "top": 315,
+        "width": 210,
+        "height": 145
+      },
+      "oldSelection": "305,359 344,302 379,251 423,222 489,207 543,199 577,207 607,221 615,239 602,249 568,241 541,235 535,249 559,273 576,298 578,320 568,341 572,361 565,382 545,398 514,414 480,418 445,414 406,405 370,388 336,374",
+      "newSelection": "307,355 342,301 379,249 425,217 493,198 540,196 579,209 605,223 623,245 619,273 600,290 596,327 592,351 586,377 571,402 544,417 505,420 460,418 411,409 370,390 336,377",
+      "changedPixels": 2673,
+      "changedBounds": {
+        "left": 483,
+        "top": 365,
+        "right": 558,
+        "bottom": 418
+      },
+      "alphaChangedPixels": 1896,
+      "outsideCropChangedPixels": 0
+    }
+  }
+}

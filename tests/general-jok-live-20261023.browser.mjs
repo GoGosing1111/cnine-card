@@ -14,6 +14,7 @@ import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-
 import {createHuntSession} from '../preview/sustained-hunt-v2/session.mjs';
 const roundFloats=value=>JSON.parse(JSON.stringify(value,(_key,item)=>typeof item==='number'?Number(item.toFixed(9)):item));
 const root=fileURLToPath(new URL('..',import.meta.url)),out=process.env.GENERAL_JOK_QA_OUTPUT||path.join(root,'docs/qa/general-jok-live-20261023');fs.mkdirSync(out,{recursive:true});
+const gripOnly=process.argv.includes('--grip-only');
 const cleanup=[],f=await mercenaryFixture({after:cb=>cleanup.push(cb)},{postgres:true}),checks=[],errors=[];
 await f.p('INSERT INTO users(id,nickname) VALUES(1,?)','핑크빛유두').run();
 const user={id:1,role:'OWNER'};
@@ -80,7 +81,7 @@ await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']});
 try{
  for(const [label,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
-  for(const mode of label==='desktop'?(process.argv.includes('--remaining')?[]:['area','enemy','single']):['area']){
+  for(const mode of label==='desktop'?(process.argv.includes('--remaining')?[]:gripOnly?['area','enemy']:['area','enemy','single']):['area']){
    const p=await browser.newPage({viewport,serviceWorkers:'block'});
    p.on('pageerror',e=>{errors.push(label+' '+mode+': '+e.stack);if(errors.length<4)console.error(e.stack);});
    p.on('console',m=>{if(m.type()==='error'&&/shader|General Jok|generalJok|GENERAL_JOK/i.test(m.text()))errors.push(m.text());});
@@ -99,7 +100,12 @@ try{
    });
    assert.equal(idle.d.pose,'ready');assert.equal(idle.d.flagWidth,540);assert.equal(idle.d.flagLayerCount,1);
    await p.screenshot({path:path.join(out,label+'-'+mode+'-idle.png'),fullPage:true});
-   const skills=label==='mobile'?['basic','basic','MS-952']:mode==='enemy'?['basic','basic']:mode==='single'?['MS-952','MS-953']:['basic','basic','MS-952','MS-953','MS-954','MS-955','MS-956','MS-957'];
+   if(gripOnly)await p.evaluate(()=>{
+    const q=window.GeneralJokQA,s=q.engine.generalJokStates.get(q.actor);
+    if(!s.fx.manifest.poses.ready.file.includes('ready-grip-v16')||!s.fx.manifest.poses.fire.file.includes('fire-grip-v16'))throw Error('Corrected grip textures not loaded');
+    const canvas=document.querySelector('canvas');q.recorded=[];q.recorder=new MediaRecorder(canvas.captureStream(30),{mimeType:'video/webm;codecs=vp9'});q.recorder.ondataavailable=e=>{if(e.data.size)q.recorded.push(e.data);};q.recorder.start();
+   });
+   const skills=gripOnly?['basic','basic']:label==='mobile'?['basic','basic','MS-952']:mode==='enemy'?['basic','basic']:mode==='single'?['MS-952','MS-953']:['basic','basic','MS-952','MS-953','MS-954','MS-955','MS-956','MS-957'];
    const outcomes=[];
    for(const skill of skills){console.log(label,mode,skill);
     const result=await p.evaluate(async({skill,mode})=>{
@@ -116,19 +122,24 @@ try{
     assert.equal(result.playback.authoritative,true);assert.equal(result.playback.playbackRate,2);assert.equal(result.pose,'ready');assert.equal(result.effects,0);assert(result.returned<1e-6);assert.equal(result.scaleX,result.scaleY);
     outcomes.push({skill,...result});
    }
+   if(gripOnly){
+    const bytes=await p.evaluate(async()=>{const q=window.GeneralJokQA;await new Promise(r=>{q.recorder.onstop=r;q.recorder.stop();});return Array.from(new Uint8Array(await new Blob(q.recorded,{type:'video/webm'}).arrayBuffer()));});
+    fs.writeFileSync(path.join(out,label+'-'+mode+'-review.webm'),Buffer.from(bytes));
+   }
    const visual=[];
-   for(const [skill,time]of [['critical',1.66],['ultimate',2.42],['artillery',3.32],['breaker',1.9]]){
-    if(mode==='enemy'&&!['critical'].includes(skill))continue;
-    const result=await p.evaluate(({skill,time})=>{
+   for(const [skill,time]of gripOnly?[['attack',0],['attack',.82],['critical',1.12]]:[['critical',1.66],['ultimate',2.42],['artillery',3.32],['breaker',1.9]]){
+    if(!gripOnly&&mode==='enemy'&&!['critical'].includes(skill))continue;
+    const result=await p.evaluate(({skill,time,gripOnly})=>{
      const q=window.GeneralJokQA,e=q.engine,s=e.generalJokStates.get(q.actor),targets=(q.actor.team==='ALLY'?e.enemies:e.allies).slice(0,skill==='critical'||q.mode==='single'?1:12);
-     s.ambient?.instance.pause();s.fx.begin(skill,targets);s.fx.clock.time=time;s.fx.render(time);
+     s.ambient?.instance.pause();s.fx.begin(skill,targets);if(gripOnly)s.fx.setMotionOnly(true);s.fx.clock.time=time;s.fx.render(time);
      return s.fx.diagnostics();
-    },{skill,time});
+    },{skill,time,gripOnly});
     assert.equal(result.poolOverflow,0);assert.equal(result.flagLayerCount,1);assert(Math.abs(result.flagFollowsRecoilError)<1e-5);
-    if(skill==='critical')assert.equal(result.monkeyVisible,true);
+    if(gripOnly)assert.equal(result.pose,time===0?'ready':'fire');
+    if(skill==='critical'&&!gripOnly)assert.equal(result.monkeyVisible,true);
     if(skill==='ultimate'){assert.equal(result.shipVisible,true);assert.equal(result.navalShells.length,0);}
     if(skill==='artillery'){assert.equal(result.artilleryVisible,3);assert.equal(result.artilleryShells.length,0);}
-    await p.screenshot({path:path.join(out,label+'-'+mode+'-'+skill+'.png'),fullPage:true});visual.push({skill,...result});
+    await p.screenshot({path:path.join(out,label+'-'+mode+'-'+skill+(gripOnly?'-'+time:'')+'.png'),fullPage:true});visual.push({skill,...result});
    }
    const cancel=await p.evaluate(async()=>{
     const q=window.GeneralJokQA,e=q.engine,s=e.generalJokStates.get(q.actor);e.cancelTimelines();
