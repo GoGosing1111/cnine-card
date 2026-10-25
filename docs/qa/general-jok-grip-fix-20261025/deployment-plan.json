@@ -1,0 +1,13 @@
+{
+  "base": "c9e3f5b56ec8d3e2134c34b85932d5e1b89f37bc",
+  "reason": "제너럴 족 대기·발사 장갑의 엄지/검지와 손잡이 파지를 국소 수정. 기존 전투력·스킬·2배 모션·이펙트·67개 승인 원본을 보존하고 실제 PC/모바일/좌우 전장 검수 완료. 전용 회귀와 V3 공통 번들/메인 로더, 수정한 정적 전달 필터 검사를 선택한다.",
+  "tests": [
+    "tests/general-jok-live-20261023.test.mjs",
+    "tests/v3-common-grid-v1.test.mjs",
+    "tests/battle-feature-recovery-20261015.test.mjs",
+    "tests/production-sparse-staging-20261023.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

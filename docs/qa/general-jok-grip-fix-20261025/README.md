@@ -29,6 +29,10 @@
 
 기존 작업 폴더와 공유 의존성을 사용했다. 배포 전 저장소 감사 75.214GiB, 새 전체 복사본 없음. Pages 20,000개 한도를 위해 새 생성 원본·프롬프트·감사 메타데이터는 Git에 보존하고 라이브 전달에서는 제외한다. 새 텍스처 3개 대신 기존 Solar의 Node 전용 명령 `extract-approved-blade.mjs`, `inspect-assets.mjs`, `pack-assets.mjs` 3개를 정적 전달에서만 제외한다. Node 내장 모듈 사용과 로컬 명령 간 호출만 확인했으며 승인 원화·전투 자산·프리뷰는 삭제하지 않는다.
 
-현재 로컬 연결·화면 검수 완료. 공식 scoped 검사·운영 배포 결과는 완료 후 기록한다. 이번 작업은 운영 계정·재화·보유·CMS 설정을 쓰지 않는다.
+- 운영 반영 소스 **`81c326b9b2d80967e038268ea36d89f556195ae2`**, Pages **`d046c51a-bd6f-4bc9-b5b4-e17b9a35ccf0`**. 기존 실제 운영 `c9e3f5b56`부터 공식 `npm run deploy:production -- --scoped`로 배포했다. 공유 저장소의 김폭군 지급 기록 커밋은 문서·운영 스크립트이며 이번 배포에서 재실행하지 않았다.
+- 관련 **35개 검사 PASS**, Worker 구문·출시 상태·운영 Hyperdrive 캐시 비활성 검사 PASS. 페이지 전달은 20,000개, 실제 새 업로드 28개이며 전체 복사본을 만들지 않았다. 공식 배포 임시 전달 폴더는 도구의 정리 경로를 따른다.
+- 공개 **26개 파일 SHA-256 일치**. PNG는 원시 바이트, 텍스트는 CRLF/LF 정규화 후 대조했다. 준비·발사 텍스처와 canonical 준비 이미지, manifest, 모든 변경 전장 번들·메인 로더를 포함한다.
+- API Runtime `70ee354a-ed41-4f0f-bddc-e1ec1d374f34`, Clan Draft `8b75eec6-4c2e-42db-83c6-f317014f46ec` 양쪽 운영 코드의 새 이미지 경로를 확인했다. 공개 도감 API의 V-974도 새 `battleSprite`와 기존 `basePower:2700000`을 반환한다.
+- 계정·재화·보유·CMS 설정 변경 **0건**. `deployment-plan.json`, `deployment-result.json`, `deploy.log`, `live-verification.json`과 `browser-report.json`에 근거를 보존한다. PC·모바일 실제 재생 영상은 `desktop-review.webm`, `mobile-review.webm`이다.
 
 외부 증빙: `C:/Users/User/.codex/visualizations/2026/10/25/01a170fb-166f-7250-a2e6-d351c185e8ee/general-jok-grip-fix-20261025/`.

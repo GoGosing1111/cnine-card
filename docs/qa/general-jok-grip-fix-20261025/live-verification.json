@@ -1,0 +1,158 @@
+{
+  "at": "2026-10-25T12:12:16.155Z",
+  "pages": {
+    "id": "d046c51a-bd6f-4bc9-b5b4-e17b9a35ccf0",
+    "url": "https://d046c51a.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "81c326b9b2d80967e038268ea36d89f556195ae2"
+  },
+  "releaseCommit": "81c326b9b2d80967e038268ea36d89f556195ae2",
+  "publicFiles": [
+    {
+      "file": "assets/ui/project-v/mercenaries/general-jok-grip-20261025/ready.png",
+      "sha256": "fc466726bb0da9a70857e202669f9fb5e26bac216f6735b6c871afc05b170e86",
+      "binary": true
+    },
+    {
+      "file": "index.html",
+      "sha256": "19450e69e177d4b6f29219b4fd34b35883a9d0e074c433aae915b3adb9fede7f",
+      "binary": false
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "6ac7e84e4d98ecf812f4b3d75cd826c40d2c9879b04dd8f302219fdca8326db8",
+      "binary": false
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/build-report.json",
+      "sha256": "21bc8c2a8e9d7dd8b2247970cf6578d7a1613b514294207d5bce63efe6816835",
+      "binary": false
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "63dfedcb87834de6bfa93d94b7a970fe5c627b4798b59b07d34677467adf95cd",
+      "binary": false
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "7975784bb6d702f9eecbc0d08807bf5e14ed787be1abe99eef7f36d81fdfe215",
+      "binary": false
+    },
+    {
+      "file": "preview/coop-defense-v1/build-report.json",
+      "sha256": "5d07e5c0f8c292959f1f6058cf898dc01555437168ec3e4ce9e3953a3a1c2d48",
+      "binary": false
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "fca3aafb36141a06d675d6047d314b23f048548d46e8f43d779ebe69acf2769a",
+      "binary": false
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "fcdf0f6c7d0f2e54fa1fee906d4716c96627641e9869046579e3b7b8e11e364d",
+      "binary": false
+    },
+    {
+      "file": "preview/defense-roguelike-v2/preview.bundle.js",
+      "sha256": "bae0efd5eaca75d10cd08b9d287d20f387704b58cb89ef0551421fe66127f506",
+      "binary": false
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "5c947fff28a9dd3baf3900c923c0f229ba012f363e7b0bb4762fef5e265d042d",
+      "binary": false
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/fire-grip-v16.png",
+      "sha256": "08a4f5a0813b73bf1730b514467b7dfc69f03b0545baf4caa698c0803e3a1651",
+      "binary": true
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/assets/frames/ready-grip-v16.png",
+      "sha256": "fc466726bb0da9a70857e202669f9fb5e26bac216f6735b6c871afc05b170e86",
+      "binary": true
+    },
+    {
+      "file": "preview/mercenary-general-jok-battle-20261022-v1/manifest.json",
+      "sha256": "bdfc6c4bd1bdaec5fb019b091a8f2036f53b704bf4f7ad1705d8f899a4c28f9f",
+      "binary": false
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "d58fd839a556a51e87862176af36754510115716cc4f10c990571f9531a342ab",
+      "binary": false
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "sha256": "35e2c1bfe6dfce5370b9b938798116dab1acfdbb813425ed779dfb8f3feb2bc5",
+      "binary": false
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "a2c753940839ed812768d4f5a8e128f81b46108264f58e37b08cace8ab55d63b",
+      "binary": false
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/GeneralJokCombatPlayback.js",
+      "sha256": "2ad6c17010b3461d2d5333bd8f398a9a04288364903779c3a7887bab1f4a9565",
+      "binary": false
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "d2809c51acc0b917f32db50b03535162251140afcbb9098c34f9da0e9db29209",
+      "binary": false
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "629b0115810b140c275dff012bd642c953f71623f1be9fb50b4294fbf6a94f0f",
+      "binary": false
+    },
+    {
+      "file": "preview/sustained-hunt-v2/engine-build.json",
+      "sha256": "f82c9ee761868355804af2f26e7fe88e702eadf786009f4687016027c68b2711",
+      "binary": false
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "74f00e91accf281fb4c8e7cb50fd888ca8700c33aefd8087648c8f980cfd13cd",
+      "binary": false
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "829c6664e0847361728c5b59042f802d71ab9d58e06273936d763cffe978f8ab",
+      "binary": false
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "05eb7598604ac1d332cb721129078fb5e4af45e545c7ee3b146f39d7fc9b02cf",
+      "binary": false
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "6d8fa01c121638b35d66b7870fcfe1e6b46a7e2c23ac0dee6590e56aa8624a9f",
+      "binary": false
+    },
+    {
+      "file": "shared/mercenary-general-jok-v1.mjs",
+      "sha256": "ec2a183040319782cb370222b8ae3f16858761b1c214a0081275a922152b6ee7",
+      "binary": false
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "correctedSprite": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "correctedSprite": true
+    }
+  ],
+  "card": {
+    "code": "V-974",
+    "battleSprite": "assets/ui/project-v/mercenaries/general-jok-grip-20261025/ready.png",
+    "basePower": 2700000
+  },
+  "operationalAccountWrites": 0
+}

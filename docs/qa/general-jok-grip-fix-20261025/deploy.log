@@ -1,0 +1,103 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"c9e3f5b56ec8d3e2134c34b85932d5e1b89f37bc","reason":"제너럴 족 대기·발사 장갑의 엄지/검지와 손잡이 파지를 국소 수정. 기존 전투력·스킬·2배 모션·이펙트·67개 승인 원본을 보존하고 실제 PC/모바일/좌우 전장 검수 완료. 전용 회귀와 V3 공통 번들/메인 로더, 수정한 정적 전달 필터 검사를 선택한다.","changed":["AGENTS.md","assets/ui/project-v/mercenaries/general-jok-grip-20261025/manifest.json","assets/ui/project-v/mercenaries/general-jok-grip-20261025/prompts.json","assets/ui/project-v/mercenaries/general-jok-grip-20261025/ready.png","assets/ui/project-v/mercenaries/general-jok-grip-20261025/sources/fire-grip-edit.png","assets/ui/project-v/mercenaries/general-jok-grip-20261025/sources/ready-grip-edit.png","docs/qa/general-jok-grip-fix-20261025/README.md","docs/qa/general-jok-grip-fix-20261025/audit-delivery.mjs","docs/qa/general-jok-grip-fix-20261025/browser-report.json","docs/qa/general-jok-grip-fix-20261025/compose-reference.mjs","docs/qa/general-jok-grip-fix-20261025/compose.mjs","docs/qa/general-jok-grip-fix-20261025/desktop-review.webm","docs/qa/general-jok-grip-fix-20261025/enable-delivery.mjs","docs/qa/general-jok-grip-fix-20261025/integrate.mjs","docs/qa/general-jok-grip-fix-20261025/mobile-review.webm","docs/qa/general-jok-grip-fix-20261025/pack.mjs","docs/qa/general-jok-grip-fix-20261025/prepare.mjs","docs/qa/general-jok-grip-fix-20261025/release.mjs","docs/qa/general-jok-grip-fix-20261025/review-videos.mjs","docs/qa/kim-pokgun-new-gift-20261025/README.md","docs/qa/kim-pokgun-new-gift-20261025/apply.json","docs/qa/kim-pokgun-new-gift-20261025/dry-run-attempt1.json","docs/qa/kim-pokgun-new-gift-20261025/dry-run.json","docs/qa/kim-pokgun-new-gift-20261025/inspect.mjs","docs/qa/kim-pokgun-new-gift-20261025/lock-worker.mjs","docs/qa/kim-pokgun-new-gift-20261025/read.json","docs/qa/kim-pokgun-new-gift-20261025/run.mjs","docs/qa/kim-pokgun-new-gift-20261025/test-results.log","docs/qa/kim-pokgun-new-gift-20261025/verify.json","docs/qa/kim-pokgun-new-gift-20261025/wrangler.jsonc","docs/qa/pet-heukgu-large-head-20261025/README.md","docs/qa/pet-heukgu-large-head-20261025/apply.json","docs/qa/pet-heukgu-large-head-20261025/cache-cleanup.json","docs/qa/pet-heukgu-large-head-20261025/deploy.log","docs/qa/pet-heukgu-large-head-20261025/deployment-plan.json","docs/qa/pet-heukgu-large-head-20261025/deployment-result.json","docs/qa/pet-heukgu-large-head-20261025/public-browser/battle-390-PVE.png","docs/qa/pet-heukgu-large-head-20261025/public-browser/battle-390-PVP.png","docs/qa/pet-heukgu-large-head-20261025/public-browser/browser.json","docs/qa/pet-heukgu-large-head-20261025/public-verification.json","docs/qa/pet-heukgu-large-head-20261025/release.mjs","docs/qa/pet-heukgu-large-head-20261025/replay.json","docs/qa/pet-heukgu-large-head-20261025/run-db.mjs","docs/qa/pet-heukgu-large-head-20261025/verify.json","index.html","js/app.js","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/coop-defense-v1/build-report.json","preview/coop-defense-v1/defense.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/defense-roguelike-v2/preview.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/fire-grip-v16.png","preview/mercenary-general-jok-battle-20261022-v1/assets/frames/ready-grip-v16.png","preview/mercenary-general-jok-battle-20261022-v1/manifest.json","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/GeneralJokCombatPlayback.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","scripts/ops/kim-pokgun-new-user-gift-20261025.mjs","scripts/ops/kim-pokgun-new-user-gift-20261025.plan.json","scripts/prepare-production-assets.mjs","service-worker.js","shared/mercenary-general-jok-v1.mjs","tests/general-jok-live-20261023.browser.mjs","tests/general-jok-live-20261023.test.mjs","tests/kim-pokgun-new-user-gift-20261025.test.mjs"],"tests":["tests/general-jok-live-20261023.test.mjs","tests/v3-common-grid-v1.test.mjs","tests/battle-feature-recovery-20261015.test.mjs","tests/production-sparse-staging-20261023.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ an open pre-deploy lobby accepts a newer coherent compatible engine and wrapper (5.5091ms)
+✔ a cached wrapper cannot pin a newer engine to an old version; one paired refresh repairs it (5.0128ms)
+✔ a completed resource promise cannot hide a runtime replaced by another scene (3.2019ms)
+✔ failed refresh is bounded and leaves entry retryable without starting a battle (4.2419ms)
+✔ an older matching pair and an unrelated runtime never satisfy the current manifest (5.6858ms)
+✔ a newer pair with a breaking entry contract is not accepted by an open lobby (3.449ms)
+✔ core resource failure creates no attempt or abandon request and restores the button (7.6602ms)
+✔ General Jok uses 2.7 million power independently of Prime while preserving gear, mitigation and cadence (10.8908ms)
+✔ normal/limited/Halloween/fusion selection cannot award GeneralJok even with positive CMS weight (2.2647ms)
+✔ six PVE area skills retain one 1512% budget per cast and use the shared Requiem budget (42.5783ms)
+✔ PVE cadence is ten casts per thirty own actions instead of six, with shared cooldown and no PVP casts (2.485ms)
+✔ public codex exposes eight skills and acquisition lock while deployment requires ownership (3048.4151ms)
+✔ historical V15 images stay intact and corrected grip reaches every production V3 entry (4629.4266ms)
+✔ delivery omits only Node build and QA commands while approved battle textures ship (193.6244ms)
+✔ sparse staging reuses only exact sibling blobs and streams remaining HEAD blobs without expanding checkout (1802.6095ms)
+✔ a present working-tree change is preserved, never hidden by a HEAD fallback (1160.773ms)
+✔ missing non-sparse files fail and remove only the failed staging directory (1482.4705ms)
+✔ a changed staged sparse blob cannot silently deploy the old HEAD image (1001.895ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (1557.0489ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (13.4073ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (8.744ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (19.111ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (23.328ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (105.322ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (11.8002ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (4.6402ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (2.2138ms)
+✔ movement depth updates keep uniform nameplates anchored to the body on both factions (1.6562ms)
+✔ common floor follows deployment, KO, revival and replacement without trailing cells (8.1188ms)
+✔ floor remains at formation stations while sprites attack or move (1.615ms)
+✔ one optional mercenary per team never enters regular combat arrays and removes its tile when unequipped (2.3392ms)
+✔ only enabled support and visible escort objective get occupied cells (2.2513ms)
+✔ single boss, ally-center support and escort carrier have separate stations on desktop and mobile (0.4328ms)
+✔ repeated layouts give both factions, mercenaries and support the same scale without accumulating old slot/depth factors (5.7808ms)
+✔ all ten served V3 bundles including the account entry and hunt share the current common grid (11710.2109ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13473.7225
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 8752 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8502.27 KiB / gzip: 1830.85 KiB
+Worker Startup Time: 41 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.49 sec)
+No targets deployed for cnine-card-api-runtime (0.58 sec)
+Current Version ID: 70ee354a-ed41-4f0f-bddc-e1ec1d374f34
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19972/20000)
+Uploading... (19982/20000)
+Uploading... (19991/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 28 files (19972 already uploaded) (4.82 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://d046c51a.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3182.46 KiB / gzip: 715.22 KiB
+Worker Startup Time: 48 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.04 sec)
+Deployed cnine-card-clan-draft triggers (0.86 sec)
+  schedule: * * * * *
+Current Version ID: 8b75eec6-4c2e-42db-83c6-f317014f46ec
