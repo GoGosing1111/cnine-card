@@ -1,0 +1,102 @@
+{
+  "replayed": false,
+  "committed": true,
+  "receipt": {
+    "operationKey": "ops:pet-heukgu-large-head:20261025:v1",
+    "previousRevision": 40,
+    "revision": 41,
+    "beforePet": {
+      "code": "PET-HEUKGU",
+      "name": "흑구",
+      "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-transparent-v2.png",
+      "battleSprite": "",
+      "enabled": false,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "target": "ALL_ALLIES",
+      "buffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 50
+        }
+      ],
+      "notes": "2026-10-25 사용자 승인 및 라이브 반영 요청. 흑구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+      "liveEnabled": true,
+      "rewardBonuses": {
+        "dropPercent": 20,
+        "accountXpPercent": 50,
+        "coinPercent": 50
+      }
+    },
+    "afterPet": {
+      "code": "PET-HEUKGU",
+      "name": "흑구",
+      "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+      "battleSprite": "",
+      "enabled": false,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "target": "ALL_ALLIES",
+      "buffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 50
+        }
+      ],
+      "notes": "2026-10-25 사용자 승인 및 라이브 반영 요청. 흑구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+      "liveEnabled": true,
+      "rewardBonuses": {
+        "dropPercent": 20,
+        "accountXpPercent": 50,
+        "coinPercent": 50
+      }
+    },
+    "assetSha256": "5d7e5e8b1fa4c22fb6d37d8ea78e0b7c3dfbb5d763f6f71e4c17077dc0843d0a",
+    "beforeRawHash": "9da29ec689c2e9581217dc7787b28294fd1af2db1a232ca4cda9e7bebb749575",
+    "afterDocumentHash": "087bd63f0a10f7de6e800dd91a5e03298843bd2386f2c6d24818ec6ffade592b",
+    "preservedDocumentHash": "afa1a94aa727a12e416997c528e5e312864db5460a2016e2ee8b95579e0e5897",
+    "settingsHash": "91e135136d5013be5159a5ee4d146c6fdbe6e4ebf5dca96c6885963be57f7e5a",
+    "completedAt": "2026-10-25T11:43:11.818Z",
+    "petCount": 24,
+    "accountGrants": 0,
+    "effectSettingsChanged": false,
+    "openingPoolChanged": false,
+    "potentialSettingsChanged": false,
+    "auditId": "51310"
+  },
+  "verification": {
+    "verified": true,
+    "revision": 41,
+    "petCount": 24,
+    "pet": {
+      "code": "PET-HEUKGU",
+      "name": "흑구",
+      "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+      "battleSprite": "",
+      "enabled": false,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "target": "ALL_ALLIES",
+      "buffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 50
+        }
+      ],
+      "notes": "2026-10-25 사용자 승인 및 라이브 반영 요청. 흑구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+      "liveEnabled": true,
+      "rewardBonuses": {
+        "dropPercent": 20,
+        "accountXpPercent": 50,
+        "coinPercent": 50
+      }
+    },
+    "auditId": "51310"
+  }
+}

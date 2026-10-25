@@ -1,0 +1,138 @@
+{
+  "at": "2026-10-25T11:42:55.340Z",
+  "head": "c9e3f5b56ec8d3e2134c34b85932d5e1b89f37bc",
+  "deployment": {
+    "Id": "db81fa6e-00df-4151-b1ee-68ababfee35f",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "c9e3f5b",
+    "Deployment": "https://db81fa6e.cnine-card.pages.dev",
+    "Status": "28 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/db81fa6e-00df-4151-b1ee-68ababfee35f"
+  },
+  "canonicalStatus": "success",
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "3f4f7a1acb114d8049e4a99090a9b62f2cea947e05b0b9ad2cc7bedfb7821f31",
+      "bytes": 37755
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "3c1077908cb61e3cd21f004d2a075f92a71af35c3e509085927054e6131b592e",
+      "bytes": 20227
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "a4d0dfb4b82f8752ce34582ae18dd3f49f337ea159610b182daa736d3a99d4f7",
+      "bytes": 791757
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "eead0fb89981cf2d8a246a88a29bbda5340ab515686d0d59efdc6729c4d3717e",
+      "bytes": 89060
+    },
+    {
+      "file": "shared/pet-art-catalog-v1.mjs",
+      "status": 200,
+      "sha256": "e4f20410c8313ac39b82db45bd3f2a74909cd359330a76724a6fed1ed07da270",
+      "bytes": 6523
+    },
+    {
+      "file": "css/pet-equipment-v1.css",
+      "status": 200,
+      "sha256": "cb9f8ddd30bef78cad004b49932f9207368bf641724ae221e7ddd444a7298211",
+      "bytes": 23661
+    },
+    {
+      "file": "pets/index.html",
+      "status": 200,
+      "sha256": "16620dc3e3208156a78d8bc92539c9730b4b63ab42636f1cca042152d14dda92",
+      "bytes": 2579
+    },
+    {
+      "file": "pet-codex/index.html",
+      "status": 200,
+      "sha256": "2450376b4cdd6402feeb47079dd7e0ea4b5435e8339a42a3863a1f667e1eee56",
+      "bytes": 932
+    },
+    {
+      "file": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+      "status": 200,
+      "sha256": "5d7e5e8b1fa4c22fb6d37d8ea78e0b7c3dfbb5d763f6f71e4c17077dc0843d0a",
+      "bytes": 1321578
+    },
+    {
+      "file": "assets/ui/pets/heukgu-20261025/pet-heukgu-transparent-v2.png",
+      "status": 200,
+      "sha256": "ddc229de9ab9703e016e8c6d1e864bd0c40a220f56751c621e3f0e3d202fae44",
+      "bytes": 1203150
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "5ea1e38a662ef8d215e347faad2d5c77242bf87a6a90c615bec693f722daa128",
+      "bytes": 2523369
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "30106a8f64d71299d599e0addafb5b31a81a3530c2ce61eeb056fe70364a1bd6",
+      "bytes": 2522932
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "4d7d81cc1a127d406aec228caef5f116d87438b932f4a74c9f38e72c3008babb",
+      "bytes": 2522995
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "2c4b4bf06c023cf0bb7cc5ec2e409f0c57a14a668baaa1985173fcbe0c145314",
+      "bytes": 2522984
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "status": 200,
+      "sha256": "b6724b3db09126a56b2d34339c0570f84ecc1d6c805ae7a370a04cfbeba9e0d2",
+      "bytes": 2523343
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "618e6edc0e778721cfd8571a39a955353899df31c0bfbd9f7c60333fb0b0f880",
+      "bytes": 2526546
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "status": 200,
+      "sha256": "f30b1acc9f209ff05b2cf07f8e9549d96e3c706526d3961e489ff49050f40048",
+      "bytes": 2520010
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "status": 200,
+      "sha256": "dd25669153c783296239eed07e51c24b82387f97da7fa4f9034db7658f446f85",
+      "bytes": 2524707
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "status": 200,
+      "sha256": "613467e5ff9b11c439d99dbb96f7875327fc2d9b2f81517c4e1a43f12d9085f3",
+      "bytes": 2569758
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "sha256": "a863a23646d2f59612b9cee57a6538f8ea2f18bf96e62cdd8fa4a4b6472a41d7",
+      "bytes": 2547005
+    }
+  ],
+  "assetSha256": "5d7e5e8b1fa4c22fb6d37d8ea78e0b7c3dfbb5d763f6f71e4c17077dc0843d0a",
+  "accountGrants": 0
+}

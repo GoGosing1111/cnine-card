@@ -1,0 +1,12 @@
+{
+  "status": "BLOCKED_BY_AUTOMATIC_APPROVAL_POLICY",
+  "attemptedAction": "Delete 94 task-specific node-compile-cache and update-check cache files after deployment",
+  "reasonReturned": "blocked by policy",
+  "commandExecuted": false,
+  "removedFiles": 0,
+  "remainingFiles": 94,
+  "remainingBytes": 301075,
+  "taskTempRoot": "C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/heukgu-large-head-release-temp-20261025",
+  "deploymentStagingDisposed": true,
+  "projectOrUserArtifactsDeleted": false
+}

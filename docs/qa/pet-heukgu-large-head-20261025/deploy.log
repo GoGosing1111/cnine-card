@@ -1,0 +1,109 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"7be8e8e8891e8069bfa78be7acc930d40513d423","reason":"흑구 투명 원화 머리 확대 및 PET-HEUKGU 전용 전투 표시 15% 확대. 실제 메인 V3 PC/모바일 3폭 PVE/PVP 6건, 도감/CMS 3폭, 40개 관련 검사 및 구버전 엔진/래퍼 회복 검수. 펫 효과·경제·계정 데이터 보존.","changed":["assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png","css/pet-equipment-v1.css","docs/qa/pet-heukgu-large-head-20261025/README.md","docs/qa/pet-heukgu-large-head-20261025/approval-20261025.json","docs/qa/pet-heukgu-large-head-20261025/battle-browser/battle-1440-PVE.png","docs/qa/pet-heukgu-large-head-20261025/battle-browser/battle-1440-PVP.png","docs/qa/pet-heukgu-large-head-20261025/battle-browser/battle-320-PVE.png","docs/qa/pet-heukgu-large-head-20261025/battle-browser/battle-320-PVP.png","docs/qa/pet-heukgu-large-head-20261025/battle-browser/battle-390-PVE.png","docs/qa/pet-heukgu-large-head-20261025/battle-browser/battle-390-PVP.png","docs/qa/pet-heukgu-large-head-20261025/battle-browser/browser.json","docs/qa/pet-heukgu-large-head-20261025/browser-v2/battle-1440-PVE.png","docs/qa/pet-heukgu-large-head-20261025/browser-v2/battle-1440-PVP.png","docs/qa/pet-heukgu-large-head-20261025/browser-v2/battle-320-PVE.png","docs/qa/pet-heukgu-large-head-20261025/browser-v2/battle-320-PVP.png","docs/qa/pet-heukgu-large-head-20261025/browser-v2/battle-390-PVE.png","docs/qa/pet-heukgu-large-head-20261025/browser-v2/battle-390-PVP.png","docs/qa/pet-heukgu-large-head-20261025/browser-v2/browser.json","docs/qa/pet-heukgu-large-head-20261025/browser/failure.json","docs/qa/pet-heukgu-large-head-20261025/browser/failure.png","docs/qa/pet-heukgu-large-head-20261025/codex-browser/browser-report.json","docs/qa/pet-heukgu-large-head-20261025/codex-browser/desktop-owner-heukgu-registered.png","docs/qa/pet-heukgu-large-head-20261025/codex-browser/desktop-pet-heukgu.png","docs/qa/pet-heukgu-large-head-20261025/codex-browser/mobile-owner-heukgu-registered.png","docs/qa/pet-heukgu-large-head-20261025/codex-browser/mobile-pet-heukgu-stage-viewport.png","docs/qa/pet-heukgu-large-head-20261025/codex-browser/mobile-pet-heukgu.png","docs/qa/pet-heukgu-large-head-20261025/codex-browser/mobile-small-owner-heukgu-registered.png","docs/qa/pet-heukgu-large-head-20261025/codex-browser/mobile-small-pet-heukgu-stage-viewport.png","docs/qa/pet-heukgu-large-head-20261025/codex-browser/mobile-small-pet-heukgu.png","docs/qa/pet-heukgu-large-head-20261025/dry-run.json","docs/qa/pet-heukgu-large-head-20261025/prompt-v3.txt","docs/qa/pet-heukgu-large-head-20261025/read.json","docs/qa/pet-heukgu-large-head-20261025/regression-results.log","docs/qa/pet-heukgu-large-head-20261025/run-codex-browser.mjs","docs/qa/xp-transfer-item-rollback-20261025/README.md","index.html","js/app.js","js/battle-v3-live.js","pet-codex/index.html","pets/index.html","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/PetSupportLayout.mjs","preview/project-v-v3/source/battle/PetSupportPlayback.js","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","scripts/ops/pet-heukgu-large-head-20261025.mjs","scripts/prepare-production-assets.mjs","service-worker.js","shared/pet-art-catalog-v1.mjs","tests/pet-heukgu-approval-20261025.test.mjs","tests/pet-heukgu-large-head-20261025.browser.mjs","tests/pet-heukgu-large-head-20261025.test.mjs","tests/pet-heukgu-production-assets-20261025.test.mjs"],"tests":["tests/pet-heukgu-approval-20261025.test.mjs","tests/pet-heukgu-large-head-20261025.test.mjs","tests/pet-heukgu-production-assets-20261025.test.mjs","tests/battle-ground-runes-20261017.test.mjs","tests/battle-feature-recovery-20261015.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs","tests/pet-live-magnet-20261006.test.mjs"],"checks":["check:worker"]}
+✔ an open pre-deploy lobby accepts a newer coherent compatible engine and wrapper (6.2658ms)
+✔ a cached wrapper cannot pin a newer engine to an old version; one paired refresh repairs it (5.3075ms)
+✔ a completed resource promise cannot hide a runtime replaced by another scene (2.1481ms)
+✔ failed refresh is bounded and leaves entry retryable without starting a battle (2.4982ms)
+✔ an older matching pair and an unrelated runtime never satisfy the current manifest (3.4466ms)
+✔ a newer pair with a breaking entry contract is not accepted by an open lobby (2.9644ms)
+✔ core resource failure creates no attempt or abandon request and restores the button (6.7266ms)
+✔ gold belongs only to ICON cards and SSS+ mercenaries, on both factions (1.4504ms)
+✔ defense roster rank/kind and older limited snapshots select the same art (0.3185ms)
+✔ ground uses dedicated images and keeps a faction edge around each golden variant (2.3619ms)
+✔ same occupied slot refreshes its grade art without per-frame recreation or moving with attacks (2.7028ms)
+✔ pet reduction is exactly 20% after portrait minima and neighboring-card fit, for both sides (1.1946ms)
+✔ all five runtime assets preserve their generated originals and transparent export records (26.2081ms)
+✔ Heukgu catalog uses the exact approved image and retains approval boundaries (55.4712ms)
+✔ registered Heukgu appears in codex and OWNER management without grants or economic changes (2158.1958ms)
+✔ main loader, wrapper and generated engine require the same new portrait runtime (2275.3459ms)
+✔ only Heukgu grows 15% after desktop/mobile fitting on either faction (1.262ms)
+✔ new source is used by live battle fallback with current effects unchanged (4.4325ms)
+✔ dry run rolls back CMS and all audit/account records (1792.0764ms)
+✔ update preserves other pets, current buffs, rewards, potential and acquisition settings; replay writes nothing (1137.4814ms)
+✔ stale CMS revision and changed raw content cannot overwrite owner edits (1170.7448ms)
+✔ unexpected source or custom sprite is never silently replaced (0.7866ms)
+✔ audit failure rolls back the art path update (1102.3046ms)
+Heukgu delivery: 20000/20000 files; original photo and provenance retained in Git.
+✔ Heukgu approved PNG ships intact within Pages cap; photo reference and provenance stay in Git (365.9375ms)
+✔ live equipment uses actual collection, keeps OWNER review separate, validates ownership and reuses the save receipt (2143.9297ms)
+✔ actual PVE/PVP use one opening pet buff per side without adding a target, action slot or modifying unowned accounts (1426.9726ms)
+✔ potential policy starts unspecified/OFF; only OWNER can configure odds, and failed attempts cost exactly one potion (1170.9387ms)
+✔ success is permanent for the owned pet; repeated, concurrent, unauthorized and already-completed attempts cannot spend again (1147.4582ms)
+✔ potion debit, potential and durable receipt roll back together; a lost COMMIT reply replays instead of charging twice (1147.8479ms)
+✔ magnet absorbs a full 24-drop batch without click throttling; restore/manual retries/finish cannot duplicate drops (1.8304ms)
+✔ magnet finish absorbs reached but unacknowledged kills; without magnet there is no automatic pickup (0.5889ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (906.6052ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (13.6499ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (5.9416ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (15.2233ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (15.8248ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (34.1959ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (5.3568ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (3.4121ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.2547ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7926.8191
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 8705 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8503.65 KiB / gzip: 1830.92 KiB
+Worker Startup Time: 46 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.16 sec)
+No targets deployed for cnine-card-api-runtime (0.61 sec)
+Current Version ID: d28df54f-ed3f-4704-8a7b-3883ba745c56
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19973/20000)
+Uploading... (19982/20000)
+Uploading... (19991/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 27 files (19973 already uploaded) (4.62 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://db81fa6e.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3183.84 KiB / gzip: 715.28 KiB
+Worker Startup Time: 68 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.19 sec)
+Deployed cnine-card-clan-draft triggers (0.97 sec)
+  schedule: * * * * *
+Current Version ID: 44b4f3da-8fcb-464a-a37e-e6167c553adf
