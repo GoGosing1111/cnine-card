@@ -1,0 +1,46 @@
+{
+  "mode": "read",
+  "sourceSha256": "15380709a30a5df5330817e9e8361c33f7a0a3099443e1c640e9064eeb735803",
+  "checkedAt": "2026-10-25T09:11:45.684Z",
+  "readOnly": true,
+  "account": {
+    "id": "2",
+    "nickname": "Inception",
+    "status": "ACTIVE",
+    "role": "OWNER",
+    "identityHash": "e9508363ca4b1bb1eb2de9c933539a931115093b50ef32b7fccc258503cfc242"
+  },
+  "holding": [],
+  "stock": {
+    "limit": 5,
+    "crafted": 0,
+    "remaining": 5,
+    "soldOut": false
+  },
+  "packStock": [
+    {
+      "code": "V-973",
+      "stock_limit": 4,
+      "issued": 1,
+      "revision": 2,
+      "last_token": "a7da54ea-65c2-4bce-a0d2-d1c819e7a03d"
+    }
+  ],
+  "policy": {
+    "revision": 0,
+    "coinCost": null,
+    "masterStarCost": null,
+    "successRate": null,
+    "materials": [
+      {
+        "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+        "quantity": null
+      }
+    ],
+    "isActive": false,
+    "isPublic": false,
+    "stockLimit": 5
+  },
+  "recipeStored": false,
+  "operationExists": false
+}

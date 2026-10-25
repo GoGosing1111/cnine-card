@@ -1,0 +1,119 @@
+{
+  "mode": "dry-run",
+  "sourceSha256": "15380709a30a5df5330817e9e8361c33f7a0a3099443e1c640e9064eeb735803",
+  "replayed": false,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:inception-eunseol-exempt-grant:20261025:v1",
+    "authorization": "Inception 계정에 은설 수량차감없이 지급해",
+    "completedAt": "2026-10-25T09:12:07.702Z",
+    "grant": {
+      "userId": 2,
+      "nickname": "Inception",
+      "code": "V-973",
+      "name": "은설",
+      "quantity": 1,
+      "before": 0,
+      "after": 1,
+      "acquisitionId": "ops:inception-eunseol-exempt-grant:20261025:v1:2:V-973:1"
+    },
+    "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+    "cost": 0,
+    "purchaseCountDelta": 0,
+    "automaticEquip": false,
+    "stockBefore": {
+      "limit": 5,
+      "crafted": 0,
+      "remaining": 5,
+      "soldOut": false
+    },
+    "stockAfter": {
+      "limit": 5,
+      "crafted": 0,
+      "remaining": 5,
+      "soldOut": false
+    },
+    "packStockBefore": [
+      {
+        "code": "V-973",
+        "stock_limit": 4,
+        "issued": 1,
+        "revision": 2,
+        "last_token": "a7da54ea-65c2-4bce-a0d2-d1c819e7a03d"
+      }
+    ],
+    "packStockAfter": [
+      {
+        "code": "V-973",
+        "stock_limit": 4,
+        "issued": 1,
+        "revision": 2,
+        "last_token": "a7da54ea-65c2-4bce-a0d2-d1c819e7a03d"
+      }
+    ],
+    "packIssuesBefore": [
+      {
+        "acquisition_id": "aab4380f-432c-4397-80ba-69e9797814bc:53192",
+        "request_id": "aab4380f-432c-4397-80ba-69e9797814bc",
+        "user_id": 1249,
+        "code": "V-973",
+        "serial": 1,
+        "created_at": "2026-10-25T08:54:01.016Z"
+      }
+    ],
+    "packIssuesAfter": [
+      {
+        "acquisition_id": "aab4380f-432c-4397-80ba-69e9797814bc:53192",
+        "request_id": "aab4380f-432c-4397-80ba-69e9797814bc",
+        "user_id": 1249,
+        "code": "V-973",
+        "serial": 1,
+        "created_at": "2026-10-25T08:54:01.016Z"
+      }
+    ],
+    "protectedBeforeHash": "1358d7385ee5bc9fcc6325d9bc31d4934b51551e55eaad2e0a71ce221cdbb114",
+    "protectedAfterHash": "1358d7385ee5bc9fcc6325d9bc31d4934b51551e55eaad2e0a71ce221cdbb114",
+    "preserved": {
+      "wallet": true,
+      "inventory": true,
+      "otherCards": true,
+      "loadout": true,
+      "growth": true,
+      "packStock": true,
+      "craftStock": true,
+      "craftConditions": true,
+      "packSettings": true,
+      "purchaseCounts": true
+    },
+    "auditId": "51213"
+  },
+  "verification": {
+    "verified": true,
+    "userId": 2,
+    "nickname": "Inception",
+    "code": "V-973",
+    "name": "은설",
+    "granted": 1,
+    "held": 1,
+    "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+    "limitedIssueRecordsAdded": 0,
+    "craftLedgerRecordsAdded": 0,
+    "pack": {
+      "limit": 4,
+      "issued": 1,
+      "remaining": 3
+    },
+    "craftStock": {
+      "limit": 5,
+      "crafted": 0,
+      "remaining": 5,
+      "soldOut": false
+    },
+    "auditId": "51213",
+    "acquisitionId": "ops:inception-eunseol-exempt-grant:20261025:v1:2:V-973:1"
+  },
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "noWriteReplayVerified": true,
+  "leasesReleased": true
+}
