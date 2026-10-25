@@ -53,10 +53,10 @@ test('approved assets fit Pages while exact local Node authoring files remain pr
  console.log('NamSuDaeng approved delivery: '+count+'/20000 files, authoring originals retained.');
 });
 
-test('approved SS identity, original art, three skills, Blood Pack only and ten global copies',()=>{
+test('approved SS identity, original art, three skills, Blood Pack only and twenty global copies',()=>{
  const document=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1})),row=document.cards.find(c=>c.code===code);
- assert.equal(row.name,'블러드문 남수댕');assert.equal(row.rank,'SS');assert.equal(row.basePower,356400);assert.equal(row.serverLimit,10);assert.equal(row.deploymentEnabled,true);assert(row.skills.every(s=>s.ready));assert.equal(row.skills.length,3);
- assert.equal(BLOODMOON_PACK_CARDS.length,9);assert.equal(BLOODMOON_PACK_CARDS.filter(c=>c.code===code).length,1);assert.equal(bloodmoonPackDraft().stockLimits[code],10);
+ assert.equal(row.name,'블러드문 남수댕');assert.equal(row.rank,'SS');assert.equal(row.basePower,356400);assert.equal(row.serverLimit,20);assert.equal(row.deploymentEnabled,true);assert(row.skills.every(s=>s.ready));assert.equal(row.skills.length,3);
+ assert.equal(BLOODMOON_PACK_CARDS.length,9);assert.equal(BLOODMOON_PACK_CARDS.filter(c=>c.code===code).length,1);assert.equal(bloodmoonPackDraft().stockLimits[code],20);
  assert.equal(bloodmoonPackDraft().mode,'OFF');assert.equal(bloodmoonPackDraft().cardRatesPpm[code],null);assert.equal(row.acquisitionEnabled,false);
  assert(!HALLOWEEN_PACK_CARDS.some(c=>c.code===code));assert.equal(mercenaryAcquisitionEnabled(code,{cardWeights:{[code]:100}}),false);assert.equal(mercenaryLevelXpMultiplier({code}),5);
  for(const field of ['sourceArt','battleSprite'])assert.equal(createHash('sha256').update(fs.readFileSync(art[field])).digest('hex').toUpperCase(),art[field+'Sha256']);
@@ -64,7 +64,7 @@ test('approved SS identity, original art, three skills, Blood Pack only and ten 
 test('old five-card and eight-card drafts read without changes, odds redistribution or release',()=>{
  const old=legacyBloodmoonPackDraft();assert.equal(Object.keys(old.cardRatesPpm).length,5);const text=JSON.stringify(old);assert.equal(readBloodmoonPackSettings(old).cardRatesPpm[code],null);assert.equal(JSON.stringify(old),text);
  const eight=bloodmoonPackDraft();delete eight.cardRatesPpm[code];delete eight.stockLimits[code];eight.prices.single=123456;eight.cardRatesPpm['V-960']=10.25;
- const before=structuredClone(eight),read=readBloodmoonPackSettings(eight);assert.deepEqual(eight,before);assert.equal(read.prices.single,123456);assert.equal(read.cardRatesPpm['V-960'],10.25);assert.equal(read.cardRatesPpm[code],null);assert.equal(read.stockLimits[code],10);
+ const before=structuredClone(eight),read=readBloodmoonPackSettings(eight);assert.deepEqual(eight,before);assert.equal(read.prices.single,123456);assert.equal(read.cardRatesPpm['V-960'],10.25);assert.equal(read.cardRatesPpm[code],null);assert.equal(read.stockLimits[code],20);
  const invalid=structuredClone(eight);invalid.cardRatesPpm['V-999']=1;assert.throws(()=>readBloodmoonPackSettings(invalid));
 });
 test('three casts select unique living targets and share a fixed total damage budget in both modes',()=>{
@@ -100,9 +100,9 @@ test('ownership is required; fixture holders can deploy in both modes without a 
 });
 test('last NamSuDaeng copy is awarded once; nine remaining draws use normal SSS and retry cannot duplicate it',async t=>{
  const f=await bloodmoonFixture(t);for(const c of Object.keys(f.settings.cardRatesPpm))f.settings.cardRatesPpm[c]=c===code?1000000:0;await f.configure();
- await f.pg.query('UPDATE mercenary_limited_stock_v1 SET issued=9 WHERE code=$1',[code]);const body=f.body(10),r=await f.service.open(f.env,f.user,body);
- assert.equal(r.draws.filter(d=>d.mercenaryCode===code).length,1);assert.equal(r.draws.filter(d=>d.outcomeId==='CARD_SSS').length,9);assert.equal(r.draws.find(d=>d.mercenaryCode===code).serial,10);
- assert.deepEqual((await f.service.open(f.env,f.user,body)).draws,r.draws);assert.equal(Number((await f.pg.query('SELECT issued FROM mercenary_limited_stock_v1 WHERE code=$1',[code])).rows[0].issued),10);
+ await f.pg.query('UPDATE mercenary_limited_stock_v1 SET issued=stock_limit-1 WHERE code=$1',[code]);const body=f.body(10),r=await f.service.open(f.env,f.user,body);
+ assert.equal(r.draws.filter(d=>d.mercenaryCode===code).length,1);assert.equal(r.draws.filter(d=>d.outcomeId==='CARD_SSS').length,9);assert.equal(r.draws.find(d=>d.mercenaryCode===code).serial,20);
+ assert.deepEqual((await f.service.open(f.env,f.user,body)).draws,r.draws);assert.equal(Number((await f.pg.query('SELECT issued FROM mercenary_limited_stock_v1 WHERE code=$1',[code])).rows[0].issued),20);
  assert.equal(Number((await f.pg.query('SELECT COUNT(*) AS n FROM mercenary_limited_issues_v1 WHERE code=$1',[code])).rows[0].n),1);
 });
 test('stock registration rolls back on failure and dry run, preserves pack/settings/other stock, and replay writes nothing',async t=>{

@@ -38,7 +38,7 @@ test('bulk sampler preserves exact ordinary, conditional and sold-out results fo
  f.settings.cardRatesPpm=Object.fromEntries(Object.keys(f.settings.cardRatesPpm).map(c=>[c,c==='V-960'?500000:0]));f.settings.normalSssRatePpm=500000;await f.configure();
  const state=await f.state(),samples=[0,0,1000000000,0,2000000000,0,3000000000,0,4000000000,0,6000000000,0,6000000000,9999999999,0,9000000000,9000000000,9000000000];
  const rng=()=>{const values=[...samples];return max=>{const n=values.shift();assert(n<max);return n;};};
- for(const sold of [false,true]){if(sold){state.stock.find(s=>s.code==='V-960').remaining=0;state.stock.find(s=>s.code==='V-960').issued=10;}
+ for(const sold of [false,true]){if(sold){state.stock.find(s=>s.code==='V-960').remaining=0;state.stock.find(s=>s.code==='V-960').issued=state.stock.find(s=>s.code==='V-960').limit;}
   const input=sold?[...samples.slice(0,12),0,...samples.slice(12)]:samples;
   const random=()=>{const values=[...input];return max=>{const n=values.shift();assert(n<max);return n;};};
   const ordinary=pickBloodmoonBatch(state,10,random()),bulk=pickBloodmoonBulk(state,10,random());
@@ -50,8 +50,8 @@ test('bulk sampler preserves exact ordinary, conditional and sold-out results fo
 test('100,000 draws use one compact transaction and recover the identical receipt without another charge',async t=>{
  const f=await bloodmoonFixture(t);f.settings.prices={...BLOODMOON_BULK_REFERENCE_PRICES};await f.configure();await f.pg.exec('UPDATE users SET coin=200000000000000 WHERE id=1');
  const request=body(f,'100000000000000'),before={...f.stats},started=performance.now(),r=await f.service.open(f.env,f.user,request),elapsedMs=performance.now()-started;
- assert.equal(r.count,100000);assert.equal(sum(r),100000);assert.equal(r.draws.length,10);assert.equal(r.normalDraws.reduce((n,r)=>n+r.quantity,0),99990);assert.equal(await f.coin(),1e14);
- assert.equal(f.stats.batches-before.batches,1);assert.ok(f.stats.statements-before.statements<100);assert.ok(JSON.stringify(r).length<20000);
+ assert.equal(r.count,100000);assert.equal(sum(r),100000);assert.equal(r.draws.length,f.settings.stockLimits['V-960']);assert.equal(r.normalDraws.reduce((n,r)=>n+r.quantity,0),100000-f.settings.stockLimits['V-960']);assert.equal(await f.coin(),1e14);
+ assert.equal(f.stats.batches-before.batches,1);assert.ok(f.stats.statements-before.statements<50+f.settings.stockLimits['V-960']*6);assert.ok(JSON.stringify(r).length<20000);
  const snapshot=await f.pg.query('SELECT * FROM user_mercenary_cards_v1 WHERE user_id=1 ORDER BY mercenary_code');
  const replay=await f.service.open(f.env,f.user,request);assert.deepEqual(replay.draws,r.draws);assert.deepEqual(replay.normalDraws,r.normalDraws);assert.equal(await f.coin(),1e14);assert.deepEqual((await f.pg.query('SELECT * FROM user_mercenary_cards_v1 WHERE user_id=1 ORDER BY mercenary_code')).rows,snapshot.rows);
  assert.equal((await f.pg.query('SELECT COUNT(*) AS n FROM coin_logs')).rows[0].n,1);
@@ -69,8 +69,8 @@ test('a failed bulk grant rolls back everything and retry never rerolls',async t
 
 test('stock race replaces only unavailable serials, preserving normal quantities and total draws',async t=>{
  const f=await bloodmoonFixture(t),request=body(f,'90000');f.fail('INSERT INTO mercenary_card_acquisitions_v1');await assert.rejects(f.service.open(f.env,f.user,request));f.fail('');
- await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=9 WHERE code='V-960'");
- const receipt=await f.service.open(f.env,f.user,request);assert.equal(receipt.draws.length,1);assert.equal(receipt.draws[0].serial,10);assert.equal(sum(receipt),1000);assert.equal(receipt.normalDraws.reduce((n,r)=>n+r.quantity,0),999);
+ await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=stock_limit-1 WHERE code='V-960'");
+ const receipt=await f.service.open(f.env,f.user,request);assert.equal(receipt.draws.length,1);assert.equal(receipt.draws[0].serial,f.settings.stockLimits['V-960']);assert.equal(sum(receipt),1000);assert.equal(receipt.normalDraws.reduce((n,r)=>n+r.quantity,0),999);
 });
 
 test('changed settings, insufficient funds and forged budget/count fail before payment',async t=>{
@@ -104,7 +104,7 @@ test('authorized production release still requires authentication; an explicit c
 });
 
 test('two accounts racing for the final limited copy receive at most one serial and exact totals',async t=>{
- const f=await bloodmoonFixture(t);await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=9 WHERE code='V-960'");
+ const f=await bloodmoonFixture(t);await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=stock_limit-1 WHERE code='V-960'");
  const a=body(f,'90000'),b=body(f,'90000'),receipts=await Promise.all([f.service.open(f.env,f.user,a),f.service.open(f.env,{id:2},b)]);
  assert.equal(receipts.reduce((n,r)=>n+r.draws.length,0),1);for(const r of receipts)assert.equal(sum(r),1000);
  assert.equal(await f.coin(1),910000);assert.equal(await f.coin(2),910000);assert.equal((await f.pg.query('SELECT COUNT(*) AS n FROM mercenary_limited_issues_v1')).rows[0].n,1);

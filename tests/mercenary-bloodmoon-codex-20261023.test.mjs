@@ -21,7 +21,7 @@ const cards=BLOODMOON_MERCENARIES.filter(c=>BLOODMOON_CODES.includes(c.code));
 test('five separate SS limited entries publish approved originals, full idle sprites and the reviewed balance',()=>{
  const document=validateCatalog(catalog()),found=filterCatalog(document.cards,{q:'블러드문',rank:'SS'},new Set()).filter(c=>BLOODMOON_CODES.includes(c.code));assert.deepEqual(found.map(c=>c.code),BLOODMOON_CODES);
  const manifest=JSON.parse(fs.readFileSync('assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/manifest.json'));
- for(const c of found){assert.equal(c.serverLimit,10);assert.equal(c.basePower,356400);assert.equal(c.skills[0].ready,false);assert.equal(c.skills.length,1);assert.equal(c.deploymentEnabled,false);
+ for(const c of found){assert.equal(c.serverLimit,20);assert.equal(c.basePower,356400);assert.equal(c.skills[0].ready,false);assert.equal(c.skills.length,1);assert.equal(c.deploymentEnabled,false);
   for(const field of ['sourceArt','battleSprite']){const b=fs.readFileSync(c[field]);assert.equal(createHash('sha256').update(b).digest('hex').toUpperCase(),c[field+'Sha256']);assert.deepEqual(b,fs.readFileSync(manifest.assets.find(a=>a.code===c.code)[field].original));}
  }
  const wrong=catalog();wrong.cards.find(c=>c.code==='V-960').packOpeningEnabled=true;assert.throws(()=>validateCatalog(wrong));
@@ -36,7 +36,7 @@ test('opening requires authentication before DB, body or currency access',async(
  assert.equal(await handleBloodmoonPack({path:'other',request:{},env:never,deps:{json}}),null);
 });
 test('public feature preserves the legacy OFF draft and ten copies without writing',async t=>{
- const f=await bloodmoonFixture(t);await f.setting(BLOODMOON_PACK_KEY,{revision:1,settings:legacyBloodmoonPackDraft()});
+ const f=await bloodmoonFixture(t);await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET stock_limit=10 WHERE code IN ('V-960','V-961','V-962','V-963','V-964','V-965')");await f.setting(BLOODMOON_PACK_KEY,{revision:1,settings:legacyBloodmoonPackDraft()});
  const before=JSON.stringify((await f.pg.query('SELECT * FROM app_meta ORDER BY key')).rows);
  const r=await handleBloodmoonPack({path:BLOODMOON_PACK.featurePath,request:{method:'GET'},env:f.env,deps:{json:(body,status)=>({body,status})}});
  assert.equal(r.status,200);assert.equal(r.body.userOpeningEnabled,false);assert.equal(r.body.packSettings.mode,'OFF');assert(r.body.stock.filter(s=>BLOODMOON_CODES.includes(s.code)).every(s=>s.limit===10&&s.issued===0&&s.remaining===10));

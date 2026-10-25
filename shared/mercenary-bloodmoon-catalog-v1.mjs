@@ -1,6 +1,7 @@
-import {NAMSUDAENG_ART} from './mercenary-bloodmoon-namsudaeng-v1.mjs';
-// User: SS limited, 10 server-wide copies each, opening unavailable (2026-10-23).
-export const BLOODMOON_SERVER_LIMIT=10;
+import {NAMSUDAENG_ART} from './mercenary-bloodmoon-namsudaeng-v1.mjs?bloodmoonStock=20261025-v1';
+// User, 2026-10-25: add ten copies to each of the six SS limited characters.
+export const BLOODMOON_SERVER_LIMIT=20;
+export const BLOODMOON_LEGACY_SERVER_LIMIT=10;
 export const BLOODMOON_BASE_POWER=356400;
 export const BLOODMOON_MERCENARIES=Object.freeze([
   {
@@ -51,7 +52,7 @@ export const BLOODMOON_MERCENARIES=Object.freeze([
     "packOpeningEnabled": false,
     "acquisitionPackId": "mercenary-bloodmoon-ss-limited",
     "acquisitionPackName": "블러드문팩",
-    "serverLimit": 10,
+    "serverLimit": BLOODMOON_SERVER_LIMIT,
     "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
     "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
     "artWindow": {
@@ -120,7 +121,7 @@ export const BLOODMOON_MERCENARIES=Object.freeze([
     "packOpeningEnabled": false,
     "acquisitionPackId": "mercenary-bloodmoon-ss-limited",
     "acquisitionPackName": "블러드문팩",
-    "serverLimit": 10,
+    "serverLimit": BLOODMOON_SERVER_LIMIT,
     "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
     "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
     "artWindow": {
@@ -189,7 +190,7 @@ export const BLOODMOON_MERCENARIES=Object.freeze([
     "packOpeningEnabled": false,
     "acquisitionPackId": "mercenary-bloodmoon-ss-limited",
     "acquisitionPackName": "블러드문팩",
-    "serverLimit": 10,
+    "serverLimit": BLOODMOON_SERVER_LIMIT,
     "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
     "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
     "artWindow": {
@@ -258,7 +259,7 @@ export const BLOODMOON_MERCENARIES=Object.freeze([
     "packOpeningEnabled": false,
     "acquisitionPackId": "mercenary-bloodmoon-ss-limited",
     "acquisitionPackName": "블러드문팩",
-    "serverLimit": 10,
+    "serverLimit": BLOODMOON_SERVER_LIMIT,
     "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
     "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
     "artWindow": {
@@ -327,7 +328,7 @@ export const BLOODMOON_MERCENARIES=Object.freeze([
     "packOpeningEnabled": false,
     "acquisitionPackId": "mercenary-bloodmoon-ss-limited",
     "acquisitionPackName": "블러드문팩",
-    "serverLimit": 10,
+    "serverLimit": BLOODMOON_SERVER_LIMIT,
     "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
     "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
     "artWindow": {
