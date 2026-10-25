@@ -1,0 +1,23 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "eunseolLimit": 4,
+      "eunseolIssued": 1,
+      "eunseolRemaining": 3,
+      "oddsPreserved": true,
+      "priceAndModePreserved": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "eunseolLimit": 4,
+      "eunseolIssued": 1,
+      "eunseolRemaining": 3,
+      "oddsPreserved": true,
+      "priceAndModePreserved": true,
+      "errors": []
+    }
+  ],
+  "mutations": 0
+}
