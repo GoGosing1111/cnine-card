@@ -1,0 +1,94 @@
+[
+  {
+    "file": "admin/index.html",
+    "status": "task-only-substitutions-applied; unrelated primary edits preserved"
+  },
+  {
+    "file": "admin/mercenary-admin-v1.js",
+    "status": "task-only-substitutions-applied; unrelated primary edits preserved"
+  },
+  {
+    "file": "admin/mercenary-level-admin-v1.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "functions/_mercenary_level.js",
+    "status": "exact-hunks-applied"
+  },
+  {
+    "file": "functions/_mercenary_level_pity.js",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "functions/_mercenary_level_policy.js",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "mercenary-codex/leveling/app.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "mercenary-codex/leveling/breakthrough.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "mercenary-codex/leveling/client.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "mercenary-codex/leveling/demo.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "mercenary-codex/leveling/growth-view.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "mercenary-codex/leveling/index.html",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "shared/mercenary-growth-review-v2.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "shared/mercenary-level-v1.mjs",
+    "status": "task-only-substitutions-applied; unrelated primary edits preserved"
+  },
+  {
+    "file": "tests/mercenary-growth-launch-20261016.test.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "tests/mercenary-growth-v2-20261015.test.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "tests/mercenary-level-cap21-20261025.browser.mjs",
+    "status": "new-task-file"
+  },
+  {
+    "file": "tests/mercenary-level-cap21-20261025.test.mjs",
+    "status": "new-task-file"
+  },
+  {
+    "file": "tests/mercenary-level-preparation-20261005.test.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "tests/mercenary-level-rules-20261014.test.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "tests/mercenary-level-ui-20261006.test.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "tests/mercenary-level-v2-integration-20261015.test.mjs",
+    "status": "matching-base-updated"
+  },
+  {
+    "file": "generated-bundles-and-reports",
+    "status": "preserved-primary-divergence; release versions stored in Git"
+  }
+]

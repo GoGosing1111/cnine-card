@@ -1,0 +1,145 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"98036716e0797f901ee4106cd1e95f5032e25eb2","reason":"User corrected mercenary cap to 21: final level-20 breakthrough completes at 21 and further training is blocked. Preserve durable checkpoint schema and immutable history; verify growth transactions, replay, PVE/PVP, UI and loader. Two unchanged pre-existing Valter cadence baseline assertions are excluded from the focused growth test script.","changed":["AGENTS.md","admin/index.html","admin/mercenary-admin-v1.js","admin/mercenary-level-admin-v1.mjs","docs/qa/bloodmoon-ss-restock-20261025/README.md","docs/qa/bloodmoon-ss-restock-20261025/apply.json","docs/qa/bloodmoon-ss-restock-20261025/before-deploy.json","docs/qa/bloodmoon-ss-restock-20261025/deploy.log","docs/qa/bloodmoon-ss-restock-20261025/deployment-plan.json","docs/qa/bloodmoon-ss-restock-20261025/deployment-result.json","docs/qa/bloodmoon-ss-restock-20261025/live-verification.json","docs/qa/bloodmoon-ss-restock-20261025/verify.json","docs/qa/mercenary-level-cap21-20261025/README.md","docs/qa/mercenary-level-cap21-20261025/browser.json","docs/qa/mercenary-level-cap21-20261025/complete-1440.png","docs/qa/mercenary-level-cap21-20261025/complete-390.png","docs/qa/mercenary-level-cap21-20261025/result-1440.png","docs/qa/mercenary-level-cap21-20261025/result-390.png","docs/qa/mercenary-level-cap21-20261025/tests.log","functions/_mercenary_level.js","functions/_mercenary_level_pity.js","functions/_mercenary_level_policy.js","mercenary-codex/leveling/app.mjs","mercenary-codex/leveling/breakthrough.mjs","mercenary-codex/leveling/client.mjs","mercenary-codex/leveling/demo.mjs","mercenary-codex/leveling/growth-view.mjs","mercenary-codex/leveling/index.html","package.json","preview/coop-defense-v1/build-report.json","preview/coop-defense-v1/defense.bundle.js","preview/project-v-v3/grid-build-report.json","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","shared/mercenary-growth-review-v2.mjs","shared/mercenary-level-v1.mjs","tests/mercenary-growth-launch-20261016.test.mjs","tests/mercenary-growth-v2-20261015.test.mjs","tests/mercenary-level-cap21-20261025.browser.mjs","tests/mercenary-level-cap21-20261025.test.mjs","tests/mercenary-level-preparation-20261005.test.mjs","tests/mercenary-level-rules-20261014.test.mjs","tests/mercenary-level-ui-20261006.test.mjs","tests/mercenary-level-v2-integration-20261015.test.mjs"],"tests":[],"checks":["test:mercenary-level-cap21","check:worker"]}
+
+> test:mercenary-level-cap21
+> node --test --test-skip-pattern="^gap mastery restores|^action response closes" tests/mercenary-level-cap21-20261025.test.mjs tests/mercenary-level-preparation-20261005.test.mjs tests/mercenary-level-rules-20261014.test.mjs tests/mercenary-level-v2-integration-20261015.test.mjs tests/mercenary-growth-launch-20261016.test.mjs tests/mercenary-growth-v2-20261015.test.mjs tests/mercenary-breakthrough-pity-20261021.test.mjs tests/mercenary-level-ui-20261006.test.mjs
+
+✔ exact 10/20 failed-attempt boundary; base 10% chance and XP cost stay unchanged (9.1638ms)
+✔ SQLite: legacy failures are retroactive for each milestone, and guarantee commits only once (200.477ms)
+✔ SQLite: tenth failure, XP refill and guaranteed eleventh attempt preserve counters and materials (73.9857ms)
+✔ SQLite: rollback, cancelled/pending/test requests, other users and mercenaries cannot inflate pity (56.2232ms)
+✔ SQLite: old completed receipts stay frozen; pre-release pending failure cannot bypass new guarantee (54.04ms)
+✔ PostgreSQL: legacy failures are retroactive for each milestone, and guarantee commits only once (5973.1027ms)
+✔ PostgreSQL: tenth failure, XP refill and guaranteed eleventh attempt preserve counters and materials (2575.0662ms)
+✔ PostgreSQL: rollback, cancelled/pending/test requests, other users and mercenaries cannot inflate pity (2163.1645ms)
+✔ PostgreSQL: old completed receipts stay frozen; pre-release pending failure cannot bypass new guarantee (1959.5865ms)
+✔ history uses receipt revision, deduplicates IDs, resets after success and ignores later snapshots (21.0496ms)
+✔ approved launch triples rising required XP only; both combat flags open and empty CMS stays empty (11.1456ms)
+✔ all four breakthroughs use exact 10% boundaries, preserve earned growth on failure, and finish at 21 (6.6293ms)
+✔ released authenticated state, training, receipt replay and server battle snapshot use the saved launch policy (112.8119ms)
+✔ launch installs only its empty table and audited policy once; dry-run/conflict roll back and replay never resets CMS (5323.3788ms)
+✔ unconfigured and partial V2 policies stay OFF and cannot enter battle (14.5355ms)
+✔ all 21 levels and four breakthroughs have explicit additive, monotonic totals (4.982ms)
+✔ growth scales effective stats once, keeps wounds, original shield and power (5.132ms)
+✔ failure preserves all earned growth; successful final breakthrough grants level 21 and the last package (1.7307ms)
+✔ conditional speed floor uses frozen pre-growth opponent speed and never compounds (2.9569ms)
+✔ PVP mastery adds 0.75 credit instead of multiplying innate cadence; PVE and legacy unchanged (3.2326ms)
+✔ level-1 V2 and legacy battle paths are identical; high-level formation can overturn a low-level limited (67.3226ms)
+✔ 0.01 percent action credit accumulates exactly and duo owners earn only their own credit (137.8437ms)
+✔ 21 is terminal; 22, missing final breakthrough and terminal XP are rejected (3.2116ms)
+✔ SQLite: level 20 final success reaches 21 once; direct requests cannot spend materials or reach 22 (143.1664ms)
+✔ SQLite: existing final completion becomes 21 on current reads without rewriting rows or old receipts (31.8641ms)
+✔ PostgreSQL: level 20 final success reaches 21 once; direct requests cannot spend materials or reach 22 (5544.281ms)
+✔ PostgreSQL: existing final completion becomes 21 on current reads without rewriting rows or old receipts (2398.0495ms)
+✔ legacy growth endpoint remains closed and cannot bypass the cap (1.7448ms)
+✔ live draft fixes the approved multiplier and leaves remaining economy values unset (3.742ms)
+✔ same mercenary earns the multiplier; only same-rank mercenary extras are accepted (2.0987ms)
+✔ ordinary levels carry XP but every milestone caps XP and reports exact overflow (1.7133ms)
+✔ all four failures retain level and earlier effects; success is once, exact odds, max 21 (2.9895ms)
+✔ invalid persisted states cannot skip gates, retain EXP after final completion, or exceed new XP policy (0.4233ms)
+✔ SQLite: atomic consumption, replay, account isolation, no wallet/loadout change (64.5062ms)
+✔ SQLite: failed writes roll back materials and XP; stale other request is cancelled (51.4198ms)
+✔ SQLite: overflow requires explicit consent; failed breakthrough retry keeps its first random draw (58.0838ms)
+✔ SQLite: policy revision and CMS revision races cannot spend stale materials (56.3703ms)
+✔ SQLite: final success exposes level 21 and its bonus exactly once without spending more cards (49.5422ms)
+✔ Postgres: atomic consumption, replay, account isolation, no wallet/loadout change (5708.434ms)
+✔ Postgres: failed writes roll back materials and XP; stale other request is cancelled (2448.2151ms)
+✔ Postgres: overflow requires explicit consent; failed breakthrough retry keeps its first random draw (2243.156ms)
+✔ Postgres: policy revision and CMS revision races cannot spend stale materials (1946.8185ms)
+✔ Postgres: final success exposes level 21 and its bonus exactly once without spending more cards (1365.0212ms)
+✔ lost commit acknowledgement and serialized concurrent requests never double consume (15.8823ms)
+✔ batch predicate rejects inventory or policy changes after the preparation reads (19.2868ms)
+✔ released routes require authentication before any growth database access (17.152ms)
+✔ OFF needs no new schema, ignores legacy growth, and CMS saves cannot activate it (20.2715ms)
+✔ battle bonuses apply once after linkage, preserve wounds and base rank power, and freeze skill effects (3.1611ms)
+✔ PVE, PVP and two-card co-op linkage carry server-frozen growth without changing historical snapshots (22.6893ms)
+✔ client retains request through timeout and reload; receipt recovery sends no new POST (1.2538ms)
+✔ same code gives exactly 3x XP; other SSS gives 1x regardless of limited edition (5.5974ms)
+✔ all required XP and cumulative XP are exactly 5x, determined from canonical identity (0.6558ms)
+✔ limited checkpoints, overflow and failures use the 5x threshold through final level 20 (2.9206ms)
+✔ older OFF draft adapts without writes, preserving unsettled values and raw concurrency guard (0.5812ms)
+✔ SQLite: limited training rolls back, replays once and remains unavailable through live routes (103.728ms)
+✔ PostgreSQL: limited training rolls back, replays once and remains unavailable through live routes (5548.6518ms)
+✔ prepared combat stat growth applies once and preserves wounds and pre-growth actors (0.9447ms)
+✔ isolated level-20 Cryvern can defeat level-1 limited SSS with unchanged cards and real battle rules (48.8716ms)
+✔ skip/close acknowledged only after the completed server result is shown, without another mutation (19.8715ms)
+✔ leaving the reveal keeps its receipt and restores the exact failure after a lost POST response (3.5918ms)
+✔ failed state refresh or reveal retains pending request for recovery (4.0579ms)
+✔ account switch during animation cannot acknowledge another session (1.2395ms)
+✔ pending receipt does not reveal or acknowledge; final level reaches 21 (1.6662ms)
+✔ SQLite: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x (79.5319ms)
+✔ SQLite: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once (116.6744ms)
+✔ SQLite: committed V2 growth summaries survive policy replacement, OFF and receipt recovery (52.0619ms)
+✔ SQLite: partially configured growth can be saved OFF but cannot consume cards or grow (46.1877ms)
+✔ PostgreSQL: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x (5582.2751ms)
+✔ PostgreSQL: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once (2752.8136ms)
+✔ PostgreSQL: committed V2 growth summaries survive policy replacement, OFF and receipt recovery (2114.7446ms)
+✔ PostgreSQL: partially configured growth can be saved OFF but cannot consume cards or grow (1893.3351ms)
+✔ both previous OFF policy versions adapt in memory without writing or filling a growth profile (1.8384ms)
+✔ released leveling mutations and preview require authentication before database access (25.1803ms)
+ℹ tests 73
+ℹ suites 0
+ℹ pass 73
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15066.0261
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] bloodmoon-ss-stock20-20261025-v1-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19999 files; 8228 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8440.60 KiB / gzip: 1816.13 KiB
+Worker Startup Time: 78 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (4.27 sec)
+No targets deployed for cnine-card-api-runtime (0.59 sec)
+Current Version ID: d42e0816-d80a-45f7-a472-4a6d149e0ff9
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19979/19999)
+Uploading... (19985/19999)
+Uploading... (19992/19999)
+Uploading... (19999/19999)
+✨ Success! Uploaded 20 files (19979 already uploaded) (2.46 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://2ce949e7.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3016.39 KiB / gzip: 677.20 KiB
+Worker Startup Time: 35 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (4.01 sec)
+Deployed cnine-card-clan-draft triggers (3.38 sec)
+  schedule: * * * * *
+Current Version ID: 174074a2-5672-4cfe-ae8e-324f3fd2f21b

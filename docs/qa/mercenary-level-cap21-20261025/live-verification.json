@@ -1,0 +1,149 @@
+{
+  "sourceCommit": "a13950822f5993e61b246ea7f367ad7cbd446b7a",
+  "deployment": "2ce949e7",
+  "apiRuntime": "d42e0816-d80a-45f7-a472-4a6d149e0ff9",
+  "scheduler": "174074a2-5672-4cfe-ae8e-324f3fd2f21b",
+  "checkedAt": "2026-10-25T04:35:45.347Z",
+  "domain": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "bytes": 81876,
+      "expected": "ad4816fd3789b45658578884f912ad71d458258cf08e448522bfddae84ae8aca",
+      "actual": "ad4816fd3789b45658578884f912ad71d458258cf08e448522bfddae84ae8aca",
+      "match": true
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "status": 200,
+      "bytes": 27939,
+      "expected": "1bb86d17974725d6dbaf2c1c80a930143adf679a543d0b5f01400f17f5b64a48",
+      "actual": "1bb86d17974725d6dbaf2c1c80a930143adf679a543d0b5f01400f17f5b64a48",
+      "match": true
+    },
+    {
+      "file": "admin/mercenary-level-admin-v1.mjs",
+      "status": 200,
+      "bytes": 12568,
+      "expected": "d7ccfc0360e8cb3f6b1288e2c56ba1cd2556bb5cb7f74fa1850869bd6cccdbef",
+      "actual": "d7ccfc0360e8cb3f6b1288e2c56ba1cd2556bb5cb7f74fa1850869bd6cccdbef",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/leveling/app.mjs",
+      "status": 200,
+      "bytes": 24009,
+      "expected": "d05cb479c53a8a62330ad654d336fd1477d7acc81e26f81670688d00eac44a9a",
+      "actual": "d05cb479c53a8a62330ad654d336fd1477d7acc81e26f81670688d00eac44a9a",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/leveling/breakthrough.mjs",
+      "status": 200,
+      "bytes": 14055,
+      "expected": "388d6929e38b12f51b5759c98b9c231a1709a3bfbe73c92d9f675928da73c54a",
+      "actual": "388d6929e38b12f51b5759c98b9c231a1709a3bfbe73c92d9f675928da73c54a",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/leveling/client.mjs",
+      "status": 200,
+      "bytes": 4075,
+      "expected": "0bd70b768e2905a0eac90f68828e6cdaae5a70d8820a50b2422482a7610c41d7",
+      "actual": "0bd70b768e2905a0eac90f68828e6cdaae5a70d8820a50b2422482a7610c41d7",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/leveling/demo.mjs",
+      "status": 200,
+      "bytes": 1388,
+      "expected": "fd2da6389f5551f6e6f6fa666d31ce2087422c74e0171b6a826442e92bbe2633",
+      "actual": "fd2da6389f5551f6e6f6fa666d31ce2087422c74e0171b6a826442e92bbe2633",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/leveling/growth-view.mjs",
+      "status": 200,
+      "bytes": 8206,
+      "expected": "9fd34cbf0f876e5f3f4bea3eb9f304509673561091f64a75e697d8b07c5083b3",
+      "actual": "9fd34cbf0f876e5f3f4bea3eb9f304509673561091f64a75e697d8b07c5083b3",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/leveling/index.html",
+      "status": 200,
+      "bytes": 2864,
+      "expected": "9c52df80c302252e19575cd75a5dffaecdf8aea5f81efcd30deaeda843a58179",
+      "actual": "9c52df80c302252e19575cd75a5dffaecdf8aea5f81efcd30deaeda843a58179",
+      "match": true
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "status": 200,
+      "bytes": 2652323,
+      "expected": "a0f852be64677524f0b9b5d4ab9cf6fe01a0cc7ded6a28f391407c1cd9a6fcab",
+      "actual": "a0f852be64677524f0b9b5d4ab9cf6fe01a0cc7ded6a28f391407c1cd9a6fcab",
+      "match": true
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "status": 200,
+      "bytes": 431261,
+      "expected": "9d9acc5587ed542853aa1e88ccef9463048b433c4ad2f8d339b9dd70f4dfcca7",
+      "actual": "9d9acc5587ed542853aa1e88ccef9463048b433c4ad2f8d339b9dd70f4dfcca7",
+      "match": true
+    },
+    {
+      "file": "shared/mercenary-growth-review-v2.mjs",
+      "status": 200,
+      "bytes": 11874,
+      "expected": "62e8190a752aa79edb7ad764db31c8b85592d63c3f6bb73cdf206d0ad31778d6",
+      "actual": "62e8190a752aa79edb7ad764db31c8b85592d63c3f6bb73cdf206d0ad31778d6",
+      "match": true
+    },
+    {
+      "file": "shared/mercenary-level-v1.mjs",
+      "status": 200,
+      "bytes": 18280,
+      "expected": "6e04f9ffa7222a9e5537ed385f5357cde28fa9563fb3208c737848be177383f9",
+      "actual": "6e04f9ffa7222a9e5537ed385f5357cde28fa9563fb3208c737848be177383f9",
+      "match": true
+    }
+  ],
+  "feature": {
+    "status": 200,
+    "releaseEnabled": true,
+    "rules": {
+      "version": "mercenary-level-20261015-v2",
+      "maxLevel": 21,
+      "levelCapVersion": "20261025-cap21-v1",
+      "milestones": [
+        5,
+        10,
+        15,
+        20
+      ],
+      "materialKind": "MERCENARY",
+      "materialRank": "SAME_RANK",
+      "sameCardMultiplier": 3,
+      "limitedRequiredXpMultiplier": 5,
+      "preserveOriginal": true,
+      "coinCost": 0,
+      "masterStarCost": 0,
+      "maxMaterials": 100,
+      "failure": "CURRENT_LEVEL_EXP_ZERO",
+      "breakthroughPity": {
+        "failuresBeforeGuarantee": {
+          "5": 10,
+          "10": 10,
+          "15": 10,
+          "20": 20
+        },
+        "retroactive": true
+      }
+    }
+  },
+  "allMatch": true,
+  "productionAccountWrites": 0
+}
