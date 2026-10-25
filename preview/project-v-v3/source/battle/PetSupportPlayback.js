@@ -22,7 +22,7 @@ export async function preparePetSupport(engine,payload){
     let texture;try{texture=await Assets.load('/'+pet.battleSprite.replace(/^\//,''));}catch(error){console.warn('[pet] portrait load failed',pet.code);return;}
     if(engine.disposed||engine.petSupports!==rows)return;
     const root=new Container({label:'PET_SUPPORT_'+key}),halo=createBattleGroundSigil({team:side,width:96,height:30});
-    const sprite=new Sprite(texture);sprite.anchor.set(.5,1);sprite.scale.set(petBattleDisplaySize(126)/Math.max(texture.width,texture.height));sprite.y=-3;
+    const sprite=new Sprite(texture);sprite.anchor.set(.5,1);sprite.scale.set(petBattleDisplaySize(126,pet.code)/Math.max(texture.width,texture.height));sprite.y=-3;
     const name=new Text({text:pet.name,style:{fontFamily:'Noto Sans KR, sans-serif',fontSize:15,fontWeight:'700',fill:0xf1ffe1,stroke:{color:0x081020,width:4}}});name.anchor.set(.5,0);name.y=9;
     root.addChild(halo,sprite,name);
     let badge=null;if(snapshot.magnet){badge=new Text({text:'자석',style:{fontFamily:'Noto Sans KR, sans-serif',fontSize:13,fontWeight:'700',fill:0xcbf687,stroke:{color:0x081020,width:4}}});badge.anchor.set(.5,0);badge.y=29;root.addChild(badge);}
@@ -62,9 +62,9 @@ export async function preparePetSupport(engine,payload){
         suit={x:p.x,y:p.y,halfWidth:Math.abs(edge.x-p.x)};
       }
       const position=petSupportPosition({points:feet,side,pvp,suit,width,height,scale,size});
-      // Apply after mobile minimums and neighbor fitting, for both factions.
-      row.layoutSize=position.size;row.displaySize=petBattleDisplaySize(position.size);
-      row.sprite.scale.set(row.displaySize/Math.max(row.sprite.texture.width,row.sprite.texture.height));row.halo.scale.set(row.displaySize/126);
+      // Heukgu's portrait grows after fitting; resting feet, labels and floor art stay fixed.
+      row.layoutSize=position.size;row.displaySize=petBattleDisplaySize(position.size,row.snapshot.definition.code);
+      row.sprite.scale.set(row.displaySize/Math.max(row.sprite.texture.width,row.sprite.texture.height));row.halo.scale.set(petBattleDisplaySize(position.size)/126);
       const labelMargin=row.name.width/2+8/scale;
       row.root.position.set(Math.max(labelMargin,Math.min(width-labelMargin,position.x)),position.y);
       row.root.visible=engine.visible!==false;

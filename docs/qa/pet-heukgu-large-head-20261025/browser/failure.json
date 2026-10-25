@@ -1,0 +1,5 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert((await page.evaluate(()=>ProjectVPixiBattle.runtimeVersion)).endsWith('-heukgu-large-head-20261025-v3'))\n\n    at file:///C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site/tests/pet-heukgu-large-head-20261025.browser.mjs:47:3\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:472:9)",
+  "missing": [],
+  "reports": []
+}

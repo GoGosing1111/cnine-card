@@ -1,0 +1,49 @@
+✔ an open pre-deploy lobby accepts a newer coherent compatible engine and wrapper (5.7355ms)
+✔ a cached wrapper cannot pin a newer engine to an old version; one paired refresh repairs it (4.3648ms)
+✔ a completed resource promise cannot hide a runtime replaced by another scene (1.4848ms)
+✔ failed refresh is bounded and leaves entry retryable without starting a battle (2.6186ms)
+✔ an older matching pair and an unrelated runtime never satisfy the current manifest (3.35ms)
+✔ a newer pair with a breaking entry contract is not accepted by an open lobby (3.4573ms)
+✔ core resource failure creates no attempt or abandon request and restores the button (7.9654ms)
+✔ gold belongs only to ICON cards and SSS+ mercenaries, on both factions (3.5804ms)
+✔ defense roster rank/kind and older limited snapshots select the same art (0.5085ms)
+✔ ground uses dedicated images and keeps a faction edge around each golden variant (3.5225ms)
+✔ same occupied slot refreshes its grade art without per-frame recreation or moving with attacks (3.3399ms)
+✔ pet reduction is exactly 20% after portrait minima and neighboring-card fit, for both sides (0.6212ms)
+✔ all five runtime assets preserve their generated originals and transparent export records (23.2711ms)
+✔ Heukgu catalog uses the exact approved image and retains approval boundaries (47.2152ms)
+✔ registered Heukgu appears in codex and OWNER management without grants or economic changes (2436.0648ms)
+✔ main loader, wrapper and generated engine require the same new portrait runtime (14.9421ms)
+✔ only Heukgu grows 15% after desktop/mobile fitting on either faction (0.8608ms)
+✔ new source is used by live battle fallback with current effects unchanged (3.5921ms)
+✔ dry run rolls back CMS and all audit/account records (2447.2138ms)
+✔ update preserves other pets, current buffs, rewards, potential and acquisition settings; replay writes nothing (1378.3358ms)
+✔ stale CMS revision and changed raw content cannot overwrite owner edits (1364.0719ms)
+✔ unexpected source or custom sprite is never silently replaced (1.0695ms)
+✔ audit failure rolls back the art path update (1308.0497ms)
+Heukgu delivery: 20000/20000 files; original photo and provenance retained in Git.
+✔ Heukgu approved PNG ships intact within Pages cap; photo reference and provenance stay in Git (223.6136ms)
+✔ live equipment uses actual collection, keeps OWNER review separate, validates ownership and reuses the save receipt (2448.6381ms)
+✔ actual PVE/PVP use one opening pet buff per side without adding a target, action slot or modifying unowned accounts (1424.9237ms)
+✔ potential policy starts unspecified/OFF; only OWNER can configure odds, and failed attempts cost exactly one potion (1536.8053ms)
+✔ success is permanent for the owned pet; repeated, concurrent, unauthorized and already-completed attempts cannot spend again (1306.4231ms)
+✔ potion debit, potential and durable receipt roll back together; a lost COMMIT reply replays instead of charging twice (1100.2283ms)
+✔ magnet absorbs a full 24-drop batch without click throttling; restore/manual retries/finish cannot duplicate drops (2.0234ms)
+✔ magnet finish absorbs reached but unacknowledged kills; without magnet there is no automatic pickup (0.6292ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (32.1978ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (18.8607ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (6.5788ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (19.8742ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (24.0072ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (62.4707ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (8.5271ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (5.7564ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.704ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8359.0594

@@ -1,0 +1,582 @@
+{
+  "at": "2026-10-25T11:26:02.720Z",
+  "revision": 40,
+  "rawHash": "9da29ec689c2e9581217dc7787b28294fd1af2db1a232ca4cda9e7bebb749575",
+  "pet": {
+    "code": "PET-HEUKGU",
+    "name": "흑구",
+    "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-transparent-v2.png",
+    "battleSprite": "",
+    "enabled": false,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "ATTACK_PERCENT",
+        "percent": 50
+      }
+    ],
+    "notes": "2026-10-25 사용자 승인 및 라이브 반영 요청. 흑구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+    "liveEnabled": true,
+    "rewardBonuses": {
+      "dropPercent": 20,
+      "accountXpPercent": 50,
+      "coinPercent": 50
+    }
+  },
+  "petCount": 24,
+  "document": {
+    "version": 1,
+    "visibility": "LIVE",
+    "battleEnabled": true,
+    "acquisitionEnabled": false,
+    "pets": [
+      {
+        "code": "PET-GUSUDAENG",
+        "name": "토끼 구수댕",
+        "sourceArt": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+        "battleSprite": "",
+        "enabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "MAX_HP_PERCENT",
+            "percent": 20
+          }
+        ],
+        "notes": "",
+        "rewardBonuses": {
+          "dropPercent": 0,
+          "accountXpPercent": 5,
+          "coinPercent": 10
+        }
+      },
+      {
+        "code": "PET-BONGSOON",
+        "name": "봉순",
+        "sourceArt": "assets/ui/pets/gugugaga/pet-bongsoon-gugugaga-nametag-v2.png",
+        "battleSprite": "",
+        "enabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "SPEED_PERCENT",
+            "percent": 20
+          }
+        ],
+        "notes": "",
+        "rewardBonuses": {
+          "dropPercent": 0,
+          "accountXpPercent": 0,
+          "coinPercent": 5
+        }
+      },
+      {
+        "code": "PET-JOEUN",
+        "name": "조은",
+        "sourceArt": "assets/ui/pets/gugugaga/pet-joeun-gugugaga-nametag-v2.png",
+        "battleSprite": "",
+        "enabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 20
+          }
+        ],
+        "notes": "",
+        "rewardBonuses": {
+          "dropPercent": 0,
+          "accountXpPercent": 0,
+          "coinPercent": 5
+        }
+      },
+      {
+        "code": "PET-HEEYA",
+        "name": "희야",
+        "sourceArt": "assets/ui/pets/gugugaga/pet-heeya-pig-nametag-v3.png",
+        "battleSprite": "",
+        "enabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "START_SHIELD_PERCENT",
+            "percent": 20
+          }
+        ],
+        "notes": "",
+        "rewardBonuses": {
+          "dropPercent": 0,
+          "accountXpPercent": 0,
+          "coinPercent": 5
+        }
+      },
+      {
+        "code": "PET-DIIM",
+        "name": "디임",
+        "sourceArt": "assets/ui/pets/gugugaga/pet-diim-gugugaga-nametag-v2.png",
+        "battleSprite": "",
+        "enabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "DEFENSE_PERCENT",
+            "percent": 20
+          }
+        ],
+        "notes": "",
+        "rewardBonuses": {
+          "dropPercent": 0,
+          "accountXpPercent": 0,
+          "coinPercent": 5
+        }
+      },
+      {
+        "code": "PET-001",
+        "name": "새 펫",
+        "sourceArt": "",
+        "battleSprite": "",
+        "enabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 10
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "code": "PET-HEADSET-SHIBA",
+        "name": "헤드셋 시바견",
+        "sourceArt": "assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+        "battleSprite": "",
+        "enabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 8
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "code": "PET-BEANIE-CAT",
+        "name": "비니 헤드셋 고양이",
+        "sourceArt": "assets/ui/pets/gamer-duo-20261006-v1/pet-beanie-headset-cat-v1.png",
+        "battleSprite": "",
+        "enabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "DEFENSE_PERCENT",
+            "percent": 8
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "code": "PET-NAMUNEUL-BONGSOON",
+        "name": "나무늘봉순",
+        "sourceArt": "assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png",
+        "battleSprite": "assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 25
+          }
+        ],
+        "notes": "2026-10-09 사용자 승인 나무늘보 SD / 원본 보존",
+        "liveEnabled": true,
+        "rewardBonuses": {
+          "dropPercent": 0,
+          "accountXpPercent": 5,
+          "coinPercent": 10
+        }
+      },
+      {
+        "code": "PET-MALTESE-DIIM",
+        "name": "말티즈디임",
+        "sourceArt": "assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png",
+        "battleSprite": "assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 25
+          }
+        ],
+        "notes": "2026-10-13 사용자 라이브 반영 승인 말티즈디임 / 원본 보존",
+        "liveEnabled": true,
+        "rewardBonuses": {
+          "dropPercent": 0,
+          "accountXpPercent": 5,
+          "coinPercent": 10
+        }
+      },
+      {
+        "code": "PET-MOON-FOX",
+        "name": "월령 여우",
+        "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-moon-fox-v1.png",
+        "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-moon-fox-v1.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 10
+          }
+        ],
+        "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+        "liveEnabled": true
+      },
+      {
+        "code": "PET-FROST-WOLF",
+        "name": "빙관 늑대",
+        "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-frost-crown-wolf-v1.png",
+        "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-frost-crown-wolf-v1.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "START_SHIELD_PERCENT",
+            "percent": 10
+          }
+        ],
+        "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+        "liveEnabled": true
+      },
+      {
+        "code": "PET-GILDED-DRAGON",
+        "name": "흑금 영룡",
+        "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-gilded-spirit-dragon-v2.png",
+        "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-gilded-spirit-dragon-v2.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "SPEED_PERCENT",
+            "percent": 30
+          }
+        ],
+        "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+        "liveEnabled": true
+      },
+      {
+        "code": "PET-SOLAR-PHOENIX",
+        "name": "태양 봉황",
+        "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-solar-phoenix-v1.png",
+        "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-solar-phoenix-v1.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 10
+          }
+        ],
+        "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+        "liveEnabled": true
+      },
+      {
+        "code": "PET-VERDANT-STAG",
+        "name": "비취 성록",
+        "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-verdant-crown-stag-v1.png",
+        "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-verdant-crown-stag-v1.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "START_SHIELD_PERCENT",
+            "percent": 10
+          }
+        ],
+        "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+        "liveEnabled": true
+      },
+      {
+        "code": "PET-ASTRAL-PANTHER",
+        "name": "성운 마수",
+        "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-astral-panther-v1.png",
+        "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-astral-panther-v1.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "DEFENSE_PERCENT",
+            "percent": 10
+          }
+        ],
+        "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+        "liveEnabled": true
+      },
+      {
+        "code": "PET-WHITE-SPIRIT",
+        "name": "흰 정령",
+        "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-white-spirit-v1.png",
+        "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-white-spirit-v1.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 30
+          }
+        ],
+        "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+        "liveEnabled": true,
+        "rewardBonuses": {
+          "dropPercent": 5,
+          "accountXpPercent": 10,
+          "coinPercent": 15
+        }
+      },
+      {
+        "code": "PET-BULLDOG",
+        "name": "금방울 불독",
+        "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-bell-bulldog-v1.png",
+        "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-bell-bulldog-v1.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "MAX_HP_PERCENT",
+            "percent": 10
+          }
+        ],
+        "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+        "liveEnabled": true
+      },
+      {
+        "code": "PET-CRIMSON-DEMON",
+        "name": "붉은 날개 마신",
+        "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-crimson-wing-demon-v1.png",
+        "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-crimson-wing-demon-v1.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 35
+          }
+        ],
+        "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+        "liveEnabled": true,
+        "rewardBonuses": {
+          "dropPercent": 10,
+          "accountXpPercent": 15,
+          "coinPercent": 15
+        }
+      },
+      {
+        "code": "PET-BAZZI-BONGSOON",
+        "name": "배찌 나무늘봉순",
+        "sourceArt": "assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png",
+        "battleSprite": "assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 45
+          }
+        ],
+        "notes": "2026-10-16 사용자 배찌 나무늘봉순 별도 펫 라이브 반영 / V3 원본 보존",
+        "liveEnabled": true,
+        "rewardBonuses": {
+          "dropPercent": 10,
+          "accountXpPercent": 35,
+          "coinPercent": 50
+        }
+      },
+      {
+        "code": "PET-PUMPKIN-BONGSOON",
+        "name": "호박봉순",
+        "sourceArt": "assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png",
+        "battleSprite": "",
+        "enabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 30
+          }
+        ],
+        "notes": "2026-10-23 사용자 요청으로 펫 관리 목록 등록. 이름·정지 원화 승인본. 버프·획득·실전 활성화 미확정.",
+        "liveEnabled": true,
+        "rewardBonuses": {
+          "dropPercent": 10,
+          "accountXpPercent": 15,
+          "coinPercent": 15
+        }
+      },
+      {
+        "code": "PET-PUMPKIN-JOEUN",
+        "name": "호박조은",
+        "sourceArt": "assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png",
+        "battleSprite": "",
+        "enabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 30
+          }
+        ],
+        "notes": "2026-10-23 사용자 요청으로 펫 관리 목록 등록. 이름·정지 원화 승인본. 버프·획득·실전 활성화 미확정.",
+        "liveEnabled": true,
+        "rewardBonuses": {
+          "dropPercent": 10,
+          "accountXpPercent": 15,
+          "coinPercent": 15
+        }
+      },
+      {
+        "code": "PET-DAENGSORYONG",
+        "name": "댕소룡",
+        "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png",
+        "battleSprite": "",
+        "enabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 30
+          }
+        ],
+        "notes": "2026-10-24 사용자 승인 및 라이브 반영 요청. 댕소룡 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+        "liveEnabled": false,
+        "rewardBonuses": {
+          "dropPercent": 10,
+          "accountXpPercent": 15,
+          "coinPercent": 15
+        }
+      },
+      {
+        "code": "PET-HEUKGU",
+        "name": "흑구",
+        "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-transparent-v2.png",
+        "battleSprite": "",
+        "enabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 50
+          }
+        ],
+        "notes": "2026-10-25 사용자 승인 및 라이브 반영 요청. 흑구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+        "liveEnabled": true,
+        "rewardBonuses": {
+          "dropPercent": 20,
+          "accountXpPercent": 50,
+          "coinPercent": 50
+        }
+      }
+    ]
+  },
+  "settingsHash": "91e135136d5013be5159a5ee4d146c6fdbe6e4ebf5dca96c6885963be57f7e5a"
+}

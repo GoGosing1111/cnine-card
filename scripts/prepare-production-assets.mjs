@@ -143,6 +143,9 @@ operationAuditOnly.add('docs/pet-equipment-gugugaga-20261002.md');
 // The user's transparent correction replaces delivery of the white-background
 // original; retain that exact original in Git as provenance.
 operationAuditOnly.add('assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png');
+// Keep the previous transparent portrait available to battles already in progress.
+// An implementation note remains in Git instead of taking the new portrait's Pages slot.
+operationAuditOnly.add('docs/pet-live-magnet-20261006.md');
 // CLI-only PostgreSQL loading/verification commands stay in Git. Browsers never
 // import these Python files; their two Pages slots hold the faction standings UI.
 const postgresCommandOnly=new Set(['scripts/postgres-load.py','scripts/postgres-verify.py']);

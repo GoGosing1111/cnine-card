@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_ART_APPROVED",
+  "approvalDate": "2026-10-25",
+  "userApproval": "ㅇㅇ 시작해서 반영바로해",
+  "userRequest": "흑구만 캐릭터 크기 키워야하나 얼굴 이목구비가 너무안보이네 머리를 키울까",
+  "authorization": "사용자가 머리 확대·흑구 전용 전투 표시 확대 작업과 즉시 운영 반영을 승인. 수정본의 별도 사후 시각 승인을 받은 것으로 기록하지 않는다.",
+  "scope": {
+    "headScaleTarget": 1.35,
+    "battleDisplayFactor": 1.15,
+    "transparentBackground": true,
+    "otherPetsChanged": false,
+    "accountGrantsPerformed": false,
+    "battleBuffPolicyApproved": false,
+    "acquisitionApproved": false,
+    "animationApproved": false
+  },
+  "previousApproval": "docs/qa/pet-heukgu-live-20261025/approval-20261025.json",
+  "previousApprovedAsset": "assets/ui/pets/heukgu-20261025/pet-heukgu-transparent-v2.png",
+  "assets": [
+    {
+      "code": "PET-HEUKGU",
+      "name": "흑구",
+      "approvedAsset": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+      "sha256": "5d7e5e8b1fa4c22fb6d37d8ea78e0b7c3dfbb5d763f6f71e4c17077dc0843d0a",
+      "width": 1182,
+      "height": 1331,
+      "mode": "RGBA",
+      "bytes": 1321578,
+      "originalGeneratedFile": "C:/Users/User/.codex/generated_images/01a172a0-71a0-7d40-a5ca-76b49d420a0e/exec-35d48cf0-3e6d-4178-9c9f-984bbad2daec.png",
+      "prompt": "docs/qa/pet-heukgu-large-head-20261025/prompt-v3.txt"
+    }
+  ],
+  "preservation": {
+    "byteForByte": true,
+    "postProcessing": "none",
+    "priorAssetsRetained": true
+  },
+  "alpha": {
+    "transparent": 845676,
+    "partial": 726719,
+    "opaque": 847
+  }
+}

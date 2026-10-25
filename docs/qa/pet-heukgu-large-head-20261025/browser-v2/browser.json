@@ -1,0 +1,487 @@
+{
+  "status": "PASSED",
+  "assetSource": "local",
+  "reports": [
+    {
+      "width": 1440,
+      "mode": "PVE",
+      "stalePairReplaced": true,
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3",
+      "suitActive": true,
+      "petCount": 1,
+      "pets": [
+        {
+          "code": "PET-HEUKGU",
+          "source": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+          "layoutSize": 126,
+          "displaySize": 115.92,
+          "haloScale": 0.8,
+          "textureWidth": 1182,
+          "textureHeight": 1331,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 275,
+            "y": 416.0000000000001
+          },
+          "bounds": {
+            "minX": 201.17554620586026,
+            "minY": 362.37200000000007,
+            "maxX": 293.82445379413974,
+            "maxY": 466.7000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 247.5,
+              "ty": 477.5000000000001
+            }
+          },
+          "label": {
+            "minX": 233.19000549316405,
+            "minY": 477.5000000000001,
+            "maxX": 261.80999450683595,
+            "maxY": 500.0000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 247.5,
+              "ty": 477.5000000000001
+            }
+          }
+        }
+      ],
+      "canvasVisible": true
+    },
+    {
+      "width": 1440,
+      "mode": "PVP",
+      "stalePairReplaced": true,
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3",
+      "suitActive": false,
+      "petCount": 2,
+      "pets": [
+        {
+          "code": "PET-HEUKGU",
+          "source": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+          "layoutSize": 126,
+          "displaySize": 115.92,
+          "haloScale": 0.8,
+          "textureWidth": 1182,
+          "textureHeight": 1331,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 380,
+            "y": 660.0000000000001
+          },
+          "bounds": {
+            "minX": 295.67554620586026,
+            "minY": 581.9720000000001,
+            "maxX": 388.32445379413974,
+            "maxY": 686.3000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 1098,
+              "ty": 697.1000000000001
+            }
+          },
+          "label": {
+            "minX": 327.69000549316405,
+            "minY": 697.1000000000001,
+            "maxX": 356.30999450683595,
+            "maxY": 719.6000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 1098,
+              "ty": 697.1000000000001
+            }
+          }
+        },
+        {
+          "code": "PET-BONGSOON",
+          "source": "assets/ui/pets/gugugaga/pet-bongsoon-gugugaga-nametag-v2.png",
+          "layoutSize": 126,
+          "displaySize": 100.80000000000001,
+          "haloScale": 0.8,
+          "textureWidth": 1254,
+          "textureHeight": 1254,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 1220,
+            "y": 660.0000000000001
+          },
+          "bounds": {
+            "minX": 1052.64,
+            "minY": 595.58,
+            "maxX": 1143.36,
+            "maxY": 686.3000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 1098,
+              "ty": 697.1000000000001
+            }
+          },
+          "label": {
+            "minX": 1083.690005493164,
+            "minY": 697.1000000000001,
+            "maxX": 1112.309994506836,
+            "maxY": 719.6000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 1098,
+              "ty": 697.1000000000001
+            }
+          }
+        }
+      ],
+      "canvasVisible": true
+    },
+    {
+      "width": 390,
+      "mode": "PVE",
+      "stalePairReplaced": true,
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3",
+      "suitActive": true,
+      "petCount": 1,
+      "pets": [
+        {
+          "code": "PET-HEUKGU",
+          "source": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+          "layoutSize": 129.60000000000002,
+          "displaySize": 119.23200000000001,
+          "haloScale": 0.8228571428571431,
+          "textureWidth": 1182,
+          "textureHeight": 1331,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 251.40983606557376,
+            "y": 736.0655737704918
+          },
+          "bounds": {
+            "minX": 67.25846551465064,
+            "minY": 208.0213777777778,
+            "maxX": 103.14153448534937,
+            "maxY": 248.42777777777778,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 85.2,
+              "ty": 252.49444444444447
+            }
+          },
+          "label": {
+            "minX": 74.40503718058268,
+            "minY": 252.49444444444447,
+            "maxX": 95.99496281941732,
+            "maxY": 268.4222222222223,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 85.2,
+              "ty": 252.49444444444447
+            }
+          }
+        }
+      ],
+      "canvasVisible": true
+    },
+    {
+      "width": 390,
+      "mode": "PVP",
+      "stalePairReplaced": true,
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3",
+      "suitActive": false,
+      "petCount": 2,
+      "pets": [
+        {
+          "code": "PET-HEUKGU",
+          "source": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+          "layoutSize": 178.5089974293059,
+          "displaySize": 164.22827763496142,
+          "haloScale": 1.1333904598686089,
+          "textureWidth": 1182,
+          "textureHeight": 1331,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 297.5938303341902,
+            "y": 1447.7634961439587
+          },
+          "bounds": {
+            "minX": 70.48179103754151,
+            "minY": 401.7162903225806,
+            "maxX": 116.23433799471655,
+            "maxY": 453.2362903225806,
+            "matrix": {
+              "array": null,
+              "a": 0.31370967741935485,
+              "b": 0,
+              "c": 0,
+              "d": 0.31370967741935485,
+              "tx": 296.64193548387095,
+              "ty": 457.00080645161285
+            }
+          },
+          "label": {
+            "minX": 82.61188054238596,
+            "minY": 457.00080645161285,
+            "maxX": 104.1042484898721,
+            "maxY": 472.6862903225806,
+            "matrix": {
+              "array": null,
+              "a": 0.31370967741935485,
+              "b": 0,
+              "c": 0,
+              "d": 0.31370967741935485,
+              "tx": 296.64193548387095,
+              "ty": 457.00080645161285
+            }
+          }
+        },
+        {
+          "code": "PET-BONGSOON",
+          "source": "assets/ui/pets/gugugaga/pet-bongsoon-gugugaga-nametag-v2.png",
+          "layoutSize": 178.5089974293059,
+          "displaySize": 142.80719794344472,
+          "haloScale": 1.1333904598686089,
+          "textureWidth": 1254,
+          "textureHeight": 1254,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 945.5938303341902,
+            "y": 1447.7634961439587
+          },
+          "bounds": {
+            "minX": 274.241935483871,
+            "minY": 408.4362903225806,
+            "maxX": 319.04193548387093,
+            "maxY": 453.2362903225806,
+            "matrix": {
+              "array": null,
+              "a": 0.31370967741935485,
+              "b": 0,
+              "c": 0,
+              "d": 0.31370967741935485,
+              "tx": 296.64193548387095,
+              "ty": 457.00080645161285
+            }
+          },
+          "label": {
+            "minX": 285.89575151012787,
+            "minY": 457.00080645161285,
+            "maxX": 307.38811945761404,
+            "maxY": 472.6862903225806,
+            "matrix": {
+              "array": null,
+              "a": 0.31370967741935485,
+              "b": 0,
+              "c": 0,
+              "d": 0.31370967741935485,
+              "tx": 296.64193548387095,
+              "ty": 457.00080645161285
+            }
+          }
+        }
+      ],
+      "canvasVisible": true
+    },
+    {
+      "width": 320,
+      "mode": "PVE",
+      "stalePairReplaced": true,
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3",
+      "suitActive": true,
+      "petCount": 1,
+      "pets": [
+        {
+          "code": "PET-HEUKGU",
+          "source": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+          "layoutSize": 129.60000000000002,
+          "displaySize": 119.23200000000001,
+          "haloScale": 0.8228571428571431,
+          "textureWidth": 1182,
+          "textureHeight": 1331,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 259.7837837837838,
+            "y": 950.6081081081081
+          },
+          "bounds": {
+            "minX": 56.68990653643877,
+            "minY": 227.03641481481486,
+            "maxX": 85.71009346356124,
+            "maxY": 259.7148148148149,
+            "matrix": {
+              "array": null,
+              "a": 0.2740740740740741,
+              "b": 0,
+              "c": 0,
+              "d": 0.2740740740740741,
+              "tx": 71.2,
+              "ty": 263.0037037037037
+            }
+          },
+          "label": {
+            "minX": 60.53314627188224,
+            "minY": 263.0037037037037,
+            "maxX": 81.86685372811777,
+            "maxY": 278.6259259259259,
+            "matrix": {
+              "array": null,
+              "a": 0.2740740740740741,
+              "b": 0,
+              "c": 0,
+              "d": 0.2740740740740741,
+              "tx": 71.2,
+              "ty": 263.0037037037037
+            }
+          }
+        }
+      ],
+      "canvasVisible": true
+    },
+    {
+      "width": 320,
+      "mode": "PVP",
+      "stalePairReplaced": true,
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3",
+      "suitActive": false,
+      "petCount": 2,
+      "pets": [
+        {
+          "code": "PET-HEUKGU",
+          "source": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+          "layoutSize": 204.32432432432432,
+          "displaySize": 187.97837837837838,
+          "haloScale": 1.2972972972972974,
+          "textureWidth": 1182,
+          "textureHeight": 1331,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 259.7837837837838,
+            "y": 1598.0405405405406
+          },
+          "bounds": {
+            "minX": 48.32372652141247,
+            "minY": 385.63925925925935,
+            "maxX": 94.07627347858754,
+            "maxY": 437.15925925925933,
+            "matrix": {
+              "array": null,
+              "a": 0.2740740740740741,
+              "b": 0,
+              "c": 0,
+              "d": 0.2740740740740741,
+              "tx": 248.79999999999995,
+              "ty": 440.44814814814816
+            }
+          },
+          "label": {
+            "minX": 60.53314627188224,
+            "minY": 440.44814814814816,
+            "maxX": 81.86685372811777,
+            "maxY": 456.07037037037037,
+            "matrix": {
+              "array": null,
+              "a": 0.2740740740740741,
+              "b": 0,
+              "c": 0,
+              "d": 0.2740740740740741,
+              "tx": 248.79999999999995,
+              "ty": 440.44814814814816
+            }
+          }
+        },
+        {
+          "code": "PET-BONGSOON",
+          "source": "assets/ui/pets/gugugaga/pet-bongsoon-gugugaga-nametag-v2.png",
+          "layoutSize": 204.32432432432432,
+          "displaySize": 163.45945945945948,
+          "haloScale": 1.2972972972972974,
+          "textureWidth": 1254,
+          "textureHeight": 1254,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 907.7837837837836,
+            "y": 1598.0405405405406
+          },
+          "bounds": {
+            "minX": 226.39999999999995,
+            "minY": 392.3592592592593,
+            "maxX": 271.19999999999993,
+            "maxY": 437.15925925925933,
+            "matrix": {
+              "array": null,
+              "a": 0.2740740740740741,
+              "b": 0,
+              "c": 0,
+              "d": 0.2740740740740741,
+              "tx": 248.79999999999995,
+              "ty": 440.44814814814816
+            }
+          },
+          "label": {
+            "minX": 238.1331462718822,
+            "minY": 440.44814814814816,
+            "maxX": 259.4668537281177,
+            "maxY": 456.07037037037037,
+            "matrix": {
+              "array": null,
+              "a": 0.2740740740740741,
+              "b": 0,
+              "c": 0,
+              "d": 0.2740740740740741,
+              "tx": 248.79999999999995,
+              "ty": 440.44814814814816
+            }
+          }
+        }
+      ],
+      "canvasVisible": true
+    }
+  ],
+  "productionTransactions": 0
+}

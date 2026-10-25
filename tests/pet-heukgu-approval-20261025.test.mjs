@@ -10,8 +10,8 @@ import {ensurePetPotentialItem} from '../functions/_pet_potential.js';
 import {additions,hash} from '../scripts/ops/pet-heukgu-registration-20261025.mjs';
 
 test('Heukgu catalog uses the exact approved image and retains approval boundaries',async()=>{
- const approval=JSON.parse(await readFile(new URL('../docs/qa/pet-heukgu-live-20261025/approval-20261025.json',import.meta.url),'utf8'));
- assert.equal(approval.userApproval,'흑구로해서 펫 라이브 반영해');
+ const approval=JSON.parse(await readFile(new URL('../docs/qa/pet-heukgu-large-head-20261025/approval-20261025.json',import.meta.url),'utf8'));
+ assert.equal(approval.userApproval,'ㅇㅇ 시작해서 반영바로해');
  assert.equal(approval.status,'SOURCE_ART_APPROVED');
  assert.equal(approval.assets.length,1);
  const record=approval.assets[0],matches=PET_ART_CATALOG.filter(p=>p.code==='PET-HEUKGU');
@@ -19,7 +19,7 @@ test('Heukgu catalog uses the exact approved image and retains approval boundari
  const art=matches[0];
  assert.equal(art.name,'흑구');assert.equal(art.sourceArt,record.approvedAsset);
  assert.equal(art.artStatus,'SOURCE_ART_APPROVED');assert.equal(art.sha256,record.sha256);
- assert.equal(record.sha256,'ddc229de9ab9703e016e8c6d1e864bd0c40a220f56751c621e3f0e3d202fae44');
+ assert.equal(record.sha256,'5d7e5e8b1fa4c22fb6d37d8ea78e0b7c3dfbb5d763f6f71e4c17077dc0843d0a');
  const bytes=await readFile(new URL('../'+art.sourceArt,import.meta.url));
  const {data:rgba,info}=await sharp(bytes).raw().toBuffer({resolveWithObject:true});
  assert.equal(info.channels,4,'Transparent PNG must retain actual alpha');
@@ -30,7 +30,7 @@ test('Heukgu catalog uses the exact approved image and retains approval boundari
  for(const [x,y]of [[0,0],[info.width-1,0],[0,info.height-1],[info.width-1,info.height-1]])assert.equal(rgba[(y*info.width+x)*4+3],0);
  assert.equal(createHash('sha256').update(bytes).digest('hex'),record.sha256);
  assert.equal(hash(bytes),record.sha256,'Production preflight must hash image bytes directly');
- assert.equal(bytes.length,record.bytes);assert.equal(bytes.readUInt32BE(16),1205);assert.equal(bytes.readUInt32BE(20),1305);assert.equal(bytes[25],6);
+ assert.equal(bytes.length,record.bytes);assert.equal(bytes.readUInt32BE(16),1182);assert.equal(bytes.readUInt32BE(20),1331);assert.equal(bytes[25],6);
  for(const key of ['animationApproved','acquisitionApproved','battleBuffPolicyApproved','accountGrantsPerformed'])assert.equal(approval.scope[key],false);
 });
 
