@@ -1,0 +1,47 @@
+{
+  "operationKey": "ops:namsudaeng-mangsuni-helios-exempt-grant:20261025:v1",
+  "authorization": [
+    "남수댕 계정에 헬리오스 예외로 지급해",
+    "망순이ෆ 포함 지급"
+  ],
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "totalQuantity": 2,
+  "recipientCount": 2,
+  "recipients": [
+    {
+      "id": "183",
+      "nickname": "남수댕",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "bb9087b10d5809ca922f6c3c40f3ef42382b8e045107d00ac756451a07f035a5"
+    },
+    {
+      "id": "4628",
+      "nickname": "망순이ෆ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "beb4952f25d842ceed20ff531cf4d51f7c10f9da0f0cbda7b384e25635eafa75"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "183",
+      "nickname": "남수댕",
+      "code": "V-999",
+      "name": "헬리오스",
+      "rank": "SSS",
+      "quantity": 1
+    },
+    {
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "code": "V-999",
+      "name": "헬리오스",
+      "rank": "SSS",
+      "quantity": 1
+    }
+  ],
+  "context": "Exact nickname 남수댕 ID 183; separate 남수댕ㅗ ID 5950 excluded. 망순이ෆ ID 4628 matches the supplied PLAYDK profile. One permanent copy each, preserving sold-out stock and existing loadouts."
+}
