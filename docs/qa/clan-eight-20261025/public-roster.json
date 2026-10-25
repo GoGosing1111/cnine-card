@@ -1,0 +1,993 @@
+{
+  "checkedAt": "2026-10-25T06:15:41.186Z",
+  "effectiveAt": "2026-10-25T06:15:23.778Z",
+  "memberCount": 129,
+  "clanCount": 8,
+  "capacity": 200,
+  "moved": 111,
+  "clans": [
+    {
+      "id": 1,
+      "name": "DK",
+      "markKey": "DK",
+      "markImage": "/assets/ui/clan/marks/dk-clan-mark-v1.webp",
+      "color": "#2f7cff",
+      "accentColor": "#d8e8ff",
+      "members": [
+        {
+          "nickname": "블랙캐슬",
+          "slot": 1,
+          "elder": true,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "조은",
+          "slot": 2,
+          "elder": true,
+          "previousClan": "DK",
+          "moved": false
+        },
+        {
+          "nickname": "zkzk9999",
+          "slot": 3,
+          "elder": true,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "응맨",
+          "slot": 4,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": false
+        },
+        {
+          "nickname": "찬호",
+          "slot": 5,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "전게씹선미아웃",
+          "slot": 6,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": false
+        },
+        {
+          "nickname": "#크레파스",
+          "slot": 7,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "현하루",
+          "slot": 8,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": false
+        },
+        {
+          "nickname": "[C9]가시",
+          "slot": 9,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "쑤댕",
+          "slot": 10,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "#유나랜드",
+          "slot": 11,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": false
+        },
+        {
+          "nickname": "연보라",
+          "slot": 12,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "심심이",
+          "slot": 13,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "족알못",
+          "slot": 14,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "차단하다",
+          "slot": 15,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": false
+        },
+        {
+          "nickname": "지엘라",
+          "slot": 16,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "꼬망이자동차",
+          "slot": 17,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "삼성",
+      "markKey": "SAMSUNG",
+      "markImage": "/assets/ui/clan/marks/samsung-clan-mark-v1.webp",
+      "color": "#3c74c9",
+      "accentColor": "#e7f2ff",
+      "members": [
+        {
+          "nickname": "씨나인택갓",
+          "slot": 1,
+          "elder": true,
+          "previousClan": "삼성",
+          "moved": false
+        },
+        {
+          "nickname": "박세라-ㅂ-",
+          "slot": 2,
+          "elder": true,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "[C9]족쪽이",
+          "slot": 3,
+          "elder": true,
+          "previousClan": "삼성",
+          "moved": false
+        },
+        {
+          "nickname": "딤키우기",
+          "slot": 4,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "우회하세요",
+          "slot": 5,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": false
+        },
+        {
+          "nickname": "레가파",
+          "slot": 6,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "스루형2↑",
+          "slot": 7,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "혜루",
+          "slot": 8,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "슈라",
+          "slot": 9,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": false
+        },
+        {
+          "nickname": "장씨아저씨",
+          "slot": 10,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "숭구릭",
+          "slot": 11,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "파르르구",
+          "slot": 12,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "무버지",
+          "slot": 13,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "리이렐",
+          "slot": 14,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "제우스",
+          "slot": 15,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": false
+        },
+        {
+          "nickname": "스갤가축",
+          "slot": 16,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "T1",
+      "markKey": "T1",
+      "markImage": "/assets/ui/clan/marks/t1-clan-mark-v1.webp",
+      "color": "#d32f4a",
+      "accentColor": "#f6d37a",
+      "members": [
+        {
+          "nickname": "여우",
+          "slot": 1,
+          "elder": true,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "비_니",
+          "slot": 2,
+          "elder": true,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "망순이ෆ",
+          "slot": 3,
+          "elder": true,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "학벌",
+          "slot": 4,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "대저동토마토",
+          "slot": 5,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "Moo날두",
+          "slot": 6,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "랭비!",
+          "slot": 7,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": false
+        },
+        {
+          "nickname": "모래",
+          "slot": 8,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": false
+        },
+        {
+          "nickname": "오승환이다",
+          "slot": 9,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "택신",
+          "slot": 10,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "음주",
+          "slot": 11,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "다르",
+          "slot": 12,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "풍으로말해요",
+          "slot": 13,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "꺽꿀",
+          "slot": 14,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "가드v",
+          "slot": 15,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": false
+        },
+        {
+          "nickname": "Balance",
+          "slot": 16,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "한화",
+      "markKey": "HANWHA",
+      "markImage": "/assets/ui/clan/marks/hanwha-clan-mark-v1.webp",
+      "color": "#f1781f",
+      "accentColor": "#ffe3a1",
+      "members": [
+        {
+          "nickname": "쁴로리",
+          "slot": 1,
+          "elder": true,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "ε연두з",
+          "slot": 2,
+          "elder": true,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "라피e",
+          "slot": 3,
+          "elder": true,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "비니",
+          "slot": 4,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": false
+        },
+        {
+          "nickname": "지아영",
+          "slot": 5,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "유나이은",
+          "slot": 6,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "진땅콩_",
+          "slot": 7,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "단정한밤",
+          "slot": 8,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "레드클라우드",
+          "slot": 9,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "정원이",
+          "slot": 10,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "좋은하루",
+          "slot": 11,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "세라네꼬라지",
+          "slot": 12,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "[C9]진",
+          "slot": 13,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": false
+        },
+        {
+          "nickname": "하두링",
+          "slot": 14,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "hokc1",
+          "slot": 15,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "리버스콜",
+          "slot": 16,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "LG",
+      "markKey": "LG",
+      "markImage": "/assets/ui/clan/marks/lg-clan-mark-v1.webp",
+      "color": "#d64192",
+      "accentColor": "#f4dbea",
+      "members": [
+        {
+          "nickname": "비쥬얼깡패",
+          "slot": 1,
+          "elder": true,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "옹가망함1",
+          "slot": 2,
+          "elder": true,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "구와함",
+          "slot": 3,
+          "elder": true,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "혜정",
+          "slot": 4,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": false
+        },
+        {
+          "nickname": "족구조아",
+          "slot": 5,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "박사",
+          "slot": 6,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "음주플레이어",
+          "slot": 7,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "뚱초환",
+          "slot": 8,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "햬카세",
+          "slot": 9,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "토닭토닭",
+          "slot": 10,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "불법사행산업신고센터",
+          "slot": 11,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "폭군#",
+          "slot": 12,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "싸이타마",
+          "slot": 13,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "여봉상",
+          "slot": 14,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "삐로로롱",
+          "slot": 15,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "아까르씨",
+          "slot": 16,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": true
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "롯데",
+      "markKey": "LOTTE",
+      "markImage": "/assets/ui/clan/marks/lotte-clan-mark-v1.webp",
+      "color": "#7b2445",
+      "accentColor": "#f0d28e",
+      "members": [
+        {
+          "nickname": "나무늘봉순",
+          "slot": 1,
+          "elder": true,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "족단",
+          "slot": 2,
+          "elder": true,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "족게이다",
+          "slot": 3,
+          "elder": true,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "Mild7",
+          "slot": 4,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "라페스타다",
+          "slot": 5,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "제롬",
+          "slot": 6,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "ShowMaker",
+          "slot": 7,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "펜타",
+          "slot": 8,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "깜찍소녀",
+          "slot": 9,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "오일바른가지",
+          "slot": 10,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "에비런",
+          "slot": 11,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "랄네미탱탱",
+          "slot": 12,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "카르푸",
+          "slot": 13,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "하이다미♡",
+          "slot": 14,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": false
+        },
+        {
+          "nickname": "빛빛",
+          "slot": 15,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "아프저리가라",
+          "slot": 16,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "FM",
+      "markKey": "FM",
+      "markImage": "/assets/ui/clan/marks/fm-clan-mark-v1.webp",
+      "color": "#1dad72",
+      "accentColor": "#e9d07a",
+      "members": [
+        {
+          "nickname": "0수표",
+          "slot": 1,
+          "elder": true,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "커피먹는철구",
+          "slot": 2,
+          "elder": true,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "더듬이구",
+          "slot": 3,
+          "elder": true,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "굳건창수",
+          "slot": 4,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "치타구",
+          "slot": 5,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "˚쟁이。",
+          "slot": 6,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "대지",
+          "slot": 7,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "쁠리의무사시",
+          "slot": 8,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "모아가려아가",
+          "slot": 9,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "게임닉네임",
+          "slot": 10,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "암살자..",
+          "slot": 11,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "찡찡ෆ",
+          "slot": 12,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "Bazzi3",
+          "slot": 13,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "엑셀괴물",
+          "slot": 14,
+          "elder": false,
+          "previousClan": "DK",
+          "moved": true
+        },
+        {
+          "nickname": "간장왕대게찜",
+          "slot": 15,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "깅더듬",
+          "slot": 16,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "DC",
+      "markKey": "DC",
+      "markImage": "/assets/ui/clan/marks/dc-clan-mark-v1.webp",
+      "color": "#7b4ae2",
+      "accentColor": "#62d9ff",
+      "members": [
+        {
+          "nickname": "음순이",
+          "slot": 1,
+          "elder": true,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "란x2",
+          "slot": 2,
+          "elder": true,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "Veil",
+          "slot": 3,
+          "elder": true,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "시소둥이",
+          "slot": 4,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "공단",
+          "slot": 5,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "의지",
+          "slot": 6,
+          "elder": false,
+          "previousClan": "LG",
+          "moved": true
+        },
+        {
+          "nickname": "고라니ㅇ",
+          "slot": 7,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "불곰덫",
+          "slot": 8,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "센텀신사",
+          "slot": 9,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "핫시",
+          "slot": 10,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "타몽",
+          "slot": 11,
+          "elder": false,
+          "previousClan": "T1",
+          "moved": true
+        },
+        {
+          "nickname": "베베킹",
+          "slot": 12,
+          "elder": false,
+          "previousClan": "롯데",
+          "moved": true
+        },
+        {
+          "nickname": "x수댕",
+          "slot": 13,
+          "elder": false,
+          "previousClan": "한화",
+          "moved": true
+        },
+        {
+          "nickname": "진땅콩간바레",
+          "slot": 14,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "추종",
+          "slot": 15,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        },
+        {
+          "nickname": "짝밤",
+          "slot": 16,
+          "elder": false,
+          "previousClan": "삼성",
+          "moved": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "at": "2026-10-25T06:15:38.099Z",
+  "pages": {
+    "id": "a00f17e8-1845-4f41-9769-bb7397af175e",
+    "url": "https://a00f17e8.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e23b076c5338d137ed34270ea865d5c7e3fb25ef"
+  },
+  "publicFiles": [
+    {
+      "file": "admin/index.html",
+      "sha256": "aab7bdc6b4c6a7265335c64b4a6a7fd9d2f8d042fe2db98662f3797e7e832444"
+    },
+    {
+      "file": "admin/organization-admin-v1.mjs",
+      "sha256": "b4e99b376d146d4d9ab5e4950141b018b1eecacf494173c16a7b520a821da738"
+    },
+    {
+      "file": "index.html",
+      "sha256": "f2328d1f6c409921302470335ca7e3b0f04ef3079dc1f047a717bab8de37fb6c"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "ea2bbd40130de939dc163dd4e8fd87a5ce561572a5f99c7e381dacdf5dc32aa7"
+    },
+    {
+      "file": "js/organization-admission-v1.mjs",
+      "sha256": "9021cbfff0097ae6f167df6a0b96433a644d6282f6c46a6ca05481aae3d62f1f"
+    },
+    {
+      "file": "js/organization-api-v1.mjs",
+      "sha256": "b533bae60620dad5d2263ec6aa958d3b200d79ad922b6910185bb136b4efb4dc"
+    },
+    {
+      "file": "js/organization-dashboard-v1.mjs",
+      "sha256": "f39c7cfd314348ed54c6b7137e649dc8a066a04c5f7607c2917507231803a063"
+    },
+    {
+      "file": "js/organization-faction-entry-v1.mjs",
+      "sha256": "a4f89eb87b17ddc7c557685dde4eb2bd235bb1a1a8eac1bdfb4d22d7dcd4b20c"
+    },
+    {
+      "file": "js/organization-faction-v1.mjs",
+      "sha256": "160088917a6fd8f1266c21bbfa7f250c1d46e048e3d8c022b0fff213e0287881"
+    },
+    {
+      "file": "js/organization-faction-window-v1.mjs",
+      "sha256": "ac6daf9c6336c5e848b88d3f266f9cba877d70b1552b9fbbfe8d0d32b94c59c6"
+    },
+    {
+      "file": "js/organization-headquarters-v1.mjs",
+      "sha256": "9e5bb590f141eede544d8ff382f0b62eb77732207048b085c7ef2ac6c455e29e"
+    },
+    {
+      "file": "js/organization-hunts-v1.mjs",
+      "sha256": "f36296e754c4babf8b837b8c03f9076c0b2200b3529cc5914cd9b142d5bc53d9"
+    },
+    {
+      "file": "js/organization-identity-v1.mjs",
+      "sha256": "6cbdef43ebba6e6e46573ef866b10cb12526068a99c8c32eb5610d312c66a6dc"
+    },
+    {
+      "file": "js/organization-join-v1.mjs",
+      "sha256": "25700c0321e0cc5ab430df481bb2ae10319c10cf07c653bceb716cfd921b5146"
+    },
+    {
+      "file": "js/organization-preparation-v1.js",
+      "sha256": "2a3fdbb7f5e5616b25c5aba24a7eb521dadc10d275e4973108bf505b9e1e3aa8"
+    },
+    {
+      "file": "js/organization-public-v1.mjs",
+      "sha256": "ee57efca2f799413c4491014d01b41b3c2411c776a13aa050f382b91f480dfc4"
+    },
+    {
+      "file": "js/organization-rankings-v1.mjs",
+      "sha256": "1a2925b2daa8f071b2d6518bd97e557c5eaf1bce016337475c27974150557b8e"
+    },
+    {
+      "file": "js/organization-start-notice-20261021.mjs",
+      "sha256": "8eb927353618dade90d44edcf87b4770e90663f742a293f60c1ce525adf39cb2"
+    },
+    {
+      "file": "js/organization-system-v1.mjs",
+      "sha256": "254a278ccf9f722e01f8054cc98587ca47627d2077653f70bd7ef5d64459f363"
+    },
+    {
+      "file": "organization/faction/index.html",
+      "sha256": "03882aa360d7cd8a258df3f9736a7071b497a76c9ae6b6a765c846db72f925cf"
+    },
+    {
+      "file": "organization/index.html",
+      "sha256": "dfe3d40cba3ca8775befc4c4df98fb2af70175647fd883fe9239629130fe5cc6"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "90880c969d425c324e43d43faeecb23b540d0fb7372125b0208e675aec157923"
+    },
+    {
+      "file": "shared/organization-additional-v1.mjs",
+      "sha256": "a85166b467b88fb4f19ae963f3b6074e9eb4ab4d5e8f3e1d86adb7dcd3157759"
+    },
+    {
+      "file": "shared/organization-faction-v1.mjs",
+      "sha256": "3c27f6faa40a3b2ded288a55050135f6354804e738f8a48a8346a063797c09d6"
+    },
+    {
+      "file": "shared/organization-headquarters-v1.mjs",
+      "sha256": "0cd7750a1d38e6fcbce44e0dd113f1bc8039ddd2acdc3e5b6341f5a4c99a07da"
+    },
+    {
+      "file": "shared/organization-identity-v1.mjs",
+      "sha256": "419b2da157c2351c208b81b44cced80802b000c0128de044aafb45b8ec150adf"
+    },
+    {
+      "file": "shared/organization-interview-v1.mjs",
+      "sha256": "df2e54ffb1b251a6a7ac8040e3dd0098f629c20c4b5e527b82de6a7bfe74fad0"
+    },
+    {
+      "file": "shared/organization-preparation-v1.mjs",
+      "sha256": "2181050a14c34252810adc788b02a114a10ee7a1b2e3060d04aa729c1ad3e866"
+    },
+    {
+      "file": "shared/organization-public-v1.mjs",
+      "sha256": "0026d03ff7fd79a4a534364b32d7bfa84f0deb0b81bb7dae8a25da75f27d6ccb"
+    },
+    {
+      "file": "shared/organization-system-v1.mjs",
+      "sha256": "5fd5a13cf3b9174929114d4da367bcd00b2c11560050305efdd8f185ac4548e3"
+    }
+  ],
+  "clanCount": 8,
+  "capacity": 200,
+  "newAdmissionPolicyEnabled": false,
+  "schedulesLocked": true
+}
