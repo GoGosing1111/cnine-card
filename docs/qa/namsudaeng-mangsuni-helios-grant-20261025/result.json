@@ -1,0 +1,119 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:namsudaeng-mangsuni-helios-exempt-grant:20261025:v1",
+  "sourceCommit": "8786c5d70",
+  "sourceSha256": "b7a6deccd6750428542fc5a9d73d80cf85c67ad4d00a5dcdb67b256e7894312f",
+  "completedAt": "2026-10-25T09:48:51.127Z",
+  "auditId": "51259",
+  "grants": [
+    {
+      "userId": "183",
+      "nickname": "남수댕",
+      "code": "V-999",
+      "name": "헬리오스",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "code": "V-999",
+      "name": "헬리오스",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    }
+  ],
+  "stockBefore": [
+    {
+      "code": "V-999",
+      "issued": 8,
+      "revision": 13,
+      "last_token": "33c0429d-59b9-4e8a-b0ff-d2778c59677d",
+      "stock_limit": 8
+    }
+  ],
+  "stockAfter": [
+    {
+      "code": "V-999",
+      "issued": 8,
+      "revision": 13,
+      "last_token": "33c0429d-59b9-4e8a-b0ff-d2778c59677d",
+      "stock_limit": 8
+    }
+  ],
+  "craftBefore": [
+    {
+      "rows": "13",
+      "crafted": "5",
+      "output_ref": "V-999"
+    }
+  ],
+  "craftAfter": [
+    {
+      "rows": "13",
+      "crafted": "5",
+      "output_ref": "V-999"
+    }
+  ],
+  "preserved": {
+    "currency": true,
+    "stockCounters": true,
+    "numberedIssues": true,
+    "craftCounts": true,
+    "packAndCraftSettings": true,
+    "otherCards": true,
+    "inventory": true,
+    "loadouts": true,
+    "levels": true,
+    "growth": true,
+    "accountSettings": true
+  },
+  "protectedHashesMatch": true,
+  "verification": {
+    "status": "VERIFIED",
+    "recipientCount": 2,
+    "totalQuantity": 2,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 2,
+    "auditRecords": 1
+  },
+  "validation": {
+    "relatedTestsPassed": 2,
+    "injectedFailureRollback": true,
+    "dryRunRollback": true,
+    "noWriteReplay": true,
+    "independentConnection": true,
+    "leasesReleased": true
+  },
+  "accountRead": [
+    {
+      "accountId": 183,
+      "nickname": "남수댕",
+      "card": {
+        "code": "V-999",
+        "name": "헬리오스",
+        "totalCopies": 1,
+        "duplicates": 0,
+        "canDeploy": true
+      },
+      "accountWrites": 0
+    },
+    {
+      "accountId": 4628,
+      "nickname": "망순이ෆ",
+      "card": {
+        "code": "V-999",
+        "name": "헬리오스",
+        "totalCopies": 1,
+        "duplicates": 0,
+        "canDeploy": true
+      },
+      "accountWrites": 0
+    }
+  ],
+  "webWorkerProductionDeployment": false
+}
