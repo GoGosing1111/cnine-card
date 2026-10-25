@@ -1,0 +1,41 @@
+{
+  "operationKey": "ops:cnine-safe-landing:verified-30t:20261025:v1",
+  "title": "씨나인 조,망,딤,댕 안전착륙 기념",
+  "status": "VERIFIED",
+  "completedAt": "2026-10-25T09:24:01.669Z",
+  "checkedAt": "2026-10-25T09:24:19.843Z",
+  "recipientCount": 598,
+  "recipientHash": "64a7d9cd44844dbf9755196e161db491b71481a4cf5b0a4448ebbe12d09aa8dc",
+  "coinPerUser": "30000000000000",
+  "totalCoin": "17940000000000000",
+  "roles": {
+    "OWNER": 2,
+    "USER": 593,
+    "ADMIN": 3
+  },
+  "providers": [
+    {
+      "provider": "PLAYDK",
+      "n": 597
+    },
+    {
+      "provider": "WAGO",
+      "n": 1
+    }
+  ],
+  "excludedBanned": 1,
+  "coinLogs": 598,
+  "missing": 0,
+  "duplicates": 0,
+  "auditId": "51219",
+  "artifacts": {
+    "coins": 598,
+    "messages": 0,
+    "audits": 1,
+    "receipts": 1
+  },
+  "rollbackVerified": true,
+  "noWriteReplayVerified": true,
+  "relevantTestsPassed": 6,
+  "runtimeDeploymentRequired": false
+}
