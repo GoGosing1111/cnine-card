@@ -9,6 +9,7 @@ import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
 // These account permissions still require an actual holding at every entry point.
 // T-Money (5147) received an authorized direct grant and may equip both modes.
 // Authorized direct grants on 2026-10-23: Changsu (4908), Simsim (4933).
+// Authorized stock-exempt grant on 2026-10-25: Parksera (45); ownership is still required.
 export const JINMU_CODE='V-989';
 export const JINMU_PACK_SERVER_LIMIT=5;
 export const JINMU_OWNER_ID=1;
@@ -26,7 +27,7 @@ export const JINMU_COMBAT=Object.freeze({
  basicCapScale:2.88,damageTakenScale:.25,hardCounter:BERKAN_CODE
 });
 export const isJinmu=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===JINMU_CODE;
-export const jinmuAccountAllowed=(userId,code,hasPackIssue=false)=>code!==JINMU_CODE||Number(userId)===JINMU_OWNER_ID||Number(userId)===2||Number(userId)===5663||Number(userId)===4651||Number(userId)===4817||Number(userId)===1195||Number(userId)===1768||Number(userId)===4391||Number(userId)===5008||Number(userId)===5147||Number(userId)===4908||Number(userId)===4933||hasPackIssue===true;
+export const jinmuAccountAllowed=(userId,code,hasPackIssue=false)=>code!==JINMU_CODE||Number(userId)===JINMU_OWNER_ID||Number(userId)===2||Number(userId)===5663||Number(userId)===4651||Number(userId)===4817||Number(userId)===1195||Number(userId)===1768||Number(userId)===4391||Number(userId)===5008||Number(userId)===5147||Number(userId)===4908||Number(userId)===4933||Number(userId)===45||hasPackIssue===true;
 export const jinmuActionCredit=actors=>actors.some(a=>isJinmu(a)&&a.alive!==false&&a.hp>0)?JINMU_COMBAT.actionCredit:1;
 export function jinmuIncomingDamage(target,incoming,source){
  if(!isJinmu(target))return incoming;

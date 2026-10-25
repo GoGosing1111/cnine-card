@@ -1,0 +1,73 @@
+{
+  "mode": "dry-run",
+  "sourceSha256": "4c7d42a565392c1ec2d6eefbfafc5aaba87927c7ed89b4eb8642773c7f429f68",
+  "replayed": false,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:parksera-jinmu-limited-shard:20261025:v1",
+    "actor": "CODEX_OPERATIONS",
+    "authorization": "박세라-ㅂ- 계정에 진무 지급. 후속 지시: 한도상관없이 1장 지급",
+    "completedAt": "2026-10-25T03:32:36.531Z",
+    "grant": {
+      "userId": 45,
+      "nickname": "박세라-ㅂ-",
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "quantity": 1,
+      "before": 0,
+      "after": 1,
+      "acquisitionId": "ops:parksera-jinmu-limited-shard:20261025:v1:45:V-989:1"
+    },
+    "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+    "stockBefore": {
+      "limit": 5,
+      "crafted": 5,
+      "remaining": 0,
+      "soldOut": true
+    },
+    "stockAfter": {
+      "limit": 5,
+      "crafted": 5,
+      "remaining": 0,
+      "soldOut": true
+    },
+    "policyHash": "2bdb822c554f8c62cd1c3b68ccbc6f1ebfa736b15be6e6019dfccf6d158eb30a",
+    "protectedBeforeHash": "6de5058de63341eaca7a1a3ebd2e3a420d75582a5f01b740be948cca5e7d4c8b",
+    "protectedAfterHash": "6de5058de63341eaca7a1a3ebd2e3a420d75582a5f01b740be948cca5e7d4c8b",
+    "preserved": {
+      "wallet": true,
+      "inventory": true,
+      "otherCards": true,
+      "loadout": true,
+      "growth": true,
+      "packStock": true,
+      "craftStock": true,
+      "craftConditions": true
+    },
+    "automaticEquip": false,
+    "auditId": "51072"
+  },
+  "verification": {
+    "verified": true,
+    "account": {
+      "id": 45,
+      "nickname": "박세라-ㅂ-"
+    },
+    "granted": 1,
+    "held": 1,
+    "stock": {
+      "limit": 5,
+      "crafted": 5,
+      "remaining": 0,
+      "soldOut": true
+    },
+    "craftLocked": true,
+    "combatEntitled": true,
+    "auditId": "51072",
+    "acquisitionId": "ops:parksera-jinmu-limited-shard:20261025:v1:45:V-989:1"
+  },
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "noWriteReplayVerified": true,
+  "leasesReleased": true
+}

@@ -1,0 +1,36 @@
+{
+  "mode": "read",
+  "sourceSha256": "f74f2426032f96726ab70fc62409ed92c99a2e51713fcb17a70cf6bce729655b",
+  "checkedAt": "2026-10-25T03:30:50.823Z",
+  "readOnly": true,
+  "account": {
+    "id": "45",
+    "nickname": "박세라-ㅂ-",
+    "status": "ACTIVE",
+    "role": "USER"
+  },
+  "holding": [],
+  "stock": {
+    "limit": 5,
+    "crafted": 5,
+    "remaining": 0,
+    "soldOut": true
+  },
+  "policy": {
+    "revision": 4,
+    "coinCost": 1000000000000,
+    "masterStarCost": 10000000,
+    "successRate": 15,
+    "materials": [
+      {
+        "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+        "quantity": 5
+      }
+    ],
+    "isActive": true,
+    "isPublic": true,
+    "stockLimit": 5
+  },
+  "recipeStored": true,
+  "operationExists": false
+}

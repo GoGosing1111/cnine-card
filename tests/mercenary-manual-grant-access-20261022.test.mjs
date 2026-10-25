@@ -9,13 +9,13 @@ import {JINMU_CODE,jinmuAccountAllowed} from '../shared/mercenary-jinmu-v1.mjs';
 import {JOKRO_CODE,JOKRO_LOAN,jokroAccountAllowed} from '../shared/mercenary-jokro-v1.mjs';
 
 const cases=[
- {code:JINMU_CODE,allowed:[4651,4817],blocked:[303,7,4977,5950],limit:4},
+ {code:JINMU_CODE,allowed:[4651,4817,45],blocked:[303,7,4977,5950,46],limit:4},
  {code:JOKRO_CODE,allowed:[303,4817],blocked:[4651,7,4977,5950],limit:2}
 ];
 
 test('approved direct gifts permit only their exact account and mercenary pairs',()=>{
- for(const id of [1,2,5663,4651,4817])assert.equal(jinmuAccountAllowed(id,JINMU_CODE),true);
- for(const id of [303,7,4977,5950])assert.equal(jinmuAccountAllowed(id,JINMU_CODE),false);
+ for(const id of [1,2,5663,4651,4817,45])assert.equal(jinmuAccountAllowed(id,JINMU_CODE),true);
+ for(const id of [303,7,4977,5950,46])assert.equal(jinmuAccountAllowed(id,JINMU_CODE),false);
  for(const id of [1,303,4817])assert.equal(jokroAccountAllowed(id,JOKRO_CODE,JOKRO_LOAN.expiresAt+1),true);
  for(const id of [4651,7,4977,5950])assert.equal(jokroAccountAllowed(id,JOKRO_CODE,JOKRO_LOAN.expiresAt+1),false);
  assert.equal(jinmuAccountAllowed(7,JINMU_CODE,true),true);
