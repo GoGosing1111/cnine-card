@@ -14,8 +14,8 @@
     "shared/mercenary-halloween-visual-v1.mjs",
     "shared/mercenary-harlequin-skill-v1.mjs",
     "shared/mercenary-halloween-catalog-v1.mjs",
-    "shared/mercenary-bloodmoon-namsudaeng-v1.mjs",
     "shared/mercenary-bloodmoon-combat-v1.mjs",
+    "shared/mercenary-bloodmoon-namsudaeng-v1.mjs?bloodmoonStock=20261025-v1",
     "shared/mercenary-bloodmoon-catalog-v1.mjs",
     "shared/mercenary-limited-catalog-v1.mjs",
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
@@ -122,6 +122,7 @@
     "preview/project-v-v3/source/battle/razak/skills.mjs",
     "preview/project-v-v3/source/battle/razak/AssassinFX.js",
     "preview/project-v-v3/source/battle/RazakCombatPlayback.js",
+    "shared/mercenary-bloodmoon-namsudaeng-v1.mjs",
     "preview/project-v-v3/source/battle/bloodmoon-namsudaeng/skills.mjs",
     "preview/project-v-v3/source/battle/bloodmoon-namsudaeng/BloodmoonFX.js",
     "preview/project-v-v3/source/battle/BloodmoonNamsudaengPlayback.js",
@@ -285,5 +286,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2517285
+  "outputBytes": 2521687
 }
