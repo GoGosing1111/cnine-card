@@ -1,0 +1,45 @@
+{
+  "reports": [
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "onlyRuntimeVersionChanged": true
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "onlyRuntimeVersionChanged": true
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "onlyRuntimeVersionChanged": true
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "onlyRuntimeVersionChanged": true
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "onlyRuntimeVersionChanged": true
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "onlyRuntimeVersionChanged": true
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "onlyRuntimeVersionChanged": true
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "onlyRuntimeVersionChanged": true
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "onlyRuntimeVersionChanged": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "onlyRuntimeVersionChanged": true
+    }
+  ],
+  "assetsChanged": false
+}

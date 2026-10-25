@@ -1,0 +1,14 @@
+{
+  "status": "REPRODUCED",
+  "assetSource": "local source",
+  "reports": [
+    {
+      "width": 390,
+      "code": "V-960",
+      "oldRuntimeAccepted": true,
+      "recoveryRequests": 0,
+      "error": "MERCENARY_SD_NOT_READY"
+    }
+  ],
+  "productionTransactions": 0
+}
