@@ -25,6 +25,6 @@
 
 기존 깨끗한 `C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site`와 연결된 의존성을 재사용한다. 다른 작업의 미완료 변경은 건드리지 않으며 새 프로젝트·node_modules 복사본은 만들지 않았다. 소스 브랜치 `codex/sss-limited-shard-craft-20261025`.
 
-직전 운영 배포는 Pages `588b766c-548c-4c76-bc08-438e9b31291f`, 소스 `031fb25fac`의 전체 SHA를 Git에서 확인해 범위 기준으로 사용한다. 이후 다른 작업이 배포되면 실제 직전 기준을 다시 확인한다. 한 제작 기능의 정책·원장·CMS/UI 변경이므로 관련 26개 검사와 Worker 컴파일을 지정한 `npm run deploy:production -- --scoped`를 사용한다.
+직전 운영 배포는 Pages `588b766c-548c-4c76-bc08-438e9b31291f`, 소스 `031fb25fa1ed054bf02241c7fe08ff08e77bc5a2`를 범위 기준으로 사용한다. 이후 다른 작업이 배포되면 실제 직전 기준을 다시 확인한다. 한 제작 기능의 정책·원장·CMS/UI 변경이므로 관련 26개 검사와 Worker 컴파일을 지정한 `npm run deploy:production -- --scoped`를 사용한다.
 
 완료 배포 ID·최종 검사·운영 파일 해시는 후속 기록한다. 기능 검수는 사용자 시각 승인으로 기록하지 않는다.
