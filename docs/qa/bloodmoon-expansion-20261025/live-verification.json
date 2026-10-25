@@ -1,0 +1,207 @@
+{
+  "at": "2026-10-25T08:46:13.928Z",
+  "pages": {
+    "id": "70a60fc0-8fdd-4116-baf5-ac2e02992831",
+    "url": "https://70a60fc0.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "9134468eef10def18b31ce7e9919f4497da240b9"
+  },
+  "publicFiles": [
+    {
+      "file": "admin/index.html",
+      "sha256": "0e296a46a0239a510e253d917007f088f3804d3499db649998338d758b794751"
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "cc7fd64f325414a1dd41652953c8d3a7b738bea3bde28d6ab3760d8be296f979"
+    },
+    {
+      "file": "admin/mercenary-bloodmoon-admin-v1.mjs",
+      "sha256": "a03212308597898ccf6c788b94fbbcfdb4f505fa98ce2da2b7fd481b529bfec1"
+    },
+    {
+      "file": "index.html",
+      "sha256": "399e413b29d495e4ab3b95b38d09381771a6057fef195f50f6c3ecf10c494ce2"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "fd471dcfcbca480b8a9c8690134df7a95bd2bc75be295f4083d5f0728f49099a"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "sha256": "460d29e9a275aab760058526ce02adcd6560dac813b1fe352a4c308b246344cc"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-presentation-v2.mjs",
+      "sha256": "fb6ae9fb5670e210ba52b7257af2966db71bdfdbb467ac4b5eb422df6dacb5a4"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "15b9b170dcc15160161d752df7b360f74f5ba1ac9d35e8580a0b0a50953684a1"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "ef39ab6bbdc575a7a9fe3c994118634d3fbe3c686ae8351ee78800b2da07eee0"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "e876250537d60d3ad44ba2ee1ab9cc78b2206da8ca07fb83c23735ad06b6cdeb"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "fb24fd2328e23ec6b1e535b68cee804d07574f15fb7c89b7c95e91aacea3708f"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-bulk-v1.mjs",
+      "sha256": "3584217db184a0118c388654462c5a6fd4f79623c7415bacd67406de62358b9f"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-catalog-v1.mjs",
+      "sha256": "b1d73f76a16089f59593885b8250d7a632b73f8bc1c42d241fb9cddfc5871979"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-namsudaeng-v1.mjs",
+      "sha256": "b20e8c18b86b7dde4f42a2533a03bd4bab21c7b32e1b4329507de10036f73625"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "sha256": "71eec11188ac4b9b7853b2d36dac3b09a46dd04d1e57b8c68e2491d6f90d9fee"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pool-v3.mjs",
+      "sha256": "63a4ec4613074fa33adb41cd514e2ac6383b50ef08e28d4cb66d1d392d349e5b"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-session-v2.mjs",
+      "sha256": "9cf5a837f6a7793947457ed7b8d810b73dc3f23f33ca6a9ba0d9929aec4f026e"
+    },
+    {
+      "file": "shared/mercenary-razak-v1.mjs",
+      "sha256": "504aab6ffeb61e939998aa3a7133e31f7f6c2bf8cec05b2c9cf56f6157259d6d"
+    }
+  ],
+  "publicApi": {
+    "status": 503,
+    "maintenance": {
+      "active": true,
+      "title": "블러드문팩 한정수량 작업중",
+      "message": "블러드문팩 한정수량 작업중",
+      "startAt": "2026-10-25 17:13:00",
+      "endAt": "2026-10-25 17:40:00",
+      "testUsers": []
+    }
+  },
+  "verificationSource": "production database, deployed source reader, READ ONLY",
+  "revision": 8,
+  "stock": [
+    {
+      "code": "V-960",
+      "limit": 40,
+      "issued": 30,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-961",
+      "limit": 40,
+      "issued": 30,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-962",
+      "limit": 40,
+      "issued": 30,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-963",
+      "limit": 40,
+      "issued": 30,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-964",
+      "limit": 40,
+      "issued": 30,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-965",
+      "limit": 40,
+      "issued": 30,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-978",
+      "limit": 9,
+      "issued": 7,
+      "remaining": 2,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-974",
+      "limit": 3,
+      "issued": 1,
+      "remaining": 2,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-975",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-973",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    }
+  ],
+  "configuredRates": {
+    "V-960": 5000,
+    "V-961": 5000,
+    "V-962": 5000,
+    "V-963": 5000,
+    "V-964": 5000,
+    "V-965": 5000,
+    "V-978": 200,
+    "V-974": 10,
+    "V-975": 1,
+    "V-973": 20,
+    "V-058": 400
+  },
+  "effectiveCardPercents": {
+    "V-960": "0.0004",
+    "V-961": "0.0004",
+    "V-962": "0.0004",
+    "V-963": "0.0004",
+    "V-964": "0.0004",
+    "V-965": "0.0004",
+    "V-978": "0.000016",
+    "V-974": "0.0000008",
+    "V-975": "0.00000008",
+    "V-973": "0.0000016",
+    "V-058": "0.000032"
+  },
+  "razakPower": 1000000,
+  "stockAdded": 65,
+  "operationGrants": 0
+}

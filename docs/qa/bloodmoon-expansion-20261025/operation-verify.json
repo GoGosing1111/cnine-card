@@ -1,0 +1,279 @@
+{
+  "verified": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bloodmoon-expansion:20261025:ss10-leonel2-eunseol3-razak-v1",
+    "authorization": "SS 리미티드 6종 각 10장 추가; 레오넬 2장 추가; 은설 신규 3장, 최종 지시로 1회 확률 0.0000016%(기존 제너럴 족의 2배); 제너럴 족 기존 3장 유지; 라자크 일반 SSS 한도 없음, 레오넬 확률의 2배",
+    "completedAt": "2026-10-25T08:43:59.673Z",
+    "stockAdded": 65,
+    "grants": 0,
+    "issuesBeforeHash": "e662394c350e4092a80e9acfb914575e398b42df3236147fc49aa6b2c3921a15",
+    "issuesAfterHash": "e662394c350e4092a80e9acfb914575e398b42df3236147fc49aa6b2c3921a15",
+    "protectedPolicyHash": "c3c9eb976d7d052fc0d6e04d8431361d7e3ea639751439b6b62904198328737a",
+    "before": {
+      "revision": 7,
+      "settings": {
+        "mode": "ON",
+        "prices": {
+          "single": 1500000000,
+          "ten": 15000000000
+        },
+        "missRatePpm": 800000,
+        "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "normalSssRatePpm": 969789,
+        "cardRatesPpm": {
+          "V-960": 5000,
+          "V-961": 5000,
+          "V-962": 5000,
+          "V-963": 5000,
+          "V-964": 5000,
+          "V-965": 5000,
+          "V-978": 200,
+          "V-974": 10,
+          "V-975": 1
+        },
+        "stockLimits": {
+          "V-960": 30,
+          "V-961": 30,
+          "V-962": 30,
+          "V-963": 30,
+          "V-964": 30,
+          "V-965": 30,
+          "V-978": 7,
+          "V-974": 3,
+          "V-975": 3
+        }
+      },
+      "updatedAt": "2026-10-25T05:07:51.212Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:bloodmoon-restock:20261025:ss5-leonel2-v3"
+    },
+    "after": {
+      "revision": 8,
+      "settings": {
+        "mode": "ON",
+        "prices": {
+          "single": 1500000000,
+          "ten": 15000000000
+        },
+        "missRatePpm": 800000,
+        "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "normalSssRatePpm": 969369,
+        "cardRatesPpm": {
+          "V-960": 5000,
+          "V-961": 5000,
+          "V-962": 5000,
+          "V-963": 5000,
+          "V-964": 5000,
+          "V-965": 5000,
+          "V-978": 200,
+          "V-974": 10,
+          "V-975": 1,
+          "V-973": 20,
+          "V-058": 400
+        },
+        "stockLimits": {
+          "V-960": 40,
+          "V-961": 40,
+          "V-962": 40,
+          "V-963": 40,
+          "V-964": 40,
+          "V-965": 40,
+          "V-978": 9,
+          "V-974": 3,
+          "V-975": 3,
+          "V-973": 3
+        }
+      },
+      "updatedAt": "2026-10-25T08:43:59.673Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:bloodmoon-expansion:20261025:ss10-leonel2-eunseol3-razak-v1"
+    },
+    "beforeStock": [
+      {
+        "code": "V-960",
+        "stock_limit": 30,
+        "issued": 30,
+        "revision": 31,
+        "last_token": "5d917450-caae-460f-9edb-cffc969eb962"
+      },
+      {
+        "code": "V-961",
+        "stock_limit": 30,
+        "issued": 30,
+        "revision": 32,
+        "last_token": "e9e08734-6a6a-4fc1-911b-034afa82c3e8"
+      },
+      {
+        "code": "V-962",
+        "stock_limit": 30,
+        "issued": 30,
+        "revision": 30,
+        "last_token": "52a91e86-7b68-406b-8e23-74fcbb07b079"
+      },
+      {
+        "code": "V-963",
+        "stock_limit": 30,
+        "issued": 30,
+        "revision": 28,
+        "last_token": "12a798a9-8a55-4679-ba8e-f57b2a1efb1d"
+      },
+      {
+        "code": "V-964",
+        "stock_limit": 30,
+        "issued": 30,
+        "revision": 28,
+        "last_token": "19f82081-8548-48f0-8ec5-21d760e53a5f"
+      },
+      {
+        "code": "V-965",
+        "stock_limit": 30,
+        "issued": 30,
+        "revision": 28,
+        "last_token": "071fa9b5-e24c-408f-8c2f-c2644ffdc243"
+      },
+      {
+        "code": "V-978",
+        "stock_limit": 7,
+        "issued": 7,
+        "revision": 8,
+        "last_token": "b3e3cb83-1d0b-46c0-bde6-712b26a77b5d"
+      }
+    ],
+    "afterStock": [
+      {
+        "code": "V-960",
+        "stock_limit": 40,
+        "issued": 30,
+        "revision": 32,
+        "last_token": "5d917450-caae-460f-9edb-cffc969eb962"
+      },
+      {
+        "code": "V-961",
+        "stock_limit": 40,
+        "issued": 30,
+        "revision": 33,
+        "last_token": "e9e08734-6a6a-4fc1-911b-034afa82c3e8"
+      },
+      {
+        "code": "V-962",
+        "stock_limit": 40,
+        "issued": 30,
+        "revision": 31,
+        "last_token": "52a91e86-7b68-406b-8e23-74fcbb07b079"
+      },
+      {
+        "code": "V-963",
+        "stock_limit": 40,
+        "issued": 30,
+        "revision": 29,
+        "last_token": "12a798a9-8a55-4679-ba8e-f57b2a1efb1d"
+      },
+      {
+        "code": "V-964",
+        "stock_limit": 40,
+        "issued": 30,
+        "revision": 29,
+        "last_token": "19f82081-8548-48f0-8ec5-21d760e53a5f"
+      },
+      {
+        "code": "V-965",
+        "stock_limit": 40,
+        "issued": 30,
+        "revision": 29,
+        "last_token": "071fa9b5-e24c-408f-8c2f-c2644ffdc243"
+      },
+      {
+        "code": "V-973",
+        "stock_limit": 3,
+        "issued": 0,
+        "revision": 0,
+        "last_token": null
+      },
+      {
+        "code": "V-978",
+        "stock_limit": 9,
+        "issued": 7,
+        "revision": 9,
+        "last_token": "b3e3cb83-1d0b-46c0-bde6-712b26a77b5d"
+      }
+    ],
+    "auditId": "51197"
+  },
+  "stock": [
+    {
+      "code": "V-960",
+      "before": 30,
+      "after": 40,
+      "issued": 30,
+      "remaining": 10
+    },
+    {
+      "code": "V-961",
+      "before": 30,
+      "after": 40,
+      "issued": 30,
+      "remaining": 10
+    },
+    {
+      "code": "V-962",
+      "before": 30,
+      "after": 40,
+      "issued": 30,
+      "remaining": 10
+    },
+    {
+      "code": "V-963",
+      "before": 30,
+      "after": 40,
+      "issued": 30,
+      "remaining": 10
+    },
+    {
+      "code": "V-964",
+      "before": 30,
+      "after": 40,
+      "issued": 30,
+      "remaining": 10
+    },
+    {
+      "code": "V-965",
+      "before": 30,
+      "after": 40,
+      "issued": 30,
+      "remaining": 10
+    },
+    {
+      "code": "V-978",
+      "before": 7,
+      "after": 9,
+      "issued": 7,
+      "remaining": 2
+    },
+    {
+      "code": "V-973",
+      "before": 0,
+      "after": 3,
+      "issued": 0,
+      "remaining": 3
+    }
+  ],
+  "currentRevision": 8,
+  "checkedAt": "2026-10-25T08:44:12.650Z"
+}
