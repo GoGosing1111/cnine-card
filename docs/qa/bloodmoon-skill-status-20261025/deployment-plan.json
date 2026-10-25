@@ -1,0 +1,10 @@
+{
+  "base": "e23b076c5338d137ed34270ea865d5c7e3fb25ef",
+  "reason": "블러드문 조은 MS-961 후속 표식/약화 이벤트가 일반 스킬 조회로 내려가 발생한 전투 중단 수정. 서버 타임라인 재현과 5종 전체 스트림, 디임/조은 PC·모바일 실제 메인 로더 및 시작 버튼 검수 완료. 전투 수치·계정·팩 설정 변경 없음.",
+  "tests": [
+    "tests/battle-feature-recovery-20261015.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs",
+    "tests/project-v-v3-live-payload-v1.mjs"
+  ],
+  "checks": []
+}

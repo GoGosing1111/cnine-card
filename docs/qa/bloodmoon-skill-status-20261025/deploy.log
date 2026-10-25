@@ -1,0 +1,82 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"e23b076c5338d137ed34270ea865d5c7e3fb25ef","reason":"블러드문 조은 MS-961 후속 표식/약화 이벤트가 일반 스킬 조회로 내려가 발생한 전투 중단 수정. 서버 타임라인 재현과 5종 전체 스트림, 디임/조은 PC·모바일 실제 메인 로더 및 시작 버튼 검수 완료. 전투 수치·계정·팩 설정 변경 없음.","changed":["AGENTS.md","docs/qa/bloodmoon-skill-status-20261025/README.md","docs/qa/bloodmoon-skill-status-20261025/browser.json","docs/qa/bloodmoon-skill-status-20261025/entry-browser.json","docs/qa/bloodmoon-skill-status-20261025/entry-result-1440-V-961-PVE.png","docs/qa/bloodmoon-skill-status-20261025/entry-result-1440-V-962-PVE.png","docs/qa/bloodmoon-skill-status-20261025/entry-result-1440-V-962-PVP.png","docs/qa/bloodmoon-skill-status-20261025/entry-result-390-V-961-PVE.png","docs/qa/bloodmoon-skill-status-20261025/entry-result-390-V-962-PVE.png","docs/qa/bloodmoon-skill-status-20261025/entry-result-390-V-962-PVP.png","docs/qa/bloodmoon-skill-status-20261025/pve-V-961-1440.png","docs/qa/bloodmoon-skill-status-20261025/pve-V-961-390.png","docs/qa/bloodmoon-skill-status-20261025/pve-V-962-1440.png","docs/qa/bloodmoon-skill-status-20261025/pve-V-962-390.png","docs/qa/bloodmoon-skill-status-20261025/regression-results.json","docs/qa/bloodmoon-skill-status-20261025/release.mjs","docs/qa/bloodmoon-skill-status-20261025/reproduced.json","docs/qa/clan-eight-20261025/README.md","docs/qa/clan-eight-20261025/apply.json","docs/qa/clan-eight-20261025/before-deploy.json","docs/qa/clan-eight-20261025/clan-eight-roster.txt","docs/qa/clan-eight-20261025/clan-eight-user-notice.txt","docs/qa/clan-eight-20261025/create-publication.mjs","docs/qa/clan-eight-20261025/deploy.log","docs/qa/clan-eight-20261025/deployment-plan.json","docs/qa/clan-eight-20261025/deployment-result.json","docs/qa/clan-eight-20261025/live-verification.json","docs/qa/clan-eight-20261025/public-roster.json","docs/qa/clan-eight-20261025/publication-verification.json","docs/qa/clan-eight-20261025/verify.json","index.html","js/app.js","js/battle-v3-live.js","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/BloodmoonCombatPlayback.js","preview/project-v-v3/source/battle/MercenaryCombatPlayback.js","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","service-worker.js","tests/bloodmoon-skill-status-20261025.browser.mjs","tests/bloodmoon-skill-status-20261025.test.mjs","tests/bloodmoon-skill-status-entry-20261025.browser.mjs"],"tests":["tests/battle-feature-recovery-20261015.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs","tests/project-v-v3-live-payload-v1.mjs"],"checks":[]}
+✔ an open pre-deploy lobby accepts a newer coherent compatible engine and wrapper (10.7604ms)
+✔ a cached wrapper cannot pin a newer engine to an old version; one paired refresh repairs it (7.9509ms)
+✔ a completed resource promise cannot hide a runtime replaced by another scene (1.6509ms)
+✔ failed refresh is bounded and leaves entry retryable without starting a battle (4.6919ms)
+✔ an older matching pair and an unrelated runtime never satisfy the current manifest (5.634ms)
+✔ a newer pair with a breaking entry contract is not accepted by an open lobby (3.4031ms)
+✔ core resource failure creates no attempt or abandon request and restores the button (12.7784ms)
+project-v-v3 live payload contract: OK
+✔ tests\project-v-v3-live-payload-v1.mjs (3541.969ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (24.8414ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (20.7733ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (11.4525ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (23.6112ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (32.0573ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (60.449ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (5.1847ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (2.7543ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.2265ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4299.8043
+[PRODUCTION RELEASE OK] bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19999 files; 8395 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8443.56 KiB / gzip: 1816.66 KiB
+Worker Startup Time: 52 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.40 sec)
+No targets deployed for cnine-card-api-runtime (0.63 sec)
+Current Version ID: 2b596ee3-0f68-4131-b5de-4cf9e4c437a1
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19977/19999)
+Uploading... (19985/19999)
+Uploading... (19992/19999)
+Uploading... (19999/19999)
+✨ Success! Uploaded 22 files (19977 already uploaded) (3.60 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://d4765d10.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3018.81 KiB / gzip: 677.48 KiB
+Worker Startup Time: 42 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.32 sec)
+Deployed cnine-card-clan-draft triggers (0.94 sec)
+  schedule: * * * * *
+Current Version ID: 729dd208-8616-4716-8d3f-50778f6fdf46

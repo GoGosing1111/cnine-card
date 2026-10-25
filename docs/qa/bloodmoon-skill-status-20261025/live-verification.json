@@ -1,0 +1,102 @@
+{
+  "at": "2026-10-25T06:34:27.108Z",
+  "pages": {
+    "id": "d4765d10-b243-4d47-b045-d4f8d20426f3",
+    "url": "https://d4765d10.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "a4fba735a1e48d9029a205e8c79bf5034c446b91"
+  },
+  "runtime": {
+    "id": "2be6d752-0483-48c2-8031-f47eab1f8323",
+    "source": "wrangler",
+    "strategy": "percentage",
+    "annotations": {
+      "workers/triggered_by": "deployment"
+    },
+    "versions": [
+      {
+        "version_id": "2b596ee3-0f68-4131-b5de-4cf9e4c437a1",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-10-25T06:31:29.145745Z"
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "21aafeb88980e03cdaa40fe115c2fe2e3944909bf7c70fa92ee37e22649539a7",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "18997aee6cface14c341c229728a4b79a7474d12e5fedf982fd8e682c2fcbcff",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "d0148890ca6c26ac8be7ee9123b2fa110af025ca62895c5bce26d29486d5271c",
+      "status": 200
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "5953bcfa99566bc781eede30d1f5a540d6d754bf1fdc5c09e065fc07705cf145",
+      "status": 200
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "15bfba68a81d69103e9c86f52f6dd65c49c3171971e9d540f70ed4cb418dcb93",
+      "status": 200
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "3d16c28fcfea691a2dba47e19974197f6de812891092cb2cb09064ad7f592ee5",
+      "status": 200
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "b906c6663e664594d67a04ec5a432f9d4179a9033eba7e5f0c7f1d807c52f1bd",
+      "status": 200
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "3af8f4df237820d7249410357515f03d29345457a52a501a9006652fefde3134",
+      "status": 200
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "c3fe3911eec65c26766dffd9ab7fcc5416cdadaa67cf8ef43544ee9befe38730",
+      "status": 200
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "407a7006befb030c7ca03de1821f5bc4815bc28d064f99168c207d38a507c21f",
+      "status": 200
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "06c895672aadca01fe14592af505eddca6f3fc6f614b3b03f8977ea050b18f3a",
+      "status": 200
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "747b903be46cdd12f9abed65d34aa734658c29bc2541768fccee00dbd6f2a72d",
+      "status": 200
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "18ba6a02a0abf3358cfd972e6439696d52856a90ba5f16dbe2dbf8504812c121",
+      "status": 200
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "3f3967b715be6149b30183b75acba46698b9c963ce9630adefd4319d67ae2e72",
+      "status": 200
+    }
+  ],
+  "runtimeVersion": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2",
+  "bloodmoonOpeningEnabled": true,
+  "halloweenRemoved": true,
+  "savedPackSettingsUnchanged": true,
+  "productionAccountWrites": 0,
+  "productionSettingWrites": 0
+}

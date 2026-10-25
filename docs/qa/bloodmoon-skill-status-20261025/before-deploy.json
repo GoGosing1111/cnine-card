@@ -1,0 +1,436 @@
+{
+  "at": "2026-10-25T06:21:05.697Z",
+  "pages": {
+    "id": "a00f17e8-1845-4f41-9769-bb7397af175e",
+    "url": "https://a00f17e8.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e23b076c5338d137ed34270ea865d5c7e3fb25ef"
+  },
+  "runtime": {
+    "id": "57b8c1c6-a254-4243-b3b6-eade614befe6",
+    "source": "wrangler",
+    "strategy": "percentage",
+    "annotations": {
+      "workers/triggered_by": "deployment"
+    },
+    "versions": [
+      {
+        "version_id": "beb93118-a6b4-4f12-87a7-a4014ef9cd66",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-10-25T06:12:44.885808Z"
+  },
+  "packs": {
+    "bloodmoon": {
+      "name": "블러드문팩",
+      "revision": 7,
+      "settings": {
+        "mode": "ON",
+        "prices": {
+          "single": 1500000000,
+          "ten": 15000000000
+        },
+        "missRatePpm": 800000,
+        "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "normalSssRatePpm": 969789,
+        "cardRatesPpm": {
+          "V-960": 5000,
+          "V-961": 5000,
+          "V-962": 5000,
+          "V-963": 5000,
+          "V-964": 5000,
+          "V-965": 5000,
+          "V-978": 200,
+          "V-974": 10,
+          "V-975": 1
+        },
+        "stockLimits": {
+          "V-960": 30,
+          "V-961": 30,
+          "V-962": 30,
+          "V-963": 30,
+          "V-964": 30,
+          "V-965": 30,
+          "V-978": 7,
+          "V-974": 3,
+          "V-975": 3
+        }
+      },
+      "stock": [
+        {
+          "code": "V-960",
+          "limit": 30,
+          "issued": 30,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-961",
+          "limit": 30,
+          "issued": 30,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-962",
+          "limit": 30,
+          "issued": 30,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-963",
+          "limit": 30,
+          "issued": 30,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-964",
+          "limit": 30,
+          "issued": 30,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-965",
+          "limit": 30,
+          "issued": 30,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-978",
+          "limit": 7,
+          "issued": 7,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        },
+        {
+          "code": "V-974",
+          "limit": 3,
+          "issued": 0,
+          "remaining": 3,
+          "prepared": true,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        },
+        {
+          "code": "V-975",
+          "limit": 3,
+          "issued": 0,
+          "remaining": 3,
+          "prepared": true,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        }
+      ],
+      "releaseEnabled": true,
+      "userOpeningEnabled": true,
+      "prime": {
+        "code": "V-975",
+        "name": "기운잃은 프라임 카드",
+        "title": "적월의 광전사",
+        "rank": "SSS",
+        "edition": "LIMITED",
+        "role": "VANGUARD",
+        "position": "FRONT",
+        "artOnly": false,
+        "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+        "acquisition": "LOCKED",
+        "sourceArt": "assets/items/prime-depleted-20261025/card.webp",
+        "sourceArtSha256": "B2D1C5DF8553370EC9FF90D72E27562C404C24DCECF33935BB74F0EDC13D2FDC",
+        "battleSprite": "assets/ui/project-v/mercenaries/prime-requiem-20261021/idle.png",
+        "battleSpriteSha256": "EA00ECB24265DCF168F139361FF09D538486048A384A3BFF872E174479116830",
+        "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+        "artWindow": {
+          "left": 5.957,
+          "top": 5.794,
+          "width": 88.086,
+          "height": 88.086
+        },
+        "accent": "#ff163e",
+        "basePower": 3000000,
+        "skills": [
+          {
+            "id": "MS-960",
+            "name": "혈섬 돌진",
+            "visualMode": "blood-dash",
+            "mechanic": "PRIME_REQUIEM_BASIC_FORM",
+            "target": "ENEMY",
+            "basicForm": true,
+            "balance": {
+              "damageRatio": 1,
+              "cooldownTurns": 0,
+              "cost": 0
+            }
+          },
+          {
+            "id": "MS-961",
+            "name": "혈영 연참",
+            "visualMode": "blood-echo",
+            "mechanic": "PRIME_REQUIEM_BASIC_FORM",
+            "target": "ENEMY",
+            "basicForm": true,
+            "balance": {
+              "damageRatio": 1,
+              "cooldownTurns": 0,
+              "cost": 0
+            }
+          },
+          {
+            "id": "MS-962",
+            "name": "혈검 난무",
+            "visualMode": "blood-frenzy",
+            "mechanic": "PRIME_REQUIEM_BASIC_FORM",
+            "target": "ENEMY",
+            "basicForm": true,
+            "balance": {
+              "damageRatio": 1,
+              "cooldownTurns": 0,
+              "cost": 0
+            }
+          },
+          {
+            "id": "MS-963",
+            "name": "혈호 강림",
+            "visualMode": "blood-tiger",
+            "mechanic": "CRIMSON_ECLIPSE_BERSERKER",
+            "target": "ALL_ENEMIES",
+            "pveOnly": true,
+            "balance": {
+              "version": 2,
+              "damageRatio": 15.12,
+              "cooldownTurns": 3,
+              "cost": 20
+            }
+          },
+          {
+            "id": "MS-964",
+            "name": "혈영섬 · 참형",
+            "visualMode": "blood-execution",
+            "mechanic": "CRIMSON_ECLIPSE_BERSERKER",
+            "target": "ALL_ENEMIES",
+            "pveOnly": true,
+            "balance": {
+              "version": 2,
+              "damageRatio": 15.12,
+              "cooldownTurns": 3,
+              "cost": 20
+            }
+          },
+          {
+            "id": "MS-965",
+            "name": "혈천개벽",
+            "visualMode": "blood-cataclysm",
+            "mechanic": "CRIMSON_ECLIPSE_BERSERKER",
+            "target": "ALL_ENEMIES",
+            "pveOnly": true,
+            "balance": {
+              "version": 2,
+              "damageRatio": 15.12,
+              "cooldownTurns": 3,
+              "cost": 20
+            }
+          },
+          {
+            "id": "MS-966",
+            "name": "적월 무간참",
+            "visualMode": "blood-moonfall",
+            "mechanic": "CRIMSON_ECLIPSE_BERSERKER",
+            "target": "ALL_ENEMIES",
+            "pveOnly": true,
+            "balance": {
+              "version": 2,
+              "damageRatio": 15.12,
+              "cooldownTurns": 3,
+              "cost": 20
+            }
+          }
+        ],
+        "acquisitionEnabled": false,
+        "packAcquisitionEnabled": false,
+        "deploymentEnabled": true,
+        "combatLinkDescription": "기본 전투력 3,000,000. 제로와 동일한 공격·생존·속도·연계 기준. 개인 피해 80% 경감, 상태이상·반격 보호. 혈섬 돌진·혈영 연참·혈검 난무가 일반 공격마다 순환합니다. PVE 광역기 네 동작은 공통 재사용 3행동·에너지 20을 사용하며, 시전당 총 1,512% 피해를 생존한 적에게 나누어 한 번씩 적용합니다. 부서진 적월·흑염·붉은 네온. 현재 획득 불가.",
+        "group": "SSS_LIMITED",
+        "stockPolicy": "PACK_ONLY",
+        "serverLimit": 3,
+        "thumbnailArt": "assets/items/prime-depleted-20261025/card.webp",
+        "displayArt": "assets/items/prime-depleted-20261025/card.webp",
+        "rewardType": "ITEM",
+        "itemCode": "MERCENARY_PRIME_DEPLETED_CARD"
+      }
+    },
+    "halloween": {
+      "revision": 23,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 200,
+          "V-989": 300,
+          "V-996": 200,
+          "V-977": 5000,
+          "V-979": 300
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 13,
+          "V-981": 13,
+          "V-982": 13,
+          "V-983": 13,
+          "V-984": 13,
+          "V-985": 13,
+          "V-986": 13,
+          "V-999": null,
+          "V-989": 5,
+          "V-996": null,
+          "V-977": 20,
+          "V-979": 3
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 924000
+      },
+      "stock": [
+        {
+          "code": "V-980",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-981",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-982",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-983",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-984",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-985",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-986",
+          "limit": 13,
+          "issued": 13,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-977",
+          "limit": 20,
+          "issued": 20,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "SEASONAL"
+        },
+        {
+          "code": "V-999",
+          "limit": 8,
+          "issued": 8,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "EXISTING_SHARED"
+        },
+        {
+          "code": "V-989",
+          "limit": 5,
+          "issued": 5,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        },
+        {
+          "code": "V-996",
+          "limit": 15,
+          "issued": 15,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "EXISTING_SHARED"
+        },
+        {
+          "code": "V-979",
+          "limit": 3,
+          "issued": 3,
+          "remaining": 0,
+          "prepared": true,
+          "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+        }
+      ],
+      "releaseEnabled": true,
+      "shopEnabled": false,
+      "userOpeningEnabled": false
+    },
+    "shopIds": [
+      "pickup",
+      "ultimate",
+      "superstar",
+      "hyper",
+      "mercenary-bloodmoon-ss-limited"
+    ]
+  }
+}
