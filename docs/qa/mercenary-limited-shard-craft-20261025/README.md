@@ -25,6 +25,15 @@
 
 기존 깨끗한 `C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site`와 연결된 의존성을 재사용한다. 다른 작업의 미완료 변경은 건드리지 않으며 새 프로젝트·node_modules 복사본은 만들지 않았다. 소스 브랜치 `codex/sss-limited-shard-craft-20261025`.
 
-직전 운영 배포는 Pages `588b766c-548c-4c76-bc08-438e9b31291f`, 소스 `031fb25fa1ed054bf02241c7fe08ff08e77bc5a2`를 범위 기준으로 사용한다. 이후 다른 작업이 배포되면 실제 직전 기준을 다시 확인한다. 한 제작 기능의 정책·원장·CMS/UI 변경이므로 관련 26개 검사와 Worker 컴파일을 지정한 `npm run deploy:production -- --scoped`를 사용한다.
+직전 운영 배포를 Pages `d7f5b839-5537-49c8-87bf-b64e1a5d0962`, 소스 `ae6b1fe46166254c3a22cbb1bbef96f60f89d7af`로 재확인하고 이 소스 위에 변경을 반영했다. 한 제작 기능의 정책·원장·CMS/UI 변경이므로 관련 26개 검사와 Worker 검사를 지정한 `npm run deploy:production -- --scoped`를 사용했다. 전체 릴리스 게이트와 Hyperdrive 캐시 OFF 확인도 통과했다.
 
-완료 배포 ID·최종 검사·운영 파일 해시는 후속 기록한다. 기능 검수는 사용자 시각 승인으로 기록하지 않는다.
+- 구현 커밋: `6bc356e249823bd7aea059df2d10373fbff2d5ed`.
+- 배포 소스: `15241e1a0205bc74ec310d2793a3c0e48b9807e5`, `origin/main` 반영.
+- Pages: `bcf07158` / https://bcf07158.cnine-card.pages.dev.
+- API runtime: `a8fb169d-ef24-490f-bc8c-1ea0afee1b68`.
+- 예약 Worker: `de5501be-08f2-4c12-8d45-914df92b9973`.
+- 배포 후 운영 READ ONLY 확인: `production-after.json`. 12종 모두 재료 수량·비용·확률 null, OFF/비공개, 전용 한도 5·발행 0·잔여 5다. 카이론 일반 제작 4/8, 족로 0/2를 유지하며 두 기존 정책의 SHA-256이 배포 전과 같다. 운영 계정·설정 쓰기는 0건이다.
+- 공개 파일 8개를 운영 주소에서 다시 받아 배포 소스 SHA-256과 모두 일치함을 확인했다. `live-files.json` 참조.
+- 원래 작업 폴더 `C:/Users/User/Downloads/cnine-z-body-sword-20260918/site`는 미완료 변경과 이전 소스 기준을 보존했다. 실제 수정·검수·배포 소스는 위의 재사용 체크아웃과 `origin/main` 커밋이며 해당 폴더 런타임에 일부 파일만 덮어쓰지 않았다. 복구 가능한 브랜치·커밋과 검수 기록을 남겼고 새 빌드/의존성 복사본은 없다.
+
+기능 검수는 사용자 시각 승인으로 기록하지 않는다. 이후 문서 기록 커밋은 위의 배포 소스와 구분한다.

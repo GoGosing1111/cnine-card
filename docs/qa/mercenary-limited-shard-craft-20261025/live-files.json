@@ -1,0 +1,54 @@
+{
+  "checkedAt": "2026-10-25T03:06:49.016Z",
+  "source": "15241e1a0205bc74ec310d2793a3c0e48b9807e5",
+  "checks": [
+    {
+      "file": "admin/index.html",
+      "sha256": "e72a63785fa8d6f67d2164da2ea09b941d274766c44dc2693ec135ce38d710e5",
+      "bytes": 81840,
+      "matched": true
+    },
+    {
+      "file": "admin/workshop-admin-v1668.js",
+      "sha256": "d85be46dbd9bf7726e34dd86d9a9fe6575d78982d3fb7d2a7f84293eacd9ba2f",
+      "bytes": 30901,
+      "matched": true
+    },
+    {
+      "file": "css/mercenary-shard-craft-v1.css",
+      "sha256": "b83d6cb44fcbb164c3ce4b42dba3892a05c44dc628d92d999a2fa69bf25abe03",
+      "bytes": 1806,
+      "matched": true
+    },
+    {
+      "file": "index.html",
+      "sha256": "c81d008cf43ea10cf2380c820c4f9c687d06d5642abc6f4fe6534b40ad92959d",
+      "bytes": 36963,
+      "matched": true
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "386c42e54965f281361cecfb1a1e9bf827b4b8435965783d2db20444b6437831",
+      "bytes": 790734,
+      "matched": true
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "sha256": "ae82969e38031a86de3fdf5657fcd9389290721fa6ffc2f112245ab0d65783fa",
+      "bytes": 120644,
+      "matched": true
+    },
+    {
+      "file": "shared/mercenary-craft-v1.mjs",
+      "sha256": "86e52b11d4c8c087efdf1c147f08b5e31e94ecbaabe92e2257b936d6808d39cb",
+      "bytes": 7104,
+      "matched": true
+    },
+    {
+      "file": "shared/mercenary-limited-shard-craft-v1.mjs",
+      "sha256": "3ad9f3d527391e8f0315ffcd77aaff303f1856414903b947641af992664f7a4d",
+      "bytes": 1393,
+      "matched": true
+    }
+  ]
+}

@@ -1,0 +1,344 @@
+{
+  "checkedAt": "2026-10-25T03:06:48.590Z",
+  "readOnly": true,
+  "legacyPoliciesUnchanged": true,
+  "productionMutations": 0,
+  "recipes": [
+    {
+      "recipeCode": "WORKSHOP_KAIRON",
+      "name": "카이론",
+      "scope": "ORDINARY",
+      "costs": {
+        "coin": 1000000000000,
+        "masterStars": 1000000,
+        "rate": 2
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_CARD_SHARD",
+          "quantity": 5
+        }
+      ],
+      "active": 1,
+      "public": 1,
+      "stock": {
+        "limit": 8,
+        "crafted": 4,
+        "remaining": 4,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_JOKRO",
+      "name": "족로",
+      "scope": "ORDINARY",
+      "costs": {
+        "coin": 1000000000000,
+        "masterStars": 10000000,
+        "rate": 1
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_CARD_SHARD",
+          "quantity": 15
+        }
+      ],
+      "active": 1,
+      "public": 1,
+      "stock": {
+        "limit": 2,
+        "crafted": 0,
+        "remaining": 2,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_996",
+      "name": "발테르",
+      "scope": "SSS_LIMITED_SHARD",
+      "costs": {
+        "coin": null,
+        "masterStars": null,
+        "rate": null
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "quantity": null
+        }
+      ],
+      "active": 0,
+      "public": 0,
+      "stock": {
+        "limit": 5,
+        "crafted": 0,
+        "remaining": 5,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_999",
+      "name": "헬리오스",
+      "scope": "SSS_LIMITED_SHARD",
+      "costs": {
+        "coin": null,
+        "masterStars": null,
+        "rate": null
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "quantity": null
+        }
+      ],
+      "active": 0,
+      "public": 0,
+      "stock": {
+        "limit": 5,
+        "crafted": 0,
+        "remaining": 5,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_989",
+      "name": "천룡검황 진무",
+      "scope": "SSS_LIMITED_SHARD",
+      "costs": {
+        "coin": null,
+        "masterStars": null,
+        "rate": null
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "quantity": null
+        }
+      ],
+      "active": 0,
+      "public": 0,
+      "stock": {
+        "limit": 5,
+        "crafted": 0,
+        "remaining": 5,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_988",
+      "name": "카이론",
+      "scope": "SSS_LIMITED_SHARD",
+      "costs": {
+        "coin": null,
+        "masterStars": null,
+        "rate": null
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "quantity": null
+        }
+      ],
+      "active": 0,
+      "public": 0,
+      "stock": {
+        "limit": 5,
+        "crafted": 0,
+        "remaining": 5,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_987",
+      "name": "시라누이",
+      "scope": "SSS_LIMITED_SHARD",
+      "costs": {
+        "coin": null,
+        "masterStars": null,
+        "rate": null
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "quantity": null
+        }
+      ],
+      "active": 0,
+      "public": 0,
+      "stock": {
+        "limit": 5,
+        "crafted": 0,
+        "remaining": 5,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_979",
+      "name": "족로",
+      "scope": "SSS_LIMITED_SHARD",
+      "costs": {
+        "coin": null,
+        "masterStars": null,
+        "rate": null
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "quantity": null
+        }
+      ],
+      "active": 0,
+      "public": 0,
+      "stock": {
+        "limit": 5,
+        "crafted": 0,
+        "remaining": 5,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_978",
+      "name": "레오넬",
+      "scope": "SSS_LIMITED_SHARD",
+      "costs": {
+        "coin": null,
+        "masterStars": null,
+        "rate": null
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "quantity": null
+        }
+      ],
+      "active": 0,
+      "public": 0,
+      "stock": {
+        "limit": 5,
+        "crafted": 0,
+        "remaining": 5,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_976",
+      "name": "제로",
+      "scope": "SSS_LIMITED_SHARD",
+      "costs": {
+        "coin": null,
+        "masterStars": null,
+        "rate": null
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "quantity": null
+        }
+      ],
+      "active": 0,
+      "public": 0,
+      "stock": {
+        "limit": 5,
+        "crafted": 0,
+        "remaining": 5,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_975",
+      "name": "프라임 레퀴엠",
+      "scope": "SSS_LIMITED_SHARD",
+      "costs": {
+        "coin": null,
+        "masterStars": null,
+        "rate": null
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "quantity": null
+        }
+      ],
+      "active": 0,
+      "public": 0,
+      "stock": {
+        "limit": 5,
+        "crafted": 0,
+        "remaining": 5,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_974",
+      "name": "제너럴 족",
+      "scope": "SSS_LIMITED_SHARD",
+      "costs": {
+        "coin": null,
+        "masterStars": null,
+        "rate": null
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "quantity": null
+        }
+      ],
+      "active": 0,
+      "public": 0,
+      "stock": {
+        "limit": 5,
+        "crafted": 0,
+        "remaining": 5,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_973",
+      "name": "은설",
+      "scope": "SSS_LIMITED_SHARD",
+      "costs": {
+        "coin": null,
+        "masterStars": null,
+        "rate": null
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "quantity": null
+        }
+      ],
+      "active": 0,
+      "public": 0,
+      "stock": {
+        "limit": 5,
+        "crafted": 0,
+        "remaining": 5,
+        "soldOut": false
+      }
+    },
+    {
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_972",
+      "name": "각성 오메가",
+      "scope": "SSS_LIMITED_SHARD",
+      "costs": {
+        "coin": null,
+        "masterStars": null,
+        "rate": null
+      },
+      "materials": [
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "quantity": null
+        }
+      ],
+      "active": 0,
+      "public": 0,
+      "stock": {
+        "limit": 5,
+        "crafted": 0,
+        "remaining": 5,
+        "soldOut": false
+      }
+    }
+  ]
+}
