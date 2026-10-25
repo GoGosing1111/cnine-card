@@ -2,7 +2,9 @@ import {BLOODMOON_PACK_CARDS} from '../shared/mercenary-bloodmoon-pool-v3.mjs';
 import {BLOODMOON_PACK,BLOODMOON_PACK_KEY,BLOODMOON_OPEN_KIND,BLOODMOON_PACK_RELEASE_ENABLED,bloodmoonPackPrice,validateBloodmoonOpeningBody,pickBloodmoonBatch,pickBloodmoonNormalCard} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
 import {limitedPackRandomInt} from './_mercenary_limited_pack.js';
 import {mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
-import {runJointOperation,readJointOperation,jointCoinDebit} from './_joint_transactions.js';
+import {runJointOperation,readJointOperation,jointCoinDebit,jointInventoryChange} from './_joint_transactions.js';
+import {PRIME_MATERIAL,PRIME_MATERIAL_STOCK_CODE,primeMaterialDraw,isPrimeMaterialDraw,bloodmoonDrawCode} from '../shared/mercenary-prime-material-v1.mjs';
+import {ensurePrimeMaterialCatalog} from './_mercenary_prime_material.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError} from './_joint_request.js';
 import {readBloodmoonSsOnce,pickBloodmoonSsOnceCode,consumeBloodmoonSsOnce} from './_mercenary_bloodmoon_once.js';
@@ -15,6 +17,9 @@ const terminal=(code,message)=>Object.assign(jointError('MERCENARY_BLOODMOON_'+c
 // SSS replacement before charging so retries (including old pending plans) keep it.
 async function reconcileBloodmoonStock(DB,userId,requestId,plan,state,randomInt){
  const before=JSON.stringify(plan),next=structuredClone(plan),remaining=new Map(state.stock.map(s=>[s.code,s.remaining]));
+ // A pre-change PENDING plan has not paid or granted anything. Keep its slot,
+ // probability and serial budget, but never issue a completed Prime mercenary.
+ next.draws=next.draws.map(r=>r.mercenaryCode===PRIME_MATERIAL_STOCK_CODE?primeMaterialDraw(r):r);
  // Reserve the explicitly guaranteed slot before ordinary results compete for
  // the remaining serials during a stock race. Legacy guarantees still use 0.
  const bulk=next.format===BLOODMOON_BULK_FORMAT;
@@ -22,16 +27,16 @@ async function reconcileBloodmoonStock(DB,userId,requestId,plan,state,randomInt)
  const indices=next.draws.map((_,i)=>i);
  if(next.once&&guaranteedIndex>0)indices.unshift(...indices.splice(guaranteedIndex,1));
  for(const i of indices){
-  const draw=next.draws[i];if(!bloodmoon(draw.mercenaryCode))continue;
-  const stock=state.stock.find(s=>s.code===draw.mercenaryCode);
+  const draw=next.draws[i],code=bloodmoonDrawCode(draw);if(!bloodmoon(code))continue;
+  const stock=state.stock.find(s=>s.code===code);
   if(!stock?.prepared)throw terminal('NOT_READY','리미티드 발행 수량을 확인해야 합니다.');
   if(remaining.get(stock.code)>0){remaining.set(stock.code,remaining.get(stock.code)-1);draw.stockLimit=stock.limit;}
   else{
    next.draws[i]={...pickBloodmoonNormalCard(state,'SSS',randomInt),...(bulk?{drawIndex:draw.drawIndex}:{})};
-   (next.stockFallbacks??=[]).push({index:i,limitedCode:draw.mercenaryCode,ordinaryCode:next.draws[i].mercenaryCode});
+   (next.stockFallbacks??=[]).push({index:i,limitedCode:code,ordinaryCode:next.draws[i].mercenaryCode});
   }
  }
- if(bulk){for(const draw of next.draws)if(!bloodmoon(draw.mercenaryCode))addBloodmoonNormal(next.normalDraws,draw);next.draws=next.draws.filter(r=>bloodmoon(r.mercenaryCode));}
+ if(bulk){for(const draw of next.draws)if(!bloodmoon(bloodmoonDrawCode(draw)))addBloodmoonNormal(next.normalDraws,draw);next.draws=next.draws.filter(r=>bloodmoon(bloodmoonDrawCode(r)));}
  const after=JSON.stringify(next);if(after===before)return;
  const saved=await DB.prepare("UPDATE joint_operations_v1 SET plan_json=? WHERE request_id=? AND user_id=? AND kind=? AND status='PENDING' AND plan_json=? RETURNING request_id").bind(after,requestId,userId,BLOODMOON_OPEN_KIND,before).first();
  if(!saved)throw jointError('MERCENARY_BLOODMOON_PLAN_CONFLICT','개봉 결과를 다시 확인하고 있습니다.',503);
@@ -74,25 +79,29 @@ export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_P
     const state=await stateFor(env);
     if(state.settings.mode!=='ON'||state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision)throw terminal('CHANGED','개봉 설정이 변경되어 미완료 요청을 취소했습니다.');
     await reconcileBloodmoonStock(env.DB,user.id,requestId,plan,state,random);
+    if(plan.draws.some(isPrimeMaterialDraw))await ensurePrimeMaterialCatalog(env);
     const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),grouped=new Map(),token=crypto.randomUUID(),timestamp=new Date().toISOString();
     plan.draws.forEach((r,i)=>{
-     if(bloodmoon(r.mercenaryCode)){if(!grouped.has(r.mercenaryCode))grouped.set(r.mercenaryCode,[]);grouped.get(r.mercenaryCode).push(i);}
+     const code=bloodmoonDrawCode(r);
+     if((r.kind==='ITEM'||r.itemCode||r.stockCode)&&!isPrimeMaterialDraw(r))throw terminal('MATERIAL','재료 카드 지급 설정을 확인하세요.');
+     if(bloodmoon(code)){if(!grouped.has(code))grouped.set(code,[]);grouped.get(code).push(i);}
      else if(r.mercenaryCode&&!state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
     });
     for(const r of plan.normalDraws||[])if(!state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
     // A stock-race fallback must not consume a separately armed guarantee.
     const guaranteedDraw=bulk?plan.draws.find(r=>r.drawIndex===(plan.once?.slotIndex??0)):plan.draws[plan.once?.slotIndex??0];
-    const list=await consumeBloodmoonSsOnce(DB,user.id,requestId,bloodmoon(guaranteedDraw?.mercenaryCode)?plan.once:null,guaranteedDraw);
+    const list=await consumeBloodmoonSsOnce(DB,user.id,requestId,bloodmoon(bloodmoonDrawCode(guaranteedDraw))?plan.once:null,guaranteedDraw);
     if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key=? FOR SHARE',BLOODMOON_PACK_KEY),p("SELECT doc_key FROM mercenary_cms_documents_v1 WHERE doc_key='config' FOR SHARE"),p('SELECT id FROM mercenary_draw_config_v1 WHERE id=1 FOR SHARE'));
     list.push(jointGuard(DB,token,"EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM mercenary_cms_documents_v1 WHERE doc_key='config' AND revision=?) AND EXISTS(SELECT 1 FROM mercenary_draw_config_v1 WHERE id=1 AND revision=?) AND EXISTS(SELECT 1 FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND status='PENDING' AND plan_json=?)",[BLOODMOON_PACK_KEY,plan.rawPack,plan.normalCmsRevision,plan.normalDrawRevision,requestId,user.id,JSON.stringify(plan)]));
     for(const [code,indices] of [...grouped].sort(([a],[b])=>a.localeCompare(b))){
      const size=indices.length,claim=crypto.randomUUID();
      list.push(p('UPDATE mercenary_limited_stock_v1 SET issued=issued+?,revision=revision+1,last_token=? WHERE code=? AND stock_limit=? AND issued+?<=stock_limit',size,claim,code,plan.draws[indices[0]].stockLimit,size),
-      jointGuard(DB,claim,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?)',[code,claim]),
-      p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+excluded.total_copies,duplicate_count=user_mercenary_cards_v1.duplicate_count+excluded.total_copies,last_obtained_at=excluded.last_obtained_at',user.id,code,size,size-1,timestamp,timestamp));
+      jointGuard(DB,claim,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?)',[code,claim]));
+     if(code!==PRIME_MATERIAL_STOCK_CODE)list.push(p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+excluded.total_copies,duplicate_count=user_mercenary_cards_v1.duplicate_count+excluded.total_copies,last_obtained_at=excluded.last_obtained_at',user.id,code,size,size-1,timestamp,timestamp));
      indices.forEach((index,j)=>{const aid=requestId+':'+(plan.draws[index].drawIndex??index),offset=size-j-1;
-      list.push(p('INSERT INTO mercenary_limited_issues_v1(acquisition_id,request_id,user_id,code,serial,created_at) SELECT ?,?,?,code,issued-?,? FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?',aid,requestId,user.id,offset,timestamp,code,claim),
-       p('INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplicate,total_copies_after,duplicate_count_after,created_at) SELECT ?,user_id,mercenary_code,CASE WHEN total_copies-?>1 THEN 1 ELSE 0 END,total_copies-?,total_copies-?-1,? FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?',aid,offset,offset,offset,timestamp,user.id,code));
+      list.push(p('INSERT INTO mercenary_limited_issues_v1(acquisition_id,request_id,user_id,code,serial,created_at) SELECT ?,?,?,code,issued-?,? FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?',aid,requestId,user.id,offset,timestamp,code,claim));
+      if(code===PRIME_MATERIAL_STOCK_CODE)list.push(...jointInventoryChange(DB,user.id,PRIME_MATERIAL.code,1,'BLOODMOON_PRIME_MATERIAL',aid));
+      else list.push(p('INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplicate,total_copies_after,duplicate_count_after,created_at) SELECT ?,user_id,mercenary_code,CASE WHEN total_copies-?>1 THEN 1 ELSE 0 END,total_copies-?,total_copies-?-1,? FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?',aid,offset,offset,offset,timestamp,user.id,code));
      });list.push(jointGuardEnd(DB,claim));
     }
     plan.draws.forEach((r,i)=>{if(r.mercenaryCode&&!bloodmoon(r.mercenaryCode))list.push(...mercenaryCardAcquisitionStatements(DB,{userId:Number(user.id),mercenaryCode:r.mercenaryCode,acquisitionId:requestId+':'+i}));});
@@ -104,8 +113,8 @@ export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_P
    const row=await env.DB.prepare('SELECT status,plan_json FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND kind=?').bind(requestId,user.id,BLOODMOON_OPEN_KIND).first();
    if(row?.status==='PENDING'){
     const plan=JSON.parse(row.plan_json),state=await stateFor(env),counts={};
-    for(const r of plan.draws)if(bloodmoon(r.mercenaryCode))counts[r.mercenaryCode]=(counts[r.mercenaryCode]||0)+1;
-    const stockChanged=Object.entries(counts).some(([code,n])=>{const stock=state.stock.find(s=>s.code===code);return stock?.prepared&&(stock.remaining<n||stock.limit!==plan.draws.find(r=>r.mercenaryCode===code).stockLimit);});
+    for(const r of plan.draws){const code=bloodmoonDrawCode(r);if(bloodmoon(code))counts[code]=(counts[code]||0)+1;}
+    const stockChanged=Object.entries(counts).some(([code,n])=>{const stock=state.stock.find(s=>s.code===code);return stock?.prepared&&(stock.remaining<n||stock.limit!==plan.draws.find(r=>bloodmoonDrawCode(r)===code).stockLimit);});
     const changed=state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision;
     if(changed){await env.DB.prepare("UPDATE joint_operations_v1 SET status='CANCELLED',completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING'").bind(new Date().toISOString(),requestId,user.id).run();throw terminal('CHANGED','설정이 변경되어 개봉을 취소했습니다. 코인은 차감되지 않았습니다.');}
     if(stockChanged&&attempt<(bulk?3:count+1))continue;
@@ -120,7 +129,13 @@ export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_P
   const bulk=op.plan.format===BLOODMOON_BULK_FORMAT;
   const ids=[...op.plan.draws.flatMap((r,i)=>r.mercenaryCode?[requestId+':'+(r.drawIndex??i)]:[]),...(op.plan.normalDraws||[]).map(r=>requestId+':bulk:'+r.mercenaryCode)];
   const found=ids.length?(await env.DB.prepare(`SELECT a.acquisition_id,a.mercenary_code,l.serial,a.is_duplicate,a.total_copies_after,a.duplicate_count_after FROM mercenary_card_acquisitions_v1 a LEFT JOIN mercenary_limited_issues_v1 l ON l.acquisition_id=a.acquisition_id AND l.user_id=a.user_id AND l.code=a.mercenary_code WHERE a.user_id=? AND a.acquisition_id IN (${ids.map(()=>'?').join(',')})`).bind(user.id,...ids).all()).results:[];
+  const itemRows=op.plan.draws.some(isPrimeMaterialDraw)?(await env.DB.prepare("SELECT l.acquisition_id,l.serial,i.change_amount,i.balance_after FROM mercenary_limited_issues_v1 l JOIN inventory_logs i ON i.reference_id=l.acquisition_id AND i.user_id=l.user_id WHERE l.request_id=? AND l.user_id=? AND l.code=? AND i.item_code=? AND i.reason='BLOODMOON_PRIME_MATERIAL' AND i.reference_type='V3_JOINT'").bind(requestId,user.id,PRIME_MATERIAL_STOCK_CODE,PRIME_MATERIAL.code).all()).results:[];
   const byId=new Map(found.map(r=>[r.acquisition_id,r])),draws=op.plan.draws.map((r,i)=>{
+   if(isPrimeMaterialDraw(r)){
+    const rows=itemRows.filter(row=>row.acquisition_id===requestId+':'+(r.drawIndex??i)),row=rows[0];
+    if(rows.length!==1||Number(row.change_amount)!==1||!(Number(row.serial)>0)||!(Number(row.balance_after)>=1))throw jointError('MERCENARY_BLOODMOON_RECEIPT','재료 카드 지급 영수증 확인이 필요합니다.',503);
+    return {...r,serial:Number(row.serial),totalQuantity:Number(row.balance_after)};
+   }
    if(!r.mercenaryCode)return r;const row=byId.get(requestId+':'+(r.drawIndex??i)),limited=bloodmoon(r.mercenaryCode);
    if(!row||row.mercenary_code!==r.mercenaryCode||limited&&!row.serial)throw jointError('MERCENARY_BLOODMOON_RECEIPT','지급 영수증 확인이 필요합니다.',503);
    return {...r,...(limited?{serial:Number(row.serial)}:{}),duplicate:Boolean(Number(row.is_duplicate)),totalCopies:Number(row.total_copies_after),duplicateCount:Number(row.duplicate_count_after)};

@@ -1,0 +1,51 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import http from 'node:http';
+import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import {equipmentFixture} from './helpers/workshop-equipment-fixture.mjs';
+import {bloodmoonFixture} from './helpers/bloodmoon-pack-fixture.mjs';
+import {handleWorkshop} from '../functions/_workshop.js';
+import {ensurePrimeMaterialCatalog} from '../functions/_mercenary_prime_material.js';
+import {PRIME_MATERIAL} from '../shared/mercenary-prime-material-v1.mjs';
+import {BLOODMOON_PACK,bloodmoonPackDraft} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
+import {readBloodmoonPackState} from '../functions/_mercenary_bloodmoon_pack.js';
+const root=process.cwd(),primary='C:/Users/User/Downloads/cnine-z-body-sword-20260918/site',out=path.join(root,'docs/qa/bloodmoon-prime-material-20261025'),cleanup=[],reports=[],errors=[],failed=[];
+fs.mkdirSync(out,{recursive:true});const t={after:fn=>cleanup.push(fn)},f=await equipmentFixture(t),b=await bloodmoonFixture(t);let posts=0;
+await f.p('ALTER TABLE inventory_items ADD COLUMN updated_at TEXT').run();await ensurePrimeMaterialCatalog(f.env);
+await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,?,3,3)',PRIME_MATERIAL.code).run();
+await b.pg.exec('ALTER TABLE app_meta ADD COLUMN updated_at TEXT');b.settings.cardRatesPpm=Object.fromEntries(Object.keys(b.settings.cardRatesPpm).map(c=>[c,c==='V-975'?1000000:0]));await b.configure();
+const receipt=await b.service.open(b.env,b.user,b.body(10));Object.assign(b.settings,bloodmoonPackDraft());await b.configure(2);
+const head='<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">';
+const client=`window.loadUser=()=>({id:7,serverUserId:7});window.apiRequest=async(p,o={})=>{const r=await fetch('/api/'+p,{...o,headers:{'content-type':'application/json',authorization:'Bearer local-account-7'}});const d=await r.json();if(!r.ok)throw Object.assign(Error(d.error),{status:r.status});return d;};`;
+const workshop=`<!doctype html><html lang="ko">${head}<link rel="stylesheet" href="/css/workshop-v1676.css"><link rel="stylesheet" href="/css/workshop-v1881.css"><link rel="stylesheet" href="/css/workshop-workbench-v1.css"><link rel="stylesheet" href="/css/command-ui-v1.css"><style>*{box-sizing:border-box}body{margin:0;background:#08111c;color:#eaf4ff;font-family:Arial,sans-serif}#view{max-width:1380px;margin:auto;padding:20px}.modal{display:none}button{font-family:inherit}@media(max-width:600px){#view{padding:10px}}</style><main id="view"></main><div id="modal" class="modal"></div><script>${client}</script><script src="/js/workshop-recipes-v1.js"></script><script src="/js/workshop-v1881.js"></script><script>document.getElementById('view').innerHTML=workshopView(loadUser(),{workshopSection:'MERCENARY_CRAFT'});bindWorkshopView();</script></html>`;
+const admin=`<!doctype html><html lang="ko">${head}<link rel="stylesheet" href="/admin/admin-v945.css"><link rel="stylesheet" href="/admin/workshop-admin-v1668.css"><style>body{display:block;padding:12px}#cms{max-width:1340px;margin:auto}#nav{display:block}.view[hidden]{display:none!important}input,select{min-width:0;max-width:100%}</style><h1 id="pageTitle">격리 CMS 검수</h1><nav id="nav"><button data-view="equipment">장비</button></nav><main id="cms"></main><script>localStorage.setItem('cnine_admin_token','local-account-7')</script><script src="/admin/workshop-admin-v1668.js"></script></html>`;
+const room=`<!doctype html><html lang="ko">${head}<body style="margin:0;background:#080b14"><script type="module">import {mountBloodmoonPack} from '/js/mercenary-bloodmoon-pack-live.mjs';${client}localStorage.setItem('cnine.bloodmoon-pack.receipt:1',JSON.stringify({accountId:1,requestId:${JSON.stringify(receipt.requestId)}}));await mountBloodmoonPack({accountId:1,getAccountId:()=>1,api:apiRequest,videoFactory:()=>({prepare(){},play(){return Promise.resolve()},cancel(){},destroy(){},setPaused(){}})});</script></body></html>`;
+const server=http.createServer(async(req,res)=>{try{
+ const url=new URL(req.url,'http://127.0.0.1'),json=data=>res.writeHead(200,{'content-type':'application/json'}).end(JSON.stringify(data));
+ if(req.method!=='GET')posts++;
+ if(['/qa/workshop','/qa/cms','/qa/pack'].includes(url.pathname))return res.writeHead(200,{'content-type':'text/html; charset=utf-8'}).end(url.pathname.endsWith('workshop')?workshop:url.pathname.endsWith('cms')?admin:room);
+ if(url.pathname==='/api/'+BLOODMOON_PACK.featurePath)return json(await readBloodmoonPackState(b.env));
+ if(url.pathname==='/api/'+BLOODMOON_PACK.receiptPath)return json(await b.service.receipt(b.env,b.user,url.searchParams.get('requestId')));
+ if(url.pathname.startsWith('/api/')){const chunks=[];for await(const c of req)chunks.push(c);const request=new Request(url,{method:req.method,headers:req.headers,...(req.method==='GET'?{}:{body:Buffer.concat(chunks)})});const response=await handleWorkshop({path:url.pathname.slice(5),request,env:f.env,deps:{...f.deps,readBody:r=>r.json()}});res.writeHead(response?.status||404,Object.fromEntries(response?.headers||[]));return res.end(response?await response.text():'{}');}
+ if(url.pathname==='/favicon.ico')return res.writeHead(204).end();
+ let file;for(const base of [root,primary]){const candidate=path.resolve(base,'.'+decodeURIComponent(url.pathname));if(candidate.startsWith(path.resolve(base)+path.sep)&&fs.existsSync(candidate)&&fs.statSync(candidate).isFile()){file=candidate;break;}}
+ if(!file)return res.writeHead(404).end('not found');const mime={'.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.png':'image/png','.webp':'image/webp','.avif':'image/avif','.json':'application/json','.woff2':'font/woff2'};res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream'});fs.createReadStream(file).pipe(res);
+ }catch(e){res.writeHead(500,{'content-type':'application/json'}).end(JSON.stringify({error:e.message}));}});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port,browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']});
+try{
+ for(const width of [1440,390,320]){
+  const page=await browser.newPage({viewport:{width,height:width>600?1080:900},serviceWorkers:'block'});page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)failed.push({url:r.url(),status:r.status()});});
+  await page.goto(base+'/qa/pack');await page.locator('[data-code="V-975"]').waitFor();assert.match(await page.locator('[data-code="V-975"]').innerText(),/기운잃은 프라임 카드/);assert(await page.locator('[data-bwp-bulk-start]').isDisabled());
+  await page.locator('[data-code="V-975"] img').evaluate(i=>{i.loading='eager';return i.decode();});await page.locator('[data-code="V-975"]').screenshot({path:path.join(out,`pack-card-${width}.png`)});
+  await page.locator('[data-bwp-recover]').click();await page.locator('.bwp-result').first().waitFor();assert.match(await page.locator('[data-bwp-results]').innerText(),/기운잃은 프라임 카드/);assert.match(await page.locator('[data-bwp-results]').innerText(),/제작 재료 · 제작 잠금/);
+  assert.equal(await page.locator('.bwp-dialog').evaluate(el=>el.scrollWidth>el.clientWidth+1),false);await page.locator('[data-bwp-results]').screenshot({path:path.join(out,`pack-result-${width}.png`)});
+  await page.goto(base+'/qa/workshop');await page.locator('[data-ws-section=MERCENARY_CRAFT]').click();await page.locator('.ws-prime-forge').waitFor();assert(await page.locator('#wsMaterialCraft').isDisabled());const text=await page.locator('.ws-prime-forge').innerText();for(const phrase of ['보유 3장','필요 수량 미정','성공 확률 미정','추가 비용 미정','제작 한도 미정'])assert(text.includes(phrase),phrase);
+  await page.locator('.ws-prime-forge img').evaluateAll(imgs=>Promise.all(imgs.map(i=>i.decode())));assert.match(await page.locator('.cn-ui-panel').evaluate(e=>getComputedStyle(e).borderImageSource),/panel-v3.webp/);assert.match(await page.locator('#wsMaterialCraft').evaluate(e=>getComputedStyle(e).borderImageSource),/action-user-approved.webp/);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await page.screenshot({path:path.join(out,`craft-locked-${width}.png`),fullPage:true});
+  await page.goto(base+'/qa/cms');await page.locator('[data-view="workshop"]').click();await page.locator('#workshopAdminPrime').click();await page.waitForFunction(()=>document.getElementById('kaironActive')?.disabled);
+  assert.match(await page.locator('.workshop-kairon-admin').innerText(),/제작 한도 미정/);for(const id of ['kaironCoin','kaironStars','kaironRate'])assert.equal(await page.locator('#'+id).inputValue(),'');assert.equal(await page.locator('[data-workshop-material-code]').inputValue(),PRIME_MATERIAL.code);assert.equal(await page.locator('[data-workshop-material-qty]').inputValue(),'');assert(await page.locator('#kaironActive').isDisabled());
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await page.screenshot({path:path.join(out,`cms-locked-${width}.png`),fullPage:true});reports.push({width,packMaterialImage:true,recoveredItemReceipt:true,craftLocked:true,cmsEnableDisabled:true,unknownConditionsPreserved:true,overflow:false});await page.close();
+ }
+ assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.equal(posts,0);fs.writeFileSync(path.join(out,'browser.json'),JSON.stringify({status:'PASSED',reports,errors,failed,uiPosts:posts,productionAccountWrites:0,visualApproval:'not claimed'},null,2));console.log(JSON.stringify(reports));
+}finally{await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));for(const close of cleanup)await close();}

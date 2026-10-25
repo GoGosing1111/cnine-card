@@ -1,0 +1,37 @@
+{
+  "status": "PASSED",
+  "reports": [
+    {
+      "width": 1440,
+      "packMaterialImage": true,
+      "recoveredItemReceipt": true,
+      "craftLocked": true,
+      "cmsEnableDisabled": true,
+      "unknownConditionsPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "packMaterialImage": true,
+      "recoveredItemReceipt": true,
+      "craftLocked": true,
+      "cmsEnableDisabled": true,
+      "unknownConditionsPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "packMaterialImage": true,
+      "recoveredItemReceipt": true,
+      "craftLocked": true,
+      "cmsEnableDisabled": true,
+      "unknownConditionsPreserved": true,
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "failed": [],
+  "uiPosts": 0,
+  "productionAccountWrites": 0,
+  "visualApproval": "not claimed"
+}

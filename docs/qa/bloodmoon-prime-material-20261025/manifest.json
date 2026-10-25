@@ -1,0 +1,25 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "usage": "Separate inventory crafting material, not replacement Prime character art",
+  "visualApproval": "Not requested or recorded; implementation preview",
+  "original": {
+    "path": "docs/qa/bloodmoon-prime-material-20261025/originals/prime-depleted-source.png",
+    "sha256": "3de4be216fa37363d710b90d7380fb4724a66f9f22a81f0e0ad23ef40cb2c1bb"
+  },
+  "runtime": {
+    "path": "assets/items/prime-depleted-20261025/card.webp",
+    "sha256": "e7d4e185c059ba7c3d517ff2f644f8842d818e51d45b616277b30aa9738bc227"
+  },
+  "generatedSource": "C:/Users/User/.codex/generated_images/01a16fc7-5348-73d3-b26d-af829059d93e/exec-fcdebae5-ff4d-4bce-9e87-1f212b615fa8.png",
+  "promptFile": "docs/qa/bloodmoon-prime-material-20261025/prompt.json",
+  "references": [
+    {
+      "path": "assets/ui/project-v/mercenaries/prime-requiem-20261021/source-art.png",
+      "sha256": "b2d1c5df8553370ec9ff90d72e27562c404c24dcecf33935bb74f0edc13d2fdc"
+    },
+    {
+      "path": "assets/items/mercenary-sss-card-shard-v1.png",
+      "sha256": "352dbcabea111c3c761d23fd9489d83af167be9a8bb5170545ee57c3075cdb97"
+    }
+  ]
+}

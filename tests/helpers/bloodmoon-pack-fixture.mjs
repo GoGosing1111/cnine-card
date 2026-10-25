@@ -4,6 +4,7 @@ import {readBloodmoonPackState} from '../../functions/_mercenary_bloodmoon_pack.
 import {createBloodmoonPackService} from '../../functions/_mercenary_bloodmoon_opening.js';
 export async function bloodmoonFixture(t,{randomInt=()=>0}={}){
  const f=await limitedFixture(t);await f.configure({enabled:false});
+ await f.pg.exec('ALTER TABLE inventory_items ADD COLUMN name TEXT, ADD COLUMN subtitle TEXT, ADD COLUMN description TEXT, ADD COLUMN category TEXT, ADD COLUMN rarity TEXT, ADD COLUMN image_url TEXT, ADD COLUMN sort_order BIGINT');
  const settings=bloodmoonPackDraft();settings.mode='ON';settings.prices={single:100,ten:900};settings.normalRankRatesPpm=Object.fromEntries(Object.keys(settings.normalRankRatesPpm).map(rank=>[rank,rank==='SSS'?1000000:0]));settings.cardRatesPpm=Object.fromEntries(Object.keys(settings.cardRatesPpm).map(code=>[code,code==='V-960'?1000000:0]));settings.missRatePpm=0;settings.normalSssRatePpm=0;
  for(const [code,limit] of Object.entries(settings.stockLimits))if(limit!==null)await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit) VALUES(?,?)',code,limit).run();
  for(const code of ['V-978','V-974','V-975'])await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,issued) VALUES(?,3,0)',code).run();

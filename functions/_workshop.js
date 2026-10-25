@@ -1,6 +1,8 @@
 import { ensureEquipmentFoundation } from './_equipment.js';
 import { ensureBattleSuitCoreCatalog } from './_battle_suit_materials.js';
 import { ensureEmperorEnergyCatalog } from './_emperor_energy.js';
+import {ensurePrimeMaterialCatalog} from './_mercenary_prime_material.js';
+import {PRIME_MATERIAL} from '../shared/mercenary-prime-material-v1.mjs';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {WORKSHOP_EXTENSION_CATEGORIES, validateWorkshopExtension} from '../shared/workshop-extension-contract-v1.mjs';
 import {isEquipmentCraft} from '../shared/workshop-equipment-craft.mjs';
@@ -234,9 +236,10 @@ async function synthesisRecipeRows(env,user,{admin=false}={}){
 }
 
 async function userWorkshopState(env,user,{admin=false}={}){
+  await ensurePrimeMaterialCatalog(env);
   const [wallet,items,ownedVehicles,recipes,synthesisRows]=await Promise.all([
     env.DB.prepare(`SELECT u.coin,u.card_shards,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=u.id AND item_code='MASTER_STAR'),0) master_stars FROM users u WHERE u.id=?`).bind(user.id).first(),
-    env.DB.prepare(`SELECT i.code,i.name,replace(i.image_url,char(92),'/') image_url,i.rarity,COALESCE(ui.quantity,0) quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=? WHERE i.code='MASTER_STAR' OR EXISTS(SELECT 1 FROM ${MATERIAL_TABLE} m WHERE m.item_code=i.code) OR EXISTS(SELECT 1 FROM ${RECIPE_TABLE} r WHERE r.output_type='INVENTORY_ITEM' AND r.output_ref=i.code AND r.is_active=1 AND r.is_public=1)`).bind(user.id).all(),
+    env.DB.prepare(`SELECT i.code,i.name,replace(i.image_url,char(92),'/') image_url,i.rarity,COALESCE(ui.quantity,0) quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=? WHERE i.code='MASTER_STAR' OR i.code=? OR EXISTS(SELECT 1 FROM ${MATERIAL_TABLE} m WHERE m.item_code=i.code) OR EXISTS(SELECT 1 FROM ${RECIPE_TABLE} r WHERE r.output_type='INVENTORY_ITEM' AND r.output_ref=i.code AND r.is_active=1 AND r.is_public=1)`).bind(user.id,PRIME_MATERIAL.code).all(),
     env.DB.prepare('SELECT garage_id FROM user_garage_vehicles WHERE user_id=?').bind(user.id).all(),
     recipeRows(env,{admin}),
     synthesisRecipeRows(env,user,{admin})
@@ -400,6 +403,7 @@ async function synthesizeEquipment(env,user,body){
 }
 
 async function adminSnapshot(env,user){
+  await ensurePrimeMaterialCatalog(env);
   await ensureEmperorEnergyCatalog(env);
   const [recipes,vehicles,equipment,items,logs,synthesisRecipes,synthesisLogs,refund]=await Promise.all([
     recipeRows(env,{admin:true}),

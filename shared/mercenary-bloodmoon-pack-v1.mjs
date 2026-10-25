@@ -1,8 +1,9 @@
-import {BLOODMOON_PACK_CARDS,bloodmoonStockLimit,isBloodmoonStockLimit} from './mercenary-bloodmoon-pool-v3.mjs?v=20261024-namsudaeng-v1';
+import {BLOODMOON_PACK_CARDS,bloodmoonStockLimit,isBloodmoonStockLimit} from './mercenary-bloodmoon-pool-v3.mjs?v=20261025-prime-material-v1';
+import {PRIME_MATERIAL,PRIME_MATERIAL_STOCK_CODE,primeMaterialDraw,isPrimeMaterialDraw,bloodmoonDrawCode} from './mercenary-prime-material-v1.mjs';
 import {BLOODMOON_MERCENARIES,BLOODMOON_ORIGINAL_CODES,BLOODMOON_SERVER_LIMIT} from './mercenary-bloodmoon-catalog-v1.mjs?v=20261024-namsudaeng-v1';
 import {isLimitedRate,limitedRateUnits,LIMITED_RATE_TOTAL,LIMITED_RATE_SCALE} from './mercenary-limited-rates-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
-import {BLOODMOON_BULK_FORMAT,BLOODMOON_BULK_MAX_COUNT,bloodmoonBudget,validateBloodmoonBulkReceipt} from './mercenary-bloodmoon-bulk-v1.mjs';
+import {BLOODMOON_BULK_FORMAT,BLOODMOON_BULK_MAX_COUNT,bloodmoonBudget,validateBloodmoonBulkReceipt} from './mercenary-bloodmoon-bulk-v1.mjs?v=20261025-prime-material-v1';
 
 // Opening preparation only. The release gate stays closed until a launch is authorized.
 // CMS drafts, purchases and receipts are isolated from the Halloween pack.
@@ -90,7 +91,7 @@ export function bloodmoonPackState(settings=bloodmoonPackDraft(),stockRows=[],no
 export function bloodmoonPackCatalogRow(settings=bloodmoonPackDraft(),stockRows=[]){
  settings=readBloodmoonPackSettings(settings);
  const enabled=BLOODMOON_PACK_RELEASE_ENABLED&&settings.mode==='ON',stock=bloodmoonPackState(settings,stockRows).stock;
- return {id:BLOODMOON_PACK.id,name:BLOODMOON_PACK.name,subtitle:'BLOODMOON LIMITED',theme:'bloodmoon',description:'블러드 SS 6종 · SSS 리미티드 레오넬·제너럴 족·프라임 레퀴엠',range:'일반 C~SSS · SS·SSS 리미티드',price:settings.prices.single,prices:settings.prices,allowed:[],drawMode:'MERCENARY_BLOODMOON',drawEnabled:enabled,ownerDrawEnabled:false,maxDrawCount:10,imageUrl:BLOODMOON_PACK.image,revealMode:'BLOODMOON_FAST_GRID',comingSoon:!enabled,previewCards:BLOODMOON_PACK_CARDS.map(({code,name,rank,thumbnailArt,group})=>({code,name,rank,thumbnailArt,group,...stock.find(s=>s.code===code)}))};
+ return {id:BLOODMOON_PACK.id,name:BLOODMOON_PACK.name,subtitle:'BLOODMOON LIMITED',theme:'bloodmoon',description:'블러드 SS 6종 · SSS 리미티드 레오넬·제너럴 족 · 기운잃은 프라임 카드(제작 재료)',range:'일반 C~SSS · SS·SSS 리미티드',price:settings.prices.single,prices:settings.prices,allowed:[],drawMode:'MERCENARY_BLOODMOON',drawEnabled:enabled,ownerDrawEnabled:false,maxDrawCount:10,imageUrl:BLOODMOON_PACK.image,revealMode:'BLOODMOON_FAST_GRID',comingSoon:!enabled,previewCards:BLOODMOON_PACK_CARDS.map(({code,name,rank,thumbnailArt,group})=>({code,name,rank,thumbnailArt,group,...stock.find(s=>s.code===code)}))};
 }
 export function bloodmoonPackPrice(settings,count){
  if(![1,10].includes(count))throw Error('1회 또는 10회를 선택하세요.');
@@ -130,7 +131,8 @@ export function pickBloodmoonBatch(state,count,random,{firstLimitedCode=null}={}
     if(!stock?.prepared)throw Object.assign(Error('리미티드 발행 수량을 확인해야 합니다.'),{code:'MERCENARY_BLOODMOON_NOT_READY',terminal:true,status:409});
     if((used[card.code]||0)<stock.limit){
      used[card.code]=(used[card.code]||0)+1;
-     draws.push({outcomeId:card.rank==='SSS'?'BLOODMOON_SSS':'BLOODMOON_SS',mercenaryCode:card.code,name:card.name,rank:card.rank,gateRank:'SSS',edition:card.rank==='SSS'?'SSS_LIMITED':'BLOODMOON_LIMITED',stockLimit:stock.limit,quantity:1,sourceArt:card.sourceArt});continue;
+     const draw={outcomeId:card.rank==='SSS'?'BLOODMOON_SSS':'BLOODMOON_SS',mercenaryCode:card.code,name:card.name,rank:card.rank,gateRank:'SSS',edition:card.rank==='SSS'?'SSS_LIMITED':'BLOODMOON_LIMITED',stockLimit:stock.limit,quantity:1,sourceArt:card.sourceArt};
+     draws.push(card.code===PRIME_MATERIAL_STOCK_CODE?primeMaterialDraw(draw):draw);continue;
     }
     // Keep every other interval unchanged. This interval now awards ordinary SSS,
     // including when an earlier draw in the same batch took the last copy.
@@ -141,9 +143,16 @@ export function pickBloodmoonBatch(state,count,random,{firstLimitedCode=null}={}
  return draws;
 }
 export function bloodmoonReceiptResults(receipt){
+ const result=(r,index)=>{
+  if((r.kind==='ITEM'||r.itemCode||r.stockCode)&&!isPrimeMaterialDraw(r))throw Error('재료 카드 영수증을 확인하세요.');
+  const item=isPrimeMaterialDraw(r),card=BLOODMOON_PACK_CARDS.find(c=>c.code===bloodmoonDrawCode(r));
+  // Completed pre-change receipts still describe the mercenary actually granted.
+  const art=item?PRIME_MATERIAL.image:r.mercenaryCode===PRIME_MATERIAL_STOCK_CODE?'assets/ui/packs/blood-pack-20261023/v-975-640.webp':card?.displayArt;
+  return {...r,limited:Boolean(card),kind:item?'ITEM':r.mercenaryCode?'MERCENARY':'MISS',receiptId:receipt.requestId+':'+index,preview:false,granted:true,artUrl:art?'/'+art:r.mercenaryCode?'/assets/ui/project-v/mercenaries/codex-v1/'+r.mercenaryCode.toLowerCase()+'-art-640.webp':null};
+ };
  if(receipt?.status==='COMPLETED'&&receipt.packId===BLOODMOON_PACK.id&&receipt.format===BLOODMOON_BULK_FORMAT){
-  return validateBloodmoonBulkReceipt(receipt).map(r=>{const card=BLOODMOON_PACK_CARDS.find(c=>c.code===r.mercenaryCode);return {...r,limited:Boolean(card),kind:r.mercenaryCode?'MERCENARY':'MISS',receiptId:receipt.requestId+':'+(r.drawIndex??'bulk:'+r.mercenaryCode),preview:false,granted:true,artUrl:card?'/'+card.displayArt:r.mercenaryCode?'/assets/ui/project-v/mercenaries/codex-v1/'+r.mercenaryCode.toLowerCase()+'-art-640.webp':null};});
+  return validateBloodmoonBulkReceipt(receipt).map(r=>result(r,r.drawIndex??'bulk:'+r.mercenaryCode));
  }
  if(receipt?.status!=='COMPLETED'||receipt.packId!==BLOODMOON_PACK.id||![1,10].includes(receipt.count)||receipt.draws?.length!==receipt.count)throw Error('확정된 블러드팩 결과가 필요합니다.');
- return receipt.draws.map((r,index)=>{const card=BLOODMOON_PACK_CARDS.find(c=>c.code===r.mercenaryCode);return {...r,limited:Boolean(card),kind:r.mercenaryCode?'MERCENARY':'MISS',receiptId:receipt.requestId+':'+index,preview:false,granted:true,artUrl:card?'/'+card.displayArt:r.mercenaryCode?'/assets/ui/project-v/mercenaries/codex-v1/'+r.mercenaryCode.toLowerCase()+'-art-640.webp':null};});
+ return receipt.draws.map(result);
 }

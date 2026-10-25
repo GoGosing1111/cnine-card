@@ -10,6 +10,7 @@ export async function readMercenaryCraftStock(env,definition,policy=null){
 }
 export const readKaironCraftStock=env=>readMercenaryCraftStock(env,MERCENARY_CRAFTS[0]);
 export function mercenaryCraftStockGuard(DB,guardId,definition){
+ if(definition.releaseEnabled===false||definition.limit===null)return DB.prepare('UPDATE workshop_craft_guards_v1668 SET verified=0 WHERE guard_id=?').bind(guardId);
  return DB.prepare(`UPDATE workshop_craft_guards_v1668 SET verified=0 WHERE guard_id=? AND (${CRAFTED_SQL})>=?`).bind(guardId,definition.code,definition.recipeCode,definition.limit);
 }
 export const kaironCraftStockGuard=(DB,guardId)=>mercenaryCraftStockGuard(DB,guardId,MERCENARY_CRAFTS[0]);
@@ -23,7 +24,7 @@ export async function decorateMercenaryCraft(env,rows,{admin=false}={}){
  const keys=MERCENARY_CRAFTS.map(d=>d.key),marks=keys.map(()=>'?').join(',');
  const saved=await env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${marks})`).bind(...keys).all();
  const policies=new Map(saved.results.map(r=>[r.key,JSON.parse(r.value)]));
- const visible=MERCENARY_CRAFTS.filter(d=>admin||policies.get(d.key)?.isPublic===true);
+ const visible=MERCENARY_CRAFTS.filter(d=>admin||(policies.get(d.key)??mercenaryCraftDraft(d)).isPublic===true);
  if(!visible.length)return rest;
  const codes=visible.map(d=>d.recipeCode),codeMarks=codes.map(()=>'?').join(',');
  const [storedRows,counts]=await Promise.all([
@@ -74,7 +75,7 @@ export const saveKaironCraft=(env,admin,raw,deps={})=>{
 };
 export async function requireMercenaryCraft(env,recipe){
  const definition=mercenaryCraftDefinition(recipe),{policy,value}=await readMercenaryCraft(env,definition);
- if(!value||recipe.output_ref!==definition.code||recipe.output_quantity!==1||!mercenaryCraftReady(policy)||!policy.isActive||!policy.isPublic||recipe.craftLocked)throw Error(`${definition.art.name} 제작이 잠겨 있습니다. CMS 제작 조건과 운영 설정을 확인하세요.`);
+ if(definition.releaseEnabled===false||!value||recipe.output_ref!==definition.code||recipe.output_quantity!==1||!mercenaryCraftReady(policy)||!policy.isActive||!policy.isPublic||recipe.craftLocked)throw Error(`${definition.art.name} 제작이 잠겨 있습니다. CMS 제작 조건과 운영 설정을 확인하세요.`);
  if(!isLimitedShardCraft(definition)&&policy.materials.some(m=>m.itemCode===LIMITED_CRAFT_SHARD))throw Error('SSS 리미티드 조각 전용 제작식을 선택하세요.');
  await ensureCraftAccounting(env);return {definition:{...definition,limit:policy.stockLimit??definition.limit},value};
 }
@@ -82,6 +83,7 @@ export const requireKaironCraft=async(env,recipe)=>{
  if(recipe.code!==KAIRON_RECIPE_CODE)throw Error('카이론 제작 코드를 확인하세요.');return (await requireMercenaryCraft(env,recipe)).value;
 };
 export function mercenaryCraftGrantStatements(DB,{userId,requestId,guardId},definition){
+ if(definition.releaseEnabled===false)throw Error('프라임 레퀴엠 제작이 잠겨 있습니다.');
  const stmt=(sql,...args)=>DB.prepare(sql).bind(...args),acquisitionId=`${definition.prefix}:${userId}:${requestId}`,at=new Date().toISOString();
  const verified='EXISTS(SELECT 1 FROM workshop_craft_guards_v1668 WHERE guard_id=? AND verified=1)';
  return [

@@ -1,4 +1,5 @@
-import {BLOODMOON_PACK_CARDS} from './mercenary-bloodmoon-pool-v3.mjs';
+import {BLOODMOON_PACK_CARDS} from './mercenary-bloodmoon-pool-v3.mjs?v=20261025-prime-material-v1';
+import {PRIME_MATERIAL_STOCK_CODE,primeMaterialDraw,isPrimeMaterialDraw,bloodmoonDrawCode} from './mercenary-prime-material-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 import {limitedRateUnits,LIMITED_RATE_TOTAL} from './mercenary-limited-rates-v1.mjs';
 
@@ -65,7 +66,8 @@ export function pickBloodmoonBulk(state,count,random,{firstLimitedCode=null,slot
   // Bound the serial ledger and transaction even if future stock policies grow.
   if(result.draws.length>=256)throw fail('리미티드 결과가 많습니다. 사용 한도를 낮춰 주세요.');
   remaining.set(code,remaining.get(code)-1);
-  result.draws.push({outcomeId:c.rank==='SSS'?'BLOODMOON_SSS':'BLOODMOON_SS',mercenaryCode:c.code,name:c.name,rank:c.rank,gateRank:'SSS',edition:c.rank==='SSS'?'SSS_LIMITED':'BLOODMOON_LIMITED',stockLimit:s.limit,quantity:1,drawIndex:index});return true;
+  const draw={outcomeId:c.rank==='SSS'?'BLOODMOON_SSS':'BLOODMOON_SS',mercenaryCode:c.code,name:c.name,rank:c.rank,gateRank:'SSS',edition:c.rank==='SSS'?'SSS_LIMITED':'BLOODMOON_LIMITED',stockLimit:s.limit,quantity:1,drawIndex:index};
+  result.draws.push(c.code===PRIME_MATERIAL_STOCK_CODE?primeMaterialDraw(draw):draw);return true;
  };
  // Reserve an explicitly authorized guarantee before the normal lottery.
  if(firstLimitedCode&&(!Number.isSafeInteger(slotIndex)||slotIndex<0||slotIndex>=count||!(state.settings.cardRatesPpm[firstLimitedCode]>0)||!limited(firstLimitedCode,slotIndex)))throw fail('1회 확정 위치와 재고를 확인하세요.');
@@ -82,7 +84,7 @@ export function validateBloodmoonBulkReceipt(receipt){
  if(receipt.format!==BLOODMOON_BULK_FORMAT||!Number.isSafeInteger(count)||count<1||count>BLOODMOON_BULK_MAX_COUNT||!Array.isArray(draws)||draws.length>256||!Array.isArray(normalDraws)||normalDraws.length>1000||!Number.isSafeInteger(missCount)||missCount<0)throw Error('대량 개봉 영수증을 확인하세요.');
  const codes=new Set(),indices=new Set();let total=missCount;
  for(const r of normalDraws){if(!r.mercenaryCode||codes.has(r.mercenaryCode)||BLOODMOON_PACK_CARDS.some(c=>c.code===r.mercenaryCode)||!MERCENARY_RANKS.includes(r.rank)||!Number.isSafeInteger(r.quantity)||r.quantity<1)throw Error('일반 용병 수량을 확인하세요.');codes.add(r.mercenaryCode);total+=r.quantity;}
- for(const r of draws){if(!BLOODMOON_PACK_CARDS.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank)||r.quantity!==1||!Number.isSafeInteger(r.drawIndex)||r.drawIndex<0||r.drawIndex>=count||indices.has(r.drawIndex))throw Error('리미티드 개봉 영수증을 확인하세요.');indices.add(r.drawIndex);total++;}
+ for(const r of draws){if((r.kind==='ITEM'||r.itemCode||r.stockCode)&&!isPrimeMaterialDraw(r)||!BLOODMOON_PACK_CARDS.some(c=>c.code===bloodmoonDrawCode(r)&&c.rank===r.rank)||r.quantity!==1||!Number.isSafeInteger(r.drawIndex)||r.drawIndex<0||r.drawIndex>=count||indices.has(r.drawIndex))throw Error('리미티드 개봉 영수증을 확인하세요.');indices.add(r.drawIndex);total++;}
  if(total!==count)throw Error('개봉 횟수와 결과 수량이 일치하지 않습니다.');
  return [...normalDraws,...draws,...(missCount?[{outcomeId:'NONE',quantity:missCount}]:[])];
 }

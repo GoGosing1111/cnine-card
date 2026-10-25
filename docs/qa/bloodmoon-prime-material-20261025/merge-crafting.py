@@ -1,0 +1,58 @@
+"""Integrate this task's Prime material recipe with concurrent shard-craft work.
+Both sides remain recoverable in Git. No other checkout is changed.
+"""
+from pathlib import Path
+import subprocess
+def stage(n,file): return subprocess.check_output(['git','show',f':{n}:{file}']).decode('utf-8').replace('\r\n','\n')
+def replace(s,a,b):
+    if a not in s: raise Exception('Missing merge anchor: '+a[:100])
+    return s.replace(a,b)
+def write(file,s):
+    assert '<<<<<<<' not in s and '>>>>>>>' not in s
+    Path(file).write_text(s,encoding='utf-8')
+file='shared/mercenary-craft-v1.mjs';s=stage(2,file);own=stage(3,file)
+imports="import {PRIME_CODE,PRIME_ART,PRIME_COMBAT} from './mercenary-prime-requiem-v1.mjs';\nimport {PRIME_MATERIAL,PRIME_CRAFT_RELEASE_ENABLED} from './mercenary-prime-material-v1.mjs';\nexport const PRIME_CRAFT_KEY='mercenary_prime_craft_v1';\nexport const PRIME_RECIPE_CODE='WORKSHOP_PRIME_REQUIEM';\n"
+s=replace(s,'export const KAIRON_CRAFT_KEY=',imports+'export const KAIRON_CRAFT_KEY=')
+row=next(line for line in own.splitlines() if 'Object.freeze({key:PRIME_CRAFT_KEY' in line)
+row=row.replace("prefix:'PRIME',","prefix:'PRIME',scope:'PRIME_MATERIAL',")
+s=replace(s,' ...LIMITED_SHARD_CRAFTS',row+',\n ...LIMITED_SHARD_CRAFTS')
+s=replace(s,' return {limit:definition.limit,crafted:count,remaining:Math.max'," if(definition.limit===null)return {limit:null,crafted:count,remaining:null,soldOut:false};\n return {limit:definition.limit,crafted:count,remaining:Math.max")
+s=replace(s,'export const mercenaryCraftDraft=definition=>isLimitedShardCraft',"export const mercenaryCraftDraft=definition=>definition.recipeCode===PRIME_RECIPE_CODE?{...kaironCraftDraft(),materials:[{itemCode:PRIME_MATERIAL.code,quantity:null}],isPublic:true}:isLimitedShardCraft")
+s=replace(s,' if(next.isActive&&!mercenaryCraftReady(next))'," if(definition.recipeCode===PRIME_RECIPE_CODE&&!next.materials.some(m=>m.itemCode===PRIME_MATERIAL.code))throw Error('기운잃은 프라임 카드를 제작 재료로 유지하세요. 수량은 미정으로 저장할 수 있습니다.');\n if(next.isActive&&definition.releaseEnabled===false)throw Error('프라임 레퀴엠 제작 잠금: 제작 조건 결정과 별도 개방 전에는 운영할 수 없습니다.');\n if(next.isActive&&!mercenaryCraftReady(next))")
+s=replace(s,'const ready=mercenaryCraftReady(policy),active=ready&&policy.isActive',"const ready=mercenaryCraftReady(policy),releaseLocked=definition.releaseEnabled===false,active=!releaseLocked&&ready&&policy.isActive")
+s=replace(s,'craftLocked:!active,craftStock:stock','craftLocked:!active,craftReleaseLocked:releaseLocked,craftStock:stock')
+s=replace(s,"craftStockLabel:isLimitedShardCraft(definition)?", "craftStockLabel:definition.recipeCode===PRIME_RECIPE_CODE?'프라임 재료 카드 제작':isLimitedShardCraft(definition)?")
+s=replace(s,'lockReason:stock?.soldOut?',"lockReason:releaseLocked?'제작 조건 추후 결정 · 현재 제작 잠금':stock?.soldOut?")
+s=replace(s,'...row.materials?.find(x=>x.item_code===m.itemCode),item_code:',"...row.materials?.find(x=>x.item_code===m.itemCode),...(m.itemCode===PRIME_MATERIAL.code?{item_name:PRIME_MATERIAL.name,image_url:PRIME_MATERIAL.image,rarity:PRIME_MATERIAL.rarity}:{}),item_code:")
+write(file,s)
+file='functions/_mercenary_craft.js';s=stage(2,file)
+s=replace(s,'export function mercenaryCraftStockGuard(DB,guardId,definition){',"export function mercenaryCraftStockGuard(DB,guardId,definition){\n if(definition.releaseEnabled===false||definition.limit===null)return DB.prepare('UPDATE workshop_craft_guards_v1668 SET verified=0 WHERE guard_id=?').bind(guardId);")
+s=replace(s,"MERCENARY_CRAFTS.filter(d=>admin||policies.get(d.key)?.isPublic===true)","MERCENARY_CRAFTS.filter(d=>admin||(policies.get(d.key)??mercenaryCraftDraft(d)).isPublic===true)")
+s=replace(s,'if(!value||recipe.output_ref!==definition.code','if(definition.releaseEnabled===false||!value||recipe.output_ref!==definition.code')
+s=replace(s,'export function mercenaryCraftGrantStatements(DB,{userId,requestId,guardId},definition){',"export function mercenaryCraftGrantStatements(DB,{userId,requestId,guardId},definition){\n if(definition.releaseEnabled===false)throw Error('프라임 레퀴엠 제작이 잠겨 있습니다.');")
+write(file,s)
+file='js/workshop-v1881.js';s=stage(2,file);own=stage(3,file)
+panel=own[own.index('  function primeCraftPanel(recipe) {'):own.index('  function mercenaryCraftSelector')]
+s=replace(s,'  function mercenaryCraftSelector',panel+'  function mercenaryCraftSelector')
+s=replace(s,"+(recipe?.craftScope==='SSS_LIMITED_SHARD'?limitedShardCraftPanel(recipe)","+(recipe?.code==='WORKSHOP_PRIME_REQUIEM'?primeCraftPanel(recipe):recipe?.craftScope==='SSS_LIMITED_SHARD'?limitedShardCraftPanel(recipe)")
+s=replace(s,"${r.craftScope==='SSS_LIMITED_SHARD'?'리미티드 조각':'일반 조각'}","${r.craftScope==='PRIME_MATERIAL'?'기운잃은 프라임 카드':r.craftScope==='SSS_LIMITED_SHARD'?'리미티드 조각':'일반 조각'}")
+write(file,s)
+file='admin/workshop-admin-v1668.js';s=stage(2,file)
+s=replace(s,'<p>서버 전체 제작 ${fmt(recipe.craftStock?.limit)}장 · 남은 ${fmt(recipe.craftStock?.remaining)}장</p>',"<p>${recipe.craftStock?.limit==null?'제작 한도 미정':`서버 전체 제작 ${fmt(recipe.craftStock.limit)}장 · 남은 ${fmt(recipe.craftStock.remaining)}장`}</p>")
+s=replace(s,'<p>미입력 값은 빈 상태로 보존합니다.',"<p>${recipe.craftReleaseLocked?'현재 서버 제작 잠금 · 조건 입력만으로 개방되지 않습니다.<br>':''}미입력 값은 빈 상태로 보존합니다.")
+s=replace(s,'id="kaironActive" type="checkbox" ${recipe.craftConfiguredActive?', 'id="kaironActive" type="checkbox" ${recipe.craftReleaseLocked?\'disabled aria-disabled="true"\':\'\'} ${recipe.craftConfiguredActive?')
+s=replace(s,'<button type="button" id="workshopAdminJokro">족로 제작</button>','<button type="button" id="workshopAdminJokro">족로 제작</button><button type="button" id="workshopAdminPrime">프라임 제작 · 잠금</button>')
+s=replace(s,"q('workshopAdminCoreDraft').onclick=", "q('workshopAdminPrime').onclick=()=>{selectedId=Number(state.recipes.find(r=>r.code==='WORKSHOP_PRIME_REQUIEM')?.id||-975);render();q('workshopRecipeEditorV1668').scrollIntoView({block:'start',behavior:'smooth'})};q('workshopAdminCoreDraft').onclick=")
+write(file,s)
+file='js/app.js';s=stage(2,file)
+s=replace(s,'jokroCraft=20261021','jokroCraft=20261021&primeMaterial=20261025-v1')
+s=replace(s,'mercenary-bloodmoon-pack-live.mjs?v=20261025-bulk-v1','mercenary-bloodmoon-pack-live.mjs?v=20261025-prime-material-v1');write(file,s)
+file='index.html';s=stage(2,file)
+s=replace(s,'js/app.js?v=superstar-bulk-20261025-v1-','js/app.js?v=bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-')
+s=replace(s,'mercenaryReveal=20261025-v6','mercenaryReveal=20261025-v6&amp;primeMaterial=20261025-v1');write(file,s)
+file='admin/index.html';s=stage(2,file);s=replace(s,'workshop-admin-v1668.js?','workshop-admin-v1668.js?primeMaterial=20261025-v1&');write(file,s)
+file='tests/jokro-craft-20261021.test.mjs';s=stage(2,file)
+s=replace(s,'map(r=>r.id),[k])','map(r=>r.id),[k,-975])')
+s=replace(s,"recipes.filter(r=>r.craftScope!=='SSS_LIMITED_SHARD').length,2","recipes.filter(r=>r.craftScope!=='SSS_LIMITED_SHARD').length,3")
+write(file,s)
+print('Integrated all eight conflicts while retaining shard recipes, stock scopes and Prime locks')

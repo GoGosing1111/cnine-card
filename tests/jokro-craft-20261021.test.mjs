@@ -30,9 +30,9 @@ test('prepared Jokro is OFF/hidden with exact requested economics; Kairon settin
  const kp=(await f.p("SELECT value FROM app_meta WHERE key='mercenary_kairon_craft_v1'").first()).value;
  const id=await f.save(),p=(await readMercenaryCraft(f.env,definition)).policy;
  assert.equal(p.coinCost,1e12);assert.equal(p.masterStarCost,1e7);assert.equal(p.successRate,1);assert.deepEqual(p.materials,[{itemCode:'MERCENARY_SSS_CARD_SHARD',quantity:15}]);assert.equal(p.isActive,false);assert.equal(p.isPublic,false);
- assert.deepEqual((await decorateMercenaryCraft(f.env,[],{admin:false})).map(r=>r.id),[k]);
+ assert.deepEqual((await decorateMercenaryCraft(f.env,[],{admin:false})).map(r=>r.id),[k,-975]);
  const recipes=await decorateMercenaryCraft(f.env,[],{admin:true}),j=recipes.find(r=>r.code===JOKRO_RECIPE_CODE);
- assert.equal(recipes.filter(r=>r.craftScope!=='SSS_LIMITED_SHARD').length,2);assert.deepEqual(j.craftStock,{limit:2,crafted:0,remaining:2,soldOut:false});assert(j.craftLocked);
+ assert.equal(recipes.filter(r=>r.craftScope!=='SSS_LIMITED_SHARD').length,3);assert.deepEqual(j.craftStock,{limit:2,crafted:0,remaining:2,soldOut:false});assert(j.craftLocked);
  await assert.rejects(f.craft(id,'off'),/제작할 수 없는/);assert.deepEqual(await f.balance(),before);
  await assert.rejects(saveMercenaryCraft(f.env,{id:8,role:'ADMIN'},raw()),/OWNER/);
  for(const change of [{outputRef:'V-988'},{outputQuantity:2},{paymentMode:'COIN_ONLY'},{code:'WORKSHOP_UNKNOWN'},{cardShardCost:1}])await assert.rejects(f.save({...change,craftRevision:1}));

@@ -10,6 +10,7 @@ import {handleHalloweenPack,halloweenPackShopRow} from '../_mercenary_halloween_
 import {handleBloodmoonPack,bloodmoonPackShopRow} from '../_mercenary_bloodmoon_pack.js';
 import {WORM_CONTEST_GIFT,ensureWormContestGiftCatalog,openWormContestGift,grantWormContestGift} from '../_worm_contest_gift.js';
 import {ensureMercenarySssShardCatalog} from '../_mercenary_sss_shard.js';
+import {ensurePrimeMaterialCatalog} from '../_mercenary_prime_material.js';
 import {ensureLimitedShardCatalog} from '../_support_package.js';
 import {MERCENARY_EQUIPMENT_SQL_CODES} from '../../shared/mercenary-equipment-v1.mjs';
 import {presentOriginalIpResponse} from '../../shared/monster-original-ip-presentation-v1.mjs';
@@ -5341,6 +5342,7 @@ async function handleRequest(context){
       await ensureForgeRepairCatalog(env);
       await ensureForgeScrollCatalog(env);
       await ensureMercenarySssShardCatalog(env);
+      await ensurePrimeMaterialCatalog(env);
       await ensureLimitedShardCatalog(env);
       await ensureSssRerollCatalog(env);
       await ensureSkillChipFoundation(env);

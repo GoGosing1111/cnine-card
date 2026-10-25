@@ -1,4 +1,4 @@
-import {BLOODMOON_PACK,validateBloodmoonOpeningBody,bloodmoonReceiptResults} from './mercenary-bloodmoon-pack-v1.mjs?v=20261025-bulk-v1';
+import {BLOODMOON_PACK,validateBloodmoonOpeningBody,bloodmoonReceiptResults} from './mercenary-bloodmoon-pack-v1.mjs?v=20261025-prime-material-v1';
 const fail=(message,code)=>Object.assign(Error(message),{code});
 const terminal=new Set(['MERCENARY_BLOODMOON_CLOSED','MERCENARY_BLOODMOON_CHANGED','MERCENARY_BLOODMOON_NOT_READY','MERCENARY_BLOODMOON_FUNDS','MERCENARY_BLOODMOON_INPUT','MERCENARY_BLOODMOON_SOLD_OUT','MERCENARY_BLOODMOON_NORMAL_POOL','JOINT_OPERATION_SUPERSEDED']);
 export class BloodmoonOpeningSession{

@@ -3,6 +3,7 @@ import {BLOODMOON_PACK_CARDS} from '../shared/mercenary-bloodmoon-pool-v3.mjs';
 import {limitedRateUnits} from '../shared/mercenary-limited-rates-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError} from './_joint_request.js';
+import {bloodmoonDrawCode,isPrimeMaterialDraw} from '../shared/mercenary-prime-material-v1.mjs';
 
 // Armed only by an explicitly authorized operations transaction. Public opening
 // requests cannot choose, create or replenish an account's one-time award.
@@ -35,8 +36,9 @@ export async function consumeBloodmoonSsOnce(DB,userId,requestId,once,draw){
  const current=await readBloodmoonSsOnce(DB,userId);
  if(current?.key!==once.key||current?.before!==once.before||current?.operationId!==once.operationId||current?.slotIndex!==once.slotIndex)throw Object.assign(jointError('MERCENARY_BLOODMOON_ONCE_CHANGED','1회 확정 상태가 변경됐습니다. 새 개봉으로 다시 시도하세요.',409),{terminal:true});
  const before=JSON.parse(once.before),specific=before.version>=2,slotIndex=before.version===3?before.slotIndex:0;
- if(draw?.rank!==before.rank||draw.edition!==before.edition||draw.quantity!==1||!BLOODMOON_PACK_CARDS.some(c=>c.code===draw.mercenaryCode&&c.rank===before.rank)||specific&&draw.mercenaryCode!==before.mercenaryCode)throw invalid();
- const after=JSON.stringify({...before,status:'CONSUMED',remaining:0,consumedAt:new Date().toISOString(),requestId,acquisitionId:requestId+':'+slotIndex,mercenaryCode:draw.mercenaryCode});
+ const code=bloodmoonDrawCode(draw);
+ if(draw?.rank!==before.rank||draw.edition!==before.edition||draw.quantity!==1||!BLOODMOON_PACK_CARDS.some(c=>c.code===code&&c.rank===before.rank)||specific&&code!==before.mercenaryCode)throw invalid();
+ const after=JSON.stringify({...before,status:'CONSUMED',remaining:0,consumedAt:new Date().toISOString(),requestId,acquisitionId:requestId+':'+slotIndex,mercenaryCode:code,...(isPrimeMaterialDraw(draw)?{rewardKind:'ITEM',itemCode:draw.itemCode}:{})});
  const p=(sql,...v)=>DB.prepare(sql).bind(...v),token=crypto.randomUUID();
  return [
   ...(DB.dialect==='postgres'?[p('SELECT key FROM app_meta WHERE key=? FOR UPDATE',once.key)]:[]),
