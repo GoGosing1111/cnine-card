@@ -1,0 +1,21 @@
+{
+  "operationKey": "ops:kim-pokgun-new-user-gift:20261025:v1",
+  "authorization": "김폭군 신규기프트박스 지급해",
+  "itemCode": "NEW_USER_GIFT_BOX",
+  "quantity": 1,
+  "delivery": "DIRECT_INVENTORY",
+  "joinAgeException": true,
+  "reissuePreviouslyOpened": false,
+  "openAutomatically": false,
+  "sendMessage": false,
+  "targets": [{
+    "userId": "4644",
+    "nickname": "김폭군",
+    "role": "USER",
+    "status": "ACTIVE",
+    "createdAt": "2026-08-19 23:08:08",
+    "provider": "PLAYDK",
+    "identityHash": "371fef52e9aed1dbc661e22d385324cb4d24b3430d27753ee9d8e9d6ec17be74",
+    "quantity": 1
+  }]
+}

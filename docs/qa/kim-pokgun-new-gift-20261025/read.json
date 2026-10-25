@@ -1,0 +1,242 @@
+{
+  "checkedAt": "2026-10-25T11:52:38.195Z",
+  "readOnly": true,
+  "user": {
+    "id": "4644",
+    "nickname": "김폭군",
+    "status": "ACTIVE",
+    "role": "USER",
+    "created_at": "2026-08-19 23:08:08",
+    "coin": "100159361730488",
+    "card_shards": "5367690",
+    "magic_crystals": "4623"
+  },
+  "verification": {
+    "provider": "PLAYDK",
+    "providerName": "김폭군",
+    "verifiedAt": "2026-08-20 04:03:08",
+    "identityHash": "371fef52e9aed1dbc661e22d385324cb4d24b3430d27753ee9d8e9d6ec17be74"
+  },
+  "eligibility": {
+    "eligible": false,
+    "code": "EXPIRED",
+    "message": "리버스콜 가입 후 14일이 지나 지급할 수 없습니다.",
+    "joinedAt": "2026-08-19T23:08:08.000Z",
+    "deadline": "2026-09-02T23:08:08.000Z",
+    "days": 14,
+    "verified": true,
+    "provider": "PLAYDK"
+  },
+  "gifts": [],
+  "inventory": [
+    {
+      "item_code": "CORE_RAID_ENTRY_TICKET",
+      "quantity": "23",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "EMPEROR_ENERGY",
+      "quantity": "674",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "EQUIPMENT_POLISH_STONE",
+      "quantity": "42",
+      "unseen_quantity": "14"
+    },
+    {
+      "item_code": "EQUIPMENT_PROTECTION_TICKET",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "EQUIPMENT_SUPPLY_BOX",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "FUR_REROLL_TICKET",
+      "quantity": "2",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "HIGH_GRADE_REROLL_TICKET",
+      "quantity": "1",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "ICON_CARD_CHOICE_TICKET",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "LICH_KING_ENTRY_TICKET",
+      "quantity": "37",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "LIMITED_REROLL_TICKET",
+      "quantity": "28",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "MADARA_RAID_ENTRY_TICKET",
+      "quantity": "35",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "MAGIC_CARD_PACK",
+      "quantity": "20",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "MASTER_STAR",
+      "quantity": "86209884",
+      "unseen_quantity": "1594405"
+    },
+    {
+      "item_code": "MA_REROLL_TICKET",
+      "quantity": "14",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "MERCENARY_SSS_CARD_SHARD",
+      "quantity": "2",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "MERCENARY_SSS_LIMITED_SHARD",
+      "quantity": "15",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "MERCENARY_SSS_REROLL_TICKET",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "MINE_ELECTRIC_DRILL",
+      "quantity": "1",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "MIRACLE_CUBE",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "PET_ESSENCE",
+      "quantity": "5",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "PET_POTENTIAL_POTION",
+      "quantity": "3",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "PET_SEAL_ORB",
+      "quantity": "19",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "PINGDU_REPAIR_COUPON",
+      "quantity": "12",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "PINGDU_THANKS_GIFT_BOX",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "PRIME_EQUIPMENT_SUPPLY_BOX",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "PRIME_VEHICLE_DRAW_TICKET",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "REVERSECALL_STREAMER_GIFT_BOX",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "SCRAPYARD_ENTRY_TICKET",
+      "quantity": "23",
+      "unseen_quantity": "1"
+    },
+    {
+      "item_code": "STARLIGHT_ARMOR_CORE",
+      "quantity": "17306",
+      "unseen_quantity": "867"
+    },
+    {
+      "item_code": "SUIT_CORE_1",
+      "quantity": "8",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "SUIT_CORE_2",
+      "quantity": "3",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "SUIT_CORE_3",
+      "quantity": "6",
+      "unseen_quantity": "2"
+    },
+    {
+      "item_code": "SUIT_CORE_6",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "SUIT_CORE_SUPPLY_BOX",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "UNIQUE_ADVANCEMENT_PASS",
+      "quantity": "1",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "VEHICLE_DRAW_TICKET",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "VEHICLE_PARTS_150_CHOICE",
+      "quantity": "2",
+      "unseen_quantity": "0"
+    },
+    {
+      "item_code": "VEHICLE_PART_ENGINE",
+      "quantity": "62",
+      "unseen_quantity": "11"
+    },
+    {
+      "item_code": "VEHICLE_PART_FRAME",
+      "quantity": "46",
+      "unseen_quantity": "13"
+    },
+    {
+      "item_code": "VEHICLE_PART_TIRE",
+      "quantity": "67",
+      "unseen_quantity": "22"
+    }
+  ],
+  "logs": [],
+  "item": [
+    {
+      "code": "NEW_USER_GIFT_BOX",
+      "name": "신규유저 기프트 박스",
+      "is_active": "1"
+    }
+  ],
+  "existingOperation": []
+}

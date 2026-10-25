@@ -1,0 +1,7 @@
+{
+  "status": "ROLLED_BACK",
+  "error": "canceling statement due to statement timeout",
+  "phase": "pre-commit failure-injection rehearsal",
+  "committed": false,
+  "adjustment": "Scope inventory log verification to the reviewed user ID instead of querying all users; add failing SQL diagnostics without parameter values."
+}

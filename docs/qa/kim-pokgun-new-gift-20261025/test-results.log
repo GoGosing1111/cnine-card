@@ -1,0 +1,12 @@
+✔ one unopened current V4 gift, G-BODY, exact account, protected balances and SELECT-only replay (1837.6518ms)
+✔ audit/receipt failure and dry-run rollback leave box, records and balances unchanged (1418.7248ms)
+✔ missing lease or changed identity cannot grant or create a partial receipt (1360.7722ms)
+✔ a preexisting account or verified-identity receipt is never reset or reissued (1312.5952ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6092.0644
