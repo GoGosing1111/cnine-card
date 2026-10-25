@@ -57,7 +57,7 @@ export async function handleBloodmoonPack({path,request,env,deps}){
  try{
   if(path===BLOODMOON_PACK.openPath){
    if(request.method!=='POST')return deps.json({error:'지원하지 않는 요청입니다.'},405);
-   if(!BLOODMOON_PACK_RELEASE_ENABLED)return deps.json({code:'MERCENARY_BLOODMOON_CLOSED',error:'블러드 리미티드 용병팩은 출시 준비 중입니다. 코인은 차감되지 않았습니다.'},423,{'cache-control':'no-store'});
+   if(!BLOODMOON_PACK_RELEASE_ENABLED)return deps.json({code:'MERCENARY_BLOODMOON_CLOSED',error:'블러드문팩은 출시 준비 중입니다. 코인은 차감되지 않았습니다.'},423,{'cache-control':'no-store'});
    const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
    const body=await readJointBody(request,{maxBytes:2048,fields:['requestId','count','expectedRevision','budget']});
    return deps.json(await deps.withUserMutationLock(env,user.id,path,()=>service.open(env,user,body)),200,{'cache-control':'no-store'});
@@ -69,7 +69,7 @@ export async function handleBloodmoonPack({path,request,env,deps}){
   }
   if(path===BLOODMOON_PACK.adminPath){
    const actor=await deps.requirePermission(request,env,'BATTLE_MANAGE');
-   if(!actor||actor.role!=='OWNER')return deps.json({error:'블러드 팩 설정은 OWNER만 관리할 수 있습니다.'},403);
+   if(!actor||actor.role!=='OWNER')return deps.json({error:'블러드문팩 설정은 OWNER만 관리할 수 있습니다.'},403);
    if(request.method==='PATCH')return deps.json(publicState(await saveBloodmoonPack(env,actor,await readJointBody(request,{maxBytes:12000}))),200,{'cache-control':'no-store'});
   }
   if(request.method!=='GET')return deps.json({error:'지원하지 않는 요청입니다.'},405);

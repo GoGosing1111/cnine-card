@@ -1,4 +1,4 @@
-import {bloodmoonPackPrice} from './mercenary-bloodmoon-pack-v1.mjs?v=20261024-namsudaeng-v1';
+import {bloodmoonPackPrice} from './mercenary-bloodmoon-pack-v1.mjs?v=20261025-opening-v1';
 
 export const BLOODMOON_AUTO_MAX_BATCHES=100;
 const fail=(message,code)=>Object.assign(Error(message),{code});
@@ -26,7 +26,7 @@ export class BloodmoonAutoOpening{
  async start(config,count,repeats){
   if(this.state.running)throw fail('자동뽑기가 진행 중입니다.','BLOODMOON_BUSY');
   const quote=bloodmoonAutoQuote(config,count,repeats);
-  if(!config.userOpeningEnabled)throw fail('현재 블러드팩을 개봉할 수 없습니다.','MERCENARY_BLOODMOON_CLOSED');
+  if(!config.userOpeningEnabled)throw fail('현재 블러드문팩을 개봉할 수 없습니다.','MERCENARY_BLOODMOON_CLOSED');
   this.stopReason='';this.controller=new AbortController();
   this.update({running:true,completed:0,totalDraws:0,spent:'0',count,repeats,phase:'checking',reason:'',error:false});
   try{

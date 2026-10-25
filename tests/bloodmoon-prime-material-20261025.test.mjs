@@ -69,7 +69,7 @@ test('pre-change completed receipts and directly owned Prime cards remain mercen
  const legacy=await f.service.receipt(f.env,f.user,r.requestId),view=bloodmoonReceiptResults(legacy);assert.equal(view[0].kind,'MERCENARY');assert.match(view[0].artUrl,/v-975-640/);assert.equal(await f.owned(),1);
 });
 test('Prime craft is visible but has no invented quantity, costs, rate, or limit and cannot be enabled',async t=>{
- assert.equal(PRIME_CRAFT_RELEASE_ENABLED,false);assert.equal(BLOODMOON_PACK_RELEASE_ENABLED,false);
+ assert.equal(PRIME_CRAFT_RELEASE_ENABLED,false);assert.equal(BLOODMOON_PACK_RELEASE_ENABLED,true);
  const draft=mercenaryCraftDraft(prime),recipe=mercenaryCraftRecipe(prime,draft,{},mercenaryCraftStock(prime));
  assert.deepEqual(draft.materials,[{itemCode:PRIME_MATERIAL.code,quantity:null}]);for(const key of ['coinCost','masterStarCost','successRate'])assert.equal(draft[key],null);
  assert.equal(recipe.craftLocked,true);assert.equal(recipe.is_public,1);assert.equal(recipe.output_ref,'V-975');assert.equal(recipe.craftStock.limit,null);assert.equal(recipe.craftStock.remaining,null);

@@ -30,9 +30,9 @@ test('Bloodmoon cannot enter existing packs, normal acquisition, synthesis or de
  for(const c of cards){assert(isLimitedMercenary(c.code));assert(ALL_LIMITED_MERCENARIES.includes(c));assert(!LIMITED_MERCENARIES.some(a=>a.code===c.code));assert(!HALLOWEEN_PACK_CARDS.some(a=>a.code===c.code));assert(!seed.catalog.cards.some(a=>a.code===c.code));assert.equal(mercenaryAcquisitionEnabled(c.code,{cardWeights:{[c.code]:999}}),false);assert.equal(limitedDeploymentSnapshot(c.code),null);}
  assert.equal(bloodmoonPackDraft().mode,'OFF');assert.deepEqual(bloodmoonPackDraft().prices,{single:null,ten:null});
 });
-test('opening always returns 423 before DB, account, body or currency access',async()=>{
+test('opening requires authentication before DB, body or currency access',async()=>{
  const never=new Proxy({},{get(){throw Error('Opening must not access a database or account');}}),json=(body,status=200,headers)=>({body,status,headers});
- for(const body of ['{}','{"count":1}','{"count":10,"mode":"ON"}']){const r=await handleBloodmoonPack({path:BLOODMOON_PACK.openPath,request:new Request('https://test/api/'+BLOODMOON_PACK.openPath,{method:'POST',body}),env:never,deps:{json}});assert.equal(r.status,423);assert.equal(r.body.code,'MERCENARY_BLOODMOON_CLOSED');}
+ for(const body of ['{}','{"count":1}','{"count":10,"mode":"ON"}']){const r=await handleBloodmoonPack({path:BLOODMOON_PACK.openPath,request:new Request('https://test/api/'+BLOODMOON_PACK.openPath,{method:'POST',body}),env:never,deps:{json,authenticate:async()=>null}});assert.equal(r.status,401);}
  assert.equal(await handleBloodmoonPack({path:'other',request:{},env:never,deps:{json}}),null);
 });
 test('public feature preserves the legacy OFF draft and ten copies without writing',async t=>{

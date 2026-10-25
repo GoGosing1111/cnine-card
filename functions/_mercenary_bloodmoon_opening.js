@@ -47,7 +47,7 @@ export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_P
  if(typeof readState!=='function')throw Error('Bloodmoon state reader required');
  const stateFor=env=>readState(env,{releaseEnabled});
  async function open(env,user,raw){
-  if(!releaseEnabled)throw jointError('MERCENARY_BLOODMOON_CLOSED','블러드팩은 출시 준비 중입니다. 코인은 차감되지 않았습니다.',423);
+  if(!releaseEnabled)throw jointError('MERCENARY_BLOODMOON_CLOSED','블러드문팩은 출시 준비 중입니다. 코인은 차감되지 않았습니다.',423);
   const {requestId,count,expectedRevision}=validateBloodmoonOpeningBody(raw);
   const bulk=Object.hasOwn(raw,'budget'),random=bulk&&randomInt===limitedPackRandomInt?createBloodmoonBulkRandom():randomInt;
   let result;
@@ -57,7 +57,7 @@ export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_P
    try{result=await runJointOperation(env,user,{requestId,kind:BLOODMOON_OPEN_KIND,input:{count,expectedRevision,...(bulk?{budget:raw.budget}:{})},
    prepare:async()=>{
     const state=await stateFor(env);
-    if(state.settings.mode!=='ON')throw terminal('CLOSED','블러드팩 개봉이 중지됐습니다.');
+    if(state.settings.mode!=='ON')throw terminal('CLOSED','블러드문팩 개봉이 중지됐습니다.');
     if(state.revision!==expectedRevision)throw terminal('CHANGED','가격·확률이 변경됐습니다. 새 설정을 확인하세요.');
     if(!state.readiness.ready)throw terminal('NOT_READY',state.readiness.blockers.join(' '));
     const quote=bulk?bloodmoonBulkQuote(state.settings.prices,raw.budget):null;
@@ -106,7 +106,7 @@ export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_P
     }
     plan.draws.forEach((r,i)=>{if(r.mercenaryCode&&!bloodmoon(r.mercenaryCode))list.push(...mercenaryCardAcquisitionStatements(DB,{userId:Number(user.id),mercenaryCode:r.mercenaryCode,acquisitionId:requestId+':'+i}));});
     for(const draw of plan.normalDraws||[])list.push(...bloodmoonBulkAcquisitionStatements(DB,{userId:Number(user.id),requestId,draw,createdAt:timestamp}));
-    list.push(...jointCoinDebit(DB,user.id,plan.coinCost,'블러드 리미티드 용병팩 '+requestId),jointGuardEnd(DB,token));return list;
+    list.push(...jointCoinDebit(DB,user.id,plan.coinCost,'블러드문팩 '+requestId),jointGuardEnd(DB,token));return list;
    }
   });break;}catch(error){
    if(error.code==='MERCENARY_BLOODMOON_PLAN_CONFLICT'&&attempt<(bulk?3:count+1))continue;

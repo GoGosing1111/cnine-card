@@ -1,21 +1,21 @@
 import {jointAccountRequest} from './joint-account-transport.mjs?v=20261024-namsudaeng-v1';
-import {BLOODMOON_PACK,bloodmoonReceiptResults,bloodmoonPackPrice} from '../shared/mercenary-bloodmoon-pack-v1.mjs?v=20261025-prime-material-v1';
-import {BloodmoonOpeningSession} from '../shared/mercenary-bloodmoon-session-v2.mjs?v=20261025-prime-material-v1';
+import {BLOODMOON_PACK,bloodmoonReceiptResults,bloodmoonPackPrice} from '../shared/mercenary-bloodmoon-pack-v1.mjs?v=20261025-opening-v1';
+import {BloodmoonOpeningSession} from '../shared/mercenary-bloodmoon-session-v2.mjs?v=20261025-opening-v1';
 import {BloodmoonReceiptRecovery,bloodmoonReceiptRetryable} from '../shared/mercenary-bloodmoon-recovery-v1.mjs?v=20261024-namsudaeng-v1';
 import {BloodmoonAutoOpening,bloodmoonAutoQuote} from '../shared/mercenary-bloodmoon-auto-v1.mjs?v=20261024-namsudaeng-v1';
 import {bloodmoonBulkQuote,bloodmoonBulkPriceSource,bloodmoonCoinText} from '../shared/mercenary-bloodmoon-bulk-v1.mjs';
 import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=20261024-namsudaeng-v1';
-import {bloodmoonStockText,bloodmoonCollectionMarkup,bloodmoonResultsMarkup,bloodmoonRoomMarkup} from './mercenary-bloodmoon-presentation-v2.mjs?v=20261025-prime-material-v1';
+import {bloodmoonStockText,bloodmoonCollectionMarkup,bloodmoonResultsMarkup,bloodmoonRoomMarkup} from './mercenary-bloodmoon-presentation-v2.mjs?v=20261025-opening-v1';
 const fmt=n=>n==null?'미정':BigInt(n).toLocaleString('ko-KR');
 const currentAccount=()=>Number(globalThis.loadUser?.()?.serverUserId)||0;
-const browserLock=(key,work)=>{if(!navigator.locks?.request)throw Error('안전한 개봉을 지원하는 최신 브라우저에서 이용해 주세요.');return navigator.locks.request(key,{ifAvailable:true},lock=>{if(!lock)throw Error('다른 창에서 블러드팩을 처리 중입니다.');return work();});};
+const browserLock=(key,work)=>{if(!navigator.locks?.request)throw Error('안전한 개봉을 지원하는 최신 브라우저에서 이용해 주세요.');return navigator.locks.request(key,{ifAvailable:true},lock=>{if(!lock)throw Error('다른 창에서 블러드문팩을 처리 중입니다.');return work();});};
 let active=null;
 export function bloodmoonBatchCinematics(results){return ['SS','SSS'].map(rank=>results.find(r=>r.rank===rank&&(r.limited||rank==='SSS')&&mercenaryCinematicFor(r))).filter(Boolean);}
 export function bloodmoonBatchCinematic(results){return bloodmoonBatchCinematics(results).at(-1)??null;}
 export function openBloodmoonPack(){return mountBloodmoonPack();}
 export async function mountBloodmoonPack({api=jointAccountRequest,accountId=currentAccount(),getAccountId=currentAccount,storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
  if(active)return active;
- if(!document.querySelector('[data-bloodmoon-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-bloodmoon-pack-v2.css?v=20261025-prime-material-v1';link.dataset.bloodmoonPackStyle='';document.head.append(link);}
+ if(!document.querySelector('[data-bloodmoon-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-bloodmoon-pack-v2.css?v=20261025-opening-v1';link.dataset.bloodmoonPackStyle='';document.head.append(link);}
  const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='bwp-dialog';active=dialog;
  dialog.setAttribute('aria-labelledby','bwp-title');dialog.innerHTML=bloodmoonRoomMarkup(BLOODMOON_PACK);
  const $=selector=>dialog.querySelector(selector);let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null,recovery=null;
@@ -110,7 +110,7 @@ export async function mountBloodmoonPack({api=jointAccountRequest,accountId=curr
   $('[data-bwp-budget]').disabled=busy;
   dialog.querySelectorAll('[data-bwp-budget-preset]').forEach(b=>{b.disabled=busy;const selected=b.dataset.bwpBudgetPreset===$('[data-bwp-budget]').value.replaceAll(',','');b.setAttribute('aria-pressed',String(selected));b.classList.toggle('bwp-primary',selected);});
   if(!config)return;
-  try{const q=readBulkQuote();$('[data-bwp-bulk-quote]').textContent=fmt(q.count)+'회 개봉 · '+bloodmoonCoinText(q.coinCost)+' 사용'+(q.unused!=='0'?' · 미사용 '+bloodmoonCoinText(q.unused):'');$('[data-bwp-bulk-reference]').textContent=q.reference?'할로윈 기준가 1회 10억 / 10회 100억으로 계산한 준비 화면입니다. 실제 판매 가격은 미정입니다.':'저장된 블러드팩 가격으로 계산합니다.';button.disabled=busy||hasPending()||!config.userOpeningEnabled||q.reference;button.textContent=busy?'결과 확인 중…':config.userOpeningEnabled&&!q.reference?'일괄 개봉 확인':'일괄 개봉 · 판매 잠금';}
+  try{const q=readBulkQuote();$('[data-bwp-bulk-quote]').textContent=fmt(q.count)+'회 개봉 · '+bloodmoonCoinText(q.coinCost)+' 사용'+(q.unused!=='0'?' · 미사용 '+bloodmoonCoinText(q.unused):'');$('[data-bwp-bulk-reference]').textContent=q.reference?'할로윈 기준가 1회 10억 / 10회 100억으로 계산한 준비 화면입니다. 실제 판매 가격은 미정입니다.':'저장된 블러드문팩 가격으로 계산합니다.';button.disabled=busy||hasPending()||!config.userOpeningEnabled||q.reference;button.textContent=busy?'결과 확인 중…':config.userOpeningEnabled&&!q.reference?'일괄 개봉 확인':'일괄 개봉 · 판매 잠금';}
   catch(e){$('[data-bwp-bulk-quote]').textContent=e.message;}
  }
  async function load(){

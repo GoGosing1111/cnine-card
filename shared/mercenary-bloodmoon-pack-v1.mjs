@@ -1,16 +1,16 @@
-import {BLOODMOON_PACK_CARDS,bloodmoonStockLimit,isBloodmoonStockLimit} from './mercenary-bloodmoon-pool-v3.mjs?v=20261025-prime-material-v1';
+import {BLOODMOON_PACK_CARDS,bloodmoonStockLimit,isBloodmoonStockLimit} from './mercenary-bloodmoon-pool-v3.mjs?v=20261025-opening-v1';
 import {PRIME_MATERIAL,PRIME_MATERIAL_STOCK_CODE,primeMaterialDraw,isPrimeMaterialDraw,bloodmoonDrawCode} from './mercenary-prime-material-v1.mjs';
-import {BLOODMOON_MERCENARIES,BLOODMOON_ORIGINAL_CODES,BLOODMOON_SERVER_LIMIT} from './mercenary-bloodmoon-catalog-v1.mjs?v=20261024-namsudaeng-v1';
+import {BLOODMOON_MERCENARIES,BLOODMOON_ORIGINAL_CODES,BLOODMOON_SERVER_LIMIT} from './mercenary-bloodmoon-catalog-v1.mjs?v=20261025-opening-v1';
 import {isLimitedRate,limitedRateUnits,LIMITED_RATE_TOTAL,LIMITED_RATE_SCALE} from './mercenary-limited-rates-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
-import {BLOODMOON_BULK_FORMAT,BLOODMOON_BULK_MAX_COUNT,bloodmoonBudget,validateBloodmoonBulkReceipt} from './mercenary-bloodmoon-bulk-v1.mjs?v=20261025-prime-material-v1';
+import {BLOODMOON_BULK_FORMAT,BLOODMOON_BULK_MAX_COUNT,bloodmoonBudget,validateBloodmoonBulkReceipt} from './mercenary-bloodmoon-bulk-v1.mjs?v=20261025-opening-v1';
 
-// Opening preparation only. The release gate stays closed until a launch is authorized.
+// User authorized public opening on 2026-10-25. CMS mode and readiness still gate sales.
 // CMS drafts, purchases and receipts are isolated from the Halloween pack.
-export const BLOODMOON_PACK_RELEASE_ENABLED=false;
+export const BLOODMOON_PACK_RELEASE_ENABLED=true;
 export const BLOODMOON_PACK_KEY='mercenary_bloodmoon_ss_pack_v1';
 export {BLOODMOON_SERVER_LIMIT};
-export const BLOODMOON_PACK=Object.freeze({id:'mercenary-bloodmoon-ss-limited',name:'블러드팩',rank:'SSS',edition:'BLOODMOON_LIMITED',maxBatch:10,featurePath:'mercenaries/v3/bloodmoon-pack/feature',openPath:'mercenaries/v3/bloodmoon-pack/open',receiptPath:'mercenaries/v3/bloodmoon-pack/receipt',adminPath:'admin/mercenaries/bloodmoon-pack',image:'assets/ui/packs/blood-pack-20261023/pack-768.webp'});
+export const BLOODMOON_PACK=Object.freeze({id:'mercenary-bloodmoon-ss-limited',name:'블러드문팩',rank:'SSS',edition:'BLOODMOON_LIMITED',maxBatch:10,featurePath:'mercenaries/v3/bloodmoon-pack/feature',openPath:'mercenaries/v3/bloodmoon-pack/open',receiptPath:'mercenaries/v3/bloodmoon-pack/receipt',adminPath:'admin/mercenaries/bloodmoon-pack',image:'assets/ui/packs/blood-pack-20261023/pack-768.webp'});
 export const BLOODMOON_NORMAL_RANKS=MERCENARY_RANKS;
 export const BLOODMOON_OPEN_KIND='MERCENARY_BLOODMOON_OPEN';
 const legacyCodes=BLOODMOON_ORIGINAL_CODES,codes=BLOODMOON_PACK_CARDS.map(c=>c.code);
@@ -23,7 +23,7 @@ export function bloodmoonPackDraft(){
  return {mode:'OFF',prices:{single:null,ten:null},missRatePpm:null,format:'MERCENARY_BLOODMOON_SS_PACK_V3',normalRankRatesPpm:Object.fromEntries(MERCENARY_RANKS.map(rank=>[rank,null])),normalSssRatePpm:null,cardRatesPpm:Object.fromEntries(codes.map(code=>[code,null])),stockLimits:Object.fromEntries(codes.map(code=>[code,bloodmoonStockLimit(code)]))};
 }
 export function validateBloodmoonPack(raw,{releaseEnabled=BLOODMOON_PACK_RELEASE_ENABLED}={}){
- if(!exact(raw,['format','mode','prices','normalRankRatesPpm','cardRatesPpm','normalSssRatePpm','missRatePpm','stockLimits'])||raw.format!=='MERCENARY_BLOODMOON_SS_PACK_V3'||!['OFF','ON'].includes(raw.mode)||!releaseEnabled&&raw.mode!=='OFF')throw Error('블러드 팩은 출시 준비 중입니다. OFF 초안만 저장할 수 있습니다.');
+ if(!exact(raw,['format','mode','prices','normalRankRatesPpm','cardRatesPpm','normalSssRatePpm','missRatePpm','stockLimits'])||raw.format!=='MERCENARY_BLOODMOON_SS_PACK_V3'||!['OFF','ON'].includes(raw.mode)||!releaseEnabled&&raw.mode!=='OFF')throw Error('블러드문팩은 출시 준비 중입니다. OFF 초안만 저장할 수 있습니다.');
  if(!exact(raw.prices,['single','ten'])||Object.values(raw.prices).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<1||n>100000000000000)))throw Error('가격은 미정 또는 1~100조 코인 정수로 입력하세요.');
  if(!exact(raw.normalRankRatesPpm,MERCENARY_RANKS)||!exact(raw.cardRatesPpm,codes))throw Error('일반 6등급·블러드 SS 6종·SSS 리미티드 3종의 확률을 확인하세요.');
  const first=[...Object.values(raw.normalRankRatesPpm),raw.missRatePpm],second=[...Object.values(raw.cardRatesPpm),raw.normalSssRatePpm];
@@ -31,12 +31,12 @@ export function validateBloodmoonPack(raw,{releaseEnabled=BLOODMOON_PACK_RELEASE
   if(rates.some(n=>n!==null&&!isLimitedRate(n)))throw Error('확률은 미정 또는 0~100%, 소수점 8자리까지 입력하세요.');
   if(rates.reduce((sum,n)=>sum+(n===null?0:limitedRateUnits(n)),0)>LIMITED_RATE_TOTAL)throw Error('각 단계 확률 합계는 100%를 초과할 수 없습니다.');
  }
- if(!exact(raw.stockLimits,codes)||!codes.every(code=>isBloodmoonStockLimit(code,raw.stockLimits[code])))throw Error('블러드문 SS 6종은 각 10장, SSS 3종 발행 한도는 아직 미정입니다.');
+ if(!exact(raw.stockLimits,codes)||!codes.every(code=>isBloodmoonStockLimit(code,raw.stockLimits[code])))throw Error('블러드문 SS 각 10장, 레오넬 5장, 제너럴 족 3장, 프라임 재료 3장 한도를 확인하세요.');
  return structuredClone(raw);
 }
 export function readBloodmoonPackSettings(raw=bloodmoonPackDraft(),options){
  if(raw.version===1){
-  if(!exact(raw,['version','mode','prices','cardRatesPpm','stockLimits','missRatePpm'])||raw.mode!=='OFF'||!exact(raw.cardRatesPpm,legacyCodes)||!exact(raw.stockLimits,legacyCodes)||Object.values(raw.stockLimits).some(n=>n!==BLOODMOON_SERVER_LIMIT)||!exact(raw.prices,['single','ten'])||Object.values(raw.prices).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<1||n>100000000000000))||[...Object.values(raw.cardRatesPpm),raw.missRatePpm].some(n=>n!==null&&!isLimitedRate(n)))throw Error('기존 블러드팩 초안 형식을 확인하세요.');
+  if(!exact(raw,['version','mode','prices','cardRatesPpm','stockLimits','missRatePpm'])||raw.mode!=='OFF'||!exact(raw.cardRatesPpm,legacyCodes)||!exact(raw.stockLimits,legacyCodes)||Object.values(raw.stockLimits).some(n=>n!==BLOODMOON_SERVER_LIMIT)||!exact(raw.prices,['single','ten'])||Object.values(raw.prices).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<1||n>100000000000000))||[...Object.values(raw.cardRatesPpm),raw.missRatePpm].some(n=>n!==null&&!isLimitedRate(n)))throw Error('기존 블러드문팩 초안 형식을 확인하세요.');
   // Loading is read-only. Never reinterpret old absolute odds as conditional odds.
   return {...bloodmoonPackDraft(),prices:{...raw.prices},missRatePpm:raw.missRatePpm};
  }
@@ -45,6 +45,8 @@ export function readBloodmoonPackSettings(raw=bloodmoonPackDraft(),options){
  if(raw.format==='MERCENARY_BLOODMOON_SS_PACK_V3'&&exact(raw.cardRatesPpm,codes.filter(c=>c!=='V-965'))&&exact(raw.stockLimits,codes.filter(c=>c!=='V-965'))){
   raw={...raw,cardRatesPpm:{...raw.cardRatesPpm,'V-965':null},stockLimits:{...raw.stockLimits,'V-965':10}};
  }
+ // Legacy null SSS limits become the authorized limits in memory; storage is changed only by an audited save.
+ if(raw.stockLimits&&codes.every(c=>Object.hasOwn(raw.stockLimits,c)))raw={...raw,stockLimits:Object.fromEntries(Object.entries(raw.stockLimits).map(([code,limit])=>[code,limit===null&&BLOODMOON_PACK_CARDS.some(c=>c.code===code&&c.rank==='SSS')?bloodmoonStockLimit(code):limit]))};
  return validateBloodmoonPack(raw,options);
 }
 export function bloodmoonPackReadiness(settings,stock=[],normalCards=[]){
@@ -96,7 +98,7 @@ export function bloodmoonPackCatalogRow(settings=bloodmoonPackDraft(),stockRows=
 export function bloodmoonPackPrice(settings,count){
  if(![1,10].includes(count))throw Error('1회 또는 10회를 선택하세요.');
  const price=count===10?settings.prices.ten:settings.prices.single;
- if(!Number.isSafeInteger(price)||price<1)throw Error('블러드팩 가격이 아직 설정되지 않았습니다.');return price;
+ if(!Number.isSafeInteger(price)||price<1)throw Error('블러드문팩 가격이 아직 설정되지 않았습니다.');return price;
 }
 export function validateBloodmoonOpeningBody(body){
  const bulk=body&&Object.hasOwn(body,'budget');
@@ -153,6 +155,6 @@ export function bloodmoonReceiptResults(receipt){
  if(receipt?.status==='COMPLETED'&&receipt.packId===BLOODMOON_PACK.id&&receipt.format===BLOODMOON_BULK_FORMAT){
   return validateBloodmoonBulkReceipt(receipt).map(r=>result(r,r.drawIndex??'bulk:'+r.mercenaryCode));
  }
- if(receipt?.status!=='COMPLETED'||receipt.packId!==BLOODMOON_PACK.id||![1,10].includes(receipt.count)||receipt.draws?.length!==receipt.count)throw Error('확정된 블러드팩 결과가 필요합니다.');
+ if(receipt?.status!=='COMPLETED'||receipt.packId!==BLOODMOON_PACK.id||![1,10].includes(receipt.count)||receipt.draws?.length!==receipt.count)throw Error('확정된 블러드문팩 결과가 필요합니다.');
  return receipt.draws.map(result);
 }

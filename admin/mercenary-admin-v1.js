@@ -1,4 +1,4 @@
-import {createBloodmoonMercenaryEditor} from './mercenary-bloodmoon-admin-v1.mjs?v=20261024-namsudaeng-v1';
+import {createBloodmoonMercenaryEditor} from './mercenary-bloodmoon-admin-v1.mjs?v=20261025-opening-v1';
 import {createHalloweenMercenaryEditor} from './mercenary-halloween-admin-v1.mjs?v=20261023-halloween-stock-v1';
 import {createMercenaryLevelEditor} from './mercenary-level-admin-v1.mjs?v=20261021-pity-v1';
 import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms-model-v1.mjs?v=20261014-azant';
@@ -15,7 +15,7 @@ const date=value=>new Intl.DateTimeFormat('ko-KR',{dateStyle:'short',timeStyle:'
 let section,button,data,savedDocument,tab='roster',selected='V-004',skill='MS-021',query='',dirty=false,busy=false,pending=null,notice='',error=false,generation=0;
 const $=selector=>section?.querySelector(selector);
 import {createLimitedMercenaryEditor} from './mercenary-limited-admin-v1.js?v=20261010-precision';
-const tabs={roster:'용병 도감',skills:'스킬 목록',assignments:'스킬 배정',draw:'개봉 확률',fusion:'합성 관리',limited:'리미티드팩',halloween:'할로윈 SS팩',bloodmoon:'블러드팩',leveling:'레벨 · 돌파',economy:'획득 · 성장',review:'리소스 · 검수'};
+const tabs={roster:'용병 도감',skills:'스킬 목록',assignments:'스킬 배정',draw:'개봉 확률',fusion:'합성 관리',limited:'리미티드팩',halloween:'할로윈 SS팩',bloodmoon:'블러드문팩',leveling:'레벨 · 돌파',economy:'획득 · 성장',review:'리소스 · 검수'};
 const drawEditor=createMercenaryDrawEditor({request:options=>api(options,'/api/admin/mercenaries/draw'),onRender:()=>render()});
 const limitedEditor=createLimitedMercenaryEditor({request:options=>api(options,'/api/admin/mercenaries/limited-pack'),onRender:()=>render()});
 const halloweenEditor=createHalloweenMercenaryEditor({request:options=>api(options,'/api/admin/mercenaries/halloween-pack'),onRender:()=>render()});

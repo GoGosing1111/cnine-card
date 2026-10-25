@@ -1,4 +1,4 @@
-import {BLOODMOON_PACK_CARDS} from './mercenary-bloodmoon-pool-v3.mjs?v=20261025-prime-material-v1';
+import {BLOODMOON_PACK_CARDS} from './mercenary-bloodmoon-pool-v3.mjs?v=20261025-opening-v1';
 import {PRIME_MATERIAL_STOCK_CODE,primeMaterialDraw,isPrimeMaterialDraw,bloodmoonDrawCode} from './mercenary-prime-material-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 import {limitedRateUnits,LIMITED_RATE_TOTAL} from './mercenary-limited-rates-v1.mjs';
@@ -21,7 +21,7 @@ export function bloodmoonBudget(value){
 }
 export function bloodmoonBulkQuote(prices,budget){
  const cap=bloodmoonBudget(budget);
- if(!prices||![prices.single,prices.ten].every(n=>Number.isSafeInteger(n)&&n>0&&n<=1e14))throw fail('블러드팩 가격을 먼저 설정하세요.');
+ if(!prices||![prices.single,prices.ten].every(n=>Number.isSafeInteger(n)&&n>0&&n<=1e14))throw fail('블러드문팩 가격을 먼저 설정하세요.');
  const one=BigInt(prices.single),ten=BigInt(prices.ten);
  // Buy the best-value combination of the existing 1/10 prices. No new discount.
  let count,cost;

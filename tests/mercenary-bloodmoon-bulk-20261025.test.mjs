@@ -97,10 +97,10 @@ test('compact receipts validate totals and client recovery uses the same durable
  assert.throws(()=>bloodmoonReceiptResults({...receipt,missCount:99999}));offline=false;await session.recover();assert.equal(posts,1);assert.equal(storage.getItem(session.pendingKey),null);
 });
 
-test('production release stays hard-locked before authentication, body parsing, or any DB access',async()=>{
- assert.equal(BLOODMOON_PACK_RELEASE_ENABLED,false);const env={DB:new Proxy({}, {get(){throw Error('no database access');}})},deps={json:(data,status)=>({data,status}),authenticate:()=>{throw Error('no auth');}};
- const response=await handleBloodmoonPack({path:BLOODMOON_PACK.openPath,request:{method:'POST'},env,deps});assert.equal(response.status,423);
- const service=createBloodmoonPackService({readState:()=>{throw Error('no state access');}});await assert.rejects(service.open(env,{id:1},{budget:'100000000000000'}),e=>e.code==='MERCENARY_BLOODMOON_CLOSED');
+test('authorized production release still requires authentication; an explicit closed service never reads DB',async()=>{
+ assert.equal(BLOODMOON_PACK_RELEASE_ENABLED,true);const env={DB:new Proxy({}, {get(){throw Error('no database access');}})},deps={json:(data,status)=>({data,status}),authenticate:async()=>null};
+ const response=await handleBloodmoonPack({path:BLOODMOON_PACK.openPath,request:{method:'POST'},env,deps});assert.equal(response.status,401);
+ const service=createBloodmoonPackService({releaseEnabled:false,readState:()=>{throw Error('no state access');}});await assert.rejects(service.open(env,{id:1},{budget:'100000000000000'}),e=>e.code==='MERCENARY_BLOODMOON_CLOSED');
 });
 
 test('two accounts racing for the final limited copy receive at most one serial and exact totals',async t=>{

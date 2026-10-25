@@ -33,7 +33,7 @@ test('only the SSS interval enters the second lottery; SS remains ordinary and m
 test('unauthenticated opening performs no database query; OFF and incomplete ON never charge',async t=>{
  const f=await bloodmoonFixture(t);f.settings.mode='OFF';await f.configure();
  const queries=f.stats.queries,response=await handleBloodmoonPack({path:BLOODMOON_PACK.openPath,request:new Request('https://qa.test/api/'+BLOODMOON_PACK.openPath,{method:'POST'}),env:f.env,deps:{authenticate:async()=>null,json:(body,status)=>({body,status})}});
- assert.equal(response.status,423);assert.equal(f.stats.queries,queries);assert.equal((await bloodmoonPackShopRow(f.env)).drawEnabled,false);
+ assert.equal(response.status,401);assert.equal(f.stats.queries,queries);assert.equal((await bloodmoonPackShopRow(f.env)).drawEnabled,false);
  const s=bloodmoonPackDraft();s.mode='ON';await assert.rejects(saveBloodmoonPack(f.env,{id:1},{expectedRevision:1,requestId:crypto.randomUUID(),reason:'검수 ON 차단',settings:s}),e=>e.code==='MERCENARY_BLOODMOON_CONFIG');
  const closed=createBloodmoonPackService({readState:readBloodmoonPackState});await assert.rejects(closed.open(f.env,f.user,f.body()),e=>e.code==='MERCENARY_BLOODMOON_CLOSED');assert.equal(await f.coin(),1000000);
 });

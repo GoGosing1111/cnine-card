@@ -1,4 +1,4 @@
-import {BLOODMOON_PACK,validateBloodmoonOpeningBody,bloodmoonReceiptResults} from './mercenary-bloodmoon-pack-v1.mjs?v=20261025-prime-material-v1';
+import {BLOODMOON_PACK,validateBloodmoonOpeningBody,bloodmoonReceiptResults} from './mercenary-bloodmoon-pack-v1.mjs?v=20261025-opening-v1';
 const fail=(message,code)=>Object.assign(Error(message),{code});
 const terminal=new Set(['MERCENARY_BLOODMOON_CLOSED','MERCENARY_BLOODMOON_CHANGED','MERCENARY_BLOODMOON_NOT_READY','MERCENARY_BLOODMOON_FUNDS','MERCENARY_BLOODMOON_INPUT','MERCENARY_BLOODMOON_SOLD_OUT','MERCENARY_BLOODMOON_NORMAL_POOL','JOINT_OPERATION_SUPERSEDED']);
 export class BloodmoonOpeningSession{
@@ -6,7 +6,7 @@ export class BloodmoonOpeningSession{
   Object.assign(this,{api,accountId,getAccountId,storage,present,lock,onConfirmed,onPending,makeId});this.busy=false;
   this.pendingKey='cnine.bloodmoon-pack.pending:'+accountId;this.receiptKey='cnine.bloodmoon-pack.receipt:'+accountId;
  }
- assertAccount(){if(!this.accountId||Number(this.getAccountId())!==this.accountId)throw fail('계정이 변경됐습니다. 블러드팩을 다시 열어 주세요.','BLOODMOON_ACCOUNT_CHANGED');}
+ assertAccount(){if(!this.accountId||Number(this.getAccountId())!==this.accountId)throw fail('계정이 변경됐습니다. 블러드문팩을 다시 열어 주세요.','BLOODMOON_ACCOUNT_CHANGED');}
  read(key){const raw=this.storage.getItem(key);if(!raw)return null;try{return JSON.parse(raw);}catch{throw fail('이전 요청 기록을 확인해야 합니다.','BLOODMOON_STORAGE_INVALID');}}
  async exclusive(work){if(this.busy)throw fail('현재 결과를 먼저 확인해 주세요.','BLOODMOON_BUSY');this.assertAccount();this.busy=true;try{return await this.lock('cnine-bloodmoon-pack:'+this.accountId,work);}finally{this.busy=false;}}
  async accept(receipt,onReceipt=()=>{}){
@@ -37,7 +37,7 @@ export class BloodmoonOpeningSession{
  sequence(work){return this.exclusive(()=>work((config,count,onReceipt)=>this.#start(config,count,onReceipt)));}
  async #start(config,count,onReceipt,budget){
   this.assertAccount();
-  if(!config.userOpeningEnabled)throw fail('블러드팩은 출시 준비 중입니다.','MERCENARY_BLOODMOON_CLOSED');
+  if(!config.userOpeningEnabled)throw fail('블러드문팩은 출시 준비 중입니다.','MERCENARY_BLOODMOON_CLOSED');
   if(this.read(this.pendingKey))throw fail('이전 개봉 결과부터 확인해 주세요.','BLOODMOON_RECOVERY_REQUIRED');
   const body=validateBloodmoonOpeningBody({requestId:this.makeId(),count,expectedRevision:config.revision,...(budget?{budget}:{})});
   const pending=JSON.stringify({accountId:this.accountId,body});

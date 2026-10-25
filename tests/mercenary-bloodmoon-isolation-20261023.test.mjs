@@ -16,7 +16,7 @@ test('the approved six Bloodmoon cards and three requested SSS cards are the onl
  assert.deepEqual(BLOODMOON_PACK_CARDS.map(c=>c.code),['V-960','V-961','V-962','V-963','V-964','V-965','V-978','V-974','V-975']);
  assert.deepEqual(BLOODMOON_PACK_CARDS.filter(c=>c.rank==='SSS').map(c=>c.name),['레오넬','제너럴 족','기운잃은 프라임 카드']);
  const draft=bloodmoonPackDraft();assert.equal(draft.mode,'OFF');
- for(const code of ['V-978','V-974','V-975']){assert.equal(draft.stockLimits[code],null);assert.equal(draft.cardRatesPpm[code],null);}
+ for(const code of ['V-978','V-974','V-975']){assert.equal(draft.stockLimits[code],code==='V-978'?5:3);assert.equal(draft.cardRatesPpm[code],null);}
  for(const code of ['V-999','V-989','V-996','V-979'])assert(!Object.hasOwn(draft.cardRatesPpm,code));
 });
 
@@ -37,10 +37,10 @@ test('independent CMS draft save is atomic, idempotent, version guarded and leav
  assert.equal(Number((await f.pg.query('SELECT COUNT(*) AS n FROM admin_logs')).rows[0].n),1);
 });
 
-test('only OWNER may read/save Blood Pack CMS; public opening remains closed before auth and DB',async t=>{
+test('only OWNER may read/save Blood Pack CMS; public opening requires authentication before DB',async t=>{
  const f=await bloodmoonFixture(t),before=f.stats.queries,json=(body,status=200)=>({body,status});
  for(const role of ['USER','ADMIN']){const r=await handleBloodmoonPack({path:BLOODMOON_PACK.adminPath,request:{method:'PATCH'},env:f.env,deps:{json,requirePermission:async()=>({id:2,role})}});assert.equal(r.status,403);}
- const r=await handleBloodmoonPack({path:BLOODMOON_PACK.openPath,request:{method:'POST'},env:f.env,deps:{json,authenticate:()=>{throw Error('must not authenticate');}}});assert.equal(r.status,423);assert.equal(f.stats.queries,before);
+ const r=await handleBloodmoonPack({path:BLOODMOON_PACK.openPath,request:{method:'POST'},env:f.env,deps:{json,authenticate:async()=>null}});assert.equal(r.status,401);assert.equal(f.stats.queries,before);
 });
 
 test('browser requests, history, tab locks, receipts and one-time entitlements never cross packs',async t=>{

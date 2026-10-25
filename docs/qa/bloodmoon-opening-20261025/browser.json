@@ -1,0 +1,54 @@
+{
+  "status": "PASSED",
+  "reports": [
+    {
+      "width": 1440,
+      "shopName": true,
+      "shopEntry": true,
+      "openingEnabled": true,
+      "stockLimits": [
+        5,
+        3,
+        3
+      ],
+      "bulkCountAt100Trillion": 66666,
+      "cmsOnEnabled": true,
+      "confirmationCancelledWithoutCharge": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 390,
+      "shopName": true,
+      "shopEntry": true,
+      "openingEnabled": true,
+      "stockLimits": [
+        5,
+        3,
+        3
+      ],
+      "bulkCountAt100Trillion": 66666,
+      "cmsOnEnabled": true,
+      "confirmationCancelledWithoutCharge": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 320,
+      "shopName": true,
+      "shopEntry": true,
+      "openingEnabled": true,
+      "stockLimits": [
+        5,
+        3,
+        3
+      ],
+      "bulkCountAt100Trillion": 66666,
+      "cmsOnEnabled": true,
+      "confirmationCancelledWithoutCharge": true,
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "productionTransactions": 0
+}
