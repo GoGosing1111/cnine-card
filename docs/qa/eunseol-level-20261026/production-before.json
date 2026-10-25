@@ -1,0 +1,74 @@
+{
+  "checkedAt": "2026-10-25T19:21:15.634Z",
+  "phase": "before",
+  "readOnly": true,
+  "accountWrites": 0,
+  "owners": 6,
+  "ownershipGrowthHash": "5c7ee1400cdc80a5b35e861cef0f7af9f581f0db822fb3668e34406e8eac008b",
+  "policyHash": "6e60255c851ff333322e23e10a35f8856c3181d11fa842d56c382aaa45cffb85",
+  "cmsRevision": 61,
+  "cmsHasEunseol": false,
+  "sourceHash": "8cea11313879225070d3815d4e6b381934be9df7966c7a63ff5cec603c815704",
+  "results": [
+    {
+      "ownerIndex": 1,
+      "visible": false,
+      "enabled": true,
+      "rank": null,
+      "previewStatus": 409,
+      "previewError": "MERCENARY_LEVEL_RANK",
+      "level": 1,
+      "experience": 0
+    },
+    {
+      "ownerIndex": 2,
+      "visible": false,
+      "enabled": true,
+      "rank": null,
+      "previewStatus": 409,
+      "previewError": "MERCENARY_LEVEL_RANK",
+      "level": 1,
+      "experience": 0
+    },
+    {
+      "ownerIndex": 3,
+      "visible": false,
+      "enabled": true,
+      "rank": null,
+      "previewStatus": 409,
+      "previewError": "MERCENARY_LEVEL_RANK",
+      "level": 1,
+      "experience": 0
+    },
+    {
+      "ownerIndex": 4,
+      "visible": false,
+      "enabled": true,
+      "rank": null,
+      "previewStatus": 409,
+      "previewError": "MERCENARY_LEVEL_RANK",
+      "level": 1,
+      "experience": 0
+    },
+    {
+      "ownerIndex": 5,
+      "visible": false,
+      "enabled": true,
+      "rank": null,
+      "previewStatus": 409,
+      "previewError": "MERCENARY_LEVEL_RANK",
+      "level": 1,
+      "experience": 0
+    },
+    {
+      "ownerIndex": 6,
+      "visible": false,
+      "enabled": true,
+      "rank": null,
+      "previewStatus": 409,
+      "previewError": "MERCENARY_LEVEL_RANK",
+      "level": 1,
+      "experience": 0
+    }
+  ]
+}

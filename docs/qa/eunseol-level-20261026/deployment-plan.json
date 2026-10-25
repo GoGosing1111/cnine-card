@@ -1,0 +1,14 @@
+{
+  "base": "81c326b9b2d80967e038268ea36d89f556195ae2",
+  "reason": "은설 보유자 6명 모두 성장 목록 누락과 MERCENARY_LEVEL_RANK를 READ ONLY로 재현. 성장 카탈로그에 은설 코드만 연결하며 기존 XP 5배·돌파·이전·소유권·재료 보호를 유지한다. 38개 서버 회귀와 실제 PC/모바일 성장 화면을 검증했다.",
+  "tests": [
+    "tests/eunseol-level-20261026.test.mjs",
+    "tests/mercenary-level-v2-integration-20261015.test.mjs",
+    "tests/mercenary-experience-transfer-20261025.test.mjs",
+    "tests/mercenary-level-cap21-20261025.test.mjs",
+    "tests/eunseol-pve-only-20261024.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
