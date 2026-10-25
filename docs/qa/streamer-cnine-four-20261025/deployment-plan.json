@@ -1,0 +1,8 @@
+{
+  "base": "eed1ebf31979f8ca6ef6c57d4ff0ffdeb15558cd",
+  "reason": "스트리머 라운지에서 남수댕과 동일한 씨나인 로고 표시 대상에 나무늘봉순·디임을 추가한다. 기존 로고 이미지·크기·위치와 프로필/방송국 링크 유지, PC·모바일 실제 메인 화면 검수. 계정·설정 쓰기 없음.",
+  "tests": [
+    "tests/streamer-lounge-v2036.test.mjs"
+  ],
+  "checks": []
+}

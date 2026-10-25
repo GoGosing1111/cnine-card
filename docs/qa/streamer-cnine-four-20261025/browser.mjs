@@ -17,9 +17,16 @@ await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.
 try{
  for(const width of (publicBase?[390]:[1440,390])){
   const page=await browser.newPage({viewport:{width,height:width<600?844:1000},serviceWorkers:'block'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(origin+'/',{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.StreamerLounge&&window.SoopketmonV21ExactShell&&typeof renderShell==='function');
-  await page.evaluate(async()=>{API_MODE=false;API_TOKEN='';localStorage.setItem(STORAGE_KEY,JSON.stringify({nickname:'라운지 검수',serverUserId:7,role:'USER',coin:0,cardShards:0,owned:[],quantities:{},breakthroughs:{},testCoinGrantedV13:true}));renderShell('home');document.querySelector('[data-miracle-close]')?.click();await StreamerLounge.mount();});
-  await page.waitForSelector('[data-streamer-lounge-host]',{state:'attached'});await page.evaluate(async()=>{await StreamerLounge.mount();document.querySelector('soop-adventure-lobby').openMenu('social');});await page.locator('[data-streamer-lounge-open]:visible').click();await page.locator('#streamerLoungeV2036[open]').waitFor();await page.locator('#streamerLoungeV2036').evaluate(async el=>{await Promise.all(el.getAnimations().map(a=>a.finished));});
+  if(publicBase)await page.route(publicBase+'/api/**',route=>{assert.equal(route.request().method(),'GET');return route.fulfill({json:new URL(route.request().url()).pathname==='/api/streamer-profiles'?roster:{maintenance:{active:false},enabled:false,visible:false,cards:[],packs:[],items:[],operations:[]}});});
+  if(publicBase){
+   await page.route(publicBase+'/qa/streamer-logo',route=>route.fulfill({contentType:'text/html; charset=utf-8',body:'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/streamer-lounge-v2036.css?v=2038-station-only"></head><body><aside data-streamer-lounge-host hidden></aside><script type="module" src="/js/streamer-lounge-v2036.js?v=20261025-cnine-four"></script></body></html>'}));
+   await page.goto(publicBase+'/qa/streamer-logo',{waitUntil:'domcontentloaded',timeout:30000});await page.waitForFunction(()=>window.StreamerLounge);await page.evaluate(()=>StreamerLounge.mount());
+  }else{
+   await page.goto(origin+'/',{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.StreamerLounge&&window.SoopketmonV21ExactShell&&typeof renderShell==='function');
+   await page.evaluate(async()=>{API_MODE=false;API_TOKEN='';localStorage.setItem(STORAGE_KEY,JSON.stringify({nickname:'라운지 검수',serverUserId:7,role:'USER',coin:0,cardShards:0,owned:[],quantities:{},breakthroughs:{},testCoinGrantedV13:true}));renderShell('home');document.querySelector('[data-miracle-close]')?.click();await StreamerLounge.mount();});
+   await page.waitForSelector('[data-streamer-lounge-host]',{state:'attached'});await page.evaluate(async()=>{await StreamerLounge.mount();document.querySelector('soop-adventure-lobby').openMenu('social');});
+  }
+  await page.locator('[data-streamer-lounge-open]:visible').click();await page.locator('#streamerLoungeV2036[open]').waitFor();await page.locator('#streamerLoungeV2036').evaluate(async el=>{await Promise.all(el.getAnimations().map(a=>a.finished));});
   const logoIds=await page.locator('[data-sl40-cnine-logo]').evaluateAll(xs=>xs.map(el=>el.closest('[data-profile-id]').dataset.profileId).sort());assert.deepEqual(logoIds,[...expected].sort());
   const logos=await page.locator('[data-sl40-cnine-logo]').evaluateAll(async xs=>Promise.all(xs.map(async el=>{const image=new Image();image.src=el.getAttribute('href');await image.decode();const name=el.parentNode.querySelector('[role="heading"]');return {id:el.closest('[data-profile-id]').dataset.profileId,href:el.getAttribute('href'),size:Number(el.getAttribute('width')),bottom:Number(el.getAttribute('y'))+Number(el.getAttribute('height')),nameY:Number(name.getAttribute('y')),loaded:image.naturalWidth>0};})));
   assert(logos.every(l=>l.loaded&&l.size===(width<600?28:38)&&l.bottom<l.nameY&&l.href===logos[0].href));
@@ -30,5 +37,5 @@ try{
   await page.keyboard.press('Escape');assert.equal(await page.locator('#streamerLoungeV2036[open]').count(),0);assert.deepEqual(errors,[]);
   reports.push({width,logoIds,logos,rosterCount:links.length,searchAndClose:true});console.log(width+' 4 logos, original sizes, target searches and close PASS');await page.close();
  }
- assert.deepEqual(missing,[]);fs.writeFileSync(path.join(out,'browser.json'),JSON.stringify({status:'PASSED',assetSource:publicBase||'local source',reports,productionWrites:0},null,2));
+ assert.deepEqual(missing,[]);fs.writeFileSync(path.join(out,'browser.json'),JSON.stringify({status:'PASSED',assetSource:publicBase||'local source',surface:publicBase?'deployed lounge component':'main lobby',reports,productionWrites:0},null,2));
 }finally{await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));}

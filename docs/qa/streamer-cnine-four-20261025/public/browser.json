@@ -1,0 +1,53 @@
+{
+  "status": "PASSED",
+  "assetSource": "https://cnine-card.pages.dev",
+  "surface": "deployed lounge component",
+  "reports": [
+    {
+      "width": 390,
+      "logoIds": [
+        "mew030709",
+        "qpqpro",
+        "yjk011599",
+        "zalalz"
+      ],
+      "logos": [
+        {
+          "id": "qpqpro",
+          "href": "/preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+          "size": 28,
+          "bottom": 150,
+          "nameY": 172,
+          "loaded": true
+        },
+        {
+          "id": "zalalz",
+          "href": "/preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+          "size": 28,
+          "bottom": 150,
+          "nameY": 172,
+          "loaded": true
+        },
+        {
+          "id": "mew030709",
+          "href": "/preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+          "size": 28,
+          "bottom": 150,
+          "nameY": 172,
+          "loaded": true
+        },
+        {
+          "id": "yjk011599",
+          "href": "/preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+          "size": 28,
+          "bottom": 150,
+          "nameY": 172,
+          "loaded": true
+        }
+      ],
+      "rosterCount": 9,
+      "searchAndClose": true
+    }
+  ],
+  "productionWrites": 0
+}
