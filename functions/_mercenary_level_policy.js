@@ -1,4 +1,4 @@
-import {MERCENARY_LEVEL_RELEASE_ENABLED as RELEASE,MERCENARY_LEVEL_KEY as KEY,MERCENARY_LEVEL_RULES,mercenaryLevelDraft,validateMercenaryLevelPolicy,mercenaryLevelReadiness,mercenaryLevelState,attachMercenaryLevel,levelError} from '../shared/mercenary-level-v1.mjs';
+import {MERCENARY_LEVEL_RELEASE_ENABLED as RELEASE,MERCENARY_LEVEL_KEY as KEY,MERCENARY_LEVEL_RULES,mercenaryLevelDraft,validateMercenaryLevelPolicy,mercenaryLevelReadiness,mercenaryLevelStateFromStorage,attachMercenaryLevel,levelError} from '../shared/mercenary-level-v1.mjs';
 import {saveJointPolicyDraft} from './_joint_transactions.js';
 
 export const MERCENARY_LEVEL_SCHEMA=[`CREATE TABLE IF NOT EXISTS user_mercenary_levels_v1(user_id BIGINT NOT NULL,mercenary_code TEXT NOT NULL,level INTEGER NOT NULL DEFAULT 1 CHECK(level BETWEEN 1 AND 20),experience BIGINT NOT NULL DEFAULT 0 CHECK(experience BETWEEN 0 AND 1000000000000),breakthrough_mask INTEGER NOT NULL DEFAULT 0 CHECK(breakthrough_mask BETWEEN 0 AND 15),revision INTEGER NOT NULL DEFAULT 0 CHECK(revision>=0),updated_at TEXT NOT NULL,PRIMARY KEY(user_id,mercenary_code))`];
@@ -22,11 +22,11 @@ export async function saveMercenaryLevelPolicy(env,user,raw){
  }
  next.revision++;return saveJointPolicyDraft(env,user,KEY,current.raw,next);
 }
-export async function readMercenaryLevelState(env,userId,code){return mercenaryLevelState(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=? AND mercenary_code=?').bind(userId,code).first());}
+export async function readMercenaryLevelState(env,userId,code){return mercenaryLevelStateFromStorage(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=? AND mercenary_code=?').bind(userId,code).first());}
 export async function releasedMercenaryLevelSummary(env,userId){
  if(!RELEASE)return {enabled:false,rows:[]};
  const {policy}=await readMercenaryLevelPolicy(env);if(policy.mode!=='ON'||!mercenaryLevelReadiness(policy,{requireGrowth:true}).ready)return {enabled:false,rows:[]};
- return {enabled:true,rows:(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=?').bind(userId).all()).results.map(r=>({code:r.mercenary_code,...mercenaryLevelState(r)}))};
+ return {enabled:true,rows:(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=?').bind(userId).all()).results.map(r=>({code:r.mercenary_code,...mercenaryLevelStateFromStorage(r)}))};
 }
 // Both switches must open. OFF performs no new table reads and preserves all old snapshots.
 // A value may contain multiple owned candidates for one user's duo rating.

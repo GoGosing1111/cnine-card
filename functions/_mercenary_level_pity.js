@@ -20,7 +20,7 @@ export function mercenaryPityFromHistory(history,code,row){
   mercenaryLevelState(before);mercenaryLevelState(after);
   if(after.revision>state.revision)continue; // GET may race a newer completed attempt.
   const index=MERCENARY_LEVEL_RULES.milestones.indexOf(level);
-  if(typeof success!=='boolean'||after.revision!==before.revision+1||after.experience!==0||after.level!==(success?Math.min(20,level+1):level)||after.breakthroughMask!==(success?before.breakthroughMask|(1<<index):before.breakthroughMask)||revisions.has(after.revision))throw levelError('MERCENARY_LEVEL_HISTORY','돌파 기록의 순서를 확인하지 못했습니다. 다시 불러오세요.',409);
+  if(typeof success!=='boolean'||after.revision!==before.revision+1||after.experience!==0||!(success?(level===20?[20,MERCENARY_LEVEL_RULES.maxLevel]:[level+1]):[level]).includes(after.level)||after.breakthroughMask!==(success?before.breakthroughMask|(1<<index):before.breakthroughMask)||revisions.has(after.revision))throw levelError('MERCENARY_LEVEL_HISTORY','돌파 기록의 순서를 확인하지 못했습니다. 다시 불러오세요.',409);
   seen.add(requestId);revisions.add(after.revision);attempts.push({revision:after.revision,success});
  }
  attempts.sort((a,b)=>a.revision-b.revision);

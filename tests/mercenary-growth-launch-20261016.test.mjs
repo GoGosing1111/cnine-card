@@ -24,13 +24,13 @@ test('approved launch triples rising required XP only; both combat flags open an
  assert.deepEqual(pvpPowerBonuses(2,1),{ratio:2,damageMultiplier:1.3,tempoMultiplier:1.1});
  assert.deepEqual(pvpPowerBonuses(4,1),{ratio:4,damageMultiplier:1.6,tempoMultiplier:1.2});
 });
-test('all four breakthroughs use exact 10% boundaries, preserve earned growth on failure, and finish at 20',()=>{
+test('all four breakthroughs use exact 10% boundaries, preserve earned growth on failure, and finish at 21',()=>{
  const policy=mercenaryGrowthLaunchPolicy();
  for(const [i,level]of [5,10,15,20].entries())for(const target of [cards[0],cards[2]]){
   const state={level,experience:mercenaryLevelRequiredXp(policy,level,target),breakthroughMask:(1<<i)-1,revision:4};
   const success=planMercenaryBreakthrough({policy,state,target,roll:99999}),failure=planMercenaryBreakthrough({policy,state,target,roll:100000});
   assert.equal(success.success,true);assert.equal(failure.success,false);
-  assert.equal(success.after.level,Math.min(20,level+1));assert.equal(success.after.breakthroughMask,(1<<(i+1))-1);
+  assert.equal(success.after.level,Math.min(21,level+1));assert.equal(success.after.breakthroughMask,(1<<(i+1))-1);
   assert.deepEqual(failure.after,{...state,experience:0,revision:5});
   assert.deepEqual(mercenaryGrowthSummary(policy.growth,failure.after),mercenaryGrowthSummary(policy.growth,state));
  }

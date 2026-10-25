@@ -37,12 +37,12 @@ test('ordinary levels carry XP but every milestone caps XP and reports exact ove
   const s={level,experience:60,breakthroughMask:(1<<i)-1,revision:5},r=train({state:s,materials:[{code:'V-009',quantity:2}]});assert.equal(r.after.level,level);assert.equal(r.after.experience,120);assert.equal(r.overflowXp,20);
  }
 });
-test('all four failures retain level and earlier effects; success is once, exact odds, max 20',()=>{
+test('all four failures retain level and earlier effects; success is once, exact odds, max 21',()=>{
  for(const [i,level] of [5,10,15,20].entries()){
   const state={level,experience:120,breakthroughMask:(1<<i)-1,revision:i};
   const fail=planMercenaryBreakthrough({policy:policy(),state,roll:500000});assert.equal(fail.success,false);assert.deepEqual(fail.after,{...state,experience:0,revision:i+1});assert.equal(fail.reward,null);assert.throws(()=>planMercenaryBreakthrough({policy:policy(),state:fail.after,roll:0}),{code:'MERCENARY_LEVEL_NOT_READY'});
-  const success=planMercenaryBreakthrough({policy:policy(),state,roll:499999});assert.equal(success.success,true);assert.equal(success.after.level,Math.min(20,level+1));assert.equal(success.after.breakthroughMask,(1<<(i+1))-1);assert.equal(success.complete,level===20);
-  assert.throws(()=>planMercenaryBreakthrough({policy:policy(),state:success.after,roll:0}),{code:'MERCENARY_LEVEL_NOT_READY'});
+  const success=planMercenaryBreakthrough({policy:policy(),state,roll:499999});assert.equal(success.success,true);assert.equal(success.after.level,Math.min(21,level+1));assert.equal(success.after.breakthroughMask,(1<<(i+1))-1);assert.equal(success.complete,level===20);
+  assert.throws(()=>planMercenaryBreakthrough({policy:policy(),state:success.after,roll:0}),{code:level===20?'MERCENARY_LEVEL_MAX':'MERCENARY_LEVEL_NOT_READY'});
   if(level===20)assert.throws(()=>train({state:success.after}),{code:'MERCENARY_LEVEL_MAX'});
  }
 });
@@ -81,9 +81,9 @@ for(const postgres of [false,true]){
   const f=await fixture(t,postgres),before=await inventory(f),b=body();f.fail('INSERT INTO user_mercenary_levels_v1');await assert.rejects(()=>runPreparedMercenaryLevel(f.env,f.user,b,'TRAIN'));f.fail('');const p=policy();p.revision=1;await f.setting(MERCENARY_LEVEL_KEY,p);await assert.rejects(()=>runPreparedMercenaryLevel(f.env,f.user,b,'TRAIN'),{code:'MERCENARY_LEVEL_CONFLICT'});assert.deepEqual(await inventory(f),before);
   const c=body();f.fail('INSERT INTO user_mercenary_levels_v1');await assert.rejects(()=>runPreparedMercenaryLevel(f.env,f.user,c,'TRAIN'));f.fail('');await f.p("UPDATE mercenary_cms_documents_v1 SET revision=revision+1 WHERE doc_key='config'").run();await assert.rejects(()=>runPreparedMercenaryLevel(f.env,f.user,c,'TRAIN'),{code:'MERCENARY_LEVEL_CONFLICT'});assert.deepEqual(await inventory(f),before);
  });
- test(`${label}: final success persists level 20 and its bonus exactly once without spending more cards`,async t=>{
-  const f=await fixture(t,postgres);await f.p("INSERT INTO user_mercenary_levels_v1 VALUES(7,'V-004',20,120,7,6,'2026-10-05')").run();const before=await inventory(f),b=body({revision:6}),r=await runPreparedMercenaryLevel(f.env,f.user,b,'BREAKTHROUGH',{randomInt:()=>0});assert.equal(r.result.complete,true);assert.deepEqual(await readMercenaryLevelState(f.env,7,'V-004'),{level:20,experience:0,breakthroughMask:15,revision:7});assert.deepEqual(await inventory(f),before);assert.deepEqual((await runPreparedMercenaryLevel(f.env,f.user,b,'BREAKTHROUGH',{randomInt:()=>assert.fail()})).result,r.result);
-  await assert.rejects(()=>runPreparedMercenaryLevel(f.env,f.user,body({revision:7}),'BREAKTHROUGH'),{code:'MERCENARY_LEVEL_NOT_READY'});
+ test(`${label}: final success exposes level 21 and its bonus exactly once without spending more cards`,async t=>{
+  const f=await fixture(t,postgres);await f.p("INSERT INTO user_mercenary_levels_v1 VALUES(7,'V-004',20,120,7,6,'2026-10-05')").run();const before=await inventory(f),b=body({revision:6}),r=await runPreparedMercenaryLevel(f.env,f.user,b,'BREAKTHROUGH',{randomInt:()=>0});assert.equal(r.result.complete,true);assert.deepEqual(await readMercenaryLevelState(f.env,7,'V-004'),{level:21,experience:0,breakthroughMask:15,revision:7});assert.deepEqual(await inventory(f),before);assert.deepEqual((await runPreparedMercenaryLevel(f.env,f.user,b,'BREAKTHROUGH',{randomInt:()=>assert.fail()})).result,r.result);
+  await assert.rejects(()=>runPreparedMercenaryLevel(f.env,f.user,body({revision:7}),'BREAKTHROUGH'),{code:'MERCENARY_LEVEL_MAX'});
  });
 }
 test('lost commit acknowledgement and serialized concurrent requests never double consume',async t=>{
@@ -118,7 +118,7 @@ const party=()=>['ATTACK','DEFENSE','SPEED','HP','ATTACK'].map((power_type,i)=>(
 test('battle bonuses apply once after linkage, preserve wounds and base rank power, and freeze skill effects',()=>{
  const old=snapshot(),grown=attachMercenaryLevel(old,policy(),{level:20,experience:0,breakthroughMask:15,revision:10});
  const base=buildMercenaryFighter(old,'A','PVE',buildFighter),m=buildMercenaryFighter({...grown,startingHpPercent:50},'A','PVE',buildFighter),regular=party().map((c,i)=>buildFighter(c,i,'A',null,'PVE'));
- applyMercenaryCombatLink([[...regular,base]]);applyMercenaryCombatLink([[...regular,m]]);assert.equal(m.maxHp,Math.floor(base.maxHp*1.1));assert.equal(m.hp,Math.floor(m.maxHp*.5));assert.equal(mercenaryEffectiveAttack(m),Math.floor(mercenaryEffectiveAttack(base)*1.1));assert.equal(m.power,base.power);assert.equal(m.level,20);assert.equal(m.skills[0].balance.damageRatio,110.00000000000001);assert.equal(m.skills[0].balance.cooldownTurns,3);
+ applyMercenaryCombatLink([[...regular,base]]);applyMercenaryCombatLink([[...regular,m]]);assert.equal(m.maxHp,Math.floor(base.maxHp*1.1));assert.equal(m.hp,Math.floor(m.maxHp*.5));assert.equal(mercenaryEffectiveAttack(m),Math.floor(mercenaryEffectiveAttack(base)*1.1));assert.equal(m.power,base.power);assert.equal(m.level,21);assert.equal(m.skills[0].balance.damageRatio,110.00000000000001);assert.equal(m.skills[0].balance.cooldownTurns,3);
  const before=structuredClone(m);applyMercenaryCombatLink([[...regular,m]]);assert.deepEqual(m,before);assert.equal(old.skills[0].balance.cooldownTurns,4);
  const naked={...base,mercenaryLevel:undefined};const copy=structuredClone(naked);applyMercenaryLevelStats(naked);assert.deepEqual(naked,copy);
 });

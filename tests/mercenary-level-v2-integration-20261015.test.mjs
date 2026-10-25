@@ -95,7 +95,7 @@ for (const postgres of [false, true]) {
       assertFrozenGrowth(r, p);
       assert.equal(r.result.success, success);
       assert.equal(r.result.after.experience, 0);
-      assert.equal(r.result.after.level, success ? Math.min(20, level + 1) : level);
+      assert.equal(r.result.after.level, success ? Math.min(21, level + 1) : level);
       assert.equal(r.result.after.breakthroughMask, success ? (1 << (i + 1)) - 1 : state.breakthroughMask);
       assert.equal(r.result.complete, success && level === 20);
       if (!success) {
@@ -103,10 +103,10 @@ for (const postgres of [false, true]) {
         assert.equal(r.result.reward, null);
       } else {
         const after = r.result.growth.after.total, before = r.result.growth.before.total;
-        assert.equal(after.hpPercent - before.hpPercent, level === 20 ? 10 : 12);
-        assert.equal(after.attackPercent - before.attackPercent, level === 20 ? 15 : 18);
-        assert.equal(after.defensePercent - before.defensePercent, level === 20 ? 4 : 5);
-        assert.equal(after.speedPercent - before.speedPercent, level === 20 ? .5 : .75);
+        assert.equal(after.hpPercent - before.hpPercent, 12);
+        assert.equal(after.attackPercent - before.attackPercent, 18);
+        assert.equal(after.defensePercent - before.defensePercent, 5);
+        assert.equal(after.speedPercent - before.speedPercent, .75);
         assert.equal(after.skillPowerPercent - before.skillPowerPercent, 2.5);
         assert.equal(after.mitigationBypassPercent - before.mitigationBypassPercent, 5);
         assert.equal(after.actionCatchupPercent - before.actionCatchupPercent, 2);

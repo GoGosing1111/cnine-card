@@ -5,7 +5,7 @@
     "pixi.js": "8.20.0",
     "gsap": "3.13.0"
   },
-  "bundleBytes": 2572491,
+  "bundleBytes": 2652323,
   "commonV3": [
     "preview/project-v-v3/source/battle/EquipmentSetFX.js",
     "preview/project-v-v3/source/battle/BattleAssetMemory.mjs",
@@ -52,6 +52,7 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "preview/project-v-v3/source/battle/BloodmoonCombatPlayback.js",
     "preview/project-v-v3/source/battle/awakened-omega/motion.mjs",
     "preview/project-v-v3/source/battle/awakened-omega/skills.mjs",
     "preview/project-v-v3/source/battle/awakened-omega/OmegaEvolvedFX.js",

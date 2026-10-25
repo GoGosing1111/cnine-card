@@ -41,7 +41,7 @@ test('limited checkpoints, overflow and failures use the 5x threshold through fi
   const trained=training(target,[{code:'V-996',quantity:1}],state);assert.equal(trained.after.experience,5000);assert.equal(trained.overflowXp,200);assert.equal(trained.appliedXp,100);assert.equal(trained.breakthroughReady,true);
   assert.throws(()=>planMercenaryBreakthrough({policy:p,target,state:{...state,experience:1000},roll:0}),{code:'MERCENARY_LEVEL_NOT_READY'});
   const failure=planMercenaryBreakthrough({policy:p,target,state:trained.after,roll:500000});assert.equal(failure.after.level,level);assert.equal(failure.after.experience,0);assert.equal(failure.after.breakthroughMask,state.breakthroughMask);
-  const success=planMercenaryBreakthrough({policy:p,target,state:trained.after,roll:0});assert.equal(success.after.level,Math.min(20,level+1));assert.equal(success.complete,level===20);
+  const success=planMercenaryBreakthrough({policy:p,target,state:trained.after,roll:0});assert.equal(success.after.level,Math.min(21,level+1));assert.equal(success.complete,level===20);
  }
 });
 

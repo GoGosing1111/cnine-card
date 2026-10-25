@@ -1,11 +1,11 @@
-import {MERCENARY_LEVEL_RULES as RULES, LEVEL_BONUS_TYPES, mercenaryLevelRequiredXp, levelProgress, planMercenaryTraining, planMercenaryBreakthrough} from '../../shared/mercenary-level-v1.mjs?v=20261021-pity-v1';
+import {MERCENARY_LEVEL_RULES as RULES, LEVEL_BONUS_TYPES, mercenaryLevelRequiredXp, levelProgress, planMercenaryTraining, planMercenaryBreakthrough} from '../../shared/mercenary-level-v1.mjs?v=20261025-cap21-v1';
 import {mercenaryBreakthroughPity,mercenaryPityResultLabel} from '../../shared/mercenary-breakthrough-pity-v1.mjs';
 import {jointAccountRequest} from '../../js/joint-account-transport.mjs';
-import {createLevelClient} from './client.mjs?v=20261005';
-import {levelDemo} from './demo.mjs?v=20261016-growth-live-v1';
-import {showBreakthrough} from './breakthrough.mjs?v=20261021-pity-v1';
+import {createLevelClient} from './client.mjs?v=20261025-cap21-v1';
+import {levelDemo} from './demo.mjs?v=20261025-cap21-v1';
+import {showBreakthrough} from './breakthrough.mjs?v=20261025-cap21-v1';
 import {presentLevelReceipt} from './receipt-presentation.mjs?v=20261016-growth-live-v1';
-import {renderGrowthAnalysis, growthSummary, growthLabel, resultBonusLabel} from './growth-view.mjs?v=20261016-growth-live-v1';
+import {renderGrowthAnalysis, growthSummary, growthLabel, resultBonusLabel} from './growth-view.mjs?v=20261025-cap21-v1';
 
 const entryParams = new URL(location.href).searchParams;
 const localReview = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
@@ -14,7 +14,7 @@ const app = document.querySelector('#app');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => n === null || n === undefined ? '미정' : Number(n).toLocaleString('ko-KR');
 let account, selected, quantities = {}, notice = '', isError = false, busy = false, client;
-let allowOverflow = false, qaResult = 'success', pending = false, qaOpen = false, search = '', reviewLevel = 20, lastReveal = null;
+let allowOverflow = false, qaResult = 'success', pending = false, qaOpen = false, search = '', reviewLevel = RULES.maxLevel, lastReveal = null;
 const target = () => account.cards.find(c => c.code === selected);
 const progress = () => levelProgress(account.policy, target().growth, target());
 const materials = () => Object.entries(quantities).filter(([, n]) => n !== 0).map(([code, quantity]) => ({code, quantity}));
@@ -41,7 +41,7 @@ function render() {
   const pity = c.breakthroughPity ?? (preview && next ? mercenaryBreakthroughPity(next.level) : null);
   const status = !account.enabled ? '레벨업 준비 중' : s.complete ? '최종 돌파 완료' : s.breakthroughReady ? '돌파 준비 완료' : '성장 진행 중';
   app.innerHTML = `
-    <div class="growth-intro"><div><p>MERCENARY ASCENSION</p><h2>경험을 전수하고,<br><em>한계를 넘어서.</em></h2></div><span>함께 싸운 용병의 가능성을 깨우는 성장실.<br><b>레벨 1—20 · 네 번의 돌파</b></span></div>
+    <div class="growth-intro"><div><p>MERCENARY ASCENSION</p><h2>경험을 전수하고,<br><em>한계를 넘어서.</em></h2></div><span>함께 싸운 용병의 가능성을 깨우는 성장실.<br><b>레벨 1—21 · 네 번의 돌파</b></span></div>
     <div class="mode-strip"><span class="status-dot"></span><b>${preview ? '검수 전용 · 실제 소모 없음' : account.enabled ? '용병의 다음 경지를 준비하세요' : '용병 성장 선공개 · 레벨업 준비 중'}</b><span>${preview ? '동일 용병 경험치 ×3 · 리미티드 요구 경험치 ×5 · 성장 후보안 검수' : account.enabled ? '같은 등급의 용병 카드를 경험치로 전수합니다.' : '보유 용병과 성장 화면을 확인할 수 있습니다. 경험치 전수·레벨업·돌파는 아직 이용할 수 없습니다.'}</span>${preview ? `<button id="demo-break" ${blocked ? 'disabled' : ''}>돌파 연출 보기 <span>↗</span></button>` : ''}</div>
     <div class="growth-workspace" id="workbench" tabindex="-1">
       <aside class="roster-panel panel" aria-label="성장 대상 선택">
@@ -56,11 +56,11 @@ function render() {
         <div class="stage-top"><span class="stage-code">${esc(c.code)} <i>/</i> ${esc(c.rank)}${preview ? ' · 예시' : ''}</span><span class="stage-status">${status}</span></div>
         <div class="stage-identity"><p>${next ? `다음 돌파 Lv.${next.level}` : '네 번의 돌파를 모두 완료했습니다'}</p><h2>${esc(c.name)}</h2></div>
         <div class="portrait-area"><figure class="hero-card"><img src="/${esc(c.sourceArt)}" alt="${esc(c.name)} 승인 원화"></figure></div>
-        <div class="stage-progress"><div class="level-display"><span>현재 레벨</span><strong><small>Lv.</small>${s.level}</strong><i>/ 20</i></div><div class="xp-display"><div><span>${s.complete ? '성장 완료' : s.requiredXpMultiplier === 5 ? '리미티드 경험치 · 요구량 ×5' : '레벨 경험치'}</span><b>${s.percent === null ? '미정' : s.percent.toFixed(1) + '%'}</b></div><div class="xp-track" role="progressbar" aria-label="현재 레벨 경험치" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${s.percent ?? 0}"><span style="width:${s.percent ?? 0}%"></span><i id="xp-forecast"></i></div><p>${s.complete ? '모든 돌파 효과 해금' : `${fmt(s.experience)} <span>/ ${fmt(s.requiredXp)} EXP</span>`}</p></div></div>
+        <div class="stage-progress"><div class="level-display"><span>현재 레벨</span><strong><small>Lv.</small>${s.level}</strong><i>/ ${RULES.maxLevel}</i></div><div class="xp-display"><div><span>${s.complete ? '성장 완료' : s.requiredXpMultiplier === 5 ? '리미티드 경험치 · 요구량 ×5' : '레벨 경험치'}</span><b>${s.percent === null ? '미정' : s.percent.toFixed(1) + '%'}</b></div><div class="xp-track" role="progressbar" aria-label="현재 레벨 경험치" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${s.percent ?? 0}"><span style="width:${s.percent ?? 0}%"></span><i id="xp-forecast"></i></div><p>${s.complete ? '모든 돌파 효과 해금' : `${fmt(s.experience)} <span>/ ${fmt(s.requiredXp)} EXP</span>`}</p></div></div>
         <div class="milestone-path" aria-label="돌파 단계">${p.milestones.map((m, i) => `<div class="milestone ${s.breakthroughMask & (1 << i) ? 'unlocked' : next?.level === m.level ? 'current' : ''}"><b>Lv.${m.level}</b><small>${s.breakthroughMask & (1 << i) ? '해금 완료' : next?.level === m.level ? '다음 돌파' : '잠김'}</small></div>`).join('')}</div>
       </section>
       <section class="control-panel panel" aria-label="성장 재료와 돌파 조작">
-        <div class="control-heading"><div><h2>${s.complete ? '성장 완료' : s.breakthroughReady ? '한계 돌파' : '경험치 전수'}</h2><p>${s.complete ? '최종 경지에 도달했습니다.' : s.breakthroughReady ? `Lv.${s.level}의 봉인을 개방합니다.` : '중복 카드에 담긴 경험을 전수하세요.'}</p></div></div>
+        <div class="control-heading"><div><h2>${s.complete ? '성장 완료' : s.breakthroughReady ? '한계 돌파' : '경험치 전수'}</h2><p>${s.complete ? '최대 21레벨에 도달했습니다.' : s.breakthroughReady ? `Lv.${s.level}의 봉인을 개방합니다.` : '중복 카드에 담긴 경험을 전수하세요.'}</p></div></div>
         <div class="next-bonus"><div><span>${s.complete ? '최종 돌파 효과' : `Lv.${next.level} 돌파 효과`}</span><b>${esc(effect(next || p.milestones[3]))}</b></div><span></span></div>
         ${pity ? `<p class="stat-caption" data-breakthrough-pity aria-live="polite"><b>Lv.${pity.level} 실패 누적 ${fmt(pity.failures)} / ${pity.threshold}회</b><br>${pity.guaranteed ? '<strong>천장 달성 · 다음 돌파 확정 성공</strong>'+(s.breakthroughReady?'':'<br>경험치를 100% 채운 뒤 돌파할 수 있습니다.') : `${pity.threshold}회 실패 후 다음 돌파 확정 성공`}<br>과거 실패 포함 · 용병·단계별 집계</p>` : ''}
         <div class="material-section" ${s.breakthroughReady || s.complete ? 'hidden' : ''}>
@@ -76,7 +76,7 @@ function render() {
       </section>
     </div>
     <div id="growth-analysis">${renderGrowthAnalysis({card:c,policy:p,reviewLevel,preview})}</div>
-    <section class="growth-guide"><details class="rules"><summary>성장 · 돌파 규칙 <span>＋</span></summary><div class="rule-grid"><p><b>같은 등급의 용병 카드</b>일반 멤버 카드는 사용할 수 없습니다. 용병마다 기본 1장은 보호합니다.</p><p><b>Lv.5 · 10 · 15 · 20 돌파</b>해당 레벨의 경험치가 100%가 되면 돌파합니다. 초과 경험치는 동의 후 소멸합니다.</p><p><b>실패 누적 천장 · 과거 기록 포함</b>Lv.5·10·15는 10회 실패 후 다음 시도, Lv.20은 20회 실패 후 다음 시도에 확정 성공합니다. 용병·단계별로 집계하며 성공 시 초기화합니다. 실패하면 현재 경험치만 0%가 됩니다.</p><p><b>성공하면 효과 해금</b>다음 레벨로 이동합니다. 최종 돌파 후에도 Lv.20이며, 효과는 종류별로 합산합니다.</p></div></details>
+    <section class="growth-guide"><details class="rules"><summary>성장 · 돌파 규칙 <span>＋</span></summary><div class="rule-grid"><p><b>같은 등급의 용병 카드</b>일반 멤버 카드는 사용할 수 없습니다. 용병마다 기본 1장은 보호합니다.</p><p><b>Lv.5 · 10 · 15 · 20 돌파</b>해당 레벨의 경험치가 100%가 되면 돌파합니다. 초과 경험치는 동의 후 소멸합니다.</p><p><b>실패 누적 천장 · 과거 기록 포함</b>Lv.5·10·15는 10회 실패 후 다음 시도, Lv.20은 20회 실패 후 다음 시도에 확정 성공합니다. 용병·단계별로 집계하며 성공 시 초기화합니다. 실패하면 현재 경험치만 0%가 됩니다.</p><p><b>성공하면 효과 해금</b>다음 레벨로 이동합니다. 최종 돌파에 성공하면 Lv.21 MAX가 됩니다. 이후 경험치 전수와 돌파는 종료되며, 효과는 종류별로 합산합니다.</p></div></details>
     ${preview ? `<details class="qa" ${qaOpen ? 'open' : ''}><summary>화면 검수 도구 <span>＋</span></summary><div><p>아래 설정은 이 화면에서만 적용됩니다. 운영 등급·경험치·배수·확률·효과와 무관합니다.</p><div class="qa-tools">${[5, 10, 15, 20].map(l => `<button data-jump="${l}" ${blocked ? 'disabled' : ''}>Lv.${l} 준비</button>`).join('')}<label>돌파 결과 <select id="qa-result" ${blocked ? 'disabled' : ''}><option value="success" ${qaResult === 'success' ? 'selected' : ''}>성공 예시</option><option value="failure" ${qaResult === 'failure' ? 'selected' : ''}>실패 예시</option></select></label><button id="reset" ${blocked ? 'disabled' : ''}>초기화</button></div></div></details>` : ''}</section>`;
   document.querySelectorAll('[data-target]').forEach(el => el.onclick = () => {
     selected = el.dataset.target; quantities = {}; allowOverflow = false; notice = ''; isError = false; render();

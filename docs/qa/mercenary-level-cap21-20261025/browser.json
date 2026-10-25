@@ -1,0 +1,22 @@
+[
+  {
+    "width": 1440,
+    "finalSuccessLevel": 21,
+    "terminalActionsDisabled": true,
+    "legacyCompleteLevel": 21,
+    "roadmapMax": 21,
+    "overflow": false,
+    "errors": [],
+    "broken": []
+  },
+  {
+    "width": 390,
+    "finalSuccessLevel": 21,
+    "terminalActionsDisabled": true,
+    "legacyCompleteLevel": 21,
+    "roadmapMax": 21,
+    "overflow": false,
+    "errors": [],
+    "broken": []
+  }
+]

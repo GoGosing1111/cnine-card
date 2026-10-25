@@ -4,7 +4,7 @@ import {ZERO_CODE} from '../shared/mercenary-zero-v1.mjs';
 import {LEONEL_CODE} from '../shared/mercenary-leonel-v1.mjs';
 import {JOKRO_CODE,jokroAccountAllowed} from '../shared/mercenary-jokro-v1.mjs';
 import {SHIRANUI_CODE} from '../shared/mercenary-shiranui-v1.mjs';
-import {MERCENARY_LEVEL_RELEASE_ENABLED as RELEASE,MERCENARY_LEVEL_RULES as RULES,MERCENARY_LEVEL_KEY as KEY,LEVEL_BONUS_TYPES,mercenaryGrowthSummary,mercenaryLevelReadiness,mercenaryLevelState,normalizeLevelMaterials,planMercenaryTraining,planMercenaryBreakthrough,levelError} from '../shared/mercenary-level-v1.mjs';
+import {MERCENARY_LEVEL_RELEASE_ENABLED as RELEASE,MERCENARY_LEVEL_RULES as RULES,MERCENARY_LEVEL_KEY as KEY,LEVEL_BONUS_TYPES,mercenaryGrowthSummary,mercenaryLevelReadiness,mercenaryLevelStateFromStorage,mercenaryLevelStorageLevel,normalizeLevelMaterials,planMercenaryTraining,planMercenaryBreakthrough,levelError} from '../shared/mercenary-level-v1.mjs';
 import {readMercenaryLevelPolicy,saveMercenaryLevelPolicy,readMercenaryLevelState} from './_mercenary_level_policy.js';
 import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED as SEED} from './_mercenary_cms_seed.js';
@@ -80,14 +80,14 @@ export async function runPreparedMercenaryLevel(env,user,body,action,{randomInt=
   const predicates=['EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',"EXISTS(SELECT 1 FROM mercenary_cms_documents_v1 WHERE doc_key='config' AND revision=?)",'EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies>=1)'];
   const values=[KEY,plan.policyRaw,plan.cmsRevision,user.id,input.mercenaryCode];
   predicates.push('(EXISTS(SELECT 1 FROM user_mercenary_levels_v1 WHERE user_id=? AND mercenary_code=? AND level=? AND experience=? AND breakthrough_mask=? AND revision=?) OR (?=0 AND NOT EXISTS(SELECT 1 FROM user_mercenary_levels_v1 WHERE user_id=? AND mercenary_code=?)))');
-  values.push(user.id,input.mercenaryCode,before.level,before.experience,before.breakthroughMask,before.revision,before.revision,user.id,input.mercenaryCode);
+  values.push(user.id,input.mercenaryCode,mercenaryLevelStorageLevel(before),before.experience,before.breakthroughMask,before.revision,before.revision,user.id,input.mercenaryCode);
   for(const m of consumed){predicates.push('EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies=? AND duplicate_count=?)');values.push(user.id,m.code,m.totalBefore,m.duplicatesBefore);}
   list.push(jointGuard(DB,token,predicates.join(' AND '),values));
   for(const m of consumed){
    list.push(p('UPDATE user_mercenary_cards_v1 SET total_copies=total_copies-?,duplicate_count=duplicate_count-? WHERE user_id=? AND mercenary_code=? AND total_copies=? AND duplicate_count=?',m.quantity,m.quantity,user.id,m.code,m.totalBefore,m.duplicatesBefore));
    list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies=? AND duplicate_count=?) THEN 1 ELSE 0 END WHERE token=?',user.id,m.code,m.totalBefore-m.quantity,m.duplicatesBefore-m.quantity,token));
   }
-  list.push(p('INSERT INTO user_mercenary_levels_v1(user_id,mercenary_code,level,experience,breakthrough_mask,revision,updated_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET level=excluded.level,experience=excluded.experience,breakthrough_mask=excluded.breakthrough_mask,revision=excluded.revision,updated_at=excluded.updated_at',user.id,input.mercenaryCode,after.level,after.experience,after.breakthroughMask,after.revision,plan.createdAt),jointGuardEnd(DB,token));
+  list.push(p('INSERT INTO user_mercenary_levels_v1(user_id,mercenary_code,level,experience,breakthrough_mask,revision,updated_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET level=excluded.level,experience=excluded.experience,breakthrough_mask=excluded.breakthrough_mask,revision=excluded.revision,updated_at=excluded.updated_at',user.id,input.mercenaryCode,mercenaryLevelStorageLevel(after),after.experience,after.breakthroughMask,after.revision,plan.createdAt),jointGuardEnd(DB,token));
   return list;
  }});
  return receipt(op);
@@ -113,7 +113,7 @@ export async function handleMercenaryLevel({path,request,env,deps}){
     const history=configured&&rows.length?await readMercenaryBreakthroughHistory(env,user.id):[];
     const [packOwners,jokroPackOwners]=await Promise.all([readJinmuPackOwners(env,owned.results.some(r=>r.mercenary_code===JINMU_CODE)?[user.id]:[]),readJokroPackOwners(env,owned.results.some(r=>r.mercenary_code===JOKRO_CODE)?[user.id]:[])]);
     const catalog=levelCatalog(document,user.id,packOwners.has(Number(user.id)),jokroPackOwners.has(Number(user.id)));
-    return reply({userId:Number(user.id),enabled,policy,rules:RULES,cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>{const state=mercenaryLevelState(rows.find(s=>s.mercenary_code===r.mercenary_code));return {code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...catalog.find(c=>c.code===r.mercenary_code),growth:state,breakthroughPity:mercenaryPityFromHistory(history,r.mercenary_code,state)};})});
+    return reply({userId:Number(user.id),enabled,policy,rules:RULES,cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>{const state=mercenaryLevelStateFromStorage(rows.find(s=>s.mercenary_code===r.mercenary_code));return {code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...catalog.find(c=>c.code===r.mercenary_code),growth:state,breakthroughPity:mercenaryPityFromHistory(history,r.mercenary_code,state)};})});
    }
   }
   if(request.method!==(admin?'PATCH':'POST'))throw levelError('MERCENARY_LEVEL_METHOD','지원하지 않는 요청입니다.',405);

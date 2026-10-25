@@ -20,9 +20,9 @@ test('unconfigured and partial V2 policies stay OFF and cannot enter battle',()=
  for(const [key,value]of [['speedPercent',81],['mitigationBypassPercent',51],['actionCatchupPercent',71],['actionCreditPercent',76]]){const bad=structuredClone(MERCENARY_GROWTH_REVIEW);bad.milestones[0][key]=value;assert.throws(()=>validateMercenaryGrowth(bad));}
 });
 
-test('all 20 levels and four breakthroughs have explicit additive, monotonic totals',()=>{
- const table=mercenaryGrowthLevelTable(MERCENARY_GROWTH_REVIEW);assert.equal(table.length,20);
- for(let i=1;i<20;i++)for(const key of ['hpPercent','attackPercent','defensePercent','speedPercent'])assert.ok(table[i].beforeBreakthrough.total[key]>=table[i-1].beforeBreakthrough.total[key]);
+test('all 21 levels and four breakthroughs have explicit additive, monotonic totals',()=>{
+ const table=mercenaryGrowthLevelTable(MERCENARY_GROWTH_REVIEW);assert.equal(table.length,21);
+ for(let i=1;i<21;i++)for(const key of ['hpPercent','attackPercent','defensePercent','speedPercent'])assert.ok(table[i].beforeBreakthrough.total[key]>=table[i-1].beforeBreakthrough.total[key]);
  const total=mercenaryGrowthSummary(MERCENARY_GROWTH_REVIEW,growthState(20)).total;
  assert.deepEqual(total,{hpPercent:875,attackPercent:975,defensePercent:174,speedPercent:27,skillPowerPercent:20,mitigationBypassPercent:50,actionCatchupPercent:70,actionCreditPercent:75});
  assert.equal(table[19].beforeBreakthrough.breakthroughCount,3);assert.equal(table[19].afterBreakthrough.breakthroughCount,4);
@@ -35,10 +35,10 @@ test('growth scales effective stats once, keeps wounds, original shield and powe
  const cloned=structuredClone(MERCENARY_GROWTH_REVIEW);const p=growthReviewPolicy(),snapshot=attachMercenaryLevel(sssReferences[0],p,growthState(20));p.growth.perLevel.hpPercent=0;assert.deepEqual(snapshot.mercenaryLevel.growth,cloned);
 });
 
-test('failure preserves all earned growth; successful final breakthrough grants the last package only',()=>{
+test('failure preserves all earned growth; successful final breakthrough grants level 21 and the last package',()=>{
  const p=growthReviewPolicy(),target=sssReferences[0],state={...growthState(20),breakthroughMask:7,experience:1000},before=mercenaryGrowthSummary(p.growth,state);
  const failed=planMercenaryBreakthrough({policy:p,target,state,roll:999999});assert.deepEqual(mercenaryGrowthSummary(p.growth,failed.after),before);assert.equal(failed.after.experience,0);
- const success=planMercenaryBreakthrough({policy:p,target,state,roll:0}),after=mercenaryGrowthSummary(p.growth,success.after);assert.equal(after.total.hpPercent-before.total.hpPercent,100);assert.equal(after.total.actionCreditPercent-before.total.actionCreditPercent,30);assert.equal(success.reward.level,20);
+ const success=planMercenaryBreakthrough({policy:p,target,state,roll:0}),after=mercenaryGrowthSummary(p.growth,success.after);assert.equal(after.total.hpPercent-before.total.hpPercent,125);assert.equal(after.total.actionCreditPercent-before.total.actionCreditPercent,30);assert.equal(success.reward.level,20);
 });
 
 test('conditional speed floor uses frozen pre-growth opponent speed and never compounds',()=>{

@@ -1,5 +1,5 @@
 import {jointAccountRequest} from '../../js/joint-account-transport.mjs';
-import {mercenaryLevelState} from '../../shared/mercenary-level-v1.mjs';
+import {mercenaryLevelState} from '../../shared/mercenary-level-v1.mjs?v=20261025-cap21-v1';
 const base='mercenaries/v3/leveling/';
 export const levelToken=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 export function validateLevelReceipt(r,id){

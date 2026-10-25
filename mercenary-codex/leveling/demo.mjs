@@ -1,4 +1,4 @@
-import {initialMercenaryLevel} from '../../shared/mercenary-level-v1.mjs?v=20261016-growth-live-v1';
+import {initialMercenaryLevel} from '../../shared/mercenary-level-v1.mjs?v=20261025-cap21-v1';
 import {mercenaryGrowthLaunchPolicy} from '../../shared/mercenary-growth-launch-20261016.mjs';
 // Loopback-only fake ownership. Economy now matches the explicitly approved launch.
 export function levelDemo(){

@@ -1,0 +1,244 @@
+✔ exact 10/20 failed-attempt boundary; base 10% chance and XP cost stay unchanged (6.1937ms)
+✔ SQLite: legacy failures are retroactive for each milestone, and guarantee commits only once (221.1858ms)
+✔ SQLite: tenth failure, XP refill and guaranteed eleventh attempt preserve counters and materials (87.8769ms)
+✔ SQLite: rollback, cancelled/pending/test requests, other users and mercenaries cannot inflate pity (87.9414ms)
+✔ SQLite: old completed receipts stay frozen; pre-release pending failure cannot bypass new guarantee (55.7871ms)
+✔ PostgreSQL: legacy failures are retroactive for each milestone, and guarantee commits only once (5453.1646ms)
+✔ PostgreSQL: tenth failure, XP refill and guaranteed eleventh attempt preserve counters and materials (2907.2889ms)
+✔ PostgreSQL: rollback, cancelled/pending/test requests, other users and mercenaries cannot inflate pity (3618.3716ms)
+✔ PostgreSQL: old completed receipts stay frozen; pre-release pending failure cannot bypass new guarantee (2785.02ms)
+✔ history uses receipt revision, deduplicates IDs, resets after success and ignores later snapshots (28.0082ms)
+✔ approved launch triples rising required XP only; both combat flags open and empty CMS stays empty (9.2199ms)
+✔ all four breakthroughs use exact 10% boundaries, preserve earned growth on failure, and finish at 21 (10.3774ms)
+✔ released authenticated state, training, receipt replay and server battle snapshot use the saved launch policy (170.1674ms)
+✔ launch installs only its empty table and audited policy once; dry-run/conflict roll back and replay never resets CMS (4497.329ms)
+✔ unconfigured and partial V2 policies stay OFF and cannot enter battle (5.6293ms)
+✔ all 21 levels and four breakthroughs have explicit additive, monotonic totals (3.638ms)
+✔ growth scales effective stats once, keeps wounds, original shield and power (2.8735ms)
+✔ failure preserves all earned growth; successful final breakthrough grants level 21 and the last package (2.0207ms)
+✔ conditional speed floor uses frozen pre-growth opponent speed and never compounds (3.6589ms)
+✖ gap mastery restores bounded lost damage, including Berkan immunity, without globally changing it (1.8352ms)
+✔ PVP mastery adds 0.75 credit instead of multiplying innate cadence; PVE and legacy unchanged (5.0111ms)
+✔ level-1 V2 and legacy battle paths are identical; high-level formation can overturn a low-level limited (59.0579ms)
+✔ 0.01 percent action credit accumulates exactly and duo owners earn only their own credit (145.9394ms)
+✖ action response closes only the frozen opportunity gap and subtracts own innate plus growth credit (1.2657ms)
+✔ 21 is terminal; 22, missing final breakthrough and terminal XP are rejected (3.7266ms)
+✔ SQLite: level 20 final success reaches 21 once; direct requests cannot spend materials or reach 22 (182.6769ms)
+✖ SQLite: existing final completion becomes 21 on current reads without rewriting rows or old receipts (36.6649ms)
+✔ PostgreSQL: level 20 final success reaches 21 once; direct requests cannot spend materials or reach 22 (4868.7391ms)
+✖ PostgreSQL: existing final completion becomes 21 on current reads without rewriting rows or old receipts (2891.9928ms)
+✔ legacy growth endpoint remains closed and cannot bypass the cap (1.5944ms)
+✔ live draft fixes the approved multiplier and leaves remaining economy values unset (8.053ms)
+✔ same mercenary earns the multiplier; only same-rank mercenary extras are accepted (3.2147ms)
+✔ ordinary levels carry XP but every milestone caps XP and reports exact overflow (1.7535ms)
+✔ all four failures retain level and earlier effects; success is once, exact odds, max 21 (9.6153ms)
+✔ invalid persisted states cannot skip gates, retain EXP after final completion, or exceed new XP policy (1.6207ms)
+✔ SQLite: atomic consumption, replay, account isolation, no wallet/loadout change (97.216ms)
+✔ SQLite: failed writes roll back materials and XP; stale other request is cancelled (54.4967ms)
+✔ SQLite: overflow requires explicit consent; failed breakthrough retry keeps its first random draw (58.5635ms)
+✔ SQLite: policy revision and CMS revision races cannot spend stale materials (93.3081ms)
+✖ SQLite: final success exposes level 21 and its bonus exactly once without spending more cards (41.5227ms)
+✔ Postgres: atomic consumption, replay, account isolation, no wallet/loadout change (4871.5863ms)
+✔ Postgres: failed writes roll back materials and XP; stale other request is cancelled (2850.4554ms)
+✔ Postgres: overflow requires explicit consent; failed breakthrough retry keeps its first random draw (3276.2651ms)
+✔ Postgres: policy revision and CMS revision races cannot spend stale materials (2919.8279ms)
+✖ Postgres: final success exposes level 21 and its bonus exactly once without spending more cards (2041.6111ms)
+✔ lost commit acknowledgement and serialized concurrent requests never double consume (25.1542ms)
+✔ batch predicate rejects inventory or policy changes after the preparation reads (25.1269ms)
+✔ released routes require authentication before any growth database access (24.2851ms)
+✔ OFF needs no new schema, ignores legacy growth, and CMS saves cannot activate it (58.9529ms)
+✖ battle bonuses apply once after linkage, preserve wounds and base rank power, and freeze skill effects (4.6673ms)
+✔ PVE, PVP and two-card co-op linkage carry server-frozen growth without changing historical snapshots (28.1998ms)
+✔ client retains request through timeout and reload; receipt recovery sends no new POST (1.2197ms)
+✔ same code gives exactly 3x XP; other SSS gives 1x regardless of limited edition (35.1645ms)
+✔ all required XP and cumulative XP are exactly 5x, determined from canonical identity (0.8376ms)
+✔ limited checkpoints, overflow and failures use the 5x threshold through final level 20 (6.2825ms)
+✔ older OFF draft adapts without writes, preserving unsettled values and raw concurrency guard (0.7643ms)
+✔ SQLite: limited training rolls back, replays once and remains unavailable through live routes (164.1447ms)
+✔ PostgreSQL: limited training rolls back, replays once and remains unavailable through live routes (4810.5954ms)
+✔ prepared combat stat growth applies once and preserves wounds and pre-growth actors (0.9749ms)
+✔ isolated level-20 Cryvern can defeat level-1 limited SSS with unchanged cards and real battle rules (62.7306ms)
+✔ skip/close acknowledged only after the completed server result is shown, without another mutation (10.3541ms)
+✔ leaving the reveal keeps its receipt and restores the exact failure after a lost POST response (1.99ms)
+✔ failed state refresh or reveal retains pending request for recovery (1.2239ms)
+✔ account switch during animation cannot acknowledge another session (0.9134ms)
+✔ pending receipt does not reveal or acknowledge; final level reaches 21 (0.7545ms)
+✔ SQLite: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x (103.5035ms)
+✔ SQLite: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once (146.9969ms)
+✔ SQLite: committed V2 growth summaries survive policy replacement, OFF and receipt recovery (37.6663ms)
+✔ SQLite: partially configured growth can be saved OFF but cannot consume cards or grow (56.0338ms)
+✔ PostgreSQL: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x (4908.1318ms)
+✔ PostgreSQL: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once (3183.9152ms)
+✔ PostgreSQL: committed V2 growth summaries survive policy replacement, OFF and receipt recovery (3215.2476ms)
+✔ PostgreSQL: partially configured growth can be saved OFF but cannot consume cards or grow (2898.5952ms)
+✔ both previous OFF policy versions adapt in memory without writing or filling a growth profile (2.1774ms)
+✔ released leveling mutations and preview require authentication before database access (44.9317ms)
+ℹ tests 75
+ℹ suites 0
+ℹ pass 68
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18872.786
+
+✖ failing tests:
+
+test at tests\mercenary-growth-v2-20261015.test.mjs:52:1
+✖ gap mastery restores bounded lost damage, including Berkan immunity, without globally changing it (1.8352ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  3.12 !== 3
+
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/tests/mercenary-growth-v2-20261015.test.mjs:57:150)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3.12,
+    expected: 3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\mercenary-growth-v2-20261015.test.mjs:88:1
+✖ action response closes only the frozen opportunity gap and subtracts own innate plus growth credit (1.2657ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  2560 !== 2500
+
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/tests/mercenary-growth-v2-20261015.test.mjs:94:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2560,
+    expected: 2500,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\mercenary-level-cap21-20261025.test.mjs:52:2
+✖ SQLite: existing final completion becomes 21 on current reads without rewriting rows or old receipts (36.6649ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(now.attack>oldActor.attack)
+
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/tests/mercenary-level-cap21-20261025.test.mjs:69:11)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\mercenary-level-cap21-20261025.test.mjs:52:2
+✖ PostgreSQL: existing final completion becomes 21 on current reads without rewriting rows or old receipts (2891.9928ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(now.attack>oldActor.attack)
+
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/tests/mercenary-level-cap21-20261025.test.mjs:69:11)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\mercenary-level-preparation-20261005.test.mjs:84:2
+✖ SQLite: final success exposes level 21 and its bonus exactly once without spending more cards (41.5227ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+    Comparison {
+  +   code: 'MERCENARY_LEVEL_MAX'
+  -   code: 'MERCENARY_LEVEL_NOT_READY'
+    }
+
+      at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/tests/mercenary-level-preparation-20261005.test.mjs:86:3)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: 최대 21레벨에 도달한 용병입니다.
+        at levelError (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/shared/mercenary-level-v1.mjs:27:66)
+        at check (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/shared/mercenary-level-v1.mjs:28:71)
+        at planMercenaryBreakthrough (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/shared/mercenary-level-v1.mjs:109:2)
+        at prepare (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/functions/_mercenary_level.js:56:125)
+        at async runJointOperation (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/functions/_joint_transactions.js:29:16)
+        at async runPreparedMercenaryLevel (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/functions/_mercenary_level.js:55:11)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/tests/mercenary-level-preparation-20261005.test.mjs:86:3)
+        at async Test.run (node:internal/test_runner/test:1332:7),
+    expected: { code: 'MERCENARY_LEVEL_NOT_READY' },
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests\mercenary-level-preparation-20261005.test.mjs:84:2
+✖ Postgres: final success exposes level 21 and its bonus exactly once without spending more cards (2041.6111ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+    Comparison {
+  +   code: 'MERCENARY_LEVEL_MAX'
+  -   code: 'MERCENARY_LEVEL_NOT_READY'
+    }
+
+      at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/tests/mercenary-level-preparation-20261005.test.mjs:86:3)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: 최대 21레벨에 도달한 용병입니다.
+        at levelError (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/shared/mercenary-level-v1.mjs:27:66)
+        at check (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/shared/mercenary-level-v1.mjs:28:71)
+        at planMercenaryBreakthrough (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/shared/mercenary-level-v1.mjs:109:2)
+        at prepare (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/functions/_mercenary_level.js:56:125)
+        at async runJointOperation (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/functions/_joint_transactions.js:29:16)
+        at async runPreparedMercenaryLevel (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/functions/_mercenary_level.js:55:11)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/tests/mercenary-level-preparation-20261005.test.mjs:86:3)
+        at async Test.run (node:internal/test_runner/test:1332:7),
+    expected: { code: 'MERCENARY_LEVEL_NOT_READY' },
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests\mercenary-level-preparation-20261005.test.mjs:118:1
+✖ battle bonuses apply once after linkage, preserve wounds and base rank power, and freeze skill effects (4.6673ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  21 !== 20
+
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/mercenary-craft-reveal/cnine-card/tests/mercenary-level-preparation-20261005.test.mjs:121:311)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 21,
+    expected: 20,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

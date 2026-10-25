@@ -48,10 +48,10 @@ test('account switch during animation cannot acknowledge another session',async(
   await assert.rejects(()=>presentLevelReceipt({receipt,client:f.client,account:f.account,present:async()=>{f.changeAccount();return true;}}),/계정이 변경/);
   assert.ok(f.client.pending());assert.equal(f.posts(),1);
 });
-test('pending receipt does not reveal or acknowledge; final level remains 20',async()=>{
+test('pending receipt does not reveal or acknowledge; final level reaches 21',async()=>{
   const f=fixture({final:true}),receipt=await f.start();
   const pending=await presentLevelReceipt({receipt:{status:'PENDING'},client:f.client,account:f.account,present:()=>assert.fail()});assert.equal(pending.completed,false);assert.equal(pending.pending,true);
-  const shown=await presentLevelReceipt({receipt,client:f.client,account:f.account,present:async r=>{assert.equal(r.complete,true);assert.equal(r.after.level,20);assert.equal(r.after.breakthroughMask,15);return true;}});
+  const shown=await presentLevelReceipt({receipt,client:f.client,account:f.account,present:async r=>{assert.equal(r.complete,true);assert.equal(r.after.level,21);assert.equal(r.after.breakthroughMask,15);return true;}});
   assert.equal(shown.pending,false);assert.equal(f.posts(),1);
   assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED,true);assert.equal(mercenaryLevelDraft().sameCardMultiplier,3);assert.equal(mercenaryLevelDraft().mode,'OFF');
 });

@@ -1,4 +1,4 @@
-import {MERCENARY_LEVEL_RULES,validateMercenaryLevelPolicy,mercenaryLevelReadiness,mercenaryGrowthDraft,mercenaryGrowthSummary} from '../shared/mercenary-level-v1.mjs?v=20261016-growth-live-v1';
+import {MERCENARY_LEVEL_RULES,validateMercenaryLevelPolicy,mercenaryLevelReadiness,mercenaryGrowthDraft,mercenaryGrowthSummary} from '../shared/mercenary-level-v1.mjs?v=20261025-cap21-v1';
 
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fields={hpPercent:'체력',attackPercent:'공격',defensePercent:'방어',speedPercent:'행동 속도',skillPowerPercent:'배정 스킬 계수',mitigationBypassPercent:'PVP 경감 관통',actionCatchupPercent:'PVP 행동 대응',actionCreditPercent:'PVP 추가 행동 숙련'};
@@ -12,9 +12,9 @@ export function createMercenaryLevelEditor({request,onRender}){
  function growthTable(policy){
   const growth=policy.growth;
   const rows=Array.from({length:20},(_,i)=>({level:i+1,mask:MERCENARY_LEVEL_RULES.milestones.reduce((mask,level,index)=>mask|(level<i+1?1<<index:0),0),label:`Lv.${i+1}`}));
-  rows.push({level:20,mask:15,label:'Lv.20 최종 돌파'});
+  rows.push({level:MERCENARY_LEVEL_RULES.maxLevel,mask:15,label:'Lv.21 MAX'});
   let values;
-  try{values=rows.map(row=>({...row,bonus:mercenaryGrowthSummary(growth,{level:row.level,experience:0,breakthroughMask:row.mask,revision:0}).total}));}catch{return '<p>성장 수치를 모두 입력하면 Lv.1~20 누적 효과를 표시합니다. 빈칸을 0이나 검수 수치로 자동 채우지 않습니다.</p>';}
+  try{values=rows.map(row=>({...row,bonus:mercenaryGrowthSummary(growth,{level:row.level,experience:0,breakthroughMask:row.mask,revision:0}).total}));}catch{return '<p>성장 수치를 모두 입력하면 Lv.1~21 누적 효과를 표시합니다. 빈칸을 0이나 검수 수치로 자동 채우지 않습니다.</p>';}
   return `<p class="mc-level-table-hint">표를 좌우로 밀어 모든 능력을 확인할 수 있습니다.</p><div class="mc-level-growth-scroll" tabindex="0" aria-label="레벨별 누적 성장표"><table class="mc-level-growth-table"><thead><tr><th>단계</th>${Object.values(fields).map(label=>`<th>${label}</th>`).join('')}</tr></thead><tbody>${values.map(row=>`<tr><th scope="row">${row.label}</th>${Object.keys(fields).map(key=>`<td>${percent(row.bonus[key])}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p>각 수치는 기본 능력치에 더하는 누적 증가율입니다. 성공한 돌파만 포함되며 Lv.5·10·15·20의 돌파 직전과 성공 이후를 구분합니다.</p>`;
  }
  function html(){
@@ -22,7 +22,7 @@ export function createMercenaryLevelEditor({request,onRender}){
   const p=state.policy,g=p.growth??mercenaryGrowthDraft(),ready=readiness(p);
   return `<section data-level-root class="mc-review"><div class="mc-release-strip"><div><small>용병 성장 설계</small><h3>용병 레벨 · 돌파 V2</h3><p>일반 레벨 성장과 돌파 보너스를 따로 설정합니다. 저장한 성장 수치와 실행 상태를 적용합니다.</p></div><div><b>${state.releaseEnabled?`실행 ${p.mode}`:"실행 OFF · 출시 잠금"}</b><b>설정 r${p.revision}</b></div></div>
    <p>같은 등급의 중복 카드만 재료로 사용합니다. 동일 용병은 경험치 3배, 다른 동급 용병은 1배이며 기본 보유 1장은 보호합니다. 리미티드의 필요 경험치는 일반의 5배입니다.</p>
-   <p>Lv.5 · 10 · 15 · 20 경험치 100%에서 돌파합니다. 실패해도 레벨과 이전 능력은 유지하며 현재 경험치만 0이 됩니다. 성공하면 해당 돌파 능력을 얻고 다음 레벨로 이동합니다. 최종 돌파는 Lv.20을 유지합니다.</p>
+   <p>Lv.5 · 10 · 15 · 20 경험치 100%에서 돌파합니다. 실패해도 레벨과 이전 능력은 유지하며 현재 경험치만 0이 됩니다. 성공하면 해당 돌파 능력을 얻고 다음 레벨로 이동합니다. 최종 돌파 성공 시 Lv.21이 되며, 이후 성장은 종료됩니다.</p>
    <p>일반 레벨의 초과 경험치는 이월합니다. 돌파 구간의 초과분만 사전 동의 후 소멸하며 코인·마스터의 별 추가 비용은 없습니다.</p>
    <p>돌파 천장: Lv.5·10·15는 10회 실패 후 다음 시도, Lv.20은 20회 실패 후 다음 시도에 확정 성공합니다. 과거 완료된 실패 기록도 용병·단계별로 합산하며 성공 시 초기화합니다. 아래 성공 확률은 천장 도달 전의 기본 확률입니다.</p>
    <p><a href="/mercenary-codex/leveling/" target="_blank" rel="noopener">용병 성장실 열기 ↗</a> · 운영 설정은 아래에 저장한 수치를 사용합니다.</p>

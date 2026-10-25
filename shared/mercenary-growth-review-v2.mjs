@@ -1,6 +1,7 @@
 // Isolated balance candidate. Importing this profile never enables leveling.
 // Production policy begins with growth:null; only an explicit future CMS setting
 // and the joint level/PVP release can activate a configured growth profile.
+export const MERCENARY_GROWTH_MAX_LEVEL=21;
 export const MERCENARY_GROWTH_VERSION='mercenary-growth-v2-20261015';
 export const MERCENARY_GROWTH_STAT_KEYS=Object.freeze(['hpPercent','attackPercent','defensePercent','speedPercent']);
 export const MERCENARY_GROWTH_BONUS_KEYS=Object.freeze([...MERCENARY_GROWTH_STAT_KEYS,'skillPowerPercent','mitigationBypassPercent','actionCatchupPercent','actionCreditPercent']);
@@ -38,7 +39,7 @@ export function mercenaryGrowthSummary(growth,state){
  if(growth===null||growth===undefined)return null;
  if(!mercenaryGrowthReadiness(growth).ready)fail();
  const profile=validateMercenaryGrowth(growth),level=Number(state?.level),mask=Number(state?.breakthroughMask??state?.breakthrough_mask??0);
- if(!Number.isInteger(level)||level<1||level>20||![0,1,3,7,15].includes(mask))fail();
+ if(!Number.isInteger(level)||level<1||level>MERCENARY_GROWTH_MAX_LEVEL||![0,1,3,7,15].includes(mask))fail();
  for(let i=0;i<4;i++)if((mask&(1<<i))&&!(MILESTONES[i]<level||MILESTONES[i]===20&&level===20)||level>MILESTONES[i]&&!(mask&(1<<i)))fail();
  const perLevelBonus=empty(),breakthroughBonus=empty();
  for(const k of MERCENARY_GROWTH_STAT_KEYS)perLevelBonus[k]=Number((profile.perLevel[k]*(level-1)).toFixed(2));
@@ -53,7 +54,7 @@ export function mercenaryGrowthStatPreview(base,summary){
  if(Object.values(after).some(n=>!Number.isSafeInteger(n)))fail();return {before,after};
 }
 export function mercenaryGrowthLevelTable(growth){
- return Array.from({length:20},(_,i)=>{const level=i+1,breakthroughMask=MILESTONES.reduce((mask,m,j)=>mask|(m<level?1<<j:0),0);return {level,beforeBreakthrough:mercenaryGrowthSummary(growth,{level,breakthroughMask}),afterBreakthrough:MILESTONES.includes(level)?mercenaryGrowthSummary(growth,{level:Math.min(20,level+1),breakthroughMask:breakthroughMask|(1<<MILESTONES.indexOf(level))}):null};});
+ return Array.from({length:MERCENARY_GROWTH_MAX_LEVEL},(_,i)=>{const level=i+1,breakthroughMask=MILESTONES.reduce((mask,m,j)=>mask|(m<level?1<<j:0),0);return {level,beforeBreakthrough:mercenaryGrowthSummary(growth,{level,breakthroughMask}),afterBreakthrough:MILESTONES.includes(level)?mercenaryGrowthSummary(growth,{level:Math.min(MERCENARY_GROWTH_MAX_LEVEL,level+1),breakthroughMask:breakthroughMask|(1<<MILESTONES.indexOf(level))}):null};});
 }
 // 2026-10-20: the capped-hit / lost-gauge defect affects every growing fighter.
 // Keep the bounded Diim correction as one common PvP growth policy. Legacy

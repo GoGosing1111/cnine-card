@@ -6,8 +6,8 @@ import {MERCENARY_BREAKTHROUGH_PITY_LIMITS,mercenaryBreakthroughPity} from './me
 import {ZERO_CODE} from './mercenary-zero-v1.mjs';
 import {LEONEL_CODE} from './mercenary-leonel-v1.mjs';
 import {JOKRO_CODE} from './mercenary-jokro-v1.mjs';
-export {mercenaryGrowthDraft,mercenaryGrowthSummary,mercenaryGrowthStatPreview,mercenaryGrowthLevelTable,mercenaryGrowthReadiness,MERCENARY_GROWTH_VERSION,MERCENARY_GROWTH_REVIEW} from './mercenary-growth-review-v2.mjs';
-import {validateMercenaryGrowth,mercenaryGrowthSummary,mercenaryGrowthStatPreview,mercenaryGrowthReadiness,mercenaryGrowthOpeningGauge} from './mercenary-growth-review-v2.mjs';
+export {mercenaryGrowthDraft,mercenaryGrowthSummary,mercenaryGrowthStatPreview,mercenaryGrowthLevelTable,mercenaryGrowthReadiness,MERCENARY_GROWTH_VERSION,MERCENARY_GROWTH_REVIEW} from './mercenary-growth-review-v2.mjs?v=20261025-cap21-v1';
+import {MERCENARY_GROWTH_MAX_LEVEL,validateMercenaryGrowth,mercenaryGrowthSummary,mercenaryGrowthStatPreview,mercenaryGrowthReadiness,mercenaryGrowthOpeningGauge} from './mercenary-growth-review-v2.mjs?v=20261025-cap21-v1';
 import {SHIRANUI_CODE} from './mercenary-shiranui-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 import {ALL_LIMITED_MERCENARIES as LIMITED_MERCENARIES} from './mercenary-limited-catalog-v1.mjs';
@@ -18,12 +18,12 @@ import {JINMU_CODE} from './mercenary-jinmu-v1.mjs';
 // still required; missing configuration never inherits a sample/default profile.
 export const MERCENARY_LEVEL_RELEASE_ENABLED=true;
 export const MERCENARY_LEVEL_KEY='mercenary_level_policy_v1';
-export const MERCENARY_LEVEL_RULES=Object.freeze({version:'mercenary-level-20261015-v2',maxLevel:20,milestones:Object.freeze([5,10,15,20]),materialKind:'MERCENARY',materialRank:'SAME_RANK',sameCardMultiplier:3,limitedRequiredXpMultiplier:5,preserveOriginal:true,coinCost:0,masterStarCost:0,maxMaterials:100,failure:'CURRENT_LEVEL_EXP_ZERO',breakthroughPity:{failuresBeforeGuarantee:MERCENARY_BREAKTHROUGH_PITY_LIMITS,retroactive:true}});
+export const MERCENARY_LEVEL_RULES=Object.freeze({version:'mercenary-level-20261015-v2',maxLevel:MERCENARY_GROWTH_MAX_LEVEL,levelCapVersion:'20261025-cap21-v1',milestones:Object.freeze([5,10,15,20]),materialKind:'MERCENARY',materialRank:'SAME_RANK',sameCardMultiplier:3,limitedRequiredXpMultiplier:5,preserveOriginal:true,coinCost:0,masterStarCost:0,maxMaterials:100,failure:'CURRENT_LEVEL_EXP_ZERO',breakthroughPity:{failuresBeforeGuarantee:MERCENARY_BREAKTHROUGH_PITY_LIMITS,retroactive:true}});
 export const LEVEL_BONUS_TYPES=Object.freeze({HP_PERCENT:'최대 체력 증가',ATTACK_PERCENT:'공격력 증가',DEFENSE_PERCENT:'방어력 증가',SPEED_PERCENT:'행동 속도 증가',COMBAT_STATS_PERCENT:'체력·공격·방어·속도 증가',SKILL_POWER_PERCENT:'배정 스킬 계수 증가',SKILL_COOLDOWN_TURNS:'배정 스킬 재사용 감소'});
 export function mercenaryLevelDraft(){return {version:MERCENARY_LEVEL_RULES.version,revision:0,mode:'OFF',growth:null,sameCardMultiplier:MERCENARY_LEVEL_RULES.sameCardMultiplier,xpPerCard:Object.fromEntries(MERCENARY_RANKS.map(rank=>[rank,null])),levels:Array.from({length:20},(_,i)=>({level:i+1,requiredXp:null})),milestones:[5,10,15,20].map(level=>({level,successChancePpm:null,bonus:{type:null,value:null}}))};}
 const limitedCodes=new Set([AWAKENED_OMEGA_CODE,...LIMITED_MERCENARIES.map(card=>card.code),JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE,PRIME_CODE,GENERAL_JOK_CODE,EUNSEOL_CODE]);
 export const mercenaryLevelXpMultiplier=target=>limitedCodes.has(target?.code)?MERCENARY_LEVEL_RULES.limitedRequiredXpMultiplier:1;
-export function mercenaryLevelRequiredXp(policy,level,target){const base=policy.levels[level-1].requiredXp;return base===null?null:base*mercenaryLevelXpMultiplier(target);}
+export function mercenaryLevelRequiredXp(policy,level,target){if(level===MERCENARY_LEVEL_RULES.maxLevel)return 0;const base=policy.levels[level-1].requiredXp;return base===null?null:base*mercenaryLevelXpMultiplier(target);}
 export const levelError=(code,message,status=400)=>Object.assign(Error(message),{code,status});
 const check=(ok,message,code='MERCENARY_LEVEL_CONFIG')=>{if(!ok)throw levelError(code,message);};
 const keys=(value,expected,label)=>check(value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).length===expected.length&&expected.every(k=>Object.hasOwn(value,k)),label+' 항목을 확인하세요.');
@@ -55,13 +55,23 @@ export const initialMercenaryLevel=()=>({level:1,experience:0,breakthroughMask:0
 export function mercenaryLevelState(row){
  if(!row)return initialMercenaryLevel();
  const s={level:Number(row.level),experience:Number(row.experience),breakthroughMask:Number(row.breakthroughMask??row.breakthrough_mask),revision:Number(row.revision)};
- int(s.level,1,20,'용병 레벨');int(s.experience,0,1e12,'용병 경험치');int(s.breakthroughMask,0,15,'돌파 기록');int(s.revision,0,2147483646,'성장 수정 버전');
+ int(s.level,1,MERCENARY_LEVEL_RULES.maxLevel,'용병 레벨');int(s.experience,0,1e12,'용병 경험치');int(s.breakthroughMask,0,15,'돌파 기록');int(s.revision,0,2147483646,'성장 수정 버전');
  const unlocked=MERCENARY_LEVEL_RULES.milestones.filter((_,i)=>s.breakthroughMask&(1<<i));
  check(unlocked.every((level,i)=>level===MERCENARY_LEVEL_RULES.milestones[i]&&(level<s.level||level===20&&s.level===20)),'연속 돌파 기록을 확인하세요.');
  for(const [i,level] of MERCENARY_LEVEL_RULES.milestones.entries())check(s.level<=level||Boolean(s.breakthroughMask&(1<<i)),'돌파를 건너뛴 성장 기록입니다.');
- check(!(s.breakthroughMask&8)||s.level===20&&s.experience===0,'최종 돌파 기록을 확인하세요.');return s;
+ check(!(s.breakthroughMask&8)||[20,MERCENARY_LEVEL_RULES.maxLevel].includes(s.level)&&s.experience===0,'최종 돌파 기록을 확인하세요.');return s;
 }
-export const isLevelComplete=s=>s.level===20&&Boolean(s.breakthroughMask&8);
+// The persisted checkpoint (20 + final breakthrough bit) remains the durable
+// encoding for completed growth. Decode it as Lv.21 for current accounts only;
+// immutable receipts and historical battle snapshots keep their captured level.
+export function mercenaryLevelStateFromStorage(row){
+ const s=mercenaryLevelState(row);
+ return s.level===20&&s.breakthroughMask===15?{...s,level:MERCENARY_LEVEL_RULES.maxLevel}:s;
+}
+export function mercenaryLevelStorageLevel(row){
+ const s=mercenaryLevelState(row);return s.level===MERCENARY_LEVEL_RULES.maxLevel?20:s.level;
+}
+export const isLevelComplete=s=>[20,MERCENARY_LEVEL_RULES.maxLevel].includes(s.level)&&s.breakthroughMask===15;
 export function levelProgress(policy,row,target){
  const s=mercenaryLevelState(row),requiredXp=mercenaryLevelRequiredXp(policy,s.level,target),complete=isLevelComplete(s),checkpoint=MERCENARY_LEVEL_RULES.milestones.includes(s.level)&&!(s.breakthroughMask&(1<<MERCENARY_LEVEL_RULES.milestones.indexOf(s.level)));
  check(requiredXp===null||s.experience<=requiredXp&&((checkpoint||complete)||s.experience<requiredXp),'현재 경험치와 성장 정책을 확인하세요.','MERCENARY_LEVEL_STATE');
@@ -76,7 +86,7 @@ export function normalizeLevelMaterials(value){
 function configured(policy){const ready=mercenaryLevelReadiness(policy);if(!ready.ready)throw levelError('MERCENARY_LEVEL_UNCONFIGURED','경험치·돌파 확률과 효과 설정을 완료해야 합니다.',409);}
 export function planMercenaryTraining({policy,state,target,materials,owned,catalog}){
  configured(policy);const before=mercenaryLevelState(state),progress=levelProgress(policy,before,target);
- check(!progress.complete,'최종 돌파를 완료한 용병입니다.','MERCENARY_LEVEL_MAX');check(!progress.breakthroughReady,'경험치가 가득 찼습니다. 먼저 돌파를 시도하세요.','MERCENARY_LEVEL_BREAKTHROUGH_REQUIRED');
+ check(!progress.complete,'최대 21레벨에 도달한 용병입니다.','MERCENARY_LEVEL_MAX');check(!progress.breakthroughReady,'경험치가 가득 찼습니다. 먼저 돌파를 시도하세요.','MERCENARY_LEVEL_BREAKTHROUGH_REQUIRED');
  const rank=target?.rank;check(MERCENARY_RANKS.includes(rank),'성장 대상의 등급을 확인하세요.','MERCENARY_LEVEL_RANK');
  const selected=normalizeLevelMaterials(materials),consumed=selected.map(m=>{
   const card=catalog.find(c=>c.code===m.code),row=owned.find(c=>(c.code||c.mercenary_code)===m.code),copies=Number(row?.totalCopies??row?.total_copies),duplicates=Number(row?.duplicates??row?.duplicate_count);
@@ -96,10 +106,11 @@ export function planMercenaryTraining({policy,state,target,materials,owned,catal
 }
 export function planMercenaryBreakthrough({policy,state,target,roll,pityFailures=0}){
  configured(policy);const before=mercenaryLevelState(state),progress=levelProgress(policy,before,target);
+ check(!progress.complete,'최대 21레벨에 도달한 용병입니다.','MERCENARY_LEVEL_MAX');
  check(progress.breakthroughReady,'5·10·15·20레벨 경험치가 100%일 때 돌파할 수 있습니다.','MERCENARY_LEVEL_NOT_READY');int(roll,0,999999,'돌파 판정');
  const pity=mercenaryBreakthroughPity(before.level,pityFailures),milestone=policy.milestones.find(m=>m.level===before.level),success=pity.guaranteed||roll<milestone.successChancePpm,index=MERCENARY_LEVEL_RULES.milestones.indexOf(before.level);
  const after={...before,experience:0,revision:before.revision+1};
- if(success){after.breakthroughMask|=1<<index;after.level=Math.min(20,before.level+1);}
+ if(success){after.breakthroughMask|=1<<index;after.level=Math.min(MERCENARY_LEVEL_RULES.maxLevel,before.level+1);}
  return {before,after,milestone:structuredClone(milestone),success,roll,pity:{version:pity.version,threshold:pity.threshold,failuresBefore:pity.failures,failuresAfter:success?0:pity.failures+1,guaranteed:pity.guaranteed,effectiveChancePpm:pity.guaranteed?1000000:milestone.successChancePpm},reward:success?structuredClone(policy.growth?policy.growth.milestones[index]:milestone.bonus):null,complete:isLevelComplete(after)};
 }
 export function mercenaryLevelBonuses(policy,state){
@@ -108,7 +119,7 @@ export function mercenaryLevelBonuses(policy,state){
 // Only server-captured growth enters battle snapshots. Historical snapshots
 // without this property retain their exact pre-growth behavior on replay.
 export function attachMercenaryLevel(snapshot,policy,state){
- configured(policy);const s=mercenaryLevelState(state),bonuses=mercenaryLevelBonuses(policy,s);
+ configured(policy);const s=mercenaryLevelStateFromStorage(state),bonuses=mercenaryLevelBonuses(policy,s);
  if(policy.growth)return {...snapshot,level:s.level,mercenaryLevel:{version:2,level:s.level,policyRevision:policy.revision,breakthroughMask:s.breakthroughMask,growth:validateMercenaryGrowth(policy.growth)}};
  return {...snapshot,level:s.level,mercenaryLevel:{version:1,level:s.level,policyRevision:policy.revision,breakthroughMask:s.breakthroughMask,bonuses}};
 }
