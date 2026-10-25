@@ -91,7 +91,7 @@ test('a completed Jokro pack recipient can view, equip, battle and train; stray/
  await f.p("INSERT INTO users(id,nickname) VALUES(1,'owner'),(4977,'recalled')").run();
  await f.p("INSERT INTO mercenary_limited_stock_v1(code,stock_limit) VALUES('V-979',3)").run();
  const s=halloweenPackDraft();s.mode='ON';s.prices={single:100,ten:900};s.normalRankRatesPpm=Object.fromEntries(Object.keys(s.normalRankRatesPpm).map(r=>[r,r==='SSS'?1000000:0]));s.normalSssRatePpm=0;s.missRatePpm=0;only(s,'V-979');await f.setting(HALLOWEEN_PACK_KEY,{revision:1,settings:s});
- const svc=createHalloweenPackService({readState:readHalloweenPackState,releaseEnabled:true,randomInt:()=>0});await svc.open(f.env,f.user,{requestId:crypto.randomUUID(),count:1,expectedRevision:1});
+ const svc=createHalloweenPackService({readState:readHalloweenPackState,releaseEnabled:true,shopEnabled:true,randomInt:()=>0});await svc.open(f.env,f.user,{requestId:crypto.randomUUID(),count:1,expectedRevision:1});
  for(const id of [1,4977])await f.p("INSERT INTO user_mercenary_cards_v1 VALUES(?,'V-979',1,0,'original','original')",id).run();
  assert.equal((await mercenaryAccountState(f.env,{id:4977})).cards.length,0);assert.equal((await mercenaryAccountState(f.env,{id:1})).cards[0].exclusiveGrant,true);
  const card=(await mercenaryAccountState(f.env,f.user)).cards[0];assert.equal(card.code,'V-979');assert.equal(card.canDeploy,true);assert.equal(card.exclusiveGrant,false);assert.equal(card.excludedFromLimitedCount,false);assert.equal((await rankedOwnedMercenaries(f.env,[7])).get(7)[0].code,'V-979');

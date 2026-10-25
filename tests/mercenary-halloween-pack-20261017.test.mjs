@@ -33,9 +33,9 @@ test('only the SSS interval enters the second lottery; SS remains ordinary and m
 test('unauthenticated opening performs no database query; OFF and incomplete ON never charge',async t=>{
  const f=await halloweenFixture(t);f.settings.mode='OFF';await f.configure();
  const queries=f.stats.queries,response=await handleHalloweenPack({path:HALLOWEEN_PACK.openPath,request:new Request('https://qa.test/api/'+HALLOWEEN_PACK.openPath,{method:'POST'}),env:f.env,deps:{authenticate:async()=>null,json:(body,status)=>({body,status})}});
- assert.equal(response.status,401);assert.equal(f.stats.queries,queries);assert.equal((await halloweenPackShopRow(f.env)).drawEnabled,false);
+ assert.equal(response.status,423);assert.equal(f.stats.queries,queries);assert.equal(await halloweenPackShopRow(f.env),null);
  const s=halloweenPackDraft();s.mode='ON';await assert.rejects(saveHalloweenPack(f.env,{id:1},{expectedRevision:1,requestId:crypto.randomUUID(),reason:'검수 ON 차단',settings:s}),e=>e.code==='MERCENARY_HALLOWEEN_CONFIG');
- const closed=createHalloweenPackService({readState:readHalloweenPackState});await assert.rejects(closed.open(f.env,f.user,f.body()),e=>e.code==='MERCENARY_HALLOWEEN_CLOSED');assert.equal(await f.coin(),1000000);
+ const closed=createHalloweenPackService({readState:readHalloweenPackState});await assert.rejects(closed.open(f.env,f.user,f.body()),e=>e.code==='MERCENARY_HALLOWEEN_SHOP_REMOVED');assert.equal(await f.coin(),1000000);
 });
 
 test('one prepared ten-draw transaction grants both ordinary and limited cards once and survives a lost response',async t=>{

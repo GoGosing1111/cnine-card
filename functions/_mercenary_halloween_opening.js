@@ -1,5 +1,5 @@
 import {HALLOWEEN_PACK_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
-import {HALLOWEEN_PACK,HALLOWEEN_PACK_KEY,HALLOWEEN_OPEN_KIND,HALLOWEEN_PACK_RELEASE_ENABLED,halloweenPackPrice,validateHalloweenOpeningBody,pickHalloweenBatch,pickHalloweenNormalCard} from '../shared/mercenary-halloween-pack-v1.mjs';
+import {HALLOWEEN_PACK,HALLOWEEN_PACK_KEY,HALLOWEEN_OPEN_KIND,HALLOWEEN_PACK_RELEASE_ENABLED,HALLOWEEN_PACK_SHOP_ENABLED,halloweenPackPrice,validateHalloweenOpeningBody,pickHalloweenBatch,pickHalloweenNormalCard} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {limitedPackRandomInt} from './_mercenary_limited_pack.js';
 import {mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
 import {runJointOperation,readJointOperation,jointCoinDebit} from './_joint_transactions.js';
@@ -34,10 +34,11 @@ async function reconcileHalloweenStock(DB,userId,requestId,plan,state,randomInt)
  Object.assign(plan,next);
 }
 // No HTTP release override. Tests use this factory against isolated databases.
-export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED,randomInt=limitedPackRandomInt}={}){
+export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED,shopEnabled=HALLOWEEN_PACK_SHOP_ENABLED,randomInt=limitedPackRandomInt}={}){
  if(typeof readState!=='function')throw Error('Halloween state reader required');
- const stateFor=env=>readState(env,{releaseEnabled});
+ const stateFor=env=>readState(env,{releaseEnabled,shopEnabled});
  async function open(env,user,raw){
+  if(!shopEnabled)throw jointError('MERCENARY_HALLOWEEN_SHOP_REMOVED','할로윈팩 판매가 종료되었습니다. 기존 구매 결과는 다시 확인할 수 있습니다.',423);
   if(!releaseEnabled)throw jointError('MERCENARY_HALLOWEEN_CLOSED','할로윈팩은 출시 준비 중입니다. 코인은 차감되지 않았습니다.',423);
   const {requestId,count,expectedRevision}=validateHalloweenOpeningBody(raw);
   let result;

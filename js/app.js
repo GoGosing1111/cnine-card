@@ -72,7 +72,7 @@ function packRangeFromAllowed(allowed = []) {
 function applyServerPacks(rows = []) {
   if (!Array.isArray(rows) || !rows.length) return;
   const hyper = PACKS.find(pack => pack.id === 'hyper');
-  PACKS = rows.filter(row => !['basic','premium','hyper'].includes(String(row.id))).map(row => {
+  PACKS = rows.filter(row => row&&!['basic','premium','hyper','halloween','mercenary-halloween-ss-limited'].includes(String(row.id))).map(row => {
     let allowed = row.allowed;
     if (!Array.isArray(allowed)) {
       try { allowed = JSON.parse(row.allowed_rarities || '[]'); } catch { allowed = []; }
@@ -1810,7 +1810,7 @@ document.addEventListener('click',event=>{
 });
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-halloween-pack-enter]');if(!button||button.disabled)return;
- button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=20261023-halloween-stock-v1').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+ button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=20261025-shop-remove-v1').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
 });
 function halloweenShopStockText(stock){
  if(!stock?.prepared||!Number.isSafeInteger(stock.remaining)||stock.remaining<0)return '수량 확인 중';

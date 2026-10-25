@@ -68,7 +68,7 @@ test('holdout favors every Halloween fighter over the existing SS tier while SSS
 test('OWNER can explicitly save ready ON, stop it, and cannot open incomplete odds; no free holdings appear',async t=>{
  const f=await halloweenFixture(t);f.settings.mode='OFF';await f.configure();assert.equal((await f.state()).userOpeningEnabled,false);
  const body={expectedRevision:1,settings:{...f.settings,mode:'ON'},requestId:crypto.randomUUID(),reason:'격리 DB 운영 전환 검사'};
- const on=await saveHalloweenPack(f.env,f.user,body);assert.equal(on.userOpeningEnabled,true);assert.equal(on.revision,2);
+ const on=await saveHalloweenPack(f.env,f.user,body);assert.equal(on.userOpeningEnabled,false);assert.equal(on.shopEnabled,false);assert.equal(on.settings.mode,'ON');assert.equal(on.revision,2);
  assert.equal((await saveHalloweenPack(f.env,f.user,body)).replayed,true);
  const off=await saveHalloweenPack(f.env,f.user,{...body,expectedRevision:2,settings:{...on.settings,mode:'OFF'},requestId:crypto.randomUUID()});assert.equal(off.userOpeningEnabled,false);
  await assert.rejects(f.service.open(f.env,f.user,{...f.body(),expectedRevision:3}),{code:'MERCENARY_HALLOWEEN_CLOSED'});

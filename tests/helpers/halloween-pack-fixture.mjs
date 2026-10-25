@@ -8,7 +8,8 @@ export async function halloweenFixture(t,{randomInt=()=>0}={}){
  for(const [code,limit] of Object.entries(settings.stockLimits))if(limit!==null)await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit) VALUES(?,?)',code,limit).run();
  await f.p("UPDATE mercenary_limited_stock_v1 SET stock_limit=7,issued=6 WHERE code='V-999'").run();
  const configure=async(revision=1)=>f.setting(HALLOWEEN_PACK_KEY,{revision,settings});await configure();
- const service=createHalloweenPackService({readState:readHalloweenPackState,releaseEnabled:true,randomInt});
+ // Explicitly model historical sales; production callers never override shop availability.
+ const service=createHalloweenPackService({readState:readHalloweenPackState,releaseEnabled:true,shopEnabled:true,randomInt});
  const body=(count=1)=>({requestId:crypto.randomUUID(),count,expectedRevision:1});
- return {...f,settings,configure,service,body,state:()=>readHalloweenPackState(f.env,{releaseEnabled:true})};
+ return {...f,settings,configure,service,body,state:()=>readHalloweenPackState(f.env,{releaseEnabled:true,shopEnabled:true})};
 }

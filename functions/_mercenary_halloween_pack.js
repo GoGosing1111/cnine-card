@@ -1,5 +1,5 @@
 import {HALLOWEEN_PACK_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
-import {HALLOWEEN_PACK,HALLOWEEN_PACK_KEY,HALLOWEEN_PACK_RELEASE_ENABLED,halloweenPackDraft,validateHalloweenPack,halloweenPackState,halloweenPackCatalogRow,halloweenPackReadiness} from '../shared/mercenary-halloween-pack-v1.mjs';
+import {HALLOWEEN_PACK,HALLOWEEN_PACK_KEY,HALLOWEEN_PACK_RELEASE_ENABLED,HALLOWEEN_PACK_SHOP_ENABLED,halloweenPackDraft,validateHalloweenPack,halloweenPackState,halloweenPackCatalogRow,halloweenPackReadiness} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {limitedNormalCards} from '../shared/mercenary-limited-pack-v1.mjs';
@@ -10,7 +10,7 @@ import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError,readJointBody,jointResponseError} from './_joint_request.js';
 
 const initial=()=>({revision:1,settings:halloweenPackDraft(),updatedAt:null});
-export async function readHalloweenPackState(env,{releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED}={}){
+export async function readHalloweenPackState(env,{releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED,shopEnabled=HALLOWEEN_PACK_SHOP_ENABLED}={}){
  const [row,stock,cms,normalDraw]=await Promise.all([
   env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(HALLOWEEN_PACK_KEY).first(),
   env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code IN ('+HALLOWEEN_PACK_CARDS.map(()=>'?').join(',')+') ORDER BY code').bind(...HALLOWEEN_PACK_CARDS.map(c=>c.code)).all(),
@@ -19,10 +19,11 @@ export async function readHalloweenPackState(env,{releaseEnabled=HALLOWEEN_PACK_
  const saved=row?JSON.parse(row.value):initial();
  const rules=normalDraw?validateMercenaryCardRules(JSON.parse(normalDraw.payload_json).cardRules,MERCENARY_CMS_SEED.catalog.cards.map(c=>c.code)):null;
  const normalCards=rules?limitedNormalCards(cms.document.mercenaries,MERCENARY_CMS_SEED.catalog.cards,rules):[];
- return {revision:saved.revision,updatedAt:saved.updatedAt,rawPack:row?.value??null,normalCmsRevision:cms.revision,normalDrawRevision:Number(normalDraw?.revision||0),...halloweenPackState(saved.settings,stock.results,normalCards,{releaseEnabled})};
+ return {revision:saved.revision,updatedAt:saved.updatedAt,rawPack:row?.value??null,normalCmsRevision:cms.revision,normalDrawRevision:Number(normalDraw?.revision||0),...halloweenPackState(saved.settings,stock.results,normalCards,{releaseEnabled,shopEnabled})};
 }
 const publicState=state=>{const {rawPack,...safe}=state;return safe;};
 export async function halloweenPackShopRow(env){
+ if(!HALLOWEEN_PACK_SHOP_ENABLED)return null;
  const [row,stock]=await Promise.all([env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(HALLOWEEN_PACK_KEY).first(),env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code IN ('+HALLOWEEN_PACK_CARDS.map(()=>'?').join(',')+')').bind(...HALLOWEEN_PACK_CARDS.map(c=>c.code)).all()]);
  return halloweenPackCatalogRow(row?JSON.parse(row.value).settings:halloweenPackDraft(),stock.results);
 }
@@ -57,6 +58,7 @@ export async function handleHalloweenPack({path,request,env,deps}){
  try{
   if(path===HALLOWEEN_PACK.openPath){
    if(request.method!=='POST')return deps.json({error:'지원하지 않는 요청입니다.'},405);
+   if(!HALLOWEEN_PACK_SHOP_ENABLED)return deps.json({code:'MERCENARY_HALLOWEEN_SHOP_REMOVED',error:'할로윈팩 판매가 종료되었습니다. 기존 구매 결과는 다시 확인할 수 있습니다.'},423,{'cache-control':'no-store'});
    if(!HALLOWEEN_PACK_RELEASE_ENABLED)return deps.json({code:'MERCENARY_HALLOWEEN_CLOSED',error:'할로윈 리미티드 용병팩은 출시 준비 중입니다. 코인은 차감되지 않았습니다.'},423,{'cache-control':'no-store'});
    const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
    const body=await readJointBody(request,{maxBytes:2048,fields:['requestId','count','expectedRevision']});

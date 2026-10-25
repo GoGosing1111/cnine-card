@@ -1,0 +1,28 @@
+{
+  "status": "PASSED",
+  "reports": [
+    {
+      "width": 1440,
+      "shopRemoved": true,
+      "staleRowsFiltered": true,
+      "staleSelectionRecovered": true,
+      "bloodmoonOpeningEnabled": true,
+      "retiredRoomPurchasesDisabled": true,
+      "previousResultButtonEnabled": true,
+      "cmsRetiredLabel": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "shopRemoved": true,
+      "staleRowsFiltered": true,
+      "staleSelectionRecovered": true,
+      "bloodmoonOpeningEnabled": true,
+      "retiredRoomPurchasesDisabled": true,
+      "previousResultButtonEnabled": true,
+      "cmsRetiredLabel": true,
+      "errors": []
+    }
+  ],
+  "productionTransactions": 0
+}
