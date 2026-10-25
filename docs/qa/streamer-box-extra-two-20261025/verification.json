@@ -1,0 +1,55 @@
+{
+  "sourceSha256": "ea262807f25060c82332fda95a42e1e31fd7ed1b803c453540d9d202281e548c",
+  "planHash": "c0f54dbbae308ac43dd70d115678b2e01cae6c00a246aa9f555cfa2d66da8a19",
+  "verification": {
+    "status": "VERIFIED",
+    "operationKey": "ops:streamer-box-two-extra:20261025:mild7-simsimi:v1",
+    "recipientCount": 2,
+    "totalBoxes": 4,
+    "amountEach": 2,
+    "pending": [],
+    "inventoryLogs": 2,
+    "missing": 0,
+    "duplicates": 0,
+    "auditId": "51262",
+    "completedAt": "2026-10-25T09:51:01.417Z"
+  },
+  "allocations": [
+    {
+      "userId": "290",
+      "nickname": "Mild7",
+      "inputNickname": "Mild7",
+      "amount": 2,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "2",
+        "unseen": "2"
+      },
+      "logId": "86937828"
+    },
+    {
+      "userId": "4933",
+      "nickname": "심심이",
+      "inputNickname": "심심이",
+      "amount": 2,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "2",
+        "unseen": "2"
+      },
+      "logId": "86937829"
+    }
+  ],
+  "dryRunRollback": true,
+  "injectedFailureRollback": true,
+  "noWriteReplay": true,
+  "independentReadOnlyVerification": true,
+  "leasesReleased": true,
+  "testsPassed": 4
+}

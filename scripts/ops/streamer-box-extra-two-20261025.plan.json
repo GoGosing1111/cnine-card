@@ -1,0 +1,31 @@
+{
+  "operationKey": "ops:streamer-box-two-extra:20261025:mild7-simsimi:v1",
+  "authorization": "Mild7 심심이 추가명단 2개씩 지급",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "sourceCount": 2,
+  "recipientCount": 2,
+  "totalBoxes": 4,
+  "identityCheckedAt": "2026-10-25T09:49:00.565Z",
+  "pending": [],
+  "targets": [
+    {
+      "order": 1,
+      "inputNickname": "Mild7",
+      "userId": "290",
+      "nickname": "Mild7",
+      "role": "USER",
+      "identityHash": "0b53280e4ba5f0ccd8e84f762c1135a14d16be5ef9b501991293c02cad8f089d",
+      "amount": 2
+    },
+    {
+      "order": 2,
+      "inputNickname": "심심이",
+      "userId": "4933",
+      "nickname": "심심이",
+      "role": "USER",
+      "identityHash": "8466791110ed333357256dff49445855d0b94636995e0ad42210bfb9da85bcac",
+      "amount": 2
+    }
+  ]
+}
