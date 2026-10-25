@@ -10,6 +10,24 @@
   "referenceSha256": "722FC26C61DE87FCE51B9A64DB9CD90984F70552D9BC5CCE73A3B6A48F5DAE4D",
   "outputSha256": "940303A2E2C454CEB8AA5DE3A9483B4811DDC316CE5B24C662F4779A20394F2E",
   "name": "흑구",
-  "approvedAsset": "assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png",
-  "reference": "docs/qa/pet-heukgu-live-20261025/reference-original.png"
+  "approvedAsset": "assets/ui/pets/heukgu-20261025/pet-heukgu-transparent-v2.png",
+  "reference": "docs/qa/pet-heukgu-live-20261025/reference-original.png",
+  "transparency": {
+    "requestedByUser": true,
+    "tool": "built-in image_gen",
+    "source": "assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png",
+    "output": "assets/ui/pets/heukgu-20261025/pet-heukgu-transparent-v2.png",
+    "originalGeneratedFile": "C:/Users/User/.codex/generated_images/01a172a0-71a0-7d40-a5ca-76b49d420a0e/exec-32488f71-e4e3-43ce-be54-4b2f2371919a.png",
+    "sha256": "ddc229de9ab9703e016e8c6d1e864bd0c40a220f56751c621e3f0e3d202fae44",
+    "prompt": "docs/qa/pet-heukgu-live-20261025/prompt-transparent-v2.txt",
+    "width": 1205,
+    "height": 1305,
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "transparentPixels": 868796,
+    "partialAlphaPixels": 702241,
+    "opaquePixels": 1488
+  }
 }

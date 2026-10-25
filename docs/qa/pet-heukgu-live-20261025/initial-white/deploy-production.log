@@ -1,0 +1,86 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"ae9831fa0091e04b26d145cb1cd471425e37254d","reason":"흑구 승인 원화와 모바일 표시를 펫 도감 및 OWNER 등록에 연결; 기존 보유/재화와 획득/효과 설정을 보존하는 관련 거래·장착·배포 검사","changed":["AGENTS.md","assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png","css/pet-equipment-v1.css","docs/qa/clan-wed-sat-sun-20261025/README.md","docs/qa/clan-wed-sat-sun-20261025/verification-summary.json","docs/qa/faction-window-polling-20261025/390-public-faction-after-poll.png","docs/qa/faction-window-polling-20261025/README.md","docs/qa/faction-window-polling-20261025/production-after.json","docs/qa/faction-window-polling-20261025/production-base.json","docs/qa/faction-window-polling-20261025/public-browser-verification.json","docs/qa/faction-window-polling-20261025/public-files.json","docs/qa/faction-window-polling-20261025/release-browser-verification.json","docs/qa/namsudaeng-mangsuni-helios-grant-20261025/README.md","docs/qa/namsudaeng-mangsuni-helios-grant-20261025/account-state.mjs","docs/qa/namsudaeng-mangsuni-helios-grant-20261025/lock-worker.mjs","docs/qa/namsudaeng-mangsuni-helios-grant-20261025/result.json","docs/qa/namsudaeng-mangsuni-helios-grant-20261025/run.mjs","docs/qa/namsudaeng-mangsuni-helios-grant-20261025/wrangler.jsonc","docs/qa/pet-heukgu-live-20261025/README.md","docs/qa/pet-heukgu-live-20261025/approval-20261025.json","docs/qa/pet-heukgu-live-20261025/browser/browser-report.json","docs/qa/pet-heukgu-live-20261025/browser/desktop-owner-heukgu-registered.png","docs/qa/pet-heukgu-live-20261025/browser/desktop-pet-heukgu.png","docs/qa/pet-heukgu-live-20261025/browser/mobile-owner-heukgu-registered.png","docs/qa/pet-heukgu-live-20261025/browser/mobile-pet-heukgu-stage-viewport.png","docs/qa/pet-heukgu-live-20261025/browser/mobile-pet-heukgu.png","docs/qa/pet-heukgu-live-20261025/browser/mobile-small-owner-heukgu-registered.png","docs/qa/pet-heukgu-live-20261025/browser/mobile-small-pet-heukgu-stage-viewport.png","docs/qa/pet-heukgu-live-20261025/browser/mobile-small-pet-heukgu.png","docs/qa/pet-heukgu-live-20261025/dry-run.json","docs/qa/pet-heukgu-live-20261025/generation-manifest.json","docs/qa/pet-heukgu-live-20261025/prompt-v1.txt","docs/qa/pet-heukgu-live-20261025/read.json","docs/qa/pet-heukgu-live-20261025/reference-original.png","docs/qa/pet-heukgu-live-20261025/run-browser.mjs","docs/qa/streamer-box-bini-dodaeng-20261025/README.md","docs/qa/streamer-box-bini-dodaeng-20261025/inspect.mjs","docs/qa/streamer-box-bini-dodaeng-20261025/lock-worker.mjs","docs/qa/streamer-box-bini-dodaeng-20261025/prepare.mjs","docs/qa/streamer-box-bini-dodaeng-20261025/run.mjs","docs/qa/streamer-box-bini-dodaeng-20261025/verification.json","docs/qa/streamer-box-bini-dodaeng-20261025/wrangler.jsonc","docs/qa/streamer-box-extra-two-20261025/README.md","docs/qa/streamer-box-extra-two-20261025/inspect.mjs","docs/qa/streamer-box-extra-two-20261025/lock-worker.mjs","docs/qa/streamer-box-extra-two-20261025/prepare.mjs","docs/qa/streamer-box-extra-two-20261025/run.mjs","docs/qa/streamer-box-extra-two-20261025/verification.json","docs/qa/streamer-box-extra-two-20261025/wrangler.jsonc","docs/qa/streamer-box-sunggurik-two-20261025/README.md","docs/qa/streamer-box-sunggurik-two-20261025/inspect.mjs","docs/qa/streamer-box-sunggurik-two-20261025/lock-worker.mjs","docs/qa/streamer-box-sunggurik-two-20261025/prepare.mjs","docs/qa/streamer-box-sunggurik-two-20261025/run.mjs","docs/qa/streamer-box-sunggurik-two-20261025/verification.json","docs/qa/streamer-box-sunggurik-two-20261025/wrangler.jsonc","docs/qa/streamer-box-two-20261025/README.md","docs/qa/streamer-box-two-20261025/inspect.mjs","docs/qa/streamer-box-two-20261025/lock-worker.mjs","docs/qa/streamer-box-two-20261025/prepare-plan.mjs","docs/qa/streamer-box-two-20261025/run.mjs","docs/qa/streamer-box-two-20261025/verification.json","docs/qa/streamer-box-two-20261025/wrangler.jsonc","scripts/ops/namsudaeng-mangsuni-helios-grant-20261025.json","scripts/ops/namsudaeng-mangsuni-helios-grant-20261025.mjs","scripts/ops/pet-heukgu-registration-20261025.mjs","scripts/ops/run-pet-heukgu-registration-20261025.mjs","scripts/ops/streamer-box-bini-dodaeng-20261025.mjs","scripts/ops/streamer-box-bini-dodaeng-20261025.plan.json","scripts/ops/streamer-box-bini-dodaeng-20261025.source.json","scripts/ops/streamer-box-extra-two-20261025.mjs","scripts/ops/streamer-box-extra-two-20261025.plan.json","scripts/ops/streamer-box-extra-two-20261025.source.json","scripts/ops/streamer-box-sunggurik-two-20261025.mjs","scripts/ops/streamer-box-sunggurik-two-20261025.plan.json","scripts/ops/streamer-box-sunggurik-two-20261025.source.json","scripts/ops/streamer-box-two-20261025.mjs","scripts/ops/streamer-box-two-20261025.plan.json","scripts/ops/streamer-box-two-20261025.source.json","scripts/prepare-production-assets.mjs","shared/pet-art-catalog-v1.mjs","tests/clan-faction-window-polling-20261025.browser.mjs","tests/pet-heukgu-approval-20261025.test.mjs","tests/pet-heukgu-production-assets-20261025.test.mjs","tests/pet-heukgu-registration-20261025.test.mjs","tests/streamer-box-bini-dodaeng-20261025.test.mjs","tests/streamer-box-extra-two-20261025.test.mjs","tests/streamer-box-sunggurik-two-20261025.test.mjs","tests/streamer-box-two-20261025.test.mjs"],"tests":["tests/pet-heukgu-approval-20261025.test.mjs","tests/pet-heukgu-registration-20261025.test.mjs","tests/pet-heukgu-production-assets-20261025.test.mjs","tests/pet-equipment-20261002.test.mjs"],"checks":[]}
+✔ four recovered originals are unchanged; source and serving copies share their hashes (50.1607ms)
+✔ Tokki Gusudaeng catalog uses the exact user-approved art and keeps unfinished pet definitions unavailable (2809.6713ms)
+✔ one separate support slot rejects unknown/unowned codes and client-forged fields (1.6244ms)
+✔ CMS adds separate source art without altering legacy documents or replay hashes (1623.4047ms)
+✔ OWNER access and GET do not seed inventory or config; live equipment requires actual ownership (1452.6811ms)
+✔ equipping, swapping and clearing persist separately per OWNER; exact retries commit once (1555.0482ms)
+[pet-equipment] unavailable Error
+✔ concurrent equip requests use CAS; failed and ambiguous retries retain one receipt (1467.2031ms)
+✔ equipment reads CMS buffs and prevents stale config saves; removing custom pet leaves empty UI (1322.4138ms)
+[pet-equipment] unavailable SyntaxError
+[pet-equipment] unavailable Error
+✔ mutations reject cross-origin, oversized and non-JSON input; corrupt records fail closed (1126.1737ms)
+✔ Heukgu catalog uses the exact approved image and retains approval boundaries (8.1776ms)
+✔ registered Heukgu appears in codex and OWNER management without grants or economic changes (2826.4601ms)
+Heukgu delivery: 20000/20000 files; original photo and provenance retained in Git.
+✔ Heukgu approved PNG ships intact within Pages cap; photo reference and provenance stay in Git (302.9105ms)
+✔ registration plan adds only the approved Heukgu inactive draft without enabling effects (2702.0731ms)
+✔ default rollback leaves CMS, audit, receipts, account records and inventory unchanged (1681.1795ms)
+✔ successful registration preserves all existing pets and unrelated state in one audited revision (1507.2136ms)
+✔ stale revision or raw content hash rejects the operation without writes (1317.2881ms)
+✔ receipt insertion failure rolls back the preceding CMS update and audit insert (1441.5579ms)
+✔ idempotent replay returns the same verified receipt and performs no extra writes (1445.1453ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11819.1073
+[PRODUCTION RELEASE OK] faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 8631 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8499.94 KiB / gzip: 1830.01 KiB
+Worker Startup Time: 50 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.29 sec)
+No targets deployed for cnine-card-api-runtime (0.58 sec)
+Current Version ID: e5343929-2deb-496d-8ceb-2692249dd541
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19993/20000)
+Uploading... (19995/20000)
+Uploading... (19997/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 7 files (19993 already uploaded) (2.33 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://b10fe4c8.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3183.34 KiB / gzip: 715.14 KiB
+Worker Startup Time: 43 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (4.08 sec)
+Deployed cnine-card-clan-draft triggers (1.03 sec)
+  schedule: * * * * *
+Current Version ID: 17d2313f-74dd-40e8-bf5b-ccba4926272b

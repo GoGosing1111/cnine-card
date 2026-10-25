@@ -2,11 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
+import sharp from 'sharp';
 import {PET_ART_CATALOG} from '../shared/pet-art-catalog-v1.mjs';
 import {emptyPetCmsDocument,emptyPetDraft} from '../shared/pet-cms-v1.mjs';
 import {petEquipmentFixture} from './helpers/pet-equipment-fixture.mjs';
 import {ensurePetPotentialItem} from '../functions/_pet_potential.js';
-import {additions} from '../scripts/ops/pet-heukgu-registration-20261025.mjs';
+import {additions,hash} from '../scripts/ops/pet-heukgu-registration-20261025.mjs';
 
 test('Heukgu catalog uses the exact approved image and retains approval boundaries',async()=>{
  const approval=JSON.parse(await readFile(new URL('../docs/qa/pet-heukgu-live-20261025/approval-20261025.json',import.meta.url),'utf8'));
@@ -18,10 +19,18 @@ test('Heukgu catalog uses the exact approved image and retains approval boundari
  const art=matches[0];
  assert.equal(art.name,'흑구');assert.equal(art.sourceArt,record.approvedAsset);
  assert.equal(art.artStatus,'SOURCE_ART_APPROVED');assert.equal(art.sha256,record.sha256);
- assert.equal(record.sha256,'940303a2e2c454ceb8aa5de3a9483b4811ddc316ce5b24c662f4779a20394f2e');
+ assert.equal(record.sha256,'ddc229de9ab9703e016e8c6d1e864bd0c40a220f56751c621e3f0e3d202fae44');
  const bytes=await readFile(new URL('../'+art.sourceArt,import.meta.url));
+ const {data:rgba,info}=await sharp(bytes).raw().toBuffer({resolveWithObject:true});
+ assert.equal(info.channels,4,'Transparent PNG must retain actual alpha');
+ let transparent=0,solid=0;
+ for(let i=3;i<rgba.length;i+=4){if(rgba[i]===0)transparent++;if(rgba[i]>=245)solid++;}
+ assert(transparent>info.width*info.height*.4,'Background must be transparent');
+ assert(solid>info.width*info.height*.35,'Character must retain opaque detail');
+ for(const [x,y]of [[0,0],[info.width-1,0],[0,info.height-1],[info.width-1,info.height-1]])assert.equal(rgba[(y*info.width+x)*4+3],0);
  assert.equal(createHash('sha256').update(bytes).digest('hex'),record.sha256);
- assert.equal(bytes.length,record.bytes);assert.equal(bytes.readUInt32BE(16),1206);assert.equal(bytes.readUInt32BE(20),1305);assert.equal(bytes[25],2);
+ assert.equal(hash(bytes),record.sha256,'Production preflight must hash image bytes directly');
+ assert.equal(bytes.length,record.bytes);assert.equal(bytes.readUInt32BE(16),1205);assert.equal(bytes.readUInt32BE(20),1305);assert.equal(bytes[25],6);
  for(const key of ['animationApproved','acquisitionApproved','battleBuffPolicyApproved','accountGrantsPerformed'])assert.equal(approval.scope[key],false);
 });
 

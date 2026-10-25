@@ -4,10 +4,10 @@
   "approvalDate": "2026-10-25",
   "timezone": "Asia/Seoul",
   "userApproval": "흑구로해서 펫 라이브 반영해",
-  "authoritativeSource": "이 대화에서 바로 앞에 제시한 카카오 99% 통 SD 이미지에 흑구 이름을 지정하고 펫 라이브 반영을 요청함",
+  "authoritativeSource": "흑구 이름·라이브 반영 요청에 이어 사용자가 투명화를 명시 지시. 기존 이미지의 배경만 제거한 ImageGen 투명 PNG를 현재 표시 정본으로 연결한다.",
   "preservation": {
     "byteForByte": true,
-    "postProcessing": "none",
+    "postProcessing": "Built-in ImageGen background extraction, original white-background PNG retained separately",
     "faceOutfitPoseAndCompositionLocked": true,
     "regenerationAllowedWithoutNewUserDirection": false
   },
@@ -16,17 +16,17 @@
       "code": "PET-HEUKGU",
       "name": "흑구",
       "animal": "카카오 통 인형",
-      "approvedAsset": "assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png",
-      "sha256": "940303a2e2c454ceb8aa5de3a9483b4811ddc316ce5b24c662f4779a20394f2e",
-      "width": 1206,
+      "approvedAsset": "assets/ui/pets/heukgu-20261025/pet-heukgu-transparent-v2.png",
+      "sha256": "ddc229de9ab9703e016e8c6d1e864bd0c40a220f56751c621e3f0e3d202fae44",
+      "width": 1205,
       "height": 1305,
       "format": "PNG",
-      "mode": "RGB",
-      "bytes": 1560886,
-      "originalGeneratedFile": "C:\\Users\\User\\.codex\\generated_images\\01a172a0-71a0-7d40-a5ca-76b49d420a0e\\exec-cf2242f9-211b-44c8-8a0a-9a1d439f0018.png",
+      "mode": "RGBA",
+      "bytes": 1203150,
+      "originalGeneratedFile": "C:/Users/User/.codex/generated_images/01a172a0-71a0-7d40-a5ca-76b49d420a0e/exec-32488f71-e4e3-43ce-be54-4b2f2371919a.png",
       "generationHistory": "docs/qa/pet-heukgu-live-20261025/generation-manifest.json",
-      "prompt": "docs/qa/pet-heukgu-live-20261025/prompt-v1.txt",
-      "notes": "얼굴·표정·카카오 99% 통·짧은 다리·흰 배경을 승인 원본 그대로 보존"
+      "prompt": "docs/qa/pet-heukgu-live-20261025/prompt-transparent-v2.txt",
+      "notes": "사용자 후속 투명화 지시. 얼굴·카카오 99% 통·짧은 다리 외형을 유지한 투명본. 생성 PNG를 재압축 없이 보존."
     }
   ],
   "scope": {
@@ -34,11 +34,14 @@
       "흑구 이름",
       "정지 전신 원화",
       "라이브 도감 공개",
-      "OWNER 펫 관리 등록"
+      "OWNER 펫 관리 등록",
+      "배경 투명화"
     ],
     "animationApproved": false,
     "battleBuffPolicyApproved": false,
     "acquisitionApproved": false,
     "accountGrantsPerformed": false
-  }
+  },
+  "userTransparencyInstruction": "투명화처리안하냐 씨발넘아?",
+  "previousApprovedAsset": "assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png"
 }

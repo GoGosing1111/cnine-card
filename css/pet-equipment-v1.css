@@ -54,8 +54,8 @@
 @media(max-width:1150px){.pe-workspace{grid-template-columns:188px minmax(240px,1fr) 264px;gap:12px}.pet-equipment{padding:20px}.pe-card{gap:6px;padding-inline:6px}.pe-card-art{width:51px}.pe-card-art img{width:59px}.pe-card-identity strong{font-size:13px}.pe-hero{height:320px}.pe-stage{min-height:460px}.pe-footer .pe-primary{min-width:180px}}
 @media(max-width:900px){.pe-workspace{grid-template-columns:176px minmax(0,1fr)}.pe-stage{grid-column:2;grid-row:1;min-height:440px}.pe-inspector{grid-column:1/-1;display:grid;grid-template-columns:240px minmax(0,1fr);gap:22px;padding-top:4px}.pe-equipped{align-self:start}.pe-detail-heading{margin-bottom:10px}.pe-detail-heading h2{font-size:21px}.pe-detail .pe-help{margin-top:10px!important}.pe-hero{height:315px}.pe-collection-note{font-size:9px}.pe-footer .pe-primary{min-width:166px}.pe-heading p{font-size:11px}}
 @media(max-width:600px){
-/* Keep the approved opaque Heukgu portrait clear of the existing stage caption. */
-.pe-hero[src$="/pet-heukgu-approved.png"]{height:210px;max-height:210px}
+/* Keep the approved Heukgu silhouette clear of the existing stage caption. */
+.pe-hero[src$="/pet-heukgu-transparent-v2.png"]{height:210px;max-height:210px}
 .pet-page{padding:10px 10px 18px}.pet-page-nav{margin-bottom:8px;gap:8px}.pet-page-nav span{font-size:10px}.pet-page-nav a{font-size:11px;min-height:38px}
 .pet-equipment{padding:16px 12px 0;border-radius:5px;font-size:12px}.pe-heading{gap:12px;margin-bottom:12px;padding-bottom:14px;align-items:center}.pe-heading-title{gap:10px}.pe-heading-icon{width:37px;height:42px}.pe-heading-icon .pe-icon{width:23px;height:23px}.pe-heading h1{font-size:23px;line-height:1.35}.pe-heading p{font-size:10px;max-width:215px;line-height:1.65;margin-top:3px}.pe-eyebrow{font-size:9px}.pe-capacity{padding-left:10px}.pe-capacity>span{font-size:9px}.pe-capacity i{font-size:25px}.pe-capacity em{font-size:15px}
 .pe-notice{display:block;padding:8px 10px;margin-bottom:12px!important;line-height:1.7;font-size:10px}.pe-notice b{display:inline;padding-right:8px;margin-right:7px;font-size:9px}.pe-notice span{display:inline}

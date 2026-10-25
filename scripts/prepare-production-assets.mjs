@@ -140,6 +140,9 @@ const daengsoryongAuthoringOnly=file=>file.startsWith('preview/pet-daengsoryong-
 // Pet equipment implementation notes have no browser imports. Preserve the
 // document in Git and use its Pages delivery slot for Heukgu's approved PNG.
 operationAuditOnly.add('docs/pet-equipment-gugugaga-20261002.md');
+// The user's transparent correction replaces delivery of the white-background
+// original; retain that exact original in Git as provenance.
+operationAuditOnly.add('assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png');
 // CLI-only PostgreSQL loading/verification commands stay in Git. Browsers never
 // import these Python files; their two Pages slots hold the faction standings UI.
 const postgresCommandOnly=new Set(['scripts/postgres-load.py','scripts/postgres-verify.py']);

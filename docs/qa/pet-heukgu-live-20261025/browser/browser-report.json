@@ -21,8 +21,8 @@
           "code": "PET-HEUKGU",
           "name": "흑구",
           "image": {
-            "src": "/assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png",
-            "width": 1206,
+            "src": "/assets/ui/pets/heukgu-20261025/pet-heukgu-transparent-v2.png",
+            "width": 1205,
             "height": 1305,
             "fit": "contain",
             "visible": true
@@ -68,8 +68,8 @@
           "code": "PET-HEUKGU",
           "name": "흑구",
           "image": {
-            "src": "/assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png",
-            "width": 1206,
+            "src": "/assets/ui/pets/heukgu-20261025/pet-heukgu-transparent-v2.png",
+            "width": 1205,
             "height": 1305,
             "fit": "contain",
             "visible": true
@@ -122,8 +122,8 @@
           "code": "PET-HEUKGU",
           "name": "흑구",
           "image": {
-            "src": "/assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png",
-            "width": 1206,
+            "src": "/assets/ui/pets/heukgu-20261025/pet-heukgu-transparent-v2.png",
+            "width": 1205,
             "height": 1305,
             "fit": "contain",
             "visible": true
@@ -252,6 +252,10 @@
     },
     {
       "path": "admin/pets",
+      "method": "GET"
+    },
+    {
+      "path": "jokgak-city/notifications",
       "method": "GET"
     }
   ]

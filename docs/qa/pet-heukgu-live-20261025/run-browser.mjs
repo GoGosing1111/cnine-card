@@ -91,7 +91,7 @@ try{
       await hero.evaluate(img=>img.decode());
       await hero.evaluate(img=>Promise.all(img.getAnimations().map(animation=>animation.finished)));
       const image=await hero.evaluate(img=>({src:new URL(img.src).pathname,width:img.naturalWidth,height:img.naturalHeight,fit:getComputedStyle(img).objectFit,visible:!img.hidden}));
-      assert.equal(image.src,'/'+art.approvedAsset);assert.equal(image.width,1206);assert.equal(image.height,1305);assert(image.visible);
+      assert.equal(image.src,'/'+art.approvedAsset);assert.equal(image.width,1205);assert.equal(image.height,1305);assert(image.visible);
       const captionGap=await page.evaluate(()=>document.querySelector('[data-pet-caption]').getBoundingClientRect().top-document.querySelector('.pe-hero').getBoundingClientRect().bottom);
       assert(captionGap>=4,'Approved image must remain clear of its caption: '+captionGap);
       assert.match(await page.locator('[data-pet-caption]').textContent(),new RegExp(art.name));
@@ -122,7 +122,7 @@ try{
     await cms.locator('[data-select-pet="PET-HEUKGU"]').click();
     const selected=cms.locator('.cp-editor img').first();await selected.evaluate(img=>img.decode());
     assert.equal(await selected.evaluate(img=>new URL(img.src).pathname),'/'+approved[0].approvedAsset);
-    assert.equal(await selected.evaluate(img=>img.naturalWidth),1206);
+    assert.equal(await selected.evaluate(img=>img.naturalWidth),1205);
     assert.equal(await cms.locator('[data-field="name"]').inputValue(),'흑구');
     assert.equal(await cms.locator('[data-field="liveEnabled"]').isChecked(),false);
     assert.equal(await cms.locator('[data-buff-percent="0"]').inputValue(),'');

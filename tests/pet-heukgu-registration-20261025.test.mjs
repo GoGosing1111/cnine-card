@@ -55,7 +55,7 @@ test('registration plan adds only the approved Heukgu inactive draft without ena
     ['PET-HEUKGU','흑구'],
   ]);
   for(const pet of plan.document.pets.slice(20)){
-    assert.match(pet.sourceArt,/^assets\/ui\/pets\/heukgu-20261025\/pet-heukgu-approved\.png$/);
+    assert.match(pet.sourceArt,/^assets\/ui\/pets\/heukgu-20261025\/pet-heukgu-transparent-v2\.png$/);
     assert.equal(pet.battleSprite,'');assert.equal(pet.enabled,false);assert.equal(pet.liveEnabled,false);
     assert.deepEqual(pet.buffs,[{type:'ATTACK_PERCENT',percent:null}]);
     for(const mode of ['PVE','PVP'])assert.equal(petReadiness(pet,mode).ok,false);

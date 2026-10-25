@@ -1,0 +1,21 @@
+{
+  "before": {
+    "Id": "c21e5287-04a9-4a62-ba5f-ea402929eef4",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "ae9831f",
+    "Deployment": "https://c21e5287.cnine-card.pages.dev",
+    "Status": "58 minutes ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/c21e5287-04a9-4a62-ba5f-ea402929eef4"
+  },
+  "base": "ae9831fa0091e04b26d145cb1cd471425e37254d",
+  "head": "b8f776440452669859bc0521094863c94823b76d",
+  "tests": [
+    "tests/pet-heukgu-approval-20261025.test.mjs",
+    "tests/pet-heukgu-registration-20261025.test.mjs",
+    "tests/pet-heukgu-production-assets-20261025.test.mjs",
+    "tests/pet-equipment-20261002.test.mjs"
+  ],
+  "reason": "흑구 승인 원화와 모바일 표시를 펫 도감 및 OWNER 등록에 연결; 기존 보유/재화와 획득/효과 설정을 보존하는 관련 거래·장착·배포 검사",
+  "temp": "C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/heukgu-release-temp-20261025"
+}

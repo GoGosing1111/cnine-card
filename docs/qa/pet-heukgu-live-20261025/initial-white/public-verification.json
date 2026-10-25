@@ -1,0 +1,55 @@
+{
+  "status": "PASSED",
+  "origin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png",
+      "status": 200,
+      "bytes": 1560886,
+      "sha256": "940303a2e2c454ceb8aa5de3a9483b4811ddc316ce5b24c662f4779a20394f2e"
+    },
+    {
+      "file": "shared/pet-art-catalog-v1.mjs",
+      "status": 200,
+      "bytes": 6517,
+      "sha256": "0c32d8e3f2d8305a3b2041ed6468d1915844a00094d815e6567025763e919cd0"
+    },
+    {
+      "file": "css/pet-equipment-v1.css",
+      "status": 200,
+      "bytes": 23613,
+      "sha256": "1f5a8b0ceda06f5bc24364b8c6de585b695733ac6125b1727ceb1cb56ced97a3"
+    },
+    {
+      "file": "pet-codex/index.html",
+      "status": 200,
+      "bytes": 902,
+      "sha256": "85396a708986f03cbeb7161165007b07bde645c7f1075d2ec66c7a059dc09f1c"
+    },
+    {
+      "file": "pet-codex/app.mjs",
+      "status": 200,
+      "bytes": 673,
+      "sha256": "13c0696c3e3f7e9a9af870da3f7a6591aa867f51323165d72f7cd8885d6f00cd"
+    },
+    {
+      "file": "js/pet-equipment-window-v1.mjs",
+      "status": 200,
+      "bytes": 30194,
+      "sha256": "9d1f4ff2b291871d3add7622598913c374008deb9c76d11dbc3c3d51df9ca59f"
+    },
+    {
+      "file": "admin/companion-admin-v2.mjs",
+      "status": 200,
+      "bytes": 24312,
+      "sha256": "7b0fbb51c5bee253dd99481d601b786d16d36ee3cf990e65a0b3229c50068a46"
+    }
+  ],
+  "desktopManifest": {
+    "releaseId": "cde69a18d6030c43d914e69c5888380e4ea92a978775b13559f6f9177ae38df6",
+    "verifiedFiles": 6,
+    "ownerAdminExcluded": true,
+    "referenceAndProvenanceExcluded": true
+  },
+  "checkedAt": "2026-10-25T10:51:14.446Z"
+}

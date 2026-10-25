@@ -7,7 +7,7 @@ export const CMS_KEY='pet_cms_preparation_v1';
 export const ACTION='OPS_PET_HEUKGU_REGISTRATION';
 export const SETTINGS=['pet_opening_settings_v1','pet_potential_settings_v1'];
 export const REQUEST_ID='pet-heukgu-registration-20261025-v1';
-export const hash=value=>createHash('sha256').update(typeof value==='string'?value:JSON.stringify(value)).digest('hex');
+export const hash=value=>createHash('sha256').update(typeof value==='string'||Buffer.isBuffer(value)?value:JSON.stringify(value)).digest('hex');
 const approval=JSON.parse(readFileSync(new URL('../../docs/qa/pet-heukgu-live-20261025/approval-20261025.json',import.meta.url),'utf8'));
 const codes=['PET-HEUKGU'];
 export const additions=approval.assets.map(art=>({
