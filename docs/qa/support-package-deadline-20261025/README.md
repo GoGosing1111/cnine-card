@@ -20,4 +20,7 @@
 
 ## 운영 반영
 
-현재 배포 준비 단계. 실제 소스·Pages·공개 파일 및 운영 Worker 확인 결과는 배포 완료 후 기록한다.
+- **20:07 KST 완료:** 소스 `6f834eb3a29ace006233f23c7d1f30383802de72`, Pages `128963b1-4fa9-482b-81c8-fc683fdf00a6`. 직전 운영 `8a1264688`의 승인된 흑구 펫 변경까지 보존해 정식 `npm run deploy:production -- --scoped`로 배포했다.
+- 기존 패키지/1+1 회귀 **11개 PASS**, Worker 컴파일·출시/캐시·Hyperdrive 검사 통과. 변경 공개 파일 **11개**는 UTF-8 LF 정규화 SHA-256이 일치하며 API runtime/클랜 Worker 2개에 종료 안내 코드가 반영됐다. 비로그인 상품 API 401도 유지한다.
+- 실제 공개 화면 소스 7개를 바이트 변경 없이 검수 서버에서 제공해 PC 1440px·모바일 390px의 종료 표시·자정/한국시간 설명·진입/구매 화면·OWNER 팝업·후원관리를 다시 확인했다. 거래 응답은 격리된 fixture이며 운영 로그인 구매로 확대 보고하지 않는다. 페이지 오류·누락 리소스·가로 넘침 0, 운영 계정 쓰기 0이다.
+- `live-verification.json`, `browser-verification.json`, `public-browser-verification.json`에 집계 증빙을 보존했다. 배포 임시 파일은 표준 배포 도구의 정리 경로를 사용하며 작업 폴더에 새 의존성 복사본을 만들지 않았다.

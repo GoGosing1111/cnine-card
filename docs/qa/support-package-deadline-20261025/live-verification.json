@@ -1,0 +1,80 @@
+{
+  "at": "2026-10-25T11:08:31.780Z",
+  "pages": {
+    "id": "128963b1-4fa9-482b-81c8-fc683fdf00a6",
+    "url": "https://128963b1.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "6f834eb3a29ace006233f23c7d1f30383802de72"
+  },
+  "releaseCommit": "6f834eb3a29ace006233f23c7d1f30383802de72",
+  "publicFiles": [
+    {
+      "file": "shared/support-package-v1.mjs",
+      "publicSha256": "229b9190b0acd46496585d91f23440339d59a1045c59cbb1ba2ce602e1c3cb2c",
+      "localSha256": "229b9190b0acd46496585d91f23440339d59a1045c59cbb1ba2ce602e1c3cb2c"
+    },
+    {
+      "file": "js/support-package-v1.mjs",
+      "publicSha256": "8c5831b07a1888d37c5ed42665ef77f0ca30327a57aedfe8e07a3165a487ad21",
+      "localSha256": "8c5831b07a1888d37c5ed42665ef77f0ca30327a57aedfe8e07a3165a487ad21"
+    },
+    {
+      "file": "admin/support-package-admin-v1.mjs",
+      "publicSha256": "b0154b74479d52967444b8f8cd87ed16185fce00458caf1271b46c12ee08a43a",
+      "localSha256": "b0154b74479d52967444b8f8cd87ed16185fce00458caf1271b46c12ee08a43a"
+    },
+    {
+      "file": "css/support-package-v1.css",
+      "publicSha256": "ba099cb6d85e94285bd1598d9fcad3db58626e134ebf54129ab8964c91f7afbd",
+      "localSha256": "ba099cb6d85e94285bd1598d9fcad3db58626e134ebf54129ab8964c91f7afbd"
+    },
+    {
+      "file": "js/support-package-alerts-v1.mjs",
+      "publicSha256": "5b0683b4dc3288f7cb5160382cce9172ead277c7be1bf30dd2971893efd77b8f",
+      "localSha256": "5b0683b4dc3288f7cb5160382cce9172ead277c7be1bf30dd2971893efd77b8f"
+    },
+    {
+      "file": "js/server-support-v1.mjs",
+      "publicSha256": "f27e7a1bdc7c428736a9a9d8252c615ff3fa7bf1519beed50240b7ac09cbecb9",
+      "localSha256": "f27e7a1bdc7c428736a9a9d8252c615ff3fa7bf1519beed50240b7ac09cbecb9"
+    },
+    {
+      "file": "admin/server-support-admin-v1.mjs",
+      "publicSha256": "78f588973acd6c309caa21e93111a0999ab0022470799eae036257de295fffda",
+      "localSha256": "78f588973acd6c309caa21e93111a0999ab0022470799eae036257de295fffda"
+    },
+    {
+      "file": "admin/index.html",
+      "publicSha256": "9bb4728186970dbe02f7999b5cdcf48ff756150d406a3f20ee6fb2091a0d9ef4",
+      "localSha256": "9bb4728186970dbe02f7999b5cdcf48ff756150d406a3f20ee6fb2091a0d9ef4"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "publicSha256": "d9d5b2bee31bb417534fe8317e16b339d5717eb90cd13fe581e49d1986160352",
+      "localSha256": "d9d5b2bee31bb417534fe8317e16b339d5717eb90cd13fe581e49d1986160352"
+    },
+    {
+      "file": "index.html",
+      "publicSha256": "4c3357cf4cf1259b4c580ec5014146f604e402deacad9a9565f030d83970637e",
+      "localSha256": "4c3357cf4cf1259b4c580ec5014146f604e402deacad9a9565f030d83970637e"
+    },
+    {
+      "file": "service-worker.js",
+      "publicSha256": "0ce704bccdffeab0a7f1a7151f2013e984a113d6c50a2b586326de1938b219f3",
+      "localSha256": "0ce704bccdffeab0a7f1a7151f2013e984a113d6c50a2b586326de1938b219f3"
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deadlineCode": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deadlineCode": true
+    }
+  ],
+  "unauthenticatedStatus": 401,
+  "operationalAccountWrites": 0,
+  "automaticExpiryAdded": false
+}

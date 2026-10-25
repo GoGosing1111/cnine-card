@@ -1,0 +1,40 @@
+[
+  {
+    "width": 1440,
+    "deadlineDisplay": true,
+    "koreanMidnight": true,
+    "bankAndOwnerMessages": true,
+    "publicSources": 0,
+    "equalButtonSize": {
+      "width": 680,
+      "height": 132
+    },
+    "inactiveHidden": true,
+    "ordinaryNoAlertPolling": true,
+    "imagesLoaded": true,
+    "lostResponseRecovery": true,
+    "ownerPopupOnce": true,
+    "cmsPopupAndPayment": true,
+    "errors": [],
+    "failed": []
+  },
+  {
+    "width": 390,
+    "deadlineDisplay": true,
+    "koreanMidnight": true,
+    "bankAndOwnerMessages": true,
+    "publicSources": 0,
+    "equalButtonSize": {
+      "width": 328,
+      "height": 112
+    },
+    "inactiveHidden": true,
+    "ordinaryNoAlertPolling": true,
+    "imagesLoaded": true,
+    "lostResponseRecovery": true,
+    "ownerPopupOnce": true,
+    "cmsPopupAndPayment": true,
+    "errors": [],
+    "failed": []
+  }
+]
