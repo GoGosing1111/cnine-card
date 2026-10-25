@@ -1,6 +1,6 @@
 import {organizationCrest} from './organization-identity-v1.mjs?v=20261025-clan-eight';
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
-import {organizationDistrictById} from '../shared/organization-faction-v1.mjs?v=20261025-clan-eight';
+import {organizationDistrictById} from '../shared/organization-faction-v1.mjs?v=20261025-clan-eight&clanResume=20261025';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>value===null?'—':Number(value).toLocaleString('ko-KR');
@@ -29,7 +29,7 @@ export function organizationDashboardHeader(state){
  const status=!faction?'전황 확인 대기':faction.sessions?.scheduleLocked?'모든 대회 일정 잠금':!faction.season?.active?'시즌 준비 중':paused?'영토전으로 일시중단':active?'세력전 진행 중':'다음 세력전 대기';
  const required=faction?.sessions?.rules?.requiredTerritories??8;
  const next=faction?.sessions?.nextStartsAt?{startsAt:faction.sessions.nextStartsAt}:faction?.sessions?.schedule?.find(s=>s.status==='SCHEDULED'&&s.startsAt>faction.serverNow);
- return `<section class="org-live-hero" aria-labelledby="org-live-title"><div class="org-hero-copy"><span class="org-kicker">SEOUL · CLAN</span><h1 id="org-live-title">클랜 본부</h1><p>서울 25개 구를 두고 펼치는 우리 클랜의 전쟁.<br>매일 2회 랜덤 · 회차당 3시간 · 승점 미포함</p><div class="org-hero-status"><strong>${status}</strong>${active&&session?.endsAt?`<span>종료까지 <b data-org-war-until="${session.endsAt}">—</b></span>`:next?`<span>다음 개전 ${new Date(next.startsAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false})}</span>`:''}</div><div class="org-hero-actions"><button type="button" class="org-primary" data-tab="faction">세력전 현황 →</button><button type="button" data-tab="faction" data-war-tab="formation">부대 편성</button><button type="button" data-tab="mine">내 클랜</button></div></div><dl class="org-hero-stats"><div><dt>보상 점령 조건</dt><dd>${required}<small>곳 이상</small></dd><p>종료 시 실제 참여자 지급</p></div><div><dt>활동 클랜 · 소속 인원</dt><dd>${rows.length}<small>개 · ${number(members)}명</small></dd></div></dl></section>`;
+ return `<section class="org-live-hero" aria-labelledby="org-live-title"><div class="org-hero-copy"><span class="org-kicker">SEOUL · CLAN</span><h1 id="org-live-title">클랜 본부</h1><p>서울 25개 구를 두고 펼치는 우리 클랜의 전쟁.<br>${faction?.competition?.pointsIncluded?'매일 랜덤 1회 · 3시간 · 4개 이상 점령 시 승점 +1':'매일 2회 랜덤 · 회차당 3시간 · 승점 미포함'}</p><div class="org-hero-status"><strong>${status}</strong>${active&&session?.endsAt?`<span>종료까지 <b data-org-war-until="${session.endsAt}">—</b></span>`:next?`<span>다음 개전 ${new Date(next.startsAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false})}</span>`:''}</div><div class="org-hero-actions"><button type="button" class="org-primary" data-tab="faction">세력전 현황 →</button><button type="button" data-tab="faction" data-war-tab="formation">부대 편성</button><button type="button" data-tab="mine">내 클랜</button></div></div><dl class="org-hero-stats"><div><dt>보상 점령 조건</dt><dd>${required}<small>곳 이상</small></dd><p>종료 시 실제 참여자 지급</p></div><div><dt>활동 클랜 · 소속 인원</dt><dd>${rows.length}<small>개 · ${number(members)}명</small></dd></div></dl></section>`;
 }
 
 export function organizationDashboardView(state){

@@ -5,6 +5,7 @@ import {reconcilePauses,closeSession,sessionView} from './_clan_faction_sessions
 import {advanceFixedOrganizationFaction} from './_organization_fixed_sessions.js';
 import {ORGANIZATION_FIXED_SCHEDULE} from '../shared/organization-schedule-v1.mjs';
 import {clanRestorationActive,CLAN_RESTORATION,lockedFactionSessions} from '../shared/clan-restoration-v1.mjs';
+import {activeClanResumption,resumedFactionRules,RESUMED_CLAN_RULES} from '../shared/clan-resumption-v1.mjs';
 import {organizationSessionRewardRules,addOrganizationPigCoinRecipients} from '../shared/organization-competition-v1.mjs';
 export const ORGANIZATION_SESSION_POLICY=Object.freeze({recipients:'PARTICIPANTS',interruption:'PAUSE',overlap:'DEFER',mapPolicy:'KEEP',rewardRules:RULES});
 export function validateOrganizationFormation(formation,memberIds){
@@ -77,7 +78,9 @@ export function restrictOrganizationDistricts(state,now){
 }
 export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now,assignedAt,policy}){
  const restored=clanRestorationActive(now);
- if(restored&&CLAN_RESTORATION.factionScheduleLocked)return {state,settlements:[],view:lockedFactionSessions(organizationSessionRewardRules(RULES,policy,now))};
+ const resumption=activeClanResumption(state.resumption,now),rules=resumption?resumedFactionRules(RULES,resumption):RULES,version=resumption?.version||CLAN_RESTORATION.version;
+ if(resumption)assignedAt=Math.max(assignedAt,resumption.effectiveAt);
+ if(restored&&CLAN_RESTORATION.factionScheduleLocked&&!resumption)return {state,settlements:[],view:lockedFactionSessions(organizationSessionRewardRules(RULES,policy,now))};
  if(!restored&&now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt)return advanceFixedOrganizationFaction(state,{wars,roster,now,assignedAt,policy});
  const settlements=[];
  // Apply the explicit 8-district correction to an unfinished legacy session,
@@ -94,12 +97,12 @@ export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now
  const overlaps=slot=>busy()||state.sessionQueue.length||(state.session?.key!==slot.key&&state.session?.closedAt>slot.startsAt);
  const queue=slot=>{slot.status='QUEUED';slot.reason='PREVIOUS_SESSION';if(!state.sessionQueue.some(s=>s.key===slot.key))state.sessionQueue.push({...slot,plannedStartsAt:slot.startsAt,plannedEndsAt:slot.endsAt});state.sessionQueue.sort((a,b)=>a.plannedStartsAt-b.plannedStartsAt);};
  const open=slot=>{
-  state.session={...slot,status:'ACTIVE',participants:[],participantClans:{},fundsPerRegion:policy.fundsPerRegion,rewardRules:organizationSessionRewardRules(RULES,policy,slot.startsAt)};
+  state.session={...slot,status:'ACTIVE',participants:[],participantClans:{},fundsPerRegion:policy.fundsPerRegion,rewardRules:organizationSessionRewardRules(rules,policy,slot.startsAt)};
   const displayed=state.sessionPlan.find(s=>s.key===slot.key);if(displayed)Object.assign(displayed,slot,{status:'ACTIVE'});
   factionEvent(state,{id:'start:'+slot.key,kind:'SESSION_START',at:slot.startsAt});
  };
- if(state.sessionDay!==factionDayKey(now)||(restored&&state.scheduleVersion!==CLAN_RESTORATION.version)){
-  if(restored&&state.scheduleVersion!==CLAN_RESTORATION.version){state.sessionQueue=[];state.sessionPlan=[];state.scheduleVersion=CLAN_RESTORATION.version;}
+ if(state.sessionDay!==factionDayKey(now)||(restored&&state.scheduleVersion!==version)){
+  if(restored&&state.scheduleVersion!==version){state.sessionQueue=[];state.sessionPlan=[];state.scheduleVersion=version;}
   for(const slot of state.sessionPlan||[])if(slot.status==='SCHEDULED'&&slot.startsAt<=now&&slot.startsAt>=assignedAt&&overlaps(slot))queue(slot);
   state.sessionDay=factionDayKey(now);state.sessionPlan=schedule.map(slot=>({...slot,status:'SCHEDULED'}));
  }
@@ -114,5 +117,5 @@ export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now
  }
  if(!busy()&&!activeWars&&state.sessionQueue.length){const slot=state.sessionQueue.shift();open({...slot,startsAt:now,endsAt:now+RULES.durationMs,deferred:true});}
  const view=sessionView(state,schedule,now,{phase:'ACTIVE'},activeWars||state.session?.status==='PAUSED');
- return {state,settlements,view:{...view,rules:busy()?state.session.rewardRules||RULES:RULES,recipientPolicy:'PARTICIPANTS',mapPolicy:'KEEP'}};
+ return {state,settlements,view:{...view,rules:busy()?state.session.rewardRules||rules:rules,recipientPolicy:'PARTICIPANTS',mapPolicy:'KEEP',...(resumption?{scheduleLocked:false,pointsIncluded:true,scheduleLabel:RESUMED_CLAN_RULES.factionLabel}:{})}};
 }

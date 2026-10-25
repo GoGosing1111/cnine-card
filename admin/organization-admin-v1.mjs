@@ -1,9 +1,9 @@
 import {organizationCrest} from '../js/organization-identity-v1.mjs?v=20261025-clan-eight';
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
 import {ORGANIZATION_PREPARATION} from '../shared/organization-preparation-v1.mjs?v=20261025-clan-eight';
-import {FACTION_RULES,ORGANIZATION_DISTRICTS,organizationDistrictById,validateOrganizationFactionPolicy} from '../shared/organization-faction-v1.mjs?v=20261024-weekly&clanRestore=20261025';
-import {ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES} from '../shared/organization-faction-v1.mjs?v=20261025-restored-locked&clanRestore=20261025';
-import {renderOrganizationRankings} from '../js/organization-rankings-v1.mjs?v=20261024-weekly&clanRestore=20261025';
+import {FACTION_RULES,ORGANIZATION_DISTRICTS,organizationDistrictById,validateOrganizationFactionPolicy} from '../shared/organization-faction-v1.mjs?v=20261024-weekly&clanRestore=20261025&clanResume=20261025';
+import {ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES} from '../shared/organization-faction-v1.mjs?v=20261025-restored-locked&clanRestore=20261025&clanResume=20261025';
+import {renderOrganizationRankings} from '../js/organization-rankings-v1.mjs?v=20261024-weekly&clanRestore=20261025&clanResume=20261025';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>Number(value||0).toLocaleString('ko-KR');
 const date=value=>value?new Date(Number(value)||value).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'아직 없음';
@@ -59,7 +59,7 @@ export function mountOrganizationCms(root,{request=api}={}){
   function competitionSettings(){
     if(!factionDraft)return '<p class="orgcms-empty">세력전 보상·승점 설정을 불러오지 못했습니다.</p>';
     const p=factionDraft.pigCoinReward,live=faction.competition;
-    return section('01','8개 점령 · 피그코인 추가 보상','기존 코인·마스터의 별·미스틱 에너지와 별도로 지급하는 회차 보상입니다.',`<form data-form="faction-policy"><label class="orgcms-check"><input type="checkbox" data-faction-path="pigCoinReward.enabled" ${p.enabled?'checked':''}>피그코인 점령 보상 지급</label><div class="orgcms-grid two">${input('pigCoinReward.requiredTerritories','필요 점령 지역 수',p.requiredTerritories,{min:1,max:25,hint:'기본 8개 이상 · 회차 종료 시점 기준'})}${input('pigCoinReward.amount','참여자 1인당 피그코인',p.amount,{min:1,max:100000,hint:'기본 200개 · 해당 회차 참여자에게 1회'})}</div><p class="orgcms-help">회차 시작 당시 설정을 고정합니다. 저장한 변경은 다음 회차부터 적용하며, 이미 종료된 회차에 소급 지급하지 않습니다. LIVE는 메시지함으로 지급하고 TEST는 실제 재화를 지급하지 않습니다.</p><div class="orgcms-form-footer"><small>기존 기본 보상 조건과 수량은 유지합니다.</small><button class="primary" type="submit">피그코인 보상 설정 저장</button></div></form>`)+section('02','세력전 승점 미포함','점령 결과는 정규 클랜전·주간·시즌 승점에 반영하지 않습니다.','<p class="orgcms-help">주간·시즌 승점 정산을 중지했습니다. 기존 점령지·소속·편성·공동 자금과 과거 기록은 보존됩니다.</p>')+renderOrganizationRankings(live,{view:rankingView});
+    return section('01',p.requiredTerritories+'개 점령 · 피그코인 추가 보상','기존 코인·마스터의 별·미스틱 에너지와 별도로 지급하는 회차 보상입니다.',`<form data-form="faction-policy"><label class="orgcms-check"><input type="checkbox" data-faction-path="pigCoinReward.enabled" ${p.enabled?'checked':''}>피그코인 점령 보상 지급</label><div class="orgcms-grid two">${input('pigCoinReward.requiredTerritories','필요 점령 지역 수',p.requiredTerritories,{min:1,max:25,hint:'회차 종료 시점 기준'})}${input('pigCoinReward.amount','참여자 1인당 피그코인',p.amount,{min:1,max:100000,hint:'기본 200개 · 해당 회차 참여자에게 1회'})}</div><p class="orgcms-help">회차 시작 당시 설정을 고정합니다. 저장한 변경은 다음 회차부터 적용하며, 이미 종료된 회차에 소급 지급하지 않습니다. LIVE는 메시지함으로 지급하고 TEST는 실제 재화를 지급하지 않습니다.</p><div class="orgcms-form-footer"><small>기존 기본 보상 조건과 수량은 유지합니다.</small><button class="primary" type="submit">피그코인 보상 설정 저장</button></div></form>`)+section('02',live?.pointsIncluded?'정규 시즌 승점 합산':'세력전 승점 미포함',live?.pointsIncluded?'매일 랜덤 1회 · 3시간 · 4개 이상 점령한 클랜에 1점':'세력전 승점 집계 보류', '<p class="orgcms-help">종료 회차마다 한 번 정산합니다. 신규 회차에만 적용하며 주간 점령 수를 추가 합산하지 않습니다.</p>')+renderOrganizationRankings(live,{view:rankingView});
   }
   function hideoutSettings(){
     if(!factionDraft)return '<p class="orgcms-empty">클랜 자금 설정을 불러오지 못했습니다. 새로 불러오기를 눌러 주세요.</p>';

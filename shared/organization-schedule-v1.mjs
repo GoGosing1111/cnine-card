@@ -1,13 +1,15 @@
 import {factionDayKey,factionDayStart,createFactionDay} from './clan-faction-sessions-v1.mjs';
 import {clanRestorationActive,CLAN_RESTORATION} from './clan-restoration-v1.mjs';
 import {ORGANIZATION_SESSION_RULES} from './organization-faction-v1.mjs';
+import {createResumedFactionDay} from './clan-resumption-v1.mjs';
 export const ORGANIZATION_FIXED_SCHEDULE = Object.freeze({
  version:'20261023-fixed-evenings',effectiveAt:Date.parse('2026-10-23T00:00:00+09:00'),
  timeZone:'Asia/Seoul',weekdays:[0,2,4,6],startHour:20,endHour:22,
  label:'화·목·토·일 20:00~22:00 (한국시간)'
 });
 export const ORGANIZATION_FIXED_RULES=Object.freeze({...ORGANIZATION_SESSION_RULES,version:ORGANIZATION_FIXED_SCHEDULE.version,dailyCount:1,durationMs:2*60*60*1000});
-export function createOrganizationFactionDay(dayKey,random){
+export function createOrganizationFactionDay(dayKey,random,resumption){
+ if(resumption)return createResumedFactionDay(dayKey,resumption,random);
  if(clanRestorationActive(factionDayStart(dayKey)))return createFactionDay(dayKey,random).map(slot=>({...slot,scheduleVersion:CLAN_RESTORATION.version}));
  return factionDayStart(dayKey)>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt?createOrganizationDay(dayKey):createFactionDay(dayKey,random);
 }

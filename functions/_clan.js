@@ -1,6 +1,8 @@
 import {readClanRetirementPlan,clanRetirementPublicState,finishClanRetirement,handleClanRetirementRoute,saveLegacyClanSettings} from './_clan_retirement.js';
 import {handleClanRestorationRoute} from './_clan_restoration.js';
 import {clanRestorationActive} from '../shared/clan-restoration-v1.mjs';
+import {readClanResumption} from './_clan_resumption.js';
+import {resumedClanSettings} from '../shared/clan-resumption-v1.mjs';
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {clanReformEnabled,ensureClanReform,refreshClanExecutives,clanExecutive} from './_clan_governance.js';
 import {clanReformState,handleClanReform} from './_clan_war_reform.js';
@@ -374,7 +376,7 @@ function cleanClanAdminSettings(raw={},current=CLAN_ADMIN_SETTINGS_DEFAULTS){
     rewardsEnabled:cleanBoolean(raw.rewardsEnabled,base.rewardsEnabled),winnerCoin:clampInt(raw.winnerCoin,0,Number.MAX_SAFE_INTEGER,base.winnerCoin),runnerUpCoin:clampInt(raw.runnerUpCoin,0,Number.MAX_SAFE_INTEGER,base.runnerUpCoin),participationCoin:clampInt(raw.participationCoin,0,100000000,base.participationCoin),participationShards:clampInt(raw.participationShards,0,1000000,base.participationShards)
   };
 }
-async function clanSettings(env){const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_ADMIN_SETTINGS_KEY).first(),raw=safeJson(row?.value,{});return cleanClanAdminSettings(raw)}
+async function clanSettings(env){const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_ADMIN_SETTINGS_KEY).first(),raw=safeJson(row?.value,{}),settings=cleanClanAdminSettings(raw);return await readClanResumption(env)?resumedClanSettings(settings):settings;}
 
 async function latestSeason(env){return env.DB.prepare("SELECT * FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC LIMIT 1").first()}
 function clanDraftDeadlineMs(season){
@@ -398,6 +400,7 @@ function clanLateRegistrationSchedule(season,nowMs=Date.now()){
   return{registrationEndsAt:iso(registrationEndsAt),draftEndsAt:iso(draftEndsAt),startsAt:iso(startsAt),endsAt:iso(endsAt)};
 }
 async function createSeason(env,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
+  const resumed=await readClanResumption(env);if(resumed)return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(resumed.seasonId).first();
   const current=await latestSeason(env);if(current)return current;
   const last=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();
   const retirement=await readClanRetirementPlan(env);
@@ -601,6 +604,7 @@ async function settleSeason(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
     if(Number(resolving?.count||0)>0)return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
     await env.DB.prepare("UPDATE clan_war_battles SET status='FAILED',error_message='SEASON_SETTLED_BEFORE_RESOLUTION',updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='PENDING'").bind(season.id).run();
     const activeWars=rows(await env.DB.prepare("SELECT * FROM clan_wars WHERE season_id=? AND status IN ('ACTIVE','CLOSING') ORDER BY round_no,id").bind(season.id).all());for(const war of activeWars)await finalizeWar(env,war,settings);await env.DB.prepare("UPDATE clan_wars SET status='CANCELLED',updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='SCHEDULED'").bind(season.id).run();
+    if(await readClanResumption(env)){const {tickOrganizationFaction}=await import('./_organization_faction.js');await tickOrganizationFaction(env,{});}
     const rankedTeams=rows(await env.DB.prepare(CLAN_RANKED_TEAMS_SQL).bind(season.id).all()),championId=Number(rankedTeams[0]?.clan_id||0),initialRewardStatus=settings.mode!=='ON'?'DISABLED_TEST':settings.rewardsEnabled?'PENDING':'DISABLED_CONFIG';
     await env.DB.prepare("INSERT OR IGNORE INTO clan_season_settlements(season_id,champion_clan_id,status,reward_status) VALUES(?,?,'PENDING',?)").bind(season.id,championId||null,initialRewardStatus).run();
     let settlement=await env.DB.prepare('SELECT * FROM clan_season_settlements WHERE season_id=?').bind(season.id).first();
@@ -672,7 +676,15 @@ async function startScheduledRedraft(env,season,settings){
 
 // Registration/draft plus explicitly armed post-championship season transitions.
 export async function reconcileClanDraft(env,{retire=finishClanRetirement}={}){
-  if(clanRestorationActive())return{phase:'SCHEDULE_LOCKED',nextCheckAt:null,registrationOpen:false};
+  if(clanRestorationActive()){
+    const resumed=await readClanResumption(env);if(!resumed)return{phase:'SCHEDULE_LOCKED',nextCheckAt:null,registrationOpen:false};
+    const settings=await clanSettings(env);if(settings.mode!=='ON')return{phase:settings.mode,nextCheckAt:null,registrationOpen:false};
+    let season=await env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(resumed.seasonId).first();
+    if(!season)return{phase:'SCHEDULE_LOCKED',nextCheckAt:null,registrationOpen:false};
+    season=await advanceLifecycle(env,season,settings);
+    const war=await env.DB.prepare("SELECT * FROM clan_wars WHERE season_id=? AND status IN ('SCHEDULED','ACTIVE','CLOSING') ORDER BY starts_at,id LIMIT 1").bind(season.id).first();
+    return{phase:season.phase,seasonId:Number(season.id),registrationOpen:false,nextCheckAt:war?(war.status==='SCHEDULED'?war.starts_at:iso(Date.now()+60000)):null};
+  }
   const ready=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_FOUNDATION_VERSION).first();
   if(!ready)return{phase:'NOT_READY',nextCheckAt:null};
   const settings=await clanSettings(env);if(settings.mode!=='ON')return{phase:settings.mode,nextCheckAt:null};
@@ -707,7 +719,14 @@ export async function reconcileClanDraft(env,{retire=finishClanRetirement}={}){
   return{phase:season?.phase||'NONE',seasonId:Number(season?.id||0),nextCheckAt:['REGISTRATION','REDRAFT_WAIT'].includes(season?.phase)?season.registration_ends_at:season?.phase==='DRAFT'?nextDraftCheckAt(season):followupCheckAt};
 }
 async function advanceLifecycle(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
-  if(clanRestorationActive())return season;
+  if(clanRestorationActive()){
+    const resumed=await readClanResumption(env);if(!resumed||Number(season?.id)!==resumed.seasonId)return season;
+    if(settings.mode!=='ON')return season;
+    let current=season;
+    if(current.phase==='ACTIVE')current=await reconcileWarWindows(env,current,settings);
+    if(current.phase==='SETTLEMENT')current=await settleSeason(env,current,settings);
+    return current;
+  }
   let fresh=season;
   if(fresh.phase==='REDRAFT_WAIT')fresh=await startScheduledRedraft(env,fresh,settings);
   if(fresh.phase==='REGISTRATION'&&Date.now()>=sqlMs(fresh.registration_ends_at))fresh=await beginDraft(env,fresh,settings);
@@ -757,11 +776,11 @@ async function clanAdminState(env,settings,{readOnly=false}={}){
   return{
     ok:true,settings,champions:await championsPublicState(env,seasonId,settings),participationRuntime:roundSettings?{roundNo:Number(ruleWar.round_no),scorePolicy:roundSettings.scorePolicy,scorePerWin:roundSettings.warWinScore,scorePerLoss:roundSettings.warLossScore,startsAt:ruleWar.starts_at,rewardsEnabled:roundSettings.mode==='ON'&&roundSettings.battleParticipationRewardsEnabled,battleCoin:roundSettings.battleParticipationCoin}:null,season:publicSeason(season),settlement:settlement?{status:settlement.status,championClanId:Number(settlement.champion_clan_id||0),rewardStatus:settlement.reward_status,completedAt:settlement.completed_at}:null,clans,wars,recentBattles,
     metrics:{registered:Number(poolResult?.registered||0),available:Number(poolResult?.available||0),drafted:Number(poolResult?.drafted||0),clansActive:clans.filter(clan=>clan.active).length,warsActive:wars.filter(war=>war.status==='ACTIVE').length,battlesTotal:Object.values(battleStatus).reduce((sum,count)=>sum+Number(count||0),0),battleStatus},
-    runtimeContract:{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,lateRegistrationOpen:Boolean(season&&clanRegistrationOpen(season)&&String(season.phase).toUpperCase()==='DRAFT'),attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,battleEngine:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed,roundGeneration:'ROUND_ROBIN_7_WINDOWS',warDurationMinutes:settings.warDurationMinutes,matchMode:settings.matchMode,deckPolicy:settings.powerSnapshot,reservationScope:'PER_WAR_USER_AND_TARGET',scorePerWin:settings.warWinScore,rewards:settings.rewardsEnabled?'ENABLED':'READY_OFF'},
-    targetContract:{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,warDurationMinutes:settings.warDurationMinutes,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,totalUseLimit:settings.totalUseLimit,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,matchMode:settings.matchMode,powerSnapshot:settings.powerSnapshot,warWinScore:settings.warWinScore,playbackSpeed:settings.playbackSpeed},
+    runtimeContract:{maxMembers:settings.maxMembers,maxParticipants:settings.maxParticipants,lateRegistrationOpen:Boolean(season&&clanRegistrationOpen(season)&&String(season.phase).toUpperCase()==='DRAFT'),attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,battleEngine:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed,roundGeneration:'ROUND_ROBIN_7_WINDOWS',warDurationMinutes:settings.warDurationMinutes,matchMode:settings.matchMode,deckPolicy:settings.powerSnapshot,reservationScope:'PER_WAR_USER_AND_TARGET',scorePerWin:settings.warWinScore,rewards:settings.rewardsEnabled?'ENABLED':'READY_OFF'},
+    targetContract:{maxMembers:settings.maxMembers,maxParticipants:settings.maxParticipants,warDurationMinutes:settings.warDurationMinutes,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,totalUseLimit:settings.totalUseLimit,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,matchMode:settings.matchMode,powerSnapshot:settings.powerSnapshot,warWinScore:settings.warWinScore,playbackSpeed:settings.playbackSpeed},
     releaseGates:[
       {key:'FOUNDATION',status:'READY',label:'클랜·드래프트·전투 DB 계약'},
-      {key:'ROSTER_CAPACITY',status:'READY',label:`8클랜 × ${CLAN_MAX_MEMBERS}명 · 총 ${CLAN_MAX_PARTICIPANTS}명 정원`},
+      {key:'ROSTER_CAPACITY',status:'READY',label:`8클랜 × ${settings.maxMembers}명 · 총 ${settings.maxParticipants}명 정원`},
       {key:'PROJECT_V_V3',status:'READY',label:'PROJECT V V3 전투 판정·연출'},
       {key:'WAR_WINDOW',status:'READY',label:`${settings.warDurationMinutes}분 정시 개방·7라운드 순환 대진`},
       {key:'ENERGY',status:'READY',label:`${settings.initialEnergy}/${settings.energyCap} 행동력·${settings.energyRecoverySeconds}초 서버 회복`},
@@ -836,7 +855,7 @@ async function overview(env,user,season,deps,settings=CLAN_ADMIN_SETTINGS_DEFAUL
     if(mine){delete mine.masterUserId;delete mine.masterNickname;}
   }
   const redraftPlan=await readClanRedraft(env,season.id);
-  return{ok:true,reform,redraft:clanRedraftPublicState(redraftPlan,season.phase),champions:await championsPublicState(env,season.id,settings),season:publicSeason(season),verified:ownerBypass||Boolean(verified),verificationExempt:ownerBypass,verificationName:ownerBypass?'OWNER':verified?.provider_name||'',registration:registration?{registered:true,preferredRole:registration.preferred_role,activityWindow:registration.activity_window,status:registration.status,registeredAt:registration.registered_at}:{registered:false},membership:membership?{...mine,userId:Number(user.id),memberRole:reformOn?(isExecutive?'EXECUTIVE':'MEMBER'):membership.member_role,isExecutive,isMaster:reformOn?isExecutive:Number(membership.master_user_id)===Number(user.id)}:null,teams,officialClans:OFFICIAL_CLAN_CATALOG.map((clan,index)=>({...clan,order:index+1})),roster,draft,candidates,war,opponents,settlement,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed},rules:{warDurationMinutes:settings.warDurationMinutes,openDays:settings.openDays,draftDurationMinutes:CLAN_DRAFT_DURATION_MINUTES,draftFinishFrom:'REGISTRATION_CLOSE',draftFinalAction:'AUTO_ASSIGN',draftPickSeconds:settings.draftPickSeconds,draftTimeoutAction:'SKIP_TURN',draftStartDelayMinutes:0,maxMembers:CLAN_MAX_MEMBERS,maxClans:OFFICIAL_CLAN_CATALOG.length,maxParticipants:CLAN_MAX_PARTICIPANTS,attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,attackEnergyCost:settings.attackEnergyCost,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,matchMode:settings.matchMode,reservationScope:'PER_WAR_USER_AND_TARGET',scorePerWin:settings.warWinScore,deckPolicy:settings.powerSnapshot,noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,identityFixed:true,queryPolicy:'LIVE_DECK_NO_VIEW_LOGS'},serverNow:iso()};
+  return{ok:true,reform,redraft:clanRedraftPublicState(redraftPlan,season.phase),champions:await championsPublicState(env,season.id,settings),season:publicSeason(season),verified:ownerBypass||Boolean(verified),verificationExempt:ownerBypass,verificationName:ownerBypass?'OWNER':verified?.provider_name||'',registration:registration?{registered:true,preferredRole:registration.preferred_role,activityWindow:registration.activity_window,status:registration.status,registeredAt:registration.registered_at}:{registered:false},membership:membership?{...mine,userId:Number(user.id),memberRole:reformOn?(isExecutive?'EXECUTIVE':'MEMBER'):membership.member_role,isExecutive,isMaster:reformOn?isExecutive:Number(membership.master_user_id)===Number(user.id)}:null,teams,officialClans:OFFICIAL_CLAN_CATALOG.map((clan,index)=>({...clan,order:index+1})),roster,draft,candidates,war,opponents,settlement,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed},rules:{warDurationMinutes:settings.warDurationMinutes,openDays:settings.openDays,draftDurationMinutes:CLAN_DRAFT_DURATION_MINUTES,draftFinishFrom:'REGISTRATION_CLOSE',draftFinalAction:'AUTO_ASSIGN',draftPickSeconds:settings.draftPickSeconds,draftTimeoutAction:'SKIP_TURN',draftStartDelayMinutes:0,maxMembers:settings.maxMembers,maxClans:OFFICIAL_CLAN_CATALOG.length,maxParticipants:settings.maxParticipants,attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,attackEnergyCost:settings.attackEnergyCost,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,matchMode:settings.matchMode,reservationScope:'PER_WAR_USER_AND_TARGET',scorePerWin:settings.warWinScore,deckPolicy:settings.powerSnapshot,noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,identityFixed:true,queryPolicy:'LIVE_DECK_NO_VIEW_LOGS'},serverNow:iso()};
 }
 
 async function register(env,deps,user,season,body,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
@@ -1053,7 +1072,12 @@ export async function reconcileClanCampSeason(env){
 
 export async function handleClan({path,request,env,deps}){
   const restorationResponse=await handleClanRestorationRoute({path,request,env,deps,
-    readOverview:async user=>{
+    readOverview:async (user,resumption)=>{
+      if(resumption){
+        const settings=await clanSettings(env);let season=await env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(resumption.seasonId).first();
+        season=await advanceLifecycle(env,season,settings);
+        return {...await overview(env,user,season,deps,settings),mode:settings.mode,organizationPreparation:null};
+      }
       const stored=await clanSettings(env),settings={...stored,mode:'OFF',scheduleEnabled:false,championsEnabled:true};
       const season=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();
       const data=season?await overview(env,user,season,deps,settings,{readOnly:true}):{ok:true,season:null,membership:null,teams:[],roster:[],champions:await championsPublicState(env,0,settings)};
@@ -1061,10 +1085,10 @@ export async function handleClan({path,request,env,deps}){
         membership:data.membership?{...data.membership,isMaster:false,isExecutive:false}:null,
         season:data.season?{...data.season,registrationOpen:false}:null,organizationPreparation:{restored:true,legacyClosed:false}};
     },
-    readAdmin:async()=>clanAdminState(env,{...await clanSettings(env),mode:'OFF',scheduleEnabled:false,championsEnabled:true},{readOnly:true})
+    readAdmin:async(user,resumption)=>clanAdminState(env,resumption?await clanSettings(env):{...await clanSettings(env),mode:'OFF',scheduleEnabled:false,championsEnabled:true},{readOnly:!resumption})
   });
   if(restorationResponse)return restorationResponse;
-  const retirementResponse=await handleClanRetirementRoute({path,request,env,deps});
+  const retirementResponse=await readClanResumption(env)?null:await handleClanRetirementRoute({path,request,env,deps});
   if(retirementResponse)return retirementResponse;
   if(path==='admin/clan-war/member-assignment'){
     const user=await deps.authenticate(request,env);

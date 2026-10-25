@@ -1,6 +1,7 @@
 import {orgAssert,orgInteger,ORGANIZATION_RELEASE_ENABLED,ORGANIZATION_LIMITS} from '../shared/organization-system-v1.mjs';
 import {organizationElderIds} from '../shared/organization-faction-v1.mjs';
 import {ORGANIZATION_FIXED_SCHEDULE} from '../shared/organization-schedule-v1.mjs';
+import {mirrorResumedClanJoin} from './_clan_resumption.js';
 const prefix=r=>'organization-join:'+r.id+':';
 const key=(r,id)=>prefix(r)+id;
 export const organizationJoinOpen=(r,now)=>ORGANIZATION_RELEASE_ENABLED&&r?.phase==='ASSIGNED'&&now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt;
@@ -72,6 +73,7 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
      const validate=deps.validateOrganizationRatingsLocked||(await import('./_organization_ratings.js')).validateOrganizationRatingsLocked;
      orgAssert(await validate(q,[rating],{now,requireCurrentSource:false}),'RATING_INVALID','신청자의 전력 평가가 만료되었습니다. 다시 시도하세요.');
      await q('INSERT INTO organization_members_v1(round_id,user_id,organization_id,slot,seed_power,joined_at) VALUES($1,$2,$3,$4,$5,$6)',[r.id,id,before.organizationId,slot,rating.power,now]);
+     await mirrorResumedClanJoin(q,r,id,before.organizationId,slot,now);
      await q('INSERT INTO organization_progress_v1(round_id,organization_id) VALUES($1,$2) ON CONFLICT DO NOTHING',[r.id,before.organizationId]);
      await q('UPDATE organization_rounds_v1 SET revision=revision+1 WHERE id=$1',[r.id]);
     }

@@ -3,7 +3,7 @@ import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=202
 import {openOrganizationFaction} from './organization-faction-window-v1.mjs?v=20261025-clan-eight';
 import {currentOrganization,organizationRosterView,organizationHideoutView} from './organization-headquarters-v1.mjs?v=20261025-clan-eight';
 import {createOrganizationAdmission} from './organization-admission-v1.mjs?v=20261025-clan-eight';
-import {organizationDashboardHeader,organizationDashboardView} from './organization-dashboard-v1.mjs?v=20261025-clan-eight&clanRestore=20261025';
+import {organizationDashboardHeader,organizationDashboardView} from './organization-dashboard-v1.mjs?v=20261025-clan-eight&clanRestore=20261025&clanResume=20261025';
 import {organizationJoinView} from './organization-join-v1.mjs?v=20261025-clan-eight';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>Number(value||0).toLocaleString('ko-KR');
@@ -29,7 +29,7 @@ export async function mountOrganization({root,api,isOwner=false}){
     if(!seconds&&recruitmentOpen()){if(state.round.phase==='SURVEY')state.round.phase='CLOSED';else state.round.assignment_status='RECRUITMENT_CLOSED';if(state.round.recruitment)state.round.recruitment.open=false;state.admissionEnabled=!!state.survey?.submitted;state.preparation.registrationOpen=false;render();}
   }
   function recruitment(){
-    if(state.join?.enabled)return '<aside class="org-recruitment is-open"><div><span class="org-kicker">JOIN OUR CLAN</span><strong>클랜 가입 신청 접수 중</strong><p>원하는 클랜에 신청하면 해당 클랜 원로가 승인합니다. 클랜별 최대 25명.</p></div><div class="org-recruitment-time">'+(state.faction?.sessions?.scheduleLocked?'<b>대회 일정 잠금</b><small>개전 일정은 추후 안내합니다.</small>':'<b>세력전 일정</b><small>매일 2회 랜덤 · 회차당 3시간</small>')+'</div></aside>';
+    if(state.join?.enabled)return '<aside class="org-recruitment is-open"><div><span class="org-kicker">JOIN OUR CLAN</span><strong>클랜 가입 신청 접수 중</strong><p>원하는 클랜에 신청하면 해당 클랜 원로가 승인합니다. 클랜별 최대 25명.</p></div><div class="org-recruitment-time">'+(state.faction?.sessions?.scheduleLocked?'<b>대회 일정 잠금</b><small>개전 일정은 추후 안내합니다.</small>':'<b>세력전 일정</b><small>'+(state.faction?.competition?.pointsIncluded?'매일 랜덤 1회 · 3시간 · 4개 점령 승점 +1':'매일 2회 랜덤 · 회차당 3시간')+'</small>')+'</div></aside>';
     const r=state.round;if(!r||r.scope==='TEST')return '';
     if(r.phase==='ASSIGNED'&&r.recruitment?.kind!=='ADDITIONAL')return '';
     const open=recruitmentOpen(),additional=r.recruitment?.kind==='ADDITIONAL';

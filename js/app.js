@@ -3666,7 +3666,7 @@ function bindView(tab) {
   if(tab==='battle'){document.querySelectorAll('.pve-mode-btn[data-pve-mode]').forEach(b=>b.onclick=()=>switchPveMode(b.dataset.pveMode));loadBattleView();}
   if(tab==='pvp') loadPvpView();
   if(tab==='duo'){const root=document.getElementById('rankedDuoRoot');void import('./ranked-duo-v1.mjs?v=20261020-start2').then(m=>{if(root?.isConnected)return m.mountRankedDuo({root,userId:loadUser()?.serverUserId,onWallet:wallet=>{const u=loadUser();if(u&&Number(u.serverUserId)===wallet.userId&&Number.isFinite(wallet.coin)&&Number.isFinite(wallet.cardShards))saveUser({...u,coin:wallet.coin,cardShards:wallet.cardShards});},navigate:()=>{pvpState.tab='deck';renderShell('pvp');},ensureBattle:()=>ensureFeatureResources('battleV2'),api:(path,options={})=>apiRequest(path,{...options,...(options.body?{body:JSON.stringify(options.body)}:{})},{ttl:0,microcache:false,timeoutMs:30000})});}).catch(error=>{if(root?.isConnected)root.textContent=error.message;});}
-  void import('./clan-war-reform-v1.mjs?v=20261005-balance-v3').then(m=>m.connect({apiRequest,clearApiCache,renderShell})).catch(()=>{});
+  void import('./clan-war-reform-v1.mjs?v=20261005-balance-v3&clanResume=20261025').then(m=>m.connect({apiRequest,clearApiCache,renderShell})).catch(()=>{});
   void import('./clan-faction-v1.mjs?v=20261005-executives').then(m=>m.connect({apiRequest,clearApiCache,renderShell,ensureFeatureResources,prepareImmediateBattleV3Entry,ensureBattleSoundButton,battleSfx})).catch(()=>{});
   if(tab==='clan'&&typeof window.ClanV1?.bind==='function')window.ClanV1.bind({apiRequest,clearApiCache,renderShell,ensureFeatureResources,prepareImmediateBattleV3Entry,ensureBattleSoundButton,battleSfx});
   if(tab==='mineral') loadMineralExchange();

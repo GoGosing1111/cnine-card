@@ -107,6 +107,11 @@ function rewardSpec(settings) {
 }
 
 export async function startChampions(env, season, settings, rankedTeams, now = Date.now()) {
+  const {readClanResumption}=await import('./_clan_resumption.js');
+  if(await readClanResumption(env,now)){
+    await env.DB.prepare("UPDATE clan_seasons SET phase='CHAMPIONS',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='SETTLEMENT'").bind(season.id).run();
+    return; // Keep the qualified season; never schedule the held Champions League.
+  }
   if (!settings.championsEnabled || rankedTeams.length < 3) {
     await env.DB.prepare("UPDATE clan_seasons SET phase='COMPLETE',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='SETTLEMENT'").bind(season.id).run();
     return;
@@ -292,7 +297,7 @@ export async function championsPublicState(env, seasonId, settings) {
   // Keep the latest champion visible after next season registration opens.
   if (!cup) cup = await env.DB.prepare("SELECT * FROM clan_championships WHERE status='COMPLETED' ORDER BY season_id DESC LIMIT 1").first();
   if (!cup) return { enabled: settings.championsEnabled, status: 'UPCOMING', seeds: [], matches: [], rewards: rewardSpec(settings), rewardStatus: settings.mode === 'ON' ? 'CONFIGURED' : 'DISABLED_TEST' };
-  if(cup.status==='COMPLETED'&&cup.reward_status==='PENDING'&&settings.mode==='ON'){
+  if(cup.status==='COMPLETED'&&cup.reward_status==='PENDING'&&settings.mode==='ON'&&!await (await import('./_clan_resumption.js')).readClanResumption(env)){
     await deliverChampionsRewards(env,cup.season_id,settings);
     cup=await env.DB.prepare('SELECT * FROM clan_championships WHERE season_id=?').bind(cup.season_id).first();
   }

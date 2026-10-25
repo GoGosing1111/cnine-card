@@ -5,6 +5,7 @@ const start=Date.parse('2026-10-15T00:00:00+09:00');
 export async function organizationFactionFixture(t,{live=false,funds=null}={}){
  const f=await organizationFixture(t,{people:10});f.advance(start+1000-f.clock());
  await installOrganizationFactionSchema(f.env.DB);
+ await f.pg.exec('CREATE TABLE IF NOT EXISTS app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT)');
  await f.pg.exec("CREATE TABLE territory_war_v3_rounds(id BIGINT PRIMARY KEY,status TEXT,starts_at TEXT,ends_at TEXT,settled_at TEXT);CREATE TABLE user_messages(id BIGSERIAL PRIMARY KEY,user_id BIGINT,sender_type TEXT,title TEXT,body TEXT,message_type TEXT,campaign_key TEXT,UNIQUE(user_id,campaign_key));CREATE TABLE user_message_rewards(id BIGSERIAL PRIMARY KEY,message_id BIGINT UNIQUE,user_id BIGINT,reward_type TEXT,reward_amount BIGINT)");
  const roundId=await f.prepare({survey:false});
  await f.pg.query("UPDATE organization_rounds_v1 SET phase='ASSIGNED',scope=$1,assigned_at=$2 WHERE id=$3",[live?'LIVE':'TEST',start-1000,roundId]);

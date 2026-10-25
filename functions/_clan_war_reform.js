@@ -1,6 +1,6 @@
 import {clanAdminTransaction} from './_clan_inactivity_cleanup.js';
 import {ensureClanReform,executiveRows,refreshClanExecutives} from './_clan_governance.js';
-import {WAR_DAYS,CLAN_SKILLS,OPERATION_LIMITS,READY_WINDOW_MS,weekOf,weekDates,readyOpen,utcMs,newField,fieldTeam,fieldPlayer,commandCost,supportEnergy,applyFieldAction} from '../shared/clan-war-reform-v1.mjs';
+import {warDaysAt,CLAN_SKILLS,OPERATION_LIMITS,READY_WINDOW_MS,weekOf,weekDates,readyOpen,utcMs,newField,fieldTeam,fieldPlayer,commandCost,supportEnergy,applyFieldAction} from '../shared/clan-war-reform-v1.mjs';
 
 const check=(ok,message,status=409)=>{if(!ok)throw Object.assign(new Error(message),{status});};
 const pack=JSON.stringify;
@@ -42,7 +42,7 @@ export async function clanReadyAlert(env,user,season,now=Date.now()){
 }
 export async function saveWeeklyAvailability(env,user,season,body,now=Date.now()){
   await ensureClanReform(env);check(body.weekStart===weekOf(now),'주간 일정이 바뀌었습니다. 새로고침 후 다시 선택하세요.');
-  check(Array.isArray(body.days)&&body.days.length<=4&&body.days.every(day=>Number.isInteger(day)&&WAR_DAYS.includes(day)),'화·목·토·일 중 참여 가능한 날을 선택하세요.',400);
+  check(Array.isArray(body.days)&&body.days.length<=4&&body.days.every(day=>Number.isInteger(day)&&warDaysAt(now).includes(day)),'화·목·토·일 중 참여 가능한 날을 선택하세요.',400);
   const days=[...new Set(body.days)].sort();
   return clanAdminTransaction(env.DB,async q=>{
     const [m]=await q('SELECT clan_id FROM clan_members WHERE season_id=$1 AND user_id=$2 FOR UPDATE',[season.id,user.id]);check(m,'클랜 가입 후 신청할 수 있습니다.',403);

@@ -1,5 +1,6 @@
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {CLAN_REFORM_KEY} from '../shared/clan-war-reform-v1.mjs';
+import {readClanResumption} from './_clan_resumption.js';
 
 export async function clanReformEnabled(env){
   const cached=readRuntimeData(env,CLAN_REFORM_KEY);if(cached!==null&&cached!==undefined)return cached;
@@ -29,6 +30,15 @@ export async function ensureClanReform(env){
 // A mutation refreshes it rather than trusting a role supplied by the client.
 export async function refreshClanExecutives(env,deps,seasonId,clanId,{force=false}={}){
   await ensureClanReform(env);
+  const resumed=await readClanResumption(env);
+  if(resumed?.seasonId===Number(seasonId)){
+    const row=await env.DB.prepare('SELECT state_json FROM organization_faction_state_v1 WHERE round_id=?').bind(resumed.roundId).first();
+    const elders=JSON.parse(row?.state_json||'{}').elders?.[clanId]||[],current=await executiveRows(env,seasonId,clanId);
+    if(JSON.stringify(current.map(e=>e.userId))!==JSON.stringify(elders))await env.DB.batch([
+      env.DB.prepare('DELETE FROM clan_executives WHERE season_id=? AND clan_id=?').bind(seasonId,clanId),
+      ...elders.map((id,i)=>env.DB.prepare('INSERT INTO clan_executives(season_id,clan_id,user_id,power,position,checked_ms) SELECT ?,?,?,0,?,? WHERE EXISTS(SELECT 1 FROM clan_members WHERE season_id=? AND clan_id=? AND user_id=?)').bind(seasonId,clanId,id,i+1,Date.now(),seasonId,clanId,id))]);
+    return executiveRows(env,seasonId,clanId);
+  }
   const now=Date.now(),key=`clan_exec:${seasonId}:${clanId}`;
   if(!force&&readRuntimeData(env,key))return executiveRows(env,seasonId,clanId);
   const members=(await env.DB.prepare(`SELECT m.user_id,COALESCE((SELECT p.card_ids FROM pvp_active_presets a JOIN pvp_deck_presets p ON p.user_id=a.user_id AND p.preset_no=a.preset_no WHERE a.user_id=m.user_id),d.card_ids) card_ids FROM clan_members m LEFT JOIN pvp_decks d ON d.user_id=m.user_id WHERE m.season_id=? AND m.clan_id=? ORDER BY m.user_id`).bind(seasonId,clanId).all()).results||[];
