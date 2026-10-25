@@ -1,0 +1,254 @@
+{
+  "checkedAt": "2026-10-25T12:32:03.929Z",
+  "mode": "apply",
+  "sourceSha": "5d05f9d3c7fc82975f90d5aad9df9eb5521543d90ff1bf5608b26f229a5f8bf5",
+  "planHash": "5e12c2b48440419eddc6d7bef773d67f7d465c750773a9c379b260e5e8f4f5b8",
+  "result": {
+    "replayed": false,
+    "committed": true,
+    "rollbackVerified": false,
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:limited-shard-soldout-plus5:20261025:v1",
+      "planHash": "5e12c2b48440419eddc6d7bef773d67f7d465c750773a9c379b260e5e8f4f5b8",
+      "authorization": "용병제작에 리미티드조각으로 만드는 한도소진 용병들 5장씩 다 추가해",
+      "selectedAt": "2026-10-25T12:22:46.449Z",
+      "completedAt": "2026-10-25T12:32:01.721Z",
+      "rows": [
+        {
+          "code": "V-996",
+          "name": "발테르",
+          "before": {
+            "revision": 3,
+            "coinCost": 500000000000,
+            "masterStarCost": 5000000,
+            "successRate": 20,
+            "materials": [
+              {
+                "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+                "quantity": 2
+              }
+            ],
+            "isActive": true,
+            "isPublic": true,
+            "stockLimit": 5
+          },
+          "after": {
+            "revision": 4,
+            "coinCost": 500000000000,
+            "masterStarCost": 5000000,
+            "successRate": 20,
+            "materials": [
+              {
+                "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+                "quantity": 2
+              }
+            ],
+            "isActive": true,
+            "isPublic": true,
+            "stockLimit": 10
+          },
+          "payload": "{\"actor\":1,\"code\":\"WORKSHOP_SSS_LIMITED_SHARD_V_996\",\"expectedRevision\":3,\"requestId\":\"limited-shard-soldout-20261025-v1-V-996\"}",
+          "result": {
+            "code": "WORKSHOP_SSS_LIMITED_SHARD_V_996",
+            "added": 5,
+            "limit": 10,
+            "revision": 4
+          },
+          "auditId": "51344"
+        },
+        {
+          "code": "V-999",
+          "name": "헬리오스",
+          "before": {
+            "revision": 3,
+            "coinCost": 500000000000,
+            "masterStarCost": 5000000,
+            "successRate": 20,
+            "materials": [
+              {
+                "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+                "quantity": 3
+              }
+            ],
+            "isActive": true,
+            "isPublic": true,
+            "stockLimit": 5
+          },
+          "after": {
+            "revision": 4,
+            "coinCost": 500000000000,
+            "masterStarCost": 5000000,
+            "successRate": 20,
+            "materials": [
+              {
+                "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+                "quantity": 3
+              }
+            ],
+            "isActive": true,
+            "isPublic": true,
+            "stockLimit": 10
+          },
+          "payload": "{\"actor\":1,\"code\":\"WORKSHOP_SSS_LIMITED_SHARD_V_999\",\"expectedRevision\":3,\"requestId\":\"limited-shard-soldout-20261025-v1-V-999\"}",
+          "result": {
+            "code": "WORKSHOP_SSS_LIMITED_SHARD_V_999",
+            "added": 5,
+            "limit": 10,
+            "revision": 4
+          },
+          "auditId": "51345"
+        },
+        {
+          "code": "V-989",
+          "name": "천룡검황 진무",
+          "before": {
+            "revision": 4,
+            "coinCost": 1000000000000,
+            "masterStarCost": 10000000,
+            "successRate": 15,
+            "materials": [
+              {
+                "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+                "quantity": 5
+              }
+            ],
+            "isActive": true,
+            "isPublic": true,
+            "stockLimit": 5
+          },
+          "after": {
+            "revision": 5,
+            "coinCost": 1000000000000,
+            "masterStarCost": 10000000,
+            "successRate": 15,
+            "materials": [
+              {
+                "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+                "quantity": 5
+              }
+            ],
+            "isActive": true,
+            "isPublic": true,
+            "stockLimit": 10
+          },
+          "payload": "{\"actor\":1,\"code\":\"WORKSHOP_SSS_LIMITED_SHARD_V_989\",\"expectedRevision\":4,\"requestId\":\"limited-shard-soldout-20261025-v1-V-989\"}",
+          "result": {
+            "code": "WORKSHOP_SSS_LIMITED_SHARD_V_989",
+            "added": 5,
+            "limit": 10,
+            "revision": 5
+          },
+          "auditId": "51346"
+        },
+        {
+          "code": "V-979",
+          "name": "족로",
+          "before": {
+            "revision": 2,
+            "coinCost": 1000000000000,
+            "masterStarCost": 10000000,
+            "successRate": 10,
+            "materials": [
+              {
+                "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+                "quantity": 8
+              }
+            ],
+            "isActive": true,
+            "isPublic": true,
+            "stockLimit": 5
+          },
+          "after": {
+            "revision": 3,
+            "coinCost": 1000000000000,
+            "masterStarCost": 10000000,
+            "successRate": 10,
+            "materials": [
+              {
+                "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+                "quantity": 8
+              }
+            ],
+            "isActive": true,
+            "isPublic": true,
+            "stockLimit": 10
+          },
+          "payload": "{\"actor\":1,\"code\":\"WORKSHOP_SSS_LIMITED_SHARD_V_979\",\"expectedRevision\":2,\"requestId\":\"limited-shard-soldout-20261025-v1-V-979\"}",
+          "result": {
+            "code": "WORKSHOP_SSS_LIMITED_SHARD_V_979",
+            "added": 5,
+            "limit": 10,
+            "revision": 3
+          },
+          "auditId": "51347"
+        }
+      ],
+      "totalAdded": 20,
+      "accountGrants": 0,
+      "protectedBefore": "e15ca99a1a54270cb5bc89aec557f4d5d8b824acfcaa81999b9240fe405adaf6",
+      "protectedAfter": "e15ca99a1a54270cb5bc89aec557f4d5d8b824acfcaa81999b9240fe405adaf6",
+      "issuesBeforeHash": "f21f99e9ee51f6c3b90dc654683f09a0d56df27d851f5946e2bc201e68aa7a89",
+      "issuesAfterHash": "f21f99e9ee51f6c3b90dc654683f09a0d56df27d851f5946e2bc201e68aa7a89",
+      "issueRecords": 20,
+      "auditId": "51348"
+    },
+    "verification": {
+      "verified": true,
+      "operationKey": "ops:limited-shard-soldout-plus5:20261025:v1",
+      "targets": [
+        {
+          "code": "V-996",
+          "name": "발테르",
+          "beforeLimit": 5,
+          "limit": 10,
+          "crafted": 5,
+          "remaining": 5,
+          "added": 5,
+          "revision": 4,
+          "active": true,
+          "public": true
+        },
+        {
+          "code": "V-999",
+          "name": "헬리오스",
+          "beforeLimit": 5,
+          "limit": 10,
+          "crafted": 5,
+          "remaining": 5,
+          "added": 5,
+          "revision": 4,
+          "active": true,
+          "public": true
+        },
+        {
+          "code": "V-989",
+          "name": "천룡검황 진무",
+          "beforeLimit": 5,
+          "limit": 10,
+          "crafted": 5,
+          "remaining": 5,
+          "added": 5,
+          "revision": 5,
+          "active": true,
+          "public": true
+        },
+        {
+          "code": "V-979",
+          "name": "족로",
+          "beforeLimit": 5,
+          "limit": 10,
+          "crafted": 5,
+          "remaining": 5,
+          "added": 5,
+          "revision": 3,
+          "active": true,
+          "public": true
+        }
+      ],
+      "totalAdded": 20,
+      "accountGrants": 0,
+      "auditId": "51348"
+    }
+  }
+}

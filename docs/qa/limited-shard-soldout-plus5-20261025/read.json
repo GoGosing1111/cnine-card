@@ -1,0 +1,333 @@
+{
+  "checkedAt": "2026-10-25T12:22:46.449Z",
+  "readOnly": true,
+  "stock": [
+    {
+      "code": "V-996",
+      "name": "발테르",
+      "key": "mercenary_limited_shard_craft_v1:V-996",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_996",
+      "policyRaw": "{\"revision\":3,\"coinCost\":500000000000,\"masterStarCost\":5000000,\"successRate\":20,\"materials\":[{\"itemCode\":\"MERCENARY_SSS_LIMITED_SHARD\",\"quantity\":2}],\"isActive\":true,\"isPublic\":true,\"stockLimit\":5}",
+      "rawHash": "898d76e2bf642253f0090c5bb9dce62c0f8aafdb1c6f38feb796d6240840dc7f",
+      "policy": {
+        "revision": 3,
+        "coinCost": 500000000000,
+        "masterStarCost": 5000000,
+        "successRate": 20,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+            "quantity": 2
+          }
+        ],
+        "isActive": true,
+        "isPublic": true,
+        "stockLimit": 5
+      },
+      "limit": 5,
+      "crafted": 5,
+      "remaining": 0,
+      "soldOut": true
+    },
+    {
+      "code": "V-999",
+      "name": "헬리오스",
+      "key": "mercenary_limited_shard_craft_v1:V-999",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_999",
+      "policyRaw": "{\"revision\":3,\"coinCost\":500000000000,\"masterStarCost\":5000000,\"successRate\":20,\"materials\":[{\"itemCode\":\"MERCENARY_SSS_LIMITED_SHARD\",\"quantity\":3}],\"isActive\":true,\"isPublic\":true,\"stockLimit\":5}",
+      "rawHash": "dd587cdd17ce752d60ede80cb29eb952065659a379ed29cdf04d6d2dbde2693d",
+      "policy": {
+        "revision": 3,
+        "coinCost": 500000000000,
+        "masterStarCost": 5000000,
+        "successRate": 20,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+            "quantity": 3
+          }
+        ],
+        "isActive": true,
+        "isPublic": true,
+        "stockLimit": 5
+      },
+      "limit": 5,
+      "crafted": 5,
+      "remaining": 0,
+      "soldOut": true
+    },
+    {
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "key": "mercenary_limited_shard_craft_v1:V-989",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_989",
+      "policyRaw": "{\"revision\":4,\"coinCost\":1000000000000,\"masterStarCost\":10000000,\"successRate\":15,\"materials\":[{\"itemCode\":\"MERCENARY_SSS_LIMITED_SHARD\",\"quantity\":5}],\"isActive\":true,\"isPublic\":true,\"stockLimit\":5}",
+      "rawHash": "2bdb822c554f8c62cd1c3b68ccbc6f1ebfa736b15be6e6019dfccf6d158eb30a",
+      "policy": {
+        "revision": 4,
+        "coinCost": 1000000000000,
+        "masterStarCost": 10000000,
+        "successRate": 15,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+            "quantity": 5
+          }
+        ],
+        "isActive": true,
+        "isPublic": true,
+        "stockLimit": 5
+      },
+      "limit": 5,
+      "crafted": 5,
+      "remaining": 0,
+      "soldOut": true
+    },
+    {
+      "code": "V-988",
+      "name": "카이론",
+      "key": "mercenary_limited_shard_craft_v1:V-988",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_988",
+      "policyRaw": null,
+      "rawHash": null,
+      "policy": {
+        "revision": 0,
+        "coinCost": null,
+        "masterStarCost": null,
+        "successRate": null,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+            "quantity": null
+          }
+        ],
+        "isActive": false,
+        "isPublic": false,
+        "stockLimit": 5
+      },
+      "limit": 5,
+      "crafted": 0,
+      "remaining": 5,
+      "soldOut": false
+    },
+    {
+      "code": "V-987",
+      "name": "시라누이",
+      "key": "mercenary_limited_shard_craft_v1:V-987",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_987",
+      "policyRaw": null,
+      "rawHash": null,
+      "policy": {
+        "revision": 0,
+        "coinCost": null,
+        "masterStarCost": null,
+        "successRate": null,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+            "quantity": null
+          }
+        ],
+        "isActive": false,
+        "isPublic": false,
+        "stockLimit": 5
+      },
+      "limit": 5,
+      "crafted": 0,
+      "remaining": 5,
+      "soldOut": false
+    },
+    {
+      "code": "V-979",
+      "name": "족로",
+      "key": "mercenary_limited_shard_craft_v1:V-979",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_979",
+      "policyRaw": "{\"revision\":2,\"coinCost\":1000000000000,\"masterStarCost\":10000000,\"successRate\":10,\"materials\":[{\"itemCode\":\"MERCENARY_SSS_LIMITED_SHARD\",\"quantity\":8}],\"isActive\":true,\"isPublic\":true,\"stockLimit\":5}",
+      "rawHash": "4e4aa085e2c9893e24a3aed3c8ea09df90dd7dd7997bc8286c69e1c08367f7f5",
+      "policy": {
+        "revision": 2,
+        "coinCost": 1000000000000,
+        "masterStarCost": 10000000,
+        "successRate": 10,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+            "quantity": 8
+          }
+        ],
+        "isActive": true,
+        "isPublic": true,
+        "stockLimit": 5
+      },
+      "limit": 5,
+      "crafted": 5,
+      "remaining": 0,
+      "soldOut": true
+    },
+    {
+      "code": "V-978",
+      "name": "레오넬",
+      "key": "mercenary_limited_shard_craft_v1:V-978",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_978",
+      "policyRaw": null,
+      "rawHash": null,
+      "policy": {
+        "revision": 0,
+        "coinCost": null,
+        "masterStarCost": null,
+        "successRate": null,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+            "quantity": null
+          }
+        ],
+        "isActive": false,
+        "isPublic": false,
+        "stockLimit": 5
+      },
+      "limit": 5,
+      "crafted": 0,
+      "remaining": 5,
+      "soldOut": false
+    },
+    {
+      "code": "V-976",
+      "name": "제로",
+      "key": "mercenary_limited_shard_craft_v1:V-976",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_976",
+      "policyRaw": null,
+      "rawHash": null,
+      "policy": {
+        "revision": 0,
+        "coinCost": null,
+        "masterStarCost": null,
+        "successRate": null,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+            "quantity": null
+          }
+        ],
+        "isActive": false,
+        "isPublic": false,
+        "stockLimit": 5
+      },
+      "limit": 5,
+      "crafted": 0,
+      "remaining": 5,
+      "soldOut": false
+    },
+    {
+      "code": "V-975",
+      "name": "프라임 레퀴엠",
+      "key": "mercenary_limited_shard_craft_v1:V-975",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_975",
+      "policyRaw": null,
+      "rawHash": null,
+      "policy": {
+        "revision": 0,
+        "coinCost": null,
+        "masterStarCost": null,
+        "successRate": null,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+            "quantity": null
+          }
+        ],
+        "isActive": false,
+        "isPublic": false,
+        "stockLimit": 5
+      },
+      "limit": 5,
+      "crafted": 0,
+      "remaining": 5,
+      "soldOut": false
+    },
+    {
+      "code": "V-974",
+      "name": "제너럴 족",
+      "key": "mercenary_limited_shard_craft_v1:V-974",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_974",
+      "policyRaw": null,
+      "rawHash": null,
+      "policy": {
+        "revision": 0,
+        "coinCost": null,
+        "masterStarCost": null,
+        "successRate": null,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+            "quantity": null
+          }
+        ],
+        "isActive": false,
+        "isPublic": false,
+        "stockLimit": 5
+      },
+      "limit": 5,
+      "crafted": 0,
+      "remaining": 5,
+      "soldOut": false
+    },
+    {
+      "code": "V-973",
+      "name": "은설",
+      "key": "mercenary_limited_shard_craft_v1:V-973",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_973",
+      "policyRaw": null,
+      "rawHash": null,
+      "policy": {
+        "revision": 0,
+        "coinCost": null,
+        "masterStarCost": null,
+        "successRate": null,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+            "quantity": null
+          }
+        ],
+        "isActive": false,
+        "isPublic": false,
+        "stockLimit": 5
+      },
+      "limit": 5,
+      "crafted": 0,
+      "remaining": 5,
+      "soldOut": false
+    },
+    {
+      "code": "V-972",
+      "name": "각성 오메가",
+      "key": "mercenary_limited_shard_craft_v1:V-972",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_972",
+      "policyRaw": null,
+      "rawHash": null,
+      "policy": {
+        "revision": 0,
+        "coinCost": null,
+        "masterStarCost": null,
+        "successRate": null,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+            "quantity": null
+          }
+        ],
+        "isActive": false,
+        "isPublic": false,
+        "stockLimit": 5
+      },
+      "limit": 5,
+      "crafted": 0,
+      "remaining": 5,
+      "soldOut": false
+    }
+  ],
+  "policiesHash": "208ab5de56cc573ef56f94b0526d2a65c7c6806a06953eb84b29426ac5227769",
+  "recipesHash": "cecd5f8ed83be8bee04a01cba9cd0c9d172d9d0d16b3f635aaf533d6d98a052c",
+  "priorOperation": []
+}

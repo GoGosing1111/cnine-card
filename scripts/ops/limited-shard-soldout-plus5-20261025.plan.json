@@ -1,0 +1,55 @@
+{
+  "operationKey": "ops:limited-shard-soldout-plus5:20261025:v1",
+  "authorization": "용병제작에 리미티드조각으로 만드는 한도소진 용병들 5장씩 다 추가해",
+  "selectedAt": "2026-10-25T12:22:46.449Z",
+  "scope": "SSS_LIMITED_SHARD",
+  "exhaustedOnly": true,
+  "amountEach": 5,
+  "totalAdded": 20,
+  "targets": [
+    {
+      "code": "V-996",
+      "name": "발테르",
+      "key": "mercenary_limited_shard_craft_v1:V-996",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_996",
+      "expectedRevision": 3,
+      "before": 5,
+      "crafted": 5,
+      "after": 10,
+      "rawHash": "898d76e2bf642253f0090c5bb9dce62c0f8aafdb1c6f38feb796d6240840dc7f"
+    },
+    {
+      "code": "V-999",
+      "name": "헬리오스",
+      "key": "mercenary_limited_shard_craft_v1:V-999",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_999",
+      "expectedRevision": 3,
+      "before": 5,
+      "crafted": 5,
+      "after": 10,
+      "rawHash": "dd587cdd17ce752d60ede80cb29eb952065659a379ed29cdf04d6d2dbde2693d"
+    },
+    {
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "key": "mercenary_limited_shard_craft_v1:V-989",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_989",
+      "expectedRevision": 4,
+      "before": 5,
+      "crafted": 5,
+      "after": 10,
+      "rawHash": "2bdb822c554f8c62cd1c3b68ccbc6f1ebfa736b15be6e6019dfccf6d158eb30a"
+    },
+    {
+      "code": "V-979",
+      "name": "족로",
+      "key": "mercenary_limited_shard_craft_v1:V-979",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_979",
+      "expectedRevision": 2,
+      "before": 5,
+      "crafted": 5,
+      "after": 10,
+      "rawHash": "4e4aa085e2c9893e24a3aed3c8ea09df90dd7dd7997bc8286c69e1c08367f7f5"
+    }
+  ]
+}
