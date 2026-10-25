@@ -1,0 +1,19 @@
+[
+  "preview/battle-suit-prestige-v1/exact-weapon-fit.mjs",
+  "preview/battle-suit-prestige-v1/prepare-large-weapon-fit.mjs",
+  "preview/battle-suit-prestige-v1/prepare-sks-fit-proxy.mjs",
+  "preview/mercenary-leonel-sss-limited-20261018-v2/pack-v2-effects.mjs",
+  "preview/mercenary-leonel-sss-limited-20261018-v2/register-ambient-anchors.mjs",
+  "preview/mercenary-leonel-sss-limited-20261018-v2/register-v2.mjs",
+  "preview/mercenary-leonel-sss-limited-20261018-v2/serve.mjs",
+  "preview/mercenary-leonel-sss-limited-20261018-v2/write-v2-provenance.mjs",
+  "preview/mercenary-level-v2-20261015/capture-final.mjs",
+  "preview/mercenary-level-v2-20261015/serve.mjs",
+  "preview/mercenary-limited-ayoon-heeya-v3-20261008/extract-weapons.mjs",
+  "preview/mercenary-limited-ayoon-heeya-v3-20261008/inspect-assets.mjs",
+  "preview/mercenary-limited-ayoon-heeya-v3-20261008/pack-assets.mjs",
+  "preview/mercenary-limited-ayoon-heeya-v3-20261008/record-review.mjs",
+  "preview/mercenary-limited-sd-skills-20261003-v1/pack-assets.mjs",
+  "preview/mercenary-limited-sd-skills-20261003-v1/record-review.mjs",
+  "preview/mercenary-limited-sd-skills-20261003-v1/serve.mjs"
+]

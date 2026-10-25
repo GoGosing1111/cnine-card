@@ -1,4 +1,6 @@
 import {AWAKENED_OMEGA_CODE,awakenedOmegaDeploymentSnapshot} from './mercenary-awakened-omega-v1.mjs';
+import {BLOODMOON_MERCENARIES} from './mercenary-bloodmoon-catalog-v1.mjs';
+import {BLOODMOON_COMBAT,BLOODMOON_COMBAT_VERSION} from './mercenary-bloodmoon-combat-v1.mjs';
 import {RAZAK_CODE,razakDeploymentSnapshot} from './mercenary-razak-v1.mjs';
 import {NAMSUDAENG_CODE,namsudaengDeploymentSnapshot} from './mercenary-bloodmoon-namsudaeng-v1.mjs';
 import {EUNSEOL_CODE,eunseolDeploymentSnapshot} from './mercenary-eunseol-v1.mjs';
@@ -23,6 +25,11 @@ import {KAIRON_CODE,kaironDeploymentSnapshot} from './mercenary-kairon-v1.mjs';
 // Artwork provenance, acquisition and pack release remain separate contracts.
 export const LIMITED_DEPLOYMENT_VERSION='20261012-helios-deployment-v1';
 export function limitedDeploymentSnapshot(code){
+ if(Object.hasOwn(BLOODMOON_COMBAT,code)){
+  const art=BLOODMOON_MERCENARIES.find(c=>c.code===code),profile=BLOODMOON_COMBAT[code];
+  return {...art,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',position:profile.position,role:profile.role,attackStyle:profile.attackStyle,
+   skills:structuredClone(art.skills),pendingSkillIds:[],bloodmoonPolicyVersion:BLOODMOON_COMBAT_VERSION,deploymentVersion:BLOODMOON_COMBAT_VERSION};
+ }
  if(code===AWAKENED_OMEGA_CODE)return awakenedOmegaDeploymentSnapshot();
  if(code===RAZAK_CODE)return razakDeploymentSnapshot();
  if(code===NAMSUDAENG_CODE)return namsudaengDeploymentSnapshot();

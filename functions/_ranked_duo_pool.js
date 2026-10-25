@@ -12,7 +12,7 @@ const source=`FROM pvp_decks d JOIN users u ON u.id=d.user_id
  LEFT JOIN user_mercenary_loadout_v1 ml ON ml.user_id=d.user_id
  LEFT JOIN app_meta mp ON mp.key='mercenary_pvp_loadout_v1:' || CAST(d.user_id AS TEXT)
  JOIN user_mercenary_cards_v1 mc ON mc.user_id=d.user_id AND mc.total_copies>0
-  AND mc.mercenary_code NOT IN (${PVE_ONLY_MERCENARY_CODES.map(code=>`'${code}'`).join(',')})
+  ${PVE_ONLY_MERCENARY_CODES.length?`AND mc.mercenary_code NOT IN (${PVE_ONLY_MERCENARY_CODES.map(code=>`'${code}'`).join(',')})`:''}
   AND mc.mercenary_code=CASE WHEN mp.value IS NULL THEN ml.mercenary_code
    WHEN json_valid(mp.value) THEN json_extract(mp.value,'$.mercenaryCode') END`;
 const attack=`CASE WHEN COALESCE(a.preset_no,1)=1 THEN COALESCE(pr.card_ids,d.card_ids) ELSE pr.card_ids END`;

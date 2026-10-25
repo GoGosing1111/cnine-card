@@ -106,7 +106,7 @@ test('grant failure rolls back cards, currencies, materials and slots',async t=>
  assert.equal(Number((await f.p("SELECT COUNT(*) n FROM user_mercenary_cards_v1 WHERE mercenary_code='V-975'").first()).n),0);
 });
 
-test('verified new Jinmu/Jokro recipients can deploy and rank; incomplete receipts and stray holdings never grant access; Eunseol PVE-only remains',async t=>{
+test('verified new Jinmu/Jokro recipients can deploy and rank; incomplete receipts and stray holdings never grant access; Eunseol PVP allowed, Shiranui rank unchanged',async t=>{
  const f=await fixture(t);
  await f.p("DELETE FROM cnine_user_inventory WHERE item_code='MASTER_STAR'").run();await f.p("DELETE FROM inventory_items WHERE code='MASTER_STAR'").run();await mercenaryFixture(t,{base:f});
  await f.p("UPDATE cnine_user_inventory SET quantity=100 WHERE item_code='MASTER_STAR'").run();
@@ -118,8 +118,8 @@ test('verified new Jinmu/Jokro recipients can deploy and rank; incomplete receip
   for(const mode of ['PVE','PVP']){const state=await mercenaryAccountState(f.env,f.user);await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:code,revision:state.loadouts[mode].revision});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).code,code);}
   assert((await rankedOwnedMercenaries(f.env,[7])).get(7).some(c=>c.code===code));
  }
- const id=await f.save(def('V-973'));await f.craft(id);assert(!(await rankedOwnedMercenaries(f.env,[7])).get(7).some(c=>c.code==='V-973'));
- const state=await mercenaryAccountState(f.env,f.user);await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVP',mercenaryCode:'V-973',revision:state.loadouts.PVP.revision}),/PVE/);
+ const id=await f.save(def('V-973'));await f.craft(id);assert((await rankedOwnedMercenaries(f.env,[7])).get(7).some(c=>c.code==='V-973'));
+ const state=await mercenaryAccountState(f.env,f.user);await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVP',mercenaryCode:'V-973',revision:state.loadouts.PVP.revision});
  const shiranui=await f.save(def('V-987'));await f.craft(shiranui);
  const account=await mercenaryAccountState(f.env,f.user);assert.equal(account.cards.find(c=>c.code==='V-987').canDeploy,false);
  await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVE',mercenaryCode:'V-987',revision:account.loadouts.PVE.revision}),/중장/);

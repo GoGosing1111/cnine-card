@@ -46,13 +46,13 @@ test('Eunseol equals Jokro in PVE stats, equipment, linked attack/hp/shield, def
  for(let i=0;i<25;i++){cadence.acted(card);while(cadence.pending()){cadence.acted(e);actions++;assert(actions<100);}}
  assert.equal(actions,78);assert.equal(eunseolIncomingDamage(e,1000),200);
 });
-test('normal, limited, Halloween, blood, fusion and crafting pools cannot award Eunseol even with positive CMS weight',()=>{
+test('normal, limited, Halloween, blood, fusion pools cannot award Eunseol even with positive CMS weight',()=>{
  const rules={cardWeights:{[EUNSEOL_CODE]:1000000}},cards=[{code:EUNSEOL_CODE,name:'은설',rank:'SSS'},{code:'V-001',name:'일반',rank:'SSS'}];
  assert.equal(mercenaryAcquisitionEnabled(EUNSEOL_CODE,rules),false);assert.throws(()=>assertMercenaryAcquisitionEnabled(EUNSEOL_CODE,rules),{code:'MERCENARY_ACQUISITION_DISABLED'});
  assert.deepEqual(mercenaryGradePools(cards,cards.map(c=>c.code),rules).SSS,['V-001']);assert.equal(mercenaryCardChances(1000000,[EUNSEOL_CODE],rules)[0].percent,0);
  assert.deepEqual(limitedNormalCards(cards,cards,rules).map(c=>c.code),['V-001']);
  for(const pool of [ALL_LIMITED_MERCENARIES,HALLOWEEN_PACK_CARDS,BLOODMOON_PACK_CARDS,MERCENARY_CMS_SEED.catalog.cards])assert(!pool.some(c=>c.code===EUNSEOL_CODE));
- assert(!JSON.stringify(MERCENARY_CRAFTS).includes(EUNSEOL_CODE));
+
 });
 test('three cosmetic sword forms share one 1512% cast and unique living targets; invalid actors/skills never hit',()=>{
  const actor=fighter(EUNSEOL_CODE),skill=EUNSEOL_AREA_SKILL;
@@ -64,7 +64,7 @@ test('three cosmetic sword forms share one 1512% cast and unique living targets;
   assert.deepEqual(resolveEunseolArea({...args,skill:{...skill,id:'MS-000'}}),[]);
  }
 });
-test('own-action cooldown and energy are identical to Jokro: six casts per thirty actions, one shared skill, PVP disabled',()=>{
+test('own-action cooldown and energy are identical to Jokro: six casts per thirty actions, one shared area skill, no PVP area',()=>{
  const run=(code,mode='PVE')=>{
   const actor=fighter(code,'A',mode),enemy={...buildFighter(tierCards(2e7)[0],0,'B',null,mode),hp:1e15,maxHp:1e15};
   const events=[],combat=mercenaryCombat({teams:{A:[actor],B:[enemy]},clock:()=>actor.actions,hit:()=>({hit:true,damage:1}),damage:()=>({hpDamage:1,absorbed:0}),knockout(){},emit:(type,data)=>{if(type.endsWith('_AREA'))events.push({action:actor.actions,...data});}});
@@ -73,7 +73,7 @@ test('own-action cooldown and energy are identical to Jokro: six casts per thirt
  };
  const e=run(EUNSEOL_CODE),j=run(JOKRO_CODE);
  assert.equal(e.events.length,6);assert.deepEqual(e.events.map(e=>e.action),[1,6,11,16,21,26]);assert.deepEqual(e.events.map(e=>e.action),j.events.map(e=>e.action));assert.equal(e.energy,j.energy);
- assert.deepEqual(e.events.map(e=>e.visualMode),['moon','tiger','domain','moon','tiger','domain']);assert(e.events.every(e=>e.skillId===EUNSEOL_AREA_SKILL.id));assert.equal(fighter(EUNSEOL_CODE,'A','PVP'),null);
+ assert.deepEqual(e.events.map(e=>e.visualMode),['moon','tiger','domain','moon','tiger','domain']);assert(e.events.every(e=>e.skillId===EUNSEOL_AREA_SKILL.id));assert.equal(fighter(EUNSEOL_CODE,'A','PVP').code,EUNSEOL_CODE);assert.deepEqual(run(EUNSEOL_CODE,'PVP').events,[]);
  assert.deepEqual(EUNSEOL_AREA_SKILL.balance,JOKRO_AREA_SKILL.balance);
 });
 test('actual server PVE matches Jokro damage and cast count; PVP never emits Eunseol area events',()=>{
@@ -94,7 +94,7 @@ test('public codex displays SSS LIMITED locked Eunseol; ownership is required an
  // Fixture-only holding verifies future authorized ownership, never live grants.
  await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1,0,?,?)',f.user.id,EUNSEOL_CODE,'2026-10-23','2026-10-23').run();
  await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVE',mercenaryCode:EUNSEOL_CODE,revision:0});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,'PVE')).basePower,1940890);
- await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVP',mercenaryCode:EUNSEOL_CODE,revision:0}),{code:'MERCENARY_PVE_ONLY'});assert.equal(await loadMercenaryBattleSnapshot(f.env,f.user,'PVP'),null);
+ await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVP',mercenaryCode:EUNSEOL_CODE,revision:0});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,'PVP')).code,EUNSEOL_CODE);
  assert((await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===EUNSEOL_CODE).canDeploy);
 });
 test('public catalog art is the exact approved source and fixed idle frame',()=>{

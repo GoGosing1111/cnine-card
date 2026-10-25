@@ -2,7 +2,7 @@ import {requestPublicCodex,loadCodexPanels} from './loading.mjs?v=20261023-v1';
 import {CODEX_MEDIA} from './media-map.mjs?v=20261023-v1';
 import {jointAccountRequest as api} from '/js/joint-account-transport.mjs';
 import {withMercenaryDeadline} from '/shared/mercenary-loading-v1.mjs?v=20260925';
-import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCatalog} from './model.mjs?bloodmoonStock=20261025-v1&limitedPower=20261025-v1&awakenedOmega=20261024-v1&razak=20261024-v1&namsudaeng=20261024-v1&eunseol=20261023-v1&generalJok=20261023-v15&bloodmoon=20261023-codex-v1&stockLimit=20261023-halloween-stock-v1&jokro=20261021-codex-v1&prime=20261021-v1&zero=20261020-v1&rankReward=20261020-v1&leonel=20261018-live-v1&v=20261017-halloween-ready';
+import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCatalog} from './model.mjs?deployment=20261025-eunseol-bloodmoon&bloodmoonStock=20261025-v1&limitedPower=20261025-v1&awakenedOmega=20261024-v1&razak=20261024-v1&namsudaeng=20261024-v1&eunseol=20261023-v1&generalJok=20261023-v15&bloodmoon=20261023-codex-v1&stockLimit=20261023-halloween-stock-v1&jokro=20261021-codex-v1&prime=20261021-v1&zero=20261020-v1&rankReward=20261020-v1&leonel=20261018-live-v1&v=20261017-halloween-ready';
 
 const $=id=>document.getElementById(id),fmt=n=>Number(n||0).toLocaleString('ko-KR'),storageKey='cnine.mercenaryCodex.public.v1';
 const params=new URL(location.href).searchParams;
@@ -85,7 +85,7 @@ function skillHtml(s,index){const balance=s.balance,ratio=Number.isFinite(balanc
 function deploymentHtml(c){
   if(c.acquisition==='CRAFT_ONLY'&&c.craftAcquisitionEnabled===false&&!ownedCard(c.code))return '<section class="deployment-card unavailable"><div><span>제작 전용</span><strong>현재 획득 불가</strong></div><p>'+esc(c.acquisitionDescription)+'</p></section>';
   if(c.acquisition==='LOCKED'&&c.edition!=='LIMITED'&&!ownedCard(c.code))return '<section class="deployment-card unavailable"><div><span>획득 상태</span><strong>현재 획득 불가</strong></div><p>'+esc(c.acquisitionDescription)+'</p></section>';
-  if(c.season==='BLOODMOON')return `<section class="deployment-card unavailable limited-lock"><div><span>블러드문팩</span><strong>상점에서 개봉</strong></div><p>캐릭터별 서버 전체 ${fmt(c.serverLimit)}장 한정입니다. 판매 상태와 잔여 수량은 상점에서 확인하세요.</p></section>`;
+  if(c.season==='BLOODMOON'&&!ownedCard(c.code))return `<section class="deployment-card unavailable limited-lock"><div><span>블러드문팩</span><strong>상점에서 개봉</strong></div><p>캐릭터별 서버 전체 ${fmt(c.serverLimit)}장 한정입니다. 판매 상태와 잔여 수량은 상점에서 확인하세요.</p></section>`;
   if(c.season==='HALLOWEEN'&&!c.deploymentEnabled)return '<section class="deployment-card unavailable limited-lock"><div><span>할로윈 일러스트 선공개</span><strong>팩 개방 예정</strong></div><p>SS 할로윈 리미티드 팩에서만 획득할 수 있습니다. 캐릭터별 서버 전체 한정 수량이며, 가격·확률·개방 일정은 추후 안내됩니다.</p></section>';
   if(c.edition==='LIMITED'&&!c.deploymentEnabled)return '<section class="deployment-card unavailable limited-lock"><div><span>리미티드 선공개</span><strong>획득 · 편성 불가</strong></div><p>현재 원화와 준비된 리소스만 공개합니다. 획득 일정은 추후 안내됩니다.</p></section>';
   const owned=ownedCard(c.code),active=['PVE','PVP'].some(mode=>activeCode(mode)===c.code),pending=pendingLoadout(),blocked=loadoutBusy||!account?.available||Boolean(pending);

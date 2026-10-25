@@ -1,0 +1,2088 @@
+{
+  "status": "PASS",
+  "publicBase": "",
+  "publicFiles": 0,
+  "checks": [
+    {
+      "label": "desktop",
+      "code": "V-960",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "idle",
+          "kind": "barrage",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          },
+          "expectedSheetScale": 0.4573417013608401,
+          "bodyPixelDensity": 2.44921875,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-960",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-960",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.36,
+            "durationSeconds": 1.2,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-960",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.3,
+          "durationSeconds": 0.82,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "skill",
+          "kind": "barrage",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 2,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 494.8227128253806,
+          "spriteScale": {
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
+          },
+          "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
+          "projectiles": [
+            {
+              "index": 0,
+              "stage": "impact",
+              "origin": {
+                "x": 550.42836196062,
+                "y": 120.81818181818184
+              },
+              "target": {
+                "x": 865,
+                "y": 194.728
+              },
+              "point": {
+                "x": 865,
+                "y": 194.728
+              },
+              "rotation": 0,
+              "progress": 0,
+              "flightSeconds": 0.12
+            },
+            {
+              "index": 1,
+              "stage": "travel",
+              "origin": {
+                "x": 550.42836196062,
+                "y": 120.81818181818184
+              },
+              "target": {
+                "x": 865,
+                "y": 194.728
+              },
+              "point": {
+                "x": 681.4998778103617,
+                "y": 151.6139393939394
+              },
+              "rotation": 0.23076822738479677,
+              "progress": 0.4166666666666666,
+              "flightSeconds": 0.12
+            }
+          ],
+          "effectBounds": [
+            {
+              "x": 708.0282,
+              "y": 199.78339999999997,
+              "width": 140.94360000000006,
+              "height": 140.94360000000006
+            },
+            {
+              "x": 556.0377085139415,
+              "y": 174.14036393916155,
+              "width": 114.62436303076788,
+              "height": 114.62436303076782
+            }
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-960",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "desktop",
+      "code": "V-961",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-961",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-961",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.72,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-961",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.43,
+          "durationSeconds": 1.05,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 90.56784334349696,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [
+            {
+              "x": 667.61055,
+              "y": 159.36575,
+              "width": 221.77890000000002,
+              "height": 221.77890000000002
+            }
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-961",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "desktop",
+      "code": "V-962",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-962",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-962",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.72,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-962",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.43,
+          "durationSeconds": 1.05,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 118.97042265911385,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [
+            {
+              "x": 667.61055,
+              "y": 159.36575,
+              "width": 221.77890000000002,
+              "height": 221.77890000000002
+            }
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-962",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "desktop",
+      "code": "V-963",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-963",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-963",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.72,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-963",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.43,
+          "durationSeconds": 1.05,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 132.3712409557239,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [
+            {
+              "x": 667.61055,
+              "y": 196.3289,
+              "width": 221.77890000000002,
+              "height": 147.85260000000002
+            }
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-963",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "desktop",
+      "code": "V-964",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-964",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-964",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.72,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-964",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.43,
+          "durationSeconds": 1.05,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 83.4428922504027,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [
+            {
+              "x": 667.61055,
+              "y": 196.3289,
+              "width": 221.77890000000002,
+              "height": 147.85260000000002
+            }
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-964",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "mobile",
+      "code": "V-960",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "idle",
+          "kind": "barrage",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          },
+          "expectedSheetScale": 0.4573417013608401,
+          "bodyPixelDensity": 2.44921875,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 390,
+            "height": 784
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-960",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-960",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.36,
+            "durationSeconds": 1.2,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-960",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.3,
+          "durationSeconds": 0.82,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "skill",
+          "kind": "barrage",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 2,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 316.8157362520539,
+          "spriteScale": {
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
+          },
+          "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
+          "projectiles": [
+            {
+              "index": 0,
+              "stage": "impact",
+              "origin": {
+                "x": 580.9667066143797,
+                "y": 402.1128166915052
+              },
+              "target": {
+                "x": 625.4098360655737,
+                "y": 542.7531803278688
+              },
+              "point": {
+                "x": 625.4098360655737,
+                "y": 542.7531803278688
+              },
+              "rotation": 0,
+              "progress": 0,
+              "flightSeconds": 0.12
+            },
+            {
+              "index": 1,
+              "stage": "travel",
+              "origin": {
+                "x": 580.9667066143797,
+                "y": 402.1128166915052
+              },
+              "target": {
+                "x": 625.4098360655737,
+                "y": 542.7531803278688
+              },
+              "point": {
+                "x": 599.4846772190439,
+                "y": 460.7129682066567
+              },
+              "rotation": 1.2647210239549074,
+              "progress": 0.4166666666666666,
+              "flightSeconds": 0.12
+            }
+          ],
+          "effectBounds": [
+            {
+              "x": 181.0764111111111,
+              "y": 153.06498888888888,
+              "width": 61.73606666666666,
+              "height": 61.73606666666666
+            },
+            {
+              "x": 176.95593943334012,
+              "y": 129.92774915692002,
+              "width": 52.405513470671735,
+              "height": 52.405513470671735
+            }
+          ],
+          "viewport": {
+            "width": 390,
+            "height": 784
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-960",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "mobile",
+      "code": "V-961",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 390,
+            "height": 784
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-961",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-961",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.72,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-961",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.43,
+          "durationSeconds": 1.05,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 117.73819634654606,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [
+            {
+              "x": 163.37268611111108,
+              "y": 135.36126388888886,
+              "width": 97.1435166666667,
+              "height": 97.1435166666667
+            }
+          ],
+          "viewport": {
+            "width": 390,
+            "height": 784
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-961",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "mobile",
+      "code": "V-962",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 390,
+            "height": 784
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-962",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-962",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.72,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-962",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.43,
+          "durationSeconds": 1.05,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 154.66154945684806,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [
+            {
+              "x": 163.37268611111108,
+              "y": 135.36126388888886,
+              "width": 97.1435166666667,
+              "height": 97.1435166666667
+            }
+          ],
+          "viewport": {
+            "width": 390,
+            "height": 784
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-962",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "mobile",
+      "code": "V-963",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 390,
+            "height": 784
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-963",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-963",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.72,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-963",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.43,
+          "durationSeconds": 1.05,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 172.08261324244123,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [
+            {
+              "x": 163.37268611111108,
+              "y": 151.55184999999997,
+              "width": 97.1435166666667,
+              "height": 64.76234444444447
+            }
+          ],
+          "viewport": {
+            "width": 390,
+            "height": 784
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-963",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "mobile",
+      "code": "V-964",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 390,
+            "height": 784
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-964",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-964",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.72,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-964",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.43,
+          "durationSeconds": 1.05,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 108.47575992552348,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [
+            {
+              "x": 163.37268611111108,
+              "y": 151.55184999999997,
+              "width": 97.1435166666667,
+              "height": 64.76234444444447
+            }
+          ],
+          "viewport": {
+            "width": 390,
+            "height": 784
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-964",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "enemy",
+      "code": "V-960",
+      "setup": {
+        "allies": 5,
+        "enemies": 5,
+        "mercenaries": 1,
+        "facing": -1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "idle",
+          "kind": "barrage",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          },
+          "expectedSheetScale": 0.4573417013608401,
+          "bodyPixelDensity": 2.44921875,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-960",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-960",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.36,
+            "durationSeconds": 1.2,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-960",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.3,
+          "durationSeconds": 0.82,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "skill",
+          "kind": "barrage",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 2,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 1053.117853582152,
+          "spriteScale": {
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
+          },
+          "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
+          "projectiles": [
+            {
+              "index": 0,
+              "stage": "impact",
+              "origin": {
+                "x": 1049.57163803938,
+                "y": 120.81818181818184
+              },
+              "target": {
+                "x": 170,
+                "y": 177.60000000000002
+              },
+              "point": {
+                "x": 170,
+                "y": 177.60000000000002
+              },
+              "rotation": 0,
+              "progress": 0,
+              "flightSeconds": 0.12
+            },
+            {
+              "index": 1,
+              "stage": "travel",
+              "origin": {
+                "x": 1049.57163803938,
+                "y": 120.81818181818184
+              },
+              "target": {
+                "x": 170,
+                "y": 177.60000000000002
+              },
+              "point": {
+                "x": 683.0834555229718,
+                "y": 144.47727272727275
+              },
+              "rotation": 3.0771258917317175,
+              "progress": 0.4166666666666666,
+              "flightSeconds": 0.12
+            }
+          ],
+          "effectBounds": [
+            {
+              "x": 73.44,
+              "y": 175.28000000000003,
+              "width": 159.12,
+              "height": 159.12
+            },
+            {
+              "x": 557.5997098515116,
+              "y": 167.8541453353825,
+              "width": 114.35080023832597,
+              "height": 114.35080023832597
+            }
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-960",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "enemy",
+      "code": "V-961",
+      "setup": {
+        "allies": 5,
+        "enemies": 5,
+        "mercenaries": 1,
+        "facing": -1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-961",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-961",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.72,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-961",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.43,
+          "durationSeconds": 1.05,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-JOEUN",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 90.56784334349697,
+          "spriteScale": {
+            "x": 1.055045871559633,
+            "y": 1.055045871559633
+          },
+          "expectedSheetScale": 1.055045871559633,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [
+            {
+              "x": 27.810000000000016,
+              "y": 129.65000000000003,
+              "width": 250.38,
+              "height": 250.38
+            }
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-961",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "enemy",
+      "code": "V-962",
+      "setup": {
+        "allies": 5,
+        "enemies": 5,
+        "mercenaries": 1,
+        "facing": -1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-962",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-962",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.72,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-962",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.43,
+          "durationSeconds": 1.05,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-DIIM",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 118.97042265911392,
+          "spriteScale": {
+            "x": 1.1815068493150684,
+            "y": 1.1815068493150684
+          },
+          "expectedSheetScale": 1.1815068493150684,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [
+            {
+              "x": 27.810000000000016,
+              "y": 129.65000000000003,
+              "width": 250.38,
+              "height": 250.38
+            }
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-962",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "enemy",
+      "code": "V-963",
+      "setup": {
+        "allies": 5,
+        "enemies": 5,
+        "mercenaries": 1,
+        "facing": -1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-963",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-963",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.72,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-963",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.43,
+          "durationSeconds": 1.05,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-CLAWS",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 132.371240955724,
+          "spriteScale": {
+            "x": 1.1311475409836065,
+            "y": 1.1311475409836065
+          },
+          "expectedSheetScale": 1.1311475409836065,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [
+            {
+              "x": 27.809999999999988,
+              "y": 171.38000000000002,
+              "width": 250.38,
+              "height": 166.92000000000004
+            }
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-963",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "enemy",
+      "code": "V-964",
+      "setup": {
+        "allies": 5,
+        "enemies": 5,
+        "mercenaries": 1,
+        "facing": -1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "idle",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-964",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-964",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.72,
+            "durationSeconds": 3.6,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-964",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.43,
+          "durationSeconds": 1.05,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-DAGGER",
+          "action": "skill",
+          "kind": "melee",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 1,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 83.44289225040261,
+          "spriteScale": {
+            "x": 0.9857142857142858,
+            "y": 0.9857142857142858
+          },
+          "expectedSheetScale": 0.9857142857142858,
+          "bodyPixelDensity": 1,
+          "projectiles": [],
+          "effectBounds": [
+            {
+              "x": 27.809999999999988,
+              "y": 171.38000000000002,
+              "width": 250.38,
+              "height": 166.92000000000004
+            }
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 928
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-964",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "desktop",
+      "code": "V-960",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "desktop",
+      "code": "V-961",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "desktop",
+      "code": "V-962",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "desktop",
+      "code": "V-963",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "desktop",
+      "code": "V-964",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "desktop",
+      "code": "V-965",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "desktop",
+      "code": "V-973",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "mobile",
+      "code": "V-960",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "mobile",
+      "code": "V-961",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "mobile",
+      "code": "V-962",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "mobile",
+      "code": "V-963",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "mobile",
+      "code": "V-964",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "mobile",
+      "code": "V-965",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "mobile",
+      "code": "V-973",
+      "codex": true,
+      "bothModesEnabled": true
+    }
+  ],
+  "errors": [],
+  "missing": []
+}

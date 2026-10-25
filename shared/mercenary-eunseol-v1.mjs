@@ -1,11 +1,11 @@
 import {JOKRO_COMBAT,JOKRO_AREA_SKILL} from './mercenary-jokro-v1.mjs';
 
-// User-approved Eunseol: live SSS LIMITED, acquisition locked; PVE-only from 2026-10-24.
+// 2026-10-25: owned Eunseol may deploy in PVE and PVP; its area skill remains PVE-only.
 export const EUNSEOL_CODE='V-973';
-export const MERCENARY_DEPLOYMENT_MODE_VERSION='20261024-eunseol-pve-only';
-export const PVE_ONLY_MERCENARY_CODES=Object.freeze([EUNSEOL_CODE]);
+export const MERCENARY_DEPLOYMENT_MODE_VERSION='20261025-eunseol-bloodmoon-deployment';
+export const PVE_ONLY_MERCENARY_CODES=Object.freeze([]);
 export const mercenaryModeAllowed=(code,mode)=>!PVE_ONLY_MERCENARY_CODES.includes(code)||mode==='PVE';
-export const MERCENARY_PVE_ONLY_REASON='은설은 PVE 전용 용병입니다. PVP에는 편성할 수 없습니다.';
+export const MERCENARY_PVE_ONLY_REASON='이 용병은 PVE에만 편성할 수 있습니다.';
 
 export const EUNSEOL_AREA_EVENT='MERCENARY_EUNSEOL_AREA';
 export const EUNSEOL_AREA_MECHANIC='EUNSEOL_WHITE_TIGER_SWORD';
@@ -36,8 +36,8 @@ export const EUNSEOL_ART=Object.freeze({
  frame:'assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png',
  artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#c3acff',
  basePower:EUNSEOL_COMBAT.basePower,skills:Object.freeze([EUNSEOL_AREA_SKILL]),
- acquisitionEnabled:false,packAcquisitionEnabled:false,deploymentEnabled:true,deploymentModes:Object.freeze(['PVE']),
- combatLinkDescription:'기본 전투력 1,940,890. 족로와 동일한 공격·체력·방벽·행동 속도·연계 기준. 개인 피해 80% 경감, 상태이상·반격 보호, 베르칸 피해 면역. PVE 백호 검술은 설백월참·백호천류·만월검역 연출을 순환하며 총 1,512% 피해를 생존한 적 전체에 나눠 대상당 한 번 적용합니다. 에너지 35 · 공통 재사용 5행동. PVE 전용이며 PVP 편성·출전은 불가합니다. 대기 자세 고정·전신 아우라·모션 2배속. 현재 획득 불가.'
+ acquisitionEnabled:false,packAcquisitionEnabled:false,deploymentEnabled:true,deploymentModes:Object.freeze(['PVE','PVP']),
+ combatLinkDescription:'기본 전투력 1,940,890. 족로와 동일한 공격·체력·방벽·행동 속도·연계 기준. 개인 피해 80% 경감, 상태이상·반격 보호, 베르칸 피해 면역. PVE 백호 검술은 설백월참·백호천류·만월검역 연출을 순환하며 총 1,512% 피해를 생존한 적 전체에 나눠 대상당 한 번 적용합니다. 에너지 35 · 공통 재사용 5행동. 보유 시 PVE·PVP에 편성할 수 있으며 백호 검술의 광역 효과는 PVE에서만 발동합니다. 대기 자세 고정·전신 아우라·모션 2배속.'
 });
 export const eunseolCodexSkills=()=>EUNSEOL_ART.skills.map(s=>({...s,ready:true,target:'적 전체',
  effect:'설백월참·백호천류·만월검역 연출이 순환하며 생존한 적 전체에 총 1,512% 피해를 나누어 대상당 한 번 적용합니다.',

@@ -21,13 +21,13 @@ const cards=BLOODMOON_MERCENARIES.filter(c=>BLOODMOON_CODES.includes(c.code));
 test('five separate SS limited entries publish approved originals, full idle sprites and the reviewed balance',()=>{
  const document=validateCatalog(catalog()),found=filterCatalog(document.cards,{q:'블러드문',rank:'SS'},new Set()).filter(c=>BLOODMOON_CODES.includes(c.code));assert.deepEqual(found.map(c=>c.code),BLOODMOON_CODES);
  const manifest=JSON.parse(fs.readFileSync('assets/ui/project-v/mercenaries/bloodmoon-approved-20261023/manifest.json'));
- for(const c of found){assert.equal(c.serverLimit,20);assert.equal(c.basePower,356400);assert.equal(c.skills[0].ready,false);assert.equal(c.skills.length,1);assert.equal(c.deploymentEnabled,false);
+ for(const c of found){assert.equal(c.serverLimit,20);assert.equal(c.basePower,356400);assert.equal(c.skills[0].ready,true);assert.equal(c.skills.length,1);assert.equal(c.deploymentEnabled,true);
   for(const field of ['sourceArt','battleSprite']){const b=fs.readFileSync(c[field]);assert.equal(createHash('sha256').update(b).digest('hex').toUpperCase(),c[field+'Sha256']);assert.deepEqual(b,fs.readFileSync(manifest.assets.find(a=>a.code===c.code)[field].original));}
  }
  const wrong=catalog();wrong.cards.find(c=>c.code==='V-960').packOpeningEnabled=true;assert.throws(()=>validateCatalog(wrong));
 });
-test('Bloodmoon cannot enter existing packs, normal acquisition, synthesis or deployment',()=>{
- for(const c of cards){assert(isLimitedMercenary(c.code));assert(ALL_LIMITED_MERCENARIES.includes(c));assert(!LIMITED_MERCENARIES.some(a=>a.code===c.code));assert(!HALLOWEEN_PACK_CARDS.some(a=>a.code===c.code));assert(!seed.catalog.cards.some(a=>a.code===c.code));assert.equal(mercenaryAcquisitionEnabled(c.code,{cardWeights:{[c.code]:999}}),false);assert.equal(limitedDeploymentSnapshot(c.code),null);}
+test('Bloodmoon cannot enter existing packs, normal acquisition, synthesis but can deploy when owned',()=>{
+ for(const c of cards){assert(isLimitedMercenary(c.code));assert(ALL_LIMITED_MERCENARIES.includes(c));assert(!LIMITED_MERCENARIES.some(a=>a.code===c.code));assert(!HALLOWEEN_PACK_CARDS.some(a=>a.code===c.code));assert(!seed.catalog.cards.some(a=>a.code===c.code));assert.equal(mercenaryAcquisitionEnabled(c.code,{cardWeights:{[c.code]:999}}),false);assert.equal(limitedDeploymentSnapshot(c.code).code,c.code);}
  assert.equal(bloodmoonPackDraft().mode,'OFF');assert.deepEqual(bloodmoonPackDraft().prices,{single:null,ten:null});
 });
 test('opening requires authentication before DB, body or currency access',async()=>{

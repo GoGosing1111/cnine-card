@@ -1,3 +1,4 @@
+import {BLOODMOON_COMBAT,bloodmoonCombatDescription} from './mercenary-bloodmoon-combat-v1.mjs';
 import {NAMSUDAENG_ART} from './mercenary-bloodmoon-namsudaeng-v1.mjs?bloodmoonStock=20261025-v1';
 // User, 2026-10-25: add ten copies to each of the six SS limited characters.
 export const BLOODMOON_SERVER_LIMIT=20;
@@ -349,6 +350,11 @@ export const BLOODMOON_MERCENARIES=Object.freeze([
       "imageHeight": 512
     }
   }
-,NAMSUDAENG_ART].map(card=>Object.freeze(card)));
+,NAMSUDAENG_ART].map(card=>{
+ const profile=BLOODMOON_COMBAT[card.code];
+ return Object.freeze(profile?{...card,artOnly:false,releaseStatus:'BATTLE_RELEASED_PACK_PENDING',acquisition:'BLOODMOON_PACK',packAcquisitionEnabled:true,deploymentEnabled:true,deploymentModes:Object.freeze(['PVE','PVP']),
+  role:profile.role==='RANGED'?'MARKSMAN':profile.role,position:profile.position==='BACK'?'REAR':profile.position,
+  skills:card.skills.map(s=>({...s,...profile.skill,bossRule:'기존 서버의 보스·제어 면역 규칙을 적용합니다.'})),combatLinkDescription:bloodmoonCombatDescription(card.code)}:card);
+}));
 export const BLOODMOON_ORIGINAL_CODES=Object.freeze(['V-960','V-961','V-962','V-963','V-964']);
 export const BLOODMOON_CODES=Object.freeze(BLOODMOON_MERCENARIES.map(c=>c.code));
