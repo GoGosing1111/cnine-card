@@ -54,6 +54,9 @@ const server=http.createServer(async(req,res)=>{try{
  if(url.pathname==='/qa-data')return json(res,{deck,payload:mode==='enemy'?enemyPayload:areaPayload,skills:RAZAK_SKILLS});
  if(url.pathname==='/api/mercenary-codex')return json(res,catalog);
  if(url.pathname==='/api/mercenaries/v3/bloodmoon-pack/feature')return json(res,pack);
+ // A fake QA identity has no sync websocket. Keep its credential/client stable
+ // while public modules download, instead of advancing a fictitious epoch.
+ if(url.pathname.startsWith('/api/sync/'))return json(res,{error:'Read-only QA identity has no sync session'},401);
  if(url.pathname==='/api/mercenaries/v3/state'){const empty={mercenaryCode:null,revision:0};return json(res,{accountId:7,cards:[],available:true,coin:'0',loadout:empty,loadouts:{PVE:empty,PVP:empty},leveling:{enabled:true},deployment:{enabled:true}});}
  if(url.pathname.startsWith('/api/'))return json(res,{items:[],visible:false,enabled:false});
  if(publicBase){const file=await publicFile(url.pathname+url.search);res.writeHead(200,{'content-type':file.type,'cache-control':'no-store'});return res.end(file.bytes);}
@@ -101,7 +104,7 @@ try{
  }
  for(const [label,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
   const page=await browser.newPage({viewport,serviceWorkers:'block'});page.on('pageerror',e=>errors.push(label+': '+e.stack));
-  await page.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','local-read-only-qa');localStorage.setItem('cnine_card_user_v10',JSON.stringify({id:7,nickname:'검수'}));});
+  await page.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','local-read-only-qa');localStorage.setItem('cnine_player_client_id_v1552','razak-readonly-qa-client');localStorage.setItem('cnine_card_user_v10',JSON.stringify({id:7,nickname:'검수'}));});
   await page.goto(base+'/mercenary-codex/?view=all&q='+encodeURIComponent('라자크'),{waitUntil:'networkidle'});const entry=page.locator('[data-code="V-058"]');await entry.waitFor({state:'visible'});await entry.click();
   assert.equal(await page.locator('.stage-heading h2').innerText(),'라자크');await page.locator('#portraitDisplay img').first().evaluate(i=>i.decode());await page.screenshot({path:path.join(out,label+'-codex-art.png'),fullPage:true});
   await page.locator('.combat-details > summary').click();const panel=await page.locator('.combat-panel').innerText();assert.match(panel,/1,000,000/);assert.match(panel,/3,200%/);assert.match(panel,/80%/);assert.match(await page.locator('.deployment-card').innerText(),/블러드문팩/);assert.equal(await page.locator('.deployment-card a[href*=buy]').count(),1);assert.equal(await page.locator('.skill-list > *').count(),3);

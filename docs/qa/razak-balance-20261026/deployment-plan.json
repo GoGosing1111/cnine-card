@@ -1,0 +1,16 @@
+{
+  "base": "aa5c28db5a067c8f0804d446cdca9388667d2892",
+  "reason": "라자크가 SS 리미티드와 SSS 리미티드에 밀리는 문제를 동일 조건에서 재현했다. 전용 체력·방벽·피해 경감·연계·행동만 보강했고 46592전, 다른 용병 1456전 동일 결과, 관련 검사 41개와 PC 모바일 실제 전투·도감을 검증했다. 운영 계정/설정 쓰기는 없다.",
+  "tests": [
+    "tests/razak-balance-20261026.test.mjs",
+    "tests/razak-live-20261024.test.mjs",
+    "tests/mercenary-turn-cadence-v2099.test.mjs",
+    "tests/mercenary-growth-launch-20261016.test.mjs",
+    "tests/valter-helios-parity-20261021.test.mjs",
+    "tests/ranked-duo-battle.test.mjs",
+    "tests/bloodmoon-skill-status-20261025.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
