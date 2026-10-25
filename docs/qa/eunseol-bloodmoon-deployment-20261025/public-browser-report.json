@@ -1,0 +1,191 @@
+{
+  "status": "PASS",
+  "publicBase": "https://cnine-card.pages.dev",
+  "publicFiles": 59,
+  "checks": [
+    {
+      "label": "mobile",
+      "code": "V-960",
+      "setup": {
+        "allies": 5,
+        "enemies": 12,
+        "mercenaries": 1,
+        "facing": 1,
+        "body": {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "idle",
+          "kind": "barrage",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "visibleEffects": 0,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": null,
+          "spriteScale": {
+            "x": 0.4573417013608401,
+            "y": 0.4573417013608401
+          },
+          "expectedSheetScale": 0.4573417013608401,
+          "bodyPixelDensity": 2.44921875,
+          "projectiles": [],
+          "effectBounds": [],
+          "viewport": {
+            "width": 390,
+            "height": 784
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-960",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "outcome": {
+        "skill": {
+          "applied": 1,
+          "last": {
+            "code": "V-960",
+            "eventType": "MERCENARY_HIT",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.36,
+            "durationSeconds": 1.2,
+            "playbackRate": 2,
+            "clockOwner": "V3_REGISTERED_GSAP"
+          }
+        },
+        "impact": 1,
+        "basic": {
+          "code": "V-960",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.3,
+          "durationSeconds": 0.82,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        },
+        "fx": {
+          "ready": true,
+          "character": "BLOODMOON-BONGSOON",
+          "action": "skill",
+          "kind": "barrage",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": {
+            "sheet": "skillMotion",
+            "frame": 2
+          },
+          "effectFrame": 8,
+          "effectStage": "impact",
+          "visibleEffects": 2,
+          "ownTimelines": 0,
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "contactDistance": 316.8157362520539,
+          "spriteScale": {
+            "x": 1.12012987012987,
+            "y": 1.12012987012987
+          },
+          "expectedSheetScale": 1.12012987012987,
+          "bodyPixelDensity": 1,
+          "projectiles": [
+            {
+              "index": 0,
+              "stage": "impact",
+              "origin": {
+                "x": 580.9667066143797,
+                "y": 402.1128166915052
+              },
+              "target": {
+                "x": 625.4098360655737,
+                "y": 542.7531803278688
+              },
+              "point": {
+                "x": 625.4098360655737,
+                "y": 542.7531803278688
+              },
+              "rotation": 0,
+              "progress": 0,
+              "flightSeconds": 0.12
+            },
+            {
+              "index": 1,
+              "stage": "travel",
+              "origin": {
+                "x": 580.9667066143797,
+                "y": 402.1128166915052
+              },
+              "target": {
+                "x": 625.4098360655737,
+                "y": 542.7531803278688
+              },
+              "point": {
+                "x": 599.4846772190439,
+                "y": 460.7129682066567
+              },
+              "rotation": 1.2647210239549074,
+              "progress": 0.4166666666666666,
+              "flightSeconds": 0.12
+            }
+          ],
+          "effectBounds": [
+            {
+              "x": 181.0764111111111,
+              "y": 153.06498888888888,
+              "width": 61.73606666666666,
+              "height": 61.73606666666666
+            },
+            {
+              "x": 176.95593943334012,
+              "y": 129.92774915692002,
+              "width": 52.405513470671735,
+              "height": 52.405513470671735
+            }
+          ],
+          "viewport": {
+            "width": 390,
+            "height": 784
+          },
+          "clock": "ONE_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "fixedSheetScale": true,
+          "code": "V-960",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "playbackRate": 2
+        }
+      },
+      "life": {
+        "stopped": true,
+        "dead": true,
+        "timelines": 0
+      }
+    },
+    {
+      "label": "mobile",
+      "code": "V-960",
+      "codex": true,
+      "bothModesEnabled": true
+    },
+    {
+      "label": "mobile",
+      "code": "V-973",
+      "codex": true,
+      "bothModesEnabled": true
+    }
+  ],
+  "errors": [],
+  "missing": [],
+  "note": "Battle passed in the first public probe; codex passed on the subsequent public probe after deployment propagation."
+}

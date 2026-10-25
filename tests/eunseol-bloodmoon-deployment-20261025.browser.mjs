@@ -33,7 +33,7 @@ function payload(code,mode){
 const catalog=publicBase?JSON.parse((await publicFile('/api/mercenary-codex')).bytes):mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1});
 assert(catalog.cards.some(card=>card.code==='V-965'));
 const mainHtml=publicBase?(await publicFile('/')).bytes.toString():fs.readFileSync(root+'/index.html','utf8');
-const pack={revision:1,...bloodmoonPackState(undefined,Array.from({length:6},(_,i)=>({code:'V-'+(960+i),stock_limit:10,issued:0})))};
+const pack={revision:1,...bloodmoonPackState(undefined,Array.from({length:6},(_,i)=>({code:'V-'+(960+i),stock_limit:catalog.cards.find(c=>c.code==='V-'+(960+i)).serverLimit,issued:0})))};
 const boot=`document.addEventListener('DOMContentLoaded',async()=>{try{
  const mode=new URLSearchParams(location.search).get('mode');
  if(window.ensureFeatureResources){await window.ensureFeatureResources('battleV2');if(mode!=='enemy')await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='/preview/sustained-hunt-v2/battle.bundle.js';s.onload=resolve;s.onerror=reject;document.head.appendChild(s);});}

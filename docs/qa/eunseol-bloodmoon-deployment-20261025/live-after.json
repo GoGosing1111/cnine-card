@@ -1,0 +1,77 @@
+{
+  "at": "2026-10-25T04:28:53.020Z",
+  "readOnly": "on",
+  "accountWrites": 0,
+  "holders": [
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "total_copies": 1
+    },
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "total_copies": 1
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "total_copies": 1
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "total_copies": 1
+    }
+  ],
+  "settingsSha256": "3bbe53e4c5fa0b716c170fda1eb4f3d1f237b216f616f3318eedf32597670980",
+  "packRevision": 5,
+  "packMode": "ON",
+  "stock": [
+    {
+      "code": "V-960",
+      "stock_limit": "20",
+      "issued": "11"
+    },
+    {
+      "code": "V-961",
+      "stock_limit": "20",
+      "issued": "11"
+    },
+    {
+      "code": "V-962",
+      "stock_limit": "20",
+      "issued": "10"
+    },
+    {
+      "code": "V-963",
+      "stock_limit": "20",
+      "issued": "12"
+    },
+    {
+      "code": "V-964",
+      "stock_limit": "20",
+      "issued": "11"
+    },
+    {
+      "code": "V-965",
+      "stock_limit": "20",
+      "issued": "10"
+    },
+    {
+      "code": "V-974",
+      "stock_limit": "3",
+      "issued": "0"
+    },
+    {
+      "code": "V-975",
+      "stock_limit": "3",
+      "issued": "0"
+    },
+    {
+      "code": "V-978",
+      "stock_limit": "5",
+      "issued": "3"
+    }
+  ]
+}

@@ -1,0 +1,235 @@
+{
+  "at": "2026-10-25T04:29:15.401Z",
+  "source": "98036716e0797f901ee4106cd1e95f5032e25eb2",
+  "status": "PASS",
+  "files": [
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-960-basic.png",
+      "bytes": 2232014,
+      "sha256": "32c02a73cf6fc790d41f9aaf71fbd9c6952cee6a9281223dad7b70e39a63a984"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-960-fx.png",
+      "bytes": 1799666,
+      "sha256": "3c0eae632dc66e4fc84150e2ea3d9c8e1870104df02a285c32134787bc015016"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-960-skillMotion.png",
+      "bytes": 1161750,
+      "sha256": "d45d9b98725345be48a2fbd22e7a7bde22fd83e784e811d6ccba5523290aaaec"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-961-basic.png",
+      "bytes": 1278365,
+      "sha256": "5289150eda1e61dfd791e9997056f990b77bc3cd9a61571cd5633b9c0ace7c83"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-961-fx.png",
+      "bytes": 1730445,
+      "sha256": "0c2d0f9814ced880e23569d460754ffdc0f4ce5f02ed2de5e07fb63918879e3a"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-961-skillMotion.png",
+      "bytes": 1351844,
+      "sha256": "b9de3e49d585fcf88c7c0f39f0bcc04bda952feaedf7fbf8c51d6acdf383bf9f"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-962-basic.png",
+      "bytes": 1094144,
+      "sha256": "2ef192fd3131c4434b481278b16e3da77c0401891fad7072dca49dc9e4b8bd58"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-962-fx.png",
+      "bytes": 2669683,
+      "sha256": "a778729d82d8a91f4155dc2feef906e98b15a343576deba44d04d4b575ee53cd"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-962-skillMotion.png",
+      "bytes": 1150538,
+      "sha256": "962d94cc93da4b8684ff4d10cd63d855ba44c3d267436d746132b359db1c4655"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-963-basic.png",
+      "bytes": 1411520,
+      "sha256": "51a7bda52083ceb9277dcba15e013a0a74f6fc2c6af471812cebe5f0bd91cb41"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-963-fx.png",
+      "bytes": 2238975,
+      "sha256": "2ba58e5bf06b6a70115178191a7bd6a9deed3979b278d3367982e4bc556fc291"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-963-skillMotion.png",
+      "bytes": 1450323,
+      "sha256": "b7337727cbdd51c226b14ace8a5450fd237cc685e082a75f535e354e8008c02d"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-964-basic.png",
+      "bytes": 1430785,
+      "sha256": "a3375db538df21136e7e010c20693ac862fd15c467e2c4fcde38c28b857e96e3"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-964-fx.png",
+      "bytes": 1743783,
+      "sha256": "82c61e1ef0c2938d40d8b5021424bda345904e27cd21fa6fab9b7de4db67e83f"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/v-964-skillMotion.png",
+      "bytes": 1368144,
+      "sha256": "096fb38af2201d023312c8f5125be09c3e6f2ede0e620eac8e38a1a45c60a3e0"
+    },
+    {
+      "file": "index.html",
+      "bytes": 37166,
+      "sha256": "ba7737bc55026e4161d6f8b2b22f4af6e614b6464dfe2b584028b57db4910c99"
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 790877,
+      "sha256": "2dfe2fc7b6388ac1dcba63348ff1ce055a7da4097329ca82699e624e2145b780"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "bytes": 88860,
+      "sha256": "d0dbca536b484c4190307adbda971e1105da09f5674581721a60ee2e1690eec9"
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "bytes": 122543,
+      "sha256": "30bbcf186e379deb4ff1be5c69cb2e79dc00fd9dbbc1d3b2bde1509d82b7f2ca"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "bytes": 37127,
+      "sha256": "70627c25a2f7d0fc46cb7c2f7af2991233cc7364ef28a82c4b99b1515adddf1f"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "bytes": 10018,
+      "sha256": "eb594d9c501bdda94fc4ddfc6c76c0c1e12bd29cb53f4968c66628f322e7c61f"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "bytes": 8987,
+      "sha256": "1812bacf6702ddc212f652b03a72662d9676ae6cf8c81378efedf436bd89f7e3"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 2520353,
+      "sha256": "54e41f88c8712439109b8630a11fd2f71dffefc0e2865379327b497f4ce62ff5"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "bytes": 2543985,
+      "sha256": "2c44254d086358586fa8e9ce7dc003e547a84e4976e14ed36fb3b7299a0dc408"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "bytes": 2520327,
+      "sha256": "b135193db86475ed065307c4a0191139004620678ab3d6c098a224ecaac0bec1"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-catalog-v1.mjs",
+      "bytes": 16047,
+      "sha256": "d1df03eb9283c92a46a51b8eade6c74285ed43e3bce7b03c7e5fb934e3809fbb"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-combat-v1.mjs",
+      "bytes": 2208,
+      "sha256": "75fcfd12534f5bfe51eb31b8f58845dd7c99bf63133c10f5310f952b00d78715"
+    },
+    {
+      "file": "shared/mercenary-eunseol-v1.mjs",
+      "bytes": 4145,
+      "sha256": "9d4e4c913d6e18b6707941960ed2601e271726f91623ceff33fd8ee0f4486ccd"
+    },
+    {
+      "file": "shared/mercenary-limited-deployment-v1.mjs",
+      "bytes": 4462,
+      "sha256": "9d302d83994d9d97dd3ec266afaf52421a9f172ce3327de2b2815d9d6e05cec9"
+    },
+    {
+      "file": "shared/mercenary-ss-limited-v1.mjs",
+      "bytes": 5515,
+      "sha256": "aaf4d050812cc0a7efab78410124adae5968bdcb009bc51828bde374ef8f58fc"
+    }
+  ],
+  "catalog": [
+    {
+      "code": "V-973",
+      "name": "은설",
+      "deploymentEnabled": true,
+      "deploymentModes": [
+        "PVE",
+        "PVP"
+      ],
+      "basePower": 1940890
+    },
+    {
+      "code": "V-960",
+      "name": "나무늘봉순",
+      "deploymentEnabled": true,
+      "deploymentModes": [
+        "PVE",
+        "PVP"
+      ],
+      "basePower": 356400,
+      "serverLimit": 20
+    },
+    {
+      "code": "V-961",
+      "name": "조은",
+      "deploymentEnabled": true,
+      "deploymentModes": [
+        "PVE",
+        "PVP"
+      ],
+      "basePower": 356400,
+      "serverLimit": 20
+    },
+    {
+      "code": "V-962",
+      "name": "디임",
+      "deploymentEnabled": true,
+      "deploymentModes": [
+        "PVE",
+        "PVP"
+      ],
+      "basePower": 356400,
+      "serverLimit": 20
+    },
+    {
+      "code": "V-963",
+      "name": "카르베나",
+      "deploymentEnabled": true,
+      "deploymentModes": [
+        "PVE",
+        "PVP"
+      ],
+      "basePower": 356400,
+      "serverLimit": 20
+    },
+    {
+      "code": "V-964",
+      "name": "네베라",
+      "deploymentEnabled": true,
+      "deploymentModes": [
+        "PVE",
+        "PVP"
+      ],
+      "basePower": 356400,
+      "serverLimit": 20
+    },
+    {
+      "code": "V-965",
+      "name": "블러드문 남수댕",
+      "deploymentEnabled": true,
+      "deploymentModes": [
+        "PVE",
+        "PVP"
+      ],
+      "basePower": 356400,
+      "serverLimit": 20
+    }
+  ]
+}
