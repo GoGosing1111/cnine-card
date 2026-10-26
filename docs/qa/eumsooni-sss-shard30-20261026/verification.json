@@ -1,0 +1,38 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:eumsooni-sss-limited-shard30:20261026:v1",
+  "sourceSha256": "5eb1ef47ace04c72ff1459df355bb3063aa0e75912c9516081b64eaa4dd08ab8",
+  "planHash": "d08aa49a4720be9bde7b6379c79d383df7ad514ae85884d31178f642bd12209f",
+  "verification": {
+    "status": "VERIFIED",
+    "userId": 65,
+    "nickname": "음순이",
+    "code": "MERCENARY_SSS_LIMITED_SHARD",
+    "name": "SSS 리미티드 조각",
+    "amount": 30,
+    "before": {
+      "quantity": "10",
+      "unseenQuantity": "0"
+    },
+    "after": {
+      "quantity": "40",
+      "unseenQuantity": "30"
+    },
+    "current": {
+      "quantity": "40",
+      "unseenQuantity": "30"
+    },
+    "inventoryLogId": "87027668",
+    "auditId": "51846",
+    "completedAt": "2026-10-26T12:34:44.069Z"
+  },
+  "protectedBeforeHash": "849e2051d452fff2d2ca2e10a64b3bbe5b4350d3419ece01dcf91d58935c07df",
+  "protectedAfterHash": "849e2051d452fff2d2ca2e10a64b3bbe5b4350d3419ece01dcf91d58935c07df",
+  "testsPassed": 3,
+  "injectedFailureRollback": true,
+  "dryRunRollback": true,
+  "independentReadOnly": true,
+  "noWriteReplayVerified": true,
+  "leasesReleased": true,
+  "evidenceRoot": "C:/Users/User/.codex/visualizations/2026/10/26/01a177dd-7092-7920-b797-b6ed09d6f5df/eumsooni-shard30"
+}
