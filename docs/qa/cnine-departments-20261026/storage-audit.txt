@@ -1,0 +1,1 @@
+{"measured_at": "2026-10-26T12:09:22.750515+00:00", "logical_bytes": 67915311282, "logical_gib": 63.251, "maintenance_needed": true, "over_target": true, "scan_errors": 0, "worktree_count": 8, "persisted": true, "scan_seconds": 7.04, "report": "C:\\Users\\User\\.codex\\maintenance\\storage\\latest.json"}

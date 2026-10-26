@@ -1,0 +1,9 @@
+{
+  "base": "dc476fbc86d2533747c8aef1c0bfee1cffcb5427",
+  "reason": "Split the CNINE roster into a department selection page and separate female/star pages, each with three columns. Append BJ Chaeri, Kkukka and Idani after the existing female members. Preserve the existing art, lobby entry, station links and lounge CMS; validate actual-main PC/mobile navigation and related lobby/lounge regressions. No account or settings writes.",
+  "tests": [
+    "tests/streamer-lounge-v2036.test.mjs",
+    "tests/adventure-lobby-menu-separation.test.mjs"
+  ],
+  "checks": []
+}

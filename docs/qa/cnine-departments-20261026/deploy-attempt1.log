@@ -1,0 +1,156 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"dc476fbc86d2533747c8aef1c0bfee1cffcb5427","reason":"Split the CNINE roster into a department selection page and separate female/star pages, each with three columns. Append BJ Chaeri, Kkukka and Idani after the existing female members. Preserve the existing art, lobby entry, station links and lounge CMS; validate actual-main PC/mobile navigation and related lobby/lounge regressions. No account or settings writes.","changed":["AGENTS.md","css/cnine-roster-v1.css","docs/qa/bloodmoon-namsudaeng-timeout-20261026/README.md","docs/qa/bloodmoon-namsudaeng-timeout-20261026/verification.json","docs/qa/cnine-departments-20261026/README.md","docs/qa/cnine-departments-20261026/browser.json","docs/qa/cnine-departments-20261026/browser.mjs","docs/qa/cnine-departments-20261026/female-1440.png","docs/qa/cnine-departments-20261026/female-360.png","docs/qa/cnine-departments-20261026/female-390.png","docs/qa/cnine-departments-20261026/home-1440.png","docs/qa/cnine-departments-20261026/home-360.png","docs/qa/cnine-departments-20261026/home-390.png","docs/qa/cnine-departments-20261026/lobby-entry-1440.png","docs/qa/cnine-departments-20261026/lobby-entry-360.png","docs/qa/cnine-departments-20261026/lobby-entry-390.png","docs/qa/cnine-departments-20261026/release.mjs","docs/qa/cnine-departments-20261026/star-1440.png","docs/qa/cnine-departments-20261026/star-360.png","docs/qa/cnine-departments-20261026/star-390.png","index.html","js/cnine-roster-v1.js","js/streamer-lounge-v2036.js","service-worker.js"],"tests":["tests/streamer-lounge-v2036.test.mjs","tests/adventure-lobby-menu-separation.test.mjs"],"checks":[]}
+✔ desktop sidebar starts at the top without the redundant content label (4.7313ms)
+✔ card and equipment destinations use separate top-level categories (17.0722ms)
+✔ legacy tutorial opens the growth guide and every destination exists in the live route contract (15.2473ms)
+✔ release ships the current guide and legacy redirect while preserving authoring files in Git (16.5684ms)
+✔ defaults match all five user-supplied names, stations and observed profile photos in order (2.139ms)
+✔ station validation rejects spoofed domains, protocols, credentials and non-station paths (0.195ms)
+✔ image validation allows public photos/assets and rejects executable/traversal addresses (0.2491ms)
+✔ input schema rejects duplicates, missing names, malformed flags and unbounded roster (0.7299ms)
+✔ public default read is read-only and never publishes private account fields or live guesses (20.6622ms)
+✔ CMS settings save persists reorder, photo, introduction and hidden users; public read filters hidden records (3.7482ms)
+✔ off, empty roster and all-hidden settings stay empty, never reseed removed profiles (3.5415ms)
+✔ CMS requires SETTINGS permission before reading or writing any settings (0.5583ms)
+✔ stale CMS revision cannot overwrite a newer saved roster (1.3453ms)
+✔ two simultaneous first saves result in exactly one write and a conflict (0.9964ms)
+✔ invalid or oversized body cannot change stored settings (1.1144ms)
+✔ wrong method is read-only and unrelated paths do not query the DB (0.8526ms)
+✔ corrupt persisted config fails closed, not silently replaced by initial roster (0.3626ms)
+✖ isolated live and CMS wiring, safe new-tab links and permanent no-LIVE contract (56.4804ms)
+✔ the lounge entry preserves mobile geometry and stays isolated from battle styles (0.9355ms)
+✔ premium lounge uses generated image plates, native station links and no new CSS rules (2.7991ms)
+✔ SOOP portraits use the larger animated source; custom CMS image URLs stay unchanged (0.2904ms)
+✔ portrait raster pixels are never enlarged beyond their resolution on high-density screens (0.1152ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 21
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 224.0992
+
+✖ failing tests:
+
+test at tests\streamer-lounge-v2036.test.mjs:87:1
+✖ isolated live and CMS wiring, safe new-tab links and permanent no-LIVE contract (56.4804ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /type="module" src="js\/streamer-lounge-v2036\.js\?v=20261026-cnine-roster-v2"/. Input:
+  
+  '<!DOCTYPE html>\r\n' +
+    '<html lang="ko">\r\n' +
+    '<head>\r\n' +
+    '  <meta charset="UTF-8" />\r\n' +
+    '  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\r\n' +
+    '  <meta name="theme-color" content="#100b1d" />\r\n' +
+    '  <meta name="application-name" content="리버스콜" />\r\n' +
+    '  <meta name="apple-mobile-web-app-title" content="리버스콜" />\r\n' +
+    '  <meta property="og:title" content="리버스콜" />\r\n' +
+    '  <meta property="og:image" content="https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" />\r\n' +
+    '  <meta property="og:description" content="카드 수집 · 용병 성장 · 협동 전투" />\r\n' +
+    '  <link rel="manifest" href="/manifest.webmanifest?v=20261016-reverse-call" />\r\n' +
+    '  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent" type="image/png" sizes="32x32" />\r\n' +
+    '  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent" type="image/png" sizes="48x48" />\r\n' +
+    '  <link rel="apple-touch-icon" href="/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent" sizes="180x180" />\r\n' +
+    '  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp" media="(min-width:641px)" fetchpriority="high" />\r\n' +
+    '  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-purple-20261024/scene-mobile.webp" media="(max-width:640px)" fetchpriority="high" />\r\n' +
+    '  <link rel="preload" as="image" type="image/avif" fetchpriority="high" href="/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif" imagesrcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" imagesizes="(max-width:820px) 100vw, 52vw" />\r\n' +
+    '  <link rel="preconnect" href="https://fonts.googleapis.com" />\r\n' +
+    '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\r\n' +
+    '  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;600;800&amp;display=swap" rel="stylesheet" />\r\n' +
+    '  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Do+Hyeon&amp;family=East+Sea+Dokdo&amp;family=Gugi&amp;family=Jua&amp;family=Nanum+Gothic+Coding:wght@400;700&amp;family=Nanum+Pen+Script&amp;family=Noto+Sans+KR:wght@500;700;900&amp;family=Noto+Serif+KR:wght@600;700;900&amp;family=Song+Myung&amp;display=swap" rel="stylesheet" />\r\n' +
+    '  <title>리버스콜 카드뽑기</title>\r\n' +
+    '  <link rel="stylesheet" href="css/style.css?v=1879-player-ultimate-skip&cubeRemoval=20261003&iconPortrait=20261006" />\r\n' +
+    '  <link rel="stylesheet" href="css/chief-system-v1.css?v=20261005-general" />\r\n' +
+    '  <link rel="stylesheet" href="css/chief-prison-v1.css?v=20261006" />\r\n' +
+    '  <link rel="stylesheet" href="css/queen-coronation-v1.css?v=20261005-general" />\r\n' +
+    '  <link rel="stylesheet" href="css/card.css?v=1885-static-high-grade-frame" />\r\n' +
+    '  <link rel="stylesheet" href="css/animation.css?v=1144-stability-audit" />\r\n' +
+    '    <link rel="stylesheet" href="css/unified-drop-cinematic-v1750.css?v=1755-card-equipment-drop">\r\n' +
+    '  <link rel="stylesheet" href="css/card-unique-battle-fx-v1174.css?v=1745-taller-battle-cards">\r\n' +
+    '  <link rel="stylesheet" href="css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0">\r\n' +
+    '  <link rel="stylesheet" href="css/supply-box-v1249.css?v=1987-prime-custom-purchase-bulk-open">\r\n' +
+    '  <link rel="stylesheet" href="css/suit-core-box-v1.css?v=20261008">\r\n' +
+    '  <link rel="stylesheet" href="css/title-public-v1245.css?v=1782-title-specific-stars">\r\n' +
+    '  <link rel="stylesheet" href="css/title-fonts-v1814.css?v=1814-title-font-presets">\r\n' +
+    '  <link rel="stylesheet" href="css/seal-battle.css?v=1778-seal-v3-crystal&sealRework=20261021-v1&sealDragon=20261022-v1&sealOrbs=20261022-v1&sealLayout=20261022-v2&sealMercenary=20261022-v1">\r\n' +
+    '  <link rel="stylesheet" href="css/raid-overhaul-v1293.css?v=1296-slot-entry-fix">\r\n' +
+    '  <link rel="stylesheet" href="css/raid-v3-async-v1779.css?v=1930-mobile-context-recovery">\r\n' +
+    '  <link rel="stylesheet" href="css/vehicle-draw-v1388.css?v=1724-hundred-draw">\r\n' +
+    '  <link rel="stylesheet" href="css/territory-war-v1811.css?v=1914-territory-dispatch-persist&pig=2">\r\n' +
+    '  <link rel="stylesheet" href="css/territory-war-v1824.css?v=2062-my-team-emphasis&clans=20260929-roster&votes=20261008">\r\n' +
+    '  <link rel="stylesheet" href="css/territory-network-v6.css?v=20261011-art2">\r\n' +
+    '  <link rel="stylesheet" href="css/territory-battlefield-v5.css?v=20261003-authored-fx">\r\n' +
+    '  <link rel="stylesheet" href="css/territory-formation-20261013.css?v=3">\r\n' +
+    '  <link rel="stylesheet" href="css/territory-vote-alert-v1.css?v=20261013-vote-alert-compact">\r\n' +
+    '  <link rel="stylesheet" href="css/ranked-match-v1671.css?v=1671-ranked-auto-season">\r\n' +
+    '  <link rel="stylesheet" href="css/ranked-v2-v1827.css?v=20261002-ranked-reform&amp;suggestions=20261005">\r\n' +
+    '  <link rel="stylesheet" href="css/pve-nightmare-v1692.css?v=1692-nightmare">\r\n' +
+    '  <link rel="stylesheet" href="css/pve-apocalypse-v1952.css?v=1952-apocalypse-pve">\r\n' +
+    '  <link rel="stylesheet" href="css/escort-operation-v1830.css?v=1844-public-mobile-fit">\r\n' +
+    '  <link rel="stylesheet" href="css/runtime-performance-v1727.css?v=1729-virtual-card-lists">\r\n' +
+    '  <link rel="stylesheet" href="css/battle-v3-live.css?v=1901-nightmare-mark-overlap&flow=2126&backdrop=20261005&amp;statusDock=20261007-v2">\r\n' +
+    '  <link rel="stylesheet" href="css/tower-abyss-ui.css?v=20261022-clock-auto-next-v1">\r\n' +
+    '  <link rel="stylesheet" href="css/secondary-verification-v1780.css?v=1799-playdk-only">\r\n' +
+    '  <link rel="stylesheet" href="css/organization-preparation-v1.css?v=20261023-clan-identity">\r\n' +
+    '  <link rel="stylesheet" href="css/command-ui-v1.css?v=20261025-clan-restored">\r\n' +
+    '  <link rel="stylesheet" href="css/clan-v1.css?v=20261005-reform&clanRestore=20261025">\r\n' +
+    '  <link rel="stylesheet" href="css/clan-war-reform-v1.css?v=20261005-balance-v3">\r\n' +
+    '  <link rel="stylesheet" href="css/clan-command-v1.css?v=2127">\r\n' +
+    '  <link rel="stylesheet" href="css/clan-faction-v1.css?v=20261001-session-rewards">\r\n' +
+    '  <link rel="stylesheet" href="css/clan-champions-v2071.css?v=2109-champions-trophy">\r\n' +
+    '  <link id="liveOperationsV1868" rel="stylesheet" href="css/live-operations-v1868.css?v=1868-live-operations-r2&amp;popup=20261018-v1" />\r\n' +
+    '  <link data-rank-potion-style rel="stylesheet" href="css/rank-exp-potion-v1.css?v=20261020-v1" />\r\n' +
+    '  <link rel="stylesheet" href="css/prison-v1950.css?v=2045-mobile-perf" />\r\n' +
+    '\r\n' +
+    '<style id="v1871-mobile-burning-critical">\r\n' +
+    '@media (max-width:820px){\r\n' +
+    '  .burning-event-hud{visibility:visible!important;opacity:1!important}\r\n' +
+    '  .burning-command-notice{display:grid!important;visibility:visible!important;opacity:0;position:fixed!important;left:var(--burning-vv-left,0)!important;top:var(--burning-vv-top,0)!important;width:var(--burning-vv-width,100vw)!important;height:var(--burning-vv-height,100dvh)!important;z-index:2147483000!important}\r\n' +
+    '  .burning-command-notice.show{opacity:1!important}\r\n' +
+    '}\r\n' +
+    '</style>\r\n' +
+    '<link rel="stylesheet" href="css/burning-event-v1871.css?v=1902-burning-owner-timer" />\r\n' +
+    '<style id="v21-renewal-only-gate">\r\n' +
+    'html{background:#070a0f;color-scheme:dark}\r\n' +
+    'body.v21-renewal-required{margin:0;background:#070a0f;color:#eef4f6}\r\n' +
+    'body.v21-renewal-required #app{visibility:hidden}\r\n' +
+    '.v21-renewal-boot{position:fixed;inset:0;z-index:2147483600;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;box-sizing:border-box;padding:clamp(28px,4.8vw,76px);padding-bottom:max(30px,env(safe-area-inset-bottom));background:#060b12;color:#eef4f6;font-family:"Noto Sans KR",Arial,sans-serif}\r\n' +
+    '.v21-renewal-boot *{box-sizing:border-box}\r\n' +
+    '.v21-renewal-boot .boot-scene{position:absolute;inset:0;z-index:0;pointer-events:none}\r\n' +
+    '.v21-renewal-boot .boot-scene img{display:block;width:100%;height:100%;object-fit:cover;object-position:68% 48%}\r\n' +
+    '.v21-renewal-boot::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,8,15,.5),transparent 64%),linear-gradient(0deg,#030911 0%,rgba(3,9,17,.85) 8%,transparent 38%)}\r\n' +
+    '.v21-renewal-boot .boot-topline,.v21-renewal-boot main,.v21-renewal-boot .boot-loading{position:relative;z-index:2}\r\n' +
+    '.v21-renewal-boot .boot-topline{display:flex;align-items:center;justify-content:space-between;gap:20px;background:none;padding:0;border:0;min-height:40px}\r\n' +
+    '.v21-renewal-boot .boot-identity{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;letter-spacing:.14em}\r\n' +
+    '.v21-renewal-boot .boot-identity img{width:38px;height:38px;object-fit:contain}\r\n' +
+    '.v21-renewal-boot .boot-genre{color:#c4cdd3;font-size:11px;letter-spacing:.12em;text-shadow:0 2px 8px #030911}\r\n' +
+    '.v21-renewal-boot main{align-self:center;width:min(550px,55%);padding:0 0 24px;margin:0;border:0;background:none;box-shadow:none}\r\n' +
+    '.v21-renewal-boot .boot-overline{margin:0 0 22px;color:#9ecbd7;font-size:11px;font-weight:700;letter-spacing:.38em}\r\n' +
+    '.v21-renewal-boot h1{margin:0;color:#f1f5f4;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:clamp(80px,10.2vw,154px);font-style:italic;font-weight:800;line-height:.83;letter-spacing:-.025em;text-shadow:0 6px 35px #02070c66}\r\n' +
+    '.v21-renewal-boot h1 span{display:block}\r\n' +
+    '.v21-renewal-boot h1 span+span{color:#acdfe8;margin-top:8px}\r\n' +
+    '.v21-renewal-boot .boot-tagline{margin:28px 0 0;color:#d4e0e5;font-size:clamp(16px,1.6vw,22px);font-weight:400;letter-spacing:.08em}\r\n' +
+    '.v21-renewal-boot .boot-loading{width:100%;padding:0;margin:0;background:none;border:0}\r\n' +
+    '.v21-renewal-boot .boot-statusline{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:12px}\r\n' +
+    '.v21-renewal-boot .boot-statusline strong{font-size:14px;font-weight:600;letter-spacing:.02em}\r\n' +
+    '.v21-renewal-boot .boot-statusline>span{font-family:"Barlow Condensed",Arial,sans-serif;color:#9cb9c6;font-size:12px;letter-spacing:.3em}\r\n' +
+    '.v21-renewal-boot .boot-track{position:relative;width:100%;height:18px;border:0 solid transparent;border-left-width:25px;border-right-wi'... 27952 more characters
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site/tests/streamer-lounge-v2036.test.mjs:92:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<!DOCTYPE html>\r\n<html lang="ko">\r\n<head>\r\n  <meta charset="UTF-8" />\r\n  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\r\n  <meta name="theme-color" content="#100b1d" />\r\n  <meta name="application-name" content="리버스콜" />\r\n  <meta name="apple-mobile-web-app-title" content="리버스콜" />\r\n  <meta property="og:title" content="리버스콜" />\r\n  <meta property="og:image" content="https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" />\r\n  <meta property="og:description" content="카드 수집 · 용병 성장 · 협동 전투" />\r\n  <link rel="manifest" href="/manifest.webmanifest?v=20261016-reverse-call" />\r\n  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent" type="image/png" sizes="32x32" />\r\n  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent" type="image/png" sizes="48x48" />\r\n  <link rel="apple-touch-icon" href="/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent" sizes="180x180" />\r\n  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp" media="(min-width:641px)" fetchpriority="high" />\r\n  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-purple-20261024/scene-mobile.webp" media="(max-width:640px)" fetchpriority="high" />\r\n  <link rel="preload" as="image" type="image/avif" fetchpriority="high" href="/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif" imagesrcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" imagesizes="(max-width:820px) 100vw, 52vw" />\r\n  <link rel="preconnect" href="https://fonts.googleapis.com" />\r\n  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\r\n  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;600;800&amp;display=swap" rel="stylesheet" />\r\n  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Do+Hyeon&amp;family=East+Sea+Dokdo&amp;family=Gugi&amp;family=Jua&amp;family=Nanum+Gothic+Coding:wght@400;700&amp;family=Nanum+Pen+Script&amp;family=Noto+Sans+KR:wght@500;700;900&amp;family=Noto+Serif+KR:wght@600;700;900&amp;family=Song+Myung&amp;display=swap" rel="stylesheet" />\r\n  <title>리버스콜 카드뽑기</title>\r\n  <link rel="stylesheet" href="css/style.css?v=1879-player-ultimate-skip&cubeRemoval=20261003&iconPortrait=20261006" />\r\n  <link rel="stylesheet" href="css/chief-system-v1.css?v=20261005-general" />\r\n  <link rel="stylesheet" href="css/chief-prison-v1.css?v=20261006" />\r\n  <link rel="stylesheet" href="css/queen-coronation-v1.css?v=20261005-general" />\r\n  <link rel="stylesheet" href="css/card.css?v=1885-static-high-grade-frame" />\r\n  <link rel="stylesheet" href="css/animation.css?v=1144-stability-audit" />\r\n    <link rel="stylesheet" href="css/unified-drop-cinematic-v1750.css?v=1755-card-equipment-drop">\r\n  <link rel="stylesheet" href="css/card-unique-battle-fx-v1174.css?v=1745-taller-battle-cards">\r\n  <link rel="stylesheet" href="css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0">\r\n  <link rel="stylesheet" href="css/supply-box-v1249.css?v=1987-prime-custom-purchase-bulk-open">\r\n  <link rel="stylesheet" href="css/suit-core-box-v1.css?v=20261008">\r\n  <link rel="stylesheet" href="css/title-public-v1245.css?v=1782-title-specific-stars">\r\n  <link rel="stylesheet" href="css/title-fonts-v1814.css?v=1814-title-font-presets">\r\n  <link rel="stylesheet" href="css/seal-battle.css?v=1778-seal-v3-crystal&sealRework=20261021-v1&sealDragon=20261022-v1&sealOrbs=20261022-v1&sealLayout=20261022-v2&sealMercenary=20261022-v1">\r\n  <link rel="stylesheet" href="css/raid-overhaul-v1293.css?v=1296-slot-entry-fix">\r\n  <link rel="stylesheet" href="css/raid-v3-async-v1779.css?v=1930-mobile-context-recovery">\r\n  <link rel="stylesheet" href="css/vehicle-draw-v1388.css?v=1724-hundred-draw">\r\n  <link rel="stylesheet" href="css/territory-war-v1811.css?v=1914-territory-dispatch-persist&pig=2">\r\n  <link rel="stylesheet" href="css/territory-war-v1824.css?v=2062-my-team-emphasis&clans=20260929-roster&votes=20261008">\r\n  <link rel="stylesheet" href="css/territory-network-v6.css?v=20261011-art2">\r\n  <link rel="stylesheet" href="css/territory-battlefield-v5.css?v=20261003-authored-fx">\r\n  <link rel="stylesheet" href="css/territory-formation-20261013.css?v=3">\r\n  <link rel="stylesheet" href="css/territory-vote-alert-v1.css?v=20261013-vote-alert-compact">\r\n  <link rel="stylesheet" href="css/ranked-match-v1671.css?v=1671-ranked-auto-season">\r\n  <link rel="stylesheet" href="css/ranked-v2-v1827.css?v=20261002-ranked-reform&amp;suggestions=20261005">\r\n  <link rel="stylesheet" href="css/pve-nightmare-v1692.css?v=1692-nightmare">\r\n  <link rel="stylesheet" href="css/pve-apocalypse-v1952.css?v=1952-apocalypse-pve">\r\n  <link rel="stylesheet" href="css/escort-operation-v1830.css?v=1844-public-mobile-fit">\r\n  <link rel="stylesheet" href="css/runtime-performance-v1727.css?v=1729-virtual-card-lists">\r\n  <link rel="stylesheet" href="css/battle-v3-live.css?v=1901-nightmare-mark-overlap&flow=2126&backdrop=20261005&amp;statusDock=20261007-v2">\r\n  <link rel="stylesheet" href="css/tower-abyss-ui.css?v=20261022-clock-auto-next-v1">\r\n  <link rel="stylesheet" href="css/secondary-verification-v1780.css?v=1799-playdk-only">\r\n  <link rel="stylesheet" href="css/organization-preparation-v1.css?v=20261023-clan-identity">\r\n  <link rel="stylesheet" href="css/command-ui-v1.css?v=20261025-clan-restored">\r\n  <link rel="stylesheet" href="css/clan-v1.css?v=20261005-reform&clanRestore=20261025">\r\n  <link rel="stylesheet" href="css/clan-war-reform-v1.css?v=20261005-balance-v3">\r\n  <link rel="stylesheet" href="css/clan-command-v1.css?v=2127">\r\n  <link rel="stylesheet" href="css/clan-faction-v1.css?v=20261001-session-rewards">\r\n  <link rel="stylesheet" href="css/clan-champions-v2071.css?v=2109-champions-trophy">\r\n  <link id="liveOperationsV1868" rel="stylesheet" href="css/live-operations-v1868.css?v=1868-live-operations-r2&amp;popup=20261018-v1" />\r\n  <link data-rank-potion-style rel="stylesheet" href="css/rank-exp-potion-v1.css?v=20261020-v1" />\r\n  <link rel="stylesheet" href="css/prison-v1950.css?v=2045-mobile-perf" />\r\n\r\n<style id="v1871-mobile-burning-critical">\r\n@media (max-width:820px){\r\n  .burning-event-hud{visibility:visible!important;opacity:1!important}\r\n  .burning-command-notice{display:grid!important;visibility:visible!important;opacity:0;position:fixed!important;left:var(--burning-vv-left,0)!important;top:var(--burning-vv-top,0)!important;width:var(--burning-vv-width,100vw)!important;height:var(--burning-vv-height,100dvh)!important;z-index:2147483000!important}\r\n  .burning-command-notice.show{opacity:1!important}\r\n}\r\n</style>\r\n<link rel="stylesheet" href="css/burning-event-v1871.css?v=1902-burning-owner-timer" />\r\n<style id="v21-renewal-only-gate">\r\nhtml{background:#070a0f;color-scheme:dark}\r\nbody.v21-renewal-required{margin:0;background:#070a0f;color:#eef4f6}\r\nbody.v21-renewal-required #app{visibility:hidden}\r\n.v21-renewal-boot{position:fixed;inset:0;z-index:2147483600;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;box-sizing:border-box;padding:clamp(28px,4.8vw,76px);padding-bottom:max(30px,env(safe-area-inset-bottom));background:#060b12;color:#eef4f6;font-family:"Noto Sans KR",Arial,sans-serif}\r\n.v21-renewal-boot *{box-sizing:border-box}\r\n.v21-renewal-boot .boot-scene{position:absolute;inset:0;z-index:0;pointer-events:none}\r\n.v21-renewal-boot .boot-scene img{display:block;width:100%;height:100%;object-fit:cover;object-position:68% 48%}\r\n.v21-renewal-boot::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,8,15,.5),transparent 64%),linear-gradient(0deg,#030911 0%,rgba(3,9,17,.85) 8%,transparent 38%)}\r\n.v21-renewal-boot .boot-topline,.v21-renewal-boot main,.v21-renewal-boot .boot-loading{position:relative;z-index:2}\r\n.v21-renewal-boot .boot-topline{display:flex;align-items:center;justify-content:space-between;gap:20px;background:none;padding:0;border:0;min-height:40px}\r\n.v21-renewal-boot .boot-identity{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;letter-spacing:.14em}\r\n.v21-renewal-boot .boot-identity img{width:38px;height:38px;object-fit:contain}\r\n.v21-renewal-boot .boot-genre{color:#c4cdd3;font-size:11px;letter-spacing:.12em;text-shadow:0 2px 8px #030911}\r\n.v21-renewal-boot main{align-self:center;width:min(550px,55%);padding:0 0 24px;margin:0;border:0;background:none;box-shadow:none}\r\n.v21-renewal-boot .boot-overline{margin:0 0 22px;color:#9ecbd7;font-size:11px;font-weight:700;letter-spacing:.38em}\r\n.v21-renewal-boot h1{margin:0;color:#f1f5f4;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:clamp(80px,10.2vw,154px);font-style:italic;font-weight:800;line-height:.83;letter-spacing:-.025em;text-shadow:0 6px 35px #02070c66}\r\n.v21-renewal-boot h1 span{display:block}\r\n.v21-renewal-boot h1 span+span{color:#acdfe8;margin-top:8px}\r\n.v21-renewal-boot .boot-tagline{margin:28px 0 0;color:#d4e0e5;font-size:clamp(16px,1.6vw,22px);font-weight:400;letter-spacing:.08em}\r\n.v21-renewal-boot .boot-loading{width:100%;padding:0;margin:0;background:none;border:0}\r\n.v21-renewal-boot .boot-statusline{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:12px}\r\n.v21-renewal-boot .boot-statusline strong{font-size:14px;font-weight:600;letter-spacing:.02em}\r\n.v21-renewal-boot .boot-statusline>span{font-family:"Barlow Condensed",Arial,sans-serif;color:#9cb9c6;font-size:12px;letter-spacing:.3em}\r\n.v21-renewal-boot .boot-track{position:relative;width:100%;height:18px;border:0 solid transparent;border-left-width:25px;border-right-wi'... 27952 more characters,
+    expected: /type="module" src="js\/streamer-lounge-v2036\.js\?v=20261026-cnine-roster-v2"/,
+    operator: 'match',
+    diff: 'simple'
+  }

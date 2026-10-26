@@ -1,0 +1,82 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"dc476fbc86d2533747c8aef1c0bfee1cffcb5427","reason":"Split the CNINE roster into a department selection page and separate female/star pages, each with three columns. Append BJ Chaeri, Kkukka and Idani after the existing female members. Preserve the existing art, lobby entry, station links and lounge CMS; validate actual-main PC/mobile navigation and related lobby/lounge regressions. No account or settings writes. The four unchanged lobby regressions passed in attempt 1. Only update the v3 entry expectation and rerun the affected lounge file; no external deployment occurred in attempt 1.","changed":["AGENTS.md","css/cnine-roster-v1.css","docs/qa/bloodmoon-namsudaeng-timeout-20261026/README.md","docs/qa/bloodmoon-namsudaeng-timeout-20261026/verification.json","docs/qa/cnine-departments-20261026/README.md","docs/qa/cnine-departments-20261026/browser.json","docs/qa/cnine-departments-20261026/browser.mjs","docs/qa/cnine-departments-20261026/female-1440.png","docs/qa/cnine-departments-20261026/female-360.png","docs/qa/cnine-departments-20261026/female-390.png","docs/qa/cnine-departments-20261026/home-1440.png","docs/qa/cnine-departments-20261026/home-360.png","docs/qa/cnine-departments-20261026/home-390.png","docs/qa/cnine-departments-20261026/lobby-entry-1440.png","docs/qa/cnine-departments-20261026/lobby-entry-360.png","docs/qa/cnine-departments-20261026/lobby-entry-390.png","docs/qa/cnine-departments-20261026/release.mjs","docs/qa/cnine-departments-20261026/star-1440.png","docs/qa/cnine-departments-20261026/star-360.png","docs/qa/cnine-departments-20261026/star-390.png","index.html","js/cnine-roster-v1.js","js/streamer-lounge-v2036.js","service-worker.js","tests/streamer-lounge-v2036.test.mjs"],"tests":["tests/streamer-lounge-v2036.test.mjs"],"checks":[]}
+✔ defaults match all five user-supplied names, stations and observed profile photos in order (2.318ms)
+✔ station validation rejects spoofed domains, protocols, credentials and non-station paths (0.1883ms)
+✔ image validation allows public photos/assets and rejects executable/traversal addresses (0.2472ms)
+✔ input schema rejects duplicates, missing names, malformed flags and unbounded roster (0.7255ms)
+✔ public default read is read-only and never publishes private account fields or live guesses (20.1513ms)
+✔ CMS settings save persists reorder, photo, introduction and hidden users; public read filters hidden records (3.6ms)
+✔ off, empty roster and all-hidden settings stay empty, never reseed removed profiles (3.1554ms)
+✔ CMS requires SETTINGS permission before reading or writing any settings (0.498ms)
+✔ stale CMS revision cannot overwrite a newer saved roster (1.2374ms)
+✔ two simultaneous first saves result in exactly one write and a conflict (1.0492ms)
+✔ invalid or oversized body cannot change stored settings (1.5666ms)
+✔ wrong method is read-only and unrelated paths do not query the DB (0.3224ms)
+✔ corrupt persisted config fails closed, not silently replaced by initial roster (0.3526ms)
+✔ isolated live and CMS wiring, safe new-tab links and permanent no-LIVE contract (12.3535ms)
+✔ the lounge entry preserves mobile geometry and stays isolated from battle styles (1.1033ms)
+✔ premium lounge uses generated image plates, native station links and no new CSS rules (3.2301ms)
+✔ SOOP portraits use the larger animated source; custom CMS image URLs stay unchanged (0.3687ms)
+✔ portrait raster pixels are never enlarged beyond their resolution on high-density screens (0.124ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 134.6081
+[PRODUCTION RELEASE OK] bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261026-v3-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19990 files; 9369 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8544.65 KiB / gzip: 1839.44 KiB
+Worker Startup Time: 41 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.30 sec)
+No targets deployed for cnine-card-api-runtime (0.86 sec)
+Current Version ID: b6757bd4-c496-46f3-b6cd-3dd9b663f10b
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19983/19990)
+Uploading... (19985/19990)
+Uploading... (19987/19990)
+Uploading... (19990/19990)
+✨ Success! Uploaded 7 files (19983 already uploaded) (2.72 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://3974cd1b.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3204.42 KiB / gzip: 719.68 KiB
+Worker Startup Time: 52 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.71 sec)
+Deployed cnine-card-clan-draft triggers (1.28 sec)
+  schedule: * * * * *
+Current Version ID: 6b5acc3b-c577-4a98-a70f-abb422837fa6

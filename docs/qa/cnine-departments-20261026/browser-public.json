@@ -1,0 +1,109 @@
+{
+  "status": "PASSED",
+  "surface": "deployed component",
+  "reports": [
+    {
+      "width": 390,
+      "entryBox": {
+        "x": 0,
+        "y": 0,
+        "width": 148,
+        "height": 44
+      },
+      "links": [
+        {
+          "href": "https://www.sooplive.com/station/kaja0011",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://www.sooplive.com/station/chocho12",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://www.sooplive.com/station/yjk011599",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://www.sooplive.com/station/lcy011027",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://www.sooplive.com/station/wkao85guo",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://www.sooplive.com/station/0929kelly",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://www.sooplive.com/station/mew030709",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://www.sooplive.com/station/zalalz",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://www.sooplive.com/station/qpqpro",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        }
+      ],
+      "portraits": [
+        {
+          "loaded": true,
+          "display": 72,
+          "native": 150,
+          "density": 2
+        },
+        {
+          "loaded": true,
+          "display": 72,
+          "native": 175,
+          "density": 2
+        },
+        {
+          "loaded": true,
+          "display": 72,
+          "native": 204,
+          "density": 2
+        },
+        {
+          "loaded": true,
+          "display": 72,
+          "native": 150,
+          "density": 2
+        },
+        {
+          "loaded": true,
+          "display": 72,
+          "native": 411,
+          "density": 2
+        },
+        {
+          "loaded": true,
+          "display": 72,
+          "native": 175,
+          "density": 2
+        }
+      ],
+      "departments": true,
+      "directLobbyEntrance": true,
+      "keyboardAndBackButtonToLobby": true,
+      "newTabOpenerNull": true,
+      "noOverflow": true,
+      "buttonColor": "rgb(17, 38, 63)",
+      "errors": []
+    }
+  ],
+  "missing": [],
+  "productionWrites": 0
+}
