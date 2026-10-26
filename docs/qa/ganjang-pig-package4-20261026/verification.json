@@ -1,0 +1,58 @@
+{
+  "completedAt": "2026-10-26T14:38:58.665Z",
+  "sourceCommit": "e14356bb7",
+  "operationKey": "ops:ganjang-pig3000-package-bogo4:20261026:v1",
+  "planHash": "c3ef1c363800390cf0e8fcb0ce4d54d0a7e04d435ef125db9afd2fb53622be5e",
+  "sourceSha256": "4fa3b78a0ef426c1da7b409241d3e8b4442ed216b63803af3f6ac61204ae1228",
+  "runnerSha256": "11b07f388f619cd15256d8d2e40626820ffd6f3e3ea5cf712973db707b9a94ea",
+  "userId": 4981,
+  "nickname": "간장왕대게찜",
+  "auditId": "51885",
+  "pig": {
+    "before": "460",
+    "after": "3460",
+    "logId": "ops:ganjang-pig3000-package-bogo4:20261026:v1:pig:4981"
+  },
+  "coin": {
+    "before": "101246523488339",
+    "after": "901246523488339",
+    "logId": "98336956"
+  },
+  "items": [
+    {
+      "code": "EMPEROR_ENERGY",
+      "before": "4441",
+      "after": "6041",
+      "unseenBefore": "0",
+      "unseenAfter": "1600",
+      "logId": "87038658"
+    },
+    {
+      "code": "MERCENARY_SSS_LIMITED_SHARD",
+      "before": "5",
+      "after": "45",
+      "unseenBefore": "0",
+      "unseenAfter": "40",
+      "logId": "87038659"
+    }
+  ],
+  "pendingOrder": {
+    "id": "4981_37abd34a-4f18-4d17-826c-5989b84285fa",
+    "status": "PENDING",
+    "revision": 0,
+    "preserved": true
+  },
+  "protectedStateHash": "adda625040350eb23db89da4f49a97fc94ebb47fd6b6edd9c6afacfe2d411189",
+  "tests": {
+    "grant": 4,
+    "packagePrediction": 6
+  },
+  "verification": {
+    "independentReadOnly": true,
+    "additionalReplayWrites": 0,
+    "rollbackVerified": true,
+    "injectedFailureRollback": true,
+    "locksReleased": true,
+    "helperDeleted": true
+  }
+}
