@@ -1,0 +1,113 @@
+/* 2026-10-26: the user explicitly allows a bespoke design for this roster.
+   Generated celestial art and the original C9 logo; no changes to other screens. */
+.c9-roster-entry {
+  display:flex;align-items:center;gap:22px;position:relative;isolation:isolate;
+  margin:26px 0 8px;padding:24px 28px;min-height:140px;box-sizing:border-box;
+  border:1px solid #99c8e278;border-radius:6px;overflow:hidden;
+  color:#f1f5ff;background:#08162d url('/assets/ui/streamer-lounge/cnine-roster-20261026/celestial-board.webp') center 44%/cover;
+}
+.c9-roster-entry::before { content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#051226d9,#07152b77 65%,#09172955); }
+.c9-roster-entry > img { width:64px;height:64px;object-fit:contain;flex:none; }
+.c9-roster-entry-copy { display:flex;flex-direction:column;gap:5px;min-width:0; }
+.c9-roster-entry-copy small { color:#acd8f4;font:700 9px/1.5 Arial,sans-serif;letter-spacing:.22em; }
+.c9-roster-entry-copy strong { font-size:26px;line-height:1.3;letter-spacing:-.04em;color:#fff; }
+.c9-roster-entry-copy > span { font-size:12px;color:#c9d6e8; }
+.c9-roster-entry > button { margin-left:auto;flex:none; }
+.c9-roster-action {
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;
+  border:1px solid #e9e5ffb3;border-radius:6px;padding:11px 20px;
+  background:linear-gradient(112deg,#edbbdd,#d0d7f2 48%,#a3d9ee);
+  color:#11263f;-webkit-text-fill-color:#11263f;font:750 13px/1.4 Pretendard,'Noto Sans KR',sans-serif;
+  text-shadow:none;box-shadow:inset 0 1px #fff8,0 3px 0 #7196b74d;cursor:pointer;touch-action:manipulation;
+}
+.c9-roster-action:hover { filter:brightness(1.08); }
+.c9-roster-action:focus-visible,.c9-roster-back:focus-visible { outline:3px solid #c2eaff;outline-offset:4px; }
+.c9-roster-dialog {
+  color-scheme:dark;width:min(1180px,calc(100vw - 48px));max-width:none;max-height:calc(100dvh - 32px);
+  margin:auto;padding:0;border:1px solid #8cbadb80;border-radius:10px;
+  background:#061328;color:#f0f4fc;box-shadow:0 30px 120px #000c;
+  overflow:auto;overscroll-behavior:contain;font-family:Pretendard,'Noto Sans KR',sans-serif;
+}
+.c9-roster-dialog::backdrop { background:#020918dc;backdrop-filter:blur(8px); }
+.c9-roster-dialog * { box-sizing:border-box; }
+.c9-roster-scene { min-height:100%;padding:0 34px 20px;background:linear-gradient(#06122622,#06122644),url('/assets/ui/streamer-lounge/cnine-roster-20261026/celestial-board.webp') center/cover; }
+.c9-roster-topbar { display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 0; }
+.c9-roster-topbar > span { color:#bacfe5;font:600 10px/1.5 Arial,sans-serif;letter-spacing:.18em; }
+.c9-roster-back { display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:9px 15px;border:1px solid #a9cbe54d;border-radius:6px;background:#08182ec9;color:#d9e9f8;font:600 12px/1.5 Pretendard,'Noto Sans KR',sans-serif;cursor:pointer; }
+.c9-roster-back:hover { border-color:#b4ddff;background:#10243d; }
+.c9-roster-heading { display:flex;justify-content:center;align-items:center;gap:20px;text-align:left;padding:3px 0 27px; }
+.c9-roster-heading > img { width:84px;height:84px;object-fit:contain;filter:drop-shadow(0 4px 16px #a2dfff35); }
+.c9-roster-heading p { margin:0 0 4px;color:#a9d6ee;font:700 9px/1.5 Arial,sans-serif;letter-spacing:.22em; }
+.c9-roster-heading h1 { margin:0 0 4px;font-size:40px;line-height:1.2;font-weight:850;letter-spacing:-.055em;color:#f8f2ff;text-shadow:0 2px 20px #8ccfff44; }
+.c9-roster-heading div > span { font-size:12px;color:#c4d2e7; }
+.c9-roster-groups { display:grid;gap:22px; }
+.c9-department { display:grid;grid-template-columns:120px minmax(0,1fr);gap:22px;align-items:center;--c9-accent:#f5b8dc; }
+.c9-department-star { --c9-accent:#9dd9fa; }
+.c9-department-heading { display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 0;border-top:1px solid #c4d5fa70;border-bottom:1px solid #c4d5fa70;background:linear-gradient(90deg,#07152b00,#07152b99,#07152b00);text-shadow:0 2px 8px #07152b; }
+.c9-department-heading > span { color:var(--c9-accent);font:600 12px/1 Arial,sans-serif;letter-spacing:.15em;margin-bottom:12px; }
+.c9-department-heading h2 { margin:0 0 5px;font-size:28px;line-height:1.25;letter-spacing:-.045em;color:var(--c9-accent); }
+.c9-department-heading small { font:700 9px/1.5 Arial,sans-serif;letter-spacing:.1em;color:#d2e4f5; }
+.c9-department-heading b { margin-top:18px;font:600 8px/1.5 Arial,sans-serif;letter-spacing:.15em;color:#c5d4e7; }
+.c9-department-members { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px; }
+.c9-roster-dialog .c9-member {
+  position:relative;display:flex;flex-direction:column;align-items:center;min-width:0;padding:17px 20px 18px;
+  border:1px solid transparent;border-radius:12px 25px 12px 25px;
+  background:linear-gradient(145deg,#0d203df7,#07162dfc) padding-box,linear-gradient(145deg,#f3bbdf,#8dc3e5 50%,#f1bbda) border-box;
+  box-shadow:inset 0 0 0 5px #06152b,0 8px 24px #020b1c66;
+  text-decoration:none;color:#f1f6ff;transition:filter .18s ease;
+}
+.c9-member::before { content:"";pointer-events:none;position:absolute;inset:5px;border:1px solid #95bee44f;border-radius:8px 20px 8px 20px; }
+.c9-member::after { content:"";pointer-events:none;position:absolute;left:20%;right:20%;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--c9-accent),transparent);box-shadow:0 0 14px var(--c9-accent); }
+.c9-member:hover { filter:brightness(1.14); }
+.c9-member:focus-visible { outline:3px solid #c2eaff;outline-offset:4px; }
+.c9-member-number { align-self:flex-start;margin:0 0 9px;font:600 8px/1.5 Arial,sans-serif;letter-spacing:.15em;color:#a9bfd7; }
+.c9-member-portrait { display:grid;place-items:center;position:relative;width:120px;height:120px;max-width:100%;margin:0 0 9px; }
+.c9-member-initial { position:absolute;display:grid;place-items:center;width:100%;height:100%;border:1px solid #9dbdd147;color:#bcdcf2;font-size:36px;background:#12223b; }
+.c9-member-portrait.is-loaded .c9-member-initial { visibility:hidden; }
+.c9-member-portrait img { display:block;position:relative;width:min(120px,var(--c9-native-size,120px));height:min(120px,var(--c9-native-size,120px));max-width:100%;object-fit:cover;border:1px solid #b1d4ef99;border-radius:8px;box-shadow:0 0 22px #8bb7e526; }
+.c9-member-portrait img[hidden] { display:none; }
+.c9-member h3 { margin:0 0 2px;font-size:23px;line-height:1.4;font-weight:800;letter-spacing:-.04em;color:#f1f6ff; }
+.c9-member-handle { font:400 11px/1.5 Arial,sans-serif;color:#b6c8df; }
+.c9-roster-dialog .c9-member-link { width:100%;min-height:44px;margin-top:13px;gap:5px;font-size:12px;padding:8px 13px; }
+.c9-member-link > span:last-child { margin-left:auto; }
+.c9-roster-footer { display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:24px;padding:13px 16px;background:#07152bc9;border:1px solid #b1c9e12b;border-radius:5px; }
+.c9-roster-footer > span { color:#e3d9f1;font:600 9px/1.5 Arial,sans-serif;letter-spacing:.16em; }
+.c9-roster-footer i { margin:0 8px;color:#f1badd;font-style:normal; }
+.c9-roster-footer p { margin:0;color:#c4d6e9;font-size:11px;line-height:1.6; }
+@media (max-width:759px) {
+  .c9-roster-entry { gap:12px;padding:18px 14px;flex-wrap:wrap; }
+  .c9-roster-entry > img { width:46px;height:46px; }
+  .c9-roster-entry-copy strong { font-size:22px; }
+  .c9-roster-entry-copy > span { font-size:11px; }
+  .c9-roster-entry > button { width:100%;margin:0; }
+  .c9-roster-dialog { width:calc(100vw - 16px);max-height:calc(100dvh - 16px);border-radius:7px; }
+  .c9-roster-scene { padding:0 13px 20px; }
+  .c9-roster-topbar { padding:10px 0; }
+  .c9-roster-topbar > span { font-size:8px;letter-spacing:.06em; }
+  .c9-roster-heading { gap:12px;padding:12px 0 24px; }
+  .c9-roster-heading > img { width:63px;height:63px; }
+  .c9-roster-heading p { font-size:7px;letter-spacing:.12em; }
+  .c9-roster-heading h1 { font-size:29px; }
+  .c9-roster-heading div > span { font-size:10px; }
+  .c9-roster-groups { gap:23px; }
+  .c9-department { grid-template-columns:minmax(0,1fr);gap:11px; }
+  .c9-department-heading { flex-direction:row;padding:8px 1px;gap:8px;border-top:0; }
+  .c9-department-heading > span { margin:0;font-size:10px; }
+  .c9-department-heading h2 { font-size:21px;margin:0; }
+  .c9-department-heading small { font-size:8px; }
+  .c9-department-heading b { margin:0 0 0 auto;font-size:8px; }
+  .c9-department-members { gap:7px; }
+  .c9-roster-dialog .c9-member { padding:13px 6px 11px;border-radius:8px 17px 8px 17px; }
+  .c9-member::before { inset:4px;border-radius:5px 13px 5px 13px; }
+  .c9-member-number { font-size:6px;letter-spacing:.04em;align-self:center;margin-bottom:9px; }
+  .c9-member-portrait { width:72px;height:72px;margin-bottom:7px; }
+  .c9-member-portrait img { width:min(72px,var(--c9-native-size,72px));height:min(72px,var(--c9-native-size,72px)); }
+  .c9-member h3 { font-size:clamp(11px,3.6vw,18px);white-space:nowrap; }
+  .c9-member-handle { font-size:8px; }
+  .c9-roster-dialog .c9-member-link { min-height:44px;font-size:11px;margin-top:10px;padding:7px 2px;gap:3px;border-radius:4px; }
+  .c9-member-link-more { display:none; }
+  .c9-member-link > span:last-child { margin-left:0; }
+  .c9-roster-footer { flex-direction:column;gap:8px;margin-top:23px;padding:12px 8px;text-align:center; }
+  .c9-roster-footer p { font-size:10px; }
+}
+@media (prefers-reduced-motion:reduce) { .c9-member { transition:none; } }

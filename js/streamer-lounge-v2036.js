@@ -1,5 +1,6 @@
 import { stationUrl, profileImageUrl } from './streamer-lounge-model-v2036.js?v=2036';
 import { portraitSourceUrl, portraitSize } from './streamer-lounge-portraits-v1.js?v=20261013-original';
+import { cnineEntranceMarkup, openCnineRoster, closeCnineRoster } from './cnine-roster-v1.js?v=20261026-v1';
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg>';
@@ -186,11 +187,12 @@ function paintDialog() {
   if (!dialog) return;
   const focusedSearch = document.activeElement?.matches('.sl36-search input'), scrollTop = dialog.scrollTop;
   dialog.innerHTML = `<section class="sl36-space"><header class="sl36-topbar"><button type="button" class="sl36-back" data-sl36-close aria-label="라운지를 닫고 로비로 돌아가기">← <span>로비로</span></button><span>REVERSE CALL <i>/</i> THE LOUNGE</span><b>STREAMER LOUNGE</b></header>
-    <div data-sl40-hero></div><div class="sl36-content">
+    <div data-sl40-hero></div><div class="sl36-content">${cnineEntranceMarkup()}
     ${errorMessage ? `<div class="sl36-notice" role="status">${esc(errorMessage)} <button type="button" data-sl36-retry>다시 확인</button></div>` : ''}
     <div class="sl36-list-head"><div><small>THE PEOPLE BEHIND THE PLAY</small><h2>함께하는 스트리머 <span data-sl36-count aria-live="polite">${String(profiles().length).padStart(2,'0')}</span></h2></div><label class="sl36-search"><span>이름 검색</span><input type="search" aria-label="스트리머 이름 검색" placeholder="이름 검색" maxlength="30" value="${esc(query)}"></label></div><div data-sl36-grid></div>
     <footer class="sl36-footer"><span>REVERSE CALL · THE LOUNGE</span><span>방송국은 새 탭으로 열립니다 ${arrow}</span></footer></div></section>`;
   dialog.querySelector('[data-sl36-close]').addEventListener('click', closeLounge);
+  dialog.querySelector('[data-cnine-roster-open]').addEventListener('click', event => openCnineRoster(event.currentTarget));
   dialog.querySelector('[data-sl36-retry]')?.addEventListener('click', () => { void refreshDialog(); });
   dialog.querySelector('input[type="search"]').addEventListener('input', event => { query = event.target.value; paintGrid(); });
   paintHero(); paintGrid();
@@ -211,7 +213,7 @@ function openLounge(source) {
   dialog.querySelector('[data-sl36-close]').focus();
   void refreshDialog();
 }
-function closeLounge() { if (dialog?.open) dialog.close(); }
+function closeLounge() { closeCnineRoster(); if (dialog?.open) dialog.close(); }
 
 window.StreamerLounge = Object.freeze({ mount, open: openLounge, close: closeLounge });
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { void mount(); }, { once: true });

@@ -1,0 +1,72 @@
+[
+  {
+    "file": "docs/qa/cnine-roster-20261026/art/celestial-board-source.png",
+    "bytes": 2681740,
+    "sha256": "0fdc67a75804df5fb04151df1b4f49b3f752f2a7af90cd6d14e5b0b28a515bc6",
+    "metadata": {
+      "format": "png",
+      "mediaType": "image/png",
+      "width": 1672,
+      "height": 941,
+      "space": "srgb",
+      "channels": 3,
+      "depth": "uchar",
+      "density": 72,
+      "isProgressive": false,
+      "isPalette": false,
+      "bitsPerSample": 8,
+      "hasProfile": false,
+      "hasAlpha": false,
+      "autoOrient": {
+        "width": 1672,
+        "height": 941
+      }
+    }
+  },
+  {
+    "file": "docs/qa/cnine-roster-20261026/art/user-reference.png",
+    "bytes": 3276038,
+    "sha256": "ea86688132340c7e5a84a7a891b264199a6356bcef3b68c556c41d5b9276d593",
+    "metadata": {
+      "format": "png",
+      "mediaType": "image/png",
+      "width": 1920,
+      "height": 1080,
+      "space": "srgb",
+      "channels": 3,
+      "depth": "uchar",
+      "density": 72,
+      "isProgressive": false,
+      "isPalette": false,
+      "bitsPerSample": 8,
+      "hasProfile": false,
+      "hasAlpha": false,
+      "autoOrient": {
+        "width": 1920,
+        "height": 1080
+      }
+    }
+  },
+  {
+    "file": "assets/ui/streamer-lounge/cnine-roster-20261026/celestial-board.webp",
+    "bytes": 359556,
+    "sha256": "ae1ba6ee1bfc65cda5ee7709273e61e4e3101f385914af5bdf21a450578ef0d8",
+    "metadata": {
+      "format": "webp",
+      "mediaType": "image/webp",
+      "width": 1672,
+      "height": 941,
+      "space": "srgb",
+      "channels": 3,
+      "depth": "uchar",
+      "isProgressive": false,
+      "isPalette": false,
+      "hasProfile": false,
+      "hasAlpha": false,
+      "autoOrient": {
+        "width": 1672,
+        "height": 941
+      }
+    }
+  }
+]
