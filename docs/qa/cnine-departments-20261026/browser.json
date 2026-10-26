@@ -6,7 +6,7 @@
       "width": 1440,
       "entryBox": {
         "x": 1246,
-        "y": 175,
+        "y": 177,
         "width": 166,
         "height": 48
       },
@@ -33,6 +33,11 @@
         },
         {
           "href": "https://www.sooplive.com/station/wkao85guo",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://www.sooplive.com/station/0929kelly",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },
@@ -81,6 +86,12 @@
           "loaded": true,
           "display": 120,
           "native": 411,
+          "density": 1
+        },
+        {
+          "loaded": true,
+          "display": 120,
+          "native": 175,
           "density": 1
         }
       ],
@@ -127,6 +138,11 @@
           "rel": "noopener noreferrer"
         },
         {
+          "href": "https://www.sooplive.com/station/0929kelly",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
           "href": "https://www.sooplive.com/station/mew030709",
           "target": "_blank",
           "rel": "noopener noreferrer"
@@ -172,6 +188,12 @@
           "display": 72,
           "native": 411,
           "density": 2
+        },
+        {
+          "loaded": true,
+          "display": 72,
+          "native": 175,
+          "density": 2
         }
       ],
       "departments": true,
@@ -186,7 +208,7 @@
       "width": 360,
       "entryBox": {
         "x": 198,
-        "y": 266,
+        "y": 268,
         "width": 148,
         "height": 44
       },
@@ -217,6 +239,11 @@
           "rel": "noopener noreferrer"
         },
         {
+          "href": "https://www.sooplive.com/station/0929kelly",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
           "href": "https://www.sooplive.com/station/mew030709",
           "target": "_blank",
           "rel": "noopener noreferrer"
@@ -261,6 +288,12 @@
           "loaded": true,
           "display": 72,
           "native": 411,
+          "density": 2
+        },
+        {
+          "loaded": true,
+          "display": 72,
+          "native": 175,
           "density": 2
         }
       ],

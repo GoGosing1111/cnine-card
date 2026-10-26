@@ -21,7 +21,7 @@ async function state(){
 }
 if(mode==='inspect'){
   const before=await state();save('before-deploy.json',before);
-  save('deployment-plan.json',{base:before.pages.commit,reason:'Split the CNINE roster into a department selection page and separate female/star pages, each with three columns. Append BJ Chaeri and Kkukka after the existing female members. Preserve the existing art, lobby entry, station links and lounge CMS; validate actual-main PC/mobile navigation and related lobby/lounge regressions. No account or settings writes.',tests:['tests/streamer-lounge-v2036.test.mjs','tests/adventure-lobby-menu-separation.test.mjs'],checks:[]});
+  save('deployment-plan.json',{base:before.pages.commit,reason:'Split the CNINE roster into a department selection page and separate female/star pages, each with three columns. Append BJ Chaeri, Kkukka and Idani after the existing female members. Preserve the existing art, lobby entry, station links and lounge CMS; validate actual-main PC/mobile navigation and related lobby/lounge regressions. No account or settings writes.',tests:['tests/streamer-lounge-v2036.test.mjs','tests/adventure-lobby-menu-separation.test.mjs'],checks:[]});
   console.log(JSON.stringify({pages:before.pages,rosterCount:before.roster.profiles.length,rosterHash:before.rosterHash}));
 }else if(mode==='deploy'){
   const plan=JSON.parse(fs.readFileSync(path.join(out,'deployment-plan.json'))),head=git('rev-parse','HEAD');

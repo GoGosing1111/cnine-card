@@ -7,7 +7,7 @@ import { chromium } from 'file:///C:/Users/User/.cache/codex-runtimes/codex-prim
 const root = process.cwd(), out = process.env.QA_OUT || path.join(root, 'docs/qa/cnine-departments-20261026');
 const publicBase = process.env.QA_PUBLIC_BASE || '';
 const roster = await (await fetch('https://cnine-card.pages.dev/api/streamer-profiles')).json();
-const expected = [['kaja0011','여을'],['chocho12','초초'],['yjk011599','나무늘봉순'],['lcy011027','BJ채리'],['wkao85guo','꾸까'],['mew030709','남수댕'],['zalalz','조은'],['qpqpro','디임']];
+const expected = [['kaja0011','여을'],['chocho12','초초'],['yjk011599','나무늘봉순'],['lcy011027','BJ채리'],['wkao85guo','꾸까'],['0929kelly','이다니♥'],['mew030709','남수댕'],['zalalz','조은'],['qpqpro','디임']];
 const mime = {'.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.svg':'image/svg+xml','.woff2':'font/woff2'};
 const missing = [], writes = [];
 const apiPayload = pathname => pathname === '/api/streamer-profiles' ? roster : { maintenance:{active:false},enabled:false,visible:false,cards:[],packs:[],items:[],operations:[] };
@@ -76,15 +76,15 @@ try {
     assert.equal(await board.locator('.c9-member:visible').count(),0,'No mixed department list on entry');
     assert.equal(await home.getByRole('button').count(),2);
     await page.screenshot({path:path.join(out,'home-'+width+'.png')});
-    await home.getByRole('button',{name:'여캠부 5명 · 페이지 입장'}).click();
+    await home.getByRole('button',{name:'여캠부 6명 · 페이지 입장'}).click();
     const female=board.locator('[data-cnine-page="female"]'),star=board.locator('[data-cnine-page="star"]');
     assert(await female.isVisible());assert(!(await home.isVisible()));assert(!(await star.isVisible()));
-    assert.deepEqual(await female.locator('.c9-member h3').allTextContents(),expected.slice(0,5).map(row=>row[1]));
-    assert.equal(await board.locator('.c9-roster-nav [aria-current="page"]').textContent(),'여캠부5');
+    assert.deepEqual(await female.locator('.c9-member h3').allTextContents(),expected.slice(0,6).map(row=>row[1]));
+    assert.equal(await board.locator('.c9-roster-nav [aria-current="page"]').textContent(),'여캠부6');
     assert(await female.locator('h2').evaluate(el=>el===document.activeElement),'Focus follows the selected page');
     const rows=await female.locator('.c9-member').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width};}));
-    assert(rows[0].y===rows[1].y&&rows[1].y===rows[2].y&&rows[3].y===rows[4].y&&rows[3].y>rows[0].y,'Three columns, additions continue in second row');
-    assert(Math.abs(rows[0].x-rows[3].x)<1&&Math.abs(rows[1].x-rows[4].x)<1);
+    assert(rows[0].y===rows[1].y&&rows[1].y===rows[2].y&&rows[3].y===rows[4].y&&rows[4].y===rows[5].y&&rows[3].y>rows[0].y,'Three columns, additions continue in second row');
+    assert(Math.abs(rows[0].x-rows[3].x)<1&&Math.abs(rows[1].x-rows[4].x)<1&&Math.abs(rows[2].x-rows[5].x)<1);
     assert(await board.evaluate(el=>el.scrollWidth<=el.clientWidth+1),'Female page has no horizontal overflow');
     await page.screenshot({path:path.join(out,'female-'+width+'.png')});
     const links=await board.locator('.c9-member').evaluateAll(els=>els.map(el=>({href:el.getAttribute('href'),target:el.target,rel:el.rel})));
@@ -93,13 +93,13 @@ try {
     const portraits=await female.locator('.c9-member-portrait img').evaluateAll(els=>els.map(el=>({loaded:el.naturalWidth>0,display:el.getBoundingClientRect().width,native:Math.min(el.naturalWidth,el.naturalHeight),density:devicePixelRatio})));
     assert(portraits.every(p=>p.loaded&&(p.display-2)*p.density<=p.native+1),'Original profile pixels are not enlarged');
     const buttonColor=await female.locator('.c9-member-link').first().evaluate(el=>getComputedStyle(el).color);assert.equal(buttonColor,'rgb(17, 38, 63)');
-    for(const [id,name] of expected.slice(3,5)){
+    for(const [id,name] of expected.slice(3,6)){
       const popupPromise=page.waitForEvent('popup');await female.getByRole('link',{name:name+' SOOP 방송국 바로가기 (새 탭)'}).click();
       const popup=await popupPromise;await popup.waitForLoadState('domcontentloaded');assert.equal(popup.url(),'https://www.sooplive.com/station/'+id);assert.equal(await popup.evaluate(()=>window.opener),null);await popup.close();
     }
     await board.locator('.c9-roster-nav [data-cnine-view="star"]').click();
     assert(await star.isVisible());assert(!(await female.isVisible()));
-    assert.deepEqual(await star.locator('.c9-member h3').allTextContents(),expected.slice(5).map(row=>row[1]));
+    assert.deepEqual(await star.locator('.c9-member h3').allTextContents(),expected.slice(6).map(row=>row[1]));
     const starRows=await star.locator('.c9-member').evaluateAll(els=>els.map(el=>el.getBoundingClientRect().y));assert(starRows.every(y=>y===starRows[0]),'Star department has three columns');
     assert(await board.evaluate(el=>el.scrollWidth<=el.clientWidth+1),'Star page has no horizontal overflow');
     await page.screenshot({path:path.join(out,'star-'+width+'.png')});
@@ -121,7 +121,7 @@ try {
     }
     assert.deepEqual(errors,[]);
     reports.push({width,entryBox,links,portraits,departments:true,directLobbyEntrance:true,keyboardAndBackButtonToLobby:true,newTabOpenerNull:true,noOverflow:true,buttonColor,errors});
-    console.log('PASS '+width+': lobby → department selector → female 5 / star 3 in separate 3-column pages → new station links → lobby');
+    console.log('PASS '+width+': lobby → department selector → female 6 / star 3 in separate 3-column pages → new station links → lobby');
     await page.close();
   }
   assert.deepEqual(writes,[]);assert.deepEqual(missing,[]);
