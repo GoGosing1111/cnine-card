@@ -1,0 +1,21 @@
+✔ server policy overrides forged stats and immunities, preserving ordinary SSS power and equipment accounting (5.0497ms)
+✔ link grants health, attack and shield once per owner, retaining damaged entry and level 21 equipment (13.7659ms)
+✔ 60% personal mitigation consumes shield before health in the canonical engine, without identity leakage (12.5848ms)
+✔ two owner card actions fund eight Razak actions and no teammate or dead fighter receives that credit (1.6775ms)
+✔ skill caps and energy apply only to Razak; silence still prevents casts and repeated hooks cannot recharge twice (0.7481ms)
+✔ actual ranked duo accepts Razak and preserves each owner equipment, grade and common energy budget (20.8546ms)
+✔ approved runtime assets fit Pages and excluded Node commands remain byte-identical in Git (106.2437ms)
+✔ Razak remains ordinary SSS at 1,000,000 with an explicit balance policy independent of visual speed (5.4294ms)
+✔ other acquisition pools remain closed, including positive CMS weights and limited/craft/cube paths (2757.6814ms)
+✔ assassination targets and one total damage budget are stable across duplicate, dead and hidden targets (4.4597ms)
+✔ three skills share cooldown and pay once per cast; no area cast in PVP (6.1328ms)
+✔ actual PVE/PVP server timelines preserve 1,000,000 and use only the allowed Razak skills (34.2091ms)
+✔ public codex and byte-identical source retain the accepted name, grade, power and 2+1 skills (31.5349ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6025.1333

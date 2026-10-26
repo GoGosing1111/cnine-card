@@ -1,0 +1,1447 @@
+{
+  "checkedAt": "2026-10-26T00:02:25.133Z",
+  "result": "PASS",
+  "conditions": "Identical five-card decks, card equipment, magic, mercenary equipment and levels; both attacker/defender sides per seed. No pets. All opponents use captured live CMS snapshots and canonical server policies. Team victories, not standalone mercenary duels.",
+  "scope": "CANONICAL_TEAM_SIMULATION_NOT_LIVE_PLAYER_WIN_RATE",
+  "targets": {
+    "lower": [
+      "V-996",
+      "V-999"
+    ],
+    "middle": [
+      "V-989",
+      "V-988",
+      "V-987"
+    ],
+    "upper": [
+      "V-979",
+      "V-978",
+      "V-976",
+      "V-975",
+      "V-974",
+      "V-973",
+      "V-972"
+    ]
+  },
+  "groups": {
+    "ordinarySS": {
+      "opponents": 17,
+      "wins": 14144,
+      "total": 14144,
+      "winRate": 1,
+      "minWinRate": 1
+    },
+    "limitedSS": {
+      "opponents": 21,
+      "wins": 14788,
+      "total": 17472,
+      "winRate": 0.8463827838827839,
+      "minWinRate": 0.5084134615384616
+    },
+    "limitedSSS": {
+      "opponents": 12,
+      "wins": 2641,
+      "total": 9984,
+      "winRate": 0.26452323717948717,
+      "minWinRate": 0
+    }
+  },
+  "total": 46592,
+  "unrelatedBattles": 1456,
+  "rows": [
+    {
+      "code": "V-004",
+      "name": "베스페라",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-009",
+      "name": "련화",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-010",
+      "name": "월령",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "rank": "SSS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-036",
+      "name": "네레이아",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-037",
+      "name": "아델린",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-040",
+      "name": "마리엘",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-042",
+      "name": "경찰 조은",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-043",
+      "name": "동탄 디임",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-044",
+      "name": "하이희야",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-045",
+      "name": "망이사",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-046",
+      "name": "라그니엘",
+      "rank": "SSS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-047",
+      "name": "비키니 조은",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-048",
+      "name": "흑월",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-049",
+      "name": "크라이베른",
+      "rank": "SSS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-050",
+      "name": "저격 오리꿍",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-051",
+      "name": "디임간호사",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-052",
+      "name": "희야 간호사",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-053",
+      "name": "조은 간호사",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-054",
+      "name": "봉순 간호사",
+      "rank": "SS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-055",
+      "name": "베르칸",
+      "rank": "SSS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-056",
+      "name": "아잔트",
+      "rank": "SSS",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-057",
+      "name": "신궁 강윤",
+      "rank": "SSS",
+      "wins": 491,
+      "total": 832,
+      "winRate": 0.5901442307692307,
+      "sides": {
+        "A": {
+          "wins": 263,
+          "draws": 0,
+          "total": 416,
+          "losses": 153,
+          "winRate": 0.6322115384615384
+        },
+        "B": {
+          "wins": 228,
+          "draws": 0,
+          "total": 416,
+          "losses": 188,
+          "winRate": 0.5480769230769231
+        }
+      }
+    },
+    {
+      "code": "V-996",
+      "name": "발테르",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "wins": 466,
+      "total": 832,
+      "winRate": 0.5600961538461539,
+      "sides": {
+        "A": {
+          "wins": 243,
+          "draws": 0,
+          "total": 416,
+          "losses": 173,
+          "winRate": 0.5841346153846154
+        },
+        "B": {
+          "wins": 223,
+          "draws": 0,
+          "total": 416,
+          "losses": 193,
+          "winRate": 0.5360576923076923
+        }
+      }
+    },
+    {
+      "code": "V-999",
+      "name": "헬리오스",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "wins": 483,
+      "total": 832,
+      "winRate": 0.5805288461538461,
+      "sides": {
+        "A": {
+          "wins": 263,
+          "draws": 0,
+          "total": 416,
+          "losses": 153,
+          "winRate": 0.6322115384615384
+        },
+        "B": {
+          "wins": 220,
+          "draws": 0,
+          "total": 416,
+          "losses": 196,
+          "winRate": 0.5288461538461539
+        }
+      }
+    },
+    {
+      "code": "V-990",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 783,
+      "total": 832,
+      "winRate": 0.9411057692307693,
+      "sides": {
+        "A": {
+          "wins": 402,
+          "draws": 0,
+          "total": 416,
+          "losses": 14,
+          "winRate": 0.9663461538461539
+        },
+        "B": {
+          "wins": 381,
+          "draws": 0,
+          "total": 416,
+          "losses": 35,
+          "winRate": 0.9158653846153846
+        }
+      }
+    },
+    {
+      "code": "V-991",
+      "name": "조은",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 830,
+      "total": 832,
+      "winRate": 0.9975961538461539,
+      "sides": {
+        "A": {
+          "wins": 415,
+          "draws": 0,
+          "total": 416,
+          "losses": 1,
+          "winRate": 0.9975961538461539
+        },
+        "B": {
+          "wins": 415,
+          "draws": 0,
+          "total": 416,
+          "losses": 1,
+          "winRate": 0.9975961538461539
+        }
+      }
+    },
+    {
+      "code": "V-992",
+      "name": "이네스",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 832,
+      "total": 832,
+      "winRate": 1,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        }
+      }
+    },
+    {
+      "code": "V-993",
+      "name": "오리꿍",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 823,
+      "total": 832,
+      "winRate": 0.9891826923076923,
+      "sides": {
+        "A": {
+          "wins": 413,
+          "draws": 0,
+          "total": 416,
+          "losses": 3,
+          "winRate": 0.9927884615384616
+        },
+        "B": {
+          "wins": 410,
+          "draws": 0,
+          "total": 416,
+          "losses": 6,
+          "winRate": 0.9855769230769231
+        }
+      }
+    },
+    {
+      "code": "V-994",
+      "name": "디임",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 828,
+      "total": 832,
+      "winRate": 0.9951923076923077,
+      "sides": {
+        "A": {
+          "wins": 414,
+          "draws": 0,
+          "total": 416,
+          "losses": 2,
+          "winRate": 0.9951923076923077
+        },
+        "B": {
+          "wins": 414,
+          "draws": 0,
+          "total": 416,
+          "losses": 2,
+          "winRate": 0.9951923076923077
+        }
+      }
+    },
+    {
+      "code": "V-997",
+      "name": "아윤",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 826,
+      "total": 832,
+      "winRate": 0.9927884615384616,
+      "sides": {
+        "A": {
+          "wins": 416,
+          "draws": 0,
+          "total": 416,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 410,
+          "draws": 0,
+          "total": 416,
+          "losses": 6,
+          "winRate": 0.9855769230769231
+        }
+      }
+    },
+    {
+      "code": "V-998",
+      "name": "하이희야",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 827,
+      "total": 832,
+      "winRate": 0.9939903846153846,
+      "sides": {
+        "A": {
+          "wins": 415,
+          "draws": 0,
+          "total": 416,
+          "losses": 1,
+          "winRate": 0.9975961538461539
+        },
+        "B": {
+          "wins": 412,
+          "draws": 0,
+          "total": 416,
+          "losses": 4,
+          "winRate": 0.9903846153846154
+        }
+      }
+    },
+    {
+      "code": "V-980",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 735,
+      "total": 832,
+      "winRate": 0.8834134615384616,
+      "sides": {
+        "A": {
+          "wins": 382,
+          "draws": 0,
+          "total": 416,
+          "losses": 34,
+          "winRate": 0.9182692307692307
+        },
+        "B": {
+          "wins": 353,
+          "draws": 0,
+          "total": 416,
+          "losses": 63,
+          "winRate": 0.8485576923076923
+        }
+      }
+    },
+    {
+      "code": "V-981",
+      "name": "조은",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 763,
+      "total": 832,
+      "winRate": 0.9170673076923077,
+      "sides": {
+        "A": {
+          "wins": 380,
+          "draws": 0,
+          "total": 416,
+          "losses": 36,
+          "winRate": 0.9134615384615384
+        },
+        "B": {
+          "wins": 383,
+          "draws": 0,
+          "total": 416,
+          "losses": 33,
+          "winRate": 0.9206730769230769
+        }
+      }
+    },
+    {
+      "code": "V-982",
+      "name": "하이희야",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 803,
+      "total": 832,
+      "winRate": 0.9651442307692307,
+      "sides": {
+        "A": {
+          "wins": 404,
+          "draws": 0,
+          "total": 416,
+          "losses": 12,
+          "winRate": 0.9711538461538461
+        },
+        "B": {
+          "wins": 399,
+          "draws": 0,
+          "total": 416,
+          "losses": 17,
+          "winRate": 0.9591346153846154
+        }
+      }
+    },
+    {
+      "code": "V-983",
+      "name": "오리꿍",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 798,
+      "total": 832,
+      "winRate": 0.9591346153846154,
+      "sides": {
+        "A": {
+          "wins": 404,
+          "draws": 0,
+          "total": 416,
+          "losses": 12,
+          "winRate": 0.9711538461538461
+        },
+        "B": {
+          "wins": 394,
+          "draws": 0,
+          "total": 416,
+          "losses": 22,
+          "winRate": 0.9471153846153846
+        }
+      }
+    },
+    {
+      "code": "V-984",
+      "name": "디임",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 688,
+      "total": 832,
+      "winRate": 0.8269230769230769,
+      "sides": {
+        "A": {
+          "wins": 342,
+          "draws": 0,
+          "total": 416,
+          "losses": 74,
+          "winRate": 0.8221153846153846
+        },
+        "B": {
+          "wins": 346,
+          "draws": 0,
+          "total": 416,
+          "losses": 70,
+          "winRate": 0.8317307692307693
+        }
+      }
+    },
+    {
+      "code": "V-985",
+      "name": "아윤",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 750,
+      "total": 832,
+      "winRate": 0.9014423076923077,
+      "sides": {
+        "A": {
+          "wins": 375,
+          "draws": 0,
+          "total": 416,
+          "losses": 41,
+          "winRate": 0.9014423076923077
+        },
+        "B": {
+          "wins": 375,
+          "draws": 0,
+          "total": 416,
+          "losses": 41,
+          "winRate": 0.9014423076923077
+        }
+      }
+    },
+    {
+      "code": "V-986",
+      "name": "남수댕",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 732,
+      "total": 832,
+      "winRate": 0.8798076923076923,
+      "sides": {
+        "A": {
+          "wins": 366,
+          "draws": 0,
+          "total": 416,
+          "losses": 50,
+          "winRate": 0.8798076923076923
+        },
+        "B": {
+          "wins": 366,
+          "draws": 0,
+          "total": 416,
+          "losses": 50,
+          "winRate": 0.8798076923076923
+        }
+      }
+    },
+    {
+      "code": "V-977",
+      "name": "바토리",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 586,
+      "total": 832,
+      "winRate": 0.7043269230769231,
+      "sides": {
+        "A": {
+          "wins": 314,
+          "draws": 0,
+          "total": 416,
+          "losses": 102,
+          "winRate": 0.7548076923076923
+        },
+        "B": {
+          "wins": 272,
+          "draws": 0,
+          "total": 416,
+          "losses": 144,
+          "winRate": 0.6538461538461539
+        }
+      }
+    },
+    {
+      "code": "V-960",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 504,
+      "total": 832,
+      "winRate": 0.6057692307692307,
+      "sides": {
+        "A": {
+          "wins": 270,
+          "draws": 0,
+          "total": 416,
+          "losses": 146,
+          "winRate": 0.6490384615384616
+        },
+        "B": {
+          "wins": 234,
+          "draws": 0,
+          "total": 416,
+          "losses": 182,
+          "winRate": 0.5625
+        }
+      }
+    },
+    {
+      "code": "V-961",
+      "name": "조은",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 471,
+      "total": 832,
+      "winRate": 0.5661057692307693,
+      "sides": {
+        "A": {
+          "wins": 256,
+          "draws": 0,
+          "total": 416,
+          "losses": 160,
+          "winRate": 0.6153846153846154
+        },
+        "B": {
+          "wins": 215,
+          "draws": 0,
+          "total": 416,
+          "losses": 201,
+          "winRate": 0.5168269230769231
+        }
+      }
+    },
+    {
+      "code": "V-962",
+      "name": "디임",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 551,
+      "total": 832,
+      "winRate": 0.6622596153846154,
+      "sides": {
+        "A": {
+          "wins": 289,
+          "draws": 0,
+          "total": 416,
+          "losses": 127,
+          "winRate": 0.6947115384615384
+        },
+        "B": {
+          "wins": 262,
+          "draws": 0,
+          "total": 416,
+          "losses": 154,
+          "winRate": 0.6298076923076923
+        }
+      }
+    },
+    {
+      "code": "V-963",
+      "name": "카르베나",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 423,
+      "total": 832,
+      "winRate": 0.5084134615384616,
+      "sides": {
+        "A": {
+          "wins": 214,
+          "draws": 0,
+          "total": 416,
+          "losses": 202,
+          "winRate": 0.5144230769230769
+        },
+        "B": {
+          "wins": 209,
+          "draws": 0,
+          "total": 416,
+          "losses": 207,
+          "winRate": 0.5024038461538461
+        }
+      }
+    },
+    {
+      "code": "V-964",
+      "name": "네베라",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 432,
+      "total": 832,
+      "winRate": 0.5192307692307693,
+      "sides": {
+        "A": {
+          "wins": 232,
+          "draws": 0,
+          "total": 416,
+          "losses": 184,
+          "winRate": 0.5576923076923077
+        },
+        "B": {
+          "wins": 200,
+          "draws": 0,
+          "total": 416,
+          "losses": 216,
+          "winRate": 0.4807692307692308
+        }
+      }
+    },
+    {
+      "code": "V-965",
+      "name": "블러드문 남수댕",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 803,
+      "total": 832,
+      "winRate": 0.9651442307692307,
+      "sides": {
+        "A": {
+          "wins": 407,
+          "draws": 0,
+          "total": 416,
+          "losses": 9,
+          "winRate": 0.9783653846153846
+        },
+        "B": {
+          "wins": 396,
+          "draws": 0,
+          "total": 416,
+          "losses": 20,
+          "winRate": 0.9519230769230769
+        }
+      }
+    },
+    {
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "wins": 358,
+      "total": 832,
+      "winRate": 0.43028846153846156,
+      "sides": {
+        "A": {
+          "wins": 182,
+          "draws": 0,
+          "total": 416,
+          "losses": 234,
+          "winRate": 0.4375
+        },
+        "B": {
+          "wins": 176,
+          "draws": 0,
+          "total": 416,
+          "losses": 240,
+          "winRate": 0.4230769230769231
+        }
+      }
+    },
+    {
+      "code": "V-988",
+      "name": "카이론",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "wins": 415,
+      "total": 832,
+      "winRate": 0.4987980769230769,
+      "sides": {
+        "A": {
+          "wins": 210,
+          "draws": 0,
+          "total": 416,
+          "losses": 206,
+          "winRate": 0.5048076923076923
+        },
+        "B": {
+          "wins": 205,
+          "draws": 0,
+          "total": 416,
+          "losses": 211,
+          "winRate": 0.49278846153846156
+        }
+      }
+    },
+    {
+      "code": "V-987",
+      "name": "시라누이",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "wins": 351,
+      "total": 832,
+      "winRate": 0.421875,
+      "sides": {
+        "A": {
+          "wins": 187,
+          "draws": 0,
+          "total": 416,
+          "losses": 229,
+          "winRate": 0.4495192307692308
+        },
+        "B": {
+          "wins": 164,
+          "draws": 0,
+          "total": 416,
+          "losses": 252,
+          "winRate": 0.3942307692307692
+        }
+      }
+    },
+    {
+      "code": "V-979",
+      "name": "족로",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "wins": 65,
+      "total": 832,
+      "winRate": 0.078125,
+      "sides": {
+        "A": {
+          "wins": 41,
+          "draws": 0,
+          "total": 416,
+          "losses": 375,
+          "winRate": 0.0985576923076923
+        },
+        "B": {
+          "wins": 24,
+          "draws": 0,
+          "total": 416,
+          "losses": 392,
+          "winRate": 0.057692307692307696
+        }
+      }
+    },
+    {
+      "code": "V-978",
+      "name": "레오넬",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "wins": 48,
+      "total": 832,
+      "winRate": 0.057692307692307696,
+      "sides": {
+        "A": {
+          "wins": 27,
+          "draws": 0,
+          "total": 416,
+          "losses": 389,
+          "winRate": 0.06490384615384616
+        },
+        "B": {
+          "wins": 21,
+          "draws": 0,
+          "total": 416,
+          "losses": 395,
+          "winRate": 0.05048076923076923
+        }
+      }
+    },
+    {
+      "code": "V-976",
+      "name": "제로",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "wins": 0,
+      "total": 832,
+      "winRate": 0,
+      "sides": {
+        "A": {
+          "wins": 0,
+          "draws": 0,
+          "total": 416,
+          "losses": 416,
+          "winRate": 0
+        },
+        "B": {
+          "wins": 0,
+          "draws": 0,
+          "total": 416,
+          "losses": 416,
+          "winRate": 0
+        }
+      }
+    },
+    {
+      "code": "V-975",
+      "name": "프라임 레퀴엠",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "wins": 1,
+      "total": 832,
+      "winRate": 0.001201923076923077,
+      "sides": {
+        "A": {
+          "wins": 0,
+          "draws": 0,
+          "total": 416,
+          "losses": 416,
+          "winRate": 0
+        },
+        "B": {
+          "wins": 1,
+          "draws": 0,
+          "total": 416,
+          "losses": 415,
+          "winRate": 0.002403846153846154
+        }
+      }
+    },
+    {
+      "code": "V-974",
+      "name": "제너럴 족",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "wins": 7,
+      "total": 832,
+      "winRate": 0.008413461538461538,
+      "sides": {
+        "A": {
+          "wins": 6,
+          "draws": 0,
+          "total": 416,
+          "losses": 410,
+          "winRate": 0.014423076923076924
+        },
+        "B": {
+          "wins": 1,
+          "draws": 0,
+          "total": 416,
+          "losses": 415,
+          "winRate": 0.002403846153846154
+        }
+      }
+    },
+    {
+      "code": "V-973",
+      "name": "은설",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "wins": 173,
+      "total": 832,
+      "winRate": 0.20793269230769232,
+      "sides": {
+        "A": {
+          "wins": 103,
+          "draws": 0,
+          "total": 416,
+          "losses": 313,
+          "winRate": 0.24759615384615385
+        },
+        "B": {
+          "wins": 70,
+          "draws": 0,
+          "total": 416,
+          "losses": 346,
+          "winRate": 0.16826923076923078
+        }
+      }
+    },
+    {
+      "code": "V-972",
+      "name": "각성 오메가",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "wins": 274,
+      "total": 832,
+      "winRate": 0.3293269230769231,
+      "sides": {
+        "A": {
+          "wins": 138,
+          "draws": 0,
+          "total": 416,
+          "losses": 278,
+          "winRate": 0.3317307692307692
+        },
+        "B": {
+          "wins": 136,
+          "draws": 0,
+          "total": 416,
+          "losses": 280,
+          "winRate": 0.3269230769230769
+        }
+      }
+    }
+  ],
+  "policy": {
+    "version": 4,
+    "basePower": 1000000,
+    "statScale": 2.4,
+    "speedScale": 4,
+    "actionCredit": 4,
+    "actionEnergy": 10,
+    "link": {
+      "attackPercent": 1400,
+      "hpPercent": 800,
+      "shieldPercent": 400
+    },
+    "damageTakenScale": 0.4,
+    "basicCapScale": 1,
+    "pvpSkillCapScale": 3,
+    "motionPlaybackRate": 2
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "version": 4,
+  "basePower": 1000000,
+  "actionEnergy": 10,
+  "motionPlaybackRate": 2,
+  "statScale": 1.25,
+  "speedScale": 4,
+  "actionCredit": 4,
+  "link": {
+    "attackPercent": 1800,
+    "hpPercent": 1000,
+    "shieldPercent": 500
+  },
+  "damageTakenScale": 0.35,
+  "basicCapScale": 1.5,
+  "pvpSkillCapScale": 2.5
+}

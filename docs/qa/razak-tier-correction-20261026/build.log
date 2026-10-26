@@ -1,0 +1,6 @@
+
+> build:v3-grid
+> node scripts/build-v3-grid-consumers.mjs
+
+Hunt V2 built with current canonical V3 engine, playback, roster and adapters.
+Built 10 V3 consumers with one shared grid. No deployment performed.
