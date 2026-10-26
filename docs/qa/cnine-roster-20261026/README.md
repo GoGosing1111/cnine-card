@@ -17,3 +17,5 @@
 첫 배포 준비에서 Pages 파일 수 20,003개 한도를 감지하여 외부 배포 전에 중단했다. `scripts/generate-responsive-card-images.py`, `scripts/generate-responsive-ui-images.py`, `scripts/generate-project-v-advancement-sfx-v1.py` 3개 오프라인 제작 도구만 배포 대상에서 제외하고 소스/산출물은 보존했다. 20,000개로 성공했고 기존 22개 검사는 반복하지 않았다. 첫 실패 및 재시도 로그 모두 보존했다. 공식 배포 임시 디렉터리 `cnine-release-SZm1fd` 자동 회수를 확인했다.
 
 최종 사용자용 화면/배경/프롬프트 사본: `C:/Users/User/Downloads/upload/cnine-card/output/cnine-roster-20261026/`. 원화 정본은 저장소 `art/`와 원래 generated_images 경로에 유지한다. 저장소 audit에서 기존 .codex 사용량 75.353GiB로 기준 초과를 확인했으며 다른 진행 중 폴더·대화·고유 원화를 삭제하지 않았다.
+
+최종 정리: 공식 archive_worktree가 현재 기본 체크아웃 보호로 거부했다. 이 작업의 깨끗한 커밋을 sparse checkout으로 축소하여 57.77MiB만 남겼으며, 현황판 원화·프롬프트·소스·검수·복구 브랜치를 보존했다. 부모 의존성 junction은 삭제 안전 정책으로 유지한다(의존성 복사 0). 전체 .codex는 동시 진행 작업을 포함해 87.143GiB로 목표를 초과한다. 다른 작업·대화·원화는 손대지 않았다. 상세 storage-closeout.json 참조.

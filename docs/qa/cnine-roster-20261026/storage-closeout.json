@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-26T00:43:36.741840+00:00",
+  "deployment": "a3196dc0-3582-462f-a0fb-e6b58f4f9535",
+  "releaseCommit": "656fb7351c80aa71c31ea3ad5efbf703f02008fe",
+  "finalCodeRecord": "7c2f71defd5f818b7c3c021d2fd2f6323d65a3f2",
+  "archiveResult": "The task’s primary checkout cannot be removed.",
+  "dependencyLinkCleanup": "Shell safety policy rejected removal; the zero-copy parent junction is retained.",
+  "safeAlternative": "Clean Git sparse checkout retains all task artwork, source, QA and recovery commits. Duplicate unrelated tracked files are omitted from this checkout and remain in Git and the existing source checkout.",
+  "taskCheckoutBytes": 60579854,
+  "taskCheckoutMiB": 57.77,
+  "codexTotalGiB": 87.143,
+  "otherTaskDataChanged": false
+}
