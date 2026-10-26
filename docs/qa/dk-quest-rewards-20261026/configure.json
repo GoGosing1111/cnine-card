@@ -1,0 +1,24 @@
+{
+  "mode": "configure",
+  "at": "2026-10-26T01:49:49.063Z",
+  "operationKey": "ops:dk-quest-rewards:20261026:v1",
+  "status": "CONFIGURED",
+  "summary": {
+    "uniqueUsers": 23,
+    "DAILY": {
+      "count": 22,
+      "totalCoin": "107800000000000"
+    },
+    "WEEKLY": {
+      "count": 1,
+      "totalCoin": "29000000000000"
+    }
+  },
+  "planHash": "a1fc4b0abf3288b3b6b31d21b73002012a338951e5c62e66faed9607fe64a3dd",
+  "configAuditId": "51546",
+  "dryRun": false,
+  "replayed": false,
+  "directWalletOrSourceReceiptWrites": 0,
+  "sqlStatements": 16,
+  "writeStatements": 4
+}

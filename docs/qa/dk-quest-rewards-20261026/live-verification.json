@@ -1,0 +1,21 @@
+{
+  "verifiedAt": "2026-10-26T01:49:39.429Z",
+  "sourceHead": "af755ca17917bf1426e6a347947c339040a64605",
+  "pages": {
+    "id": "fc9476c4-5ce9-462a-8e87-4814eedae3a6",
+    "commit": "af755ca17917bf1426e6a347947c339040a64605",
+    "status": "success"
+  },
+  "files": [
+    {
+      "file": "admin/index.html",
+      "sha256": "37a8ea76636186c17da6209b6585a79e87b93b933d71e408e453fe17f0cd81e5"
+    },
+    {
+      "file": "admin/daily-quest-admin-v1270.js",
+      "sha256": "93c3763d9ef9287f1d63168df517566d8d4aec5cfb1e01d65d83bc319c549872"
+    }
+  ],
+  "apiBundleSha256": "131c97961defc99aad14f20df398f8a6f574e96d882deebb744599840e8bb889",
+  "apiDailyFiveTrillionConfirmed": true
+}
