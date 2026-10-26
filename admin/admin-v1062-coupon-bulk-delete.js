@@ -51,7 +51,7 @@
         <div class="couponBulkReward"><small>${escapeHtml(rewardLabels[String(coupon.reward_type||'COIN').toUpperCase()]||'보상')}</small><strong>${number(coupon.reward_amount||coupon.reward_coin||0)}</strong></div>
         <div class="couponBulkUsage"><small>사용 현황</small><b>${number(coupon.used_count)} / ${number(coupon.max_uses)}</b><div><i style="width:${Math.min(100,Math.max(0,(Number(coupon.used_count||0)/Math.max(1,Number(coupon.max_uses||1)))*100))}%"></i></div></div>
         <div class="couponBulkPeriod"><small>사용 기간</small><span>${shortDate(coupon.starts_at)}</span><span>${shortDate(coupon.ends_at)}</span></div>
-        <div class="couponBulkActions"><span class="couponBulkStatus ${status.className}">${status.label}</span><button type="button" class="ghost" ${coupon.reward_type==='MIRACLE_CUBE'&&!(window.__SOOP_CMS_IDENTITY__?.role==='OWNER'&&window.__SOOP_CMS_IDENTITY__?.nickname==='핑크빛유두')?'disabled title="OWNER 핑크빛유두 전용"':''} data-coupon-toggle="${id}" data-next-active="${Number(coupon.is_active)===1?'0':'1'}">${Number(coupon.is_active)===1?'중지':'재개'}</button></div>
+        <div class="couponBulkActions"><span class="couponBulkStatus ${status.className}">${status.label}</span><button type="button" class="ghost" ${coupon.reward_type==='MIRACLE_CUBE'&&!(window.__SOOP_CMS_IDENTITY__?.role==='OWNER')?'disabled title="OWNER 전용"':''} data-coupon-toggle="${id}" data-next-active="${Number(coupon.is_active)===1?'0':'1'}">${Number(coupon.is_active)===1?'중지':'재개'}</button></div>
       </div>`;
     }).join('');
 
