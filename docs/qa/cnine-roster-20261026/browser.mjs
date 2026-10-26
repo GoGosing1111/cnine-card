@@ -42,8 +42,7 @@ try {
       await page.route(publicBase + '/api/**', route => { assert.equal(route.request().method(),'GET'); return route.fulfill({json:apiPayload(new URL(route.request().url()).pathname)}); });
       await page.route(publicBase + '/__qa/cnine-roster', route => route.fulfill({contentType:'text/html; charset=utf-8',body:moduleHtml}));
       await page.goto(publicBase + '/__qa/cnine-roster', {waitUntil:'domcontentloaded'});
-      await page.waitForFunction(() => window.StreamerLounge);
-      await page.evaluate(() => StreamerLounge.mount());
+      await page.locator('[data-cnine-lobby-open]').waitFor();
     } else {
       await page.goto(origin + '/', {waitUntil:'domcontentloaded',timeout:60000});
       await page.waitForFunction(() => window.StreamerLounge && window.SoopketmonV21ExactShell && typeof renderShell === 'function');

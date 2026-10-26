@@ -1,0 +1,46 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"b2085b68482bb2927667da01b6811d6cbbbb36c6","reason":"Add the user-requested compact CNINE board entry directly to the lobby and return to the lobby. Generated celestial art and six responsive member cards; actual-main PC/mobile entry, station links, focus restoration and unchanged existing lounge verified.","changed":["AGENTS.md","assets/ui/streamer-lounge/cnine-roster-20261026/celestial-board.webp","css/cnine-roster-v1.css","docs/qa/cnine-roster-20261026/README.md","docs/qa/cnine-roster-20261026/art-manifest.json","docs/qa/cnine-roster-20261026/art/celestial-board-source.png","docs/qa/cnine-roster-20261026/art/user-reference.png","docs/qa/cnine-roster-20261026/board-1440.png","docs/qa/cnine-roster-20261026/board-360.png","docs/qa/cnine-roster-20261026/board-390.png","docs/qa/cnine-roster-20261026/browser.json","docs/qa/cnine-roster-20261026/browser.mjs","docs/qa/cnine-roster-20261026/entrance-1440.png","docs/qa/cnine-roster-20261026/entrance-360.png","docs/qa/cnine-roster-20261026/entrance-390.png","docs/qa/cnine-roster-20261026/image-prompt.json","docs/qa/cnine-roster-20261026/lobby-board-1440.png","docs/qa/cnine-roster-20261026/lobby-board-360.png","docs/qa/cnine-roster-20261026/lobby-board-390.png","docs/qa/cnine-roster-20261026/lobby-entry-1440.png","docs/qa/cnine-roster-20261026/lobby-entry-360.png","docs/qa/cnine-roster-20261026/lobby-entry-390.png","docs/qa/cnine-roster-20261026/release.mjs","docs/qa/razak-balance-20261026/README.md","docs/qa/razak-tier-correction-20261026/README.md","docs/qa/razak-tier-correction-20261026/after/live-after.json","docs/qa/razak-tier-correction-20261026/art-verification.json","docs/qa/razak-tier-correction-20261026/before-deploy.json","docs/qa/razak-tier-correction-20261026/deploy.log","docs/qa/razak-tier-correction-20261026/deployment-plan.json","docs/qa/razak-tier-correction-20261026/deployment-result.json","docs/qa/razak-tier-correction-20261026/live-verification.json","docs/qa/razak-tier-correction-20261026/public/browser-report.json","docs/qa/razak-tier-correction-20261026/public/desktop-codex-art.png","docs/qa/razak-tier-correction-20261026/public/desktop-codex-sd.png","docs/qa/razak-tier-correction-20261026/public/mobile-codex-art.png","docs/qa/razak-tier-correction-20261026/public/mobile-codex-sd.png","docs/qa/razak-tier-correction-20261026/settings-verification.json","index.html","js/adventure-lobby-v2107.js","js/cnine-roster-v1.js","js/streamer-lounge-v2036.js","preview/lobby-clarity-v1/index.html","service-worker.js","tests/streamer-lounge-v2036.test.mjs"],"tests":["tests/streamer-lounge-v2036.test.mjs","tests/adventure-lobby-menu-separation.test.mjs"],"checks":[]}
+✔ desktop sidebar starts at the top without the redundant content label (3.6813ms)
+✔ card and equipment destinations use separate top-level categories (1.3617ms)
+✔ legacy tutorial opens the growth guide and every destination exists in the live route contract (4.7348ms)
+✔ release ships the current guide and legacy redirect while preserving authoring files in Git (15.8042ms)
+✔ defaults match all five user-supplied names, stations and observed profile photos in order (2.1655ms)
+✔ station validation rejects spoofed domains, protocols, credentials and non-station paths (0.1826ms)
+✔ image validation allows public photos/assets and rejects executable/traversal addresses (0.2545ms)
+✔ input schema rejects duplicates, missing names, malformed flags and unbounded roster (0.7416ms)
+✔ public default read is read-only and never publishes private account fields or live guesses (19.9475ms)
+✔ CMS settings save persists reorder, photo, introduction and hidden users; public read filters hidden records (3.5206ms)
+✔ off, empty roster and all-hidden settings stay empty, never reseed removed profiles (3.1552ms)
+✔ CMS requires SETTINGS permission before reading or writing any settings (0.4648ms)
+✔ stale CMS revision cannot overwrite a newer saved roster (1.1946ms)
+✔ two simultaneous first saves result in exactly one write and a conflict (0.8989ms)
+✔ invalid or oversized body cannot change stored settings (1.0563ms)
+✔ wrong method is read-only and unrelated paths do not query the DB (0.3434ms)
+✔ corrupt persisted config fails closed, not silently replaced by initial roster (0.3543ms)
+✔ isolated live and CMS wiring, safe new-tab links and permanent no-LIVE contract (59.5323ms)
+✔ the lounge entry preserves mobile geometry and stays isolated from battle styles (0.9069ms)
+✔ premium lounge uses generated image plates, native station links and no new CSS rules (3.1694ms)
+✔ SOOP portraits use the larger animated source; custom CMS image URLs stay unchanged (0.374ms)
+✔ portrait raster pixels are never enlarged beyond their resolution on high-density screens (0.1283ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 202.461
+[PRODUCTION RELEASE OK] cnine-roster-20261026-v2-razak-tier-correction-20261026-v4-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+file:///C:/Users/User/.codex/worktrees/cnine-roster-release/cnine-card/scripts/prepare-production-assets.mjs:233
+ if(assetCount>20000)throw Error('Pages asset count exceeds the verified 20,000-file limit: '+assetCount);
+                           ^
+
+Error: Pages asset count exceeds the verified 20,000-file limit: 20003
+    at prepareProductionAssets (file:///C:/Users/User/.codex/worktrees/cnine-roster-release/cnine-card/scripts/prepare-production-assets.mjs:233:28)
+    at file:///C:/Users/User/.codex/worktrees/cnine-roster-release/cnine-card/scripts/deploy-production.mjs:66:20
+
+Node.js v24.18.0
