@@ -49,11 +49,11 @@ test('normal/limited/Halloween/fusion selection cannot award Zero even with posi
  assert.deepEqual(limitedNormalCards(cards,cards,rules).map(c=>c.code),['V-001']);
  for(const pool of [ALL_LIMITED_MERCENARIES,HALLOWEEN_PACK_CARDS,MERCENARY_CMS_SEED.catalog.cards])assert(!pool.some(c=>c.code===ZERO_CODE));
 });
-test('both area skills split one 1512% budget across unique living targets and alternate on a shared five-action cooldown',()=>{
+test('both area skills split one 3024% budget across unique living targets and alternate on a shared five-action cooldown',()=>{
  for(const skill of ZERO_AREA_SKILLS){
   const actor=fighter(ZERO_CODE),targets=Array.from({length:12},(_,i)=>({id:'t'+i,hp:10000,maxHp:10000,alive:true})),ratios=[],events=[];
   const args={actor,skill,targets:[...targets,targets[0],{id:'dead',hp:0},{id:'suit',hp:10,isBattleSuit:true}],hit:(a,t,r)=>{ratios.push(r);return {damage:100};},damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},knockout(){},emit:(type,row)=>events.push({type,...row})};
-  assert.equal(resolveZeroArea(args).length,12);assert(Math.abs(ratios.reduce((a,b)=>a+b)-15.12)<1e-9);assert.equal(events.length,1);assert.equal(events[0].type,ZERO_AREA_EVENT);assert(targets.every(t=>t.hp===9900));
+  assert.equal(resolveZeroArea(args).length,12);assert(Math.abs(ratios.reduce((a,b)=>a+b)-30.24)<1e-9);assert.equal(events.length,1);assert.equal(events[0].type,ZERO_AREA_EVENT);assert(targets.every(t=>t.hp===9900));
   for(const change of [{battleMode:'PVP'},{hp:0},{stunned:true},{silenced:true}])assert.deepEqual(resolveZeroArea({...args,actor:{...actor,...change}}),[]);
  }
  const cards=tierCards(2e7),options={cards,monster:{id:1,battle_power:1.6e10},seed:77};

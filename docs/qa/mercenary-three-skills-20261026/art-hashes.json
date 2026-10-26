@@ -1,0 +1,29 @@
+{
+  "source": "tracked approved Git objects, no asset copies",
+  "files": [
+    {
+      "file": "assets/ui/project-v/mercenaries/zero-20261020/source-art.png",
+      "sha256": "d9ebf2dd04de55d7eba230617bbe81b11c1eaf6e728d61bb32d892ecc82d0159"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/zero-20261020/idle.png",
+      "sha256": "3d2a3cb1814fc75ab99fad6e144468560ebf66d10feac6219b4f9cac4db231a9"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/prime-requiem-20261021/source-art.png",
+      "sha256": "b2d1c5df8553370ec9ff90d72e27562c404c24dcecf33935bb74f0edc13d2fdc"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/prime-requiem-20261021/idle.png",
+      "sha256": "ea00ecb24265dcf168f139361ff09d538486048a384a3bff872e174479116830"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/general-jok-20261023/source-art.png",
+      "sha256": "2fc1c16d414920e1f8576de5a32a15b5c1a3e1ddcd57c464f60be63e31bf16b8"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/general-jok-grip-20261025/ready.png",
+      "sha256": "fc466726bb0da9a70857e202669f9fb5e26bac216f6735b6c871afc05b170e86"
+    }
+  ]
+}

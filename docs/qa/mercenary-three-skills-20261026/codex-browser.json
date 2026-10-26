@@ -1,0 +1,43 @@
+{
+  "status": "PASSED",
+  "assetSource": "local source",
+  "reports": [
+    {
+      "width": 1440,
+      "code": "V-976",
+      "codex": true,
+      "skills": 5
+    },
+    {
+      "width": 1440,
+      "code": "V-975",
+      "codex": true,
+      "skills": 7
+    },
+    {
+      "width": 1440,
+      "code": "V-974",
+      "codex": true,
+      "skills": 8
+    },
+    {
+      "width": 390,
+      "code": "V-976",
+      "codex": true,
+      "skills": 5
+    },
+    {
+      "width": 390,
+      "code": "V-975",
+      "codex": true,
+      "skills": 7
+    },
+    {
+      "width": 390,
+      "code": "V-974",
+      "codex": true,
+      "skills": 8
+    }
+  ],
+  "productionTransactions": 0
+}
