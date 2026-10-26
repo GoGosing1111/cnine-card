@@ -1,11 +1,11 @@
 import {jointAccountRequest} from './joint-account-transport.mjs?v=20261024-namsudaeng-v1';
-import {BLOODMOON_PACK,bloodmoonReceiptResults,bloodmoonPackPrice} from '../shared/mercenary-bloodmoon-pack-v1.mjs?v=20261025-eunseol4-v1';
-import {BloodmoonOpeningSession} from '../shared/mercenary-bloodmoon-session-v2.mjs?v=20261025-eunseol4-v1';
+import {BLOODMOON_PACK,bloodmoonReceiptResults,bloodmoonPackPrice} from '../shared/mercenary-bloodmoon-pack-v1.mjs?v=20261026-stock-schedule-v1';
+import {BloodmoonOpeningSession} from '../shared/mercenary-bloodmoon-session-v2.mjs?v=20261026-stock-schedule-v1';
 import {BloodmoonReceiptRecovery,bloodmoonReceiptRetryable} from '../shared/mercenary-bloodmoon-recovery-v1.mjs?v=20261024-namsudaeng-v1';
 import {BloodmoonAutoOpening,bloodmoonAutoQuote} from '../shared/mercenary-bloodmoon-auto-v1.mjs?v=20261024-namsudaeng-v1';
 import {bloodmoonBulkQuote,bloodmoonBulkPriceSource,bloodmoonCoinText} from '../shared/mercenary-bloodmoon-bulk-v1.mjs';
 import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=20261024-namsudaeng-v1';
-import {bloodmoonStockText,bloodmoonCollectionMarkup,bloodmoonResultsMarkup,bloodmoonRoomMarkup} from './mercenary-bloodmoon-presentation-v2.mjs?v=20261025-eunseol4-v1';
+import {bloodmoonStockText,bloodmoonCollectionMarkup,bloodmoonResultsMarkup,bloodmoonRoomMarkup} from './mercenary-bloodmoon-presentation-v2.mjs?v=20261026-stock-schedule-v1';
 const fmt=n=>n==null?'미정':BigInt(n).toLocaleString('ko-KR');
 const currentAccount=()=>Number(globalThis.loadUser?.()?.serverUserId)||0;
 const browserLock=(key,work)=>{if(!navigator.locks?.request)throw Error('안전한 개봉을 지원하는 최신 브라우저에서 이용해 주세요.');return navigator.locks.request(key,{ifAvailable:true},lock=>{if(!lock)throw Error('다른 창에서 블러드문팩을 처리 중입니다.');return work();});};
@@ -15,10 +15,10 @@ export function bloodmoonBatchCinematic(results){return bloodmoonBatchCinematics
 export function openBloodmoonPack(){return mountBloodmoonPack();}
 export async function mountBloodmoonPack({api=jointAccountRequest,accountId=currentAccount(),getAccountId=currentAccount,storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
  if(active)return active;
- if(!document.querySelector('[data-bloodmoon-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-bloodmoon-pack-v2.css?v=20261025-eunseol4-v1';link.dataset.bloodmoonPackStyle='';document.head.append(link);}
+ if(!document.querySelector('[data-bloodmoon-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-bloodmoon-pack-v2.css?v=20261026-stock-schedule-v1';link.dataset.bloodmoonPackStyle='';document.head.append(link);}
  const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='bwp-dialog';active=dialog;
  dialog.setAttribute('aria-labelledby','bwp-title');dialog.innerHTML=bloodmoonRoomMarkup(BLOODMOON_PACK);
- const $=selector=>dialog.querySelector(selector);let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null,recovery=null;
+ const $=selector=>dialog.querySelector(selector);let stockTimer=null;let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null,recovery=null;
  const lifetime=new AbortController(),closed=()=>Object.assign(Error('계약실을 닫았습니다. 이전 결과는 다시 확인할 수 있습니다.'),{code:'BLOODMOON_ROOM_CLOSED'});
  // Retiring a stalled view cancels only its local wait. The durable request ID
  // survives, and a late response from that view cannot alter the reopened room.
@@ -56,7 +56,7 @@ export async function mountBloodmoonPack({api=jointAccountRequest,accountId=curr
   updateAutoQuote();
   updateBulkQuote();
  };
- const acceptConfig=next=>{config=next;sync();window.dispatchEvent(new CustomEvent('bloodmoon-pack:stock',{detail:{stock:config.stock}}));};
+ const acceptConfig=next=>{config=next;clearTimeout(stockTimer);const nextStock=(config.stockSchedules||[]).map(s=>Date.parse(s.executeAt)).sort((a,b)=>a-b)[0];if(Number.isFinite(nextStock)){const delay=Math.max(100,nextStock-Date.parse(config.serverNow||new Date().toISOString()));stockTimer=setTimeout(()=>{if(!disposed&&!busy&&!document.hidden)void refreshConfig();},Math.min(delay,2147483647));}sync();window.dispatchEvent(new CustomEvent('bloodmoon-pack:stock',{detail:{stock:config.stock}}));};
  const videoEnd=()=>{cinematic.cancel();$('[data-bwp-video]').hidden=true;$('[data-bwp-video-actions]').hidden=true;$('[data-bwp-film]').hidden=true;$('[data-bwp-reveal]').classList.remove('has-cinematic');};
  async function present(receipt){
   if(disposed)return;const results=bloodmoonReceiptResults(receipt);
@@ -128,8 +128,8 @@ export async function mountBloodmoonPack({api=jointAccountRequest,accountId=curr
   return result;
  }
  function dismissConfirm(){const saved=quote;quote=null;$('[data-bwp-confirm]').hidden=true;$('[data-bwp-shell]').inert=false;if(saved)(saved.bulk?$('[data-bwp-bulk-start]'):saved.auto?$('[data-bwp-auto-start]'):$('[data-bwp-buy="'+saved.count+'"]')).focus();}
- const close=()=>{if(disposed)return;auto.stop('계약실을 닫아 자동뽑기를 중지했습니다.');disposed=true;recovery.destroy();lifetime.abort();cinematic.destroy();document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',close);window.removeEventListener('online',resume);window.removeEventListener('offline',offline);window.removeEventListener('cnine:player-updated',accountChanged);dialog.close();dialog.remove();if(active===dialog)active=null;previous?.focus();};
- const resume=()=>recovery.request({resume:true});
+ const close=()=>{if(disposed)return;auto.stop('계약실을 닫아 자동뽑기를 중지했습니다.');disposed=true;clearTimeout(stockTimer);recovery.destroy();lifetime.abort();cinematic.destroy();document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',close);window.removeEventListener('online',resume);window.removeEventListener('offline',offline);window.removeEventListener('cnine:player-updated',accountChanged);dialog.close();dialog.remove();if(active===dialog)active=null;previous?.focus();};
+ const resume=()=>{recovery.request({resume:true});if(!busy&&!hasPending())void refreshConfig();};
  const offline=()=>{auto.stop('연결이 끊겨 자동뽑기를 중지했습니다.');recovery.suspend();};
  const accountChanged=()=>{if(Number(getAccountId())!==accountId)recovery.suspend();};
  const visibility=()=>{if(document.hidden){recovery.suspend();auto.stop('화면을 벗어나 자동뽑기를 중지했습니다.');if(cinematic.active){paused=true;cinematic.setPaused(true);$('[data-bwp-pause]').textContent='계속 재생';}}else resume();};

@@ -8,23 +8,25 @@ import {createBloodmoonPackService} from './_mercenary_bloodmoon_opening.js';
 import {jointHash} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError,readJointBody,jointResponseError} from './_joint_request.js';
+import {processMercenaryStockSchedules,changeMercenaryStockSchedule,readBloodmoonStockSnapshot} from './_mercenary_stock_schedule.js';
 
 const initial=()=>({revision:1,settings:bloodmoonPackDraft(),updatedAt:null});
 export async function readBloodmoonPackState(env,{releaseEnabled=BLOODMOON_PACK_RELEASE_ENABLED}={}){
- const [row,stock,cms,normalDraw]=await Promise.all([
-  env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BLOODMOON_PACK_KEY).first(),
-  env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code IN ('+BLOODMOON_LIMITED_CARDS.map(()=>'?').join(',')+') ORDER BY code').bind(...BLOODMOON_LIMITED_CARDS.map(c=>c.code)).all(),
+ const scheduling=await processMercenaryStockSchedules(env);
+ const [{row,stock},cms,normalDraw]=await Promise.all([
+  readBloodmoonStockSnapshot(env),
   readMercenaryDocument(env),env.DB.prepare('SELECT payload_json,revision FROM mercenary_draw_config_v1 WHERE id=1').first()
  ]);
  const saved=row?JSON.parse(row.value):initial();
  const rules=normalDraw?validateMercenaryCardRules(JSON.parse(normalDraw.payload_json).cardRules,MERCENARY_CMS_SEED.catalog.cards.map(c=>c.code)):null;
  const normalCards=rules?limitedNormalCards(cms.document.mercenaries,MERCENARY_CMS_SEED.catalog.cards,rules):[];
- return {revision:saved.revision,updatedAt:saved.updatedAt,rawPack:row?.value??null,normalCmsRevision:cms.revision,normalDrawRevision:Number(normalDraw?.revision||0),...bloodmoonPackState(saved.settings,stock.results,normalCards,{releaseEnabled})};
+ return {revision:saved.revision,updatedAt:saved.updatedAt,rawPack:row?.value??null,normalCmsRevision:cms.revision,normalDrawRevision:Number(normalDraw?.revision||0),serverNow:scheduling.serverNow,stockScheduleHistory:scheduling.document.schedules,stockSchedules:scheduling.document.schedules.filter(s=>s.status==='SCHEDULED').map(({id,executeAt,changes})=>({id,executeAt,changes})),...bloodmoonPackState(saved.settings,stock,normalCards,{releaseEnabled})};
 }
-const publicState=state=>{const {rawPack,...safe}=state;return {...safe,id:state.pack.id,name:state.pack.name,packSettings:state.settings};};
+const publicState=(state,{admin=false}={})=>{const {rawPack,stockScheduleHistory,...safe}=state;return {...safe,...(admin?{stockScheduleHistory}:{}),id:state.pack.id,name:state.pack.name,packSettings:state.settings};};
 export async function bloodmoonPackShopRow(env){
- const [row,stock]=await Promise.all([env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BLOODMOON_PACK_KEY).first(),env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code IN ('+BLOODMOON_LIMITED_CARDS.map(()=>'?').join(',')+')').bind(...BLOODMOON_LIMITED_CARDS.map(c=>c.code)).all()]);
- return bloodmoonPackCatalogRow(row?JSON.parse(row.value).settings:bloodmoonPackDraft(),stock.results);
+ await processMercenaryStockSchedules(env);
+ const {row,stock}=await readBloodmoonStockSnapshot(env);
+ return bloodmoonPackCatalogRow(row?JSON.parse(row.value).settings:bloodmoonPackDraft(),stock);
 }
 export async function saveBloodmoonPack(env,actor,body){
  if(!body||Object.keys(body).sort().join(',')!=='expectedRevision,reason,requestId,settings'||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<1||body.expectedRevision>=2147483646||typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId)||typeof body.reason!=='string'||body.reason.trim().length<4||body.reason.length>500||/[\u0000-\u001f]/.test(body.reason))throw jointError('MERCENARY_BLOODMOON_CONFIG','현재 버전·요청 번호·저장 사유를 확인하세요.');
@@ -34,6 +36,7 @@ export async function saveBloodmoonPack(env,actor,body){
  if(prior){if(JSON.parse(prior.value).hash!==hash)throw jointError('MERCENARY_BLOODMOON_CONFLICT','같은 요청 번호에 다른 내용이 있습니다.',409);return {...await readBloodmoonPackState(env),replayed:true};}
  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BLOODMOON_PACK_KEY).first(),beforeText=row?.value??JSON.stringify(initial()),before=JSON.parse(beforeText);
  if(before.revision!==body.expectedRevision)throw jointError('MERCENARY_BLOODMOON_CONFLICT','다른 창에서 설정을 변경했습니다. 새로 불러오세요.',409);
+ if(Object.keys(settings.stockLimits).some(code=>settings.stockLimits[code]!==before.settings.stockLimits[code]))throw jointError('MERCENARY_BLOODMOON_CONFIG','발행 한도는 한정 수량 예약에서 변경하세요.');
  if(settings.mode==='ON'){const state=await readBloodmoonPackState(env),ready=bloodmoonPackReadiness(settings,state.stock,state.normalCards);if(!ready.ready)throw jointError('MERCENARY_BLOODMOON_CONFIG',ready.blockers.join(' '));}
  const next={revision:before.revision+1,settings,updatedAt:new Date().toISOString(),updatedBy:Number(actor.id),lastRequestId:body.requestId},afterText=JSON.stringify(next),DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),token=crypto.randomUUID();
  try{await DB.batch([
@@ -70,7 +73,12 @@ export async function handleBloodmoonPack({path,request,env,deps}){
   if(path===BLOODMOON_PACK.adminPath){
    const actor=await deps.requirePermission(request,env,'BATTLE_MANAGE');
    if(!actor||actor.role!=='OWNER')return deps.json({error:'블러드문팩 설정은 OWNER만 관리할 수 있습니다.'},403);
-   if(request.method==='PATCH')return deps.json(publicState(await saveBloodmoonPack(env,actor,await readJointBody(request,{maxBytes:12000}))),200,{'cache-control':'no-store'});
+   if(request.method==='POST'){
+    await changeMercenaryStockSchedule(env,actor,await readJointBody(request,{maxBytes:12000}));
+    return deps.json(publicState(await readBloodmoonPackState(env),{admin:true}),200,{'cache-control':'no-store'});
+   }
+   if(request.method==='PATCH')return deps.json(publicState(await saveBloodmoonPack(env,actor,await readJointBody(request,{maxBytes:12000})),{admin:true}),200,{'cache-control':'no-store'});
+   if(request.method==='GET')return deps.json(publicState(await readBloodmoonPackState(env),{admin:true}),200,{'cache-control':'no-store'});
   }
   if(request.method!=='GET')return deps.json({error:'지원하지 않는 요청입니다.'},405);
   return deps.json(publicState(await readBloodmoonPackState(env)),200,{'cache-control':'no-store'});

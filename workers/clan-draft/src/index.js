@@ -5,11 +5,13 @@ import {runRankedReopenSchedule} from './ranked-reopen.js';
 import {runCityRotationSchedule} from './city-rotation.js';
 import {runOrganizationSchedule} from './organization-schedule.js';
 import {runLandDailySchedule} from './land-daily.js';
+import {runMercenaryStockSchedule,armMercenaryStockAlarm,handleMercenaryStockAlarm} from './mercenary-stock-schedule.js';
 
 // One coordination object for the official clan competition, not for game requests.
 export class ClanDraftAlarm extends DurableObject{
   async ensureArmed(){return ensureDraftAlarm(this.ctx.storage)}
-  async alarm(){await handleDraftAlarm(this.ctx.storage,this.env)}
+  async armStock(executeAt){return armMercenaryStockAlarm(this.ctx.storage,executeAt)}
+  async alarm(){if(await this.ctx.storage.get('mercenaryStockSchedule'))return handleMercenaryStockAlarm(this.ctx.storage,this.env);await handleDraftAlarm(this.ctx.storage,this.env)}
 }
 
 // Separate object/connection: large duo registrations cannot delay clan picks.
@@ -25,7 +27,8 @@ export default class ClanDraftWorker extends WorkerEntrypoint{
     return {...clan,duoNextAlarmAt:duo.nextAlarmAt};
   }
   async scheduled(){
-    const results=await Promise.allSettled([this.arm(),runRankedReopenSchedule(this.env),runCityRotationSchedule(this.env),runOrganizationSchedule(this.env),runLandDailySchedule(this.env)]);
+    const stock=()=>runMercenaryStockSchedule(this.env,{arm:at=>this.env.CLAN_DRAFT_ALARM.getByName('mercenary-limited-stock-v1').armStock(at)});
+    const results=await Promise.allSettled([this.arm(),runRankedReopenSchedule(this.env),runCityRotationSchedule(this.env),runOrganizationSchedule(this.env),runLandDailySchedule(this.env),stock()]);
     const failure=results.find(result=>result.status==='rejected');if(failure)throw failure.reason;
   }
   async fetch(){return new Response('Not found',{status:404})}

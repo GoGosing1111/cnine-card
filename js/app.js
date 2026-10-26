@@ -1829,7 +1829,7 @@ function halloweenPackHero(pack) {
 
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-bloodmoon-pack-enter]');if(!button||button.disabled)return;
- button.disabled=true;import('/js/mercenary-bloodmoon-pack-live.mjs?v=20261025-eunseol4-v1').then(module=>module.openBloodmoonPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+ button.disabled=true;import('/js/mercenary-bloodmoon-pack-live.mjs?v=20261026-stock-schedule-v1').then(module=>module.openBloodmoonPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
 });
 function bloodmoonShopStockText(stock){
  if(stock?.stockPolicy==='UNLIMITED')return '발행 한도 없음';

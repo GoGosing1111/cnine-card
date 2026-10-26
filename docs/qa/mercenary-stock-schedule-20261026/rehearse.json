@@ -1,0 +1,94 @@
+{
+  "registered": {
+    "id": "stock-20261026-2000-bloodmoon-ss10-leonel1-v1",
+    "status": "SCHEDULED",
+    "executeAt": "2026-10-26T11:00:00.000Z",
+    "changes": [
+      {
+        "code": "V-960",
+        "quantity": 10
+      },
+      {
+        "code": "V-961",
+        "quantity": 10
+      },
+      {
+        "code": "V-962",
+        "quantity": 10
+      },
+      {
+        "code": "V-963",
+        "quantity": 10
+      },
+      {
+        "code": "V-964",
+        "quantity": 10
+      },
+      {
+        "code": "V-965",
+        "quantity": 10
+      },
+      {
+        "code": "V-978",
+        "quantity": 1
+      }
+    ],
+    "reason": "사용자 요청: 10월 26일 20:00 KST SS 블러드문 6종 각 10장, 레오넬 1장 한도 증가",
+    "createdAt": "2026-10-26T00:36:40.000Z",
+    "createdBy": 1
+  },
+  "applied": 1,
+  "afterStock": [
+    {
+      "code": "V-960",
+      "stock_limit": 50,
+      "issued": 40
+    },
+    {
+      "code": "V-961",
+      "stock_limit": 50,
+      "issued": 40
+    },
+    {
+      "code": "V-962",
+      "stock_limit": 50,
+      "issued": 40
+    },
+    {
+      "code": "V-963",
+      "stock_limit": 50,
+      "issued": 40
+    },
+    {
+      "code": "V-964",
+      "stock_limit": 50,
+      "issued": 40
+    },
+    {
+      "code": "V-965",
+      "stock_limit": 50,
+      "issued": 40
+    },
+    {
+      "code": "V-973",
+      "stock_limit": 4,
+      "issued": 1
+    },
+    {
+      "code": "V-974",
+      "stock_limit": 3,
+      "issued": 1
+    },
+    {
+      "code": "V-975",
+      "stock_limit": 3,
+      "issued": 1
+    },
+    {
+      "code": "V-978",
+      "stock_limit": 10,
+      "issued": 9
+    }
+  ],
+  "rollbackVerified": true
+}
