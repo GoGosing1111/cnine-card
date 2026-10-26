@@ -7173,7 +7173,7 @@ async function handleRequest(context){
       if(existing?.provider==='PLAYDK'){
         if(String(existing.provider_user_id)!==identity.uuid)return json({error:'이미 다른 PLAY DK 계정이 연결되어 있습니다. 관리자에게 연결 해제를 요청하세요.',code:'PLAYDK_ACCOUNT_MISMATCH'},409);
         await env.DB.prepare("UPDATE user_second_verifications SET provider_name=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND provider='PLAYDK'").bind(identity.name,user.id).run();
-        return json({ok:true,verified:true,status:'ALREADY_VERIFIED',newlyVerified:false,verification:{provider:'PLAYDK',providerName:identity.name,verifiedAt:existing.verified_at},duplicate:true});
+        return json({ok:true,verified:true,status:'ALREADY_VERIFIED',newlyVerified:false,verification:{provider:'PLAYDK',providerName:identity.name,verifiedAt:existing.verified_at},duplicate:true,soopWatch:{identityAvailable:Boolean(identity.soopUserId)}});
       }
       const linked=await env.DB.prepare("SELECT user_id FROM user_second_verifications WHERE provider='PLAYDK' AND provider_user_id=?").bind(identity.uuid).first();
       if(linked&&Number(linked.user_id)!==Number(user.id))return json({error:'이 PLAY DK 계정은 이미 다른 리버스콜 계정에 인증되어 있습니다.',code:'PLAYDK_ALREADY_LINKED'},409);
@@ -7185,7 +7185,7 @@ async function handleRequest(context){
         if(error?.code==='SECONDARY_VERIFICATION_RACE'||isSecondaryProviderConflict(error))return json({error:'다른 2차 인증이 먼저 연결되었습니다. 상태를 새로 확인해주세요.',code:'SECONDARY_VERIFICATION_RACE'},409);
         throw error;
       }
-      return json({ok:true,verified:true,status:verificationResult.newlyVerified?'VERIFIED':'ALREADY_VERIFIED',newlyVerified:verificationResult.newlyVerified,verification:{provider:'PLAYDK',providerName:identity.name},giftMessage:verificationResult.giftMessage});
+      return json({ok:true,verified:true,status:verificationResult.newlyVerified?'VERIFIED':'ALREADY_VERIFIED',newlyVerified:verificationResult.newlyVerified,verification:{provider:'PLAYDK',providerName:identity.name},giftMessage:verificationResult.giftMessage,soopWatch:{identityAvailable:Boolean(identity.soopUserId)}});
     }
     if(path==='wago-verification/status'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);

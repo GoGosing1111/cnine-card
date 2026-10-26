@@ -112,7 +112,8 @@ export function createPlaydkIdentityClient(options = {}) {
       const uuid = String(body?.uuid || '').trim();
       const name = String(body?.name || '').trim();
       if (!uuid || uuid.length > 128) throw new PlaydkApiError('PLAY DK 사용자 식별 응답이 올바르지 않습니다.', { status: 502 });
-      return { uuid, name: name.slice(0, 80) };
+      const soopUserId = typeof body?.soopUserId === 'string' ? body.soopUserId.trim() : '';
+      return { uuid, name: name.slice(0, 80), ...(soopUserId && soopUserId.length <= 128 && !/\s/.test(soopUserId) ? { soopUserId } : {}) };
     },
     async getDailyPostCount(params = {}) {
       const userUuid = String(params.userUuid || '').trim();

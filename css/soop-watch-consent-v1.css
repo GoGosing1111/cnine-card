@@ -1,0 +1,28 @@
+.soop-consent-dialog{box-sizing:border-box;width:min(520px,calc(100% - 28px));max-height:calc(100dvh - 32px);margin:auto;padding:0;overflow:auto;border:1px solid #615070;border-radius:22px;background:#171322;color:#f5f1fc;box-shadow:0 28px 90px #0009;font-family:"Noto Sans KR",sans-serif;line-height:1.6;color-scheme:dark}
+.soop-consent-dialog::backdrop{background:#090612bf;backdrop-filter:blur(5px)}
+.soop-consent-dialog *{box-sizing:border-box}
+.soop-consent-head{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid #ffffff14;color:#d0bbdf;font-size:13px;font-weight:800}
+.soop-consent-head img{object-fit:contain}
+.soop-consent-head button{margin-left:auto;width:44px;height:44px;border:0;border-radius:12px;background:#ffffff0b;color:#f5f1fc;font-size:28px;cursor:pointer}
+.soop-consent-body{padding:22px 28px 16px}
+.soop-consent-eyebrow{margin:0 0 8px;color:#bba2d5;font-size:12px;font-weight:800;letter-spacing:.08em}
+.soop-consent-dialog h2{margin:0 0 12px;font-size:29px;line-height:1.32;letter-spacing:-.04em}
+#soopConsentSummary{margin:0 0 20px;color:#d0c8da;font-size:14px}
+.soop-consent-dialog dl{margin:0;padding:4px 16px;border:1px solid #ffffff12;border-radius:14px;background:#ffffff04}
+.soop-consent-dialog dl div{display:grid;grid-template-columns:70px 1fr;gap:10px;padding:12px 0;font-size:13px}
+.soop-consent-dialog dl div+div{border-top:1px solid #ffffff0d}
+.soop-consent-dialog dt{color:#b9a1cd;font-weight:700}
+.soop-consent-dialog dd{margin:0;color:#eee8f4;word-break:keep-all;overflow-wrap:anywhere}
+.soop-consent-choice{margin:14px 0 20px;color:#c2b6cf;font-size:12px;word-break:keep-all}
+.soop-consent-primary,.soop-consent-reconnect{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:48px;padding:12px 15px;border:1px solid #9f7fc6;border-radius:12px;background:#bca0e1;color:#20142f;text-decoration:none;font:800 14px/1.5 "Noto Sans KR",sans-serif;cursor:pointer}
+.soop-consent-reconnect{border-color:#655276;background:#2b2138;color:#f3eafa}
+.soop-consent-reconnect:disabled{opacity:.6;cursor:wait}
+.soop-consent-next{margin:12px 3px;color:#c7bbd3;font-size:12px}
+.soop-consent-location{margin:12px 0 0;color:#aa9ab9;font-size:11px;text-align:center}
+.soop-consent-dialog [data-soop-status]{padding:12px;margin:0 0 16px;border-radius:10px;background:#1e3b35;color:#b9f0d9;font-size:13px}
+.soop-consent-dialog [data-soop-status][data-error=true]{background:#413124;color:#f2d5b1}
+.soop-consent-dialog footer{display:flex;align-items:center;gap:14px;padding:14px 22px;border-top:1px solid #ffffff14;background:#120e1b}
+.soop-consent-dialog footer button{flex:none;min-width:74px;min-height:44px;padding:10px;border:1px solid #655276;border-radius:10px;background:transparent;color:#e5d9f0;font:700 13px "Noto Sans KR",sans-serif;cursor:pointer}
+.soop-consent-dialog footer small{color:#b9aac7;font-size:11px}
+.soop-consent-dialog :is(a,button):focus-visible{outline:3px solid #e4c7ff;outline-offset:3px}
+@media(max-width:480px){.soop-consent-dialog{width:calc(100% - 20px);max-height:calc(100dvh - 20px);border-radius:18px}.soop-consent-head{padding:12px 16px}.soop-consent-body{padding:18px 20px 16px}.soop-consent-dialog h2{font-size:26px}.soop-consent-dialog footer{padding:12px 16px}.soop-consent-dialog dl div{grid-template-columns:61px 1fr;gap:8px}}
