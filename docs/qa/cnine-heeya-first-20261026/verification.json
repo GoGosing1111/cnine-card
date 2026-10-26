@@ -1,0 +1,60 @@
+{
+  "deployedAtKst": "2026-10-26 22:43:40 KST",
+  "pages": {
+    "id": "825042a9-60ba-4f8d-b71c-0babe1daa3be",
+    "url": "https://825042a9.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "982b763b9115b1044ed5737ac1ef5d29b980557d"
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "31e9338507ad8c42e9bb82b1287b2c7a7c661a749012df4b62c577934d7030c7"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "dd5f532fbd9e72c273abd2e38ffa8bdaa2a793e0b51a0f5a0c74a5f59d937135"
+    },
+    {
+      "file": "js/streamer-lounge-v2036.js",
+      "sha256": "c211cdff22bd6000ab8b0ea6e5ef66de7baf5d405a3df74fd721abd09d0ed699"
+    },
+    {
+      "file": "js/cnine-roster-v1.js",
+      "sha256": "23a65506164b8a3c3495dbc3c3c7c534728149af68aa545c01a7263e767340be"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "19d04437e208d316699793e6d4202e2bf86ef3f536876013813bf0346bcd2e8c"
+    },
+    {
+      "file": "css/cnine-roster-v1.css",
+      "sha256": "9ce66849bed265f81b8709dda9b7b78160eeb96adea8d45c0631d86ece625e4d"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "f2849b26b5bf1af7f253ea62cc32437d641c8ffc5e777a50d056962b2058f0e4"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "33df91d111c71bc78864b7a13c8b3521b3d37ce9a76854a7797587a73243b0db"
+    }
+  ],
+  "existingLoungeRosterHash": "1530f1e5c34e83a5002e6547d6010c393ffd960709c85afc28c8776705f91c83",
+  "existingLoungeRosterUnchanged": true,
+  "regressionTests": 18,
+  "localMainViewports": [
+    1440,
+    390
+  ],
+  "publicComponentViewports": [
+    390
+  ],
+  "publicStationPopupVerified": true,
+  "onestoreSourceVerified": true,
+  "onestoreServedHtmlVerifiedWithProductionTransform": true,
+  "operationalAccountWrites": 0,
+  "operationalSettingsWrites": 0,
+  "providerConsentWrites": 0,
+  "artifactDirectory": "C:\\Users\\User\\.codex\\visualizations\\2026\\10\\26\\01a1781f-eab2-7101-b315-7eeea213dd8d\\cnine-heeya-first-20261026"
+}
