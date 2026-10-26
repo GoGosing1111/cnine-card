@@ -1,0 +1,38 @@
+{
+  "recordedAt": "2026-10-26T03:19:03.201579+00:00",
+  "root": "C:\\Users\\User\\.codex\\worktrees\\prime-craft-unlock\\cnine-card",
+  "preservedCommit": "025171ce4c3b32509c06725abd99413c8a04f575",
+  "publishedTo": "origin/main",
+  "archive": "Primary checkout is protected; native archive rejection was already recorded for this root in the prior task. No retry or manual checkout deletion.",
+  "cleanup": "Git sparse checkout retained this chat sources, tests and QA; all remaining tracked code/assets preserved in Git. Official deploy staging disposed by deploy tool.",
+  "before": {
+    "root": "C:\\Users\\User\\.codex\\worktrees\\prime-craft-unlock\\cnine-card",
+    "files": 12703,
+    "bytes": 274184989,
+    "mib": 261.4831819534302
+  },
+  "after": {
+    "files": 94,
+    "bytes": 4757491,
+    "mib": 4.537
+  },
+  "releasedMiB": 256.946,
+  "globalAudit": {
+    "measured_at": "2026-10-26T03:18:25.338814+00:00",
+    "logical_gib": 63.508,
+    "scan_errors": 0
+  },
+  "evidenceOutsideCheckout": "C:\\Users\\User\\.codex\\visualizations\\2026\\10\\26\\01a175d1-db71-7162-9647-0fb7113e8d5e",
+  "newDependencyCopies": 0,
+  "ignoredUniqueFilesFound": 0,
+  "otherTasksTouched": false,
+  "preserved": [
+    "approved art",
+    "prompts",
+    "hashes",
+    "raw QA/screenshots",
+    "all chat source commits",
+    "conversation logs",
+    "recovery records"
+  ]
+}
