@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-10-26T00:07:55.062Z",
+  "result": "PASS",
+  "cmsRevision": 61,
+  "policyRevision": 1,
+  "settingsHashBefore": "eea5f44da9e452f51468ae09f7f437afadbfea400638618c57c33347fc54ad1d",
+  "settingsHashAfter": "eea5f44da9e452f51468ae09f7f437afadbfea400638618c57c33347fc54ad1d",
+  "otherMercenariesUnchanged": 56,
+  "readOnly": true,
+  "operationalAccountWrites": 0,
+  "operationalSettingsWrites": 0
+}

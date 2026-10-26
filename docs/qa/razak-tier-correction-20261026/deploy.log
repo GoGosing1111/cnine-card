@@ -1,0 +1,118 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"f2d3846471c9b4a27db472b64a8c44d52319ad02","reason":"사용자 정정에 따라 라자크를 일부 하위 SSS 리미티드와 대등하고 상위에는 열세가 되도록 전용 정책 v4로 조정한다. 별도 시드 46592전과 상대별 기준, 다른 용병 1456전 해시, 관련 서버 검사와 PC 모바일 실제 전투·도감을 검증한다. 등급·획득·운영 계정·설정은 변경하지 않는다.","changed":["AGENTS.md","docs/qa/razak-balance-20261026/README.md","docs/qa/razak-balance-20261026/before-deploy.json","docs/qa/razak-balance-20261026/deploy.log","docs/qa/razak-balance-20261026/deployment-plan.json","docs/qa/razak-balance-20261026/deployment-result.json","docs/qa/razak-balance-20261026/live-after.json","docs/qa/razak-balance-20261026/live-verification.json","docs/qa/razak-balance-20261026/preflight-cache-tag-failure.log","docs/qa/razak-balance-20261026/public/art-hashes.json","docs/qa/razak-balance-20261026/public/browser-report.json","docs/qa/razak-balance-20261026/public/mobile-battle-idle.png","docs/qa/razak-balance-20261026/public/mobile-codex-sd.png","docs/qa/razak-balance-20261026/read-production.mjs","docs/qa/razak-balance-20261026/release.mjs","docs/qa/razak-balance-20261026/settings-verification.json","docs/qa/razak-tier-correction-20261026/README.md","docs/qa/razak-tier-correction-20261026/acceptance.mjs","docs/qa/razak-tier-correction-20261026/before/live-after.json","docs/qa/razak-tier-correction-20261026/browser/browser-report.json","docs/qa/razak-tier-correction-20261026/browser/desktop-battle-cross.png","docs/qa/razak-tier-correction-20261026/browser/desktop-battle-eclipse.png","docs/qa/razak-tier-correction-20261026/browser/desktop-battle-flurry.png","docs/qa/razak-tier-correction-20261026/browser/desktop-battle-idle.png","docs/qa/razak-tier-correction-20261026/browser/desktop-codex-art.png","docs/qa/razak-tier-correction-20261026/browser/desktop-codex-sd.png","docs/qa/razak-tier-correction-20261026/browser/enemy-battle-cross.png","docs/qa/razak-tier-correction-20261026/browser/enemy-battle-eclipse.png","docs/qa/razak-tier-correction-20261026/browser/enemy-battle-flurry.png","docs/qa/razak-tier-correction-20261026/browser/enemy-battle-idle.png","docs/qa/razak-tier-correction-20261026/browser/mobile-battle-cross.png","docs/qa/razak-tier-correction-20261026/browser/mobile-battle-eclipse.png","docs/qa/razak-tier-correction-20261026/browser/mobile-battle-flurry.png","docs/qa/razak-tier-correction-20261026/browser/mobile-battle-idle.png","docs/qa/razak-tier-correction-20261026/browser/mobile-codex-art.png","docs/qa/razak-tier-correction-20261026/browser/mobile-codex-sd.png","docs/qa/razak-tier-correction-20261026/build.log","docs/qa/razak-tier-correction-20261026/candidate-a-policy.json","docs/qa/razak-tier-correction-20261026/candidate-a.json","docs/qa/razak-tier-correction-20261026/candidate-b-policy.json","docs/qa/razak-tier-correction-20261026/candidate-b.json","docs/qa/razak-tier-correction-20261026/candidate-c-policy.json","docs/qa/razak-tier-correction-20261026/candidate-c.json","docs/qa/razak-tier-correction-20261026/candidate-d-policy.json","docs/qa/razak-tier-correction-20261026/candidate-d.json","docs/qa/razak-tier-correction-20261026/candidate-e-policy.json","docs/qa/razak-tier-correction-20261026/candidate-e.json","docs/qa/razak-tier-correction-20261026/candidate-f-policy.json","docs/qa/razak-tier-correction-20261026/candidate-f.json","docs/qa/razak-tier-correction-20261026/candidate-g-policy.json","docs/qa/razak-tier-correction-20261026/candidate-g.json","docs/qa/razak-tier-correction-20261026/candidate-h-policy.json","docs/qa/razak-tier-correction-20261026/candidate-h.json","docs/qa/razak-tier-correction-20261026/candidate-i-policy.json","docs/qa/razak-tier-correction-20261026/candidate-i.json","docs/qa/razak-tier-correction-20261026/candidate-j-policy.json","docs/qa/razak-tier-correction-20261026/candidate-j.json","docs/qa/razak-tier-correction-20261026/candidate-k-policy.json","docs/qa/razak-tier-correction-20261026/candidate-k.json","docs/qa/razak-tier-correction-20261026/candidate-l-policy.json","docs/qa/razak-tier-correction-20261026/candidate-l.json","docs/qa/razak-tier-correction-20261026/candidate-loader.mjs","docs/qa/razak-tier-correction-20261026/holdout.json","docs/qa/razak-tier-correction-20261026/release.mjs","docs/qa/razak-tier-correction-20261026/summary.json","docs/qa/razak-tier-correction-20261026/tests.log","docs/qa/razak-tier-correction-20261026/tune.mjs","docs/qa/razak-tier-correction-20261026/unrelated.json","docs/qa/razak-tier-correction-20261026/validation-l.json","index.html","js/app.js","js/battle-v3-live.js","mercenary-codex/app.mjs","mercenary-codex/index.html","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","service-worker.js","shared/mercenary-razak-v1.mjs","tests/razak-balance-20261026.test.mjs","tests/razak-live-20261024.browser.mjs"],"tests":["tests/razak-balance-20261026.test.mjs","tests/razak-live-20261024.test.mjs","tests/mercenary-turn-cadence-v2099.test.mjs","tests/mercenary-growth-launch-20261016.test.mjs","tests/valter-helios-parity-20261021.test.mjs","tests/ranked-duo-battle.test.mjs","tests/bloodmoon-skill-status-20261025.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ actual Joeun PVE status records complete without a generic skill lookup or a second attack (41.5059ms)
+✔ status from either team preserves authoritative HP/shield once and ignores a lost or dead target (1.1612ms)
+✔ V-960 replays complete server skill streams in PVE, hunt and either PVP team (100.5049ms)
+✔ V-961 replays complete server skill streams in PVE, hunt and either PVP team (60.1066ms)
+✔ V-962 replays complete server skill streams in PVE, hunt and either PVP team (56.9416ms)
+✔ V-963 replays complete server skill streams in PVE, hunt and either PVP team (54.6308ms)
+✔ V-964 replays complete server skill streams in PVE, hunt and either PVP team (31.0475ms)
+✔ approved launch triples rising required XP only; both combat flags open and empty CMS stays empty (4.2905ms)
+✔ all four breakthroughs use exact 10% boundaries, preserve earned growth on failure, and finish at 21 (3.6284ms)
+✔ released authenticated state, training, receipt replay and server battle snapshot use the saved launch policy (71.65ms)
+✔ launch installs only its empty table and audited policy once; dry-run/conflict roll back and replay never resets CMS (2001.7544ms)
+✔ high-power gauges drain ready actors before advancing time, on both sides without mercenaries (18.6884ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 1000000 power cards (25.3965ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 20000000 power cards (10.4857ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 100000000 power cards (9.5084ms)
+✔ all six ranks without an assigned skill still perform basic attacks at real deck power (22.5057ms)
+✔ mercenary reservation uses allied card turns only, clears on a natural turn and excludes dead actors (0.8965ms)
+✔ dead mercenaries cannot receive reserved basic or skill turns (6.8163ms)
+✔ apocalypse chip clock and continuous monster replacement retain actual mercenary attacks (22.1693ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (25.6083ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (19.2096ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (10.6017ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (22.3105ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (30.2107ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (100.3775ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (4.8252ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (4.0857ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.29ms)
+✔ all four owners deploy into one deterministic battlefield, including identical cards and mercenaries (47.0361ms)
+✔ each mercenary links to its own five cards and keeps a unique cadence (10.1909ms)
+✔ no mercenary is required, invalid owners/decks are rejected, and equipment is not duplicated (9.5994ms)
+✔ losing one owner does not end the shared battle (3.1215ms)
+✔ legacy five-card combat remains isolated from duo ownership and repeatable (12.4121ms)
+✔ server policy overrides forged stats and immunities, preserving ordinary SSS power and equipment accounting (5.6775ms)
+✔ link grants health, attack and shield once per owner, retaining damaged entry and level 21 equipment (16.7083ms)
+✔ 60% personal mitigation consumes shield before health in the canonical engine, without identity leakage (13.8111ms)
+✔ two owner card actions fund eight Razak actions and no teammate or dead fighter receives that credit (2.0433ms)
+✔ skill caps and energy apply only to Razak; silence still prevents casts and repeated hooks cannot recharge twice (0.9305ms)
+✔ actual ranked duo accepts Razak and preserves each owner equipment, grade and common energy budget (25.3548ms)
+✔ approved runtime assets fit Pages and excluded Node commands remain byte-identical in Git (26.2007ms)
+✔ Razak remains ordinary SSS at 1,000,000 with an explicit balance policy independent of visual speed (3.3907ms)
+✔ other acquisition pools remain closed, including positive CMS weights and limited/craft/cube paths (2269.4029ms)
+✔ assassination targets and one total damage budget are stable across duplicate, dead and hidden targets (6.7985ms)
+✔ three skills share cooldown and pay once per cast; no area cast in PVP (5.4978ms)
+✔ actual PVE/PVP server timelines preserve 1,000,000 and use only the allowed Razak skills (29.1866ms)
+✔ public codex and byte-identical source retain the accepted name, grade, power and 2+1 skills (13.9724ms)
+✔ approved Valter V3 adds innate armor without raising power or multiplying equipment defense (10.8399ms)
+✔ innate armor enters level growth once and link floors retain the approved parity without changing card stats (19.5897ms)
+✔ real PVE and PVP results use approved V3 while keeping nominal team power and mode-specific skills (78.623ms)
+✔ public codex exposes the new Valter passive and removes the obsolete Helios superiority claim (8.8587ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 50
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2994.1847
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] razak-tier-correction-20261026-v4-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 8914 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8507.29 KiB / gzip: 1831.79 KiB
+Worker Startup Time: 56 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (5.40 sec)
+No targets deployed for cnine-card-api-runtime (0.75 sec)
+Current Version ID: 70a5b615-4e8a-476f-9fc6-9bc7c284beeb
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19976/20000)
+Uploading... (19984/20000)
+Uploading... (19992/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 24 files (19976 already uploaded) (4.18 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://a88d7381.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3187.35 KiB / gzip: 716.21 KiB
+Worker Startup Time: 40 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (3.70 sec)
+Deployed cnine-card-clan-draft triggers (1.14 sec)
+  schedule: * * * * *
+Current Version ID: 78ac252f-9e0f-4a2b-b413-f0d357228d52

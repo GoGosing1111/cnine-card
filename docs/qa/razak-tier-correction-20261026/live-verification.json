@@ -1,0 +1,120 @@
+{
+  "at": "2026-10-26T00:08:03.853Z",
+  "pages": {
+    "id": "a88d7381-aba8-41a5-95e3-5c557e942cbc",
+    "url": "https://a88d7381.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "b2085b68482bb2927667da01b6811d6cbbbb36c6"
+  },
+  "releaseCommit": "b2085b68482bb2927667da01b6811d6cbbbb36c6",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "profileSha256": "e23ae3b9f623138714151ef75a48286c08257b8f6e788ed5b9a5bea1b84f3b41",
+      "profileVersion": 4
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "profileSha256": "e23ae3b9f623138714151ef75a48286c08257b8f6e788ed5b9a5bea1b84f3b41",
+      "profileVersion": 4
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "7e7b8509eee83f7770a8984c64284ca174ccf267620a1fc51d1716469268e5a5"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "0f123d4444af37aaa9a66c1648266072707b91e368312e443db64e8a473e2ef7"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "d5a5b666d191a50643f4f5cc204765957af2a9beae295b5b40b23075fb0d7b21"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "92c71f960656924cad806fb832c6967a352fbe5a1d6a7d9b0c2d111da257b3bb"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "e98d77e9b82bddd995384f2f7a4213323133ab67c53f173ad579b1dc851b6dde"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/build-report.json",
+      "sha256": "74ea37fa116726134585a3fe59ad29d4307c626fb15a9dedeeeede8a25be2453"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "d269f1bdcf370f32f1af3cb6a78fe23428da86ff3e4000a651186c02acff1e5a"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "1a24cca9d120823b8290390320e8b441748889125ede23dd3f74875b06c4db53"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "0dcbb55cfb1ff375a2258d2797213e3bacbcc9d4f17d0cb2579bf0df3e019a43"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "8ee17402cfd87456aeb53daf97bb1dc5596e01878e431046ee0f7dda8dc91e8f"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "e740f46fd6dc026bdfde493b39cf660ccdfcf08aa916234ae5e8fd4144e2423a"
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "sha256": "3caa04b5e07ad9ce0907c01910c541d538dd55873cf2886605125c1b2e99bd18"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "5a69f0e131026b446187d298f015dfc3109ade6fd017b61fecfc8c7750e0c47b"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "96b2fb62e8f88621c9e158c33c5955d7bed72be67e379f5d4cc8a295f8abe073"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "b5081d4c1d4379028c111b1d41721ff1fa4acb6a1f90cba6e80264b0726c7b22"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "c46ef019b65cbac9021c1756ca9ace704bf13f97da5985fb4b98fd4c4e851d03"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/engine-build.json",
+      "sha256": "dce71f3c54fd1caa98790faae952e2b51e88a8e238055d176b5f566ae6af006a"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "2a4f80c9f8cedc685de0e3ece4f8bba4396c80a358bae83ae3207734e75b5e4f"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "c64410e20adaff9b4588158f3409764012032ae86c66db3a166f7659b011b593"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "c225fc7ab994180c4215bfcc13fcce35239d74cb319954026caf4e1252faaed4"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "70bb67ae90efc188a7e2b7150de44ecb38be94fa57f56ce25e6d05efb05c13d0"
+    },
+    {
+      "file": "shared/mercenary-razak-v1.mjs",
+      "sha256": "0657ddd7582d405dc0107141ea8aacc839ddc614afad0d486335061a477c3e4f"
+    }
+  ],
+  "card": {
+    "code": "V-058",
+    "basePower": 1000000,
+    "rank": "SSS",
+    "edition": "STANDARD",
+    "combatLinkDescription": "기본 전투력 1,000,000의 SSS 기습 용병. 고유·장비 능력치 환산은 2.4배이며, 아군 일반 카드 평균 공격력의 1,400%를 최소 공격력, 평균 최대 체력의 800%를 최소 체력으로 사용합니다. 시작 방벽은 평균 최대 체력의 400%, 받는 피해 경감은 60%입니다. 자연 행동 속도 4배·아군 카드 1회 행동당 추가 4회 행동하며 자기 행동마다 에너지 10을 회복합니다. 기본 공격 피해 상한은 1배, PVP 암살 스킬 피해 상한은 3배입니다. 그림자 교차·무영 연살·월식 난무는 에너지 25와 공통 재사용 3행동을 사용하며, 월식 난무는 PVE 전용입니다. 기절·침묵·반격·중독에 면역은 없으며 성장의 피해 경감 관통이 적용됩니다. 모션 2배속·고정 대기, 블러드문팩 전용 일반 SSS·발행 한도 없음. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+  },
+  "operationalAccountWrites": 0
+}

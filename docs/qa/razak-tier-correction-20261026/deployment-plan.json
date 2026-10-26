@@ -1,0 +1,16 @@
+{
+  "base": "f2d3846471c9b4a27db472b64a8c44d52319ad02",
+  "reason": "사용자 정정에 따라 라자크를 일부 하위 SSS 리미티드와 대등하고 상위에는 열세가 되도록 전용 정책 v4로 조정한다. 별도 시드 46592전과 상대별 기준, 다른 용병 1456전 해시, 관련 서버 검사와 PC 모바일 실제 전투·도감을 검증한다. 등급·획득·운영 계정·설정은 변경하지 않는다.",
+  "tests": [
+    "tests/razak-balance-20261026.test.mjs",
+    "tests/razak-live-20261024.test.mjs",
+    "tests/mercenary-turn-cadence-v2099.test.mjs",
+    "tests/mercenary-growth-launch-20261016.test.mjs",
+    "tests/valter-helios-parity-20261021.test.mjs",
+    "tests/ranked-duo-battle.test.mjs",
+    "tests/bloodmoon-skill-status-20261025.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

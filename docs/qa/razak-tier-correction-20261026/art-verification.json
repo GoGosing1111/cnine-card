@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-26T00:08:48.215Z",
+  "result": "PASS",
+  "images": [
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/source-art.png",
+      "sha256": "2B9331D3A1A753234AF7E0AC7CCAA2764451DE6E843AE7A7912BFD5A298E8A06"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/razak-20261024/idle.png",
+      "sha256": "7460D2757DBAB2F3AFEDEDE1ED1815EC47A6D4A1509A3CC3699287D980A4770E"
+    }
+  ]
+}
