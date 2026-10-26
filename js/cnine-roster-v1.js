@@ -2,6 +2,7 @@
 // This public directory does not infer broadcast status or change lounge CMS data.
 export const CNINE_GROUPS = Object.freeze([
   Object.freeze({ id: 'female', name: '여캠부', label: 'FEMALE CAM', members: Object.freeze([
+    Object.freeze({ id: 'jkmjkm1236', name: '하이희야♡' }),
     Object.freeze({ id: 'kaja0011', name: '여을' }),
     Object.freeze({ id: 'chocho12', name: '초초' }),
     Object.freeze({ id: 'yjk011599', name: '나무늘봉순' }),
