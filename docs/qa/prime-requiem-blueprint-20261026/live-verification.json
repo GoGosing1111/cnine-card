@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-26T00:56:00.701Z",
+  "pages": {
+    "id": "3db75c9c-1842-43d5-b312-a4ecaa13a7a4",
+    "url": "https://3db75c9c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "9dbdb33e5357053dfaabaef90a14a6e2ec910bfd"
+  },
+  "publicAsset": {
+    "url": "https://cnine-card.pages.dev/assets/items/prime-requiem-blueprint-v1.webp",
+    "status": 200,
+    "sha256": "6b9b32cb6c5d1a4151b8f589ab74dfb68e839b4bb625db5601f1947cc00c10c6"
+  },
+  "delivery": "INCLUDED_IN_CONCURRENT_RELEASE",
+  "separateDeployCommands": 0,
+  "reason": "Reviewed blueprint asset included in the current production source; verify its exact committed and public bytes instead of redeploying unchanged files."
+}

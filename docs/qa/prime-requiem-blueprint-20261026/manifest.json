@@ -50,5 +50,18 @@
   "artStatus": "GENERATED_TECHNICALLY_REVIEWED",
   "visualApprovalByUser": false,
   "registrationRequestedByUser": true,
-  "registrationStatus": "PREPARED"
+  "registrationStatus": "LIVE_REGISTERED_VERIFIED",
+  "registration": {
+    "operationKey": "ops:prime-requiem-blueprint:20261026:v1",
+    "completedAt": "2026-10-26T00:56:16.487Z",
+    "adminLogId": "51518",
+    "cmsVisible": true,
+    "mercenaryCraftSelectable": true,
+    "grantedQuantity": 0,
+    "recipesCreated": 0,
+    "recipePoliciesModified": false,
+    "sourceCommit": "ae2168e239e32be031261657aef623ff18de2f42",
+    "deployedCommit": "9dbdb33e5357053dfaabaef90a14a6e2ec910bfd",
+    "pagesDeployment": "3db75c9c-1842-43d5-b312-a4ecaa13a7a4"
+  }
 }
