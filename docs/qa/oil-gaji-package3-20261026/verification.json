@@ -1,0 +1,36 @@
+{
+  "status": "COMPLETED",
+  "completedAt": "2026-10-26T14:42:13.920Z",
+  "auditId": "51890",
+  "sourceSha256": "2fc70d6635f7a9b5801080ba78f8dab2606050b106fa788e203e594a8ec33b90",
+  "planHash": "756276aa8781fa24eb7eaab0f3ff2b6e71e82daf1b764af8395a6b6263df7476",
+  "verification": {
+    "status": "VERIFIED",
+    "userId": "3011",
+    "nickname": "오일바른가지",
+    "repetitions": 3,
+    "packageQuantity": 6,
+    "coins": "600000000000000",
+    "items": [
+      {
+        "code": "EMPEROR_ENERGY",
+        "name": "엠퍼러 에너지",
+        "quantity": 1200
+      },
+      {
+        "code": "MERCENARY_SSS_LIMITED_SHARD",
+        "name": "SSS 리미티드 조각",
+        "quantity": 30
+      }
+    ],
+    "auditId": "51890",
+    "coinLogs": 1,
+    "itemLogs": 2
+  },
+  "injectedFailureRollback": true,
+  "normalDryRunRollback": true,
+  "independentReadOnlyVerified": true,
+  "selectOnlyReplayVerified": true,
+  "leasesReleased": true,
+  "privateEvidenceDirectory": "C:/Users/User/.codex/visualizations/2026/10/26/01a17897-148d-78a0-a68b-048adecc7f7e/oil-gaji-package3-20261026"
+}

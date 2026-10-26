@@ -1,0 +1,23 @@
+{
+  "status": "COMPLETED",
+  "completedAt": "2026-10-26T14:45:50.899Z",
+  "auditId": "51899",
+  "sourceSha256": "67a48bc766ecb7c656966ddf578f64fb91c194c49a9e2e443afaedac5bf53e68",
+  "planHash": "3e5f4698d2b83282412c207a1b5f9348f54417d71527c73c6fd9317f5443b7e3",
+  "verification": {
+    "status": "VERIFIED",
+    "recipientCount": 1,
+    "totalQuantity": 1,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 1,
+    "auditRecords": 1
+  },
+  "injectedFailureRollback": true,
+  "normalDryRunRollback": true,
+  "independentReadOnlyVerified": true,
+  "selectOnlyReplayVerified": true,
+  "leasesReleased": true,
+  "privateEvidenceDirectory": "C:/Users/User/.codex/visualizations/2026/10/26/01a17897-148d-78a0-a68b-048adecc7f7e/oil-gaji-leonel-20261026"
+}
