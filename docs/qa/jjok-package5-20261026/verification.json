@@ -1,0 +1,45 @@
+{
+  "completedAt": "2026-10-26T00:29:06.279Z",
+  "sourceCommit": "b35c5566a",
+  "operationKey": "ops:jjok-support-package-bogo5:20261026:v1",
+  "planHash": "e4147a1bc8cc80ff4b772b230d6dc33055430b195f1de84b912ed7417ea28a59",
+  "sourceSha256": "9d80fd3d6261dfbe6870f088fbfdf2a22f367936f3b1609ad1b7cbfe40176add",
+  "verification": {
+    "status": "VERIFIED",
+    "userId": "303",
+    "nickname": "[C9]족쪽이",
+    "repetitions": 5,
+    "packageQuantity": 10,
+    "coins": "1000000000000000",
+    "items": [
+      {
+        "code": "EMPEROR_ENERGY",
+        "name": "엠퍼러 에너지",
+        "quantity": 2000
+      },
+      {
+        "code": "MERCENARY_SSS_LIMITED_SHARD",
+        "name": "SSS 리미티드 조각",
+        "quantity": 50
+      }
+    ],
+    "includedPendingOrder": "303_c7c4fb0f-386b-45e7-95df-0aaa1663902f",
+    "pendingOrderStatus": "FULFILLED",
+    "auditId": "51513",
+    "coinLogs": 1,
+    "itemLogs": 2
+  },
+  "independentConnection": true,
+  "noWriteReplayVerified": true,
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "leasesReleased": true,
+  "protectedStateUnchanged": true,
+  "coinLogId": "98122766",
+  "itemLogIds": [
+    "86977800",
+    "86977801"
+  ],
+  "testCount": 8,
+  "websiteOrGameWorkerDeployments": 0
+}
