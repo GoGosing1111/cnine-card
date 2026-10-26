@@ -1,7 +1,7 @@
 import {openSupportApplication} from './supporter-application-v1.mjs?v=20261011-apply2';
-import {mountSupportPackage} from './support-package-v1.mjs?v=20261025-package-bogo-deadline-v1';
+import {mountSupportPackage} from './support-package-v1.mjs?v=20261026-package-hide-v1';
 import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261025-package-bogo-deadline-v1';
-import {SUPPORT_PACKAGE_EVENT_DEADLINE} from '../shared/support-package-v1.mjs?v=20261025-package-bogo-deadline-v1';
+import {SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs?v=20261026-package-hide-v1';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261020-pass-sales-start-v1';
 import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
@@ -39,6 +39,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
   const key=()=>`cnine_support_pet_pending_v1:${Number(getUser()?.serverUserId||getUser()?.id||0)}`;
   function render(){
     if(!dialog||!data)return;
+    if(!supportPackageSalesOpen(Date.now()+serverOffset)){data.packageVisible=false;if(page==='package')page='info';}
     passView?.dispose();passView=null;
     const s=data.subscription,p=data.plan,selected=s.magnetPetCode,active=s.active;
     const scrollTop=dialog.scrollTop,focusPet=root.activeElement?.dataset?.ssPet;
@@ -104,7 +105,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
   const observer=new MutationObserver(()=>void sync());observer.observe(menu,{attributes:true,attributeFilter:['open','data-menu-category']});
   const changed=()=>void sync(true);
   window.addEventListener('storage',changed);window.addEventListener('cnine:player-updated',changed);
-  const timer=setInterval(()=>{if(dialog?.open&&data?.subscription.active&&Date.now()+serverOffset>=data.subscription.endsAt)void loadPage(page);},1000);
+  const timer=setInterval(()=>{if(!dialog?.open||!data)return;if(data.packageVisible&&!supportPackageSalesOpen(Date.now()+serverOffset)){data.packageVisible=false;if(page==='package')page='info';render();}if(data.subscription.active&&Date.now()+serverOffset>=data.subscription.endsAt)void loadPage(page);},1000);
   function dispose(){if(disposed)return;disposed=true;generation++;observer.disconnect();clearInterval(timer);window.removeEventListener('storage',changed);window.removeEventListener('cnine:player-updated',changed);packageAlerts.dispose();close();footer.remove();link.remove();passStyle.remove();packageStyle.remove();}
   signal?.addEventListener('abort',dispose,{once:true});void sync();return {dispose,openSeasonPass(button){opener=button;return loadPage('pass');}};
 }

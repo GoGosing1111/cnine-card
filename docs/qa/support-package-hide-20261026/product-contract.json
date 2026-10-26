@@ -1,0 +1,11 @@
+{
+  "unchangedProducts": [
+    "SUPPORT_PACKAGE_UNIT",
+    "SUPPORT_PACKAGE",
+    "SUPPORT_PACKAGE_EVENT_DEADLINE"
+  ],
+  "pendingFulfillmentFunctionUnchanged": true,
+  "fulfillmentSha256": "8801bdf1695392b7cedda27c6690c16dc4d29bc373bf1c5c4128453eb2fc5425",
+  "deadline": "2026-10-27T00:00:00+09:00",
+  "operationalAccountWrites": 0
+}

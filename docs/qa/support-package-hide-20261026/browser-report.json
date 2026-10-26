@@ -1,0 +1,30 @@
+[
+  {
+    "width": 1440,
+    "hiddenAtMidnight": true,
+    "openPackageReturnsToInfo": true,
+    "reloadedHidden": true,
+    "supportAndPassRemain": true,
+    "directClosed": true,
+    "priorReceiptRecovered": true,
+    "newApplicationRejected": 410,
+    "pendingFulfilled": true,
+    "noAutomaticApplication": true,
+    "errors": [],
+    "failed": []
+  },
+  {
+    "width": 390,
+    "hiddenAtMidnight": true,
+    "openPackageReturnsToInfo": true,
+    "reloadedHidden": true,
+    "supportAndPassRemain": true,
+    "directClosed": true,
+    "priorReceiptRecovered": true,
+    "newApplicationRejected": 410,
+    "pendingFulfilled": true,
+    "noAutomaticApplication": true,
+    "errors": [],
+    "failed": []
+  }
+]

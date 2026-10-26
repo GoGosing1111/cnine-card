@@ -16,5 +16,7 @@ export const SUPPORT_PACKAGE_EVENT_DEADLINE=Object.freeze({
   notice:'1+1 이벤트 종료: 2026년 10월 27일 00:00 (한국시간)\n10월 26일에서 27일로 넘어가는 자정'
 });
 export const supportPackageEventDeadline=product=>product?.eventCode===SUPPORT_PACKAGE_EVENT_DEADLINE.eventCode?SUPPORT_PACKAGE_EVENT_DEADLINE:null;
+export const SUPPORT_PACKAGE_SALES_ENDS_AT=Date.parse(SUPPORT_PACKAGE_EVENT_DEADLINE.endsAt);
+export const supportPackageSalesOpen=(now=Date.now())=>Number.isFinite(now)&&now<SUPPORT_PACKAGE_SALES_ENDS_AT;
 export const isSupportPackageProduct=product=>[SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE].some(known=>JSON.stringify(product)===JSON.stringify(known));
 export const supportPackageSummary=product=>`${product.coins/1000000000000}조 코인 · ${product.items.map(item=>`${item.name} ${item.quantity}개`).join(' · ')}`;

@@ -1,6 +1,7 @@
 import {SUPPORT_PLAN,SUPPORT_NOTICE,SUPPORT_DURATION_MS,canManageSupport,supportAccountEligible,supportBenefits} from '../shared/server-support-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
 import {handleSupportPackage} from './_support_package.js';
+import {supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
 import {prepareSupporterPetReward} from './_supporter_pet_reward.js';
 import {readSeasonPass,handleSeasonPass} from './_supporter_season_pass.js';
 import {readSupportApplication,issueSupportApplication,readSupportApplicationConfig,saveSupportApplicationConfig} from './_supporter_application.js';
@@ -131,7 +132,7 @@ export async function handleServerSupport({path,request,env,deps}){
       if(['server-support/pass/claim','server-support/pass/claim-all'].includes(path))return reply(await handleSeasonPass({path,request,env,user,deps,now,eligible}));
       if(path==='server-support/info'&&request.method==='GET'){
         const info=await supporterPage(env,user,now);
-        return reply({...info,application:{...info.application,enabled:paidEligible&&info.application.enabled},previewOnly,seasonPassVisible:eligible,packageVisible:paidEligible&&info.subscription.active&&info.seasonPass.enabled});
+        return reply({...info,application:{...info.application,enabled:paidEligible&&info.application.enabled},previewOnly,seasonPassVisible:eligible,packageVisible:paidEligible&&info.subscription.active&&info.seasonPass.enabled&&supportPackageSalesOpen(now)});
       }
       if(['server-support/package','server-support/package/apply'].includes(path))return reply(await handleSupportPackage({path,request,env,user,deps,now}));
       if(path==='server-support/apply'&&request.method==='POST'){

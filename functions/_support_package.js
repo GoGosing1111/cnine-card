@@ -1,5 +1,5 @@
 import {readPackageCoinAccounting,packageCoinGuardStatements} from './_package_coin_accounting.js';
-import {SUPPORT_PACKAGE,LIMITED_SHARD,isSupportPackageProduct,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE} from '../shared/support-package-v1.mjs';
+import {SUPPORT_PACKAGE,LIMITED_SHARD,isSupportPackageProduct,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
 import {supportAccountEligible,supportBenefits,canManageSupport} from '../shared/server-support-v1.mjs';
 import {PASS_KEY} from '../shared/supporter-season-pass-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
@@ -40,6 +40,8 @@ export async function issuePackage(env,user,body,now=Date.now()){
  if(!requestId(body.requestId))fail('INPUT','요청 번호를 확인하세요.');
  const id=Number(user.id),{account,support,config}=await eligibility(env,id,now),key='support_package_application_v1:'+id+':'+body.requestId,payload=JSON.stringify([id]);
  const previous=await receipt(env,key,payload);if(previous)return applicationResult(env,id,previous,now);
+ // Preserve committed application receipts while closing new bank instructions.
+ if(!supportPackageSalesOpen(now))fail('CLOSED','패키지 판매가 종료되었습니다. 기존 신청은 운영자가 확인 후 처리합니다.',410);
  await deleteExpiredSupportMessages(env,now,id);await ensureJointAtomicSchema(env);
  const old=await pendingOrder(env,id),order=old?.order||{version:1,id:id+'_'+body.requestId,userId:id,nickname:account.nickname,product:SUPPORT_PACKAGE,status:'PENDING',revision:0,createdAt:now,eligibleUntil:support.state.endsAt};
  // Reissuing bank instructions keeps the same pending order and never repeats its owner alert.
@@ -128,7 +130,7 @@ export async function handleSupportPackage({path,request,env,user,deps,now}){
   if(path==='server-support/package'&&request.method==='GET'){
    await ensureLimitedShardCatalog(env);const pending=await pendingOrder(env,user.id);
    const recent=await env.DB.prepare("SELECT value FROM app_meta WHERE key LIKE ? ESCAPE '!' ORDER BY updated_at DESC LIMIT 5").bind(orderKey(Number(user.id)+'!_')+'%').all();
-   return {product:SUPPORT_PACKAGE,pending:pending?.order??null,recent:recent.results.map(r=>JSON.parse(r.value)),serverNow:now};
+   return {product:SUPPORT_PACKAGE,pending:pending?.order??null,recent:recent.results.map(r=>JSON.parse(r.value)),salesOpen:supportPackageSalesOpen(now),serverNow:now};
   }
   if(path==='server-support/package/apply'&&request.method==='POST'){
    const body=await readJointBody(request,{fields:['requestId']});await deps.ensureMessages?.(env);
