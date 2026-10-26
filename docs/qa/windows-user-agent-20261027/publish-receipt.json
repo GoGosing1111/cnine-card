@@ -1,0 +1,34 @@
+{
+  "published": true,
+  "version": "0.1.10",
+  "commit": "db8cdf488c9727106101ab593934650422bdb663",
+  "url": "https://github.com/GoGosing1111/cnine-card/releases/tag/v0.1.10",
+  "installer": "https://github.com/GoGosing1111/cnine-card/releases/download/v0.1.10/ReverseCall-Setup-0.1.10-x64.exe",
+  "artifacts": [
+    {
+      "name": "ReverseCall-Engine-0.1.10-x64.exe",
+      "bytes": 114067536,
+      "sha256": "ccc917cc5789acff9898c345d96cb60cd5909726af04e96b7b624d2be31fcfc0"
+    },
+    {
+      "name": "ReverseCall-Engine-0.1.10-x64.exe.blockmap",
+      "bytes": 120961,
+      "sha256": "81ede298dd3ac821e4afa240743b2542db27a058ce602f82cde4e712f64d6f23"
+    },
+    {
+      "name": "ReverseCall-Setup-0.1.10-x64.exe",
+      "bytes": 117627904,
+      "sha256": "78c8b9b8e656fd3763b809850b53455a708e83a3b027b0a8f3322af8ea0d03c3"
+    },
+    {
+      "name": "latest.yml",
+      "bytes": 364,
+      "sha256": "aa85dc73b9d6adb219d351724ee4c2055595bfe46d27d7345055e1edce273983"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 385,
+      "sha256": "f6b27e2a4f9a86c85a40845fbc7a28c9a780f94d190ba712298dcb2e7ce05591"
+    }
+  ]
+}

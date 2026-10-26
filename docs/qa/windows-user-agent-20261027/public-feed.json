@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "available": false,
+  "info": {
+    "tag": "v0.1.10",
+    "version": "0.1.10",
+    "files": [
+      {
+        "url": "ReverseCall-Engine-0.1.10-x64.exe",
+        "sha512": "lcpqEGxvX+JEF9tSQnisoFbDVJHpw2hlMRNpnkgc05EuTCrRnqfBQ49ExdBrzzNhex2uoUIvNTEuAZpfJEriew==",
+        "size": 114067536
+      }
+    ],
+    "path": "ReverseCall-Engine-0.1.10-x64.exe",
+    "sha512": "lcpqEGxvX+JEF9tSQnisoFbDVJHpw2hlMRNpnkgc05EuTCrRnqfBQ49ExdBrzzNhex2uoUIvNTEuAZpfJEriew==",
+    "releaseDate": "2026-10-26T15:17:51.783Z",
+    "releaseName": "리버스콜 Windows 0.1.10",
+    "releaseNotes": "<p>리버스콜 Windows 런처 0.1.10</p>\n<p>설치 파일: <strong>ReverseCall-Setup-0.1.10-x64.exe</strong></p>\n<p>DK 홈페이지 접속 시 한글 앱 이름이 User-Agent에 포함되어 발생하던 헤더 오류를 수정했습니다.<br>\n네트워크 앱 식별자를 영문 ASCII Reversecall/0.1.10으로 변경했습니다.<br>\n앱 종료 중 이미 닫힌 런처 창을 다시 표시하려다 오류창이 뜨는 문제도 수정했습니다.<br>\n화면의 리버스콜 이름과 기존 로그인·저장 리소스·게임 설정은 유지합니다.</p>\n<p>Engine 파일과 latest.yml은 자동 업데이트용입니다.</p>"
+  },
+  "rangeDownload": true,
+  "installerUrl": "https://github.com/GoGosing1111/cnine-card/releases/download/v0.1.10/ReverseCall-Engine-0.1.10-x64.exe",
+  "checkedAt": "2026-10-26T15:19:35.992Z"
+}

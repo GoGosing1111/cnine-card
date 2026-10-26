@@ -1,3 +1,11 @@
+## Windows User-Agent ASCII · 종료 오류 수정 — 2026-10-27
+
+- **Windows 0.1.10 배포 완료:** 소스 `db8cdf488`, GitHub 안정 릴리스 `v0.1.10`. DK 운영자 제보에 따라 네트워크 앱 식별자는 **`Reversecall/0.1.10`**이며 이후 버전을 함께 갱신한다. 앱 화면 이름 `리버스콜`·기존 프로필/로그인·앱 ID·설치 GUID는 유지한다.
+- 세션/창 생성 전 전역 `app.userAgentFallback`과 전용 게임 세션에 ASCII UA를 설정한다. 표시 이름을 기본 UA에 다시 넣지 않는다. 실제 Chromium/Electron 버전을 유지한다.
+- 검증 중 사용자에게 표시된 `Object has been destroyed`는 닫힌 런처의 `show()` 재호출이 원인이었다. 종료 가드와 QA 숨김 창·오류 파일 기록을 적용했다. 설치된 사용자 앱을 강제 종료하거나 재설치하지 않았다.
+- 관련 검사 **32개**·실제 Electron 격리 서버 **한글 UA 400→ASCII UA 200**·DK 팝업/리디렉션/iframe/POST·정상 닫기/재실행·런처 우선 파괴 통과. 소스/패키지·업로드 5파일 해시·공개 자동 업데이트 피드와 다운로드 확인. 웹/Worker 재배포·운영 계정 쓰기 0건.
+- 기록 `docs/qa/windows-user-agent-20261027/README.md`. 설치 파일 `https://github.com/GoGosing1111/cnine-card/releases/download/v0.1.10/ReverseCall-Setup-0.1.10-x64.exe`. 이번 임시 빌드/검증 프로필 정리는 자동 승인 검토의 정책 차단으로 실행하지 못했으며 보존 중이다.
+
 ## 족게이다 족로 16 · 비쥬얼깡패 발테르 20 — 2026-10-27
 
 - **운영 변경 완료:** 족게이다 ID4111 / 족로 V-979 **10→16레벨**, 2026-10-27 00:06:04 KST·감사 **51914**. 경험치 0 유지, 돌파 비트 1→7, revision 24→25.

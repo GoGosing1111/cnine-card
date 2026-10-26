@@ -1,0 +1,10 @@
+{
+  "status": "blocked-before-execution",
+  "reason": "Automatic approval review: blocked by policy",
+  "deletedBytes": 0,
+  "finalCodexGiB": 64.374,
+  "preservedBuildRoot": "C:/Users/User/.codex/tmp/reverse-call-windows-build-20261018",
+  "preservedQaRoot": "C:/Users/User/Downloads/cnine-ops-records/windows-user-agent-20261027",
+  "disposableBuildPaths": ["node_modules", "release/win-unpacked"],
+  "preserve": ["published installers", "source", "artwork", "prompts", "hashes", "receipts", "reports"]
+}

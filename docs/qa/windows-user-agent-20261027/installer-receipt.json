@@ -1,0 +1,19 @@
+{
+  "version": "0.1.10",
+  "kind": "custom-wpf-installer",
+  "qa": false,
+  "output": "C:\\Users\\User\\.codex\\tmp\\reverse-call-windows-build-20261018\\release\\ReverseCall-Setup-0.1.10-x64.exe",
+  "bytes": 117627904,
+  "sha256": "78c8b9b8e656fd3763b809850b53455a708e83a3b027b0a8f3322af8ea0d03c3",
+  "backend": {
+    "path": "C:\\Users\\User\\.codex\\tmp\\reverse-call-windows-build-20261018\\release\\ReverseCall-Engine-0.1.10-x64.exe",
+    "bytes": 114067536,
+    "sha256": "ccc917cc5789acff9898c345d96cb60cd5909726af04e96b7b624d2be31fcfc0"
+  },
+  "installed": {
+    "exe": "ReverseCall.exe",
+    "asarSha256": "5fa8ffff616be71d0ecf938a4f05068de44c981730999898027e4a9c88636018",
+    "bytes": 389604503
+  },
+  "registryGuid": "c69fcbf2-955f-5c48-8ff1-55c03889cb40"
+}

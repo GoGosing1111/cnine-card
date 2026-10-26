@@ -24,6 +24,12 @@ Reuse source checkout `C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/si
 
 Build with the existing `scripts/build-windows-client.mjs`, electron-builder and `scripts/build-windows-installer.mjs`; validate and publish through `scripts/publish-windows-client.mjs`. Source/app.asar equality, installer SHA-256, updater SHA-512 and GitHub asset digests are required. This is a Windows binary release; no Pages/Worker deployment or game-account changes are needed.
 
+Published **0.1.10**, source **db8cdf488c9727106101ab593934650422bdb663**, to the existing public stable update feed. All five uploaded artifact digests matched. The real Electron GitHub updater subsequently read version 0.1.10, verified the public installer range download and matched its SHA-512/size to the built artifact. Evidence: `publish-receipt.json`, `installer-receipt.json`, `public-feed.json`.
+
+Installer: https://github.com/GoGosing1111/cnine-card/releases/download/v0.1.10/ReverseCall-Setup-0.1.10-x64.exe. Setup SHA-256: `78c8b9b8e656fd3763b809850b53455a708e83a3b027b0a8f3322af8ea0d03c3`. Existing 0.1.5+ clients receive this through their normal update check and explicit restart button; this task did not terminate, replace or reinstall the user's running client.
+
 Runtime QA working files are outside the repository at `C:/Users/User/Downloads/cnine-ops-records/windows-user-agent-20261027`. Preserve the final installer, source, test/report and release hashes. Remove only this task's disposable dependencies, unpacked build and isolated profiles after verification.
+
+Cleanup outcome: the automatic approval review rejected the guarded PowerShell deletion command with `blocked by policy` before execution. No cleanup was performed or bypassed. The newly installed build `node_modules`, `release/win-unpacked` and this task's QA profiles remain. The pre-build storage audit measured `.codex` at 63.35 GiB; the final read-only audit measured 64.374 GiB with zero scan errors. Unrelated data and the running installed client were not modified.
 
 Electron references: [global fallback user agent](https://www.electronjs.org/docs/latest/api/app#appuseragentfallback) and [session user agent](https://www.electronjs.org/docs/latest/api/session#sessetuseragentuseragent-acceptlanguages). These APIs are applied before webContents creation; session changes alone do not update existing webContents.
