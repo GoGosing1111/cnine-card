@@ -1,0 +1,78 @@
+{
+  "at": "2026-10-26T12:45:39.248Z",
+  "pages": {
+    "id": "5e0f5ac3-2412-4450-a29f-168f47b7593e",
+    "url": "https://5e0f5ac3.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "4089bae634ed8168fbeee45b9561ed321caacda7"
+  },
+  "roster": {
+    "enabled": true,
+    "profiles": [
+      {
+        "id": "qpqpro",
+        "name": "디임",
+        "stationUrl": "https://www.sooplive.com/station/qpqpro",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/qp/qpqpro/m/qpqpro.webp",
+        "description": ""
+      },
+      {
+        "id": "zalalz",
+        "name": "조은",
+        "stationUrl": "https://www.sooplive.com/station/zalalz",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/za/zalalz/m/zalalz.webp",
+        "description": ""
+      },
+      {
+        "id": "mew030709",
+        "name": "남수댕",
+        "stationUrl": "https://www.sooplive.com/station/mew030709",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/me/mew030709/m/mew030709.webp",
+        "description": ""
+      },
+      {
+        "id": "yjk011599",
+        "name": "나무늘봉순",
+        "stationUrl": "https://www.sooplive.com/station/yjk011599",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/yj/yjk011599/m/yjk011599.webp",
+        "description": ""
+      },
+      {
+        "id": "jkmjkm1236",
+        "name": "하이희야",
+        "stationUrl": "https://www.sooplive.com/station/jkmjkm1236",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/jk/jkmjkm1236/m/jkmjkm1236.webp",
+        "description": ""
+      },
+      {
+        "id": "kuyol",
+        "name": "강구열",
+        "stationUrl": "https://www.sooplive.com/station/kuyol",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/ku/kuyol/m/kuyol.webp",
+        "description": ""
+      },
+      {
+        "id": "imducko3o",
+        "name": "오리꿍",
+        "stationUrl": "https://www.sooplive.com/station/imducko3o",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/im/imducko3o/m/imducko3o.webp",
+        "description": ""
+      },
+      {
+        "id": "ddaggida3",
+        "name": "주성",
+        "stationUrl": "https://www.sooplive.com/station/ddaggida3",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/dd/ddaggida3/m/ddaggida3.webp",
+        "description": ""
+      },
+      {
+        "id": "ayoona",
+        "name": "아윤♡",
+        "stationUrl": "https://www.sooplive.com/station/ayoona",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/ay/ayoona/m/ayoona.webp",
+        "description": ""
+      }
+    ]
+  },
+  "rosterHash": "1530f1e5c34e83a5002e6547d6010c393ffd960709c85afc28c8776705f91c83"
+}

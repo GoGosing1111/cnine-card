@@ -1,0 +1,114 @@
+{
+  "at": "2026-10-26T12:48:46.231Z",
+  "pages": {
+    "id": "9418f364-b6a9-4e5a-8a65-78be914f40a3",
+    "url": "https://9418f364.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "6005e3306ca991d878038bfb33f56fac7de8c153"
+  },
+  "roster": {
+    "enabled": true,
+    "profiles": [
+      {
+        "id": "qpqpro",
+        "name": "디임",
+        "stationUrl": "https://www.sooplive.com/station/qpqpro",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/qp/qpqpro/m/qpqpro.webp",
+        "description": ""
+      },
+      {
+        "id": "zalalz",
+        "name": "조은",
+        "stationUrl": "https://www.sooplive.com/station/zalalz",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/za/zalalz/m/zalalz.webp",
+        "description": ""
+      },
+      {
+        "id": "mew030709",
+        "name": "남수댕",
+        "stationUrl": "https://www.sooplive.com/station/mew030709",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/me/mew030709/m/mew030709.webp",
+        "description": ""
+      },
+      {
+        "id": "yjk011599",
+        "name": "나무늘봉순",
+        "stationUrl": "https://www.sooplive.com/station/yjk011599",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/yj/yjk011599/m/yjk011599.webp",
+        "description": ""
+      },
+      {
+        "id": "jkmjkm1236",
+        "name": "하이희야",
+        "stationUrl": "https://www.sooplive.com/station/jkmjkm1236",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/jk/jkmjkm1236/m/jkmjkm1236.webp",
+        "description": ""
+      },
+      {
+        "id": "kuyol",
+        "name": "강구열",
+        "stationUrl": "https://www.sooplive.com/station/kuyol",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/ku/kuyol/m/kuyol.webp",
+        "description": ""
+      },
+      {
+        "id": "imducko3o",
+        "name": "오리꿍",
+        "stationUrl": "https://www.sooplive.com/station/imducko3o",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/im/imducko3o/m/imducko3o.webp",
+        "description": ""
+      },
+      {
+        "id": "ddaggida3",
+        "name": "주성",
+        "stationUrl": "https://www.sooplive.com/station/ddaggida3",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/dd/ddaggida3/m/ddaggida3.webp",
+        "description": ""
+      },
+      {
+        "id": "ayoona",
+        "name": "아윤♡",
+        "stationUrl": "https://www.sooplive.com/station/ayoona",
+        "imageUrl": "https://stimg.sooplive.com/LOGO/ay/ayoona/m/ayoona.webp",
+        "description": ""
+      }
+    ]
+  },
+  "rosterHash": "1530f1e5c34e83a5002e6547d6010c393ffd960709c85afc28c8776705f91c83",
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "a71e068e03ed655b8688a34b0296d40b239c3d5026bd738481ac9bd78bc17734"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "2f7cca7e4066e899c03c8f4ce356cb9222e3b26b94bad490c76efc7ace79af7d"
+    },
+    {
+      "file": "js/streamer-lounge-v2036.js",
+      "sha256": "437f09d22e32d40c07954e6d4c6270b772e4a2e47fc1515d5807b337185e6ac3"
+    },
+    {
+      "file": "js/cnine-roster-v1.js",
+      "sha256": "55278531ce0cfd0e73fac26cc17eb184a0b053de725e8419af40e1bf053ac284"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "19d04437e208d316699793e6d4202e2bf86ef3f536876013813bf0346bcd2e8c"
+    },
+    {
+      "file": "css/cnine-roster-v1.css",
+      "sha256": "9ce66849bed265f81b8709dda9b7b78160eeb96adea8d45c0631d86ece625e4d"
+    },
+    {
+      "file": "assets/ui/streamer-lounge/cnine-roster-20261026/celestial-board.webp",
+      "sha256": "ae1ba6ee1bfc65cda5ee7709273e61e4e3101f385914af5bdf21a450578ef0d8"
+    },
+    {
+      "file": "preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+      "sha256": "834d34ba8e6ca7235b9ee688699e959de53770758483fe6d07d4cb403cf64eba"
+    }
+  ],
+  "operationalAccountWrites": 0,
+  "operationalSettingsWrites": 0
+}

@@ -1,0 +1,8 @@
+{
+  "base": "4089bae634ed8168fbeee45b9561ed321caacda7",
+  "reason": "Remove Idani 0929kelly from the CNINE female roster at the user request. Keep the five remaining female members, three star members, department navigation, three-column layout and the released square entrance portrait spacing. Refresh only the roster module and entry cache. Actual local PC/mobile checks and related lounge regression; no account or CMS changes.",
+  "tests": [
+    "tests/streamer-lounge-v2036.test.mjs"
+  ],
+  "checks": []
+}
