@@ -1,0 +1,13 @@
+{
+  "base": "b2085b68482bb2927667da01b6811d6cbbbb36c6",
+  "reason": "Add the user-requested compact CNINE board entry directly to the lobby and return to the lobby. Generated celestial art and six responsive member cards; actual-main PC/mobile entry, station links, focus restoration and unchanged existing lounge verified. All 22 lounge/navigation regressions passed in the retained first attempt; frontend unchanged since that pass. Only the exact three Python authoring exclusions changed, so the retry runs the existing staging/source-preservation/20000-asset-limit regression.",
+  "tests": [
+    "tests/mercenary-experience-transfer-production-assets-20261025.test.mjs"
+  ],
+  "checks": [],
+  "previouslyPassed": {
+    "commit": "5bbfa69c9b33d1f0f1deb052e32892e737ef6338",
+    "tests": 22,
+    "log": "deploy-attempt1.log"
+  }
+}

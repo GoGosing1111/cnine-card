@@ -1,0 +1,9 @@
+{
+  "base": "b2085b68482bb2927667da01b6811d6cbbbb36c6",
+  "reason": "Add the user-requested compact CNINE board entry directly to the lobby and return to the lobby. Generated celestial art and six responsive member cards; actual-main PC/mobile entry, station links, focus restoration and unchanged existing lounge verified.",
+  "tests": [
+    "tests/streamer-lounge-v2036.test.mjs",
+    "tests/adventure-lobby-menu-separation.test.mjs"
+  ],
+  "checks": []
+}

@@ -1,0 +1,144 @@
+{
+  "serverNow": "2026-10-26T00:36:07.000Z",
+  "packRevision": 9,
+  "packHash": "72a4ebd6a43196bde9f273e0946d26f1f6f9293db365d5a9ea17e5c791637574",
+  "settings": {
+    "mode": "ON",
+    "prices": {
+      "single": 1500000000,
+      "ten": 15000000000
+    },
+    "missRatePpm": 800000,
+    "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+    "normalRankRatesPpm": {
+      "C": 104500,
+      "B": 30000,
+      "A": 30000,
+      "S": 30000,
+      "SS": 4700,
+      "SSS": 800
+    },
+    "normalSssRatePpm": 969369,
+    "cardRatesPpm": {
+      "V-960": 5000,
+      "V-961": 5000,
+      "V-962": 5000,
+      "V-963": 5000,
+      "V-964": 5000,
+      "V-965": 5000,
+      "V-978": 200,
+      "V-974": 10,
+      "V-975": 1,
+      "V-973": 20,
+      "V-058": 400
+    },
+    "stockLimits": {
+      "V-960": 40,
+      "V-961": 40,
+      "V-962": 40,
+      "V-963": 40,
+      "V-964": 40,
+      "V-965": 40,
+      "V-978": 9,
+      "V-974": 3,
+      "V-975": 3,
+      "V-973": 4
+    }
+  },
+  "stock": [
+    {
+      "code": "V-960",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-961",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-962",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-963",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-964",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-965",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-973",
+      "stock_limit": 4,
+      "issued": 1
+    },
+    {
+      "code": "V-974",
+      "stock_limit": 3,
+      "issued": 1
+    },
+    {
+      "code": "V-975",
+      "stock_limit": 3,
+      "issued": 1
+    },
+    {
+      "code": "V-978",
+      "stock_limit": 9,
+      "issued": 9
+    }
+  ],
+  "schedules": {
+    "version": 1,
+    "revision": 1,
+    "schedules": []
+  },
+  "scheduleRaw": null,
+  "issues": [
+    {
+      "code": "V-960",
+      "count": 40,
+      "max_serial": 40
+    },
+    {
+      "code": "V-961",
+      "count": 40,
+      "max_serial": 40
+    },
+    {
+      "code": "V-962",
+      "count": 40,
+      "max_serial": 40
+    },
+    {
+      "code": "V-963",
+      "count": 40,
+      "max_serial": 40
+    },
+    {
+      "code": "V-964",
+      "count": 40,
+      "max_serial": 40
+    },
+    {
+      "code": "V-965",
+      "count": 40,
+      "max_serial": 40
+    },
+    {
+      "code": "V-978",
+      "count": 9,
+      "max_serial": 9
+    }
+  ],
+  "request": null
+}

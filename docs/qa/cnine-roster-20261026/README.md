@@ -12,4 +12,10 @@
 - 국소 UI 변경으로 기존 라운지·로비 메뉴 회귀를 공식 scoped 배포에서 실행한다. 로비 생성 번들의 원본 일치 검사도 통과했다. 배포 실행기와 결과는 같은 폴더에 기록한다. 배포 후 공개 컴포넌트 검수는 실제 메인 전체 진입 검수와 구분한다.
 - 처음에는 최신 기존 작업 폴더와 기존 의존성을 재사용했다. 이후 같은 폴더에 다른 진행 중 작업 파일이 나타나 범위 커밋 후 관리형 `cnine-roster-release` worktree로 분리했다. 사전 저장소 audit를 실행했고 의존성은 부모 junction으로 재사용했다. 다른 작업 파일은 수정/정리하지 않는다. 완료 후 이 작업의 worktree와 자체 junction만 회수한다.
 
-운영 배포 결과는 완료 후 아래에 기록한다.
+운영 반영 완료: 소스 `656fb7351c80aa71c31ea3ad5efbf703f02008fe`, Pages `a3196dc0-3582-462f-a0fb-e6b58f4f9535`, 2026-10-26 09:37:57 KST. 관련 기존 검사 22개와 배포 파일/원본 보존 검사 1개, 총 23개 통과. 공개 index·SW·로비 번들·라운지·현황판 JS/CSS·배경·로고 8개 SHA-256 일치. 기존 9명 목록 해시 동일. 배포된 실제 모듈을 사용하는 공개 모바일 컴포넌트에서 입구·6명·방송국 새 탭·로비 복귀를 검증했다. 전체 공개 메인 진입을 검증했다고 주장하지 않는다.
+
+첫 배포 준비에서 Pages 파일 수 20,003개 한도를 감지하여 외부 배포 전에 중단했다. `scripts/generate-responsive-card-images.py`, `scripts/generate-responsive-ui-images.py`, `scripts/generate-project-v-advancement-sfx-v1.py` 3개 오프라인 제작 도구만 배포 대상에서 제외하고 소스/산출물은 보존했다. 20,000개로 성공했고 기존 22개 검사는 반복하지 않았다. 첫 실패 및 재시도 로그 모두 보존했다. 공식 배포 임시 디렉터리 `cnine-release-SZm1fd` 자동 회수를 확인했다.
+
+최종 사용자용 화면/배경/프롬프트 사본: `C:/Users/User/Downloads/upload/cnine-card/output/cnine-roster-20261026/`. 원화 정본은 저장소 `art/`와 원래 generated_images 경로에 유지한다. 저장소 audit에서 기존 .codex 사용량 75.353GiB로 기준 초과를 확인했으며 다른 진행 중 폴더·대화·고유 원화를 삭제하지 않았다.
+
+최종 정리: 공식 archive_worktree가 현재 기본 체크아웃 보호로 거부했다. 이 작업의 깨끗한 커밋을 sparse checkout으로 축소하여 57.77MiB만 남겼으며, 현황판 원화·프롬프트·소스·검수·복구 브랜치를 보존했다. 부모 의존성 junction은 삭제 안전 정책으로 유지한다(의존성 복사 0). 전체 .codex는 동시 진행 작업을 포함해 87.143GiB로 목표를 초과한다. 다른 작업·대화·원화는 손대지 않았다. 상세 storage-closeout.json 참조.
