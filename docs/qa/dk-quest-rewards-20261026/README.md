@@ -23,4 +23,4 @@
 - 별도 직접 SQL READ ONLY 검증: 메시지/첨부 23건, 원 영수증·기존 첨부 보존, 다른 퀘스트 설정 유지, 누락/중복 0. SELECT 전용으로 설정/발급 실행기를 재호출해 SQL 6개·쓰기 0건 확인. `independent-verification.json`, `replay.json`.
 - `config-dry-run.json`, `delivery-dry-run.json`의 감사 번호/COMPLETED는 롤백한 예행연습 결과다. 운영 완료 영수증은 `configure.json`, `deliver.json`의 감사 **51546/51549**이며 같은 요청을 새 키로 다시 지급하지 않는다.
 
-개인별 원본·대상 명단·영수증·민감 설정은 저장소 밖 `C:/Users/User/.codex/visualizations/2026/10/25/01a17499-5b2e-7ff0-94f2-2a74873aeb5c/dk-quest-20261026/`에 보존하며 저장소에는 집계와 검수 자료만 남긴다. 이전 작업의 관리형 폴더와 공유 의존성을 재사용한다. 배포 검증에 필요한 기존 체크아웃을 감사 후 복원했고 완료 시 이 작업의 중복 체크아웃을 다시 축소한다.
+개인별 원본·대상 명단·영수증·민감 설정은 저장소 밖 `C:/Users/User/.codex/visualizations/2026/10/25/01a17499-5b2e-7ff0-94f2-2a74873aeb5c/dk-quest-20261026/`에 보존하며 저장소에는 집계와 검수 자료만 남긴다. 이전 작업의 관리형 폴더와 공유 의존성을 재사용했다. 관리형 archive는 기본 체크아웃 보호로 거부되어, 전체 변경 이력을 원격 main과 작업 브랜치에 보존한 뒤 Git sparse checkout으로 약 **42.39MiB**까지 축소해 **11.56GiB**를 회수했다. 검수 자료 24개를 저장소 밖에 별도 보존하고 양쪽 SHA-256·길이 일치를 확인했다. 전체 `.codex`는 감사 기준 75.010→63.448GiB이며 다른 작업의 자료는 정리하지 않았다. `storage-closeout.json`과 저장소 밖 원본 감사/파일 명세를 보존한다. 전체 체크아웃 복원이 필요하면 먼저 용량 감사 후 `git sparse-checkout disable`을 사용한다.
