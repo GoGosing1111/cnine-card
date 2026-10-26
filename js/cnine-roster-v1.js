@@ -6,8 +6,7 @@ export const CNINE_GROUPS = Object.freeze([
     Object.freeze({ id: 'chocho12', name: '초초' }),
     Object.freeze({ id: 'yjk011599', name: '나무늘봉순' }),
     Object.freeze({ id: 'lcy011027', name: 'BJ채리' }),
-    Object.freeze({ id: 'wkao85guo', name: '꾸까' }),
-    Object.freeze({ id: '0929kelly', name: '이다니♥' })
+    Object.freeze({ id: 'wkao85guo', name: '꾸까' })
   ]) }),
   Object.freeze({ id: 'star', name: '스타부', label: 'STARCRAFT', members: Object.freeze([
     Object.freeze({ id: 'mew030709', name: '남수댕' }),
