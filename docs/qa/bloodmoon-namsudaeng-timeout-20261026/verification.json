@@ -1,0 +1,464 @@
+{
+  "status": "PASSED",
+  "verifiedAt": "2026-10-26T11:49:24.126Z",
+  "source": "dc476fbc86d2533747c8aef1c0bfee1cffcb5427",
+  "pages": "b8f919f5",
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "5411f84bb8172bf29eac5a0a9dbb00a402d5337ffdc08727a7a96cb0dc303593",
+      "bytes": 38215,
+      "transformed": false
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "03522ca30c794c145d13c10323332869fe18b371d42f688209119345067bc002",
+      "bytes": 792020,
+      "transformed": false
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "82b237260f53a4b44142cf362293d2672b04b6aca3e5797f97deafe2fd18fc61",
+      "bytes": 89391,
+      "transformed": false
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "22df5360556f507b3820f868acb40be5ac0603e4c95d46613badaf7de8fb7eb1",
+      "bytes": 20696,
+      "transformed": false
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "28c941d4f883316a00a01560c81044aa566654b5f44f956e41233445ed80b037",
+      "bytes": 786704,
+      "transformed": false
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "887108e509182a2ec2c12083cd17889db334c19bb167aa3224425abd2e4b3217",
+      "bytes": 985,
+      "transformed": false
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "d31cd953dc3a894a67c744d5abc37e04012877066e12986ae9d26560feb9972f",
+      "bytes": 37843,
+      "transformed": true
+    }
+  ],
+  "service": {
+    "status": 200,
+    "maintenance": false
+  },
+  "productionDataWrites": 0,
+  "deployment": {
+    "Id": "b8f919f5-42f4-4080-8901-e5c2770e2fbf",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "dc476fb",
+    "Deployment": "https://b8f919f5.cnine-card.pages.dev",
+    "Status": "1 minute ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/b8f919f5-42f4-4080-8901-e5c2770e2fbf"
+  },
+  "priorDeployment": {
+    "Id": "30b59242-90f7-4e30-b897-5b990cc870b7",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "5448b96",
+    "Deployment": "https://30b59242.cnine-card.pages.dev",
+    "Status": "21 minutes ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/30b59242-90f7-4e30-b897-5b990cc870b7",
+    "fullSource": "5448b9651dd741caa7930734b80ee5b2bfde3a4e"
+  },
+  "relatedTests": 25,
+  "local": [
+    {
+      "width": 1440,
+      "mode": "APOCALYPSE",
+      "baseline": false,
+      "settlement": "CLAIMED",
+      "returned": true,
+      "skills": [
+        {
+          "skill": "MS-947",
+          "elapsedMs": 1699.7999999970198,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-948",
+          "elapsedMs": 2199.2000000029802,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-949",
+          "elapsedMs": 2750.2000000029802,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        }
+      ],
+      "completedEvents": [
+        "DEPLOY",
+        "GUARD_PROTECT",
+        "DEPLOY",
+        "SINGLE_HEALER_AURA",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "TURN",
+        "MERCENARY_WINDUP",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "RESULT"
+      ]
+    },
+    {
+      "width": 1440,
+      "mode": "PVE",
+      "baseline": false,
+      "returned": true,
+      "skills": [
+        {
+          "skill": "MS-947",
+          "elapsedMs": 1700,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-948",
+          "elapsedMs": 2203.9000000059605,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-949",
+          "elapsedMs": 2750.1000000089407,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        }
+      ],
+      "completedEvents": [
+        "DEPLOY",
+        "GUARD_PROTECT",
+        "DEPLOY",
+        "SINGLE_HEALER_AURA",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "TURN",
+        "MERCENARY_WINDUP",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "RESULT"
+      ]
+    },
+    {
+      "width": 1440,
+      "mode": "PVP",
+      "baseline": false,
+      "returned": true,
+      "skills": [
+        {
+          "skill": "MS-947",
+          "elapsedMs": 1700.0999999940395,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-948",
+          "elapsedMs": 2199.7999999970198,
+          "targets": 3,
+          "damageApplications": 3,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-949",
+          "elapsedMs": 2750.1000000089407,
+          "targets": 2,
+          "damageApplications": 2,
+          "playbackRate": 2
+        }
+      ],
+      "completedEvents": [
+        "DEPLOY",
+        "GUARD_PROTECT",
+        "GUARD_PROTECT",
+        "DEPLOY",
+        "DEPLOY",
+        "SINGLE_HEALER_AURA",
+        "SINGLE_HEALER_AURA",
+        "DEFENSE_LINE_BREACHED",
+        "DEFENSE_LINE_BREACHED",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "TURN",
+        "TURN",
+        "MERCENARY_WINDUP",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "RESULT"
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "APOCALYPSE",
+      "baseline": false,
+      "settlement": "CLAIMED",
+      "returned": true,
+      "skills": [
+        {
+          "skill": "MS-947",
+          "elapsedMs": 1699.7000000029802,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-948",
+          "elapsedMs": 2199.2999999970198,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-949",
+          "elapsedMs": 2750,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        }
+      ],
+      "completedEvents": [
+        "DEPLOY",
+        "GUARD_PROTECT",
+        "DEPLOY",
+        "SINGLE_HEALER_AURA",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "TURN",
+        "MERCENARY_WINDUP",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "RESULT"
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "PVE",
+      "baseline": false,
+      "returned": true,
+      "skills": [
+        {
+          "skill": "MS-947",
+          "elapsedMs": 1700.0999999940395,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-948",
+          "elapsedMs": 2199.8999999910593,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-949",
+          "elapsedMs": 2749.9000000059605,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        }
+      ],
+      "completedEvents": [
+        "DEPLOY",
+        "GUARD_PROTECT",
+        "DEPLOY",
+        "SINGLE_HEALER_AURA",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "TURN",
+        "MERCENARY_WINDUP",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "RESULT"
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "PVP",
+      "baseline": false,
+      "returned": true,
+      "skills": [
+        {
+          "skill": "MS-947",
+          "elapsedMs": 1700.6000000089407,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-948",
+          "elapsedMs": 2199.2999999970198,
+          "targets": 3,
+          "damageApplications": 3,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-949",
+          "elapsedMs": 2750.2000000029802,
+          "targets": 2,
+          "damageApplications": 2,
+          "playbackRate": 2
+        }
+      ],
+      "completedEvents": [
+        "DEPLOY",
+        "GUARD_PROTECT",
+        "GUARD_PROTECT",
+        "DEPLOY",
+        "DEPLOY",
+        "SINGLE_HEALER_AURA",
+        "SINGLE_HEALER_AURA",
+        "DEFENSE_LINE_BREACHED",
+        "DEFENSE_LINE_BREACHED",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "TURN",
+        "TURN",
+        "MERCENARY_WINDUP",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "RESULT"
+      ]
+    }
+  ],
+  "public": [
+    {
+      "width": 390,
+      "mode": "APOCALYPSE",
+      "baseline": false,
+      "settlement": "CLAIMED",
+      "returned": true,
+      "skills": [
+        {
+          "skill": "MS-947",
+          "elapsedMs": 1704,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-948",
+          "elapsedMs": 2199.2999999970198,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-949",
+          "elapsedMs": 2750.0999999940395,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        }
+      ],
+      "completedEvents": [
+        "DEPLOY",
+        "GUARD_PROTECT",
+        "DEPLOY",
+        "SINGLE_HEALER_AURA",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "START_EFFECT",
+        "TURN",
+        "MERCENARY_WINDUP",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "MERCENARY_BLOODMOON_ARROW",
+        "RESULT"
+      ]
+    }
+  ],
+  "baseline": [
+    {
+      "width": 390,
+      "mode": "APOCALYPSE",
+      "baseline": true,
+      "settlement": "FAILED",
+      "returned": false,
+      "skills": [
+        {
+          "skill": "MS-947",
+          "elapsedMs": 1698.5,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        },
+        {
+          "skill": "MS-948",
+          "elapsedMs": 2004.9000000059605,
+          "targets": 1,
+          "damageApplications": 1,
+          "playbackRate": 2
+        }
+      ],
+      "completedEvents": []
+    }
+  ],
+  "workers": {
+    "apiRuntime": "7ceba9d9-50d5-4164-b259-0491b479d8dc",
+    "clanDraft": "f2352841-f024-4aee-a67d-40a58f40c380"
+  },
+  "evidenceRoot": "C:/Users/User/.codex/visualizations/2026/10/26/01a177dd-7092-7920-b797-b6ed09d6f5df/namsudaeng-timeout"
+}
