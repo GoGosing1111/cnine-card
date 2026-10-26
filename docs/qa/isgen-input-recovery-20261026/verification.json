@@ -1,0 +1,143 @@
+{
+  "checkedAt": "2026-10-26T11:20:30.052Z",
+  "deployment": {
+    "Id": "30b59242-90f7-4e30-b897-5b990cc870b7",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "5448b96",
+    "Deployment": "https://30b59242.cnine-card.pages.dev",
+    "Status": "1 minute ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/30b59242-90f7-4e30-b897-5b990cc870b7"
+  },
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "ba258b4510337c4811aa13116beb1794bc4906d38a4220577099f754e0d2f6ad",
+      "expectedSha256": "ba258b4510337c4811aa13116beb1794bc4906d38a4220577099f754e0d2f6ad",
+      "match": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "93fadc1c96e9dbdeff37583e6745264500f2103b9baa8835a474c8c2fdd910e0",
+      "expectedSha256": "93fadc1c96e9dbdeff37583e6745264500f2103b9baa8835a474c8c2fdd910e0",
+      "match": true
+    },
+    {
+      "file": "js/lich-king-raid-entry-v1.js",
+      "status": 200,
+      "sha256": "aaa831064e719b57ba551ca9fa6f86063efedb5ec8a9c28cd47be70f47b09db7",
+      "expectedSha256": "aaa831064e719b57ba551ca9fa6f86063efedb5ec8a9c28cd47be70f47b09db7",
+      "match": true
+    },
+    {
+      "file": "raid/lich-king/index.html",
+      "status": 200,
+      "sha256": "3011665a814ab95a6249685e3613cfb4ad1f22068068c0a95303bc0c4d644de9",
+      "expectedSha256": "3011665a814ab95a6249685e3613cfb4ad1f22068068c0a95303bc0c4d644de9",
+      "match": true
+    },
+    {
+      "file": "raid/lich-king/inline.mjs",
+      "status": 200,
+      "sha256": "9fb54d88abd5ac765b7e45502c67f631767ed863349f11549dc1f3fb924393dc",
+      "expectedSha256": "9fb54d88abd5ac765b7e45502c67f631767ed863349f11549dc1f3fb924393dc",
+      "match": true
+    },
+    {
+      "file": "raid/lich-king/live.mjs",
+      "status": 200,
+      "sha256": "7ca68056340878069bb3a61e526432e67ea8c1d7eb350d70d1540e8f6a3566d6",
+      "expectedSha256": "7ca68056340878069bb3a61e526432e67ea8c1d7eb350d70d1540e8f6a3566d6",
+      "match": true
+    },
+    {
+      "file": "raid/lich-king/request-retry.mjs",
+      "status": 200,
+      "sha256": "35329d06c4ea5baed147906cc44abcc8b10d2d03610a7bf70788d7292dc745d5",
+      "expectedSha256": "35329d06c4ea5baed147906cc44abcc8b10d2d03610a7bf70788d7292dc745d5",
+      "match": true
+    },
+    {
+      "file": "onestore/index.html",
+      "status": 200,
+      "sha256": "16093934002c19ad0bbdd924ad70c11ec86f5811b4348499bb328268fb476ec1",
+      "expectedSha256": "16093934002c19ad0bbdd924ad70c11ec86f5811b4348499bb328268fb476ec1",
+      "match": true,
+      "comparison": "canonical htmlForStore transform"
+    }
+  ],
+  "health": {
+    "status": 200,
+    "maintenance": false
+  },
+  "unauthorizedStatus": 401,
+  "publishedModule": {
+    "oldSnapshotRejected": true,
+    "missingInputReleased": true
+  },
+  "source": "5448b9651dd741caa7930734b80ee5b2bfde3a4e",
+  "checkedAtKST": "2026-10-26 20:20:30",
+  "tests": {
+    "uniqueNodeTests": 19,
+    "newTests": 5,
+    "adjacentTests": 14
+  },
+  "browser": {
+    "reports": [
+      {
+        "width": 1440,
+        "members": 6,
+        "hpPercent": 0.33331087555395855,
+        "windowMs": 12000,
+        "recoveredMs": 2577,
+        "sameReceipt": true,
+        "resultCount": 1,
+        "extraTicketSpent": 0,
+        "status": "CLEAR",
+        "pageErrors": []
+      },
+      {
+        "width": 390,
+        "members": 6,
+        "hpPercent": 0.33331087555395855,
+        "windowMs": 12000,
+        "recoveredMs": 2553,
+        "sameReceipt": true,
+        "resultCount": 1,
+        "extraTicketSpent": 0,
+        "status": "CLEAR",
+        "pageErrors": []
+      }
+    ]
+  },
+  "readOnly": {
+    "checkedAt": "2026-10-26T11:18:32.012Z",
+    "readOnly": true,
+    "settingsUnchanged": true,
+    "settingsHash": "a9dedacdb7343f87d9684c1282f9e03aa1d0760901c584a725d96a5e30829ef4",
+    "rooms": [
+      {
+        "roomId": "LK-4def31f7-6aca-477e-91a9-5aaf604b0ddb",
+        "unchanged": true,
+        "sha256": "dd316765b11bc93de854e255cc43087406ae2b35ccc7881129884364445f6f5b"
+      },
+      {
+        "roomId": "LK-e1482ced-8d15-4188-adc9-5a5402100d32",
+        "unchanged": true,
+        "sha256": "5eda2cfce0bd2955c8c60a18b8b5e9dc3ef103548dabdb8a5640a89c67476373"
+      },
+      {
+        "roomId": "LK-3501a52e-b734-4f72-9a27-505086f1cba2",
+        "unchanged": true,
+        "sha256": "9467e12d958b33550942968855d245570604a6709d74191e6d2f67644f08c8d2"
+      }
+    ],
+    "operationalWrites": 0
+  },
+  "workers": {
+    "apiRuntime": "1ffc6d72-0ba9-45f9-af9d-f9606776dd6b",
+    "clanDraft": "0fc12b7f-6465-4c67-8704-d34c489a7945"
+  }
+}
