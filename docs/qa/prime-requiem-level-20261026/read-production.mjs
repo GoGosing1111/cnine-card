@@ -1,0 +1,25 @@
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {createRequire} from 'node:module';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';import {pathToFileURL} from 'node:url';
+const root='C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site',require=createRequire(path.join(root,'package.json')),pg=require('pg'),phase=process.argv[2];assert(['before','after','preview'].includes(phase));
+const hash=x=>createHash('sha256').update(typeof x==='string'?x:JSON.stringify(x)).digest('hex');
+const raw=execFileSync(process.execPath,['C:/Users/User/AppData/Local/npm-cache/_npx/74274893b9fe65d3/node_modules/neonctl/bin/cli.js','connection-string','br-misty-hat-az5in4f4','--project-id','purple-king-54735192','--database-name','cnine','--role-name','cnine_migrator','--ssl','verify-full'],{encoding:'utf8',timeout:30000,windowsHide:true,stdio:['ignore','pipe','pipe']});
+const connectionString=raw.trim().replace(/^['"]|['"]$/g,''),url=new URL(connectionString);assert(url.hostname.endsWith('.neon.tech')&&url.pathname==='/cnine');
+const db=new pg.Client({connectionString,application_name:'prime-requiem-level-readonly-'+phase,connectionTimeoutMillis:15000});
+try{
+ await db.connect();await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');await db.query("SET LOCAL statement_timeout='15s'");
+ const owners=(await db.query("SELECT c.user_id,c.total_copies,c.duplicate_count,l.level,l.experience,l.breakthrough_mask,l.revision FROM user_mercenary_cards_v1 c LEFT JOIN user_mercenary_levels_v1 l ON l.user_id=c.user_id AND l.mercenary_code=c.mercenary_code WHERE c.mercenary_code='V-975' AND c.total_copies>0 ORDER BY c.user_id LIMIT 100")).rows;assert(owners.length&&owners.length<100);
+ const policy=(await db.query("SELECT value FROM app_meta WHERE key='mercenary_level_policy_v1'")).rows[0],cms=(await db.query("SELECT revision,payload_json FROM mercenary_cms_documents_v1 WHERE doc_key='config'")).rows[0];
+ const {handleMercenaryLevel}=await import(pathToFileURL(path.join(root,'functions/_mercenary_level.js'))),{__postgresCompatTest}=await import(pathToFileURL(path.join(root,'functions/_postgres_d1_compat.js')));
+ const env={DB:new __postgresCompatTest.PostgresD1Database({query:arg=>{assert.match(arg.text,/^\s*(SELECT|WITH)\b/i,'Read-only handler');return db.query(arg);}})},results=[];
+ for(const owner of owners){
+  const user={id:Number(owner.user_id),role:'USER'},deps={authenticate:async()=>user,json:(body,status=200,headers={})=>new Response(JSON.stringify(body),{status,headers}),withUserMutationLock:()=>{throw Error('No mutations allowed');}};
+  const call=async(action,body)=>{const response=await handleMercenaryLevel({path:'mercenaries/v3/leveling/'+action,request:new Request('https://readonly.test/api/mercenaries/v3/leveling/'+action,{method:body?'POST':'GET',...(body?{body:JSON.stringify(body),headers:{'content-type':'application/json',origin:'https://readonly.test'}}:{})}),env,deps});return {status:response.status,body:await response.json()};};
+  const state=await call('state'),card=state.body.cards?.find(c=>c.code==='V-975');assert.equal(state.status,200);
+  const material=phase==='preview'?state.body.cards.find(c=>c.rank===card?.rank&&c.duplicates>0&&c.totalCopies>1):null;
+  const preview=await call('preview',{mercenaryCode:'V-975',revision:Number(owner.revision||0),materials:[{code:material?.code||'V-975',quantity:1}]});
+  if(phase==='before'){assert(!card);assert.equal(preview.body.code,'MERCENARY_LEVEL_RANK');}else{assert(card);assert.equal(card.name,'프라임 레퀴엠');assert.equal(card.rank,'SSS');assert.notEqual(preview.body.code,'MERCENARY_LEVEL_RANK');}
+  if(material)assert.equal(preview.status,200,preview.body.error);
+  results.push({ownerIndex:results.length+1,visible:!!card,enabled:state.body.enabled,rank:card?.rank??null,previewStatus:preview.status,previewError:preview.body.code??null,level:Number(owner.level||1),experience:Number(owner.experience||0),...(phase==='preview'?{hasUsableMaterial:!!material,previewXp:preview.body.xp??null,requiredXpMultiplier:preview.body.requiredXpMultiplier??null}: {})});
+ }
+ const result={checkedAt:new Date().toISOString(),phase,readOnly:true,accountWrites:0,owners:owners.length,ownershipGrowthHash:hash(owners),policyHash:hash(policy.value),cmsRevision:cms.revision,cmsHasPrimeRequiem:JSON.parse(cms.payload_json).mercenaries.some(c=>c.code==='V-975'),sourceHash:hash(fs.readFileSync(path.join(root,'functions/_mercenary_level.js'),'utf8')),results};
+ await db.query('ROLLBACK');const out=path.resolve(process.argv[3]||path.join(root,'docs/qa/prime-requiem-level-20261026'));fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'production-'+phase+'.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(String(e.stack||e).replace(/postgres(?:ql)?:\/\/\S+/gi,'[REDACTED]'));process.exitCode=1;}finally{await db.end();}
