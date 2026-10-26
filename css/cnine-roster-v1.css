@@ -53,9 +53,9 @@
 .c9-department-entry:hover { background:linear-gradient(145deg,#1a3150f2,#0c203af5); }
 .c9-entry-label { color:#c4d6e9;font:700 10px/1.5 Arial,sans-serif;letter-spacing:.18em; }
 .c9-department-entry > strong { font-size:36px;line-height:1.3;color:var(--c9-accent);letter-spacing:-.04em; }
-.c9-entry-portraits { display:flex;justify-content:center;gap:10px;margin:4px 0; }
-.c9-entry-portraits .c9-member-portrait { width:64px;height:64px;margin:0; }
-.c9-entry-portraits img { width:min(64px,var(--c9-native-size,64px));height:min(64px,var(--c9-native-size,64px)); }
+.c9-entry-portraits { --c9-entry-size:56px;display:flex;align-items:center;justify-content:center;gap:12px;margin:8px 0 4px; }
+.c9-entry-portraits .c9-member-portrait { width:var(--c9-entry-size);height:var(--c9-entry-size);flex:0 0 var(--c9-entry-size);margin:0;overflow:hidden;border-radius:8px; }
+.c9-entry-portraits .c9-member-portrait img { width:min(var(--c9-entry-size),var(--c9-native-size,var(--c9-entry-size)));height:min(var(--c9-entry-size),var(--c9-native-size,var(--c9-entry-size)));max-height:100%;aspect-ratio:1; }
 .c9-entry-count { font-size:12px;line-height:1.5;color:#c4d6e9; }
 .c9-department-entry > .c9-roster-action { width:100%;margin-top:6px; }
 .c9-roster-groups { display:grid;gap:22px; }
@@ -111,9 +111,8 @@
   .c9-department-entry { gap:10px;padding:22px 10px 18px;border-radius:8px 17px 8px 17px; }
   .c9-entry-label { font-size:8px;letter-spacing:.09em; }
   .c9-department-entry > strong { font-size:29px; }
-  .c9-entry-portraits { gap:4px; }
-  .c9-entry-portraits .c9-member-portrait { width:clamp(28px,8vw,40px);height:clamp(28px,8vw,40px);margin:0; }
-  .c9-entry-portraits .c9-member-portrait img { width:min(clamp(28px,8vw,40px),var(--c9-native-size,40px));height:min(clamp(28px,8vw,40px),var(--c9-native-size,40px));border-radius:4px; }
+  .c9-entry-portraits { --c9-entry-size:clamp(28px,8vw,36px);gap:5px; }
+  .c9-entry-portraits .c9-member-portrait,.c9-entry-portraits .c9-member-portrait img { border-radius:4px; }
   .c9-entry-portraits .c9-member-initial { font-size:16px; }
   .c9-entry-count { font-size:11px; }
   .c9-department-entry > .c9-roster-action { padding:9px 5px;gap:5px;font-size:12px; }

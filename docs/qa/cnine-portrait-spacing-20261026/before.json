@@ -1,0 +1,146 @@
+{
+  "status": "REPRODUCED",
+  "surface": "actual local main",
+  "reports": [
+    {
+      "width": 1440,
+      "bounds": [
+        {
+          "count": {
+            "x": 488.5625,
+            "y": 712.75,
+            "width": 51.859375,
+            "height": 18,
+            "bottom": 730.75
+          },
+          "action": {
+            "x": 343,
+            "y": 748.75,
+            "width": 343,
+            "height": 48,
+            "bottom": 796.75
+          },
+          "portraits": [
+            {
+              "frame": {
+                "x": 408.5,
+                "y": 632.75,
+                "width": 64,
+                "height": 64,
+                "bottom": 696.75
+              },
+              "image": {
+                "x": 408.5,
+                "y": 632.75,
+                "width": 64,
+                "height": 120,
+                "bottom": 752.75
+              }
+            },
+            {
+              "frame": {
+                "x": 482.5,
+                "y": 632.75,
+                "width": 64,
+                "height": 64,
+                "bottom": 696.75
+              },
+              "image": {
+                "x": 482.5,
+                "y": 632.75,
+                "width": 64,
+                "height": 120,
+                "bottom": 752.75
+              }
+            },
+            {
+              "frame": {
+                "x": 556.5,
+                "y": 632.75,
+                "width": 64,
+                "height": 64,
+                "bottom": 696.75
+              },
+              "image": {
+                "x": 556.5,
+                "y": 632.75,
+                "width": 64,
+                "height": 120,
+                "bottom": 752.75
+              }
+            }
+          ]
+        },
+        {
+          "count": {
+            "x": 899.546875,
+            "y": 712.75,
+            "width": 51.90625,
+            "height": 18,
+            "bottom": 730.75
+          },
+          "action": {
+            "x": 754,
+            "y": 748.75,
+            "width": 343,
+            "height": 48,
+            "bottom": 796.75
+          },
+          "portraits": [
+            {
+              "frame": {
+                "x": 819.5,
+                "y": 632.75,
+                "width": 64,
+                "height": 64,
+                "bottom": 696.75
+              },
+              "image": {
+                "x": 819.5,
+                "y": 632.75,
+                "width": 64,
+                "height": 120,
+                "bottom": 752.75
+              }
+            },
+            {
+              "frame": {
+                "x": 893.5,
+                "y": 632.75,
+                "width": 64,
+                "height": 64,
+                "bottom": 696.75
+              },
+              "image": {
+                "x": 893.5,
+                "y": 632.75,
+                "width": 64,
+                "height": 120,
+                "bottom": 752.75
+              }
+            },
+            {
+              "frame": {
+                "x": 967.5,
+                "y": 632.75,
+                "width": 64,
+                "height": 64,
+                "bottom": 696.75
+              },
+              "image": {
+                "x": 967.5,
+                "y": 632.75,
+                "width": 64,
+                "height": 120,
+                "bottom": 752.75
+              }
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "noOverflow": true
+    }
+  ],
+  "productionWrites": 0
+}
