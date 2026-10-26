@@ -11,6 +11,8 @@ import {LEONEL_COMBAT} from '../shared/mercenary-leonel-v1.mjs';
 import {HELIOS_COMBAT} from '../shared/mercenary-helios-v1.mjs';
 import {SHIRANUI_COMBAT} from '../shared/mercenary-shiranui-v1.mjs';
 import {KAIRON_COMBAT} from '../shared/mercenary-kairon-v1.mjs';
+import {SKILLS as namsudaengPlans} from '../preview/project-v-v3/source/battle/bloodmoon-namsudaeng/skills.mjs';
+import {NAMSUDAENG_EVENT,NAMSUDAENG_SKILLS,NAMSUDAENG_PLAYBACK_RATE} from '../shared/mercenary-bloodmoon-namsudaeng-v1.mjs';
 
 const source=fs.readFileSync(new URL('../js/battle-v3-live.js',import.meta.url),'utf8');
 const timeout=source.slice(source.indexOf('  const withTimeout ='),source.indexOf('  const esc ='));
@@ -57,5 +59,31 @@ test('hidden Apocalypse tabs retain the remaining cinematic deadline',async()=>{
 
 test('ordinary attacks retain their deadline; the main loader requests the updated wrapper',()=>{
  const h=harness();for(const event of [{type:'TURN',actorId:'A:MERCENARY:V-978'},{type:'TURN',actorId:'A:MERCENARY:V-988'},{type:'MERCENARY_WINDUP'},area('UNKNOWN')])assert.equal(h.budget([event]),2000);
- const app=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8');assert(app.includes('js/battle-v3-live.js?cinematicPlayback=20261019-v1&'));
+ const app=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8'),url=new URL(app.match(/'([^']*js\/battle-v3-live\.js\?[^']*)'/)[1],'https://qa.invalid/');
+ assert.equal(url.searchParams.get('cinematicPlayback'),'20261019-v1');
+ assert.equal(url.searchParams.get('namsudaengTimeout'),'20261026-v1');
+});
+
+for(const skill of NAMSUDAENG_SKILLS)for(const interactive of [true,false])test(`Namsudaeng ${skill.id} completes its authored ${skill.visualMode} sequence (${interactive?'Apocalypse':'ordinary battle'})`,async()=>{
+ const duration=namsudaengPlans[skill.visualMode].duration/NAMSUDAENG_PLAYBACK_RATE*1000,h=harness({duration,interactive});let result,error;
+ h.play([{type:NAMSUDAENG_EVENT,skillId:skill.id}],skill.name+' 연출이 지연되어 다음 행동으로 이동했습니다.').then(v=>result=v,e=>error=e);
+ await h.advance(duration+1);assert.equal(error,undefined);assert.equal(result,true);assert.equal(h.cancellations+h.recoveries,0);assert.equal(h.listeners,0);
+ await h.advance(10000);assert.equal(h.cancellations+h.recoveries,0);assert.deepEqual(h.warnings,[]);
+});
+
+test('Namsudaeng keeps a bounded six-second deadline and only one failure recovery',async()=>{
+ for(const interactive of [true,false]){
+  const h=harness({interactive});let result,error;
+  h.play([{type:NAMSUDAENG_EVENT,skillId:'MS-948'}],'혈월 연사').then(v=>result=v,e=>error=e);
+  await h.advance(5999);assert.equal(error,undefined);assert.equal(result,undefined);assert.equal(h.cancellations+h.recoveries,0);
+  await h.advance(1);assert.equal(h.cancellations,interactive?1:0);assert.equal(h.recoveries,interactive?0:1);assert.equal(h.warnings.length,1);assert.equal(h.listeners,0);
+  if(interactive)assert.match(error.message,/혈월 연사/);else assert.equal(result,false);
+  await h.finish();await h.advance(10000);assert.equal(h.cancellations+h.recoveries,1);
+ }
+});
+
+test('Namsudaeng Apocalypse deadline pauses while hidden and resumes with its remaining time',async()=>{
+ const h=harness();let error;h.play([{type:NAMSUDAENG_EVENT,skillId:'MS-949'}],'월식 화살비').catch(e=>error=e);
+ await h.advance(1500);h.hidden(true);await h.advance(60000);assert.equal(error,undefined);assert.equal(h.cancellations,0);
+ h.hidden(false);await h.advance(4499);assert.equal(error,undefined);await h.advance(1);assert.match(error.message,/월식 화살비/);assert.equal(h.cancellations,1);
 });
