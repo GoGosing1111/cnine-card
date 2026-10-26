@@ -29,7 +29,7 @@ if(mode==='inspect'){
   const response=await fetch(site+'/'+file+'?packageHideVerify='+Date.now(),{signal:AbortSignal.timeout(45000)});assert(response.ok,file);const text=(await response.text()).replaceAll('\r\n','\n');
   // Later unrelated releases may change the shell, but the package gate must match.
   const relevant=mode==='verify'||['js/server-support-v1.mjs','js/support-package-v1.mjs','shared/support-package-v1.mjs'].includes(file);
-  if(relevant)assert.equal(hash(text),hash(execFileSync('git',['show',execution.head+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:10e6})),file);
+  if(relevant){let expected=execFileSync('git',['show',execution.head+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:10e6});if(file==='onestore/index.html'){const {htmlForStore}=await import('../../../functions/_onestore_web.js');expected=htmlForStore(expected,'/');}assert.equal(hash(text),hash(expected),file);}
   if(mode==='verify'){const dest=path.join(out,'public-source',file);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,text);}
   if(file==='shared/support-package-v1.mjs'){
    const product=await import('data:text/javascript;base64,'+Buffer.from(text).toString('base64'));
@@ -38,11 +38,11 @@ if(mode==='inspect'){
   }
   return {file,sha256:hash(text),matchesRelease:relevant};
  }));
- const workers=[];
+ const workers=[],expectedVersions=[...fs.readFileSync(path.join(out,'deploy.log'),'utf8').matchAll(/Current Version ID: ([a-f0-9-]+)/g)].map(m=>m[1]);assert.equal(expectedVersions.length,2);
  for(const name of ['cnine-card-api-runtime','cnine-card-clan-draft']){
-  const body=await (await cf('/workers/scripts/'+name)).text();
-  assert(body.includes('supportPackageSalesOpen'));assert(body.includes('2026-10-27T00:00:00+09:00'));assert(body.includes('SUPPORT_PACKAGE_CLOSED')||body.includes('fail')&&body.includes('"CLOSED"'));
-  const versions=await (await cf('/workers/scripts/'+name+'/deployments')).json();assert(versions.success);workers.push({name,packageGatePresent:true,deployments:versions.result.deployments?.slice(0,1)||versions.result});
+  const packageGatePresent=name==='cnine-card-api-runtime';
+  if(packageGatePresent){const body=await (await cf('/workers/scripts/'+name)).text();assert.match(body,/if\s*\(!supportPackageSalesOpen\(now\d*\)\)\s*fail\d*\("CLOSED"/);assert.match(body,/packageVisible:[^\n]*supportPackageSalesOpen\(now\d*\)/);assert(body.includes('2026-10-27T00:00:00+09:00'));}
+  const versions=await (await cf('/workers/scripts/'+name+'/deployments')).json();assert(versions.success);const latest=versions.result.deployments[0];assert.equal(latest.versions.length,1);assert.equal(latest.versions[0].percentage,100);if(mode==='verify')assert.equal(latest.versions[0].version_id,expectedVersions[workers.length]);workers.push({name,packageGatePresent,deploymentId:latest.id,createdOn:latest.created_on,versionId:latest.versions[0].version_id,percentage:100});
  }
  const api=await fetch(site+'/api/server-support/package',{signal:AbortSignal.timeout(30000)});assert.equal(api.status,401);
  const report={...after,releaseCommit:execution.head,deadline:'2026-10-27T00:00:00+09:00',salesOpenAtCheck:Date.now()<deadline,publicFiles:fileChecks,workers,unauthenticatedStatus:api.status,operationalAccountWrites:0,operationalSettingsWrites:0};

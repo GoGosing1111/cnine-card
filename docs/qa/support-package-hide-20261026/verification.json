@@ -1,0 +1,131 @@
+{
+  "at": "2026-10-26T13:56:48.927Z",
+  "pages": {
+    "id": "0b015249-c282-4aad-aef6-6cadb8904daf",
+    "url": "https://0b015249.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3e5e863bc6ea9c7866f453fd0a0aefbfb8c22d29"
+  },
+  "releaseCommit": "3e5e863bc6ea9c7866f453fd0a0aefbfb8c22d29",
+  "deadline": "2026-10-27T00:00:00+09:00",
+  "salesOpenAtCheck": true,
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "4baff5def4752d50416eb7d41e5612a6a7afb93236644d0f8cdce2c22d92f50a",
+      "matchesRelease": true
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "7c9aa54cdcb5c0a4126685fc2d1ba606690c2330edc850a8e6634cf72e81c224",
+      "matchesRelease": true
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "db184a0cef641f2bd616cc93a04761b3e6e5ff705db49dcbbdd2d9e0b09175c4",
+      "matchesRelease": true
+    },
+    {
+      "file": "js/server-support-v1.mjs",
+      "sha256": "b72bd3145ef552425767446a78e0aa8de82fa154b5c3dda2ebbd65982d03dcdc",
+      "matchesRelease": true
+    },
+    {
+      "file": "js/support-package-v1.mjs",
+      "sha256": "d069cbf8a4bc2006a9bc300fa7ab94933c24a9604c90ba84af43c0d17de0e983",
+      "matchesRelease": true
+    },
+    {
+      "file": "shared/support-package-v1.mjs",
+      "sha256": "f29c775cf5b81adb3c42b667f022c0c187d300a2e953aa319e4c108ca2275631",
+      "matchesRelease": true
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "6548cd6c245427427d7776f40e41a4fa03a645b7343b2bc7ee6a2a14a82bf0f6",
+      "matchesRelease": true
+    },
+    {
+      "file": "js/support-package-alerts-v1.mjs",
+      "sha256": "9cafb05fa9aaef4faa564e28065fa5899f4816a9a4452b6b2ddbbb648b578c76",
+      "matchesRelease": true
+    },
+    {
+      "file": "admin/support-package-admin-v1.mjs",
+      "sha256": "d1cc8e0bcf6a69e418a610d08563ae6dcffde2816fcbd8b2499f7c4cbf568696",
+      "matchesRelease": true
+    },
+    {
+      "file": "css/support-package-v1.css",
+      "sha256": "fb28eac36dc6eb011ce2e483f9fff83630ca6770604178bbff24d3a112a53c84",
+      "matchesRelease": true
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "packageGatePresent": true,
+      "deploymentId": "09ea5785-b6a6-4c3e-97ff-16a5b0675deb",
+      "createdOn": "2026-10-26T13:50:33.965664Z",
+      "versionId": "612a6a34-5b81-4ab4-a55a-08c56640dab3",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "packageGatePresent": false,
+      "deploymentId": "73e3a93d-b638-458d-a994-fdc63f9f33fc",
+      "createdOn": "2026-10-26T13:51:59.279601Z",
+      "versionId": "63364ede-0f0a-4200-9304-a6078d458d72",
+      "percentage": 100
+    }
+  ],
+  "unauthenticatedStatus": 401,
+  "operationalAccountWrites": 0,
+  "operationalSettingsWrites": 0,
+  "relatedTestsPassed": 15,
+  "regressionReuse": {
+    "sourceCommit": "ee83ffddc9fbb9faa3b1095c4f065a12b1118807",
+    "priorLogSha256": "ab5040608492408c4e8e5a5fe776b489989d1d093f9ae91a78f117a958bb6509",
+    "retainedPassedTests": 11,
+    "retainedSuites": [
+      "tests/support-package-20261020.test.mjs",
+      "tests/support-package-bogo-20261025.test.mjs"
+    ],
+    "runtimeChangedSincePass": false,
+    "changed": [
+      "AGENTS.md",
+      "docs/qa/cnine-heeya-first-20261026/README.md",
+      "docs/qa/cnine-heeya-first-20261026/verification.json",
+      "tests/support-package-hide-20261026.test.mjs"
+    ],
+    "correction": "The support application daily reset advances normally at midnight; compare preserved fields separately and assert the next-day reset."
+  },
+  "publicBrowser": [
+    {
+      "width": 390,
+      "hiddenAtMidnight": true,
+      "openPackageReturnsToInfo": true,
+      "reloadedHidden": true,
+      "supportAndPassRemain": true,
+      "directClosed": true,
+      "priorReceiptRecovered": true,
+      "newApplicationRejected": 410,
+      "pendingFulfilled": true,
+      "noAutomaticApplication": true,
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "automation": {
+    "automationId": "49-800",
+    "name": "49,800원 패키지 자정 숨김 확인",
+    "status": "ACTIVE",
+    "targetThreadId": "01a17816-2846-70c0-9068-eabe9635765b",
+    "runAt": "2026-10-27T00:00:00+09:00",
+    "timezone": "Asia/Seoul",
+    "oneShot": true,
+    "purpose": "Read-only midnight verification of the predeployed automatic package closure",
+    "createdAt": 1793022055176,
+    "updatedAt": 1793023097910
+  }
+}
