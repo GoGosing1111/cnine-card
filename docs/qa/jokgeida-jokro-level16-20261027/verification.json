@@ -1,0 +1,30 @@
+{
+  "status": "COMPLETED",
+  "completedAt": "2026-10-26T15:06:04.915Z",
+  "auditId": "51914",
+  "sourceSha256": "aa175692a3e937c0538f13d973f3b78bfce25c646c0aed973f10493320b7133a",
+  "planHash": "68369ff225dd2596072a9d2baa05039eb03cfbe38e140b16ace624c3c69d4276",
+  "verification": {
+    "status": "VERIFIED",
+    "userId": 4111,
+    "nickname": "족게이다",
+    "code": "V-979",
+    "name": "족로",
+    "levelBefore": 10,
+    "levelAfter": 16,
+    "currentLevel": 16,
+    "experience": 0,
+    "breakthroughMask": 7,
+    "heldCopies": 1,
+    "auditId": "51914",
+    "completedAt": "2026-10-26T15:06:04.915Z",
+    "cost": 0,
+    "materialsConsumed": 0
+  },
+  "injectedFailureRollback": true,
+  "normalDryRunRollback": true,
+  "independentReadOnlyVerified": true,
+  "selectOnlyReplayVerified": true,
+  "leasesReleased": true,
+  "privateEvidenceDirectory": "C:/Users/User/.codex/visualizations/2026/10/26/01a17897-148d-78a0-a68b-048adecc7f7e/jokgeida-jokro-level16-20261027"
+}

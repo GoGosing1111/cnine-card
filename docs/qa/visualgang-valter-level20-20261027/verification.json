@@ -1,0 +1,30 @@
+{
+  "status": "COMPLETED",
+  "completedAt": "2026-10-26T15:06:55.068Z",
+  "auditId": "51915",
+  "sourceSha256": "914855dace9495760c126fe4cd539bfcb32431724c36f52047a7a81ad5877be5",
+  "planHash": "6446e754ce1ab1a89c5e127b9531a487c11eb556cfbe24fedaf2c5adbc9fb2d4",
+  "verification": {
+    "status": "VERIFIED",
+    "userId": 81,
+    "nickname": "비쥬얼깡패",
+    "code": "V-996",
+    "name": "발테르",
+    "levelBefore": 14,
+    "levelAfter": 20,
+    "currentLevel": 20,
+    "experience": 0,
+    "breakthroughMask": 7,
+    "heldCopies": 1,
+    "auditId": "51915",
+    "completedAt": "2026-10-26T15:06:55.068Z",
+    "cost": 0,
+    "materialsConsumed": 0
+  },
+  "injectedFailureRollback": true,
+  "normalDryRunRollback": true,
+  "independentReadOnlyVerified": true,
+  "selectOnlyReplayVerified": true,
+  "leasesReleased": true,
+  "privateEvidenceDirectory": "C:/Users/User/.codex/visualizations/2026/10/26/01a17897-148d-78a0-a68b-048adecc7f7e/visualgang-valter-level20-20261027"
+}
