@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="./image-skin.css">
   <link rel="stylesheet" href="./formation.css">
   <link rel="stylesheet" href="./rooms.css">
-  <script defer src="/preview/coop-defense-v1/defense.bundle.js?generalJok=20261023-v15&primePve=20261022-v1&v=20261019-leonel-forward-guard-v3-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-reward-options-20261026-v2"></script>
+  <script defer src="/preview/coop-defense-v1/defense.bundle.js?generalJok=20261023-v15&primePve=20261022-v1&v=20261019-leonel-forward-guard-v3-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-daily-entry-20261026-v1"></script>
 </head>
 <body>
   <main id="defense-app">
@@ -29,7 +29,7 @@
           <fieldset class="difficulty-field"><legend>작전 난이도</legend><div id="difficulty-list" class="difficulty-list"></div></fieldset>
           <div class="console-heading"><h2>나의 출전 분대</h2><span>용병 2명 · 카드 1장</span></div>
           <div class="loadout-grid" id="loadout-grid"></div>
-          <footer class="deployment-dock"><div class="dock-setup"><div class="squad-settings"><label class="field-label" for="nickname">대장<input id="nickname" maxlength="16" autocomplete="nickname" placeholder="사용할 이름" value="원정대장"></label><fieldset class="capacity-field"><legend>분대 인원</legend><button type="button" class="capacity-option" data-capacity="2" aria-pressed="false">2인</button><button type="button" class="capacity-option" data-capacity="3" aria-pressed="true">3인</button></fieldset></div><div class="room-discovery"><button type="button" id="find-rooms">방 찾아 참가 <span aria-hidden="true">↗</span></button><small>함께할 대원 찾기</small></div></div><div class="deploy-actions"><p id="access-status" class="access-status" role="status">보유 용병 2명과 카드 1장을 선택해 주세요.</p><div class="lobby-actions"><button id="practice" class="secondary" type="button">혼자 연습</button><button id="create-room" class="primary" type="button"><b>대기실 만들기 <span aria-hidden="true">›</span></b></button></div><button id="resume-battle" class="secondary resume-battle" type="button" hidden>진행 중인 전투로 돌아가기</button></div></footer>
+          <footer class="deployment-dock"><div class="dock-setup"><div class="squad-settings"><label class="field-label" for="nickname">대장<input id="nickname" maxlength="16" autocomplete="nickname" placeholder="사용할 이름" value="원정대장"></label><fieldset class="capacity-field"><legend>분대 인원</legend><button type="button" class="capacity-option" data-capacity="2" aria-pressed="false">2인</button><button type="button" class="capacity-option" data-capacity="3" aria-pressed="true">3인</button></fieldset></div><div class="room-discovery"><button type="button" id="find-rooms">방 찾아 참가 <span aria-hidden="true">↗</span></button><small>함께할 대원 찾기</small></div></div><div class="deploy-actions"><p id="access-status" class="access-status" role="status">보유 용병 2명과 카드 1장을 선택해 주세요.</p><p id="daily-entry-status" role="status">참여 횟수를 확인하고 있습니다.</p><p class="daily-entry-note">실전 하루 3회 · 시작 시 차감 · 실패 시에도 소모<br>한국시간 00:00 초기화 · 재접속 추가 차감 없음</p><div class="lobby-actions"><button id="practice" class="secondary" type="button">혼자 연습</button><button id="create-room" class="primary" type="button"><b>대기실 만들기 <span aria-hidden="true">›</span></b></button></div><button id="resume-battle" class="secondary resume-battle" type="button" hidden>진행 중인 전투로 돌아가기</button></div></footer>
         </div>
       </div>
     </section>
@@ -83,7 +83,7 @@
         <div class="dock-tip"><span id="control-hint">유닛 선택 → 방어선 선택으로 지원 이동</span><span id="sync-state">서버 연결됨</span></div>
       </footer>
       <div id="result" class="result-overlay" hidden>
-        <div class="result-panel"><p class="eyebrow" id="result-eyebrow">MISSION COMPLETE</p><h1 id="result-title">수호석을 지켜냈습니다</h1><p id="result-summary"></p><div id="result-stats" class="result-stats"></div><section class="defense-clear-reward"><h2>클리어 보상</h2><p id="result-reward-status" class="muted" role="status"></p><ul id="result-reward-items"></ul></section><button class="primary" id="return-lobby" type="button">대기실로</button></div>
+        <div class="result-panel"><p class="eyebrow" id="result-eyebrow">MISSION COMPLETE</p><h1 id="result-title">수호석을 지켜냈습니다</h1><p id="result-summary"></p><p id="result-entry-status"></p><div id="result-stats" class="result-stats"></div><section class="defense-clear-reward"><h2>클리어 보상</h2><p id="result-reward-status" class="muted" role="status"></p><ul id="result-reward-items"></ul></section><button class="primary" id="return-lobby" type="button">대기실로</button></div>
       </div>
     </section>
     <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>

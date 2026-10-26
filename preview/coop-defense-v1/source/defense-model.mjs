@@ -479,8 +479,8 @@ export function advanceRoom(room, elapsedMs) {
   return room;
 }
 export function publicSnapshot(room, after = 0) {
-  return { version:room.version,mercenarySkillRevision:room.mercenarySkillRevision||0,tempoRevision:room.tempoRevision||0,waveBrief:defenseWaveBrief(room),accountRoster:room.accountRoster===true,growthPolicy:structuredClone(room.growthPolicy||null),id: room.id, capacity: room.capacity, practice: room.practice, hostId: room.hostId, phase: room.phase,
-    difficulty:room.difficulty,difficultyName:room.encounter.name,time: room.time, wave: room.wave, totalWaves: room.encounter.waves, phaseUntil: room.phaseUntil, prepStartedAt:room.prepStartedAt,
+  return { version:room.version,mercenarySkillRevision:room.mercenarySkillRevision||0,tempoRevision:room.tempoRevision||0,waveBrief:defenseWaveBrief(room),accountRoster:room.accountRoster===true,growthPolicy:structuredClone(room.growthPolicy||null),id: room.id, capacity: room.capacity, practice: room.practice, hostId: room.hostId, phase: room.entryPending?'LOBBY':room.phase,entryPending:!!room.entryPending,entryError:room.entryError||'',
+    entryCharged:room.entryReceipt?.charged===true,difficulty:room.difficulty,difficultyName:room.encounter.name,time: room.time, wave: room.wave, totalWaves: room.encounter.waves, phaseUntil: room.phaseUntil, prepStartedAt:room.prepStartedAt,
     coreHp: room.coreHp, coreMaxHp: room.coreMaxHp, units: structuredClone(room.units), enemies: structuredClone(room.enemies),
     players: room.players.map(player=>{const p=structuredClone(player);if(p.growth){p.growth.draws=p.growth.draws.slice(-6);p.growth.attempts=p.growth.attempts.slice(-4);}return p;}), seq: room.seq, events: structuredClone(room.events.filter(e => e.seq > after)),
     waitingEnemies: room.spawnQueue.length, operatingMode:room.operatingMode||'TEST',rewardsEnabled:room.rewardsEnabled===true,clearRewards:structuredClone(room.clearRewards||null),rewardPolicy:room.rewardPolicy?{coin:room.rewardPolicy.coin,masterStars:room.rewardPolicy.masterStars,items:structuredClone(room.rewardPolicy.items)}:null,completedAt: room.completedAt };

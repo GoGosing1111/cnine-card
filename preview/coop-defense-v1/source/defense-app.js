@@ -14,7 +14,7 @@ const SESSION_KEY = LIVE?'cnine_monster_defense_test_session_v1':'cnine_coop_def
 const FOCUS_QUERY = '(max-width:760px), (max-height:540px) and (pointer:coarse)';
 const state = { capacity: 3, difficulty:'NORMAL',access:!LIVE,options:null,loadout: LIVE?emptyDefenseLoadout():defaultLoadout(), session: null, snapshot: null, catalog: null,
   engine: null, mount: null, selected: null, focus: null, poll: null, pollAbort: null, stopped: false, failures: 0, screen: 'lobby', pending: false, epoch: 0 };
-let toastTimer, bannerTimer, refreshingSession;
+let toastTimer, bannerTimer, refreshingSession, entryResetTimer, refreshingEntry;
 let workshop;
 let formation;
 let roomBrowser;
@@ -28,12 +28,15 @@ function showScreen(screen) {
   for (const id of ['lobby', 'waiting-room', 'battle']) $(id).hidden = id !== screen;
   $('resume-battle').hidden = screen !== 'lobby' || !state.session;
 }
-async function request(path, { method = 'GET', body, signal } = {}) {
+async function renewSession(){
+ if(!refreshingSession)refreshingSession=(async()=>{const roomId=state.session?.roomId;if(!roomId)throw Error('이어갈 전투가 없습니다.');const fresh=await request('session',{method:'POST',body:{roomId}});if(state.session?.roomId===roomId){state.session={token:fresh.token,expires:fresh.expires,roomId:fresh.roomId,playerId:fresh.playerId};rememberSession();}})().finally(()=>{refreshingSession=null;});
+ await refreshingSession;
+}
+async function request(path, { method = 'GET', body, signal, recoverSession=true } = {}) {
   if(LIVE){
     const live=path.startsWith('state')||path==='command';
     if(live&&state.session&&Date.now()>state.session.expires-20000){
-      if(!refreshingSession)refreshingSession=(async()=>{const roomId=state.session.roomId,fresh=await request('session',{method:'POST',body:{roomId}});if(state.session?.roomId===roomId){state.session={token:fresh.token,expires:fresh.expires,roomId:fresh.roomId,playerId:fresh.playerId};rememberSession();}})().finally(()=>{refreshingSession=null;});
-      await refreshingSession;
+      await renewSession();
     }
     const token=live?state.session?.token:localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
     const url=live?new URL('/api/defense/live/'+path,location.origin):new URL('/api/defense/'+path,location.origin);
@@ -41,7 +44,10 @@ async function request(path, { method = 'GET', body, signal } = {}) {
     if(body&&['create','join'].includes(path)){const {name,...rest}=body;body={...rest,difficulty:state.difficulty,requestId:crypto.randomUUID()};}
     const response=await fetch(url,{method,headers:{authorization:'Bearer '+token,...(body?{'content-type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,signal:signal||AbortSignal.timeout(10000),cache:'no-store'});
     let data;try{data=await response.json();}catch{throw Error('디펜스 서버 응답을 확인하지 못했습니다.');}
-    if(!response.ok)throw Object.assign(Error(data.error||'요청을 처리하지 못했습니다.'),{status:response.status});return data;
+    if(!response.ok){
+      if(live&&response.status===401&&recoverSession&&state.session){await renewSession();return request(path,{method,body,signal,recoverSession:false});}
+      throw Object.assign(Error(data.error||'요청을 처리하지 못했습니다.'),{status:response.status,code:data.code});
+    }return data;
   }
   const headers = {};
   if (body) headers['Content-Type'] = 'application/json';
@@ -59,7 +65,21 @@ function rememberSession() {
 function rosterOptions(){return state.options||{mercenaries:[],cards:[]};}
 function mergeRoster(rows){for(const entry of rows||[])state.catalog.units[entry.code]=entry;}
 function completeLoadout(){const o=rosterOptions();return state.loadout.mercenaries.length===2&&new Set(state.loadout.mercenaries).size===2&&state.loadout.mercenaries.every(code=>o.mercenaries.some(c=>c.code===code))&&o.cards.some(c=>c.code===state.loadout.card);}
-function updateEntryButtons(){for(const button of [$('create-room'),$('practice')])button.disabled=state.pending||!state.access||!completeLoadout();$('find-rooms').disabled=state.pending||!state.access;}
+const entryExhausted=()=>LIVE&&state.feature?.mode==='ON'&&state.feature.dailyEntry?.remaining===0;
+function updateEntryButtons(){for(const button of [$('create-room'),$('practice')])button.disabled=state.pending||!state.access||!completeLoadout()||(button.id==='create-room'&&entryExhausted());$('find-rooms').disabled=state.pending||!state.access||entryExhausted();}
+function renderEntry(){
+ const q=state.feature?.dailyEntry,limited=LIVE&&state.feature?.mode==='ON';
+ $('daily-entry-status').textContent=limited&&q?`오늘 실전 참여 ${q.remaining} / ${q.limit}회 남음${q.remaining===0?' · 오늘 참여 완료':''}`:'TEST·혼자 연습은 참여 횟수를 차감하지 않습니다.';
+ $('daily-entry-status').classList.toggle('is-empty',limited&&q?.remaining===0);
+ clearTimeout(entryResetTimer);
+ if(limited&&q){state.entryResetDue=Date.now()+Math.max(0,q.resetAt-q.serverNow);entryResetTimer=setTimeout(()=>{if(!document.hidden)void refreshEntry().catch(()=>{});},Math.max(1000,state.entryResetDue-Date.now()+100));}
+ updateEntryButtons();
+}
+async function refreshEntry(){
+ if(!LIVE)return;
+ refreshingEntry??=request('feature').then(feature=>{if(state.feature&&state.feature.user.id!==feature.user.id)throw Error('계정이 변경됐습니다. 새로고침해 주세요.');state.feature=feature;state.access=feature.accessible;renderEntry();buildDifficulties();}).finally(()=>{refreshingEntry=null;});
+ return refreshingEntry;
+}
 function rememberLoadout(){if(LIVE&&state.feature?.user.id)try{localStorage.setItem('cnine_defense_loadout_v1:'+state.feature.user.id,JSON.stringify(state.loadout));}catch{}}
 async function refreshRoster(){
   if(LIVE){const options=await request('options');if(options.you!==state.feature?.user.id)throw Error('계정이 변경됐습니다. 새로고침해 주세요.');state.options=options;}
@@ -106,6 +126,7 @@ async function setReady(){
 }
 async function joinOrCreate(kind,roomId) {
   if (state.pending||!state.access) return false;
+  if(kind!=='practice'&&entryExhausted()){toast('오늘 참여 횟수가 0회입니다. 한국시간 00:00에 초기화됩니다.');return false;}
   try {
     if(LIVE)defenseSelection(state.loadout);else validateLoadout(state.loadout);
     if(!completeLoadout())return toast('보유 용병 2명과 카드 1장을 선택하세요.');
@@ -119,7 +140,7 @@ async function joinOrCreate(kind,roomId) {
     state.stopped = false; state.failures = 0; rememberSession();
     receive(session.snapshot); schedulePoll(0);
     return true;
-  } catch (error) { toast(error.message);return {ok:false,error:error.message}; }
+  } catch (error) { if(error.code==='DEFENSE_ENTRY_EMPTY')void refreshEntry().catch(()=>{});toast(error.message);return {ok:false,error:error.message}; }
   finally { state.pending = false; updateEntryButtons(); }
 }
 async function sendCommand(command) {
@@ -169,6 +190,7 @@ function receive(snapshot) {
   for(const player of snapshot.players)mergeRoster(player.roster);
   const own=snapshot.players.find(p=>p.id===state.session.playerId);if(own)state.loadout=structuredClone(own.loadout);
   if(snapshot.phase!=='LOBBY'&&formation?.dialog.open&&!formation.busy)formation.close();
+  if(LIVE&&previous?.phase==='LOBBY'&&snapshot.phase!=='LOBBY')void refreshEntry().catch(()=>{});
   if (snapshot.phase === 'LOBBY') { showScreen('waiting-room'); renderWaiting(snapshot); return; }
   if (state.screen !== 'battle') {
     showScreen('battle');
@@ -200,7 +222,7 @@ function renderWaiting(snapshot) {
   $('waiting-description').textContent = snapshot.practice ? '자동 대원이 준비를 마쳤습니다. 내 분대를 확인하고 출발하세요.' : '각자 용병 2명과 카드 1장. 준비가 끝나면 함께 출발합니다.';
   $('waiting-difficulty').textContent=snapshot.difficultyName;
   $('waiting-wave-count').textContent=snapshot.totalWaves;
-  $('room-note').textContent=snapshot.practice?'자동 대원과 함께하는 연습 원정입니다.':'다른 대원이 방 목록에서 이 방을 선택해 참가할 수 있습니다.';
+  $('room-note').textContent=snapshot.practice?'자동 대원과 함께하는 연습 원정입니다.':snapshot.operatingMode==='ON'?'전투 시작 시 1회 차감 · 실패 시에도 소모 · 재접속 추가 차감 없음':'다른 대원이 방 목록에서 이 방을 선택해 참가할 수 있습니다.';
   $('party-count').textContent=snapshot.players.length+' / '+snapshot.capacity+'명 집결';
   const readyCount=snapshot.players.filter(p=>p.ready&&p.connected).length;
   $('ready-count').textContent=readyCount+' / '+snapshot.capacity;
@@ -237,11 +259,13 @@ function renderWaiting(snapshot) {
   }
   const mine = snapshot.players.find(p => p.id === state.session.playerId), isHost = snapshot.hostId === state.session.playerId;
   $('ready').textContent = mine.ready ? '준비 취소' : '준비 완료'; $('ready').setAttribute('aria-pressed', String(mine.ready));
-  $('ready').disabled=state.pending;$('edit-formation').disabled=state.pending;
+  $('ready').disabled=state.pending||snapshot.entryPending;$('edit-formation').disabled=state.pending||snapshot.entryPending;$('leave-waiting').disabled=!!snapshot.entryPending;
   $('start').hidden = !isHost;
-  $('start').disabled = state.pending || snapshot.players.length < snapshot.capacity || snapshot.players.some(p => !p.ready || !p.connected);
+  $('start').disabled = state.pending || snapshot.entryPending || snapshot.players.length < snapshot.capacity || snapshot.players.some(p => !p.ready || !p.connected);
   $('waiting-room').classList.toggle('is-deploy-ready',!$('start').disabled);
   $('start-hint').textContent = !isHost ? '모두 준비하면 방장이 출발할 수 있습니다.' : $('start').disabled ? '모든 대원이 준비를 마치면 출발할 수 있습니다.' : '모든 대원이 준비됐습니다.';
+  if(snapshot.entryPending)$('start-hint').textContent='참여 횟수 확인 중 · 중복 차감 없이 자동으로 복구합니다.';
+  else if(snapshot.entryError)$('start-hint').textContent=snapshot.entryError;
 }
 function buildControls(snapshot) {
   $('lane-tabs').replaceChildren(); $('move-buttons').replaceChildren(); $('unit-controls').replaceChildren();
@@ -415,6 +439,7 @@ function renderRewards(snapshot){
 }
 function renderResult(snapshot) {
   const won = snapshot.phase === 'VICTORY'; $('result').hidden = false;renderRewards(snapshot);
+  $('result-entry-status').textContent=snapshot.entryCharged?'실전 참여 1회 사용 · 재접속 추가 차감 없음 · 종료 후 24시간 결과 복구 가능':'';
   $('result-eyebrow').textContent = won ? 'MISSION COMPLETE' : 'DEFENSE FAILED';
   $('result-title').textContent = won ? '수호석을 지켜냈습니다' : '방어선이 무너졌습니다';
   $('result-summary').textContent = `${snapshot.wave}웨이브 · 거점 체력 ${snapshot.coreHp} · ${Math.floor(snapshot.time / 60000)}분 ${Math.floor(snapshot.time / 1000 % 60)}초`;
@@ -442,6 +467,7 @@ async function teardown(forget) {
 async function leaveLobby() {
   try { if (state.session) await request('leave', { method: 'POST', body: {} }); } catch { /* The local room may already have expired. */ }
   await teardown(true); showScreen('lobby');
+  if(LIVE)await refreshEntry().catch(e=>toast(e.message));
 }
 async function resumeBattle() {
   if (!state.session || state.pending) return;
@@ -481,29 +507,30 @@ function bind() {
   $('leave-dialog').addEventListener('close', async () => {
     if ($('leave-dialog').returnValue !== 'leave') return;
     // Retain the reconnect token; navigation does not delete an active member.
-    await teardown(false); showScreen('lobby'); toast('진행 중인 전투로 돌아가기를 누르면 이어서 조작할 수 있습니다.');
+    await teardown(false); showScreen('lobby');if(LIVE)void refreshEntry().catch(()=>{});toast('진행 중인 전투로 돌아가기를 누르면 추가 차감 없이 이어서 조작할 수 있습니다.');
   });
-  addEventListener('pagehide', () => { state.stopped = true; clearTimeout(state.poll); state.pollAbort?.abort(); state.engine?.destroy(); });
+  addEventListener('pagehide', () => { state.stopped = true; clearTimeout(state.poll);clearTimeout(entryResetTimer); state.pollAbort?.abort(); state.engine?.destroy(); });
+  addEventListener('online',()=>{if(state.session&&!state.stopped)schedulePoll(0);if(LIVE)void refreshEntry().catch(()=>{});});
   addEventListener('pageshow', event => { if (event.persisted) location.reload(); });
   const media = matchMedia(FOCUS_QUERY);
   media.addEventListener('change', () => {
     if (state.screen === 'battle') setFocus(media.matches ? state.snapshot.players.find(p => p.id === state.session.playerId)?.lane ?? 0 : null);
     if (state.screen === 'waiting-room') { $('party-list').dataset.signature = ''; renderWaiting(state.snapshot); }
   });
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && state.session && !state.stopped) schedulePoll(0); });
+  document.addEventListener('visibilitychange', () => { if(!document.hidden){if(state.session&&!state.stopped)schedulePoll(0);if(LIVE&&Date.now()>=(state.entryResetDue||Infinity))void refreshEntry().catch(()=>{});} });
 }
 async function main() {
   bind();
   const response = await fetch('./asset-catalog.json?v=20261017-defense-v3-merc1'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
   state.catalog = await response.json(); buildLoadout();buildDifficulties();
   formation=new DefenseFormation({getLoadout:()=>state.loadout,getOptions:rosterOptions,refresh:refreshRoster,onApply:applyFormation,onToast:toast});
-  roomBrowser=new DefenseRoomBrowser({request,canEnter:()=>state.access&&!state.pending&&completeLoadout(),onJoin:id=>joinOrCreate('join',id),onCreate:()=>void joinOrCreate('create'),onFormation:()=>openFormation()});
+  roomBrowser=new DefenseRoomBrowser({request,canEnter:()=>state.access&&!state.pending&&!entryExhausted()&&completeLoadout(),entryBlocked:entryExhausted,onJoin:id=>joinOrCreate('join',id),onCreate:()=>void joinOrCreate('create'),onFormation:()=>openFormation()});
   if(LIVE){
     try{const feature=await request('feature');state.access=feature.accessible;state.feature=feature;$('nickname').value=feature.user.nickname;$('nickname').readOnly=true;
       $('access-status').textContent=feature.accessible?'보유 용병 2명 + 카드 1장 · '+(feature.mode==='TEST'?'TEST · 계정 보상 없음':feature.rewardsEnabled?'실전 클리어 보상 지급':'실전 · 클리어 보상 미설정'):feature.mode==='OFF'?'현재 디펜스 입장이 중지돼 있습니다.':'OWNER와 지정 테스트 계정만 입장할 수 있습니다.';buildDifficulties();
     }catch(e){state.access=false;$('access-status').textContent=e.message;}
     document.querySelectorAll('.review-tag').forEach(el=>el.textContent=state.feature?.mode==='ON'?'LIVE':state.feature?.mode||'OFF');
-    updateEntryButtons();buildLoadout();
+    renderEntry();buildLoadout();
     if(!state.access)return;
   }
   try{await refreshRoster();if(LIVE){try{const saved=JSON.parse(localStorage.getItem('cnine_defense_loadout_v1:'+state.feature.user.id)||'null');if(saved)state.loadout=defenseSelection(saved);}catch{}if(!completeLoadout())state.loadout=emptyDefenseLoadout();}buildLoadout();updateEntryButtons();}

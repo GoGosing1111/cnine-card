@@ -1,7 +1,8 @@
 import {ROGUE_ENEMIES,defaultDefenseGrowth,validateDefenseGrowth} from './monster-defense-growth-v2.mjs';
 import {defaultDefenseReward,validateDefenseReward,hasDefenseReward} from './monster-defense-rewards-v1.mjs';
 export const DEFENSE_KEY='monster_defense_settings_v1';
-export const DEFENSE_RULES=Object.freeze({sessionMs:120000,roomMs:7200000,battleMs:5400000,pollMs:300,maxCatchupMs:5000});
+export const DEFENSE_DAILY_ENTRY_LIMIT=3;
+export const DEFENSE_RULES=Object.freeze({sessionMs:120000,roomMs:7200000,battleMs:5400000,resultRetentionMs:86400000,pollMs:300,maxCatchupMs:5000});
 // Existing approved originals: no recolouring or replacement of source art.
 const hunt='assets/ui/project-v/monsters/hunt-tower/';
 const forge='assets/ui/cooperative-arke-v1/';

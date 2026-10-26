@@ -45,5 +45,5 @@ export async function cooperativeMiniflare({worker='tests/helpers/cooperative-wo
   const response=await fetch(origin+'/api/coop/'+kind,{method:body?'POST':'GET',headers:{authorization:id?'Bearer local-qa-'+id:'',origin,'content-type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
   return {status:response.status,...await response.json()};
  };
- return {mf,db,origin,temp,request,dispose:()=>mf.dispose()};
+ return {mf,db,origin,temp,request,dispose:async()=>{await mf.dispose();const actual=await fs.realpath(temp),parent=await fs.realpath(os.tmpdir());if(path.dirname(actual)!==parent||!path.basename(actual).startsWith('cooperative-qa-'))throw Error('Refusing fixture cleanup outside its own temp directory');await fs.rm(actual,{recursive:true,force:true});}};
 }

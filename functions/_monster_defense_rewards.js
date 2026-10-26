@@ -1,6 +1,7 @@
 import {DEFENSE_KEY,validateDefenseSettings,validDefenseRoom} from '../shared/monster-defense-v1.mjs';
 import {hasDefenseReward,validateDefenseReward,defenseRewardItemRule} from '../shared/monster-defense-rewards-v1.mjs';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
+import {readDefenseEntry} from './_monster_defense_entry.js';
 
 const p=(env,sql,...args)=>env.DB.prepare(sql).bind(...args);
 const read=async(env,key)=>(await p(env,'SELECT value FROM app_meta WHERE key=?',key).first())?.value??null;
@@ -44,6 +45,7 @@ export async function settleDefenseRewards(env,room){
   !Number.isSafeInteger(room.startedAt)||room.startedAt<room.createdAt||!Number.isSafeInteger(room.finishedAt)||room.finishedAt<room.startedAt||
   room.wave<room.encounter.waves||room.coreHp<=0||ids.length!==room.capacity||new Set(ids).size!==ids.length||ids.some(id=>!Number.isSafeInteger(id)||id<1)||
   JSON.stringify([...(room.rewardParticipants||[])].sort())!==JSON.stringify(players.map(p=>p.id).sort()))throw Error('Invalid defense clear proof');
+ if(room.entryRequired&&!(await readDefenseEntry(env,room))?.charged)throw Error('Missing defense daily entry proof');
  const key='monster_defense_reward_receipt_v1:'+room.id;
  const replay=async()=>{const raw=await read(env,key);if(raw===null)return null;const receipt=JSON.parse(raw);
   if(receipt.creationRequest!==room.creationRequest||receipt.createdAt!==room.createdAt||receipt.difficulty!==room.difficulty)throw Error('Defense receipt collision');

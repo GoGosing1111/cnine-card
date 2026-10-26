@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "publicBase": "",
+  "publicFiles": 0,
+  "checks": [
+    "PC/mobile show shared daily quota and KST reset; exhausted real entry is disabled, practice remains free",
+    "lost successful START response retries the same request ID and charges each member once",
+    "expired tickets renew automatically; disconnect/reload without local session restores the same server room at zero remaining",
+    "failure retains the debit; zero remaining blocks create/join buttons while showing reconnect/24-hour result insurance"
+  ],
+  "errors": [],
+  "operationalWrites": 0
+}

@@ -35,7 +35,10 @@ test('failed terminal payout survives room expiry and retries atomically from th
   await h.db.batch([{sql:"CREATE TRIGGER qa_defense_fail BEFORE INSERT ON inventory_logs BEGIN SELECT RAISE(ABORT,'temporary reward failure'); END"}]);
   await finalWave(h,a.roomId);await h.live(a,'state');let stored=await h.room(a.roomId);assert.equal(stored.phase,'VICTORY');assert.equal(stored.clearRewards,undefined);
   const before=await h.db.batch([{sql:'SELECT coin FROM users'},{sql:'SELECT COUNT(*) n FROM coin_logs'}]);assert(before[0].results.every(r=>r.coin===12345678));assert.equal(before[1].results[0].n,0);
-  stored.createdAt=Date.now()-DEFENSE_RULES.roomMs-1000;stored.startedAt=stored.createdAt+1000;await h.room(a.roomId,stored);
+  // Move the complete fixture proof beyond the insured result retention window.
+  stored.createdAt=Date.now()-DEFENSE_RULES.resultRetentionMs-DEFENSE_RULES.roomMs-10000;stored.startedAt=stored.createdAt+1000;stored.finishedAt=stored.startedAt+1000;
+  stored.entryReceipt.createdAt=stored.createdAt;stored.entryReceipt.at=stored.startedAt;
+  await h.db.batch([{sql:'UPDATE app_meta SET value=? WHERE key=?',args:[JSON.stringify(stored.entryReceipt),'monster_defense_entry_receipt_v1:'+a.roomId]}]);await h.room(a.roomId,stored);
   let r=await fetch(h.origin+'/__qa/defense-alarm/'+a.roomId);assert.equal((await r.json()).phase,'VICTORY','expiry must retain failed victory, not change it to defeat or delete it');
   await h.db.batch([{sql:'DROP TRIGGER qa_defense_fail'}]);r=await fetch(h.origin+'/__qa/defense-alarm/'+a.roomId);assert.equal(await r.json(),null,'paid expired room may be cleaned up');
   const after=await h.db.batch([{sql:'SELECT id,coin FROM users ORDER BY id'},{sql:'SELECT COUNT(*) n FROM coin_logs'},{sql:"SELECT value FROM app_meta WHERE key LIKE 'monster_defense_reward_receipt_v1:%'"}]);assert.equal(after[0].results.find(r=>r.id===2).coin,12345978);assert.equal(after[1].results[0].n,2);assert.equal(after[2].results.length,1);

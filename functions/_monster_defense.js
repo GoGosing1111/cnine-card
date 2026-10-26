@@ -4,6 +4,7 @@ import {readDefenseRoster,loadDefenseSelection} from './_monster_defense_roster.
 import {defenseDirectory} from '../shared/monster-defense-room-list-v1.mjs';
 import {freezeDefenseReward} from '../shared/monster-defense-rewards-v1.mjs';
 import {coopRewardCatalog} from './_cooperative_rewards.js';
+import {readDefenseDailyEntry,assertDefenseDailyEntry} from './_monster_defense_entry.js';
 const fail=(message,status=400)=>{throw jointError('DEFENSE_REQUEST',message,status);};
 const stub=(env,id)=>env.COOP_ROOMS.getByName('defense:'+id);
 const pointer=(env,user)=>env.COOP_PLAYERS.getByName('defense:'+user.id);
@@ -54,7 +55,7 @@ export async function handleMonsterDefense({path,request,env,deps}){
   if(action==='feature'&&request.method==='GET'){
    const codes=[...new Set(settings.difficulties.flatMap(d=>d.clearReward.items.map(i=>i.code)))];
    const rewardItems=codes.length?(await env.DB.prepare('SELECT code,name,image_url AS image FROM inventory_items WHERE code IN ('+codes.map(()=>'?').join(',')+')').bind(...codes).all()).results:[];
-   return reply({mode:settings.mode,accessible:defenseAccess(user,settings),owner:user.role==='OWNER',user:{id:Number(user.id),nickname:user.nickname},difficulties:settings.difficulties,growth:settings.growth,rewardsEnabled:settings.mode==='ON'&&settings.rewardsEnabled,rewardItems});
+   return reply({mode:settings.mode,accessible:defenseAccess(user,settings),owner:user.role==='OWNER',user:{id:Number(user.id),nickname:user.nickname},difficulties:settings.difficulties,growth:settings.growth,rewardsEnabled:settings.mode==='ON'&&settings.rewardsEnabled,rewardItems,dailyEntry:await readDefenseDailyEntry(env,user.id)});
   }
   if(!defenseAccess(user,settings))fail(settings.mode==='OFF'?'디펜스 입장이 중지돼 있습니다.':'OWNER와 지정된 테스트 계정만 입장할 수 있습니다.',403);
   if(action==='options'&&request.method==='GET')return reply({ok:true,...await readDefenseRoster(env,user,deps),you:Number(user.id)});
@@ -86,6 +87,7 @@ export async function handleMonsterDefense({path,request,env,deps}){
    if(!['create','join'].includes(action))fail('없는 디펜스 경로입니다.',404);
    if(!/^[a-zA-Z0-9-]{16,100}$/.test(body.requestId||''))fail('입장 요청 ID를 확인하세요.');
    if(active){const state=await stub(env,active).defenseRpc('inspect',{user});if(state.ok&&!state.terminal){if(action==='join'&&body.roomId!==active)fail('진행 중인 방으로 먼저 돌아가 주세요.',409);const result=await stub(env,active).defenseRpc('ticket',{user});return reply(result,result.ok?200:result.status);}await route.setRoom(null);}
+   if(settings.mode==='ON'&&!(action==='create'&&body.practice===true))await assertDefenseDailyEntry(env,user.id);
    const selection=await loadDefenseSelection(env,user,body.loadout,deps);
    let id=String(body.roomId||'').trim().toUpperCase(),input={user,...selection,operatingMode:settings.mode};
    if(action==='create'){

@@ -2,8 +2,8 @@ import {DEFENSE_DIFFICULTIES} from '../../../shared/monster-defense-v1.mjs';
 import {DEFENSE_LIST_REFRESH_MS} from '../../../shared/monster-defense-room-list-v1.mjs';
 
 export class DefenseRoomBrowser{
- constructor({request,canEnter,onJoin,onCreate,onFormation}){
-  Object.assign(this,{request,canEnter,onJoin,onCreate,onFormation});this.rows=[];this.serial=0;
+ constructor({request,canEnter,entryBlocked=()=>false,onJoin,onCreate,onFormation}){
+  Object.assign(this,{request,canEnter,entryBlocked,onJoin,onCreate,onFormation});this.rows=[];this.serial=0;
   const dialog=document.createElement('dialog');dialog.className='defense-room-browser';dialog.setAttribute('aria-labelledby','defense-rooms-title');
   dialog.innerHTML=`<header class="rooms-heading"><div><p>CO-OP DEFENSE</p><h2 id="defense-rooms-title">방어대 모집</h2><span>함께 수호석을 지킬 대기방을 선택하세요.</span></div><button type="button" data-rooms-close>닫기</button></header>
    <div class="rooms-tools"><label><span class="sr-only">방 난이도</span><select data-rooms-difficulty><option value="">모든 난이도</option></select></label><button type="button" data-rooms-available aria-pressed="false">참가 가능한 방만</button><button type="button" data-rooms-refresh>새로고침</button></div>
@@ -40,8 +40,9 @@ export class DefenseRoomBrowser{
   const rows=this.rows.filter(room=>this.q('[data-rooms-available]').getAttribute('aria-pressed')!=='true'||room.joinable),canEnter=this.canEnter();
   this.q('[data-rooms-count]').textContent=`${rows.length}개 대기방${this.more?' · 최신 50개 표시':''}`;
   this.q('[data-rooms-hint]').textContent=canEnter?'선택한 용병 2명과 카드 1장으로 참가합니다.':'참가하기를 누르면 용병 2명과 카드 1장을 편성한 뒤 해당 방에 참가합니다.';
+  if(this.entryBlocked())this.q('[data-rooms-hint]').textContent='오늘 참여 횟수가 0회입니다. 한국시간 00:00에 초기화됩니다.';
   this.q('[data-rooms-create]').disabled=!canEnter||this.joining;
-  const list=this.q('[data-rooms-list]'),signature=JSON.stringify([rows,canEnter,!!this.joining]);if(list.dataset.signature===signature)return;list.dataset.signature=signature;
+  const list=this.q('[data-rooms-list]'),signature=JSON.stringify([rows,canEnter,!!this.joining,this.entryBlocked()]);if(list.dataset.signature===signature)return;list.dataset.signature=signature;
   const focused=document.activeElement?.dataset.roomJoin;list.replaceChildren();
   if(!rows.length){const empty=document.createElement('div');empty.className='rooms-empty';const art=document.createElement('img');art.src='/preview/coop-defense-v1/assets/ui-v5/guardian-crest.png';art.alt='';const title=document.createElement('h3');title.textContent='아직 모집 중인 방이 없습니다';const text=document.createElement('p');text.textContent='새 방을 만들어 방어대를 모아보세요. 다른 난이도의 방도 확인할 수 있습니다.';empty.append(art,title,text);list.append(empty);return;}
   for(const room of rows){
@@ -49,6 +50,7 @@ export class DefenseRoomBrowser{
    const count=document.createElement('div');count.className='rooms-capacity';const number=document.createElement('strong');number.textContent=room.members+' / '+room.maxMembers;const label=document.createElement('span');label.textContent='대원';count.append(number,label);
    const info=document.createElement('div');info.className='rooms-info';const title=document.createElement('h3');title.textContent=room.hostName+'의 방어대';const meta=document.createElement('p');meta.textContent=room.difficultyName+' · '+room.totalWaves+' 웨이브';const status=document.createElement('span');status.textContent='준비 '+room.ready+' / '+room.members+'명 · '+(room.joinable?'대원 모집 중':'인원 마감');info.append(title,meta,status);
    const join=document.createElement('button');join.type='button';join.className='rooms-join';join.dataset.roomJoin=room.id;join.textContent=room.joinable?'참가하기':'인원 마감';join.setAttribute('aria-label',room.hostName+'의 방어대 '+(room.joinable?'참가':'인원 마감'));join.disabled=this.joining||!room.joinable;
+   join.disabled||=this.entryBlocked();
    join.onclick=async()=>{
     if(this.joining)return;this.joining=true;clearTimeout(this.timer);this.controller?.abort();this.serial++;this.render();
     this.q('[data-rooms-close]').disabled=true;this.q('[data-rooms-formation]').disabled=true;let errorMessage='';
