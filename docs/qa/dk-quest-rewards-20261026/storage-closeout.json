@@ -1,0 +1,18 @@
+{
+  "workspace": "C:/Users/User/.codex/worktrees/mercenary-stock-schedule/cnine-card",
+  "nativeArchive": "rejected: primary checkout cannot be removed",
+  "strategy": "git sparse-checkout; full Git history and remote commits preserved",
+  "beforeBytes": 12461494949.0,
+  "afterBytes": 44446401.0,
+  "reclaimedBytes": 12417048548.0,
+  "preservedQaFiles": 24,
+  "preservedManifest": "C:/Users/User/.codex/visualizations/2026/10/25/01a17499-5b2e-7ff0-94f2-2a74873aeb5c/dk-quest-20261026/qa-preserved-manifest.json",
+  "preservedBranch": "codex/dk-quest-rewards-20261026",
+  "commitBeforeSparse": "0bb67566a588071628752955f6b47fa64f96a758",
+  "restore": "Run storage audit, then git sparse-checkout disable",
+  "otherWorkspacesChanged": false,
+  "exactPreservedFilesVerified": 24,
+  "totalCodexBeforeGiB": 75.01,
+  "totalCodexAfterGiB": 63.448,
+  "storageAuditAfterAt": "2026-10-26T10:56:23.750421+09:00"
+}

@@ -1,0 +1,83 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"874ac52e96db15eb85f34dd73320ff355610d29c","reason":"DK 일일 5조 상한·주간 30조 및 오늘 수령자 메시지 차액: 신규 거래/재시도 7개 사전 통과, 기존 주간 집계/원자 지급 회귀만 추가","changed":["admin/daily-quest-admin-v1270.js","admin/index.html","admin/workshop-admin-v1668.js","docs/qa/dk-quest-rewards-20261026/README.md","docs/qa/dk-quest-rewards-20261026/browser-report.json","docs/qa/dk-quest-rewards-20261026/browser.mjs","docs/qa/dk-quest-rewards-20261026/cms-daily-1440.png","docs/qa/dk-quest-rewards-20261026/cms-daily-390.png","docs/qa/dk-quest-rewards-20261026/cms-weekly-1440.png","docs/qa/dk-quest-rewards-20261026/cms-weekly-390.png","docs/qa/dk-quest-rewards-20261026/config-dry-run.json","docs/qa/dk-quest-rewards-20261026/daily-1440.png","docs/qa/dk-quest-rewards-20261026/daily-390.png","docs/qa/dk-quest-rewards-20261026/release.mjs","docs/qa/dk-quest-rewards-20261026/run.mjs","docs/qa/dk-quest-rewards-20261026/weekly-1440.png","docs/qa/dk-quest-rewards-20261026/weekly-390.png","docs/qa/prime-craft-open-20261026/README.md","docs/qa/prime-craft-open-20261026/browser.json","docs/qa/prime-craft-open-20261026/cms-1280.png","docs/qa/prime-craft-open-20261026/cms-390.png","docs/qa/prime-craft-open-20261026/release.mjs","docs/qa/prime-craft-open-20261026/run.mjs","docs/qa/prime-craft-open-20261026/workshop-1280.png","docs/qa/prime-craft-open-20261026/workshop-390.png","functions/_daily_quest_reward.js","functions/_mercenary_craft.js","functions/api/[[path]].js","index.html","js/app.js","js/mercenary-bloodmoon-pack-live.mjs","js/mercenary-bloodmoon-presentation-v2.mjs","js/workshop-v1881.js","scripts/ops/dk-quest-rewards-20261026.mjs","scripts/ops/prime-craft-open-20261026.mjs","service-worker.js","shared/mercenary-craft-v1.mjs","shared/mercenary-prime-material-v1.mjs","tests/bloodmoon-prime-material-20261025.test.mjs","tests/daily-quest-100eok-20260919.test.mjs","tests/dk-quest-rewards-20261026.test.mjs","tests/prime-craft-open-20261026.browser.mjs","tests/prime-craft-open-20261026.test.mjs"],"tests":["tests/quest-hub-20260924.test.mjs"],"checks":["check:worker"]}
+✔ KST Monday 00:00 inclusive / next Monday exclusive, including year crossover (2.912ms)
+✔ new weekly rewards are all OFF, unset; unsafe/zero-enabled values are rejected (1.1998ms)
+✔ status preserves daily reward and counts actual completed attacker participation, not defense/abandon/repeated rooms (2133.8695ms)
+✔ legacy index ownership cannot block additive quest tables or OFF defaults (1288.7875ms)
+✔ quest status route remains available without PLAY DK identity or cached weekly posts (1285.3539ms)
+✔ weekly DK check queries elapsed KST dates, uses total count rather than truncated posts and caches only complete result (1127.3466ms)
+✔ weekly DK claim requires 300 posts and preserves the completed receipt on retry (1122.8192ms)
+✔ identity changes invalidate saved weekly post totals (1200.5699ms)
+✔ weekly reward delivers one exact message, does not touch wallet, replays without duplication (1162.7332ms)
+✔ reward insert failure rolls message and receipt back; retry is safe (1562.235ms)
+✔ CMS requires OWNER, rejects stale revision, saves zero/OFF and never overwrites on schema reentry (1317.6952ms)
+✔ activity counters include Monday midnight, exclude next Monday and old-week records (1259.2734ms)
+✔ changed CMS policy before transaction cannot pay the earlier reward (1235.9608ms)
+✔ DK date/board/timezone mismatch or midnight rollover never saves partial counts (1193.3722ms)
+✔ automatic territory cleanup preserves completed participation for the whole quest week (1348.0736ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17462.713
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261026-v2-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-reward-options-20261026-v2-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 9128 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8526.50 KiB / gzip: 1835.89 KiB
+Worker Startup Time: 46 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.44 sec)
+No targets deployed for cnine-card-api-runtime (0.54 sec)
+Current Version ID: b8e1dcd0-3522-4911-add2-97fd7ed00fbb
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19971/20000)
+Uploading... (19981/20000)
+Uploading... (19991/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 29 files (19971 already uploaded) (3.61 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://fc9476c4.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3197.95 KiB / gzip: 718.64 KiB
+Worker Startup Time: 51 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.38 sec)
+Deployed cnine-card-clan-draft triggers (0.99 sec)
+  schedule: * * * * *
+Current Version ID: fc7f3d66-8511-490f-a381-c78bf53d18c0

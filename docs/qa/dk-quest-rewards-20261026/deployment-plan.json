@@ -1,0 +1,11 @@
+{
+  "base": "874ac52e96db15eb85f34dd73320ff355610d29c",
+  "head": "af755ca17917bf1426e6a347947c339040a64605",
+  "reason": "DK 일일 5조 상한·주간 30조 및 오늘 수령자 메시지 차액: 신규 거래/재시도 7개 사전 통과, 기존 주간 집계/원자 지급 회귀만 추가",
+  "tests": [
+    "tests/quest-hub-20260924.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

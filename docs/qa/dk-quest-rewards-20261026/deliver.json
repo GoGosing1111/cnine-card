@@ -1,0 +1,43 @@
+{
+  "mode": "deliver",
+  "at": "2026-10-26T01:50:10.211Z",
+  "operationKey": "ops:dk-quest-rewards:20261026:v1",
+  "status": "COMPLETED",
+  "summary": {
+    "uniqueUsers": 23,
+    "DAILY": {
+      "count": 22,
+      "totalCoin": "107800000000000"
+    },
+    "WEEKLY": {
+      "count": 1,
+      "totalCoin": "29000000000000"
+    }
+  },
+  "planHash": "a1fc4b0abf3288b3b6b31d21b73002012a338951e5c62e66faed9607fe64a3dd",
+  "configAuditId": "51546",
+  "deliveryAuditId": "51549",
+  "verification": {
+    "summary": {
+      "uniqueUsers": 23,
+      "DAILY": {
+        "count": 22,
+        "totalCoin": "107800000000000"
+      },
+      "WEEKLY": {
+        "count": 1,
+        "totalCoin": "29000000000000"
+      }
+    },
+    "messages": 23,
+    "rewards": 23,
+    "collected": 0,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "dryRun": false,
+  "replayed": false,
+  "directWalletOrSourceReceiptWrites": 0,
+  "sqlStatements": 17,
+  "writeStatements": 4
+}
