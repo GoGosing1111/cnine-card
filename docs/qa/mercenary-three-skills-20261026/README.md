@@ -32,3 +32,7 @@
 - 독립 READ ONLY 재조회: CMS r61·문서 해시·성장/팩/런타임/제작 설정 해시 동일, 프라임 제작 r6·ON 유지. 계정·재화·발행·설정 쓰기 0건이다.
 - `deployment-result.json`, `live-verification.json`, `public-browser.json`, `production-after.json`, `preservation.json`, `deploy.log`에 결과를 보존한다.
 - 기존 관리형 작업 폴더와 공용 의존성을 재사용했으며 프로젝트·의존성 복사본을 만들지 않았다. 공식 배포 도구가 임시 Pages 스테이징을 회수했다.
+
+## 저장 공간 정리
+
+관리형 archive 도구가 현재 대화의 primary checkout 보호로 회수를 거부했다. 수동 삭제 대신 모든 변경·산출물을 Git/원격에 보존한 sparse checkout으로 축소했다. 이 작업 폴더는 4.07MiB이며 공용 의존성을 복제하지 않았다. 승인 원화·검수 화면·프롬프트·대화·다른 작업 데이터는 보존했다. 전체 `.codex` 감사는 63.488GiB로 목표를 초과하지만 다른 작업을 임의로 정리하지 않았다. `storage-closeout.json` 참조.
