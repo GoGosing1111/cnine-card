@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "scope": "cms",
+  "publicBase": "https://cnine-card.pages.dev",
+  "publicFiles": 404,
+  "checks": [
+    "PC CMS independently persists five coin amounts, fixed items, fractional probabilities and quantity ranges",
+    "390px touch controls save quantity changes without overflow"
+  ],
+  "errors": [],
+  "failed": [],
+  "operationalWrites": 0
+}

@@ -1,0 +1,89 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"e892872f3634b9fd74067c79a5a31d51d0e42a62","reason":"몬스터 디펜스의 기존 보상 스키마를 호환 유지하면서 아이템별 확정/소수점 확률 및 최소~최대 수량을 추가한다. 난이도별 코인은 OWNER가 나중에 입력하며 운영 설정은 변경하지 않는다. 서버 비공개 방별 시드를 고정하고 참가자/아이템별 독립 추첨, 기존 단일 DB 원자적 지급/영수증 재시도, OFF/TEST/연습/패배 차단을 검증한다. 관련 SQLite/PostgreSQL 회귀 및 실제 PC/모바일 CMS/로비/결과 확인. 인증/DB 스키마/의존성 변경 없음.","changed":["AGENTS.md","admin/index.html","admin/monster-defense.css","admin/monster-defense.mjs","defense/index.html","docs/qa/mercenary-selector-ui-20261026/README.md","docs/qa/mercenary-selector-ui-20261026/deploy.log","docs/qa/mercenary-selector-ui-20261026/deployment-plan.json","docs/qa/mercenary-selector-ui-20261026/deployment-result.json","docs/qa/mercenary-selector-ui-20261026/live-verification.json","docs/qa/mercenary-selector-ui-20261026/public-390-selector.png","docs/qa/mercenary-selector-ui-20261026/public-390-workshop.png","docs/qa/mercenary-selector-ui-20261026/public-browser.json","docs/qa/mercenary-selector-ui-20261026/user-reference.png","docs/qa/monster-defense-reward-options-20261026/README.md","docs/qa/monster-defense-reward-options-20261026/before-defense-only.json","docs/qa/monster-defense-reward-options-20261026/before.json","docs/qa/monster-defense-reward-options-20261026/browser-miss/06-all-miss-mobile.png","docs/qa/monster-defense-reward-options-20261026/browser-miss/browser-report.json","docs/qa/monster-defense-reward-options-20261026/browser/01-cms-desktop.png","docs/qa/monster-defense-reward-options-20261026/browser/02-cms-mobile.png","docs/qa/monster-defense-reward-options-20261026/browser/03-result-desktop.png","docs/qa/monster-defense-reward-options-20261026/browser/04-result-mobile.png","docs/qa/monster-defense-reward-options-20261026/browser/05-lobby-probabilities.png","docs/qa/monster-defense-reward-options-20261026/browser/browser-report.json","docs/qa/monster-defense-reward-options-20261026/read-production.mjs","docs/qa/monster-defense-reward-options-20261026/release.mjs","functions/_monster_defense.js","functions/_monster_defense_rewards.js","index.html","preview/coop-defense-v1/build-report.json","preview/coop-defense-v1/defense.bundle.js","preview/coop-defense-v1/index.html","preview/coop-defense-v1/source/defense-app.js","preview/defense-roguelike-v2/preview.bundle.js","scripts/build-coop-defense-v1.mjs","service-worker.js","shared/monster-defense-rewards-v1.mjs","tests/monster-defense-reward-options-20261026.browser.mjs","tests/monster-defense-reward-options-20261026.test.mjs","tests/monster-defense-rewards-20261020.browser.mjs"],"tests":["tests/monster-defense-reward-options-20261026.test.mjs","tests/monster-defense-rewards-20261020.test.mjs","tests/monster-defense-rewards-live-20261020.test.mjs","tests/monster-defense-live.test.mjs","tests/monster-defense-rooms.test.mjs","tests/cooperative-websocket.test.mjs"],"checks":["check:worker"]}
+✔ real Durable Objects: gated/authenticated API, ownership, retry, three WebSockets, shared start and refresh defeat (2767.7194ms)
+✔ defense TEST: real durable room API, tester gate, authority, retry, persistence and bounded tickets (3802.3421ms)
+✔ defense CMS: OWNER CAS, exact retry, validation, nickname lookup and frozen room policy (988.8539ms)
+✔ legacy fixed quantities round-trip, while probability and inclusive ranges are strictly bounded (24.4754ms)
+✔ private frozen entropy yields stable independent player/item draws and all inclusive quantity values (153.0735ms)
+✔ SQLite probabilistic rewards commit atomically and retries preserve every player's first draw (8.816ms)
+✔ PostgreSQL probabilistic rewards commit atomically and retries preserve every player's first draw (2718.4177ms)
+✔ 0% items never grant, all-miss clears still finalize once, and catalog lookups stay batched (5.0319ms)
+✔ ON access and five CMS rewards default empty; legacy TEST rows stay locked (25.3543ms)
+✔ SQLite all five difficulty rewards: one atomic receipt per clear, frozen amounts, OFF and no retroactive TEST rewards (21.0933ms)
+✔ PostgreSQL all five difficulty rewards: one atomic receipt per clear, frozen amounts, OFF and no retroactive TEST rewards (3089.9727ms)
+✔ SQLite failed participant, unavailable item and overflow roll back every balance, receipt and log (4.6669ms)
+✔ PostgreSQL failed participant, unavailable item and overflow roll back every balance, receipt and log (1631.5598ms)
+✔ concurrent terminal deliveries and independent clear rooms never duplicate a receipt (5.6637ms)
+✔ real ON API opens ordinary accounts, isolates TEST rooms, freezes CMS amounts, settles offline and replays safely (3596.1492ms)
+Defense reward settlement pending; terminal room retained
+Defense reward settlement pending; terminal room retained
+✔ failed terminal payout survives room expiry and retries atomically from the server alarm (1231.3872ms)
+✔ defense public summary hides practice, combat, empty, expired and abandoned rooms without exposing roster or tickets (3.6672ms)
+✔ real defense directory: access/filter, separate battleground, practice exclusion, ready/full/host transfer, start removal and stale publications (2872.2663ms)
+✔ simultaneous list joins fill the last slot once (928.4578ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5582.7168
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261026-v2-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-reward-options-20261026-v2-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 9101 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8527.76 KiB / gzip: 1835.97 KiB
+Worker Startup Time: 52 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.20 sec)
+No targets deployed for cnine-card-api-runtime (0.54 sec)
+Current Version ID: c3b986ed-c449-4f50-84e0-9fef575634df
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19986/20000)
+Uploading... (19990/20000)
+Uploading... (19995/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 14 files (19986 already uploaded) (2.95 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://3ad7765e.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3199.20 KiB / gzip: 718.70 KiB
+Worker Startup Time: 38 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (2.77 sec)
+Deployed cnine-card-clan-draft triggers (0.87 sec)
+  schedule: * * * * *
+Current Version ID: ef4489a1-7b31-4f05-a4f2-f2bc0b088f67
