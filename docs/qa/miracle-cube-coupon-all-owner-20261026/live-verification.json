@@ -1,0 +1,54 @@
+{
+  "at": "2026-10-26T03:18:52.701Z",
+  "pages": {
+    "id": "54ac5957-ca73-4ace-9013-b06312622f0f",
+    "url": "https://54ac5957.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "025171ce4c3b32509c06725abd99413c8a04f575"
+  },
+  "releaseCommit": "025171ce4c3b32509c06725abd99413c8a04f575",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sha256": "d4eeed07cec9fda64ac719324fff37491d53cfcc3d5839395987243662f7c2f8",
+      "markers": [
+        "canIssueMiracleCubeCoupon",
+        "MIRACLE_CUBE_COUPON_OPERATOR_ONLY"
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sha256": "91f3b49433cf6e97076ce7dff18e07fdd355f2940b4c489ca2f4d940ad6e34c4",
+      "markers": [
+        "runDuoSchedule",
+        "runMercenaryStockSchedule"
+      ]
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "admin/admin-v1062-coupon-bulk-delete.js",
+      "sha256": "db65e2b7b5a16f5171d2799b52b24879234be496821d91a0df0a07b50631bd0e"
+    },
+    {
+      "file": "admin/admin-v1276.js",
+      "sha256": "6ce015a1b2eccd4f3d5074a0be4ebb99b6cf7fd042b16edde9db77d0c11c93fe"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "030be18b0cacab654f43f1bb70ab1d63d27c11aa5e6e45e90073004d13e0c436"
+    }
+  ],
+  "anonymous": [
+    {
+      "route": "admin/coupon-create-permanent-v3",
+      "status": 401
+    },
+    {
+      "route": "admin/coupons-v2",
+      "status": 401
+    }
+  ],
+  "operationalAccountWrites": 0,
+  "operationalSettingsWrites": 0
+}

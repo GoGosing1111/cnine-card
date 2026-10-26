@@ -1,0 +1,12 @@
+{
+  "base": "bd1ed1ad0c6e776e3e93f8dd196f1f4953fe03d9",
+  "reason": "미라클 큐브 쿠폰을 모든 인증된 OWNER 계정이 발급하도록 닉네임 제한을 제거한다. 신규/호환 발급 및 기존 쿠폰 중지/재개/한도 변경의 서버와 CMS를 일치시킨다. 비OWNER 차단, 다른 닉네임 전용 보상, 기존 쿠폰 수량/전체 한도/계정당 1회/원자 수령은 보존한다. 실제 PC 모바일 2 OWNER 발급/재개와 권한 위조 차단, 관련 PostgreSQL 23개 검사. 기존 쿠폰 자동 생성/지급/운영 정책 변경 없음. DB 스키마/인증 기반/인프라/의존성 변경 없음.",
+  "tests": [
+    "tests/miracle-cube-coupon-20261004.test.mjs",
+    "tests/coupon-reward-cap-v1997.test.mjs",
+    "tests/chicken-coupon-20261009.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
