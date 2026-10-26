@@ -1,0 +1,54 @@
+{
+  "alreadyRegistered": false,
+  "rolledBack": false,
+  "items": [
+    {
+      "code": "PRIME_REQUIEM_BLUEPRINT",
+      "name": "프라임 레퀴엠 설계도",
+      "subtitle": "PRIME REQUIEM BLUEPRINT",
+      "description": "프라임 레퀴엠의 기체 구조와 에너지 코어, 블레이드 도면을 담은 SF 홀로그램 설계도입니다. 용병제작 조건에 등록할 수 있는 재료이며, 인벤토리에서 직접 사용할 수 없습니다.",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/prime-requiem-blueprint-v1.webp",
+      "sort_order": "215008",
+      "is_active": "1",
+      "created_at": "2026-10-26 00:56:15",
+      "updated_at": "2026-10-26 00:56:15"
+    }
+  ],
+  "receipt": {
+    "operationKey": "ops:prime-requiem-blueprint:20261026:v1",
+    "status": "COMPLETED",
+    "authorization": "프라임 레퀴엠 설계도 SF지향적인 리소스로 만들고 재료로 추가해 그리고 용병제작에도 재료로 등록될수있게 해",
+    "scope": "LIVE_MATERIAL_CATALOG",
+    "item": {
+      "code": "PRIME_REQUIEM_BLUEPRINT",
+      "name": "프라임 레퀴엠 설계도",
+      "subtitle": "PRIME REQUIEM BLUEPRINT",
+      "description": "프라임 레퀴엠의 기체 구조와 에너지 코어, 블레이드 도면을 담은 SF 홀로그램 설계도입니다. 용병제작 조건에 등록할 수 있는 재료이며, 인벤토리에서 직접 사용할 수 없습니다.",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/prime-requiem-blueprint-v1.webp",
+      "sort_order": "215008",
+      "is_active": "1",
+      "created_at": "2026-10-26 00:56:15",
+      "updated_at": "2026-10-26 00:56:15"
+    },
+    "assets": [
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/prime-requiem-blueprint-v1.webp",
+        "status": 200,
+        "sha256": "6b9b32cb6c5d1a4151b8f589ab74dfb68e839b4bb625db5601f1947cc00c10c6"
+      }
+    ],
+    "directUse": false,
+    "mercenaryCraftSelectable": true,
+    "grantedQuantity": 0,
+    "recipesCreated": 0,
+    "recipePoliciesModified": false,
+    "rewardPoolsModified": false,
+    "preservedCatalogCount": 86,
+    "completedAt": "2026-10-26T00:56:16.487Z",
+    "adminLogId": "51518"
+  }
+}

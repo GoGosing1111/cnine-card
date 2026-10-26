@@ -6,7 +6,7 @@ import {execFileSync,spawn} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {MATERIAL} from './register.mjs';
 const [mode,output]=process.argv.slice(2),out=path.resolve(output),root=process.cwd(),require=createRequire(import.meta.url);
-assert(['inspect','deploy','verify'].includes(mode));fs.mkdirSync(out,{recursive:true});
+assert(['inspect','deploy','verify','verify-published'].includes(mode));fs.mkdirSync(out,{recursive:true});
 const git=(...args)=>execFileSync('git',args,{encoding:'utf8',windowsHide:true}).trim();
 const cli=path.join(path.dirname(require.resolve('wrangler/package.json')),'bin/wrangler.js');
 const auth=JSON.parse(execFileSync(process.execPath,[cli,'auth','token','--json'],{encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe']}));
@@ -28,6 +28,11 @@ if(mode==='inspect'){
  const child=spawn(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run deploy:production -- --assets-only'],{cwd:root,env:{...process.env,ASSET_DEPLOY_BASE:plan.base},windowsHide:true,stdio:['ignore',fd,fd]});
  console.log(JSON.stringify({head:plan.head,base:plan.base,log}));
  const exitCode=await new Promise((resolve,reject)=>{child.once('exit',resolve);child.once('error',reject);});fs.closeSync(fd);save('deployment-result.json',{head:plan.head,base:plan.base,exitCode,finishedAt:new Date().toISOString()});console.log(JSON.stringify({exitCode}));process.exitCode=exitCode||0;
+}else if(mode==='verify-published'){
+ const pages=await state();assert.equal(pages.status,'success');
+ const committed=execFileSync('git',['show',pages.commit+':'+MATERIAL.image],{windowsHide:true,maxBuffer:1000000});assert.equal(hash(committed),MATERIAL.imageHash,'Published source does not contain the reviewed blueprint');
+ const url='https://cnine-card.pages.dev/'+MATERIAL.image,r=await fetch(url+'?verify='+pages.commit,{signal:AbortSignal.timeout(60000)});assert.equal(r.status,200);const sha256=hash(Buffer.from(await r.arrayBuffer()));assert.equal(sha256,MATERIAL.imageHash);
+ save('live-verification.json',{checkedAt:new Date().toISOString(),pages,publicAsset:{url,status:r.status,sha256},delivery:'INCLUDED_IN_CONCURRENT_RELEASE',separateDeployCommands:0,reason:'Reviewed blueprint asset included in the current production source; verify its exact committed and public bytes instead of redeploying unchanged files.'});console.log(JSON.stringify({pages,publicAssetHashMatches:true,separateDeployCommands:0}));
 }else{
  const result=JSON.parse(fs.readFileSync(out+'/deployment-result.json','utf8')),pages=await state();assert.equal(result.exitCode,0);assert.equal(pages.status,'success');assert.equal(pages.commit,result.head);
  const url='https://cnine-card.pages.dev/'+MATERIAL.image,r=await fetch(url+'?verify='+result.head,{signal:AbortSignal.timeout(60000)});assert.equal(r.status,200);const sha256=hash(Buffer.from(await r.arrayBuffer()));assert.equal(sha256,MATERIAL.imageHash);
