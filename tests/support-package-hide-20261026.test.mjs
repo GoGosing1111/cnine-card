@@ -20,7 +20,8 @@ for(const postgres of [false,true])test(`midnight hides only the package, reject
   f.clock.now=SUPPORT_PACKAGE_SALES_ENDS_AT;
   const closed=(await f.call('server-support/info',{user:2})).body;
   assert.equal(closed.packageVisible,false);assert.equal(closed.seasonPassVisible,before.seasonPassVisible);
-  assert.deepEqual(closed.application,before.application);assert.equal(closed.subscription.active,true);
+  const {resetsAt:beforeReset,...beforeApplication}=before.application,{resetsAt:afterReset,...afterApplication}=closed.application;
+  assert.deepEqual(afterApplication,beforeApplication);assert.equal(afterReset,beforeReset+86400000);assert.equal(closed.subscription.active,true);
   const info=await f.call('server-support/package',{user:2});assert.equal(info.body.salesOpen,false);assert.equal(info.body.pending.id,applied.body.order.id);
   const writes=f.queries.filter(q=>/^\s*(?:INSERT|UPDATE|DELETE)\b/i.test(q)).length;
   const denied=await f.apply();assert.equal(denied.status,410);assert.equal(denied.body.code,'SUPPORT_PACKAGE_CLOSED');
