@@ -1,0 +1,17 @@
+{
+  "base": "d7a96e5b6947787d519ae9dbbc35d5d5e42a1c8f",
+  "reason": "사용자 지시에 따라 라자크가 SS 리미티드 21종 및 신궁 강윤을 확실히 이기도록 전투 시작 시 실제 연계 공격·피해 상한 4배, HP·방벽 16배를 적용한다. 73216전 전승, SSS 리미티드 9984전 결과 동일, 다른 용병 1456전 해시 및 PC 모바일 실제 전투·도감 검증. SSS 리미티드 혼합 편성에는 추가 우위를 적용하지 않는다. 계정·재화·획득·설정 쓰기 없음.",
+  "tests": [
+    "tests/razak-priority-matchups-20261026.test.mjs",
+    "tests/razak-balance-20261026.test.mjs",
+    "tests/razak-live-20261024.test.mjs",
+    "tests/mercenary-turn-cadence-v2099.test.mjs",
+    "tests/mercenary-growth-launch-20261016.test.mjs",
+    "tests/valter-helios-parity-20261021.test.mjs",
+    "tests/ranked-duo-battle.test.mjs",
+    "tests/bloodmoon-skill-status-20261025.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
