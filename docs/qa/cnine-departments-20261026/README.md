@@ -12,3 +12,5 @@
 운영 반영은 공식 `npm run deploy:production -- --scoped` 경로를 사용한다. 관련 기존 검사 `streamer-lounge-v2036.test.mjs`, `adventure-lobby-menu-separation.test.mjs`는 배포 과정에서 한 번 실행한다. 배포 기준/로그/결과는 작업 중 저장소 밖 `C:/Users/User/.codex/visualizations/2026/10/26/01a17816-2846-70c0-9068-eabe9635765b/cnine-departments-release/`에 보존한다. 배포 후 공개 파일 해시·기존 라운지 목록 해시·공개 모바일 컴포넌트의 변경 동선을 짧게 확인한다.
 
 저장공간: 기존 `C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site`와 기존 의존성을 재사용했다. 새 worktree/프로젝트/의존성 복사 없음. 배포 전 공식 audit에서 .codex 63.251GiB·스캔 오류 0을 확인했다. 다른 작업/대화/원화는 건드리지 않는다. 배포 임시 파일은 공식 실행기의 정리 절차를 따른다.
+
+후속 이다니♥를 포함한 최종 6명으로 PC/모바일 화면과 링크를 다시 확인했다. 첫 배포 사전 검사 22개 중 21개 통과, 기존 라운지 테스트의 index 캐시 v2 고정 assertion 1개가 v3 로더와 달라 외부 배포 전에 중단됐다. 해당 기대값만 현재 v3로 갱신했다. 로비 회귀 4개는 이미 통과했으므로 반복하지 않고 라운지 테스트 파일만 공식 scoped 재시도에서 실행한다. 최초 로그/계획/결과는 attempt1로 보존한다.
