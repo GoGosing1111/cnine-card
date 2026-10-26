@@ -11,7 +11,7 @@ const expected = [['kaja0011','여을'],['chocho12','초초'],['yjk011599','나�
 const mime = {'.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.svg':'image/svg+xml','.woff2':'font/woff2'};
 const missing = [], writes = [];
 const apiPayload = pathname => pathname === '/api/streamer-profiles' ? roster : { maintenance:{active:false},enabled:false,visible:false,cards:[],packs:[],items:[],operations:[] };
-const moduleHtml = '<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/command-ui-v1.css?v=20261025-clan-restored"><link rel="stylesheet" href="/css/streamer-lounge-v2036.css?v=2038-station-only"><link rel="stylesheet" href="/css/cnine-roster-v1.css?v=20261026-v1"></head><body style="margin:0;background:#071427"><aside data-streamer-lounge-host></aside><script type="module" src="/js/streamer-lounge-v2036.js?v=20261026-cnine-roster-v1"></script></body></html>';
+const moduleHtml = '<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/cnine-roster-v1.css?v=20261026-v2"></head><body style="margin:0;background:#071427"><soop-adventure-lobby data-view="home" data-route="home"></soop-adventure-lobby><script type="module">import {mountCnineLobby} from "/js/cnine-roster-v1.js?v=20261026-v2";document.querySelector("soop-adventure-lobby").attachShadow({mode:"open"}).innerHTML="<slot name=cnine-roster></slot>";mountCnineLobby();</script></body></html>';
 fs.mkdirSync(out, { recursive:true });
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, 'http://' + req.headers.host);
@@ -53,19 +53,24 @@ try {
         renderShell('home'); document.querySelector('[data-miracle-close]')?.click(); await StreamerLounge.mount();
       });
       await page.waitForSelector('[data-streamer-lounge-host]', {state:'attached'});
-      await page.evaluate(async () => {await StreamerLounge.mount();document.querySelector('soop-adventure-lobby').openMenu('social');});
+      await page.evaluate(async () => {await StreamerLounge.mount();});
     }
-    const loungeEntry = page.locator('[data-streamer-lounge-open]:visible');
-    await loungeEntry.click();
-    const entrance = page.locator('[data-cnine-roster-open]');
-    await entrance.scrollIntoViewIfNeeded();
-    await page.screenshot({path:path.join(out, `entrance-${width}.png`)});
-    await page.getByRole('searchbox', {name:'스트리머 이름 검색'}).fill('조은');
+    const entrance = page.locator('[data-cnine-lobby-open]:visible');
+    await entrance.waitFor();
+    const entryBox=await entrance.boundingBox();assert(entryBox.width<=170&&entryBox.height<=49&&entryBox.height>=44,'Compact lobby entry');
+    assert.equal(await page.locator('dialog[open]').count(),0,'Lobby entry requires no menu or lounge');
+    if(!publicBase){
+      const audio=await page.locator('soop-adventure-lobby .scene-audio').boundingBox();
+      assert(!audio||entryBox.y>=audio.y+audio.height-1,'Entry does not overlap the music control');
+      assert.equal(await page.locator('soop-adventure-lobby').getAttribute('data-route'),'home');
+    }
+    await page.screenshot({path:path.join(out, 'lobby-entry-'+width+'.png')});
     await entrance.click();
     const board = page.locator('#cnineRosterV1[open]'); await board.waitFor();
     await page.waitForFunction(() => [...document.querySelectorAll('.c9-member-portrait img')].every(image => image.complete && image.naturalWidth > 0));
     await page.evaluate(async () => {await document.fonts.ready;const bg=new Image();bg.src='/assets/ui/streamer-lounge/cnine-roster-20261026/celestial-board.webp';await bg.decode();});
     assert.equal(await board.getByRole('heading',{name:'씨나인 현황판',exact:true}).count(),1);
+    assert.equal(await board.getByRole('button',{name:'← 로비로'}).count(),1);
     assert.deepEqual(await board.locator('.c9-department h2').allTextContents(),['여캠부','스타부']);
     assert.deepEqual(await board.locator('.c9-member h3').allTextContents(),expected.map(row => row[1]));
     const links = await board.locator('.c9-member').evaluateAll(els => els.map(el => ({href:el.getAttribute('href'),target:el.target,rel:el.rel,height:el.getBoundingClientRect().height})));
@@ -75,20 +80,28 @@ try {
     const portraits = await board.locator('.c9-member-portrait img').evaluateAll(els=>els.map(el=>({loaded:el.naturalWidth>0,display:el.getBoundingClientRect().width,native:Math.min(el.naturalWidth,el.naturalHeight),density:devicePixelRatio})));
     assert(portraits.every(p=>p.loaded&&(p.display-2)*p.density<=p.native+1),'Original profile pixels are not enlarged');
     const buttonColor = await board.locator('.c9-member-link').first().evaluate(el=>getComputedStyle(el).color); assert.equal(buttonColor,'rgb(17, 38, 63)');
-    await page.screenshot({path:path.join(out,`board-${width}.png`)});
+    await page.screenshot({path:path.join(out,`lobby-board-${width}.png`)});
     const popupPromise = page.waitForEvent('popup');
     await board.getByRole('link',{name:'남수댕 SOOP 방송국 바로가기 (새 탭)'}).click();
     const popup = await popupPromise; await popup.waitForLoadState('domcontentloaded');
     assert.equal(popup.url(),'https://www.sooplive.com/station/mew030709');assert.equal(await popup.evaluate(()=>window.opener),null);await popup.close();
     await page.keyboard.press('Escape');assert.equal(await board.count(),0);
-    assert.equal(await page.locator('#streamerLoungeV2036[open]').count(),1);
-    assert.equal(await page.getByRole('searchbox',{name:'스트리머 이름 검색'}).inputValue(),'조은');assert.equal(await page.locator('.sl40-card').count(),1);
+    assert.equal(await page.locator('#streamerLoungeV2036[open]').count(),0);
+    assert.equal(await page.locator('soop-adventure-lobby').getAttribute('data-route'),'home');
     assert(await entrance.evaluate(el=>el===document.activeElement));
     await entrance.click();await page.locator('[data-cnine-roster-close]').click();assert.equal(await board.count(),0);
-    await page.keyboard.press('Escape');assert.equal(await page.locator('#streamerLoungeV2036[open]').count(),0);
-    assert(await loungeEntry.evaluate(el=>el===document.activeElement));assert.deepEqual(errors,[]);
-    reports.push({width,links,portraits,departments:true,originalLoungeSearchPreserved:true,keyboardAndBackButton:true,newTabOpenerNull:true,noOverflow:true,buttonColor,errors});
-    console.log(`PASS ${width}: main lounge → 6 members / 2 departments → station new tab → preserved lounge`);
+    assert(await entrance.evaluate(el=>el===document.activeElement));
+    if(!publicBase){
+      await page.evaluate(()=>document.querySelector('soop-adventure-lobby').openMenu('social'));
+      await page.locator('[data-streamer-lounge-open]:visible').click();
+      assert.deepEqual(await page.locator('.sl40-station-link').evaluateAll(els=>els.map(el=>el.getAttribute('href'))),roster.profiles.map(row=>row.stationUrl));
+      await page.keyboard.press('Escape');
+      await page.locator('soop-adventure-lobby #close-menu').click();
+      assert.equal(await entrance.count(),1,'The existing lounge does not duplicate the lobby entry');
+    }
+    assert.deepEqual(errors,[]);
+    reports.push({width,entryBox,links,portraits,departments:true,directLobbyEntrance:true,keyboardAndBackButtonToLobby:true,newTabOpenerNull:true,noOverflow:true,buttonColor,errors});
+    console.log('PASS '+width+': compact lobby entry → 6 members / 2 departments → station new tab → lobby');
     await page.close();
   }
   assert.deepEqual(writes,[]);assert.deepEqual(missing,[]);

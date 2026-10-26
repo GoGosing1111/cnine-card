@@ -21,7 +21,7 @@ async function state(){
 }
 if(mode==='inspect'){
   const before=await state();save('before-deploy.json',before);
-  save('deployment-plan.json',{base:before.pages.commit,reason:'Add the user-requested CNINE six-member board inside the existing streamer lounge. Dedicated generated celestial background and responsive cards; PC/mobile actual-main navigation, station links and focus restoration verified. Existing CMS roster and all account data remain unchanged.',tests:['tests/streamer-lounge-v2036.test.mjs'],checks:[]});
+  save('deployment-plan.json',{base:before.pages.commit,reason:'Add the user-requested compact CNINE board entry directly to the lobby and return to the lobby. Generated celestial art and six responsive member cards; actual-main PC/mobile entry, station links, focus restoration and unchanged existing lounge verified.',tests:['tests/streamer-lounge-v2036.test.mjs','tests/adventure-lobby-menu-separation.test.mjs'],checks:[]});
   console.log(JSON.stringify({pages:before.pages,rosterCount:before.roster.profiles.length,rosterHash:before.rosterHash}));
 }else if(mode==='deploy'){
   const plan=JSON.parse(fs.readFileSync(path.join(out,'deployment-plan.json'))),head=git('rev-parse','HEAD');
@@ -35,7 +35,7 @@ if(mode==='inspect'){
 }else if(mode==='verify'){
   const execution=JSON.parse(fs.readFileSync(path.join(out,'deployment-result.json'))),before=JSON.parse(fs.readFileSync(path.join(out,'before-deploy.json'))),after=await state();
   assert.equal(execution.exitCode,0);assert.equal(after.pages.status,'success');assert.equal(after.pages.commit,execution.head);assert.equal(after.rosterHash,before.rosterHash);
-  const files=['index.html','service-worker.js','js/streamer-lounge-v2036.js','js/cnine-roster-v1.js','css/cnine-roster-v1.css','assets/ui/streamer-lounge/cnine-roster-20261026/celestial-board.webp','preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png'];
+  const files=['index.html','service-worker.js','js/streamer-lounge-v2036.js','js/cnine-roster-v1.js','js/adventure-lobby-v2107.js','css/cnine-roster-v1.css','assets/ui/streamer-lounge/cnine-roster-20261026/celestial-board.webp','preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png'];
   const publicFiles=await Promise.all(files.map(async file=>{
     const response=await fetch(site+'/'+file+'?verify='+execution.head,{signal:AbortSignal.timeout(60000)});assert(response.ok,file);
     const binary=/\.(?:webp|png)$/.test(file),actual=binary?Buffer.from(await response.arrayBuffer()):(await response.text()).replaceAll('\r\n','\n');
