@@ -1,0 +1,28 @@
+{
+  "localViewports": [
+    1440,
+    390,
+    360
+  ],
+  "browserChecks": 51,
+  "unitTests": 6,
+  "pageErrors": 0,
+  "operationalAccountWrites": 0,
+  "providerConsentWrites": 0,
+  "watchRankingCalls": 0,
+  "screenshots": [
+    {
+      "file": "popup-1440.png",
+      "sha256": "7b50556c96a2a103b0a91cf7c3f0df1d27792949a986f8cb7e1d6f971def3fed"
+    },
+    {
+      "file": "popup-360.png",
+      "sha256": "143895e8bb9370b960ce67fa06fecc804383657390d82b4e7e3871546b5c8c44"
+    },
+    {
+      "file": "popup-390.png",
+      "sha256": "5b9206709904211b76e6316f930dc8636017c388125f9a32244e775432d0a397"
+    }
+  ],
+  "screenshotDirectory": "C:\\Users\\User\\.codex\\visualizations\\2026\\10\\26\\01a1781f-eab2-7101-b315-7eeea213dd8d\\soop-watch-consent"
+}

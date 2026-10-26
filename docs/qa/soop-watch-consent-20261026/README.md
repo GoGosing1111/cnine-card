@@ -20,7 +20,7 @@
 - 공식 동의 주소의 공개 GET 200을 확인했다. 인증한 사용자의 실제 동의 저장, 운영 키의 `SOOP_WATCH_READ` 활성화, 제공자 측 실제 조회까지 검수한 것으로 확대하지 않는다.
 
 검수 원본과 배포 로그: `C:/Users/User/.codex/visualizations/2026/10/26/01a1781f-eab2-7101-b315-7eeea213dd8d/soop-watch-consent/`.
-첨부 원본: `C:/Users/User/Downloads/reversecall-integration-guide-20261026.zip` (원본 보존).
+첨부 원본: `C:/Users/User/Downloads/reversecall-integration-guide-20261026.zip` (원본 보존, SHA-256 `17a58e664bbae7e339945ad796b7da3076e6018ef6ce624cb5b5e7bce90f5580`).
 
 ## 저장공간
 
@@ -29,3 +29,5 @@
 ## 운영 결과
 
 배포 후 확정한 소스·Pages·공개 파일 확인 결과를 아래에 추가한다.
+
+작업 중 먼저 원격 반영된 씨나인 사진 간격 수정 `38755e468`를 보존해 통합했다. 동의 팝업 캐시 접두사와 기존 현황판 v4 캐시를 함께 유지하며 파생물을 다시 생성했다.
