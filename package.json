@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "check:onestore-web": "node scripts/onestore/prepare-web.mjs --check",
     "test:mercenary-level-cap21": "node --test --test-skip-pattern=\"^gap mastery restores|^action response closes\" tests/mercenary-level-cap21-20261025.test.mjs tests/mercenary-level-preparation-20261005.test.mjs tests/mercenary-level-rules-20261014.test.mjs tests/mercenary-level-v2-integration-20261015.test.mjs tests/mercenary-growth-launch-20261016.test.mjs tests/mercenary-growth-v2-20261015.test.mjs tests/mercenary-breakthrough-pity-20261021.test.mjs tests/mercenary-level-ui-20261006.test.mjs",
     "test:mercenary-three-power": "node --test --test-skip-pattern=\"approved|delivery\" tests/zero-live-20261020.test.mjs tests/prime-requiem-live-20261021.test.mjs tests/general-jok-live-20261023.test.mjs",
     "test:mercenary-three-skills": "node --test --test-skip-pattern=\"approved|delivery|historical V15 images\" tests/mercenary-three-skills-20261026.test.mjs tests/zero-live-20261020.test.mjs tests/prime-requiem-live-20261021.test.mjs tests/general-jok-live-20261023.test.mjs",

@@ -1,0 +1,5 @@
+html,body{min-height:100dvh;overscroll-behavior:none}
+body{padding-top:max(env(safe-area-inset-top,0px),var(--onestore-safe-top,0px));padding-right:max(env(safe-area-inset-right,0px),var(--onestore-safe-right,0px));padding-bottom:max(env(safe-area-inset-bottom,0px),var(--onestore-safe-bottom,0px));padding-left:max(env(safe-area-inset-left,0px),var(--onestore-safe-left,0px))}
+#onestore-boot-error{position:fixed;inset:0;z-index:2147483647;display:grid;place-content:center;gap:16px;padding:24px;text-align:center;background:#101421;color:#fff;font:16px/1.6 sans-serif}
+#onestore-boot-error button{padding:12px 24px;border:0;border-radius:8px;background:#f04d68;color:white;font:inherit;cursor:pointer}
+html[data-onestore-paused=true] body::after{content:'';position:fixed;inset:0;z-index:2147483646;background:rgba(0,0,0,.3)}

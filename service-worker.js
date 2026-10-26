@@ -182,6 +182,9 @@ self.addEventListener('fetch',event=>{
   const request=event.request,url=new URL(request.url);
   if(!sameOriginGet(request,url))return;
 
+  // The H5 edition owns its document policy; never replace it with the PWA shell.
+  if(url.pathname==='/onestore'||url.pathname.startsWith('/onestore/'))return;
+
   // V1802: 관리자 콘솔은 서비스워커가 절대 손대지 않는다.
   // admin 스크립트는 파일명(-v1065-)과 ?v= 때문에 isVersioned() 가 참이 되어 cacheFirst 로 잡혔고,
   // 서버가 /admin/* 에 no-store 를 줘도 워커 캐시의 옛 파일이 계속 나갔다.

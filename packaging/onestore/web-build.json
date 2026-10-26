@@ -1,0 +1,38 @@
+{
+  "sourceHashes": {
+    "packaging/onestore/web/client-patch.json": "10b615be096a3ff17d0057487b7487ef0333d350c0636af23b81994075e63eac",
+    "index.html": "341dffaed352837d0cad1bf2305138dae14c993b7680dcf50022cedab9429b92",
+    "js/app.js": "58893c63caf2b8c698c66b8c4dfaf602f09e4a70c9921b4fc61d5624f58c0dd8",
+    "js/soopketmon-v21-exact-shell-adapter.js": "d1d5b05e4482f3f2f5ddf67d11be2967e2f5737b8bcf3f30b57b7635c3d49257",
+    "js/soopketmon-v21-runtime-router.js": "b5f4165a938cc6d68074ad36db8ac60f3bad73076e01eb766707986031e8c7ec",
+    "js/adventure-lobby-v2107.js": "e8cad4527f69aa5ddb0cc166427032b773cb00af34edb05576bd09d7d346956e",
+    "js/pet-equipment-window-v1.mjs": "9d1f4ff2b291871d3add7622598913c374008deb9c76d11dbc3c3d51df9ca59f",
+    "js/adventure-navigation-standalone.js": "a4dbb4a65b3fd16e7d94be8f129fffd89ee80e05dd00d8839e17d303b000d148",
+    "pet-codex/app.mjs": "13c0696c3e3f7e9a9af870da3f7a6591aa867f51323165d72f7cd8885d6f00cd",
+    "js/pet-deck-slot-v1.mjs": "3fe4bb56755e3eb1c9dfa8614c1a2fe26c302bda6c41a20eeed172c8af236631",
+    "js/pet-opening-v1.mjs": "230d96633668a02e8647df66af7cfca1cfca79e9d8c9ad56202699f57d78cd95",
+    "packaging/onestore/web/policy.mjs": "0b1b0d16f7ba26a0c9bd3a95518121626551927497bb091b36af0688b1be7453",
+    "packaging/onestore/web/bootstrap.mjs": "d31a19f5b194d12977bcea0f5a59404c35dc6481997ca73805e8af4694012e7a",
+    "shared/onestore-web-v1.mjs": "ff426ea78fed7b7ed8b504a5e7674c07dc1ea0657fad406fc9679862f31010ca",
+    "packaging/onestore/web/h5-policy.mjs": "9d244cf75f9ea07069b196813002381a7225368ada7d34fdb5d57dbc3610cea2",
+    "packaging/onestore/web/h5-back.mjs": "a25a8deb9c733c801cf8f395307713397f07b1dfb976803550cf87daa3f6d2f0",
+    "packaging/onestore/web/h5-sdk.mjs": "122123814f065b3be3f7dd81a556a29a30e85d5f6f92f635c67aa922f730f1eb",
+    "packaging/onestore/web/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27"
+  },
+  "outputs": {
+    "onestore/js/app.js": "e2a0865bae7a9cf81545086aed83d78254ffeb3685f7202d9f62452b62744741",
+    "onestore/js/soopketmon-v21-exact-shell-adapter.js": "2d857ac3d2fd86ed3510d7a04c6cd1332ce6fe6d15100f14971575e341e1bf7d",
+    "onestore/js/soopketmon-v21-runtime-router.js": "13277f5ef97420570b676f49c52274486682d7841cd248a52b648ef68782a65f",
+    "onestore/js/adventure-lobby-v2107.js": "7415ada6cfbf75f235190631b4d67c632a9ff4eaf9434ccedd6b8a3020149bfe",
+    "onestore/js/pet-equipment-window-v1.mjs": "85477afbfd66c5b0432c2ab9dc76e471cfe07f6aa7eb54fd5c7c1db13b41c1fa",
+    "onestore/js/adventure-navigation-standalone.js": "0bd3f76f88aa1db0a27be817d317ad5b9810f4bae28951e6524085f96b59a3f2",
+    "onestore/pet-codex/app.mjs": "88facbffa79582dcff2c0f7ba63e847a8c391bbcfa3647b98f067898557eff31",
+    "onestore/js/pet-deck-slot-v1.mjs": "1cf64458387a3400f5eeb7891602c06e13291ae00494437c7f4d1d14b2e05577",
+    "onestore/js/pet-opening-v1.mjs": "0b07a0b5b6e6c913f2717a58881fbf397c27381faf9b8cd3891b7f7be7ad4645",
+    "onestore/h5-policy.js": "8f435c8ad130f13abb48f6d59d5cc7a72bc1d1a8f4fb2b6aaa9545aa276b0eef",
+    "onestore/h5-sdk.js": "c9e18131d55df5ad36ec1c8bd6bc78f9f1113be8e49cf946f2ed121d58b4ee19",
+    "onestore/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27",
+    "onestore/index.html": "b8a51a2e3ec729c426fec2374bb519919c09eeff233f7f102180a60e84894836",
+    "shared/onestore-web-assets-v1.mjs": "9bb6c978abda97a23d5e685ef0d9b7d90c7e9cc3b578b8467df3cfcc6d4a85de"
+  }
+}

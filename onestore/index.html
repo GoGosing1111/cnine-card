@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+  <meta name="theme-color" content="#100b1d" />
+  <meta name="application-name" content="리버스콜" />
+  <meta name="apple-mobile-web-app-title" content="리버스콜" />
+  <meta property="og:title" content="리버스콜" />
+  <meta property="og:image" content="https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" />
+  <meta property="og:description" content="카드 수집 · 용병 성장 · 협동 전투" />
+  <link rel="manifest" href="/manifest.webmanifest?v=20261016-reverse-call" />
+  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent" type="image/png" sizes="32x32" />
+  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent" type="image/png" sizes="48x48" />
+  <link rel="apple-touch-icon" href="/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent" sizes="180x180" />
+  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp" media="(min-width:641px)" fetchpriority="high" />
+  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-purple-20261024/scene-mobile.webp" media="(max-width:640px)" fetchpriority="high" />
+  <link rel="preload" as="image" type="image/avif" fetchpriority="high" href="/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif" imagesrcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" imagesizes="(max-width:820px) 100vw, 52vw" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;600;800&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Do+Hyeon&amp;family=East+Sea+Dokdo&amp;family=Gugi&amp;family=Jua&amp;family=Nanum+Gothic+Coding:wght@400;700&amp;family=Nanum+Pen+Script&amp;family=Noto+Sans+KR:wght@500;700;900&amp;family=Noto+Serif+KR:wght@600;700;900&amp;family=Song+Myung&amp;display=swap" rel="stylesheet" />
+  <title>리버스콜 카드뽑기</title>
+  <script src="/js/store-distribution-v1.js?v=20261026-1"></script>
+  <link rel="stylesheet" href="css/style.css?v=1879-player-ultimate-skip&cubeRemoval=20261003&iconPortrait=20261006" />
+  <link rel="stylesheet" href="css/chief-system-v1.css?v=20261005-general" />
+  <link rel="stylesheet" href="css/chief-prison-v1.css?v=20261006" />
+  <link rel="stylesheet" href="css/queen-coronation-v1.css?v=20261005-general" />
+  <link rel="stylesheet" href="css/card.css?v=1885-static-high-grade-frame" />
+  <link rel="stylesheet" href="css/animation.css?v=1144-stability-audit" />
+    <link rel="stylesheet" href="css/unified-drop-cinematic-v1750.css?v=1755-card-equipment-drop">
+  <link rel="stylesheet" href="css/card-unique-battle-fx-v1174.css?v=1745-taller-battle-cards">
+  <link rel="stylesheet" href="css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0">
+  <link rel="stylesheet" href="css/supply-box-v1249.css?v=1987-prime-custom-purchase-bulk-open">
+  <link rel="stylesheet" href="css/suit-core-box-v1.css?v=20261008">
+  <link rel="stylesheet" href="css/title-public-v1245.css?v=1782-title-specific-stars">
+  <link rel="stylesheet" href="css/title-fonts-v1814.css?v=1814-title-font-presets">
+  <link rel="stylesheet" href="css/seal-battle.css?v=1778-seal-v3-crystal&sealRework=20261021-v1&sealDragon=20261022-v1&sealOrbs=20261022-v1&sealLayout=20261022-v2&sealMercenary=20261022-v1">
+  <link rel="stylesheet" href="css/raid-overhaul-v1293.css?v=1296-slot-entry-fix">
+  <link rel="stylesheet" href="css/raid-v3-async-v1779.css?v=1930-mobile-context-recovery">
+  <link rel="stylesheet" href="css/vehicle-draw-v1388.css?v=1724-hundred-draw">
+  <link rel="stylesheet" href="css/territory-war-v1811.css?v=1914-territory-dispatch-persist&pig=2">
+  <link rel="stylesheet" href="css/territory-war-v1824.css?v=2062-my-team-emphasis&clans=20260929-roster&votes=20261008">
+  <link rel="stylesheet" href="css/territory-network-v6.css?v=20261011-art2">
+  <link rel="stylesheet" href="css/territory-battlefield-v5.css?v=20261003-authored-fx">
+  <link rel="stylesheet" href="css/territory-formation-20261013.css?v=3">
+  <link rel="stylesheet" href="css/territory-vote-alert-v1.css?v=20261013-vote-alert-compact">
+  <link rel="stylesheet" href="css/ranked-match-v1671.css?v=1671-ranked-auto-season">
+  <link rel="stylesheet" href="css/ranked-v2-v1827.css?v=20261002-ranked-reform&amp;suggestions=20261005">
+  <link rel="stylesheet" href="css/pve-nightmare-v1692.css?v=1692-nightmare">
+  <link rel="stylesheet" href="css/pve-apocalypse-v1952.css?v=1952-apocalypse-pve">
+  <link rel="stylesheet" href="css/escort-operation-v1830.css?v=1844-public-mobile-fit">
+  <link rel="stylesheet" href="css/runtime-performance-v1727.css?v=1729-virtual-card-lists">
+  <link rel="stylesheet" href="css/battle-v3-live.css?v=1901-nightmare-mark-overlap&flow=2126&backdrop=20261005&amp;statusDock=20261007-v2">
+  <link rel="stylesheet" href="css/tower-abyss-ui.css?v=20261022-clock-auto-next-v1">
+  <link rel="stylesheet" href="css/secondary-verification-v1780.css?v=1799-playdk-only">
+  <link rel="stylesheet" href="css/organization-preparation-v1.css?v=20261023-clan-identity">
+  <link rel="stylesheet" href="css/command-ui-v1.css?v=20261025-clan-restored">
+  <link rel="stylesheet" href="css/clan-v1.css?v=20261005-reform&clanRestore=20261025">
+  <link rel="stylesheet" href="css/clan-war-reform-v1.css?v=20261005-balance-v3">
+  <link rel="stylesheet" href="css/clan-command-v1.css?v=2127">
+  <link rel="stylesheet" href="css/clan-faction-v1.css?v=20261001-session-rewards">
+  <link rel="stylesheet" href="css/clan-champions-v2071.css?v=2109-champions-trophy">
+  <link id="liveOperationsV1868" rel="stylesheet" href="css/live-operations-v1868.css?v=1868-live-operations-r2&amp;popup=20261018-v1" />
+  <link data-rank-potion-style rel="stylesheet" href="css/rank-exp-potion-v1.css?v=20261020-v1" />
+  <link rel="stylesheet" href="css/prison-v1950.css?v=2045-mobile-perf" />
+
+<style id="v1871-mobile-burning-critical">
+@media (max-width:820px){
+  .burning-event-hud{visibility:visible!important;opacity:1!important}
+  .burning-command-notice{display:grid!important;visibility:visible!important;opacity:0;position:fixed!important;left:var(--burning-vv-left,0)!important;top:var(--burning-vv-top,0)!important;width:var(--burning-vv-width,100vw)!important;height:var(--burning-vv-height,100dvh)!important;z-index:2147483000!important}
+  .burning-command-notice.show{opacity:1!important}
+}
+</style>
+<link rel="stylesheet" href="css/burning-event-v1871.css?v=1902-burning-owner-timer" />
+<style id="v21-renewal-only-gate">
+html{background:#070a0f;color-scheme:dark}
+body.v21-renewal-required{margin:0;background:#070a0f;color:#eef4f6}
+body.v21-renewal-required #app{visibility:hidden}
+.v21-renewal-boot{position:fixed;inset:0;z-index:2147483600;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;box-sizing:border-box;padding:clamp(28px,4.8vw,76px);padding-bottom:max(30px,env(safe-area-inset-bottom));background:#060b12;color:#eef4f6;font-family:"Noto Sans KR",Arial,sans-serif}
+.v21-renewal-boot *{box-sizing:border-box}
+.v21-renewal-boot .boot-scene{position:absolute;inset:0;z-index:0;pointer-events:none}
+.v21-renewal-boot .boot-scene img{display:block;width:100%;height:100%;object-fit:cover;object-position:68% 48%}
+.v21-renewal-boot::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,8,15,.5),transparent 64%),linear-gradient(0deg,#030911 0%,rgba(3,9,17,.85) 8%,transparent 38%)}
+.v21-renewal-boot .boot-topline,.v21-renewal-boot main,.v21-renewal-boot .boot-loading{position:relative;z-index:2}
+.v21-renewal-boot .boot-topline{display:flex;align-items:center;justify-content:space-between;gap:20px;background:none;padding:0;border:0;min-height:40px}
+.v21-renewal-boot .boot-identity{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;letter-spacing:.14em}
+.v21-renewal-boot .boot-identity img{width:38px;height:38px;object-fit:contain}
+.v21-renewal-boot .boot-genre{color:#c4cdd3;font-size:11px;letter-spacing:.12em;text-shadow:0 2px 8px #030911}
+.v21-renewal-boot main{align-self:center;width:min(550px,55%);padding:0 0 24px;margin:0;border:0;background:none;box-shadow:none}
+.v21-renewal-boot .boot-overline{margin:0 0 22px;color:#9ecbd7;font-size:11px;font-weight:700;letter-spacing:.38em}
+.v21-renewal-boot h1{margin:0;color:#f1f5f4;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:clamp(80px,10.2vw,154px);font-style:italic;font-weight:800;line-height:.83;letter-spacing:-.025em;text-shadow:0 6px 35px #02070c66}
+.v21-renewal-boot h1 span{display:block}
+.v21-renewal-boot h1 span+span{color:#acdfe8;margin-top:8px}
+.v21-renewal-boot .boot-tagline{margin:28px 0 0;color:#d4e0e5;font-size:clamp(16px,1.6vw,22px);font-weight:400;letter-spacing:.08em}
+.v21-renewal-boot .boot-loading{width:100%;padding:0;margin:0;background:none;border:0}
+.v21-renewal-boot .boot-statusline{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:12px}
+.v21-renewal-boot .boot-statusline strong{font-size:14px;font-weight:600;letter-spacing:.02em}
+.v21-renewal-boot .boot-statusline>span{font-family:"Barlow Condensed",Arial,sans-serif;color:#9cb9c6;font-size:12px;letter-spacing:.3em}
+.v21-renewal-boot .boot-track{position:relative;width:100%;height:18px;border:0 solid transparent;border-left-width:25px;border-right-width:25px;border-image:url('/assets/ui/loading/reverse-call-20261018/rail.webp') 0 110 fill / 0 25px / 0 stretch;opacity:.9}
+.v21-renewal-boot .boot-track::after{content:"";position:absolute;inset:0 -25px;border:inherit;border-image:inherit;filter:brightness(2.1);mask-image:linear-gradient(90deg,transparent,#000 45%,transparent);mask-size:24% 100%;mask-repeat:no-repeat;animation:reverseCallBootScan 2.4s linear infinite}
+.v21-renewal-boot .boot-footnote{display:flex;justify-content:space-between;gap:16px;margin:12px 0 0;color:#8194a4;font-size:11px;line-height:1.6}
+.v21-renewal-boot .boot-footnote span+span{color:#a4afb9;letter-spacing:.16em}
+body.v21-ui-ready #app{visibility:visible}
+body.v21-ui-ready .v21-renewal-boot{display:none}
+@keyframes reverseCallBootScan{from{mask-position:-35% 0}to{mask-position:135% 0}}
+@media(max-width:640px){.v21-renewal-boot{padding:24px;padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom))}.v21-renewal-boot .boot-scene img{object-position:76% 44%}.v21-renewal-boot::before{background:linear-gradient(90deg,rgba(3,8,15,.58),transparent 100%),linear-gradient(0deg,#030911 0%,rgba(3,9,17,.88) 18%,transparent 56%)}.v21-renewal-boot .boot-genre{display:none}.v21-renewal-boot main{align-self:start;width:100%;padding-top:clamp(42px,10vh,100px)}.v21-renewal-boot h1{font-size:clamp(68px,23vw,126px)}.v21-renewal-boot .boot-overline{font-size:9px;margin-bottom:18px}.v21-renewal-boot .boot-tagline{font-size:16px;margin-top:22px}.v21-renewal-boot .boot-statusline strong{font-size:13px}.v21-renewal-boot .boot-statusline>span{font-size:10px;letter-spacing:.18em}.v21-renewal-boot .boot-track{height:14px}.v21-renewal-boot .boot-footnote{font-size:10px}.v21-renewal-boot .boot-footnote span+span{display:none}}
+@media(max-height:560px) and (min-width:641px){.v21-renewal-boot{padding:22px 40px}.v21-renewal-boot main{padding:18px 0}.v21-renewal-boot h1{font-size:88px}.v21-renewal-boot .boot-overline{margin-bottom:14px}.v21-renewal-boot .boot-tagline{font-size:16px;margin-top:18px}}
+@media(max-height:420px) and (min-width:641px){.v21-renewal-boot{padding:18px 32px}.v21-renewal-boot .boot-topline{min-height:30px}.v21-renewal-boot .boot-identity img{width:28px;height:28px}.v21-renewal-boot main{padding:10px 0}.v21-renewal-boot h1{font-size:64px}.v21-renewal-boot .boot-overline{display:none}.v21-renewal-boot .boot-tagline{font-size:14px;margin-top:14px}.v21-renewal-boot .boot-statusline{margin-bottom:8px}.v21-renewal-boot .boot-statusline strong{font-size:12px}.v21-renewal-boot .boot-footnote{margin-top:8px}}
+@media(max-height:650px) and (max-width:640px){.v21-renewal-boot main{padding-top:28px}.v21-renewal-boot h1{font-size:clamp(64px,22vw,78px)}.v21-renewal-boot .boot-tagline{margin-top:16px}}
+@media(prefers-reduced-motion:reduce){.v21-renewal-boot .boot-track::after{animation:none;mask-position:50% 0;opacity:.45}}
+/* Shared violet gateway with the Windows launcher; boot readiness is unchanged. */
+.v21-renewal-boot{background:#100b1d;color:#f6f1ff}
+.v21-renewal-boot .boot-scene img{object-position:72% 48%}
+.v21-renewal-boot::before{background:linear-gradient(90deg,#100a1d80,transparent 67%),linear-gradient(0deg,#0b0714 0%,#0b0714d4 8%,transparent 38%)}
+.v21-renewal-boot .boot-identity{color:#eee1ff;letter-spacing:.09em}
+.v21-renewal-boot .boot-genre{color:#d2c4e6;text-shadow:0 2px 8px #0b0714}
+.v21-renewal-boot .boot-overline{color:#c1a2ee;letter-spacing:.4em}
+.v21-renewal-boot h1{color:#f8f3ff;text-shadow:0 6px 35px #0b041e66}
+.v21-renewal-boot h1 span+span{color:#cba8ff}
+.v21-renewal-boot .boot-tagline{color:#e1d7ee}
+.v21-renewal-boot .boot-statusline>span{color:#c7a8ed}
+.v21-renewal-boot .boot-track{filter:hue-rotate(65deg)}
+.v21-renewal-boot .boot-footnote{color:#ae99c7}.v21-renewal-boot .boot-footnote span+span{color:#c0add6}
+@media(max-width:640px){.v21-renewal-boot .boot-scene img{object-position:75% 45%}.v21-renewal-boot::before{background:linear-gradient(90deg,#130a2266,transparent),linear-gradient(0deg,#0b0714 0%,#0b0714e0 15%,transparent 62%)}.v21-renewal-boot main{padding-top:clamp(38px,9vh,84px)}}
+@media(max-height:650px) and (max-width:640px){.v21-renewal-boot main{padding-top:28px}}
+
+/* Dimensional English title art; the existing R emblem is unchanged. */
+.v21-renewal-boot main{width:min(620px,55%)}
+.v21-renewal-boot h1{font-size:0;line-height:1;margin:0;letter-spacing:0;transform:none}
+.v21-renewal-boot .boot-title-art{display:block;width:100%;height:auto;object-fit:contain}
+@media(max-width:640px){.v21-renewal-boot main{width:100%}.v21-renewal-boot h1{font-size:0}.v21-renewal-boot .boot-tagline{margin-top:24px}}
+@media(max-height:420px) and (min-width:641px){.v21-renewal-boot main{width:min(360px,47%)}.v21-renewal-boot h1{font-size:0}.v21-renewal-boot .boot-tagline{margin-top:14px}}
+
+
+</style>
+<link rel="stylesheet" href="css/ranked-challenger-v2032.css?v=2032">
+<link rel="stylesheet" href="css/achievement-titles-20260927.css?v=2-gambling-king&asura=20261007&supporterBlueBeast=20261003-title-copy-v2&amp;busDriver=20261005&amp;secretPolice=20261011&amp;administrationTitle=20261012-staff-v4&flagBrigade=20261013">
+<link rel="stylesheet" href="css/collection-bonuses-v1.css?v=20261014-reward1">
+<link rel="stylesheet" href="css/player-card-v2052.css?v=20261011-secret-police1">
+  <link rel="stylesheet" href="css/hyper-pack-v2076.css?v=2134-recover-state&amp;packAuto=20260924-fast">
+<link rel="stylesheet" href="css/pig-coin-hud-v1.css?v=1"><script type="module" src="js/pig-coin-hud-v1.mjs?v=2-draw-quiet"></script>
+  <link rel="stylesheet" href="css/inventory-v2125.css?v=20261001-gift-recovery">
+<script defer src="js/cooperative-battleground-entry.js?v=20261020-owner-energy-v1"></script>
+<script defer src="js/lich-king-raid-entry-v1.js?v=20261016-reveal1"></script>
+<link rel="stylesheet" href="css/miracle-burning-v1.css?v=20260929">
+<link rel="stylesheet" href="css/martial-law-v1.css?v=20261018-v1">
+<script defer src="js/martial-law-v1.js?v=20261018-v1"></script>
+<script defer src="js/miracle-burning-v1.js?v=20261002-ranked"></script>
+  <link rel="stylesheet" href="css/mercenary-limited-shop-v1.css?v=20261006">
+<link rel="stylesheet" href="css/worm-contest-gift-v1.css?v=20261014"><script defer src="js/worm-contest-gift-v1.js?v=20261014"></script>
+<script type="module" src="/js/account-sync-client-v1.mjs"></script>
+<script type="module" src="/js/pvp-request-recovery-v1.mjs"></script>
+<script defer src="/js/image-delivery-map-20261015.js"></script><script defer src="/js/image-delivery-v1.js?v=20261015-v1"></script>
+<link rel="stylesheet" href="css/mercenary-halloween-pack-v2.css?v=20261021-jokro-pack-v1">
+<link rel="stylesheet" href="css/mercenary-bloodmoon-pack-v2.css?v=20261023-blood-pack-v1">
+<link rel="stylesheet" href="/css/legion-hunt-coins-v1.css?v=20261018-v1"><link rel="stylesheet" href="/css/organization-command-20261021.css?v=20261023-clan-identity" data-org-command-style>
+<link rel="stylesheet" href="css/mercenary-shard-craft-v1.css?v=20261025"></head>
+<body class="v21-renewal-required">
+  <div class="v21-renewal-boot" aria-label="게임 로딩 화면">
+    <picture class="boot-scene" aria-hidden="true"><source media="(max-width:640px)" srcset="/assets/ui/loading/reverse-call-purple-20261024/scene-mobile.webp"><img src="/assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp" alt="" width="1672" height="941" fetchpriority="high" decoding="async"></picture>
+    <header class="boot-topline"><div class="boot-identity"><img src="/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent" alt="" width="38" height="38"><span>리버스콜</span></div><span class="boot-genre">카드 수집 · 용병 성장 · 협동 전투</span></header>
+    <main><h1 aria-label="리버스콜 · REVERSE CALL"><img class="boot-title-art" src="assets/ui/loading/reverse-call-purple-20261024/title.webp" alt="REVERSE CALL" width="1200" height="480" fetchpriority="high" decoding="async"></h1><p class="boot-tagline">다시, 전장으로.</p></main>
+    <footer class="boot-loading"><div class="boot-statusline"><strong role="status" aria-live="polite">게임을 불러오고 있습니다</strong><span aria-hidden="true">LOADING</span></div><div class="boot-track" role="progressbar" aria-label="게임 로딩 중"></div><p class="boot-footnote"><span>잠시만 기다려 주세요.</span><span aria-hidden="true">REVERSE CALL</span></p></footer>
+  </div>
+  <div id="app"></div>
+  <link rel="stylesheet" href="css/black-miracle-v1485.css?v=1926-black-miracle-pick&amp;packAuto=20260924-fast">
+  <script defer src="js/runtime-performance-v1727.js?v=20260928-detached-cleanup"></script>
+  <script defer src="js/responsive-card-images-v1729.js?v=1729-responsive-card-images"></script>
+  <script defer src="js/responsive-battle-sprites-v1803.js?v=1845-zenith-bongsun-sd"></script>
+  <script defer src="js/responsive-superstar-battle-sprites-v1896.js?v=1922-superstar-haaland-sd"></script>
+  <script defer src="js/responsive-battle-sprites-v1815.js?v=2060-nonblocking-fx&amp;sd=20260919-bongsoon-armed&amp;coup=2115"></script>
+  <script defer src="js/organization-preparation-v1.js?v=20261023-clan-identity"></script>
+  <script defer src="js/clan-v1.js?v=20261025-wed-sat-sun&clanRestore=20261025&clanResume=20261025&factionPoll=20261025-v1"></script>
+  <script defer src="js/card-visibility-v1908.js?v=2001-gamst-global-retirement"></script>
+  <link rel="stylesheet" href="css/bulk-enhancement-v1899.css?v=1899-bulk-enhancement">
+  <script defer src="js/bulk-enhancement-v1899.js?v=1941-superstar-pack-early-access"></script>
+  <script defer src="js/black-miracle-opening-v1926.js?v=1926-black-miracle-pick&amp;packAuto=20260924-fast"></script>
+  <script defer src="js/card-unique-advancement-v1.js?v=2043-advancement-pass"></script>
+  <script defer src="js/player-card-v2052.js?v=2122-account-rank&amp;duo=20260925-4&amp;achievementTitles=20260927&amp;prediction=20261008-300t&amp;trophies=20261023-milestones1"></script>
+  <link rel="stylesheet" href="css/new-user-gift-v2075.css?v=2075">
+  <script defer src="js/new-user-gift-v2075.js?v=20261022-gift-v4-gbody"></script>
+  
+  
+  <link rel="stylesheet" href="css/prison-hunger-20261005.css?v=20261005-1">
+  <link rel="stylesheet" href="css/prison-layout-20261006.css?v=20261011-secret-police">
+  <link rel="stylesheet" href="css/coup-palace-v2115.css?v=2120-recruit-label-20260920">
+  <link rel="stylesheet" href="css/coup-chief-skills-v2118.css?v=2123-air-support-20261002">
+  <script defer src="js/jokgak-city-v1.js?v=20261024-gang-counter1"></script>
+  <script defer src="js/coup-palace-v2115.js?v=2123-air-support-20261002"></script>
+  
+  
+  <script defer src="js/prison-hunger-20261005.js?v=20261005-1"></script>
+  <link rel="stylesheet" href="css/magic-workbench-v1.css?v=20261004-s2-master-star">
+  <script defer src="js/magic-workbench-v1.js?v=20261004-s2-master-star"></script>
+<link rel="stylesheet" href="css/funding-gift-v1.css?v=20260929"><script defer src="js/funding-gift-v1.js?v=20260929-contents-v2"></script>
+<link rel="stylesheet" href="css/recruitment-gift-v1.css?v=20260929"><script defer src="js/recruitment-gift-v1.js?v=20260929"></script>
+<link rel="stylesheet" href="css/tournament-gift-v1.css?v=20260926"><script defer src="js/tournament-gift-v1.js?v=20260926"></script>
+<link rel="stylesheet" href="css/icon-roles-v1.css?v=20261005-fur15-v1"><link rel="stylesheet" href="css/icon-fusion-v1.css?v=20261016-bongsoon-icon-v1"><script defer src="js/icon-fusion-v1.bundle.js?v=20261024-enhancement-v1"></script>
+<script defer src="js/chief-prison-v1.js?v=20261006"></script>
+<script defer src="js/ranked-series-ui-v1.js?v=20261019-1"></script>
+<link rel="stylesheet" href="css/ranked-series-v1.css?v=20261019-2-wide">
+<script defer src="js/app.js?v=prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261026-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1&amp;bloodPack=20261023-v1&amp;kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&amp;jokgakCity=20261011-jobs1&amp;petLayout=20261009&amp;limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&amp;soopketland=20261020-daily10&amp;chiefPrison=20261006&amp;limitedVisuals=20261004-approved&amp;clanAvatars=20261001&amp;lgAyoon=20261003&amp;hanwhaDiim=20261003&amp;coop=20261005-readable-v4&amp;lgHeeya=20260930&amp;goldenAxe=20260918&amp;prime=20260917-skill-chips&amp;cowPortal=20260913&amp;mercenary=2100&amp;hyper=2145-acquisition-video&amp;projectiles=2106&amp;operations=20260925-duo&amp;furHigh=2114&amp;sd=20260919-bongsoon-armed&amp;coup=2115&amp;pveEntry=2119&amp;heeya=2118&amp;assembly=2120&amp;entry=2121&amp;prediction=20260926-5b&amp;accountRank=20261008&amp;suits=2124&amp;inventory=20261023-pumpkin-choice&amp;rankPotions=20261020-v1&amp;recruitmentGift=20260929&amp;pingduThanksGift=20261002&amp;flow=2126&amp;clanFaction=20261001-session-rewards&amp;coupStatus=20260920&amp;pigMessage=2130&amp;rewardMeta=20260929-funding-gift&amp;omegaMessage=20260927&amp;equipmentLoading=20260918&amp;zSword=20260918&amp;clanLineup=20260918&amp;zDash=2&amp;zFx=20260926&amp;combatFx=20260927&amp;huntFix=1&huntDuration=20260926&amp;suitName=20260918&amp;landRewards=20261020-fivefold&amp;apocalypseLegion=20261003-shanks-shisui&amp;mangisa=20260919&amp;ragniel=20260919&amp;bikiniJoeun=20260921&amp;heukwol=20260922&amp;draw=20260922-weighted&amp;apiFlow=2122&amp;drawPerf=20260919&amp;challenger=20&amp;weeklyRaid=20261008-v2&amp;magicPresets=20260922&amp;workshop=20260922&amp;scrapRecovery=20260923&amp;chuseok=20260923&amp;policeRestraint=20260923&amp;enhanceGlow=20261019-original-rollback&amp;packAuto=20260924-fast&amp;dexPerf=20260924&amp;packResponse=20260924&questHub=20261009-weekly&amp;hyperAuto=20260924-store-refresh&amp;deathGame=20260928-stable&amp;resultIdle=20260928-corpse&cryvern=20261004-clean-aura&amp;workshopLoading=20261021-entry-recovery&amp;materialBatch=20260928&amp;icon=20260930&amp;duo=20261020-start2&amp;auction=20260926-bgm-bids&amp;sniperOrikkung=20260926&amp;nurseHealers=20260927&amp;berkan=20260930-scale-live&amp;achievementTitles=20260927&amp;xBody=20260928-skill-order&amp;overlord=20261005-motion-v4&amp;sx=20261007-2x-v1&amp;sxCamera=20261008-v3&amp;sBodyAssembly=20260928&amp;zBodyAssembly=20261006&amp;equipmentCraft=20260928&amp;miracle=20260929&amp;sBodyPayment=20260930&amp;iconFusion=20260930&amp;lichFx=20261001&amp;retired=20261001&amp;axeReopen=20261002&cubeRemoval=20261003&amp;miracleCube=20261003-v1&amp;sssMiracleCube=20261021-v1&amp;supporterBlueBeast=20261003-title-copy-v2&amp;busDriver=20261005&lichMessage=20261003&amp;territoryFx=20261003-v1&amp;iconRoles=20261005-fur15-v1&amp;suggestions=20261005&amp;prisonHunger=20261005&amp;prisonLayout=20261006&amp;drillMessage=20261006&amp;limitedMixed=20261010-precision&amp;superstarBatch=20261007-results&amp;pveReform=20261008&legionRegions=20261008&amp;loadoutModes=20261009&amp;suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&amp;accountSync=20261015-v1&cheolguBalance=20261017-v1&amp;hudB=20261017-v1&kaironStock=20261018&retired=20261019&amp;ssBalance=20261019-v2&amp;packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&amp;towerAbyss=20261021-v1&sigHunter=20261022&amp;towerClock=20261022-v1&amp;towerStatus=20261022-v1&amp;lootShopRecovery=20261023-v1&amp;clanIdentity=20261023-v1&amp;iconEnhancement=20261024-v1&amp;namsudaeng=20261024-v1&octaFlight=20261024-v1&amp;awakenedOmega=20261024-v1&razak=20261026-priority-v5&threeSkills=20261026-v1&primeZeroPriority=20261026-v1&amp;mercenaryReveal=20261025-v6&amp;primeMaterial=20261025-v1&amp;deployment=20261025-eunseol-bloodmoon&amp;limitedShardCraft=20261025-v1"></script>
+  <script defer src="js/escort-operation-v1830.js?v=1883-escort-claim-recovery"></script>
+  <script defer src="js/pve-nightmare-v1692.js?v=1800-nightmare-actual-target"></script>
+  <script defer src="js/pve-apocalypse-v1952.js?v=1952-apocalypse-pve&amp;suggestions=20261005&amp;completion=20261005-attempt-owner"></script>
+  <link rel="stylesheet" href="css/breakthrough-auto-v1616.css?v=1616">
+  <script defer src="js/breakthrough-auto-v1616.js?v=1862-card-profile-v2"></script>
+  <script defer src="js/queen-coronation-v1.js?v=20261005-general"></script>
+  <script defer src="js/chief-system-v1.js?v=20261006-prison"></script>
+  <link rel="stylesheet" href="css/chief-extension-notice-v1.css?v=20261011">
+  <script defer src="js/chief-extension-notice-v1.js?v=20261011"></script>
+  <script defer src="js/lobby-bgm-v1803.js?v=20261008-ost-playlist"></script>
+  <link rel="stylesheet" href="css/zenith-v1.css?v=1781-duplicate-ledger">
+  <link rel="stylesheet" href="css/superstar-v1.css?v=2051-superstar-duplicates">
+  <link rel="stylesheet" href="css/faker-card-v1.css?v=9-t1-mark-balanced">
+  <link rel="stylesheet" href="css/core-protocol-raid-v1924.css?v=2074-clan-only&weekly=2112">
+  <!-- v1789: 빛기둥 차단. 반드시 모든 스타일시트 뒤에 온다.
+       동적 주입 CSS(soopketmon-v21-exact-luxury.css)에 두면 라우트/타이밍에 따라 새어 나간다. -->
+  <link rel="stylesheet" href="css/no-light-beams-v1789.css?v=1789-no-light-beams">
+  <link rel="stylesheet" href="css/breakthrough-tier-v1802.css?v=20261002-fur14-15">
+  <link rel="stylesheet" href="css/card-profile-v2.css?v=1863-card-profile-mobile-scroll">
+  <link rel="stylesheet" href="css/card-unique-advancement-v1.css?v=1939-advancement-awakening">
+  <link rel="stylesheet" href="css/pve-command-v2.css?v=2098-hyper-codex&amp;suggestions=20261005">
+  <link rel="stylesheet" href="css/information-architecture-v1880.css?v=1880-navigation-deck-rules">
+  <link rel="stylesheet" href="css/superstar-pack-v1894.css?v=20261007-ten-results">
+  <script defer src="js/pwa-install.js?v=1727-split-cache-no-force-reload"></script>
+  <script defer src="js/pwa-wake-lock.js?v=1600-app-screen-awake"></script>
+  <script defer src="js/territory-artillery-fx-20261003.js?v=20261013-renewal1"></script>
+  <script defer src="js/territory-battlefield-v5.js?v=20261022-vote15&amp;network=20261011-v6&amp;teamComms=20261011"></script>
+  <script defer src="js/territory-network-v6.js?v=20261011-art2"></script>
+  <script defer src="js/territory-formation-20261013.js?v=3"></script>
+  <script defer src="js/territory-vote-alert-v1.js?v=20261022-vote15"></script>
+  <script defer src="js/territory-war-v1811.js?v=2062-my-team-emphasis&formation=20261013-v3&battlefield=20261022-vote15&amp;network=20261011-v6&amp;votes=20261013-vote-alert-compact&amp;stateRecovery=20261015-v1"></script>
+  <script defer src="js/raid-overhaul-v1293.js?v=1415-performance-hotpath&cubeRemoval=20261003"></script>
+  <link rel="stylesheet" href="css/raid-weekly-bosses-v2140.css?v=2140">
+  <link rel="stylesheet" href="css/world-raid-combat-v2.css?v=20261008">
+  <script type="module" src="js/world-raid-combat-v2.mjs?v=20261008"></script>
+  <script defer src="js/seal-battle.js?v=20260922-reward-attempts&masterStar=20260925&cubeRemoval=20261003&sealRework=20261021-v1&sealDragon=20261022-v1&sealOrbs=20261022-v1&sealLayout=20261022-v2&sealMercenary=20261022-v1"></script>
+  <link rel="stylesheet" href="css/evolution-v2035.css?v=2045-mobile-perf">
+  <script defer src="js/evolution.js?v=2045-selection-perf"></script>
+  <script defer src="js/tower-abyss-ui.js?v=20261022-clock-auto-next-v1"></script>
+  <script defer src="js/tower-v1038.js?v=2098-hyper-codex&amp;forge=20260922&cubeRemoval=20261003&amp;abyss=20261022-clock-auto-next-v1"></script>
+<!-- V1050 simultaneous user/boss ultimate ordering fix -->
+    <script defer src="js/unified-drop-cinematic-v1750.js?v=1755-card-equipment-drop"></script>
+  <script defer src="js/vehicle-draw-v1388.js?v=1726-result-class-fix&overlap=20260919"></script>
+  <script defer src="js/pve-command-v2-live.js?iconFloor=20261005&coop=20261002-hp-sync-v1&v=2110-combat-lobby&suitDefense=20261003&flow=2126&legion=2127&hunt=20260928-modes-rewards&amp;miracle=20260929&amp;icon=20260930&amp;retired=20261001&amp;suggestions=20261005&amp;loadoutModes=20261009&retired=20261019"></script>
+  <link rel="stylesheet" href="css/legion-hunt-entry-v2.css?v=20261008-regions"><script type="module" src="js/legion-hunt-entry-v1.mjs?mobileMemory=20261024-v1&v=20261023-equipment-balance-v1&amp;mercGear=20261011&amp;retired=20261001"></script>
+  <link rel="stylesheet" href="css/raid-qte-mobile-v2085.css?v=2085">
+  <link rel="stylesheet" href="css/core-raid-screen-qte-v2086.css?v=2086"><script defer src="js/project-v-raid-qte-v1924.js?v=2086-random-two"></script>
+<script defer src="js/core-protocol-raid-v1924.js?v=20260922-abandon-defeat&amp;madara=20261011-live1&amp;blackwing=20261024-test1&weekly=2112&pig=2&rewards=20260925-live&lich=20261003-coop-feedback&coop=20261002-hp-sync-v1"></script>
+  <link rel="stylesheet" href="css/streamer-lounge-v2036.css?v=2038-station-only" />
+  <link rel="stylesheet" href="css/cnine-roster-v1.css?v=20261026-v2" />
+  <script type="module" src="js/streamer-lounge-v2036.js?v=20261026-cnine-roster-v2"></script>
+  <script defer src="js/adventure-lobby-v2107.js?cnineRoster=20261026-v2&amp;growthGuide=20261024-1&amp;mercenaryCommand=20261021-grouped&amp;chiefHeader=20261019-v1&amp;world=20261018-expansion-v1&amp;defense=20261020-rewards-v1&amp;organization=20261023-clan-identity&amp;favorites=20261013-v1&amp;coopMenu=20261013-v1&amp;armory=20261012-menu1&amp;support=20261025-package-bogo-deadline-v1&amp;jokgakCity=20261010-city4&amp;accountRank=20261008&amp;v=2108-shared-navigation&amp;coup=2115&amp;loot=20260915&amp;clanLineup=20260918&amp;mercenary=2133&amp;workshop=20260922&amp;chuseok=20260923&amp;questHub=20261009-weekly&amp;menu=20260925-2&amp;queen=20260928&amp;general=20261005&amp;retired=20261001&amp;axeReopen=20261002&amp;mine=20261003&amp;chicken=20261008&amp;petCodex=20261009&amp;passCatchup=20261017-v1&retired=20261019"></script>
+  <script defer src="js/soopketmon-v21-exact-shell-adapter.js?mercenaryCommand=20261021&amp;elders=20261019&amp;defense=20261016-test1&amp;organization=20261023-clan-identity&amp;coopMenu=20261013-v1&amp;jokgakCity=20261010-city4&amp;v=2108-shared-navigation&amp;goldenAxe=20260918&amp;coup=2115&amp;loot=20260915&amp;clanLineup=20260918&amp;magicDraft=20260922&amp;workshop=20260922&amp;chuseok=20260923&amp;questHub=20261009-weekly&amp;duo=20260925&amp;queen=20260928-detail&amp;general=20261005&amp;icon=20260930&amp;retired=20261001&amp;axeReopen=20261002&amp;mine=20261003&amp;chicken=20261008&amp;petCodex=20261009&retired=20261019&clanRestore=20261025"></script>
+  <script defer src="js/soopketmon-v21-runtime-router.js?defense=20261016-test1&amp;coopMenu=20261013-v1&amp;jokgakCity=20261010-city4&amp;v=2083-clan-prison-camp&amp;coup=2115&amp;clanLineup=20260918&amp;magicDraft=20260922&amp;duo=20260925&amp;workshopLoading=20260927&amp;materialBatch=20260928&amp;icon=20260930&amp;retired=20261001&retired=20261019"></script>
+  <script defer src="js/soopketmon-v21-command-icons.js?v=1.5.0-mercenary-codex"></script>
+  <script defer src="js/soopketmon-v21-login-shop-adapter.js?v=21.4.2-ultimate-bulk-20261025"></script>
+  <script defer src="js/soopketmon-v21-draw-purchase-controller.js?v=21.6.0-d1-backpressure"></script>
+<script defer src="js/soopketmon-v21-rewards-presentation.js?v=21.4.2-message-cleanup"></script>
+<script type="module" src="js/pve-v3-navigation.mjs?v=2110-combat-lobby&amp;pveEntry=2119&amp;heeya=2118&amp;cowResult=20260929&amp;retired=20261001&amp;pveReform=20261008"></script><script type="module" src="js/mercenary-pack-live.mjs?v=2145-acquisition-video&amp;draw=20260922-weighted&amp;auto=20260924-response&amp;sync=20261015-v1"></script>
+<link rel="stylesheet" href="css/mercenary-deck-slot.css?v=2097&amp;mercGear=20261011"><script type="module" src="js/mercenary-deck-slot.mjs?v=2133&amp;mercGear=20261011&amp;loadoutModes=20261009"></script>
+<link rel="stylesheet" href="css/pet-equipment-v1.css?v=heukgu-large-head-20261025-v3-20261006-pet-live-v1"><script type="module" src="js/pet-deck-slot-v1.mjs?v=20261014-reward1"></script>
+<link rel="stylesheet" href="css/combat-lobby-v2110.css?v=2110-combat-lobby">
+<link rel="stylesheet" href="css/lobby-burning-status-v2111.css?v=2111-burning">
+<link rel="stylesheet" href="css/account-rank-v1.css?v=2122"><script type="module" src="js/account-rank-v1.mjs?rosterRank=20261014&v=2122&amp;benefits=20261008&amp;retired=20261001"></script>
+<script defer src="js/madara-raid-entry-v1.js?v=20261021-varsen1"></script>
+<script defer src="js/blackwing-raid-entry-v1.js?v=20261024-hilt-short1"></script>
+</body>
+</html>

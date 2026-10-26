@@ -1,0 +1,195 @@
+import {REWARD_BONUS_LABELS} from '/shared/collection-bonuses-v1.mjs?v=20261014-reward1';
+import {petBuffIcon} from '/js/pet-buff-fx-v1.mjs?v=20261003';
+import {jointAccountRequest,jointAdminRequest} from '/js/joint-account-transport.mjs';
+
+const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const imagePath=value=>typeof value==='string'&&/^\/?assets\/[A-Za-z0-9_./-]+\.(png|webp)$/i.test(value)&&!value.includes('..')?'/'+value.replace(/^\//,''):'';
+const icons={paw:'<ellipse cx="6" cy="7" rx="2" ry="2.7"/><ellipse cx="11" cy="4.8" rx="2" ry="2.7"/><ellipse cx="16" cy="5.8" rx="2" ry="2.7"/><ellipse cx="20" cy="10" rx="1.8" ry="2.5"/><path d="M6 15c2-1 3-5 6-5s4 3 6 5c3 4 0 7-3 6l-4-1-3 1c-4 1-6-3-2-6Z"/>',arrow:'<path d="M4 12h16m-6-6 6 6-6 6"/>',refresh:'<path d="M20 8a8 8 0 1 0 .5 7M20 3v5h-5"/>',check:'<path d="m5 12 4 4L19 6"/>',close:'<path d="m6 6 12 12M18 6 6 18"/>',remove:'<path d="M5 12h14"/><circle cx="12" cy="12" r="9"/>',buff:'<path d="m13 2-9 12h7l-1 8 10-13h-7Z"/>',shield:'<path d="m12 3 8 3v6c0 4-5 8-8 9-3-1-8-5-8-9V6Z"/><path d="m8 12 3 3 5-6"/>'};
+export const petUiIcon=name=>`<svg class="pe-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${icons[name]||icons.paw}</svg>`;
+let activeDialog=null;
+
+export function mountPetEquipment(root,{review=false,codex=false,request=review?jointAdminRequest:jointAccountRequest}={}){
+  let state=null,selected=null,busy=false,pending=null,pendingPotential=null,lastPotential=null,needsRefresh=false,disposed=false,controller=null;
+  let support=null,pendingSupport=null,supportError='',supportOffset=0,supportIdentity='';
+  const identity=()=>{try{return localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';}catch{return '';}};
+  const supportKey=()=>`cnine_support_pet_pending_v1:${state?.userId}`;
+  const supportActive=()=>support&&!support.previewOnly&&support.subscription?.active&&support.subscription.endsAt>Date.now()+supportOffset;
+  const potentialKey=()=>`cnine_pet_potential_pending_v1:${state?.userId}`;
+  const endpoint=review?'admin/pets/equipment/':'pets/v1/';
+  if(!document.querySelector('[data-collection-bonus-css]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/collection-bonuses-v1.css?v=20261014-reward1';link.dataset.collectionBonusCss='';document.head.append(link);}
+  root.classList.add('pet-equipment');if(codex)root.classList.add('pet-codex');
+  let filter='all',query='';
+  root.innerHTML=`<header class="pe-heading"><div class="pe-heading-title"><span class="pe-heading-icon">${petUiIcon('paw')}</span><div><span class="pe-eyebrow">지원 편성</span><h1>${codex?'펫 도감':'펫 장착'}</h1><p>${codex?'모든 동료의 모습과 버프, 나의 수집 현황을 확인하세요.':'함께할 동료를 선택하고 시작 버프를 확인하세요.'}</p></div></div><div class="pe-capacity"><span>펫 지원 슬롯</span><b><i data-pet-equipped-count>0</i><em>/ 1</em></b></div></header>
+    ${codex?'<section class="pe-codex-tools" aria-label="도감 검색"><div class="pe-codex-progress"><strong data-codex-progress>수집 현황</strong><progress data-codex-meter value="0" max="1" aria-label="펫 수집 현황"></progress></div><label>펫 검색<input type="search" data-codex-search placeholder="이름 · 동물 · 버프" aria-label="펫 검색"></label><div class="pe-codex-filters" role="group" aria-label="보유 필터"><button type="button" data-codex-filter="all" aria-pressed="true">전체</button><button type="button" data-codex-filter="owned" aria-pressed="false">보유</button><button type="button" data-codex-filter="missing" aria-pressed="false">미보유</button></div></section>':''}
+    <p class="pe-notice" data-pet-notice hidden></p>
+    <div class="pe-workspace"><section class="pe-collection"><div class="pe-collection-head"><h2 data-pet-collection-title>보유 펫</h2><span data-pet-count></span></div><div class="pe-grid" data-pet-grid aria-label="펫 선택"></div><p class="pe-collection-note">펫은 별도 지원 슬롯에<br>한 마리만 장착할 수 있습니다.</p></section>
+    <section class="pe-stage" aria-label="선택한 펫 일러스트"><div class="pe-stage-environment" aria-hidden="true"></div><div class="pe-stage-top"><span>선택한 동료</span><span class="pe-stage-state" data-pet-stage-state>선택 대기</span></div><div class="pe-stage-floor" aria-hidden="true"></div><div data-pet-art></div><div class="pe-stage-caption" data-pet-caption></div></section>
+    <aside class="pe-inspector"><section class="pe-equipped" aria-label="현재 장착한 펫"><div class="pe-equipped-head"><h2>장착 슬롯</h2><span>01</span></div><div data-pet-equipped></div><button type="button" class="pe-button pe-button-quiet" data-pet-unequip disabled>${petUiIcon('remove')}<span>장착 해제</span></button></section><section class="pe-detail" data-pet-detail aria-label="펫 상세"></section></aside></div>
+    <footer class="pe-footer"><div class="pe-save-state">${petUiIcon('shield')}<p data-pet-status role="status" aria-live="polite">펫 정보를 불러오고 있습니다.</p></div><div class="pe-footer-actions"><button type="button" class="pe-button pe-button-secondary" data-pet-refresh>${petUiIcon('refresh')}<span>새로고침</span></button><button type="button" class="pe-button pe-primary" data-pet-equip disabled><span>펫을 선택하세요</span>${petUiIcon('arrow')}</button></div></footer>`;
+  const $=selector=>root.querySelector(selector),pet=()=>state?.cards?.find(row=>row.code===selected),equipped=()=>state?.cards?.find(row=>row.code===state.loadout?.petCode);
+  function status(message,error=false){$('[data-pet-status]').textContent=message;$('[data-pet-status]').classList.toggle('pe-error',error);}
+  function sync(){
+    const locked=busy||Boolean(pending)||Boolean(pendingPotential)||Boolean(pendingSupport)||needsRefresh,row=pet();
+    root.setAttribute('aria-busy',String(busy));
+    $('[data-pet-equip]').disabled=busy||!!pendingPotential||!!pendingSupport||needsRefresh||!state?.canEquip||(!pending&&(!row||!row.owned||row.code===state.loadout?.petCode));
+    const isEquipped=Boolean(row&&row.code===state?.loadout?.petCode),label=pending?'장착 결과 재확인':isEquipped?'장착 중':row&&!row.owned?'미보유 펫':row?`${row.name} 장착`:'펫을 선택하세요';
+    $('[data-pet-equip]').innerHTML=`<span>${esc(label)}</span>${petUiIcon(busy?'refresh':isEquipped?'check':'arrow')}`;
+    $('[data-pet-equip]').dataset.processing=String(busy);
+    $('[data-pet-unequip]').disabled=locked||!state?.canEquip||!state.loadout?.petCode;
+    $('[data-pet-refresh]').disabled=busy||Boolean(pending)||Boolean(pendingPotential)||Boolean(pendingSupport);
+    const attemptButton=$('[data-pet-potential-attempt]');if(attemptButton){attemptButton.disabled=busy||Boolean(pending)||Boolean(pendingSupport)||needsRefresh||(!pendingPotential&&(!row?.owned||row.potential==='MAGNET'||!state?.potential?.settings.enabled||state?.potential?.settings.successPpm===null||state?.potential?.potion.quantity<1));attemptButton.textContent=busy?'도전 결과 확인 중…':pendingPotential?'도전 결과 재확인':row?.potential==='MAGNET'?'자석 잠재력 획득 완료':'물약 1개로 도전';}
+    const supportButton=$('[data-pet-support-magnet]');if(supportButton){
+      const applied=supportActive()&&support.subscription.magnetPetCode===row?.code;
+      supportButton.disabled=busy||Boolean(pending)||needsRefresh||(!pendingSupport&&(Boolean(pendingPotential)||!supportActive()||!row?.owned||row.potential==='MAGNET'||applied));
+      supportButton.textContent=busy?'적용 결과 확인 중…':pendingSupport?'자석 적용 결과 재확인':!supportActive()?'시즌패스 기간 종료':!row?.owned?'보유한 펫만 적용 가능':applied?'이 펫에 적용 중':row.potential==='MAGNET'?'영구 자석 보유 중':'이 펫에 시즌패스 자석 적용';
+    }
+    root.querySelectorAll('[data-pet-select]').forEach(button=>button.disabled=locked||(!codex&&!state?.canEquip));
+  }
+  function render(){
+    const row=pet(),current=equipped(),notice=$('[data-pet-notice]');notice.hidden=!state?.reviewOnly;notice.innerHTML='<b>OWNER 검수</b><span>검수용 펫의 선택만 저장합니다. 실제 보유·편성·전투에는 적용되지 않습니다.</span>';
+    $('[data-pet-equipped-count]').textContent=current?'1':'0';
+    $('[data-pet-stage-state]').textContent=row&&row.code===state?.loadout?.petCode?'장착 중':row?row.owned?'미리보기':'미보유':'선택 대기';
+    const currentImage=imagePath(current?.sourceArt||current?.battleSprite);
+    $('[data-pet-equipped]').innerHTML=`<span class="pe-equipped-portrait">${currentImage?`<img src="${esc(currentImage)}" alt="">`:petUiIcon('paw')}</span><div><small>${current?'함께하는 동료':'지원 슬롯 비어 있음'}</small><strong>${esc(current?.name||'빈 지원 슬롯')}</strong><span>${current?'전투 시작 지원':'아래 장착 버튼으로 편성하세요'}</span></div>`;
+    const art=imagePath(row?.sourceArt||row?.battleSprite);
+    $('[data-pet-art]').innerHTML=art?`<img class="pe-hero" src="${esc(art)}" alt="${esc(row.name)} 펫 일러스트"><span class="pe-art-error" hidden>일러스트를 불러오지 못했습니다.</span>`:`<div class="pe-stage-empty">${petUiIcon('paw')}<p>${state?.available?'함께할 펫을 선택하세요':'새로운 동료를 준비하고 있어요'}</p></div>`;
+    $('[data-pet-caption]').innerHTML=row?`<span>${esc(row.animal||'동료')}</span><strong>${esc(row.name)}</strong><small>${row.reviewOwned?'검수용 보유':row.owned?'보유 '+row.quantity+'마리':'미보유 · 도감 미리보기'}</small>`:'<strong>새로운 동료를 기다리며</strong><small>펫 지원 슬롯 · 1마리</small>';
+    $('[data-pet-detail]').innerHTML=row?`<div class="pe-detail-heading"><span class="pe-eyebrow">동료 정보</span><h2>${esc(row.name)}<small>${esc(row.animal||'동료')}</small></h2><p>${esc(row.description||'전투 시작에 등장해 아군을 지원합니다.')}</p></div><div class="pe-buff-title">${petUiIcon('buff')}<h3>시작 버프</h3><span>1회</span></div><ul class="pe-buff-list">${row.buffs?.length?row.buffs.map(buff=>`<li><span class="pe-buff-label">${petBuffIcon(buff.type)}${esc(state.buffTypes?.[buff.type]||buff.type)}</span><b class="${buff.percent===null?'pe-value-pending':''}">${buff.percent===null?'미정':`${esc(buff.percent)}%`}</b></li>`).join(''):'<li><span>버프 설정 대기</span><b class="pe-value-pending">미정</b></li>'}</ul><div class="pe-buff-title pe-reward-title">${petUiIcon('buff')}<h3>장착 보너스</h3><span>${row.rewardBonusesActive===false?'미적용':row.owned&&row.code===state.loadout?.petCode?'적용 중':'장착 시'}</span></div><ul class="pe-buff-list">${Object.entries(REWARD_BONUS_LABELS).map(([key,label])=>`<li><span>${label}</span><b>+${esc(row.rewardBonuses?.[key]??0)}%</b></li>`).join('')}</ul><p class="pe-reward-note">계정 레벨 경험치 · 트로피 보유 효과와 합산<br>0%는 미적용이며, 기존 보상 한도를 유지합니다.</p><dl class="pe-support-info"><div><dt>적용 대상</dt><dd>${esc(state.buffTargets?.[row.target]||'설정 대기')}</dd></div><div><dt>사용 모드</dt><dd>${row.modes?.length?row.modes.map(mode=>`<span class="pe-mode">${mode==='PVE'?'PvE':'PvP'}</span>`).join(''):'설정 대기'}</dd></div></dl><p class="pe-help">${row.ready?.length?'전투 시작 시 1회 적용합니다.':'전투 SD·시작 버프 설정을 준비하고 있습니다.'}</p>`:`<div class="pe-detail-empty"><span class="pe-eyebrow">전투 시작 지원</span><h2>${state?.available?'함께할 동료 선택':'펫 시스템 준비 중'}</h2><p>${esc(state?.available?'목록에서 펫을 선택하면 일러스트와 시작 버프를 확인할 수 있습니다.':state?.message||'잠시만 기다려 주세요.')}</p><div class="pe-buff-title">${petUiIcon('buff')}<h3>전투 시작 지원</h3><span>1회</span></div><p class="pe-help">펫은 별도 지원 슬롯에 한 마리 장착합니다.</p></div>`;
+    $('[data-pet-collection-title]').textContent=codex?'펫 목록':state?.reviewOnly?'구구가가 보관함':'보유 펫';
+    $('[data-pet-count]').textContent=`${state?.cards?.length||0}${codex?'종':'마리'}`;
+    const cards=(state?.cards||[]).filter(p=>(filter==='all'||(filter==='owned'?p.owned:!p.owned))&&(!query||[p.name,p.animal,...p.buffs.map(b=>state.buffTypes?.[b.type]||'')].join(' ').toLowerCase().includes(query)));
+    if(codex){$('[data-codex-progress]').textContent='수집 '+(state?.ownedCount||0)+' / '+(state?.cards?.length||0)+'종';$('[data-codex-meter]').max=state?.cards?.length||1;$('[data-codex-meter]').value=state?.ownedCount||0;root.querySelectorAll('[data-codex-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.codexFilter===filter)));}
+    $('[data-pet-grid]').innerHTML=cards.length?cards.map(card=>{
+      const source=imagePath(card.sourceArt||card.battleSprite),active=card.code===selected,worn=card.code===state.loadout?.petCode;
+      return `<button type="button" class="pe-card ${active?'pe-selected':''}" data-pet-select="${esc(card.code)}" aria-pressed="${active}" aria-label="${esc(card.name)} 선택"><span class="pe-card-art">${source?`<img src="${esc(source)}" alt="" loading="lazy">`:petUiIcon('paw')}</span><span class="pe-card-identity"><strong>${esc(card.name)}</strong><small>${worn?'장착 중':card.reviewOwned?'검수용 보유':card.owned?'보유 '+card.quantity+'마리':'미보유'}</small></span><span class="pe-card-indicator" aria-hidden="true">${petUiIcon(worn?'check':'arrow')}</span></button>`;
+    }).join(''):'<p class="pe-empty-collection">'+(codex?'검색 조건에 맞는 펫이 없습니다.':'아직 보유한 펫이 없습니다. 펫 봉인구 개봉 후 장착할 수 있습니다.')+'</p>';
+    if(codex&&!review&&(supportActive()||pendingSupport||supportError)){
+      const currentMagnet=state?.cards?.find(p=>p.code===support?.subscription?.magnetPetCode),endsAt=support?.subscription?.endsAt;
+      $('[data-pet-detail]').insertAdjacentHTML('beforeend',`<section class="pe-pass-magnet" aria-label="시즌패스 펫 자석"><div class="pe-pass-magnet-head">${petUiIcon('shield')}<div><span class="pe-eyebrow">시즌패스 혜택</span><h3>펫 자석 바로 적용</h3></div><b>물약 소모 없음</b></div>${supportError?`<p class="pe-error">${esc(supportError)}</p>`:`<p>보유한 펫 한 마리에 기간제 자석을 적용합니다.<br>다른 펫을 선택해 언제든 옮길 수 있습니다.</p><dl><div><dt>현재 적용</dt><dd>${esc(supportActive()?currentMagnet?.name||'선택 전':'기간 종료')}</dd></div>${endsAt?`<div><dt>이용 종료</dt><dd><time datetime="${esc(new Date(endsAt).toISOString())}">${esc(new Date(endsAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time></dd></div>`:''}</dl>`}${supportActive()||pendingSupport?'<button type="button" class="pe-button" data-pet-support-magnet>이 펫에 시즌패스 자석 적용</button>':''}<small>${supportError?'아래 새로고침으로 혜택 정보를 다시 확인하세요.':'선택한 펫을 장착하고 새 군단토벌에 입장하면 자동 수집합니다. 이용 기간이 끝나면 기간제 자석만 종료되며 영구 잠재력은 유지됩니다.'}</small></section>`);
+    }
+    if(row?.owned&&!state.reviewOnly&&state.potential){
+      const potential=state.potential,chance=potential.settings.successPpm===null?'설정 대기':(potential.settings.successPpm/10000).toLocaleString('ko-KR',{maximumFractionDigits:4})+'%';
+      $('[data-pet-detail]').insertAdjacentHTML('beforeend',`<section class="pe-potential ${row.potential==='MAGNET'?'is-magnet':''}" aria-label="펫 잠재력"><div class="pe-potential-heading"><img src="/${esc(potential.potion.image)}" alt="잠재력 물약"><div><span class="pe-eyebrow">펫 잠재력</span><h3>${row.potential==='MAGNET'?'자석 · 활성':'자석 잠재력에 도전'}</h3></div></div><p>장착한 자석 펫이 군단토벌 드랍 아이템을 자동으로 흡수합니다. 획득 보상은 원정 종료 시 지급됩니다.</p><dl><div><dt>물약 보유</dt><dd>${potential.potion.quantity.toLocaleString()}개</dd></div><div><dt>성공확률</dt><dd>${chance}</dd></div></dl><button type="button" class="pe-button pe-potential-button" data-pet-potential-attempt>물약 1개로 도전</button><p class="pe-potential-result" data-pet-potential-result role="status">${esc(lastPotential||(!potential.settings.enabled?'잠재력 도전을 준비 중입니다.':'성공·실패와 관계없이 물약 1개를 소모합니다.'))}</p><small>같은 펫의 중복 보유분은 잠재력을 공유합니다.</small></section>`);
+    }
+    if(pendingPotential&&!row)$('[data-pet-detail]').insertAdjacentHTML('beforeend','<p>이전 물약 도전 결과를 확인해 주세요.</p><button type="button" data-pet-potential-attempt>도전 결과 재확인</button>');
+    root.querySelectorAll('img').forEach(img=>img.addEventListener('error',()=>{img.hidden=true;if(img.classList.contains('pe-hero'))$('.pe-art-error').hidden=false;},{once:true}));sync();
+  }
+  function accessFailure(error){
+    state=null;selected=null;pending=null;support=null;pendingSupport=null;supportError='';needsRefresh=false;render();
+    $('[data-pet-detail]').innerHTML=`<div class="pe-detail-empty"><h2>펫 정보를 확인해 주세요</h2><p>${esc(error.message)}</p><a class="pe-login" href="${review?'/admin/':'/'}">${review?'CMS 로그인':'게임으로 돌아가기'}</a></div>`;
+  }
+  async function load(){
+    if(busy||pending||disposed)return;const who=identity();busy=true;controller=new AbortController();sync();status('펫 정보를 불러오고 있습니다.');
+    try{
+      const value=await request(endpoint+(codex?'codex':'state'),{signal:controller.signal});if(disposed)return;
+      if(codex&&!review&&who!==identity()){accessFailure(Error('계정이 변경됐습니다. 새로고침해 주세요.'));return;}
+      if(value.version!==1||!Array.isArray(value.cards)||!value.loadout)throw Error('펫 정보를 확인하지 못했습니다. 다시 불러와 주세요.');
+      state=value;needsRefresh=false;
+      if(codex&&!review){
+        supportIdentity=who;await loadSupport();if(disposed)return;
+        if(supportIdentity!==identity()){accessFailure(Error('계정이 변경됐습니다. 새로고침해 주세요.'));return;}
+        pendingSupport=null; // Shared website claim drafts stay untouched and hidden.
+        if(pendingSupport&&(!/^PET-[A-Z0-9-]{1,28}$/.test(pendingSupport.petCode)||!Number.isSafeInteger(pendingSupport.expectedRevision)||pendingSupport.expectedRevision<0||!/^[a-zA-Z0-9_-]{16,100}$/.test(pendingSupport.requestId))){pendingSupport=null;localStorage.removeItem(supportKey());}
+      }
+      if(!review&&state.userId)try{pendingPotential=JSON.parse(localStorage.getItem(potentialKey())||'null');}catch{pendingPotential=null;}
+      if(pendingSupport)selected=pendingSupport.petCode;else if(pendingPotential)selected=pendingPotential.petCode;else if(!state.cards.some(row=>row.code===selected))selected=state.loadout.petCode||state.cards[0]?.code||null;
+      if(pendingPotential&&!/^PET-[A-Z0-9-]{1,28}$/.test(pendingPotential.petCode)){pendingPotential=null;localStorage.removeItem(potentialKey());}
+      render();status(state.orphaned?'장착했던 펫이 목록에서 제외되어 빈 슬롯으로 표시합니다.':state.reviewOnly?'검수용 펫을 선택해 장착·해제를 확인하세요.':state.message||'장착할 펫을 선택하세요.');
+    }catch(error){if(!disposed){if([401,403].includes(error.status))accessFailure(error);else if(!state){render();$('[data-pet-detail]').innerHTML=`<div class="pe-detail-empty"><h2>펫 정보를 확인해 주세요</h2><p>${esc(error.message)}</p></div>`;}status(error.message,true);}}
+    finally{if(!disposed){busy=false;sync();}}
+  }
+  async function save(code){
+    if(busy||disposed||needsRefresh||pendingPotential||pendingSupport||!state?.canEquip)return;
+    if(!pending)pending={petCode:code,expectedRevision:state.loadout.revision,petCmsRevision:state.petCmsRevision,requestId:crypto.randomUUID()};
+    busy=true;controller=new AbortController();sync();status('장착 정보를 저장하고 있습니다.');
+    try{
+      const value=await request(endpoint+'loadout',{method:'POST',body:pending,signal:controller.signal});if(disposed)return;
+      if(value.version!==1||!Array.isArray(value.cards)||!value.loadout)throw Error('저장 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인해 주세요.');
+      state=codex?{...value,cards:state.cards.map(p=>({...p,...value.cards.find(c=>c.code===p.code)})),catalogCount:state.cards.length}:value;pending=null;render();status(state.loadout.petCode?`${equipped()?.name||'펫'} 장착을 저장했습니다.${state.reviewOnly?' OWNER 검수에만 반영됩니다.':''}`:'장착을 해제했습니다.');
+      window.dispatchEvent(new CustomEvent('cnine:pet-equipment-changed',{detail:{reviewOnly:state.reviewOnly}}));
+    }catch(error){if(!disposed){if([401,403].includes(error.status))accessFailure(error);else if(!error.retryable&&error.status&&error.status<500&&![408,429].includes(error.status)){pending=null;needsRefresh=true;}status(error.message,true);}}
+    finally{if(!disposed){busy=false;sync();}}
+  }
+  async function attemptPotential(){
+    if(busy||disposed||review||pendingSupport)return;
+    if(!pendingPotential){
+      const row=pet(),p=state?.potential;if(!row?.owned||row.potential==='MAGNET'||!p?.settings.enabled||p.settings.successPpm===null||p.potion.quantity<1)return;
+      const chance=(p.settings.successPpm/10000).toLocaleString('ko-KR',{maximumFractionDigits:4});
+      if(!confirm(`${row.name}의 자석 잠재력에 도전할까요?\n성공확률 ${chance}% · 성공/실패 시 잠재력 물약 1개 소모`))return;
+      pendingPotential={petCode:row.code,requestId:crypto.randomUUID(),expectedRevision:p.revision,settingsRevision:p.settings.revision};
+      try{localStorage.setItem(potentialKey(),JSON.stringify(pendingPotential));}catch{pendingPotential=null;status('도전 요청을 보관할 수 없습니다. 브라우저 저장 공간을 확인해 주세요.',true);return;}
+    }
+    busy=true;controller=new AbortController();sync();status('잠재력 물약으로 도전하고 있습니다.');
+    try{
+      const result=await request('pets/v1/potential',{method:'POST',body:pendingPotential,signal:controller.signal});
+      if(typeof result.success!=='boolean'||result.requestId!==pendingPotential.requestId)throw Error('도전 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.');
+      localStorage.removeItem(potentialKey());pendingPotential=null;
+      needsRefresh=true;lastPotential=result.success?'자석 잠재력을 획득했습니다! 장착 후 다음 군단토벌부터 자동 흡수합니다.':'자석 잠재력을 얻지 못했습니다. 잠재력 물약 1개를 소모했습니다.';
+      const value=await request(endpoint+'state',{signal:controller.signal});if(disposed)return;state=value;needsRefresh=false;render();status(lastPotential);
+      window.dispatchEvent(new CustomEvent('cnine:pet-equipment-changed',{detail:{reviewOnly:false}}));
+    }catch(error){if(!disposed){if(error.status&&error.status<500&&!error.retryable&&![408,429].includes(error.status)){localStorage.removeItem(potentialKey());pendingPotential=null;needsRefresh=true;}status(error.message,true);}}
+    finally{if(!disposed){busy=false;sync();}}
+  }
+  async function loadSupport(){
+    support=null;pendingSupport=null;supportError="";return;
+    support=null;supportError='';
+    try{
+      const value=await request('server-support/info',{signal:controller?.signal,timeoutMs:8000});
+      if(disposed||supportIdentity!==identity())return;
+      if(!Number.isFinite(value.serverNow)||!Number.isSafeInteger(value.subscription?.revision)||!Number.isFinite(value.subscription?.endsAt))throw Error('시즌패스 정보를 확인하지 못했습니다.');
+      support=value;supportOffset=value.serverNow-Date.now();
+    }catch(error){if(!disposed&&![401,403,404].includes(error.status))supportError='시즌패스 자석 정보를 불러오지 못했습니다.';}
+  }
+  async function applySupportMagnet(){
+    if(busy||disposed||review||!codex||pending||needsRefresh)return;
+    if(supportIdentity!==identity()){accessFailure(Error('계정이 변경됐습니다. 새로고침해 주세요.'));return;}
+    if(!pendingSupport){
+      const row=pet();if(pendingPotential||!supportActive()||!row?.owned||row.potential==='MAGNET'||support.subscription.magnetPetCode===row.code)return;
+      pendingSupport={petCode:row.code,expectedRevision:support.subscription.revision,requestId:crypto.randomUUID()};
+      try{localStorage.setItem(supportKey(),JSON.stringify(pendingSupport));}catch{pendingSupport=null;status('적용 요청을 보관할 수 없습니다. 브라우저 저장 공간을 확인해 주세요.',true);return;}
+    }
+    const who=identity(),key=supportKey(),body=pendingSupport;busy=true;controller=new AbortController();sync();status('시즌패스 자석을 적용하고 있습니다.');
+    try{
+      const result=await request('server-support/pet',{method:'POST',body,signal:controller.signal});
+      if(disposed||who!==identity())return;
+      if(!result.ok||result.requestId!==body.requestId||Number(result.target?.id)!==state.userId||!Number.isSafeInteger(result.subscription?.revision))throw Error('적용 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.');
+      localStorage.removeItem(key);pendingSupport=null;await loadSupport();if(disposed||who!==identity())return;
+      render();status(supportError?'자석 적용은 저장됐습니다. 새로고침으로 현재 혜택을 확인하세요.':'시즌패스 자석 적용 결과를 확인했습니다. 적용한 펫을 장착하고 새 군단토벌에 입장해 주세요.');
+      window.dispatchEvent(new CustomEvent('cnine:pet-equipment-changed',{detail:{reviewOnly:false}}));
+    }catch(error){
+      if(disposed||who!==identity())return;
+      if(!error.retryable&&error.status&&error.status<500&&![408,429].includes(error.status)){localStorage.removeItem(key);pendingSupport=null;await loadSupport();}
+      if(disposed||who!==identity())return;render();status(error.message,true);
+    }finally{if(!disposed){busy=false;if(who!==identity())accessFailure(Error('계정이 변경됐습니다. 새로고침해 주세요.'));sync();}}
+  }
+  function click(event){
+    const button=event.target.closest('button');if(!button||button.disabled)return;
+    if(button.hasAttribute('data-pet-select')){selected=button.dataset.petSelect;render();root.querySelector(`[data-pet-select="${selected}"]`)?.focus({preventScroll:true});status(`${pet().name} · 시작 버프를 확인한 뒤 장착하세요.`);}
+    if(button.hasAttribute('data-pet-equip'))void save(selected);
+    if(button.hasAttribute('data-pet-unequip'))void save(null);
+    if(button.hasAttribute('data-pet-refresh'))void load();
+    if(button.hasAttribute('data-pet-potential-attempt'))void attemptPotential();
+    if(button.hasAttribute('data-pet-support-magnet'))void applySupportMagnet();
+  }
+  const onSearch=event=>{if(event.target.hasAttribute('data-codex-search')){query=event.target.value.trim().toLowerCase();render();}};
+  const onFilter=event=>{const button=event.target.closest('[data-codex-filter]');if(button){filter=button.dataset.codexFilter;render();}};
+  if(codex){root.addEventListener('input',onSearch);root.addEventListener('click',onFilter);}
+  const supportTimer=codex&&!review?setInterval(()=>{if(support?.subscription.active&&!supportActive()){support.subscription.active=false;if(!busy)render();}},1000):null;
+  root.addEventListener('click',click);void load();
+  return {reload:load,dispose(){disposed=true;controller?.abort();clearInterval(supportTimer);root.removeEventListener('click',click);root.removeEventListener('input',onSearch);root.removeEventListener('click',onFilter);root.replaceChildren();}};
+}
+
+export function openPetEquipment(options={}){
+  if(activeDialog){activeDialog.dialog.focus();return activeDialog;}
+  const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='pe-dialog';dialog.setAttribute('aria-label','펫 장착창');
+  dialog.innerHTML=`<div class="pe-dialog-chrome"><button type="button" class="pe-close" aria-label="펫 장착창 닫기">${petUiIcon('close')}</button></div><div data-pet-window></div>`;
+  document.body.append(dialog);const mounted=mountPetEquipment(dialog.querySelector('[data-pet-window]'),options);
+  const close=()=>dialog.close();dialog.querySelector('.pe-close').addEventListener('click',close);
+  dialog.addEventListener('click',event=>{if(event.target===dialog){const box=dialog.getBoundingClientRect();if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom)close();}});
+  dialog.addEventListener('keydown',event=>{
+    if(event.key!=='Tab')return;const controls=[...dialog.querySelectorAll('button:not(:disabled),a[href],input:not(:disabled)')].filter(el=>el.getClientRects().length);
+    const first=controls[0],last=controls.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+  });
+  dialog.addEventListener('close',()=>{mounted.dispose();dialog.remove();activeDialog=null;if(previous?.isConnected)previous.focus();},{once:true});
+  dialog.showModal();activeDialog={dialog,close};dialog.querySelector('.pe-close').focus();return activeDialog;
+}
