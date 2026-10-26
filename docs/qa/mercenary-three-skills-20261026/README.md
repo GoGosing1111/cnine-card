@@ -24,4 +24,15 @@
 
 ## 배포
 
-운영 배포 전 상태다. 직전 배포·검사 선택은 `before-deploy.json`과 `deployment-plan.json`, READ ONLY 보존 기준은 `production-before.json`에 기록했다. 기존 관리형 작업 폴더와 공용 의존성을 재사용하고 새 프로젝트/의존성 복사본을 만들지 않았다.
+운영 반영 완료. 소스 `7981d6fe3ed2cbf4e36821d1891122e446e86b51`, Pages `7d81951a-723f-4721-96d6-4a7c80d4bc08`.
+
+- API Runtime `30c08df7-d41f-4598-9d69-84688ca619f0`, 예약 전투 Worker `11725e49-3fab-4397-8f0c-1217106f2d3e`. 두 Worker에서 정본 기본 피해 1.5배·광역 배율/상한 2배·프라임 제작 ON을 확인했다.
+- 공식 scoped 검사 36개와 구문/출시/Hyperdrive 검사 통과. 공개 파일 26개 SHA-256이 배포 소스와 일치한다. 최초 검증기의 `amount` 변수명 비교는 번들 변환된 `amount2` 때문에 실패하여 숫자 접미사만 허용하도록 수정했다. 실제 배포 코드의 1.5배 계산을 직접 확인했으며 게임 코드를 다시 배포하지 않았다.
+- 공개 모바일 실제 메인 PVE/PVP 6경로·세 용병 도감 3경로 통과. 공개 도감의 배율/기본 전투력/스킬 개수를 재확인했다. 화면은 위 증거 폴더의 `three-skills-public/`에 보존한다.
+- 독립 READ ONLY 재조회: CMS r61·문서 해시·성장/팩/런타임/제작 설정 해시 동일, 프라임 제작 r6·ON 유지. 계정·재화·발행·설정 쓰기 0건이다.
+- `deployment-result.json`, `live-verification.json`, `public-browser.json`, `production-after.json`, `preservation.json`, `deploy.log`에 결과를 보존한다.
+- 기존 관리형 작업 폴더와 공용 의존성을 재사용했으며 프로젝트·의존성 복사본을 만들지 않았다. 공식 배포 도구가 임시 Pages 스테이징을 회수했다.
+
+## 저장 공간 정리
+
+관리형 archive 도구가 현재 대화의 primary checkout 보호로 회수를 거부했다. 수동 삭제 대신 모든 변경·산출물을 Git/원격에 보존한 sparse checkout으로 축소했다. 이 작업 폴더는 4.07MiB이며 공용 의존성을 복제하지 않았다. 승인 원화·검수 화면·프롬프트·대화·다른 작업 데이터는 보존했다. 전체 `.codex` 감사는 63.488GiB로 목표를 초과하지만 다른 작업을 임의로 정리하지 않았다. `storage-closeout.json` 참조.

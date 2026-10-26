@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-26T02:42:26.437468+00:00",
+  "root": "C:\\Users\\User\\.codex\\worktrees\\prime-craft-unlock\\cnine-card",
+  "preservedCommit": "d8a80f70ed3d89144e5b84307e505ac9b3f1d511",
+  "archiveResult": "The task's primary checkout cannot be removed.",
+  "fallback": "Git sparse checkout; committed sources and evidence preserved, no recursive manual deletion",
+  "localBytes": 4271979,
+  "localMiB": 4.07,
+  "localFiles": 66,
+  "codexGiB": 63.488,
+  "productionStagingDisposed": true,
+  "newDependencyCopies": 0,
+  "otherTaskDataModified": false,
+  "rawEvidenceDirectory": "C:/Users/User/.codex/visualizations/2026/10/26/01a175d1-db71-7162-9647-0fb7113e8d5e"
+}

@@ -1,0 +1,116 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"56904ac3254c438d985e8500b5f6aa598d0dbb42","reason":"제로·프라임 레퀴엠·제너럴 족의 단일 기본형 스킬 피해 1.5배, PVE 광역 2배 및 피해 상한을 반영한다. 실제 피해 36건과 다른 용병 전투 432건, PC 모바일 실제 메인 PVE PVP 12경로를 검증했다. 전투력·속도·성장·자원 비용·원화·제작 ON을 보존한다.","changed":["AGENTS.md","docs/qa/mercenary-three-skills-20261026/README.md","docs/qa/mercenary-three-skills-20261026/art-hashes.json","docs/qa/mercenary-three-skills-20261026/before-deploy.json","docs/qa/mercenary-three-skills-20261026/codex-browser.json","docs/qa/mercenary-three-skills-20261026/compare.mjs","docs/qa/mercenary-three-skills-20261026/comparison.json","docs/qa/mercenary-three-skills-20261026/deployment-plan.json","docs/qa/mercenary-three-skills-20261026/entry-browser.json","docs/qa/mercenary-three-skills-20261026/production-before.json","docs/qa/mercenary-three-skills-20261026/read-production.mjs","docs/qa/mercenary-three-skills-20261026/release.mjs","docs/qa/monster-defense-daily-entry-20261026/README.md","docs/qa/monster-defense-daily-entry-20261026/after.json","docs/qa/monster-defense-daily-entry-20261026/before-deploy.json","docs/qa/monster-defense-daily-entry-20261026/closeout.json","docs/qa/monster-defense-daily-entry-20261026/deploy.log","docs/qa/monster-defense-daily-entry-20261026/deployment-plan.json","docs/qa/monster-defense-daily-entry-20261026/deployment-result.json","docs/qa/monster-defense-daily-entry-20261026/live-verification.json","docs/qa/monster-defense-daily-entry-20261026/public-browser/01-lobby-desktop.png","docs/qa/monster-defense-daily-entry-20261026/public-browser/02-lobby-mobile.png","docs/qa/monster-defense-daily-entry-20261026/public-browser/browser-report.json","functions/_battle_v2_preview.js","functions/_mercenary_combat.js","functions/_mercenary_general_jok.js","functions/_mercenary_prime_requiem.js","functions/_mercenary_zero.js","index.html","js/app.js","js/battle-v3-live.js","mercenary-codex/index.html","package.json","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/coop-defense-v1/build-report.json","preview/coop-defense-v1/defense.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","service-worker.js","shared/mercenary-general-jok-v1.mjs","shared/mercenary-prime-requiem-v1.mjs","shared/mercenary-zero-v1.mjs","tests/general-jok-live-20261023.test.mjs","tests/mercenary-three-skills-20261026.browser.mjs","tests/mercenary-three-skills-20261026.test.mjs","tests/prime-requiem-live-20261021.test.mjs","tests/zero-live-20261020.test.mjs"],"tests":["tests/pve-battlefield-entry-v2117.test.mjs","tests/prime-requiem-pve-entry-20261021.test.mjs"],"checks":["test:mercenary-three-skills","check:worker"]}
+✔ a pending Prime atlas manifest cannot become a battlefield-entry barrier (1.0054ms)
+✔ cold Prime basic uses the existing V3 attack once without waiting for images (0.1754ms)
+✔ cold or failed Prime area FX still apply each unique server HP/shield receipt once (0.8443ms)
+✔ the real live wrapper allows the complete approved Prime area animation (1.4507ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (10.8234ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (8.004ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (3.387ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (8.3416ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (10.6504ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (22.7741ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (1.9182ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (2.2275ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (0.7126ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1098.8649
+
+> test:mercenary-three-skills
+> node --test --test-skip-pattern="approved|delivery|historical V15 images" tests/mercenary-three-skills-20261026.test.mjs tests/zero-live-20261020.test.mjs tests/prime-requiem-live-20261021.test.mjs tests/general-jok-live-20261023.test.mjs
+
+✔ General Jok uses 2.7 million power independently of Prime while preserving gear, mitigation and cadence (6.5162ms)
+✔ normal/limited/Halloween/fusion selection cannot award GeneralJok even with positive CMS weight (0.9543ms)
+✔ six PVE area skills retain one 3024% budget per cast and use the shared Requiem budget (21.8461ms)
+✔ PVE cadence is ten casts per thirty own actions instead of six, with shared cooldown and no PVP casts (1.3562ms)
+✔ public codex exposes eight skills and acquisition lock while deployment requires ownership (2832.9168ms)
+✔ V-976 basic forms strengthen one actual PVE/PVP hit by 50%, including capped hits (17.2098ms)
+✔ V-976 all area forms use 3024% once across 1/5/12 unique enemies and retain resource/control guards (2.3312ms)
+✔ V-976 actual PVE area cap doubles without enabling PVP area attacks (1.9154ms)
+✔ V-975 basic forms strengthen one actual PVE/PVP hit by 50%, including capped hits (3.8585ms)
+✔ V-975 all area forms use 3024% once across 1/5/12 unique enemies and retain resource/control guards (2.1162ms)
+✔ V-975 actual PVE area cap doubles without enabling PVP area attacks (0.6334ms)
+✔ V-974 basic forms strengthen one actual PVE/PVP hit by 50%, including capped hits (4.3911ms)
+✔ V-974 all area forms use 3024% once across 1/5/12 unique enemies and retain resource/control guards (3.5865ms)
+✔ V-974 actual PVE area cap doubles without enabling PVP area attacks (1.1402ms)
+✔ Prime equals Zero in actual PVE/PVP stats, gear, links, mitigation and action cadence (7.2484ms)
+✔ normal/limited/Halloween/fusion selection cannot award Prime even with positive CMS weight (1.0012ms)
+✔ four PVE area skills retain one 3024% budget per cast and rotate more frequently (25.2741ms)
+✔ PVE cadence is ten casts per thirty own actions instead of six, with shared cooldown and no PVP casts (1.4919ms)
+✔ public codex exposes seven skills and acquisition lock while deployment requires ownership (2835.4126ms)
+✔ Zero uses 3 million power in PVE/PVP stats, gear and links while Leonel and action cadence stay unchanged (6.2713ms)
+✔ normal/limited/Halloween/fusion selection cannot award Zero even with positive CMS weight (0.9211ms)
+✔ both area skills split one 3024% budget across unique living targets and alternate on a shared five-action cooldown (25.494ms)
+✔ public codex exposes five skills and acquisition lock while deployment requires ownership (2842.6727ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3307.1158
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261026-v2-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-daily-entry-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 9210 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8539.12 KiB / gzip: 1838.72 KiB
+Worker Startup Time: 50 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.94 sec)
+No targets deployed for cnine-card-api-runtime (0.70 sec)
+Current Version ID: 30c08df7-d41f-4598-9d69-84688ca619f0
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19967/20000)
+Uploading... (19978/20000)
+Uploading... (19989/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 33 files (19967 already uploaded) (4.53 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://7d81951a.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3198.76 KiB / gzip: 718.83 KiB
+Worker Startup Time: 80 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.78 sec)
+Deployed cnine-card-clan-draft triggers (0.91 sec)
+  schedule: * * * * *
+Current Version ID: 11725e49-3fab-4397-8f0c-1217106f2d3e

@@ -1,0 +1,133 @@
+{
+  "status": "PASSED",
+  "assetSource": "https://cnine-card.pages.dev",
+  "reports": [
+    {
+      "width": 390,
+      "code": "V-976",
+      "mode": "PVE",
+      "basicDamage": 887040000,
+      "areaDamage": 5617551772,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-975",
+      "mode": "PVE",
+      "basicDamage": 887040000,
+      "areaDamage": 5617551772,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-974",
+      "mode": "PVE",
+      "basicDamage": 887040000,
+      "areaDamage": 5055796589,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-976",
+      "mode": "PVP",
+      "basicDamage": 26174720,
+      "areaDamage": null,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-975",
+      "mode": "PVP",
+      "basicDamage": 26174720,
+      "areaDamage": null,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-974",
+      "mode": "PVP",
+      "basicDamage": 26174720,
+      "areaDamage": null,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-976",
+      "codex": true,
+      "skills": 5
+    },
+    {
+      "width": 390,
+      "code": "V-975",
+      "codex": true,
+      "skills": 7
+    },
+    {
+      "width": 390,
+      "code": "V-974",
+      "codex": true,
+      "skills": 8
+    }
+  ],
+  "productionTransactions": 0
+}
