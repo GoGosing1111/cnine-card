@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {execFileSync} from 'node:child_process';
 import {buildFighter,createPvpBattleV2,createDuoBattleV2,simulateBattleV2Preview} from '../functions/_battle_v2_preview.js';
 import {buildMercenaryFighter,mercenarySkillCapActions} from '../functions/_mercenary_combat.js';
 import {applyMercenaryCombatLink,mercenaryPvpTierGuard,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
@@ -8,6 +10,17 @@ import {roster,snapshot,scenarios} from '../scripts/measure-razak-balance-202610
 const targets=roster.filter(c=>(c.rank==='SS'&&c.edition==='LIMITED')||c.code==='V-057');
 const fighter=(code,side='A',level=1,gear=0,mode='PVP')=>buildMercenaryFighter(snapshot(code,level,mode,gear),side,mode,buildFighter);
 const team=(code,side='A',level=1,gear=0,mode='PVP')=>[...scenarios[1].cards.map((c,i)=>buildFighter(c,i,side,null,mode)),fighter(code,side,level,gear,mode)];
+
+test('merged release fits Pages while the original duo scheduler remains in its Worker bundle',async()=>{
+ const {isProductionFile}=await import('../scripts/prepare-production-assets.mjs');
+ const files=execFileSync('git',['ls-files','-z'],{encoding:'utf8',maxBuffer:40e6}).split('\0').filter(Boolean);
+ const count=files.filter(isProductionFile).filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;
+ assert(count<=20000,`Pages asset count ${count}`);
+ const file='workers/clan-draft/src/duo-schedule.js';assert.equal(isProductionFile(file),false);
+ assert.equal(fs.readFileSync(file,'utf8').replaceAll('\r\n','\n'),execFileSync('git',['show','HEAD:'+file],{encoding:'utf8'}).replaceAll('\r\n','\n'));
+ assert.match(fs.readFileSync('workers/clan-draft/src/index.js','utf8'),/import .* from '\.\/duo-schedule\.js'/);
+ for(const p of ['shared/mercenary-razak-v1.mjs','assets/ui/project-v/mercenaries/razak-20261024/idle.png','assets/items/prime-requiem-blueprint-v1.webp'])assert.equal(isProductionFile(p),true);
+});
 
 test('priority guard uses all 21 released SS limited identities and Kangyun, never a forged name or edition',()=>{
  assert.equal(targets.length,22);
