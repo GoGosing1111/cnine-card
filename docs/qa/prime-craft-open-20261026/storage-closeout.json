@@ -1,0 +1,10 @@
+{
+  "workspace": "C:\\Users\\User\\.codex\\worktrees\\prime-craft-unlock\\cnine-card",
+  "bytes": 2854336,
+  "mib": 2.72,
+  "files": 29,
+  "archiveAttempt": "The task's primary checkout cannot be removed.",
+  "preservation": "All implementation, QA and approval files remain in Git/origin main. Own QA and edited sources remain in this sparse checkout; no dependencies were copied.",
+  "restore": "git sparse-checkout disable",
+  "previousSparseMib": 260.97
+}

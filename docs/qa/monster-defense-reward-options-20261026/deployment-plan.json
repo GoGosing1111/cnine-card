@@ -1,0 +1,15 @@
+{
+  "base": "e892872f3634b9fd74067c79a5a31d51d0e42a62",
+  "reason": "몬스터 디펜스의 기존 보상 스키마를 호환 유지하면서 아이템별 확정/소수점 확률 및 최소~최대 수량을 추가한다. 난이도별 코인은 OWNER가 나중에 입력하며 운영 설정은 변경하지 않는다. 서버 비공개 방별 시드를 고정하고 참가자/아이템별 독립 추첨, 기존 단일 DB 원자적 지급/영수증 재시도, OFF/TEST/연습/패배 차단을 검증한다. 관련 SQLite/PostgreSQL 회귀 및 실제 PC/모바일 CMS/로비/결과 확인. 인증/DB 스키마/의존성 변경 없음.",
+  "tests": [
+    "tests/monster-defense-reward-options-20261026.test.mjs",
+    "tests/monster-defense-rewards-20261020.test.mjs",
+    "tests/monster-defense-rewards-live-20261020.test.mjs",
+    "tests/monster-defense-live.test.mjs",
+    "tests/monster-defense-rooms.test.mjs",
+    "tests/cooperative-websocket.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
