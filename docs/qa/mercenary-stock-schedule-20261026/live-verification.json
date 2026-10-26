@@ -1,0 +1,198 @@
+{
+  "verifiedAt": "2026-10-26T00:51:25.454Z",
+  "head": "d7a96e5b6947787d519ae9dbbc35d5d5e42a1c8f",
+  "pages": {
+    "id": "0d2e0429-5d29-4968-8ec7-09429ad543ec",
+    "url": "https://0d2e0429.cnine-card.pages.dev",
+    "status": "success"
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "c6710bec01a3ade0c8c4329753c0b8f1e1ae395c075abed0dcf8df5d692fbbed"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "1797110c11730d24cb57d458c7e72fa517f51708dd706483de2084b2241f3f11"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "4ac0d1a777deef5c46e5fb2e43a897f1caf7cd15e8578d5117844b571601e97b"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "ce1002864f14a9a6260f359fcaa9f0b9d3cce208a970a66541683037f2993644"
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "ded873b4dbb09bec5614a398ad5e77644e71b9dccda78406639a3b5ad9470042"
+    },
+    {
+      "file": "admin/mercenary-bloodmoon-admin-v1.mjs",
+      "sha256": "4b3453987aaee5dadc36d7e85484fc1f36af41cece5d22e2d57424fd651af27c"
+    },
+    {
+      "file": "admin/mercenary-stock-schedule-v1.mjs",
+      "sha256": "57d29e1e79e618619e9d727fe505012136185847d5eba2efbb597d80fb9f1577"
+    },
+    {
+      "file": "admin/mercenary-stock-schedule-v1.css",
+      "sha256": "3a4160d2a24211e3a4e4119ce9e7f34e3e91f36014c3a74b06419eaa097d892f"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "sha256": "e50d6b27ea0a9e27fa1c1f399dd147496a602cd0b164696500cbdef44bd957c3"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "sha256": "83af051590175a5da3068d354b37c3cb9bef24c0e679d2f8d23bea056b033a63"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pool-v3.mjs",
+      "sha256": "3bbb8dddbdf3d2aabab039c70983c5c26d67c93ef704b2ad19d00ece92d70161"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-session-v2.mjs",
+      "sha256": "0241f85c6f8f08ce8e59e9ab29fb60c81ffefc41cec8ab3fb3ebdd291ceb837d"
+    },
+    {
+      "file": "shared/mercenary-stock-schedule-v1.mjs",
+      "sha256": "e28ed4fc1bd51b847e06f12cc1c78f603b383a9904f6d95fd66a96200db5dc5a"
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sha256": "145074bc61afc1c76b0afd50a0fa4c2c25649728b5cfc4fae5af2f98dec36d12",
+      "schedulePresent": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sha256": "28bfbf120de8aa00c2bbbe0470685e8b805e06ccce4c84ce89a47480f012fb53",
+      "schedulePresent": true
+    }
+  ],
+  "feature": {
+    "revision": 9,
+    "serverNow": "2026-10-26T00:51:25.000Z",
+    "stock": [
+      {
+        "code": "V-960",
+        "limit": 40,
+        "issued": 40,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-961",
+        "limit": 40,
+        "issued": 40,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-962",
+        "limit": 40,
+        "issued": 40,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-963",
+        "limit": 40,
+        "issued": 40,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-964",
+        "limit": 40,
+        "issued": 40,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-965",
+        "limit": 40,
+        "issued": 40,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-978",
+        "limit": 9,
+        "issued": 9,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      },
+      {
+        "code": "V-974",
+        "limit": 3,
+        "issued": 1,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      },
+      {
+        "code": "V-975",
+        "limit": 3,
+        "issued": 1,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      },
+      {
+        "code": "V-973",
+        "limit": 4,
+        "issued": 1,
+        "remaining": 3,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      }
+    ],
+    "schedules": [
+      {
+        "id": "stock-20261026-2000-bloodmoon-ss10-leonel1-v1",
+        "executeAt": "2026-10-26T11:00:00.000Z",
+        "changes": [
+          {
+            "code": "V-960",
+            "quantity": 10
+          },
+          {
+            "code": "V-961",
+            "quantity": 10
+          },
+          {
+            "code": "V-962",
+            "quantity": 10
+          },
+          {
+            "code": "V-963",
+            "quantity": 10
+          },
+          {
+            "code": "V-964",
+            "quantity": 10
+          },
+          {
+            "code": "V-965",
+            "quantity": 10
+          },
+          {
+            "code": "V-978",
+            "quantity": 1
+          }
+        ]
+      }
+    ]
+  },
+  "anonymousScheduleStatus": 401
+}

@@ -1,0 +1,147 @@
+{
+  "verifiedAt": "2026-10-26T00:52:55.654Z",
+  "transactionReadOnly": true,
+  "reservation": {
+    "id": "stock-20261026-2000-bloodmoon-ss10-leonel1-v1",
+    "status": "SCHEDULED",
+    "executeAt": "2026-10-26T11:00:00.000Z",
+    "changes": [
+      {
+        "code": "V-960",
+        "quantity": 10
+      },
+      {
+        "code": "V-961",
+        "quantity": 10
+      },
+      {
+        "code": "V-962",
+        "quantity": 10
+      },
+      {
+        "code": "V-963",
+        "quantity": 10
+      },
+      {
+        "code": "V-964",
+        "quantity": 10
+      },
+      {
+        "code": "V-965",
+        "quantity": 10
+      },
+      {
+        "code": "V-978",
+        "quantity": 1
+      }
+    ],
+    "reason": "사용자 요청: 10월 26일 20:00 KST SS 블러드문 6종 각 10장, 레오넬 1장 한도 증가",
+    "createdAt": "2026-10-26T00:51:14.000Z",
+    "createdBy": 1
+  },
+  "alarm": {
+    "version": "20261026-v1",
+    "checkedAt": "2026-10-26T00:52:03.000Z",
+    "applied": 0,
+    "nextAt": "2026-10-26T11:00:00.000Z",
+    "nextAlarmAt": 1793012400000
+  },
+  "stock": [
+    {
+      "code": "V-960",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-961",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-962",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-963",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-964",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-965",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-973",
+      "stock_limit": 4,
+      "issued": 1
+    },
+    {
+      "code": "V-974",
+      "stock_limit": 3,
+      "issued": 1
+    },
+    {
+      "code": "V-975",
+      "stock_limit": 3,
+      "issued": 1
+    },
+    {
+      "code": "V-978",
+      "stock_limit": 9,
+      "issued": 9
+    }
+  ],
+  "issues": [
+    {
+      "code": "V-960",
+      "count": 40,
+      "max_serial": 40
+    },
+    {
+      "code": "V-961",
+      "count": 40,
+      "max_serial": 40
+    },
+    {
+      "code": "V-962",
+      "count": 40,
+      "max_serial": 40
+    },
+    {
+      "code": "V-963",
+      "count": 40,
+      "max_serial": 40
+    },
+    {
+      "code": "V-964",
+      "count": 40,
+      "max_serial": 40
+    },
+    {
+      "code": "V-965",
+      "count": 40,
+      "max_serial": 40
+    },
+    {
+      "code": "V-978",
+      "count": 9,
+      "max_serial": 9
+    }
+  ],
+  "packHash": "72a4ebd6a43196bde9f273e0946d26f1f6f9293db365d5a9ea17e5c791637574",
+  "audits": [
+    {
+      "id": "51516",
+      "action_type": "MERCENARY_STOCK_SCHEDULE_STOCK"
+    }
+  ],
+  "appliedReceiptAbsent": true,
+  "unchangedStockAndIssues": true
+}
