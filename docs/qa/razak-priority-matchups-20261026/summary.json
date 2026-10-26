@@ -1,0 +1,218 @@
+{
+  "result": "PASS",
+  "checkedAt": "2026-10-26T00:44:14.243Z",
+  "scope": "CANONICAL_TEAM_SIMULATION_NOT_LIVE_PLAYER_WIN_RATE",
+  "conditions": "Identical five-card decks, card equipment, magic, mercenary equipment and levels; both attacker/defender sides per seed. No pets. All opponents use captured live CMS snapshots and canonical server policies. Team victories, not standalone mercenary duels.",
+  "policy": {
+    "version": 5,
+    "basePower": 1000000,
+    "statScale": 2.4,
+    "speedScale": 4,
+    "actionCredit": 4,
+    "actionEnergy": 10,
+    "link": {
+      "attackPercent": 1400,
+      "hpPercent": 800,
+      "shieldPercent": 400
+    },
+    "damageTakenScale": 0.4,
+    "basicCapScale": 1,
+    "pvpSkillCapScale": 3,
+    "motionPlaybackRate": 2,
+    "pvpPriorityTierGuard": 16
+  },
+  "priority": {
+    "opponents": 22,
+    "total": 73216,
+    "wins": 73216,
+    "losses": 0,
+    "draws": 0
+  },
+  "sssLimited": {
+    "opponents": 12,
+    "total": 9984,
+    "allRowsIdenticalToV4": true
+  },
+  "unrelated": {
+    "total": 1456,
+    "allResultHashesIdentical": true
+  },
+  "rows": [
+    {
+      "code": "V-057",
+      "name": "신궁 강윤",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-990",
+      "name": "나무늘봉순",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-991",
+      "name": "조은",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-992",
+      "name": "이네스",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-993",
+      "name": "오리꿍",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-994",
+      "name": "디임",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-997",
+      "name": "아윤",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-998",
+      "name": "하이희야",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-980",
+      "name": "나무늘봉순",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-981",
+      "name": "조은",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-982",
+      "name": "하이희야",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-983",
+      "name": "오리꿍",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-984",
+      "name": "디임",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-985",
+      "name": "아윤",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-986",
+      "name": "남수댕",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-977",
+      "name": "바토리",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-960",
+      "name": "나무늘봉순",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-961",
+      "name": "조은",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-962",
+      "name": "디임",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-963",
+      "name": "카르베나",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-964",
+      "name": "네베라",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-965",
+      "name": "블러드문 남수댕",
+      "wins": 3328,
+      "total": 3328,
+      "losses": 0,
+      "draws": 0
+    }
+  ]
+}

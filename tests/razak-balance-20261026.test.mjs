@@ -13,7 +13,7 @@ test('server policy overrides forged stats and immunities, preserving ordinary S
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e6,1e8]){
   const a=buildMercenaryFighter({...snapshot('V-058',1,mode,gear),rank:'C',basePower:1,stats:{hp:1,attack:1,defense:1,speed:1},counterImmune:true,controlImmune:true,poisonImmune:true},'A',mode,buildFighter);
   const base=buildFighter({id:'V-058',power:1e6+gear,type:'NONE'},5,'A',null,mode),unarmed=buildFighter({id:'V-058',power:1e6,type:'NONE'},5,'A',null,mode);
-  assert.equal(a.rank,'SSS');assert.equal(a.edition,'STANDARD');assert.equal(a.basePower,1e6+gear);assert.equal(a.razakPolicyVersion,4);
+  assert.equal(a.rank,'SSS');assert.equal(a.edition,'STANDARD');assert.equal(a.basePower,1e6+gear);assert.equal(a.razakPolicyVersion,5);
   assert.equal(a.maxHp,Math.round(base.maxHp*2.4));assert.equal(a.defense,Math.round(base.defense*2.4));assert.equal(a.speed,Math.round(base.speed*4));
   if(gear){assert.equal(a.equipmentStats.hp,a.maxHp-Math.round(unarmed.maxHp*2.4));assert.equal(a.equipmentStats.attack,a.attack-Math.round(unarmed.attack*2.4));}
   for(const key of ['controlImmune','counterImmune','poisonImmune'])assert.equal(a[key],false);
@@ -64,5 +64,5 @@ test('skill caps and energy apply only to Razak; silence still prevents casts an
 test('actual ranked duo accepts Razak and preserves each owner equipment, grade and common energy budget',()=>{
  const squad=(ownerId,code,level,gear)=>({ownerId,cards:tierCards(2e7),mercenary:snapshot(code,level,'PVP',gear)});
  const battle=createDuoBattleV2({attackerSquads:[squad(101,'V-058',21,1e6),squad(102,'V-021',1,0)],defenderSquads:[squad(201,'V-976',21,1e6),squad(202,'V-021',1,0)],seed:26026});
- const mercs=battle.teams.A.mercenaries;assert.equal(mercs.length,2);const a=mercs.find(m=>m.code==='V-058');assert.equal(a.basePower,2e6);assert.equal(a.rank,'SSS');assert.equal(a.razakPolicyVersion,4);assert.equal(new Set(mercs.map(m=>m.ownerId)).size,2);assert(battle.result.timeline.some(e=>e.type==='MERCENARY_RAZAK_ASSASSINATION'));assert(!battle.result.timeline.some(e=>e.skillId==='MS-063'));
+ const mercs=battle.teams.A.mercenaries;assert.equal(mercs.length,2);const a=mercs.find(m=>m.code==='V-058');assert.equal(a.basePower,2e6);assert.equal(a.rank,'SSS');assert.equal(a.razakPolicyVersion,5);assert.equal(new Set(mercs.map(m=>m.ownerId)).size,2);assert(battle.result.timeline.some(e=>e.type==='MERCENARY_RAZAK_ASSASSINATION'));assert(!battle.result.timeline.some(e=>e.skillId==='MS-063'));
 });

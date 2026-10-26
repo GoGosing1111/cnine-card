@@ -1,0 +1,5268 @@
+{
+  "scope": "CANONICAL_TEAM_SIMULATION_NOT_LIVE_PLAYER_WIN_RATE",
+  "checkedAt": "2026-10-26T00:39:43.991Z",
+  "liveInputCheckedAt": "2026-10-25T19:44:49.337Z",
+  "cmsRevision": 61,
+  "settingsHash": "eea5f44da9e452f51468ae09f7f437afadbfea400638618c57c33347fc54ad1d",
+  "policy": {
+    "combat": {
+      "version": 5,
+      "basePower": 1000000,
+      "statScale": 2.4,
+      "speedScale": 4,
+      "actionCredit": 4,
+      "actionEnergy": 10,
+      "link": {
+        "attackPercent": 1400,
+        "hpPercent": 800,
+        "shieldPercent": 400
+      },
+      "damageTakenScale": 0.4,
+      "basicCapScale": 1,
+      "pvpSkillCapScale": 3,
+      "motionPlaybackRate": 2,
+      "pvpPriorityTierGuard": 16
+    },
+    "skills": [
+      {
+        "id": "MS-061",
+        "name": "그림자 교차",
+        "visualMode": "cross",
+        "targetCount": 1,
+        "target": "약화된 적 하나",
+        "effect": "약화된 적에게 순간 돌진해 쌍곡도를 교차합니다. 한 시전의 총 440% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "ASSASSIN",
+        "mechanic": "CURVED_BLADE_ASSASSINATION",
+        "ready": true,
+        "balance": {
+          "damageRatio": 4.4,
+          "cooldownTurns": 3,
+          "cost": 25
+        },
+        "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동",
+        "counterplay": "회피·방어·방벽·피해 경감·기절·침묵에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 검격·잔상·2배속 재생은 추가 피해나 행동을 만들지 않습니다."
+      },
+      {
+        "id": "MS-062",
+        "name": "무영 연살",
+        "visualMode": "flurry",
+        "targetCount": 1,
+        "target": "후열 우선 적 하나",
+        "effect": "후열 핵심 적을 향해 낮은 베기·올려 베기·종결 참격을 이어갑니다. 한 시전의 총 560% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "ASSASSIN",
+        "mechanic": "CURVED_BLADE_ASSASSINATION",
+        "ready": true,
+        "balance": {
+          "damageRatio": 5.6,
+          "cooldownTurns": 3,
+          "cost": 25
+        },
+        "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동",
+        "counterplay": "회피·방어·방벽·피해 경감·기절·침묵에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 검격·잔상·2배속 재생은 추가 피해나 행동을 만들지 않습니다."
+      },
+      {
+        "id": "MS-063",
+        "name": "월식 난무",
+        "visualMode": "eclipse",
+        "targetCount": null,
+        "target": "적 전체 · PVE",
+        "pveOnly": true,
+        "effect": "적 진형에 진입해 거대한 원형 검격을 펼칩니다. 한 시전의 총 700% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "ASSASSIN",
+        "mechanic": "CURVED_BLADE_ASSASSINATION",
+        "ready": true,
+        "balance": {
+          "damageRatio": 7,
+          "cooldownTurns": 3,
+          "cost": 25
+        },
+        "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동 · PVE 전용",
+        "counterplay": "회피·방어·방벽·피해 경감·기절·침묵에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 검격·잔상·2배속 재생은 추가 피해나 행동을 만들지 않습니다."
+      }
+    ]
+  },
+  "policyFingerprint": "0caebeb2a4d33426a65cfda25dfcc56427b438982f13d6c137eb1911621445a3",
+  "conditions": "Identical five-card decks, card equipment, magic, mercenary equipment and levels; both attacker/defender sides per seed. No pets. All opponents use captured live CMS snapshots and canonical server policies. Team victories, not standalone mercenary duels.",
+  "count": 16,
+  "start": 180001,
+  "seedMethod": "SHA256(razak-balance:opponent:scenario:index), mirrored A/B",
+  "scenarios": [
+    {
+      "id": "basic-10000-balanced",
+      "level": 1,
+      "gear": 0
+    },
+    {
+      "id": "basic-20000000-balanced",
+      "level": 1,
+      "gear": 0
+    },
+    {
+      "id": "basic-2000000000-balanced",
+      "level": 1,
+      "gear": 0
+    },
+    {
+      "id": "basic-20000000-attack",
+      "level": 1,
+      "gear": 0
+    },
+    {
+      "id": "basic-20000000-defense",
+      "level": 1,
+      "gear": 0
+    },
+    {
+      "id": "basic-20000000-speed",
+      "level": 1,
+      "gear": 0
+    },
+    {
+      "id": "growth-6",
+      "level": 6,
+      "gear": 0
+    },
+    {
+      "id": "growth-11",
+      "level": 11,
+      "gear": 0
+    },
+    {
+      "id": "growth-16",
+      "level": 16,
+      "gear": 0
+    },
+    {
+      "id": "growth-21",
+      "level": 21,
+      "gear": 0
+    },
+    {
+      "id": "equipped-1",
+      "level": 1,
+      "gear": 1000000
+    },
+    {
+      "id": "equipped-11",
+      "level": 11,
+      "gear": 1000000
+    },
+    {
+      "id": "equipped-21",
+      "level": 21,
+      "gear": 1000000
+    }
+  ],
+  "total": 2912,
+  "rows": [
+    {
+      "code": "V-057",
+      "name": "신궁 강윤",
+      "rank": "SSS",
+      "wins": 416,
+      "draws": 0,
+      "total": 416,
+      "sides": {
+        "A": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        }
+      },
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 70,
+          "razakBasicTurns": 130,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3031142,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 119810,
+              "shield": 820442,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 184654,
+                "hpFloor": 1640883,
+                "openingShield": 820442,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 324000,
+              "maxHp": 2250623,
+              "attack": 602494,
+              "defense": 272646,
+              "speed": 25482,
+              "shield": 105760,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 39899,
+                "hpFloor": 197419,
+                "openingShield": 105760,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.0625,
+          "averageRazakCasts": 2.1875
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 71,
+          "razakBasicTurns": 129,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3281716838,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104381,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 369313392,
+                "hpFloor": 3281716838,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 324000,
+              "maxHp": 394831557,
+              "attack": 602494,
+              "defense": 272646,
+              "speed": 25482,
+              "shield": 211516906,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 79798072,
+                "hpFloor": 394831557,
+                "openingShield": 211516906,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.03125,
+          "averageRazakCasts": 2.21875
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 71,
+          "razakBasicTurns": 130,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 328171683840,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104281,
+              "shield": 164085841920,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 36931339200,
+                "hpFloor": 328171683840,
+                "openingShield": 164085841920,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 324000,
+              "maxHp": 39483155712,
+              "attack": 602494,
+              "defense": 272646,
+              "speed": 25482,
+              "shield": 21151690560,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 7979807220,
+                "hpFloor": 39483155712,
+                "openingShield": 21151690560,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.0625,
+          "averageRazakCasts": 2.21875
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 67,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 2967813478,
+              "attack": 733824,
+              "defense": 367200,
+              "speed": 104381,
+              "shield": 1483906739,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 384401472,
+                "hpFloor": 2967813478,
+                "openingShield": 1483906739,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 324000,
+              "maxHp": 357065059,
+              "attack": 544864,
+              "defense": 272646,
+              "speed": 25482,
+              "shield": 191284853,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 83058175,
+                "hpFloor": 357065059,
+                "openingShield": 191284853,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.09375
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 93,
+          "razakBasicTurns": 131,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104381,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 298181621,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 324000,
+              "maxHp": 374231649,
+              "attack": 571060,
+              "defense": 272646,
+              "speed": 25482,
+              "shield": 200481240,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 64428529,
+                "hpFloor": 374231649,
+                "openingShield": 200481240,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.09375,
+          "averageRazakCasts": 2.90625
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 83,
+          "razakBasicTurns": 135,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104381,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 329573888,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 324000,
+              "maxHp": 374231649,
+              "attack": 571060,
+              "defense": 272646,
+              "speed": 25482,
+              "shield": 200481240,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 71211501,
+                "hpFloor": 374231649,
+                "openingShield": 200481240,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.21875,
+          "averageRazakCasts": 2.59375
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 72,
+          "razakBasicTurns": 130,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 10665579723,
+              "attack": 2840040,
+              "defense": 532440,
+              "speed": 111687,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1292596872,
+                "hpFloor": 10665579723,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 324000,
+              "maxHp": 1283202560,
+              "attack": 2108729,
+              "defense": 395336,
+              "speed": 27265,
+              "shield": 211516906,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 279293252,
+                "hpFloor": 1283202560,
+                "openingShield": 211516906,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.0625,
+          "averageRazakCasts": 2.25
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 71,
+          "razakBasicTurns": 129,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 18049442609,
+              "attack": 4868640,
+              "defense": 697680,
+              "speed": 118994,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2215880352,
+                "hpFloor": 18049442609,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 324000,
+              "maxHp": 2171573563,
+              "attack": 3614964,
+              "defense": 518027,
+              "speed": 29049,
+              "shield": 211516906,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 478788432,
+                "hpFloor": 2171573563,
+                "openingShield": 211516906,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.03125,
+          "averageRazakCasts": 2.21875
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 68,
+          "razakBasicTurns": 132,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 25433305494,
+              "attack": 6897240,
+              "defense": 862920,
+              "speed": 126300,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 3139163832,
+                "hpFloor": 25433305494,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 324000,
+              "maxHp": 3059944566,
+              "attack": 5121199,
+              "defense": 640718,
+              "speed": 30833,
+              "shield": 211516906,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 678283612,
+                "hpFloor": 3059944566,
+                "openingShield": 211516906,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.125,
+          "averageRazakCasts": 2.125
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 69,
+          "razakBasicTurns": 130,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 32817168380,
+              "attack": 8925840,
+              "defense": 1028159,
+              "speed": 133607,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 4062447312,
+                "hpFloor": 32817168380,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 324000,
+              "maxHp": 3948315570,
+              "attack": 6627434,
+              "defense": 763408,
+              "speed": 32616,
+              "shield": 211516906,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 877778792,
+                "hpFloor": 3948315570,
+                "openingShield": 211516906,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.0625,
+          "averageRazakCasts": 2.15625
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 97,
+          "razakBasicTurns": 159,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 22415437,
+              "attack": 1622880,
+              "defense": 734400,
+              "speed": 218168,
+              "shield": 9959718,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2992640,
+                "hpFloor": 22415437,
+                "openingShield": 9959718,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 1324000,
+              "maxHp": 9196991,
+              "attack": 2462044,
+              "defense": 1114146,
+              "speed": 103482,
+              "shield": 1283870,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2111164,
+                "hpFloor": 8116557,
+                "openingShield": 1283870,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.96875,
+          "averageRazakCasts": 3.03125
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 103,
+          "razakBasicTurns": 160,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 114904207,
+              "attack": 9737280,
+              "defense": 1395360,
+              "speed": 248711,
+              "shield": 9197837,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 18020082,
+                "hpFloor": 114904207,
+                "openingShield": 9197837,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 1324000,
+              "maxHp": 50583450,
+              "attack": 14772264,
+              "defense": 2116877,
+              "speed": 117969,
+              "shield": 1185659,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 12680868,
+                "hpFloor": 43632759,
+                "openingShield": 1185659,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 5,
+          "averageRazakCasts": 3.21875
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 107,
+          "razakBasicTurns": 189,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 209517570,
+              "attack": 16920288,
+              "defense": 2056319,
+              "speed": 279254,
+              "shield": 9227878,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 27286831,
+                "hpFloor": 209517570,
+                "openingShield": 9227878,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-057",
+              "rank": "SSS",
+              "basePower": 1324000,
+              "maxHp": 87171480,
+              "attack": 25669490,
+              "defense": 3119608,
+              "speed": 132456,
+              "shield": 1189531,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 22005841,
+                "hpFloor": 79404580,
+                "openingShield": 1189531,
+                "tierGuard": 1,
+                "tierOffense": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 5.90625,
+          "averageRazakCasts": 3.34375
+        }
+      ],
+      "losses": 0,
+      "winRate": 1
+    },
+    {
+      "code": "V-960",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 416,
+      "draws": 0,
+      "total": 416,
+      "sides": {
+        "A": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        }
+      },
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 71,
+          "razakBasicTurns": 131,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3031142,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 118560,
+              "shield": 820442,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 184654,
+                "hpFloor": 1640883,
+                "openingShield": 820442,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 3646010,
+              "attack": 976044,
+              "defense": 441685,
+              "speed": 28475,
+              "shield": 155756,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 58760,
+                "hpFloor": 290744,
+                "openingShield": 155756,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.09375,
+          "averageRazakCasts": 2.21875
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 95,
+          "razakBasicTurns": 129,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3281716838,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 369313392,
+                "hpFloor": 3281716838,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 581479202,
+              "attack": 976044,
+              "defense": 441685,
+              "speed": 28475,
+              "shield": 311506716,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 117520797,
+                "hpFloor": 581479202,
+                "openingShield": 311506716,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.03125,
+          "averageRazakCasts": 2.96875
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 93,
+          "razakBasicTurns": 133,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 328171683840,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104281,
+              "shield": 164085841920,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 36931339200,
+                "hpFloor": 328171683840,
+                "openingShield": 164085841920,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 58147920230,
+              "attack": 976044,
+              "defense": 441685,
+              "speed": 28475,
+              "shield": 31150671552,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 11752079724,
+                "hpFloor": 58147920230,
+                "openingShield": 31150671552,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.15625,
+          "averageRazakCasts": 2.90625
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 90,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 2967813478,
+              "attack": 733824,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1483906739,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 384401472,
+                "hpFloor": 2967813478,
+                "openingShield": 1483906739,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 525859451,
+              "attack": 882683,
+              "defense": 441685,
+              "speed": 28475,
+              "shield": 281710420,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 122322040,
+                "hpFloor": 525859451,
+                "openingShield": 281710420,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.8125
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 96,
+          "razakBasicTurns": 134,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 298181621,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 551141155,
+              "attack": 925120,
+              "defense": 441685,
+              "speed": 28475,
+              "shield": 295254190,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 94885651,
+                "hpFloor": 551141155,
+                "openingShield": 295254190,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.1875,
+          "averageRazakCasts": 3
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 97,
+          "razakBasicTurns": 135,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 329573888,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 551141155,
+              "attack": 925120,
+              "defense": 441685,
+              "speed": 28475,
+              "shield": 295254190,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 104875119,
+                "hpFloor": 551141155,
+                "openingShield": 295254190,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.21875,
+          "averageRazakCasts": 3.03125
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 77,
+          "razakBasicTurns": 131,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 10665579723,
+              "attack": 2840040,
+              "defense": 532440,
+              "speed": 111682,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1292596872,
+                "hpFloor": 10665579723,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 1889807406,
+              "attack": 3416154,
+              "defense": 640443,
+              "speed": 30468,
+              "shield": 311506716,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 411322789,
+                "hpFloor": 1889807406,
+                "openingShield": 311506716,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.09375,
+          "averageRazakCasts": 2.40625
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 68,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 18049442609,
+              "attack": 4868640,
+              "defense": 697680,
+              "speed": 118989,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2215880352,
+                "hpFloor": 18049442609,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 3198135611,
+              "attack": 5856264,
+              "defense": 839201,
+              "speed": 32461,
+              "shield": 311506716,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 705124782,
+                "hpFloor": 3198135611,
+                "openingShield": 311506716,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.125
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 96,
+          "razakBasicTurns": 135,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 25433305494,
+              "attack": 6897240,
+              "defense": 862920,
+              "speed": 126294,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 3139163832,
+                "hpFloor": 25433305494,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 4506463815,
+              "attack": 8296374,
+              "defense": 1037959,
+              "speed": 34454,
+              "shield": 311506716,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 998926774,
+                "hpFloor": 4506463815,
+                "openingShield": 311506716,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.21875,
+          "averageRazakCasts": 3
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 96,
+          "razakBasicTurns": 138,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 32817168380,
+              "attack": 8925840,
+              "defense": 1028159,
+              "speed": 133601,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 4062447312,
+                "hpFloor": 32817168380,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 5814792020,
+              "attack": 10736484,
+              "defense": 1236718,
+              "speed": 36448,
+              "shield": 311506716,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1292728767,
+                "hpFloor": 5814792020,
+                "openingShield": 311506716,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.3125,
+          "averageRazakCasts": 3
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 101,
+          "razakBasicTurns": 160,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 22415437,
+              "attack": 1622880,
+              "defense": 734400,
+              "speed": 217612,
+              "shield": 9959718,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2992640,
+                "hpFloor": 22415437,
+                "openingShield": 9959718,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 13876116,
+              "attack": 3714654,
+              "defense": 1680985,
+              "speed": 107775,
+              "shield": 1890790,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 3109169,
+                "hpFloor": 11953475,
+                "openingShield": 1890790,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 5,
+          "averageRazakCasts": 3.15625
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 98,
+          "razakBasicTurns": 160,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 114904207,
+              "attack": 9737280,
+              "defense": 1395360,
+              "speed": 248077,
+              "shield": 9197837,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 18020082,
+                "hpFloor": 114904207,
+                "openingShield": 9197837,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 76318638,
+              "attack": 22287924,
+              "defense": 3193871,
+              "speed": 122863,
+              "shield": 1746152,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 18675456,
+                "hpFloor": 64259156,
+                "openingShield": 1746152,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 5,
+          "averageRazakCasts": 3.0625
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 108,
+          "razakBasicTurns": 183,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 209517570,
+              "attack": 16920288,
+              "defense": 2056319,
+              "speed": 278543,
+              "shield": 9227878,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 27286831,
+                "hpFloor": 209517570,
+                "openingShield": 9227878,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-960",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 131521440,
+              "attack": 38729306,
+              "defense": 4706758,
+              "speed": 137952,
+              "shield": 1751855,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 32408607,
+                "hpFloor": 116941290,
+                "openingShield": 1751855,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 5.71875,
+          "averageRazakCasts": 3.375
+        }
+      ],
+      "losses": 0,
+      "winRate": 1
+    },
+    {
+      "code": "V-961",
+      "name": "조은",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 416,
+      "draws": 0,
+      "total": 416,
+      "sides": {
+        "A": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        }
+      },
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 96,
+          "razakBasicTurns": 163,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3031142,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 118560,
+              "shield": 820442,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 184654,
+                "hpFloor": 1640883,
+                "openingShield": 820442,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 3330922,
+              "attack": 891695,
+              "defense": 403515,
+              "speed": 27074,
+              "shield": 149987,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 53682,
+                "hpFloor": 265618,
+                "openingShield": 149987,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 5.09375,
+          "averageRazakCasts": 3
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 94,
+          "razakBasicTurns": 138,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3281716838,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 369313392,
+                "hpFloor": 3281716838,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 531227913,
+              "attack": 891695,
+              "defense": 403515,
+              "speed": 27074,
+              "shield": 299969430,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 107364679,
+                "hpFloor": 531227913,
+                "openingShield": 299969430,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.3125,
+          "averageRazakCasts": 2.9375
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 94,
+          "razakBasicTurns": 135,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 328171683840,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104281,
+              "shield": 164085841920,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 36931339200,
+                "hpFloor": 328171683840,
+                "openingShield": 164085841920,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 53122791322,
+              "attack": 891695,
+              "defense": 403515,
+              "speed": 27074,
+              "shield": 29996942976,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 10736467896,
+                "hpFloor": 53122791322,
+                "openingShield": 29996942976,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.21875,
+          "averageRazakCasts": 2.9375
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 95,
+          "razakBasicTurns": 129,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 2967813478,
+              "attack": 733824,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1483906739,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 384401472,
+                "hpFloor": 2967813478,
+                "openingShield": 1483906739,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 480414807,
+              "attack": 806402,
+              "defense": 403515,
+              "speed": 27074,
+              "shield": 271276701,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 111750999,
+                "hpFloor": 480414807,
+                "openingShield": 271276701,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.03125,
+          "averageRazakCasts": 2.96875
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 95,
+          "razakBasicTurns": 138,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 298181621,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 503511673,
+              "attack": 845172,
+              "defense": 403515,
+              "speed": 27074,
+              "shield": 284318850,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 86685657,
+                "hpFloor": 503511673,
+                "openingShield": 284318850,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.3125,
+          "averageRazakCasts": 2.96875
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 94,
+          "razakBasicTurns": 146,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 329573888,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 503511673,
+              "attack": 845172,
+              "defense": 403515,
+              "speed": 27074,
+              "shield": 284318850,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 95811837,
+                "hpFloor": 503511673,
+                "openingShield": 284318850,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.5625,
+          "averageRazakCasts": 2.9375
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 66,
+          "razakBasicTurns": 129,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 10665579723,
+              "attack": 2840040,
+              "defense": 532440,
+              "speed": 111682,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1292596872,
+                "hpFloor": 10665579723,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 1726490717,
+              "attack": 3120932,
+              "defense": 585096,
+              "speed": 28969,
+              "shield": 299969430,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 375776376,
+                "hpFloor": 1726490717,
+                "openingShield": 299969430,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.03125,
+          "averageRazakCasts": 2.0625
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 72,
+          "razakBasicTurns": 130,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 18049442609,
+              "attack": 4868640,
+              "defense": 697680,
+              "speed": 118989,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2215880352,
+                "hpFloor": 18049442609,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 2921753521,
+              "attack": 5350170,
+              "defense": 766678,
+              "speed": 30864,
+              "shield": 299969430,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 644188074,
+                "hpFloor": 2921753521,
+                "openingShield": 299969430,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.0625,
+          "averageRazakCasts": 2.25
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 70,
+          "razakBasicTurns": 129,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 25433305494,
+              "attack": 6897240,
+              "defense": 862920,
+              "speed": 126294,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 3139163832,
+                "hpFloor": 25433305494,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 4117016325,
+              "attack": 7579407,
+              "defense": 948260,
+              "speed": 32759,
+              "shield": 299969430,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 912599771,
+                "hpFloor": 4117016325,
+                "openingShield": 299969430,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.03125,
+          "averageRazakCasts": 2.1875
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 74,
+          "razakBasicTurns": 131,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 32817168380,
+              "attack": 8925840,
+              "defense": 1028159,
+              "speed": 133601,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 4062447312,
+                "hpFloor": 32817168380,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 5312279130,
+              "attack": 9808645,
+              "defense": 1129842,
+              "speed": 34654,
+              "shield": 299969430,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1181011469,
+                "hpFloor": 5312279130,
+                "openingShield": 299969430,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.09375,
+          "averageRazakCasts": 2.3125
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 117,
+          "razakBasicTurns": 205,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 22415437,
+              "attack": 1622880,
+              "defense": 734400,
+              "speed": 217612,
+              "shield": 9959718,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2992640,
+                "hpFloor": 22415437,
+                "openingShield": 9959718,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 12676944,
+              "attack": 3393635,
+              "defense": 1535715,
+              "speed": 102474,
+              "shield": 1820761,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2840475,
+                "hpFloor": 10920459,
+                "openingShield": 1820761,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 6.40625,
+          "averageRazakCasts": 3.65625
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 109,
+          "razakBasicTurns": 192,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 114904207,
+              "attack": 9737280,
+              "defense": 1395360,
+              "speed": 248077,
+              "shield": 9197837,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 18020082,
+                "hpFloor": 114904207,
+                "openingShield": 9197837,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 69723192,
+              "attack": 20361810,
+              "defense": 2917858,
+              "speed": 116820,
+              "shield": 1681480,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 17061528,
+                "hpFloor": 58705900,
+                "openingShield": 1681480,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 6,
+          "averageRazakCasts": 3.40625
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 113,
+          "razakBasicTurns": 203,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 209517570,
+              "attack": 16920288,
+              "defense": 2056319,
+              "speed": 278543,
+              "shield": 9227878,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 27286831,
+                "hpFloor": 209517570,
+                "openingShield": 9227878,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-961",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 120155390,
+              "attack": 35382336,
+              "defense": 4300002,
+              "speed": 131166,
+              "shield": 1686972,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 29607864,
+                "hpFloor": 106835260,
+                "openingShield": 1686972,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 6.34375,
+          "averageRazakCasts": 3.53125
+        }
+      ],
+      "losses": 0,
+      "winRate": 1
+    },
+    {
+      "code": "V-962",
+      "name": "디임",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 416,
+      "draws": 0,
+      "total": 416,
+      "sides": {
+        "A": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        }
+      },
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 97,
+          "razakBasicTurns": 166,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3031142,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 118560,
+              "shield": 820442,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 184654,
+                "hpFloor": 1640883,
+                "openingShield": 820442,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 3465960,
+              "attack": 927844,
+              "defense": 419873,
+              "speed": 27541,
+              "shield": 155756,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 55858,
+                "hpFloor": 276386,
+                "openingShield": 155756,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 5.1875,
+          "averageRazakCasts": 3.03125
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 94,
+          "razakBasicTurns": 132,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3281716838,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 369313392,
+                "hpFloor": 3281716838,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 552764180,
+              "attack": 927844,
+              "defense": 419873,
+              "speed": 27541,
+              "shield": 311506716,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 111717301,
+                "hpFloor": 552764180,
+                "openingShield": 311506716,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.125,
+          "averageRazakCasts": 2.9375
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 96,
+          "razakBasicTurns": 133,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 328171683840,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104281,
+              "shield": 164085841920,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 36931339200,
+                "hpFloor": 328171683840,
+                "openingShield": 164085841920,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 55276417997,
+              "attack": 927844,
+              "defense": 419873,
+              "speed": 27541,
+              "shield": 31150671552,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 11171730108,
+                "hpFloor": 55276417997,
+                "openingShield": 31150671552,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.15625,
+          "averageRazakCasts": 3
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 95,
+          "razakBasicTurns": 131,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 2967813478,
+              "attack": 733824,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1483906739,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 384401472,
+                "hpFloor": 2967813478,
+                "openingShield": 1483906739,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 499891083,
+              "attack": 839094,
+              "defense": 419873,
+              "speed": 27541,
+              "shield": 281710420,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 116281445,
+                "hpFloor": 499891083,
+                "openingShield": 281710420,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.09375,
+          "averageRazakCasts": 2.96875
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 96,
+          "razakBasicTurns": 137,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 298181621,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 523924308,
+              "attack": 879435,
+              "defense": 419873,
+              "speed": 27541,
+              "shield": 295254190,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 90199940,
+                "hpFloor": 523924308,
+                "openingShield": 295254190,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.28125,
+          "averageRazakCasts": 3
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 93,
+          "razakBasicTurns": 138,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 329573888,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 523924308,
+              "attack": 879435,
+              "defense": 419873,
+              "speed": 27541,
+              "shield": 295254190,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 99696101,
+                "hpFloor": 523924308,
+                "openingShield": 295254190,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.3125,
+          "averageRazakCasts": 2.90625
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 70,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 10665579723,
+              "attack": 2840040,
+              "defense": 532440,
+              "speed": 111682,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1292596872,
+                "hpFloor": 10665579723,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 1796483585,
+              "attack": 3247454,
+              "defense": 608815,
+              "speed": 29468,
+              "shield": 311506716,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 391010553,
+                "hpFloor": 1796483585,
+                "openingShield": 311506716,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.1875
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 70,
+          "razakBasicTurns": 130,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 18049442609,
+              "attack": 4868640,
+              "defense": 697680,
+              "speed": 118989,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2215880352,
+                "hpFloor": 18049442609,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 3040202990,
+              "attack": 5567064,
+              "defense": 797758,
+              "speed": 31396,
+              "shield": 311506716,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 670303806,
+                "hpFloor": 3040202990,
+                "openingShield": 311506716,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.0625,
+          "averageRazakCasts": 2.1875
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 74,
+          "razakBasicTurns": 129,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 25433305494,
+              "attack": 6897240,
+              "defense": 862920,
+              "speed": 126294,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 3139163832,
+                "hpFloor": 25433305494,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 4283922395,
+              "attack": 7886674,
+              "defense": 986701,
+              "speed": 33324,
+              "shield": 311506716,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 949597058,
+                "hpFloor": 4283922395,
+                "openingShield": 311506716,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.03125,
+          "averageRazakCasts": 2.3125
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 69,
+          "razakBasicTurns": 130,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 32817168380,
+              "attack": 8925840,
+              "defense": 1028159,
+              "speed": 133601,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 4062447312,
+                "hpFloor": 32817168380,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 5527641800,
+              "attack": 10206284,
+              "defense": 1175644,
+              "speed": 35252,
+              "shield": 311506716,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1228890311,
+                "hpFloor": 5527641800,
+                "openingShield": 311506716,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.0625,
+          "averageRazakCasts": 2.15625
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 119,
+          "razakBasicTurns": 211,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 22415437,
+              "attack": 1622880,
+              "defense": 734400,
+              "speed": 217612,
+              "shield": 9959718,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2992640,
+                "hpFloor": 22415437,
+                "openingShield": 9959718,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 13190875,
+              "attack": 3531214,
+              "defense": 1597973,
+              "speed": 104241,
+              "shield": 1890790,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2955630,
+                "hpFloor": 11363180,
+                "openingShield": 1890790,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 6.59375,
+          "averageRazakCasts": 3.71875
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 115,
+          "razakBasicTurns": 203,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 114904207,
+              "attack": 9737280,
+              "defense": 1395360,
+              "speed": 248077,
+              "shield": 9197837,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 18020082,
+                "hpFloor": 114904207,
+                "openingShield": 9197837,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 72549812,
+              "attack": 21187284,
+              "defense": 3036148,
+              "speed": 118834,
+              "shield": 1746152,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 17753214,
+                "hpFloor": 61085865,
+                "openingShield": 1746152,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 6.34375,
+          "averageRazakCasts": 3.59375
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 113,
+          "razakBasicTurns": 208,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 209517570,
+              "attack": 16920288,
+              "defense": 2056319,
+              "speed": 278543,
+              "shield": 9227878,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 27286831,
+                "hpFloor": 209517570,
+                "openingShield": 9227878,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-962",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 125026560,
+              "attack": 36816747,
+              "defense": 4474324,
+              "speed": 133428,
+              "shield": 1751855,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 30808184,
+                "hpFloor": 111166420,
+                "openingShield": 1751855,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 6.5,
+          "averageRazakCasts": 3.53125
+        }
+      ],
+      "losses": 0,
+      "winRate": 1
+    },
+    {
+      "code": "V-963",
+      "name": "카르베나",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 416,
+      "draws": 0,
+      "total": 416,
+      "sides": {
+        "A": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        }
+      },
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 100,
+          "razakBasicTurns": 189,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3031142,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 118560,
+              "shield": 820442,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 184654,
+                "hpFloor": 1640883,
+                "openingShield": 820442,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 3668515,
+              "attack": 982069,
+              "defense": 444411,
+              "speed": 28475,
+              "shield": 164409,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 59122,
+                "hpFloor": 292539,
+                "openingShield": 164409,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 5.90625,
+          "averageRazakCasts": 3.125
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 93,
+          "razakBasicTurns": 138,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3281716838,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 369313392,
+                "hpFloor": 3281716838,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 585068580,
+              "attack": 982069,
+              "defense": 444411,
+              "speed": 28475,
+              "shield": 328812644,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 118246234,
+                "hpFloor": 585068580,
+                "openingShield": 328812644,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.3125,
+          "averageRazakCasts": 2.90625
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 93,
+          "razakBasicTurns": 135,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 328171683840,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104281,
+              "shield": 164085841920,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 36931339200,
+                "hpFloor": 328171683840,
+                "openingShield": 164085841920,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 58506858010,
+              "attack": 982069,
+              "defense": 444411,
+              "speed": 28475,
+              "shield": 32881264416,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 11824623426,
+                "hpFloor": 58506858010,
+                "openingShield": 32881264416,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.21875,
+          "averageRazakCasts": 2.90625
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 91,
+          "razakBasicTurns": 132,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 2967813478,
+              "attack": 733824,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1483906739,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 384401472,
+                "hpFloor": 2967813478,
+                "openingShield": 1483906739,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 529105497,
+              "attack": 888132,
+              "defense": 444411,
+              "speed": 28475,
+              "shield": 297360999,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 123077114,
+                "hpFloor": 529105497,
+                "openingShield": 297360999,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.125,
+          "averageRazakCasts": 2.84375
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 96,
+          "razakBasicTurns": 135,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 298181621,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 554543261,
+              "attack": 930831,
+              "defense": 444411,
+              "speed": 28475,
+              "shield": 311657201,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 95471365,
+                "hpFloor": 554543261,
+                "openingShield": 311657201,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.21875,
+          "averageRazakCasts": 3
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 94,
+          "razakBasicTurns": 141,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 329573888,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 554543261,
+              "attack": 930831,
+              "defense": 444411,
+              "speed": 28475,
+              "shield": 311657201,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 105522497,
+                "hpFloor": 554543261,
+                "openingShield": 311657201,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.40625,
+          "averageRazakCasts": 2.9375
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 82,
+          "razakBasicTurns": 132,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 10665579723,
+              "attack": 2840040,
+              "defense": 532440,
+              "speed": 111682,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1292596872,
+                "hpFloor": 10665579723,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 1901472885,
+              "attack": 3437241,
+              "defense": 644395,
+              "speed": 30468,
+              "shield": 328812644,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 413861819,
+                "hpFloor": 1901472885,
+                "openingShield": 328812644,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.125,
+          "averageRazakCasts": 2.5625
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 67,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 18049442609,
+              "attack": 4868640,
+              "defense": 697680,
+              "speed": 118989,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2215880352,
+                "hpFloor": 18049442609,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 3217877190,
+              "attack": 5892414,
+              "defense": 844380,
+              "speed": 32461,
+              "shield": 328812644,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 709477404,
+                "hpFloor": 3217877190,
+                "openingShield": 328812644,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.09375
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 68,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 25433305494,
+              "attack": 6897240,
+              "defense": 862920,
+              "speed": 126294,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 3139163832,
+                "hpFloor": 25433305494,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 4534281495,
+              "attack": 8347586,
+              "defense": 1044365,
+              "speed": 34454,
+              "shield": 328812644,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1005092989,
+                "hpFloor": 4534281495,
+                "openingShield": 328812644,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.125
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 71,
+          "razakBasicTurns": 129,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 32817168380,
+              "attack": 8925840,
+              "defense": 1028159,
+              "speed": 133601,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 4062447312,
+                "hpFloor": 32817168380,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 5850685800,
+              "attack": 10802759,
+              "defense": 1244350,
+              "speed": 36448,
+              "shield": 328812644,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1300708574,
+                "hpFloor": 5850685800,
+                "openingShield": 328812644,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.03125,
+          "averageRazakCasts": 2.21875
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 117,
+          "razakBasicTurns": 209,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 22415437,
+              "attack": 1622880,
+              "defense": 734400,
+              "speed": 217612,
+              "shield": 9959718,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2992640,
+                "hpFloor": 22415437,
+                "openingShield": 9959718,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 13961770,
+              "attack": 3737584,
+              "defense": 1691361,
+              "speed": 107775,
+              "shield": 1995834,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 3128361,
+                "hpFloor": 12027262,
+                "openingShield": 1995834,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 6.53125,
+          "averageRazakCasts": 3.65625
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 110,
+          "razakBasicTurns": 199,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 114904207,
+              "attack": 9737280,
+              "defense": 1395360,
+              "speed": 248077,
+              "shield": 9197837,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 18020082,
+                "hpFloor": 114904207,
+                "openingShield": 9197837,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 76789735,
+              "attack": 22425504,
+              "defense": 3213585,
+              "speed": 122863,
+              "shield": 1843160,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 18790734,
+                "hpFloor": 64655822,
+                "openingShield": 1843160,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 6.21875,
+          "averageRazakCasts": 3.4375
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 115,
+          "razakBasicTurns": 198,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 209517570,
+              "attack": 16920288,
+              "defense": 2056319,
+              "speed": 278543,
+              "shield": 9227878,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 27286831,
+                "hpFloor": 209517570,
+                "openingShield": 9227878,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-963",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 132333290,
+              "attack": 38968380,
+              "defense": 4735810,
+              "speed": 137952,
+              "shield": 1849180,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 32608664,
+                "hpFloor": 117663150,
+                "openingShield": 1849180,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 6.1875,
+          "averageRazakCasts": 3.59375
+        }
+      ],
+      "losses": 0,
+      "winRate": 1
+    },
+    {
+      "code": "V-964",
+      "name": "네베라",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 416,
+      "draws": 0,
+      "total": 416,
+      "sides": {
+        "A": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        }
+      },
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 98,
+          "razakBasicTurns": 168,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3031142,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 118560,
+              "shield": 820442,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 184654,
+                "hpFloor": 1640883,
+                "openingShield": 820442,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 3555984,
+              "attack": 951945,
+              "defense": 430779,
+              "speed": 29408,
+              "shield": 159602,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 57309,
+                "hpFloor": 283565,
+                "openingShield": 159602,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 5.25,
+          "averageRazakCasts": 3.0625
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 89,
+          "razakBasicTurns": 132,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3281716838,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 369313392,
+                "hpFloor": 3281716838,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 567121691,
+              "attack": 951945,
+              "defense": 430779,
+              "speed": 29408,
+              "shield": 319198239,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 114619049,
+                "hpFloor": 567121691,
+                "openingShield": 319198239,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.125,
+          "averageRazakCasts": 2.78125
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 94,
+          "razakBasicTurns": 131,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 328171683840,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104281,
+              "shield": 164085841920,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 36931339200,
+                "hpFloor": 328171683840,
+                "openingShield": 164085841920,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 56712169114,
+              "attack": 951945,
+              "defense": 430779,
+              "speed": 29408,
+              "shield": 31919823936,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 11461904916,
+                "hpFloor": 56712169114,
+                "openingShield": 31919823936,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.09375,
+          "averageRazakCasts": 2.9375
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 93,
+          "razakBasicTurns": 131,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 2967813478,
+              "attack": 733824,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1483906739,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 384401472,
+                "hpFloor": 2967813478,
+                "openingShield": 1483906739,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 512875267,
+              "attack": 860889,
+              "defense": 430779,
+              "speed": 29408,
+              "shield": 288666233,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 119301743,
+                "hpFloor": 512875267,
+                "openingShield": 288666233,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.09375,
+          "averageRazakCasts": 2.90625
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 96,
+          "razakBasicTurns": 134,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 298181621,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 537532732,
+              "attack": 902278,
+              "defense": 430779,
+              "speed": 29408,
+              "shield": 302544417,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 92542796,
+                "hpFloor": 537532732,
+                "openingShield": 302544417,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.1875,
+          "averageRazakCasts": 3
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 97,
+          "razakBasicTurns": 144,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 329573888,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 537532732,
+              "attack": 902278,
+              "defense": 430779,
+              "speed": 29408,
+              "shield": 302544417,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 102285610,
+                "hpFloor": 537532732,
+                "openingShield": 302544417,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.5,
+          "averageRazakCasts": 3.03125
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 74,
+          "razakBasicTurns": 130,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 10665579723,
+              "attack": 2840040,
+              "defense": 532440,
+              "speed": 111682,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1292596872,
+                "hpFloor": 10665579723,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 1843145495,
+              "attack": 3331807,
+              "defense": 624629,
+              "speed": 31466,
+              "shield": 319198239,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 401166671,
+                "hpFloor": 1843145495,
+                "openingShield": 319198239,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.0625,
+          "averageRazakCasts": 2.3125
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 68,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 18049442609,
+              "attack": 4868640,
+              "defense": 697680,
+              "speed": 118989,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2215880352,
+                "hpFloor": 18049442609,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 3119169300,
+              "attack": 5711670,
+              "defense": 818480,
+              "speed": 33525,
+              "shield": 319198239,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 687714294,
+                "hpFloor": 3119169300,
+                "openingShield": 319198239,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.125
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 69,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 25433305494,
+              "attack": 6897240,
+              "defense": 862920,
+              "speed": 126294,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 3139163832,
+                "hpFloor": 25433305494,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 4395193105,
+              "attack": 8091532,
+              "defense": 1012330,
+              "speed": 35583,
+              "shield": 319198239,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 974261916,
+                "hpFloor": 4395193105,
+                "openingShield": 319198239,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.15625
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 69,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 32817168380,
+              "attack": 8925840,
+              "defense": 1028159,
+              "speed": 133601,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 4062447312,
+                "hpFloor": 32817168380,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 5671216910,
+              "attack": 10471395,
+              "defense": 1206181,
+              "speed": 37642,
+              "shield": 319198239,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1260809539,
+                "hpFloor": 5671216910,
+                "openingShield": 319198239,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.15625
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 122,
+          "razakBasicTurns": 218,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 22415437,
+              "attack": 1622880,
+              "defense": 734400,
+              "speed": 217612,
+              "shield": 9959718,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2992640,
+                "hpFloor": 22415437,
+                "openingShield": 9959718,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 13533494,
+              "attack": 3622935,
+              "defense": 1639479,
+              "speed": 111308,
+              "shield": 1937476,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 3032399,
+                "hpFloor": 11658328,
+                "openingShield": 1937476,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 6.8125,
+          "averageRazakCasts": 3.8125
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 114,
+          "razakBasicTurns": 200,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 114904207,
+              "attack": 9737280,
+              "defense": 1395360,
+              "speed": 248077,
+              "shield": 9197837,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 18020082,
+                "hpFloor": 114904207,
+                "openingShield": 9197837,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 74434217,
+              "attack": 21737610,
+              "defense": 3115010,
+              "speed": 126891,
+              "shield": 1789267,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 18214332,
+                "hpFloor": 62672511,
+                "openingShield": 1789267,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 6.25,
+          "averageRazakCasts": 3.5625
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 113,
+          "razakBasicTurns": 202,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 209517570,
+              "attack": 16920288,
+              "defense": 2056319,
+              "speed": 278543,
+              "shield": 9227878,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 27286831,
+                "hpFloor": 209517570,
+                "openingShield": 9227878,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-964",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 128273990,
+              "attack": 37773032,
+              "defense": 4590541,
+              "speed": 142474,
+              "shield": 1795111,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 31608390,
+                "hpFloor": 114053850,
+                "openingShield": 1795111,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 6.3125,
+          "averageRazakCasts": 3.53125
+        }
+      ],
+      "losses": 0,
+      "winRate": 1
+    },
+    {
+      "code": "V-965",
+      "name": "블러드문 남수댕",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "wins": 416,
+      "draws": 0,
+      "total": 416,
+      "sides": {
+        "A": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        },
+        "B": {
+          "wins": 208,
+          "draws": 0,
+          "total": 208,
+          "losses": 0,
+          "winRate": 1
+        }
+      },
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 68,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3031142,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 118560,
+              "shield": 820442,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 184654,
+                "hpFloor": 1640883,
+                "openingShield": 820442,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 1485412,
+              "attack": 397648,
+              "defense": 179946,
+              "speed": 21006,
+              "shield": 63456,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 23939,
+                "hpFloor": 118451,
+                "openingShield": 63456,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.125
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 69,
+          "razakBasicTurns": 129,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3281716838,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 369313392,
+                "hpFloor": 3281716838,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 236898934,
+              "attack": 397648,
+              "defense": 179946,
+              "speed": 21006,
+              "shield": 126910143,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 47878843,
+                "hpFloor": 236898934,
+                "openingShield": 126910143,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.03125,
+          "averageRazakCasts": 2.15625
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 68,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 328171683840,
+              "attack": 811440,
+              "defense": 367200,
+              "speed": 104281,
+              "shield": 164085841920,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 36931339200,
+                "hpFloor": 328171683840,
+                "openingShield": 164085841920,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 23689893427,
+              "attack": 397648,
+              "defense": 179946,
+              "speed": 21006,
+              "shield": 12691014336,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 4787884332,
+                "hpFloor": 23689893427,
+                "openingShield": 12691014336,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.125
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 69,
+          "razakBasicTurns": 130,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 2967813478,
+              "attack": 733824,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1483906739,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 384401472,
+                "hpFloor": 2967813478,
+                "openingShield": 1483906739,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 214239035,
+              "attack": 359612,
+              "defense": 179946,
+              "speed": 21006,
+              "shield": 114770912,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 49834905,
+                "hpFloor": 214239035,
+                "openingShield": 114770912,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.0625,
+          "averageRazakCasts": 2.15625
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 73,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 298181621,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 224538989,
+              "attack": 376901,
+              "defense": 179946,
+              "speed": 21006,
+              "shield": 120288744,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 38657117,
+                "hpFloor": 224538989,
+                "openingShield": 120288744,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.28125
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 73,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 3110496819,
+              "attack": 769104,
+              "defense": 367200,
+              "speed": 104376,
+              "shield": 1555248410,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 329573888,
+                "hpFloor": 3110496819,
+                "openingShield": 1555248410,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 224538989,
+              "attack": 376901,
+              "defense": 179946,
+              "speed": 21006,
+              "shield": 120288744,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 42726900,
+                "hpFloor": 224538989,
+                "openingShield": 120288744,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.28125
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 68,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 10665579723,
+              "attack": 2840040,
+              "defense": 532440,
+              "speed": 111682,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1292596872,
+                "hpFloor": 10665579723,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 769921535,
+              "attack": 1391768,
+              "defense": 260921,
+              "speed": 22476,
+              "shield": 126910143,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 167575950,
+                "hpFloor": 769921535,
+                "openingShield": 126910143,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.125
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 70,
+          "razakBasicTurns": 128,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 18049442609,
+              "attack": 4868640,
+              "defense": 697680,
+              "speed": 118989,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2215880352,
+                "hpFloor": 18049442609,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 1302944137,
+              "attack": 2385888,
+              "defense": 341897,
+              "speed": 23946,
+              "shield": 126910143,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 287273058,
+                "hpFloor": 1302944137,
+                "openingShield": 126910143,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4,
+          "averageRazakCasts": 2.1875
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 71,
+          "razakBasicTurns": 132,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 25433305494,
+              "attack": 6897240,
+              "defense": 862920,
+              "speed": 126294,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 3139163832,
+                "hpFloor": 25433305494,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 1835966738,
+              "attack": 3380008,
+              "defense": 422873,
+              "speed": 25417,
+              "shield": 126910143,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 406970165,
+                "hpFloor": 1835966738,
+                "openingShield": 126910143,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.125,
+          "averageRazakCasts": 2.21875
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "gear": 0,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 69,
+          "razakBasicTurns": 133,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 1000000,
+              "maxHp": 32817168380,
+              "attack": 8925840,
+              "defense": 1028159,
+              "speed": 133601,
+              "shield": 1640858419,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 4062447312,
+                "hpFloor": 32817168380,
+                "openingShield": 1640858419,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 356400,
+              "maxHp": 2368989340,
+              "attack": 4374128,
+              "defense": 503848,
+              "speed": 26887,
+              "shield": 126910143,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 526667273,
+                "hpFloor": 2368989340,
+                "openingShield": 126910143,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.15625,
+          "averageRazakCasts": 2.15625
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 100,
+          "razakBasicTurns": 153,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 22415437,
+              "attack": 1622880,
+              "defense": 734400,
+              "speed": 217612,
+              "shield": 9959718,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 2992640,
+                "hpFloor": 22415437,
+                "openingShield": 9959718,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 5653233,
+              "attack": 1513378,
+              "defense": 684846,
+              "speed": 79506,
+              "shield": 770322,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 1266698,
+                "hpFloor": 4869934,
+                "openingShield": 770322,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.78125,
+          "averageRazakCasts": 3.125
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 101,
+          "razakBasicTurns": 159,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 114904207,
+              "attack": 9737280,
+              "defense": 1395360,
+              "speed": 248077,
+              "shield": 9197837,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 18020082,
+                "hpFloor": 114904207,
+                "openingShield": 9197837,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 31092781,
+              "attack": 9080268,
+              "defense": 1301207,
+              "speed": 90636,
+              "shield": 711395,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 7608522,
+                "hpFloor": 26179659,
+                "openingShield": 711395,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 4.96875,
+          "averageRazakCasts": 3.15625
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "gear": 1000000,
+          "wins": 32,
+          "draws": 0,
+          "total": 32,
+          "razakCasts": 100,
+          "razakBasicTurns": 179,
+          "razakSurvivals": 32,
+          "opening": {
+            "razak": {
+              "code": "V-058",
+              "rank": "SSS",
+              "basePower": 2000000,
+              "maxHp": 209517570,
+              "attack": 16920288,
+              "defense": 2056319,
+              "speed": 278543,
+              "shield": 9227878,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 27286831,
+                "hpFloor": 209517570,
+                "openingShield": 9227878,
+                "tierGuard": 16,
+                "tierOffense": 4
+              }
+            },
+            "opponent": {
+              "code": "V-965",
+              "rank": "SS",
+              "basePower": 1356400,
+              "maxHp": 53582810,
+              "attack": 15778609,
+              "defense": 1917568,
+              "speed": 101767,
+              "shield": 713719,
+              "mercenaryLink": {
+                "version": 2144,
+                "attackFloor": 13203509,
+                "hpFloor": 47642750,
+                "openingShield": 713719,
+                "tierGuard": 1,
+                "tierOffense": 1,
+                "ssLimitedMatchupScale": 1
+              }
+            }
+          },
+          "losses": 0,
+          "winRate": 1,
+          "averageRazakBasicTurns": 5.59375,
+          "averageRazakCasts": 3.125
+        }
+      ],
+      "losses": 0,
+      "winRate": 1
+    }
+  ]
+}

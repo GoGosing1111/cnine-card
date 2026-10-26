@@ -53,7 +53,13 @@ export function mercenaryPvpTierGuard(actor,teams){
  if(opponents.length!==1&&!actor.ownerId)return 1;
  if(!opponents.length)return 1;
  const gap=Math.max(0,rank-Math.max(...opponents.map(other=>ranks.indexOf(mercenaryCombatRank(other)))));
- return 1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
+ // SS limited use the SSS combat rank, so the ordinary rank gap above misses
+ // them. Razak's released superiority also includes Kangyun. Freeze this
+ // actual attack/HP/shield/cap advantage at entry, using catalog identities.
+ // A mixed opposing lineup containing any other mercenary keeps the baseline;
+ // an SS companion must never unlock this guard against an SSS limited fighter.
+ const razakPriority=isRazak(actor)&&opponents.every(other=>ssLimitedProfile(other)||isImperialArcher(other));
+ return Math.max(1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep,razakPriority?RAZAK_COMBAT.pvpPriorityTierGuard:1);
 }
 
 export const mercenaryEffectiveAttack=actor=>Math.max(Number(actor.attack)||0,actor.isMercenary?Number(actor.mercenaryLink?.attackFloor)||0:0);
