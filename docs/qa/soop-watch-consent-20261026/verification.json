@@ -24,5 +24,61 @@
       "sha256": "5b9206709904211b76e6316f930dc8636017c388125f9a32244e775432d0a397"
     }
   ],
-  "screenshotDirectory": "C:\\Users\\User\\.codex\\visualizations\\2026\\10\\26\\01a1781f-eab2-7101-b315-7eeea213dd8d\\soop-watch-consent"
+  "screenshotDirectory": "C:\\Users\\User\\.codex\\visualizations\\2026\\10\\26\\01a1781f-eab2-7101-b315-7eeea213dd8d\\soop-watch-consent",
+  "releaseTests": 4,
+  "publicMobileChecks": 7,
+  "pages": {
+    "id": "5e0f5ac3-2412-4450-a29f-168f47b7593e",
+    "url": "https://5e0f5ac3.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "4089bae634ed8168fbeee45b9561ed321caacda7"
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "d9f22100de4119ad81455ee6e2e8fab19d5030beae36351b0e61c876a29bedc7"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "f42b68b7fb022406ecdc77832f089c0aa0f151d7361ed92e09aed481f903395f"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "369301836980b9a814346c431c4cc5b698c99f064a6a132f6802795b9b7a355d"
+    },
+    {
+      "file": "js/soop-watch-consent-v1.mjs",
+      "sha256": "926bd99dd6facfc806ac5dac2528f3f0a5222ca0f72111f5f1f58b92adb1d074"
+    },
+    {
+      "file": "css/soop-watch-consent-v1.css",
+      "sha256": "495f0ab408e46baadbf9c9c207f8bc370bb027cd25ba5705f09fb7437424d131"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "323c1630c498b46a1f8d81c954afb605a657424ba03cc3e4df1ff3a20ad40fd2"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "33df91d111c71bc78864b7a13c8b3521b3d37ce9a76854a7797587a73243b0db"
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "aa7bad3b-1bfb-4fb2-9766-99e5567d3f68",
+      "optionalIdentityCompiled": true,
+      "provisionStatusCompiled": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "2f99c291-4966-44e5-a9ef-70a6731fa417",
+      "optionalIdentityCompiled": false,
+      "provisionStatusCompiled": false
+    }
+  ],
+  "serviceStatus": 200,
+  "unauthenticatedVerificationStatus": 401,
+  "publicPageErrors": 0,
+  "deployedAtKst": "2026-10-26 21:43:27 KST"
 }
