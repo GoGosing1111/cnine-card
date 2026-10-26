@@ -1,0 +1,8 @@
+{
+  "base": "adf692bd4140c35fc2da45fd6996dcec6bceae2c",
+  "reason": "Fix the CNINE department entrance portrait CSS specificity: desktop photos overflowed their 64px frame at 120px height and overlapped the entry action. Use a dedicated 56px square size and bounded mobile size, preserving all roster member cards and actions. Reproduced on the actual main desktop and verified PC/mobile square bounds, count/button spacing, department contents and lobby return. CSS and loader cache only; no account or settings writes.",
+  "tests": [
+    "tests/streamer-lounge-v2036.test.mjs"
+  ],
+  "checks": []
+}

@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-26T12:29:57.547Z",
+  "restored": [
+    "assets/ui/project-v/mercenaries/mercenary-attachment-points-v1.json",
+    "preview/sustained-hunt-v2/hunt-rules.mjs",
+    "assets/ui/tower-monsters-20261022/manifest.json",
+    "assets/ui/project-v/monsters/hunt-tower/manifest-v1.json",
+    "preview/sustained-hunt-v2/session.mjs",
+    "preview/sustained-hunt-v2/timeline.mjs",
+    "preview/idle-v3-v1/source/idle-model.mjs",
+    "assets/ui/project-v/fallback/manifest-v1.json",
+    "assets/ui/project-v/characters/icon/manifest-v1.json",
+    "assets/ui/project-v/characters/superstar/manifest-v1.json",
+    "assets/ui/project-v/characters/prestige/manifest-v1.json",
+    "assets/ui/project-v/characters/fur/manifest-v2.json",
+    "assets/ui/project-v/characters/zenith/manifest-v1.json",
+    "preview/coop-defense-v1/source/defense-model.mjs",
+    "packaging/windows-client/lib/policy.mjs"
+  ],
+  "codeChanged": false
+}
