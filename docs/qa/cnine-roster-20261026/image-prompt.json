@@ -1,0 +1,9 @@
+{
+  "tool": "built-in image_gen",
+  "kind": "style-reference background",
+  "prompt": "Use case: stylized-concept.\nAsset type: production web background illustration for a Korean C9 streamer roster board, wide landscape 16:9.\nInput image: the supplied roster image is a STYLE AND ATMOSPHERE reference only.\nPrimary request: Create a clean, polished background illustration with the reference's midnight navy starfield, soft pink and ice-blue nebula, luminous blue and pink crystalline butterfly wings and flowers framing the lower corners, and a delicate reflective cosmic horizon.\nComposition: a spacious dark navy central region occupying 70 percent of the image, subtle stars above; ornate details and brighter light reserved for the far left, right, and bottom edges. The center must remain calm and dark enough to place six real profile cards and a readable title in HTML. Symmetrical visual balance with refined depth, high quality fantasy celestial illustration. Keep the imagery elegant and soft rather than cluttered.\nPalette: midnight blue, dusty rose, pearlescent pink and icy cyan, matching the reference.\nConstraints: BACKGROUND ONLY. No text, no letters, no logo, no crown, no leopard, no people, no portraits, no UI, no panels, no cards, no circles, no badges, no borders, no watermark. This is one uninterrupted landscape illustration, not a screenshot or mockup. Do not replicate or invent any person's appearance.",
+  "reference": "art/user-reference.png",
+  "original": "art/celestial-board-source.png",
+  "runtime": "assets/ui/streamer-lounge/cnine-roster-20261026/celestial-board.webp",
+  "approval": "User requested image-skill implementation; no separate visual approval claimed."
+}

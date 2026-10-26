@@ -1,5 +1,6 @@
 import { stationUrl, profileImageUrl } from './streamer-lounge-model-v2036.js?v=2036';
 import { portraitSourceUrl, portraitSize } from './streamer-lounge-portraits-v1.js?v=20261013-original';
+import { closeCnineRoster, mountCnineLobby } from './cnine-roster-v1.js?v=20261026-v2';
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg>';
@@ -59,6 +60,7 @@ function paintEntrances() {
   });
 }
 async function mount() {
+  mountCnineLobby();
   paintEntrances();
   if (!document.querySelector('[data-streamer-lounge-host]')) return;
   const before = JSON.stringify(data);
@@ -211,7 +213,7 @@ function openLounge(source) {
   dialog.querySelector('[data-sl36-close]').focus();
   void refreshDialog();
 }
-function closeLounge() { if (dialog?.open) dialog.close(); }
+function closeLounge() { closeCnineRoster(); if (dialog?.open) dialog.close(); }
 
 window.StreamerLounge = Object.freeze({ mount, open: openLounge, close: closeLounge });
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { void mount(); }, { once: true });
