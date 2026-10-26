@@ -1,6 +1,8 @@
 import {EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE} from './equipment-forge-release-v1.mjs';
 
 export const defaultDefenseReward=()=>({coin:0,masterStars:0,items:[]});
+// Coins use exact integer balances throughout the economy; no defense-specific cap.
+export const DEFENSE_COIN_MAX=Number.MAX_SAFE_INTEGER;
 export const defenseRewardItemRule=item=>({chancePercent:item.chancePercent??100,minQuantity:item.minQuantity??item.quantity,maxQuantity:item.maxQuantity??item.quantity});
 export const hasDefenseReward=r=>!!r&&(r.coin>0||r.masterStars>0||r.items?.some(i=>defenseRewardItemRule(i).chancePercent>0));
 export function defenseRewardItemLabel(item){
@@ -21,7 +23,7 @@ export function validateDefenseReward(raw){
   // Keep existing fixed policies byte-for-byte compatible after validation.
   return chancePercent===100&&minQuantity===maxQuantity?{code:item.code,quantity:minQuantity}:{code:item.code,chancePercent:Math.round(chancePercent*100)/100,minQuantity,maxQuantity};
  });
- return {coin:integer(raw.coin,1000000000000,'코인'),masterStars:integer(raw.masterStars,10000000,'마스터의 별'),items};
+ return {coin:integer(raw.coin,DEFENSE_COIN_MAX,'코인'),masterStars:integer(raw.masterStars,10000000,'마스터의 별'),items};
 }
 export function freezeDefenseReward(settings,difficulty,practice=false){
  const row=settings.difficulties.find(d=>d.id===difficulty),reward=validateDefenseReward(row?.clearReward||defaultDefenseReward());

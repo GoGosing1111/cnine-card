@@ -32,7 +32,7 @@ export async function handleMonsterDefense({path,request,env,deps}){
     const rows=await env.DB.prepare('SELECT id,nickname FROM users WHERE nickname=? OR id=? ORDER BY id LIMIT 20').bind(q,/^[1-9]\d{0,12}$/.test(q)?Number(q):0).all();return reply({users:rows.results});
    }
    if(action!=='settings')fail('없는 설정 경로입니다.',404);
-   if(request.method==='GET')return reply({settings,difficulties:DEFENSE_DIFFICULTIES,rewardItems:await coopRewardCatalog(env)});
+   if(request.method==='GET')return reply({settings,editorId:Number(user.id),difficulties:DEFENSE_DIFFICULTIES,rewardItems:await coopRewardCatalog(env)});
    if(request.method!=='POST')fail('지원하지 않는 요청입니다.',405);
    const body=await readJointBody(request,{maxBytes:32768,fields:['settings','requestId']});
    const next=validateDefenseSettings(body.settings);if(!/^[a-zA-Z0-9-]{16,100}$/.test(body.requestId||''))fail('저장 요청 ID를 확인하세요.');

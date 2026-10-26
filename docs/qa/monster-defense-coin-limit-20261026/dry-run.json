@@ -1,0 +1,152 @@
+{
+  "at": "2026-10-26T02:42:50.050Z",
+  "mode": "dry-run",
+  "operationKey": "ops:monster-defense-settings:20261026:v1",
+  "revision": 16,
+  "modeSetting": "ON",
+  "rewardsEnabled": true,
+  "difficulties": [
+    {
+      "id": "GUIDE",
+      "enabled": true,
+      "clearReward": {
+        "coin": 300000000000,
+        "masterStars": 0,
+        "items": [
+          {
+            "code": "WEAPON_ENHANCEMENT_SCROLL",
+            "chancePercent": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          },
+          {
+            "code": "ARMOR_ENHANCEMENT_SCROLL",
+            "chancePercent": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          }
+        ]
+      },
+      "hpPercent": 65,
+      "attackPercent": 65,
+      "speedPercent": 85,
+      "spawnPercent": 75,
+      "coreHp": 1300
+    },
+    {
+      "id": "NORMAL",
+      "enabled": true,
+      "clearReward": {
+        "coin": 600000000000,
+        "masterStars": 0,
+        "items": [
+          {
+            "code": "WEAPON_ENHANCEMENT_SCROLL",
+            "chancePercent": 2,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          },
+          {
+            "code": "ARMOR_ENHANCEMENT_SCROLL",
+            "chancePercent": 2,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          }
+        ]
+      },
+      "hpPercent": 90,
+      "attackPercent": 85,
+      "speedPercent": 100,
+      "spawnPercent": 90,
+      "coreHp": 1200
+    },
+    {
+      "id": "HARD",
+      "enabled": true,
+      "clearReward": {
+        "coin": 900000000000,
+        "masterStars": 0,
+        "items": [
+          {
+            "code": "WEAPON_ENHANCEMENT_SCROLL",
+            "chancePercent": 3,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          },
+          {
+            "code": "ARMOR_ENHANCEMENT_SCROLL",
+            "chancePercent": 3,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          }
+        ]
+      },
+      "hpPercent": 150,
+      "attackPercent": 105,
+      "speedPercent": 108,
+      "spawnPercent": 100,
+      "coreHp": 1100
+    },
+    {
+      "id": "NIGHTMARE",
+      "enabled": true,
+      "clearReward": {
+        "coin": 1500000000000,
+        "masterStars": 0,
+        "items": [
+          {
+            "code": "WEAPON_ENHANCEMENT_SCROLL",
+            "chancePercent": 4,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          },
+          {
+            "code": "ARMOR_ENHANCEMENT_SCROLL",
+            "chancePercent": 4,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          }
+        ]
+      },
+      "hpPercent": 300,
+      "attackPercent": 180,
+      "speedPercent": 130,
+      "spawnPercent": 150,
+      "coreHp": 1000
+    },
+    {
+      "id": "CATACLYSM",
+      "enabled": true,
+      "clearReward": {
+        "coin": 3000000000000,
+        "masterStars": 0,
+        "items": [
+          {
+            "code": "WEAPON_ENHANCEMENT_SCROLL",
+            "chancePercent": 5,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          },
+          {
+            "code": "ARMOR_ENHANCEMENT_SCROLL",
+            "chancePercent": 5,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          }
+        ]
+      },
+      "hpPercent": 400,
+      "attackPercent": 250,
+      "speedPercent": 150,
+      "spawnPercent": 160,
+      "coreHp": 600
+    }
+  ],
+  "committed": false,
+  "rolledBack": true,
+  "replayed": false,
+  "auditId": "51571",
+  "verified": true,
+  "writeStatements": 3,
+  "accountWrites": 0
+}

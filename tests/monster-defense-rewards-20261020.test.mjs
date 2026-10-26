@@ -16,7 +16,7 @@ test('ON access and five CMS rewards default empty; legacy TEST rows stay locked
  assert.deepEqual(validateDefenseSettings(initial),defaultDefenseSettings());
  assert.equal(defenseAccess({id:9,role:'USER'},initial),false);assert.equal(defenseAccess({id:9,role:'USER'},{...initial,mode:'ON'}),true);assert.equal(defenseAccess(null,{...initial,mode:'ON'}),false);assert.equal(defenseAccess({id:1,role:'OWNER'},{...initial,mode:'OFF'}),false);
  assert.deepEqual(validateDefenseSettings(settings()),settings());
- for(const change of [s=>s.mode='INVALID',s=>s.difficulties[0].clearReward.coin=-1,s=>s.difficulties[0].clearReward.coin=1e12+1,s=>s.difficulties[0].clearReward.masterStars=.5,s=>s.difficulties[0].clearReward.items[0].code='MASTER_STAR',s=>s.difficulties[0].clearReward.items[0].quantity=0,s=>s.difficulties[0].clearReward.items.push(s.difficulties[0].clearReward.items[0])]){const s=settings();change(s);assert.throws(()=>validateDefenseSettings(s));}
+ for(const change of [s=>s.mode='INVALID',s=>s.difficulties[0].clearReward.coin=-1,s=>s.difficulties[0].clearReward.coin=Number.MAX_SAFE_INTEGER+1,s=>s.difficulties[0].clearReward.masterStars=.5,s=>s.difficulties[0].clearReward.items[0].code='MASTER_STAR',s=>s.difficulties[0].clearReward.items[0].quantity=0,s=>s.difficulties[0].clearReward.items.push(s.difficulties[0].clearReward.items[0])]){const s=settings();change(s);assert.throws(()=>validateDefenseSettings(s));}
  assert.throws(()=>validateDefenseSettings({...defaultDefenseSettings(),rewardsEnabled:true}));
 });
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} all five difficulty rewards: one atomic receipt per clear, frozen amounts, OFF and no retroactive TEST rewards`,async()=>{
