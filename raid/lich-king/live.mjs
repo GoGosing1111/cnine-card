@@ -1,6 +1,6 @@
 import {mountRewardRevealButton,mountRewardRevealInbox} from '/js/content-reward-reveal-v1.mjs?v=20261016-reveal1';
 import {jointAccountRequest as request} from '/js/joint-account-transport.mjs';
-import {retryLichRequest} from './request-retry.mjs?v=20261013-lock-retry';
+import {retryLichRequest,acceptLichSnapshot,withLichInputDeadline} from './request-retry.mjs?v=20261026-input-recovery';
 export function mountLichRaid(root=document.body,{loadBattle=async()=>{}}={}){
 const $=id=>root.querySelector('[data-lich-id="'+id+'"]')||root.querySelector('#'+id),roles={ASSAULT:'정벌대',WARDEN:'봉인대',RESCUE:'구출대',UNASSIGNED:'배정 대기'};
 const roleKeys=['ASSAULT','WARDEN','RESCUE'];
@@ -130,7 +130,7 @@ function render(result){
     return;
   }
   const next=result.state;
-  if(state?.id===next.id&&(next.serverNow<state.serverNow||next.serverNow===state.serverNow&&next.revision<state.revision))return;
+  if(!acceptLichSnapshot(state,next))return;
   const events=next.events.filter(e=>e.seq>eventSeq);eventSeq=Math.max(eventSeq,next.eventSeq);state=next;stateReceivedAt=performance.now();setRoom(state.id);
   if($('guideDialog').open)renderGuideContext();
   renderMembers();
@@ -164,7 +164,7 @@ async function sync(){
   if(disposed||polling||mounting||busy)return;polling=true;const revision=generation;
   try{
     const query=new URLSearchParams({since:String(eventSeq)});if(roomId)query.set('roomId',roomId);if(!mounted)query.set('payload','1');
-    const result=await api('status?'+query,{signal:lifecycle.signal});if(disposed||revision!==generation)return;failures=0;render(result);
+    const result=await api('status?'+query,{signal:lifecycle.signal,timeoutMs:mounted&&state?.status==='ACTIVE'?3000:30000});if(disposed||revision!==generation)return;failures=0;render(result);
     if(result.state?.status==='ACTIVE'&&!mounted)await mount(result.payload);
   }catch(error){
     if(revision!==generation)return;failures++;
@@ -188,7 +188,7 @@ async function actionCommand(body){
     return Boolean(control)&&(!control.deadline||now<control.deadline);
   };
   try{
-    const result=await api('action?since='+eventSeq,{method:'POST',body:{...input,requestId:pending.get(key)},signal:lifecycle.signal,timeoutMs:15000,canRetry});
+    const result=await withLichInputDeadline(signal=>api('action?since='+eventSeq,{method:'POST',body:{...input,requestId:pending.get(key)},signal,timeoutMs:2500,canRetry}),{signal:lifecycle.signal});
     pending.delete(key);if(!current())return;
     if(result.state){render(result);applied=true;}
   }catch(error){

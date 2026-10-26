@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261016-reveal1';
+  const VERSION = '20261026-input-recovery';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, revision = 0;
   const host = () => document.getElementById('pveLichRaidView');
   async function refresh() {

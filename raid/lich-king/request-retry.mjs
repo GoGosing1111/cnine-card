@@ -3,6 +3,28 @@
 const delays=[120,240,400,640];
 const contention=new Set(['JOINT_LOCK_BUSY','USER_ACTION_IN_PROGRESS','LICH_BUSY']);
 export const isLichRequestBusy=error=>error?.status===409&&contention.has(error.code);
+// A status read can start from an older committed room while an action commits.
+// Its later wall clock does not make its consumed tokens or HP newer.
+export function acceptLichSnapshot(current,next){
+  if(!current||current.id!==next.id)return true;
+  if(next.revision<current.revision||next.eventSeq<current.eventSeq)return false;
+  return next.revision>current.revision||next.eventSeq>current.eventSeq||next.serverNow>=current.serverNow;
+}
+// The final attack window is only 12s. Bound the entire input (including lock
+// retries), retain its receipt, and let the player retry the same intent safely.
+// Polls continue independently; a timeout never implies server-side failure.
+export async function withLichInputDeadline(send,{signal,timeoutMs=2500}={}){
+  signal?.throwIfAborted();
+  const controller=new AbortController();let timer,abort;
+  const stopped=new Promise((_,reject)=>{
+    const stop=reason=>{controller.abort(reason);reject(reason);};
+    abort=()=>stop(signal.reason||new DOMException('Aborted','AbortError'));
+    signal?.addEventListener('abort',abort,{once:true});
+    timer=setTimeout(()=>stop(Object.assign(new Error('입력 응답이 늦어지고 있습니다. 전황을 확인한 뒤 같은 버튼으로 다시 시도하세요.'),{code:'LICH_INPUT_TIMEOUT',status:408,retryable:true})),timeoutMs);
+  });
+  try{return await Promise.race([Promise.resolve().then(()=>send(controller.signal)),stopped]);}
+  finally{clearTimeout(timer);signal?.removeEventListener('abort',abort);}
+}
 const superseded=()=>Object.assign(new Error('현재 전황으로 갱신되었습니다.'),{code:'LICH_INPUT_SUPERSEDED',status:409});
 function pause(ms,signal){
   return new Promise((resolve,reject)=>{
