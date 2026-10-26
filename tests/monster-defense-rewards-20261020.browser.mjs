@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {monsterDefenseFixture,defenseOwnedLoadout} from './helpers/monster-defense-fixture.mjs';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
-const h=await monsterDefenseFixture(),out=path.resolve('docs/qa/monster-defense-rewards-20261020');
+const h=await monsterDefenseFixture(),out=path.resolve(process.env.QA_OUT||'docs/qa/monster-defense-rewards-20261020');
 await fs.mkdir(out,{recursive:true});
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']});
 const contexts=[],errors=[],failed=[],checks=[],uid=()=>crypto.randomUUID();
@@ -28,10 +28,10 @@ try{
  await root.locator('[name=mode]').selectOption('ON');await root.locator('[data-rewards-enabled]').check();
  for(const [i,d]of ['GUIDE','NORMAL','HARD','NIGHTMARE','CATACLYSM'].entries()){
   const tier=root.locator('[data-reward="'+d+'"]');await tier.locator('[data-coin]').fill(String((i+1)*100000000000));await tier.locator('[data-stars]').fill(String((i+1)*10));
-  await tier.locator('[data-item-add]').click();await tier.locator('[data-item-row] select').selectOption('PET_ESSENCE');await tier.locator('[data-item-row] input').fill(String(i+2));
+  await tier.locator('[data-item-add]').click();await tier.locator('[data-item-row] select').selectOption('PET_ESSENCE');await tier.locator('[data-item-min]').fill(String(i+2));await tier.locator('[data-item-max]').fill(String(i+2));
  }
  assert.equal(await root.locator('[data-rewards-enabled]').isChecked(),true,'adding items preserves unsaved toggle');
- const guide=root.locator('[data-reward=GUIDE]');await guide.locator('[data-item-add]').click();await guide.locator('[data-item-row] select').last().selectOption('EMPEROR_ENERGY');await guide.locator('[data-item-row] input').last().fill('5');
+ const guide=root.locator('[data-reward=GUIDE]');await guide.locator('[data-item-add]').click();await guide.locator('[data-item-row] select').last().selectOption('EMPEROR_ENERGY');await guide.locator('[data-item-min]').last().fill('5');await guide.locator('[data-item-max]').last().fill('5');
  await root.locator('[data-save]').click();await pc.waitForFunction(()=>document.querySelector('#view-monster-defense [data-status]')?.textContent.startsWith('저장 완료'));
  await root.locator('[data-reload]').click();await root.locator('[data-save]:enabled').waitFor();assert.equal(await root.locator('[name=mode]').inputValue(),'ON');assert.equal(await guide.locator('[data-item-row]').count(),2);
  await shot(pc,'01-desktop-cms-rewards',root.locator('.md-rewards'));
