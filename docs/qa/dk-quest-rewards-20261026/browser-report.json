@@ -1,0 +1,28 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "daily": "5조 코인",
+      "weekly": "30조 코인",
+      "targets": [
+        15,
+        300
+      ],
+      "cmsSaved": 1,
+      "errors": [],
+      "productionWrites": 0
+    },
+    {
+      "width": 390,
+      "daily": "5조 코인",
+      "weekly": "30조 코인",
+      "targets": [
+        15,
+        300
+      ],
+      "cmsSaved": 1,
+      "errors": [],
+      "productionWrites": 0
+    }
+  ]
+}

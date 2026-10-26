@@ -1,0 +1,27 @@
+{
+  "status": "PASSED",
+  "reports": [
+    {
+      "width": 1280,
+      "operatorCheckboxEnabled": true,
+      "checkedSavedReloaded": true,
+      "economicsPreserved": true,
+      "userCraftSucceeded": true,
+      "missingMaterialDisabled": true,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 390,
+      "operatorCheckboxEnabled": true,
+      "checkedSavedReloaded": true,
+      "economicsPreserved": true,
+      "userCraftSucceeded": true,
+      "missingMaterialDisabled": true,
+      "horizontalOverflow": false
+    }
+  ],
+  "isolatedPosts": 4,
+  "productionAccountWrites": 0,
+  "errors": [],
+  "failed": []
+}

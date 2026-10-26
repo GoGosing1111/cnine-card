@@ -3445,7 +3445,7 @@ async function inspectWagoComment(settings,verification){
 }
 
 
-const DAILY_QUEST_MAX_REWARD_COIN=100_000_000_000;
+const DAILY_QUEST_MAX_REWARD_COIN=5_000_000_000_000;
 function normalizePlaydkDailyBoardSlugs(value,fallback=['skm']){
   const source=Array.isArray(value)?value:String(value||'').split(',');
   const normalized=[...new Set(source.map(item=>String(item||'').trim().toLowerCase()).filter(slug=>/^[a-z0-9_-]{1,80}$/.test(slug)))].slice(0,10);
@@ -7695,7 +7695,7 @@ async function handleRequest(context){
         if(admin.role!=='OWNER')return json({error:'일일퀘스트 설정 변경은 OWNER만 가능합니다.'},403);
         const body=await readBody(request),before=await playdkDailyQuestSettings(env),v=body.settings||{};
         const postRewardCoin=Number(v.postRewardCoin??v.rewardCoin??before.postRewardCoin);
-        if(!Number.isSafeInteger(postRewardCoin)||postRewardCoin<0||postRewardCoin>DAILY_QUEST_MAX_REWARD_COIN)return json({error:'일일퀘스트 보상 코인은 0~1,000억 사이의 정수로 입력하세요.'},400);
+        if(!Number.isSafeInteger(postRewardCoin)||postRewardCoin<0||postRewardCoin>DAILY_QUEST_MAX_REWARD_COIN)return json({error:'일일퀘스트 보상 코인은 0~5조 사이의 정수로 입력하세요.'},400);
         const next={...before,enabled:v.enabled!==false,postEnabled:v.postEnabled!==false,commentEnabled:false,boardSlugs:normalizePlaydkDailyBoardSlugs(before.boardSlugs),requiredPosts:15,postRewardCoin,checkCooldownSeconds:Math.max(5,Math.min(300,Number(v.checkCooldownSeconds)||20)),adminTestAllowed:v.adminTestAllowed!==false};
         next.rewardCoin=next.postRewardCoin;
         await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('playdk_daily_quest_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(next)).run();

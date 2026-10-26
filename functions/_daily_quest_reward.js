@@ -5,7 +5,7 @@ import {ensureJointAtomicSchema,jointGuard,jointGuardEnd} from './_joint_atomic.
 export async function payDailyQuestReward(DB,{userId,date,reward,postCount,snapshot}){
  const p=(sql,...args)=>DB.prepare(sql).bind(...args),token=crypto.randomUUID();
  const keys=['playdk_daily_quest_settings_v1','wago_daily_quest_settings_v1'];
- if(!Number.isSafeInteger(reward)||reward<0||reward>100_000_000_000||!Number.isSafeInteger(postCount)||postCount<15||!snapshot||snapshot.key!==null&&!keys.includes(snapshot.key))throw Error('Invalid daily quest reward');
+ if(!Number.isSafeInteger(reward)||reward<0||reward>5_000_000_000_000||!Number.isSafeInteger(postCount)||postCount<15||!snapshot||snapshot.key!==null&&!keys.includes(snapshot.key))throw Error('Invalid daily quest reward');
  await ensureJointAtomicSchema({DB});
  const same=snapshot.key===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key IN (?,?))':"EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)"+(snapshot.key===keys[1]?' AND NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'');
  const args=snapshot.key===null?keys:[snapshot.key,snapshot.value,...(snapshot.key===keys[1]?[keys[0]]:[])];
