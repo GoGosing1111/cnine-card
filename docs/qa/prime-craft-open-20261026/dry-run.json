@@ -1,0 +1,223 @@
+{
+  "replayed": false,
+  "committed": false,
+  "rolledBack": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:prime-craft-open:20261026:v1",
+    "actor": "CODEX_OPERATIONS",
+    "authorization": "프라임레퀴엠 제작 가능하게 운영 박스 체크되게 변경해",
+    "completedAt": "2026-10-26T01:39:49.930Z",
+    "before": {
+      "policy": {
+        "revision": 4,
+        "coinCost": 150000000000000,
+        "masterStarCost": 0,
+        "successRate": 100,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_PRIME_DEPLETED_CARD",
+            "quantity": 1
+          },
+          {
+            "itemCode": "PRIME_REQUIEM_BLUEPRINT",
+            "quantity": 1
+          }
+        ],
+        "isActive": false,
+        "isPublic": true
+      },
+      "recipe": {
+        "id": 545,
+        "code": "WORKSHOP_PRIME_REQUIEM",
+        "category": "MERCENARY_CRAFT",
+        "name": "프라임 레퀴엠",
+        "description": "기운잃은 프라임 카드로 완제 용병을 제작합니다. 제작 조건 미정 · 현재 제작 잠금.",
+        "output_type": "MERCENARY",
+        "output_ref": "V-975",
+        "output_quantity": 1,
+        "payment_mode": "BOTH",
+        "coin_cost": 150000000000000,
+        "master_star_cost": 0,
+        "success_rate": 100,
+        "is_featured": 1,
+        "is_active": 0,
+        "is_public": 1,
+        "owner_test_only": 0,
+        "sort_order": 990,
+        "created_at": "2026-10-26 01:27:36",
+        "updated_at": "2026-10-26 01:27:52"
+      },
+      "materialDescription": "블러드문팩에서 획득하는 프라임 레퀴엠 제작 재료입니다. 필요 수량·성공률·추가 비용은 추후 결정되며 현재 제작은 잠겨 있습니다."
+    },
+    "after": {
+      "policy": {
+        "revision": 5,
+        "coinCost": 150000000000000,
+        "masterStarCost": 0,
+        "successRate": 100,
+        "materials": [
+          {
+            "itemCode": "MERCENARY_PRIME_DEPLETED_CARD",
+            "quantity": 1
+          },
+          {
+            "itemCode": "PRIME_REQUIEM_BLUEPRINT",
+            "quantity": 1
+          }
+        ],
+        "isActive": true,
+        "isPublic": true
+      },
+      "recipe": {
+        "id": 545,
+        "code": "WORKSHOP_PRIME_REQUIEM",
+        "category": "MERCENARY_CRAFT",
+        "name": "프라임 레퀴엠",
+        "description": "기운잃은 프라임 카드와 설정된 재료·비용으로 프라임 레퀴엠을 제작합니다.",
+        "output_type": "MERCENARY",
+        "output_ref": "V-975",
+        "output_quantity": 1,
+        "payment_mode": "BOTH",
+        "coin_cost": 150000000000000,
+        "master_star_cost": 0,
+        "success_rate": 100,
+        "is_featured": 1,
+        "is_active": 1,
+        "is_public": 1,
+        "owner_test_only": 0,
+        "sort_order": 990,
+        "created_at": "2026-10-26 01:27:36",
+        "updated_at": "2026-10-26T01:39:49.930Z"
+      },
+      "materialDescription": "블러드문팩에서 획득하는 프라임 레퀴엠 제작 재료입니다. 용병제작에서 현재 제작 조건을 확인하세요."
+    },
+    "protectedBefore": "a2a46fbcd8ce0d438481dbd51ff293ccd1c5dd2bffc9c12122c27501b2822578",
+    "protectedAfter": "a2a46fbcd8ce0d438481dbd51ff293ccd1c5dd2bffc9c12122c27501b2822578",
+    "accountWrites": 0,
+    "grantedCards": 0,
+    "auditId": "51537"
+  },
+  "verification": {
+    "verified": true,
+    "policy": {
+      "revision": 5,
+      "coinCost": 150000000000000,
+      "masterStarCost": 0,
+      "successRate": 100,
+      "materials": [
+        {
+          "itemCode": "MERCENARY_PRIME_DEPLETED_CARD",
+          "quantity": 1
+        },
+        {
+          "itemCode": "PRIME_REQUIEM_BLUEPRINT",
+          "quantity": 1
+        }
+      ],
+      "isActive": true,
+      "isPublic": true
+    },
+    "recipeId": "545",
+    "craftLocked": false,
+    "craftReleaseLocked": false,
+    "auditId": "51537",
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:prime-craft-open:20261026:v1",
+      "actor": "CODEX_OPERATIONS",
+      "authorization": "프라임레퀴엠 제작 가능하게 운영 박스 체크되게 변경해",
+      "completedAt": "2026-10-26T01:39:49.930Z",
+      "before": {
+        "policy": {
+          "revision": 4,
+          "coinCost": 150000000000000,
+          "masterStarCost": 0,
+          "successRate": 100,
+          "materials": [
+            {
+              "itemCode": "MERCENARY_PRIME_DEPLETED_CARD",
+              "quantity": 1
+            },
+            {
+              "itemCode": "PRIME_REQUIEM_BLUEPRINT",
+              "quantity": 1
+            }
+          ],
+          "isActive": false,
+          "isPublic": true
+        },
+        "recipe": {
+          "id": 545,
+          "code": "WORKSHOP_PRIME_REQUIEM",
+          "category": "MERCENARY_CRAFT",
+          "name": "프라임 레퀴엠",
+          "description": "기운잃은 프라임 카드로 완제 용병을 제작합니다. 제작 조건 미정 · 현재 제작 잠금.",
+          "output_type": "MERCENARY",
+          "output_ref": "V-975",
+          "output_quantity": 1,
+          "payment_mode": "BOTH",
+          "coin_cost": 150000000000000,
+          "master_star_cost": 0,
+          "success_rate": 100,
+          "is_featured": 1,
+          "is_active": 0,
+          "is_public": 1,
+          "owner_test_only": 0,
+          "sort_order": 990,
+          "created_at": "2026-10-26 01:27:36",
+          "updated_at": "2026-10-26 01:27:52"
+        },
+        "materialDescription": "블러드문팩에서 획득하는 프라임 레퀴엠 제작 재료입니다. 필요 수량·성공률·추가 비용은 추후 결정되며 현재 제작은 잠겨 있습니다."
+      },
+      "after": {
+        "policy": {
+          "revision": 5,
+          "coinCost": 150000000000000,
+          "masterStarCost": 0,
+          "successRate": 100,
+          "materials": [
+            {
+              "itemCode": "MERCENARY_PRIME_DEPLETED_CARD",
+              "quantity": 1
+            },
+            {
+              "itemCode": "PRIME_REQUIEM_BLUEPRINT",
+              "quantity": 1
+            }
+          ],
+          "isActive": true,
+          "isPublic": true
+        },
+        "recipe": {
+          "id": 545,
+          "code": "WORKSHOP_PRIME_REQUIEM",
+          "category": "MERCENARY_CRAFT",
+          "name": "프라임 레퀴엠",
+          "description": "기운잃은 프라임 카드와 설정된 재료·비용으로 프라임 레퀴엠을 제작합니다.",
+          "output_type": "MERCENARY",
+          "output_ref": "V-975",
+          "output_quantity": 1,
+          "payment_mode": "BOTH",
+          "coin_cost": 150000000000000,
+          "master_star_cost": 0,
+          "success_rate": 100,
+          "is_featured": 1,
+          "is_active": 1,
+          "is_public": 1,
+          "owner_test_only": 0,
+          "sort_order": 990,
+          "created_at": "2026-10-26 01:27:36",
+          "updated_at": "2026-10-26T01:39:49.930Z"
+        },
+        "materialDescription": "블러드문팩에서 획득하는 프라임 레퀴엠 제작 재료입니다. 용병제작에서 현재 제작 조건을 확인하세요."
+      },
+      "protectedBefore": "a2a46fbcd8ce0d438481dbd51ff293ccd1c5dd2bffc9c12122c27501b2822578",
+      "protectedAfter": "a2a46fbcd8ce0d438481dbd51ff293ccd1c5dd2bffc9c12122c27501b2822578",
+      "accountWrites": 0,
+      "grantedCards": 0,
+      "auditId": "51537"
+    }
+  },
+  "sourceHash": "548425f398a83dffc726d4fb98af31c9b7d24119404e5078ae06e8869ce96b83"
+}

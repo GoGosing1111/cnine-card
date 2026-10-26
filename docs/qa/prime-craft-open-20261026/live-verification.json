@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-26T01:49:50.444Z",
+  "pages": {
+    "id": "fc9476c4-5ce9-462a-8e87-4814eedae3a6",
+    "url": "https://fc9476c4.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "af755ca17917bf1426e6a347947c339040a64605"
+  },
+  "releaseCommit": "af755ca17917bf1426e6a347947c339040a64605",
+  "observedExistingDeployment": true,
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "primeCraftReleased": true,
+      "materialGuardPreserved": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "primeCraftReleased": true,
+      "materialGuardPreserved": true
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "admin/index.html",
+      "sha256": "37a8ea76636186c17da6209b6585a79e87b93b933d71e408e453fe17f0cd81e5"
+    },
+    {
+      "file": "admin/workshop-admin-v1668.js",
+      "sha256": "e21591bf2d2a4ed220e637e74c932158465a223419e2bba66d42126629ba45d6"
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "sha256": "7b2ddcfa0aa408144254cabfbceddc966e3369730b64be9540a7eefe5111dffa"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "48434e75cd7d44cc75ee4f7706db828dcea3ab56844df078a15753c5fdf8fa51"
+    },
+    {
+      "file": "index.html",
+      "sha256": "c75869baf6bda677caa29ee1262c2a827f750677f1f575de01489f4bddb25a10"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "c5003185cea508f1766346392c1a61648ef81fe836d86d2c8b97c350109b7a4d"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "sha256": "9b6fe9571ee82429c844e9a422b1ca1501a5c5b638cfe1968824033fcc3e903f"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-presentation-v2.mjs",
+      "sha256": "80f4998d1ed0685fa79fdc47a1dd503a1830e6726b32b3b043aaa20ba4dd031a"
+    },
+    {
+      "file": "shared/mercenary-prime-material-v1.mjs",
+      "sha256": "6bbc2e5551d1977401c5f8752dbce979a38577ba1f16588b9d20639e6728509b"
+    },
+    {
+      "file": "shared/mercenary-craft-v1.mjs",
+      "sha256": "a4b724f317fae851023826a2d2b9557a671d6461fb97104f4a29df9e770ba44d"
+    }
+  ]
+}
