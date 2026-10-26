@@ -1,0 +1,91 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"9dbdb33e5357053dfaabaef90a14a6e2ec910bfd","reason":"Replace only mercenary crafting selector artwork with approved shared navy/lime resources. Preserve selection behavior and all crafting policy; verify existing workshop loader and limited shard crafting regressions plus PC/mobile actual component review.","changed":["AGENTS.md","css/workshop-v1881.css","docs/qa/mercenary-selector-ui-20261026/README.md","docs/qa/mercenary-selector-ui-20261026/before-1440.png","docs/qa/mercenary-selector-ui-20261026/browser.mjs","docs/qa/mercenary-selector-ui-20261026/local-1440-selector.png","docs/qa/mercenary-selector-ui-20261026/local-1440-workshop.png","docs/qa/mercenary-selector-ui-20261026/local-320-selector.png","docs/qa/mercenary-selector-ui-20261026/local-320-workshop.png","docs/qa/mercenary-selector-ui-20261026/local-390-selector.png","docs/qa/mercenary-selector-ui-20261026/local-390-workshop.png","docs/qa/mercenary-selector-ui-20261026/local-browser.json","docs/qa/mercenary-selector-ui-20261026/release.mjs","docs/qa/mercenary-stock-schedule-20261026/README.md","docs/qa/mercenary-stock-schedule-20261026/apply.json","docs/qa/mercenary-stock-schedule-20261026/deploy-2.log","docs/qa/mercenary-stock-schedule-20261026/deploy.log","docs/qa/mercenary-stock-schedule-20261026/independent-db-verification.json","docs/qa/mercenary-stock-schedule-20261026/live-verification.json","docs/qa/mercenary-stock-schedule-20261026/storage-closeout.json","docs/qa/mercenary-stock-schedule-20261026/verify-db.mjs","docs/qa/mercenary-stock-schedule-20261026/verify-live.mjs","docs/qa/mercenary-stock-schedule-20261026/verify.json","docs/qa/prime-requiem-blueprint-20261026/README.md","docs/qa/prime-requiem-blueprint-20261026/dry-run.json","docs/qa/prime-requiem-blueprint-20261026/initial-deployment-plan.json","docs/qa/prime-requiem-blueprint-20261026/live-verification.json","docs/qa/prime-requiem-blueprint-20261026/manifest.json","docs/qa/prime-requiem-blueprint-20261026/production.json","docs/qa/prime-requiem-blueprint-20261026/public-assets.json","docs/qa/prime-requiem-blueprint-20261026/release.mjs","docs/qa/prime-requiem-blueprint-20261026/replay.json","docs/qa/prime-requiem-blueprint-20261026/storage-closeout.json","docs/qa/prime-requiem-blueprint-20261026/verification.json","docs/qa/razak-priority-matchups-20261026/README.md","docs/qa/razak-priority-matchups-20261026/art-verification.json","docs/qa/razak-priority-matchups-20261026/before-deploy-attempt1.json","docs/qa/razak-priority-matchups-20261026/before-deploy-initial.json","docs/qa/razak-priority-matchups-20261026/before-deploy-pre-advance.json","docs/qa/razak-priority-matchups-20261026/before-deploy.json","docs/qa/razak-priority-matchups-20261026/deploy-attempt1.log","docs/qa/razak-priority-matchups-20261026/deploy.log","docs/qa/razak-priority-matchups-20261026/deployment-plan-attempt1.json","docs/qa/razak-priority-matchups-20261026/deployment-plan-initial.json","docs/qa/razak-priority-matchups-20261026/deployment-plan-pre-advance.json","docs/qa/razak-priority-matchups-20261026/deployment-plan.json","docs/qa/razak-priority-matchups-20261026/deployment-result-attempt1.json","docs/qa/razak-priority-matchups-20261026/deployment-result.json","docs/qa/razak-priority-matchups-20261026/live-verification.json","docs/qa/razak-priority-matchups-20261026/public/browser-report.json","docs/qa/razak-priority-matchups-20261026/public/desktop-codex-art.png","docs/qa/razak-priority-matchups-20261026/public/desktop-codex-sd.png","docs/qa/razak-priority-matchups-20261026/public/mobile-codex-art.png","docs/qa/razak-priority-matchups-20261026/public/mobile-codex-sd.png","docs/qa/razak-priority-matchups-20261026/settings-verification.json","docs/qa/razak-priority-matchups-20261026/storage-closeout.json","index.html","js/app.js","js/workshop-v1881.js","service-worker.js"],"tests":["tests/workshop-loading-20260925.test.mjs","tests/mercenary-limited-shard-craft-20261025.test.mjs"],"checks":[]}
+✔ all 12 SSS LIMITED recipes have separate five-slot drafts, null costs/rates, required shards and no implicit publication or writes (23.4747ms)
+✔ incomplete settings stay locked; mandatory LIMITED material cannot be removed, swapped or mixed with ordinary shards (10.5199ms)
+✔ +5 is OWNER-only, audited, replay-safe and independent of costs / existing issues (SQLite) (14.6613ms)
+✔ +5 is OWNER-only, audited, replay-safe and independent of costs / existing issues (PostgreSQL) (1788.3893ms)
+✔ simultaneous +5 calls apply once per revision and a lost response retries the same receipt (8.2737ms)
+✔ stock audit failure rolls back the increase and receipt; retry adds exactly five (1365.1923ms)
+✔ ordinary craft / LIMITED shard craft / pack and gifts use independent counts; failure and replay cannot issue again (25.1621ms)
+✔ last-slot race stops at five, losing request spends nothing, and +5 makes exactly five further slots available (47.8746ms)
+✔ grant failure rolls back cards, currencies, materials and slots (1233.7404ms)
+✔ verified new Jinmu/Jokro recipients can deploy and rank; incomplete receipts and stray holdings never grant access; Eunseol PVP allowed, Shiranui rank unchanged (77.1194ms)
+✔ CMS route accepts only an authenticated OWNER and returns the separated updated snapshot (27.9898ms)
+✔ only workshop overlaps CSS, ordered scripts and exactly one uncached entry read (5.9549ms)
+✔ other features keep CSS-first loading and do not request workshop data (1.3441ms)
+✔ asset failure can retry and waits for an already pending stylesheet (1.6603ms)
+✔ account switches and resource mutations discard the prefetched state (2.8145ms)
+✔ slow assets preserve the first response; remount reuse expires and failures stay retryable (2.2152ms)
+✔ reentry replaces an abandoned inflight read instead of joining an old account snapshot (0.9946ms)
+✔ entry prefetch is opt-in, clears on exit and keeps assembly effects deferred (0.5546ms)
+✔ late workshop responses cannot render after navigation or account change (1.218ms)
+✔ warm entry and repeated binds share a pending read without sharing manual refreshes (0.6913ms)
+✔ logout clears a pending authenticated read without a resolved-promise retry loop (2.0238ms)
+✔ hover warming prepares assets without fetching a balance before actual entry (0.8616ms)
+✔ workshop deadline includes a stuck queue or response body and allows one fresh retry (0.7233ms)
+✔ first entry can finish after the old 12-second queue deadline without showing an error (1.1578ms)
+✔ a cold-entry timeout automatically recovers one fresh GET shared by repeated mounts (0.8968ms)
+✔ transient recovery is bounded and never retries authentication, maintenance or abandoned sessions (8.2638ms)
+✔ network failure before assets finish recovers once, while stalled bodies keep the total deadline (1.1641ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5090.5158
+[PRODUCTION RELEASE OK] mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261026-v2-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 9078 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8523.00 KiB / gzip: 1835.05 KiB
+Worker Startup Time: 49 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.60 sec)
+No targets deployed for cnine-card-api-runtime (0.69 sec)
+Current Version ID: 3c069175-4831-415b-805a-e5daa46fab49
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19951/20000)
+Uploading... (19967/20000)
+Uploading... (19984/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 49 files (19951 already uploaded) (3.32 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://b46007ab.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3197.81 KiB / gzip: 718.64 KiB
+Worker Startup Time: 58 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (4.20 sec)
+Deployed cnine-card-clan-draft triggers (1.01 sec)
+  schedule: * * * * *
+Current Version ID: 699cf6ee-699e-4422-b661-644bf17b4396
