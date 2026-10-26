@@ -13,12 +13,14 @@ if(mode==='inspect'){
  const fd=fs.openSync(logfile,'w'),env={...process.env,SCOPED_DEPLOY_BASE:plan.base,SCOPED_DEPLOY_REASON:plan.reason,SCOPED_DEPLOY_TESTS:JSON.stringify(plan.tests),SCOPED_DEPLOY_CHECKS:JSON.stringify(plan.checks)};
  const child=spawn(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run deploy:production -- --scoped'],{cwd:root,env,windowsHide:true,stdio:['ignore',fd,fd]});console.log(JSON.stringify({head,base:plan.base,pid:child.pid,logfile}));
  const exitCode=await new Promise((resolve,reject)=>{child.once('exit',resolve);child.once('error',reject);});fs.closeSync(fd);save('deployment-result.json',{head,base:plan.base,exitCode,finishedAt:new Date().toISOString()});console.log(JSON.stringify({head,exitCode}));process.exitCode=exitCode||0;
-}else if(mode==='verify'){
- const execution=JSON.parse(fs.readFileSync(out+'/deployment-result.json')),after=await state();assert.equal(execution.exitCode,0);assert.equal(after.pages.commit,execution.head);assert.equal(after.pages.status,'success');
+}else if(mode==='verify'||mode==='observe'){
+ const after=await state();assert.equal(after.pages.status,'success');
+ const execution=mode==='observe'?{head:after.pages.commit,observedExistingDeployment:true}:JSON.parse(fs.readFileSync(out+'/deployment-result.json'));
+ if(mode==='observe')git('merge-base','--is-ancestor','62ce8c6d1',execution.head);else assert.equal(execution.exitCode,0);assert.equal(after.pages.commit,execution.head);
  const workers=[];for(const name of ['cnine-card-api-runtime','cnine-card-clan-draft']){
   const body=await(await api('/workers/scripts/'+name)).text(),primeCraftReleased=/PRIME_CRAFT_RELEASE_ENABLED = true/.test(body),materialGuardPreserved=body.includes('SET verified=verified WHERE guard_id=?');assert(primeCraftReleased&&materialGuardPreserved,name);workers.push({name,primeCraftReleased,materialGuardPreserved});
  }
  const files=['admin/index.html','admin/workshop-admin-v1668.js','js/workshop-v1881.js','js/app.js','index.html','service-worker.js','js/mercenary-bloodmoon-pack-live.mjs','js/mercenary-bloodmoon-presentation-v2.mjs','shared/mercenary-prime-material-v1.mjs','shared/mercenary-craft-v1.mjs'];
- const publicFiles=[];for(const file of files){const r=await fetch('https://cnine-card.pages.dev/'+file+'?verify='+execution.head,{signal:AbortSignal.timeout(30000)});assert(r.ok,file);const actual=(await r.text()).replaceAll('\r\n','\n'),expected=fs.readFileSync(file,'utf8').replaceAll('\r\n','\n');assert.equal(hash(actual),hash(expected),file);publicFiles.push({file,sha256:hash(actual)});}
- save('live-verification.json',{...after,releaseCommit:execution.head,workers,publicFiles});console.log(JSON.stringify({pages:after.pages,workers,publicFiles:publicFiles.length}));
-}else throw Error('Use inspect|deploy|verify');
+ const publicFiles=[];for(const file of files){const r=await fetch('https://cnine-card.pages.dev/'+file+'?verify='+execution.head,{signal:AbortSignal.timeout(30000)});assert(r.ok,file);const actual=(await r.text()).replaceAll('\r\n','\n'),expected=execFileSync('git',['show',execution.head+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:32e6}).replaceAll('\r\n','\n');assert.equal(hash(actual),hash(expected),file);publicFiles.push({file,sha256:hash(actual)});}
+ save('live-verification.json',{...after,releaseCommit:execution.head,observedExistingDeployment:execution.observedExistingDeployment===true,workers,publicFiles});console.log(JSON.stringify({pages:after.pages,workers,publicFiles:publicFiles.length}));
+}else throw Error('Use inspect|deploy|verify|observe');
