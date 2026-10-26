@@ -1,0 +1,243 @@
+{
+  "status": "PASSED",
+  "assetSource": "local source",
+  "reports": [
+    {
+      "width": 1440,
+      "code": "V-975",
+      "mode": "PVE",
+      "side": "A",
+      "winner": "A",
+      "basicDamage": 887040000,
+      "areaDamage": 5617551772,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "code": "V-975",
+      "mode": "PVP",
+      "side": "A",
+      "winner": "A",
+      "basicDamage": 26174720,
+      "areaDamage": null,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "code": "V-975",
+      "mode": "PVP",
+      "side": "B",
+      "winner": "B",
+      "basicDamage": 26174720,
+      "areaDamage": null,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "code": "V-976",
+      "mode": "PVP",
+      "side": "A",
+      "winner": "A",
+      "basicDamage": 26174720,
+      "areaDamage": null,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "code": "V-976",
+      "mode": "PVP",
+      "side": "B",
+      "winner": "B",
+      "basicDamage": 26174720,
+      "areaDamage": null,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "code": "V-976",
+      "codex": true,
+      "skills": 5
+    },
+    {
+      "width": 1440,
+      "code": "V-975",
+      "codex": true,
+      "skills": 7
+    },
+    {
+      "width": 390,
+      "code": "V-975",
+      "mode": "PVE",
+      "side": "A",
+      "winner": "A",
+      "basicDamage": 887040000,
+      "areaDamage": 5617551772,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-975",
+      "mode": "PVP",
+      "side": "A",
+      "winner": "A",
+      "basicDamage": 26174720,
+      "areaDamage": null,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-975",
+      "mode": "PVP",
+      "side": "B",
+      "winner": "B",
+      "basicDamage": 26174720,
+      "areaDamage": null,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-976",
+      "mode": "PVP",
+      "side": "A",
+      "winner": "A",
+      "basicDamage": 26174720,
+      "areaDamage": null,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-976",
+      "mode": "PVP",
+      "side": "B",
+      "winner": "B",
+      "basicDamage": 26174720,
+      "areaDamage": null,
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-976",
+      "codex": true,
+      "skills": 5
+    },
+    {
+      "width": 390,
+      "code": "V-975",
+      "codex": true,
+      "skills": 7
+    }
+  ],
+  "productionTransactions": 0
+}

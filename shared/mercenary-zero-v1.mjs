@@ -4,6 +4,9 @@ import {LEONEL_COMBAT} from './mercenary-leonel-v1.mjs';
 export const ZERO_CODE='V-976';
 export const ZERO_AREA_EVENT='MERCENARY_ZERO_AREA';
 export const ZERO_AREA_MECHANIC='PLATINUM_WINGS_SWORD_DOMAIN';
+// Shared by Zero and Prime only; General Jok keeps his normal combat policy.
+export const ZERO_PRIME_GENERAL_JOK_PRIORITY=Object.freeze({version:1,tierGuard:16,attackFloorScale:4,durabilityFloorScale:16,speedFloorScale:2});
+export const ZERO_PRIME_GENERAL_JOK_DESCRIPTION=' PVP에서 상대 용병이 모두 제너럴 족이면 연계 공격 4배·연계 체력과 방벽 16배의 우위를 얻습니다. 상대의 성장·장비 적용 후 공격력의 최소 4배, 최대 체력·방벽의 최소 16배를 보장하며, 카드 연계 추가 행동을 포함한 상대 행동 속도의 최소 2배로 대응합니다. 이 우위는 전투 시작 시 고정됩니다.';
 const powerScale=3000000/LEONEL_COMBAT.basePower;
 export const ZERO_COMBAT=Object.freeze({...LEONEL_COMBAT,version:3,basePower:3000000,basicDamageScale:1.5,areaDamageCapScale:2,
  statScale:LEONEL_COMBAT.statScale*powerScale,basicCapScale:LEONEL_COMBAT.basicCapScale*powerScale,
@@ -32,7 +35,7 @@ export const ZERO_ART=Object.freeze({
  artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#a8ecff',
  basePower:ZERO_COMBAT.basePower,skills:Object.freeze([...ZERO_BASIC_FORMS,...ZERO_AREA_SKILLS]),
  acquisitionEnabled:false,packAcquisitionEnabled:false,deploymentEnabled:true,
- combatLinkDescription:'기본 전투력 3,000,000. 공격·체력·방어·연계는 전투력에 비례하며 기존 속도와 행동 주기를 유지합니다. 개인 피해 80% 경감, 상태이상·반격 보호. 청광 횡단·섬광 연참·용궤 검격이 일반 공격마다 순환하며 피해가 기존의 1.5배입니다. PVE 천검 포위·창천 종단은 교대로 발동하며, 각 시전의 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다. 두 광역기는 에너지 35·재사용 5행동을 공유합니다. 백금 검익·흰 망토·흰 네온 윤곽. 현재 획득 불가.'
+ combatLinkDescription:'기본 전투력 3,000,000. 공격·체력·방어·연계는 전투력에 비례하며 기존 속도와 행동 주기를 유지합니다. 개인 피해 80% 경감, 상태이상·반격 보호. 청광 횡단·섬광 연참·용궤 검격이 일반 공격마다 순환하며 피해가 기존의 1.5배입니다. PVE 천검 포위·창천 종단은 교대로 발동하며, 각 시전의 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다. 두 광역기는 에너지 35·재사용 5행동을 공유합니다. 백금 검익·흰 망토·흰 네온 윤곽. 현재 획득 불가.'+ZERO_PRIME_GENERAL_JOK_DESCRIPTION
 });
 export const zeroCodexSkills=()=>ZERO_ART.skills.map(s=>({...s,ready:true,target:s.basicForm?'적 1명':'적 전체',
  effect:s.basicForm?'일반 공격이 세 동작으로 순환합니다. 여러 검격도 기존의 1.5배로 강화한 일반 공격 한 번의 피해를 적용합니다.':'생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.',

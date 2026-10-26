@@ -1,0 +1,13 @@
+{
+  "base": "3e5961e39c36d522d69fe5c0ff8a74c021bd0610",
+  "reason": "사용자 프라임·제로가 제너럴 족에게 지지 않도록 조정 지시. PVP 제너럴 족 단독/전원 편성 상대 전용 공격·내구·행동 대응을 성장·장비 적용 후 고정한다. 새 시드 38912전 전승, 다른 상대/PVE 1352전 결과 동일, PC 모바일 실제 메인 전투·도감 확인. 다른 용병·기본 전투력·스킬 피해·제작 ON·계정 보존.",
+  "tests": [
+    "tests/prime-zero-general-jok-priority-20261026.test.mjs",
+    "tests/mercenary-three-skills-20261026.test.mjs",
+    "tests/razak-priority-matchups-20261026.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

@@ -1,0 +1,748 @@
+{
+  "mode": "CURRENT",
+  "start": 311001,
+  "count": 16,
+  "duels": true,
+  "stress": true,
+  "total": 1920,
+  "wins": 1664,
+  "losses": 256,
+  "draws": 0,
+  "rows": [
+    {
+      "code": "V-975",
+      "scenario": "basic-10000-balanced",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-10000-balanced",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-2000000000-balanced",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-2000000000-balanced",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-attack",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-attack",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-defense",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-defense",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-speed",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-speed",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "growth-6",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "growth-6",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "growth-11",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "growth-11",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "growth-16",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "growth-16",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "growth-21",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "growth-21",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "equipped-1",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "equipped-1",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "equipped-11",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "equipped-11",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "equipped-21",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "equipped-21",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "total": 32,
+      "wins": 0,
+      "losses": 32,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "B",
+      "total": 32,
+      "wins": 0,
+      "losses": 32,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "equipped-1-level1-vs21",
+      "side": "A",
+      "total": 32,
+      "wins": 0,
+      "losses": 32,
+      "draws": 0
+    },
+    {
+      "code": "V-975",
+      "scenario": "equipped-1-level1-vs21",
+      "side": "B",
+      "total": 32,
+      "wins": 0,
+      "losses": 32,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-10000-balanced",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-10000-balanced",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-20000000-balanced",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-20000000-balanced",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-2000000000-balanced",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-2000000000-balanced",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-20000000-attack",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-20000000-attack",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-20000000-defense",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-20000000-defense",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-20000000-speed",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-20000000-speed",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "growth-6",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "growth-6",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "growth-11",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "growth-11",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "growth-16",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "growth-16",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "growth-21",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "growth-21",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "equipped-1",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "equipped-1",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "equipped-11",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "equipped-11",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "equipped-21",
+      "side": "A",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "equipped-21",
+      "side": "B",
+      "total": 32,
+      "wins": 32,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "total": 32,
+      "wins": 0,
+      "losses": 32,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "B",
+      "total": 32,
+      "wins": 0,
+      "losses": 32,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "equipped-1-level1-vs21",
+      "side": "A",
+      "total": 32,
+      "wins": 0,
+      "losses": 32,
+      "draws": 0
+    },
+    {
+      "code": "V-976",
+      "scenario": "equipped-1-level1-vs21",
+      "side": "B",
+      "total": 32,
+      "wins": 0,
+      "losses": 32,
+      "draws": 0
+    }
+  ],
+  "failures": [
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 2402714537,
+      "kind": "TEAM",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 2402714537,
+      "kind": "DUEL",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 489120229,
+      "kind": "TEAM",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 489120229,
+      "kind": "DUEL",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 2354851699,
+      "kind": "TEAM",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 2354851699,
+      "kind": "DUEL",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 224444805,
+      "kind": "TEAM",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 224444805,
+      "kind": "DUEL",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 3126966381,
+      "kind": "TEAM",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 3126966381,
+      "kind": "DUEL",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 2901042654,
+      "kind": "TEAM",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 2901042654,
+      "kind": "DUEL",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 3981165523,
+      "kind": "TEAM",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 3981165523,
+      "kind": "DUEL",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 55562781,
+      "kind": "TEAM",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 55562781,
+      "kind": "DUEL",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 771345396,
+      "kind": "TEAM",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 771345396,
+      "kind": "DUEL",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 3303350627,
+      "kind": "TEAM",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 3303350627,
+      "kind": "DUEL",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 1933161393,
+      "kind": "TEAM",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 1933161393,
+      "kind": "DUEL",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 2567950142,
+      "kind": "TEAM",
+      "winner": "B"
+    },
+    {
+      "code": "V-975",
+      "scenario": "basic-20000000-balanced-level1-vs21",
+      "side": "A",
+      "seed": 2567950142,
+      "kind": "DUEL",
+      "winner": "B"
+    }
+  ],
+  "conditions": "Canonical PVP team and optionally linked isolated mercenary duels; same five-card formation, growth/gear equal unless stress is explicit."
+}

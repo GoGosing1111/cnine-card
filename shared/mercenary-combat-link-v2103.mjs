@@ -3,7 +3,7 @@ import {isAwakenedOmega,AWAKENED_OMEGA_COMBAT} from './mercenary-awakened-omega-
 import {isEunseol,EUNSEOL_COMBAT} from './mercenary-eunseol-v1.mjs';
 import {isGeneralJok,GENERAL_JOK_COMBAT} from './mercenary-general-jok-v1.mjs';
 import {isPrime,PRIME_COMBAT} from './mercenary-prime-requiem-v1.mjs';
-import {isZero,ZERO_COMBAT} from './mercenary-zero-v1.mjs';
+import {isZero,ZERO_COMBAT,ZERO_PRIME_GENERAL_JOK_PRIORITY} from './mercenary-zero-v1.mjs';
 import {isLeonel,LEONEL_COMBAT} from './mercenary-leonel-v1.mjs';
 import {IMPERIAL_ARCHER_COMBAT,isImperialArcher} from './mercenary-kangyun-v1.mjs';
 import {isJokro,JOKRO_COMBAT} from './mercenary-jokro-v1.mjs';
@@ -17,7 +17,7 @@ import {isHelios,HELIOS_COMBAT} from './mercenary-helios-v1.mjs';
 import {mercenaryCombatRank,ssLimitedProfile,ssLimitedPvpLinkScale} from './mercenary-ss-limited-v1.mjs';
 import {rearPveCurrentPolicy} from './mercenary-ss-rear-pve-v1.mjs';
 import {mercenaryEquipmentPower} from './mercenary-equipment-v1.mjs';
-import {mercenaryGrowthDamageCapHp} from './mercenary-growth-review-v2.mjs';
+import {mercenaryGrowthDamageCapHp,mercenaryGrowthActionCredit} from './mercenary-growth-review-v2.mjs';
 // Ordinary rank base power stays fixed; limited fighters have explicit policies.
 // Combat linkage is an explicit additional
 // ability, frozen from this side's five ordinary fighters at battle start.
@@ -46,6 +46,11 @@ export function mercenaryCombatLinkText(rank,position,actor=null){
 
 // Frozen at entry, only between released upper ranks. Never rewrites a winner,
 // scales ordinary cards, changes base power, or grants extra actor actions.
+function primeZeroGeneralJokOpponents(actor,teams){
+ if(!(isPrime(actor)||isZero(actor))||actor.battleMode!=='PVP'||actor.statMode!=='RANK_FIXED'||actor.hp<=0||actor.alive===false)return [];
+ const opponents=teams.flat().filter(other=>other.side!==actor.side&&other.isMercenary&&other.statMode==='RANK_FIXED'&&other.battleMode==='PVP'&&other.alive!==false&&other.hp>0);
+ return opponents.length&&(opponents.length===1||actor.ownerId)&&opponents.every(isGeneralJok)?opponents:[];
+}
 export function mercenaryPvpTierGuard(actor,teams){
  const ranks=['S','SS','SSS'],rank=ranks.indexOf(mercenaryCombatRank(actor));
  if(actor.battleMode!=='PVP'||!actor.isMercenary||actor.statMode!=='RANK_FIXED'||rank<0)return 1;
@@ -59,7 +64,8 @@ export function mercenaryPvpTierGuard(actor,teams){
  // A mixed opposing lineup containing any other mercenary keeps the baseline;
  // an SS companion must never unlock this guard against an SSS limited fighter.
  const razakPriority=isRazak(actor)&&opponents.every(other=>ssLimitedProfile(other)||isImperialArcher(other));
- return Math.max(1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep,razakPriority?RAZAK_COMBAT.pvpPriorityTierGuard:1);
+ const primeZeroPriority=primeZeroGeneralJokOpponents(actor,teams).length>0;
+ return Math.max(1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep,razakPriority?RAZAK_COMBAT.pvpPriorityTierGuard:1,primeZeroPriority?ZERO_PRIME_GENERAL_JOK_PRIORITY.tierGuard:1);
 }
 
 export const mercenaryEffectiveAttack=actor=>Math.max(Number(actor.attack)||0,actor.isMercenary?Number(actor.mercenaryLink?.attackFloor)||0:0);
@@ -105,4 +111,31 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
   }
  }
  for(const actor of teams.flat())applyMercenaryLevelStats(actor);
+ // The explicit Prime/Zero > General Jok matchup is frozen after BOTH sides'
+ // gear, owner links and learned growth. A low-level beneficiary must not lose
+ // its priority just because General Jok's learned stats exceed a fixed bonus.
+ // Keep ordinary cards, other opponents and subsequent damage/healing intact.
+ for(const actor of teams.flat()){
+  const link=actor.mercenaryLink;
+  if(!(isPrime(actor)||isZero(actor))||actor.battleMode!=='PVP'||actor.hp<=0||actor.alive===false||!link||link.primeZeroGeneralJokPriority)continue;
+  const opponents=primeZeroGeneralJokOpponents(actor,teams);
+  if(!opponents.length||link.tierGuard!==ZERO_PRIME_GENERAL_JOK_PRIORITY.tierGuard)continue;
+  const policy=ZERO_PRIME_GENERAL_JOK_PRIORITY,ratio=Math.max(0,Math.min(1,actor.hp/actor.maxHp));
+  const reference={attack:Math.max(...opponents.map(mercenaryEffectiveAttack)),hp:Math.max(...opponents.map(o=>o.maxHp)),shield:Math.max(...opponents.map(o=>o.maxShield||0)),speed:Math.max(...opponents.map(o=>o.speed))};
+  // General Jok also acts after his owner's cards. Natural speed alone misses
+  // that reserved action stream when the opposing deck is much faster.
+  reference.actionRate=Math.max(...opponents.map(o=>{
+   const cardClock=teams.flat().filter(c=>c.side===o.side&&(c.ownerId??null)===(o.ownerId??null)&&!c.isMercenary&&!c.isMonster&&!c.isBattleSuit&&c.actorKind!=='BATTLE_SUIT'&&c.alive!==false&&c.hp>0&&!c.untargetable).reduce((sum,c)=>sum+Math.max(0,Number(c.speed)||0),0);
+   return o.speed+cardClock*(GENERAL_JOK_COMBAT.actionCredit+mercenaryGrowthActionCredit([o]))/MERCENARY_COMBAT_LINK.regularActionsPerTurn;
+  }));
+  const attackFloor=Math.max(link.attackFloor,Math.ceil(reference.attack*policy.attackFloorScale));
+  const hpFloor=Math.max(link.hpFloor,Math.ceil(reference.hp*policy.durabilityFloorScale));
+  const openingShield=Math.max(link.openingShield,Math.ceil(reference.shield*policy.durabilityFloorScale*ratio));
+  const speed=Math.max(actor.speed,Math.ceil(reference.actionRate*policy.speedFloorScale));
+  if(![attackFloor,hpFloor,openingShield,speed].every(Number.isSafeInteger))throw Error('INVALID_MERCENARY_COMBAT_LINK');
+  actor.maxHp=Math.max(actor.maxHp,hpFloor);actor.hp=Math.round(actor.maxHp*ratio);
+  actor.speed=speed;if(actor.stats)actor.stats={...actor.stats,speed};
+  actor.shield+=openingShield-link.openingShield;actor.maxShield=Math.max(actor.maxShield,actor.shield);
+  actor.mercenaryLink={...link,attackFloor,hpFloor,openingShield,primeZeroGeneralJokPriority:{version:policy.version,opponentIds:opponents.map(o=>o.id),reference}};
+ }
 }
