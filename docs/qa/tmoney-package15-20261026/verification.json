@@ -1,0 +1,35 @@
+{
+  "status": "COMPLETED",
+  "completedAt": "2026-10-26T14:29:02.291Z",
+  "sourceSha256": "dac2416f7a3d6a7efe08dd148dadf0355bece6af46f2005a57916956822c6681",
+  "planHash": "2f2432e1a7996049acb08a5ca32ae88c4703992e9af6950e0ed1a5c190693c05",
+  "verification": {
+    "status": "VERIFIED",
+    "userId": "5147",
+    "nickname": "T-Money™",
+    "repetitions": 15,
+    "packageQuantity": 30,
+    "coins": "3000000000000000",
+    "items": [
+      {
+        "code": "EMPEROR_ENERGY",
+        "name": "엠퍼러 에너지",
+        "quantity": 6000
+      },
+      {
+        "code": "MERCENARY_SSS_LIMITED_SHARD",
+        "name": "SSS 리미티드 조각",
+        "quantity": 150
+      }
+    ],
+    "auditId": "51872",
+    "coinLogs": 1,
+    "itemLogs": 2
+  },
+  "injectedFailureRollback": true,
+  "normalDryRunRollback": true,
+  "independentReadOnlyVerified": true,
+  "selectOnlyReplayVerified": true,
+  "leasesReleased": true,
+  "privateEvidenceDirectory": "C:/Users/User/.codex/visualizations/2026/10/26/01a17897-148d-78a0-a68b-048adecc7f7e/tmoney-package15-20261026"
+}

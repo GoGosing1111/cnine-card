@@ -1,0 +1,40 @@
+{
+  "status": "COMPLETED",
+  "completedAt": "2026-10-26T14:33:44.747Z",
+  "sourceSha256": "14050644132c86f6a453d00a11f26c78b37b24ae5577262a3ac3bb9c1b950acb",
+  "planHash": "e6c855e8e4a45e09d1cfecd883087fdb93f491f76a47459cae077ebb6c0b3da9",
+  "verification": {
+    "status": "VERIFIED",
+    "userId": "5147",
+    "nickname": "T-Money™",
+    "material": {
+      "code": "MERCENARY_PRIME_DEPLETED_CARD",
+      "name": "기운잃은 프라임 카드",
+      "quantity": 1,
+      "before": "0",
+      "after": "1",
+      "logId": "87037589"
+    },
+    "pigCoins": {
+      "amount": 2000,
+      "before": "0",
+      "after": "2000"
+    },
+    "stock": {
+      "code": "V-975",
+      "limit": "3",
+      "issuedBefore": "2",
+      "issuedAfter": "3",
+      "remaining": "0",
+      "serial": "3"
+    },
+    "auditId": "51880",
+    "completedAt": "2026-10-26T14:33:44.747Z"
+  },
+  "injectedFailureRollback": true,
+  "normalDryRunRollback": true,
+  "independentReadOnlyVerified": true,
+  "selectOnlyReplayVerified": true,
+  "leasesReleased": true,
+  "privateEvidenceDirectory": "C:/Users/User/.codex/visualizations/2026/10/26/01a17897-148d-78a0-a68b-048adecc7f7e/tmoney-prime-pig-20261026"
+}
