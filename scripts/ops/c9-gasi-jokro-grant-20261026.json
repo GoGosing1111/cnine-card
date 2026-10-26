@@ -1,0 +1,28 @@
+{
+  "operationKey": "ops:c9-gasi-jokro-exempt-grant:20261026:v1",
+  "authorization": "[C9]가시 족로 예외수량 지급",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "4866",
+      "nickname": "[C9]가시",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "15442a469503c733a55590ec8f9e295656061780870c4423efa9ff7e953b766b"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "4866",
+      "nickname": "[C9]가시",
+      "code": "V-979",
+      "name": "족로",
+      "quantity": 1
+    }
+  ],
+  "context": "족로 1장 영구 직접 지급. 팩/일반 제작/SSS 리미티드 조각 제작 한도와 발행 원장, 기존 편성·재화·성장 보존. 메시지 발송 없음."
+}
