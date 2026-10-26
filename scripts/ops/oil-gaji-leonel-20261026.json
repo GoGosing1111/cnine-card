@@ -1,0 +1,28 @@
+{
+  "operationKey": "ops:oil-gaji-leonel-exempt-grant:20261026:v1",
+  "authorization": "레오넬도 지급해 한도차감없이",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "3011",
+      "nickname": "오일바른가지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "aa721411230ad727d6a73f772fb71364af222351e684218b202c127c0916d0cd"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "code": "V-978",
+      "name": "레오넬",
+      "quantity": 1
+    }
+  ],
+  "context": "동일 오일바른가지 계정에 한도 차감 없는 영구 1장 추가; 기존 패키지 지급·성장·편성 유지; 메시지 발송 없음"
+}
