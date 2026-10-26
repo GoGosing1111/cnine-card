@@ -1,0 +1,59 @@
+{
+  "status": "PASSED",
+  "scope": "Actual CMS markup, styles, primary and bulk coupon controllers with isolated API responses",
+  "publicBase": "",
+  "publicFiles": 0,
+  "productionWrites": 0,
+  "reports": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "issued": [
+        {
+          "code": "MIRACLE-UI-QA",
+          "rewardType": "MIRACLE_CUBE",
+          "rewardAmount": 3,
+          "maxUses": 10
+        },
+        {
+          "code": "OTHER-OWNER-UI-QA",
+          "rewardType": "MIRACLE_CUBE",
+          "rewardAmount": 2,
+          "maxUses": 20
+        }
+      ],
+      "otherOwnerCanIssue": true,
+      "otherOwnerCanStopAndResume": true,
+      "nonOwnersHidden": true,
+      "tamperedUiBlocked": true,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "issued": [
+        {
+          "code": "MIRACLE-UI-QA",
+          "rewardType": "MIRACLE_CUBE",
+          "rewardAmount": 3,
+          "maxUses": 10
+        },
+        {
+          "code": "OTHER-OWNER-UI-QA",
+          "rewardType": "MIRACLE_CUBE",
+          "rewardAmount": 2,
+          "maxUses": 20
+        }
+      ],
+      "otherOwnerCanIssue": true,
+      "otherOwnerCanStopAndResume": true,
+      "nonOwnersHidden": true,
+      "tamperedUiBlocked": true,
+      "overflow": false,
+      "errors": []
+    }
+  ]
+}

@@ -52,37 +52,40 @@ async function noRedemption(f){
  assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin),5000000000);
 }
 
-test('cube coupon is separate from message grants and retired premium cubes; OWNER and exact nickname are both required',()=>{
+test('cube coupon allows every authenticated OWNER regardless of nickname and remains separate from other rewards',()=>{
  assert.equal(couponRewardSpec(' miracle_cube ').max,MIRACLE_CUBE_COUPON_MAX);
  assert.equal(couponRewardSpec('PREMIUM_CUBE'),null);assert.equal(verifiedMessageRewardSpec('MIRACLE_CUBE'),null);
  assert(canIssueMiracleCubeCoupon(owner));
- for(const user of [null,{role:'OWNER',nickname:'다른관리자'},{role:'ADMIN',nickname:owner.nickname},{role:'USER',nickname:owner.nickname},{role:'OWNER',nickname:'핑크빛유두 '}])assert(!canIssueMiracleCubeCoupon(user));
+ for(const user of [{role:'OWNER',nickname:'다른관리자'},{role:'OWNER',nickname:'핑크빛유두 '},{role:'OWNER'}])assert(canIssueMiracleCubeCoupon(user));
+ for(const user of [null,{role:'ADMIN',nickname:owner.nickname},{role:'USER',nickname:owner.nickname},{role:'CARD_MANAGER',nickname:owner.nickname},{role:'EVENT_MANAGER',nickname:owner.nickname},{role:'SUPPORT',nickname:owner.nickname}])assert(!canIssueMiracleCubeCoupon(user));
  const meta=Function(cms.slice(cms.indexOf('const COUPON_REWARD_META='),cms.indexOf('function syncCouponRewardForm'))+';return COUPON_REWARD_META')();
  assert.equal(meta.MIRACLE_CUBE.max,MIRACLE_CUBE_COUPON_MAX);assert.equal(meta.MIRACLE_CUBE.label,'미라클 큐브');
 });
 
-test('all three real issue routes reject other owners/admins and forged body identities before any write',async(t)=>{
+test('all three issue routes permit distinct OWNER accounts and reject non-owners and forged body identities before writes',async(t)=>{
  const f=await fixture();t.after(f.close);
- for(const path of paths)for(const admin of [null,{id:98,role:'OWNER',nickname:'다른관리자'},{id:98,role:'ADMIN',nickname:owner.nickname},{id:98,role:'ADMIN',nickname:'일반관리자'}]){
+ for(const path of paths)for(const admin of [null,{id:98,role:'ADMIN',nickname:owner.nickname},{id:98,role:'ADMIN',nickname:'일반관리자'},{id:98,role:'CARD_MANAGER',nickname:owner.nickname},{id:98,role:'EVENT_MANAGER',nickname:owner.nickname},{id:98,role:'SUPPORT',nickname:owner.nickname}]){
   const response=await f.create({role:'OWNER',nickname:owner.nickname,admin:owner,rewardType:' miracle_cube '},path,admin);assert.equal(response.status,403);
  }
  for(const table of ['coupons','admin_logs','inventory_items'])assert.equal((await f.rows('SELECT * FROM '+table)).length,0);
- for(const [i,path] of paths.entries()){
-  const response=await f.create({code:'MIRACLE-QA-'+i,rewardType:' miracle_cube '},path);assert.equal(response.status,201);const {coupon}=await response.json();
-  assert.equal(coupon.reward_type,'MIRACLE_CUBE');assert.equal(Number(coupon.reward_amount),3);assert.equal(Number(coupon.created_by),99);assert.equal(coupon.ends_at,null);
-  assert.equal((await f.create({code:'MIRACLE-QA-'+i},path)).status,409);
-  for(const body of [{code:'SLD-MIRACLE'},{rewardAmount:0},{rewardAmount:1.5},{rewardAmount:100001},{maxUses:0},{maxUses:1000001}])assert.equal((await f.create(body,path)).status,400);
+ for(const [i,path] of paths.entries())for(const admin of [owner,{id:98,role:'OWNER',nickname:'다른관리자'}]){
+   const code='MIRACLE-QA-'+i+'-'+admin.id,response=await f.create({code,rewardType:' miracle_cube '},path,admin);assert.equal(response.status,201);const {coupon}=await response.json();
+   assert.equal(coupon.reward_type,'MIRACLE_CUBE');assert.equal(Number(coupon.reward_amount),3);assert.equal(Number(coupon.created_by),admin.id);assert.equal(coupon.ends_at,null);
+   assert.equal((await f.create({code},path,admin)).status,409);
+   for(const body of [{code:'SLD-MIRACLE'},{rewardAmount:0},{rewardAmount:1.5},{rewardAmount:100001},{maxUses:0},{maxUses:1000001}])assert.equal((await f.create(body,path,admin)).status,400);
  }
- assert.equal((await f.rows('SELECT * FROM coupons')).length,3);assert.equal((await f.rows('SELECT * FROM admin_logs')).length,3);await noRedemption(f);
+ assert.equal((await f.rows('SELECT * FROM coupons')).length,6);assert.equal((await f.rows('SELECT * FROM admin_logs')).length,6);await noRedemption(f);
  assert.equal((await f.row('SELECT value FROM app_meta')).value,'{"revision":0,"policy":{"mode":"OFF"}}');
 });
 
-test('other coupon managers cannot reactivate or expand cube coupons; existing coin issuance still works',async(t)=>{
+test('all OWNER accounts may stop, reactivate and update cube coupons; non-owners cannot and other coupon rules stay intact',async(t)=>{
  const f=await fixture();t.after(f.close);const {coupon}=await (await f.create()).json();
- for(const path of paths.slice(1))for(const role of ['OWNER','ADMIN'])assert.equal((await f.create({id:coupon.id,maxUses:500,isActive:true},path,{id:98,role,nickname:'다른관리자'},'PATCH')).status,403);
+ for(const path of paths.slice(1))for(const role of ['ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'])assert.equal((await f.create({id:coupon.id,maxUses:500,isActive:true},path,{id:98,role,nickname:'다른관리자'},'PATCH')).status,403);
  assert.equal(Number((await f.row('SELECT max_uses FROM coupons')).max_uses),10);
  assert.equal((await f.create({id:coupon.id,maxUses:20,isActive:false},paths[1],owner,'PATCH')).status,200);
  assert.equal(Number((await f.row('SELECT is_active FROM coupons')).is_active),0);
+ for(const path of paths.slice(1)){assert.equal((await f.create({id:coupon.id,maxUses:30,isActive:true},path,{id:98,role:'OWNER',nickname:'다른관리자'},'PATCH')).status,200);assert.equal(Number((await f.row('SELECT max_uses FROM coupons')).max_uses),30);assert.equal(Number((await f.row('SELECT is_active FROM coupons')).is_active),1);}
+ assert.equal(Number((await f.row('SELECT created_by FROM coupons')).created_by),99);
  assert.equal((await f.create({code:'COIN-QA',rewardType:'COIN',rewardAmount:500},paths[0],{id:98,role:'ADMIN',nickname:'일반관리자'})).status,201);
 });
 

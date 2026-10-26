@@ -8057,7 +8057,7 @@ async function handleRequest(context){
       const maxUses=Number(p.maxUses);
       const spec=couponRewardSpec(rewardType);
       if(rewardType==='PINGDU_BAEMIN_TICKET'&&!canIssueChickenTicketCoupon(admin))return json({error:'핑두의 배민권 쿠폰은 핑크빛유두 계정만 발급할 수 있습니다.',code:'CHICKEN_COUPON_OPERATOR_ONLY'},403);
-      if(rewardType==='MIRACLE_CUBE'&&!canIssueMiracleCubeCoupon(admin))return json({error:'미라클 큐브 쿠폰은 OWNER 핑크빛유두 계정만 발행할 수 있습니다.',code:'MIRACLE_CUBE_COUPON_OPERATOR_ONLY'},403);
+      if(rewardType==='MIRACLE_CUBE'&&!canIssueMiracleCubeCoupon(admin))return json({error:'미라클 큐브 쿠폰은 OWNER 계정만 발행할 수 있습니다.',code:'MIRACLE_CUBE_COUPON_OPERATOR_ONLY'},403);
       if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
       if(!spec)return json({error:'선택한 쿠폰 보상 종류가 올바르지 않습니다.'},400);
       if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>spec.max)return json({error:`${spec.label} 지급 수량을 확인하세요.`},400);
@@ -8092,7 +8092,7 @@ async function handleRequest(context){
       if(request.method==='POST'){
         const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),rewardType=String(p.rewardType||'COIN').trim().toUpperCase(),rewardAmount=Number(p.rewardAmount),max=Number(p.maxUses),spec=couponRewardSpec(rewardType);
         if(rewardType==='PINGDU_BAEMIN_TICKET'&&!canIssueChickenTicketCoupon(admin))return json({error:'핑두의 배민권 쿠폰은 핑크빛유두 계정만 발급할 수 있습니다.',code:'CHICKEN_COUPON_OPERATOR_ONLY'},403);
-        if(rewardType==='MIRACLE_CUBE'&&!canIssueMiracleCubeCoupon(admin))return json({error:'미라클 큐브 쿠폰은 OWNER 핑크빛유두 계정만 발행할 수 있습니다.',code:'MIRACLE_CUBE_COUPON_OPERATOR_ONLY'},403);
+        if(rewardType==='MIRACLE_CUBE'&&!canIssueMiracleCubeCoupon(admin))return json({error:'미라클 큐브 쿠폰은 OWNER 계정만 발행할 수 있습니다.',code:'MIRACLE_CUBE_COUPON_OPERATOR_ONLY'},403);
         if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
         if(!spec||!['COIN','MASTER_STAR','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET','PINGDU_OLD_AXE','PINGDU_BAEMIN_TICKET','MIRACLE_CUBE','RANK_EXP_POTION_2X_60M'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
         if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>Number(spec.max||10000000))return json({error:'쿠폰 보상 수량을 확인하세요.'},400);
@@ -8122,7 +8122,7 @@ async function handleRequest(context){
         if(!manager)return json({error:'쿠폰 수정 권한이 없습니다.'},403);
         const p=await readBody(request),before=await env.DB.prepare('SELECT * FROM coupons WHERE id=? AND deleted_at IS NULL').bind(Number(p.id)).first();if(!before)return json({error:'쿠폰이 없습니다.'},404);
         if(String(before.reward_type||'').toUpperCase()==='PINGDU_BAEMIN_TICKET'&&!canIssueChickenTicketCoupon(admin))return json({error:'핑두의 배민권 쿠폰은 핑크빛유두 계정만 변경할 수 있습니다.',code:'CHICKEN_COUPON_OPERATOR_ONLY'},403);
-        if(String(before.reward_type||'').toUpperCase()==='MIRACLE_CUBE'&&!canIssueMiracleCubeCoupon(admin))return json({error:'미라클 큐브 쿠폰은 OWNER 핑크빛유두 계정만 변경할 수 있습니다.',code:'MIRACLE_CUBE_COUPON_OPERATOR_ONLY'},403);
+        if(String(before.reward_type||'').toUpperCase()==='MIRACLE_CUBE'&&!canIssueMiracleCubeCoupon(admin))return json({error:'미라클 큐브 쿠폰은 OWNER 계정만 변경할 수 있습니다.',code:'MIRACLE_CUBE_COUPON_OPERATOR_ONLY'},403);
         const maxUses=p.maxUses==null?null:Number(p.maxUses);if(maxUses!==null&&(!Number.isInteger(maxUses)||maxUses<Math.max(1,Number(before.used_count||0))||maxUses>1000000))return json({error:'총 사용 한도를 확인하세요. 이미 사용된 횟수보다 작게 설정할 수 없습니다.'},400);
         await env.DB.prepare('UPDATE coupons SET is_active=?,starts_at=NULL,ends_at=NULL,max_uses=COALESCE(?,max_uses),updated_at=CURRENT_TIMESTAMP WHERE id=? AND deleted_at IS NULL').bind(p.isActive===false?0:1,maxUses,before.id).run();
         const after=await env.DB.prepare('SELECT * FROM coupons WHERE id=?').bind(before.id).first();await writeAdminLog(env,admin,'COUPON_UPDATE','COUPON',before.id,before,after);return json({ok:true,coupon:after});

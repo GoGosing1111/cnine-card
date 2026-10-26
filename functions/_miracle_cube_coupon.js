@@ -2,7 +2,7 @@ import {MIRACLE_CUBE} from '../shared/miracle-cube-policy-v1.mjs';
 
 export const MIRACLE_CUBE_COUPON_MAX=100000;
 export function canIssueMiracleCubeCoupon(user){
- return String(user?.role||'').trim().toUpperCase()==='OWNER'&&user?.nickname==='핑크빛유두';
+ return String(user?.role||'').trim().toUpperCase()==='OWNER';
 }
 class CubeCouponError extends Error{
  constructor(message,status=409){super(message);this.status=status}
