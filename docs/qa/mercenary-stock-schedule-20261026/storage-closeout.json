@@ -1,0 +1,32 @@
+{
+  "closedAt": "2026-10-26T00:57:49.5316103Z",
+  "worktree": "C:/Users/User/.codex/worktrees/mercenary-stock-schedule/cnine-card",
+  "archiveAttempted": true,
+  "archiveError": "The task's primary checkout cannot be removed.",
+  "fallback": "Git sparse checkout; repository path, all committed files and branch history preserved",
+  "sourceHead": "ed2414006c734e8428b62bc84613f87af6e846ff",
+  "branch": "codex/mercenary-stock-schedule-20261026",
+  "localCheckoutBytes": 42831770,
+  "codexBeforeGiB": 75.549,
+  "codexAfterGiB": 63.987,
+  "approxReclaimedGiB": 11.562,
+  "restoreCommand": "git sparse-checkout disable",
+  "qaBackup": "C:\\Users\\User\\.codex\\visualizations\\2026\\10\\25\\01a17499-5b2e-7ff0-94f2-2a74873aeb5c\\stock-schedule-20261026\\qa",
+  "qaHashesVerified": true,
+  "otherTaskFilesChanged": false,
+  "uniqueArtDeleted": false,
+  "externalOriginalHashesVerified": 16,
+  "checkoutFilesVerified": 15,
+  "gitCheckoutLineEndingOnlyChanges": [
+    "apply.json",
+    "independent-db-verification.json",
+    "live-verification.json",
+    "read.json",
+    "rehearse.json",
+    "verify-db.mjs",
+    "verify-live.mjs",
+    "verify.json",
+    "browser\\browser-report.json"
+  ],
+  "subsequentlyUpdatedReadme": true
+}

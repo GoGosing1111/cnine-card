@@ -4,7 +4,7 @@
 - 등록 당시 SS 각 40/40·레오넬 9/9를 유지했다. 다른 한도 변경이 없다면 실행 후 각각 50/40·10/9다. 실제 실행 당시 한도에 추가하며 기존 발행·시리얼·보유/성장·가격·확률·판매·독립 조각 제작 한도는 보존한다.
 - OWNER → 용병 → 블러드문팩 → 한정 수량 예약에서 한국시간 시각·용병별 추가량·사유를 입력하고 예약/시각 전 취소/처리 내역을 관리한다. 공통 승인 남색 패널·연두 버튼을 사용한다. 별도 Durable Object 정시 알람·매분 복구·조회/구매 시각 검사를 사용하고 중복 호출은 DB에서 1회만 적용한다.
 - **정시 알람 확인:** 09:52:03 KST에 `nextAt=2026-10-26T11:00:00.000Z`, `nextAlarmAt=1793012400000`. 예약 키 **stock-20261026-2000-bloodmoon-ss10-leonel1-v1**를 다른 키로 중복 등록하지 않는다. 실행 여부는 예약 상태와 `mercenary_stock_schedule_v1:applied:<예약 키>`를 읽어 판정하며, 예약 완료를 수량 증가 완료로 오인하지 않는다.
-- 관련 최종 검사 36개·배포 도구 18개·PC/모바일 CMS·공개 파일 13개 해시·양 Worker·독립 READ ONLY DB·SELECT 전용 재실행을 확인했다. 계정 쓰기 0건. 기록 `docs/qa/mercenary-stock-schedule-20261026/README.md`, 고정 키 실행기 `scripts/ops/mercenary-stock-schedule-20261026.mjs`.
+- 관련 최종 검사 36개·배포 도구 18개·PC/모바일 CMS·공개 파일 13개 해시·양 Worker·독립 READ ONLY DB·SELECT 전용 재실행을 확인했다. 계정 쓰기 0건. 기록 `docs/qa/mercenary-stock-schedule-20261026/README.md`, 고정 키 실행기 `scripts/ops/mercenary-stock-schedule-20261026.mjs`. 관리형 worktree archive는 기본 체크아웃 보호로 거부되어 소스/검수/Git 이력을 보존한 40.85MiB sparse checkout으로 축소했다. 상세 storage-closeout.json 참조.
 
 ## 씨나인 현황판 · 로비 소형 버튼 — 2026-10-26 최신
 

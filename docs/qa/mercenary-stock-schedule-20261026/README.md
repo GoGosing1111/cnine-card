@@ -39,6 +39,10 @@ API Worker 버전 `cf4d9cd8-1a41-42db-876f-0e76491f265a`, 예약 Worker 버전 `
 
 첫 예약 요청 ID: `stock-20261026-2000-bloodmoon-ss10-leonel1-v1`. `scripts/ops/mercenary-stock-schedule-20261026.mjs`는 이 키만 사용하며 재실행으로 새 키를 만들지 않는다. 실행기는 예약 등록만 운영 커밋했고 정시 증가 예행연습은 롤백했다. 후속 확인은 읽기만 하고, 처리 여부는 `mercenary_stock_schedule_v1:applied:<위 ID>`와 예약 상태로 판정한다.
 
-작업 시작 저장 공간 감사 75.36GiB. 기존 최신 소스에서 다른 채팅의 미완료 변경을 발견해 이 작업만 관리형 worktree로 분리했고 기존 의존성을 공유했다. 대화·승인 원화·다른 진행 작업은 수정/삭제하지 않는다. 완료 후 고유 소스·검수 기록을 커밋 보존하고 이 작업 worktree를 회수한다.
+작업 시작 저장 공간 감사 75.36GiB. 기존 최신 소스에서 다른 채팅의 미완료 변경을 발견해 이 작업만 관리형 worktree로 분리했고 기존 의존성을 공유했다. 완료 소스·검수 기록은 브랜치 `codex/mercenary-stock-schedule-20261026`와 `origin/main`에 보존했다. 보존 시 병행 작업의 라자크/설계도 커밋을 정상 병합했으며 이 작업에서 재배포하지 않았다.
+
+앱 archive는 `The task's primary checkout cannot be removed.`로 거부되어, 깨끗한 이 작업의 체크아웃만 Git sparse checkout **40.85MiB**로 축소했다. 저장소·브랜치·원화·소스의 Git 객체와 모든 검수 원본을 보존했고 검수 파일 해시를 재확인했다. `.codex` 전체는 직전 75.549GiB → **63.987GiB**, 약 **11.562GiB** 감소했다. 다른 작업·원본·대화·공유 의존성은 변경하지 않았다. 상세 `storage-closeout.json`. 전체 체크아웃 복구는 해당 폴더에서 `git sparse-checkout disable`이며 큰 복원 전 저장 공간을 감사한다.
+
+작업 외부 검수 사본과 보존 명세: `C:/Users/User/.codex/visualizations/2026/10/25/01a17499-5b2e-7ff0-94f2-2a74873aeb5c/stock-schedule-20261026/`. 운영 예약은 서버에 저장되어 로컬 체크아웃 축소와 무관하게 동작한다.
 
 Pages가 이미 20,000개 자산 한도에 도달해, 새 예약 Worker와 기존 예약 작업 세 소스는 Worker 번들에 포함하고 Pages 단독 파일 배포에서 제외했다. 원본은 Git에 보존한다. CMS/공용 모듈 3개는 공개 경로에 포함한다. 배포 파일 선택 검사와 기존 배포 정책 검사를 포함한다.
