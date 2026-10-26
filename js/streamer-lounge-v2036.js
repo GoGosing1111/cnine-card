@@ -1,6 +1,6 @@
 import { stationUrl, profileImageUrl } from './streamer-lounge-model-v2036.js?v=2036';
 import { portraitSourceUrl, portraitSize } from './streamer-lounge-portraits-v1.js?v=20261013-original';
-import { closeCnineRoster, mountCnineLobby } from './cnine-roster-v1.js?v=20261026-v2';
+import { closeCnineRoster, mountCnineLobby } from './cnine-roster-v1.js?v=20261026-v3';
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg>';

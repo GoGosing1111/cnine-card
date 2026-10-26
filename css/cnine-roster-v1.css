@@ -38,14 +38,34 @@
 .c9-roster-heading p { margin:0 0 4px;color:#a9d6ee;font:700 9px/1.5 Arial,sans-serif;letter-spacing:.22em; }
 .c9-roster-heading h1 { margin:0 0 4px;font-size:40px;line-height:1.2;font-weight:850;letter-spacing:-.055em;color:#f8f2ff;text-shadow:0 2px 20px #8ccfff44; }
 .c9-roster-heading div > span { font-size:12px;color:#c4d2e7; }
+.c9-roster-dialog [data-cnine-page][hidden] { display:none; }
+.c9-roster-nav { display:flex;justify-content:center;gap:8px;margin:0 0 24px;padding:8px;border:1px solid #a9cbe54d;border-radius:8px;background:#08182edb; }
+.c9-roster-nav button { display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:140px;padding:8px 18px;border:1px solid transparent;border-radius:5px;background:transparent;color:#c4d6e9;font:700 14px/1.4 Pretendard,'Noto Sans KR',sans-serif;cursor:pointer;touch-action:manipulation; }
+.c9-roster-nav button span { font:600 11px/1 Arial,sans-serif;opacity:.8; }
+.c9-roster-nav button:hover { background:#ffffff0d;color:#fff; }
+.c9-roster-nav button[aria-current="page"] { border-color:#c5dafa99;background:#b5dafa1f;color:#f4f7ff; }
+.c9-roster-nav button[data-cnine-view="female"][aria-current="page"] { color:#ffcee9;border-color:#f5b8dc99;background:#f5b8dc18; }
+.c9-roster-nav button:focus-visible,.c9-department-entry:focus-visible { outline:3px solid #c2eaff;outline-offset:3px; }
+.c9-roster-home > h2 { margin:4px 0 22px;text-align:center;font-size:18px;font-weight:600;line-height:1.6;color:#d8e5f5; }
+.c9-department-entrances { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:800px;margin:0 auto; }
+.c9-department-entry { --c9-accent:#f5b8dc;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0;padding:28px 22px;border:1px solid var(--c9-accent);border-radius:12px 25px 12px 25px;background:linear-gradient(145deg,#0d203ded,#07162df5);color:#f1f6ff;font-family:inherit;box-shadow:inset 0 0 0 5px #06152b,0 8px 24px #020b1c66;cursor:pointer;touch-action:manipulation; }
+.c9-department-entry.c9-department-star { --c9-accent:#9dd9fa; }
+.c9-department-entry:hover { background:linear-gradient(145deg,#1a3150f2,#0c203af5); }
+.c9-entry-label { color:#c4d6e9;font:700 10px/1.5 Arial,sans-serif;letter-spacing:.18em; }
+.c9-department-entry > strong { font-size:36px;line-height:1.3;color:var(--c9-accent);letter-spacing:-.04em; }
+.c9-entry-portraits { display:flex;justify-content:center;gap:10px;margin:4px 0; }
+.c9-entry-portraits .c9-member-portrait { width:64px;height:64px;margin:0; }
+.c9-entry-portraits img { width:min(64px,var(--c9-native-size,64px));height:min(64px,var(--c9-native-size,64px)); }
+.c9-entry-count { font-size:12px;line-height:1.5;color:#c4d6e9; }
+.c9-department-entry > .c9-roster-action { width:100%;margin-top:6px; }
 .c9-roster-groups { display:grid;gap:22px; }
-.c9-department { display:grid;grid-template-columns:120px minmax(0,1fr);gap:22px;align-items:center;--c9-accent:#f5b8dc; }
+.c9-department { display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-items:start;--c9-accent:#f5b8dc; }
 .c9-department-star { --c9-accent:#9dd9fa; }
-.c9-department-heading { display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 0;border-top:1px solid #c4d5fa70;border-bottom:1px solid #c4d5fa70;background:linear-gradient(90deg,#07152b00,#07152b99,#07152b00);text-shadow:0 2px 8px #07152b; }
-.c9-department-heading > span { color:var(--c9-accent);font:600 12px/1 Arial,sans-serif;letter-spacing:.15em;margin-bottom:12px; }
-.c9-department-heading h2 { margin:0 0 5px;font-size:28px;line-height:1.25;letter-spacing:-.045em;color:var(--c9-accent); }
+.c9-department-heading { display:flex;align-items:center;gap:12px;text-align:left;padding:12px 0;border-bottom:1px solid #c4d5fa70;background:linear-gradient(90deg,#07152b00,#07152b99,#07152b00);text-shadow:0 2px 8px #07152b; }
+.c9-department-heading > span { color:var(--c9-accent);font:600 12px/1 Arial,sans-serif;letter-spacing:.15em; }
+.c9-department-heading h2 { margin:0;font-size:28px;line-height:1.25;letter-spacing:-.045em;color:var(--c9-accent); }
 .c9-department-heading small { font:700 9px/1.5 Arial,sans-serif;letter-spacing:.1em;color:#d2e4f5; }
-.c9-department-heading b { margin-top:18px;font:600 8px/1.5 Arial,sans-serif;letter-spacing:.15em;color:#c5d4e7; }
+.c9-department-heading b { margin-left:auto;font:600 10px/1.5 Arial,sans-serif;letter-spacing:.15em;color:#c5d4e7; }
 .c9-department-members { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px; }
 .c9-roster-dialog .c9-member {
   position:relative;display:flex;flex-direction:column;align-items:center;min-width:0;padding:17px 20px 18px;
@@ -84,6 +104,19 @@
   .c9-roster-heading p { font-size:7px;letter-spacing:.12em; }
   .c9-roster-heading h1 { font-size:29px; }
   .c9-roster-heading div > span { font-size:10px; }
+  .c9-roster-nav { gap:3px;margin-bottom:18px;padding:5px; }
+  .c9-roster-nav button { flex:1;min-width:0;gap:5px;padding:8px 5px;font-size:12px; }
+  .c9-roster-home > h2 { margin-bottom:16px;font-size:13px; }
+  .c9-department-entrances { gap:10px; }
+  .c9-department-entry { gap:10px;padding:22px 10px 18px;border-radius:8px 17px 8px 17px; }
+  .c9-entry-label { font-size:8px;letter-spacing:.09em; }
+  .c9-department-entry > strong { font-size:29px; }
+  .c9-entry-portraits { gap:4px; }
+  .c9-entry-portraits .c9-member-portrait { width:clamp(28px,8vw,40px);height:clamp(28px,8vw,40px);margin:0; }
+  .c9-entry-portraits .c9-member-portrait img { width:min(clamp(28px,8vw,40px),var(--c9-native-size,40px));height:min(clamp(28px,8vw,40px),var(--c9-native-size,40px));border-radius:4px; }
+  .c9-entry-portraits .c9-member-initial { font-size:16px; }
+  .c9-entry-count { font-size:11px; }
+  .c9-department-entry > .c9-roster-action { padding:9px 5px;gap:5px;font-size:12px; }
   .c9-roster-groups { gap:23px; }
   .c9-department { grid-template-columns:minmax(0,1fr);gap:11px; }
   .c9-department-heading { flex-direction:row;padding:8px 1px;gap:8px;border-top:0; }

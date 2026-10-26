@@ -1,10 +1,12 @@
-// The six members and departments are the user's 2026-10-26 roster.
+// Members and department order follow the user's 2026-10-26 roster.
 // This public directory does not infer broadcast status or change lounge CMS data.
 export const CNINE_GROUPS = Object.freeze([
   Object.freeze({ id: 'female', name: '여캠부', label: 'FEMALE CAM', members: Object.freeze([
     Object.freeze({ id: 'kaja0011', name: '여을' }),
     Object.freeze({ id: 'chocho12', name: '초초' }),
-    Object.freeze({ id: 'yjk011599', name: '나무늘봉순' })
+    Object.freeze({ id: 'yjk011599', name: '나무늘봉순' }),
+    Object.freeze({ id: 'lcy011027', name: 'BJ채리' }),
+    Object.freeze({ id: 'wkao85guo', name: '꾸까' })
   ]) }),
   Object.freeze({ id: 'star', name: '스타부', label: 'STARCRAFT', members: Object.freeze([
     Object.freeze({ id: 'mew030709', name: '남수댕' }),
@@ -57,6 +59,18 @@ function bindPortraits(root) {
   });
 }
 
+function showDepartment(id, focus = true) {
+  const view = CNINE_GROUPS.some(group => group.id === id) ? id : 'home';
+  dialog.dataset.cnineView = view;
+  dialog.querySelectorAll('[data-cnine-page]').forEach(page => { page.hidden = page.dataset.cninePage !== view; });
+  dialog.querySelectorAll('.c9-roster-nav [data-cnine-view]').forEach(button => {
+    if (button.dataset.cnineView === view) button.setAttribute('aria-current', 'page');
+    else button.removeAttribute('aria-current');
+  });
+  dialog.scrollTop = 0;
+  if (focus) dialog.querySelector(`[data-cnine-page="${view}"] h2`)?.focus({ preventScroll: true });
+}
+
 function ensureDialog() {
   if (dialog?.isConnected) return dialog;
   dialog = document.createElement('dialog');
@@ -66,13 +80,26 @@ function ensureDialog() {
   dialog.innerHTML = `<div class="c9-roster-scene">
     <header class="c9-roster-topbar"><button type="button" class="c9-roster-back" data-cnine-roster-close>← <span>로비로</span></button><span>CNINE · MEMBERS</span></header>
     <div class="c9-roster-heading"><img src="${logo}" alt="씨나인 로고" width="84" height="84" decoding="async"><div><p>OUR PEOPLE, OUR UNIVERSE</p><h1 id="cnineRosterTitle">씨나인 현황판</h1><span>함께 빛나는 씨나인의 멤버들</span></div></div>
-    <div class="c9-roster-groups">${CNINE_GROUPS.map(group => `<section class="c9-department c9-department-${group.id}" aria-labelledby="cnine-${group.id}-title">
-      <header class="c9-department-heading"><span aria-hidden="true">${group.id === 'female' ? '01' : '02'}</span><h2 id="cnine-${group.id}-title">${group.name}</h2><small>${group.label}</small><b>3 MEMBERS</b></header>
+    <nav class="c9-roster-nav" aria-label="현황판 부서 이동">
+      <button type="button" data-cnine-view="home" aria-controls="cnine-page-home" aria-current="page">부서 선택</button>
+      ${CNINE_GROUPS.map(group => `<button type="button" data-cnine-view="${group.id}" aria-controls="cnine-page-${group.id}">${group.name}<span>${group.members.length}</span></button>`).join('')}
+    </nav>
+    <section class="c9-roster-home" id="cnine-page-home" data-cnine-page="home" aria-labelledby="cnine-home-title">
+      <h2 id="cnine-home-title" tabindex="-1">만나고 싶은 부서를 선택하세요</h2>
+      <div class="c9-department-entrances">${CNINE_GROUPS.map(group => `<button type="button" class="c9-department-entry c9-department-${group.id}" data-cnine-view="${group.id}" aria-controls="cnine-page-${group.id}" aria-label="${group.name} ${group.members.length}명 · 페이지 입장">
+        <span class="c9-entry-label">${group.label}</span><strong>${group.name}</strong>
+        <span class="c9-entry-portraits" aria-hidden="true">${group.members.slice(0, 3).map(member => `<span class="c9-member-portrait"><span class="c9-member-initial">${Array.from(member.name)[0]}</span><img src="${profileUrl(member.id)}" data-fallback="${profileUrl(member.id, true)}" alt="" width="64" height="64" decoding="async" referrerpolicy="no-referrer"></span>`).join('')}</span>
+        <span class="c9-entry-count">${group.members.length}명의 멤버</span><span class="c9-roster-action">${group.name} 입장 <span aria-hidden="true">↗</span></span>
+      </button>`).join('')}</div>
+    </section>
+    <div class="c9-roster-groups">${CNINE_GROUPS.map(group => `<section class="c9-department c9-department-${group.id}" id="cnine-page-${group.id}" data-cnine-page="${group.id}" aria-labelledby="cnine-${group.id}-title" hidden>
+      <header class="c9-department-heading"><span aria-hidden="true">${group.id === 'female' ? '01' : '02'}</span><h2 id="cnine-${group.id}-title" tabindex="-1">${group.name}</h2><small>${group.label}</small><b>${group.members.length} MEMBERS</b></header>
       <div class="c9-department-members">${group.members.map(memberMarkup).join('')}</div>
     </section>`).join('')}</div>
     <footer class="c9-roster-footer"><span>CNINE <i>✦</i> TOGETHER WE SHINE</span><p>멤버 카드를 누르면 SOOP 방송국이 새 탭으로 열립니다.</p></footer>
   </div>`;
   dialog.querySelector('[data-cnine-roster-close]').addEventListener('click', closeCnineRoster);
+  dialog.querySelectorAll('[data-cnine-view]').forEach(button => button.addEventListener('click', () => showDepartment(button.dataset.cnineView)));
   dialog.addEventListener('cancel', event => { event.preventDefault(); closeCnineRoster(); });
   dialog.addEventListener('click', event => { if (event.target === dialog) closeCnineRoster(); });
   dialog.addEventListener('close', () => {
@@ -94,6 +121,7 @@ export async function openCnineRoster(source) {
   if (lobby?.dataset.route && lobby.dataset.route !== 'home') await window.SoopketmonV21ExactShell?.navigate('home');
   opener = source || document.activeElement;
   ensureDialog();
+  showDepartment('home', false);
   if (!dialog.open) dialog.showModal();
   dialog.scrollTop = 0;
   dialog.querySelector('[data-cnine-roster-close]').focus({ preventScroll: true });
