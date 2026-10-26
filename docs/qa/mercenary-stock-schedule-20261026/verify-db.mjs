@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {createRequire} from 'node:module';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+const root=process.cwd(),out=path.dirname(fileURLToPath(import.meta.url));
+const pg=createRequire(path.join(root,'package.json'))('pg');
+const id='stock-20261026-2000-bloodmoon-ss10-leonel1-v1',key='mercenary_stock_schedule_v1',executeAt='2026-10-26T11:00:00.000Z';
+const codes=[960,961,962,963,964,965,978].map(n=>'V-'+n);
+const before=JSON.parse(fs.readFileSync(path.join(root,'docs/qa/mercenary-stock-schedule-20261026/read.json'),'utf8'));
+const connectionString=execFileSync(process.execPath,['C:/Users/User/AppData/Local/npm-cache/_npx/74274893b9fe65d3/node_modules/neonctl/bin/cli.js','connection-string','br-misty-hat-az5in4f4','--project-id','purple-king-54735192','--database-name','cnine','--role-name','cnine_migrator','--ssl','verify-full'],{encoding:'utf8',timeout:30000,windowsHide:true,stdio:['ignore','pipe','pipe']}).trim().replace(/^['"]|['"]$/g,'');
+const db=new pg.Client({connectionString,application_name:'stock-schedule-independent-readonly',connectionTimeoutMillis:15000});
+try{
+ await db.connect();await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
+ const rows=(await db.query('SELECT key,value FROM app_meta WHERE key=ANY($1::text[])',[[key,key+':request:'+id,key+':applied:'+id,'mercenary_stock_alarm_v1','mercenary_bloodmoon_ss_pack_v1']])).rows;
+ const values=Object.fromEntries(rows.map(r=>[r.key,JSON.parse(r.value)]));
+ const queue=values[key],reservation=queue.schedules.find(s=>s.id===id),alarm=values.mercenary_stock_alarm_v1;
+ assert.equal(queue.schedules.length,1);assert.equal(reservation.status,'SCHEDULED');assert.equal(reservation.executeAt,executeAt);
+ assert.deepEqual(reservation.changes,codes.map(code=>({code,quantity:code==='V-978'?1:10})));
+ assert.equal(values[key+':request:'+id].schedule.id,id);assert.equal(values[key+':applied:'+id],undefined);
+ assert.equal(alarm.nextAt,executeAt);assert.equal(alarm.nextAlarmAt,Date.parse(executeAt));assert.equal(alarm.applied,0);
+ assert(Date.now()-Date.parse(alarm.checkedAt)<180000,'Alarm verification must be recent');
+ const stock=(await db.query('SELECT code,stock_limit::int AS stock_limit,issued::int AS issued FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code',[before.stock.map(s=>s.code)])).rows;
+ assert.deepEqual(stock,before.stock);
+ const issues=(await db.query('SELECT code,COUNT(*)::int AS count,MAX(serial)::int AS max_serial FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) GROUP BY code ORDER BY code',[codes])).rows;
+ assert.deepEqual(issues,before.issues);
+ const packHash=createHash('sha256').update(JSON.stringify(values.mercenary_bloodmoon_ss_pack_v1)).digest('hex');assert.equal(packHash,before.packHash);
+ const audits=(await db.query('SELECT id,action_type FROM admin_logs WHERE target_id=$1 AND after_data LIKE $2 ORDER BY id',[key,'%'+id+'%'])).rows;
+ assert.equal(audits.length,1);assert.equal(audits[0].action_type,'MERCENARY_STOCK_SCHEDULE_STOCK');
+ const result={verifiedAt:new Date().toISOString(),transactionReadOnly:true,reservation,alarm,stock,issues,packHash,audits,appliedReceiptAbsent:true,unchangedStockAndIssues:true};
+ await db.query('ROLLBACK');fs.writeFileSync(path.join(out,'independent-db-verification.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'});
+ console.log(JSON.stringify({verifiedAt:result.verifiedAt,alarm,audits,unchangedStockAndIssues:true,appliedReceiptAbsent:true}));
+}catch(error){await db.query('ROLLBACK').catch(()=>{});console.error(String(error.stack||error.message).replace(/postgres(?:ql)?:\/\/\S+/g,'[connection withheld]'));process.exitCode=1;}finally{await db.end();}

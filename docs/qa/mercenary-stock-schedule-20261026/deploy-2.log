@@ -1,0 +1,147 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"656fb7351c80aa71c31ea3ad5efbf703f02008fe","reason":"한정 용병 예약 수량 추가: 서버 정시·중복 방지·취소·개봉·대량 개봉과 배포 파일 선택 회귀만 검사","changed":["AGENTS.md","admin/index.html","admin/mercenary-admin-v1.js","admin/mercenary-bloodmoon-admin-v1.mjs","admin/mercenary-stock-schedule-v1.css","admin/mercenary-stock-schedule-v1.mjs","docs/qa/cnine-roster-20261026/README.md","docs/qa/cnine-roster-20261026/before-deploy.json","docs/qa/cnine-roster-20261026/browser.mjs","docs/qa/cnine-roster-20261026/deploy-attempt1.log","docs/qa/cnine-roster-20261026/deploy.log","docs/qa/cnine-roster-20261026/deployment-plan-attempt1.json","docs/qa/cnine-roster-20261026/deployment-plan.json","docs/qa/cnine-roster-20261026/deployment-result-attempt1.json","docs/qa/cnine-roster-20261026/deployment-result.json","docs/qa/cnine-roster-20261026/live-verification.json","docs/qa/cnine-roster-20261026/public/browser.json","docs/qa/cnine-roster-20261026/public/lobby-board-390.png","docs/qa/cnine-roster-20261026/public/lobby-entry-390.png","docs/qa/cnine-roster-20261026/storage-closeout.json","docs/qa/mercenary-stock-schedule-20261026/README.md","docs/qa/mercenary-stock-schedule-20261026/browser/browser-report.json","docs/qa/mercenary-stock-schedule-20261026/browser/cms-1440-draft.png","docs/qa/mercenary-stock-schedule-20261026/browser/cms-1440-scheduled.png","docs/qa/mercenary-stock-schedule-20261026/browser/cms-390-draft.png","docs/qa/mercenary-stock-schedule-20261026/browser/cms-390-scheduled.png","docs/qa/mercenary-stock-schedule-20261026/read.json","docs/qa/mercenary-stock-schedule-20261026/rehearse.json","functions/_mercenary_bloodmoon_pack.js","functions/_mercenary_stock_schedule.js","index.html","js/app.js","js/mercenary-bloodmoon-pack-live.mjs","scripts/ops/mercenary-stock-schedule-20261026.mjs","scripts/prepare-production-assets.mjs","service-worker.js","shared/mercenary-bloodmoon-pack-v1.mjs","shared/mercenary-bloodmoon-pool-v3.mjs","shared/mercenary-bloodmoon-session-v2.mjs","shared/mercenary-stock-schedule-v1.mjs","tests/mercenary-stock-schedule-20261026.browser.mjs","tests/mercenary-stock-schedule-20261026.test.mjs","workers/clan-draft/src/index.js","workers/clan-draft/src/mercenary-stock-schedule.js"],"tests":["tests/mercenary-stock-schedule-20261026.test.mjs","tests/mercenary-bloodmoon-bulk-20261025.test.mjs","tests/mercenary-bloodmoon-recovery-20261023.test.mjs","tests/mercenary-bloodmoon-storage-20261023.test.mjs"],"checks":["test:release-policy","check:worker"]}
+✔ 100 trillion reference is exactly 100,000 draws with integer accounting and bounded input (5.287ms)
+✔ buffered cryptographic sampler rejects out-of-range samples without modulo bias (0.5772ms)
+✔ bulk sampler preserves exact ordinary, conditional and sold-out results for the same random stream (2742.8591ms)
+✔ 100,000 draws use one compact transaction and recover the identical receipt without another charge (2166.3495ms)
+✔ a failed bulk grant rolls back everything and retry never rerolls (2232.0592ms)
+✔ stock race replaces only unavailable serials, preserving normal quantities and total draws (1670.9039ms)
+✔ changed settings, insufficient funds and forged budget/count fail before payment (1658.2473ms)
+✔ SS and below use counts without images, while limited SS and ordinary/limited SSS retain images (0.8783ms)
+✔ compact receipts validate totals and client recovery uses the same durable bulk request (1.4396ms)
+✔ authorized production release still requires authentication; an explicit closed service never reads DB (0.4716ms)
+✔ two accounts racing for the final limited copy receive at most one serial and exact totals (1418.9697ms)
+✔ simultaneous retries of the same bulk ID debit and grant only once (1443.5884ms)
+✔ an already armed indexed guarantee keeps its original slot and is consumed atomically (1155.0944ms)
+✔ an unresolved receipt gets only three delayed reads, even with repeated wake-up events (6.6249ms)
+✔ offline and hidden states defer work; a later visible/online wake-up resumes once (1.3176ms)
+✔ a wake-up during another action waits until that action settles instead of reading concurrently (0.8169ms)
+✔ a wake-up racing an aborted receipt read is not lost (0.8807ms)
+✔ permission, account and storage failures stop; transient transport/sync failures can retry (1.3671ms)
+✔ completion, request replacement and room disposal do not poll indefinitely (0.7693ms)
+✔ bounded automatic recovery reads the original request only, through missing/pending/completed states (5.8741ms)
+✔ an interrupted late response cannot clear pending, present results, or update the wallet (1.5866ms)
+✔ an account switch during an automatic read keeps the old result isolated (0.6815ms)
+✔ a full browser restores a completed ten-pack and permits the next durable request (8.7114ms)
+✔ history writes may fail without blocking confirmed results or read-only recovery (0.7331ms)
+✔ a purchase never reaches the server when its pending request cannot be persisted (2.3832ms)
+✔ unconfirmed, mismatched and other-account results retain the durable pending request (1.2245ms)
+✔ KST 26일 20:00 converts exactly; invalid calendar dates rejected (3.8294ms)
+✔ registration preserves stock; boundary applies seven deltas exactly once and keeps issuance, prices and rates (2874.2945ms)
+✔ owner-only routes; invalid and past requests; request ID conflicts; no direct stock edits (1947.8108ms)
+✔ cancel survives retries and never applies; completed schedules cannot be cancelled (2030.7022ms)
+✔ failure in middle rolls back stock, policy and receipt; retry then succeeds (1683.893ms)
+✔ lost acknowledgement and concurrent redelivery cannot duplicate increments (1724.5404ms)
+✔ successive reservations add to current limits; serial continuation and stale save are guarded (1470.0182ms)
+✔ public feature hides owner history, exposes server clock and pending time (1351.8313ms)
+✔ durable alarm uses exact deadline and closes DB; failed processing retains retry (0.9936ms)
+✔ delivery keeps scheduler source in Git/Worker and includes the actual CMS assets (16.1453ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15105.1679
+
+> test:release-policy
+> node --test tests/production-sparse-staging-20261023.test.mjs tests/scoped-release-policy-20260923.test.mjs tests/hyperdrive-cache-deploy-guard.test.mjs && node --test --test-name-pattern="30s defaults, public countdown and scheduled deployment" tests/clan-draft-timeouts-20260915.test.mjs
+
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (1.4916ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (2.6624ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.3065ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (3.9387ms)
+✔ sparse staging reuses only exact sibling blobs and streams remaining HEAD blobs without expanding checkout (943.8705ms)
+✔ a present working-tree change is preserved, never hidden by a HEAD fallback (541.5046ms)
+✔ missing non-sparse files fail and remove only the failed staging directory (901.1623ms)
+✔ a changed staged sparse blob cannot silently deploy the old HEAD image (882.5439ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.7316ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.5512ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.5142ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.5517ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1587ms)
+✔ an unshipped QA Wrangler record does not classify an art release as production infrastructure (16.4414ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.785ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (4.1711ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.4797ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3367.1864
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+✔ 30s defaults, public countdown and scheduled deployment are included in the release (37.9082ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1251.7337
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] stock-schedule-20261026-v1-cnine-roster-20261026-v2-razak-tier-correction-20261026-v4-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 8984 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8521.77 KiB / gzip: 1834.76 KiB
+Worker Startup Time: 77 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.88 sec)
+No targets deployed for cnine-card-api-runtime (0.71 sec)
+Current Version ID: cf4d9cd8-1a41-42db-876f-0e76491f265a
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19983/20000)
+Uploading... (19988/20000)
+Uploading... (19994/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 17 files (19983 already uploaded) (2.48 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://0d2e0429.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3196.59 KiB / gzip: 718.30 KiB
+Worker Startup Time: 45 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.31 sec)
+Deployed cnine-card-clan-draft triggers (0.90 sec)
+  schedule: * * * * *
+Current Version ID: 14b3e13a-ddc3-4198-a5f8-f53117e2402a
