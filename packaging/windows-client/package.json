@@ -1,7 +1,7 @@
 {
   "name": "soopketmon-windows",
   "productName": "리버스콜",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "private": true,
   "description": "리버스콜 Windows 게임 클라이언트와 리소스 런처",
   "author": "YAKCODE",

@@ -2,6 +2,10 @@
 
 독립 Electron 런처와 전용 WPF 화면의 Windows x64 설치 파일. 실제 파일 설치·제거는 내장 NSIS 엔진이 무인으로 수행한다. 게임의 기존 HTTPS 원점과 계정을 사용하며 웹/PWA 소스·계정·서비스워커 저장소를 변경하지 않는다. 0.1.5부터 게임 파일과 런처 실행 파일 모두 업데이트한다.
 
+## ASCII User-Agent — 0.1.10
+
+앱 시작 시 세션·창 생성 전에 전역 User-Agent를 설정하고 게임 전용 세션에도 같은 값을 적용한다. 네트워크 앱 식별자는 `Reversecall/0.1.10`이며 실제 Chromium·Electron 버전과 Windows x64 브라우저 형식을 유지한다. 한글 표시 이름 `리버스콜`, 기존 앱 ID·프로필·설치 GUID는 변경하지 않는다. DK 페이지·새 창·iframe과 HTTPS 전달 요청의 헤더를 격리 서버에서 검증한다. 기록: `docs/qa/windows-user-agent-20261027/README.md`.
+
 ## 보라색 런처 — 0.1.9
 
 성문 배경과 REVERSE CALL 입체 글자, 짙은 보라색 패널·행동 버튼을 사용한다. 기존 R 심벌·계정·설치 GUID·자동 업데이트를 유지한다. 첫 게임 로딩도 같은 배경과 제목을 쓴다. 원화·프롬프트 색인은 `art/manifest.json`, 검수 기록은 `docs/qa/launcher-purple-20261024/README.md`다.

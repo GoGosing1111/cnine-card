@@ -1,0 +1,126 @@
+{
+  "passed": true,
+  "appName": "리버스콜",
+  "version": "0.1.10",
+  "legacyUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) 리버스콜/0.1.10 Chrome/152.0.7977.149 Electron/44.7.2 Safari/537.36",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/152.0.7977.149 Electron/44.7.2 Safari/537.36",
+  "before": {
+    "status": 400
+  },
+  "gameEcho": {
+    "status": 200,
+    "body": {
+      "host": "127.0.0.1:12307",
+      "path": "/api/echo",
+      "method": "POST",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/152.0.7977.149 Electron/44.7.2 Safari/537.36",
+      "origin": "https://cnine-card.pages.dev",
+      "authorization": "Bearer isolated-qa",
+      "body": "{\"isolated\":true}"
+    }
+  },
+  "popupEcho": {
+    "status": 200,
+    "body": {
+      "host": "www.playdk.kr",
+      "path": "/echo",
+      "method": "POST",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/152.0.7977.149 Electron/44.7.2 Safari/537.36",
+      "authorization": "Bearer isolated-dk",
+      "cookie": "dkqa=preserved",
+      "body": "dk-body"
+    }
+  },
+  "defaultSession": true,
+  "newSession": true,
+  "popup": true,
+  "redirect": true,
+  "iframe": true,
+  "normalCloseAndReopen": true,
+  "destroyedLauncherGuard": true,
+  "productionRequests": 0,
+  "requests": [
+    {
+      "host": "127.0.0.1:12307",
+      "path": "/client/windows/manifest.json",
+      "method": "GET",
+      "userAgent": "node",
+      "body": ""
+    },
+    {
+      "host": "127.0.0.1:12307",
+      "path": "/index.html?desktopRelease=3cbea6d6470b58784ecb23b495c3c3d139a6055fa2d0551a66fa70245a4ea346",
+      "method": "GET",
+      "userAgent": "node",
+      "body": ""
+    },
+    {
+      "host": "127.0.0.1:12307",
+      "path": "/api/echo",
+      "method": "OPTIONS",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/152.0.7977.149 Electron/44.7.2 Safari/537.36",
+      "origin": "https://cnine-card.pages.dev",
+      "body": ""
+    },
+    {
+      "host": "127.0.0.1:12307",
+      "path": "/api/echo",
+      "method": "POST",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/152.0.7977.149 Electron/44.7.2 Safari/537.36",
+      "origin": "https://cnine-card.pages.dev",
+      "authorization": "Bearer isolated-qa",
+      "body": "{\"isolated\":true}"
+    },
+    {
+      "host": "www.playdk.kr",
+      "path": "/redirect",
+      "method": "GET",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/152.0.7977.149 Electron/44.7.2 Safari/537.36",
+      "body": ""
+    },
+    {
+      "host": "playdk.kr",
+      "path": "/landing",
+      "method": "GET",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/152.0.7977.149 Electron/44.7.2 Safari/537.36",
+      "body": ""
+    },
+    {
+      "host": "www.playdk.kr",
+      "path": "/frame",
+      "method": "GET",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/152.0.7977.149 Electron/44.7.2 Safari/537.36",
+      "body": ""
+    },
+    {
+      "host": "www.playdk.kr",
+      "path": "/echo",
+      "method": "POST",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/152.0.7977.149 Electron/44.7.2 Safari/537.36",
+      "authorization": "Bearer isolated-dk",
+      "cookie": "dkqa=preserved",
+      "body": "dk-body"
+    },
+    {
+      "host": "www.playdk.kr",
+      "path": "/fresh",
+      "method": "GET",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/152.0.7977.149 Electron/44.7.2 Safari/537.36",
+      "body": ""
+    },
+    {
+      "host": "www.playdk.kr",
+      "path": "/before",
+      "method": "GET",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ë¦¬ë²ì¤ì½/0.1.10 Chrome/152.0.7977.149 Electron/44.7.2 Safari/537.36",
+      "body": ""
+    },
+    {
+      "host": "127.0.0.1:12307",
+      "path": "/client/windows/manifest.json",
+      "method": "GET",
+      "userAgent": "node",
+      "body": ""
+    }
+  ]
+}

@@ -8,8 +8,11 @@ import {GameZoom} from './lib/game-zoom.mjs';
 import {ClientUpdater} from './lib/client-updater.mjs';
 import {GameDialogs} from './lib/game-dialogs.mjs';
 import {APP_ID,LEGACY_PROFILE_DIRECTORY} from './lib/app-identity.mjs';
+import {windowsUserAgent} from './lib/user-agent.mjs';
 import {mkdirSync} from 'node:fs';
 
+// Set before any session/window exists, including the launcher and DK popups.
+app.userAgentFallback=windowsUserAgent(process.versions);
 const here=path.dirname(fileURLToPath(import.meta.url));
 const qa=!app.isPackaged && process.env.SOOPKETMON_QA==='1';
 if(qa&&process.env.SOOPKETMON_QA_ROOT)app.setPath('userData',path.resolve(process.env.SOOPKETMON_QA_ROOT));
@@ -53,15 +56,19 @@ async function prepare({repair=false,launch=false}={}){
     if(launch)await openGame();
   }catch(error){failure(error);}finally{if(operation===token)operation=null;}
 }
+function returnToLauncher(){
+  if(quitting||!launcher||launcher.isDestroyed())return;
+  if(!qa)launcher.show();void check();
+}
 function secureGameWindow(win){
   gameZoom.attach(win.webContents);
   emit({gameOpen:true});
   win.webContents.once('destroyed',()=>{
     emit({gameOpen:hasGameWindows()});
-    if(!hasGameWindows()&&!game&&!quitting){launcher?.show();void check();}
+    if(!hasGameWindows()&&!game)returnToLauncher();
   });
   win.webContents.setWindowOpenHandler(({url})=>{
-    if(allowedNavigation(url))return {action:'allow',overrideBrowserWindowOptions:{autoHideMenuBar:true,webPreferences:{session:gameSession,preload:path.join(here,'game-preload.cjs'),nodeIntegration:false,nodeIntegrationInSubFrames:true,contextIsolation:true,sandbox:true,webSecurity:true}}};
+    if(allowedNavigation(url))return {action:'allow',overrideBrowserWindowOptions:{show:!qa,autoHideMenuBar:true,webPreferences:{session:gameSession,preload:path.join(here,'game-preload.cjs'),nodeIntegration:false,nodeIntegrationInSubFrames:true,contextIsolation:true,sandbox:true,webSecurity:true}}};
     return {action:'deny'};
   });
   win.webContents.on('will-navigate',(event,url)=>{if(!allowedNavigation(url))event.preventDefault();});
@@ -85,7 +92,7 @@ async function openGame(){
   game=new BrowserWindow({width:1440,height:960,minWidth:900,minHeight:650,show:!qa,title:'리버스콜',backgroundColor:'#080c17',icon:path.join(here,'renderer/assets/icon.png'),autoHideMenuBar:true,webPreferences:{session:gameSession,preload:path.join(here,'game-preload.cjs'),nodeIntegration:false,nodeIntegrationInSubFrames:true,contextIsolation:true,sandbox:true,webSecurity:true,spellcheck:false}});
   secureGameWindow(game);
   const current=game;
-  game.on('closed',()=>{game=null;gameManifest=null;if(!quitting){launcher?.show();void check();}});
+  game.on('closed',()=>{game=null;gameManifest=null;returnToLauncher();});
   game.webContents.on('render-process-gone',()=>emit({notice:'게임 화면이 종료됐습니다. 런처에서 다시 실행할 수 있습니다.'}));
   emit({phase:'playing',title:'게임 실행 중',description:'업데이트와 파일 복구는 게임을 종료한 뒤 진행할 수 있습니다.',ready:false,progress:null});
   try{await game.loadURL(GAME_ORIGIN+'/?source=windows-client');}
@@ -108,6 +115,7 @@ async function start(){
   const fetcher=(url,options={})=>fetch(fixtureOrigin?fixtureOrigin+new URL(url).pathname+new URL(url).search:url,options);
   store=new ResourceStore({root:path.join(app.getPath('userData'),'resources-v1'),fetcher});await store.initialize();
   gameSession=session.fromPartition('persist:soopketmon-game-v1');
+  gameSession.setUserAgent(app.userAgentFallback);
   // Local game QA must never open a production WebSocket with fixture credentials.
   if(qa)gameSession.webRequest.onBeforeRequest({urls:['ws://*/*','wss://*/*']},(_details,callback)=>callback({cancel:true}));
   // This is the dedicated app profile, never the user's PWA/browser profile.

@@ -1,6 +1,6 @@
 export const GAME_ORIGIN = 'https://cnine-card.pages.dev';
 export const MANIFEST_PATH = '/client/windows/manifest.json';
-export const CLIENT_VERSION = '0.1.9';
+export const CLIENT_VERSION = '0.1.10';
 export const MAX_MANIFEST_BYTES = 12 * 1024 * 1024;
 export const MAX_ASSET_BYTES = 512 * 1024 * 1024;
 export const CACHE_BUDGET = 4 * 1024 ** 3;
