@@ -1,11 +1,33 @@
 import {DEFENSE_KEY,validateDefenseSettings,validDefenseRoom} from '../shared/monster-defense-v1.mjs';
-import {hasDefenseReward,validateDefenseReward} from '../shared/monster-defense-rewards-v1.mjs';
+import {hasDefenseReward,validateDefenseReward,defenseRewardItemRule} from '../shared/monster-defense-rewards-v1.mjs';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 
 const p=(env,sql,...args)=>env.DB.prepare(sql).bind(...args);
 const read=async(env,key)=>(await p(env,'SELECT value FROM app_meta WHERE key=?',key).first())?.value??null;
 const empty=status=>({status,granted:false,coin:0,masterStars:0,items:[]});
 const humans=room=>room.players.filter(p=>!p.bot);
+// The private seed is frozen when the server creates the room. Independent
+// player/item domains make retries, restarts and ordering unable to reroll.
+export async function resolveDefenseRewardItems(room,userId){
+ const reward=validateDefenseReward(room.rewardPolicy),items=[],rolls=[];
+ const random=async(code,purpose,bound)=>{
+  if(room.rewardPolicy.version!==2||! /^[a-f0-9]{32}$/.test(room.rewardPolicy.rollSeed||''))throw Error('Missing private defense reward seed');
+  const limit=Math.floor(4294967296/bound)*bound;
+  for(let attempt=0;attempt<16;attempt++){
+   const input=JSON.stringify(['DEFENSE_REWARD_V2',room.rewardPolicy.rollSeed,room.id,room.creationRequest,String(userId),code,purpose,attempt]);
+   const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(input)),value=new DataView(bytes).getUint32(0);
+   if(value<limit)return value%bound;
+  }
+  throw Error('Defense reward random range exhausted');
+ };
+ for(const item of reward.items){
+  const rule=defenseRewardItemRule(item),won=rule.chancePercent===100||rule.chancePercent>0&&await random(item.code,'chance',10000)<Math.round(rule.chancePercent*100);
+  const quantity=won?rule.minQuantity+(rule.maxQuantity>rule.minQuantity?await random(item.code,'quantity',rule.maxQuantity-rule.minQuantity+1):0):0;
+  if(quantity)items.push({code:item.code,quantity});
+  if(item.quantity===undefined)rolls.push({code:item.code,...rule,quantity});
+ }
+ return {items,rolls};
+}
 export function defenseUnpaidRewards(room){
  const policy=room.rewardPolicy;
  const status=room.phase!=='VICTORY'?'DEFEAT':room.practice?'PRACTICE':policy?.mode!=='ON'?'TEST':!policy.enabled||!hasDefenseReward(policy)?'DISABLED':null;
@@ -28,17 +50,20 @@ export async function settleDefenseRewards(env,room){
   return receipt.rewards;
  };
  await ensureJointAtomicSchema(env);
+ let resolved;
  for(let attempt=0;attempt<4;attempt++){
   const previous=await replay();if(previous)return previous;
   const settingsRaw=await read(env,DEFENSE_KEY),settings=settingsRaw===null?null:validateDefenseSettings(JSON.parse(settingsRaw));
   const enabled=settings?.mode==='ON'&&settings.rewardsEnabled===true;
-  const items=[...(reward.masterStars?[{code:'MASTER_STAR',quantity:reward.masterStars}]:[]),...reward.items];
-  const rows=enabled&&items.length?(await p(env,`SELECT code,name,image_url FROM inventory_items WHERE is_active=1 AND code IN (${items.map(()=>'?').join(',')})`,...items.map(i=>i.code)).all()).results:[];
+  if(enabled&&!resolved){resolved=new Map();for(const uid of ids)resolved.set(uid,await resolveDefenseRewardItems(room,uid));}
+  const itemCodes=[...new Set([...(reward.masterStars?['MASTER_STAR']:[]),...reward.items.map(i=>i.code)])];
+  const rows=enabled&&itemCodes.length?(await p(env,`SELECT code,name,image_url FROM inventory_items WHERE is_active=1 AND code IN (${itemCodes.map(()=>'?').join(',')})`,...itemCodes).all()).results:[];
   const catalog=new Map(rows.map(i=>[i.code,i]));
-  if(enabled&&items.some(i=>!catalog.has(i.code)))throw Error('Defense reward item unavailable');
+  if(enabled&&itemCodes.some(code=>!catalog.has(code)))throw Error('Defense reward item unavailable');
   const rewards={},statements=[],token=crypto.randomUUID();
   for(const uid of ids.sort((a,b)=>a-b)){
    if(!enabled){rewards[uid]=empty('DISABLED');continue;}
+   const selected=resolved.get(uid),items=[...(reward.masterStars?[{code:'MASTER_STAR',quantity:reward.masterStars}]:[]),...selected.items];
    statements.push(jointGuard(env.DB,token+':user:'+uid,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=0 AND coin<=?)',[uid,Number.MAX_SAFE_INTEGER-reward.coin]),jointGuardEnd(env.DB,token+':user:'+uid));
    if(reward.coin)statements.push(
     p(env,'UPDATE users SET coin=coin+? WHERE id=?',reward.coin,uid),
@@ -51,9 +76,9 @@ export async function settleDefenseRewards(env,room){
      p(env,"INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'몬스터 디펜스 클리어','MONSTER_DEFENSE_CLEAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?",item.quantity,room.id,uid,item.code),
      jointGuard(env.DB,guard+':cap','EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity<=? AND unseen_quantity<=?)',[uid,item.code,Number.MAX_SAFE_INTEGER,Number.MAX_SAFE_INTEGER]),jointGuardEnd(env.DB,guard+':cap'),jointGuardEnd(env.DB,guard));
    }
-   rewards[uid]={status:'GRANTED',granted:true,coin:reward.coin,masterStars:reward.masterStars,items:reward.items.map(i=>({...i,name:catalog.get(i.code).name,image:catalog.get(i.code).image_url||''}))};
+   rewards[uid]={status:'GRANTED',granted:true,coin:reward.coin,masterStars:reward.masterStars,items:selected.items.map(i=>({...i,name:catalog.get(i.code).name,image:catalog.get(i.code).image_url||''})),...(selected.rolls.length?{itemRolls:selected.rolls.map(i=>({...i,name:catalog.get(i.code).name}))}:{})};
   }
-  const receipt=JSON.stringify({version:1,roomId:room.id,creationRequest:room.creationRequest,createdAt:room.createdAt,startedAt:room.startedAt,finishedAt:room.finishedAt,difficulty:room.difficulty,settingsRevision:policy.settingsRevision,rewards});
+  const receipt=JSON.stringify({version:2,roomId:room.id,creationRequest:room.creationRequest,createdAt:room.createdAt,startedAt:room.startedAt,finishedAt:room.finishedAt,difficulty:room.difficulty,settingsRevision:policy.settingsRevision,rewardPolicy:policy,rewards});
   try{
    await env.DB.batch([
     p(env,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',key,receipt),

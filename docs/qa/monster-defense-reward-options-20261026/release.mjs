@@ -1,0 +1,27 @@
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {createRequire} from 'node:module';import {execFileSync,spawn} from 'node:child_process';import {createHash} from 'node:crypto';
+const [mode,directory]=process.argv.slice(2),out=path.resolve(directory),root=process.cwd(),account='1e7c59450a8b6e34a9d87f92ca02aeaa';
+const git=(...a)=>execFileSync('git',a,{encoding:'utf8',windowsHide:true,maxBuffer:32e6}).trim();
+const wrangler=path.join(path.dirname(createRequire(import.meta.url).resolve('wrangler/package.json')),'bin/wrangler.js');
+const auth=JSON.parse(execFileSync(process.execPath,[wrangler,'auth','token','--json'],{encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe']})),token=auth.token||auth.apiToken||auth.oauthToken;assert(token);
+const hash=b=>createHash('sha256').update(b).digest('hex'),save=(name,data)=>fs.writeFileSync(path.join(out,name),JSON.stringify(data,null,2)+'\n');fs.mkdirSync(out,{recursive:true});
+const api=async suffix=>{const r=await fetch('https://api.cloudflare.com/client/v4/accounts/'+account+suffix,{headers:{Authorization:'Bearer '+token},signal:AbortSignal.timeout(30000)});assert(r.ok,'Cloudflare response '+r.status);return r;};
+async function state(){const data=await(await api('/pages/projects/cnine-card')).json();assert(data.success);const d=data.result.canonical_deployment;return {at:new Date().toISOString(),pages:{id:d.id,url:d.url,status:d.latest_stage.status,commit:d.deployment_trigger.metadata.commit_hash}};}
+if(mode==='inspect'){
+ const before=await state();save('before-deploy.json',before);
+ save('deployment-plan.json',{base:before.pages.commit,reason:'몬스터 디펜스의 기존 보상 스키마를 호환 유지하면서 아이템별 확정/소수점 확률 및 최소~최대 수량을 추가한다. 난이도별 코인은 OWNER가 나중에 입력하며 운영 설정은 변경하지 않는다. 서버 비공개 방별 시드를 고정하고 참가자/아이템별 독립 추첨, 기존 단일 DB 원자적 지급/영수증 재시도, OFF/TEST/연습/패배 차단을 검증한다. 관련 SQLite/PostgreSQL 회귀 및 실제 PC/모바일 CMS/로비/결과 확인. 인증/DB 스키마/의존성 변경 없음.',tests:['tests/monster-defense-reward-options-20261026.test.mjs','tests/monster-defense-rewards-20261020.test.mjs','tests/monster-defense-rewards-live-20261020.test.mjs','tests/monster-defense-live.test.mjs','tests/monster-defense-rooms.test.mjs','tests/cooperative-websocket.test.mjs'],checks:['check:worker']});console.log(JSON.stringify(before));
+}else if(mode==='deploy'){
+ const plan=JSON.parse(fs.readFileSync(path.join(out,'deployment-plan.json'))),head=git('rev-parse','HEAD'),logfile=path.join(out,'deploy.log');assert(!fs.existsSync(logfile));assert.equal((await state()).pages.commit,plan.base,'Production advanced; inspect latest before deploying');
+ const fd=fs.openSync(logfile,'w'),env={...process.env,SCOPED_DEPLOY_BASE:plan.base,SCOPED_DEPLOY_REASON:plan.reason,SCOPED_DEPLOY_TESTS:JSON.stringify(plan.tests),SCOPED_DEPLOY_CHECKS:JSON.stringify(plan.checks)};
+ const child=spawn(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run deploy:production -- --scoped'],{cwd:root,env,windowsHide:true,stdio:['ignore',fd,fd]});console.log(JSON.stringify({head,base:plan.base,pid:child.pid,logfile}));
+ const exitCode=await new Promise((resolve,reject)=>{child.once('exit',resolve);child.once('error',reject);});fs.closeSync(fd);save('deployment-result.json',{head,base:plan.base,exitCode,finishedAt:new Date().toISOString()});console.log(JSON.stringify({head,exitCode}));process.exitCode=exitCode||0;
+}else if(mode==='verify'){
+ const execution=JSON.parse(fs.readFileSync(path.join(out,'deployment-result.json'))),plan=JSON.parse(fs.readFileSync(path.join(out,'deployment-plan.json'))),after=await state();assert.equal(execution.exitCode,0);assert.equal(after.pages.commit,execution.head);assert.equal(after.pages.status,'success');
+ const workers=[];for(const name of ['cnine-card-api-runtime','cnine-card-clan-draft']){
+  const body=await(await api('/workers/scripts/'+name)).text(),markers=name==='cnine-card-api-runtime'?['resolveDefenseRewardItems','DEFENSE_REWARD_V2','rollSeed','itemRolls','monster_defense_reward_receipt_v1:']:['runDuoSchedule','runMercenaryStockSchedule'];for(const marker of markers)assert(body.includes(marker),name+' missing '+marker);workers.push({name,sha256:hash(body),markers});
+ }
+ const {isProductionFile}=await import('../../../scripts/prepare-production-assets.mjs');
+ const files=git('diff','--name-only',plan.base,execution.head).split('\n').filter(f=>/\.(?:js|mjs|json|html|css)$/.test(f)&&isProductionFile(f)&&!f.startsWith('functions/')&&!f.startsWith('workers/'));
+ const publicFiles=[];for(let i=0;i<files.length;i+=4)publicFiles.push(...await Promise.all(files.slice(i,i+4).map(async file=>{const r=await fetch('https://cnine-card.pages.dev/'+file+'?verify='+execution.head,{signal:AbortSignal.timeout(60000)});assert(r.ok,file);const actual=(await r.text()).replaceAll('\r\n','\n'),expected=fs.readFileSync(file,'utf8').replaceAll('\r\n','\n');assert.equal(hash(actual),hash(expected),file);return {file,sha256:hash(actual)};})));
+ const anonymous=[];for(const route of ['defense/feature','admin/defense/settings']){const r=await fetch('https://cnine-card.pages.dev/api/'+route,{signal:AbortSignal.timeout(30000)});assert.equal(r.status,401,route+' must remain authenticated');anonymous.push({route,status:r.status});}
+ save('live-verification.json',{...after,releaseCommit:execution.head,workers,publicFiles,anonymous,operationalAccountWrites:0,operationalSettingsWrites:0});console.log(JSON.stringify({pages:after.pages,workers:workers.map(w=>w.name),publicFiles:publicFiles.length,anonymous}));
+}else throw Error('Use inspect|deploy|verify');

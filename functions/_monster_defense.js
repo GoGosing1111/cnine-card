@@ -33,7 +33,7 @@ export async function handleMonsterDefense({path,request,env,deps}){
    if(action!=='settings')fail('없는 설정 경로입니다.',404);
    if(request.method==='GET')return reply({settings,difficulties:DEFENSE_DIFFICULTIES,rewardItems:await coopRewardCatalog(env)});
    if(request.method!=='POST')fail('지원하지 않는 요청입니다.',405);
-   const body=await readJointBody(request,{maxBytes:16384,fields:['settings','requestId']});
+   const body=await readJointBody(request,{maxBytes:32768,fields:['settings','requestId']});
    const next=validateDefenseSettings(body.settings);if(!/^[a-zA-Z0-9-]{16,100}$/.test(body.requestId||''))fail('저장 요청 ID를 확인하세요.');
    if(next.testUserIds.length){const found=await env.DB.prepare('SELECT id FROM users WHERE id IN ('+next.testUserIds.map(()=>'?').join(',')+')').bind(...next.testUserIds).all();if(found.results.length!==next.testUserIds.length)fail('존재하지 않는 테스트 계정입니다.');}
    return await deps.withUserMutationLock(env,user.id,'defense/settings',async()=>{

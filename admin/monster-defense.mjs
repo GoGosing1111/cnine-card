@@ -1,4 +1,5 @@
-import {DEFENSE_DIFFICULTIES,DEFENSE_ENEMIES,validateDefenseSettings} from '../shared/monster-defense-v1.mjs?v=20261020-defense-rewards-v1';
+import {DEFENSE_DIFFICULTIES,DEFENSE_ENEMIES,validateDefenseSettings} from '../shared/monster-defense-v1.mjs?v=20261026-defense-rewards-v2';
+import {defenseRewardItemRule,defenseRewardItemLabel} from '../shared/monster-defense-rewards-v1.mjs?v=20261026-defense-rewards-v2';
 import {jointAdminRequest} from '../js/joint-account-transport.mjs';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export async function mountDefenseCms(root){
@@ -18,14 +19,31 @@ export async function mountDefenseCms(root){
   $('.md-resource-grid').innerHTML=DEFENSE_ENEMIES.map(e=>`<figure><img src="/${e.asset}" alt="" loading="lazy"><figcaption>${e.name}<small>${{NORMAL:'일반',RUNNER:'돌파',RANGED:'원거리',ELITE:'정예',BOSS:'보스',SUPPORT:'지원'}[e.kind]}</small></figcaption></figure>`).join('');
  }
  function collectRewards(){
-  return settings.difficulties.map(d=>{const box=$('[data-reward="'+d.id+'"]');return {...d,clearReward:{coin:Number(box.querySelector('[data-coin]').value),masterStars:Number(box.querySelector('[data-stars]').value),items:[...box.querySelectorAll('[data-item-row]')].map(row=>({code:row.querySelector('select').value,quantity:Number(row.querySelector('input').value)}))}};});
+  return settings.difficulties.map(d=>{const box=$('[data-reward="'+d.id+'"]');return {...d,clearReward:{coin:Number(box.querySelector('[data-coin]').value),masterStars:Number(box.querySelector('[data-stars]').value),items:[...box.querySelectorAll('[data-item-row]')].map(row=>({code:row.querySelector('select').value,chancePercent:Number(row.querySelector('[data-item-chance]').value),minQuantity:Number(row.querySelector('[data-item-min]').value),maxQuantity:Number(row.querySelector('[data-item-max]').value)}))}};});
  }
  function drawRewards(){
   $('[data-rewards-enabled]').checked=settings.rewardsEnabled;
   const options=code=>{const found=rewardItems.some(i=>i.code===code);return (!code?'<option value="">아이템 선택</option>':!found?'<option value="'+esc(code)+'">'+esc(code)+' · 현재 비활성</option>':'')+rewardItems.map(i=>'<option value="'+esc(i.code)+'" '+(i.code===code?'selected':'')+'>'+esc(i.name)+'</option>').join('');};
-  $('[data-clear-rewards]').innerHTML=settings.difficulties.map((d,i)=>'<fieldset class="md-reward-tier" data-reward="'+d.id+'"><legend>'+DEFENSE_DIFFICULTIES[i].name+'</legend><div class="md-reward-values"><label>코인<input data-coin type="number" min="0" max="1000000000000" step="1" required value="'+d.clearReward.coin+'" aria-label="'+DEFENSE_DIFFICULTIES[i].name+' 클리어 코인"></label><label>마스터의 별<input data-stars type="number" min="0" max="10000000" step="1" required value="'+d.clearReward.masterStars+'" aria-label="'+DEFENSE_DIFFICULTIES[i].name+' 마스터의 별"></label></div><div class="md-reward-items">'+d.clearReward.items.map((item,n)=>'<div data-item-row><select required aria-label="'+DEFENSE_DIFFICULTIES[i].name+' 보상 아이템 '+(n+1)+'">'+options(item.code)+'</select><input type="number" min="1" max="100000" step="1" required value="'+item.quantity+'" aria-label="'+DEFENSE_DIFFICULTIES[i].name+' 아이템 수량 '+(n+1)+'"><button type="button" data-item-remove="'+n+'" aria-label="아이템 삭제">삭제</button></div>').join('')+'</div><button type="button" data-item-add>아이템 추가</button><small>클리어 참가자 1명당 지급 · 0은 해당 재화 지급 없음</small></fieldset>').join('');
+  $('[data-clear-rewards]').innerHTML=settings.difficulties.map((d,i)=>{
+   const name=DEFENSE_DIFFICULTIES[i].name;
+   return `<fieldset class="md-reward-tier" data-reward="${d.id}"><legend>${name}</legend><div class="md-reward-values"><label>클리어 코인<input data-coin type="number" min="0" max="1000000000000" step="1" required value="${d.clearReward.coin}" aria-label="${name} 클리어 코인"></label><label>마스터의 별<input data-stars type="number" min="0" max="10000000" step="1" required value="${d.clearReward.masterStars}" aria-label="${name} 마스터의 별"></label></div><p data-reward-summary></p><div class="md-reward-items">${d.clearReward.items.map((item,n)=>{
+    const rule=defenseRewardItemRule(item),label=`${name} 아이템 ${n+1}`;
+    return `<div data-item-row><label class="md-item-choice">보상 아이템<select required aria-label="${name} 보상 아이템 ${n+1}">${options(item.code)}</select></label><label>지급 확률 %<input data-item-chance type="number" min="0" max="100" step="0.01" required value="${rule.chancePercent}" aria-label="${label} 지급 확률"></label><label>최소 수량<input data-item-min type="number" min="1" max="100000" step="1" required value="${rule.minQuantity}" aria-label="${label} 최소 수량"></label><label>최대 수량<input data-item-max type="number" min="1" max="100000" step="1" required value="${rule.maxQuantity}" aria-label="${label} 최대 수량"></label><button type="button" data-item-remove="${n}" aria-label="${label} 삭제">삭제</button><small data-item-summary></small></div>`;
+   }).join('')}</div><button type="button" data-item-add>보상 아이템 추가</button><small>참가자마다 아이템별 독립 추첨 · 100%는 확정 지급 · 최소와 최대가 같으면 고정 수량 · 0%는 미지급</small></fieldset>`;
+  }).join('');
+  rewardSummary();
  }
- root.addEventListener('input',()=>{pending=null;});root.addEventListener('change',()=>{pending=null;});
+ function rewardSummary(){
+  for(const box of root.querySelectorAll('[data-reward]')){
+   const coin=Number(box.querySelector('[data-coin]').value),stars=Number(box.querySelector('[data-stars]').value);
+   box.querySelector('[data-reward-summary]').textContent=`참가자 1명당 ${coin.toLocaleString()} 코인 · 마스터의 별 ${stars.toLocaleString()}개`;
+   for(const row of box.querySelectorAll('[data-item-row]')){
+    const rule={chancePercent:Number(row.querySelector('[data-item-chance]').value),minQuantity:Number(row.querySelector('[data-item-min]').value),maxQuantity:Number(row.querySelector('[data-item-max]').value)};
+    row.querySelector('[data-item-summary]').textContent=rule.minQuantity<1||rule.maxQuantity<rule.minQuantity?'최소·최대 수량을 확인하세요.':rule.chancePercent===0?'지급하지 않음':defenseRewardItemLabel(rule);
+   }
+  }
+ }
+ root.addEventListener('input',()=>{pending=null;rewardSummary();});root.addEventListener('change',()=>{pending=null;rewardSummary();});
  async function load(){lock(true);try{const data=await jointAdminRequest('admin/defense/settings');settings=data.settings;rewardItems=data.rewardItems||[];pending=null;draw();note(settings.mode+' 설정 r'+settings.revision+' · 저장 후 새 방부터 반영됩니다.');}catch(e){note(e.message);}finally{lock(false);}}
  $('[data-reload]').onclick=()=>void load();
  $('[data-find]').onclick=async()=>{lock(true);try{const result=await jointAdminRequest('admin/defense/test-users?q='+encodeURIComponent($('[data-search]').value.trim()));$('[data-found]').innerHTML=result.users.length?result.users.map(u=>{names.set(Number(u.id),u.nickname);return `<button type="button" data-add="${u.id}">${esc(u.nickname)} · #${u.id} 추가</button>`;}).join(''):'일치하는 계정이 없습니다.';}catch(e){note(e.message);}finally{lock(false);}};
