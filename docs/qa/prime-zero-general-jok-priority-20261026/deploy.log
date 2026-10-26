@@ -1,0 +1,96 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"3e5961e39c36d522d69fe5c0ff8a74c021bd0610","reason":"사용자 프라임·제로가 제너럴 족에게 지지 않도록 조정 지시. PVP 제너럴 족 단독/전원 편성 상대 전용 공격·내구·행동 대응을 성장·장비 적용 후 고정한다. 새 시드 38912전 전승, 다른 상대/PVE 1352전 결과 동일, PC 모바일 실제 메인 전투·도감 확인. 다른 용병·기본 전투력·스킬 피해·제작 ON·계정 보존.","changed":["AGENTS.md","docs/qa/monster-defense-coin-limit-20261026/README.md","docs/qa/monster-defense-coin-limit-20261026/apply.json","docs/qa/monster-defense-coin-limit-20261026/browser-public.json","docs/qa/monster-defense-coin-limit-20261026/deployment-plan.json","docs/qa/monster-defense-coin-limit-20261026/deployment-result.json","docs/qa/monster-defense-coin-limit-20261026/live-verification.json","docs/qa/monster-defense-coin-limit-20261026/preservation.json","docs/qa/monster-defense-coin-limit-20261026/replay.json","docs/qa/monster-defense-coin-limit-20261026/verify.json","docs/qa/prime-zero-general-jok-priority-20261026/README.md","docs/qa/prime-zero-general-jok-priority-20261026/baseline.json","docs/qa/prime-zero-general-jok-priority-20261026/before-deploy.json","docs/qa/prime-zero-general-jok-priority-20261026/browser.json","docs/qa/prime-zero-general-jok-priority-20261026/calibration-adaptive.json","docs/qa/prime-zero-general-jok-priority-20261026/calibration-final.json","docs/qa/prime-zero-general-jok-priority-20261026/calibration-tempo.json","docs/qa/prime-zero-general-jok-priority-20261026/calibration.json","docs/qa/prime-zero-general-jok-priority-20261026/deployment-plan.json","docs/qa/prime-zero-general-jok-priority-20261026/holdout-final.json","docs/qa/prime-zero-general-jok-priority-20261026/holdout.json","docs/qa/prime-zero-general-jok-priority-20261026/measure.mjs","docs/qa/prime-zero-general-jok-priority-20261026/production-before.json","docs/qa/prime-zero-general-jok-priority-20261026/read-production.mjs","docs/qa/prime-zero-general-jok-priority-20261026/release.mjs","docs/qa/prime-zero-general-jok-priority-20261026/unchanged.json","docs/qa/prime-zero-general-jok-priority-20261026/unchanged.mjs","index.html","js/app.js","js/battle-v3-live.js","mercenary-codex/index.html","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/coop-defense-v1/build-report.json","preview/coop-defense-v1/defense.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/defense-roguelike-v2/preview.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","service-worker.js","shared/mercenary-combat-link-v2103.mjs","shared/mercenary-prime-requiem-v1.mjs","shared/mercenary-zero-v1.mjs","tests/prime-zero-general-jok-priority-20261026.browser.mjs","tests/prime-zero-general-jok-priority-20261026.test.mjs"],"tests":["tests/prime-zero-general-jok-priority-20261026.test.mjs","tests/mercenary-three-skills-20261026.test.mjs","tests/razak-priority-matchups-20261026.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ V-976 basic forms strengthen one actual PVE/PVP hit by 50%, including capped hits (20.2804ms)
+✔ V-976 all area forms use 3024% once across 1/5/12 unique enemies and retain resource/control guards (3.4201ms)
+✔ V-976 actual PVE area cap doubles without enabling PVP area attacks (3.3312ms)
+✔ V-975 basic forms strengthen one actual PVE/PVP hit by 50%, including capped hits (5.6447ms)
+✔ V-975 all area forms use 3024% once across 1/5/12 unique enemies and retain resource/control guards (3.2533ms)
+✔ V-975 actual PVE area cap doubles without enabling PVP area attacks (0.7616ms)
+✔ V-974 basic forms strengthen one actual PVE/PVP hit by 50%, including capped hits (4.9075ms)
+✔ V-974 all area forms use 3024% once across 1/5/12 unique enemies and retain resource/control guards (4.4808ms)
+✔ V-974 actual PVE area cap doubles without enabling PVP area attacks (1.7941ms)
+✔ only canonical Prime/Zero against all-General-Jok PVP lineups receive priority (6.4959ms)
+✔ post-growth floors cover stronger gear/decks once, preserve injury and never alter cards or General Jok (10.3899ms)
+✔ PVE and other opponents keep normal stats, while existing Razak SS priority remains intact (10.3212ms)
+✔ duo retains owner isolation, supports two General Joks, and disables priority for mixed opponents (32.7856ms)
+✔ both sides win team battles and duels even at level 1 against level 21 and 100x opposing cards (130.1299ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (11.9062ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (10.0202ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (3.7323ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (10.211ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (13.8571ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (45.4444ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (2.9854ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (2.5069ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (0.784ms)
+✔ merged release fits Pages while the original duo scheduler remains in its Worker bundle (583.5538ms)
+✔ priority guard uses all 21 released SS limited identities and Kangyun, never a forged name or edition (15.4205ms)
+✔ real link applies attack, durability and cap advantage once, retaining growth, gear and injured entry (9.4847ms)
+✔ actual duo isolates owner linkage and disables priority whenever an opposing SSS limited is present (30.3961ms)
+✔ all priority opponents lose equal-condition canonical team battles and linked isolated duels on both sides (1241.6387ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2143.5506
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261026-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 9260 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 8543.33 KiB / gzip: 1839.40 KiB
+Worker Startup Time: 59 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.52 sec)
+No targets deployed for cnine-card-api-runtime (0.60 sec)
+Current Version ID: d1c96326-19a1-4e4e-ab82-91f47121665e
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19969/20000)
+Uploading... (19980/20000)
+Uploading... (19990/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 31 files (19969 already uploaded) (4.29 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://4e55ace0.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.152.0)
+───────────────────────────────────────────────
+Total Upload: 3202.97 KiB / gzip: 719.63 KiB
+Worker Startup Time: 37 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.83 sec)
+Deployed cnine-card-clan-draft triggers (0.99 sec)
+  schedule: * * * * *
+Current Version ID: a30b8397-e1d3-4866-8a4e-931666f6d23a

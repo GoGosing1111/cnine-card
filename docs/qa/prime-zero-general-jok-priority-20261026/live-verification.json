@@ -1,0 +1,337 @@
+{
+  "at": "2026-10-26T03:12:41.772Z",
+  "pages": {
+    "id": "4e55ace0-b2cc-4fd1-ab25-fc8f4a3ccd81",
+    "url": "https://4e55ace0.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "bd1ed1ad0c6e776e3e93f8dd196f1f4953fe03d9"
+  },
+  "releaseCommit": "bd1ed1ad0c6e776e3e93f8dd196f1f4953fe03d9",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "priorityVersion": 1,
+      "minimumAttack": 4,
+      "minimumDurability": 16,
+      "minimumActionRate": 2
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "priorityVersion": 1,
+      "minimumAttack": 4,
+      "minimumDurability": 16,
+      "minimumActionRate": 2
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "98fbd5c72441b1eb0c27fd37ecdbb9331023a024e71328b77592bd1c3e670e93"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "dc18e3b7e608a0b5c6c24ec9edd8952c306bfe6dba298101c5aeb5219cc6f376"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "8e7774ea19534452ff182c79ab245c177dd1af207cfc6e18d4fae82d6d771a71"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "cd8b722e596b685e3701a23763721038d424090b3051ed36e8e35bd557c05bf4"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/build-report.json",
+      "sha256": "9ac867a0c8a9646050f346d1da802892dd0f7965e059591194803f97f70ca828"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "b8c6a6cdde95e347190afd665e8dfeec93d4c1f695928b95c83e031f4a241c04"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "f39bc308b35563f82212c26294c97e543255f5f382dda87dc05e4eed585a5109"
+    },
+    {
+      "file": "preview/coop-defense-v1/build-report.json",
+      "sha256": "e8ee1abce3a1c15afb3c7dc77ea1bdf50517c280e30ab323dff3c23c268ab5cd"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "547f382b074aff3d06143e5f4636a068cc95db844ef140572dd82b6b6432f3f4"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "710fd2b556529c1cde8340b2186d024252fdaf79c96f3211bbb597b336c3d063"
+    },
+    {
+      "file": "preview/defense-roguelike-v2/preview.bundle.js",
+      "sha256": "2945a9453e40358fa5634fb637ae7f8110fc9ae07cf169ad2655592909da365e"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "4f2d15106639190345fbac01225b723f7cabe35f6abd6dcf2e7175abe9cb0074"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "ee11d01bf6a605b88edd0efd8dcc8615ac9c2a7a07c1ec31f832693a16202cc2"
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "sha256": "c9d7481be7dab66dc9d627fceff2b5eefe21051236497f767ba418e939f8fc6c"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "856a8d816f83abe8285a9ef5194d7b3c1aca7b9b0b2ccc7ed570c220593112ce"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "d32b7cd895e4958e49a10a9c8d799370e6da535c33f59831c12a1490fe22b811"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "a92e8ae99dbf2919dd4650ab7c0f9a8427a8a3256ca8a60f0daf26263cc624e0"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "c4f001f79843ae5347291b8c46f73441bb9ad5533074c960618fbcc1698dff07"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/engine-build.json",
+      "sha256": "d16ae311d649222ecd1b3b6c44ac3ae8cc685827950a6a342ed17e4da0cbe410"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "df6237b27f737add980b79c349c12f7f5624927f8e4b8f255b03850f02bf6ea2"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "b710072eafefc1a15bc4c5084252b89fc008f9928ef88dc0e6387c0cdb5a6731"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "4a35a29c378ccd8f872908b6825e1d1aa809938908b0010f03d4827525c0ea7e"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "71d346e9675f850a28a620b67957e5305ebe58a604737826f2bdad6f618f6729"
+    },
+    {
+      "file": "shared/mercenary-combat-link-v2103.mjs",
+      "sha256": "b9401bb2ed274321123624d2c91c9793d9ce94dc21c4514e9e9c8ce285abe299"
+    },
+    {
+      "file": "shared/mercenary-prime-requiem-v1.mjs",
+      "sha256": "a752852e9316fa41b0bf6938fffa80a44591ccbd7d9221a6bea2594eb2374364"
+    },
+    {
+      "file": "shared/mercenary-zero-v1.mjs",
+      "sha256": "f059b0d12481143c0121f895e6209148028cb9862b47f39b0703c58ebdfc5a5d"
+    }
+  ],
+  "cards": [
+    {
+      "code": "V-974",
+      "name": "제너럴 족",
+      "basePower": 2700000,
+      "skills": [
+        {
+          "id": "MS-950",
+          "basicForm": true,
+          "balance": {
+            "damageRatio": 1.5,
+            "cooldownTurns": 0,
+            "cost": 0
+          }
+        },
+        {
+          "id": "MS-951",
+          "basicForm": true,
+          "balance": {
+            "damageRatio": 1.5,
+            "cooldownTurns": 0,
+            "cost": 0
+          }
+        },
+        {
+          "id": "MS-952",
+          "balance": {
+            "version": 3,
+            "damageRatio": 30.24,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-953",
+          "balance": {
+            "version": 3,
+            "damageRatio": 30.24,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-954",
+          "balance": {
+            "version": 3,
+            "damageRatio": 30.24,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-955",
+          "balance": {
+            "version": 3,
+            "damageRatio": 30.24,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-956",
+          "balance": {
+            "version": 3,
+            "damageRatio": 30.24,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-957",
+          "balance": {
+            "version": 3,
+            "damageRatio": 30.24,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        }
+      ],
+      "description": "기본 전투력 2,700,000. 공격·체력·방어·연계는 전투력에 비례하며 기존 속도와 행동 주기를 유지합니다. 개인 피해 80% 경감, 상태이상·반격 보호. 대물 관통탄과 단일 급소를 꿰뚫는 황금 낙인탄이 일반 공격마다 순환하며 피해가 기존의 1.5배입니다. PVE에서는 황금 함대·M777 야포단·파쇄탄·철갑탄·산개탄·제압 사격을 순환하며, 공통 재사용 3행동·에너지 20으로 총 3,024% 피해를 적 전체에 나눠 한 번씩 적용합니다. 황금 C9 깃발과 전신 네온 아우라. 모션 재생 2배. 현재 획득 불가. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+    },
+    {
+      "code": "V-975",
+      "name": "프라임 레퀴엠",
+      "basePower": 3000000,
+      "skills": [
+        {
+          "id": "MS-960",
+          "basicForm": true,
+          "balance": {
+            "damageRatio": 1.5,
+            "cooldownTurns": 0,
+            "cost": 0
+          }
+        },
+        {
+          "id": "MS-961",
+          "basicForm": true,
+          "balance": {
+            "damageRatio": 1.5,
+            "cooldownTurns": 0,
+            "cost": 0
+          }
+        },
+        {
+          "id": "MS-962",
+          "basicForm": true,
+          "balance": {
+            "damageRatio": 1.5,
+            "cooldownTurns": 0,
+            "cost": 0
+          }
+        },
+        {
+          "id": "MS-963",
+          "balance": {
+            "version": 3,
+            "damageRatio": 30.24,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-964",
+          "balance": {
+            "version": 3,
+            "damageRatio": 30.24,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-965",
+          "balance": {
+            "version": 3,
+            "damageRatio": 30.24,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-966",
+          "balance": {
+            "version": 3,
+            "damageRatio": 30.24,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        }
+      ],
+      "description": "기본 전투력 3,000,000. 제로와 동일한 공격·생존·속도·연계 기준. 개인 피해 80% 경감, 상태이상·반격 보호. 혈섬 돌진·혈영 연참·혈검 난무가 일반 공격마다 순환하며 피해가 기존의 1.5배입니다. PVE 광역기 네 동작은 공통 재사용 3행동·에너지 20을 사용하며, 시전당 총 3,024% 피해를 생존한 적에게 나누어 한 번씩 적용합니다. 부서진 적월·흑염·붉은 네온. 현재 획득 불가. PVP에서 상대 용병이 모두 제너럴 족이면 연계 공격 4배·연계 체력과 방벽 16배의 우위를 얻습니다. 상대의 성장·장비 적용 후 공격력의 최소 4배, 최대 체력·방벽의 최소 16배를 보장하며, 카드 연계 추가 행동을 포함한 상대 행동 속도의 최소 2배로 대응합니다. 이 우위는 전투 시작 시 고정됩니다. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+    },
+    {
+      "code": "V-976",
+      "name": "제로",
+      "basePower": 3000000,
+      "skills": [
+        {
+          "id": "MS-972",
+          "basicForm": true,
+          "balance": {
+            "damageRatio": 1.5,
+            "cooldownTurns": 0,
+            "cost": 0
+          }
+        },
+        {
+          "id": "MS-973",
+          "basicForm": true,
+          "balance": {
+            "damageRatio": 1.5,
+            "cooldownTurns": 0,
+            "cost": 0
+          }
+        },
+        {
+          "id": "MS-974",
+          "basicForm": true,
+          "balance": {
+            "damageRatio": 1.5,
+            "cooldownTurns": 0,
+            "cost": 0
+          }
+        },
+        {
+          "id": "MS-976",
+          "balance": {
+            "damageRatio": 30.24,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        },
+        {
+          "id": "MS-975",
+          "balance": {
+            "damageRatio": 30.24,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        }
+      ],
+      "description": "기본 전투력 3,000,000. 공격·체력·방어·연계는 전투력에 비례하며 기존 속도와 행동 주기를 유지합니다. 개인 피해 80% 경감, 상태이상·반격 보호. 청광 횡단·섬광 연참·용궤 검격이 일반 공격마다 순환하며 피해가 기존의 1.5배입니다. PVE 천검 포위·창천 종단은 교대로 발동하며, 각 시전의 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다. 두 광역기는 에너지 35·재사용 5행동을 공유합니다. 백금 검익·흰 망토·흰 네온 윤곽. 현재 획득 불가. PVP에서 상대 용병이 모두 제너럴 족이면 연계 공격 4배·연계 체력과 방벽 16배의 우위를 얻습니다. 상대의 성장·장비 적용 후 공격력의 최소 4배, 최대 체력·방벽의 최소 16배를 보장하며, 카드 연계 추가 행동을 포함한 상대 행동 속도의 최소 2배로 대응합니다. 이 우위는 전투 시작 시 고정됩니다. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+    }
+  ],
+  "operationalAccountWrites": 0
+}

@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "policy": {
+    "version": 1,
+    "tierGuard": 16,
+    "attackFloorScale": 4,
+    "durabilityFloorScale": 16,
+    "speedFloorScale": 2
+  },
+  "total": 38912,
+  "wins": 38912,
+  "losses": 0,
+  "draws": 0,
+  "conditions": "Canonical PVP team and optionally linked isolated mercenary duels; same five-card formation, growth/gear equal unless stress is explicit."
+}
