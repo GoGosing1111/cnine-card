@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "mode": "local",
+  "reports": [
+    {
+      "width": 1440,
+      "buttons": 7,
+      "allSelectionsWork": true,
+      "approvedNormalAndSelectedImages": true,
+      "darkSelectedText": true,
+      "focusPreserved": true,
+      "lockedAndSoldOutPreserved": true,
+      "extraSelectionReads": 0,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 390,
+      "buttons": 7,
+      "allSelectionsWork": true,
+      "approvedNormalAndSelectedImages": true,
+      "darkSelectedText": true,
+      "focusPreserved": true,
+      "lockedAndSoldOutPreserved": true,
+      "extraSelectionReads": 0,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 320,
+      "buttons": 7,
+      "allSelectionsWork": true,
+      "approvedNormalAndSelectedImages": true,
+      "darkSelectedText": true,
+      "focusPreserved": true,
+      "lockedAndSoldOutPreserved": true,
+      "extraSelectionReads": 0,
+      "horizontalOverflow": false
+    }
+  ],
+  "errors": [],
+  "failed": [],
+  "apiWrites": 0,
+  "productionWrites": 0,
+  "fixture": "Isolated GET-only recipes; actual workshop renderer and styles",
+  "visualApprovalByUser": false
+}
