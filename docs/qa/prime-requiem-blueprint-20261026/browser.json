@@ -1,0 +1,28 @@
+{
+  "status": "PASSED",
+  "reports": [
+    {
+      "width": 1280,
+      "inventoryImageLoaded": true,
+      "directUseDisabled": true,
+      "cmsSelectedSavedReloaded": true,
+      "primeStillLocked": true,
+      "defaultQuantityUnchanged": true,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 390,
+      "inventoryImageLoaded": true,
+      "directUseDisabled": true,
+      "cmsSelectedSavedReloaded": true,
+      "primeStillLocked": true,
+      "defaultQuantityUnchanged": true,
+      "horizontalOverflow": false
+    }
+  ],
+  "isolatedCmsPosts": 2,
+  "productionWrites": 0,
+  "errors": [],
+  "failed": [],
+  "visualApprovalByUser": false
+}

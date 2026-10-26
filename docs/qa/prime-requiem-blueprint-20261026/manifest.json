@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "name": "프라임 레퀴엠 설계도",
+  "code": "PRIME_REQUIEM_BLUEPRINT",
+  "tool": "image_gen.imagegen",
+  "source": {
+    "path": "docs/qa/prime-requiem-blueprint-20261026/art/source.png",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 2393982,
+    "sha256": "64af35ee2869a507ca5a68899bb16c5dca34385214897a1c9eae404401aa88af",
+    "hasAlpha": true,
+    "transparentPixels": 513969,
+    "visibleBounds": {
+      "minX": 40,
+      "minY": 11,
+      "maxX": 1236,
+      "maxY": 1225
+    },
+    "edgeVisiblePixels": 0,
+    "delivery": "AUTHORING_ONLY_PRESERVED"
+  },
+  "runtime": {
+    "path": "assets/items/prime-requiem-blueprint-v1.webp",
+    "width": 512,
+    "height": 512,
+    "bytes": 105918,
+    "sha256": "6b9b32cb6c5d1a4151b8f589ab74dfb68e839b4bb625db5601f1947cc00c10c6",
+    "hasAlpha": true,
+    "transparentPixels": 84818,
+    "visibleBounds": {
+      "minX": 16,
+      "minY": 4,
+      "maxX": 504,
+      "maxY": 500
+    },
+    "edgeVisiblePixels": 0
+  },
+  "generatedOriginal": "C:/Users/User/.codex/generated_images/01a173fd-8129-72d0-9e45-86cc1aebe3bb/exec-ccc30b25-3982-45b5-b066-03787edb0069.png",
+  "originalBytesPreserved": true,
+  "export": {
+    "tool": "Sharp",
+    "size": 512,
+    "quality": 92,
+    "alphaQuality": 100,
+    "effort": 6
+  },
+  "prompts": "docs/qa/prime-requiem-blueprint-20261026/prompts.json",
+  "artStatus": "GENERATED_TECHNICALLY_REVIEWED",
+  "visualApprovalByUser": false,
+  "registrationRequestedByUser": true,
+  "registrationStatus": "PREPARED"
+}
