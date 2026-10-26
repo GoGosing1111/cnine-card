@@ -1,0 +1,52 @@
+{
+  "checkedAt": "2026-10-26T01:24:35.637Z",
+  "pages": {
+    "id": "b46007ab-595a-426b-a7b4-35fbafce69cb",
+    "url": "https://b46007ab.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e892872f3634b9fd74067c79a5a31d51d0e42a62"
+  },
+  "files": [
+    {
+      "file": "css/workshop-v1881.css",
+      "status": 200,
+      "sha256": "2aa979a10c8261d80fabe1c28a045bce48e8976e9fa4f51902bcc1033cecd83d"
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "status": 200,
+      "sha256": "222d3f82b1bfae4fba10c8749e5d8cf33866a11790d5441182bc867ecc101e2e"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "0012fac7bb9e0ec12fd24bbcb1953728c1010590b5623a5225c68b3d670af3f8"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "25889941b776290dd1440d7fe7d486c388765a95af21ad76c182c7df2ea95cd1"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "d2834207bbac358891d889e70fa33831f39773231ff6581c95cac62869999032"
+    },
+    {
+      "file": "css/command-ui-v1.css",
+      "status": 200,
+      "sha256": "59056aaf5d52d053caf00f5b4fc08c26442faabb9f1a59d7221d3713c6e5b898"
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "status": 200,
+      "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892"
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "status": 200,
+      "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155"
+    }
+  ],
+  "productionDataWrites": 0
+}

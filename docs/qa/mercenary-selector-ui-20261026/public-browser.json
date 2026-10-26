@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "mode": "public",
+  "reports": [
+    {
+      "width": 390,
+      "buttons": 7,
+      "allSelectionsWork": true,
+      "approvedNormalAndSelectedImages": true,
+      "darkSelectedText": true,
+      "focusPreserved": true,
+      "lockedAndSoldOutPreserved": true,
+      "extraSelectionReads": 0,
+      "horizontalOverflow": false
+    }
+  ],
+  "errors": [],
+  "failed": [],
+  "apiWrites": 0,
+  "productionWrites": 0,
+  "fixture": "Isolated GET-only recipes; actual workshop renderer and styles",
+  "visualApprovalByUser": false
+}
