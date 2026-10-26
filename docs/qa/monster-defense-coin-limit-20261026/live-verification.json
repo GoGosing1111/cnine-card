@@ -1,0 +1,85 @@
+{
+  "at": "2026-10-26T02:50:13.374Z",
+  "pages": {
+    "id": "022f753a-ccc6-48a0-871f-0740f7df2d73",
+    "url": "https://022f753a.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3e5961e39c36d522d69fe5c0ff8a74c021bd0610"
+  },
+  "releaseCommit": "3e5961e39c36d522d69fe5c0ff8a74c021bd0610",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sha256": "6722f2c8a3e9e6bedf5ed31e81695350b89df75593a42e82dde42c119b2015ec",
+      "markers": [
+        "DEFENSE_COIN_MAX",
+        "editorId",
+        "DEFENSE_REWARDS",
+        "spendDefenseDailyEntry",
+        "entryPending"
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sha256": "28b3099808a2761d8674b3160ad8bf7aafebe959f6d3e479f9c3bf9994b189e6",
+      "markers": [
+        "runDuoSchedule",
+        "runMercenaryStockSchedule"
+      ]
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "admin/index.html",
+      "sha256": "a50a48588b237a67f9f484e2243aa5fbd59d243b5ea52f441ab1789bc4b4f3a9"
+    },
+    {
+      "file": "admin/monster-defense.mjs",
+      "sha256": "fc3c7b6fc57c80b176bcc65b1d92f4c09573c5da355d790ed09d2d108bd8a130"
+    },
+    {
+      "file": "defense/index.html",
+      "sha256": "46cb0f6f3b0ddcf93a064d69af74a26ef3335359b12420c9723c62fa80abcba4"
+    },
+    {
+      "file": "index.html",
+      "sha256": "c1d5e81b57b24510c44350a242d322a001529fcac8de76588b0fe52d15b28e44"
+    },
+    {
+      "file": "preview/coop-defense-v1/build-report.json",
+      "sha256": "ca7d6c14ed6f488c353d31b3e9af0ae5377e1b30d98389b00c6206f8d4d64382"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "3ab4bf620864547a134af04aafabc91e4051d136c329e560de48e225106f1772"
+    },
+    {
+      "file": "preview/coop-defense-v1/index.html",
+      "sha256": "eb26b1172676d575723b8db2952271611f3de4a7d4d9236283681b3a66cbfcb1"
+    },
+    {
+      "file": "preview/defense-roguelike-v2/preview.bundle.js",
+      "sha256": "fafe343061eda553879fd144e773c144d227b49d077419071b72ae57586d6410"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "3422b61ff41d25fdd20c6ad9898d058a63d73617bd572deee063d3aa2fabf9cb"
+    },
+    {
+      "file": "shared/monster-defense-rewards-v1.mjs",
+      "sha256": "2bcd0ce26e9c8846086711efaa0d65633ea7aaede4982ca450444a2e707eec93"
+    }
+  ],
+  "anonymous": [
+    {
+      "route": "defense/feature",
+      "status": 401
+    },
+    {
+      "route": "admin/defense/settings",
+      "status": 401
+    }
+  ],
+  "operationalAccountWrites": 0,
+  "operationalSettingsWrites": 0
+}

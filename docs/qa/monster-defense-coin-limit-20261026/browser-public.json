@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "publicBase": "https://cnine-card.pages.dev",
+  "publicFiles": 404,
+  "checks": [
+    "native validation failure and full reload preserve all difficulty/reward rows and empty raw fields",
+    "failed POST remains durable across browser reload",
+    "three-way refresh retains local conflict and newest unrelated server setting",
+    "committed response loss reconciles from server without duplicate save or stale draft",
+    "server-supplied editor identity isolates a different OWNER from previous draft",
+    "390px touch save and readback preserves 3 trillion and two independent 5% scrolls"
+  ],
+  "errors": [],
+  "productionWrites": 0
+}
