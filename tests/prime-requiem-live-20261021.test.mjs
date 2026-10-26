@@ -46,11 +46,11 @@ test('normal/limited/Halloween/fusion selection cannot award Prime even with pos
  assert.deepEqual(limitedNormalCards(cards,cards,rules).map(c=>c.code),['V-001']);
  for(const pool of [ALL_LIMITED_MERCENARIES,HALLOWEEN_PACK_CARDS,MERCENARY_CMS_SEED.catalog.cards])assert(!pool.some(c=>c.code===PRIME_CODE));
 });
-test('four PVE area skills retain one 1512% budget per cast and rotate more frequently',()=>{
+test('four PVE area skills retain one 3024% budget per cast and rotate more frequently',()=>{
  for(const skill of PRIME_AREA_SKILLS){
   const actor=fighter(PRIME_CODE),targets=Array.from({length:12},(_,i)=>({id:'t'+i,hp:10000,maxHp:10000,alive:true})),ratios=[],events=[];
   const args={actor,skill,targets:[...targets,targets[0],{id:'dead',hp:0},{id:'suit',hp:10,isBattleSuit:true}],hit:(a,t,r)=>{ratios.push(r);return {damage:100};},damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},knockout(){},emit:(type,row)=>events.push({type,...row})};
-  assert.equal(resolvePrimeArea(args).length,12);assert(Math.abs(ratios.reduce((a,b)=>a+b)-15.12)<1e-9);assert.equal(events.length,1);assert.equal(events[0].type,PRIME_AREA_EVENT);assert(targets.every(t=>t.hp===9900));
+  assert.equal(resolvePrimeArea(args).length,12);assert(Math.abs(ratios.reduce((a,b)=>a+b)-30.24)<1e-9);assert.equal(events.length,1);assert.equal(events[0].type,PRIME_AREA_EVENT);assert(targets.every(t=>t.hp===9900));
   for(const change of [{battleMode:'PVP'},{hp:0},{stunned:true},{silenced:true}])assert.deepEqual(resolvePrimeArea({...args,actor:{...actor,...change}}),[]);
  }
  const cards=tierCards(2e7),options={cards,monster:{id:1,battle_power:1.6e10},seed:77};

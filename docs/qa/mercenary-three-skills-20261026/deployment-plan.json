@@ -1,0 +1,12 @@
+{
+  "base": "56904ac3254c438d985e8500b5f6aa598d0dbb42",
+  "reason": "제로·프라임 레퀴엠·제너럴 족의 단일 기본형 스킬 피해 1.5배, PVE 광역 2배 및 피해 상한을 반영한다. 실제 피해 36건과 다른 용병 전투 432건, PC 모바일 실제 메인 PVE PVP 12경로를 검증했다. 전투력·속도·성장·자원 비용·원화·제작 ON을 보존한다.",
+  "tests": [
+    "tests/pve-battlefield-entry-v2117.test.mjs",
+    "tests/prime-requiem-pve-entry-20261021.test.mjs"
+  ],
+  "checks": [
+    "test:mercenary-three-skills",
+    "check:worker"
+  ]
+}
