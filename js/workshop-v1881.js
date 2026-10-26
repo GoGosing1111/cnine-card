@@ -442,7 +442,7 @@
 
   function mercenaryCraftSelector(recipes,selectedId) {
     if(recipes.length<2)return '';
-    return `<nav class="ws-mercenary-select" aria-label="제작할 용병 선택">${recipes.map(r=>`<button type="button" data-material-recipe="${r.id}" aria-pressed="${Number(r.id)===selectedId}"><img src="/${esc(r.output_image)}" alt="" loading="lazy" decoding="async"><span><b>${esc(r.output_name)}</b><small>${r.craftScope==='PRIME_MATERIAL'?'기운잃은 프라임 카드':r.craftScope==='SSS_LIMITED_SHARD'?'리미티드 조각':'일반 조각'}</small><small>${r.craftStock?.soldOut?'한정 수량 소진':r.craftLocked?'제작 OFF':`남은 ${fmt(r.craftStock?.remaining)} / ${fmt(r.craftStock?.limit)}장`}</small></span></button>`).join('')}</nav>`;
+    return `<nav class="ws-mercenary-select cn-command-ui" aria-label="제작할 용병 선택">${recipes.map(r=>`<button type="button" class="cn-ui-button${Number(r.id)===selectedId?' primary':''}" data-material-recipe="${r.id}" aria-pressed="${Number(r.id)===selectedId}"><img src="/${esc(r.output_image)}" alt="" loading="lazy" decoding="async"><span><b>${esc(r.output_name)}</b><small>${r.craftScope==='PRIME_MATERIAL'?'기운잃은 프라임 카드':r.craftScope==='SSS_LIMITED_SHARD'?'리미티드 조각':'일반 조각'}</small><small>${r.craftStock?.soldOut?'한정 수량 소진':r.craftLocked?'제작 OFF':`남은 ${fmt(r.craftStock?.remaining)} / ${fmt(r.craftStock?.limit)}장`}</small></span></button>`).join('')}</nav>`;
   }
 
   function limitedShardCraftPanel(recipe) {
