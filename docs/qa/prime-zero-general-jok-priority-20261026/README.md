@@ -33,3 +33,7 @@ PVP에서 상대의 살아 있는 용병이 모두 제너럴 족 V-974이면 프
 - CMS r61·저장 문서 해시·성장/팩/런타임/프라임 제작 설정 해시 동일. 제작 r6·ON 유지, 이번 작업의 계정/재화/지급/설정 쓰기 0건.
 - 첫 공개 검증기의 `reference.actionRate` 문자열은 번들에서 `reference2.actionRate`로 변환되어 실패했다. 실제 코드 확인 후 숫자 접미사를 허용하고 행동 대응 계산식을 직접 확인하도록 검증기만 수정했다. 게임 코드 재배포 없음.
 - `live-verification.json`, `public-browser.json`, `preservation.json`, `deploy.log`에 근거를 보존했다. 기존 작업 폴더와 공용 의존성을 재사용했으며 공식 배포 도구가 임시 Pages 파일을 회수했다.
+
+## 저장 공간 마감
+
+기본 체크아웃 보호로 이 폴더의 archive가 이미 거부된 기록을 따라, Git 커밋 `025171ce4`과 원화·프롬프트·검수 원본을 보존한 sparse checkout으로 정리했다. 작업 폴더 261.48 → 4.54MiB, 약 256.95MiB 회수. 의존성 복사본·고유 ignored 파일 없음. 다른 작업/대화/복구 기록 변경 없음. 전체 `.codex` 감사는 63.508GiB로 목표 50GiB를 초과하며, 이번 작업 밖의 데이터를 임의 삭제하지 않았다. 상세 `storage-closeout.json`.
