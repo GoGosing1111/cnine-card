@@ -22,3 +22,12 @@
 - `before.json`: 운영 READ ONLY. r15·ON·보상 OFF, 5난이도 코인/별 0·아이템 빈 배열. 디펜스/협동 설정 SHA-256 `0df6d7f6f0668a9df83224fad3cb242a35facc10ff2be1273c26331b026c6934`. 초기 단일 디펜스 조회는 `before-defense-only.json`에 보존했다.
 
 실제 소스는 `C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site`를 재사용한다. 원래 upload 폴더와 다른 작업의 미완료 변경을 배포하지 않는다. 본 작업의 운영 계정/재화/설정 쓰기는 0건이다. 배포 및 독립 사후 조회 결과는 완료 후 이 폴더에 보존한다.
+
+## 운영 반영 완료
+
+- 구현 소스 `436ad8c5b`, 최종 배포 소스 `874ac52e96db15eb85f34dd73320ff355610d29c`, Pages `3ad7765e-90b6-4c1d-93d2-9479896c3431`. 두 Worker 포함 완료 시각 **2026-10-26 10:43:56 KST**.
+- 공식 scoped 배포 **19/19 검사** 및 Worker 문법/출시 검사 통과. Hyperdrive 캐시 OFF. Pages 20,000개 한도 유지. API runtime 버전 `c3b986ed-c449-4f50-84e0-9fef575634df`, clan-draft 버전 `ef4489a1-7b31-4f05-a4f2-f2bc0b088f67`.
+- 변경 공개 파일 **12개** SHA-256 일치, 보상 서버 새 추첨 코드 확인, 두 Worker 확인. 비로그인 디펜스/OWNER 설정은 계속 401.
+- `public-browser/`: 실제 공개 정적 자산 404개를 내려받아 격리된 로컬 API/DO fixture에 연결한 PC/모바일 CMS 저장 검수 통과. 운영 API 저장을 실행한 검사가 아니다.
+- 독립 READ ONLY `after.json`은 `before.json`과 디펜스/협동 설정 해시 동일. 디펜스 r15·ON·보상 OFF, 5난이도 코인/별 0·아이템 없음 유지. 계정/재화/설정 쓰기 **0건**.
+- 저장공간 사전 audit 75.234GiB. 기존 소스/의존성을 재사용했으며 본 배포 staging과 fixture는 종료 시 정리됐다. 남아 있는 2026-10-15/24/25의 다른 작업 staging 폴더는 건드리지 않았다. 검수 원본과 복구 가능한 Git 이력을 보존한다.

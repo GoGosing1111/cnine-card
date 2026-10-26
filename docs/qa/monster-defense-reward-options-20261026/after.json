@@ -1,0 +1,547 @@
+{
+  "checkedAt": "2026-10-26T01:44:15.105Z",
+  "readOnly": true,
+  "settingsHash": "0df6d7f6f0668a9df83224fad3cb242a35facc10ff2be1273c26331b026c6934",
+  "settings": {
+    "revision": 15,
+    "mode": "ON",
+    "rewardsEnabled": false,
+    "testerCount": 0,
+    "difficulties": [
+      {
+        "id": "GUIDE",
+        "enabled": true,
+        "clearReward": {
+          "coin": 0,
+          "masterStars": 0,
+          "items": []
+        }
+      },
+      {
+        "id": "NORMAL",
+        "enabled": true,
+        "clearReward": {
+          "coin": 0,
+          "masterStars": 0,
+          "items": []
+        }
+      },
+      {
+        "id": "HARD",
+        "enabled": true,
+        "clearReward": {
+          "coin": 0,
+          "masterStars": 0,
+          "items": []
+        }
+      },
+      {
+        "id": "NIGHTMARE",
+        "enabled": true,
+        "clearReward": {
+          "coin": 0,
+          "masterStars": 0,
+          "items": []
+        }
+      },
+      {
+        "id": "CATACLYSM",
+        "enabled": true,
+        "clearReward": {
+          "coin": 0,
+          "masterStars": 0,
+          "items": []
+        }
+      }
+    ]
+  },
+  "catalog": [
+    {
+      "code": "ARDEN_ARMOR_BLUEPRINT",
+      "name": "아르덴 방어구 설계도",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/arden-armor-blueprint-v1.webp"
+    },
+    {
+      "code": "ARDEN_ENERGY",
+      "name": "아르덴 에너지",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/arden-energy-v1.webp"
+    },
+    {
+      "code": "ARMOR_ENHANCEMENT_SCROLL",
+      "name": "방어구 강화주문서",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/armor-enhancement-scroll-v1.webp"
+    },
+    {
+      "code": "BLACK_MIRACLE_PACK",
+      "name": "블랙 미라클 팩",
+      "rarity": "MYTHIC",
+      "image_url": "assets/ui/packs/reverse-call-20261016/black-miracle-768.webp"
+    },
+    {
+      "code": "CORE_RAID_ENTRY_TICKET",
+      "name": "붕괴 코어 입장권",
+      "rarity": "ZENITH",
+      "image_url": "assets/items/core-raid-entry-ticket-v1.png"
+    },
+    {
+      "code": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+      "name": "동방무기상 무기설계도",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/eastern-arms-weapon-blueprint-v1.png"
+    },
+    {
+      "code": "EMPEROR_ENERGY",
+      "name": "엠퍼러 에너지",
+      "rarity": "EMPEROR",
+      "image_url": "assets/items/emperor-energy-v1.webp"
+    },
+    {
+      "code": "EQUIPMENT_POLISH_STONE",
+      "name": "연마석",
+      "rarity": "SPECIAL",
+      "image_url": "preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png"
+    },
+    {
+      "code": "EQUIPMENT_PROTECTION_TICKET",
+      "name": "장비 보호권",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/equipment-protection-ticket-v1.webp"
+    },
+    {
+      "code": "EQUIPMENT_SUPPLY_BOX",
+      "name": "장비 보급상자",
+      "rarity": "HIGH",
+      "image_url": "assets/ui/packs/supply-high.jpeg"
+    },
+    {
+      "code": "FUNDING_GIFT_BOX",
+      "name": "펀딩 사은품",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/funding-gift-box-v1.png"
+    },
+    {
+      "code": "FUR_REROLL_TICKET",
+      "name": "FUR 재뽑기권",
+      "rarity": "FUR",
+      "image_url": ""
+    },
+    {
+      "code": "GUARANTEED_LIMITED_PACK",
+      "name": "리미티드 확정 큐브",
+      "rarity": "LIMITED",
+      "image_url": "assets/ui/packs/premium-cube.png"
+    },
+    {
+      "code": "GUARANTEED_MA_PACK",
+      "name": "MA 확정 큐브",
+      "rarity": "MA",
+      "image_url": "assets/ui/packs/premium-cube.png"
+    },
+    {
+      "code": "HIGH_GRADE_REROLL_TICKET",
+      "name": "고등급 재뽑기권",
+      "rarity": "SPECIAL",
+      "image_url": ""
+    },
+    {
+      "code": "ICON_CARD_CHOICE_TICKET",
+      "name": "아이콘 카드 선택권",
+      "rarity": "ICON",
+      "image_url": "assets/items/icon-card-choice-20261020/ticket.webp"
+    },
+    {
+      "code": "LICH_KING_ENTRY_TICKET",
+      "name": "리치왕 정벌 입장권",
+      "rarity": "ZENITH",
+      "image_url": "assets/items/lich-king-entry-ticket-v1.svg"
+    },
+    {
+      "code": "LIMITED_REROLL_TICKET",
+      "name": "리미티드 재뽑기권",
+      "rarity": "LIMITED",
+      "image_url": ""
+    },
+    {
+      "code": "MADARA_RAID_ENTRY_TICKET",
+      "name": "바르센 레이드 입장권",
+      "rarity": "ZENITH",
+      "image_url": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-madara-vaelun-sd-v1.png"
+    },
+    {
+      "code": "MAGIC_CARD_PACK",
+      "name": "마법카드팩",
+      "rarity": "SPECIAL",
+      "image_url": "assets/cards/magic-card-pack-v2-768.jpg"
+    },
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "rarity": "MA",
+      "image_url": ""
+    },
+    {
+      "code": "MAYBACH_VISION6_BLUEPRINT",
+      "name": "마이바흐 비전 6 차량설계도",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/maybach-vision6-blueprint-v1.png"
+    },
+    {
+      "code": "MA_REROLL_TICKET",
+      "name": "MA 재뽑기권",
+      "rarity": "MA",
+      "image_url": ""
+    },
+    {
+      "code": "MERCENARY_PRIME_DEPLETED_CARD",
+      "name": "기운잃은 프라임 카드",
+      "rarity": "SSS",
+      "image_url": "assets/items/prime-depleted-20261025/card.webp"
+    },
+    {
+      "code": "MERCENARY_SSS_CARD_SHARD",
+      "name": "SSS 용병 카드 조각",
+      "rarity": "SSS",
+      "image_url": "assets/items/mercenary-sss-card-shard-v1.png"
+    },
+    {
+      "code": "MERCENARY_SSS_LIMITED_SHARD",
+      "name": "SSS 리미티드 조각",
+      "rarity": "SSS",
+      "image_url": "assets/items/sss-limited-shard-20261020/item.webp"
+    },
+    {
+      "code": "MERCENARY_SSS_REROLL_TICKET",
+      "name": "SSS 재뽑기권",
+      "rarity": "SSS",
+      "image_url": "/assets/ui/sss-reroll-v1/ticket-256.webp"
+    },
+    {
+      "code": "MERCENARY_XP_TRANSFER_POTION",
+      "name": "용병 경험치 50% 이전 물약",
+      "rarity": "SPECIAL",
+      "image_url": "/assets/items/mercenary-experience-transfer-20261025/potion.webp"
+    },
+    {
+      "code": "MINE_ELECTRIC_DRILL",
+      "name": "전동드릴",
+      "rarity": "SPECIAL",
+      "image_url": "/assets/ui/master-star-mine-v1/electric-drill.webp"
+    },
+    {
+      "code": "MINE_GOLDEN_DRILL",
+      "name": "황금드릴",
+      "rarity": "SPECIAL",
+      "image_url": "/assets/ui/master-star-mine-v1/golden-drill.webp"
+    },
+    {
+      "code": "MINE_SOLAR_DRILL",
+      "name": "태양광드릴",
+      "rarity": "SPECIAL",
+      "image_url": "/assets/ui/master-star-mine-v1/solar-drill.webp"
+    },
+    {
+      "code": "MIRACLE_CUBE",
+      "name": "미라클 큐브",
+      "rarity": "MIRACLE",
+      "image_url": "/assets/ui/miracle-cube-v1/cube-closed.webp"
+    },
+    {
+      "code": "NEW_USER_GIFT_BOX",
+      "name": "신규유저 기프트 박스",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/supply-high.jpeg"
+    },
+    {
+      "code": "PET_ESSENCE",
+      "name": "펫 정수",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/pet-opening-v1/pet-essence.webp"
+    },
+    {
+      "code": "PET_POTENTIAL_POTION",
+      "name": "잠재력 물약",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/pet-opening-v1/potential-potion.svg"
+    },
+    {
+      "code": "PET_PUMPKIN_CHOICE_TICKET",
+      "name": "호박펫 선택권",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/pumpkin-pet-choice-20261023/ticket.webp"
+    },
+    {
+      "code": "PET_SEAL_ORB",
+      "name": "펫 봉인구",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/pet-opening-v1/pet-seal-orb.webp"
+    },
+    {
+      "code": "PINGDU_BAEMIN_TICKET",
+      "name": "핑두의 배민권",
+      "rarity": "SPECIAL",
+      "image_url": "/assets/ui/events/chicken-v1/ticket.svg"
+    },
+    {
+      "code": "PINGDU_OLD_AXE",
+      "name": "낡은도끼",
+      "rarity": "SPECIAL",
+      "image_url": "/assets/ui/events/golden-axe-v1/old-axe.svg"
+    },
+    {
+      "code": "PINGDU_REPAIR_COUPON",
+      "name": "핑두 리페어 쿠폰",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/pingdu-repair-coupon-v1.webp"
+    },
+    {
+      "code": "PINGDU_THANKS_GIFT_BOX",
+      "name": "핑두의 감사 선물",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/pingdu-thanks-gift-box-v1.png"
+    },
+    {
+      "code": "PRESTIGE_REROLL_TICKET",
+      "name": "PRESTIGE 재뽑기권",
+      "rarity": "PRESTIGE",
+      "image_url": ""
+    },
+    {
+      "code": "PRIME_EQUIPMENT_SUPPLY_BOX",
+      "name": "프라임 아머리 상자",
+      "rarity": "PRIME",
+      "image_url": "assets/ui/packs/prime-armory-equipment-box-v1.png"
+    },
+    {
+      "code": "PRIME_REQUIEM_BLUEPRINT",
+      "name": "프라임 레퀴엠 설계도",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/prime-requiem-blueprint-v1.webp"
+    },
+    {
+      "code": "PRIME_VEHICLE_DRAW_TICKET",
+      "name": "프라임 하이퍼드라이브 팩",
+      "rarity": "PRIME",
+      "image_url": "assets/items/prime-hyperdrive-vehicle-pack-v1.png"
+    },
+    {
+      "code": "RANK_EXP_POTION_2X_60M",
+      "name": "계급 경험치 2배 물약",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/rank-exp-potions-20261020/2x.webp"
+    },
+    {
+      "code": "RANK_EXP_POTION_3X_60M",
+      "name": "계급 경험치 3배 물약",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/rank-exp-potions-20261020/3x.webp"
+    },
+    {
+      "code": "RECRUITMENT_GIFT_BOX",
+      "name": "영입전 사은품",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/recruitment-gift-box-v1.png"
+    },
+    {
+      "code": "REVERSECALL_STREAMER_GIFT_BOX",
+      "name": "리버스콜 스트리머 선물",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/reversecall-streamer-gift-20261021/gift-768.webp"
+    },
+    {
+      "code": "SCRAPYARD_ENTRY_TICKET",
+      "name": "폐차장 출입 허가증",
+      "rarity": "EPIC",
+      "image_url": "assets/ui/scrapyard/scrapyard-entry-ticket-v1680.png"
+    },
+    {
+      "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+      "name": "비밀무기 설계도 1장",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/secret-weapon-blueprint-chapter-1-v1.webp"
+    },
+    {
+      "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+      "name": "비밀무기 설계도 2장",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/secret-weapon-blueprint-chapter-2-v1.webp"
+    },
+    {
+      "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+      "name": "비밀무기 설계도 3장",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/secret-weapon-blueprint-chapter-3-v1.webp"
+    },
+    {
+      "code": "SIG_HUNTER_BOX",
+      "name": "시그헌터 박스",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/sig-hunter-box-20261022/gift-768.webp"
+    },
+    {
+      "code": "SKILL_CHIP_HELICOPTER_AIRSTRIKE",
+      "name": "헬기폭격 스킬칩",
+      "rarity": "SPECIAL",
+      "image_url": "/assets/ui/project-v/skill-chips/helicopter-airstrike-v1.webp"
+    },
+    {
+      "code": "SKILL_CHIP_OCTA_SEEKER",
+      "name": "8방향 유도탄 스킬칩",
+      "rarity": "SPECIAL",
+      "image_url": "/assets/ui/project-v/skill-chips/octa-seeker-v1.webp"
+    },
+    {
+      "code": "SKILL_CHIP_ROCKET_LAUNCHER",
+      "name": "로켓런처 스킬칩",
+      "rarity": "SPECIAL",
+      "image_url": "/assets/ui/project-v/skill-chips/rocket-launcher-v1.webp"
+    },
+    {
+      "code": "SOOPKETLAND_HYPER_BURNING_TICKET",
+      "name": "하이퍼버닝 발동권 ×15",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/soopketland/hyper-ticket-v1.svg"
+    },
+    {
+      "code": "SOOPKETLAND_TICKET",
+      "name": "리버스랜드 이용권",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/soopketland/event-ticket-v1.svg"
+    },
+    {
+      "code": "SSS_MIRACLE_CUBE",
+      "name": "SSS 미라클큐브",
+      "rarity": "MIRACLE",
+      "image_url": "/assets/ui/sss-miracle-cube-20261021/cube-768.webp"
+    },
+    {
+      "code": "STARLIGHT_ARMOR_CORE",
+      "name": "미스틱 에너지",
+      "rarity": "MYTHIC",
+      "image_url": "assets/items/starlight-armor-core-v1749.png"
+    },
+    {
+      "code": "SUIT_CORE_1",
+      "name": "슈트 코어 1",
+      "rarity": "MYTHIC",
+      "image_url": "assets/items/suit-core-1-v2004.png"
+    },
+    {
+      "code": "SUIT_CORE_2",
+      "name": "슈트 코어 2",
+      "rarity": "MYTHIC",
+      "image_url": "assets/items/suit-core-2-v2004.png"
+    },
+    {
+      "code": "SUIT_CORE_3",
+      "name": "슈트 코어 3",
+      "rarity": "MYTHIC",
+      "image_url": "assets/items/suit-core-3-v2004.png"
+    },
+    {
+      "code": "SUIT_CORE_4",
+      "name": "슈트 코어 4",
+      "rarity": "MYTHIC",
+      "image_url": "assets/items/suit-core-4-v2066.png"
+    },
+    {
+      "code": "SUIT_CORE_5",
+      "name": "슈트 코어 5",
+      "rarity": "MYTHIC",
+      "image_url": "assets/items/suit-core-5-v2124.png"
+    },
+    {
+      "code": "SUIT_CORE_6",
+      "name": "슈트 코어 6",
+      "rarity": "MYTHIC",
+      "image_url": "assets/items/suit-core-6-v2124.png"
+    },
+    {
+      "code": "SUIT_CORE_7",
+      "name": "슈트 코어 7",
+      "rarity": "MYTHIC",
+      "image_url": "assets/items/suit-core-7-20261006.png"
+    },
+    {
+      "code": "SUIT_CORE_SUPPLY_BOX",
+      "name": "슈트코어 전용 상자",
+      "rarity": "PRIME",
+      "image_url": "assets/ui/packs/suit-core-supply-box-20261008.png"
+    },
+    {
+      "code": "SUPERSTAR_GUARANTEED_PACK",
+      "name": "슈퍼스타팩 확정권",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/soopketland/superstar-guaranteed-v2065.svg"
+    },
+    {
+      "code": "SUPERSTAR_REROLL_TICKET",
+      "name": "슈퍼스타 재뽑기권",
+      "rarity": "SUPERSTAR",
+      "image_url": ""
+    },
+    {
+      "code": "SUPERSTAR_UPGRADE_13_TICKET",
+      "name": "슈퍼스타 +13 업그레이드 강화권",
+      "rarity": "SUPERSTAR",
+      "image_url": "/assets/ui/events/golden-axe-v1/upgrade-13.svg"
+    },
+    {
+      "code": "TOURNAMENT_GIFT_BOX",
+      "name": "대회 사은품",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/tournament-gift-box-v1.png"
+    },
+    {
+      "code": "UNIQUE_ADVANCEMENT_PASS",
+      "name": "전직 패스권",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/unique-advancement-pass-v2043.svg"
+    },
+    {
+      "code": "VEHICLE_DRAW_TICKET",
+      "name": "이동수단 뽑기권",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/vehicle-draw-ticket-v1391.png"
+    },
+    {
+      "code": "VEHICLE_PARTS_150_CHOICE",
+      "name": "차량부품 150개 선택권",
+      "rarity": "SPECIAL",
+      "image_url": "/assets/ui/workshop/vehicle-part-engine-v1668.png"
+    },
+    {
+      "code": "VEHICLE_PART_ENGINE",
+      "name": "고출력 엔진",
+      "rarity": "LEGENDARY",
+      "image_url": "assets/ui/workshop/vehicle-part-engine-v1668.png"
+    },
+    {
+      "code": "VEHICLE_PART_FRAME",
+      "name": "강화 차체 프레임",
+      "rarity": "EPIC",
+      "image_url": "assets/ui/workshop/vehicle-part-frame-v1668.png"
+    },
+    {
+      "code": "VEHICLE_PART_TIRE",
+      "name": "고성능 타이어",
+      "rarity": "RARE",
+      "image_url": "assets/ui/workshop/vehicle-part-tire-v1668.png"
+    },
+    {
+      "code": "WEAPON_ENHANCEMENT_SCROLL",
+      "name": "무기 강화주문서",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/weapon-enhancement-scroll-v1.webp"
+    },
+    {
+      "code": "WORM_CONTEST_GIFT_BOX",
+      "name": "지렁이대회 사은품",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/worm-contest-gift-box-v1.png"
+    }
+  ],
+  "operationalWrites": 0
+}
