@@ -29,7 +29,7 @@ for(const count of [1,10,100000])test(`${count} draws award only depleted Prime 
  assert.equal(Number((await f.p("SELECT COUNT(*) n FROM mercenary_card_acquisitions_v1 WHERE mercenary_code='V-975'").first()).n),0);
  assert.equal(Number((await f.p("SELECT issued FROM mercenary_limited_stock_v1 WHERE code='V-975'").first()).issued),items.length);
  const replay=await f.service.open(f.env,f.user,request);assert.deepEqual(replay.draws,receipt.draws);assert.equal(await f.items(),items.length);assert.equal(await f.coin(),before-receipt.coinCost);
- const rows=bloodmoonReceiptResults(receipt),markup=bloodmoonResultsMarkup(rows,BLOODMOON_PACK.image);assert(rows.filter(r=>r.kind==='ITEM').every(r=>r.artUrl==='/'+PRIME_MATERIAL.image));assert.match(markup,/제작 재료 · 제작 잠금/);assert(!markup.includes('프라임 레퀴엠</strong>'));
+ const rows=bloodmoonReceiptResults(receipt),markup=bloodmoonResultsMarkup(rows,BLOODMOON_PACK.image);assert(rows.filter(r=>r.kind==='ITEM').every(r=>r.artUrl==='/'+PRIME_MATERIAL.image));assert.match(markup,/프라임 레퀴엠 제작 재료/);assert(!markup.includes('프라임 레퀴엠</strong>'));
  if(count===100000){assert.equal(receipt.normalDraws.reduce((n,r)=>n+r.quantity,0),99997);assert(JSON.stringify(receipt).length<20000);t.diagnostic(`100,000 draws in isolated PGlite: ${elapsed.toFixed(1)}ms; no production transactions`);}
 });
 test('inventory failure rolls back stock, coins, logs and items; lost commit acknowledgement does not duplicate',async t=>{
@@ -68,13 +68,13 @@ test('pre-change completed receipts and directly owned Prime cards remain mercen
  await f.p("INSERT INTO mercenary_card_acquisitions_v1 VALUES(?,1,'V-975',0,1,0,'before')",r.requestId+':0').run();
  const legacy=await f.service.receipt(f.env,f.user,r.requestId),view=bloodmoonReceiptResults(legacy);assert.equal(view[0].kind,'MERCENARY');assert.match(view[0].artUrl,/v-975-640/);assert.equal(await f.owned(),1);
 });
-test('Prime craft is visible but has no invented quantity, costs, rate, or limit and cannot be enabled',async t=>{
- assert.equal(PRIME_CRAFT_RELEASE_ENABLED,false);assert.equal(BLOODMOON_PACK_RELEASE_ENABLED,true);
+test('Prime craft is visible but has no invented quantity, costs, rate, or limit and stays inactive until configured',async t=>{
+ assert.equal(PRIME_CRAFT_RELEASE_ENABLED,true);assert.equal(BLOODMOON_PACK_RELEASE_ENABLED,true);
  const draft=mercenaryCraftDraft(prime),recipe=mercenaryCraftRecipe(prime,draft,{},mercenaryCraftStock(prime));
  assert.deepEqual(draft.materials,[{itemCode:PRIME_MATERIAL.code,quantity:null}]);for(const key of ['coinCost','masterStarCost','successRate'])assert.equal(draft[key],null);
  assert.equal(recipe.craftLocked,true);assert.equal(recipe.is_public,1);assert.equal(recipe.output_ref,'V-975');assert.equal(recipe.craftStock.limit,null);assert.equal(recipe.craftStock.remaining,null);
- assert.throws(()=>validateMercenaryCraft({...draft,materials:[]},prime),/재료/);assert.throws(()=>validateMercenaryCraft({...draft,coinCost:0,masterStarCost:0,successRate:100,materials:[{itemCode:PRIME_MATERIAL.code,quantity:1}],isActive:true},prime),/잠금/);
- assert.throws(()=>mercenaryCraftGrantStatements({}, {userId:1,requestId:'blocked',guardId:'blocked'},prime),/잠겨/);
+ assert.throws(()=>validateMercenaryCraft({...draft,materials:[]},prime),/재료/);assert.throws(()=>validateMercenaryCraft({...draft,isActive:true},prime),/잠금/);assert.equal(validateMercenaryCraft({...draft,coinCost:0,masterStarCost:0,successRate:100,materials:[{itemCode:PRIME_MATERIAL.code,quantity:1}],isActive:true},prime).isActive,true);
+ assert.throws(()=>mercenaryCraftGrantStatements({}, {userId:1,requestId:'blocked',guardId:'blocked'},{...prime,releaseEnabled:false}),/잠겨/);
  const f=await equipmentFixture(t);await ensurePrimeMaterialCatalog(f.env);await ensurePrimeMaterialCatalog(f.env);
  await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,?,10,10)',PRIME_MATERIAL.code).run();
  const raw={code:PRIME_RECIPE_CODE,category:'MERCENARY_CRAFT',outputType:'MERCENARY',outputRef:'V-975',outputQuantity:1,paymentMode:'BOTH',craftRevision:0,...draft};

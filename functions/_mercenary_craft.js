@@ -1,4 +1,4 @@
-import {MERCENARY_CRAFTS,KAIRON_RECIPE_CODE,mercenaryCraftDefinition,mercenaryCraftStock,mercenaryCraftDraft,validateMercenaryCraft,mercenaryCraftReady,mercenaryCraftRecipe,isMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
+import {MERCENARY_CRAFTS,KAIRON_RECIPE_CODE,PRIME_RECIPE_CODE,mercenaryCraftDefinition,mercenaryCraftStock,mercenaryCraftDraft,validateMercenaryCraft,mercenaryCraftReady,mercenaryCraftRecipe,isMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
 import {MERCENARY_ACCOUNTING_SCHEMA} from './_mercenary_draw_accounting.js';
 import {LIMITED_CRAFT_SHARD,isLimitedShardCraft} from '../shared/mercenary-limited-shard-craft-v1.mjs';
 // Successful committed outputs count against each mercenary's independent craft
@@ -10,6 +10,9 @@ export async function readMercenaryCraftStock(env,definition,policy=null){
 }
 export const readKaironCraftStock=env=>readMercenaryCraftStock(env,MERCENARY_CRAFTS[0]);
 export function mercenaryCraftStockGuard(DB,guardId,definition){
+ // Prime consumes its finite inventory materials; it has no separate craft-stock pool.
+ // Preserve any failed cost/material/policy guard instead of resetting it to success.
+ if(definition.recipeCode===PRIME_RECIPE_CODE&&definition.releaseEnabled===true&&definition.limit===null)return DB.prepare('UPDATE workshop_craft_guards_v1668 SET verified=verified WHERE guard_id=?').bind(guardId);
  if(definition.releaseEnabled===false||definition.limit===null)return DB.prepare('UPDATE workshop_craft_guards_v1668 SET verified=0 WHERE guard_id=?').bind(guardId);
  return DB.prepare(`UPDATE workshop_craft_guards_v1668 SET verified=0 WHERE guard_id=? AND (${CRAFTED_SQL})>=?`).bind(guardId,definition.code,definition.recipeCode,definition.limit);
 }

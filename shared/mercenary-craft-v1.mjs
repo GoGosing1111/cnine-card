@@ -14,7 +14,7 @@ export const JOKRO_CRAFT_LIMIT=2;
 export const MERCENARY_CRAFTS=Object.freeze([
  Object.freeze({key:KAIRON_CRAFT_KEY,recipeCode:KAIRON_RECIPE_CODE,code:KAIRON_CODE,limit:KAIRON_CRAFT_LIMIT,art:KAIRON_ART,power:KAIRON_COMBAT.basePower,name:'카이론 · 흑탄의 집행관',description:'제작 전용 SSS 리미티드 · 팩 획득 불가 · 진무와 동일한 전투 밸런스',prefix:'KAIRON',sort:988,masterStarMax:1000000}),
  Object.freeze({key:JOKRO_CRAFT_KEY,recipeCode:JOKRO_RECIPE_CODE,code:JOKRO_CODE,limit:JOKRO_CRAFT_LIMIT,art:JOKRO_ART,power:JOKRO_COMBAT.basePower,name:'족로 · 청룡의 발도',description:'SSS 리미티드 · 서버 전체 제작 2장 한정 · 팩 발행 한도와 별도',prefix:'JOKRO',sort:989,masterStarMax:100000000}),
- Object.freeze({key:PRIME_CRAFT_KEY,recipeCode:PRIME_RECIPE_CODE,code:PRIME_CODE,limit:null,art:PRIME_ART,power:PRIME_COMBAT.basePower,name:'프라임 레퀴엠',description:'기운잃은 프라임 카드로 완제 용병을 제작합니다. 제작 조건 미정 · 현재 제작 잠금.',prefix:'PRIME',scope:'PRIME_MATERIAL',sort:990,masterStarMax:100000000,releaseEnabled:PRIME_CRAFT_RELEASE_ENABLED,requiredMaterial:PRIME_MATERIAL.code}),
+ Object.freeze({key:PRIME_CRAFT_KEY,recipeCode:PRIME_RECIPE_CODE,code:PRIME_CODE,limit:null,art:PRIME_ART,power:PRIME_COMBAT.basePower,name:'프라임 레퀴엠',description:'기운잃은 프라임 카드와 설정된 재료·비용으로 프라임 레퀴엠을 제작합니다.',prefix:'PRIME',scope:'PRIME_MATERIAL',sort:990,masterStarMax:100000000,releaseEnabled:PRIME_CRAFT_RELEASE_ENABLED,requiredMaterial:PRIME_MATERIAL.code}),
  ...LIMITED_SHARD_CRAFTS
 ]);
 export function mercenaryCraftDefinition(recipe){
