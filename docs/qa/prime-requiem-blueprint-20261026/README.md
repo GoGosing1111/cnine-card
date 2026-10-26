@@ -36,4 +36,4 @@
 - 원래 자산 전용 배포 계획은 `initial-deployment-plan.json`에 보존한다. 동시 배포가 최종 이미지를 전달했으므로 실행하지 않은 계획이며, 실제 증거는 `live-verification.json`이다. 동시 배포가 파일 한도 20,001건을 해결한 이력은 `docs/qa/razak-priority-matchups-20261026/README.md`에 있다.
 - 예행연습 후 전체 원복 확인: `dry-run.json`. 정식 등록: `production.json`. 별도 READ ONLY 연결에서 활성 재료·CMS 카탈로그·감사·영수증을 확인: `verification.json`. 같은 키 재실행에서 중복 항목·추가 카탈로그 쓰기 0: `replay.json`.
 - OWNER CMS → 제작소 관리 → 용병제작 → **+ 재료 추가**에서 **프라임 레퀴엠 설계도**를 선택하고 필요 수량을 저장할 수 있다. 기존 프라임 레퀴엠 제작 잠금과 기운잃은 프라임 카드 필수 재료는 유지한다.
-- 배포 대기 중 관리형 작업 폴더를 이번 QA·새 WebP·메타데이터만 유지하는 sparse checkout으로 줄였다. Git 원본과 기존 제작 폴더는 보존했고 의존성 설치·복사는 0건이다. 최종 범위 커밋 보존 후 관리형 폴더를 회수한다. `.codex` 용량은 해당 정리 후 75.522GiB였으며 다른 작업·원화·대화는 삭제하지 않았다.
+- 배포 대기 중 관리형 작업 폴더를 이번 QA·새 WebP·메타데이터만 유지하는 sparse checkout으로 줄였다. Git 원본과 기존 제작 폴더는 보존했고 의존성 설치·복사는 0건이다. 최종 범위 커밋 `a044f5363`를 원격에 보존한 뒤 관리형 회수를 시도했지만 앱이 `The task's primary checkout cannot be removed.`로 거부했다. 보호를 우회하지 않고 약 **3.794MiB / 27파일**의 필요한 작업 파일만 유지한다. 마지막 `.codex` 감사는 **63.991GiB**, 2026-10-26 09:59:18 KST다. 다른 작업·원화·대화는 삭제하지 않았으며 이 세션의 추가 작업도 현재 sparse 작업 폴더를 재사용한다. 상세 `storage-closeout.json`.

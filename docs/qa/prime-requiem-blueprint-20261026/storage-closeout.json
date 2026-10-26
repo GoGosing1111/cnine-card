@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-26T00:59:18.904251+00:00",
+  "worktree": "C:/Users/User/.codex/worktrees/prime-blueprint-release/cnine-card",
+  "initialAuditGiB": 98.504,
+  "finalAuditGiB": 63.991,
+  "globalAuditIncludesConcurrentActivity": true,
+  "globalReductionNotAttributedSolelyToThisTask": true,
+  "retainedWorktreeBytes": 3978808,
+  "retainedWorktreeFilesBeforeThisRecord": 27,
+  "checkoutMode": "SPARSE",
+  "dependencyInstallOrCopies": 0,
+  "sourceAndArtPreservedInGit": true,
+  "registrationEvidenceCommit": "a044f5363607df97162843630bafd0e23dc3dc99",
+  "archiveAttempt": {
+    "tool": "mcp__codex_app__archive_worktree",
+    "result": "REJECTED_PROTECTED_PRIMARY_CHECKOUT",
+    "message": "The task's primary checkout cannot be removed."
+  },
+  "protectionBypassed": false,
+  "otherTaskDataDeleted": false,
+  "followUp": "Reuse this attached sparse checkout; archive via the managed tool when the app no longer marks it primary. Preserve unique files and conversations even while total storage exceeds the target."
+}
