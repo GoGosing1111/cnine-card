@@ -28,3 +28,12 @@
 - 종료된 본 테스트 fixture의 생성 경로만 검증 후 정리한다. 진행 중인 다른 작업 폴더/로그/원화/의존성에는 접근하지 않는다. 저장공간 사전 audit 63.445GiB, 기존 소스와 의존성을 재사용한다.
 
 `before.json`은 운영 READ ONLY다. 디펜스 r15·ON·보상 OFF, 디펜스/협동 설정 SHA-256 `0df6d7f6f0668a9df83224fad3cb242a35facc10ff2be1273c26331b026c6934`. 실제 소스는 `C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site`. 공식 scoped 배포와 사후 독립 확인 기록은 완료 후 이 폴더에 보존한다.
+
+## 운영 반영 완료
+
+- 구현 `fa7361075`, 최종 소스 `56904ac3254c438d985e8500b5f6aa598d0dbb42`, Pages `442ec0af-7c8c-48ca-b14f-c0bdd3c4815b`. 두 Worker 포함 완료 **2026-10-26 11:16:25 KST**.
+- 공식 scoped 검사 **27/27**, Worker 문법/출시 검사 및 Hyperdrive 캐시 OFF 통과. Pages 파일 수 **20,000개** 유지. API runtime `489c2e29-2ac2-41da-acb8-ae37b79b9e96`, clan-draft `c7dc86b9-3bd8-42f5-ba6d-df9e92999a86`.
+- 변경 공개 파일 **14개** 해시 일치, 배포 Worker의 횟수/영수증/복구·결과 보존 코드 확인. 비로그인 feature/CMS 설정은 401 유지.
+- `public-browser/`: 공개 정적 자산 27개를 받아 격리 API/DO fixture에 연결한 PC·모바일 잔여 0회 표시 및 입장 버튼 차단 확인. 운영 계정 참여 횟수는 테스트하지 않았다.
+- 독립 READ ONLY `after.json`과 `before.json`의 디펜스/협동 설정 해시 동일. r15·ON·보상 OFF 및 기존 금액/아이템 설정 그대로다. 본 작업의 운영 직접 계정/재화/설정 쓰기 **0건**이며 실제 플레이의 신규 출전부터 사용자 지시대로 횟수를 기록한다.
+- 본 배포 staging 및 실행한 종료 fixture는 정리됐다. 남아 있는 2026-10-15/24/25의 다른 배포 staging은 보존했다. Miniflare CF 캐시는 저장소 밖으로 이동하고 이후 실행은 캐시 외부 경로/CF 조회 비활성 환경을 사용했다. Git 소스·검수 이력·원화는 보존한다.

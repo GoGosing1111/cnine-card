@@ -1,0 +1,16 @@
+{
+  "base": "af755ca17917bf1426e6a347947c339040a64605",
+  "reason": "디펜스 ON 실전 참여를 난이도 통합 하루 3회(KST 자정 리셋)로 제한한다. 시작 시 전원 원자적 차감, 실패 소모, 0회 생성/참가 차단 및 기존 전투 재접속 허용. 사용자 후속 보험장치 요청에 따라 서버 입장 의도/영수증 복구, 연결권 자동 갱신, 종료 후 24시간 결과 보존을 추가한다. TEST/연습 무료 및 기존 보상/설정은 유지. 관련 SQLite/PostgreSQL 실패 주입/동시 차감/자정/실제 PC 모바일 단절 및 복귀 검사. 기존 app_meta/원자 거래 기반을 사용하며 DB 스키마/인증 기반/인프라/의존성 변경 없음.",
+  "tests": [
+    "tests/monster-defense-daily-entry-20261026.test.mjs",
+    "tests/monster-defense-reward-options-20261026.test.mjs",
+    "tests/monster-defense-rewards-20261020.test.mjs",
+    "tests/monster-defense-rewards-live-20261020.test.mjs",
+    "tests/monster-defense-live.test.mjs",
+    "tests/monster-defense-rooms.test.mjs",
+    "tests/cooperative-websocket.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

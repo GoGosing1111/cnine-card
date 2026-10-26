@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "publicBase": "https://cnine-card.pages.dev",
+  "publicFiles": 27,
+  "checks": [
+    "PC/mobile show shared daily quota and KST reset; exhausted real entry is disabled, practice remains free"
+  ],
+  "errors": [],
+  "operationalWrites": 0
+}

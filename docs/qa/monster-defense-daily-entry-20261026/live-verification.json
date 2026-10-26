@@ -1,0 +1,103 @@
+{
+  "at": "2026-10-26T02:17:01.199Z",
+  "pages": {
+    "id": "442ec0af-7c8c-48ca-b14f-c0bdd3c4815b",
+    "url": "https://442ec0af.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "56904ac3254c438d985e8500b5f6aa598d0dbb42"
+  },
+  "releaseCommit": "56904ac3254c438d985e8500b5f6aa598d0dbb42",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sha256": "ec09e34968f52f39a937185e2cca28870fbf06c8058db366f6f5c4861bd7a2d7",
+      "markers": [
+        "spendDefenseDailyEntry",
+        "defenseDailyEntryView",
+        "monster_defense_daily_entry_v1:",
+        "monster_defense_entry_receipt_v1:",
+        "DEFENSE_ENTRY_EMPTY",
+        "resultRetentionMs",
+        "entryPending"
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sha256": "f694d146a45e824a3b0a8dd2f5a6c7517eeca6e6b8dccce54b4764ebe491937e",
+      "markers": [
+        "runDuoSchedule",
+        "runMercenaryStockSchedule"
+      ]
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "admin/index.html",
+      "sha256": "08ca63ff02c48cd38a99f8f8bf5d84d0456f79d8dda591f46d5993a46afac295"
+    },
+    {
+      "file": "admin/monster-defense.mjs",
+      "sha256": "3b3dd2fa98a082e7856b467f1aafaab8605ea553c2e3f489854823e167a350bf"
+    },
+    {
+      "file": "defense/index.html",
+      "sha256": "a3e7733a0fb79d71522775a4d74611a65c04a2ad9014a904576060b4da7e4e6f"
+    },
+    {
+      "file": "index.html",
+      "sha256": "a54cd8198285307956701a32fa2885833fb9f1d31486308afcc23eea6d46cd20"
+    },
+    {
+      "file": "preview/coop-defense-v1/build-report.json",
+      "sha256": "88e4d56b3aef9ff2d37de768871883e26cd7e8f4e47929c4f8c791170c3d2ff9"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "9be4e52f48f78360b7264f5322dcc65ead32016b27e5aef38dec288714f89190"
+    },
+    {
+      "file": "preview/coop-defense-v1/image-skin.css",
+      "sha256": "1fb41de06e71ad497761f54e55d03466adbe976685030536ae7e004b41a1201e"
+    },
+    {
+      "file": "preview/coop-defense-v1/index.html",
+      "sha256": "9ed1d0f3df8886ba8c073737df19fddd2b8d95d8b81a4eb184fcd21cdee0b0ff"
+    },
+    {
+      "file": "preview/coop-defense-v1/source/DefenseRoomBrowser.js",
+      "sha256": "68fba0633a6a843111eb8bdd4e8d16ec5bd28db2f369e53593f160505a8e3926"
+    },
+    {
+      "file": "preview/coop-defense-v1/source/defense-app.js",
+      "sha256": "47201bff91c5ec5a18f31d4d913fe7b515b6906b58a900fef8367842e19bdd17"
+    },
+    {
+      "file": "preview/coop-defense-v1/source/defense-model.mjs",
+      "sha256": "3d06243df89893aa3bc14509f9a065c49ddaa7c292b901029fd0016a9fd333f4"
+    },
+    {
+      "file": "preview/defense-roguelike-v2/preview.bundle.js",
+      "sha256": "c72661ce1762b55f50f650cf74fc6da550bbc7e03bb8e34b256ff1e5e9607a0b"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "46d3e6a8364c365d308043b4a80db792083abca01a13b76dbcea6d1bc48fe5d8"
+    },
+    {
+      "file": "shared/monster-defense-v1.mjs",
+      "sha256": "7fe135dabb998b6c0653ab497b46329f6af4c9ce140dd50a3000a7f77052fa4f"
+    }
+  ],
+  "anonymous": [
+    {
+      "route": "defense/feature",
+      "status": 401
+    },
+    {
+      "route": "admin/defense/settings",
+      "status": 401
+    }
+  ],
+  "operationalAccountWrites": 0,
+  "operationalSettingsWrites": 0
+}

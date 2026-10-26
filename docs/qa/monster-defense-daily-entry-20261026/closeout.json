@@ -1,0 +1,22 @@
+{
+  "finishedAt": "2026-10-26T02:16:25.118Z",
+  "releaseCommit": "56904ac3254c438d985e8500b5f6aa598d0dbb42",
+  "pages": "442ec0af-7c8c-48ca-b14f-c0bdd3c4815b",
+  "settingsUnchanged": true,
+  "settingsHash": "0df6d7f6f0668a9df83224fad3cb242a35facc10ff2be1273c26331b026c6934",
+  "manualOperationalWrites": 0,
+  "publicFiles": 14,
+  "publicBrowser": "PASS",
+  "preserved": [
+    {
+      "file": "AGENTS.md",
+      "previousSha256": "29acd4c9a3ad1d594b253ded68d8c441b35630d601d15466a0dfafc05bc1e03b",
+      "existingBodyPreserved": true
+    },
+    {
+      "file": "C:/Users/User/Downloads/upload/cnine-card/AGENTS.md",
+      "previousSha256": "6f4b9ed98bf5d5ee3a2ee5bf66b43850d306c1b18b69d9334d4531a8c0a29e60",
+      "existingBodyPreserved": true
+    }
+  ]
+}
