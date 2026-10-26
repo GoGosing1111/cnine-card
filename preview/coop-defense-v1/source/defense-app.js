@@ -5,6 +5,7 @@ import { DefenseRoomBrowser } from './DefenseRoomBrowser.js';
 import {DEFENSE_PROFILES,DEFENSE_ROLE_NAMES,defenseSelection,emptyDefenseLoadout} from '../../../shared/monster-defense-loadout-v1.mjs';
 import { MERCENARIES, CARDS, LANES, WORLD, RULES, laneY, defaultLoadout, validateLoadout } from './defense-model.mjs';
 import {DEFENSE_DIFFICULTIES,DEFENSE_ENEMIES,defenseDifficulty,defenseEnemy} from '../../../shared/monster-defense-v1.mjs';
+import {defenseRewardItemLabel,defenseRewardItemRule} from '../../../shared/monster-defense-rewards-v1.mjs';
 
 const $ = id => document.getElementById(id);
 const colors = ['#70e4cf', '#e7bb76', '#bda5f5'];
@@ -404,11 +405,12 @@ function showPhase(snapshot) {
 function rewardLines(reward,items=state.feature?.rewardItems||[]){
  if(!reward)return [];
  const names=new Map(items.map(i=>[i.code,i.name]));
- return [...(reward.coin?[{text:reward.coin.toLocaleString()+' 코인'}]:[]),...(reward.masterStars?[{text:'마스터의 별 '+reward.masterStars.toLocaleString()+'개'}]:[]),...(reward.items||[]).map(i=>({text:(i.name||names.get(i.code)||'아이템 보상')+' '+i.quantity.toLocaleString()+'개',image:i.image}))];
+ return [...(reward.coin?[{text:reward.coin.toLocaleString()+' 코인'}]:[]),...(reward.masterStars?[{text:'마스터의 별 '+reward.masterStars.toLocaleString()+'개'}]:[]),...(reward.items||[]).filter(i=>defenseRewardItemRule(i).chancePercent>0).map(i=>({text:(i.name||names.get(i.code)||'아이템 보상')+' '+(reward.granted?i.quantity.toLocaleString()+'개':defenseRewardItemLabel(i)),image:i.image})),...(reward.granted?reward.itemRolls||[]:[]).filter(i=>i.quantity===0&&i.chancePercent>0).map(i=>({text:(i.name||names.get(i.code)||'아이템 보상')+' · 미당첨'}))];
 }
 function renderRewards(snapshot){
  const reward=snapshot.clearRewards?.[state.session.playerId],status=$('result-reward-status'),list=$('result-reward-items');list.replaceChildren();
  status.textContent=reward?.granted?'클리어 보상이 지급되었습니다.':reward?.status==='DEFEAT'?'클리어 시 보상을 받을 수 있습니다.':reward?.status==='PRACTICE'||snapshot.practice?'혼자 연습은 계정 보상을 지급하지 않습니다.':reward?.status==='TEST'||snapshot.operatingMode!=='ON'?'TEST 전투는 계정 보상을 지급하지 않습니다.':reward?.status==='DISABLED'||!snapshot.rewardsEnabled?'이 방의 클리어 보상 지급이 비활성입니다.':'클리어 보상을 정산 중입니다. 연결이 끊겨도 서버에서 이어서 처리합니다.';
+ if(reward?.granted&&!reward.coin&&!reward.masterStars&&!reward.items?.length)status.textContent='보상 추첨을 완료했습니다. 이번에는 당첨된 아이템이 없습니다.';
  if(reward?.granted)for(const line of rewardLines(reward)){const li=document.createElement('li');if(line.image){const img=document.createElement('img');img.src=/^(https?:\/\/|\/)/.test(line.image)?line.image:'/'+line.image;img.alt='';li.append(img);}const text=document.createElement('span');text.textContent=line.text;li.append(text);list.append(li);}
 }
 function renderResult(snapshot) {

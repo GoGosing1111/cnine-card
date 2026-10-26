@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "scope": "miss",
+  "publicBase": "",
+  "publicFiles": 0,
+  "checks": [
+    "all-miss result clearly reports no item awarded; reconnect cannot reroll or add inventory logs"
+  ],
+  "errors": [],
+  "failed": [],
+  "operationalWrites": 0
+}

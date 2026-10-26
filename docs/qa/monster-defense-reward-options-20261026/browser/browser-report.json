@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "publicBase": "",
+  "publicFiles": 0,
+  "checks": [
+    "PC CMS independently persists five coin amounts, fixed items, fractional probabilities and quantity ranges",
+    "390px touch controls save quantity changes without overflow",
+    "real API/DO freezes private outcomes; CMS edits, refresh and reconnect preserve both participants receipts",
+    "lobby shows selected difficulty coins, exact probabilities and quantity ranges"
+  ],
+  "errors": [],
+  "failed": [],
+  "operationalWrites": 0
+}
