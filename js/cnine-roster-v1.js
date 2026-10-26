@@ -17,12 +17,17 @@ const logo = '/preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png'
 const profileUrl = (id, small = false) => `https://stimg.sooplive.com/LOGO/${id.slice(0, 2)}/${id}/${small ? 'm/' : ''}${id}.webp`;
 let dialog, opener;
 
-export function cnineEntranceMarkup() {
-  return `<div class="c9-roster-entry">
-    <img src="${logo}" alt="" width="64" height="64" decoding="async">
-    <div class="c9-roster-entry-copy"><small>CNINE MEMBERS</small><strong>씨나인 현황판</strong><span>여캠부 · 스타부, 함께하는 6명</span></div>
-    <button type="button" class="c9-roster-action" data-cnine-roster-open aria-haspopup="dialog">현황판 입장 <span aria-hidden="true">→</span></button>
-  </div>`;
+export function mountCnineLobby() {
+  document.querySelectorAll('soop-adventure-lobby').forEach(lobby => {
+    if (lobby.querySelector('[data-cnine-lobby-open]')) return;
+    const button = document.createElement('button');
+    button.type = 'button'; button.slot = 'cnine-roster'; button.className = 'c9-lobby-entry';
+    button.dataset.cnineLobbyOpen = '';
+    button.setAttribute('aria-haspopup', 'dialog'); button.setAttribute('aria-label', '씨나인 현황판 열기');
+    button.innerHTML = `<img src="${logo}" alt="" width="30" height="30"><span>씨나인 현황판</span><b aria-hidden="true">↗</b>`;
+    button.addEventListener('click', event => openCnineRoster(event.currentTarget));
+    lobby.append(button);
+  });
 }
 
 function memberMarkup(member, index) {
@@ -59,7 +64,7 @@ function ensureDialog() {
   dialog.id = 'cnineRosterV1';
   dialog.setAttribute('aria-labelledby', 'cnineRosterTitle');
   dialog.innerHTML = `<div class="c9-roster-scene">
-    <header class="c9-roster-topbar"><button type="button" class="c9-roster-back" data-cnine-roster-close>← <span>스트리머 라운지</span></button><span>CNINE · MEMBERS</span></header>
+    <header class="c9-roster-topbar"><button type="button" class="c9-roster-back" data-cnine-roster-close>← <span>로비로</span></button><span>CNINE · MEMBERS</span></header>
     <div class="c9-roster-heading"><img src="${logo}" alt="씨나인 로고" width="84" height="84" decoding="async"><div><p>OUR PEOPLE, OUR UNIVERSE</p><h1 id="cnineRosterTitle">씨나인 현황판</h1><span>함께 빛나는 씨나인의 멤버들</span></div></div>
     <div class="c9-roster-groups">${CNINE_GROUPS.map(group => `<section class="c9-department c9-department-${group.id}" aria-labelledby="cnine-${group.id}-title">
       <header class="c9-department-heading"><span aria-hidden="true">${group.id === 'female' ? '01' : '02'}</span><h2 id="cnine-${group.id}-title">${group.name}</h2><small>${group.label}</small><b>3 MEMBERS</b></header>
@@ -71,7 +76,7 @@ function ensureDialog() {
   dialog.addEventListener('cancel', event => { event.preventDefault(); closeCnineRoster(); });
   dialog.addEventListener('click', event => { if (event.target === dialog) closeCnineRoster(); });
   dialog.addEventListener('close', () => {
-    const target = opener?.isConnected ? opener : document.querySelector('.sl36-dialog[open] [data-cnine-roster-open]');
+    const target = document.querySelector('soop-adventure-lobby[data-view="home"] [data-cnine-lobby-open]') || (opener?.isConnected ? opener : null);
     target?.focus({ preventScroll: true });
   });
   document.body.append(dialog);
@@ -79,7 +84,14 @@ function ensureDialog() {
   return dialog;
 }
 
-export function openCnineRoster(source) {
+export async function openCnineRoster(source) {
+  // The user's final destination is the lobby, including programmatic opening.
+  window.StreamerLounge?.close();
+  document.querySelectorAll('soop-adventure-lobby').forEach(lobby => {
+    if (lobby.shadowRoot?.querySelector('#menu-dialog[open]')) lobby.shadowRoot.querySelector('#close-menu')?.click();
+  });
+  const lobby = document.querySelector('soop-adventure-lobby');
+  if (lobby?.dataset.route && lobby.dataset.route !== 'home') await window.SoopketmonV21ExactShell?.navigate('home');
   opener = source || document.activeElement;
   ensureDialog();
   if (!dialog.open) dialog.showModal();

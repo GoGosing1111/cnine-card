@@ -4,6 +4,12 @@
   "reports": [
     {
       "width": 1440,
+      "entryBox": {
+        "x": 1246,
+        "y": 175,
+        "width": 166,
+        "height": 48
+      },
       "links": [
         {
           "href": "https://www.sooplive.com/station/kaja0011",
@@ -81,8 +87,8 @@
         }
       ],
       "departments": true,
-      "originalLoungeSearchPreserved": true,
-      "keyboardAndBackButton": true,
+      "directLobbyEntrance": true,
+      "keyboardAndBackButtonToLobby": true,
       "newTabOpenerNull": true,
       "noOverflow": true,
       "buttonColor": "rgb(17, 38, 63)",
@@ -90,6 +96,12 @@
     },
     {
       "width": 390,
+      "entryBox": {
+        "x": 228,
+        "y": 268,
+        "width": 148,
+        "height": 44
+      },
       "links": [
         {
           "href": "https://www.sooplive.com/station/kaja0011",
@@ -167,8 +179,8 @@
         }
       ],
       "departments": true,
-      "originalLoungeSearchPreserved": true,
-      "keyboardAndBackButton": true,
+      "directLobbyEntrance": true,
+      "keyboardAndBackButtonToLobby": true,
       "newTabOpenerNull": true,
       "noOverflow": true,
       "buttonColor": "rgb(17, 38, 63)",
@@ -176,6 +188,12 @@
     },
     {
       "width": 360,
+      "entryBox": {
+        "x": 198,
+        "y": 266,
+        "width": 148,
+        "height": 44
+      },
       "links": [
         {
           "href": "https://www.sooplive.com/station/kaja0011",
@@ -253,8 +271,8 @@
         }
       ],
       "departments": true,
-      "originalLoungeSearchPreserved": true,
-      "keyboardAndBackButton": true,
+      "directLobbyEntrance": true,
+      "keyboardAndBackButtonToLobby": true,
       "newTabOpenerNull": true,
       "noOverflow": true,
       "buttonColor": "rgb(17, 38, 63)",
