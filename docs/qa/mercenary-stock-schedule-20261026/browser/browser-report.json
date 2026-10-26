@@ -1,0 +1,21 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "registered": 7,
+      "totalAdded": 61,
+      "cancelled": true,
+      "lostResponseRecovered": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "registered": 7,
+      "totalAdded": 61,
+      "cancelled": true,
+      "lostResponseRecovered": false,
+      "errors": []
+    }
+  ],
+  "productionWrites": 0
+}

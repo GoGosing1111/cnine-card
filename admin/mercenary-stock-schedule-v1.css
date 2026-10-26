@@ -1,0 +1,18 @@
+.stock-schedule{margin:20px 0;color:#f0f4fc;min-width:0}
+.stock-schedule .cn-ui-panel{padding:18px;margin-bottom:14px}
+.stock-schedule h3,.stock-schedule h4{margin:0 0 10px}
+.stock-schedule p{line-height:1.6;overflow-wrap:anywhere}
+.stock-schedule-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stock-schedule input{box-sizing:border-box;max-width:100%;min-width:0;color:#f0f4fc;color-scheme:dark}
+.stock-schedule .mc-field{min-width:0}
+.stock-schedule-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.stock-schedule-card{display:grid;grid-template-columns:42px 1fr 100px;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #8094b54d;min-width:0}
+.stock-schedule-card img{width:42px;height:58px;object-fit:cover;object-position:top;border-radius:3px}
+.stock-schedule-card small{display:block;color:#bdcbe0;margin-top:5px}
+.stock-schedule-quantity{white-space:nowrap;display:flex;align-items:center;gap:6px;font-size:12px}
+.stock-schedule-quantity input{width:64px;min-height:42px;background:#081525;border:1px solid #6c7b94;padding:6px}
+.stock-schedule-history article{padding:14px 0;border-bottom:1px solid #8094b54d}
+.stock-schedule-history article>div{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.stock-schedule-history strong{color:#c8ff6b}
+.stock-schedule-history .cn-ui-button{display:block;margin-top:10px}
+@media(max-width:700px){.stock-schedule-fields,.stock-schedule-cards{grid-template-columns:1fr}.stock-schedule .cn-ui-panel{padding:12px 8px}.stock-schedule-card{grid-template-columns:36px minmax(0,1fr) 94px;gap:7px;font-size:13px}.stock-schedule-card img{width:36px;height:50px}.stock-schedule input[type=datetime-local]{width:100%}}
