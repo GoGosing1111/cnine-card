@@ -72,3 +72,9 @@ test('durable alarm uses exact deadline and closes DB; failed processing retains
  await handleMercenaryStockAlarm(storage,{}, {run:async()=>({applied:1,nextAt:null})});assert.equal(alarm,null);
  await runMercenaryStockSchedule({}, {openDatabase:async()=>({db:{},close:async()=>{closed=true;}}),process:async()=>({applied:0,nextAt:at})});assert(closed);
 });
+
+test('delivery keeps scheduler source in Git/Worker and includes the actual CMS assets',async()=>{
+ const {isProductionFile}=await import('../scripts/prepare-production-assets.mjs');
+ for(const name of ['mercenary-stock-schedule','ranked-reopen','city-rotation','organization-schedule'])assert.equal(isProductionFile('workers/clan-draft/src/'+name+'.js'),false);
+ for(const file of ['admin/mercenary-stock-schedule-v1.mjs','admin/mercenary-stock-schedule-v1.css','shared/mercenary-stock-schedule-v1.mjs'])assert.equal(isProductionFile(file),true);
+});
