@@ -1,0 +1,14 @@
+{
+  "base": "7981d6fe3ed2cbf4e36821d1891122e446e86b51",
+  "reason": "몬스터 디펜스의 임의 1조 코인 상한을 제거하고 정확한 정수 범위를 유지한다. OWNER별 브라우저 임시 저장, 입력 검증/네트워크 실패 및 새로고침 복구, 서버 변경과 로컬 수정의 항목별 병합을 추가한다. 사진에 지정된 난이도와 코인, 두 강화주문서 1~5% 설정은 별도 감사/멱등 운영 작업으로 적용한다. 기존 하루 3회, 재접속 복구, 원자 지급과 보유 잔액 오버플로 방지는 유지한다. DB 스키마/인증 기반/인프라/의존성 변경 없음.",
+  "tests": [
+    "tests/monster-defense-coin-limit-20261026.test.mjs",
+    "tests/monster-defense-reward-options-20261026.test.mjs",
+    "tests/monster-defense-rewards-20261020.test.mjs",
+    "tests/monster-defense-rewards-live-20261020.test.mjs",
+    "tests/monster-defense-live.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

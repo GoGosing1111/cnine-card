@@ -1,9 +1,24 @@
-import {DEFENSE_DIFFICULTIES,DEFENSE_ENEMIES,validateDefenseSettings} from '../shared/monster-defense-v1.mjs?v=20261026-defense-daily-entry-v1';
-import {defenseRewardItemRule,defenseRewardItemLabel} from '../shared/monster-defense-rewards-v1.mjs?v=20261026-defense-rewards-v2';
+import {DEFENSE_DIFFICULTIES,DEFENSE_ENEMIES,validateDefenseSettings} from '../shared/monster-defense-v1.mjs?v=20261026-defense-coin-v1';
+import {DEFENSE_COIN_MAX,defenseRewardItemRule,defenseRewardItemLabel} from '../shared/monster-defense-rewards-v1.mjs?v=20261026-defense-coin-v1';
 import {jointAdminRequest} from '../js/joint-account-transport.mjs';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+export const defenseDraftKey=id=>Number.isSafeInteger(id)&&id>0?'cnine_defense_cms_draft_v1:'+id:null;
+// Only locally edited fields override the newest server values. Item rows merge as a group.
+export function mergeDefenseDraft(base,local,remote){
+ const fields=structuredClone(remote),conflicts=[];
+ for(const key of Object.keys(remote))if(Object.hasOwn(base,key)&&Object.hasOwn(local,key)&&!same(base[key],local[key])){
+  fields[key]=structuredClone(local[key]);if(!same(remote[key],base[key])&&!same(remote[key],local[key]))conflicts.push(key);
+ }
+ return {fields,conflicts};
+}
+function validDraft(d,id){
+ const field=(key,v)=>key==='testUserIds'?Array.isArray(v)&&v.length<=1000&&v.every(n=>Number.isSafeInteger(n)&&n>0):key.endsWith('.items')?Array.isArray(v)&&v.length<=20&&v.every(i=>i&&['code','chancePercent','minQuantity','maxQuantity'].every(k=>typeof i[k]==='string'&&i[k].length<=100)):typeof v==='boolean'||typeof v==='string'&&v.length<=100;
+ return d?.version===1&&d.editorId===id&&[d.base,d.fields].every(o=>o&&typeof o==='object'&&!Array.isArray(o)&&Object.keys(o).length<=200&&Object.entries(o).every(([k,v])=>field(k,v)));
+}
 export async function mountDefenseCms(root){
- let settings=null,pending=null,busy=false,rewardItems=[];const names=new Map();
+ root.defenseCmsDispose?.();const events=new AbortController();root.defenseCmsDispose=()=>events.abort();
+ let settings=null,pending=null,busy=false,rewardItems=[],editorId=null,baseFields=null,draft=null;const names=new Map();
  root.innerHTML='<header class="md-head"><div><small>MONSTER DEFENSE</small><h2>디펜스 관리</h2><p>2~3인 · 용병 2명 + 카드 1장 · 난이도별 몬스터와 보스</p></div><a href="/defense/" target="_blank" rel="noopener">디펜스 열기 ↗</a></header><form class="md-form"><section class="md-controls"><label>운영 상태<select name="mode"><option value="OFF">OFF · 입장 중지</option><option value="TEST">TEST · OWNER + 지정 계정</option><option value="ON">ON · 모든 로그인 계정</option></select></label><div><b>테스트 계정</b><p>모든 OWNER는 자동 허용됩니다. 정확한 닉네임 또는 계정 ID로 추가하세요.</p><div class="md-search"><input data-search placeholder="정확한 닉네임 또는 계정 ID"><button type="button" data-find>계정 찾기</button></div><div data-found></div><div data-testers></div></div></section><section><h3>난이도 설정</h3><p>새 방부터 적용됩니다. 웨이브·몬스터 구성·보스 패턴은 아래 구성표를 따릅니다. 빠른 공세 기준 이동 속도 2배·공격 1.7배에 아래 난이도 %가 적용됩니다.</p><div class="md-table-wrap"><table><thead><tr><th>난이도</th><th>사용</th><th>체력 %</th><th>공격 %</th><th>속도 %</th><th>등장 수 %</th><th>수호석 HP</th></tr></thead><tbody data-difficulties></tbody></table></div></section><section class="md-rewards"><h3>난이도별 클리어 보상</h3><label class="md-reward-toggle"><input type="checkbox" data-rewards-enabled> 실전 클리어 보상 지급</label><p>ON 실전에서 마지막 웨이브를 클리어하면 참가자마다 아래 보상을 자동 지급합니다. TEST·혼자 연습·패배는 지급하지 않습니다. 실전 참여는 난이도 통합 하루 3회로 전투 시작 시 차감하며 실패해도 복구하지 않습니다. 한국시간 00:00 초기화, TEST·연습 무료, 재접속 추가 차감 없음. 수량은 새 방부터 적용하며 운영 또는 보상을 OFF로 저장하면 미정산 지급도 중지합니다.</p><div data-clear-rewards></div></section><section class="md-growth"><h3>원정 성장 설정</h3><p>개인별 독립 포인트 추첨 → 분대 확률 강화. 실패 시 단계 유지, 포인트 소모. 새 방부터 적용됩니다.</p><div data-growth></div></section><footer><p data-status role="status">불러오는 중…</p><button type="button" data-reload>새로고침</button><button type="submit" data-save>설정 저장</button></footer></form><section class="md-encounters"><h3>난이도별 보스</h3><div class="md-boss-grid"></div><h3>디펜스 전용 리소스 7종</h3><div class="md-resource-grid"></div><p>보유 용병 2명과 카드 1장으로 출전합니다. 전투 능력치는 디펜스 역할을 따르며, 클리어 보상은 위 운영 설정에 따라 지급됩니다.</p></section>';
  const $=s=>root.querySelector(s),note=s=>$('[data-status]').textContent=s;
  function lock(value){busy=value;root.querySelectorAll('input,select,button').forEach(e=>e.disabled=value||!settings);}
@@ -26,9 +41,9 @@ export async function mountDefenseCms(root){
   const options=code=>{const found=rewardItems.some(i=>i.code===code);return (!code?'<option value="">아이템 선택</option>':!found?'<option value="'+esc(code)+'">'+esc(code)+' · 현재 비활성</option>':'')+rewardItems.map(i=>'<option value="'+esc(i.code)+'" '+(i.code===code?'selected':'')+'>'+esc(i.name)+'</option>').join('');};
   $('[data-clear-rewards]').innerHTML=settings.difficulties.map((d,i)=>{
    const name=DEFENSE_DIFFICULTIES[i].name;
-   return `<fieldset class="md-reward-tier" data-reward="${d.id}"><legend>${name}</legend><div class="md-reward-values"><label>클리어 코인<input data-coin type="number" min="0" max="1000000000000" step="1" required value="${d.clearReward.coin}" aria-label="${name} 클리어 코인"></label><label>마스터의 별<input data-stars type="number" min="0" max="10000000" step="1" required value="${d.clearReward.masterStars}" aria-label="${name} 마스터의 별"></label></div><p data-reward-summary></p><div class="md-reward-items">${d.clearReward.items.map((item,n)=>{
+   return `<fieldset class="md-reward-tier" data-reward="${d.id}"><legend>${name}</legend><div class="md-reward-values"><label>클리어 코인<input data-coin type="number" min="0" max="${DEFENSE_COIN_MAX}" step="1" required value="${esc(d.clearReward.coin)}" aria-label="${name} 클리어 코인"></label><label>마스터의 별<input data-stars type="number" min="0" max="10000000" step="1" required value="${esc(d.clearReward.masterStars)}" aria-label="${name} 마스터의 별"></label></div><p data-reward-summary></p><div class="md-reward-items">${d.clearReward.items.map((item,n)=>{
     const rule=defenseRewardItemRule(item),label=`${name} 아이템 ${n+1}`;
-    return `<div data-item-row><label class="md-item-choice">보상 아이템<select required aria-label="${name} 보상 아이템 ${n+1}">${options(item.code)}</select></label><label>지급 확률 %<input data-item-chance type="number" min="0" max="100" step="0.01" required value="${rule.chancePercent}" aria-label="${label} 지급 확률"></label><label>최소 수량<input data-item-min type="number" min="1" max="100000" step="1" required value="${rule.minQuantity}" aria-label="${label} 최소 수량"></label><label>최대 수량<input data-item-max type="number" min="1" max="100000" step="1" required value="${rule.maxQuantity}" aria-label="${label} 최대 수량"></label><button type="button" data-item-remove="${n}" aria-label="${label} 삭제">삭제</button><small data-item-summary></small></div>`;
+    return `<div data-item-row><label class="md-item-choice">보상 아이템<select required aria-label="${name} 보상 아이템 ${n+1}">${options(item.code)}</select></label><label>지급 확률 %<input data-item-chance type="number" min="0" max="100" step="0.01" required value="${esc(rule.chancePercent)}" aria-label="${label} 지급 확률"></label><label>최소 수량<input data-item-min type="number" min="1" max="100000" step="1" required value="${esc(rule.minQuantity)}" aria-label="${label} 최소 수량"></label><label>최대 수량<input data-item-max type="number" min="1" max="100000" step="1" required value="${esc(rule.maxQuantity)}" aria-label="${label} 최대 수량"></label><button type="button" data-item-remove="${n}" aria-label="${label} 삭제">삭제</button><small data-item-summary></small></div>`;
    }).join('')}</div><button type="button" data-item-add>보상 아이템 추가</button><small>참가자마다 아이템별 독립 추첨 · 100%는 확정 지급 · 최소와 최대가 같으면 고정 수량 · 0%는 미지급</small></fieldset>`;
   }).join('');
   rewardSummary();
@@ -43,20 +58,50 @@ export async function mountDefenseCms(root){
    }
   }
  }
- root.addEventListener('input',()=>{pending=null;rewardSummary();});root.addEventListener('change',()=>{pending=null;rewardSummary();});
- async function load(){lock(true);try{const data=await jointAdminRequest('admin/defense/settings');settings=data.settings;rewardItems=data.rewardItems||[];pending=null;draw();note(settings.mode+' 설정 r'+settings.revision+' · 저장 후 새 방부터 반영됩니다.');}catch(e){note(e.message);}finally{lock(false);}}
+ function controls(){
+  const pairs=[['mode',$('[name=mode]')],['rewardsEnabled',$('[data-rewards-enabled]')]];
+  for(const d of settings.difficulties){const row=$(`[data-difficulty="${d.id}"]`),box=$(`[data-reward="${d.id}"]`),p='difficulties.'+d.id;
+   pairs.push([p+'.enabled',row.querySelector('[data-enabled]')],[p+'.coin',box.querySelector('[data-coin]')],[p+'.stars',box.querySelector('[data-stars]')]);
+   for(const input of row.querySelectorAll('[data-value]'))pairs.push([p+'.'+input.dataset.value,input]);
+  }
+  for(const input of root.querySelectorAll('[data-growth-key]'))pairs.push(['growth.'+input.dataset.growthKey,input]);return pairs;
+ }
+ function capture(){
+  const fields=Object.fromEntries(controls().map(([k,e])=>[k,e.type==='checkbox'?e.checked:e.value]));fields.testUserIds=[...settings.testUserIds];
+  for(const d of settings.difficulties)fields['difficulties.'+d.id+'.items']=[...$(`[data-reward="${d.id}"]`).querySelectorAll('[data-item-row]')].map(row=>({code:row.querySelector('select').value,chancePercent:row.querySelector('[data-item-chance]').value,minQuantity:row.querySelector('[data-item-min]').value,maxQuantity:row.querySelector('[data-item-max]').value}));return fields;
+ }
+ function applyFields(fields){
+  settings.testUserIds=[...fields.testUserIds];testers();
+  for(const d of settings.difficulties)d.clearReward.items=structuredClone(fields['difficulties.'+d.id+'.items']);drawRewards();
+  for(const [k,e]of controls())if(e.type==='checkbox')e.checked=fields[k];else e.value=fields[k];rewardSummary();
+ }
+ function persist(){
+  if(!settings||!baseFields)return false;const fields=capture();draft=same(fields,baseFields)?null:{version:1,editorId,revision:settings.revision,base:baseFields,fields,updatedAt:new Date().toISOString()};
+  try{const key=defenseDraftKey(editorId);if(!key)throw Error('Missing editor');if(draft)localStorage.setItem(key,JSON.stringify(draft));else localStorage.removeItem(key);return true;}catch{return false;}
+ }
+ function edited(){if(busy||!settings)return;pending=null;rewardSummary();const saved=persist();note(draft?(saved?'작성 중인 값을 이 브라우저에 임시 저장했습니다. 설정 저장을 눌러야 적용됩니다.':'입력값을 유지 중입니다. 브라우저 임시 저장을 사용할 수 없으니 이 창을 닫지 말고 다시 저장하세요.'):'서버 설정과 같습니다.');}
+ root.addEventListener('input',edited,{signal:events.signal});root.addEventListener('change',edited,{signal:events.signal});
+ root.addEventListener('invalid',()=>{const saved=persist();note('입력 항목을 확인하세요. '+(saved?'작성 중인 값은 임시 저장되어 새로고침 후 복구됩니다.':'입력값을 유지하고 있습니다. 이 창을 닫지 마세요.'));},{capture:true,signal:events.signal});
+ window.addEventListener('beforeunload',e=>{if(draft&&!persist()){e.preventDefault();e.returnValue='';}},{signal:events.signal});
+ async function load(){if(busy)return;lock(true);try{
+  const data=await jointAdminRequest('admin/defense/settings'),sameEditor=editorId===data.editorId;editorId=data.editorId;let saved=sameEditor?draft:null;
+  if(!saved){try{const raw=localStorage.getItem(defenseDraftKey(editorId));if(raw&&raw.length<=131072){const value=JSON.parse(raw);if(validDraft(value,editorId))saved=value;}}catch{}}
+  settings=data.settings;rewardItems=data.rewardItems||[];pending=null;draft=null;draw();baseFields=capture();
+  if(saved){const merged=mergeDefenseDraft(saved.base,saved.fields,baseFields);applyFields(merged.fields);persist();note(draft?(merged.conflicts.length?'서버에서도 변경된 항목이 있습니다. 작성 중인 값은 유지했습니다. 확인 후 설정 저장을 누르세요.':'임시 저장한 입력값을 복구했습니다. 확인 후 설정 저장을 누르세요.'):'저장된 서버 설정을 확인했습니다.');}
+  else note(settings.mode+' 설정 r'+settings.revision+' · 저장 후 새 방부터 반영됩니다.');
+ }catch(e){note(e.message+' · 작성 중인 값은 유지됩니다.');}finally{lock(false);}}
  $('[data-reload]').onclick=()=>void load();
  $('[data-find]').onclick=async()=>{lock(true);try{const result=await jointAdminRequest('admin/defense/test-users?q='+encodeURIComponent($('[data-search]').value.trim()));$('[data-found]').innerHTML=result.users.length?result.users.map(u=>{names.set(Number(u.id),u.nickname);return `<button type="button" data-add="${u.id}">${esc(u.nickname)} · #${u.id} 추가</button>`;}).join(''):'일치하는 계정이 없습니다.';}catch(e){note(e.message);}finally{lock(false);}};
  root.onclick=event=>{
   const box=event.target.closest('[data-reward]'),itemAdd=event.target.closest('[data-item-add]'),itemRemove=event.target.closest('[data-item-remove]');
-  if(box&&(itemAdd||itemRemove)&&settings&&!busy){settings.difficulties=collectRewards();settings.rewardsEnabled=$('[data-rewards-enabled]').checked;const items=settings.difficulties.find(d=>d.id===box.dataset.reward).clearReward.items;if(itemAdd){if(items.length>=20)return note('아이템은 난이도마다 최대 20종입니다.');items.push({code:'',quantity:1});}else items.splice(Number(itemRemove.dataset.itemRemove),1);pending=null;drawRewards();return;}
-  const add=event.target.closest('[data-add]'),remove=event.target.closest('[data-remove]');if(!settings||busy)return;if(add&&!settings.testUserIds.includes(Number(add.dataset.add))){settings.testUserIds.push(Number(add.dataset.add));testers();}if(remove){settings.testUserIds=settings.testUserIds.filter(id=>id!==Number(remove.dataset.remove));testers();}};
+  if(box&&(itemAdd||itemRemove)&&settings&&!busy){const fields=capture(),items=fields['difficulties.'+box.dataset.reward+'.items'];if(itemAdd){if(items.length>=20)return note('아이템은 난이도마다 최대 20종입니다.');items.push({code:'',chancePercent:'100',minQuantity:'1',maxQuantity:'1'});}else items.splice(Number(itemRemove.dataset.itemRemove),1);applyFields(fields);edited();return;}
+  const add=event.target.closest('[data-add]'),remove=event.target.closest('[data-remove]');if(!settings||busy)return;if(add&&!settings.testUserIds.includes(Number(add.dataset.add))){settings.testUserIds.push(Number(add.dataset.add));testers();edited();}if(remove){settings.testUserIds=settings.testUserIds.filter(id=>id!==Number(remove.dataset.remove));testers();edited();}};
  $('.md-form').onsubmit=async event=>{
-  event.preventDefault();if(busy||!settings)return;
+  event.preventDefault();if(busy||!settings)return;persist();
   try{
    if(!pending){const growth=structuredClone(settings.growth);settings.difficulties=collectRewards();root.querySelectorAll('[data-growth-key]').forEach(input=>{const parts=input.dataset.growthKey.split('.');let target=growth;for(const key of parts.slice(0,-1))target=target[key];target[parts.at(-1)]=Number(input.value);});const value={...settings,growth,rewardsEnabled:$('[data-rewards-enabled]').checked,mode:$('[name=mode]').value,difficulties:settings.difficulties.map(d=>{const row=$(`[data-difficulty="${d.id}"]`),next={...d,enabled:row.querySelector('[data-enabled]').checked};row.querySelectorAll('[data-value]').forEach(input=>next[input.dataset.value]=Number(input.value));return next;})};pending={settings:validateDefenseSettings(value),requestId:crypto.randomUUID()};}
-   lock(true);const result=await jointAdminRequest('admin/defense/settings',{method:'POST',body:pending});settings=result.settings;pending=null;draw();note('저장 완료 · r'+settings.revision+' · '+settings.mode+' · 클리어 보상 '+(settings.rewardsEnabled?'사용':'중지'));
-  }catch(e){note(e.message+' · 다시 저장하면 같은 요청을 확인합니다.');}finally{lock(false);}
+   lock(true);const result=await jointAdminRequest('admin/defense/settings',{method:'POST',body:pending});settings=result.settings;pending=null;draw();baseFields=capture();persist();note('저장 완료 · r'+settings.revision+' · '+settings.mode+' · 클리어 보상 '+(settings.rewardsEnabled?'사용':'중지'));
+  }catch(e){const saved=persist();note(e.message+' · '+(saved?'입력값은 임시 저장했습니다. 새로고침 후에도 복구하여 다시 저장할 수 있습니다.':'입력값을 유지하고 있습니다. 브라우저 임시 저장을 사용할 수 없으니 이 창을 닫지 말고 다시 저장하세요.'));}finally{lock(false);}
  };
  await load();
 }
@@ -64,6 +109,6 @@ function install(){
  const nav=document.getElementById('nav'),cms=document.getElementById('cms'),role=document.getElementById('roleBadge');if(!nav||!cms||!role||document.getElementById('view-monster-defense'))return;
  const button=document.createElement('button'),panel=document.createElement('section');button.type='button';button.textContent='디펜스';button.dataset.view='monster-defense';button.hidden=true;panel.id='view-monster-defense';panel.className='view md-admin';panel.hidden=true;nav.append(button);cms.append(panel);let mounted=false;
  button.addEventListener('click',event=>{event.stopImmediatePropagation();if(button.hidden)return;document.querySelectorAll('.view').forEach(v=>v.hidden=v!==panel);document.querySelectorAll('#nav [data-view]').forEach(b=>b.classList.toggle('active',b===button));document.getElementById('pageTitle').textContent='디펜스';if(!mounted){mounted=true;void mountDefenseCms(panel);}},true);
- const access=()=>{button.hidden=role.textContent.trim()!=='OWNER';if(button.hidden){panel.hidden=true;panel.replaceChildren();mounted=false;}};new MutationObserver(access).observe(role,{childList:true,subtree:true,characterData:true});access();
+ const access=()=>{button.hidden=role.textContent.trim()!=='OWNER';if(button.hidden){panel.defenseCmsDispose?.();panel.hidden=true;panel.replaceChildren();mounted=false;}};new MutationObserver(access).observe(role,{childList:true,subtree:true,characterData:true});access();
 }
 if(typeof document!=='undefined'){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();}
