@@ -1,0 +1,205 @@
+{
+  "checkedAt": "2026-10-27T02:29:58.711Z",
+  "reports": [
+    {
+      "width": 1440,
+      "mode": "PUBLIC_ASSETS_WITH_READ_ONLY_LIVE_DATABASE_STATE_DURING_MAINTENANCE",
+      "buttons": [
+        {
+          "label": "닫기 ×",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "자동뽑기 시작",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp\")",
+          "disabled": true
+        },
+        {
+          "label": "일시정지",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "영상 건너뛰기",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "100억",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "1,000억",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "1조",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "10조",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "50조",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "100조",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "일괄 개봉 · 판매 잠금",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp\")",
+          "disabled": true
+        },
+        {
+          "label": "1회 개봉1,500,000,000 코인",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": true
+        },
+        {
+          "label": "10회 개봉15,000,000,000 코인",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp\")",
+          "disabled": true
+        },
+        {
+          "label": "자동뽑기",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "이전 결과 확인",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "자동뽑기 중지",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "돌아가기",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "개봉 확인",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp\")",
+          "disabled": false
+        }
+      ],
+      "openingBlocked": true,
+      "errors": [],
+      "failures": [],
+      "productionWrites": 0
+    },
+    {
+      "width": 390,
+      "mode": "PUBLIC_ASSETS_WITH_READ_ONLY_LIVE_DATABASE_STATE_DURING_MAINTENANCE",
+      "buttons": [
+        {
+          "label": "닫기 ×",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "자동뽑기 시작",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp\")",
+          "disabled": true
+        },
+        {
+          "label": "일시정지",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "영상 건너뛰기",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "100억",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "1,000억",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "1조",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "10조",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "50조",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "100조",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "일괄 개봉 · 판매 잠금",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp\")",
+          "disabled": true
+        },
+        {
+          "label": "1회 개봉1,500,000,000 코인",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": true
+        },
+        {
+          "label": "10회 개봉15,000,000,000 코인",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp\")",
+          "disabled": true
+        },
+        {
+          "label": "자동뽑기",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "이전 결과 확인",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "자동뽑기 중지",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "돌아가기",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "개봉 확인",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp\")",
+          "disabled": false
+        }
+      ],
+      "openingBlocked": true,
+      "errors": [],
+      "failures": [],
+      "productionWrites": 0
+    }
+  ]
+}

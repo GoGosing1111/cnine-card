@@ -1,0 +1,84 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"0eb7cf35890733a8b071b55e2dc70ecc603b710d","reason":"Black Crown generated buttons final mobile auto-panel border correction; related pack invariants plus desktop/mobile opening and CMS visual checks, no economy rule changes.","changed":["AGENTS.md","admin/index.html","admin/mercenary-admin-v1.js","css/mercenary-blackcrown-pack-v2.css","css/mercenary-blackcrown-pack.bundle.css","docs/qa/blackcrown-codex-skills-20261027/README.md","docs/qa/blackcrown-codex-skills-20261027/public-assets.json","docs/qa/blackcrown-codex-skills-20261027/public-browser.json","docs/qa/blackcrown-codex-skills-20261027/public-desktop-V-950-skills.png","docs/qa/blackcrown-codex-skills-20261027/public-desktop-V-950.png","docs/qa/blackcrown-codex-skills-20261027/public-desktop-V-951-skills.png","docs/qa/blackcrown-codex-skills-20261027/public-desktop-V-951.png","docs/qa/blackcrown-codex-skills-20261027/public-desktop-V-952-skills.png","docs/qa/blackcrown-codex-skills-20261027/public-desktop-V-952.png","docs/qa/blackcrown-codex-skills-20261027/public-desktop-V-953-skills.png","docs/qa/blackcrown-codex-skills-20261027/public-desktop-V-953.png","docs/qa/blackcrown-codex-skills-20261027/public-desktop-V-954-skills.png","docs/qa/blackcrown-codex-skills-20261027/public-desktop-V-954.png","docs/qa/blackcrown-codex-skills-20261027/public-desktop-V-955-skills.png","docs/qa/blackcrown-codex-skills-20261027/public-desktop-V-955.png","docs/qa/blackcrown-codex-skills-20261027/public-mobile-V-950-skills.png","docs/qa/blackcrown-codex-skills-20261027/public-mobile-V-950.png","docs/qa/blackcrown-codex-skills-20261027/public-mobile-V-951-skills.png","docs/qa/blackcrown-codex-skills-20261027/public-mobile-V-951.png","docs/qa/blackcrown-codex-skills-20261027/public-mobile-V-952-skills.png","docs/qa/blackcrown-codex-skills-20261027/public-mobile-V-952.png","docs/qa/blackcrown-codex-skills-20261027/public-mobile-V-953-skills.png","docs/qa/blackcrown-codex-skills-20261027/public-mobile-V-953.png","docs/qa/blackcrown-codex-skills-20261027/public-mobile-V-954-skills.png","docs/qa/blackcrown-codex-skills-20261027/public-mobile-V-954.png","docs/qa/blackcrown-codex-skills-20261027/public-mobile-V-955-skills.png","docs/qa/blackcrown-codex-skills-20261027/public-mobile-V-955.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/auto-1440.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/auto-390.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/browser.json","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/bulk-1440.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/bulk-390.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/cms-1440.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/cms-390.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/cms-buttons-1440.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/cms-buttons-390.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/confirmation-1440.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/confirmation-390.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/result-1440.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/result-390.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/room-off-1440.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/room-off-390.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/room-on-1440.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/room-on-390.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/shop-1440.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/shop-390.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-local/verification.mjs","docs/qa/blackcrown-reversal-20261027/README.md","docs/qa/blackcrown-reversal-20261027/apply-locks-released.json","docs/qa/blackcrown-reversal-20261027/apply-result.json","docs/qa/blackcrown-reversal-20261027/dry-run-locks-released.json","docs/qa/blackcrown-reversal-20261027/dry-run.json","docs/qa/blackcrown-reversal-20261027/first-timeout-locks-released.json","docs/qa/blackcrown-reversal-20261027/replay.json","docs/qa/blackcrown-reversal-20261027/verification.json","docs/qa/jokro-motion-assets-20261027/README.md","index.html","js/app.js","js/mercenary-blackcrown-pack-live.bundle.mjs","js/mercenary-blackcrown-pack-live.mjs","onestore/index.html","onestore/js/app.js","packaging/onestore/web-build.json","scripts/refresh-blackcrown-buttons-cache-20261027.mjs","service-worker.js","shared/onestore-web-assets-v1.mjs"],"tests":["tests/mercenary-blackcrown-pack-20261027.test.mjs"],"checks":[]}
+✔ approved six identities, original hashes and pack display are preserved (17.1598ms)
+✔ only current distinct Black Crown SS types count, including zero-copy and duplicates (0.7112ms)
+✔ all 32 binary samples give exact half/quarter/eighth through six types (2.9153ms)
+✔ personal displayed probabilities preserve total and unchanged SSS slots exactly (5.7587ms)
+✔ smallest supported chance remains nonzero and exact after six-type reduction (0.9195ms)
+✔ ten draws immediately reduce after gaining a second type; duplicate does not add a type (1.5126ms)
+✔ bulk uses the same dynamic ownership rule and aggregate receipt totals (1.0958ms)
+✔ sold-out SS never increases ownership or diminishes other probabilities (1.2568ms)
+✔ real service grants, debits once and replays unchanged after ownership increases (1819.459ms)
+✔ failed atomic payment leaves stock and cards unchanged, then durable request recovers (1259.8795ms)
+✔ pending plan cancels without charging when the distinct ownership set changes (1151.0155ms)
+✔ bulk server receipt remains compact and exact for 100 draws (1158.1552ms)
+✔ CMS exact-version save is isolated and retried saves cannot duplicate writes (1111.8423ms)
+✔ HTTP admin enforces OWNER and opening requires authentication (1353.0986ms)
+✔ clone defaults OFF with six new SS limits at ten and removes SSS limited rewards (1.1732ms)
+✔ SS stock race cancels the complete pending plan without consuming coins or new types (1173.7103ms)
+✔ worker applies independent Black Crown schedules once and keeps original policy and shared SSS stock (1221.8317ms)
+✔ production includes the built UI, CMS, catalog and approved sources while preserving authoring files in Git (16.3227ms)
+✔ OFF stops single and bulk openings before payment even for an already-opened client (1157.8859ms)
+✔ superseded saved policy loses all four limited/material rewards without rounding or re-enabling (1.0772ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11820.2311
+[PRODUCTION RELEASE OK] jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261026-v6-heeya-first-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19994 files; 9732 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.153.0)
+───────────────────────────────────────────────
+Total Upload: 8649.80 KiB / gzip: 1859.55 KiB
+Worker Startup Time: 63 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.14 sec)
+No targets deployed for cnine-card-api-runtime (0.59 sec)
+Current Version ID: 5b2a91e0-f5f4-4906-95f0-5568d35a2070
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.153.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19981/19994)
+Uploading... (19985/19994)
+Uploading... (19990/19994)
+Uploading... (19994/19994)
+✨ Success! Uploaded 13 files (19981 already uploaded) (2.77 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://8e48ed5e.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.153.0)
+───────────────────────────────────────────────
+Total Upload: 3292.09 KiB / gzip: 735.19 KiB
+Worker Startup Time: 42 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (2.94 sec)
+Deployed cnine-card-clan-draft triggers (1.01 sec)
+  schedule: * * * * *
+Current Version ID: 5b52a724-47d1-4aee-87fd-b9653a301c5e

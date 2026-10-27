@@ -1,0 +1,142 @@
+{
+  "checkedAt": "2026-10-27T02:29:56.032Z",
+  "source": "84c41277d",
+  "pages": "8e48ed5e",
+  "verified": [
+    {
+      "file": "index.html",
+      "sha256": "1d0a5504cac1b2f511e002a23c38fb28e31a14249db0e858451cb6e38dd0ad6e",
+      "bytes": 38472
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "a1ac1dac77576b1b14582968d56255c5e5e5ff2dd796d2bd3545912a11c0b52d",
+      "bytes": 798578
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "cdd156bc324d6fd8ee75b28705f8bb03fa64527ea54b5595395957480568501f",
+      "bytes": 20947
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "a1a4157f69d0da4a3f5960bd5c0c3189911e1e7f3dd1c819cd0779739fc15a45",
+      "bytes": 82270
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "a19384e117f99b22c9a0a1709518a9134cc339c99a15018af610d4b6d38800f2",
+      "bytes": 28474
+    },
+    {
+      "file": "admin/mercenary-blackcrown-admin-v1.bundle.mjs",
+      "sha256": "78453f4b0e1ba9773fbb69a9c4f0b2025f7888c41cf7e35598f589d20dcf6bb3",
+      "bytes": 89770
+    },
+    {
+      "file": "css/mercenary-blackcrown-pack.bundle.css",
+      "sha256": "086566a5d18f0d1f94e14f940cd62a55aac42b4585e50174adc824e0850e34d7",
+      "bytes": 39333
+    },
+    {
+      "file": "js/mercenary-blackcrown-pack-live.bundle.mjs",
+      "sha256": "3e3f374556d1d91fb3eeaf09b18f95ddb0ce8a8a324dda06a42198c7edb7443e",
+      "bytes": 122680
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "db8492dd3e6e52eb66256bebe32944407c02850d92a438d06aff23075b3b2092",
+      "bytes": 38099
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "bc00b49c6734b1dafef3d56bde6410d8868f79c969f16f11c706192739b2588e",
+      "bytes": 793226
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/blackcrown-vault-v2.webp",
+      "sha256": "1c1f5158b4c676fe7c54fae3ea390d3ca03f3e29af66212900e1e8fd21f046e4",
+      "bytes": 218272
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp",
+      "sha256": "b18fa45e3e391c6d02dbcaef3f20eb4f218c35f5d6397022dee08e1c4bc7df70",
+      "bytes": 74146
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp",
+      "sha256": "2b3fa870a121f58aaf1f34bbb9d76a2868a438f7f5feeec19a44ac40d80a5a56",
+      "bytes": 80188
+    }
+  ],
+  "publicApi": {
+    "status": 503,
+    "error": "현재 서버 점검 중입니다.",
+    "code": "MAINTENANCE",
+    "maintenance": {
+      "active": true,
+      "title": "업데이트 오류 픽스중",
+      "message": "업데이트 오류 픽스중",
+      "startAt": "2026-10-27 11:05:00",
+      "endAt": "2026-10-27 11:40:00",
+      "testUsers": []
+    }
+  },
+  "liveDatabase": {
+    "readOnly": true,
+    "revision": 4,
+    "mode": "OFF",
+    "stock": [
+      {
+        "code": "V-950",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-951",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-952",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-953",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-954",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-955",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      }
+    ],
+    "removedRewardsAbsent": true
+  },
+  "productionWrites": 0
+}
