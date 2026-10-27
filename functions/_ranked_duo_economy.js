@@ -41,12 +41,19 @@ export async function deliverDuoTierRewards(env,s,core,progress,now){
   return (random?[row.user_id]:[row.user_a,row.user_b]).map(id=>({userId:Number(id),row:{...row,id:random?'random-player:'+row.user_id:row.id},tier,coin:enabled?tier.rewardCoin||0:0,shards:enabled?tier.rewardShards||0:0}));
  }).sort((a,b)=>a.userId-b.userId);
  const ids=members.map(m=>m.userId),marks=ids.map(()=>'?').join(','),has="r.season_id=? AND r.final_rank>? AND r.final_rank<=?";
+ // Existing PostgreSQL wallets can already exceed JavaScript's exact integer
+ // range. Credit those entirely in BIGINT SQL, including the balance ledger;
+ // never round-trip the wallet through Number or raise the normal safe cap.
+ const coinGuard=env.DB.dialect==='postgres'
+  ? '(u.coin<=?-r.reward_coin OR (u.coin>? AND u.coin<=CAST(? AS BIGINT)-r.reward_coin))'
+  : 'u.coin<=?-r.reward_coin';
+ const coinLimits=env.DB.dialect==='postgres'?[Number.MAX_SAFE_INTEGER,Number.MAX_SAFE_INTEGER,'9223372036854775807']:[Number.MAX_SAFE_INTEGER];
  // Locks cover at most 40 recipients, never the full population.
  const body=[
   ...(env.DB.dialect==='postgres'?[q('SELECT id FROM users WHERE id IN('+marks+') ORDER BY id FOR UPDATE',...ids)]:[]),
   ...members.map(m=>q('INSERT INTO ranked_duo_rewards_v3(season_id,user_id,team_id,final_rank,tier_id,tier_name,reward_coin,reward_shards,credited_at) VALUES(?,?,?,?,?,?,?,?,?)',s.id,m.userId,m.row.id,Number(m.row.final_rank),m.tier.id,m.tier.name,m.coin,m.shards,iso(now))),
-  ...core.guard(env,'(SELECT COUNT(*) FROM users u JOIN ranked_duo_rewards_v3 r ON r.user_id=u.id WHERE '+has+' AND u.coin>=0 AND u.card_shards>=0 AND u.coin<=?-r.reward_coin AND u.card_shards<=?-r.reward_shards)=?',
-   [s.id,cursor,last,Number.MAX_SAFE_INTEGER,Number.MAX_SAFE_INTEGER,members.length],[
+  ...core.guard(env,'(SELECT COUNT(*) FROM users u JOIN ranked_duo_rewards_v3 r ON r.user_id=u.id WHERE '+has+' AND u.coin>=0 AND u.card_shards>=0 AND '+coinGuard+' AND u.card_shards<=?-r.reward_shards)=?',
+   [s.id,cursor,last,...coinLimits,Number.MAX_SAFE_INTEGER,members.length],[
     q('UPDATE users SET coin=coin+(SELECT r.reward_coin FROM ranked_duo_rewards_v3 r WHERE r.user_id=users.id AND '+has+'),card_shards=card_shards+(SELECT r.reward_shards FROM ranked_duo_rewards_v3 r WHERE r.user_id=users.id AND '+has+') WHERE id IN('+marks+')',s.id,cursor,last,s.id,cursor,last,...ids),
     q("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT u.id,r.reward_coin,u.coin,? FROM ranked_duo_rewards_v3 r JOIN users u ON u.id=r.user_id WHERE "+has+" AND r.reward_coin>0",'RANKED_DUO_TIER '+s.id,s.id,cursor,last),
     q("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT u.id,r.reward_shards,u.card_shards,? FROM ranked_duo_rewards_v3 r JOIN users u ON u.id=r.user_id WHERE "+has+" AND r.reward_shards>0",'RANKED_DUO_TIER '+s.id,s.id,cursor,last),
