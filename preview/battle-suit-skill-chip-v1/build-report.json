@@ -111,6 +111,13 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "shared/mercenary-cardgu-v1.mjs",
+    "preview/project-v-v3/source/battle/cardgu/manifest.json",
+    "preview/project-v-v3/source/battle/cardgu/skills.mjs",
+    "preview/project-v-v3/source/battle/cardgu/LiveGoldenRim.js",
+    "preview/project-v-v3/source/battle/cardgu/CardguAura.js",
+    "preview/project-v-v3/source/battle/cardgu/CardguFX.js",
+    "preview/project-v-v3/source/battle/CardguCombatPlayback.js",
     "shared/mercenary-cryvern-v1.mjs",
     "shared/mercenary-berkan-v1.mjs",
     "shared/mercenary-revan-v1.mjs",
@@ -299,5 +306,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2729548
+  "outputBytes": 2791462
 }
