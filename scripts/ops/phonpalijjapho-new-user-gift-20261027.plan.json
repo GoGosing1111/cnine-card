@@ -1,0 +1,23 @@
+{
+  "operationKey": "ops:phonpalijjapho-new-user-gift:20261027:v1",
+  "authorization": "폰팔이짭호 신규 기프트박스 지급",
+  "itemCode": "NEW_USER_GIFT_BOX",
+  "quantity": 1,
+  "delivery": "DIRECT_INVENTORY",
+  "joinAgeException": true,
+  "reissuePreviouslyOpened": false,
+  "openAutomatically": false,
+  "sendMessage": false,
+  "targets": [
+    {
+      "userId": "4655",
+      "nickname": "폰팔이짭호",
+      "role": "USER",
+      "status": "ACTIVE",
+      "createdAt": "2026-08-20 11:47:26",
+      "provider": "PLAYDK",
+      "identityHash": "5d6f6d8119a873c6d18e5a6ceab95c471e98eb7d3934f376159e99839f5ed1f8",
+      "quantity": 1
+    }
+  ]
+}
