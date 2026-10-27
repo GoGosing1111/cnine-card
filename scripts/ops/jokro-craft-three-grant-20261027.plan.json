@@ -1,0 +1,43 @@
+{
+  "operationKey": "ops:jokro-craft-three-grant:20261027:v1",
+  "authorization": "반영 먼저 하고 족로 3장 바로 차감해 한도에서 싸이타마 혜루 최성수 지급",
+  "prerequisiteOperation": "ops:limited-shard-all-plus5:20261027:v1",
+  "selectedAt": "2026-10-27T12:09:14.689Z",
+  "code": "V-979",
+  "name": "족로",
+  "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_979",
+  "recipeId": 544,
+  "policyKey": "mercenary_limited_shard_craft_v1:V-979",
+  "policyHash": "08aa6b02e949fc46b489b27830aa40eb0b6e64c934943bcf4527e71fb2b74701",
+  "stockLimit": 15,
+  "selectedIssued": 10,
+  "stockPolicy": "CONSUME_LIMITED_SHARD_CRAFT_STOCK",
+  "recipientCount": 3,
+  "totalQuantity": 3,
+  "cost": 0,
+  "automaticLoadout": false,
+  "sendMessage": false,
+  "targets": [
+    {
+      "id": "5",
+      "nickname": "싸이타마",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "2952854140b95f995d3cb548f33f583a7c6beeee49eb124b14676808057b8c8c"
+    },
+    {
+      "id": "148",
+      "nickname": "혜루",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "87148d0f67a7b0a483ae13730f2e4db7117bc74979f9afb73ded2b310c241074"
+    },
+    {
+      "id": "8",
+      "nickname": "최성수",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "77a643e48dc0bfef9386c8004a42ef0c240c73e084633bbee833d8ea352cf058"
+    }
+  ]
+}

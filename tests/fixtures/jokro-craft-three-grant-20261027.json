@@ -1,0 +1,27 @@
+{
+  "recipe": {
+    "id": "544",
+    "code": "WORKSHOP_SSS_LIMITED_SHARD_V_979",
+    "category": "MERCENARY_CRAFT",
+    "name": "족로 · SSS 리미티드 조각 제작",
+    "description": "SSS 리미티드 조각 전용 제작 · 일반 조각 제작·팩·직접 지급과 발행 수량 별도",
+    "output_type": "MERCENARY",
+    "output_ref": "V-979",
+    "output_quantity": "1",
+    "payment_mode": "BOTH",
+    "coin_cost": "1000000000000",
+    "master_star_cost": "10000000",
+    "success_rate": 10,
+    "is_featured": "1",
+    "is_active": "1",
+    "is_public": "1",
+    "owner_test_only": "0",
+    "sort_order": "1105",
+    "created_at": "2026-10-25 03:15:40",
+    "updated_at": "2026-10-25 03:15:40"
+  },
+  "policy": {
+    "key": "mercenary_limited_shard_craft_v1:V-979",
+    "value": "{\"revision\":4,\"coinCost\":1000000000000,\"masterStarCost\":10000000,\"successRate\":10,\"materials\":[{\"itemCode\":\"MERCENARY_SSS_LIMITED_SHARD\",\"quantity\":8}],\"isActive\":true,\"isPublic\":true,\"stockLimit\":15}"
+  }
+}

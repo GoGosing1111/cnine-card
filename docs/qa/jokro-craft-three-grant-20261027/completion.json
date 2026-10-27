@@ -1,0 +1,103 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:jokro-craft-three-grant:20261027:v1",
+  "authorization": "반영 먼저 하고 족로 3장 바로 차감해 한도에서 싸이타마 혜루 최성수 지급",
+  "completedAt": "2026-10-27T12:16:42.002Z",
+  "completedAtKst": "2026-10-27 21:16:42 KST",
+  "auditId": "52220",
+  "sourceSha256": "5a54c34233ac56ef6a0323e0f07778dd5b989ebaa8bc6341210591ee45ce1f4e",
+  "planHash": "0f53864a57929eee207ba6740b60df81ba99f7b814da4f18cbf710e79afa3ad2",
+  "grants": [
+    {
+      "userId": "5",
+      "nickname": "싸이타마",
+      "code": "V-979",
+      "quantity": 1,
+      "before": 0,
+      "after": 1,
+      "acquisitionId": "SSS_LIMITED_SHARD_V_979:5:ops:jokro-craft-three-grant:20261027:v1",
+      "craftLogId": "22511"
+    },
+    {
+      "userId": "148",
+      "nickname": "혜루",
+      "code": "V-979",
+      "quantity": 1,
+      "before": 0,
+      "after": 1,
+      "acquisitionId": "SSS_LIMITED_SHARD_V_979:148:ops:jokro-craft-three-grant:20261027:v1",
+      "craftLogId": "22512"
+    },
+    {
+      "userId": "8",
+      "nickname": "최성수",
+      "code": "V-979",
+      "quantity": 1,
+      "before": 0,
+      "after": 1,
+      "acquisitionId": "SSS_LIMITED_SHARD_V_979:8:ops:jokro-craft-three-grant:20261027:v1",
+      "craftLogId": "22513"
+    }
+  ],
+  "stockPolicy": "CONSUME_LIMITED_SHARD_CRAFT_STOCK",
+  "stockBefore": {
+    "limit": 15,
+    "crafted": 10,
+    "remaining": 5
+  },
+  "stockAfter": {
+    "limit": 15,
+    "crafted": 13,
+    "remaining": 2
+  },
+  "cost": 0,
+  "messagesSent": 0,
+  "automaticLoadout": false,
+  "checks": {
+    "testsPassed": 4,
+    "sqlFailureRollback": true,
+    "dryRunRollback": true,
+    "independentReadOnly": true,
+    "selectOnlyReplay": true,
+    "leasesReleased": true,
+    "protectedHashUnchanged": true,
+    "liveAccountState": [
+      {
+        "userId": "5",
+        "nickname": "싸이타마",
+        "code": "V-979",
+        "name": "족로",
+        "totalCopies": 1,
+        "duplicates": 0,
+        "level": 1,
+        "canDeploy": true,
+        "excludedFromLimitedCount": false
+      },
+      {
+        "userId": "148",
+        "nickname": "혜루",
+        "code": "V-979",
+        "name": "족로",
+        "totalCopies": 1,
+        "duplicates": 0,
+        "level": 1,
+        "canDeploy": true,
+        "excludedFromLimitedCount": false
+      },
+      {
+        "userId": "8",
+        "nickname": "최성수",
+        "code": "V-979",
+        "name": "족로",
+        "totalCopies": 1,
+        "duplicates": 0,
+        "level": 1,
+        "canDeploy": true,
+        "excludedFromLimitedCount": false
+      }
+    ]
+  },
+  "gameRedeployed": false,
+  "storageMaintenancePerformed": false,
+  "evidenceRoot": "C:/Users/User/Downloads/upload/cnine-card/output/jokro-craft-three-grant-20261027"
+}

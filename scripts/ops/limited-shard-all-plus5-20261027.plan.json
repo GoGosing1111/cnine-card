@@ -1,0 +1,144 @@
+{
+  "operationKey": "ops:limited-shard-all-plus5:20261027:v1",
+  "authorization": "용병제작에 SSS리미티드 한도 5장씩 추가해",
+  "selectedAt": "2026-10-27T12:00:53.615Z",
+  "scope": "SSS_LIMITED_SHARD",
+  "exhaustedOnly": false,
+  "allRegistered": true,
+  "amountEach": 5,
+  "totalAdded": 60,
+  "targets": [
+    {
+      "code": "V-996",
+      "name": "발테르",
+      "key": "mercenary_limited_shard_craft_v1:V-996",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_996",
+      "expectedRevision": 4,
+      "before": 10,
+      "crafted": 10,
+      "after": 15,
+      "rawHash": "c0b96b22e99fe8e382bf82c546003f83b5661cc85a3b99066d622ec2c4845ad1"
+    },
+    {
+      "code": "V-999",
+      "name": "헬리오스",
+      "key": "mercenary_limited_shard_craft_v1:V-999",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_999",
+      "expectedRevision": 4,
+      "before": 10,
+      "crafted": 10,
+      "after": 15,
+      "rawHash": "17227644736f48c7b430a7e06454994541771d6e5df0bc1b4db9eeac88cebcc4"
+    },
+    {
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "key": "mercenary_limited_shard_craft_v1:V-989",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_989",
+      "expectedRevision": 5,
+      "before": 10,
+      "crafted": 10,
+      "after": 15,
+      "rawHash": "56ad903e921c7453672f651a31553707fea83b13ccb36a86ce3a4642c12ab085"
+    },
+    {
+      "code": "V-988",
+      "name": "카이론",
+      "key": "mercenary_limited_shard_craft_v1:V-988",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_988",
+      "expectedRevision": 0,
+      "before": 5,
+      "crafted": 0,
+      "after": 10,
+      "rawHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "code": "V-987",
+      "name": "시라누이",
+      "key": "mercenary_limited_shard_craft_v1:V-987",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_987",
+      "expectedRevision": 0,
+      "before": 5,
+      "crafted": 0,
+      "after": 10,
+      "rawHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "code": "V-979",
+      "name": "족로",
+      "key": "mercenary_limited_shard_craft_v1:V-979",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_979",
+      "expectedRevision": 3,
+      "before": 10,
+      "crafted": 10,
+      "after": 15,
+      "rawHash": "59a899e78e0e5a6f7ed3fb4aa6299a300c6bfd57154b774fd4e142b49ef5cd1f"
+    },
+    {
+      "code": "V-978",
+      "name": "레오넬",
+      "key": "mercenary_limited_shard_craft_v1:V-978",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_978",
+      "expectedRevision": 0,
+      "before": 5,
+      "crafted": 0,
+      "after": 10,
+      "rawHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "code": "V-976",
+      "name": "제로",
+      "key": "mercenary_limited_shard_craft_v1:V-976",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_976",
+      "expectedRevision": 0,
+      "before": 5,
+      "crafted": 0,
+      "after": 10,
+      "rawHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "code": "V-975",
+      "name": "프라임 레퀴엠",
+      "key": "mercenary_limited_shard_craft_v1:V-975",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_975",
+      "expectedRevision": 0,
+      "before": 5,
+      "crafted": 0,
+      "after": 10,
+      "rawHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "code": "V-974",
+      "name": "제너럴 족",
+      "key": "mercenary_limited_shard_craft_v1:V-974",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_974",
+      "expectedRevision": 0,
+      "before": 5,
+      "crafted": 0,
+      "after": 10,
+      "rawHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "code": "V-973",
+      "name": "은설",
+      "key": "mercenary_limited_shard_craft_v1:V-973",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_973",
+      "expectedRevision": 0,
+      "before": 5,
+      "crafted": 0,
+      "after": 10,
+      "rawHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "code": "V-972",
+      "name": "각성 오메가",
+      "key": "mercenary_limited_shard_craft_v1:V-972",
+      "recipeCode": "WORKSHOP_SSS_LIMITED_SHARD_V_972",
+      "expectedRevision": 0,
+      "before": 5,
+      "crafted": 0,
+      "after": 10,
+      "rawHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    }
+  ]
+}

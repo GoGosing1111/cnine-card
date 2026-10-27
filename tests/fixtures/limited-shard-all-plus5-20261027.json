@@ -1,0 +1,78 @@
+{
+  "stock": [
+    {
+      "code": "V-996",
+      "key": "mercenary_limited_shard_craft_v1:V-996",
+      "policyRaw": "{\"revision\":4,\"coinCost\":500000000000,\"masterStarCost\":5000000,\"successRate\":20,\"materials\":[{\"itemCode\":\"MERCENARY_SSS_LIMITED_SHARD\",\"quantity\":2}],\"isActive\":true,\"isPublic\":true,\"stockLimit\":10}"
+    },
+    {
+      "code": "V-999",
+      "key": "mercenary_limited_shard_craft_v1:V-999",
+      "policyRaw": "{\"revision\":4,\"coinCost\":500000000000,\"masterStarCost\":5000000,\"successRate\":20,\"materials\":[{\"itemCode\":\"MERCENARY_SSS_LIMITED_SHARD\",\"quantity\":3}],\"isActive\":true,\"isPublic\":true,\"stockLimit\":10}"
+    },
+    {
+      "code": "V-989",
+      "key": "mercenary_limited_shard_craft_v1:V-989",
+      "policyRaw": "{\"revision\":5,\"coinCost\":1000000000000,\"masterStarCost\":10000000,\"successRate\":15,\"materials\":[{\"itemCode\":\"MERCENARY_SSS_LIMITED_SHARD\",\"quantity\":5}],\"isActive\":true,\"isPublic\":true,\"stockLimit\":10}"
+    },
+    {
+      "code": "V-988",
+      "key": "mercenary_limited_shard_craft_v1:V-988",
+      "policyRaw": null
+    },
+    {
+      "code": "V-987",
+      "key": "mercenary_limited_shard_craft_v1:V-987",
+      "policyRaw": null
+    },
+    {
+      "code": "V-979",
+      "key": "mercenary_limited_shard_craft_v1:V-979",
+      "policyRaw": "{\"revision\":3,\"coinCost\":1000000000000,\"masterStarCost\":10000000,\"successRate\":10,\"materials\":[{\"itemCode\":\"MERCENARY_SSS_LIMITED_SHARD\",\"quantity\":8}],\"isActive\":true,\"isPublic\":true,\"stockLimit\":10}"
+    },
+    {
+      "code": "V-978",
+      "key": "mercenary_limited_shard_craft_v1:V-978",
+      "policyRaw": null
+    },
+    {
+      "code": "V-976",
+      "key": "mercenary_limited_shard_craft_v1:V-976",
+      "policyRaw": null
+    },
+    {
+      "code": "V-975",
+      "key": "mercenary_limited_shard_craft_v1:V-975",
+      "policyRaw": null
+    },
+    {
+      "code": "V-974",
+      "key": "mercenary_limited_shard_craft_v1:V-974",
+      "policyRaw": null
+    },
+    {
+      "code": "V-973",
+      "key": "mercenary_limited_shard_craft_v1:V-973",
+      "policyRaw": null
+    },
+    {
+      "code": "V-972",
+      "key": "mercenary_limited_shard_craft_v1:V-972",
+      "policyRaw": null
+    }
+  ],
+  "ordinaryPolicies": [
+    {
+      "key": "mercenary_jokro_craft_v1",
+      "value": "{\"revision\":2,\"coinCost\":1000000000000,\"masterStarCost\":10000000,\"successRate\":1,\"materials\":[{\"itemCode\":\"MERCENARY_SSS_CARD_SHARD\",\"quantity\":15}],\"isActive\":true,\"isPublic\":true}"
+    },
+    {
+      "key": "mercenary_kairon_craft_v1",
+      "value": "{\"revision\":3,\"coinCost\":1000000000000,\"masterStarCost\":1000000,\"successRate\":2,\"materials\":[{\"itemCode\":\"MERCENARY_SSS_CARD_SHARD\",\"quantity\":5}],\"isActive\":true,\"isPublic\":true}"
+    },
+    {
+      "key": "mercenary_prime_craft_v1",
+      "value": "{\"revision\":6,\"coinCost\":150000000000000,\"masterStarCost\":0,\"successRate\":100,\"materials\":[{\"itemCode\":\"MERCENARY_PRIME_DEPLETED_CARD\",\"quantity\":1},{\"itemCode\":\"PRIME_REQUIEM_BLUEPRINT\",\"quantity\":1}],\"isActive\":true,\"isPublic\":true}"
+    }
+  ]
+}
