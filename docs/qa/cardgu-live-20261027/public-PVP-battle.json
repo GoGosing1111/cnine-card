@@ -1,0 +1,300 @@
+{
+  "ok": true,
+  "source": "https://cnine-card.pages.dev",
+  "productionTransactions": 0,
+  "reports": [
+    {
+      "field": "PVP",
+      "width": 390,
+      "code": "V-970",
+      "setup": {
+        "allies": 5,
+        "enemies": 5,
+        "actors": [
+          {
+            "side": "ALLY",
+            "facing": 1,
+            "d": {
+              "ready": true,
+              "id": "cardgu",
+              "mode": "idle",
+              "pose": {
+                "key": "idle",
+                "frame": 0
+              },
+              "time": 0,
+              "duration": 1,
+              "playing": true,
+              "speed": 2,
+              "motionOnly": false,
+              "activeEffects": 0,
+              "effectFrames": [],
+              "activeProjectiles": 0,
+              "activeImpacts": 0,
+              "contacts": [],
+              "actorBounds": {
+                "left": 95.7523186495984,
+                "top": 67.21123975066934,
+                "right": 144.16035077811244,
+                "bottom": 139.82328794344042
+              },
+              "bodyRegistration": {
+                "bodyHeight": 285,
+                "renderedReference": 285,
+                "scaleX": 0.21460843373493976,
+                "scaleY": 0.21460843373493976,
+                "uniform": true,
+                "foot": {
+                  "x": 551,
+                  "y": 1461
+                }
+              },
+              "formationSlot": {
+                "x": 359.40983606557376,
+                "y": 402.1311475409836,
+                "scale": 0.65
+              },
+              "idleBodyFixed": true,
+              "idleTimeline": false,
+              "regularAllies": 5,
+              "regularEnemies": 5,
+              "aura": {
+                "enabled": true,
+                "rimEnabled": true,
+                "visible": true,
+                "time": 0.182,
+                "frame": 0,
+                "neonStrength": 2.1120414466980284,
+                "neonFilters": 1,
+                "frontCards": 12,
+                "rearCards": 12
+              },
+              "ambientActive": true,
+              "registeredTimelines": 2,
+              "visualOnly": false,
+              "clock": "DEPLOYED_V3_GSAP",
+              "code": "V-970",
+              "liveEnabled": true,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "damageAuthority": "SERVER_ONLY",
+              "playbackRate": 2,
+              "cameraZoom": false
+            }
+          },
+          {
+            "side": "ENEMY",
+            "facing": -1,
+            "d": {
+              "ready": true,
+              "id": "cardgu",
+              "mode": "idle",
+              "pose": {
+                "key": "idle",
+                "frame": 0
+              },
+              "time": 0,
+              "duration": 1,
+              "playing": true,
+              "speed": 2,
+              "motionOnly": false,
+              "activeEffects": 0,
+              "effectFrames": [],
+              "activeProjectiles": 0,
+              "activeImpacts": 0,
+              "contacts": [],
+              "actorBounds": {
+                "left": 245.83964922188758,
+                "top": 67.21123975066934,
+                "right": 294.24768135040165,
+                "bottom": 139.82328794344042
+              },
+              "bodyRegistration": {
+                "bodyHeight": 285,
+                "renderedReference": 285,
+                "scaleX": 0.21460843373493976,
+                "scaleY": 0.21460843373493976,
+                "uniform": true,
+                "foot": {
+                  "x": 551,
+                  "y": 1461
+                }
+              },
+              "formationSlot": {
+                "x": 791.4098360655738,
+                "y": 402.1311475409836,
+                "scale": 0.65
+              },
+              "idleBodyFixed": true,
+              "idleTimeline": false,
+              "regularAllies": 5,
+              "regularEnemies": 5,
+              "aura": {
+                "enabled": true,
+                "rimEnabled": true,
+                "visible": true,
+                "time": 0.182,
+                "frame": 0,
+                "neonStrength": 2.1120414466980284,
+                "neonFilters": 1,
+                "frontCards": 12,
+                "rearCards": 12
+              },
+              "ambientActive": true,
+              "registeredTimelines": 2,
+              "visualOnly": false,
+              "clock": "DEPLOYED_V3_GSAP",
+              "code": "V-970",
+              "liveEnabled": true,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "damageAuthority": "SERVER_ONLY",
+              "playbackRate": 2,
+              "cameraZoom": false
+            }
+          }
+        ]
+      },
+      "outcomes": [],
+      "lifecycle": {
+        "stopped": {
+          "ready": true,
+          "id": "cardgu",
+          "mode": "idle",
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "time": 0,
+          "duration": 1,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 0,
+          "effectFrames": [],
+          "activeProjectiles": 0,
+          "activeImpacts": 0,
+          "contacts": [],
+          "actorBounds": {
+            "left": 95.7523186495984,
+            "top": 67.21123975066934,
+            "right": 144.16035077811244,
+            "bottom": 139.82328794344042
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "scaleX": 0.21460843373493976,
+            "scaleY": 0.21460843373493976,
+            "uniform": true,
+            "foot": {
+              "x": 551,
+              "y": 1461
+            }
+          },
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 402.1311475409836,
+            "scale": 0.65
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 5,
+          "aura": {
+            "enabled": true,
+            "rimEnabled": true,
+            "visible": true,
+            "time": 2.178,
+            "frame": 6,
+            "neonStrength": 1.989285965817276,
+            "neonFilters": 1,
+            "frontCards": 12,
+            "rearCards": 12
+          },
+          "ambientActive": false,
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-970",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "dead": false,
+        "revived": {
+          "ready": true,
+          "id": "cardgu",
+          "mode": "idle",
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "time": 0,
+          "duration": 1,
+          "playing": true,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 0,
+          "effectFrames": [],
+          "activeProjectiles": 0,
+          "activeImpacts": 0,
+          "contacts": [],
+          "actorBounds": {
+            "left": 95.7523186495984,
+            "top": 67.21123975066934,
+            "right": 144.16035077811244,
+            "bottom": 139.82328794344042
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "scaleX": 0.21460843373493976,
+            "scaleY": 0.21460843373493976,
+            "uniform": true,
+            "foot": {
+              "x": 551,
+              "y": 1461
+            }
+          },
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 402.1311475409836,
+            "scale": 0.65
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "regularAllies": 5,
+          "regularEnemies": 5,
+          "aura": {
+            "enabled": true,
+            "rimEnabled": true,
+            "visible": true,
+            "time": 2.178,
+            "frame": 6,
+            "neonStrength": 1.989285965817276,
+            "neonFilters": 1,
+            "frontCards": 12,
+            "rearCards": 12
+          },
+          "ambientActive": true,
+          "registeredTimelines": 2,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-970",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        "timelines": 2
+      }
+    },
+    {
+      "width": 390,
+      "codex": "보유 상태\n미보유\n\n전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.\n\nSSS CLASS\n\n검은 왕관의 카드 마법사\n\n카드구\n카드 원화\n전투 SD\n\n선택한 이미지를 누르면 원본을 확대합니다.\n\n리미티드 · 돌격 · SSS\n\n기본 전투력\n2,700,000\n대표 스킬\n스페이드 관통\n\n관통 카드와 반으로 찢어진 에이스가 순환하며 강화된 일반 공격 한 번의 피해를 적용합니다.\n\n☆\n스킬·전투 성능 자세히 보기\n리미티드 컬렉션\nLIMITED EDITION\n카드구\n\n검은 왕관의 카드 마법사\n\n용병 등급\nSSS\n공개 리소스\n원화 · 전투 SD\n전투 편성\n보유 시 가능\n리미티드 전투 편성\n\n보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.\n획득 잠금 · 획득 방법은 추후 지정됩니다.\n\n기본 전투력\n2,700,000\n배정 스킬\n01\nMS-922 · 적 1명\n스페이드 관통\n사용 가능\n\n관통 카드와 반으로 찢어진 에이스가 순환하며 강화된 일반 공격 한 번의 피해를 적용합니다.\n\n효과 배율\n150%\n재사용\n0턴\n에너지\n0\n발동 조건 · 대응 방법\n+\n02\nMS-923 · 적 1명\n찢어진 에이스\n사용 가능\n\n관통 카드와 반으로 찢어진 에이스가 순환하며 강화된 일반 공격 한 번의 피해를 적용합니다.\n\n효과 배율\n150%\n재사용\n0턴\n에너지\n0\n발동 조건 · 대응 방법\n+\n03\nMS-924 · 적 전체\n블랙 셔플\n사용 가능\n\n총 3,024% 피해를 생존한 적 전체에 나누어 대상당 한 번 적용합니다.\n\n효과 배율\n3,024%\n재사용\n3턴\n에너지\n20\n발동 조건 · 대응 방법\n+\n04\nMS-925 · 적 전체\n로열 브레이크\n사용 가능\n\n총 3,024% 피해를 생존한 적 전체에 나누어 대상당 한 번 적용합니다.\n\n효과 배율\n3,024%\n재사용\n3턴\n에너지\n20\n발동 조건 · 대응 방법\n+\n\n전투 성능 · 행동 주기\n기본 전투력 2,700,000. 제너럴 족과 같은 공격·체력·방어·속도·연계 기준입니다. 개인 피해 80% 경감과 상태이상·반격 보호. 스페이드 관통과 찢어진 에이스가 일반 공격마다 순환하며 1.5배 피해를 한 번 적용합니다. PVE 블랙 셔플·로열 브레이크는 에너지 20·공통 재사용 3행동으로 시전당 총 3,024% 피해를 생존한 적 전체에 나눠 한 번씩 적용합니다. 전신 카드 아우라·회전 카드 24장·황금 네온, 모션 2배. 현재 획득 불가. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+    }
+  ],
+  "fullEvidence": "C:/Users/User/Downloads/upload/cnine-card/operations/cardgu-live-20261027/public-pvp"
+}
