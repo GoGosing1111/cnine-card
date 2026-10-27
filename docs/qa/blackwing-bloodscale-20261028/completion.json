@@ -1,0 +1,171 @@
+{
+  "completedAt": "2026-10-27T21:08:01.339Z",
+  "mode": "TEST",
+  "rulesVersion": 3,
+  "codeCommit": "1d1ec930daa3324e3f06bc241495a5f58a7a4739",
+  "releaseCommit": "dcc319f8769560a865be1bdf6e0765ac38fc59ac",
+  "pages": {
+    "id": "ea40820c-5233-4710-b542-c076a8410493",
+    "url": "https://ea40820c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "dcc319f8769560a865be1bdf6e0765ac38fc59ac"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sha256": "cb76b9d6b5893dbdd285a19e86e6e5a6e0f10581f4bef3f644b7bdbed75292c0",
+      "createdOn": "2026-10-27T21:02:35.082522Z",
+      "versions": [
+        {
+          "version_id": "c33c89cc-a6a3-4b24-8977-2896d469a46c",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sha256": "302efd01e1db24e0d655cea29821d27815c930563d2ca572943f5dbc4525b6d9",
+      "createdOn": "2026-10-27T21:03:57.250036Z",
+      "versions": [
+        {
+          "version_id": "e19e8713-9e25-4995-a9e4-8b478dddd81d",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "uniquePassed": 56,
+    "raidPassed": 49,
+    "storePassed": 7,
+    "reusedUnchangedRaidCode": true,
+    "worker": true,
+    "localThreeRoles": 6,
+    "finalGuard": 2,
+    "publicMobile": 1,
+    "publicFiles": 8
+  },
+  "difficulty": {
+    "conditions": {
+      "bossCombatPower": 45000000,
+      "enrageSeconds": 300,
+      "mechanicTimePercent": 100,
+      "cardPower": 10000000,
+      "scope": "synthetic six-player coordination; not human win rates"
+    },
+    "cooperative": [
+      {
+        "branch": "WING",
+        "runs": 32,
+        "clears": 32,
+        "planningSeconds": 12,
+        "commitSpreadSeconds": 2.5,
+        "minSeconds": 199.8,
+        "maxSeconds": 199.8
+      },
+      {
+        "branch": "BLADE",
+        "runs": 32,
+        "clears": 32,
+        "planningSeconds": 12,
+        "commitSpreadSeconds": 2.5,
+        "minSeconds": 221.3,
+        "maxSeconds": 221.3
+      }
+    ],
+    "blind": [
+      {
+        "mode": "fixed",
+        "branch": "WING",
+        "runs": 100,
+        "clears": 0,
+        "firstSolved": 4
+      },
+      {
+        "mode": "fixed",
+        "branch": "BLADE",
+        "runs": 100,
+        "clears": 0,
+        "firstSolved": 4
+      },
+      {
+        "mode": "rotation",
+        "branch": "WING",
+        "runs": 100,
+        "clears": 0,
+        "firstSolved": 2
+      },
+      {
+        "mode": "rotation",
+        "branch": "BLADE",
+        "runs": 100,
+        "clears": 0,
+        "firstSolved": 2
+      },
+      {
+        "mode": "random",
+        "branch": "WING",
+        "runs": 100,
+        "clears": 0,
+        "firstSolved": 1
+      },
+      {
+        "mode": "random",
+        "branch": "BLADE",
+        "runs": 100,
+        "clears": 0,
+        "firstSolved": 1
+      }
+    ]
+  },
+  "settings": [
+    {
+      "key": "mercenary_blackcrown_ss_pack_v1",
+      "sha256": "8d0a8ad589591822461b081b6222991f3c906821f78bbb5e0dc13dc0c8d4f483"
+    },
+    {
+      "key": "mercenary_bloodmoon_ss_pack_v1",
+      "sha256": "240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f"
+    },
+    {
+      "key": "raid_blackwing_settings_v1",
+      "sha256": "1ccb76a4dce30a56f489956e3b328ce951292cb884eb72fa8d0d22e245a4b46f",
+      "value": {
+        "revision": 5,
+        "mode": "TEST",
+        "testUserIds": [
+          6,
+          16,
+          22,
+          45,
+          218,
+          236,
+          295,
+          315,
+          1195,
+          1768,
+          2745,
+          3884,
+          4627
+        ],
+        "bossCombatPower": 45000000,
+        "lobbyMinutes": 5,
+        "enrageSeconds": 300,
+        "mechanicTimePercent": 100,
+        "saveToken": "a4af6d2d-354c-4bf9-b1ef-e2b79df7eff4",
+        "updatedBy": 1
+      }
+    },
+    {
+      "key": "raid_madara_settings_v1",
+      "sha256": "ace971d75e71496348f28b64bfc62c4efee81520e3c2595e04a9730aeb33a142"
+    }
+  ],
+  "productionAccountWrites": 0,
+  "productionSettingWrites": 0,
+  "publicUiTransport": {
+    "assets": "public deployed files",
+    "api": "isolated synthetic six-account fixture"
+  },
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/blackwing-bloodscale-20261028"
+}
