@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-27T08:11:04.790Z",
+  "readOnly": true,
+  "cmsRevision": 61,
+  "cmsHash": "2c49c7a77f0b1378d3e8ee9d03f5a8f55d6acf83dd986e186546b44bb2704d51",
+  "settings": [
+    {
+      "key": "mercenary_level_policy_v1",
+      "sha256": "a0ed0d8dc45aa9ca5603fd750b73c181a93c5d40f69b8b30b06af5c306c66e79"
+    },
+    {
+      "key": "mercenary_limited_pack_v1",
+      "sha256": "a22100a9877ae17704ab610870075031d1a31c1db83ec0bff40fdeffc3cd58cf"
+    }
+  ],
+  "cardgu": {
+    "owners": "0",
+    "copies": "0"
+  },
+  "stocks": [
+    {
+      "code": "V-974",
+      "stock_limit": "3",
+      "issued": "1",
+      "revision": "1",
+      "last_token": "80844b34-08f1-4fe8-8b1d-489e0a760e93"
+    }
+  ],
+  "productionWrites": 0
+}

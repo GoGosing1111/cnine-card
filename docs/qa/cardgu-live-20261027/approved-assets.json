@@ -1,0 +1,58 @@
+{
+  "request": "라이브 반영하고 제너럴족하고 비슷한 밸런스로 맞춰",
+  "sourcePreview": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-cardgu-battle-20261027-v1",
+  "files": [
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+      "sha256": "5bc53d55e620e83928075e44d56290acc4c4ccea257cf65002106cc60fab2a8b"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/idle.png",
+      "sha256": "271e60ab0bd0df4a5dd363e616ed2b7bb3e262053df462eb359e8f529ac6a767"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/deal.png",
+      "sha256": "a1f18a00dec2b8091d49929191b5830f1caf2391003213adac68774f838de647"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/rip.png",
+      "sha256": "efad2962e53d1fed792c9e88012b6bafdba4c10033852ae9aa5c7ff760801c3b"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/storm.png",
+      "sha256": "542160403eb8c4f9169bea303ae740003a20f43c571f97bff7968f555665fa67"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/crown.png",
+      "sha256": "7e82fb98a15c2ecaf483a980de9a998ea61dbe5ad46d41c69d831917804ef45b"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/utility.png",
+      "sha256": "236175f7e5b233a03f8b9000916ad6b0cd31c713cb2e8021841eba4b0564660d"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/fx-deal.png",
+      "sha256": "4c5d2ab244a2865f9b1d5386844b1d68ee195e3ce9d621008c1a01efccfa2b89"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/fx-rip.png",
+      "sha256": "00f44cb55637d589b52c70c903f1ec237f0df640f2aa24c5c34710702a949d93"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/fx-storm.png",
+      "sha256": "b8e6c2642f82eae48d794542c3103ab1c901d3b2fbd13d1f76b42c99a3906cdc"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/fx-crown.png",
+      "sha256": "78b729a11ae66871b9c1baff27613e205c55144bf6cbad98fce003a7e475cecb"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/fx-aura.png",
+      "sha256": "2e24bac3c3db0e32ac2528b4e181003471bece440d7bd98c5ac655478617e9c2"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/cards.png",
+      "sha256": "e2f1ae27b5b252561e9436f9129f6b1832c076df61bd2f4277690d22c8bb7e61"
+    }
+  ]
+}

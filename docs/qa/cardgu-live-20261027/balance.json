@@ -1,0 +1,1146 @@
+{
+  "scope": "SERVER_SIMULATION_NOT_LIVE_PLAYER_WIN_RATE",
+  "checkedAt": "2026-10-27T07:56:30.979Z",
+  "conditions": "Identical five-card decks, magic, level and equipment; 64 fresh seeds per scenario and mirrored sides. Existing growth policy fixture dated 2026-10-26.",
+  "pvp": {
+    "total": 1664,
+    "wins": 832,
+    "losses": 832,
+    "draws": 0,
+    "winRate": 0.5,
+    "rows": [
+      {
+        "scenario": "basic-10000-balanced",
+        "level": 1,
+        "gear": 0,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      },
+      {
+        "scenario": "basic-20000000-balanced",
+        "level": 1,
+        "gear": 0,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      },
+      {
+        "scenario": "basic-2000000000-balanced",
+        "level": 1,
+        "gear": 0,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      },
+      {
+        "scenario": "basic-20000000-attack",
+        "level": 1,
+        "gear": 0,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      },
+      {
+        "scenario": "basic-20000000-defense",
+        "level": 1,
+        "gear": 0,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      },
+      {
+        "scenario": "basic-20000000-speed",
+        "level": 1,
+        "gear": 0,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      },
+      {
+        "scenario": "growth-6",
+        "level": 6,
+        "gear": 0,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      },
+      {
+        "scenario": "growth-11",
+        "level": 11,
+        "gear": 0,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      },
+      {
+        "scenario": "growth-16",
+        "level": 16,
+        "gear": 0,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      },
+      {
+        "scenario": "growth-21",
+        "level": 21,
+        "gear": 0,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      },
+      {
+        "scenario": "equipped-1",
+        "level": 1,
+        "gear": 1000000,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      },
+      {
+        "scenario": "equipped-11",
+        "level": 11,
+        "gear": 1000000,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      },
+      {
+        "scenario": "equipped-21",
+        "level": 21,
+        "gear": 1000000,
+        "total": 128,
+        "wins": 64,
+        "losses": 64,
+        "draws": 0
+      }
+    ]
+  },
+  "pve": {
+    "pairedCases": 144,
+    "battles": 288,
+    "identical": true,
+    "rows": [
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 1,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 11,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 2000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 5000000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 0,
+        "power": 50000000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 2000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 5000000000,
+        "seed": 7,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 0,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 1,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 2,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 3,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 4,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 5,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 6,
+        "identical": true
+      },
+      {
+        "level": 21,
+        "gear": 1000000,
+        "power": 50000000000,
+        "seed": 7,
+        "identical": true
+      }
+    ]
+  }
+}
