@@ -21,4 +21,8 @@
 
 국소 UI 수정으로 `npm run deploy:production -- --scoped`를 사용한다. 선택 검사: `tests/prison-system-v1950.test.mjs`의 기존 부트 표시/준비 완료 계약과 `tests/onestore-web-20261026.test.mjs`의 원스토어 문서 변환·파생물 일치 계약. 이미 완료된 화면 검수를 중복 실행하지 않는다.
 
-운영 배포 결과와 공개 파일/화면 검수는 완료 후 이 문서에 기록한다.
+- 운영 반영 완료: 소스 **b3ad0e7afdaf10abe23a996bf03ccf242b577bd7**, Pages **28cb3f99**. 기준 배포 **ab0bc2b21 / 5a847648** 이후의 로딩 화면 변경을 반영했다.
+- 최초 시도에서 관련 검사 **19개**와 출시/Hyperdrive 검사는 통과했으나 희소 체크아웃의 기존 서버 import 14개가 빠져 Worker 컴파일 단계에서 게시 전 중단됐다. 기존 추적 파일만 연결했고 게임 코드를 추가 수정하지 않았다. 동일한 19개 검사는 반복하지 않고, 재시도에서 포장 관련 **4개** 검사를 통과했다.
+- 지정 배포 명령 정상 종료, Pages **19,999파일**, API 및 예약 Worker 반영 완료. 공개 정적 파일 4개는 HTTP 200·SHA-256 동일, 일반/원스토어 진입 2곳 모두 원본 로고 5개와 버전 표시가 일치한다.
+- 공개 원스토어 모바일 390×844에서 로고 디코딩·순서·겹침/잘림 없음과 기존 부트 해제/로그인 전환을 확인했다. UI 검수 중 API는 격리된 비로그인 응답으로 처리했고 실제 운영 계정/재화에는 쓰지 않았다.
+- 결과: completion.json, live-verification.json, browser-results.json, public-browser-results.json. 전체 프로젝트/의존성을 복사하지 않고 필요한 파일만 Git 희소 worktree로 연결했다. Codex 유지관리·캐시 정리·worktree 회수는 실행하지 않았다.
