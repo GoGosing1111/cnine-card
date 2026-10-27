@@ -1,4 +1,6 @@
 import {BLOODMOON_COMBAT} from '../shared/mercenary-bloodmoon-combat-v1.mjs';
+import {BLACKCROWN_CODEX_DETAILS} from '../shared/mercenary-blackcrown-codex-v2.mjs';
+import {BLACKCROWN_SERVER_LIMIT} from '../shared/mercenary-blackcrown-catalog-v1.mjs?codex=20261027-skills-v2';
 import {AWAKENED_OMEGA_CODE,AWAKENED_OMEGA_SKILLS} from '../shared/mercenary-awakened-omega-v1.mjs';
 import {RAZAK_CODE,RAZAK_COMBAT,RAZAK_SKILLS} from '../shared/mercenary-razak-v1.mjs?v=20261025-bloodmoon-expansion-v1';
 import {NAMSUDAENG_CODE,NAMSUDAENG_SKILLS} from '../shared/mercenary-bloodmoon-namsudaeng-v1.mjs';
@@ -11,13 +13,16 @@ export const RANKS=['C','B','A','S','SS','SSS'];
 export const POSITIONS={FRONT:'전열',MIDDLE:'중열',REAR:'후열'};
 export const FRAME='/assets/ui/card-frames/mercenary-contract-frame-premium-v2.png';
 export const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export function asset(path){if(typeof path!=='string'||!/^assets\/ui\/project-v\/[A-Za-z0-9_./-]+\.(png|webp|jpg|jpeg)$/.test(path)||path.split('/').includes('..'))throw Error('용병 리소스 경로를 확인하세요.');return '/'+path;}
+export function asset(path){if(typeof path!=='string'||!/^assets\/ui\/(?:project-v\/[A-Za-z0-9_./-]+\.(?:png|webp|jpg|jpeg)|packs\/black-crown-20261027-v1\/v-95[0-5]-(?:320|640)\.webp)$/.test(path)||path.split('/').includes('..'))throw Error('용병 리소스 경로를 확인하세요.');return '/'+path;}
 export const thumb=code=>`/assets/ui/project-v/mercenaries/codex-v1/${code.toLowerCase()}-art-320.webp`;
 export function validateCatalog(data){
   if(data?.version!=='mercenary-codex-2098'||!Number.isSafeInteger(data.revision)||!Array.isArray(data.cards)||!data.cards.length||new Set(data.cards.map(c=>c.code)).size!==data.cards.length)throw Error('용병 정보 형식을 확인하세요.');
   for(const c of data.cards){const titleDeferred=c.edition==='LIMITED'&&c.titleStatus==='DEFERRED_BY_USER';if(!/^V-\d{3}$/.test(c.code)||!c.name||((c.code===CRYVERN_CODE||titleDeferred)?c.title!=='':c.code===AZANT_CODE?typeof c.title!=='string':!c.title)||(!POSITIONS[c.position]&&!(c.artOnly===true&&c.position===null))||!data.roles?.[c.role]||(c.rank!==null&&!RANKS.includes(c.rank))||!Array.isArray(c.skills))throw Error('용병 설정을 확인하세요.');asset(c.sourceArt);if(c.thumbnailArt)asset(c.thumbnailArt);if(c.displayArt)asset(c.displayArt);if(c.battleSprite)asset(c.battleSprite);
     if(c.code===RAZAK_CODE&&(c.name!=='라자크'||c.rank!=='SSS'||c.edition!=='STANDARD'||c.basePower!==RAZAK_COMBAT.basePower||c.acquisition!=='BLOODMOON_PACK'||c.acquisitionEnabled!==false||c.packAcquisitionEnabled!==true||c.skills.length!==3||c.skills.some((s,i)=>s.id!==RAZAK_SKILLS[i].id)))throw Error('라자크의 승인 등급·전투력·블러드문팩 전용 획득을 확인하세요.');
     if(c.edition==='LIMITED'){
+      const blackcrown=BLACKCROWN_CODEX_DETAILS[c.code];
+      const blackcrownReady=Boolean(blackcrown)&&c.season==='BLACKCROWN'&&c.rank==='SS'&&c.artOnly===true&&c.releaseStatus==='BATTLE_VISUAL_PREVIEW'&&c.acquisition==='BLACKCROWN_PACK'&&c.acquisitionEnabled===true&&c.packAcquisitionEnabled===true&&c.deploymentEnabled===false&&c.serverLimit===BLACKCROWN_SERVER_LIMIT&&c.basePower===356400&&c.battleSprite===blackcrown.battleSprite&&c.skills.length===2&&c.skills.every((s,i)=>s.id===blackcrown.skills[i].id&&s.ready===false&&s.codexOnly===true&&Object.keys(s.balance||{}).length===0)&&c.battlePresentation?.facing==='RIGHT_TOWARD_ENEMY'&&c.battlePresentation?.motionSpeed===2;
+      if((blackcrown||c.season==='BLACKCROWN')&&!blackcrownReady)throw Error('블랙크라운 도감의 스킬·전투 준비 상태를 확인하세요.');
       const awakenedOmegaReady=c.code===AWAKENED_OMEGA_CODE&&c.name==='각성 오메가'&&c.rank==='SSS'&&c.basePower===1750000&&c.releaseStatus==='CRAFT_ONLY_LOCKED'&&c.acquisition==='CRAFT_ONLY'&&c.artOnly===false&&c.deploymentEnabled===true&&c.acquisitionEnabled===false&&c.craftAcquisitionEnabled===false&&c.packAcquisitionEnabled===false&&c.skills.length===4&&c.skills.every((s,i)=>s.id===AWAKENED_OMEGA_SKILLS[i].id&&s.ready===true);
       if(c.code===AWAKENED_OMEGA_CODE&&!awakenedOmegaReady)throw Error('각성 오메가의 등급·전투력·제작 잠금을 확인하세요.');
       const namsudaengReady=c.code===NAMSUDAENG_CODE&&c.season==='BLOODMOON'&&c.rank==='SS'&&c.artOnly===false&&c.releaseStatus==='BATTLE_RELEASED_PACK_PENDING'&&c.acquisition==='BLOODMOON_PACK'&&c.acquisitionEnabled===false&&c.packAcquisitionEnabled===true&&c.deploymentEnabled===true&&c.packOpeningEnabled===false&&c.serverLimit===BLOODMOON_SERVER_LIMIT&&c.basePower===356400&&c.skills.length===3&&c.skills.every((s,i)=>s.id===NAMSUDAENG_SKILLS[i].id&&s.ready===true);
@@ -31,8 +36,8 @@ export function validateCatalog(data){
       const generalJokReady=c.code==='V-974'&&c.releaseStatus==='BATTLE_RELEASED_ACQUISITION_LOCKED'&&c.artOnly===false&&c.acquisition==='LOCKED'&&c.deploymentEnabled===true&&c.basePower===2700000&&c.packAcquisitionEnabled===false&&c.skills.length===8;
       const primeReady=c.code==='V-975'&&c.releaseStatus==='BATTLE_RELEASED_ACQUISITION_LOCKED'&&c.artOnly===false&&c.acquisition==='LOCKED'&&c.deploymentEnabled===true&&c.basePower===3000000&&c.packAcquisitionEnabled===false&&c.skills.length===7;
       const zeroReady=c.code==='V-976'&&c.releaseStatus==='BATTLE_RELEASED_ACQUISITION_LOCKED'&&c.artOnly===false&&c.acquisition==='LOCKED'&&c.deploymentEnabled===true&&c.basePower===3000000&&c.packAcquisitionEnabled===false&&c.skills.length===5;
-      if(!awakenedOmegaReady&&!namsudaengReady&&!eunseolReady&&!generalJokReady&&!bloodmoonReady&&!jokroReady&&!primeReady&&!zeroReady&&!leonelReady&&!shiranuiReady&&(c.artOnly!==true||(!battleReady&&(c.basePower!==null||c.skills.length||c.releaseStatus!=='LIMITED_PREVIEW'))||c.acquisitionEnabled!==false||typeof c.deploymentEnabled!=='boolean'))throw Error('리미티드 획득 정보는 조회만 가능합니다.');
-      if(c.acquisitionEnabled!==false&&!shiranuiReady)throw Error('리미티드 획득은 잠금 상태입니다.');
+      if(!blackcrownReady&&!awakenedOmegaReady&&!namsudaengReady&&!eunseolReady&&!generalJokReady&&!bloodmoonReady&&!jokroReady&&!primeReady&&!zeroReady&&!leonelReady&&!shiranuiReady&&(c.artOnly!==true||(!battleReady&&(c.basePower!==null||c.skills.length||c.releaseStatus!=='LIMITED_PREVIEW'))||c.acquisitionEnabled!==false||typeof c.deploymentEnabled!=='boolean'))throw Error('리미티드 획득 정보는 조회만 가능합니다.');
+      if(c.acquisitionEnabled!==false&&!blackcrownReady&&!shiranuiReady)throw Error('리미티드 획득은 잠금 상태입니다.');
       asset(c.frame);if(!c.artWindow||['left','top','width','height'].some(k=>!Number.isFinite(c.artWindow[k])||c.artWindow[k]<0||c.artWindow[k]>100))throw Error('리미티드 프레임 배치를 확인하세요.');
     }else if(c.artOnly===true&&(c.basePower!==null||c.battleSprite!==null||c.skills.length||c.releaseStatus!=='ART_RELEASED'))throw Error('원화 공개 용병의 전투 정보는 아직 제공되지 않습니다.');
     for(const s of c.skills)if(!/^MS-\d{3}$/.test(s.id)||!s.name||!s.balance||typeof s.ready!=='boolean')throw Error('스킬 설정을 확인하세요.');

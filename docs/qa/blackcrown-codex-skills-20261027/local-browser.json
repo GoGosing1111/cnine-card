@@ -1,0 +1,90 @@
+{
+  "ok": true,
+  "origin": "http://127.0.0.1:8917",
+  "surfaces": [
+    {
+      "label": "desktop",
+      "checked": [
+        {
+          "code": "V-950",
+          "skills": 2,
+          "sprite": "/assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/heeya-idle.png",
+          "canDeploy": false
+        },
+        {
+          "code": "V-951",
+          "skills": 2,
+          "sprite": "/assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/bongsoon-idle.png",
+          "canDeploy": false
+        },
+        {
+          "code": "V-952",
+          "skills": 2,
+          "sprite": "/assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/joeun-idle.png",
+          "canDeploy": false
+        },
+        {
+          "code": "V-953",
+          "skills": 2,
+          "sprite": "/assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/diim-idle.png",
+          "canDeploy": false
+        },
+        {
+          "code": "V-954",
+          "skills": 2,
+          "sprite": "/assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/sudaeng-idle.png",
+          "canDeploy": false
+        },
+        {
+          "code": "V-955",
+          "skills": 2,
+          "sprite": "/assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/orikkung-idle.png",
+          "canDeploy": false
+        }
+      ]
+    },
+    {
+      "label": "mobile",
+      "checked": [
+        {
+          "code": "V-950",
+          "skills": 2,
+          "sprite": "/assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/heeya-idle.png",
+          "canDeploy": false
+        },
+        {
+          "code": "V-951",
+          "skills": 2,
+          "sprite": "/assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/bongsoon-idle.png",
+          "canDeploy": false
+        },
+        {
+          "code": "V-952",
+          "skills": 2,
+          "sprite": "/assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/joeun-idle.png",
+          "canDeploy": false
+        },
+        {
+          "code": "V-953",
+          "skills": 2,
+          "sprite": "/assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/diim-idle.png",
+          "canDeploy": false
+        },
+        {
+          "code": "V-954",
+          "skills": 2,
+          "sprite": "/assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/sudaeng-idle.png",
+          "canDeploy": false
+        },
+        {
+          "code": "V-955",
+          "skills": 2,
+          "sprite": "/assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/orikkung-idle.png",
+          "canDeploy": false
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "writes": []
+}
