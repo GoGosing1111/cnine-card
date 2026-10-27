@@ -1,0 +1,3511 @@
+{
+  "checkedAt": "2026-10-27T01:51:52.658Z",
+  "readOnly": true,
+  "requests": 15,
+  "totalDraws": 7366,
+  "totalCoins": "11049000000000",
+  "byAccount": [
+    {
+      "userId": "1",
+      "nickname": "핑크빛유두",
+      "requests": 1,
+      "drawCount": 10,
+      "coinSpent": "15000000000"
+    },
+    {
+      "userId": "91",
+      "nickname": "정원이",
+      "requests": 11,
+      "drawCount": 7326,
+      "coinSpent": "10989000000000"
+    },
+    {
+      "userId": "4199",
+      "nickname": "택신",
+      "requests": 3,
+      "drawCount": 30,
+      "coinSpent": "45000000000"
+    }
+  ],
+  "records": [
+    {
+      "requestId": "d97282c5-fe27-449d-bf1f-6f5ea810d117",
+      "userId": "91",
+      "createdAt": "2026-10-27T01:19:41.794Z",
+      "completedAt": "2026-10-27T01:19:41.856Z",
+      "count": 666,
+      "coinCost": "999000000000",
+      "coinLogId": "98495021",
+      "draws": [],
+      "normalDraws": [
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-001",
+          "name": "아우렌",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-003",
+          "name": "솔바인",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-004",
+          "name": "베스페라",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-005",
+          "name": "청아",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-006",
+          "name": "카르시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-008",
+          "name": "아스텔",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-011",
+          "name": "아르카엘",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-012",
+          "name": "세리온",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-013",
+          "name": "라비에나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-015",
+          "name": "녹시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-016",
+          "name": "솔레아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-017",
+          "name": "마레나",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-018",
+          "name": "미레시아",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-019",
+          "name": "아우렐리온",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-020",
+          "name": "사요",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-022",
+          "name": "엘로디",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-023",
+          "name": "이안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-024",
+          "name": "벨루아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-025",
+          "name": "에이라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-026",
+          "name": "루카스",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-028",
+          "name": "연휘",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 9
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-029",
+          "name": "레오나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-030",
+          "name": "홍련",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-031",
+          "name": "루시안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-032",
+          "name": "셀레네",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-033",
+          "name": "로젤",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-034",
+          "name": "세이지",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-035",
+          "name": "세라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-038",
+          "name": "세실리아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-039",
+          "name": "로제타",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-040",
+          "name": "마리엘",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-042",
+          "name": "경찰 조은",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        }
+      ],
+      "missCount": 543
+    },
+    {
+      "requestId": "8ddb3b5f-bbb0-4dbf-865c-1144ad7b9ad4",
+      "userId": "91",
+      "createdAt": "2026-10-27T01:19:49.024Z",
+      "completedAt": "2026-10-27T01:19:49.065Z",
+      "count": 666,
+      "coinCost": "999000000000",
+      "coinLogId": "98495043",
+      "draws": [],
+      "normalDraws": [
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-001",
+          "name": "아우렌",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-003",
+          "name": "솔바인",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-005",
+          "name": "청아",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-008",
+          "name": "아스텔",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-011",
+          "name": "아르카엘",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-012",
+          "name": "세리온",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-013",
+          "name": "라비에나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-016",
+          "name": "솔레아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-017",
+          "name": "마레나",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-018",
+          "name": "미레시아",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-019",
+          "name": "아우렐리온",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-020",
+          "name": "사요",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-022",
+          "name": "엘로디",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-023",
+          "name": "이안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-024",
+          "name": "벨루아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-025",
+          "name": "에이라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-026",
+          "name": "루카스",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-028",
+          "name": "연휘",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-029",
+          "name": "레오나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-030",
+          "name": "홍련",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 10
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-031",
+          "name": "루시안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-032",
+          "name": "셀레네",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-033",
+          "name": "로젤",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-034",
+          "name": "세이지",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-035",
+          "name": "세라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-036",
+          "name": "네레이아",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-038",
+          "name": "세실리아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-039",
+          "name": "로제타",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-041",
+          "name": "레니아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-044",
+          "name": "하이희야",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_SSS",
+          "mercenaryCode": "V-046",
+          "name": "라그니엘",
+          "rank": "SSS",
+          "edition": "STANDARD",
+          "quantity": 1
+        }
+      ],
+      "missCount": 518
+    },
+    {
+      "requestId": "708ba6df-3f8f-47a2-bf35-49cef9f59319",
+      "userId": "91",
+      "createdAt": "2026-10-27T01:19:57.341Z",
+      "completedAt": "2026-10-27T01:19:57.386Z",
+      "count": 666,
+      "coinCost": "999000000000",
+      "coinLogId": "98495069",
+      "draws": [],
+      "normalDraws": [
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-001",
+          "name": "아우렌",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-002",
+          "name": "리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-003",
+          "name": "솔바인",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-004",
+          "name": "베스페라",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-005",
+          "name": "청아",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-006",
+          "name": "카르시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-008",
+          "name": "아스텔",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-009",
+          "name": "련화",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-011",
+          "name": "아르카엘",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-012",
+          "name": "세리온",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-013",
+          "name": "라비에나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-016",
+          "name": "솔레아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-017",
+          "name": "마레나",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-018",
+          "name": "미레시아",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-019",
+          "name": "아우렐리온",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-020",
+          "name": "사요",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-022",
+          "name": "엘로디",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-023",
+          "name": "이안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-024",
+          "name": "벨루아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-025",
+          "name": "에이라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-026",
+          "name": "루카스",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-028",
+          "name": "연휘",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-029",
+          "name": "레오나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-030",
+          "name": "홍련",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-031",
+          "name": "루시안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-032",
+          "name": "셀레네",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-033",
+          "name": "로젤",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-035",
+          "name": "세라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-037",
+          "name": "아델린",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-038",
+          "name": "세실리아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-039",
+          "name": "로제타",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-041",
+          "name": "레니아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-048",
+          "name": "흑월",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-052",
+          "name": "희야 간호사",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        }
+      ],
+      "missCount": 540
+    },
+    {
+      "requestId": "e1601278-d41d-4e7c-85bb-d8cc7506a62c",
+      "userId": "91",
+      "createdAt": "2026-10-27T01:20:01.647Z",
+      "completedAt": "2026-10-27T01:20:01.701Z",
+      "count": 666,
+      "coinCost": "999000000000",
+      "coinLogId": "98495084",
+      "draws": [],
+      "normalDraws": [
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-001",
+          "name": "아우렌",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-003",
+          "name": "솔바인",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-004",
+          "name": "베스페라",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-005",
+          "name": "청아",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-006",
+          "name": "카르시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-008",
+          "name": "아스텔",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-011",
+          "name": "아르카엘",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-012",
+          "name": "세리온",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-013",
+          "name": "라비에나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-015",
+          "name": "녹시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-016",
+          "name": "솔레아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-017",
+          "name": "마레나",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-018",
+          "name": "미레시아",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-019",
+          "name": "아우렐리온",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-020",
+          "name": "사요",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-022",
+          "name": "엘로디",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-023",
+          "name": "이안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-024",
+          "name": "벨루아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-025",
+          "name": "에이라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 13
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-026",
+          "name": "루카스",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-028",
+          "name": "연휘",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-029",
+          "name": "레오나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-030",
+          "name": "홍련",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-031",
+          "name": "루시안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-032",
+          "name": "셀레네",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-033",
+          "name": "로젤",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-034",
+          "name": "세이지",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-035",
+          "name": "세라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-036",
+          "name": "네레이아",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-038",
+          "name": "세실리아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-039",
+          "name": "로제타",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-041",
+          "name": "레니아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        }
+      ],
+      "missCount": 544
+    },
+    {
+      "requestId": "c13cfd39-a18a-4a6d-8e4a-495dbb24f053",
+      "userId": "91",
+      "createdAt": "2026-10-27T01:20:06.828Z",
+      "completedAt": "2026-10-27T01:20:06.861Z",
+      "count": 666,
+      "coinCost": "999000000000",
+      "coinLogId": "98495105",
+      "draws": [],
+      "normalDraws": [
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-001",
+          "name": "아우렌",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-003",
+          "name": "솔바인",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-004",
+          "name": "베스페라",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-005",
+          "name": "청아",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-006",
+          "name": "카르시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-008",
+          "name": "아스텔",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-009",
+          "name": "련화",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-010",
+          "name": "월령",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-011",
+          "name": "아르카엘",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-012",
+          "name": "세리온",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-013",
+          "name": "라비에나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-016",
+          "name": "솔레아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-017",
+          "name": "마레나",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 9
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-018",
+          "name": "미레시아",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-019",
+          "name": "아우렐리온",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-020",
+          "name": "사요",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-022",
+          "name": "엘로디",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-023",
+          "name": "이안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-024",
+          "name": "벨루아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-025",
+          "name": "에이라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-026",
+          "name": "루카스",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-028",
+          "name": "연휘",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-029",
+          "name": "레오나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-030",
+          "name": "홍련",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-031",
+          "name": "루시안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 12
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-032",
+          "name": "셀레네",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-033",
+          "name": "로젤",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-034",
+          "name": "세이지",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-035",
+          "name": "세라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 9
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-036",
+          "name": "네레이아",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-037",
+          "name": "아델린",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-038",
+          "name": "세실리아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-039",
+          "name": "로제타",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-041",
+          "name": "레니아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        }
+      ],
+      "missCount": 520
+    },
+    {
+      "requestId": "815e831a-f11a-4c9c-adb3-0241cba462c2",
+      "userId": "91",
+      "createdAt": "2026-10-27T01:20:10.377Z",
+      "completedAt": "2026-10-27T01:20:10.443Z",
+      "count": 666,
+      "coinCost": "999000000000",
+      "coinLogId": "98495122",
+      "draws": [],
+      "normalDraws": [
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-001",
+          "name": "아우렌",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-003",
+          "name": "솔바인",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-005",
+          "name": "청아",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-006",
+          "name": "카르시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-008",
+          "name": "아스텔",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-010",
+          "name": "월령",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-011",
+          "name": "아르카엘",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-012",
+          "name": "세리온",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-013",
+          "name": "라비에나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-015",
+          "name": "녹시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-016",
+          "name": "솔레아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-017",
+          "name": "마레나",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-018",
+          "name": "미레시아",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-019",
+          "name": "아우렐리온",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-020",
+          "name": "사요",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-022",
+          "name": "엘로디",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-023",
+          "name": "이안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-024",
+          "name": "벨루아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-025",
+          "name": "에이라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-026",
+          "name": "루카스",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-028",
+          "name": "연휘",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-029",
+          "name": "레오나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-030",
+          "name": "홍련",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-031",
+          "name": "루시안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-032",
+          "name": "셀레네",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-033",
+          "name": "로젤",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-034",
+          "name": "세이지",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-035",
+          "name": "세라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-036",
+          "name": "네레이아",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-037",
+          "name": "아델린",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-038",
+          "name": "세실리아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-039",
+          "name": "로제타",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-041",
+          "name": "레니아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        }
+      ],
+      "missCount": 530
+    },
+    {
+      "requestId": "4988bbe1-e2d8-49ee-8a0d-ba5cc7995219",
+      "userId": "4199",
+      "createdAt": "2026-10-27T01:23:35.006Z",
+      "completedAt": "2026-10-27T01:23:35.065Z",
+      "count": 10,
+      "coinCost": "15000000000",
+      "coinLogId": "98496030",
+      "draws": [
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-003",
+          "name": "솔바인",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1,
+          "sourceArt": "assets/ui/project-v/mercenaries/golden-sword-shield-knight-v1.png"
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-039",
+          "name": "로제타",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 1,
+          "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png"
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-011",
+          "name": "아르카엘",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1,
+          "sourceArt": "assets/ui/project-v/mercenaries/ivory-aegis-vanguard-mercenary-v1.png"
+        }
+      ],
+      "normalDraws": []
+    },
+    {
+      "requestId": "862aba18-8681-49ed-b6b1-15880f66fb9c",
+      "userId": "4199",
+      "createdAt": "2026-10-27T01:23:38.421Z",
+      "completedAt": "2026-10-27T01:23:38.461Z",
+      "count": 10,
+      "coinCost": "15000000000",
+      "coinLogId": "98496044",
+      "draws": [
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-034",
+          "name": "세이지",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1,
+          "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v034-verdant-source-art-v1.png"
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-038",
+          "name": "세실리아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 1,
+          "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v038-office-gauntlet-source-art-v1.png"
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        }
+      ],
+      "normalDraws": []
+    },
+    {
+      "requestId": "24f4df95-c710-4282-9645-d5be60c59092",
+      "userId": "4199",
+      "createdAt": "2026-10-27T01:23:42.049Z",
+      "completedAt": "2026-10-27T01:23:42.086Z",
+      "count": 10,
+      "coinCost": "15000000000",
+      "coinLogId": "98496068",
+      "draws": [
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-013",
+          "name": "라비에나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 1,
+          "sourceArt": "assets/ui/project-v/mercenaries/short-bob-k2-amethyst-officer-mercenary-source-art-v1.png"
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-024",
+          "name": "벨루아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 1,
+          "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v024-nocturne-sks-source-art-v1.png"
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-009",
+          "name": "련화",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1,
+          "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png"
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        }
+      ],
+      "normalDraws": []
+    },
+    {
+      "requestId": "bcf9fc8d-aa79-4f50-9b6e-0644799748a6",
+      "userId": "91",
+      "createdAt": "2026-10-27T01:24:35.323Z",
+      "completedAt": "2026-10-27T01:24:35.368Z",
+      "count": 666,
+      "coinCost": "999000000000",
+      "coinLogId": "98496367",
+      "draws": [],
+      "normalDraws": [
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-001",
+          "name": "아우렌",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-002",
+          "name": "리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-003",
+          "name": "솔바인",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-005",
+          "name": "청아",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-006",
+          "name": "카르시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-008",
+          "name": "아스텔",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-009",
+          "name": "련화",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-010",
+          "name": "월령",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-011",
+          "name": "아르카엘",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-012",
+          "name": "세리온",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 10
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-013",
+          "name": "라비에나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-016",
+          "name": "솔레아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-017",
+          "name": "마레나",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-018",
+          "name": "미레시아",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-019",
+          "name": "아우렐리온",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-020",
+          "name": "사요",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-022",
+          "name": "엘로디",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-023",
+          "name": "이안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-024",
+          "name": "벨루아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-025",
+          "name": "에이라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 9
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-026",
+          "name": "루카스",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 10
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-028",
+          "name": "연휘",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-029",
+          "name": "레오나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-030",
+          "name": "홍련",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-031",
+          "name": "루시안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-032",
+          "name": "셀레네",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-033",
+          "name": "로젤",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-035",
+          "name": "세라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-037",
+          "name": "아델린",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-038",
+          "name": "세실리아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-039",
+          "name": "로제타",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-040",
+          "name": "마리엘",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-041",
+          "name": "레니아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-042",
+          "name": "경찰 조은",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-043",
+          "name": "동탄 디임",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-044",
+          "name": "하이희야",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-053",
+          "name": "조은 간호사",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        }
+      ],
+      "missCount": 522
+    },
+    {
+      "requestId": "ae630407-0698-4fee-aa94-fc1e8e78f171",
+      "userId": "91",
+      "createdAt": "2026-10-27T01:24:38.279Z",
+      "completedAt": "2026-10-27T01:24:38.321Z",
+      "count": 666,
+      "coinCost": "999000000000",
+      "coinLogId": "98496381",
+      "draws": [],
+      "normalDraws": [
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-003",
+          "name": "솔바인",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-005",
+          "name": "청아",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-008",
+          "name": "아스텔",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-010",
+          "name": "월령",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-011",
+          "name": "아르카엘",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-012",
+          "name": "세리온",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 11
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-013",
+          "name": "라비에나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-017",
+          "name": "마레나",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-018",
+          "name": "미레시아",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-019",
+          "name": "아우렐리온",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-020",
+          "name": "사요",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_SSS",
+          "mercenaryCode": "V-021",
+          "name": "오메가-X",
+          "rank": "SSS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-022",
+          "name": "엘로디",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-023",
+          "name": "이안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-024",
+          "name": "벨루아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 12
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-025",
+          "name": "에이라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-026",
+          "name": "루카스",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-028",
+          "name": "연휘",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-029",
+          "name": "레오나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-030",
+          "name": "홍련",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-031",
+          "name": "루시안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-032",
+          "name": "셀레네",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-033",
+          "name": "로젤",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-035",
+          "name": "세라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-038",
+          "name": "세실리아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-039",
+          "name": "로제타",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-041",
+          "name": "레니아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        }
+      ],
+      "missCount": 529
+    },
+    {
+      "requestId": "49c75bfb-5374-4224-83bf-266ed138b757",
+      "userId": "91",
+      "createdAt": "2026-10-27T01:24:44.212Z",
+      "completedAt": "2026-10-27T01:24:44.244Z",
+      "count": 666,
+      "coinCost": "999000000000",
+      "coinLogId": "98496420",
+      "draws": [],
+      "normalDraws": [
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-001",
+          "name": "아우렌",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-002",
+          "name": "리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-003",
+          "name": "솔바인",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-005",
+          "name": "청아",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-006",
+          "name": "카르시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-008",
+          "name": "아스텔",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-011",
+          "name": "아르카엘",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-012",
+          "name": "세리온",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-013",
+          "name": "라비에나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-015",
+          "name": "녹시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-016",
+          "name": "솔레아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-017",
+          "name": "마레나",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 10
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-018",
+          "name": "미레시아",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-020",
+          "name": "사요",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-022",
+          "name": "엘로디",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-023",
+          "name": "이안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 12
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-024",
+          "name": "벨루아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-025",
+          "name": "에이라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-026",
+          "name": "루카스",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-028",
+          "name": "연휘",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-029",
+          "name": "레오나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-030",
+          "name": "홍련",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-031",
+          "name": "루시안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-032",
+          "name": "셀레네",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-033",
+          "name": "로젤",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-035",
+          "name": "세라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-038",
+          "name": "세실리아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-039",
+          "name": "로제타",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-041",
+          "name": "레니아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-045",
+          "name": "망이사",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        }
+      ],
+      "missCount": 526
+    },
+    {
+      "requestId": "3f54ffa5-e4dd-4866-b38a-80d3910ed780",
+      "userId": "91",
+      "createdAt": "2026-10-27T01:24:46.201Z",
+      "completedAt": "2026-10-27T01:24:46.238Z",
+      "count": 666,
+      "coinCost": "999000000000",
+      "coinLogId": "98496430",
+      "draws": [],
+      "normalDraws": [
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-001",
+          "name": "아우렌",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-002",
+          "name": "리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-003",
+          "name": "솔바인",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-005",
+          "name": "청아",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-006",
+          "name": "카르시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-008",
+          "name": "아스텔",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-012",
+          "name": "세리온",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-013",
+          "name": "라비에나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-016",
+          "name": "솔레아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-017",
+          "name": "마레나",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-018",
+          "name": "미레시아",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-019",
+          "name": "아우렐리온",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-020",
+          "name": "사요",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_SSS",
+          "mercenaryCode": "V-021",
+          "name": "오메가-X",
+          "rank": "SSS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-022",
+          "name": "엘로디",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-023",
+          "name": "이안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-024",
+          "name": "벨루아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-025",
+          "name": "에이라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 10
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-026",
+          "name": "루카스",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-028",
+          "name": "연휘",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-029",
+          "name": "레오나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-030",
+          "name": "홍련",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-031",
+          "name": "루시안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-032",
+          "name": "셀레네",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-033",
+          "name": "로젤",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-034",
+          "name": "세이지",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-035",
+          "name": "세라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-037",
+          "name": "아델린",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-038",
+          "name": "세실리아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-039",
+          "name": "로제타",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 11
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-041",
+          "name": "레니아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_SSS",
+          "mercenaryCode": "V-046",
+          "name": "라그니엘",
+          "rank": "SSS",
+          "edition": "STANDARD",
+          "quantity": 1
+        }
+      ],
+      "missCount": 544
+    },
+    {
+      "requestId": "80bb5ddc-d09b-40c9-bcc8-0985c7ed9a6c",
+      "userId": "91",
+      "createdAt": "2026-10-27T01:24:52.409Z",
+      "completedAt": "2026-10-27T01:24:52.459Z",
+      "count": 666,
+      "coinCost": "999000000000",
+      "coinLogId": "98496478",
+      "draws": [],
+      "normalDraws": [
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-001",
+          "name": "아우렌",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-002",
+          "name": "리시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-003",
+          "name": "솔바인",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-005",
+          "name": "청아",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-006",
+          "name": "카르시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-008",
+          "name": "아스텔",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-010",
+          "name": "월령",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-011",
+          "name": "아르카엘",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-012",
+          "name": "세리온",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-013",
+          "name": "라비에나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-015",
+          "name": "녹시아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-016",
+          "name": "솔레아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-017",
+          "name": "마레나",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-018",
+          "name": "미레시아",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-020",
+          "name": "사요",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_S",
+          "mercenaryCode": "V-022",
+          "name": "엘로디",
+          "rank": "S",
+          "edition": "STANDARD",
+          "quantity": 2
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-023",
+          "name": "이안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 4
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-024",
+          "name": "벨루아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-025",
+          "name": "에이라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-026",
+          "name": "루카스",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 9
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-028",
+          "name": "연휘",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-029",
+          "name": "레오나",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-030",
+          "name": "홍련",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-031",
+          "name": "루시안",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 8
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-032",
+          "name": "셀레네",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 6
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-033",
+          "name": "로젤",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-034",
+          "name": "세이지",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-035",
+          "name": "세라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        {
+          "outcomeId": "CARD_B",
+          "mercenaryCode": "V-038",
+          "name": "세실리아",
+          "rank": "B",
+          "edition": "STANDARD",
+          "quantity": 5
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-039",
+          "name": "로제타",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 7
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-040",
+          "name": "마리엘",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_A",
+          "mercenaryCode": "V-041",
+          "name": "레니아",
+          "rank": "A",
+          "edition": "STANDARD",
+          "quantity": 3
+        },
+        {
+          "outcomeId": "CARD_SS",
+          "mercenaryCode": "V-045",
+          "name": "망이사",
+          "rank": "SS",
+          "edition": "STANDARD",
+          "quantity": 1
+        }
+      ],
+      "missCount": 532
+    },
+    {
+      "requestId": "dd0c6893-32b8-43e4-b10e-85e67070d2a4",
+      "userId": "1",
+      "createdAt": "2026-10-27T01:31:10.735Z",
+      "completedAt": "2026-10-27T01:31:10.826Z",
+      "count": 10,
+      "coinCost": "15000000000",
+      "coinLogId": "98498154",
+      "draws": [
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-020",
+          "name": "사요",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 1,
+          "sourceArt": "assets/ui/project-v/mercenaries/female-katana-winter-iaijutsu-mercenary-source-art-v1.png"
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-025",
+          "name": "에이라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 1,
+          "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v025-snowwatch-source-art-v1.png"
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "NONE",
+          "quantity": 0
+        },
+        {
+          "outcomeId": "CARD_C",
+          "mercenaryCode": "V-035",
+          "name": "세라",
+          "rank": "C",
+          "edition": "STANDARD",
+          "quantity": 1,
+          "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v035-sunforge-source-art-v1.png"
+        }
+      ],
+      "normalDraws": []
+    }
+  ],
+  "refundsExecuted": 0
+}

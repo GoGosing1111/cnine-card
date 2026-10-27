@@ -1,0 +1,33 @@
+{
+  "status": "PROPOSED_NOT_EXECUTED",
+  "operationKey": "ops:blackcrown-early-opening-refund:20261027:v1",
+  "sourceAuditSha256": "b37225022ecb5f4fae42e65d79195f2ee42c6a99454df3c090baabca7f7ce187",
+  "basis": "15 completed Black Crown requests during unintended ON, each matched to one coin debit log",
+  "totalCoinRefund": "11049000000000",
+  "targets": [
+    {
+      "userId": "1",
+      "nickname": "핑크빛유두",
+      "requests": 1,
+      "drawCount": 10,
+      "coinSpent": "15000000000"
+    },
+    {
+      "userId": "91",
+      "nickname": "정원이",
+      "requests": 11,
+      "drawCount": 7326,
+      "coinSpent": "10989000000000"
+    },
+    {
+      "userId": "4199",
+      "nickname": "택신",
+      "requests": 3,
+      "drawCount": 30,
+      "coinSpent": "45000000000"
+    }
+  ],
+  "preserveAcquiredCards": true,
+  "preserveGrowthAndOtherBalances": true,
+  "keepBlackcrownOff": true
+}

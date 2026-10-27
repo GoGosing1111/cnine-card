@@ -1,5 +1,5 @@
 // Approved Black Crown illustrations; separate identities and acquisition stock.
-export const BLACKCROWN_SERVER_LIMIT=65;
+export const BLACKCROWN_SERVER_LIMIT=10;
 export const BLACKCROWN_MERCENARIES=Object.freeze([
   {
     "code": "V-950",
@@ -27,7 +27,7 @@ export const BLACKCROWN_MERCENARIES=Object.freeze([
     "deploymentEnabled": false,
     "acquisitionPackId": "mercenary-blackcrown-ss-limited",
     "acquisitionPackName": "블랙크라운팩",
-    "serverLimit": 65,
+    "serverLimit": 10,
     "stockPolicy": "SEASONAL",
     "templateCode": "V-963",
     "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
@@ -66,7 +66,7 @@ export const BLACKCROWN_MERCENARIES=Object.freeze([
     "deploymentEnabled": false,
     "acquisitionPackId": "mercenary-blackcrown-ss-limited",
     "acquisitionPackName": "블랙크라운팩",
-    "serverLimit": 65,
+    "serverLimit": 10,
     "stockPolicy": "SEASONAL",
     "templateCode": "V-960",
     "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
@@ -105,7 +105,7 @@ export const BLACKCROWN_MERCENARIES=Object.freeze([
     "deploymentEnabled": false,
     "acquisitionPackId": "mercenary-blackcrown-ss-limited",
     "acquisitionPackName": "블랙크라운팩",
-    "serverLimit": 65,
+    "serverLimit": 10,
     "stockPolicy": "SEASONAL",
     "templateCode": "V-961",
     "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
@@ -144,7 +144,7 @@ export const BLACKCROWN_MERCENARIES=Object.freeze([
     "deploymentEnabled": false,
     "acquisitionPackId": "mercenary-blackcrown-ss-limited",
     "acquisitionPackName": "블랙크라운팩",
-    "serverLimit": 65,
+    "serverLimit": 10,
     "stockPolicy": "SEASONAL",
     "templateCode": "V-962",
     "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
@@ -183,7 +183,7 @@ export const BLACKCROWN_MERCENARIES=Object.freeze([
     "deploymentEnabled": false,
     "acquisitionPackId": "mercenary-blackcrown-ss-limited",
     "acquisitionPackName": "블랙크라운팩",
-    "serverLimit": 65,
+    "serverLimit": 10,
     "stockPolicy": "SEASONAL",
     "templateCode": "V-965",
     "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
@@ -222,7 +222,7 @@ export const BLACKCROWN_MERCENARIES=Object.freeze([
     "deploymentEnabled": false,
     "acquisitionPackId": "mercenary-blackcrown-ss-limited",
     "acquisitionPackName": "블랙크라운팩",
-    "serverLimit": 65,
+    "serverLimit": 10,
     "stockPolicy": "SEASONAL",
     "templateCode": "V-964",
     "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",

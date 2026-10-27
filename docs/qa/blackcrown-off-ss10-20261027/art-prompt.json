@@ -1,0 +1,9 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Asset type: production background artwork for BLACK CROWN, a premium Korean character-card game pack screen. Create a lavish but restrained obsidian-and-antique-gold private armory / royal vault interior, finely crafted art-deco brass ribs, smoked black glass, polished black stone, subtle crown-shaped architectural crest at the far back, warm vertical gold light seams and deep cinematic shadows. This is a serious sophisticated black-and-gold collector-card world, not a casino, not a mobile UI mockup. Wide landscape 16:9 composition. The upper middle has an imposing distant vault doorway and delicate architectural crown silhouette, the middle and lower center remain spacious, dark and quiet so approved character cards can be placed in front by the app. Rich material detail at the sides, beautiful depth, soft floating dust in narrow light beams, subdued reflections, no repetitive wallpaper, no gigantic logo, no glossy plastic. Absolutely no people, characters, card packs, cards, buttons, labels, letters, text or watermark. A finished high-quality standalone environment illustration, no interface drawn into it.",
+  "original": "C:/Users/User/.codex/generated_images/01a17ab9-a03a-79f2-bb14-19ce5c1ac967/exec-63ce1129-9661-4578-b651-70a96313e256.png",
+  "source": "assets/ui/packs/black-crown-20261027-v1/blackcrown-vault-v2-source.png",
+  "sourceSha256": "3a8d909a112aff8c29e1421d68d6e2425faec7daf4eb6c71345d24083fd52fa5",
+  "runtime": "assets/ui/packs/black-crown-20261027-v1/blackcrown-vault-v2.webp",
+  "approvedCharacterOriginalsModified": false
+}

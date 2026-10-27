@@ -1,0 +1,94 @@
+{
+  "checkedAt": "2026-10-27T01:46:31.453Z",
+  "current": {
+    "revision": 3,
+    "settings": {
+      "mode": "OFF",
+      "prices": {
+        "single": 1500000000,
+        "ten": 15000000000
+      },
+      "missRatePpm": 800000,
+      "format": "MERCENARY_BLACKCROWN_SS_PACK_V3",
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "normalSssRatePpm": 969600,
+      "cardRatesPpm": {
+        "V-951": 5000,
+        "V-952": 5000,
+        "V-953": 5000,
+        "V-950": 5000,
+        "V-955": 5000,
+        "V-954": 5000,
+        "V-978": 0,
+        "V-974": 0,
+        "V-975": 0,
+        "V-973": 0,
+        "V-058": 400
+      },
+      "stockLimits": {
+        "V-951": 10,
+        "V-952": 10,
+        "V-953": 10,
+        "V-950": 10,
+        "V-955": 10,
+        "V-954": 10,
+        "V-978": 12,
+        "V-974": 3,
+        "V-975": 3,
+        "V-973": 4
+      }
+    },
+    "updatedAt": "2026-10-27T01:33:59.453Z",
+    "updatedBy": 1,
+    "clonedFrom": {
+      "key": "mercenary_bloodmoon_ss_pack_v1",
+      "revision": 11,
+      "sha256": "240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f"
+    }
+  },
+  "stock": [
+    {
+      "code": "V-950",
+      "stock_limit": "10",
+      "issued": "0"
+    },
+    {
+      "code": "V-951",
+      "stock_limit": "10",
+      "issued": "0"
+    },
+    {
+      "code": "V-952",
+      "stock_limit": "10",
+      "issued": "0"
+    },
+    {
+      "code": "V-953",
+      "stock_limit": "10",
+      "issued": "0"
+    },
+    {
+      "code": "V-954",
+      "stock_limit": "10",
+      "issued": "0"
+    },
+    {
+      "code": "V-955",
+      "stock_limit": "10",
+      "issued": "0"
+    }
+  ],
+  "operations": [
+    {
+      "status": "COMPLETED",
+      "requests": "15"
+    }
+  ]
+}

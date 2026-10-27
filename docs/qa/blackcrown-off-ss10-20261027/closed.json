@@ -1,0 +1,113 @@
+{
+  "replayed": true,
+  "key": "ops:blackcrown-close:20261027:v1",
+  "createdAt": "2026-10-27T01:33:57.910Z",
+  "before": {
+    "revision": 1,
+    "settings": {
+      "mode": "ON",
+      "prices": {
+        "single": 1500000000,
+        "ten": 15000000000
+      },
+      "missRatePpm": 800000,
+      "format": "MERCENARY_BLACKCROWN_SS_PACK_V3",
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "normalSssRatePpm": 969369,
+      "cardRatesPpm": {
+        "V-951": 5000,
+        "V-952": 5000,
+        "V-953": 5000,
+        "V-950": 5000,
+        "V-955": 5000,
+        "V-954": 5000,
+        "V-978": 200,
+        "V-974": 10,
+        "V-975": 1,
+        "V-973": 20,
+        "V-058": 400
+      },
+      "stockLimits": {
+        "V-951": 65,
+        "V-952": 65,
+        "V-953": 65,
+        "V-950": 65,
+        "V-955": 65,
+        "V-954": 65,
+        "V-978": 12,
+        "V-974": 3,
+        "V-975": 3,
+        "V-973": 4
+      }
+    },
+    "updatedAt": "2026-10-27T01:00:51.444Z",
+    "updatedBy": 1,
+    "clonedFrom": {
+      "key": "mercenary_bloodmoon_ss_pack_v1",
+      "revision": 11,
+      "sha256": "240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f"
+    }
+  },
+  "after": {
+    "revision": 2,
+    "settings": {
+      "mode": "OFF",
+      "prices": {
+        "single": 1500000000,
+        "ten": 15000000000
+      },
+      "missRatePpm": 800000,
+      "format": "MERCENARY_BLACKCROWN_SS_PACK_V3",
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "normalSssRatePpm": 969369,
+      "cardRatesPpm": {
+        "V-951": 5000,
+        "V-952": 5000,
+        "V-953": 5000,
+        "V-950": 5000,
+        "V-955": 5000,
+        "V-954": 5000,
+        "V-978": 200,
+        "V-974": 10,
+        "V-975": 1,
+        "V-973": 20,
+        "V-058": 400
+      },
+      "stockLimits": {
+        "V-951": 65,
+        "V-952": 65,
+        "V-953": 65,
+        "V-950": 65,
+        "V-955": 65,
+        "V-954": 65,
+        "V-978": 12,
+        "V-974": 3,
+        "V-975": 3,
+        "V-973": 4
+      }
+    },
+    "updatedAt": "2026-10-27T01:33:57.910Z",
+    "updatedBy": 1,
+    "clonedFrom": {
+      "key": "mercenary_bloodmoon_ss_pack_v1",
+      "revision": 11,
+      "sha256": "240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f"
+    }
+  },
+  "reason": "사용자 명시 지시: 블랙크라운팩 OFF 유지",
+  "adminLogId": "52042"
+}

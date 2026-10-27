@@ -1,0 +1,216 @@
+{
+  "replayed": true,
+  "key": "ops:blackcrown-ss10-only:20261027:v1",
+  "createdAt": "2026-10-27T01:33:59.453Z",
+  "before": {
+    "revision": 2,
+    "settings": {
+      "mode": "OFF",
+      "prices": {
+        "single": 1500000000,
+        "ten": 15000000000
+      },
+      "missRatePpm": 800000,
+      "format": "MERCENARY_BLACKCROWN_SS_PACK_V3",
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "normalSssRatePpm": 969369,
+      "cardRatesPpm": {
+        "V-951": 5000,
+        "V-952": 5000,
+        "V-953": 5000,
+        "V-950": 5000,
+        "V-955": 5000,
+        "V-954": 5000,
+        "V-978": 200,
+        "V-974": 10,
+        "V-975": 1,
+        "V-973": 20,
+        "V-058": 400
+      },
+      "stockLimits": {
+        "V-951": 65,
+        "V-952": 65,
+        "V-953": 65,
+        "V-950": 65,
+        "V-955": 65,
+        "V-954": 65,
+        "V-978": 12,
+        "V-974": 3,
+        "V-975": 3,
+        "V-973": 4
+      }
+    },
+    "updatedAt": "2026-10-27T01:33:57.910Z",
+    "updatedBy": 1,
+    "clonedFrom": {
+      "key": "mercenary_bloodmoon_ss_pack_v1",
+      "revision": 11,
+      "sha256": "240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f"
+    }
+  },
+  "after": {
+    "revision": 3,
+    "settings": {
+      "mode": "OFF",
+      "prices": {
+        "single": 1500000000,
+        "ten": 15000000000
+      },
+      "missRatePpm": 800000,
+      "format": "MERCENARY_BLACKCROWN_SS_PACK_V3",
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "normalSssRatePpm": 969600,
+      "cardRatesPpm": {
+        "V-951": 5000,
+        "V-952": 5000,
+        "V-953": 5000,
+        "V-950": 5000,
+        "V-955": 5000,
+        "V-954": 5000,
+        "V-978": 0,
+        "V-974": 0,
+        "V-975": 0,
+        "V-973": 0,
+        "V-058": 400
+      },
+      "stockLimits": {
+        "V-951": 10,
+        "V-952": 10,
+        "V-953": 10,
+        "V-950": 10,
+        "V-955": 10,
+        "V-954": 10,
+        "V-978": 12,
+        "V-974": 3,
+        "V-975": 3,
+        "V-973": 4
+      }
+    },
+    "updatedAt": "2026-10-27T01:33:59.453Z",
+    "updatedBy": 1,
+    "clonedFrom": {
+      "key": "mercenary_bloodmoon_ss_pack_v1",
+      "revision": 11,
+      "sha256": "240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f"
+    }
+  },
+  "reason": "블랙크라운 SSS 리미티드/프라임 재료 제외, 신규 SS 6종 총 한도 각 10장",
+  "stockBefore": [
+    {
+      "code": "V-950",
+      "stock_limit": "65",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-951",
+      "stock_limit": "65",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-952",
+      "stock_limit": "65",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-953",
+      "stock_limit": "65",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-954",
+      "stock_limit": "65",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-955",
+      "stock_limit": "65",
+      "issued": "0",
+      "revision": "0"
+    }
+  ],
+  "stockAfter": [
+    {
+      "code": "V-950",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "1"
+    },
+    {
+      "code": "V-951",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "1"
+    },
+    {
+      "code": "V-952",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "1"
+    },
+    {
+      "code": "V-953",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "1"
+    },
+    {
+      "code": "V-954",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "1"
+    },
+    {
+      "code": "V-955",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "1"
+    }
+  ],
+  "sharedBefore": [
+    {
+      "code": "V-973",
+      "stock_limit": "4",
+      "issued": "2",
+      "revision": "3"
+    },
+    {
+      "code": "V-974",
+      "stock_limit": "3",
+      "issued": "1",
+      "revision": "1"
+    },
+    {
+      "code": "V-975",
+      "stock_limit": "3",
+      "issued": "3",
+      "revision": "3"
+    },
+    {
+      "code": "V-978",
+      "stock_limit": "12",
+      "issued": "12",
+      "revision": "16"
+    }
+  ],
+  "cancelledSchedules": [],
+  "adminLogId": "52043"
+}

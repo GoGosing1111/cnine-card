@@ -1,6 +1,5 @@
 import {BLACKCROWN_CODES} from '../shared/mercenary-blackcrown-catalog-v1.mjs';
 import {blackcrownOwnedCodes} from '../shared/mercenary-blackcrown-ownership-v1.mjs';
-import {processMercenaryStockSchedules as processSharedStockSchedules} from './_mercenary_stock_schedule.js';
 import {BLACKCROWN_LIMITED_CARDS} from '../shared/mercenary-blackcrown-pool-v3.mjs';
 import {BLACKCROWN_PACK,BLACKCROWN_PACK_KEY,BLACKCROWN_PACK_RELEASE_ENABLED,blackcrownPackDraft,validateBlackcrownPack,blackcrownPackState,blackcrownPackCatalogRow,blackcrownPackReadiness} from '../shared/mercenary-blackcrown-pack-v1.mjs';
 import {readMercenaryDocument} from './_mercenary_account.js';
@@ -15,7 +14,6 @@ import {processMercenaryStockSchedules,changeMercenaryStockSchedule,readBlackcro
 
 const initial=()=>({revision:1,settings:blackcrownPackDraft(),updatedAt:null});
 export async function readBlackcrownPackState(env,{releaseEnabled=BLACKCROWN_PACK_RELEASE_ENABLED,userId=null}={}){
- await processSharedStockSchedules(env);
  const scheduling=await processMercenaryStockSchedules(env);
  const [{row,stock},cms,normalDraw,owned]=await Promise.all([
   readBlackcrownStockSnapshot(env),
@@ -29,7 +27,6 @@ export async function readBlackcrownPackState(env,{releaseEnabled=BLACKCROWN_PAC
 }
 const publicState=(state,{admin=false}={})=>{const {rawPack,stockScheduleHistory,...safe}=state;return {...safe,...(admin?{stockScheduleHistory}:{}),id:state.pack.id,name:state.pack.name,packSettings:state.settings};};
 export async function blackcrownPackShopRow(env){
- await processSharedStockSchedules(env);
  await processMercenaryStockSchedules(env);
  const {row,stock}=await readBlackcrownStockSnapshot(env);
  return blackcrownPackCatalogRow(row?JSON.parse(row.value).settings:blackcrownPackDraft(),stock);

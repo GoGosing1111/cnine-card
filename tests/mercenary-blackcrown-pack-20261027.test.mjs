@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {blackcrownFixture} from './helpers/blackcrown-pack-fixture.mjs';
 import {BLACKCROWN_CODES,BLACKCROWN_MERCENARIES} from '../shared/mercenary-blackcrown-catalog-v1.mjs';
-import {BLACKCROWN_PACK,BLACKCROWN_PACK_KEY,blackcrownPackDraft,blackcrownPackState,pickBlackcrownBatch,blackcrownReceiptResults} from '../shared/mercenary-blackcrown-pack-v1.mjs';
+import {BLACKCROWN_PACK,BLACKCROWN_PACK_KEY,blackcrownPackDraft,readBlackcrownPackSettings,blackcrownPackState,pickBlackcrownBatch,blackcrownReceiptResults} from '../shared/mercenary-blackcrown-pack-v1.mjs';
 import {pickBlackcrownBulk,validateBlackcrownBulkReceipt} from '../shared/mercenary-blackcrown-bulk-v1.mjs';
 import {blackcrownDivisor,blackcrownOwnedCodes,blackcrownAcceptSs} from '../shared/mercenary-blackcrown-ownership-v1.mjs';
 import {handleBlackcrownPack,saveBlackcrownPack,readBlackcrownPackState} from '../functions/_mercenary_blackcrown_pack.js';
@@ -30,9 +30,9 @@ test('all 32 binary samples give exact half/quarter/eighth through six types',()
 });
 test('personal displayed probabilities preserve total and unchanged SSS slots exactly',()=>{
  for(let n=0;n<=6;n++){const state=scenario(BLACKCROWN_CODES.slice(0,n));assert.equal(state.effectiveCardPercents['V-950'],String(100/2**Math.max(0,n-1)));assert.equal(Number(state.effectiveNormalSssPercent)+Number(state.effectiveCardPercents['V-950']),100);}
- const state=scenario(BLACKCROWN_CODES.slice(0,4));state.settings.cardRatesPpm['V-950']=400000;state.settings.cardRatesPpm['V-974']=200000;state.settings.cardRatesPpm['V-975']=100000;state.settings.cardRatesPpm['V-058']=100000;state.settings.normalSssRatePpm=200000;
+ const state=scenario(BLACKCROWN_CODES.slice(0,4));state.settings.cardRatesPpm['V-950']=400000;state.settings.cardRatesPpm['V-058']=100000;state.settings.normalSssRatePpm=500000;
  const next=blackcrownPackState(state.settings,state.stock.map(s=>({code:s.code,stock_limit:s.limit,issued:s.issued})),state.normalCards,{ownedCodes:state.ownedCodes});
- assert.equal(next.effectiveCardPercents['V-950'],'5');assert.equal(next.effectiveCardPercents['V-974'],'20');assert.equal(next.effectiveCardPercents['V-975'],'10');assert.equal(next.effectiveCardPercents['V-058'],'10');assert.equal(next.effectiveNormalSssPercent,'55');
+ assert.equal(next.effectiveCardPercents['V-950'],'5');assert.equal(next.effectiveCardPercents['V-058'],'10');assert.equal(next.effectiveNormalSssPercent,'85');
 });
 test('smallest supported chance remains nonzero and exact after six-type reduction',()=>{
  const s=scenario();s.settings.cardRatesPpm['V-950']=0.0001;s.settings.normalSssRatePpm=999999.9999;
@@ -84,10 +84,10 @@ test('HTTP admin enforces OWNER and opening requires authentication',async t=>{
  assert.equal((await handleBlackcrownPack({...base,path:BLACKCROWN_PACK.adminPath,request:new Request('https://fixture/'+BLACKCROWN_PACK.adminPath)})).status,403);
  assert.equal((await handleBlackcrownPack({...base,path:BLACKCROWN_PACK.openPath,request:new Request('https://fixture/'+BLACKCROWN_PACK.openPath,{method:'POST'})})).status,401);
 });
-test('clone preserves live price, odds, mode and shared SSS limits with six new SS identities',()=>{
+test('clone defaults OFF with six new SS limits at ten and removes SSS limited rewards',()=>{
  const source=bloodmoonPackDraft();source.mode='ON';source.prices={single:1500000000,ten:15000000000};source.cardRatesPpm['V-960']=12.3456;source.stockLimits['V-960']=65;
- const cloned=cloneBlackcrownSettings(source);assert.deepEqual(cloned.prices,source.prices);assert.equal(cloned.mode,source.mode);assert.equal(cloned.cardRatesPpm['V-951'],12.3456);assert.equal(cloned.stockLimits['V-951'],65);assert(!Object.hasOwn(cloned.cardRatesPpm,'V-960'));
- for(const code of ['V-973','V-974','V-975','V-978','V-058'])assert.equal(cloned.cardRatesPpm[code],source.cardRatesPpm[code]);
+ const cloned=cloneBlackcrownSettings(source);assert.deepEqual(cloned.prices,source.prices);assert.equal(cloned.mode,'OFF');assert.equal(cloned.cardRatesPpm['V-951'],12.3456);assert.equal(cloned.stockLimits['V-951'],10);assert(!Object.hasOwn(cloned.cardRatesPpm,'V-960'));
+ for(const code of ['V-973','V-974','V-975','V-978'])assert(!Object.hasOwn(cloned.cardRatesPpm,code));assert.equal(cloned.cardRatesPpm['V-058'],source.cardRatesPpm['V-058']);
 });
 
 test('SS stock race cancels the complete pending plan without consuming coins or new types',async t=>{
@@ -109,7 +109,20 @@ test('worker applies independent Black Crown schedules once and keeps original p
 
 test('production includes the built UI, CMS, catalog and approved sources while preserving authoring files in Git',async()=>{
  const {isProductionFile}=await import('../scripts/prepare-production-assets.mjs');
- for(const file of ['js/mercenary-blackcrown-pack-live.bundle.mjs','admin/mercenary-blackcrown-admin-v1.bundle.mjs','css/mercenary-blackcrown-pack.bundle.css','shared/mercenary-blackcrown-catalog-v1.mjs',BLACKCROWN_PACK.image,...BLACKCROWN_MERCENARIES.flatMap(c=>[c.sourceArt,c.thumbnailArt,c.displayArt])])assert.equal(isProductionFile(file),true,file);
+ for(const file of ['js/mercenary-blackcrown-pack-live.bundle.mjs','admin/mercenary-blackcrown-admin-v1.bundle.mjs','css/mercenary-blackcrown-pack.bundle.css','shared/mercenary-blackcrown-catalog-v1.mjs','assets/ui/packs/black-crown-20261027-v1/blackcrown-vault-v2.webp',BLACKCROWN_PACK.image,...BLACKCROWN_MERCENARIES.flatMap(c=>[c.sourceArt,c.thumbnailArt,c.displayArt])])assert.equal(isProductionFile(file),true,file);
  for(const file of JSON.parse(fs.readFileSync('scripts/blackcrown-authoring-only-20261027.json','utf8')))assert.equal(isProductionFile(file),false,file);
  for(const entry of ['admin/mercenary-blackcrown-admin-v1.bundle.mjs','js/mercenary-blackcrown-pack-live.bundle.mjs']){const source=fs.readFileSync(entry,'utf8');assert(source.includes('/css/mercenary-blackcrown-pack.bundle.css'));assert(!source.includes('/css/mercenary-blackcrown-pack-v2.css'));}
+});
+
+test('OFF stops single and bulk openings before payment even for an already-opened client',async t=>{
+ const f=await blackcrownFixture(t),wallet=await f.coin();f.settings.mode='OFF';await f.configure(2);
+ for(const body of [f.body(1),{...f.body(100),budget:'9000'}])await assert.rejects(f.service.open(f.env,f.user,body),e=>e.code==='MERCENARY_BLACKCROWN_CLOSED');
+ assert.equal(await f.coin(),wallet);assert((await f.state()).stock.every(s=>s.issued===0));
+});
+test('superseded saved policy loses all four limited/material rewards without rounding or re-enabling',()=>{
+ const legacy=JSON.parse(fs.readFileSync('docs/qa/blackcrown-pack-20261027/read.json','utf8')).source.settings;
+ const map=Object.fromEntries(BLACKCROWN_MERCENARIES.map(c=>[c.templateCode,c.code]));const remap=v=>Object.fromEntries(Object.entries(v).map(([c,n])=>[map[c]||c,n]));
+ const raw={...legacy,mode:'OFF',format:'MERCENARY_BLACKCROWN_SS_PACK_V3',cardRatesPpm:remap(legacy.cardRatesPpm),stockLimits:remap(legacy.stockLimits)};
+ const next=readBlackcrownPackSettings(raw);assert.equal(next.mode,'OFF');assert.equal(next.normalSssRatePpm,969600);
+ for(const c of ['V-973','V-974','V-975','V-978']){assert(!Object.hasOwn(next.cardRatesPpm,c));assert(!Object.hasOwn(next.stockLimits,c));}assert.deepEqual(readBlackcrownPackSettings(next),next);
 });
