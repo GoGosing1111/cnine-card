@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 132" fill="none">
+ <defs><linearGradient id="metal" x1="0" y1="0" x2="90" y2="132" gradientUnits="userSpaceOnUse"><stop stop-color="#f4dfaa"/><stop offset=".38" stop-color="#7f6036"/><stop offset=".7" stop-color="#e8cc8d"/><stop offset="1" stop-color="#715334"/></linearGradient><linearGradient id="ink" x1="0" y1="0" x2="90" y2="132" gradientUnits="userSpaceOnUse"><stop stop-color="#263944"/><stop offset=".5" stop-color="#0b1827"/><stop offset="1" stop-color="#17232f"/></linearGradient><pattern id="weave" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M6 0L12 6L6 12L0 6Z" stroke="#ddc68a" stroke-opacity=".13" stroke-width=".6"/></pattern></defs>
+ <rect x="1.5" y="1.5" width="87" height="129" rx="7" fill="#070d16" stroke="url(#metal)" stroke-width="3"/>
+ <path d="M16 9H74L81 16V116L74 123H16L9 116V16Z" fill="url(#ink)" stroke="url(#metal)"/><path d="M16 15H74V117H16Z" fill="url(#weave)"/>
+ <path d="M20 10L10 20M70 10L80 20M10 112L20 122M70 122L80 112M23 18H37M53 18H67M23 114H37M53 114H67" stroke="url(#metal)" stroke-width="2"/>
+ <path d="M45 25L71 66L45 107L19 66Z" fill="#102131" stroke="url(#metal)"/><path d="M45 35L64 66L45 97L26 66Z" stroke="url(#metal)" stroke-opacity=".55"/>
+ <circle cx="45" cy="66" r="16" fill="#0a1523" stroke="url(#metal)"/><path d="M45 45L50 60L65 66L50 72L45 87L40 72L25 66L40 60Z" fill="url(#metal)"/><path d="M45 55V77M34 66H56" stroke="#fff0bb"/>
+ <path d="M45 15L48 18L45 21L42 18ZM45 111L48 114L45 117L42 114Z" fill="#edcf94"/>
+</svg>
