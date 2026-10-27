@@ -24,3 +24,9 @@
 실행 원본·예행연습·화면·배포 기록: C:/Users/User/Downloads/upload/cnine-card/operations/blackcrown-cardgu-revan-20261027/
 
 기존 희소 체크아웃 재사용. 별도 승인 없는 용량 유지관리·정리·예약 없음. 최종 배포 및 운영 완료는 completion.json에 기록한다.
+
+## 운영 완료
+
+2026-10-27 18:23:08 KST, 감사 **52152**, 블랙크라운 r4→r5. 각 한도5·발행0·잔여5, 판매OFF. 실제 1회 확률 각0.0000008%. 기존 레반 직접 지급1장, CMS r61, 블러드문 r11, 다른 재고와 예약 및 계정 보유 해시 보존. 신규 계정 지급0.
+
+소스 fc1f690bd, Pages 667c1197. 정식62검사 통과, PC/모바일 로컬·공개 서버 화면 검수, 공개16파일·두 Worker, 독립 READ ONLY·SELECT 전용 재실행 추가쓰기0·잠금 반환 확인. 전체 결과는 completion.json과 실행 원본에 있다.

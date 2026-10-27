@@ -1,0 +1,333 @@
+{
+  "at": "2026-10-27T09:23:00.536Z",
+  "pages": {
+    "id": "667c1197-92e5-4074-bd89-717eb036a305",
+    "url": "https://667c1197.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "fc1f690bd084555004079e39e83a801bbaa815f3"
+  },
+  "latest": "667c1197-92e5-4074-bd89-717eb036a305",
+  "releaseCommit": "fc1f690bd084555004079e39e83a801bbaa815f3",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "blackcrownSssConnected": true,
+      "sha256": "b37204e297e0615607502f9220db68c4c92b87e99459002f8cf6a2e8456f687f"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "blackcrownSssConnected": true,
+      "sha256": "5e589450dfe5d044bedf240830a3e425c5abe83473bccdd4fed17c41e04b8536"
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "admin/index.html",
+      "sha256": "9074953c502e366aec3f8d9e16c1d4f2c8b58b46b3861f74d34924003ec0c266",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "6459d995cdc0062ad68f250c3a0078af79227937476c609c018979565ab9a012",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "admin/mercenary-blackcrown-admin-v1.bundle.mjs",
+      "sha256": "49892371a0fdbf2345380018d7446ca2fd59c7d592d187504ae8acfbdaabc63f",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "css/mercenary-blackcrown-pack.bundle.css",
+      "sha256": "c4e709c5ab234508f7999d5246b4d762d599dc912407969205c80fe5426b59b1",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "index.html",
+      "sha256": "0052070d3ce862c71e36021fb91bb0030ab76886f6853506a1f05b2d06a00359",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "294737d20894cfdf50849fa58f173a962c672bd74eef0ddb1173da8a88602bc3",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "js/mercenary-blackcrown-pack-live.bundle.mjs",
+      "sha256": "f6d50c06208008403a89a7c599f0653a4d436efbfe9961590391638635f105e1",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "01422ab4b84523977f9cd6509cf32c591e36f693f3594fc2799f6d20c00b87ef",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "00496f51f571583fe6b93b7605eb34e4f19e5833604e3eee7520921a675ad372",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "bdacf6f15a03ff7b68a63a293f05f15579246f2e248bc4377a6aa8f8a7523f4d",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "mercenary-codex/shell.mjs",
+      "sha256": "67cacd35b54712f6ddcdf0ab4a7d4dfd6c1aca6ff07a2608934f00eead407ed9",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "5e516a0645bca02383fce9ed164a3eef1c60d0ba4a8e4a66bf9440e942a9a769",
+      "verification": "existing-server-html-transform"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "693367c7972b477055598080c6dc2f12414cf1093c60e50b4ad79a069e6d03bd",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "d8659790b0cbd0e4767411d1c92b4bebcca4fc6c6b11870eb543194f987ad1a4",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "1c47cea11e2453cf102ab13cc1384e56399703f575f674ec42511b2ae881e69f",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "tests/fixtures/blackcrown-sss-reference-20261027.json",
+      "sha256": "ac3d1f5a88f11591812c35dba71d8ee785c4276d71cf4c25f0b693a17f018c47",
+      "verification": "exact-deployed-content"
+    }
+  ],
+  "card": {
+    "code": "V-970",
+    "name": "카드구",
+    "title": "검은 왕관의 카드 마법사",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_PACK_PENDING",
+    "acquisition": "BLACKCROWN_PACK",
+    "sourceArt": "assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+    "sourceArtSha256": "5bc53d55e620e83928075e44d56290acc4c4ccea257cf65002106cc60fab2a8b",
+    "battleSprite": "assets/ui/project-v/mercenaries/cardgu-20261027/idle.png",
+    "battleSpriteSha256": "271e60ab0bd0df4a5dd363e616ed2b7bb3e262053df462eb359e8f529ac6a767",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#ffd16b",
+    "basePower": 2700000,
+    "skills": [
+      {
+        "id": "MS-922",
+        "name": "스페이드 관통",
+        "visualMode": "deal",
+        "mechanic": "CARDGU_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "관통 카드와 반으로 찢어진 에이스가 순환하며 강화된 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 스페이드 관통 → 찢어진 에이스",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-923",
+        "name": "찢어진 에이스",
+        "visualMode": "rip",
+        "mechanic": "CARDGU_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "관통 카드와 반으로 찢어진 에이스가 순환하며 강화된 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 스페이드 관통 → 찢어진 에이스",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-924",
+        "name": "블랙 셔플",
+        "visualMode": "storm",
+        "mechanic": "CARDGU_ROYAL_POKER",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 1,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "총 3,024% 피해를 생존한 적 전체에 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 두 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-925",
+        "name": "로열 브레이크",
+        "visualMode": "crown",
+        "mechanic": "CARDGU_ROYAL_POKER",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 1,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "총 3,024% 피해를 생존한 적 전체에 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 두 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": true,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 2,700,000. 제너럴 족과 같은 공격·체력·방어·속도·연계 기준입니다. 개인 피해 80% 경감과 상태이상·반격 보호. 스페이드 관통과 찢어진 에이스가 일반 공격마다 순환하며 1.5배 피해를 한 번 적용합니다. PVE 블랙 셔플·로열 브레이크는 에너지 20·공통 재사용 3행동으로 시전당 총 3,024% 피해를 생존한 적 전체에 나눠 한 번씩 적용합니다. 전신 카드 아우라·회전 카드 24장·황금 네온, 모션 2배. 블랙크라운팩 전용 · 판매 상태와 잔여 수량은 상점에서 확인하세요. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다.",
+    "acquisitionPackName": "블랙크라운팩",
+    "serverLimit": 5,
+    "stockPolicy": "PACK_ONLY"
+  },
+  "revan": {
+    "code": "V-971",
+    "name": "레반",
+    "title": "검은 단죄",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_PACK_PENDING",
+    "acquisition": "BLACKCROWN_PACK",
+    "sourceArt": "assets/ui/project-v/mercenaries/reaper-mask-20261027/source-art-approved-v9.png",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/reaper-mask-20261027/source-art-approved-v9.png",
+    "sourceArtSha256": "BB9E25AA8E9E0A838672085A0A43F1643269CA4D6AAB91F8458016FFE6ED2AD5",
+    "battleSprite": "assets/ui/project-v/mercenaries/revan-20261027/assets/body-ready-v1.png",
+    "battleSpriteSha256": "6EF692D0BAEA52C056C6B831C4CE8EF571C969265D19AD9C33A6707E74E420A4",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#e93248",
+    "basePower": 2700000,
+    "skills": [
+      {
+        "id": "MS-927",
+        "name": "단죄",
+        "visualMode": "danjoe",
+        "mechanic": "REVAN_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "전진 대검 베기로 적 한 명에게 기존 일반 공격의 1.5배 피해를 한 번 적용합니다.",
+        "trigger": "일반 공격 · 단죄 → 흑월 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-928",
+        "name": "흑월",
+        "visualMode": "heukwol",
+        "mechanic": "REVAN_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "올려 베기와 내려찍기로 적 한 명을 공격합니다. 두 참격은 기존 일반 공격의 1.5배 피해를 한 번 적용합니다.",
+        "trigger": "일반 공격 · 단죄 → 흑월 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-929",
+        "name": "종언",
+        "visualMode": "jongeon",
+        "mechanic": "REVAN_BLACK_RED_RUPTURE",
+        "target": "적 전체",
+        "pveOnly": true,
+        "sharedCooldown": "MS-929",
+        "balance": {
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "대검을 내려찍어 전장 전체를 파열합니다. 총 3,024% 피해를 나누어 대상당 한 번 적용하며 두 광역기를 번갈아 사용합니다.",
+        "trigger": "PVE · 에너지 20 · 종언/멸참 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-926",
+        "name": "멸참",
+        "visualMode": "myeol",
+        "mechanic": "REVAN_BLACK_RED_RUPTURE",
+        "target": "적 전체",
+        "pveOnly": true,
+        "sharedCooldown": "MS-929",
+        "balance": {
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "대검을 횡으로 휘둘러 거대한 검기로 적진 전체를 가릅니다. 총 3,024% 피해를 나누어 대상당 한 번 적용하며 두 광역기를 번갈아 사용합니다.",
+        "trigger": "PVE · 에너지 20 · 종언/멸참 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": true,
+    "craftAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 2,700,000. 제너럴 족 기준의 공격·생존·행동·연계·피해 상한을 사용합니다. 아군 카드 행동당 3.12회 추가 행동, 개인 피해 80% 경감, 상태이상·반격 보호. 단죄와 흑월은 단일 공격마다 순환하며 기존 일반 공격의 1.5배 피해를 한 번 적용합니다. PVE 종언·멸참은 번갈아 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다(에너지 20 · 공통 재사용 3행동). 검은 연무·붉은 균열 아우라와 고정 대검. 모션 2배속. 블랙크라운팩 전용 · 판매 상태와 잔여 수량은 상점에서 확인하세요. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다.",
+    "acquisitionPackName": "블랙크라운팩",
+    "serverLimit": 5,
+    "stockPolicy": "PACK_ONLY"
+  },
+  "operationalAccountWrites": 0
+}

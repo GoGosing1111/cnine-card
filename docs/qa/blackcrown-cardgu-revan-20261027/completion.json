@@ -1,0 +1,59 @@
+{
+  "operationKey": "ops:blackcrown-cardgu-revan-prepare:20261027:v1",
+  "status": "COMPLETED",
+  "createdAt": "2026-10-27T09:23:08.648Z",
+  "authorization": "카드구랑 레반 한도 5장씩 블랙크라운 준비 / 둘 다 제너럴 족과 같은 확률",
+  "beforeRevision": 4,
+  "afterRevision": 5,
+  "mode": "OFF",
+  "codes": [
+    "V-970",
+    "V-971"
+  ],
+  "limitEach": 5,
+  "issuedEach": 0,
+  "remainingEach": 5,
+  "conditionalRatePpm": 10,
+  "effectiveSinglePercent": "0.0000008",
+  "reference": {
+    "key": "mercenary_bloodmoon_ss_pack_v1",
+    "code": "V-974",
+    "revision": 11,
+    "sha256": "dc913d65e6ce7fca141e885a97b4a3e53fbb18d091e964143bed1f09fe493df4"
+  },
+  "directGrantExempt": true,
+  "accountWrites": 0,
+  "grants": 0,
+  "schedules": 0,
+  "adminLogId": "52152",
+  "releaseCommit": "fc1f690bd084555004079e39e83a801bbaa815f3",
+  "pages": {
+    "id": "667c1197-92e5-4074-bd89-717eb036a305",
+    "url": "https://667c1197.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "fc1f690bd084555004079e39e83a801bbaa815f3"
+  },
+  "tests": 62,
+  "localBrowserWidths": [
+    1440,
+    390
+  ],
+  "publicBrowserWidths": [
+    1440,
+    390
+  ],
+  "publicFiles": 16,
+  "workers": [
+    "cnine-card-api-runtime",
+    "cnine-card-clan-draft"
+  ],
+  "independentReadOnlyVerified": true,
+  "selectOnlyReplayVerified": true,
+  "lockReturned": true,
+  "cmsRevision": 61,
+  "cmsUnchanged": true,
+  "existingOwnershipUnchanged": true,
+  "otherStockUnchanged": true,
+  "operationSourceSha256": "d920e6ceb8923f5c1fb3adfc83fa56932c26aac0bc014dccf0b909347d38ca01",
+  "verifiedAt": "2026-10-27T09:24:46.027Z"
+}
