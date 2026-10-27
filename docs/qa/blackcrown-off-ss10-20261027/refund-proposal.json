@@ -1,5 +1,7 @@
 {
-  "status": "PROPOSED_NOT_EXECUTED",
+  "status": "SUPERSEDED_BY_USER_AUTHORIZED_FULL_REVERSAL",
+  "supersedingOperationKey": "ops:blackcrown-early-opening-reversal:20261027:v1",
+  "userCorrection": "전체 환급 후 획득물 회수",
   "operationKey": "ops:blackcrown-early-opening-refund:20261027:v1",
   "sourceAuditSha256": "b37225022ecb5f4fae42e65d79195f2ee42c6a99454df3c090baabca7f7ce187",
   "basis": "15 completed Black Crown requests during unintended ON, each matched to one coin debit log",
@@ -27,7 +29,7 @@
       "coinSpent": "45000000000"
     }
   ],
-  "preserveAcquiredCards": true,
+  "preserveAcquiredCards": false,
   "preserveGrowthAndOtherBalances": true,
   "keepBlackcrownOff": true
 }

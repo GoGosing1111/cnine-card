@@ -1,0 +1,52 @@
+{
+  "tool": "built-in image_gen",
+  "processing": "Preserved source; alpha trim, proportional resize and WebP encoding only",
+  "assets": [
+    {
+      "source": "assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3-source.png",
+      "output": "assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp",
+      "sourceSha256": "1f524d137c26fff414d9b9c64edf85733c4a710825395deb78321b38c74589c1",
+      "outputSha256": "b18fa45e3e391c6d02dbcaef3f20eb4f218c35f5d6397022dee08e1c4bc7df70",
+      "metadata": {
+        "format": "webp",
+        "mediaType": "image/webp",
+        "width": 960,
+        "height": 170,
+        "space": "srgb",
+        "channels": 4,
+        "depth": "uchar",
+        "isProgressive": false,
+        "isPalette": false,
+        "hasProfile": false,
+        "hasAlpha": true,
+        "autoOrient": {
+          "width": 960,
+          "height": 170
+        }
+      }
+    },
+    {
+      "source": "assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3-source.png",
+      "output": "assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp",
+      "sourceSha256": "5df23cc467b6d3ced9714ab81636ea22c7a08e1d6dcc7aca4e2fe78a58b785c9",
+      "outputSha256": "2b3fa870a121f58aaf1f34bbb9d76a2868a438f7f5feeec19a44ac40d80a5a56",
+      "metadata": {
+        "format": "webp",
+        "mediaType": "image/webp",
+        "width": 960,
+        "height": 200,
+        "space": "srgb",
+        "channels": 4,
+        "depth": "uchar",
+        "isProgressive": false,
+        "isPalette": false,
+        "hasProfile": false,
+        "hasAlpha": true,
+        "autoOrient": {
+          "width": 960,
+          "height": 200
+        }
+      }
+    }
+  ]
+}

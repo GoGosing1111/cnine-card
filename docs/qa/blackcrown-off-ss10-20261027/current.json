@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-10-27T01:46:31.453Z",
+  "checkedAt": "2026-10-27T02:04:54.744Z",
   "current": {
-    "revision": 3,
+    "revision": 4,
     "settings": {
       "mode": "OFF",
       "prices": {
@@ -26,10 +26,6 @@
         "V-950": 5000,
         "V-955": 5000,
         "V-954": 5000,
-        "V-978": 0,
-        "V-974": 0,
-        "V-975": 0,
-        "V-973": 0,
         "V-058": 400
       },
       "stockLimits": {
@@ -38,14 +34,10 @@
         "V-953": 10,
         "V-950": 10,
         "V-955": 10,
-        "V-954": 10,
-        "V-978": 12,
-        "V-974": 3,
-        "V-975": 3,
-        "V-973": 4
+        "V-954": 10
       }
     },
-    "updatedAt": "2026-10-27T01:33:59.453Z",
+    "updatedAt": "2026-10-27T02:04:54.088Z",
     "updatedBy": 1,
     "clonedFrom": {
       "key": "mercenary_bloodmoon_ss_pack_v1",
@@ -83,12 +75,6 @@
       "code": "V-955",
       "stock_limit": "10",
       "issued": "0"
-    }
-  ],
-  "operations": [
-    {
-      "status": "COMPLETED",
-      "requests": "15"
     }
   ]
 }
