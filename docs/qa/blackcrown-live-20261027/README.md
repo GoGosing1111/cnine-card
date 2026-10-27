@@ -42,7 +42,7 @@ Pages 한도를 위해 Node 전용 제작 명령 18개와 번들에 포함되는
 5. `tests/mercenary-codex-owned-roster-v2133.test.mjs`
 6. `tests/pve-battlefield-entry-v2117.test.mjs`
 
-**운영 배포 완료:** 소스 `4f86b306c27c507fa4fed2f424e5fe47e8489d82`, Pages `f35c8f50-f0dc-40c6-9013-26e94234e85a`, 2026-10-27 12:10경 KST. 공식 scoped 게이트의 관련 검사 **55개**, 배포 도구 검사 **18개**, Worker 구문·출시 플래그·캐시·Hyperdrive 검증이 모두 통과했다. `deploy.log`에 실행 결과를 보존한다.
+**운영 배포 완료:** 소스 `4f86b306c27c507fa4fed2f424e5fe47e8489d82`, Pages `f35c8f50-f0dc-40c6-9013-26e94234e85a`, 2026-10-27 12:08:56 KST 배포 명령 완료. 공식 scoped 게이트의 관련 검사 **55개**, 배포 도구 검사 **18개**, Worker 구문·출시 플래그·캐시·Hyperdrive 검증이 모두 통과했다. `deploy.log`에 실행 결과를 보존한다.
 
 - API Runtime `69042cf5-9f7a-42a3-89b3-56a6981e3803`, 예약/랭크 Worker `526a3f41-c017-46e4-b26c-dc52f261db48` 모두 100% 활성 버전. 실제 두 서버 번들에서 새 전투 프로필·피해 처리 함수를 확인했다.
 - 공개 **62개 파일 해시** 및 도감 6종의 356,400·스킬 2개·편성 허용·신장 285·모션 2배속을 확인했다. `live-verification.json`, 재검증 도구 `verify-live.mjs`. ONEstore HTML은 기존 서버 `htmlForStore` 변환 결과와 비교하며 원본 정적 HTML과 직접 비교하지 않는다.
