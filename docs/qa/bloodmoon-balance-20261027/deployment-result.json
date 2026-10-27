@@ -1,0 +1,15 @@
+{
+  "base": "b3ad0e7afdaf10abe23a996bf03ccf242b577bd7",
+  "head": "4b31c45329c8e2cc31597f7cad0296b3fc311919",
+  "startedAt": "2026-10-27T07:51:00.195Z",
+  "tests": [
+    "tests/bloodmoon-balance-20261027.test.mjs",
+    "tests/bloodmoon-skill-status-20261025.test.mjs",
+    "tests/mercenary-police-restraint-20260923.test.mjs",
+    "tests/blackcrown-live-20261027.test.mjs"
+  ],
+  "command": "npm run deploy:production -- --scoped",
+  "reason": "Bloodmoon Joeun first-hit restraint and battle efficiency; Namsudaeng PVP-only profile; focused skill playback, unchanged police/Blackcrown and shared entry checks.",
+  "exitCode": 0,
+  "finishedAt": "2026-10-27T07:54:06.475Z"
+}
