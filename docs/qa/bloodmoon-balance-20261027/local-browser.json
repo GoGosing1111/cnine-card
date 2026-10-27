@@ -1,0 +1,571 @@
+{
+  "status": "PASSED",
+  "assetSource": "local source",
+  "reports": [
+    {
+      "width": 1440,
+      "code": "V-961",
+      "mode": "PVE",
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "BASIC_WEAKENED",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "OFFENDER_MARK",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "BASIC_WEAKENED",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "OFFENDER_MARK",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "BASIC_WEAKENED",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "OFFENSIVE_SKILL_ONLY",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        }
+      ],
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "code": "V-961",
+      "mode": "PVP",
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        }
+      ],
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "code": "V-965",
+      "mode": "PVE",
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-948"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-948"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-948"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-949"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-949"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-949"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-947"
+        }
+      ],
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "code": "V-965",
+      "mode": "PVP",
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-948"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-948"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-948"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-949"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-949"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-949"
+        }
+      ],
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-961",
+      "mode": "PVE",
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "BASIC_WEAKENED",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "OFFENDER_MARK",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "BASIC_WEAKENED",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "OFFENDER_MARK",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "BASIC_WEAKENED",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_DEBUFF",
+          "effect": "OFFENSIVE_SKILL_ONLY",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        }
+      ],
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-961",
+      "mode": "PVP",
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_HIT",
+          "skillId": "MS-961"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-961"
+        }
+      ],
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-965",
+      "mode": "PVE",
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-948"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-948"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-948"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-949"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-949"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-949"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-947"
+        }
+      ],
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "battle/fight",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-965",
+      "mode": "PVP",
+      "events": [
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-947"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-948"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-948"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-948"
+        },
+        {
+          "type": "MERCENARY_WINDUP",
+          "skillId": "MS-949"
+        },
+        {
+          "type": "MERCENARY_BLOODMOON_ARROW",
+          "skillId": "MS-949"
+        },
+        {
+          "type": "MERCENARY_END",
+          "skillId": "MS-949"
+        }
+      ],
+      "startButton": true,
+      "resultVisible": true,
+      "returned": true,
+      "requests": [
+        {
+          "route": "pvp/match",
+          "method": "POST"
+        },
+        {
+          "route": "pvp/fight",
+          "method": "POST"
+        }
+      ]
+    }
+  ],
+  "productionTransactions": 0
+}

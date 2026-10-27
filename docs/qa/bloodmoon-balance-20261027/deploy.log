@@ -1,0 +1,105 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"b3ad0e7afdaf10abe23a996bf03ccf242b577bd7","reason":"Bloodmoon Joeun first-hit restraint and battle efficiency; Namsudaeng PVP-only profile; focused skill playback, unchanged police/Blackcrown and shared entry checks.","changed":["AGENTS.md","docs/qa/bloodmoon-balance-20261027/README.md","docs/qa/bloodmoon-balance-20261027/actual-32-1000.json","docs/qa/bloodmoon-balance-20261027/baseline-32-1000.json","docs/qa/bloodmoon-balance-20261027/notice.txt","docs/qa/bloodmoon-balance-20261027/reference-actual.json","docs/qa/bloodmoon-balance-20261027/reference-baseline.json","docs/qa/bloodmoon-balance-20261027/summary.json","docs/qa/loading-age-ratings-20261027/README.md","docs/qa/loading-age-ratings-20261027/browser-results.json","docs/qa/loading-age-ratings-20261027/completion.json","docs/qa/loading-age-ratings-20261027/live-verification.json","docs/qa/loading-age-ratings-20261027/public-browser-results.json","docs/qa/revan-live-20261027/README.md","docs/qa/revan-live-20261027/deployment-result.json","docs/qa/revan-live-20261027/final-deploy.log","docs/qa/revan-live-20261027/live-verification.json","docs/qa/revan-live-20261027/public-battle-mobile-v1.json","docs/qa/revan-live-20261027/public-codex-mobile-v1.jpg","docs/qa/revan-live-20261027/public-myeol-mobile-v1.jpg","functions/_mercenary_combat.js","index.html","js/app.js","js/battle-v3-live.js","mercenary-codex/app.mjs","mercenary-codex/index.html","mercenary-codex/model.mjs","onestore/index.html","onestore/js/app.js","packaging/onestore/web-build.json","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/BloodmoonCombatPlayback.js","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","service-worker.js","shared/mercenary-bloodmoon-catalog-v1.mjs","shared/mercenary-bloodmoon-combat-v1.mjs","shared/mercenary-bloodmoon-namsudaeng-v1.mjs","shared/mercenary-ss-limited-v1.mjs","shared/onestore-web-assets-v1.mjs","tests/bloodmoon-balance-20261027.browser.mjs","tests/bloodmoon-balance-20261027.test.mjs","tests/bloodmoon-skill-status-20261025.test.mjs"],"tests":["tests/bloodmoon-balance-20261027.test.mjs","tests/bloodmoon-skill-status-20261025.test.mjs","tests/mercenary-police-restraint-20260923.test.mjs","tests/blackcrown-live-20261027.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ six SS Limited profiles exactly match their current Bloodmoon reference stats, links, cadence, cost and caps (7.4142ms)
+✔ all twelve casts share one total budget and mutate each legal enemy once in PVE/PVP (11.4764ms)
+✔ two skills alternate with one payment and the Bloodmoon shared reuse interval (8.663ms)
+✔ canonical PVE/PVP emits twelve skills with five regular slots and one mercenary (41.5608ms)
+✔ isolated ownership/loadouts permit all six in PVE/PVP, without bypassing ownership or granting cards (2154.242ms)
+✔ approved art and all live atlas bytes match provenance, including the corrected Sudaeng hand (207.9352ms)
+✔ all six owned cards appear in growth; normal SS materials train once and preserve the original (1277.4462ms)
+✔ Joeun restrains a surviving first hit without waiting for enemy basic attacks (5.6412ms)
+✔ Joeun repeat marks weaken exactly one offensive cast and reset the mark cycle (2.2937ms)
+✔ restraint retains miss, knockout and control immunity protections (2.4479ms)
+✔ cleansing removes the added weakening through the existing debuff path (0.9531ms)
+✔ server battle mode selects Namsudaeng stats, linkage and tempo; PVE cannot opt into PVP (22.6736ms)
+✔ Namsudaeng retains 1440% total damage per cast, unique targets and shared cooldown (1.7797ms)
+✔ public codex accepts the new skill budget and explains both buffs (11.3169ms)
+✔ actual Joeun PVE status records complete without a generic skill lookup or a second attack (34.9547ms)
+✔ status from either team preserves authoritative HP/shield once and ignores a lost or dead target (1.0887ms)
+✔ V-960 replays complete server skill streams in PVE, hunt and either PVP team (40.2838ms)
+✔ V-961 replays complete server skill streams in PVE, hunt and either PVP team (27.2028ms)
+✔ V-962 replays complete server skill streams in PVE, hunt and either PVP team (23.9242ms)
+✔ V-963 replays complete server skill streams in PVE, hunt and either PVP team (15.132ms)
+✔ V-964 replays complete server skill streams in PVE, hunt and either PVP team (18.1366ms)
+✔ police killing shot never marks or weakens a dead enemy in PVE or either PVP team (7.8918ms)
+✔ living targets retain the current mark, restraint duration, damage and one-shot budget (1.267ms)
+✔ misses add no status; a canonical revival is still a living target (1.413ms)
+✔ police status records never replay the gunshot, including old receipts with a visible corpse (9.4695ms)
+✔ the actual police HIT still enters the firing path exactly once, not its later status (1.1936ms)
+✔ a restraint target lost during asset loading cannot start the delayed binding effect (0.3459ms)
+✔ canonical five-card PVE/PVP timelines never add police status after lethal HP state (118.3877ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (14.164ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (17.4127ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (5.3999ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (12.0713ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (18.4539ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (39.1839ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (3.2285ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (3.3729ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (0.9662ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4935.7698
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] bloodmoon-balance-20261027-v2-age-ratings-20261027-v1-revan-live-20261027-v1-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261026-v6-heeya-first-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19999 files; 10041 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.153.0)
+───────────────────────────────────────────────
+Total Upload: 8672.26 KiB / gzip: 1862.99 KiB
+Worker Startup Time: 68 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.43 sec)
+No targets deployed for cnine-card-api-runtime (0.64 sec)
+Current Version ID: 8a24b7e5-08b6-4a3c-9a60-10e385fd1c45
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.153.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19962/19999)
+Uploading... (19974/19999)
+Uploading... (19986/19999)
+Uploading... (19999/19999)
+✨ Success! Uploaded 37 files (19962 already uploaded) (4.13 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://18f94229.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.153.0)
+───────────────────────────────────────────────
+Total Upload: 3314.00 KiB / gzip: 738.44 KiB
+Worker Startup Time: 52 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.65 sec)
+Deployed cnine-card-clan-draft triggers (1.24 sec)
+  schedule: * * * * *
+Current Version ID: 85f23d6e-3da9-4682-97d1-1a6b32e066fc

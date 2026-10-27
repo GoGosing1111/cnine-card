@@ -84,7 +84,7 @@ export function playBloodmoonSkill(engine,event){
 export function playBloodmoonStatus(engine,event){
  const actor=engine.combatantById(event.actorId);
  if(actor?.cardId!=='V-961'||event.skillId!=='MS-961'||event.type!=='MERCENARY_DEBUFF'||event.mechanic!=='REPEAT_OFFENDER_RESTRAINT')return false;
- const label={OFFENDER_MARK:'위반 표식',BASIC_WEAKENED:'다음 기본 공격 약화',NEXT_BASIC_WEAKENED:'다음 기본 공격 약화'}[event.effect];
+ const label={OFFENDER_MARK:'위반 표식',BASIC_WEAKENED:'기본 공격 약화',NEXT_BASIC_WEAKENED:'다음 기본 공격 약화',OFFENSIVE_SKILL_ONLY:'다음 공격 스킬 약화'}[event.effect];
  if(!label)return false;
  const target=engine.combatantById(event.targetId);
  if(!target||target.hp<=0||target.battleActive===false||target.root.destroyed||!target.root.visible)return true;

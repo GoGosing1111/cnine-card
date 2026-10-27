@@ -192,7 +192,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  const shiranui=snapshot.code===SHIRANUI_CODE;
  if(shiranui)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'RANGED',skills:mode==='PVE'?[structuredClone(SHIRANUI_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,shiranuiPolicyVersion:SHIRANUI_COMBAT.version};
  const supreme=revan?REVAN_COMBAT:awakenedOmega?AWAKENED_OMEGA_COMBAT:eunseol?EUNSEOL_COMBAT:cardgu?CARDGU_COMBAT:generalJok?GENERAL_JOK_COMBAT:prime?PRIME_COMBAT:zero?ZERO_COMBAT:leonel?LEONEL_COMBAT:jokro?JOKRO_COMBAT:valter?VALTER_COMBAT:helios?HELIOS_COMBAT:jinmu?JINMU_COMBAT:kairon?KAIRON_COMBAT:shiranui?SHIRANUI_COMBAT:null;
- const limited=ssLimitedProfile({...snapshot,isMercenary:true});
+ const limited=ssLimitedProfile({...snapshot,isMercenary:true,battleMode:mode});
  if(limited)snapshot={...snapshot,rank:'SS',statMode:'RANK_FIXED',position:limited.position,role:limited.role,attackStyle:limited.attackStyle,skills:structuredClone(limited.skills||[limited.skill]),ssLimitedPolicyVersion:SS_LIMITED_BALANCE_VERSION};
  if(snapshot.statMode==='RANK_FIXED'){
   const rankPower=razak?RAZAK_COMBAT.basePower:isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.basePower:supreme?supreme.basePower:limited?limited.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
@@ -507,6 +507,14 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    // 표식이 찼으면 지속 시간 동안 그 적의 기본 공격을 계속 약화하고,
    // 아직 안 찼으면 이번 사격으로 표식을 하나 쌓아 다음 시전이 헛돌지 않게 한다.
    case 'REPEAT_OFFENDER_RESTRAINT':once(t=>{const d=table(debuffs,t),marked=d.offender?.[a.id]||0,h=strike(a,s,t);if(!h.hit||!living(t)||sovereign(t))return;
+    // Bloodmoon Joeun restrains on the first hit; repeat marks also weaken one
+    // offensive cast. Other restraint users retain their existing threshold.
+    if(a.code==='V-961'&&s.id==='MS-961'){
+     d.restraint={percent:c.restraintPercent,expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'BASIC_WEAKENED'});
+     if(marked>=c.restraintHits){d.veil={percent:c.veilPercent};if(d.offender)delete d.offender[a.id];send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});}
+     else{(d.offender||={})[a.id]=marked+1;send(a,s,'DEBUFF',t,{effect:'OFFENDER_MARK'});}
+     return;
+    }
     if(marked>=c.restraintHits){d.restraint={percent:c.restraintPercent,expires:t.actions+c.statusTurns};if(d.offender)delete d.offender[a.id];send(a,s,'DEBUFF',t,{effect:'BASIC_WEAKENED'});}
     else{(d.offender||={})[a.id]=marked+1;send(a,s,'DEBUFF',t,{effect:'OFFENDER_MARK'});}});break;
    case 'INFILTRATE_DELAYED_VENOM':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100,'HIT',{capShare:1-c.poisonPercent/100});if(h.hit&&living(t)&&!t.poisonImmune){table(debuffs,t).poison={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),due:t.actions+1};send(a,s,'DEBUFF',t,{effect:'POISON'});}});break;
@@ -565,7 +573,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   beforeBasicDamage(a,t,amount){const buff=table(buffs,t),d=table(debuffs,a);
    // These named basic forms receive one stronger packet, including capped hits.
    // Keep the bonus outside the intrinsic cap clamp, before target protections.
-   const formScale=isCardgu(a)?CARDGU_COMBAT.basicDamageScale:isGeneralJok(a)?GENERAL_JOK_COMBAT.basicDamageScale:isPrime(a)?PRIME_COMBAT.basicDamageScale:isZero(a)?ZERO_COMBAT.basicDamageScale:1;
+   const formScale=isCardgu(a)?CARDGU_COMBAT.basicDamageScale:isRevan(a)?REVAN_COMBAT.basicDamageScale:isGeneralJok(a)?GENERAL_JOK_COMBAT.basicDamageScale:isPrime(a)?PRIME_COMBAT.basicDamageScale:isZero(a)?ZERO_COMBAT.basicDamageScale:1;
    if(formScale!==1)amount=Math.floor(amount*formScale);
    const basicScale=imperialArcherBasicScale(a)*azantPvpBasicDamageScale(a)*berkanPvpBasicDamageScale(a)*cryvernPvpBasicDamageScale(a);if(basicScale!==1)amount=Math.floor(amount*basicScale);
    if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}

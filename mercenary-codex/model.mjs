@@ -1,6 +1,6 @@
 import {CARDGU_CODE,CARDGU_ART,CARDGU_COMBAT} from '../shared/mercenary-cardgu-v1.mjs';
 import {REVAN_CODE,REVAN_COMBAT,REVAN_ART} from '../shared/mercenary-revan-v1.mjs';
-import {BLOODMOON_COMBAT} from '../shared/mercenary-bloodmoon-combat-v1.mjs';
+import {BLOODMOON_COMBAT} from '../shared/mercenary-bloodmoon-combat-v1.mjs?balance=20261027-v2';
 import {BLACKCROWN_CODEX_DETAILS} from '../shared/mercenary-blackcrown-codex-v2.mjs';
 import {BLACKCROWN_SERVER_LIMIT} from '../shared/mercenary-blackcrown-catalog-v1.mjs?codex=20261027-live-v1';
 import {AWAKENED_OMEGA_CODE,AWAKENED_OMEGA_SKILLS} from '../shared/mercenary-awakened-omega-v1.mjs';

@@ -1,0 +1,3601 @@
+{
+  "mode": "baseline",
+  "count": 32,
+  "start": 1000,
+  "base": "4f86b306c27c507fa4fed2f424e5fe47e8489d82",
+  "profiles": {
+    "joeun": {
+      "code": "V-961",
+      "slug": "joeun",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "attackStyle": "MELEE",
+      "basePower": 356400,
+      "scale": 7.4,
+      "speedScale": 2.9,
+      "actionCredit": 3.5,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 3.1,
+      "basicCapScale": 1.7,
+      "pveSkillMinimumDamage": false,
+      "link": {
+        "attackPercent": 1628,
+        "hpPercent": 2072,
+        "shieldPercent": 1110
+      },
+      "skill": {
+        "id": "MS-961",
+        "name": "홍련의 속박",
+        "mechanic": "REPEAT_OFFENDER_RESTRAINT",
+        "ready": true,
+        "balance": {
+          "damageRatio": 11.6,
+          "cooldownTurns": 1,
+          "cost": 20
+        }
+      }
+    },
+    "namsudaeng": {
+      "code": "V-965",
+      "position": "BACK",
+      "role": "MARKSMAN",
+      "attackStyle": "RANGED",
+      "basePower": 356400,
+      "scale": 3.3,
+      "speedScale": 2.25,
+      "actionCredit": 2.25,
+      "actionEnergy": 10,
+      "pvpSkillCapScale": 1.8,
+      "basicCapScale": 1,
+      "link": {
+        "attackPercent": 726,
+        "shieldPercent": 495,
+        "hpPercent": 924
+      },
+      "skill": {
+        "id": "MS-947",
+        "name": "적월 관통",
+        "visualMode": "pierce",
+        "targetCount": 1,
+        "target": "적 하나",
+        "effect": "응축한 화살로 적 하나를 관통합니다. 한 시전의 총 1,440% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "mechanic": "BLOODMOON_ARCHERY",
+        "ready": true,
+        "balance": {
+          "damageRatio": 14.4,
+          "cooldownTurns": 2,
+          "cost": 20
+        },
+        "trigger": "자기 행동 · 에너지 20 · 세 기술 공통 재사용 2행동",
+        "counterplay": "회피·방어·보호막·행동 제어의 영향을 받습니다.",
+        "bossRule": "보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "서버 피해는 대상당 한 번이며 연출 화살은 추가 피해·비용·행동을 만들지 않습니다."
+      },
+      "skills": [
+        {
+          "id": "MS-947",
+          "name": "적월 관통",
+          "visualMode": "pierce",
+          "targetCount": 1,
+          "target": "적 하나",
+          "effect": "응축한 화살로 적 하나를 관통합니다. 한 시전의 총 1,440% 피해를 실제 대상 수에 나누어 적용합니다.",
+          "mechanic": "BLOODMOON_ARCHERY",
+          "ready": true,
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          },
+          "trigger": "자기 행동 · 에너지 20 · 세 기술 공통 재사용 2행동",
+          "counterplay": "회피·방어·보호막·행동 제어의 영향을 받습니다.",
+          "bossRule": "보스도 같은 총 피해 예산을 사용합니다.",
+          "procRule": "서버 피해는 대상당 한 번이며 연출 화살은 추가 피해·비용·행동을 만들지 않습니다."
+        },
+        {
+          "id": "MS-948",
+          "name": "혈월 연사",
+          "visualMode": "volley",
+          "targetCount": 3,
+          "target": "최대 3명",
+          "effect": "서로 다른 적 최대 3명에게 세 발을 나누어 발사합니다. 한 시전의 총 1,440% 피해를 실제 대상 수에 나누어 적용합니다.",
+          "mechanic": "BLOODMOON_ARCHERY",
+          "ready": true,
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          },
+          "trigger": "자기 행동 · 에너지 20 · 세 기술 공통 재사용 2행동",
+          "counterplay": "회피·방어·보호막·행동 제어의 영향을 받습니다.",
+          "bossRule": "보스도 같은 총 피해 예산을 사용합니다.",
+          "procRule": "서버 피해는 대상당 한 번이며 연출 화살은 추가 피해·비용·행동을 만들지 않습니다."
+        },
+        {
+          "id": "MS-949",
+          "name": "월식 화살비",
+          "visualMode": "rain",
+          "targetCount": null,
+          "target": "적 전체",
+          "effect": "상공의 화살이 적 진형 전체로 쏟아집니다. 한 시전의 총 1,440% 피해를 실제 대상 수에 나누어 적용합니다.",
+          "mechanic": "BLOODMOON_ARCHERY",
+          "ready": true,
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          },
+          "trigger": "자기 행동 · 에너지 20 · 세 기술 공통 재사용 2행동",
+          "counterplay": "회피·방어·보호막·행동 제어의 영향을 받습니다.",
+          "bossRule": "보스도 같은 총 피해 예산을 사용합니다.",
+          "procRule": "서버 피해는 대상당 한 번이며 연출 화살은 추가 피해·비용·행동을 만들지 않습니다."
+        }
+      ]
+    }
+  },
+  "rows": [
+    {
+      "code": "V-961",
+      "opponent": "V-960",
+      "season": "BLOODMOON",
+      "wins": 428,
+      "losses": 404,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 7,
+          "losses": 57,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 50,
+          "losses": 14,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 42,
+          "losses": 22,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 62,
+          "losses": 2,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 35,
+          "losses": 29,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 46,
+          "losses": 18,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 27,
+          "losses": 37,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 17,
+          "losses": 47,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 22,
+          "losses": 42,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 24,
+          "losses": 40,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-962",
+      "season": "BLOODMOON",
+      "wins": 699,
+      "losses": 133,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 57,
+          "losses": 7,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 42,
+          "losses": 22,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 42,
+          "losses": 22,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 61,
+          "losses": 3,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 39,
+          "losses": 25,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 33,
+          "losses": 31,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 41,
+          "losses": 23,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-963",
+      "season": "BLOODMOON",
+      "wins": 241,
+      "losses": 591,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 2,
+          "losses": 62,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 2,
+          "losses": 62,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 7,
+          "losses": 57,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 6,
+          "losses": 58,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-964",
+      "season": "BLOODMOON",
+      "wins": 248,
+      "losses": 584,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 4,
+          "losses": 60,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 2,
+          "losses": 62,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 2,
+          "losses": 62,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 4,
+          "losses": 60,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 6,
+          "losses": 58,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 6,
+          "losses": 58,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-965",
+      "season": "BLOODMOON",
+      "wins": 822,
+      "losses": 10,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 57,
+          "losses": 7,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 61,
+          "losses": 3,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 14,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 17,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 19,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 57,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 55,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 162,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-980",
+      "season": "HALLOWEEN",
+      "wins": 702,
+      "losses": 130,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 56,
+          "losses": 8,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 52,
+          "losses": 12,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 33,
+          "losses": 31,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 37,
+          "losses": 27,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 35,
+          "losses": 29,
+          "weakens": 1,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 62,
+          "losses": 2,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 43,
+          "losses": 21,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 1,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 6,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 8,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-981",
+      "season": "HALLOWEEN",
+      "wins": 795,
+      "losses": 37,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 43,
+          "losses": 21,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 54,
+          "losses": 10,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 63,
+          "losses": 1,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 60,
+          "losses": 4,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 63,
+          "losses": 1,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-982",
+      "season": "HALLOWEEN",
+      "wins": 731,
+      "losses": 101,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 47,
+          "losses": 17,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 57,
+          "losses": 7,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 47,
+          "losses": 17,
+          "weakens": 6,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 52,
+          "losses": 12,
+          "weakens": 6,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 54,
+          "losses": 10,
+          "weakens": 5,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 58,
+          "losses": 6,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 43,
+          "losses": 21,
+          "weakens": 38,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 53,
+          "losses": 11,
+          "weakens": 54,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 109,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-983",
+      "season": "HALLOWEEN",
+      "wins": 742,
+      "losses": 90,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 56,
+          "losses": 8,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 55,
+          "losses": 9,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 43,
+          "losses": 21,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 60,
+          "losses": 4,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 51,
+          "losses": 13,
+          "weakens": 2,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 63,
+          "losses": 1,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 44,
+          "losses": 20,
+          "weakens": 3,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 50,
+          "losses": 14,
+          "weakens": 12,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 17,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-984",
+      "season": "HALLOWEEN",
+      "wins": 581,
+      "losses": 251,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 298,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 13,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 15,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 9,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 12,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 13,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 37,
+          "losses": 27,
+          "weakens": 110,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 34,
+          "losses": 30,
+          "weakens": 112,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 96,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 32,
+          "losses": 32,
+          "weakens": 64,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 62,
+          "losses": 2,
+          "weakens": 382,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 315,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 251,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 1690,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-985",
+      "season": "HALLOWEEN",
+      "wins": 738,
+      "losses": 94,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 51,
+          "losses": 13,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 50,
+          "losses": 14,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 63,
+          "losses": 1,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 43,
+          "losses": 21,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 58,
+          "losses": 6,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 54,
+          "losses": 10,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 46,
+          "losses": 18,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 53,
+          "losses": 11,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-986",
+      "season": "HALLOWEEN",
+      "wins": 782,
+      "losses": 50,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 47,
+          "losses": 17,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 63,
+          "losses": 1,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 46,
+          "losses": 18,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 56,
+          "losses": 8,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 59,
+          "losses": 5,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 63,
+          "losses": 1,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-977",
+      "season": "HALLOWEEN",
+      "wins": 696,
+      "losses": 136,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 63,
+          "losses": 1,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 61,
+          "losses": 3,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 38,
+          "losses": 26,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 63,
+          "losses": 1,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 39,
+          "losses": 25,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 63,
+          "losses": 1,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 36,
+          "losses": 28,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 36,
+          "losses": 28,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 41,
+          "losses": 23,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-960",
+      "season": "BLOODMOON",
+      "wins": 29,
+      "losses": 803,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 10,
+          "losses": 54,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 13,
+          "losses": 51,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 6,
+          "losses": 58,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-961",
+      "season": "BLOODMOON",
+      "wins": 5,
+      "losses": 827,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 1,
+          "losses": 63,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 4,
+          "losses": 60,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-962",
+      "season": "BLOODMOON",
+      "wins": 11,
+      "losses": 821,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 5,
+          "losses": 59,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 6,
+          "losses": 58,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-963",
+      "season": "BLOODMOON",
+      "wins": 5,
+      "losses": 827,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 3,
+          "losses": 61,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 2,
+          "losses": 62,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-964",
+      "season": "BLOODMOON",
+      "wins": 12,
+      "losses": 820,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 4,
+          "losses": 60,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 8,
+          "losses": 56,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-980",
+      "season": "HALLOWEEN",
+      "wins": 124,
+      "losses": 708,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 3,
+          "losses": 61,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 3,
+          "losses": 61,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 8,
+          "losses": 56,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 5,
+          "losses": 59,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 14,
+          "losses": 50,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 11,
+          "losses": 53,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 4,
+          "losses": 60,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 12,
+          "losses": 52,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-981",
+      "season": "HALLOWEEN",
+      "wins": 420,
+      "losses": 412,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 60,
+          "losses": 4,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 17,
+          "losses": 47,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 18,
+          "losses": 46,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 17,
+          "losses": 47,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 18,
+          "losses": 46,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 19,
+          "losses": 45,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 25,
+          "losses": 39,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 21,
+          "losses": 43,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 25,
+          "losses": 39,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 34,
+          "losses": 30,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 46,
+          "losses": 18,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 61,
+          "losses": 3,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 59,
+          "losses": 5,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-982",
+      "season": "HALLOWEEN",
+      "wins": 355,
+      "losses": 477,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 27,
+          "losses": 37,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 30,
+          "losses": 34,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 29,
+          "losses": 35,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 17,
+          "losses": 47,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 31,
+          "losses": 33,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 6,
+          "losses": 58,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 6,
+          "losses": 58,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 7,
+          "losses": 57,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 15,
+          "losses": 49,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 52,
+          "losses": 12,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 34,
+          "losses": 30,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 37,
+          "losses": 27,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-983",
+      "season": "HALLOWEEN",
+      "wins": 419,
+      "losses": 413,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 14,
+          "losses": 50,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 15,
+          "losses": 49,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 24,
+          "losses": 40,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 4,
+          "losses": 60,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 31,
+          "losses": 33,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 29,
+          "losses": 35,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 23,
+          "losses": 41,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 22,
+          "losses": 42,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 33,
+          "losses": 31,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 60,
+          "losses": 4,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 59,
+          "losses": 5,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 41,
+          "losses": 23,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-984",
+      "season": "HALLOWEEN",
+      "wins": 118,
+      "losses": 714,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 5,
+          "losses": 59,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 2,
+          "losses": 62,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 12,
+          "losses": 52,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 6,
+          "losses": 58,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 17,
+          "losses": 47,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 1,
+          "losses": 63,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 1,
+          "losses": 63,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 6,
+          "losses": 58,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 4,
+          "losses": 60,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-985",
+      "season": "HALLOWEEN",
+      "wins": 441,
+      "losses": 391,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 8,
+          "losses": 56,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 14,
+          "losses": 50,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 21,
+          "losses": 43,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 17,
+          "losses": 47,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 19,
+          "losses": 45,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 25,
+          "losses": 39,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 29,
+          "losses": 35,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 28,
+          "losses": 36,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 28,
+          "losses": 36,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 62,
+          "losses": 2,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 64,
+          "losses": 0,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 62,
+          "losses": 2,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-986",
+      "season": "HALLOWEEN",
+      "wins": 227,
+      "losses": 605,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 61,
+          "losses": 3,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 2,
+          "losses": 62,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 5,
+          "losses": 59,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 12,
+          "losses": 52,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 6,
+          "losses": 58,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 17,
+          "losses": 47,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 7,
+          "losses": 57,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 3,
+          "losses": 61,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 7,
+          "losses": 57,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 3,
+          "losses": 61,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 7,
+          "losses": 57,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 51,
+          "losses": 13,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 46,
+          "losses": 18,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-977",
+      "season": "HALLOWEEN",
+      "wins": 20,
+      "losses": 812,
+      "total": 832,
+      "scenarios": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "total": 64,
+          "wins": 1,
+          "losses": 63,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "total": 64,
+          "wins": 3,
+          "losses": 61,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "total": 64,
+          "wins": 7,
+          "losses": 57,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-6",
+          "level": 6,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-11",
+          "level": 11,
+          "total": 64,
+          "wins": 1,
+          "losses": 63,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-16",
+          "level": 16,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "growth-21",
+          "level": 21,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-1",
+          "level": 1,
+          "total": 64,
+          "wins": 0,
+          "losses": 64,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-11",
+          "level": 11,
+          "total": 64,
+          "wins": 4,
+          "losses": 60,
+          "weakens": 0,
+          "skillWeakens": 0
+        },
+        {
+          "id": "equipped-21",
+          "level": 21,
+          "total": 64,
+          "wins": 4,
+          "losses": 60,
+          "weakens": 0,
+          "skillWeakens": 0
+        }
+      ],
+      "weakens": 0,
+      "skillWeakens": 0
+    }
+  ],
+  "pve": [
+    {
+      "code": "V-961",
+      "level": 1,
+      "power": 5000000000,
+      "wins": 32,
+      "total": 32,
+      "actions": 683,
+      "resultSha256": "808593719983fc78a3d8b32dc63d5204037aadc6ae62fa679da06ff87de9ee87"
+    },
+    {
+      "code": "V-961",
+      "level": 1,
+      "power": 50000000000,
+      "wins": 32,
+      "total": 32,
+      "actions": 3010,
+      "resultSha256": "fe69e1414bddbfb3eb70d2d4c26ccd625f79a0d16f54b4a68d24aca717baa03a"
+    },
+    {
+      "code": "V-961",
+      "level": 11,
+      "power": 5000000000,
+      "wins": 32,
+      "total": 32,
+      "actions": 128,
+      "resultSha256": "fc71384940486cd4a1e1cef2cdb29f73949868180dac78b05dc441d972d32e64"
+    },
+    {
+      "code": "V-961",
+      "level": 11,
+      "power": 50000000000,
+      "wins": 32,
+      "total": 32,
+      "actions": 994,
+      "resultSha256": "fced25c0c0fec3afd3dca2dee8c281df179c91a24ae1e761874d5a72ce59c851"
+    },
+    {
+      "code": "V-961",
+      "level": 21,
+      "power": 5000000000,
+      "wins": 32,
+      "total": 32,
+      "actions": 128,
+      "resultSha256": "d4389a6d579cf325946c393e0251dc6dff95b1aa532354da181b47d04297f090"
+    },
+    {
+      "code": "V-961",
+      "level": 21,
+      "power": 50000000000,
+      "wins": 32,
+      "total": 32,
+      "actions": 518,
+      "resultSha256": "54ff8b240cf98ad2a412523d35c6d8c26288d3f8432f59a7b79590441cef6b33"
+    },
+    {
+      "code": "V-965",
+      "level": 1,
+      "power": 5000000000,
+      "wins": 32,
+      "total": 32,
+      "actions": 354,
+      "resultSha256": "8feb06608987a970b2a57405384b09757f17212d9c5fdeb5c52c3eb63bba7aa8"
+    },
+    {
+      "code": "V-965",
+      "level": 1,
+      "power": 50000000000,
+      "wins": 32,
+      "total": 32,
+      "actions": 354,
+      "resultSha256": "87df4fff4bdb7fa26cd64bbdc5cade8f0633d7ea6b2a4a76800b0a17db72341a"
+    },
+    {
+      "code": "V-965",
+      "level": 11,
+      "power": 5000000000,
+      "wins": 32,
+      "total": 32,
+      "actions": 354,
+      "resultSha256": "1fc49c89a124f582d427c22d36a571c6b983d456068620d7a99daec507ac4c80"
+    },
+    {
+      "code": "V-965",
+      "level": 11,
+      "power": 50000000000,
+      "wins": 32,
+      "total": 32,
+      "actions": 362,
+      "resultSha256": "6d4ca70d7292b90f964cbca855feb393ae021abb9e72eb63e2f6e5170c1a0241"
+    },
+    {
+      "code": "V-965",
+      "level": 21,
+      "power": 5000000000,
+      "wins": 32,
+      "total": 32,
+      "actions": 206,
+      "resultSha256": "dee1c76e3ca15f079655f70c1313631d2ae2bce07c1b1abeeff1d2b9922f752b"
+    },
+    {
+      "code": "V-965",
+      "level": 21,
+      "power": 50000000000,
+      "wins": 32,
+      "total": 32,
+      "actions": 356,
+      "resultSha256": "397aff18313e1510779a28f5ca32aff3ef1050a3d2c59d7a34c68730cef7b8ba"
+    }
+  ]
+}

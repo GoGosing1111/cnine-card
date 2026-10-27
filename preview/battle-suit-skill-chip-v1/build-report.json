@@ -118,8 +118,6 @@
     "preview/project-v-v3/source/battle/cardgu/CardguAura.js",
     "preview/project-v-v3/source/battle/cardgu/CardguFX.js",
     "preview/project-v-v3/source/battle/CardguCombatPlayback.js",
-    "shared/mercenary-cryvern-v1.mjs",
-    "shared/mercenary-berkan-v1.mjs",
     "shared/mercenary-revan-v1.mjs",
     "preview/project-v-v3/source/battle/revan/skill.mjs",
     "preview/project-v-v3/source/battle/revan/AtlasEdgeFilter.js",
@@ -147,6 +145,8 @@
     "preview/project-v-v3/source/battle/bloodmoon-namsudaeng/skills.mjs",
     "preview/project-v-v3/source/battle/bloodmoon-namsudaeng/BloodmoonFX.js",
     "preview/project-v-v3/source/battle/BloodmoonNamsudaengPlayback.js",
+    "shared/mercenary-cryvern-v1.mjs",
+    "shared/mercenary-berkan-v1.mjs",
     "shared/mercenary-jokro-v1.mjs",
     "shared/mercenary-eunseol-v1.mjs",
     "preview/project-v-v3/source/battle/eunseol/skills.mjs",
@@ -306,5 +306,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2791462
+  "outputBytes": 2793034
 }
