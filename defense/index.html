@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="/preview/coop-defense-v1/defense.css?v=20261017-defense-v3-merc1">
   <link rel="stylesheet" href="/preview/coop-defense-v1/workshop.css?v=20261017-defense-v3-merc1">
   <link rel="stylesheet" href="/preview/coop-defense-v1/staging.css?v=20261017-defense-v3-merc1">
-  <link rel="stylesheet" href="/preview/coop-defense-v1/image-skin.css?v=defense-coin-draft-20261026-v1">
+  <link rel="stylesheet" href="/preview/coop-defense-v1/image-skin.css?v=defense-boss-hud-20261027-v1">
   <link rel="stylesheet" href="/preview/coop-defense-v1/formation.css?v=20261017-defense-v3-merc1">
   <link rel="stylesheet" href="/preview/coop-defense-v1/rooms.css?v=20261017-defense-v3-merc1">
   <script defer src="/preview/coop-defense-v1/defense.bundle.js?generalJok=20261023-v15&primePve=20261022-v1&v=20261019-leonel-forward-guard-v3-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1"></script>
@@ -58,6 +58,7 @@
       </nav>
       <div class="battlefield">
         <section id="boss-status" class="boss-status" hidden aria-label="보스 전황"><strong id="boss-name"></strong><progress id="boss-health" value="1" max="1"></progress><span id="boss-instruction" role="status"></span></section>
+        <div class="battlefield-viewport">
         <div id="battle-canvas" class="battle-canvas" role="img" tabindex="0" aria-label="적이 진입하는 방어선과 아군 배치. 확대 화면에서 드래그 또는 좌우 방향키로 전장을 살펴봅니다."></div>
         <div class="field-caption"><span id="view-label">전체 전장</span><small id="field-subtitle">위급한 방어선에 지원을 보내세요</small></div>
         <div id="wave-banner" class="wave-banner" role="status"><span>방어 준비</span><b>첫 공세가 다가옵니다</b></div>
@@ -75,6 +76,7 @@
           <div class="revive-track" aria-hidden="true"><i id="revive-progress"></i></div>
           <small id="revive-next">전멸할수록 부활 대기가 늘어납니다.</small>
         </section>
+        </div>
       </div>
       <footer class="command-dock">
         <div class="dock-heading"><span><b id="my-squad-label">내 분대</b><small>용병 2 · 카드 1</small></span><span class="supply"><span>강화 포인트 <b id="credit-value">0</b></span><button id="upgrade" class="quiet" type="button">분대 강화</button></span></div>

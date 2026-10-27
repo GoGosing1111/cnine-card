@@ -101,7 +101,10 @@
 #defense-app .field-caption{padding:9px 20px;border:0}
 #defense-app .wave-banner{padding:14px 30px;border:0}
 #defense-app .connection{padding:13px 25px;white-space:normal;text-align:center}
-#defense-app .boss-status{padding:13px 22px 16px;word-break:keep-all}
+/* Reserve a separate row so boss HP never covers the squad's in-world HUD. */
+#defense-app .battlefield{display:flex;flex-direction:column}
+#defense-app .battlefield-viewport{position:relative;flex:1;min-height:0;overflow:hidden}
+#defense-app .boss-status{position:relative;top:auto;left:auto;transform:none;align-self:center;flex:none;width:min(560px,100%);padding:8px 22px 10px;gap:4px;word-break:keep-all}
 #defense-app .toast{padding:18px 30px;color:#f0f6f8;min-width:220px;text-align:center}
 #defense-app .result-panel{padding:45px 30px}
 #defense-app [id="leave-dialog"]{padding:30px}
