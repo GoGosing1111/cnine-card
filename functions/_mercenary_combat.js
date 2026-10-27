@@ -565,7 +565,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   beforeBasicDamage(a,t,amount){const buff=table(buffs,t),d=table(debuffs,a);
    // These named basic forms receive one stronger packet, including capped hits.
    // Keep the bonus outside the intrinsic cap clamp, before target protections.
-   const formScale=isGeneralJok(a)?GENERAL_JOK_COMBAT.basicDamageScale:isPrime(a)?PRIME_COMBAT.basicDamageScale:isZero(a)?ZERO_COMBAT.basicDamageScale:1;
+   const formScale=isRevan(a)?REVAN_COMBAT.basicDamageScale:isGeneralJok(a)?GENERAL_JOK_COMBAT.basicDamageScale:isPrime(a)?PRIME_COMBAT.basicDamageScale:isZero(a)?ZERO_COMBAT.basicDamageScale:1;
    if(formScale!==1)amount=Math.floor(amount*formScale);
    const basicScale=imperialArcherBasicScale(a)*azantPvpBasicDamageScale(a)*berkanPvpBasicDamageScale(a)*cryvernPvpBasicDamageScale(a);if(basicScale!==1)amount=Math.floor(amount*basicScale);
    if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}

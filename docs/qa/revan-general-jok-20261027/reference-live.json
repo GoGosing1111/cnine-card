@@ -1,0 +1,193 @@
+{
+  "checkedAt": "2026-10-27T07:59:54.864Z",
+  "reference": {
+    "code": "V-974",
+    "name": "제너럴 족",
+    "title": "황금 함대의 총사령관",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+    "acquisition": "LOCKED",
+    "sourceArt": "assets/ui/project-v/mercenaries/general-jok-20261023/source-art.png",
+    "sourceArtSha256": "2FC1C16D414920E1F8576DE5A32A15B5C1A3E1DDCD57C464F60BE63E31BF16B8",
+    "battleSprite": "assets/ui/project-v/mercenaries/general-jok-grip-20261025/ready.png",
+    "battleSpriteSha256": "FC466726BB0DA9A70857E202669F9FB5E26BAC216F6735B6C871AFC05B170E86",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#ffd16b",
+    "basePower": 2700000,
+    "skills": [
+      {
+        "id": "MS-950",
+        "name": "대물 관통탄",
+        "visualMode": "attack",
+        "mechanic": "GENERAL_JOK_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "대물 관통탄과 황금 낙인탄이 순환합니다. 기립 반동과 넉백, 머리 위 황금 원숭이 타격 표식. 기존의 1.5배로 강화한 일반 공격 한 번의 피해입니다.",
+        "trigger": "일반 공격 · 대물 관통탄 → 황금 낙인탄",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-951",
+        "name": "황금 낙인탄",
+        "visualMode": "critical",
+        "mechanic": "GENERAL_JOK_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "대물 관통탄과 황금 낙인탄이 순환합니다. 기립 반동과 넉백, 머리 위 황금 원숭이 타격 표식. 기존의 1.5배로 강화한 일반 공격 한 번의 피해입니다.",
+        "trigger": "일반 공격 · 대물 관통탄 → 황금 낙인탄",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-952",
+        "name": "황금 함대 · 종결 포격",
+        "visualMode": "ultimate",
+        "mechanic": "GENERAL_JOK_GOLDEN_ARSENAL",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 3,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 여섯 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-953",
+        "name": "M777 야포단",
+        "visualMode": "artillery",
+        "mechanic": "GENERAL_JOK_GOLDEN_ARSENAL",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 3,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 여섯 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-954",
+        "name": "황금 파쇄탄",
+        "visualMode": "breaker",
+        "mechanic": "GENERAL_JOK_GOLDEN_ARSENAL",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 3,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 여섯 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-955",
+        "name": "초고속 철갑탄",
+        "visualMode": "sabotage",
+        "mechanic": "GENERAL_JOK_GOLDEN_ARSENAL",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 3,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 여섯 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-956",
+        "name": "공중 산개탄",
+        "visualMode": "airburst",
+        "mechanic": "GENERAL_JOK_GOLDEN_ARSENAL",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 3,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 여섯 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-957",
+        "name": "제압 사격",
+        "visualMode": "barrage",
+        "mechanic": "GENERAL_JOK_GOLDEN_ARSENAL",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 3,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 여섯 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 2,700,000. 공격·체력·방어·연계는 전투력에 비례하며 기존 속도와 행동 주기를 유지합니다. 개인 피해 80% 경감, 상태이상·반격 보호. 대물 관통탄과 단일 급소를 꿰뚫는 황금 낙인탄이 일반 공격마다 순환하며 피해가 기존의 1.5배입니다. PVE에서는 황금 함대·M777 야포단·파쇄탄·철갑탄·산개탄·제압 사격을 순환하며, 공통 재사용 3행동·에너지 20으로 총 3,024% 피해를 적 전체에 나눠 한 번씩 적용합니다. 황금 C9 깃발과 전신 네온 아우라. 모션 재생 2배. 현재 획득 불가. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다.",
+    "deploymentVersion": "20261012-helios-deployment-v1"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "base": "4b31c45329c8e2cc31597f7cad0296b3fc311919",
+  "reason": "사용자 요청 레반 V-971을 현재 제너럴 족의 270만 전투력·공격/생존/연계/피해 상한·3.12 행동 기준으로 조정. 단일 1.5배, 광역 3024%·20에너지·3행동. 승인 원화·네 대검 기술·모션 2배·파지 레이어 보존. 핑크빛유두 ID1 1장은 배포 검증 후 원자 운영 거래로 별도 지급. 다른 용병과 일반 획득 정책 보존.",
+  "tests": [
+    "tests/revan-live-20261027.test.mjs",
+    "tests/revan-runtime-20261027.test.mjs",
+    "tests/pingdu-revan-grant-20261027.test.mjs",
+    "tests/mercenary-turn-cadence-v2099.test.mjs",
+    "tests/mercenary-three-skills-20261026.test.mjs",
+    "tests/prime-zero-general-jok-priority-20261026.test.mjs",
+    "tests/bloodmoon-balance-20261027.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
