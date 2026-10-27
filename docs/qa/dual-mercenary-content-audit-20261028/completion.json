@@ -1,7 +1,18 @@
 {
-  "status": "PREPARED_PENDING_DEPLOY_VERIFICATION",
+  "status": "PREPARED_DEPLOYED_VERIFIED_RELEASE_OFF",
   "releaseEnabled": false,
   "sourceBase": "d3c428d6d5d5f81834e9ad080d0e4551b7b2022f",
+  "deployedSource": "48ec1eac0097c2863d9dbca297e192a0878a3649",
+  "pagesDeployment": "1fcc7153-b000-437d-90a3-9fa213d3acb1",
+  "deploymentFinishedAt": "2026-10-27T22:55:33.474Z",
+  "verifiedAt": "2026-10-27T23:00:05.729Z",
+  "scopedTests": {"total": 89, "passed": 89, "failed": 0},
+  "workerSyntaxCheck": "PASSED",
+  "publicAssetHashMatches": 32,
+  "workers": [
+    {"name": "cnine-card-api-runtime", "version": "8f46b092-99ac-4e9a-b19d-bbc9009ee320", "percentage": 100},
+    {"name": "cnine-card-clan-draft", "version": "88917474-4252-4523-b60a-e706025d9d6e", "percentage": 100}
+  ],
   "contentCases": 30,
   "accountCases": 5,
   "cooperativeComparisonBattles": 3456,
@@ -17,6 +28,23 @@
   ],
   "contentPlaybackCases": 32,
   "mainEntryCases": 6,
+  "publicMainEntryCases": 3,
+  "publicPreview": {
+    "viewport": 390,
+    "rankedOrderedSelection": 6,
+    "pveMercenaries": 2,
+    "cooperativeMercenaries": 6,
+    "rankedDuoMercenaries": 8,
+    "errors": [],
+    "isolatedApiFixture": true,
+    "anonymousOwnerEndpointStatus": 401
+  },
+  "broadRegression": {
+    "initialTotal": 827,
+    "initialPassed": 795,
+    "initialFailed": 32,
+    "disposition": "New seal test fixture imports were repaired. Sparse media were verified in the original source. Unrelated failures reproduced at baseline remain documented in README.md; the broad suite is not claimed as all-passing."
+  },
   "productionAccountWrites": 0,
   "productionSettingWrites": 0,
   "noticePosted": false,

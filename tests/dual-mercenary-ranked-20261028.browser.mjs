@@ -62,12 +62,14 @@ try{for(const width of (publicBase?[390]:[1440,390])){
  assert.equal(await page.evaluate(()=>dualPreparationEngine.mercenaries.length),4,'replacement keeps only the current four mercenaries');
  await page.locator('#pve').click();await page.waitForFunction(()=>window.dualPreparationEngine?.mercenaries?.length===2&&document.getElementById('status').textContent.startsWith('PVE'));
  await page.locator('#battle').screenshot({path:path.join(out,`pve-${width}.png`)});
- if(process.env.DUAL_QA_CONTENTS==='1'){
+ if(process.env.DUAL_QA_CONTENTS==='1'||process.env.DUAL_QA_GROUPS_ONLY==='1'){
   for(const [id,count]of [['coop',6],['duo',8]]){
    await page.locator('#'+id).click();await page.waitForFunction(n=>window.dualPreparationEngine?.mercenaries?.length===n,count);
    assert.ok(await page.evaluate(()=>dualPreparationEngine.mercenaries.every(a=>a.root.visible)));
    await page.locator('#battle').screenshot({path:path.join(out,`${id}-${width}.png`)});
   }
+ }
+ if(process.env.DUAL_QA_CONTENTS==='1'){
   const contents=await page.evaluate(async()=>{window.qaContents=await fetch('/qa-content-payloads').then(r=>r.json());return Object.keys(qaContents);}),checks=[];
   for(const name of contents){
    if(name==='LEGION')continue; // Legion owns a twelve-enemy extension, loaded separately below.
@@ -102,4 +104,4 @@ try{for(const width of (publicBase?[390]:[1440,390])){
  assert.ok(requests.every(r=>r.method==='GET'||r.path==='/api/admin/companions/preparation/dual'));
  assert.equal((await fx.pg.query('SELECT COUNT(*) n FROM app_meta')).rows[0].n,0);
 }catch(error){for(const c of browser.contexts())for(const page of c.pages()){await page.screenshot({path:path.join(out,'failure.png'),fullPage:true});console.log(await page.locator('#status').innerText());}throw error;}
-finally{await browser.close();await new Promise(r=>server.close(r));await fx.close();fs.writeFileSync(path.join(out,'browser-results.json'),JSON.stringify({reports,requests},null,2));console.log(JSON.stringify(reports));}
+finally{await browser.close();await new Promise(r=>server.close(r));await fx.close();fs.writeFileSync(path.join(out,'browser-results.json'),JSON.stringify({reports,requests},null,2));console.log(JSON.stringify({viewports:reports.map(r=>r.width),contentCases:reports.reduce((n,r)=>n+(r.contents?.length||0),0),errors:reports.flatMap(r=>r.errors||[])}));}
