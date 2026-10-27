@@ -1,5 +1,5 @@
 import {BLACKCROWN_COMBAT,blackcrownCombatDescription} from './mercenary-blackcrown-combat-v1.mjs';
-import {NAMSUDAENG_CODE,NAMSUDAENG_COMBAT,NAMSUDAENG_DESCRIPTION} from './mercenary-bloodmoon-namsudaeng-v1.mjs';
+import {NAMSUDAENG_CODE,NAMSUDAENG_COMBAT,NAMSUDAENG_PVP_COMBAT,NAMSUDAENG_DESCRIPTION} from './mercenary-bloodmoon-namsudaeng-v1.mjs';
 import {BLOODMOON_COMBAT,bloodmoonCombatDescription} from './mercenary-bloodmoon-combat-v1.mjs';
 import {HALLOWEEN_COMBAT,halloweenCombatDescription} from './mercenary-halloween-combat-v1.mjs';
 import {BATHORY_CODE,BATHORY_COMBAT,BATHORY_DESCRIPTION} from './mercenary-bathory-v1.mjs';
@@ -35,7 +35,7 @@ export const SS_LIMITED_COMBAT=Object.freeze(Object.fromEntries(rows.map(([code,
  link:Object.freeze({attackPercent:220*scale,shieldPercent:150*scale,hpPercent:280*scale}),
  skill:Object.freeze({id:'MS-'+code.slice(2),name,mechanic,balance:Object.freeze({damageRatio:5.6,cooldownTurns:2,cost:20})})
 })])));
-export const ssLimitedProfile=actor=>actor?.isMercenary===true?(Object.hasOwn(BLACKCROWN_COMBAT,actor.code||actor.cardId)?BLACKCROWN_COMBAT[actor.code||actor.cardId]:Object.hasOwn(BLOODMOON_COMBAT,actor.code||actor.cardId)?BLOODMOON_COMBAT[actor.code||actor.cardId]:(actor.code||actor.cardId)===NAMSUDAENG_CODE?NAMSUDAENG_COMBAT:(actor.code||actor.cardId)===BATHORY_CODE?BATHORY_COMBAT:Object.hasOwn(SS_LIMITED_COMBAT,actor.code||actor.cardId)?SS_LIMITED_COMBAT[actor.code||actor.cardId]:Object.hasOwn(HALLOWEEN_COMBAT,actor.code||actor.cardId)?HALLOWEEN_COMBAT[actor.code||actor.cardId]:null):null;
+export const ssLimitedProfile=actor=>actor?.isMercenary===true?(Object.hasOwn(BLACKCROWN_COMBAT,actor.code||actor.cardId)?BLACKCROWN_COMBAT[actor.code||actor.cardId]:Object.hasOwn(BLOODMOON_COMBAT,actor.code||actor.cardId)?BLOODMOON_COMBAT[actor.code||actor.cardId]:(actor.code||actor.cardId)===NAMSUDAENG_CODE?(actor.battleMode==='PVP'?NAMSUDAENG_PVP_COMBAT:NAMSUDAENG_COMBAT):(actor.code||actor.cardId)===BATHORY_CODE?BATHORY_COMBAT:Object.hasOwn(SS_LIMITED_COMBAT,actor.code||actor.cardId)?SS_LIMITED_COMBAT[actor.code||actor.cardId]:Object.hasOwn(HALLOWEEN_COMBAT,actor.code||actor.cardId)?HALLOWEEN_COMBAT[actor.code||actor.cardId]:null):null;
 export function ssLimitedPvpLinkScale(actor,teams){
  const profile=ssLimitedProfile(actor);
  if(!profile||actor.battleMode!=='PVP'||actor.statMode!=='RANK_FIXED')return 1;
