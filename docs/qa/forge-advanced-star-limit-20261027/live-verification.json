@@ -1,0 +1,48 @@
+{
+  "at": "2026-10-27T10:46:22.257Z",
+  "pages": {
+    "id": "580a6477-c8d3-4ffc-b579-fbbda0807524",
+    "url": "https://580a6477.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "267c01cd50f8e8ec4f97ed189a2f4bab719de293"
+  },
+  "latest": "580a6477-c8d3-4ffc-b579-fbbda0807524",
+  "releaseCommit": "267c01cd50f8e8ec4f97ed189a2f4bab719de293",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "advancedStarLimitUpdated": true,
+      "coinLimit": 50000000000000,
+      "sha256": "85f2a909c195f60bb75134171282ed80da3f417534cd8c5dd5f0723b72efe357"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "advancedStarLimitUpdated": true,
+      "coinLimit": 50000000000000,
+      "sha256": "7522def717620ada0669851fddf9ca475be20c5a78f9262b7c9515cb11fdbbe2"
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "shared/equipment-forge-advanced-v1.mjs",
+      "sha256": "4a9730450c4cb625f286268c2ff5eb00adc18f0039e253e6d3594760aff33732"
+    },
+    {
+      "file": "admin/equipment-forge-advanced-v1.css",
+      "sha256": "2c15fa4092b5d18e56bec6cec99dedb64e297674900f831bc756c70de12a0d09"
+    },
+    {
+      "file": "admin/equipment-forge-advanced-editor-v1.mjs",
+      "sha256": "90ac7e6b9f3c6ea155efff6fbae35e1a9ab70d4999bab23425f0d5b8c6a36e20"
+    },
+    {
+      "file": "admin/equipment-forge-admin-v1.js",
+      "sha256": "fe39b37a3c2f9b563672fa402453c43e8b2697277c5b9053cb3853d47fa89a6f"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "33199a5135dcb87e3a7dc0145877db882f006b4bb01c6e7b248d540fa406ffeb"
+    }
+  ],
+  "productionMutations": 0
+}

@@ -1,0 +1,27 @@
+{
+  "status": "COMPLETED",
+  "verifiedAt": "2026-10-27T10:46:44.950Z",
+  "releaseCommit": "267c01cd50f8e8ec4f97ed189a2f4bab719de293",
+  "pages": {
+    "id": "580a6477-c8d3-4ffc-b579-fbbda0807524",
+    "url": "https://580a6477.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "267c01cd50f8e8ec4f97ed189a2f4bab719de293"
+  },
+  "levels": "+11 through +15",
+  "masterStarPreviousCap": 100000000,
+  "masterStarMaxSafeInteger": 9007199254740991,
+  "coinPreviousCap": 1000000000000,
+  "coinMax": 50000000000000,
+  "targetedTests": 24,
+  "localAndPublicCmsWidths": [
+    1440,
+    390
+  ],
+  "publicFiles": 5,
+  "workers": 2,
+  "settingsPreserved": true,
+  "settingsRevision": 1,
+  "productionDatabaseWrites": 0,
+  "storageMaintenance": false
+}

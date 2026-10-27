@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-27T10:45:58.020Z",
+  "publicStaticAssets": true,
+  "productionMutations": 0,
+  "staticFiles": 101,
+  "reports": [
+    {
+      "width": 1440,
+      "values": [
+        100000001,
+        500000000,
+        1000000000,
+        3000000000,
+        9007199254740991
+      ],
+      "coinValues": [
+        50000000000000,
+        5000000000000,
+        10000000000000,
+        30000000000000,
+        50000000000000
+      ],
+      "coinAbove50TrillionRejected": true,
+      "saveAndReload": true,
+      "legacyPreserved": true,
+      "blankStepsRemainLocked": true,
+      "noOverflow": true
+    },
+    {
+      "width": 390,
+      "values": [
+        100000001,
+        500000000,
+        1000000000,
+        3000000000,
+        9007199254740991
+      ],
+      "coinValues": [
+        50000000000000,
+        5000000000000,
+        10000000000000,
+        30000000000000,
+        50000000000000
+      ],
+      "coinAbove50TrillionRejected": true,
+      "saveAndReload": true,
+      "legacyPreserved": true,
+      "blankStepsRemainLocked": true,
+      "noOverflow": true
+    }
+  ],
+  "errors": []
+}
