@@ -1,0 +1,46 @@
+[
+  {
+    "source": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-black-crown-six-20261027-v1\\generation-plan.json",
+    "record": "docs/qa/blackcrown-pack-20261027/prompts/generation-plan.json",
+    "sha256": "0b57cd23a1f7330ce4081a5b2b10d9a6745d45edc7118605a7c08c97cdb18c41"
+  },
+  {
+    "source": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-black-crown-six-20261027-v1\\weapon-and-face-prompts-v3.json",
+    "record": "docs/qa/blackcrown-pack-20261027/prompts/weapon-and-face-prompts-v3.json",
+    "sha256": "e4387c92d0807e4493a1602785a5c058b9be7c7a7572f1d6a1894fcefffb59fd"
+  },
+  {
+    "source": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-black-crown-six-20261027-v1\\lighter-repair-prompt-v3.json",
+    "record": "docs/qa/blackcrown-pack-20261027/prompts/lighter-repair-prompt-v3.json",
+    "sha256": "15efb034d56eaed9ff3874470a2254ddab65d0a99816599ed7388d8f7e2b83a5"
+  },
+  {
+    "source": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-black-crown-six-20261027-v1\\orikkung-uniform-cap-prompt-v3.json",
+    "record": "docs/qa/blackcrown-pack-20261027/prompts/orikkung-uniform-cap-prompt-v3.json",
+    "sha256": "ebe4482f8ff0482d16383fa50d3665db24593413cc573238af0addeecbd04466"
+  },
+  {
+    "path": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-bongsoon-source-art-approved-v1.png",
+    "sha256": "a6b159821cfe742f514527bb8434921c518f60298177e11c2777d78a82aa1762"
+  },
+  {
+    "path": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-diim-source-art-approved-v2.png",
+    "sha256": "21c9eb01c83922ceee985edd5b43e951ce35929e24f7527fbf9ab4424e7bb6c1"
+  },
+  {
+    "path": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-heeya-source-art-approved-v3.png",
+    "sha256": "d683244cfc434316afab36e297f99819417f5854865b55571f5f46385db8a211"
+  },
+  {
+    "path": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-joeun-source-art-approved-v3.png",
+    "sha256": "a2cbd1923b6fc8212d016d74a16d3329be6764d0bea7e30e597647221204eaad"
+  },
+  {
+    "path": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-orikkung-source-art-approved-v3.png",
+    "sha256": "620507718af3508aaecbd59b5863539a73ba99a4218229250a75d100fb9f4764"
+  },
+  {
+    "path": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-sudaeng-source-art-approved-v3.png",
+    "sha256": "512377e2364afa787d33f0120a461039fd36f9385d617f8920b3fed5f5a8e05c"
+  }
+]

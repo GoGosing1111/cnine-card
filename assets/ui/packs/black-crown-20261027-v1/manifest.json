@@ -1,0 +1,156 @@
+{
+  "title": "블랙크라운팩",
+  "englishTitle": "BLACK CROWN",
+  "brand": {
+    "ko": "리버스콜",
+    "en": "REVERSE CALL"
+  },
+  "version": "20261027-v1",
+  "createdDateKst": "2026-10-27",
+  "status": "RESOURCE_READY",
+  "userRequest": "블랙크라운팩 팩리소스 만들어 기존꺼 참고해서",
+  "concept": {
+    "theme": "느와르",
+    "motifs": [
+      "검은 왕관",
+      "교차한 쌍권총",
+      "얇은 은빛 연기"
+    ],
+    "palette": [
+      "obsidian black",
+      "gunmetal",
+      "champagne gold",
+      "silver"
+    ]
+  },
+  "generation": {
+    "tool": "image_gen.imagegen",
+    "mode": "built-in",
+    "source": "C:/Users/User/.codex/generated_images/01a17a82-d726-74d3-b4e4-ff2db7e4c986/exec-2ac8f4ae-d7c8-4797-bbce-c529f57dcc76.png",
+    "sha256": "1797f39f3713f05316b7e62849681b777a51b0ea200d6e28ae717d1746787dea",
+    "prompt": "assets/ui/packs/black-crown-20261027-v1/prompt.txt",
+    "transparentBackground": true,
+    "sourcePreservedByteForByte": true
+  },
+  "references": [
+    {
+      "path": "C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site/assets/ui/packs/blood-pack-20261023/pack-source.png",
+      "sha256": "6d981afb0f6138fc574fe0dfdfc74f02e047a921bd3f009828692443a4e3c9cc",
+      "role": "Current live pack proportions, frame, metal finish and hierarchy"
+    }
+  ],
+  "alpha": {
+    "transparentPixels": 4500,
+    "partialPixels": 1568852,
+    "opaquePixels": 0
+  },
+  "typography": {
+    "mode": "LIVE_DOM",
+    "component": "assets/ui/packs/black-crown-20261027-v1/pack-view.js",
+    "stylesheet": "assets/ui/packs/black-crown-20261027-v1/pack-view.css",
+    "labels": [
+      "REVERSE CALL",
+      "BLACK CROWN",
+      "LIMITED EDITION",
+      "MERCENARY PACK",
+      "블랙크라운팩"
+    ],
+    "lettersBakedIntoArt": false
+  },
+  "files": [
+    {
+      "path": "assets/ui/packs/black-crown-20261027-v1/pack-art-source.png",
+      "sha256": "1797f39f3713f05316b7e62849681b777a51b0ea200d6e28ae717d1746787dea",
+      "bytes": 2914764,
+      "width": 941,
+      "height": 1672,
+      "format": "png",
+      "hasAlpha": true
+    },
+    {
+      "path": "assets/ui/packs/black-crown-20261027-v1/pack-art-160.webp",
+      "sha256": "2f02eff71d837097a2c4e69f4a44cca29a5d987ed7021f5f5730d5889f58a0a2",
+      "bytes": 23846,
+      "width": 160,
+      "height": 284,
+      "format": "webp",
+      "hasAlpha": true
+    },
+    {
+      "path": "assets/ui/packs/black-crown-20261027-v1/pack-art-320.webp",
+      "sha256": "70c7a4ab94d96d31ac5bcbd9c983e919c85d83a46ece924887d943b9950d0b9d",
+      "bytes": 76616,
+      "width": 320,
+      "height": 569,
+      "format": "webp",
+      "hasAlpha": true
+    },
+    {
+      "path": "assets/ui/packs/black-crown-20261027-v1/pack-art-640.webp",
+      "sha256": "f9297cb0fbb7ce673123e3a9241a5019f6c6e5a485847c9556a7e017057f9a45",
+      "bytes": 264684,
+      "width": 640,
+      "height": 1137,
+      "format": "webp",
+      "hasAlpha": true
+    },
+    {
+      "path": "assets/ui/packs/black-crown-20261027-v1/pack-art-768.webp",
+      "sha256": "e7d9b1659937afb54ae22ae2419f20b5a0b772d108a1b748d1b67fcb05dd72f0",
+      "bytes": 373010,
+      "width": 768,
+      "height": 1365,
+      "format": "webp",
+      "hasAlpha": true
+    },
+    {
+      "path": "assets/ui/packs/black-crown-20261027-v1/pack-art-320.avif",
+      "sha256": "320b530f70b1948174ffe75d68949d0a8c7bb212d4d691f334395759db2c00d8",
+      "bytes": 35096,
+      "width": 320,
+      "height": 569,
+      "format": "heif",
+      "hasAlpha": true
+    },
+    {
+      "path": "assets/ui/packs/black-crown-20261027-v1/pack-art-768.avif",
+      "sha256": "3bd805c3e80d0d04b9c448df4ef1a543af1857290112e155d056dc2c095c45f8",
+      "bytes": 137521,
+      "width": 768,
+      "height": 1365,
+      "format": "heif",
+      "hasAlpha": true
+    },
+    {
+      "path": "assets/ui/packs/black-crown-20261027-v1/pack-view.js",
+      "sha256": "603b5962ee40e94d9fd399b30e69996a3464ae0ccb3fa305d7bf65ad1a921f75",
+      "bytes": 1663
+    },
+    {
+      "path": "assets/ui/packs/black-crown-20261027-v1/pack-view.css",
+      "sha256": "866f07c19d30d1eab51d6f1d2b866fbe5b0e414f1925b4d35b6ca071ece7014d",
+      "bytes": 1447
+    },
+    {
+      "path": "assets/ui/packs/black-crown-20261027-v1/prompt.txt",
+      "sha256": "ba4ac896fc4857b8824233148ca4bb54521af847ec60a398041c9a7db4de44b2",
+      "bytes": 3480
+    }
+  ],
+  "preview": "preview/black-crown-pack-20261027-v1/index.html",
+  "reviewRender": "preview/black-crown-pack-20261027-v1/render.html",
+  "reviewCover": "preview/black-crown-pack-20261027-v1/qa/pack-review.png",
+  "qaRecord": "preview/black-crown-pack-20261027-v1/qa/report.json",
+  "scope": {
+    "resourceOnly": true,
+    "productRegistered": false,
+    "productionDeployed": false,
+    "userVisualApproval": false,
+    "existingArtOverwritten": false,
+    "rank": null,
+    "roster": null,
+    "price": null,
+    "probabilities": null,
+    "serverLimit": null
+  }
+}

@@ -1,0 +1,23 @@
+Use case: product-mockup
+Asset type: production artwork layer for the REVERSE CALL collectible game's BLACK CROWN limited mercenary pack.
+Primary request: Create a new BLACK CROWN / noir-themed sibling edition of the referenced existing pack. Match the supplied pack's exact tall portrait proportions, straight-on front, luxury double metal perimeter, black textured surface and strong central heraldic composition. This is a NEW asset; do not copy its blood-moon subject.
+Input image 1: current REVERSE CALL Blood pack, reference for silhouette, finish and visual hierarchy only.
+
+FORMAT: Exactly 941 x 1672 pixels if possible, tall narrow 9:16 portrait. Completely straight-on, entire rounded rectangular double metal border visible. Tiny genuinely transparent exterior corner/margin only; the interior black pack face remains fully opaque. No perspective sides, pouch, product scene, floor or mockup props. High-end painted game-item art with dimensional engraved metal.
+
+THEME: Elegant crime noir, the sovereignty of the underworld. Obsidian black, charcoal gunmetal, restrained antique champagne gold and cold silver glints. Fine black leather / brushed steel face, subtle pinstripe-like texture, slim polished gold outer rim with geometric Art Deco corner engravings. Luxury and menace, not medieval fantasy or cartoon.
+
+ONE POWERFUL CENTRAL CREST: An imposing large BLACK CROWN, centered and dominant, with five clean sculptural points, polished black steel faces and thin gold bevels. A single faceted black diamond at its center catches a cool white edge light. Its silhouette must read immediately even in a 160px-wide thumbnail. Behind the crown, exactly TWO elegant realistic noir semi-automatic HANDGUNS crossed diagonally as a heraldic crest: muzzles point to upper left and upper right, their grips descend diagonally behind the lower crown. Both pistols must be mechanically coherent, with straight unbent slides/barrels, normal single grips and trigger guards, black-metal bodies and restrained gold engraved details. The crown overlaps their central crossing. No human hands. A little pale silver smoke curls behind the crest without obscuring outlines or lower lettering space. Dramatic directional rim lighting with deep controlled blacks. Keep the complete crest between 18% and 57% of the canvas height and within 84% of its width.
+
+LAYOUT RESERVED FOR LIVE HTML TYPOGRAPHY:
+- 8%-13% height: clean dark band for REVERSE CALL brand, framed by extremely fine metal rules.
+- 18%-57%: crown and crossed-pistols emblem.
+- 60%-66%: a spacious clean black band for the large BLACK CROWN title.
+- 69%-73%: clean black band for LIMITED EDITION.
+- 75%-78%: clean black band for MERCENARY PACK.
+- Around 84%: one small round black-and-gold seal with a simple crown engraving, no letters, flanked by fine horizontal rules.
+- 90%-94%: clean dark band for Korean pack name.
+Keep the text bands dark, flat and spacious. Do not draw blank rectangular nameplates.
+
+CRITICAL: Render absolutely NO text, letters, numbers, pseudo-writing, logos, watermarks, rank badges, prices or promises. All typography will be live HTML over the artwork, matching the existing pack system. Remove the reference's R logo and all English/Korean lettering. No red moon, pumpkin, axes, swords, wings, skulls, blood, gore, people or neon city background. No bright red, purple or blue magic effects.
+Deliver only the finished text-free BLACK CROWN pack artwork with actual alpha outside the rim.

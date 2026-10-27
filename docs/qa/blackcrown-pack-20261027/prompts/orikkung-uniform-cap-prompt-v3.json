@@ -1,0 +1,12 @@
+{
+  "id": "06-orikkung",
+  "name": "오리꿍",
+  "version": 3,
+  "output": "assets/06-orikkung-black-crown-v3-coat-shotgun-uniform-cap.png",
+  "referenced_image_paths": [
+    "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-black-crown-six-20261027-v1/assets/06-orikkung-black-crown-v2-coat-shotgun.png",
+    "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-black-crown-six-20261027-v1/assets/06-orikkung-black-crown-source-art-v1.png"
+  ],
+  "userCorrection": "아니 코트에 맞는 제복모자로 씌워",
+  "prompt": "Precise object insertion edit. INPUT 1 is the completed ORIKKUNG duck wearing a long black coat and holding a shotgun. INPUT 2 is a reference for ONLY the BLACK PEAKED UNIFORM CAP design. Add a suitable cap to INPUT 1, and preserve every other part of input 1.\nAdd a handsome black peaked UNIFORM CAP that matches the LONG BLACK COAT: moderately structured black crown, black glossy short visor, thin polished silver band, small refined silver crown emblem centered on the front, understated engraved silver leaves matching the coat's existing decorations. Use input 2's uniform-cap language as inspiration but scale naturally to input 1's round duck head, fitted and balanced, not oversized. It must look like a tailored part of this Black Crown uniform. No blue police hat, no police lettering or police insignia, no fedora or cowboy hat. Latest user request is a coat-matching uniform cap.\nThe cap rests naturally on the head over the upper tuft, with the visor above the eyebrows and both glossy dark eyes fully visible. Preserve the entire cute face, round yellow cheek shape, orange duckbill, expression and fluffy feather finish. Keep exact coat lapels, embroidery, shirt/tie/waistcoat, wings and hand grips, shotgun geometry, long coat hem, tiny legs and both orange webbed feet. Do not replace the coat with the short officer uniform from input 2 and do not reintroduce its salute.\nSame 1024x1536 portrait, frontal complete body and weapon, same subject scale/position, enough top clearance for hat without cropping. Same luxurious palace, light, 2D painted RPG finish. Only addition is cap and its natural subtle head contact shadow, no other design or pose change, no letters or new objects."
+}

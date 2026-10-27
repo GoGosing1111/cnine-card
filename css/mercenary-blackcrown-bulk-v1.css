@@ -1,0 +1,45 @@
+/* Reuse the existing Blackcrown pack artwork, slices, typography and controls. */
+.bcp-dialog .bcp-bulk-panel,.bcp-dialog .bcp-count-summary{border:solid transparent;border-width:34px 50px;border-image:none;border:1px solid #8f7649;background:#15130f;padding:8px 12px;color:var(--bcp-text);background:none}
+.bcp-dialog .bcp-bulk-panel{margin:8px 0 22px}
+.bcp-dialog .bcp-budget-presets{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:14px 0}
+.bcp-dialog .bcp-budget-presets .bcp-button{min-width:0;min-height:60px;padding:12px 8px;font-size:13px}
+.bcp-dialog .bcp-budget-label{display:block;font-size:13px;color:var(--bcp-muted);max-width:540px}
+.bcp-dialog .bcp-budget-label>span{float:right}
+.bcp-dialog .bcp-budget-label [data-bcp-budget]{box-sizing:border-box;display:block;width:100%;min-height:66px;margin:7px 0;padding:18px 34px;border:0;border-radius:0;background:transparent linear-gradient(135deg,#24211b,#0c0d11 55%,#353020) center/100% 100% no-repeat!important;color:#fff1d8;font:600 17px/1.4 monospace;text-align:center}
+.bcp-dialog .bcp-budget-label [data-bcp-budget]:focus-visible{outline:2px solid #ffb4c7;outline-offset:-8px}
+.bcp-dialog .bcp-bulk-quote{font-size:20px;line-height:1.6;font-weight:750;color:#ffe2b0;margin:12px 0;overflow-wrap:anywhere}
+.bcp-dialog .bcp-bulk-note{font-size:12px;color:var(--bcp-muted);line-height:1.8;margin:8px 0}
+.bcp-dialog .bcp-bulk-panel [data-bcp-bulk-start]{min-width:240px;margin-top:8px}
+.bcp-dialog .bcp-result-area [data-bcp-results].bcp-results{display:block;max-width:none;width:100%;margin:0}
+.bcp-dialog .bcp-rank-counts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:20px 0;text-align:center}
+.bcp-dialog .bcp-rank-counts dt{font-weight:700;font-size:14px;color:var(--bcp-muted)}
+.bcp-dialog .bcp-rank-counts dd{font-size:25px;font-weight:750;margin:6px 0 0;overflow-wrap:anywhere;color:#f8e3ba}
+.bcp-dialog .bcp-rank-counts dd small{font-size:11px;margin-left:3px;color:var(--bcp-muted)}
+.bcp-dialog .bcp-miss-count{font-size:13px;color:var(--bcp-muted);text-align:right}
+.bcp-dialog .bcp-count-details{border-top:1px solid #9f78ba44;margin-top:12px}
+.bcp-dialog .bcp-count-details summary{cursor:pointer;min-height:48px;display:list-item;align-content:center;color:#ffe2b0;font-size:14px;padding:12px 0}
+.bcp-dialog .bcp-count-details table{border-collapse:collapse;width:100%;font-size:13px}
+.bcp-dialog .bcp-count-details :is(th,td){padding:10px 4px;border-bottom:1px solid #9f78ba44;text-align:left;overflow-wrap:anywhere}
+.bcp-dialog .bcp-count-details :is(th,td):last-child{text-align:right;white-space:nowrap}
+.bcp-dialog .bcp-featured-results{margin:26px 0 12px}
+.bcp-dialog .bcp-featured-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,190px));gap:20px;justify-content:center}
+.bcp-dialog .bcp-result-area .bcp-featured-grid .bcp-result{width:100%;max-width:none}
+.bcp-dialog .bcp-result-quantity{display:block;font-size:22px;line-height:1.5;color:#ffe2b0}
+.bcp-dialog .bcp-serial-details{font-size:11px;margin:8px 0;color:var(--bcp-muted)}
+.bcp-dialog .bcp-serial-details summary{padding:8px 2px;cursor:pointer}
+.bcp-dialog .bcp-serial-details p{line-height:1.7;overflow-wrap:anywhere;max-height:150px;overflow:auto}
+.bcp-dialog .bcp-no-featured{font-size:13px;color:var(--bcp-muted);line-height:1.8}
+@media(max-width:600px){
+ .bcp-dialog .bcp-bulk-panel{border-width:30px 25px;border-image-width:30px 25px;padding:4px 0}
+ .bcp-dialog .bcp-count-summary{border-width:30px 16px;border-image-width:30px 16px;padding:4px 0}
+ .bcp-dialog .bcp-budget-presets{grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
+ .bcp-dialog .bcp-budget-presets .bcp-button{font-size:11px;padding:12px 6px;min-height:54px}
+ .bcp-dialog .bcp-bulk-quote{font-size:16px}
+ .bcp-dialog .bcp-budget-label [data-bcp-budget]{font-size:14px;padding-inline:23px}
+ .bcp-dialog .bcp-rank-counts{gap:3px}
+ .bcp-dialog .bcp-rank-counts dd{font-size:17px}
+ .bcp-dialog .bcp-rank-counts dd small{display:block;margin:0}
+ .bcp-dialog .bcp-featured-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 10px}
+ .bcp-dialog .bcp-bulk-panel [data-bcp-bulk-start]{width:100%;min-width:0;font-size:13px}
+ .bcp-dialog .bcp-featured-results .bcp-section-heading{flex-wrap:wrap}
+}

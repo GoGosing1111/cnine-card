@@ -1,0 +1,10 @@
+{
+  "id": "05-sudaeng",
+  "name": "수댕",
+  "version": 3,
+  "output": "assets/05-sudaeng-black-crown-v3-sakura-lighter-mage.png",
+  "referenced_image_paths": [
+    "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-black-crown-six-20261027-v1/assets/05-sudaeng-black-crown-v2-sakura-lighter-mage.png"
+  ],
+  "prompt": "Precise object edit of the provided completed illustrated Black Crown lighter mage. Change ONLY the small pocket lighter near the middle of her torso and immediately adjacent fingers if necessary for a clear natural hold. The face has just been corrected to match the approved Sakura identity and MUST remain exactly as shown. Lock face, facial structure, expression, eye/nose/lip details, bangs, hair, all suit pieces, arms except the immediate lower hand grip, other hand gesture, long-legged frontal pose, both shoes, background and flame composition.\n\nRepair the lighter so it is ONE recognizable Zippo-style flip-top lighter with precisely TWO major metal forms: one single upright rectangular metal BODY and ONE rectangular hinged LID. The body sits securely in the lower hand; lid is visibly attached to just one side by its hinge and flipped open. One perforated chimney rises from the top of the body, and the existing golden magical flame originates from that chimney. Natural small pocket-lighter scale, clean silver-and-black exterior, no printed branding. Remove the extra duplicated/floating rectangular metal lid or box that currently appears above/alongside the lighter. No second lighter, no spare lid, no detached squares, no floating hard metal.\n\nPreserve the beautiful curving magical flame above it, the top gesturing hand, warm reflected light, and the entire approved character and setting. This is a tiny local prop-geometry correction only. Same 1024x1536 portrait, identical camera/framing, same painterly RPG style. Do not enlarge flame or device, do not redraw the woman, no text."
+}

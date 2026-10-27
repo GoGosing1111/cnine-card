@@ -1,6 +1,12 @@
 import {createPostgresD1Compat} from '../../../functions/_postgres_d1_compat.js';
 import {processMercenaryStockSchedules} from '../../../functions/_mercenary_stock_schedule.js';
-export async function runMercenaryStockSchedule(env,{openDatabase=createPostgresD1Compat,process=processMercenaryStockSchedules,arm}={}){
+import {processMercenaryStockSchedules as processBlackcrownStockSchedules} from '../../../functions/_mercenary_blackcrown_stock_schedule.js';
+export async function processMercenaryPackStockSchedules(env,options={}){
+ const bloodmoon=await processMercenaryStockSchedules(env,options),blackcrown=await processBlackcrownStockSchedules(env,options);
+ const nextAt=[bloodmoon.nextAt,blackcrown.nextAt].filter(Boolean).sort()[0]??null;
+ return {applied:bloodmoon.applied+blackcrown.applied,nextAt,serverNow:blackcrown.serverNow};
+}
+export async function runMercenaryStockSchedule(env,{openDatabase=createPostgresD1Compat,process=processMercenaryPackStockSchedules,arm}={}){
  let connection;
  try{
   connection=await openDatabase(env.HYPERDRIVE?.connectionString);const state=await process({...env,DB:connection.db}),result={applied:state.applied,nextAt:state.nextAt};

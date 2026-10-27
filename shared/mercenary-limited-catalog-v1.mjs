@@ -1,3 +1,4 @@
+import {BLACKCROWN_MERCENARIES} from './mercenary-blackcrown-catalog-v1.mjs';
 import {HALLOWEEN_MERCENARIES} from './mercenary-halloween-catalog-v1.mjs';
 import {BLOODMOON_MERCENARIES} from './mercenary-bloodmoon-catalog-v1.mjs';
 // Approved limited collection; acquisition policy remains separate.
@@ -294,5 +295,5 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "battleSpriteSha256": "32B746F5DA7FF1CBA86DA1B5656D6EE0AC5F7B9ED40D9E316CEAF4973089D0A4"
   }
 ].map(card=>Object.freeze(card)));
-export const ALL_LIMITED_MERCENARIES=Object.freeze([...LIMITED_MERCENARIES,...HALLOWEEN_MERCENARIES,...BLOODMOON_MERCENARIES]);
+export const ALL_LIMITED_MERCENARIES=Object.freeze([...LIMITED_MERCENARIES,...HALLOWEEN_MERCENARIES,...BLOODMOON_MERCENARIES,...BLACKCROWN_MERCENARIES]);
 export const isLimitedMercenary=code=>ALL_LIMITED_MERCENARIES.some(card=>card.code===code);
