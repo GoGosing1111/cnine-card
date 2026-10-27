@@ -1,0 +1,76 @@
+{
+  "status": "COMPLETED",
+  "verifiedAt": "2026-10-27T20:15:44.371Z",
+  "releaseCommit": "696bd317423e7d17f1ee2ada4604b99181244f04",
+  "pages": {
+    "id": "898b5e01-5c06-4a5c-babf-a42fa3e35d33",
+    "url": "https://898b5e01.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "696bd317423e7d17f1ee2ada4604b99181244f04"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployment": {
+        "id": "bb17e216-dbb4-4458-bffb-81ebba1b2093",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "375535ce-5b82-4339-960a-1fc55a863426",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-27T20:13:00.252161Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployment": {
+        "id": "fbdad914-3a56-45d3-987e-1828478d84bc",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "6ce6eb56-2565-459e-8d4e-63f829f8cabd",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-27T20:14:24.701836Z"
+      }
+    }
+  ],
+  "tests": 36,
+  "fullFights": 24,
+  "bossPowerInSimulation": 45000000,
+  "noHealFailsBothBranches": true,
+  "localWidths": [
+    1440,
+    390
+  ],
+  "localRoles": [
+    "BREAKER",
+    "GUARD",
+    "SEALER"
+  ],
+  "publicWidths": [
+    390
+  ],
+  "publicFiles": 8,
+  "publicAssets": 661,
+  "settings": {
+    "revision": 5,
+    "mode": "TEST",
+    "bossCombatPower": 45000000,
+    "testerCount": 13
+  },
+  "productionDatabaseWrites": 0,
+  "settingsPreserved": true,
+  "existingV1RoomsPreserved": true
+}
