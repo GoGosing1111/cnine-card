@@ -1,4 +1,4 @@
-import {createBlackcrownMercenaryEditor} from './mercenary-blackcrown-admin-v1.bundle.mjs?v=20261027-buttons-v4';
+import {createBlackcrownMercenaryEditor} from './mercenary-blackcrown-admin-v1.bundle.mjs?sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4';
 import {createBloodmoonMercenaryEditor} from './mercenary-bloodmoon-admin-v1.mjs?v=20261026-stock-schedule-v1';
 import {createHalloweenMercenaryEditor} from './mercenary-halloween-admin-v1.mjs?v=20261025-shop-remove-v1';
 import {createMercenaryLevelEditor} from './mercenary-level-admin-v1.mjs?v=20261025-cap21-v1';

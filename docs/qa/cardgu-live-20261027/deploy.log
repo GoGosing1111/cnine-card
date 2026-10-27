@@ -1,0 +1,135 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"7920a1b20c56061f96f2f4aabb1e437a03078e41","reason":"사용자 지시 카드구 V-970 라이브 출시. 승인 원화·전신 카드 아우라·황금 네온, 단일 2종/PVE 광역 2종을 2배속 연결. 현재 제너럴 족의 270만 능력치·연계·3.12 행동·피해 예산을 독립 정책으로 적용. PC/모바일 및 같은 조건 1664전·PVE 144쌍 검증. 동시 반영된 레반·블러드문 변경 보존. 획득/계정/재화/운영 설정 쓰기 없음.","changed":["AGENTS.md","assets/ui/project-v/mercenaries/cardgu-20261027/cards.png","assets/ui/project-v/mercenaries/cardgu-20261027/crown.png","assets/ui/project-v/mercenaries/cardgu-20261027/deal.png","assets/ui/project-v/mercenaries/cardgu-20261027/fx-aura.png","assets/ui/project-v/mercenaries/cardgu-20261027/fx-crown.png","assets/ui/project-v/mercenaries/cardgu-20261027/fx-deal.png","assets/ui/project-v/mercenaries/cardgu-20261027/fx-rip.png","assets/ui/project-v/mercenaries/cardgu-20261027/fx-storm.png","assets/ui/project-v/mercenaries/cardgu-20261027/idle.png","assets/ui/project-v/mercenaries/cardgu-20261027/rip.png","assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png","assets/ui/project-v/mercenaries/cardgu-20261027/storm.png","assets/ui/project-v/mercenaries/cardgu-20261027/utility.png","defense/index.html","docs/qa/cardgu-live-20261027/README.md","docs/qa/cardgu-live-20261027/approval.json","docs/qa/cardgu-live-20261027/approved-assets.json","docs/qa/cardgu-live-20261027/balance.json","docs/qa/cardgu-live-20261027/before-deploy.json","docs/qa/cardgu-live-20261027/delivery-audit.json","docs/qa/cardgu-live-20261027/deployment-plan.json","docs/qa/cardgu-live-20261027/local-HUNT-battle.json","docs/qa/cardgu-live-20261027/local-PVP-battle.json","docs/qa/cardgu-live-20261027/state-before.json","functions/_battle_v2_preview.js","functions/_mercenary_account.js","functions/_mercenary_cardgu.js","functions/_mercenary_codex.js","functions/_mercenary_combat.js","functions/_mercenary_level.js","index.html","js/app.js","js/battle-v3-live.js","mercenary-codex/app.mjs","mercenary-codex/index.html","mercenary-codex/model.mjs","mercenary-codex/shell.mjs","onestore/index.html","onestore/js/app.js","packaging/onestore/web-build.json","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/coop-defense-v1/defense.bundle.js","preview/coop-defense-v1/index.html","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/CardguCombatPlayback.js","preview/project-v-v3/source/battle/MercenaryCombatPlayback.js","preview/project-v-v3/source/battle/cardgu/CardguAura.js","preview/project-v-v3/source/battle/cardgu/CardguFX.js","preview/project-v-v3/source/battle/cardgu/LiveGoldenRim.js","preview/project-v-v3/source/battle/cardgu/manifest.json","preview/project-v-v3/source/battle/cardgu/skills.mjs","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","scripts/build-cardgu-live-20261027.mjs","scripts/cardgu-audit-only-20261027.json","scripts/measure-cardgu-balance-20261027.mjs","scripts/prepare-production-assets.mjs","service-worker.js","shared/mercenary-acquisition-release-v1.mjs","shared/mercenary-cardgu-v1.mjs","shared/mercenary-combat-link-v2103.mjs","shared/mercenary-level-v1.mjs","shared/mercenary-limited-deployment-v1.mjs","shared/onestore-web-assets-v1.mjs","tests/cardgu-live-20261027.browser.mjs","tests/cardgu-live-20261027.test.mjs","tests/cardgu-runtime-20261027.test.mjs","tests/revan-runtime-20261027.test.mjs"],"tests":["tests/cardgu-live-20261027.test.mjs","tests/cardgu-runtime-20261027.test.mjs","tests/revan-runtime-20261027.test.mjs","tests/revan-live-20261027.test.mjs","tests/prime-zero-general-jok-priority-20261026.test.mjs","tests/mercenary-turn-cadence-v2099.test.mjs","tests/bloodmoon-balance-20261027.test.mjs","tests/bloodmoon-skill-status-20261025.test.mjs","tests/scoped-release-policy-20260923.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ Joeun restrains a surviving first hit without waiting for enemy basic attacks (10.2877ms)
+✔ Joeun repeat marks weaken exactly one offensive cast and reset the mark cycle (3.048ms)
+✔ restraint retains miss, knockout and control immunity protections (3.2862ms)
+✔ cleansing removes the added weakening through the existing debuff path (1.0421ms)
+✔ server battle mode selects Namsudaeng stats, linkage and tempo; PVE cannot opt into PVP (31.5972ms)
+✔ Namsudaeng retains 1440% total damage per cast, unique targets and shared cooldown (2.9758ms)
+✔ public codex accepts the new skill budget and explains both buffs (15.8561ms)
+✔ actual Joeun PVE status records complete without a generic skill lookup or a second attack (49.0399ms)
+✔ status from either team preserves authoritative HP/shield once and ignores a lost or dead target (1.4277ms)
+✔ V-960 replays complete server skill streams in PVE, hunt and either PVP team (39.5114ms)
+✔ V-961 replays complete server skill streams in PVE, hunt and either PVP team (30.9534ms)
+✔ V-962 replays complete server skill streams in PVE, hunt and either PVP team (66.7203ms)
+✔ V-963 replays complete server skill streams in PVE, hunt and either PVP team (77.8918ms)
+✔ V-964 replays complete server skill streams in PVE, hunt and either PVP team (45.0585ms)
+✔ Cardgu snapshots current General Jok stats, links, mitigation and basic budget independently (15.6231ms)
+✔ each area has one 3024% server budget over unique enemies and blocks invalid/dead/control input (3.5992ms)
+✔ two area forms alternate every three actions without duplicate cost; PVP has no area cast (7.5757ms)
+✔ actual server PVE yields matching damage and outcomes against General Jok baseline (142.4203ms)
+✔ PVP uses normal server attacks and preserves the four-skill codex without client damage (21.2618ms)
+✔ ownership gates both PVE/PVP and an isolated grant uses the same server snapshot (2615.6341ms)
+✔ Cardgu appears in real growth catalog and trains once with LIMITED XP and original preserved (1690.045ms)
+✔ approved body/art and all packed texture bytes are preserved in live resources (47.3201ms)
+✔ all eleven shipped V3 consumers embed Cardgu and the same verified source (373.0521ms)
+✔ main loader and stale-runtime selectors agree with wrapper, codex and installed shell (17.1369ms)
+✔ approved assets ship within Pages cap while historical reports and bundled sources remain in Git (989.2385ms)
+✔ high-power gauges drain ready actors before advancing time, on both sides without mercenaries (24.3986ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 1000000 power cards (35.4054ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 20000000 power cards (16.5794ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 100000000 power cards (15.5315ms)
+✔ all six ranks without an assigned skill still perform basic attacks at real deck power (32.4919ms)
+✔ mercenary reservation uses allied card turns only, clears on a natural turn and excludes dead actors (1.2195ms)
+✔ dead mercenaries cannot receive reserved basic or skill turns (10.2793ms)
+✔ apocalypse chip clock and continuous monster replacement retain actual mercenary attacks (41.1975ms)
+✔ only canonical Prime/Zero against all-General-Jok PVP lineups receive priority (8.6368ms)
+✔ post-growth floors cover stronger gear/decks once, preserve injury and never alter cards or General Jok (36.6792ms)
+✔ PVE and other opponents keep normal stats, while existing Razak SS priority remains intact (17.6418ms)
+✔ duo retains owner isolation, supports two General Joks, and disables priority for mixed opponents (48.3507ms)
+✔ both sides win team battles and duels even at level 1 against level 21 and 100x opposing cards (182.6525ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (31.7039ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (27.2036ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (16.5624ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (21.1692ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (34.6992ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (67.3804ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (7.1652ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (6.6422ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (3.7014ms)
+✔ Revan independently matches current General Jok stats, equipment, link, caps, defenses and 3.12 cadence (34.1307ms)
+✔ two basic forms do not add actions or damage; area divides exactly 3024% once across unique living targets (1.4531ms)
+✔ area energy and cooldown match General Jok, with no area cast in PVP (10.7296ms)
+✔ actual seeded PVE and PVP outcomes match General Jok at three power tiers on both sides (536.4891ms)
+✔ all acquisition pools remain closed and catalog lists four ready skills (14.4315ms)
+✔ only fixture ownership enables PVE and PVP through the regular loadout path (2587.0049ms)
+✔ Revan is present in the regular five-times limited growth catalog (38.6944ms)
+✔ approved source and eleven native-alpha resources retain hashes, rigid sword and foreground grip order (35.3606ms)
+✔ idle and shoulder recovery preserve the face while Heukwol and Jongeon strike in front of the body (0.5842ms)
+✔ all eleven current V3 bundles contain Revan and match their source report (226.6023ms)
+✔ main loader, wrapper and installed shell share the Revan runtime and cache key (17.4778ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (4.7401ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.8084ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (1.0619ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.9414ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.3455ms)
+✔ an unshipped QA Wrangler record does not classify an art release as production infrastructure (98.2531ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.8345ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (5.3599ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.6026ms)
+ℹ tests 67
+ℹ suites 0
+ℹ pass 67
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5580.1611
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261026-v6-heeya-first-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19981 files; 10111 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.153.0)
+───────────────────────────────────────────────
+Total Upload: 8681.26 KiB / gzip: 1864.25 KiB
+Worker Startup Time: 48 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.39 sec)
+No targets deployed for cnine-card-api-runtime (0.65 sec)
+Current Version ID: 0fa0bcef-8b4a-4f00-ac66-c5d370a526c3
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.153.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19931/19981)
+Uploading... (19947/19981)
+Uploading... (19964/19981)
+Uploading... (19981/19981)
+✨ Success! Uploaded 50 files (19931 already uploaded) (5.42 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://620ed303.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.153.0)
+───────────────────────────────────────────────
+Total Upload: 3321.61 KiB / gzip: 739.95 KiB
+Worker Startup Time: 39 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (4.31 sec)
+Deployed cnine-card-clan-draft triggers (1.30 sec)
+  schedule: * * * * *
+Current Version ID: 688c87d6-2935-44b8-bb77-2dd41d371930

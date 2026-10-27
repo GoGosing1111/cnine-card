@@ -1,0 +1,10 @@
+{
+  "requests": [
+    "카드구랑 레반 한도 5장씩 블랙크라운 준비",
+    "둘 다 제너럴 족과 같은 확률"
+  ],
+  "salesMode": "OFF",
+  "limitEach": 5,
+  "operationKey": "ops:blackcrown-cardgu-revan-prepare:20261027:v1",
+  "directGrantExempt": true
+}

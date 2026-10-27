@@ -22,7 +22,7 @@ export function blackcrownPackDraft(){
 export function validateBlackcrownPack(raw,{releaseEnabled=BLACKCROWN_PACK_RELEASE_ENABLED}={}){
  if(!exact(raw,['format','mode','prices','normalRankRatesPpm','cardRatesPpm','normalSssRatePpm','missRatePpm','stockLimits'])||raw.format!=='MERCENARY_BLACKCROWN_SS_PACK_V3'||!['OFF','ON'].includes(raw.mode)||!releaseEnabled&&raw.mode!=='OFF')throw Error('블랙크라운팩은 출시 준비 중입니다. OFF 초안만 저장할 수 있습니다.');
  if(!exact(raw.prices,['single','ten'])||Object.values(raw.prices).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<1||n>100000000000000)))throw Error('가격은 미정 또는 1~100조 코인 정수로 입력하세요.');
- if(!exact(raw.normalRankRatesPpm,MERCENARY_RANKS)||!exact(raw.cardRatesPpm,codes))throw Error('일반 6등급·블랙크라운 SS 6종·일반 SSS 라자크의 확률을 확인하세요.');
+ if(!exact(raw.normalRankRatesPpm,MERCENARY_RANKS)||!exact(raw.cardRatesPpm,codes))throw Error('일반 6등급·블랙크라운 SS 6종·SSS 리미티드 2종·일반 SSS 라자크의 확률을 확인하세요.');
  const first=[...Object.values(raw.normalRankRatesPpm),raw.missRatePpm],second=[...Object.values(raw.cardRatesPpm),raw.normalSssRatePpm];
  for(const rates of [first,second]){
   if(rates.some(n=>n!==null&&!isLimitedRate(n)))throw Error('확률은 미정 또는 0~100%, 소수점 8자리까지 입력하세요.');
@@ -34,11 +34,17 @@ export function validateBlackcrownPack(raw,{releaseEnabled=BLACKCROWN_PACK_RELEA
 export function readBlackcrownPackSettings(raw=blackcrownPackDraft(),options){
  // Read the superseded registration without reintroducing its removed rewards.
  // Existing current-mode and stock changes remain authoritative.
- const removed=['V-978','V-974','V-975','V-973'];
- if(exact(raw.cardRatesPpm,[...codes,...removed])&&exact(raw.stockLimits,[...stockCodes,...removed])){
+ const added=['V-970','V-971'],removed=['V-978','V-974','V-975','V-973'];
+ const previousCodes=codes.filter(c=>!added.includes(c)),previousStock=stockCodes.filter(c=>!added.includes(c));
+ if(exact(raw.cardRatesPpm,[...previousCodes,...removed])&&exact(raw.stockLimits,[...previousStock,...removed])){
   raw=structuredClone(raw);let units=limitedRateUnits(raw.normalSssRatePpm);
   for(const code of removed){const rate=limitedRateUnits(raw.cardRatesPpm[code]);units=units===null||rate===null?null:units+rate;delete raw.cardRatesPpm[code];delete raw.stockLimits[code];}
   raw.normalSssRatePpm=units===null?null:units/LIMITED_RATE_SCALE;
+ }
+ // Deployment reads r4 without writing or opening sales. The audited operation
+ // supplies the user-approved rates and stock later; old saved probabilities stay intact.
+ if(exact(raw.cardRatesPpm,previousCodes)&&exact(raw.stockLimits,previousStock)){
+  raw=structuredClone(raw);for(const code of added){raw.cardRatesPpm[code]=0;raw.stockLimits[code]=blackcrownStockLimit(code);}
  }
  return validateBlackcrownPack(raw,options);
 }
@@ -46,7 +52,7 @@ export function blackcrownPackReadiness(settings,stock=[],normalCards=[]){
  const blockers=[],first=[...Object.values(settings.normalRankRatesPpm),settings.missRatePpm],second=[...Object.values(settings.cardRatesPpm),settings.normalSssRatePpm];
  if(Object.values(settings.prices).some(n=>n===null))blockers.push('1회·10회 가격을 설정하세요.');
  if(first.some(n=>n===null)||first.reduce((s,n)=>s+(limitedRateUnits(n)||0),0)!==LIMITED_RATE_TOTAL)blockers.push('1단계 일반 등급·꽝 확률 합계를 100%로 설정하세요.');
- if(second.some(n=>n===null)||second.reduce((s,n)=>s+(limitedRateUnits(n)||0),0)!==LIMITED_RATE_TOTAL)blockers.push('SSS 내부의 블랙크라운 SS 6종·일반 SSS 라자크·일반 SSS 확률 합계를 100%로 설정하세요.');
+ if(second.some(n=>n===null)||second.reduce((s,n)=>s+(limitedRateUnits(n)||0),0)!==LIMITED_RATE_TOTAL)blockers.push('SSS 내부의 블랙크라운 SS 6종·SSS 리미티드 2종·일반 SSS 라자크·일반 SSS 확률 합계를 100%로 설정하세요.');
  for(const rank of MERCENARY_RANKS){
   // Ordinary SSS is also the destination of every exhausted limited interval.
   const needed=settings.normalRankRatesPpm[rank]>0;
@@ -85,7 +91,7 @@ export function blackcrownPackState(settings=blackcrownPackDraft(),stockRows=[],
 export function blackcrownPackCatalogRow(settings=blackcrownPackDraft(),stockRows=[]){
  settings=readBlackcrownPackSettings(settings);
  const enabled=BLACKCROWN_PACK_RELEASE_ENABLED&&settings.mode==='ON',stock=blackcrownPackState(settings,stockRows).stock;
- return {id:BLACKCROWN_PACK.id,name:BLACKCROWN_PACK.name,subtitle:'BLACKCROWN LIMITED',theme:'blackcrown',description:'블랙크라운 SS 리미티드 6종 · 각 10장 · 일반 SSS 라자크(한도 없음)',range:'일반 C~SSS · SS 리미티드',price:settings.prices.single,prices:settings.prices,allowed:[],drawMode:'MERCENARY_BLACKCROWN',drawEnabled:enabled,ownerDrawEnabled:false,maxDrawCount:10,imageUrl:BLACKCROWN_PACK.image,revealMode:'BLACKCROWN_FAST_GRID',comingSoon:!enabled,previewCards:BLACKCROWN_PACK_CARDS.map(({code,name,rank,thumbnailArt,group,stockPolicy})=>({code,name,rank,thumbnailArt,group,stockPolicy,...stock.find(s=>s.code===code)}))};
+ return {id:BLACKCROWN_PACK.id,name:BLACKCROWN_PACK.name,subtitle:'BLACKCROWN LIMITED',theme:'blackcrown',description:'블랙크라운 SS 6종 · 카드구·레반 SSS 리미티드 각 5장 · 라자크 한도 없음',range:'일반 C~SSS · SS/SSS 리미티드',price:settings.prices.single,prices:settings.prices,allowed:[],drawMode:'MERCENARY_BLACKCROWN',drawEnabled:enabled,ownerDrawEnabled:false,maxDrawCount:10,imageUrl:BLACKCROWN_PACK.image,revealMode:'BLACKCROWN_FAST_GRID',comingSoon:!enabled,previewCards:BLACKCROWN_PACK_CARDS.map(({code,name,rank,thumbnailArt,group,stockPolicy})=>({code,name,rank,thumbnailArt,group,stockPolicy,...stock.find(s=>s.code===code)}))};
 }
 export function blackcrownPackPrice(settings,count){
  if(![1,10].includes(count))throw Error('1회 또는 10회를 선택하세요.');

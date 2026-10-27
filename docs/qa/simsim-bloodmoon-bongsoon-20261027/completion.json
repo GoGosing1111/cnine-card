@@ -1,0 +1,75 @@
+{
+  "operationKey": "ops:simsim-bloodmoon-bongsoon-grant:20261027:v1",
+  "status": "COMPLETED",
+  "authorization": "심심이 계정에 블러드문 나무늘봉순 지급해",
+  "followupAuthorization": "16레벨로 지급하고 한도상관없이 지급",
+  "completedAt": "2026-10-27T08:42:12.752Z",
+  "completedAtKst": "2026-10-27 17:42:12 KST",
+  "auditId": "52137",
+  "recipient": {
+    "id": "4933",
+    "nickname": "심심이"
+  },
+  "card": {
+    "code": "V-960",
+    "name": "블러드문 나무늘봉순",
+    "rank": "SS",
+    "edition": "LIMITED",
+    "season": "BLOODMOON",
+    "copiesBefore": 0,
+    "copiesAfter": 1
+  },
+  "growth": {
+    "before": {
+      "level": 1,
+      "experience": 0,
+      "breakthroughMask": 0,
+      "revision": 0
+    },
+    "after": {
+      "level": 16,
+      "experience": 0,
+      "breakthroughMask": 7,
+      "revision": 1
+    }
+  },
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "stock": {
+    "limit": 65,
+    "issued": 65,
+    "numberedIssues": 65,
+    "changed": false
+  },
+  "cost": 0,
+  "materialsConsumed": 0,
+  "sourceSha256": "d6c32b914d3e7b3819ef4c876f483455b791e3c5671b3d9e3db7b480b9377714",
+  "planHash": "d3615232110de9ce468f8a6ff6b97b615affc3d468a35a9c7429cb9290e27ca9",
+  "protectedBeforeHash": "e854c1fb2d814d63ef440050a529af143c431a61360c4be1b6a53143754a5286",
+  "protectedAfterHash": "e854c1fb2d814d63ef440050a529af143c431a61360c4be1b6a53143754a5286",
+  "verification": {
+    "testsPassed": 4,
+    "productionFailureRollback": true,
+    "productionDryRunRollback": true,
+    "dualLocksReleased": true,
+    "independentReadOnly": true,
+    "selectOnlyReplayAdditionalWrites": 0,
+    "stockIssuesSettingsCraftPreserved": true
+  },
+  "preserved": {
+    "currency": true,
+    "stockCounters": true,
+    "numberedIssues": true,
+    "craftCounts": true,
+    "packAndCraftSettings": true,
+    "otherCards": true,
+    "inventory": true,
+    "loadouts": true,
+    "otherLevels": true,
+    "growth": true,
+    "accountSettings": true
+  },
+  "deployment": false,
+  "messagesSent": 0,
+  "automaticLoadout": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/output/simsim-bloodmoon-bongsoon-20261027"
+}

@@ -1,0 +1,376 @@
+{
+  "at": "2026-10-27T08:23:38.571Z",
+  "pages": {
+    "id": "620ed303-c87b-4d5a-b714-480caac1bdfb",
+    "url": "https://620ed303.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ccd936c69cd8adb82c1fe77b8126ade151f11da4"
+  },
+  "latest": "620ed303-c87b-4d5a-b714-480caac1bdfb",
+  "releaseCommit": "ccd936c69cd8adb82c1fe77b8126ade151f11da4",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "cardguConnected": true,
+      "sha256": "2aeba25dafd6987ac5b2851b310c0c041a9517cafb9d4f77bcc7b9269e3f2993"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "cardguConnected": true,
+      "sha256": "097e4d900d5618f03d9f76a943b242a93a3f3d919d29b2e10971ca4ad29f5b3e"
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/cards.png",
+      "sha256": "e2f1ae27b5b252561e9436f9129f6b1832c076df61bd2f4277690d22c8bb7e61",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/crown.png",
+      "sha256": "7e82fb98a15c2ecaf483a980de9a998ea61dbe5ad46d41c69d831917804ef45b",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/deal.png",
+      "sha256": "a1f18a00dec2b8091d49929191b5830f1caf2391003213adac68774f838de647",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/fx-aura.png",
+      "sha256": "2e24bac3c3db0e32ac2528b4e181003471bece440d7bd98c5ac655478617e9c2",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/fx-crown.png",
+      "sha256": "78b729a11ae66871b9c1baff27613e205c55144bf6cbad98fce003a7e475cecb",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/fx-deal.png",
+      "sha256": "4c5d2ab244a2865f9b1d5386844b1d68ee195e3ce9d621008c1a01efccfa2b89",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/fx-rip.png",
+      "sha256": "00f44cb55637d589b52c70c903f1ec237f0df640f2aa24c5c34710702a949d93",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/fx-storm.png",
+      "sha256": "b8e6c2642f82eae48d794542c3103ab1c901d3b2fbd13d1f76b42c99a3906cdc",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/idle.png",
+      "sha256": "271e60ab0bd0df4a5dd363e616ed2b7bb3e262053df462eb359e8f529ac6a767",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/rip.png",
+      "sha256": "efad2962e53d1fed792c9e88012b6bafdba4c10033852ae9aa5c7ff760801c3b",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+      "sha256": "5bc53d55e620e83928075e44d56290acc4c4ccea257cf65002106cc60fab2a8b",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/storm.png",
+      "sha256": "542160403eb8c4f9169bea303ae740003a20f43c571f97bff7968f555665fa67",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/cardgu-20261027/utility.png",
+      "sha256": "236175f7e5b233a03f8b9000916ad6b0cd31c713cb2e8021841eba4b0564660d",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "defense/index.html",
+      "sha256": "a238f2b615d39a8292a915d6159a441b1db33cdb5fc8747c9c957ff55f7135a1",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "index.html",
+      "sha256": "e21b83c3e78aa5594eec5a36807dbb219222b036bf2b57c6efbaad73b69f3eb3",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "31f12476f914fd7c55e9d3b33c9e8cc9b67dfe80207071f0950805f2fca1fb86",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "ba3cbfb073e88c7ed0f361dbc1975eeb16016bd390f973b710f89c398405b999",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "5e019d3d0242360048cf1994d574844d80c75a53cb8d4d895bfa810897454eaf",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "e5768c90dc7918e6aee8044374eb49df5b3e251edace5fafbef3b5980016d746",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "c73cee9022326ad27b2d67a0f5b8dfd6f4f49adf1219f99585a37aaee54e1276",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "mercenary-codex/shell.mjs",
+      "sha256": "d0f3d001a25052ac5e9ad0afd24aa4c6e2afd87f1583d163881c16626c41d875",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "77f0e2646d1e680a28bf465a75c21a649ca12a4150c30f113c0204187be58c76",
+      "verification": "existing-server-html-transform"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "8c3650bec61587b3e206559710e9e09195a4f0b222a991b8eaf4a7dedbf608bd",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/build-report.json",
+      "sha256": "c533f13758e463e9c082f725eeef1c16cf2686311fd4308e532ca7449a2ba606",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "99b157f5b05edb87f019b62eeeb0fefcc9c0b83385b0fb55048c991fe2efd39f",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "c0fbcead2c9c1f355303e097cf371b91effaa0086ac1c4463078ecac13aa9853",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "ec3adc623196346d568ba9c09d66ac23881ac1842d0117c5281d6484c856ff77",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/coop-defense-v1/index.html",
+      "sha256": "7685ce172001f801c7b2f0218bdb456d6f3c93e56c15b046268124e4d3dffb37",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "69c2cbb63ee04467977d6c6f7ea5d32b3a42c666ad046a214fb9de22ea7d5194",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "c948bb406804a86a190d43d1daafd23ab896d880f5676a26433af32941288907",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "4a97e0ac10c2b0675288b6cbb82d15ef83d2ac9043662cb16c761441640ee920",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "sha256": "f403ee0f1a47f3d7ab23abb46988ee3a43102e2fb46587ce015caee0b2153551",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "934cb8efecad55c0f03de4a3e1652aaa93d34165e99ffdf8bbf2f6cdfedbac42",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
+      "sha256": "5c4fd8a37a7df43c21900c20394698ccf509f722e0579793840f2acda07169eb",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "f43d786d482a899076b282cf2b1455ca22b8784ef3dbf891163af0a5ce05b38a",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "3f6cf0e12011d95da6ca95b4edc0afcd229d8ad6ed0eebb2613eaf878ef90918",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "d730fd4f425299bc40f55aa75d747cd1cfdbe9ec8cb9229e653004243a15f0b2",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/engine-build.json",
+      "sha256": "2f0866324eda772fcd31660fa3085155873014ae8d1664258d7451c50906712c",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "68260a6f37b9a61efde852d72909675000b9bb86b0b3ce914b8e932152b1da8b",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "0b58298a7ca02cff906ffbd76ace79075eb0d42c0dcc97582745ce19be856cd0",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "34052b7f75659e2387392d025550be1b09613984d0804fc158f11457e93c1487",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "5784fe59f7a5183b709c524688c81ffa6b4578f2a59cb777ca4d50e407ce8be3",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-acquisition-release-v1.mjs",
+      "sha256": "9a535cbe7812d7b03e062302053242c4fe9cb271db86916215772d808aa17bfb",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-cardgu-v1.mjs",
+      "sha256": "d19cc356655ef84d7809b36e41ca909a80c3b67d436f5fdafda11128b76291a6",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-combat-link-v2103.mjs",
+      "sha256": "31ac154ca0b76775f123adbc060c3a4dc9aedfb67ebfd68c20e3e0d38bfb2a2e",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-level-v1.mjs",
+      "sha256": "9e4b92427a4693ab0bd52ec11ee354d865588bb0ec8ebc5c8e311b77c1eef993",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-limited-deployment-v1.mjs",
+      "sha256": "10a3f50b907e05dbe0a325e5392cbe49c748eea2d18e7f84658b274c1b70937d",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "8fa15d463994b9f764a2354ed7f4dc419a1c8898e1770f10ff430f19326c2275",
+      "verification": "exact-deployed-content"
+    }
+  ],
+  "card": {
+    "code": "V-970",
+    "name": "카드구",
+    "title": "검은 왕관의 카드 마법사",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+    "acquisition": "LOCKED",
+    "sourceArt": "assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+    "sourceArtSha256": "5bc53d55e620e83928075e44d56290acc4c4ccea257cf65002106cc60fab2a8b",
+    "battleSprite": "assets/ui/project-v/mercenaries/cardgu-20261027/idle.png",
+    "battleSpriteSha256": "271e60ab0bd0df4a5dd363e616ed2b7bb3e262053df462eb359e8f529ac6a767",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#ffd16b",
+    "basePower": 2700000,
+    "skills": [
+      {
+        "id": "MS-922",
+        "name": "스페이드 관통",
+        "visualMode": "deal",
+        "mechanic": "CARDGU_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "관통 카드와 반으로 찢어진 에이스가 순환하며 강화된 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 스페이드 관통 → 찢어진 에이스",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-923",
+        "name": "찢어진 에이스",
+        "visualMode": "rip",
+        "mechanic": "CARDGU_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "관통 카드와 반으로 찢어진 에이스가 순환하며 강화된 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 스페이드 관통 → 찢어진 에이스",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-924",
+        "name": "블랙 셔플",
+        "visualMode": "storm",
+        "mechanic": "CARDGU_ROYAL_POKER",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 1,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "총 3,024% 피해를 생존한 적 전체에 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 두 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-925",
+        "name": "로열 브레이크",
+        "visualMode": "crown",
+        "mechanic": "CARDGU_ROYAL_POKER",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 1,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "총 3,024% 피해를 생존한 적 전체에 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 두 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 2,700,000. 제너럴 족과 같은 공격·체력·방어·속도·연계 기준입니다. 개인 피해 80% 경감과 상태이상·반격 보호. 스페이드 관통과 찢어진 에이스가 일반 공격마다 순환하며 1.5배 피해를 한 번 적용합니다. PVE 블랙 셔플·로열 브레이크는 에너지 20·공통 재사용 3행동으로 시전당 총 3,024% 피해를 생존한 적 전체에 나눠 한 번씩 적용합니다. 전신 카드 아우라·회전 카드 24장·황금 네온, 모션 2배. 현재 획득 불가. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+  },
+  "operationalAccountWrites": 0
+}

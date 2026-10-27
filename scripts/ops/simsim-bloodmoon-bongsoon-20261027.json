@@ -1,0 +1,50 @@
+{
+  "operationKey": "ops:simsim-bloodmoon-bongsoon-grant:20261027:v1",
+  "authorization": "심심이 계정에 블러드문 나무늘봉순 지급해",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "sendMessages": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "4933",
+      "nickname": "심심이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "8466791110ed333357256dff49445855d0b94636995e0ad42210bfb9da85bcac"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "4933",
+      "nickname": "심심이",
+      "code": "V-960",
+      "name": "블러드문 나무늘봉순",
+      "quantity": 1
+    }
+  ],
+  "stockLimit": 65,
+  "followupAuthorization": "16레벨로 지급하고 한도상관없이 지급",
+  "materialsConsumed": 0,
+  "growth": {
+    "code": "V-960",
+    "rank": "SS",
+    "season": "BLOODMOON",
+    "before": {
+      "level": 1,
+      "experience": 0,
+      "breakthroughMask": 0,
+      "revision": 0
+    },
+    "after": {
+      "level": 16,
+      "experience": 0,
+      "breakthroughMask": 7,
+      "revision": 1
+    },
+    "existingRow": false,
+    "experiencePolicy": "PRESERVE_EXISTING"
+  }
+}

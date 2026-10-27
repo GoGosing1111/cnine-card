@@ -1,0 +1,14 @@
+{
+  "approved": true,
+  "authorization": "라이브 반영하고 제너럴족하고 비슷한 밸런스로 맞춰",
+  "scope": [
+    "approved_cardgu_art_and_battle_resources",
+    "general_jok_comparable_balance",
+    "codex_loadout_growth",
+    "production_deployment"
+  ],
+  "acquisition": "UNSPECIFIED_LOCKED",
+  "grants": 0,
+  "scheduledJobs": 0,
+  "storageMaintenance": false
+}

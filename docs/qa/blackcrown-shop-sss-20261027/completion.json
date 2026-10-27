@@ -1,0 +1,28 @@
+{
+  "status": "COMPLETED",
+  "verifiedAt": "2026-10-27T09:38:29.015Z",
+  "releaseCommit": "a3f2e8e1b0c5890f5775f439c5e913ddc8c2c02a",
+  "pages": {
+    "id": "64d83ad7-2081-4c09-9de7-d4af6b86f1ce",
+    "url": "https://64d83ad7.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "a3f2e8e1b0c5890f5775f439c5e913ddc8c2c02a"
+  },
+  "tests": 29,
+  "localShopVerifiedOnAndOff": true,
+  "publicShopVerified": true,
+  "publicWidths": [
+    1440,
+    390
+  ],
+  "sourceOfPublicCards": "/api/packs",
+  "publicFiles": 6,
+  "settingsRevision": 5,
+  "mode": "OFF",
+  "limitEach": 5,
+  "remainingEach": 5,
+  "effectivePercentEach": "0.0000008",
+  "existingRevanDirectCopy": 1,
+  "productionDatabaseWrites": 0,
+  "independentReadOnlyPreserved": true
+}

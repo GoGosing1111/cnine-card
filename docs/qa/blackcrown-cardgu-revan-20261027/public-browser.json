@@ -1,0 +1,89 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "mode": "OFF",
+      "limitsEach": 5,
+      "percentEach": "0.0000008",
+      "publicAssets": true,
+      "publicApi": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "mode": "OFF",
+      "limitsEach": 5,
+      "percentEach": "0.0000008",
+      "publicAssets": true,
+      "publicApi": true,
+      "errors": []
+    }
+  ],
+  "requests": [
+    {
+      "path": "/js/mercenary-blackcrown-pack-live.bundle.mjs",
+      "status": 200
+    },
+    {
+      "path": "/css/mercenary-blackcrown-pack.bundle.css?sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/packs/black-crown-20261027-v1/pack-768.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/packs/black-crown-20261027-v1/blackcrown-vault-v2.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/packs/black-crown-20261027-v1/button-crown-gold-v3.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/packs/black-crown-20261027-v1/button-crown-obsidian-v3.webp",
+      "status": 200
+    },
+    {
+      "path": "/api/mercenaries/v3/blackcrown-pack/feature",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/packs/black-crown-20261027-v1/v-950-320.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/packs/black-crown-20261027-v1/v-951-320.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/packs/black-crown-20261027-v1/v-952-320.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/packs/black-crown-20261027-v1/v-953-320.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/packs/black-crown-20261027-v1/v-955-320.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/packs/black-crown-20261027-v1/v-954-320.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/razak-20261024/art-320.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/reaper-mask-20261027/source-art-approved-v9.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+      "status": 200
+    }
+  ],
+  "readOnly": true
+}

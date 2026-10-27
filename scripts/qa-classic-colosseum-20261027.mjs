@@ -2,7 +2,7 @@ import {createRequire} from 'node:module';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import {startClassicQa} from './serve-classic-colosseum-qa.mjs';
+import {startClassicQa} from './qa-classic-colosseum-server.mjs';
 const require=createRequire(import.meta.url),{chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const output=process.env.CLASSIC_QA_OUTPUT||'C:/Users/User/Downloads/upload/cnine-card/output/classic-colosseum-20261027';
 await fs.mkdir(output,{recursive:true});

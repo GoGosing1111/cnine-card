@@ -1,0 +1,44 @@
+{
+  "status": "PASSED",
+  "reports": [
+    {
+      "width": 1440,
+      "shopName": true,
+      "shopEntry": true,
+      "openingEnabled": true,
+      "ssStockLimit": 10,
+      "sssStockEach": 5,
+      "sssEffectivePercent": "0.0000008",
+      "sssUnaffectedByOwnership": true,
+      "distinctOwnedTypes": 2,
+      "ssProbabilityDivisor": 2,
+      "cmsSaveReload": true,
+      "bulkCountAt100Trillion": 66666,
+      "cmsOnEnabled": true,
+      "confirmationCancelledWithoutCharge": true,
+      "isolatedOpeningResult": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 390,
+      "shopName": true,
+      "shopEntry": true,
+      "openingEnabled": true,
+      "ssStockLimit": 10,
+      "sssStockEach": 5,
+      "sssEffectivePercent": "0.0000008",
+      "sssUnaffectedByOwnership": true,
+      "distinctOwnedTypes": 2,
+      "ssProbabilityDivisor": 2,
+      "cmsSaveReload": true,
+      "bulkCountAt100Trillion": 66666,
+      "cmsOnEnabled": true,
+      "confirmationCancelledWithoutCharge": true,
+      "isolatedOpeningResult": true,
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "productionTransactions": 0
+}
