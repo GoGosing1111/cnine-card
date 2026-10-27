@@ -1,3 +1,4 @@
+import {revanIncomingDamage,revanActionCredit} from '../shared/mercenary-revan-v1.mjs';
 import {awakenedOmegaIncomingDamage} from '../shared/mercenary-awakened-omega-v1.mjs';
 import {razakIncomingDamage,razakActionCredit} from '../shared/mercenary-razak-v1.mjs';
 import {eunseolIncomingDamage,eunseolActionCredit} from '../shared/mercenary-eunseol-v1.mjs';
@@ -602,6 +603,7 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   incoming = awakenedOmegaIncomingDamage(target,incoming);
   incoming = jinmuIncomingDamage(target,incoming,options.actor);
   incoming = kaironIncomingDamage(target,incoming,options.actor);
+  incoming = revanIncomingDamage(target,incoming,options.actor);
   incoming = eunseolIncomingDamage(target,incoming,options.actor);
   incoming = generalJokIncomingDamage(target,incoming);
   incoming = primeIncomingDamage(target,incoming);
@@ -842,7 +844,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const mercenaryActionsBySide={A:0,B:0};
   // Valter/Helios reserved turns must not exhaust the old two-turn safety
   // budget before the regular-card clock ends. Other teams retain their cap.
-  const mercenaryActionLimits=Object.fromEntries([['A',a],['B',b]].map(([side,team])=>[side,maxActions*Math.max(2,Math.ceil(valterActionCredit(team)),Math.ceil(heliosActionCredit(team)),Math.ceil(jinmuActionCredit(team)),Math.ceil(kaironActionCredit(team)),Math.ceil(shiranuiActionCredit(team)),Math.ceil(eunseolActionCredit(team)),Math.ceil(generalJokActionCredit(team)),Math.ceil(primeActionCredit(team)),Math.ceil(zeroActionCredit(team)),Math.ceil(leonelActionCredit(team)),Math.ceil(jokroActionCredit(team)),Math.ceil(razakActionCredit(team)))]));
+  const mercenaryActionLimits=Object.fromEntries([['A',a],['B',b]].map(([side,team])=>[side,maxActions*Math.max(2,Math.ceil(valterActionCredit(team)),Math.ceil(heliosActionCredit(team)),Math.ceil(jinmuActionCredit(team)),Math.ceil(kaironActionCredit(team)),Math.ceil(shiranuiActionCredit(team)),Math.ceil(revanActionCredit(team)),Math.ceil(eunseolActionCredit(team)),Math.ceil(generalJokActionCredit(team)),Math.ceil(primeActionCredit(team)),Math.ceil(zeroActionCredit(team)),Math.ceil(leonelActionCredit(team)),Math.ceil(jokroActionCredit(team)),Math.ceil(razakActionCredit(team)))]));
   const mercenaryActionAvailable=actor=>!actor.isMercenary||mercenaryActionsBySide[actor.side]<mercenaryActionLimits[actor.side];
   // V1813: 몬스터 강제 행동까지 남은 플레이어 행동 수를 센다.
   let playerStreak = 0;

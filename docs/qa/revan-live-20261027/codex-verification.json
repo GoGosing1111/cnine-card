@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "date": "2026-10-27",
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "skills": [
+    "단죄",
+    "흑월",
+    "종언",
+    "멸참"
+  ],
+  "basePower": 2200000,
+  "sourceArtVisible": true,
+  "acquisitionLocked": true,
+  "mobileDetailSheet": true
+}

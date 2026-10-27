@@ -1,0 +1,15 @@
+{
+  "base": "4f86b306c27c507fa4fed2f424e5fe47e8489d82",
+  "reason": "사용자 승인 레반 V-971 전투 연결. 현재 족로와 동일한 220만 능력치·연계·행동·광역 예산을 독립 정책으로 적용. 단죄/흑월/종언/멸참 2배속. 대기는 검이 머리 뒤, 전방 공격은 몸 앞이며 손가락이 손잡이를 덮음. 승인 원화·기존 PNG 10개 보존, 새 멸참 검기 PNG 추가. 실제 V3 메인 로더 PC·모바일·PVP·12대상 및 두 광역기 공통 재사용 확인. 획득/계정/재화/설정 변경 없음.",
+  "tests": [
+    "tests/revan-live-20261027.test.mjs",
+    "tests/revan-runtime-20261027.test.mjs",
+    "tests/jokro-combat-20261018.test.mjs",
+    "tests/eunseol-live-20261023.test.mjs",
+    "tests/mercenary-turn-cadence-v2099.test.mjs",
+    "tests/bloodmoon-skill-status-20261025.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

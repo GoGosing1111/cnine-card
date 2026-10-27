@@ -1,3 +1,4 @@
+import {REVAN_CODE,revanDeploymentSnapshot} from './mercenary-revan-v1.mjs';
 import {BLACKCROWN_MERCENARIES} from './mercenary-blackcrown-catalog-v1.mjs';
 import {BLACKCROWN_COMBAT,BLACKCROWN_COMBAT_VERSION} from './mercenary-blackcrown-combat-v1.mjs';
 import {AWAKENED_OMEGA_CODE,awakenedOmegaDeploymentSnapshot} from './mercenary-awakened-omega-v1.mjs';
@@ -40,6 +41,7 @@ export function limitedDeploymentSnapshot(code){
  if(code===AWAKENED_OMEGA_CODE)return awakenedOmegaDeploymentSnapshot();
  if(code===RAZAK_CODE)return razakDeploymentSnapshot();
  if(code===NAMSUDAENG_CODE)return namsudaengDeploymentSnapshot();
+ if(code===REVAN_CODE)return revanDeploymentSnapshot();
  if(code===EUNSEOL_CODE)return eunseolDeploymentSnapshot();
  if(code===GENERAL_JOK_CODE)return generalJokDeploymentSnapshot();
  if(code===PRIME_CODE)return primeDeploymentSnapshot();

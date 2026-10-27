@@ -1,0 +1,230 @@
+{
+  "date": "2026-10-27",
+  "name": "레반",
+  "status": "PASS",
+  "checks": 19,
+  "results": [
+    {
+      "name": "Approved source art unchanged",
+      "status": "PASS",
+      "details": "bb9e25aa8e9e0a838672085a0a43f1643269ca4d6aab91f8458016ffe6ed2ad5"
+    },
+    {
+      "name": "assets/body-ready-v1.png RGBA and integrity",
+      "status": "PASS",
+      "details": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 892454
+      }
+    },
+    {
+      "name": "assets/body-idle-v1.png RGBA and integrity",
+      "status": "PASS",
+      "details": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 813950
+      }
+    },
+    {
+      "name": "assets/greatsword-rigid-v1.png RGBA and integrity",
+      "status": "PASS",
+      "details": {
+        "width": 2172,
+        "height": 724,
+        "transparentPixels": 1097560
+      }
+    },
+    {
+      "name": "assets/aura-atlas-v1.png RGBA and integrity",
+      "status": "PASS",
+      "details": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 319802
+      }
+    },
+    {
+      "name": "assets/danjoe-fx-atlas-v1.png RGBA and integrity",
+      "status": "PASS",
+      "details": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 554990
+      }
+    },
+    {
+      "name": "assets/heukwol-fx-atlas-v1.png RGBA and integrity",
+      "status": "PASS",
+      "details": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 518650
+      }
+    },
+    {
+      "name": "assets/jongeon-fx-atlas-v1.png RGBA and integrity",
+      "status": "PASS",
+      "details": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 568241
+      }
+    },
+    {
+      "name": "assets/danjoe-body-atlas-v1.png RGBA and integrity",
+      "status": "PASS",
+      "details": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 728579
+      }
+    },
+    {
+      "name": "assets/heukwol-body-atlas-v1.png RGBA and integrity",
+      "status": "PASS",
+      "details": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 735481
+      }
+    },
+    {
+      "name": "assets/jongeon-body-atlas-v1.png RGBA and integrity",
+      "status": "PASS",
+      "details": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 725000
+      }
+    },
+    {
+      "name": "assets/myeol-fx-atlas-v1.png RGBA and integrity",
+      "status": "PASS",
+      "details": {
+        "width": 1774,
+        "height": 887,
+        "transparentPixels": 688720
+      }
+    },
+    {
+      "name": "Rigid sword geometry",
+      "status": "PASS",
+      "details": {
+        "edgeSamples": [
+          {
+            "x": 440,
+            "top": 235,
+            "bottom": 471,
+            "width": 237,
+            "center": 353
+          },
+          {
+            "x": 550,
+            "top": 235,
+            "bottom": 471,
+            "width": 237,
+            "center": 353
+          },
+          {
+            "x": 900,
+            "top": 236,
+            "bottom": 470,
+            "width": 235,
+            "center": 353
+          },
+          {
+            "x": 1300,
+            "top": 236,
+            "bottom": 470,
+            "width": 235,
+            "center": 353
+          },
+          {
+            "x": 1700,
+            "top": 237,
+            "bottom": 469,
+            "width": 233,
+            "center": 353
+          },
+          {
+            "x": 1980,
+            "top": 237,
+            "bottom": 470,
+            "width": 234,
+            "center": 353.5
+          },
+          {
+            "x": 2145,
+            "top": 347,
+            "bottom": 359,
+            "width": 13,
+            "center": 353
+          }
+        ],
+        "widthVariationPixels": 4,
+        "tipCenterDeviationPixels": 0.08333333333331439
+      }
+    },
+    {
+      "name": "Registered motion/effect frames",
+      "status": "PASS",
+      "details": {
+        "bodyFrames": 36,
+        "uniqueBodyFrames": 27,
+        "fxFrames": 60,
+        "myeolReusesDanjoeBody": true
+      }
+    },
+    {
+      "name": "danjoe contact, recovery and clamped seek",
+      "status": "PASS",
+      "details": {
+        "duration": 2.5,
+        "contacts": [
+          0.83
+        ]
+      }
+    },
+    {
+      "name": "heukwol contact, recovery and clamped seek",
+      "status": "PASS",
+      "details": {
+        "duration": 3.05,
+        "contacts": [
+          0.7,
+          1.2
+        ]
+      }
+    },
+    {
+      "name": "jongeon contact, recovery and clamped seek",
+      "status": "PASS",
+      "details": {
+        "duration": 3.8,
+        "contacts": [
+          1.46,
+          1.66,
+          1.84
+        ]
+      }
+    },
+    {
+      "name": "myeol contact, recovery and clamped seek",
+      "status": "PASS",
+      "details": {
+        "duration": 3.4,
+        "contacts": [
+          1.1,
+          1.23,
+          1.36
+        ]
+      }
+    },
+    {
+      "name": "Source PNG preservation recorded",
+      "status": "PASS"
+    }
+  ]
+}

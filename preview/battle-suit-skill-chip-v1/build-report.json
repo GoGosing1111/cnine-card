@@ -111,6 +111,13 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "shared/mercenary-cryvern-v1.mjs",
+    "shared/mercenary-berkan-v1.mjs",
+    "shared/mercenary-revan-v1.mjs",
+    "preview/project-v-v3/source/battle/revan/skill.mjs",
+    "preview/project-v-v3/source/battle/revan/AtlasEdgeFilter.js",
+    "preview/project-v-v3/source/battle/revan/RevanFX.js",
+    "preview/project-v-v3/source/battle/RevanCombatPlayback.js",
     "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/motion-manifest.json",
     "preview/project-v-v3/source/battle/blackcrown/skills.mjs",
     "preview/project-v-v3/source/battle/blackcrown/BlackCrownFX.js",
@@ -133,8 +140,6 @@
     "preview/project-v-v3/source/battle/bloodmoon-namsudaeng/skills.mjs",
     "preview/project-v-v3/source/battle/bloodmoon-namsudaeng/BloodmoonFX.js",
     "preview/project-v-v3/source/battle/BloodmoonNamsudaengPlayback.js",
-    "shared/mercenary-cryvern-v1.mjs",
-    "shared/mercenary-berkan-v1.mjs",
     "shared/mercenary-jokro-v1.mjs",
     "shared/mercenary-eunseol-v1.mjs",
     "preview/project-v-v3/source/battle/eunseol/skills.mjs",
@@ -294,5 +299,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2702375
+  "outputBytes": 2729548
 }

@@ -1,0 +1,2353 @@
+{
+  "format": "PROJECT_V_MERCENARY_BATTLE_RESOURCE_V1",
+  "name": "레반",
+  "code": "V-971",
+  "version": "20261027-revan-live-v1",
+  "playbackRate": 2,
+  "sprite": {
+    "physicalBodyHeight": 340,
+    "proportion": "NATURAL_ADULT_ORIGINAL_PROPORTIONS",
+    "direction": "RIGHT_THREE_QUARTER_SIDE",
+    "uniformScaleOnly": true
+  },
+  "weapon": {
+    "file": "assets/greatsword-rigid-v1.png",
+    "width": 2172,
+    "height": 724,
+    "bytes": 1163418,
+    "sha256": "431cf191efade2d6ef3bf10a5860f78f5cb19287e79f1ae957cf791b2eb2b041",
+    "hasAlpha": true,
+    "transparentPixels": 1097560,
+    "partialAlphaPixels": 474664,
+    "copiedWithoutReencoding": true,
+    "grip": {
+      "x": 338,
+      "y": 351
+    },
+    "bladeRoot": {
+      "x": 408,
+      "y": 351
+    },
+    "tip": {
+      "x": 2164,
+      "y": 351
+    },
+    "bladeLengthWorld": 390,
+    "singleRigidTextureForAllPoses": true,
+    "nonUniformScale": false,
+    "deformation": false
+  },
+  "poses": {
+    "danjoe": {
+      "file": "assets/danjoe-body-atlas-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2257659,
+      "sha256": "6e92eacd828f74ae89ddf19aeab671ca26f51aa6fd2628c12f971886fb38719a",
+      "hasAlpha": true,
+      "transparentPixels": 728579,
+      "partialAlphaPixels": 842923,
+      "copiedWithoutReencoding": true,
+      "grid": {
+        "columns": 3,
+        "rows": 3
+      },
+      "bodyPixels": 386,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 418,
+            "height": 431
+          },
+          "bounds": {
+            "x": 25,
+            "y": 33,
+            "width": 373,
+            "height": 386
+          },
+          "opaquePixels": 76427,
+          "foot": {
+            "x": 246.5,
+            "y": 419
+          },
+          "grip": {
+            "x": 175.56,
+            "y": 64.79
+          },
+          "weaponAngle": -0.2
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 418,
+            "y": 0,
+            "width": 418,
+            "height": 431
+          },
+          "bounds": {
+            "x": 24,
+            "y": 59,
+            "width": 376,
+            "height": 360
+          },
+          "opaquePixels": 69228,
+          "foot": {
+            "x": 245,
+            "y": 419
+          },
+          "grip": {
+            "x": 204.82,
+            "y": 167.20000000000002
+          },
+          "weaponAngle": -1.42
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 836,
+            "y": 0,
+            "width": 418,
+            "height": 431
+          },
+          "bounds": {
+            "x": 16,
+            "y": 62,
+            "width": 396,
+            "height": 357
+          },
+          "opaquePixels": 73798,
+          "foot": {
+            "x": 283.5,
+            "y": 419
+          },
+          "grip": {
+            "x": 150.48,
+            "y": 217.36
+          },
+          "weaponAngle": -2.55
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 0,
+            "y": 431,
+            "width": 418,
+            "height": 405
+          },
+          "bounds": {
+            "x": 25,
+            "y": 15,
+            "width": 393,
+            "height": 379
+          },
+          "opaquePixels": 84871,
+          "foot": {
+            "x": 240,
+            "y": 394
+          },
+          "grip": {
+            "x": 353.21,
+            "y": 129.12
+          },
+          "weaponAngle": -1.1
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 418,
+            "y": 431,
+            "width": 418,
+            "height": 405
+          },
+          "bounds": {
+            "x": 0,
+            "y": 21,
+            "width": 418,
+            "height": 374
+          },
+          "opaquePixels": 89075,
+          "foot": {
+            "x": 235.5,
+            "y": 395
+          },
+          "grip": {
+            "x": 372.02,
+            "y": 108.22000000000003
+          },
+          "weaponAngle": -0.12
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 836,
+            "y": 431,
+            "width": 418,
+            "height": 405
+          },
+          "bounds": {
+            "x": 0,
+            "y": 17,
+            "width": 411,
+            "height": 376
+          },
+          "opaquePixels": 79659,
+          "foot": {
+            "x": 204.5,
+            "y": 393
+          },
+          "grip": {
+            "x": 380.38,
+            "y": 95.68000000000006
+          },
+          "weaponAngle": -0.32
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 0,
+            "y": 836,
+            "width": 418,
+            "height": 418
+          },
+          "bounds": {
+            "x": 28,
+            "y": 29,
+            "width": 380,
+            "height": 365
+          },
+          "opaquePixels": 72341,
+          "foot": {
+            "x": 270.5,
+            "y": 394
+          },
+          "grip": {
+            "x": 340.66999999999996,
+            "y": 209
+          },
+          "weaponAngle": 0.26
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 418,
+            "y": 836,
+            "width": 418,
+            "height": 418
+          },
+          "bounds": {
+            "x": 11,
+            "y": 15,
+            "width": 396,
+            "height": 379
+          },
+          "opaquePixels": 75901,
+          "foot": {
+            "x": 243.5,
+            "y": 394
+          },
+          "grip": {
+            "x": 163.02,
+            "y": 37.620000000000005
+          },
+          "weaponAngle": -1.25
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 836,
+            "y": 836,
+            "width": 418,
+            "height": 418
+          },
+          "bounds": {
+            "x": 15,
+            "y": 9,
+            "width": 373,
+            "height": 386
+          },
+          "opaquePixels": 76341,
+          "foot": {
+            "x": 236,
+            "y": 395
+          },
+          "grip": {
+            "x": 167.20000000000002,
+            "y": 35.52999999999997
+          },
+          "weaponAngle": -0.2
+        }
+      ]
+    },
+    "heukwol": {
+      "file": "assets/heukwol-body-atlas-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2250140,
+      "sha256": "b03ea832fe9fb789b766461ef7faacdcd634b25cdf9930bcb31f56573c1377e7",
+      "hasAlpha": true,
+      "transparentPixels": 735481,
+      "partialAlphaPixels": 836239,
+      "copiedWithoutReencoding": true,
+      "grid": {
+        "columns": 3,
+        "rows": 3
+      },
+      "bodyPixels": 374.5,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 418,
+            "height": 414
+          },
+          "bounds": {
+            "x": 21,
+            "y": 35,
+            "width": 364,
+            "height": 374
+          },
+          "opaquePixels": 74056,
+          "foot": {
+            "x": 224,
+            "y": 409
+          },
+          "grip": {
+            "x": 167.20000000000002,
+            "y": 68.97
+          },
+          "weaponAngle": -0.2
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 418,
+            "y": 0,
+            "width": 418,
+            "height": 414
+          },
+          "bounds": {
+            "x": 28,
+            "y": 93,
+            "width": 366,
+            "height": 316
+          },
+          "opaquePixels": 63654,
+          "foot": {
+            "x": 230,
+            "y": 409
+          },
+          "grip": {
+            "x": 204.82,
+            "y": 263.34
+          },
+          "weaponAngle": -2.6
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 836,
+            "y": 0,
+            "width": 418,
+            "height": 414
+          },
+          "bounds": {
+            "x": 20,
+            "y": 20,
+            "width": 392,
+            "height": 389
+          },
+          "opaquePixels": 76925,
+          "foot": {
+            "x": 259,
+            "y": 409
+          },
+          "grip": {
+            "x": 317.68,
+            "y": 37.62
+          },
+          "weaponAngle": -1.15
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 0,
+            "y": 414,
+            "width": 418,
+            "height": 430
+          },
+          "bounds": {
+            "x": 30,
+            "y": 7,
+            "width": 377,
+            "height": 416
+          },
+          "opaquePixels": 80001,
+          "foot": {
+            "x": 253.5,
+            "y": 423
+          },
+          "grip": {
+            "x": 267.52,
+            "y": 22.810000000000002
+          },
+          "weaponAngle": -1.56
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 418,
+            "y": 414,
+            "width": 418,
+            "height": 430
+          },
+          "bounds": {
+            "x": 15,
+            "y": 20,
+            "width": 397,
+            "height": 402
+          },
+          "opaquePixels": 84160,
+          "foot": {
+            "x": 258.5,
+            "y": 422
+          },
+          "grip": {
+            "x": 196.45999999999998,
+            "y": 35.35000000000002
+          },
+          "weaponAngle": -2.1
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 836,
+            "y": 414,
+            "width": 418,
+            "height": 430
+          },
+          "bounds": {
+            "x": 19,
+            "y": 87,
+            "width": 383,
+            "height": 331
+          },
+          "opaquePixels": 70707,
+          "foot": {
+            "x": 233.5,
+            "y": 418
+          },
+          "grip": {
+            "x": 380.38,
+            "y": 267.3399999999999
+          },
+          "weaponAngle": 0.36
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 0,
+            "y": 844,
+            "width": 418,
+            "height": 410
+          },
+          "bounds": {
+            "x": 30,
+            "y": 70,
+            "width": 388,
+            "height": 310
+          },
+          "opaquePixels": 64678,
+          "foot": {
+            "x": 256.5,
+            "y": 380
+          },
+          "grip": {
+            "x": 280.06,
+            "y": 251.16000000000008
+          },
+          "weaponAngle": 0.32
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 418,
+            "y": 844,
+            "width": 418,
+            "height": 410
+          },
+          "bounds": {
+            "x": 0,
+            "y": 10,
+            "width": 413,
+            "height": 370
+          },
+          "opaquePixels": 75112,
+          "foot": {
+            "x": 206,
+            "y": 380
+          },
+          "grip": {
+            "x": 334.40000000000003,
+            "y": 42.15999999999997
+          },
+          "weaponAngle": -1.2
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 836,
+            "y": 844,
+            "width": 418,
+            "height": 410
+          },
+          "bounds": {
+            "x": 19,
+            "y": 6,
+            "width": 363,
+            "height": 375
+          },
+          "opaquePixels": 74329,
+          "foot": {
+            "x": 221.5,
+            "y": 381
+          },
+          "grip": {
+            "x": 167.20000000000002,
+            "y": 35.889999999999986
+          },
+          "weaponAngle": -0.2
+        }
+      ]
+    },
+    "jongeon": {
+      "file": "assets/jongeon-body-atlas-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2306481,
+      "sha256": "da2eb62d136985d8affd1ab9d59693be0f9e9f74eb398593033e1281af9b1d9f",
+      "hasAlpha": true,
+      "transparentPixels": 725000,
+      "partialAlphaPixels": 846531,
+      "copiedWithoutReencoding": true,
+      "grid": {
+        "columns": 3,
+        "rows": 3
+      },
+      "bodyPixels": 362,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 418,
+            "height": 413
+          },
+          "bounds": {
+            "x": 28,
+            "y": 34,
+            "width": 379,
+            "height": 366
+          },
+          "opaquePixels": 71371,
+          "foot": {
+            "x": 252,
+            "y": 400
+          },
+          "grip": {
+            "x": 142.12,
+            "y": 58.52
+          },
+          "weaponAngle": -0.2
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 418,
+            "y": 0,
+            "width": 418,
+            "height": 413
+          },
+          "bounds": {
+            "x": 1,
+            "y": 35,
+            "width": 397,
+            "height": 366
+          },
+          "opaquePixels": 72121,
+          "foot": {
+            "x": 222,
+            "y": 401
+          },
+          "grip": {
+            "x": 125.39999999999999,
+            "y": 58.52
+          },
+          "weaponAngle": -0.2
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 836,
+            "y": 0,
+            "width": 418,
+            "height": 413
+          },
+          "bounds": {
+            "x": 22,
+            "y": 41,
+            "width": 365,
+            "height": 359
+          },
+          "opaquePixels": 65779,
+          "foot": {
+            "x": 222.5,
+            "y": 400
+          },
+          "grip": {
+            "x": 135.85,
+            "y": 71.06
+          },
+          "weaponAngle": -1.6
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 0,
+            "y": 413,
+            "width": 418,
+            "height": 434
+          },
+          "bounds": {
+            "x": 24,
+            "y": 15,
+            "width": 387,
+            "height": 410
+          },
+          "opaquePixels": 81462,
+          "foot": {
+            "x": 248.5,
+            "y": 425
+          },
+          "grip": {
+            "x": 198.54999999999998,
+            "y": 34.25999999999999
+          },
+          "weaponAngle": -2.1
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 418,
+            "y": 413,
+            "width": 418,
+            "height": 434
+          },
+          "bounds": {
+            "x": 12,
+            "y": 7,
+            "width": 406,
+            "height": 418
+          },
+          "opaquePixels": 78774,
+          "foot": {
+            "x": 252.5,
+            "y": 425
+          },
+          "grip": {
+            "x": 196.45999999999998,
+            "y": 34.25999999999999
+          },
+          "weaponAngle": -2.1
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 836,
+            "y": 413,
+            "width": 418,
+            "height": 434
+          },
+          "bounds": {
+            "x": 0,
+            "y": 55,
+            "width": 402,
+            "height": 370
+          },
+          "opaquePixels": 79282,
+          "foot": {
+            "x": 237.5,
+            "y": 425
+          },
+          "grip": {
+            "x": 338.58000000000004,
+            "y": 305.96000000000004
+          },
+          "weaponAngle": 0.28
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 0,
+            "y": 847,
+            "width": 418,
+            "height": 407
+          },
+          "bounds": {
+            "x": 23,
+            "y": 33,
+            "width": 395,
+            "height": 348
+          },
+          "opaquePixels": 80652,
+          "foot": {
+            "x": 270,
+            "y": 381
+          },
+          "grip": {
+            "x": 340.66999999999996,
+            "y": 231.44000000000005
+          },
+          "weaponAngle": 0.28
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 418,
+            "y": 847,
+            "width": 418,
+            "height": 407
+          },
+          "bounds": {
+            "x": 0,
+            "y": 15,
+            "width": 410,
+            "height": 366
+          },
+          "opaquePixels": 73997,
+          "foot": {
+            "x": 204.5,
+            "y": 381
+          },
+          "grip": {
+            "x": 326.04,
+            "y": 39.15999999999997
+          },
+          "weaponAngle": -1.2
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 836,
+            "y": 847,
+            "width": 418,
+            "height": 407
+          },
+          "bounds": {
+            "x": 6,
+            "y": 23,
+            "width": 391,
+            "height": 358
+          },
+          "opaquePixels": 72549,
+          "foot": {
+            "x": 233,
+            "y": 381
+          },
+          "grip": {
+            "x": 129.58,
+            "y": 30.799999999999955
+          },
+          "weaponAngle": -0.2
+        }
+      ]
+    },
+    "myeol": {
+      "file": "assets/danjoe-body-atlas-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2257659,
+      "sha256": "6e92eacd828f74ae89ddf19aeab671ca26f51aa6fd2628c12f971886fb38719a",
+      "hasAlpha": true,
+      "transparentPixels": 728579,
+      "partialAlphaPixels": 842923,
+      "copiedWithoutReencoding": true,
+      "grid": {
+        "columns": 3,
+        "rows": 3
+      },
+      "bodyPixels": 386,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 418,
+            "height": 431
+          },
+          "bounds": {
+            "x": 25,
+            "y": 33,
+            "width": 373,
+            "height": 386
+          },
+          "opaquePixels": 76427,
+          "foot": {
+            "x": 246.5,
+            "y": 419
+          },
+          "grip": {
+            "x": 175.56,
+            "y": 64.79
+          },
+          "weaponAngle": -0.2
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 418,
+            "y": 0,
+            "width": 418,
+            "height": 431
+          },
+          "bounds": {
+            "x": 24,
+            "y": 59,
+            "width": 376,
+            "height": 360
+          },
+          "opaquePixels": 69228,
+          "foot": {
+            "x": 245,
+            "y": 419
+          },
+          "grip": {
+            "x": 204.82,
+            "y": 167.20000000000002
+          },
+          "weaponAngle": -1.42
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 836,
+            "y": 0,
+            "width": 418,
+            "height": 431
+          },
+          "bounds": {
+            "x": 16,
+            "y": 62,
+            "width": 396,
+            "height": 357
+          },
+          "opaquePixels": 73798,
+          "foot": {
+            "x": 283.5,
+            "y": 419
+          },
+          "grip": {
+            "x": 150.48,
+            "y": 217.36
+          },
+          "weaponAngle": -2.55
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 0,
+            "y": 431,
+            "width": 418,
+            "height": 405
+          },
+          "bounds": {
+            "x": 25,
+            "y": 15,
+            "width": 393,
+            "height": 379
+          },
+          "opaquePixels": 84871,
+          "foot": {
+            "x": 240,
+            "y": 394
+          },
+          "grip": {
+            "x": 353.21,
+            "y": 129.12
+          },
+          "weaponAngle": -0.08
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 418,
+            "y": 431,
+            "width": 418,
+            "height": 405
+          },
+          "bounds": {
+            "x": 0,
+            "y": 21,
+            "width": 418,
+            "height": 374
+          },
+          "opaquePixels": 89075,
+          "foot": {
+            "x": 235.5,
+            "y": 395
+          },
+          "grip": {
+            "x": 372.02,
+            "y": 108.22000000000003
+          },
+          "weaponAngle": 0.02
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 836,
+            "y": 431,
+            "width": 418,
+            "height": 405
+          },
+          "bounds": {
+            "x": 0,
+            "y": 17,
+            "width": 411,
+            "height": 376
+          },
+          "opaquePixels": 79659,
+          "foot": {
+            "x": 204.5,
+            "y": 393
+          },
+          "grip": {
+            "x": 380.38,
+            "y": 95.68000000000006
+          },
+          "weaponAngle": 0.13
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 0,
+            "y": 836,
+            "width": 418,
+            "height": 418
+          },
+          "bounds": {
+            "x": 28,
+            "y": 29,
+            "width": 380,
+            "height": 365
+          },
+          "opaquePixels": 72341,
+          "foot": {
+            "x": 270.5,
+            "y": 394
+          },
+          "grip": {
+            "x": 340.66999999999996,
+            "y": 209
+          },
+          "weaponAngle": 0.26
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 418,
+            "y": 836,
+            "width": 418,
+            "height": 418
+          },
+          "bounds": {
+            "x": 11,
+            "y": 15,
+            "width": 396,
+            "height": 379
+          },
+          "opaquePixels": 75901,
+          "foot": {
+            "x": 243.5,
+            "y": 394
+          },
+          "grip": {
+            "x": 163.02,
+            "y": 37.620000000000005
+          },
+          "weaponAngle": -1.25
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 836,
+            "y": 836,
+            "width": 418,
+            "height": 418
+          },
+          "bounds": {
+            "x": 15,
+            "y": 9,
+            "width": 373,
+            "height": 386
+          },
+          "opaquePixels": 76341,
+          "foot": {
+            "x": 236,
+            "y": 395
+          },
+          "grip": {
+            "x": 167.20000000000002,
+            "y": 35.52999999999997
+          },
+          "weaponAngle": -0.2
+        }
+      ],
+      "reusedAuthoredPose": "danjoe"
+    },
+    "idle": {
+      "file": "assets/body-idle-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1745797,
+      "sha256": "9c07ce9dd5b8df172228717136c6975dddddf4a391b3806fd85fbe9bbc51ac4a",
+      "hasAlpha": true,
+      "transparentPixels": 813950,
+      "partialAlphaPixels": 757754,
+      "copiedWithoutReencoding": true,
+      "bodyPixels": 1184,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1254,
+            "height": 1254
+          },
+          "foot": {
+            "x": 780,
+            "y": 1233
+          },
+          "grip": {
+            "x": 352,
+            "y": 212
+          },
+          "weaponAngle": -0.2
+        }
+      ]
+    }
+  },
+  "effects": {
+    "aura": {
+      "file": "assets/aura-atlas-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2734684,
+      "sha256": "b8e61143e2c811ce7604782ca335ebaa849c9b93dcaf6ad1edbb2b48c853f6da",
+      "hasAlpha": true,
+      "transparentPixels": 319802,
+      "partialAlphaPixels": 1252711,
+      "copiedWithoutReencoding": true,
+      "grid": {
+        "columns": 4,
+        "rows": 3
+      },
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 14,
+            "y": 38,
+            "width": 291,
+            "height": 376
+          },
+          "opaquePixels": 38841,
+          "foot": {
+            "x": 155.5,
+            "y": 414
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 314,
+            "y": 0,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 11,
+            "y": 24,
+            "width": 292,
+            "height": 391
+          },
+          "opaquePixels": 43608,
+          "foot": {
+            "x": 154.5,
+            "y": 415
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 627,
+            "y": 0,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 13,
+            "y": 26,
+            "width": 286,
+            "height": 390
+          },
+          "opaquePixels": 48037,
+          "foot": {
+            "x": 175.5,
+            "y": 416
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 941,
+            "y": 0,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 7,
+            "y": 20,
+            "width": 297,
+            "height": 391
+          },
+          "opaquePixels": 49094,
+          "foot": {
+            "x": 184,
+            "y": 411
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 418,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 15,
+            "y": 16,
+            "width": 291,
+            "height": 400
+          },
+          "opaquePixels": 51279,
+          "foot": {
+            "x": 144,
+            "y": 416
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 314,
+            "y": 418,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 17,
+            "y": 10,
+            "width": 289,
+            "height": 401
+          },
+          "opaquePixels": 52641,
+          "foot": {
+            "x": 167,
+            "y": 411
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 627,
+            "y": 418,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 10,
+            "y": 22,
+            "width": 293,
+            "height": 391
+          },
+          "opaquePixels": 48782,
+          "foot": {
+            "x": 191.5,
+            "y": 413
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 941,
+            "y": 418,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 12,
+            "y": 17,
+            "width": 291,
+            "height": 396
+          },
+          "opaquePixels": 48807,
+          "foot": {
+            "x": 178,
+            "y": 413
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 836,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 9,
+            "y": 12,
+            "width": 297,
+            "height": 390
+          },
+          "opaquePixels": 46509,
+          "foot": {
+            "x": 189,
+            "y": 402
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 314,
+            "y": 836,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 10,
+            "y": 6,
+            "width": 295,
+            "height": 397
+          },
+          "opaquePixels": 49306,
+          "foot": {
+            "x": 181.5,
+            "y": 403
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 627,
+            "y": 836,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 10,
+            "y": 12,
+            "width": 295,
+            "height": 393
+          },
+          "opaquePixels": 49670,
+          "foot": {
+            "x": 163.5,
+            "y": 405
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 941,
+            "y": 836,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 14,
+            "y": 20,
+            "width": 290,
+            "height": 388
+          },
+          "opaquePixels": 37807,
+          "foot": {
+            "x": 154,
+            "y": 408
+          }
+        }
+      ]
+    },
+    "danjoe": {
+      "file": "assets/danjoe-fx-atlas-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2252520,
+      "sha256": "b3e0e8a28fde13070bb0c3211235d72be4d85ab7a32416bbac9c802daf10778b",
+      "hasAlpha": true,
+      "transparentPixels": 554990,
+      "partialAlphaPixels": 1017519,
+      "copiedWithoutReencoding": true,
+      "grid": {
+        "columns": 4,
+        "rows": 3
+      },
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 21,
+            "y": 109,
+            "width": 265,
+            "height": 249
+          },
+          "opaquePixels": 28523,
+          "foot": {
+            "x": 189.5,
+            "y": 358
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 314,
+            "y": 0,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 9,
+            "y": 112,
+            "width": 289,
+            "height": 247
+          },
+          "opaquePixels": 32469,
+          "foot": {
+            "x": 145,
+            "y": 359
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 627,
+            "y": 0,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 5,
+            "y": 64,
+            "width": 300,
+            "height": 322
+          },
+          "opaquePixels": 42978,
+          "foot": {
+            "x": 114.5,
+            "y": 386
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 941,
+            "y": 0,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 3,
+            "y": 48,
+            "width": 297,
+            "height": 358
+          },
+          "opaquePixels": 50905,
+          "foot": {
+            "x": 63,
+            "y": 406
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 418,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 9,
+            "y": 29,
+            "width": 302,
+            "height": 347
+          },
+          "opaquePixels": 50990,
+          "foot": {
+            "x": 203,
+            "y": 376
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 314,
+            "y": 418,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 7,
+            "y": 28,
+            "width": 302,
+            "height": 365
+          },
+          "opaquePixels": 53654,
+          "foot": {
+            "x": 45,
+            "y": 393
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 627,
+            "y": 418,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 6,
+            "y": 35,
+            "width": 298,
+            "height": 351
+          },
+          "opaquePixels": 47953,
+          "foot": {
+            "x": 126,
+            "y": 386
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 941,
+            "y": 418,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 4,
+            "y": 29,
+            "width": 294,
+            "height": 363
+          },
+          "opaquePixels": 45534,
+          "foot": {
+            "x": 58.5,
+            "y": 392
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 836,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 9,
+            "y": 18,
+            "width": 298,
+            "height": 352
+          },
+          "opaquePixels": 45876,
+          "foot": {
+            "x": 58,
+            "y": 370
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 314,
+            "y": 836,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 12,
+            "y": 47,
+            "width": 292,
+            "height": 296
+          },
+          "opaquePixels": 32883,
+          "foot": {
+            "x": 52,
+            "y": 343
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 627,
+            "y": 836,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 8,
+            "y": 36,
+            "width": 292,
+            "height": 311
+          },
+          "opaquePixels": 23664,
+          "foot": {
+            "x": 33.5,
+            "y": 347
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 941,
+            "y": 836,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 16,
+            "y": 59,
+            "width": 276,
+            "height": 234
+          },
+          "opaquePixels": 7594,
+          "foot": {
+            "x": 168.5,
+            "y": 293
+          }
+        }
+      ]
+    },
+    "heukwol": {
+      "file": "assets/heukwol-fx-atlas-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2511415,
+      "sha256": "74274561c4ffe06907f967ffa018013e78b3f0179a1e36eee1fbf7d2776293ab",
+      "hasAlpha": true,
+      "transparentPixels": 518650,
+      "partialAlphaPixels": 1053850,
+      "copiedWithoutReencoding": true,
+      "grid": {
+        "columns": 4,
+        "rows": 3
+      },
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 10,
+            "y": 189,
+            "width": 297,
+            "height": 214
+          },
+          "opaquePixels": 29224,
+          "foot": {
+            "x": 126,
+            "y": 403
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 314,
+            "y": 0,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 7,
+            "y": 75,
+            "width": 297,
+            "height": 328
+          },
+          "opaquePixels": 43956,
+          "foot": {
+            "x": 135,
+            "y": 403
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 627,
+            "y": 0,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 8,
+            "y": 5,
+            "width": 299,
+            "height": 405
+          },
+          "opaquePixels": 59876,
+          "foot": {
+            "x": 171.5,
+            "y": 410
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 941,
+            "y": 0,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 8,
+            "y": 4,
+            "width": 297,
+            "height": 406
+          },
+          "opaquePixels": 52999,
+          "foot": {
+            "x": 149.5,
+            "y": 410
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 418,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 11,
+            "y": 2,
+            "width": 294,
+            "height": 409
+          },
+          "opaquePixels": 57909,
+          "foot": {
+            "x": 177,
+            "y": 411
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 314,
+            "y": 418,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 15,
+            "y": 14,
+            "width": 290,
+            "height": 398
+          },
+          "opaquePixels": 38088,
+          "foot": {
+            "x": 211.5,
+            "y": 412
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 627,
+            "y": 418,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 7,
+            "y": 2,
+            "width": 298,
+            "height": 411
+          },
+          "opaquePixels": 54324,
+          "foot": {
+            "x": 143,
+            "y": 413
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 941,
+            "y": 418,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 12,
+            "y": 8,
+            "width": 289,
+            "height": 402
+          },
+          "opaquePixels": 55692,
+          "foot": {
+            "x": 163,
+            "y": 410
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 836,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 3,
+            "y": 9,
+            "width": 311,
+            "height": 386
+          },
+          "opaquePixels": 64229,
+          "foot": {
+            "x": 148,
+            "y": 395
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 314,
+            "y": 836,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 0,
+            "y": 10,
+            "width": 308,
+            "height": 387
+          },
+          "opaquePixels": 59329,
+          "foot": {
+            "x": 180.5,
+            "y": 397
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 627,
+            "y": 836,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 13,
+            "y": 8,
+            "width": 293,
+            "height": 394
+          },
+          "opaquePixels": 43428,
+          "foot": {
+            "x": 162.5,
+            "y": 402
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 941,
+            "y": 836,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 52,
+            "y": 9,
+            "width": 232,
+            "height": 391
+          },
+          "opaquePixels": 21147,
+          "foot": {
+            "x": 185.5,
+            "y": 400
+          }
+        }
+      ]
+    },
+    "jongeon": {
+      "file": "assets/jongeon-fx-atlas-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2361166,
+      "sha256": "dfef6cae43e55075b00a6dfb34d30d34322c11cc1aba9c66bdf6da5cb481dbb1",
+      "hasAlpha": true,
+      "transparentPixels": 568241,
+      "partialAlphaPixels": 1004243,
+      "copiedWithoutReencoding": true,
+      "grid": {
+        "columns": 4,
+        "rows": 3
+      },
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 10,
+            "y": 316,
+            "width": 295,
+            "height": 90
+          },
+          "opaquePixels": 9657,
+          "foot": {
+            "x": 156.5,
+            "y": 406
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 314,
+            "y": 0,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 8,
+            "y": 266,
+            "width": 297,
+            "height": 147
+          },
+          "opaquePixels": 14459,
+          "foot": {
+            "x": 140,
+            "y": 413
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 627,
+            "y": 0,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 8,
+            "y": 110,
+            "width": 297,
+            "height": 301
+          },
+          "opaquePixels": 36217,
+          "foot": {
+            "x": 156,
+            "y": 411
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 941,
+            "y": 0,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 8,
+            "y": 40,
+            "width": 295,
+            "height": 373
+          },
+          "opaquePixels": 51663,
+          "foot": {
+            "x": 134.5,
+            "y": 413
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 418,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 9,
+            "y": 91,
+            "width": 297,
+            "height": 273
+          },
+          "opaquePixels": 38660,
+          "foot": {
+            "x": 169,
+            "y": 364
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 314,
+            "y": 418,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 7,
+            "y": 69,
+            "width": 298,
+            "height": 328
+          },
+          "opaquePixels": 57874,
+          "foot": {
+            "x": 243.5,
+            "y": 397
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 627,
+            "y": 418,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 8,
+            "y": 10,
+            "width": 298,
+            "height": 399
+          },
+          "opaquePixels": 83026,
+          "foot": {
+            "x": 172,
+            "y": 409
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 941,
+            "y": 418,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 7,
+            "y": 102,
+            "width": 297,
+            "height": 307
+          },
+          "opaquePixels": 51298,
+          "foot": {
+            "x": 151.5,
+            "y": 409
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 836,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 9,
+            "y": 43,
+            "width": 297,
+            "height": 355
+          },
+          "opaquePixels": 49461,
+          "foot": {
+            "x": 188,
+            "y": 398
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 314,
+            "y": 836,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 8,
+            "y": 16,
+            "width": 297,
+            "height": 381
+          },
+          "opaquePixels": 48600,
+          "foot": {
+            "x": 223,
+            "y": 397
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 627,
+            "y": 836,
+            "width": 314,
+            "height": 418
+          },
+          "bounds": {
+            "x": 8,
+            "y": 26,
+            "width": 298,
+            "height": 364
+          },
+          "opaquePixels": 44792,
+          "foot": {
+            "x": 147.5,
+            "y": 390
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 941,
+            "y": 836,
+            "width": 313,
+            "height": 418
+          },
+          "bounds": {
+            "x": 7,
+            "y": 73,
+            "width": 297,
+            "height": 316
+          },
+          "opaquePixels": 30034,
+          "foot": {
+            "x": 152.5,
+            "y": 389
+          }
+        }
+      ]
+    },
+    "myeol": {
+      "file": "assets/myeol-fx-atlas-v1.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1948793,
+      "sha256": "f30d5c091cffc3deffa49bc1ba8c7f93dc7491007e6d3940e1033b4c562747a8",
+      "hasAlpha": true,
+      "transparentPixels": 688720,
+      "partialAlphaPixels": 884818,
+      "copiedWithoutReencoding": true,
+      "grid": {
+        "columns": 4,
+        "rows": 3
+      },
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 300,
+            "height": 296
+          },
+          "bounds": {
+            "x": 20,
+            "y": 82,
+            "width": 241,
+            "height": 174
+          },
+          "opaquePixels": 13396,
+          "foot": {
+            "x": 70,
+            "y": 256
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 300,
+            "y": 0,
+            "width": 459,
+            "height": 296
+          },
+          "bounds": {
+            "x": 37,
+            "y": 103,
+            "width": 422,
+            "height": 166
+          },
+          "opaquePixels": 24901,
+          "foot": {
+            "x": 167.5,
+            "y": 269
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 759,
+            "y": 0,
+            "width": 500,
+            "height": 296
+          },
+          "bounds": {
+            "x": 16,
+            "y": 86,
+            "width": 484,
+            "height": 184
+          },
+          "opaquePixels": 36682,
+          "foot": {
+            "x": 267.5,
+            "y": 270
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1259,
+            "y": 0,
+            "width": 515,
+            "height": 296
+          },
+          "bounds": {
+            "x": 0,
+            "y": 53,
+            "width": 496,
+            "height": 231
+          },
+          "opaquePixels": 55111,
+          "foot": {
+            "x": 210.5,
+            "y": 284
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 296,
+            "width": 444,
+            "height": 295
+          },
+          "bounds": {
+            "x": 15,
+            "y": 33,
+            "width": 420,
+            "height": 244
+          },
+          "opaquePixels": 47940,
+          "foot": {
+            "x": 119,
+            "y": 277
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 444,
+            "y": 296,
+            "width": 443,
+            "height": 295
+          },
+          "bounds": {
+            "x": 10,
+            "y": 40,
+            "width": 431,
+            "height": 241
+          },
+          "opaquePixels": 47516,
+          "foot": {
+            "x": 191,
+            "y": 281
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 887,
+            "y": 296,
+            "width": 444,
+            "height": 295
+          },
+          "bounds": {
+            "x": 10,
+            "y": 53,
+            "width": 433,
+            "height": 220
+          },
+          "opaquePixels": 33506,
+          "foot": {
+            "x": 300,
+            "y": 273
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1331,
+            "y": 296,
+            "width": 443,
+            "height": 295
+          },
+          "bounds": {
+            "x": 18,
+            "y": 61,
+            "width": 419,
+            "height": 215
+          },
+          "opaquePixels": 28278,
+          "foot": {
+            "x": 219,
+            "y": 276
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 591,
+            "width": 444,
+            "height": 296
+          },
+          "bounds": {
+            "x": 15,
+            "y": 27,
+            "width": 425,
+            "height": 221
+          },
+          "opaquePixels": 29784,
+          "foot": {
+            "x": 249.5,
+            "y": 248
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 444,
+            "y": 591,
+            "width": 443,
+            "height": 296
+          },
+          "bounds": {
+            "x": 0,
+            "y": 52,
+            "width": 443,
+            "height": 207
+          },
+          "opaquePixels": 21048,
+          "foot": {
+            "x": 276.5,
+            "y": 259
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 887,
+            "y": 591,
+            "width": 444,
+            "height": 296
+          },
+          "bounds": {
+            "x": 19,
+            "y": 46,
+            "width": 425,
+            "height": 212
+          },
+          "opaquePixels": 12228,
+          "foot": {
+            "x": 277.5,
+            "y": 258
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1331,
+            "y": 591,
+            "width": 443,
+            "height": 296
+          },
+          "bounds": {
+            "x": 0,
+            "y": 74,
+            "width": 424,
+            "height": 170
+          },
+          "opaquePixels": 6782,
+          "foot": {
+            "x": 235.5,
+            "y": 244
+          }
+        }
+      ]
+    }
+  },
+  "layerOrder": {
+    "shoulderRest": [
+      "weapon",
+      "body",
+      "original-glove-overlay"
+    ],
+    "forwardSwing": [
+      "body",
+      "weapon",
+      "original-glove-overlay"
+    ]
+  },
+  "sourceArtSha256": "bb9e25aa8e9e0a838672085a0a43f1643269ca4d6aab91f8458016ffe6ed2ad5",
+  "skills": [
+    "danjoe",
+    "heukwol",
+    "jongeon",
+    "myeol"
+  ]
+}

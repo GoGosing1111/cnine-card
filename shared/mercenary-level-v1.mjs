@@ -1,3 +1,4 @@
+import {REVAN_CODE} from './mercenary-revan-v1.mjs';
 import {AWAKENED_OMEGA_CODE} from './mercenary-awakened-omega-v1.mjs';
 import {EUNSEOL_CODE} from './mercenary-eunseol-v1.mjs';
 import {GENERAL_JOK_CODE} from './mercenary-general-jok-v1.mjs';
@@ -21,7 +22,7 @@ export const MERCENARY_LEVEL_KEY='mercenary_level_policy_v1';
 export const MERCENARY_LEVEL_RULES=Object.freeze({version:'mercenary-level-20261015-v2',maxLevel:MERCENARY_GROWTH_MAX_LEVEL,levelCapVersion:'20261025-cap21-v1',milestones:Object.freeze([5,10,15,20]),materialKind:'MERCENARY',materialRank:'SAME_RANK',sameCardMultiplier:3,limitedRequiredXpMultiplier:5,preserveOriginal:true,coinCost:0,masterStarCost:0,maxMaterials:100,failure:'CURRENT_LEVEL_EXP_ZERO',breakthroughPity:{failuresBeforeGuarantee:MERCENARY_BREAKTHROUGH_PITY_LIMITS,retroactive:true}});
 export const LEVEL_BONUS_TYPES=Object.freeze({HP_PERCENT:'최대 체력 증가',ATTACK_PERCENT:'공격력 증가',DEFENSE_PERCENT:'방어력 증가',SPEED_PERCENT:'행동 속도 증가',COMBAT_STATS_PERCENT:'체력·공격·방어·속도 증가',SKILL_POWER_PERCENT:'배정 스킬 계수 증가',SKILL_COOLDOWN_TURNS:'배정 스킬 재사용 감소'});
 export function mercenaryLevelDraft(){return {version:MERCENARY_LEVEL_RULES.version,revision:0,mode:'OFF',growth:null,sameCardMultiplier:MERCENARY_LEVEL_RULES.sameCardMultiplier,xpPerCard:Object.fromEntries(MERCENARY_RANKS.map(rank=>[rank,null])),levels:Array.from({length:20},(_,i)=>({level:i+1,requiredXp:null})),milestones:[5,10,15,20].map(level=>({level,successChancePpm:null,bonus:{type:null,value:null}}))};}
-const limitedCodes=new Set([AWAKENED_OMEGA_CODE,...LIMITED_MERCENARIES.map(card=>card.code),JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE,PRIME_CODE,GENERAL_JOK_CODE,EUNSEOL_CODE]);
+const limitedCodes=new Set([AWAKENED_OMEGA_CODE,...LIMITED_MERCENARIES.map(card=>card.code),JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE,PRIME_CODE,GENERAL_JOK_CODE,REVAN_CODE,EUNSEOL_CODE]);
 export const mercenaryLevelXpMultiplier=target=>limitedCodes.has(target?.code)?MERCENARY_LEVEL_RULES.limitedRequiredXpMultiplier:1;
 export function mercenaryLevelRequiredXp(policy,level,target){if(level===MERCENARY_LEVEL_RULES.maxLevel)return 0;const base=policy.levels[level-1].requiredXp;return base===null?null:base*mercenaryLevelXpMultiplier(target);}
 export const levelError=(code,message,status=400)=>Object.assign(Error(message),{code,status});
