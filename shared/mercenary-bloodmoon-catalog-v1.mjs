@@ -101,7 +101,7 @@ export const BLOODMOON_MERCENARIES=Object.freeze([
         "name": "홍련의 속박",
         "nameStatus": "WORKING_LABEL",
         "mechanic": "REPEAT_OFFENDER_RESTRAINT",
-        "effect": "행동을 거듭한 적을 채찍으로 공격하고 조건 충족 시 다음 공격을 약화합니다.",
+        "effect": "채찍 적중 즉시 기본 공격을 25% 약화하고, 위반 표식 2개가 쌓인 대상에게 다시 적중하면 표식을 소모해 다음 공격 스킬도 25% 약화합니다.",
         "target": "적 표적",
         "ready": false,
         "trigger": "기존 서버의 에너지·재사용·행동 조건",

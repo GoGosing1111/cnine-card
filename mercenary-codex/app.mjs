@@ -2,7 +2,7 @@ import {requestPublicCodex,loadCodexPanels} from './loading.mjs?v=20261023-v1';
 import {CODEX_MEDIA} from './media-map.mjs?v=20261023-v1';
 import {jointAccountRequest as api} from '/js/joint-account-transport.mjs';
 import {withMercenaryDeadline} from '/shared/mercenary-loading-v1.mjs?v=20260925';
-import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCatalog} from './model.mjs?revan=20261027-live-v1&blackcrown=20261027-live-v1&jokroPower=20261025-v3&deployment=20261025-eunseol-bloodmoon&bloodmoonStock=20261025-bloodmoon-expansion-v1&limitedPower=20261025-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&namsudaeng=20261024-v1&eunseol=20261023-v1&generalJok=20261023-v15&bloodmoon=20261023-codex-v1&stockLimit=20261023-halloween-stock-v1&jokro=20261021-codex-v1&prime=20261021-v1&zero=20261020-v1&rankReward=20261020-v1&leonel=20261018-live-v1&v=20261017-halloween-ready';
+import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCatalog} from './model.mjs?bloodmoonBalance=20261027-v2&revan=20261027-live-v1&blackcrown=20261027-live-v1&jokroPower=20261025-v3&deployment=20261025-eunseol-bloodmoon&bloodmoonStock=20261025-bloodmoon-expansion-v1&limitedPower=20261025-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&namsudaeng=20261024-v1&eunseol=20261023-v1&generalJok=20261023-v15&bloodmoon=20261023-codex-v1&stockLimit=20261023-halloween-stock-v1&jokro=20261021-codex-v1&prime=20261021-v1&zero=20261020-v1&rankReward=20261020-v1&leonel=20261018-live-v1&v=20261017-halloween-ready';
 
 const $=id=>document.getElementById(id),fmt=n=>Number(n||0).toLocaleString('ko-KR'),storageKey='cnine.mercenaryCodex.public.v1';
 const params=new URL(location.href).searchParams;

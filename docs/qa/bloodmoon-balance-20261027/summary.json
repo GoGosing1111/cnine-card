@@ -1,0 +1,484 @@
+{
+  "pvpPerVersion": 21632,
+  "pvePerVersion": 384,
+  "pveNamsudaengIdentical": 192,
+  "otherBattlesIdentical": 864,
+  "rows": [
+    {
+      "code": "V-961",
+      "opponent": "V-960",
+      "before": 51.44,
+      "after": 64.54,
+      "beforeWeakens": 0,
+      "afterWeakens": 403,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-962",
+      "before": 84.01,
+      "after": 90.26,
+      "beforeWeakens": 0,
+      "afterWeakens": 491,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-963",
+      "before": 28.97,
+      "after": 55.65,
+      "beforeWeakens": 0,
+      "afterWeakens": 412,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-964",
+      "before": 29.81,
+      "after": 38.22,
+      "beforeWeakens": 0,
+      "afterWeakens": 410,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-965",
+      "before": 98.8,
+      "after": 60.58,
+      "beforeWeakens": 162,
+      "afterWeakens": 373,
+      "afterSkillWeakens": 113
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-980",
+      "before": 84.38,
+      "after": 96.27,
+      "beforeWeakens": 8,
+      "afterWeakens": 511,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-981",
+      "before": 95.55,
+      "after": 96.15,
+      "beforeWeakens": 0,
+      "afterWeakens": 502,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-982",
+      "before": 87.86,
+      "after": 89.9,
+      "beforeWeakens": 109,
+      "afterWeakens": 466,
+      "afterSkillWeakens": 118
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-983",
+      "before": 89.18,
+      "after": 92.91,
+      "beforeWeakens": 17,
+      "afterWeakens": 483,
+      "afterSkillWeakens": 30
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-984",
+      "before": 69.83,
+      "after": 71.39,
+      "beforeWeakens": 1690,
+      "afterWeakens": 4925,
+      "afterSkillWeakens": 1461
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-985",
+      "before": 88.7,
+      "after": 90.75,
+      "beforeWeakens": 0,
+      "afterWeakens": 472,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-986",
+      "before": 93.99,
+      "after": 95.67,
+      "beforeWeakens": 0,
+      "afterWeakens": 512,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-977",
+      "before": 83.65,
+      "after": 89.9,
+      "beforeWeakens": 0,
+      "afterWeakens": 491,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-960",
+      "before": 3.49,
+      "after": 42.79,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-961",
+      "before": 0.6,
+      "after": 38.46,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-962",
+      "before": 1.32,
+      "after": 54.45,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-963",
+      "before": 0.6,
+      "after": 37.86,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-964",
+      "before": 1.44,
+      "after": 37.74,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-980",
+      "before": 14.9,
+      "after": 85.94,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-981",
+      "before": 50.48,
+      "after": 94.11,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-982",
+      "before": 42.67,
+      "after": 91.83,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-983",
+      "before": 50.36,
+      "after": 97.36,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-984",
+      "before": 14.18,
+      "after": 71.39,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-985",
+      "before": 53,
+      "after": 92.19,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-986",
+      "before": 27.28,
+      "after": 88.7,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-977",
+      "before": 2.4,
+      "after": 61.9,
+      "beforeWeakens": 0,
+      "afterWeakens": 0,
+      "afterSkillWeakens": 0
+    }
+  ],
+  "pve": [
+    {
+      "code": "V-961",
+      "level": 1,
+      "power": 5000000000,
+      "beforeActions": 21.34375,
+      "afterActions": 17.5,
+      "improvementPercent": 18.01
+    },
+    {
+      "code": "V-961",
+      "level": 1,
+      "power": 50000000000,
+      "beforeActions": 94.0625,
+      "afterActions": 87.8125,
+      "improvementPercent": 6.64
+    },
+    {
+      "code": "V-961",
+      "level": 11,
+      "power": 5000000000,
+      "beforeActions": 4,
+      "afterActions": 4,
+      "improvementPercent": 0
+    },
+    {
+      "code": "V-961",
+      "level": 11,
+      "power": 50000000000,
+      "beforeActions": 31.0625,
+      "afterActions": 26.46875,
+      "improvementPercent": 14.79
+    },
+    {
+      "code": "V-961",
+      "level": 21,
+      "power": 5000000000,
+      "beforeActions": 4,
+      "afterActions": 4,
+      "improvementPercent": 0
+    },
+    {
+      "code": "V-961",
+      "level": 21,
+      "power": 50000000000,
+      "beforeActions": 16.1875,
+      "afterActions": 13.0625,
+      "improvementPercent": 19.31
+    },
+    {
+      "code": "V-965",
+      "level": 1,
+      "power": 5000000000,
+      "beforeActions": 11.0625,
+      "afterActions": 11.0625,
+      "improvementPercent": 0
+    },
+    {
+      "code": "V-965",
+      "level": 1,
+      "power": 50000000000,
+      "beforeActions": 11.0625,
+      "afterActions": 11.0625,
+      "improvementPercent": 0
+    },
+    {
+      "code": "V-965",
+      "level": 11,
+      "power": 5000000000,
+      "beforeActions": 11.0625,
+      "afterActions": 11.0625,
+      "improvementPercent": 0
+    },
+    {
+      "code": "V-965",
+      "level": 11,
+      "power": 50000000000,
+      "beforeActions": 11.3125,
+      "afterActions": 11.3125,
+      "improvementPercent": 0
+    },
+    {
+      "code": "V-965",
+      "level": 21,
+      "power": 5000000000,
+      "beforeActions": 6.4375,
+      "afterActions": 6.4375,
+      "improvementPercent": 0
+    },
+    {
+      "code": "V-965",
+      "level": 21,
+      "power": 50000000000,
+      "beforeActions": 11.125,
+      "afterActions": 11.125,
+      "improvementPercent": 0
+    }
+  ],
+  "reference": [
+    {
+      "code": "V-961",
+      "opponent": "V-057",
+      "before": 84.38,
+      "after": 87.5,
+      "trials": 96
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-058",
+      "before": 0,
+      "after": 0,
+      "trials": 96
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-996",
+      "before": 45.83,
+      "after": 61.46,
+      "trials": 96
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-999",
+      "before": 52.08,
+      "after": 65.63,
+      "trials": 96
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-988",
+      "before": 46.88,
+      "after": 52.08,
+      "trials": 96
+    },
+    {
+      "code": "V-961",
+      "opponent": "V-973",
+      "before": 15.63,
+      "after": 27.08,
+      "trials": 96
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-057",
+      "before": 0,
+      "after": 8.33,
+      "trials": 96
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-058",
+      "before": 0,
+      "after": 0,
+      "trials": 96
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-996",
+      "before": 0,
+      "after": 39.58,
+      "trials": 96
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-999",
+      "before": 0,
+      "after": 39.58,
+      "trials": 96
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-988",
+      "before": 0,
+      "after": 32.29,
+      "trials": 96
+    },
+    {
+      "code": "V-965",
+      "opponent": "V-973",
+      "before": 0,
+      "after": 7.29,
+      "trials": 96
+    }
+  ],
+  "browser": [
+    {
+      "width": 1440,
+      "code": "V-961",
+      "mode": "PVE",
+      "status": "PASS",
+      "skillWeakens": 1
+    },
+    {
+      "width": 1440,
+      "code": "V-961",
+      "mode": "PVP",
+      "status": "PASS",
+      "skillWeakens": 0
+    },
+    {
+      "width": 1440,
+      "code": "V-965",
+      "mode": "PVE",
+      "status": "PASS",
+      "skillWeakens": 0
+    },
+    {
+      "width": 1440,
+      "code": "V-965",
+      "mode": "PVP",
+      "status": "PASS",
+      "skillWeakens": 0
+    },
+    {
+      "width": 390,
+      "code": "V-961",
+      "mode": "PVE",
+      "status": "PASS",
+      "skillWeakens": 1
+    },
+    {
+      "width": 390,
+      "code": "V-961",
+      "mode": "PVP",
+      "status": "PASS",
+      "skillWeakens": 0
+    },
+    {
+      "width": 390,
+      "code": "V-965",
+      "mode": "PVE",
+      "status": "PASS",
+      "skillWeakens": 0
+    },
+    {
+      "width": 390,
+      "code": "V-965",
+      "mode": "PVP",
+      "status": "PASS",
+      "skillWeakens": 0
+    }
+  ]
+}
