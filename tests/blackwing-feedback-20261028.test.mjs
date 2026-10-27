@@ -57,12 +57,12 @@ for(const postgres of [false,true])test('committed rejection/log is idempotent a
  const started=await h.command('start',{roomId}),token=started.body.state.challenge.tokens.CHARGE,body={requestId:h.uid(),roomId,action:'CHARGE',token};
  const before=await h.one('SELECT state_json,version FROM raid_blackwing_rooms_v1 WHERE room_id=?',roomId);h.inject('INSERT INTO raid_blackwing_receipts');assert.equal((await h.call('action',{body})).status,503);h.inject('');
  assert.deepEqual(await h.one('SELECT state_json,version FROM raid_blackwing_rooms_v1 WHERE room_id=?',roomId),before);
- const accepted=await h.call('action',{body});assert.equal(accepted.status,200);assert.equal(accepted.body.actionResult.code,'BLACKWING_OATH_REQUIRED');await h.call('action',{body});
+ const accepted=await h.call('action',{body});assert.equal(accepted.status,200);assert.equal(accepted.body.actionResult.code,'BLACKWING_SCALE_REQUIRED');await h.call('action',{body});
  const r=JSON.parse((await h.one('SELECT state_json FROM raid_blackwing_rooms_v1 WHERE room_id=?',roomId)).state_json);assert.equal(r.combatLog.filter(e=>e.action==='CHARGE').length,1);
  const queries=h.count(),delta=await h.call('state?roomId='+roomId+'&since='+r.eventSeq,{user:3});assert.equal(delta.body.state.combatLog.length,0);assert.ok(h.count()-queries<12,'record polling reuses the existing room read without per-member SQL');
  assert.equal((await h.call('state?roomId='+roomId,{user:4})).status,403);assert.equal(Number((await h.one('SELECT COUNT(*) n FROM coin_logs')).n),0);assert.equal(Number((await h.one('SELECT COUNT(*) n FROM inventory_logs')).n),0);
 });
-test('old client cannot create a v2 room and current client does not migrate existing v1 combat',async t=>{
+test('old client cannot create a v3 room and current client does not migrate existing v1 combat',async t=>{
  const h=await blackwingLiveFixture();t.after(()=>h.close());await h.configure();assert.equal((await h.command('create',{clientRulesVersion:1})).body.code,'BLACKWING_CLIENT_UPDATE');
  const r=room();r.rulesVersion=1;delete r.challenge.oaths;delete r.challenge.pressureAt;assert.equal(action(r,'1','CHARGE').ok,true);assert.equal(r.challenge.debt.packets,1);
 });

@@ -102,7 +102,10 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since){
   const prior=await receipt(env,user,kind,body);if(prior.result)return prior.result;
   if(typeof body.roomId!=='string'||! /^[A-F0-9]{10}$/.test(body.roomId))fail('ROOM_ID','참가할 공대를 선택하세요.',400);
   if(kind==='join'){const active=await currentRoom(env,user,now);if(active&&active.room.id!==body.roomId)fail('ALREADY_JOINED','다른 공대에 참가 중입니다.');}
-  for(let retry=0;retry<4;retry++){
+  // A scale round intentionally submits six independent users at once. Keep
+  // each CAS + receipt atomic, with enough attempts for all six and a timer tick.
+  const attempts=kind==='action'&&['PLACE','LOCK'].includes(body.action)?8:4;
+  for(let retry=0;retry<attempts;retry++){
     const {row,room}=await loadRoom(env,body.roomId);now=Math.max(Date.now(),now,room.clock);tick(room,now);const extra=[];let actionResult;
     if(room.banned.includes(id(user.id)))fail('KICKED','강퇴된 공대에는 다시 참가할 수 없습니다.',403);
     if(['join','ready','start'].includes(kind)&&body.clientRulesVersion!==BLACKWING_RULES)fail('CLIENT_UPDATE','새로고침 후 다시 참가·준비해 주세요.');

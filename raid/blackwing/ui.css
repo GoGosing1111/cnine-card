@@ -113,3 +113,37 @@
  .bw-combat .bw-top.cn-ui-panel{padding:3px}.bw-combat .bw-command.cn-ui-panel{padding:6px}
  .bw-party-chip.cn-ui-panel{padding:2px}.bw-preparation h3{font-size:21px}
 }
+
+/* Six-player scale: personal clue, shared placements, no highlighted answer. */
+.bw-oaths>.bw-scale{grid-column:1/-1}
+.bw-scale>header{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.bw-scale .bw-scale-weight{white-space:nowrap;font-size:13px;color:#d5ecff}
+.bw-scale-weight em{font-size:30px;font-style:normal;color:#e2ff99;margin-left:5px}
+.bw-scale p{font-size:12px;line-height:1.6;color:#bfd0e4;margin:7px 0}
+.bw-scale-pads{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.bw-scale-pads>div{border:1px solid #526b85;background:#101f32;min-height:100px;padding:7px 5px;overflow-wrap:anywhere}
+.bw-scale-pads>div.is-selected{outline:2px solid #d0f897;outline-offset:-2px}
+.bw-scale-pads>div.is-shadow{border-style:dashed;border-color:#f4ad9c}
+.bw-scale-pads b,.bw-scale-pads strong,.bw-scale-pads span,.bw-scale-pads small{display:block}
+.bw-scale-pads strong{font-size:17px;color:#e3efff;padding:5px 0}
+.bw-scale-pads span{font-size:11px;line-height:1.6}.bw-scale-pads small{font-size:10px;color:#ffb6a0;margin-top:4px}
+.bw-scale .bw-scale-clock{color:#e3ffb3;font-weight:700}
+.bw-scale details{font-size:12px;color:#b9cadf}.bw-scale summary{cursor:pointer;min-height:28px}
+.bw-command [data-action='LOCK']{grid-column:1/-1}
+@media(max-width:760px){.bw-scale-pads>div{min-height:78px}.bw-scale p{font-size:11px}.bw-scale-weight em{font-size:24px}}
+
+.bw-scale header b span{margin-left:6px}
+@media(max-width:1049px){
+ .bw-scale-active .bw-command{max-height:52vh}
+ .bw-scale-active{grid-template-rows:auto minmax(130px,1fr) auto auto}
+ .bw-scale-active .bw-branch,.bw-scale-active .bw-detail,.bw-scale-active .bw-scale>p:first-of-type{display:none}
+ .bw-scale-active .bw-command h4{margin-bottom:3px}
+ .bw-scale-active .bw-oaths{margin:4px 0}
+ .bw-scale-active .bw-oaths>section{border:0;padding:0}
+ .bw-scale-active .bw-scale-pads>div{min-height:78px;padding:5px}
+ .bw-scale-active .bw-scale-pads strong{padding:3px 0;font-size:15px}
+ .bw-scale-active .bw-scale-clock{margin:3px 0;font-size:11px;line-height:1.4}
+ .bw-scale-active .bw-scale summary{min-height:20px}
+ .bw-scale-active .bw-health{padding:2px 0;font-size:11px;margin:3px 0}
+ .bw-scale-active .bw-actions{padding:4px 0;margin-top:4px;gap:5px}
+}

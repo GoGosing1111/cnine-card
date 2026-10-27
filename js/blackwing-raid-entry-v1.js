@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261028-feedback2';
+  const VERSION = '20261028-bloodscale3';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, activeRoot = null, revision = 0;
   const host = () => document.getElementById('pveBlackwingRaidView');
   async function refresh() {

@@ -2,6 +2,17 @@ export const runeNames=['해','달','별'];
 export const wardNames=['재의 성역','뼈의 성역','피의 성역'];
 const roles={BREAKER:'파쇄',GUARD:'수호',SEALER:'봉인'};
 const seconds=ms=>Math.max(0,ms/1000).toFixed(1);
+const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+export function blackwingScaleMarkup(state,now){
+ const s=state.challenge.scale;if(!s||s.done)return '';
+ const me=s.members.find(m=>m.id===state.me.id),locked=s.members.filter(m=>m.locked).length;
+ return '<section class="bw-scale"><header><b>용혈 저울 <span>'+locked+'/6 확정</span></b><strong class="bw-scale-weight">내 무게 <em>'+s.ownWeight+'</em></strong></header>'+
+  '<p>내 무게를 동료에게 전달하세요. 각 발판에 <b>서로 다른 역할 2명</b>을 배치해 목표 합계를 맞춥니다.</p>'+
+  '<div class="bw-scale-pads">'+wardNames.map((name,i)=>'<div class="'+(me.position===i?'is-selected ':'')+(s.previous===i?'is-shadow':'')+'"><b>'+name.replace('의 성역',' 발판')+'</b><strong>목표 '+s.goals[i]+'</strong>'+s.members.filter(m=>m.position===i).map(m=>'<span>'+roles[m.role]+' '+escapeHtml(m.name)+(m.id===state.me.id?' · '+s.ownWeight:' · ?')+(m.locked?' ✓':'')+'</span>').join('')+(s.previous===i?'<small>내 잔상 · 재진입 금지</small>':'')+'</div>').join('')+'</div>'+
+  '<p class="bw-scale-clock" data-scale-clock></p>'+
+  '<details><summary>저울 규칙 · '+s.members.filter(m=>m.position===null).length+'명 미배치</summary><p>각자 무게는 본인에게만 보입니다. 목표 합계·2명·서로 다른 역할·직전 발판 금지를 모두 만족해야 합니다. 배치는 확정 전까지 변경할 수 있습니다. 첫 확정부터 6초, 한 번 확정하면 변경할 수 없습니다.</p><p>오답은 침식 1중첩과 HP 10% 피해. 저울이 새로 출제되며 남은 시간은 늘어나지 않습니다. 성역 내구도는 이후 용염 방어에 사용됩니다.</p></details></section>';
+}
 
 // Pure projection of the same server snapshot used for combat. The three rune
 // choices stay in fixed positions; only their shared instruction changes.
@@ -15,6 +26,13 @@ export function blackwingCommands(state,now){
   details.push('역린 노출 · 내 공격 몫 '+Math.ceil(state.attackRemaining).toLocaleString()+' 남음');
   add('편성 공격','STRIKE',undefined,state.attackRemaining<=0||now<state.nextStrikeAt);
  }else if(state.step==='TRANSITION')details.push('다음 맹약으로 이동 중 · 다음 폭발에 대비해 체력을 확인하세요.');
+ else if(q.scale&&!q.scale.done){
+  const s=q.scale,own=s.members.find(x=>x.id===m.id);
+  for(let i=0;i<3;i++)add((own.position===i?'선택 · ':'')+wardNames[i].replace('의 성역',' 발판')+' 배치','PLACE',i,own.locked);
+  add(own.locked?'확정 완료 · 동료 대기':'이 배치 확정 · 6인 동시','LOCK',undefined,own.locked||own.position===null);
+  details.push(s.previous===null?'첫 저울 · 같은 역할끼리 함께 서지 마세요.':'직전 저울의 '+wardNames[s.previous].replace('의 성역',' 발판')+'에는 잔상이 남아 있습니다.');
+  details.push('배치 후 공대가 모두 준비되면 확정하세요. 첫 확정부터 6초입니다.');
+ }
  else{
   if(!ownReady){
    const turn=state.members.find(x=>x.id===ownOath.order[ownOath.progress]);

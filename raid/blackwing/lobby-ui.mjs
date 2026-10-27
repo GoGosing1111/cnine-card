@@ -2,9 +2,9 @@
 export const ART='/assets/raids/blackwing-20261024/';
 export const roles={BREAKER:'파쇄',GUARD:'수호',SEALER:'봉인'};
 export const roleDetails={
- BREAKER:['용혈 축적 · 심장 파괴','공유 문양 순서를 읽고 동료 파쇄와 함께 심장·부위를 공격합니다. 용염마다 문양이 바뀝니다.'],
+ BREAKER:['용혈 축적 · 심장 파괴','내 용혈 무게를 공유하고 저울 배치를 해결합니다. 동료와 용혈·심장·절단 공격을 맞춥니다.'],
  GUARD:['반전 · 성역 전개','폭발·잔열 피해에 맞춰 회복하고 용염 3.5초 전부터 성역을 번갈아 펼칩니다.'],
- SEALER:['용혈 격리 · 절단 합의','동료와 공동 문양을 해독하고 심장 준비·절단 합의·용염 봉인을 담당합니다.']
+ SEALER:['용혈 격리 · 절단 합의','내 용혈 무게와 잔상을 확인해 저울에 참여하고 심장 준비·절단 합의를 담당합니다.']
 };
 export const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const src=v=>/^(?:\/(?!\/)|https?:\/\/)/.test(String(v||''))?esc(v):'';
@@ -35,12 +35,12 @@ export function lobbyMarkup(){return `
   <dl class="bw-config" data-config aria-label="서버 레이드 설정"></dl>
   <p class="bw-status" role="status" aria-live="polite" data-status></p>
   <section class="mr-registry bw-registry cn-ui-panel" data-registry><header><div><p class="mr-eyebrow">공대 모집</p><h3>출정을 기다리는 공대 <span data-room-count>0</span></h3></div><button type="button" class="mr-button cn-ui-button" data-refresh>↻ 새로고침</button></header><ul class="bw-rooms" data-rooms></ul></section>
-  <section class="bw-guide cn-ui-panel" aria-label="작전과 역할 안내"><header><p class="mr-eyebrow">공략 지침</p><h3>다섯 단계, 하나의 맹약</h3><p>전원 자신의 RAID 카드 5장과 PVE 용병으로 전투합니다.</p></header>
+  <section class="bw-guide cn-ui-panel" aria-label="작전과 역할 안내"><header><p class="mr-eyebrow">공략 지침</p><h3>다섯 단계, 하나의 맹약</h3><p>전원 자신의 RAID 카드 5장과 PVE 용병으로 전투합니다. 저울의 개인 무게를 채팅·음성으로 공유할 준비가 필요합니다.</p></header>
    <ol class="bw-guide-steps">
-    <li><b>01</b><div><h4>역린의 부채</h4><p>파쇄·봉인은 공유 문양판의 닉네임 순서와 해·달·별을 맞춥니다. 파쇄 2명이 용혈 3회 축적 → 봉인 2명 격리 → 수호 2 고정 → 수호 1 반전.</p></div></li>
-    <li><b>02</b><div><h4>쌍생 심장</h4><p>새 공동 문양을 완성한 뒤 봉인 1·2가 좌·우 준비. 파쇄 1·2가 각 심장을 <strong>3초 미만 간격</strong>으로 파괴합니다.</p></div></li>
-    <li><b>03</b><div><h4>돌이킬 수 없는 절단</h4><p>문양을 확인하고 봉인 2명 합의 → 수호 2명 고정 → 파쇄 2명 절단. 선택은 최종전까지 유지됩니다.</p><details><summary>흑익 / 대검의 차이</summary><p>흑익 절단: 최종 용염 2회 + 수호 2가 반전 시작 후 2.5초 안에 검 반격 저지.<br>대검 절단: 검 반격 없이 최종 용염 3회.</p></details></div></li>
-    <li><b>04</b><div><h4>소모되는 성역</h4><p>수호 1·2가 번갈아 파쇄·봉인 문양 완성 후 용염 <strong>3.5초 전부터</strong> 전개. 매 용염마다 새 문양을 읽습니다. 같은 성역 연속 사용 불가. 내구도는 최종전까지 이월됩니다.</p></div></li>
+    <li><b>01</b><div><h4>역린의 부채</h4><p>전원 개인 무게를 공유해 세 저울 발판의 목표 합계를 맞춥니다. 각 저울 발판은 서로 다른 역할 2명, 첫 확정부터 6초 안에 전원 확정. 파쇄 2명이 용혈 3회 축적 → 봉인 2명 격리 → 수호 2 고정 → 수호 1 반전.</p></div></li>
+    <li><b>02</b><div><h4>쌍생 심장</h4><p>새 저울을 완성한 뒤 봉인 1·2가 좌·우 준비. 파쇄 1·2가 각 심장을 <strong>3초 미만 간격</strong>으로 파괴합니다.</p></div></li>
+    <li><b>03</b><div><h4>돌이킬 수 없는 절단</h4><p>직전 저울 발판 재진입을 피하고 새 저울 완성 → 봉인 2명 합의 → 수호 2명 고정 → 파쇄 2명 절단. 선택은 최종전까지 유지됩니다.</p><details><summary>흑익 / 대검의 차이</summary><p>흑익 절단: 최종 용염 2회 + 수호 2가 반전 시작 후 2.5초 안에 검 반격 저지.<br>대검 절단: 검 반격 없이 최종 용염 3회.</p></details></div></li>
+    <li><b>04</b><div><h4>소모되는 성역</h4><p>수호 1·2가 번갈아 6인 저울 완성 후 용염 <strong>3.5초 전부터</strong> 전개. 매 용염마다 무게·목표가 바뀌며 직전 저울의 발판에는 잔상이 남습니다. 같은 성역 연속 사용 불가. 내구도는 최종전까지 이월됩니다.</p></div></li>
     <li><b>05</b><div><h4>흑익의 마지막 맹약</h4><p>부채·쌍심장·성역을 동시에 해결. 흑익 절단 시 수호 2는 용혈 반전 시작 후 2.5초 내 검 반격이 추가됩니다. 성역은 내구도가 남고 직전과 다른 것을 선택하며 고정 1→2→3 정답은 없습니다. 기믹이 끝나면 <strong>6명 모두</strong> 자신의 공격 몫을 채웁니다.</p></div></li>
    </ol><p class="bw-failure-rule">침식 3회 · 광폭화 · 구간 시간 초과 · 전투 중 이탈 시 실패. 매 단계 시작 5초 뒤 전원 HP 20% 폭발, 성역 방어 후에도 HP 6% 잔열 피해. 수호는 공대 30% 회복 4회를 공유하며 연속 사용 간격은 4초입니다. 전투기록에서 누가 어떤 입력을 했는지 확인하고 저장할 수 있습니다.</p>
   </section>
