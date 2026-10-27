@@ -1,0 +1,283 @@
+{
+  "verifiedAt": "2026-10-27T07:57:39.629Z",
+  "source": "4b31c45329c8e2cc31597f7cad0296b3fc311919",
+  "pages": {
+    "id": "18f94229-85e7-450c-a7ab-ca97254a0f82",
+    "url": "https://18f94229.cnine-card.pages.dev"
+  },
+  "checks": [
+    {
+      "file": "AGENTS.md",
+      "sha256": "bdebb435a74349eb5917f5fcca017213456d0a0f251cb5225304942988d52ba3",
+      "serverTransform": null
+    },
+    {
+      "file": "index.html",
+      "sha256": "14357de85a3bcd204f3b458951d7eeec12fde8031b32baf57ff423e938d9ece1",
+      "serverTransform": null
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "22f0976c2b9216ee1869da7f66412ba76edfe2bd39f055152cbb968d28c96bdf",
+      "serverTransform": null
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "3b0a984a6603159bcc0e7129cc095464423e0d28a578948379d1f2ebccc137ce",
+      "serverTransform": null
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "754913ca60c8f1944155b0fed54547b4b85fc24e40de3225458f974ce816a545",
+      "serverTransform": null
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "5068b11042d45019d7631a55f6150c589a66c48b7623d9e9b803b1268ad1fc7b",
+      "serverTransform": null
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "fd718c23730d1c52ef7a487d7939da09aa4b88db7ade976d9702998f9e0c9f08",
+      "serverTransform": null
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "948b99136e98633492f1710c3b014981d51b1edad718c0e258e8518e20a34a79",
+      "serverTransform": "htmlForStore /"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "05cd21a1380e3929995598cb4787a06ed469c894e4ffc78b7ef084e6efaf30e8",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/build-report.json",
+      "sha256": "8b544f27654c378c10a8eb70e24a10a25524f8ac870afe988c561b79d9549c56",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "7380c334538086de283e233275496f35227e85bb62b2edf9a39b8814c7ab887a",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "7f65172d9c6a81c0ecd26620754c0a5ecc9d9f2d1060b04e1bf42eb6a4639e8e",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "903b69fd71ab3853e990e5628dd56168f4eaa5397436f8b6925faec2d375e727",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "badda8f65acbe5d0703617a54392afc71f9764a5f5cb0c585b4fb00ad76477a8",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "9a52179fd01657a28e4eb301574fe61304b0fb3af465790bca15dd7ee3c12cb3",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "sha256": "680ceb407f79219535f9bf2e5269e07b51e35562e414f0e8d4a20847bc676b46",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "b791ec654538e81011a5811780934bf6393eae9ee0621f202f8354b2dc2a89fe",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "60aa32c4d082a831ff0d0fcbd616ad422e2699ec03232e2c9729276d320dd748",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "d013f7d4bee2bad3a2b2e987709147c7ccf56187824b98ed16ab195311c2f9e8",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "436228839c8049f0831240eb34a6c1f751871e4973c37dba2ce1ee76ec350d48",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/sustained-hunt-v2/engine-build.json",
+      "sha256": "c55479c40af41db957cbe1ba7dc1de5bbb188b900be7eb506946f232dc62b2f9",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "71e8c85a9dd1d1f4d1929cb11367ac8c17c427ae50c366d943eb422032ddb0d2",
+      "serverTransform": null
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "c7261d7a30aea26efb5cde7fdaed22c49b5653f5945c470caf7a0008f4426923",
+      "serverTransform": null
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "27ba6df149652fbf55dfdd918bb769aebb8054f096df06e8758307e260ad70ad",
+      "serverTransform": null
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "4a35fd8d2309201e3acfc310ade06f328cbad58c6cf0ca4407e238c1f2fe2f29",
+      "serverTransform": null
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-catalog-v1.mjs",
+      "sha256": "762435311df9f8c2d82d09cb28a5fc3b529a79ebae90d346803561735091c796",
+      "serverTransform": null
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-combat-v1.mjs",
+      "sha256": "6a6ce9ab0a89e566b46c8d10bfed58e3208c70fd7dc78882426576bcbdcb24b5",
+      "serverTransform": null
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-namsudaeng-v1.mjs",
+      "sha256": "a1f6e1a913caa56d9471634c209fa1180c9a5fcca1da2979dcc14aad38e5017a",
+      "serverTransform": null
+    },
+    {
+      "file": "shared/mercenary-ss-limited-v1.mjs",
+      "sha256": "ab5d8ba8c2738d49e494c10e5b91d43206732b911d291a2f39e95e819e58f632",
+      "serverTransform": null
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "e1342d6478a37dcb4538f4701181522d1583c0d093ab16de705b2a12892cc43a",
+      "serverTransform": null
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployment": "89ed0479-c98c-4dad-a894-f65464c16f11",
+      "versions": [
+        {
+          "version_id": "8a24b7e5-08b6-4a3c-9a60-10e385fd1c45",
+          "percentage": 100
+        }
+      ],
+      "balanceVersion": "20261027-joeun-balance-v2",
+      "namsudaengPvpProfile": true,
+      "contentSha256": "69b5dfbc5b7c8ecd177675d0065890cb3066cbf199dd25828e19354f6b442367"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployment": "6d95ac0d-0bb9-4a80-ba5d-8f1146ba9b94",
+      "versions": [
+        {
+          "version_id": "85f23d6e-3da9-4682-97d1-1a6b32e066fc",
+          "percentage": 100
+        }
+      ],
+      "balanceVersion": "20261027-joeun-balance-v2",
+      "namsudaengPvpProfile": true,
+      "contentSha256": "a721d6ab7a0fdc2123877272f0348416740a9514de004ab8a502b1d0295e2a72"
+    }
+  ],
+  "codex": [
+    {
+      "code": "V-961",
+      "name": "조은",
+      "basePower": 356400,
+      "skills": [
+        {
+          "id": "MS-961",
+          "name": "홍련의 속박",
+          "nameStatus": "WORKING_LABEL",
+          "mechanic": "REPEAT_OFFENDER_RESTRAINT",
+          "effect": "채찍 적중 즉시 기본 공격을 25% 약화하고, 위반 표식 2개가 쌓인 대상에게 다시 적중하면 표식을 소모해 다음 공격 스킬도 25% 약화합니다.",
+          "target": "적 표적",
+          "ready": true,
+          "trigger": "기존 서버의 에너지·재사용·행동 조건",
+          "counterplay": "기존 회피·방어·보호막·제어 면역 적용",
+          "procRule": "연출 프레임은 추가 피해·행동·비용을 발생시키지 않습니다.",
+          "balance": {
+            "damageRatio": 13.2,
+            "cooldownTurns": 1,
+            "cost": 20
+          },
+          "bossRule": "기존 서버의 보스·제어 면역 규칙을 적용합니다."
+        }
+      ],
+      "combatLinkDescription": "기본 전투력 356,400. 표시·성장 등급은 SS이며 전투 등급 보정은 일반 SSS 기준입니다. 자연 행동 속도 3.1배·아군 카드 1행동당 3.75회 추가 행동, 자기 행동마다 에너지 10 회복. 홍련의 속박 총 1,320% · 에너지 20 · 재사용 1행동. 홍련의 속박 적중 즉시 대상의 기본 공격을 25% 약화합니다. 위반 표식 2개가 쌓인 대상에게 다시 적중하면 표식을 소모해 다음 공격 스킬 피해도 25% 줄입니다. 보유 즉시 PVE·PVP 편성 가능. 대기 고정·모션 2배속. 블러드문팩 판매 상태와 잔여 수량은 상점에서 확인하세요. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+    },
+    {
+      "code": "V-965",
+      "name": "블러드문 남수댕",
+      "basePower": 356400,
+      "skills": [
+        {
+          "id": "MS-947",
+          "name": "적월 관통",
+          "visualMode": "pierce",
+          "targetCount": 1,
+          "target": "적 하나",
+          "effect": "응축한 화살로 적 하나를 관통합니다. 한 시전의 총 1,440% 피해를 실제 대상 수에 나누어 적용합니다.",
+          "mechanic": "BLOODMOON_ARCHERY",
+          "ready": true,
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          },
+          "trigger": "자기 행동 · 에너지 20 · 세 기술 공통 재사용 2행동",
+          "counterplay": "회피·방어·보호막·행동 제어의 영향을 받습니다.",
+          "bossRule": "보스도 같은 총 피해 예산을 사용합니다.",
+          "procRule": "서버 피해는 대상당 한 번이며 연출 화살은 추가 피해·비용·행동을 만들지 않습니다."
+        },
+        {
+          "id": "MS-948",
+          "name": "혈월 연사",
+          "visualMode": "volley",
+          "targetCount": 3,
+          "target": "최대 3명",
+          "effect": "서로 다른 적 최대 3명에게 세 발을 나누어 발사합니다. 한 시전의 총 1,440% 피해를 실제 대상 수에 나누어 적용합니다.",
+          "mechanic": "BLOODMOON_ARCHERY",
+          "ready": true,
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          },
+          "trigger": "자기 행동 · 에너지 20 · 세 기술 공통 재사용 2행동",
+          "counterplay": "회피·방어·보호막·행동 제어의 영향을 받습니다.",
+          "bossRule": "보스도 같은 총 피해 예산을 사용합니다.",
+          "procRule": "서버 피해는 대상당 한 번이며 연출 화살은 추가 피해·비용·행동을 만들지 않습니다."
+        },
+        {
+          "id": "MS-949",
+          "name": "월식 화살비",
+          "visualMode": "rain",
+          "targetCount": null,
+          "target": "적 전체",
+          "effect": "상공의 화살이 적 진형 전체로 쏟아집니다. 한 시전의 총 1,440% 피해를 실제 대상 수에 나누어 적용합니다.",
+          "mechanic": "BLOODMOON_ARCHERY",
+          "ready": true,
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          },
+          "trigger": "자기 행동 · 에너지 20 · 세 기술 공통 재사용 2행동",
+          "counterplay": "회피·방어·보호막·행동 제어의 영향을 받습니다.",
+          "bossRule": "보스도 같은 총 피해 예산을 사용합니다.",
+          "procRule": "서버 피해는 대상당 한 번이며 연출 화살은 추가 피해·비용·행동을 만들지 않습니다."
+        }
+      ],
+      "combatLinkDescription": "블러드문 SS 리미티드. 기본 전투력 356,400. 후열 궁수이며 표시·성장 등급 SS, 전투 등급 보정은 일반 SSS 기준입니다. PVE 자연 행동 속도 2.25배·아군 카드 1행동당 2.25회 추가 행동, PVP 자연 행동 속도 3.15배·추가 행동 3.75회이며 PVP 연계 공격·체력·방벽과 피해 상한이 강화됩니다. 자기 행동마다 에너지 10을 회복합니다. 적월 관통·혈월 연사·월식 화살비는 순환하며 총 1,440% 피해 예산·에너지 20·공통 재사용 2행동을 사용합니다. 기본 공격은 한 발이며 승인 모션은 2배속, 대기 몸체는 고정입니다. 블러드문팩 전용이며 판매 상태와 잔여 수량은 상점에서 확인하세요. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+    }
+  ],
+  "operationalAccountWrites": 0,
+  "noticePosted": false
+}

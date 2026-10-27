@@ -1,0 +1,57 @@
+{
+  "status": "COMPLETED",
+  "implementationCommit": "d470471f4",
+  "deploymentCommit": "4b31c45329c8e2cc31597f7cad0296b3fc311919",
+  "baseCommit": "b3ad0e7afdaf10abe23a996bf03ccf242b577bd7",
+  "pages": {
+    "id": "18f94229-85e7-450c-a7ab-ca97254a0f82",
+    "url": "https://18f94229.cnine-card.pages.dev"
+  },
+  "completedAt": "2026-10-27T07:54:06.475Z",
+  "kst": "2026-10-27 16:54:06",
+  "regressionTests": 37,
+  "localBrowserCases": 8,
+  "publicBrowserCases": 4,
+  "publicFiles": 30,
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployment": "89ed0479-c98c-4dad-a894-f65464c16f11",
+      "versions": [
+        {
+          "version_id": "8a24b7e5-08b6-4a3c-9a60-10e385fd1c45",
+          "percentage": 100
+        }
+      ],
+      "balanceVersion": "20261027-joeun-balance-v2",
+      "namsudaengPvpProfile": true,
+      "contentSha256": "69b5dfbc5b7c8ecd177675d0065890cb3066cbf199dd25828e19354f6b442367"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployment": "6d95ac0d-0bb9-4a80-ba5d-8f1146ba9b94",
+      "versions": [
+        {
+          "version_id": "85f23d6e-3da9-4682-97d1-1a6b32e066fc",
+          "percentage": 100
+        }
+      ],
+      "balanceVersion": "20261027-joeun-balance-v2",
+      "namsudaengPvpProfile": true,
+      "contentSha256": "a721d6ab7a0fdc2123877272f0348416740a9514de004ab8a502b1d0295e2a72"
+    }
+  ],
+  "readOnly": {
+    "verifiedAt": "2026-10-27T07:56:21.038Z",
+    "readOnly": true,
+    "cmsRevision": 61,
+    "levelPolicyRevision": 1,
+    "combatSha256": "0aa4b44b01467a5d87d292e3b103e5cc3c9449b89adefea1d6931aa5fc445e9b",
+    "growthSha256": "c5fef2786ff7f26a07f82f4e4d9055ebee446760d07d145348ab6613e4e39a8d",
+    "accountWrites": 0,
+    "noticePosts": 0
+  },
+  "noticePosted": false,
+  "noticeFile": "docs/qa/bloodmoon-balance-20261027/notice.txt",
+  "evidenceDirectory": "C:\\Users\\User\\.codex\\visualizations\\2026\\10\\27\\01a17c28-757e-7372-a8a4-93ddf2fbb805\\bloodmoon-buff-20261027"
+}
