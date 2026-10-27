@@ -1,7 +1,9 @@
 import {PET_CMS_KEY,PET_CMS_MAX_BYTES,PET_CMS_LOCKS,PET_BUFF_TYPES,PET_BUFF_TARGETS,emptyPetCmsDocument,validatePetCmsDocument,validatePetCmsSave} from '../shared/pet-cms-v1.mjs';
-import {COMPANION_FORMATION_RULES,COMPANION_RELEASE,validateCompanionLoadout,preparedFormation} from '../shared/companion-loadout-v2.mjs';
+import {COMPANION_FORMATION_RULES,COMPANION_RELEASE,COMPANION_PREPARATION_REVIEW,validatePreparedMercenaries,validateCompanionLoadout,preparedFormation} from '../shared/companion-loadout-v2.mjs';
+import {RANKED_DUAL_SERIES_RULES,rankedSeriesRoster,simulateRankedSeries} from '../shared/ranked-series-v1.mjs';
+import {createPveBattleV2,createPvpBattleV2} from './_battle_v2_preview.js';
 import {readMercenaryDocument,readMercenaryRuntime,battleConfig} from './_mercenary_account.js';
-import {createCompanionPreparationBattle,COMPANION_REVIEW_CARDS} from './_companion_preparation.js';
+import {createCompanionPreparationBattle,COMPANION_REVIEW_CARDS,DUAL_REVIEW_CARDS} from './_companion_preparation.js';
 import {PET_ART_CATALOG} from '../shared/pet-art-catalog-v1.mjs';
 
 const hash=async text=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text))),n=>n.toString(16).padStart(2,'0')).join('');
@@ -24,16 +26,18 @@ export async function readCompanionReviewCatalog(env){
   return {revision,mercenaries:document.mercenaries.filter(row=>row.rank).map(row=>({...battleConfig(document,row.code,1),combat:runtime.combat}))};
 }
 export async function handlePetCompanionCms({path,request,env,deps}){
-  if(!['admin/pets','admin/companions/preparation','admin/companions/preparation/preview'].includes(path))return null;
+  if(!['admin/pets','admin/companions/preparation','admin/companions/preparation/preview','admin/companions/preparation/dual'].includes(path))return null;
+  const dual=path==='admin/companions/preparation/dual';
   const reply=(body,status=200)=>{const response=deps.json(body,status);response.headers.set('Cache-Control','private, no-store');response.headers.set('Vary','Authorization');return response;};
   const admin=await deps.requirePermission(request,env,'BATTLE_MANAGE');
   if(!admin||admin.role!=='OWNER')return reply({error:'펫·동료 준비 CMS는 OWNER만 사용할 수 있습니다.'},403);
-  const methods=path==='admin/pets'?['GET','PATCH']:path.endsWith('/preview')?['POST']:['GET'];
+  const methods=path==='admin/pets'?['GET','PATCH']:path.endsWith('/preview')||dual?['POST']:['GET'];
   if(!methods.includes(request.method))return reply({error:'지원하지 않는 요청입니다.'},405);
   let body;
   if(request.method!=='GET')try{
     body=await boundedJson(request);
     if(path==='admin/pets')body=validatePetCmsSave(body);
+    else if(dual){if(!body||Array.isArray(body)||Object.keys(body).some(key=>!['codes','mode','seed','mercenaryRevision'].includes(key))||!['PVE','RANKED'].includes(body.mode)||!Number.isSafeInteger(body.seed)||body.seed<0||body.seed>4294967295||!Number.isSafeInteger(body.mercenaryRevision)||!Array.isArray(body.codes)||body.codes.length!==(body.mode==='PVE'?2:6))throw Error('두 용병 편성과 검수 버전을 확인해 주세요.');}
     else if(!body||Array.isArray(body)||Object.keys(body).some(key=>!['loadout','mode','seed','petRevision','mercenaryRevision'].includes(key))||!['PVE','PVP'].includes(body.mode)||!Number.isSafeInteger(body.seed)||body.seed<0||body.seed>4294967295||!Number.isSafeInteger(body.petRevision)||!Number.isSafeInteger(body.mercenaryRevision))throw Error('편성·전투 모드·검수 버전을 확인해 주세요.');
   }catch(error){return reply({error:error instanceof SyntaxError?'올바른 JSON 요청이 필요합니다.':error.message},400);}
   const output=state=>({...state,locks:PET_CMS_LOCKS,buffTypes:PET_BUFF_TYPES,buffTargets:PET_BUFF_TARGETS,rules:COMPANION_FORMATION_RULES,release:COMPANION_RELEASE,artCatalog:PET_ART_CATALOG});
@@ -41,7 +45,22 @@ export async function handlePetCompanionCms({path,request,env,deps}){
     const current=await readPetCms(env);
     if(path!=='admin/pets'){
       const catalog=await(deps.readCatalog||readCompanionReviewCatalog)(env);
-      if(request.method==='GET')return reply({...output(current.state),mercenaryRevision:catalog.revision,mercenaries:catalog.mercenaries,cards:COMPANION_REVIEW_CARDS});
+      if(request.method==='GET')return reply({...output(current.state),rankedRules:RANKED_DUAL_SERIES_RULES,mercenaryRevision:catalog.revision,mercenaries:catalog.mercenaries,cards:COMPANION_REVIEW_CARDS});
+      if(dual){
+        if(body.mercenaryRevision!==catalog.revision)return reply({error:'용병 설정이 바뀌었습니다. 다시 불러오세요.',code:'REVISION_CONFLICT'},409);
+        try{
+          const rows=body.codes.map(code=>catalog.mercenaries.find(row=>row.code===code));
+          if(rows.some(row=>!row))throw Error('서버에 등록된 용병만 선택하세요.');
+          const cards=DUAL_REVIEW_CARDS.map(card=>({...card}));
+          if(body.mode==='PVE'){
+            validatePreparedMercenaries(rows);
+            return reply({reviewOnly:true,battle:createPveBattleV2({cards,mercenaries:rows,monster:{id:'DUAL-REVIEW-BOSS',name:'두 용병 검수 보스',power:5000000,isBoss:true},seed:body.seed,[COMPANION_PREPARATION_REVIEW]:true})});
+          }
+          rankedSeriesRoster(rows,RANKED_DUAL_SERIES_RULES);
+          const rankedSeries=simulateRankedSeries({createBattle:createPvpBattleV2,options:{attackerCards:cards,defenderCards:cards},attackerMercenaries:rows,defenderMercenaries:[...rows].reverse(),seed:body.seed,rules:RANKED_DUAL_SERIES_RULES});
+          return reply({reviewOnly:true,rankedSeries});
+        }catch(error){return reply({error:error.message,code:'INVALID_DUAL_PREPARATION'},400);}
+      }
       if(body.petRevision!==current.state.revision||body.mercenaryRevision!==catalog.revision)return reply({error:'CMS 설정이 바뀌었습니다. 다시 불러온 뒤 검수해 주세요.',code:'REVISION_CONFLICT'},409);
       const validation=validateCompanionLoadout(body.loadout,{mercenaries:catalog.mercenaries,pets:current.state.document.pets,review:true});
       if(!validation.ok)return reply({error:validation.errors.join(' '),code:'INVALID_LOADOUT'},400);

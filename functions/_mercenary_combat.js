@@ -108,6 +108,29 @@ function mercenaryActionInterval(actors){
  const actor=actors.find(a=>a.isMercenary&&a.statMode==='RANK_FIXED');
  return actor?ssRearPveInterval(actor,MERCENARY_COMBAT_LINK.regularActionsPerTurn):5;
 }
+// Each companion earns its own current cadence, including growth and special
+// mercenary credits. A consumed turn never clears the other companion's debt.
+export function independentMercenaryTurnCadence(teams){
+ let serial=0;
+ const states=['A','B'].flatMap(side=>teams[side].filter(a=>a.isMercenary).map(actor=>({actor,side,debt:0,last:-1})));
+ const regular=a=>living(a)&&!a.isMercenary&&!a.isMonster&&a.actorKind!=='BATTLE_SUIT';
+ const owner=(a,b)=>(a.ownerId??null)===(b.ownerId??null);
+ const interval=s=>mercenaryActionInterval([s.actor]);
+ const credit=s=>mercenaryBaseActionCredit([s.actor])+mercenaryGrowthActionCredit([s.actor]);
+ const accrue=s=>{const growth=mercenaryGrowthActionCredit([s.actor]),c=credit(s),next=Math.min(growth?interval(s)+c:heliosCreditLimit(interval(s),c),s.debt+c);s.debt=growth?Math.round(next*10000)/10000:normalizeHeliosCredit(next,c);};
+ const pending=(eligible,filter=()=>true)=>states.filter(s=>living(s.actor)&&s.debt>=interval(s)&&eligible(s.actor)&&filter(s)).sort((a,b)=>a.last-b.last||a.actor.slot-b.actor.slot)[0]?.actor||null;
+ return {
+  pending(eligible=()=>true){return pending(eligible);},
+  select(actor){return regular(actor)?pending(()=>true,s=>s.side===actor.side&&owner(actor,s.actor))||actor:actor;},
+  acted(actor){
+   if(actor.isMercenary){const s=states.find(s=>s.actor===actor);if(s){s.debt=credit(s)>1?Math.max(0,s.debt-interval(s)):0;s.last=serial++;}}
+   else if(regular(actor))for(const s of states){
+    if(!living(s.actor))continue;
+    if(s.side===actor.side&&owner(actor,s.actor)||s.side!==actor.side&&s.actor.battleMode==='PVP'&&s.actor.statMode==='RANK_FIXED'&&!teams[s.side].some(a=>regular(a)&&owner(a,s.actor)))accrue(s);
+   }
+  }
+ };
+}
 // A teammate's card action cannot grant both mercenaries an extra turn. Each
 // owner's five cards drive their own mercenary, including last-stand responses.
 function duoMercenaryTurnCadence(teams){

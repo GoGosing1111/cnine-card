@@ -1,3 +1,4 @@
+import {RANKED_SERIES_RULES,rankedSeriesCodes,rankedSeriesRoster} from '../shared/ranked-series-v1.mjs';
 import {CARDGU_CODE,CARDGU_ART} from '../shared/mercenary-cardgu-v1.mjs';
 import {REVAN_CODE,REVAN_ART} from '../shared/mercenary-revan-v1.mjs';
 import {AWAKENED_OMEGA_CODE,AWAKENED_OMEGA_ART} from '../shared/mercenary-awakened-omega-v1.mjs';
@@ -74,14 +75,19 @@ export async function rankedOwnedMercenaries(env,userIds){
   }
   return result;
 }
-export async function rankedSelectedMercenaries(env,selections){
+export async function rankedSelectedMercenaries(env,selections,rules=RANKED_SERIES_RULES){
+  for(const codes of selections.values())rankedSeriesCodes(codes,rules);
   const ids=[...selections.keys()],[owned,runtime,equipment]=await Promise.all([rankedOwnedMercenaries(env,ids),readMercenaryRuntime(env),mercenaryEquipmentRuntimes(env,ids,'PVP')]);
-  const rounds=await Promise.all([0,1,2].map(async index=>{
-    const snapshots=new Map(ids.map(id=>{const code=selections.get(id)[index],snapshot=owned.get(id).find(m=>m.code===code);if(!snapshot)throw jointError('PVP_SERIES_ROSTER','보유한 서로 다른 용병 3종이 필요합니다.',409);return [id,{...snapshot,combat:runtime.combat,policyVersion:runtime.version}];}));
-    return attachReleasedMercenaryLevels(env,snapshots);
-  }));
-  return new Map(ids.map(id=>[id,rounds.map(round=>equipment.get(id)?.items.length?{...round.get(id),equipment:equipment.get(id)}:round.get(id))]));
+  const snapshots=new Map(ids.map(id=>[id,rankedSeriesRoster(selections.get(id).map(code=>{
+    const snapshot=owned.get(id).find(m=>m.code===code);
+    if(!snapshot)throw jointError('PVP_SERIES_ROSTER',`보유한 서로 다른 용병 ${rules.rosterSize}종이 필요합니다.`,409);
+    return {...snapshot,combat:runtime.combat,policyVersion:runtime.version};
+  }),rules)]));
+  // One policy read and one growth query for all selected companions and users.
+  const leveled=await attachReleasedMercenaryLevels(env,snapshots);
+  return new Map(ids.map(id=>[id,leveled.get(id).map(snapshot=>equipment.get(id)?.items.length?{...snapshot,equipment:equipment.get(id)}:snapshot)]));
 }
+
 const mercenaryBasePower=(rank,code)=>code===KANGYUN_CODE?IMPERIAL_ARCHER_COMBAT.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[rank];
 export const MERCENARY_RUNTIME_DRAFT=Object.freeze({revision:0,version:'mercenary-runtime-draft-20260913',mode:'OFF',approved:false,
   opening:{paymentKind:'UNSET',coinPerOpen:null,itemCode:null,itemsPerOpen:null,maxBatch:10},training:{itemCode:null,experiencePerItem:null},statMode:'RANK_FIXED',upgrade:MERCENARY_UPGRADE_PLAN,combat:MERCENARY_COMBAT_DRAFT});

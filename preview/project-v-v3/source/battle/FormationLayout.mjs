@@ -1,5 +1,5 @@
 // Common presentation stations are independent of the five-card save/API contract.
-export const GRID = Object.freeze({original: {columns: 7, rows: 6}, wide: {kind: 'OCCUPIED_STATIONS', mercenariesPerTeam: 1}});
+export const GRID = Object.freeze({original: {columns: 7, rows: 6}, wide: {kind: 'OCCUPIED_STATIONS', mercenariesPerTeam: 2}});
 export const FORMATIONS = Object.freeze({
   allies: [[0, 1], [2, 1], [0, 3], [2, 3], [0, 5]],
   enemies: [[6, 0], [6, 2], [4, 2], [4, 0], [4, 4]],
@@ -30,8 +30,8 @@ export const FORMATION_LATTICES = Object.freeze({
     columnPitch: 216, rowPitch: 300, tileWidth: 190, tileHeight: 64, actorScale: 1.3})
 });
 const CELLS = {
-  desktop: {squad: [[1,1],[0,0],[2,0],[0,1],[2,1],[1,2],[1,0]], cards: [[0, 0], [2, 0], [0, 1], [2, 1], [1, 2]], mercenaries: [[1, 0]], support: [[1, 1]], boss: [[4, 1]], objective: [[3, 2]]},
-  compact: {squad: [[1,1],[0,0],[0,1],[0,2],[1,2],[0,3],[1,0]], cards: [[0, 0], [0, 1], [0, 2], [1, 2], [0, 3]], mercenaries: [[1, 0]], support: [[1, 1]], boss: [[3, 1]], objective: [[2, 2]]}
+  desktop: {squad: [[1,1],[0,0],[2,0],[0,1],[2,1],[1,2],[1,0]], cards: [[0, 0], [2, 0], [0, 1], [2, 1], [1, 2]], mercenaries: [[1, 0], [0, 2]], support: [[1, 1]], boss: [[4, 1]], objective: [[3, 2]]},
+  compact: {squad: [[1,1],[0,0],[0,1],[0,2],[1,2],[0,3],[1,0]], cards: [[0, 0], [0, 1], [0, 2], [1, 2], [0, 3]], mercenaries: [[1, 0], [1, 3]], support: [[1, 1]], boss: [[3, 1]], objective: [[2, 2]]}
 };
 export function latticeStation(kind, index = 0, team = 'ALLY', profile = 'desktop') {
   const layout = FORMATION_LATTICES[profile], cell = CELLS[profile]?.[kind]?.[index];
@@ -73,7 +73,7 @@ export function formationPoint(x, y, team, mode = 'wide', mobile = false) {
 }
 export function mercenaryCount(value) {
   const number = Number(value);
-  if (!Number.isInteger(number) || number < 0 || number > 1) throw new Error('INVALID_MERCENARY_COUNT');
+  if (!Number.isInteger(number) || number < 0 || number > 2) throw new Error('INVALID_MERCENARY_COUNT');
   return number;
 }
 export function occupiedStations({mobile = false, scenario = 'PVP', allySlots = [0, 1, 2, 3, 4],

@@ -13,12 +13,12 @@ export function reviewMercenaries(){
   });
 }
 export function reviewPet(){return {...emptyPetDraft('PET-QA'),name:'검수용 펫',enabled:true,battleSprite:'assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png',buffs:[{type:'ATTACK_PERCENT',percent:20},{type:'MAX_HP_PERCENT',percent:10}]};}
-export async function companionCmsFixture(){
+export async function companionCmsFixture({mercenaries=reviewMercenaries()}={}){
   const pg=new PGlite();let calls=0,fail=false;
   await pg.exec('CREATE FUNCTION sqlite_now() RETURNS TEXT LANGUAGE SQL AS $$ SELECT CURRENT_TIMESTAMP::text $$; CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT NOT NULL,updated_at TEXT DEFAULT sqlite_now());');
   const client={async query(input){calls++;const sql=typeof input==='string'?input:input.text;if(fail&&/^(UPDATE|INSERT) app_meta|^INSERT INTO app_meta/.test(sql))throw Error('injected failure');const result=await pg.query(sql,typeof input==='string'?[]:input.values||[]);return {...result,rowCount:result.affectedRows??result.rows.length};}};
   const env={DB:new __postgresCompatTest.PostgresD1Database(client)};
-  const handle=(request,options={})=>handlePetCompanionCms({env,path:options.path||'admin/pets',request,deps:{requirePermission:async()=>options.denied?null:{id:options.owner||1,role:options.role||'OWNER'},readCatalog:async()=>({revision:7,mercenaries:reviewMercenaries()}),json:(data,status=200)=>Response.json(data,{status})}});
+  const handle=(request,options={})=>handlePetCompanionCms({env,path:options.path||'admin/pets',request,deps:{requirePermission:async()=>options.denied?null:{id:options.owner||1,role:options.role||'OWNER'},readCatalog:async()=>({revision:7,mercenaries}),json:(data,status=200)=>Response.json(data,{status})}});
   const call=async(body,options={})=>{
     const response=await handle(new Request('https://qa.test/api/'+(options.path||'admin/pets'),{method:options.method||(body?'PATCH':'GET'),...(body?{body:typeof body==='string'?body:JSON.stringify(body)}:{})}),options);
     return response?{status:response.status,headers:response.headers,body:await response.json()}:null;

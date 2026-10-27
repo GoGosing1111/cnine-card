@@ -5,6 +5,14 @@ import {buildMercenaryFighter} from './_mercenary_combat.js';
 
 // Review fixtures are not an account's deck or balance/launch defaults.
 export const COMPANION_REVIEW_CARDS=Object.freeze(['ATTACK','DEFENSE','SPEED','HP','NONE'].map((power_type,index)=>Object.freeze({id:`REVIEW-CARD-${index+1}`,name:`검수 카드 ${index+1}`,power_type,power:50000,grade:'FUR'})));
+// Existing approved card art, fixed review power; never an account loadout.
+export const DUAL_REVIEW_CARDS=Object.freeze([
+  ['CN-02D9DC1E8A8A4209','철와대 킴성태','FUR','HP','assets/NEWCARD/24.png'],
+  ['CN-F500880B2ED34350','프로필 킴성태','FUR','ATTACK','assets/NEWCARD/7.jpg'],
+  ['CN-0505936A0CBB4E59','구수댕','ZENITH','DEFENSE','assets/cards/남수댕/031.webp'],
+  ['CN-25F931CE393D474E','딤우스','ZENITH','DEFENSE','assets/cards/976467971.jpg'],
+  ['CN-23EB4B19986D4818','Lionel Messi','SUPERSTAR','ATTACK','assets/superstar/3.jpg']
+].map(([id,title,grade,power_type,image])=>Object.freeze({id,title,name:title,grade,power_type,image,power:1000000})));
 function prepareTeam({cards,mercenaries=[],pet=null,equipmentBonus=0,battleSuit=null},side,mode){
   if(!Array.isArray(cards)||cards.length!==5||new Set(cards.map(card=>String(card.id))).size!==5||cards.some(card=>!card.id||card.isMercenary||card.isMonster||card.actorKind==='PET'||/^V-\d{3}$/.test(String(card.id))||String(card.id).startsWith('PET-')))throw Error('일반 카드는 서로 다른 5장으로 편성해 주세요.');
   validatePreparedMercenaries(mercenaries);

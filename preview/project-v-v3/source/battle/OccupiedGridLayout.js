@@ -32,9 +32,10 @@ export const withOccupiedGrid = Base => class extends Base {
     return result;
   }
   setFormationMercenaries(items = []) {
-    for (const team of ['ALLY', 'ENEMY']) if (items.filter(item => item.team === team).length > (this.formationCoop?3:this.formationDuo?2:1)) throw new Error('MAX_ONE_MERCENARY_PER_TEAM');
+    for (const team of ['ALLY', 'ENEMY']) if (items.filter(item => item.team === team).length > (this.formationCoop?3:2)) throw new Error('MAX_MERCENARIES_PER_TEAM');
     if (items.some(item => !['ALLY', 'ENEMY'].includes(item.team) || !item.root)) throw new Error('INVALID_MERCENARY_STATION');
     // Registration is layout-only. It does not add a unit to any combat/API array.
+    for(const team of ['ALLY','ENEMY'])items.filter(item=>item.team===team).forEach((item,index)=>{item.formationMercenaryIndex=index;});
     this.formationMercenaries = items;
     this.layoutFormationMercenaries(); this.drawIsometricFloor();
   }
@@ -118,7 +119,7 @@ export const withOccupiedGrid = Base => class extends Base {
     for (const [team, actors] of [['ALLY', this.allies], ['ENEMY', this.enemies]]) {
       (actors || []).forEach((actor, index) => {if (actor.battleActive !== false && actor.hp > 0) add('cards', actor.iconTechniqueDisplaySlot??index, team, actor);});
     }
-    for (const item of this.formationMercenaries || []) if (item.root.visible) add('mercenaries', (this.formationDuo||this.formationCoop)?Number(item.squadIndex):0, item.team, item);
+    for (const item of this.formationMercenaries || []) if (item.root.visible) add('mercenaries', (this.formationDuo||this.formationCoop)?Number(item.squadIndex):(item.formationMercenaryIndex||0), item.team, item);
     if (this.accountBattleUnitEnabled && this.accountBattleUnit) add('support', 0, 'ALLY', this.accountBattleUnit);
     if (this.objectiveData && this.objectiveSprite?.visible) add('objective', 0, 'ALLY', this.objectiveSprite);
     return rows;
@@ -206,7 +207,7 @@ export const withOccupiedGrid = Base => class extends Base {
   layoutFormationMercenaries() {
     for (const item of this.formationMercenaries || []) {
       item.cooperativeScaleLocked=Boolean(this.formationCoop);
-      const p = this.station('mercenaries', (this.formationDuo||this.formationCoop)?Number(item.squadIndex):0, item.team);
+      const p = this.station('mercenaries', (this.formationDuo||this.formationCoop)?Number(item.squadIndex):(item.formationMercenaryIndex||0), item.team);
       const scale = this.formationCoop?COOP_BOARDS[this.mobile?'compact':'desktop'].actorScale:this.formationDuo?DUO_BOARDS[this.mobile?'compact':'desktop'].actorScale:formationActorScale(Boolean(this.viewportFit), this.mobile);
       if (typeof item.setFormation === 'function') {
         item.setFormation(p.x, p.y, scale); item.setCompactHud?.(this.mobile);
@@ -223,7 +224,7 @@ export const withOccupiedGrid = Base => class extends Base {
     const top = Math.min(...tiles.map(t => t.y - h / 2)), bottom = Math.max(...tiles.map(t => t.y + h / 2));
     return {version: 'OCCUPIED_GRID_V1', layoutVersion: FORMATION_LAYOUT_VERSION, mode: this.gridMode, scenario: this.formationScenario, mobile: this.mobile,
       grid: GRID[this.gridMode], tiles, floor: tiles.length ? {left, right, top, bottom, width: right - left, height: bottom - top} : null,
-      mercenaries: (this.formationMercenaries || []).filter(m => m.root.visible).map(m => ({code: m.art?.code, team: m.team, index: 0, x: m.root.x, y: m.root.y, scale: m.root.scale.x})),
+      mercenaries: (this.formationMercenaries || []).filter(m => m.root.visible).map(m => ({code: m.art?.code, team: m.team, index: m.formationMercenaryIndex, x: m.root.x, y: m.root.y, scale: m.root.scale.x})),
       rootScale: this.root?.scale.x, scene: this.scene, viewportFit: this.viewportFit,
       actors: [...this.allies, ...this.enemies].map(a => ({id: a.id, team: a.team, active: a.battleActive, grid: a.gridPosition, x: a.baseX, y: a.baseY, scale: a.restScale, depth: a.perspectiveDepth})),
       support: this.accountBattleUnitEnabled ? {x: this.accountBattleUnit.root.baseX, y: this.accountBattleUnit.root.baseY, scale: this.accountBattleUnit.root.restScale} : null,

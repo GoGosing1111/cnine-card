@@ -66,7 +66,7 @@ test('one optional mercenary per team never enters regular combat arrays and rem
   const ally = {team: 'ALLY', root: new Container()}, enemy = {team: 'ENEMY', root: new Container()};
   value.setFormationMercenaries([ally, enemy]); assert.equal(value.isoTiles.length, 12);
   assert.deepEqual([value.allies.length, value.enemies.length, value.characters.length], counts);
-  assert.throws(() => value.setFormationMercenaries([ally, ally]), /MAX_ONE_MERCENARY/);
+  assert.throws(() => value.setFormationMercenaries([ally, ally, ally]), /MAX_MERCENARIES_PER_TEAM/);
   assert.throws(() => value.setFormationMercenaries([{team: 'OTHER', root: ally.root}]), /INVALID_MERCENARY/);
   assert.deepEqual(value.formationMercenaries, [ally, enemy], 'invalid registration is atomic');
   ally.enabled = false; value.setFormationMercenaries([ally, enemy]); assert.equal(value.isoTiles.length, 11);
