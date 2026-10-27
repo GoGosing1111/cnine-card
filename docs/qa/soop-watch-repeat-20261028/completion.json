@@ -1,0 +1,77 @@
+{
+  "status": "complete",
+  "sourceCommit": "b0965c1a33edfedd56be685121985b17edb3eb16",
+  "pagesId": "bed3d2fa-df40-4480-8453-73d8ea1a8ffa",
+  "completedAt": "2026-10-27T21:19:50.403Z",
+  "completedAtKst": "2026-10-28 06:19:50 KST",
+  "regressions": {
+    "passed": 17,
+    "failed": 0
+  },
+  "localViewports": [
+    1440,
+    390
+  ],
+  "publicViewports": [
+    390
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "8862873c24569c277b115e3db209de97ae61992f8dd905b514e5574a4553a4d7",
+      "transformed": false
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "7281cd70b3abfbab82da126be1a2574592e0b0fb6b0c18d8463caae405ef2cb1",
+      "transformed": false
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "fe79b225ab637b69c86e3c71dce31eccdd0ea55ea12d2f77a760487bd24057c8",
+      "transformed": false
+    },
+    {
+      "file": "js/soop-watch-consent-v1.mjs",
+      "sha256": "60cf6dd85030abe4b7996c3c1138bd13bd8706d87e4c5d966a79b1fb6770ffbe",
+      "transformed": false
+    },
+    {
+      "file": "css/soop-watch-consent-v1.css",
+      "sha256": "7dcb6119b679f52a2d5f59cf1fb7805de0e45d2c7bbd46f7d43bcb5df69e938d",
+      "transformed": false
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "d835a7810fac0847df72f106095e602675d336039923d4080e84afb79b5ba966",
+      "transformed": true
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "2ba3c0225a5b42212653aece9254ce27372aafd9d1f098e1f5f48a2db9e73e47",
+      "transformed": false
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "7aefe8f4f52c5f5a58d8f509b5bcb466c880619071d7f4739c0af73ef7f219fa",
+      "transformed": false
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version_id": "5d83fb7a-102d-4d69-be0e-aeca033789a7",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version_id": "dd67baa4-a30f-44e7-9d8f-38ebc286afbd",
+      "percentage": 100
+    }
+  ],
+  "operationalAccountWrites": 0,
+  "actualUserConsentChanges": 0,
+  "watchRankingCalls": 0,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/soop-watch-repeat-20261028",
+  "verificationNote": "ONE store HTML is compared after the existing htmlForStore transformation; initial raw HTML comparison was corrected in the verifier only. Runtime deployed once."
+}

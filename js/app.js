@@ -4843,9 +4843,9 @@ async function completePendingPlaydkVerification(){
   try{
     const result=await apiRequest('secondary-verification/playdk',{method:'POST',body:JSON.stringify({token})},{timeoutMs:12000});if(API_TOKEN!==verificationSession||Number(loadUser()?.serverUserId)!==verificationAccount)return false;
     clearApiCache('messages');clearApiCache('secondary-verification/status');clearApiCache('new-user-gift');clearApiCache('shell/summary');
-    if(result?.newlyVerified===false||result?.duplicate===true||result?.status==='ALREADY_VERIFIED'){void openSoopWatchConsent({verificationResult:result});return true;}
+    if(result?.newlyVerified===false||result?.duplicate===true||result?.status==='ALREADY_VERIFIED'){void openSoopWatchConsent({automatic:true,verificationResult:result});return true;}
     alert(`${result.verification?.providerName?`${result.verification.providerName} · `:''}PLAY DK 2차 인증이 완료되었습니다.${result.giftMessage?.sent?'\n기프트 박스 1개가 메시지함에 도착했습니다. 메시지에서 수령해 주세요.':''}`);
-    renderShell('messages');requestAnimationFrame(()=>openWagoVerification());void openSoopWatchConsent({verificationResult:result});
+    renderShell('messages');requestAnimationFrame(()=>openWagoVerification());void openSoopWatchConsent({automatic:true,verificationResult:result});
     return true;
   }catch(error){alert(error.message||'PLAY DK 2차 인증을 완료하지 못했습니다. 메시지함에서 다시 시도해주세요.');return false}
   finally{playdkVerificationInFlight=false}
@@ -6253,7 +6253,7 @@ async function openSoopWatchConsent(options={}){
   if(!API_MODE||!API_TOKEN||!loadUser()?.serverUserId)return false;
   const account=Number(loadUser().serverUserId),session=API_TOKEN;
   try{
-    if(!soopWatchConsentPromise)soopWatchConsentPromise=import('/js/soop-watch-consent-v1.mjs?v=20261026-v1').then(({createSoopWatchConsent})=>window.SoopWatchConsent=createSoopWatchConsent({getUser:loadUser,getSession:()=>API_TOKEN,request:path=>apiRequest(path,{}, {ttl:0,microcache:false,timeoutMs:10000})})).catch(error=>{soopWatchConsentPromise=null;throw error;});
+    if(!soopWatchConsentPromise)soopWatchConsentPromise=import('/js/soop-watch-consent-v1.mjs?v=20261028-repeat-v1').then(({createSoopWatchConsent})=>window.SoopWatchConsent=createSoopWatchConsent({getUser:loadUser,getSession:()=>API_TOKEN,request:path=>apiRequest(path,{}, {ttl:0,microcache:false,timeoutMs:10000})})).catch(error=>{soopWatchConsentPromise=null;throw error;});
     const controller=await soopWatchConsentPromise;
     if(Number(loadUser()?.serverUserId)!==account||API_TOKEN!==session)return false;
     return controller.open(options);

@@ -1,13 +1,28 @@
 export const SOOP_CONSENT_URL='https://www.playdk.kr/my/settings/integrations/reversecall';
 export const SOOP_NOTICE_VERSION='20261026-v1';
 const noticeKey=id=>`cnine_soop_watch_notice:${SOOP_NOTICE_VERSION}:${id}`;
+const assetVersion='20261028-repeat-v1';
+const reconnectKey='cnine_soop_watch_reconnect:v1';
+function browserSessionStorage(){try{return globalThis.sessionStorage;}catch{return null;}}
 
 // A notice acknowledgement is never evidence of consent. PLAY DK owns consent
 // and withdrawal; only a fresh server-side token exchange can confirm provision.
-export function createSoopWatchConsent({getUser,getSession,request,storage=globalThis.localStorage,doc=document,navigate=url=>location.assign(url)}){
+export function createSoopWatchConsent({getUser,getSession,request,storage=globalThis.localStorage,temporaryStorage=browserSessionStorage(),doc=document,navigate=url=>location.assign(url)}){
   const seen=new Set();
-  let dialog=null,owner='',previousFocus=null;
+  let dialog=null,owner='',previousFocus=null,reconnectIntent=null;
   const identity=()=>`${Number(getUser()?.serverUserId||0)}:${getSession()}`;
+  function acknowledge(id){seen.add(id);try{storage?.setItem(noticeKey(id),'shown');}catch{}}
+  function rememberReconnect(id){
+    reconnectIntent={account:id,at:Date.now()};
+    try{temporaryStorage?.setItem(reconnectKey,JSON.stringify(reconnectIntent));}catch{}
+  }
+  function consumeReconnect(id){
+    let intent=reconnectIntent;reconnectIntent=null;
+    try{const stored=temporaryStorage?.getItem(reconnectKey);if(stored)intent=JSON.parse(stored);}catch{}
+    try{temporaryStorage?.removeItem(reconnectKey);}catch{}
+    const age=Date.now()-Number(intent?.at);
+    return intent?.account===id&&age>=0&&age<10*60*1000;
+  }
   function close(){
     if(!dialog)return;
     const current=dialog;dialog=null;current.close();current.remove();
@@ -20,11 +35,19 @@ export function createSoopWatchConsent({getUser,getSession,request,storage=globa
     checkAccount();
     const id=Number(getUser()?.serverUserId||0);
     if(!id||!getSession())return false;
+    const confirmed=verificationResult?.soopWatch?.identityAvailable===true;
+    if(automatic&&verificationResult){
+      // Every PLAY DK entry returns a token, not just the consent reconnect.
+      // Only that explicit, tab-local action should force a result dialog.
+      const reconnect=consumeReconnect(id);
+      if(confirmed){acknowledge(id);if(!reconnect)return false;}
+      if(reconnect)automatic=false;
+    }
     let acknowledged=seen.has(id);try{acknowledged ||= storage?.getItem(noticeKey(id))==='shown';}catch{}
     if(automatic&&(acknowledged||doc.querySelector('dialog[open],.modal.show,.modal.open,.modal.active,#burningActivationNotice')))return false;
     if(dialog){if(!verificationResult)return true;close();}
     if(!doc.querySelector('[data-soop-consent-style]')){
-      const style=doc.createElement('link');style.rel='stylesheet';style.href='/css/soop-watch-consent-v1.css?v='+SOOP_NOTICE_VERSION;style.dataset.soopConsentStyle='';doc.head.append(style);
+      const style=doc.createElement('link');style.rel='stylesheet';style.href='/css/soop-watch-consent-v1.css?v='+assetVersion;style.dataset.soopConsentStyle='';doc.head.append(style);
     }
     owner=identity();previousFocus=doc.activeElement;
     dialog=doc.createElement('dialog');dialog.className='soop-consent-dialog';
@@ -43,6 +66,14 @@ export function createSoopWatchConsent({getUser,getSession,request,storage=globa
       <footer><button type="button" data-soop-close>${verificationResult?'닫기':'나중에'}</button><small>메시지함 → 시청시간 동의에서 다시 열 수 있어요.</small></footer>`;
     const current=dialog,status=current.querySelector('[data-soop-status]');
     const setStatus=(message,error=false)=>{status.hidden=false;status.textContent=message;status.dataset.error=String(error);};
+    if(confirmed){
+      current.querySelector('#soopConsentTitle').textContent='시청시간 정보 제공 확인 완료';
+      current.querySelector('#soopConsentSummary').textContent='PLAY DK에서 정보 제공을 확인했습니다. 게임을 계속 이용해 주세요.';
+      current.querySelector('.soop-consent-primary').textContent='PLAY DK 동의 설정 관리 ↗';
+      current.querySelector('.soop-consent-next').hidden=true;
+      current.querySelector('[data-soop-reconnect]').hidden=true;
+      current.querySelector('footer [data-soop-close]').textContent='게임 계속하기';
+    }
     if(verificationResult){
       if(verificationResult.soopWatch?.identityAvailable===true)setStatus('PLAY DK에서 시청시간 정보 제공을 확인했습니다. 이후 동의 상태는 PLAY DK 설정에서 관리할 수 있습니다.');
       else setStatus('현재 시청시간 정보 제공을 확인하지 못했습니다. PLAY DK의 동의·SOOP 연결 상태를 확인해 주세요. 서비스 권한 설정에 따라서도 제공되지 않을 수 있습니다.',true);
@@ -58,12 +89,13 @@ export function createSoopWatchConsent({getUser,getSession,request,storage=globa
         if(!result.playdk?.enabled)throw Error('PLAY DK 연결을 준비 중입니다. 잠시 후 다시 시도해 주세요.');
         const url=new URL(result.playdk.startUrl);
         if(url.protocol!=='https:'||!['playdk.kr','www.playdk.kr'].includes(url.hostname)||url.username||url.password||url.port||!/^\/api\/v2\/g\/[a-zA-Z0-9_-]+$/.test(url.pathname)||url.search||url.hash)throw Error('PLAY DK 연결 주소를 확인하지 못했습니다.');
+        rememberReconnect(id);
         navigate(url.href);
       }catch(error){if(dialog===current&&owner===identity())setStatus(error.message||'연결을 준비하지 못했습니다. 다시 시도해 주세요.',true);}
       finally{if(dialog===current)button.disabled=false;}
     });
     doc.body.append(current);current.showModal();current.querySelector('[data-soop-close]').focus();
-    seen.add(id);try{storage?.setItem(noticeKey(id),'shown');}catch{}
+    acknowledge(id);
     return true;
   }
   return {open,close,dispose(){close();window.removeEventListener('cnine:player-updated',checkAccount);window.removeEventListener('storage',checkAccount);}};

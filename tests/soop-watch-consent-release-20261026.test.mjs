@@ -9,9 +9,10 @@ function fixture({userId=7,after,result}={}){
   const notices=[],alerts=[],renders=[],context={playdkVerificationInFlight:false,pendingPlaydkVerificationToken:'one-use-token',API_MODE:true,API_TOKEN:'original-session',loadUser:()=>({serverUserId:userId}),apiRequest:async()=>{after?.(context);return result||{status:'ALREADY_VERIFIED',newlyVerified:false,soopWatch:{identityAvailable:true}};},clearApiCache:()=>{},openSoopWatchConsent:options=>notices.push(options),alert:message=>alerts.push(message),renderShell:route=>renders.push(route),requestAnimationFrame:fn=>fn(),openWagoVerification:()=>{}};
   return {context,notices,alerts,renders,run:()=>runInNewContext(handler+'completePendingPlaydkVerification()',context)};
 }
-test('fresh provision confirmation is shown once after the existing token exchange',async()=>{
+test('fresh provision results use the automatic notice gate after the existing token exchange',async()=>{
   const f=fixture();assert.equal(await f.run(),true);assert.equal(f.notices.length,1);
   assert.equal(f.notices[0].verificationResult.soopWatch.identityAvailable,true);
+  assert.equal(f.notices[0].automatic,true);
   assert.equal(f.context.pendingPlaydkVerificationToken,'');assert.equal(f.context.playdkVerificationInFlight,false);
   assert.equal(await f.run(),false);assert.equal(f.notices.length,1);assert.equal(f.renders.length,0);
 });
@@ -24,10 +25,11 @@ test('new verification retains the original messages and gift notification flow'
   const f=fixture({result:{newlyVerified:true,verification:{providerName:'검수'},giftMessage:{sent:true},soopWatch:{identityAvailable:false}}});
   assert.equal(await f.run(),true);assert.deepEqual(f.renders,['messages']);assert.match(f.alerts[0],/기프트 박스 1개/);
   assert.equal(f.notices[0].verificationResult.soopWatch.identityAvailable,false);
+  assert.equal(f.notices[0].automatic,true);
 });
 test('normal and store entries load the changed runtime and the service worker refreshes popup assets',()=>{
-  for(const file of ['index.html','onestore/index.html'])assert.match(read(file),/app\.js\?v=soop-watch-consent-20261026-v1-/);
-  const sw=read('service-worker.js');assert.match(sw,/soop-card-shell-vsoop-watch-consent-20261026-v1-/);
+  for(const file of ['index.html','onestore/index.html'])assert.match(read(file),/app\.js\?v=soop-watch-repeat-20261028-v1-/);
+  const sw=read('service-worker.js');assert.match(sw,/soop-card-shell-vsoop-watch-repeat-20261028-v1-/);
   assert.match(sw,/\/js\/soop-watch-consent-v1\.mjs/);assert.match(sw,/\/css\/soop-watch-consent-v1\.css/);
   for(const file of ['js/app.js','onestore/js/app.js']){const text=read(file);assert.match(text,/openSoopWatchConsent\(\{automatic:true\}\)/);assert.match(text,/id="openSoopWatchConsent"/);assert.match(text,/API_TOKEN!==verificationSession/);}
 });

@@ -1,6 +1,7 @@
 .soop-consent-dialog{box-sizing:border-box;width:min(520px,calc(100% - 28px));max-height:calc(100dvh - 32px);margin:auto;padding:0;overflow:auto;border:1px solid #615070;border-radius:22px;background:#171322;color:#f5f1fc;box-shadow:0 28px 90px #0009;font-family:"Noto Sans KR",sans-serif;line-height:1.6;color-scheme:dark}
 .soop-consent-dialog::backdrop{background:#090612bf;backdrop-filter:blur(5px)}
 .soop-consent-dialog *{box-sizing:border-box}
+.soop-consent-dialog [hidden]{display:none}
 .soop-consent-head{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid #ffffff14;color:#d0bbdf;font-size:13px;font-weight:800}
 .soop-consent-head img{object-fit:contain}
 .soop-consent-head button{margin-left:auto;width:44px;height:44px;border:0;border-radius:12px;background:#ffffff0b;color:#f5f1fc;font-size:28px;cursor:pointer}
