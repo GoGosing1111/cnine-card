@@ -8,11 +8,13 @@ for(const file of ['preview/project-v-v3/source/project-v-pixi-battle.src.js','j
 for(const file of ['js/app.js','index.html','service-worker.js','mercenary-codex/index.html','mercenary-codex/shell.mjs']){
  let s=fs.readFileSync(file,'utf8');if(!s.includes('cardgu=20261027-live-v1')&&!s.includes(tag)){
   if(file==='js/app.js')s=s.replaceAll('revan=20261027-live-v1&','revan=20261027-live-v1&cardgu=20261027-live-v1&');
-  else if(file.startsWith('mercenary-codex/'))s=s.replaceAll('app.mjs?revan=','app.mjs?cardgu=20261027-live-v1&amp;revan=');
+  else if(file.startsWith('mercenary-codex/'))s=s.replaceAll('app.mjs?','app.mjs?cardgu=20261027-live-v1&amp;');
   else s=s.replaceAll('age-ratings-20261027-v1-',tag+'-age-ratings-20261027-v1-');
  }fs.writeFileSync(file,s);
 }
 const report='preview/project-v-v3/grid-build-report.json';
+const codexApp='mercenary-codex/app.mjs';let codex=fs.readFileSync(codexApp,'utf8');
+if(!codex.includes('cardgu=20261027-live-v1'))fs.writeFileSync(codexApp,codex.replace('model.mjs?','model.mjs?cardgu=20261027-live-v1&'));
 // Shell cache must use the exact main entry key even after concurrent releases.
 const entryKey=fs.readFileSync('index.html','utf8').match(/js\/app\.js\?v=([^&"]+)/)[1];
 fs.writeFileSync('service-worker.js',fs.readFileSync('service-worker.js','utf8').replace(/const SHELL_CACHE='[^']+'/,'const SHELL_CACHE=\'soop-card-shell-v'+entryKey+'\''));
