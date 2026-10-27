@@ -1,5 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {prepareSettings} from '../scripts/ops/blackcrown-cardgu-revan-20261027.mjs';
 import http from 'node:http';
 import assert from 'node:assert/strict';
 import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
@@ -10,7 +12,7 @@ import {handleBlackcrownPack,readBlackcrownPackState} from '../functions/_mercen
 import {handleHalloweenPack} from '../functions/_mercenary_halloween_pack.js';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
 
-const root=process.cwd(),out=process.env.QA_OUT||path.join(root,'docs/qa/blackcrown-pack-20261027/ui');fs.mkdirSync(out,{recursive:true});
+const root=process.cwd(),out=process.env.QA_OUT||path.join(root,'docs/qa/blackcrown-cardgu-revan-20261027/ui');fs.mkdirSync(out,{recursive:true});
 const cleanup=[],reports=[];let samples=[],posts=0,allowFixtureOpening=false;
 const f=await blackcrownFixture({after:fn=>cleanup.push(fn)},{randomInt:max=>{const n=samples.shift()??0;assert(n<max);return n;}});
 await f.setting(HALLOWEEN_PACK_KEY,{revision:23,settings:halloweenPackDraft()});
@@ -32,16 +34,15 @@ const server=http.createServer(async(req,res)=>{
   if(url.pathname==='/api/'+BLACKCROWN_PACK.openPath){assert(allowFixtureOpening,'Only the isolated fixture may open');posts++;const chunks=[];for await(const c of req)chunks.push(c);return json(await f.service.open(f.env,f.user,JSON.parse(Buffer.concat(chunks))));}
   if(url.pathname==='/api/'+BLACKCROWN_PACK.receiptPath)return json(await f.service.receipt(f.env,f.user,url.searchParams.get('requestId')));
   if(url.pathname.startsWith('/api/'))return json({maintenance:{active:false},enabled:false,connected:false,cards:[],packs:[],items:[],operations:[],pollSeconds:60});
-  if(JSON.parse(fs.readFileSync('scripts/blackcrown-authoring-only-20261027.json','utf8')).includes(url.pathname.slice(1)))return res.writeHead(404).end();let file=path.resolve(root,'.'+decodeURIComponent(url.pathname));if(file!==root&&!file.startsWith(root+path.sep))return res.writeHead(403).end();if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');if(!fs.existsSync(file))return res.writeHead(404).end();res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream'});fs.createReadStream(file).pipe(res);
+  if(JSON.parse(fs.readFileSync('scripts/blackcrown-authoring-only-20261027.json','utf8')).includes(url.pathname.slice(1)))return res.writeHead(404).end();let file=path.resolve(root,'.'+decodeURIComponent(url.pathname));if(file!==root&&!file.startsWith(root+path.sep))return res.writeHead(403).end();if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');if(!fs.existsSync(file)){try{const data=execFileSync('git',['show','HEAD:'+path.relative(root,file).replaceAll('\\','/')],{maxBuffer:64e6,stdio:['ignore','pipe','pipe']});return res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream'}).end(data);}catch{return res.writeHead(404).end();}}res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream'});fs.createReadStream(file).pipe(res);
  }catch(e){res.writeHead(e.status||500,{'content-type':'application/json'});res.end(JSON.stringify({error:e.message,code:e.code}));}
 });
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const base='http://127.0.0.1:'+server.address().port;
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']});
 
 try{
- const {cloneBlackcrownSettings}=await import('../scripts/ops/blackcrown-registration-20261027.mjs');
- const saved=JSON.parse(fs.readFileSync('docs/qa/blackcrown-pack-20261027/read.json','utf8'));
- Object.assign(f.settings,cloneBlackcrownSettings(saved.source.settings),{mode:'ON'});
+ const saved=JSON.parse(fs.readFileSync('tests/fixtures/blackcrown-sss-reference-20261027.json','utf8'));
+ Object.assign(f.settings,prepareSettings(saved.blackcrown.settings,saved.bloodmoon.settings).settings,{mode:'ON'});
  for(const [code,limit] of Object.entries(f.settings.stockLimits))await f.p('UPDATE mercenary_limited_stock_v1 SET stock_limit=? WHERE code=?',limit,code).run();
  await f.configure(4);await f.own('V-950',20);await f.own('V-951');await f.p('UPDATE users SET coin=? WHERE id=1',100000000000000).run();allowFixtureOpening=true;
  for(const width of (process.env.QA_WIDTHS||'1440,390').split(',').map(Number)){
@@ -65,15 +66,17 @@ try{
   assert.equal(await page.locator('.bcp-dialog').evaluate(e=>e.scrollWidth>e.clientWidth+1),false);assert.notEqual(await page.locator('.bcp-dialog').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 255, 255)');await page.locator('.bcp-dialog').evaluate(e=>e.scrollTop=0);await page.locator('.bcp-dialog').screenshot({path:path.join(out,'room-on-'+width+'.png')});
   await page.locator('[data-bcp-close]').click();await page.goto(base+'/cms#mercenaries/blackcrown');await page.locator('[data-blackcrown-price="single"]').waitFor();
   assert.equal(await page.locator('[data-blackcrown-mode]').inputValue(),'ON');assert.equal(await page.locator('[data-blackcrown-mode] option[value=ON]').evaluate(e=>e.disabled),false);assert.equal(await page.locator('[data-blackcrown-price="single"]').inputValue(),'1500000000');
-  assert.match(await page.locator('[data-blackcrown-root] .blackcrown-ownership-rule').innerText(),/현재 보유 종류/);assert.equal(await page.locator('[data-bcp-cms-rank=SSS]').count(),0);assert.equal(await page.locator('[data-blackcrown-rate="V-974"]').count(),0);
+  assert.match(await page.locator('[data-blackcrown-root] .blackcrown-ownership-rule').innerText(),/현재 보유 종류/);assert.equal(await page.locator('[data-bcp-cms-rank=SSS]').count(),1);assert.equal(await page.locator('[data-blackcrown-rate="V-974"]').count(),0);
+  for(const code of ['V-970','V-971']){assert.equal(await page.locator('[data-blackcrown-rate="'+code+'"]').inputValue(),'0.001');assert.equal(await page.locator('[data-blackcrown-effective="'+code+'"]').innerText(),'0.0000008%');}
   await page.locator('[data-blackcrown-mode]').selectOption('OFF');await page.locator('[data-blackcrown-save]').click();await page.waitForFunction(()=>document.querySelector('[data-blackcrown-root] .mlc-hero').textContent.includes('판매 상태 · OFF'));
   await page.reload();await page.locator('[data-blackcrown-mode]').waitFor();assert.equal(await page.locator('[data-blackcrown-mode]').inputValue(),'OFF');
   await page.locator('[data-blackcrown-mode]').selectOption('ON');await page.locator('[data-blackcrown-save]').click();await page.waitForFunction(()=>document.querySelector('[data-blackcrown-root] .mlc-hero').textContent.includes('판매 상태 · ON'));
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await page.locator('[data-blackcrown-root] .mlc-hero').screenshot({path:path.join(out,'cms-'+width+'.png')});
   const sourceSettings=structuredClone(f.settings);f.settings.normalRankRatesPpm=Object.fromEntries(Object.keys(f.settings.normalRankRatesPpm).map(r=>[r,r==='SSS'?1000000:0]));f.settings.missRatePpm=0;f.settings.normalSssRatePpm=0;f.settings.cardRatesPpm=Object.fromEntries(Object.keys(f.settings.cardRatesPpm).map(c=>[c,c==='V-952'?1000000:0]));await f.configure(30);
   await page.goto(base+'/room');await page.locator('[data-bcp-buy="1"]:not([disabled])').waitFor();await page.locator('[data-bcp-buy="1"]').click();await page.locator('[data-bcp-confirm-start]').click();await page.waitForFunction(()=>document.querySelector('[data-bcp-result-total]').textContent.includes('1회 개봉'));assert.equal(posts,postStart+1);await page.locator('[data-bcp-result-total]').scrollIntoViewIfNeeded();await page.locator('.bcp-dialog').screenshot({path:path.join(out,'result-'+width+'.png')});await page.locator('[data-bcp-close]').click();
-  Object.assign(f.settings,sourceSettings,{mode:'OFF'});await f.configure(40);await page.goto(base+'/room');await page.waitForFunction(()=>document.querySelector('[data-bcp-availability]').textContent.includes('OFF'));assert.equal(await page.locator('[data-bcp-buy="1"]').isDisabled(),true);assert.equal(await page.locator('[data-bcp-bulk-start]').isDisabled(),true);assert.equal(await page.locator('.bcp-portrait').count(),7);assert(!/SSS 리미티드|프라임|레오넬|은설|제너럴/.test(await page.locator('.bcp-dialog').innerText()));await page.locator('.bcp-dialog').screenshot({path:path.join(out,'room-off-'+width+'.png')});await page.locator('[data-bcp-close]').click();f.settings.mode='ON';await f.configure(41);
-  assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);reports.push({width,shopName:true,shopEntry:true,openingEnabled:true,ssStockLimit:10,distinctOwnedTypes:2,ssProbabilityDivisor:2,cmsSaveReload:true,bulkCountAt100Trillion:66666,cmsOnEnabled:true,confirmationCancelledWithoutCharge:true,isolatedOpeningResult:true,errors,failed});await context.close();
+  Object.assign(f.settings,sourceSettings,{mode:'OFF'});await f.configure(40);await page.goto(base+'/room');await page.waitForFunction(()=>document.querySelector('[data-bcp-availability]').textContent.includes('OFF'));assert.equal(await page.locator('[data-bcp-buy="1"]').isDisabled(),true);assert.equal(await page.locator('[data-bcp-bulk-start]').isDisabled(),true);assert.equal(await page.locator('.bcp-portrait').count(),9);assert(!/프라임|레오넬|은설|제너럴/.test(await page.locator('.bcp-dialog').innerText()));for(const code of ['V-970','V-971']){assert.match(await page.locator('[data-bcp-stock-code="'+code+'"]').innerText(),/남은 5장/);assert.equal(await page.locator('[data-bcp-chance-code="'+code+'"]').innerText(),'1회 확률 0.0000008%');const image=page.locator('[data-code="'+code+'"] img');await image.scrollIntoViewIfNeeded();await image.evaluate(i=>i.decode());}
+  await page.locator('.bcp-legend-collection').first().screenshot({path:path.join(out,'sss-'+width+'.png')});await page.locator('.bcp-dialog').screenshot({path:path.join(out,'room-off-'+width+'.png')});await page.locator('[data-bcp-close]').click();f.settings.mode='ON';await f.configure(41);
+  assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);reports.push({width,shopName:true,shopEntry:true,openingEnabled:true,ssStockLimit:10,sssStockEach:5,sssEffectivePercent:'0.0000008',sssUnaffectedByOwnership:true,distinctOwnedTypes:2,ssProbabilityDivisor:2,cmsSaveReload:true,bulkCountAt100Trillion:66666,cmsOnEnabled:true,confirmationCancelledWithoutCharge:true,isolatedOpeningResult:true,errors,failed});await context.close();
  }
  assert.equal(posts,reports.length);fs.writeFileSync(path.join(out,'browser.json'),JSON.stringify({status:'PASSED',reports,productionTransactions:0},null,2));console.log(JSON.stringify(reports));
 }catch(error){for(const ctx of browser.contexts())for(const page of ctx.pages()){console.error((await page.locator('body').innerText()).slice(-6000));await page.screenshot({path:path.join(out,'failure.png'),fullPage:true});}throw error;}finally{await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));for(const fn of cleanup)await fn();}

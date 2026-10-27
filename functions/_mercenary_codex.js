@@ -1,4 +1,5 @@
 import {CARDGU_ART,cardguCodexSkills} from '../shared/mercenary-cardgu-v1.mjs';
+import {blackcrownSssCodexCard} from '../shared/mercenary-blackcrown-pool-v3.mjs';
 import {REVAN_ART,revanCodexSkills} from '../shared/mercenary-revan-v1.mjs';
 import {blackcrownCodexCard,BLACKCROWN_CODEX_VERSION} from '../shared/mercenary-blackcrown-codex-v2.mjs';
 import {AWAKENED_OMEGA_ART} from '../shared/mercenary-awakened-omega-v1.mjs';
@@ -53,8 +54,8 @@ export function mercenaryCodexDocument(row){
             trigger:s.trigger,effect:s.effect,counterplay:s.counterplay,bossRule:s.bossRule,procRule:s.procRule,balance:{...s.balance},...(s.pveBalance?{pveBalance:{...s.pveBalance}}:{}),ready};
         })};
     }).concat(MERCENARY_ART_RELEASES.filter(art=>!document.mercenaries.some(c=>c.code===art.code)).map(art=>({...art,skills:[]})),[EUNSEOL_ART,GENERAL_JOK_ART,PRIME_ART,ZERO_ART,SHIRANUI_ART,LEONEL_ART,...LIMITED_MERCENARIES,...HALLOWEEN_SSS_CARDS.filter(c=>!LIMITED_MERCENARIES.some(a=>a.code===c.code)),{...KAIRON_ART,artOnly:true,basePower:null,skills:[],releaseStatus:'LIMITED_PREVIEW',acquisitionEnabled:false}].map(art=>({...art,...(art.code===EUNSEOL_CODE?{skills:eunseolCodexSkills()}:{}),...(art.code===GENERAL_JOK_CODE?{skills:generalJokCodexSkills()}:{}),...(art.code===PRIME_CODE?{skills:primeCodexSkills()}:{}),...(art.code===ZERO_CODE?{skills:zeroCodexSkills()}:{}),...([LEONEL_CODE,SHIRANUI_ART.code].includes(art.code)?{skills:art.skills.map(s=>({...s,ready:true,target:'적 전체',effect:art.code===SHIRANUI_ART.code?'망령 포대가 생존한 적 전체에 총 560% 피해를 나눠 적용합니다.':'검압이 전장을 가르며 생존한 적 전체에 피해를 한 번씩 나눠 적용합니다.',trigger:'PVE · 에너지 35 · 재사용 5행동',counterplay:'방어·보호막에 대응됩니다.',bossRule:'서버 전투 규칙 적용',procRule:'한 시전당 한 번 적용'}))}:{}),...(art.season==='HALLOWEEN'||art.code==='V-989'||art.code===JOKRO_CODE?{releaseStatus:'OWNER_PACK_CONTROLLED',basePower:limitedDeploymentSnapshot(art.code)?.basePower??null,skills:(limitedDeploymentSnapshot(art.code)?.skills||[]).map(s=>({...s,ready:true,target:s.target||'적 전체',effect:s.effect||(s.pveOnly?'PVE에서 적 전체에 피해를 나눠 적용합니다.':'고유 기술'),trigger:'자기 행동 · 에너지 및 재사용 충족',counterplay:s.counterplay||'방어·보호막에 대응됩니다.',bossRule:s.bossRule||'서버 전투 규칙 적용',procRule:s.procRule||'한 시전당 한 번 적용'}))}:{}),deploymentEnabled:Boolean(limitedDeploymentSnapshot(art.code)),deploymentVersion:LIMITED_DEPLOYMENT_VERSION,...(art.code===VALTER_CODE?{combatLinkDescription:VALTER_COMBAT_DESCRIPTION}:art.code===HELIOS_CODE?{combatLinkDescription:HELIOS_COMBAT_DESCRIPTION}:ssLimitedCombatDescription(art.code)?{combatLinkDescription:ssLimitedCombatDescription(art.code)}:{})})))};
-  projection.cards.push({...CARDGU_ART,skills:cardguCodexSkills()});
-  projection.cards.push({...REVAN_ART,skills:revanCodexSkills()});
+  projection.cards.push(blackcrownSssCodexCard({...CARDGU_ART,skills:cardguCodexSkills()}));
+  projection.cards.push(blackcrownSssCodexCard({...REVAN_ART,skills:revanCodexSkills()}));
   projection.cards.push({...AWAKENED_OMEGA_ART,skills:structuredClone(AWAKENED_OMEGA_ART.skills)});
   projection.cards.push({...RAZAK_ART,skills:structuredClone(RAZAK_ART.skills)});
   projection.cards=projection.cards.map(blackcrownCodexCard);

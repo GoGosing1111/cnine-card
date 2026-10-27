@@ -1,0 +1,15 @@
+{
+  "base": "ccd936c69cd8adb82c1fe77b8126ade151f11da4",
+  "reason": "사용자 승인 카드구·레반 블랙크라운팩 전용 각 5장 준비. 판매 OFF 유지, 현재 제너럴 족과 같은 1회 확률 0.0000008%. 기존 직접 지급은 팩 재고와 별도로 보존. 상점·CMS·도감 연결 및 기존 정책 읽기 호환, 한도 보호. 관련 검사와 PC/모바일 화면 검수 완료 후 코드 배포, 별도 원자 설정 실행.",
+  "tests": [
+    "tests/blackcrown-sss-prepare-20261027.test.mjs",
+    "tests/mercenary-blackcrown-pack-20261027.test.mjs",
+    "tests/mercenary-stock-schedule-20261026.test.mjs",
+    "tests/cardgu-live-20261027.test.mjs",
+    "tests/revan-live-20261027.test.mjs",
+    "tests/scoped-release-policy-20260923.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

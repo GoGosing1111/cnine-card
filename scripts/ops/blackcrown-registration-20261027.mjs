@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {BLACKCROWN_MERCENARIES,BLACKCROWN_CODES} from '../../shared/mercenary-blackcrown-catalog-v1.mjs';
-import {BLACKCROWN_PACK_KEY,validateBlackcrownPack} from '../../shared/mercenary-blackcrown-pack-v1.mjs';
+import {BLACKCROWN_PACK_KEY,readBlackcrownPackSettings} from '../../shared/mercenary-blackcrown-pack-v1.mjs';
 import {BLOODMOON_PACK_KEY,readBloodmoonPackSettings} from '../../shared/mercenary-bloodmoon-pack-v1.mjs';
 export const BLACKCROWN_REGISTRATION_KEY='ops:blackcrown-pack-clone:20261027:v1';
 const digest=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
@@ -10,7 +10,7 @@ export function cloneBlackcrownSettings(raw){
  const cardRatesPpm=Object.fromEntries(Object.entries(source.cardRatesPpm).filter(([code])=>mapping[code]||code==='V-058').map(([code,rate])=>[mapping[code]||code,rate]));
  const removed=['V-978','V-974','V-975','V-973'];const rates=[source.normalSssRatePpm,...removed.map(code=>source.cardRatesPpm[code])];
  const normalSssRatePpm=rates.some(rate=>rate==null)?null:rates.reduce((sum,rate)=>sum+Math.round(rate*10000),0)/10000;
- return validateBlackcrownPack({...structuredClone(source),mode:'OFF',format:'MERCENARY_BLACKCROWN_SS_PACK_V3',cardRatesPpm,normalSssRatePpm,stockLimits:Object.fromEntries(BLACKCROWN_CODES.map(code=>[code,10]))});
+ return readBlackcrownPackSettings({...structuredClone(source),mode:'OFF',format:'MERCENARY_BLACKCROWN_SS_PACK_V3',cardRatesPpm,normalSssRatePpm,stockLimits:Object.fromEntries(BLACKCROWN_CODES.map(code=>[code,10]))});
 }
 export async function inspectBlackcrownRegistration(db){
  const rows=(await db.query('SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key',[[BLACKCROWN_PACK_KEY,BLOODMOON_PACK_KEY,BLACKCROWN_REGISTRATION_KEY]])).rows;

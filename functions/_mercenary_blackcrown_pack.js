@@ -1,7 +1,7 @@
 import {BLACKCROWN_CODES} from '../shared/mercenary-blackcrown-catalog-v1.mjs';
 import {blackcrownOwnedCodes} from '../shared/mercenary-blackcrown-ownership-v1.mjs';
 import {BLACKCROWN_LIMITED_CARDS} from '../shared/mercenary-blackcrown-pool-v3.mjs';
-import {BLACKCROWN_PACK,BLACKCROWN_PACK_KEY,BLACKCROWN_PACK_RELEASE_ENABLED,blackcrownPackDraft,validateBlackcrownPack,blackcrownPackState,blackcrownPackCatalogRow,blackcrownPackReadiness} from '../shared/mercenary-blackcrown-pack-v1.mjs';
+import {BLACKCROWN_PACK,BLACKCROWN_PACK_KEY,BLACKCROWN_PACK_RELEASE_ENABLED,blackcrownPackDraft,readBlackcrownPackSettings,validateBlackcrownPack,blackcrownPackState,blackcrownPackCatalogRow,blackcrownPackReadiness} from '../shared/mercenary-blackcrown-pack-v1.mjs';
 import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {limitedNormalCards} from '../shared/mercenary-limited-pack-v1.mjs';
@@ -39,7 +39,8 @@ export async function saveBlackcrownPack(env,actor,body){
  if(prior){if(JSON.parse(prior.value).hash!==hash)throw jointError('MERCENARY_BLACKCROWN_CONFLICT','같은 요청 번호에 다른 내용이 있습니다.',409);return {...await readBlackcrownPackState(env),replayed:true};}
  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BLACKCROWN_PACK_KEY).first(),beforeText=row?.value??JSON.stringify(initial()),before=JSON.parse(beforeText);
  if(before.revision!==body.expectedRevision)throw jointError('MERCENARY_BLACKCROWN_CONFLICT','다른 창에서 설정을 변경했습니다. 새로 불러오세요.',409);
- if(BLACKCROWN_CODES.some(code=>settings.stockLimits[code]!==before.settings.stockLimits[code]))throw jointError('MERCENARY_BLACKCROWN_CONFIG','발행 한도는 한정 수량 예약에서 변경하세요.');
+ const currentLimits=readBlackcrownPackSettings(before.settings).stockLimits;
+ if(BLACKCROWN_LIMITED_CARDS.some(({code})=>settings.stockLimits[code]!==currentLimits[code]))throw jointError('MERCENARY_BLACKCROWN_CONFIG','발행 한도는 승인된 한정 수량 관리 경로에서 변경하세요.');
  if(settings.mode==='ON'){const state=await readBlackcrownPackState(env),ready=blackcrownPackReadiness(settings,state.stock,state.normalCards);if(!ready.ready)throw jointError('MERCENARY_BLACKCROWN_CONFIG',ready.blockers.join(' '));}
  const next={revision:before.revision+1,settings,updatedAt:new Date().toISOString(),updatedBy:Number(actor.id),lastRequestId:body.requestId},afterText=JSON.stringify(next),DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),token=crypto.randomUUID();
  try{await DB.batch([
