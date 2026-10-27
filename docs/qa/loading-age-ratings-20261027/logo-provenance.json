@@ -1,0 +1,60 @@
+{
+  "productId": "0001011261",
+  "iarcCertificateId": "6b0b85e9-af19-8575-8650-3fb35264e909",
+  "certifiedAt": "2026-10-26T19:03:20+09:00",
+  "reference": "User-provided ONE store age rating screen, 2026-10-27",
+  "officialDefinitions": "https://globalratings.com/ratings-definitions/",
+  "delivery": "Original PNG bytes embedded as data URLs; no re-encoding, network request, new runtime file slot, SDK or timing change.",
+  "logos": [
+    {
+      "file": "grac-15.png",
+      "label": "대한민국 · 15세 이용가",
+      "authority": "GRAC",
+      "url": "https://globalratings.com/wp-content/uploads/2025/06/GRAC_15_68.png",
+      "width": 68,
+      "height": 68,
+      "bytes": 937,
+      "sha256": "f50e23acc2d76f575a1615119d10364596e038beb55f6eda2d79b2ce6785639b"
+    },
+    {
+      "file": "iarc-3.png",
+      "label": "IARC 일반 등급 · 3세 이상",
+      "authority": "IARC",
+      "url": "https://globalratings.com/wp-content/uploads/2025/06/Generic_3_68.png",
+      "width": 68,
+      "height": 68,
+      "bytes": 877,
+      "sha256": "bc2495fb44774efc4cb7595b5daf4685b0bffd2b2cacabef1b806385b6754abf"
+    },
+    {
+      "file": "dgsc-15.png",
+      "label": "대만 · 15세 이상",
+      "authority": "DGSC",
+      "url": "https://globalratings.com/wp-content/uploads/2025/06/TCA_15_68.png",
+      "width": 68,
+      "height": 68,
+      "bytes": 1636,
+      "sha256": "ceed39fe86202857252d131a0bfc192cc114c8907b091154cde4d9609399e862"
+    },
+    {
+      "file": "esrb-t.png",
+      "label": "북미 ESRB · Teen",
+      "authority": "ESRB",
+      "url": "https://globalratings.com/wp-content/uploads/2025/06/ESRB_T_68.png",
+      "width": 68,
+      "height": 68,
+      "bytes": 529,
+      "sha256": "54820067cad2434e669541d33c0aaf09cac574b348da89b0667c1136f2969411"
+    },
+    {
+      "file": "classind-18.png",
+      "label": "브라질 · 18세 이상",
+      "authority": "ClassInd",
+      "url": "https://globalratings.com/wp-content/uploads/2025/12/ClassInd_18_68.png",
+      "width": 68,
+      "height": 68,
+      "bytes": 1182,
+      "sha256": "e802f2c0957358bc83787e375a10ea20ae416e3dc3d8de51d620e36be203e5a5"
+    }
+  ]
+}
