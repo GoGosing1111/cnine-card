@@ -11,3 +11,7 @@ PC1440·모바일390 실제 메인 앱에서 판매 OFF/ON 각각 9종·새 SSS2
 전체 실행·화면 증거: C:/Users/User/Downloads/upload/cnine-card/operations/blackcrown-shop-sss-20261027/
 
 배포 결과와 독립 READ ONLY 확인은 completion.json에 기록한다.
+
+## 운영 완료
+
+2026. 10. 27. 18:38:29 KST 검증 완료. 소스 a3f2e8e1b, Pages 64d83ad7. 관련29검사·PC1440/모바일390 실제 상점 OFF/ON 검사와 공개 메인 HTML/JS·실제 /api/packs 검사 통과. 공개6파일·두 Worker 확인. 공개 상점 SS6종 → 카드구·레반 SSS2종 → 라자크 순서로 표시, 새2종 잔여각5장. 독립 READ ONLY로 설정/재고/보유/CMS/발행 보존 확인. 판매OFF·확률0.0000008%·기존레반1장 유지.

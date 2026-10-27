@@ -1,0 +1,37 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "url": "https://cnine-card.pages.dev/?screen=buy&shopSssVerification=20261027",
+      "actualProductionHtmlAndApp": true,
+      "actualPacksApi": true,
+      "isolatedLocalDisplaySession": true,
+      "shopCards": 9,
+      "sssNames": [
+        "카드구",
+        "레반"
+      ],
+      "remainingEach": 5,
+      "sales": "OFF",
+      "errors": [],
+      "blockedWrites": []
+    },
+    {
+      "width": 390,
+      "url": "https://cnine-card.pages.dev/?screen=buy&shopSssVerification=20261027",
+      "actualProductionHtmlAndApp": true,
+      "actualPacksApi": true,
+      "isolatedLocalDisplaySession": true,
+      "shopCards": 9,
+      "sssNames": [
+        "카드구",
+        "레반"
+      ],
+      "remainingEach": 5,
+      "sales": "OFF",
+      "errors": [],
+      "blockedWrites": []
+    }
+  ],
+  "productionMutations": 0
+}
