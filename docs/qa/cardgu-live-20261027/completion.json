@@ -1,0 +1,46 @@
+{
+  "completedAt": "2026-10-27T08:24:52.574Z",
+  "source": "ccd936c69cd8adb82c1fe77b8126ade151f11da4",
+  "pages": {
+    "id": "620ed303-c87b-4d5a-b714-480caac1bdfb",
+    "url": "https://620ed303.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ccd936c69cd8adb82c1fe77b8126ade151f11da4"
+  },
+  "regressionTests": 67,
+  "publicAssetsVerified": 48,
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "cardguConnected": true,
+      "sha256": "2aeba25dafd6987ac5b2851b310c0c041a9517cafb9d4f77bcc7b9269e3f2993"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "cardguConnected": true,
+      "sha256": "097e4d900d5618f03d9f76a943b242a93a3f3d919d29b2e10971ca4ad29f5b3e"
+    }
+  ],
+  "productionWrites": 0,
+  "acquisition": "LOCKED",
+  "balance": {
+    "pvpBattles": 1664,
+    "cardguWinRate": 0.5,
+    "pvePairs": 144,
+    "identicalPve": true
+  },
+  "browser": {
+    "local": [
+      "PVP1440",
+      "PVP390",
+      "HUNT1440",
+      "HUNT390"
+    ],
+    "public": [
+      "PVP390",
+      "HUNT1440",
+      "HUNT390"
+    ]
+  },
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/cardgu-live-20261027/"
+}

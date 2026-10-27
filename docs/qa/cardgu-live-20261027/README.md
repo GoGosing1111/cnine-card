@@ -18,3 +18,11 @@ balance.json: 13조건 × 새 시드 64개 × 진영 교대 2회 = PVP 1,664전,
 배포는 기존 `npm run deploy:production -- --scoped`와 최신 운영 커밋 기준의 관련 검사·Worker 검사·출시 플래그·Hyperdrive 검증을 사용한다. 검수·배포 실행 증거는 `C:/Users/User/Downloads/upload/cnine-card/operations/cardgu-live-20261027/`에 보존한다. 운영 배포 완료는 해당 폴더의 deployment-result.json 및 live-verification.json의 성공 결과로 확인한다.
 
 Pages 파일 한도를 위해 역사적 TEST-REPORT 텍스트 32개와 번들에 포함된 카드구 소스만 업로드 목록에서 제외한다. 원본·문서·소스는 Git에 그대로 보존하며 파일 삭제/용량 유지관리를 실행하지 않는다. delivery-audit.json에 브라우저 참조 0건을 기록했다.
+
+## 운영 완료
+
+- 배포 소스 `ccd936c69cd8adb82c1fe77b8126ade151f11da4`, Pages `620ed303-c87b-4d5a-b714-480caac1bdfb`. 정식 배포 종료 코드 0. 관련 검사 67개, Worker·출시 플래그·Hyperdrive 확인.
+- 공개 파일 48개 확인(ONEstore HTML 1개는 기존 서버 변환 결과와 정확히 비교), 두 전투 Worker 카드구 연결 확인. 공개 API 카드구/270만/4기술/보유 시 편성 확인.
+- 공개 리소스를 불러온 PC·모바일 HUNT 및 모바일 PVP의 실제 V3 재생 통과. API 전투 입력은 격리된 서버 페이로드이며 운영 계정 전투/재화 쓰기 없음.
+- 독립 READ ONLY: CMS r61·성장/리미티드 팩 설정·제너럴 족 발행 상태 동일, 카드구 운영 보유 0장 유지. 획득 잠금, 직접 지급 없음.
+- 초기 배포 검사는 캐시 연결 및 희소 체크아웃 이미지 복원 누락으로 게시 전에 중단됐다. 원본은 Git에서 해시 그대로 복원하고 캐시·디펜스 갱신 경로를 수정한 뒤 67개 모두 통과했다. 원본 검사 로그는 별도 실행 폴더에 보존한다.
