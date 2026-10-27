@@ -1,0 +1,54 @@
+{
+  "checkedAt": "2026-10-27T03:12:53.222Z",
+  "transaction": "REPEATABLE READ READ ONLY / ROLLBACK",
+  "beforeAfterEqual": true,
+  "sha256": "8ff849e10f669b2da3cde070e1c9462c6ee658899eeef93c09e42fa151a9dba1",
+  "pack": {
+    "revision": 4,
+    "mode": "OFF",
+    "sha256": "6e5c75fd5b5ac8b97e46a50d2d0aba34ca182475999e86af4ce22e378ffa36b8"
+  },
+  "stock": [
+    {
+      "code": "V-950",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "1"
+    },
+    {
+      "code": "V-951",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "1"
+    },
+    {
+      "code": "V-952",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "1"
+    },
+    {
+      "code": "V-953",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "1"
+    },
+    {
+      "code": "V-954",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "1"
+    },
+    {
+      "code": "V-955",
+      "stock_limit": "10",
+      "issued": "0",
+      "revision": "1"
+    }
+  ],
+  "issueCount": 0,
+  "occupied": [],
+  "bloodmoonPolicySha256": "240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f",
+  "bloodmoonStockSha256": "ea394bd6e55394dbafc9c78c47d14962f0a1104b58737c3542ee3414d8c1aec2",
+  "operationalWrites": 0
+}

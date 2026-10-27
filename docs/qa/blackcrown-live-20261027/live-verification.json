@@ -1,0 +1,550 @@
+{
+  "at": "2026-10-27T03:11:01.248Z",
+  "releaseCommit": "4f86b306c27c507fa4fed2f424e5fe47e8489d82",
+  "pages": {
+    "id": "f35c8f50-f0dc-40c6-9013-26e94234e85a",
+    "url": "https://f35c8f50.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "4f86b306c27c507fa4fed2f424e5fe47e8489d82"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sourceSha256": "895ac4a1149dee2434820f8e7f084fbe789236418dd4e417bc0c37159e93ce62",
+      "activeDeployment": {
+        "id": "1318d7a6-c32a-465e-81b4-48b353af3ba7",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "69042cf5-9f7a-42a3-89b3-56a6981e3803",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-27T03:07:36.831087Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sourceSha256": "8d1aafc4a8ecd2e096cbfb7ba1fdc0b7c3102f21cb951d65bd74fa5fad35b09c",
+      "activeDeployment": {
+        "id": "8920e157-2edc-473f-9ba2-8e89bdcd5d04",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "526a3f41-c017-46e4-b26c-dc52f261db48",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-27T03:08:54.668784Z"
+      }
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "assets/ui/project-v/mercenaries/mercenary-reaper-mask-art-approval-20261027.json",
+      "sha256": "ea6416084030b498554b4654c02be18fbdeff17522db84f07b30093898ca084d",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "index.html",
+      "sha256": "e78d19d077c42ec01b1d2a80c41ab15ae7f0f02319776f624ef7141804a93299",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "35922b134f30196ce9dac0fb4b6cfea6d4cdd084585488b1e24d6d52c798160f",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "3b7d0d576298f11d4401999b0ad67a2a18537a558d9cad1ba539eb9219bf7531",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "5c12f9adf3a61d77ae1e34208b610d3e8a4174131d26cb3c82d25f8cf4167551",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "18e0c69d83c24b14b532e24d467055607767958d66df80bb4ca54ff11965a40f",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "7bbcbbf9706e228844c812bc1589f52069749a4e9a6f4fbe95b6c45b08b75def",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "be789fd08e5e23a0c959dad27e650796828023ec7e87484d766a542d06a40a60",
+      "encoding": "UTF8_LF_STORE_TRANSFORM"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "73802a796a24d8673158eab0fe41ccfd436deccc105c5996d11dcbec89cca9c2",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/build-report.json",
+      "sha256": "18e14120e3d75bfa543e2a2917127a3d74842702d8003fc1d81119cdf381f17b",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "dcd535914bef9f04dd29d90c43d49180d12c6f6e29c93d3fbe8b4749e0d70f76",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "5b0fa371387f8ba918172ffba291ed1db24104784d23504d9dd8e91ecf5b22c3",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "68bbe257f79dab9c2f95563111a793789624a3d5297b269b613fd2a9746f6f32",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "b6ac1c21585a1b3ff982fcf8f0956049eda5bbf1f74af2c4da6e684c61add3ef",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "6f9b6a85af9a096ffc10a719995b29788496755972952a089cfcdc0873030152",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "sha256": "d46c74af3fd0cb13e39589f53f705a8895aaef08ab46de387b249fd622fe195a",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "eacb83a57aa86a78b5c7d3ba4dd2bb3fa798cfa756587f1dc42d5e8d5bda9ed4",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
+      "sha256": "1aa97093efef6e07cde1e6c56e13a58c93a5e6968d634fe2efa3a1c4d6b82d7e",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "a7c65b1fde9fb3634a21dc6b57c2b7884762e6062b0d3f93736ab01a742407c1",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "7efe4d0d12a12547a6531c2c371952b1ef75044e7f640e502066a5f4e79e2c2d",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "ba05d8d53b9c685fc52d1b4ac86d79d2e16b8c11fe92cc6260eb4eef00a5c3c2",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/engine-build.json",
+      "sha256": "f21d768f81cc23d1fd2ddae38d2118e5db38a0d497d3f28239ae2daa3bae5c2a",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "bcb7834faf16768b0b470ff78d54e330ce25600c339bbdcb7fa4d8de5041bbf5",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "ee8d89cc4669a6c2d08f9731b9f1cc2fc22c660e1c4bda6a533206d0f6bef846",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "9aabc16a5bca6821b9ece6fd9964862378a2d109cb1892e8e80ff0f2da2f3519",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "4123ed4a5f50d8536c76897dea981dbada75d174542eb263be141361d8c69e85",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "shared/mercenary-blackcrown-catalog-v1.mjs",
+      "sha256": "d58cd706579266b2f0634aaf76b1a5ef55aa5ddd59a2d39ebdb4fc6e75381720",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "shared/mercenary-blackcrown-codex-v2.mjs",
+      "sha256": "a260ac9710dc114459988ce1949eb383bc4f7ee0367bfcfcdddae2430cc5c86f",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "shared/mercenary-blackcrown-combat-v1.mjs",
+      "sha256": "6ec0b52fbadab56743745d0e14012ccbddad3ef08668ff59e96f9af6e33391ca",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "shared/mercenary-limited-deployment-v1.mjs",
+      "sha256": "48280b2aae13f506e2be8c9b4459ddf6dceb17703736f13b46ba1956b223ef47",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "shared/mercenary-ss-limited-v1.mjs",
+      "sha256": "10fc6b2b235ba6a96bbfbd3d7047cc2e9dad9e6604fb7601de414c2f1d12b1b5",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "004124e119e3ba9a75bf90d7cb733966a33204979b332f6905944859a543a54d",
+      "encoding": "UTF8_LF"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-heeya-source-art-approved-v3.png",
+      "sha256": "d683244cfc434316afab36e297f99819417f5854865b55571f5f46385db8a211",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/heeya-idle.png",
+      "sha256": "97e73c6ae831d62047c9fc3ef805a5892b7df4b60e9d9b135c3167c52444f86a",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-bongsoon-source-art-approved-v1.png",
+      "sha256": "a6b159821cfe742f514527bb8434921c518f60298177e11c2777d78a82aa1762",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/bongsoon-idle.png",
+      "sha256": "463858a8dc54888bba2579961cb682da6481daca3179bef398e5b1aa7418d06a",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-joeun-source-art-approved-v3.png",
+      "sha256": "a2cbd1923b6fc8212d016d74a16d3329be6764d0bea7e30e597647221204eaad",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/joeun-idle.png",
+      "sha256": "d3844815558d1172c7267efad22758ff79c50ed62bad88c8037088575e009bc9",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-diim-source-art-approved-v2.png",
+      "sha256": "21c9eb01c83922ceee985edd5b43e951ce35929e24f7527fbf9ab4424e7bb6c1",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/diim-idle.png",
+      "sha256": "e11aab60fd964ab7b0f5a3b3e835634d0f092cc6d85535dfcd324aec42391afd",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-sudaeng-source-art-approved-v3.png",
+      "sha256": "512377e2364afa787d33f0120a461039fd36f9385d617f8920b3fed5f5a8e05c",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/sudaeng-idle.png",
+      "sha256": "449ec1af3126c2ea20efb93240a950d4f69193943591f2646ee54e592dbeec67",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-orikkung-source-art-approved-v3.png",
+      "sha256": "620507718af3508aaecbd59b5863539a73ba99a4218229250a75d100fb9f4764",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/orikkung-idle.png",
+      "sha256": "964ea0757ec220f0e7f2a17e265dc6a013c4e9b186a5d07732b1cb8be11e6e25",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/bongsoon-body.png",
+      "sha256": "b0b1a9f4313298ec78ea5ed8a2c7f06da0a878a7466fcda7049e9ee65818542a",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/bongsoon-fx.png",
+      "sha256": "1a2a1b1690a51c99165f98727edc6082f739695e17329dcbc3e72ac155d52bea",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/bongsoon-fx2.png",
+      "sha256": "d274fe6949f8aa87026ac1559873ffc51c0f6728f92fc7da872580718616ccf5",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/diim-body.png",
+      "sha256": "7ccf1c6c0ffa493c898566edf59851cdf8963db795dbfcdc592bb8f519861c81",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/diim-fx.png",
+      "sha256": "2dd201c5dfac69d2fe48743c4ed981e5bbd3043e0fa39bebaefeef95b895ecbd",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/diim-fx2.png",
+      "sha256": "5bd10a71496766d195f199634fb7c14e4d09f5698136e096f6a909378c0cd9b1",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/heeya-body.png",
+      "sha256": "dc6549f57de098a3ae786124184ab9d3ae455d0c0a261b95ceb390f0de2f83d8",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/heeya-fx.png",
+      "sha256": "d01f652cb1bfed1ae11de0d08bd6a409d90062730c03dbc6ee57db7ff90ecde7",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/heeya-fx2.png",
+      "sha256": "a83520c6f2bde273f5c325eabda10283e00ec6725c7907e6312ccdb634998055",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/joeun-body.png",
+      "sha256": "cbc8ab1e5795205bdc57a909e251ca0cccf963efe430939267a121a0efe24037",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/joeun-fx.png",
+      "sha256": "5a973d2786089aaefbeb9434b94f20822097f1690d3e4eca0c558e5a4e82ed05",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/joeun-fx2.png",
+      "sha256": "4851609d3502efbda5a597672a48a36036cc2e3e5c7487899464243c9545533c",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/orikkung-body.png",
+      "sha256": "4755c6ed512bef39bfc002722f8bc5dcb17e3533563c5aa7581af2497823fdc3",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/orikkung-fx.png",
+      "sha256": "4afb973be7541a261eebd12bc9c99761c83b38a46bf151f9d3f55b79b2f7e842",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/orikkung-fx2.png",
+      "sha256": "c68682d34e0501dc52d07cef13d4d9c59bc514c83c245ccc77f5b0019c536cac",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/sudaeng-body.png",
+      "sha256": "d2756df104e9f9d41ebf5a63d552c9fc559b9fedf27351e2c30f3a7cc4876d49",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/sudaeng-fx.png",
+      "sha256": "9d38debb87939430842b5b00925b5cefc14d20aff9b73935be104b516bb96524",
+      "encoding": "BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/sudaeng-fx2.png",
+      "sha256": "aae6b9e16135e608256c9076eef92624842b823a9cfd79e937dba4e62eaabd23",
+      "encoding": "BYTES"
+    }
+  ],
+  "cards": [
+    {
+      "code": "V-950",
+      "basePower": 356400,
+      "deploymentEnabled": true,
+      "skills": [
+        {
+          "id": "MS-930",
+          "name": "흑관 관통",
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-931",
+          "name": "흑우 탄막",
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      ],
+      "battleSprite": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/heeya-idle.png",
+      "motionSpeed": 2,
+      "bodyHeight": 285
+    },
+    {
+      "code": "V-951",
+      "basePower": 356400,
+      "deploymentEnabled": true,
+      "skills": [
+        {
+          "id": "MS-932",
+          "name": "녹옥 저격",
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-933",
+          "name": "녹옥 관통",
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      ],
+      "battleSprite": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/bongsoon-idle.png",
+      "motionSpeed": 2,
+      "bodyHeight": 285
+    },
+    {
+      "code": "V-952",
+      "basePower": 356400,
+      "deploymentEnabled": true,
+      "skills": [
+        {
+          "id": "MS-934",
+          "name": "왕관 점사",
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-935",
+          "name": "흑관 파쇄",
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      ],
+      "battleSprite": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/joeun-idle.png",
+      "motionSpeed": 2,
+      "bodyHeight": 285
+    },
+    {
+      "code": "V-953",
+      "basePower": 356400,
+      "deploymentEnabled": true,
+      "skills": [
+        {
+          "id": "MS-936",
+          "name": "자월 연격",
+          "balance": {
+            "damageRatio": 11.6,
+            "cooldownTurns": 1,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-937",
+          "name": "월영 회수",
+          "balance": {
+            "damageRatio": 11.6,
+            "cooldownTurns": 1,
+            "cost": 20
+          }
+        }
+      ],
+      "battleSprite": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/diim-idle.png",
+      "motionSpeed": 2,
+      "bodyHeight": 285
+    },
+    {
+      "code": "V-954",
+      "basePower": 356400,
+      "deploymentEnabled": true,
+      "skills": [
+        {
+          "id": "MS-938",
+          "name": "황금화관",
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-939",
+          "name": "흑염 결계",
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      ],
+      "battleSprite": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/sudaeng-idle.png",
+      "motionSpeed": 2,
+      "bodyHeight": 285
+    },
+    {
+      "code": "V-955",
+      "basePower": 356400,
+      "deploymentEnabled": true,
+      "skills": [
+        {
+          "id": "MS-940",
+          "name": "왕관 산탄",
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        },
+        {
+          "id": "MS-941",
+          "name": "크라운 일제탄",
+          "balance": {
+            "damageRatio": 14.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      ],
+      "battleSprite": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/orikkung-idle.png",
+      "motionSpeed": 2,
+      "bodyHeight": 285
+    }
+  ],
+  "featureGate": {
+    "path": "mercenaries/v3/blackcrown-pack/feature",
+    "status": 200
+  },
+  "operationalAccountWrites": 0,
+  "serviceStatus": {
+    "status": 200,
+    "maintenance": {
+      "active": false,
+      "title": "",
+      "message": "",
+      "startAt": "",
+      "endAt": "",
+      "testUsers": []
+    }
+  }
+}

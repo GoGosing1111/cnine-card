@@ -42,4 +42,11 @@ Pages 한도를 위해 Node 전용 제작 명령 18개와 번들에 포함되는
 5. `tests/mercenary-codex-owned-roster-v2133.test.mjs`
 6. `tests/pve-battlefield-entry-v2117.test.mjs`
 
-배포 결과와 공개 파일·운영 READ ONLY 확인은 완료 후 아래에 기록한다.
+**운영 배포 완료:** 소스 `4f86b306c27c507fa4fed2f424e5fe47e8489d82`, Pages `f35c8f50-f0dc-40c6-9013-26e94234e85a`, 2026-10-27 12:10경 KST. 공식 scoped 게이트의 관련 검사 **55개**, 배포 도구 검사 **18개**, Worker 구문·출시 플래그·캐시·Hyperdrive 검증이 모두 통과했다. `deploy.log`에 실행 결과를 보존한다.
+
+- API Runtime `69042cf5-9f7a-42a3-89b3-56a6981e3803`, 예약/랭크 Worker `526a3f41-c017-46e4-b26c-dc52f261db48` 모두 100% 활성 버전. 실제 두 서버 번들에서 새 전투 프로필·피해 처리 함수를 확인했다.
+- 공개 **62개 파일 해시** 및 도감 6종의 356,400·스킬 2개·편성 허용·신장 285·모션 2배속을 확인했다. `live-verification.json`, 재검증 도구 `verify-live.mjs`. ONEstore HTML은 기존 서버 `htmlForStore` 변환 결과와 비교하며 원본 정적 HTML과 직접 비교하지 않는다.
+- 공개 PC/모바일 도감 12건 통과(`public-browser.json`). 실제 공개 메인/래퍼/번들/이미지를 내려받아 격리 전투 데이터로 모바일 PVP/HUNT 각 6종, 스킬 36회·기본 공격 18회·대기/취소/사망/복귀를 확인했다. `public-pvp/public-PVP-battle.json`, `public-hunt/public-HUNT-battle.json`. 운영 사용자 계정의 실전 거래를 실행한 검증은 아니다.
+- 공개 `service/status`는 200·점검 OFF, 블랙크라운 feature는 200. 직전 기록의 점검 503은 현재 검수 결과가 아니다. 이 작업에서 점검 설정을 변경하지 않았다.
+- 독립 PostgreSQL **REPEATABLE READ READ ONLY** 전후 결과가 동일하다. 팩 OFF r4, 신규 SS 각 10장·발행 0·보유자 0, 블러드문 r11 및 재고 해시 유지. `operating-readonly.json`; 원 READ ONLY 결과는 이 작업의 외부 증빙 폴더 `blackcrown-live-before/read.json`, `blackcrown-live-after/verify.json`에 보존한다. 운영 계정/재화/편성/발행/설정 쓰기 0건.
+- Pages 전달 파일은 19,998개. 함께 있던 별도 승인 레반 원화/이름 커밋을 보존했으며 코드·등급·획득·전투에 새 레반 용병을 등록하지 않았다.

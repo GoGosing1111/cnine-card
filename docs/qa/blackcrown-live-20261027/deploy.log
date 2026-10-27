@@ -1,0 +1,166 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"84c41277d64cf0ab0e389a65838fdb61dba307cb","reason":"Release only six approved Black Crown SS combat profiles and authored playback using current Bloodmoon baselines; verify combat, ownership, growth, pack preservation, shipped V3 entry and asset staging.","changed":["AGENTS.md","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/bongsoon-body.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/bongsoon-fx.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/bongsoon-fx2.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/diim-body.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/diim-fx.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/diim-fx2.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/heeya-body.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/heeya-fx.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/heeya-fx2.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/joeun-body.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/joeun-fx.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/joeun-fx2.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/motion-manifest.json","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/orikkung-body.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/orikkung-fx.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/orikkung-fx2.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/sudaeng-body.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/sudaeng-fx.png","assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/sudaeng-fx2.png","assets/ui/project-v/mercenaries/mercenary-reaper-mask-art-approval-20261027.json","assets/ui/project-v/mercenaries/reaper-mask-20261027/prompt-v9.txt","assets/ui/project-v/mercenaries/reaper-mask-20261027/source-art-approved-v9.png","docs/qa/blackcrown-live-20261027/1440-V-950-ALLY-MS-930.png","docs/qa/blackcrown-live-20261027/1440-V-950-ALLY-MS-931.png","docs/qa/blackcrown-live-20261027/1440-V-950-ENEMY-MS-930.png","docs/qa/blackcrown-live-20261027/1440-V-950-ENEMY-MS-931.png","docs/qa/blackcrown-live-20261027/1440-V-950-idle.png","docs/qa/blackcrown-live-20261027/1440-V-951-ALLY-MS-932.png","docs/qa/blackcrown-live-20261027/1440-V-951-ALLY-MS-933.png","docs/qa/blackcrown-live-20261027/1440-V-951-ENEMY-MS-932.png","docs/qa/blackcrown-live-20261027/1440-V-951-ENEMY-MS-933.png","docs/qa/blackcrown-live-20261027/1440-V-951-idle.png","docs/qa/blackcrown-live-20261027/1440-V-952-ALLY-MS-934.png","docs/qa/blackcrown-live-20261027/1440-V-952-ALLY-MS-935.png","docs/qa/blackcrown-live-20261027/1440-V-952-ENEMY-MS-934.png","docs/qa/blackcrown-live-20261027/1440-V-952-ENEMY-MS-935.png","docs/qa/blackcrown-live-20261027/1440-V-952-idle.png","docs/qa/blackcrown-live-20261027/1440-V-953-ALLY-MS-936.png","docs/qa/blackcrown-live-20261027/1440-V-953-ALLY-MS-937.png","docs/qa/blackcrown-live-20261027/1440-V-953-ENEMY-MS-936.png","docs/qa/blackcrown-live-20261027/1440-V-953-ENEMY-MS-937.png","docs/qa/blackcrown-live-20261027/1440-V-953-idle.png","docs/qa/blackcrown-live-20261027/1440-V-954-ALLY-MS-938.png","docs/qa/blackcrown-live-20261027/1440-V-954-ALLY-MS-939.png","docs/qa/blackcrown-live-20261027/1440-V-954-ENEMY-MS-938.png","docs/qa/blackcrown-live-20261027/1440-V-954-ENEMY-MS-939.png","docs/qa/blackcrown-live-20261027/1440-V-954-idle.png","docs/qa/blackcrown-live-20261027/1440-V-955-ALLY-MS-940.png","docs/qa/blackcrown-live-20261027/1440-V-955-ALLY-MS-941.png","docs/qa/blackcrown-live-20261027/1440-V-955-ENEMY-MS-940.png","docs/qa/blackcrown-live-20261027/1440-V-955-ENEMY-MS-941.png","docs/qa/blackcrown-live-20261027/1440-V-955-idle.png","docs/qa/blackcrown-live-20261027/390-V-950-ALLY-MS-930.png","docs/qa/blackcrown-live-20261027/390-V-950-ALLY-MS-931.png","docs/qa/blackcrown-live-20261027/390-V-950-ENEMY-MS-930.png","docs/qa/blackcrown-live-20261027/390-V-950-ENEMY-MS-931.png","docs/qa/blackcrown-live-20261027/390-V-951-ALLY-MS-932.png","docs/qa/blackcrown-live-20261027/390-V-951-ALLY-MS-933.png","docs/qa/blackcrown-live-20261027/390-V-951-ENEMY-MS-932.png","docs/qa/blackcrown-live-20261027/390-V-951-ENEMY-MS-933.png","docs/qa/blackcrown-live-20261027/390-V-952-ALLY-MS-934.png","docs/qa/blackcrown-live-20261027/390-V-952-ALLY-MS-935.png","docs/qa/blackcrown-live-20261027/390-V-952-ENEMY-MS-934.png","docs/qa/blackcrown-live-20261027/390-V-952-ENEMY-MS-935.png","docs/qa/blackcrown-live-20261027/390-V-953-ALLY-MS-936.png","docs/qa/blackcrown-live-20261027/390-V-953-ALLY-MS-937.png","docs/qa/blackcrown-live-20261027/390-V-953-ENEMY-MS-936.png","docs/qa/blackcrown-live-20261027/390-V-953-ENEMY-MS-937.png","docs/qa/blackcrown-live-20261027/390-V-953-idle.png","docs/qa/blackcrown-live-20261027/390-V-954-ALLY-MS-938.png","docs/qa/blackcrown-live-20261027/390-V-954-ALLY-MS-939.png","docs/qa/blackcrown-live-20261027/390-V-954-ENEMY-MS-938.png","docs/qa/blackcrown-live-20261027/390-V-954-ENEMY-MS-939.png","docs/qa/blackcrown-live-20261027/390-V-954-idle.png","docs/qa/blackcrown-live-20261027/390-V-955-ALLY-MS-940.png","docs/qa/blackcrown-live-20261027/390-V-955-ALLY-MS-941.png","docs/qa/blackcrown-live-20261027/390-V-955-ENEMY-MS-940.png","docs/qa/blackcrown-live-20261027/390-V-955-ENEMY-MS-941.png","docs/qa/blackcrown-live-20261027/390-V-955-idle.png","docs/qa/blackcrown-live-20261027/HUNT-1440-V-950-idle.png","docs/qa/blackcrown-live-20261027/HUNT-1440-V-951-idle.png","docs/qa/blackcrown-live-20261027/HUNT-1440-V-952-idle.png","docs/qa/blackcrown-live-20261027/HUNT-1440-V-953-idle.png","docs/qa/blackcrown-live-20261027/HUNT-1440-V-954-idle.png","docs/qa/blackcrown-live-20261027/HUNT-1440-V-955-idle.png","docs/qa/blackcrown-live-20261027/HUNT-390-V-950-idle.png","docs/qa/blackcrown-live-20261027/HUNT-390-V-951-idle.png","docs/qa/blackcrown-live-20261027/HUNT-390-V-952-idle.png","docs/qa/blackcrown-live-20261027/HUNT-390-V-953-idle.png","docs/qa/blackcrown-live-20261027/HUNT-390-V-954-idle.png","docs/qa/blackcrown-live-20261027/HUNT-390-V-955-idle.png","docs/qa/blackcrown-live-20261027/PVP-1440-V-950-idle.png","docs/qa/blackcrown-live-20261027/PVP-1440-V-951-idle.png","docs/qa/blackcrown-live-20261027/PVP-1440-V-952-idle.png","docs/qa/blackcrown-live-20261027/PVP-1440-V-953-idle.png","docs/qa/blackcrown-live-20261027/PVP-1440-V-954-idle.png","docs/qa/blackcrown-live-20261027/PVP-1440-V-955-idle.png","docs/qa/blackcrown-live-20261027/PVP-390-V-950-idle.png","docs/qa/blackcrown-live-20261027/PVP-390-V-951-idle.png","docs/qa/blackcrown-live-20261027/PVP-390-V-952-idle.png","docs/qa/blackcrown-live-20261027/PVP-390-V-953-idle.png","docs/qa/blackcrown-live-20261027/PVP-390-V-954-idle.png","docs/qa/blackcrown-live-20261027/PVP-390-V-955-idle.png","docs/qa/blackcrown-live-20261027/README.md","docs/qa/blackcrown-live-20261027/balance.json","docs/qa/blackcrown-live-20261027/browser-failure.json","docs/qa/blackcrown-live-20261027/local-HUNT-battle.json","docs/qa/blackcrown-live-20261027/local-PVP-battle.json","docs/qa/blackcrown-live-20261027/local-battle.json","docs/qa/blackcrown-live-20261027/local-browser.json","docs/qa/blackcrown-live-20261027/local-desktop-V-950-skills.png","docs/qa/blackcrown-live-20261027/local-desktop-V-950.png","docs/qa/blackcrown-live-20261027/local-desktop-V-951-skills.png","docs/qa/blackcrown-live-20261027/local-desktop-V-951.png","docs/qa/blackcrown-live-20261027/local-desktop-V-952-skills.png","docs/qa/blackcrown-live-20261027/local-desktop-V-952.png","docs/qa/blackcrown-live-20261027/local-desktop-V-953-skills.png","docs/qa/blackcrown-live-20261027/local-desktop-V-953.png","docs/qa/blackcrown-live-20261027/local-desktop-V-954-skills.png","docs/qa/blackcrown-live-20261027/local-desktop-V-954.png","docs/qa/blackcrown-live-20261027/local-desktop-V-955-skills.png","docs/qa/blackcrown-live-20261027/local-desktop-V-955.png","docs/qa/blackcrown-live-20261027/local-mobile-V-950-skills.png","docs/qa/blackcrown-live-20261027/local-mobile-V-950.png","docs/qa/blackcrown-live-20261027/local-mobile-V-951-skills.png","docs/qa/blackcrown-live-20261027/local-mobile-V-951.png","docs/qa/blackcrown-live-20261027/local-mobile-V-952-skills.png","docs/qa/blackcrown-live-20261027/local-mobile-V-952.png","docs/qa/blackcrown-live-20261027/local-mobile-V-953-skills.png","docs/qa/blackcrown-live-20261027/local-mobile-V-953.png","docs/qa/blackcrown-live-20261027/local-mobile-V-954-skills.png","docs/qa/blackcrown-live-20261027/local-mobile-V-954.png","docs/qa/blackcrown-live-20261027/local-mobile-V-955-skills.png","docs/qa/blackcrown-live-20261027/local-mobile-V-955.png","docs/qa/blackcrown-live-20261027/pages-authoring-exclusions.json","docs/qa/blackcrown-off-ss10-20261027/README.md","docs/qa/blackcrown-off-ss10-20261027/buttons-final-deploy.log","docs/qa/blackcrown-off-ss10-20261027/buttons-final-public/auto-off-1440.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-public/auto-off-390.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-public/browser.json","docs/qa/blackcrown-off-ss10-20261027/buttons-final-public/bulk-off-1440.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-public/bulk-off-390.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-public/http.json","docs/qa/blackcrown-off-ss10-20261027/buttons-final-public/room-off-1440.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-public/room-off-390.png","docs/qa/blackcrown-off-ss10-20261027/buttons-final-public/verification.mjs","functions/_mercenary_blackcrown.js","functions/_mercenary_combat.js","index.html","js/app.js","js/battle-v3-live.js","mercenary-codex/app.mjs","mercenary-codex/index.html","mercenary-codex/model.mjs","onestore/index.html","onestore/js/app.js","packaging/onestore/web-build.json","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/BlackCrownCombatPlayback.js","preview/project-v-v3/source/battle/MercenaryCombatPlayback.js","preview/project-v-v3/source/battle/blackcrown/BlackCrownFX.js","preview/project-v-v3/source/battle/blackcrown/skills.mjs","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","scripts/blackcrown-live-node-only-20261027.json","scripts/build-v3-grid-consumers.mjs","scripts/measure-blackcrown-bloodmoon-20261027.mjs","scripts/prepare-production-assets.mjs","service-worker.js","shared/mercenary-blackcrown-catalog-v1.mjs","shared/mercenary-blackcrown-codex-v2.mjs","shared/mercenary-blackcrown-combat-v1.mjs","shared/mercenary-limited-deployment-v1.mjs","shared/mercenary-ss-limited-v1.mjs","shared/onestore-web-assets-v1.mjs","tests/blackcrown-live-20261027.browser.mjs","tests/blackcrown-live-20261027.test.mjs","tests/mercenary-blackcrown-codex-20261027.browser.mjs","tests/mercenary-blackcrown-codex-20261027.test.mjs","tests/mercenary-blackcrown-pack-20261027.test.mjs"],"tests":["tests/blackcrown-live-20261027.test.mjs","tests/mercenary-blackcrown-codex-20261027.test.mjs","tests/mercenary-blackcrown-pack-20261027.test.mjs","tests/eunseol-bloodmoon-deployment-20261025.test.mjs","tests/mercenary-codex-owned-roster-v2133.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["test:release-policy","check:worker"]}
+✔ six SS Limited profiles exactly match their current Bloodmoon reference stats, links, cadence, cost and caps (6.5073ms)
+✔ all twelve casts share one total budget and mutate each legal enemy once in PVE/PVP (7.9914ms)
+✔ two skills alternate with one payment and the Bloodmoon shared reuse interval (6.7311ms)
+✔ canonical PVE/PVP emits twelve skills with five regular slots and one mercenary (40.1466ms)
+✔ isolated ownership/loadouts permit all six in PVE/PVP, without bypassing ownership or granting cards (4141.6576ms)
+✔ approved art and all live atlas bytes match provenance, including the corrected Sudaeng hand (100.8909ms)
+✔ all six owned cards appear in growth; normal SS materials train once and preserve the original (2242.9499ms)
+✔ all six Bloodmoon cards deploy immediately in both modes at starting account rank; ownership remains required (4467.6537ms)
+✔ existing five prepared skill budgets and combat multipliers remain exact (1.5657ms)
+✔ V-960 is an actual fighter with successful server skill hits in PVE and PVP (40.0343ms)
+✔ V-961 is an actual fighter with successful server skill hits in PVE and PVP (12.0474ms)
+✔ V-962 is an actual fighter with successful server skill hits in PVE and PVP (8.3966ms)
+✔ V-963 is an actual fighter with successful server skill hits in PVE and PVP (8.5145ms)
+✔ V-964 is an actual fighter with successful server skill hits in PVE and PVP (12.1694ms)
+✔ V-965 is an actual fighter with successful server skill hits in PVE and PVP (14.7359ms)
+✔ packed runtime images ship; authoring originals and Node runners remain in Git (32.8439ms)
+✔ six Black Crown SS Limited cards expose exactly two distinct codex skills (14.7957ms)
+✔ other cards stay unchanged while six Black Crown identities gain deployment (6.9204ms)
+✔ codex validates the released identities and authoritative skill balance (35.2332ms)
+✔ six source originals and full-body side sprites match recorded hashes and delivery paths (35.5163ms)
+✔ public codex performs one SELECT only and rejects write methods before database access (7.0623ms)
+✔ Pages delivery preserves all originals and excludes only Node authoring commands (4.8357ms)
+✔ approved six identities, original hashes and pack display are preserved (16.3275ms)
+✔ only current distinct Black Crown SS types count, including zero-copy and duplicates (0.8111ms)
+✔ all 32 binary samples give exact half/quarter/eighth through six types (2.4579ms)
+✔ personal displayed probabilities preserve total and unchanged SSS slots exactly (3.6275ms)
+✔ smallest supported chance remains nonzero and exact after six-type reduction (0.4936ms)
+✔ ten draws immediately reduce after gaining a second type; duplicate does not add a type (1.7843ms)
+✔ bulk uses the same dynamic ownership rule and aggregate receipt totals (1.0764ms)
+✔ sold-out SS never increases ownership or diminishes other probabilities (0.4751ms)
+✔ real service grants, debits once and replays unchanged after ownership increases (3456.5108ms)
+✔ failed atomic payment leaves stock and cards unchanged, then durable request recovers (2099.9492ms)
+✔ pending plan cancels without charging when the distinct ownership set changes (1731.0741ms)
+✔ bulk server receipt remains compact and exact for 100 draws (1149.5007ms)
+✔ CMS exact-version save is isolated and retried saves cannot duplicate writes (1068.1161ms)
+✔ HTTP admin enforces OWNER and opening requires authentication (1081.8485ms)
+✔ clone defaults OFF with six new SS limits at ten and removes SSS limited rewards (1.3178ms)
+✔ SS stock race cancels the complete pending plan without consuming coins or new types (1155.9935ms)
+✔ worker applies independent Black Crown schedules once and keeps original policy and shared SSS stock (1273.0553ms)
+✔ production includes the built UI, CMS, catalog and approved sources while preserving authoring files in Git (14.3311ms)
+✔ OFF stops single and bulk openings before payment even for an already-opened client (1022.5059ms)
+✔ superseded saved policy loses all four limited/material rewards without rounding or re-enabling (1.7439ms)
+✔ 용병도감은 내 용병을 기본으로 표시하고 전체 도감을 같은 화면에서 전환한다 (1.478ms)
+✔ 선택 상세에서 기존 원자 편성 계약만 호출하고 유실 응답을 같은 요청으로 복구한다 (0.4444ms)
+✔ 별도 지휘소 진입과 관련 링크는 통합 내 용병 화면으로 수렴한다 (2.6474ms)
+✔ 보유·편성 상태와 핵심 조작은 데스크톱과 모바일에서 명확히 유지된다 (0.3247ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (36.263ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (20.1309ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (7.3471ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (23.9145ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (35.5246ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (60.2786ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (7.1429ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (6.7443ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (5.0655ms)
+ℹ tests 55
+ℹ suites 0
+ℹ pass 55
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14518.4712
+
+> test:release-policy
+> node --test tests/production-sparse-staging-20261023.test.mjs tests/scoped-release-policy-20260923.test.mjs tests/hyperdrive-cache-deploy-guard.test.mjs && node --test --test-name-pattern="30s defaults, public countdown and scheduled deployment" tests/clan-draft-timeouts-20260915.test.mjs
+
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (0.8995ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (2.0434ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.3928ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (1.9494ms)
+✔ sparse staging reuses only exact sibling blobs and streams remaining HEAD blobs without expanding checkout (934.0506ms)
+✔ a present working-tree change is preserved, never hidden by a HEAD fallback (687.1708ms)
+✔ missing non-sparse files fail and remove only the failed staging directory (936.7822ms)
+✔ a changed staged sparse blob cannot silently deploy the old HEAD image (921.8298ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.5377ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.578ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.5267ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.5729ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1552ms)
+✔ an unshipped QA Wrangler record does not classify an art release as production infrastructure (17.0914ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.4842ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (4.1813ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.4544ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3590.9808
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+✔ 30s defaults, public countdown and scheduled deployment are included in the release (11.516ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 402.6081
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261026-v6-heeya-first-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19998 files; 9881 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.153.0)
+───────────────────────────────────────────────
+Total Upload: 8659.17 KiB / gzip: 1860.91 KiB
+Worker Startup Time: 54 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (4.84 sec)
+No targets deployed for cnine-card-api-runtime (0.56 sec)
+Current Version ID: 69042cf5-9f7a-42a3-89b3-56a6981e3803
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.153.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19944/19998)
+Uploading... (19962/19998)
+Uploading... (19980/19998)
+Uploading... (19998/19998)
+✨ Success! Uploaded 54 files (19944 already uploaded) (5.01 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://f35c8f50.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.153.0)
+───────────────────────────────────────────────
+Total Upload: 3301.89 KiB / gzip: 736.52 KiB
+Worker Startup Time: 39 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (3.21 sec)
+Deployed cnine-card-clan-draft triggers (1.00 sec)
+  schedule: * * * * *
+Current Version ID: 526a3f41-c017-46e4-b26c-dc52f261db48
