@@ -1,0 +1,83 @@
+{
+  "status": "PREPARATION_DEPLOYED",
+  "completedAt": "2026-10-27T21:44:55.801Z",
+  "sourceCommit": "5ff1c60a2d9e02d7f6faff7dabe686839f957005",
+  "releaseCommit": "5457a46ecf571eb2ab249008d0cdf5b4765f09f7",
+  "pages": {
+    "id": "32a3e183-18c4-4da2-81b0-c7afe4692db3",
+    "url": "https://32a3e183.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "5457a46ecf571eb2ab249008d0cdf5b4765f09f7"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "createdOn": "2026-10-27T21:41:44.522444Z",
+      "versions": [
+        {
+          "version_id": "45fb7d14-f6ea-4c73-b794-7be051388a01",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "createdOn": "2026-10-27T21:43:20.003667Z",
+      "versions": [
+        {
+          "version_id": "574ce914-da2f-4d00-99d2-21134800c493",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "rules": {
+    "regularCards": 5,
+    "mercenariesPerBattle": 2,
+    "rankedMercenariesPerRound": 2,
+    "rankedRosterSize": 6,
+    "eachMercenaryOncePerSet": true,
+    "rankLimits": {
+      "SSS": 1,
+      "SS": 1
+    },
+    "limitedSharesRankLimit": true,
+    "differentLowerRankCodesMayPair": true
+  },
+  "release": {
+    "dualMercenaries": false,
+    "existingAccountLoadoutsUnchanged": true,
+    "rankedLiveRosterSize": 3
+  },
+  "checks": {
+    "scopedTests": 43,
+    "failures": 0,
+    "workerSyntax": true,
+    "storeVariants": true,
+    "sharedRendererConsumers": 10,
+    "localDualViewports": [
+      1440,
+      390
+    ],
+    "localExistingRankedViewports": [
+      1440,
+      390
+    ],
+    "localMainEntries": 6,
+    "staleRuntimeAndErrorReturn": 4,
+    "publicDualViewports": [
+      390
+    ],
+    "publicMainEntries": 3,
+    "publicFiles": 19,
+    "anonymousOwnerApiRejected": true
+  },
+  "notice": {
+    "file": "docs/qa/dual-mercenary-ranked-20261028/notice.txt",
+    "kind": "PRE_RELEASE_DRAFT",
+    "published": false,
+    "messageSent": false
+  },
+  "productionAccountWrites": 0,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/dual-mercenary-ranked-20261028"
+}
