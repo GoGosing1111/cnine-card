@@ -1,0 +1,477 @@
+{
+  "checkedAt": "2026-10-27T02:19:43.710Z",
+  "sourceHash": "58f7bfe78e4976a38290d7b4b500bb5b4bbaea9c7a472c9761a6e9f4e0869327",
+  "backup": "C:/Users/User/.codex/visualizations/2026/10/27/01a17ab9-a03a-79f2-bb14-19ce5c1ac967/blackcrown-reversal-apply-1793067572643.json",
+  "replayed": false,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:blackcrown-early-opening-reversal:20261027:v1",
+    "planHash": "6ab8c8899f6fc7966d8435898d97f268a49dec9cd76d7a519b0d790fc02d81d6",
+    "sourceEvidenceHash": "3fe313c240ce7e646f5ddec889755a356b1dc89fca1bdfa801216677011591d4",
+    "authorization": "전체 환급 후 획득물 회수",
+    "accounts": [
+      {
+        "userId": "1",
+        "nickname": "핑크빛유두",
+        "coinBefore": "16552946127459",
+        "coinAfter": "16567946127459",
+        "refund": "15000000000",
+        "cards": [
+          {
+            "code": "V-020",
+            "quantity": 1,
+            "before": 39,
+            "after": 38
+          },
+          {
+            "code": "V-025",
+            "quantity": 1,
+            "before": 35,
+            "after": 34
+          },
+          {
+            "code": "V-035",
+            "quantity": 1,
+            "before": 46,
+            "after": 45
+          }
+        ],
+        "coinLogId": "98504994"
+      },
+      {
+        "userId": "91",
+        "nickname": "정원이",
+        "coinBefore": "844182366784",
+        "coinAfter": "11833182366784",
+        "refund": "10989000000000",
+        "cards": [
+          {
+            "code": "V-001",
+            "quantity": 34,
+            "before": 695,
+            "after": 661
+          },
+          {
+            "code": "V-002",
+            "quantity": 8,
+            "before": 427,
+            "after": 419
+          },
+          {
+            "code": "V-003",
+            "quantity": 32,
+            "before": 782,
+            "after": 750
+          },
+          {
+            "code": "V-004",
+            "quantity": 5,
+            "before": 74,
+            "after": 69
+          },
+          {
+            "code": "V-005",
+            "quantity": 46,
+            "before": 731,
+            "after": 685
+          },
+          {
+            "code": "V-006",
+            "quantity": 22,
+            "before": 418,
+            "after": 396
+          },
+          {
+            "code": "V-007",
+            "quantity": 20,
+            "before": 409,
+            "after": 389
+          },
+          {
+            "code": "V-008",
+            "quantity": 47,
+            "before": 786,
+            "after": 739
+          },
+          {
+            "code": "V-009",
+            "quantity": 4,
+            "before": 70,
+            "after": 66
+          },
+          {
+            "code": "V-010",
+            "quantity": 7,
+            "before": 73,
+            "after": 66
+          },
+          {
+            "code": "V-011",
+            "quantity": 32,
+            "before": 786,
+            "after": 754
+          },
+          {
+            "code": "V-012",
+            "quantity": 52,
+            "before": 950,
+            "after": 898
+          },
+          {
+            "code": "V-013",
+            "quantity": 41,
+            "before": 882,
+            "after": 841
+          },
+          {
+            "code": "V-014",
+            "quantity": 23,
+            "before": 405,
+            "after": 382
+          },
+          {
+            "code": "V-015",
+            "quantity": 12,
+            "before": 367,
+            "after": 355
+          },
+          {
+            "code": "V-016",
+            "quantity": 23,
+            "before": 451,
+            "after": 428
+          },
+          {
+            "code": "V-017",
+            "quantity": 58,
+            "before": 1249,
+            "after": 1191
+          },
+          {
+            "code": "V-018",
+            "quantity": 54,
+            "before": 1223,
+            "after": 1169
+          },
+          {
+            "code": "V-019",
+            "quantity": 14,
+            "before": 417,
+            "after": 403
+          },
+          {
+            "code": "V-020",
+            "quantity": 54,
+            "before": 1295,
+            "after": 1241
+          },
+          {
+            "code": "V-021",
+            "quantity": 2,
+            "before": 3,
+            "after": 1
+          },
+          {
+            "code": "V-022",
+            "quantity": 32,
+            "before": 749,
+            "after": 717
+          },
+          {
+            "code": "V-023",
+            "quantity": 65,
+            "before": 1327,
+            "after": 1262
+          },
+          {
+            "code": "V-024",
+            "quantity": 48,
+            "before": 946,
+            "after": 898
+          },
+          {
+            "code": "V-025",
+            "quantity": 88,
+            "before": 1278,
+            "after": 1190
+          },
+          {
+            "code": "V-026",
+            "quantity": 66,
+            "before": 1291,
+            "after": 1225
+          },
+          {
+            "code": "V-027",
+            "quantity": 20,
+            "before": 461,
+            "after": 441
+          },
+          {
+            "code": "V-028",
+            "quantity": 54,
+            "before": 1242,
+            "after": 1188
+          },
+          {
+            "code": "V-029",
+            "quantity": 37,
+            "before": 915,
+            "after": 878
+          },
+          {
+            "code": "V-030",
+            "quantity": 59,
+            "before": 1241,
+            "after": 1182
+          },
+          {
+            "code": "V-031",
+            "quantity": 61,
+            "before": 1270,
+            "after": 1209
+          },
+          {
+            "code": "V-032",
+            "quantity": 66,
+            "before": 1240,
+            "after": 1174
+          },
+          {
+            "code": "V-033",
+            "quantity": 55,
+            "before": 1218,
+            "after": 1163
+          },
+          {
+            "code": "V-034",
+            "quantity": 20,
+            "before": 444,
+            "after": 424
+          },
+          {
+            "code": "V-035",
+            "quantity": 47,
+            "before": 1238,
+            "after": 1191
+          },
+          {
+            "code": "V-036",
+            "quantity": 6,
+            "before": 68,
+            "after": 62
+          },
+          {
+            "code": "V-037",
+            "quantity": 6,
+            "before": 84,
+            "after": 78
+          },
+          {
+            "code": "V-038",
+            "quantity": 52,
+            "before": 963,
+            "after": 911
+          },
+          {
+            "code": "V-039",
+            "quantity": 65,
+            "before": 1265,
+            "after": 1200
+          },
+          {
+            "code": "V-040",
+            "quantity": 7,
+            "before": 100,
+            "after": 93
+          },
+          {
+            "code": "V-041",
+            "quantity": 22,
+            "before": 424,
+            "after": 402
+          },
+          {
+            "code": "V-042",
+            "quantity": 2,
+            "before": 79,
+            "after": 77
+          },
+          {
+            "code": "V-043",
+            "quantity": 1,
+            "before": 55,
+            "after": 54
+          },
+          {
+            "code": "V-044",
+            "quantity": 2,
+            "before": 29,
+            "after": 27
+          },
+          {
+            "code": "V-045",
+            "quantity": 2,
+            "before": 25,
+            "after": 23
+          },
+          {
+            "code": "V-046",
+            "quantity": 2,
+            "before": 10,
+            "after": 8
+          },
+          {
+            "code": "V-048",
+            "quantity": 1,
+            "before": 30,
+            "after": 29
+          },
+          {
+            "code": "V-052",
+            "quantity": 1,
+            "before": 28,
+            "after": 27
+          },
+          {
+            "code": "V-053",
+            "quantity": 1,
+            "before": 37,
+            "after": 36
+          }
+        ],
+        "coinLogId": "98504995"
+      },
+      {
+        "userId": "4199",
+        "nickname": "택신",
+        "coinBefore": "373909491417",
+        "coinAfter": "418909491417",
+        "refund": "45000000000",
+        "cards": [
+          {
+            "code": "V-003",
+            "quantity": 1,
+            "before": 1019,
+            "after": 1018
+          },
+          {
+            "code": "V-009",
+            "quantity": 1,
+            "before": 8,
+            "after": 7
+          },
+          {
+            "code": "V-011",
+            "quantity": 1,
+            "before": 1004,
+            "after": 1003
+          },
+          {
+            "code": "V-013",
+            "quantity": 1,
+            "before": 1394,
+            "after": 1393
+          },
+          {
+            "code": "V-024",
+            "quantity": 1,
+            "before": 1362,
+            "after": 1361
+          },
+          {
+            "code": "V-034",
+            "quantity": 1,
+            "before": 634,
+            "after": 633
+          },
+          {
+            "code": "V-038",
+            "quantity": 1,
+            "before": 1279,
+            "after": 1278
+          },
+          {
+            "code": "V-039",
+            "quantity": 1,
+            "before": 1759,
+            "after": 1758
+          }
+        ],
+        "coinLogId": "98504996"
+      }
+    ],
+    "protectedBeforeHash": "64c1807d758326b2f5bae019190df9027b54b082ff3619075963eb3733bca913",
+    "protectedAfterHash": "64c1807d758326b2f5bae019190df9027b54b082ff3619075963eb3733bca913",
+    "completedAt": "2026-10-27T02:19:41.070Z",
+    "originalPurchaseHistoryPreserved": true,
+    "stockChanged": false,
+    "growthChanged": false,
+    "loadoutChanged": false,
+    "auditId": "52050"
+  },
+  "verification": {
+    "verified": true,
+    "totalRefund": "11049000000000",
+    "totalDraws": 7366,
+    "reclaimedCards": 1489,
+    "accounts": [
+      {
+        "userId": "1",
+        "nickname": "핑크빛유두",
+        "refund": "15000000000",
+        "reclaimedCards": 3,
+        "coinLogId": "98504994"
+      },
+      {
+        "userId": "91",
+        "nickname": "정원이",
+        "refund": "10989000000000",
+        "reclaimedCards": 1478,
+        "coinLogId": "98504995"
+      },
+      {
+        "userId": "4199",
+        "nickname": "택신",
+        "refund": "45000000000",
+        "reclaimedCards": 8,
+        "coinLogId": "98504996"
+      }
+    ],
+    "auditId": "52050",
+    "completedAt": "2026-10-27T02:19:41.070Z",
+    "originalPurchaseHistoryPreserved": true
+  },
+  "independent": {
+    "verified": true,
+    "totalRefund": "11049000000000",
+    "totalDraws": 7366,
+    "reclaimedCards": 1489,
+    "accounts": [
+      {
+        "userId": "1",
+        "nickname": "핑크빛유두",
+        "refund": "15000000000",
+        "reclaimedCards": 3,
+        "coinLogId": "98504994"
+      },
+      {
+        "userId": "91",
+        "nickname": "정원이",
+        "refund": "10989000000000",
+        "reclaimedCards": 1478,
+        "coinLogId": "98504995"
+      },
+      {
+        "userId": "4199",
+        "nickname": "택신",
+        "refund": "45000000000",
+        "reclaimedCards": 8,
+        "coinLogId": "98504996"
+      }
+    ],
+    "auditId": "52050",
+    "completedAt": "2026-10-27T02:19:41.070Z",
+    "originalPurchaseHistoryPreserved": true
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-10-27T02:20:13.709Z",
+  "sourceHash": "58f7bfe78e4976a38290d7b4b500bb5b4bbaea9c7a472c9761a6e9f4e0869327",
+  "replayed": false,
+  "additionalWrites": 0,
+  "verification": {
+    "verified": true,
+    "totalRefund": "11049000000000",
+    "totalDraws": 7366,
+    "reclaimedCards": 1489,
+    "accounts": [
+      {
+        "userId": "1",
+        "nickname": "핑크빛유두",
+        "refund": "15000000000",
+        "reclaimedCards": 3,
+        "coinLogId": "98504994"
+      },
+      {
+        "userId": "91",
+        "nickname": "정원이",
+        "refund": "10989000000000",
+        "reclaimedCards": 1478,
+        "coinLogId": "98504995"
+      },
+      {
+        "userId": "4199",
+        "nickname": "택신",
+        "refund": "45000000000",
+        "reclaimedCards": 8,
+        "coinLogId": "98504996"
+      }
+    ],
+    "auditId": "52050",
+    "completedAt": "2026-10-27T02:19:41.070Z",
+    "originalPurchaseHistoryPreserved": true
+  }
+}
