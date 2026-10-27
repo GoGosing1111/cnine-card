@@ -35,6 +35,7 @@ import {handleServerSupport} from '../_server_support.js';
 import {handleMenuFavorites} from '../_menu_favorites.js';
 import {liveSupportMessageSql,supportMessageCutoff,presentSupportMessage,deleteExpiredSupportMessages} from '../_supporter_message_expiry.js';
 import {handleRankedDuo} from '../_ranked_duo.js';
+import {handleClassicColosseum,classicNotifications} from '../_classic_colosseum.js';
 import {reconcileDuoSeason,readDuoHonors} from '../_ranked_duo_seasons.js';
 import {duoMagicLoadouts} from '../_magic.js';
 import {accountRankAward,accountRankBenefits,rankCards,rankCoin,readAccountRank,ensureShiranuiRankReward,handleAccountRank,settleRankedHunt} from '../_account_rank.js';
@@ -5225,6 +5226,8 @@ async function handleRequest(context){
     const escortResponse=await handleEscortOperation({path,request,env,deps:{authenticate,readBody,json,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,magicBattleLoadout,writeAdminLog}});if(escortResponse)return escortResponse;
     const chiefResponse=await handleChief({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,activateBurningEvent:activateChiefBurningEvent,ensurePrisonFoundation,prisonStatusForUser,withUserMutationLock:withJointUserMutationLock}});if(chiefResponse)return chiefResponse;
 
+    const classicResponse=await handleClassicColosseum({path,request,env,deps:{authenticate,readBody,json,battleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates}});if(classicResponse)return classicResponse;
+
     if(path==='user/runtime-command'){
       const user=await authenticate(request,env);
       if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -5242,14 +5245,15 @@ async function handleRequest(context){
         // 이 응답은 45초마다 모든 접속자가 받으므로 재로그인 없이 전원이 맞춰진다. (설정은 30초 공유 캐시라 추가 조회는 거의 없다)
         // V1803: 로비 BGM 설정도 같이 싣는다. 둘 다 캐시 히트면 추가 조회가 없고,
         // 미스여도 병렬이라 왕복은 1회로 끝난다. 한쪽이 실패해도 다른 쪽은 살린다.
-        const [highBreakthrough,lobbyBgm,prison]=await Promise.all([
+        const [highBreakthrough,lobbyBgm,prison,classicColosseum]=await Promise.all([
           highBreakthroughConfigs(env).catch(error=>{console.error('runtime-command high breakthrough read failed',error);return null}),
           lobbyBgmSettings(env).catch(error=>{console.error('runtime-command lobby bgm read failed',error);return null}),
-          prisonStatusForUser(env,user.id)
+          prisonStatusForUser(env,user.id),
+          classicNotifications(env,user.id).catch(error=>{console.error('classic-colosseum notification read failed',error);return null})
         ]);
-        if(!row)return json({command:null,unreadMessages,highBreakthrough,lobbyBgm,prison,serverNow:new Date().toISOString()});
+        if(!row)return json({command:null,unreadMessages,highBreakthrough,lobbyBgm,prison,classicColosseum,serverNow:new Date().toISOString()});
         let payload={};try{payload=JSON.parse(row.payload_json||'{}')}catch{}
-        return json({command:{id:Number(row.id),type:String(row.command_type||''),payload,createdAt:row.created_at,expiresAt:row.expires_at},unreadMessages,highBreakthrough,lobbyBgm,prison,serverNow:new Date().toISOString()});
+        return json({command:{id:Number(row.id),type:String(row.command_type||''),payload,createdAt:row.created_at,expiresAt:row.expires_at},unreadMessages,highBreakthrough,lobbyBgm,prison,classicColosseum,serverNow:new Date().toISOString()});
       }
       if(request.method==='POST'){
         const body=await readBody(request),commandId=Math.floor(Number(body.commandId||0));

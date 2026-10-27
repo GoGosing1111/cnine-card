@@ -783,7 +783,7 @@ export class BaseBattleEngine{
     this.app.ticker.add(this.parallaxTicker);
   }
 
-  battlefieldAsset(mode){if(this.jokgakCityBattlefield&&mode==='PVP')return '/assets/ui/jokgak-city/city-street-battle-v1.webp';if(this.territoryBattlefieldV5&&mode==='SIEGE')return '/assets/ui/territory-war/battlefield-v5/battlefield-panorama-1600.webp';return this.coopArkeBattlefield&&mode==='RAID'?COOP_ARKE_BATTLEFIELD:this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
+  battlefieldAsset(mode){if(this.battleData?.sceneAssetKey==='CLASSIC_COLOSSEUM'&&mode==='PVP')return '/assets/ui/classic-colosseum/20261027/arena-v1.png';if(this.jokgakCityBattlefield&&mode==='PVP')return '/assets/ui/jokgak-city/city-street-battle-v1.webp';if(this.territoryBattlefieldV5&&mode==='SIEGE')return '/assets/ui/territory-war/battlefield-v5/battlefield-panorama-1600.webp';return this.coopArkeBattlefield&&mode==='RAID'?COOP_ARKE_BATTLEFIELD:this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
 
   resolveBattlefieldAsset(mode){
     // Older content extensions exposed a string getter under this name.
