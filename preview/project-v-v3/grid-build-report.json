@@ -935,7 +935,8 @@
     {
       "file": "preview/coop-defense-v1/defense.bundle.js",
       "sha256": "ec3adc623196346d568ba9c09d66ac23881ac1842d0117c5281d6484c856ff77",
-      "commonGrid": true
+      "commonGrid": true,
+      "standaloneEngine": true
     }
   ],
   "layoutClients": [
