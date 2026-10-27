@@ -140,6 +140,7 @@ async function finish(env,user,id,deps,now){
  const [a,b]=room.input,battle=createPvpBattleV2({attackerCards:a.cards,defenderCards:b.cards,attackerMagicCards:a.magicCards,defenderMagicCards:b.magicCards,attackerEquipmentBonus:0,defenderEquipmentBonus:0,singleHealerBonus:a.singleHealerBonus,seed:room.seed});
  const at=iso(deps.now?.()??Date.now()),article=classicArticle(room,battle,at),keys=[key,CLASSIC_KEYS.settings,CLASSIC_KEYS.news,CLASSIC_KEYS.rooms,classicResultKey(id),...room.players.map(p=>classicUserKey(p.id))],before=await readMany(env,keys),current=before.get(key),cfg=classicSettings(before.get(CLASSIC_KEYS.settings));
  if(current.status==='COMPLETED')return {room:summary(current,cfg,user,now)};
+ if(current.status!=='FIGHTING')throw fail('CLOSED','운영자가 취소한 경기입니다.');
  if(!cfg.enabled||cfg.epoch!==room.epoch)throw fail('OFF','운영이 중지되어 대전을 취소했습니다.');
  if(current.lease!==token)throw fail('CONFLICT','다른 요청에서 경기 결과를 확정하고 있습니다.');
  const completed={...current,status:'COMPLETED',revision:current.revision+1,completedAt:at,winnerId:article.winnerId,article};delete completed.lease;delete completed.leaseUntil;

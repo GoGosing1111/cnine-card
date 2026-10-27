@@ -74,6 +74,12 @@ test('rental catalog change reopens preparation and both sides share one intrins
  f.db.prepare("UPDATE cards_effective_v1210 SET is_active=1 WHERE id='CARD-0'").run();let batches=[];const original=f.deps.cardUniqueDeckStates;f.deps.cardUniqueDeckStates=async(...args)=>{batches.push(args[1].length);return original(...args);};
  await f.act(room.id,2,'ready');assert.equal((await f.act(room.id,3,'ready')).room.status,'COMPLETED');assert.deepEqual(batches,[2]);
 });
+
+test('operator cancellation racing settlement cannot publish or resurrect the cancelled match',async t=>{
+ const f=fixture(t),room=await f.setup();await f.act(room.id,2,'ready');const batch=f.env.DB.batch;let cancelled=false;
+ f.env.DB.batch=async rows=>{const result=await batch(rows);if(!cancelled&&f.room(room.id)?.status==='FIGHTING'){cancelled=true;const r=await f.call('admin/classic-colosseum/cancel',{method:'POST',body:{matchId:room.id,revision:f.room(room.id).revision}});assert.equal(r.status,200);}return result;};
+ assert.equal((await f.act(room.id,3,'ready')).code,'CLASSIC_CLOSED');assert.equal(f.room(room.id).status,'CANCELLED');assert.equal(f.get(CLASSIC_KEYS.news),null);assert.equal(f.get(classicResultKey(room.id)),null);assert.equal(f.user(2).results.length,0);
+});
 test('notification polling is one indexed query, OFF/news reads never initialize schema',async t=>{
  const f=fixture(t);f.clearQueries();await f.notices(2);assert.equal(f.queries().length,1);assert.match(f.queries()[0],/WHERE key IN/);
  await f.call('classic-colosseum/news',{user:2});assert(!f.queries().some(q=>/CREATE|INSERT|UPDATE|DELETE/i.test(q)));
