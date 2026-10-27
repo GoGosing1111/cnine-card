@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-27T00:01:22.183Z",
+  "checkedAtKst": "2026-10-27 09:01:22",
+  "salesOpen": false,
+  "publicFilesUnchanged": 10,
+  "packageGatePresent": true,
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "packageGatePresent": true,
+      "deploymentId": "09ea5785-b6a6-4c3e-97ff-16a5b0675deb",
+      "createdOn": "2026-10-26T13:50:33.965664Z",
+      "versionId": "612a6a34-5b81-4ab4-a55a-08c56640dab3",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "packageGatePresent": false,
+      "deploymentId": "73e3a93d-b638-458d-a994-fdc63f9f33fc",
+      "createdOn": "2026-10-26T13:51:59.279601Z",
+      "versionId": "63364ede-0f0a-4200-9304-a6078d458d72",
+      "percentage": 100
+    }
+  ],
+  "accountWrites": 0,
+  "settingsWrites": 0
+}
