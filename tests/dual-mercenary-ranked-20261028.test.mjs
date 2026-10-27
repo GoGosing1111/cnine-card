@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {COMPANION_RELEASE,COMPANION_PREPARATION_REVIEW as REVIEW} from '../shared/companion-loadout-v2.mjs';
+import {COMPANION_RELEASE,COMPANION_PREPARATION_REVIEW as REVIEW,validatePreparedMercenaries,COMPANION_FORMATION_RULES} from '../shared/companion-loadout-v2.mjs';
 import {RANKED_SERIES_RULES,RANKED_DUAL_SERIES_RULES as rules,rankedSeriesRoster,simulateRankedSeries,rankedSeriesReceipt} from '../shared/ranked-series-v1.mjs';
 import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {independentMercenaryTurnCadence,mercenaryTurnCadence} from '../functions/_mercenary_combat.js';
@@ -42,7 +42,7 @@ for(const power of [1e6,2e7,1e8])test(`both companions act in canonical PVE and 
  const sum=pve.result.timeline.filter(e=>mercIds.has(e.sourceAttackerId||e.actorId)).reduce((n,e)=>n+Math.max(0,e.damage||0)+Math.max(0,e.absorbed||0),0);
  assert.equal(d.mercenary,sum);assert.ok(d.mercenary>0);
 });
-test('two slots reject repeated codes, repeated ranks and malformed regular decks',()=>{
+test('two slots reject repeated codes, repeated SS and malformed regular decks',()=>{
  for(const rows of [[pair[0],pair[0]],[pair[0],{...pair[1],rank:pair[0].rank}],[...pair,pair[0]]])assert.throws(()=>createPveBattleV2({cards:tierCards(1e6),mercenaries:rows,[REVIEW]:true}));
  assert.throws(()=>createPvpBattleV2({attackerCards:tierCards(1e6).slice(1),defenderCards:tierCards(1e6),attackerMercenaries:pair,[REVIEW]:true}));
  assert.throws(()=>createPveBattleV2({cards:tierCards(1e6),mercenary:pair[0],mercenaries:pair,[REVIEW]:true}),/AMBIGUOUS/);
@@ -56,7 +56,7 @@ test('current premium cadence is earned independently without cross-credit or st
  actors[0].hp=0;combined.acted(card);assert.equal(combined.pending().id,actors[1].id);
  assert.equal(combined.pending(()=>false),null);
 });
-test('six unique selections form three rank-distinct pairs; each round starts fresh and stops at two wins',()=>{
+test('six unique selections form three valid pairs; each round starts fresh and stops at two wins',()=>{
  assert.equal(rankedSeriesRoster(six,rules).length,6);
  assert.throws(()=>rankedSeriesRoster([...six.slice(0,5),six[0]],rules));
  assert.throws(()=>rankedSeriesRoster(six.map((m,i)=>i===1?{...m,rank:six[0].rank}:m),rules),/1차전/);
@@ -129,5 +129,23 @@ test('two mercenaries use unique occupied stations while every existing station 
   const before=occupiedStations({mobile,scenario}),after=occupiedStations({mobile,scenario,allyMercenaries:2,enemyMercenaries:2});
   for(const station of before)assert.deepEqual(after.find(row=>row.id===station.id),station);
   assert.equal(new Set(after.map(p=>`${p.x}:${p.y}`)).size,after.length);
+ }
+});
+
+test('SSS including LIMITED and SS each occupy at most one slot; different S or lower mercenaries may pair',()=>{
+ assert.deepEqual(COMPANION_FORMATION_RULES.mercenaryRankLimits,{SSS:1,SS:1});
+ assert.equal(COMPANION_FORMATION_RULES.limitedSharesRankLimit,true);
+ for(const [rank,limitedCodes]of [['SSS',['V-970','V-971']],['SS',['V-961','V-965']]]){
+  const normal={...pair[0],rank},limited=limitedCodes.map(code=>limitedDeploymentSnapshot(code));
+  assert(limited.every(m=>m.rank===rank));
+  for(const rows of [[normal,{...pair[1],rank}],[normal,limited[0]],limited]){
+   assert.throws(()=>validatePreparedMercenaries(rows),new RegExp(rank));
+   assert.throws(()=>rankedSeriesRoster([...rows,...six.slice(2)],rules),/1차전/);
+  }
+ }
+ for(const rank of ['S','A','B','C']){
+  const rows=pair.map(m=>({...m,rank}));assert.equal(validatePreparedMercenaries(rows).length,2);
+  assert.equal(createPveBattleV2({cards:tierCards(1e6),mercenaries:rows,monster:{power:1e9},seed:28,[REVIEW]:true}).teams.A.mercenaries.length,2);
+  assert.equal(rankedSeriesRoster([...rows,...six.slice(2)],rules).length,6);
  }
 });

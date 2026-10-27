@@ -48,7 +48,7 @@ export function mountCompanionCms(root){
     if(!state)return;
     root.querySelectorAll('[data-merc]').forEach(select=>{
       const slot=Number(select.dataset.merc),other=state.mercenaries.find(row=>row.code===choices[1-slot]);
-      select.innerHTML='<option value="">빈 슬롯</option>'+state.mercenaries.map(row=>`<option value="${esc(row.code)}" ${row.code===choices[slot]?'selected':''} ${other?.rank===row.rank?'disabled':''}>${esc(row.rank)} · ${esc(row.name)}</option>`).join('');
+      select.innerHTML='<option value="">빈 슬롯</option>'+state.mercenaries.map(row=>`<option value="${esc(row.code)}" ${row.code===choices[slot]?'selected':''} ${other?.code===row.code||state.rules?.mercenaryRankLimits?.[row.rank]===1&&other?.rank===row.rank?'disabled':''}>${esc(row.rank)} · ${esc(row.name)}</option>`).join('');
     });
     if(!draft.pets.some(row=>row.code===chosenPet))chosenPet='';
     $('[data-review-pet]').innerHTML='<option value="">펫 없이 편성</option>'+draft.pets.map(row=>`<option value="${esc(row.code)}" ${row.code===chosenPet?'selected':''}>${esc(row.name)} · ${esc(row.code)}</option>`).join('');
