@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-10-27T07:46:38.533Z",
+  "origin": "https://cnine-card.pages.dev",
+  "checks": [
+    {
+      "path": "/index.html",
+      "status": 200,
+      "sha256": "d8f117599f5bd033586aa0a7c4af618ed714af3a47af9755a41dc0487f09a5a6",
+      "bytes": 47067
+    },
+    {
+      "path": "/service-worker.js",
+      "status": 200,
+      "sha256": "2a5e0489b4a505ab0bbf9e83b3bc3815dca49507f815e491f083abb32f43aaba",
+      "bytes": 21022
+    },
+    {
+      "path": "/onestore/js/app.js",
+      "status": 200,
+      "sha256": "42de88ec459f99d7a195fdae5baccef34b1ea14d6ddb37a47a4f6d86a9fdc332",
+      "bytes": 793481
+    },
+    {
+      "path": "/shared/onestore-web-assets-v1.mjs",
+      "status": 200,
+      "sha256": "cb11d90b779256919c431bdb0033364040334e60b9e6b4c5dceecb7d0f47eb39",
+      "bytes": 985
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "logos": 5,
+      "markupSha256": "e52f636d839fa15b65dc3cc7a4f554c070ad45164e25a970f48d0f207b9ae02f"
+    },
+    {
+      "path": "/onestore/",
+      "status": 200,
+      "logos": 5,
+      "markupSha256": "e52f636d839fa15b65dc3cc7a4f554c070ad45164e25a970f48d0f207b9ae02f"
+    }
+  ]
+}

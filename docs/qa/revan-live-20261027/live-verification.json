@@ -1,0 +1,300 @@
+{
+  "at": "2026-10-27T07:37:38.931Z",
+  "pages": {
+    "id": "5a847648-c2a7-4826-ab1b-2fb9cba6cbad",
+    "url": "https://5a847648.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ab0bc2b21c4e6310462057b4b69fcb9451d7cced"
+  },
+  "releaseCommit": "ab0bc2b21c4e6310462057b4b69fcb9451d7cced",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "revanConnected": true,
+      "sha256": "d99b3f0f1f66aa349b6b807c00e2fca642826163df488ed9e4428d3784ea228d"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "revanConnected": true,
+      "sha256": "f280b49bcfaddde09c29fc23787a3774b76ef645e37e4fe571f123548431a517"
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "assets/ui/project-v/mercenaries/revan-20261027/assets/aura-atlas-v1.png",
+      "sha256": "b8e61143e2c811ce7604782ca335ebaa849c9b93dcaf6ad1edbb2b48c853f6da"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/revan-20261027/assets/body-idle-v1.png",
+      "sha256": "9c07ce9dd5b8df172228717136c6975dddddf4a391b3806fd85fbe9bbc51ac4a"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/revan-20261027/assets/body-ready-v1.png",
+      "sha256": "6ef692d0baea52c056c6b831c4ce8ef571c969265d19ad9c33a6707e74e420a4"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/revan-20261027/assets/danjoe-body-atlas-v1.png",
+      "sha256": "6e92eacd828f74ae89ddf19aeab671ca26f51aa6fd2628c12f971886fb38719a"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/revan-20261027/assets/danjoe-fx-atlas-v1.png",
+      "sha256": "b3e0e8a28fde13070bb0c3211235d72be4d85ab7a32416bbac9c802daf10778b"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/revan-20261027/assets/greatsword-rigid-v1.png",
+      "sha256": "431cf191efade2d6ef3bf10a5860f78f5cb19287e79f1ae957cf791b2eb2b041"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/revan-20261027/assets/heukwol-body-atlas-v1.png",
+      "sha256": "b03ea832fe9fb789b766461ef7faacdcd634b25cdf9930bcb31f56573c1377e7"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/revan-20261027/assets/heukwol-fx-atlas-v1.png",
+      "sha256": "74274561c4ffe06907f967ffa018013e78b3f0179a1e36eee1fbf7d2776293ab"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/revan-20261027/assets/jongeon-body-atlas-v1.png",
+      "sha256": "da2eb62d136985d8affd1ab9d59693be0f9e9f74eb398593033e1281af9b1d9f"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/revan-20261027/assets/jongeon-fx-atlas-v1.png",
+      "sha256": "dfef6cae43e55075b00a6dfb34d30d34322c11cc1aba9c66bdf6da5cb481dbb1"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/revan-20261027/assets/myeol-fx-atlas-v1.png",
+      "sha256": "f30d5c091cffc3deffa49bc1ba8c7f93dc7491007e6d3940e1033b4c562747a8"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/revan-20261027/motion-manifest.json",
+      "sha256": "608c33710e72b0e833487f99e1447a1aeab2183e6c44759a12e97637bcddf622"
+    },
+    {
+      "file": "index.html",
+      "sha256": "c5e920895bedef96ad2eafe0b994885074e8e26038b871c823b452d83be481eb"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "e661073a586f85f7483102ca2d1dac71f5dd18ef6604e896aae17ac5449752aa"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "05bfb5699f9c841a42cfea70ef01f3117d34f2496e9b60b0d00312effe51bffa"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "84ca49c060346db8ae6041c2277f02a335db3491d3ebf4e7f84e7aa7afcb4636"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "3ad8b0d48956d3b8fadb4f1fe3b4cb401ff13aa0130626fa2f11850c966aefb0"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "14b4bb6294f8d7df2c35d27c296088bc7afe72a8a2307a1295518319435b45d7"
+    },
+    {
+      "file": "mercenary-codex/shell.mjs",
+      "sha256": "fa6f0e597defab0379582d90ee6cb7740e12425fdfb43618a376438ddd79ee76"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/build-report.json",
+      "sha256": "a883a67ca194469b3ec129530cae618883a044d2b7d5c0236c55c1384be8ad60"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "3cefdb26c4890d027781a36fe91341c83394f425cd1ee09fce9c32de320768c3"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "27ffe9665b0a7a2933b9d8ee712996b84a68d28c3b4d4a3bbdc05f1f142027c3"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "aa9114103a945fffd5cb7a310f5c8f72a66b397c6c19ca04eca10eebbce67ae6"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "664690cea557e507ff680affbba45c11a5094f565475648497eea7f7917002bc"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "c18ea266bd3757c0afe2c0e4b5986e2e14d59117ecf3027e64af50da5108cf8b"
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "sha256": "dc8fd58cd7b9ecbda18e6a2b9542c9fc1d8167819a683f6a3733097f825caed6"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "de5cf15d399eb9a09ddf27e2e13fa44691f9535d3460f426284f9ee8eb791710"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
+      "sha256": "5d2cd4d9784182a68323d3bd98f30d0b97f8c1ea48618956fef3e9fc077a3678"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "9ef5483ad5d5f823a015df8183464019cb47f4e9656d66ee1c0db4cff52edac6"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "a1398d1c2755cdcfd8b108781a7e8c9620bbd81680c729f79dbb246e03ac4828"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "0790534530d89d9ffd4cb346c8f168b5489d749a2c73b785e58020bc88ecab90"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/engine-build.json",
+      "sha256": "71af057203fcbc2276c8be32eead0b7ac5b1b984b8b12715c76435e31af12f83"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "d4d016b4bc6f23d3ad49e0a86801c46522de7ee906bb1582f4461cf01f0c95ff"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "eeb189a9aeeb103695cb44211d9bcdf9995197a02dc6daccc26386a56b58cbda"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "7e941cb19be94968f96c2877d0348ff46965324e0b884a9cb2b2583778bfb873"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "f6747aa54d918309f48ca82da904fb47faf467cf77afe881f7464b996bec70f2"
+    },
+    {
+      "file": "shared/mercenary-acquisition-release-v1.mjs",
+      "sha256": "5a4d368f063cf9911a5d3d3e17ece6d69ef361f85d722432bf7f4be90840d673"
+    },
+    {
+      "file": "shared/mercenary-combat-link-v2103.mjs",
+      "sha256": "18cb452eaf6d4b1f1392e36eb9d43fb05e7f510bd50738a9e24a6be75e6b2397"
+    },
+    {
+      "file": "shared/mercenary-level-v1.mjs",
+      "sha256": "a94d6abd32aeb7cd2b5dc00586d74d224e366df9f44bde9382bfbcc85bfdcba0"
+    },
+    {
+      "file": "shared/mercenary-limited-deployment-v1.mjs",
+      "sha256": "c2c9c307875b16b05a8b87995a4aa6c568a0b152a5e7c96d9a638a4edbc74835"
+    },
+    {
+      "file": "shared/mercenary-revan-v1.mjs",
+      "sha256": "cc1cc0f876f97477586e43de6e7f323e702343a1a519b4562aa246d24dc9ef27"
+    }
+  ],
+  "card": {
+    "code": "V-971",
+    "name": "레반",
+    "title": "검은 단죄",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+    "acquisition": "LOCKED",
+    "sourceArt": "assets/ui/project-v/mercenaries/reaper-mask-20261027/source-art-approved-v9.png",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/reaper-mask-20261027/source-art-approved-v9.png",
+    "sourceArtSha256": "BB9E25AA8E9E0A838672085A0A43F1643269CA4D6AAB91F8458016FFE6ED2AD5",
+    "battleSprite": "assets/ui/project-v/mercenaries/revan-20261027/assets/body-ready-v1.png",
+    "battleSpriteSha256": "6EF692D0BAEA52C056C6B831C4CE8EF571C969265D19AD9C33A6707E74E420A4",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#e93248",
+    "basePower": 2200000,
+    "skills": [
+      {
+        "id": "MS-927",
+        "name": "단죄",
+        "visualMode": "danjoe",
+        "mechanic": "REVAN_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "전진 대검 베기로 적 한 명을 공격합니다.",
+        "trigger": "일반 공격 · 단죄 → 흑월 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-928",
+        "name": "흑월",
+        "visualMode": "heukwol",
+        "mechanic": "REVAN_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "올려 베기와 내려찍기로 적 한 명을 공격합니다. 두 참격은 일반 공격 한 번의 피해입니다.",
+        "trigger": "일반 공격 · 단죄 → 흑월 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-929",
+        "name": "종언",
+        "visualMode": "jongeon",
+        "mechanic": "REVAN_BLACK_RED_RUPTURE",
+        "target": "적 전체",
+        "pveOnly": true,
+        "sharedCooldown": "MS-929",
+        "balance": {
+          "damageRatio": 15.12,
+          "cooldownTurns": 5,
+          "cost": 35
+        },
+        "ready": true,
+        "effect": "대검을 내려찍어 전장 전체를 파열합니다. 총 1,512% 피해를 나누어 대상당 한 번 적용하며 두 광역기를 번갈아 사용합니다.",
+        "trigger": "PVE · 에너지 35 · 종언/멸참 공통 재사용 5행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-926",
+        "name": "멸참",
+        "visualMode": "myeol",
+        "mechanic": "REVAN_BLACK_RED_RUPTURE",
+        "target": "적 전체",
+        "pveOnly": true,
+        "sharedCooldown": "MS-929",
+        "balance": {
+          "damageRatio": 15.12,
+          "cooldownTurns": 5,
+          "cost": 35
+        },
+        "ready": true,
+        "effect": "대검을 횡으로 휘둘러 거대한 검기로 적진 전체를 가릅니다. 총 1,512% 피해를 나누어 대상당 한 번 적용하며 두 광역기를 번갈아 사용합니다.",
+        "trigger": "PVE · 에너지 35 · 종언/멸참 공통 재사용 5행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "craftAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 2,200,000. 족로 기준의 공격·생존·행동·연계·피해 상한을 사용합니다. 아군 카드 행동당 3.12회 추가 행동, 개인 피해 80% 경감, 상태이상·반격 보호, 베르칸 피해 면역. 단죄와 흑월은 단일 공격마다 순환하며 서버 피해는 한 번만 적용합니다. PVE 종언·멸참은 번갈아 총 1,512% 피해를 생존한 적 전체에 나누어 적용합니다(에너지 35 · 공통 재사용 5행동). 검은 연무·붉은 균열 아우라와 고정 대검. 모션 2배속. 현재 획득 불가. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+  },
+  "operationalAccountWrites": 0
+}

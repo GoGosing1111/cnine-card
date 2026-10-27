@@ -1,0 +1,23 @@
+{
+  "status": "COMPLETED",
+  "implementationCommit": "0fb811fa0",
+  "deploymentCommit": "b3ad0e7afdaf10abe23a996bf03ccf242b577bd7",
+  "baseCommit": "ab0bc2b21c4e6310462057b4b69fcb9451d7cced",
+  "pagesUrl": "https://28cb3f99.cnine-card.pages.dev",
+  "publicUrl": "https://cnine-card.pages.dev/onestore/",
+  "verifiedAt": "2026-10-27T07:46:38.533Z",
+  "bootAndStoreTests": 19,
+  "sparsePackagingTests": 4,
+  "localViewports": [
+    "1440x900",
+    "390x844-onestore",
+    "320x568",
+    "844x390"
+  ],
+  "publicViewport": "390x844-onestore",
+  "publicStaticFileHashes": 4,
+  "publicEntryRoutes": 2,
+  "logos": 5,
+  "operationAccountWrites": 0,
+  "evidenceDirectory": "C:/Users/User/.codex/visualizations/2026/10/27/01a17c36-293d-7531-a33f-85c3f804ce86/loading-ratings"
+}

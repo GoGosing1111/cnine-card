@@ -1,0 +1,498 @@
+{
+  "origin": "http://127.0.0.1:9287",
+  "production": false,
+  "results": [
+    {
+      "label": "1440x900",
+      "path": "/",
+      "geometry": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "overflow": false,
+        "main": {
+          "x": 69.109375,
+          "y": 271.546875,
+          "width": 620,
+          "height": 332,
+          "right": 689.109375,
+          "bottom": 603.546875
+        },
+        "footer": {
+          "x": 69.109375,
+          "y": 766,
+          "width": 1301.78125,
+          "height": 104,
+          "right": 1370.890625,
+          "bottom": 870
+        },
+        "footnote": {
+          "x": 69.109375,
+          "y": 841.203125,
+          "width": 100.3125,
+          "height": 17.59375,
+          "right": 169.421875,
+          "bottom": 858.796875
+        },
+        "group": {
+          "x": 1138.890625,
+          "y": 830,
+          "width": 232,
+          "height": 40,
+          "right": 1370.890625,
+          "bottom": 870
+        },
+        "images": [
+          {
+            "alt": "대한민국 · 15세 이용가",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 1138.890625,
+              "y": 830,
+              "width": 40,
+              "height": 40,
+              "right": 1178.890625,
+              "bottom": 870
+            }
+          },
+          {
+            "alt": "IARC 일반 등급 · 3세 이상",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 1186.890625,
+              "y": 830,
+              "width": 40,
+              "height": 40,
+              "right": 1226.890625,
+              "bottom": 870
+            }
+          },
+          {
+            "alt": "대만 · 15세 이상",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 1234.890625,
+              "y": 830,
+              "width": 40,
+              "height": 40,
+              "right": 1274.890625,
+              "bottom": 870
+            }
+          },
+          {
+            "alt": "북미 ESRB · Teen",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 1282.890625,
+              "y": 830,
+              "width": 40,
+              "height": 40,
+              "right": 1322.890625,
+              "bottom": 870
+            }
+          },
+          {
+            "alt": "브라질 · 18세 이상",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 1330.890625,
+              "y": 830,
+              "width": 40,
+              "height": 40,
+              "right": 1370.890625,
+              "bottom": 870
+            }
+          }
+        ],
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "missing": [],
+      "writes": [],
+      "ready": {
+        "appVisibility": "visible",
+        "login": true
+      }
+    },
+    {
+      "label": "390x844-onestore",
+      "path": "/onestore/",
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "overflow": false,
+        "main": {
+          "x": 24,
+          "y": 64,
+          "width": 342,
+          "height": 284.75,
+          "right": 366,
+          "bottom": 348.75
+        },
+        "footer": {
+          "x": 24,
+          "y": 731.03125,
+          "width": 342,
+          "height": 88.96875,
+          "right": 366,
+          "bottom": 820
+        },
+        "footnote": {
+          "x": 24,
+          "y": 796.015625,
+          "width": 91.203125,
+          "height": 16,
+          "right": 115.203125,
+          "bottom": 812.015625
+        },
+        "group": {
+          "x": 182.15625,
+          "y": 788.03125,
+          "width": 183.84375,
+          "height": 31.96875,
+          "right": 366,
+          "bottom": 820
+        },
+        "images": [
+          {
+            "alt": "대한민국 · 15세 이용가",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 182.15625,
+              "y": 788.03125,
+              "width": 31.96875,
+              "height": 31.96875,
+              "right": 214.125,
+              "bottom": 820
+            }
+          },
+          {
+            "alt": "IARC 일반 등급 · 3세 이상",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 220.125,
+              "y": 788.03125,
+              "width": 31.96875,
+              "height": 31.96875,
+              "right": 252.09375,
+              "bottom": 820
+            }
+          },
+          {
+            "alt": "대만 · 15세 이상",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 258.09375,
+              "y": 788.03125,
+              "width": 31.96875,
+              "height": 31.96875,
+              "right": 290.0625,
+              "bottom": 820
+            }
+          },
+          {
+            "alt": "북미 ESRB · Teen",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 296.0625,
+              "y": 788.03125,
+              "width": 31.96875,
+              "height": 31.96875,
+              "right": 328.03125,
+              "bottom": 820
+            }
+          },
+          {
+            "alt": "브라질 · 18세 이상",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 334.03125,
+              "y": 788.03125,
+              "width": 31.96875,
+              "height": 31.96875,
+              "right": 366,
+              "bottom": 820
+            }
+          }
+        ],
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "missing": [],
+      "writes": [],
+      "ready": {
+        "appVisibility": "visible",
+        "login": true
+      }
+    },
+    {
+      "label": "320x568",
+      "path": "/",
+      "geometry": {
+        "viewport": {
+          "width": 320,
+          "height": 568
+        },
+        "overflow": false,
+        "main": {
+          "x": 24,
+          "y": 64,
+          "width": 272,
+          "height": 208.796875,
+          "right": 296,
+          "bottom": 272.796875
+        },
+        "footer": {
+          "x": 24,
+          "y": 460.765625,
+          "width": 272,
+          "height": 83.234375,
+          "right": 296,
+          "bottom": 544
+        },
+        "footnote": {
+          "x": 24,
+          "y": 522.875,
+          "width": 91.203125,
+          "height": 16,
+          "right": 115.203125,
+          "bottom": 538.875
+        },
+        "group": {
+          "x": 140.828125,
+          "y": 517.765625,
+          "width": 155.171875,
+          "height": 26.234375,
+          "right": 296,
+          "bottom": 544
+        },
+        "images": [
+          {
+            "alt": "대한민국 · 15세 이용가",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 140.828125,
+              "y": 517.765625,
+              "width": 26.234375,
+              "height": 26.234375,
+              "right": 167.0625,
+              "bottom": 544
+            }
+          },
+          {
+            "alt": "IARC 일반 등급 · 3세 이상",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 173.0625,
+              "y": 517.765625,
+              "width": 26.234375,
+              "height": 26.234375,
+              "right": 199.296875,
+              "bottom": 544
+            }
+          },
+          {
+            "alt": "대만 · 15세 이상",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 205.296875,
+              "y": 517.765625,
+              "width": 26.234375,
+              "height": 26.234375,
+              "right": 231.53125,
+              "bottom": 544
+            }
+          },
+          {
+            "alt": "북미 ESRB · Teen",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 237.53125,
+              "y": 517.765625,
+              "width": 26.234375,
+              "height": 26.234375,
+              "right": 263.765625,
+              "bottom": 544
+            }
+          },
+          {
+            "alt": "브라질 · 18세 이상",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 269.765625,
+              "y": 517.765625,
+              "width": 26.234375,
+              "height": 26.234375,
+              "right": 296,
+              "bottom": 544
+            }
+          }
+        ],
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "missing": [],
+      "writes": [],
+      "ready": {
+        "appVisibility": "visible",
+        "login": true
+      }
+    },
+    {
+      "label": "844x390",
+      "path": "/",
+      "geometry": {
+        "viewport": {
+          "width": 844,
+          "height": 390
+        },
+        "overflow": false,
+        "main": {
+          "x": 32,
+          "y": 71.5,
+          "width": 360,
+          "height": 198,
+          "right": 392,
+          "bottom": 269.5
+        },
+        "footer": {
+          "x": 32,
+          "y": 293,
+          "width": 780,
+          "height": 79,
+          "right": 812,
+          "bottom": 372
+        },
+        "footnote": {
+          "x": 32,
+          "y": 349.203125,
+          "width": 100.3125,
+          "height": 17.59375,
+          "right": 132.3125,
+          "bottom": 366.796875
+        },
+        "group": {
+          "x": 640,
+          "y": 344,
+          "width": 172,
+          "height": 28,
+          "right": 812,
+          "bottom": 372
+        },
+        "images": [
+          {
+            "alt": "대한민국 · 15세 이용가",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 640,
+              "y": 344,
+              "width": 28,
+              "height": 28,
+              "right": 668,
+              "bottom": 372
+            }
+          },
+          {
+            "alt": "IARC 일반 등급 · 3세 이상",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 676,
+              "y": 344,
+              "width": 28,
+              "height": 28,
+              "right": 704,
+              "bottom": 372
+            }
+          },
+          {
+            "alt": "대만 · 15세 이상",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 712,
+              "y": 344,
+              "width": 28,
+              "height": 28,
+              "right": 740,
+              "bottom": 372
+            }
+          },
+          {
+            "alt": "북미 ESRB · Teen",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 748,
+              "y": 344,
+              "width": 28,
+              "height": 28,
+              "right": 776,
+              "bottom": 372
+            }
+          },
+          {
+            "alt": "브라질 · 18세 이상",
+            "width": 68,
+            "height": 68,
+            "complete": true,
+            "box": {
+              "x": 784,
+              "y": 344,
+              "width": 28,
+              "height": 28,
+              "right": 812,
+              "bottom": 372
+            }
+          }
+        ],
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "missing": [],
+      "writes": [],
+      "ready": {
+        "appVisibility": "visible",
+        "login": true
+      }
+    }
+  ]
+}
