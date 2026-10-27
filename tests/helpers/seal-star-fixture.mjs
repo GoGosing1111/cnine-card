@@ -1,3 +1,5 @@
+import {companionBattleOptions,companionSnapshotRows} from '../../shared/companion-battle-snapshot-v1.mjs';
+import {mercenarySnapshotPower} from '../../functions/_mercenary_account.js';
 import {collectionRewardCoin} from '../../functions/_collection_bonuses.js';
 import fs from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
@@ -7,7 +9,7 @@ import {buildAvatarMercenaryFighter,publicFighter} from '../../functions/_battle
 import {avatarScaledPower} from '../../shared/avatar-power-v1.mjs';
 import {__postgresCompatTest} from '../../functions/_postgres_d1_compat.js';
 const source=fs.readFileSync(new URL('../../functions/_seal_battle.js',import.meta.url),'utf8');
-export const sealModule=()=>Function('accountRankAward','collectionRewardCoin','buildAvatarMercenaryFighter','publicFighter','avatarScaledPower',source.replace(/^import .*;\r?\n/gm,'').replace(/^export /gm,'')+';return {ensureFoundation,ensureMasterStarSchema,cleanSettings,normalizeEvent,saveSettings,loadSettings,adminStart,handleSealBattle,statusPayload,claimClearReward};')(accountRankAward,collectionRewardCoin,buildAvatarMercenaryFighter,publicFighter,avatarScaledPower);
+export const sealModule=()=>Function('accountRankAward','collectionRewardCoin','buildAvatarMercenaryFighter','publicFighter','avatarScaledPower','companionBattleOptions','companionSnapshotRows','mercenarySnapshotPower',source.replace(/^import .*;\r?\n/gm,'').replace(/^export /gm,'')+';return {ensureFoundation,ensureMasterStarSchema,cleanSettings,normalizeEvent,saveSettings,loadSettings,adminStart,handleSealBattle,statusPayload,claimClearReward};')(accountRankAward,collectionRewardCoin,buildAvatarMercenaryFighter,publicFighter,avatarScaledPower,companionBattleOptions,companionSnapshotRows,mercenarySnapshotPower);
 export async function sealStarFixture(dialect='sqlite'){
  const sqlite=new DatabaseSync(':memory:');
  sqlite.exec(`CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);

@@ -1,8 +1,9 @@
+import {COMPANION_RELEASE,COMPANION_PREPARATION_REVIEW as REVIEW} from '../shared/companion-loadout-v2.mjs';
 import {readAccountRank} from './_account_rank.js';
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {readJointBody,assertJointOrigin,jointError} from './_joint_request.js';
-import {readMercenaryDocument,readMercenaryRuntime,battleConfig,mercenaryAccountState,mercenarySnapshotPower} from './_mercenary_account.js';
-import {COOP_DIFFICULTIES,COOP_RULES,validCoopRoom,validCoopClient,validateCoopSelection} from '../shared/cooperative-battleground-v1.mjs';
+import {readMercenaryDocument,readMercenaryRuntime,battleConfig,mercenaryAccountState,mercenarySnapshotPower,selectedMercenaryBattleSnapshots} from './_mercenary_account.js';
+import {COOP_DIFFICULTIES,COOP_RULES,COOP_DUAL_RULES,validCoopRoom,validCoopClient,validateCoopSelection} from '../shared/cooperative-battleground-v1.mjs';
 import {coopSettings,cooperativeAdmin} from './_cooperative_settings.js';
 import {coopCombatSummary} from '../shared/cooperative-settings-v1.mjs';
 import {COOP_DIRECTORY} from '../shared/cooperative-room-list-v1.mjs';
@@ -44,8 +45,14 @@ export async function loadCoopOwnedCards(env,user,deps,ids=null){
  // buildFighter applies unique stats once, exactly as the normal PVE path.
  return cards.map(c=>({...c,uniqueAbility:effects.get(c.id)?.uniqueAbility||null,uniqueAdvancement:effects.get(c.id)?.uniqueAdvancement||null, iconRole:effects.get(c.id)?.iconRole||null}));
 }
-export async function loadCoopSelection(env,user,body,deps){
- const selected=validateCoopSelection(body);
+export async function loadCoopSelection(env,user,body,deps,{rules=COMPANION_RELEASE.dualMercenaries?COOP_DUAL_RULES:COOP_RULES,review=false}={}){
+ const selected=validateCoopSelection(body,rules);
+ if(rules.mercenariesPerPlayer===2){
+  const [cards,mercenaries,bonus,settings,accountRank,pet]=await Promise.all([loadCoopOwnedCards(env,user,deps,selected.cardIds),selectedMercenaryBattleSnapshots(env,user,selected.mercenaryCodes,'PVE'),deps.userEquipmentBonuses(env,user.id),deps.battleSettings(env),readAccountRank(env,user.id),loadPetBattleSnapshot(env,user,'PVE')]);
+  if(cards.length!==2||cards.filter(c=>c.grade==='SUPERSTAR').length>1)fail('OWNERSHIP','보유 카드 2장과 슈퍼스타 제한을 확인하세요.',403);
+  const equipmentBonus=Math.max(0,Number(bonus.pve||0)-Number(bonus.battleSuitPve||0));
+  return {ownerId:Number(user.id),ownerName:user.nickname,ownerRankLevel:accountRank.level,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenaries,...(review?{[REVIEW]:true}:{}),pet,equipmentSetVisual:bonus.pveEquipmentRuntime?.equipmentSetVisual||null,equipmentBonus,avatarPowerPercent:bonus.avatarPowerPercent||0,singleHealerBonus:settings.engine?.singleHealerBonus||{},power:Math.round((cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenaries.reduce((sum,m)=>sum+mercenarySnapshotPower(m),0))*(1+(bonus.avatarPowerPercent||0)/100))};
+ }
  const [cards,owned,document,runtime,bonus,battleSettings,accountRank]=await Promise.all([
   loadCoopOwnedCards(env,user,deps,selected.cardIds),
   env.DB.prepare('SELECT mercenary_code FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?').bind(user.id,selected.mercenaryCode).first(),
@@ -64,7 +71,7 @@ export async function handleCooperative({path,request,env,deps}){
   const user=await deps.authenticate(request,env);if(!user)fail('LOGIN','로그인 후 입장하세요.',401);
   const config=await coopSettings(env),kind=path.replace(/^(?:admin\/)?coop\//,''),url=new URL(request.url);
   if(kind==='settings'||path.startsWith('admin/coop/'))return await cooperativeAdmin({kind,request,env,deps,user,config});
-  if(kind==='feature'&&request.method==='GET')return deps.json({ok:true,mode:config.mode,visible:user.role==='OWNER'||coopAccess(user,config),accessible:coopAccess(user,config),owner:user.role==='OWNER',rewardLocked:config.mode!=='ON'||config.rewardLocked,rewards:config.rewards,energy:await coopEnergy(env,user.id),rules:{...COOP_RULES,maxBattleMs:config.combat.maxBattleSeconds*1000},difficulties:COOP_DIFFICULTIES,configuration:coopCombatSummary(config.combat,config.revision)},200,{'cache-control':'no-store'});
+  if(kind==='feature'&&request.method==='GET')return deps.json({ok:true,mode:config.mode,visible:user.role==='OWNER'||coopAccess(user,config),accessible:coopAccess(user,config),owner:user.role==='OWNER',rewardLocked:config.mode!=='ON'||config.rewardLocked,rewards:config.rewards,energy:await coopEnergy(env,user.id),rules:{...(COMPANION_RELEASE.dualMercenaries?COOP_DUAL_RULES:COOP_RULES),maxBattleMs:config.combat.maxBattleSeconds*1000},difficulties:COOP_DIFFICULTIES,configuration:coopCombatSummary(config.combat,config.revision)},200,{'cache-control':'no-store'});
   if(!coopAccess(user,config))fail('CLOSED',config.mode==='OFF'?'격전지는 현재 운영 중지 상태입니다.':'격전지 테스트 참여자로 등록된 계정만 입장할 수 있습니다.',403);
   if(!env.COOP_ROOMS||!env.COOP_PLAYERS)fail('UNAVAILABLE','격전지 서버를 준비 중입니다.',503);
   if(kind==='rooms'&&request.method==='GET'){
@@ -82,7 +89,7 @@ export async function handleCooperative({path,request,env,deps}){
    return result.code==='COOP_MISSING'||result.code==='COOP_MEMBER'?deps.json({ok:true,state:null}):response(deps,result);
   }
   if(request.method!=='POST')fail('METHOD','지원하지 않는 요청입니다.',405);
-  const body=await readJointBody(request,{fields:['roomId','clientId','requestId','difficulty','cardIds','mercenaryCode','revision']});
+  const body=await readJointBody(request,{fields:['roomId','clientId','requestId','difficulty','cardIds','mercenaryCode','revision',...(COMPANION_RELEASE.dualMercenaries?['mercenaryCodes']:[])]});
   if(!validCoopClient(body.clientId)||typeof body.requestId!=='string'||!/^[-a-zA-Z0-9_]{8,100}$/.test(body.requestId))fail('INPUT','접속과 요청 정보를 확인하세요.',400);
   if(kind!=='create'&&!validCoopRoom(body.roomId))fail('ROOM','목록에서 참가할 대기방을 선택하세요.',400);
   return await deps.withUserMutationLock(env,user.id,path,async()=>{
@@ -106,7 +113,13 @@ export async function handleCooperative({path,request,env,deps}){
    }
    if(kind==='ticket')return response(deps,await roomStub(env,body.roomId).issueTicket({id:Number(user.id)},body.clientId));
    if(!['select','ready','unready','leave','abandon'].includes(kind))fail('COMMAND','지원하지 않는 명령입니다.',400);
-   const input={...body,...(['select','ready'].includes(kind)?{loadout:await loadCoopSelection(env,user,body,deps)}:{})};
+   let selectionRules=COOP_RULES;
+   if(COMPANION_RELEASE.dualMercenaries&&['select','ready'].includes(kind)){
+    const current=await roomStub(env,body.roomId).state(user,0);
+    if(!current.ok)return response(deps,current);
+    selectionRules=current.state.mercenariesPerOwner===2?COOP_DUAL_RULES:COOP_RULES;
+   }
+   const input={...body,...(['select','ready'].includes(kind)?{loadout:await loadCoopSelection(env,user,body,deps,{rules:selectionRules})}:{})};
    // A page exit records defeat but retains the result for the next screen.
    // Only the explicit return/leave button clears the player's room pointer.
    const result=await roomStub(env,body.roomId).command({id:Number(user.id),nickname:user.nickname},kind==='abandon'?'leave':kind,input);

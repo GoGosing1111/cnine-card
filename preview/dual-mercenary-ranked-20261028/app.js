@@ -1,6 +1,6 @@
 /* This page only calls read-only OWNER preview APIs. No account save or fight API. */
 (()=>{
-  let catalog,series,battles=[],currentMode='PVP',busy=false;
+  let catalog,series,battles=[],currentMode='PVP',currentPayload=null,busy=false;
   const status=document.getElementById('status'),roundSelect=document.getElementById('round');
   window.escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   window.cards=[];window.loadUser=()=>({nickname:'OWNER 검수'});
@@ -21,26 +21,26 @@
     document.getElementById('roster').innerHTML=CNineRankedSeries.render();CNineRankedSeries.bind();
     const save=document.getElementById('rsSave');save.textContent=pvpState.rankedSaving?'검수 중…':'검수 편성 적용';
     const start=document.getElementById('rankedMatchStart');start.querySelector('strong').textContent='두 용병 랭크전 검수';start.disabled=!CNineRankedSeries.ready()||busy;start.onclick=()=>run('RANKED');
-    document.getElementById('pve').disabled=busy||!pvpState.rankedDraft?.slice(0,2).every(Boolean)||pvpState.rankedDraft?.slice(0,2).length!==2;
+    document.getElementById('coop').disabled=document.getElementById('duo').disabled=document.getElementById('pve').disabled=busy||!pvpState.rankedDraft?.slice(0,2).every(Boolean)||pvpState.rankedDraft?.slice(0,2).length!==2;
   };
   async function show(index){
     const battle=battles[index];if(!battle)return;
-    const payload={mode:currentMode,preparationOnly:true,battleV2:battle,...(currentMode==='PVE'?{monster:battle.teams.B.cards[0]}:{})};
+    const payload={...currentPayload,mode:currentMode==='COOP'?'RAID':currentMode==='DUO'?'PVP':currentMode,preparationOnly:true,battleV2:battle,...(currentMode==='PVE'?{monster:battle.teams.B.cards[0]}:{})};
     const engine=await ProjectVPixiBattle.mountForBattle(payload,document.getElementById('battle'));
     await ProjectVPixiBattle.setBattlePayload(payload);await ProjectVPixiBattle.setVisible(true);await ProjectVPixiBattle.restoreDeployedFormation();
     window.dualPreparationEngine=engine;
     document.getElementById('play').disabled=false;
-    status.textContent=series?`${index+1}차전 · 용병 2명씩 · 세트 결과 ${series.score.A} : ${series.score.B}`:'PVE · 카드 5장 + 용병 2명';
+    status.textContent=series?`${index+1}차전 · 용병 2명씩 · 세트 결과 ${series.score.A} : ${series.score.B}`:currentMode==='COOP'?'협동 · 참가자별 카드 2장 + 용병 2명 · 적 체력 60%·공격력 15% 상향 검수':currentMode==='DUO'?'듀오 · 참가자별 카드 5장 + 용병 2명':'PVE · 카드 5장 + 용병 2명';
   }
   async function run(mode){
     if(busy)return;busy=true;renderPvpTab();status.textContent='서버 전투를 계산하는 중입니다.';
     try{
       const result=await calculate(mode,mode==='RANKED'?pvpState.rankedSeries.codes:pvpState.rankedDraft.slice(0,2));
-      series=result.rankedSeries||null;currentMode=mode==='RANKED'?'PVP':'PVE';battles=series?series.rounds.map(r=>r.battleV2):[result.battle];
-      roundSelect.innerHTML=battles.map((_,i)=>`<option value="${i}">${series?i+1+'차전':'PVE'}</option>`).join('');await show(0);
+      series=result.rankedSeries||null;currentPayload=result.payload||null;currentMode=mode==='RANKED'?'PVP':mode;battles=series?series.rounds.map(r=>r.battleV2):[result.battle];
+      roundSelect.innerHTML=battles.map((_,i)=>`<option value="${i}">${series?i+1+'차전':currentMode==='COOP'?'협동격전지':currentMode==='DUO'?'랭크 듀오':'PVE'}</option>`).join('');await show(0);
     }catch(error){status.textContent=error.message;}finally{busy=false;renderPvpTab();}
   }
-  document.getElementById('pve').onclick=()=>run('PVE');
+  document.getElementById('pve').onclick=()=>run('PVE');document.getElementById('coop').onclick=()=>run('COOP');document.getElementById('duo').onclick=()=>run('DUO');
   roundSelect.onchange=()=>{if(!busy)void show(Number(roundSelect.value)).catch(error=>{status.textContent=error.message;});};
   document.getElementById('play').onclick=async()=>{
     if(busy)return;busy=true;const index=Number(roundSelect.value),button=document.getElementById('play');button.disabled=true;roundSelect.disabled=true;renderPvpTab();

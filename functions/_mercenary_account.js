@@ -1,3 +1,5 @@
+import {COMPANION_RELEASE,validatePreparedMercenaries} from '../shared/companion-loadout-v2.mjs';
+import {dualMercenaryGuard,dualMercenaryStatements} from './_mercenary_dual_loadout.js';
 import {RANKED_SERIES_RULES,rankedSeriesCodes,rankedSeriesRoster} from '../shared/ranked-series-v1.mjs';
 import {CARDGU_CODE,CARDGU_ART} from '../shared/mercenary-cardgu-v1.mjs';
 import {REVAN_CODE,REVAN_ART} from '../shared/mercenary-revan-v1.mjs';
@@ -59,6 +61,22 @@ export async function releasedMercenarySnapshots(env,userIds,mode='PVE'){
   return attachMercenaryEquipment(env,await attachReleasedMercenaryLevels(env,new Map(rows.filter(r=>exclusiveAccountAllowed(r.user_id,r.mercenary_code,packOwners,jokroPackOwners)&&(r.mercenary_code!==SHIRANUI_CODE||rankEligible.has(Number(r.user_id)))).map(r=>[Number(r.user_id),{...battleConfig(document,r.mercenary_code,Number(r.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}]))),mode);
 }
 export const mercenarySnapshotPower=m=>m?(m.statMode==='RANK_FIXED'?(limitedDeploymentSnapshot(m.code)?.basePower??mercenaryBasePower(m.rank,m.code)):Math.round(m.basePower*(1+(m.combat?.powerGrowthPercentPerLevel||0)*(m.level-1)/100)))+mercenaryEquipmentPower(m):0;
+export const mercenaryFormationPower=f=>(f?.mercenaries||[f?.mercenary]).filter(Boolean).reduce((sum,m)=>sum+mercenarySnapshotPower(m),0);
+export const releasedMercenaryFormation=async(env,user,mode='PVE')=>(await releasedMercenaryFormations(env,[Number(user.id)],mode)).get(Number(user.id))||{mercenary:null};
+export async function releasedMercenaryFormations(env,userIds,mode='PVE',{dual=COMPANION_RELEASE.dualMercenaries}={}){
+ mode=mercenaryMode(mode);
+ if(!dual)return new Map([...(await releasedMercenarySnapshots(env,userIds,mode))].map(([id,m])=>[id,{mercenary:m}]));
+ if(!V3_JOINT_RELEASE_ENABLED&&!MERCENARY_DEPLOYMENT_RELEASE_ENABLED)return new Map();
+ const ids=[...new Set(userIds.map(Number))],records=await readMercenaryModes(env,ids,{dual:true});
+ const selected=ids.flatMap(id=>records.get(id).loadouts[mode].mercenaryCodes.map(code=>[id,code]));
+ if(!selected.length)return new Map(ids.map(id=>[id,{mercenaries:[]}]));
+ const rows=(await env.DB.prepare(`WITH selected(user_id,mercenary_code) AS (VALUES ${selected.map(()=>'(CAST(? AS BIGINT),CAST(? AS TEXT))').join(',')}) SELECT s.user_id,s.mercenary_code FROM selected s JOIN user_mercenary_cards_v1 c ON c.user_id=s.user_id AND c.mercenary_code=s.mercenary_code WHERE c.total_copies>0`).bind(...selected.flat()).all()).results;
+ const [{document,revision},runtime,equipment,packOwners,jokroPackOwners,rankEligible]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env),mercenaryEquipmentRuntimes(env,ids,mode),readJinmuPackOwners(env,rows.filter(r=>r.mercenary_code===JINMU_CODE).map(r=>r.user_id)),readJokroPackOwners(env,rows.filter(r=>r.mercenary_code===JOKRO_CODE).map(r=>r.user_id)),readShiranuiEligibleUsers(env,rows.filter(r=>r.mercenary_code===SHIRANUI_CODE).map(r=>r.user_id))]);
+ const snapshots=new Map(ids.map(id=>[id,records.get(id).loadouts[mode].mercenaryCodes.filter(code=>rows.some(r=>Number(r.user_id)===id&&r.mercenary_code===code)&&exclusiveAccountAllowed(id,code,packOwners,jokroPackOwners)&&(code!==SHIRANUI_CODE||rankEligible.has(id))).map(code=>({...battleConfig(document,code,1),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}))]));
+ for(const list of snapshots.values())try{validatePreparedMercenaries(list);}catch(error){throw jointError('MERCENARY_FORMATION',error.message,409);}
+ const leveled=await attachReleasedMercenaryLevels(env,snapshots);
+ return new Map(ids.map(id=>{const mercenaries=leveled.get(id).map(m=>equipment.get(id)?.items.length?{...m,equipment:equipment.get(id)}:m);return [id,{mercenaries}];}));
+}
 // Ranked-only selection. Does not read or write the ordinary PVE/PVP single slot.
 export async function rankedOwnedMercenaries(env,userIds){
   const ids=[...new Set(userIds.map(Number))];
@@ -145,6 +163,16 @@ export async function loadMercenaryBattleSnapshot(env,user,mode='PVE'){
   await requireOwned(env,user,row.mercenary_code);const {document,revision}=await readMercenaryDocument(env),growth=await growthRow(env,user,row.mercenary_code);
   const runtime=await readMercenaryRuntime(env),snapshot={...battleConfig(document,row.mercenary_code,Number(growth.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version};return (await attachMercenaryEquipment(env,await attachReleasedMercenaryLevels(env,new Map([[Number(user.id),snapshot]])),mode)).get(Number(user.id));
 }
+// Explicit owned selections for prepared cooperative slots. No loadout write.
+export async function selectedMercenaryBattleSnapshots(env,user,codes,mode='PVE'){
+ mode=mercenaryMode(mode);
+ if(!Array.isArray(codes)||codes.length>2||new Set(codes).size!==codes.length||codes.some(c=>!/^V-\d{3}$/.test(c)||!mercenaryModeAllowed(c,mode)))throw jointError('MERCENARY_FORMATION','용병 편성을 확인하세요.');
+ for(const code of codes){await requireOwned(env,user,code);await requireShiranuiRank(env,user.id,code);}
+ const [{document,revision},runtime,equipment]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env),mercenaryEquipmentRuntimes(env,[Number(user.id)],mode)]);
+ const rows=codes.map(code=>({...battleConfig(document,code,1),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}));try{validatePreparedMercenaries(rows);}catch(error){throw jointError('MERCENARY_FORMATION',error.message);}
+ const leveled=(await attachReleasedMercenaryLevels(env,new Map([[Number(user.id),rows]]))).get(Number(user.id)),gear=equipment.get(Number(user.id));
+ return leveled.map(m=>gear?.items.length?{...m,equipment:gear}:m);
+}
 export async function mercenaryAccountState(env,user){
   const leveling=await releasedMercenaryLevelSummary(env,user.id);
   const records=await readMercenaryEquipmentRecords(env,[user.id]);
@@ -153,7 +181,7 @@ export async function mercenaryAccountState(env,user){
   const [config,policy,owned,loadout,wallet]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env),env.DB.prepare('SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM user_mercenary_cards_v1 c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=? ORDER BY c.mercenary_code').bind(user.id).all(),readMercenaryModes(env,[user.id]).then(rows=>rows.get(Number(user.id))),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);
   const [packOwners,jokroPackOwners]=await Promise.all([readJinmuPackOwners(env,owned.results.some(r=>r.mercenary_code===JINMU_CODE)?[user.id]:[]),readJokroPackOwners(env,owned.results.some(r=>r.mercenary_code===JOKRO_CODE)?[user.id]:[])]);
   const rankEligible=await readShiranuiEligibleUsers(env,owned.results.some(r=>r.mercenary_code===SHIRANUI_CODE)?[user.id]:[]);
-  const visibleLoadouts=Object.fromEntries(Object.entries(loadout.loadouts).map(([mode,slot])=>[mode,slot.mercenaryCode===SHIRANUI_CODE&&!rankEligible.has(Number(user.id))?{...slot,mercenaryCode:null,blockedMercenaryCode:SHIRANUI_CODE,blockedReason:SHIRANUI_REQUIREMENT}:slot]));
+  const visibleLoadouts=Object.fromEntries(Object.entries(loadout.loadouts).map(([mode,slot])=>{if(slot.mercenaryCodes){const mercenaryCodes=slot.mercenaryCodes.filter(c=>c!==SHIRANUI_CODE||rankEligible.has(Number(user.id)));return [mode,{...slot,mercenaryCodes,mercenaryCode:mercenaryCodes[0]||null}];}return [mode,slot.mercenaryCode===SHIRANUI_CODE&&!rankEligible.has(Number(user.id))?{...slot,mercenaryCode:null,blockedMercenaryCode:SHIRANUI_CODE,blockedReason:SHIRANUI_REQUIREMENT}:slot];}));
   return {accountId:Number(user.id),equipmentPower,leveling:{enabled:leveling.enabled},deployment:mercenaryDeploymentState(),available:MERCENARY_DEPLOYMENT_RELEASE_ENABLED||policy.mode==='ON'||policy.mode==='TEST'&&user.role==='OWNER',coin:String(wallet.coin),policy,cmsRevision:config.revision,loadout:visibleLoadouts.PVE,loadouts:visibleLoadouts,cards:owned.results.filter(row=>Number(row.total_copies)>0&&exclusiveAccountAllowed(user.id,row.mercenary_code,packOwners,jokroPackOwners)).map(row=>{const limited=row.mercenary_code===CARDGU_CODE?CARDGU_ART:row.mercenary_code===AWAKENED_OMEGA_CODE?AWAKENED_OMEGA_ART:row.mercenary_code===RAZAK_CODE?RAZAK_ART:row.mercenary_code===REVAN_CODE?REVAN_ART:row.mercenary_code===EUNSEOL_CODE?EUNSEOL_ART:row.mercenary_code===GENERAL_JOK_CODE?GENERAL_JOK_ART:row.mercenary_code===PRIME_CODE?PRIME_ART:row.mercenary_code===ZERO_CODE?ZERO_ART:row.mercenary_code===LEONEL_CODE?LEONEL_ART:row.mercenary_code===JOKRO_CODE?JOKRO_ART:row.mercenary_code===SHIRANUI_CODE?SHIRANUI_ART:row.mercenary_code===KAIRON_CODE?KAIRON_ART:row.mercenary_code===JINMU_CODE?JINMU_ART:LIMITED_MERCENARIES.find(c=>c.code===row.mercenary_code);if(limited){const snapshot=limitedDeploymentSnapshot(limited.code);return {...limited,...snapshot,...((limited.code===JINMU_CODE&&packOwners.has(Number(user.id))||limited.code===JOKRO_CODE&&jokroPackOwners.has(Number(user.id)))?{exclusiveGrant:false,excludedFromLimitedCount:false}:{}),totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),growth:null,maxLevel:1,...(leveling.enabled?{level:1,experience:0,revision:0,...leveling.rows.find(r=>r.code===row.mercenary_code),maxLevel:20}:{}),skills:(snapshot?.skills||[]).map(skill=>({...config.document.skills.find(s=>s.mechanic===skill.mechanic),...skill,review:'REVIEWED'})),pendingSkillCount:0,canDeploy:Boolean(snapshot)&&(limited.code!==SHIRANUI_CODE||rankEligible.has(Number(user.id))),...(limited.code===SHIRANUI_CODE&&!rankEligible.has(Number(user.id))?{deploymentBlockedReason:SHIRANUI_REQUIREMENT+'에서 편성 가능'}:{})};}const meta=config.document.mercenaries.find(c=>c.code===row.mercenary_code),art=MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===row.mercenary_code);return {code:row.mercenary_code,name:meta.name,rank:meta.rank,sourceArt:art.sourceArt,battleSprite:art.battleSprite,totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),basePower:meta.rank?mercenaryBasePower(meta.rank,meta.code):null,growth:config.document.settings.rankGrowth.find(r=>r.rank===meta.rank)||null,maxLevel:meta.growth.maxLevel,...(leveling.enabled?{level:1,experience:0,revision:0,...leveling.rows.find(r=>r.code===row.mercenary_code),maxLevel:20}:{}),skills:assignedSkills(config.document,row.mercenary_code).map(s=>ssRearPveSkillText(mercenaryMoonDrawSkillText(mercenaryGuardSkillText(rangedMercenarySkillText(s,{...meta,attackStyle:mercenaryAttackStyle(meta)}))),meta)),pendingSkillCount:assignedSkills(config.document,row.mercenary_code).filter(s=>!skillsReady([s])).length,canDeploy:Boolean(mercenaryBasePower(meta.rank,meta.code))};})};
 }
 
@@ -192,6 +220,8 @@ export async function mercenaryOpeningReceipt(env,user,requestId,replayed=true){
 }
 
 export async function saveMercenaryLoadout(env,user,body){
+  if(COMPANION_RELEASE.dualMercenaries)return savePreparedMercenaryLoadout(env,user,body);
+  if(body.mercenaryCodes!==undefined)throw jointError('MERCENARY_DUAL_PENDING','용병 2명 편성을 준비 중입니다.',423);
   const mode=mercenaryMode(body.mode),code=body.mercenaryCode===null?null:knownCode(body.mercenaryCode),revision=integer(body.revision,0,2147483646,'편성 버전');
   if(!mercenaryModeAllowed(code,mode))throw jointError('MERCENARY_PVE_ONLY',MERCENARY_PVE_ONLY_REASON,409);
   const r=await runJointOperation(env,user,{requestId:body.requestId,kind:'MERCENARY_LOADOUT',input:body.mode===undefined?{code,revision}:{code,revision,mode},prepare:async()=>{
@@ -210,6 +240,24 @@ export async function saveMercenaryLoadout(env,user,body){
       ...mercenaryModeStatements(DB,user.id,record,mode,{mercenaryCode:plan.code,revision:plan.revision+1}),jointGuardEnd(DB,token)];
   }});
   return {requestId:r.requestId,replayed:r.replayed,mode:mercenaryMode(r.plan.mode),mercenaryCode:r.plan.code,revision:r.plan.revision+1};
+}
+
+// Called by the account route only through the release flag, never a client review field.
+export async function savePreparedMercenaryLoadout(env,user,body){
+ const mode=mercenaryMode(body.mode),codes=body.mercenaryCodes,revision=integer(body.revision,0,2147483646,'편성 버전');
+ if(!Array.isArray(codes)||codes.length>2||new Set(codes).size!==codes.length)throw jointError('MERCENARY_FORMATION','서로 다른 용병을 최대 2명 선택하세요.');
+ if(body.mercenaryCode!==undefined)throw jointError('MERCENARY_FORMATION','새 편성 화면에서 두 슬롯을 함께 저장해 주세요.',409);
+ const check=async()=>{allowDeployment(await readMercenaryRuntime(env),user);await selectedMercenaryBattleSnapshots(env,user,codes,mode);};
+ const r=await runJointOperation(env,user,{requestId:body.requestId,kind:'MERCENARY_DUAL_LOADOUT',input:{codes,revision,mode},prepare:async()=>{await check();return {codes,revision,mode};},statements:async plan=>{
+  await check();const record=(await readMercenaryModes(env,[user.id],{dual:true})).get(Number(user.id));
+  if(record.loadouts[plan.mode].revision!==plan.revision)throw Object.assign(jointError('MERCENARY_LOADOUT_CONFLICT','편성이 변경됐습니다. 최신 상태에서 다시 선택하세요.',409),{terminal:true});
+  const DB=env.DB,token=crypto.randomUUID(),legacyToken=crypto.randomUUID(),p=(sql,...v)=>DB.prepare(sql).bind(...v);
+  return [...(plan.codes.includes(SHIRANUI_CODE)&&DB.dialect==='postgres'?[p('SELECT user_id FROM account_rank_progress_v1 WHERE user_id=? FOR SHARE',user.id)]:[]),mercenaryModeGuard(DB,legacyToken,user.id,record.legacy),dualMercenaryGuard(DB,token,record),
+   ...plan.codes.map(code=>p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies>0) THEN 1 ELSE 0 END WHERE token=?',user.id,code,token)),
+   ...(plan.codes.includes(SHIRANUI_CODE)?[p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM account_rank_progress_v1 WHERE user_id=? AND total_ticks>=?) THEN 1 ELSE 0 END WHERE token=?',user.id,SHIRANUI_MIN_RANK_TICKS,token)]:[]),
+   ...dualMercenaryStatements(DB,user.id,record,plan.mode,{mercenaryCodes:plan.codes,revision:plan.revision+1}),jointGuardEnd(DB,token),jointGuardEnd(DB,legacyToken)];
+ }});
+ return {requestId:r.requestId,replayed:r.replayed,mode:r.plan.mode,mercenaryCodes:r.plan.codes,mercenaryCode:r.plan.codes[0]||null,revision:r.plan.revision+1};
 }
 
 export async function growMercenary(){

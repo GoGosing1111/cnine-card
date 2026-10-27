@@ -1,3 +1,4 @@
+import {companionBattleOptions,companionReviewOptions} from '../../shared/companion-battle-snapshot-v1.mjs';
 import {randomUUID,randomInt} from 'node:crypto';
 import {buildFighter,buildMonsterFighter,buildBattleSuitFighter,buildPvePlayerTeam,publicFighter,teamSummary,simulateBattleV2Preview} from '../../functions/_battle_v2_preview.js';
 import {buildPreviewDeck,BATTLE_SUIT} from '../idle-v3-v1/source/idle-model.mjs';
@@ -17,7 +18,7 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
   if(snapshot){
     if(snapshot.cards?.length!==5||new Set(snapshot.cards.map(c=>String(c.id))).size!==5)throw Error('HUNT_DECK');
     cards=snapshot.cards;equippedBattleSuit=snapshot.characterBonus?.equippedBattleSuit||null;equippedWeapon=snapshot.characterBonus?.equippedWeapon||null;
-    const team=buildPvePlayerTeam({cards,pveEquipmentRuntime:snapshot.characterBonus?.pveEquipmentRuntime,characterBonus:snapshot.cardSupportBonus,battleSuit:snapshot.battleSuit,mercenary:snapshot.mercenary});
+    const team=buildPvePlayerTeam({cards,pveEquipmentRuntime:snapshot.characterBonus?.pveEquipmentRuntime,characterBonus:snapshot.cardSupportBonus,battleSuit:snapshot.battleSuit,...companionBattleOptions(snapshot)});
     ({teamA,simulationTeamA}=team);support=team.battleSuitFighter;mercenary=team.mercenaryFighter;
   }else{
     cards=buildPreviewDeck(catalog).map(c=>({...c,power:partyPolicy.cardPower}));
@@ -38,7 +39,7 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
   const finalBoss=monster(region?.boss||BOSSES[2],4,true);
   const finalAdds=region&&['coast','viscera'].includes(region.id)?[0,1].map((slot)=>({...monster(monsters[slot],slot),id:`B:${slot}:BOSS_SUPPORT`,legionBossSupport:true})):[];
   const timeLimit=limitMs??policy.limitMs;
-  const result=simulateBattleV2Preview({teamA:simulationTeamA,teamB:fighters,
+  const result=simulateBattleV2Preview({...companionReviewOptions(snapshot),teamA:simulationTeamA,teamB:fighters,
     sustainedEncounter:{durationMs:policy.huntDurationMs,templates,finalBoss,...(region?{regionId:region.id,finalAdds}:{})},
     encounterCapacity:CAPACITY,maxCombatDurationMs:timeLimit,maxActions:6000,forcedMonsterEvery:policy.forced,healerPenalty:true,seed,
     pets:snapshot?.pet?{A:snapshot.pet}:null,petMode:'PVE',magicA:snapshot?.magicCards||[],singleHealerBonus:snapshot?.singleHealerBonus||{},openingPlayerUltimateDamage:snapshot?.ultimateDamage||0});
@@ -60,7 +61,7 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
   const accountNickname=snapshot?.accountNickname||'검수 원정대',mercenaries=result.openingMercenaries?.A||[];
   const payload={previewOnly:!snapshot,liveRewards:false,engineBase:ENGINE_BASE,title:'군단토벌 · '+(region?.name||'잊혀진 섬'),...(region?{regionId:region.id,regionName:region.name,battlefieldBackground:region.background}:{}),mode:'HUNT',battlefieldMode:'HUNT',accountNickname,playerName:accountNickname,opponentName:'몬스터 군단',
     cards,equippedBattleSuit,equippedWeapon,characterBonus:snapshot?.characterBonus||{battleSuitPve:partyPolicy.suitPower,equippedBattleSuit,equippedWeapon},
-    ...(snapshot?{loadoutSource:snapshot.source,mercenary:snapshot.mercenary||null,pet:snapshot.pet||null}:{}),
+    ...(snapshot?{loadoutSource:snapshot.source,...companionBattleOptions(snapshot),pet:snapshot.pet||null}:{}),
     huntPolicy:{...policy,limitMs:timeLimit,totalEnemies:instances.length,totalBosses:1,party:snapshot?'account':partyPolicy.id,partyPower:teamSummary(simulationTeamA).power},
     huntPlayback:{limitMs:timeLimit,boss:bossEvent?{combatAtMs:bossEvent.combatAtMs,final:playbackFinal(result.encounter.bossCheckpoint.final),seq:bossEvent.seq,targetId:bossEvent.targetId}:null,
       final:playbackFinal(result.final)},

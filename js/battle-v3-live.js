@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.7-bloodmoon-balance';
-  const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-preparation-20261028-v1';
+  const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime({effects=false}={}) {
     const ready=()=>root.ProjectVPixiBattle?.runtimeVersion===BATTLE_RUNTIME&&(!effects||Boolean(root.ProjectVPixiBattle.fxRuntime));
@@ -717,8 +717,9 @@
     const allies = (Array.isArray(data.cards) ? data.cards : []).slice(0, 5).map(normalizeTowerCard);
     // Use the server's saved PvE fighter, including its native motion/level/equipment.
     // Do not infer a mercenary from the current account when replaying a receipt.
-    const mercenary = data.mercenary?.isMercenary === true ? { ...data.mercenary } : null;
-    const actors = [...allies, ...(mercenary ? [mercenary] : [])];
+    const mercenaries=Array.isArray(data.mercenaries)?data.mercenaries.filter(m=>m?.isMercenary===true).map(m=>({...m})):data.mercenary?.isMercenary===true?[{...data.mercenary}]:[];
+    const mercenary=mercenaries[0]||null,mercenaryPowerTotal=mercenaries.reduce((sum,m)=>sum+Math.max(0,Number(m.power)||0),0);
+    const actors = [...allies, ...mercenaries];
     const dragon=data.battlePhase==='BOSS'&&roleKey==='BOSS';
     const orb=sealOrbArt(roleKey);
     const monster = {
@@ -750,10 +751,10 @@
     let distributed=0, fraction=0;
     const timeline = [];
     actors.forEach((card, index) => {
-      const isMercenary = card === mercenary;
+      const isMercenary = card.isMercenary===true;
       const actorId = isMercenary ? card.id : card.cardId;
       const damagePercent = steps[Math.min(index, steps.length - 1)];
-      const weight = mercenary ? (isMercenary ? mercenaryShare : (1 - mercenaryShare) * damagePercent / stepTotal) : 1 / Math.max(1, actors.length);
+      const weight = mercenary ? (isMercenary ? mercenaryShare*(mercenaryPowerTotal>0?Math.max(0,Number(card.power)||0)/mercenaryPowerTotal:1/mercenaries.length) : (1 - mercenaryShare) * damagePercent / stepTotal) : 1 / Math.max(1, actors.length);
       fraction = Math.min(1, fraction + weight);
       const share = dragon || mercenary ? Math.max(0, (index === actors.length - 1 ? recordedDamage : Math.floor(recordedDamage * fraction)) - distributed) : 0;
       distributed+=share;
@@ -797,7 +798,7 @@
       monster,
       playUltimateCinematics: false,
       battleV2: {
-        teams: { A: { cards: allies, mercenaries: mercenary ? [mercenary] : [] }, B: { cards: [monster] } },
+        teams: { A: { cards: allies, mercenaries }, B: { cards: [monster] } },
         result: { timeline, winner: win ? 'A' : 'B', actions: timeline.length }
       }
     };

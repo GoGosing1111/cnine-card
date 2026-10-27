@@ -2,7 +2,7 @@ import {contentEnergyText,contentEnergyView} from '/shared/content-energy-v1.mjs
 import {mountRewardRevealButton,mountRewardRevealInbox} from '/js/content-reward-reveal-v1.mjs?v=20261016-reveal1';
 import {rosterMarkup,automaticGuide} from './roster.mjs?v=20261012-random-v3';
 import {jointAccountRequest} from '/js/joint-account-transport.mjs';
-import {COOP_DIFFICULTIES,COOP_RULES,COOP_VERSION,COOP_ENCOUNTER,COOP_STAGES} from '/shared/cooperative-battleground-v1.mjs?v=20261002-arke-v2';
+import {COOP_DIFFICULTIES,COOP_RULES,COOP_VERSION,COOP_ENCOUNTER,COOP_STAGES} from '/shared/cooperative-battleground-v1.mjs?dualAudit=20261028-v1&v=20261002-arke-v2';
 import {mountCoopBattle} from './battle.mjs?v=20261018-jokro-coop-v1-normal-view-v1&leonel=20261018-live-v1';
 import {createServerClock} from '/shared/server-clock-v1.mjs?v=20261015-v1';
 import {COOP_LIST_REFRESH_MS} from '/shared/cooperative-room-list-v1.mjs?v=20261004-list1';
@@ -11,7 +11,7 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const number=v=>Math.round(v||0).toLocaleString('ko-KR');
 const uniqueText=c=>c.uniqueAbility?([['공격','attackPercent'],['방어','defensePercent'],['체력','hpPercent'],['속도','speedPercent']].filter(([,k])=>c.uniqueAbility[k]).map(([label,k])=>label+' '+(c.uniqueAbility[k]>0?'+':'')+c.uniqueAbility[k]+'%').join(' · ')||'고유효과 적용'):'고유효과 없음';
 let styles;
-function loadStyles(){return styles||=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/raid/cooperative/style.css?v=20261018-normal-view-v1';link.onload=resolve;link.onerror=()=>{styles=null;reject(Error('격전지 화면을 불러오지 못했습니다.'));};document.head.append(link);});}
+function loadStyles(){return styles||=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/raid/cooperative/style.css?dualAudit=20261028-v1&v=20261018-normal-view-v1';link.onload=resolve;link.onerror=()=>{styles=null;reject(Error('격전지 화면을 불러오지 못했습니다.'));};document.head.append(link);});}
 const shield='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2 21 6v6c0 5-9 10-9 10S3 17 3 12V6Z"/><path d="m7 12 3 3 7-7"/></svg>';
 const GUIDE=[
  ['3단계 돌파전','<p><b>세 명이 편성한 9캐릭터로 세 구역을 연속 격파합니다.</b> 전체 제한 시간은 3분입니다.</p><ol><li><b>1단계 · 제련소 외곽:</b> 근접 공격을 하는 용철 추적자 2기와 원거리 연사형 불씨 감시기 1기를 모두 처치하세요.</li><li><b>2단계 · 노심 관문:</b> 준보스 노심 수문장이 나타납니다. 최대 체력의 30% 방벽을 깨고 연속 공격을 버티세요. 보호와 회복이 있으면 마지막 구간의 생존을 확보하기 쉽습니다.</li><li><b>3단계 · 심층 노심:</b> 최종 보스 삼핵 거신 아르케가 등장합니다. 평타·스킬은 자동으로 진행되며, 화면에 뜨는 차단·엄폐·교란은 각자 직접 눌러야 합니다.</li></ol><p><b>앞 단계의 적을 전부 처치해야 다음 단계가 열립니다.</b> 체력·방벽·스킬 대기 시간은 이어지며, 단계 전환으로 회복하거나 쓰러진 캐릭터가 부활하지 않습니다. 일반 몬스터와 준보스만 잡고 시간이 끝나면 패배입니다.</p>'],
@@ -28,17 +28,20 @@ export async function mountCooperative(root){
  let disposed=false,state=null,roomId='',you=0,options=null,feature=null,ws=null,reconnectTimer,heartbeatTimer,battle=null,portal=null,mounting=null,battlePayload=null,lastMessage=0;
  let rooms=[],roomFilter='',listLoading=false,listLoaded=false,listError='',listTimer,listEpoch=0,listSignature='',hasMore=false;
  let busy=false,selected={cardIds:[],mercenaryCode:''},picker='mercenary',query='',grade='',difficulty='NORMAL',serverOffset=0,guideChapter=0,bodyOverflow='',selectionRoom='',squadSignature='',battleEpoch=0,patternSignature='',pendingPattern=null,configSignature='';
+ const mercenarySlots=()=>state?.mercenariesPerOwner??feature?.rules?.mercenariesPerPlayer??1;
+ const selectedMercenaries=()=>selected.mercenaryCodes||(selected.mercenaryCode?[selected.mercenaryCode]:[]);
+ const selectionComplete=()=>selected.cardIds.length===2&&selectedMercenaries().length===mercenarySlots();
  const defaultConfiguration=coopCombatSummary(),configuration=()=>{const c=state?.configuration||feature?.configuration||defaultConfiguration;if(state?.encounterVersion===2)return c;const e=state?.encounter;return {...c,stages:c.stages.map((s,i)=>({...s,target:e?(i===0?e.mobs.map(m=>m.name).join(' · '):i===1?e.elite.name:e.boss.name):['몬스터 5종 중 3종','보스 4종 중 1종','준보스와 다른 보스 1종'][i]}))};};
  const $=s=>root.querySelector(s),on=(el,event,fn)=>el?.addEventListener(event,fn,{signal:lifecycle.signal});
  root.classList.add('coop-root');
  root.innerHTML=`<section class="coop-head"><div><span class="coop-eyebrow">3인 공동 전투</span><h2>격전지<span>(협동)</span></h2><p>세 분대의 선택이 하나의 전장을 바꾼다.</p></div><button class="coop-quiet" data-guide>${shield}공략 지침</button></section>
- <section class="coop-hero"><div class="coop-hero-copy"><span>전장 01 · ${COOP_ENCOUNTER.arena}</span><h3>세 구역을 뚫고,<br>노심을 멈춰라.</h3><p><b>매번 달라지는 적, 함께 맞추는 조합</b><br>몬스터 5종 · 보스 4종 · 자동 전투</p><div class="coop-meta"><span>3인 · 9캐릭터</span><span>3분 전투</span><span data-release>연결 중</span></div></div><img src="/assets/ui/cooperative-roster-v3/bastion-768.webp" alt="철벽 군주 바스티온" /><div class="coop-hero-index" aria-hidden="true">RANDOM <b>04</b></div></section>
+ <section class="coop-hero"><div class="coop-hero-copy"><span>전장 01 · ${COOP_ENCOUNTER.arena}</span><h3>세 구역을 뚫고,<br>노심을 멈춰라.</h3><p><b>매번 달라지는 적, 함께 맞추는 조합</b><br>몬스터 5종 · 보스 4종 · 자동 전투</p><div class="coop-meta"><span data-party-size>3인 · 9캐릭터</span><span>3분 전투</span><span data-release>연결 중</span></div></div><img src="/assets/ui/cooperative-roster-v3/bastion-768.webp" alt="철벽 군주 바스티온" /><div class="coop-hero-index" aria-hidden="true">RANDOM <b>04</b></div></section>
  <div class="coop-operation-strip">${COOP_STAGES.map(s=>`<span><i>0${s.wave}</i><b>${s.name}</b><small>${s.target}</small></span>`).join('')}</div>
  <div class="coop-reward-summary" data-reward-summary role="status"></div>
  <div class="coop-alert" role="status" aria-live="polite" data-alert hidden></div>
  <section data-entry class="coop-entry"><div class="coop-room-browser"><header class="coop-browser-heading"><div><span class="coop-eyebrow">함께할 분대를 찾으세요</span><h3>모집 중인 대기방 <b data-room-list-count>0</b></h3></div><button class="coop-quiet" data-refresh-rooms>새로고침 ↻</button></header><div class="coop-room-list-toolbar"><label>난이도 <select data-room-filter aria-label="대기방 난이도"><option value="">전체 난이도</option>${COOP_DIFFICULTIES.map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join('')}</select></label><span data-room-list-status>대기방을 불러오는 중</span></div><p class="coop-room-list-message" data-room-list-message role="status" hidden></p><div class="coop-room-list" data-room-list aria-live="polite" aria-busy="true"></div></div><aside class="coop-create-panel"><header class="coop-section-title"><span>+</span><div><h3>대기방 만들기</h3><p>난이도를 고르고 동료를 모집하세요.</p></div></header><div class="coop-difficulties">${COOP_DIFFICULTIES.map((d,i)=>`<button data-difficulty="${d.id}" aria-pressed="${i===0}" class="${i===0?'selected':''}"><small>0${i+1} / ${esc(d.subtitle)}</small><b>${esc(d.name)}</b><span>${esc(d.recommendation)}</span></button>`).join('')}</div><button class="coop-primary" data-create>대기방 만들기 <span>→</span></button><p class="coop-create-note">생성한 방은 모집 목록에 바로 표시됩니다.<br>3명이 모두 준비하면 함께 출전합니다.</p></aside></section>
  <section data-room hidden><div class="coop-room-heading"><div><span data-room-title></span><h3>출전 대기실 <b data-count>1 / 3</b></h3></div><div><button class="coop-quiet" data-leave>대기방 나가기</button></div></div><section class="coop-scout" data-roster hidden></section><div class="coop-squads" data-squads></div>
- <div class="coop-armory"><div class="coop-armory-heading"><div><span class="coop-eyebrow">내 출전 편성</span><h3>용병 1명, 카드 2장</h3></div><div class="coop-picker-tabs"><button data-picker="mercenary" aria-selected="true">용병 <b data-merc-count>0/1</b></button><button data-picker="card" aria-selected="false">카드 <b data-card-count>0/2</b></button></div></div><div class="coop-filter"><label><span class="sr-only">보유 목록 검색</span><input type="search" data-search placeholder="이름으로 검색"></label><select data-grade aria-label="등급 필터"><option value="">모든 등급</option></select><span data-inventory-count></span></div><div class="coop-inventory" data-inventory></div><div class="coop-selection-detail" data-detail>용병의 원화를 선택해 스킬을 확인하세요.</div></div>
+ <div class="coop-armory"><div class="coop-armory-heading"><div><span class="coop-eyebrow">내 출전 편성</span><h3 data-formation-title>용병 1명, 카드 2장</h3></div><div class="coop-picker-tabs"><button data-picker="mercenary" aria-selected="true">용병 <b data-merc-count>0/1</b></button><button data-picker="card" aria-selected="false">카드 <b data-card-count>0/2</b></button></div></div><div class="coop-filter"><label><span class="sr-only">보유 목록 검색</span><input type="search" data-search placeholder="이름으로 검색"></label><select data-grade aria-label="등급 필터"><option value="">모든 등급</option></select><span data-inventory-count></span></div><div class="coop-inventory" data-inventory></div><div class="coop-selection-detail" data-detail>용병의 원화를 선택해 스킬을 확인하세요.</div></div>
  <footer class="coop-readybar"><div><b data-ready-summary>출전 편성을 완성하세요</b><span>3명 모두 준비 완료 시 편성 잠금 · 동시 출전</span></div><button class="coop-primary" data-ready disabled>출전 준비 <span>→</span></button></footer></section>
  <section class="coop-owner" data-owner hidden><button class="coop-quiet" data-settings>운영 테스트 설정</button></section>
  <dialog class="coop-dialog" data-guide-dialog><header><div><small>격전지 공략 지침</small><h3 data-guide-title></h3></div><button class="coop-quiet" data-close-guide aria-label="공략 닫기">닫기 ×</button></header><nav>${GUIDE.map(([name],i)=>`<button data-chapter="${i}">${i+1}. ${name}</button>`).join('')}</nav><article data-guide-content></article></dialog>
@@ -46,7 +49,7 @@ export async function mountCooperative(root){
  function currentEnergy(){return feature?.energy?contentEnergyView(feature.energy,{at:Date.now()+serverOffset,maximum:feature.energy.maximum}):null;}
  function energyEmpty(){return feature?.mode==='ON'&&!feature?.energy?.unlimited&&currentEnergy()?.current===0;}
  function drawReadyControls(){
-  const mine=state?.members.find(m=>m.id===you),complete=selected.cardIds.length===2&&!!selected.mercenaryCode,waiting=!mine?.ready&&energyEmpty(),ready=$('[data-ready]');
+  const mine=state?.members.find(m=>m.id===you),complete=selectionComplete(),waiting=!mine?.ready&&energyEmpty(),ready=$('[data-ready]');
   $('[data-ready-summary]').textContent=mine?.ready?'준비 완료 · 동료를 기다립니다':waiting?'행동력이 부족해 준비할 수 없습니다':complete?'편성 완료 · 준비할 수 있습니다':'출전 편성을 완성하세요';
   $('.coop-readybar>div>span').textContent=waiting?contentEnergyText(currentEnergy(),Date.now()+serverOffset):'3명 모두 준비 완료 시 편성 잠금 · 동시 출전';
   ready.innerHTML=mine?.ready?'준비 취소':waiting?'행동력 충전 대기':'출전 준비 <span>→</span>';
@@ -120,7 +123,7 @@ export async function mountCooperative(root){
   $('[data-room-title]').textContent=(COOP_DIFFICULTIES.find(d=>d.id===state.difficulty)?.name||'')+' · '+(state.members.find(m=>m.id===state.hostId)?.name||'방장')+'의 대기방';
   $('[data-squads]').innerHTML=Array.from({length:3},(_,i)=>{
    const m=state.members[i],sel=m?.selection;
-   return `<article class="coop-squad ${m?.id===you?'is-mine':''} ${m?.ready?'is-ready':''}"><header><span>분대 0${i+1}${m?.id===you?' · 나':''}</span><b>${m?esc(m.name):'동료를 기다리는 중'}</b><small>${m?(m.result==='DEFEAT'?'이탈 · 패배':m.ready?'준비 완료':'편성 중'):'빈 자리'}</small></header><div class="coop-squad-art">${sel?`<img src="${esc(sel.mercenary.sourceArt)}" alt="${esc(sel.mercenary.name)}"><div><small>${esc(sel.mercenary.rank)} 용병</small><b>${esc(sel.mercenary.name)}</b></div>`:`<span class="coop-empty">${shield}<b>${m?'용병을 선택하세요':'모집 목록에서 동료가 합류합니다'}</b></span>`}</div><div class="coop-squad-cards">${[0,1].map(j=>sel?`<div><img src="${esc(sel.cards[j].image)}" alt=""><span><small>${esc(sel.cards[j].grade)}</small><b>${esc(sel.cards[j].title)}</b></span></div>`:'<div class="coop-card-empty">카드 선택 대기</div>').join('')}</div><footer>${sel?'분대 전투력 <b>'+number(sel.power)+'</b>':'용병 1명 + 카드 2장'}</footer></article>`;
+   return `<article class="coop-squad ${m?.id===you?'is-mine':''} ${m?.ready?'is-ready':''}"><header><span>분대 0${i+1}${m?.id===you?' · 나':''}</span><b>${m?esc(m.name):'동료를 기다리는 중'}</b><small>${m?(m.result==='DEFEAT'?'이탈 · 패배':m.ready?'준비 완료':'편성 중'):'빈 자리'}</small></header><div class="coop-squad-art">${sel?.mercenaries?.length>1?`<section class="coop-squad-pair">${sel.mercenaries.map(m=>`<figure><img src="${esc(m.sourceArt)}" alt="${esc(m.name)}"><figcaption><small>${esc(m.rank)}</small><b>${esc(m.name)}</b></figcaption></figure>`).join('')}</section>`:sel?`<img src="${esc(sel.mercenary.sourceArt)}" alt="${esc(sel.mercenary.name)}"><div><small>${esc(sel.mercenary.rank)} 용병</small><b>${esc(sel.mercenary.name)}</b></div>`:`<span class="coop-empty">${shield}<b>${m?'용병을 선택하세요':'모집 목록에서 동료가 합류합니다'}</b></span>`}</div><div class="coop-squad-cards">${[0,1].map(j=>sel?`<div><img src="${esc(sel.cards[j].image)}" alt=""><span><small>${esc(sel.cards[j].grade)}</small><b>${esc(sel.cards[j].title)}</b></span></div>`:'<div class="coop-card-empty">카드 선택 대기</div>').join('')}</div><footer>${sel?'분대 전투력 <b>'+number(sel.power)+'</b>':'용병 '+mercenarySlots()+'명 + 카드 2장'}</footer></article>`;
   }).join('');
   drawReadyControls();
  }
@@ -128,9 +131,10 @@ export async function mountCooperative(root){
   const all=picker==='mercenary'?options.mercenaries:options.cards;
   const items=all.filter(c=>(!query||(c.name||c.title).includes(query))&&(!grade||(c.rank||c.grade)===grade));
   $('[data-inventory-count]').textContent=items.length+'종 보유';
-  $('[data-merc-count]').textContent=(selected.mercenaryCode?1:0)+'/1';$('[data-card-count]').textContent=selected.cardIds.length+'/2';
+  $('[data-party-size]').textContent='3인 · '+(3*(2+mercenarySlots()))+'캐릭터';$('[data-formation-title]').textContent='용병 '+mercenarySlots()+'명, 카드 2장'+(mercenarySlots()===2?' · SSS·SS 각 1명':'');
+  $('[data-merc-count]').textContent=selectedMercenaries().length+'/'+mercenarySlots();$('[data-card-count]').textContent=selected.cardIds.length+'/2';
   $('[data-inventory]').innerHTML=items.length?items.map(c=>{
-   const id=c.code||c.id,active=picker==='mercenary'?selected.mercenaryCode===id:selected.cardIds.includes(id);
+   const id=c.code||c.id,active=picker==='mercenary'?selectedMercenaries().includes(id):selected.cardIds.includes(id);
    return `<button class="coop-choice ${active?'selected':''}" data-choice="${esc(id)}" aria-pressed="${active}"><span class="coop-choice-art"><img loading="lazy" src="${esc(c.sourceArt||c.image)}" alt=""><small>${esc(c.rank||c.grade)}${c.breakthroughLevel?' +'+c.breakthroughLevel:''}</small><i>${active?'✓':'+'}</i></span><b>${esc(c.name||c.title)}</b><span>${esc(picker==='mercenary'?(c.skills?.[0]?.name||'기본 공격'):(c.uniqueAbility?.effectName||uniqueText(c)))}</span></button>`;
   }).join(''):'<p class="coop-empty-list">조건에 맞는 보유 '+(picker==='mercenary'?'용병이':'카드가')+' 없습니다.</p>';
   $('[data-grade]').innerHTML='<option value="">모든 등급</option>'+[...new Set(all.map(c=>c.rank||c.grade))].map(g=>`<option value="${esc(g)}" ${grade===g?'selected':''}>${esc(g)}</option>`).join('');
@@ -138,14 +142,17 @@ export async function mountCooperative(root){
  async function pick(id){
   if(busy||state?.status!=='LOBBY')return;
   const item=(picker==='mercenary'?options.mercenaries:options.cards).find(c=>(c.code||c.id)===id);
-  if(picker==='mercenary')selected.mercenaryCode=selected.mercenaryCode===id?'':id;
+  if(picker==='mercenary'){
+   if(mercenarySlots()===1)selected.mercenaryCode=selected.mercenaryCode===id?'':id;
+   else {const codes=selectedMercenaries();if(codes.includes(id))selected.mercenaryCodes=codes.filter(c=>c!==id);else{if(codes.length>=2){alert('용병은 2명까지 선택할 수 있습니다.');return;}if(['SS','SSS'].includes(item.rank)&&codes.some(code=>options.mercenaries.find(c=>c.code===code)?.rank===item.rank)){alert(item.rank+'는 리미티드를 포함해 1명만 배치할 수 있습니다.');return;}selected.mercenaryCodes=[...codes,id];}selected.mercenaryCode=selected.mercenaryCodes[0]||'';}
+  }
   else if(selected.cardIds.includes(id))selected.cardIds=selected.cardIds.filter(x=>x!==id);
   else{if(selected.cardIds.length===2){alert('카드는 2장까지 선택할 수 있습니다. 선택한 카드를 한 번 더 눌러 해제하세요.');return;}if(item.grade==='SUPERSTAR'&&selected.cardIds.some(id=>options.cards.find(c=>c.id===id)?.grade==='SUPERSTAR')){alert('한 사람은 슈퍼스타 1장까지 선택할 수 있습니다.');return;}selected.cardIds.push(id);}
   $('[data-detail]').innerHTML=`<b>${esc(item.name||item.title)}</b><span>${esc(picker==='mercenary'?(item.skills?.map(s=>s.name+' — '+s.effect).join(' / ')||'등록된 기본 공격 사용'):[uniqueText(item),item.uniqueAbility?.effectDescription].filter(Boolean).join(' / '))}</span>`;
   drawInventory();drawSquads();alert('');lock(true);
   try{
    let result;
-   if(selected.cardIds.length===2&&selected.mercenaryCode)result=await command('select',selected);
+   if(selectionComplete())result=await command('select',selected);
    else result=await command('unready');
    apply(result);
   }catch(e){alert(e.message);}finally{lock(false);drawSquads();}
@@ -236,7 +243,7 @@ export async function mountCooperative(root){
   clearTimeout(listTimer);listEpoch++;state=value.state;you=value.you||you;roomId=state.id;serverOffset=serverClock.now()-Date.now();if(state.energy&&feature)feature.energy=state.energy;drawRewardSummary();if(state.entryError)alert(state.entryError);drawConfiguration();
   $('[data-entry]').hidden=true;$('[data-room]').hidden=state.status!=='LOBBY';
   if(state.status==='LOBBY'){
-   if(selectionRoom!==roomId){selectionRoom=roomId;const mine=state.members.find(m=>m.id===you)?.selection;if(mine)selected={cardIds:mine.cards.map(c=>c.id),mercenaryCode:mine.mercenary.code};drawInventory();}
+   if(selectionRoom!==roomId){selectionRoom=roomId;const mine=state.members.find(m=>m.id===you)?.selection;if(mine)selected={cardIds:mine.cards.map(c=>c.id),mercenaryCode:mine.mercenary?.code||'',...(mine.mercenaries?{mercenaryCodes:mine.mercenaries.map(m=>m.code)}:{})};drawInventory();}
    const signature=JSON.stringify(state.members);if(squadSignature!==signature){squadSignature=signature;drawSquads();}
   }
   else if(state.status==='CANCELLED'){alert(state.reason||'대기방이 종료되었습니다.');resetRoom();}
@@ -258,7 +265,9 @@ export async function mountCooperative(root){
    4:`<p>${esc(d.recommendation)}</p><p>등급만으로 승리를 보장하지 않습니다. 카드 강화·장비·고유효과와 용병 조합을 함께 준비하세요.</p><p><b>${c.maxBattleSeconds}초 안에 세 단계의 모든 적을 처치하면 승리합니다.</b> 미격파 적이 남거나 아군이 전멸하면 패배합니다. 배속·일시정지는 지원하지 않습니다.</p><p>행동력 최대 3회 · 3시간마다 1회 충전. 전장 로딩 시작 시 각자 1회 소모합니다. 대기방에서는 소모하지 않으며 출전 후 패배·이탈 시 반환되지 않습니다. TEST는 소모하지 않습니다. 승리 보상에는 별도 일일 횟수 제한이 없습니다.</p>`
   };
   if(state?.encounterVersion!==2)for(const i of [0,1])dynamic[i]=automaticGuide(i,c,state?.encounter);
-  guideChapter=index;const dialog=$('[data-guide-dialog]');$('[data-guide-title]').textContent=GUIDE[index][0];$('[data-guide-content]').innerHTML=dynamic[index]??GUIDE[index][1];dialog.querySelectorAll('[data-chapter]').forEach(b=>b.setAttribute('aria-current',String(Number(b.dataset.chapter)===index)));if(!dialog.open)dialog.showModal();
+  let content=dynamic[index]??GUIDE[index][1];
+  if(mercenarySlots()===2)content=content.replaceAll('9캐릭터','12캐릭터').replaceAll('용병 1명','용병 2명');
+  guideChapter=index;const dialog=$('[data-guide-dialog]');$('[data-guide-title]').textContent=GUIDE[index][0];$('[data-guide-content]').innerHTML=content;dialog.querySelectorAll('[data-chapter]').forEach(b=>b.setAttribute('aria-current',String(Number(b.dataset.chapter)===index)));if(!dialog.open)dialog.showModal();
  }
  on(root,'click',event=>{
   const b=event.target.closest('button');if(!b)return;

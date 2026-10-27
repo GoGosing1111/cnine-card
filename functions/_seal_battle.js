@@ -1,3 +1,5 @@
+import {companionBattleOptions,companionSnapshotRows} from '../shared/companion-battle-snapshot-v1.mjs';
+import {mercenarySnapshotPower} from './_mercenary_account.js';
 import {collectionRewardCoin} from './_collection_bonuses.js';
 import {accountRankAward} from './_account_rank.js';
 import {buildAvatarMercenaryFighter,publicFighter} from './_battle_v2_preview.js';
@@ -650,15 +652,15 @@ function publicBattleCards(cards = []) {
   }));
 }
 
-function sealMercenary(deck) {
-  const fighter = buildAvatarMercenaryFighter(deck.mercenary, 'A', 'PVE', deck.characterBonus?.avatarPowerPercent || 0);
-  return fighter ? publicFighter(fighter) : null;
+export function sealMercenaries(deck) {
+  return companionSnapshotRows(deck).map((row,index)=>{const fighter=buildAvatarMercenaryFighter(row,'A','PVE',deck.characterBonus?.avatarPowerPercent||0);return publicFighter({...fighter,slot:5+index});});
 }
+function sealMercenary(deck){return sealMercenaries(deck)[0]||null;}
 
 async function deckState(deps, env, userId) {
   try {
     const deck = await deps.raidDeckPower(env, userId, null, 'PVE');
-    return { ready: true, power: Number(deck.power || 0), cardIds: deck.ids || [], cards: publicBattleCards(deck.cards), mercenary: sealMercenary(deck) };
+    return { ready: true, power: Number(deck.power || 0), cardIds: deck.ids || [], cards: publicBattleCards(deck.cards), mercenary: sealMercenary(deck),...(companionBattleOptions(deck).mercenaries?{mercenaries:sealMercenaries(deck)}:{}) };
   } catch (error) {
     return { ready: false, power: 0, cardIds: [], cards: [], error: String(error?.message || '저장된 PvE 덱 5장이 필요합니다.') };
   }
@@ -673,8 +675,8 @@ async function combatDeckState(deps, env, userId, bossPower) {
   const basePower = Math.max(0, Number(runtime?.effectivePower ?? deck.basePower ?? deck.power ?? 0));
   const synergyMultiplier = 1 + Number(deck.synergy?.totals?.attackPercent || 0) / 100 + Number(deck.synergy?.totals?.bossDamagePercent || 0) / 100;
   const cardPower = Math.max(0, Math.floor(basePower * synergyMultiplier));
-  const mercenary = sealMercenary(deck);
-  const mercenaryPower = mercenary ? Math.max(0, Number(deck.mercenaryPower || 0)) : 0;
+  const mercenaries=sealMercenaries(deck),mercenary=mercenaries[0]||null;
+  const mercenaryPower=companionBattleOptions(deck).mercenaries?companionSnapshotRows(deck).reduce((sum,m)=>sum+mercenarySnapshotPower(m),0):mercenary?Math.max(0,Number(deck.mercenaryPower||0)):0;
   const avatarPercent = deck.characterBonus?.avatarPowerPercent || 0;
   const playerPower = avatarScaledPower(Math.max(0, cardPower + Number(deck.characterBonus?.pve || 0) + mercenaryPower), avatarPercent);
   // 봉인전은 유저/보스 궁극기를 모두 사용하지 않는다.
@@ -683,6 +685,7 @@ async function combatDeckState(deps, env, userId, bossPower) {
     ...deck,
     cards: publicBattleCards(cards),
     mercenary,
+    ...(companionBattleOptions(deck).mercenaries?{mercenaries}:{}),
     mercenaryPower,
     mercenaryBattlePower: avatarScaledPower(mercenaryPower, avatarPercent),
     basePower,
@@ -969,7 +972,7 @@ async function participateDragon(env, deps, user, settings, event, body) {
   const response={eventId:event.id,battlePhase:phase,role,result,defeatContributionPercent:defeatPercent,
     playerPower:combat.playerPower,deckPower:combat.playerPower,cardPower:combat.cardPower,basePlayerPower:combat.basePower,
     totalBattleDamage:combat.totalBattleDamage,bossPower,cards:combat.cards,bonusPercent,
-    mercenary:combat.mercenary,mercenaryPower:combat.mercenaryPower,mercenaryBattlePower:combat.mercenaryBattlePower,
+    mercenary:combat.mercenary,...(combat.mercenaries?{mercenaries:combat.mercenaries}:{}),mercenaryPower:combat.mercenaryPower,mercenaryBattlePower:combat.mercenaryBattlePower,
     activatedUltimate:null,ultimateDamage:0,bonusDamage:0,uniqueAbility:combat.uniqueAbility,deckSynergy:combat.synergy,
     characterBonus:combat.characterBonus,reward:{coin:attemptCoin,shards:attemptShards},bossMaxHp:event.bossStage.maxHp,
     boss:{name:event.bossName,image:event.bossStage.image,role,roleLabel:isBoss?'용 보스 본체':ROLE_META[role].label}};
@@ -1180,6 +1183,7 @@ async function participate(env, deps, user, settings, event, body) {
     bossPower,
     cards: combat.cards,
     mercenary: combat.mercenary,
+    ...(combat.mercenaries?{mercenaries:combat.mercenaries}:{}),
     mercenaryPower: combat.mercenaryPower,
     mercenaryBattlePower: combat.mercenaryBattlePower,
     activatedUltimate: combat.activatedUltimate,

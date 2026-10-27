@@ -1,6 +1,6 @@
 (() => {
  'use strict';
- const VERSION='20261018-jokro-coop-v1-normal-view-v1-leonel-live-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1';
+ const VERSION='dual-mercenary-content-audit-20261028-v1-20261018-jokro-coop-v1-normal-view-v1-leonel-live-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1';
  let visible=false,controller=null,revision=0,featureRequest,checked=0,loading=false;
  const host=()=>document.getElementById('pveCoopView');
  async function refresh(){

@@ -1,5 +1,5 @@
 import { territoryFormationSnapshot, territoryFormationFromParts } from './_territory_war.js';
-import { releasedMercenarySnapshots } from './_mercenary_account.js';
+import { releasedMercenaryFormations } from './_mercenary_account.js';
 
 // A short-lived shared pool avoids re-reading every defender for every sortie.
 // Both actual combatants are always re-read; cached entries only rank candidates.
@@ -27,12 +27,12 @@ async function candidateFormations(env, deps, rows, battle) {
     deps.cardUniqueDeckStates ? deps.cardUniqueDeckStates(env, entries, 'PVP') : entries.map(e => ({ power: e.cards.reduce((sum, c) => sum + c.power, 0) })),
     deps.evaluateDeckSynergiesBatch ? deps.evaluateDeckSynergiesBatch(env, entries, 'PVP') : Promise.all(entries.map(e => deps.evaluateDeckSynergies ? deps.evaluateDeckSynergies(env, e.user, e.deckIds, 'PVP', { forceOwnerTest: e.user.role === 'OWNER' }) : { totals: { attackPercent: 0 } })),
     deps.magicBattleLoadouts ? deps.magicBattleLoadouts(env, entries.map(e => e.user), 'PVP') : Promise.all(entries.map(e => deps.magicBattleLoadout ? deps.magicBattleLoadout(env, e.user, 'PVP') : { enabled: false, cards: [] })),
-    releasedMercenarySnapshots(env, entries.map(e => e.user.id), 'PVP'),
+    releasedMercenaryFormations(env, entries.map(e => e.user.id), 'PVP'),
     Promise.all(entries.map(e => deps.userEquipmentBonuses ? deps.userEquipmentBonuses(env, e.user.id) : { pvp: 0 }))
   ]);
   return entries.map((e, i) => {
     const formation = territoryFormationFromParts({ cards: e.cards, uniqueState: unique[i], synergy: synergies[i],
-      loadoutBonus: { ...equipment[i], mercenary: mercenaries.get(e.user.id) || null }, magicLoadout: magic[i] });
+      loadoutBonus: { ...equipment[i], ...(mercenaries.get(e.user.id) || {mercenary:null}) }, magicLoadout: magic[i] });
     return { ...e.row, deck_snapshot: JSON.stringify(e.deckIds), deck_power: Math.round(formation.formationPower), loadout_bonus_json: JSON.stringify(formation.loadoutBonus) };
   });
 }

@@ -1,6 +1,7 @@
+import {COMPANION_RELEASE} from '../shared/companion-loadout-v2.mjs';
 import {duoTiers} from '../shared/ranked-duo-season-v2.mjs';
 import {enterRankedDuo} from './ranked-duo-entry-v1.mjs?v=20260927-1';
-import {randomDuoShell,randomDuoRanking,randomDuoHistoryView,randomDuoTiers,randomDuoMatch,randomDuoStyle} from './ranked-duo-random-v4.mjs?v=20261020-start2';
+import {randomDuoShell,randomDuoRanking,randomDuoHistoryView,randomDuoTiers,randomDuoMatch,randomDuoStyle} from './ranked-duo-random-v4.mjs?dualAudit=20261028-v1&v=20261020-start2';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=v=>Number(v||0).toLocaleString('ko-KR');
 const date=v=>v?new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(v)):'추후 안내';
@@ -41,7 +42,7 @@ export async function mountRankedDuo({root,api,navigate,ensureBattle,userId,onWa
    '<div class="duo-insignia">'+insignia+'<span>'+esc(initial)+'</span></div>'+
    '<div class="duo-banner-identity"><h3>'+esc(member?.nickname||'팀원 배정 대기')+'</h3><p>'+ (member?'함께 출전하는 하나의 덱':'모집 후 자동으로 팀 편성')+'</p></div>'+
    '<div class="duo-deck-glyph" aria-hidden="true">'+[0,1,2,3,4].map(()=>'<i></i>').join('')+'<span>+</span><i class="mercenary"></i></div>'+
-   '<small class="duo-banner-foot">일반 5장 · 용병 최대 1장</small></article>';
+   '<small class="duo-banner-foot">일반 5장 · 용병 최대 '+(COMPANION_RELEASE.dualMercenaries?2:1)+'장</small></article>';
  }).join('');
  function schedule(s,recruiting){
   if(!s?.startsAt&&!s?.recruitUntil)return '<span>시즌 일정 공개 예정</span><b>곧 새로운 동료를 만납니다</b>';

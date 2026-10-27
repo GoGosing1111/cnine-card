@@ -1,3 +1,4 @@
+import {companionBattleOptions} from '../shared/companion-battle-snapshot-v1.mjs';
 import {collectionRewardCoin} from './_collection_bonuses.js';
 import {accountRankAward} from './_account_rank.js';
 import {pigCoinRewardStatements,pigCoinRewardAmount} from './_loot_shop.js';
@@ -907,6 +908,7 @@ export function buildCoreRaidBattlePayload({
   const engine = typeof createBattle === 'function'
     ? createBattle({
         pet:snapshot.pet||null,
+        ...(companionBattleOptions(snapshot).mercenaries?companionBattleOptions(snapshot):{}),
         cards,
         characterBonus: Math.max(0, Number(equipment.pve || 0) - battleSuitPve),
         battleSuit,
@@ -1650,6 +1652,7 @@ async function startRoom(env, user, cfg, body) {
 function deckSnapshot(deckInfo, cards) {
   return {
     pet:deckInfo.pet||null,
+    ...(companionBattleOptions(deckInfo).mercenaries?companionBattleOptions(deckInfo):{}),
     ids: deckInfo.ids,
     power: Math.max(1, Math.round(deckInfo.power)),
     basePower: deckInfo.basePower,

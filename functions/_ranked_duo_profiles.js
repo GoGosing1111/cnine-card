@@ -3,6 +3,7 @@ import {equipmentSetVisualFromRows} from '../shared/equipment-set-visual-v1.mjs'
 import {SHIRANUI_CODE} from '../shared/mercenary-shiranui-v1.mjs';
 import {readShiranuiEligibleUsers} from './_mercenary_shiranui_access.js';
 import {readMercenaryModes} from './_mercenary_loadout_modes.js';
+import {COMPANION_RELEASE,validatePreparedMercenaries} from '../shared/companion-loadout-v2.mjs';
 import {avatarBattlePowerPercents} from './_avatar_power.js';
 import {avatarScaledPower} from '../shared/avatar-power-v1.mjs';
 import {mercenaryEquipmentRuntimes} from './_mercenary_equipment.js';
@@ -33,8 +34,17 @@ export function duoMercenaryRating(snapshot,cards,equipment,weight=1){
  const skillBudget=(snapshot.skills||[]).reduce((sum,s)=>sum+Math.min(10,Math.max(0,Number(s.balance?.damageRatio)||0))*(MERCENARY_SKILL_CAP_SCALE[s.id]??1)/Math.max(2,Number(s.balance?.cooldownTurns||0)+1),0);
  return Math.round(mercenarySnapshotPower(snapshot)*Math.max(1,ratio)*(1+Math.min(2,skillBudget)*.1)*weight);
 }
+export function duoMercenaryPotential(mercs,cards,equipment,weights={},dual=COMPANION_RELEASE.dualMercenaries){
+ const ratings=mercs.map(m=>duoMercenaryRating(m,cards,equipment,weights[m.code]??1));
+ let best=Math.max(0,...ratings);
+ if(dual)for(let i=0;i<mercs.length;i++)for(let j=i+1;j<mercs.length;j++){
+  try{validatePreparedMercenaries([mercs[i],mercs[j]]);}catch{continue;}
+  best=Math.max(best,ratings[i]+ratings[j]);
+ }
+ return best;
+}
 
-async function rebuild(env,versions,config,deps,hash,now,advanced){
+async function rebuild(env,versions,config,deps,hash,now,advanced,dual){
  const ids=versions.map(v=>Number(v.user_id)),m=marks(ids),p=(sql)=>env.DB.prepare(sql).bind(...ids).all();
  // Rebuild only changed accounts. All row reads use user-leading indexes;
  // the limit is a hard input budget, never silently truncated into a rating.
@@ -45,7 +55,7 @@ async function rebuild(env,versions,config,deps,hash,now,advanced){
   p(`SELECT v.user_id,g.id,g.pvp_power,l.garage_id AS equipped FROM user_garage_vehicles v JOIN character_garage_items g ON g.id=v.garage_id LEFT JOIN user_garage_loadout l ON l.user_id=v.user_id AND l.garage_id=v.garage_id WHERE v.user_id IN (${m}) AND g.is_active=1 LIMIT 65537`),
   p(`SELECT u.user_id,t.id,t.pve_power AS pvp_power,u.expires_at,l.title_id AS equipped FROM user_character_titles u JOIN character_titles t ON t.id=u.title_id LEFT JOIN user_title_loadout l ON l.user_id=u.user_id AND l.title_id=u.title_id WHERE u.user_id IN (${m}) AND t.is_active=1 AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) LIMIT 65537`),
   p(`SELECT c.user_id,c.mercenary_code FROM user_mercenary_cards_v1 c WHERE c.user_id IN (${m}) AND c.total_copies>0 LIMIT 2001`),
-  deps.readBattleSettings(env),readMercenaryDocument(env),readMercenaryRuntime(env),readMercenaryModes(env,ids),mercenaryEquipmentRuntimes(env,ids,'PVP')
+  deps.readBattleSettings(env),readMercenaryDocument(env),readMercenaryRuntime(env),readMercenaryModes(env,ids,{dual}),mercenaryEquipmentRuntimes(env,ids,'PVP')
  ]);
  for(const rows of [owned,gear,vehicles,titles])if(rows.results.length>65536)throw duoError('PROFILE_SIZE','전력 평가 자료가 처리 한도를 초과했습니다. 운영자에게 문의하세요.');
  if(mercRows.results.length>2000)throw duoError('PROFILE_SIZE','용병 평가 자료를 확인하세요.');
@@ -53,7 +63,7 @@ async function rebuild(env,versions,config,deps,hash,now,advanced){
  const baseline=deps.cardBattlePower({rarity:'FUR'},13,battle),profiles=[];
  const byUser=(rows,id)=>rows.results.filter(r=>Number(r.user_id)===id);
  const mercsByUser=await attachReleasedMercenaryLevels(env,new Map(ids.map(userId=>[userId,
-  byUser(mercRows,userId).filter(r=>mercenaryModeAllowed(r.mercenary_code,'PVP')&&(r.mercenary_code!==SHIRANUI_CODE||rankEligible.has(userId))).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),...(mercGear.get(userId)?.items.length?{equipment:mercGear.get(userId)}:{}),combat:mercRuntime.combat,equipped:mercLoadouts.get(userId).loadouts.PVP.mercenaryCode===r.mercenary_code,cmsRevision:mercDocument.revision}))
+  byUser(mercRows,userId).filter(r=>mercenaryModeAllowed(r.mercenary_code,'PVP')&&(r.mercenary_code!==SHIRANUI_CODE||rankEligible.has(userId))).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),...(mercGear.get(userId)?.items.length?{equipment:mercGear.get(userId)}:{}),combat:mercRuntime.combat,equipped:(mercLoadouts.get(userId).loadouts.PVP.mercenaryCodes||[mercLoadouts.get(userId).loadouts.PVP.mercenaryCode]).includes(r.mercenary_code),cmsRevision:mercDocument.revision}))
  ])));
  for(const version of versions){
   const userId=Number(version.user_id),user={id:userId,role:version.role,nickname:version.nickname},cards=byUser(owned,userId).map(c=>({...c,id:String(c.id),power:deps.cardBattlePower(c,Number(c.breakthrough_level||0),battle)})),cardMap=new Map(cards.map(c=>[c.id,c])),best=strongestDuoCards(cards);
@@ -63,11 +73,13 @@ async function rebuild(env,versions,config,deps,hash,now,advanced){
   let potentialEquipment=[...slotBest.values()].reduce((s,n)=>s+n,0),expires=now+300000;
   for(const source of [vehicles,titles]){const list=byUser(source,userId);potentialEquipment+=Math.max(0,...list.map(r=>Number(r.pvp_power)));equipment+=list.filter(r=>r.equipped).reduce((s,r)=>s+Number(r.pvp_power),0);for(const r of list)if(r.expires_at)expires=Math.min(expires,Date.parse(String(r.expires_at).includes('T')?r.expires_at:r.expires_at.replace(' ','T')+'Z'));}
   const mercs=mercsByUser.get(userId);
-  const mercenary=mercs.find(m=>m.equipped)||null,mercenaryPower=best.length===5?Math.max(0,...mercs.map(m=>duoMercenaryRating(m,best,potentialEquipment,config.mercenaryWeights[m.code]??1))):0;
+  const codes=mercLoadouts.get(userId).loadouts.PVP.mercenaryCodes||[],mercenaries=codes.map(code=>mercs.find(m=>m.code===code)).filter(Boolean),mercenary=mercs.find(m=>m.equipped)||null,formation=dual?{mercenary:mercenaries[0]||null,mercenaries}:{mercenary};
+  if(dual)validatePreparedMercenaries(mercenaries);
+  const mercenaryPower=best.length===5?duoMercenaryPotential(mercs,best,potentialEquipment,config.mercenaryWeights,dual):0;
   const cardPower=best.reduce((s,c)=>s+c.power,0),power=Math.max(1,Math.round(100*(cardPower+potentialEquipment+mercenaryPower)/Math.max(1,baseline)));
   const valid=deck=>{try{validateDuoDeck(deck);return true;}catch{return false;}};
   const equipmentSetVisual=equipmentSetVisualFromRows(byUser(gear,userId),userId);
-  profiles.push({userId,user,nickname:version.nickname,sourceVersion:Number(version.source_version),policyRevision:Number(version.policy_revision),power,expiresAt:new Date(expires).toISOString(),breakdown:{baseline,cardPower,equipmentPower:potentialEquipment,mercenaryPower,fur13Count:cards.filter(c=>c.rarity==='FUR'&&Number(c.breakthrough_level)>=13).length,superstarLevel:Math.max(-1,...cards.filter(c=>c.rarity==='SUPERSTAR').map(c=>Number(c.breakthrough_level))),mercenaryRanks:mercs.map(m=>({code:m.code,rank:m.rank}))},attackReady:valid(attack),defenseReady:valid(defense),attack:{ownerId:userId,ownerName:version.nickname,cards:attack,equipmentSetVisual,equipmentBonus:equipment,mercenary,presetNo:Number(saved?.preset_no||1)},defense:{ownerId:userId,ownerName:version.nickname,cards:defense,equipmentSetVisual,equipmentBonus:equipment,mercenary,presetNo:1}});
+  profiles.push({userId,user,nickname:version.nickname,sourceVersion:Number(version.source_version),policyRevision:Number(version.policy_revision),power,expiresAt:new Date(expires).toISOString(),breakdown:{baseline,cardPower,equipmentPower:potentialEquipment,mercenaryPower,fur13Count:cards.filter(c=>c.rarity==='FUR'&&Number(c.breakthrough_level)>=13).length,superstarLevel:Math.max(-1,...cards.filter(c=>c.rarity==='SUPERSTAR').map(c=>Number(c.breakthrough_level))),mercenaryRanks:mercs.map(m=>({code:m.code,rank:m.rank}))},attackReady:valid(attack),defenseReady:valid(defense),attack:{ownerId:userId,ownerName:version.nickname,cards:attack,equipmentSetVisual,equipmentBonus:equipment,...formation,presetNo:Number(saved?.preset_no||1)},defense:{ownerId:userId,ownerName:version.nickname,cards:defense,equipmentSetVisual,equipmentBonus:equipment,...formation,presetNo:1}});
  }
  const entries=profiles.flatMap(p=>[p.attack,p.defense].map(squad=>({user:p.user,cards:squad.cards,squad}))),[unique,synergy,magic]=await Promise.all([
   deps.cardUniqueDeckStates(env,entries,'PVP',{fresh:true,batched:true}),deps.evaluateDeckSynergiesBatch(env,entries.map(e=>({user:e.user,deckIds:e.cards.map(c=>c.id)})),'PVP'),
@@ -88,14 +100,14 @@ const currentProfile=(v,hash,now)=>v.payload_json&&Number(v.source_version)===Nu
 const validateAccounts=(versions,count,now,allowOwner=false)=>{
  if(versions.length!==count||versions.some(v=>v.status!=='ACTIVE'||!allowOwner&&v.role==='OWNER'||v.banned_until&&Date.parse(v.banned_until)>now))throw duoError('ACCOUNT','참가 계정 상태를 확인하세요.');
 };
-export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait,allowOwner=false,minimumValidityMs=0}={}){
+export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait,allowOwner=false,minimumValidityMs=0,dual=COMPANION_RELEASE.dualMercenaries}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
  const advanced=await readForgeAdvancedPolicy(env.DB);
- const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:MERCENARY_DEPLOYMENT_MODE_VERSION,mercenaryEquipment:'20261011',mercenaryGrowth:'20261020-v1',equipmentSetVisualVersion:1,advancedForgeRevision:advanced.revision}),started=Date.now();
+ const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:MERCENARY_DEPLOYMENT_MODE_VERSION,mercenaryEquipment:'20261011',mercenaryGrowth:'20261020-v1',dualMercenaries:dual,equipmentSetVisualVersion:1,advancedForgeRevision:advanced.revision}),started=Date.now();
  for(let attempt=0;attempt<=profileRetryDelays.length;attempt++){
   const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
   validateAccounts(versions,ids.length,at,allowOwner);
-  const shiranuiCached=versions.filter(v=>{const p=parsed(v.payload_json,{})||{};return [...(p.breakdown?.mercenaryRanks||[]),p.attack?.mercenary,p.defense?.mercenary].some(m=>m?.code===SHIRANUI_CODE);}),shiranuiCachedIds=new Set(shiranuiCached.map(v=>Number(v.user_id))),rankEligible=await readShiranuiEligibleUsers(env,shiranuiCached.map(v=>v.user_id));
+  const shiranuiCached=versions.filter(v=>{const p=parsed(v.payload_json,{})||{};return [...(p.breakdown?.mercenaryRanks||[]),p.attack?.mercenary,p.defense?.mercenary,...(p.attack?.mercenaries||[]),...(p.defense?.mercenaries||[])].some(m=>m?.code===SHIRANUI_CODE);}),shiranuiCachedIds=new Set(shiranuiCached.map(v=>Number(v.user_id))),rankEligible=await readShiranuiEligibleUsers(env,shiranuiCached.map(v=>v.user_id));
   const collect=rows=>rows.filter(v=>{
    if(!currentProfile(v,hash,at+minimumValidityMs)||shiranuiCachedIds.has(Number(v.user_id))&&!rankEligible.has(Number(v.user_id)))return true;
    const cached=parsed(v.payload_json,{});profiles.set(Number(v.user_id),{...cached,nickname:v.nickname,attack:{...cached.attack,ownerName:v.nickname},defense:{...cached.defense,ownerName:v.nickname}});return false;
@@ -112,7 +124,7 @@ export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wa
      // Build only the still-missing accounts we own, never abandon a partial claim.
      const fresh=await duoVersions(env,owned);validateAccounts(fresh,owned.length,at,allowOwner);
      const needed=collect(fresh);
-     if(needed.length)for(const profile of await rebuild(env,needed,config,deps,hash,at,advanced))profiles.set(profile.userId,profile);
+     if(needed.length)for(const profile of await rebuild(env,needed,config,deps,hash,at,advanced,dual))profiles.set(profile.userId,profile);
     }
    }catch(error){if(error.code!=='DUO_PROFILE_CHANGED')throw error;profiles.clear();}
    finally{await env.DB.prepare(`DELETE FROM ranked_duo_profile_leases_v1 WHERE token=? AND user_id IN (${marks(miss)})`).bind(token,...missingIds).run();}

@@ -15,13 +15,14 @@ export const DUO_BOARDS = Object.freeze({
  desktop: Object.freeze({width:1800,height:970,left:100,top:260,columnPitch:200,rowPitch:260,columns:9,actorScale:.5}),
  compact: Object.freeze({width:1200,height:1690,left:120,top:260,columnPitch:240,rowPitch:260,columns:5,actorScale:.64})
 });
-export function duoStation(kind,index,team,compact=false){
- const b=DUO_BOARDS[compact?'compact':'desktop'],merc=kind==='mercenaries';
- if(!['ALLY','ENEMY'].includes(team)||!['cards','mercenaries'].includes(kind)||!Number.isInteger(index)||index<0||index>=(merc?2:10))throw new Error('INVALID_DUO_STATION');
- const owner=merc?index:Math.floor(index/5),local=merc?5:index%5;
- const cells=[[0,0],[1,0],[0,1],[1,1],[0,2],[1,2]];
+export const DUO_DUAL_BOARDS=Object.freeze({desktop:{...DUO_BOARDS.desktop,height:1230},compact:{...DUO_BOARDS.compact,height:2210}});
+export function duoStation(kind,index,team,compact=false,mercenariesPerOwner=1){
+ const b=(mercenariesPerOwner===2?DUO_DUAL_BOARDS:DUO_BOARDS)[compact?'compact':'desktop'],merc=kind==='mercenaries';
+ if(!['ALLY','ENEMY'].includes(team)||!['cards','mercenaries'].includes(kind)||!Number.isInteger(index)||index<0||index>=(merc?2*mercenariesPerOwner:10))throw new Error('INVALID_DUO_STATION');
+ const owner=merc?Math.floor(index/mercenariesPerOwner):Math.floor(index/5),local=merc?5+index%mercenariesPerOwner:index%5;
+ const cells=[[0,0],[1,0],[0,1],[1,1],[0,2],[1,2],[1,3]];
  const [col,row]=cells[local],ownColumn=col+(compact?0:owner*2),column=team==='ENEMY'?b.columns-1-ownColumn:ownColumn;
- return {x:b.left+column*b.columnPitch,y:b.top+(row+(compact?owner*3:0))*b.rowPitch};
+ return {x:b.left+column*b.columnPitch,y:b.top+(row+(compact?owner*(mercenariesPerOwner===2?4:3):0))*b.rowPitch};
 }
 export const FORMATION_LATTICES = Object.freeze({
   desktop: Object.freeze({width: 1600, height: 820, columns: 7, left: 170, top: 240,
@@ -111,10 +112,11 @@ export function bounds(mobile = false, mode = 'wide', options = {}) {
 
 // Shared lattice expansion for three independent two-card + mercenary squads.
 export const COOP_BOARDS=Object.freeze(Object.fromEntries(Object.entries(FORMATION_LATTICES).map(([key,b])=>[key,{...b,height:b.top+2*b.rowPitch+88,...(key==='desktop'?{width:b.left*2+4*b.columnPitch}:{}),actorScale:key==='compact'?.65:.5}])));
-export function coopStation(kind,index,team,compact=false){
- const b=COOP_BOARDS[compact?'compact':'desktop'];
- if(team==='ENEMY')return {x:b.left+4*b.columnPitch,y:b.top+(index%3)*b.rowPitch};
+export const COOP_DUAL_BOARDS=Object.freeze(Object.fromEntries(Object.entries(COOP_BOARDS).map(([k,b])=>[k,{...b,width:b.left*2+5*b.columnPitch}])));
+export function coopStation(kind,index,team,compact=false,mercenariesPerOwner=1){
+ const b=(mercenariesPerOwner===2?COOP_DUAL_BOARDS:COOP_BOARDS)[compact?'compact':'desktop'];
+ if(team==='ENEMY')return {x:b.left+(mercenariesPerOwner===2?5:4)*b.columnPitch,y:b.top+(index%3)*b.rowPitch};
  const merc=kind==='mercenaries';
- if(!['cards','mercenaries'].includes(kind)||!Number.isInteger(index)||index<0||index>=(merc?3:6))throw Error('INVALID_COOP_STATION');
- return {x:b.left+(merc?1:(index%2)*2)*b.columnPitch,y:b.top+(merc?index:Math.floor(index/2))*b.rowPitch};
+ if(!['cards','mercenaries'].includes(kind)||!Number.isInteger(index)||index<0||index>=(merc?3*mercenariesPerOwner:6))throw Error('INVALID_COOP_STATION');
+ return {x:b.left+(merc?1+index%mercenariesPerOwner*2:(index%2)*2)*b.columnPitch,y:b.top+(merc?Math.floor(index/mercenariesPerOwner):Math.floor(index/2))*b.rowPitch};
 }

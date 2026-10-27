@@ -9,6 +9,7 @@ export const COOP_STAGES=Object.freeze([
 export const COOP_PATTERNS=Object.freeze({firstAtMs:10000,intervalMs:30000,count:6,windowMs:{NORMAL:9000,HARD:8000,EXTREME:7000},
  rupturePercent:8,overloadPercent:{NORMAL:12,HARD:18,EXTREME:24},focusPercent:{NORMAL:40,HARD:50,EXTREME:60}});
 export const COOP_RULES=Object.freeze({players:3,cardsPerPlayer:2,mercenariesPerPlayer:1,lobbyMs:900000,loadingMs:45000,countdownMs:3000,heartbeatMs:1000,disconnectMs:15000,maxBattleMs:180000,rewardLocked:true});
+export const COOP_DUAL_RULES=Object.freeze({...COOP_RULES,mercenariesPerPlayer:2});
 // Fixed opponents, independent of the entering party's equipment/power.
 // Final values are checked by scripts/simulate-cooperative-battleground.mjs.
 export const COOP_DIFFICULTIES=Object.freeze([
@@ -17,7 +18,13 @@ export const COOP_DIFFICULTIES=Object.freeze([
  {id:'EXTREME',name:'극한',subtitle:'최정예의 도전',recommendation:'SSS 2~3명 · 고유효과와 용병 스킬 연계',power:60000000,hpPercent:1100,attackPercent:200,defensePercent:100,attackCount:2,forcedEvery:5}
 ]);
 export const coopDifficulty=id=>COOP_DIFFICULTIES.find(d=>d.id===id);
-export function validateCoopSelection(value){
+export function validateCoopSelection(value,rules=COOP_RULES){
+ if(rules.mercenariesPerPlayer===2){
+  const codes=value?.mercenaryCodes;
+  if(!Array.isArray(codes)||codes.length!==2||new Set(codes).size!==2||codes.some(code=>!/^V-\d{3}$/.test(code)))throw Object.assign(Error('서로 다른 용병 2명을 선택하세요.'),{code:'COOP_SELECTION',status:400});
+  const legacy=validateCoopSelection({...value,mercenaryCode:codes[0]},COOP_RULES);
+  return {cardIds:legacy.cardIds,mercenaryCodes:[...codes]};
+ }
  if(!value||!Array.isArray(value.cardIds)||value.cardIds.length!==2||new Set(value.cardIds).size!==2||value.cardIds.some(id=>typeof id!=='string'||!id||id.length>100)||!/^V-\d{3}$/.test(value.mercenaryCode||''))throw Object.assign(Error('보유 카드 2장과 용병 1명을 선택하세요.'),{code:'COOP_SELECTION',status:400});
  return {cardIds:[...value.cardIds],mercenaryCode:value.mercenaryCode};
 }

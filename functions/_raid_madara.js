@@ -1,3 +1,4 @@
+import {companionBattleOptions,companionReviewOptions} from '../shared/companion-battle-snapshot-v1.mjs';
 // Pure encounter authority shared by the local review and persistent live adapter.
 import {buildPvePlayerTeam, buildMonsterFighter, simulateBattleV2Preview} from './_battle_v2_preview.js';
 import {initializeDecisions,renewDecision,decide,decisionView,nextDecisionTime} from './_raid_madara_decisions.js';
@@ -79,12 +80,12 @@ export function addMadaraMember(room,{id,name,role,deck},now=room.clock) {
   const nickname=String(name||MADARA_ROLES[role]).trim().slice(0,24)||MADARA_ROLES[role];
   const bonus=deck.characterBonus||{},suitPower=Math.max(0,Number(bonus.battleSuitPve)||0);
   const battleSuit=bonus.equippedBattleSuit?{...bonus.equippedBattleSuit,pvePower:suitPower,weapon:bonus.equippedWeapon||null,accountNickname:nickname}:null;
-  const team=buildPvePlayerTeam({cards:deck.cards,pveEquipmentRuntime:bonus.pveEquipmentRuntime,characterBonus:Math.max(0,(Number(bonus.pve)||0)-suitPower),battleSuit,mercenary:deck.mercenary||null});
+  const team=buildPvePlayerTeam({cards:deck.cards,pveEquipmentRuntime:bonus.pveEquipmentRuntime,characterBonus:Math.max(0,(Number(bonus.pve)||0)-suitPower),battleSuit,...companionBattleOptions(deck)});
   const own=f=>({...f,id:`A:MADARA:${id}:${f.id}`,ownerId:id,ownerName:nickname});
   const fighters=team.teamA.map(f=>({...own(f),battleSprite:deck.cards.find(c=>String(c.id)===String(f.cardId))?.battleSprite}));
-  if(team.mercenaryFighter)fighters.push(own(team.mercenaryFighter));
+  fighters.push(...team.mercenaryFighters.map(own));
   room.members.push({id,name:nickname,role,ready:false,left:false});
-  room.loadouts[id]={cards:copy(deck.cards),characterBonus:copy(bonus),supports:team.battleSuitFighter?[own(team.battleSuitFighter)]:[]};
+  room.loadouts[id]={...companionReviewOptions(deck),cards:copy(deck.cards),characterBonus:copy(bonus),supports:team.battleSuitFighter?[own(team.battleSuitFighter)]:[]};
   room.fighters.push(...fighters);room.clock=Math.max(room.clock,now);room.revision++;return room;
 }
 export function readyMadaraMember(room,requesterId,ready=true) {
@@ -261,7 +262,7 @@ function strike(room,actor,burst) {
   if(burst)room.bursts[actor.id]--;
   const source=[...living(room,actor.id),...room.loadouts[actor.id].supports].map(f=>({...copy(f),attack:Math.round(f.attack*(burst?1.8:1)),alive:true}));
   const enemy={...copy(room.boss),hp:room.boss.maxHp,alive:true,shield:0};
-  const combat=simulateBattleV2Preview({teamA:source,teamB:[enemy],seed:room.seed+room.eventSeq,maxActions:6,forcedMonsterEvery:5,healerPenalty:true});
+  const combat=simulateBattleV2Preview({...companionReviewOptions(room.loadouts[actor.id]),teamA:source,teamB:[enemy],seed:room.seed+room.eventSeq,maxActions:6,forcedMonsterEvery:5,healerPenalty:true});
   const packets=combat.timeline.filter(e=>source.some(f=>f.id===e.actorId)&&e.targetId===room.boss.id&&Number(e.damage)>0).map(e=>({...e,damage:Math.min(e.damage,Math.round(source.find(f=>f.id===e.actorId).attack*1.8))}));
   const total=packets.reduce((sum,e)=>sum+e.damage,0);
   const budget=Math.min(remaining,room.boss.hp-floor,total,Math.ceil(share/3*(burst?1.8:1)));

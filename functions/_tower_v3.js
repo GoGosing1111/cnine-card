@@ -1,3 +1,4 @@
+import {companionBattleOptions,companionReviewOptions} from '../shared/companion-battle-snapshot-v1.mjs';
 import {createPveBattleV2} from './_battle_v2_preview.js';
 import monsterArt from '../assets/ui/project-v/monsters/hunt-tower/manifest-v1.json' with {type:'json'};
 import {towerMonsterArt} from '../shared/tower-monsters-20261022.mjs';
@@ -85,7 +86,7 @@ export function buildTowerV3Battle({snapshot,tier,seed,config=TOWER_V3_DRAFT,ope
       battleSprite:art?.battleSprite||(boss&&operatingFloor?guardianArt?.battleSprite||null:root+f[offset+2])};
   });
   const battleV2=createPveBattleV2({pet:snapshot.pet,pveEquipmentRuntime:snapshot.characterBonus?.pveEquipmentRuntime,cards:snapshot.cards,magicCards:snapshot.magicCards||[],characterBonus:snapshot.cardSupportBonus||0,
-    battleSuit:snapshot.battleSuit||null,mercenary:snapshot.mercenary||null,singleHealerBonus:snapshot.singleHealerBonus||{},ultimateDamage:snapshot.ultimateDamage||0,bossUltimatePercent,seed,
+    battleSuit:snapshot.battleSuit||null,...companionBattleOptions(snapshot),singleHealerBonus:snapshot.singleHealerBonus||{},ultimateDamage:snapshot.ultimateDamage||0,bossUltimatePercent,seed,
     encounter:{initialCount:c.simultaneous,instances,maxActions:c.maxActions,maxDuration:c.combatLimitMs/TOWER_CLOCK_UNIT_MS,forcedMonsterEvery:c.forcedMonsterEvery}});
   const rows=battleV2.encounter.instances.map((fighter,i)=>({...fighter,slot:instances[i].slot,boss:instances[i].boss,elite:instances[i].elite,
     points:instances[i].points,name:instances[i].name,displayName:instances[i].boss?instances[i].name:`${instances[i].name} ${i+1}`,sourceArt:instances[i].sourceArt||null,battleSprite:instances[i].battleSprite}));

@@ -1,7 +1,12 @@
+import {createCooperativeBattle} from './_cooperative_battle.js';
+import {rebalanceCoopCombat} from '../shared/cooperative-balance-20261012.mjs';
+import {defaultCoopCombat,validateCoopCombat} from '../shared/cooperative-settings-v1.mjs';
+import {COOP_SETTINGS_KEY} from '../shared/cooperative-rewards-v1.mjs';
+import {rollCoopRoster} from '../shared/cooperative-roster-v3.mjs';
 import {PET_CMS_KEY,PET_CMS_MAX_BYTES,PET_CMS_LOCKS,PET_BUFF_TYPES,PET_BUFF_TARGETS,emptyPetCmsDocument,validatePetCmsDocument,validatePetCmsSave} from '../shared/pet-cms-v1.mjs';
 import {COMPANION_FORMATION_RULES,COMPANION_RELEASE,COMPANION_PREPARATION_REVIEW,validatePreparedMercenaries,validateCompanionLoadout,preparedFormation} from '../shared/companion-loadout-v2.mjs';
 import {RANKED_DUAL_SERIES_RULES,rankedSeriesRoster,simulateRankedSeries} from '../shared/ranked-series-v1.mjs';
-import {createPveBattleV2,createPvpBattleV2} from './_battle_v2_preview.js';
+import {createPveBattleV2,createPvpBattleV2,createDuoBattleV2} from './_battle_v2_preview.js';
 import {readMercenaryDocument,readMercenaryRuntime,battleConfig} from './_mercenary_account.js';
 import {createCompanionPreparationBattle,COMPANION_REVIEW_CARDS,DUAL_REVIEW_CARDS} from './_companion_preparation.js';
 import {PET_ART_CATALOG} from '../shared/pet-art-catalog-v1.mjs';
@@ -37,7 +42,7 @@ export async function handlePetCompanionCms({path,request,env,deps}){
   if(request.method!=='GET')try{
     body=await boundedJson(request);
     if(path==='admin/pets')body=validatePetCmsSave(body);
-    else if(dual){if(!body||Array.isArray(body)||Object.keys(body).some(key=>!['codes','mode','seed','mercenaryRevision'].includes(key))||!['PVE','RANKED'].includes(body.mode)||!Number.isSafeInteger(body.seed)||body.seed<0||body.seed>4294967295||!Number.isSafeInteger(body.mercenaryRevision)||!Array.isArray(body.codes)||body.codes.length!==(body.mode==='PVE'?2:6))throw Error('두 용병 편성과 검수 버전을 확인해 주세요.');}
+    else if(dual){if(!body||Array.isArray(body)||Object.keys(body).some(key=>!['codes','mode','seed','mercenaryRevision'].includes(key))||!['PVE','RANKED','COOP','DUO'].includes(body.mode)||!Number.isSafeInteger(body.seed)||body.seed<0||body.seed>4294967295||!Number.isSafeInteger(body.mercenaryRevision)||!Array.isArray(body.codes)||body.codes.length!==(body.mode==='RANKED'?6:2))throw Error('두 용병 편성과 검수 버전을 확인해 주세요.');}
     else if(!body||Array.isArray(body)||Object.keys(body).some(key=>!['loadout','mode','seed','petRevision','mercenaryRevision'].includes(key))||!['PVE','PVP'].includes(body.mode)||!Number.isSafeInteger(body.seed)||body.seed<0||body.seed>4294967295||!Number.isSafeInteger(body.petRevision)||!Number.isSafeInteger(body.mercenaryRevision))throw Error('편성·전투 모드·검수 버전을 확인해 주세요.');
   }catch(error){return reply({error:error instanceof SyntaxError?'올바른 JSON 요청이 필요합니다.':error.message},400);}
   const output=state=>({...state,locks:PET_CMS_LOCKS,buffTypes:PET_BUFF_TYPES,buffTargets:PET_BUFF_TARGETS,rules:COMPANION_FORMATION_RULES,release:COMPANION_RELEASE,artCatalog:PET_ART_CATALOG});
@@ -52,6 +57,14 @@ export async function handlePetCompanionCms({path,request,env,deps}){
           const rows=body.codes.map(code=>catalog.mercenaries.find(row=>row.code===code));
           if(rows.some(row=>!row))throw Error('서버에 등록된 용병만 선택하세요.');
           const cards=DUAL_REVIEW_CARDS.map(card=>({...card}));
+          if(['COOP','DUO'].includes(body.mode)){
+            validatePreparedMercenaries(rows);const squads=Array.from({length:body.mode==='COOP'?3:4},(_,i)=>({ownerId:i+1,ownerName:'검수 분대 '+(i+1),cards:cards.slice(0,body.mode==='COOP'?2:5),mercenaries:structuredClone(rows),equipmentBonus:0}));
+            if(body.mode==='DUO')return reply({reviewOnly:true,battle:createDuoBattleV2({attackerSquads:squads.slice(0,2),defenderSquads:squads.slice(2),seed:body.seed,[COMPANION_PREPARATION_REVIEW]:true})});
+            const currentCoop=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(COOP_SETTINGS_KEY).first();
+            const combat=currentCoop?validateCoopCombat(JSON.parse(currentCoop.value).combat):rebalanceCoopCombat(defaultCoopCombat());
+            const {payload}=createCooperativeBattle({squads,combat,encounter:rollCoopRoster(body.seed),difficulty:'HARD',seed:body.seed,[COMPANION_PREPARATION_REVIEW]:true});
+            return reply({reviewOnly:true,payload,battle:payload.battleV2});
+          }
           if(body.mode==='PVE'){
             validatePreparedMercenaries(rows);
             return reply({reviewOnly:true,battle:createPveBattleV2({cards,mercenaries:rows,monster:{id:'DUAL-REVIEW-BOSS',name:'두 용병 검수 보스',power:5000000,isBoss:true},seed:body.seed,[COMPANION_PREPARATION_REVIEW]:true})});

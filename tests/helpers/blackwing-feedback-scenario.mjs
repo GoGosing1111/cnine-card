@@ -3,10 +3,10 @@ import {createBlackwingRoom,addBlackwingMember,readyBlackwingMember,startBlackwi
 import {REVIEW_DECK} from '../../preview/lich-king-raid-v1/fixture.mjs';
 export const members=[['1','BREAKER'],['2','BREAKER'],['3','GUARD'],['6','GUARD'],['7','SEALER'],['8','SEALER']];
 let serial=0;
-export function room(seed=123,rulesVersion=2){
+export function room(seed=123,rulesVersion=2,deck=null){
  const r=createBlackwingRoom({id:'FEEDBACK01',hostId:'1',now:1000,seed,monster:{id:'BLACKWING',name:'모르드레인',isBoss:true,battle_power:45000000,pve_hp_percent:270,battleSprite:'/assets/raids/blackwing-20261024/idle.webp'}});
  r.rulesVersion=rulesVersion;
- for(const[id,role]of members){addBlackwingMember(r,{id,name:'참가자 '+id,role,deck:{cards:REVIEW_DECK.map(c=>({...c,power:10000000}))}});readyBlackwingMember(r,id,true);}
+ for(const[id,role]of members){addBlackwingMember(r,{id,name:'참가자 '+id,role,deck:deck||{cards:REVIEW_DECK.map(c=>({...c,power:10000000}))}});readyBlackwingMember(r,id,true);}
  startBlackwingRoom(r,'1');return r;
 }
 export const action=(r,id,action,target,now=r.clock,extra={})=>actBlackwingRoom(r,id,{requestId:'feedback_'+(++serial),action,token:blackwingView(r,id).challenge.tokens[action],...(target!==undefined?{target:String(target)}:{}),...extra},now);

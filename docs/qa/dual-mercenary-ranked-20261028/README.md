@@ -41,3 +41,5 @@ SSS 일반·SSS 리미티드는 같은 SSS 한도를 공유한다. SSS+SS, SSS+S
 - 최종 PC/모바일 2명 편성, 기존 랭크전 2:0/2:1, 메인 입장 6경로, 구버전 자동 교체/오류 복귀 4경로 통과. 배포 후 실제 공개 파일 19개 해시·공개 모바일 두 용병 검수 및 메인 PVE/PVP 3경로·두 Worker 100% 확인. 공개 OWNER API 익명 접근 401.
 - 운영 계정/재화/보유/성장/편성/정책 직접 쓰기 0. 공지 게시 및 메시지 발송 0. `final-browser/`, `live-single-ranked/`, `live-entry/`, `entry-recovery/`, `public-browser/`, `public-main-entry/`가 최종 화면 증거다.
 - 실제 소스 폴더도 최종 빌드로 반영했고 기존 미커밋 원장/지급 기록·APK 설정·슈트 연출 변경을 보존했다. `source-preservation.json`과 원본 instruction 백업은 증거 폴더에 있다.
+
+후속 전체 콘텐츠·계정 저장 연결·협동격전지/듀오 준비 검수는 [2026-10-28 전체 콘텐츠 기록](../dual-mercenary-content-audit-20261028/README.md)을 기준으로 한다.

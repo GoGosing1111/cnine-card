@@ -1,3 +1,4 @@
+import {companionBattleOptions,companionReviewOptions} from '../shared/companion-battle-snapshot-v1.mjs';
 // Authoritative encounter shared by the isolated review and the live room adapter.
 // All deadlines, HP, resources, role checks and outcomes belong to the authority.
 import { buildFighter, buildMonsterFighter, buildPvePlayerTeam, simulateBattleV2Preview } from './_battle_v2_preview.js';
@@ -92,13 +93,13 @@ export function setLichLoadout(room,memberId,deck,accountNickname) {
   if(cards.length!==5||cards.some(c=>!c))fail('INVALID_PARTY','저장된 덱을 확인하세요.',400);
   const bonus=deck.characterBonus||{},suitPower=Math.max(0,Number(bonus.battleSuitPve)||0);
   const battleSuit=bonus.equippedBattleSuit?{...bonus.equippedBattleSuit,pvePower:suitPower,weapon:bonus.equippedWeapon||null,accountNickname}:null;
-  const team=buildPvePlayerTeam({cards,pveEquipmentRuntime:bonus.pveEquipmentRuntime,characterBonus:Math.max(0,(Number(bonus.pve)||0)-suitPower),battleSuit,mercenary:deck.mercenary||null});
+  const team=buildPvePlayerTeam({cards,pveEquipmentRuntime:bonus.pveEquipmentRuntime,characterBonus:Math.max(0,(Number(bonus.pve)||0)-suitPower),battleSuit,...companionBattleOptions(deck)});
   const owned=actor=>({...actor,id:'A:OWNER:'+memberId+':'+actor.id,ownerId:memberId,ownerName:accountNickname});
   const fighters=team.teamA.map(actor=>({...owned(actor),battleSprite:byId.get(String(actor.cardId))?.battleSprite}));
-  if(team.mercenaryFighter)fighters.push(owned(team.mercenaryFighter));
+  fighters.push(...team.mercenaryFighters.map(owned));
   const supports=team.battleSuitFighter?[{...owned(team.battleSuitFighter),authoritative:true,damageAuthority:'SERVER_TIMELINE'}]:[];
   room.loadouts||={};
-  room.loadouts[memberId]=clone({cards,fighters,supports,pet:deck.pet||null,characterBonus:bonus,accountNickname});
+  room.loadouts[memberId]=clone({...companionReviewOptions(deck),cards,fighters,supports,pet:deck.pet||null,characterBonus:bonus,accountNickname});
   room.fighters=room.members.flatMap(m=>room.loadouts[m.id]?.fighters||[]);
   room.revision++;return room;
 }
@@ -191,7 +192,7 @@ function applyCombat(room,burst,memberId=null) {
   const source=[...alive(room).filter(card=>ownerId===null||card.ownerId===ownerId),...(room.loadouts?.[ownerId]?.supports||[])]
     .map(card=>({...card,alive:true,attack:Math.round(card.attack*multiplier)}));
   if(!source.some(card=>!card.isBattleSuit))continue;
-  const result=simulateBattleV2Preview({teamA:source,teamB:[enemy],seed:room.seed+room.eventSeq,maxActions:6,forcedMonsterEvery:5,healerPenalty:true});
+  const result=simulateBattleV2Preview({...companionReviewOptions(room.loadouts?.[ownerId]),teamA:source,teamB:[enemy],seed:room.seed+room.eventSeq,maxActions:6,forcedMonsterEvery:5,healerPenalty:true});
   for(const ev of result.timeline){
     const actor=source.find(x=>x.id===ev.actorId);
     if(!actor||ev.targetId!==room.boss.id||!(Number(ev.damage)>0))continue;

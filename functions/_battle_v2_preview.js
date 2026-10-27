@@ -1,3 +1,4 @@
+import {companionSnapshotRows} from '../shared/companion-battle-snapshot-v1.mjs';
 import {cardguIncomingDamage,cardguActionCredit} from '../shared/mercenary-cardgu-v1.mjs';
 import {revanIncomingDamage,revanActionCredit} from '../shared/mercenary-revan-v1.mjs';
 import {awakenedOmegaIncomingDamage} from '../shared/mercenary-awakened-omega-v1.mjs';
@@ -804,10 +805,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const random = () => actionRandom();
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
+  const fallenAtEntry=new Set([...a,...b].filter(actor=>actor.hp<=0||actor.alive===false).map(actor=>actor.id));
   for(const actor of [...a,...b])delete actor.isIconSummon;
-  // Opt-in 3 x (2 + 1) battlefield. Existing five-card modes retain their contract.
-  if(cooperative && (a.length!==9 || new Set(a.map(c=>c.ownerId)).size!==3 ||
-    [...new Set(a.map(c=>c.ownerId))].some(id=>!Number.isSafeInteger(id)||id<=0||a.filter(c=>c.ownerId===id&&!c.isMercenary).length!==2||a.filter(c=>c.ownerId===id&&c.isMercenary).length!==1) ||
+  // Prepared cooperative rooms allow a second independently owned mercenary.
+  const coopMercenaryLimit=companionReview||COMPANION_RELEASE.dualMercenaries?2:1;
+  if(cooperative && (a.length<9 || a.length>6+3*coopMercenaryLimit || new Set(a.map(c=>c.ownerId)).size!==3 ||
+    [...new Set(a.map(c=>c.ownerId))].some(id=>!Number.isSafeInteger(id)||id<=0||a.filter(c=>c.ownerId===id&&!c.isMercenary).length!==2||a.filter(c=>c.ownerId===id&&c.isMercenary).length<1||a.filter(c=>c.ownerId===id&&c.isMercenary).length>coopMercenaryLimit) ||
     !maxCombatDurationMs || !Array.isArray(cooperative.withdrawals) || cooperative.withdrawals.length>3 ||
     cooperative.withdrawals.some(w=>!a.some(c=>c.ownerId===w.ownerId)||!Number.isFinite(w.atMs)||w.atMs<0)))throw Error('INVALID_COOPERATIVE_PARTY');
   const withdrawals=cooperative?[...cooperative.withdrawals].sort((x,y)=>x.atMs-y.atMs):[];
@@ -1045,7 +1048,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       for (const target of members) {
         const amount = Math.max(0, Math.round(target.maxHp * singleHealer.teamHpPercent * healerScale / 100));
         target.maxHp += amount;
-        target.hp += amount;
+        if(target.alive!==false&&target.hp>0)target.hp += amount;
         targets.push({ targetId: target.id, amount, hpAfter: target.hp, maxHp: target.maxHp });
       }
       emitTimeline(timeline, clock, 'SINGLE_HEALER_AURA', {
@@ -1102,6 +1105,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   // this raw simulator too, but retains its independent normalized rules.
   const pvpPowerBalance=powerReview===true&&!isPveBattle?applyPvpPowerBalance([a,b]):null;
   const hasOpeningPets=['A','B'].some(side=>Array.isArray(openingPets?.[side])?openingPets[side].length>0:!!openingPets?.[side]);
+  // Opening HP auras may increase maximum HP, but cannot revive a persisted KO.
+  for(const actor of [...a,...b])if(fallenAtEntry.has(actor.id)){actor.hp=0;actor.shield=0;actor.alive=false;}
   const openingTeams=companionReview||hasOpeningPets||techniquePreparation||pvpPowerBalance?{A:a.map(f=>structuredClone(publicFighter(f))),B:b.map(f=>structuredClone(publicFighter(f)))}:null;
   const openingMercenaries={A:a.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f))),B:b.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f)))};
 
@@ -2312,9 +2317,9 @@ export function createPvpBattleV2({ attackerEquipmentSetVisual = null, defenderE
 
 // Each owner keeps the existing five-card contract and their own equipment
 // distribution. Only the transient battlefield joins the two squads.
-export function createDuoBattleV2({attackerSquads=[],defenderSquads=[],seed=1,singleHealerBonus={},pvpBalanceVersion,[PVP_POWER_BALANCE_REVIEW]:powerReview}={}) {
+export function createDuoBattleV2({attackerSquads=[],defenderSquads=[],seed=1,singleHealerBonus={},pvpBalanceVersion,[PVP_POWER_BALANCE_REVIEW]:powerReview,[COMPANION_PREPARATION_REVIEW]:companionReview=false}={}) {
   const powerEnabled=pvpPowerEnabled({pvpBalanceVersion,[PVP_POWER_BALANCE_REVIEW]:powerReview});
-  const owners=new Set();
+  const owners=new Set(),dual=companionReview===true||COMPANION_RELEASE.dualMercenaries&&[...attackerSquads,...defenderSquads].some(s=>Array.isArray(s.mercenaries)),mercenariesPerOwner=dual?2:1;
   const build=(squads,side)=>{
     if(!Array.isArray(squads)||squads.length!==2)throw Error('DUO_REQUIRES_TWO_SQUADS');
     const cards=[],mercenaries=[],magic=[],members=[];
@@ -2329,19 +2334,19 @@ export function createDuoBattleV2({attackerSquads=[],defenderSquads=[],seed=1,si
         id:`${side}:OWNER:${ownerId}:CARD:${card.id}`,ownerId,ownerName,squadIndex,localSlot,slot:squadIndex*5+localSlot
       }));
       cards.push(...ownCards);
-      const merc=buildAvatarMercenaryFighter(squad.mercenary,side,'PVP',squad.avatarPowerPercent);
-      if(merc)mercenaries.push({...merc,id:`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:5,slot:10+squadIndex});
+      const ownMercs=companionSnapshotRows(squad,companionReview).map((row,index)=>{const merc=buildAvatarMercenaryFighter(row,side,'PVP',squad.avatarPowerPercent);return {...merc,id:`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:5+index,slot:10+squadIndex*mercenariesPerOwner+index};});
+      mercenaries.push(...ownMercs);const merc=ownMercs[0];
       for(const item of squad.magicCards||[]){if(Number.isInteger(item.slotNo)&&item.slotNo>=1&&item.slotNo<=5)magic.push({...item,slotNo:squadIndex*5+item.slotNo});}
-      members.push({ownerId,ownerName,squadIndex,...(squad.equipmentSetVisual?{equipmentSetVisual:squad.equipmentSetVisual}:{}),cardIds:ownCards.map(c=>c.id),mercenaryId:merc?`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`:null});
+      members.push({ownerId,ownerName,squadIndex,...(squad.equipmentSetVisual?{equipmentSetVisual:squad.equipmentSetVisual}:{}),cardIds:ownCards.map(c=>c.id),mercenaryId:merc?.id||null,...(dual?{mercenaryIds:ownMercs.map(m=>m.id)}:{})});
     });
     return {cards,mercenaries,magic,members,simulation:[...cards,...mercenaries]};
   };
   const a=build(attackerSquads,'A'),b=build(defenderSquads,'B');
-  const simulated=simulateBattleV2Preview({teamA:a.simulation,teamB:b.simulation,pets:{A:attackerSquads.filter(s=>s.pet).map(s=>({...s.pet,ownerId:s.ownerId})),B:defenderSquads.filter(s=>s.pet).map(s=>({...s.pet,ownerId:s.ownerId}))},petMode:'PVP',magicA:a.magic,magicB:b.magic,seed,maxActions:166,suddenDeathAfter:128,healerPenalty:true,singleHealerBonus,[PVP_POWER_BALANCE_REVIEW]:powerEnabled});
+  const simulated=simulateBattleV2Preview({[COMPANION_PREPARATION_REVIEW]:companionReview,teamA:a.simulation,teamB:b.simulation,pets:{A:attackerSquads.filter(s=>s.pet).map(s=>({...s.pet,ownerId:s.ownerId})),B:defenderSquads.filter(s=>s.pet).map(s=>({...s.pet,ownerId:s.ownerId}))},petMode:'PVP',magicA:a.magic,magicB:b.magic,seed,maxActions:166,suddenDeathAfter:128,healerPenalty:true,singleHealerBonus,[PVP_POWER_BALANCE_REVIEW]:powerEnabled});
   const result=resolvePvpOutcome(simulated,a.simulation,b.simulation);
   result.final={...result.final,mercenaries:{A:result.final.A.filter(c=>c.isMercenary),B:result.final.B.filter(c=>c.isMercenary)},A:result.final.A.filter(c=>!c.isMercenary),B:result.final.B.filter(c=>!c.isMercenary)};
   return {schemaVersion:2,engine:'BATTLE_ENGINE_V2_DUO',mode:'PVP',playbackSpeed:1.3,seed:Number(seed)>>>0,
-    rules:{...(simulated.pvpPowerBalance?{pvpPowerBalance:PVP_POWER_BALANCE}:{}),formation:'DUO_TWO_SQUADS',ownersPerSide:2,cardsPerOwner:5,mercenariesPerOwner:1,maxActions:166,suddenDeathAfter:128,
+    rules:{...(simulated.pvpPowerBalance?{pvpPowerBalance:PVP_POWER_BALANCE}:{}),formation:'DUO_TWO_SQUADS',ownersPerSide:2,cardsPerOwner:5,mercenariesPerOwner,maxActions:166,suddenDeathAfter:128,
       timeoutRule:'SURVIVOR_COUNT_THEN_HP_RATIO_THEN_POWER',drawRule:'POWER_THEN_ATTACKER',mercenaryLinkScope:'OWNER',supportScope:'TEAM',dbTimelineWrites:0},
     teams:Object.fromEntries([['A',a],['B',b]].map(([side,team])=>[side,{members:team.members,pets:(side==='A'?attackerSquads:defenderSquads).filter(s=>s.pet).map(s=>({...s.pet,ownerId:s.ownerId})),cards:simulated.openingTeams?.[side].filter(c=>!c.isMercenary)||team.cards.map(publicFighter),mercenaries:simulated.openingMercenaries?.[side]||[],summary:teamSummary([...team.cards,...(simulated.openingMercenaries?.[side]||[])])}])),result};
 }

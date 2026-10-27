@@ -1,3 +1,4 @@
+import {companionBattleOptions,companionReviewOptions} from '../shared/companion-battle-snapshot-v1.mjs';
 import {createPveBattleV2} from './_battle_v2_preview.js';
 import {COW_ROOM_PUBLIC_RELEASE_ENABLED} from '../shared/pve-public-release-v2092.mjs';
 
@@ -34,7 +35,7 @@ export function buildCowRoomBattle({snapshot, seed = 7123, config = COW_ROOM_DRA
       sourceArt:null};
   });
   const battleV2 = createPveBattleV2({pet:snapshot.pet,pveEquipmentRuntime:snapshot.characterBonus?.pveEquipmentRuntime,cards:snapshot.cards, magicCards:snapshot.magicCards || [],
-    characterBonus:snapshot.cardSupportBonus || 0, battleSuit:snapshot.battleSuit || null,mercenary:snapshot.mercenary||null,
+    characterBonus:snapshot.cardSupportBonus || 0, battleSuit:snapshot.battleSuit || null,...companionBattleOptions(snapshot),
     singleHealerBonus:snapshot.singleHealerBonus || {}, ultimateDamage:snapshot.ultimateDamage || 0, seed,
     encounter:{...config, initialCount:config.simultaneous, instances}});
   return {mode:'HUNT', battlefieldMode:'HUNT', title:'카우방', phaseLabel:'붉은 목초지',

@@ -1,0 +1,24 @@
+{
+  "status": "PREPARED_PENDING_DEPLOY_VERIFICATION",
+  "releaseEnabled": false,
+  "sourceBase": "d3c428d6d5d5f81834e9ad080d0e4551b7b2022f",
+  "contentCases": 30,
+  "accountCases": 5,
+  "cooperativeComparisonBattles": 3456,
+  "cooperativeCandidate": {
+    "version": "COOP_DUAL_20261028_V1",
+    "hp": 1.6,
+    "shield": 1.6,
+    "attack": 1.15
+  },
+  "accountUi": [
+    "desktop",
+    "mobile"
+  ],
+  "contentPlaybackCases": 32,
+  "mainEntryCases": 6,
+  "productionAccountWrites": 0,
+  "productionSettingWrites": 0,
+  "noticePosted": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/dual-mercenary-content-audit-20261028"
+}

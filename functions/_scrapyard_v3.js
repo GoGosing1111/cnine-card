@@ -1,3 +1,5 @@
+import {mercenarySnapshotPower} from './_mercenary_account.js';
+import {companionBattleOptions,companionReviewOptions} from '../shared/companion-battle-snapshot-v1.mjs';
 import {accountRankBenefits,rankCards} from './_account_rank.js';
 import {createPveBattleV2} from './_battle_v2_preview.js';
 import {loadPetBattleSnapshot} from './_pet_account.js';
@@ -74,12 +76,12 @@ export async function loadScrapyardV3Snapshot(env, user, deps, mode = 'PVE') {
   const ultimateSource = ultimate?.matchedCards?.[0];
   const ultimateDamage = ultimateSource ? Math.max(0, Math.floor(Number(ultimateSource.power || 0) * Number(ultimate.rule?.coefficientPercent || 0) / 100)) : 0;
   if (!Number.isSafeInteger(ultimateDamage)) fail('SCRAPYARD_V3_DECK', '궁극기 전투력을 확인할 수 없습니다.');
-  const mercenary=deps.loadMercenaryBattleSnapshot?await deps.loadMercenaryBattleSnapshot(env,user,'PVE'):null;
+  const formation=companionBattleOptions(deck),mercenary=formation.mercenaries?null:deps.loadMercenaryBattleSnapshot?await deps.loadMercenaryBattleSnapshot(env,user,'PVE'):null;
   const pet=Object.hasOwn(deck,'pet')?deck.pet:env.DB?await (deps.loadPetBattleSnapshot||loadPetBattleSnapshot)(env,user,'PVE'):null;
-  const snapshot = {pet,schemaVersion:1, userId:user.id, accountNickname:String(user.nickname || ''), cards:rankCards(cards,env.DB?await accountRankBenefits(env,user.id,mode==='PVE'?'SCRAPYARD':mode):{attackBp:0,hpBp:0}),...(mercenary?{mercenary}:{}),
+  const snapshot = {pet,schemaVersion:1, userId:user.id, accountNickname:String(user.nickname || ''), cards:rankCards(cards,env.DB?await accountRankBenefits(env,user.id,mode==='PVE'?'SCRAPYARD':mode):{attackBp:0,hpBp:0}),...(formation.mercenaries?formation:mercenary?{mercenary}:{}),
     cardSupportBonus, battleSuit, characterBonus:equipment, magicCards:magic?.cards || [], ultimateDamage,
     singleHealerBonus:deck.battleSettings?.engine?.singleHealerBonus || {},
-    power:{...(mercenary?{mercenary:Math.round(mercenary.basePower*(1+(mercenary.combat?.powerGrowthPercentPerLevel||0)*(mercenary.level-1)/100))}:{}),cards:cards.reduce((sum, card) => sum + card.power, 0), equipment:cardSupportBonus, battleSuit:battleSuit ? suitPower : 0},
+    power:{...(formation.mercenaries?{mercenary:formation.mercenaries.reduce((sum,m)=>sum+mercenarySnapshotPower(m),0)}:mercenary?{mercenary:Math.round(mercenary.basePower*(1+(mercenary.combat?.powerGrowthPercentPerLevel||0)*(mercenary.level-1)/100))}:{}),cards:cards.reduce((sum, card) => sum + card.power, 0), equipment:cardSupportBonus, battleSuit:battleSuit ? suitPower : 0},
     source:'LATEST_SAVED_PVE_DECK', capturedAt:new Date().toISOString()};
   // Also detach the in-flight battle from mutable helper caches and object aliases.
   return JSON.parse(JSON.stringify(snapshot));
@@ -101,7 +103,7 @@ export function buildScrapyardV3Battle({snapshot, difficulty, config, seed}) {
       sourceArt:'/' + art.image, battleSprite:ART[art.id] || null};
   });
   const battleV2 = createPveBattleV2({pet:snapshot.pet,pveEquipmentRuntime:snapshot.characterBonus?.pveEquipmentRuntime,cards:snapshot.cards, magicCards:snapshot.magicCards,
-    characterBonus:snapshot.cardSupportBonus, battleSuit:snapshot.battleSuit, mercenary:snapshot.mercenary, singleHealerBonus:snapshot.singleHealerBonus,
+    characterBonus:snapshot.cardSupportBonus, battleSuit:snapshot.battleSuit, ...companionBattleOptions(snapshot), singleHealerBonus:snapshot.singleHealerBonus,
     ultimateDamage:snapshot.ultimateDamage, seed,
     encounter:{...cfg, initialCount:cfg.simultaneous, instances}});
   const defeated = Number(battleV2.result.encounter?.defeated || 0), success = battleV2.result.winner === 'A';

@@ -1,3 +1,4 @@
+import {companionBattleOptions,companionReviewOptions} from '../shared/companion-battle-snapshot-v1.mjs';
 import {buildPvePlayerTeam,buildMonsterFighter,simulateBattleV2Preview} from './_battle_v2_preview.js';
 
 import {hasBlackwingScale,scalePending,openBlackwingScale,scaleView,tickBlackwingScale,actBlackwingScale} from './_raid_blackwing_scale.js';
@@ -55,10 +56,10 @@ export function addBlackwingMember(r,{id,name,role,deck},now=r.clock){
  if(deck?.cards?.length!==5||new Set(deck.cards.map(c=>String(c.id))).size!==5)fail('DECK','서로 다른 RAID 카드 5장을 편성하세요.',400);
  const bonus=deck.characterBonus||{},suitPower=Math.max(0,Number(bonus.battleSuitPve)||0),nickname=String(name||'참가자').slice(0,24);
  const battleSuit=bonus.equippedBattleSuit?{...bonus.equippedBattleSuit,pvePower:suitPower,weapon:bonus.equippedWeapon||null,accountNickname:nickname}:null;
- const team=buildPvePlayerTeam({cards:deck.cards,pveEquipmentRuntime:bonus.pveEquipmentRuntime,characterBonus:Math.max(0,(Number(bonus.pve)||0)-suitPower),battleSuit,mercenary:deck.mercenary||null});
+ const team=buildPvePlayerTeam({cards:deck.cards,pveEquipmentRuntime:bonus.pveEquipmentRuntime,characterBonus:Math.max(0,(Number(bonus.pve)||0)-suitPower),battleSuit,...companionBattleOptions(deck)});
  const own=f=>({...f,id:`A:BLACKWING:${id}:${f.id}`,ownerId:id,ownerName:nickname});
- r.members.push({id,name:nickname,role,ready:false,left:false});r.fighters.push(...team.teamA.map(own));if(team.mercenaryFighter)r.fighters.push(own(team.mercenaryFighter));
- r.loadouts[id]={cards:copy(deck.cards),characterBonus:copy(bonus),supports:team.battleSuitFighter?[own(team.battleSuitFighter)]:[]};r.clock=Math.max(r.clock,now);r.revision++;
+ r.members.push({id,name:nickname,role,ready:false,left:false});r.fighters.push(...team.teamA.map(own));r.fighters.push(...team.mercenaryFighters.map(own));
+ r.loadouts[id]={...companionReviewOptions(deck),cards:copy(deck.cards),characterBonus:copy(bonus),supports:team.battleSuitFighter?[own(team.battleSuitFighter)]:[]};r.clock=Math.max(r.clock,now);r.revision++;
 }
 export function readyBlackwingMember(r,id,ready=true){if(r.status!=='LOBBY')fail('STARTED','이미 출정했습니다.');actorFor(r,id).ready=Boolean(ready);r.revision++;}
 export function leaveBlackwingRoom(r,id,now=r.clock){const m=actorFor(r,id);tickBlackwingRoom(r,now);if(r.status==='ACTIVE'){m.left=true;finish(r,'FAILED','MEMBER_LEFT',m.name+' 이탈 · 작전 종료');}else if(r.status==='LOBBY'){r.members=r.members.filter(x=>x.id!==m.id);r.fighters=r.fighters.filter(f=>f.ownerId!==m.id);delete r.loadouts[m.id];if(r.hostId===m.id)r.hostId=r.members[0]?.id||null;}else m.left=true;r.revision++;}
@@ -81,7 +82,7 @@ export function tickBlackwingRoom(r,now){if(!Number.isFinite(now))fail('TIME','�
   if(q.breaths<q.breathGoal&&!r.wards.some((v,j)=>v>0&&j!==r.lastWard))finish(r,'FAILED','WARD_EMPTY','사용 가능한 성역 내구도가 없습니다.');
  }expose(r);
  }r.clock=now;return r;}
-function attacks(r,m){const source=[...alive(r,m.id),...r.loadouts[m.id].supports].map(copy);if(!source.length)fail('DEAD','편성이 쓰러졌습니다.');const enemy={...copy(r.boss),hp:r.boss.maxHp,alive:true,shield:0};const sim=simulateBattleV2Preview({teamA:source,teamB:[enemy],seed:r.seed+r.eventSeq,maxActions:6,forcedMonsterEvery:5,healerPenalty:true});return sim.timeline.filter(e=>source.some(f=>f.id===e.actorId)&&e.targetId===r.boss.id&&Number(e.damage)>0).map(e=>({...e,damage:Math.min(e.damage,Math.ceil(source.find(f=>f.id===e.actorId).attack*1.8))}));}
+function attacks(r,m){const source=[...alive(r,m.id),...r.loadouts[m.id].supports].map(copy);if(!source.length)fail('DEAD','편성이 쓰러졌습니다.');const enemy={...copy(r.boss),hp:r.boss.maxHp,alive:true,shield:0};const sim=simulateBattleV2Preview({...companionReviewOptions(r.loadouts[m.id]),teamA:source,teamB:[enemy],seed:r.seed+r.eventSeq,maxActions:6,forcedMonsterEvery:5,healerPenalty:true});return sim.timeline.filter(e=>source.some(f=>f.id===e.actorId)&&e.targetId===r.boss.id&&Number(e.damage)>0).map(e=>({...e,damage:Math.min(e.damage,Math.ceil(source.find(f=>f.id===e.actorId).attack*1.8))}));}
 function cooldown(r,m){const q=r.challenge;if(r.clock-(q.lastStrike[m.id]??-Infinity)<1200)fail('COOLDOWN','공격 준비 중입니다.');q.lastStrike[m.id]=r.clock;}
 function shareFor(r,id){const floor=Math.round(r.boss.maxHp*BLACKWING_PLANS[r.phase].floor),start=Math.round(r.boss.maxHp*(r.phase?BLACKWING_PLANS[r.phase-1].floor:1)),chunk=start-floor,index=r.initialMembers?.indexOf(id)??-1,n=r.initialMembers?.length||6;return {floor,share:index<0?0:Math.floor(chunk*(index+1)/n)-Math.floor(chunk*index/n)};}
 function applyPackets(r,packets,budget){const total=packets.reduce((sum,e)=>sum+e.damage,0);let used=0,weight=0;for(const e of packets){weight+=e.damage;const next=total?Math.round(weight*budget/total):0,damage=next-used;used=next;if(damage){r.boss.hp-=damage;event(r,e.type,e.label||'흑익 공략',{...e,damage,absorbed:0,targetHpAfter:r.boss.hp,targetMaxHp:r.boss.maxHp,targetShieldAfter:0});}}r.statistics.damage+=used;return used;}

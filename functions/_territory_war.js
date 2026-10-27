@@ -1,3 +1,4 @@
+import {companionSnapshotRows,pvpCompanionOptions} from '../shared/companion-battle-snapshot-v1.mjs';
 import {pvpPolicySnapshot,pvpReplayInput} from '../shared/pvp-power-balance-v1.mjs';
 import {NETWORK_NODES,isNetworkWar,hasTerritorySkills} from '../shared/territory-network-v6.mjs';
 import {pickDiverseTerritoryOpponent,TERRITORY_RECENT_MATCHES} from '../shared/territory-matchmaking-20261013.mjs';
@@ -10,7 +11,7 @@ import {ensureTerritoryClanSchema,openClanWarfare,syncRecruitingClanRoster,isCla
 import {pigCoinRewardAmount} from './_loot_shop.js';
 import {ensureBattlefieldSchema,battlefieldPolicy,freezeBattlefieldPolicy,initializeBattlefieldFront,battlefieldAttackContext,battlefieldAttackGuards,battlefieldContributionStatements,battlefieldAttackCleanup,battlefieldSiegeSql,battlefieldState,applyBattlefieldSkill,settleBattlefieldCannon,claimBattlefieldSupply} from './_territory_battlefield_v5.js';
 import {BATTLEFIELD_DEFAULTS,normalizeBattlefieldConfig,battlefieldSkillCatalog,battlefieldObjectives,battlefieldIronWallMultiplier,battlefieldSiegeMultiplier} from '../shared/territory-battlefield-v5.mjs';
-import {releasedMercenarySnapshot,mercenarySnapshotPower} from './_mercenary_account.js';
+import {releasedMercenaryFormation,mercenarySnapshotPower} from './_mercenary_account.js';
 import {
   GAMST_TERRITORY_FORMATION_MARKER_KEY,
   GAMST_TERRITORY_FORMATION_PENDING_TAG,
@@ -667,7 +668,7 @@ function magicFormationPercent(cards=[]){
 }
 import {avatarScaledPower} from '../shared/avatar-power-v1.mjs';
 function buildFormationSnapshot({cards=[],uniqueState=null,synergy=null,loadoutBonus=null,magicLoadout=null,fallbackPower=0}={}){
-  const rawCardPower=Math.max(0,cards.reduce((sum,card)=>sum+Number(card?.power||0),0)),deckComplete=cards.length===5,cardBasePower=deckComplete?rawCardPower:Math.max(rawCardPower,Number(fallbackPower||0)),uniqueEffectPower=Math.max(0,deckComplete?Number(uniqueState?.power??cardBasePower):cardBasePower),synergyAttackPercent=clamp(Number(synergy?.totals?.attackPercent||0),-90,300,0),deckSynergyPower=Math.max(0,Math.round(uniqueEffectPower*(1+synergyAttackPercent/100))),equipment=loadoutBonus&&typeof loadoutBonus==='object'?loadoutBonus:{pvp:0},characterPower=Math.max(0,Number(equipment.pvp||0)),magicCards=Array.isArray(magicLoadout?.cards)?magicLoadout.cards:[],magicPercent=magicFormationPercent(magicCards),mercenaryPower=mercenarySnapshotPower(equipment.mercenary),preMagicPower=deckSynergyPower+characterPower+mercenaryPower,magicPower=Math.max(0,Math.round(preMagicPower*magicPercent/100)),formationPower=Math.max(1,avatarScaledPower(preMagicPower+magicPower,equipment.avatarPowerPercent));
+  const rawCardPower=Math.max(0,cards.reduce((sum,card)=>sum+Number(card?.power||0),0)),deckComplete=cards.length===5,cardBasePower=deckComplete?rawCardPower:Math.max(rawCardPower,Number(fallbackPower||0)),uniqueEffectPower=Math.max(0,deckComplete?Number(uniqueState?.power??cardBasePower):cardBasePower),synergyAttackPercent=clamp(Number(synergy?.totals?.attackPercent||0),-90,300,0),deckSynergyPower=Math.max(0,Math.round(uniqueEffectPower*(1+synergyAttackPercent/100))),equipment=loadoutBonus&&typeof loadoutBonus==='object'?loadoutBonus:{pvp:0},characterPower=Math.max(0,Number(equipment.pvp||0)),magicCards=Array.isArray(magicLoadout?.cards)?magicLoadout.cards:[],magicPercent=magicFormationPercent(magicCards),mercenaryPower=companionSnapshotRows(equipment).reduce((sum,m)=>sum+mercenarySnapshotPower(m),0),preMagicPower=deckSynergyPower+characterPower+mercenaryPower,magicPower=Math.max(0,Math.round(preMagicPower*magicPercent/100)),formationPower=Math.max(1,avatarScaledPower(preMagicPower+magicPower,equipment.avatarPowerPercent));
   const breakdown={version:2,deckComplete,cardBasePower,uniqueEffectPower,uniqueEffectBonus:uniqueEffectPower-cardBasePower,synergyAttackPercent,deckSynergyPower,deckSynergyBonus:deckSynergyPower-uniqueEffectPower,equipmentPower:Number(equipment.equipmentPvp||0),vehiclePower:Number(equipment.garagePvp||0),titlePower:Number(equipment.titlePvp||0),characterPower,mercenaryPower,magicCardCount:magicCards.length,magicExpectedPercent:magicPercent,magicPower,formationPower};
   return {formationPower,breakdown,loadoutBonus:{...equipment,magicEnabled:magicLoadout?.enabled===true,magicCards,formation:breakdown}};
 }
@@ -677,8 +678,8 @@ async function singleFormationSnapshot(env,deps,user,deck,battle){
   const synergyPromise=typeof deps.evaluateDeckSynergiesBatch==='function'?deps.evaluateDeckSynergiesBatch(env,[{user,deckIds:ids}],'PVP').then(rows=>rows[0]):typeof deps.evaluateDeckSynergies==='function'?deps.evaluateDeckSynergies(env,user,ids,'PVP',{forceOwnerTest:String(user?.role||'').toUpperCase()==='OWNER'}):Promise.resolve({totals:{attackPercent:0}});
   const magicPromise=typeof deps.magicBattleLoadouts==='function'?deps.magicBattleLoadouts(env,[user],'PVP').then(rows=>rows[0]):typeof deps.magicBattleLoadout==='function'?deps.magicBattleLoadout(env,user,'PVP'):Promise.resolve({enabled:false,cards:[]});
   const [loadoutBonus,uniqueStates,synergy,magicLoadout]=await Promise.all([typeof deps.userEquipmentBonuses==='function'?deps.userEquipmentBonuses(env,user.id):Promise.resolve({pvp:0}),uniquePromise,synergyPromise,magicPromise]);
-  const [pet,mercenary]=await Promise.all([(deps.loadPetBattleSnapshot||loadPetBattleSnapshot)(env,user,'PVP'),(deps.releasedMercenarySnapshot||releasedMercenarySnapshot)(env,user,'PVP')]);
-  return buildFormationSnapshot({cards,uniqueState:uniqueStates[0],synergy,loadoutBonus:{...loadoutBonus,pet,mercenary},magicLoadout});
+  const [pet,formation]=await Promise.all([(deps.loadPetBattleSnapshot||loadPetBattleSnapshot)(env,user,'PVP'),deps.releasedMercenarySnapshot?Promise.resolve(deps.releasedMercenarySnapshot(env,user,'PVP')).then(mercenary=>({mercenary})):releasedMercenaryFormation(env,user,'PVP')]);
+  return buildFormationSnapshot({cards,uniqueState:uniqueStates[0],synergy,loadoutBonus:{...loadoutBonus,pet,...formation},magicLoadout});
 }
 async function currentTerritoryFormation(env,deps,row,battle){
   const user={id:Number(row.user_id),nickname:String(row.nickname||''),role:String(row.role||'USER')};
@@ -734,7 +735,7 @@ async function refreshFormationSnapshots(env,deps,roundId,users,battle){
       const deck=await deps.pvpDeckSnapshotByIds(env,user.id,snapshotIds(row.deck_snapshot));
       row.deck_snapshot=deck.length===5?JSON.stringify(deck.map(card=>String(card.id))):'[]';
     }
-    row.loadout_bonus_json=JSON.stringify({...equipment,pet:await loadPetBattleSnapshot(env,user,'PVP'),mercenary:await releasedMercenarySnapshot(env,user,'PVP'),clanRosterHydrated:true});
+    row.loadout_bonus_json=JSON.stringify({...equipment,pet:await loadPetBattleSnapshot(env,user,'PVP'),...await releasedMercenaryFormation(env,user,'PVP'),clanRosterHydrated:true});
   }));
   if(pending.length)await batchChunks(env,pending.map(row=>env.DB.prepare('UPDATE territory_war_v3_users SET deck_snapshot=? WHERE round_id=? AND user_id=?').bind(row.deck_snapshot,roundId,row.user_id)));
   const deckMap=await formationDecks(env,deps,users,battle),entries=users.map(row=>({user:{id:Number(row.user_id),nickname:String(row.nickname||''),role:String(row.role||'USER')},cards:deckMap.get(Number(row.user_id))||[]}));
@@ -836,7 +837,7 @@ async function simulateTerritoryBattle(env,deps,attackerUser,mine,opponent,reque
   const attackerEngineCards=attackerCards.map(card=>{const uniqueCard=aMap.get(String(card.id));return {...card,power:Math.max(1,Math.floor(Number(card.power||0)*aMultiplier*matchBalance.attackerScale)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
   const defenderEngineCards=defenderCards.map(card=>{const uniqueCard=dMap.get(String(card.id));return {...card,power:Math.max(1,Math.floor(Number(card.power||0)*dMultiplier*matchBalance.defenderScale)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
   const battleSeed=seedOverride==null?seedOf(`${mine.round_id}:${requestId}:TWV3_BATTLE_V2`):Number(seedOverride)>>>0;
-  const replayInput={...pvpPolicySnapshot(),attackerPet:storedBonusA?.pet||null,defenderPet:storedBonusB?.pet||null,attackerMercenary:storedBonusA?.mercenary||null,defenderMercenary:storedBonusB?.mercenary||null,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic?.cards||[],defenderMagicCards:bMagic?.cards||[],attackerEquipmentSetVisual:aBonus?.pveEquipmentRuntime?.equipmentSetVisual,defenderEquipmentSetVisual:bBonus?.pveEquipmentRuntime?.equipmentSetVisual,attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(bBonus?.pvp||0),attackerAvatarPowerPercent:aBonus?.avatarPowerPercent,defenderAvatarPowerPercent:bBonus?.avatarPowerPercent,seed:battleSeed,...(battle?.engine?.singleHealerBonus===undefined?{}:{singleHealerBonus:battle.engine.singleHealerBonus})};
+  const replayInput={...pvpPolicySnapshot(),attackerPet:storedBonusA?.pet||null,defenderPet:storedBonusB?.pet||null,...pvpCompanionOptions(storedBonusA||{},storedBonusB||{}),attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic?.cards||[],defenderMagicCards:bMagic?.cards||[],attackerEquipmentSetVisual:aBonus?.pveEquipmentRuntime?.equipmentSetVisual,defenderEquipmentSetVisual:bBonus?.pveEquipmentRuntime?.equipmentSetVisual,attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(bBonus?.pvp||0),attackerAvatarPowerPercent:aBonus?.avatarPowerPercent,defenderAvatarPowerPercent:bBonus?.avatarPowerPercent,seed:battleSeed,...(battle?.engine?.singleHealerBonus===undefined?{}:{singleHealerBonus:battle.engine.singleHealerBonus})};
   const battleV2=deps.createPvpBattleV2(structuredClone(replayInput));
   return{battleV2,replayInput,battleSeed,attackerCards,defenderCards,attackerPower:Number(battleV2.teams?.A?.summary?.power||mine.deck_power||0),defenderPower:Number(battleV2.teams?.B?.summary?.power||opponent.deck_power||0),matchBalance,opponent:{id:Number(opponent.user_id),nickname:defenderUser.nickname,side:String(opponent.side||''),deckPower:Number(opponent.deck_power||0)}};
 }

@@ -3,7 +3,7 @@ import {blackwingView,tickBlackwingRoom} from '../../functions/_raid_blackwing.j
 import {scalePending} from '../../functions/_raid_blackwing_scale.js';
 import {room as oldRoom,action,members,heal} from './blackwing-feedback-scenario.mjs';
 export {action,members,heal};
-export const room=seed=>oldRoom(seed,3);
+export const room=(seed,deck=null)=>oldRoom(seed,3,deck);
 
 // The coordinator combines six player-visible clues, never the server's weights
 // or RNG. This also checks that the published rules are sufficient to solve.
@@ -48,7 +48,7 @@ export function damage(r,healing=true){
  heal(r,healing);
 }
 export function play(seed,part,options={}){
- const r=room(seed),healing=options.healing!==false;
+ const r=room(seed,options.deck),healing=options.healing!==false;
  if(!scale(r,options))return r;debt(r);damage(r,healing);
  if(!scale(r,options))return r;hearts(r);damage(r,healing);
  if(!scale(r,options))return r;sever(r,part);damage(r,healing);

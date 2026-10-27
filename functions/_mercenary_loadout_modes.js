@@ -1,6 +1,8 @@
 import {mercenaryModeAllowed,MERCENARY_PVE_ONLY_REASON} from '../shared/mercenary-eunseol-v1.mjs';
 import {jointError} from './_joint_request.js';
 import {jointGuard} from './_joint_atomic.js';
+import {COMPANION_RELEASE} from '../shared/companion-loadout-v2.mjs';
+import {dualMercenaryLoadoutKey,dualMercenaryRecord} from './_mercenary_dual_loadout.js';
 
 export const mercenaryPvpLoadoutKey=userId=>'mercenary_pvp_loadout_v1:'+Number(userId);
 export function mercenaryMode(value='PVE'){
@@ -18,7 +20,7 @@ function pvpSlot(raw,fallback){
 }
 // Keep PVE in its established table. Existing accounts inherit that slot for PVP
 // until their first edit freezes the two selections in the same transaction.
-export async function readMercenaryModes(env,userIds){
+export async function readMercenaryModes(env,userIds,{dual=COMPANION_RELEASE.dualMercenaries}={}){
   const ids=[...new Set(userIds.map(Number))];if(!ids.length)return new Map();
   if(ids.length>200||ids.some(id=>!Number.isSafeInteger(id)||id<1))throw jointError('MERCENARY_USERS','계정 범위를 확인하세요.');
   const marks=ids.map(()=>'?').join(','),keys=ids.map(mercenaryPvpLoadoutKey);
@@ -27,9 +29,11 @@ export async function readMercenaryModes(env,userIds){
     env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${marks})`).bind(...keys).all()
   ]);
   const old=new Map(legacy.results.map(r=>[Number(r.user_id),r])),saved=new Map(overrides.results.map(r=>[r.key,r.value]));
+  const dualRows=dual?(await env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${marks})`).bind(...ids.map(dualMercenaryLoadoutKey)).all()).results:[],dualSaved=new Map(dualRows.map(r=>[r.key,r.value]));
   return new Map(ids.map(id=>{const key=mercenaryPvpLoadoutKey(id),raw=saved.has(key)?saved.get(key):null,PVE=slot(old.get(id));
     const selected=pvpSlot(raw,PVE),PVP=mercenaryModeAllowed(selected.mercenaryCode,'PVP')?selected:{...selected,mercenaryCode:null,blockedMercenaryCode:selected.mercenaryCode,blockedReason:MERCENARY_PVE_ONLY_REASON};
-    return [id,{key,raw,loadouts:{PVE,PVP}}];}));
+    const record={key,raw,loadouts:{PVE,PVP}};
+    return [id,dual?dualMercenaryRecord(record,dualSaved.get(dualMercenaryLoadoutKey(id))??null,id):record];}));
 }
 export function mercenaryModeGuard(DB,token,userId,record){
   const predicate='COALESCE((SELECT revision FROM user_mercenary_loadout_v1 WHERE user_id=?),0)=?';

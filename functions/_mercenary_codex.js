@@ -1,3 +1,4 @@
+import {COMPANION_RELEASE} from '../shared/companion-loadout-v2.mjs';
 import {CARDGU_ART,cardguCodexSkills} from '../shared/mercenary-cardgu-v1.mjs';
 import {blackcrownSssCodexCard} from '../shared/mercenary-blackcrown-pool-v3.mjs';
 import {REVAN_ART,revanCodexSkills} from '../shared/mercenary-revan-v1.mjs';
@@ -37,7 +38,7 @@ export function mercenaryCodexDocument(row){
   const document=expandMercenarySkillCatalog(JSON.parse(row.payload_json),seed.document,seed.catalog);
   const skills=new Map(document.skills.map(skill=>[skill.id,skill]));
   const projection={version:'mercenary-codex-2098',revision:Number(row.revision),updatedAt:row.updated_at,artReleaseVersion:MERCENARY_ART_RELEASE_VERSION,rangedBalanceVersion:MERCENARY_RANGED_BALANCE_VERSION,guardBalanceVersion:MERCENARY_GUARD_BALANCE_VERSION,moonDrawVersion:MERCENARY_MOON_DRAW_VERSION,ssLimitedBalanceVersion:SS_LIMITED_BALANCE_VERSION,
-    formation:{regularCardSlots:5,mercenarySlots:1,maxDeployedUnits:6},
+    formation:{regularCardSlots:5,mercenarySlots:COMPANION_RELEASE.dualMercenaries?2:1,maxDeployedUnits:COMPANION_RELEASE.dualMercenaries?7:6},
     combatLink:MERCENARY_COMBAT_LINK,
     ranks:seed.catalog.ranks,positions:seed.catalog.positions,roles:{...Object.fromEntries(Object.entries(seed.catalog.roles).map(([key,value])=>[key,{label:value.label}])),LIMITED:{label:'리미티드'}},
     cards:document.mercenaries.map(card=>{

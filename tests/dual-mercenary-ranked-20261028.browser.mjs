@@ -6,6 +6,7 @@ import {pathToFileURL} from 'node:url';
 import {companionCmsFixture} from './helpers/companion-preparation-fixture.mjs';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
 import {battleConfig} from '../functions/_mercenary_account.js';
+import {contentPayloads} from './helpers/dual-content-fixture.mjs';
 const root=path.resolve(import.meta.dirname,'..'),out=process.env.DUAL_QA_DIR;
 if(!out)throw Error('DUAL_QA_DIR required');fs.mkdirSync(out,{recursive:true});
 const codes=['V-001','V-002','V-003','V-004','V-005','V-006'],ranks=['SS','SSS','SS','SSS','S','S'];
@@ -16,6 +17,7 @@ const publicBase=process.env.DUAL_QA_PUBLIC_BASE||'',publicFiles=new Map();
 const requests=[],server=http.createServer(async(req,res)=>{
  try{
   const url=new URL(req.url,'http://local');
+  if(url.pathname==='/qa-content-payloads'){res.writeHead(200,{'content-type':'application/json'});res.end(JSON.stringify(contentPayloads()));return;}
   if(url.pathname.startsWith('/api/')){
    requests.push({method:req.method,path:url.pathname});const chunks=[];for await(const c of req)chunks.push(c);
    const response=await fx.handle(new Request(url,{method:req.method,headers:{'content-type':'application/json'},...(req.method!=='GET'?{body:Buffer.concat(chunks)}:{})}),{path:url.pathname.slice(5)});
@@ -27,7 +29,9 @@ const requests=[],server=http.createServer(async(req,res)=>{
   if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');
   if(url.pathname==='/preview/project-v-v3/project-v-pixi-battle.bundle.js'&&process.env.DUAL_QA_BUNDLE)file=process.env.DUAL_QA_BUNDLE;
   if(!fs.existsSync(file)&&process.env.DUAL_QA_MEDIA_ROOT&&/\.(png|webp|avif|jpe?g|gif|mp3|ogg|wav|woff2?|ttf|webm|mp4)$/i.test(file))file=path.join(process.env.DUAL_QA_MEDIA_ROOT,path.relative(root,file));
-  if(!fs.existsSync(file)){res.writeHead(404);res.end();return;}res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream','cache-control':'no-store'});fs.createReadStream(file).pipe(res);
+  if(!fs.existsSync(file)){res.writeHead(404);res.end();return;}res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream','cache-control':'no-store'});
+  if(url.searchParams.has('legion')&&file.endsWith('index.html')){res.end(fs.readFileSync(file,'utf8').replace(/\/preview\/project-v-v3\/project-v-pixi-battle\.bundle\.js[^\"]*/, '/preview/sustained-hunt-v2/battle.bundle.js'));return;}
+  fs.createReadStream(file).pipe(res);
  }catch(error){res.writeHead(500);res.end(error.message);}
 });
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
@@ -58,6 +62,41 @@ try{for(const width of (publicBase?[390]:[1440,390])){
  assert.equal(await page.evaluate(()=>dualPreparationEngine.mercenaries.length),4,'replacement keeps only the current four mercenaries');
  await page.locator('#pve').click();await page.waitForFunction(()=>window.dualPreparationEngine?.mercenaries?.length===2&&document.getElementById('status').textContent.startsWith('PVE'));
  await page.locator('#battle').screenshot({path:path.join(out,`pve-${width}.png`)});
+ if(process.env.DUAL_QA_CONTENTS==='1'){
+  for(const [id,count]of [['coop',6],['duo',8]]){
+   await page.locator('#'+id).click();await page.waitForFunction(n=>window.dualPreparationEngine?.mercenaries?.length===n,count);
+   assert.ok(await page.evaluate(()=>dualPreparationEngine.mercenaries.every(a=>a.root.visible)));
+   await page.locator('#battle').screenshot({path:path.join(out,`${id}-${width}.png`)});
+  }
+  const contents=await page.evaluate(async()=>{window.qaContents=await fetch('/qa-content-payloads').then(r=>r.json());return Object.keys(qaContents);}),checks=[];
+  for(const name of contents){
+   if(name==='LEGION')continue; // Legion owns a twelve-enemy extension, loaded separately below.
+   const result=await page.evaluate(async name=>{
+    const payload=qaContents[name],engine=await ProjectVPixiBattle.mountForBattle(payload,document.getElementById('battle'));
+    await ProjectVPixiBattle.setBattlePayload(payload);await ProjectVPixiBattle.setVisible(true);await ProjectVPixiBattle.restoreDeployedFormation();
+    window.dualPreparationEngine=engine;window.qaLastPayload=payload;
+    const actors=engine.mercenaries.filter(a=>a.root.visible);
+    return {name,count:actors.length,stations:actors.map(a=>({id:a.id,x:a.baseX,y:a.baseY})),diagnostics:engine.gridDiagnostics()};
+   },name);
+   assert.equal(result.count,name==='COOP'?6:name==='DUO'?8:2,name);
+   assert.equal(new Set(result.stations.map(a=>a.x+':'+a.y)).size,result.count,name);
+   await page.locator('#battle').screenshot({path:path.join(out,`${name.toLowerCase()}-content-${width}.png`)});
+   checks.push(result);
+  }
+  await page.setViewportSize({width,height:width===390?764:920});
+  await page.evaluate(async()=>{
+   await ProjectVPixiBattle.cancelActiveAnimations();await ProjectVPixiBattle.restoreDeployedFormation();
+   const e=dualPreparationEngine;
+   for(const a of e.mercenaries.filter(m=>m.side==='ALLY').slice(0,2))await e.normalAttack(0,{attacker:a,target:e.enemies[0],apply:()=>{}});
+  });
+  assert.ok(await page.evaluate(()=>dualPreparationEngine.mercenaries.every(a=>a.root.x===a.baseX&&a.root.y===a.baseY)),'duo resize and independent attack return');
+  reports.push({width,contents:checks});
+  await page.goto(origin+'/preview/dual-mercenary-ranked-20261028/?legion=1');await page.locator('#rsSelect5').waitFor();
+  await page.evaluate(async()=>{const payload=(await fetch('/qa-content-payloads').then(r=>r.json())).LEGION;window.dualPreparationEngine=await ProjectVPixiBattle.mountForBattle(payload,document.getElementById('battle'));await ProjectVPixiBattle.setVisible(true);await ProjectVPixiBattle.restoreDeployedFormation();});
+  assert.equal(await page.evaluate(()=>dualPreparationEngine.mercenaries.filter(a=>a.root.visible).length),2);
+  assert.equal(await page.evaluate(()=>dualPreparationEngine.enemies.length),12);
+  await page.locator('#battle').screenshot({path:path.join(out,`legion-content-${width}.png`)});
+ }
  assert.deepEqual(errors,[]);reports.push({width,formation,errors,overflow:await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1)});await page.close();
 }
  assert.ok(requests.every(r=>r.method==='GET'||r.path==='/api/admin/companions/preparation/dual'));
