@@ -53,7 +53,7 @@ export async function blackwingLiveFixture({postgres=false}={}){
   let serial=0;
   const uid=()=> 'request_'+String(++serial).padStart(8,'0');
   async function call(route,{user=1,body,method=body?'POST':'GET',origin='https://test.invalid'}={}){
-    if(body&&['create','join','ready','start'].includes(route.split('?')[0]))body={clientRulesVersion:1,...body};
+    if(body&&['create','join','ready','start'].includes(route.split('?')[0]))body={clientRulesVersion:2,...body};
     if(body&&['create','join'].includes(route.split('?')[0]))body={role:'BREAKER',...body};
     const path=route.startsWith('admin/')?route:'raid/blackwing/'+route;
     const request=new Request('https://test.invalid/api/'+path,{method,headers:{authorization:'Bearer local-qa-'+user,'content-type':'application/json',origin},...(body?{body:JSON.stringify(body)}:{})});

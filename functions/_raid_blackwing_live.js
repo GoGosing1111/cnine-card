@@ -1,4 +1,4 @@
-import {blackwingCardArt,BLACKWING_ROLES,createBlackwingRoom,addBlackwingMember,readyBlackwingMember,startBlackwingRoom,actBlackwingRoom,leaveBlackwingRoom,kickBlackwingMember,tickBlackwingRoom,blackwingView,blackwingBattlePayload} from './_raid_blackwing.js';
+import {blackwingCardArt,BLACKWING_RULES,BLACKWING_ROLES,createBlackwingRoom,addBlackwingMember,readyBlackwingMember,startBlackwingRoom,actBlackwingRoom,leaveBlackwingRoom,kickBlackwingMember,tickBlackwingRoom,blackwingView,blackwingBattlePayload} from './_raid_blackwing.js';
 import {readJointBody,jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
@@ -87,7 +87,7 @@ function resultFor(room,user,cfg,{payload=false,since=0}={}){
 }
 async function openRoom(env,user,cfg,body,deps,now){
   const prior=await receipt(env,user,'create',body);if(prior.result)return prior.result;
-  if(body.clientRulesVersion!==1)fail('CLIENT_UPDATE','새로고침 후 공대를 만들어 주세요. 입장권은 사용되지 않았습니다.');
+  if(body.clientRulesVersion!==BLACKWING_RULES)fail('CLIENT_UPDATE','새로고침 후 공대를 만들어 주세요. 입장권은 사용되지 않았습니다.');
   if(await currentRoom(env,user,now))fail('ALREADY_JOINED','이미 참가 중인 공대가 있습니다.');
   const deck=await deps.raidDeckPower(env,user.id,undefined,'RAID'),roomId=crypto.randomUUID().replaceAll('-','').slice(0,10).toUpperCase();
   const room=createBlackwingRoom({id:roomId,hostId:id(user.id),monster:boss(cfg.bossCombatPower),now,seed:crypto.getRandomValues(new Uint32Array(1))[0],settings:{enrageSeconds:cfg.enrageSeconds,mechanicTimePercent:cfg.mechanicTimePercent}});
@@ -103,9 +103,9 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since){
   if(typeof body.roomId!=='string'||! /^[A-F0-9]{10}$/.test(body.roomId))fail('ROOM_ID','참가할 공대를 선택하세요.',400);
   if(kind==='join'){const active=await currentRoom(env,user,now);if(active&&active.room.id!==body.roomId)fail('ALREADY_JOINED','다른 공대에 참가 중입니다.');}
   for(let retry=0;retry<4;retry++){
-    const {row,room}=await loadRoom(env,body.roomId);now=Math.max(Date.now(),now,room.clock);tick(room,now);const extra=[];
+    const {row,room}=await loadRoom(env,body.roomId);now=Math.max(Date.now(),now,room.clock);tick(room,now);const extra=[];let actionResult;
     if(room.banned.includes(id(user.id)))fail('KICKED','강퇴된 공대에는 다시 참가할 수 없습니다.',403);
-    if(['join','ready','start'].includes(kind)&&body.clientRulesVersion!==1)fail('CLIENT_UPDATE','새로고침 후 다시 참가·준비해 주세요.');
+    if(['join','ready','start'].includes(kind)&&body.clientRulesVersion!==BLACKWING_RULES)fail('CLIENT_UPDATE','새로고침 후 다시 참가·준비해 주세요.');
     if(kind==='join'){
       if(room.status!=='LOBBY')fail('STARTED','이미 출정했거나 모집이 끝난 공대입니다.');
       if(!room.members.some(m=>m.id===id(user.id))){if(room.joinCount>=100)fail('JOIN_LIMIT','참가 변경 한도를 초과했습니다.');addBlackwingMember(room,{id:id(user.id),name:user.nickname,role:body.role,deck:await deps.raidDeckPower(env,user.id,undefined,'RAID')},now);room.joinCount++;extra.push(env.DB.prepare(`INSERT INTO ${ACTIVE}(user_id,room_id) VALUES(?,?)`).bind(user.id,room.id));}
@@ -122,10 +122,11 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since){
         startBlackwingRoom(room,id(user.id),now);room.rewardPolicy={enabled:false,reason:'TEST_REWARD_LOCKED'};
       }else if(kind==='kick'){kickBlackwingMember(room,id(user.id),id(body.targetId),now);extra.push(env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE user_id=? AND room_id=?`).bind(Number(body.targetId),room.id));}
       else if(kind==='leave'){leaveBlackwingRoom(room,id(user.id),now);extra.push(env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE user_id=? AND room_id=?`).bind(user.id,room.id));if(!room.members.some(m=>!m.left)){room.status='CANCELLED';room.finishedAt=now;}}
-      else if(kind==='action'){if(body.actorId!==undefined&&id(body.actorId)!==id(user.id))fail('ACTOR','자신의 역할만 조작할 수 있습니다.',403);actBlackwingRoom(room,id(user.id),{requestId:body.requestId,action:body.action,taskId:body.taskId,token:body.token,target:body.target,actorId:id(user.id)},now);}
+      else if(kind==='action'){if(body.actorId!==undefined&&id(body.actorId)!==id(user.id))fail('ACTOR','자신의 역할만 조작할 수 있습니다.',403);actionResult=actBlackwingRoom(room,id(user.id),{requestId:body.requestId,action:body.action,taskId:body.taskId,token:body.token,target:body.target,actorId:id(user.id)},now);}
       else fail('ROUTE','지원하지 않는 공대 명령입니다.',404);
     }
     const result=kind==='leave'?{ok:true,roomId:room.id}:resultFor(room,user,cfg,{payload:kind==='start',since});
+    if(actionResult)result.actionResult=actionResult;
     extra.push(receiptWrite(env,user,kind,prior,room.id,result));
     try{await commitRoom(env,row,room,extra);return result;}catch(error){const replay=await receipt(env,user,kind,body);if(replay.result)return replay.result;if(Number((await loadRoom(env,room.id)).row.version)===Number(row.version))throw error;}
   }fail('BUSY','공대 명령이 갱신 중입니다. 같은 요청으로 다시 시도하세요.');

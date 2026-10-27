@@ -62,6 +62,33 @@
 @media(max-width:760px){.bw-staging{grid-template-columns:1fr}.bw-keyart{min-height:390px}.bw-boss-art{object-position:69% 0%}.bw-intro{bottom:22px;left:22px;right:16px}.bw-intro h2{font-size:34px}.bw-intro>p{font-size:13px}.bw-intro .mr-facts{margin-top:17px;gap:30px}.bw-intro .mr-facts span{font-size:10px}.bw-heading{height:54px;padding-inline:15px;gap:8px}.bw-heading .mr-brand{font-size:17px}.bw-heading .mr-development{font-size:10px;padding:6px;white-space:nowrap}.bw-preparation{border-left:0;border-top:1px solid var(--mr-line);padding:22px}.bw-preparation h3{font-size:22px}.bw-role-picker{margin-top:20px}.bw-config{grid-template-columns:repeat(2,minmax(0,1fr))}.bw-config>div{padding:15px 20px}.bw-config>div:nth-child(2){border-right:0}.bw-config>div:nth-child(-n+2){border-bottom:1px solid var(--mr-line)}.bw-config dd{font-size:23px}.bw-registry,.bw-guide{padding:23px 20px}.bw-registry>header{gap:8px;align-items:center}.bw-registry h3{font-size:18px}.bw-registry>header>button{padding:9px;white-space:nowrap;font-size:11px}.bw-room{gap:10px;grid-template-columns:40px minmax(0,1fr) auto}.bw-room>.bw-face{width:40px;height:49px}.bw-room-title strong{font-size:12px}.bw-room-title small{font-size:10px}.bw-room-roles{grid-column:1/-1;grid-row:2;justify-content:space-between;gap:6px}.bw-room>button{grid-row:1;font-size:11px;padding:10px}.bw-guide-steps{grid-template-columns:1fr;gap:19px}.bw-guide h3{font-size:22px}.bw-guide-steps p{font-size:13px}.bw-guide h4{font-size:16px}.bw-members{grid-template-columns:1fr}.bw-member{padding:8px 0}.bw-member strong{font-size:13px}.bw-member small{font-size:11px}.bw-face{width:46px;height:55px}.bw-combat{padding:3px;gap:4px;grid-template-rows:auto minmax(230px,1fr) auto auto}.bw-top{padding:7px;gap:7px;flex-wrap:wrap}.bw-top h3{font-size:14px}.bw-top .bw-clock{font-size:10px}.bw-top .bw-boss-portrait{width:36px;height:44px}.bw-top>[data-strain]{order:4;flex-basis:100%;font-size:10px}.bw-top>button{font-size:11px;padding:7px 10px;min-height:44px}.bw-party-strip{grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}.bw-party-chip{padding:4px;gap:4px}.bw-party-chip .bw-face{width:26px;height:34px}.bw-party-chip strong{font-size:9px}.bw-party-chip small{font-size:8px}.bw-command{padding:10px;max-height:31vh}.bw-command h4{font-size:14px}.bw-command p{font-size:11px}.bw-command .bw-actions{gap:5px}.bw-command button{font-size:12px;padding:9px 12px;min-height:44px;min-width:0}.bw-result{inset:17% 3%;padding:20px}.bw-result h3{font-size:24px}}
 @media(prefers-reduced-motion:reduce){.bw-root *,.bw-combat *{scroll-behavior:auto;transition:none}}
 
+/* Keep the shared V3 stage/roster intact; place the operation panel beside it. */
+@media(min-width:1050px){
+ .bw-combat{grid-template-columns:minmax(0,1fr) clamp(350px,29vw,440px);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:'top top' 'battle command' 'party command';overflow:hidden;padding:10px;gap:10px}
+ .bw-top{grid-area:top}.bw-battle-mount{grid-area:battle}.bw-party-strip{grid-area:party}
+ .bw-command{grid-area:command;max-height:none;height:100%;align-self:stretch}
+}
+.bw-command .bw-branch{color:#d8efad;border-bottom:1px solid #38475c;padding-bottom:10px;line-height:1.6}
+.bw-oaths{display:grid;gap:9px;margin:12px 0}
+.bw-oaths>section{border-left:3px solid #718297;padding-left:10px}
+.bw-oaths b{font-size:12px;color:#b8cadf}.bw-oaths b span{float:right;color:var(--mr-lime)}
+.bw-oaths ol{list-style:none;margin:7px 0;padding:0}.bw-oaths li{font-size:13px;color:#9cabc0;line-height:1.8;overflow-wrap:anywhere}
+.bw-oaths li.current{color:#f3f8ff}.bw-oaths li.current strong{color:#c8ff6b;text-decoration:underline;text-underline-offset:3px}.bw-oaths li.done{color:#91bc81}
+.bw-health{padding:10px 0;color:#c8ff6b;font-size:13px;font-weight:700}.bw-health.is-danger{color:#ff9f89}
+.bw-detail p{margin:7px 0;line-height:1.65}
+.bw-command .bw-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:7px;padding:10px 0;position:sticky;bottom:0;background:#101828;z-index:2}
+.bw-command .bw-actions>.cn-ui-button{min-width:0;min-height:52px;padding:5px 7px;font-size:13px;white-space:normal;overflow-wrap:anywhere}
+.bw-command .bw-actions>button:only-child,.bw-command [data-action='HEAL'],.bw-command [data-retry]{grid-column:1/-1}
+.bw-log-panel{position:absolute;inset:6% 8%;z-index:80;display:flex;flex-direction:column;min-height:0;padding:24px;background:#0b1424;color:#e5eef9;box-shadow:0 0 0 100vmax #000a}
+.bw-log-panel>header{display:flex;align-items:center;justify-content:space-between;gap:15px}.bw-log-panel h3{margin:0;font-size:24px}
+.bw-log-panel>p{font-size:12px;color:#afc0d6;line-height:1.6}.bw-log-tools{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding-bottom:14px}
+.bw-log-tools label{font-size:13px}.bw-log-tools select{font:inherit;color:#e8f2ff;background:#17263c;border:1px solid #556987;padding:9px;min-height:44px}
+.bw-log-panel ol{list-style:none;padding:0;margin:0;overflow:auto;overscroll-behavior:contain;flex:1;border-top:1px solid #354961}
+.bw-log-panel li{display:grid;grid-template-columns:135px 1fr;gap:5px 12px;padding:12px 6px;border-bottom:1px solid #25364a;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.bw-log-panel time,.bw-log-panel small{color:#9fb3cb;font-size:12px}.bw-log-panel small{grid-column:2}.bw-log-panel li p{grid-column:2;margin:0;color:#ffbf9c}.bw-log-panel li.is-issue strong{color:#ffae96}
+@media(max-width:1049px){.bw-command{max-height:40vh}.bw-oaths{grid-template-columns:1fr 1fr;gap:8px}.bw-log-panel{inset:3%;padding:16px}}
+@media(max-width:760px){.bw-command .bw-actions>.cn-ui-button{min-height:48px;font-size:12px}.bw-command .bw-branch{font-size:11px;padding-bottom:6px}.bw-oaths{margin:7px 0}.bw-oaths li{font-size:11px}.bw-health{font-size:12px;padding:5px 0}.bw-log-panel li{grid-template-columns:1fr;gap:3px}.bw-log-panel small,.bw-log-panel li p{grid-column:1}.bw-log-panel h3{font-size:20px}.bw-combat .bw-top{gap:5px}.bw-top>div{min-width:100px}}
+
 /* The same original navy frame and approved green action used by the codex. */
 .bw-staging{gap:12px;padding:12px}
 .bw-keyart{border:8px solid transparent;border-image:var(--command-panel) 48 / 16px stretch}
