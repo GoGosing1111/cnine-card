@@ -10,7 +10,8 @@ const DIR=path.dirname(fileURLToPath(import.meta.url)),ROOT=path.resolve(DIR,'..
 const mode=process.argv[2];assert(['dry-run','apply','verify'].includes(mode));assert.equal(process.argv.length,3);
 const digest=b=>createHash('sha256').update(b).digest('hex'),review=JSON.parse(fs.readFileSync(DIR+'/reviewed-source.json','utf8'));
 assert.equal(review.planHash,HASH);for(const [file,sha] of Object.entries(review.files))assert.equal(digest(fs.readFileSync(path.join(ROOT,file))),sha,'Reviewed source changed: '+file);
-const sourceHash=digest(fs.readFileSync(DIR+'/reviewed-source.json')),save=(file,data)=>fs.writeFileSync(DIR+'/'+file,JSON.stringify(data,null,2)+'\n');
+const REPORT='C:/Users/User/.codex/visualizations/2026/10/27/01a17ab9-a03a-79f2-bb14-19ce5c1ac967/blackcrown-reversal-results';fs.mkdirSync(REPORT,{recursive:true});
+const sourceHash=digest(fs.readFileSync(DIR+'/reviewed-source.json')),save=(file,data)=>fs.writeFileSync(REPORT+'/'+file,JSON.stringify(data,null,2)+'\n');
 let connectionString,db,server,token,liveHeld=false,dbHeld=false,keepalive;
 async function connect(label){
  if(!connectionString){const raw=execFileSync(process.execPath,['C:/Users/User/AppData/Local/npm-cache/_npx/74274893b9fe65d3/node_modules/neonctl/bin/cli.js','connection-string','br-misty-hat-az5in4f4','--project-id','purple-king-54735192','--database-name','cnine','--role-name','cnine_migrator','--ssl','verify-full'],{encoding:'utf8',timeout:30000,windowsHide:true,stdio:['ignore','pipe','pipe']});connectionString=raw.trim().replace(/^['"]|['"]$/g,'');const uri=new URL(connectionString);assert(uri.hostname.endsWith('.neon.tech')&&uri.pathname==='/cnine');}
@@ -31,7 +32,7 @@ try{
  db=await connect(mode);await db.query('BEGIN READ ONLY');const prior=await receipt(db);await db.query('COMMIT');
  if(mode==='verify'||prior){assert(prior);const report={checkedAt:new Date().toISOString(),sourceHash,replayed:mode!=='verify',additionalWrites:0,verification:await independentVerify()};save(mode==='verify'?'verification.json':'replay.json',report);console.log(JSON.stringify(report));}
  else{
-  if(mode==='apply'){const dry=JSON.parse(fs.readFileSync(DIR+'/dry-run.json','utf8'));assert(dry.rolledBack&&dry.failureRollbackVerified&&dry.replayedWithoutWrites&&dry.sourceHash===sourceHash,'Matching complete dry run required');}
+  if(mode==='apply'){const dry=JSON.parse(fs.readFileSync(REPORT+'/dry-run.json','utf8'));assert(dry.rolledBack&&dry.failureRollbackVerified&&dry.replayedWithoutWrites&&dry.sourceHash===sourceHash,'Matching complete dry run required');}
   const options=await acquire();console.log(JSON.stringify({phase:'three-accounts-locked',mode}));await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ');await db.query("SET LOCAL lock_timeout='3s'");await db.query("SET LOCAL statement_timeout='15s'");
   const before=await snapshot(db);const backup='C:/Users/User/.codex/visualizations/2026/10/27/01a17ab9-a03a-79f2-bb14-19ce5c1ac967/blackcrown-reversal-'+mode+'-'+Date.now()+'.json';fs.writeFileSync(backup,JSON.stringify(before,null,2));
   if(mode==='dry-run'){

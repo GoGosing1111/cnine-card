@@ -5,7 +5,7 @@ import {readPackageCoinAccounting} from '../../functions/_package_coin_accountin
 import {accountingEnv} from './support-package-bogo-extra-20261025.mjs';
 export const OP='ops:blackcrown-early-opening-reversal:20261027:v1',IDS=['1','91','4199'],QA='docs/qa/blackcrown-reversal-20261027';
 export const hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
-export const q=async(c,s,a=[])=>(await c.query(s,a)).rows,one=r=>(assert.equal(r.length,1,'Expected exactly one row'),r[0]),parse=v=>typeof v==='string'?JSON.parse(v):v;
+export const q=async(c,s,a=[])=>{try{return (await c.query(s,a)).rows;}catch(e){e.message+=' [statement: '+s.slice(0,180)+']';throw e;}},one=r=>(assert.equal(r.length,1,'Expected exactly one row'),r[0]),parse=v=>typeof v==='string'?JSON.parse(v):v;
 export const audit=JSON.parse(fs.readFileSync(new URL('../../docs/qa/blackcrown-off-ss10-20261027/early-openings.json',import.meta.url),'utf8'));
 export function aggregate(records){
  const targets=IDS.map(userId=>({userId,refund:'0',requests:[],cards:{},acquisitionIds:[]}));
@@ -79,7 +79,8 @@ export async function reverse(c,{leaseToken,lockDeadline}={}){
  const pack=parse(one(before.settings.filter(s=>s.key==='mercenary_blackcrown_ss_pack_v1')).value);assert.equal(pack.settings.mode,'OFF');
  for(const id of IDS){const accounting=await readPackageCoinAccounting(accountingEnv(c),Number(id));assert.equal(accounting.tracked,false,'Tracked package funds require separate origin reconciliation');assert.equal(accounting.restricted,0);}
  for(const a of accounts){
-  const orphan=await q(c,'SELECT id FROM coin_logs WHERE user_id=$1 AND reason=$2',[a.userId,'블랙크라운팩 오픈 취소 전액 환급 '+OP]);assert.equal(orphan.length,0,'Orphan refund ledger');
+  const floor=audit.records.filter(r=>r.userId===a.userId).reduce((n,r)=>BigInt(r.coinLogId)<n?BigInt(r.coinLogId):n,9223372036854775807n).toString();
+  const orphan=await q(c,'SELECT id FROM coin_logs WHERE user_id=$1 AND id>$3::bigint AND reason=$2',[a.userId,'블랙크라운팩 오픈 취소 전액 환급 '+OP,floor]);assert.equal(orphan.length,0,'Orphan refund ledger');
   for(const card of a.cards)one(await q(c,'UPDATE user_mercenary_cards_v1 SET total_copies=total_copies-$3,duplicate_count=duplicate_count-$3 WHERE user_id=$1 AND mercenary_code=$2 AND total_copies=$4 AND duplicate_count=$4-1 RETURNING user_id',[a.userId,card.code,card.quantity,card.before]));
   const wallet=one(await q(c,'UPDATE users SET coin=coin+$2::bigint WHERE id=$1 AND coin=$3::bigint RETURNING coin::text',[a.userId,a.refund,a.coinBefore]));assert.equal(wallet.coin,a.coinAfter);
   a.coinLogId=one(await q(c,'INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES($1,$2,$3,$4,1) RETURNING id::text',[a.userId,a.refund,a.coinAfter,'블랙크라운팩 오픈 취소 전액 환급 '+OP])).id;
