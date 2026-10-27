@@ -1,0 +1,136 @@
+{
+  "status": "completed",
+  "completedAt": "2026-10-27T10:52:53.520Z",
+  "source": "ddfd14ae09a74fcb2515e2cff6dafff44f77a185",
+  "pages": {
+    "id": "388fc7cd-db27-4c6b-b03f-9d6735ec3c63",
+    "url": "https://388fc7cd.cnine-card.pages.dev"
+  },
+  "workers": [
+    {
+      "config": "workers/api-runtime/wrangler.jsonc",
+      "deploymentId": "02588aa5-d070-445e-8c72-ae94da4adcac",
+      "createdOn": "2026-10-27T10:47:20.061628Z",
+      "versions": [
+        {
+          "version_id": "86462821-f241-4d84-be48-aad4c2f7e571",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "config": "workers/clan-draft/wrangler.jsonc",
+      "deploymentId": "c61b477c-13ca-4700-944d-a26b833459f9",
+      "createdOn": "2026-10-27T10:48:48.326112Z",
+      "versions": [
+        {
+          "version_id": "2f3d0e70-04ce-4899-a17e-a14d7872cc15",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "rules": {
+    "cardCount": 5,
+    "maxMagicCards": 5,
+    "maxRarity": "ZENITH",
+    "excludedRarities": [
+      "FUR",
+      "SUPERSTAR",
+      "ICON"
+    ],
+    "rentalLevel": 10,
+    "rentalEquipment": false,
+    "equipmentEffects": false,
+    "mercenaries": false,
+    "pets": false,
+    "battleSuits": false,
+    "accountGrowthBonuses": false,
+    "magicTriggerPolicy": "existing shared +9 ceiling, displayed as exclusive +10"
+  },
+  "tests": {
+    "relevantPassed": 32,
+    "server": 13,
+    "postgresCompat": 2,
+    "commonV3Entry": 10,
+    "onestore": 7,
+    "mergedForgePassed": 8,
+    "workerSyntax": true,
+    "releaseGuard": true
+  },
+  "browser": {
+    "nativeMainPass": true,
+    "errors": [],
+    "pc": {
+      "width": 1440,
+      "height": 1000
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    },
+    "equipmentIncluded": false,
+    "roomV2": [
+      {
+        "width": 1440,
+        "empty": true,
+        "namedPlayers": true,
+        "nativeNavigation": true,
+        "errors": []
+      },
+      {
+        "width": 390,
+        "empty": true,
+        "namedPlayers": true,
+        "nativeNavigation": true,
+        "errors": []
+      }
+    ],
+    "publicUi": {
+      "checkedAt": "2026-10-27T10:48:58.871Z",
+      "publicAssets": 276,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "localFixtureApi": true,
+      "remoteWrites": 0,
+      "errors": [],
+      "matchRoomV2": true,
+      "ownerNavigation": true
+    }
+  },
+  "publicVerification": {
+    "checkedAt": "2026-10-27T10:52:53.520Z",
+    "filesMatched": 37,
+    "normalization": "CRLF/LF for text; onestore HTML uses htmlForStore canonical /",
+    "serviceStatus": 200,
+    "classicUnauthenticatedStatus": 401
+  },
+  "productionReadOnly": {
+    "beforeAt": "2026-10-27T10:22:44.525Z",
+    "afterAt": "2026-10-27T10:48:59.923Z",
+    "settings": {
+      "enabled": false,
+      "revision": 0,
+      "epoch": 0,
+      "updatedAt": null
+    },
+    "classicRows": 0,
+    "regularCards": 288,
+    "magicCards": 14,
+    "packPolicyHashesUnchanged": true,
+    "policyHashes": {
+      "mercenary_blackcrown_ss_pack_v1": "8d0a8ad589591822461b081b6222991f3c906821f78bbb5e0dc13dc0c8d4f483",
+      "mercenary_bloodmoon_ss_pack_v1": "240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f"
+    },
+    "featureDataMutations": 0
+  },
+  "artifacts": {
+    "evidenceRoot": "C:/Users/User/Downloads/upload/cnine-card/output/classic-colosseum-20261027",
+    "poster": "C:/Users/User/Downloads/upload/cnine-card/output/classic-doom-poster-20261027/classic-doom-promo-v1.png",
+    "roomPc": "C:/Users/User/Downloads/upload/cnine-card/output/classic-colosseum-20261027/room-v2/empty-1440.png",
+    "roomMobile": "C:/Users/User/Downloads/upload/cnine-card/output/classic-colosseum-20261027/room-v2/public-mobile.png"
+  },
+  "maintenancePerformed": false
+}

@@ -34,3 +34,13 @@ SQLite 서버 시나리오 13개와 실제 PostgreSQL 호환 어댑터의 순차
 ## 대전실 시각 개편 V2
 
 사용자가 첨부한 빈 대전실의 디자인 수정 요청에 따라 물음표 방패와 숫자 칸을 제거했다. 콜로세움 전경, 청록·적색 선수석, 금속 월계관·왕관 문장, 중앙 VS, 5장 부채꼴 카드 뒷면을 적용했다. 문장과 카드 뒷면은 원본 SVG로 만들고 기존 용병 도감 버튼/패널은 재사용했다. 운영자는 빈 대전실에서 참가자 초대로 바로 이동한다. 실제 게임 PC1440/모바일390에서 빈 방과 참가자 편성 방, 초대 관리/대여 편성 이동, 장비 제외를 확인했다. 코드 오류0·가로 넘침 없음, 증거는 output/classic-colosseum-20261027/room-v2에 보존했다. 서버 규칙·결과·운영 OFF 설정은 변경하지 않았다.
+
+## 최종 배포·공개 확인
+
+2026-10-27 19:48:48 KST에 최종 두 번째 Worker까지 배포를 마쳤다. 최종 소스는 `ddfd14ae09a74fcb2515e2cff6dafff44f77a185`, Pages는 `388fc7cd-db27-4c6b-b03f-9d6735ec3c63`이다. API Worker `86462821-f241-4d84-be48-aad4c2f7e571`, 클랜/예약 전투 Worker `2f3d0e70-04ce-4899-a17e-a14d7872cc15`가 각각 100%로 배포됐다. 기본 OFF 상태로 게임의 대전 메뉴에서 진입할 수 있다.
+
+관련 검사는 서버13·PostgreSQL2·공용 V3/진입10·원스토어7로 총32개를 통과했다. 배포 직전 병합된 별도 강화 비용 변경 검사8개와 `check:worker`, 운영 배포 가드도 통과했다. PC·모바일 실제 메인 전 과정과 대전실 V2의 빈 방/참가자 방 확인 모두 오류0건이다. 공개 모바일은 배포 자산276개를 사용하고 인증/운영 API만 격리 검수 서버에 연결했으며 원격 쓰기는0건이다.
+
+공개 런타임 파일37개를 배포 소스와 대조했다. 텍스트의 CRLF/LF 차이를 정규화하고 `/onestore/index.html`은 실제 서버의 `htmlForStore` 변환 결과와 비교했다. 서비스 상태200·인증 없는 클래식 접근401, 두 Worker의 최신 배포 시각/버전/100% 트래픽을 확인했다. 배포 전후 독립 READ ONLY에서 운영OFF·revision0·epoch0·클래식 문서0·대여 가능 일반 카드288종/마법카드14종·블랙크라운/블러드문 정책 해시가 동일했다. 운영 초대·기사·계정 변경·설정 저장은 실행하지 않았다.
+
+검증 요약은 `completion.json`, 상세 결과는 산출물 폴더의 `public-report.json`, `production-before.json`, `production-after.json`, `browser-report.json`, `room-v2/report.json`, `room-v2/public-ui-report.json`, `deploy-complete.log`, `deploy-room-v2-final.log`에 보존했다.
