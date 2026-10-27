@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {execFileSync,spawn} from 'node:child_process';
 import {createHash} from 'node:crypto';
+import {htmlForStore} from '../../../functions/_onestore_web.js';
 const [mode,directory]=process.argv.slice(2),out=path.resolve(directory),root=process.cwd();
 assert(!out.startsWith(root+path.sep));fs.mkdirSync(out,{recursive:true});
 const git=(...args)=>execFileSync('git',args,{encoding:'utf8',windowsHide:true}).trim();
@@ -29,7 +30,7 @@ if(mode==='inspect'){
   const execution=JSON.parse(fs.readFileSync(path.join(out,'deployment-result.json'))),after=await state();assert.equal(execution.exitCode,0);assert.equal(after.status,'success');assert.equal(after.commit,execution.head);
   const files=['index.html','service-worker.js','js/app.js','js/soop-watch-consent-v1.mjs','css/soop-watch-consent-v1.css','onestore/index.html','onestore/js/app.js','shared/onestore-web-assets-v1.mjs'];
   const hash=value=>createHash('sha256').update(value).digest('hex');
-  const publicFiles=await Promise.all(files.map(async file=>{const r=await fetch(site+'/'+file+'?verify='+execution.head,{signal:AbortSignal.timeout(45000)});assert(r.ok,file);const actual=(await r.text()).replaceAll('\r\n','\n'),expected=fs.readFileSync(file,'utf8').replaceAll('\r\n','\n');assert.equal(hash(actual),hash(expected),file);return {file,sha256:hash(actual)};}));
+  const publicFiles=await Promise.all(files.map(async file=>{const r=await fetch(site+'/'+file+'?verify='+execution.head,{signal:AbortSignal.timeout(45000)});assert(r.ok,file);const actual=(await r.text()).replaceAll('\r\n','\n'),source=fs.readFileSync(file,'utf8').replaceAll('\r\n','\n'),expected=file==='onestore/index.html'?htmlForStore(source,'/'):source;assert.equal(hash(actual),hash(expected),file);return {file,sha256:hash(actual),transformed:file==='onestore/index.html'};}));
   const service=await fetch(site+'/api/service/status',{signal:AbortSignal.timeout(20000)});assert(service.ok);
   const workers=await Promise.all(['cnine-card-api-runtime','cnine-card-clan-draft'].map(async name=>({name,deployments:await api('/workers/scripts/'+name+'/deployments')})));
   save('live-verification.json',{pages:after,publicFiles,workers,serviceStatus:service.status,operationalAccountWrites:0,watchRankingCalls:0});console.log(JSON.stringify({pages:after,publicFiles:publicFiles.length,serviceStatus:service.status,workers}));
