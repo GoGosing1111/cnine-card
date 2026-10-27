@@ -4,7 +4,7 @@ import {JokroFX,loadJokroAssets} from '../../../mercenary-jokro-iaido-20261017-v
 import {makePlan,MODES} from '../../../mercenary-jokro-iaido-20261017-v1/skill.mjs';
 import {JinmuDialogue} from './JinmuDialogue.js';
 import {MERCENARY_DIALOGUE_PROFILES} from './MercenaryDialogueProfiles.js';
-import jokroMotionManifest from '../../../mercenary-jokro-iaido-20261017-v1/manifest.json';
+import jokroMotionManifest from '../../../mercenary-jokro-iaido-20261017-v1/manifest.json' with {type:'json'};
 
 const BODY_HEIGHT=285;
 export function jokroBattleArt(code){
