@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" fill="none">
+ <defs><linearGradient id="gold" x1="30" y1="15" x2="188" y2="208" gradientUnits="userSpaceOnUse"><stop stop-color="#8a6635"/><stop offset=".28" stop-color="#fff0c3"/><stop offset=".55" stop-color="#be9253"/><stop offset=".79" stop-color="#f8dfa2"/><stop offset="1" stop-color="#7f5730"/></linearGradient><radialGradient id="core"><stop stop-color="#223c4a"/><stop offset="1" stop-color="#080f1c"/></radialGradient><path id="leaf" d="M0 0C-16-1-23-13-22-22C-8-23 1-11 0 0Z"/></defs>
+ <circle cx="110" cy="111" r="77" fill="url(#core)" stroke="url(#gold)" stroke-width="2"/>
+ <circle cx="110" cy="111" r="70" stroke="url(#gold)" stroke-opacity=".5"/>
+ <path d="M64 178C13 153 17 74 59 43M156 178C207 153 203 74 161 43" stroke="url(#gold)" stroke-width="2"/>
+ <g fill="url(#gold)"><use href="#leaf" transform="translate(54 169) rotate(-29)"/><use href="#leaf" transform="translate(42 149) rotate(-9)"/><use href="#leaf" transform="translate(35 127) rotate(14)"/><use href="#leaf" transform="translate(36 105) rotate(32)"/><use href="#leaf" transform="translate(43 81) rotate(55)"/><use href="#leaf" transform="translate(56 59) rotate(72)"/><g transform="translate(220 0) scale(-1 1)"><use href="#leaf" transform="translate(54 169) rotate(-29)"/><use href="#leaf" transform="translate(42 149) rotate(-9)"/><use href="#leaf" transform="translate(35 127) rotate(14)"/><use href="#leaf" transform="translate(36 105) rotate(32)"/><use href="#leaf" transform="translate(43 81) rotate(55)"/><use href="#leaf" transform="translate(56 59) rotate(72)"/></g></g>
+ <path d="M85 48L79 28L98 36L110 15L122 36L141 28L135 48Z" fill="#101b2b" stroke="url(#gold)" stroke-width="2"/><path d="M89 53H131M104 27L110 19L116 27L110 35Z" stroke="url(#gold)"/>
+ <path d="M76 80L149 151M145 78L74 151" stroke="#0a111c" stroke-width="13"/><path d="M76 80L149 151M145 78L74 151" stroke="url(#gold)" stroke-width="5"/><path d="M65 69L78 73L85 86L76 86L69 79ZM155 68L143 73L136 86L145 85L151 79Z" fill="url(#gold)"/>
+ <path d="M76 135L90 149M132 149L147 135M71 153L79 145M144 145L151 153" stroke="url(#gold)" stroke-width="5"/>
+ <path d="M110 70L144 86V119C144 143 124 155 110 164C96 155 76 143 76 119V86Z" fill="url(#core)" stroke="url(#gold)" stroke-width="2"/><path d="M110 80L135 92V119C135 137 122 146 110 154C98 146 85 137 85 119V92Z" stroke="url(#gold)" stroke-opacity=".6"/>
+ <path d="M110 93L116 108L132 114L116 120L110 137L104 120L88 114L104 108Z" fill="url(#gold)"/><path d="M110 102V126M99 114H121" stroke="#fff2cc"/>
+ <path d="M75 187L110 200L145 187M98 189L110 182L122 189L110 195Z" fill="#10202b" stroke="url(#gold)"/>
+</svg>
