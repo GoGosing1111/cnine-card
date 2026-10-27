@@ -1,0 +1,228 @@
+{
+  "at": "2026-10-27T08:12:41.477Z",
+  "pages": {
+    "id": "a38d1f70-01e0-405a-9663-9a4e3eebabfe",
+    "url": "https://a38d1f70.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "7920a1b20c56061f96f2f4aabb1e437a03078e41"
+  },
+  "releaseCommit": "7920a1b20c56061f96f2f4aabb1e437a03078e41",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "revanConnected": true,
+      "sha256": "cf484f228f2795f4f334844cc80f8967533b536dc6ec1e660aab9423ada833f1"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "revanConnected": true,
+      "sha256": "c4eb58fa0088386f314192d8616435c91d5968a2f12987d015d725074a046246"
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "4ea63515b5bfb2a8115cea8f5ac6bacc5ceba51ffccde95c6201b740c0442711"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "1389d438fd95712d71d4ecb0b90f43d4b14f5faa8a9b5770e322d84842474a4f"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "b1430507ae50a8f7d75618c46d1b588642959a181a4dd8a10229b5f421758ee0"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "cfbda084d07d24995e9567d8d97cf9870ebb6207c6f9c6ee7e70a3481efa2270"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "a04e923f517e17ccd9c60d28aa6816807e943df7fb7f65ee613cd6bacc094e32"
+    },
+    {
+      "file": "mercenary-codex/shell.mjs",
+      "sha256": "f646cfd0f0ef527da0fa0ad3796cc82cb5b788e56a29c9ab623d530c38fef49c"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/build-report.json",
+      "sha256": "5d41828e52d57226c1406bd0a9c2b7e799b08fc64e5579952bac2f1f10cd8da3"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "79afb7dfad63aa2c5ce13f03b0a241f0fb4910901ce8ca36f08e0230f7231650"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "f3f1872ad4456a4bb5585c7fe035addbc0fda86f4f964048e9faf07191159e56"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "3794c5387099f53dee8a5d4a72e13f99f0b6b3b55de2f45dc95c5358291ce426"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "daaf56697fa13425ce0a0c01aaf2e7d6efbbc8c309b488336e6d84a634a86ee4"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "5ad08b5509211d980a97de7da38f9e61a93479b527ab976675d9fb8ab674eba4"
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "sha256": "1f43af3fce41b00cded565b864452bd4730da4643a0c59a994b4f82d2932604f"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "6265bdb991eb41be4206cb1adb7b35407f747048faba29828a4790b5edea6fd6"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "e23cc196ab50a05cd90af9586b8d6cf6cbd7f5c0cf817f1121d2dbd3723fffbc"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "23190952f604522267d01593cf5cf41e1eb156478348448ecd129648cccf5637"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "9e504ec2701ec543f2eff2bc1d2439f48a92899682b529af2b0fce537ddd8038"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/engine-build.json",
+      "sha256": "2f2f05273094c86fd2d227661c97fab2d6d09b36422d387501e548a2af340a99"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "079b4003aebc1538c3b317332aa4e329684b28a2b6ee7b1352118d04a9d0f437"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "34e4f4cdec4e522a6f0c5b27f7d62253f3b810b0672c70022164c041346dd98b"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "675b7e741dde66353c17730029173b7b2dd4956b2c35877e1f80717b1879bef5"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "b88e8a3ecfb0ead392d4e34a29e52a29a18fb21e23e797d29f2a3973c57fc0b4"
+    },
+    {
+      "file": "shared/mercenary-revan-v1.mjs",
+      "sha256": "43fafc8531b4a7023be489de67e5481e3c880118357c7f3d00de4ab055521716"
+    }
+  ],
+  "card": {
+    "code": "V-971",
+    "name": "레반",
+    "title": "검은 단죄",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+    "acquisition": "LOCKED",
+    "sourceArt": "assets/ui/project-v/mercenaries/reaper-mask-20261027/source-art-approved-v9.png",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/reaper-mask-20261027/source-art-approved-v9.png",
+    "sourceArtSha256": "BB9E25AA8E9E0A838672085A0A43F1643269CA4D6AAB91F8458016FFE6ED2AD5",
+    "battleSprite": "assets/ui/project-v/mercenaries/revan-20261027/assets/body-ready-v1.png",
+    "battleSpriteSha256": "6EF692D0BAEA52C056C6B831C4CE8EF571C969265D19AD9C33A6707E74E420A4",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#e93248",
+    "basePower": 2700000,
+    "skills": [
+      {
+        "id": "MS-927",
+        "name": "단죄",
+        "visualMode": "danjoe",
+        "mechanic": "REVAN_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "전진 대검 베기로 적 한 명에게 기존 일반 공격의 1.5배 피해를 한 번 적용합니다.",
+        "trigger": "일반 공격 · 단죄 → 흑월 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-928",
+        "name": "흑월",
+        "visualMode": "heukwol",
+        "mechanic": "REVAN_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "올려 베기와 내려찍기로 적 한 명을 공격합니다. 두 참격은 기존 일반 공격의 1.5배 피해를 한 번 적용합니다.",
+        "trigger": "일반 공격 · 단죄 → 흑월 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-929",
+        "name": "종언",
+        "visualMode": "jongeon",
+        "mechanic": "REVAN_BLACK_RED_RUPTURE",
+        "target": "적 전체",
+        "pveOnly": true,
+        "sharedCooldown": "MS-929",
+        "balance": {
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "대검을 내려찍어 전장 전체를 파열합니다. 총 3,024% 피해를 나누어 대상당 한 번 적용하며 두 광역기를 번갈아 사용합니다.",
+        "trigger": "PVE · 에너지 20 · 종언/멸참 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-926",
+        "name": "멸참",
+        "visualMode": "myeol",
+        "mechanic": "REVAN_BLACK_RED_RUPTURE",
+        "target": "적 전체",
+        "pveOnly": true,
+        "sharedCooldown": "MS-929",
+        "balance": {
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "대검을 횡으로 휘둘러 거대한 검기로 적진 전체를 가릅니다. 총 3,024% 피해를 나누어 대상당 한 번 적용하며 두 광역기를 번갈아 사용합니다.",
+        "trigger": "PVE · 에너지 20 · 종언/멸참 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "craftAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 2,700,000. 제너럴 족 기준의 공격·생존·행동·연계·피해 상한을 사용합니다. 아군 카드 행동당 3.12회 추가 행동, 개인 피해 80% 경감, 상태이상·반격 보호. 단죄와 흑월은 단일 공격마다 순환하며 기존 일반 공격의 1.5배 피해를 한 번 적용합니다. PVE 종언·멸참은 번갈아 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다(에너지 20 · 공통 재사용 3행동). 검은 연무·붉은 균열 아우라와 고정 대검. 모션 2배속. 현재 일반 획득 불가. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+  },
+  "operationalAccountWrites": 0
+}

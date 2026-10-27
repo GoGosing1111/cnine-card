@@ -1,0 +1,19 @@
+{
+  "mode": "dry-run",
+  "sourceSha256": "3c551aedea13dda2c95d89c905aa7d4032d1d7f19ce2a9835f233adc680401c6",
+  "planHash": "e9d266cd1c326abc5201cffec8eb1e63c74ff5d378458e9ea10bf8d86705e0f5",
+  "verification": {
+    "status": "VERIFIED",
+    "recipientCount": 1,
+    "totalQuantity": 1,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 1,
+    "auditRecords": 1
+  },
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "noWriteReplayVerified": true,
+  "leasesReleased": true
+}

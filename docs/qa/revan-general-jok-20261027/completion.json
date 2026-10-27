@@ -1,0 +1,177 @@
+{
+  "status": "COMPLETED",
+  "verifiedAt": "2026-10-27T08:17:07.558Z",
+  "releaseCommit": "7920a1b20c56061f96f2f4aabb1e437a03078e41",
+  "pages": {
+    "id": "a38d1f70-01e0-405a-9663-9a4e3eebabfe",
+    "url": "https://a38d1f70.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "7920a1b20c56061f96f2f4aabb1e437a03078e41"
+  },
+  "basePower": 2700000,
+  "reference": "General Jok V-974 current policy, independent Revan snapshot",
+  "skills": [
+    "단죄",
+    "흑월",
+    "종언",
+    "멸참"
+  ],
+  "basicDamageScale": 1.5,
+  "area": {
+    "damageRatio": 30.24,
+    "cooldownTurns": 3,
+    "cost": 20
+  },
+  "checks": 52,
+  "seededParityConditions": 144,
+  "publicFiles": 23,
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "revanConnected": true,
+      "sha256": "cf484f228f2795f4f334844cc80f8967533b536dc6ec1e660aab9423ada833f1"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "revanConnected": true,
+      "sha256": "c4eb58fa0088386f314192d8616435c91d5968a2f12987d015d725074a046246"
+    }
+  ],
+  "grant": {
+    "operationKey": "ops:pingdu-revan-grant:20261027:v1",
+    "recipient": "핑크빛유두",
+    "userId": "1",
+    "code": "V-971",
+    "quantity": 1,
+    "before": 0,
+    "after": 1,
+    "completedAt": "2026-10-27T08:13:40.896Z",
+    "auditId": "52129",
+    "sourceSha256": "3c551aedea13dda2c95d89c905aa7d4032d1d7f19ce2a9835f233adc680401c6",
+    "planHash": "e9d266cd1c326abc5201cffec8eb1e63c74ff5d378458e9ea10bf8d86705e0f5",
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0
+  },
+  "preserved": {
+    "currency": true,
+    "stockCounters": true,
+    "numberedIssues": true,
+    "craftCounts": true,
+    "packAndCraftSettings": true,
+    "otherCards": true,
+    "inventory": true,
+    "loadouts": true,
+    "levels": true,
+    "growth": true,
+    "accountSettings": true
+  },
+  "browser": [
+    {
+      "surface": "public-codex-PC",
+      "pass": true,
+      "text": "내 용병\n계정 연결 필요\n\n로그인이 필요합니다.\n\n다시 불러오기\nSSS CLASS\n\n검은 단죄\n\n레반\n카드 원화\n전투 SD\n\n선택한 이미지를 누르면 원본을 확대합니다.\n\n리미티드 · 돌격 · SSS\n\n기본 전투력\n2,700,000\n대표 스킬\n단죄\n\n전진 대검 베기로 적 한 명에게 기존 일반 공격의 1.5배 피해를 한 번 적용합니다.\n\n☆\n스킬·전투 성능 자세히 보기\n리미티드 컬렉션\nLIMITED EDITION\n레반\n\n검은 단죄\n\n용병 등급\nSSS\n공개 리소스\n원화 · 전투 SD\n전투 편성\n보유 시 가능\n리미티드 전투 편성\n\n보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.\n획득 잠금 · 획득 방법은 추후 지정됩니다.\n\n기본 전투력\n2,700,000\n배정 스킬\n01\nMS-927 · 적 1명\n단죄\n사용 가능\n\n전진 대검 베기로 적 한 명에게 기존 일반 공격의 1.5배 피해를 한 번 적용합니다.\n\n효과 배율\n150%\n재사용\n0턴\n에너지\n0\n발동 조건 · 대응 방법\n+\n02\nMS-928 · 적 1명\n흑월\n사용 가능\n\n올려 베기와 내려찍기로 적 한 명을 공격합니다. 두 참격은 기존 일반 공격의 1.5배 피해를 한 번 적용합니다.\n\n효과 배율\n150%\n재사용\n0턴\n에너지\n0\n발동 조건 · 대응 방법\n+\n03\nMS-929 · 적 전체\n종언\n사용 가능\n\n대검을 내려찍어 전장 전체를 파열합니다. 총 3,024% 피해를 나누어 대상당 한 번 적용하며 두 광역기를 번갈아 사용합니다.\n\n효과 배율\n3,024%\n재사용\n3턴\n에너지\n20\n발동 조건 · 대응 방법\n+\n04\nMS-926 · 적 전체\n멸참\n사용 가능\n\n대검을 횡으로 휘둘러 거대한 검기로 적진 전체를 가릅니다. 총 3,024% 피해를 나누어 대상당 한 번 적용하며 두 광역기를 번갈아 사용합니다.\n\n효과 배율\n3,024%\n재사용\n3턴\n에너지\n20\n발동 조건 · 대응 방법\n+\n\n전투 성능 · 행동 주기\n기본 전투력 2,700,000. 제너럴 족 기준의 공격·생존·행동·연계·피해 상한을 사용합니다. 아군 카드 행동당 3.12회 추가 행동, 개인 피해 80% 경감, 상태이상·반격 보호. 단죄와 흑월은 단일 공격마다 순환하며 기존 일반 공격의 1.5배 피해를 한 번 적용합니다. PVE 종언·멸참은 번갈아 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다(에너지 20 · 공통 재사용 3행동). 검은 연무·붉은 균열 아우라와 고정 대검. 모션 2배속. 현재 일반 획득 불가. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+    },
+    {
+      "surface": "public-codex-mobile",
+      "pass": true,
+      "text": "내 용병\n계정 연결 필요\n\n로그인이 필요합니다.\n\n다시 불러오기\nSSS CLASS\n\n검은 단죄\n\n레반\n카드 원화\n전투 SD\n\n선택한 이미지를 누르면 원본을 확대합니다.\n\n리미티드 · 돌격 · SSS\n\n기본 전투력\n2,700,000\n대표 스킬\n단죄\n\n전진 대검 베기로 적 한 명에게 기존 일반 공격의 1.5배 피해를 한 번 적용합니다.\n\n☆\n스킬·전투 성능 자세히 보기\n리미티드 컬렉션\nLIMITED EDITION\n레반\n\n검은 단죄\n\n용병 등급\nSSS\n공개 리소스\n원화 · 전투 SD\n전투 편성\n보유 시 가능\n리미티드 전투 편성\n\n보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.\n획득 잠금 · 획득 방법은 추후 지정됩니다.\n\n기본 전투력\n2,700,000\n배정 스킬\n01\nMS-927 · 적 1명\n단죄\n사용 가능\n\n전진 대검 베기로 적 한 명에게 기존 일반 공격의 1.5배 피해를 한 번 적용합니다.\n\n효과 배율\n150%\n재사용\n0턴\n에너지\n0\n발동 조건 · 대응 방법\n+\n02\nMS-928 · 적 1명\n흑월\n사용 가능\n\n올려 베기와 내려찍기로 적 한 명을 공격합니다. 두 참격은 기존 일반 공격의 1.5배 피해를 한 번 적용합니다.\n\n효과 배율\n150%\n재사용\n0턴\n에너지\n0\n발동 조건 · 대응 방법\n+\n03\nMS-929 · 적 전체\n종언\n사용 가능\n\n대검을 내려찍어 전장 전체를 파열합니다. 총 3,024% 피해를 나누어 대상당 한 번 적용하며 두 광역기를 번갈아 사용합니다.\n\n효과 배율\n3,024%\n재사용\n3턴\n에너지\n20\n발동 조건 · 대응 방법\n+\n04\nMS-926 · 적 전체\n멸참\n사용 가능\n\n대검을 횡으로 휘둘러 거대한 검기로 적진 전체를 가릅니다. 총 3,024% 피해를 나누어 대상당 한 번 적용하며 두 광역기를 번갈아 사용합니다.\n\n효과 배율\n3,024%\n재사용\n3턴\n에너지\n20\n발동 조건 · 대응 방법\n+\n\n전투 성능 · 행동 주기\n기본 전투력 2,700,000. 제너럴 족 기준의 공격·생존·행동·연계·피해 상한을 사용합니다. 아군 카드 행동당 3.12회 추가 행동, 개인 피해 80% 경감, 상태이상·반격 보호. 단죄와 흑월은 단일 공격마다 순환하며 기존 일반 공격의 1.5배 피해를 한 번 적용합니다. PVE 종언·멸참은 번갈아 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다(에너지 20 · 공통 재사용 3행동). 검은 연무·붉은 균열 아우라와 고정 대검. 모션 2배속. 현재 일반 획득 불가. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다."
+    },
+    {
+      "surface": "public-bundle-PVE-PC",
+      "pass": true,
+      "report": {
+        "mode": "hunt",
+        "ready": true,
+        "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2",
+        "targets": 12,
+        "checks": [
+          {
+            "title": "멸참 검수",
+            "status": "PASS",
+            "targets": 12,
+            "elapsedMs": 1695.7000000029802,
+            "last": {
+              "code": "V-971",
+              "eventType": "MERCENARY_REVAN_AREA",
+              "mode": "myeol",
+              "authoritative": true,
+              "damageApplications": 12,
+              "contactSeconds": [
+                1.1,
+                1.1236363636363638,
+                1.1472727272727274,
+                1.170909090909091,
+                1.1945454545454546,
+                1.2181818181818183,
+                1.241818181818182,
+                1.2654545454545456,
+                1.2890909090909093,
+                1.3127272727272727,
+                1.3363636363636364,
+                1.36
+              ],
+              "durationSeconds": 3.4,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "surface": "public-bundle-PVP-PC",
+      "pass": true,
+      "report": {
+        "mode": "enemy",
+        "ready": true,
+        "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2",
+        "targets": 5,
+        "checks": [
+          {
+            "title": "기본 공격 검수",
+            "status": "PASS",
+            "results": [
+              {
+                "receipts": 1,
+                "elapsedMs": 1246,
+                "last": {
+                  "code": "V-971",
+                  "eventType": "ATTACK",
+                  "mode": "danjoe",
+                  "authoritative": true,
+                  "damageApplications": 1,
+                  "contactSeconds": [
+                    0.83
+                  ],
+                  "durationSeconds": 2.5,
+                  "playbackRate": 2,
+                  "clockOwner": "V3_REGISTERED_GSAP",
+                  "cameraZoom": false
+                }
+              },
+              {
+                "receipts": 1,
+                "elapsedMs": 1524.0999999940395,
+                "last": {
+                  "code": "V-971",
+                  "eventType": "ATTACK",
+                  "mode": "heukwol",
+                  "authoritative": true,
+                  "damageApplications": 1,
+                  "contactSeconds": [
+                    1.2
+                  ],
+                  "durationSeconds": 3.05,
+                  "playbackRate": 2,
+                  "clockOwner": "V3_REGISTERED_GSAP",
+                  "cameraZoom": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
