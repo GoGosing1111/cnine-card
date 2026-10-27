@@ -1,0 +1,78 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"d4c64d4ae71a0fc39dc47589af3e05a7566837bb","reason":"사용자 승인 레반 V-971 전투 연결. 현재 족로와 동일한 220만 능력치·연계·행동·광역 예산을 독립 정책으로 적용. 단죄/흑월/종언/멸참 2배속. 대기는 검이 머리 뒤, 전방 공격은 몸 앞이며 손가락이 손잡이를 덮음. 승인 원화·기존 PNG 10개 보존, 새 멸참 검기 PNG 추가. 실제 V3 메인 로더 PC·모바일·PVP·12대상 및 두 광역기 공통 재사용 확인. 획득/계정/재화/설정 변경 없음.","changed":["assets/ui/project-v/mercenaries/revan-20261027/assets/aura-atlas-v1.png","assets/ui/project-v/mercenaries/revan-20261027/assets/body-idle-v1.png","assets/ui/project-v/mercenaries/revan-20261027/assets/body-ready-v1.png","assets/ui/project-v/mercenaries/revan-20261027/assets/danjoe-body-atlas-v1.png","assets/ui/project-v/mercenaries/revan-20261027/assets/danjoe-fx-atlas-v1.png","assets/ui/project-v/mercenaries/revan-20261027/assets/greatsword-rigid-v1.png","assets/ui/project-v/mercenaries/revan-20261027/assets/heukwol-body-atlas-v1.png","assets/ui/project-v/mercenaries/revan-20261027/assets/heukwol-fx-atlas-v1.png","assets/ui/project-v/mercenaries/revan-20261027/assets/jongeon-body-atlas-v1.png","assets/ui/project-v/mercenaries/revan-20261027/assets/jongeon-fx-atlas-v1.png","assets/ui/project-v/mercenaries/revan-20261027/assets/myeol-fx-atlas-v1.png","assets/ui/project-v/mercenaries/revan-20261027/live-approval.json","assets/ui/project-v/mercenaries/revan-20261027/motion-manifest.json","docs/qa/revan-live-20261027/README.md","docs/qa/revan-live-20261027/asset-validation.json","docs/qa/revan-live-20261027/before-deploy.json","docs/qa/revan-live-20261027/codex-desktop-v1.jpg","docs/qa/revan-live-20261027/codex-mobile-v1.jpg","docs/qa/revan-live-20261027/codex-verification.json","docs/qa/revan-live-20261027/deployment-plan.json","docs/qa/revan-live-20261027/idle-face-clear-v3.jpg","docs/qa/revan-live-20261027/live-desktop-myeol-v1.jpg","docs/qa/revan-live-20261027/live-desktop-myeol-v1.json","docs/qa/revan-live-20261027/live-desktop-report-v3.json","docs/qa/revan-live-20261027/live-mobile-myeol-v1.jpg","docs/qa/revan-live-20261027/live-mobile-myeol-v1.json","docs/qa/revan-live-20261027/live-mobile-report-v3.json","docs/qa/revan-live-20261027/live-pvp-report-v3.json","docs/qa/revan-live-20261027/myeol-impact-v2.jpg","docs/qa/revan-live-20261027/prompts/aura-fx-v1.txt","docs/qa/revan-live-20261027/prompts/body-v1.txt","docs/qa/revan-live-20261027/prompts/danjoe-fx-v1.txt","docs/qa/revan-live-20261027/prompts/danjoe-motion-v1.txt","docs/qa/revan-live-20261027/prompts/heukwol-fx-v1.txt","docs/qa/revan-live-20261027/prompts/heukwol-motion-v1.txt","docs/qa/revan-live-20261027/prompts/idle-v1.txt","docs/qa/revan-live-20261027/prompts/jongeon-fx-v1.txt","docs/qa/revan-live-20261027/prompts/jongeon-motion-v1.txt","docs/qa/revan-live-20261027/prompts/myeol-fx-v1.txt","docs/qa/revan-live-20261027/prompts/weapon-v1.txt","functions/_battle_v2_preview.js","functions/_mercenary_account.js","functions/_mercenary_codex.js","functions/_mercenary_combat.js","functions/_mercenary_level.js","functions/_mercenary_revan.js","functions/_ranked_duo_economy.js","index.html","js/app.js","js/battle-v3-live.js","mercenary-codex/app.mjs","mercenary-codex/index.html","mercenary-codex/model.mjs","mercenary-codex/shell.mjs","preview/battle-suit-skill-chip-v1/build-report.json","preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js","preview/boss-resources-v2048/lab.bundle.js","preview/cow-room-v3-v1/battle.bundle.js","preview/infinite-tower-v3-v1/battle.bundle.js","preview/project-v-mercenary-system-v1/skills.bundle.js","preview/project-v-v3/grid-build-report.json","preview/project-v-v3/project-v-pixi-battle.bundle.js","preview/project-v-v3/source/battle/MercenaryCombatPlayback.js","preview/project-v-v3/source/battle/RevanCombatPlayback.js","preview/project-v-v3/source/battle/revan/AtlasEdgeFilter.js","preview/project-v-v3/source/battle/revan/RevanFX.js","preview/project-v-v3/source/battle/revan/skill.mjs","preview/project-v-v3/source/project-v-pixi-battle.src.js","preview/scrapyard-v3-v1/battle.bundle.js","preview/sustained-hunt-v2/battle.bundle.js","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","preview/v3-wide-grid-v1/battle.bundle.js","pve-v3/battle.bundle.js","scripts/build-v3-grid-consumers.mjs","service-worker.js","shared/mercenary-acquisition-release-v1.mjs","shared/mercenary-combat-link-v2103.mjs","shared/mercenary-level-v1.mjs","shared/mercenary-limited-deployment-v1.mjs","shared/mercenary-revan-v1.mjs","tests/ranked-duo-large-wallet-20261027.test.mjs","tests/revan-live-20261027.qa-server.mjs","tests/revan-live-20261027.test.mjs","tests/revan-runtime-20261027.test.mjs"],"tests":["tests/revan-live-20261027.test.mjs","tests/revan-runtime-20261027.test.mjs","tests/jokro-combat-20261018.test.mjs","tests/eunseol-live-20261023.test.mjs","tests/mercenary-turn-cadence-v2099.test.mjs","tests/bloodmoon-skill-status-20261025.test.mjs","tests/ranked-duo-large-wallet-20261027.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ actual Joeun PVE status records complete without a generic skill lookup or a second attack (63.3238ms)
+✔ status from either team preserves authoritative HP/shield once and ignores a lost or dead target (1.4369ms)
+✔ V-960 replays complete server skill streams in PVE, hunt and either PVP team (89.8508ms)
+✔ V-961 replays complete server skill streams in PVE, hunt and either PVP team (45.7929ms)
+✔ V-962 replays complete server skill streams in PVE, hunt and either PVP team (52.9388ms)
+✔ V-963 replays complete server skill streams in PVE, hunt and either PVP team (37.3483ms)
+✔ V-964 replays complete server skill streams in PVE, hunt and either PVP team (23.7541ms)
+✔ Eunseol retains its approved 1.94089m stats and cadence independently of the Jokro buff (18.4847ms)
+✔ normal, limited, Halloween and fusion pools remain closed while the current Bloodmoon catalog retains Eunseol (1.7932ms)
+✔ three cosmetic sword forms share one 1512% cast and unique living targets; invalid actors/skills never hit (2.1577ms)
+✔ own-action cooldown and energy are identical to Jokro: six casts per thirty actions, one shared area skill, no PVP area (5.8745ms)
+✔ actual server PVE keeps Eunseol unchanged while buffed Jokro finishes with fewer casts; PVP never emits Eunseol area events (91.5976ms)
+✔ public codex displays SSS LIMITED locked Eunseol; ownership is required and no account is auto-granted (4409.3762ms)
+✔ public catalog art is the exact approved source and fixed idle frame (37.2365ms)
+✔ Jokro scales actual PVE/PVP stats, equipment and linked floors to 2.2m, including the full shield; actions stay equal (17.478ms)
+✔ Jokro stays outside all public acquisition candidates despite contaminated catalogs and high CMS weights (1.4312ms)
+✔ 청룡단천 distributes 1512% once across every living target; repeated visual contacts cannot add damage (1.5056ms)
+✔ actual battle simulator emits stronger area receipts and keeps PVP basics only (73.2575ms)
+✔ high-power gauges drain ready actors before advancing time, on both sides without mercenaries (30.5406ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 1000000 power cards (34.4873ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 20000000 power cards (21.0663ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 100000000 power cards (35.5953ms)
+✔ all six ranks without an assigned skill still perform basic attacks at real deck power (43.6471ms)
+✔ mercenary reservation uses allied card turns only, clears on a natural turn and excludes dead actors (1.1417ms)
+✔ dead mercenaries cannot receive reserved basic or skill turns (8.5704ms)
+✔ apocalypse chip clock and continuous monster replacement retain actual mercenary attacks (71.8315ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (30.9996ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (19.5664ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (13.2133ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (36.3944ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (32.5934ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (59.8613ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (6.759ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (5.3557ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.4654ms)
+✔ true an already-large PostgreSQL wallet receives an odd reward exactly once (4801.108ms)
+✔ pipeline an already-large PostgreSQL wallet receives an odd reward exactly once (2095.3686ms)
+✔ normal safe-integer crossing, BIGINT overflow and negative wallets still roll back the whole batch (2012.3621ms)
+✔ large-wallet ledger failure rolls back exact balances and safely resumes (1774.9357ms)
+✔ Revan independently matches current Jokro stats, equipment, link, caps, defenses and 3.12 cadence (18.1522ms)
+✔ two basic forms do not add actions or damage; area divides exactly 1512% once across unique living targets (3.4528ms)
+✔ area energy and cooldown match Jokro, with no area cast in PVP (8.0215ms)
+✔ actual seeded PVE and PVP outcomes match Jokro at three power tiers on both sides (1132.7509ms)
+✔ all acquisition pools remain closed and catalog lists four ready skills (22.1532ms)
+✔ no grant occurs; fixture ownership enables PVE and PVP through the regular loadout path (3903.2518ms)
+✔ Revan is present in the regular five-times limited growth catalog (67.8326ms)
+✔ approved source and eleven native-alpha resources retain hashes, rigid sword and foreground grip order (41.7854ms)
+✔ idle and shoulder recovery preserve the face while Heukwol and Jongeon strike in front of the body (1.3496ms)
+✔ all ten current V3 bundles contain Revan and match their source report (181.184ms)
+✔ main loader, wrapper and installed shell share the Revan runtime and cache key (12.248ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 50
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11815.9103
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] revan-live-20261027-v1-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261026-v6-heeya-first-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+file:///C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site/scripts/prepare-production-assets.mjs:247
+ if(assetCount>20000)throw Error('Pages asset count exceeds the verified 20,000-file limit: '+assetCount);
+                           ^
+
+Error: Pages asset count exceeds the verified 20,000-file limit: 20017
+    at prepareProductionAssets (file:///C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site/scripts/prepare-production-assets.mjs:247:28)
+    at file:///C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site/scripts/deploy-production.mjs:66:20
+
+Node.js v24.18.0

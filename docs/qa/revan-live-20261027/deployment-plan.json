@@ -1,16 +1,18 @@
 {
-  "base": "d4c64d4ae71a0fc39dc47589af3e05a7566837bb",
-  "reason": "사용자 승인 레반 V-971 전투 연결. 현재 족로와 동일한 220만 능력치·연계·행동·광역 예산을 독립 정책으로 적용. 단죄/흑월/종언/멸참 2배속. 대기는 검이 머리 뒤, 전방 공격은 몸 앞이며 손가락이 손잡이를 덮음. 승인 원화·기존 PNG 10개 보존, 새 멸참 검기 PNG 추가. 실제 V3 메인 로더 PC·모바일·PVP·12대상 및 두 광역기 공통 재사용 확인. 획득/계정/재화/설정 변경 없음.",
+  "base": "c8fcf0088c95b81ae85f9d32b6b7ee4435f0dea7",
+  "reason": "사용자 승인 레반 V-971 전투 연결. 현재 족로와 동일한 220만 능력치·연계·행동·광역 예산을 독립 정책으로 적용. 단죄/흑월/종언/멸참 2배속. 대기는 검이 머리 뒤, 전방 공격은 몸 앞이며 손가락이 손잡이를 덮음. 승인 원화·기존 PNG 10개 보존, 새 멸참 검기 PNG 추가. 실제 V3 메인 로더 PC·모바일·PVP·12대상 및 두 광역기 공통 재사용 확인. 획득/계정/재화/설정 변경 없음. 첫 시도 관련 50검사 통과 후 업로드 파일 수 제한만 실패. 전투 코드 동일, 제작 전용 18파일을 Git에 보존하고 Pages에서만 제외. 재시도는 포장·배포정책·번들/메인로더 검사만 수행.",
   "tests": [
-    "tests/revan-live-20261027.test.mjs",
-    "tests/revan-runtime-20261027.test.mjs",
-    "tests/jokro-combat-20261018.test.mjs",
-    "tests/eunseol-live-20261023.test.mjs",
-    "tests/mercenary-turn-cadence-v2099.test.mjs",
-    "tests/bloodmoon-skill-status-20261025.test.mjs",
-    "tests/ranked-duo-large-wallet-20261027.test.mjs"
+    "tests/revan-packaging-20261027.test.mjs",
+    "tests/revan-runtime-20261027.test.mjs"
   ],
   "checks": [
-    "check:worker"
-  ]
+    "check:worker",
+    "test:release-policy"
+  ],
+  "previouslyPassed": {
+    "head": "48ed1567f16049e24a009ec62ffcc505cb23e0a2",
+    "tests": 50,
+    "log": "first-attempt-50-tests-passed.log",
+    "failure": "Pages file count 20017; before Worker/Pages publication"
+  }
 }
