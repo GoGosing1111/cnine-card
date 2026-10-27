@@ -16,7 +16,7 @@ test('approved art, thumbnail, shipped bundles and live cache tags are connected
  const report=JSON.parse(fs.readFileSync('preview/project-v-v3/grid-build-report.json'));
  assert(report.sources.some(s=>s.file.endsWith('/JokroCombatPlayback.js')));
  for(const file of ['preview/project-v-v3/project-v-pixi-battle.bundle.js','preview/sustained-hunt-v2/battle.bundle.js','pve-v3/battle.bundle.js']){
-  const s=fs.readFileSync(file,'utf8');assert(s.includes('MERCENARY_JOKRO_AREA'),file);assert(s.includes('JOKRO_MOTION_ASSETS'),file);
+  const s=fs.readFileSync(file,'utf8');assert(s.includes('MERCENARY_JOKRO_AREA'),file);assert(s.includes('jokro-iaido'),file);assert(!s.includes('JOKRO_MOTION_ASSETS'),file);
  }
  for(const file of ['index.html','js/app.js','js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert(fs.readFileSync(file,'utf8').includes('jokro-live'),file);
  const appVersion=fs.readFileSync('index.html','utf8').match(/js\/app\.js\?v=([^&"]+)/)?.[1];

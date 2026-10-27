@@ -9,6 +9,7 @@
     "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",
     "preview/project-v-v3/source/battle/ObjectPool.js",
     "preview/project-v-v3/source/battle/SealDragonPlayback.js",
+    "shared/mercenary-blackcrown-catalog-v1.mjs",
     "shared/mercenary-halloween-combat-v1.mjs",
     "shared/mercenary-bathory-v1.mjs?v=20261023-halloween-stock-v1",
     "shared/mercenary-halloween-visual-v1.mjs",
@@ -182,6 +183,7 @@
     "preview/mercenary-jokro-iaido-20261017-v1/source/JokroAwakeningFX.js",
     "preview/mercenary-jokro-iaido-20261017-v1/source/JokroNeonRim.js",
     "preview/mercenary-jokro-iaido-20261017-v1/source/JokroFX.js",
+    "preview/mercenary-jokro-iaido-20261017-v1/manifest.json",
     "preview/project-v-v3/source/battle/JokroCombatPlayback.js",
     "shared/mercenary-kairon-v1.mjs",
     "shared/mercenary-jinmu-v1.mjs",
@@ -286,5 +288,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2525742
+  "outputBytes": 2566870
 }

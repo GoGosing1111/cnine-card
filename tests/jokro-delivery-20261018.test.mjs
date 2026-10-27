@@ -12,3 +12,13 @@ test('Jokro ships every runtime atlas and approved original while retaining unsh
  }
  assert.equal(frames,132);
 });
+
+test('every shared battle consumer embeds the approved Jokro metadata without a runtime manifest request',()=>{
+ const report=JSON.parse(fs.readFileSync('preview/project-v-v3/grid-build-report.json'));
+ for(const {file} of report.outputs){
+  const bundle=fs.readFileSync(file,'utf8');
+  assert(bundle.includes('jokro-iaido'),file);
+  assert(!bundle.includes('manifest.json?jokro='),file);
+  assert(!bundle.includes('JOKRO_MOTION_ASSETS'),file);
+ }
+});

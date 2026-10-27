@@ -4,10 +4,9 @@ import {JokroFX,loadJokroAssets} from '../../../mercenary-jokro-iaido-20261017-v
 import {makePlan,MODES} from '../../../mercenary-jokro-iaido-20261017-v1/skill.mjs';
 import {JinmuDialogue} from './JinmuDialogue.js';
 import {MERCENARY_DIALOGUE_PROFILES} from './MercenaryDialogueProfiles.js';
+import jokroMotionManifest from '../../../mercenary-jokro-iaido-20261017-v1/manifest.json';
 
-const BODY_HEIGHT=285,MANIFEST='/preview/mercenary-jokro-iaido-20261017-v1/manifest.json?jokro=20261018-live-v1';
-let manifestPromise;
-const manifest=()=>manifestPromise||=fetch(MANIFEST).then(r=>{if(!r.ok)throw Error('JOKRO_MOTION_ASSETS');return r.json();}).catch(e=>{manifestPromise=null;throw e;});
+const BODY_HEIGHT=285;
 export function jokroBattleArt(code){
  if(code!==JOKRO_CODE)return null;
  return {...JOKRO_ART,spriteUrl:'/'+JOKRO_ART.battleSprite+'?v='+JOKRO_ART.battleSpriteSha256.slice(0,16),
@@ -81,7 +80,9 @@ export async function setupJokroActor(engine,actor){
  if(engine.jokroLoads.has(actor))return engine.jokroLoads.get(actor);
  const epoch=engine.mercenaryEpoch;
  const pending=(async()=>{
-  const m=await manifest(),assets=await loadJokroAssets(m);
+  // Ship the approved metadata with the engine. A separate manifest request
+  // must not abort ranked entry when the already shipped images are available.
+  const m=jokroMotionManifest,assets=await loadJokroAssets(m);
   if(engine.mercenaryDisposed||actor.root.destroyed||epoch!==engine.mercenaryEpoch){disposeAssets(assets);return null;}
   const target=(actor.team==='ALLY'?engine.enemies:engine.allies).find(a=>!a.root.destroyed)||actor;
   const fx=new JokroLiveFX(engine,actor,[target],assets,m),state={engine,actor,fx,busy:false,stopped:false,basicCount:0};
