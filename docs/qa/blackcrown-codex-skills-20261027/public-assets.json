@@ -1,0 +1,157 @@
+{
+  "ok": true,
+  "checkedAt": "2026-10-27T02:24:32.806Z",
+  "origin": "https://cnine-card.pages.dev",
+  "revision": 61,
+  "cardCount": 97,
+  "version": "blackcrown-codex-skills-20261027-v2",
+  "cards": [
+    {
+      "code": "V-950",
+      "name": "희야",
+      "skills": [
+        "흑관 관통",
+        "흑우 탄막"
+      ],
+      "battleSprite": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/heeya-idle.png",
+      "deploymentEnabled": false
+    },
+    {
+      "code": "V-951",
+      "name": "나무늘봉순",
+      "skills": [
+        "녹옥 저격",
+        "녹옥 관통"
+      ],
+      "battleSprite": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/bongsoon-idle.png",
+      "deploymentEnabled": false
+    },
+    {
+      "code": "V-952",
+      "name": "조은",
+      "skills": [
+        "왕관 점사",
+        "흑관 파쇄"
+      ],
+      "battleSprite": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/joeun-idle.png",
+      "deploymentEnabled": false
+    },
+    {
+      "code": "V-953",
+      "name": "디임",
+      "skills": [
+        "자월 연격",
+        "월영 회수"
+      ],
+      "battleSprite": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/diim-idle.png",
+      "deploymentEnabled": false
+    },
+    {
+      "code": "V-954",
+      "name": "수댕",
+      "skills": [
+        "황금화관",
+        "흑염 결계"
+      ],
+      "battleSprite": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/sudaeng-idle.png",
+      "deploymentEnabled": false
+    },
+    {
+      "code": "V-955",
+      "name": "오리꿍",
+      "skills": [
+        "왕관 산탄",
+        "크라운 일제탄"
+      ],
+      "battleSprite": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/orikkung-idle.png",
+      "deploymentEnabled": false
+    }
+  ],
+  "files": [
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-heeya-source-art-approved-v3.png",
+      "sha256": "d683244cfc434316afab36e297f99819417f5854865b55571f5f46385db8a211",
+      "bytes": 2153359
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/heeya-idle.png",
+      "sha256": "97e73c6ae831d62047c9fc3ef805a5892b7df4b60e9d9b135c3167c52444f86a",
+      "bytes": 1561081
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-bongsoon-source-art-approved-v1.png",
+      "sha256": "a6b159821cfe742f514527bb8434921c518f60298177e11c2777d78a82aa1762",
+      "bytes": 2642121
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/bongsoon-idle.png",
+      "sha256": "463858a8dc54888bba2579961cb682da6481daca3179bef398e5b1aa7418d06a",
+      "bytes": 2230148
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-joeun-source-art-approved-v3.png",
+      "sha256": "a2cbd1923b6fc8212d016d74a16d3329be6764d0bea7e30e597647221204eaad",
+      "bytes": 2333026
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/joeun-idle.png",
+      "sha256": "d3844815558d1172c7267efad22758ff79c50ed62bad88c8037088575e009bc9",
+      "bytes": 1645992
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-diim-source-art-approved-v2.png",
+      "sha256": "21c9eb01c83922ceee985edd5b43e951ce35929e24f7527fbf9ab4424e7bb6c1",
+      "bytes": 2479010
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/diim-idle.png",
+      "sha256": "e11aab60fd964ab7b0f5a3b3e835634d0f092cc6d85535dfcd324aec42391afd",
+      "bytes": 1749102
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-sudaeng-source-art-approved-v3.png",
+      "sha256": "512377e2364afa787d33f0120a461039fd36f9385d617f8920b3fed5f5a8e05c",
+      "bytes": 2278983
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/sudaeng-idle.png",
+      "sha256": "449ec1af3126c2ea20efb93240a950d4f69193943591f2646ee54e592dbeec67",
+      "bytes": 1745001
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-orikkung-source-art-approved-v3.png",
+      "sha256": "620507718af3508aaecbd59b5863539a73ba99a4218229250a75d100fb9f4764",
+      "bytes": 2306169
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/orikkung-idle.png",
+      "sha256": "964ea0757ec220f0e7f2a17e265dc6a013c4e9b186a5d07732b1cb8be11e6e25",
+      "bytes": 2196828
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "8c2b819a8f0ca3a8abc7d4c1661db178104b8a0a9c9984738b1f6ba230032d21"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "e33e6c01589a6a64187aa70df14b8deb403f35f90feab085a78c0e92d1933ee1"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "adcc497c512b426b8053a88dcd5ebe1d896a6f8970a90f07e28c913b7a6a6887"
+    },
+    {
+      "file": "shared/mercenary-blackcrown-codex-v2.mjs",
+      "sha256": "97c19a8c5060c532be4a6c9074d4b153cce36588538cec69363ea0d45c8a483f"
+    }
+  ],
+  "productionWrites": 0,
+  "pack": {
+    "httpStatus": 503,
+    "mode": null,
+    "userOpeningEnabled": null,
+    "code": "MAINTENANCE",
+    "liveSettingsVerified": false,
+    "note": "Public feature unavailable; no inference about stored settings. This codex release does not modify acquisition or operation settings."
+  }
+}
