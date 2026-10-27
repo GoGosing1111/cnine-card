@@ -1,6 +1,6 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
 import {mountForgePolicyEditor} from './equipment-forge-policy-editor-v1.mjs?v=20260922-ready';
-import {mountForgeAdvancedEditor} from './equipment-forge-advanced-editor-v1.mjs?v=20261012-scrolls';
+import {mountForgeAdvancedEditor} from './equipment-forge-advanced-editor-v1.mjs?v=20261027-star-limit';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let panel, navButton, publicHost, policyHost, advancedHost, editor, advancedEditor, data, busy=false, dirty=false, notice='', generation=0;
 function powerTable(){

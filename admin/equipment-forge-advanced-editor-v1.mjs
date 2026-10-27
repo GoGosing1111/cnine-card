@@ -1,6 +1,6 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
 import {forgeInputNumber} from '../shared/equipment-forge-cms-v1.mjs';
-import {FORGE_ADVANCED_FIELDS,FORGE_SCROLL_ITEMS,validateForgeAdvanced,forgeAdvancedReadiness} from '../shared/equipment-forge-advanced-v1.mjs';
+import {FORGE_ADVANCED_FIELDS,FORGE_SCROLL_ITEMS,validateForgeAdvanced,forgeAdvancedReadiness} from '../shared/equipment-forge-advanced-v1.mjs?v=20261027-star-limit';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function mountForgeAdvancedEditor(host){
  let policy=null,dirty=false,busy=false,disposed=false,generation=0;

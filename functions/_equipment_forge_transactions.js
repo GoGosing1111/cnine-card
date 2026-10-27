@@ -61,6 +61,7 @@ export async function forgeQuote(env,user,body,{now=Date.now()}={}){
    baseCost={...advanced.steps[item.level-10],itemCode:FORGE_ENHANCEMENT_MATERIAL};
   }
   requireEnhancementCost(baseCost);cost={...baseCost,itemQuantity:forgeStarQuantity(item.code,baseCost.itemQuantity)};
+  requireEnhancementCost(cost);
   if(advanced){const scroll=forgeScrollForSlot(item.slot);cost.scroll={code:scroll.code,name:scroll.name,image:scroll.image,quantity:cost.scrollQuantity};if(!await DB.prepare('SELECT code FROM inventory_items WHERE code=? AND is_active=1').bind(scroll.code).first())throw jointError('FORGE_MATERIAL_CONFIG','강화주문서가 미등록 또는 비활성 상태입니다.',409);}
   if([cost.successPpm,cost.maintainPpm,cost.destroyPpm,cost.coinCost].some(v=>v===null))throw jointError('FORGE_POLICY_PENDING','해당 단계의 확률·비용이 미설정입니다.',409);
   if(protectedAttempt&&(!policy.protection.itemCode||policy.protection.consume==='UNSET'||cost.protectionQuantity===null))throw jointError('FORGE_PROTECTION_PENDING','보호권 소모 정책이 미설정입니다.',409);
