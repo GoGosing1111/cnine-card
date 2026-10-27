@@ -1,0 +1,23 @@
+{
+  "operationKey": "ops:attendance-verified-coins:20261027:v1",
+  "status": "COMPLETED",
+  "cutoffKst": "2026-10-27 16:03:37",
+  "completedAtKst": "2026-10-27 16:08:56",
+  "verifiedAtKst": "2026-10-27 16:09:21",
+  "delivery": "MESSAGE_ATTACHMENT",
+  "highestTierOnly": true,
+  "tier50": {"minimumDays": 50, "maximumDays": 99, "recipients": 142, "coinPerRecipient": "20000000000000"},
+  "tier100": {"minimumDays": 100, "maximumDays": null, "recipients": 67, "coinPerRecipient": "40000000000000"},
+  "totals": {"recipients": 209, "messages": 209, "rewards": 209, "totalCoin": "5520000000000000"},
+  "auditId": "52110",
+  "messageIdRange": ["262806", "263014"],
+  "rewardIdRange": ["241731", "241939"],
+  "planHash": "e98d9258e78fea38545246e9e30c12170600cdfbb991c8cd29e3c7b9fae30c61",
+  "deliverySourceHashLf": "813f89ce924a742c1a2a3024efac02a61c239a01f8d0f2412be465498ac4869c",
+  "validation": {"testsPassed": 5, "failureInjectionRolledBack": true, "dryRunRolledBack": true, "independentReadOnly": true, "missing": 0, "duplicates": 0, "replayAdditionalWrites": 0},
+  "directWalletStatements": 0,
+  "autoClaim": false,
+  "gameDeployment": false,
+  "privateRecords": "C:/Users/User/Downloads/cnine-ops-records/attendance-verified-coins-20261027",
+  "rerunPolicy": "Completed. Verify/replay only; never issue the same reward under a new operation key."
+}
