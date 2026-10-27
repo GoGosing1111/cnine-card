@@ -1,0 +1,61 @@
+{
+  "format": "PROJECT_V_MERCENARY_ART_APPROVAL_V1",
+  "date": "2026-10-27",
+  "status": "APPROVED_SOURCE_ART",
+  "scope": "SOURCE_ART_ONLY",
+  "userRequests": [
+    "일러스트 반영 이름 추천해봐라 싼티 안나게 2~3글자"
+  ],
+  "conceptId": "reaper-mask",
+  "lookupLabel": "백골 가면·검은 사신·초대형 대검 승인 원화",
+  "code": null,
+  "name": null,
+  "nameStatus": "PENDING_USER_SELECTION",
+  "rank": null,
+  "rankStatus": "PENDING_CATALOG_ASSIGNMENT",
+  "requestedArtTier": "SSS LIMITED",
+  "sourceArt": "assets/ui/project-v/mercenaries/reaper-mask-20261027/source-art-approved-v9.png",
+  "sourceArtStatus": "APPROVED_SOURCE_ART",
+  "sourceArtInfo": {
+    "width": 1024,
+    "height": 1536,
+    "format": "PNG",
+    "mode": "RGB",
+    "bytes": 2542035,
+    "sha256": "BB9E25AA8E9E0A838672085A0A43F1643269CA4D6AAB91F8458016FFE6ED2AD5",
+    "copiedWithoutReencoding": true
+  },
+  "reviewSource": "C:/Users/User/Downloads/upload/cnine-card/output/imagegen/sss-limited-reaper-mask-20261027/mercenary-reaper-enlarged-blade-root-source-art-v9.png",
+  "reviewManifest": "C:/Users/User/Downloads/upload/cnine-card/output/imagegen/sss-limited-reaper-mask-20261027/generation-v9.json",
+  "generationMethod": "built-in image_gen",
+  "generationPrompt": "assets/ui/project-v/mercenaries/reaper-mask-20261027/prompt-v9.txt",
+  "provenanceBundle": "C:/Users/User/Downloads/upload/cnine-card/output/imagegen/sss-limited-reaper-mask-20261027",
+  "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a17b01-3690-74b3-85fb-014b3674b2ee/exec-45b63f04-7517-468b-814b-3434dca230d9.png",
+  "approvedRevision": "V9_ENLARGED_BLADE_ROOT_REDUCED_EYE_BLOOM",
+  "lockedFeatures": [
+    "손잡이 바로 위 검신을 키운 V9 초대형 대검",
+    "흘러내리는 검은 장발과 얼굴에 밀착한 백골 가면",
+    "번짐을 줄인 붉은 수평 눈빛",
+    "검은 의상과 검은 아우라·붉은 에너지 효과",
+    "폐허가 된 전장과 원본 세로 구도"
+  ],
+  "originalsModified": false,
+  "previousVariantsPreserved": true,
+  "technicalQa": {
+    "sourceIntegrity": "VERIFIED",
+    "nativeSize": "1024x1536_RGB_PNG",
+    "userVisualApproval": "LATEST_V9_ACCEPTED_FOR_SOURCE_ART_REGISTRATION",
+    "cardFrameComposition": "NOT_RUN_ART_APPROVAL_ONLY",
+    "thumbnail160": "NOT_RUN_ART_APPROVAL_ONLY"
+  },
+  "battleSprite": null,
+  "battleSpriteStatus": "NOT_YET_PRODUCED",
+  "sdGenerationRequested": false,
+  "skillsAssigned": false,
+  "statsAssigned": false,
+  "catalogConnected": false,
+  "runtimeConnected": false,
+  "runtimeEnabled": false,
+  "deploymentPerformed": false,
+  "releaseAuthorization": "ART_REGISTRATION_ONLY_NAME_SELECTION_PENDING"
+}

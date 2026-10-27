@@ -1,0 +1,18 @@
+Use case: precise-object-edit.
+Correct two LOCAL details in Image 1. Image 2 is the user's close-up identifying the sword section to ENLARGE.
+
+IMPORTANT: THE PREVIOUS ATTEMPT MISTAKENLY SHRANK THE BLADE ROOT. THE USER EXPLICITLY SAYS TO MAKE IT BIGGER. Do not shrink the sword. Do not reduce the blade root. Do not make a thin neck above the handle.
+
+EDIT A — ENLARGE THE BLADE IMMEDIATELY ABOVE THE HANDLE:
+The target is the visible near-hilt blade section at the LEFT of the head, starting where the wrapped handle and round reinforcement meet the broad blade and continuing until the blade disappears behind the hair.
+Make this section approximately 25–30 PERCENT WIDER across the blade than it is in Image 1, with a correspondingly more substantial solid steel thickness. This must be a clearly visible ENLARGEMENT of the blade above the handle. Increase the broad dark blade face and silver-gray bevel together, not just the round reinforcement. Do not enlarge the handle or the hand.
+Widen the blade about its existing longitudinal centerline: give its upper and lower edges more room so the near-hilt blade has the same massive cross-section as the broad blade emerging behind the head. The near-hilt part must look like a broad continuation of that same huge Dragon Slayer slab, not a smaller neck connecting to a larger rear blade.
+Keep the long edges straight and the main blade width coherent through the head occlusion. No flare or bend, no step behind the hair, no mismatched separately drawn blade sections. The center of grip, blade base and far blade remain on one continuous straight axis.
+Maintain the same location and angle of the grip, hand and shoulder contact. Resize the simple rounded reinforcement only enough to fit naturally within the larger blade base. Keep the exact Dragon Slayer design. Do NOT change the long exposed far-side blade, its tip, its overall length or its position.
+Restore existing black/crimson sword energy naturally over the newly enlarged section. The new root should read as larger at a glance.
+
+EDIT B — REDUCE EYE LIGHT BLOOM:
+Keep the two straight horizontal crimson eye shapes, but reduce the fuzzy surrounding red bloom by about half. Make the long side flare shorter and fainter, fading close to the temples rather than crossing far over the hair. Keep strong deep-red eye centers for the threatening stare, without overexposed white centers or laser-beam intensity. Do not change the mask design or eye placement.
+
+LOCK THE REST:
+Preserve the original mask markings and teeth, long black hair, face angle, clothes, body, stance, hands, cloak, black aura, sword's far end, battlefield and full composition. No global repaint or new details. Same 2D painting and 2:3 portrait dimensions. No text or guides.
