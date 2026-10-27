@@ -1,0 +1,335 @@
+{
+  "checkedAt": "2026-10-27T01:06:13.954Z",
+  "source": "36f3dcb06",
+  "files": [
+    {
+      "file": "admin/index.html",
+      "sha256": "01597f470931a6fc5c8506c973c376421219ec712bd4c8de275fd0d54d0e9aa9",
+      "bytes": 82160,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "2d320890864aca97bbeb2a25ba2dedd340b9c811b3c940c7c7605c69e4e2906b",
+      "bytes": 28290,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "admin/mercenary-blackcrown-admin-v1.bundle.mjs",
+      "sha256": "b373c0a86daeae9ab4eec36d0c67a3ab541ad71c153b5bab55ac6ffef5f1ad1c",
+      "bytes": 90124,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "admin/mercenary-request-v1.mjs",
+      "sha256": "becf79a7eb610859a265ab088bda8a4d4166ea125226014f320c480a2badb2a0",
+      "bytes": 1737,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/pack-320.avif",
+      "sha256": "590cdae22b42111f4efbbfbc1e8cc396b0910f6e662d8b3e8e133b7de335fc5e",
+      "bytes": 32928,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/pack-320.webp",
+      "sha256": "0a5db85e4bad5b06b962e67cd97d16b2a311426515ad8a5809049bf84517cd83",
+      "bytes": 82476,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/pack-768.avif",
+      "sha256": "6435179e8d20a4a4d4c31a5d78a151fae61ee28ddbc2d27cf244d4733eacc662",
+      "bytes": 121346,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/pack-768.webp",
+      "sha256": "8888b943e86cc461238c3a2896b193e8ed8647348be86a029ed83ceaea8c6f3f",
+      "bytes": 363678,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/pack-art-768.webp",
+      "sha256": "e7d9b1659937afb54ae22ae2419f20b5a0b772d108a1b748d1b67fcb05dd72f0",
+      "bytes": 373010,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/v-950-320.webp",
+      "sha256": "a8e3a66c7f545f461d9b6189fb070b55f007d2685835f748743c827a5ec4b888",
+      "bytes": 36064,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/v-950-640.webp",
+      "sha256": "b0f53c9595d7dc9254df80700b39bc335e0c8aa8b71cfa0c74eecf88fd109473",
+      "bytes": 96438,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/v-951-320.webp",
+      "sha256": "b88bc17cdc9d95bff19a224320446ad7da12d8c0a2cfecd45aa236ab8dc2be86",
+      "bytes": 46450,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/v-951-640.webp",
+      "sha256": "7ddc98c117b9f5180d64a314be67ecf3c537a31020e2ef017f1a9c509fa37e87",
+      "bytes": 140616,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/v-952-320.webp",
+      "sha256": "a49e1b3c70f16580d442cd9c37d856e536831632cc03edfdda69bc0dd60a22d5",
+      "bytes": 40874,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/v-952-640.webp",
+      "sha256": "653b9ce8bafb10524feac47ccb35a12be525b6ce3b0e36324ad2946b548c77f5",
+      "bytes": 115654,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/v-953-320.webp",
+      "sha256": "7ac65f4eb4af13b4de839df2f51d5b9b9c227233c49a4de8286a44ded4fbf9c6",
+      "bytes": 44258,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/v-953-640.webp",
+      "sha256": "b1779aa86ccffa9f8da9f4121bfa8f168b72372e0bda35602a643ddc0aac2c90",
+      "bytes": 129668,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/v-954-320.webp",
+      "sha256": "4b9d4cc738a28dfdba5868f11c0fd2dc1ff9e48b5c80f4c142a34b9da55694de",
+      "bytes": 39710,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/v-954-640.webp",
+      "sha256": "0f2e32124cd4c20185d74b3ba895b886bda153739bb14b4dfcc4b7fec33e4e3a",
+      "bytes": 107694,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/v-955-320.webp",
+      "sha256": "87821b7a15cd36bff8127e03b36ba11f15d476efa954cfe1369c2b2056170cbb",
+      "bytes": 43958,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/packs/black-crown-20261027-v1/v-955-640.webp",
+      "sha256": "7af7af13f80d9b4cf698f3a2c846ea02b72405ee090cc821a60499f53fc554ae",
+      "bytes": 120688,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-bongsoon-source-art-approved-v1.png",
+      "sha256": "a6b159821cfe742f514527bb8434921c518f60298177e11c2777d78a82aa1762",
+      "bytes": 2642121,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-diim-source-art-approved-v2.png",
+      "sha256": "21c9eb01c83922ceee985edd5b43e951ce35929e24f7527fbf9ab4424e7bb6c1",
+      "bytes": 2479010,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-heeya-source-art-approved-v3.png",
+      "sha256": "d683244cfc434316afab36e297f99819417f5854865b55571f5f46385db8a211",
+      "bytes": 2153359,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-joeun-source-art-approved-v3.png",
+      "sha256": "a2cbd1923b6fc8212d016d74a16d3329be6764d0bea7e30e597647221204eaad",
+      "bytes": 2333026,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-orikkung-source-art-approved-v3.png",
+      "sha256": "620507718af3508aaecbd59b5863539a73ba99a4218229250a75d100fb9f4764",
+      "bytes": 2306169,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/black-crown-approved-20261027/black-crown-sudaeng-source-art-approved-v3.png",
+      "sha256": "512377e2364afa787d33f0120a461039fd36f9385d617f8920b3fed5f5a8e05c",
+      "bytes": 2278983,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "css/mercenary-blackcrown-pack.bundle.css",
+      "sha256": "0d67d0b38c3312b489c641efab933fddda2aa66e8f386f2527fb4158b7a1bba0",
+      "bytes": 29574,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "index.html",
+      "sha256": "a25b342332073a7729f86115fa68444e31b0b5e8ff8b98facfa53399b6cadef2",
+      "bytes": 38165,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "1572b643d9d30405eeb0fa6ec9db47e182ea144002213353554fd407b06caef0",
+      "bytes": 792613,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "js/mercenary-blackcrown-pack-live.bundle.mjs",
+      "sha256": "2cd44bd879f5bde31be7a394ffc1e34286515ea1214ff3c3c2f0e37ba298d53c",
+      "bytes": 123633,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "8c70e52f00fccad7ed3be7f0ccc7764ce447ddb361f43f0188a013288e497cf9",
+      "bytes": 38063,
+      "verification": "EXISTING_SERVER_HTML_TRANSFORM"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "2c43664c17ae73f6a8f19e25fd7b086e588767f2ad701b6474054c3050605da0",
+      "bytes": 793517,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "8b6b03b44ec263c6ce612a5b7a9c00c2262d1e016ccc8e089667c3fffcb1e040",
+      "bytes": 20674,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "shared/mercenary-blackcrown-catalog-v1.mjs",
+      "sha256": "7e803eb9e6725c0dccc6aa30f5f052a4599898951c4e5bd07054e76ddcf45a1c",
+      "bytes": 9119,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "shared/mercenary-limited-catalog-v1.mjs",
+      "sha256": "9a18c3db6f9875a2ac82ea807bd9174ad2977faff88fc926cc553a72414444b7",
+      "bytes": 12199,
+      "verification": "EXACT_BYTES"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "f26e315482228a511ea81e3d8403fcc485d32f168619778b2c43b36f3c50c966",
+      "bytes": 985,
+      "verification": "EXACT_BYTES"
+    }
+  ],
+  "feature": {
+    "revision": 1,
+    "mode": "ON",
+    "prices": {
+      "single": 1500000000,
+      "ten": 15000000000
+    },
+    "ownershipRule": {
+      "basis": "CURRENT_DISTINCT_BLACKCROWN_SS",
+      "threshold": 2,
+      "divisors": [
+        1,
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "fallback": "STANDARD_SSS"
+    },
+    "personalOddsKnown": false,
+    "stock": [
+      {
+        "code": "V-950",
+        "limit": 65,
+        "issued": 0,
+        "remaining": 65,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-951",
+        "limit": 65,
+        "issued": 0,
+        "remaining": 65,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-952",
+        "limit": 65,
+        "issued": 0,
+        "remaining": 65,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-953",
+        "limit": 65,
+        "issued": 0,
+        "remaining": 65,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-954",
+        "limit": 65,
+        "issued": 0,
+        "remaining": 65,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-955",
+        "limit": 65,
+        "issued": 0,
+        "remaining": 65,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-978",
+        "limit": 12,
+        "issued": 12,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      },
+      {
+        "code": "V-974",
+        "limit": 3,
+        "issued": 1,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      },
+      {
+        "code": "V-975",
+        "limit": 3,
+        "issued": 3,
+        "remaining": 0,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      },
+      {
+        "code": "V-973",
+        "limit": 4,
+        "issued": 2,
+        "remaining": 2,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      }
+    ]
+  },
+  "anonymousCmsStatus": 401,
+  "productionWrites": 0
+}

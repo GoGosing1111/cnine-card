@@ -1,0 +1,19 @@
+{
+  "implementationSource": "36f3dcb06",
+  "pages": "6a6b1c82",
+  "pagesUrl": "https://6a6b1c82.cnine-card.pages.dev",
+  "apiRuntimeVersion": "3a7dfcf7-d44e-4027-9301-83dfb3f64889",
+  "clanDraftVersion": "ed4d6d76-5bfa-46a8-8d3f-90c1ac512c39",
+  "workersVerifiedAt100Percent": true,
+  "regressionTests": 41,
+  "releaseToolTests": 18,
+  "publicFiles": 37,
+  "publicVerification": "36 exact-byte files plus existing server transformation of ONEstore HTML",
+  "operationKey": "ops:blackcrown-pack-clone:20261027:v1",
+  "adminLogId": "52041",
+  "appliedAt": "2026-10-27T10:00:51.444+09:00",
+  "ssInitialStockEach": 65,
+  "directAccountGrants": 0,
+  "productionPurchaseTests": 0,
+  "noWriteReplayVerified": true
+}
