@@ -1,0 +1,18 @@
+{
+  "base": "7920a1b20c56061f96f2f4aabb1e437a03078e41",
+  "reason": "사용자 지시 카드구 V-970 라이브 출시. 승인 원화·전신 카드 아우라·황금 네온, 단일 2종/PVE 광역 2종을 2배속 연결. 현재 제너럴 족의 270만 능력치·연계·3.12 행동·피해 예산을 독립 정책으로 적용. PC/모바일 및 같은 조건 1664전·PVE 144쌍 검증. 동시 반영된 레반·블러드문 변경 보존. 획득/계정/재화/운영 설정 쓰기 없음.",
+  "tests": [
+    "tests/cardgu-live-20261027.test.mjs",
+    "tests/cardgu-runtime-20261027.test.mjs",
+    "tests/revan-runtime-20261027.test.mjs",
+    "tests/revan-live-20261027.test.mjs",
+    "tests/prime-zero-general-jok-priority-20261026.test.mjs",
+    "tests/mercenary-turn-cadence-v2099.test.mjs",
+    "tests/bloodmoon-balance-20261027.test.mjs",
+    "tests/bloodmoon-skill-status-20261025.test.mjs",
+    "tests/scoped-release-policy-20260923.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
