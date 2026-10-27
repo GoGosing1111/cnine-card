@@ -1,6 +1,6 @@
 import {BLOODMOON_COMBAT} from '../shared/mercenary-bloodmoon-combat-v1.mjs';
 import {BLACKCROWN_CODEX_DETAILS} from '../shared/mercenary-blackcrown-codex-v2.mjs';
-import {BLACKCROWN_SERVER_LIMIT} from '../shared/mercenary-blackcrown-catalog-v1.mjs?codex=20261027-skills-v2';
+import {BLACKCROWN_SERVER_LIMIT} from '../shared/mercenary-blackcrown-catalog-v1.mjs?codex=20261027-live-v1';
 import {AWAKENED_OMEGA_CODE,AWAKENED_OMEGA_SKILLS} from '../shared/mercenary-awakened-omega-v1.mjs';
 import {RAZAK_CODE,RAZAK_COMBAT,RAZAK_SKILLS} from '../shared/mercenary-razak-v1.mjs?v=20261025-bloodmoon-expansion-v1';
 import {NAMSUDAENG_CODE,NAMSUDAENG_SKILLS} from '../shared/mercenary-bloodmoon-namsudaeng-v1.mjs';
@@ -21,7 +21,7 @@ export function validateCatalog(data){
     if(c.code===RAZAK_CODE&&(c.name!=='라자크'||c.rank!=='SSS'||c.edition!=='STANDARD'||c.basePower!==RAZAK_COMBAT.basePower||c.acquisition!=='BLOODMOON_PACK'||c.acquisitionEnabled!==false||c.packAcquisitionEnabled!==true||c.skills.length!==3||c.skills.some((s,i)=>s.id!==RAZAK_SKILLS[i].id)))throw Error('라자크의 승인 등급·전투력·블러드문팩 전용 획득을 확인하세요.');
     if(c.edition==='LIMITED'){
       const blackcrown=BLACKCROWN_CODEX_DETAILS[c.code];
-      const blackcrownReady=Boolean(blackcrown)&&c.season==='BLACKCROWN'&&c.rank==='SS'&&c.artOnly===true&&c.releaseStatus==='BATTLE_VISUAL_PREVIEW'&&c.acquisition==='BLACKCROWN_PACK'&&c.acquisitionEnabled===true&&c.packAcquisitionEnabled===true&&c.deploymentEnabled===false&&c.serverLimit===BLACKCROWN_SERVER_LIMIT&&c.basePower===356400&&c.battleSprite===blackcrown.battleSprite&&c.skills.length===2&&c.skills.every((s,i)=>s.id===blackcrown.skills[i].id&&s.ready===false&&s.codexOnly===true&&Object.keys(s.balance||{}).length===0)&&c.battlePresentation?.facing==='RIGHT_TOWARD_ENEMY'&&c.battlePresentation?.motionSpeed===2;
+      const blackcrownReady=Boolean(blackcrown)&&c.season==='BLACKCROWN'&&c.rank==='SS'&&c.artOnly===false&&c.releaseStatus==='BATTLE_RELEASED'&&c.acquisition==='BLACKCROWN_PACK'&&c.acquisitionEnabled===true&&c.packAcquisitionEnabled===true&&c.deploymentEnabled===true&&c.serverLimit===BLACKCROWN_SERVER_LIMIT&&c.basePower===356400&&c.battleSprite===blackcrown.battleSprite&&c.skills.length===2&&c.skills.every((s,i)=>s.id===blackcrown.skills[i].id&&s.ready===true&&s.codexOnly===false&&JSON.stringify(s.balance)===JSON.stringify(blackcrown.skills[i].balance))&&c.battlePresentation?.facing==='RIGHT_TOWARD_ENEMY'&&c.battlePresentation?.motionSpeed===2;
       if((blackcrown||c.season==='BLACKCROWN')&&!blackcrownReady)throw Error('블랙크라운 도감의 스킬·전투 준비 상태를 확인하세요.');
       const awakenedOmegaReady=c.code===AWAKENED_OMEGA_CODE&&c.name==='각성 오메가'&&c.rank==='SSS'&&c.basePower===1750000&&c.releaseStatus==='CRAFT_ONLY_LOCKED'&&c.acquisition==='CRAFT_ONLY'&&c.artOnly===false&&c.deploymentEnabled===true&&c.acquisitionEnabled===false&&c.craftAcquisitionEnabled===false&&c.packAcquisitionEnabled===false&&c.skills.length===4&&c.skills.every((s,i)=>s.id===AWAKENED_OMEGA_SKILLS[i].id&&s.ready===true);
       if(c.code===AWAKENED_OMEGA_CODE&&!awakenedOmegaReady)throw Error('각성 오메가의 등급·전투력·제작 잠금을 확인하세요.');

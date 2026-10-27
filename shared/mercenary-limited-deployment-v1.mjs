@@ -1,3 +1,5 @@
+import {BLACKCROWN_MERCENARIES} from './mercenary-blackcrown-catalog-v1.mjs';
+import {BLACKCROWN_COMBAT,BLACKCROWN_COMBAT_VERSION} from './mercenary-blackcrown-combat-v1.mjs';
 import {AWAKENED_OMEGA_CODE,awakenedOmegaDeploymentSnapshot} from './mercenary-awakened-omega-v1.mjs';
 import {BLOODMOON_MERCENARIES} from './mercenary-bloodmoon-catalog-v1.mjs';
 import {BLOODMOON_COMBAT,BLOODMOON_COMBAT_VERSION} from './mercenary-bloodmoon-combat-v1.mjs';
@@ -25,6 +27,11 @@ import {KAIRON_CODE,kaironDeploymentSnapshot} from './mercenary-kairon-v1.mjs';
 // Artwork provenance, acquisition and pack release remain separate contracts.
 export const LIMITED_DEPLOYMENT_VERSION='20261012-helios-deployment-v1';
 export function limitedDeploymentSnapshot(code){
+ if(Object.hasOwn(BLACKCROWN_COMBAT,code)){
+  const art=BLACKCROWN_MERCENARIES.find(c=>c.code===code),profile=BLACKCROWN_COMBAT[code];
+  return {...art,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',position:profile.position,role:profile.role,attackStyle:profile.attackStyle,
+   skills:structuredClone(art.skills),pendingSkillIds:[],blackcrownPolicyVersion:BLACKCROWN_COMBAT_VERSION,deploymentVersion:BLACKCROWN_COMBAT_VERSION};
+ }
  if(Object.hasOwn(BLOODMOON_COMBAT,code)){
   const art=BLOODMOON_MERCENARIES.find(c=>c.code===code),profile=BLOODMOON_COMBAT[code];
   return {...art,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',position:profile.position,role:profile.role,attackStyle:profile.attackStyle,

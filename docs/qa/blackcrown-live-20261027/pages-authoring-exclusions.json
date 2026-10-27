@@ -1,0 +1,74 @@
+[
+  {
+    "file": "preview/mercenary-sapphire-archmage-battle-v1/inspect-video.mjs",
+    "sha256": "31068dea6c62663f0f4707e8a3d0947d702a88ccbde8f47be3aecbdd88cfbe22"
+  },
+  {
+    "file": "preview/mercenary-sapphire-archmage-battle-v1/pack-assets.mjs",
+    "sha256": "4f215ca467d1f4d95adf612704148f312d27a3ffe8a87758d6ee79cef7cc6663"
+  },
+  {
+    "file": "preview/mercenary-sapphire-archmage-battle-v1/pack-v2.mjs",
+    "sha256": "f0e57bbfc59828f19f6be62765966ae22498b92378bfa446dafa6c6d66695554"
+  },
+  {
+    "file": "preview/mercenary-sapphire-archmage-battle-v1/pack-v3.mjs",
+    "sha256": "91dba858ef9993ef542ef5f710a63b79aff5a20f66e03f298906feb571218056"
+  },
+  {
+    "file": "preview/mercenary-sapphire-archmage-battle-v1/upgrade-v2-shell.mjs",
+    "sha256": "d7f1640eb1996390c1448256e3afd00d1a306804fde4bc4ac50ab113c0398376"
+  },
+  {
+    "file": "preview/mercenary-sapphire-archmage-battle-v1/upgrade-v3-shell.mjs",
+    "sha256": "8574bd046600fcf14244369d7158671cd8b00dfb8a5ee1c20e97a11282e95eac"
+  },
+  {
+    "file": "preview/mercenary-ss-limited-halloween-20261011-v1/preserve-v1.mjs",
+    "sha256": "b744bcf5b53ff2ccaeb370abd01b3331bb24556ff3a6e42c02b2fbcb9093833e"
+  },
+  {
+    "file": "preview/mercenary-ss-limited-halloween-20261011-v1/preserve-v3.mjs",
+    "sha256": "98d54275066b10df25ea328bf10da0ab32f83e5af8ec7304a8a05db40928ea32"
+  },
+  {
+    "file": "preview/season-growth-roadmap-20261014-v1/render.mjs",
+    "sha256": "3596bea9d2212d711708e8cc469ad4425ef4fa2ee12e5dc17a1e22e4f2ad1afd"
+  },
+  {
+    "file": "preview/workshop-assembly-v1/fetch-sound-assets.mjs",
+    "sha256": "90e392aff362d731a81774b536843613c66eaafedd82ebf00fd0d5137a9b6da1"
+  },
+  {
+    "file": "preview/workshop-assembly-v1/prepare-ignis-assets.mjs",
+    "sha256": "bbbfb9fe9a7d9f36da9d2fc59e3030179fdeca61f095b4dcb525e47fe3bf6d46"
+  },
+  {
+    "file": "preview/workshop-assembly-v1/prepare-solaris-assets.mjs",
+    "sha256": "e564a631e2710d578d95cccfd2f923989b387aa9622fe0c8b47483d63b4a6f87"
+  },
+  {
+    "file": "preview/workshop-assembly-v1/prepare-vehicle-expansion-20261018.mjs",
+    "sha256": "9554ba77a5f3b5b390066ee7006bc73753132fecf904ecce80e627912ecbbe6f"
+  },
+  {
+    "file": "preview/z-body-dash-v2/pack-assets.mjs",
+    "sha256": "db92b5cb8063f0f829568ac046326f410f5a7be9b5992a2c874b0dee409c91f2"
+  },
+  {
+    "file": "preview/z-body-thunder-v3/pack-assets.mjs",
+    "sha256": "32624c1b895f4cb4eef381df38288ac6cec5169ed1e62494f7d3bf57e2f5f68a"
+  },
+  {
+    "file": "preview/z-body-thunder-v3/pack-normal-assets.mjs",
+    "sha256": "3e59ce4291ba91499a81ab25a7d61088d64f11d6ef77b41d9a1169a0894d95f9"
+  },
+  {
+    "file": "preview/z-body-thunder-v3/promote-approved.mjs",
+    "sha256": "e7323aeb003d64c4f545d177fce39a041562251b14600344637a83c7890c2f96"
+  },
+  {
+    "file": "preview/z-body-thunder-v3/serve.mjs",
+    "sha256": "608652bb55ea511a84a1eeaed992f50a98c5d13c4643a60283020429edb9db2e"
+  }
+]

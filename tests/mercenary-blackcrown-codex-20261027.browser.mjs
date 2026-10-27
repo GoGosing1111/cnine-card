@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
-const live=process.env.BLACKCROWN_PUBLIC_ORIGIN,origin=live||'http://127.0.0.1:8917',out='docs/qa/blackcrown-codex-skills-20261027',report={ok:false,origin,surfaces:[],errors:[],writes:[]};
+const live=process.env.BLACKCROWN_PUBLIC_ORIGIN,origin=live||'http://127.0.0.1:8917',out='docs/qa/blackcrown-live-20261027',report={ok:false,origin,surfaces:[],errors:[],writes:[]};
 const d=mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1,updated_at:'2026-10-27'}),cards=d.cards.filter(c=>c.season==='BLACKCROWN');
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
@@ -18,7 +18,7 @@ try{
    await page.locator('.combat-details').evaluate(el=>el.open=true);
    assert.equal(await page.locator('.skill-list .skill-entry').count(),2);
    assert.deepEqual(await page.locator('.skill-list h3').allTextContents(),c.skills.map(s=>s.name));
-   assert.match(await page.locator('.combat-panel').innerText(),/2 SKILLS/);assert.match(await page.locator('.combat-panel').innerText(),/모션 2배속/);assert.match(await page.locator('.combat-panel').innerText(),/서버 10장/);
+   assert.match(await page.locator('.combat-panel').innerText(),/2 SKILLS/);assert.match(await page.locator('.combat-panel').innerText(),/보유 즉시 PVE · PVP/);assert.match(await page.locator('.combat-panel').innerText(),/모션 2배속/);assert.match(await page.locator('.combat-panel').innerText(),/서버 10장/);
    assert.equal(await page.locator('[data-equip]').count(),0);
    await page.locator('#sdTab').click();await page.waitForFunction(()=>document.querySelector('#portraitDisplay image')?.getAttribute('href'));
    const sprite=await page.locator('#portraitDisplay image').getAttribute('href');assert.equal(sprite,'/'+c.battleSprite);
@@ -26,7 +26,7 @@ try{
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
    const broken=await page.locator('img').evaluateAll(imgs=>imgs.filter(i=>i.getClientRects().length&&i.complete&&!i.naturalWidth).map(i=>i.src));assert.deepEqual(broken,[]);
    await page.locator('.skill-list').scrollIntoViewIfNeeded();await page.screenshot({path:out+'/'+(live?'public-':'local-')+label+'-'+c.code+'-skills.png'});
-   surface.checked.push({code:c.code,skills:2,sprite,canDeploy:false});
+   surface.checked.push({code:c.code,skills:2,sprite,canDeploy:true});
   }
   await ctx.close();
  }

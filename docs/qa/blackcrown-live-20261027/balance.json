@@ -1,0 +1,343 @@
+{
+  "scope": "Equal five-card teams, level 1, no equipment; seeded server simulation, not player win rates",
+  "pvp": [
+    {
+      "code": "V-950",
+      "opponent": "V-960",
+      "wins": 57,
+      "losses": 71,
+      "draws": 0,
+      "winPercent": 44.53125
+    },
+    {
+      "code": "V-950",
+      "opponent": "V-961",
+      "wins": 36,
+      "losses": 92,
+      "draws": 0,
+      "winPercent": 28.125
+    },
+    {
+      "code": "V-950",
+      "opponent": "V-962",
+      "wins": 57,
+      "losses": 71,
+      "draws": 0,
+      "winPercent": 44.53125
+    },
+    {
+      "code": "V-950",
+      "opponent": "V-963",
+      "wins": 36,
+      "losses": 92,
+      "draws": 0,
+      "winPercent": 28.125
+    },
+    {
+      "code": "V-950",
+      "opponent": "V-964",
+      "wins": 36,
+      "losses": 92,
+      "draws": 0,
+      "winPercent": 28.125
+    },
+    {
+      "code": "V-950",
+      "opponent": "V-965",
+      "wins": 127,
+      "losses": 1,
+      "draws": 0,
+      "winPercent": 99.21875
+    },
+    {
+      "code": "V-951",
+      "opponent": "V-960",
+      "wins": 47,
+      "losses": 81,
+      "draws": 0,
+      "winPercent": 36.71875
+    },
+    {
+      "code": "V-951",
+      "opponent": "V-961",
+      "wins": 1,
+      "losses": 127,
+      "draws": 0,
+      "winPercent": 0.78125
+    },
+    {
+      "code": "V-951",
+      "opponent": "V-962",
+      "wins": 5,
+      "losses": 123,
+      "draws": 0,
+      "winPercent": 3.90625
+    },
+    {
+      "code": "V-951",
+      "opponent": "V-963",
+      "wins": 1,
+      "losses": 127,
+      "draws": 0,
+      "winPercent": 0.78125
+    },
+    {
+      "code": "V-951",
+      "opponent": "V-964",
+      "wins": 1,
+      "losses": 127,
+      "draws": 0,
+      "winPercent": 0.78125
+    },
+    {
+      "code": "V-951",
+      "opponent": "V-965",
+      "wins": 127,
+      "losses": 1,
+      "draws": 0,
+      "winPercent": 99.21875
+    },
+    {
+      "code": "V-952",
+      "opponent": "V-960",
+      "wins": 49,
+      "losses": 79,
+      "draws": 0,
+      "winPercent": 38.28125
+    },
+    {
+      "code": "V-952",
+      "opponent": "V-961",
+      "wins": 12,
+      "losses": 116,
+      "draws": 0,
+      "winPercent": 9.375
+    },
+    {
+      "code": "V-952",
+      "opponent": "V-962",
+      "wins": 22,
+      "losses": 106,
+      "draws": 0,
+      "winPercent": 17.1875
+    },
+    {
+      "code": "V-952",
+      "opponent": "V-963",
+      "wins": 12,
+      "losses": 116,
+      "draws": 0,
+      "winPercent": 9.375
+    },
+    {
+      "code": "V-952",
+      "opponent": "V-964",
+      "wins": 12,
+      "losses": 116,
+      "draws": 0,
+      "winPercent": 9.375
+    },
+    {
+      "code": "V-952",
+      "opponent": "V-965",
+      "wins": 125,
+      "losses": 3,
+      "draws": 0,
+      "winPercent": 97.65625
+    },
+    {
+      "code": "V-953",
+      "opponent": "V-960",
+      "wins": 86,
+      "losses": 42,
+      "draws": 0,
+      "winPercent": 67.1875
+    },
+    {
+      "code": "V-953",
+      "opponent": "V-961",
+      "wins": 44,
+      "losses": 84,
+      "draws": 0,
+      "winPercent": 34.375
+    },
+    {
+      "code": "V-953",
+      "opponent": "V-962",
+      "wins": 87,
+      "losses": 41,
+      "draws": 0,
+      "winPercent": 67.96875
+    },
+    {
+      "code": "V-953",
+      "opponent": "V-963",
+      "wins": 44,
+      "losses": 84,
+      "draws": 0,
+      "winPercent": 34.375
+    },
+    {
+      "code": "V-953",
+      "opponent": "V-964",
+      "wins": 44,
+      "losses": 84,
+      "draws": 0,
+      "winPercent": 34.375
+    },
+    {
+      "code": "V-953",
+      "opponent": "V-965",
+      "wins": 128,
+      "losses": 0,
+      "draws": 0,
+      "winPercent": 100
+    },
+    {
+      "code": "V-954",
+      "opponent": "V-960",
+      "wins": 57,
+      "losses": 71,
+      "draws": 0,
+      "winPercent": 44.53125
+    },
+    {
+      "code": "V-954",
+      "opponent": "V-961",
+      "wins": 36,
+      "losses": 92,
+      "draws": 0,
+      "winPercent": 28.125
+    },
+    {
+      "code": "V-954",
+      "opponent": "V-962",
+      "wins": 57,
+      "losses": 71,
+      "draws": 0,
+      "winPercent": 44.53125
+    },
+    {
+      "code": "V-954",
+      "opponent": "V-963",
+      "wins": 36,
+      "losses": 92,
+      "draws": 0,
+      "winPercent": 28.125
+    },
+    {
+      "code": "V-954",
+      "opponent": "V-964",
+      "wins": 36,
+      "losses": 92,
+      "draws": 0,
+      "winPercent": 28.125
+    },
+    {
+      "code": "V-954",
+      "opponent": "V-965",
+      "wins": 127,
+      "losses": 1,
+      "draws": 0,
+      "winPercent": 99.21875
+    },
+    {
+      "code": "V-955",
+      "opponent": "V-960",
+      "wins": 57,
+      "losses": 71,
+      "draws": 0,
+      "winPercent": 44.53125
+    },
+    {
+      "code": "V-955",
+      "opponent": "V-961",
+      "wins": 36,
+      "losses": 92,
+      "draws": 0,
+      "winPercent": 28.125
+    },
+    {
+      "code": "V-955",
+      "opponent": "V-962",
+      "wins": 57,
+      "losses": 71,
+      "draws": 0,
+      "winPercent": 44.53125
+    },
+    {
+      "code": "V-955",
+      "opponent": "V-963",
+      "wins": 36,
+      "losses": 92,
+      "draws": 0,
+      "winPercent": 28.125
+    },
+    {
+      "code": "V-955",
+      "opponent": "V-964",
+      "wins": 36,
+      "losses": 92,
+      "draws": 0,
+      "winPercent": 28.125
+    },
+    {
+      "code": "V-955",
+      "opponent": "V-965",
+      "wins": 127,
+      "losses": 1,
+      "draws": 0,
+      "winPercent": 99.21875
+    }
+  ],
+  "pve": [
+    {
+      "code": "V-950",
+      "averageMercenaryDamage": 35742168000
+    },
+    {
+      "code": "V-951",
+      "averageMercenaryDamage": 35742168000
+    },
+    {
+      "code": "V-952",
+      "averageMercenaryDamage": 35742168000
+    },
+    {
+      "code": "V-953",
+      "averageMercenaryDamage": 29960925988.0625
+    },
+    {
+      "code": "V-954",
+      "averageMercenaryDamage": 35742168000
+    },
+    {
+      "code": "V-955",
+      "averageMercenaryDamage": 35742168000
+    },
+    {
+      "code": "V-960",
+      "averageMercenaryDamage": 35742168000
+    },
+    {
+      "code": "V-961",
+      "averageMercenaryDamage": 29852212490.125
+    },
+    {
+      "code": "V-962",
+      "averageMercenaryDamage": 30860827694.71875
+    },
+    {
+      "code": "V-963",
+      "averageMercenaryDamage": 31204623120.125
+    },
+    {
+      "code": "V-964",
+      "averageMercenaryDamage": 30062528473.46875
+    },
+    {
+      "code": "V-965",
+      "averageMercenaryDamage": 34613040000
+    }
+  ]
+}

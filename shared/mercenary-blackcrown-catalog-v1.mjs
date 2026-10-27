@@ -1,3 +1,5 @@
+import {BLACKCROWN_COMBAT,BLACKCROWN_COMBAT_VERSION} from './mercenary-blackcrown-combat-v1.mjs';
+import {blackcrownCodexCard} from './mercenary-blackcrown-codex-v2.mjs';
 // Approved Black Crown illustrations; separate identities and acquisition stock.
 export const BLACKCROWN_SERVER_LIMIT=10;
 export const BLACKCROWN_MERCENARIES=Object.freeze([
@@ -235,5 +237,5 @@ export const BLACKCROWN_MERCENARIES=Object.freeze([
     "resourceStatus": "APPROVED_SOURCE_ART",
     "visualApproval": "SOURCE_ART_USER_APPROVED_20261027"
   }
-].map(Object.freeze));
+].map(card=>{const profile=BLACKCROWN_COMBAT[card.code];return Object.freeze({...blackcrownCodexCard(card),position:profile.position==='BACK'?'REAR':profile.position,role:profile.role==='RANGED'?'MARKSMAN':profile.role,attackStyle:profile.attackStyle,blackcrownPolicyVersion:BLACKCROWN_COMBAT_VERSION});}));
 export const BLACKCROWN_CODES=Object.freeze(BLACKCROWN_MERCENARIES.map(c=>c.code));

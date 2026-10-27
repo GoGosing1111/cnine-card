@@ -1,0 +1,20 @@
+[
+  "preview/mercenary-sapphire-archmage-battle-v1/inspect-video.mjs",
+  "preview/mercenary-sapphire-archmage-battle-v1/pack-assets.mjs",
+  "preview/mercenary-sapphire-archmage-battle-v1/pack-v2.mjs",
+  "preview/mercenary-sapphire-archmage-battle-v1/pack-v3.mjs",
+  "preview/mercenary-sapphire-archmage-battle-v1/upgrade-v2-shell.mjs",
+  "preview/mercenary-sapphire-archmage-battle-v1/upgrade-v3-shell.mjs",
+  "preview/mercenary-ss-limited-halloween-20261011-v1/preserve-v1.mjs",
+  "preview/mercenary-ss-limited-halloween-20261011-v1/preserve-v3.mjs",
+  "preview/season-growth-roadmap-20261014-v1/render.mjs",
+  "preview/workshop-assembly-v1/fetch-sound-assets.mjs",
+  "preview/workshop-assembly-v1/prepare-ignis-assets.mjs",
+  "preview/workshop-assembly-v1/prepare-solaris-assets.mjs",
+  "preview/workshop-assembly-v1/prepare-vehicle-expansion-20261018.mjs",
+  "preview/z-body-dash-v2/pack-assets.mjs",
+  "preview/z-body-thunder-v3/pack-assets.mjs",
+  "preview/z-body-thunder-v3/pack-normal-assets.mjs",
+  "preview/z-body-thunder-v3/promote-approved.mjs",
+  "preview/z-body-thunder-v3/serve.mjs"
+]

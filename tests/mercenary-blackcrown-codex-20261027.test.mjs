@@ -15,16 +15,16 @@ const document=()=>mercenaryCodexDocument(row),hash=x=>createHash('sha256').upda
 test('six Black Crown SS Limited cards expose exactly two distinct codex skills',()=>{
  const d=validateCatalog(document()),cards=d.cards.filter(c=>c.season==='BLACKCROWN');
  assert.deepEqual(cards.map(c=>c.code),BLACKCROWN_CODES);const added=cards.flatMap(c=>c.skills.map(s=>s.id));assert.equal(new Set(added).size,12);assert(!d.cards.filter(c=>c.season!=='BLACKCROWN').some(c=>c.skills.some(s=>added.includes(s.id))));
- for(const c of cards){assert.equal(c.skills.length,2);assert(c.skills.every(s=>s.ready===false&&s.codexOnly===true&&Object.keys(s.balance).length===0));assert.equal(c.rank,'SS');assert.equal(c.edition,'LIMITED');assert.equal(c.serverLimit,10);assert.equal(c.basePower,356400);assert.equal(c.battlePresentation.motionSpeed,2);assert.equal(c.battlePresentation.facing,'RIGHT_TOWARD_ENEMY');assert.equal(c.battlePresentation.bodyHeight,285);assert.equal(filterCatalog(cards,{q:c.skills[1].name},new Set())[0].code,c.code);}
+ for(const c of cards){assert.equal(c.skills.length,2);assert(c.skills.every(s=>s.ready===true&&s.codexOnly===false&&s.balance.cost===20));assert.equal(c.rank,'SS');assert.equal(c.edition,'LIMITED');assert.equal(c.serverLimit,10);assert.equal(c.basePower,356400);assert.equal(c.battlePresentation.motionSpeed,2);assert.equal(c.battlePresentation.facing,'RIGHT_TOWARD_ENEMY');assert.equal(c.battlePresentation.bodyHeight,285);assert.equal(filterCatalog(cards,{q:c.skills[1].name},new Set())[0].code,c.code);}
 });
-test('other cards and all runtime Black Crown acquisition/combat metadata stay unchanged',()=>{
+test('other cards stay unchanged while six Black Crown identities gain deployment',()=>{
  const before=JSON.parse(fs.readFileSync('docs/qa/blackcrown-codex-skills-20261027/before-hashes.json'));
  assert.equal(hash(JSON.stringify(document().cards.filter(c=>c.season!=='BLACKCROWN'))),before.otherCardsSha256);
- assert.equal(hash(fs.readFileSync('shared/mercenary-blackcrown-catalog-v1.mjs')),before.runtimeCatalogSha256);
- for(const c of BLACKCROWN_MERCENARIES){assert.deepEqual(c.skills,[]);assert.equal(c.battleSprite,null);assert.equal(c.deploymentEnabled,false);assert.equal(limitedDeploymentSnapshot(c.code),null);}
+
+ for(const c of BLACKCROWN_MERCENARIES){assert.equal(c.skills.length,2);assert(c.battleSprite);assert.equal(c.deploymentEnabled,true);assert.equal(limitedDeploymentSnapshot(c.code).code,c.code);assert.equal(c.acquisition,'BLACKCROWN_PACK');assert.equal(c.serverLimit,10);}
 });
-test('codex cannot activate Black Crown battle, alter identities or fabricate skill balance',()=>{
- for(const mutate of [c=>c.deploymentEnabled=true,c=>c.skills[0].ready=true,c=>c.skills[0].balance.damageRatio=9,c=>c.skills.pop(),c=>c.skills[1].id='MS-001',c=>c.battlePresentation.motionSpeed=1,c=>c.battleSprite='assets/ui/project-v/other.png',c=>c.rank='SSS',c=>c.serverLimit=65]){const d=document();mutate(d.cards.find(c=>c.code==='V-950'));assert.throws(()=>validateCatalog(d));}
+test('codex validates the released identities and authoritative skill balance',()=>{
+ for(const mutate of [c=>c.deploymentEnabled=false,c=>c.skills[0].ready=false,c=>c.skills[0].balance.damageRatio=9,c=>c.skills.pop(),c=>c.skills[1].id='MS-001',c=>c.battlePresentation.motionSpeed=1,c=>c.battleSprite='assets/ui/project-v/other.png',c=>c.rank='SSS',c=>c.serverLimit=65]){const d=document();mutate(d.cards.find(c=>c.code==='V-950'));assert.throws(()=>validateCatalog(d));}
 });
 test('six source originals and full-body side sprites match recorded hashes and delivery paths',()=>{
  for(const c of document().cards.filter(c=>c.season==='BLACKCROWN')){for(const field of ['sourceArt','battleSprite'])assert.equal(hash(fs.readFileSync(c[field])).toUpperCase(),c[field+'Sha256']);for(const field of ['sourceArt','battleSprite','thumbnailArt','displayArt','frame']){asset(c[field]);assert(isProductionFile(c[field]));}const v=c.battleSpriteViewport;assert(v.width>0&&v.height>v.width&&v.x>=0&&v.y>=0&&v.x+v.width<=v.imageWidth&&v.y+v.height<=v.imageHeight);}

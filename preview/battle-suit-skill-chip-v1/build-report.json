@@ -9,13 +9,15 @@
     "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",
     "preview/project-v-v3/source/battle/ObjectPool.js",
     "preview/project-v-v3/source/battle/SealDragonPlayback.js",
+    "shared/mercenary-bloodmoon-combat-v1.mjs",
+    "shared/mercenary-blackcrown-combat-v1.mjs",
+    "shared/mercenary-blackcrown-codex-v2.mjs",
     "shared/mercenary-blackcrown-catalog-v1.mjs",
     "shared/mercenary-halloween-combat-v1.mjs",
     "shared/mercenary-bathory-v1.mjs?v=20261023-halloween-stock-v1",
     "shared/mercenary-halloween-visual-v1.mjs",
     "shared/mercenary-harlequin-skill-v1.mjs",
     "shared/mercenary-halloween-catalog-v1.mjs",
-    "shared/mercenary-bloodmoon-combat-v1.mjs",
     "shared/mercenary-bloodmoon-namsudaeng-v1.mjs?bloodmoonStock=20261025-bloodmoon-expansion-v1",
     "shared/mercenary-bloodmoon-catalog-v1.mjs",
     "shared/mercenary-limited-catalog-v1.mjs",
@@ -109,6 +111,10 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/motion-manifest.json",
+    "preview/project-v-v3/source/battle/blackcrown/skills.mjs",
+    "preview/project-v-v3/source/battle/blackcrown/BlackCrownFX.js",
+    "preview/project-v-v3/source/battle/BlackCrownCombatPlayback.js",
     "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/manifest.json",
     "preview/mercenary-bloodmoon-battle-20261023-v1/source/PlaybackPlan.mjs",
     "preview/mercenary-bloodmoon-battle-20261023-v1/source/ResourceLoader.mjs",
@@ -288,5 +294,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2566870
+  "outputBytes": 2702375
 }

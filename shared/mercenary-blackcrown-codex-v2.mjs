@@ -1,6 +1,7 @@
-// Public codex presentation only. No runtime skills, acquisition or battle activation.
-export const BLACKCROWN_CODEX_VERSION='blackcrown-codex-skills-20261027-v2';
-export const BLACKCROWN_CODEX_DETAILS=Object.freeze({
+import {BLACKCROWN_COMBAT,blackcrownCombatDescription} from './mercenary-blackcrown-combat-v1.mjs';
+// Approved presentation and the server-owned combat definitions.
+export const BLACKCROWN_CODEX_VERSION='blackcrown-live-20261027-v1';
+const approvedDetails={
   "V-950": {
     "id": "heeya",
     "weapon": "총과 결합된 장우산",
@@ -253,9 +254,10 @@ export const BLACKCROWN_CODEX_DETAILS=Object.freeze({
       }
     ]
   }
-});
+};
+export const BLACKCROWN_CODEX_DETAILS=Object.freeze(Object.fromEntries(Object.entries(approvedDetails).map(([code,detail])=>[code,Object.freeze({...detail,skills:detail.skills.map((s,i)=>({...s,...BLACKCROWN_COMBAT[code].skills[i]}))})])));
 export function blackcrownCodexCard(card){
  const detail=BLACKCROWN_CODEX_DETAILS[card.code];
  if(!detail||card.season!=='BLACKCROWN')return card;
- return {...card,...structuredClone(detail),releaseStatus:'BATTLE_VISUAL_PREVIEW',resourceStatus:'BATTLE_VISUAL_PREVIEW',artOnly:true,deploymentEnabled:false,battlePresentation:{facing:'RIGHT_TOWARD_ENEMY',motionSpeed:2,bodyHeight:285}};
+ return {...card,...structuredClone(detail),releaseStatus:'BATTLE_RELEASED',resourceStatus:'BATTLE_RELEASED',artOnly:false,deploymentEnabled:true,deploymentModes:['PVE','PVP'],combatLinkDescription:blackcrownCombatDescription(card.code),battlePresentation:{facing:'RIGHT_TOWARD_ENEMY',motionSpeed:2,bodyHeight:285}};
 }

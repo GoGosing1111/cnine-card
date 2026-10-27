@@ -18,7 +18,7 @@ function scenario(ownedCodes=[]){
 }
 test('approved six identities, original hashes and pack display are preserved',()=>{
  assert.equal(new Set(BLACKCROWN_CODES).size,6);
- for(const c of BLACKCROWN_MERCENARIES){assert.equal(createHash('sha256').update(fs.readFileSync(c.sourceArt)).digest('hex'),c.sourceArtSha256.toLowerCase());assert(fs.existsSync(c.thumbnailArt));assert(fs.existsSync(c.displayArt));assert.equal(c.deploymentEnabled,false);}
+ for(const c of BLACKCROWN_MERCENARIES){assert.equal(createHash('sha256').update(fs.readFileSync(c.sourceArt)).digest('hex'),c.sourceArtSha256.toLowerCase());assert(fs.existsSync(c.thumbnailArt));assert(fs.existsSync(c.displayArt));assert.equal(c.deploymentEnabled,true);}
  assert(fs.existsSync(BLACKCROWN_PACK.image));
 });
 test('only current distinct Black Crown SS types count, including zero-copy and duplicates',()=>{
