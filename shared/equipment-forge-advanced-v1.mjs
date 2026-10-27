@@ -10,7 +10,7 @@ export const FORGE_ADVANCED_FIELDS=Object.freeze([
  ['successPpm','성공률 (%)',10,100,'percent'],
  ['maintainPpm','유지율 (%)',0,100,'percent'],
  ['destroyPpm','파괴율 (%)',0,100,'percent'],
- ['coinCost','코인',1,1e12,'integer'],
+ ['coinCost','코인',1,50_000_000_000_000,'integer'],
  ['itemQuantity','마스터의 별',1,Number.MAX_SAFE_INTEGER,'integer'],
  ['scrollQuantity','강화주문서 (장)',1,10000,'integer'],
  ['protectionQuantity','보호권 (장, 0=사용 불가)',0,10000,'integer'],

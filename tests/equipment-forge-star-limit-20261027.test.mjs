@@ -7,6 +7,7 @@ import {FORGE_RUNTIME_KEY} from '../shared/equipment-forge-policy-v1.mjs';
 import {forgeInputNumber} from '../shared/equipment-forge-cms-v1.mjs';
 import {saveForgeAdvancedPolicy,readForgeAdvancedPolicy} from '../functions/_equipment_forge_advanced.js';
 const amounts=[100000001,500000000,1000000000,3000000000,Number.MAX_SAFE_INTEGER];
+const coinAmounts=[1000000000001,5000000000000,10000000000000,30000000000000,50000000000000];
 const policy=()=>{const p=forgeAdvancedDraft();for(const [i,s]of p.steps.entries())Object.assign(s,{successPpm:500000,maintainPpm:250000,destroyPpm:250000,coinCost:100,itemQuantity:amounts[i],scrollQuantity:1,protectionQuantity:0,powerBonusPercent:160+i*40});return p;};
 const request=f=>({requestId:crypto.randomUUID(),kind:'ENHANCE',instanceId:f.instanceId});
 
@@ -16,6 +17,13 @@ test('+11 through +15 accept master-star costs above 100 million without roundin
  for(const amount of amounts)assert.equal(forgeInputNumber(String(amount)),amount);
  for(const value of [0,-1,1.5,NaN,Infinity,Number.MAX_SAFE_INTEGER+1,'100000001']){const invalid=policy();invalid.steps[0].itemQuantity=value;assert.throws(()=>validateForgeAdvanced(invalid),{code:'FORGE_ADVANCED_POLICY'});}
  const empty=policy();empty.steps[0].itemQuantity=null;assert.equal(validateForgeAdvanced(empty).steps[0].itemQuantity,null);
+});
+
+test('+11 through +15 coin costs accept up to the user-approved 50 trillion and reject larger amounts',()=>{
+ const p=policy();for(let i=0;i<5;i++)p.steps[i].coinCost=coinAmounts[i];
+ assert.deepEqual(validateForgeAdvanced(p).steps.map(s=>s.coinCost),coinAmounts);
+ assert.equal(FORGE_ADVANCED_FIELDS.find(([key])=>key==='coinCost')[3],50000000000000);
+ for(const value of [0,-1,1.5,50000000000001,Number.MAX_SAFE_INTEGER,Infinity]){const invalid=policy();invalid.steps[0].coinCost=value;assert.throws(()=>validateForgeAdvanced(invalid),{code:'FORGE_ADVANCED_POLICY'});}
 });
 
 for(const postgres of [false,true]){
@@ -49,5 +57,17 @@ for(const postgres of [false,true]){
   assert.equal(await f.p('SELECT quote_id FROM equipment_forge_quotes_v1 WHERE quote_id=?',input.requestId).first(),null);
   assert.equal(await f.qty('MASTER_STAR'),100);assert.equal(await f.coin(),10000000);
   assert.equal(JSON.parse((await f.p('SELECT value FROM app_meta WHERE key=?',FORGE_ADVANCED_KEY).first()).value).steps[0].itemQuantity,Number.MAX_SAFE_INTEGER);
+ });
+
+ test((postgres?'PostgreSQL':'SQLite')+': 50-trillion coin setting saves exactly and charges once with a late-failure rollback',async t=>{
+  const f=await forgeFixture(t,{postgres}),p=policy();for(let i=0;i<5;i++)p.steps[i].coinCost=coinAmounts[i];p.steps[0].coinCost=50000000000000;
+  await saveForgeAdvancedPolicy(f.env,f.user,p);assert.deepEqual((await readForgeAdvancedPolicy(f.DB)).steps.map(s=>s.coinCost),p.steps.map(s=>s.coinCost));
+  await f.p('INSERT INTO equipment_forge_states_v1(instance_id,user_id,level,revision) VALUES(?,7,10,1)',f.instanceId).run();
+  await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(7,?,10)',FORGE_SCROLL_ITEMS[0].code).run();
+  await f.p('UPDATE users SET coin=50000000000007 WHERE id=7').run();await f.p('UPDATE cnine_user_inventory SET quantity=100000101 WHERE user_id=7 AND item_code=?','MASTER_STAR').run();
+  const q=await forgeQuote(f.env,f.user,request(f));assert.equal(q.cost.coinCost,50000000000000);const body={requestId:crypto.randomUUID(),quoteId:q.quoteId};
+  f.fail('INSERT INTO equipment_forge_states_v1');await assert.rejects(()=>executeForge(f.env,f.user,body,'ENHANCE',{randomInt:()=>0}));f.fail('');assert.equal(await f.coin(),50000000000007);assert.equal(await f.qty('MASTER_STAR'),100000101);
+  const result=await executeForge(f.env,f.user,body,'ENHANCE',{randomInt(){throw Error('No reroll');}});assert.equal(result.coinCost,50000000000000);assert.equal(await f.coin(),7);assert.equal(await f.qty('MASTER_STAR'),100);
+  assert.equal((await executeForge(f.env,f.user,body,'ENHANCE')).replayed,true);assert.equal(await f.coin(),7);
  });
 }
