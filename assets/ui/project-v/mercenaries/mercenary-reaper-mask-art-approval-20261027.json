@@ -4,13 +4,15 @@
   "status": "APPROVED_SOURCE_ART",
   "scope": "SOURCE_ART_ONLY",
   "userRequests": [
-    "일러스트 반영 이름 추천해봐라 싼티 안나게 2~3글자"
+    "일러스트 반영 이름 추천해봐라 싼티 안나게 2~3글자",
+    "레반으로 확정 일러스트까지 승인"
   ],
   "conceptId": "reaper-mask",
-  "lookupLabel": "백골 가면·검은 사신·초대형 대검 승인 원화",
+  "lookupLabel": "레반 · 백골 가면·검은 사신·초대형 대검 최종 승인 원화",
   "code": null,
-  "name": null,
-  "nameStatus": "PENDING_USER_SELECTION",
+  "name": "레반",
+  "nameStatus": "USER_APPROVED",
+  "nameAndArtApprovalDate": "2026-10-27",
   "rank": null,
   "rankStatus": "PENDING_CATALOG_ASSIGNMENT",
   "requestedArtTier": "SSS LIMITED",
@@ -44,7 +46,7 @@
   "technicalQa": {
     "sourceIntegrity": "VERIFIED",
     "nativeSize": "1024x1536_RGB_PNG",
-    "userVisualApproval": "LATEST_V9_ACCEPTED_FOR_SOURCE_ART_REGISTRATION",
+    "userVisualApproval": "EXPLICIT_FINAL_SOURCE_ART_APPROVAL",
     "cardFrameComposition": "NOT_RUN_ART_APPROVAL_ONLY",
     "thumbnail160": "NOT_RUN_ART_APPROVAL_ONLY"
   },
@@ -57,5 +59,5 @@
   "runtimeConnected": false,
   "runtimeEnabled": false,
   "deploymentPerformed": false,
-  "releaseAuthorization": "ART_REGISTRATION_ONLY_NAME_SELECTION_PENDING"
+  "releaseAuthorization": "NOT_GRANTED_NAME_AND_ART_APPROVAL_ONLY"
 }
