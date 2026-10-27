@@ -1,0 +1,37 @@
+{
+  "clock": {
+    "utc": "2026-10-27T07:15:55.466Z",
+    "kst": "2026-10-27 16:15:55"
+  },
+  "readOnly": true,
+  "oldSeason": {
+    "id": "4e49efa4-7a36-4848-ac85-7ca6606b5b6f",
+    "status": "CLOSED",
+    "revision": "10",
+    "finalPlayers": 119,
+    "paidPlayers": 119,
+    "lastRank": "119",
+    "pending": 0,
+    "coins": "118340152678",
+    "shards": "0",
+    "trophies": 10,
+    "lastCreditAt": "2026-10-27T07:14:04.862Z"
+  },
+  "currentSeason": {
+    "id": "f70db529-aff2-403b-a1fb-c4c3ad6f8c57",
+    "status": "ACTIVE",
+    "name": "랭크 듀오 시즌 6",
+    "participants": "24",
+    "completed": "385",
+    "latest": "2026-10-27T07:15:51.277Z"
+  },
+  "scheduler": {
+    "version": "20260925-weekly-rewards",
+    "checkedAt": "2026-10-27T07:15:10.538Z",
+    "phase": "ACTIVE",
+    "nextCheckAt": "2026-10-27T07:16:10.478Z"
+  },
+  "policiesPreserved": true,
+  "rewardLogsExactlyOnce": true,
+  "immutableSha256": "d6e7c2213112808ced6ccb3cee5cc54f5f84e322a29d6ecdfb66d867c1a8f7d0"
+}
