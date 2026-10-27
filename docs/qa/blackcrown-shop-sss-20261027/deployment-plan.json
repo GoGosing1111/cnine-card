@@ -1,0 +1,11 @@
+{
+  "base": "fc1f690bd084555004079e39e83a801bbaa815f3",
+  "reason": "카드 상점 블랙크라운 미리보기에서 카드구·레반을 빠뜨린 표시 오류 수정. 서버의 실제 previewCards에서 SSS 리미티드 두 종을 표시하고 잔여 재고를 연결. 판매 OFF/ON 모두 표시 확인. 원스토어 동일 반영 및 앱 캐시 갱신. 기존 r5 확률·한도·판매 OFF와 계정 데이터 유지, 운영 DB 쓰기 없음.",
+  "tests": [
+    "tests/mercenary-blackcrown-pack-20261027.test.mjs",
+    "tests/scoped-release-policy-20260923.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
