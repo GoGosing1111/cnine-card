@@ -38,9 +38,11 @@ try{
   await action(page,'save').click();await page.getByText('전용 +10 대여 편성을 저장했습니다.').waitFor();assert(await noOverflow(page));await shot(page,'04-rental-'+label);
  }
  await action(a,'ready').click();await a.waitForFunction(()=>document.querySelector('.classic-colosseum [data-classic="ready"]')?.disabled);await tab(b,'room').click();await action(b,'refresh').click();await action(b,'ready').click();
- for(const [page,label]of [[a,'pc'],[b,'mobile']]){
+ await Promise.all([[a,'pc'],[b,'mobile']].map(async([page,label])=>{
   await page.locator('#modal.show canvas').waitFor({timeout:90000});await page.waitForTimeout(1800);await shot(page,'05-battle-'+label);
   const diagnostics=await page.evaluate(()=>window.ProjectVPixiBattle?.diagnostics?.());await fs.writeFile(path.join(output,'battle-'+label+'-diagnostics.json'),JSON.stringify(diagnostics,null,2));
+ }));
+ for(const [page,label]of [[a,'pc'],[b,'mobile']]){
   await page.locator('.classic-battle-result [data-classic="close"]').waitFor({timeout:150000});await shot(page,'06-result-'+label);await page.locator('.classic-battle-result [data-classic="close"]').click();
  }
  await tab(b,'news').click();await b.locator('.classic-paper h2').waitFor();assert(await noOverflow(b));await shot(b,'07-mobile-news');

@@ -49,6 +49,14 @@ test('the lobby loader refreshes an already loaded stale engine before its final
 
 after(()=>gsap.ticker.sleep());
 
+test('classic colosseum background is confined to the explicitly tagged PVP replay',()=>{
+  const select=(data,mode)=>LiveEngine.prototype.battlefieldAsset.call({battleData:data},mode);
+  const tagged={sceneAssetKey:'CLASSIC_COLOSSEUM'};
+  assert.equal(select(tagged,'PVP'),'/assets/ui/classic-colosseum/20261027/arena-v1.png');
+  assert.equal(select(tagged,'HUNT'),select({},'HUNT'));
+  assert.notEqual(select({},'PVP'),select(tagged,'PVP'));
+});
+
 test('legacy string getter cannot mask the battlefield selector during construction or loading', async t=>{
   const previous=globalThis.matchMedia;globalThis.matchMedia=()=>({matches:false});
   t.after(()=>{if(previous)globalThis.matchMedia=previous;else delete globalThis.matchMedia;});

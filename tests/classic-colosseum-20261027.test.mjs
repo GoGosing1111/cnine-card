@@ -58,7 +58,7 @@ test('failed settlement rolls back article and notices, lease recovery reuses fr
  const originalBatch=f.env.DB.batch;let failSettlement=true;
  f.env.DB.batch=async rows=>{if(failSettlement&&rows.some(r=>r.args.includes(CLASSIC_KEYS.news))){failSettlement=false;throw Error('INJECTED_SETTLEMENT_OUTAGE');}return originalBatch(rows);};
  const r=await f.act(room.id,3,'ready');assert.equal(r.status,500);assert.equal(f.get(CLASSIC_KEYS.news),null);assert.equal(f.user(2).results.length,0);
- const stored=f.room(room.id);assert.equal(stored.status,'FIGHTING');assert(stored.input);f.advance(31000);
+ const stored=f.room(room.id);assert.equal(stored.status,'FIGHTING');assert(stored.input);f.advance(31*60000);
  const recovered=await f.act(room.id,2,'recover');assert.equal(recovered.room.status,'COMPLETED');assert.equal(f.room(room.id).seed,stored.seed);assert.equal(f.get(CLASSIC_KEYS.news).length,1);
 });
 test('conflicting simultaneous ready and save keep one revision; user search escaped and bounded',async t=>{
