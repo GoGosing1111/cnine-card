@@ -80,7 +80,7 @@ try{
     }
     await page.keyboard.press('Escape');
     for(const provision of [true,false]){
-      await page.evaluate(async provision=>{qaStatusMode='ok';qaProvision=provision;pendingPlaydkVerificationToken='isolated-one-use-token';await completePendingPlaydkVerification();},provision);
+      await page.evaluate(async provision=>{qaStatusMode='ok';qaProvision=provision;sessionStorage.setItem('cnine_soop_watch_reconnect:v1',JSON.stringify({account:70001,at:Date.now()}));pendingPlaydkVerificationToken='isolated-one-use-token';await completePendingPlaydkVerification();},provision);
       await modal.waitFor();await page.waitForFunction(()=>document.querySelector('[data-soop-status]')&&!document.querySelector('[data-soop-status]').hidden);
       assert.match(await modal.locator('[data-soop-status]').textContent(),provision?/정보 제공을 확인했습니다/:/정보 제공을 확인하지 못했습니다/);
       await page.keyboard.press('Escape');
@@ -96,7 +96,7 @@ try{
     assert(page.url().startsWith(origin),'Stale account response never navigates');
     // Account scope is separate, including with unavailable browser storage.
     await page.evaluate(async()=>{
-      const {createSoopWatchConsent}=await import('/js/soop-watch-consent-v1.mjs?v=20261026-v1');
+      const {createSoopWatchConsent}=await import('/js/soop-watch-consent-v1.mjs?v=20261028-repeat-v1');
       window.qaController=createSoopWatchConsent({getUser:loadUser,getSession:()=>API_TOKEN,storage:{getItem(){throw Error('blocked');},setItem(){throw Error('blocked');}},request:async()=>({playdk:{enabled:true,startUrl:'https://www.playdk.kr/api/v2/g/skm'}}),navigate:url=>window.qaNavigation=url});
       qaController.open({automatic:true});
     });
