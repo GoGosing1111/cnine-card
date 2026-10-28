@@ -20,3 +20,5 @@ READ ONLY 확인에서 Pulse(ID1249)의 경기 d77b7b7b-43a8-44de-92d1-9c1c7c09a
 기존 작업 폴더 `C:/Users/User/Downloads/upload/cnine-card/tmp/duo-settlement-recovery-20261027` 재사용. 기준 운영 Pages b902e4e0 / 소스 8ec639bc86829b8cb38c06fae5d930321b9dadc6에서 `npm run deploy:production -- --scoped`로 배포한다. 두 Worker의 실제 코드·배포 비율을 확인한 뒤 기존 `duoLifecycle.recover`로 위 경기 한 건만 재개한다. 새 경기·추가 보상 작업키를 만들지 않으며, 완료된 경기 재실행은 SELECT만 허용한다.
 
 실제 완료 결과는 completion.json에 기록한다. 전체 실행기·읽기 전용 스냅샷·예행연습·검수 화면·배포 증거: `C:/Users/User/Downloads/upload/cnine-card/operations/duo-entry-recovery-20261028/`. 저장공간 유지관리·예약·이전 지급 재실행 없음.
+
+최종 운영 반영·복구 완료: 2026-10-28 20:01:40 KST. 소스 f0f7cac5c, 배포 2d0d47a20, Pages 32ad99bf. 두 Worker 실제 수정 코드와 배포100% 확인. 기존 경기만 승리 정산하여 1,472→1,496점·21→22승(2패 유지), 57,500,000코인·원장 98989950를 정확히 1회 지급했다. 기존 행동력 값·충전 기준 유지, 추가 차감0. 독립 READ ONLY 확인 및 완료 경기 SELECT 전용 재실행 추가쓰기0, 이중 잠금 반환 완료.

@@ -1,0 +1,86 @@
+{
+  "status": "COMPLETED",
+  "sourceCommit": "f0f7cac5c4d7402158b04fd095e2decadca03b0e",
+  "releaseCommit": "2d0d47a20d38b1a9b8dc9ed4d14c6e0b420e8985",
+  "pages": "32ad99bf-e1fd-43be-8088-48a731395724",
+  "completedAt": "2026-10-28T11:01:40.692Z",
+  "completedAtKst": "2026-10-28 20:01:40 KST",
+  "target": {
+    "userId": 1249,
+    "nickname": "Pulse",
+    "matchId": "d77b7b7b-43a8-44de-92d1-9c1c7c09a427"
+  },
+  "result": {
+    "result": "WIN",
+    "rewardCoin": 57500000,
+    "scoreAfter": 1496
+  },
+  "score": {
+    "score": 1496,
+    "wins": 22,
+    "losses": 2
+  },
+  "coinLog": {
+    "id": 98989950,
+    "change_amount": "57500000",
+    "balance_after": "11566656651456779",
+    "reason": "RANKED_DUO_WIN d77b7b7b-43a8-44de-92d1-9c1c7c09a427"
+  },
+  "inputSha256": "34e11b166c5dad67c2619e29f4d5c4ecf947f912851fc066c69420b75827eb8d",
+  "additionalEnergyCost": 0,
+  "duplicateCredits": 0,
+  "tests": {
+    "new": 5,
+    "adjacent": 13,
+    "release": 5,
+    "totalPassed": 23,
+    "historicalDateDependentFailures": 2
+  },
+  "browser": [
+    {
+      "width": 1440,
+      "energyBefore": 9,
+      "energyAfter": 9,
+      "ledgerCount": 1,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "energyBefore": 8,
+      "energyAfter": 8,
+      "ledgerCount": 1,
+      "errors": []
+    }
+  ],
+  "operationalValidation": {
+    "dualLocks": true,
+    "failedSqlRolledBack": true,
+    "normalDryRunRolledBack": true,
+    "independentReadOnly": true,
+    "completedReplayOnlySelect": true,
+    "locksReleased": true
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "victoryFix": true,
+      "versions": [
+        {
+          "version_id": "f635dfb4-0d72-4251-8e08-2994f9020fd8",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "victoryFix": true,
+      "versions": [
+        {
+          "version_id": "64bcdfd9-97ee-448e-ab42-f4418e095356",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "evidenceDirectory": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\duo-entry-recovery-20261028"
+}
