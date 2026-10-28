@@ -8,7 +8,11 @@ test('all current V3 consumers and the main/store loader ship the corrected coll
  assert(version.endsWith('-damage-hp-sync-20261029-v1'));
  for(const s of report.sources)assert.equal(hash(read(s.file)),s.sha256,s.file);
  assert(report.outputs.some(o=>o.file==='preview/coop-defense-v1/defense.bundle.js'));
- for(const o of report.outputs){const b=read(o.file);assert.equal(hash(b),o.sha256,o.file);assert(b.includes('authoredFence'),o.file);assert(b.includes(version),o.file);}
+ for(const o of report.outputs){const b=read(o.file);assert.equal(hash(b),o.sha256,o.file);assert(b.includes('authoredFence'),o.file);
+  // Defense imports BattleEngine directly, without the live bridge's runtimeVersion export.
+  if(!o.standaloneEngine)assert(b.includes(version),o.file);
+ }
+ for(const f of ['defense/index.html','preview/coop-defense-v1/index.html'])assert(read(f).includes('defense.bundle.js?hpSync=20261029-v1'),f);
  for(const f of ['js/app.js','onestore/js/app.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert(read(f).includes(version),f);
  for(const f of ['js/app.js','onestore/js/app.js'])assert(read(f).includes('hpSync=20261029-v1'),f);
  for(const f of ['index.html','onestore/index.html','service-worker.js'])assert(read(f).includes('damage-hp-sync-20261029-v1'),f);
@@ -22,10 +26,12 @@ test('server PVE/PVP receipts conserve actual HP loss, shield absorption, target
  assert(!pvp.result.timeline.some(e=>e.type==='MERCENARY_LEONEL_AREA'));
  for(const b of [pve,pvp]){
   const hp=new Map(Object.values(b.teams).flatMap(t=>[...t.cards,...(t.mercenaries||[])]).map(c=>[c.id,c.hp]));let contacts=0;
-  for(const e of b.result.timeline)for(const r of [e,...(e.hits||[]),...(e.targets||[])]){
+  // The team snapshots already include all opening buffs. In particular, the
+  // at=0 healer aura precedes mercenary links and must not overwrite that snapshot.
+  for(const e of b.result.timeline.filter(e=>e.at>0))for(const r of [e,...(e.hits||[]),...(e.targets||[])]){
    const next=r.targetHpAfter??r.hpAfter;if(!Number.isFinite(next))continue;
    if(e.actorId?.includes('MERCENARY')&&['TURN','MERCENARY_LEONEL_AREA'].includes(e.type)&&r.targetId&&Number.isFinite(r.damage)){
-    assert.equal(hp.get(r.targetId)-next,r.damage,'HP damage remains authoritative');assert(r.absorbed>=0);contacts++;
+    assert.equal(hp.get(r.targetId)-next,r.damage,'HP damage remains authoritative at '+e.type+' #'+e.seq);assert(r.absorbed>=0);contacts++;
    }if(r.targetId)hp.set(r.targetId,next);
   }assert(contacts>0);
  }
