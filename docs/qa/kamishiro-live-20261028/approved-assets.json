@@ -1,0 +1,94 @@
+{
+  "approval": {
+    "date": "2026-10-28",
+    "requests": [
+      "승인 반영해",
+      "SSS리미티드,획득불가,핑크빛유두지급"
+    ],
+    "code": "V-969",
+    "name": "카미시로(神代)",
+    "revision": "melee-v7",
+    "battleVisualApproved": true,
+    "productionIntegrationAuthorized": true,
+    "acquisition": "LOCKED",
+    "grant": {
+      "nickname": "핑크빛유두",
+      "quantity": 1
+    },
+    "defaultSpeed": 3.75,
+    "sourceArtSha256": "689341af3e7b1353e7ee001bcafbcfa74d0f0e418fc1bf9bfa33fecd3f696c37",
+    "weaponSha256": "69e57881e604e9e90ebc39a117096375a926e53463427e9e6260a8aeb1f3591d"
+  },
+  "files": [
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/source-art.png",
+      "sha256": "689341af3e7b1353e7ee001bcafbcfa74d0f0e418fc1bf9bfa33fecd3f696c37",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/artwork-black-berserker-20261028-v1/black-berserker-v2.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/body.png",
+      "sha256": "f671c9ea82032563d18321cedf42107290a4ea2d8a110083848fc8da9094dc2b",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/body.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/motion-cleave.png",
+      "sha256": "1eded82f8bd5674688c3971606f98548eae4a20772c5eb65dac337e7eb7f371e",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/motion-cleave.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/motion-rise.png",
+      "sha256": "0acf66bd59695eb4ba3a05f8a9e0bddc0252e786600fb9e23db93ebc55394f7c",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/motion-rise.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/motion-thrust.png",
+      "sha256": "571359d099a0f48778929a181f65a70fd786ef1c2cf8dfad12dd88a7223d9fc1",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/motion-thrust.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/motion-eclipse.png",
+      "sha256": "d6ed9e8aae4d1d550696c5bad365a2847a752019fadca585f7d22401f2405884",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/motion-eclipse.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/motion-ruin.png",
+      "sha256": "2eb6297d26966b9d8dcaa5c39802c5a8a68d4cf12aa941927e9582c5c3965dd2",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/motion-ruin.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/fx-cleave.png",
+      "sha256": "dd7cf7efa640a5d86cf94d46aa9b43945bc317aeca43c33a91dd7dd6fc814e23",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/fx-cleave.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/fx-rise.png",
+      "sha256": "a925cdf0d8d79b7d12fee691d23093f986c0ed4f7a0ba6fe544250cc30b3e25f",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/fx-rise.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/fx-thrust.png",
+      "sha256": "a332b1f4324623d01001dd55810017488d58e934c4b6484681e823ea45737c96",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/fx-thrust.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/fx-eclipse.png",
+      "sha256": "f2f9d6bdf84b6661b0de9ecbbd3bf55133949197ff41580cbf2ece43a35f478b",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/fx-eclipse.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/fx-ruin.png",
+      "sha256": "8ec3bedd14ef170075693e386a4d48f0f1fd17b6b7b08301deb2b19b844852bd",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/fx-ruin.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/fx-aura.png",
+      "sha256": "7d7b324b8ec9f3e674ebb942f02f6fa0f67cfbb40c6b3be067f24398a1d26fd6",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/fx-aura.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/kamishiro-20261028/sword-straight-v3.png",
+      "sha256": "69e57881e604e9e90ebc39a117096375a926e53463427e9e6260a8aeb1f3591d",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-doppelganger-battle-20261028-v1/assets/sword-straight-v3.png"
+    }
+  ]
+}

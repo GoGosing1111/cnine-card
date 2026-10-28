@@ -111,6 +111,13 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "shared/mercenary-kamishiro-v1.mjs",
+    "preview/project-v-v3/source/battle/kamishiro/spec.json",
+    "preview/project-v-v3/source/battle/kamishiro/skills.mjs",
+    "preview/project-v-v3/source/battle/kamishiro/NativeAtlasEdgeFilter.js",
+    "preview/project-v-v3/source/battle/kamishiro/CrimsonRimFilter.js",
+    "preview/project-v-v3/source/battle/kamishiro/DoppelgangerFX.js",
+    "preview/project-v-v3/source/battle/KamishiroCombatPlayback.js",
     "shared/mercenary-leonel-v1.mjs",
     "shared/mercenary-zero-v1.mjs",
     "shared/mercenary-prime-requiem-v1.mjs",
@@ -309,5 +316,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2805907
+  "outputBytes": 2863490
 }
