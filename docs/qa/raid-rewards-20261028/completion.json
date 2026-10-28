@@ -1,0 +1,182 @@
+{
+  "status": "COMPLETED",
+  "completedAt": "2026-10-28T11:29:28.798Z",
+  "completedKst": "2026-10-28 20:29:28 KST",
+  "releaseCommit": "2e4a4cdec5d895acb93edfc89464c3c8802f2999",
+  "featureCommit": "2924ebc5c8f09002f3abdad02798613d355d0bdf",
+  "pages": {
+    "id": "9ba60daa-8f8f-4c12-8737-a6fa5ba73142",
+    "url": "https://9ba60daa.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "2e4a4cdec5d895acb93edfc89464c3c8802f2999"
+  },
+  "adminLogId": "52502",
+  "operationKey": "ops:raid-rewards:20261028:v1",
+  "raidRewards": {
+    "core": {
+      "coin": 100000000000,
+      "pigCoins": 100,
+      "choiceCount": 1,
+      "weeklyLimit": 3
+    },
+    "isgen": {
+      "coin": 200000000000,
+      "pigCoins": 100,
+      "petEssence": 5,
+      "masterStars": 0,
+      "choiceCount": 1,
+      "weeklyLimit": 3
+    },
+    "varsen": {
+      "coin": 200000000000,
+      "pigCoins": 100,
+      "petEssence": 5,
+      "masterStars": 2000000,
+      "choiceCount": 1,
+      "weeklyLimit": 3
+    }
+  },
+  "preserved": {
+    "existingWeeklyCounts": true,
+    "alreadyPaidRewards": true,
+    "choicePoolsAndProbabilities": true,
+    "otherRaidSettings": true,
+    "shopProducts": true,
+    "existingDepartureRewardAmounts": true
+  },
+  "verification": {
+    "failedSettingsTransactionRolledBack": true,
+    "successfulDryRunRolledBack": true,
+    "independentReadOnly": true,
+    "selectOnlyReplay": true,
+    "serverAndRevealDeploymentTests": 42,
+    "onestoreAfterCacheFix": 7,
+    "pcAndMobile": [
+      {
+        "width": 1440,
+        "cmsSaveReload": true,
+        "isgenClear": "클리어 보상 지급 완료 · 펫 정수 5개 · 코인 200,000,000,000 · 피그코인 100개 (이번 주 남은 보상 0회)",
+        "madaraLobby": "광폭화 360초 · 기믹 제한 100% · 클리어 200,000,000,000 코인 / 피그코인 100 / 마별 2000000 / 펫 정수 5 · 주간 0/3회",
+        "overflow": false,
+        "pageErrors": []
+      },
+      {
+        "width": 390,
+        "cmsSaveReload": true,
+        "isgenClear": "클리어 보상 지급 완료 · 펫 정수 5개 · 코인 200,000,000,000 · 피그코인 100개 (이번 주 남은 보상 0회)",
+        "madaraLobby": "광폭화 360초 · 기믹 제한 100% · 클리어 200,000,000,000 코인 / 피그코인 100 / 마별 2000000 / 펫 정수 5 · 주간 0/3회",
+        "overflow": false,
+        "pageErrors": []
+      }
+    ],
+    "publicFiles": [
+      {
+        "file": "admin/core-protocol-raid-admin-v2021.js",
+        "sha256": "26d3c899c37adaea0bf274a221ef117bec3c4ca32fe7b1bf3fbd41f2f6e8c91e"
+      },
+      {
+        "file": "admin/index.html",
+        "sha256": "e6ebcec2c683800cb86e2491e3f3319ac7be8e466796dbdfd43cbfc2cafdd110"
+      },
+      {
+        "file": "admin/lich-king-raid-admin-v1.mjs",
+        "sha256": "2b644f3719cf28374cf79f4c35b9c1077638f7ba10691aa6ba4742d5f99527d3"
+      },
+      {
+        "file": "admin/madara-raid-admin-v1.mjs",
+        "sha256": "d1eb5bcc5a89e87fd0031dc8c281d10f2efde673b6fa02b53c39135673dd4169"
+      },
+      {
+        "file": "index.html",
+        "sha256": "0b73f36786a1e33222810d7b486a2f560061b1dbffe9c6e73fdcc024ff232804"
+      },
+      {
+        "file": "js/lich-king-raid-entry-v1.js",
+        "sha256": "cabb2876267bfbd8ecb75e4fbcf7789b5c0150f69039c7026c53a62cbd0de533"
+      },
+      {
+        "file": "js/madara-raid-entry-v1.js",
+        "sha256": "38dd4aa170d03de194e8917524a30e0e80df6a57bb7c2f36f24e47680614b73c"
+      },
+      {
+        "file": "onestore/index.html",
+        "sha256": "66d92d8e7143cca6deb301a8e7a4ae1172cb3c88ee4a9432f30dadea4e8b5e59"
+      },
+      {
+        "file": "raid/lich-king/index.html",
+        "sha256": "77da1ee18ee3657a30b76c8be5997abbf19e3a410bdc81f30e83b29ce95cc255"
+      },
+      {
+        "file": "raid/lich-king/inline.mjs",
+        "sha256": "922b9373a5f1db680086024fbe10c4949e973953b7a7ba78add532fd61fbf322"
+      },
+      {
+        "file": "raid/lich-king/live.mjs",
+        "sha256": "caf330a0de62c2a7ffd2ba9f8a9340e1418a70781cca8b6315b4e9d1d285d159"
+      },
+      {
+        "file": "raid/madara/inline.mjs",
+        "sha256": "562c4d46280268a9ae3e7ff14c11f1742c103c48f199c78c19c92352b396576e"
+      },
+      {
+        "file": "raid/madara/runtime.mjs",
+        "sha256": "b977acaca100bb65ef045862420cfd5f04caaa50e91e149998fd593caa8a5b2b"
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "d292974c4d8810e9a0bdc9cf09b7b3eddffa88d17405dd999e073aa681668bcc"
+      },
+      {
+        "file": "shared/reward-reveal-contents-v1.mjs",
+        "sha256": "a7ca58895495769d7bb643622111ab2114c3cc6f7328b3c2311c318ff7485cd5"
+      }
+    ],
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "sha256": "d9bdf40b68d3e4959ce45c5ec71d117d99d3fb781871cabeeaf3799494d435eb",
+        "deployment": {
+          "id": "d00d7def-f0b9-4088-8357-267d4fb8289b",
+          "source": "wrangler",
+          "strategy": "percentage",
+          "author_email": "wlgks6344@naver.com",
+          "annotations": {
+            "workers/triggered_by": "deployment"
+          },
+          "versions": [
+            {
+              "version_id": "6c640ef6-fc0a-4024-bd36-3cef59857aa1",
+              "percentage": 100
+            }
+          ],
+          "created_on": "2026-10-28T11:27:27.520762Z"
+        }
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "sha256": "6602965e94f67a836c4d11e1f95a64b6e76a0f47ad7878d824904bf245012404",
+        "deployment": {
+          "id": "4c6278d1-42f1-439f-8607-2465dac471a8",
+          "source": "wrangler",
+          "strategy": "percentage",
+          "author_email": "wlgks6344@naver.com",
+          "annotations": {
+            "workers/triggered_by": "deployment"
+          },
+          "versions": [
+            {
+              "version_id": "2f5654cb-e71e-4b32-8050-4ae2ca068233",
+              "percentage": 100
+            }
+          ],
+          "created_on": "2026-10-28T11:28:55.461489Z"
+        }
+      }
+    ]
+  },
+  "operationalAccountWrites": 0,
+  "retroactiveGrants": 0,
+  "noticePublished": false,
+  "artifacts": "C:/Users/User/Downloads/upload/cnine-card/operations/raid-rewards-20261028",
+  "preflightSha256": "fa3f5ad7ddb3e6b742eb20d699382b1efdcfa7184807203319d9cab5797eba29"
+}
