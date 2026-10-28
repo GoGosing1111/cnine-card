@@ -89,7 +89,7 @@ test('isolated live and CMS wiring, safe new-tab links and permanent no-LIVE con
   const client=read('js/streamer-lounge-v2036.js'),shell=read('js/soopketmon-v21-exact-shell-adapter.js'),api=read('functions/api/[[path]].js');
   assert.equal((shell.match(/data-streamer-lounge-host/g)||[]).length,2);assert.match(shell,/global\.StreamerLounge\?\.mount/);
   assert.match(client,/dialog\.showModal\(\)/);assert.match(client,/target="_blank" rel="noopener noreferrer"/);assert.match(client,/delete host\.dataset\.profileKey/);
-  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=20261026-cnine-roster-v6-heeya-first"/);
+  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=20261028-cnine-roster-v7-bts150"/);
   assert.match(read('admin/index.html'),/streamer-lounge-admin-v2036\.js\?v=2036/);
   assert.match(api,/handleStreamerLounge\(\{path,request,env,deps:\{json,requirePermission,writeAdminLog\}\}\)/);
   assert.ok(api.indexOf('if(path.startsWith(\'admin/\'))') < api.indexOf('const streamerResponse='));
