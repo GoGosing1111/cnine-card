@@ -9,3 +9,10 @@
 - 기존 `tests/streamer-lounge-v2036.test.mjs`를 공식 `npm run deploy:production -- --scoped`에서 실행한다. 운영 기준은 Pages `90f36ccf-0b0a-4039-bf20-dd4649d0bed7`, 소스 `7e603c83bc56547b164bd57947c3ecf8b06c3d0a`다. 배포 직전 운영 변경 여부를 확인한다.
 
 실행 스크립트·화면·배포 계획/로그·검수 증거: `C:/Users/User/Downloads/upload/cnine-card/operations/cnine-bts150-20261028/`. 기존 `output/revan-live-20261027/release-checkout`을 재사용했다. 새 프로젝트/의존성 복사·저장공간 유지관리·예약은 수행하지 않는다.
+
+## 운영 결과
+
+- **운영 반영 완료:** 소스 `8ec639bc86829b8cb38c06fae5d930321b9dadc6`, Pages `b902e4e0-24db-44b0-8d38-f53e9d277d0a`, **2026-10-28 18:57:36 KST** 공개 검증.
+- 관련 회귀 18개 통과. 공개 파일 8개 해시 일치, 실제 공개 메인 모바일(격리 GET API)에서 4명·프로필·두 번째 줄·방송국 링크·로비 복귀 확인. 기존 라운지 9명 응답 해시 동일.
+- 첫 사전 검사에서 희소 체크아웃에 없던 기존 라운지 PNG 2개로 1건 실패했다. Git 원본 파일만 복원하고 코드 변경 없이 통과했다. 최초 로그와 재시도 로그를 보존한다.
+- 공식 배포가 Pages와 두 Worker까지 정상 종료했다. 운영 계정·재화·CMS 쓰기, 저장공간 유지관리 및 예약 실행은 0건이다.

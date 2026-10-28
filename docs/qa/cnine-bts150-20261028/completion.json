@@ -1,0 +1,105 @@
+{
+  "status": "COMPLETED",
+  "at": "2026-10-28T09:57:36.845Z",
+  "atKst": "2026-10-28 18:57:36 KST",
+  "source": "8ec639bc86829b8cb38c06fae5d930321b9dadc6",
+  "pages": {
+    "id": "b902e4e0-24db-44b0-8d38-f53e9d277d0a",
+    "url": "https://b902e4e0.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "8ec639bc86829b8cb38c06fae5d930321b9dadc6"
+  },
+  "member": {
+    "id": "bts150",
+    "name": "방태수",
+    "department": "스타부",
+    "station": "https://www.sooplive.com/station/bts150"
+  },
+  "starOrder": [
+    "남수댕",
+    "조은",
+    "디임",
+    "방태수"
+  ],
+  "femaleCount": 6,
+  "columns": 3,
+  "relatedTests": {
+    "passed": 18,
+    "failed": 0
+  },
+  "local": [
+    {
+      "width": 1440,
+      "starMembers": 4,
+      "femaleMembers": 6,
+      "columns": 3,
+      "secondRow": true,
+      "profileLoaded": true,
+      "stationUrl": "https://www.sooplive.com/station/bts150",
+      "opener": null,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "starMembers": 4,
+      "femaleMembers": 6,
+      "columns": 3,
+      "secondRow": true,
+      "profileLoaded": true,
+      "stationUrl": "https://www.sooplive.com/station/bts150",
+      "opener": null,
+      "errors": []
+    }
+  ],
+  "public": [
+    {
+      "width": 390,
+      "starMembers": 4,
+      "femaleMembers": 6,
+      "columns": 3,
+      "secondRow": true,
+      "profileLoaded": true,
+      "stationUrl": "https://www.sooplive.com/station/bts150",
+      "opener": null,
+      "errors": []
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "4355409b4aac40606567de40520184611f61b232b26c9ac96646c6f3e7e725dc"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "cb50264f148a87a6a374c60048ac632dff60fdddfcf5b5aac3e60ec99c46ffb8"
+    },
+    {
+      "file": "js/streamer-lounge-v2036.js",
+      "sha256": "c9b88e812fed55793abf3d21cfa84b6ad8e38c6d7d8eb997789fb3e8c765d482"
+    },
+    {
+      "file": "js/cnine-roster-v1.js",
+      "sha256": "f5614a868d26edf54350443fe66169b6e1c5a40045e99e70fe3fe1fc4857e303"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "db184a0cef641f2bd616cc93a04761b3e6e5ff705db49dcbbdd2d9e0b09175c4"
+    },
+    {
+      "file": "css/cnine-roster-v1.css",
+      "sha256": "9ce66849bed265f81b8709dda9b7b78160eeb96adea8d45c0631d86ece625e4d"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "83b46135fc85589b24a700dafcf336687d63c880888d20aa02071214c1eec64a"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "0964271b59655415b99d6f75c700925b7feb2cf135c733d8f0f5a3f8ecbba4a6"
+    }
+  ],
+  "loungeRosterUnchanged": true,
+  "productionAccountWrites": 0,
+  "productionSettingsWrites": 0,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/cnine-bts150-20261028"
+}
