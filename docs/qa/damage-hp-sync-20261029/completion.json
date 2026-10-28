@@ -1,0 +1,264 @@
+{
+  "status": "COMPLETE",
+  "completedAt": "2026-10-28T16:08:15.304Z",
+  "deploymentFinishedAtKst": "2026-10-29 01:01:31 KST",
+  "implementationCommit": "7a7684ef88cff2c28b7eafec017396707176a5ac",
+  "releaseCommit": "3871283e6e62541c7cae0c2ebc8eee0c49813b2d",
+  "pages": {
+    "id": "68bb204f-dc31-4df9-b146-25d5a5397234",
+    "url": "https://68bb204f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3871283e6e62541c7cae0c2ebc8eee0c49813b2d"
+  },
+  "workerDeployments": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sha256": "c463a05902f2d71e87075e731382b75be4cf58347a779ee9e126ed4f4c42492e",
+      "deployment": {
+        "id": "c67593e7-099c-4ebd-8446-e17f9dbf2b01",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "dd8259de-4677-45cd-9463-c6c32a5a8cdb",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-28T15:59:49.113585Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sha256": "1b282f8fb71755324824d42998702a99840dfb1ea2a12b610e9d79e83f6aad0d",
+      "deployment": {
+        "id": "e1185b1d-f1b9-47d9-8dfa-40afebd32a9a",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "cdeb9196-9d6b-4eb7-bbc1-bb9a1d4177ed",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-28T16:01:26.89404Z"
+      }
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "defense/index.html",
+      "sha256": "560d2d7275525d09bbedc88c8f3a1dbf6e6b50a20516a21be1d685f4f9bbec70"
+    },
+    {
+      "file": "index.html",
+      "sha256": "5384803d053b1c1d9763e1ecc910780c2dbaff5eeaf3982ba7cf138fd63c1934"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "ec79d4bdb8e9f47b986eaa7fed51d45d1e5b6624cf4c79eac58f5139a70821d8"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "b17eebef28f50eb575be4ca8b67e4c69fc7731b5833b587827b0eb61d8c50be0"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "91450845f79a1c13f52c5321b1fb5f56e33526bb66aacbd69acfa5149e195867"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "7462959c9ed185920b5f60ce6b60e592e8cb7cea4268d104ba3c10ecc080a12d"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "0db2c837b13377692368e78587716afcbc0951cbc481e72fe8b61e68cfe933d5"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "99d9ef46eb1688d60f3454695f270a98acb8d6f0997100a3c592eaae05485cec"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "c0c3cdabee7363855cbbd10aba0e639219c08a4a24e2142e5dc137524fe74674"
+    },
+    {
+      "file": "preview/coop-defense-v1/index.html",
+      "sha256": "6c87fec66ff892211ad8158db26bd20aa588ba02d94ff2a0137a6ba3e796b9bd"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "a2971e9398b6f6ec2736807e47fa9eec6e12dd6028080e16ada1e0792b0fc792"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "aa826240248bb6756fb9df013f2997b8df5151b70c1d2de5d85665da10faa3ce"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "1301674ff0b179c62e6c204dbb05eaa2a3254e2be18e10b9857aad0d76f62c48"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "fb6dcbee5b4143b2d89ef96159023f17920531e397973193c5b1c5a41bf1a790"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/BattleEngine.js",
+      "sha256": "a1110ba558acf26351b26bd0a934ca636628950094457ca2b465335db435a3e2"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js",
+      "sha256": "1061cdd298d82777c8528a68fdb68a6c9abdeac082ff0e37d57f6f529b889758"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "7c4e46b44ba27492e99f361d94d2f831c81c30d74b3fd0695341b6a93797ce20"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "b9d3687e4027ae5f134ac4a5af5d3f5652920aa5b033c4fc9c04e8d762d0e298"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "e29a6ef442e9ca09d066f5db5c8e98aca480821bb2a3caa726f8dc5f3fc13247"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/source/HuntBattleEngine.js",
+      "sha256": "916599382320ee3e91b4b0cd8d8427fa406c6d689db349edc188836a4d6168a9"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "22a63f8887f6a262bf3aeb486ecffb240076e187bee7847b0b6fa59a02592ea4"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "cfa4134723c1487fd340271d0cff0dc4f98ccea4284a09b31c01852613ca02bf"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "bc78b6c099c4300c153a8bf0cf19bee9e19a4601cd4f033870171a3adf24fad1"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "3c29494924067b0b26cd54984d5a335a58f68c852926a7582d1b2fad90defea8"
+    }
+  ],
+  "tests": {
+    "uniquePassed": 74,
+    "combatAndDelivery": 55,
+    "operationalPackaging": 1,
+    "releasePolicy": 18,
+    "firstAttempt": {
+      "passed": 53,
+      "failed": 2,
+      "reason": "New test assumptions for standalone engine metadata and opening buffs, corrected without additional game changes"
+    },
+    "secondAttempt": {
+      "passed": 12,
+      "stoppedBeforeDeployment": "Pages file count 20014"
+    },
+    "finalAttempt": {
+      "passed": 29,
+      "failed": 0
+    }
+  },
+  "sourceReconstruction": {
+    "events": 160,
+    "leonelContacts": 23,
+    "hpLedgerMismatches": 0,
+    "initialStatDifferences": 27,
+    "exactHistoricalReplay": false
+  },
+  "baseline": {
+    "hpSnapshotMismatches": 2,
+    "unchangedHpDespiteRealDamage": 1,
+    "example": {
+      "seq": 133,
+      "damage": 985738600,
+      "expectedHpPercent": 36.70490393903617,
+      "earlyFutureHpPercent": 36.61694074879486
+    }
+  },
+  "browsers": [
+    {
+      "file": "browser-apocalypse-1440-after.json",
+      "mode": "apocalypse",
+      "width": 1440,
+      "productionAssets": false,
+      "publicAssetCount": 0,
+      "completed": true,
+      "mercenaryNumbers": 38,
+      "expectedAreaContacts": 10,
+      "missingContacts": 0,
+      "unchangedHpDespiteRealDamage": 0,
+      "mismatches": 0,
+      "errors": 0,
+      "missingAssets": 0,
+      "overflow": false
+    },
+    {
+      "file": "browser-apocalypse-390-after.json",
+      "mode": "apocalypse",
+      "width": 390,
+      "productionAssets": false,
+      "publicAssetCount": 0,
+      "completed": true,
+      "mercenaryNumbers": 38,
+      "expectedAreaContacts": 10,
+      "missingContacts": 0,
+      "unchangedHpDespiteRealDamage": 0,
+      "mismatches": 0,
+      "errors": 0,
+      "missingAssets": 0,
+      "overflow": false
+    },
+    {
+      "file": "browser-pvp-390-after.json",
+      "mode": "pvp",
+      "width": 390,
+      "productionAssets": false,
+      "publicAssetCount": 0,
+      "completed": true,
+      "mercenaryNumbers": 2,
+      "expectedAreaContacts": 0,
+      "missingContacts": 0,
+      "unchangedHpDespiteRealDamage": 0,
+      "mismatches": 0,
+      "errors": 0,
+      "missingAssets": 0,
+      "overflow": false
+    },
+    {
+      "file": "live-browser-apocalypse-390-after.json",
+      "mode": "apocalypse",
+      "width": 390,
+      "productionAssets": true,
+      "publicAssetCount": 385,
+      "completed": true,
+      "mercenaryNumbers": 38,
+      "expectedAreaContacts": 10,
+      "missingContacts": 0,
+      "unchangedHpDespiteRealDamage": 0,
+      "mismatches": 0,
+      "errors": 0,
+      "missingAssets": 0,
+      "overflow": false
+    }
+  ],
+  "delivery": {
+    "commonBundles": 11,
+    "pagesFileCount": 20000,
+    "operationalFilesRetainedInGitAndExcludedFromWeb": 14
+  },
+  "productionAccountWrites": 0,
+  "storageMaintenance": false,
+  "scheduledWork": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/damage-hp-sync-20261029/"
+}
