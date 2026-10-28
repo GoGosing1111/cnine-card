@@ -13,7 +13,8 @@ export const CNINE_GROUPS = Object.freeze([
     Object.freeze({ id: 'mew030709', name: '남수댕' }),
     Object.freeze({ id: 'zalalz', name: '조은' }),
     Object.freeze({ id: 'qpqpro', name: '디임' }),
-    Object.freeze({ id: 'bts150', name: '방태수' })
+    Object.freeze({ id: 'bts150', name: '방태수' }),
+    Object.freeze({ id: 'rlaxordyd', name: '김택용' })
   ]) })
 ]);
 
