@@ -2,7 +2,9 @@
   "date": "2026-10-28",
   "requests": [
     "승인 반영해",
-    "SSS리미티드,획득불가,핑크빛유두지급"
+    "SSS리미티드,획득불가,핑크빛유두지급",
+    "전체승인",
+    "승인 처 물어보지마라 다 승인"
   ],
   "code": "V-969",
   "name": "카미시로(神代)",
@@ -16,5 +18,6 @@
   },
   "defaultSpeed": 3.75,
   "sourceArtSha256": "689341af3e7b1353e7ee001bcafbcfa74d0f0e418fc1bf9bfa33fecd3f696c37",
-  "weaponSha256": "69e57881e604e9e90ebc39a117096375a926e53463427e9e6260a8aeb1f3591d"
+  "weaponSha256": "69e57881e604e9e90ebc39a117096375a926e53463427e9e6260a8aeb1f3591d",
+  "completedRelease": "7caeebfd2c98957f523ac495e19efba60c8b5bdf"
 }

@@ -1,0 +1,98 @@
+{
+  "status": "LIVE_AND_GRANTED",
+  "completedAt": "2026-10-28T11:27:43.669Z",
+  "code": "V-969",
+  "name": "카미시로(神代)",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "basePower": 3000000,
+  "acquisition": "LOCKED",
+  "deployment": {
+    "source": "7caeebfd2c98957f523ac495e19efba60c8b5bdf",
+    "pages": {
+      "id": "b372dd7d-71df-4d7c-adc7-1224f776799f",
+      "url": "https://b372dd7d.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "7caeebfd2c98957f523ac495e19efba60c8b5bdf"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "kamishiroConnected": true
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "kamishiroConnected": true
+      }
+    ],
+    "publicFilesVerified": 46
+  },
+  "combat": {
+    "reference": "Current Prime Requiem base stats and PVE budget, independently captured",
+    "normalSkills": [
+      "흑염참",
+      "혈선역참",
+      "암영돌파"
+    ],
+    "areaSkills": [
+      "적월멸검",
+      "흑경난무"
+    ],
+    "motionSpeed": 3.75,
+    "normalMeleeApproach": true,
+    "areaDamageBudget": 30.24,
+    "areaEnergyCost": 20,
+    "areaCooldownActions": 3,
+    "approvedPngCount": 14
+  },
+  "grant": {
+    "operationKey": "ops:pingdu-kamishiro-grant:20261028:v1",
+    "auditId": "52501",
+    "completedAt": "2026-10-28T11:27:05.449Z",
+    "userId": 1,
+    "nickname": "핑크빛유두",
+    "quantity": 1,
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "independentReadOnlyVerified": true,
+    "selectOnlyReplayVerified": true,
+    "leasesReleased": true,
+    "preserved": {
+      "currency": true,
+      "stockCounters": true,
+      "numberedIssues": true,
+      "craftCounts": true,
+      "packAndCraftSettings": true,
+      "otherCards": true,
+      "inventory": true,
+      "loadouts": true,
+      "levels": true,
+      "growth": true,
+      "accountSettings": true
+    }
+  },
+  "qa": {
+    "releaseTests": 46,
+    "releaseTestsPassed": 46,
+    "localViewports": [
+      1440,
+      390
+    ],
+    "publicViewports": [
+      390
+    ],
+    "modes": [
+      "PVP",
+      "HUNT"
+    ],
+    "pvpSides": [
+      "ALLY",
+      "ENEMY"
+    ],
+    "pveAreaUniqueTargets": 12,
+    "productionGameplayTransactions": 0,
+    "normalAndFailureDryRunRolledBack": true,
+    "originalArtAndPngBytesPreserved": true
+  },
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/kamishiro-live-20261028"
+}
