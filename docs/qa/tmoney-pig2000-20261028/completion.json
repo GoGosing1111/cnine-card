@@ -1,0 +1,55 @@
+{
+  "status": "VERIFIED",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "pigCoins": 2000,
+  "before": "0",
+  "after": "2000",
+  "currentBalance": "2000",
+  "ledgerId": "ops:tmoney-pig2000:20261028:v1:pig",
+  "auditId": "52351",
+  "completedAt": "2026-10-28T01:58:53.579Z",
+  "operationKey": "ops:tmoney-pig2000:20261028:v1",
+  "authorizations": [
+    "T-Money™ 계정에 피그코인 1000개 넣어",
+    "1000개더 지급해"
+  ],
+  "requestParts": [
+    1000,
+    1000
+  ],
+  "original1000GrantNeverApplied": true,
+  "sourceSha256": "5a671dcd437941dd7764aed480a6b1e4a5c05d64abb453da0b319c305bd53a4c",
+  "planHash": "0bbba0b3abdd7ef1ab0f152694ae21dd82e8225cdbe64be9909d1ba41597e558",
+  "protectedBeforeHash": "420a909b8e0675a874a8112fdeed31542a9d8a5e2804debf17e90a76f43c0eab",
+  "protectedAfterHash": "420a909b8e0675a874a8112fdeed31542a9d8a5e2804debf17e90a76f43c0eab",
+  "syncBefore": {
+    "user_id": "5147",
+    "revision": "132620",
+    "domains": {
+      "pvp": "132619",
+      "wallet": "132620",
+      "loadout": "126704",
+      "messages": "124732",
+      "inventory": "132591",
+      "collection": "132561"
+    }
+  },
+  "syncAfter": {
+    "user_id": "5147",
+    "revision": "132621",
+    "domains": {
+      "pvp": "132619",
+      "wallet": "132621",
+      "loadout": "126704",
+      "messages": "124732",
+      "inventory": "132591",
+      "collection": "132561"
+    }
+  },
+  "noWriteReplayVerified": true,
+  "leasesReleased": true,
+  "sendMessages": false,
+  "gameRedeployed": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/tmoney-pig2000-20261028"
+}

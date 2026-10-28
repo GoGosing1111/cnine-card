@@ -1,0 +1,48 @@
+{
+  "tests": {
+    "command": "node --test tests/tmoney-pig2000-20261028.test.mjs",
+    "passed": 4,
+    "failed": 0
+  },
+  "dryRun": {
+    "mode": "dry-run",
+    "sourceSha256": "5a671dcd437941dd7764aed480a6b1e4a5c05d64abb453da0b319c305bd53a4c",
+    "planHash": "0bbba0b3abdd7ef1ab0f152694ae21dd82e8225cdbe64be9909d1ba41597e558",
+    "verification": {
+      "status": "VERIFIED",
+      "userId": "5147",
+      "nickname": "T-Money™",
+      "pigCoins": 2000,
+      "before": "0",
+      "after": "2000",
+      "currentBalance": "2000",
+      "ledgerId": "ops:tmoney-pig2000:20261028:v1:pig",
+      "auditId": "52350",
+      "completedAt": "2026-10-28T01:58:16.174Z"
+    },
+    "rollbackVerified": true,
+    "injectedFailureRollback": true,
+    "noWriteReplayVerified": true,
+    "leasesReleased": true
+  },
+  "independent": {
+    "checkedAt": "2026-10-28T01:59:33.473Z",
+    "independentConnection": true,
+    "readOnly": true,
+    "noWriteReplayVerified": true,
+    "leasesReleased": true,
+    "original1000GrantNeverApplied": true,
+    "verification": {
+      "status": "VERIFIED",
+      "userId": "5147",
+      "nickname": "T-Money™",
+      "pigCoins": 2000,
+      "before": "0",
+      "after": "2000",
+      "currentBalance": "2000",
+      "ledgerId": "ops:tmoney-pig2000:20261028:v1:pig",
+      "auditId": "52351",
+      "completedAt": "2026-10-28T01:58:53.579Z"
+    }
+  }
+}
