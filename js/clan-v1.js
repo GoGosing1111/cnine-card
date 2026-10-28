@@ -1,6 +1,6 @@
 (function clanV1(global){
-  let chatModule;const chatReady=import('./war-chat-v1.mjs?v=20261028-chat2').then(m=>chatModule=m);
   'use strict';
+  let chatModule;const chatReady=import('./war-chat-v1.mjs?v=20261028-chat2').then(m=>chatModule=m);
 
   const state={data:null,loading:false,error:'',tab:'command',ctx:null,fighting:false,pending:new Map(),refreshTimer:null,countdownTimer:null,clockOffset:0};
   const ROLE_LABEL={ATTACK:'공격형',DEFENSE:'방어형',SPEED:'속도형',HP:'HP형',BALANCED:'균형형'};
