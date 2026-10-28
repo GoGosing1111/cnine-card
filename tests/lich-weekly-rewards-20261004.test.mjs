@@ -9,16 +9,16 @@ test('weekly reset is Monday midnight KST, including year rollover',()=>{
   assert.deepEqual(lichRewardWeek(Date.parse('2026-10-04T15:00:00.000Z')),{weekKey:'2026-10-05',startsAt:'2026-10-04T15:00:00.000Z',resetsAt:'2026-10-11T15:00:00.000Z'});
   assert.equal(lichRewardWeek(Date.parse('2027-01-03T15:00:00.000Z')).weekKey,'2027-01-04');
 });
-for(const postgres of [false,true])test('seven weekly rewards per account; mixed eligibility, snapshot, replay and next week '+(postgres?'PostgreSQL':'SQLite'),async t=>{
+for(const postgres of [false,true])test('three weekly rewards per account; mixed eligibility, snapshot, replay and next week '+(postgres?'PostgreSQL':'SQLite'),async t=>{
   const h=await lichLiveFixture({postgres});t.after(()=>h.close());let last;
   await h.run("UPDATE cnine_user_inventory SET quantity=8,unseen_quantity=8 WHERE user_id=1 AND item_code='LICH_KING_ENTRY_TICKET'");
-  for(let i=1;i<=7;i++){
+  for(let i=1;i<=3;i++){
     last=await readyLichClear(h);
     // A settings save after departure must not alter this clear's reward.
     await h.configure({coinReward:7,masterStarReward:9,petEssenceReward:11});
     const clear=await h.call('action',{body:last.body});assert.equal(clear.status,200,JSON.stringify(clear.body));
     assert.deepEqual(clear.body.state.clearReward,{status:'GRANTED',granted:true,petEssence:5,masterStars:1000,coin:1000000000,
-      weeklyReward:{...lichRewardWeek(),limit:7,used:i,remaining:7-i},settingsRevision:clear.body.state.clearReward.settingsRevision});
+      weeklyReward:{...lichRewardWeek(),limit:3,used:i,remaining:3-i},settingsRevision:clear.body.state.clearReward.settingsRevision});
     assert.equal((await h.call('action',{body:last.body})).status,200);
     await h.call('status?roomId='+last.roomId,{user:2});
   }
@@ -27,16 +27,16 @@ for(const postgres of [false,true])test('seven weekly rewards per account; mixed
   assert.equal(result.body.state.status,'CLEAR');assert.equal(result.body.state.clearReward.status,'WEEKLY_LIMIT');
   assert.equal(result.body.state.petEssenceReward.granted,false);
   assert.equal((await h.call('status?roomId='+eighth.roomId,{user:6})).body.state.clearReward.granted,true);
-  for(const [uid,times]of [[1,7],[2,7],[3,7],[6,1]]){
+  for(const [uid,times]of [[1,3],[2,3],[3,3],[6,1]]){
     assert.equal(Number((await h.one('SELECT coin FROM users WHERE id=?',uid)).coin),times*1000000000);
     assert.equal(Number((await h.one('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=?',uid)).total_ticks),times*100000);
     for(const [code,amount]of [['MASTER_STAR',1000],['PET_ESSENCE',5]])assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',uid,code)).quantity),times*amount);
   }
-  assert.equal((await h.all('SELECT * FROM coin_logs')).length,22);
+  assert.equal((await h.all('SELECT * FROM coin_logs')).length,10);
   const lobby=await h.call('status');assert.equal(lobby.body.weeklyReward.remaining,0);
-  assert.equal((await lichWeeklyReward(h.env,1,Date.parse(lichRewardWeek().resetsAt))).remaining,7);
+  assert.equal((await lichWeeklyReward(h.env,1,Date.parse(lichRewardWeek().resetsAt) )).remaining,3);
   // Historical replay still cannot pay again in a later week.
-  await h.call('action',{body:last.body});assert.equal(Number((await h.one('SELECT coin FROM users WHERE id=1')).coin),7000000000);
+  await h.call('action',{body:last.body});assert.equal(Number((await h.one('SELECT coin FROM users WHERE id=1')).coin),3000000000);
 });
 
 for(const postgres of [false,true])test('late payout failure rolls back room, every balance, quota and receipt '+(postgres?'PostgreSQL':'SQLite'),async t=>{
@@ -73,7 +73,7 @@ test('legacy paid clears count, old in-flight rooms retain amounts, TEST and dis
 test('concurrent clears reserve the final weekly slot once and still settle eligible teammates',async t=>{
   const h=await lichLiveFixture({postgres:true});t.after(()=>h.close());
   await h.run("UPDATE cnine_user_inventory SET quantity=7,unseen_quantity=7 WHERE user_id=1 AND item_code='LICH_KING_ENTRY_TICKET'");
-  for(let i=0;i<6;i++){const b=await readyLichClear(h);assert.equal((await h.call('action',{body:b.body})).status,200);}
+  for(let i=0;i<2;i++){const b=await readyLichClear(h);assert.equal((await h.call('action',{body:b.body})).status,200);}
   const first=await readyLichClear(h),roomId='LK-'+crypto.randomUUID();
   // Model two delayed room settlements for the same users; ordinary admission
   // prevents dual membership, but settlement must enforce the cap independently.
@@ -83,39 +83,29 @@ test('concurrent clears reserve the final weekly slot once and still settle elig
   const results=await Promise.all([h.call('action',{body:first.body}),h.call('action',{body:second,user:2})]);
   for(const r of results)assert.equal(r.status,200,JSON.stringify(r.body));
   assert.deepEqual(results.map(r=>r.body.state.clearReward.status).sort(),['GRANTED','WEEKLY_LIMIT']);
-  assert.equal((await lichWeeklyReward(h.env,1)).used,7);
-  assert.equal(Number((await h.one('SELECT coin FROM users WHERE id=1')).coin),7000000000);
-  assert.equal(Number((await h.one('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=1')).total_ticks),700000);
+  assert.equal((await lichWeeklyReward(h.env,1)).used,3);
+  assert.equal(Number((await h.one('SELECT coin FROM users WHERE id=1')).coin),3000000000);
+  assert.equal(Number((await h.one('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=1')).total_ticks),300000);
 });
 
 test('CMS defaults are backwards compatible; amounts and fixed cap are validated',async t=>{
   const h=await lichLiveFixture();t.after(()=>h.close());
   const settings=(await h.call('admin/raid/lich/settings')).body.settings;
-  assert.equal(settings.masterStarReward,0);assert.equal(settings.coinReward,0);assert.equal(settings.weeklyRewardLimit,7);
+  assert.equal(settings.masterStarReward,0);assert.equal(settings.coinReward,0);assert.equal(settings.weeklyRewardLimit,3);
   for(const change of [{coinReward:-1},{coinReward:1.5},{coinReward:1000000000001},{masterStarReward:-1},{masterStarReward:100000001},{weeklyRewardLimit:4}])assert.equal((await h.configure(change)).status,400);
   assert.equal((await h.configure({coinReward:1000000000000,masterStarReward:100000000})).status,200);
   assert.equal((await h.call('admin/raid/lich/settings',{user:2,body:{settings}})).status,403);
 });
 
-for(const postgres of [false,true])test('existing three-use accounts gain four slots without resetting settings or counters '+(postgres?'PostgreSQL':'SQLite'),async t=>{
-  const h=await lichLiveFixture({postgres});t.after(()=>h.close());
-  const configured=await h.configure({mode:'ON',coinReward:123,masterStarReward:456,petEssenceReward:9});
-  const oldSettings={...configured.body.settings,weeklyRewardLimit:3};
-  const raw=JSON.stringify(oldSettings),key='raid_lich_weekly_v1:'+lichRewardWeek().weekKey+':1';
-  const counter=JSON.stringify({count:3,roomId:'previously-paid',token:'existing-receipt'});
-  await h.run('UPDATE app_meta SET value=? WHERE key=?',raw,'raid_lich_settings_v1');
-  await h.run('INSERT INTO app_meta(key,value) VALUES(?,?)',key,counter);
-  const settings=await h.call('admin/raid/lich/settings');
-  assert.equal(settings.status,200);assert.deepEqual(settings.body.settings,{...oldSettings,weeklyRewardLimit:7});
-  const status=await h.call('status');
-  assert.equal(status.status,200);assert.equal(status.body.feature.mode,'ON');
-  assert.deepEqual(status.body.weeklyReward,{...lichRewardWeek(),limit:7,used:3,remaining:4});
-  assert.equal((await h.one('SELECT value FROM app_meta WHERE key=?','raid_lich_settings_v1')).value,raw);
-  assert.equal((await h.one('SELECT value FROM app_meta WHERE key=?',key)).value,counter);
-  // A CMS tab opened before this release may still submit the old fixed limit.
-  const saved=await h.call('admin/raid/lich/settings',{body:{settings:oldSettings}});
-  assert.equal(saved.status,200);assert.deepEqual(saved.body.settings,{...oldSettings,revision:oldSettings.revision+1,weeklyRewardLimit:7});
-  const next=await readyLichClear(h),clear=await h.call('action',{body:next.body});
-  assert.equal(clear.status,200);assert.equal(clear.body.state.clearReward.granted,true);
-  assert.deepEqual(clear.body.state.clearReward.weeklyReward,{...lichRewardWeek(),limit:7,used:4,remaining:3});
+for(const postgres of [false,true])test('legacy seven-use counters remain readable and exhausted without a reset '+postgres,async t=>{
+ const h=await lichLiveFixture({postgres});t.after(()=>h.close());
+ const configured=await h.configure({mode:'ON',coinReward:123,masterStarReward:456,petEssenceReward:9});
+ const oldSettings={...configured.body.settings,weeklyRewardLimit:7},raw=JSON.stringify(oldSettings),key='raid_lich_weekly_v1:'+lichRewardWeek().weekKey+':1';
+ const counter=JSON.stringify({count:7,roomId:'previously-paid',token:'existing-receipt'});
+ await h.run('UPDATE app_meta SET value=? WHERE key=?',raw,'raid_lich_settings_v1');await h.run('INSERT INTO app_meta(key,value) VALUES(?,?)',key,counter);
+ const status=await h.call('status');assert.equal(status.status,200);assert.deepEqual(status.body.weeklyReward,{...lichRewardWeek(),limit:3,used:7,remaining:0});
+ assert.equal((await h.one('SELECT value FROM app_meta WHERE key=?',key)).value,counter);
+ const saved=await h.call('admin/raid/lich/settings',{body:{settings:oldSettings}});assert.equal(saved.status,200);assert.equal(saved.body.settings.weeklyRewardLimit,3);
+ const next=await readyLichClear(h),clear=await h.call('action',{body:next.body});assert.equal(clear.status,200);assert.equal(clear.body.state.clearReward.granted,false);
+ assert.equal((await h.one('SELECT value FROM app_meta WHERE key=?',key)).value,counter);
 });

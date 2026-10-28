@@ -1,3 +1,4 @@
+import {raidPigCoinRewardStatements} from './_raid_pig_rewards.js';
 import {collectionRewardCoin} from './_collection_bonuses.js';
 import {accountRankAward} from './_account_rank.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
@@ -6,7 +7,7 @@ import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {prepareLichClearMilestone} from './_milestone_trophies.js';
 import {prepareRewardRevealContext,prepareRewardRevealOffer} from './_reward_reveal.js';
 
-export const LICH_WEEKLY_REWARD_LIMIT=7;
+export const LICH_WEEKLY_REWARD_LIMIT=3;
 export const lichRewardWeek=pigCoinRewardWeek;
 const counterKey=(userId,week)=>'raid_lich_weekly_v1:'+week.weekKey+':'+Number(userId);
 const quota=(week,used)=>({...week,limit:LICH_WEEKLY_REWARD_LIMIT,used,remaining:Math.max(0,LICH_WEEKLY_REWARD_LIMIT-used)});
@@ -23,7 +24,7 @@ async function weeklyRow(env,userId,at){
        AND CAST(json_extract(r.state_json,'$.finishedAt') AS INTEGER)<?) legacy`)
     .bind(key,Number(userId),PET_ESSENCE,Date.parse(week.startsAt),Date.parse(week.resetsAt)).first();
   const raw=row?.raw??null,count=raw===null?0:JSON.parse(raw).count;
-  if(!Number.isSafeInteger(count)||count<0||count>LICH_WEEKLY_REWARD_LIMIT)throw Error('Invalid Lich weekly counter');
+  if(!Number.isSafeInteger(count)||count<0)throw Error('Invalid Lich weekly counter');
   return {key,raw,count,weekly:quota(week,count+Number(row?.legacy||0))};
 }
 export async function lichWeeklyReward(env,userId,at=Date.now()){
@@ -31,14 +32,14 @@ export async function lichWeeklyReward(env,userId,at=Date.now()){
 }
 export function lichClearRewardPolicy(cfg,releaseMode=cfg.mode){
   return {enabled:cfg.mode==='ON'&&releaseMode==='ON',petEssence:cfg.petEssenceEnabled?cfg.petEssenceReward:0,
-    masterStars:cfg.masterStarReward,coin:cfg.coinReward,settingsRevision:cfg.revision};
+    masterStars:cfg.masterStarReward,coin:cfg.coinReward,pigCoins:cfg.pigCoinReward||0,settingsRevision:cfg.revision};
 }
 export function lichClearRewardFor(room,userId){
   const reward=room.clearRewardSettlement;if(!reward)return null;
   const granted=reward.grantedIds.includes(String(userId));
   return {status:granted?'GRANTED':reward.limitedIds.includes(String(userId))?'WEEKLY_LIMIT':'DISABLED',granted,
     petEssence:granted?reward.petEssence:0,masterStars:granted?reward.masterStars:0,coin:granted?(reward.coinByUser?.[String(userId)]??reward.coin):0,
-    weeklyReward:reward.weeklyByUser[String(userId)],settingsRevision:reward.settingsRevision,...(reward.choiceOffers?.[String(userId)]?{choiceOffer:reward.choiceOffers[String(userId)]}:{})};
+    ...(reward.pigCoins?{pigCoins:granted?reward.pigCoins:0}:{}),weeklyReward:reward.weeklyByUser[String(userId)],settingsRevision:reward.settingsRevision,...(reward.choiceOffers?.[String(userId)]?{choiceOffer:reward.choiceOffers[String(userId)]}:{})};
 }
 export async function prepareLichClearRewards(env,row,room){
   const plan={statements:[],counters:[]};
@@ -49,8 +50,8 @@ export async function prepareLichClearRewards(env,row,room){
     petEssence:room.petEssencePolicy?.quantity||0,masterStars:0,coin:0,settingsRevision:room.petEssencePolicy?.settingsRevision??null};
   const reveal=await prepareRewardRevealContext(env,'LICH',room.revealPolicy,room.releaseMode==='ON');
   plan.statements.push(...reveal.statements);
-  const enabled=policy.enabled&&room.releaseMode==='ON'&&(policy.petEssence>0||policy.masterStars>0||policy.coin>0)||reveal.enabled;
-  const reward={petEssence:policy.petEssence,masterStars:policy.masterStars,coin:policy.coin,
+  const enabled=policy.enabled&&room.releaseMode==='ON'&&(policy.petEssence>0||policy.masterStars>0||policy.coin>0||policy.pigCoins>0)||reveal.enabled;
+  const reward={petEssence:policy.petEssence,masterStars:policy.masterStars,coin:policy.coin,...(policy.pigCoins?{pigCoins:policy.pigCoins}:{}),
     settingsRevision:policy.settingsRevision,grantedIds:[],limitedIds:[],weeklyByUser:{}};
   const participants=[...room.members].sort((a,b)=>Number(a.id)-Number(b.id));
   const rows=await Promise.all(participants.map(member=>weeklyRow(env,member.id,room.finishedAt)));
@@ -78,11 +79,12 @@ export async function prepareLichClearRewards(env,row,room){
       plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(coin,uid),
         env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin,'리치왕 정벌 클리어 ['+room.id+']',uid));
     }
+    plan.statements.push(...raidPigCoinRewardStatements(env,{userId:uid,source:'LICH_RAID',roomId:room.id,amount:policy.pigCoins||0,guardSql:'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',guardBindings:[before.key,raw],at:room.finishedAt}));
     plan.statements.push(...await accountRankAward(env,uid,'LICH_RAID_WEEKLY',room.id,{
       guard:'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',values:[before.key,raw]
     }),jointGuardEnd(env.DB,token));
     reward.grantedIds.push(userId);reward.weeklyByUser[userId]=quota(before.weekly,before.weekly.used+1);
-    const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin:reward.coinByUser?.[userId]??reward.coin,masterStars:reward.masterStars,petEssence:reward.petEssence},quota:{...reward.weeklyByUser[userId],period:'week'},finishedAt:room.finishedAt});
+    const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin:reward.coinByUser?.[userId]??reward.coin,masterStars:reward.masterStars,petEssence:reward.petEssence,...(reward.pigCoins?{pigCoins:reward.pigCoins}:{})},quota:{...reward.weeklyByUser[userId],period:'week'},finishedAt:room.finishedAt});
     if(choice.offer){plan.statements.push(...choice.statements);(reward.choiceOffers||={})[userId]=choice.offer;}
   }
   room.clearRewardSettlement=reward;

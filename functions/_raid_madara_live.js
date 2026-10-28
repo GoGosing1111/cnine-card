@@ -11,11 +11,12 @@ export const MADARA_TICKET='MADARA_RAID_ENTRY_TICKET',MADARA_SETTINGS='raid_mada
 const ROOMS='raid_madara_rooms_v1',ACTIVE='raid_madara_active_v1',RECEIPTS='raid_madara_receipts_v1';
 const fail=(code,message,status=409)=>{throw jointError('MADARA_'+code,message,status);};
 const owner=user=>user?.role==='OWNER',id=value=>String(value??''),integer=(n,min,max)=>Number.isSafeInteger(n)&&n>=min&&n<=max;
-export const defaultMadaraSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:440000,lobbyMinutes:15,enrageSeconds:360,mechanicTimePercent:100,entryTicketCost:1,testEntryFree:true,rewardsEnabled:false,weeklyRewardLimit:7,coinReward:0,masterStarReward:0,petEssenceReward:0});
+export const defaultMadaraSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:440000,lobbyMinutes:15,enrageSeconds:360,mechanicTimePercent:100,entryTicketCost:1,testEntryFree:true,rewardsEnabled:false,weeklyRewardLimit:3,pigCoinReward:0,coinReward:0,masterStarReward:0,petEssenceReward:0});
 export function validateMadaraSettings(raw){
   if(!raw||!integer(raw.revision,0,1e9)||!['OFF','TEST','ON'].includes(raw.mode)||!Array.isArray(raw.testUserIds)||raw.testUserIds.length>100||new Set(raw.testUserIds).size!==raw.testUserIds.length||!raw.testUserIds.every(n=>integer(n,1,Number.MAX_SAFE_INTEGER)))fail('SETTINGS','공개 모드와 테스트 계정(최대 100명)을 확인하세요.',400);
   const ranges={bossCombatPower:[1000,2000000000],lobbyMinutes:[1,60],enrageSeconds:[180,1800],mechanicTimePercent:[80,200],entryTicketCost:[0,10],weeklyRewardLimit:[1,30],coinReward:[0,1000000000000],masterStarReward:[0,100000000],petEssenceReward:[0,1000000]};
-  const next={revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b)};
+  const pigCoinReward=raw.pigCoinReward??0;if(!integer(pigCoinReward,0,1000000000))fail('SETTINGS','피그코인 수량을 확인하세요.',400);
+  const next={revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b),pigCoinReward};
   for(const [key,range] of Object.entries(ranges)){if(!integer(raw[key],...range))fail('SETTINGS',`${key} 설정 범위(${range[0]}~${range[1]})를 확인하세요.`,400);next[key]=raw[key];}
   for(const key of ['testEntryFree','rewardsEnabled']){if(typeof raw[key]!=='boolean')fail('SETTINGS','입장·보상 사용 여부를 확인하세요.',400);next[key]=raw[key];}
   return next;
@@ -132,7 +133,7 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since){
       }else if(kind==='start'){
         const users=await selectedUsers(env,room.members.map(m=>Number(m.id)));
         if(users.length!==room.members.length||users.some(u=>u.status!=='ACTIVE'||Date.parse(u.banned_until||'')>now||!madaraAccess(u,cfg).accessible))fail('MEMBER_ACCESS','참가자의 계정 상태와 TEST 권한을 확인하세요.',403);
-        startMadaraRoom(room,id(user.id),now);room.rewardPolicy={enabled:cfg.mode==='ON'&&room.releaseMode==='ON'&&cfg.rewardsEnabled,coin:cfg.coinReward,masterStars:cfg.masterStarReward,petEssence:cfg.petEssenceReward,weeklyLimit:cfg.weeklyRewardLimit,settingsRevision:cfg.revision};
+        startMadaraRoom(room,id(user.id),now);room.rewardPolicy={enabled:cfg.mode==='ON'&&room.releaseMode==='ON'&&cfg.rewardsEnabled,coin:cfg.coinReward,masterStars:cfg.masterStarReward,petEssence:cfg.petEssenceReward,pigCoins:cfg.pigCoinReward,weeklyLimit:cfg.weeklyRewardLimit,settingsRevision:cfg.revision};
         room.revealPolicy=cfg.mode==='ON'&&room.releaseMode==='ON'?await readRewardRevealPolicy(env,'MADARA'):null;
       }else if(kind==='kick'){kickMadaraMember(room,id(user.id),id(body.targetId),now);extra.push(env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE user_id=? AND room_id=?`).bind(Number(body.targetId),room.id));}
       else if(kind==='leave'){leaveMadaraRoom(room,id(user.id),now);extra.push(env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE user_id=? AND room_id=?`).bind(user.id,room.id));if(!room.members.some(m=>!m.left)){room.status='CANCELLED';room.finishedAt=now;}}
@@ -166,7 +167,7 @@ export async function handleMadaraRaid({path,request,env,deps}){
     if(kind==='lobby'&&request.method==='GET'){
       const active=await currentRoom(env,user,now),list=await env.DB.prepare(`SELECT state_json FROM ${ROOMS} WHERE status='LOBBY' AND expires_at>? ORDER BY created_at DESC LIMIT 40`).bind(now).all();
       const rooms=list.results.map(row=>{const r=JSON.parse(row.state_json);return {id:r.id,hostName:r.members.find(m=>m.id===r.hostId)?.name||'공대장',status:r.status,createdAt:r.createdAt,members:r.members.length,maxMembers:6,roles:Object.fromEntries(Object.keys(MADARA_ROLES).map(role=>[role,r.members.filter(m=>m.role===role).length])),canJoin:!active&&r.members.length<6&&!r.banned.includes(id(user.id)),blocked:r.banned.includes(id(user.id))?'강퇴된 공대':active?'공대 참가 중':'인원 마감'};});
-      return json({ok:true,account:await account(env,user,cfg,active?.room.id||null),rooms,feature:madaraAccess(user,cfg),weeklyReward:await madaraWeeklyReward(env,user.id,cfg.weeklyRewardLimit,now),settings:{enrageSeconds:cfg.enrageSeconds,mechanicTimePercent:cfg.mechanicTimePercent,rewardsEnabled:cfg.rewardsEnabled,coinReward:cfg.coinReward,masterStarReward:cfg.masterStarReward,petEssenceReward:cfg.petEssenceReward,weeklyRewardLimit:cfg.weeklyRewardLimit},serverNow:now});
+      return json({ok:true,account:await account(env,user,cfg,active?.room.id||null),rooms,feature:madaraAccess(user,cfg),weeklyReward:await madaraWeeklyReward(env,user.id,cfg.weeklyRewardLimit,now),settings:{enrageSeconds:cfg.enrageSeconds,mechanicTimePercent:cfg.mechanicTimePercent,rewardsEnabled:cfg.rewardsEnabled,coinReward:cfg.coinReward,pigCoinReward:cfg.pigCoinReward,masterStarReward:cfg.masterStarReward,petEssenceReward:cfg.petEssenceReward,weeklyRewardLimit:cfg.weeklyRewardLimit},serverNow:now});
     }
     if(kind==='state'&&request.method==='GET'){
       const roomId=url.searchParams.get('roomId')||(await currentRoom(env,user,now))?.room.id;if(!roomId)fail('ROOM_MISSING','참가 중인 공대가 없습니다.',404);

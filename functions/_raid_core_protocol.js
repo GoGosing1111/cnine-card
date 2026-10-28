@@ -40,7 +40,7 @@ const RECEIPT_TABLE = 'raid_core_receipts_v2024';
 const REWARD_RECEIPT_TABLE = 'raid_core_reward_receipts_v2024';
 const WEEKLY_REWARD_TABLE = 'raid_core_weekly_rewards_v2112';
 export const CORE_RAID_WEEKLY_REWARD_LIMIT = 3;
-export const CORE_RAID_MAX_REWARD_COIN = 30000000000;
+export const CORE_RAID_MAX_REWARD_COIN = 1000000000000;
 export const CORE_RAID_ENTRY_TICKET = 'CORE_RAID_ENTRY_TICKET';
 export const CORE_RAID_ENTRY_TICKET_IMAGE = 'assets/items/core-raid-entry-ticket-v1.png';
 export const CORE_RAID_BOSS_SOURCE_ART = 'assets/tower/uhabha.jpg';
@@ -2222,7 +2222,7 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
       }
       if (Object.hasOwn(body, 'rewardCoin') &&
           (!Number.isSafeInteger(body.rewardCoin) || body.rewardCoin < 0 || body.rewardCoin > CORE_RAID_MAX_REWARD_COIN)) {
-        return json({ error: '클리어 보상 코인은 0~300억(30,000,000,000) 사이의 정수로 입력하세요.' }, 400);
+        return json({ error: '클리어 보상 코인은 0~1조(1,000,000,000,000) 사이의 정수로 입력하세요.' }, 400);
       }
       cfg = cleanCoreRaidSettings({
         ...body,

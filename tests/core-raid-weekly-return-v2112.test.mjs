@@ -101,17 +101,17 @@ async function fixture(dialect = 'sqlite',pigRewards=false) {
     fail: pattern => { failPattern = pattern; }, loseCommit: () => { loseCommit = true; } };
 }
 
-test('core coin cap is 300 eok without changing default rewards or other limits', () => {
-  assert.equal(CORE_RAID_MAX_REWARD_COIN, 30000000000);
+test('core coin cap is 1 trillion without changing default rewards or other limits', () => {
+  assert.equal(CORE_RAID_MAX_REWARD_COIN, 1000000000000);
   assert.equal(defaultCoreRaidSettings().rewardCoin, 0);
-  for (const rewardCoin of [0, 2000000000, 2000000001, 10000000000, 30000000000]) {
+  for (const rewardCoin of [0, 2000000000, 2000000001, 10000000000, 1000000000000]) {
     assert.equal(cleanCoreRaidSettings({ rewardCoin }).rewardCoin, rewardCoin);
   }
-  assert.equal(cleanCoreRaidSettings({ rewardCoin: 30000000001 }).rewardCoin, 30000000000);
+  assert.equal(cleanCoreRaidSettings({ rewardCoin: 1000000000001 }).rewardCoin, 1000000000000);
   assert.equal(cleanCoreRaidSettings({ rewardCoin: -1 }).rewardCoin, 0);
   assert.equal(cleanCoreRaidSettings({ rewardCoin: 'bad' }).rewardCoin, 0);
-  assert.equal(cleanCoreRaidSettings({ bossMaxHp: 30000000000 }).bossMaxHp, 2000000000);
-  assert.equal(cleanCoreRaidSettings({ rewardShards: 30000000000 }).rewardShards, 1000000);
+  assert.equal(cleanCoreRaidSettings({ bossMaxHp: 1000000000000 }).bossMaxHp, 2000000000);
+  assert.equal(cleanCoreRaidSettings({ rewardShards: 1000000000000 }).rewardShards, 1000000);
 });
 
 test('weekly rewards reset Monday at midnight in Korea, including year boundary', () => {
@@ -140,26 +140,26 @@ for (const dialect of ['sqlite', 'postgres']) {
       assert.equal(Number((await f.row('SELECT COUNT(*) n FROM account_rank_receipts_v1')).n),0);
     }finally{await f.close();}
   });
-  test(`${dialect}: CMS persists 100/300 eok and rejects invalid coins without overwriting settings`, async () => {
+  test(`${dialect}: CMS persists 100/1 trillion and rejects invalid coins without overwriting settings`, async () => {
     const f = await fixture(dialect);
     try {
       const before = (await f.call('admin/raid/core/settings')).body.settings;
-      for (const rewardCoin of [10000000000, 30000000000]) {
+      for (const rewardCoin of [100000000000, 1000000000000]) {
         const saved = await f.call('admin/raid/core/settings', { ...before, rewardCoin });
         assert.equal(saved.status, 200);
         assert.deepEqual((await f.call('admin/raid/core/settings')).body.settings, { ...before, rewardCoin });
         assert.equal(JSON.parse((await f.row('SELECT value FROM app_meta WHERE key=?', 'raid_core_protocol_settings_v2024')).value).rewardCoin, rewardCoin);
       }
-      for (const rewardCoin of [30000000001, -1, 1.5, '10000000000', null, true, Number.MAX_SAFE_INTEGER]) {
+      for (const rewardCoin of [1000000000001, -1, 1.5, '10000000000', null, true, Number.MAX_SAFE_INTEGER]) {
         const denied = await f.call('admin/raid/core/settings', { ...before, rewardCoin });
         assert.equal(denied.status, 400, JSON.stringify(rewardCoin));
-        assert.match(denied.body.error, /300억/);
-        assert.deepEqual((await f.call('admin/raid/core/settings')).body.settings, { ...before, rewardCoin: 30000000000 });
+        assert.match(denied.body.error, /1조/);
+        assert.deepEqual((await f.call('admin/raid/core/settings')).body.settings, { ...before, rewardCoin: 1000000000000 });
       }
     } finally { await f.close(); }
   });
 
-  for (const rewardCoin of [10000000000, 30000000000]) {
+  for (const rewardCoin of [100000000000, 1000000000000]) {
     test(`${dialect}: ${rewardCoin} coins settle exactly, retain weekly 3 and replay stored rewards`, async () => {
       const f = await fixture(dialect);
       try {
@@ -195,7 +195,7 @@ for (const dialect of ['sqlite', 'postgres']) {
     });
   }
 
-  test(`${dialect}: 300 eok rollback and uncertain commit never lose or duplicate coins`, async () => {
+  test(`${dialect}: 1 trillion rollback and uncertain commit never lose or duplicate coins`, async () => {
     const f = await fixture(dialect);
     try {
       await f.configure({ rewardCoin: CORE_RAID_MAX_REWARD_COIN });

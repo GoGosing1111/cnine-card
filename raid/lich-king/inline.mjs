@@ -1,6 +1,6 @@
-import { mountLichRaid } from './live.mjs?v=20261026-input-recovery';
+import { mountLichRaid } from './live.mjs?v=20261028-raid-rewards';
 
-const VERSION = '20261026-input-recovery';
+const VERSION = '20261028-raid-rewards';
 let styles, battle;
 function loadAsset(tag, url) {
   return new Promise((resolve, reject) => {

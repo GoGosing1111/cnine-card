@@ -15,7 +15,7 @@ const owner=user=>user?.role==='OWNER';
 const id=value=>String(value??'');
 const integer=(n,min,max)=>Number.isSafeInteger(n)&&n>=min&&n<=max;
 const readJson=value=>JSON.parse(value);
-export const defaultLichSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:320000,lobbyMinutes:15,rewardLocked:true,petEssenceReward:5,petEssenceEnabled:true,masterStarReward:0,coinReward:0,weeklyRewardLimit:LICH_WEEKLY_REWARD_LIMIT});
+export const defaultLichSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:320000,lobbyMinutes:15,rewardLocked:true,petEssenceReward:5,petEssenceEnabled:true,masterStarReward:0,coinReward:0,pigCoinReward:0,weeklyRewardLimit:LICH_WEEKLY_REWARD_LIMIT});
 export function lichAccess(user,settings){
   const accessible=Boolean(user)&&(settings.mode==='ON'||settings.mode==='TEST'&&(owner(user)||settings.testUserIds.includes(Number(user.id))));
   return {mode:settings.mode,accessible,visible:accessible,owner:owner(user),rewardLocked:true};
@@ -27,12 +27,12 @@ export function validateLichSettings(raw){
     fail('SETTINGS','공개 모드, 테스트 계정(최대 100명), 고정 전투력, 모집 시간을 확인하세요.',400);
   const petEssenceReward=raw.petEssenceReward??5,petEssenceEnabled=raw.petEssenceEnabled??true;
   if(!integer(petEssenceReward,1,1000000)||typeof petEssenceEnabled!=='boolean')fail('SETTINGS','펫 정수 지급 수량(1~1,000,000)과 지급 상태를 확인하세요.',400);
-  const masterStarReward=raw.masterStarReward??0,coinReward=raw.coinReward??0;
+  const masterStarReward=raw.masterStarReward??0,coinReward=raw.coinReward??0,pigCoinReward=raw.pigCoinReward??0;
   // Stored settings and already-open CMS tabs may still carry the previous cap.
   // Accept that legacy value, but always apply the current fixed server limit.
-  if(!integer(masterStarReward,0,100000000)||!integer(coinReward,0,1000000000000)||(raw.weeklyRewardLimit!==undefined&&![3,LICH_WEEKLY_REWARD_LIMIT].includes(raw.weeklyRewardLimit)))
+  if(!integer(pigCoinReward,0,1000000000)||!integer(masterStarReward,0,100000000)||!integer(coinReward,0,1000000000000)||(raw.weeklyRewardLimit!==undefined&&![7,LICH_WEEKLY_REWARD_LIMIT].includes(raw.weeklyRewardLimit)))
     fail('SETTINGS','마별(0~1억)·코인(0~1조)은 정수로 입력하세요. 주간 보상 한도는 '+LICH_WEEKLY_REWARD_LIMIT+'회 고정입니다.',400);
-  return {revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b),bossCombatPower:raw.bossCombatPower,lobbyMinutes:raw.lobbyMinutes,rewardLocked:true,petEssenceReward,petEssenceEnabled,masterStarReward,coinReward,weeklyRewardLimit:LICH_WEEKLY_REWARD_LIMIT};
+  return {revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b),bossCombatPower:raw.bossCombatPower,lobbyMinutes:raw.lobbyMinutes,rewardLocked:true,petEssenceReward,petEssenceEnabled,masterStarReward,coinReward,pigCoinReward,weeklyRewardLimit:LICH_WEEKLY_REWARD_LIMIT};
 }
 export async function ensureLichLive(env){
   if(readRuntimeData(env,'lich-live-schema-v1'))return;

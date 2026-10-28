@@ -1,3 +1,4 @@
+import {raidPigCoinRewardStatements} from './_raid_pig_rewards.js';
 import {collectionRewardCoin} from './_collection_bonuses.js';
 import {accountRankAward} from './_account_rank.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
@@ -19,16 +20,22 @@ export async function prepareMadaraRewards(env,row,room){
   const plan={statements:[],counters:[]};
   if(row.status!=='ACTIVE'||room.status!=='CLEAR'||room.clearRewards)return plan;
   const frozen=room.rewardPolicy||{},reveal=await prepareRewardRevealContext(env,'MADARA',room.revealPolicy,room.releaseMode==='ON');
-  const p=frozen.enabled?frozen:{...frozen,coin:0,masterStars:0,petEssence:0};
-  const enabled=p.enabled===true&&room.releaseMode==='ON'&&(p.coin>0||p.masterStars>0||p.petEssence>0)||reveal.enabled;
+  const p=frozen.enabled?frozen:{...frozen,coin:0,masterStars:0,petEssence:0,pigCoins:0};
+  const enabled=p.enabled===true&&room.releaseMode==='ON'&&(p.coin>0||p.masterStars>0||p.petEssence>0||p.pigCoins>0)||reveal.enabled;
   plan.statements.push(...reveal.statements);
+  // A lower current quota also applies to rooms started under an older limit.
+  const stored=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('raid_madara_settings_v1').first();
+  const currentLimit=stored?JSON.parse(stored.value).weeklyRewardLimit:3;
+  if(!Number.isSafeInteger(currentLimit)||currentLimit<1||currentLimit>30)throw Error('Invalid current Varsen weekly limit');
+  const weeklyLimit=Math.min(p.weeklyLimit||3,currentLimit);
   room.clearRewards={};
   for(const member of [...room.members].filter(m=>!m.left).sort((a,b)=>Number(a.id)-Number(b.id))){
-    const uid=Number(member.id),before=await counter(env,uid,room.finishedAt,p.weeklyLimit||7);
+    const uid=Number(member.id),before=await counter(env,uid,room.finishedAt,weeklyLimit);
     const granted=enabled&&before.weekly.remaining>0;
     const coin=granted?await collectionRewardCoin(env,uid,p.coin,'MADARA_RAID'):0;
-    room.clearRewards[member.id]={granted,status:granted?'GRANTED':enabled?'WEEKLY_LIMIT':'DISABLED',coin,masterStars:granted?p.masterStars:0,petEssence:granted?p.petEssence:0,weeklyReward:before.weekly};
+    room.clearRewards[member.id]={granted,status:granted?'GRANTED':enabled?'WEEKLY_LIMIT':'DISABLED',coin,masterStars:granted?p.masterStars:0,petEssence:granted?p.petEssence:0,...(p.pigCoins?{pigCoins:granted?p.pigCoins:0}:{}),weeklyReward:before.weekly};
     if(!granted)continue;
+    if(stored&&!plan.settingsGuard){const token=crypto.randomUUID();plan.statements.push(jointGuard(env.DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',['raid_madara_settings_v1',stored.value]),jointGuardEnd(env.DB,token));plan.settingsGuard=true;}
     const token=crypto.randomUUID(),raw=JSON.stringify({count:before.weekly.used+1,roomId:room.id,token});plan.counters.push(before);
     plan.statements.push(before.raw===null
       ?env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING').bind(before.key,raw)
@@ -44,11 +51,12 @@ export async function prepareMadaraRewards(env,row,room){
     }
     if(p.coin)plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(coin,uid),
       env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin,`바르센 레이드 클리어 [${room.id}]`,uid));
+    plan.statements.push(...raidPigCoinRewardStatements(env,{userId:uid,source:'MADARA_RAID',roomId:room.id,amount:p.pigCoins||0,guardSql:'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',guardBindings:[before.key,raw],at:room.finishedAt}));
     plan.statements.push(...await accountRankAward(env,uid,'MADARA_RAID_WEEKLY',room.id,{
       guard:'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',values:[before.key,raw]
     }),jointGuardEnd(env.DB,token+':user'),jointGuardEnd(env.DB,token));
     room.clearRewards[member.id].weeklyReward={...before.weekly,used:before.weekly.used+1,remaining:before.weekly.remaining-1};
-    const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin,masterStars:p.masterStars,petEssence:p.petEssence},quota:{...room.clearRewards[member.id].weeklyReward,period:'week'},finishedAt:room.finishedAt});
+    const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin,masterStars:p.masterStars,petEssence:p.petEssence,...(p.pigCoins?{pigCoins:p.pigCoins}:{})},quota:{...room.clearRewards[member.id].weeklyReward,period:'week'},finishedAt:room.finishedAt});
     if(choice.offer){plan.statements.push(...choice.statements);room.clearRewards[member.id].choiceOffer=choice.offer;}
   }
   return plan;

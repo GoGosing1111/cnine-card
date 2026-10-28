@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261021-varsen1';
+  const VERSION = '20261028-raid-rewards';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, activeRoot = null, revision = 0;
   const host = () => document.getElementById('pveMadaraRaidView');
   async function refresh() {

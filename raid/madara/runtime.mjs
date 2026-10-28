@@ -380,7 +380,7 @@ export function mountMadara(root){
   }
   async function accept(result){
     if(result.feature){document.querySelector('.mr-development').textContent=result.feature.mode+' · 바르센 레이드';}
-    if(result.settings){const s=result.settings,w=result.weeklyReward;document.querySelector('[data-reward-policy]').textContent='광폭화 '+s.enrageSeconds+'초 · 기믹 제한 '+s.mechanicTimePercent+'% · '+(result.feature.mode==='TEST'?'TEST 보상 없음':s.rewardsEnabled?'클리어 '+Number(s.coinReward).toLocaleString()+' 코인 / 마별 '+s.masterStarReward+' / 펫 정수 '+s.petEssenceReward:'클리어 보상 지급 OFF')+(w?' · 주간 '+w.used+'/'+w.limit+'회':'');}
+    if(result.settings){const s=result.settings,w=result.weeklyReward;document.querySelector('[data-reward-policy]').textContent='광폭화 '+s.enrageSeconds+'초 · 기믹 제한 '+s.mechanicTimePercent+'% · '+(result.feature.mode==='TEST'?'TEST 보상 없음':s.rewardsEnabled?'클리어 '+Number(s.coinReward).toLocaleString()+' 코인 / 피그코인 '+Number(s.pigCoinReward||0)+' / 마별 '+s.masterStarReward+' / 펫 정수 '+s.petEssenceReward:'클리어 보상 지급 OFF')+(w?' · 주간 '+w.used+'/'+w.limit+'회':'');}
     if(result.token){token=result.token;persist();}
     if(result.account){account=result.account;updateWallet();}
     if(result.rooms)renderRooms(result.rooms);
@@ -406,7 +406,7 @@ export function mountMadara(root){
       $('resultReason').textContent=state.failure?.reason||'세 역할의 협동으로 거신을 저지했습니다.';
       const seconds=Math.round((state.finishedAt-state.startedAt)/1000);
       $('resultStats').innerHTML=`<span><b>${seconds}</b>전투 시간, 초</span><span><b>${state.statistics.tasks}</b>완료 임무</span><span><b>${state.statistics.mistakes}</b>실수</span>`;
-      const reward=state.clearReward;$('resultDialog').querySelector('.mr-muted').textContent=reward?.granted?('클리어 보상 · '+Number(reward.coin).toLocaleString()+' 코인 / 마별 '+reward.masterStars+' / 펫 정수 '+reward.petEssence):reward?.status==='WEEKLY_LIMIT'?'이번 주 보상 수령 한도에 도달했습니다.':'TEST 또는 보상 미설정 공대 · 보상 지급 없음';$('resultDialog').showModal();
+      const reward=state.clearReward;$('resultDialog').querySelector('.mr-muted').textContent=reward?.granted?('클리어 보상 · '+Number(reward.coin).toLocaleString()+' 코인 / 피그코인 '+Number(reward.pigCoins||0)+' / 마별 '+reward.masterStars+' / 펫 정수 '+reward.petEssence):reward?.status==='WEEKLY_LIMIT'?'이번 주 보상 수령 한도에 도달했습니다.':'TEST 또는 보상 미설정 공대 · 보상 지급 없음';$('resultDialog').showModal();
       mountRewardRevealButton($('resultDialog'),reward?.choiceOffer,{signal:revealLifecycle.signal,auto:true});
     }
   }
