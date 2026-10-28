@@ -19,7 +19,7 @@ for(const path of ['/js/support-package-v1.mjs','/js/support-package-alerts-v1.m
 for(const path of ['/js/ultimate-pack-bulk.mjs','/shared/ultimate-pack-bulk-v1.mjs',
   '/shared/superstar-pack-bulk-v1.mjs','/css/ultimate-pack-bulk.css'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/admin/loot-shop-admin-v1.mjs','/admin/loot-shop-admin-v1.css','/shared/loot-shop-policy-v1.mjs','/js/loot-shop-v1.mjs','/js/loot-shop-presentation-v2.mjs','/css/loot-shop-command-v2.css'])FRESH_ACCOUNT_SCRIPTS.add(path);
-for(const path of ['/sss-miracle-cube/app.mjs','/sss-miracle-cube/style.css','/shared/sss-miracle-cube-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
+for(const path of ['/sss-miracle-cube/app.mjs','/sss-miracle-cube/style.css','/shared/sss-miracle-cube-v1.mjs','/shared/sss-miracle-cube-stock-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/js/ranked-duo-v1.mjs','/js/ranked-duo-random-v4.mjs','/css/ranked-duo-random-v4.css','/shared/ranked-duo-v1.mjs','/shared/ranked-duo-weekly-v3.mjs','/shared/ranked-duo-random-v4.mjs','/admin/ranked-duo-v1.mjs','/admin/ranked-duo-v1.css'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/shared/content-energy-v1.mjs','/shared/legion-hunt-energy-v1.mjs','/shared/cooperative-rewards-v1.mjs','/shared/reward-reveal-contents-v1.mjs','/admin/cooperative-admin.mjs','/admin/cooperative-rewards.mjs','/admin/legion-hunt-admin-v1.mjs','/admin/server-support-admin-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/js/organization-api-v1.mjs','/js/organization-faction-v1.mjs','/js/organization-faction-entry-v1.mjs','/shared/organization-faction-v1.mjs','/admin/organization-admin-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);

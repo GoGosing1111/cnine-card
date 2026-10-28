@@ -16,7 +16,7 @@ function renderPool(){
  if(!state)return;
  document.querySelectorAll('[data-group]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.group===group)));
  const rows=state.catalog.filter(c=>group==='all'||c.limited===(group==='limited'));
- $('#pool').innerHTML=rows.map(c=>`<article class="sc-panel sc-card"><img src="${esc(c.sourceArt)}" alt="" loading="lazy"><div><span class="sc-edition">${c.limited?'SSS LIMITED':'SSS STANDARD'}</span><h3>${esc(c.name)}</h3><p>${c.limited?(c.remaining===null?'한정 수량 미등록':`잔여 ${c.remaining} / ${c.stockLimit}장`):'SSS 일반 용병'}</p><strong>${!c.available?'획득 불가':c.units===null?'확률 미설정':c.percent+'%'}</strong>${c.lockReason?`<p>${esc(c.lockReason)}</p>`:''}</div></article>`).join('')||'<p class="sc-empty">조건에 맞는 용병이 없습니다.</p>';
+ $('#pool').innerHTML=rows.map(c=>`<article class="sc-panel sc-card"><img src="${esc(c.sourceArt)}" alt="" loading="lazy"><div><span class="sc-edition">${c.limited?'SSS LIMITED':'SSS STANDARD'}</span><h3>${esc(c.name)}</h3><p>${c.limited?(c.remaining===null?'큐브 전용 한도 미등록':`큐브 잔여 ${c.remaining} / ${c.stockLimit}장`):'SSS 일반 용병'}</p><strong>${!c.available?'획득 불가':c.units===null?'확률 미설정':c.percent+'%'}</strong>${c.lockReason?`<p>${esc(c.lockReason)}</p>`:''}</div></article>`).join('')||'<p class="sc-empty">조건에 맞는 용병이 없습니다.</p>';
 }
 async function load(){
  $('#retry').hidden=true;
@@ -30,7 +30,7 @@ async function load(){
 function selectResult(i){
  const d=receipt.draws[i];$('#result-art').src=d.sourceArt;$('#result-art').alt=d.name+' 용병 원화';$('#result-name').textContent=d.name;
  $('#result-edition').textContent=d.limited?'SSS LIMITED':'SSS STANDARD';
- $('#result-serial').textContent=preview?'연출 미리보기':d.limited?`서버 한정 · No. ${d.serial} / ${d.stockLimit}`:d.duplicate?'중복 용병 +1장':'새로운 용병 획득';
+ $('#result-serial').textContent=preview?'연출 미리보기':d.limited?`${d.stockScope==='SSS_MIRACLE_CUBE'?'큐브 전용 한정':'기존 한정'} · No. ${d.serial} / ${d.stockLimit}`:d.duplicate?'중복 용병 +1장':'새로운 용병 획득';
  $('#result-count').textContent=preview?'실제 큐브 소모 · 용병 지급 없음':`총 보유 ${d.totalCopies}장 · 중복 ${d.duplicateCount}장`;
  document.querySelectorAll('[data-result]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.result)===i)));
 }

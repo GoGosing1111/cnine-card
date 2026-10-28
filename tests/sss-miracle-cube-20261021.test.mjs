@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {sssCubeStockCode} from '../shared/sss-miracle-cube-stock-v1.mjs';
 import assert from 'node:assert/strict';
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {ensureLimitedPackSchema} from '../functions/_mercenary_limited_pack.js';
@@ -12,7 +13,7 @@ async function setup(t,postgres=false){
  f.document.mercenaries.find(c=>c.code==='V-021').rank='SSS';
  await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(f.document)).run();
  await f.p("INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,'SSS_MIRACLE_CUBE',13,13)").run();
- for(const [code,cap,issued] of [['V-996',15,14],['V-999',8,8],['V-989',4,0],['V-979',3,0]])await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,issued) VALUES(?,?,?)',code,cap,issued).run();
+ for(const [code,cap,issued] of [['V-996',15,14],['V-999',8,8],['V-989',4,0],['V-979',3,0]])await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,issued) VALUES(?,?,?)',sssCubeStockCode(code),cap,issued).run();
  const state=await sssCubeState(f.env,f.user),normal=state.catalog.find(c=>!c.limited&&c.available),policy={...emptySssCubePolicy(),mode:'ON',cards:{[normal.code]:SSS_CUBE_TOTAL}};
  const save=(policy,revision=0)=>saveSssCubePolicy(f.env,f.user,{requestId:crypto.randomUUID(),revision,policy});
  const open=(options={})=>openSssCube(f.env,f.user,{requestId:crypto.randomUUID(),count:1,expectedRevision:1,...options},{randomInt:()=>0});
@@ -54,7 +55,7 @@ test('OFF/null defaults, SS exclusion, unreleased and sold-out locks, OWNER auth
  const request=new Request('https://game.test/api/admin/sss-miracle-cube',{method:'PATCH',headers:{'content-type':'application/json',authorization:'Bearer local-account-7',origin:'https://evil.test'},body:JSON.stringify({requestId:crypto.randomUUID(),revision:1,policy:f.policy})});
  assert.equal((await handleSssCube({path:'admin/sss-miracle-cube',request,env:f.env,deps:f.deps})).status,403);
 });
-for(const postgres of [false,true])test(`normal/limited debit, shared last serial, duplicate and replay accounting (${postgres?'Postgres':'SQLite'})`,async t=>{
+for(const postgres of [false,true])test(`normal/limited debit, independent last serial, duplicate and replay accounting (${postgres?'Postgres':'SQLite'})`,async t=>{
  const f=await setup(t,postgres);await f.save(f.policy);
  const input={requestId:crypto.randomUUID(),count:10,expectedRevision:1};
  const normal=await openSssCube(f.env,f.user,input,{randomInt:()=>0});assert.equal(normal.draws.length,10);assert.equal(normal.balance,3);assert.equal(normal.draws[9].duplicateCount,9);
@@ -63,24 +64,24 @@ for(const postgres of [false,true])test(`normal/limited debit, shared last seria
  await assert.rejects(openSssCube(f.env,f.user,{...input,count:1}),{code:'JOINT_REQUEST_CONFLICT'});
  await f.save({...f.policy,cards:{'V-996':SSS_CUBE_TOTAL}},1);
  const limited=await f.open({expectedRevision:2});assert.equal(limited.balance,2);assert.equal(limited.draws[0].serial,15);assert.equal(limited.draws[0].limited,true);
- assert.equal(Number((await f.p("SELECT issued FROM mercenary_limited_stock_v1 WHERE code='V-996'").first()).issued),15);
+ assert.equal(Number((await f.p("SELECT issued FROM mercenary_limited_stock_v1 WHERE code='SSS_MIRACLE_CUBE:V-996'").first()).issued),15);
  assert.equal((await sssCubeState(f.env,f.user)).openingEnabled,false);
  await assert.rejects(f.open({expectedRevision:2}),{code:'SSS_CUBE_NOT_READY'});assert.equal(await f.quantity(),2);
 });
 test('failed payment/grant rolls back, retry reuses draw; changed settings cancel without debit',async t=>{
  const f=await setup(t,true);await f.save({...f.policy,cards:{'V-996':SSS_CUBE_TOTAL}});const input={requestId:crypto.randomUUID(),count:1,expectedRevision:1};let rolls=0;
  f.fail('INSERT INTO mercenary_card_acquisitions_v1');await assert.rejects(openSssCube(f.env,f.user,input,{randomInt:()=>{rolls++;return 0;}}));f.fail('');
- assert.equal(await f.quantity(),13);assert.equal(Number((await f.p("SELECT issued FROM mercenary_limited_stock_v1 WHERE code='V-996'").first()).issued),14);
+ assert.equal(await f.quantity(),13);assert.equal(Number((await f.p("SELECT issued FROM mercenary_limited_stock_v1 WHERE code='SSS_MIRACLE_CUBE:V-996'").first()).issued),14);
  const result=await openSssCube(f.env,f.user,input,{randomInt:()=>{throw Error('reroll');}});assert.equal(rolls,1);assert.equal(result.draws[0].serial,15);
  await f.save(f.policy,1);const pending={requestId:crypto.randomUUID(),count:1,expectedRevision:2};
  f.fail('INSERT INTO mercenary_card_acquisitions_v1');await assert.rejects(openSssCube(f.env,f.user,pending,{randomInt:()=>0}));f.fail('');
  await f.save({...f.policy,mode:'OFF'},2);await assert.rejects(openSssCube(f.env,f.user,pending),{code:'SSS_CUBE_POLICY_CHANGED'});assert.equal(await f.quantity(),12);
 });
-test('another pack consuming the last stock during commit cannot over-issue or debit a cube',async t=>{
+test('another cube consuming the last stock during commit cannot over-issue or debit a cube',async t=>{
  const f=await setup(t);await f.save({...f.policy,cards:{'V-996':SSS_CUBE_TOTAL}});
  const db=f.env.DB,batch=db.batch.bind(db);let raced=false;
  db.batch=async statements=>{
-  if(!raced&&statements.some(s=>s.source.includes('UPDATE mercenary_limited_stock_v1'))){raced=true;await f.p("UPDATE mercenary_limited_stock_v1 SET issued=15,revision=revision+1 WHERE code='V-996'").run();}
+  if(!raced&&statements.some(s=>s.source.includes('UPDATE mercenary_limited_stock_v1'))){raced=true;await f.p("UPDATE mercenary_limited_stock_v1 SET issued=15,revision=revision+1 WHERE code='SSS_MIRACLE_CUBE:V-996'").run();}
   return batch(statements);
  };
  await assert.rejects(f.open(),{code:'SSS_CUBE_STOCK'});assert.equal(await f.quantity(),13);
@@ -88,7 +89,7 @@ test('another pack consuming the last stock during commit cannot over-issue or d
 });
 test('Jinmu/Jokro entitlement requires a completed cube receipt, acquisition and a valid serial within each approved limit',async t=>{
  const f=await setup(t,true);
- await f.p("UPDATE mercenary_limited_stock_v1 SET issued=3 WHERE code='V-989'").run();
+ await f.p("UPDATE mercenary_limited_stock_v1 SET issued=3 WHERE code='SSS_MIRACLE_CUBE:V-989'").run();
  await f.save({...f.policy,cards:{'V-989':SSS_CUBE_TOTAL}});const jinmu=await f.open();assert.equal(jinmu.draws[0].serial,4);assert.equal((await readJinmuPackOwners(f.env,[7])).has(7),true);
  await f.save({...f.policy,cards:{'V-979':SSS_CUBE_TOTAL}},1);await f.open({expectedRevision:2});assert.equal((await readJokroPackOwners(f.env,[7])).has(7),true);
  await f.p("UPDATE joint_operations_v1 SET status='PENDING' WHERE kind='SSS_MIRACLE_CUBE_OPEN'").run();

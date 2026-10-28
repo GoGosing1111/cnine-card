@@ -3,7 +3,8 @@ import {GENERAL_JOK_ART} from '../shared/mercenary-general-jok-v1.mjs';
 import {SSS_CUBE,emptySssCubePolicy,validateSssCubePolicy,sssCubeReadiness,pickSssCubeBatch,sssCubePercent} from '../shared/sss-miracle-cube-v1.mjs';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs';
-import {HALLOWEEN_SSS_CARDS,isHalloweenStockLimit} from '../shared/mercenary-halloween-pool-v3.mjs';
+import {HALLOWEEN_SSS_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
+import {SSS_CUBE_LIMITED_CODES,SSS_CUBE_STOCK_SCOPE,sssCubeStockCode,sssCubeCatalogWithLimits} from '../shared/sss-miracle-cube-stock-v1.mjs';
 import {PRIME_ART} from '../shared/mercenary-prime-requiem-v1.mjs';
 import {ZERO_ART} from '../shared/mercenary-zero-v1.mjs';
 import {LEONEL_ART} from '../shared/mercenary-leonel-v1.mjs';
@@ -18,21 +19,21 @@ import {jointError,readJointBody} from './_joint_request.js';
 
 export const SSS_CUBE_KEY='sss_miracle_cube_policy_20261021_v1',SSS_CUBE_KIND='SSS_MIRACLE_CUBE_OPEN';
 const limitedCards=[...new Map([...HALLOWEEN_SSS_CARDS,EUNSEOL_ART,GENERAL_JOK_ART,PRIME_ART,ZERO_ART,LEONEL_ART,SHIRANUI_ART,KAIRON_ART].filter(c=>c.rank==='SSS').map(c=>[c.code,c])).values()];
-const releasedLimited=new Set(HALLOWEEN_SSS_CARDS.map(c=>c.code));
+const releasedLimited=new Set(SSS_CUBE_LIMITED_CODES);
 const fail=(code,message,status=409)=>jointError('SSS_CUBE_'+code,message,status);
 const terminal=(code,message)=>Object.assign(fail(code,message),{terminal:true});
 const stored=async env=>(await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SSS_CUBE_KEY).first())?.value??null;
 const balance=async(env,userId)=>Number((await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,SSS_CUBE.code).first())?.quantity||0);
 export async function ensureSssCubeCatalog(env){
  await env.DB.prepare('INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,?,?,?,?,1) ON CONFLICT(code) DO NOTHING')
-  .bind(SSS_CUBE.code,SSS_CUBE.name,'SSS MIRACLE CUBE','SSS 일반·SSS 리미티드 용병 중 1장을 획득합니다. 리미티드 기존 한정 수량을 공유합니다.','CUBE','MIRACLE',SSS_CUBE.image,30).run();
+  .bind(SSS_CUBE.code,SSS_CUBE.name,'SSS MIRACLE CUBE','SSS 일반·SSS 리미티드 용병 중 1장을 획득합니다. 리미티드는 큐브 전용 한도를 사용합니다.','CUBE','MIRACLE',SSS_CUBE.image,30).run();
 }
 export function presentSssCubeInventory(items){return items.map(item=>item.code===SSS_CUBE.code?{...item,name:SSS_CUBE.name,image:SSS_CUBE.image,usable:true,useDisabledMessage:''}:item);}
 export async function readSssCubeCatalog(env){
  const [cms,draw,stock]=await Promise.all([
   env.DB.prepare("SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'").first(),
   env.DB.prepare('SELECT payload_json,revision FROM mercenary_draw_config_v1 WHERE id=1').first(),
-  env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1').all()
+  env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code LIKE ?').bind(SSS_CUBE_STOCK_SCOPE+':%').all()
  ]);
  if(!cms||!draw)throw fail('CATALOG','용병 획득 설정을 먼저 등록하세요.');
  const rules=JSON.parse(draw.payload_json).cardRules,document=expandMercenarySkillCatalog(JSON.parse(cms.payload_json),MERCENARY_CMS_SEED.document,MERCENARY_CMS_SEED.catalog);
@@ -41,12 +42,11 @@ export async function readSssCubeCatalog(env){
   return {code:c.code,name:c.name,rank:'SSS',limited:false,sourceArt:art?.sourceArt?'/'+art.sourceArt.replace(/^\//,''):'',available,lockReason:available?'':'일반 용병 획득이 잠겨 있습니다.'};
  });
  for(const c of limitedCards){
-  const s=stock.results.find(s=>s.code===c.code),stockLimit=s?Number(s.stock_limit):null,issued=s?Number(s.issued):null;
-  // Keep approved previous pack limits usable during the atomic stock rollout.
-  const prepared=Number.isSafeInteger(stockLimit)&&stockLimit>0&&Number.isSafeInteger(issued)&&issued>=0&&issued<=stockLimit&&(c.serverLimit==null||stockLimit===c.serverLimit||isHalloweenStockLimit(c.code,stockLimit));
+  const stockCode=sssCubeStockCode(c.code),s=stock.results.find(s=>s.code===stockCode),stockLimit=s?Number(s.stock_limit):null,issued=s?Number(s.issued):0;
+  const prepared=Number.isSafeInteger(stockLimit)&&stockLimit>0&&stockLimit<=1_000_000&&Number.isSafeInteger(issued)&&issued>=0&&issued<=stockLimit;
   const remaining=prepared?stockLimit-issued:null,unlocked=releasedLimited.has(c.code),available=unlocked&&prepared&&remaining>0;
-  catalog.push({code:c.code,name:c.name,rank:'SSS',limited:true,sourceArt:'/'+c.sourceArt.replace(/^\//,''),available,stockLimit,issued,remaining,
-   lockReason:!unlocked?'현재 획득 경로가 잠긴 리미티드입니다.':!prepared?'기존 한정 수량이 등록되지 않았습니다.':remaining===0?'서버 한정 수량이 소진됐습니다.':''});
+  catalog.push({code:c.code,name:c.name,rank:'SSS',limited:true,cubeEligible:unlocked,stockCode,stockScope:SSS_CUBE_STOCK_SCOPE,sourceArt:'/'+c.sourceArt.replace(/^\//,''),available,stockLimit,issued,remaining,
+   lockReason:!unlocked?'현재 획득 경로가 잠긴 리미티드입니다.':!prepared?'큐브 전용 한도를 등록하세요.':remaining===0?'큐브 전용 한정 수량이 소진됐습니다.':''});
  }
  return {catalog,cmsRevision:Number(cms.revision),drawRevision:Number(draw.revision)};
 }
@@ -66,16 +66,30 @@ export async function saveSssCubePolicy(env,user,body){
  const result=await runJointOperation(env,user,{requestId:body.requestId,kind:'SSS_MIRACLE_CUBE_POLICY',input:{revision:body.revision,policy},prepare:async()=>{
   const before=await stored(env),previous=before?JSON.parse(before):{revision:0};
   if(previous.revision!==body.revision)throw fail('REVISION_CONFLICT','설정이 변경됐습니다. 최신 설정을 불러오세요.');
-  if(policy.mode==='ON'){const ready=sssCubeReadiness(policy,(await readSssCubeCatalog(env)).catalog);if(!ready.ready)throw fail('NOT_READY',ready.blockers.join(' '));}
+  if(policy.mode==='ON'){const ready=sssCubeReadiness(policy,sssCubeCatalogWithLimits((await readSssCubeCatalog(env)).catalog,policy.stockLimits));if(!ready.ready)throw fail('NOT_READY',ready.blockers.join(' '));}
   return {before,next:{revision:previous.revision+1,policy,updatedAt:new Date().toISOString(),updatedBy:Number(user.id)}};
  },statements:async plan=>{
   if(await stored(env)!==plan.before)throw terminal('REVISION_CONFLICT','다른 창에서 설정이 변경됐습니다.');
-  if(policy.mode==='ON'){const ready=sssCubeReadiness(policy,(await readSssCubeCatalog(env)).catalog);if(!ready.ready)throw terminal('NOT_READY',ready.blockers.join(' '));}
+  const latest=(await readSssCubeCatalog(env)).catalog;
+  if(Object.entries(policy.stockLimits).some(([code,limit])=>limit<(latest.find(c=>c.code===code)?.issued??0)))throw terminal('STOCK','저장 중 추가 발행됐습니다. 최신 발행 수량을 확인하세요.');
+  if(policy.mode==='ON'){const ready=sssCubeReadiness(policy,sssCubeCatalogWithLimits(latest,policy.stockLimits));if(!ready.ready)throw terminal('NOT_READY',ready.blockers.join(' '));}
   const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),token=crypto.randomUUID(),text=JSON.stringify(plan.next);
-  return [jointGuard(DB,token,plan.before===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',plan.before===null?[SSS_CUBE_KEY]:[SSS_CUBE_KEY,plan.before]),
+  const limits=[];
+  for(const [code,limit] of Object.entries(policy.stockLimits).sort(([a],[b])=>a.localeCompare(b))){
+   const stockCode=sssCubeStockCode(code),claim=crypto.randomUUID();
+   limits.push(p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,last_token) VALUES(?,?,?) ON CONFLICT(code) DO UPDATE SET stock_limit=excluded.stock_limit,revision=mercenary_limited_stock_v1.revision+1,last_token=excluded.last_token WHERE mercenary_limited_stock_v1.issued<=excluded.stock_limit',stockCode,limit,claim),jointGuard(DB,claim,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?)',[stockCode,claim]),jointGuardEnd(DB,claim));
+  }
+  return [...(DB.dialect==='postgres'?[p('SELECT key FROM app_meta WHERE key=? FOR UPDATE',SSS_CUBE_KEY)]:[]),jointGuard(DB,token,plan.before===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',plan.before===null?[SSS_CUBE_KEY]:[SSS_CUBE_KEY,plan.before]),...limits,
    p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',SSS_CUBE_KEY,text),
    p('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)',user.id,'SSS_MIRACLE_CUBE_POLICY','APP_META',SSS_CUBE_KEY,plan.before,text),jointGuardEnd(DB,token)];
- }});
+ }}).catch(async error=>{
+  const latest=(await readSssCubeCatalog(env)).catalog;
+  if(Object.entries(policy.stockLimits).some(([code,limit])=>limit<(latest.find(c=>c.code===code)?.issued??0))){
+   await env.DB.prepare("UPDATE joint_operations_v1 SET status='CANCELLED',completed_at=? WHERE request_id=? AND user_id=? AND kind='SSS_MIRACLE_CUBE_POLICY' AND status='PENDING'").bind(new Date().toISOString(),body.requestId,user.id).run();
+   throw terminal('STOCK','저장 중 추가 발행됐습니다. 최신 발행 수량을 확인하세요.');
+  }
+  throw error;
+ });
  return {...await sssCubeState(env,user),replayed:result.replayed};
 }
 export async function openSssCube(env,user,body,{randomInt=limitedPackRandomInt}={}){
@@ -98,19 +112,19 @@ export async function openSssCube(env,user,body,{randomInt=limitedPackRandomInt}
    const c=data.catalog.find(c=>c.code===r.mercenaryCode&&c.rank==='SSS'&&c.limited===r.limited);
    if(!c?.available)throw terminal(r.limited?'STOCK':'CATALOG_CHANGED',c?.lockReason||'용병 획득 상태가 변경됐습니다.');
    if(r.limited){if(!grouped.has(c.code))grouped.set(c.code,[]);grouped.get(c.code).push(i);
-    if(c.stockLimit!==r.stockLimit||grouped.get(c.code).length>c.remaining)throw terminal('STOCK','리미티드 수량이 변경됐습니다. 큐브는 소모되지 않았습니다.');}
+    if(r.stockCode!==c.stockCode||c.stockLimit!==r.stockLimit||grouped.get(c.code).length>c.remaining)throw terminal('STOCK','리미티드 수량이 변경됐습니다. 큐브는 소모되지 않았습니다.');}
   });
   const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),token=crypto.randomUUID(),time=new Date().toISOString(),list=[];
   if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key=? FOR SHARE',SSS_CUBE_KEY),p("SELECT doc_key FROM mercenary_cms_documents_v1 WHERE doc_key='config' FOR SHARE"),p('SELECT id FROM mercenary_draw_config_v1 WHERE id=1 FOR SHARE'));
   list.push(jointGuard(DB,token,"EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM mercenary_cms_documents_v1 WHERE doc_key='config' AND revision=?) AND EXISTS(SELECT 1 FROM mercenary_draw_config_v1 WHERE id=1 AND revision=?)",[SSS_CUBE_KEY,plan.raw,plan.cmsRevision,plan.drawRevision]));
   list.push(...jointInventoryChange(DB,user.id,SSS_CUBE.code,-plan.count,'SSS 미라클큐브 개봉',requestId));
   for(const [code,indices] of [...grouped].sort(([a],[b])=>a.localeCompare(b))){
-   const size=indices.length,claim=crypto.randomUUID();
-   list.push(p('UPDATE mercenary_limited_stock_v1 SET issued=issued+?,revision=revision+1,last_token=? WHERE code=? AND stock_limit=? AND issued+?<=stock_limit',size,claim,code,plan.draws[indices[0]].stockLimit,size),
-    jointGuard(DB,claim,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?)',[code,claim]),
+   const size=indices.length,claim=crypto.randomUUID(),stockCode=sssCubeStockCode(code);
+   list.push(p('UPDATE mercenary_limited_stock_v1 SET issued=issued+?,revision=revision+1,last_token=? WHERE code=? AND stock_limit=? AND issued+?<=stock_limit',size,claim,stockCode,plan.draws[indices[0]].stockLimit,size),
+    jointGuard(DB,claim,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?)',[stockCode,claim]),
     p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+excluded.total_copies,duplicate_count=user_mercenary_cards_v1.duplicate_count+excluded.total_copies,last_obtained_at=excluded.last_obtained_at',user.id,code,size,size-1,time,time));
    indices.forEach((i,j)=>{const aid=requestId+':'+i,offset=size-j-1;
-    list.push(p('INSERT INTO mercenary_limited_issues_v1(acquisition_id,request_id,user_id,code,serial,created_at) SELECT ?,?,?,code,issued-?,? FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?',aid,requestId,user.id,offset,time,code,claim),
+    list.push(p('INSERT INTO mercenary_limited_issues_v1(acquisition_id,request_id,user_id,code,serial,created_at) SELECT ?,?,?,code,issued-?,? FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?',aid,requestId,user.id,offset,time,stockCode,claim),
      p('INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplicate,total_copies_after,duplicate_count_after,created_at) SELECT ?,user_id,mercenary_code,CASE WHEN total_copies-?>1 THEN 1 ELSE 0 END,total_copies-?,total_copies-?-1,? FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?',aid,offset,offset,offset,time,user.id,code));
    });list.push(jointGuardEnd(DB,claim));
   }
@@ -130,9 +144,9 @@ export async function openSssCube(env,user,body,{randomInt=limitedPackRandomInt}
 }
 export async function sssCubeReceipt(env,user,requestId,replayed=true){
  const op=await readJointOperation(env,user.id,requestId,SSS_CUBE_KIND);if(op.status!=='COMPLETED')return {requestId,status:'PENDING',retryable:true};
- const ids=op.plan.draws.map((_,i)=>requestId+':'+i),rows=(await env.DB.prepare(`SELECT a.acquisition_id,a.mercenary_code,a.is_duplicate,a.total_copies_after,a.duplicate_count_after,l.serial FROM mercenary_card_acquisitions_v1 a LEFT JOIN mercenary_limited_issues_v1 l ON l.acquisition_id=a.acquisition_id AND l.user_id=a.user_id AND l.code=a.mercenary_code WHERE a.user_id=? AND a.acquisition_id IN (${ids.map(()=>'?').join(',')})`).bind(user.id,...ids).all()).results;
+ const ids=op.plan.draws.map((_,i)=>requestId+':'+i),rows=(await env.DB.prepare(`SELECT a.acquisition_id,a.mercenary_code,a.is_duplicate,a.total_copies_after,a.duplicate_count_after,l.serial,l.code AS issue_code FROM mercenary_card_acquisitions_v1 a LEFT JOIN mercenary_limited_issues_v1 l ON l.acquisition_id=a.acquisition_id AND l.user_id=a.user_id AND (l.code=a.mercenary_code OR l.code=('SSS_MIRACLE_CUBE:' || a.mercenary_code)) WHERE a.user_id=? AND a.acquisition_id IN (${ids.map(()=>'?').join(',')})`).bind(user.id,...ids).all()).results;
  const draws=op.plan.draws.map((r,i)=>{const a=rows.find(a=>a.acquisition_id===ids[i]);
-  if(!a||a.mercenary_code!==r.mercenaryCode||r.limited&&!a.serial)throw fail('RECEIPT','지급 영수증을 다시 확인하고 있습니다.',503);
+  if(!a||a.mercenary_code!==r.mercenaryCode||r.limited&&(!a.serial||a.issue_code!==(r.stockCode||r.mercenaryCode)))throw fail('RECEIPT','지급 영수증을 다시 확인하고 있습니다.',503);
   return {...r,duplicate:Boolean(Number(a.is_duplicate)),totalCopies:Number(a.total_copies_after),duplicateCount:Number(a.duplicate_count_after),...(r.limited?{serial:Number(a.serial)}:{})};
  });
  return {requestId,status:'COMPLETED',accountId:Number(user.id),count:op.plan.count,revision:op.plan.revision,balance:await balance(env,user.id),draws,replayed};
