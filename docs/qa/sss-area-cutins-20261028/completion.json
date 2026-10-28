@@ -1,0 +1,14 @@
+{
+  "status": "IMPLEMENTED_LOCALLY_VERIFIED_DEPLOY_PENDING",
+  "characters": ["V-976","V-975","V-974","V-970","V-971"],
+  "cutinPolicy": "PER_ACTOR_FIRST_PVE_AREA_ULTIMATE_ONCE_PER_BATTLE",
+  "cutinSeconds": 1.15,
+  "newDialogueFrames": 5,
+  "newSkillLines": 16,
+  "runtimeConsumers": 10,
+  "newTestsPassed": 10,
+  "localVisualCases": 10,
+  "localMainEntryCases": 4,
+  "operationalAccountWrites": 0,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/sss-area-cutins-20261028"
+}

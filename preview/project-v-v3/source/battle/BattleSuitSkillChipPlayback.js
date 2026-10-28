@@ -7,6 +7,7 @@ import {OctaSeekerFX} from '../../../battle-suit-octaseeker-v1/source/OctaSeeker
 import {OctaSeekerAudio} from '../../../battle-suit-octaseeker-v1/source/OctaSeekerAudio.js';
 
 const finite=value=>value!==null&&value!==undefined&&value!==''&&Number.isFinite(Number(value));
+const hasAreaCutin=event=>/^MERCENARY_(?:ZERO|PRIME_REQUIEM|GENERAL_JOK|CARDGU|REVAN)_AREA$/.test(event.type);
 export const isSkillChipTimeline=events=>events.some(event=>event.combatClock===SKILL_CHIP_CLOCK);
 const deadline=(promise,ms,fallback)=>{
   let timer;
@@ -31,7 +32,7 @@ export class BattleSuitSkillChipPlayback{
       // Saved boss/mercenary cinematics can have zero presentation budgets.
       // They still own a full action: overlapping their casts hides boss skills
       // behind the mercenary cutscene. Keep chip fire on its independent clock.
-      const authoredAction=event.type==='ICON_SKILL'||event.type==='ICON_STATUS'&&event.status==='CHANNEL'||
+      const authoredAction=hasAreaCutin(event)||event.type==='ICON_SKILL'||event.type==='ICON_STATUS'&&event.status==='CHANNEL'||
         event.type==='APOCALYPSE_SKILL'||/^MERCENARY_(?:ZERO|LEONEL|JINMU|HELIOS|SHIRANUI|KAIRON|JOKRO)_AREA$/.test(event.type);
       if(!external)lastAt=Number(event.combatAtMs)||0;
       // A raid may insert QTE between members of one atomic server action.
@@ -258,7 +259,9 @@ export class BattleSuitSkillChipPlayback{
       const continuousArea=group.areaImpact&&group.events.filter(e=>e.type==='SKILL_CHIP_HIT').every(e=>
         this.fx.get(e.castId||e.chipCode)?.continuousArea&&this.engine.combatantById(e.targetId)?.id===e.targetId);
       const encounterTransition=this.engine.parallelEncounterTransitions&&group.events.every(event=>event.type==='ENEMY_SPAWN'||event.type==='ENEMY_DESPAWN');
-      const fence=group.external||encounterTransition||group.events.some(event=>event.type==='KO');
+      // A first ultimate includes a short eye strip before its confirmed hit.
+      // Later actor/KO receipts must wait for that same authored action.
+      const fence=group.external||encounterTransition||group.events.some(event=>event.type==='KO'||hasAreaCutin(event));
       const predecessors=[...this.pending];
       const previousRun=(!continuousArea&&this.fence)||((group.external||group.blocking)&&predecessors.length?Promise.all(predecessors):null);
       if(previousRun){

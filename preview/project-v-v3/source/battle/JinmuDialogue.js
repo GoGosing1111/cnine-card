@@ -1,6 +1,7 @@
 import {LEONEL_DIALOGUE_CSS} from './LeonelDialogueStyle.js';
 import {MERCENARY_DIALOGUE_PROFILES} from './MercenaryDialogueProfiles.js';
 import {SHIRANUI_DIALOGUE_CSS} from './ShiranuiDialogueStyle.js';
+import {MERCENARY_AREA_DIALOGUE_CSS} from './MercenaryAreaDialogueStyle.js';
 export {JINMU_DIALOGUE_LINES} from './MercenaryDialogueProfiles.js';
 
 // Raw content metadata takes precedence over a generic HUNT/PVE background.
@@ -80,7 +81,7 @@ body[data-jinmu-dialogue='true'][data-legion-live] .boss-hud,body[data-jinmu-dia
 @media(max-width:760px){.jinmu-dialogue-rail[data-theme='jokro']{padding:2px 5px 4px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame{border-inline-width:44px;border-image-width:0 44px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-inner{min-height:112px;padding:25px 0;gap:9px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-face{flex-basis:38px;width:38px;height:38px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-copy p{font-size:13px;line-height:1.6}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name{gap:7px;flex-wrap:nowrap}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name b{font-size:12px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name span{font-size:9px}}
 `;
 
-const DIALOGUE_CSS=CSS+SHIRANUI_DIALOGUE_CSS+LEONEL_DIALOGUE_CSS+`
+const DIALOGUE_CSS=CSS+SHIRANUI_DIALOGUE_CSS+LEONEL_DIALOGUE_CSS+MERCENARY_AREA_DIALOGUE_CSS+`
 @media(min-width:761px){
  .coop-battle-portal .jinmu-dialogue-rail{left:auto;right:8px;width:32%;max-width:620px;padding:6px 0}
  .coop-battle-portal .jinmu-dialogue-seal{display:none}
@@ -119,7 +120,7 @@ class DialogueRail{
   this.layout=()=>{
    if(this.destroyed||!this.node.isConnected)return;
    const width=this.node.getBoundingClientRect().width;
-   if(this.measuredWidth!==width&&[...this.members].some(m=>['jokro','shiranui','leonel'].includes(m.profile.theme))){
+   if(this.measuredWidth!==width&&[...this.members].some(m=>['jokro','shiranui','leonel'].includes(m.profile.theme)||m.profile.theme.startsWith('sss-'))){
     // A mixed squad shares this row. Reserve the tallest theme before any
     // speaker casts, so switching to the new frame cannot resize the board.
     const theme=this.node.dataset.theme;let height=0;this.node.style.minHeight='';
@@ -157,7 +158,7 @@ class DialogueRail{
   this.node.dataset.theme=p.theme;this.node.dataset.speaker=p.code;this.node.dataset.casting=String(member.active);
   this.node.setAttribute('aria-label',p.name+' 대사');
   this.node.querySelector('.jinmu-dialogue-name b').textContent=p.name;
-  this.node.querySelector('.jinmu-dialogue-name span').textContent=p.skill;
+  this.node.querySelector('.jinmu-dialogue-name span').textContent=member.skillLabel||p.skill;
   const face=this.node.querySelector('.jinmu-dialogue-face');face.setAttribute('aria-label',p.name+' 얼굴 초상');
   const image=face.querySelector('i');image.style.backgroundImage=`url("${p.portrait}")`;image.style.backgroundPosition=p.position;image.style.backgroundSize=p.size;
   this.line.textContent=member.lastLine;
@@ -189,10 +190,10 @@ export class JinmuDialogue{
  }
  get node(){return this.rail?.node;}
  get line(){return this.rail?.line;}
- begin(){
+ begin(line=null,skill=null){
   if(!this.node||this.destroyed)return;
   if(!jinmuDialogueAllowed(this.engine)){this.destroy();return;}
-  this.active=true;this.lastLine='“'+this.profile.lines[this.castIndex++%this.profile.lines.length]+'”';this.rail.show(this);
+  this.active=true;this.skillLabel=skill||this.profile.skill;this.lastLine='“'+(line||this.profile.lines[this.castIndex%this.profile.lines.length])+'”';this.castIndex++;this.rail.show(this);
  }
  end(){this.active=false;if(this.rail?.current===this)this.node.dataset.casting='false';}
  diagnostics(){return {visible:!!this.node?.isConnected&&!this.destroyed&&this.rail.current===this,line:this.lastLine,castIndex:this.castIndex,active:this.active,fullIllustration:false,speaker:this.rail?.current?.profile.code};}

@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>SSS 리미티드 · 광역기 컷신</title><link rel="stylesheet" href="review.css"></head>
+<body><main>
+ <header><div><p class="eyebrow">SSS LIMITED</p><h1>광역기 컷신</h1></div><span class="review-badge">시각 검수</span></header>
+ <nav id="characters" aria-label="용병 선택"></nav>
+ <div class="controls"><label>광역기 <select id="skill" aria-label="광역기"></select></label><button id="play" class="primary" disabled>궁극기 사용</button><button id="reset" disabled>새 전투</button><button id="pause" disabled>일시정지</button><button id="stop" disabled>중단</button><label>배속 <select id="speed"><option value="0.5">0.5배</option><option selected value="1">1배</option><option value="2">2배</option></select></label></div>
+ <div class="battle-v3-live-shell"><div id="battle" aria-label="공용 V3 전투 화면"></div></div>
+ <div class="review-footer"><p id="status" role="status">전투 화면을 준비하고 있습니다.</p><label class="reduced"><input id="reduced" type="checkbox">동작 줄이기</label></div>
+ <p class="note">전투마다 첫 광역 궁극기에 가로 클로즈업을 1회 표시합니다. 용병마다 새로 제작한 전용 대사창과 기술별 대사를 사용합니다. 다시 사용하면 컷신은 생략합니다.</p>
+ <p class="note">선택하신 가로 컷인 반영 · 검수 전용 · 계정과 재화 변경 없음</p>
+</main>
+<script src="/js/project-v-battle-art-adapter-v1.js"></script><script src="/js/project-v-tier-battle-art-adapter-v1.js"></script><script src="/js/project-v-monster-battle-art-adapter-v1.js"></script><script src="/js/project-v-unassigned-battle-fallback-v1.js"></script>
+<script src="/preview/sustained-hunt-v2/battle.bundle.js"></script><script type="module" src="review.mjs"></script>
+</body></html>
