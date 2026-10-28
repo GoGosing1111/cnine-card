@@ -1,0 +1,87 @@
+{
+  "completedAt": "2026-10-28T14:57:04.538Z",
+  "scope": "General Jok V-974 normal mercenary leveling enabled",
+  "releaseCommit": "5ce6a5bc4c06c1c80cd87521a3d85d46654ac8e0",
+  "pages": {
+    "id": "845f2cf7-0328-4a47-ab41-8e92e1213776",
+    "url": "https://845f2cf7.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "5ce6a5bc4c06c1c80cd87521a3d85d46654ac8e0"
+  },
+  "regressionTests": {
+    "passed": 15,
+    "failed": 0
+  },
+  "browser": [
+    {
+      "width": 1440,
+      "levelUp": 2,
+      "reloadPreserved": true,
+      "errors": [],
+      "broken": []
+    },
+    {
+      "width": 390,
+      "levelUp": 2,
+      "reloadPreserved": true,
+      "errors": [],
+      "broken": []
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "93ecbe64-9412-4155-a5f5-dd42a485fbf5",
+      "createdOn": "2026-10-28T14:54:57.915663Z",
+      "versions": [
+        {
+          "version_id": "73d13076-12c1-42fd-8a20-961d97848c6d",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "1ff4a2d9-f9c0-40f2-85c5-60213a242d44",
+      "createdOn": "2026-10-28T14:56:38.8479Z",
+      "versions": [
+        {
+          "version_id": "ceb00c5d-f568-42a9-a9ec-2b0a8f0f547b",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "deployedGrowthCatalogIncludesGeneralJok": true,
+  "productionDatabaseReadOnly": true,
+  "productionAccountWrites": 0,
+  "comparison": {
+    "policyUnchanged": true,
+    "cmsUnchanged": true,
+    "targetOwnershipAndGrowthUnchanged": true
+  },
+  "policy": {
+    "revision": 1,
+    "mode": "ON",
+    "sha256": "a36b5b42e7c50ae82d81e5ff058c0adee1ea071612b4c9b13af03a8869928b9e"
+  },
+  "existingOwnerLevels": [
+    {
+      "total_copies": "1",
+      "duplicate_count": "0",
+      "level": "1",
+      "experience": "0",
+      "breakthrough_mask": "0",
+      "revision": "0"
+    },
+    {
+      "total_copies": "1",
+      "duplicate_count": "0",
+      "level": "1",
+      "experience": "0",
+      "breakthrough_mask": "0",
+      "revision": "0"
+    }
+  ],
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/general-jok-level-20261028"
+}
