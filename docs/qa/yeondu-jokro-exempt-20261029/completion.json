@@ -1,0 +1,69 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-28T15:25:54.524Z",
+  "readOnly": "on",
+  "operationKey": "ops:yeondu-jokro-exempt-grant:20261029:v1",
+  "userId": "3",
+  "nickname": "ε연두з",
+  "code": "V-979",
+  "name": "족로",
+  "quantity": 1,
+  "before": 0,
+  "after": 1,
+  "stock": {
+    "limit": 3,
+    "issued": 3,
+    "remaining": 0
+  },
+  "cubeStock": {
+    "limit": 5,
+    "issued": 0,
+    "remaining": 5
+  },
+  "stockUnchanged": true,
+  "serialsUnchanged": true,
+  "craftUnchanged": true,
+  "protectedDataHashMatched": true,
+  "acquisitionRecords": 1,
+  "auditRecords": 1,
+  "auditId": "52534",
+  "completedAt": "2026-10-28T15:25:00.195Z",
+  "remainingOperationLocks": 0,
+  "completedAtKst": "2026-10-29 00:25:00 KST",
+  "sourceSha256": "a7180af54a5c59e88a09bd61bd61627278b3b33ddfecc1c8ca24b9920c6ff1f8",
+  "planHash": "55b15a32ba61c372832429b48770ef1267a83fac514c8ecd47a46d05493b5803",
+  "tests": {
+    "passed": 4,
+    "failed": 0,
+    "realSqlFailureRollback": true,
+    "normalDryRunRollback": true,
+    "selectOnlyReplay": true,
+    "leasesReleased": true
+  },
+  "preserved": {
+    "currency": true,
+    "stockCounters": true,
+    "numberedIssues": true,
+    "craftCounts": true,
+    "packAndCraftSettings": true,
+    "otherCards": true,
+    "inventory": true,
+    "loadouts": true,
+    "levels": true,
+    "growth": true,
+    "accountSettings": true
+  },
+  "files": {
+    "preflight.mjs": "4f85decdbe80300c7c98b785d593c4ba3207fb80f32f29cbacb7d97418bb1494",
+    "plan.json": "7daee6e94bf9730b539ee480dbdd0833102731a5c5381580a0d138bfcf9ab3a8",
+    "grant.mjs": "9f67f89831a6a11fa7bacbb1854d255d2c6f1ef09e31ac01fc29234aa3a7bf39",
+    "run.mjs": "1ed631b10fd4c60c9fb5c957d2bef0d266809235f190a6cb148e7bfa07ff03a3",
+    "lock-worker.mjs": "07538c50092c72edb5888ffb63de499e329feb9caf821481facaeaa260e4a635",
+    "wrangler.jsonc": "7c1132596c30845262a285edab063ce2ad0b619035c369a92eccfd0edcb12524",
+    "grant.test.mjs": "ff17dda2e598028d3336100e86db7065f9b39dcc3a688cf848b5b11ae8a41e8b",
+    "independent.mjs": "178b0a28d6b816a8a377992c2c54bba4e20e0e66b8d34e81e48dd1eb4af99f68"
+  },
+  "recordDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/yeondu-jokro-exempt-20261029",
+  "noGameDeployment": true,
+  "noMessages": true
+}
