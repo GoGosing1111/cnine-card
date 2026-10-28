@@ -1,0 +1,170 @@
+{
+  "mode": "verify",
+  "checkedAt": "2026-10-28T00:53:36.488Z",
+  "sourceHash": "370078e51a77c5a62d5f898d8216793220d516db76c571902a091aa8b57e1fc3",
+  "planHash": "814e2bf11053397cc949c3717e47a1090963d129eff15cae2c7cd458314c5644",
+  "readOnly": "on",
+  "titleCount": 22,
+  "auditId": "52334",
+  "completedAt": "2026-10-28T00:53:22.520Z",
+  "selectOnlyReplayVerified": true,
+  "metadataPreserved": true,
+  "changes": [
+    {
+      "id": "1",
+      "code": "TITLE_1785323144830",
+      "name": "잔바리",
+      "before": 300,
+      "after": 1500
+    },
+    {
+      "id": "2",
+      "code": "TITLE_1785323230090",
+      "name": "불타는 중손",
+      "before": 1000,
+      "after": 5000
+    },
+    {
+      "id": "3",
+      "code": "TITLE_1785323308522",
+      "name": "한정판 큰손",
+      "before": 2000,
+      "after": 10000
+    },
+    {
+      "id": "4",
+      "code": "TITLE_1785323482901",
+      "name": "대깨족",
+      "before": 2500,
+      "after": 12500
+    },
+    {
+      "id": "5",
+      "code": "TITLE_1785323578531",
+      "name": "GOAT",
+      "before": 3000,
+      "after": 15000
+    },
+    {
+      "id": "6",
+      "code": "TITLE_1785323677223",
+      "name": "메이저",
+      "before": 5000,
+      "after": 25000
+    },
+    {
+      "id": "7",
+      "code": "TITLE_TERRITORY_COMMANDER",
+      "name": "공대장",
+      "before": 50000,
+      "after": 250000
+    },
+    {
+      "id": "8",
+      "code": "TITLE_RANKED_GAMBLER",
+      "name": "승부사",
+      "before": 25000,
+      "after": 125000
+    },
+    {
+      "id": "9",
+      "code": "TITLE_RANKED_DUELIST",
+      "name": "결투가",
+      "before": 8000,
+      "after": 40000
+    },
+    {
+      "id": "48278",
+      "code": "TITLE_1787234403743",
+      "name": "족장",
+      "before": 15000,
+      "after": 75000
+    },
+    {
+      "id": "49995",
+      "code": "TITLE_1787440847502",
+      "name": "별의 주인",
+      "before": 9000,
+      "after": 45000
+    },
+    {
+      "id": "116865",
+      "code": "TITLE_RANKED_CHALLENGER",
+      "name": "챌린저★★★★",
+      "before": 50000,
+      "after": 250000
+    },
+    {
+      "id": "319924",
+      "code": "COLLECTION_COMPLETIONIST",
+      "name": "폐인",
+      "before": 50000,
+      "after": 250000
+    },
+    {
+      "id": "319925",
+      "code": "TROPHY_HUNTER",
+      "name": "우승청부사",
+      "before": 95000,
+      "after": 475000
+    },
+    {
+      "id": "324432",
+      "code": "GAMBLING_KING",
+      "name": "도박왕",
+      "before": 75000,
+      "after": 375000
+    },
+    {
+      "id": "550996",
+      "code": "SUPPORTER",
+      "name": "서포터",
+      "before": 130000,
+      "after": 650000
+    },
+    {
+      "id": "550997",
+      "code": "BLUE_BEAST",
+      "name": "푸른 맹수",
+      "before": 90000,
+      "after": 450000
+    },
+    {
+      "id": "655095",
+      "code": "RAID_BUS_DRIVER",
+      "name": "버스기사",
+      "before": 95000,
+      "after": 475000
+    },
+    {
+      "id": "738538",
+      "code": "ASURA_BALBALTA",
+      "name": "아수라발발타",
+      "before": 100000,
+      "after": 500000
+    },
+    {
+      "id": "1027898",
+      "code": "SECRET_POLICE",
+      "name": "비밀경찰",
+      "before": 75000,
+      "after": 375000
+    },
+    {
+      "id": "1094337",
+      "code": "ADMINISTRATION",
+      "name": "행정부",
+      "before": 100000,
+      "after": 500000
+    },
+    {
+      "id": "1157992",
+      "code": "FLAG_BRIGADE",
+      "name": "깃발부대",
+      "before": 100000,
+      "after": 500000
+    }
+  ],
+  "productionWrites": 0,
+  "operationLockReleased": true
+}

@@ -1,0 +1,18 @@
+{
+  "mode": "dry-run",
+  "checkedAt": "2026-10-28T00:53:11.593Z",
+  "sourceHash": "370078e51a77c5a62d5f898d8216793220d516db76c571902a091aa8b57e1fc3",
+  "planHash": "814e2bf11053397cc949c3717e47a1090963d129eff15cae2c7cd458314c5644",
+  "failureRollbackVerified": true,
+  "dryRunRollbackVerified": true,
+  "titleCount": 22,
+  "duoInvalidatedOnce": true,
+  "mutations": [
+    "UPDATE character_titles t SET pve_power=p.after,updated_at=$2",
+    "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,$1,$2,$3,$4,$5) RETURNING id::text",
+    "UPDATE character_titles t SET pve_power=p.after,updated_at=$2",
+    "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,$1,$2,$3,$4,$5) RETURNING id::text",
+    "INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3)"
+  ],
+  "operationLockReleased": true
+}
