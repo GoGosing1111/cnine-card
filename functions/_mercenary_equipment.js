@@ -1,5 +1,7 @@
-import {MERCENARY_EQUIPMENT_SLOTS as SLOTS,MERCENARY_EQUIPMENT_CODES as CODES,MERCENARY_EQUIPMENT_SQL_CODES as SQL_CODES,mercenaryEquipmentImage} from '../shared/mercenary-equipment-v1.mjs';
-import {regionalEquipment,REGION_EQUIPMENT,LEGION_REGIONS} from '../shared/legion-regions-v1.mjs';
+import {MERCENARY_EQUIPMENT_SLOTS as SLOTS,MERCENARY_EQUIPMENT_CODES as CODES,MERCENARY_EQUIPMENT_SQL_CODES as SQL_CODES,MERCENARY_EQUIPMENT_CATALOG,mercenaryEquipmentImage,mercenaryEquipmentDefinition,ASCENDANT_EQUIPMENT_SETS,ascendantEquipmentEffects} from '../shared/mercenary-equipment-v1.mjs';
+import {LEGION_REGIONS} from '../shared/legion-regions-v1.mjs';
+import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
+import {normalizedEquipmentEffects} from '../shared/equipment-combat-growth-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {readForgeAdvancedForLevels} from './_equipment_forge_advanced.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
@@ -32,7 +34,7 @@ export async function readMercenaryEquipmentRecords(env,userIds){
   return new Map(ids.map(id=>[id,Object.fromEntries(['PVE','PVP'].map(mode=>{const key=mercenaryEquipmentKey(id,mode),raw=saved.get(key)??null;return [mode,{key,raw,...decode(raw)}];}))]));
 }
 function gearItem(row,userId,advanced=null){
-  const gear=regionalEquipment(row.code),level=Number(row.enhancement?.level??row.level??0);
+  const gear=mercenaryEquipmentDefinition(row.code),level=Number(row.enhancement?.level??row.level??0);
   const power=row.enhancement?{total:Number(row.total_power),pve:Number(row.pve_power),pvp:Number(row.pvp_power)}:level&&FORGE_RUNTIME_RELEASE_ENABLED?forgePower(Number(row.total_power),level,advanced):{total:Number(row.total_power),pve:Number(row.pve_power),pvp:Number(row.pvp_power)};
   return {instanceId:String(row.instance_id??row.id),equipmentId:Number(row.equipment_id),code:row.code,name:row.name,slot:row.slot,rarity:row.rarity,image:mercenaryEquipmentImage(row.code),regionId:gear.regionId,setId:gear.setId,kind:gear.kind,level,totalPower:power.total,pvePower:power.pve,pvpPower:power.pvp,polish:decodePolishState(row.value,row.instance_id??row.id,userId)};
 }
@@ -50,8 +52,9 @@ export async function mercenaryEquipmentRuntimes(env,userIds,mode='PVE',{records
   return new Map([...records].map(([id,modes])=>{
     const owned=rows.filter(row=>Number(row.user_id)===id),items=owned.map(row=>gearItem(row,id,advanced));
     const growth=equipmentGrowthFromRows(owned.map(row=>({...row,id:row.instance_id})),id);
+    const pvp=ascendantEquipmentEffects(owned.map(row=>row.code),'PVP');
     return [id,{schemaVersion:1,mode,revision:modes[mode].revision,power:items.reduce((sum,item)=>sum+item[mode==='PVE'?'pvePower':'pvpPower'],0),items,
-      effects:mode==='PVE'?growth.effects:{},sets:growth.sets,uniques:growth.uniques,summary:mode==='PVE'?growth.summary:[],effectsMode:'PVE'}];
+      effects:mode==='PVE'?growth.effects:pvp.effects,sets:mode==='PVE'?growth.sets:pvp.sets,uniques:mode==='PVE'?growth.uniques:[],summary:mode==='PVE'?growth.summary:equipmentEffectText(normalizedEquipmentEffects(pvp.effects)),effectsMode:mode}];
   }));
 }
 export async function attachMercenaryEquipment(env,snapshots,mode){
@@ -72,11 +75,12 @@ export async function mercenaryEquipmentState(env,user){
   const keys=rows.map(row=>`equipment_polish_instance_v1:${user.id}:${row.instance_id}`);
   const polish=keys.length?(await env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${keys.map(()=>'?').join(',')})`).bind(...keys).all()).results:[];
   const saved=new Map(polish.map(row=>[row.key,row.value]));
-  const items=new Map(rows.filter(row=>regionalEquipment(row.code)).map(row=>{const item=gearItem({...row,equipment_id:row.equipment_id??row.id,value:saved.get(`equipment_polish_instance_v1:${user.id}:${row.instance_id}`)},user.id);return [item.instanceId,item];}));
+  const items=new Map(rows.filter(row=>mercenaryEquipmentDefinition(row.code)).map(row=>{const item=gearItem({...row,equipment_id:row.equipment_id??row.id,value:saved.get(`equipment_polish_instance_v1:${user.id}:${row.instance_id}`)},user.id);return [item.instanceId,item];}));
   const loadouts={PVE:pve.get(Number(user.id)),PVP:pvp.get(Number(user.id))};
   for(const mode of ['PVE','PVP'])for(const item of loadouts[mode].items)items.set(item.instanceId,item);
   const visible=new Map(catalog.results.filter(item=>user.role==='OWNER'||Number(item.is_public)===1&&Number(item.is_active)===1).map(item=>[item.code,item]));
-  return {accountId:Number(user.id),loadouts,items:[...items.values()],catalog:REGION_EQUIPMENT.filter(item=>visible.has(item.code)).map(item=>({...item,available:Number(visible.get(item.code).is_public)===1&&Number(visible.get(item.code).is_active)===1,image:mercenaryEquipmentImage(item.code)})),regions:LEGION_REGIONS.map(({id,name,accent,setName,two,four})=>({id,name,accent,setName,two,four})),slots:SLOTS};
+  const regions=[...LEGION_REGIONS.map(({id,name,accent,setName,two,four})=>({id,name,accent,setName,two,four,modes:['PVE']})),...ASCENDANT_EQUIPMENT_SETS.filter(set=>MERCENARY_EQUIPMENT_CATALOG.some(item=>item.setId===set.setId&&visible.has(item.code))).map(({id,name,accent,setName,tier,two,four,five,modes})=>({id,name,accent,setName,tier,two,four,five,modes}))];
+  return {accountId:Number(user.id),loadouts,items:[...items.values()],catalog:MERCENARY_EQUIPMENT_CATALOG.filter(item=>visible.has(item.code)).map(item=>({...item,available:Number(visible.get(item.code).is_public)===1&&Number(visible.get(item.code).is_active)===1,image:mercenaryEquipmentImage(item.code)})),regions,slots:SLOTS};
 }
 export async function saveMercenaryEquipment(env,user,body){
   const mode=mercenaryMode(body.mode),slot=body.slot,instanceId=body.instanceId;

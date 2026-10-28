@@ -94,7 +94,7 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
    // Gear is additional to either the innate stats or the card-derived floor.
    // Otherwise strong decks would silently erase equipment and polish gains.
    if(personalGear){
-    const stats=m.equipmentStats,fx=m.battleMode==='PVE'?m.equipmentEffects||{}:{};
+    const stats=m.equipmentStats,fx=m.battleMode==='PVE'||m.equipmentEffectsMode==='PVP_ASCENDANT'?m.equipmentEffects||{}:{};
     if(!Number.isSafeInteger(stats.attack)||stats.attack<0||!Number.isSafeInteger(stats.hp)||stats.hp<0)throw Error('INVALID_MERCENARY_EQUIPMENT_STATS');
     attackFloor=Math.round((attackFloor+stats.attack)*(1+(fx.attackPercent||0)/100));
     hpFloor=Math.round((hpFloor+stats.hp)*(1+(fx.hpPercent||0)/100));
@@ -105,7 +105,7 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
    if(!Number.isSafeInteger(attackFloor)||!Number.isSafeInteger(hpFloor)||!Number.isSafeInteger(openingShield))throw Error('INVALID_MERCENARY_COMBAT_LINK');
    const previousMaxHp=m.maxHp;
    m.maxHp=Math.max(m.maxHp,hpFloor);m.hp=Math.round(m.maxHp*healthRatio);
-   if(personalGear&&m.battleMode==='PVE'&&m.equipmentEffects?.shieldPercent){
+   if(personalGear&&(m.battleMode==='PVE'||m.equipmentEffectsMode==='PVP_ASCENDANT')&&m.equipmentEffects?.shieldPercent){
     const extra=Math.round(m.maxHp*m.equipmentEffects.shieldPercent/100)-Math.round(previousMaxHp*m.equipmentEffects.shieldPercent/100);
     m.shield+=extra;m.maxShield+=extra;
    }

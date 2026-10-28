@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-10-28T07:25:54.592Z",
+  "write": false,
+  "deployed": false,
+  "reports": [
+    {
+      "entry": "functions/api/[[path]].js",
+      "bytes": 6035295,
+      "sha256": "d6eca0e999fc8d246644969d19c926b2d651c4e447ab2a57a544427da5e7d021",
+      "inputs": 680,
+      "newCatalogIncluded": true,
+      "warnings": []
+    },
+    {
+      "entry": "mercenary-codex/equipment/app.mjs",
+      "bytes": 34090,
+      "sha256": "9e368761034955a1f26f6130db3991ba1cff49c9bd7965d72130ba54f12579ef",
+      "inputs": 7,
+      "newCatalogIncluded": false,
+      "warnings": []
+    }
+  ]
+}

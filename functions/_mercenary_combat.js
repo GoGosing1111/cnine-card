@@ -39,8 +39,8 @@ import {CRYVERN_SKILL_ID,CRYVERN_CAP_SCALE,cryvernPvpBasicDamageScale,cryvernCro
 import {resolveHeukwolCombo} from './_mercenary_heukwol.js';
 import {apocalypseSealed,apocalypseHealing,clearApocalypseStatus} from './_apocalypse_legion.js';
 import {validateMercenaryCombat} from '../shared/mercenary-combat-policy-v1.mjs';
-import {mercenaryEquipmentPower} from '../shared/mercenary-equipment-v1.mjs';
-import {applyPveEquipmentGrowth} from '../shared/equipment-combat-growth-v1.mjs';
+import {mercenaryEquipmentPower,mercenaryPvpEquipmentEffects} from '../shared/mercenary-equipment-v1.mjs';
+import {applyPveEquipmentGrowth,applyPvpMercenaryEquipmentGrowth} from '../shared/equipment-combat-growth-v1.mjs';
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {MERCENARY_COMBAT_LINK,mercenaryEffectiveAttack,mercenaryPvpTierOffense} from '../shared/mercenary-combat-link-v2103.mjs';
 import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
@@ -252,6 +252,10 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
   attackStyle:mercenaryAttackStyle(snapshot),
   maxHp:snapshot.stats.hp,hp:Math.round(snapshot.stats.hp*Math.max(0,Math.min(100,snapshot.startingHpPercent??100))/100),attack:snapshot.stats.attack,defense:snapshot.stats.defense,speed:snapshot.stats.speed,shield:0,maxShield:0,gauge:0,alive:(snapshot.startingHpPercent??100)>0,actions:0,damageDealt:0,healingDone:0,uniqueAbility:null};
  if(snapshot.equipment?.schemaVersion===1&&snapshot.equipment.mode===mode&&mode==='PVE')applyPveEquipmentGrowth([fighter],snapshot.equipment);
+ if(mode==='PVP'){
+  const effects=mercenaryPvpEquipmentEffects(snapshot.equipment);
+  if(Object.keys(effects).length){applyPvpMercenaryEquipmentGrowth(fighter,effects);fighter.equipmentEffectsMode='PVP_ASCENDANT';}
+ }
  return fighter;
 }
 // Uses the canonical battle's RNG, damage caps, knockout/revive handler and

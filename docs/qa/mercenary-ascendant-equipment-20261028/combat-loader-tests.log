@@ -1,0 +1,25 @@
+✔ all 50 pieces preserve the mercenary slot ratio, exceed existing unique pieces, and increase at every tier (12.9729ms)
+✔ 2/4/5 thresholds accumulate equally in PVE/PVP, remain below combat caps, and strictly improve by tier (3.2103ms)
+✔ PVP derives only authorized catalog sets, ignoring forged effects, character gear, duplicates and wrong slots (0.6171ms)
+✔ SQLite: owned first/last tier gear, independent modes, polish isolation and ordinary-character exclusion (56.9914ms)
+✔ PostgreSQL: owned first/last tier gear, independent modes, polish isolation and ordinary-character exclusion (2869.9798ms)
+✔ all tiers produce higher PVE/PVP stats and actual combat payloads without applying personal set effects to ordinary cards (192.2034ms)
+✔ actual PVP hit resolution honors new damage reduction and critical damage (143.7738ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (1689.9731ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (11.3921ms)
+✔ classic colosseum background is confined to the explicitly tagged PVP replay (0.2763ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (5.2256ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (11.4881ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (16.1974ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (61.9978ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (3.1506ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (3.182ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.0697ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8595.4317

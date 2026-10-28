@@ -1,10 +1,10 @@
 import {equipmentSetVisualFromRows} from '../shared/equipment-set-visual-v1.mjs';
-import {regionEquipmentEffects,regionalEquipment,regionById} from '../shared/legion-regions-v1.mjs';
+import {regionEquipmentEffects,regionById} from '../shared/legion-regions-v1.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
 import {normalizedEquipmentEffects} from '../shared/equipment-combat-growth-v1.mjs';
 import {POLISH_OPTIONS} from '../shared/equipment-polish-v1.mjs';
 import {jointError} from './_joint_request.js';
-import {MERCENARY_EQUIPMENT_SQL_CODES} from '../shared/mercenary-equipment-v1.mjs';
+import {MERCENARY_EQUIPMENT_SQL_CODES,mercenaryEquipmentDefinition,ascendantEquipmentEffects,ascendantSet} from '../shared/mercenary-equipment-v1.mjs';
 export const polishUserPrefix=userId=>'equipment_polish_instance_v1:'+userId+':';
 export const polishStateKey=(id,userId)=>polishUserPrefix(userId)+id;
 export function decodePolishState(raw,instanceId,userId){
@@ -24,6 +24,9 @@ export async function equipmentGrowthRuntime(env,userId){
 }
 export function equipmentGrowthFromRows(results,userId){
   const runtime=regionEquipmentEffects(results.map(row=>row.code));
+  const ascendant=ascendantEquipmentEffects(results.map(row=>row.code),'PVE');
+  for(const [key,value] of Object.entries(ascendant.effects))runtime.effects[key]=(runtime.effects[key]||0)+value;
+  runtime.sets.push(...ascendant.sets);
   const names=['attackPercent','criticalChancePoints','criticalDamagePoints','bossDamagePercent','penetrationPoints'];
   const visual=equipmentSetVisualFromRows(results,userId);
   if(visual)runtime.equipmentSetVisual=visual;
@@ -38,8 +41,8 @@ export async function attachPolishInventory(env,userId,items){
   const {results=[]}=await env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${keys.map(()=>'?').join(',')})`).bind(...keys).all();
   const states=new Map(results.map(r=>[r.key,r.value]));
   return items.map(item=>{
-    const gear=regionalEquipment(item.code||item.item?.code),region=gear?regionById(gear.regionId):null,polish=decodePolishState(states.get(polishStateKey(item.instanceId,userId)),item.instanceId,userId);
-    return {...item,regionEquipment:gear?{...gear,two:equipmentEffectText(region.two),four:equipmentEffectText(region.four)}:null,polish,polishSummary:POLISH_OPTIONS.filter((o,i)=>polish.values[i]>0).map(o=>{const i=POLISH_OPTIONS.indexOf(o);return o.name+' +'+polish.values[i]+o.unit;}).join(' · ')};
+    const gear=mercenaryEquipmentDefinition(item.code||item.item?.code),region=gear?regionById(gear.regionId)||ascendantSet(gear.regionId):null,polish=decodePolishState(states.get(polishStateKey(item.instanceId,userId)),item.instanceId,userId);
+    return {...item,regionEquipment:gear?{...gear,two:equipmentEffectText(region.two),four:equipmentEffectText(region.four),...(region.five?{five:equipmentEffectText(region.five),modes:region.modes}:{})}:null,polish,polishSummary:POLISH_OPTIONS.filter((o,i)=>polish.values[i]>0).map(o=>{const i=POLISH_OPTIONS.indexOf(o);return o.name+' +'+polish.values[i]+o.unit;}).join(' · ')};
   });
 }
 export async function restoredPolishStatements(db,userId,recordId){
