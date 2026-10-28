@@ -30,7 +30,11 @@ test('invalid IDs, calendar dates and over-limit inputs fail before sending',()=
 });
 test('month boundaries use Korean local date and handle December correctly',()=>{
   assert.equal(watchMonthPeriod(null,Date.parse('2026-10-31T15:00:00Z')).month,'2026-11');
-  assert.equal(watchMonthPeriod('2026-12',Date.parse('2026-12-10Z')).dateLt,'2027-01-01');
+  assert.equal(watchMonthPeriod(null,Date.parse('2026-10-31T15:00:00Z')).dateLt,'2026-11-02');
+  assert.equal(watchMonthPeriod('2026-10',Date.parse('2026-10-31T14:59:59Z')).dateLt,'2026-11-01');
+  const december=watchMonthPeriod('2026-12',Date.parse('2026-12-10Z'));
+  assert.equal(december.dateLt,'2026-12-11');assert.equal(december.calendarDateLt,'2027-01-01');
+  assert.equal(watchMonthPeriod('2026-12',Date.parse('2027-01-01Z')).dateLt,'2027-01-01');
   assert.throws(()=>watchMonthPeriod('2026-13',Date.parse(at)));
   assert.throws(()=>watchMonthPeriod('2026-11',Date.parse(at)));
 });
@@ -67,9 +71,10 @@ test('PostgreSQL persistence preserves auth and money, refuses wrong accounts an
 });
 test('deduplicates SOOP accounts, excludes unlinked/disabled accounts, and reports missing coverage',async t=>{
   const f=await fixture(t);await f.save(1,'viewer_a');await f.save(2,'viewer_a');
-  let captured;const client={getWatchRanking:async input=>{captured=input;return {...validResponse,ranking:{data:[validResponse.ranking.data[0]],total:1,page:1,size:100,more:false}};}};
+  let captured;const client={getWatchRanking:async input=>{captured=input;return {...validResponse,dateLt:input.dateLt,ranking:{data:[validResponse.ranking.data[0]],total:1,page:1,size:100,more:false}};}};
   const report=await collectSoopWatchRanking(f.env,{month:'2026-10',now:Date.parse(at),client});
   assert.deepEqual(captured.userSoopIds,['viewer_a']);assert.equal(captured.streamerIds.length,12);assert(captured.streamerIds.includes('y1026'));assert(captured.streamerIds.includes('rlaxordyd'));
+  assert.equal(captured.dateLt,'2026-10-29');assert.equal(report.dateLt,'2026-10-29');assert.equal(report.calendarDateLt,'2026-11-01');
   assert.equal(report.coverage.uncollectedAccounts,1);assert.equal(report.allVerifiedAccountsCovered,false);assert.equal(report.ranking.data[0].linkedAccounts.length,2);
   await f.pg.exec("DELETE FROM user_second_verifications WHERE user_id=1; UPDATE users SET status='INACTIVE' WHERE id=2");
   assert.equal((await readSoopWatchCandidates(f.env)).userSoopIds.length,0);

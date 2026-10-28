@@ -45,9 +45,13 @@ export function validateWatchResponse(body, request) {
   return {dateGte:body.dateGte,dateLt:body.dateLt,generatedAt:body.generatedAt,ranking:{data,total,page,size,more:ranking.more}};
 }
 export function watchMonthPeriod(month, now = Date.now()) {
-  const current = new Date(now+9*3600000).toISOString().slice(0,7);
+  const localDay = new Date(now+9*3600000).toISOString().slice(0,10), current = localDay.slice(0,7);
   month = month || current;
   if (!/^\d{4}-(?:0[1-9]|1[0-2])$/.test(month) || month > current) invalid('현재 월 또는 지난 월을 선택하세요.');
   const [year,number] = month.split('-').map(Number);
-  return {month,dateGte:month+'-01',dateLt:new Date(Date.UTC(year,number,1)).toISOString().slice(0,10),timezone:'Asia/Seoul',monthInProgress:month===current};
+  const calendarDateLt = new Date(Date.UTC(year,number,1)).toISOString().slice(0,10);
+  // DK's supplier rejects future days beyond today's exclusive end with 502.
+  // Include today's available watch time; never query the remaining future days.
+  const dateLt = month===current ? new Date(Date.parse(localDay+'T00:00:00Z')+86400000).toISOString().slice(0,10) : calendarDateLt;
+  return {month,dateGte:month+'-01',dateLt,calendarDateLt,timezone:'Asia/Seoul',monthInProgress:month===current};
 }
