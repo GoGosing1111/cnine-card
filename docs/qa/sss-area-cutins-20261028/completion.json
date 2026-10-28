@@ -1,14 +1,54 @@
 {
-  "status": "IMPLEMENTED_LOCALLY_VERIFIED_DEPLOY_PENDING",
-  "characters": ["V-976","V-975","V-974","V-970","V-971"],
+  "status": "DEPLOYED_AND_VERIFIED",
+  "implementation": "f9eac3678880bdd75809658b7a6ed704c839adfb",
+  "deployedSource": "7e603c83bc56547b164bd57947c3ecf8b06c3d0a",
+  "pages": {
+    "id": "90f36ccf-0b0a-4039-bf20-dd4649d0bed7",
+    "url": "https://90f36ccf.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "7e603c83bc56547b164bd57947c3ecf8b06c3d0a"
+  },
+  "finishedAt": "2026-10-28T01:32:27.109Z",
+  "characters": [
+    "V-976",
+    "V-975",
+    "V-974",
+    "V-970",
+    "V-971"
+  ],
   "cutinPolicy": "PER_ACTOR_FIRST_PVE_AREA_ULTIMATE_ONCE_PER_BATTLE",
   "cutinSeconds": 1.15,
   "newDialogueFrames": 5,
   "newSkillLines": 16,
   "runtimeConsumers": 10,
-  "newTestsPassed": 10,
+  "uniqueRelatedTestsPassed": 26,
   "localVisualCases": 10,
   "localMainEntryCases": 4,
+  "publicMainEntryCases": 2,
+  "publicAssetHashMatches": 21,
+  "pagesFileCount": 19999,
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "versions": [
+        {
+          "version_id": "b411c38d-42cf-4112-b230-d209c732a5bd",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "versions": [
+        {
+          "version_id": "3222deb2-6a01-4e14-9827-f1c8b6844a72",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
   "operationalAccountWrites": 0,
-  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/sss-area-cutins-20261028"
+  "gameplayPolicyChanges": 0,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/sss-area-cutins-20261028",
+  "preview": "http://127.0.0.1:8929/preview/sss-area-cutscenes-20261028/"
 }
