@@ -1,0 +1,106 @@
+{
+  "status": "COMPLETED",
+  "at": "2026-10-28T12:07:43.266Z",
+  "atKst": "2026-10-28 21:07:43 KST",
+  "source": "c270c47dc000e6dc88a963c656fb1b641b07a3de",
+  "pages": {
+    "id": "d8f40950-04d3-42f8-acaa-b4a95717281b",
+    "url": "https://d8f40950.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "c270c47dc000e6dc88a963c656fb1b641b07a3de"
+  },
+  "member": {
+    "id": "rlaxordyd",
+    "name": "김택용",
+    "department": "스타부",
+    "station": "https://www.sooplive.com/station/rlaxordyd"
+  },
+  "starOrder": [
+    "남수댕",
+    "조은",
+    "디임",
+    "방태수",
+    "김택용"
+  ],
+  "femaleCount": 6,
+  "columns": 3,
+  "relatedTests": {
+    "passed": 18,
+    "failed": 0
+  },
+  "local": [
+    {
+      "width": 1440,
+      "starMembers": 5,
+      "femaleMembers": 6,
+      "columns": 3,
+      "secondRow": true,
+      "profileLoaded": true,
+      "stationUrl": "https://www.sooplive.com/station/rlaxordyd",
+      "opener": null,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "starMembers": 5,
+      "femaleMembers": 6,
+      "columns": 3,
+      "secondRow": true,
+      "profileLoaded": true,
+      "stationUrl": "https://www.sooplive.com/station/rlaxordyd",
+      "opener": null,
+      "errors": []
+    }
+  ],
+  "public": [
+    {
+      "width": 390,
+      "starMembers": 5,
+      "femaleMembers": 6,
+      "columns": 3,
+      "secondRow": true,
+      "profileLoaded": true,
+      "stationUrl": "https://www.sooplive.com/station/rlaxordyd",
+      "opener": null,
+      "errors": []
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "e10d42ed4f6a429f98a2c61007451ba3ec672f1206fc5039a633cc712db55481"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "972bbc7862e7df2a161603e01c647f9eee4b2d2513de80986176e7f8f8a67d36"
+    },
+    {
+      "file": "js/streamer-lounge-v2036.js",
+      "sha256": "aab01ad2139411616348a59d87673520bb6e1e33fb347818bf2292882a97a103"
+    },
+    {
+      "file": "js/cnine-roster-v1.js",
+      "sha256": "70d9decc670b1f0ce973c4c7082465b791680c8937ade5fdb7fdab59166ad54d"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "db184a0cef641f2bd616cc93a04761b3e6e5ff705db49dcbbdd2d9e0b09175c4"
+    },
+    {
+      "file": "css/cnine-roster-v1.css",
+      "sha256": "9ce66849bed265f81b8709dda9b7b78160eeb96adea8d45c0631d86ece625e4d"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "0b0185d69d182850e30b377d29fa7404b98e573ebbf4761e62fa82318e06b825"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "62b68a98ee57e86b06aa54a0f54e9c28a2eecc9bfbe08add559c00715d7e9e4e"
+    }
+  ],
+  "loungeRosterUnchanged": true,
+  "productionAccountWrites": 0,
+  "productionSettingsWrites": 0,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/cnine-taekyong-20261028"
+}
