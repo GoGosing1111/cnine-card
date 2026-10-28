@@ -3,9 +3,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {ICON_LIVE_CARDS} from '../shared/icon-fusion-policy-v1.mjs';
+import {ICON_EXPANSION_ART} from '../shared/icon-expansion-art-v1.mjs';
 const root=path.resolve(import.meta.dirname,'..'),check=process.argv.includes('--check');
 const source=JSON.parse(fs.readFileSync(path.join(root,'preview/icon-battle-assets-v1/manifest.json'),'utf8'));
 const manifest={format:'PROJECT_V_TIER_BATTLE_SPRITE_MANIFEST_V1',scope:'BATTLE_ENGINE_ONLY',rarity:'ICON',release:'20260930-user-request',characters:ICON_LIVE_CARDS.map(card=>{
+ const expansion=ICON_EXPANSION_ART[card.cardId];
+ if(expansion){
+  const file=expansion.sd.slice(1),hash=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex').toUpperCase();
+  if(hash!==expansion.sdSha256)throw Error('ICON SD hash mismatch '+card.code);
+  return {cardId:card.cardId,title:card.name,member:card.name,sourceArt:card.sourceArt,battleSprite:file,sha256:hash,footAnchor:expansion.footAnchor,scaleMultiplier:expansion.scaleMultiplier};
+ }
  const sd=source.characters.find(c=>c.code===card.code);if(!sd)throw Error('Missing ICON SD '+card.code);
  const file='preview/icon-battle-assets-v1/'+sd.runtime,hash=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex').toUpperCase();
  if(hash!==sd.runtimeSha256)throw Error('ICON SD hash mismatch '+card.code);

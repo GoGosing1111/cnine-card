@@ -71,6 +71,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: seas
 
 test('inventory entry and current asset references ship with the chooser',()=>{
  assert.match(readFileSync('js/app.js','utf8'),/if\(itemCode==='ICON_CARD_CHOICE_TICKET'\)/);
- assert.match(readFileSync('index.html','utf8'),/inventory=20261020-icon-choice/);
+ assert.match(readFileSync('index.html','utf8'),/src="js\/app\.js\?v=[^"]+"/);
+ assert.match(readFileSync('js/app.js','utf8'),/assets\/items\/icon-card-choice-20261020\/ticket\.webp/);
  for(const name of ['ticket','panel'])assert(readFileSync(`assets/items/icon-card-choice-20261020/${name}.webp`).length>1000);
 });

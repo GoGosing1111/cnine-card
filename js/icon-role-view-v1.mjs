@@ -1,3 +1,5 @@
+import {liveExpansionIcon} from '../shared/icon-expansion-v1.mjs';
+import {preparedIconDescriptionHtml} from './icon-expansion-view-v1.mjs';
 import {ICON_ROLES,iconDefinition} from '../shared/icon-roles-v1.mjs';
 import {ICON_SUPREMACY} from '../shared/icon-supremacy-v1.mjs';
 import {mountIconEnhancement} from './icon-enhancement-v1.mjs';
@@ -10,6 +12,7 @@ export async function loadIconRoleView(){
  inflight=fetch('/api/icons/roles',{cache:'no-store',credentials:'same-origin'}).then(async r=>{if(!r.ok)throw Error('역할 설정을 불러오지 못했습니다.');const x=await r.json();if(!x.document?.cards?.length)throw Error('역할 설정 형식을 확인하지 못했습니다.');settings=x;return x;}).finally(()=>{inflight=null;});return inflight;
 }
 export function iconRoleDescription(card,{compact=false}={}){
+ const expansion=liveExpansionIcon(card);if(expansion)return preparedIconDescriptionHtml(expansion);
  const d=iconDefinition(card);if(!d)return '';
  const row=settings?.document.cards.find(c=>c.code===d.code),c=row?.tuning;
  const timing=c?`첫 ${c.firstAction}행동${d.role==='MAGIC'?' 집중 후 다음 행동 발사':''} · 재사용 ${c.cooldownActions}행동 · 최대 ${c.maxCasts}회`:'발동 조건을 확인하고 있습니다…';
@@ -17,10 +20,10 @@ export function iconRoleDescription(card,{compact=false}={}){
  return `<section class="ir-profile${compact?' is-compact':''}" style="--ir-accent:${d.color}" data-icon-role="${d.code}"><header><span class="ir-emblem">${iconRoleGlyph(d)}</span><div><small>ICON / ${d.role}</small><h3>${d.label} <span>${d.archetype}</span></h3></div></header><div class="ir-abilities"><article><small>PASSIVE · 고유 패시브</small><h4>${d.passive}</h4><p>${d.passiveText}</p></article><article><small>SIGNATURE · 전용 스킬</small><h4>${d.skill}</h4><p>${d.skillText}</p></article></div>${superiority}${d.acquisitionText?`<p class="ir-timing">${esc(d.acquisitionText)}</p>`:''}<p class="ir-timing">${esc(timing)}</p>${settings&&!settings.document.enabled||row&&!row.enabled?'<p class="ir-disabled">현재 역할 효과가 비활성화되어 있습니다.</p>':''}${!compact&&c?`<details class="ir-values"><summary>상세 효과 수치</summary><dl>${d.fields.map(f=>`<div><dt>${esc(f.label)}</dt><dd>${c[f.key]} <small>${esc(f.unit)}</small></dd></div>`).join('')}</dl><p>행동은 해당 캐릭터의 서버 판정 기준입니다. 재생 속도로 발동 주기가 바뀌지 않습니다.</p></details>`:''}</section>`;
 }
 export function openIconRoleProfile(card){
- const d=iconDefinition(card),modal=document.getElementById('modal');if(!d||!modal)return;
+ const d=iconDefinition(card)||liveExpansionIcon(card),modal=document.getElementById('modal');if(!d||!modal)return;
  const previous=document.activeElement;
  modal.className='modal show detail-modal card-profile-modal';
- modal.innerHTML=`<div class="modal-panel ir-modal" role="dialog" aria-modal="true" aria-label="${esc(d.name)} ICON 고유효과"><header class="ir-modal-head"><div><small>ICON / COMBAT IDENTITY</small><h2>${esc(d.name)}</h2></div><button type="button" class="ir-close" aria-label="닫기">×</button></header><div class="ir-modal-body"><aside>${globalThis.IconFusion?.cardHtml({...card,id:d.cardId},true,'ir-portrait')||''}<p>기본 전투력 <b>180,000</b></p><small>전투 시 FUR +15 상위 보정 · 최대 +10 강화</small></aside><div class="ir-modal-profile"><div class="ir-role-copy">${iconRoleDescription(card)}</div><div class="ir-enhancement"></div></div></div><p class="ir-load-status" role="status"></p></div>`;
+ modal.innerHTML=`<div class="modal-panel ir-modal" role="dialog" aria-modal="true" aria-label="${esc(d.name)} ICON 고유효과"><header class="ir-modal-head"><div><small>ICON / COMBAT IDENTITY</small><h2>${esc(d.name)}</h2></div><button type="button" class="ir-close" aria-label="닫기">×</button></header><div class="ir-modal-body"><aside>${globalThis.IconFusion?.cardHtml({...card,id:d.cardId},true,'ir-portrait')||''}<p>기본 전투력 <b>${Number(d.basePower||180000).toLocaleString('ko-KR')}</b></p><small>전투 시 FUR +15 상위 보정 · 최대 +10 강화</small></aside><div class="ir-modal-profile"><div class="ir-role-copy">${iconRoleDescription(card)}</div><div class="ir-enhancement"></div></div></div><p class="ir-load-status" role="status"></p></div>`;
  const enhancement=mountIconEnhancement(modal.querySelector('.ir-enhancement'),{cardId:String(card.id||d.cardId)});
  const close=()=>{enhancement.dispose();modal.className='modal';modal.innerHTML='';document.removeEventListener('keydown',key);previous?.focus?.();};
  const key=e=>{if(e.key==='Escape')close();if(e.key==='Tab'){const nodes=[...modal.querySelectorAll('button,summary,a,input')].filter(n=>n.getClientRects().length),first=nodes[0],last=nodes.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}};
@@ -28,4 +31,4 @@ export function openIconRoleProfile(card){
  const panel=modal.querySelector('.ir-role-copy'),status=modal.querySelector('.ir-load-status');
  loadIconRoleView().then(()=>{if(panel.isConnected)panel.innerHTML=iconRoleDescription(card);}).catch(e=>{if(status.isConnected)status.textContent=e.message;});
 }
-if(typeof window!=='undefined')window.IconRoles={definition:iconDefinition,description:iconRoleDescription,load:loadIconRoleView,open:openIconRoleProfile,roles:ICON_ROLES};
+if(typeof window!=='undefined')window.IconRoles={definition:card=>iconDefinition(card)||liveExpansionIcon(card),description:iconRoleDescription,load:loadIconRoleView,open:openIconRoleProfile,roles:ICON_ROLES};

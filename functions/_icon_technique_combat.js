@@ -4,8 +4,8 @@ const living=a=>a?.alive&&a.hp>0&&!a.untargetable&&!a.isBattleSuit;
 const regular=a=>a&&!a.isIconSummon&&!a.summon&&a.actorKind!=='ICON_WEAPON'&&!a.isBattleSuit&&!a.isMonster;
 const order=(a,b)=>a.slot-b.slot||a.id.localeCompare(b.id);
 const weak=(a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||order(a,b);
-// This module is instantiated only by the non-JSON preparation capability.
-// It owns no live card assignment, release flag, rewards, or persisted state.
+// Assignments come from the server live registry or non-JSON rehearsal capability.
+// This runtime owns no rewards, registration, or persisted state.
 export function createIconTechniqueRuntime({preparation,teams,emit,knockout,iconSkills=null,sealed=()=>false,reviveBlocked=()=>false}){
  const all=()=>[...teams.A,...teams.B],foes=a=>teams[a.side==='A'?'B':'A'].filter(living),friends=a=>teams[a.side].filter(t=>living(t)&&regular(t));
  const assignments=validateIconTechniquePreparation(preparation).assignments,states=new Map();

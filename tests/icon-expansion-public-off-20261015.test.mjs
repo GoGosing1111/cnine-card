@@ -8,28 +8,26 @@ import {defaultIconTechniques,validateIconTechniques,applyPreparedIconTechniqueD
 import {iconFusionOverview,runIconFusion} from '../functions/_icon_fusion.js';
 import {iconFusionFixture} from './helpers/icon-fusion-db.mjs';
 
-test('prepared recipes keep existing chance, stars and materials while only their price is one trillion',()=>{
+test('prepared recipes keep existing chance, stars and materials with a one trillion price and 360k collection power',()=>{
  assert.equal(ICON_EXPANSION_RECIPE.coinCost,1000000000000);
- assert.deepEqual({...ICON_EXPANSION_RECIPE,coinCost:ICON_FUSION_POLICY.coinCost},ICON_FUSION_POLICY);
+ assert.deepEqual({...ICON_EXPANSION_RECIPE,coinCost:ICON_FUSION_POLICY.coinCost,basePower:ICON_FUSION_POLICY.basePower},ICON_FUSION_POLICY);
  assert.equal(ICON_FUSION_POLICY.coinCost,500000000000);
  assert.equal(ICON_EXPANSION_RECIPE.successRate,10);assert.equal(ICON_EXPANSION_RECIPE.masterStarCost,5000000);
- assert.equal(ICON_EXPANSION_RELEASE_ENABLED,false);assert.equal(ICON_SUPREMACY.deckLimit,2);
- assert.equal(ICON_LIVE_CARDS.length,9);assert.equal(ICON_FUSION_CARDS.length,8);
+ assert.equal(ICON_EXPANSION_RELEASE_ENABLED,true);assert.equal(ICON_SUPREMACY.deckLimit,2);
+ assert.equal(ICON_LIVE_CARDS.length,13);assert.equal(ICON_FUSION_CARDS.length,12);
  for(const card of ICON_EXPANSION_CARDS){
-  assert.equal(card.releaseEnabled,false);assert.equal(card.acquisitionEnabled,false);assert.equal(card.battleEnabled,false);assert.equal(card.cardId,null);
-  assert.ok(!ICON_FUSION_CARDS.some(c=>c.code===card.code));
+  assert.equal(card.releaseEnabled,true);assert.equal(card.acquisitionEnabled,true);assert.equal(card.battleEnabled,true);assert.match(card.cardId,/^CN-1C00001[0-3]$/);
+  assert.ok(ICON_FUSION_CARDS.some(c=>c.code===card.code));
   for(const file of [card.sourceArt,card.sd,card.preview.slice(1)+'index.html'])assert.ok(fs.existsSync(new URL('../'+file,import.meta.url)),file);
  }
 });
-test('forged upcoming target is rejected before DB access, randomness, receipt or any currency change',async()=>{
- for(const card of ICON_EXPANSION_CARDS)await assert.rejects(runIconFusion({get DB(){throw Error('DB accessed');}},{id:7},{targetCode:card.code,policyVersion:ICON_FUSION_POLICY.version,requestId:crypto.randomUUID()},{randomInt(){throw Error('Randomness consumed');}}),e=>e.status===423&&e.code==='ICON_FUSION_PREPARATION_CLOSED');
+test('unassigned techniques cannot be forged into a paid card',async()=>{
+ await assert.rejects(runIconFusion({get DB(){throw Error('DB accessed');}},{id:7},{targetCode:'ICON-UNASSIGNED-FORMATION',superstarId:'SUPER',furId:'FUR',policyVersion:ICON_FUSION_POLICY.version,requestId:crypto.randomUUID()}),e=>e.status===400&&e.code==='ICON_FUSION_INPUT');
 });
-test('published preparations never close the existing eight-card fusion or mutate wallets',async t=>{
- const f=await iconFusionFixture(t);const before=await f.snapshot(),view=await iconFusionOverview(f.env,f.user);
- assert.equal(view.enabled,true);assert.equal(view.catalog.length,8);assert.equal(view.upcomingCatalog.length,4);
+test('released four appear in the existing selector without changing wallets',async t=>{
+ const f=await iconFusionFixture(t),before=await f.snapshot(),view=await iconFusionOverview(f.env,f.user);
+ assert.equal(view.enabled,true);assert.equal(view.catalog.length,12);assert.equal(view.upcomingCatalog.length,0);
  assert.deepEqual(view.policy,ICON_FUSION_POLICY);assert.deepEqual(await f.snapshot(),before);
- for(const c of view.upcomingCatalog)await assert.rejects(runIconFusion(f.env,f.user,{...f.body(),targetCode:c.code}),e=>e.status===423);
- assert.deepEqual(await f.snapshot(),before);
 });
 test('four stronger draft presets stay OFF; four unknown cards stay null; saved operator tuning survives',()=>{
  const draft=defaultIconTechniques();assert.deepEqual(validateIconTechniques(draft),draft);

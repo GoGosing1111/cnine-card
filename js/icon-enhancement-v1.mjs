@@ -7,7 +7,7 @@ export function ensureIconEnhancementCss(){
   if(document.querySelector('[data-icon-enhancement-css]'))return;
   const link=document.createElement('link');link.rel='stylesheet';link.href='/css/icon-enhancement-v1.css?v=20261024-v2';link.dataset.iconEnhancementCss='';document.head.append(link);
 }
-export function iconEnhancementTable(){return `<details class="ie-levels"><summary>단계별 전투력 보기</summary><p class="ie-note">매 단계 기본 전투력 +20% · 최대 +10에서 3배<br>공격·체력·방어에 적용하며 행동 속도·스킬 횟수는 유지됩니다.</p><table><thead><tr><th>단계</th><th>전투력</th><th>누적 상승</th><th>성공률</th></tr></thead><tbody>${iconEnhancementSteps().map(s=>`<tr><th>+${s.level}</th><td>${amount(s.power)}</td><td>+${s.bonusPercent}%</td><td>10%</td></tr>`).join('')}</tbody></table></details>`;}
+export function iconEnhancementTable(basePower=180000){return `<details class="ie-levels"><summary>단계별 전투력 보기</summary><p class="ie-note">매 단계 기본 전투력 +20% · 최대 +10에서 3배<br>공격·체력·방어에 적용하며 행동 속도·스킬 횟수는 유지됩니다.</p><table><thead><tr><th>단계</th><th>전투력</th><th>누적 상승</th><th>성공률</th></tr></thead><tbody>${iconEnhancementSteps(basePower).map(s=>`<tr><th>+${s.level}</th><td>${amount(s.power)}</td><td>+${s.bonusPercent}%</td><td>10%</td></tr>`).join('')}</tbody></table></details>`;}
 export function mountIconEnhancement(root,{cardId,request=globalThis.apiRequest}={}){
   ensureIconEnhancementCss();
   const user=globalThis.loadUser?.(),account=String(user?.serverUserId??user?.id??''),key=`cnine:icon-enhancement:v1:${account}`;
@@ -33,7 +33,7 @@ export function mountIconEnhancement(root,{cardId,request=globalThis.apiRequest}
       <div class="ie-rules"><b>실패해도 강화 단계 유지</b><p>성공·실패 모두 마스터의 별과 코인을 소모합니다.</p><small>카드 소모·하락·파괴 없음 · 확정 성공 천장 없음</small></div>
       ${result?`<p class="ie-result" role="status"><b>${esc(result.success?`강화 성공 · +${result.level}`:`강화 실패 · +${result.level} 유지`)}</b><span>전투력 ${amount(result.power)} · 마스터의 별 ${materialAmount(result.spent.masterStarCost)} / 코인 ${materialAmount(result.spent.coinCost)} 소모</span></p>`:''}
       <p class="ie-status" role="status" ${message||blocked?'':'hidden'}>${esc(message||blocked)}</p><button type="button" class="ie-button" data-ie-attempt ${busy||(!pending&&(!data?.canAttempt||!sufficient))?'disabled':''}>${busy?'결과 확인 중…':pending?'이전 강화 결과 확인':level>=10?'최대 강화 완료':`+${level+1} 강화 시도`}</button>
-      <div class="ie-footer">${iconEnhancementTable()}<button type="button" class="ie-reload" data-ie-reload ${busy?'disabled':''}>보유 정보 새로고침</button></div></section>`;
+      <div class="ie-footer">${iconEnhancementTable(data?.policy?.basePower||180000)}<button type="button" class="ie-reload" data-ie-reload ${busy?'disabled':''}>보유 정보 새로고침</button></div></section>`;
     root.querySelector('[data-ie-attempt]').onclick=attempt;
     root.querySelector('[data-ie-reload]').onclick=()=>load();
   }

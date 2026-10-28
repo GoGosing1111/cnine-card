@@ -1,3 +1,6 @@
+import {liveExpansionIcon} from '../shared/icon-expansion-v1.mjs';
+import {ICON_EXPANSION_ART} from '../shared/icon-expansion-art-v1.mjs';
+import {validatedIconSupremacy} from '../shared/icon-supremacy-v1.mjs';
 import {kamishiroIncomingDamage,kamishiroActionCredit} from '../shared/mercenary-kamishiro-v1.mjs';
 import {companionSnapshotRows} from '../shared/companion-battle-snapshot-v1.mjs';
 import {cardguIncomingDamage,cardguActionCredit} from '../shared/mercenary-cardgu-v1.mjs';
@@ -273,7 +276,7 @@ export function applyTypeStacking(cards = []) {
 
 export function distributeEquipment(cards = [], equipmentBonus = 0) {
   // ICON growth must not move equipment (and thus speed) between party slots.
-  const weight=card=>Math.max(0,Number(card.power||0)-(String(card.rarity??card.grade??'').toUpperCase()==='ICON'?36000*iconEnhancementLevel(card.iconRole?.enhancementLevel??card.breakthrough_level??card.breakthroughLevel):0));
+  const weight=card=>Math.max(0,Number(card.power||0)-(String(card.rarity??card.grade??'').toUpperCase()==='ICON'?(liveExpansionIcon(card)?.basePower||180000)*.2*iconEnhancementLevel(card.iconRole?.enhancementLevel??card.iconExpansion?.enhancementLevel??card.breakthrough_level??card.breakthroughLevel):0));
   const total = cards.reduce((sum, card) => sum + weight(card), 0);
   let assigned = 0;
   return cards.map((card, index) => {
@@ -298,8 +301,10 @@ export function distributePveEquipment(cards = [], equipmentBonus = 0) {
 
 export function buildFighter(card, index, side, uniqueAbility = null, battleMode = 'PVP') {
   const iconRole=validatedIconSnapshot(card),iconDef=iconRole?iconDefinition(card):null;
-  if(iconRole)uniqueAbility=null;
-  const type = iconRole?'NONE':normalizeType(card, uniqueAbility);
+  const expansion=String(card.rarity??card.grade??'').toUpperCase()==='ICON'?liveExpansionIcon(card):null;
+  const isIcon=Boolean(iconRole||expansion),statScale=expansion?expansion.statMultiplier:1;
+  if(isIcon)uniqueAbility=null;
+  const type = isIcon?'NONE':normalizeType(card, uniqueAbility);
   const uniqueAdvancement = normalizeUniqueAdvancement(card, type);
   const advancementModifiers = uniqueAdvancement?.modifiers || {};
   const baseProfile = STAT_PROFILES[type];
@@ -312,11 +317,11 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
     speed:   neutral.speed   + (baseProfile.speed   - neutral.speed)   * stackFactor,
     label:   baseProfile.label
   };
-  const superiority=iconRole?.supremacy;
-  const iconLevel=iconRole?iconEnhancementLevel(iconRole.enhancementLevel??card.breakthrough_level??card.breakthroughLevel):0;
+  const superiority=iconRole?.supremacy||(expansion?validatedIconSupremacy(card.iconExpansion?.supremacy):null);
+  const iconLevel=isIcon?iconEnhancementLevel(iconRole?.enhancementLevel??card.iconExpansion?.enhancementLevel??card.breakthrough_level??card.breakthroughLevel):0;
   const iconGrowth=iconEnhancementMultiplier(iconLevel);
   const power = Math.max(1, Number(card.effectivePower || card.power || 1),superiority?Math.ceil(superiority.power*ICON_SUPREMACY.margin*iconGrowth)+Number(card.equipmentShare||0):0);
-  const speedPower=iconRole?Math.max(1,Number(card.effectivePower||card.power||1)-36000*iconLevel,superiority?Math.ceil(superiority.power*ICON_SUPREMACY.margin)+Number(card.equipmentShare||0):0):power;
+  const speedPower=isIcon?Math.max(1,Number(card.effectivePower||card.power||1)-(expansion?.basePower||180000)*.2*iconLevel,superiority?Math.ceil(superiority.power*ICON_SUPREMACY.margin)+Number(card.equipmentShare||0):0):power;
   const mode = String(battleMode || 'PVP').toUpperCase();
   const attackRoleMultiplier = type === 'ATTACK' ? (mode === 'PVE' ? 1.15 : 1.05) : 1;
   const defenseRoleMultiplier = type === 'DEFENSE' ? (mode === 'PVE' ? 1.15 : 1.10) : 1;
@@ -341,11 +346,11 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
   const rankHp=mode==='PVE'&&side==='A'?clamp(card.accountRankBonus?.hpBp||0,0,1500):0;
   const rankAttack=mode==='PVE'&&side==='A'?clamp(card.accountRankBonus?.attackBp||0,0,1000):0;
   const floor=key=>iconStatFloor(superiority,mode,key,Number(card.equipmentShare||0),iconDef?.role,iconLevel);
-  const maxHp = Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100) * (1 + Number(advancementModifiers.maxHpPercent || 0) / 100) * (1 + rankHp / 10000)),Math.ceil(floor('maxHp')*(1+rankHp/10000)));
-  const attack = Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100) * (1 + rankAttack / 10000)),Math.ceil(floor('attack')*(1+rankAttack/10000)));
-  const defense = Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)),floor('defense'));
+  const maxHp = Math.ceil(statScale*Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100) * (1 + Number(advancementModifiers.maxHpPercent || 0) / 100) * (1 + rankHp / 10000)),Math.ceil(floor('maxHp')*(1+rankHp/10000))));
+  const attack = Math.ceil(statScale*Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100) * (1 + rankAttack / 10000)),Math.ceil(floor('attack')*(1+rankAttack/10000))));
+  const defense = Math.ceil(statScale*Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)),floor('defense')));
   // V1936: 기저값을 더해 행동 빈도 격차를 압축한다(속도형 1.6배 -> 1.2배).
-  const speed = Math.max(35, Math.round((70 + speedPower * S1.speedBaseK + speedPower * profile.speed * 0.10) * (1 + speedPct / 100)),floor('speed'));
+  const speed = Math.ceil(statScale*Math.max(35, Math.round((70 + speedPower * S1.speedBaseK + speedPower * profile.speed * 0.10) * (1 + speedPct / 100)),floor('speed')));
   const shieldFloor = mode === 'PVE' ? 0.22 : 0.18;
   const shieldCap = mode === 'PVE' ? 0.38 : 0.32;
   // V1830 호송작전은 구간 사이 카드 체력을 계승한다. 값이 없는 기존 PVE/PVP는
@@ -362,6 +367,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
     row: index < 2 ? 'FRONT' : 'BACK',
     ...(['MELEE','RANGED','CAST'].includes(card.attackStyle)?{attackStyle:card.attackStyle}:{}),
     ...(iconRole?{iconRole,iconRoleLabel:iconDef.label,attackStyle:iconDef.attackStyle}:{}),
+    ...(expansion?{iconExpansion:{enabled:card.iconExpansion?.enabled!==false,code:expansion.code},attackStyle:'RANGED',projectVBattleArt:{scope:'BATTLE_ENGINE_ONLY',kind:'ICON_EXPANSION_SD',primaryUrl:'/'+expansion.sd,pngFallbackUrl:'/'+expansion.sd,scaleMultiplier:ICON_EXPANSION_ART[expansion.cardId].scaleMultiplier,footAnchor:ICON_EXPANSION_ART[expansion.cardId].footAnchor}}:{}),
     title: String(card.title || card.name || 'CARD'),
     memberName: String(card.name || card.member_name || ''),
     grade: String(card.rarity || card.grade || '').toUpperCase(),
@@ -807,6 +813,13 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const random = () => actionRandom();
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
+  // Live assignments are derived exclusively from the registered card identities.
+  // JSON technique/tuning fields cannot activate the four unassigned techniques.
+  const liveAssignments=[...a,...b].flatMap(actor=>{
+   const spec=liveExpansionIcon(actor.cardId);
+   return spec&&actor.grade==='ICON'&&actor.iconExpansion?.enabled!==false&&!actor.isMercenary&&!actor.isMonster&&!actor.isBattleSuit?[{actorId:actor.id,code:spec.techniqueCode,tuning:{...spec.tuning}}]:[];
+  });
+  const techniqueConfig=techniquePreparation|| (liveAssignments.length?{assignments:liveAssignments}:null);
   const fallenAtEntry=new Set([...a,...b].filter(actor=>actor.hp<=0||actor.alive===false).map(actor=>actor.id));
   for(const actor of [...a,...b])delete actor.isIconSummon;
   // Prepared cooperative rooms allow a second independently owned mercenary.
@@ -1109,7 +1122,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const hasOpeningPets=['A','B'].some(side=>Array.isArray(openingPets?.[side])?openingPets[side].length>0:!!openingPets?.[side]);
   // Opening HP auras may increase maximum HP, but cannot revive a persisted KO.
   for(const actor of [...a,...b])if(fallenAtEntry.has(actor.id)){actor.hp=0;actor.shield=0;actor.alive=false;}
-  const openingTeams=companionReview||hasOpeningPets||techniquePreparation||pvpPowerBalance?{A:a.map(f=>structuredClone(publicFighter(f))),B:b.map(f=>structuredClone(publicFighter(f)))}:null;
+  const openingTeams=companionReview||hasOpeningPets||techniqueConfig||pvpPowerBalance?{A:a.map(f=>structuredClone(publicFighter(f))),B:b.map(f=>structuredClone(publicFighter(f)))}:null;
   const openingMercenaries={A:a.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f))),B:b.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f)))};
 
   for (const fighter of [...a, ...b]) {
@@ -1214,7 +1227,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     hit:(actor,target,multiplier,{rangedSkill=false,castShare=1,capScale=null,pveCapScale=1,varyDamageCap=false}={})=>hitResult(actor,target,mercenaryRandom[actor.side],multiplier,false,{...hitOptions,...season2Runtime?.defenseOptions(target),minDamagePercent:rangedSkill?hitOptions.minDamagePercent*multiplier:0,capMinimumDamage:rangedSkill,varyDamageCap:actor.battleMode==='PVP'&&varyDamageCap,damageCapScale:actor.battleMode==='PVP'?(Number.isFinite(capScale)?capScale:(rangedSkill?castShare:1)):pveCapScale}),damage:applyDamage,
     knockout:target=>settleKnockout(target,timeline,clock+0.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data),clock:()=>clock,season2:{skillBlocked:actor=>season2Runtime?.skillBlocked(actor)||false,cleanse:target=>{const cleared=iconRuntime?.cleanse(target);return season2Runtime?.cleanse(target)||cleared||false;},heal:(target,amount)=>season2Runtime?season2Runtime.heal(target,amount):null}}):null;
   if(cooperative?.encounter)coopRuntime=createCoopTraitRuntime({allies:a,emit:(type,data)=>emitTimeline(timeline,clock,type,data)});
-  if(coopRuntime||[...a,...b].some(actor=>actor.iconRole)){
+  if(coopRuntime||techniqueConfig||[...a,...b].some(actor=>actor.iconRole)){
     const iconRandom={A:seededRandom((Number(seed)^0x49434f41)>>>0),B:seededRandom((Number(seed)^0x49434f42)>>>0)};
     // A skill replaces a basic action, so it shares that action's PVE floor.
     // multiplier already contains the per-pellet share; never repeat the full
@@ -1224,7 +1237,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       sealed:actor=>apocalypseSealed(actor)||season2Runtime?.skillBlocked(actor),
       cleanseOne:target=>{const key=apocalypseCursed(target)?'curse':Object.keys(target.apocalypseStatus||{})[0];if(key){delete target.apocalypseStatus[key];emitTimeline(timeline,clock,'APOCALYPSE_STATUS',{targetId:target.id,statuses:{...target.apocalypseStatus},label:'공명 정화'});return true;}for(const field of ['magicSealCharges','doomMarks','timeDistortionStacks'])if(target[field]>0){target[field]=0;return true;}return false;}});
   }
-  if(techniquePreparation)techniqueRuntime=createIconTechniqueRuntime({preparation:techniquePreparation,teams:{A:a,B:b},iconSkills:iconRuntime,
+  if(techniqueConfig)techniqueRuntime=createIconTechniqueRuntime({preparation:techniqueConfig,teams:{A:a,B:b},iconSkills:iconRuntime,
     emit:(type,data)=>emitTimeline(timeline,clock,type,data),knockout:target=>settleKnockout(target,timeline,clock+.00001,reviveFromMagic),
     sealed:actor=>apocalypseSealed(actor)||season2Runtime?.skillBlocked(actor),reviveBlocked:target=>consumeReviveSeal(target.side)});
   // V1975: 아포칼립스는 덱 전투력(카드+장비 배분분, 배틀슈트 제외) / 몬스터 기본 전투력 로 하한을 스케일링.
@@ -2425,8 +2438,8 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
   const enemyUniqueMap = new Map((uniqueStates[1]?.cards || []).map(card => [String(card.id), card]));
   const ownWithEquipment = distributeEquipment(ownCards, Number(ownBonus?.pvp || 0));
   const enemyWithEquipment = distributeEquipment(enemyCards, Number(enemyBonus?.pvp || 0));
-  const teamA = ownWithEquipment.map((card, index) => { const uniqueCard = ownUniqueMap.get(String(card.id)); return buildFighter(avatarPoweredCard({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null },ownBonus?.avatarPowerPercent), index, 'A', uniqueCard?.uniqueAbility || null); });
-  const teamB = enemyWithEquipment.map((card, index) => { const uniqueCard = enemyUniqueMap.get(String(card.id)); return buildFighter(avatarPoweredCard({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null },enemyBonus?.avatarPowerPercent), index, 'B', uniqueCard?.uniqueAbility || null); });
+  const teamA = ownWithEquipment.map((card, index) => { const uniqueCard = ownUniqueMap.get(String(card.id)); return buildFighter(avatarPoweredCard({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null,iconExpansion:uniqueCard?.iconExpansion || null },ownBonus?.avatarPowerPercent), index, 'A', uniqueCard?.uniqueAbility || null); });
+  const teamB = enemyWithEquipment.map((card, index) => { const uniqueCard = enemyUniqueMap.get(String(card.id)); return buildFighter(avatarPoweredCard({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null,iconExpansion:uniqueCard?.iconExpansion || null },enemyBonus?.avatarPowerPercent), index, 'B', uniqueCard?.uniqueAbility || null); });
   let magicA = [];
   let magicB = [];
   let registeredExamples = [];

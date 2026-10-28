@@ -43,7 +43,7 @@ export async function loadCoopOwnedCards(env,user,deps,ids=null){
  }
  const effects=new Map(states.flatMap(state=>state.cards).map(c=>[c.id,c]));
  // buildFighter applies unique stats once, exactly as the normal PVE path.
- return cards.map(c=>({...c,uniqueAbility:effects.get(c.id)?.uniqueAbility||null,uniqueAdvancement:effects.get(c.id)?.uniqueAdvancement||null, iconRole:effects.get(c.id)?.iconRole||null}));
+ return cards.map(c=>({...c,uniqueAbility:effects.get(c.id)?.uniqueAbility||null,uniqueAdvancement:effects.get(c.id)?.uniqueAdvancement||null, iconRole:effects.get(c.id)?.iconRole||null,iconExpansion:effects.get(c.id)?.iconExpansion||null}));
 }
 export async function loadCoopSelection(env,user,body,deps,{rules=COMPANION_RELEASE.dualMercenaries?COOP_DUAL_RULES:COOP_RULES,review=false}={}){
  const selected=validateCoopSelection(body,rules);

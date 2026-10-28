@@ -16,7 +16,7 @@ async function readRecord(env){
   return {raw:row.value,settings:{...stored,...validateIconEnhancementSettings({enabled:stored.enabled,steps:stored.steps})}};
 }
 export const readIconEnhancementSettings=async env=>(await readRecord(env)).settings;
-const selectOwned=`SELECT uc.quantity,uc.breakthrough_level,COALESCE(uc.breakthrough_fail_count,0) fail_count,c.rarity,c.title FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND uc.quantity>0`;
+const selectOwned=`SELECT uc.quantity,uc.breakthrough_level,COALESCE(uc.breakthrough_fail_count,0) fail_count,c.rarity,c.title,c.base_power FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND uc.quantity>0`;
 async function resources(DB,userId){
   const results=await DB.batch([DB.prepare('SELECT coin FROM users WHERE id=?').bind(userId),DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(userId)]);
   return {coin:String(results[0].results[0]?.coin??0),masterStars:Number(results[1].results[0]?.quantity||0)};
@@ -24,15 +24,15 @@ async function resources(DB,userId){
 export async function iconEnhancementOverview(env,user,id){
   cardId(id);
   const [settings,card,owned,wallet,pending]=await Promise.all([
-    readIconEnhancementSettings(env),env.DB.prepare("SELECT id,title,rarity FROM cards_effective_v1210 WHERE id=? AND rarity='ICON'").bind(id).first(),
+    readIconEnhancementSettings(env),env.DB.prepare("SELECT id,title,rarity,base_power FROM cards_effective_v1210 WHERE id=? AND rarity='ICON'").bind(id).first(),
     env.DB.prepare(selectOwned).bind(user.id,id).first(),resources(env.DB,user.id),
     env.DB.prepare("SELECT request_id,plan_json FROM joint_operations_v1 WHERE user_id=? AND kind=? AND status='PENDING' ORDER BY created_at LIMIT 1").bind(user.id,KIND).first()
   ]);
   if(!card)throw fail('CARD','아이콘 카드를 찾을 수 없습니다.',404);
-  const level=Number(owned?.breakthrough_level||0),step=settings.steps[level],ready=level<10&&iconEnhancementStepReady(step);
-  return {policy:POLICY,steps:iconEnhancementSteps(),revision:settings.revision,enabled:settings.enabled,card:{id,title:card.title,owned:Boolean(owned),quantity:Number(owned?.quantity||0),level,power:iconEnhancementPower(level)},resources:wallet,next:level>=10?null:{level:level+1,power:iconEnhancementPower(level+1),...step,ready},canAttempt:Boolean(owned&&settings.enabled&&ready),pending:pending?{requestId:pending.request_id,input:JSON.parse(pending.plan_json).input}:null};
+  const basePower=Number(card.base_power)||180000,level=Number(owned?.breakthrough_level||0),step=settings.steps[level],ready=level<10&&iconEnhancementStepReady(step);
+  return {policy:{...POLICY,basePower},steps:iconEnhancementSteps(basePower),revision:settings.revision,enabled:settings.enabled,card:{id,title:card.title,owned:Boolean(owned),quantity:Number(owned?.quantity||0),level,power:iconEnhancementPower(level,basePower)},resources:wallet,next:level>=10?null:{level:level+1,power:iconEnhancementPower(level+1,basePower),...step,ready},canAttempt:Boolean(owned&&settings.enabled&&ready),pending:pending?{requestId:pending.request_id,input:JSON.parse(pending.plan_json).input}:null};
 }
-const receipt=operation=>{const p=operation.plan;return {requestId:operation.requestId||operation.request_id,status:operation.status,replayed:operation.replayed===true,cardId:p.input.cardId,success:p.success,levelBefore:p.levelBefore,level:p.levelAfter,powerBefore:iconEnhancementPower(p.levelBefore),power:iconEnhancementPower(p.levelAfter),rate:10,spent:p.cost,policy:POLICY};};
+const receipt=operation=>{const p=operation.plan;return {requestId:operation.requestId||operation.request_id,status:operation.status,replayed:operation.replayed===true,cardId:p.input.cardId,success:p.success,levelBefore:p.levelBefore,level:p.levelAfter,powerBefore:iconEnhancementPower(p.levelBefore,p.basePower||180000),power:iconEnhancementPower(p.levelAfter,p.basePower||180000),rate:10,spent:p.cost,policy:{...POLICY,basePower:p.basePower||180000}};};
 export async function iconEnhancementReceipt(env,user,requestId){
   const row=await readJointOperation(env,user.id,requestId,KIND);
   // Never reveal the roll while a request is unpaid.
@@ -53,7 +53,7 @@ export async function runIconEnhancement(env,user,body,{randomInt=mercenaryRando
     if(BigInt(wallet.coin)<BigInt(step.coinCost)||wallet.masterStars<step.masterStarCost)throw fail('BALANCE','마스터의 별 또는 코인이 부족합니다.',400);
     const roll=randomInt(POLICY.chanceTotal);if(!Number.isInteger(roll)||roll<0||roll>=POLICY.chanceTotal)throw Error('INVALID_ICON_ENHANCEMENT_ROLL');
     const success=roll<POLICY.successChance;
-    return {input,policyVersion:POLICY.version,cost:{...step},quantity:Number(owned.quantity),failCount:Number(owned.fail_count),levelBefore:level,levelAfter:level+(success?1:0),success,roll};
+    return {input,basePower:Number(owned.base_power)||180000,policyVersion:POLICY.version,cost:{...step},quantity:Number(owned.quantity),failCount:Number(owned.fail_count),levelBefore:level,levelAfter:level+(success?1:0),success,roll};
   },statements:async plan=>{
     const record=await readRecord(env),settings=record.settings,step=settings.steps[plan.levelBefore],owned=await p(selectOwned,user.id,input.cardId).first();
     if(!settings.enabled||settings.revision!==input.expectedRevision||!iconEnhancementStepReady(step)||step.coinCost!==plan.cost.coinCost||step.masterStarCost!==plan.cost.masterStarCost)throw terminal('STALE','설정이 변경되어 강화 요청을 취소했습니다. 재료는 소모되지 않았습니다.');

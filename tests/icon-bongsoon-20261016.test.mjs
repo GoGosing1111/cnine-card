@@ -11,9 +11,9 @@ const hash=buffer=>createHash('sha256').update(buffer).digest('hex').toUpperCase
 test('new Bongsoon preserves her photo and is separate from the existing Bongsoon',async()=>{
  const manifest=await json('manifest.json'),input=await json('input.json'),card=ICON_EXPANSION_CARDS.find(c=>c.code==='ICON-NAMUNEUL-BONGSOON-20261016');
  assert.equal(hash(await read(manifest.sourceArt.file)),'06F470732BE2F36D62DA074F23287619572F3E0E1B5EE2964A20E86FA62BF53E');
- assert.equal(card.cardId,null);assert.equal(card.techniqueCode,'RETURN_OATH');assert.equal(card.releaseEnabled,false);
+ assert.equal(card.cardId,'CN-1C000013');assert.equal(card.techniqueCode,'RETURN_OATH');assert.equal(card.releaseEnabled,true);
  assert.equal(ICON_LIVE_CARDS.find(c=>c.code==='ICON-NAMUNEUL-BONGSOON').cardId,'CN-1C000003');
- assert.equal(ICON_LIVE_CARDS.length,9);assert.equal(manifest.acquisitionEnabled,false);assert.equal(manifest.battleEnabled,false);
+ assert.equal(ICON_LIVE_CARDS.length,13);assert.equal(manifest.acquisitionEnabled,false);assert.equal(manifest.battleEnabled,false);
  assert.equal(input.techniqueAssignment,'AGENT_DESIGNED_USER_REQUESTED_PREPARATION');
  assert.deepEqual(card.tuning,{firstAction:1,cooldownActions:4,maxCasts:2,reviveHpPercent:35,bossDamagePercent:10,windowActions:5});
  assert.equal(hash(await read(manifest.sourceArt.runtime)),manifest.sourceArt.runtimeSha256);

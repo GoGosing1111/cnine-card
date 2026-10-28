@@ -111,6 +111,58 @@
         "x": 0.504884370015949,
         "y": 0.9235446570972887
       }
+    },
+    {
+      "cardId": "CN-1C000010",
+      "title": "남수댕",
+      "member": "남수댕",
+      "sourceArt": "preview/icon-namsudaeng-battle-20261015-v1/sources/namsudaeng-photo-original.png",
+      "battleSprite": "preview/icon-namsudaeng-battle-20261015-v1/assets/namsudaeng-sd.webp",
+      "sha256": "32F55F27D7DCB86D5C7C14C1E056BD12A1DE85FD1F2B0007EB978642C39287A9",
+      "footAnchor": {
+        "x": 0.5711722488038278,
+        "y": 0.9033094098883573
+      },
+      "scaleMultiplier": 1.2864321608040201
+    },
+    {
+      "cardId": "CN-1C000011",
+      "title": "디임",
+      "member": "디임",
+      "sourceArt": "preview/icon-diim-redcap-battle-20261015-v1/sources/diim-photo-original.png",
+      "battleSprite": "preview/icon-diim-redcap-battle-20261015-v1/assets/diim-sd.webp",
+      "sha256": "132F08A4B246A39731A9915620BE87FA7A9EA62B151B647B848CF52727A87737",
+      "footAnchor": {
+        "x": 0.5648923444976076,
+        "y": 0.9277312599681021
+      },
+      "scaleMultiplier": 1.1566265060240963
+    },
+    {
+      "cardId": "CN-1C000012",
+      "title": "오조은",
+      "member": "오조은",
+      "sourceArt": "preview/icon-joeun-white-battle-20261016-v1/assets/joeun-portrait.webp",
+      "battleSprite": "preview/icon-joeun-white-battle-20261016-v1/assets/joeun-sd.webp",
+      "sha256": "DB351C6A8E4B93B832CBE54FE622D8120B784B4EEBB8EBA952B55B043A2A3116",
+      "footAnchor": {
+        "x": 0.5746610845295056,
+        "y": 0.9130781499202553
+      },
+      "scaleMultiplier": 1.2171156893819335
+    },
+    {
+      "cardId": "CN-1C000013",
+      "title": "나무늘봉순",
+      "member": "나무늘봉순",
+      "sourceArt": "preview/icon-bongsoon-battle-20261016-v1/assets/bongsoon-portrait.webp",
+      "battleSprite": "preview/icon-bongsoon-battle-20261016-v1/assets/bongsoon-sd.webp",
+      "sha256": "4BEB48622675EF312D4049B3F8042F1469E54BB30530F1E66DEA02D1BBEF15EB",
+      "footAnchor": {
+        "x": 0.5251196172248804,
+        "y": 0.9081937799043063
+      },
+      "scaleMultiplier": 1.2307692307692308
     }
   ]
 }

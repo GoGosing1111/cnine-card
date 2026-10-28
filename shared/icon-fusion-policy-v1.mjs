@@ -1,17 +1,12 @@
+import {ICON_EXPANSION_CARDS} from './icon-expansion-v1.mjs';
 import {ICON_CARD_ROSTER} from './icon-card-roster-v1.mjs';
 
 // Public browsing stays available. Synthesis needs explicit ON after final review.
 export const ICON_FUSION_RELEASE_ENABLED = true;
-export const ICON_FUSION_POLICY = Object.freeze({
-  version:2, coinCost:500000000000, masterStarCost:5000000,
-  superstarCount:1, furCount:1, enhancementLevel:13,
-  successChancePpm:100000, chanceTotal:1000000, successRate:10,
-  resultMode:'SELECT', consumeOnFailure:true, pityAttempts:0, basePower:180000,
-  enhancementEnabled:false, materialsResetRemainingEnhancement:true
-});
-export const ICON_LIVE_CARDS = Object.freeze(ICON_CARD_ROSTER.map((card,index)=>Object.freeze({
+export {ICON_FUSION_POLICY} from './icon-fusion-recipe-v1.mjs';
+export const ICON_LIVE_CARDS = Object.freeze([...ICON_CARD_ROSTER.map((card,index)=>Object.freeze({
   ...card,cardId:`CN-1C00000${index+1}`,grade:'ICON',basePower:180000,releaseEnabled:true
-})));
+})),...ICON_EXPANSION_CARDS]);
 // Card registration and ordinary ICON fusion are separate acquisition policies.
 export const ICON_FUSION_CARDS = Object.freeze(ICON_LIVE_CARDS.filter(card=>card.fusionEligible!==false));
 export const ICON_FUSION_SETTINGS_KEY='icon_fusion_settings_v1';

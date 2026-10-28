@@ -1,11 +1,11 @@
-import {ICON_FUSION_POLICY} from './icon-fusion-policy-v1.mjs';
+import {ICON_FUSION_POLICY} from './icon-fusion-recipe-v1.mjs';
 
-// User correction: publish the preparations, keep acquisition/battle OFF and
-// retain the existing two-ICON deck limit. This is not the live card roster.
-export const ICON_EXPANSION_RELEASE_ENABLED=false;
-export const ICON_EXPANSION_VERSION='20261016-bongsoon-icon-v1';
+// User release 2026-10-29: four prepared cards, normal crafting and live combat.
+// Existing nine cards, choice tickets and the two-ICON deck limit are unchanged.
+export const ICON_EXPANSION_RELEASE_ENABLED=true;
+export const ICON_EXPANSION_VERSION='20261029-four-live-v1';
 const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
-export const ICON_EXPANSION_RECIPE=freeze({...ICON_FUSION_POLICY,coinCost:1000000000000});
+export const ICON_EXPANSION_RECIPE=freeze({...ICON_FUSION_POLICY,coinCost:1000000000000,basePower:360000});
 export const ICON_EXPANSION_STAT_MULTIPLIER=1.25;
 export const ICON_EXPANSION_CARDS=freeze([
  {code:'ICON-NAMSUDAENG',name:'남수댕',techniqueCode:'CROWN_USURP',techniqueName:'왕관 찬탈',
@@ -30,8 +30,8 @@ export const ICON_EXPANSION_CARDS=freeze([
   sd:'preview/icon-bongsoon-battle-20261016-v1/assets/bongsoon-sd.webp',
   preview:'/preview/icon-bongsoon-battle-20261016-v1/',
   tuning:{firstAction:1,cooldownActions:4,maxCasts:2,reviveHpPercent:35,bossDamagePercent:10,windowActions:5}}
-].map(card=>({...card,cardId:null,grade:'ICON',basePower:180000,releaseEnabled:false,acquisitionEnabled:false,battleEnabled:false,
- recipe:ICON_EXPANSION_RECIPE,statMultiplier:ICON_EXPANSION_STAT_MULTIPLIER,balanceStatus:'STRONGER_THAN_EXISTING_ICON_PREPARED',focusX:50,focusY:50})));
+].map((card,index)=>({...card,cardId:`CN-1C0000${index+10}`,grade:'ICON',basePower:360000,releaseEnabled:true,acquisitionEnabled:true,battleEnabled:true,
+ recipe:ICON_EXPANSION_RECIPE,statMultiplier:ICON_EXPANSION_STAT_MULTIPLIER,balanceStatus:'LIVE_360000',focusX:50,focusY:50})));
 export function preparedIconForTechnique(code){return ICON_EXPANSION_CARDS.find(c=>c.techniqueCode===code)||null;}
 export function preparedIconForCode(code){return ICON_EXPANSION_CARDS.find(c=>c.code===code)||null;}
 // Isolated rehearsal only: the live battle/roster never imports this function.
@@ -45,4 +45,9 @@ export function prepareStrongerIconFighter(reference,code){
  }
  result.hp=Math.min(result.maxHp,Math.round(result.maxHp*Math.max(0,reference.hp)/Math.max(1,reference.maxHp)));
  return result;
+}
+
+export function liveExpansionIcon(value){
+ const id=typeof value==='string'?value:String(value?.cardId??value?.id??value?.card_id??'');
+ return ICON_EXPANSION_CARDS.find(c=>c.cardId===id||c.code===id)||null;
 }

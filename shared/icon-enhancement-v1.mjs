@@ -3,8 +3,8 @@ export const ICON_ENHANCEMENT_KEY='icon_enhancement_settings_v1';
 export const ICON_ENHANCEMENT_POLICY=Object.freeze({version:'20261024-v1',maxLevel:10,successRate:10,chanceTotal:1000000,successChance:100000,basePower:180000,powerBonusPerLevel:20,failure:'KEEP_LEVEL',pity:false,duplicateCards:0});
 export const iconEnhancementLevel=value=>Math.max(0,Math.min(10,Math.floor(Number(value)||0)));
 export const iconEnhancementMultiplier=level=>1+iconEnhancementLevel(level)/5;
-export const iconEnhancementPower=level=>180000+36000*iconEnhancementLevel(level);
-export const iconEnhancementSteps=()=>Array.from({length:10},(_,i)=>({level:i+1,power:iconEnhancementPower(i+1),bonusPercent:(i+1)*20,rate:10}));
+export const iconEnhancementPower=(level,basePower=180000)=>Math.round(basePower*iconEnhancementMultiplier(level));
+export const iconEnhancementSteps=(basePower=180000)=>Array.from({length:10},(_,i)=>({level:i+1,power:iconEnhancementPower(i+1,basePower),bonusPercent:(i+1)*20,rate:10}));
 export const defaultIconEnhancementSettings=()=>({revision:0,enabled:false,steps:Array.from({length:10},()=>({masterStarCost:null,coinCost:null}))});
 const keys=(v,allowed)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).every(k=>allowed.includes(k));
 function cost(value,max){

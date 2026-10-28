@@ -11,9 +11,9 @@ const hash=buffer=>createHash('sha256').update(buffer).digest('hex').toUpperCase
 test('new white Oh Joeun preserves her photo and is separate from the existing medic',async()=>{
  const manifest=await json('manifest.json'),input=await json('input.json'),card=ICON_EXPANSION_CARDS.find(c=>c.code==='ICON-OH-JOEUN-WHITE');
  assert.equal(hash(await read(manifest.sourceArt.file)),'9DA6986B613413B8F7C2F8F3798B47AE785A6569D29E0F2CD0CBD97109695C08');
- assert.equal(card.cardId,null);assert.equal(card.techniqueCode,'SKILL_ADVANCE');assert.equal(card.releaseEnabled,false);
+ assert.equal(card.cardId,'CN-1C000012');assert.equal(card.techniqueCode,'SKILL_ADVANCE');assert.equal(card.releaseEnabled,true);
  assert.equal(ICON_LIVE_CARDS.find(c=>c.code==='ICON-OH-JOEUN').cardId,'CN-1C000004');
- assert.equal(ICON_LIVE_CARDS.length,9);assert.equal(manifest.acquisitionEnabled,false);assert.equal(manifest.battleEnabled,false);
+ assert.equal(ICON_LIVE_CARDS.length,13);assert.equal(manifest.acquisitionEnabled,false);assert.equal(manifest.battleEnabled,false);
  assert.equal(input.techniqueAssignment,'USER_CONFIRMED_PREPARATION_ONLY');
  assert.deepEqual(card.tuning,{firstAction:1,cooldownActions:3,maxCasts:6});
  assert.equal(hash(await read(manifest.sourceArt.runtime)),manifest.sourceArt.runtimeSha256);

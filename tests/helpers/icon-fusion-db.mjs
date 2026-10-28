@@ -18,7 +18,7 @@ export async function iconFusionFixture(t,{postgres=false}={}){
  if(postgres)await f.DB.execSchema(schema);else for(const sql of schema)await f.p(sql).run();
  for(const [i,c] of ICON_LIVE_CARDS.entries()){
   await f.p('INSERT INTO members(id,name) VALUES(?,?)',i+1,c.name).run();
-  await f.p("INSERT INTO cards(id,member_id,title,rarity,rarity_override,image_url) VALUES(?,?,?,'FUR','ICON',?)",c.cardId,i+1,c.name,c.sourceArt).run();
+  await f.p("INSERT INTO cards(id,member_id,title,rarity,rarity_override,image_url,base_power) VALUES(?,?,?,'FUR','ICON',?,?)",c.cardId,i+1,c.name,c.sourceArt,c.basePower).run();
  }
  for(const [id,grade] of [['CN-SUPER','SUPERSTAR'],['CN-FUR','FUR']]){
   await f.p('INSERT INTO cards(id,member_id,title,rarity,image_url) VALUES(?,1,?,?,?)',id,grade,grade,'assets/cards/ICON/diim-source-v1.png').run();

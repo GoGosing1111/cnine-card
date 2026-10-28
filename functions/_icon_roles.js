@@ -1,3 +1,4 @@
+import {liveExpansionIcon} from '../shared/icon-expansion-v1.mjs';
 import {ICON_ROLES,ICON_ROLES_KEY,ICON_ROLES_VERSION,defaultIconRoles,validateIconRoles,iconDefinition,iconRoleSnapshot} from '../shared/icon-roles-v1.mjs';
 import {ICON_SUPREMACY,iconStatFloor} from '../shared/icon-supremacy-v1.mjs';
 import {iconEnhancementLevel} from '../shared/icon-enhancement-v1.mjs';
@@ -10,11 +11,23 @@ export async function readIconRoleState(env){
  state.document=validateIconRoles(state.document,{allowLegacy:true});return {raw:row.value,state};
 }
 export async function iconRoleDeckSettings(env,entries){
- return entries.some(e=>(e.cards||[]).some(c=>iconDefinition(c)&&String(c.rarity??c.grade??'').toUpperCase()==='ICON'))?(await readIconRoleState(env)).state:null;
+ return entries.some(e=>(e.cards||[]).some(c=>(iconDefinition(c)||liveExpansionIcon(c))&&String(c.rarity??c.grade??'').toUpperCase()==='ICON'))?(await readIconRoleState(env)).state:null;
 }
 export function applyIconRoleDeckState(state,settings,scope){
  if(!settings)return state;
  const cards=state.cards.map(card=>{
+  const expansion=liveExpansionIcon(card);
+  if(expansion&&String(card.rarity??card.grade??'').toUpperCase()==='ICON'){
+   const enabled=settings.document.enabled&&settings.document.scopes[String(scope).toLowerCase()]===true;
+   const level=iconEnhancementLevel(card.breakthrough_level??card.breakthroughLevel);
+   const result={...card,power:card.baseBattlePower,uniqueAbility:null,uniqueAdvancement:null,uniqueDefensePercent:0,uniqueSpeedPercent:0,power_type:'NONE',powerType:'NONE',iconRole:null,iconExpansion:{enabled,revision:settings.revision,enhancementLevel:level,supremacy:enabled?settings.supremacy:null}};
+   if(scope==='CAPTAIN'&&enabled&&settings.supremacy?.CAPTAIN){
+    const floor=key=>Math.ceil(iconStatFloor(settings.supremacy,'CAPTAIN',key,0,'',level)*expansion.statMultiplier);
+    result.power=Math.max(result.power,floor('attack'));result.maxHp=Math.max(result.maxHp,floor('maxHp'));
+    result.uniqueDefensePercent=Math.max(0,floor('defense')-100);result.uniqueSpeedPercent=Math.max(0,floor('speed')-100);
+   }
+   return result;
+  }
   if(!iconDefinition(card)||String(card.rarity??card.grade??'').toUpperCase()!=='ICON')return card;
   // Old stat drafts never stack with the RPG role. The server attaches one
   // current FUR+15 benchmark shared by both parties, independent of opponent.
@@ -28,7 +41,7 @@ export function applyIconRoleDeckState(state,settings,scope){
   }
   return result;
  });
- if(scope==='CAPTAIN'&&cards.some(c=>c.iconRole?.supremacy?.CAPTAIN)){
+ if(scope==='CAPTAIN'&&cards.some(c=>c.iconRole?.supremacy?.CAPTAIN||c.iconExpansion?.supremacy?.CAPTAIN)){
   const attackPower=cards.reduce((n,c)=>n+c.power,0),durabilityPower=cards.reduce((n,c)=>n+c.maxHp*(1+c.uniqueDefensePercent/100),0),base=cards.reduce((n,c)=>n+c.baseBattlePower,0),speedPercent=base>0?cards.reduce((n,c)=>n+c.baseBattlePower*c.uniqueSpeedPercent,0)/base:0;
   return {...state,cards,attackPower,durabilityPower,speedPercent,power:Math.floor(Math.sqrt(attackPower*durabilityPower)*(1+speedPercent/200))};
  }

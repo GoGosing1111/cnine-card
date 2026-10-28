@@ -13,13 +13,13 @@ import {createIconCombatRuntime} from '../functions/_icon_combat.js';
 import {buildFighter} from '../functions/_battle_v2_preview.js';
 const code='ICON-ZEUS-CHEOLGU',id='CN-1C000008';
 test('ordinary fusion excludes Zeus and rejects forged selection before DB, RNG or payment',async t=>{
- assert.ok(ICON_LIVE_CARDS.some(c=>c.cardId===id));assert.equal(ICON_FUSION_CARDS.length,8);assert.ok(!ICON_FUSION_CARDS.some(c=>c.cardId===id));
+ assert.ok(ICON_LIVE_CARDS.some(c=>c.cardId===id));assert.equal(ICON_FUSION_CARDS.length,12);assert.ok(!ICON_FUSION_CARDS.some(c=>c.cardId===id));
  let queries=0;
  await assert.rejects(()=>runIconFusion({DB:{prepare(){queries++;throw Error('Must not read');}}},{id:7},{requestId:crypto.randomUUID(),policyVersion:2,superstarId:'CN-SUPER',furId:'CN-FUR',targetCode:code},{randomInt(){throw Error('Must not roll');}}),e=>e.code==='ICON_FUSION_INPUT');
  assert.equal(queries,0);
  const f=await iconFusionFixture(null,{postgres:true});try{
   const before=await f.snapshot(),overview=await iconFusionOverview(f.env,f.user);
-  assert.equal(overview.enabled,true);assert.equal(overview.catalog.length,8);assert.ok(!overview.catalog.some(c=>c.cardId===id));
+  assert.equal(overview.enabled,true);assert.equal(overview.catalog.length,12);assert.ok(!overview.catalog.some(c=>c.cardId===id));
   await assert.rejects(()=>runIconFusion(f.env,f.user,{...f.body(),targetCode:code}),e=>e.code==='ICON_FUSION_INPUT');assert.deepEqual(await f.snapshot(),before);
  }finally{await f.close();}
 });

@@ -10,7 +10,7 @@ import {runIconFusion,iconFusionReceipt,iconFusionOverview,handleIconFusion} fro
 import {ICON_FUSION_POLICY as POLICY,ICON_LIVE_CARDS,ICON_FUSION_CARDS,formatIconAmount,validateIconVideoUrl} from '../shared/icon-fusion-policy-v1.mjs';
 
 test('approved recipe, exact Korean units and same-site video paths',()=>{
- assert.equal(POLICY.coinCost,500000000000);assert.equal(POLICY.masterStarCost,5000000);assert.equal(POLICY.successRate,10);assert.equal(POLICY.pityAttempts,0);assert.equal(ICON_FUSION_CARDS.length,8);assert.equal(ICON_LIVE_CARDS.length,9);
+ assert.equal(POLICY.coinCost,500000000000);assert.equal(POLICY.masterStarCost,5000000);assert.equal(POLICY.successRate,10);assert.equal(POLICY.pityAttempts,0);assert.equal(ICON_FUSION_CARDS.length,12);assert.equal(ICON_LIVE_CARDS.length,13);
  for(const [n,s] of [[5000000,'500만'],[100000000000,'1천억'],[500000000000,'5천억'],[89000000000000,'89조'],[0,'0'],[100010000,'1억 1만']])assert.equal(formatIconAmount(n),s);
  for(const path of ['https://evil.test/a.mp4','//evil/a.mp4','assets/../secret.mp4','assets/a.svg','assets/a.mp4?x=1'])assert.throws(()=>validateIconVideoUrl(path));
  assert.equal(validateIconVideoUrl('assets/videos/icon.mp4'),'/assets/videos/icon.mp4');
@@ -31,7 +31,7 @@ for(const postgres of [false,true]){
   const f=await iconFusionFixture(t,{postgres}),body=f.body(),before=await f.snapshot();
   f.fail('INSERT INTO user_cards');await assert.rejects(()=>runIconFusion(f.env,f.user,body,{randomInt:()=>0}));f.fail('');
   await f.setting('icon_fusion_settings_v1',{revision:2,enabled:false,successVideoUrl:'',successVideoDurationMs:12000});
-  const overview=await iconFusionOverview(f.env,f.user);assert.equal(overview.enabled,false);assert.equal(overview.catalog.length,8);assert.equal(overview.materials.length,2);
+  const overview=await iconFusionOverview(f.env,f.user);assert.equal(overview.enabled,false);assert.equal(overview.catalog.length,12);assert.equal(overview.materials.length,2);
   for(const request of [body,f.body()])await assert.rejects(()=>runIconFusion(f.env,f.user,request),{code:'ICON_FUSION_CLOSED'});
   assert.equal((await iconFusionReceipt(f.env,f.user,body.requestId)).status,'PENDING');assert.deepEqual(await f.snapshot(),before);
   await f.p('DELETE FROM app_meta WHERE key=?','icon_fusion_settings_v1').run();assert.equal((await iconFusionOverview(f.env,f.user)).enabled,false);await assert.rejects(()=>runIconFusion(f.env,f.user,body),{code:'ICON_FUSION_CLOSED'});
@@ -116,7 +116,7 @@ test('all seven ICONs retain photo frames and separate SDs through the shipped P
  const manifests=Object.fromEntries([['FUR','fur/manifest-v2'],['PRESTIGE','prestige/manifest-v1'],['SUPERSTAR','superstar/manifest-v1'],['ICON','icon/manifest-v1']].map(([grade,file])=>[grade,JSON.parse(read('assets/ui/project-v/characters/'+file+'.json'))]));
  const adapter=sandbox.ProjectVTierBattleArt.createAdapter({manifests});sandbox.IconFusion={cardHtml:iconLiveCardHtml};
  vm.runInNewContext(read('js/battle-v3-live.js').replace('root.ProjectVBattleV3Live = Object.freeze({','root.iconTestRoster=rosterCardHtml;root.ProjectVBattleV3Live = Object.freeze({'),sandbox);
- const cards=ICON_LIVE_CARDS.map(c=>({...c,id:c.cardId,rarity:'ICON',image:c.sourceArt,power:180000})),catalog=new Map(cards.map(c=>[c.id,c]));
+ const cards=ICON_LIVE_CARDS.slice(0,9).map(c=>({...c,id:c.cardId,rarity:'ICON',image:c.sourceArt,power:180000})),catalog=new Map(cards.map(c=>[c.id,c]));
  for(const c of cards){const sd=adapter.resolveForV3(c);assert.equal(sd.kind,'ICON_SD');assert.match(sd.primaryUrl,/preview\/icon-battle-assets-v1\/assets\/sd\//);assert.equal(sd.sourceArtUrl,'/'+c.sourceArt);assert.ok(sd.footAnchor.y>.85&&sd.footAnchor.y<.95);
   const html=sandbox.iconTestRoster({...c,image:sd.primaryUrl,originalCardArt:c.sourceArt},0,catalog);assert.ok(html.includes(c.sourceArt));assert.match(html,/icon-streamer-frame-v1.png/);assert.doesNotMatch(html,/-sd-v1.webp/);
  }

@@ -1,3 +1,4 @@
+import {preloadIconExpansionPlayback,configureIconExpansionSprite,disposeIconExpansionPlayback} from './IconExpansionPlayback.js';
 import {prepareEquipmentSetFX} from './EquipmentSetFX.js';
 import {battleAssetMemory,battleImageUrl} from './BattleAssetMemory.mjs';
 import {attachSealDragon,playSealDragonBreath} from './SealDragonPlayback.js';
@@ -625,6 +626,7 @@ export class BaseBattleEngine{
     // sprite outside mount() so first-frame readiness never awaits audio.
     this.audio?.schedulePreload?.(60);
     preloadIconPlayback(this);
+    await preloadIconExpansionPlayback(this);
     return this;
   }
 
@@ -1917,6 +1919,7 @@ export class BaseBattleEngine{
       target.serverMaxHp=Math.max(1,Number(card?.maxHp||card?.hp||100));
       target.texture=texture;
       target.useFullBodySprite(texture,260*(art.scaleMultiplier||1));
+      configureIconExpansionSprite(target,art);
       target.setTint(0xffffff);
       const sourceArt=originalCardArtUrl(card,art);
       if(sourceArt)try{target.cutInTexture=await Assets.load(sourceArt)}catch(error){
@@ -1953,6 +1956,7 @@ export class BaseBattleEngine{
       target.serverMaxHp=Math.max(1,Number(card?.maxHp||card?.hp||100));
       target.texture=texture;
       target.useFullBodySprite(texture,260*(art.scaleMultiplier||1));
+      configureIconExpansionSprite(target,art);
       target.setTint(0xffffff);
       const sourceArt=originalCardArtUrl(card,art);
       if(sourceArt)try{target.cutInTexture=await Assets.load(sourceArt)}catch(error){
@@ -3656,6 +3660,7 @@ export class BaseBattleEngine{
       backgroundDepth:this.parallaxLayers.map(item=>({layer:item.label,coefficient:item.coefficient})),
       cooperativePlayback:this.lastCoopPlayback||null,
       iconTechniques:{active:this.iconTechniqueActive||null,last:this.lastIconTechnique||null,metrics:this.iconTechniqueMetrics||null,actors:this.characters.map(a=>({id:a.id,slot:a.iconTechniqueDisplaySlot,hp:a.hp,x:a.baseX,y:a.baseY,badges:[...a.iconTechniqueBadges?.values()||[]].map(t=>t.text)})),weapons:[...this.iconTechniqueWeapons?.values()||[]].map(a=>({id:a.id,hp:a.hp,active:a.battleActive,visible:a.root.visible,slot:a.iconTechniqueServerSlot}))},
+      iconExpansion:this.iconExpansionMetrics||null,
       iconRoles:{last:this.lastIconPlayback||null,muzzle:this.lastIconMuzzle||null,metrics:this.iconPlaybackMetrics||null},
       battlefield:{
         mode:this.activeBattlefieldMode,
@@ -3773,6 +3778,7 @@ export class BaseBattleEngine{
     document.removeEventListener('visibilitychange',this.onVisibility);
     disposeIconTechniques(this);
     disposeIconPlayback(this);
+    disposeIconExpansionPlayback(this);
     disposePetSupport(this);
     if(this.moteTicker)this.app?.ticker.remove(this.moteTicker);
     if(this.parallaxTicker)this.app?.ticker.remove(this.parallaxTicker);
