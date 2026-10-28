@@ -1,0 +1,191 @@
+{
+  "status": "COMPLETED",
+  "at": "2026-10-28T23:12:41.704Z",
+  "atKst": "2026-10-29 08:12:41 KST",
+  "source": "a7104b80f7560a29268be28161df1a626d8c7c49",
+  "pages": {
+    "id": "25be4526-64fe-4030-96aa-b8f8a8bb127b",
+    "url": "https://25be4526.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "a7104b80f7560a29268be28161df1a626d8c7c49"
+  },
+  "members": [
+    {
+      "department": "스타부",
+      "id": "rudals5467",
+      "name": "이경민"
+    },
+    {
+      "department": "스타부",
+      "id": "hiyoko040",
+      "name": "히요코"
+    },
+    {
+      "department": "여캠부",
+      "id": "luaa0803",
+      "name": "히나_♥"
+    },
+    {
+      "department": "여캠부",
+      "id": "ddaggida3",
+      "name": "주성"
+    }
+  ],
+  "starOrder": [
+    "남수댕",
+    "조은",
+    "디임",
+    "방태수",
+    "김택용",
+    "이경민",
+    "히요코"
+  ],
+  "femaleOrder": [
+    "하이희야♡",
+    "여을",
+    "초초",
+    "나무늘봉순",
+    "BJ채리",
+    "꾸까",
+    "히나_♥",
+    "주성"
+  ],
+  "columns": 3,
+  "relatedTests": {
+    "passed": 30,
+    "failed": 0
+  },
+  "local": [
+    {
+      "width": 1440,
+      "starMembers": 7,
+      "femaleMembers": 8,
+      "columns": 3,
+      "profilesLoaded": 4,
+      "stationLinks": [
+        "rudals5467",
+        "hiyoko040",
+        "luaa0803",
+        "ddaggida3"
+      ],
+      "opener": null,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "starMembers": 7,
+      "femaleMembers": 8,
+      "columns": 3,
+      "profilesLoaded": 4,
+      "stationLinks": [
+        "rudals5467",
+        "hiyoko040",
+        "luaa0803",
+        "ddaggida3"
+      ],
+      "opener": null,
+      "errors": []
+    }
+  ],
+  "public": [
+    {
+      "width": 390,
+      "starMembers": 7,
+      "femaleMembers": 8,
+      "columns": 3,
+      "profilesLoaded": 4,
+      "stationLinks": [
+        "rudals5467",
+        "hiyoko040",
+        "luaa0803",
+        "ddaggida3"
+      ],
+      "opener": null,
+      "errors": []
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "ec36668138839e12498e3e278620c91ee9f222f7f7913813efdb7cb5e1d00254"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "d7e17ca2a1e70d7a457f6656eefdf160f40d2866f856fc45cf1f29fd6d7890ae"
+    },
+    {
+      "file": "js/streamer-lounge-v2036.js",
+      "sha256": "f6c5c443d7caa017f95dcabf4198f78b5bdc2ae0efe73af789572b433821c579"
+    },
+    {
+      "file": "js/cnine-roster-v1.js",
+      "sha256": "e07614f66e2431634cdfa6f2edee3e7f32cd62560859962f7d471997e4a5d856"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "db184a0cef641f2bd616cc93a04761b3e6e5ff705db49dcbbdd2d9e0b09175c4"
+    },
+    {
+      "file": "css/cnine-roster-v1.css",
+      "sha256": "9ce66849bed265f81b8709dda9b7b78160eeb96adea8d45c0631d86ece625e4d"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "35216d619b67ac2e5e601b7357d484ae8be6a6bf5ffd1527de6cd5bb207b46f8"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "3c29494924067b0b26cd54984d5a335a58f68c852926a7582d1b2fad90defea8"
+    }
+  ],
+  "loungeRosterUnchanged": true,
+  "watchStreamerCountIncludingChulgoo": 16,
+  "productionWatchQueries": 0,
+  "productionAccountWrites": 0,
+  "productionSettingsWrites": 0,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/cnine-roster-four-20261029",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "e0f6c459-3961-433a-ac21-93e5bde25c47",
+      "percentage": 100,
+      "deployment": {
+        "id": "11b4419c-00dd-49c4-820f-e4f463f802c5",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "e0f6c459-3961-433a-ac21-93e5bde25c47",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-28T23:10:55.725082Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "59572507-84a4-44be-a912-8cf8058f545a",
+      "percentage": 100,
+      "deployment": {
+        "id": "9172757a-a2c9-48bc-a890-7858deb4aedb",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "59572507-84a4-44be-a912-8cf8058f545a",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-28T23:12:25.27198Z"
+      }
+    }
+  ]
+}
