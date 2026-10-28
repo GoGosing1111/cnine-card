@@ -49,14 +49,13 @@ export class BattleEngine extends ScrapyardEngine{
   }
   waitForAccountBattleUnitDamageQueueDrain(timeoutMs=2500){
     const run=this.accountBattleUnitFireRun,epoch=this.playbackEpoch;
-    if(!run?.active)return Promise.resolve(true);
     let spent=0,last=performance.now();
     return new Promise(resolve=>{
       const poll=()=>{
         const now=performance.now();
         if(!this.huntPaused)spent+=now-last;
         last=now;
-        if(epoch!==this.playbackEpoch||!run.active||this.accountBattleUnitFireRun!==run||
+        if(epoch!==this.playbackEpoch||(run&&(!run.active||this.accountBattleUnitFireRun!==run))||
           (!this.accountBattleUnitDamageQueue?.length&&!this.accountBattleUnit?.fireTimeline))return resolve(true);
         if(spent>=Math.max(0,Number(timeoutMs)||0))return resolve(false);
         setTimeout(poll,40);

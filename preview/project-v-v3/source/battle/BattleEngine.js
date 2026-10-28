@@ -1679,14 +1679,15 @@ export class BaseBattleEngine{
   }
 
   waitForAccountBattleUnitDamageQueueDrain(timeoutMs=2500){
-    const run=this.accountBattleUnitFireRun;
-    if(!run?.active)return Promise.resolve(true);
+    // A directly played shot can still be in flight without a sustained loop.
+    // Yield to its animation instead of repeatedly resolving the drain early.
+    const run=this.accountBattleUnitFireRun,epoch=this.playbackEpoch;
     const deadline=performance.now()+Math.max(0,Number(timeoutMs)||0);
     return new Promise(resolve=>{
       const poll=()=>{
         const queued=this.accountBattleUnitDamageQueue?.length||0;
         const firing=Boolean(this.accountBattleUnit?.fireTimeline);
-        if(!run.active||this.accountBattleUnitFireRun!==run||(!queued&&!firing))return resolve(true);
+        if(epoch!==this.playbackEpoch||(run&&(!run.active||this.accountBattleUnitFireRun!==run))||(!queued&&!firing))return resolve(true);
         if(performance.now()>=deadline)return resolve(false);
         setTimeout(poll,40);
       };

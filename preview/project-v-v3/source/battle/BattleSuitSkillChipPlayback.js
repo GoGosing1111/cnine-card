@@ -37,8 +37,8 @@ export class BattleSuitSkillChipPlayback{
       if(!external)lastAt=Number(event.combatAtMs)||0;
       // A raid may insert QTE between members of one atomic server action.
       // Contiguous grouping preserves that order; a global Map would move it.
-      if(!external&&previous&&!previous.external&&previous.key===key){previous.events.push(event);previous.blocking||=authoredAction;}
-      else this.groups.push({key,at:lastAt,external,blocking:external||authoredAction||Number(event.combatGroupDurationMs)>0,events:[event]});
+      if(!external&&previous&&!previous.external&&previous.key===key){previous.events.push(event);previous.blocking||=authoredAction;previous.authoredAction||=authoredAction;}
+      else this.groups.push({key,at:lastAt,external,authoredAction,blocking:external||authoredAction||Number(event.combatGroupDurationMs)>0,events:[event]});
     }
     // One area contact is one visual collision. The server writes each target
     // as HIT + KO; serializing those groups made twelve deaths take twelve
@@ -210,13 +210,17 @@ export class BattleSuitSkillChipPlayback{
     }
   }
   pumpScheduledContacts(){
+    // A later receipt includes damage from the pending cinematic. Applying it
+    // early makes the cinematic's own number appear without any HP movement.
+    // Flight/smoke still render on the same clock; only collision waits.
+    if(this.authoredFence)return;
     if(![...this.fx.values()].some(entry=>(entry.continuousArea||entry.continuousVolley)&&entry.started))return;
     const pendingShots=this.engine.accountBattleUnitDamageQueue?.length||this.engine.accountBattleUnit?.fireTimeline;
     // An unrelated KO can hold the main generation cursor behind a returning
     // card. Already launched area and homing contacts own their authored clock.
     // Exact instance IDs and the unchanged spawn fence prevent retargeting.
     for(let i=this.index;i<this.groups.length;i++){
-      const group=this.groups[i];if(group.external)break;
+      const group=this.groups[i];if(group.external||group.authoredAction)break;
       if(group.areaDispatched||!(group.areaImpact||group.octaImpact)||group.at>this.clock.time*1000+.001)continue;
       const hits=group.events.filter(e=>e.type==='SKILL_CHIP_HIT');
       if(!hits.every(event=>{
@@ -259,11 +263,12 @@ export class BattleSuitSkillChipPlayback{
       const continuousArea=group.areaImpact&&group.events.filter(e=>e.type==='SKILL_CHIP_HIT').every(e=>
         this.fx.get(e.castId||e.chipCode)?.continuousArea&&this.engine.combatantById(e.targetId)?.id===e.targetId);
       const encounterTransition=this.engine.parallelEncounterTransitions&&group.events.every(event=>event.type==='ENEMY_SPAWN'||event.type==='ENEMY_DESPAWN');
-      // A first ultimate includes a short eye strip before its confirmed hit.
-      // Later actor/KO receipts must wait for that same authored action.
-      const fence=group.external||encounterTransition||group.events.some(event=>event.type==='KO'||hasAreaCutin(event));
+      // Both ends of an authored action are ordered. Waiting only before a
+      // Leonel cast let the following suit shot publish its cumulative HP
+      // before the sword contacted the boss (including zero-budget groups).
+      const fence=group.external||encounterTransition||group.authoredAction||group.events.some(event=>event.type==='KO');
       const predecessors=[...this.pending];
-      const previousRun=(!continuousArea&&this.fence)||((group.external||group.blocking)&&predecessors.length?Promise.all(predecessors):null);
+      const previousRun=this.authoredFence||(!continuousArea&&this.fence)||((group.external||group.blocking)&&predecessors.length?Promise.all(predecessors):null);
       if(previousRun){
         // Keep already launched effects moving while a card returns, a final
         // bullet lands, or the old monster is retired. Only user/QTE pauses
@@ -279,7 +284,9 @@ export class BattleSuitSkillChipPlayback{
       }
       const lethalChip=group.events.some(event=>event.type==='SKILL_CHIP_HIT'&&finite(event.targetHpAfter)&&Number(event.targetHpAfter)<=0);
       const intrinsicCast=group.events.some(event=>event.type==='SKILL_CHIP_CAST'&&skillChipByCode(event.chipCode)?.intrinsic);
-      if((lethalChip||intrinsicCast)&&(this.engine.accountBattleUnitDamageQueue?.length||this.engine.accountBattleUnit?.fireTimeline)){
+      // Older queued bullets must land before remember() publishes this cast's
+      // HP; otherwise their late callback would display its damage early too.
+      if((lethalChip||intrinsicCast||group.authoredAction)&&(this.engine.accountBattleUnitDamageQueue?.length||this.engine.accountBattleUnit?.fireTimeline)){
         this.waiting=true;
         this.engine.waitForAccountBattleUnitDamageQueueDrain(6000).then(drained=>{
           if(!this.valid())return;
@@ -356,9 +363,9 @@ export class BattleSuitSkillChipPlayback{
           // before any slot can be rebound to a new server instance.
           if(continuousArea&&predecessors.length)await Promise.all(predecessors);
         })();
-        this.pending.add(run);if(fence)this.fence=run;
+        this.pending.add(run);if(fence)this.fence=run;if(group.authoredAction)this.authoredFence=run;
         run.then(()=>{
-          this.pending.delete(run);if(this.fence===run)this.fence=null;
+          this.pending.delete(run);if(this.fence===run)this.fence=null;if(this.authoredFence===run)this.authoredFence=null;
           if(this.valid())this.pump();
         },error=>this.fail(error));
       }
@@ -378,6 +385,7 @@ export class BattleSuitSkillChipPlayback{
   diagnostics(){return {clock:SKILL_CHIP_CLOCK,timeMs:Math.round(this.clock.time*1000),endMs:this.endMs,active:this.active,completed:Boolean(this.completed),casts:this.casts,hits:this.hits,barrierPauses:0,dispatchWaits:this.pauses,suppressedCasts:this.suppressedCasts,activeEffects:this.fx.size,pendingGroups:this.pending.size,effects:[...this.fx.values()].map(({castId,targetId,fx})=>({castId,targetId,...fx.diagnostics()})),audio:this.audio.diagnostics()};}
   dispose(){
     this.active=false;this.timeline?.kill();this.timeline=null;
+    this.authoredFence=null;
     if(this.renderTick)this.engine.app?.ticker?.remove(this.renderTick);this.renderTick=null;
     for(const {fx} of this.fx.values())fx.destroy();this.fx.clear();
     this.textures?.frames.forEach(frame=>frame.destroy(false));this.textures=null;
