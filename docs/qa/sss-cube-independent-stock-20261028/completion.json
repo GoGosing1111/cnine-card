@@ -1,0 +1,200 @@
+{
+  "completedAt": "2026-10-28T13:57:13.825Z",
+  "operationKey": "ops:sss-cube-independent-stock:20261028:v1",
+  "releaseCommit": "22f8939e54b2fd62e4e75aeceb1188f31ea79d6f",
+  "pages": {
+    "id": "823af43f-1906-48b4-8b52-887c7880873b",
+    "url": "https://823af43f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "22f8939e54b2fd62e4e75aeceb1188f31ea79d6f"
+  },
+  "adminLogId": "52520",
+  "appliedAtKst": "2026-10-28 22:55:09",
+  "revision": 3,
+  "mode": "OFF",
+  "ready": true,
+  "addedCapacity": 40,
+  "stock": [
+    {
+      "code": "V-999",
+      "name": "헬리오스",
+      "stockLimit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "percent": "3"
+    },
+    {
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "stockLimit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "percent": "1"
+    },
+    {
+      "code": "V-996",
+      "name": "발테르",
+      "stockLimit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "percent": "5"
+    },
+    {
+      "code": "V-979",
+      "name": "족로",
+      "stockLimit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "percent": "1"
+    },
+    {
+      "code": "V-973",
+      "name": "은설",
+      "stockLimit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "percent": "1"
+    },
+    {
+      "code": "V-974",
+      "name": "제너럴 족",
+      "stockLimit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "percent": ""
+    },
+    {
+      "code": "V-975",
+      "name": "프라임 레퀴엠",
+      "stockLimit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "percent": ""
+    },
+    {
+      "code": "V-978",
+      "name": "레오넬",
+      "stockLimit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "percent": "1"
+    }
+  ],
+  "rates": [
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "percent": "38"
+    },
+    {
+      "code": "V-046",
+      "name": "라그니엘",
+      "percent": "10"
+    },
+    {
+      "code": "V-049",
+      "name": "크라이베른",
+      "percent": "10"
+    },
+    {
+      "code": "V-055",
+      "name": "베르칸",
+      "percent": "10"
+    },
+    {
+      "code": "V-056",
+      "name": "아잔트",
+      "percent": "10"
+    },
+    {
+      "code": "V-057",
+      "name": "신궁 강윤",
+      "percent": "10"
+    },
+    {
+      "code": "V-999",
+      "name": "헬리오스",
+      "percent": "3"
+    },
+    {
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "percent": "1"
+    },
+    {
+      "code": "V-996",
+      "name": "발테르",
+      "percent": "5"
+    },
+    {
+      "code": "V-979",
+      "name": "족로",
+      "percent": "1"
+    },
+    {
+      "code": "V-973",
+      "name": "은설",
+      "percent": "1"
+    },
+    {
+      "code": "V-978",
+      "name": "레오넬",
+      "percent": "1"
+    }
+  ],
+  "tests": 33,
+  "browserWidths": [
+    1440,
+    390,
+    320
+  ],
+  "publicFiles": 7,
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployment": {
+        "id": "c158a29e-def1-4080-bfd4-2d0b815d67aa",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "13032fbb-9e12-46be-bac7-3aa090ad06f3",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-28T13:52:45.764704Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployment": {
+        "id": "b65ed92c-8b35-457e-ad47-a26dc9dd7c9f",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "14f6cce5-b803-42fe-a676-fa21169aef77",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-28T13:54:35.40102Z"
+      }
+    }
+  ],
+  "readOnlyVerified": true,
+  "selectOnlyReplay": true,
+  "accountGrants": 0,
+  "sharedStockWrites": 0,
+  "noticePublished": false,
+  "storageMaintenance": false,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/sss-cube-independent-stock-20261028",
+  "noticeSha256": "968dc6a19e7c14739795cf4a368d1400ee4d85f29c956b1f932c2450cef52504"
+}
