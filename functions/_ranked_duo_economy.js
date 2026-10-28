@@ -25,7 +25,13 @@ export async function prepareDuoEconomy(env){
 export function duoVictoryWrites(env,userId,amount,matchId){
  if(!amount)return [];
  const q=p(env),token=crypto.randomUUID();
- return [jointGuard(env.DB,token,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=0 AND coin<=?)',[userId,Number.MAX_SAFE_INTEGER-amount]),
+ // Match the season-reward policy for wallets already above the JS integer
+ // range. Keep the balance and ledger entirely in PostgreSQL BIGINT arithmetic.
+ const postgres=env.DB.dialect==='postgres';
+ const coinGuard=postgres?'(coin<=? OR (coin>? AND coin<=CAST(? AS BIGINT)-?))':'coin<=?';
+ const limits=postgres?[Number.MAX_SAFE_INTEGER-amount,Number.MAX_SAFE_INTEGER,'9223372036854775807',amount]:[Number.MAX_SAFE_INTEGER-amount];
+ return [...(postgres?[q('SELECT id FROM users WHERE id=? FOR UPDATE',userId)]:[]),
+  jointGuard(env.DB,token,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=0 AND '+coinGuard+')',[userId,...limits]),
   q('UPDATE users SET coin=coin+? WHERE id=?',amount,userId),
   q('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',amount,'RANKED_DUO_WIN '+matchId,userId),
   jointGuardEnd(env.DB,token)];
