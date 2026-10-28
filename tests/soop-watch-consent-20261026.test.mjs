@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
 import {createHmac} from 'node:crypto';
 import {createPlaydkIdentityClient} from '../functions/_playdk_client.js';
+import {rememberSoopWatchIdentity} from '../functions/_soop_watch.js';
 
 test('fresh token accepts the optional SOOP ID and preserves timestamp HMAC and existing identity',async()=>{
   const original=globalThis.fetch;let request;
@@ -41,10 +42,10 @@ const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'
 const route=api.slice(api.indexOf("    if(path==='secondary-verification/playdk'"),api.indexOf("    if(path==='wago-verification/status'"));
 async function exchange({existing={provider:'PLAYDK',provider_user_id:'qa-uuid',verified_at:'today'},identity={uuid:'qa-uuid',name:'검수'},body={token:'fresh-token',soopUserId:'client-forgery',consent:true},linked=null}={}){
   const writes=[];let gifts=0;
-  const context={path:'secondary-verification/playdk',request:{method:'POST'},env:{DB:{prepare(sql){return {bind(...values){return {run:async()=>{writes.push({sql,values});},first:async()=>sql.includes('provider_user_id=?')?linked:null};}}}}},
+  const context={path:'secondary-verification/playdk',request:{method:'POST'},env:{DB:{prepare(sql){return {bind(...values){return {run:async()=>{writes.push({sql,values});return {meta:{changes:1}};},first:async()=>sql.includes('provider_user_id=?')?linked:null};}}}}},
     authenticate:async()=>({id:7}),ensureSecondVerificationFoundation:async()=>{},playdkConfigured:()=>true,
     secondVerificationForUser:async()=>existing,secondaryProviderConflict:()=>({status:409}),readBody:async()=>body,
-    playdkIdentityClient:()=>({getUserInfo:async()=>identity}),json:(data,status=200)=>({data,status}),
+    playdkIdentityClient:()=>({getUserInfo:async()=>identity}),rememberSoopWatchIdentity,json:(data,status=200)=>({data,status}),
     ensureVerifiedRewardMessageV1276:async()=>{},completePlaydkVerificationWithGift:async()=>{gifts++;return {newlyVerified:true,giftMessage:{sent:false}};},isSecondaryProviderConflict:()=>false};
   const result=await runInNewContext('(async()=>{'+route+'})()',context);
   return {result,writes,gifts};
@@ -54,7 +55,10 @@ test('linked user confirmation comes from upstream only, never browser consent o
   const allowed=await exchange({identity:{uuid:'qa-uuid',name:'검수',soopUserId:'viewer'}});
   assert.equal(allowed.result.data.soopWatch.identityAvailable,true);assert.equal(allowed.gifts,0);
   assert.equal(Object.hasOwn(allowed.result.data,'soopUserId'),false);
-  assert.equal(allowed.writes.length,1);assert.match(allowed.writes[0].sql,/SET provider_name=/);
+  assert.equal(allowed.writes.length,2);assert.match(allowed.writes[0].sql,/SET provider_name=/);
+  assert.equal(JSON.parse(allowed.writes[1].values[1]).soopUserId,'viewer');
+  assert.equal(allowed.result.data.soopWatch.identityStored,true);
+  assert.equal(JSON.parse(missing.writes[1].values[1]).soopUserId,null);
 });
 test('different linked accounts remain blocked before any identity confirmation or write',async()=>{
   const mismatch=await exchange({identity:{uuid:'other',name:'다른 사람',soopUserId:'viewer'}});

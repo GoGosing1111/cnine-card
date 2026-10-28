@@ -5,6 +5,8 @@
  * browser or committed to source control.
  */
 
+import {normalizeWatchRequest,validateWatchResponse} from './_soop_watch_contract.js';
+
 export class PlaydkApiError extends Error {
   constructor(message, detail = {}) {
     super(message);
@@ -57,7 +59,7 @@ export function createPlaydkIdentityClient(options = {}) {
   const timeoutMs = Math.max(1_000, Math.min(15_000, Number(options.timeoutMs || 8_000)));
   if (!baseUrl || !accessKey || !secretKey) throw new PlaydkApiError('PLAY DK 서버 인증 설정이 없습니다.');
 
-  async function request(method, path, { query, body, failureMessage } = {}) {
+  async function request(method, path, { query, body, failureMessage, responseLimit = 32_768 } = {}) {
     const url = new URL(`${baseUrl}${path}`);
     for (const [key, value] of Object.entries(query || {})) {
       if (value !== undefined && value !== null) url.searchParams.set(key, String(value));
@@ -71,7 +73,7 @@ export function createPlaydkIdentityClient(options = {}) {
     const timer = setTimeout(() => controller.abort(), timeoutMs);
     let response;
     try {
-      response = await fetch(url, {
+      response = await (options.fetch || fetch)(url, {
         method,
         headers,
         body: body === undefined ? undefined : JSON.stringify(body),
@@ -86,7 +88,7 @@ export function createPlaydkIdentityClient(options = {}) {
     } finally {
       clearTimeout(timer);
     }
-    const parsed = await readSmallResponse(response);
+    const parsed = await readSmallResponse(response, responseLimit);
     if (!response.ok) {
       throw new PlaydkApiError(failureMessage || 'PLAY DK 요청을 처리하지 못했습니다.', {
         status: response.status,
@@ -114,6 +116,14 @@ export function createPlaydkIdentityClient(options = {}) {
       if (!uuid || uuid.length > 128) throw new PlaydkApiError('PLAY DK 사용자 식별 응답이 올바르지 않습니다.', { status: 502 });
       const soopUserId = typeof body?.soopUserId === 'string' ? body.soopUserId.trim() : '';
       return { uuid, name: name.slice(0, 80), ...(soopUserId && soopUserId.length <= 128 && !/\s/.test(soopUserId) ? { soopUserId } : {}) };
+    },
+    async getWatchRanking(params = {}) {
+      const requestBody = normalizeWatchRequest(params);
+      const body = await request('POST', '/api/v2/ext/soop/watch/ranking', {
+        body: requestBody, responseLimit: 262_144,
+        failureMessage: 'PLAY DK 시청시간을 확인하지 못했습니다.',
+      });
+      return validateWatchResponse(body, requestBody);
     },
     async getDailyPostCount(params = {}) {
       const userUuid = String(params.userUuid || '').trim();
