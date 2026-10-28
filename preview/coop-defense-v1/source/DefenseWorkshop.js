@@ -18,6 +18,8 @@ export class DefenseWorkshop {
    if(action==='continue'){this.mode=this.pendingOffer()?'trait':'forge';this.result=null;this.render();}
    if(trait)void this.chooseTrait(trait);
   });
+  this.onVisible=()=>{if(!document.hidden&&Date.now()>=this.presentationDeadline)this.completePresentation?.();};
+  document.addEventListener('visibilitychange',this.onVisible);
  }
  key(id){return 'defense-v3-viewed:'+id;}
  viewed(id){try{return this.seen.has(id)||sessionStorage.getItem(this.key(id))==='1';}catch{return this.seen.has(id);}}
@@ -29,17 +31,43 @@ export class DefenseWorkshop {
   this.snapshot=snapshot;this.mine=snapshot.players.find(p=>p.id===playerId);if(!this.mine?.growth)return;
   const currentDraw=this.mine.growth.draws.at(-1),attempt=this.mine.growth.attempts.at(-1);
   this.draw=currentDraw;
+  // Server phases must never wait for a cosmetic animation or an HTTP response.
+  if(snapshot.phase!=='PREP'){
+   this.completePresentation?.();
+   if(attempt&&!this.viewed(attempt.id)){this.mark(attempt.id);this.notify(this.forgeSummary(attempt));}
+   if(this.root.open||this.busy)this.close();
+   return;
+  }
   if(snapshot.phase==='PREP'){
    if(currentDraw&&!this.viewed(currentDraw.id)&&this.autoDraw!==currentDraw.id&&!this.busy){
     this.autoDraw=currentDraw.id;this.notice('');this.mode='draw';this.result=null;this.open();
    }
    if(attempt&&!this.viewed(attempt.id)&&!this.animatingAttempt){this.animatingAttempt=attempt.id;this.open(false);this.showForgeResult(attempt);}
-  } else if(this.root.open&&!this.busy){this.close();this.notice('공세가 시작됐습니다. 다음 정비 때 포인트와 선택을 이어갑니다.');}
+  }
   if(this.root.open)this.update();
  }
- open(render=true){if(!this.snapshot||this.snapshot.version<3)return;if(!this.root.open)this.root.showModal();if(render)this.render();this.update();}
- close(){this.epoch++;this.timeline?.kill();this.busy=false;this.animatingAttempt=null;this.displayAttempt=null;this.result=null;if(this.draw)this.mark(this.draw.id);this.root.close();}
- dispose(){this.close();this.root.remove();}
+ open(render=true){if(!this.snapshot||this.snapshot.version<3||this.snapshot.phase!=='PREP')return;if(!this.root.open)this.root.showModal();if(render&&!this.completePresentation)this.render();this.update();}
+ close(){
+  this.epoch++;this.cancelPresentation();
+  if(this.displayAttempt&&!this.viewed(this.displayAttempt.id)){this.mark(this.displayAttempt.id);this.notify(this.forgeSummary(this.displayAttempt));}
+  this.busy=false;this.animatingAttempt=null;this.displayAttempt=null;this.result=null;if(this.draw)this.mark(this.draw.id);this.root.close();
+ }
+ dispose(){this.close();document.removeEventListener('visibilitychange',this.onVisible);this.root.remove();}
+ cancelPresentation(){
+  this.completePresentation=null;clearTimeout(this.presentationTimer);this.presentationTimer=null;this.presentationDeadline=Infinity;
+  const timeline=this.timeline;this.timeline=null;timeline?.kill();
+ }
+ present(build,finish){
+  this.cancelPresentation();const epoch=this.epoch;
+  const complete=()=>{if(this.completePresentation!==complete||epoch!==this.epoch)return;this.cancelPresentation();finish();};
+  this.completePresentation=complete;
+  if(this.motion.matches){complete();return;}
+  // GSAP can be paused/interrupted, or throttled while the tab is hidden.
+  // Only reveal the existing receipt; this fallback never submits a command.
+  this.presentationDeadline=Date.now()+3000;this.presentationTimer=setTimeout(complete,3000);
+  try{this.timeline=gsap.timeline({onComplete:complete,onInterrupt:complete});build(this.timeline);}catch{complete();}
+ }
+ forgeSummary(r){return (r.success?'강화 성공':'강화 실패')+' · '+GROWTH_BRANCHES.find(b=>b.id===r.branch).name+' +'+r.after+' · '+r.cost+'P 소모';}
  update(){
   const s=this.snapshot,p=this.mine,prep=s.phase==='PREP',seconds=prep?Math.max(0,Math.ceil((s.phaseUntil-s.time)/1000)):0;
   this.$('[data-wave]').textContent=String(s.wave).padStart(2,'0')+' / '+s.totalWaves+' 공세';
@@ -62,7 +90,8 @@ export class DefenseWorkshop {
  frame(n){const el=this.$('.dw-device');if(el){const i=Math.max(0,Math.min(7,Math.floor(n)));el.style.backgroundPosition=(i%4/3*100)+'% '+(Math.floor(i/4)*100)+'%';el.dataset.frame=i;}}
  render(){
   if(!this.mine)return;
-  this.timeline?.kill();const content=this.$('.dw-content');content.className='dw-content dw-mode-'+this.mode;
+  if(this.completePresentation){this.completePresentation();return;}
+  const content=this.$('.dw-content');content.className='dw-content dw-mode-'+this.mode;
   if(this.mode==='draw')this.renderDraw(content);
   if(this.mode==='forge')this.renderForge(content);
   if(this.mode==='trait')this.renderTraits(content);
@@ -81,8 +110,7 @@ export class DefenseWorkshop {
   if(this.busy||!this.draw||this.viewed(this.draw.id))return;
   const d=this.draw;this.busy=true;this.update();this.$('.dw-draw-actions').innerHTML='<p class="dw-opening" role="status">포인트 확인 중…</p>';
   const finish=()=>{this.mark(d.id);this.busy=false;this.frame(7);this.drawResult(d);this.$('.dw-draw-actions').innerHTML='<button type="button" data-action="continue" class="dw-primary">'+(this.pendingOffer()?'특성 선택하기':'분대 강화하기')+'</button>';this.update();this.$('[data-action="continue"]').focus({preventScroll:true});this.$('.dw-reveal-result').scrollIntoView({block:'nearest'});if(this.snapshot.phase!=='PREP'){this.notify(d.won?'포인트 추첨 +'+d.amount+'P 획득':'포인트 추첨 미당첨 · 획득 0P');this.close();}};
-  if(this.motion.matches){finish();return;}
-  const frame={value:0};this.timeline=gsap.timeline({onComplete:finish}).to(frame,{value:7,duration:1.35,ease:'none',onUpdate:()=>this.frame(frame.value)}).fromTo(this.$('.dw-device'),{y:5},{y:0,duration:.35,ease:'power2.out'});
+  const frame={value:0};this.present(t=>t.to(frame,{value:7,duration:1.35,ease:'none',onUpdate:()=>this.frame(frame.value)}).fromTo(this.$('.dw-device'),{y:5},{y:0,duration:.35,ease:'power2.out'}),finish);
  }
  renderForge(content){
   const p=this.mine,policy=this.snapshot.growthPolicy,b=GROWTH_BRANCHES.find(x=>x.id===this.branch),level=this.displayAttempt?.before??p.growth.levels[b.id],tier=growthTier(policy,level+1),effect=policy.effects[b.key],prefix=b.id==='TACTIC'?'−':'+';
@@ -97,21 +125,21 @@ export class DefenseWorkshop {
  async forge(){
   if(this.busy||this.snapshot.phase!=='PREP')return;
   this.busy=true;this.notice('');this.result=null;this.update();const epoch=this.epoch,seq=this.mine.growth.attemptSeq;
-  const ok=await this.send({type:'FORGE',wave:this.snapshot.wave,branch:this.branch,expectedAttempt:seq});
+  let ok=false;try{ok=await this.send({type:'FORGE',wave:this.snapshot.wave,branch:this.branch,expectedAttempt:seq});}catch{/* Polling will recover any persisted receipt. */}
   if(epoch!==this.epoch)return;
-  if(!ok){this.busy=false;this.notice('강화가 처리되지 않았습니다. 현재 포인트와 남은 시간을 확인하세요.');this.update();}
+  if(!this.animatingAttempt){this.busy=false;if(!ok&&!this.result)this.notice('강화 결과를 확인하지 못했습니다. 연결이 복구되면 저장된 결과를 다시 확인합니다.');this.update();}
   // Successful commands are revealed only from a persisted server receipt in receive().
  }
  forgeResultText(r){const b=GROWTH_BRANCHES.find(x=>x.id===r.branch);
   const el=this.$('.dw-forge-result');if(el)el.innerHTML='<span class="dw-kicker">강화 결과</span><strong class="'+(r.success?'dw-won':'dw-miss')+'">'+(r.success?b.name+' +'+r.after+' 성공':b.name+' 강화 실패')+'</strong><span>'+ (r.success?'분대 능력이 상승했습니다.':'기존 +'+r.before+' 단계를 유지합니다.')+'<br>−'+fmt(r.cost)+'P · 잔여 '+fmt(r.balance)+'P</span>';
  }
  showForgeResult(r){
+  this.completePresentation?.();
   this.mode='forge';this.branch=r.branch;this.busy=true;this.result=null;this.displayAttempt=r;this.render();this.busy=true;this.update();
   this.$('.dw-forge-result').innerHTML='<span class="dw-kicker">강화 진행 중</span><strong>반응로 가동 중</strong>';
   this.$('.dw-forge-center').scrollIntoView({block:'nearest'});
   const finish=()=>{this.mark(r.id);this.busy=false;this.animatingAttempt=null;this.displayAttempt=null;this.result=r;this.render();this.$('.dw-forge-result').scrollIntoView({block:'nearest'});this.notice((r.success?'강화 성공. ':'강화 실패. ')+GROWTH_BRANCHES.find(b=>b.id===r.branch).name+' +'+r.after+' · '+r.cost+'P 소모');if(this.snapshot.phase!=='PREP'){this.notify((r.success?'강화 성공':'강화 실패')+' · '+GROWTH_BRANCHES.find(b=>b.id===r.branch).name+' +'+r.after+' · '+r.cost+'P 소모');this.close();}};
-  if(this.motion.matches){finish();return;}
-  const frame={value:0};this.timeline=gsap.timeline({onComplete:finish}).to(frame,{value:5,duration:1.2,ease:'none',onUpdate:()=>this.frame(frame.value)}).to(frame,{value:r.success?7:0,duration:.55,ease:'none',onUpdate:()=>this.frame(frame.value)}).to({}, {duration:.35});
+  const frame={value:0};this.present(t=>t.to(frame,{value:5,duration:1.2,ease:'none',onUpdate:()=>this.frame(frame.value)}).to(frame,{value:r.success?7:0,duration:.55,ease:'none',onUpdate:()=>this.frame(frame.value)}).to({}, {duration:.35}),finish);
  }
  renderTraits(content){
   const offer=this.pendingOffer();
