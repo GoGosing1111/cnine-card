@@ -3,6 +3,7 @@ import {CARDGU_CODE} from '../shared/mercenary-cardgu-v1.mjs';
 import {REVAN_CODE} from '../shared/mercenary-revan-v1.mjs';
 import {AWAKENED_OMEGA_CODE} from '../shared/mercenary-awakened-omega-v1.mjs';
 import {EUNSEOL_CODE} from '../shared/mercenary-eunseol-v1.mjs';
+import {GENERAL_JOK_CODE} from '../shared/mercenary-general-jok-v1.mjs';
 import {PRIME_CODE} from '../shared/mercenary-prime-requiem-v1.mjs';
 import {RAZAK_CODE} from '../shared/mercenary-razak-v1.mjs';
 import {ZERO_CODE} from '../shared/mercenary-zero-v1.mjs';
@@ -35,7 +36,7 @@ function captureGrowth(policy,result){
  return result;
 }
 const terminal=message=>Object.assign(levelError('MERCENARY_LEVEL_CONFLICT',message,409),{terminal:true});
-function levelCatalog(document,userId,hasJinmuPackIssue,hasJokroPackIssue){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),CARDGU_CODE,KAMISHIRO_CODE,AWAKENED_OMEGA_CODE,REVAN_CODE,EUNSEOL_CODE,PRIME_CODE,RAZAK_CODE,JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE].filter(code=>jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&jokroAccountAllowed(userId,code,Date.now(),hasJokroPackIssue)).map(limitedDeploymentSnapshot).filter(Boolean)];}
+function levelCatalog(document,userId,hasJinmuPackIssue,hasJokroPackIssue){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),CARDGU_CODE,KAMISHIRO_CODE,AWAKENED_OMEGA_CODE,REVAN_CODE,EUNSEOL_CODE,GENERAL_JOK_CODE,PRIME_CODE,RAZAK_CODE,JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE].filter(code=>jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&jokroAccountAllowed(userId,code,Date.now(),hasJokroPackIssue)).map(limitedDeploymentSnapshot).filter(Boolean)];}
 function normalize(body,action,{preview=false}={}){
  if(['EXTRACT','INFUSE'].includes(action))throw transferError('LEGACY_DISABLED','기존 무료 추출·물약 보관 방식은 종료됐습니다. 별도로 획득한 물약을 사용해 주세요.',423);
  if(action==='TRANSFER'&&!TRANSFER_RELEASE_ENABLED)throw transferError('PAUSED',TRANSFER_REPAIR_MESSAGE,423);
