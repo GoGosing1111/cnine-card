@@ -1,0 +1,95 @@
+{
+  "status": "DEPLOYED_VERIFIED",
+  "completedAt": "2026-10-28T14:43:09.794Z",
+  "completedAtKst": "2026-10-28 23:43:09 KST",
+  "sourceCommit": "be935ae2dd3808241b6217841c327e5ef8ea493c",
+  "pages": {
+    "id": "81393573-a7bb-442f-8577-8cade1b35d88",
+    "url": "https://81393573.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "be935ae2dd3808241b6217841c327e5ef8ea493c"
+  },
+  "regressionTests": 21,
+  "browserScenarios": 8,
+  "publicFiles": [
+    {
+      "file": "defense/index.html",
+      "sha256": "f1ce5c329c70d129e7d0d6182e5b81a949d1ddf7b6d309a85ae9a4e3e6335056"
+    },
+    {
+      "file": "preview/coop-defense-v1/index.html",
+      "sha256": "2aa7bde8d9336c516eb0c82270581a587805bb143104a52a65e738ae81fa8105"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "24546c90aec1ae2418a4314f482d1478fcf056da509e8385eeff62444f9b7a87"
+    },
+    {
+      "file": "preview/coop-defense-v1/source/DefenseWorkshop.js",
+      "sha256": "4df19bb8af69681c69d7779a6e94890718191acd85577c70011db3635737223d"
+    },
+    {
+      "file": "preview/coop-defense-v1/build-report.json",
+      "sha256": "323c29054bd0a525202a8c2fb72944e24a9ea691c80848287394df5c4d2e23be"
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployment": {
+        "id": "7291e8ab-0bce-4de8-bf18-ad4a0c7365e0",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "8a5ab79a-7aff-406e-a18c-8c83474a79cd",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-28T14:40:13.244143Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployment": {
+        "id": "8fc20052-ba06-494b-bbe0-5848cb7177de",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "d6498067-5ef6-404d-933d-db9f28128264",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-28T14:41:54.320694Z"
+      }
+    }
+  ],
+  "publicSmoke": {
+    "checkedAt": "2026-10-28T14:42:27.343Z",
+    "source": "public production HTML and defense bundle, isolated API/DO",
+    "viewport": "390x844 mobile emulation",
+    "wave": 28,
+    "dialogClosed": true,
+    "forgeAttempts": 1,
+    "credits": 1700,
+    "errors": [],
+    "productionAccountWrites": 0
+  },
+  "bundleScope": {
+    "baselineRebuildMatches": true,
+    "originalHash": "57730982475dc8e9b7ad8b3031643f88b028f8190e7d51e16325b80ef5aa31ce",
+    "baselineHash": "57730982475dc8e9b7ad8b3031643f88b028f8190e7d51e16325b80ef5aa31ce"
+  },
+  "accountWrites": 0,
+  "settingsWrites": 0,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/monster-defense-workshop-recovery-20261028"
+}
