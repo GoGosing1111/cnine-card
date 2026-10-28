@@ -1,0 +1,23 @@
+{
+  "operationKey": "ops:streamer-box-parksera:20261029:v1",
+  "authorization": "박세라 -ㅂ- 2개 지급해",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "itemDescription": "개봉 시 35조 코인, 핑두 리페어 쿠폰 3개, 슈트 코어 6 10개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+  "delivery": "DIRECT_INVENTORY",
+  "recipientCount": 1,
+  "totalBoxes": 2,
+  "identityCheckedAt": "2026-10-28T15:32:08.072Z",
+  "pending": [],
+  "targets": [
+    {
+      "order": 1,
+      "inputNickname": "박세라 -ㅂ-",
+      "nickname": "박세라-ㅂ-",
+      "userId": "45",
+      "role": "USER",
+      "identityHash": "3b973a7839170a730f036b115219119dc8b38b6002324a6e6e218ccf02266043",
+      "amount": 2
+    }
+  ]
+}

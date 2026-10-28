@@ -1,0 +1,45 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:streamer-box-parksera:20261029:v1",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "completedAt": "2026-10-28T15:34:01.030Z",
+  "completedAtKst": "2026-10-29 00:34:01 KST",
+  "verifiedAt": "2026-10-28T15:34:42.538Z",
+  "auditId": "52540",
+  "recipientCount": 1,
+  "totalBoxes": 2,
+  "inventoryLogs": 1,
+  "missing": 0,
+  "duplicates": 0,
+  "pending": 0,
+  "planHash": "d8c6e97f164a5b7d0ee1a065345cc92ba13768475a73bc1a96ee22953ca285ec",
+  "sourceSha256": "bae2be0f403ff65e5b1bc5376b840116edaff3a3b28a9dc810badca27bf300a7",
+  "targetedTests": 4,
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "noWriteReplayVerified": true,
+  "independentConnection": true,
+  "leasesReleased": true,
+  "automaticOpening": false,
+  "messagesSent": false,
+  "deployment": false,
+  "storageMaintenance": false,
+  "allocations": [
+    {
+      "userId": "45",
+      "nickname": "박세라-ㅂ-",
+      "inputNickname": "박세라 -ㅂ-",
+      "amount": 2,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "2",
+        "unseen": "2"
+      },
+      "logId": "87339672"
+    }
+  ]
+}

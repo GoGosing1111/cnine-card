@@ -1,0 +1,12 @@
+{
+  "operationKey": "ops:streamer-box-parksera:20261029:v1",
+  "authorization": "박세라 -ㅂ- 2개 지급해",
+  "rawNames": ["박세라 -ㅂ-"],
+  "defaultAmount": 2,
+  "overrides": {},
+  "nameCorrections": {"박세라 -ㅂ-": "박세라-ㅂ-"},
+  "correctionBasis": "Whitespace-only normalization; existing account ID45 and live unique match required",
+  "recipientCount": 1,
+  "totalBoxes": 2,
+  "delivery": "DIRECT_INVENTORY"
+}

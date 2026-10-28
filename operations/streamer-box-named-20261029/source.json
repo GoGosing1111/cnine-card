@@ -1,0 +1,12 @@
+{
+  "operationKey": "ops:streamer-box-named:20261029:v1",
+  "authorization": "스트리머 박스 2개씩 지급해 김폭군 4개 음순이 4개 찡찡 4개",
+  "rawNames": ["베베킹", "굳건창수", "쁴로리", "세라네꼬라지", "Mild7", "핫시", "심심이", "라피e", "리이렐", "단정한밤", "관종이얌", "고라니ㅇ", "더듬이구", "˚쟁이。", "박사", "블랙캐슬", "Moo날두", "헤정", "학벌", "망순이ෆ", "대지", "시소둥이", "김폭군", "깅더듬", "음순이", "찡찡", "씨나인택갓", "쁠리의무사시", "0수표", "음주"],
+  "defaultAmount": 2,
+  "overrides": {"김폭군": 4, "음순이": 4, "찡찡": 4},
+  "recipientCount": 30,
+  "totalBoxes": 66,
+  "delivery": "DIRECT_INVENTORY"
+  ,"nameCorrections": {"헤정": "혜정", "찡찡": "찡찡ෆ"}
+  ,"correctionAuthorization": "혜정·찡찡ෆ에 지급"
+}
