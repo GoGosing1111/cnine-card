@@ -1,4 +1,4 @@
-import {mount} from './organization-faction-v1.mjs?v=20261025-wed-sat-sun&clanRestore=20261025&clanResume=20261025';
+import {mount} from './organization-faction-v1.mjs?warChat=20261028-v2&v=20261025-wed-sat-sun&clanRestore=20261025&clanResume=20261025';
 import {observeOrganizationHeight} from './organization-embed-size-v1.mjs?v=20261025-clan-eight';
 const root=document.getElementById('organizationFactionRoot');
 const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
@@ -41,7 +41,7 @@ async function playFactionBattle(data){
  }catch(error){close();throw error;}
 }
 mount(root,{apiRequest,ensureFeatureResources:ensureBattle,playFactionBattle});
-if(new URL(location.href).searchParams.get('window')!=='1')observeOrganizationHeight(root,'organization:faction:height');
+if(new URL(location.href).searchParams.get('window')!=='1')observeOrganizationHeight(root.closest('.war-chat-workspace')||root,'organization:faction:height');
 const leave=()=>{if(document.querySelector('#modal.show,dialog[open]'))return;try{if(window.parent!==window&&parent.location.origin===location.origin){parent.postMessage({type:'organization:faction:close'},location.origin);return;}}catch{}location.href='/organization/';};
 root.addEventListener('click',event=>{if(event.target.closest('[data-fw-leave]'))leave();});
 window.addEventListener('message',event=>{if(event.origin===location.origin&&event.source===parent&&event.data?.type==='organization:faction:escape')leave();});

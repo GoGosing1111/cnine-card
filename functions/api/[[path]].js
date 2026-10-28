@@ -1,3 +1,4 @@
+import {handleWarChat,warChatStream} from '../_war_chat.js';
 import {handleBlackcrownPack,blackcrownPackShopRow} from '../_mercenary_blackcrown_pack.js';
 import {ensureSigHunterBoxCatalog,openSigHunterBox,grantSigHunterBox} from '../_sig_hunter_box.js';
 import {ensureReversecallStreamerGiftCatalog,openReversecallStreamerGift,grantReversecallStreamerGift} from '../_reversecall_streamer_gift.js';
@@ -4990,6 +4991,7 @@ async function handleRequest(context){
       if(!restrictedAdminPathAllowed(path,access))return json({error:'ADMIN 계정은 승부예측 관리만 사용할 수 있습니다.',code:'ADMIN_PERMISSION_RESTRICTED'},403);
     }
 
+    const warChatResponse=await handleWarChat({path,request,env,deps:{authenticate}});if(warChatResponse)return warChatResponse;
     const accountSyncResponse=await handleAccountSync({path,request,env,deps:{authenticate,json}});if(accountSyncResponse)return accountSyncResponse;
     const campAdminResponse=await handlePrisonCampAdmin({path,request,env,deps:{requirePermission,readBody,json}});if(campAdminResponse)return campAdminResponse;
     const deathGameResponse=await handlePrisonDeathGame({path,request,env,deps:{authenticate,readBody,json,prisonStatusForUser}});if(deathGameResponse)return deathGameResponse;
@@ -9406,6 +9408,7 @@ export async function onRequest(context){
   const requestPath=requestUrl.pathname.replace(/^\/api\/?/,'');
   if(requestPath==='coop/stream'&&context.env?.DB_MIGRATION_FREEZE!=='1')return cooperativeStream(context.request,context.env);
   if(requestPath.startsWith('defense/live/')&&context.env?.DB_MIGRATION_FREEZE!=='1')return monsterDefenseLive(context.request,context.env);
+  if(requestPath==='war-chat/stream'&&context.env?.DB_MIGRATION_FREEZE!=='1')return warChatStream(context.request,context.env);
   if(requestPath==='sync/stream'&&context.env?.DB_MIGRATION_FREEZE!=='1')return accountSyncStream(context.request,context.env);
   const migrationFrozen=String(context.env?.DB_MIGRATION_FREEZE||'').trim()==='1';
   const freezeExempt=context.request.method==='OPTIONS'||requestPath==='service/status'||requestPath==='health';

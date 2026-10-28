@@ -1,3 +1,4 @@
+import {WarChatRoom} from './war-chat.js';
 import {DurableObject} from 'cloudflare:workers';
 import {MonsterDefenseHost} from './monster-defense.js';
 import {MonsterDefenseDirectory} from './monster-defense-directory.js';
@@ -49,6 +50,8 @@ export class CooperativePlayer extends DurableObject{
  }
 }
 export class CooperativeRoom extends DurableObject{
+ chatHost(){return this.warChatHost??=new WarChatRoom(this.ctx,this.env);}
+ chatTicket(input){return this.chatHost().ticket(input);}
  defenseHost(){return this.monsterDefenseHost??=new MonsterDefenseHost(this.ctx,this.env);}
  defenseRpc(action,input){return this.defenseHost().rpc(action,input);}
  defenseLeave(user){return this.defenseHost().leave(user);}
@@ -179,6 +182,7 @@ export class CooperativeRoom extends DurableObject{
   return {...result,ticket:token};
  }
  async fetch(request){
+  if(new URL(request.url).pathname==='/api/war-chat/stream')return this.chatHost().live(request);
   if(new URL(request.url).pathname.includes('/defense/live/'))return this.defenseHost().live(request,new URL(request.url).pathname.split('/').at(-1));
   if(request.headers.get('upgrade')?.toLowerCase()!=='websocket')return new Response('Upgrade required',{status:426});
   // Only the authenticated API route can reach this private namespace.
@@ -195,6 +199,7 @@ export class CooperativeRoom extends DurableObject{
   return new Response(null,{status:101,webSocket:client});
  }
  async webSocketMessage(ws,message){
+  if(ws.deserializeAttachment()?.chat===true)return this.chatHost().message(ws,message);
   const session=ws.deserializeAttachment();
   try{
    if(typeof message!=='string'||message.length>1024)throw Error('size');
@@ -213,6 +218,7 @@ export class CooperativeRoom extends DurableObject{
  }
  async alarmLocked(){
   const room=this.read();if(!room)return;
+  if(room.kind==='WAR_CHAT_V1')return this.chatHost().alarm();
   if(room.kind==='MONSTER_DEFENSE_V1')return this.defenseHost().alarm();
   try{await this.completeEntry(room);}catch{return;}
   if(coopTerminal(room)&&room.clearRewards&&Date.now()>(room.finishedAt||room.expiresAt)+3600000){for(const ws of this.ctx.getWebSockets())try{ws.close(1000,'대기방 종료');}catch{}await this.ctx.storage.deleteAll();return;}

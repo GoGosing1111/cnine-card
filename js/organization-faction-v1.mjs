@@ -1,3 +1,4 @@
+import {mountWarChat} from './war-chat-v1.mjs?v=20261028-chat2';
 import {organizationCrest} from './organization-identity-v1.mjs?v=20261025-clan-eight';
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 import {ORGANIZATION_DISTRICTS as DISTRICTS,ORGANIZATION_SESSION_RULES as SESSION_RULES,SQUADS,FACTION_RULES as R,organizationDistrictById as districtById,historicalOrganizationDistrictById,isSelfJoinSquad,organizationSquadChangeBlocked} from '../shared/organization-faction-v1.mjs?v=20261024-weekly&clanRestore=20261025&clanResume=20261025';
@@ -300,7 +301,7 @@ async function openBattleRoom(battleId){
   if(b&&mySide(b)&&b.status==='ACTIVE'&&factionCombatOpen(state.data))await action('enter',{battleId});
   drawRoom();
 }
-export function mount(root,ctx){state.root=root;connect(ctx);draw();void refresh();}
+export function mount(root,ctx){mountWarChat('faction',root);state.root=root;connect(ctx);draw();void refresh();}
 export function view(){return '<div id="organizationFactionRoot" class="fw-root"></div>';}
 export function select(id){state.selected=id;state.tab='map';}
 export function connect(ctx){
