@@ -1,0 +1,72 @@
+{
+  "status": "DEPLOYED_ALL_OFF",
+  "completedAt": "2026-10-28T13:50:21.590Z",
+  "sourceCommit": "8a651b3ef2b3c39ab65889f39cd41f9652910b5d",
+  "pages": {
+    "id": "61e170dc-188f-4e71-a493-7643e782d6ed",
+    "url": "https://61e170dc.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "8a651b3ef2b3c39ab65889f39cd41f9652910b5d"
+  },
+  "settings": {
+    "revision": 0,
+    "clan": false,
+    "territory": false,
+    "faction": false
+  },
+  "settingsRowExists": false,
+  "publicFiles": 16,
+  "workers": {
+    "cnine-card-api-runtime": {
+      "id": "3d5825a9-79bd-408e-962b-3f9d745bf650",
+      "source": "wrangler",
+      "strategy": "percentage",
+      "author_email": "wlgks6344@naver.com",
+      "annotations": {
+        "workers/triggered_by": "deployment"
+      },
+      "versions": [
+        {
+          "version_id": "d65de112-2199-438d-9f8c-c5da7161ce16",
+          "percentage": 100
+        }
+      ],
+      "created_on": "2026-10-28T13:46:38.108297Z"
+    },
+    "cnine-card-clan-draft": {
+      "id": "94dda783-f24e-4650-9c32-2414050522f3",
+      "source": "wrangler",
+      "strategy": "percentage",
+      "author_email": "wlgks6344@naver.com",
+      "annotations": {
+        "workers/triggered_by": "deployment"
+      },
+      "versions": [
+        {
+          "version_id": "e589c9c0-f085-42b0-b470-d65cff6c76c8",
+          "percentage": 100
+        }
+      ],
+      "created_on": "2026-10-28T13:48:21.020229Z"
+    }
+  },
+  "verification": {
+    "featureAndPostgres": true,
+    "cooperativeDefenseAccountSockets": true,
+    "pcAndMobileWarScreens": true,
+    "fullCmsShell": true,
+    "publicCmsIsolatedApi": true,
+    "productionDbReadOnly": true,
+    "cacheTagsAligned": true
+  },
+  "operations": {
+    "accountWrites": 0,
+    "settingsWrites": 0,
+    "productionChatMessages": 0
+  },
+  "incident": {
+    "chatWasUndeployedAtReport": true,
+    "rootCause": "not established; user requested chat work to resume"
+  },
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/war-chat-20261028"
+}
