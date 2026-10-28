@@ -1,0 +1,32 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-28T01:10:42.320Z",
+  "readOnly": "on",
+  "userId": 65,
+  "nickname": "음순이",
+  "code": "V-999",
+  "name": "헬리오스",
+  "levelBefore": 16,
+  "levelAfter": 21,
+  "currentLevel": 21,
+  "complete": true,
+  "experience": 0,
+  "breakthroughMask": 15,
+  "heldCopies": 1,
+  "auditId": "52341",
+  "completedAt": "2026-10-28T01:10:02.689Z",
+  "cost": 0,
+  "materialsConsumed": 0,
+  "storage": {
+    "level": 20,
+    "experience": "0",
+    "breakthrough_mask": 15,
+    "revision": 8
+  },
+  "actualAccountReadLevel": 21,
+  "actualSummaryLevel": 21,
+  "actualBattleSnapshotLevel": 21,
+  "selectOnlyReplayVerified": true,
+  "operationLocksRemaining": 0,
+  "productionWrites": 0
+}

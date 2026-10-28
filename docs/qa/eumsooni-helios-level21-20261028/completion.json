@@ -1,0 +1,41 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:eumsooni-helios-level21:20261028:v1",
+  "authorization": "음순이 계정 헬리오스 21레벨로 변경",
+  "completedAt": "2026-10-28T01:10:02.689Z",
+  "completedAtKst": "2026-10-28 10:10:02 KST",
+  "userId": 65,
+  "nickname": "음순이",
+  "code": "V-999",
+  "name": "헬리오스",
+  "before": {
+    "level": 16,
+    "experience": 100,
+    "breakthroughMask": 7,
+    "revision": 7
+  },
+  "after": {
+    "level": 21,
+    "experience": 0,
+    "breakthroughMask": 15,
+    "revision": 8
+  },
+  "storedLevel": 20,
+  "complete": true,
+  "heldCopies": 1,
+  "auditId": "52341",
+  "sourceSha256": "c8bf05f6a24a1549c3b6e8c7a24a78812054df91b34f0a7b380496405813a5ef",
+  "planHash": "f3b1fb1c7ba7d7341e925ec4ed52d514a07bbba6f069047ff94dd974f20b2296",
+  "tests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "failureAndDryRunRollback": true,
+  "independentReadOnly": true,
+  "selectOnlyReplayVerified": true,
+  "leasesReleased": true,
+  "cost": 0,
+  "materialsConsumed": 0,
+  "sendMessages": false,
+  "gameDeployment": false
+}
