@@ -11,7 +11,7 @@ export const MADARA_TICKET='MADARA_RAID_ENTRY_TICKET',MADARA_SETTINGS='raid_mada
 const ROOMS='raid_madara_rooms_v1',ACTIVE='raid_madara_active_v1',RECEIPTS='raid_madara_receipts_v1';
 const fail=(code,message,status=409)=>{throw jointError('MADARA_'+code,message,status);};
 const owner=user=>user?.role==='OWNER',id=value=>String(value??''),integer=(n,min,max)=>Number.isSafeInteger(n)&&n>=min&&n<=max;
-export const defaultMadaraSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:440000,lobbyMinutes:15,enrageSeconds:360,mechanicTimePercent:100,entryTicketCost:1,testEntryFree:true,rewardsEnabled:false,weeklyRewardLimit:3,pigCoinReward:0,coinReward:0,masterStarReward:0,petEssenceReward:0});
+export const defaultMadaraSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:440000,lobbyMinutes:15,enrageSeconds:360,mechanicTimePercent:100,entryTicketCost:0,testEntryFree:true,rewardsEnabled:false,weeklyRewardLimit:3,pigCoinReward:0,coinReward:0,masterStarReward:0,petEssenceReward:0});
 export function validateMadaraSettings(raw){
   if(!raw||!integer(raw.revision,0,1e9)||!['OFF','TEST','ON'].includes(raw.mode)||!Array.isArray(raw.testUserIds)||raw.testUserIds.length>100||new Set(raw.testUserIds).size!==raw.testUserIds.length||!raw.testUserIds.every(n=>integer(n,1,Number.MAX_SAFE_INTEGER)))fail('SETTINGS','공개 모드와 테스트 계정(최대 100명)을 확인하세요.',400);
   const ranges={bossCombatPower:[1000,2000000000],lobbyMinutes:[1,60],enrageSeconds:[180,1800],mechanicTimePercent:[80,200],entryTicketCost:[0,10],weeklyRewardLimit:[1,30],coinReward:[0,1000000000000],masterStarReward:[0,100000000],petEssenceReward:[0,1000000]};
@@ -19,6 +19,7 @@ export function validateMadaraSettings(raw){
   const next={revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b),pigCoinReward};
   for(const [key,range] of Object.entries(ranges)){if(!integer(raw[key],...range))fail('SETTINGS',`${key} 설정 범위(${range[0]}~${range[1]})를 확인하세요.`,400);next[key]=raw[key];}
   for(const key of ['testEntryFree','rewardsEnabled']){if(typeof raw[key]!=='boolean')fail('SETTINGS','입장·보상 사용 여부를 확인하세요.',400);next[key]=raw[key];}
+  next.entryTicketCost=0;next.testEntryFree=true;
   return next;
 }
 export function madaraAccess(user,cfg){const accessible=Boolean(user)&&(cfg.mode==='ON'||cfg.mode==='TEST'&&(owner(user)||cfg.testUserIds.includes(Number(user.id))));return {mode:cfg.mode,accessible,visible:accessible,owner:owner(user)};}
@@ -90,7 +91,7 @@ async function advanceRoom(env,roomId,now){
 async function currentRoom(env,user,now){const row=await env.DB.prepare(`SELECT room_id FROM ${ACTIVE} WHERE user_id=?`).bind(user.id).first();if(!row)return null;const loaded=await advanceRoom(env,row.room_id,now);return ['LOBBY','ACTIVE'].includes(loaded.room.status)?loaded:null;}
 const varsen=originalRaidPresentation('MADARA');
 const boss=power=>({id:'MADARA',name:varsen.name,isBoss:true,is_boss:1,battle_power:power,pve_hp_percent:250,pve_attack_percent:100,pve_defense_percent:100,pve_speed_percent:100,pve_forced_action_every:5,image:varsen.sourceArt,battleSprite:varsen.battleSprite,spiritSprite:'/preview/madara-raid-v1/assets/azure-spirit-v1.png'});
-const entryCost=cfg=>cfg.mode==='TEST'&&cfg.testEntryFree?0:cfg.entryTicketCost;
+const entryCost=()=>0;
 async function account(env,user,cfg,roomId){const row=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,MADARA_TICKET).first();return {id:id(user.id),name:user.nickname,tickets:Math.max(0,Number(row?.quantity||0)),cost:entryCost(cfg),temporary:false,roomId};}
 function resultFor(room,user,cfg,{payload=false,since=0}={}){
   memberOf(room,user);const state=madaraView(room,id(user.id),{since});state.release={mode:room.releaseMode,currentMode:cfg.mode,runtimeEnabled:true,rewardLocked:!room.rewardPolicy?.enabled,scope:'LIVE'};state.lobbyEndsAt=room.lobbyEndsAt;state.clearReward=madaraRewardFor(room,user.id);
@@ -103,13 +104,10 @@ async function openRoom(env,user,cfg,body,deps,now){
   const deck=await deps.raidDeckPower(env,user.id,undefined,'RAID'),roomId=crypto.randomUUID().replaceAll('-','').slice(0,10).toUpperCase();
   const room=createMadaraRoom({id:roomId,hostId:id(user.id),monster:boss(cfg.bossCombatPower),now,seed:crypto.getRandomValues(new Uint32Array(1))[0],settings:{enrageSeconds:cfg.enrageSeconds,mechanicTimePercent:cfg.mechanicTimePercent}});
   addMadaraMember(room,{id:id(user.id),name:user.nickname,role:body.role,deck},now);room.releaseMode=cfg.mode;room.settingsRevision=cfg.revision;room.lobbyEndsAt=now+cfg.lobbyMinutes*60000;room.joinCount=1;
-  const cost=entryCost(cfg),token=crypto.randomUUID(),response=resultFor(room,user,cfg);response.entryReceipt={cost,roomId};
-  const extra=cost?[jointGuard(env.DB,token+':ticket','EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)',[user.id,MADARA_TICKET,cost]),
-    env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=CASE WHEN unseen_quantity>quantity-? THEN quantity-? ELSE unseen_quantity END,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=?').bind(cost,cost,cost,user.id,MADARA_TICKET,cost),
-    env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'바르센 공대 생성','MADARA_RAID_OPEN',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(-cost,roomId,user.id,MADARA_TICKET),jointGuardEnd(env.DB,token+':ticket')]:[];
-  try{await env.DB.batch([env.DB.prepare(`INSERT INTO ${ACTIVE}(user_id,room_id) VALUES(?,?)`).bind(user.id,roomId),...extra,
+  const cost=entryCost(cfg),response=resultFor(room,user,cfg);response.entryReceipt={cost,roomId};
+  try{await env.DB.batch([env.DB.prepare(`INSERT INTO ${ACTIVE}(user_id,room_id) VALUES(?,?)`).bind(user.id,roomId),
     env.DB.prepare(`INSERT INTO ${ROOMS}(room_id,host_id,host_name,status,state_json,version,created_at,expires_at) VALUES(?,?,?,?,?,0,?,?)`).bind(roomId,user.id,user.nickname,room.status,JSON.stringify(room),now,room.lobbyEndsAt),receiptWrite(env,user,'create',prior,roomId,response)]);}
-  catch(error){const replay=await receipt(env,user,'create',body);if(replay.result)return replay.result;if((await account(env,user,cfg,null)).tickets<cost)fail('TICKET_REQUIRED',`바르센 레이드 입장권 ${cost}장이 필요합니다.`);if(await currentRoom(env,user,now))fail('ALREADY_JOINED','이미 참가 중인 공대가 있습니다.');throw error;}
+  catch(error){const replay=await receipt(env,user,'create',body);if(replay.result)return replay.result;if(await currentRoom(env,user,now))fail('ALREADY_JOINED','이미 참가 중인 공대가 있습니다.');throw error;}
   return response;
 }
 async function roomCommand(env,user,cfg,kind,body,deps,now,since){

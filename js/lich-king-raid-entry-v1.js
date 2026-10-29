@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261028-raid-rewards';
+  const VERSION = '20261029-free-entry';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, revision = 0;
   const host = () => document.getElementById('pveLichRaidView');
   async function refresh() {

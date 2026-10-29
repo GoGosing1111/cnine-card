@@ -166,18 +166,13 @@ async function openRoom(env,user,cfg,body,deps,now){
   setLichLoadout(room,id(user.id),deck,user.nickname);
   room.members[0].ready=false;room.hostName=user.nickname;room.kicked=[];room.joinCount=1;
   room.lobbyEndsAt=now+cfg.lobbyMinutes*60000;room.releaseMode=cfg.mode;
-  const token=crypto.randomUUID(),response={ok:true,roomId};
+  const response={ok:true,roomId};
   await env.DB.batch([
     env.DB.prepare('INSERT INTO '+ACTIVE+'(user_id,room_id) VALUES(?,?)').bind(user.id,roomId),
-    jointGuard(env.DB,token,'EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=1)',[user.id,LICH_TICKET]),
-    env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity-1,unseen_quantity=CASE WHEN unseen_quantity>quantity-1 THEN quantity-1 ELSE unseen_quantity END,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=1').bind(user.id,LICH_TICKET),
     env.DB.prepare('INSERT INTO '+ROOMS+'(room_id,host_id,host_name,status,state_json,version,created_at,expires_at) VALUES(?,?,?,?,?,0,?,?)').bind(roomId,user.id,user.nickname,room.status,JSON.stringify(room),now,room.lobbyEndsAt),
-    env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,-1,quantity,'리치왕 공대 생성','LICH_RAID_OPEN',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(roomId,user.id,LICH_TICKET),
-    receiptWrite(env,user,'open',prior,roomId,response),jointGuardEnd(env.DB,token)
+    receiptWrite(env,user,'open',prior,roomId,response)
   ]).catch(async error=>{
     const replay=await receipt(env,user,'open',body);if(replay.result)return;
-    const balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,LICH_TICKET).first();
-    if(Number(balance?.quantity||0)<1)fail('TICKET_REQUIRED','리치왕 정벌 입장권 1장이 필요합니다.');
     if(await currentRoom(env,user,now))fail('ALREADY_JOINED','이미 참가 중인 공대가 있습니다.');
     throw error;
   });
@@ -289,7 +284,7 @@ export async function handleLichRaid({path,request,env,deps}){
         env.DB.prepare("SELECT room_id,host_name,state_json,created_at,expires_at FROM "+ROOMS+" WHERE status='LOBBY' AND expires_at>? ORDER BY created_at DESC LIMIT 30").bind(now).all(),
         lichWeeklyReward(env,user.id,now)
       ]);
-      return json({ok:true,state:null,weeklyReward,feature:lichAccess(user,cfg),entry:{code:LICH_TICKET,name:'리치왕 정벌 입장권',quantity:Math.max(0,Number(balance?.quantity||0)),required:1},
+      return json({ok:true,state:null,weeklyReward,feature:lichAccess(user,cfg),entry:{code:LICH_TICKET,name:'리치왕 정벌 입장권',quantity:Math.max(0,Number(balance?.quantity||0)),required:0},
         rooms:list.results.map(row=>{const room=readJson(row.state_json);return {id:row.room_id,hostName:row.host_name,members:room.members.length,maxMembers:6,roles:Object.keys(ROLES).map(role=>({role,count:room.members.filter(m=>m.role===role).length})),lobbyEndsAt:row.expires_at,joinable:!room.kicked.includes(id(user.id))&&room.members.length<6};}),me:{id:Number(user.id),name:user.nickname}});
     }
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);

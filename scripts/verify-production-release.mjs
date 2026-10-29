@@ -24,7 +24,7 @@ for (const resource of [
   'js/project-v-raid-qte-v1924.js?v=2086-random-two',
   'css/raid-qte-mobile-v2085.css?v=2085',
   'css/core-raid-screen-qte-v2086.css?v=2086',
-  'js/core-protocol-raid-v1924.js?v=20260922-abandon-defeat',
+  'js/core-protocol-raid-v1924.js?v=20261029-free-entry',
 ]) {
   if (!index.includes(resource)) fail(`index.html is missing the reviewed Core test resource: ${resource}`);
 }
@@ -75,8 +75,8 @@ for (const contract of [
 ]) {
   if (!core.includes(contract)) fail(`Core room-expedition contract is missing: ${contract}`);
 }
-if (!/core-raid-entry-ticket-v1\.png/.test(coreUi) || !/OVERLOAD RISK/.test(coreUi)) {
-  fail('Core UI is missing the reviewed entry-ticket art or triple-core overload warning');
+if (!/입장권 없이 무료/.test(coreUi) || !/required:\s*0/.test(core) || /CORE_RAID_ROOM_OPEN/.test(core) || !/OVERLOAD RISK/.test(coreUi)) {
+  fail('Core raid is missing free-entry behavior or the triple-core overload warning');
 }
 if (/dailyEntries|cycleIdentity/.test(core)) {
   fail('the retired global-cycle/one-attempt Core model is still present');

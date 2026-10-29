@@ -254,7 +254,7 @@ test('core payload preserves live V3 source art and keeps battle sprites separat
   assert.equal(noSourceArt.image, '', 'SD must never be promoted into roster/card artwork');
 });
 
-test('server implements ticketed rooms, repeat attempts and terminal reward receipts', () => {
+test('server implements free-entry rooms, repeat attempts and terminal reward receipts', () => {
   const server = read('functions/_raid_core_protocol.js');
   for (const table of ['raid_core_rooms_v2024', 'raid_core_members_v2024', 'raid_core_active_members_v2024', 'raid_core_attempts_v2024', 'raid_core_receipts_v2024', 'raid_core_reward_receipts_v2024']) {
     assert.match(server, new RegExp(table));
@@ -263,7 +263,7 @@ test('server implements ticketed rooms, repeat attempts and terminal reward rece
     assert.match(server, new RegExp(route.replaceAll('/', '\\/')));
   }
   assert.match(server, /CORE_RAID_ENTRY_TICKET/);
-  assert.match(server, /quantity=quantity-1/);
+  assert.doesNotMatch(server, /CORE_RAID_ROOM_OPEN/);
   assert.match(server, /deps\.raidDeckPower\(env, user\.id, body\.cardIds, 'RAID'\)/);
   assert.match(server, /\{ raidDeckPower, createPveBattleV2 \}/);
   assert.match(server, /status IN \('CORE','BOSS'\)/);
@@ -275,7 +275,7 @@ test('server implements ticketed rooms, repeat attempts and terminal reward rece
   assert.doesNotMatch(server, /cycleIdentity/);
 });
 
-test('SQLite route flow consumes one host ticket, repeats attempts, damages party HP and clears after all cores', async () => {
+test('SQLite route flow preserves host tickets, repeats attempts, damages party HP and clears after all cores', async () => {
   const sqlite = new DatabaseSync(':memory:');
   sqlite.exec(`
     CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT DEFAULT CURRENT_TIMESTAMP);
@@ -360,10 +360,11 @@ test('SQLite route flow consumes one host ticket, repeats attempts, damages part
     const opened = await call('raid/core/open', 'POST', { requestId: 'OPEN-1' });
     assert.equal(opened.status, 200);
     assert.equal(opened.body.current.status, 'LOBBY');
-    assert.equal(opened.body.entry.quantity, 0);
+    assert.equal(opened.body.entry.quantity, 1);
+    assert.equal(opened.body.entry.required,0);
     assert.equal(opened.body.entry.ticketImage, '/' + CORE_RAID_ENTRY_TICKET_IMAGE);
     const roomId = opened.body.current.id;
-    assert.equal(sqlite.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='CORE_RAID_ENTRY_TICKET'").get().quantity, 0);
+    assert.equal(sqlite.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='CORE_RAID_ENTRY_TICKET'").get().quantity, 1);
     assert.equal(
       sqlite.prepare("SELECT image_url FROM inventory_items WHERE code='CORE_RAID_ENTRY_TICKET'").get().image_url,
       CORE_RAID_ENTRY_TICKET_IMAGE
@@ -445,7 +446,7 @@ test('Core UI is a room expedition overlay and delegates the actual fight to liv
   assert.match(raidUi, /core-balance-console/);
   assert.match(raidUi, /OVERLOAD RISK/);
   assert.match(raidUi, /CORE_OVERLOAD/);
-  assert.match(raidUi, /core-raid-entry-ticket-v1\.png/);
+  assert.match(raidUi, /입장권 없이 무료/);
   assert.match(raidUi, /최종 보스/);
   assert.match(raidUi, /playRaidBattleV3Live\s*\(\s*\{[\s\S]*?preserveServerTimeline\s*:\s*true/);
   assert.doesNotMatch(raidUi, /ProjectVBattleV3Live(?:\?\.|\.)createRenderer/);
@@ -521,9 +522,9 @@ test('legacy world raid remains direct while Core ships as a hidden TEST tab', (
   assert.match(index, /core-protocol-raid-v1924\.css\?v=2074-clan-only/);
   assert.match(index, /project-v-raid-qte-v1924\.js\?v=2086-random-two/);
   assert.match(index, /raid-qte-mobile-v2085\.css\?v=2085/);
-  assert.match(index, /core-protocol-raid-v1924\.js\?v=20260922-abandon-defeat/);
+  assert.match(index, /core-protocol-raid-v1924\.js\?v=20261029-free-entry/);
   assert.match(adminIndex, /admin-v1276\.js\?v=2050-verified-coin-50eok/);
-  assert.match(adminIndex, /raid-overhaul-v1293\.js\?v=20260923-coin-cap-300eok/);
+  assert.match(adminIndex, /raid-overhaul-v1293\.js\?v=20261029-free-entry/);
   assert.match(coreAdmin, /coreRaidBalanceTolerance/);
   assert.match(coreAdmin, /coreRaidImbalanceDamage/);
   assert.match(admin, /option\.value='CORE_RAID_ENTRY_TICKET'/);

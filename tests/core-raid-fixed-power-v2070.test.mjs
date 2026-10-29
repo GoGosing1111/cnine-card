@@ -93,7 +93,7 @@ function harness(t) {
   return { db, state, call, save, room, begin, resolve };
 }
 
-test('clan-only rooms enforce current season membership and preserve ticket/public-room behavior', async t => {
+test('clan-only rooms enforce current season membership and preserve free entry/public-room behavior', async t => {
   const h = harness(t);
   h.db.exec(`
     CREATE TABLE clan_seasons(id INTEGER PRIMARY KEY,season_no INTEGER,phase TEXT);
@@ -112,9 +112,9 @@ test('clan-only rooms enforce current season membership and preserve ticket/publ
   const opened = await open({ requestId: 'CLAN', clanOnly: true });
   assert.equal(opened.status, 200);
   assert.equal(opened.body.current.clanOnly, true);
-  assert.equal(ticket(), 2);
+  assert.equal(ticket(), 3);
   assert.equal((await open({ requestId: 'CLAN', clanOnly: true })).body.current.id, opened.body.current.id);
-  assert.equal(ticket(), 2);
+  assert.equal(ticket(), 3);
   const roomId = opened.body.current.id;
   const asUser = id => { h.state.user = { id, nickname: '테스터', role: 'OWNER' }; };
   const join = () => h.call('raid/core/join', 'POST', { roomId, clanId: 10 });
@@ -135,7 +135,7 @@ test('clan-only rooms enforce current season membership and preserve ticket/publ
   h.db.exec('INSERT INTO clan_members VALUES(2,10,1)');
   assert.equal((await join()).status, 200);
   assert.equal((await join()).body.current.participantCount, 2, 'retries do not duplicate members');
-  assert.equal(ticket(), 2, 'guests do not spend host tickets');
+  assert.equal(ticket(), 3, 'guests do not spend host tickets');
   h.db.exec("UPDATE clan_seasons SET phase='COMPLETE' WHERE id=2");
   asUser(3);
   assert.equal((await join()).status, 403, 'completed season must not authorize new entrants');

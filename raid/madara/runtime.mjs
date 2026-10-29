@@ -507,7 +507,7 @@ export function mountMadara(root){
   function updateWallet(){
     if(account){$('playerName').value=account.name;$('playerName').readOnly=true;document.querySelector('.mr-ticket div>span').textContent=account.cost?'공대 생성자만 '+account.cost+'장 사용':'현재 무료 입장 · 차감 없음';$('entryDialog').querySelector('h2').textContent=account.cost?'공대 생성에 입장권 '+account.cost+'장을 사용합니다':'입장권 차감 없이 공대를 생성합니다';$('confirmEntry').textContent=account.cost?account.cost+'장 사용 · 방 생성':'무료로 방 생성';document.querySelector('[data-entry-policy]').textContent=(account.cost?'공대 생성자만 '+account.cost+'장 소모 · 생성 후 반환 없음':'현재 무료 입장 · 입장권 차감 없음')+' · 참가자 무료';}
   
-    $('ticketBalance').textContent=account?`${account.tickets}장`:'—';$('createButton').disabled=busy||!account||account.tickets<account.cost;
+    $('ticketBalance').textContent='무료';$('createButton').disabled=busy||!account;
   }
   function renderRooms(rooms){
     $('roomCount').textContent=rooms.filter(r=>r.status==='LOBBY').length;
@@ -521,9 +521,9 @@ export function mountMadara(root){
     catch(error){$('registryStatus').textContent='목록을 불러오지 못했습니다. 목록 갱신으로 다시 시도하세요.';if(manual)toast(error.message);else throw error;}
     finally{registryBusy=false;$('refreshRooms').disabled=false;}
   }
-  $('createForm').addEventListener('submit',event=>{event.preventDefault();if(!account||account.tickets<account.cost)return;
+  $('createForm').addEventListener('submit',event=>{event.preventDefault();if(!account)return;
     pendingCreate={requestId:crypto.randomUUID(),name:$('playerName').value,mode:$('playMode').value,role:$('playerRole').value};
-    $('entrySummary').textContent=`${pendingCreate.name} · ${roles[pendingCreate.role]} · ${pendingCreate.mode==='PARTY'?'공대 플레이':'단독 지휘'}`;$('entryBefore').textContent=account.tickets+'장';$('entryAfter').textContent=(account.tickets-account.cost)+'장';$('entryDialog').showModal();});
+    $('entrySummary').textContent=`${pendingCreate.name} · ${roles[pendingCreate.role]} · ${pendingCreate.mode==='PARTY'?'공대 플레이':'단독 지휘'}`;$('entryDialog').showModal();});
   $('confirmEntry').onclick=()=>{if(pendingCreate)create();};$('cancelEntry').onclick=()=>{$('entryDialog').close();pendingCreate=null;};
   $('joinButton').onclick=()=>create(true);$('refreshRooms').onclick=()=>refreshLobby();
   $('cancelKick').onclick=()=>$('kickDialog').close();$('confirmKick').onclick=async()=>{if(busy)return;busy=true;$('confirmKick').disabled=true;try{await accept(await request('kick',{targetId:kickTarget}));$('kickDialog').close();await refreshLobby(false);toast('공대원을 강퇴했습니다.');}catch(error){toast(error.message);}finally{busy=false;$('confirmKick').disabled=false;}};

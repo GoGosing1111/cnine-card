@@ -2,20 +2,26 @@ import {blackwingCardArt,BLACKWING_RULES,BLACKWING_ROLES,createBlackwingRoom,add
 import {readJointBody,jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
+import {readRewardRevealPolicy} from './_reward_reveal.js';
+import {blackwingWeeklyReward,blackwingRewardFor,prepareBlackwingRewards,blackwingCounterChanged} from './_raid_blackwing_rewards.js';
 
 export const BLACKWING_SETTINGS='raid_blackwing_settings_v1';
 const ROOMS='raid_blackwing_rooms_v1',ACTIVE='raid_blackwing_active_v1',RECEIPTS='raid_blackwing_receipts_v1';
 const fail=(code,message,status=409)=>{throw jointError('BLACKWING_'+code,message,status);};
 const owner=user=>user?.role==='OWNER',id=value=>String(value??''),integer=(n,min,max)=>Number.isSafeInteger(n)&&n>=min&&n<=max;
-export const defaultBlackwingSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:21148000,lobbyMinutes:15,enrageSeconds:300,mechanicTimePercent:100});
+export const defaultBlackwingSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:21148000,lobbyMinutes:15,enrageSeconds:300,mechanicTimePercent:100,rewardsEnabled:false,weeklyRewardLimit:3,coinReward:0,pigCoinReward:0,masterStarReward:0,petEssenceReward:0});
 export function validateBlackwingSettings(raw){
-  if(!raw||!integer(raw.revision,0,1e9)||!['OFF','TEST'].includes(raw.mode)||!Array.isArray(raw.testUserIds)||raw.testUserIds.length>100||new Set(raw.testUserIds).size!==raw.testUserIds.length||!raw.testUserIds.every(n=>integer(n,1,Number.MAX_SAFE_INTEGER)))fail('SETTINGS','공개 모드와 테스트 계정(최대 100명)을 확인하세요.',400);
-  const ranges={bossCombatPower:[1000,2000000000],lobbyMinutes:[1,60],enrageSeconds:[180,1800],mechanicTimePercent:[80,200]};
+  // Older TEST settings have no economy fields; default them to locked/zero.
+  if(raw)raw={...defaultBlackwingSettings(),...raw};
+  if(!raw||!integer(raw.revision,0,1e9)||!['OFF','TEST','ON'].includes(raw.mode)||!Array.isArray(raw.testUserIds)||raw.testUserIds.length>100||new Set(raw.testUserIds).size!==raw.testUserIds.length||!raw.testUserIds.every(n=>integer(n,1,Number.MAX_SAFE_INTEGER)))fail('SETTINGS','공개 모드와 테스트 계정(최대 100명)을 확인하세요.',400);
+  const ranges={bossCombatPower:[1000,2000000000],lobbyMinutes:[1,60],enrageSeconds:[180,1800],mechanicTimePercent:[80,200],weeklyRewardLimit:[1,30],coinReward:[0,1000000000000],pigCoinReward:[0,1000000000],masterStarReward:[0,100000000],petEssenceReward:[0,1000000]};
   const next={revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b)};
   for(const [key,range] of Object.entries(ranges)){if(!integer(raw[key],...range))fail('SETTINGS',`${key} 설정 범위(${range[0]}~${range[1]})를 확인하세요.`,400);next[key]=raw[key];}
+  if(typeof raw.rewardsEnabled!=='boolean')fail('SETTINGS','보상 지급 설정을 확인하세요.',400);
+  next.rewardsEnabled=raw.rewardsEnabled;
   return next;
 }
-export function blackwingAccess(user,cfg){const accessible=Boolean(user)&&(cfg.mode==='TEST'&&(owner(user)||cfg.testUserIds.includes(Number(user.id))));return {mode:cfg.mode,accessible,visible:accessible,owner:owner(user)};}
+export function blackwingAccess(user,cfg){const accessible=Boolean(user)&&(cfg.mode==='ON'||cfg.mode==='TEST'&&(owner(user)||cfg.testUserIds.includes(Number(user.id))));return {mode:cfg.mode,accessible,visible:accessible,owner:owner(user)};}
 function requireAccess(user,cfg){if(cfg.mode==='OFF')fail('OFF','흑익의 맹약 레이드는 현재 운영 중지 상태입니다.',423);if(!blackwingAccess(user,cfg).accessible)fail('TEST_ONLY','지정된 흑익의 맹약 테스트 참여자만 입장할 수 있습니다.',403);}
 export const BLACKWING_SCHEMA=[
     `CREATE TABLE IF NOT EXISTS ${ROOMS}(room_id TEXT PRIMARY KEY,host_id BIGINT NOT NULL,host_name TEXT NOT NULL,status TEXT NOT NULL,state_json TEXT NOT NULL,version BIGINT NOT NULL DEFAULT 0,created_at BIGINT NOT NULL,expires_at BIGINT NOT NULL)`,
@@ -65,24 +71,26 @@ const receiptWrite=(env,user,kind,key,roomId,result)=>env.DB.prepare(`INSERT INT
 async function loadRoom(env,roomId){const row=await env.DB.prepare(`SELECT * FROM ${ROOMS} WHERE room_id=?`).bind(roomId).first();if(!row)fail('ROOM_MISSING','공대를 찾을 수 없습니다.',404);return {row,room:JSON.parse(row.state_json)};}
 function memberOf(room,user){if(room.banned.includes(id(user.id)))fail('KICKED','강퇴된 공대에는 다시 참가할 수 없습니다.',403);const me=room.members.find(m=>m.id===id(user.id)&&!m.left);if(!me)fail('NOT_MEMBER','공대 참가자가 아닙니다.',403);return me;}
 function tick(room,now){tickBlackwingRoom(room,Math.max(now,room.clock));if(room.status==='LOBBY'&&now>=room.lobbyEndsAt){room.status='CANCELLED';room.finishedAt=now;room.failure={code:'LOBBY_EXPIRED',reason:'공대 모집 시간이 끝났습니다.'};}}
-async function commitRoom(env,row,room,extra=[]){
+async function commitRoom(env,row,room,extra=[],plan){
+  plan??=await prepareBlackwingRewards(env,row,room);
   const token=crypto.randomUUID(),version=Number(row.version)+1;room.commitToken=token;const raw=JSON.stringify(room);
-  await env.DB.batch([env.DB.prepare(`UPDATE ${ROOMS} SET state_json=?,status=?,host_id=?,host_name=?,version=? WHERE room_id=? AND version=?`).bind(raw,room.status,Number(room.hostId||row.host_id),room.members.find(m=>m.id===room.hostId)?.name||row.host_name,version,room.id,Number(row.version)),
-    jointGuard(env.DB,token,`EXISTS(SELECT 1 FROM ${ROOMS} WHERE room_id=? AND version=? AND state_json=?)`,[room.id,version,raw]),...extra,
-    ...(!['LOBBY','ACTIVE'].includes(room.status)?[env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE room_id=?`).bind(room.id)]:[]),jointGuardEnd(env.DB,token)]);
+  try{await env.DB.batch([env.DB.prepare(`UPDATE ${ROOMS} SET state_json=?,status=?,host_id=?,host_name=?,version=? WHERE room_id=? AND version=?`).bind(raw,room.status,Number(room.hostId||row.host_id),room.members.find(m=>m.id===room.hostId)?.name||row.host_name,version,room.id,Number(row.version)),
+    jointGuard(env.DB,token,`EXISTS(SELECT 1 FROM ${ROOMS} WHERE room_id=? AND version=? AND state_json=?)`,[room.id,version,raw]),...plan.statements,...extra,
+    ...(!['LOBBY','ACTIVE'].includes(room.status)?[env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE room_id=?`).bind(room.id)]:[]),jointGuardEnd(env.DB,token)]);}
+  catch(error){if(await blackwingCounterChanged(env,plan))fail('WEEKLY_CONFLICT','주간 보상 정산이 갱신 중입니다. 같은 요청으로 다시 시도하세요.');throw error;}
 }
 async function advanceRoom(env,roomId,now){
   for(let retry=0;retry<4;retry++){const loaded=await loadRoom(env,roomId),{room}=loaded;const before=[room.status,room.revision,room.eventSeq,room.step].join(':');tick(room,now);
     if(before===[room.status,room.revision,room.eventSeq,room.step].join(':'))return loaded;
     try{await commitRoom(env,loaded.row,room);return {room,row:{...loaded.row,version:Number(loaded.row.version)+1}};}
-    catch(error){if(Number((await loadRoom(env,roomId)).row.version)===Number(loaded.row.version))throw error;}
+    catch(error){if(error.code!=='BLACKWING_WEEKLY_CONFLICT'&&Number((await loadRoom(env,roomId)).row.version)===Number(loaded.row.version))throw error;}
   }fail('BUSY','공대 전황이 갱신 중입니다. 같은 요청으로 다시 시도하세요.');
 }
 async function currentRoom(env,user,now){const row=await env.DB.prepare(`SELECT room_id FROM ${ACTIVE} WHERE user_id=?`).bind(user.id).first();if(!row)return null;const loaded=await advanceRoom(env,row.room_id,now);return ['LOBBY','ACTIVE'].includes(loaded.room.status)?loaded:null;}
 const boss=power=>({id:'BLACKWING',name:'타락한 용기사 모르드레인',isBoss:true,is_boss:1,battle_power:power,pve_hp_percent:270,pve_attack_percent:110,pve_defense_percent:110,pve_speed_percent:100,pve_forced_action_every:5,image:'/assets/raids/blackwing-20261024/boss-art.webp',battleSprite:'/assets/raids/blackwing-20261024/idle.webp'});
 async function account(env,user,cfg,roomId){return {id:id(user.id),name:user.nickname,cost:0,temporary:false,roomId};}
 function resultFor(room,user,cfg,{payload=false,since=0}={}){
-  memberOf(room,user);const state=blackwingView(room,id(user.id),{since});state.release={mode:room.releaseMode,currentMode:cfg.mode,runtimeEnabled:true,rewardLocked:true,scope:'LIVE'};state.lobbyEndsAt=room.lobbyEndsAt;state.clearReward={eligible:false,reason:'TEST_REWARD_LOCKED'};
+  memberOf(room,user);const state=blackwingView(room,id(user.id),{since});state.release={mode:room.releaseMode,currentMode:cfg.mode,runtimeEnabled:true,rewardLocked:!room.rewardPolicy?.enabled&&!room.revealPolicy?.enabled,scope:'LIVE'};state.lobbyEndsAt=room.lobbyEndsAt;state.clearReward=blackwingRewardFor(room,user.id);
   return {ok:true,roomId:room.id,state,...(payload?{payload:{...blackwingBattlePayload(room,id(user.id)),reviewOnly:false}}:{})};
 }
 async function openRoom(env,user,cfg,body,deps,now){
@@ -122,16 +130,19 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since){
       }else if(kind==='start'){
         const users=await selectedUsers(env,room.members.map(m=>Number(m.id)));
         if(users.length!==room.members.length||users.some(u=>u.status!=='ACTIVE'||Date.parse(u.banned_until||'')>now||!blackwingAccess(u,cfg).accessible))fail('MEMBER_ACCESS','참가자의 계정 상태와 TEST 권한을 확인하세요.',403);
-        startBlackwingRoom(room,id(user.id),now);room.rewardPolicy={enabled:false,reason:'TEST_REWARD_LOCKED'};
+        startBlackwingRoom(room,id(user.id),now);
+        room.rewardPolicy={enabled:cfg.mode==='ON'&&room.releaseMode==='ON'&&cfg.rewardsEnabled,coin:cfg.coinReward,pigCoins:cfg.pigCoinReward,masterStars:cfg.masterStarReward,petEssence:cfg.petEssenceReward,weeklyLimit:cfg.weeklyRewardLimit,settingsRevision:cfg.revision};
+        room.revealPolicy=cfg.mode==='ON'&&room.releaseMode==='ON'?await readRewardRevealPolicy(env,'BLACKWING'):null;
       }else if(kind==='kick'){kickBlackwingMember(room,id(user.id),id(body.targetId),now);extra.push(env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE user_id=? AND room_id=?`).bind(Number(body.targetId),room.id));}
       else if(kind==='leave'){leaveBlackwingRoom(room,id(user.id),now);extra.push(env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE user_id=? AND room_id=?`).bind(user.id,room.id));if(!room.members.some(m=>!m.left)){room.status='CANCELLED';room.finishedAt=now;}}
       else if(kind==='action'){if(body.actorId!==undefined&&id(body.actorId)!==id(user.id))fail('ACTOR','자신의 역할만 조작할 수 있습니다.',403);actionResult=actBlackwingRoom(room,id(user.id),{requestId:body.requestId,action:body.action,taskId:body.taskId,token:body.token,target:body.target,actorId:id(user.id)},now);}
       else fail('ROUTE','지원하지 않는 공대 명령입니다.',404);
     }
+    const plan=await prepareBlackwingRewards(env,row,room);
     const result=kind==='leave'?{ok:true,roomId:room.id}:resultFor(room,user,cfg,{payload:kind==='start',since});
     if(actionResult)result.actionResult=actionResult;
     extra.push(receiptWrite(env,user,kind,prior,room.id,result));
-    try{await commitRoom(env,row,room,extra);return result;}catch(error){const replay=await receipt(env,user,kind,body);if(replay.result)return replay.result;if(Number((await loadRoom(env,room.id)).row.version)===Number(row.version))throw error;}
+    try{await commitRoom(env,row,room,extra,plan);return result;}catch(error){const replay=await receipt(env,user,kind,body);if(replay.result)return replay.result;if(error.code!=='BLACKWING_WEEKLY_CONFLICT'&&Number((await loadRoom(env,room.id)).row.version)===Number(row.version))throw error;}
   }fail('BUSY','공대 명령이 갱신 중입니다. 같은 요청으로 다시 시도하세요.');
 }
 export async function handleBlackwingRaid({path,request,env,deps}){
@@ -156,7 +167,7 @@ export async function handleBlackwingRaid({path,request,env,deps}){
     if(kind==='lobby'&&request.method==='GET'){
       const active=await currentRoom(env,user,now),list=await env.DB.prepare(`SELECT state_json FROM ${ROOMS} WHERE status='LOBBY' AND expires_at>? ORDER BY created_at DESC LIMIT 40`).bind(now).all();
       const rooms=list.results.map(row=>{const r=JSON.parse(row.state_json);return {id:r.id,hostName:r.members.find(m=>m.id===r.hostId)?.name||'공대장',portrait:blackwingCardArt(r.loadouts[r.hostId]?.cards?.[0]),status:r.status,createdAt:r.createdAt,members:r.members.length,maxMembers:6,roles:Object.fromEntries(Object.keys(BLACKWING_ROLES).map(role=>[role,r.members.filter(m=>m.role===role).length])),canJoin:!active&&r.members.length<6&&!r.banned.includes(id(user.id)),blocked:r.banned.includes(id(user.id))?'강퇴된 공대':active?'공대 참가 중':'인원 마감'};});
-      return json({ok:true,account:await account(env,user,cfg,active?.room.id||null),rooms,feature:blackwingAccess(user,cfg),settings:{bossCombatPower:cfg.bossCombatPower,enrageSeconds:cfg.enrageSeconds,mechanicTimePercent:cfg.mechanicTimePercent,rewardsEnabled:false},serverNow:now});
+      return json({ok:true,account:await account(env,user,cfg,active?.room.id||null),rooms,feature:blackwingAccess(user,cfg),weeklyReward:await blackwingWeeklyReward(env,user.id,cfg.weeklyRewardLimit,now),settings:{bossCombatPower:cfg.bossCombatPower,enrageSeconds:cfg.enrageSeconds,mechanicTimePercent:cfg.mechanicTimePercent,rewardsEnabled:cfg.rewardsEnabled,coinReward:cfg.coinReward,pigCoinReward:cfg.pigCoinReward,masterStarReward:cfg.masterStarReward,petEssenceReward:cfg.petEssenceReward,weeklyRewardLimit:cfg.weeklyRewardLimit},serverNow:now});
     }
     if(kind==='state'&&request.method==='GET'){
       const roomId=url.searchParams.get('roomId')||(await currentRoom(env,user,now))?.room.id;if(!roomId)fail('ROOM_MISSING','참가 중인 공대가 없습니다.',404);
@@ -169,5 +180,5 @@ export async function handleBlackwingRaid({path,request,env,deps}){
     const body=await readJointBody(request,{fields});
     const result=await deps.withUserMutationLock(env,user.id,path,()=>kind==='create'?openRoom(env,user,cfg,body,deps,now):roomCommand(env,user,cfg,kind,body,deps,now,Math.max(0,Number(url.searchParams.get('since'))||0)));
     return json({...result,account:await account(env,user,cfg,kind==='leave'?null:result.roomId)});
-  }catch(error){const known=Number.isInteger(error.status);return json({ok:false,error:known?error.message:'요청을 완료하지 못했습니다. 같은 요청으로 다시 시도하세요.',code:known?error.code:'BLACKWING_RETRYABLE',retryable:!known||['BLACKWING_BUSY'].includes(error.code)||error.status>=500},known?error.status:503);}
+  }catch(error){const known=Number.isInteger(error.status);return json({ok:false,error:known?error.message:'요청을 완료하지 못했습니다. 같은 요청으로 다시 시도하세요.',code:known?error.code:'BLACKWING_RETRYABLE',retryable:!known||['BLACKWING_BUSY','BLACKWING_WEEKLY_CONFLICT'].includes(error.code)||error.status>=500},known?error.status:503);}
 }

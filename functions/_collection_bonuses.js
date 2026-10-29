@@ -6,7 +6,7 @@ import {ZERO_REWARD_BONUSES,hasRewardBonuses,sumRewardBonuses,rewardAmountWithBo
 import {readTrophyHonors} from './_trophy_honors.js';
 
 const SCOPE=Symbol('collectionBonusRequest');
-export const COLLECTION_REWARD_SOURCES=new Set(['HUNT','PVE_DROP','PVP_DROP','PVE','PVE_AUTO','PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO','PVE_APOCALYPSE','APOCALYPSE','PVP','RANKED_DUO','RAID','RAID_CLEAR','CORE_RAID','LICH_RAID','MADARA_RAID','ESCORT','SIEGE','SEAL','TOWER','TOWER_FIRST_CLEAR','SCRAPYARD','COW_ROOM','RIFT','LEGION_HUNT']);
+export const COLLECTION_REWARD_SOURCES=new Set(['HUNT','PVE_DROP','PVP_DROP','PVE','PVE_AUTO','PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO','PVE_APOCALYPSE','APOCALYPSE','PVP','RANKED_DUO','RAID','RAID_CLEAR','CORE_RAID','LICH_RAID','MADARA_RAID','BLACKWING_RAID','ESCORT','SIEGE','SEAL','TOWER','TOWER_FIRST_CLEAR','SCRAPYARD','COW_ROOM','RIFT','LEGION_HUNT']);
 export const collectionRewardSource=source=>COLLECTION_REWARD_SOURCES.has(String(source||'').toUpperCase());
 export function withCollectionBonusScope(env){return {...env,[SCOPE]:{users:new Map()}};}
 export async function readTrophyBonusSettings(env){

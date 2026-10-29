@@ -1,0 +1,23 @@
+{
+  "before": {
+    "id": "55ed6873-b267-449a-a843-bc4bc178e1de",
+    "url": "https://55ed6873.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "c82a8be891ec37819694ede96cc237d1d305c0f4"
+  },
+  "base": "c82a8be891ec37819694ede96cc237d1d305c0f4",
+  "reason": "사용자가 흑익에 바르센 기본·선택 보상을 적용 후 ON, 흑익 주간 보상 3회, 다른 레이드 입장권 제거를 명시했다. 기존 레이드의 동일 거래 구조로 보상을 연결하고 무료 입장으로 바꾸는 범위에 한정한다. 레이드 보상 원자성·주간 한도·재시도·클랜 권한·선택 보상·실제 PC/모바일을 격리 API로 검수한다. 난이도·기존 재화·주간 기록·원화·다른 정책을 보존한다.",
+  "tests": [
+    "tests/blackwing-live-rewards-20261029.test.mjs",
+    "tests/raid-free-entry-20261029.test.mjs",
+    "tests/blackwing-raid-20261024.test.mjs",
+    "tests/lich-raid-live-20260928.test.mjs",
+    "tests/madara-raid-live-20261011.test.mjs",
+    "tests/core-protocol-raid-v1924.test.mjs",
+    "tests/reward-reveal-20261016.test.mjs",
+    "tests/onestore-web-20261026.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

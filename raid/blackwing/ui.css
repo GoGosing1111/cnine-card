@@ -147,3 +147,16 @@
  .bw-scale-active .bw-health{padding:2px 0;font-size:11px;margin:3px 0}
  .bw-scale-active .bw-actions{padding:4px 0;margin-top:4px;gap:5px}
 }
+
+/* Clear rewards remain readable and reachable on short/mobile screens. */
+.bw-result{max-height:85vh;overflow-y:auto}.bw-result [data-clear-reward]{line-height:1.7;overflow-wrap:anywhere}.bw-policy{overflow-wrap:anywhere}
+.bw-combat.is-ended{display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
+.bw-combat.is-ended>.bw-top,.bw-combat.is-ended>.bw-battle-mount,.bw-combat.is-ended>.bw-party-strip,.bw-combat.is-ended>.bw-command{display:none}
+.bw-combat.is-ended>#blackwingBattleMount{display:none!important}
+.bw-combat.is-ended>.bw-result{position:relative;inset:auto;width:min(620px,100%);flex:0 0 auto;max-height:calc(100dvh - 32px);margin:auto;padding:28px;gap:18px;justify-content:flex-start;overflow:auto;overscroll-behavior:contain}
+.bw-result>h3,.bw-result>p{margin:0}
+.bw-result>[data-choice-reward]{width:100%}
+.bw-result>.mr-button{width:100%;min-height:50px;flex-shrink:0;margin:0;white-space:normal}
+.bw-result [data-clear-reward]{word-break:keep-all}
+.bw-result>[data-result-status]:empty{display:none}
+@media(max-width:760px){.bw-combat.is-ended{padding:12px}.bw-combat.is-ended>.bw-result{max-height:calc(100dvh - 24px);padding:22px 18px;gap:16px}.bw-result>h3{font-size:23px}}
