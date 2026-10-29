@@ -21,6 +21,7 @@ import {mercenaryCombatRank,ssLimitedProfile,ssLimitedPvpLinkScale} from './merc
 import {rearPveCurrentPolicy} from './mercenary-ss-rear-pve-v1.mjs';
 import {mercenaryEquipmentPower} from './mercenary-equipment-v1.mjs';
 import {mercenaryGrowthDamageCapHp,mercenaryGrowthActionCredit} from './mercenary-growth-review-v2.mjs';
+import {mercenaryRankGap,applyMercenaryRankGrowth,MERCENARY_RANK_GROWTH} from './mercenary-rank-growth-v1.mjs';
 // Ordinary rank base power stays fixed; limited fighters have explicit policies.
 // Combat linkage is an explicit additional
 // ability, frozen from this side's five ordinary fighters at battle start.
@@ -56,10 +57,12 @@ function primeZeroGeneralJokOpponents(actor,teams){
 }
 export function mercenaryPvpTierGuard(actor,teams){
  const ranks=['S','SS','SSS'],rank=ranks.indexOf(mercenaryCombatRank(actor));
- if(actor.battleMode!=='PVP'||!actor.isMercenary||actor.statMode!=='RANK_FIXED'||rank<0)return 1;
+ if(actor.battleMode!=='PVP'||!actor.isMercenary||actor.statMode!=='RANK_FIXED')return 1;
+ const rankGrowthGuard=1+mercenaryRankGap(actor,teams)*MERCENARY_RANK_GROWTH.guardPerStep;
+ if(rank<0)return rankGrowthGuard;
  const opponents=teams.flat().filter(other=>other.side!==actor.side&&other.isMercenary&&other.statMode==='RANK_FIXED'&&other.battleMode==='PVP'&&other.alive!==false&&other.hp>0&&ranks.includes(mercenaryCombatRank(other)));
- if(opponents.length!==1&&!actor.ownerId)return 1;
- if(!opponents.length)return 1;
+ if(opponents.length!==1&&!actor.ownerId)return rankGrowthGuard;
+ if(!opponents.length)return rankGrowthGuard;
  const gap=Math.max(0,rank-Math.max(...opponents.map(other=>ranks.indexOf(mercenaryCombatRank(other)))));
  // SS limited use the SSS combat rank, so the ordinary rank gap above misses
  // them. Razak's released superiority also includes Kangyun. Freeze this
@@ -68,14 +71,14 @@ export function mercenaryPvpTierGuard(actor,teams){
  // an SS companion must never unlock this guard against an SSS limited fighter.
  const razakPriority=isRazak(actor)&&opponents.every(other=>ssLimitedProfile(other)||isImperialArcher(other));
  const primeZeroPriority=primeZeroGeneralJokOpponents(actor,teams).length>0;
- return Math.max(1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep,razakPriority?RAZAK_COMBAT.pvpPriorityTierGuard:1,primeZeroPriority?ZERO_PRIME_GENERAL_JOK_PRIORITY.tierGuard:1);
+ return Math.max(rankGrowthGuard,1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep,razakPriority?RAZAK_COMBAT.pvpPriorityTierGuard:1,primeZeroPriority?ZERO_PRIME_GENERAL_JOK_PRIORITY.tierGuard:1);
 }
 
 export const mercenaryEffectiveAttack=actor=>Math.max(Number(actor.attack)||0,actor.isMercenary?Number(actor.mercenaryLink?.attackFloor)||0:0);
 export const mercenaryPvpTierOffense=actor=>actor.isMercenary&&actor.battleMode==='PVP'?Math.max(1,Number(actor.mercenaryLink?.tierOffense)||1):1;
 // Tier durability must not increase the incoming hit budget by the same factor;
 // otherwise a lower-rank capped skill erases the entire defensive correction.
-export const mercenaryDamageCapHp=target=>(mercenaryGrowthDamageCapHp(target)+(target.isMercenary?Number(target.mercenaryLink?.openingShield)||0:0))/(target.isMercenary?Math.max(1,Number(target.mercenaryLink?.tierGuard)||1):1);
+export const mercenaryDamageCapHp=target=>(mercenaryGrowthDamageCapHp(target)/Math.max(1,Number(target.mercenaryLink?.rankGrowth?.hpScale)||1)+(target.isMercenary?Number(target.mercenaryLink?.openingShield)||0:0))/(target.isMercenary?Math.max(1,Number(target.mercenaryLink?.tierGuard)||1):1);
 
 export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
  const formations=teams.flatMap(team=>team.some(c=>c.ownerId)?[...new Set(team.map(c=>c.ownerId))].map(ownerId=>team.filter(c=>c.ownerId===ownerId)):[team]);
@@ -99,6 +102,13 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
     attackFloor=Math.round((attackFloor+stats.attack)*(1+(fx.attackPercent||0)/100));
     hpFloor=Math.round((hpFloor+stats.hp)*(1+(fx.hpPercent||0)/100));
    }
+   // Fixed native stats may exceed the owner-card link, especially for weak
+   // decks. The same rank advantage must survive either source of stats;
+   // compare alternatives instead of multiplying an already-scaled link twice.
+   if(mercenaryRankGap(m,teams)>0){
+    attackFloor=Math.max(attackFloor,Math.round(m.attack*tierOffense));
+    hpFloor=Math.max(hpFloor,Math.round(m.maxHp*tierGuard));
+   }
    const frontBonus=m.battleMode==='PVP'?(MERCENARY_COMBAT_LINK.pvpFrontRowShieldBonusByRank[mercenaryCombatRank(m)]??MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent):MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent;
    const shieldPercent=rule.shieldPercent+(m.position==='FRONT'?frontBonus:0);
    const openingShield=Math.round(averageHp*shieldPercent/100*healthRatio*tierGuard*matchupScale);
@@ -114,6 +124,7 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
   }
  }
  for(const actor of teams.flat())applyMercenaryLevelStats(actor);
+ applyMercenaryRankGrowth(teams);
  // The explicit Prime/Zero > General Jok matchup is frozen after BOTH sides'
  // gear, owner links and learned growth. A low-level beneficiary must not lose
  // its priority just because General Jok's learned stats exceed a fixed bonus.

@@ -32,6 +32,7 @@ import {ssLimitedCombatDescription,SS_LIMITED_BALANCE_VERSION} from '../shared/m
 import {HELIOS_CODE,HELIOS_COMBAT_DESCRIPTION} from '../shared/mercenary-helios-v1.mjs';
 import {VALTER_CODE,VALTER_COMBAT_DESCRIPTION} from '../shared/mercenary-valter-v1.mjs';
 import {MERCENARY_PVP_GROWTH_DESCRIPTION} from '../shared/mercenary-growth-review-v2.mjs';
+import {MERCENARY_RANK_GROWTH_DESCRIPTION} from '../shared/mercenary-rank-growth-v1.mjs';
 
 // Public, read-only projection. Never publish operator notes, audit records,
 // account ownership, acquisition drafts, or unassigned skill associations.
@@ -64,7 +65,7 @@ export function mercenaryCodexDocument(row){
   projection.cards=projection.cards.map(blackcrownCodexCard);
   projection.blackcrownCodexVersion=BLACKCROWN_CODEX_VERSION;
   for(const card of projection.cards)if(card.deploymentEnabled||document.mercenaries.some(c=>c.code===card.code)){
-    card.combatLinkDescription=[card.combatLinkDescription,MERCENARY_PVP_GROWTH_DESCRIPTION].filter(Boolean).join(' ');
+    card.combatLinkDescription=[card.combatLinkDescription,MERCENARY_PVP_GROWTH_DESCRIPTION,MERCENARY_RANK_GROWTH_DESCRIPTION].filter(Boolean).join(' ');
   }
   return projection;
 }

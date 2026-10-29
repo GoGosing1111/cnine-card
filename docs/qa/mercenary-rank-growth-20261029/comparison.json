@@ -1,0 +1,53 @@
+{
+  "comparison": "Same current individual fighters, decks and seeds; only grade/growth rules differ. Offline samples, not live player win rates.",
+  "summary": [
+    {
+      "upperLevel": 1,
+      "lowerLevel": 1,
+      "beforeWins": 2604,
+      "afterWins": 2880,
+      "battles": 2880,
+      "afterPercent": 100,
+      "losingMatchups": []
+    },
+    {
+      "upperLevel": 1,
+      "lowerLevel": 11,
+      "beforeWins": 1009,
+      "afterWins": 2878,
+      "battles": 2880,
+      "afterPercent": 99.93055555555556,
+      "losingMatchups": []
+    },
+    {
+      "upperLevel": 1,
+      "lowerLevel": 16,
+      "beforeWins": 288,
+      "afterWins": 2849,
+      "battles": 2880,
+      "afterPercent": 98.92361111111111,
+      "losingMatchups": []
+    },
+    {
+      "upperLevel": 1,
+      "lowerLevel": 21,
+      "beforeWins": 96,
+      "afterWins": 2815,
+      "battles": 2880,
+      "afterPercent": 97.74305555555556,
+      "losingMatchups": []
+    }
+  ],
+  "pairedBattles": 11520,
+  "unchanged": 198,
+  "sourceHashes": {
+    "shared/mercenary-rank-growth-v1.mjs": "189d162d6c2b0ea08ff08ecc33562a74c75256fa8dc5e3d3708df20b4b3d497f",
+    "shared/mercenary-combat-link-v2103.mjs": "0a20b17e7eb7d11da51923f480a4a334d38ba98b1e5e2ffe336a47e9cf80a217",
+    "shared/mercenary-growth-review-v2.mjs": "bc92589833ab8e60935dad17b4e6078f49a97a6056218da971642fe9f41af369"
+  },
+  "holdout": {
+    "scope": "Independent final seeds, matched decks, higher grade Lv.1 versus lower grade Lv.21",
+    "wins": 1414,
+    "battles": 1440
+  }
+}
