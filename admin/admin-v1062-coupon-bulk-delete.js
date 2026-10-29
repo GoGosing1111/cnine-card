@@ -90,6 +90,7 @@
     root.innerHTML='<div class="panel couponBulkLoading">발급 쿠폰을 불러오는 중입니다.</div>';
     try{
       const data=await window.api('admin/coupons');
+      if(typeof updateCouponIssueLimit==='function')updateCouponIssueLimit(data.issueLimit);
       couponsCache=Array.isArray(data?.coupons)?data.coupons:[];
       renderCoupons();
     }catch(error){

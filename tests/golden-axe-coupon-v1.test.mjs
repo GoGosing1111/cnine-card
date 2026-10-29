@@ -63,7 +63,7 @@ async function noRedemption(f){
 
 test('legacy old-axe coupons retain their limits while the retired event is absent from CMS choices',()=>{
  const spec=couponRewardSpec(' pingdu_old_axe ');assert.equal(spec.label,'낡은도끼');assert.equal(spec.inventory,true);assert.equal(spec.max,AXE_COUPON_MAX);
- assert.equal(verifiedMessageRewardSpec(OLD_AXE),null);assert.equal(couponRewardSpec('COIN').max,100000000000);
+ assert.equal(verifiedMessageRewardSpec(OLD_AXE),null);assert.equal(couponRewardSpec('COIN').max,1000000000000);
  const meta=Function(cms.slice(cms.indexOf('const COUPON_REWARD_META='),cms.indexOf('function syncCouponRewardForm'))+';return COUPON_REWARD_META')();
  assert.equal(meta[OLD_AXE],undefined);assert.doesNotMatch(cms,/option value="PINGDU_OLD_AXE"/);
 });

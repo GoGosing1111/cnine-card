@@ -160,6 +160,7 @@ import {V3_JOINT_RELEASE_ENABLED} from '../../shared/v3-joint-release-v1.mjs';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../../shared/equipment-forge-release-v1.mjs';
 import {prepareTowerForgeProtectionClear} from '../_forge_tower_protection.js';
 import {jointError} from '../_joint_request.js';
+import {createCouponWithinIssueLimit,readCouponIssueLimit} from '../_coupon_issue_limits.js';
 import { breakthroughPityRule } from '../_breakthrough_pity.js';
 import { normalizeUltimateRequiredGrade,selectActivatedUltimate } from '../_ultimate.js';
 import { handleUniqueAdvancement } from '../_unique_advancement.js';
@@ -612,7 +613,7 @@ function presentMessageReward(message){
   const spec=verifiedMessageRewardSpec(message.reward_type),amount=Number(message.reward_amount);
   return {...message,reward_type:spec?.type||message.reward_type,reward_label:spec?.label||'',reward_icon:spec?.icon||'🎁',reward_supported:Boolean(spec&&Number.isSafeInteger(amount)&&amount>0)};
 }
-const COUPON_REWARD_MAX={RANK_EXP_POTION_2X_60M:9999,COIN:100000000000,MASTER_STAR:1000000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_OLD_AXE:100000,PINGDU_BAEMIN_TICKET:100000,MIRACLE_CUBE:100000};
+const COUPON_REWARD_MAX={RANK_EXP_POTION_2X_60M:9999,COIN:1000000000000,MASTER_STAR:1000000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_OLD_AXE:100000,PINGDU_BAEMIN_TICKET:100000,MIRACLE_CUBE:100000};
 function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='RANK_EXP_POTION_2X_60M'?{type,label:'계급 경험치 2배 물약 (60분)',inventory:true}:type==='PINGDU_BAEMIN_TICKET'?{type,label:'핑두의 배민권',inventory:true}:type==='MIRACLE_CUBE'?{type,label:'미라클 큐브',inventory:true}:type==='PINGDU_OLD_AXE'?{type,label:'낡은도끼',inventory:true}:verifiedMessageRewardSpec(type);return spec&&!spec.messageOnly?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
 let verifiedRewardMessageV1276ReadyPromise=null;
 async function ensureVerifiedRewardMessageV1276(env){
@@ -8079,18 +8080,23 @@ async function handleRequest(context){
       if(rewardType==='PINGDU_BAEMIN_TICKET'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);const ticket=await env.DB.prepare('SELECT is_active FROM inventory_items WHERE code=?').bind('PINGDU_BAEMIN_TICKET').first();if(Number(ticket?.is_active)!==1)return json({error:'핑두의 배민권 지급이 준비되지 않았거나 중지되어 있습니다.'},409)}
       if(rewardType==='PINGDU_OLD_AXE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureGoldenAxe(env)}
       if(rewardType==='RANK_EXP_POTION_2X_60M'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);const item=await env.DB.prepare('SELECT is_active FROM inventory_items WHERE code=?').bind(rewardType).first();if(Number(item?.is_active)!==1)return json({error:'경험치 2배 물약 지급이 준비되지 않았거나 중지되어 있습니다.'},409)}
-      await releaseDeletedCouponCode(env,code,admin.id);
-      const exists=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
-      if(exists)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
       try{
-        await env.DB.batch([
-          env.DB.prepare(`INSERT INTO coupons(code,reward_coin,reward_type,reward_amount,starts_at,ends_at,max_uses,is_active,created_by) VALUES(?,?,?,?,NULL,NULL,?,1,?)`).bind(code,rewardType==='COIN'?rewardAmount:0,rewardType,rewardAmount,maxUses,admin.id),
-          env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(admin.id,'COUPON_CREATE_V3','COUPON',code,null,JSON.stringify({code,rewardType,rewardAmount,maxUses,permanent:true}))
-        ]);
-        const coupon=await env.DB.prepare('SELECT * FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
-        if(!coupon)return json({error:'쿠폰 저장 후 조회에 실패했습니다.'},500);
+        let coupon;
+        if(rewardType==='COIN')coupon=await createCouponWithinIssueLimit(env,admin,{code,rewardType,rewardAmount,maxUses,actionType:'COUPON_CREATE_V3'});
+        else{
+          await releaseDeletedCouponCode(env,code,admin.id);
+          const exists=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
+          if(exists)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
+          await env.DB.batch([
+            env.DB.prepare(`INSERT INTO coupons(code,reward_coin,reward_type,reward_amount,starts_at,ends_at,max_uses,is_active,created_by) VALUES(?,?,?,?,NULL,NULL,?,1,?)`).bind(code,0,rewardType,rewardAmount,maxUses,admin.id),
+            env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(admin.id,'COUPON_CREATE_V3','COUPON',code,null,JSON.stringify({code,rewardType,rewardAmount,maxUses,permanent:true}))
+          ]);
+          coupon=await env.DB.prepare('SELECT * FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
+          if(!coupon)return json({error:'쿠폰 저장 후 조회에 실패했습니다.'},500);
+        }
         return json({ok:true,coupon,rewardLabel:spec.label},201);
       }catch(error){
+        if(error?.code?.startsWith('COUPON_'))return json({error:error.message,code:error.code,...(error.issueLimit?{issueLimit:error.issueLimit}:{})},error.status||409);
         const message=String(error?.message||'');
         if(/UNIQUE|constraint|already exists/i.test(message))return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
         console.error('coupon v3 create failed',message);
@@ -8101,7 +8107,7 @@ async function handleRequest(context){
     if(path==='admin/coupons'||path==='admin/coupons-v2'){
       const manager=await requirePermission(request,env,'COUPON_MANAGE'),issuer=manager||await requirePermission(request,env,'COUPON_ISSUE'),admin=issuer;
       if(!admin)return json({error:'쿠폰 발급 권한이 없습니다.'},403);
-      if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons WHERE deleted_at IS NULL ORDER BY id DESC LIMIT 300').all();return json({coupons:rows.results||[]});}
+      if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons WHERE deleted_at IS NULL ORDER BY id DESC LIMIT 300').all();return json({coupons:rows.results||[],issueLimit:await readCouponIssueLimit(env,admin)});}
       if(request.method==='POST'){
         const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),rewardType=String(p.rewardType||'COIN').trim().toUpperCase(),rewardAmount=Number(p.rewardAmount),max=Number(p.maxUses),spec=couponRewardSpec(rewardType);
         if(rewardType==='PINGDU_BAEMIN_TICKET'&&!canIssueChickenTicketCoupon(admin))return json({error:'핑두의 배민권 쿠폰은 핑크빛유두 계정만 발급할 수 있습니다.',code:'CHICKEN_COUPON_OPERATOR_ONLY'},403);
@@ -8114,17 +8120,22 @@ async function handleRequest(context){
         if(rewardType==='PINGDU_BAEMIN_TICKET'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);const ticket=await env.DB.prepare('SELECT is_active FROM inventory_items WHERE code=?').bind('PINGDU_BAEMIN_TICKET').first();if(Number(ticket?.is_active)!==1)return json({error:'핑두의 배민권 지급이 준비되지 않았거나 중지되어 있습니다.'},409)}
       if(rewardType==='PINGDU_OLD_AXE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureGoldenAxe(env)}
         if(rewardType==='RANK_EXP_POTION_2X_60M'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);const item=await env.DB.prepare('SELECT is_active FROM inventory_items WHERE code=?').bind(rewardType).first();if(Number(item?.is_active)!==1)return json({error:'경험치 2배 물약 지급이 준비되지 않았거나 중지되어 있습니다.'},409)}
-      await releaseDeletedCouponCode(env,code,admin.id);
-        const before=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
-        if(before)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
         try{
-          await env.DB.batch([
-            env.DB.prepare(`INSERT INTO coupons(code,reward_coin,reward_type,reward_amount,starts_at,ends_at,max_uses,created_by) VALUES(?,?,?,?,NULL,NULL,?,?)`).bind(code,rewardType==='COIN'?rewardAmount:0,rewardType,rewardAmount,max,admin.id),
-            env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(admin.id,'COUPON_CREATE','COUPON',code,null,JSON.stringify({code,rewardType,rewardAmount,max,permanent:true}))
-          ]);
-          const coupon=await env.DB.prepare('SELECT * FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
+          let coupon;
+          if(rewardType==='COIN')coupon=await createCouponWithinIssueLimit(env,admin,{code,rewardType,rewardAmount,maxUses:max,actionType:'COUPON_CREATE'});
+          else{
+            await releaseDeletedCouponCode(env,code,admin.id);
+            const before=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
+            if(before)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
+            await env.DB.batch([
+              env.DB.prepare(`INSERT INTO coupons(code,reward_coin,reward_type,reward_amount,starts_at,ends_at,max_uses,created_by) VALUES(?,?,?,?,NULL,NULL,?,?)`).bind(code,0,rewardType,rewardAmount,max,admin.id),
+              env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(admin.id,'COUPON_CREATE','COUPON',code,null,JSON.stringify({code,rewardType,rewardAmount,max,permanent:true}))
+            ]);
+            coupon=await env.DB.prepare('SELECT * FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
+          }
           return json({ok:true,coupon},201);
         }catch(error){
+          if(error?.code?.startsWith('COUPON_'))return json({error:error.message,code:error.code,...(error.issueLimit?{issueLimit:error.issueLimit}:{})},error.status||409);
           const message=String(error?.message||'');
           if(/UNIQUE|constraint|already exists/i.test(message))return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
           console.error('coupon create failed',message);
