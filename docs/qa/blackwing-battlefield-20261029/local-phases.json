@@ -1,0 +1,332 @@
+{
+  "reports": [
+    {
+      "key": "debt",
+      "width": 1440,
+      "actor": "1",
+      "actionName": "CHARGE",
+      "geometry": [
+        {
+          "action": "CHARGE",
+          "x": 645,
+          "y": 370.03125,
+          "width": 150,
+          "height": 180,
+          "right": 795,
+          "bottom": 550.03125,
+          "fieldBottom": 700.09375,
+          "dockTop": 735.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "damage",
+      "width": 1440,
+      "actor": "1",
+      "actionName": "STRIKE",
+      "geometry": [
+        {
+          "action": "STRIKE",
+          "x": 843.2578125,
+          "y": 423.984375,
+          "width": 128.328125,
+          "height": 65.25,
+          "right": 971.5859375,
+          "bottom": 489.234375,
+          "fieldBottom": 700.09375,
+          "dockTop": 735.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "hearts",
+      "width": 1440,
+      "actor": "7",
+      "actionName": "ARM",
+      "geometry": [
+        {
+          "action": "ARM",
+          "x": 416.515625,
+          "y": 359.03125,
+          "width": 150,
+          "height": 180,
+          "right": 566.515625,
+          "bottom": 539.03125,
+          "fieldBottom": 700.09375,
+          "dockTop": 735.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "sever",
+      "width": 1440,
+      "actor": "7",
+      "actionName": "VOTE",
+      "geometry": [
+        {
+          "action": "VOTE",
+          "x": 776.375,
+          "y": 372.28125,
+          "width": 140,
+          "height": 77.25,
+          "right": 916.375,
+          "bottom": 449.53125,
+          "fieldBottom": 700.09375,
+          "dockTop": 735.09375
+        },
+        {
+          "action": "VOTE",
+          "x": 898.46875,
+          "y": 467.484375,
+          "width": 140,
+          "height": 77.25,
+          "right": 1038.46875,
+          "bottom": 544.734375,
+          "fieldBottom": 700.09375,
+          "dockTop": 735.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "sanctuary",
+      "width": 1440,
+      "actor": "3",
+      "actionName": "WARD",
+      "geometry": [
+        {
+          "action": "WARD",
+          "x": 118.75,
+          "y": 575.09375,
+          "width": 260,
+          "height": 125,
+          "right": 378.75,
+          "bottom": 700.09375,
+          "fieldBottom": 700.09375,
+          "dockTop": 735.09375
+        },
+        {
+          "action": "WARD",
+          "x": 590,
+          "y": 575.09375,
+          "width": 260,
+          "height": 125,
+          "right": 850,
+          "bottom": 700.09375,
+          "fieldBottom": 700.09375,
+          "dockTop": 735.09375
+        },
+        {
+          "action": "WARD",
+          "x": 1061.234375,
+          "y": 575.09375,
+          "width": 260,
+          "height": 125,
+          "right": 1321.234375,
+          "bottom": 700.09375,
+          "fieldBottom": 700.09375,
+          "dockTop": 735.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "final",
+      "width": 1440,
+      "actor": "1",
+      "actionName": "CHARGE",
+      "geometry": [
+        {
+          "action": "CHARGE",
+          "x": 665,
+          "y": 304.015625,
+          "width": 110,
+          "height": 130,
+          "right": 775,
+          "bottom": 434.015625,
+          "fieldBottom": 700.09375,
+          "dockTop": 735.09375
+        },
+        {
+          "action": "HEART",
+          "x": 234.09375,
+          "y": 304.015625,
+          "width": 115,
+          "height": 130,
+          "right": 349.09375,
+          "bottom": 434.015625,
+          "fieldBottom": 700.09375,
+          "dockTop": 735.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "debt",
+      "width": 390,
+      "actor": "1",
+      "actionName": "CHARGE",
+      "geometry": [
+        {
+          "action": "CHARGE",
+          "x": 137.5,
+          "y": 325.96875,
+          "width": 115,
+          "height": 160,
+          "right": 252.5,
+          "bottom": 485.96875,
+          "fieldBottom": 628.9375,
+          "dockTop": 660.9375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "damage",
+      "width": 390,
+      "actor": "1",
+      "actionName": "STRIKE",
+      "geometry": [
+        {
+          "action": "STRIKE",
+          "x": 217.390625,
+          "y": 292.71875,
+          "width": 100,
+          "height": 51.1875,
+          "right": 317.390625,
+          "bottom": 343.90625,
+          "fieldBottom": 628.9375,
+          "dockTop": 660.9375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "hearts",
+      "width": 390,
+      "actor": "7",
+      "actionName": "ARM",
+      "geometry": [
+        {
+          "action": "ARM",
+          "x": 41,
+          "y": 325.96875,
+          "width": 115,
+          "height": 160,
+          "right": 156,
+          "bottom": 485.96875,
+          "fieldBottom": 628.9375,
+          "dockTop": 660.9375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "sever",
+      "width": 390,
+      "actor": "7",
+      "actionName": "VOTE",
+      "geometry": [
+        {
+          "action": "VOTE",
+          "x": 178.59375,
+          "y": 265.03125,
+          "width": 118,
+          "height": 62.1875,
+          "right": 296.59375,
+          "bottom": 327.21875,
+          "fieldBottom": 628.9375,
+          "dockTop": 660.9375
+        },
+        {
+          "action": "VOTE",
+          "x": 247.203125,
+          "y": 305.734375,
+          "width": 100,
+          "height": 73.1875,
+          "right": 347.203125,
+          "bottom": 378.921875,
+          "fieldBottom": 628.9375,
+          "dockTop": 660.9375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "sanctuary",
+      "width": 390,
+      "actor": "3",
+      "actionName": "WARD",
+      "geometry": [
+        {
+          "action": "WARD",
+          "x": 3.921875,
+          "y": 518.9375,
+          "width": 127.375,
+          "height": 110,
+          "right": 131.296875,
+          "bottom": 628.9375,
+          "fieldBottom": 628.9375,
+          "dockTop": 660.9375
+        },
+        {
+          "action": "WARD",
+          "x": 131.3125,
+          "y": 518.9375,
+          "width": 127.375,
+          "height": 110,
+          "right": 258.6875,
+          "bottom": 628.9375,
+          "fieldBottom": 628.9375,
+          "dockTop": 660.9375
+        },
+        {
+          "action": "WARD",
+          "x": 258.6875,
+          "y": 518.9375,
+          "width": 127.375,
+          "height": 110,
+          "right": 386.0625,
+          "bottom": 628.9375,
+          "fieldBottom": 628.9375,
+          "dockTop": 660.9375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "final",
+      "width": 390,
+      "actor": "1",
+      "actionName": "CHARGE",
+      "geometry": [
+        {
+          "action": "CHARGE",
+          "x": 150,
+          "y": 285.578125,
+          "width": 90,
+          "height": 125,
+          "right": 240,
+          "bottom": 410.578125,
+          "fieldBottom": 628.9375,
+          "dockTop": 660.9375
+        },
+        {
+          "action": "HEART",
+          "x": 32.1875,
+          "y": 285.578125,
+          "width": 94,
+          "height": 125,
+          "right": 126.1875,
+          "bottom": 410.578125,
+          "fieldBottom": 628.9375,
+          "dockTop": 660.9375
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

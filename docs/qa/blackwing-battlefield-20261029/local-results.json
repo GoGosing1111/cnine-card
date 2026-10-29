@@ -1,0 +1,16 @@
+{
+  "reports": [
+    {
+      "key": "clear",
+      "width": 1440,
+      "resultReachable": true,
+      "errors": []
+    },
+    {
+      "key": "clear",
+      "width": 390,
+      "resultReachable": true,
+      "errors": []
+    }
+  ]
+}

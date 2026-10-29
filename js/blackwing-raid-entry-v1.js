@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261029-blackwing-rewards1';
+  const VERSION = '20261029-field1';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, activeRoot = null, revision = 0;
   const host = () => document.getElementById('pveBlackwingRaidView');
   async function refresh() {

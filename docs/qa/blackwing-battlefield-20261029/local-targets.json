@@ -1,0 +1,66 @@
+{
+  "reports": [
+    {
+      "key": "sever",
+      "width": 390,
+      "actor": "7",
+      "actionName": "VOTE",
+      "geometry": [
+        {
+          "action": "VOTE",
+          "x": 182.6875,
+          "y": 244.109375,
+          "width": 80,
+          "height": 80,
+          "right": 262.6875,
+          "bottom": 324.109375,
+          "fieldBottom": 628.9375,
+          "dockTop": 660.9375
+        },
+        {
+          "action": "VOTE",
+          "x": 262.171875,
+          "y": 330.109375,
+          "width": 80,
+          "height": 80,
+          "right": 342.171875,
+          "bottom": 410.109375,
+          "fieldBottom": 628.9375,
+          "dockTop": 660.9375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "sever",
+      "width": 676,
+      "actor": "7",
+      "actionName": "VOTE",
+      "geometry": [
+        {
+          "action": "VOTE",
+          "x": 325.90625,
+          "y": 200.734375,
+          "width": 80,
+          "height": 80,
+          "right": 405.90625,
+          "bottom": 280.734375,
+          "fieldBottom": 539.9375,
+          "dockTop": 571.9375
+        },
+        {
+          "action": "VOTE",
+          "x": 406.03125,
+          "y": 286.734375,
+          "width": 80,
+          "height": 80,
+          "right": 486.03125,
+          "bottom": 366.734375,
+          "fieldBottom": 539.9375,
+          "dockTop": 571.9375
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

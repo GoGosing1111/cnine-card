@@ -1,0 +1,30 @@
+{
+  "scope": "scoped",
+  "base": "9fb2322d6b60aa7f125209e4917708ea2397a636",
+  "reason": "Blackwing-only full-width battlefield mechanic objects; preserve server economy/timing and shared V3 formations. Verify physical controls, scale/legacy role rules, scoped packaging and PC/mobile UI.",
+  "tests": [
+    "tests/blackwing-bloodscale-20261028.test.mjs",
+    "tests/blackwing-feedback-20261028.test.mjs"
+  ],
+  "checks": [],
+  "command": "npm run deploy:production -- --scoped",
+  "initialBase": "dd3ffeb48327724ab5b0fc5d39b1ac0a219be902",
+  "before": {
+    "Id": "f8b3a284-ea1e-45a3-9338-9dd69498c8d3",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "9fb2322",
+    "Deployment": "https://f8b3a284.cnine-card.pages.dev",
+    "Status": "1 minute ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/f8b3a284-ea1e-45a3-9338-9dd69498c8d3"
+  },
+  "prechecked": [
+    "tests/blackwing-battlefield-20261029.test.mjs",
+    "tests/production-sparse-staging-20261023.test.mjs"
+  ],
+  "precheckedPasses": 8,
+  "concurrentChangesPreserved": [
+    "1d0ba52f76c3cc7f7db9b9bdbb4b61b9cbe5ea70",
+    "9fb2322d6b60aa7f125209e4917708ea2397a636"
+  ]
+}

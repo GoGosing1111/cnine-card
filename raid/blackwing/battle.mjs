@@ -13,5 +13,18 @@ export function createBlackwingBattle(host){
   if(pending>18){epoch++;scene?.dispose();engine.cancelTimelines();queue=Promise.resolve();pending=0;sync();return;}if(!events.length&&!show){if(!pending)sync();return;}const version=epoch;pending+=events.length+Number(show);
   queue=queue.then(async()=>{if(version!==epoch||!engine)return;if(show){scene?.dispose();scene=playBlackwingCue(engine,cue,assets);try{await scene.playback;}finally{if(version===epoch)pending=Math.max(0,pending-1);}}for(const e of events){if(version!==epoch||!engine)return;try{await engine.playEvents([e]);}finally{if(version===epoch)pending=Math.max(0,pending-1);}}if(version===epoch&&!pending)sync();}).catch(error=>{console.warn('[Blackwing playback]',error);if(version===epoch){pending=0;sync();}});
  }
- return {mount,update,destroy,diagnostics:()=>({ready:!!engine,pending,cueHistory,presentation:scene?.diagnostics?.()||null,canvases:host.querySelectorAll('canvas').length,engine:engine?.diagnostics()})};
+ function anchors(field){
+  const actor=engine?.boss||engine?.enemies?.find(a=>a.battleActive!==false),canvas=host.querySelector('canvas');
+  if(!actor?.root||!canvas||!engine.app?.screen)return null;
+  const c=canvas.getBoundingClientRect(),f=field.getBoundingClientRect(),h=actor.fullBodyHeight||240;
+  const points=Object.fromEntries(Object.entries({wing:{x:-h*.45,y:-h*.85},blade:{x:h*.35,y:-h*.08},core:{x:0,y:-h*.48}}).map(([key,local])=>{
+   const p=actor.root.toGlobal(local);return [key,{x:Math.max(65,Math.min(f.width-65,c.left-f.left+p.x*c.width/engine.app.screen.width)),y:Math.max(100,Math.min(f.height-55,c.top-f.top+p.y*c.height/engine.app.screen.height))}];
+  }));
+  const gap=host.clientWidth<=760?86:106;
+  if(Math.abs(points.wing.x-points.blade.x)<gap&&Math.abs(points.wing.y-points.blade.y)<gap){
+   points.blade.y=Math.min(f.height-50,points.wing.y+gap);points.wing.y=points.blade.y-gap;
+  }
+  return points;
+ }
+ return {mount,update,destroy,anchors,diagnostics:()=>({ready:!!engine,pending,cueHistory,presentation:scene?.diagnostics?.()||null,canvases:host.querySelectorAll('canvas').length,engine:engine?.diagnostics()})};
 }

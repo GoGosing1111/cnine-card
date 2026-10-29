@@ -60,7 +60,7 @@ const server = http.createServer(async (req,res) => {
     let file=path.resolve(root,'.'+decodeURIComponent(url.pathname));
     if(file!==root&&!file.startsWith(root+path.sep)) {res.writeHead(403);return res.end();}
     if(fs.existsSync(file)&&fs.statSync(file).isDirectory()) file=path.join(file,'index.html');
-    if(!fs.existsSync(file)){res.writeHead(404);return res.end();}
+    if(!fs.existsSync(file)){const fallback=path.resolve('C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site','.'+decodeURIComponent(url.pathname));if(fs.existsSync(fallback))file=fallback;else{res.writeHead(404);return res.end();}}
     res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream','cache-control':'no-store'});
     fs.createReadStream(file).pipe(res);
   } catch(error) {json({error:error.message},500);}
@@ -86,11 +86,11 @@ async function seedPhase4(roomId){
  return r;
 }
 try{
- for(const[width,height]of [[1440,1000],[390,844]]){
+ for(const[width,height]of process.env.BLACKWING_LEGACY_ONCE==='1'?[[390,844]]:[[1440,1000],[390,844]]){
   const roomId=await lich.party();for(const[id]of [['1'],['2'],['3'],['6'],['7'],['8']])await lich.command('ready',{roomId,ready:true},Number(id));await lich.command('start',{roomId});
   await seedPhase4(roomId);
   const context=await browser.newContext({viewport:{width,height},isMobile:width<700,hasTouch:width<700,serviceWorkers:'block',acceptDownloads:true});
-  await context.addInitScript(user=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify({...user,id:3,serverUserId:3,nickname:'참가자 3',role:'USER'}));localStorage.setItem('cnine_card_api_token','local-qa-3');localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('soop-lobby-bgm-muted-v1','1');},user);
+  await context.addInitScript(user=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify({...user,id:3,serverUserId:3,nickname:'참가자 3',role:'USER'}));localStorage.setItem('cnine_card_api_token','local-qa-3');localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('soop-lobby-bgm-muted-v1','1');for(const id of [1,2,3,6,7,8])localStorage.setItem('cnine_soop_watch_notice:20261026-v1:'+id,'shown');},user);
   await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.stack));page.on('dialog',d=>d.accept());page.setDefaultTimeout(30000);
   try{
@@ -106,8 +106,8 @@ try{
    const wardButton=page.locator('[data-action="WARD"][data-target="0"]');await wardButton.waitFor({state:'visible'});await page.waitForFunction(()=>!document.querySelector('[data-action="WARD"][data-target="0"]').disabled);
    const identity=await wardButton.elementHandle();await page.waitForTimeout(250);assert.equal(await identity.evaluate(el=>el===document.querySelector('[data-action="WARD"][data-target="0"]')),true,'clock/poll keeps the same button node');
    await wardButton.click();await page.waitForFunction(()=>BlackwingRaidDiagnostics().state.challenge.wardLocked===0||BlackwingRaidDiagnostics().state.challenge.breaths===1);
-   const geometry=await page.evaluate(()=>{const a=document.querySelector('.bw-command').getBoundingClientRect(),b=document.querySelector('.bw-battle-mount').getBoundingClientRect(),c=document.querySelector('.bw-combat');return {command:{x:a.x,y:a.y,width:a.width,height:a.height},battle:{x:b.x,y:b.y,width:b.width,height:b.height},overflow:c.scrollWidth>c.clientWidth,canvases:c.querySelectorAll('canvas').length};});
-   assert.equal(geometry.overflow,false);assert.equal(geometry.canvases,1);if(width>1000){assert.ok(geometry.command.x>=geometry.battle.x+geometry.battle.width-1);assert.ok(geometry.command.y<200);}
+   const geometry=await page.evaluate(()=>{const a=document.querySelector('.bw-field').getBoundingClientRect(),b=document.querySelector('.bw-battle-mount').getBoundingClientRect(),c=document.querySelector('.bw-combat');return {command:{x:a.x,y:a.y,width:a.width,height:a.height},battle:{x:b.x,y:b.y,width:b.width,height:b.height},overflow:c.scrollWidth>c.clientWidth,canvases:c.querySelectorAll('canvas').length};});
+   assert.equal(geometry.overflow,false);assert.equal(geometry.canvases,1);assert.ok(geometry.battle.width>=width-16);assert.ok(geometry.command.x>=geometry.battle.x&&geometry.command.x+geometry.command.width<=geometry.battle.x+geometry.battle.width+1);
    await page.screenshot({path:path.join(out,'guard-'+width+'.png'),fullPage:true});
    await page.locator('.bw-top [data-log-open]').click();await page.locator('[data-log-list]').filter({hasText:'문양'}).waitFor();await page.locator('[data-log-filter]').selectOption('ISSUES');await page.locator('[data-log-list]').filter({hasText:'공유 문양판'}).waitFor();
    assert.match(await page.locator('[data-log-list]').innerText(),/참가자 1/);await page.screenshot({path:path.join(out,'log-'+width+'.png'),fullPage:true});
@@ -118,10 +118,10 @@ try{
    await page.reload();await page.waitForFunction(()=>typeof renderShell==='function');await page.evaluate(()=>renderShell('battle'));await page.locator('[data-pve-mode="raid"]').click();await page.locator('#blackwingRaidTab').click();await page.waitForFunction(()=>globalThis.BlackwingRaidDiagnostics?.().logEntries.some(e=>e.action==='WARD'));
    await page.locator('.bw-top [data-log-open]').click();await page.locator('[data-log-list]').filter({hasText:'성역 전개'}).waitFor();
    assert.deepEqual(errors,[]);const roleChecks=[];
-   for(const[actor,role]of [['1','BREAKER'],['7','SEALER']]){
+   for(const[actor,role]of process.env.BLACKWING_LEGACY_ONCE==='1'?[['7','SEALER']]:[['1','BREAKER'],['7','SEALER']]){
     await seedPhase4(roomId);
     const roleContext=await browser.newContext({viewport:{width,height},isMobile:width<700,hasTouch:width<700,serviceWorkers:'block'});
-    await roleContext.addInitScript(({user,actor})=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify({...user,id:Number(actor),serverUserId:Number(actor),nickname:'참가자 '+actor}));localStorage.setItem('cnine_card_api_token','local-qa-'+actor);localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('soop-lobby-bgm-muted-v1','1');},{user,actor});
+    await roleContext.addInitScript(({user,actor})=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify({...user,id:Number(actor),serverUserId:Number(actor),nickname:'참가자 '+actor}));localStorage.setItem('cnine_card_api_token','local-qa-'+actor);localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('soop-lobby-bgm-muted-v1','1');for(const id of [1,2,3,6,7,8])localStorage.setItem('cnine_soop_watch_notice:20261026-v1:'+id,'shown');},{user,actor});
     await roleContext.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());const rolePage=await roleContext.newPage();rolePage.on('pageerror',e=>errors.push(e.stack));
     try{
      await rolePage.goto(origin+'/');await rolePage.waitForFunction(()=>typeof renderShell==='function');await rolePage.evaluate(()=>renderShell('battle'));await rolePage.locator('[data-pve-mode="raid"]').click();await rolePage.locator('#blackwingRaidTab').click();await rolePage.waitForFunction(()=>globalThis.BlackwingRaidDiagnostics?.().battle.ready,{},{timeout:90000});

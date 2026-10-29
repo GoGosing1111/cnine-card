@@ -1,0 +1,115 @@
+{
+  "at": "2026-10-29T11:01:24.416Z",
+  "reports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "actor": "3",
+      "role": "GUARD",
+      "geometry": {
+        "field": {
+          "x": 6,
+          "y": 150,
+          "width": 1428,
+          "height": 550.09375
+        },
+        "battle": {
+          "x": 6,
+          "y": 78,
+          "width": 1428,
+          "height": 858
+        },
+        "pads": [
+          {
+            "x": 118.75,
+            "y": 495.09375,
+            "right": 378.75,
+            "bottom": 660.09375,
+            "width": 260,
+            "height": 165
+          },
+          {
+            "x": 590,
+            "y": 495.09375,
+            "right": 850,
+            "bottom": 660.09375,
+            "width": 260,
+            "height": 165
+          },
+          {
+            "x": 1061.234375,
+            "y": 495.09375,
+            "right": 1321.234375,
+            "bottom": 660.09375,
+            "width": 260,
+            "height": 165
+          }
+        ],
+        "sidebar": false,
+        "overflow": false,
+        "canvases": 1
+      },
+      "personalClue": true,
+      "stableButtons": true,
+      "wrongChoiceEditable": true,
+      "sixPlayerCommit": true,
+      "logAndReconnect": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "actor": "3",
+      "role": "GUARD",
+      "geometry": {
+        "field": {
+          "x": 2,
+          "y": 124,
+          "width": 386,
+          "height": 504.9375
+        },
+        "battle": {
+          "x": 2,
+          "y": 64,
+          "width": 386,
+          "height": 726
+        },
+        "pads": [
+          {
+            "x": 3.921875,
+            "y": 430.9375,
+            "right": 131.296875,
+            "bottom": 580.9375,
+            "width": 127.375,
+            "height": 150
+          },
+          {
+            "x": 131.3125,
+            "y": 430.9375,
+            "right": 258.6875,
+            "bottom": 580.9375,
+            "width": 127.375,
+            "height": 150
+          },
+          {
+            "x": 258.6875,
+            "y": 430.9375,
+            "right": 386.0625,
+            "bottom": 580.9375,
+            "width": 127.375,
+            "height": 150
+          }
+        ],
+        "sidebar": false,
+        "overflow": false,
+        "canvases": 1
+      },
+      "personalClue": true,
+      "stableButtons": true,
+      "wrongChoiceEditable": true,
+      "sixPlayerCommit": true,
+      "logAndReconnect": true,
+      "errors": []
+    }
+  ]
+}

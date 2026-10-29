@@ -1,0 +1,54 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "purpose": "흑익의 맹약 전장 내 직접 조작 오브젝트",
+  "assets": [
+    {
+      "name": "field-altar",
+      "prompt": "Use case: stylized-concept. Asset type: production 2D dark fantasy raid gameplay prop, transparent PNG cutout. Primary request: one ancient dragon-blood weighing sanctuary platform for an in-battle co-op mechanic. A low, wide circular obsidian and worn bronze stone altar, viewed from a slightly elevated three-quarter front camera, elliptical floor footprint; flanking small black dragon horn prongs, a central shallow empty dish, subtle ember-red carved arcane grooves and pale warm gold rim illumination. It belongs on a cracked black stone battlefield in a ruined gothic cathedral under a blood-red sky. Hand-painted high-end Korean dark fantasy RPG prop, tangible chipped stone, metal edges, dramatic but restrained lighting. The entire object centered, occupies 85% width and 65% height, generous transparent margin, bottom edge at 85% canvas height; no surrounding floor, no background, no characters, no UI panel, no frame, no letters, no numbers, no text, no watermark. Readable silhouette at 120 pixels wide. Genuine transparent alpha background.",
+      "source": "assets/raids/blackwing-20261024/originals/field-altar-20261029.png",
+      "runtime": "assets/raids/blackwing-20261024/field-altar.webp",
+      "sourceSha256": "d6e46fa5d0fb9b8b962b5a18fdc1c320d869c5cc5e378ff0bc8b32f3b9c7ffa1",
+      "runtimeSha256": "f2a502a4f21ea72ad2b42c3f25319bda1e8d305890fa8c9bb9ad07018b7489c1",
+      "delivery": {
+        "width": 512,
+        "height": 341,
+        "alpha": true,
+        "minAlpha": 0,
+        "maxAlpha": 255
+      }
+    },
+    {
+      "name": "field-heart",
+      "prompt": "Use case: stylized-concept. Asset type: one production 2D dark fantasy raid interactive object, isolated transparent PNG cutout. Primary request: a dragon's magical blood heart suspended inside a broken black iron reliquary. A large faceted crimson ruby organ-shaped crystal with curved dragon scale metal veins, shattered obsidian cage ribs extending below and beside it, faint red magical filaments connecting fragments, restrained blood-red inner glow, small old gold edge accents. Dark fantasy painted game prop, highly readable at 100 pixels tall. Three-quarter frontal camera, whole object centered and contained in the middle 75 percent of a square canvas with clear transparent margin. Fits a black stone cathedral battlefield. This is a solid tangible destructible gameplay object, not an icon button. No background, no ground, no black backdrop, no mist outside the silhouette, no cast shadow outside object, no characters, no UI panel, no frame, no text, no letters, no numbers, no watermark. Genuine transparent background with alpha zero outside silhouette.",
+      "source": "assets/raids/blackwing-20261024/originals/field-heart-20261029.png",
+      "runtime": "assets/raids/blackwing-20261024/field-heart.webp",
+      "sourceSha256": "509102804c7ff14922fac99a6eee0e29207f3d3e1d461646e34c11e8962bfbd4",
+      "runtimeSha256": "aeed3cf5b7d4c70cf75991094f0eaee2ee73c64c6446cc92d32717fd3339bb2a",
+      "delivery": {
+        "width": 512,
+        "height": 512,
+        "alpha": true,
+        "minAlpha": 0,
+        "maxAlpha": 255
+      }
+    },
+    {
+      "name": "field-target",
+      "prompt": "Use case: stylized-concept. Asset type: transparent production 2D dark-fantasy gameplay targeting sigil. One thin broken circular ring made of weathered old gold dragonbone fragments and restrained ember-red runic strokes. The center must be completely empty and transparent, so a game boss remains visible through it. Full transparent background, no background color, no square panel, no disc, no filled interior, no letters or numbers. Four tiny inward-pointing claw tips at cardinal points, visible yet restrained. The ring occupies the central 75 percent of a square canvas, entirely contained with 12 percent clear padding, sharp clean painted texture readable at 80px. Used to select a specific wing or weapon on a dark red cathedral battlefield. No characters, no text, no logo, no watermark, no floor, no shadow outside the ring. Alpha zero everywhere outside and inside the thin ring.",
+      "source": "assets/raids/blackwing-20261024/originals/field-target-20261029.png",
+      "runtime": "assets/raids/blackwing-20261024/field-target.webp",
+      "sourceSha256": "f86f1eeca957aef8d034c9c1d3b47be14ae7f257ab2ab0bf985f632a2bce5826",
+      "runtimeSha256": "25240aa09417fcb0ee32f5d8b2faafada445f7bcf6bfe7d2faccd5fb1858b862",
+      "delivery": {
+        "width": 320,
+        "height": 320,
+        "alpha": true,
+        "minAlpha": 0,
+        "maxAlpha": 255
+      }
+    }
+  ],
+  "processing": "Original PNG files preserved byte-for-byte; size/format delivery conversion only, transparent alpha retained.",
+  "scope": "Mechanic hit areas and field overlay. Existing shared PixiJS 8.20.0 / GSAP 3.13.0 battle playback untouched; no new skill timeline or synthesized sound."
+}

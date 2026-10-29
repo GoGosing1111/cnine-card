@@ -160,3 +160,61 @@
 .bw-result [data-clear-reward]{word-break:keep-all}
 .bw-result>[data-result-status]:empty{display:none}
 @media(max-width:760px){.bw-combat.is-ended{padding:12px}.bw-combat.is-ended>.bw-result{max-height:calc(100dvh - 24px);padding:22px 18px;gap:16px}.bw-result>h3{font-size:23px}}
+
+/* Field mechanics occupy the shared V3 battlefield, above its measured dock.
+   The common formation, canvas camera, card frames and roster are untouched. */
+.bw-combat:not(.is-ended){grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(350px,1fr) auto;grid-template-areas:'top' 'arena' 'party';padding:6px;gap:4px;overflow:hidden}
+.bw-arena{grid-area:arena;position:relative;min-width:0;min-height:0;isolation:isolate}
+.bw-combat.is-ended>.bw-arena{display:none}
+.bw-top{gap:10px;padding:5px 10px;border-radius:0}.bw-top .bw-boss-portrait{width:35px;height:42px}.bw-top h3{font-size:15px}.bw-top>button{min-height:40px;font-size:12px}
+.bw-top>.bw-top-state{flex:0 1 auto;display:grid;gap:3px;text-align:right;font-size:11px;color:#c4d3df}.bw-top-state [data-health]{color:#d3eeb0}.bw-top-state .is-danger{color:#ff9b83}
+.bw-party-chip{padding:3px 6px}.bw-party-chip .bw-face{width:24px;height:29px}
+.bw-field{position:absolute;z-index:21;inset:72px 0 calc(var(--bw-dock-height,160px) + 35px);pointer-events:none;min-height:180px;color:#fff2d5;text-shadow:0 2px 5px #000,0 0 12px #000;font-size:13px}
+.bw-field-brief{position:absolute;top:4px;left:50%;transform:translateX(-50%);width:min(740px,95%);text-align:center;pointer-events:none;line-height:1.5}
+.bw-field-brief>[data-field-phase]{display:block;font-size:10px;color:#c2bac2;letter-spacing:.06em}
+.bw-field-brief>strong{font-size:25px;letter-spacing:.04em;color:#f3d9a3;font-weight:800}.bw-field-brief p{margin:3px 0;font-size:13px;word-break:keep-all}
+.bw-field-brief>b{display:inline-block;color:#ffd59e;font-size:16px;margin-right:12px}.bw-field-brief>[data-field-clock]{color:#e7f3ee;font-size:13px;font-variant-numeric:tabular-nums}.bw-field-brief>:empty{display:none}
+.bw-field-objects{position:absolute;inset:0;pointer-events:none}
+.bw-field-object{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transform:translateX(-50%);color:#fff0cf;background:none;border:0;border-image:none;box-shadow:none;padding:6px;text-shadow:0 2px 4px #000,0 0 8px #000;pointer-events:auto;line-height:1.35;isolation:isolate;min-height:44px;font:inherit;touch-action:manipulation}
+.bw-combat .bw-field-object:disabled{opacity:1;cursor:default}.bw-field-object>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:-1;pointer-events:none;filter:brightness(.7)}
+.bw-field-object>strong{font-size:15px;line-height:1.35}.bw-field-object>b{font-size:23px;color:#ffe8ae;font-variant-numeric:tabular-nums}.bw-field-object>small{font-size:11px;color:#e0cabb}
+.bw-field-object:not(:disabled):hover>img,.bw-field-object:not(:disabled):focus-visible>img{filter:brightness(1.25) drop-shadow(0 0 9px #ffc26599)}
+.bw-field-object.is-selected>img{filter:brightness(1.15) drop-shadow(0 0 7px #b7ffb0)}.bw-field-object.is-selected>strong{color:#cdffb7}.bw-field-object.is-shadow>small{color:#ffab96}.bw-field-object.is-shadow>img{opacity:.5}.bw-field-object.is-done>img{filter:grayscale(1);opacity:.3}
+.bw-field-object:focus-visible{outline:2px solid #fff1bc;outline-offset:3px}
+.bw-object-altar,.bw-object-ward,.bw-object-rune{left:calc(17% + var(--lane)*33%);bottom:40px;width:clamp(100px,28%,260px);height:165px;justify-content:flex-start;padding-top:8px}
+.bw-object-altar>img,.bw-object-ward>img,.bw-object-rune>img{top:20px;height:calc(100% - 20px)}
+.bw-object-occupants{display:flex;flex-direction:column;gap:3px;min-height:32px;margin-top:5px;max-width:95%;font-size:11px;font-weight:650}
+.bw-object-occupants>span{max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.bw-object-occupants>.is-own{color:#cfffaa}.bw-object-occupants:empty{display:none}
+.bw-object-commit{left:calc(17% + var(--lane)*33%);bottom:0;width:clamp(104px,26%,230px);min-height:44px;padding:7px;background:url('/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp') center/100% 100% no-repeat;color:#e9ffc9}
+.bw-object-commit>strong{font-size:14px}.bw-object-commit>b{font-size:10px;color:#cdd4cc}.bw-object-commit:disabled{filter:saturate(.25);opacity:.7!important}
+.bw-object-relic{left:50%;top:40%;width:150px;height:180px;justify-content:flex-end}.bw-object-heart{left:calc(34% + var(--lane)*32%);top:38%;width:150px;height:180px;justify-content:flex-end}
+.bw-object-relic>img,.bw-object-heart>img{bottom:35px;height:calc(100% - 35px);filter:brightness(.9)}.bw-object-relic>b,.bw-object-heart>b{font-size:12px}.bw-object-relic>strong,.bw-object-heart>strong{margin-top:auto}
+.bw-object-boss{left:var(--anchor-x,65%);top:var(--anchor-y,55%);transform:translate(-50%,-50%);min-width:122px;max-width:190px;padding:12px 10px;background:#140a0bc7;border-block:1px solid #ddbd6e;color:#fff0bd;box-shadow:0 0 25px #f9823225}
+.bw-object-boss>b{font-size:11px}.bw-object-boss>small{font-size:10px}.bw-object-boss:not(:disabled):hover,.bw-object-boss:focus-visible{background:#5e2015df}.bw-object-boss.is-selected{border-color:#cfff99;color:#d9ffb8}
+.bw-object-ward{height:125px;bottom:0}.bw-object-ward>b{font-size:17px}.bw-object-ward>small{font-size:11px}.bw-object-rune{height:140px;bottom:0}.bw-object-glyph{font-size:42px;line-height:1}.bw-object-glyph:empty{display:none}
+.bw-field.is-final .bw-object-relic{left:50%;top:28%;width:110px;height:130px}.bw-field.is-final .bw-object-heart{left:calc(20% + var(--lane)*60%);top:28%;width:115px;height:130px}.bw-field.is-final .bw-object-ward{height:110px}
+.bw-field.is-final .bw-object-heart>strong,.bw-field.is-final .bw-object-relic>strong{font-size:13px}.bw-field.is-final .bw-object-heart>small,.bw-field.is-final .bw-object-relic>small{font-size:10px}
+.bw-field-utility{position:absolute;top:8px;right:12px;display:flex;gap:6px;pointer-events:auto}.bw-field-utility>.bw-field-object{position:static;transform:none;max-width:155px;background:#151d16d9;border-bottom:1px solid #abd484;padding:8px}.bw-field-utility>.bw-field-object>strong{font-size:12px}
+.bw-field-help{position:absolute;top:8px;left:12px;pointer-events:auto;font-size:11px;text-shadow:none}.bw-field-help>summary{min-height:44px;padding:11px 10px;cursor:pointer;color:#d3cbbd}.bw-field-help[open]{z-index:5;width:min(360px,calc(100% - 24px));padding:0 12px 12px;background:#10121aef;border:1px solid #787167}.bw-field-help p{line-height:1.7;margin:8px 0}
+.bw-field-status{position:absolute;bottom:0;left:10px;max-width:35%;font-size:11px;color:#ffc9b7;pointer-events:none}.bw-field-status:empty{display:none}
+@media(max-width:760px){
+ .bw-combat:not(.is-ended){padding:2px;gap:2px;grid-template-rows:auto minmax(350px,1fr) auto}.bw-top{padding:4px;gap:5px;flex-wrap:nowrap}.bw-top .bw-boss-portrait{width:27px;height:34px}.bw-top h3{font-size:12px}.bw-top .bw-clock{font-size:9px}.bw-top>button{font-size:10px;min-height:40px;padding:4px 6px}.bw-top>.bw-top-state{display:none}
+ .bw-party-strip{grid-template-columns:repeat(6,minmax(0,1fr));gap:2px}.bw-party-chip{padding:3px;gap:0}.bw-party-chip .bw-face{display:none}.bw-party-chip strong{font-size:8px}.bw-party-chip small{font-size:8px}
+ .bw-field{top:60px;bottom:calc(var(--bw-dock-height,130px) + 32px);font-size:11px}.bw-field-brief{top:3px;width:96%;padding:0 4px}.bw-field-brief>strong{font-size:20px}.bw-field-brief>[data-field-phase]{font-size:9px}.bw-field-brief p{font-size:11px;max-width:95%;margin:2px auto}.bw-field-brief>b{font-size:14px;margin-right:7px}.bw-field-brief>[data-field-clock]{font-size:11px}
+ .bw-object-altar{width:33%;height:150px;bottom:48px;padding:9px 1px}.bw-field-object>strong{font-size:12px}.bw-field-object>b{font-size:19px}.bw-field-object>small{font-size:9px}.bw-object-occupants{font-size:9px;gap:4px;margin-top:6px}.bw-object-altar>img{top:23px;height:calc(100% - 23px)}
+ .bw-object-commit{width:31%;min-width:0;padding:5px 1px}.bw-object-commit>strong{font-size:11px}.bw-object-commit>b{font-size:9px}
+ .bw-object-relic,.bw-object-heart{width:115px;height:160px;top:40%}.bw-object-heart{left:calc(25% + var(--lane)*50%)}.bw-object-heart>b,.bw-object-relic>b{font-size:10px}
+ .bw-object-ward{width:33%;height:110px;padding:4px 1px}.bw-object-ward>b{font-size:15px}.bw-object-ward>small{font-size:9px}.bw-object-boss{min-width:100px;max-width:140px;padding:8px 5px}.bw-object-boss>b{font-size:9px}
+ .bw-field.is-final .bw-object-relic{width:90px;height:125px;top:32%}.bw-field.is-final .bw-object-heart{width:94px;height:125px;top:32%}.bw-field.is-final .bw-object-ward{height:100px}.bw-field.is-final .bw-object-relic>strong,.bw-field.is-final .bw-object-heart>strong{font-size:11px}
+ .bw-field-help{top:100px;left:3px}.bw-field-help>summary{font-size:10px;padding:8px 5px}.bw-field-utility{top:104px;right:5px}.bw-field-utility>.bw-field-object{max-width:135px;min-height:40px;padding:5px}.bw-field-utility>.bw-field-object>strong{font-size:10px}.bw-field-status{max-width:95%;bottom:-30px;font-size:10px}
+}
+@media(max-height:650px){.bw-combat:not(.is-ended){overflow-y:auto;grid-template-rows:auto minmax(480px,1fr) auto}}
+
+.bw-object-commit,.bw-object-commit>b{color:#16230d;text-shadow:none}.bw-object-commit>strong{font-weight:800}
+@media(max-width:760px){.bw-field-utility{top:88px;right:50%;transform:translateX(50%)}.bw-field-help{top:88px}}
+
+.bw-object-boss{width:100px;height:100px;min-width:0;max-width:none;background:none!important;border:0;box-shadow:none;padding:8px}.bw-object-boss>img{filter:brightness(.9)}.bw-object-boss>strong{font-size:13px}.bw-object-boss>b,.bw-object-boss>small{display:none}.bw-object-boss[data-action="STRIKE"]>b{display:block;position:absolute;top:100%;width:160px;font-size:11px}.bw-field[data-kind="SEVER"] .bw-field-brief>b{font-size:12px}
+@media(max-width:760px){.bw-object-boss{width:80px;height:80px}.bw-object-boss>strong{font-size:11px}.bw-field[data-kind="SEVER"] .bw-field-brief>b{font-size:11px}}
+.bw-field-object[data-action]:not(:disabled)>img{filter:brightness(1.08) drop-shadow(0 0 5px #ffce7b80)}
+.bw-field-object[data-action]:disabled:not(.bw-object-altar):not(.is-selected)>img{filter:brightness(.48) saturate(.55)}
+.bw-object-ward[data-action]:not(:disabled)>small{color:#d6ffab;font-weight:800}

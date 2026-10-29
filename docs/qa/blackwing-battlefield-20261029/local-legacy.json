@@ -1,0 +1,38 @@
+{
+  "at": "2026-10-29T11:22:25.351Z",
+  "reports": [
+    {
+      "width": 390,
+      "height": 844,
+      "geometry": {
+        "command": {
+          "x": 2,
+          "y": 124,
+          "width": 386,
+          "height": 504.9375
+        },
+        "battle": {
+          "x": 2,
+          "y": 64,
+          "width": 386,
+          "height": 726
+        },
+        "overflow": false,
+        "canvases": 1
+      },
+      "stableButton": true,
+      "wardSingleClick": true,
+      "sharedBoard": true,
+      "roleChecks": [
+        {
+          "role": "SEALER",
+          "ownRuneClick": true
+        }
+      ],
+      "logFilter": true,
+      "download": true,
+      "reconnect": true,
+      "errors": []
+    }
+  ]
+}
