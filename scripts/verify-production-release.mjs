@@ -75,8 +75,8 @@ for (const contract of [
 ]) {
   if (!core.includes(contract)) fail(`Core room-expedition contract is missing: ${contract}`);
 }
-if (!/core-raid-entry-ticket-v1\.png/.test(coreUi) || !/OVERLOAD RISK/.test(coreUi)) {
-  fail('Core UI is missing the reviewed entry-ticket art or triple-core overload warning');
+if (!/입장권 없이 무료/.test(coreUi) || !/required:\s*0/.test(core) || /CORE_RAID_ROOM_OPEN/.test(core) || !/OVERLOAD RISK/.test(coreUi)) {
+  fail('Core raid is missing free-entry behavior or the triple-core overload warning');
 }
 if (/dailyEntries|cycleIdentity/.test(core)) {
   fail('the retired global-cycle/one-attempt Core model is still present');
