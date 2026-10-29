@@ -1,0 +1,54 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T06:11:41.755Z",
+  "releaseCommit": "81ca1cecf9786eb96c476e98ea962b443dff5692",
+  "previousDeployment": {
+    "id": "b764f49f-4f6e-45e9-a1d8-e2444ed0b286",
+    "url": "https://b764f49f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "31ed502e3906258958712455a7b6fcf4cb2dcee3"
+  },
+  "pages": {
+    "id": "c167e81a-48c4-4f2a-89dc-b17f67d050e9",
+    "url": "https://c167e81a.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "81ca1cecf9786eb96c476e98ea962b443dff5692"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "32e57259-05d5-4f34-9c71-84394056d358",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "a4748f5e-3a6a-4a2f-b6c0-82bd907175ac",
+      "percentage": 100
+    }
+  ],
+  "font": {
+    "family": "Pretendard Variable",
+    "version": "1.3.9",
+    "reference": "mercenary-codex/index.html",
+    "renderedWebFontVerified": true,
+    "existingCodexLinkReused": true
+  },
+  "checks": {
+    "releaseRegressions": 7,
+    "localChecks": 59,
+    "nativeAndStandaloneChecks": 11,
+    "viewports": [
+      "1440x900",
+      "390x844",
+      "320x740"
+    ],
+    "publicMobileChecks": 21,
+    "publicAssets": 10
+  },
+  "productionDataWrites": 0,
+  "messagesSent": 0,
+  "artBytesChanged": 0,
+  "manualStorageMaintenance": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/lobby-pretendard-20261029",
+  "reusedCheckout": "C:/Users/User/Downloads/upload/cnine-lobby-clarity-20260914/site"
+}

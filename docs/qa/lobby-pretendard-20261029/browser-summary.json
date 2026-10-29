@@ -1,0 +1,899 @@
+{
+  "local": {
+    "checks": [
+      "actual Pretendard glyphs: .brand>span",
+      "actual Pretendard glyphs: #player-name",
+      "actual Pretendard glyphs: .account-rank-level",
+      "actual Pretendard glyphs: #wallet-coin",
+      "actual Pretendard glyphs: #depart-title",
+      "actual Pretendard glyphs: .depart-watermark",
+      "actual Pretendard glyphs: [data-live-operations-surface=\"lobby-clarity\"] .live-operation-copy>b",
+      "1440x900 all visible shadow text uses the codex family",
+      "1440x900 no horizontal page overflow",
+      "1440x900 currency values fit",
+      "1440x900 wordmark fits",
+      "1440x900 pve label fits",
+      "1440x900 pvp label fits",
+      "actual Pretendard glyphs: #menu-dialog h2",
+      "actual Pretendard glyphs: .menu-result b",
+      "actual Pretendard glyphs: .menu-result small",
+      "1440x900 menu readable without horizontal scroll",
+      "1440x900 menu closes",
+      "actual Pretendard glyphs: #liveOperationsDialog h2",
+      "actual Pretendard glyphs: .brand>span",
+      "actual Pretendard glyphs: #player-name",
+      "actual Pretendard glyphs: .account-rank-level",
+      "actual Pretendard glyphs: #wallet-coin",
+      "actual Pretendard glyphs: #depart-title",
+      "actual Pretendard glyphs: .depart-watermark",
+      "actual Pretendard glyphs: [data-live-operations-surface=\"lobby-clarity\"] .live-operation-copy>b",
+      "390x844 all visible shadow text uses the codex family",
+      "390x844 no horizontal page overflow",
+      "390x844 currency values fit",
+      "390x844 wordmark fits",
+      "390x844 pve label fits",
+      "390x844 pvp label fits",
+      "actual Pretendard glyphs: #menu-dialog h2",
+      "actual Pretendard glyphs: .menu-result b",
+      "actual Pretendard glyphs: .menu-result small",
+      "390x844 menu readable without horizontal scroll",
+      "390x844 menu closes",
+      "actual Pretendard glyphs: #liveOperationsDialog h2",
+      "actual Pretendard glyphs: .brand>span",
+      "actual Pretendard glyphs: #player-name",
+      "actual Pretendard glyphs: .account-rank-level",
+      "actual Pretendard glyphs: #wallet-coin",
+      "actual Pretendard glyphs: #depart-title",
+      "actual Pretendard glyphs: .depart-watermark",
+      "actual Pretendard glyphs: [data-live-operations-surface=\"lobby-clarity\"] .live-operation-copy>b",
+      "320x740 all visible shadow text uses the codex family",
+      "320x740 no horizontal page overflow",
+      "320x740 currency values fit",
+      "320x740 wordmark fits",
+      "320x740 pve label fits",
+      "320x740 pvp label fits",
+      "actual Pretendard glyphs: #menu-dialog h2",
+      "actual Pretendard glyphs: .menu-result b",
+      "actual Pretendard glyphs: .menu-result small",
+      "320x740 menu readable without horizontal scroll",
+      "320x740 menu closes",
+      "actual Pretendard glyphs: #liveOperationsDialog h2",
+      "zero browser exceptions",
+      "all requested local assets served"
+    ],
+    "reports": [
+      {
+        "size": "1440x900",
+        "fontSamples": [
+          {
+            "selector": ".brand>span",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 12
+              },
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Medium",
+                "isCustomFont": true,
+                "glyphCount": 4
+              }
+            ]
+          },
+          {
+            "selector": "#player-name",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 8
+              }
+            ]
+          },
+          {
+            "selector": ".account-rank-level",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Medium",
+                "isCustomFont": true,
+                "glyphCount": 6
+              }
+            ]
+          },
+          {
+            "selector": "#wallet-coin",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-ExtraBold",
+                "isCustomFont": true,
+                "glyphCount": 4
+              }
+            ]
+          },
+          {
+            "selector": "#depart-title",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-ExtraBold",
+                "isCustomFont": true,
+                "glyphCount": 5
+              }
+            ]
+          },
+          {
+            "selector": ".depart-watermark",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-ExtraBold",
+                "isCustomFont": true,
+                "glyphCount": 3
+              }
+            ]
+          },
+          {
+            "selector": "[data-live-operations-surface=\"lobby-clarity\"] .live-operation-copy>b",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 6
+              }
+            ]
+          },
+          {
+            "selector": "#menu-dialog h2",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 8
+              }
+            ]
+          },
+          {
+            "selector": ".menu-result b",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Bold",
+                "isCustomFont": true,
+                "glyphCount": 3
+              }
+            ]
+          },
+          {
+            "selector": ".menu-result small",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable",
+                "isCustomFont": true,
+                "glyphCount": 15
+              }
+            ]
+          },
+          {
+            "selector": "#liveOperationsDialog h2",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Bold",
+                "isCustomFont": true,
+                "glyphCount": 6
+              }
+            ]
+          }
+        ],
+        "layout": {
+          "fonts": [
+            "\"Pretendard Variable\", Pretendard, \"Noto Sans KR\", \"Malgun Gothic\", sans-serif"
+          ],
+          "bodyWidth": 1440,
+          "viewport": 1440,
+          "wallet": [
+            {
+              "text": "2.2조",
+              "width": 0,
+              "scroll": 0
+            },
+            {
+              "text": "12.8만",
+              "width": 0,
+              "scroll": 0
+            },
+            {
+              "text": "3,250",
+              "width": 0,
+              "scroll": 0
+            },
+            {
+              "text": "12.3만",
+              "width": 0,
+              "scroll": 0
+            }
+          ],
+          "brand": {
+            "width": 257,
+            "scroll": 257
+          }
+        },
+        "menu": {
+          "width": 1040,
+          "x": 200,
+          "right": 1240,
+          "scroll": 1038,
+          "client": 1038,
+          "contentScroll": 1023,
+          "contentWidth": 1023,
+          "category": "pvp"
+        }
+      },
+      {
+        "size": "390x844",
+        "fontSamples": [
+          {
+            "selector": ".brand>span",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 12
+              },
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Medium",
+                "isCustomFont": true,
+                "glyphCount": 4
+              }
+            ]
+          },
+          {
+            "selector": "#player-name",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 8
+              }
+            ]
+          },
+          {
+            "selector": ".account-rank-level",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Medium",
+                "isCustomFont": true,
+                "glyphCount": 6
+              }
+            ]
+          },
+          {
+            "selector": "#wallet-coin",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-ExtraBold",
+                "isCustomFont": true,
+                "glyphCount": 4
+              }
+            ]
+          },
+          {
+            "selector": "#depart-title",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-ExtraBold",
+                "isCustomFont": true,
+                "glyphCount": 5
+              }
+            ]
+          },
+          {
+            "selector": ".depart-watermark",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-ExtraBold",
+                "isCustomFont": true,
+                "glyphCount": 3
+              }
+            ]
+          },
+          {
+            "selector": "[data-live-operations-surface=\"lobby-clarity\"] .live-operation-copy>b",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 10
+              }
+            ]
+          },
+          {
+            "selector": "#menu-dialog h2",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 8
+              }
+            ]
+          },
+          {
+            "selector": ".menu-result b",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Bold",
+                "isCustomFont": true,
+                "glyphCount": 3
+              }
+            ]
+          },
+          {
+            "selector": ".menu-result small",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable",
+                "isCustomFont": true,
+                "glyphCount": 15
+              }
+            ]
+          },
+          {
+            "selector": "#liveOperationsDialog h2",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Bold",
+                "isCustomFont": true,
+                "glyphCount": 6
+              }
+            ]
+          }
+        ],
+        "layout": {
+          "fonts": [
+            "\"Pretendard Variable\", Pretendard, \"Noto Sans KR\", \"Malgun Gothic\", sans-serif"
+          ],
+          "bodyWidth": 390,
+          "viewport": 390,
+          "wallet": [
+            {
+              "text": "2.2조",
+              "width": 0,
+              "scroll": 0
+            },
+            {
+              "text": "12.8만",
+              "width": 0,
+              "scroll": 0
+            },
+            {
+              "text": "3,250",
+              "width": 0,
+              "scroll": 0
+            },
+            {
+              "text": "12.3만",
+              "width": 0,
+              "scroll": 0
+            }
+          ],
+          "brand": {
+            "width": 270,
+            "scroll": 270
+          }
+        },
+        "menu": {
+          "width": 374,
+          "x": 8,
+          "right": 382,
+          "scroll": 372,
+          "client": 372,
+          "contentScroll": 357,
+          "contentWidth": 357,
+          "category": "pvp"
+        }
+      },
+      {
+        "size": "320x740",
+        "fontSamples": [
+          {
+            "selector": ".brand>span",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 12
+              },
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Medium",
+                "isCustomFont": true,
+                "glyphCount": 4
+              }
+            ]
+          },
+          {
+            "selector": "#player-name",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 8
+              }
+            ]
+          },
+          {
+            "selector": ".account-rank-level",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Medium",
+                "isCustomFont": true,
+                "glyphCount": 6
+              }
+            ]
+          },
+          {
+            "selector": "#wallet-coin",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-ExtraBold",
+                "isCustomFont": true,
+                "glyphCount": 4
+              }
+            ]
+          },
+          {
+            "selector": "#depart-title",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-ExtraBold",
+                "isCustomFont": true,
+                "glyphCount": 5
+              }
+            ]
+          },
+          {
+            "selector": ".depart-watermark",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-ExtraBold",
+                "isCustomFont": true,
+                "glyphCount": 3
+              }
+            ]
+          },
+          {
+            "selector": "[data-live-operations-surface=\"lobby-clarity\"] .live-operation-copy>b",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 10
+              }
+            ]
+          },
+          {
+            "selector": "#menu-dialog h2",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 8
+              }
+            ]
+          },
+          {
+            "selector": ".menu-result b",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Bold",
+                "isCustomFont": true,
+                "glyphCount": 3
+              }
+            ]
+          },
+          {
+            "selector": ".menu-result small",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable",
+                "isCustomFont": true,
+                "glyphCount": 15
+              }
+            ]
+          },
+          {
+            "selector": "#liveOperationsDialog h2",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Bold",
+                "isCustomFont": true,
+                "glyphCount": 6
+              }
+            ]
+          }
+        ],
+        "layout": {
+          "fonts": [
+            "\"Pretendard Variable\", Pretendard, \"Noto Sans KR\", \"Malgun Gothic\", sans-serif"
+          ],
+          "bodyWidth": 320,
+          "viewport": 320,
+          "wallet": [
+            {
+              "text": "2.2조",
+              "width": 0,
+              "scroll": 0
+            },
+            {
+              "text": "12.8만",
+              "width": 0,
+              "scroll": 0
+            },
+            {
+              "text": "3,250",
+              "width": 0,
+              "scroll": 0
+            },
+            {
+              "text": "12.3만",
+              "width": 0,
+              "scroll": 0
+            }
+          ],
+          "brand": {
+            "width": 208,
+            "scroll": 208
+          }
+        },
+        "menu": {
+          "width": 304,
+          "x": 8,
+          "right": 312,
+          "scroll": 302,
+          "client": 302,
+          "contentScroll": 287,
+          "contentWidth": 287,
+          "category": "pvp"
+        }
+      }
+    ],
+    "errors": [],
+    "missing": [],
+    "publicBase": "",
+    "productionWrites": 0
+  },
+  "native": {
+    "checks": [
+      "actual Pretendard glyphs: #bgmPlayerHeading",
+      "actual Pretendard glyphs: .bgm-now-copy small",
+      "actual Pretendard glyphs: .bgm-time span",
+      "actual Pretendard glyphs: .bgm-track-no",
+      "BGM stays muted during QA",
+      "actual Pretendard glyphs: .account-rank-dialog h2",
+      "actual Pretendard glyphs: .c9-lobby-entry",
+      "actual Pretendard glyphs: #menu-dialog h2",
+      "existing codex font link is reused",
+      "zero browser exceptions",
+      "all requested local assets served"
+    ],
+    "samples": [
+      {
+        "selector": "#bgmPlayerHeading",
+        "fonts": [
+          {
+            "familyName": "Pretendard Variable",
+            "postScriptName": "PretendardVariable-ExtraBold",
+            "isCustomFont": true,
+            "glyphCount": 6
+          }
+        ]
+      },
+      {
+        "selector": ".bgm-now-copy small",
+        "fonts": [
+          {
+            "familyName": "Pretendard Variable",
+            "postScriptName": "PretendardVariable-SemiBold",
+            "isCustomFont": true,
+            "glyphCount": 16
+          }
+        ]
+      },
+      {
+        "selector": ".bgm-time span",
+        "fonts": [
+          {
+            "familyName": "Pretendard Variable",
+            "postScriptName": "PretendardVariable-Medium",
+            "isCustomFont": true,
+            "glyphCount": 4
+          }
+        ]
+      },
+      {
+        "selector": ".bgm-track-no",
+        "fonts": [
+          {
+            "familyName": "Pretendard Variable",
+            "postScriptName": "PretendardVariable-SemiBold",
+            "isCustomFont": true,
+            "glyphCount": 2
+          }
+        ]
+      },
+      {
+        "selector": ".account-rank-dialog h2",
+        "fonts": [
+          {
+            "familyName": "Pretendard Variable",
+            "postScriptName": "PretendardVariable-Bold",
+            "isCustomFont": true,
+            "glyphCount": 6
+          }
+        ]
+      },
+      {
+        "selector": ".c9-lobby-entry",
+        "fonts": [
+          {
+            "familyName": "Pretendard Variable",
+            "postScriptName": "PretendardVariable-ExtraBold",
+            "isCustomFont": true,
+            "glyphCount": 7
+          }
+        ]
+      },
+      {
+        "selector": "#menu-dialog h2",
+        "fonts": [
+          {
+            "familyName": "Pretendard Variable",
+            "postScriptName": "PretendardVariable-SemiBold",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "missing": [],
+    "productionWrites": 0
+  },
+  "public": {
+    "checks": [
+      "actual Pretendard glyphs: .brand>span",
+      "actual Pretendard glyphs: #player-name",
+      "actual Pretendard glyphs: .account-rank-level",
+      "actual Pretendard glyphs: #wallet-coin",
+      "actual Pretendard glyphs: #depart-title",
+      "actual Pretendard glyphs: .depart-watermark",
+      "actual Pretendard glyphs: [data-live-operations-surface=\"lobby-clarity\"] .live-operation-copy>b",
+      "390x844 all visible shadow text uses the codex family",
+      "390x844 no horizontal page overflow",
+      "390x844 currency values fit",
+      "390x844 wordmark fits",
+      "390x844 pve label fits",
+      "390x844 pvp label fits",
+      "actual Pretendard glyphs: #menu-dialog h2",
+      "actual Pretendard glyphs: .menu-result b",
+      "actual Pretendard glyphs: .menu-result small",
+      "390x844 menu readable without horizontal scroll",
+      "390x844 menu closes",
+      "actual Pretendard glyphs: #liveOperationsDialog h2",
+      "zero browser exceptions",
+      "all requested local assets served"
+    ],
+    "reports": [
+      {
+        "size": "390x844",
+        "fontSamples": [
+          {
+            "selector": ".brand>span",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 12
+              },
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Medium",
+                "isCustomFont": true,
+                "glyphCount": 4
+              }
+            ]
+          },
+          {
+            "selector": "#player-name",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 8
+              }
+            ]
+          },
+          {
+            "selector": ".account-rank-level",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Medium",
+                "isCustomFont": true,
+                "glyphCount": 6
+              }
+            ]
+          },
+          {
+            "selector": "#wallet-coin",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-ExtraBold",
+                "isCustomFont": true,
+                "glyphCount": 4
+              }
+            ]
+          },
+          {
+            "selector": "#depart-title",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-ExtraBold",
+                "isCustomFont": true,
+                "glyphCount": 5
+              }
+            ]
+          },
+          {
+            "selector": ".depart-watermark",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-ExtraBold",
+                "isCustomFont": true,
+                "glyphCount": 3
+              }
+            ]
+          },
+          {
+            "selector": "[data-live-operations-surface=\"lobby-clarity\"] .live-operation-copy>b",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 10
+              }
+            ]
+          },
+          {
+            "selector": "#menu-dialog h2",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-SemiBold",
+                "isCustomFont": true,
+                "glyphCount": 8
+              }
+            ]
+          },
+          {
+            "selector": ".menu-result b",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Bold",
+                "isCustomFont": true,
+                "glyphCount": 3
+              }
+            ]
+          },
+          {
+            "selector": ".menu-result small",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable",
+                "isCustomFont": true,
+                "glyphCount": 15
+              }
+            ]
+          },
+          {
+            "selector": "#liveOperationsDialog h2",
+            "fonts": [
+              {
+                "familyName": "Pretendard Variable",
+                "postScriptName": "PretendardVariable-Bold",
+                "isCustomFont": true,
+                "glyphCount": 6
+              }
+            ]
+          }
+        ],
+        "layout": {
+          "fonts": [
+            "\"Pretendard Variable\", Pretendard, \"Noto Sans KR\", \"Malgun Gothic\", sans-serif"
+          ],
+          "bodyWidth": 390,
+          "viewport": 390,
+          "wallet": [
+            {
+              "text": "2.2조",
+              "width": 0,
+              "scroll": 0
+            },
+            {
+              "text": "12.8만",
+              "width": 0,
+              "scroll": 0
+            },
+            {
+              "text": "3,250",
+              "width": 0,
+              "scroll": 0
+            },
+            {
+              "text": "12.3만",
+              "width": 0,
+              "scroll": 0
+            }
+          ],
+          "brand": {
+            "width": 270,
+            "scroll": 270
+          }
+        },
+        "menu": {
+          "width": 374,
+          "x": 8,
+          "right": 382,
+          "scroll": 372,
+          "client": 372,
+          "contentScroll": 357,
+          "contentWidth": 357,
+          "category": "pvp"
+        }
+      }
+    ],
+    "errors": [],
+    "missing": [],
+    "publicBase": "https://cnine-card.pages.dev",
+    "productionWrites": 0
+  }
+}
