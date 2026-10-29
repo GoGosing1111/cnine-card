@@ -1,0 +1,19 @@
+{
+  "scope": "scoped",
+  "base": "a1c139e3b343c191927318ed525c828bff114c4b",
+  "reason": "Blackwing-only compact roster and removal of its duplicate V3 header; validate existing field, scale and role mechanics plus actual main/V3 UI on PC/mobile. Shared battle CSS and renderer are unchanged.",
+  "tests": [
+    "tests/blackwing-battlefield-20261029.test.mjs",
+    "tests/blackwing-bloodscale-20261028.test.mjs",
+    "tests/blackwing-feedback-20261028.test.mjs"
+  ],
+  "checks": [],
+  "command": "npm run deploy:production -- --scoped",
+  "browserChecked": {
+    "viewports": [[1159,848],[1440,1000],[390,844],[676,755],[844,390]],
+    "phasePaths": 10,
+    "scalePaths": 2,
+    "productionAccountWrites": 0,
+    "messagesSent": 0
+  }
+}

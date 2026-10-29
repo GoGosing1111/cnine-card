@@ -162,14 +162,23 @@
 @media(max-width:760px){.bw-combat.is-ended{padding:12px}.bw-combat.is-ended>.bw-result{max-height:calc(100dvh - 24px);padding:22px 18px;gap:16px}.bw-result>h3{font-size:23px}}
 
 /* Field mechanics occupy the shared V3 battlefield, above its measured dock.
-   The common formation, canvas camera, card frames and roster are untouched. */
+   Keep the shared formation, camera and original card frames. */
 .bw-combat:not(.is-ended){grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(350px,1fr) auto;grid-template-areas:'top' 'arena' 'party';padding:6px;gap:4px;overflow:hidden}
 .bw-arena{grid-area:arena;position:relative;min-width:0;min-height:0;isolation:isolate}
 .bw-combat.is-ended>.bw-arena{display:none}
+/* 2026-10-30: the raid's own top bar already identifies this battle.
+   Reclaim the duplicate header and scale the shared cards uniformly. */
+.bw-battle-mount .battle-v3-header{display:none}
+.bw-battle-mount .battle-v3-canvas-host{inset:0}
+.bw-battle-mount .battle-v3-dock{gap:4px;padding:0 8px calc(6px + env(safe-area-inset-bottom,0px))}
+.bw-battle-mount .battle-v3-roster{--v3-card-w:56px;--v3-card-s:.31111111;gap:8px}
+.bw-battle-mount .battle-v3-roster-side{gap:3px}
+.bw-battle-mount .battle-v3-roster-side>ol{gap:6px}
+.bw-battle-mount .battle-v3-roster-card{gap:2px}
 .bw-top{gap:10px;padding:5px 10px;border-radius:0}.bw-top .bw-boss-portrait{width:35px;height:42px}.bw-top h3{font-size:15px}.bw-top>button{min-height:40px;font-size:12px}
 .bw-top>.bw-top-state{flex:0 1 auto;display:grid;gap:3px;text-align:right;font-size:11px;color:#c4d3df}.bw-top-state [data-health]{color:#d3eeb0}.bw-top-state .is-danger{color:#ff9b83}
 .bw-party-chip{padding:3px 6px}.bw-party-chip .bw-face{width:24px;height:29px}
-.bw-field{position:absolute;z-index:21;inset:72px 0 calc(var(--bw-dock-height,160px) + 35px);pointer-events:none;min-height:180px;color:#fff2d5;text-shadow:0 2px 5px #000,0 0 12px #000;font-size:13px}
+.bw-field{position:absolute;z-index:21;inset:0 0 calc(var(--bw-dock-height,110px) + 35px);pointer-events:none;min-height:180px;color:#fff2d5;text-shadow:0 2px 5px #000,0 0 12px #000;font-size:13px}
 .bw-field-brief{position:absolute;top:4px;left:50%;transform:translateX(-50%);width:min(740px,95%);text-align:center;pointer-events:none;line-height:1.5}
 .bw-field-brief>[data-field-phase]{display:block;font-size:10px;color:#c2bac2;letter-spacing:.06em}
 .bw-field-brief>strong{font-size:25px;letter-spacing:.04em;color:#f3d9a3;font-weight:800}.bw-field-brief p{margin:3px 0;font-size:13px;word-break:keep-all}
@@ -200,7 +209,9 @@
 @media(max-width:760px){
  .bw-combat:not(.is-ended){padding:2px;gap:2px;grid-template-rows:auto minmax(350px,1fr) auto}.bw-top{padding:4px;gap:5px;flex-wrap:nowrap}.bw-top .bw-boss-portrait{width:27px;height:34px}.bw-top h3{font-size:12px}.bw-top .bw-clock{font-size:9px}.bw-top>button{font-size:10px;min-height:40px;padding:4px 6px}.bw-top>.bw-top-state{display:none}
  .bw-party-strip{grid-template-columns:repeat(6,minmax(0,1fr));gap:2px}.bw-party-chip{padding:3px;gap:0}.bw-party-chip .bw-face{display:none}.bw-party-chip strong{font-size:8px}.bw-party-chip small{font-size:8px}
- .bw-field{top:60px;bottom:calc(var(--bw-dock-height,130px) + 32px);font-size:11px}.bw-field-brief{top:3px;width:96%;padding:0 4px}.bw-field-brief>strong{font-size:20px}.bw-field-brief>[data-field-phase]{font-size:9px}.bw-field-brief p{font-size:11px;max-width:95%;margin:2px auto}.bw-field-brief>b{font-size:14px;margin-right:7px}.bw-field-brief>[data-field-clock]{font-size:11px}
+ .bw-battle-mount .battle-v3-roster{--v3-card-w:44px;--v3-card-s:.24444444}
+ .bw-battle-mount .battle-v3-roster-side>ol{gap:4px}
+ .bw-field{bottom:calc(var(--bw-dock-height,90px) + 32px);font-size:11px}.bw-field-brief{top:3px;width:96%;padding:0 4px}.bw-field-brief>strong{font-size:20px}.bw-field-brief>[data-field-phase]{font-size:9px}.bw-field-brief p{font-size:11px;max-width:95%;margin:2px auto}.bw-field-brief>b{font-size:14px;margin-right:7px}.bw-field-brief>[data-field-clock]{font-size:11px}
  .bw-object-altar{width:33%;height:150px;bottom:48px;padding:9px 1px}.bw-field-object>strong{font-size:12px}.bw-field-object>b{font-size:19px}.bw-field-object>small{font-size:9px}.bw-object-occupants{font-size:9px;gap:4px;margin-top:6px}.bw-object-altar>img{top:23px;height:calc(100% - 23px)}
  .bw-object-commit{width:31%;min-width:0;padding:5px 1px}.bw-object-commit>strong{font-size:11px}.bw-object-commit>b{font-size:9px}
  .bw-object-relic,.bw-object-heart{width:115px;height:160px;top:40%}.bw-object-heart{left:calc(25% + var(--lane)*50%)}.bw-object-heart>b,.bw-object-relic>b{font-size:10px}
