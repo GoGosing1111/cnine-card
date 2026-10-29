@@ -1,0 +1,188 @@
+{
+  "status": "VERIFIED",
+  "completedAt": "2026-10-29T11:53:32.166Z",
+  "completedAtKst": "2026-10-29 20:53:32 KST",
+  "grantAt": "2026-10-29T11:37:41.061Z",
+  "grantAtKst": "2026-10-29 20:37:41 KST",
+  "operationKey": "ops:jokdan-jokro-exempt-grant:20261029:v1",
+  "userId": 4582,
+  "nickname": "족단",
+  "code": "V-979",
+  "name": "족로",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "quantity": 1,
+  "before": 0,
+  "after": 1,
+  "level": 1,
+  "auditId": "52755",
+  "stockDeductions": 0,
+  "stock": {
+    "limit": 3,
+    "issued": 3,
+    "remaining": 0
+  },
+  "cubeStock": {
+    "limit": 5,
+    "issued": 0,
+    "remaining": 5
+  },
+  "limitedIssueRecordsAdded": 0,
+  "craftCountsChanged": false,
+  "sourceSha256": "1698b1b45626639f603cecc5aafb6f07f85c67f85b1eb22c510a2074bda08c9d",
+  "planHash": "86c2a064869e659006d1a707f6aafb9075609a54681f379ee46c48e255a51f50",
+  "releaseCommit": "c110b0aa9a5e49340cf2f6ebe3e0155aaa951baf",
+  "latestVerifiedCommit": "252100d8328e3c924a920a084c8c2e5bd08f3e39",
+  "pages": {
+    "id": "c898b8ef-c9de-4b06-9c18-43a2e57284ca",
+    "url": "https://c898b8ef.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "252100d8328e3c924a920a084c8c2e5bd08f3e39"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployment": {
+        "id": "d4e8eaa7-e54e-4653-aff4-822aae5373c8",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "4acd8353-c3fb-48ab-ae27-90b60811fe4f",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-29T11:49:24.325642Z"
+      },
+      "expectedVersion": "84f1ba26-3746-4149-8a13-ff41acc10e7f",
+      "superseded": true,
+      "reviewedPolicyMatched": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployment": {
+        "id": "0b5bb784-52b7-471b-b829-3da7917c08d8",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "d2d2edf7-e659-4514-8380-0e083a8529c8",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-10-29T11:51:27.126532Z"
+      },
+      "expectedVersion": "b56d6fde-db34-49b1-b7a9-190038cf3aea",
+      "superseded": true,
+      "reviewedPolicyMatched": true
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "shared/mercenary-jokro-v1.mjs",
+      "sha256": "f697026412111c90e265f6f21f393feb0ac4eec4a508e972b03c76e94ce0c12a"
+    }
+  ],
+  "preserved": {
+    "currency": true,
+    "stockCounters": true,
+    "numberedIssues": true,
+    "craftCounts": true,
+    "packAndCraftSettings": true,
+    "otherCards": true,
+    "inventory": true,
+    "loadouts": true,
+    "levels": true,
+    "growth": true,
+    "accountSettings": true
+  },
+  "tests": {
+    "grantPassed": 4,
+    "accessPassed": 7,
+    "failed": 0,
+    "realSqlFailureRollback": true,
+    "normalDryRunRollback": true,
+    "noWriteReplayVerified": true,
+    "leasesReleased": true,
+    "readOnlyAccountState": true,
+    "growth": true,
+    "ranked": true,
+    "pveAndPvpSelection": true,
+    "localUi": [
+      {
+        "width": 1440,
+        "accountId": 4582,
+        "role": "USER",
+        "ownedJokroCopies": 1,
+        "ownedAndAllSearchVisible": true,
+        "pvePvpButtonsEnabled": true,
+        "artLoaded": true,
+        "horizontalOverflow": false,
+        "errors": [],
+        "writes": []
+      },
+      {
+        "width": 390,
+        "accountId": 4582,
+        "role": "USER",
+        "ownedJokroCopies": 1,
+        "ownedAndAllSearchVisible": true,
+        "pvePvpButtonsEnabled": true,
+        "artLoaded": true,
+        "horizontalOverflow": false,
+        "errors": [],
+        "writes": []
+      }
+    ],
+    "publicUi": [
+      {
+        "width": 390,
+        "accountId": 4582,
+        "role": "USER",
+        "ownedJokroCopies": 1,
+        "ownedAndAllSearchVisible": true,
+        "pvePvpButtonsEnabled": true,
+        "artLoaded": true,
+        "horizontalOverflow": false,
+        "errors": [],
+        "writes": []
+      }
+    ]
+  },
+  "noMessages": true,
+  "automaticLoadout": false,
+  "evidence": {
+    "preflight.mjs": "bd69f5797920afd986e64d23aa2b6f495f1ee71c7659f97a604097eadcdd50e9",
+    "preflight.json": "6d54d1de71e4916aa988101322ec7d7835ca5eb5c0b0e05af34cf11820cb91da",
+    "plan.json": "889ee6e9fa73aec56069ca0a467938446103cc560795bed1ac00c7b6c000e94e",
+    "grant.mjs": "274bd9263eb52d6bdd016e39f2e9ab328ac6f2559ca18bd7fcc81f356c548336",
+    "grant.test.mjs": "f98d35d9a1c9aa1c18bd297ff7c890108bc7d75927605cbad462ea5effc7e56a",
+    "run.mjs": "1ed631b10fd4c60c9fb5c957d2bef0d266809235f190a6cb148e7bfa07ff03a3",
+    "lock-worker.mjs": "26f7e2ac1e869550650751b847cdf58c1af9593ef040728348e85fa512be32f8",
+    "wrangler.jsonc": "116660e936e95e1fd7612e6c1f8c213a638c41c51a4b37087ffb84cb1eae9518",
+    "read.json": "a84fda1e466f093f234a27d51371afe6e59c666d421e78f4e49b60c08b1abe6d",
+    "dry-run.json": "151d5552c31e846d154f84144907c96972d2600ab329fc46f7ed7ec49f7a6cd0",
+    "apply.json": "f76936095076617d681b897ff5f5001340060cfe3f1a3bf535e3fec77aa2473c",
+    "committed-snapshots.json": "fa9bc2f7ae1d64e48dde0a48349c4edebbb23e0439b0707860d2fcee31d3af0e",
+    "independent.mjs": "02352fb39ed330e54710e51655a4fffe9179108097648b1b31dd65d11154eadf",
+    "independent.json": "a98b33e965c226e6cbde82c95e7271e51e874d090c307175fad3155af287b204",
+    "replay.json": "ad30d8d85bd9ac1bfe37518e9ec763cd194973709dff6cb7da0ca14bb261c08e",
+    "snapshot.mjs": "8bde78a1756400f65c05f416e6d28db90f1a60b5f0146e8ad20040286a41ec20",
+    "access-after.json": "63a611645344680c5384fbc81e85687ad0210ed38a1c173ec9f73456885bfb66",
+    "access-production.json": "c933b710cf4c17172f736154c7b89b0148f09e3f3128769696daca2ea1023873",
+    "deployment-plan.json": "2dc32ade4ecd26c02b97424137b0b1f0acaa64a1b90854d8d193e85779e97117",
+    "deployment-result.json": "123171f07af2ea9d9dde98fdd1784664bf1d310129e3f53dfd1087f6f5063f4c",
+    "live-verification.json": "881c56b5333f0ecbf5618dec4e20154a448d6cb0d807a1d0bcf17435b78041d6",
+    "browser.mjs": "b7337e85110b54335014466fe12931474a6b0e2d0510927cee293e65f860b2de",
+    "browser-local/report.json": "41d3b98562ee4bfbdc62c71412043d8dadc41d9c79375c9b19b40ed3d124fd6b",
+    "browser-public/report.json": "eb4f6cc4d2d48c3d3625192c5f027897c780eb52cd2863ab0760a1306277764e"
+  }
+}
