@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {rankedSnapshot as at,rankedTeam,tierCards,roster} from './helpers/mercenary-rank-growth-20261029.mjs';
-import {SSS_LIMITED_COMBAT_CODES,mercenaryBattleTier,mercenaryRankGap,mercenaryRankMasteryScale,applyMercenaryRankGrowth,MERCENARY_RANK_GROWTH_DESCRIPTION} from '../shared/mercenary-rank-growth-v1.mjs';
+import {SSS_LIMITED_COMBAT_CODES,mercenaryBattleTier,mercenaryRankGap,mercenaryRankMasteryScale,mercenaryRankBasicCapScale,applyMercenaryRankGrowth,MERCENARY_RANK_GROWTH_DESCRIPTION} from '../shared/mercenary-rank-growth-v1.mjs';
+import {growthProbe} from '../scripts/measure-mercenary-growth-roster-20261020.mjs';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {mercenaryGrowthMitigationBypass,mercenaryGrowthBasicCapScale,mercenaryGrowthActionCredit,applyMercenaryGrowthMatchups} from '../shared/mercenary-growth-review-v2.mjs';
 import {mercenaryBaseActionCredit} from '../functions/_mercenary_combat.js';
@@ -32,7 +33,7 @@ test('level growth remains monotonic for both sides of the grade gap',()=>{
   let previous=null;
   for(let level=1;level<=21;level++){
    const teams=[rankedTeam(code,level,'A',power),rankedTeam('V-058',21,'B',power)];applyMercenaryCombatLink(teams);
-   const actor=teams[0].at(-1),values={attack:mercenaryEffectiveAttack(actor),hp:actor.maxHp,cap:mercenaryGrowthBasicCapScale(actor)};
+   const actor=teams[0].at(-1),values={attack:mercenaryEffectiveAttack(actor),hp:actor.maxHp,cap:mercenaryGrowthBasicCapScale(actor)*mercenaryRankBasicCapScale(actor)};
    if(previous)for(const k of ['attack','hp','cap'])assert(values[k]>previous[k],`${code} ${level} ${k}`);previous=values;
   }
  }
@@ -44,6 +45,16 @@ test('level growth remains monotonic for both sides of the grade gap',()=>{
    if(previous)values.forEach((v,i)=>assert(v>previous[i],`${code} ${level} ${i}`));previous=values;
   }
  }
+});
+test('grade compensation reaches capped basic hits without extending skill/counter budgets',async()=>{
+ const {engine}=await growthProbe(),teams=[rankedTeam('V-999',1),rankedTeam('V-984',21,'B')];applyMercenaryCombatLink(teams);
+ const actor={...teams[0].at(-1),attack:1e12},target={...teams[1].at(-1),defense:0},plain={...actor,mercenaryLink:{...actor.mercenaryLink,rankGrowth:undefined}};
+ const hit=(a,basic,counter=false)=>engine.hitResult(a,target,()=>.5,1,counter,{basicAttack:basic,damageCapScale:4}).damage;
+ assert.equal(mercenaryRankBasicCapScale(actor),Math.sqrt(Math.sqrt(11)));
+ assert(Math.abs(hit(actor,true)/hit(plain,true)-Math.pow(11,.25))<.00001);
+ assert.equal(hit(actor,false),hit(plain,false));assert.equal(hit(actor,true,true),hit(plain,true,true));
+ assert.equal(mercenaryRankBasicCapScale({...actor,battleMode:'PVE'}),1);
+ assert.equal(mercenaryRankBasicCapScale(target),1);
 });
 test('only lower-to-higher mastery is softened; ordinary growth and same-tier mastery remain',()=>{
  const teams=[rankedTeam('V-058',21),rankedTeam('V-999',1,'B')];applyMercenaryCombatLink(teams);

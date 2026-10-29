@@ -15,6 +15,7 @@ import {leonelIncomingDamage,leonelActionCredit} from '../shared/mercenary-leone
 import {jokroIncomingDamage,jokroActionCredit} from '../shared/mercenary-jokro-v1.mjs';
 import {avatarPoweredCard,avatarScaledPower,avatarPowerScale} from '../shared/avatar-power-v1.mjs';
 import {mercenaryGrowthIncomingDamage,applyMercenaryGrowthMatchups,mercenaryGrowthActionCredit,mercenaryGrowthBasicCapScale,mercenaryGrowthKeepsNaturalGauge} from '../shared/mercenary-growth-review-v2.mjs';
+import {mercenaryRankBasicCapScale} from '../shared/mercenary-rank-growth-v1.mjs';
 import {shiranuiIncomingDamage,shiranuiActionCredit} from '../shared/mercenary-shiranui-v1.mjs';
 import {PVP_POWER_BALANCE,pvpPowerEnabled,PVP_POWER_BALANCE_REVIEW,applyPvpPowerBalance,pvpPowerDamageMultiplier} from '../shared/pvp-power-balance-v1.mjs';
 import {Z_BODY_AREA_RELEASE_ENABLED,Z_BODY_AREA_REVIEW,isZBodyAreaActor,createBattleSuitCombatSchedule} from '../shared/z-body-area-skill.mjs';
@@ -583,7 +584,8 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   // erases upgrades again for fighters whose innate cap is already high.
   // Skills/counters retain their own budgets; this is only the basic packet.
   const growthCapScale=options.basicAttack&&!counter?mercenaryGrowthBasicCapScale(actor):1;
-  const hitCap=actor.isMonster&&actor.statCapsUnlocked?Infinity:mercenaryDamageCapHp(target)*capPct*clamp(Number(options.damageCapScale??1),0,4)*growthCapScale*(options.varyDamageCap?variance:1);
+  const rankCapScale=options.basicAttack&&!counter?mercenaryRankBasicCapScale(actor):1;
+  const hitCap=actor.isMonster&&actor.statCapsUnlocked?Infinity:mercenaryDamageCapHp(target)*capPct*clamp(Number(options.damageCapScale??1),0,4)*growthCapScale*rankCapScale*(options.varyDamageCap?variance:1);
   const capped = Math.min(raw * (1 - reduction), hitCap);
   // V1902: 반격과 호송작전은 제외한다. 반격까지 올리면 카드가 훨씬 빨리 죽고,
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.

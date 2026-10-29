@@ -36,6 +36,10 @@ export function mercenaryRankMasteryScale(source,target){
  return Math.pow(MERCENARY_RANK_GROWTH.lowerMasteryPerStep,gap);
 }
 const growth=(actor,key)=>actor.mercenaryLevelApplied&&modern(actor)?1+Math.max(0,actor.mercenaryGrowth?.total?.[key]||0)/100:1;
+// The raw attack correction must reach capped basic hits too. Its square root
+// gives a fourth-root cap bridge: both one's own growth and the lower tier's
+// growth still have positive marginal value instead of flattening either side.
+export const mercenaryRankBasicCapScale=actor=>eligible(actor)?Math.sqrt(Math.max(1,Number(actor.mercenaryLink?.rankGrowth?.attackScale)||1)):1;
 export function applyMercenaryRankGrowth(teams){
  const all=teams.flat();
  // Read every learned multiplier before modifying any fighter. No recursive
@@ -53,4 +57,4 @@ export function applyMercenaryRankGrowth(teams){
   actor.mercenaryLink={...link,attackFloor,hpFloor,rankGrowth:{version:MERCENARY_RANK_GROWTH.version,gap,attackScale,hpScale,opponentIds:opponents.map(([o])=>o.id)}};
  }
 }
-export const MERCENARY_RANK_GROWTH_DESCRIPTION='PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 등급 우위를 적용하며, 기본 능력치가 연계 하한보다 높아도 공격·체력 보정이 유지됩니다. 하위 상대의 성장 공격·체력 배율이 더 높으면 그 비율의 제곱근만큼 공격·체력을 추가 보완합니다. 추가 체력은 받는 타격 상한을 높이지 않습니다. 상위 등급을 향한 경감 관통·행동 대응은 단계당 25% 효율이며, 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 같은 전투 등급·PVE에는 이 추가 보정이 없습니다.';
+export const MERCENARY_RANK_GROWTH_DESCRIPTION='PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 등급 우위를 적용하며, 기본 능력치가 연계 하한보다 높아도 공격·체력 보정이 유지됩니다. 하위 상대의 성장 공격·체력 배율이 더 높으면 그 비율의 제곱근만큼 공격·체력을 추가 보완하고, 공격 성장 비율의 네제곱근을 평타 상한에 반영합니다. 추가 체력은 받는 타격 상한을 높이지 않습니다. 상위 등급을 향한 경감 관통·행동 대응은 단계당 25% 효율이며, 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 같은 전투 등급·PVE에는 이 추가 보정이 없습니다.';
