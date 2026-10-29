@@ -1,0 +1,14 @@
+{
+  "skill": "imagegen",
+  "mode": "built-in image_gen",
+  "reference": "assets/ui/titles/raid-bus-driver-v1.png",
+  "prompt": "Use case: stylized-concept / title badge variant. Create a NEW sibling production title image for the Korean RPG Soopketmon using the attached existing '버스기사' title badge as visual reference and layout template. Preserve its wide heraldic title-plaque proportions, painterly high-end Korean game item illustration, highly legible large Korean gold lettering, sculpted metallic ornamental rim, balanced wing-like outward flourishes, and genuine transparent exterior. REPLACE the bus and steering wheel with a proud small crest of two overlapping luminous chat bubbles and a compact mechanical keyboard, framed by laurel branches and a subtle five-point military star to suggest a coordinated chat brigade. No real service logos. Change emerald panel to rich midnight indigo with restrained amethyst and electric cyan jewels; keep champagne-gold carved metal and ivory feather accents. The exact main title must be four Hangul syllables, '채팅부대', large and centered on one line. Spell precisely 채 팅 부 대, no spaces in final image. Remove the old small subtitle ribbon and all old lettering entirely; only readable text should be '채팅부대'. Full emblem within canvas, shallow front-facing relief, compact symmetrical silhouette, 3:1 overall asset proportions, tightly composed with modest safe margins, no scene/background, no ground shadow, no checkerboard painted in, no detached particles, no watermark. A finished polished transparent game title badge, exceptionally readable when displayed at 180 to 260 pixels wide.",
+  "source": "chat-squad-source-v1.png",
+  "sourceSha256": "934368431e9f4f89608141b17e593e73743daf7e09fcba6bb86b3bcf88281690",
+  "asset": "/assets/ui/titles/chat-squad-v1.webp",
+  "assetSha256": "250deb643fe9e443b5b9254f50a74527de6b892c6d29161a6e7f30ae4ff2ccb9",
+  "width": 1308,
+  "height": 436,
+  "hasAlpha": true,
+  "processing": "Resize and WebP encoding only; original and generated alpha preserved."
+}

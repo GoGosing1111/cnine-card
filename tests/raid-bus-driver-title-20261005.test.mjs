@@ -66,6 +66,13 @@ for(const postgres of [false,true]){
   assert.equal((await f.call('character/title/equip',{titleId:id},{id:9,role:'USER'})).status,404);
   await f.p('INSERT INTO user_title_loadout(user_id,title_id) VALUES(?,?)',8,id).run();
   const titles=await publicEquippedTitleMap(f.env,[8,9]);assert.equal(titles['8'].stylePreset,'BUS_DRIVER');assert.equal(titles['8'].fontPreset,'DISPLAY');assert.equal(titles['8'].image,'/assets/ui/titles/raid-bus-driver-v1.png');assert.equal(titles['9'],undefined);
+  await f.p("INSERT INTO character_titles(code,name,badge_text,image_url,pve_power,unlock_type,unlock_config_json,style_preset,is_active,is_public,sort_order) VALUES('TITLE_CHAT_SQUAD','채팅부대','채팅부대','/assets/ui/titles/chat-squad-v1.webp',475000,'MANUAL','{\"fontPreset\":\"DISPLAY\"}','CHAT_SQUAD',1,1,911)").run();
+  const chatId=Number((await f.p("SELECT id FROM character_titles WHERE code='TITLE_CHAT_SQUAD'").first()).id);
+  assert.equal((await f.call('character/title/equip',{titleId:chatId},{id:9,role:'USER'})).status,404);
+  await f.p("INSERT INTO user_character_titles(user_id,title_id,source_type) VALUES(9,?,'ADMIN')",chatId).run();
+  await f.p('INSERT INTO user_title_loadout(user_id,title_id) VALUES(9,?)',chatId).run();
+  const chat=await publicEquippedTitleMap(f.env,[9]);assert.equal(chat['9'].stylePreset,'CHAT_SQUAD');assert.equal(chat['9'].name,'채팅부대');assert.equal(chat['9'].image,'/assets/ui/titles/chat-squad-v1.webp');
+  assert.equal((await f.call('admin/title-grant',{userId:9,titleId:chatId,action:'REVOKE'},{id:7,role:'OWNER'})).status,200);
   assert.equal((await f.call('admin/title-grant',{...body,action:'REVOKE'},{id:7,role:'OWNER'})).status,200);
   assert.equal(Number((await f.p('SELECT COUNT(*) n FROM user_character_titles').first()).n),0);assert.deepEqual(await publicEquippedTitleMap(f.env,[8]),{});
  });
