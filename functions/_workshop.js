@@ -1,3 +1,5 @@
+import {AWAKENED_OMEGA_CRAFT,isAwakenedOmegaCraft} from '../shared/mercenary-craft-v1.mjs';
+import {awakenedOmegaCraftAccountState,executeAwakenedOmegaCraft} from './_workshop_awakened_omega.js';
 import { ensureEquipmentFoundation } from './_equipment.js';
 import { ensureBattleSuitCoreCatalog } from './_battle_suit_materials.js';
 import { ensureEmperorEnergyCatalog } from './_emperor_energy.js';
@@ -245,8 +247,10 @@ async function userWorkshopState(env,user,{admin=false}={}){
     synthesisRecipeRows(env,user,{admin})
   ]);
   const inventory=Object.fromEntries((items.results||[]).map(row=>[row.code,{...row,quantity:Number(row.quantity||0)}]));
+  const awakenedOmegaCraft=await awakenedOmegaCraftAccountState(env,user,recipes);
+  if(awakenedOmegaCraft)inventory[AWAKENED_OMEGA_CRAFT.materialCode]={code:AWAKENED_OMEGA_CRAFT.materialCode,name:AWAKENED_OMEGA_CRAFT.inputName,image_url:AWAKENED_OMEGA_CRAFT.inputImage,rarity:'SSS',quantity:awakenedOmegaCraft.quantity};
   const owned=new Set((ownedVehicles.results||[]).map(row=>String(row.garage_id)));
-  return {equipmentCraft:await equipmentCraftAccountState(env,user,recipes),serverNow:new Date().toISOString(),wallet:{coin:Number(wallet?.coin||0),cardShards:Number(wallet?.card_shards||0),masterStars:Number(wallet?.master_stars||0)},inventory,recipes:recipes.filter(recipe=>admin||Number(recipe.owner_test_only)===0||isOwner(user)).map(recipe=>({...recipe,owned:recipe.output_type==='VEHICLE'&&owned.has(String(recipe.output_ref))})),synthesis:synthesisRows,categories:[{id:'VEHICLE',name:'차량 제작',enabled:true},{id:'EQUIPMENT_SYNTHESIS',name:'장비 합성',enabled:true},{id:'MATERIAL_CRAFT',name:'재료 제작',enabled:true},{id:'BATTLE_SUIT_CRAFT',name:'배틀슈트 제작',enabled:true},{id:'SUIT_CORE_SYNTHESIS',name:'슈트코어 합성',enabled:recipes.some(row=>row.category==='SUIT_CORE_SYNTHESIS'&&Number(row.is_active)===1&&Number(row.is_public)===1&&(Number(row.owner_test_only)===0||isOwner(user)))},{id:'ITEM_SYNTHESIS',name:'장비제작',enabled:recipes.some(row=>row.category==='ITEM_SYNTHESIS'&&Number(row.is_active)===1&&Number(row.is_public)===1&&(Number(row.owner_test_only)===0||isOwner(user)))}]};
+  return {awakenedOmegaCraft,equipmentCraft:await equipmentCraftAccountState(env,user,recipes),serverNow:new Date().toISOString(),wallet:{coin:Number(wallet?.coin||0),cardShards:Number(wallet?.card_shards||0),masterStars:Number(wallet?.master_stars||0)},inventory,recipes:recipes.filter(recipe=>admin||Number(recipe.owner_test_only)===0||isOwner(user)).map(recipe=>({...recipe,owned:recipe.output_type==='VEHICLE'&&owned.has(String(recipe.output_ref))})),synthesis:synthesisRows,categories:[{id:'VEHICLE',name:'차량 제작',enabled:true},{id:'EQUIPMENT_SYNTHESIS',name:'장비 합성',enabled:true},{id:'MATERIAL_CRAFT',name:'재료 제작',enabled:true},{id:'BATTLE_SUIT_CRAFT',name:'배틀슈트 제작',enabled:true},{id:'SUIT_CORE_SYNTHESIS',name:'슈트코어 합성',enabled:recipes.some(row=>row.category==='SUIT_CORE_SYNTHESIS'&&Number(row.is_active)===1&&Number(row.is_public)===1&&(Number(row.owner_test_only)===0||isOwner(user)))},{id:'ITEM_SYNTHESIS',name:'장비제작',enabled:recipes.some(row=>row.category==='ITEM_SYNTHESIS'&&Number(row.is_active)===1&&Number(row.is_public)===1&&(Number(row.owner_test_only)===0||isOwner(user)))}]};
 }
 
 function paymentFor(recipe,requested){
@@ -289,6 +293,7 @@ async function craft(env,user,body){
   if(prior?.status==='FAILED')throw new Error(prior.error_message||'이 제작 요청은 취소되었습니다. 새로 시도하세요.');
   const recipe=(await recipeRows(env,{admin:isOwner(user)})).find(row=>Number(row.id)===recipeId);
   if(isMercenaryCraft(recipe)&&recipe.craftStock?.soldOut)throw new Error(recipe.lockReason);
+  if(isAwakenedOmegaCraft(recipe))throw new Error('각성 오메가 전용 제작 화면에서 다시 시도하세요.');
   if(isEquipmentCraft(recipe))throw new Error('장비제작에서 투입할 +10 장비를 선택하세요.');
   if(!recipe||Number(recipe.is_active)===0||Number(recipe.is_public)===0||Number(recipe.owner_test_only)!==0&&!isOwner(user))throw new Error('현재 제작할 수 없는 레시피입니다.');
   validateWorkshopExtension(recipe);
@@ -485,10 +490,18 @@ async function saveSynthesisRecipe(env,admin,raw,deps){
 }
 
 export async function handleWorkshop({path,request,env,deps}){
-  if(!['workshop','workshop/craft','workshop/equipment-craft','workshop/synthesis','admin/workshop'].includes(path))return null;
+  if(!['workshop','workshop/craft','workshop/equipment-craft','workshop/awakened-omega-craft','workshop/synthesis','admin/workshop'].includes(path))return null;
   const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
   await ensureWorkshopFoundation(env);
   if(path==='workshop'&&request.method==='GET')return deps.json(await userWorkshopState(env,user));
+  if(path==='workshop/awakened-omega-craft'&&request.method==='POST'){
+    try{
+      const body=await readJointBody(request,{fields:['recipeId','attempts','paymentType','requestId']});
+      if(!deps.withUserMutationLock)return deps.json({error:'제작 잠금을 사용할 수 없습니다. 잠시 후 다시 시도하세요.'},503);
+      const result=await deps.withUserMutationLock(env,user.id,path,()=>executeAwakenedOmegaCraft(env,user,body));
+      return deps.json({...result,state:await userWorkshopState(env,user)});
+    }catch(error){return deps.json({error:error.status?error.message:'제작 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||503)}
+  }
   if(path==='workshop/equipment-craft'&&request.method==='POST'){
     try{
       const body=await readJointBody(request,{fields:['recipeId','instanceId','attempts','requestId']});

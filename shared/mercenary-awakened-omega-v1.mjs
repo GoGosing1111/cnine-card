@@ -28,8 +28,8 @@ export function awakenedOmegaIncomingDamage(target,incoming){return isAwakenedOm
 export const AWAKENED_OMEGA_ART=Object.freeze({
  code:AWAKENED_OMEGA_CODE,name:'각성 오메가',title:'우주의 검신',rank:'SSS',edition:'LIMITED',
  nameStatus:'USER_CONFIRMED_20261024',rankStatus:'USER_ASSIGNED_RANK',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',basicTarget:'적 전열 우선',
- artOnly:false,releaseStatus:'CRAFT_ONLY_LOCKED',acquisition:'CRAFT_ONLY',acquisitionEnabled:false,craftAcquisitionEnabled:false,packAcquisitionEnabled:false,deploymentEnabled:true,
- acquisitionDescription:'제작 전용 · 현재 획득 불가. 제작은 아직 개방되지 않았으며 팩·합성·기적의 큐브에서 획득할 수 없습니다.',
+ artOnly:false,releaseStatus:'CRAFT_ONLY_RELEASED',acquisition:'CRAFT_ONLY',acquisitionEnabled:true,craftAcquisitionEnabled:true,packAcquisitionEnabled:false,deploymentEnabled:true,
+ acquisitionDescription:'용병 제작: 오메가-X 50장 + 100조 코인 · 성공률 10% · 10회 연속 실패 후 11회째 확정. 팩·합성·기적의 큐브에서는 획득할 수 없습니다.',
  sourceArt:AWAKENED_OMEGA_ROOT+'source-art.png',sourceArtSha256:'AB09619FAEE3ACA132DA86BA43256480B4CA3C5B94BC2F778F0BAC2F24AA4A8E',
  battleSprite:AWAKENED_OMEGA_ROOT+'idle.png',battleSpriteSha256:'7A7FBC793DB983ECC54BA4AA04DA18EE48DB79C837A636F7EE32891244EF5B27',
  thumbnailArt:AWAKENED_OMEGA_ROOT+'art-320.webp',displayArt:AWAKENED_OMEGA_ROOT+'art-640.webp',accent:'#b88aff',

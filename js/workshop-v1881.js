@@ -393,14 +393,15 @@
     const choice = recovering ? pendingPayment : payment;
     const valid = Number.isInteger(attempts) && attempts >= 1 && attempts <= MAX_MATERIAL_CRAFT_ATTEMPTS;
     const info = window.WorkshopRecipes.describe(recipe, workshopState, choice, valid ? attempts : 1);
+    const omega = recipe.code === 'WORKSHOP_AWAKENED_OMEGA';
     const equipment = recipe.category === 'ITEM_SYNTHESIS' && recipe.output_type === 'EQUIPMENT';
     const candidates = equipment ? (workshopState.equipmentCraft?.instances || []).filter(row => Number(row.equipmentId) === Number(recipe.equipmentCraft?.inputEquipmentId) && Number(row.level??10) === Number(recipe.equipmentCraft?.requiredLevel??10)) : [];
     if (equipment) selectedCraftInstance = recovering ? pendingInstance || '' : candidates.some(row => row.id === selectedCraftInstance) ? selectedCraftInstance : candidates[0]?.id || '';
-    const pity = workshopState.equipmentCraft?.pity?.[recipe.id] || {failures:0,pityAfter:recipe.equipmentCraft?.pityAfter,guaranteed:false};
+    const pity = (omega ? workshopState.awakenedOmegaCraft : workshopState.equipmentCraft?.pity?.[recipe.id]) || {failures:0,pityAfter:recipe.equipmentCraft?.pityAfter,guaranteed:false};
     const unit = window.WorkshopRecipes.describe(recipe, workshopState, choice);
     const maxAttempts = Math.max(0, Math.min(MAX_MATERIAL_CRAFT_ATTEMPTS, ...unit.rows.filter(row => row.required > 0).map(row => Math.floor(Math.min(row.owned, Number.MAX_SAFE_INTEGER) / row.required))));
-    return {...info, equipment, candidates, instanceId:equipment ? selectedCraftInstance : null, pity, bulk, attempts, maxAttempts, recovering, valid, ready:valid && info.ready && (!equipment || Boolean(recipe.equipmentCraft && selectedCraftInstance)),
-      shortage:valid ? info.shortage : '제작 횟수를 1~100회 사이의 정수로 입력하세요.'};
+    return {...info, omega, equipment, candidates, instanceId:equipment ? selectedCraftInstance : null, pity, bulk, attempts, maxAttempts, recovering, valid, ready:valid && info.ready && (!omega || Boolean(workshopState.awakenedOmegaCraft && !workshopState.awakenedOmegaCraft.blockedReason)) && (!equipment || Boolean(recipe.equipmentCraft && selectedCraftInstance)),
+      shortage:valid ? (omega && workshopState.awakenedOmegaCraft?.blockedReason || info.shortage) : '제작 횟수를 1~100회 사이의 정수로 입력하세요.'};
   }
 
   function equipmentCraftPanel(recipe, recipes, info) {
@@ -443,9 +444,15 @@
     return `<section class="ws-kairon-forge ws-prime-forge cn-command-ui" aria-label="프라임 레퀴엠 용병 제작"><div class="ws-kairon-art"><img src="/${esc(recipe.output_image)}" alt="프라임 레퀴엠"><span>SSS <small>LIMITED</small></span></div><div class="ws-kairon-contract cn-ui-panel"><small>PRIME REQUIEM · 용병 제작</small><h2>프라임 레퀴엠</h2><p class="ws-kairon-lead">잠든 프라임의 기운을 되살립니다.</p><p class="ws-jokro-facts">SSS 리미티드 · 전투력 ${fmt(recipe.output_pve)}</p><div class="ws-prime-material"><img src="/${esc(material?.image_url)}" alt="기운잃은 프라임 카드"><div><b>기운잃은 프라임 카드</b><span>블러드문팩 획득 재료 · 보유 ${fmt(owned)}장</span><span>필요 수량 ${material?.quantity==null?'미정':fmt(material.quantity)+'장'}</span></div><strong aria-hidden="true">→</strong><span>프라임 레퀴엠<br>완제 용병 카드</span></div><div class="ws-kairon-condition"><b>${locked?'제작 준비 · OFF':'1회 제작 조건'}</b><span>${recipe.success_rate==null?'성공 확률 미정':`성공 확률 ${recipe.success_rate}%`}</span></div>${readyCosts?window.WorkshopRecipes.costRows(info.rows):'<p class="ws-kairon-lock">추가 비용 미정</p>'}${locked?`<p class="ws-kairon-lock">${esc(recipe.lockReason||'제작 준비 중')}</p>`:''}<button id="wsMaterialCraft" type="button" class="ws76-primary cn-ui-button primary" ${workshopBusy||!info.recovering&&(locked||!info.ready)?'disabled':''}>${workshopBusy?'제작 결과 확인 중':info.recovering?'이전 제작 결과 확인':locked?'제작 잠금':info.ready?'프라임 레퀴엠 제작':'재료 또는 재화 부족'}</button><small class="ws-kairon-note">${locked?'제작 잠금 중에는 재료와 재화가 소모되지 않습니다.':'성공·실패 모두 표시된 재료와 비용을 소모합니다. 성공 시 프라임 레퀴엠 1장을 획득합니다.'}</small></div></section>`;
   }
 
+  function awakenedOmegaCraftPanel(recipe) {
+    const info=materialCraftInfo(recipe),pity=info.pity,locked=recipe.craftLocked||!recipe.is_active;
+    const failures=Number(pity.failures||0),guaranteed=pity.guaranteed===true;
+    return `<section class="ws-kairon-forge ws-omega-forge cn-command-ui" aria-label="각성 오메가 용병 제작"><div class="ws-kairon-art"><img src="${esc(asset(recipe.output_image))}" alt="각성 오메가"><span>SSS <small>LIMITED</small></span></div><div class="ws-kairon-contract cn-ui-panel"><small>AWAKENED OMEGA · 용병 제작</small><h2>각성 오메가</h2><p class="ws-jokro-facts">SSS 리미티드 · 전투력 ${fmt(recipe.output_pve)}</p><div class="ws-kairon-condition"><b>1회 제작 조건</b><span>${guaranteed?'천장 도달 · 이번 성공률 100%':'기본 성공률 10%'}</span></div>${window.WorkshopRecipes.costRows(info.rows)}<section class="ws28-forge-pity" aria-live="polite"><div><span>실패 누적</span><strong>${failures}<small> / 10회</small></strong></div><div class="ws28-pity-track" role="progressbar" aria-label="각성 오메가 실패 누적" aria-valuemin="0" aria-valuemax="10" aria-valuenow="${failures}"><i style="width:${failures*10}%"></i></div><p>${guaranteed?'<b>이번 제작은 100% 성공합니다.</b>':'10회 연속 실패하면 11회째 제작은 확정 성공합니다.'}<br>계정별 누적 · 재접속 후에도 유지 · 성공 시 초기화</p></section>${locked?`<p class="ws-kairon-lock">${esc(recipe.lockReason)}</p>`:info.shortage?`<p class="ws-kairon-lock">${esc(info.shortage)}</p>`:''}<button id="wsMaterialCraft" type="button" class="ws76-primary cn-ui-button primary" ${workshopBusy||!info.recovering&&(locked||!info.ready)?'disabled':''}>${workshopBusy?'제작 결과 확인 중':info.recovering?'이전 제작 결과 확인':locked?'제작 잠금':guaranteed?'100% 확정 제작':'각성 오메가 제작 · 10%'}</button><small class="ws-kairon-note">성공·실패 모두 오메가-X 50장과 100조 코인을 소모합니다.<br>확정 제작에도 같은 비용이 필요하며, 성공 시 각성 오메가 1장을 획득합니다.<br>보유 오메가-X가 정확히 50장이면 PVE·PVP 편성을 먼저 해제하세요. 저장된 성장 상태는 유지됩니다.</small></div></section>`;
+  }
+
   function mercenaryCraftSelector(recipes,selectedId) {
     if(recipes.length<2)return '';
-    return `<nav class="ws-mercenary-select cn-command-ui" aria-label="제작할 용병 선택">${recipes.map(r=>`<button type="button" class="cn-ui-button${Number(r.id)===selectedId?' primary':''}" data-material-recipe="${r.id}" aria-pressed="${Number(r.id)===selectedId}"><img src="/${esc(r.output_image)}" alt="" loading="lazy" decoding="async"><span><b>${esc(r.output_name)}</b><small>${r.craftScope==='PRIME_MATERIAL'?'기운잃은 프라임 카드':r.craftScope==='SSS_LIMITED_SHARD'?'리미티드 조각':r.craftScope==='PRIME_MATERIAL'?'프라임 재료':'일반 조각'}</small><small>${r.craftStock?.soldOut?'한정 수량 소진':r.craftLocked?'제작 OFF':r.craftScope==='PRIME_MATERIAL'?'제작 가능':`남은 ${fmt(r.craftStock?.remaining)} / ${fmt(r.craftStock?.limit)}장`}</small></span></button>`).join('')}</nav>`;
+    return `<nav class="ws-mercenary-select cn-command-ui" aria-label="제작할 용병 선택">${recipes.map(r=>`<button type="button" class="cn-ui-button${Number(r.id)===selectedId?' primary':''}" data-material-recipe="${r.id}" aria-pressed="${Number(r.id)===selectedId}"><img src="/${esc(r.output_image)}" alt="" loading="lazy" decoding="async"><span><b>${esc(r.output_name)}</b><small>${r.craftScope==='AWAKENED_OMEGA'?'오메가-X 카드':r.craftScope==='PRIME_MATERIAL'?'기운잃은 프라임 카드':r.craftScope==='SSS_LIMITED_SHARD'?'리미티드 조각':r.craftScope==='PRIME_MATERIAL'?'프라임 재료':'일반 조각'}</small><small>${r.craftStock?.soldOut?'한정 수량 소진':r.craftLocked?'제작 OFF':['AWAKENED_OMEGA','PRIME_MATERIAL'].includes(r.craftScope)?'제작 가능':`남은 ${fmt(r.craftStock?.remaining)} / ${fmt(r.craftStock?.limit)}장`}</small></span></button>`).join('')}</nav>`;
   }
 
   function limitedShardCraftPanel(recipe) {
@@ -463,7 +470,7 @@
     const [pendingId, pendingPayment] = String(pending?.target || '').split(':');
     if (pending && ['COIN', 'MASTER_STAR'].includes(pendingPayment)) payment = pendingPayment;
     const recipe = recipes.find(row => String(row.id) === pendingId) || recipes.find(row => Number(row.id) === selectedMaterialRecipe) || recipes[0];
-    if (category === 'MERCENARY_CRAFT') { if(recipe)selectedMaterialRecipe=Number(recipe.id);return mercenaryCraftSelector(recipes,selectedMaterialRecipe)+(recipe?.code==='WORKSHOP_PRIME_REQUIEM'?primeCraftPanel(recipe):recipe?.craftScope==='SSS_LIMITED_SHARD'?limitedShardCraftPanel(recipe):recipe?.code==='WORKSHOP_JOKRO'?jokroCraftPanel(recipe):kaironCraftPanel(recipe)); }
+    if (category === 'MERCENARY_CRAFT') { if(recipe)selectedMaterialRecipe=Number(recipe.id);return mercenaryCraftSelector(recipes,selectedMaterialRecipe)+(recipe?.code==='WORKSHOP_AWAKENED_OMEGA'?awakenedOmegaCraftPanel(recipe):recipe?.code==='WORKSHOP_PRIME_REQUIEM'?primeCraftPanel(recipe):recipe?.craftScope==='SSS_LIMITED_SHARD'?limitedShardCraftPanel(recipe):recipe?.code==='WORKSHOP_JOKRO'?jokroCraftPanel(recipe):kaironCraftPanel(recipe)); }
     if (!recipe) {
       if (all.length) return noRecipeMatch();
       const core = category === 'SUIT_CORE_SYNTHESIS';
@@ -837,6 +844,7 @@
     const outputName = recipe.output_name || '미스틱 에너지';
     const prompt = recovering
       ? `${outputName} 제작 결과를 동일 요청번호로 안전하게 재확인합니다.`
+      : info.omega ? `각성 오메가 제작\n오메가-X 50장 + 100조 코인\n이번 성공률 ${info.pity.guaranteed?100:10}% · 실패 누적 ${info.pity.failures} / 10회\n10회 연속 실패 후 11회째 확정 성공, 성공 시 누적 초기화.\n성공·실패 모두 카드 50장과 코인이 소모됩니다.${workshopState.awakenedOmegaCraft.quantity===50?' 보유한 오메가-X 50장 전부를 소모합니다.':''} 제작하시겠습니까?`
       : info.equipment ? `${outputName} 장비 제작\n이번 성공 확률 ${info.pity.guaranteed ? 100 : 10}% · 실패 누적 ${fmt(info.pity.failures)} / ${fmt(info.pity.pityAfter)}회\n투입 장비 #${info.instanceId} · +${Number(recipe.equipmentCraft.requiredLevel??10)} ${recipe.equipmentCraft.inputName}\n${info.rows.filter(row=>row.code!=='EQUIPMENT').map(row=>`${row.name} ${fmt(row.required)}`).join(' + ')}\n${recipe.equipmentCraft.failureInputPolicy==='CONSUME'?(recipe.equipmentCraft.failureRepairable?`실패하면 투입한 +${Number(recipe.equipmentCraft.requiredLevel??10)} 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다.`:`주의: 실패하면 투입한 +${Number(recipe.equipmentCraft.requiredLevel??10)} 장비도 영구 소모됩니다. 재료·재화도 소모됩니다.`):`실패 시 +${Number(recipe.equipmentCraft.requiredLevel??10)} 장비는 보존되고 나머지 재료·재화는 소모됩니다.`} 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?`
       : `${outputName} ${fmt(attempts)}회 제작\n1회 성공 시 ${fmt(recipe.output_quantity || 1)}개 획득 · 매회 성공 확률 ${Number(recipe.success_rate ?? 100)}%\n총 ${info.rows.map(row => `${row.name} ${fmt(row.required)}`).join(' + ')}를 사용합니다.\n실패 시 투입 재료·재화는 반환되지 않으며, 동일한 제작 요청은 중복 차감되지 않습니다. 제작하시겠습니까?`;
     if (!confirm(prompt)) return;
@@ -852,7 +860,7 @@
     renderWorkshop();
     let reconcile = false;
     try {
-      const data = await api(info.equipment ? 'workshop/equipment-craft' : 'workshop/craft', { method: 'POST', body: JSON.stringify({ recipeId: recipe.id, ...(info.equipment ? {instanceId:info.instanceId} : {paymentType}), attempts, requestId: ticket.requestId }) });
+      const data = await api(info.omega ? 'workshop/awakened-omega-craft' : info.equipment ? 'workshop/equipment-craft' : 'workshop/craft', { method: 'POST', body: JSON.stringify({ recipeId: recipe.id, ...(info.equipment ? {instanceId:info.instanceId} : {paymentType}), attempts, requestId: ticket.requestId }) });
       clearMutationRequest('material', ticket.requestId);
       if (!ownsAction()) return;
       if (canPresent()) {
@@ -864,7 +872,7 @@
         else showMaterialResult(data);
       }
     } catch (error) {
-      const uncertain = mutationTransportUncertain(error) || (info.equipment && (Number(error?.status) >= 500 || [408,425,429].includes(Number(error?.status))));
+      const uncertain = mutationTransportUncertain(error) || ((info.equipment || info.omega) && (Number(error?.status) >= 500 || [408,425,429].includes(Number(error?.status))));
       if (uncertain) reconcile = true;
       else clearMutationRequest('material', ticket.requestId);
       if (canPresent()) alert(uncertain ? mutationRetryMessage('재료 제작') : error.message);
@@ -910,7 +918,7 @@
     const summary = `<div class="ws28-material-summary"><span>제작 <b>${fmt(attempts)}회</b></span><span>성공 <b>${fmt(successCount)}회</b></span><span>실패 <b>${fmt(data?.failureCount ?? attempts - successCount)}회</b></span></div>`;
     if (data?.category === 'MERCENARY_CRAFT') {
       modal.className = `modal show ws76-simple-result ws81-material-result ${success ? 'is-success' : 'is-failed'}`;
-      modal.innerHTML = `<section><small>SSS LIMITED · MERCENARY CRAFT</small><h2>${success?'용병 제작 성공':'용병 제작 실패'}</h2>${success?`<img src="${esc(asset(output.image))}" alt="${esc(outputName)}"><b>${esc(outputName)}</b><p>용병 보관함에 ${esc(outputName)} ${fmt(output.quantity || 1)}장이 지급되었습니다.</p>`:`<div class="ws76-result-failure-mark"><b>FAILED</b></div><b>${esc(outputName)}</b><p>투입한 재료와 비용이 소모되었습니다.</p>`}<button type="button">확인</button></section>`;
+      modal.innerHTML = `<section><small>SSS LIMITED · MERCENARY CRAFT</small><h2>${success?'용병 제작 성공':'용병 제작 실패'}</h2>${success?`<img src="${esc(asset(output.image))}" alt="${esc(outputName)}"><b>${esc(outputName)}</b><p>용병 보관함에 ${esc(outputName)} ${fmt(output.quantity || 1)}장이 지급되었습니다.</p>`:`<div class="ws76-result-failure-mark"><b>FAILED</b></div><b>${esc(outputName)}</b><p>투입한 재료와 비용이 소모되었습니다.</p>`}${data.awakenedOmegaCraft?`<p>실패 누적 ${fmt(data.pity.failures)} / 10회 · ${data.pity.guaranteed?'다음 제작 100% 성공':success?'성공으로 누적 초기화':'재접속 후에도 유지'}</p>`:''}<button type="button">확인</button></section>`;
       modal.querySelector('button').onclick=()=>{modal.className='modal';modal.innerHTML='';renderWorkshop();};return;
     }
     if (data?.equipmentCraft) {

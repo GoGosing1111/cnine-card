@@ -52,11 +52,11 @@ test('SSS LIMITED 2,200,000 is enforced by real stats, cadence and linkage match
   assert.equal(awakenedOmegaIncomingDamage(actor,1000,{code:'V-055',isMercenary:true}),200);
  }
 });
-test('craft-only remains locked across all positive-weight, pack, fusion and cube candidates; existing shard recipe stays locked and no grant',async t=>{
+test('craft opens only in its dedicated recipe; pack, fusion and cube candidates remain locked and no direct grant',async t=>{
  const rules={cardWeights:{[code]:1000000}},cards=[{code,rank:'SSS'},{code:'V-001',rank:'SSS'}];
- assert.equal(art.acquisition,'CRAFT_ONLY');assert.equal(art.craftAcquisitionEnabled,false);assert.equal(mercenaryAcquisitionEnabled(code,rules),false);assert.throws(()=>assertMercenaryAcquisitionEnabled(code,rules),{code:'MERCENARY_ACQUISITION_DISABLED'});
+ assert.equal(art.acquisition,'CRAFT_ONLY');assert.equal(art.craftAcquisitionEnabled,true);assert.equal(mercenaryAcquisitionEnabled(code,rules),false);assert.throws(()=>assertMercenaryAcquisitionEnabled(code,rules),{code:'MERCENARY_ACQUISITION_DISABLED'});
  assert.deepEqual(mercenaryGradePools(cards,cards.map(c=>c.code),rules).SSS,['V-001']);assert.equal(mercenaryCardChances(1000000,[code],rules)[0].percent,0);assert.deepEqual(limitedNormalCards(cards,cards,rules).map(c=>c.code),['V-001']);
- for(const pool of [ALL_LIMITED_MERCENARIES,HALLOWEEN_PACK_CARDS,BLOODMOON_PACK_CARDS,seed.catalog.cards])assert(!pool.some(c=>c.code===code));assert.equal(MERCENARY_CRAFTS.find(c=>c.code===code)?.art.craftAcquisitionEnabled,false);
+ for(const pool of [ALL_LIMITED_MERCENARIES,HALLOWEEN_PACK_CARDS,BLOODMOON_PACK_CARDS,seed.catalog.cards])assert(!pool.some(c=>c.code===code));assert.equal(MERCENARY_CRAFTS.find(c=>c.code===code)?.art.craftAcquisitionEnabled,true);
  const f=await mercenaryFixture(t,{postgres:true});await ensureLimitedPackSchema(f.env);assert(!(await readSssCubeCatalog(f.env)).catalog.some(c=>c.code===code&&c.available));
  await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVE',mercenaryCode:code,revision:0}),{code:'MERCENARY_NOT_OWNED'});
  assert(!(await mercenaryAccountState(f.env,f.user)).cards.some(c=>c.code===code));
@@ -90,7 +90,7 @@ test('actual PVE/PVP timelines emit authoritative Omega skills and keep legacy O
 });
 test('public codex and accepted original/atlas bytes retain the exact art, proportions, 2x motion and foreground FX',()=>{
  const data=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1})),card=data.cards.find(c=>c.code===code);
- assert.equal(card.name,'각성 오메가');assert.equal(card.rank,'SSS');assert.equal(card.edition,'LIMITED');assert.equal(card.basePower,2200000);assert.equal(card.acquisitionEnabled,false);assert.equal(card.skills.length,4);
+ assert.equal(card.name,'각성 오메가');assert.equal(card.rank,'SSS');assert.equal(card.edition,'LIMITED');assert.equal(card.basePower,2200000);assert.equal(card.acquisitionEnabled,true);assert.equal(card.skills.length,4);
  for(const[file,hash]of [[art.sourceArt,art.sourceArtSha256],[art.battleSprite,art.battleSpriteSha256]])assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex').toUpperCase(),hash);
  const root='assets/ui/project-v/mercenaries/awakened-omega-20261024/',m=JSON.parse(fs.readFileSync(root+'motion-manifest.json'));
  assert.equal(m.runtime.defaultSpeed,2);assert.equal(m.runtime.physicalBodyHeight,330);assert.equal(m.motion.idle.frameCount,1);assert.equal(m.runtime.effectLayer,'front');

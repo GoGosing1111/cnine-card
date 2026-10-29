@@ -73,7 +73,7 @@
         $('[data-eyebrow]').textContent=success?'A NEW OATH IS BORN':'THE OATH HAS FALLEN';$('#mc-title').textContent=success?'용병 제작 성공':'용병 제작 실패';
         $('[data-caption]').textContent=success?'봉인 너머, 새로운 동료가 응답했습니다.':'조각의 힘이 흩어져 각인을 완성하지 못했습니다.';
         $('[data-result-name]').textContent=success?`${name} ${Number(data.output.quantity||1)}장 획득`:`${name} · 획득 없음`;
-        $('[data-result-note]').textContent=success?'완성된 용병이 보관함에 지급되었습니다.':'투입한 제작 재료와 재화는 소모되었습니다.';
+         $('[data-result-note]').textContent=(success?'완성된 용병이 보관함에 지급되었습니다.':'투입한 제작 재료와 재화는 소모되었습니다.')+(data.awakenedOmegaCraft?` 실패 누적 ${data.pity.failures} / 10회 · ${data.pity.guaranteed?'다음 제작 100% 성공':success?'누적 초기화':'재접속 후에도 유지'}`:'');
         const costs=[];if(Number(data.coinSpent)>0)costs.push(`코인 ${fmt.format(data.coinSpent)}`);if(Number(data.masterStarSpent)>0)costs.push(`마스터의 별 ${fmt.format(data.masterStarSpent)}개`);if(Number(data.cardShardSpent)>0)costs.push(`카드 조각 ${fmt.format(data.cardShardSpent)}개`);
         $('[data-spent]').textContent=costs.length?`소모 · ${costs.join(' / ')}`:'';
         $('.mc-scene-label').textContent=success?'SSS LIMITED · 영혼의 각인':'결속된 힘이 흩어졌습니다';

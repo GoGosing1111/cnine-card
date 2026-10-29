@@ -32,7 +32,7 @@ test('all 12 SSS LIMITED recipes have separate five-slot drafts, null costs/rate
  const f=await fixture(t),before=await f.balance(),prepare=f.env.DB.prepare.bind(f.env.DB);let queries=0;
  f.env.DB.prepare=(...args)=>{queries++;return prepare(...args);};
  const rows=await decorateMercenaryCraft(f.env,[],{admin:true});assert.equal(queries,3);f.env.DB.prepare=prepare;
- assert.equal(rows.length,15);assert.equal(new Set(rows.map(r=>r.id)).size,15);
+ assert.equal(rows.length,MERCENARY_CRAFTS.length);assert.equal(new Set(rows.map(r=>r.id)).size,MERCENARY_CRAFTS.length);
  for(const d of LIMITED_SHARD_CRAFTS){
   const row=rows.find(r=>r.code===d.recipeCode);assert.equal(row.output_rarity,'SSS LIMITED');assert.equal(row.is_active,0);assert.equal(row.is_public,0);
   assert.equal(row.coin_cost,null);assert.equal(row.master_star_cost,null);assert.equal(row.success_rate,null);assert.equal(row.materials[0].quantity,null);
