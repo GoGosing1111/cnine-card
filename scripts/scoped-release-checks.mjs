@@ -14,10 +14,10 @@ export function scopedReleasePlan({env,git,scripts}){
  git('merge-base','--is-ancestor',base,'HEAD');
  const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean);
  if(!changed.length)throw Error('No changes since the deployed base');
- // docs/qa is excluded from production artifacts. An archived one-off Worker
+ // docs/qa and operations are excluded from production artifacts. An archived one-off Worker
  // config there is audit evidence, not a change to a deployed service binding.
  // Keep every root/Worker/other Wrangler config and all DB guards unchanged.
- const qaWrangler=p=>/^docs\/qa\/[^/]+\/wrangler\.(?:toml|jsonc?)$/.test(p);
+ const qaWrangler=p=>/^(?:docs\/qa|operations)\/[^/]+\/wrangler\.(?:toml|jsonc?)$/.test(p);
  if(changed.some(p=>(/(?:^|\/)wrangler\.(?:toml|jsonc?)$/.test(p)&&!qaWrangler(p))||/^(?:package-lock\.json|migrations\/|functions\/(?:_postgres_d1_compat|_auth[^/]*|_schema[^/]*|_db[^/]*)\.js)/.test(p)||/\.sql$/.test(p)))
   throw Error('DB, authentication, dependency or infrastructure changes require the full release gate');
  if(changed.includes('package.json')){
