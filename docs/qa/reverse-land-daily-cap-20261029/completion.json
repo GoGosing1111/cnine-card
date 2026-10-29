@@ -1,0 +1,58 @@
+{
+  "status": "LIVE_VERIFIED",
+  "at": "2026-10-29T09:00:56.487Z",
+  "atKst": "2026-10-29 18:00:56",
+  "source": "19bad480288bf156092476b17b2f32daac0d7c41",
+  "pages": {
+    "id": "05507257-8894-448e-a921-0af1eacaa194",
+    "url": "https://05507257.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "19bad480288bf156092476b17b2f32daac0d7c41"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "9d27b64e-53bd-4e88-aba0-01abce19fc83",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "2537a3ad-eec8-42a7-8a15-0769307f117a",
+      "percentage": 100
+    }
+  ],
+  "daily": {
+    "limit": 10,
+    "reset": "00:00 Asia/Seoul",
+    "carryover": false,
+    "missedDateBackfill": false,
+    "includesAlreadyUsedToday": true,
+    "registeredAccounts": 9,
+    "normalizedAccounts": 9
+  },
+  "coin": {
+    "min": 100000000000,
+    "max": 3000000000000,
+    "step": 500000000,
+    "weightsChanged": false,
+    "priorCouponsPreserved": true
+  },
+  "verification": {
+    "tests": 66,
+    "localViewports": [
+      1440,
+      390
+    ],
+    "publicViewports": [
+      390
+    ],
+    "browserUsesIsolatedApi": true,
+    "publicFiles": 7,
+    "databaseReadOnly": true,
+    "existingScheduleResetVerified": true
+  },
+  "manualAccountWrites": 0,
+  "messagesSent": 0,
+  "noticePublished": false,
+  "notice": "notice.txt"
+}
