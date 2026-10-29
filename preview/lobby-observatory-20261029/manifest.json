@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-29",
+  "version": 2,
+  "status": "DESIGN_PREVIEW",
+  "visualApproval": "NOT_ASSERTED",
+  "productionDeployed": false,
+  "tool": "built-in image_gen",
+  "intent": "generate",
+  "reference": "User-provided Arknights screenshot used as composition discussion only; not supplied to image generation and no pixels reused.",
+  "sourceOriginal": "C:/Users/User/.codex/generated_images/01a1851b-56a4-7483-a6a4-760528e1f4da/exec-f73d81cf-2ccf-4d17-81bb-97bd7d0cd1d8.png",
+  "asset": "preview/lobby-observatory-20261029/observatory-source.png",
+  "width": 1672,
+  "height": 941,
+  "bytes": 2576462,
+  "sha256": "f05727f1ad3d6396767a84e08a0b664af03fba9fb68500c743adb6a0f688a82f",
+  "prompt": "image-prompt.txt",
+  "preserved": [
+    {
+      "file": "assets/ui/avatars-v1/equipment-v3/avatar-f01-azure-frost-strategist-equipment-v1-640.webp",
+      "sha256": "1d38d2f403a27dc3a346c633f818b4fd7e9452d1f270f2b8a5637421226ea539",
+      "originalBytesPreserved": true
+    },
+    {
+      "file": "assets/ui/avatars-v1/equipment-v3/avatar-f02-crimson-siege-marshal-equipment-v1-640.webp",
+      "sha256": "17d2a82669ac034305e04d1485004a08c3a07c5ce992590064e18ee578ad0528",
+      "originalBytesPreserved": true
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+      "originalBytesPreserved": true
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+      "originalBytesPreserved": true
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/boss-art.webp",
+      "sha256": "d21b4b7316a3448e25a1cbde2460a163925a05bee8dcd18129c2d6b6a1bb2975",
+      "originalBytesPreserved": true
+    }
+  ],
+  "runtimeData": "Local illustrative values only; no API requests or game actions.",
+  "feedback": "PC 142→100px; mobile 111→77px departure height. Text and arrow reduced; mobile English kicker removed."
+}
