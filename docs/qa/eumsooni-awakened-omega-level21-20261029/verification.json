@@ -1,0 +1,32 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-29T08:50:03.430Z",
+  "readOnly": "on",
+  "userId": 65,
+  "nickname": "음순이",
+  "code": "V-972",
+  "name": "각성 오메가",
+  "levelBefore": 1,
+  "levelAfter": 21,
+  "currentLevel": 21,
+  "complete": true,
+  "experience": 0,
+  "breakthroughMask": 15,
+  "heldCopies": 1,
+  "auditId": "52731",
+  "completedAt": "2026-10-29T08:48:43.795Z",
+  "cost": 0,
+  "materialsConsumed": 0,
+  "storage": {
+    "level": 20,
+    "experience": "0",
+    "breakthrough_mask": 15,
+    "revision": 1
+  },
+  "actualAccountReadLevel": 21,
+  "actualSummaryLevel": 21,
+  "actualBattleSnapshotLevel": 21,
+  "selectOnlyReplayVerified": true,
+  "operationLocksRemaining": 0,
+  "productionWrites": 0
+}

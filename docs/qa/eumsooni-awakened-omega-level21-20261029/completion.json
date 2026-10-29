@@ -1,0 +1,43 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:eumsooni-awakened-omega-level21:20261029:v1",
+  "authorization": "음순이 각성오메가 21레벨로 변경",
+  "completedAt": "2026-10-29T08:48:43.795Z",
+  "completedAtKst": "2026-10-29 17:48:43 KST",
+  "userId": 65,
+  "nickname": "음순이",
+  "code": "V-972",
+  "name": "각성 오메가",
+  "before": {
+    "level": 1,
+    "experience": 0,
+    "breakthroughMask": 0,
+    "revision": 0
+  },
+  "after": {
+    "level": 21,
+    "experience": 0,
+    "breakthroughMask": 15,
+    "revision": 1
+  },
+  "beforeRowExists": false,
+  "storedLevel": 20,
+  "complete": true,
+  "heldCopies": 1,
+  "auditId": "52731",
+  "sourceSha256": "47b6efd446b309e0702687ccd5412cfa8b0cdcdba89ae3503409b6489d5d9645",
+  "planHash": "681f0f1e30dad65d1358a3cf5d917ef71f1229cd9e3d0633496cdeaa57590614",
+  "tests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "failureAndDryRunRollback": true,
+  "independentReadOnly": true,
+  "selectOnlyReplayVerified": true,
+  "leasesReleased": true,
+  "cost": 0,
+  "materialsConsumed": 0,
+  "additionalCardsGranted": 0,
+  "sendMessages": false,
+  "gameDeployment": false
+}
