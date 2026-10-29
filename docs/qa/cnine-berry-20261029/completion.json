@@ -1,0 +1,105 @@
+{
+  "status": "COMPLETED",
+  "at": "2026-10-29T10:31:29.318Z",
+  "atKst": "2026-10-29 19:31:29 KST",
+  "source": "dd3ffeb48327724ab5b0fc5d39b1ac0a219be902",
+  "pages": {
+    "id": "bcb71a79-71e9-4784-88eb-29981e277d61",
+    "url": "https://bcb71a79.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "dd3ffeb48327724ab5b0fc5d39b1ac0a219be902"
+  },
+  "member": {
+    "department": "여캠부",
+    "name": "♡김베리♡",
+    "id": "hhy789",
+    "station": "https://www.sooplive.com/station/hhy789"
+  },
+  "femaleMembers": 9,
+  "starMembers": 7,
+  "columns": 3,
+  "sharedWatchStreamerCount": 17,
+  "relatedTests": {
+    "passed": 30,
+    "failed": 0
+  },
+  "local": [
+    {
+      "width": 1440,
+      "starMembers": 7,
+      "femaleMembers": 9,
+      "columns": 3,
+      "profilesLoaded": 1,
+      "stationLinks": [
+        "hhy789"
+      ],
+      "opener": null,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "starMembers": 7,
+      "femaleMembers": 9,
+      "columns": 3,
+      "profilesLoaded": 1,
+      "stationLinks": [
+        "hhy789"
+      ],
+      "opener": null,
+      "errors": []
+    }
+  ],
+  "published": [
+    {
+      "width": 390,
+      "starMembers": 7,
+      "femaleMembers": 9,
+      "columns": 3,
+      "profilesLoaded": 1,
+      "stationLinks": [
+        "hhy789"
+      ],
+      "opener": null,
+      "errors": []
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "185625d8fa6286d557beac02090208cc1f6d0e637272b3711c4af4e103be391c"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "6293813dc2cefd8241da21d3e063cbef8fd1db8929abbd4c50ede8f7520f16d3"
+    },
+    {
+      "file": "js/streamer-lounge-v2036.js",
+      "sha256": "ace41b88e2abaa74fe41b91c4ca1b48ed240016c4a82591fd75c0a6102b03712"
+    },
+    {
+      "file": "js/cnine-roster-v1.js",
+      "sha256": "5684d3685d45ff9984b3f3cea2c634600108bb0eb3f092f31325d2e8ddc503c8"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "dddcfc80c0878e044b8ca4eab2f0e4186e79b9451bcef6c9a6f6c4af5a7a3209"
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "0e4af8b0-1871-4be6-a9d7-b1b39c2f87c0",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "d5b37d24-af30-4201-9042-757508098edb",
+      "percentage": 100
+    }
+  ],
+  "loungeRosterUnchanged": true,
+  "operationalAccountWrites": 0,
+  "operationalSettingsWrites": 0,
+  "watchCollectionRequests": 0,
+  "messagesSent": 0
+}

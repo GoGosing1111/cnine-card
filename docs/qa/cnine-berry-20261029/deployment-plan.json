@@ -1,0 +1,9 @@
+{
+  "base": "014ba718bcd57ed8a8298f5f593948998448f395",
+  "reason": "Add the requested ♡김베리♡ hhy789 to the end of the CNINE female department, eight to nine members. Preserve existing department order, three columns, original SOOP profile, station link, and lounge CMS. Refresh connected caches and generated store HTML. Run the existing lounge and shared watch-roster regressions; the shared watch streamer list follows the board, sixteen to seventeen including Cheolgu. No live watch collection or account/settings writes.",
+  "tests": [
+    "tests/streamer-lounge-v2036.test.mjs",
+    "tests/soop-watch-ranking-20261028.test.mjs"
+  ],
+  "checks": []
+}
