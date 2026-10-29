@@ -1,0 +1,40 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:namsudaeng-daengsoryong-streamer:20261029:v1",
+  "planHash": "4444266ca6d641c586679c3fda25263621ebd9b414d4a57ca40fcc22e90eb6d2",
+  "sourceSha256": "f8d6ff3532bfafe29cfcd86030bc38d7460a183eba1121be4e07af26d8a2e84e",
+  "userId": "183",
+  "nickname": "남수댕",
+  "pet": {
+    "code": "PET-DAENGSORYONG",
+    "name": "댕소룡",
+    "amount": 1,
+    "before": 0,
+    "after": 1
+  },
+  "boxes": {
+    "code": "REVERSECALL_STREAMER_GIFT_BOX",
+    "name": "리버스콜 스트리머 선물",
+    "amount": 4,
+    "before": {
+      "quantity": "0",
+      "unseen": "0"
+    },
+    "after": {
+      "quantity": "4",
+      "unseen": "4"
+    }
+  },
+  "auditId": "52782",
+  "petAuditId": "52781",
+  "completedAt": "2026-10-29T13:30:17.419Z",
+  "completedAtKst": "2026-10-29 22:30:17 KST",
+  "verifiedAt": "2026-10-29T13:30:25.319Z",
+  "testsPassed": 4,
+  "testsFailed": 0,
+  "leasesReleased": true,
+  "noWriteReplayVerified": true,
+  "automaticEquip": false,
+  "automaticOpen": false,
+  "gameRedeployed": false
+}

@@ -1,0 +1,49 @@
+{
+  "operationKey": "ops:namsudaeng-daengsoryong-streamer:20261029:v1",
+  "authorization": "남수댕 계정에 댕소룡 지급하고 스트리머 선물 4개 지급해",
+  "clarification": "펫이야 임마",
+  "delivery": "DIRECT",
+  "petQuantity": 1,
+  "boxQuantity": 4,
+  "targets": [
+    {
+      "userId": "183",
+      "nickname": "남수댕",
+      "role": "USER",
+      "identityHash": "6d379071da4974c3de862e371bbf59ded9f7c32613df0a71396eae0a89539a21",
+      "amount": 4
+    }
+  ],
+  "petCode": "PET-DAENGSORYONG",
+  "petName": "댕소룡",
+  "petDefinition": {
+    "code": "PET-DAENGSORYONG",
+    "name": "댕소룡",
+    "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png",
+    "battleSprite": "",
+    "enabled": false,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "ATTACK_PERCENT",
+        "percent": 30
+      }
+    ],
+    "notes": "2026-10-24 사용자 승인 및 라이브 반영 요청. 댕소룡 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+    "liveEnabled": false,
+    "rewardBonuses": {
+      "dropPercent": 10,
+      "accountXpPercent": 15,
+      "coinPercent": 15
+    }
+  },
+  "petDefinitionHash": "b82ff9cd620bf9b90b5b8441bdb1ccb1f579139544fe2028ffbc61704054ffad",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "itemDescription": "개봉 시 35조 코인, 핑두 리페어 쿠폰 3개, 슈트 코어 6 10개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+  "checkedAt": "2026-10-29T13:27:35.380Z"
+}
