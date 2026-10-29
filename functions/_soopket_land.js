@@ -18,7 +18,7 @@ export const LAND_IYEJUN_PRIZE='IYEJUN_CARD';
 export const LAND_IYEJUN_CARD_ID='CN-346F8DB0DEB84D41';
 export const LAND_STREAMERS=Object.freeze(['진짜디임','조은','오리꿍','강구열','하이희야♡']);
 export const LAND_PRIZES=Object.freeze([
-  {key:'COIN',label:'코인',range:'5억 ~ 2,500억',min:1,max:500,unit:500000000,symbol:'C',color:0xffd477},
+  {key:'COIN',label:'코인',range:'1,000억 ~ 3조',min:200,max:6000,unit:500000000,symbol:'C',color:0xffd477},
   {key:EMPEROR_ENERGY,label:'엠퍼러 에너지',range:'5 ~ 25개',min:1,max:5,unit:5,symbol:'E',color:0xffdf91},
   {key:'MASTER_STAR',label:'마스터의 별',range:'5,000 ~ 5,000,000개',min:1,max:1000,unit:5000,symbol:'S',color:0xffe7a6},
   {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'5 ~ 5,000개',min:1,max:1000,unit:5,symbol:'M',color:0xc5a5ff},
@@ -29,7 +29,7 @@ export const LAND_PRIZES=Object.freeze([
 // retired prizes cannot be spun again.
 // New draws multiply the original amount, not the odds. Redemption retains old
 // minimums and steps so already-issued coupons keep their exact stored reward.
-const REDEEM_PRIZES=[...LAND_PRIZES.map(p=>p.key===LAND_REPAIR_COUPON?p:({...p,unit:p.unit/5,max:p.max*5})),
+const REDEEM_PRIZES=[...LAND_PRIZES.map(p=>p.key===LAND_REPAIR_COUPON?p:({...p,min:1,unit:p.unit/5,max:p.max*5})),
  {key:SUPERSTAR_TICKET,min:1,max:1,unit:1},
  {key:'ZENITH_RANDOM_CARD',min:1,max:3,unit:1},
  {key:'FUR_RANDOM_CARD',min:1,max:5,unit:1},
@@ -50,7 +50,7 @@ const active=user=>user?.status==='ACTIVE'&&(!user.banned_until||Date.parse(/Z$|
 const one=(db,sql,...args)=>db.prepare(sql).bind(...args).first();
 const rows=async(db,sql,...args)=>(await db.prepare(sql).bind(...args).all()).results||[];
 const stmt=(db,sql,...args)=>db.prepare(sql).bind(...args);
-const now=()=>new Date().toISOString();
+const now=()=>new Date(Date.now()).toISOString();
 export function landCouponTiming(createdAt,timestamp=Date.now()){
   const value=String(createdAt||''),issued=Date.parse(/Z$|[+-]\d\d:\d\d$/.test(value)?value:value.replace(' ','T')+'Z');
   const expires=issued+LAND_COUPON_TTL_MS;
@@ -202,7 +202,7 @@ function inventoryDebit(db,list,userId,code,reference){
   list.push(stmt(db,'UPDATE cnine_user_inventory SET quantity=quantity-1,unseen_quantity=MIN(unseen_quantity,quantity-1),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=?',userId,code));inventoryLog(db,list,userId,code,-1,reference);
 }
 function message(db,list,userId,title,body,code,ref){list.push(stmt(db,"INSERT INTO user_messages(user_id,sender_type,title,body,message_type,coupon_code,campaign_key) VALUES(?,'SYSTEM',?,?,'SOOPKETLAND_COUPON',?,?)",userId,title,body,code,`soopketland:${ref}`))}
-function actionReceipt(db,list,user,id,action,plan,response){list.push(stmt(db,'INSERT INTO soopketland_actions(request_id,user_id,action,plan_json,response_json,created_at) VALUES(?,?,?,?,?,?)',id,user.id,action,JSON.stringify(plan),JSON.stringify(response),now()))}
+function actionReceipt(db,list,user,id,action,plan,response,createdAt=now()){list.push(stmt(db,'INSERT INTO soopketland_actions(request_id,user_id,action,plan_json,response_json,created_at) VALUES(?,?,?,?,?,?)',id,user.id,action,JSON.stringify(plan),JSON.stringify(response),createdAt))}
 async function replayAction(db,user,id,action,plan){
   const row=await one(db,'SELECT * FROM soopketland_actions WHERE request_id=?',id);if(!row)return null;
   if(Number(row.user_id)!==Number(user.id)||row.action!==action||row.plan_json!==JSON.stringify(plan))throw fail('같은 요청 번호를 다른 작업에 사용할 수 없습니다.',409,'LAND_REQUEST_MISMATCH');
@@ -213,34 +213,61 @@ async function commit(db,list,replay){
   return null;
 }
 export const landDayKey=timestamp=>new Date(Number(timestamp)+9*3600000).toISOString().slice(0,10);
+export function landDayWindow(timestamp=Date.now()){
+  const day=landDayKey(timestamp),start=new Date(`${day}T00:00:00+09:00`).toISOString();
+  return {day,start,end:new Date(Date.parse(start)+86400000).toISOString()};
+}
+const duringDay=(db,column='created_at')=>db.dialect==='postgres'
+  ? `${column}::timestamptz>=?::timestamptz AND ${column}::timestamptz<?::timestamptz`
+  : `julianday(${column})>=julianday(?) AND julianday(${column})<julianday(?)`;
+const dayRollCount=db=>`(SELECT COUNT(*) FROM soopketland_rolls WHERE user_id=? AND ${duringDay(db)})`;
+const dayLotCount=db=>`(SELECT COALESCE(SUM(remaining),0) FROM soopketland_ticket_lots WHERE user_id=? AND remaining>0 AND ${duringDay(db)})`;
+const dayArgs=(userId,window)=>[userId,window.start,window.end];
+const usedToday=async(db,userId,window)=>Number((await one(db,`SELECT ${dayRollCount(db)} n`,...dayArgs(userId,window)))?.n||0);
+const dailyLimit=()=>fail('리버스랜드는 하루 최대 10회 이용할 수 있습니다. 한국 시간 00시에 초기화되며 남은 이용권은 이월되지 않습니다.',409,'LAND_DAILY_LIMIT');
+function guardCurrentDay(db,list,window){
+  const current=db.dialect==='postgres'?"to_char(clock_timestamp() AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD')":"strftime('%Y-%m-%d','now','+9 hours')";
+  guard(db,list,`${current}=?`,[window.day]);
+}
 export async function issueDailyLandTickets(db,{userId=null,timestamp=Date.now()}={}){
-  const day=landDayKey(timestamp),policyRow=await one(db,'SELECT value FROM app_meta WHERE key=?',LAND_DAILY_POLICY),policy=parse(policyRow?.value);
+  const window=landDayWindow(timestamp),{day}=window,policyRow=await one(db,'SELECT value FROM app_meta WHERE key=?',LAND_DAILY_POLICY),policy=parse(policyRow?.value);
   if(policy?.enabled!==true||policy.quantity!==LAND_DAILY_QUANTITY||policy.couponUses!==LAND_COUPON_USES||!/^\d{4}-\d{2}-\d{2}$/.test(policy.startsOn||'')||day<policy.startsOn)return {enabled:false,day,issued:0};
   const candidates=await rows(db,`SELECT u.id FROM soopketland_accounts a JOIN users u ON u.id=a.user_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=CURRENT_TIMESTAMP)${userId===null?'':' AND u.id=?'} ORDER BY u.id`,...(userId===null?[]:[userId]));
   let issued=0;
   for(const user of candidates){
-    const id=`land-daily:${day}:${user.id}`,plan={day,quantity:LAND_DAILY_QUANTITY,couponUses:LAND_COUPON_USES},read=()=>replayAction(db,user,id,'DAILY_GRANT',plan);
+    // Normalize existing balances too, counting today's already completed draws.
+    const id=`land-daily-cap:${day}:${user.id}`,plan={day,quantity:LAND_DAILY_QUANTITY,couponUses:LAND_COUPON_USES},read=()=>replayAction(db,user,id,'DAILY_GRANT',plan);
     if(await read())continue;
-    const response={ok:true,...plan,userId:Number(user.id)},list=[];
+    const used=await usedToday(db,user.id,window),remaining=Math.max(0,LAND_DAILY_QUANTITY-used),createdAt=new Date(timestamp).toISOString();
+    const response={ok:true,...plan,userId:Number(user.id),used,remaining,carryover:false},list=[];
     lockUser(db,list,user.id);
     guardUser(db,list,user.id);
     guard(db,list,'EXISTS(SELECT 1 FROM soopketland_accounts WHERE user_id=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[user.id,LAND_DAILY_POLICY,policyRow.value]);
-    list.push(stmt(db,'INSERT INTO soopketland_ticket_lots(id,user_id,issued_by,quantity,remaining,coupon_uses,plan_json,created_at) VALUES(?,?,?,?,?,?,?,?)',id,user.id,user.id,LAND_DAILY_QUANTITY,LAND_DAILY_QUANTITY,LAND_COUPON_USES,JSON.stringify({...plan,source:'SYSTEM_DAILY'}),now()));
-    inventoryGrant(db,list,user.id,LAND_TICKET,LAND_DAILY_QUANTITY,id);
-    actionReceipt(db,list,user,id,'DAILY_GRANT',plan,response);
+    // Check after the account lock: an old delayed reset cannot erase a newer
+    // allowance, and an intervening draw requires a fresh retry.
+    guard(db,list,`${dayRollCount(db)}=? AND NOT EXISTS(SELECT 1 FROM soopketland_actions WHERE user_id=? AND request_id LIKE 'land-daily-cap:%' AND created_at>=?)`,[...dayArgs(user.id,window),used,user.id,window.end]);
+    guard(db,list,'EXISTS(SELECT 1 FROM inventory_items WHERE code=? AND is_active=1)',[LAND_TICKET]);
+    list.push(stmt(db,"INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,?-COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),?,'SOOPKETLAND_DAILY_RESET','EVENT',?",user.id,LAND_TICKET,remaining,user.id,LAND_TICKET,remaining,id));
+    list.push(stmt(db,'UPDATE soopketland_ticket_lots SET remaining=0 WHERE user_id=? AND remaining>0',user.id));
+    list.push(stmt(db,'INSERT INTO soopketland_ticket_lots(id,user_id,issued_by,quantity,remaining,coupon_uses,plan_json,created_at) VALUES(?,?,?,?,?,?,?,?)',id,user.id,user.id,LAND_DAILY_QUANTITY,remaining,LAND_COUPON_USES,JSON.stringify({...plan,source:'SYSTEM_DAILY',carryover:false}),createdAt));
+    list.push(stmt(db,'INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=excluded.quantity,unseen_quantity=excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP',user.id,LAND_TICKET,remaining,remaining));
+    actionReceipt(db,list,user,id,'DAILY_GRANT',plan,response,createdAt);
     const replay=await commit(db,list,read);if(!replay)issued++;
   }
-  return {enabled:true,day,quantity:LAND_DAILY_QUANTITY,couponUses:LAND_COUPON_USES,issued};
+  return {enabled:true,day,quantity:LAND_DAILY_QUANTITY,couponUses:LAND_COUPON_USES,carryover:false,issued};
 }
 async function state(db,user,access){
   const dailyAllowance=await issueDailyLandTickets(db,{userId:user.id});
+  const window=landDayWindow(),used=await usedToday(db,user.id,window),remaining=Math.max(0,LAND_DAILY_QUANTITY-used);
+  Object.assign(dailyAllowance,{day:window.day,limit:LAND_DAILY_QUANTITY,used,remaining,carryover:false,resetsAt:window.end});
   const settingsRow=await one(db,'SELECT value FROM app_meta WHERE key=?',SETTINGS),settings=parse(settingsRow?.value,defaults());
   settings.weights=storedLandWeights(settings.weights);
   const tickets=await one(db,'SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',user.id,LAND_TICKET);
-  const lots=await rows(db,'SELECT coupon_uses,remaining FROM soopketland_ticket_lots WHERE user_id=? AND remaining>0 ORDER BY created_at,id',user.id);
+  const lots=await rows(db,`SELECT coupon_uses,remaining FROM soopketland_ticket_lots WHERE user_id=? AND remaining>0 AND ${duringDay(db)} ORDER BY created_at,id`,...dayArgs(user.id,window));
+  const available=Math.max(0,Math.min(remaining,Number(tickets?.quantity||0),lots.reduce((n,l)=>n+Number(l.remaining),0)));
   const history=await rows(db,'SELECT r.response_json,r.created_at,c.created_at AS coupon_created_at FROM soopketland_rolls r LEFT JOIN soopketland_coupons c ON c.request_id=r.request_id WHERE r.user_id=? ORDER BY r.created_at DESC LIMIT 30',user.id);
   const total=Object.values(settings.weights).reduce((a,b)=>a+b,0);
-  return {access,serverNow:now(),couponTtlHours:8,dailyAllowance,defaultCouponUses:LAND_COUPON_USES,tickets:Math.min(Number(tickets?.quantity||0),lots.reduce((n,l)=>n+Number(l.remaining),0)),nextCouponUses:Number(lots[0]?.coupon_uses||0),prizes:LAND_PRIZES.map(p=>({...p,weight:settings.weights[p.key],percent:settings.weights[p.key]/total*100})),history:history.map(r=>({createdAt:r.created_at,...rollResponse(r)})),
+  return {access,serverNow:now(),couponTtlHours:8,dailyAllowance,defaultCouponUses:LAND_COUPON_USES,tickets:available,nextCouponUses:available?Number(lots[0]?.coupon_uses||0):0,prizes:LAND_PRIZES.map(p=>({...p,weight:settings.weights[p.key],percent:settings.weights[p.key]/total*100})),history:history.map(r=>({createdAt:r.created_at,...rollResponse(r)})),
     ...(access.isOwner?{owner:{accounts:await rows(db,'SELECT a.slot,a.user_id,u.nickname,u.status,COALESCE(i.quantity,0) tickets FROM soopketland_accounts a JOIN users u ON u.id=a.user_id LEFT JOIN cnine_user_inventory i ON i.user_id=a.user_id AND i.item_code=?',LAND_TICKET),missing:[],self:{id:Number(user.id),nickname:user.nickname},weights:settings.weights,coupons:(await rows(db,'SELECT code,issuer_id,reward_json,max_uses,used_count,is_active,created_at FROM soopketland_coupons ORDER BY created_at DESC LIMIT 40')).map(c=>({...c,...landCouponTiming(c.created_at)}))}}:{})};
 }
 
@@ -288,13 +315,17 @@ export async function handleSoopketLand({path,request,env,deps}){
 
 async function grant(db,user,body){
   const plan={userId:body.userId,quantity:body.quantity,couponUses:body.couponUses};
-  if(!safeInt(plan.userId,1,Number.MAX_SAFE_INTEGER)||!safeInt(plan.quantity,1,1000)||!safeInt(plan.couponUses,1,1000))throw fail('대상 계정, 이용권 1~1,000개, 쿠폰 사용 인원 1~1,000명을 입력하세요.');
   const prior=await replayAction(db,user,body.requestId,'GRANT',plan);if(prior)return prior;
+  if(!safeInt(plan.userId,1,Number.MAX_SAFE_INTEGER)||!safeInt(plan.quantity,1,LAND_DAILY_QUANTITY)||!safeInt(plan.couponUses,1,1000))throw fail('대상 계정, 이용권 1~10장, 쿠폰 사용 인원 1~1,000명을 입력하세요.');
   const target=await one(db,'SELECT * FROM users WHERE id=?',plan.userId);
   if(!(await landAccess(db,target)).allowed)throw fail('등록된 스트리머 또는 OWNER에게만 지급할 수 있습니다.',403);
+  await issueDailyLandTickets(db,{userId:plan.userId});
+  const window=landDayWindow(),capacitySql=`${dayRollCount(db)}+${dayLotCount(db)}+?<=?`,capacityArgs=[...dayArgs(plan.userId,window),...dayArgs(plan.userId,window),plan.quantity,LAND_DAILY_QUANTITY];
+  if(!Number((await one(db,`SELECT CASE WHEN ${capacitySql} THEN 1 ELSE 0 END allowed`,...capacityArgs))?.allowed))throw dailyLimit();
   const response={ok:true,...plan,message:`${target.nickname}에게 이용권 ${plan.quantity}개를 지급했습니다.`},list=[];
   for(const id of [...new Set([user.id,plan.userId])].sort((a,b)=>a-b))lockUser(db,list,id);
   guardUser(db,list,user.id,true);guardUser(db,list,plan.userId);
+  guardCurrentDay(db,list,window);guard(db,list,capacitySql,capacityArgs);
   list.push(stmt(db,'INSERT INTO soopketland_ticket_lots(id,user_id,issued_by,quantity,remaining,coupon_uses,plan_json,created_at) VALUES(?,?,?,?,?,?,?,?)',body.requestId,plan.userId,user.id,plan.quantity,plan.quantity,plan.couponUses,JSON.stringify(plan),now()));
   inventoryGrant(db,list,plan.userId,LAND_TICKET,plan.quantity,body.requestId);
   message(db,list,plan.userId,'리버스랜드 이용권 도착',`OWNER가 이용권 ${plan.quantity}개를 지급했습니다. 당첨 쿠폰은 각 ${plan.couponUses}명이 사용할 수 있습니다. 행정부 → 리버스랜드에서 이용하세요.`,null,body.requestId);
@@ -305,12 +336,15 @@ async function spin(db,user,body){
   const read=async()=>{const r=await one(db,'SELECT r.user_id,r.response_json,r.created_at,c.created_at AS coupon_created_at FROM soopketland_rolls r LEFT JOIN soopketland_coupons c ON c.request_id=r.request_id WHERE r.request_id=?',body.requestId);if(!r)return null;if(Number(r.user_id)!==Number(user.id))throw fail('다른 계정의 요청 번호입니다.',409);return {...rollResponse(r),replayed:true}};
   const prior=await read();if(prior)return prior;
   await issueDailyLandTickets(db,{userId:user.id});
-  const lot=await one(db,'SELECT * FROM soopketland_ticket_lots WHERE user_id=? AND remaining>0 ORDER BY created_at,id LIMIT 1',user.id);
+  const window=landDayWindow();
+  if(await usedToday(db,user.id,window)>=LAND_DAILY_QUANTITY)throw dailyLimit();
+  const lot=await one(db,`SELECT * FROM soopketland_ticket_lots WHERE user_id=? AND remaining>0 AND ${duringDay(db)} ORDER BY created_at,id LIMIT 1`,...dayArgs(user.id,window));
   if(!lot)throw fail('사용 가능한 리버스랜드 이용권이 없습니다. 등록 스트리머는 매일 이용권 10장을 자동 발급받습니다.',409,'LAND_NO_TICKET');
   const cfg=await one(db,'SELECT value FROM app_meta WHERE key=?',SETTINGS),prize=pickLandPrize(storedLandWeights(parse(cfg?.value)?.weights));
   const code=`SLD-${crypto.randomUUID().replaceAll('-','').slice(0,24).toUpperCase()}`;
   const createdAt=now(),response={ok:true,requestId:body.requestId,prize,delivery:'VIEWER_COUPON',code,couponUses:Number(lot.coupon_uses),createdAt,...landCouponTiming(createdAt)};
   const list=[];lockUser(db,list,user.id);guardUser(db,list,user.id);
+  guardCurrentDay(db,list,window);guard(db,list,`${dayRollCount(db)}<?`,[...dayArgs(user.id,window),LAND_DAILY_QUANTITY]);
   if(db.dialect==='postgres')list.push(stmt(db,'SELECT id FROM soopketland_ticket_lots WHERE id=? FOR UPDATE',lot.id));
   guard(db,list,'EXISTS(SELECT 1 FROM soopketland_ticket_lots WHERE id=? AND user_id=? AND remaining>0) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[lot.id,user.id,SETTINGS,cfg.value]);
   inventoryDebit(db,list,user.id,LAND_TICKET,body.requestId);
