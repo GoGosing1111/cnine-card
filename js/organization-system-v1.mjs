@@ -1,10 +1,10 @@
 import {organizationCrest} from './organization-identity-v1.mjs?v=20261025-clan-eight';
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 import {openOrganizationFaction} from './organization-faction-window-v1.mjs?v=20261025-clan-eight';
-import {currentOrganization,organizationRosterView,organizationHideoutView} from './organization-headquarters-v1.mjs?v=20261025-clan-eight';
+import {currentOrganization,organizationRosterView,organizationHideoutView} from './organization-headquarters-v1.mjs?v=20261029-elder-kick';
 import {createOrganizationAdmission} from './organization-admission-v1.mjs?v=20261025-clan-eight';
 import {organizationDashboardHeader,organizationDashboardView} from './organization-dashboard-v1.mjs?v=20261025-clan-eight&clanRestore=20261025&clanResume=20261025';
-import {organizationJoinView} from './organization-join-v1.mjs?v=20261025-clan-eight';
+import {organizationJoinView} from './organization-join-v1.mjs?v=20261029-elder-kick';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>Number(value||0).toLocaleString('ko-KR');
 const phaseName={PREPARATION:'모집 준비',SURVEY:'희망 클랜 설문',CLOSED:'균등 배정 준비',ASSIGNED:'배정 완료'};
@@ -58,7 +58,31 @@ export async function mountOrganization({root,api,isOwner=false}){
     root.innerHTML=`<header class="org-topbar"><div class="org-brand"><b>리버스콜</b><span>CLAN / 클랜 본부</span></div><span class="org-status">${state.round?.scope==='TEST'?'TEST · 검수 중':state.loginRequired?'로그인 필요':state.round?.recruitment?.kind==='ADDITIONAL'?(recruitmentOpen()?'추가 모집 중 · 확정 보류':'추가 모집 마감 · 확정 보류'):phaseName[state.round?.phase]||'모집 준비'}</span></header>${recruitment()}${state.previewOnly&&state.admissionEnabled===false?'<aside class="org-public-notice"><strong>입단 심사 OFF · 모집 준비 중</strong><span>입단 심사는 현재 이용할 수 없습니다. 시작 일정은 추후 안내합니다.</span></aside>':state.previewOnly?'<aside class="org-public-notice"><strong>입단 심사 미리보기 · 모집 준비 중</strong><span>일곱 질문과 클랜 추천을 미리 체험하세요. 답변은 이 기기에만 임시 저장되며 실제 지원서는 접수되지 않습니다.</span></aside>':''}${assigned?organizationDashboardHeader(state):`<section class="org-hero-v1" ${tab==='survey'?'hidden':''}><div><span class="org-kicker">SAME CITY. A NEW BEGINNING.</span><h1>함께할 동료,<br><em>새로운 클랜.</em></h1><p>당신이 희망하는 문양에서 시작합니다.<br>더 고른 전력으로, 다시 쓰는 우리들의 세력도.</p></div><div class="org-capacity"><span><b>8</b><small>클랜</small></span><span><b>25</b><small>최대 정원</small></span><span><b>${state.previewOnly?'—':number(state.participantCount)}</b><small>${state.previewOnly?'모집 준비':'설문 참여'}</small></span></div></section>`}<nav class="org-nav" aria-label="클랜 본부">${assigned?`<button type="button" data-tab="overview" aria-current="${tab==='overview'?'page':'false'}">클랜 현황</button>`:''}${state.join?.enabled?`<button type="button" data-tab="join" aria-current="${tab==='join'?'page':'false'}">${state.join.canReview?'가입 심사'+(state.join.applications.length?' · '+state.join.applications.length:''):'가입 신청'}</button>`:''}${showAdmission?`<button type="button" data-tab="survey" aria-current="${tab==='survey'?'page':'false'}">${state.loginRequired?'입단 · 로그인':state.round?.phase==='CLOSED'||state.round?.phase==='ASSIGNED'?'입단 접수 현황':state.admissionEnabled===false?'입단 심사 · 준비':'입단 심사'}</button>`:''}<button type="button" data-tab="mine" aria-current="${tab==='mine'?'page':'false'}">내 클랜</button><button type="button" data-tab="hideout" aria-current="${tab==='hideout'?'page':'false'}">아지트</button><button type="button" data-tab="faction" aria-current="${tab==='faction'?'page':'false'}">세력전</button>${isOwner?`<button type="button" data-tab="manage" aria-current="${tab==='manage'?'page':'false'}">운영 관리</button>`:''}<span class="phase">${phaseName[state.round?.phase]||'모집 준비'}</span></nav><main class="org-content ${tab==='survey'?'org-admission-content':''}">${tab==='join'?organizationJoinView(state):tab==='overview'?organizationDashboardView(state):tab==='survey'?survey():tab==='mine'?mine():tab==='hideout'?hideout():tab==='faction'?'<iframe class="org-faction-frame" title="클랜 세력전 · 서울 25개 구" src="/organization/faction/?v=20261025-clan-eight"></iframe>':manage()}</main>`;
     root.setAttribute('aria-busy','false');bind();clearInterval(countdown);updateCountdown();countdown=setInterval(updateCountdown,1000);
   }
+  function openMemberKick(member,trigger){
+    if(busy||!member?.canKick||document.querySelector('.org-kick-dialog'))return;
+    const dialog=document.createElement('dialog'),roundId=state.round.id,revision=state.round.revision;
+    const body={requestId:crypto.randomUUID(),roundId,revision,targetUserId:member.userId,joinedAt:member.joinedAt,confirmation:'KICK_CLAN_MEMBER'};
+    let submitting=false;
+    dialog.className='org-kick-dialog';dialog.setAttribute('aria-labelledby','org-kick-title');
+    dialog.innerHTML='<span class="org-kicker">CLAN / MEMBER MANAGEMENT</span><h2 id="org-kick-title">클랜원을 방출할까요?</h2><strong class="org-kick-name">'+esc(member.nickname)+'</strong><p>클랜 소속과 부대 편성·행동대장 지정이 해제됩니다. 기존 재화와 전투 기록은 유지됩니다.</p><p>원로는 방출할 수 없으며, 진행 중인 클랜전·교전이 있으면 종료 후 다시 시도해 주세요.</p><p class="org-kick-error" role="alert"></p><footer><button type="button" data-kick-cancel autofocus>취소</button><button type="button" data-kick-confirm>방출하기</button></footer>';
+    const close=()=>{if(submitting)return;dialog.close();dialog.remove();if(trigger?.isConnected)trigger.focus();};
+    dialog.addEventListener('cancel',event=>{event.preventDefault();close();});dialog.querySelector('[data-kick-cancel]').onclick=close;
+    dialog.querySelector('[data-kick-confirm]').onclick=async()=>{
+      if(submitting)return;submitting=true;dialog.querySelectorAll('button').forEach(b=>b.disabled=true);dialog.querySelector('.org-kick-error').textContent='';
+      try{
+        await api('organization/member/kick',{method:'POST',body});
+        submitting=false;close();message(member.nickname+' 님을 방출했습니다.');
+        await load().catch(()=>message('방출이 완료됐습니다. 명단을 다시 불러오려면 새로고침해 주세요.',true));
+      }catch(error){
+        const stale=error.code==='ORG_STALE'||error.code==='ORG_MEMBERSHIP'||error.code==='ORG_ELDER'||error.code==='ORG_ELDER_TARGET';
+        dialog.querySelector('.org-kick-error').textContent=error.message;dialog.querySelector('[data-kick-confirm]').disabled=stale;dialog.querySelector('[data-kick-cancel]').disabled=false;
+        if(stale){dialog.querySelector('[data-kick-cancel]').textContent='명단 새로고침';dialog.querySelector('[data-kick-cancel]').onclick=()=>{close();load().catch(e=>message(e.message,true));};}
+      }finally{submitting=false;if(dialog.isConnected&&!dialog.querySelector('[data-kick-cancel]').textContent.includes('새로고침'))dialog.querySelectorAll('button').forEach(b=>b.disabled=false);}
+    };
+    document.body.append(dialog);dialog.showModal();
+  }
   function bind(){
+    root.querySelectorAll('[data-org-kick]').forEach(button=>button.onclick=()=>openMemberKick(state.roster.find(m=>m.userId===Number(button.dataset.orgKick)),button));
     root.querySelector('#org-join-form')?.addEventListener('submit',event=>{event.preventDefault();const form=new FormData(event.currentTarget);run(()=>post('organization/join/apply',{roundId:state.round.id,revision:state.join.application?.revision||0,organizationId:Number(form.get('organizationId')),message:String(form.get('message')||'')}),'가입 신청을 접수했습니다. 해당 클랜 원로의 심사를 기다려 주세요.');});
     root.querySelector('[data-join-cancel]')?.addEventListener('click',()=>run(()=>post('organization/join/cancel',{roundId:state.round.id,revision:state.join.application.revision}),'가입 신청을 취소했습니다.'));
     root.querySelectorAll('[data-join-review]').forEach(button=>button.onclick=()=>run(()=>post('organization/join/review',{roundId:state.round.id,userId:Number(button.dataset.user),revision:Number(button.dataset.revision),decision:button.dataset.joinReview}),button.dataset.joinReview==='APPROVED'?'가입을 승인했습니다.':'가입 신청을 거절했습니다.'));

@@ -217,8 +217,6 @@
     "preview/mercenary-jokro-iaido-20261017-v1/source/JokroFX.js",
     "preview/mercenary-jokro-iaido-20261017-v1/manifest.json",
     "preview/project-v-v3/source/battle/JokroCombatPlayback.js",
-    "shared/mercenary-kairon-v1.mjs",
-    "shared/mercenary-jinmu-v1.mjs",
     "shared/account-ranks-v1.mjs",
     "shared/mercenary-shiranui-v1.mjs",
     "preview/mercenary-monochrome-artillery-battle-v1/skill.mjs",
@@ -282,12 +280,14 @@
     "shared/mercenary-harlequin-visual-v1.mjs",
     "shared/mercenary-limited-visuals-v1.mjs",
     "shared/mercenary-valter-v1.mjs",
+    "shared/mercenary-kairon-v1.mjs",
     "preview/mercenary-black-uniform-dual-uzi-v1/skill.mjs",
     "preview/mercenary-black-uniform-dual-uzi-v1/aura-registration.mjs",
     "preview/mercenary-black-uniform-dual-uzi-v1/missile-flight.mjs",
     "preview/mercenary-black-uniform-dual-uzi-v1/bullet-flight.mjs",
     "preview/mercenary-black-uniform-dual-uzi-v1/source/UziBarrageFX.js",
     "preview/project-v-v3/source/battle/KaironCombatPlayback.js",
+    "shared/mercenary-jinmu-v1.mjs",
     "preview/mercenary-golden-dragon-battle-v1/skill.mjs",
     "preview/mercenary-golden-dragon-battle-v1/source/GoldenDragonFX.js",
     "preview/project-v-v3/source/battle/JinmuCombatPlayback.js",
@@ -320,5 +320,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2871828
+  "outputBytes": 2872705
 }

@@ -14,8 +14,8 @@ export function organizationRosterView(state){
  const members=state.roster||[],elderIds=state.faction?.treasury?.elderIds||[];
  return '<section class="org-member-section" aria-labelledby="org-member-title"><header><div><span class="org-kicker">THE PEOPLE BEHIND OUR NAME</span><h3 id="org-member-title">클랜원 명단</h3></div><p><b>'+members.length+'</b> / 25명</p></header><ol class="org-member-grid">'+Array.from({length:25},(_,index)=>{
   const member=members.find(m=>m.slot===index+1);
-  return '<li class="org-member-slot '+(member?.isSelf?'is-self':member?'':'is-vacant')+'"><span class="org-member-number">'+String(index+1).padStart(2,'0')+'</span><div><b title="'+esc(member?.nickname||'빈 자리')+'">'+esc(member?.nickname||'빈 자리')+'</b><small>'+(member?((member.isSelf?'나 · ':'')+(elderIds.includes(member.userId)?'원로':'클랜원')):'가입 신청 가능')+'</small></div>'+(member?.isSelf?'<span class="org-member-self">ME</span>':'')+'</li>';
- }).join('')+'</ol><p class="org-roster-note">현재 클랜에 배정된 동료만 표시합니다. 가입 신청은 해당 클랜 원로의 승인 후 빈 자리에 반영됩니다.</p></section>';
+  return '<li class="org-member-slot '+(member?.isSelf?'is-self':member?'':'is-vacant')+'"><span class="org-member-number">'+String(index+1).padStart(2,'0')+'</span><div><b title="'+esc(member?.nickname||'빈 자리')+'">'+esc(member?.nickname||'빈 자리')+'</b><small>'+(member?((member.isSelf?'나 · ':'')+((member.isElder??elderIds.includes(member.userId))?'원로':'클랜원')):'가입 신청 가능')+'</small>'+(member?.canKick?'<button type="button" class="org-member-kick" data-org-kick="'+member.userId+'" aria-label="'+esc(member.nickname)+' 방출">방출</button>':'')+'</div>'+(member?.isSelf?'<span class="org-member-self">ME</span>':'')+'</li>';
+ }).join('')+'</ol><p class="org-roster-note">현재 클랜에 배정된 동료만 표시합니다. 가입 신청은 해당 클랜 원로의 승인 후 빈 자리에 반영됩니다. 원로는 일반 클랜원을 방출할 수 있습니다.</p></section>';
 }
 export function organizationHideoutView(state,{stage=0,compact=false,huntKind='boss'}={}){
  const names=state.preparation.hideouts,org=currentOrganization(state),current=org?.hideout,treasury=state.faction?.treasury,costs=state.faction?.policy?.upgradeCosts||[0,null,null,null,null],isCurrent=!!current&&stage+1===current.stage;

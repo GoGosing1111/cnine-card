@@ -187,7 +187,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  // Limited account/release gates remain outside this canonical fighter builder.
  // Trusted prepared limited snapshots always use their server-owned policy.
  const awakenedOmega=snapshot.code===AWAKENED_OMEGA_CODE;
- if(awakenedOmega)snapshot={...snapshot,rank:'SSS',edition:'LIMITED',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:structuredClone(AWAKENED_OMEGA_SKILLS.filter(s=>!s.pveOnly||mode==='PVE')),counterImmune:true,controlImmune:true,poisonImmune:true,awakenedOmegaPolicyVersion:1};
+ if(awakenedOmega)snapshot={...snapshot,rank:'SSS',edition:'LIMITED',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:structuredClone(AWAKENED_OMEGA_SKILLS.filter(s=>!s.pveOnly||mode==='PVE')),counterImmune:true,controlImmune:true,poisonImmune:true,awakenedOmegaPolicyVersion:AWAKENED_OMEGA_COMBAT.version};
  const razak=snapshot.code===RAZAK_CODE;
  if(razak)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'MIDDLE',role:'ASSASSIN',attackStyle:'MELEE',skills:structuredClone(RAZAK_SKILLS.filter(s=>!s.pveOnly||mode==='PVE')),counterImmune:false,controlImmune:false,poisonImmune:false,razakPolicyVersion:RAZAK_COMBAT.version};
  const valter=snapshot.code===VALTER_CODE;
