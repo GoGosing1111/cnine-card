@@ -1,5 +1,5 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
-import {mountLegionRegionsCms} from './legion-regions-admin-v1.mjs?v=20261018-coins-paced-v2';
+import {mountLegionRegionsCms} from './legion-regions-admin-v1.mjs?v=20261029-legion-ascendant-v1';
 import {legionItemTypeLabel} from './legion-region-drops-v1.mjs?v=20261018-coins-paced-v2';
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const names={normal:'보통',hard:'어려움',nightmare:'악몽',inferno:'지옥'};
