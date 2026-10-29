@@ -17,7 +17,7 @@
     <div class="scene" aria-hidden="true"></div><div class="scene-shade" aria-hidden="true"></div>
     <header class="topbar">
       <a class="brand" href="./" aria-label="리버스콜 로비 시안"><img src="/assets/ui/brand/reverse-call-20261016/icon-192.png" alt=""><span>REVERSE CALL<small>리버스콜</small></span></a>
-      <span class="preview-tag">로비 시안 <i>01</i></span>
+      <button class="header-profile" data-info="account" title="예시 계정 · Lv.120 준위 · 리버스콜 지휘관"><span><small>Lv.120 <i>준위</i></small><b>리버스콜 지휘관</b></span></button>
       <div class="wallet" aria-label="예시 계정 재화">
         <button data-info="wallet" title="예시 코인"><span class="currency coin">C</span><span><small>코인</small><b>2.18조</b></span></button>
         <button data-info="wallet" title="예시 마스터의 별"><span class="currency star">✦</span><span><small>마스터의 별</small><b>128,400</b></span></button>
@@ -30,7 +30,7 @@
       <button class="rail-item" data-category="cards"><span data-icon="mercenaryDex"></span><b>카드·용병</b></button>
       <button class="rail-item" data-category="equipment"><span data-icon="equipmentForge"></span><b>장비·제작</b></button>
       <button class="rail-item" data-category="shop"><span data-icon="buy"></span><b>상점·교환</b></button>
-      <button class="rail-item" data-category="social"><span data-icon="clan"></span><b>길드·행정</b></button>
+      <button class="rail-item" data-category="social"><span data-icon="clan"></span><b>클랜</b></button>
       <span class="rail-separator"></span>
       <button class="rail-item" data-category="favorites"><span data-icon="favorites"></span><b>즐겨찾기</b></button>
       <button class="rail-item all" data-category="all"><span data-icon="grid"></span><b>전체 메뉴</b></button>
@@ -45,12 +45,16 @@
         <div class="command-heading"><span class="eyebrow">YOUR NEXT MOVE</span><span class="status-dot"></span></div>
         <div class="mode-tabs" role="tablist" aria-label="출전 종류"><button id="mode-pve" role="tab" aria-selected="true" aria-controls="departure" data-mode="pve">모험 <small>PVE</small></button><button id="mode-pvp" role="tab" aria-selected="false" aria-controls="departure" data-mode="pvp" tabindex="-1">대전 <small>PVP</small></button></div>
         <div id="departure" role="tabpanel" aria-labelledby="mode-pve" tabindex="-1"><button class="depart" id="depart-button" data-category="pve"><span><small id="depart-kicker">EXPEDITION / 01</small><strong id="depart-title">모험 출전</strong><em id="depart-description">토벌 · 레이드 · 원정</em></span><span class="depart-arrow" aria-hidden="true">↗</span><span class="depart-watermark" aria-hidden="true">01</span></button></div>
-        <div class="quick-actions"><button class="metal-button" data-route="deck"><span data-icon="deck"></span><span><b>편성</b><small>DECK</small></span><i>↗</i></button><button class="metal-button" data-category="equipment"><span data-icon="equipmentForge"></span><span><b>성장</b><small>UPGRADE</small></span><i>↗</i></button></div>
+        <div class="quick-actions">
+          <button class="metal-button" data-route="deck"><span data-icon="deck"></span><span><b>편성</b><small>DECK</small></span><i>↗</i></button>
+          <button class="metal-button" data-category="equipment"><span data-icon="equipmentForge"></span><span><b>성장</b><small>UPGRADE</small></span><i>↗</i></button>
+          <button class="metal-button" data-route="fusion"><span data-icon="fusion"></span><span><b>제작소</b><small>WORKSHOP</small></span><i>↗</i></button>
+          <button class="metal-button" data-category="administration"><span data-icon="administration"></span><span><b>행정부</b><small>ADMINISTRATION</small></span><i>↗</i></button>
+        </div>
         <button class="event-banner" data-route="blackwing"><img src="/assets/raids/blackwing-20261024/boss-art.webp" alt=""><span class="event-overlay"></span><span class="event-copy"><span class="event-tag">6인 레이드 <i>TEST</i></span><b>흑익의 맹약</b><small>용혈의 저울 앞에서, 함께.</small></span><span class="event-arrow">↗</span></button>
         <div class="event-pagination" aria-label="콘텐츠 소개"><i></i><span>01 / 01</span><span>CONTENT SPOTLIGHT</span></div>
       </section>
-      <section class="bottom-strip" aria-label="계정과 콘텐츠 현황">
-        <button class="player-summary" data-info="account"><span class="player-monogram">RC</span><span><small>예시 계정</small><b>리버스콜 지휘관</b><span class="level-track"><i></i></span></span><em>↗</em></button>
+      <section class="bottom-strip" aria-label="콘텐츠 현황">
         <button class="dispatch-item" data-route="dailyquest"><span class="dispatch-no">01</span><span><small>오늘의 임무</small><b>일일·주간 임무 <i>↗</i></b></span></button>
         <button class="dispatch-item" data-route="auction"><span class="dispatch-no">02</span><span><small>거래소</small><b>실시간 경매 <i>↗</i></b></span></button>
         <button class="dispatch-item" data-category="rewards"><span class="dispatch-no">03</span><span><small>보급 확인</small><b>출석·접속 보상 <i>↗</i></b></span></button>

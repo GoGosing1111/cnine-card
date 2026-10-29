@@ -11,13 +11,14 @@
     settings:'<path d="m10 3-.6 2.1-2.1 1.2L5 5.8 3 9l1.7 1.6v2.8L3 15l2 3.2 2.3-.5 2.1 1.2L10 21h4l.6-2.1 2.1-1.2 2.3.5 2-3.2-1.7-1.6v-2.8L21 9l-2-3.2-2.3.5-2.1-1.2L14 3Z"/><circle cx="12" cy="12" r="3"/>',
     eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
     motion:'<path d="M8 6v12m8-12v12M4 3h16M4 21h16"/>',
+    administration:'<path d="m3 9 9-6 9 6ZM3 21h18M5 11v7m5-7v7m4-7v7m5-7v7M3 18h18"/>',
     world:'<path d="M12 5C9 3 5 3 2 4v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1Zm0 0v15M5 8h4m-4 4h4m6-4h4m-4 4h4"/>'
   };
   const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${window.SoopLobbyRouteIcons?.[name] || paths[name] || paths.grid}</svg>`;
   document.querySelectorAll('[data-icon]').forEach(el => { el.innerHTML=icon(el.dataset.icon); });
-  const categories = {all:'전체 메뉴',pve:'모험 · PVE',pvp:'대전 · PVP',cards:'카드·용병·펫',equipment:'장비·제작',shop:'상점·교환',rewards:'임무·보상',social:'클랜·행정부',favorites:'즐겨찾기'};
+  const categories = {all:'전체 메뉴',pve:'모험 · PVE',pvp:'대전 · PVP',cards:'카드·용병·펫',equipment:'장비·제작',shop:'상점·교환',rewards:'임무·보상',social:'클랜',administration:'행정부',favorites:'즐겨찾기'};
   const contract = window.SoopketmonV21NavigationContract;
-  const categoryOf = (id,group) => ['clan','clanWar','clanFaction'].includes(id) || group==='administration' ? 'social' : ['pve','pvp'].includes(group) ? group : ['store','market'].includes(group)||id==='mineral' ? 'shop' : group==='rewards' ? 'rewards' : ['equipment','crafting'].includes(group) ? 'equipment' : 'cards';
+  const categoryOf = (id,group) => group==='administration' ? 'administration' : ['clan','clanWar','clanFaction'].includes(id) ? 'social' : ['pve','pvp'].includes(group) ? group : ['store','market'].includes(group)||id==='mineral' ? 'shop' : group==='rewards' ? 'rewards' : ['equipment','crafting'].includes(group) ? 'equipment' : 'cards';
   const entries = new Map((contract?.menuGroupOrder || []).flatMap(group => contract.groups[group].routes.map(id => [id,{id,title:contract.routes[id].title,category:categoryOf(id,group)}])));
   for (const item of [{id:'world',title:'세계관',category:'social'},{id:'equipmentForge',title:'장비 강화',category:'equipment'},{id:'mercenaryEquipment',title:'용병 장비',category:'equipment'},{id:'blackwing',title:'흑익의 맹약',category:'pve'},{id:'seasonPass',title:'시즌패스',category:'rewards'}]) entries.set(item.id,item);
   const favorites = new Set(['mercenaryDex','equipmentForge','hunt']);
@@ -57,7 +58,7 @@
     if(b.dataset.route)return openDestination(b.dataset.route);
     if(b.dataset.favorite){const id=b.dataset.favorite;if(favorites.has(id))favorites.delete(id);else favorites.add(id);b.setAttribute('aria-pressed',String(favorites.has(id)));b.textContent=favorites.has(id)?'추가됨 ★':'추가 ☆';renderMenu();return;}
     if(b.dataset.avatar){avatarIndex=Number(b.dataset.avatar);const a=avatars[avatarIndex];$('hero').src=avatarUrl(a.file);$('hero').alt=a.alt;$('hero-name').textContent=a.name;$('detail').close();toast('로비 시안의 아바타를 변경했습니다.');return;}
-    if(b.dataset.info==='account')return showDetail('내 계정',`<p class="detail-copy">실제 연결 시 닉네임·계급·경험치를 표시하는 자리입니다. 현재는 화면 구성을 위한 예시 계정입니다.</p>`);
+    if(b.dataset.info==='account')return showDetail('리버스콜 지휘관',`<p class="detail-copy">Lv.120 · 준위<br>상단에서 계급과 닉네임을 함께 확인하는 구성입니다. 현재는 화면 검토를 위한 예시 계정입니다.</p>`);
     if(b.dataset.info==='wallet')return showDetail('보유 재화',`<p class="detail-copy">상단에는 코인, 마스터의 별, 피그 코인을 간결하게 표시합니다. 현재 숫자는 시안용 예시이며 실제 계정 잔액이 아닙니다.</p>`);
     if(b.dataset.info==='settings')return showDetail('로비 설정',`<div class="setting-row"><span>장면의 미세한 움직임</span><button id="settings-motion" aria-pressed="${!$('lobby').classList.contains('still')}">${$('lobby').classList.contains('still')?'꺼짐':'켜짐'}</button></div><p class="detail-copy">기기의 움직임 줄이기 설정을 우선 적용합니다. 로비의 눈 아이콘으로 배경 감상 모드에 들어갈 수 있습니다.</p>`);
     if(b.id==='change-avatar')return openAvatars();

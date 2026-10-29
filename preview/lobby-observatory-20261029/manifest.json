@@ -1,6 +1,6 @@
 {
   "date": "2026-10-29",
-  "version": 2,
+  "version": 3,
   "status": "DESIGN_PREVIEW",
   "visualApproval": "NOT_ASSERTED",
   "productionDeployed": false,
@@ -42,5 +42,13 @@
     }
   ],
   "runtimeData": "Local illustrative values only; no API requests or game actions.",
-  "feedback": "PC 142→100px; mobile 111→77px departure height. Text and arrow reduced; mobile English kicker removed."
+  "feedback": "PC 142→100px; mobile 111→77px departure height. Text and arrow reduced; mobile English kicker removed. Removed the RC initials tile and duplicate bottom account display. Header now shows plain rank and nickname. Added Workshop and Administration below Deck and Upgrade.",
+  "accountDisplay": {
+    "level": 120,
+    "rank": "준위",
+    "nickname": "리버스콜 지휘관",
+    "sample": true,
+    "location": "header",
+    "framedInitialsTile": false
+  }
 }
