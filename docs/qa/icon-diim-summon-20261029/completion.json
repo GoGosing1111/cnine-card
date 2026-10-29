@@ -1,0 +1,116 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T00:59:05.977Z",
+  "releaseCommit": "c3650b13ef9a37a7478173b3574791bc24de55ba",
+  "pages": {
+    "id": "caac1f57-ff55-45da-a82d-c5b90c3c3aac",
+    "url": "https://caac1f57.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "c3650b13ef9a37a7478173b3574791bc24de55ba"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sha256": "9c03ad64715c45e593513e39e27ce3a13d4ae27eaa3839d4edc16d905201938c",
+      "version": "536987de-ca1a-4be6-8e31-02b82024a723",
+      "percentage": 100,
+      "mappings": 4
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sha256": "1fb3bc919c082234ac764107df49b9792f0d520c5ff364c0777c9a79deb28a10",
+      "version": "5a9690a0-65ab-4a27-81e3-e63a9b64ac20",
+      "percentage": 100,
+      "mappings": 0
+    }
+  ],
+  "regressions": {
+    "passed": 35,
+    "failed": 0
+  },
+  "localBrowser": [
+    {
+      "width": 1440,
+      "mode": "PVE",
+      "entry": "actual start button",
+      "summons": 1,
+      "weaponAttacks": 25,
+      "serverEventsApplied": 3,
+      "missingActors": [],
+      "result": true,
+      "return": true
+    },
+    {
+      "width": 1440,
+      "mode": "PVP",
+      "entry": "actual start button",
+      "summons": 2,
+      "weaponAttacks": 8,
+      "serverEventsApplied": 5,
+      "missingActors": [],
+      "result": true,
+      "return": true
+    },
+    {
+      "width": 1440,
+      "mode": "DUO",
+      "entry": "duo payload through common ranked renderer",
+      "summons": 4,
+      "weaponAttacks": 13,
+      "serverEventsApplied": 10,
+      "missingActors": [],
+      "result": true,
+      "return": true
+    },
+    {
+      "width": 390,
+      "mode": "PVE",
+      "entry": "actual start button",
+      "summons": 1,
+      "weaponAttacks": 25,
+      "serverEventsApplied": 3,
+      "missingActors": [],
+      "result": true,
+      "return": true
+    },
+    {
+      "width": 390,
+      "mode": "PVP",
+      "entry": "actual start button",
+      "summons": 2,
+      "weaponAttacks": 8,
+      "serverEventsApplied": 5,
+      "missingActors": [],
+      "result": true,
+      "return": true
+    },
+    {
+      "width": 390,
+      "mode": "DUO",
+      "entry": "duo payload through common ranked renderer",
+      "summons": 4,
+      "weaponAttacks": 13,
+      "serverEventsApplied": 10,
+      "missingActors": [],
+      "result": true,
+      "return": true
+    }
+  ],
+  "publicBrowser": {
+    "mode": "PVE",
+    "width": 390,
+    "summons": 1,
+    "weaponAttacks": 25,
+    "api": "ISOLATED_FIXTURE"
+  },
+  "cause": "Four actual hunt/sweep/ranked mappings omitted the authoritative ICON expansion snapshot, losing stat floors, enhancement and scope.",
+  "duo": "Existing snapshot forwarding verified by READ ONLY profile check and isolated desktop/mobile battle playback; no specific reporter match ID available.",
+  "cms": {
+    "revision": 4,
+    "enabled": true
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "storageMaintenance": false,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/icon-diim-summon-20261029/"
+}

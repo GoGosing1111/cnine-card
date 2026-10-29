@@ -21,3 +21,7 @@
 - 배포는 국소 수정 `npm run deploy:production -- --scoped`를 사용한다. 직전 운영 커밋은 Cloudflare에서 확인한 `24fbe723f1504a14f1863981c30912d233b7da37`. 새 회귀·기존 기술 전투 회귀·Worker 컴파일을 배포 과정에서 실행한다.
 
 전체 증거는 `C:/Users/User/Downloads/upload/cnine-card/operations/icon-diim-summon-20261029/`에 보존한다. 기존 checkout·의존성을 재사용한다. 운영 계정/재화/보유/CMS 직접 수정, 기존 지급 재실행, 메시지 발송, 저장공간 유지관리/예약은 수행하지 않는다. 배포와 최종 확인 결과는 `completion.json`에 기록한다.
+
+## 운영 완료
+
+소스 `c3650b13ef9a37a7478173b3574791bc24de55ba`, Pages `caac1f57-ff55-45da-a82d-c5b90c3c3aac`, 확인 시각 2026-10-29 09:59 KST. 관련 35검사 통과, 두 Worker 100%, 실제 API 4매핑·CMS r4 유지·공개 모바일 대표 경로 확인 완료. 공개 UI는 배포된 자산과 격리 API를 사용했다.
