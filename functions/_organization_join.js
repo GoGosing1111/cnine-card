@@ -12,7 +12,9 @@ async function authority(q,r,user,{lock=false}={}){
  if(!mine)return {canReview:false,organizationId:null};
  const [row]=await q('SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1'+(lock?' FOR SHARE':''),[r.id]);
  const roster=(await q('SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1',[r.id])).map(m=>({userId:Number(m.user_id),clanId:Number(m.organization_id),status:m.status}));
- return {organizationId:Number(mine.organization_id),canReview:organizationElderIds(JSON.parse(row?.state_json||'{}'),roster,Number(mine.organization_id)).includes(Number(user.id))};
+ const state=JSON.parse(row?.state_json||'{}'),organizationId=Number(mine.organization_id);
+ const elderIds=(state.elders?.[organizationId]??[state.commanders?.[organizationId]]).filter(id=>roster.some(m=>m.userId===id&&m.clanId===organizationId));
+ return {organizationId,elderIds,canReview:organizationElderIds(state,roster,organizationId).includes(Number(user.id))};
 }
 export async function organizationJoinOverview(q,r,user,now){
  if(!organizationJoinOpen(r,now))return {enabled:false,canApply:false,canReview:false,applications:[]};

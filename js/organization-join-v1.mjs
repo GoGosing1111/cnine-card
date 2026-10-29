@@ -1,6 +1,6 @@
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const statuses={PENDING:'원로 심사 대기',APPROVED:'가입 승인 완료',REJECTED:'가입 신청 거절',CANCELLED:'신청 취소'};
+const statuses={PENDING:'원로 심사 대기',APPROVED:'가입 승인 완료',REJECTED:'가입 신청 거절',CANCELLED:'신청 취소',REMOVED:'클랜 방출 · 재신청 가능'};
 export function organizationJoinView(state){
  const join=state.join;
  if(!join?.enabled)return '<section class="org-empty"><h2>가입 신청 준비 중</h2><p>클랜 모집이 시작되면 신청할 수 있습니다.</p></section>';
