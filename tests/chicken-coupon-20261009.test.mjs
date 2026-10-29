@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
+import {createCouponWithinIssueLimit} from '../functions/_coupon_issue_limits.js';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {redeemChickenTicketCoupon,CHICKEN_COUPON_MAX,canIssueChickenTicketCoupon,CHICKEN_COUPON_OPERATOR_ID} from '../functions/_chicken_coupon.js';
 import {CHICKEN_TICKET,CHICKEN_KEY,chickenDraft} from '../shared/chicken-event-v1.mjs';
@@ -12,7 +13,7 @@ const specs=server.slice(server.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),
 const {couponRewardSpec,verifiedMessageRewardSpec}=Function(specs+';return {couponRewardSpec,verifiedMessageRewardSpec}')();
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 const createSource=server.slice(server.indexOf("    if(path==='admin/coupon-create-permanent-v3')"),server.indexOf("    if(path==='admin/users/card-grant')"));
-const createRoute=new AsyncFunction('path','request','env','requirePermission','readBody','releaseDeletedCouponCode','json','canIssueChickenTicketCoupon','writeAdminLog',specs+createSource);
+const createRoute=new AsyncFunction('path','request','env','createCouponWithinIssueLimit','requirePermission','readBody','releaseDeletedCouponCode','json','canIssueChickenTicketCoupon','writeAdminLog',specs+createSource);
 const redeemSource=server.slice(server.indexOf("    if(path==='coupon/redeem'"),server.indexOf("    if(path==='admin/daily-quests')"));
 const redeemRoute=new AsyncFunction('path','request','env','authenticate','readBody','redeemLandCoupon','profile','isRandomDrawExcluded','json','redeemChickenTicketCoupon',redeemSource);
 const json=(value,status=200)=>Response.json(value,{status}),owner={id:CHICKEN_COUPON_OPERATOR_ID,role:'OWNER',nickname:'핑크빛유두'};
@@ -28,7 +29,7 @@ async function fixture(){
   CREATE TABLE cnine_user_inventory(user_id bigint,item_code text,quantity bigint,unseen_quantity bigint,created_at text,updated_at text,PRIMARY KEY(user_id,item_code));
   CREATE TABLE inventory_logs(id bigserial PRIMARY KEY,user_id bigint,item_code text,change_amount bigint,balance_after bigint,reason text,reference_type text,reference_id text);
   CREATE TABLE admin_logs(id bigserial PRIMARY KEY,admin_id bigint,action_type text,target_type text,target_id text,before_data text,after_data text);
-  CREATE TABLE coupons(id bigserial PRIMARY KEY,code text UNIQUE,reward_coin bigint DEFAULT 0,reward_type text,reward_amount bigint,starts_at text,ends_at text,max_uses bigint,used_count bigint DEFAULT 0,is_active bigint DEFAULT 1,created_by bigint,deleted_at text,updated_at text);
+  CREATE TABLE coupons(id bigserial PRIMARY KEY,code text UNIQUE,reward_coin bigint DEFAULT 0,reward_type text,reward_amount bigint,starts_at text,ends_at text,max_uses bigint,used_count bigint DEFAULT 0,is_active bigint DEFAULT 1,created_by bigint,deleted_at text,created_at text DEFAULT sqlite_now(),updated_at text);
   CREATE TABLE coupon_redemptions(coupon_id bigint,user_id bigint,reward_coin bigint,reward_type text,reward_amount bigint,operation_key text,PRIMARY KEY(coupon_id,user_id));
   CREATE TABLE app_meta(key text PRIMARY KEY,value text);
  `);
@@ -43,8 +44,8 @@ async function fixture(){
  const rows=async(sql,values=[])=>(await pg.query(sql,values)).rows,row=async(sql,values=[])=>(await rows(sql,values))[0];
  const request=(body,method='POST')=>new Request('https://qa.test/api/coupon',{method,body:JSON.stringify(body)});
  const profile=async(_env,u)=>({id:Number(u.id),coin:Number(u.coin)});
- const create=(body={},path=paths[0],admin=owner)=>createRoute(path,request({code:'BAEMIN-QA',rewardType:CHICKEN_TICKET,rewardAmount:3,maxUses:10,...body}),env,async()=>admin,r=>r.json(),async()=>{},json,canIssueChickenTicketCoupon);
- const update=(body,path=paths[1],admin=owner)=>createRoute(path,request(body,'PATCH'),env,async()=>admin,r=>r.json(),async()=>{},json,canIssueChickenTicketCoupon,async(_env,user,action,type,id,before,after)=>pg.query('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,$2,$3,$4,$5,$6)',[user.id,action,type,String(id),JSON.stringify(before),JSON.stringify(after)]));
+ const create=(body={},path=paths[0],admin=owner)=>createRoute(path,request({code:'BAEMIN-QA',rewardType:CHICKEN_TICKET,rewardAmount:3,maxUses:10,...body}),env,createCouponWithinIssueLimit,async()=>admin,r=>r.json(),async()=>{},json,canIssueChickenTicketCoupon);
+ const update=(body,path=paths[1],admin=owner)=>createRoute(path,request(body,'PATCH'),env,createCouponWithinIssueLimit,async()=>admin,r=>r.json(),async()=>{},json,canIssueChickenTicketCoupon,async(_env,user,action,type,id,before,after)=>pg.query('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,$2,$3,$4,$5,$6)',[user.id,action,type,String(id),JSON.stringify(before),JSON.stringify(after)]));
  const redeem=({userId=1,key='BAEMIN_QA_REQUEST_1',code='BAEMIN-QA',extra={}}={})=>redeemRoute('coupon/redeem',request({code,operationKey:key,...extra}),env,async()=>userId?{id:userId}:null,r=>r.json(),async()=>null,profile,()=>false,json,redeemChickenTicketCoupon);
  return {pg,env,rows,row,queries,settings,create,update,redeem,setFault:v=>{fault=v},setZero:v=>{zero=v},close:()=>pg.close()};
 }
