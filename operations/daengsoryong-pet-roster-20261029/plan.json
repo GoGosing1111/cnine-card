@@ -1,0 +1,475 @@
+{
+  "operationKey": "ops:daengsoryong-pet-roster:20261029:v1",
+  "authorization": "아니 씨발 명단에 댕소룡 펫도 지급하라고 미친련아",
+  "parentOperationKey": "ops:streamer-box-four:20261029:v1",
+  "parentAuditId": "52769",
+  "parentReceiptsHash": "4e264f73f4c4cde03d876708d1beb7ba8b9bf868622fe9b488362dca3469d2ed",
+  "petCode": "PET-DAENGSORYONG",
+  "petName": "댕소룡",
+  "petDefinition": {
+    "code": "PET-DAENGSORYONG",
+    "name": "댕소룡",
+    "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png",
+    "battleSprite": "",
+    "enabled": false,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "ATTACK_PERCENT",
+        "percent": 30
+      }
+    ],
+    "notes": "2026-10-24 사용자 승인 및 라이브 반영 요청. 댕소룡 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+    "liveEnabled": false,
+    "rewardBonuses": {
+      "dropPercent": 10,
+      "accountXpPercent": 15,
+      "coinPercent": 15
+    }
+  },
+  "petCmsRevision": 41,
+  "settingsHash": "f983e46d6052d98376868a48ba6a9e4d2f172e6d9f0b337e9ed3ddc2a965d5cd",
+  "delivery": "DIRECT_PET_COLLECTION",
+  "recipientCount": 42,
+  "totalPets": 42,
+  "targets": [
+    {
+      "order": 7,
+      "inputNickname": "커피먹는철구",
+      "displayNickname": "[C9]오승환",
+      "nickname": "커피먹는철구",
+      "userId": "22",
+      "role": "USER",
+      "identityHash": "f1d70618e2361eaa4d80be8ba6cef1f74439846122e30dbebaca791be17519b0",
+      "amount": 1
+    },
+    {
+      "order": 2,
+      "inputNickname": "박세라-ㅂ-",
+      "displayNickname": "빡세라-ㅁ-",
+      "nickname": "박세라-ㅂ-",
+      "userId": "45",
+      "role": "USER",
+      "identityHash": "3b973a7839170a730f036b115219119dc8b38b6002324a6e6e218ccf02266043",
+      "amount": 1
+    },
+    {
+      "order": 25,
+      "inputNickname": "0수표",
+      "displayNickname": "0수표",
+      "nickname": "0수표",
+      "userId": "88",
+      "role": "USER",
+      "identityHash": "0f529f6eec0f3e69d1c951d524d163fe0abef62d2c605a1b350683c9904e8a47",
+      "amount": 1
+    },
+    {
+      "order": 30,
+      "inputNickname": "정원이",
+      "displayNickname": "[C9]정원이",
+      "nickname": "정원이",
+      "userId": "91",
+      "role": "USER",
+      "identityHash": "f82e30a8e967d5472eb4b55109879684d08ca380e94ce4072279cf337f5dace3",
+      "amount": 1
+    },
+    {
+      "order": 17,
+      "inputNickname": "차단하다",
+      "displayNickname": "숲에사는족구",
+      "nickname": "차단하다",
+      "userId": "162",
+      "role": "USER",
+      "identityHash": "f859747f6fb571db17b864790c401d6c0ae6bd5a0ab2510ef0c863132b390d7c",
+      "amount": 1
+    },
+    {
+      "order": 32,
+      "inputNickname": "박사",
+      "displayNickname": "댕굴댕굴초월",
+      "nickname": "박사",
+      "userId": "164",
+      "role": "USER",
+      "identityHash": "b3f20dba584cb6d5141004a0e8ed18c452cd860bc62b22f0b832060295462afd",
+      "amount": 1
+    },
+    {
+      "order": 24,
+      "inputNickname": "현하루",
+      "displayNickname": "현하루",
+      "nickname": "현하루",
+      "userId": "218",
+      "role": "USER",
+      "identityHash": "2d963ff0914b77d59c5b0db54d3b7809e62502fa9852a69b61a666f5b642c17a",
+      "amount": 1
+    },
+    {
+      "order": 16,
+      "inputNickname": "베베킹",
+      "displayNickname": "베배킹",
+      "nickname": "베베킹",
+      "userId": "289",
+      "role": "USER",
+      "identityHash": "3b520c40da63afdba4c93283ca12faf084031dce9b702e33b44a6156e9666605",
+      "amount": 1
+    },
+    {
+      "order": 3,
+      "inputNickname": "Mild7",
+      "displayNickname": "Mild7",
+      "nickname": "Mild7",
+      "userId": "290",
+      "role": "USER",
+      "identityHash": "0b53280e4ba5f0ccd8e84f762c1135a14d16be5ef9b501991293c02cad8f089d",
+      "amount": 1
+    },
+    {
+      "order": 26,
+      "inputNickname": "모래",
+      "displayNickname": "몽랭",
+      "nickname": "모래",
+      "userId": "295",
+      "role": "USER",
+      "identityHash": "1f72f2c0956297afdd3f6c0352dd20f98969d8a9dd5b5189212a2ab6328131f1",
+      "amount": 1
+    },
+    {
+      "order": 1,
+      "inputNickname": "에타",
+      "displayNickname": "에타",
+      "nickname": "에타",
+      "userId": "315",
+      "role": "USER",
+      "identityHash": "362f90100ac8a469e5e9e616554ee60dfb935620ff3c3102adc4e7626a8726cd",
+      "amount": 1
+    },
+    {
+      "order": 22,
+      "inputNickname": "라피e",
+      "displayNickname": "라피e",
+      "nickname": "라피e",
+      "userId": "360",
+      "role": "USER",
+      "identityHash": "66944b5b1014e5d03db233c40aafbb1f79e1203c2ce92dab022f6fb620f2f755",
+      "amount": 1
+    },
+    {
+      "order": 35,
+      "inputNickname": "족구조아",
+      "displayNickname": "족구쪼아",
+      "nickname": "족구조아",
+      "userId": "525",
+      "role": "USER",
+      "identityHash": "7aee79b9b901f22a56018ebe5aaec73715b6455f54428ae34fd339b2b261b5ea",
+      "amount": 1
+    },
+    {
+      "order": 19,
+      "inputNickname": "씨나인택갓",
+      "displayNickname": "rain",
+      "nickname": "씨나인택갓",
+      "userId": "1195",
+      "role": "USER",
+      "identityHash": "8f689ff587fa2543ab44fa0c4ef396bcf76e469aa561c82e48fa8eb9d5ce3bf3",
+      "amount": 1
+    },
+    {
+      "order": 8,
+      "inputNickname": "전게씹선미아웃",
+      "displayNickname": "코파먹는성태",
+      "nickname": "전게씹선미아웃",
+      "userId": "1255",
+      "role": "USER",
+      "identityHash": "caacc7acd6e7867a3f50943a090ba7f525a550f8b0d17a3cb666384491d5a9a0",
+      "amount": 1
+    },
+    {
+      "order": 33,
+      "inputNickname": "좋은하루",
+      "displayNickname": "좋은하루♥",
+      "nickname": "좋은하루",
+      "userId": "1545",
+      "role": "USER",
+      "identityHash": "25ac4900369e13665b5a03eb6639302371e30c7b42b635bf2fb3f19fc67d63f3",
+      "amount": 1
+    },
+    {
+      "order": 31,
+      "inputNickname": "핫시",
+      "displayNickname": "핫시",
+      "nickname": "핫시",
+      "userId": "1768",
+      "role": "USER",
+      "identityHash": "25fdf34fe97d27554f6b172c596fc66e8429e6a19934a383d004ea92fc0e90c6",
+      "amount": 1
+    },
+    {
+      "order": 15,
+      "inputNickname": "블랙캐슬",
+      "displayNickname": "블랙캐슬",
+      "nickname": "블랙캐슬",
+      "userId": "2420",
+      "role": "USER",
+      "identityHash": "574fb236e5b90ece94743b3a9476b9d043ec681d063256b796c3821123b70fc9",
+      "amount": 1
+    },
+    {
+      "order": 18,
+      "inputNickname": "족게이다",
+      "displayNickname": "족게이다",
+      "nickname": "족게이다",
+      "userId": "4111",
+      "role": "USER",
+      "identityHash": "1b847a04ce75f1fdcd3512cc2e8a0154a4d07d6de4b113b2eb67efae77569f8f",
+      "amount": 1
+    },
+    {
+      "order": 6,
+      "inputNickname": "더듬이구",
+      "displayNickname": "탱탱노",
+      "nickname": "더듬이구",
+      "userId": "4391",
+      "role": "USER",
+      "identityHash": "d4d493ab893dafa59875170659a8057edd1b7923101403bf9350870e6007c189",
+      "amount": 1
+    },
+    {
+      "order": 14,
+      "inputNickname": "레가파",
+      "displayNickname": "연구가태여니",
+      "nickname": "레가파",
+      "userId": "4408",
+      "role": "USER",
+      "identityHash": "c4b23bd6b2f19f02d50c11dd23db4021533b64db2088ec2723f3c16c808bb6dc",
+      "amount": 1
+    },
+    {
+      "order": 9,
+      "inputNickname": "Moo날두",
+      "displayNickname": "Moo날두",
+      "nickname": "Moo날두",
+      "userId": "4415",
+      "role": "USER",
+      "identityHash": "1eb54b7a104eb880aa4abc82451977fe41d68477dc3b6728e525581a6f673bcb",
+      "amount": 1
+    },
+    {
+      "order": 40,
+      "inputNickname": "응맨",
+      "displayNickname": "응맨♡",
+      "nickname": "응맨",
+      "userId": "4572",
+      "role": "USER",
+      "identityHash": "f784e8cfddcfa95eb765ff1efe0795ed03e7e0c636facba707755e26c53cfeda",
+      "amount": 1
+    },
+    {
+      "order": 37,
+      "inputNickname": "족단",
+      "displayNickname": "철줌마효진님",
+      "nickname": "족단",
+      "userId": "4582",
+      "role": "USER",
+      "identityHash": "5d3c363e2717539c7b7a4a309a33178f8cf4f6e49d67eccb77e1fbbb81e032c5",
+      "amount": 1
+    },
+    {
+      "order": 12,
+      "inputNickname": "학벌",
+      "displayNickname": "학벌",
+      "nickname": "학벌",
+      "userId": "4627",
+      "role": "USER",
+      "identityHash": "597d2219348a05cd3be06641c99ee83f7e7da0b0105c562a04b2f63e010925c2",
+      "amount": 1
+    },
+    {
+      "order": 41,
+      "inputNickname": "Veil",
+      "displayNickname": "norwaysoop",
+      "nickname": "Veil",
+      "userId": "4629",
+      "role": "USER",
+      "identityHash": "a5ae38d3fe61ea196f08c3a613d451e40a352be23712887a0299a4f5016b5366",
+      "amount": 1
+    },
+    {
+      "order": 20,
+      "inputNickname": "김폭군",
+      "displayNickname": "다니폭군",
+      "nickname": "김폭군",
+      "userId": "4644",
+      "role": "USER",
+      "identityHash": "91097d9204719a01a5b9c2caa8a674fb7bc25a64f3cc9a8099d2b7791259f9fc",
+      "amount": 1
+    },
+    {
+      "order": 4,
+      "inputNickname": "세라네꼬라지",
+      "displayNickname": "세라네꼬라지",
+      "nickname": "세라네꼬라지",
+      "userId": "4651",
+      "role": "USER",
+      "identityHash": "3a92cb24ea4e852ca4e651463a02be49e6c08acb5b7e8145d0b8bd8ff04bbef4",
+      "amount": 1
+    },
+    {
+      "order": 38,
+      "inputNickname": "옴마니반메훔",
+      "displayNickname": "옴마니반매흠",
+      "nickname": "옴마니반메훔",
+      "userId": "4675",
+      "role": "USER",
+      "identityHash": "6aadb4f8d55769b1b51f51989164efac3f1b4d877b8c37e8d2ded8131b2ca963",
+      "amount": 1
+    },
+    {
+      "order": 23,
+      "inputNickname": "시소둥이",
+      "displayNickname": "시소둥이",
+      "nickname": "시소둥이",
+      "userId": "4693",
+      "role": "USER",
+      "identityHash": "76c7d0ae7d64c3a0858e260cef92bb6a0cbf40a16f6a52efb5ea3396c17b0ace",
+      "amount": 1
+    },
+    {
+      "order": 34,
+      "inputNickname": "음주플레이어",
+      "displayNickname": "음주플레이어",
+      "nickname": "음주플레이어",
+      "userId": "4757",
+      "role": "USER",
+      "identityHash": "e91b3d4c7bdafd0ca65f0c259094954e956d3fbc09290e27fc8b9ba21549c145",
+      "amount": 1
+    },
+    {
+      "order": 39,
+      "inputNickname": "음주",
+      "displayNickname": "망순이그림자",
+      "nickname": "음주",
+      "userId": "4817",
+      "role": "USER",
+      "identityHash": "45cb33cf2ad413f32054ca0c1b7ee30c3180d88cbcae725e16c0224ca84c061c",
+      "amount": 1
+    },
+    {
+      "order": 11,
+      "inputNickname": "딤키우기",
+      "displayNickname": "딤키우기",
+      "nickname": "딤키우기",
+      "userId": "4836",
+      "role": "USER",
+      "identityHash": "e8c53332dea8feccbdb9f729afe36144331053b8975ed050b45637fb5f04a37c",
+      "amount": 1
+    },
+    {
+      "order": 42,
+      "inputNickname": "굳건창수",
+      "displayNickname": "굳건창수",
+      "nickname": "굳건창수",
+      "userId": "4908",
+      "role": "USER",
+      "identityHash": "76bce871a50cebd30fed1b8584c1c9bc08cade7c1ecd37795e619ba9240c61c6",
+      "amount": 1
+    },
+    {
+      "order": 29,
+      "inputNickname": "쁴로리",
+      "displayNickname": "쁴로리",
+      "nickname": "쁴로리",
+      "userId": "4965",
+      "role": "USER",
+      "identityHash": "883a134f408d59f18f5c1c194a5e876c2b3fc86e7bf01eb10db59277e1f40878",
+      "amount": 1
+    },
+    {
+      "order": 28,
+      "inputNickname": "간장왕대게찜",
+      "displayNickname": "간장왕대게찜",
+      "nickname": "간장왕대게찜",
+      "userId": "4981",
+      "role": "USER",
+      "identityHash": "ac32ae16bb008fd01413cbaaff6fc236a9e3450b30eac60ccf91b27ff99775e2",
+      "amount": 1
+    },
+    {
+      "order": 36,
+      "inputNickname": "단정한밤",
+      "displayNickname": "단정한밤",
+      "nickname": "단정한밤",
+      "userId": "5008",
+      "role": "USER",
+      "identityHash": "95925adff0e9a1223a07c3728c11acaabdec01fb8cd74dd2a2a77271ff1ebec3",
+      "amount": 1
+    },
+    {
+      "order": 13,
+      "inputNickname": "[댕]해빗이오",
+      "displayNickname": "[댕]해빗",
+      "nickname": "[댕]해빗이오",
+      "userId": "5665",
+      "role": "USER",
+      "identityHash": "1a1320b6d665300b40ae20ddf4769b17397835c572d6f35a6dba8b696301b860",
+      "amount": 1
+    },
+    {
+      "order": 5,
+      "inputNickname": "Brintellix°",
+      "displayNickname": "Brintellix°",
+      "nickname": "깅더듬",
+      "userId": "5877",
+      "role": "USER",
+      "identityHash": "fe0f798210fbb20a5becf06b0628233eacb7116e4d09682a748518c8a7bbe605",
+      "amount": 1
+    },
+    {
+      "order": 10,
+      "inputNickname": "꺽꿀",
+      "displayNickname": "꺽꿀",
+      "nickname": "꺽꿀",
+      "userId": "5958",
+      "role": "USER",
+      "identityHash": "4fbc0413f725987dc4de5bf14c95a2ad33bd6998884288ff40ffb628bf907c59",
+      "amount": 1
+    },
+    {
+      "order": 21,
+      "inputNickname": "관종이얌",
+      "displayNickname": "관종이얌",
+      "nickname": "관종이얌",
+      "userId": "5996",
+      "role": "USER",
+      "identityHash": "0bbd12d4438cf4e7fe92bdafdcdab9b59dc82897f38d7e9f0497cb14d622315b",
+      "amount": 1
+    },
+    {
+      "order": 27,
+      "inputNickname": "[C9]코레일",
+      "displayNickname": "휴방여신수댕",
+      "nickname": "[C9]코레일",
+      "userId": "6058",
+      "role": "USER",
+      "identityHash": "712cdb852b7e8dfc5ca4932190385459833f426850fada6fb44523424267cbfe",
+      "amount": 1
+    }
+  ],
+  "pending": [],
+  "checkedAt": "2026-10-29T13:24:52.616Z",
+  "correction": {
+    "userId": "5877",
+    "nickname": "깅더듬",
+    "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+    "amount": 4,
+    "operationKey": "ops:streamer-box-daengsoryong-gingdeodeum:20261029:v1",
+    "auditId": "52772",
+    "inventoryLogId": "87545993",
+    "expectedQuantity": "8",
+    "canReverse": true,
+    "policy": "REVERSE_ONLY_UNOPENED_MISTAKEN_ADDITION_NO_WALLET_CLAWBACK"
+  }
+}

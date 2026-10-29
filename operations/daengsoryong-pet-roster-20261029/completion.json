@@ -1,0 +1,1354 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:daengsoryong-pet-roster:20261029:v1",
+  "completedAt": "2026-10-29T13:34:16.155Z",
+  "completedAtKst": "2026-10-29 22:34:16 KST",
+  "verifiedAt": "2026-10-29T13:35:51.203Z",
+  "auditId": "52916",
+  "recipientCount": 42,
+  "petCode": "PET-DAENGSORYONG",
+  "petName": "댕소룡",
+  "totalPets": 42,
+  "quantityEach": 1,
+  "boxCorrection": {
+    "userId": "5877",
+    "nickname": "깅더듬",
+    "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+    "removed": 4,
+    "erroneousOperationKey": "ops:streamer-box-daengsoryong-gingdeodeum:20261029:v1",
+    "erroneousAuditId": "52772",
+    "before": {
+      "quantity": "8",
+      "unseen_quantity": "8"
+    },
+    "after": {
+      "quantity": "4",
+      "unseen_quantity": "4"
+    },
+    "inventoryLogId": "87560382"
+  },
+  "correctStreamerBoxTotal": 168,
+  "gingdeodeumCorrectStreamerBoxes": 4,
+  "petAudits": 42,
+  "missing": 0,
+  "duplicates": 0,
+  "planHash": "f75772666e82857624e710f60008d24c16385376e781a9f38f2fdeba05aba59a",
+  "sourceSha256": "a6f41d4982a99b5b98f2f3e34ad8fd2e8e1b1123f57751c55340bd2950f5d3bf",
+  "targetedTests": 4,
+  "actualPetReadersChecked": 42,
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "noWriteReplayVerified": true,
+  "independentConnection": true,
+  "originalReceiptsPreserved": true,
+  "leasesReleased": true,
+  "autoEquip": false,
+  "petPolicyChanges": false,
+  "messagesSent": false,
+  "deployment": false,
+  "storageMaintenance": false,
+  "petGrants": [
+    {
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 13,
+      "afterRevision": 14,
+      "payloadHash": "fc23f0483e0ff35d597c8487061cefd7aba9721fd1aa3ea26f68c881f20fb49f",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-22",
+        "adminId": 1,
+        "target": {
+          "id": 22,
+          "nickname": "커피먹는철구"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 14,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52874"
+    },
+    {
+      "userId": "45",
+      "nickname": "박세라-ㅂ-",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 9,
+      "afterRevision": 10,
+      "payloadHash": "4a82e5cd48342f257c8e966431b2dc264266906336c780913dbb3b7bf6ab4e5c",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-45",
+        "adminId": 1,
+        "target": {
+          "id": 45,
+          "nickname": "박세라-ㅂ-"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 10,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52875"
+    },
+    {
+      "userId": "88",
+      "nickname": "0수표",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 34,
+      "afterRevision": 35,
+      "payloadHash": "d80216002a8065b714ba342235fb8edc2a0c85ea298e5652afd270f0a0e716b0",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-88",
+        "adminId": 1,
+        "target": {
+          "id": 88,
+          "nickname": "0수표"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 35,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52876"
+    },
+    {
+      "userId": "91",
+      "nickname": "정원이",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 13,
+      "afterRevision": 14,
+      "payloadHash": "147d403a9bde89d76428877252dbe3c82b4d826b9d6cf62117ba93691a7026fb",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-91",
+        "adminId": 1,
+        "target": {
+          "id": 91,
+          "nickname": "정원이"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 14,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52877"
+    },
+    {
+      "userId": "162",
+      "nickname": "차단하다",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 4,
+      "afterRevision": 5,
+      "payloadHash": "9b04c6965a603769e7d613ff04d05ba3d45393ae5cb890c23d0c201b5a1e7402",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-162",
+        "adminId": 1,
+        "target": {
+          "id": 162,
+          "nickname": "차단하다"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 5,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52878"
+    },
+    {
+      "userId": "164",
+      "nickname": "박사",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 16,
+      "afterRevision": 17,
+      "payloadHash": "eec18cb927ef8a9144ae116d0ee93a1accf2857b65488b0231f86fe1f8929cf1",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-164",
+        "adminId": 1,
+        "target": {
+          "id": 164,
+          "nickname": "박사"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 17,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52879"
+    },
+    {
+      "userId": "218",
+      "nickname": "현하루",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 10,
+      "afterRevision": 11,
+      "payloadHash": "943df1460239cf1e5cd34813ce69fb994f3d83a0af3eed6dad27029a6efbc216",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-218",
+        "adminId": 1,
+        "target": {
+          "id": 218,
+          "nickname": "현하루"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 11,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52880"
+    },
+    {
+      "userId": "289",
+      "nickname": "베베킹",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 12,
+      "afterRevision": 13,
+      "payloadHash": "51ff0ef7d2290741f6a42362c389a481cc570d6fe53ac02ce8fcdb90eeb8f74e",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-289",
+        "adminId": 1,
+        "target": {
+          "id": 289,
+          "nickname": "베베킹"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 13,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52881"
+    },
+    {
+      "userId": "290",
+      "nickname": "Mild7",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 6,
+      "afterRevision": 7,
+      "payloadHash": "88cc5be08f1d00532a55c5590f49b917b89017cefa67aa311e7baf2dfbd8b84d",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-290",
+        "adminId": 1,
+        "target": {
+          "id": 290,
+          "nickname": "Mild7"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 7,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52882"
+    },
+    {
+      "userId": "295",
+      "nickname": "모래",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 8,
+      "afterRevision": 9,
+      "payloadHash": "b66244d401f667af78eb3e219b9f3dddb482e84db31bdc1c7735d97b7c71dbea",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-295",
+        "adminId": 1,
+        "target": {
+          "id": 295,
+          "nickname": "모래"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 9,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52883"
+    },
+    {
+      "userId": "315",
+      "nickname": "에타",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 2,
+      "afterRevision": 3,
+      "payloadHash": "9d1a1a715352bae32ad89c071ef1d23fa4838d4c43c9cfad253c90367f6997f2",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-315",
+        "adminId": 1,
+        "target": {
+          "id": 315,
+          "nickname": "에타"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 3,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52884"
+    },
+    {
+      "userId": "360",
+      "nickname": "라피e",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 8,
+      "afterRevision": 9,
+      "payloadHash": "8d63409bfb71aebc9ce364e8e8cfd6791b16e49359cd981785bdc20c3914b407",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-360",
+        "adminId": 1,
+        "target": {
+          "id": 360,
+          "nickname": "라피e"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 9,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52885"
+    },
+    {
+      "userId": "525",
+      "nickname": "족구조아",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 13,
+      "afterRevision": 14,
+      "payloadHash": "33809deedd4e8d71a413a0330beb923d8a156d5f65d60be8008fdf8afeff2e6f",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-525",
+        "adminId": 1,
+        "target": {
+          "id": 525,
+          "nickname": "족구조아"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 14,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52886"
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 16,
+      "afterRevision": 17,
+      "payloadHash": "cdbc4f88ecf1aedd03b23b787f721daceb5eb41dea11419c9b66580f49df66e7",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-1195",
+        "adminId": 1,
+        "target": {
+          "id": 1195,
+          "nickname": "씨나인택갓"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 17,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52887"
+    },
+    {
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 11,
+      "afterRevision": 12,
+      "payloadHash": "168ac36b8728bd3bec5244baf63466339ba6e0b4c7a546a079514a7080920662",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-1255",
+        "adminId": 1,
+        "target": {
+          "id": 1255,
+          "nickname": "전게씹선미아웃"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 12,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52888"
+    },
+    {
+      "userId": "1545",
+      "nickname": "좋은하루",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 10,
+      "afterRevision": 11,
+      "payloadHash": "18de7a2a59ca160db51169216582e04e295b321f2ab161ef77baa3800c649f21",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-1545",
+        "adminId": 1,
+        "target": {
+          "id": 1545,
+          "nickname": "좋은하루"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 11,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52889"
+    },
+    {
+      "userId": "1768",
+      "nickname": "핫시",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 8,
+      "afterRevision": 9,
+      "payloadHash": "3230c5379e52a4ea791f6554318c1476c302eb85352b32d67c4bc443f42346cb",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-1768",
+        "adminId": 1,
+        "target": {
+          "id": 1768,
+          "nickname": "핫시"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 9,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52890"
+    },
+    {
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 12,
+      "afterRevision": 13,
+      "payloadHash": "9529c5ae88ab071d23656ebb21961b8a0ce71ee9af4b02d6ba1348edbe5d85ae",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-2420",
+        "adminId": 1,
+        "target": {
+          "id": 2420,
+          "nickname": "블랙캐슬"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 13,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52891"
+    },
+    {
+      "userId": "4111",
+      "nickname": "족게이다",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 7,
+      "afterRevision": 8,
+      "payloadHash": "a08864dbb6bcf3165321aae766425a98ed8f841f8f554c20470ac72f52f47ed8",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4111",
+        "adminId": 1,
+        "target": {
+          "id": 4111,
+          "nickname": "족게이다"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 8,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52892"
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 12,
+      "afterRevision": 13,
+      "payloadHash": "b4978216e3f9cb6bd64c9b305c9a1484d87e5b0f64dd67d62474b0f8075fe115",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4391",
+        "adminId": 1,
+        "target": {
+          "id": 4391,
+          "nickname": "더듬이구"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 13,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52893"
+    },
+    {
+      "userId": "4408",
+      "nickname": "레가파",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 8,
+      "afterRevision": 9,
+      "payloadHash": "e6c95ea26ed42a7b9dd1a45c8bca1e2d1130a9f21e692e392b34371179e0debe",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4408",
+        "adminId": 1,
+        "target": {
+          "id": 4408,
+          "nickname": "레가파"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 9,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52894"
+    },
+    {
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 18,
+      "afterRevision": 19,
+      "payloadHash": "8469c2b7291cc72fce42899b2ee14749e2e6589f5a7afb2087a2ebae4f82b529",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4415",
+        "adminId": 1,
+        "target": {
+          "id": 4415,
+          "nickname": "Moo날두"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 19,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52895"
+    },
+    {
+      "userId": "4572",
+      "nickname": "응맨",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 32,
+      "afterRevision": 33,
+      "payloadHash": "d9804ed86d1bbede032e32b18b6c459aa3c93931424dd32ba21ddb792dc09de1",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4572",
+        "adminId": 1,
+        "target": {
+          "id": 4572,
+          "nickname": "응맨"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 33,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52896"
+    },
+    {
+      "userId": "4582",
+      "nickname": "족단",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 17,
+      "afterRevision": 18,
+      "payloadHash": "37959d0284a03f443e9c04b10786fa30f9afdd31f17b52536321bc1b94005cd5",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4582",
+        "adminId": 1,
+        "target": {
+          "id": 4582,
+          "nickname": "족단"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 18,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52897"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 13,
+      "afterRevision": 14,
+      "payloadHash": "c973ecf7b2f692853ec0500d3c6112a58e6e9226c78ea9c4968a2e0858d40386",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4627",
+        "adminId": 1,
+        "target": {
+          "id": 4627,
+          "nickname": "학벌"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 14,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52898"
+    },
+    {
+      "userId": "4629",
+      "nickname": "Veil",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 11,
+      "afterRevision": 12,
+      "payloadHash": "15ff44a381f4cdadc88a403a07567656f58fba037f8482a28398b060b9dcd9b2",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4629",
+        "adminId": 1,
+        "target": {
+          "id": 4629,
+          "nickname": "Veil"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 12,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52899"
+    },
+    {
+      "userId": "4644",
+      "nickname": "김폭군",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 2,
+      "afterRevision": 3,
+      "payloadHash": "52d84cc7ed1b6bb253c980fd056eec99679962e99b2bb5eb5deb739851cecba5",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4644",
+        "adminId": 1,
+        "target": {
+          "id": 4644,
+          "nickname": "김폭군"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 3,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52900"
+    },
+    {
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 21,
+      "afterRevision": 22,
+      "payloadHash": "dab4ae96bdd97549141b2ebec9f104e4b8b4e8a435f13627526c9663225ded0b",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4651",
+        "adminId": 1,
+        "target": {
+          "id": 4651,
+          "nickname": "세라네꼬라지"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 22,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52901"
+    },
+    {
+      "userId": "4675",
+      "nickname": "옴마니반메훔",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 5,
+      "afterRevision": 6,
+      "payloadHash": "fe76ba4f84df3ca65d7ae141a580f9e7abac950c801a6748481b50ec2ff8d964",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4675",
+        "adminId": 1,
+        "target": {
+          "id": 4675,
+          "nickname": "옴마니반메훔"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 6,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52902"
+    },
+    {
+      "userId": "4693",
+      "nickname": "시소둥이",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 17,
+      "afterRevision": 18,
+      "payloadHash": "62f4f96d614b719c097309dd64c585ad8472e670e058e821da4e1f1fb895ce49",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4693",
+        "adminId": 1,
+        "target": {
+          "id": 4693,
+          "nickname": "시소둥이"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 18,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52903"
+    },
+    {
+      "userId": "4757",
+      "nickname": "음주플레이어",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 4,
+      "afterRevision": 5,
+      "payloadHash": "c044871914718ded317652b00b70f476811d4b36dc16cfb50c5a4eeaf2534749",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4757",
+        "adminId": 1,
+        "target": {
+          "id": 4757,
+          "nickname": "음주플레이어"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 5,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52904"
+    },
+    {
+      "userId": "4817",
+      "nickname": "음주",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 16,
+      "afterRevision": 17,
+      "payloadHash": "01773580abfe05ba74ec5c95c82abbb5c4cdbf21b6ad5a6d5013bf9dd6ac7bf9",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4817",
+        "adminId": 1,
+        "target": {
+          "id": 4817,
+          "nickname": "음주"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 17,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52905"
+    },
+    {
+      "userId": "4836",
+      "nickname": "딤키우기",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 11,
+      "afterRevision": 12,
+      "payloadHash": "adf778e719154c3203fa7d678df8aa8440f7f450de77e97b1b357b14705d357c",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4836",
+        "adminId": 1,
+        "target": {
+          "id": 4836,
+          "nickname": "딤키우기"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 12,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52906"
+    },
+    {
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 12,
+      "afterRevision": 13,
+      "payloadHash": "3231c38a00a688ab174f3eb62caa892e03b6f97838298f2eb3901a123d75376e",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4908",
+        "adminId": 1,
+        "target": {
+          "id": 4908,
+          "nickname": "굳건창수"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 13,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52907"
+    },
+    {
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 10,
+      "afterRevision": 11,
+      "payloadHash": "12aab71bcdaa5fc82cbb36ec2657a5ae263b640e9a259005f89d85a5acd776ef",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4965",
+        "adminId": 1,
+        "target": {
+          "id": 4965,
+          "nickname": "쁴로리"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 11,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52908"
+    },
+    {
+      "userId": "4981",
+      "nickname": "간장왕대게찜",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 6,
+      "afterRevision": 7,
+      "payloadHash": "8cec70db13462eb4a6dc5a6cbd11eb8855ddc8b8f11a48df804bdd69aa7ecec4",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-4981",
+        "adminId": 1,
+        "target": {
+          "id": 4981,
+          "nickname": "간장왕대게찜"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 7,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52909"
+    },
+    {
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 19,
+      "afterRevision": 20,
+      "payloadHash": "641f939dc0d8fed635d041f2f008c172a9904a339aeac887e47076a8a7edbb33",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-5008",
+        "adminId": 1,
+        "target": {
+          "id": 5008,
+          "nickname": "단정한밤"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 20,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52910"
+    },
+    {
+      "userId": "5665",
+      "nickname": "[댕]해빗이오",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 0,
+      "afterRevision": 1,
+      "payloadHash": "b9a0099077ded24b8ef3bdb54a5c28f25fb9a48b357976611075261696396c06",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-5665",
+        "adminId": 1,
+        "target": {
+          "id": 5665,
+          "nickname": "[댕]해빗이오"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 1,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52911"
+    },
+    {
+      "userId": "5877",
+      "nickname": "깅더듬",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 3,
+      "afterRevision": 4,
+      "payloadHash": "5dd54e42222da508d0fb5baf3e437420b07b67d334821e64e1bf0cefbef0f0d0",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-5877",
+        "adminId": 1,
+        "target": {
+          "id": 5877,
+          "nickname": "깅더듬"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 4,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52912"
+    },
+    {
+      "userId": "5958",
+      "nickname": "꺽꿀",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 11,
+      "afterRevision": 12,
+      "payloadHash": "979cee098ab2ddec7c9b7e296de024027792f7ccd2dc1179bacb496a08e71e6e",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-5958",
+        "adminId": 1,
+        "target": {
+          "id": 5958,
+          "nickname": "꺽꿀"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 12,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52913"
+    },
+    {
+      "userId": "5996",
+      "nickname": "관종이얌",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 3,
+      "afterRevision": 4,
+      "payloadHash": "d3cf29cf8e420c718505ff95a7c37c2ab7266e2df02dc5f161bd0ef8459e67a2",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-5996",
+        "adminId": 1,
+        "target": {
+          "id": 5996,
+          "nickname": "관종이얌"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 4,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52914"
+    },
+    {
+      "userId": "6058",
+      "nickname": "[C9]코레일",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 0,
+      "afterRevision": 1,
+      "payloadHash": "cdc5fb42eed3b60f4a00527bb0bffd6c4f71b3634e9f0806331406f2f9d46d90",
+      "result": {
+        "ok": true,
+        "requestId": "ops-daeng-pet-roster-20261029-6058",
+        "adminId": 1,
+        "target": {
+          "id": 6058,
+          "nickname": "[C9]코레일"
+        },
+        "pet": {
+          "code": "PET-DAENGSORYONG",
+          "name": "댕소룡",
+          "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png"
+        },
+        "quantity": 1,
+        "reason": "명단 댕소룡 펫 각1마리 지급 · 20261029",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 1,
+        "grantedAt": "2026-10-29T13:34:16.155Z",
+        "replayed": false
+      },
+      "auditId": "52915"
+    }
+  ]
+}

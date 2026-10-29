@@ -1,0 +1,11 @@
+{
+  "operationKey": "ops:daengsoryong-pet-roster:20261029:v1",
+  "authorization": "아니 씨발 명단에 댕소룡 펫도 지급하라고 미친련아",
+  "interpretation": "Original 42-person roster receives one PET-DAENGSORYONG each in addition to the correctly granted four streamer boxes. 댕소룡 is the pet item, not a recipient. Brintellix° resolves to 깅더듬 ID5877. The assistant mistakenly added four extra streamer boxes to that account; reverse only that unopened erroneous addition.",
+  "parentOperationKey": "ops:streamer-box-four:20261029:v1",
+  "parentAuditId": "52769",
+  "erroneousOperationKey": "ops:streamer-box-daengsoryong-gingdeodeum:20261029:v1",
+  "erroneousAuditId": "52772",
+  "quantityPerAccount": 1,
+  "recipientCount": 42
+}
