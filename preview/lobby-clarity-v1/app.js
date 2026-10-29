@@ -54,6 +54,13 @@
     const favoriteCount=available.filter(e=>saved.has(e.id)).length;
     document.querySelectorAll('[data-favorite-count]').forEach(el=>{el.textContent=String(favoriteCount);el.hidden=!favoriteCount;});
     $('menu-favorites').setAttribute('aria-pressed',String(category==='favorites'));
+    document.querySelectorAll('.menu-quick-access [data-category]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.category===category)));
+    const categoryNav=$('menu-categories');
+    if(categoryNav){
+      const visibleCategories=Object.entries(categories).filter(([key])=>key!=='favorites'&&available.some(e=>e.category===key)),navKey=visibleCategories.map(([key])=>key).join('|');
+      if(categoryNav.dataset.categories!==navKey){categoryNav.innerHTML=visibleCategories.map(([key,group])=>`<button type="button" data-category="${key}" aria-pressed="false">${esc(group.title)}</button>`).join('');categoryNav.dataset.categories=navKey;}
+      categoryNav.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.category===category)));
+    }
     $('favorites-status').textContent=favoriteState.error||(favoriteState.loading?'즐겨찾기를 불러오는 중입니다.':favoriteState.pending.size?'즐겨찾기를 저장하고 있습니다.':'');
     $('favorites-status').hidden=!$('favorites-status').textContent;
     $('favorites-retry').hidden=!favoriteState.error;
@@ -61,13 +68,13 @@
     if(resultKey!==lastResults||!$('menu-results').childElementCount){
       const focusedFavorite=document.activeElement?.dataset?.favoriteRoute;
       const row=e=>`<div class="menu-result-row"><button class="menu-result" data-route="${esc(e.id)}" data-menu-category="${e.category}">${e.id==='seasonPass'?'<span class="menu-route-icon"><img src="/assets/ui/season-pass-v1/supporter-crest.webp" width="38" height="38" alt=""></span>':`<span class="menu-route-icon" data-icon="${esc(e.id)}"></span>`}<span><b>${esc(e.title)}</b><small>${esc(e.description)}</small></span><i aria-hidden="true">↗</i></button>${e.id==='world'?'':`<button type="button" class="menu-favorite-toggle" data-favorite-route="${esc(e.id)}" aria-pressed="${saved.has(e.id)}" aria-label="${esc(e.title)} 즐겨찾기 ${saved.has(e.id)?'해제':'추가'}" title="즐겨찾기 ${saved.has(e.id)?'해제':'추가'}" aria-disabled="${favoriteState.loading||favoriteState.pending.has(e.id)}">${icon('favorites')}</button>`}</div>`;
-      $('menu-results').innerHTML=category==='all'?Object.entries(categories).map(([key,group])=>{const items=shown.filter(e=>e.category===key);return items.length?`<h3 class="category-divider"><button class="category-jump" data-category="${key}">${group.title}<span>분류 보기 →</span></button></h3>`+items.map(row).join(''):'';}).join(''):shown.map(row).join('');
+      $('menu-results').innerHTML=category==='all'?Object.entries(categories).map(([key,group])=>{const items=shown.filter(e=>e.category===key);return items.length?`<h3 class="category-divider"><button class="category-jump" data-category="${key}"><span class="category-name">${esc(group.title)}</span><span class="category-meta">${items.length}개 <span class="category-action">분류 보기</span></span></button></h3>`+items.map(row).join(''):'';}).join(''):shown.map(row).join('');
       paintIcons($('menu-results'));lastResults=resultKey;
       if(focusedFavorite)(document.querySelector(`[data-favorite-route="${focusedFavorite}"]:not(:disabled)`)||document.querySelector('.menu-favorite-toggle:not(:disabled)')||$('menu-favorites')).focus({preventScroll:true});
     }
     if(!contract){$('result-count').textContent='메뉴 정보를 불러오지 못했습니다. 새로고침해 주세요.';}
   }
-  function selectCategory(value){if(value!=='all'&&!categories[value])return;if(!$('menu-dialog').open)fromAll=value==='all';category=value;query='';$('menu-search').value='';renderDirectory();void favorites.refresh(value==='favorites');highlight(value);$('menu-dialog').scrollTop=0;openMenu();}
+  function selectCategory(value){if(value!=='all'&&!categories[value])return;if(!$('menu-dialog').open)fromAll=value==='all';category=value;query='';$('menu-search').value='';renderDirectory();void favorites.refresh(value==='favorites');highlight(value);($('menu-content')||$('menu-dialog')).scrollTop=0;openMenu();}
   function openDestination(id,opener){const item=byId.get(id);if(!item||options.isRouteVisible?.(id)===false&&id!=='seasonPass')return;if(id==='seasonPass'){if(options.isSeasonPassVisible?.()===true)void options.openSeasonPass?.(opener);return;}if(options.navigate){if($('menu-dialog').open)$('menu-dialog').close();if($('guide-dialog').open)$('guide-dialog').close();void Promise.resolve().then(()=>options.navigate(id,hrefs[id])).catch(error=>{$('lobby-message').textContent=error.message||'화면을 열지 못했습니다. 다시 시도해 주세요.';$('lobby-message').hidden=false;jumpTo($('lobby-message'));});return;}destinationOpener=opener;$('destination-title').textContent=item.title;$('destination-description').textContent=item.description;$('destination-tip').textContent=tips[id]||'처음부터 모든 콘텐츠를 이용할 필요는 없어요. 필요한 순간에 이 메뉴를 찾아오세요.';$('destination-location').textContent=`로비 → ${categories[item.category].title} → ${item.title}`;$('destination-link').href=hrefs[id]||'/?screen='+encodeURIComponent(id);$('destination-dialog').showModal();}
   function closeDestination(){$('destination-dialog').close();destinationOpener?.focus({preventScroll:true});}
   listen(document,'click',event=>{
