@@ -1,0 +1,47 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T11:53:07.091Z",
+  "releaseCommit": "252100d8328e3c924a920a084c8c2e5bd08f3e39",
+  "pages": {
+    "id": "c898b8ef-c9de-4b06-9c18-43a2e57284ca",
+    "url": "https://c898b8ef.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "252100d8328e3c924a920a084c8c2e5bd08f3e39"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "4acd8353-c3fb-48ab-ae27-90b60811fe4f",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "d2d2edf7-e659-4514-8380-0e083a8529c8",
+      "percentage": 100
+    }
+  ],
+  "checks": {
+    "relatedTests": 28,
+    "pairedBattles": 8640,
+    "independentJokroBattles": 48,
+    "unchanged": 234,
+    "localBrowserPaths": 6,
+    "publicMobilePaths": 1,
+    "publicModules": 2,
+    "actualWorkerCode": true,
+    "publicCodex": true
+  },
+  "preserved": [
+    "PVE",
+    "same combat tier and equal-level outcomes",
+    "stored levels/XP/breakthrough",
+    "individual fighter policies",
+    "completed receipts",
+    "currencies and artwork"
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "storageMaintenance": false,
+  "automationsCreated": false,
+  "evidenceDirectory": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\mercenary-level-priority-20261029"
+}

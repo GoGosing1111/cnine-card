@@ -24,3 +24,5 @@
 배포는 `npm run deploy:production -- --scoped`. 이미 확인한 13검사를 반복하지 않고 고레벨 상한·실제 V3 로더 검사와 Worker 문법 검사를 배포 과정에서 수행한다. 직전 운영 SHA와 검사 선정은 운영 기록의 `deployment-plan.json`에 보존한다.
 
 증거: `C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-level-priority-20261029/`. 기존 희소 체크아웃/의존성 재사용, Git 자동정리 OFF. 계정/재화 직접쓰기·메시지·저장공간 유지관리·예약 없음.
+
+**운영 반영 완료:** 소스 `252100d83`, Pages `c898b8ef`. 관련 28검사, PC/모바일 6경로, 공개 모바일 1경로, 공개 2모듈, 실제 API Worker 코드·도감 및 두 Worker 100% 반영을 확인했다.
