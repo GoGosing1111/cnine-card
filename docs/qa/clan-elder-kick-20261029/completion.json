@@ -1,0 +1,57 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T07:22:17.260Z",
+  "releaseCommit": "e80db8cd1072af6ed32fe97a82d55fa9f2b26985",
+  "pages": {
+    "id": "3104b31d-902d-4a2c-8a1d-35fe97fdbe31",
+    "url": "https://3104b31d.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e80db8cd1072af6ed32fe97a82d55fa9f2b26985"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "ae49f73b-cd51-435d-abaa-6d6321484278",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "aa57b41c-6264-4ac9-9f7b-6fe7446bd0ef",
+      "percentage": 100
+    }
+  ],
+  "checks": {
+    "regressions": 18,
+    "localViewports": [
+      1440,
+      390
+    ],
+    "publicMobile": true,
+    "publicAssets": 11,
+    "duplicateRemovals": 0,
+    "browserErrors": 0
+  },
+  "behavior": {
+    "location": "클랜 본부 → 내 클랜 → 클랜원 명단 → 방출",
+    "allowed": "같은 클랜의 원로가 일반 클랜원 방출",
+    "protected": [
+      "본인",
+      "다른 원로",
+      "다른 클랜원",
+      "진행 중 정규 경기·정산·예약",
+      "대상 세력전 교전"
+    ],
+    "atomicMemberships": [
+      "organization_members_v1",
+      "활성 복구 시즌의 clan_members"
+    ],
+    "sameRequestRetry": true,
+    "staleRejoinProtected": true,
+    "ordinaryMembersCannotKick": true
+  },
+  "productionDataWrites": 0,
+  "messagesSent": 0,
+  "manualStorageMaintenance": false,
+  "reusedCheckout": "C:/Users/User/Downloads/upload/cnine-card/tmp/duo-settlement-recovery-20261027",
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/clan-elder-kick-20261029"
+}

@@ -15,3 +15,5 @@
 상세 증거: `C:/Users/User/Downloads/upload/cnine-card/operations/clan-elder-kick-20261029/`.
 재사용 체크아웃: `C:/Users/User/Downloads/upload/cnine-card/tmp/duo-settlement-recovery-20261027`.
 Git 자동정리 OFF. 저장공간 유지관리·캐시 삭제·worktree 정리·예약·이전 지급 재실행 없음.
+
+운영 완료: 소스 `e80db8cd1`, Pages `3104b31d`, 관련 검사 18/18·공개 파일 11개·두 Worker 100%·공개 모바일 확인.
