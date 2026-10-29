@@ -1,0 +1,54 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:streamer-box-daengsoryong-gingdeodeum:20261029:v1",
+  "authorization": "댕소룡까지 지급해 깅더듬",
+  "parentOperationKey": "ops:streamer-box-four:20261029:v1",
+  "parentAuditId": "52769",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "completedAt": "2026-10-29T12:21:59.893Z",
+  "completedAtKst": "2026-10-29 21:21:59 KST",
+  "verifiedAt": "2026-10-29T12:22:54.771Z",
+  "auditId": "52772",
+  "recipientCount": 1,
+  "totalBoxes": 4,
+  "userId": "5877",
+  "nickname": "깅더듬",
+  "sourceShare": "댕소룡",
+  "combinedRecipientAmount": 8,
+  "combinedDistinctRecipients": 42,
+  "combinedTotalBoxes": 172,
+  "combinedShares": 43,
+  "missing": 0,
+  "duplicates": 0,
+  "planHash": "e5dfe7ee7542781c0fa3a47edb207719d3f6cef5a88102e800a2c72f70f3cd25",
+  "sourceSha256": "1ca89817d9ff1ff9aca7d69a7df1043f42970d71f3d02bc7be040e04acc94381",
+  "targetedTests": 4,
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "noWriteReplayVerified": true,
+  "independentConnection": true,
+  "parentReceiptUnchanged": true,
+  "leasesReleased": true,
+  "automaticOpening": false,
+  "messagesSent": false,
+  "deployment": false,
+  "storageMaintenance": false,
+  "allocations": [
+    {
+      "userId": "5877",
+      "nickname": "깅더듬",
+      "inputNickname": "댕소룡",
+      "amount": 4,
+      "before": {
+        "quantity": "4",
+        "unseen": "4"
+      },
+      "after": {
+        "quantity": "8",
+        "unseen": "8"
+      },
+      "logId": "87545993"
+    }
+  ]
+}

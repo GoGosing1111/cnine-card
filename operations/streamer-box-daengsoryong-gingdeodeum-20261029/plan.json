@@ -1,0 +1,26 @@
+{
+  "operationKey": "ops:streamer-box-daengsoryong-gingdeodeum:20261029:v1",
+  "authorization": "댕소룡까지 지급해 깅더듬",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "itemDescription": "개봉 시 35조 코인, 핑두 리페어 쿠폰 3개, 슈트 코어 6 10개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+  "delivery": "DIRECT_INVENTORY",
+  "recipientCount": 1,
+  "totalBoxes": 4,
+  "identityCheckedAt": "2026-10-29T12:19:51.138Z",
+  "pending": [],
+  "parentOperationKey": "ops:streamer-box-four:20261029:v1",
+  "parentAuditId": "52769",
+  "parentReceiptHash": "a1afd7475d7f656cf161aa992496dc8ac6df7eb5a8d0e615d096470c113245b7",
+  "targets": [
+    {
+      "order": 1,
+      "inputNickname": "댕소룡",
+      "nickname": "깅더듬",
+      "userId": "5877",
+      "role": "USER",
+      "identityHash": "fe0f798210fbb20a5becf06b0628233eacb7116e4d09682a748518c8a7bbe605",
+      "amount": 4
+    }
+  ]
+}

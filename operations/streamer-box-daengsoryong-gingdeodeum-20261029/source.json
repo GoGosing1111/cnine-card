@@ -1,0 +1,14 @@
+{
+  "operationKey": "ops:streamer-box-daengsoryong-gingdeodeum:20261029:v1",
+  "authorization": "댕소룡까지 지급해 깅더듬",
+  "rawNames": [
+    "댕소룡"
+  ],
+  "targetNickname": "깅더듬",
+  "targetUserId": "5877",
+  "defaultAmount": 4,
+  "delivery": "DIRECT_INVENTORY",
+  "parentOperationKey": "ops:streamer-box-four:20261029:v1",
+  "parentAuditId": "52769",
+  "interpretation": "사용자 후속 지시에 따라 앞서 제외한 댕소룡 몫4개를 깅더듬에게 추가 지급. 기존 깅더듬4개 보존, 이번 명단 합계8개."
+}
