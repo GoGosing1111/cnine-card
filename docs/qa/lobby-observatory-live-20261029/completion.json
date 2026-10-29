@@ -1,0 +1,75 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T04:44:57.547Z",
+  "releaseCommit": "e288d18dabef5fb084f7a80fe9955895bed8257d",
+  "pages": {
+    "id": "069ba7c3-f7af-42a0-8988-e886e4340546",
+    "url": "https://069ba7c3.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e288d18dabef5fb084f7a80fe9955895bed8257d"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "42f91cd9-ff60-4447-a39c-4cbf5912bcd5",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "4fed68c9-9ac3-49ae-abea-d229dfb7f836",
+      "percentage": 100
+    }
+  ],
+  "approval": "시안에 계급장 안보인다 그거만 확인하고 라이브 반영해; 후속 재화 폰트와 불투명 왼쪽 사이드 메뉴 요청",
+  "changes": [
+    "Existing rank insignia, rank level/name and nickname from the logged-in account",
+    "Approved cover artwork from the equipped lobby avatar",
+    "Actual currency resources and bold non-condensed currency figures",
+    "Opaque navy left menu and mobile dock",
+    "Compact PVE/PVP departure, workshop and administration buttons",
+    "Existing native content status, countdowns and destinations"
+  ],
+  "checks": {
+    "releaseRegressions": 14,
+    "unchangedFavoritesChecksPassed": 6,
+    "firstLocalRun": {
+      "checks": 64,
+      "viewports": [
+        "1440x900",
+        "390x844",
+        "320x740",
+        "768x1024",
+        "1440x700"
+      ]
+    },
+    "finalFocusedRun": {
+      "checks": 42,
+      "viewports": [
+        "1440x900",
+        "390x844"
+      ]
+    },
+    "publicMobile": {
+      "checks": 22,
+      "viewports": [
+        "390x844"
+      ]
+    },
+    "publicAssets": 16,
+    "missingAssets": 0,
+    "browserExceptions": 0,
+    "productionPackageFiles": 19999,
+    "existingFailures": {
+      "count": 2,
+      "reproducedWithDeployedAdapter": "a55038a6d",
+      "details": "Existing favorite-route set differs from menu contract; legacy navigation test expects restored clan war to remain hidden.",
+      "evidence": "baseline-existing-tests.log"
+    }
+  },
+  "productionDataWrites": 0,
+  "messagesSent": 0,
+  "realBattlesStarted": 0,
+  "artBytesChanged": 0,
+  "manualStorageMaintenance": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/lobby-observatory-20261029"
+}

@@ -1,0 +1,238 @@
+{
+  "local": {
+    "checks": [
+      "1440x900 real rank image visible",
+      "1440x900 correct rank",
+      "1440x900 full-width equipped avatar",
+      "1440x900 actual account balance accessible",
+      "1440x900 pig wallet connected",
+      "1440x900 no horizontal overflow",
+      "1440x900 no arrow decoration",
+      "1440x900 compact departure",
+      "1440x900 rank benefits opens",
+      "1440x900 PVP category",
+      "1440x900 PvE/PvP separated",
+      "1440x900 PVE category",
+      "1440x900 administration connected",
+      "1440x900 clan separate",
+      "1440x900 all eight native statuses",
+      "1440x900 art appreciation",
+      "1440x900 shared header on route",
+      "1440x900 workshop and shared menus",
+      "1440x900 shared chrome leaves native route visible",
+      "1440x900 growth guide preserved",
+      "390x844 real rank image visible",
+      "390x844 correct rank",
+      "390x844 full-width equipped avatar",
+      "390x844 actual account balance accessible",
+      "390x844 pig wallet connected",
+      "390x844 no horizontal overflow",
+      "390x844 no arrow decoration",
+      "390x844 compact departure",
+      "390x844 rank benefits opens",
+      "390x844 PVP category",
+      "390x844 PvE/PvP separated",
+      "390x844 PVE category",
+      "390x844 administration connected",
+      "390x844 clan separate",
+      "390x844 all eight native statuses",
+      "390x844 art appreciation",
+      "390x844 shared header on route",
+      "390x844 workshop and shared menus",
+      "390x844 shared chrome leaves native route visible",
+      "390x844 growth guide preserved",
+      "zero browser exceptions",
+      "all requested assets served"
+    ],
+    "reports": [
+      {
+        "size": "1440x900",
+        "layout": {
+          "rank": {
+            "x": 324.953125,
+            "y": 20.5,
+            "width": 44,
+            "height": 44,
+            "display": "block",
+            "fit": "contain",
+            "position": "50% 50%",
+            "loaded": 96,
+            "src": "http://127.0.0.1:9806/assets/ui/account-ranks-v2/warrant-96.webp"
+          },
+          "hero": {
+            "x": 0,
+            "y": 86,
+            "width": 1440,
+            "height": 814,
+            "display": "block",
+            "fit": "cover",
+            "position": "50% 8%",
+            "loaded": 1024,
+            "src": "http://127.0.0.1:9806/preview/avatar-hanbok-diim-v1/assets/avatar-hanbok-diim-lobby-v1-1024.webp"
+          },
+          "depart": {
+            "x": 1046,
+            "y": 215,
+            "width": 344,
+            "height": 100,
+            "display": "flex",
+            "fit": "fill",
+            "position": "50% 50%"
+          },
+          "header": {
+            "x": 22,
+            "y": 0,
+            "width": 1384,
+            "height": 86,
+            "display": "flex",
+            "fit": "fill",
+            "position": "50% 50%"
+          },
+          "scroll": 1440,
+          "canvas": 1440,
+          "coin": "2,180,000,000,000",
+          "pig": "3,250",
+          "rankText": "Lv.120준위EXP 1,234 / 9,000",
+          "name": "리버스콜 지휘관",
+          "arrow": false,
+          "samples": false
+        }
+      },
+      {
+        "size": "390x844",
+        "layout": {
+          "rank": {
+            "x": 19,
+            "y": 45,
+            "width": 30,
+            "height": 30,
+            "display": "block",
+            "fit": "contain",
+            "position": "50% 50%",
+            "loaded": 96,
+            "src": "http://127.0.0.1:9806/assets/ui/account-ranks-v2/warrant-96.webp"
+          },
+          "hero": {
+            "x": 0,
+            "y": 132,
+            "width": 390,
+            "height": 712,
+            "display": "block",
+            "fit": "cover",
+            "position": "50% 20%",
+            "loaded": 1024,
+            "src": "http://127.0.0.1:9806/preview/avatar-hanbok-diim-v1/assets/avatar-hanbok-diim-lobby-v1-1024.webp"
+          },
+          "depart": {
+            "x": 20,
+            "y": 479,
+            "width": 350,
+            "height": 77,
+            "display": "flex",
+            "fit": "fill",
+            "position": "50% 50%"
+          },
+          "header": {
+            "x": 19,
+            "y": 0,
+            "width": 352,
+            "height": 132,
+            "display": "grid",
+            "fit": "fill",
+            "position": "50% 50%"
+          },
+          "scroll": 390,
+          "canvas": 390,
+          "coin": "2,180,000,000,000",
+          "pig": "3,250",
+          "rankText": "Lv.120준위EXP 1,234 / 9,000",
+          "name": "리버스콜 지휘관",
+          "arrow": false,
+          "samples": false
+        }
+      }
+    ]
+  },
+  "public": {
+    "checks": [
+      "390x844 real rank image visible",
+      "390x844 correct rank",
+      "390x844 full-width equipped avatar",
+      "390x844 actual account balance accessible",
+      "390x844 pig wallet connected",
+      "390x844 no horizontal overflow",
+      "390x844 no arrow decoration",
+      "390x844 compact departure",
+      "390x844 rank benefits opens",
+      "390x844 PVP category",
+      "390x844 PvE/PvP separated",
+      "390x844 PVE category",
+      "390x844 administration connected",
+      "390x844 clan separate",
+      "390x844 all eight native statuses",
+      "390x844 art appreciation",
+      "390x844 shared header on route",
+      "390x844 workshop and shared menus",
+      "390x844 shared chrome leaves native route visible",
+      "390x844 growth guide preserved",
+      "zero browser exceptions",
+      "all requested assets served"
+    ],
+    "reports": [
+      {
+        "size": "390x844",
+        "layout": {
+          "rank": {
+            "x": 19,
+            "y": 45,
+            "width": 30,
+            "height": 30,
+            "display": "block",
+            "fit": "contain",
+            "position": "50% 50%",
+            "loaded": 96,
+            "src": "http://127.0.0.1:9453/assets/ui/account-ranks-v2/warrant-96.webp"
+          },
+          "hero": {
+            "x": 0,
+            "y": 132,
+            "width": 390,
+            "height": 712,
+            "display": "block",
+            "fit": "cover",
+            "position": "50% 20%",
+            "loaded": 1024,
+            "src": "http://127.0.0.1:9453/preview/avatar-hanbok-diim-v1/assets/avatar-hanbok-diim-lobby-v1-1024.webp"
+          },
+          "depart": {
+            "x": 20,
+            "y": 479,
+            "width": 350,
+            "height": 77,
+            "display": "flex",
+            "fit": "fill",
+            "position": "50% 50%"
+          },
+          "header": {
+            "x": 19,
+            "y": 0,
+            "width": 352,
+            "height": 132,
+            "display": "grid",
+            "fit": "fill",
+            "position": "50% 50%"
+          },
+          "scroll": 390,
+          "canvas": 390,
+          "coin": "2,180,000,000,000",
+          "pig": "3,250",
+          "rankText": "Lv.120준위EXP 1,234 / 9,000",
+          "name": "리버스콜 지휘관",
+          "arrow": false,
+          "samples": false
+        }
+      }
+    ]
+  },
+  "productionWrites": 0
+}
