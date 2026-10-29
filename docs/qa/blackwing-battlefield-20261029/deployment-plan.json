@@ -26,5 +26,12 @@
   "concurrentChangesPreserved": [
     "1d0ba52f76c3cc7f7db9b9bdbb4b61b9cbe5ea70",
     "9fb2322d6b60aa7f125209e4917708ea2397a636"
-  ]
+  ],
+  "actualSourceCommit": "4596fe28d3ee165ba4d6b3da48c4100e71da9310",
+  "implementationCommit": "514aa35704d6a7c19619ebda359406f6b3cabb59",
+  "finalTests": [
+    "tests/blackwing-battlefield-20261029.test.mjs"
+  ],
+  "finalReason": "Concurrent documentation fast-forward removed non-included sparse image files. Added the exact six image paths, reran the affected battlefield regression and resumed the designated scoped command; reused all 32 passed mechanic checks.",
+  "finalLog": "C:/Users/User/Downloads/upload/cnine-card/operations/blackwing-battlefield-20261029/deploy-production-final.log"
 }

@@ -1,0 +1,183 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "checkedAt": "2026-10-29T11:45:27.102Z",
+  "implementationCommit": "514aa35704d6a7c19619ebda359406f6b3cabb59",
+  "sourceCommit": "4596fe28d3ee165ba4d6b3da48c4100e71da9310",
+  "pages": {
+    "id": "444f9ddc-dac9-46ec-8126-0870d812f155",
+    "url": "https://444f9ddc.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "4596fe28d3ee165ba4d6b3da48c4100e71da9310"
+  },
+  "regressionTests": {
+    "unique": 40,
+    "mechanics": 32,
+    "battlefield": 4,
+    "packaging": 4,
+    "fieldRecheckedAfterSparseRepair": 4
+  },
+  "browser": {
+    "engine": "Chrome",
+    "isolatedApi": true,
+    "productionStaticFiles": true,
+    "localViewports": [
+      "1440x1000",
+      "390x844",
+      "676x755"
+    ],
+    "fullPhaseCases": 12,
+    "targetCasesAfterRefinement": 2,
+    "resultCases": 2,
+    "scaleCases": 2,
+    "legacyGuardAndSealer": true,
+    "publicViewports": [
+      "390x844"
+    ],
+    "publicReports": [
+      {
+        "width": 390,
+        "height": 844,
+        "actor": "3",
+        "role": "GUARD",
+        "geometry": {
+          "field": {
+            "x": 2,
+            "y": 124,
+            "width": 386,
+            "height": 504.9375
+          },
+          "battle": {
+            "x": 2,
+            "y": 64,
+            "width": 386,
+            "height": 726
+          },
+          "pads": [
+            {
+              "x": 3.921875,
+              "y": 430.9375,
+              "right": 131.296875,
+              "bottom": 580.9375,
+              "width": 127.375,
+              "height": 150
+            },
+            {
+              "x": 131.3125,
+              "y": 430.9375,
+              "right": 258.6875,
+              "bottom": 580.9375,
+              "width": 127.375,
+              "height": 150
+            },
+            {
+              "x": 258.6875,
+              "y": 430.9375,
+              "right": 386.0625,
+              "bottom": 580.9375,
+              "width": 127.375,
+              "height": 150
+            }
+          ],
+          "sidebar": false,
+          "overflow": false,
+          "canvases": 1
+        },
+        "fieldImagesLoaded": true,
+        "personalClue": true,
+        "stableButtons": true,
+        "wrongChoiceEditable": true,
+        "sixPlayerCommit": true,
+        "logAndReconnect": true,
+        "errors": []
+      }
+    ],
+    "publicFieldImagesLoaded": true,
+    "publicScreenshot": "C:/Users/User/Downloads/upload/cnine-card/operations/blackwing-battlefield-20261029/public-loaded/scale-3-390.png"
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "2f5cc18ca7d9d0708b0cc0179d247f7ab0cb7bfcf5d74e104be4ced6c0003d40",
+      "bytes": 47873,
+      "status": 200
+    },
+    {
+      "file": "js/blackwing-raid-entry-v1.js",
+      "sha256": "90e26dd6c419e4468b3d7a3e077adbcf9eab4f7ce621aea75f058d01965aefc6",
+      "bytes": 4075,
+      "status": 200
+    },
+    {
+      "file": "raid/blackwing/inline.mjs",
+      "sha256": "5aa6b1b4a684407f58dfdf87d217b545466330ebd8795fa3bfb536a1bac1e195",
+      "bytes": 16119,
+      "status": 200
+    },
+    {
+      "file": "raid/blackwing/battlefield.mjs",
+      "sha256": "220a5cbf7b61ac0ec3deeb85a064249ef2e836553fbd4c1b1c9d816861549ea1",
+      "bytes": 11913,
+      "status": 200
+    },
+    {
+      "file": "raid/blackwing/battle.mjs",
+      "sha256": "e5a3e72fc178ed1b24cb642d6f66616f3706d4136a23a53a1a886c1356dafd70",
+      "bytes": 4573,
+      "status": 200
+    },
+    {
+      "file": "raid/blackwing/ui.css",
+      "sha256": "8ef24378950f3f972a69d834ce22fb37e63108aaf33afa3d0a6b9923150a7e9d",
+      "bytes": 32016,
+      "status": 200
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/field-altar.webp",
+      "sha256": "f2a502a4f21ea72ad2b42c3f25319bda1e8d305890fa8c9bb9ad07018b7489c1",
+      "bytes": 71846,
+      "status": 200
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/field-heart.webp",
+      "sha256": "aeed3cf5b7d4c70cf75991094f0eaee2ee73c64c6446cc92d32717fd3339bb2a",
+      "bytes": 92170,
+      "status": 200
+    },
+    {
+      "file": "assets/raids/blackwing-20261024/field-target.webp",
+      "sha256": "25240aa09417fcb0ee32f5d8b2faafada445f7bcf6bfe7d2faccd5fb1858b862",
+      "bytes": 35474,
+      "status": 200
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "581abf3b-5b33-435b-b34c-460bf3f71451",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "51aa8950-070b-43ab-b259-dc6dafb52bd5",
+      "percentage": 100
+    }
+  ],
+  "productionAssetCount": 20000,
+  "resources": {
+    "newTransparentProps": 3,
+    "originalPngs": 3,
+    "manifest": "docs/qa/blackwing-battlefield-20261029/assets.json",
+    "mode": "image_gen built-in"
+  },
+  "preserved": [
+    "server mechanic commands and timing",
+    "party roles and request idempotency",
+    "weekly rewards and economy",
+    "shared V3 formation and card dock",
+    "concurrent Heukmu and territory releases"
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "storageMaintenancePerformed": false,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/blackwing-battlefield-20261029"
+}

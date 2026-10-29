@@ -103,6 +103,7 @@ try{
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.stack));page.on('dialog',d=>d.accept());page.setDefaultTimeout(30000);
   try{
    await enter(page);
+   await page.waitForFunction(()=>{const images=[...document.querySelectorAll('[data-action="PLACE"] img')];return images.length===3&&images.every(img=>img.complete&&img.naturalWidth>0);});
    await page.locator('.bw-field-help summary').click();await page.waitForTimeout(1100);assert.equal(await page.locator('.bw-field-help').evaluate(el=>el.open),true,'rules stay open across clock and polling');await page.locator('.bw-field-help summary').click();
    let saved=JSON.parse((await lich.one('SELECT state_json FROM raid_blackwing_rooms_v1 WHERE room_id=?',roomId)).state_json);
    saved.challenge.scale.deadline=Date.now()+22000;saved.challenge.pressureAt=Date.now()+5000;saved.revision++;
@@ -146,7 +147,7 @@ try{
     const after=await page.evaluate(()=>BlackwingRaidDiagnostics().state.challenge.scale);
     assert.equal(after.cycle,before.cycle);assert.equal(after.ownWeight,before.ownWeight);assert.deepEqual(after.goals,before.goals);
    }
-   assert.deepEqual(errors,[]);reports.push({width,height,actor,role:mine.me.role,geometry,personalClue:true,stableButtons:true,wrongChoiceEditable:true,sixPlayerCommit:true,logAndReconnect:actor==='3',errors});
+   assert.deepEqual(errors,[]);reports.push({width,height,actor,role:mine.me.role,geometry,fieldImagesLoaded:true,personalClue:true,stableButtons:true,wrongChoiceEditable:true,sixPlayerCommit:true,logAndReconnect:actor==='3',errors});
   }catch(e){await page.screenshot({path:path.join(out,'failure-'+actor+'-'+width+'.png'),fullPage:true});fs.writeFileSync(path.join(out,'failure-'+actor+'-'+width+'.json'),JSON.stringify({error:e.stack,errors,diagnostics:await page.evaluate(()=>globalThis.BlackwingRaidDiagnostics?.()),body:await page.locator('body').innerText()},null,2));throw e;}
   finally{await context.close();for(const[id]of members)await lich.command('leave',{roomId},Number(id));}
  }

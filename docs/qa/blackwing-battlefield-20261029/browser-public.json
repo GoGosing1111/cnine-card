@@ -1,0 +1,61 @@
+{
+  "at": "2026-10-29T11:47:01.261Z",
+  "reports": [
+    {
+      "width": 390,
+      "height": 844,
+      "actor": "3",
+      "role": "GUARD",
+      "geometry": {
+        "field": {
+          "x": 2,
+          "y": 124,
+          "width": 386,
+          "height": 504.9375
+        },
+        "battle": {
+          "x": 2,
+          "y": 64,
+          "width": 386,
+          "height": 726
+        },
+        "pads": [
+          {
+            "x": 3.921875,
+            "y": 430.9375,
+            "right": 131.296875,
+            "bottom": 580.9375,
+            "width": 127.375,
+            "height": 150
+          },
+          {
+            "x": 131.3125,
+            "y": 430.9375,
+            "right": 258.6875,
+            "bottom": 580.9375,
+            "width": 127.375,
+            "height": 150
+          },
+          {
+            "x": 258.6875,
+            "y": 430.9375,
+            "right": 386.0625,
+            "bottom": 580.9375,
+            "width": 127.375,
+            "height": 150
+          }
+        ],
+        "sidebar": false,
+        "overflow": false,
+        "canvases": 1
+      },
+      "fieldImagesLoaded": true,
+      "personalClue": true,
+      "stableButtons": true,
+      "wrongChoiceEditable": true,
+      "sixPlayerCommit": true,
+      "logAndReconnect": true,
+      "errors": []
+    }
+  ]
+}
