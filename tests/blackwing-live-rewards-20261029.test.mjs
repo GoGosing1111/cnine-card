@@ -40,8 +40,11 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: fina
  assert.equal(Number((await h.one("SELECT COUNT(*) n FROM pig_coin_ledger_v1 WHERE source='BLACKWING_RAID'")).n),18);
  assert.equal(Number((await h.one("SELECT COUNT(*) n FROM app_meta WHERE key LIKE 'reward_reveal_offer_v1:%'")).n),18);
  await assert.rejects(claimRewardReveal(h.env,{id:2},{offerId:firstOffer.offerId,selectedIndex:0}));
+ const offerKey='reward_reveal_offer_v1:1:'+firstOffer.offerId,savedOffer=JSON.parse((await h.one('SELECT value FROM app_meta WHERE key=?',offerKey)).value);
+ savedOffer.choices[0]={rewardType:'INVENTORY_ITEM',rewardRef:'SUIT_CORE_5',quantity:1};await h.run('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(savedOffer),offerKey);
  const result=await claimRewardReveal(h.env,{id:1},{offerId:firstOffer.offerId,selectedIndex:0});assert.ok(result.choiceReward.quantity>0);assert.equal(result.content,'BLACKWING');assert.deepEqual(await claimRewardReveal(h.env,{id:1},{offerId:firstOffer.offerId,selectedIndex:2}),result);
  assert.equal((await blackwingWeeklyReward(h.env,1,3)).used,3);assert.equal((await h.one('SELECT value FROM app_meta WHERE key=?','raid_madara_weekly_v1:unchanged:1')).value,'{"count":3}');
+ assert.equal(Number((await h.one("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='SUIT_CORE_5'")).quantity),1);
  assert.equal((await blackwingWeeklyReward(h.env,1,3,Date.parse((await blackwingWeeklyReward(h.env,1,3)).resetsAt))).used,0);
 });
 
