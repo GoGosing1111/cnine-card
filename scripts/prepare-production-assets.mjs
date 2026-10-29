@@ -153,6 +153,10 @@ operationAuditOnly.add('assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png')
 // Keep the previous transparent portrait available to battles already in progress.
 // An implementation note remains in Git instead of taking the new portrait's Pages slot.
 operationAuditOnly.add('docs/pet-live-magnet-20261006.md');
+// Title art provenance stays in Git. The game reads the finished WebPs only;
+// these two authoring records leave room for the new chat-squad plaque on Pages.
+operationAuditOnly.add('assets/ui/titles/administration-command-prompt-v2.json');
+operationAuditOnly.add('assets/ui/titles/administration-command-v2.json');
 // CLI-only PostgreSQL loading/verification commands stay in Git. Browsers never
 // import these Python files; their two Pages slots hold the faction standings UI.
 const postgresCommandOnly=new Set(['scripts/postgres-load.py','scripts/postgres-verify.py']);
