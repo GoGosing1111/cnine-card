@@ -151,19 +151,15 @@
 
   function roomListMarkup(state) {
     const rooms = Array.isArray(state.rooms) ? state.rooms : [];
-    const ticket = state.entry || {};
     return '<section class="core-room-browser">' +
       '<article class="core-room-create">' +
       '<small>EXPEDITION HOST ACCESS</small><h3>붕괴 코어 공대 생성</h3>' +
-      '<p>공대장만 입장권 1장을 사용합니다. 참가자는 입장권 없이 합류합니다.</p>' +
-      '<div class="core-room-ticket"><img src="' + esc(ticket.ticketImage || '/assets/items/core-raid-entry-ticket-v1.png') +
-      '" alt=""><span>' + esc(ticket.ticketName || '붕괴 코어 입장권') + '</span>' +
-      '<strong>보유 ' + number(ticket.quantity).toLocaleString() + '장</strong></div>' +
+      '<p>공대 생성과 참가는 모두 무료입니다.</p>' +
       '<label class="core-clan-only"><input id="coreRaidClanOnly" type="checkbox"' + (clanOnly ? ' checked' : '') +
       '><span><b>클랜원만 참여</b><small>공대장과 현재 같은 클랜인 계정만 참가할 수 있습니다.</small></span></label>' +
       '<button type="button" data-core-action="open" ' +
-      (!combatPowerReady(state.settings) || number(ticket.quantity) < number(ticket.required || 1) ? 'data-core-locked="1" disabled' : '') +
-      '>입장권 1장으로 공대 생성</button></article>' +
+      (!combatPowerReady(state.settings) ? 'data-core-locked="1" disabled' : '') +
+      '>무료로 공대 생성</button></article>' +
       '<article class="core-room-list"><header><span><small>OPEN EXPEDITIONS</small><b>참가 가능한 공대</b></span>' +
       '<button type="button" data-core-action="browse">새로고침</button></header>' +
       (rooms.length
@@ -305,7 +301,7 @@
           bossActionMarkup(state) + '</section>') +
       '<section class="core-command-grid"><article class="core-panel core-rule-panel"><header><div>' +
       '<small>EXPEDITION RULE</small><b>반복 공략 규칙</b></div></header><ol>' +
-      '<li>공대장은 입장권 1장으로 방을 생성합니다.</li>' +
+      '<li>공대 생성과 참가는 입장권 없이 무료입니다.</li>' +
       '<li>모든 공대원은 제한 시간 동안 횟수 제한 없이 코어와 보스를 반복 공략합니다.</li>' +
       '<li>매 공략마다 방향 신호·구속 파쇄·코어 동조·회로 복원·차폐 구역 중 서로 다른 2종이 등장합니다.</li>' +
       '<li>전투와 선택된 두 기믹을 모두 성공해야 진척도가 반영됩니다. 새로고침·화면 닫기·기믹 중단 시 해당 전투는 패배하며 공대 HP가 감소합니다.</li>' +

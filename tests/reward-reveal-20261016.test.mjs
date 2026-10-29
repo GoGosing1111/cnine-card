@@ -25,8 +25,8 @@ async function offer(f,type='COIN',ref='',quantity=5,content='COOP_NORMAL'){
  privateOffer.choices=Array.from({length:3},()=>({rewardType:type,rewardRef:ref,quantity}));await f.run('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(privateOffer),key);
  return prepared.offer;
 }
-test('six independent destinations; vehicle bounds and explicit probabilities',()=>{
- assert.deepEqual(REWARD_REVEAL_CONTENTS.map(c=>c.id),['CORE','LICH','MADARA','COOP_NORMAL','COOP_HARD','COOP_EXTREME']);
+test('seven independent destinations; vehicle bounds and explicit probabilities',()=>{
+ assert.deepEqual(REWARD_REVEAL_CONTENTS.map(c=>c.id),['CORE','LICH','MADARA','BLACKWING','COOP_NORMAL','COOP_HARD','COOP_EXTREME']);
  const p=policy();p.entries=[{rewardType:'VEHICLE',rewardRef:'1',quantity:1,weight:3,enabled:true}];
  assert.equal(drawCoreRewards(p,()=>3)[0].rewardType,'VEHICLE');assert.equal(drawCoreRewards(p,()=>0)[0].rewardType,'COIN');
  for(const patch of [{quantity:2},{rewardRef:'NaN'},{rewardRef:'-1'},{weight:0}])assert.throws(()=>validateCoreRewardPolicy({...p,entries:[{...p.entries[0],...patch}]}));

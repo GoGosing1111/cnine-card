@@ -121,7 +121,7 @@ export function defaultCoreRaidSettings() {
     mode: 'TEST',
     title: '심연 관측소: 붕괴 코어',
     subtitle: 'ABYSS OBSERVATORY / CORE PROTOCOL',
-    description: '입장권으로 공대를 만들고 제한 시간 안에 세 코어와 유하바하를 연속 제압하십시오.',
+    description: '무료로 공대를 만들고 제한 시간 안에 세 코어와 유하바하를 연속 제압하십시오.',
     bossName: '유하바하',
     bossImage: CORE_RAID_BOSS_SOURCE_ART,
     bossBattleSprite: CORE_RAID_BOSS_BATTLE_SPRITE,
@@ -171,7 +171,7 @@ export function cleanCoreRaidSettings(raw = {}) {
     mode,
     title: cleanText(raw.title || base.title, 60),
     subtitle: cleanText(raw.subtitle || base.subtitle, 80),
-    description: cleanText(raw.description || base.description, 240),
+    description: cleanText(raw.description || base.description, 240).replace('입장권으로 공대를', '무료로 공대를'),
     bossName: cleanText(raw.bossName || base.bossName, 60),
     bossImage: cleanText(raw.bossImage || base.bossImage, 420),
     bossBattleSprite: cleanText(raw.bossBattleSprite || base.bossBattleSprite, 420),
@@ -1144,7 +1144,7 @@ async function ensure(env) {
       CORE_RAID_ENTRY_TICKET,
       '붕괴 코어 입장권',
       'CORE PROTOCOL ENTRY',
-      '붕괴 코어 공대를 생성할 때 1장이 소모됩니다. 참가자는 입장권을 소모하지 않습니다.',
+      '과거 공대 생성에 사용하던 입장권입니다. 현재 공대 생성과 참가는 무료입니다.',
       'ENTRY_TICKET',
       'ZENITH',
       CORE_RAID_ENTRY_TICKET_IMAGE,
@@ -1432,7 +1432,7 @@ async function statusPayload(env, user, cfg, requestedId = '', browseOnly = fals
       ticketName: '붕괴 코어 입장권',
       ticketImage: '/' + CORE_RAID_ENTRY_TICKET_IMAGE,
       quantity,
-      required: 1
+      required: 0
     },
     operations: Object.values(OPERATIONS),
     serverNow: nowIso()
@@ -1532,10 +1532,10 @@ async function openRoom(env, user, cfg, body) {
     await env.DB.batch([
       env.DB.prepare(
         'INSERT INTO ' + ACTIVE_MEMBER_TABLE + '(user_id,room_id) ' +
-        'SELECT ?,? WHERE EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=1) ' +
+        'SELECT ?,? WHERE 1=1 ' +
         (clanOnly ? 'AND EXISTS(' + SAME_CLAN_SQL + ') ' : '') +
         'ON CONFLICT(user_id) DO NOTHING'
-      ).bind(user.id, roomId, user.id, CORE_RAID_ENTRY_TICKET, ...(clanOnly ? [user.id, user.id] : [])),
+      ).bind(user.id, roomId, ...(clanOnly ? [user.id, user.id] : [])),
       env.DB.prepare(
         'INSERT INTO ' + ROOM_TABLE +
         '(room_id,room_code,host_user_id,status,party_hp,party_max_hp,core_target,boss_hp,boss_max_hp,participant_count,lobby_ends_at) ' +
@@ -1556,25 +1556,17 @@ async function openRoom(env, user, cfg, body) {
       ),
       ...(clanOnly ? [env.DB.prepare('INSERT INTO ' + CLAN_ROOM_TABLE + ' (room_id) SELECT room_id FROM ' + ROOM_TABLE + ' WHERE room_id=?').bind(roomId)] : []),
       env.DB.prepare(
-        'UPDATE cnine_user_inventory SET quantity=quantity-1,updated_at=CURRENT_TIMESTAMP ' +
-        'WHERE user_id=? AND item_code=? AND quantity>=1 AND EXISTS(SELECT 1 FROM ' + ROOM_TABLE + ' WHERE room_id=?)'
-      ).bind(user.id, CORE_RAID_ENTRY_TICKET, roomId),
-      env.DB.prepare(
         'INSERT INTO ' + MEMBER_TABLE + '(room_id,user_id) SELECT ?,? WHERE EXISTS(' +
         'SELECT 1 FROM ' + ROOM_TABLE + ' WHERE room_id=?) ON CONFLICT(room_id,user_id) DO NOTHING'
       ).bind(roomId, user.id, roomId),
-      env.DB.prepare(
-        'INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) ' +
-        'SELECT ?,?,-1,quantity,\'CORE_RAID_ROOM_OPEN\',\'CORE_RAID\',? FROM cnine_user_inventory ' +
-        'WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM ' + ROOM_TABLE + ' WHERE room_id=?)'
-      ).bind(user.id, CORE_RAID_ENTRY_TICKET, roomId, user.id, CORE_RAID_ENTRY_TICKET, roomId)
+
     ]);
     const room = await roomById(env, roomId, cfg);
     if (!room) {
       await env.DB.prepare(
         'DELETE FROM ' + ACTIVE_MEMBER_TABLE + ' WHERE user_id=? AND room_id=?'
       ).bind(user.id, roomId).run();
-      throw Object.assign(new Error('붕괴 코어 입장권이 없거나 이미 다른 공대에 참가 중입니다.'), { status: 409 });
+      throw Object.assign(new Error('이미 다른 공대에 참가 중이거나 공대 생성 상태가 갱신되었습니다.'), { status: 409 });
     }
     const response = await statusPayload(env, user, cfg, roomId);
     await completeReceipt(env, requestId, user.id, response);

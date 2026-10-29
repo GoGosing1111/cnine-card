@@ -125,7 +125,7 @@ function render(result){
   if(!result.state){
     state=null;setRoom('');$('browse').hidden=false;$('assembly').hidden=true;
     if($('guideDialog').open)renderGuideContext();
-    $('ticketCount').textContent=Number(result.entry.quantity).toLocaleString();$('createButton').disabled=result.entry.quantity<1||busy;
+    $('ticketCount').textContent='무료';$('createButton').disabled=busy;
     renderRooms(result);
     return;
   }
@@ -253,9 +253,9 @@ async function boot(){
 }
 $('enterButton').onclick=()=>{screen('lobby');prewarm();if(root===document.body)window.scrollTo(0,0);else root.scrollIntoView({block:'start'});void sync();};
 $('backLanding').onclick=()=>screen('landing');
-$('createButton').onclick=()=>{if(confirm('이스겐 정벌 입장권 1장을 사용해 공대를 창설합니다. 해산해도 입장권은 반환되지 않습니다.'))void command('open');};
+$('createButton').onclick=()=>{if(confirm('무료로 공대를 창설합니다.'))void command('open');};
 $('refreshRooms').onclick=()=>void sync();$('readyButton').onclick=()=>void command('ready',{ready:!state.me.ready});$('startButton').onclick=()=>void command('start');
-$('lobbyLeave').onclick=()=>{if(confirm(state.me.isHost?'공대를 해산할까요? 입장권은 반환되지 않습니다.':'공대에서 나갈까요?'))void command('leave');};
+$('lobbyLeave').onclick=()=>{if(confirm(state.me.isHost?'공대를 해산할까요?':'공대에서 나갈까요?'))void command('leave');};
 $('leaveButton').onclick=()=>{if(confirm(state.me.isHost?'전투를 종료하고 공대를 해산할까요?':'공대에서 나가면 이 전투에 다시 참가할 수 없습니다. 나갈까요?'))void command('leave');};
 $('retryButton').onclick=()=>{reset();screen('lobby');void sync();};
 $('partyButton').onclick=()=>$('partyDialog').showModal();$('closeParty').onclick=()=>$('partyDialog').close();

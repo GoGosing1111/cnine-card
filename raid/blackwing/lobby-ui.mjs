@@ -15,7 +15,7 @@ export function portrait(card,extra=''){
 }
 export function lobbyMarkup(){return `
  <section class="bw-root cn-command-ui">
-  <header class="mr-top bw-heading"><span class="mr-brand">흑익의 맹약 <span>레이드 작전실</span></span><span class="mr-development">TEST · 무료 입장</span></header>
+  <header class="mr-top bw-heading"><span class="mr-brand">흑익의 맹약 <span>레이드 작전실</span></span><span class="mr-development" data-release-mode>운영 상태 확인 중</span></header>
   <div class="bw-staging">
    <section class="bw-keyart" aria-label="타락한 용기사 모르드레인">
     <img class="bw-boss-art" src="${ART}boss-art.webp?v=20261024-hilt-short1" alt="얼굴과 흑익, 대검이 보이는 타락한 용기사 모르드레인" fetchpriority="high">
@@ -28,7 +28,7 @@ export function lobbyMarkup(){return `
     </fieldset>
     <p class="bw-role-hint" data-role-hint>${roleDetails.BREAKER[1]}</p>
     <button type="button" class="mr-button cn-ui-button primary bw-create" data-create>파쇄로 공대 만들기 <span aria-hidden="true">→</span></button>
-    <p class="bw-policy">입장 비용 0 · TEST 보상 잠금<br>OWNER·지정 참가자만 입장할 수 있습니다.</p>
+    <p class="bw-policy" data-reward-policy>입장 비용 0 · 보상 설정 확인 중</p>
    </section>
    <section class="bw-preparation bw-assembly cn-ui-panel" data-party hidden></section>
   </div>
@@ -45,7 +45,7 @@ export function lobbyMarkup(){return `
    </ol><p class="bw-failure-rule">침식 3회 · 광폭화 · 구간 시간 초과 · 전투 중 이탈 시 실패. 매 단계 시작 5초 뒤 전원 HP 20% 폭발, 성역 방어 후에도 HP 6% 잔열 피해. 수호는 공대 30% 회복 4회를 공유하며 연속 사용 간격은 4초입니다. 전투기록에서 누가 어떤 입력을 했는지 확인하고 저장할 수 있습니다.</p>
   </section>
  </section>`;}
-export function configMarkup(settings){return `<div class="cn-ui-panel"><dt>모드</dt><dd>TEST <small>무료</small></dd></div><div class="cn-ui-panel"><dt>보스 전투력</dt><dd>${Number(settings.bossCombatPower).toLocaleString()}</dd></div><div class="cn-ui-panel"><dt>광폭화</dt><dd>${Number(settings.enrageSeconds)}<small>초</small></dd></div><div class="cn-ui-panel"><dt>계정 보상</dt><dd>잠금</dd></div>`;}
+export function configMarkup(settings,weekly){return `<div class="cn-ui-panel"><dt>모드</dt><dd>${esc(settings.mode||'TEST')} <small>무료</small></dd></div><div class="cn-ui-panel"><dt>보스 전투력</dt><dd>${Number(settings.bossCombatPower).toLocaleString()}</dd></div><div class="cn-ui-panel"><dt>광폭화</dt><dd>${Number(settings.enrageSeconds)}<small>초</small></dd></div><div class="cn-ui-panel"><dt>주간 보상</dt><dd>${settings.mode==='ON'&&settings.rewardsEnabled?(weekly?weekly.used+'/'+weekly.limit:'0/'+settings.weeklyRewardLimit)+'회':'잠금'}</dd></div>`;}
 export function partyMarkup(state,roomId,busy){
  const members=Object.keys(roles).flatMap(role=>[0,1].map(slot=>({role,slot,member:state.members.find(m=>m.role===role&&m.slot===slot)})));
  return `<p class="mr-eyebrow">내 공대 · 출정 대기</p><h3>출정 준비 <span>${state.members.length}/6</span></h3><div class="bw-room-code"><span>공대 코드 <b>${esc(roomId)}</b></span><button type="button" class="mr-button cn-ui-button quiet" data-copy>복사</button></div>

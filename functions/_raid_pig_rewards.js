@@ -4,7 +4,7 @@ import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 // in the same transaction as this ledger and wallet update.
 export function raidPigCoinRewardStatements(env,{userId,source,roomId,amount,guardSql,guardBindings=[],at=Date.now()}){
   if(!amount)return [];
-  if(!['LICH_RAID','MADARA_RAID'].includes(source)||!Number.isSafeInteger(amount)||amount<1||amount>1000000000||!Number.isSafeInteger(userId)||userId<1||!roomId||!guardSql)throw Error('Invalid raid pig coin reward');
+  if(!['LICH_RAID','MADARA_RAID','BLACKWING_RAID'].includes(source)||!Number.isSafeInteger(amount)||amount<1||amount>1000000000||!Number.isSafeInteger(userId)||userId<1||!roomId||!guardSql)throw Error('Invalid raid pig coin reward');
   const DB=env.DB,token=crypto.randomUUID(),ref=String(roomId),p=(sql,...args)=>DB.prepare(sql).bind(...args);
   const guard=`(${guardSql}) AND NOT EXISTS(SELECT 1 FROM pig_coin_ledger_v1 WHERE user_id=? AND source=? AND reference_id=?)`,bind=[...guardBindings,userId,source,ref];
   return [

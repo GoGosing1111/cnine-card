@@ -1,6 +1,6 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
-import {mountCoreRewardAdmin} from './core-raid-rewards-v1.mjs?v=20261016-reveal1';
-import {REWARD_REVEAL_CONTENTS} from '../shared/reward-reveal-contents-v1.mjs?v=20261016-reveal1';
+import {mountCoreRewardAdmin} from './core-raid-rewards-v1.mjs?v=20261029-blackwing-rewards1';
+import {REWARD_REVEAL_CONTENTS} from '../shared/reward-reveal-contents-v1.mjs?v=20261029-blackwing-rewards1';
 export async function mountRewardRevealCms(root){
  root.classList.add('reveal-cms');
  root.innerHTML='<header class="reveal-cms-hero"><small>REWARD STUDIO</small><h2>연출 보상</h2><p>콘텐츠별 전리품을 설계하세요.</p><span>봉인 선택 → 보관함 개방 → 보상 획득</span></header><p class="reveal-cms-notice">각 콘텐츠의 후보·수량·확률 비중은 독립적으로 저장됩니다. 기본 보상과 수령 한도는 기존 콘텐츠 설정을 따르며, TEST·OFF 전투에는 봉인을 지급하지 않습니다.</p><p data-reveal-status role="status">연결된 콘텐츠를 불러오는 중입니다.</p><nav class="reveal-cms-contents" aria-label="보상 콘텐츠"></nav><div data-reveal-editors></div>';

@@ -37,14 +37,14 @@ test('PostgreSQL: existing migrated indexes do not require table ownership to lo
   assert.equal((await h.call('feature')).body.mode,'TEST');
   assert.equal((await h.call('admin/raid/madara/settings',{user:5})).status,403);
 });
-for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: ticket, room, membership and receipt are atomic, retry charges once`,async t=>{
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: Free entry room, membership and receipt are atomic, retry creates once`,async t=>{
   const h=await setup(t,{postgres});await h.configure({mode:'ON',entryTicketCost:2});const requestId=h.uid();
-  h.inject('INSERT INTO inventory_logs');assert.equal((await h.call('create',{body:{requestId,role:'WARDEN'}})).status,503);h.inject('');
+  h.inject('INSERT INTO raid_madara_receipts');assert.equal((await h.call('create',{body:{requestId,role:'WARDEN'}})).status,503);h.inject('');
   assert.equal(await balance(h),5);assert.equal(Number((await h.one('SELECT COUNT(*) n FROM raid_madara_rooms_v1')).n),0);
   const [a,b]=await Promise.all([h.call('create',{body:{requestId,role:'WARDEN'}}),h.call('create',{body:{requestId,role:'WARDEN'}})]);
-  assert.equal(a.status,200,JSON.stringify(a.body));assert.equal(b.body.roomId,a.body.roomId);assert.equal(await balance(h),3);
-  assert.equal(Number((await h.one('SELECT COUNT(*) n FROM inventory_logs')).n),1);
-  assert.equal((await h.command('create',{},3)).body.code,'MADARA_TICKET_REQUIRED');
+  assert.equal(a.status,200,JSON.stringify(a.body));assert.equal(b.body.roomId,a.body.roomId);assert.equal(await balance(h),5);
+  assert.equal(Number((await h.one('SELECT COUNT(*) n FROM inventory_logs')).n),0);
+  assert.equal((await h.command('create',{},3)).status,200);
   assert.equal((await h.command('create')).body.code,'MADARA_ALREADY_JOINED');
   assert.equal((await h.call('join',{body:{requestId,roomId:a.body.roomId,role:'RESCUE'}})).body.code,'MADARA_REQUEST_CONFLICT');
 });

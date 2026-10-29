@@ -21,19 +21,19 @@ test('OFF / TEST / ON enforce real account access; only OWNER edits/searches tes
   await h.configure({mode:'TEST',testUserIds:[]});assert.equal((await h.call('status',{user:2})).status,403);
   assert.equal((await h.call('admin/raid/lich/settings',{body:{settings:old}})).status,409);
 });
-test('ticket deduction, membership, room and receipt roll back together; retry is exactly once',async t=>{
+test('Free entry membership, room and receipt roll back together; retry is exactly once',async t=>{
   const h=await setup(t);await h.configure();
   const requestId=h.uid();
-  h.inject('INSERT INTO inventory_logs');assert.equal((await h.call('open',{body:{requestId}})).status,503);h.inject('');
+  h.inject('INSERT INTO raid_lich_receipts');assert.equal((await h.call('open',{body:{requestId}})).status,503);h.inject('');
   assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code=?',LICH_TICKET)).quantity),5);
   assert.equal(Number((await h.one('SELECT COUNT(*) n FROM raid_lich_rooms_v1')).n),0);
   assert.equal(Number((await h.one('SELECT COUNT(*) n FROM raid_lich_active_v1')).n),0);
   const [a,b]=await Promise.all([h.call('open',{body:{requestId}}),h.call('open',{body:{requestId}})]);
   assert.equal(a.status,200);assert.equal(b.body.roomId,a.body.roomId);
-  assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code=?',LICH_TICKET)).quantity),4);
-  assert.equal(Number((await h.one('SELECT COUNT(*) n FROM inventory_logs')).n),1);
+  assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code=?',LICH_TICKET)).quantity),5);
+  assert.equal(Number((await h.one('SELECT COUNT(*) n FROM inventory_logs')).n),0);
   assert.equal((await h.command('open')).status,409);
-  assert.equal((await h.command('open',{},3)).body.code,'LICH_TICKET_REQUIRED');
+  assert.equal((await h.command('open',{},3)).status,200);
   assert.equal((await h.call('join',{user:1,body:{requestId,roomId:a.body.roomId}})).body.code,'LICH_REQUEST_CONFLICT');
 });
 test('leader assigns roles; everyone must ready; kick is immediate and bans same-room reentry',async t=>{
@@ -86,7 +86,7 @@ test('expired lobbies release active reservations; cancellation never refunds or
   raw.lobbyEndsAt=Date.now()-1;await h.run('UPDATE raid_lich_rooms_v1 SET state_json=? WHERE room_id=?',JSON.stringify(raw),roomId);
   assert.equal((await h.call('status?roomId='+roomId)).body.state.status,'CANCELLED');
   assert.equal(Number((await h.one('SELECT COUNT(*) n FROM raid_lich_active_v1')).n),0);
-  assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=1')).quantity),4);
+  assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=1')).quantity),5);
   const next=(await h.command('open')).body.roomId;assert.notEqual(next,roomId);
   await h.command('leave',{roomId:next});assert.equal((await h.call('status?roomId='+next)).body.state.status,'CANCELLED');
 });
@@ -96,15 +96,15 @@ test('mutation origin, input scope and unauthenticated requests are rejected',as
   assert.equal((await h.call('open',{body:{requestId:h.uid()},origin:'https://elsewhere.invalid'})).status,403);
   assert.equal((await h.call('open',{body:{requestId:h.uid(),cards:[]}})).status,400);
 });
-test('Postgres compatibility: real schema, ticket atomicity, role changes and audit persist',async t=>{
+test('Postgres compatibility: real schema, free entry atomicity, role changes and audit persist',async t=>{
   const h=await setup(t,{postgres:true}),roomId=await h.party();
   assert.ok(roomId);
   assert.equal((await h.call('status?roomId='+roomId,{user:2})).body.state.me.role,'WARDEN');
   const n=h.count();await h.call('status?roomId='+roomId,{user:2});const reads=h.count()-n;
   assert.ok(reads<=6,'bounded steady-state query count: '+reads);
-  h.inject('INSERT INTO inventory_logs');await h.command('leave',{roomId});
+  await h.command('leave',{roomId});h.inject('INSERT INTO raid_lich_receipts');
   assert.equal((await h.command('open')).status,503);h.inject('');
-  assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=1')).quantity),4);
+  assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=1')).quantity),5);
   assert.equal(Number((await h.one('SELECT COUNT(*) n FROM admin_logs')).n),1);
 });
 test('live entry and CMS use real routes; local fixture transport cannot enter production',()=>{

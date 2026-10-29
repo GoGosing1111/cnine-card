@@ -1,10 +1,10 @@
 import {jointAccountRequest as api} from './joint-account-transport.mjs';
-import {rewardRevealContent} from '../shared/reward-reveal-contents-v1.mjs?v=20261016-reveal1';
+import {rewardRevealContent} from '../shared/reward-reveal-contents-v1.mjs?v=20261029-blackwing-rewards1';
 const shown=new Set();let styles=false;
-function ensureStyle(){if(styles)return;styles=true;const link=document.createElement('link');link.rel='stylesheet';link.href='/css/content-reward-reveal-v1.css?v=20261016-reveal1';document.head.append(link);}
+function ensureStyle(){if(styles)return;styles=true;const link=document.createElement('link');link.rel='stylesheet';link.href='/css/content-reward-reveal-v1.css?v=20261029-blackwing-rewards1';document.head.append(link);}
 export async function openContentReward(offerId,{signal}={}){
  const {offer}=await api('rewards/reveal/open?offerId='+encodeURIComponent(offerId),{signal,timeoutMs:15000});
- const {showCoreRewardPicker}=await import('./core-raid-reward-picker-v2.mjs?v=20261016-reveal1');
+ const {showCoreRewardPicker}=await import('./core-raid-reward-picker-v2.mjs?v=20261029-blackwing-rewards1');
  if(signal?.aborted)return null;
  const result=await showCoreRewardPicker({offer,content:offer.content,signal,claim:body=>api('rewards/reveal/claim',{method:'POST',body,signal,timeoutMs:14000})});
  if(result)window.dispatchEvent(new CustomEvent('cnine:reward-reveal-claimed',{detail:{offerId}}));return result;

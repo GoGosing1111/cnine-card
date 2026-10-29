@@ -2,6 +2,8 @@ import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {originalRaidPresentation,varsenRaidLabel} from '../shared/monster-original-ip-presentation-v1.mjs';
 const originalIp=originalRaidPresentation('MADARA');
 const read=p=>readFileSync(p,'utf8');
+function freeEntryHtml(html){return html.replaceAll('공대 생성 입장권','무료 공대 생성').replaceAll('공대 생성자만 1장 사용','공대장·참가자 모두 무료').replaceAll('입장권 확인','무료 입장').replace(/<dialog id="madara-entryDialog"[\s\S]*?<\/dialog>/,part=>part.replace(/<dl>[\s\S]*?<\/dl>/,'').replace('공대 생성에 입장권<br><em>1장</em>을 사용합니다','무료로 공대를 생성합니다').replace('입장권은 방이 생성될 때 한 번 차감됩니다. 생성 후 해산·퇴장·패배해도 반환되지 않습니다.','공대 생성과 참가에 입장권을 사용하지 않습니다.').replace('1장 사용 · 방 생성','무료로 방 생성').replace('TEST 무료 입장 여부와 사용 수량은 서버 설정을 따릅니다.','입장권 없이 플레이할 수 있습니다.'));}
+function freeEntryClient(client){return client.replaceAll('||account.tickets<account.cost','').replace("$('ticketBalance').textContent=account?`${account.tickets}장`:'—';", "$('ticketBalance').textContent='무료';").replace("$('entryBefore').textContent=account.tickets+'장';$('entryAfter').textContent=(account.tickets-account.cost)+'장';",'');}
 const dir='raid/madara';mkdirSync(dir,{recursive:true});
 let html=read('preview/madara-raid-v1/index.html').match(/<body[^>]*>([\s\S]*)<\/body>/)[1];
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
@@ -23,6 +25,7 @@ html=varsenRaidLabel(html)
  .replace('붉은 갑주의 '+originalIp.name,originalIp.name)
  .replace('콘셉트 포스터 보기','원화 보기');
 html=html.replace(/<span class="mr-ticket-mark"[^>]*>忍<\/span>/,`<img class="mr-ticket-mark" src="${originalIp.battleSprite}" alt="">`);
+html=freeEntryHtml(html);
 writeFileSync(dir+'/fragment.html','<!-- Generated from the reviewed Madara UI by scripts/build-madara-live.mjs. -->\n<section id="madara-live-app">'+html+'</section>\n');
 let css=read('preview/madara-raid-v1/madara.css')+'\n'+read('preview/madara-raid-v1/mechanics.css');
 css=css.replaceAll(':root{','#madara-live-app{').replace('html:has(#madara-app){scroll-behavior:auto;overflow-x:clip}','').replaceAll('#madara-app','#madara-live-app');
@@ -47,6 +50,7 @@ let client=read('preview/madara-raid-v1/madara.js')
     if(result.token){`)
  .replace("'3~6명 · 세 역할 · 전원 준비가 필요합니다. 다른 브라우저 또는 시크릿 창에서 참가하세요. 출정 후 강퇴는 잠깁니다.'","'3~6명 · 세 역할 · 전원 준비가 필요합니다. 각자의 계정으로 참가하세요. 출정 후 강퇴는 잠깁니다.'");
 client=client.replace("$('resultDialog').showModal();","$('resultDialog').showModal();\n      mountRewardRevealButton($('resultDialog'),reward?.choiceOffer,{signal:revealLifecycle.signal,auto:true});");
+client=freeEntryClient(client);
 const sources=varsenRaidLabel(['presentation.js','battle.js','mechanics-ui.js'].map(f=>read('preview/madara-raid-v1/'+f).replaceAll('`assets/animation/','`/preview/madara-raid-v1/assets/animation/')).concat(client).join('\n'));
 const prelude=read('raid/madara/runtime-scope.mjs');
 writeFileSync(dir+'/runtime.mjs',`import {mountRewardRevealButton,mountRewardRevealInbox} from '/js/content-reward-reveal-v1.mjs?v=20261016-reveal1';\n// Generated from reviewed presentation, battle, mechanics and client sources.\n${prelude}\nexport function mountMadara(root){\n const revealLifecycle=new AbortController();mountRewardRevealInbox(root,{signal:revealLifecycle.signal});\n const scope=createMadaraScope(root);const {window,document,fetch,setTimeout,clearTimeout,requestAnimationFrame}=scope;\n${sources}\n return {destroy(){revealLifecycle.abort();scope.destroy();}};\n}\n`);
