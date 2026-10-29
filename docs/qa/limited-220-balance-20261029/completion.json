@@ -1,0 +1,129 @@
+{
+  "status": "COMPLETE",
+  "completedAt": "2026-10-29T07:27:11.680Z",
+  "completedAtKst": "2026-10-29 16:27:11",
+  "sourceCommit": "7dffac6a2058205792ece1adb4b510987c7bd554",
+  "pages": {
+    "id": "3104b31d-902d-4a2c-8a1d-35fe97fdbe31",
+    "url": "https://3104b31d.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e80db8cd1072af6ed32fe97a82d55fa9f2b26985"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "ae49f73b-cd51-435d-abaa-6d6321484278",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "aa57b41c-6264-4ac9-9f7b-6fe7446bd0ef",
+      "percentage": 100
+    }
+  ],
+  "powerChanges": [
+    {
+      "code": "V-972",
+      "name": "각성 오메가",
+      "before": 1750000,
+      "after": 2200000
+    },
+    {
+      "code": "V-987",
+      "name": "시라누이",
+      "before": 1617408,
+      "after": 2200000
+    },
+    {
+      "code": "V-969",
+      "name": "카미시로",
+      "before": 3000000,
+      "after": 2200000
+    }
+  ],
+  "balanceReference": "V-979",
+  "tests": {
+    "existing": 19,
+    "added": 4,
+    "deployment": 24,
+    "total": 47
+  },
+  "browser": {
+    "localBattle": 12,
+    "localCodex": 6,
+    "publicBattle": 3,
+    "publicCodex": 3,
+    "productionWrites": 0
+  },
+  "publicAssets": 24,
+  "controlledComparison": {
+    "before": [
+      {
+        "code": "V-972",
+        "pvpWins": 19,
+        "pvpTotal": 216,
+        "pveRelativeDamage": 0.9454030837270707
+      },
+      {
+        "code": "V-987",
+        "pvpWins": 8,
+        "pvpTotal": 216,
+        "pveRelativeDamage": 0.9278179647663904
+      },
+      {
+        "code": "V-969",
+        "pvpWins": 214,
+        "pvpTotal": 216,
+        "pveRelativeDamage": 1.0596690812593323
+      },
+      {
+        "code": "V-979",
+        "pvpWins": 0,
+        "pvpTotal": 0,
+        "pveRelativeDamage": 1
+      }
+    ],
+    "after": [
+      {
+        "code": "V-972",
+        "pvpWins": 102,
+        "pvpTotal": 216,
+        "pveRelativeDamage": 1
+      },
+      {
+        "code": "V-987",
+        "pvpWins": 108,
+        "pvpTotal": 216,
+        "pveRelativeDamage": 1
+      },
+      {
+        "code": "V-969",
+        "pvpWins": 108,
+        "pvpTotal": 216,
+        "pveRelativeDamage": 1
+      },
+      {
+        "code": "V-979",
+        "pvpWins": 0,
+        "pvpTotal": 0,
+        "pveRelativeDamage": 1
+      }
+    ],
+    "pvpBattlesPerVersion": 648,
+    "pveBattlesPerVersion": 108,
+    "scope": "fixed fixtures, not population win rates"
+  },
+  "preserved": {
+    "artBytes": true,
+    "ownership": true,
+    "growth": true,
+    "rankAccess": true,
+    "acquisition": true,
+    "jokro": true,
+    "jinmu": true,
+    "primeRequiem": true
+  },
+  "productionDataWrites": 0,
+  "messages": 0,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/limited-220-balance-20261029/"
+}
