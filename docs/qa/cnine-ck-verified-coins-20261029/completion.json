@@ -1,0 +1,64 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:cnine-ck:verified-coin-message:20261029:v1",
+  "authorization": "2차인증 유저 전체 20조 지급 대국적 씨나인 CK기념",
+  "completedAt": "2026-10-29T11:34:18.207Z",
+  "completedAtKST": "2026-10-29 20:34:18 KST",
+  "auditId": "52749",
+  "delivery": "MESSAGE",
+  "title": "대국적 씨나인 CK기념",
+  "body": "대국적 씨나인 CK기념",
+  "coinPerRecipient": "20000000000000",
+  "totalCoin": "12260000000000000",
+  "recipients": 613,
+  "messages": 613,
+  "rewards": 613,
+  "roleCounts": {
+    "OWNER": 2,
+    "USER": 608,
+    "ADMIN": 3
+  },
+  "providerCounts": {
+    "PLAYDK": 612,
+    "WAGO": 1
+  },
+  "excludedInactive": [
+    {
+      "status": "BANNED",
+      "count": 1
+    }
+  ],
+  "missing": 0,
+  "duplicates": 0,
+  "claimTests": 3,
+  "claimSource": {
+    "sourceCommit": "396455786edc231db666bd08afc439aa21191cf3",
+    "claimHash": "0f4c842e864e97c87cb22827acebbce1d0567fc1214a9f14590e8e9912783999",
+    "specsHash": "2d2dcfddc2568d4bdeb064406dc8a0fc2ff265c4edfed98014745ea11aa88422",
+    "compatHash": "1111070d6b1928ba84308589372c8235fdd0e06e837493af03f7cae473f135ea",
+    "latestRemoteSourceMatched": true,
+    "checkedAt": "2026-10-29T11:32:32.584Z"
+  },
+  "validationChecks": {
+    "wrongPlanRejected": true,
+    "actualSqlFailureRolledBack": true,
+    "successRolledBack": true,
+    "messageSyncRolledBack": true,
+    "onlyMessageAuditReceiptAndSyncWrites": true,
+    "noWalletInventoryWrites": true,
+    "selectOnlyReplay": true,
+    "noDeliveryAfterRollback": true
+  },
+  "independentReadOnlyVerified": true,
+  "replayAdditionalWrites": 0,
+  "verifiedClaimedAtSnapshot": 1,
+  "verifiedPendingAtSnapshot": 612,
+  "verifiedAt": "2026-10-29T11:35:03.176Z",
+  "planHash": "30ac8713652cf19f043663751c4041734f9eddcb332490970bc59b46a65c3845",
+  "sourceHash": "92eb3ad5969bbdeb7b9b9abd40cec1c9f9f051e60dfbb78d3159d5213854f44b",
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/cnine-ck-verified-coins-20261029",
+  "priorAttempt": "Additional user-share locks deadlocked during the first dry-run; transaction rolled back. Established sync-lock order and two recipient checks passed subsequent dry-run.",
+  "noImmediateWalletCredit": true,
+  "gameDeployments": 0,
+  "storageMaintenance": false
+}
