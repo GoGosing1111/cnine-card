@@ -11,3 +11,5 @@
 배포는 직전 운영 소스 `9f2f29aae52ec5f558f1e6944d03a82a9a6910ae`를 기준으로 `npm run deploy:production -- --scoped`를 사용한다. 관련 검사 `tests/onestore-web-20261026.test.mjs`, `test:lobby`와 기존 필수 배포 보호를 적용한다. 배포 후 공개 파일과 공개 모바일 핵심 복귀를 확인해 completion.json에 기록한다.
 
 증거: `C:/Users/User/Downloads/upload/cnine-card/operations/lobby-restore-button-20261029/`의 browser.mjs, before/report.json, local/report.json, 화면 PNG 및 배포 기록. API는 fixture로 격리해 운영 계정/재화 직접쓰기0·메시지0. 기존 깨끗한 release-checkout과 의존성을 재사용했다. Git 자동 유지관리 OFF, 저장공간 점검/정리/예약 없음.
+
+**운영 완료:** 소스 `c7cb1b9ee`, Pages `3c2dc834`. 관련11검사·번들 일치, PC/터치 모바일3크기29확인, 공개 모바일10확인, 공개6파일·두 Worker100% 확인. 공개 자산 검수의 API는 격리 fixture이며 운영 계정/재화 직접쓰기0.

@@ -1,0 +1,71 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "sourceCommit": "c7cb1b9ee6cdca30830d9ec0057c70668d70eafa",
+  "pages": {
+    "id": "3c2dc834-843d-492f-85dd-feda2a2ca694",
+    "url": "https://3c2dc834.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "c7cb1b9ee6cdca30830d9ec0057c70668d70eafa"
+  },
+  "checkedAt": "2026-10-29T07:50:51.327Z",
+  "regressionTests": 11,
+  "lobbyBundleIntegrity": true,
+  "browser": {
+    "engine": "Chrome",
+    "mobileEmulation": true,
+    "beforeChecks": 14,
+    "localChecks": 29,
+    "publicChecks": 10,
+    "localViewports": [
+      "1440x900",
+      "430x874",
+      "320x740"
+    ],
+    "publicViewports": [
+      "390x844"
+    ],
+    "publicAssetsWithIsolatedApi": true
+  },
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "4848237c0c459d71a8a39d5c32815e3ed261da3191adba5eed871e28e54a4dcb"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "372892d99b5d5a535d8ced01e973076b034b3b8e934a0de24c63f61ebec5298c"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "62fd52b65ca2a934fbbed2ad1f93f5f34ceadce19c3261558ce28912c4ddd88b"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "ca7734d11028a2b3b96940051344a23bcf0a153812ec763aad05be4672378814"
+    },
+    {
+      "file": "onestore/js/adventure-lobby-v2107.js",
+      "sha256": "fd9477696129b8700acaa74b97b661f79f4715376ef27b4863cd85c4c3815d1e"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "2d1ef0cf2309909a6b23916ef95ef0318f2dca1800e0ae272b5efb0a9570e519"
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "8e318813-0950-49df-ac4b-c1d4a1e226cc",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "1ce631d3-cd3e-4979-bd4d-93ccfec4b16c",
+      "percentage": 100
+    }
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "artworkChanges": 0,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/lobby-restore-button-20261029/"
+}
