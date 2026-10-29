@@ -1,3 +1,4 @@
+import {mercenaryRankMasteryScale} from './mercenary-rank-growth-v1.mjs';
 // Isolated balance candidate. Importing this profile never enables leveling.
 // Production policy begins with growth:null; only an explicit future CMS setting
 // and the joint level/PVP release can activate a configured growth profile.
@@ -89,7 +90,7 @@ export const MERCENARY_PVP_GROWTH_DESCRIPTION='용병 성장 V2가 적용된 PVP
 export function mercenaryGrowthMitigationBypass(source,target){
  if(!source?.isMercenary||!target?.isMercenary||source.battleMode!=='PVP'||target.battleMode!=='PVP'||!source.mercenaryLevelApplied||source.mercenaryLevel?.version!==2)return 0;
  const own=source.mercenaryLevel.level,other=target.mercenaryLevel?.level??1,gap=Math.max(0,own-other);
- return Math.min(.5,Math.max(0,source.mercenaryGrowth?.total?.mitigationBypassPercent||0)/100)*Math.min(1,gap/10);
+ return Math.min(.5,Math.max(0,source.mercenaryGrowth?.total?.mitigationBypassPercent||0)/100)*Math.min(1,gap/10)*mercenaryRankMasteryScale(source,target);
 }
 export function mercenaryGrowthIncomingDamage(target,beforeMitigation,afterMitigation,source){
  const bypass=mercenaryGrowthMitigationBypass(source,target);
@@ -104,9 +105,9 @@ export function applyMercenaryGrowthMatchups(teams,{baseActionCredit=()=>1}={}){
  const references=new Map(all.filter(a=>a.isMercenary&&a.battleMode==='PVP'&&a.alive!==false&&a.hp>0).map(a=>[a,{speed:a.mercenaryGrowthBaseSpeed??a.speed,level:a.mercenaryLevel?.level??1,cardClock:cardsFor(a).reduce((n,c)=>n+Math.max(0,Number(c.speed)||0),0),innateCredit:baseActionCredit([a]),growthCredit:mercenaryGrowthActionCredit([a])}]));
  for(const [actor,own]of references){
   if(actor.mercenaryLevel?.version!==2||!actor.mercenaryLevelApplied||actor.mercenaryGrowthMatchup)continue;
-  const candidates=[...references].filter(([other])=>other.side!==actor.side&&!(other.mercenaryLevel?.version===1&&other.mercenaryLevelApplied)).map(([other,ref])=>({actorId:other.id,ownerId:other.ownerId??null,level:ref.level,referenceSpeed:ref.speed,referenceCardClock:ref.cardClock,referenceInnateCredit:ref.innateCredit,referenceActionRate:ref.speed+ref.cardClock*ref.innateCredit,gap:Math.max(0,own.level-ref.level)}));
+  const candidates=[...references].filter(([other])=>other.side!==actor.side&&!(other.mercenaryLevel?.version===1&&other.mercenaryLevelApplied)).map(([other,ref])=>({actorId:other.id,ownerId:other.ownerId??null,level:ref.level,referenceSpeed:ref.speed,referenceCardClock:ref.cardClock,referenceInnateCredit:ref.innateCredit,referenceActionRate:ref.speed+ref.cardClock*ref.innateCredit,gap:Math.max(0,own.level-ref.level),rankMasteryScale:mercenaryRankMasteryScale(actor,other)}));
   const learned=Math.min(70,Math.max(0,actor.mercenaryGrowth.total.actionCatchupPercent))/100,ownReservedRate=own.cardClock*(own.innateCredit+own.growthCredit),ownActionRate=actor.speed+ownReservedRate;
-  const rows=candidates.map(r=>({...r,floor:Math.floor(actor.speed+Math.max(0,r.referenceActionRate-ownActionRate)*learned*Math.min(1,r.gap/10))}));
+  const rows=candidates.map(({rankMasteryScale,...r})=>({...r,...(rankMasteryScale!==1?{rankMasteryScale}:{}),floor:Math.floor(actor.speed+Math.max(0,r.referenceActionRate-ownActionRate)*learned*Math.min(1,r.gap/10)*rankMasteryScale)}));
   const floor=Math.max(0,...rows.map(r=>r.floor)),before=actor.speed;
   actor.speed=Math.max(actor.speed,floor);if(actor.stats)actor.stats={...actor.stats,speed:actor.speed};
   actor.mercenaryGrowthMatchup={version:MERCENARY_GROWTH_VERSION,baseSpeed:own.speed,ownCardClock:own.cardClock,ownReservedRate,ownActionRate,speedBefore:before,speedAfter:actor.speed,floor,opponents:rows};
