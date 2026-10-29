@@ -1,0 +1,28 @@
+{
+  "operationKey": "ops:hyunharu-eunseol-exempt-grant:20261029:v1",
+  "authorization": "현하루 계정에 은설 한도차감없이 지급해",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "sendMessages": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "218",
+      "nickname": "현하루",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "7416a162e1d11e4085ef3d7ce3df1e13e68fa740aa05df7c4ec24dd0a233e285"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "218",
+      "nickname": "현하루",
+      "code": "V-973",
+      "name": "은설",
+      "quantity": 1
+    }
+  ]
+}
