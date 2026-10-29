@@ -3,10 +3,10 @@ export function normalizedEquipmentEffects(raw={}){
   const limits={hpPercent:30,attackPercent:30,speedPercent:15,shieldPercent:25,damageReductionPercent:15,criticalChancePoints:15,criticalDamagePoints:50,penetrationPoints:20,bossDamagePercent:40,shieldDamagePercent:30,leechPercent:5,criticalExtraPercent:15,echoEvery:12,echoPercent:40,uniqueEchoEvery:12,uniqueEchoPercent:40};
   return Object.fromEntries(Object.entries(limits).map(([key,max])=>[key,bounded(raw[key],max)]));
 }
-export function applyPveEquipmentGrowth(fighters,runtime){
+function applyEquipmentGrowth(fighters,runtime,allowMercenaryPvp=false){
   if(!runtime?.effects||!Object.values(runtime.effects).some(Number))return fighters;
   for(const fighter of fighters){
-    if(fighter.isMonster||fighter.battleMode==='PVP')continue;
+    if(fighter.isMonster||fighter.battleMode==='PVP'&&!(allowMercenaryPvp&&fighter.isMercenary))continue;
     const old=fighter.equipmentEffects||{},combined={...runtime.effects};
     for(const [key,value] of Object.entries(old))combined[key]=key==='echoEvery'||key==='uniqueEchoEvery'?Math.min(value||Infinity,combined[key]||Infinity):value+(Number(combined[key])||0);
     for(const key of ['echoEvery','uniqueEchoEvery'])if(combined[key]===Infinity)combined[key]=0;
@@ -23,6 +23,8 @@ export function applyPveEquipmentGrowth(fighters,runtime){
   }
   return fighters;
 }
+export const applyPveEquipmentGrowth=(fighters,runtime)=>applyEquipmentGrowth(fighters,runtime);
+export const applyPvpMercenaryEquipmentGrowth=(fighter,effects)=>fighter?.isMercenary&&fighter.battleMode==='PVP'?applyEquipmentGrowth([fighter],{effects},true):[fighter];
 export function equipmentHitMultiplier(actor,target,critical){
   const fx=actor.equipmentEffects;if(!fx)return 1;
   return 1+(target.isBoss?fx.bossDamagePercent:0)/100+(target.shield>0?fx.shieldDamagePercent:0)/100+(critical?fx.criticalExtraPercent:0)/100;

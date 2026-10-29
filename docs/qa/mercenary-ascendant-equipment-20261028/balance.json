@@ -1,0 +1,1705 @@
+{
+  "version": "20261028-v1",
+  "status": "LOCAL_IMPLEMENTED",
+  "productionDeployed": false,
+  "sourceFile": "C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site/shared/mercenary-ascendant-equipment-v1.mjs",
+  "sourceSha256": "bd7e0bd993cb6160f113e50f2466523aad1a2bfbefdd4b7814f7d2bc25cf8cf9",
+  "baseline": {
+    "type": "MERCENARY_SET",
+    "totalPower": 690000,
+    "powerBySlot": {
+      "WEAPON": 200000,
+      "TOP": 140000,
+      "BOTTOM": 130000,
+      "SHOES": 100000,
+      "ACCESSORY": 120000
+    },
+    "checkedAt": "2026-10-28T07:00:06.199Z"
+  },
+  "powerSplit": {
+    "PVE": 90,
+    "PVP": 10
+  },
+  "sets": [
+    {
+      "id": "ascendant-01",
+      "setId": "MERC_ASC_01",
+      "tier": 1,
+      "name": "월백검성",
+      "setName": "월백검성",
+      "style": "동양",
+      "accent": "#b8dcff",
+      "artId": "01-moonblade",
+      "powerScalePercent": 175,
+      "powerBySlot": {
+        "WEAPON": 350000,
+        "TOP": 245000,
+        "BOTTOM": 227500,
+        "SHOES": 175000,
+        "ACCESSORY": 210000
+      },
+      "totalPower": 1207500,
+      "pvePower": 1086750,
+      "pvpPower": 120750,
+      "pieces": 5,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "two": {
+        "attackPercent": 8,
+        "hpPercent": 10
+      },
+      "four": {
+        "criticalChancePoints": 4,
+        "criticalDamagePoints": 15
+      },
+      "five": {
+        "speedPercent": 3,
+        "damageReductionPercent": 5,
+        "shieldPercent": 12
+      },
+      "items": [
+        {
+          "code": "MERC_ASC_01_WEAPON",
+          "regionId": "ascendant-01",
+          "setId": "MERC_ASC_01",
+          "tier": 1,
+          "kind": "SET",
+          "name": "월백검성 무기",
+          "slot": "WEAPON",
+          "subtype": "WEAPON",
+          "rarity": "MYTHIC",
+          "totalPower": 350000,
+          "pvePower": 315000,
+          "pvpPower": 35000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/01-moonblade-weapon.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 1단계 · 월백검성 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_01_TOP",
+          "regionId": "ascendant-01",
+          "setId": "MERC_ASC_01",
+          "tier": 1,
+          "kind": "SET",
+          "name": "월백검성 상의",
+          "slot": "TOP",
+          "subtype": "TOP",
+          "rarity": "MYTHIC",
+          "totalPower": 245000,
+          "pvePower": 220500,
+          "pvpPower": 24500,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/01-moonblade-top.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 1단계 · 월백검성 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_01_BOTTOM",
+          "regionId": "ascendant-01",
+          "setId": "MERC_ASC_01",
+          "tier": 1,
+          "kind": "SET",
+          "name": "월백검성 하의",
+          "slot": "BOTTOM",
+          "subtype": "BOTTOM",
+          "rarity": "MYTHIC",
+          "totalPower": 227500,
+          "pvePower": 204750,
+          "pvpPower": 22750,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/01-moonblade-bottom.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 1단계 · 월백검성 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_01_SHOES",
+          "regionId": "ascendant-01",
+          "setId": "MERC_ASC_01",
+          "tier": 1,
+          "kind": "SET",
+          "name": "월백검성 신발",
+          "slot": "SHOES",
+          "subtype": "SHOES",
+          "rarity": "MYTHIC",
+          "totalPower": 175000,
+          "pvePower": 157500,
+          "pvpPower": 17500,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/01-moonblade-shoes.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 1단계 · 월백검성 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_01_ACCESSORY",
+          "regionId": "ascendant-01",
+          "setId": "MERC_ASC_01",
+          "tier": 1,
+          "kind": "SET",
+          "name": "월백검성 장신구",
+          "slot": "ACCESSORY",
+          "subtype": "ACCESSORY",
+          "rarity": "MYTHIC",
+          "totalPower": 210000,
+          "pvePower": 189000,
+          "pvpPower": 21000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/01-moonblade-accessory.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 1단계 · 월백검성 2/4/5세트 · PVE/PVP 공통 효과"
+        }
+      ],
+      "steps": [
+        {
+          "pieces": 2,
+          "effects": {
+            "attackPercent": 8,
+            "hpPercent": 10
+          },
+          "text": "최대 체력 +10% · 공격력 +8%"
+        },
+        {
+          "pieces": 4,
+          "effects": {
+            "criticalChancePoints": 4,
+            "criticalDamagePoints": 15
+          },
+          "text": "치명타 확률 +4%p · 치명타 피해 +15%p"
+        },
+        {
+          "pieces": 5,
+          "effects": {
+            "speedPercent": 3,
+            "damageReductionPercent": 5,
+            "shieldPercent": 12
+          },
+          "text": "시작 보호막 +12% · 받는 피해 감소 +5% · 공격 속도 +3%"
+        }
+      ]
+    },
+    {
+      "id": "ascendant-02",
+      "setId": "MERC_ASC_02",
+      "tier": 2,
+      "name": "성홍기사",
+      "setName": "성홍기사",
+      "style": "서양",
+      "accent": "#ff7976",
+      "artId": "02-crimson-paladin",
+      "powerScalePercent": 200,
+      "powerBySlot": {
+        "WEAPON": 400000,
+        "TOP": 280000,
+        "BOTTOM": 260000,
+        "SHOES": 200000,
+        "ACCESSORY": 240000
+      },
+      "totalPower": 1380000,
+      "pvePower": 1242000,
+      "pvpPower": 138000,
+      "pieces": 5,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "two": {
+        "attackPercent": 10,
+        "hpPercent": 12
+      },
+      "four": {
+        "criticalChancePoints": 5,
+        "criticalDamagePoints": 18
+      },
+      "five": {
+        "speedPercent": 4,
+        "damageReductionPercent": 6,
+        "shieldPercent": 13
+      },
+      "items": [
+        {
+          "code": "MERC_ASC_02_WEAPON",
+          "regionId": "ascendant-02",
+          "setId": "MERC_ASC_02",
+          "tier": 2,
+          "kind": "SET",
+          "name": "성홍기사 무기",
+          "slot": "WEAPON",
+          "subtype": "WEAPON",
+          "rarity": "MYTHIC",
+          "totalPower": 400000,
+          "pvePower": 360000,
+          "pvpPower": 40000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/02-crimson-paladin-weapon.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 2단계 · 성홍기사 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_02_TOP",
+          "regionId": "ascendant-02",
+          "setId": "MERC_ASC_02",
+          "tier": 2,
+          "kind": "SET",
+          "name": "성홍기사 상의",
+          "slot": "TOP",
+          "subtype": "TOP",
+          "rarity": "MYTHIC",
+          "totalPower": 280000,
+          "pvePower": 252000,
+          "pvpPower": 28000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/02-crimson-paladin-top.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 2단계 · 성홍기사 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_02_BOTTOM",
+          "regionId": "ascendant-02",
+          "setId": "MERC_ASC_02",
+          "tier": 2,
+          "kind": "SET",
+          "name": "성홍기사 하의",
+          "slot": "BOTTOM",
+          "subtype": "BOTTOM",
+          "rarity": "MYTHIC",
+          "totalPower": 260000,
+          "pvePower": 234000,
+          "pvpPower": 26000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/02-crimson-paladin-bottom.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 2단계 · 성홍기사 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_02_SHOES",
+          "regionId": "ascendant-02",
+          "setId": "MERC_ASC_02",
+          "tier": 2,
+          "kind": "SET",
+          "name": "성홍기사 신발",
+          "slot": "SHOES",
+          "subtype": "SHOES",
+          "rarity": "MYTHIC",
+          "totalPower": 200000,
+          "pvePower": 180000,
+          "pvpPower": 20000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/02-crimson-paladin-shoes.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 2단계 · 성홍기사 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_02_ACCESSORY",
+          "regionId": "ascendant-02",
+          "setId": "MERC_ASC_02",
+          "tier": 2,
+          "kind": "SET",
+          "name": "성홍기사 장신구",
+          "slot": "ACCESSORY",
+          "subtype": "ACCESSORY",
+          "rarity": "MYTHIC",
+          "totalPower": 240000,
+          "pvePower": 216000,
+          "pvpPower": 24000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/02-crimson-paladin-accessory.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 2단계 · 성홍기사 2/4/5세트 · PVE/PVP 공통 효과"
+        }
+      ],
+      "steps": [
+        {
+          "pieces": 2,
+          "effects": {
+            "attackPercent": 10,
+            "hpPercent": 12
+          },
+          "text": "최대 체력 +12% · 공격력 +10%"
+        },
+        {
+          "pieces": 4,
+          "effects": {
+            "criticalChancePoints": 5,
+            "criticalDamagePoints": 18
+          },
+          "text": "치명타 확률 +5%p · 치명타 피해 +18%p"
+        },
+        {
+          "pieces": 5,
+          "effects": {
+            "speedPercent": 4,
+            "damageReductionPercent": 6,
+            "shieldPercent": 13
+          },
+          "text": "시작 보호막 +13% · 받는 피해 감소 +6% · 공격 속도 +4%"
+        }
+      ]
+    },
+    {
+      "id": "ascendant-03",
+      "setId": "MERC_ASC_03",
+      "tier": 3,
+      "name": "청룡천위",
+      "setName": "청룡천위",
+      "style": "동양",
+      "accent": "#44e7cb",
+      "artId": "03-azure-dragon",
+      "powerScalePercent": 225,
+      "powerBySlot": {
+        "WEAPON": 450000,
+        "TOP": 315000,
+        "BOTTOM": 292500,
+        "SHOES": 225000,
+        "ACCESSORY": 270000
+      },
+      "totalPower": 1552500,
+      "pvePower": 1397250,
+      "pvpPower": 155250,
+      "pieces": 5,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "two": {
+        "attackPercent": 12,
+        "hpPercent": 14
+      },
+      "four": {
+        "criticalChancePoints": 6,
+        "criticalDamagePoints": 21
+      },
+      "five": {
+        "speedPercent": 5,
+        "damageReductionPercent": 7,
+        "shieldPercent": 15
+      },
+      "items": [
+        {
+          "code": "MERC_ASC_03_WEAPON",
+          "regionId": "ascendant-03",
+          "setId": "MERC_ASC_03",
+          "tier": 3,
+          "kind": "SET",
+          "name": "청룡천위 무기",
+          "slot": "WEAPON",
+          "subtype": "WEAPON",
+          "rarity": "MYTHIC",
+          "totalPower": 450000,
+          "pvePower": 405000,
+          "pvpPower": 45000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/03-azure-dragon-weapon.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 3단계 · 청룡천위 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_03_TOP",
+          "regionId": "ascendant-03",
+          "setId": "MERC_ASC_03",
+          "tier": 3,
+          "kind": "SET",
+          "name": "청룡천위 상의",
+          "slot": "TOP",
+          "subtype": "TOP",
+          "rarity": "MYTHIC",
+          "totalPower": 315000,
+          "pvePower": 283500,
+          "pvpPower": 31500,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/03-azure-dragon-top.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 3단계 · 청룡천위 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_03_BOTTOM",
+          "regionId": "ascendant-03",
+          "setId": "MERC_ASC_03",
+          "tier": 3,
+          "kind": "SET",
+          "name": "청룡천위 하의",
+          "slot": "BOTTOM",
+          "subtype": "BOTTOM",
+          "rarity": "MYTHIC",
+          "totalPower": 292500,
+          "pvePower": 263250,
+          "pvpPower": 29250,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/03-azure-dragon-bottom.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 3단계 · 청룡천위 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_03_SHOES",
+          "regionId": "ascendant-03",
+          "setId": "MERC_ASC_03",
+          "tier": 3,
+          "kind": "SET",
+          "name": "청룡천위 신발",
+          "slot": "SHOES",
+          "subtype": "SHOES",
+          "rarity": "MYTHIC",
+          "totalPower": 225000,
+          "pvePower": 202500,
+          "pvpPower": 22500,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/03-azure-dragon-shoes.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 3단계 · 청룡천위 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_03_ACCESSORY",
+          "regionId": "ascendant-03",
+          "setId": "MERC_ASC_03",
+          "tier": 3,
+          "kind": "SET",
+          "name": "청룡천위 장신구",
+          "slot": "ACCESSORY",
+          "subtype": "ACCESSORY",
+          "rarity": "MYTHIC",
+          "totalPower": 270000,
+          "pvePower": 243000,
+          "pvpPower": 27000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/03-azure-dragon-accessory.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 3단계 · 청룡천위 2/4/5세트 · PVE/PVP 공통 효과"
+        }
+      ],
+      "steps": [
+        {
+          "pieces": 2,
+          "effects": {
+            "attackPercent": 12,
+            "hpPercent": 14
+          },
+          "text": "최대 체력 +14% · 공격력 +12%"
+        },
+        {
+          "pieces": 4,
+          "effects": {
+            "criticalChancePoints": 6,
+            "criticalDamagePoints": 21
+          },
+          "text": "치명타 확률 +6%p · 치명타 피해 +21%p"
+        },
+        {
+          "pieces": 5,
+          "effects": {
+            "speedPercent": 5,
+            "damageReductionPercent": 7,
+            "shieldPercent": 15
+          },
+          "text": "시작 보호막 +15% · 받는 피해 감소 +7% · 공격 속도 +5%"
+        }
+      ]
+    },
+    {
+      "id": "ascendant-04",
+      "setId": "MERC_ASC_04",
+      "tier": 4,
+      "name": "흑염패왕",
+      "setName": "흑염패왕",
+      "style": "서양",
+      "accent": "#ff8b38",
+      "artId": "04-blackflame-king",
+      "powerScalePercent": 250,
+      "powerBySlot": {
+        "WEAPON": 500000,
+        "TOP": 350000,
+        "BOTTOM": 325000,
+        "SHOES": 250000,
+        "ACCESSORY": 300000
+      },
+      "totalPower": 1725000,
+      "pvePower": 1552500,
+      "pvpPower": 172500,
+      "pieces": 5,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "two": {
+        "attackPercent": 14,
+        "hpPercent": 16
+      },
+      "four": {
+        "criticalChancePoints": 7,
+        "criticalDamagePoints": 24
+      },
+      "five": {
+        "speedPercent": 6,
+        "damageReductionPercent": 8,
+        "shieldPercent": 16
+      },
+      "items": [
+        {
+          "code": "MERC_ASC_04_WEAPON",
+          "regionId": "ascendant-04",
+          "setId": "MERC_ASC_04",
+          "tier": 4,
+          "kind": "SET",
+          "name": "흑염패왕 무기",
+          "slot": "WEAPON",
+          "subtype": "WEAPON",
+          "rarity": "MYTHIC",
+          "totalPower": 500000,
+          "pvePower": 450000,
+          "pvpPower": 50000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/04-blackflame-king-weapon.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 4단계 · 흑염패왕 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_04_TOP",
+          "regionId": "ascendant-04",
+          "setId": "MERC_ASC_04",
+          "tier": 4,
+          "kind": "SET",
+          "name": "흑염패왕 상의",
+          "slot": "TOP",
+          "subtype": "TOP",
+          "rarity": "MYTHIC",
+          "totalPower": 350000,
+          "pvePower": 315000,
+          "pvpPower": 35000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/04-blackflame-king-top.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 4단계 · 흑염패왕 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_04_BOTTOM",
+          "regionId": "ascendant-04",
+          "setId": "MERC_ASC_04",
+          "tier": 4,
+          "kind": "SET",
+          "name": "흑염패왕 하의",
+          "slot": "BOTTOM",
+          "subtype": "BOTTOM",
+          "rarity": "MYTHIC",
+          "totalPower": 325000,
+          "pvePower": 292500,
+          "pvpPower": 32500,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/04-blackflame-king-bottom.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 4단계 · 흑염패왕 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_04_SHOES",
+          "regionId": "ascendant-04",
+          "setId": "MERC_ASC_04",
+          "tier": 4,
+          "kind": "SET",
+          "name": "흑염패왕 신발",
+          "slot": "SHOES",
+          "subtype": "SHOES",
+          "rarity": "MYTHIC",
+          "totalPower": 250000,
+          "pvePower": 225000,
+          "pvpPower": 25000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/04-blackflame-king-shoes.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 4단계 · 흑염패왕 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_04_ACCESSORY",
+          "regionId": "ascendant-04",
+          "setId": "MERC_ASC_04",
+          "tier": 4,
+          "kind": "SET",
+          "name": "흑염패왕 장신구",
+          "slot": "ACCESSORY",
+          "subtype": "ACCESSORY",
+          "rarity": "MYTHIC",
+          "totalPower": 300000,
+          "pvePower": 270000,
+          "pvpPower": 30000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/04-blackflame-king-accessory.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 4단계 · 흑염패왕 2/4/5세트 · PVE/PVP 공통 효과"
+        }
+      ],
+      "steps": [
+        {
+          "pieces": 2,
+          "effects": {
+            "attackPercent": 14,
+            "hpPercent": 16
+          },
+          "text": "최대 체력 +16% · 공격력 +14%"
+        },
+        {
+          "pieces": 4,
+          "effects": {
+            "criticalChancePoints": 7,
+            "criticalDamagePoints": 24
+          },
+          "text": "치명타 확률 +7%p · 치명타 피해 +24%p"
+        },
+        {
+          "pieces": 5,
+          "effects": {
+            "speedPercent": 6,
+            "damageReductionPercent": 8,
+            "shieldPercent": 16
+          },
+          "text": "시작 보호막 +16% · 받는 피해 감소 +8% · 공격 속도 +6%"
+        }
+      ]
+    },
+    {
+      "id": "ascendant-05",
+      "setId": "MERC_ASC_05",
+      "tier": 5,
+      "name": "백호무신",
+      "setName": "백호무신",
+      "style": "동양",
+      "accent": "#f5daa1",
+      "artId": "05-white-tiger",
+      "powerScalePercent": 275,
+      "powerBySlot": {
+        "WEAPON": 550000,
+        "TOP": 385000,
+        "BOTTOM": 357500,
+        "SHOES": 275000,
+        "ACCESSORY": 330000
+      },
+      "totalPower": 1897500,
+      "pvePower": 1707750,
+      "pvpPower": 189750,
+      "pieces": 5,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "two": {
+        "attackPercent": 16,
+        "hpPercent": 18
+      },
+      "four": {
+        "criticalChancePoints": 8,
+        "criticalDamagePoints": 27
+      },
+      "five": {
+        "speedPercent": 7,
+        "damageReductionPercent": 9,
+        "shieldPercent": 18
+      },
+      "items": [
+        {
+          "code": "MERC_ASC_05_WEAPON",
+          "regionId": "ascendant-05",
+          "setId": "MERC_ASC_05",
+          "tier": 5,
+          "kind": "SET",
+          "name": "백호무신 무기",
+          "slot": "WEAPON",
+          "subtype": "WEAPON",
+          "rarity": "MYTHIC",
+          "totalPower": 550000,
+          "pvePower": 495000,
+          "pvpPower": 55000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/05-white-tiger-weapon.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 5단계 · 백호무신 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_05_TOP",
+          "regionId": "ascendant-05",
+          "setId": "MERC_ASC_05",
+          "tier": 5,
+          "kind": "SET",
+          "name": "백호무신 상의",
+          "slot": "TOP",
+          "subtype": "TOP",
+          "rarity": "MYTHIC",
+          "totalPower": 385000,
+          "pvePower": 346500,
+          "pvpPower": 38500,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/05-white-tiger-top.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 5단계 · 백호무신 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_05_BOTTOM",
+          "regionId": "ascendant-05",
+          "setId": "MERC_ASC_05",
+          "tier": 5,
+          "kind": "SET",
+          "name": "백호무신 하의",
+          "slot": "BOTTOM",
+          "subtype": "BOTTOM",
+          "rarity": "MYTHIC",
+          "totalPower": 357500,
+          "pvePower": 321750,
+          "pvpPower": 35750,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/05-white-tiger-bottom.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 5단계 · 백호무신 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_05_SHOES",
+          "regionId": "ascendant-05",
+          "setId": "MERC_ASC_05",
+          "tier": 5,
+          "kind": "SET",
+          "name": "백호무신 신발",
+          "slot": "SHOES",
+          "subtype": "SHOES",
+          "rarity": "MYTHIC",
+          "totalPower": 275000,
+          "pvePower": 247500,
+          "pvpPower": 27500,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/05-white-tiger-shoes.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 5단계 · 백호무신 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_05_ACCESSORY",
+          "regionId": "ascendant-05",
+          "setId": "MERC_ASC_05",
+          "tier": 5,
+          "kind": "SET",
+          "name": "백호무신 장신구",
+          "slot": "ACCESSORY",
+          "subtype": "ACCESSORY",
+          "rarity": "MYTHIC",
+          "totalPower": 330000,
+          "pvePower": 297000,
+          "pvpPower": 33000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/05-white-tiger-accessory.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 5단계 · 백호무신 2/4/5세트 · PVE/PVP 공통 효과"
+        }
+      ],
+      "steps": [
+        {
+          "pieces": 2,
+          "effects": {
+            "attackPercent": 16,
+            "hpPercent": 18
+          },
+          "text": "최대 체력 +18% · 공격력 +16%"
+        },
+        {
+          "pieces": 4,
+          "effects": {
+            "criticalChancePoints": 8,
+            "criticalDamagePoints": 27
+          },
+          "text": "치명타 확률 +8%p · 치명타 피해 +27%p"
+        },
+        {
+          "pieces": 5,
+          "effects": {
+            "speedPercent": 7,
+            "damageReductionPercent": 9,
+            "shieldPercent": 18
+          },
+          "text": "시작 보호막 +18% · 받는 피해 감소 +9% · 공격 속도 +7%"
+        }
+      ]
+    },
+    {
+      "id": "ascendant-06",
+      "setId": "MERC_ASC_06",
+      "tier": 6,
+      "name": "성휘대천사",
+      "setName": "성휘대천사",
+      "style": "서양",
+      "accent": "#ffe3a5",
+      "artId": "06-seraph-radiance",
+      "powerScalePercent": 300,
+      "powerBySlot": {
+        "WEAPON": 600000,
+        "TOP": 420000,
+        "BOTTOM": 390000,
+        "SHOES": 300000,
+        "ACCESSORY": 360000
+      },
+      "totalPower": 2070000,
+      "pvePower": 1863000,
+      "pvpPower": 207000,
+      "pieces": 5,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "two": {
+        "attackPercent": 18,
+        "hpPercent": 20
+      },
+      "four": {
+        "criticalChancePoints": 9,
+        "criticalDamagePoints": 30
+      },
+      "five": {
+        "speedPercent": 8,
+        "damageReductionPercent": 10,
+        "shieldPercent": 19
+      },
+      "items": [
+        {
+          "code": "MERC_ASC_06_WEAPON",
+          "regionId": "ascendant-06",
+          "setId": "MERC_ASC_06",
+          "tier": 6,
+          "kind": "SET",
+          "name": "성휘대천사 무기",
+          "slot": "WEAPON",
+          "subtype": "WEAPON",
+          "rarity": "MYTHIC",
+          "totalPower": 600000,
+          "pvePower": 540000,
+          "pvpPower": 60000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/06-seraph-radiance-weapon.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 6단계 · 성휘대천사 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_06_TOP",
+          "regionId": "ascendant-06",
+          "setId": "MERC_ASC_06",
+          "tier": 6,
+          "kind": "SET",
+          "name": "성휘대천사 상의",
+          "slot": "TOP",
+          "subtype": "TOP",
+          "rarity": "MYTHIC",
+          "totalPower": 420000,
+          "pvePower": 378000,
+          "pvpPower": 42000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/06-seraph-radiance-top.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 6단계 · 성휘대천사 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_06_BOTTOM",
+          "regionId": "ascendant-06",
+          "setId": "MERC_ASC_06",
+          "tier": 6,
+          "kind": "SET",
+          "name": "성휘대천사 하의",
+          "slot": "BOTTOM",
+          "subtype": "BOTTOM",
+          "rarity": "MYTHIC",
+          "totalPower": 390000,
+          "pvePower": 351000,
+          "pvpPower": 39000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/06-seraph-radiance-bottom.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 6단계 · 성휘대천사 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_06_SHOES",
+          "regionId": "ascendant-06",
+          "setId": "MERC_ASC_06",
+          "tier": 6,
+          "kind": "SET",
+          "name": "성휘대천사 신발",
+          "slot": "SHOES",
+          "subtype": "SHOES",
+          "rarity": "MYTHIC",
+          "totalPower": 300000,
+          "pvePower": 270000,
+          "pvpPower": 30000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/06-seraph-radiance-shoes.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 6단계 · 성휘대천사 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_06_ACCESSORY",
+          "regionId": "ascendant-06",
+          "setId": "MERC_ASC_06",
+          "tier": 6,
+          "kind": "SET",
+          "name": "성휘대천사 장신구",
+          "slot": "ACCESSORY",
+          "subtype": "ACCESSORY",
+          "rarity": "MYTHIC",
+          "totalPower": 360000,
+          "pvePower": 324000,
+          "pvpPower": 36000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/06-seraph-radiance-accessory.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 6단계 · 성휘대천사 2/4/5세트 · PVE/PVP 공통 효과"
+        }
+      ],
+      "steps": [
+        {
+          "pieces": 2,
+          "effects": {
+            "attackPercent": 18,
+            "hpPercent": 20
+          },
+          "text": "최대 체력 +20% · 공격력 +18%"
+        },
+        {
+          "pieces": 4,
+          "effects": {
+            "criticalChancePoints": 9,
+            "criticalDamagePoints": 30
+          },
+          "text": "치명타 확률 +9%p · 치명타 피해 +30%p"
+        },
+        {
+          "pieces": 5,
+          "effects": {
+            "speedPercent": 8,
+            "damageReductionPercent": 10,
+            "shieldPercent": 19
+          },
+          "text": "시작 보호막 +19% · 받는 피해 감소 +10% · 공격 속도 +8%"
+        }
+      ]
+    },
+    {
+      "id": "ascendant-07",
+      "setId": "MERC_ASC_07",
+      "tier": 7,
+      "name": "뇌정천존",
+      "setName": "뇌정천존",
+      "style": "동양",
+      "accent": "#c4a6ff",
+      "artId": "07-thunder-deity",
+      "powerScalePercent": 350,
+      "powerBySlot": {
+        "WEAPON": 700000,
+        "TOP": 490000,
+        "BOTTOM": 455000,
+        "SHOES": 350000,
+        "ACCESSORY": 420000
+      },
+      "totalPower": 2415000,
+      "pvePower": 2173500,
+      "pvpPower": 241500,
+      "pieces": 5,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "two": {
+        "attackPercent": 20,
+        "hpPercent": 22
+      },
+      "four": {
+        "criticalChancePoints": 10,
+        "criticalDamagePoints": 33
+      },
+      "five": {
+        "speedPercent": 9,
+        "damageReductionPercent": 11,
+        "shieldPercent": 21
+      },
+      "items": [
+        {
+          "code": "MERC_ASC_07_WEAPON",
+          "regionId": "ascendant-07",
+          "setId": "MERC_ASC_07",
+          "tier": 7,
+          "kind": "SET",
+          "name": "뇌정천존 무기",
+          "slot": "WEAPON",
+          "subtype": "WEAPON",
+          "rarity": "MYTHIC",
+          "totalPower": 700000,
+          "pvePower": 630000,
+          "pvpPower": 70000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/07-thunder-deity-weapon.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 7단계 · 뇌정천존 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_07_TOP",
+          "regionId": "ascendant-07",
+          "setId": "MERC_ASC_07",
+          "tier": 7,
+          "kind": "SET",
+          "name": "뇌정천존 상의",
+          "slot": "TOP",
+          "subtype": "TOP",
+          "rarity": "MYTHIC",
+          "totalPower": 490000,
+          "pvePower": 441000,
+          "pvpPower": 49000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/07-thunder-deity-top.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 7단계 · 뇌정천존 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_07_BOTTOM",
+          "regionId": "ascendant-07",
+          "setId": "MERC_ASC_07",
+          "tier": 7,
+          "kind": "SET",
+          "name": "뇌정천존 하의",
+          "slot": "BOTTOM",
+          "subtype": "BOTTOM",
+          "rarity": "MYTHIC",
+          "totalPower": 455000,
+          "pvePower": 409500,
+          "pvpPower": 45500,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/07-thunder-deity-bottom.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 7단계 · 뇌정천존 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_07_SHOES",
+          "regionId": "ascendant-07",
+          "setId": "MERC_ASC_07",
+          "tier": 7,
+          "kind": "SET",
+          "name": "뇌정천존 신발",
+          "slot": "SHOES",
+          "subtype": "SHOES",
+          "rarity": "MYTHIC",
+          "totalPower": 350000,
+          "pvePower": 315000,
+          "pvpPower": 35000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/07-thunder-deity-shoes.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 7단계 · 뇌정천존 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_07_ACCESSORY",
+          "regionId": "ascendant-07",
+          "setId": "MERC_ASC_07",
+          "tier": 7,
+          "kind": "SET",
+          "name": "뇌정천존 장신구",
+          "slot": "ACCESSORY",
+          "subtype": "ACCESSORY",
+          "rarity": "MYTHIC",
+          "totalPower": 420000,
+          "pvePower": 378000,
+          "pvpPower": 42000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/07-thunder-deity-accessory.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 7단계 · 뇌정천존 2/4/5세트 · PVE/PVP 공통 효과"
+        }
+      ],
+      "steps": [
+        {
+          "pieces": 2,
+          "effects": {
+            "attackPercent": 20,
+            "hpPercent": 22
+          },
+          "text": "최대 체력 +22% · 공격력 +20%"
+        },
+        {
+          "pieces": 4,
+          "effects": {
+            "criticalChancePoints": 10,
+            "criticalDamagePoints": 33
+          },
+          "text": "치명타 확률 +10%p · 치명타 피해 +33%p"
+        },
+        {
+          "pieces": 5,
+          "effects": {
+            "speedPercent": 9,
+            "damageReductionPercent": 11,
+            "shieldPercent": 21
+          },
+          "text": "시작 보호막 +21% · 받는 피해 감소 +11% · 공격 속도 +9%"
+        }
+      ]
+    },
+    {
+      "id": "ascendant-08",
+      "setId": "MERC_ASC_08",
+      "tier": 8,
+      "name": "심연성좌",
+      "setName": "심연성좌",
+      "style": "서양",
+      "accent": "#bd7fff",
+      "artId": "08-abyss-constellation",
+      "powerScalePercent": 400,
+      "powerBySlot": {
+        "WEAPON": 800000,
+        "TOP": 560000,
+        "BOTTOM": 520000,
+        "SHOES": 400000,
+        "ACCESSORY": 480000
+      },
+      "totalPower": 2760000,
+      "pvePower": 2484000,
+      "pvpPower": 276000,
+      "pieces": 5,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "two": {
+        "attackPercent": 22,
+        "hpPercent": 24
+      },
+      "four": {
+        "criticalChancePoints": 11,
+        "criticalDamagePoints": 36
+      },
+      "five": {
+        "speedPercent": 10,
+        "damageReductionPercent": 12,
+        "shieldPercent": 22
+      },
+      "items": [
+        {
+          "code": "MERC_ASC_08_WEAPON",
+          "regionId": "ascendant-08",
+          "setId": "MERC_ASC_08",
+          "tier": 8,
+          "kind": "SET",
+          "name": "심연성좌 무기",
+          "slot": "WEAPON",
+          "subtype": "WEAPON",
+          "rarity": "MYTHIC",
+          "totalPower": 800000,
+          "pvePower": 720000,
+          "pvpPower": 80000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/08-abyss-constellation-weapon.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 8단계 · 심연성좌 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_08_TOP",
+          "regionId": "ascendant-08",
+          "setId": "MERC_ASC_08",
+          "tier": 8,
+          "kind": "SET",
+          "name": "심연성좌 상의",
+          "slot": "TOP",
+          "subtype": "TOP",
+          "rarity": "MYTHIC",
+          "totalPower": 560000,
+          "pvePower": 504000,
+          "pvpPower": 56000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/08-abyss-constellation-top.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 8단계 · 심연성좌 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_08_BOTTOM",
+          "regionId": "ascendant-08",
+          "setId": "MERC_ASC_08",
+          "tier": 8,
+          "kind": "SET",
+          "name": "심연성좌 하의",
+          "slot": "BOTTOM",
+          "subtype": "BOTTOM",
+          "rarity": "MYTHIC",
+          "totalPower": 520000,
+          "pvePower": 468000,
+          "pvpPower": 52000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/08-abyss-constellation-bottom.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 8단계 · 심연성좌 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_08_SHOES",
+          "regionId": "ascendant-08",
+          "setId": "MERC_ASC_08",
+          "tier": 8,
+          "kind": "SET",
+          "name": "심연성좌 신발",
+          "slot": "SHOES",
+          "subtype": "SHOES",
+          "rarity": "MYTHIC",
+          "totalPower": 400000,
+          "pvePower": 360000,
+          "pvpPower": 40000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/08-abyss-constellation-shoes.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 8단계 · 심연성좌 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_08_ACCESSORY",
+          "regionId": "ascendant-08",
+          "setId": "MERC_ASC_08",
+          "tier": 8,
+          "kind": "SET",
+          "name": "심연성좌 장신구",
+          "slot": "ACCESSORY",
+          "subtype": "ACCESSORY",
+          "rarity": "MYTHIC",
+          "totalPower": 480000,
+          "pvePower": 432000,
+          "pvpPower": 48000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/08-abyss-constellation-accessory.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 8단계 · 심연성좌 2/4/5세트 · PVE/PVP 공통 효과"
+        }
+      ],
+      "steps": [
+        {
+          "pieces": 2,
+          "effects": {
+            "attackPercent": 22,
+            "hpPercent": 24
+          },
+          "text": "최대 체력 +24% · 공격력 +22%"
+        },
+        {
+          "pieces": 4,
+          "effects": {
+            "criticalChancePoints": 11,
+            "criticalDamagePoints": 36
+          },
+          "text": "치명타 확률 +11%p · 치명타 피해 +36%p"
+        },
+        {
+          "pieces": 5,
+          "effects": {
+            "speedPercent": 10,
+            "damageReductionPercent": 12,
+            "shieldPercent": 22
+          },
+          "text": "시작 보호막 +22% · 받는 피해 감소 +12% · 공격 속도 +10%"
+        }
+      ]
+    },
+    {
+      "id": "ascendant-09",
+      "setId": "MERC_ASC_09",
+      "tier": 9,
+      "name": "천룡태황",
+      "setName": "천룡태황",
+      "style": "동양",
+      "accent": "#58ffc6",
+      "artId": "09-celestial-dragon-emperor",
+      "powerScalePercent": 450,
+      "powerBySlot": {
+        "WEAPON": 900000,
+        "TOP": 630000,
+        "BOTTOM": 585000,
+        "SHOES": 450000,
+        "ACCESSORY": 540000
+      },
+      "totalPower": 3105000,
+      "pvePower": 2794500,
+      "pvpPower": 310500,
+      "pieces": 5,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "two": {
+        "attackPercent": 24,
+        "hpPercent": 26
+      },
+      "four": {
+        "criticalChancePoints": 12,
+        "criticalDamagePoints": 39
+      },
+      "five": {
+        "speedPercent": 11,
+        "damageReductionPercent": 13,
+        "shieldPercent": 24
+      },
+      "items": [
+        {
+          "code": "MERC_ASC_09_WEAPON",
+          "regionId": "ascendant-09",
+          "setId": "MERC_ASC_09",
+          "tier": 9,
+          "kind": "SET",
+          "name": "천룡태황 무기",
+          "slot": "WEAPON",
+          "subtype": "WEAPON",
+          "rarity": "MYTHIC",
+          "totalPower": 900000,
+          "pvePower": 810000,
+          "pvpPower": 90000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-weapon.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 9단계 · 천룡태황 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_09_TOP",
+          "regionId": "ascendant-09",
+          "setId": "MERC_ASC_09",
+          "tier": 9,
+          "kind": "SET",
+          "name": "천룡태황 상의",
+          "slot": "TOP",
+          "subtype": "TOP",
+          "rarity": "MYTHIC",
+          "totalPower": 630000,
+          "pvePower": 567000,
+          "pvpPower": 63000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-top.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 9단계 · 천룡태황 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_09_BOTTOM",
+          "regionId": "ascendant-09",
+          "setId": "MERC_ASC_09",
+          "tier": 9,
+          "kind": "SET",
+          "name": "천룡태황 하의",
+          "slot": "BOTTOM",
+          "subtype": "BOTTOM",
+          "rarity": "MYTHIC",
+          "totalPower": 585000,
+          "pvePower": 526500,
+          "pvpPower": 58500,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-bottom.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 9단계 · 천룡태황 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_09_SHOES",
+          "regionId": "ascendant-09",
+          "setId": "MERC_ASC_09",
+          "tier": 9,
+          "kind": "SET",
+          "name": "천룡태황 신발",
+          "slot": "SHOES",
+          "subtype": "SHOES",
+          "rarity": "MYTHIC",
+          "totalPower": 450000,
+          "pvePower": 405000,
+          "pvpPower": 45000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-shoes.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 9단계 · 천룡태황 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_09_ACCESSORY",
+          "regionId": "ascendant-09",
+          "setId": "MERC_ASC_09",
+          "tier": 9,
+          "kind": "SET",
+          "name": "천룡태황 장신구",
+          "slot": "ACCESSORY",
+          "subtype": "ACCESSORY",
+          "rarity": "MYTHIC",
+          "totalPower": 540000,
+          "pvePower": 486000,
+          "pvpPower": 54000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-accessory.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 9단계 · 천룡태황 2/4/5세트 · PVE/PVP 공통 효과"
+        }
+      ],
+      "steps": [
+        {
+          "pieces": 2,
+          "effects": {
+            "attackPercent": 24,
+            "hpPercent": 26
+          },
+          "text": "최대 체력 +26% · 공격력 +24%"
+        },
+        {
+          "pieces": 4,
+          "effects": {
+            "criticalChancePoints": 12,
+            "criticalDamagePoints": 39
+          },
+          "text": "치명타 확률 +12%p · 치명타 피해 +39%p"
+        },
+        {
+          "pieces": 5,
+          "effects": {
+            "speedPercent": 11,
+            "damageReductionPercent": 13,
+            "shieldPercent": 24
+          },
+          "text": "시작 보호막 +24% · 받는 피해 감소 +13% · 공격 속도 +11%"
+        }
+      ]
+    },
+    {
+      "id": "ascendant-10",
+      "setId": "MERC_ASC_10",
+      "tier": 10,
+      "name": "창세의 왕관",
+      "setName": "창세의 왕관",
+      "style": "서양",
+      "accent": "#ffd6fe",
+      "artId": "10-crown-of-genesis",
+      "powerScalePercent": 500,
+      "powerBySlot": {
+        "WEAPON": 1000000,
+        "TOP": 700000,
+        "BOTTOM": 650000,
+        "SHOES": 500000,
+        "ACCESSORY": 600000
+      },
+      "totalPower": 3450000,
+      "pvePower": 3105000,
+      "pvpPower": 345000,
+      "pieces": 5,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "two": {
+        "attackPercent": 26,
+        "hpPercent": 28
+      },
+      "four": {
+        "criticalChancePoints": 13,
+        "criticalDamagePoints": 42
+      },
+      "five": {
+        "speedPercent": 12,
+        "damageReductionPercent": 14,
+        "shieldPercent": 25
+      },
+      "items": [
+        {
+          "code": "MERC_ASC_10_WEAPON",
+          "regionId": "ascendant-10",
+          "setId": "MERC_ASC_10",
+          "tier": 10,
+          "kind": "SET",
+          "name": "창세의 왕관 무기",
+          "slot": "WEAPON",
+          "subtype": "WEAPON",
+          "rarity": "MYTHIC",
+          "totalPower": 1000000,
+          "pvePower": 900000,
+          "pvpPower": 100000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/10-crown-of-genesis-weapon.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 10단계 · 창세의 왕관 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_10_TOP",
+          "regionId": "ascendant-10",
+          "setId": "MERC_ASC_10",
+          "tier": 10,
+          "kind": "SET",
+          "name": "창세의 왕관 상의",
+          "slot": "TOP",
+          "subtype": "TOP",
+          "rarity": "MYTHIC",
+          "totalPower": 700000,
+          "pvePower": 630000,
+          "pvpPower": 70000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/10-crown-of-genesis-top.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 10단계 · 창세의 왕관 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_10_BOTTOM",
+          "regionId": "ascendant-10",
+          "setId": "MERC_ASC_10",
+          "tier": 10,
+          "kind": "SET",
+          "name": "창세의 왕관 하의",
+          "slot": "BOTTOM",
+          "subtype": "BOTTOM",
+          "rarity": "MYTHIC",
+          "totalPower": 650000,
+          "pvePower": 585000,
+          "pvpPower": 65000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/10-crown-of-genesis-bottom.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 10단계 · 창세의 왕관 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_10_SHOES",
+          "regionId": "ascendant-10",
+          "setId": "MERC_ASC_10",
+          "tier": 10,
+          "kind": "SET",
+          "name": "창세의 왕관 신발",
+          "slot": "SHOES",
+          "subtype": "SHOES",
+          "rarity": "MYTHIC",
+          "totalPower": 500000,
+          "pvePower": 450000,
+          "pvpPower": 50000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/10-crown-of-genesis-shoes.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 10단계 · 창세의 왕관 2/4/5세트 · PVE/PVP 공통 효과"
+        },
+        {
+          "code": "MERC_ASC_10_ACCESSORY",
+          "regionId": "ascendant-10",
+          "setId": "MERC_ASC_10",
+          "tier": 10,
+          "kind": "SET",
+          "name": "창세의 왕관 장신구",
+          "slot": "ACCESSORY",
+          "subtype": "ACCESSORY",
+          "rarity": "MYTHIC",
+          "totalPower": 600000,
+          "pvePower": 540000,
+          "pvpPower": 60000,
+          "image": "/assets/ui/mercenary-equipment/ascendant-20261028/10-crown-of-genesis-accessory.webp",
+          "modes": [
+            "PVE",
+            "PVP"
+          ],
+          "description": "용병 상위 10단계 · 창세의 왕관 2/4/5세트 · PVE/PVP 공통 효과"
+        }
+      ],
+      "steps": [
+        {
+          "pieces": 2,
+          "effects": {
+            "attackPercent": 26,
+            "hpPercent": 28
+          },
+          "text": "최대 체력 +28% · 공격력 +26%"
+        },
+        {
+          "pieces": 4,
+          "effects": {
+            "criticalChancePoints": 13,
+            "criticalDamagePoints": 42
+          },
+          "text": "치명타 확률 +13%p · 치명타 피해 +42%p"
+        },
+        {
+          "pieces": 5,
+          "effects": {
+            "speedPercent": 12,
+            "damageReductionPercent": 14,
+            "shieldPercent": 25
+          },
+          "text": "시작 보호막 +25% · 받는 피해 감소 +14% · 공격 속도 +12%"
+        }
+      ]
+    }
+  ]
+}

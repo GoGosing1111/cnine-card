@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-10-28T07:21:00.618Z",
+  "widths": [
+    1440,
+    390
+  ],
+  "galleryModes": [
+    "TOTAL",
+    "PVE",
+    "PVP"
+  ],
+  "gallerySets": 10,
+  "galleryItems": 50,
+  "thresholds": [
+    1,
+    2,
+    4,
+    5
+  ],
+  "actualArmory": true,
+  "isolatedApi": true,
+  "unequipRemovesFiveSetEffect": true,
+  "reequipRestoresEffect": true,
+  "pveConfigurationPreserved": true,
+  "noHorizontalOverflow": true,
+  "errors": [],
+  "missing": [],
+  "screens": [
+    "gallery-pvp-1440.png",
+    "armory-pvp-1440.png",
+    "armory-detail-1440.png",
+    "gallery-pvp-390.png",
+    "armory-pvp-390.png",
+    "armory-detail-390.png"
+  ],
+  "productionWrites": 0
+}

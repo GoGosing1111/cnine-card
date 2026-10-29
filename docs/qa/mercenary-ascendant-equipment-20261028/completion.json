@@ -1,0 +1,37 @@
+{
+  "status": "LOCAL_IMPLEMENTATION_VERIFIED",
+  "completedAt": "2026-10-28T07:28:41.049Z",
+  "setCount": 10,
+  "itemCount": 50,
+  "baseline": "MERCENARY_SET",
+  "baselineTotal": 690000,
+  "firstSetTotal": 1207500,
+  "lastSetTotal": 3450000,
+  "effectModes": [
+    "PVE",
+    "PVP"
+  ],
+  "thresholds": [
+    2,
+    4,
+    5
+  ],
+  "tests": {
+    "new": 7,
+    "existing": 28,
+    "totalDistinct": 35,
+    "allPassed": true
+  },
+  "browser": [
+    1440,
+    390
+  ],
+  "buildWarnings": [],
+  "runtimeImageHashesMatch": true,
+  "cmsRegistered": false,
+  "productionDeployed": false,
+  "productionWrites": 0,
+  "branch": "codex/mercenary-ascendant-equipment-20261028",
+  "preview": "http://127.0.0.1:6177/",
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-ascendant-balance-20261028"
+}
