@@ -8,6 +8,7 @@ import {jointHash} from './_joint_transactions.js';
 import {allocateAdditionalOrganizations} from '../shared/organization-additional-v1.mjs';
 import {organizationJoinOverview,organizationJoinCommand,organizationJoinOpen} from './_organization_join.js';
 import {kickOrganizationMember} from './_organization_member_kick.js';
+import {CLAN_RESUMPTION_STATE_KEY,activeClanResumption} from '../shared/clan-resumption-v1.mjs';
 
 const parse=JSON.parse;
 // Presentation only: retain stored proposal snapshots and all allocation inputs.
@@ -132,6 +133,33 @@ export async function handleOrganization({path,request,env,deps}){
     }[path];orgAssert(fields,'ROUTE','요청 경로를 확인하세요.',404);
     const body=await readJointBody(request,{fields,maxBytes:32000});
     return json(displayResponse(await organizationCommand(env,user,path,body,deps,now)));
+  }catch(error){const known=/^(ORG_|JOINT_|DUO_)/.test(error.code||'');if(!known)deps.onError?.(error);return json({ok:false,code:known?error.code:'ORG_UNAVAILABLE',error:known?error.message:'클랜 요청을 처리하지 못했습니다. 잠시 후 같은 요청으로 다시 확인하세요.'},known?(error.status||409):503);}
+}
+
+// The existing clan screen sends a season and a text joined_at, not an organization
+// round/revision. Keep its original request fingerprint and validate that membership
+// under the shared removal locks, then use the same atomic elder-removal operation.
+export async function handleRestoredClanMemberKick({request,env,deps,user}){
+  const json=(data,status=200)=>deps.json(data,status,{'Cache-Control':'no-store'});
+  try{
+    orgAssert(request.method==='POST','METHOD','POST 요청만 지원합니다.',405);
+    const body=await readJointBody(request,{fields:['requestId','seasonId','targetUserId','joinedAt','confirmation'],maxBytes:32000});
+    const seasonId=orgInteger(body.seasonId,1,Number.MAX_SAFE_INTEGER,'클랜 시즌');
+    const targetUserId=orgInteger(body.targetUserId,1,Number.MAX_SAFE_INTEGER,'방출 대상');
+    orgAssert(typeof body.joinedAt==='string'&&body.joinedAt.length>0&&body.joinedAt.length<=80,'STALE','클랜원의 가입 정보를 다시 확인하세요.',400);
+    const now=(deps.now||Date.now)();
+    return json(await mutation(env,user,'clan/member/kick',body,async q=>{
+      const currentTime=(deps.now||Date.now)();
+      const [meta]=await q('SELECT value FROM app_meta WHERE key=$1',[CLAN_RESUMPTION_STATE_KEY]);
+      const resumption=meta&&activeClanResumption(parse(meta.value),currentTime);
+      orgAssert(resumption&&resumption.seasonId===seasonId,'SEASON','클랜 시즌이 변경되었습니다. 명단을 새로고침하세요.');
+      const {r}=await lockedContext(q,user,{roundId:resumption.roundId});
+      orgAssert(r.scope==='LIVE','SEASON','현재 운영 클랜 명단을 확인하지 못했습니다.');
+      const [member]=await q('SELECT joined_at FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2',[r.id,targetUserId]);
+      orgAssert(member,'MEMBERSHIP','현재 같은 클랜에 소속된 클랜원만 방출할 수 있습니다.',403);
+      const result=await kickOrganizationMember(q,user,{...body,roundId:r.id,revision:Number(r.revision),joinedAt:Number(member.joined_at)},r,currentTime,{seasonId,joinedAt:body.joinedAt});
+      return {...result,seasonId,clanId:result.organizationId};
+    },now));
   }catch(error){const known=/^(ORG_|JOINT_|DUO_)/.test(error.code||'');if(!known)deps.onError?.(error);return json({ok:false,code:known?error.code:'ORG_UNAVAILABLE',error:known?error.message:'클랜 요청을 처리하지 못했습니다. 잠시 후 같은 요청으로 다시 확인하세요.'},known?(error.status||409):503);}
 }
 

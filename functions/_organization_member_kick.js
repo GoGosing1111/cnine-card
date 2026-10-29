@@ -13,18 +13,21 @@ function removeFromFormation(state,clanId,userId,now){
 }
 
 // Run inside the organization's existing transaction, never as a separate removal.
-async function removeRegularMembership(q,round,userId,clanId,now){
+async function removeRegularMembership(q,round,userId,clanId,now,expected){
  if(round.scope!=='LIVE')return null;
  const [meta]=await q('SELECT value FROM app_meta WHERE key=$1',[CLAN_RESUMPTION_STATE_KEY]);
  const release=meta&&activeClanResumption(JSON.parse(meta.value),now);
+ if(expected)orgAssert(release&&release.roundId===round.id&&release.seasonId===expected.seasonId,'SEASON','클랜 시즌이 변경되었습니다. 명단을 새로고침하세요.');
  if(!release||release.roundId!==round.id)return null;
  // Same locks as the existing clan kick: exclude battle reservations/settlement.
  await q('LOCK TABLE clan_wars,clan_war_battles,clan_war_reservation_locks,clan_members,clan_season_teams,clan_seasons,clan_draft_pool IN SHARE ROW EXCLUSIVE MODE NOWAIT');
  const [season]=await q('SELECT id,phase FROM clan_seasons WHERE id=$1',[release.seasonId]);
  orgAssert(season,'SEASON','정규 클랜전 시즌을 확인하지 못했습니다. 다시 시도하세요.');
+ if(expected)orgAssert(season.phase==='ACTIVE','SEASON','정규 시즌 중에만 클랜원을 방출할 수 있습니다.');
  if(season.phase==='COMPLETE')return null; // Finished season rosters are history.
  orgAssert(season.phase==='ACTIVE','SEASON','정규 시즌의 대회·정산이 끝난 뒤 방출하세요.');
  const [member]=await q('SELECT * FROM clan_members WHERE season_id=$1 AND user_id=$2',[release.seasonId,userId]);
+ if(expected)orgAssert(member&&member.joined_at===expected.joinedAt,'STALE','클랜원의 소속 또는 가입 정보가 바뀌었습니다. 명단을 다시 확인하세요.');
  if(!member)return null;
  orgAssert(Number(member.clan_id)===clanId,'MEMBERSHIP','클랜전 소속이 변경되었습니다. 명단을 새로고침하세요.');
  orgAssert(!(await q("SELECT 1 FROM clan_wars WHERE season_id=$1 AND (clan_a_id=$2 OR clan_b_id=$2) AND status IN ('ACTIVE','CLOSING') LIMIT 1",[release.seasonId,clanId])).length,'BATTLE','클랜전 진행·정산 중에는 방출할 수 없습니다. 경기 종료 후 다시 시도하세요.');
@@ -40,7 +43,7 @@ async function removeRegularMembership(q,round,userId,clanId,now){
  return {member,pool,faction};
 }
 
-export async function kickOrganizationMember(q,user,body,round,now){
+export async function kickOrganizationMember(q,user,body,round,now,regularMembership){
  const userId=orgInteger(body.targetUserId,1,Number.MAX_SAFE_INTEGER,'방출 대상'),joinedAt=orgInteger(body.joinedAt,0,Number.MAX_SAFE_INTEGER,'가입 시각');
  orgAssert(body.confirmation==='KICK_CLAN_MEMBER','CONFIRMATION','클랜원 방출을 확인하세요.',400);
  orgAssert(userId!==Number(user.id),'SELF','자신은 방출할 수 없습니다.',403);
@@ -58,7 +61,7 @@ export async function kickOrganizationMember(q,user,body,round,now){
  orgAssert(!hasUser(elderIds,userId),'ELDER_TARGET','다른 원로는 방출할 수 없습니다.',403);
  orgAssert(Number(member.joined_at)===joinedAt,'STALE','클랜원의 가입 정보가 바뀌었습니다. 명단을 다시 확인하세요.');
  const next=structuredClone(state);removeFromFormation(next,clanId,userId,now);
- const regular=await removeRegularMembership(q,round,userId,clanId,now);
+ const regular=await removeRegularMembership(q,round,userId,clanId,now,regularMembership);
  const survey=await q('SELECT * FROM organization_surveys_v1 WHERE round_id=$1 AND user_id=$2',[round.id,userId]);
  const applicationKey='organization-join:'+round.id+':'+userId;
  const [application]=await q('SELECT value FROM app_meta WHERE key=$1',[applicationKey]);

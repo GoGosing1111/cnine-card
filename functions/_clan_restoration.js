@@ -1,6 +1,7 @@
 import {clanRestorationState} from '../shared/clan-restoration-v1.mjs';
 import {readClanResumption} from './_clan_resumption.js';
 import {regularClanRules} from '../shared/clan-resumption-v1.mjs';
+import {handleRestoredClanMemberKick} from './_organization.js';
 
 // Run before the former retirement gate, admin shortcuts and lazy lifecycle writes.
 export async function handleClanRestorationRoute({path,request,env,deps,readOverview,readAdmin}){
@@ -16,6 +17,7 @@ export async function handleClanRestorationRoute({path,request,env,deps,readOver
   const status={...restoration,regularScheduleLocked:false,factionScheduleLocked:false,scheduleLocked:false,pointsIncluded:true,
    factionDailyCount:1,message:regularClanRules(resumption).regularLabel+' · 세력전 매일 랜덤 1회 / 4개 이상 점령 시 승점 1점. 새 가입 방식과 챔피언스리그 개최는 보류 중입니다.'};
   const resumed=data=>deps.json({...data,resumption,restoration:status},200,{'cache-control':'no-store'});
+  if(path==='clan/member/kick')return handleRestoredClanMemberKick({request,env,deps,user});
   if(request.method==='GET'&&path==='clan/overview')return resumed(await readOverview(user,resumption));
   if(request.method==='GET'&&path==='admin/clan-war/settings')return resumed(await readAdmin(user,resumption));
   if(request.method==='GET'&&path==='clan/organization')return resumed({ok:true,organizationPreparation:{restored:true,legacyClosed:false}});
