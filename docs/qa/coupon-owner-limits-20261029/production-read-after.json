@@ -1,0 +1,55 @@
+{
+  "checkedAt": "2026-10-29T09:06:38.757Z",
+  "readOnly": true,
+  "selectOnly": true,
+  "queries": 4,
+  "policies": [
+    {
+      "id": 1,
+      "nickname": "핑크빛유두",
+      "perCouponCoin": 1000000000000,
+      "dailyCoinLimit": null,
+      "issuedCoin": 0,
+      "remainingCoin": null,
+      "dayKey": "2026-10-29",
+      "timeZone": "Asia/Seoul",
+      "countBy": "FACE_VALUE"
+    },
+    {
+      "id": 2,
+      "nickname": "Inception",
+      "perCouponCoin": 1000000000000,
+      "dailyCoinLimit": 10000000000000,
+      "issuedCoin": 500000000000,
+      "remainingCoin": 9500000000000,
+      "dayKey": "2026-10-29",
+      "timeZone": "Asia/Seoul",
+      "countBy": "FACE_VALUE"
+    },
+    {
+      "id": 6,
+      "nickname": "남수단",
+      "perCouponCoin": 1000000000000,
+      "dailyCoinLimit": 10000000000000,
+      "issuedCoin": 400000000000,
+      "remainingCoin": 9600000000000,
+      "dayKey": "2026-10-29",
+      "timeZone": "Asia/Seoul",
+      "countBy": "FACE_VALUE"
+    },
+    {
+      "id": 5663,
+      "nickname": "비숑",
+      "perCouponCoin": 1000000000000,
+      "dailyCoinLimit": 10000000000000,
+      "issuedCoin": 1200000000000,
+      "remainingCoin": 8800000000000,
+      "dayKey": "2026-10-29",
+      "timeZone": "Asia/Seoul",
+      "countBy": "FACE_VALUE"
+    }
+  ],
+  "accountWrites": 0,
+  "couponsIssued": 0,
+  "messages": 0
+}

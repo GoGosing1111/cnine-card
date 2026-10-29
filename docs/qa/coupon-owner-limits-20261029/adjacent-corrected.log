@@ -1,0 +1,11 @@
+✔ issuer identity is account-bound; other OWNER/ADMIN and forged body identity fail before any DB access (2264.0903ms)
+✔ existing ticket coupons cannot bypass the issuer gate through reactivation or use-limit changes (1558.8164ms)
+✔ all OWNER accounts may stop, reactivate and update cube coupons; non-owners cannot and other coupon rules stay intact (2310.7662ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4089.983

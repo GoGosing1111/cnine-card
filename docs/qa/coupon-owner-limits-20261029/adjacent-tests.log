@@ -1,0 +1,98 @@
+✔ historical Baemin coupon metadata is preserved while its CMS shortcut is removed (4.8499ms)
+✔ all issue routes create coupons only for the verified issuer and preserve event settings (5037.0925ms)
+coupon v3 create failed createCouponWithinIssueLimit is not defined
+✖ issuer identity is account-bound; other OWNER/ADMIN and forged body identity fail before any DB access (2819.4234ms)
+coupon v3 create failed createCouponWithinIssueLimit is not defined
+✖ existing ticket coupons cannot bypass the issuer gate through reactivation or use-limit changes (2966.3941ms)
+✔ retired event cannot inject its coupon option into the CMS (3.4183ms)
+✔ missing or disabled event ticket blocks issuance without recreating catalogs or settings (2676.882ms)
+✔ public redemption adds the actual chicken ticket and replays the same receipt once (2626.0285ms)
+✔ duplicate requests and different users racing for the final use grant only once (2593.0764ms)
+✔ inventory, usage, log or receipt failures roll back; a later retry grants once (2382.3974ms)
+✔ disabled/deleted/exhausted/invalid coupons, disabled tickets and blocked users grant nothing (1715.7877ms)
+✔ legacy old-axe coupons retain their limits while the retired event is absent from CMS choices (1.7439ms)
+✔ both real CMS create routes register ticket, preserve settings, and never issue items on creation (5653.5161ms)
+✔ create rejects missing permission, zero/fractional/over-limit quantity, invalid code and use limits (2868.2938ms)
+✔ redemption credits the event inventory immediately, with one receipt/log and no coin change (3249.1316ms)
+✔ existing inventory accumulates and parallel last-use requests cannot exceed the global cap (2770.9159ms)
+✔ duplicate concurrent requests return the saved result without a second grant (2472.0197ms)
+✔ inventory/usage/log/receipt zero-row or write failures roll the entire redemption back (2827.6244ms)
+✔ disabled/deleted/exhausted/misconfigured coupons, disabled tickets and inactive users grant nothing (1827.2073ms)
+✔ retired axe event and coupon shortcut are removed from CMS (2.8059ms)
+✔ bulk coupon list renders old axe amount rather than zero coins (1.0099ms)
+✔ cube coupon allows every authenticated OWNER regardless of nickname and remains separate from other rewards (2.574ms)
+✔ all three issue routes permit distinct OWNER accounts and reject non-owners and forged body identities before writes (5301.922ms)
+coupon v3 create failed createCouponWithinIssueLimit is not defined
+✖ all OWNER accounts may stop, reactivate and update cube coupons; non-owners cannot and other coupon rules stay intact (2783.5599ms)
+✔ public redemption accumulates cube inventory once and replays without granting coin or opening cubes (3139.2545ms)
+✔ concurrent duplicate and last-use requests cannot over-grant (2870.3654ms)
+✔ inventory, usage, audit, and receipt failures roll back the whole cube redemption (2752.5907ms)
+✔ disabled/deleted/exhausted coupons, inactive items and blocked accounts grant nothing (2681.5624ms)
+✔ only 2X joins coupon rewards; CMS uses the same quantity limit (7.5486ms)
+✔ all issue routes enforce permissions, amount, active catalog, prefix and duplicate code (5139.2299ms)
+✔ redemption adds inventory once; retry/last-use competition and disabled replay preserve receipts (2784.1556ms)
+✔ coupon failure rolls inventory, counter and audit back together; committed response loss replays (3215.9213ms)
+✔ redemption refuses inactive/missing items, inactive accounts and invalid inventory without consumption (2821.6358ms)
+✔ user-management permission/OWNER protection and idempotent grant keep inventory/audits atomic (2683.339ms)
+✔ admin audit failure rolls back, retry grants once and item disabling never gets overwritten (2443.0537ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 31
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23201.7404
+
+✖ failing tests:
+
+test at tests\chicken-coupon-20261009.test.mjs:81:1
+✖ issuer identity is account-bound; other OWNER/ADMIN and forged body identity fail before any DB access (2819.4234ms)
+  AssertionError [ERR_ASSERTION]: other coupon types keep existing permissions
+  
+  500 !== 201
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/tmp/duo-settlement-recovery-20261027/tests/chicken-coupon-20261009.test.mjs:90:46)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 500,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\chicken-coupon-20261009.test.mjs:93:1
+✖ existing ticket coupons cannot bypass the issuer gate through reactivation or use-limit changes (2966.3941ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  404 !== 200
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/tmp/duo-settlement-recovery-20261027/tests/chicken-coupon-20261009.test.mjs:105:9)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 404,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\miracle-cube-coupon-20261004.test.mjs:81:1
+✖ all OWNER accounts may stop, reactivate and update cube coupons; non-owners cannot and other coupon rules stay intact (2783.5599ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  500 !== 201
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/tmp/duo-settlement-recovery-20261027/tests/miracle-cube-coupon-20261004.test.mjs:89:9)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 500,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

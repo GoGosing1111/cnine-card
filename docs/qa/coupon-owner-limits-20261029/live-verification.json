@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-10-29T09:06:55.557Z",
+  "sourceCommit": "014ba718bcd57ed8a8298f5f593948998448f395",
+  "pages": {
+    "id": "1bd7ba31-831a-4e1b-951c-c4fa9d101ef0",
+    "url": "https://1bd7ba31.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "014ba718bcd57ed8a8298f5f593948998448f395"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "32630aec-5a64-453f-9db5-ebd0286157e2",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "a02c75e1-9350-48d3-8fe9-fad5be75c458",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "admin/index.html",
+      "sha256": "feb541cc83d8feac04c76aece13179fc1e532637199ea95bcea47cf0705bca81"
+    },
+    {
+      "file": "admin/admin-v1276.js",
+      "sha256": "efc82d3a09e841b2204fcf7ee6c98fe7baac75c11ced58926b3d2a5761ac8b6a"
+    },
+    {
+      "file": "admin/admin-v1062-coupon-bulk-delete.js",
+      "sha256": "ee92f5d6ee45a9108d6478869f373e7654273a00681b1238fa37deade7566763"
+    }
+  ],
+  "compiledRuntimeVerified": true
+}

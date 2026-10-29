@@ -1,0 +1,16 @@
+{
+  "before": {
+    "id": "05507257-8894-448e-a921-0af1eacaa194",
+    "url": "https://05507257.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "19bad480288bf156092476b17b2f32daac0d7c41"
+  },
+  "base": "19bad480288bf156092476b17b2f32daac0d7c41",
+  "reason": "사용자 요청 코인 쿠폰 1회 최대1조, 핑크빛유두 ID1 외 OWNER별 하루10조. 사용자 정정대로 인원 수와 관계없이 쿠폰 액면금액만 합산한다. 기존 일일 발행·삭제 이력 보존, 한국시간 자정, 3개 API 공동 DB행잠금과 원자적 한도검사, PC/모바일 실CMS 검증. 관련 쿠폰 경로만 검사하며 공통 인증·DB·스키마·재화 정책은 변경하지 않는다.",
+  "tests": [
+    "tests/coupon-owner-limits-20261029.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

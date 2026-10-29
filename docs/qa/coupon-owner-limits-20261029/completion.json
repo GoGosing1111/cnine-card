@@ -1,0 +1,49 @@
+{
+  "completedAt": "2026-10-29T09:07:17.703Z",
+  "sourceCommit": "014ba718bcd57ed8a8298f5f593948998448f395",
+  "pages": {
+    "id": "1bd7ba31-831a-4e1b-951c-c4fa9d101ef0",
+    "url": "https://1bd7ba31.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "014ba718bcd57ed8a8298f5f593948998448f395"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "32630aec-5a64-453f-9db5-ebd0286157e2",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "a02c75e1-9350-48d3-8fe9-fad5be75c458",
+      "percentage": 100
+    }
+  ],
+  "policy": {
+    "perCoupon": 1000000000000,
+    "ownerDaily": 10000000000000,
+    "exemptOwnerId": 1,
+    "countBy": "FACE_VALUE",
+    "maxUsesDoesNotMultiply": true,
+    "timeZone": "Asia/Seoul",
+    "includeExistingToday": true,
+    "deletedOrDisabledDoesNotRefund": true
+  },
+  "validation": {
+    "relatedCases": 49,
+    "localUiChecks": 24,
+    "publicUiChecks": 12,
+    "publicAssets": 3,
+    "transactionFailureRollback": true,
+    "retryNoDuplicate": true,
+    "parallelFixtureRequests": true,
+    "realDatabaseReadOnly": true
+  },
+  "writes": {
+    "productionCouponsIssued": 0,
+    "accountBalances": 0,
+    "messages": 0
+  },
+  "checkout": "tmp/duo-settlement-recovery-20261027",
+  "evidence": "operations/coupon-owner-limits-20261029"
+}
