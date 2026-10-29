@@ -1,0 +1,74 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:chatters-thanks:verified-coin-message:20261029:v1",
+  "authorization": "2차 인증 활성 유저 613명에게 각 20조 코인 지급 완료했습니다. 채팅단 감사 기념 추가지급",
+  "additionalTo": "ops:cnine-ck:verified-coin-message:20261029:v1",
+  "originalAuditId": "52749",
+  "recipientScope": {
+    "additionalTo": "ops:cnine-ck:verified-coin-message:20261029:v1",
+    "originalRecipients": 613,
+    "currentActiveVerifiedTotal": 613,
+    "inactiveOrUnverifiedOriginalRecipients": [],
+    "newlyVerifiedOutsideOriginalScope": 0,
+    "originalAuditId": "52749"
+  },
+  "completedAt": "2026-10-29T12:04:03.288Z",
+  "completedAtKST": "2026-10-29 21:04:03 KST",
+  "auditId": "52763",
+  "delivery": "MESSAGE",
+  "title": "채팅단 감사 기념",
+  "body": "채팅단 감사 기념",
+  "coinPerRecipient": "20000000000000",
+  "totalCoin": "12260000000000000",
+  "recipients": 613,
+  "messages": 613,
+  "rewards": 613,
+  "roleCounts": {
+    "OWNER": 2,
+    "USER": 608,
+    "ADMIN": 3
+  },
+  "providerCounts": {
+    "PLAYDK": 612,
+    "WAGO": 1
+  },
+  "excludedInactive": [
+    {
+      "status": "BANNED",
+      "count": 1
+    }
+  ],
+  "missing": 0,
+  "duplicates": 0,
+  "unchangedClaimTestsReused": 3,
+  "claimSource": {
+    "sourceCommit": "5ecfd15ef264bb61cf7a2e674475ec6e8f3fc6b7",
+    "claimHash": "0f4c842e864e97c87cb22827acebbce1d0567fc1214a9f14590e8e9912783999",
+    "specsHash": "2d2dcfddc2568d4bdeb064406dc8a0fc2ff265c4edfed98014745ea11aa88422",
+    "compatHash": "1111070d6b1928ba84308589372c8235fdd0e06e837493af03f7cae473f135ea",
+    "latestRemoteSourceMatched": true,
+    "checkedAt": "2026-10-29T12:02:49.736Z"
+  },
+  "claimTestEvidence": "C:/Users/User/Downloads/upload/cnine-card/operations/cnine-ck-verified-coins-20261029/claim-test-result.json",
+  "validationChecks": {
+    "wrongPlanRejected": true,
+    "actualSqlFailureRolledBack": true,
+    "successRolledBack": true,
+    "messageSyncRolledBack": true,
+    "onlyMessageAuditReceiptAndSyncWrites": true,
+    "noWalletInventoryWrites": true,
+    "selectOnlyReplay": true,
+    "noDeliveryAfterRollback": true
+  },
+  "independentReadOnlyVerified": true,
+  "replayAdditionalWrites": 0,
+  "verifiedClaimedAtSnapshot": 0,
+  "verifiedPendingAtSnapshot": 613,
+  "verifiedAt": "2026-10-29T12:04:13.290Z",
+  "planHash": "2e3c403003decfe2a789a210234f483a48013d2a1170af9905496384f920d799",
+  "sourceHash": "b801682568bc6a8d3dcf2376920cd8f4c19c173cc10b9c7269e59410dac01bda",
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/chatters-thanks-verified-coins-20261029",
+  "noImmediateWalletCredit": true,
+  "gameDeployments": 0,
+  "storageMaintenance": false
+}
