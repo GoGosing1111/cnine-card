@@ -17,13 +17,13 @@ test('catalog identity separates every SSS limited and retains SS limited combat
  assert.equal(mercenaryBattleTier({rank:'SSS',code:'V-999'}),-1);
  assert.equal(mercenaryBattleTier({isMercenary:true,code:'V-000',rank:'UNKNOWN'}),-1);
 });
-test('all SSS limited keep a bounded rank advantage over trained lower tiers, applied once',()=>{
+test('large earned level gaps remove added grade bonuses without altering learned growth',()=>{
  for(const code of SSS_LIMITED_COMBAT_CODES)for(const power of [100,250000,20000000]){
   const teams=[rankedTeam(code,1,'A',power),rankedTeam('V-058',21,'B',power)];
-  applyMercenaryCombatLink(teams);const high=teams[0].at(-1),low=teams[1].at(-1),g=high.mercenaryLink.rankGrowth;
-  assert.equal(high.mercenaryLink.tierGuard,6,code);assert.equal(high.mercenaryLink.tierOffense,2,code);
-  assert.equal(g.attackScale,Math.sqrt(11));assert.equal(g.hpScale,Math.sqrt(10));
-  assert.equal(mercenaryDamageCapHp(high),(high.maxHp/g.hpScale+high.mercenaryLink.openingShield)/6);
+  applyMercenaryCombatLink(teams);const high=teams[0].at(-1),low=teams[1].at(-1);
+  assert.equal(high.mercenaryLink.tierGuard,1,code);assert.equal(high.mercenaryLink.tierOffense,1,code);
+  assert.equal(high.mercenaryLink.rankGrowth,undefined);
+  assert.equal(mercenaryDamageCapHp(high),high.maxHp+high.mercenaryLink.openingShield);
   assert.equal(low.mercenaryGrowth.total.attackPercent,1000);assert.equal(mercenaryGrowthBasicCapScale(low),Math.sqrt(11));assert.equal(mercenaryGrowthActionCredit([low]),.75);
   const once=structuredClone(teams);applyMercenaryCombatLink(teams);applyMercenaryRankGrowth(teams);assert.deepEqual(teams,once);
  }
@@ -47,23 +47,23 @@ test('level growth remains monotonic for both sides of the grade gap',()=>{
  }
 });
 test('grade compensation reaches capped basic hits without extending skill/counter budgets',async()=>{
- const {engine}=await growthProbe(),teams=[rankedTeam('V-999',1),rankedTeam('V-984',21,'B')];applyMercenaryCombatLink(teams);
+ const {engine}=await growthProbe(),teams=[rankedTeam('V-999',1),rankedTeam('V-984',6,'B')];applyMercenaryCombatLink(teams);
  const actor={...teams[0].at(-1),attack:1e12},target={...teams[1].at(-1),defense:0},plain={...actor,mercenaryLink:{...actor.mercenaryLink,rankGrowth:undefined}};
  const hit=(a,basic,counter=false)=>engine.hitResult(a,target,()=>.5,1,counter,{basicAttack:basic,damageCapScale:4}).damage;
- assert.equal(mercenaryRankBasicCapScale(actor),Math.sqrt(Math.sqrt(11)));
- assert(Math.abs(hit(actor,true)/hit(plain,true)-Math.pow(11,.25))<.00001);
+ assert.equal(mercenaryRankBasicCapScale(actor),Math.sqrt(Math.pow(3.5,.25)));
+ assert(Math.abs(hit(actor,true)/hit(plain,true)-Math.pow(3.5,.125))<.00001);
  assert.equal(hit(actor,false),hit(plain,false));assert.equal(hit(actor,true,true),hit(plain,true,true));
  assert.equal(mercenaryRankBasicCapScale({...actor,battleMode:'PVE'}),1);
  assert.equal(mercenaryRankBasicCapScale(target),1);
 });
-test('only lower-to-higher mastery is softened; ordinary growth and same-tier mastery remain',()=>{
+test('earned mastery recovers in full against much lower levels across grades',()=>{
  const teams=[rankedTeam('V-058',21),rankedTeam('V-999',1,'B')];applyMercenaryCombatLink(teams);
  const low=teams[0].at(-1),high=teams[1].at(-1);
- assert.equal(mercenaryGrowthMitigationBypass(low,high),.125);assert.equal(mercenaryRankMasteryScale(low,high),.25);
+ assert.equal(mercenaryGrowthMitigationBypass(low,high),.5);assert.equal(mercenaryRankMasteryScale(low,high),1);
  const peer=rankedTeam('V-057',1,'B').at(-1);assert.equal(mercenaryGrowthMitigationBypass(low,peer),.5);
  const higher=rankedTeam('V-999',21).at(-1),lower=rankedTeam('V-058',1,'B').at(-1);applyMercenaryCombatLink([[higher],[lower]]);assert.equal(mercenaryGrowthMitigationBypass(higher,lower),.5);
  applyMercenaryGrowthMatchups(teams,{baseActionCredit:mercenaryBaseActionCredit});
- assert.equal(low.mercenaryGrowthMatchup.opponents[0].rankMasteryScale,.25);assert.equal(high.mercenaryGrowthMatchup.opponents[0].rankMasteryScale,undefined);
+ assert.equal(low.mercenaryGrowthMatchup.opponents[0].rankMasteryScale,undefined);assert.equal(high.mercenaryGrowthMatchup.opponents[0].rankMasteryScale,undefined);
  assert.equal(low.gauge,75);assert.equal(mercenaryGrowthActionCredit([low]),.75);
 });
 test('mixed duo cannot borrow a low-rank companion bonus against an equal-rank opponent',()=>{
@@ -81,10 +81,10 @@ test('same tiers, PvE, old snapshots and unrecognized fighters do not opt into t
  const legacy=[rankedTeam('V-999',1),rankedTeam('V-058',21,'B')];for(const a of legacy.flat())if(a.isMercenary)delete a.mercenaryLevel;
  applyMercenaryCombatLink(legacy);assert.equal(legacy[0].at(-1).mercenaryLink.rankGrowth,undefined);assert.equal(legacy[0].at(-1).mercenaryLink.tierGuard,1);
  const codes=['V-017','V-012','V-002','V-001','V-042','V-058','V-999'];
- for(let i=1;i<codes.length;i++){const teams=[rankedTeam(codes[i],1),rankedTeam(codes[i-1],21,'B')];applyMercenaryCombatLink(teams);assert.equal(teams[0].at(-1).mercenaryLink.tierGuard,6,codes[i]);}
+ for(let i=1;i<codes.length;i++){const teams=[rankedTeam(codes[i],1),rankedTeam(codes[i-1],21,'B')];applyMercenaryCombatLink(teams);assert.equal(teams[0].at(-1).mercenaryLink.tierGuard,1,codes[i]);}
 });
 test('current PvP results preserve inputs and codex discloses the distinct limited tier',()=>{
- const args={attackerCards:tierCards(250000),defenderCards:tierCards(250000),attackerMercenary:at('V-999',1),defenderMercenary:at('V-058',16),seed:91571},original=structuredClone(args);
+ const args={attackerCards:tierCards(250000),defenderCards:tierCards(250000),attackerMercenary:at('V-999',1),defenderMercenary:at('V-058',1),seed:91571},original=structuredClone(args);
  const battle=createPvpBattleV2(args);assert.deepEqual(args,original);assert.equal(battle.result.winner,'A');assert.equal(battle.teams.A.mercenaries[0].mercenaryLink.rankGrowth.gap,1);
  const doc=mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:61});
  for(const code of ['V-001','V-042','V-058',...SSS_LIMITED_COMBAT_CODES])assert.equal(doc.cards.find(c=>c.code===code)?.combatLinkDescription.split(MERCENARY_RANK_GROWTH_DESCRIPTION).length,2,code);

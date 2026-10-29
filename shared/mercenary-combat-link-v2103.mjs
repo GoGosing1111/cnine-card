@@ -22,7 +22,7 @@ import {mercenaryCombatRank,ssLimitedProfile,ssLimitedPvpLinkScale} from './merc
 import {rearPveCurrentPolicy} from './mercenary-ss-rear-pve-v1.mjs';
 import {mercenaryEquipmentPower} from './mercenary-equipment-v1.mjs';
 import {mercenaryGrowthDamageCapHp,mercenaryGrowthActionCredit} from './mercenary-growth-review-v2.mjs';
-import {mercenaryRankGap,applyMercenaryRankGrowth,MERCENARY_RANK_GROWTH} from './mercenary-rank-growth-v1.mjs';
+import {mercenaryRankGap,mercenaryRankRetention,applyMercenaryRankGrowth,MERCENARY_RANK_GROWTH} from './mercenary-rank-growth-v1.mjs';
 // Ordinary rank base power stays fixed; limited fighters have explicit policies.
 // Combat linkage is an explicit additional
 // ability, frozen from this side's five ordinary fighters at battle start.
@@ -59,7 +59,8 @@ function primeZeroGeneralJokOpponents(actor,teams){
 export function mercenaryPvpTierGuard(actor,teams){
  const ranks=['S','SS','SSS'],rank=ranks.indexOf(mercenaryCombatRank(actor));
  if(actor.battleMode!=='PVP'||!actor.isMercenary||actor.statMode!=='RANK_FIXED')return 1;
- const rankGrowthGuard=1+mercenaryRankGap(actor,teams)*MERCENARY_RANK_GROWTH.guardPerStep;
+ const growthGap=mercenaryRankGap(actor,teams),retained=growthGap?mercenaryRankRetention(actor,teams):1;
+ const rankGrowthGuard=1+growthGap*MERCENARY_RANK_GROWTH.guardPerStep*retained;
  if(rank<0)return rankGrowthGuard;
  const opponents=teams.flat().filter(other=>other.side!==actor.side&&other.isMercenary&&other.statMode==='RANK_FIXED'&&other.battleMode==='PVP'&&other.alive!==false&&other.hp>0&&ranks.includes(mercenaryCombatRank(other)));
  if(opponents.length!==1&&!actor.ownerId)return rankGrowthGuard;
@@ -72,7 +73,7 @@ export function mercenaryPvpTierGuard(actor,teams){
  // an SS companion must never unlock this guard against an SSS limited fighter.
  const razakPriority=isRazak(actor)&&opponents.every(other=>ssLimitedProfile(other)||isImperialArcher(other));
  const primeZeroPriority=primeZeroGeneralJokOpponents(actor,teams).length>0;
- return Math.max(rankGrowthGuard,1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep,razakPriority?RAZAK_COMBAT.pvpPriorityTierGuard:1,primeZeroPriority?ZERO_PRIME_GENERAL_JOK_PRIORITY.tierGuard:1);
+ return Math.max(rankGrowthGuard,1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep*retained,razakPriority?RAZAK_COMBAT.pvpPriorityTierGuard:1,primeZeroPriority?ZERO_PRIME_GENERAL_JOK_PRIORITY.tierGuard:1);
 }
 
 export const mercenaryEffectiveAttack=actor=>Math.max(Number(actor.attack)||0,actor.isMercenary?Number(actor.mercenaryLink?.attackFloor)||0:0);

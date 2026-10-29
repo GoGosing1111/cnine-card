@@ -1,0 +1,97 @@
+{
+  "at": "2026-10-29T11:43:56.442Z",
+  "baseline": "ac854ff6c8d548c2fd84c4937b865ae1178fb841",
+  "pairedBattles": 8640,
+  "summary": [
+    {
+      "levels": "1-1",
+      "battles": 1080,
+      "beforeLowerWins": 0,
+      "afterLowerWins": 0
+    },
+    {
+      "levels": "11-1",
+      "battles": 1080,
+      "beforeLowerWins": 10,
+      "afterLowerWins": 666
+    },
+    {
+      "levels": "16-5",
+      "battles": 1080,
+      "beforeLowerWins": 11,
+      "afterLowerWins": 717
+    },
+    {
+      "levels": "21-1",
+      "battles": 1080,
+      "beforeLowerWins": 63,
+      "afterLowerWins": 1049
+    },
+    {
+      "levels": "21-5",
+      "battles": 1080,
+      "beforeLowerWins": 19,
+      "afterLowerWins": 846
+    },
+    {
+      "levels": "21-11",
+      "battles": 1080,
+      "beforeLowerWins": 3,
+      "afterLowerWins": 388
+    },
+    {
+      "levels": "21-16",
+      "battles": 1080,
+      "beforeLowerWins": 0,
+      "afterLowerWins": 3
+    },
+    {
+      "levels": "21-21",
+      "battles": 1080,
+      "beforeLowerWins": 0,
+      "afterLowerWins": 0
+    }
+  ],
+  "razak21VsLimited5": {
+    "battles": 360,
+    "beforeWins": 0,
+    "afterWins": 355
+  },
+  "razak21VsJokro5": [
+    {
+      "upper": "V-979",
+      "lower": "V-058",
+      "lowerLevel": 21,
+      "upperLevel": 5,
+      "power": 250000,
+      "battles": 12,
+      "beforeLowerWins": 0,
+      "afterLowerWins": 12
+    },
+    {
+      "upper": "V-979",
+      "lower": "V-058",
+      "lowerLevel": 21,
+      "upperLevel": 5,
+      "power": 20000000,
+      "battles": 12,
+      "beforeLowerWins": 0,
+      "afterLowerWins": 12
+    }
+  ],
+  "independentJokroRegression": {
+    "battles": 48,
+    "wins": 48
+  },
+  "unchanged": 234,
+  "unchangedComparison": "Whole results for 189 PVE/legacy/same-tier cases; 45 equal-level results exclude only rankGrowth version/retained metadata",
+  "relatedRegressionTests": 13,
+  "browserPaths": 6,
+  "browserUsesIsolatedApi": true,
+  "sourceHashes": {
+    "shared/mercenary-rank-growth-v1.mjs": "2538dc57f91541c8fdff63d7987b7038e052071aa398db433949ef824ca023ec",
+    "shared/mercenary-combat-link-v2103.mjs": "886d833198871365278de970f0950b42ac9a0a6511e3e873dd1c2481cffaa6f3"
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}
