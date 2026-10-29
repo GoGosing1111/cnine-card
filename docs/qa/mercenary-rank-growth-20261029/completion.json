@@ -1,0 +1,62 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T07:33:20.820Z",
+  "releaseCommit": "9f2f29aae52ec5f558f1e6944d03a82a9a6910ae",
+  "pages": {
+    "id": "91f0c2be-a8d2-4182-9883-f6471567bb87",
+    "url": "https://91f0c2be.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "9f2f29aae52ec5f558f1e6944d03a82a9a6910ae"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "9e6822e1-6d85-4ab2-ab4a-66ad549a500d",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "28d107a5-e421-49ed-9c98-5fec9f2242bd",
+      "percentage": 100
+    }
+  ],
+  "scope": "PVP growing mercenary grade advantage; SSS LIMITED as a distinct highest tier",
+  "preserved": [
+    "stored level/XP/breakthrough",
+    "same combat tier",
+    "PvE",
+    "old non-growing battles",
+    "acquisition/CMS/currencies",
+    "latest individual 2.2m balance",
+    "approved artwork"
+  ],
+  "checks": {
+    "relatedTests": 23,
+    "newGradeTests": 8,
+    "releaseTests": 15,
+    "workerSyntax": true,
+    "pairedControlledBattles": 11520,
+    "unchangedWholeBattleResults": 198,
+    "independentFinalBattles": 1440,
+    "independentHigherGradeWins": 1414,
+    "pcMobilePaths": 6,
+    "publicMobilePaths": 1,
+    "publicAssets": 3,
+    "actualWorkerCode": true,
+    "publicCodex": true
+  },
+  "comparisonScope": "Same current individual fighters, decks and seeds; only grade/growth rules differ. Offline samples, not live player win rates.",
+  "playerNotice": {
+    "file": "notice.txt",
+    "written": true,
+    "posted": false,
+    "mentionsMonitoringAndPossibleFurtherBuffs": true
+  },
+  "productionDataWrites": 0,
+  "realAccountBattlesStarted": 0,
+  "messagesSent": 0,
+  "artBytesChanged": 0,
+  "storageMaintenance": false,
+  "automationCreated": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-rank-growth-20261029"
+}
