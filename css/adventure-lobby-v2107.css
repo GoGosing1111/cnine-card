@@ -132,7 +132,7 @@ soop-adventure-lobby [data-cnine-lobby-open]>b{display:none}
 #liveOperationsDialog .live-operation-enter{display:none}
 
 /* The slotted lobby controls and native popups share the codex typography. */
-body:has(soop-adventure-lobby) :is(.lobby-bgm-controls,.bgm-player,.c9-roster-action,.c9-roster-dialog,.live-operations-dialog,.account-rank-dialog),
-body:has(soop-adventure-lobby) :is(.lobby-bgm-controls,.bgm-player,.c9-roster-action,.c9-roster-dialog,.live-operations-dialog,.account-rank-dialog) *{
+body:has(soop-adventure-lobby) :is(.lobby-bgm-controls,.bgm-player,.c9-lobby-entry,.c9-roster-action,.c9-roster-dialog,.live-operations-dialog,.account-rank-dialog),
+body:has(soop-adventure-lobby) :is(.lobby-bgm-controls,.bgm-player,.c9-lobby-entry,.c9-roster-action,.c9-roster-dialog,.live-operations-dialog,.account-rank-dialog) *{
  font-family:'Pretendard Variable',Pretendard,'Noto Sans KR','Malgun Gothic',sans-serif;font-synthesis:none;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
 }
