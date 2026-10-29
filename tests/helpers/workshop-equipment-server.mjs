@@ -2,15 +2,18 @@ import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {execFileSync} from 'node:child_process';
 import {equipmentFixture} from './workshop-equipment-fixture.mjs';
 import {handleWorkshop,__workshopReadTest} from '../../functions/_workshop.js';
 import {executeEquipmentCraft} from '../../functions/_workshop_equipment_craft.js';
 import {enableEquipmentRepairFixture} from './workshop-equipment-repair-fixture.mjs';
 import {handleForgeRuntime} from '../../functions/_equipment_forge_routes.js';
 import {readJointBody} from '../../functions/_joint_request.js';
+import {configureArdenFixture} from './arden-craft-fixture.mjs';
 const root=path.resolve(fileURLToPath(new URL('../../',import.meta.url)));
 let f;
 async function reset(mode="default"){if(f)await f.close();f=await equipmentFixture();
+  await f.p('ALTER TABLE inventory_items ADD COLUMN updated_at TEXT').run();
   for(const key of ['safe_runtime_upgrade_v1678_synthesis_rate_scrapyard_rewards','safe_runtime_upgrade_v1933_workshop_material_craft_no_schema_change','safe_runtime_upgrade_v2004_battle_suit_workshop','safe_runtime_upgrade_v2066_battle_suit_core_catalog','safe_runtime_upgrade_v2124_battle_suit_core_5_6'])await f.p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',key,'1').run();
   await f.p("UPDATE character_equipment_items SET name=CASE id WHEN 101 THEN '금룡 돌격소총' WHEN 102 THEN '인피니티 AK' ELSE name END").run();
   const key='WORKSHOP_EQUIPMENT_CRAFT_V1:QA_EQUIPMENT',row=await f.p('SELECT value FROM app_meta WHERE key=?',key).first(),policy=JSON.parse(row.value);policy.inputName='금룡 돌격소총';await f.p('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(policy),key).run();
@@ -26,11 +29,12 @@ async function reset(mode="default"){if(f)await f.close();f=await equipmentFixtu
   }
   await f.p("UPDATE inventory_items SET name='미스틱 에너지',image_url='assets/items/starlight-armor-core-v1749.png' WHERE code='QA_MATERIAL'").run();
   await f.p("UPDATE workshop_recipes_v1668 SET description='승급을 위한 정밀 제작. +10 장비의 힘을 새로운 무기에 담습니다.'").run();
+  if(mode==='arden')await configureArdenFixture(f);
 }
 await reset();
 const mime={'.html':'text/html','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.json':'application/json','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.svg':'image/svg+xml','.woff2':'font/woff2'};
 const server=http.createServer(async(req,res)=>{try{
- const url=new URL(req.url,'http://127.0.0.1:8803');
+ const url=new URL(req.url,'http://'+req.headers.host);
  if(url.pathname==='/qa/reset'&&req.method==='POST'){await reset(url.searchParams.get('mode'));res.end('ok');return;}
  if(url.pathname==='/qa/workshop'){
   res.setHeader('content-type','text/html; charset=utf-8');res.end(`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/workshop-v1676.css"><link rel="stylesheet" href="/css/workshop-v1881.css"><link rel="stylesheet" href="/css/workshop-workbench-v1.css"><link rel="stylesheet" href="/css/equipment-craft-reveal-v1.css"><style>*{box-sizing:border-box}body{margin:0;background:#08111c;color:#eaf4ff;font-family:Arial,sans-serif}#view{max-width:1380px;margin:auto;padding:20px}.modal{display:none}.modal.show{display:flex;position:fixed;inset:0;z-index:999;background:#000b;align-items:center;justify-content:center;overflow:auto}button{cursor:pointer;font-family:inherit}button:disabled{cursor:not-allowed}@media(max-width:600px){#view{padding:10px}}</style><main id="view"></main><div id="modal" class="modal"></div><script>localStorage.setItem('cnine_card_api_token','local-account-7');localStorage.setItem('cnine_battle_sound','OFF');window.loadUser=()=>({id:7,coin:12000000000000});window.apiRequest=async(p,o={})=>{const r=await fetch('/api/'+p,{...o,headers:{'content-type':'application/json',authorization:'Bearer local-account-7'}});const d=await r.json();if(!r.ok)throw Object.assign(new Error(d.error),{status:r.status});return d};</script><script src="/js/workshop-recipes-v1.js"></script><script src="/js/equipment-craft-reveal-v1.js"></script><script src="/js/workshop-v1881.js"></script><script>document.getElementById('view').innerHTML=workshopView(loadUser(),{workshopSection:'ITEM_SYNTHESIS'});bindWorkshopView();</script></html>`);return;
@@ -51,7 +55,10 @@ const server=http.createServer(async(req,res)=>{try{
   res.writeHead(response?.status||404,Object.fromEntries(response?.headers||[]));res.end(response?await response.text():'{}');return;
  }
  let file=path.resolve(root,'.'+decodeURIComponent(url.pathname));if(!file.startsWith(path.resolve(root)+path.sep))throw Error('invalid path');
+ if(process.env.WORKSHOP_QA_GIT_ASSETS==='1'&&!await fs.stat(file).catch(()=>null)&&/^\/(assets|preview)\//.test(url.pathname)){
+  const data=execFileSync('git',['show','HEAD:'+path.relative(root,file).replaceAll('\\','/')],{cwd:root,windowsHide:true,maxBuffer:20000000});res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream'});res.end(data);return;
+ }
  if((await fs.stat(file)).isDirectory())file=path.join(file,'index.html');const data=await fs.readFile(file);res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream','cache-control':'no-store'});res.end(data);
 }catch(error){res.writeHead(error.status||500,{'content-type':'application/json'});res.end(JSON.stringify({error:error.message}));}});
-server.listen(8803,'127.0.0.1',()=>console.log('Local isolated equipment crafting: http://127.0.0.1:8803/qa/workshop'));
+server.listen(Number(process.env.WORKSHOP_QA_PORT||8803),'127.0.0.1',()=>console.log('Local isolated equipment crafting ready'));
 process.on('SIGINT',()=>server.close(async()=>{await f.close();process.exit();}));

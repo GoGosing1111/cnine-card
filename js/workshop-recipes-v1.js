@@ -23,8 +23,8 @@
     const cost = paymentFor(recipe, choice), rows = [];
     if (recipe.category === 'ITEM_SYNTHESIS' && recipe.output_type === 'EQUIPMENT') {
       const policy = recipe.equipmentCraft;
-      rows.push({code:'EQUIPMENT', name:'+10 ' + (policy?.inputName || '대상 장비'), image:policy?.inputImage,
-        owned:(state.equipmentCraft?.instances || []).filter(row => Number(row.equipmentId) === Number(policy?.inputEquipmentId)).length, required:1});
+      rows.push({code:'EQUIPMENT', name:'+' + Number(policy?.requiredLevel??10) + ' ' + (policy?.inputName || '대상 장비'), image:policy?.inputImage,
+        owned:(state.equipmentCraft?.instances || []).filter(row => Number(row.equipmentId) === Number(policy?.inputEquipmentId) && Number(row.level??10) === Number(policy?.requiredLevel??10)).length, required:1});
     }
     for (const material of recipe.materials || []) {
       const code = material.item_code, item = state.inventory?.[code] || {};

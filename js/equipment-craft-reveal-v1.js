@@ -58,10 +58,10 @@
         if(!valid()){finish();return;}if(phase==='result')return;phase='result';root.dataset.phase='result';root.dataset.outcome=success?'success':'failure';
         $('.ef-unseal').hidden=true;$('.ef-result').hidden=false;$('[data-skip]').hidden=true;
         $('[data-kicker]').textContent=success?'FORGE · COMPLETE':'FORGE · FAILED';$('#ef-title').textContent=success?'장비 제작 성공':'장비 제작 실패';
-        $('[data-subtitle]').textContent=success?'새로운 힘이 완성되었습니다.':consumed?'투입한 +10 장비가 소모되었습니다.':'투입한 +10 장비는 보존되었습니다.';
-        $('[data-item]').textContent=success?`${name} +0 획득`:`+10 ${data.input?.name||'투입 장비'} ${consumed?'소모':'보존'}`;
-        $('[data-note]').textContent=success?'완성된 장비가 지급되었습니다. 투입 장비와 제작 재료·재화가 소모되었습니다.':'새 장비를 획득하지 못했습니다. 재료·마스터의 별·코인은 소모되었습니다.';
-        if(repairable){$('[data-note]').textContent='리페어권으로 소모 당시 +10 장비를 복구할 수 있습니다. 제작 재료·재화는 반환되지 않습니다.';$('.ef-repair').hidden=false;$('.ef-repair').href='/equipment-forge/?restoreRecord='+encodeURIComponent(data.input.repairRecordId);root.dataset.repairable='true';}
+        $('[data-subtitle]').textContent=success?'새로운 힘이 완성되었습니다.':consumed?`투입한 +${Number(data.input?.level??10)} 장비가 소모되었습니다.`:`투입한 +${Number(data.input?.level??10)} 장비는 보존되었습니다.`;
+        $('[data-item]').textContent=success?`${name} +0 획득`:`+${Number(data.input?.level??10)} ${data.input?.name||'투입 장비'} ${consumed?'소모':'보존'}`;
+        $('[data-note]').textContent=success?'완성된 장비가 지급되었습니다. 투입 장비와 제작 재료·재화가 소모되었습니다.':`새 장비를 획득하지 못했습니다. ${Number(data.masterStarSpent)>0?'재료·마스터의 별·코인':'재료·코인'}은 소모되었습니다.`;
+        if(repairable){$('[data-note]').textContent=`리페어권으로 소모 당시 +${Number(data.input?.level??10)} 장비를 복구할 수 있습니다. 제작 재료·재화는 반환되지 않습니다.`;$('.ef-repair').hidden=false;$('.ef-repair').href='/equipment-forge/?restoreRecord='+encodeURIComponent(data.input.repairRecordId);root.dataset.repairable='true';}
         $('[data-pity]').textContent=success?'실패 누적 초기화':`실패 누적 ${fmt(data.pity?.failures)} / ${fmt(data.pity?.pityAfter)}회`;
         $('[data-next]').textContent=success?'제작 완료':data.pity?.guaranteed?'다음 제작 100% 성공':'누적 횟수 유지';
         $('[data-final-step]').className='ef-current';
