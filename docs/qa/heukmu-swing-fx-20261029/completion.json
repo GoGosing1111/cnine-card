@@ -1,0 +1,40 @@
+{
+  "at": "2026-10-29T14:16:09.664Z",
+  "source": "a1c139e3b343c191927318ed525c828bff114c4b",
+  "pages": {
+    "id": "b3798aaa-77ba-4831-b265-114df71c8042",
+    "url": "https://b3798aaa.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "a1c139e3b343c191927318ed525c828bff114c4b"
+  },
+  "change": {
+    "swordSwingRelativeSpeed": 2,
+    "effectPlaybackRateUnchanged": true,
+    "basicAndCastEffectScale": 1.5,
+    "ultimateEffectScale": 1.6,
+    "damageAndTravelUnchanged": true
+  },
+  "checks": {
+    "regressions": 15,
+    "mainEntryPaths": 4,
+    "publicEntryPaths": 1,
+    "unchangedEffectSamples": 800,
+    "bundles": 11,
+    "publicFiles": 19,
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "be982fa5-e394-4c25-aa05-3187504d074f",
+        "percentage": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "11e31d3c-7308-4fcb-ae59-93188b78d75f",
+        "percentage": 100
+      }
+    ]
+  },
+  "productionDataWrites": 0,
+  "messagesSent": 0,
+  "artChanged": false
+}

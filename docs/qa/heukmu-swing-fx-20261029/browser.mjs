@@ -37,17 +37,18 @@ try{
    await page.goto(url,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>typeof renderShell==='function');
    await page.locator('#qa-hunt').click();
    await page.waitForFunction(()=>window.__heukmuState?.engine?.heukmuStates?.size===1&&document.getElementById('qa-status').textContent.includes('initialized'),null,{timeout:60000});
-   const sample=await page.evaluate(()=>{
+   const sample=await page.evaluate(publicCheck=>{
     const e=__heukmuState.engine,f=[...e.heukmuStates.values()][0].fx,rows={};
-    for(const mode of ['attack','cross','cast','ultimate']){
+    for(const mode of publicCheck?['ultimate']:['attack','cross','cast','ultimate']){
      f.begin(mode,e.enemies);const frames=[];
      for(let i=0;i<=Math.ceil(f.plan.duration*50);i++){
+      if(publicCheck&&i!==Math.round(f.plan.peak*50))continue;
       const t=Math.min(i/50,f.plan.duration);f.render(t);frames.push({t,pose:f.pose,effects:f.effectFrames.map(({bank,index,role,size})=>({bank,index,role,size})),contacts:f.contacts.map(({at,target,wave})=>({at,target,wave})),area:f.area.diagnostics()});
      }
      rows[mode]={plan:structuredClone(f.plan),frames};
     }
     return rows;
-   });
+   },!!publicBase);
    if(baselineMode)before=sample;
    else if(before)for(const mode of Object.keys(sample)){
     assert.deepEqual(sample[mode].plan,before[mode].plan,'Authored plan and contacts '+mode);
@@ -60,7 +61,7 @@ try{
     }
    }
    const peaks=[];
-   for(const [mode,t] of [['attack',.87],['cross',1.3],['cast',2.58],['ultimate',3.77]]){
+   for(const [mode,t] of publicBase?[['ultimate',3.77]]:[['attack',.87],['cross',1.3],['cast',2.58],['ultimate',3.77]]){
     peaks.push(await page.evaluate(({mode,t})=>{
      const e=__heukmuState.engine,f=[...e.heukmuStates.values()][0].fx;f.begin(mode,e.enemies);f.render(t);return {mode,...f.diagnostics()};
     },{mode,t}));

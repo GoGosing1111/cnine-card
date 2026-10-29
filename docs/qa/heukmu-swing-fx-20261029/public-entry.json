@@ -1,0 +1,28 @@
+{
+  "reports": [
+    {
+      "width": 390,
+      "mode": "PVP",
+      "entry": "actual start button",
+      "result": true,
+      "return": true,
+      "actors": [
+        {
+          "id": "A:MERCENARY:V-968",
+          "visible": true,
+          "alpha": 1
+        },
+        {
+          "id": "B:MERCENARY:V-968",
+          "visible": true,
+          "alpha": 1
+        }
+      ],
+      "levels": [
+        1
+      ]
+    }
+  ],
+  "publicBase": "https://cnine-card.pages.dev",
+  "productionWrites": 0
+}
