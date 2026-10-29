@@ -35,7 +35,7 @@ async function fixture(t){
  INSERT INTO user_mercenary_levels_v1 VALUES(65,'V-996',10,25,1,3,'before');
  INSERT INTO user_mercenary_growth_v1 VALUES(65,'V-972',99);
  INSERT INTO user_mercenary_loadout_v1 VALUES(65,'V-996');
- 
+
  INSERT INTO account_sync_versions_v1 VALUES(65,10,'{"collection":"7","loadout":"8","wallet":"9"}',CURRENT_TIMESTAMP);
  INSERT INTO ranked_duo_accounts_v1 VALUES(65,5);
  INSERT INTO app_meta VALUES('mercenary_pvp_loadout_v1:65','{"mercenaryCode":"V-972"}','before'),('mercenary_dual_loadout_v2:65','{"version":2,"PVE":{"mercenaryCodes":["V-972","V-035"],"revision":3}}','before');`);
