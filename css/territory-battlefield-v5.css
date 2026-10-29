@@ -288,3 +288,110 @@ body.territory-battlefield-entered .tw4-dispatch-layer { display:none; }
   .tw6-equipped .tw6-relay-anchor b{font-size:9px;align-self:start}
   .tw6-equipped .tw6-field:has(.tw6-cannon-warning>div) .tw6-fort-status,.tw6-equipped .tw6-field:has(.tw6-cannon-warning>div) .tw6-relay-anchor{top:237px}
 }
+
+/* Keep mobile territory information and actions in separate, scrollable rows. */
+#territoryWarModalV3 .war-chat-surface:has(.tw4-drawer-layer.open, .tw4-shell.command-open, .tw4-shell.zone-open) { position: relative; z-index: 20; }
+@media (max-width: 820px), (max-width: 1040px) and (max-height: 500px) and (pointer: coarse) {
+  #territoryWarModalV3.tw4-mode { overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
+  #territoryWarModalV3 [data-chat-workspace="territory"] { min-height: 100dvh; align-content: start; }
+  #territoryWarModalV3 .war-chat-nav { position: relative; padding: 6px 8px; min-height: 60px; }
+  #territoryWarModalV3 .war-chat-nav > div:first-child { display: none; }
+  #territoryWarModalV3 .war-chat-nav-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+  #territoryWarModalV3 .war-chat-nav-actions button { min-width: 0; min-height: 44px; }
+  #territoryWarModalV3 .tw3-shell.tw4-shell { display: flex; flex-direction: column; height: auto; min-height: calc(100dvh - var(--war-chat-nav-height, 60px)); min-width: 0; overflow: visible; }
+  #territoryWarModalV3 .tw4-topbar { flex: none; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; min-height: 56px; padding: 5px 10px; }
+  #territoryWarModalV3 .tw4-brand h1 { font-size: 17px; line-height: 1.3; }
+  #territoryWarModalV3 .tw4-brand small { font-size: 7px; letter-spacing: .1em; }
+  #territoryWarModalV3 .tw4-brand { gap: 8px; }
+  #territoryWarModalV3 .tw4-round-state,
+  #territoryWarModalV3 .tw4-top-actions > button:not(.tw4-close) { display: none; }
+  #territoryWarModalV3 .tw4-brand .tw4-icon-button,
+  #territoryWarModalV3 .tw4-close { width: 44px; height: 44px; }
+  #territoryWarModalV3 .tw7-occupation { flex: none; min-height: 76px; grid-template-columns: minmax(0, 1fr) minmax(90px, .85fr) minmax(0, 1fr); padding: 4px 8px; gap: 4px; }
+  #territoryWarModalV3 .tw7-faction { display: grid; grid-template-columns: 30px minmax(0, 1fr); padding: 4px 0; gap: 2px 4px; align-content: center; }
+  #territoryWarModalV3 .tw7-faction.side-b { grid-template-columns: minmax(0, 1fr) 30px; }
+  #territoryWarModalV3 .tw7-faction > .tw7-citadel { grid-row: 1 / 3; width: 30px; height: 52px; }
+  #territoryWarModalV3 .tw7-faction.side-b > .tw7-citadel { grid-column: 2; }
+  #territoryWarModalV3 .tw7-faction-name > strong { font-size: 14px; letter-spacing: 0; }
+  #territoryWarModalV3 .tw7-faction-name > small { display: none; }
+  #territoryWarModalV3 .tw7-faction-name > span,
+  #territoryWarModalV3 .tw7-faction-count > small { font-size: 9px; }
+  #territoryWarModalV3 .tw7-faction-count { gap: 4px; align-items: baseline; }
+  #territoryWarModalV3 .tw7-faction-count > b { font-size: 22px; }
+  #territoryWarModalV3 .tw7-faction-count > small { max-width: none; }
+  #territoryWarModalV3 .tw7-occupation-center > small { font-size: 7px; letter-spacing: .08em; }
+  #territoryWarModalV3 .tw7-occupation-center > strong { font-size: 12px; letter-spacing: 0; margin: 3px 0; }
+  #territoryWarModalV3 .tw7-occupation-center > span { font-size: 8px; }
+  #territoryWarModalV3 .tw7-control-track { margin-top: 6px; height: 3px; }
+  #territoryWarModalV3 .tw4-scoreboard { flex: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 5px 12px; padding: 7px 10px; }
+  #territoryWarModalV3 .tw4-front-status { position: static; grid-column: 1 / -1; grid-row: 1; width: auto; transform: none; padding: 0; background: none; }
+  #territoryWarModalV3 .tw4-front-status b { font-size: 11px; margin: 0; }
+  #territoryWarModalV3 .tw4-front-status span,
+  #territoryWarModalV3 .tw4-front-status small { display: none; }
+  #territoryWarModalV3 .tw4-scoreboard article { padding: 0; grid-row: 2; }
+  #territoryWarModalV3 .tw4-scoreboard article > div { display: block; }
+  #territoryWarModalV3 .tw4-scoreboard article.side-b { text-align: right; }
+  #territoryWarModalV3 .tw4-scoreboard strong { display: block; font-size: 16px; line-height: 1.3; margin-top: 1px; }
+  #territoryWarModalV3 .tw4-scoreboard small { font-size: 9px; }
+  #territoryWarModalV3 .tw4-scoreboard em { margin-top: 5px; height: 4px; }
+  #territoryWarModalV3 .tw4-mobile-my-team { display: block; grid-column: 1 / -1; }
+  #territoryWarModalV3 .tw4-mobile-my-team .tw4-my-team { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 8px; padding: 5px 10px; }
+  #territoryWarModalV3 .tw4-mobile-my-team .tw4-my-team-name { font-size: 17px; line-height: 1.3; margin: 0; text-align: right; }
+  #territoryWarModalV3 .tw4-mobile-my-team .tw4-my-team-label { font-size: 11px; }
+  #territoryWarModalV3 .tw4-mobile-my-team .tw4-my-team-badge,
+  #territoryWarModalV3 .tw4-mobile-my-team .tw4-my-team-hint { display: none; }
+  #territoryWarModalV3 .tw4-workspace { flex: 1; display: block; min-height: 440px; overflow: visible; }
+  #territoryWarModalV3 .tw4-map-shell { min-height: 440px; height: 100%; }
+  #territoryWarModalV3 .tw4-detail-rail { display: none; }
+  #territoryWarModalV3 .tw4-shell.zone-open .tw4-detail-rail { position: fixed; z-index: 115; inset: auto 8px calc(58px + var(--safe-bottom)); display: block; width: auto; max-height: min(60dvh, 390px); overflow: auto; background: #070f1b; }
+  #territoryWarModalV3 .tw4-shell.zone-open .tw4-detail-rail .tw4-mobile-rail-close { position: absolute; z-index: 4; top: 10px; right: 10px; display: grid; place-items: center; width: 44px; height: 44px; }
+  #territoryWarModalV3 .tw4-workspace:has([data-tw6-view="FIELD"]) { min-height: 0; }
+  #territoryWarModalV3 .tw6-equipped[data-tw6-view="FIELD"] { display: flex; flex-direction: column; min-height: 0; height: auto; overflow: visible; padding-bottom: 10px; }
+  #territoryWarModalV3 .tw6-equipped[data-tw6-view="FIELD"] > .tw6-field { position: relative; inset: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 8px; height: auto; min-height: 0; padding: 12px; }
+  #territoryWarModalV3 .tw6-field-navigation { position: relative; inset: auto; grid-column: 1 / -1; grid-row: 1; }
+  #territoryWarModalV3 .tw6-field-navigation button { min-height: 44px; padding-inline: 8px; }
+  #territoryWarModalV3 .tw6-field-navigation button:first-child { flex: 1; font-size: 12px; }
+  #territoryWarModalV3 .tw6-front-title { position: relative; inset: auto; grid-column: 1 / -1; grid-row: 2; max-width: none; }
+  #territoryWarModalV3 .tw6-front-title > span { font-size: 10px; }
+  #territoryWarModalV3 .tw6-front-title h2 { font-size: 24px; margin: 5px 0 0; }
+  #territoryWarModalV3 .tw6-front-title p { display: none; }
+  #territoryWarModalV3 .tw6-live-sitrep { position: relative; inset: auto; grid-column: 1 / -1; grid-row: 3; min-height: 40px; padding: 8px; gap: 8px; }
+  #territoryWarModalV3 .tw6-live-sitrep b { font-size: 11px; white-space: normal; overflow-wrap: anywhere; }
+  #territoryWarModalV3 .tw6-live-sitrep small { display: none; }
+  #territoryWarModalV3 .tw6-cannon-warning { position: relative; inset: auto; grid-column: 1 / -1; grid-row: 4; }
+  #territoryWarModalV3 .tw6-cannon-warning:empty { display: none; }
+  #territoryWarModalV3 .tw6-cannon-warning > div { flex-wrap: wrap; font-size: 11px; }
+  #territoryWarModalV3 .tw6-fort-status,
+  #territoryWarModalV3 .tw6-relay-anchor { position: relative; inset: auto; grid-row: 5; transform: none; width: auto; min-width: 0; padding: 8px; align-self: stretch; }
+  #territoryWarModalV3 .tw6-fort-status.side-a { grid-column: 1; }
+  #territoryWarModalV3 .tw6-fort-status.side-b { grid-column: 3; }
+  #territoryWarModalV3 .tw6-fort-status span { font-size: 10px; overflow-wrap: anywhere; }
+  #territoryWarModalV3 .tw6-fort-status b { font-size: 27px; margin-top: 5px; }
+  #territoryWarModalV3 .tw6-fort-status em { display: block; font-size: 9px; }
+  #territoryWarModalV3 .tw6-relay-anchor { grid-column: 2; display: flex; flex-direction: column; justify-content: center; gap: 3px; text-align: center; }
+  #territoryWarModalV3 .tw6-relay-anchor img { width: 38px; height: 34px; object-fit: cover; }
+  #territoryWarModalV3 .tw6-relay-anchor span { font-size: 10px; margin: 0; align-self: center; }
+  #territoryWarModalV3 .tw6-relay-anchor b { font-size: 9px; align-self: center; }
+  #territoryWarModalV3 .tw6-equipped[data-tw6-view="FIELD"] > .tw6-objectives { position: relative; inset: auto; transform: none; width: auto; margin: 0 10px 10px; gap: 6px; }
+  #territoryWarModalV3 .tw6-objectives button { flex-direction: column; justify-content: center; min-height: 72px; padding: 8px 4px; gap: 5px; background-color: #101827; }
+  #territoryWarModalV3 .tw6-objectives button span { text-align: center; }
+  #territoryWarModalV3 .tw6-objectives b { font-size: 12px; }
+  #territoryWarModalV3 .tw6-objectives small { display: none; }
+  #territoryWarModalV3 .tw6-equipped[data-tw6-view="FIELD"] > .tw4-action-dock { position: relative; inset: auto; transform: none; width: auto; margin: 0 10px; grid-template-columns: 52px minmax(0, 1fr) 52px; }
+  #territoryWarModalV3 .tw4-action-dock button { min-height: 68px; }
+  #territoryWarModalV3 .tw4-action-dock .tw4-dock-button { display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 4px; }
+  #territoryWarModalV3 .tw4-action-dock .tw4-dock-button span { display: block; }
+  #territoryWarModalV3 .tw4-action-dock .tw4-dock-button b { margin: 0; font-size: 9px; text-align: center; }
+  #territoryWarModalV3 .tw4-action-dock .tw4-dock-button small,
+  #territoryWarModalV3 .tw4-action-dock .tw4-dock-button em { display: none; }
+  #territoryWarModalV3 .tw4-attack-button { padding: 8px; }
+  #territoryWarModalV3 .tw4-attack-button b { font-size: 17px; }
+  #territoryWarModalV3 .tw4-mobile-nav { flex: none; display: grid; grid-template-columns: repeat(4, 1fr); min-height: calc(50px + var(--safe-bottom)); padding-bottom: var(--safe-bottom); background: #050d13; }
+  #territoryWarModalV3 .tw4-mobile-nav button { min-height: 50px; }
+  #territoryWarModalV3 .tw4-drawer-layer { position: fixed; }
+  #territoryWarModalV3 .tw4-drawer { top: auto; bottom: 0; width: 100%; height: min(82dvh, 680px); transform: translateY(100%); }
+  #territoryWarModalV3 .tw4-drawer-layer.open .tw4-drawer { transform: translateY(0); }
+  #territoryWarModalV3 .tw4-drawer-content { padding-bottom: max(12px, var(--safe-bottom)); }
+  #territoryWarModalV3 .tw6-cut-in { position: relative; inset: auto; grid-column: 1 / -1; grid-row: 3; align-self: stretch; width: auto; margin: 0; }
+  #territoryWarModalV3 .tw6-cut-in:not(.is-live) { display: none; }
+}
