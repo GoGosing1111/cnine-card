@@ -16,4 +16,6 @@
 
 증거: `C:/Users/User/Downloads/upload/cnine-card/operations/icon-diim-weapon-position-20261029/`. `browser/report.json`은 전체 6경로, `idle-browser/report.json`은 대기 자세 2경로다. 이전 소환 누락 수정 기록은 `../icon-diim-summon-20261029/`에 별도 보존한다.
 
-배포 상태는 완료 후 `completion.json`에 기록한다. scoped 기준은 실제 직전 Pages 소스 `c3650b13ef9a37a7478173b3574791bc24de55ba`다.
+**운영 반영 및 공개 모바일 확인 완료.** 소스 `4082f802f`, Pages `a00f5765`. 상세는 `completion.json`에 기록했다. scoped 기준은 실제 직전 Pages 소스 `c3650b13ef9a37a7478173b3574791bc24de55ba`다.
+
+배포 검증 12개 통과, 공개 파일 15개 해시 일치와 원스토어 캐시 태그, 두 Worker 100% 확인. 공개 번들로 모바일 메인 PVE에 진입해 디임 앞 병기·독립 공격·결과·복귀를 확인했다. 공개 화면 API는 격리 fixture이며 운영 사용자 데이터 쓰기 0건이다.

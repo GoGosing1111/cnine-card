@@ -1,0 +1,40 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T01:37:30.858Z",
+  "implementationCommit": "ae7983d394fd1e2970e03d6377fb81f584523f93",
+  "releaseCommit": "4082f802f77ae45af0eb3b5a91867bfc9a29d7d0",
+  "pages": {
+    "id": "a00f5765-7cb0-4d50-8a7f-de9c010ebc96",
+    "url": "https://a00f5765.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "4082f802f77ae45af0eb3b5a91867bfc9a29d7d0"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "47bc9f54-16af-441b-941c-9aae9cd8cbef",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "62a8b975-10ad-49f6-8eb1-85a284864b51",
+      "percentage": 100
+    }
+  ],
+  "change": "Summoned weapon rests directly in front of its Diim SD; mirrored by team, responsive to owner formation, swap and resummon.",
+  "checks": {
+    "visualRegression": 7,
+    "release": 12,
+    "localBattlePaths": 6,
+    "restingPosePaths": 2,
+    "publicMobilePaths": 1,
+    "publicAssetHashes": 15,
+    "onestoreCacheTag": true
+  },
+  "knownUnrelatedCheck": "Pre-existing duplicate JinmuDialogue.js entry in common build source manifest. First attempt stopped before upload; exact changed source and ten output hashes verified by scoped tests.",
+  "productionDataWrites": 0,
+  "messagesSent": 0,
+  "approvedArtBytesChanged": 0,
+  "storageMaintenance": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/icon-diim-weapon-position-20261029"
+}
