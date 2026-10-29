@@ -1,0 +1,51 @@
+{
+  "status": "LIVE_AND_GRANTED",
+  "sourceCommit": "1d0ba52f76c3cc7f7db9b9bdbb4b61b9cbe5ea70",
+  "pages": {
+    "id": "855ed977-6b01-4daa-9b26-df6759a9b600",
+    "url": "https://855ed977.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "1d0ba52f76c3cc7f7db9b9bdbb4b61b9cbe5ea70"
+  },
+  "card": {
+    "code": "V-968",
+    "name": "흑무",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "basePower": 4000000,
+    "acquisition": "LOCKED",
+    "deploymentEnabled": true
+  },
+  "grant": {
+    "operationKey": "ops:pingdu-heukmu-grant:20261029:v1",
+    "userId": "1",
+    "nickname": "핑크빛유두",
+    "quantity": 1,
+    "before": 0,
+    "after": 1,
+    "completedAt": "2026-10-29T11:26:07.402Z",
+    "auditId": "52745"
+  },
+  "testsPassed": 41,
+  "approvedPngs": 30,
+  "publicFilesVerified": 62,
+  "workersVerified": [
+    {
+      "name": "cnine-card-api-runtime",
+      "heukmuConnected": true,
+      "sha256": "e6544228f029357d00a8aae90114f81d777ddf8011baa4f07c7e6eb6d4ff1c43"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "heukmuConnected": true,
+      "sha256": "074163ec519681fd0bb905664559e05d93a5095881a80f0928f3aa4c143baea7"
+    }
+  ],
+  "independentReadOnly": true,
+  "selectOnlyReplay": true,
+  "automaticLoadout": false,
+  "messagesSent": 0,
+  "otherHolders": 0,
+  "existingStatePreserved": true,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/heukmu-live-20261029"
+}
