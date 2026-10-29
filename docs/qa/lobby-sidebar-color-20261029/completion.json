@@ -1,0 +1,47 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T05:13:20.777Z",
+  "releaseCommit": "c2d16911d25e694dea374225279f5e4ad349e10a",
+  "pages": {
+    "id": "4744e07d-244e-4b97-b28c-5e80edb63274",
+    "url": "https://4744e07d.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "c2d16911d25e694dea374225279f5e4ad349e10a"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "2b047ac2-55c1-48ec-ab56-ee074f6f9d17",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "93db71cc-b2ac-48de-9414-e02f294583f1",
+      "percentage": 100
+    }
+  ],
+  "changes": {
+    "sidebarBackground": "#0d0e24",
+    "opacity": 1,
+    "removed": "R / C",
+    "headerChanged": false,
+    "otherRailLabel": "REVERSE LAND"
+  },
+  "checks": {
+    "releaseRegressions": 7,
+    "localChecks": 18,
+    "viewports": [
+      "1440x900",
+      "390x844"
+    ],
+    "publicDesktopChecks": 8,
+    "publicAssets": 6,
+    "browserExceptions": 0,
+    "missingAssets": 0
+  },
+  "productionDataWrites": 0,
+  "messagesSent": 0,
+  "artBytesChanged": 0,
+  "manualStorageMaintenance": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/lobby-sidebar-color-20261029"
+}

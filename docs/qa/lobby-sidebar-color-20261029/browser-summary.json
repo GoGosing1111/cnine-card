@@ -1,0 +1,72 @@
+{
+  "local": {
+    "checks": [
+      "1440x900 sidebar matches reference base color and remains opaque",
+      "1440x900 R / C removed and other label retained",
+      "1440x900 existing header visible",
+      "1440x900 responsive sidebar visibility preserved",
+      "1440x900 navigation menu opens",
+      "1440x900 navigation menu closes",
+      "1440x900 same sidebar color on native route",
+      "1440x900 native workshop still visible",
+      "390x844 sidebar matches reference base color and remains opaque",
+      "390x844 R / C removed and other label retained",
+      "390x844 existing header visible",
+      "390x844 responsive sidebar visibility preserved",
+      "390x844 navigation menu opens",
+      "390x844 navigation menu closes",
+      "390x844 same sidebar color on native route",
+      "390x844 native workshop still visible",
+      "zero browser exceptions",
+      "all requested assets served"
+    ],
+    "reports": [
+      {
+        "size": "1440x900",
+        "style": {
+          "background": "rgb(13, 14, 36)",
+          "opacity": "1",
+          "display": "flex"
+        }
+      },
+      {
+        "size": "390x844",
+        "style": {
+          "background": "rgb(13, 14, 36)",
+          "opacity": "1",
+          "display": "none"
+        }
+      }
+    ],
+    "errors": [],
+    "missing": [],
+    "publicBase": "",
+    "productionWrites": 0
+  },
+  "public": {
+    "checks": [
+      "1440x900 sidebar matches reference base color and remains opaque",
+      "1440x900 R / C removed and other label retained",
+      "1440x900 existing header visible",
+      "1440x900 responsive sidebar visibility preserved",
+      "1440x900 navigation menu opens",
+      "1440x900 navigation menu closes",
+      "zero browser exceptions",
+      "all requested assets served"
+    ],
+    "reports": [
+      {
+        "size": "1440x900",
+        "style": {
+          "background": "rgb(13, 14, 36)",
+          "opacity": "1",
+          "display": "flex"
+        }
+      }
+    ],
+    "errors": [],
+    "missing": [],
+    "publicBase": "https://cnine-card.pages.dev",
+    "productionWrites": 0
+  }
+}
