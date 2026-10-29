@@ -60,7 +60,7 @@ test('current PvP growth keeps Diim mastery idempotent and excludes level one/Pv
  for(const level of [6,11,16,20]){
   const actor=buildMercenaryFighter(snapshot('V-984',level),'A','PVP',buildFighter),cards=tierCards(250000).map((c,i)=>buildFighter(c,i,'A',null,'PVP'));
   applyMercenaryCombatLink([[...cards,actor]]);const once=structuredClone(actor);applyMercenaryLevelStats(actor);assert.deepEqual(actor,once);
-  assert.ok(actor.gauge>0&&actor.gauge<=75);assert.ok(mercenaryGrowthBasicCapScale(actor)>1&&mercenaryGrowthBasicCapScale(actor)<=3);
+  assert.ok(actor.gauge>0&&actor.gauge<=75);assert.ok(mercenaryGrowthBasicCapScale(actor)>1&&mercenaryGrowthBasicCapScale(actor)<=4);
   assert.ok(mercenaryDamageCapHp(actor)<actor.maxHp+actor.mercenaryLink.openingShield);
   const legacy={...actor,mercenaryLevel:{version:1,level}};assert.equal(mercenaryGrowthBasicCapScale(legacy),1);assert.equal(mercenaryGrowthOpeningGauge(legacy),0);
  }

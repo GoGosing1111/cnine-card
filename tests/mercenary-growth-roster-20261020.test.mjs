@@ -41,10 +41,10 @@ test('growth is applied after the innate basic cap; skills and counters retain t
  actor.attack=1e10;target.defense=0;
  const hit=(a,opts={},counter=false)=>probe.engine.hitResult(a,target,()=>.5,1,counter,{damageCapScale:100,...opts}).damage;
  const plain={...actor,mercenaryLevelApplied:false};
- assert.equal(hit(actor,{basicAttack:true}),hit(plain,{basicAttack:true})*3);
+ assert.ok(Math.abs(hit(actor,{basicAttack:true})-hit(plain,{basicAttack:true})*Math.sqrt(10.75))<=1);
  assert.equal(hit(actor),hit(plain),'skill budget must not inherit basic growth');
  assert.equal(hit(actor,{basicAttack:true},true),hit(plain,{basicAttack:true},true),'counter budget');
- assert.equal(mercenaryGrowthBasicCapScale(actor),3);
+ assert.equal(mercenaryGrowthBasicCapScale(actor),Math.sqrt(10.75));
  for(const change of [{battleMode:'PVE'},{isMercenary:false},{statMode:'LEGACY'},{mercenaryLevelApplied:false},{mercenaryLevel:{version:1,level:20}}]){
   const excluded={...actor,...change};assert.equal(mercenaryGrowthBasicCapScale(excluded),1);assert.equal(mercenaryGrowthKeepsNaturalGauge(excluded),false);
  }
@@ -52,7 +52,7 @@ test('growth is applied after the innate basic cap; skills and counters retain t
 test('max-level growth stays bounded, applies once and keeps opening shields out of the HP divisor',()=>{
  for(const {code}of roster.snapshots){
   const actor=fighter(code,20),once=structuredClone(actor),hpComponent=actor.maxHp/3;
-  assert.equal(mercenaryGrowthBasicCapScale(actor),3,code);assert.equal(actor.gauge,75,code);
+  assert.equal(mercenaryGrowthBasicCapScale(actor),Math.sqrt(10.75),code);assert.equal(actor.gauge,75,code);
   assert.equal(mercenaryDamageCapHp(actor),(hpComponent+actor.mercenaryLink.openingShield)/(actor.mercenaryLink.tierGuard||1));
   applyMercenaryLevelStats(actor);assert.deepEqual(actor,once,code);
  }

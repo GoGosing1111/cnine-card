@@ -59,7 +59,11 @@ export function mercenaryGrowthLevelTable(growth){
 // 2026-10-20: the capped-hit / lost-gauge defect affects every growing fighter.
 // Keep the bounded Diim correction as one common PvP growth policy. Legacy
 // snapshots, ordinary cards, Lv.1 and PvE retain their existing calculations.
-export const MERCENARY_PVP_GROWTH_COMBAT=Object.freeze({version:1,maxBasicCapScale:3,maxDurabilityCapScale:3,maxOpeningGauge:75});
+// Keep the learned square-root curve through the final Lv.20 -> 21 breakthrough.
+// The former 3x ceiling flattened the current profile from Lv.18 onward.
+// This ceiling changes basic outgoing packets only; durability and initiative
+// retain their independent bounds. The current Lv.21 profile yields sqrt(11).
+export const MERCENARY_PVP_GROWTH_COMBAT=Object.freeze({version:2,maxBasicCapScale:4,maxDurabilityCapScale:3,maxOpeningGauge:75});
 const pvpGrowth=actor=>actor?.isMercenary===true&&actor.statMode==='RANK_FIXED'&&actor.battleMode==='PVP'&&actor.mercenaryLevelApplied&&actor.mercenaryLevel?.version===2?actor.mercenaryGrowth?.total:null;
 export function mercenaryGrowthBasicCapScale(actor){
  const growth=pvpGrowth(actor);
@@ -77,7 +81,7 @@ export function mercenaryGrowthOpeningGauge(actor){
  return growth?Math.min(MERCENARY_PVP_GROWTH_COMBAT.maxOpeningGauge,Math.max(0,growth.actionCatchupPercent)+Math.max(0,growth.actionCreditPercent)):0;
 }
 export const mercenaryGrowthKeepsNaturalGauge=actor=>!!pvpGrowth(actor)&&actor.mercenaryLevel.level>1;
-export const MERCENARY_PVP_GROWTH_DESCRIPTION='용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다.';
+export const MERCENARY_PVP_GROWTH_DESCRIPTION='용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다.';
 // Restore only a fraction of a higher-level mercenary's damage removed by an
 // enemy mercenary's innate mitigation. Same-level, cards, PVE, poison/counters
 // without a direct source and legacy snapshots retain their existing rules.
