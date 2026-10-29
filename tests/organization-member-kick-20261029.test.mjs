@@ -7,6 +7,8 @@ const ok=r=>assert.equal(r.status,200,JSON.stringify(r));
 test('an elder removes a member from both current rosters and formations, preserving earned records and funds',async t=>{
  const f=await organizationKickFixture(t),before=await f.faction(),requestId=crypto.randomUUID();
  const view=(await f.overview(3)).data;
+ for(const member of view.roster)assert.deepEqual(Object.keys(member).sort(),['canKick','isElder','isSelf','joinedAt','nickname','slot','userId']);
+ assert.deepEqual(view.roster.map(m=>m.userId),[2,3,5,6]);assert.equal((await f.overview(4)).data.roster.some(m=>[2,3,5,6].includes(m.userId)),false);
  assert.deepEqual(view.roster.filter(m=>m.canKick).map(m=>m.userId),[5,6]);assert.equal((await f.overview(5)).data.roster.some(m=>m.canKick),false);
  const result=await f.kick({requestId},3);ok(result);assert.equal(result.data.memberCount,3);
  const after=await f.faction();assert.deepEqual(after.formations[1],{attack1:[6],defense1:[]});assert.deepEqual(after.captains[1],{});assert.equal(after.districts[0].defense,'');
