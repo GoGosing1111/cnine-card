@@ -1,0 +1,172 @@
+{
+  "approval": {
+    "date": "2026-10-29",
+    "request": "흑무로하고 SSS리미티드 승인, 획득불가, 핑크빛유두만 지급 전투력 400만",
+    "code": "V-968",
+    "name": "흑무",
+    "revision": "V11",
+    "battleVisualApproved": true,
+    "productionIntegrationAuthorized": true,
+    "basePower": 4000000,
+    "acquisition": "LOCKED",
+    "grant": {
+      "nickname": "핑크빛유두",
+      "quantity": 1
+    },
+    "defaultSpeed": 2,
+    "sourceArtSha256": "15f842cdd208cc2a066d6c15955595f88d1f58d7eddfb95c8b8550ec7d7f4194",
+    "swordSha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977"
+  },
+  "files": [
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/source-art.png",
+      "sha256": "15f842cdd208cc2a066d6c15955595f88d1f58d7eddfb95c8b8550ec7d7f4194",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/output/imagegen/mercenary-eclipse-dragon-20261029/mercenary-eclipse-dragon-source-art-v3-pommel-grip.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/idle.png",
+      "sha256": "474444340f19d8db6dbe710d431534d1913ff94515cbed37198ff66684249c26",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/idle.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/dash.png",
+      "sha256": "59c702c58ddb7d20b7ce44bf11ac4bb09ea4cc718f0dc8b7e4fb5324f3fbbf22",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/dash.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/slash.png",
+      "sha256": "848934900a3a372844ec1e0a60c9c26c991c6f25190d301fe2265fa0352ab8ec",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/slash.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/cross.png",
+      "sha256": "105134ee509e6b294226d5849cdbadbda0d8758e9e9782047173c85804760d87",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/cross.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/cast.png",
+      "sha256": "3ff649b4ade22588f12d1bd8045a467d251d27204d9d831a6902fd32aafa12e6",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/cast.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/ultimate.png",
+      "sha256": "3d9a09b4c9764e02f55f90e6e08545d882d5c6691375fc8738ec15122c2ec9e3",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/ultimate.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/hit.png",
+      "sha256": "21d7772b8d6bec359e62fc5f12274402f5e7a158d3484a130d901572facac0d3",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/hit.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/defeat.png",
+      "sha256": "9d49cf86ffc07c1b17a2f17c714410aa61cffdcee5e7cc204b9690e081430eb3",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/defeat.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/fx-aura.png",
+      "sha256": "8996a59e911a48179f631d4537256503882059544d621f64d6afc8de1a8de211",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/fx-aura.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/fx-dragon.png",
+      "sha256": "97200f2c9f8d9955373637b1ab843820fc3cd22fede166a497b00757bc31621e",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/fx-dragon.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/fx-dashfx.png",
+      "sha256": "88674cf61eb1dc1549d7ba6b9d72308e86310117d2cc0faf310315ffb53553ae",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/fx-dashfx.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/fx-blade.png",
+      "sha256": "a0c45bd50e8d802469d63f4f2c58b25486a8c475ef731f6fe5f9fc304266e7c5",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/fx-blade.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/fx-crossfx.png",
+      "sha256": "a3f951894dd78b4cf49aec8d7831a2b46a2de67a7fc17cedf739615b59d73a42",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/fx-crossfx.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/fx-charge.png",
+      "sha256": "3f1aa9dbff37c702493a0b12d836775c4b8007398cf140d60786a9457595d25b",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/fx-charge.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/fx-eruption.png",
+      "sha256": "3e1de2ee99a9579c3f9365226c2bfde424cb8fff2c98ac934ce6e1057de41519",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/fx-eruption.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/fx-impact.png",
+      "sha256": "9534c1613b553665b79f35f34633159597bca4f1ab30bdd9e00771e7e758c869",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/fx-impact.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/fx-cataclysm-v1.png",
+      "sha256": "bc756ce5508d80f9134338ff7f0b6e43790c5c1de936cabdd80c22dd87210ca9",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/fx-cataclysm-v1.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/fx-eclipsecut-v1.png",
+      "sha256": "b01571061f97927eab7bb3339ecb030f02eff6316e664c1c1de3d8163ef060c7",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/fx-eclipsecut-v1.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/assets/sword-planar-v9-blade80.png",
+      "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/assets/sword-planar-v9-blade80.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/assets/jinmu-coil-native.png",
+      "sha256": "094a34f59a4c200d312671b14bccaa7cbc9266abfe72fa9b620314cf2ddd6a5a",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/assets/jinmu-coil-native.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/hands-idle.png",
+      "sha256": "3a8d75fe435bdd57df65abf8e0dbe450c902af33675a2b943a460086fb1e94bd",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/hands-idle.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/hands-dash.png",
+      "sha256": "9ac5d0b9799abd57a9df7731c6ee2b6881cb79b3b228e675576fe5fde960c24b",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/hands-dash.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/hands-slash.png",
+      "sha256": "b6f0d8cfecf9873bc479e9a5d31d03598fced1eb1a8d1a7db802830e5ba6d9c4",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/hands-slash.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/hands-cross.png",
+      "sha256": "c6c770ae2a7b5b51c5c68691691b464505f02d464672cd6891016dc56bfffbf9",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/hands-cross.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/hands-cast.png",
+      "sha256": "d4e96f31a08396d6df16b68966d7787bcd869b319225eb07c351a260165299ca",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/hands-cast.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/hands-ultimate.png",
+      "sha256": "e455e969e00dae04730a1fa6d50efb678a0521540147b5ff09dcfd27ded26d4a",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/hands-ultimate.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/hands-hit.png",
+      "sha256": "010717f7a81d312f9fd1d633c6186d413ac3de94f4c67604ec18260db9ff9774",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/hands-hit.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/atlases/hands-defeat.png",
+      "sha256": "6a8439e44a91c7a268f0ee3d4cc8596e87fa951947cd900e3629e0e84d0694be",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/atlases/hands-defeat.png"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/heukmu-20261029/assets/battle-idle-v11.png",
+      "sha256": "ded596f1b30048f8f983bd5d1b7cd2890353002de142e2fe5d2422c8929e3859",
+      "source": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-heukmu-battle-20261029-v1/assets/battle-idle-v11.png"
+    }
+  ]
+}

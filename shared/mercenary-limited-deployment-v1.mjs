@@ -1,3 +1,4 @@
+import {HEUKMU_CODE,heukmuDeploymentSnapshot} from './mercenary-heukmu-v1.mjs';
 import {KAMISHIRO_CODE,kamishiroDeploymentSnapshot} from './mercenary-kamishiro-v1.mjs';
 import {CARDGU_CODE,cardguDeploymentSnapshot} from './mercenary-cardgu-v1.mjs';
 import {REVAN_CODE,revanDeploymentSnapshot} from './mercenary-revan-v1.mjs';
@@ -47,6 +48,7 @@ export function limitedDeploymentSnapshot(code){
  if(code===EUNSEOL_CODE)return eunseolDeploymentSnapshot();
  if(code===CARDGU_CODE)return cardguDeploymentSnapshot();
  if(code===KAMISHIRO_CODE)return kamishiroDeploymentSnapshot();
+ if(code===HEUKMU_CODE)return heukmuDeploymentSnapshot();
  if(code===GENERAL_JOK_CODE)return generalJokDeploymentSnapshot();
  if(code===PRIME_CODE)return primeDeploymentSnapshot();
  if(code===ZERO_CODE)return zeroDeploymentSnapshot();

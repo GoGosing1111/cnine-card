@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-29",
+  "request": "흑무로하고 SSS리미티드 승인, 획득불가, 핑크빛유두만 지급 전투력 400만",
+  "code": "V-968",
+  "name": "흑무",
+  "revision": "V11",
+  "battleVisualApproved": true,
+  "productionIntegrationAuthorized": true,
+  "basePower": 4000000,
+  "acquisition": "LOCKED",
+  "grant": {
+    "nickname": "핑크빛유두",
+    "quantity": 1
+  },
+  "defaultSpeed": 2,
+  "sourceArtSha256": "15f842cdd208cc2a066d6c15955595f88d1f58d7eddfb95c8b8550ec7d7f4194",
+  "swordSha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977"
+}

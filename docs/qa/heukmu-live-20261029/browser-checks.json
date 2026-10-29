@@ -1,0 +1,452 @@
+[
+  {
+    "file": "pvp-desktop.json",
+    "field": "PVP",
+    "ready": true,
+    "allies": 5,
+    "enemies": 5,
+    "actors": [
+      {
+        "side": "ALLY",
+        "mode": "idle",
+        "hp": 100,
+        "handError": 0,
+        "body": {
+          "bodyHeight": 285,
+          "renderedReference": 285,
+          "uniform": true
+        },
+        "position": {
+          "x": 380,
+          "y": 240
+        },
+        "auraFixed": true,
+        "effects": 0
+      },
+      {
+        "side": "ENEMY",
+        "mode": "idle",
+        "hp": 100,
+        "handError": 0,
+        "body": {
+          "bodyHeight": 285,
+          "renderedReference": 285,
+          "uniform": true
+        },
+        "position": {
+          "x": 1220,
+          "y": 240
+        },
+        "auraFixed": true,
+        "effects": 0
+      }
+    ],
+    "reports": [
+      {
+        "side": "ALLY",
+        "code": "V-968",
+        "eventType": "ATTACK",
+        "mode": "attack",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": [
+          0.8
+        ],
+        "durationSeconds": 2.3,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "handError": 0
+      },
+      {
+        "side": "ALLY",
+        "code": "V-968",
+        "eventType": "ATTACK",
+        "mode": "cross",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": [
+          0.87
+        ],
+        "durationSeconds": 2.85,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "handError": 0
+      },
+      {
+        "side": "ENEMY",
+        "code": "V-968",
+        "eventType": "ATTACK",
+        "mode": "attack",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": [
+          0.8
+        ],
+        "durationSeconds": 2.3,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "handError": 0
+      },
+      {
+        "side": "ENEMY",
+        "code": "V-968",
+        "eventType": "ATTACK",
+        "mode": "cross",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": [
+          0.87
+        ],
+        "durationSeconds": 2.85,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "handError": 0
+      }
+    ],
+    "errors": [],
+    "allChecksPassed": true
+  },
+  {
+    "file": "pve-desktop.json",
+    "field": "HUNT",
+    "ready": true,
+    "allies": 5,
+    "enemies": 12,
+    "actors": [
+      {
+        "side": "ALLY",
+        "mode": "idle",
+        "hp": 100,
+        "handError": 0,
+        "body": {
+          "bodyHeight": 285,
+          "renderedReference": 285,
+          "uniform": true
+        },
+        "position": {
+          "x": 380,
+          "y": 240
+        },
+        "auraFixed": true,
+        "effects": 0
+      }
+    ],
+    "reports": [
+      {
+        "side": "ALLY",
+        "code": "V-968",
+        "eventType": "ATTACK",
+        "mode": "attack",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": [
+          0.8
+        ],
+        "durationSeconds": 2.3,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "handError": 0
+      },
+      {
+        "side": "ALLY",
+        "code": "V-968",
+        "eventType": "ATTACK",
+        "mode": "cross",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": [
+          0.87
+        ],
+        "durationSeconds": 2.85,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "handError": 0
+      },
+      {
+        "code": "V-968",
+        "eventType": "MERCENARY_HEUKMU_AREA",
+        "mode": "cast",
+        "authoritative": true,
+        "damageApplications": 12,
+        "contactSeconds": [
+          1.9,
+          1.9249999999999998,
+          1.95,
+          1.9749999999999999,
+          2,
+          2.025,
+          2.05,
+          2.0749999999999997,
+          2.1,
+          2.125,
+          2.15,
+          2.175
+        ],
+        "durationSeconds": 5.1,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "uniqueApplications": 12
+      },
+      {
+        "code": "V-968",
+        "eventType": "MERCENARY_HEUKMU_AREA",
+        "mode": "ultimate",
+        "authoritative": true,
+        "damageApplications": 12,
+        "contactSeconds": [
+          2.05,
+          2.0749999999999997,
+          2.0999999999999996,
+          2.125,
+          2.15,
+          2.175,
+          2.1999999999999997,
+          2.2249999999999996,
+          2.25,
+          2.275,
+          2.3,
+          2.3249999999999997
+        ],
+        "durationSeconds": 5.65,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "uniqueApplications": 12
+      }
+    ],
+    "errors": [],
+    "allChecksPassed": true
+  },
+  {
+    "file": "pvp-mobile.json",
+    "field": "PVP",
+    "ready": true,
+    "allies": 5,
+    "enemies": 5,
+    "actors": [
+      {
+        "side": "ALLY",
+        "mode": "idle",
+        "hp": 100,
+        "handError": 0,
+        "body": {
+          "bodyHeight": 285,
+          "renderedReference": 285,
+          "uniform": true
+        },
+        "position": {
+          "x": 359.4098366278213,
+          "y": 402.7213420528094
+        },
+        "auraFixed": true,
+        "effects": 0
+      },
+      {
+        "side": "ENEMY",
+        "mode": "idle",
+        "hp": 100,
+        "handError": 0,
+        "body": {
+          "bodyHeight": 285,
+          "renderedReference": 285,
+          "uniform": true
+        },
+        "position": {
+          "x": 791.4098366278213,
+          "y": 402.7213420528094
+        },
+        "auraFixed": true,
+        "effects": 0
+      }
+    ],
+    "reports": [
+      {
+        "side": "ALLY",
+        "code": "V-968",
+        "eventType": "ATTACK",
+        "mode": "attack",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": [
+          0.8
+        ],
+        "durationSeconds": 2.3,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "handError": 0
+      },
+      {
+        "side": "ALLY",
+        "code": "V-968",
+        "eventType": "ATTACK",
+        "mode": "cross",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": [
+          0.87
+        ],
+        "durationSeconds": 2.85,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "handError": 0
+      },
+      {
+        "side": "ENEMY",
+        "code": "V-968",
+        "eventType": "ATTACK",
+        "mode": "attack",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": [
+          0.8
+        ],
+        "durationSeconds": 2.3,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "handError": 0
+      },
+      {
+        "side": "ENEMY",
+        "code": "V-968",
+        "eventType": "ATTACK",
+        "mode": "cross",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": [
+          0.87
+        ],
+        "durationSeconds": 2.85,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "handError": 0
+      }
+    ],
+    "errors": [],
+    "allChecksPassed": true
+  },
+  {
+    "file": "pve-mobile.json",
+    "field": "HUNT",
+    "ready": true,
+    "allies": 5,
+    "enemies": 12,
+    "actors": [
+      {
+        "side": "ALLY",
+        "mode": "idle",
+        "hp": 100,
+        "handError": 0,
+        "body": {
+          "bodyHeight": 285,
+          "renderedReference": 285,
+          "uniform": true
+        },
+        "position": {
+          "x": 359.3711790393013,
+          "y": 450.54588750980827
+        },
+        "auraFixed": true,
+        "effects": 0
+      }
+    ],
+    "reports": [
+      {
+        "side": "ALLY",
+        "code": "V-968",
+        "eventType": "ATTACK",
+        "mode": "attack",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": [
+          0.8
+        ],
+        "durationSeconds": 2.3,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "handError": 0
+      },
+      {
+        "side": "ALLY",
+        "code": "V-968",
+        "eventType": "ATTACK",
+        "mode": "cross",
+        "authoritative": true,
+        "damageApplications": 1,
+        "contactSeconds": [
+          0.87
+        ],
+        "durationSeconds": 2.85,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "handError": 0
+      },
+      {
+        "code": "V-968",
+        "eventType": "MERCENARY_HEUKMU_AREA",
+        "mode": "cast",
+        "authoritative": true,
+        "damageApplications": 12,
+        "contactSeconds": [
+          1.9,
+          1.9249999999999998,
+          1.95,
+          1.9749999999999999,
+          2,
+          2.025,
+          2.05,
+          2.0749999999999997,
+          2.1,
+          2.125,
+          2.15,
+          2.175
+        ],
+        "durationSeconds": 5.1,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "uniqueApplications": 12
+      },
+      {
+        "code": "V-968",
+        "eventType": "MERCENARY_HEUKMU_AREA",
+        "mode": "ultimate",
+        "authoritative": true,
+        "damageApplications": 12,
+        "contactSeconds": [
+          2.05,
+          2.0749999999999997,
+          2.0999999999999996,
+          2.125,
+          2.15,
+          2.175,
+          2.1999999999999997,
+          2.2249999999999996,
+          2.25,
+          2.275,
+          2.3,
+          2.3249999999999997
+        ],
+        "durationSeconds": 5.65,
+        "playbackRate": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "cameraZoom": false,
+        "uniqueApplications": 12
+      }
+    ],
+    "errors": [],
+    "allChecksPassed": true
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "tests": [
+    "tests/heukmu-live-20261029.test.mjs",
+    "tests/heukmu-runtime-20261029.test.mjs",
+    "tests/pingdu-heukmu-grant-20261029.test.mjs",
+    "tests/mercenary-turn-cadence-v2099.test.mjs",
+    "tests/sss-area-cutins-20261028.test.mjs"
+  ],
+  "passed": 31,
+  "workerSyntax": true,
+  "grantDryRun": {
+    "mode": "dry-run",
+    "sourceSha256": "076045a7034e9389c97ab30e4758352ce617533ee0cf4d695979d82b80b836ab",
+    "planHash": "d2a26adcbda05763bec8de27aada9c0539272e2e9c09875c4089849fd81fcea1",
+    "verification": {
+      "status": "VERIFIED",
+      "recipientCount": 1,
+      "totalQuantity": 1,
+      "stockCountersChanged": false,
+      "limitedIssueRecordsAdded": 0,
+      "craftCountsChanged": false,
+      "acquisitionRecords": 1,
+      "auditRecords": 1
+    },
+    "rollbackVerified": true,
+    "injectedFailureRollback": true,
+    "noWriteReplayVerified": true,
+    "leasesReleased": true
+  },
+  "baselineException": {
+    "file": "tests/prime-zero-general-jok-priority-20261026.test.mjs",
+    "case": "PVE and other opponents keep normal stats, while existing Razak SS priority remains intact",
+    "expected": 1,
+    "actual": 6,
+    "reproducedOnCleanBaseline": "cc1a8ff726c3e5de2a9bc105fc8963795b981f3e",
+    "reason": "Existing Razak priority expectation; not a Heukmu change. Other four cases passed."
+  }
+}

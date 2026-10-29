@@ -1,0 +1,29 @@
+{
+  "operationKey": "ops:pingdu-heukmu-grant:20261029:v1",
+  "authorization": "흑무로하고 SSS리미티드 승인, 획득불가, 핑크빛유두만 지급 전투력 400만",
+  "stockPolicy": "DIRECT_NO_PUBLIC_ACQUISITION",
+  "cost": 0,
+  "automaticLoadout": false,
+  "sendMessages": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "1",
+      "nickname": "핑크빛유두",
+      "role": "OWNER",
+      "status": "ACTIVE",
+      "identityHash": "051f2e570447098a62f8cfefe788d0bbafc4ab8a0d32fda912537c062605c5a5"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "1",
+      "nickname": "핑크빛유두",
+      "code": "V-968",
+      "name": "흑무",
+      "quantity": 1
+    }
+  ],
+  "context": "기본 전투력 4,000,000 흑무 라이브 반영 후 핑크빛유두 1장 영구 직접 지급. 기존 성장·편성·재화 보존. 일반 획득 경로는 잠금 유지."
+}
