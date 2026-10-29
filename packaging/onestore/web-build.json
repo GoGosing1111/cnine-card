@@ -4,7 +4,7 @@
     "packaging/onestore/web/client-patch.json": "4a88eec618f16e6e0aee5391845a89d09ca912f98d940e8a74105bf54d5d83de",
     "index.html": "6195cc58e03bf5464f3f0fdf466b5788706c6533700bfe9591c4bcf071745faa",
     "js/app.js": "2508d59c5a83c1efcd9ffe289301d24cf99931102f708d70e9494e3ce0aaaee6",
-    "js/soopketmon-v21-exact-shell-adapter.js": "d0cddff2b1ab72bbc6f399ac95bdf95830db87d6b683aab482a165d1d693959c",
+    "js/soopketmon-v21-exact-shell-adapter.js": "a47a77f0303b3372f4d03077bdf38e1ec56b49358f44bbf4c30cae1c0426b716",
     "js/soopketmon-v21-runtime-router.js": "52db16c155c979d118c795942113cbde95c4d518a7884bcc559c4138746ece12",
     "js/adventure-lobby-v2107.js": "acb7b94497e1d6d2ecd6edcfa1ae61c363ca5831ae6a9acb85973a0fc641bcf2",
     "js/pet-equipment-window-v1.mjs": "3ff80a4921d1b22d5df194ccc4a957a9fb1204bf3f4b8786d7d09ffe626d975b",
@@ -22,7 +22,7 @@
   },
   "outputs": {
     "onestore/js/app.js": "8d90030af28b9c69b8132039c538f99cbff0455dd66252cdbfaeab1599c7c7f9",
-    "onestore/js/soopketmon-v21-exact-shell-adapter.js": "6cc9564b7161d8f24197f09c9fe5c92847f799545005fc1fc41b859ccf073162",
+    "onestore/js/soopketmon-v21-exact-shell-adapter.js": "b154937e152ff665bf746946105c8c37d1ea908a5f690e782526fe440a786b9a",
     "onestore/js/soopketmon-v21-runtime-router.js": "1a659fd42599665466573a403ed73e24742ae315401b83a30d240d27ff592431",
     "onestore/js/adventure-lobby-v2107.js": "fc17524fba20947437368dfd3dee6f0b4cf259a829210d2adacc1f7925f3bffd",
     "onestore/js/pet-equipment-window-v1.mjs": "85477afbfd66c5b0432c2ab9dc76e471cfe07f6aa7eb54fd5c7c1db13b41c1fa",
@@ -34,6 +34,6 @@
     "onestore/h5-sdk.js": "c9e18131d55df5ad36ec1c8bd6bc78f9f1113be8e49cf946f2ed121d58b4ee19",
     "onestore/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27",
     "onestore/index.html": "544cac710f24ad593c5a14d23e59d593b0b954fac99b30228b566e89c64c44bf",
-    "shared/onestore-web-assets-v1.mjs": "0c78ac5368d1ee3edf481b3a23411b67a39bbb211bb4f2bcd2f01fca32b2aa7f"
+    "shared/onestore-web-assets-v1.mjs": "c09e02afcbdb6b40175945bc7644e139a0a785b4caf6236045cc1c91b529b763"
   }
 }

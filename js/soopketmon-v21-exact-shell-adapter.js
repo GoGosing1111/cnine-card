@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '20261029-observatory-v1';
+  const VERSION = '2108-shared-navigation';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -191,7 +191,7 @@
       const link = document.createElement('link');
       link.id = id;
       link.rel = 'stylesheet';
-      link.href = `${cssHref(filename)}?v=${VERSION}`;
+      link.href = `${cssHref(filename)}?v=${VERSION}` + (id === 'adventureLobbyV2107' ? '&lobby=20261029-observatory-v1' : '');
       if (id === 'soopketmonV21ProductionIntegration') link.href += '&queen=20260928-detail&general=20261005';
       document.head.append(link);
     });
