@@ -1,0 +1,106 @@
+{
+  "status": "COMPLETE",
+  "completedAt": "2026-10-29T06:33:02.902Z",
+  "deployedCommit": "afec3c609562f59deb9d31c98651200e6ce47d46",
+  "pages": {
+    "id": "057855c1-c311-4c94-b425-34574177317c",
+    "url": "https://057855c1.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "afec3c609562f59deb9d31c98651200e6ce47d46"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "fbcb18bc-53c1-438d-862b-5da41aa6b8e6",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "ac1393c9-697a-4214-bead-7d4cfb54551f",
+      "percentage": 100
+    }
+  ],
+  "operationKey": "ops:arden-craft:20261029:v1",
+  "auditId": "52722",
+  "registeredAtKst": "2026-10-29 15:32:37",
+  "recipes": [
+    {
+      "id": "560",
+      "code": "WORKSHOP_ARDEN_TOP",
+      "name": "아르덴 아머 제작",
+      "inputEquipmentId": 43,
+      "outputEquipmentId": "117",
+      "requiredLevel": 15,
+      "coinCost": 50000000000000,
+      "energyCode": "ARDEN_ENERGY",
+      "energyQuantity": 50,
+      "successRate": 10,
+      "failuresBeforeGuarantee": 3,
+      "guaranteedAttempt": 4,
+      "failureInputPolicy": "PRESERVE",
+      "outputLevel": 0
+    },
+    {
+      "id": "561",
+      "code": "WORKSHOP_ARDEN_BOTTOM",
+      "name": "아르덴 그리브 제작",
+      "inputEquipmentId": 44,
+      "outputEquipmentId": "118",
+      "requiredLevel": 15,
+      "coinCost": 50000000000000,
+      "energyCode": "ARDEN_ENERGY",
+      "energyQuantity": 50,
+      "successRate": 10,
+      "failuresBeforeGuarantee": 3,
+      "guaranteedAttempt": 4,
+      "failureInputPolicy": "PRESERVE",
+      "outputLevel": 0
+    },
+    {
+      "id": "562",
+      "code": "WORKSHOP_ARDEN_SHOES",
+      "name": "아르덴 부츠 제작",
+      "inputEquipmentId": 45,
+      "outputEquipmentId": "119",
+      "requiredLevel": 15,
+      "coinCost": 50000000000000,
+      "energyCode": "ARDEN_ENERGY",
+      "energyQuantity": 50,
+      "successRate": 10,
+      "failuresBeforeGuarantee": 3,
+      "guaranteedAttempt": 4,
+      "failureInputPolicy": "PRESERVE",
+      "outputLevel": 0
+    },
+    {
+      "id": "563",
+      "code": "WORKSHOP_ARDEN_DUAL_DISK",
+      "name": "아르덴 듀얼디스크 제작",
+      "inputEquipmentId": 46,
+      "outputEquipmentId": "120",
+      "requiredLevel": 15,
+      "coinCost": 50000000000000,
+      "energyCode": "ARDEN_ENERGY",
+      "energyQuantity": 50,
+      "successRate": 10,
+      "failuresBeforeGuarantee": 3,
+      "guaranteedAttempt": 4,
+      "failureInputPolicy": "PRESERVE",
+      "outputLevel": 0
+    }
+  ],
+  "validation": {
+    "scopedTests": 50,
+    "desktopMobileChecks": 71,
+    "publicMobileChecks": 5,
+    "publicAssets": 11,
+    "workerTrafficPercent": 100,
+    "registrationFailureRolledBack": true,
+    "registrationDryRunRolledBack": true,
+    "readOnlyVerification": true,
+    "selectOnlyReplay": true,
+    "productionAccountWrites": 0,
+    "messagesSent": 0
+  },
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/arden-craft-20261029"
+}
