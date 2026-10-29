@@ -13,3 +13,10 @@
 관련 검사: `tests/equipment-loading.test.mjs`, `tests/raid-bus-driver-title-20261005.test.mjs`; 운영 명령: `npm run deploy:production -- --scoped`. 최종 배포·운영 등록 결과는 completion.json에 기록한다.
 
 증거: `operations/chat-squad-title-20261029/`. 기존 희소 체크아웃과 의존성을 재사용하며 Git 자동 유지관리를 비활성화했다. 저장공간 유지관리·예약은 수행하지 않았다.
+
+## 운영 완료
+
+- 2026-10-29 21:10:20 KST · 감사 52764 · 칭호 ID 2146117.
+- 소스 5be458a3a05245edea872541f5b2fa0d6097166a · Pages 18c1fb36-a283-4fe3-9b55-29e09e8e44da.
+- 칭호 15검사 + 포장 4검사 통과. 공개 9파일 일치·두 Worker 100%·공개 PC/모바일 확인. 독립 READ ONLY 및 SELECT 전용 재실행 추가쓰기 0.
+- 공개 파일 수 한도 조정은 기존 칭호 제작 기록 JSON 2개를 Git에 유지하며 배포 포장에서만 제외했다. 승인 원본/프롬프트와 게임 자산 삭제 없음.

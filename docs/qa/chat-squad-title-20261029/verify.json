@@ -1,0 +1,29 @@
+{
+  "mode": "verify",
+  "status": "VERIFIED",
+  "operationKey": "ops:chat-squad-title:20261029:v1",
+  "sourceHash": "f0f3fe255a9b16bee00aa05abeebd0f857ec1782b504c18524a47f980bdac3c2",
+  "referenceHash": "6a83823c80704414c48488851d58fc7ed1bd4520747c195e66359c052b8e3f01",
+  "verification": {
+    "verified": true,
+    "titleId": "2146117",
+    "name": "채팅부대",
+    "power": 475000,
+    "image": "/assets/ui/titles/chat-squad-v1.webp",
+    "style": "CHAT_SQUAD",
+    "manual": true,
+    "active": true,
+    "public": true,
+    "unchangedSinceCreation": true,
+    "auditId": "52764"
+  },
+  "auditId": null,
+  "completedAt": null,
+  "checks": {
+    "readOnly": true,
+    "additionalWrites": 0
+  },
+  "writes": [],
+  "selectOnlyQueries": 3,
+  "checkedAt": "2026-10-29T12:10:25.338Z"
+}

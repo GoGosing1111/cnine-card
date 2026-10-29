@@ -1,0 +1,171 @@
+{
+  "status": "DEPLOYED_CREATED_AND_VERIFIED",
+  "operationKey": "ops:chat-squad-title:20261029:v1",
+  "sourceCommit": "5be458a3a05245edea872541f5b2fa0d6097166a",
+  "pages": {
+    "id": "18c1fb36-a283-4fe3-9b55-29e09e8e44da",
+    "url": "https://18c1fb36.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "5be458a3a05245edea872541f5b2fa0d6097166a"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "a1e7f453-d523-4805-8f85-c0b476020215",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "79ded512-e444-464c-b37d-f85c34a7c57c",
+      "percentage": 100
+    }
+  ],
+  "titleId": "2146117",
+  "titleCode": "TITLE_CHAT_SQUAD",
+  "titleName": "채팅부대",
+  "pvePower": 475000,
+  "pvpPower": 475000,
+  "referenceTitle": {
+    "id": "655095",
+    "code": "RAID_BUS_DRIVER",
+    "name": "버스기사",
+    "power": 475000
+  },
+  "image": "/assets/ui/titles/chat-squad-v1.webp",
+  "style": "CHAT_SQUAD",
+  "unlockType": "MANUAL",
+  "active": true,
+  "public": true,
+  "createdAt": "2026-10-29T12:10:20.410Z",
+  "createdAtKST": "2026-10-29 21:10:20 KST",
+  "auditId": "52764",
+  "accountGrants": 0,
+  "messagesSent": 0,
+  "testsPassed": 19,
+  "localBrowser": [
+    {
+      "viewport": "desktop",
+      "pve": 475000,
+      "pvp": 475000,
+      "busDriverEqual": true,
+      "switchAndUnequip": true,
+      "unownedLocked": true,
+      "cms": true,
+      "plaqueRatio": 3,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "pve": 475000,
+      "pvp": 475000,
+      "busDriverEqual": true,
+      "switchAndUnequip": true,
+      "unownedLocked": true,
+      "cms": true,
+      "plaqueRatio": 3,
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "publicBrowser": [
+    {
+      "viewport": "desktop",
+      "pve": 475000,
+      "pvp": 475000,
+      "busDriverEqual": true,
+      "switchAndUnequip": true,
+      "unownedLocked": true,
+      "cms": true,
+      "plaqueRatio": 3,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "pve": 475000,
+      "pvp": 475000,
+      "busDriverEqual": true,
+      "switchAndUnequip": true,
+      "unownedLocked": true,
+      "cms": true,
+      "plaqueRatio": 3,
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "publicAssets": [
+    {
+      "file": "index.html",
+      "sha256": "ec49eecec84e38c05d7e52b4d74a2a2f5a64814a19087d60178c4179a040c673",
+      "bytes": 47934,
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "5aa944c1e2fc3bea710c03e7977f2666c7fc46e2515258678ec6afc801e54478",
+      "bytes": 21565,
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "6991e2209d8306f5dbeff495e8443485e5212eeddb693a8fd2c194e9865743ee",
+      "bytes": 795949,
+      "status": 200
+    },
+    {
+      "file": "js/character-loadout-v2.js",
+      "sha256": "90b0b3c08decc0a632b7c2c08f5d2bd6f06c8b5706bf21aed73c0f68a98b6e28",
+      "bytes": 47744,
+      "status": 200
+    },
+    {
+      "file": "js/equipment-v1274.js",
+      "sha256": "51d4ff5593831684fc298ac0f190846f53d6469029947d2ad193c37554cae17b",
+      "bytes": 29481,
+      "status": 200
+    },
+    {
+      "file": "css/achievement-titles-20260927.css",
+      "sha256": "874350b20f8042d3324482113a9285645e2f197e2bab01c336d3d633825fa404",
+      "bytes": 26164,
+      "status": 200
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "0cbe62ec46620eb907ac54bdeba1ffac9470bcb3cc9b577d705232bb4db7a28a",
+      "bytes": 82763,
+      "status": 200
+    },
+    {
+      "file": "admin/equipment-admin-v1278.js",
+      "sha256": "082337a1b93e05e79518b30fefb714cf99695ac3d00bb273807c8b3a11cad8d9",
+      "bytes": 42593,
+      "status": 200
+    },
+    {
+      "file": "assets/ui/titles/chat-squad-v1.webp",
+      "sha256": "250deb643fe9e443b5b9254f50a74527de6b892c6d29161a6e7f30ae4ff2ccb9",
+      "bytes": 204724,
+      "status": 200
+    }
+  ],
+  "server": {
+    "titlePresetPresent": true,
+    "sha256": "121059a1a0e7270b55c68e0e6cd3ec01d8e52992a6332803c35485a1f3b3cb05"
+  },
+  "transactionChecks": {
+    "invalidReferenceRejected": true,
+    "injectedFailureRolledBack": true,
+    "successfulRehearsalRolledBack": true,
+    "readOnlyReplay": true,
+    "existingCatalogPreserved": true,
+    "noAccountOrMessageWrites": true
+  },
+  "independentReadOnlyVerified": true,
+  "selectOnlyReplay": true,
+  "existingCatalogPreserved": true,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/chat-squad-title-20261029",
+  "storageMaintenance": false,
+  "scheduledTasks": false
+}

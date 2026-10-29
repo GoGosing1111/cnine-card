@@ -1,0 +1,58 @@
+{
+  "mode": "dry-run",
+  "status": "ROLLED_BACK",
+  "operationKey": "ops:chat-squad-title:20261029:v1",
+  "sourceHash": "f0f3fe255a9b16bee00aa05abeebd0f857ec1782b504c18524a47f980bdac3c2",
+  "referenceHash": "6a83823c80704414c48488851d58fc7ed1bd4520747c195e66359c052b8e3f01",
+  "verification": {
+    "verified": true,
+    "titleId": "2145486",
+    "name": "채팅부대",
+    "power": 475000,
+    "image": "/assets/ui/titles/chat-squad-v1.webp",
+    "style": "CHAT_SQUAD",
+    "manual": true,
+    "active": true,
+    "public": true,
+    "unchangedSinceCreation": true,
+    "auditId": "52761"
+  },
+  "auditId": null,
+  "completedAt": null,
+  "checks": {
+    "invalidReferenceRejected": true,
+    "injectedFailureRolledBack": true,
+    "successfulRehearsalRolledBack": true,
+    "readOnlyReplay": true,
+    "existingCatalogPreserved": true,
+    "noAccountOrMessageWrites": true
+  },
+  "writes": [
+    {
+      "relname": "app_meta",
+      "n_tup_ins": "1",
+      "n_tup_upd": "0",
+      "n_tup_del": "0"
+    },
+    {
+      "relname": "character_titles",
+      "n_tup_ins": "2",
+      "n_tup_upd": "0",
+      "n_tup_del": "0"
+    },
+    {
+      "relname": "admin_logs",
+      "n_tup_ins": "2",
+      "n_tup_upd": "0",
+      "n_tup_del": "0"
+    },
+    {
+      "relname": "ranked_duo_policy_version_v1",
+      "n_tup_ins": "0",
+      "n_tup_upd": "2",
+      "n_tup_del": "0"
+    }
+  ],
+  "selectOnlyQueries": 6,
+  "checkedAt": "2026-10-29T11:56:20.421Z"
+}

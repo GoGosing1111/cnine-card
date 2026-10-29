@@ -1,0 +1,28 @@
+{
+  "base": "252100d8328e3c924a920a084c8c2e5bd08f3e39",
+  "sourceCommit": "5be458a3a05245edea872541f5b2fa0d6097166a",
+  "reason": "Add the requested chat squad title and transparent plaque, matching the current bus driver power of 475000 in PVE and PVP. Verify existing title ownership/appearance and equip/switch/unequip paths. No user grants, currency or message changes. Preserve concurrent completed releases. The 15 title regressions already passed on identical runtime files. Only packaging of two unused title-authoring records changed after the file-count gate; check the packaging path only.",
+  "tests": [
+    "tests/production-sparse-staging-20261023.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "before": {
+    "Id": "c898b8ef-c9de-4b06-9c18-43a2e57284ca",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "252100d",
+    "Deployment": "https://c898b8ef.cnine-card.pages.dev",
+    "Status": "7 minutes ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/c898b8ef-c9de-4b06-9c18-43a2e57284ca"
+  },
+  "prechecked": {
+    "commit": "5ecfd15ef264bb61cf7a2e674475ec6e8f3fc6b7",
+    "tests": [
+      "tests/equipment-loading.test.mjs",
+      "tests/raid-bus-driver-title-20261005.test.mjs"
+    ],
+    "passed": 15
+  }
+}
