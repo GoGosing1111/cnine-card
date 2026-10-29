@@ -11,3 +11,5 @@
 기존 tmp/duo-settlement-recovery-20261027의 깨끗한 희소 체크아웃과 상위 폴더 의존성을 재사용했다. 다른 진행 중 체크아웃은 수정하지 않았다. Git 자동정리 OFF, 승인 없는 저장공간 유지관리/예약 없음.
 
 증거: C:/Users/User/Downloads/upload/cnine-card/operations/territory-mobile-layout-20261029/의 browser.mjs, before/local/stress/public 보고서와 화면, release.mjs 및 배포 기록.
+
+**운영 완료:** 소스 9fb2322d6 · Pages f8b3a284. 관련49검사, PC/모바일6크기80확인, 320px 긴 문구·양측 공성포 경고15확인, 최신 운영 기반/최종 CSS15확인, 공개 모바일15확인과 공개5파일·두 Worker100%를 확인했다. API는 격리 fixture다. 최신 흑무 운영 변경을 보존했고 기존 battlefield CSS에 합쳐 공개 파일 수20,000개를 유지했다.

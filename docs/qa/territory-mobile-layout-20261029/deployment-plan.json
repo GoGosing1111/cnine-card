@@ -1,11 +1,11 @@
 {
   "before": {
-    "id": "bcb71a79-71e9-4784-88eb-29981e277d61",
-    "url": "https://bcb71a79.cnine-card.pages.dev",
+    "id": "855ed977-6b01-4daa-9b26-df6759a9b600",
+    "url": "https://855ed977.cnine-card.pages.dev",
     "status": "success",
-    "commit": "dd3ffeb48327724ab5b0fc5d39b1ac0a219be902"
+    "commit": "1d0ba52f76c3cc7f7db9b9bdbb4b61b9cbe5ea70"
   },
-  "base": "dd3ffeb48327724ab5b0fc5d39b1ac0a219be902",
+  "base": "1d0ba52f76c3cc7f7db9b9bdbb4b61b9cbe5ea70",
   "reason": "모바일 영토전의 고정 전장 높이와 절대 배치된 목표 선택부가 방벽·중계탑을 덮는 문제를 실제 메인에서 재현. 영토전 전용 모바일 흐름 배치와 가로 화면 거점 패널 및 채팅 위 상세창 닫기를 수정. PC/모바일 6크기 입력·스크롤·복귀와 관련 영토전 및 파생 문서 검사.",
   "tests": [
     "tests/territory-network-v6.test.mjs",
