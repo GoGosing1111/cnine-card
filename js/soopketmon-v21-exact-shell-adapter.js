@@ -191,7 +191,7 @@
       const link = document.createElement('link');
       link.id = id;
       link.rel = 'stylesheet';
-      link.href = `${cssHref(filename)}?v=${VERSION}` + (id === 'adventureLobbyV2107' ? '&lobby=20261029-observatory-v1' : '');
+      link.href = `${cssHref(filename)}?v=${VERSION}` + (id === 'adventureLobbyV2107' ? '&lobby=20261029-font-v5' : '');
       if (id === 'soopketmonV21ProductionIntegration') link.href += '&queen=20260928-detail&general=20261005';
       document.head.append(link);
     });

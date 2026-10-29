@@ -1,5 +1,5 @@
 /* Live data bindings and shared navigation around the approved lobby. */
-:host{font-family:Noto,'Malgun Gothic',sans-serif;color:var(--ink);background:#09131b}
+:host{font-family:var(--lobby-font);color:var(--ink);background:#09131b}
 .lobby-body{height:100%;width:100%;overflow:auto;background:transparent}
 .lobby{height:100%;min-height:760px}
 .topbar{padding:0;max-width:none}
@@ -11,7 +11,7 @@
 .account-rank-button{grid-row:1/3;display:grid;grid-template-columns:44px auto;align-items:center;gap:1px 8px;padding:0;text-align:left;min-height:44px}
 .account-rank-button img{display:block;grid-row:1/3;width:44px;height:44px;object-fit:contain}
 .account-rank-label{display:flex;flex-direction:column;gap:3px;white-space:nowrap}
-.account-rank-level{font:500 16px Barlow,sans-serif;letter-spacing:.5px}
+.account-rank-level{font:500 16px var(--lobby-font);letter-spacing:.5px}
 .account-rank-name{font-size:10px;color:#cdddca}
 .account-rank-xp{display:none}
 .account-name-shortcut{min-width:0;padding:8px 0;text-align:left}
@@ -88,7 +88,7 @@
 /* Keep mode labels readable over both bright and dark avatar illustrations. */
 .mode-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:5px;border:1px solid #5c7381;border-radius:6px;background:#0b1928;margin-bottom:10px}
 .mode-tabs button{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;height:44px;padding:0 9px;border:1px solid #395368;border-radius:3px;background:#1b3044;color:#dbe7ef;font-size:15px;font-weight:700;text-align:center}
-.mode-tabs small{margin:0;font:700 11px Noto,'Malgun Gothic',sans-serif;letter-spacing:.6px;color:inherit}
+.mode-tabs small{margin:0;font:700 11px var(--lobby-font);letter-spacing:.6px;color:inherit}
 .mode-tabs button[aria-selected=true]{color:#d4f492;border-color:#d4f492;background:#294338;box-shadow:inset 0 -3px #d4f492}
 .mode-tabs button[aria-selected=true]:after{display:none}
 .mode-tabs button:hover{filter:brightness(1.15)}
