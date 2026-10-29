@@ -15,7 +15,7 @@
   const pendingStockAdds=new Map();
   function kaironMaterial(material={}){
     const required=selected()?.craftRequiredMaterial,locked=required&&material.item_code===required;
-    const items=state.inventoryItems.filter(i=>i.code!=='MASTER_STAR'&&(required?i.code!=='MERCENARY_SSS_CARD_SHARD':i.code!=='MERCENARY_SSS_LIMITED_SHARD'));
+    const items=selected()?.code==='WORKSHOP_AWAKENED_OMEGA'?[{code:'MERCENARY:V-021',name:'오메가-X'}]:state.inventoryItems.filter(i=>i.code!=='MASTER_STAR'&&(required?i.code!=='MERCENARY_SSS_CARD_SHARD':i.code!=='MERCENARY_SSS_LIMITED_SHARD'));
     return `<div class="workshop-material-row-v1668"><label><span>${locked?'필수 재료':'재료 아이템'}</span><select data-workshop-material-code ${locked?'disabled':''}>${option('','재료 선택',material.item_code)}${items.map(i=>option(i.code,i.name+' · '+i.code,material.item_code)).join('')}</select></label><label><span>필요 수량</span><input data-workshop-material-qty type="number" min="1" max="100000000" placeholder="미입력" value="${esc(material.quantity??'')}"></label><button type="button" class="ghostDanger" data-workshop-material-remove ${locked?'disabled':''}>삭제</button></div>`;
   }
   function craftStockHtml(recipe){
@@ -39,16 +39,16 @@
     }
   }
   function mercenaryEditor(recipe,root){
-    const jokro=recipe.code==='WORKSHOP_JOKRO',limited=recipe.craftScope==='SSS_LIMITED_SHARD';
+    const omega=recipe.code==='WORKSHOP_AWAKENED_OMEGA',jokro=recipe.code==='WORKSHOP_JOKRO',limited=recipe.craftScope==='SSS_LIMITED_SHARD';
     root.classList.toggle('cn-command-ui',limited);
-    root.innerHTML=`<div class="workshop-kairon-admin ${limited?'cn-ui-panel':''} ${jokro?'workshop-jokro-admin':''}"><img src="/${esc(recipe.output_image)}" alt="${esc(recipe.output_name)} 승인 원화"><div><small>SSS LIMITED · ${limited?'LIMITED SHARD CRAFT':jokro?'CRAFT LIMIT 2':'CRAFT ONLY'}</small><h2>${esc(recipe.name)}</h2><p>${esc(recipe.description)}</p>${limited?'':`<p>${recipe.craftStock?.limit==null?(recipe.craftScope==='PRIME_MATERIAL'?'보유 재료와 현재 제작 조건에 따라 제작':'제작 한도 미정'):`서버 전체 제작 ${fmt(recipe.craftStock.limit)}장 · 남은 ${fmt(recipe.craftStock.remaining)}장`}</p>`}<strong>${esc(recipe.lockReason||'제작 조건 입력 완료')}</strong><p>${recipe.craftReleaseLocked?'현재 서버 제작 잠금 · 조건 입력만으로 개방되지 않습니다.<br>':''}미입력 값은 빈 상태로 보존합니다. 재료·수량·비용·성공 확률을 모두 입력한 뒤 운영과 유저 공개를 켜야 제작할 수 있습니다. 비용이 없으면 0을 직접 입력하세요.</p></div></div>
+    root.innerHTML=`<div class="workshop-kairon-admin ${limited?'cn-ui-panel':''} ${jokro?'workshop-jokro-admin':''}"><img src="/${esc(recipe.output_image)}" alt="${esc(recipe.output_name)} 승인 원화"><div><small>SSS LIMITED · ${limited?'LIMITED SHARD CRAFT':jokro?'CRAFT LIMIT 2':'CRAFT ONLY'}</small><h2>${esc(recipe.name)}</h2><p>${esc(recipe.description)}</p>${limited?'':`<p>${recipe.craftStock?.limit==null?(['AWAKENED_OMEGA','PRIME_MATERIAL'].includes(recipe.craftScope)?'보유 재료와 현재 제작 조건에 따라 제작':'제작 한도 미정'):`서버 전체 제작 ${fmt(recipe.craftStock.limit)}장 · 남은 ${fmt(recipe.craftStock.remaining)}장`}</p>`}<strong>${esc(recipe.lockReason||'제작 조건 입력 완료')}</strong><p>${recipe.craftReleaseLocked?'현재 서버 제작 잠금 · 조건 입력만으로 개방되지 않습니다.<br>':''}미입력 값은 빈 상태로 보존합니다. 재료·수량·비용·성공 확률을 모두 입력한 뒤 운영과 유저 공개를 켜야 제작할 수 있습니다. 비용이 없으면 0을 직접 입력하세요.</p></div></div>
       ${limited?`<div id="limitedShardCraftStock">${craftStockHtml(recipe)}</div>`:''}
       <div class="workshop-admin-core-v1668"><label><span>코인 비용</span><input id="kaironCoin" type="number" min="0" placeholder="미입력 · 잠금" value="${esc(recipe.coin_cost??'')}"></label><label><span>마스터의 별 비용</span><input id="kaironStars" type="number" min="0" max="${Number(recipe.craftMasterStarMax||1000000)}" placeholder="미입력 · 잠금" value="${esc(recipe.master_star_cost??'')}"></label><label><span>성공 확률 (%)</span><input id="kaironRate" type="number" min="0" max="100" step="0.01" placeholder="미입력 · 잠금" value="${esc(recipe.success_rate??'')}"></label><label><span>고정 지급</span><input value="SSS 리미티드 ${esc(recipe.output_name)} 1장" readonly></label></div>
       <div class="workshop-admin-material-head-v1668"><div><small>REQUIRED MATERIALS</small><h3>제작 재료</h3></div><button type="button" class="ghost" id="kaironMaterialAdd">+ 재료 추가</button></div><div id="workshopMaterialRowsV1668" class="workshop-admin-materials-v1668">${recipe.materials.map(kaironMaterial).join('')}</div>
       <div class="workshop-admin-editor-head-v1668"><p>성공·실패 모두 입력한 재료와 비용을 소모합니다. 조건 저장만으로 카드를 지급하지 않습니다.</p><div><label><input id="kaironActive" type="checkbox" ${recipe.craftReleaseLocked?'disabled aria-disabled="true"':''} ${recipe.craftConfiguredActive?'checked':''}> 운영</label><label><input id="kaironPublic" type="checkbox" ${recipe.is_public?'checked':''}> 유저 공개</label></div></div>
       <div class="workshop-admin-save-v1668"><div><b>미입력 조건은 제작 잠금</b><span>미완성 초안도 운영 OFF로 저장할 수 있습니다.</span></div><button type="button" id="kaironSave" class="${limited?'cn-ui-button primary':''}">제작 조건 저장</button></div>`;
     q('kaironMaterialAdd').onclick=()=>{q('workshopMaterialRowsV1668').insertAdjacentHTML('beforeend',kaironMaterial());bindMaterialRows()};
-    q('kaironSave').onclick=save;bindMaterialRows();if(limited)q('limitedShardStockAdd').onclick=addCraftStock;
+    q('kaironSave').onclick=save;bindMaterialRows();if(omega){for(const id of ['kaironCoin','kaironStars','kaironRate'])q(id).readOnly=true;for(const input of q('workshopMaterialRowsV1668').querySelectorAll('input'))input.readOnly=true;q('kaironMaterialAdd').disabled=true;q('workshopMaterialRowsV1668').insertAdjacentHTML('afterend','<p>계정별 실패 누적 10회 → 11회째 확정 · 성공 초기화. 재료 50장·100조·10% 고정. 운영/공개 상태만 변경할 수 있습니다.</p>');}if(limited)q('limitedShardStockAdd').onclick=addCraftStock;
   }
   function serializeKairon(recipe){
     const nullable=e=>e.value.trim()===''?null:Number(e.value);

@@ -1,4 +1,4 @@
-import {MERCENARY_CRAFTS,KAIRON_RECIPE_CODE,PRIME_RECIPE_CODE,mercenaryCraftDefinition,mercenaryCraftStock,mercenaryCraftDraft,validateMercenaryCraft,mercenaryCraftReady,mercenaryCraftRecipe,isMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
+import {AWAKENED_OMEGA_CRAFT,isAwakenedOmegaCraft,MERCENARY_CRAFTS,KAIRON_RECIPE_CODE,PRIME_RECIPE_CODE,mercenaryCraftDefinition,mercenaryCraftStock,mercenaryCraftDraft,validateMercenaryCraft,mercenaryCraftReady,mercenaryCraftRecipe,isMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
 import {MERCENARY_ACCOUNTING_SCHEMA} from './_mercenary_draw_accounting.js';
 import {LIMITED_CRAFT_SHARD,isLimitedShardCraft} from '../shared/mercenary-limited-shard-craft-v1.mjs';
 // Successful committed outputs count against each mercenary's independent craft
@@ -54,7 +54,7 @@ export async function saveMercenaryCraft(env,admin,raw,deps={}){
  const next=validateMercenaryCraft({revision:raw.craftRevision,coinCost:raw.coinCost,masterStarCost:raw.masterStarCost,successRate:raw.successRate,materials:raw.materials,isActive:raw.isActive,isPublic:raw.isPublic,stockLimit:before.policy.stockLimit},definition);
  if(!isLimitedShardCraft(definition)&&next.materials.some(m=>m.itemCode===LIMITED_CRAFT_SHARD))throw Error('SSS 리미티드 조각은 별도 전용 제작식에서 설정하세요.');
  if(next.revision!==before.policy.revision)throw Error('제작 조건이 변경되었습니다. 새로고침 후 저장하세요.');
- for(const m of next.materials)if(!await env.DB.prepare('SELECT 1 FROM inventory_items WHERE code=? AND is_active=1').bind(m.itemCode).first())throw Error(`활성 재료를 선택하세요: ${m.itemCode}`);
+ for(const m of next.materials)if(!(isAwakenedOmegaCraft(definition)&&m.itemCode===AWAKENED_OMEGA_CRAFT.materialCode)&&!await env.DB.prepare('SELECT 1 FROM inventory_items WHERE code=? AND is_active=1').bind(m.itemCode).first())throw Error(`활성 재료를 선택하세요: ${m.itemCode}`);
  await ensureCraftAccounting(env);
  const base=before.value??JSON.stringify(mercenaryCraftDraft(definition));
  await env.DB.prepare('INSERT OR IGNORE INTO app_meta(key,value) VALUES(?,?)').bind(definition.key,base).run();
