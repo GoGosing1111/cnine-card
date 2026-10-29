@@ -4,13 +4,13 @@ import {ardenFixture,ardenCatalog} from './helpers/arden-craft-fixture.mjs';
 import {equipmentCraftPolicy} from '../shared/workshop-equipment-craft.mjs';
 import {PARTS,draftFor,apply,inspect,verify,hash,protectedState,OP} from '../scripts/ops/arden-craft-20261029.mjs';
 import {saveEquipmentCraftRecipe} from '../functions/_workshop_equipment_craft.js';
-test('Arden policy requires +15, same slot, exact costs and third-attempt guarantee',()=>{
- for(const p of PARTS){const {draft,policy}=draftFor(p,ardenCatalog);assert.equal(policy.requiredLevel,15);assert.equal(policy.pityAfter,2);assert.equal(policy.failureInputPolicy,'PRESERVE');assert.equal(draft.coinCost,50000000000000);assert.equal(draft.masterStarCost,0);assert.deepEqual(draft.materials,[{itemCode:'ARDEN_ENERGY',quantity:50}]);
+test('Arden policy requires +15, same slot, exact costs and fourth-attempt guarantee',()=>{
+ for(const p of PARTS){const {draft,policy}=draftFor(p,ardenCatalog);assert.equal(policy.requiredLevel,15);assert.equal(policy.pityAfter,3);assert.equal(policy.failureInputPolicy,'PRESERVE');assert.equal(draft.coinCost,50000000000000);assert.equal(draft.masterStarCost,0);assert.deepEqual(draft.materials,[{itemCode:'ARDEN_ENERGY',quantity:50}]);
   for(const requiredLevel of [null,'',true,14,16,1.5])assert.throws(()=>equipmentCraftPolicy({...draft,equipmentCraft:{...draft.equipmentCraft,requiredLevel}}));
   assert.throws(()=>equipmentCraftPolicy({...draft,masterStarCost:1}),/0/);
  }
 });
-for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: all four recipes preserve +15 on failures, third attempt grants +0, replay never charges`,async t=>{
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: all four recipes preserve +15 on failures, fourth attempt grants +0, replay never charges`,async t=>{
  const f=await ardenFixture(t,postgres),initial=await f.ardenState();
  assert.deepEqual(initial.instances.filter(i=>i.equipmentId<100).map(i=>i.id),['201','202','203','204','210']);
  assert(initial.instances.some(i=>i.id==='1'&&i.level===10),'legacy +10 recipe remains selectable');
@@ -19,16 +19,17 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: all 
   const first=await f.ardenCraft('arden-fail-'+p,p);assert.equal(first.success,false);assert.equal(first.input.level,15);assert.equal(first.input.preserved,true);assert.equal(first.masterStarSpent,0);assert.equal(first.coinSpent,50000000000000);assert.equal(first.pity.failures,1);
   assert.deepEqual({...await f.p('SELECT * FROM equipment_forge_states_v1 WHERE instance_id=?',id).first()},original);
   assert.equal(await f.coin(),before-50000000000000);assert.equal(await f.quantity('ARDEN_ENERGY'),stock-50);assert.equal((await f.ardenCraft('arden-fail-'+p,p)).replayed,true);assert.equal(await f.coin(),before-50000000000000);
-  const otherId=p===0?'210':id,second=await f.ardenCraft('arden-fail2-'+p,p,otherId);assert.equal(second.success,false);assert.equal(second.pity.guaranteed,true);
+  const otherId=p===0?'210':id,second=await f.ardenCraft('arden-fail2-'+p,p,otherId);assert.equal(second.success,false);assert.equal(second.pity.guaranteed,false);
+  const thirdFailure=await f.ardenCraft('arden-fail3-'+p,p,otherId);assert.equal(thirdFailure.success,false);assert.equal(thirdFailure.pity.failures,3);assert.equal(thirdFailure.pity.guaranteed,true);
   assert.equal((await f.ardenState()).pity[f.arden[p]].guaranteed,true);if(p<3)assert.equal((await f.ardenState()).pity[f.arden[p+1]].failures,0);
   const third=await f.ardenCraft('arden-pity-'+p,p,id,()=>{throw Error('guaranteed must not roll');});assert.equal(third.success,true);assert.equal(third.output.level,0);assert.equal(third.guaranteed,true);assert.equal(third.pity.failures,0);
   assert.equal(await f.p('SELECT id FROM user_equipment_instances WHERE id=?',id).first(),null);assert.equal(await f.p('SELECT instance_id FROM equipment_forge_states_v1 WHERE instance_id=?',id).first(),null);
-  assert.equal(await f.coin(),before-150000000000000);assert.equal(await f.quantity('ARDEN_ENERGY'),stock-150);assert.equal((await f.ardenCraft('arden-pity-'+p,p,id)).replayed,true);
+  assert.equal(await f.coin(),before-200000000000000);assert.equal(await f.quantity('ARDEN_ENERGY'),stock-200);assert.equal((await f.ardenCraft('arden-pity-'+p,p,id)).replayed,true);
  }
  assert.equal(Number((await f.p("SELECT COUNT(*) n FROM inventory_logs WHERE item_code='MASTER_STAR'").first()).n),0);
  assert.equal(Number((await f.p('SELECT COUNT(*) n FROM equipment_forge_destroyed_v1').first()).n),0);
  assert.equal(Number((await f.p("SELECT COUNT(*) n FROM user_equipment_instances WHERE source_type='WORKSHOP_EQUIPMENT'").first()).n),4);
- assert.equal(Number((await f.p("SELECT COUNT(*) n FROM workshop_craft_logs_v1668 WHERE payment_type='COIN' AND master_star_spent=0").first()).n),12);
+ assert.equal(Number((await f.p("SELECT COUNT(*) n FROM workshop_craft_logs_v1668 WHERE payment_type='COIN' AND master_star_spent=0").first()).n),16);
 });
 test('only own unequipped +15 same-part input works; insufficient resources and invalid admin edits charge nothing',async t=>{
  const f=await ardenFixture(t),before=await f.coin();
@@ -46,8 +47,8 @@ test('PostgreSQL: receipt failure rolls back +15, costs, output and pity; same r
  const retry=await f.ardenCraft('arden-atomic',0,'201',()=>{rolls++;return 1000;});assert.equal(retry.success,true);assert.equal(rolls,1);assert.equal(await f.coin(),before-50000000000000);
 });
 test('two requests at ceiling consume a +15 instance once; 1000 roll fails at the 10% boundary',async t=>{
- const f=await ardenFixture(t);await f.ardenCraft('arden-boundary-1',0,'201',()=>1000);await f.ardenCraft('arden-boundary-2');
- const r=await Promise.allSettled([f.ardenCraft('arden-race-a'),f.ardenCraft('arden-race-b')]);assert.equal(r.filter(x=>x.status==='fulfilled').length,1);assert.equal(await f.coin(),850000000000000);assert.equal(await f.quantity('ARDEN_ENERGY'),850);
+ const f=await ardenFixture(t);await f.ardenCraft('arden-boundary-1',0,'201',()=>1000);await f.ardenCraft('arden-boundary-2');await f.ardenCraft('arden-boundary-3');
+ const r=await Promise.allSettled([f.ardenCraft('arden-race-a'),f.ardenCraft('arden-race-b')]);assert.equal(r.filter(x=>x.status==='fulfilled').length,1);assert.equal(await f.coin(),800000000000000);assert.equal(await f.quantity('ARDEN_ENERGY'),800);
 });
 test('four-recipe registration is atomic, protects existing recipes, validates stale snapshots and replays SELECT-only',async t=>{
  const f=await ardenFixture(t,true,{register:false});await f.pg.exec("ALTER TABLE users ADD COLUMN status TEXT DEFAULT 'ACTIVE'");

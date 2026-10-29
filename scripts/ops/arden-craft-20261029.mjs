@@ -12,7 +12,7 @@ export function draftFor(part,equipment){
  const input=one(equipment.filter(e=>e.code==='EMPEROR_'+part)),output=one(equipment.filter(e=>e.code==='ARDEN_'+part));
  assert.equal(input.slot,output.slot);
  for(const e of [input,output]){assert.equal(Number(e.is_active),1);assert.equal(Number(e.is_public),1);}
- const draft={code:'WORKSHOP_ARDEN_'+part,name:output.name+' 제작',category:'ITEM_SYNTHESIS',outputType:'EQUIPMENT',outputRef:String(output.id),outputQuantity:1,paymentMode:'COIN_ONLY',coinCost:50000000000000,masterStarCost:0,successRate:10,equipmentCraft:{inputEquipmentId:Number(input.id),requiredLevel:15,pityAfter:2,revision:0,failureInputPolicy:'PRESERVE',failureRepairable:false},materials:[{itemCode:'ARDEN_ENERGY',quantity:50}],isActive:true,isPublic:true,ownerTestOnly:false,isFeatured:false,sortOrder:200+PARTS.indexOf(part)*10,description:`같은 부위의 +15 ${input.name}, 아르덴 에너지 50개와 50조 코인을 사용합니다. 기본 성공률 10%, 2회 실패 후 3번째 제작 확정 성공. 실패 시 엠퍼러 장비와 +15 강화 단계 보존, 성공 시 아르덴 +0 획득.`};
+ const draft={code:'WORKSHOP_ARDEN_'+part,name:output.name+' 제작',category:'ITEM_SYNTHESIS',outputType:'EQUIPMENT',outputRef:String(output.id),outputQuantity:1,paymentMode:'COIN_ONLY',coinCost:50000000000000,masterStarCost:0,successRate:10,equipmentCraft:{inputEquipmentId:Number(input.id),requiredLevel:15,pityAfter:3,revision:0,failureInputPolicy:'PRESERVE',failureRepairable:false},materials:[{itemCode:'ARDEN_ENERGY',quantity:50}],isActive:true,isPublic:true,ownerTestOnly:false,isFeatured:false,sortOrder:200+PARTS.indexOf(part)*10,description:`같은 부위의 +15 ${input.name}, 아르덴 에너지 50개와 50조 코인을 사용합니다. 기본 성공률 10%, 3회 실패 후 4번째 제작 확정 성공. 실패 시 엠퍼러 장비와 +15 강화 단계 보존, 성공 시 아르덴 +0 획득.`};
  return {draft,policy:{...equipmentCraftPolicy(draft),revision:1,inputName:input.name,inputImage:input.image_url,inputRarity:input.rarity}};
 }
 export async function inspect(c){
@@ -62,7 +62,7 @@ export async function apply(c,{expectedHash,releaseCommit,dryRun=true,failAfter=
   }
   assert.equal(hash(await protectedState(c)),protectedBefore,'Unrequested setting changed');
   const owner=one(await q(c,"SELECT id FROM users WHERE role='OWNER' AND status='ACTIVE' ORDER BY id LIMIT 1"));
-  const receipt={status:'COMPLETED',operationKey:OP,releaseCommit,completedAt:new Date().toISOString(),authorization:'아르덴 장비 4종 장비제작 추가: +15 엠퍼러 + 아르덴 에너지 50개 + 50조, 10%, 3회 천장, 실패 시 +15 그대로 반환',created,protectedHash:protectedBefore,accountWrites:0,messagesSent:0};
+  const receipt={status:'COMPLETED',operationKey:OP,releaseCommit,completedAt:new Date().toISOString(),authorization:'아르덴 장비 4종 장비제작 추가: +15 엠퍼러 + 아르덴 에너지 50개 + 50조, 10%, 3번 실패하면 4번째에 성공, 실패 시 +15 그대로 반환',created,protectedHash:protectedBefore,accountWrites:0,messagesSent:0};
   const audit=one(await q(c,"INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,'OPS_ARDEN_CRAFT_OPEN','WORKSHOP_RECIPE',$2,$3,$4) RETURNING id",[owner.id,OP,JSON.stringify({recipes:[],policies:[]}),JSON.stringify(receipt)]));receipt.auditId=String(audit.id);
   await q(c,'INSERT INTO app_meta(key,value) VALUES($1,$2)',[OP,JSON.stringify(receipt)]);await verify(c);await c.query(dryRun?'ROLLBACK':'COMMIT');
   if(dryRun)assert.equal(hash(await inspect(c)),expectedHash);
