@@ -1,0 +1,77 @@
+{
+  "status": "LIVE_COMPLETE",
+  "appliedAt": "2026-10-29T06:20:19.387Z",
+  "releaseCommit": "d7656a38031fb1589fc5dc673304bbef51e02fc8",
+  "pages": {
+    "id": "ecdc66fa-021a-4ae4-8ba8-93a4ad2f8881",
+    "url": "https://ecdc66fa.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "d7656a38031fb1589fc5dc673304bbef51e02fc8"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "04138a46-0949-479f-8246-c95bb0732f8b",
+      "percentage": 100,
+      "sha256": "cf09e80e725402c736aed198481b475798479d050044c7328b893a091716e494"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "5e05690b-b09f-4b67-af9e-0c8dcd5b43fe",
+      "percentage": 100,
+      "sha256": "fedb1818a28ac20d6ff835984fbee105198deb094862f9b710ac2da32cc68e52"
+    }
+  ],
+  "operationKey": "ops:legion-equipment-release:20261029:v1",
+  "auditId": "52720",
+  "regionRevision": 9,
+  "newEquipmentCount": 50,
+  "totalMercenaryEquipmentCount": 80,
+  "tiers": 10,
+  "slotsPerTier": 5,
+  "existingEquipmentPreserved": true,
+  "newSupplyEnabled": false,
+  "privateDropTargets": "User-confirmed input retained only in the private operation record and OWNER CMS.",
+  "tests": {
+    "newReleaseAndPreparedEquipment": 12,
+    "existingRegressionAndDelivery": 33,
+    "liveBattlefieldLoader": 10,
+    "releasePolicy": 18,
+    "total": 73,
+    "workerSyntax": true,
+    "initialFailure": "Latest battle playback source was absent from the existing sparse checkout. Materialized required tracked sources; all ten entry checks then passed, without repeating the 33 passed checks."
+  },
+  "browser": {
+    "localScreens": [
+      "armory-1440.png",
+      "detail-1440.png",
+      "legion-1440.png",
+      "armory-390.png",
+      "detail-390.png",
+      "legion-390.png"
+    ],
+    "publicScreens": [
+      "armory-390.png",
+      "detail-390.png",
+      "legion-390.png"
+    ],
+    "pageErrors": 0,
+    "realArmory": true,
+    "realMainEntrance": true,
+    "isolatedApi": true
+  },
+  "publicAssetsVerified": 64,
+  "pagesAssetCount": 19999,
+  "transactionChecks": {
+    "catalogFailureRollback": true,
+    "dryRunRollback": true,
+    "independentReadOnly": true,
+    "selectOnlyReplay": true,
+    "additionalReplayWrites": 0
+  },
+  "accountGrants": 0,
+  "messagesSent": 0,
+  "noticePublished": false,
+  "storageMaintenance": false,
+  "privateEvidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/legion-equipment-release-20261029"
+}
