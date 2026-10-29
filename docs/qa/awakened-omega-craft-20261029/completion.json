@@ -1,0 +1,77 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T07:57:53.194Z",
+  "completedAtKst": "2026-10-29 16:57:53",
+  "releaseCommit": "a571070edd29839dc87cf8af34b59f97993687fe",
+  "pages": {
+    "id": "46223845-ba20-4a64-be87-ca62a66c9dea",
+    "url": "https://46223845.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "a571070edd29839dc87cf8af34b59f97993687fe"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "0584fb52-7e13-4439-9a85-12fb4a0b2dfb",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "9f7fef90-818d-4920-911a-ce08936a819f",
+      "percentage": 100
+    }
+  ],
+  "operationKey": "ops:awakened-omega-craft:20261029:v1",
+  "auditId": "52725",
+  "recipe": {
+    "id": 566,
+    "code": "WORKSHOP_AWAKENED_OMEGA",
+    "output": "V-972",
+    "power": 2200000,
+    "coin": 100000000000000,
+    "stars": 0,
+    "rate": 10,
+    "material": "MERCENARY:V-021",
+    "quantity": 50,
+    "stockLimit": null
+  },
+  "pity": {
+    "afterConsecutiveFailures": 10,
+    "guaranteedAttempt": 11,
+    "persistentPerAccount": true,
+    "resetOnSuccess": true
+  },
+  "consumption": {
+    "cards": 50,
+    "coin": 100000000000000,
+    "onFailure": true,
+    "onGuaranteed": true,
+    "lastFiftyRequiresUnequipped": true,
+    "growthPreserved": true
+  },
+  "verification": {
+    "tests": 49,
+    "localBrowser": 43,
+    "publicBrowser": 8,
+    "publicAssets": 27,
+    "readOnly": true,
+    "selectOnlyReplay": true,
+    "failureRollback": true,
+    "normalDryRunRollback": true,
+    "productionReadPathQueries": 17
+  },
+  "preserved": {
+    "priorLimitedShardRecipe": true,
+    "otherRecipes": true,
+    "otherAcquisition": true,
+    "art": true,
+    "accountGrowth": true,
+    "concurrentLobbyChanges": true,
+    "concurrentGradeGrowthChanges": true
+  },
+  "accountDirectWrites": 0,
+  "messagesSent": 0,
+  "notice": "notice.txt",
+  "noticePublished": false,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/awakened-omega-craft-20261029/"
+}
