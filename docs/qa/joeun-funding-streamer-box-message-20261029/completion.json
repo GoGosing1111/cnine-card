@@ -1,0 +1,63 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:joeun-funding:streamer-box-message:20261029:v1",
+  "authorization": "스트리머 감사박스 2개 지급 오조은 펀딩 사은품 메세지로",
+  "correctionAuthorization": "네, 두 계정으로 지급",
+  "corrections": {
+    "Mild7]": {
+      "userId": "290",
+      "nickname": "Mild7"
+    },
+    "스루형2": {
+      "userId": "4910",
+      "nickname": "스루형2↑"
+    }
+  },
+  "completedAt": "2026-10-29T12:13:01.270Z",
+  "completedAtKST": "2026-10-29 21:13:01 KST",
+  "auditId": "52768",
+  "delivery": "MESSAGE",
+  "title": "오조은 펀딩 사은품",
+  "body": "오조은 펀딩 사은품",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "recipients": 39,
+  "messages": 39,
+  "rewardAttachments": 39,
+  "boxesPerRecipient": 2,
+  "totalBoxes": 78,
+  "missing": 0,
+  "duplicates": 0,
+  "claimTestsPassed": 3,
+  "claimSource": {
+    "sourceCommit": "3ce836da5507f51727f2380ff088a935e55625d2",
+    "specsHash": "2d2dcfddc2568d4bdeb064406dc8a0fc2ff265c4edfed98014745ea11aa88422",
+    "claimHash": "0f4c842e864e97c87cb22827acebbce1d0567fc1214a9f14590e8e9912783999",
+    "compatHash": "1111070d6b1928ba84308589372c8235fdd0e06e837493af03f7cae473f135ea",
+    "latestRemoteSourceMatched": true,
+    "clientItemMetadata": true,
+    "checkedAt": "2026-10-29T12:10:24.301Z"
+  },
+  "validationChecks": {
+    "wrongPlanRejected": true,
+    "actualSqlFailureRolledBack": true,
+    "successRolledBack": true,
+    "messageSyncRolledBack": true,
+    "onlyMessageAuditReceiptAndSyncWrites": true,
+    "noWalletInventoryWrites": true,
+    "selectOnlyReplay": true,
+    "noDeliveryAfterRollback": true
+  },
+  "independentReadOnlyVerified": true,
+  "replayAdditionalWrites": 0,
+  "verifiedClaimedAtSnapshot": 0,
+  "verifiedPendingAtSnapshot": 39,
+  "verifiedAt": "2026-10-29T12:13:10.129Z",
+  "planHash": "a52b4daab94c85fd3a3cc1ff90ed9d951e9b32ada46f94133303fc797791bbaf",
+  "sourceHash": "99b7c2e9bbdf34a575036c9df10026354638f8a6bc67a452f38eb89e6acde0e8",
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/joeun-funding-streamer-box-message-20261029",
+  "noImmediateInventoryOrWalletCredit": true,
+  "openedByOperation": 0,
+  "gameDeployments": 0,
+  "storageMaintenance": false
+}
