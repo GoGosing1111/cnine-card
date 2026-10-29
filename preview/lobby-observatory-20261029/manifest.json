@@ -1,6 +1,6 @@
 {
   "date": "2026-10-29",
-  "version": 3,
+  "version": 4,
   "status": "DESIGN_PREVIEW",
   "visualApproval": "NOT_ASSERTED",
   "productionDeployed": false,
@@ -42,7 +42,7 @@
     }
   ],
   "runtimeData": "Local illustrative values only; no API requests or game actions.",
-  "feedback": "PC 142→100px; mobile 111→77px departure height. Text and arrow reduced; mobile English kicker removed. Removed the RC initials tile and duplicate bottom account display. Header now shows plain rank and nickname. Added Workshop and Administration below Deck and Upgrade.",
+  "feedback": "PC 142→100px; mobile 111→77px departure height. Text and arrow reduced; mobile English kicker removed. Removed the RC initials tile and duplicate bottom account display. Header now shows plain rank and nickname. Added Workshop and Administration below Deck and Upgrade. Use actual currency art; remove every navigation arrow; show content-operation status. Latest user screenshot overrides the contain layout: existing avatar lobby illustration covers the entire lobby with no blurred side fill.",
   "accountDisplay": {
     "level": 120,
     "rank": "준위",
@@ -50,5 +50,56 @@
     "sample": true,
     "location": "header",
     "framedInitialsTile": false
-  }
+  },
+  "backgroundAssetInUse": false,
+  "activeAvatarPresentation": {
+    "mode": "cover",
+    "desktopPosition": "50% 8%",
+    "mobilePosition": "50% 20%",
+    "default": "HANBOK_DIIM",
+    "originalAssetBytesPreserved": true,
+    "blurredSideFill": false,
+    "cutoutCompositing": false
+  },
+  "navigationArrows": false,
+  "operationsBoard": {
+    "source": "illustrative fixtures only",
+    "realApiCalls": 0,
+    "summaryItems": 3,
+    "fullListItems": 8,
+    "desktop": "bottom horizontal strip",
+    "mobile": "list below departure and spotlight"
+  },
+  "activeReusedAssets": [
+    {
+      "file": "assets/ui/icon-fusion-20261004/coin.webp",
+      "sha256": "d9f89b969bcb6aebe890016bb1f2e0cbcc9caff241959aae4dd1dd6b9d3244ea",
+      "originalBytesPreserved": true
+    },
+    {
+      "file": "assets/ui/icon-fusion-20261004/master-star.webp",
+      "sha256": "ae551542256d9b0056a9f0046b638cd9eaa5bb8ad4ea5be51b1feeeee07a6044",
+      "originalBytesPreserved": true
+    },
+    {
+      "file": "assets/items/pig-coin-v1.png",
+      "sha256": "f028ff947ceca03c450824e8324ce3eb1a1838f04a52e60b13dea2317845bcbf",
+      "originalBytesPreserved": true
+    },
+    {
+      "file": "assets/ui/avatars-v1/lobby-v1/avatar-f01-azure-frost-strategist-lobby-v1-1024.webp",
+      "sha256": "2817b86715b84678cd39c10bf08a0f093590a9c3f15d2068e72e006a48b986cf",
+      "originalBytesPreserved": true
+    },
+    {
+      "file": "assets/ui/avatars-v1/lobby-v1/avatar-f02-crimson-siege-marshal-lobby-v1-1024.webp",
+      "sha256": "74404227938a65931257b273a08d36f4ac55f252eb6adb7a13db03be3fd44002",
+      "originalBytesPreserved": true
+    },
+    {
+      "file": "preview/avatar-hanbok-diim-v1/assets/avatar-hanbok-diim-lobby-v1-1024.webp",
+      "sha256": "543aa29d6e20716c64d027260fe290e525441e513330813871f6c450d69dc405",
+      "originalBytesPreserved": true
+    }
+  ]
 }

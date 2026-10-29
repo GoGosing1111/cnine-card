@@ -22,19 +22,36 @@
   const entries = new Map((contract?.menuGroupOrder || []).flatMap(group => contract.groups[group].routes.map(id => [id,{id,title:contract.routes[id].title,category:categoryOf(id,group)}])));
   for (const item of [{id:'world',title:'세계관',category:'social'},{id:'equipmentForge',title:'장비 강화',category:'equipment'},{id:'mercenaryEquipment',title:'용병 장비',category:'equipment'},{id:'blackwing',title:'흑익의 맹약',category:'pve'},{id:'seasonPass',title:'시즌패스',category:'rewards'}]) entries.set(item.id,item);
   const favorites = new Set(['mercenaryDex','equipmentForge','hunt']);
-  const hrefs = {world:'/world/',equipmentForge:'/equipment-forge/',mercenaryDex:'/mercenary-codex/',mercenaryEquipment:'/mercenary-codex/equipment/',petDex:'/pet-codex/',defense:'/defense/',lootShop:'/loot-shop/',blackwing:'PVE → 레이드 → 흑익의 맹약'};
+  const hrefs = {world:'/world/',equipmentForge:'/equipment-forge/',mercenaryDex:'/mercenary-codex/',mercenaryEquipment:'/mercenary-codex/equipment/',petDex:'/pet-codex/',defense:'/defense/',lootShop:'/loot-shop/',blackwing:'PVE · 레이드 · 흑익의 맹약'};
   const descriptions = {deck:'보유 카드와 용병으로 출전 덱을 편성하는 화면입니다. 기존 PVE·PVP 편성 체계를 연결합니다.',mercenaryDex:'보유 용병, 상세 능력치, 성장과 편성을 확인하는 용병도감으로 연결합니다.',equipmentForge:'장비 강화와 필요한 재료, 강화 기록을 확인하는 화면으로 연결합니다.',dailyquest:'일일·주간 임무의 달성도와 받을 수 있는 보상을 확인합니다.',messages:'도착한 메시지와 미수령 보상을 확인하는 기존 메시지함을 연결합니다.',world:'리버스랜드의 이야기와 용병들의 기록으로 이어집니다.',blackwing:'6인 협동 레이드 「흑익의 맹약」 소개 자리입니다. 현재 운영 TEST 접근 조건과 보상 잠금은 그대로 적용하는 구성입니다.',auction:'현재 입찰가와 종료 시각을 기존 실시간 현황 데이터로 연결하는 자리입니다. 시안에는 경매 입찰 기능이 없습니다.',hunt:'몬스터와 내 편성을 확인하고 토벌에 출전하는 기존 전투 화면으로 연결합니다.'};
-  let activeCategory = 'all', avatarIndex=0, toastTimer;
-  const avatars = [{name:'푸른 서리의 지휘관',alt:'푸른 제복의 로비 아바타',file:'avatar-f01-azure-frost-strategist-equipment-v1-640.webp'},{name:'붉은 공성의 지휘관',alt:'붉은 제복의 로비 아바타',file:'avatar-f02-crimson-siege-marshal-equipment-v1-640.webp'}];
+  let activeCategory = 'all', avatarIndex=2, toastTimer;
+  const avatars = [{name:'푸른 서리의 지휘관',alt:'푸른 제복의 아바타 전용 로비 일러스트',file:'avatar-f01-azure-frost-strategist-lobby-v1-1024.webp'},{name:'붉은 공성의 지휘관',alt:'붉은 제복의 아바타 전용 로비 일러스트',file:'avatar-f02-crimson-siege-marshal-lobby-v1-1024.webp'},{name:'한복디임',alt:'한복디임 전용 로비 일러스트',file:'/preview/avatar-hanbok-diim-v1/assets/avatar-hanbok-diim-lobby-v1-1024.webp'}];
   // These are presentation labels for the study, not new catalogue names.
-  const avatarUrl = file => '/assets/ui/avatars-v1/equipment-v3/'+file;
+  const avatarUrl = file => file.startsWith('/')?file:'/assets/ui/avatars-v1/lobby-v1/'+file;
+  // Illustrative entries mirror the existing live-operation kinds. No live API is called.
+  const operationExamples = [
+    {route:'raid',title:'월드 레이드',state:'참가 대기',deadline:'시작까지',seconds:1122,detail:'참가 대기방 확인'},
+    {route:'territory',title:'영토전',state:'공성 진행',deadline:'종료까지',seconds:4984,detail:'현재 전황·공격 현황'},
+    {route:'auction',title:'경매장',state:'입찰 진행',deadline:'마감까지',seconds:380,detail:'현재가 1,250억 코인'},
+    {route:'seal',title:'봉인전',state:'진행 중',deadline:'종료까지',seconds:2502,detail:'봉인전 진행 현황'},
+    {route:'coup',title:'쿠데타',state:'참가 모집',deadline:'모집 마감',seconds:3284,detail:'현재 참가 모집 현황'},
+    {route:'duo',title:'랭크 듀오',state:'대전 중',deadline:'종료까지',seconds:668,detail:'진행 중인 듀오 확인'},
+    {route:'clan',title:'클랜',state:'입단 모집',deadline:'모집 마감',seconds:14628,detail:'클랜 모집 현황'},
+    {route:'clanFaction',title:'세력전',state:'진행 중',deadline:'종료까지',seconds:7423,detail:'현재 세력전 전황'}
+  ];
+  const operationStartedAt=performance.now();
+  const operationCard=(item,index,full=false)=>`<button class="operation-card" data-route="${item.route}"><span class="operation-symbol">${icon(item.route)}</span><span class="operation-copy"><small><i></i>${item.state}</small><b>${item.title}</b>${full||item.route==='auction'?`<em>${item.detail}</em>`:''}</span><span class="operation-clock"><small>${item.deadline}</small><b data-operation-clock="${index}"></b></span></button>`;
+  $('operations-list').innerHTML=operationExamples.slice(0,3).map((item,index)=>operationCard(item,index)).join('');
+  $('operation-full-list').innerHTML=operationExamples.map((item,index)=>operationCard(item,index,true)).join('');
+  function updateOperationClocks(){const elapsed=Math.floor((performance.now()-operationStartedAt)/1000);document.querySelectorAll('[data-operation-clock]').forEach(el=>{const seconds=Math.max(0,operationExamples[Number(el.dataset.operationClock)].seconds-elapsed);el.textContent=[Math.floor(seconds/3600),Math.floor(seconds%3600/60),seconds%60].map(n=>String(n).padStart(2,'0')).join(':');});}
+  updateOperationClocks();const operationTimer=setInterval(updateOperationClocks,1000);addEventListener('pagehide',()=>clearInterval(operationTimer),{once:true});
   const toast = message => {clearTimeout(toastTimer);$('toast').textContent=message;$('toast').classList.add('visible');toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),2600);};
   function renderMenu(){
     const query=$('menu-search').value.trim().toLocaleLowerCase();
     const list=[...entries.values()].filter(e => (activeCategory==='all'||activeCategory==='favorites'&&favorites.has(e.id)||e.category===activeCategory)&&(e.title.toLocaleLowerCase().includes(query)||e.id.toLocaleLowerCase().includes(query)));
     $('directory-title').textContent=categories[activeCategory];
     $('result-count').textContent=String(list.length).padStart(2,'0');
-    $('menu-results').innerHTML=list.map(e=>`<button class="menu-entry" data-route="${esc(e.id)}">${icon(e.id)}<b>${esc(e.title)}</b><i>↗</i></button>`).join('');
+    $('menu-results').innerHTML=list.map(e=>`<button class="menu-entry" data-route="${esc(e.id)}">${icon(e.id)}<b>${esc(e.title)}</b></button>`).join('');
     $('empty').hidden=list.length>0;
     $('directory-tabs').innerHTML=Object.entries(categories).map(([id,title])=>`<button data-filter="${id}" aria-pressed="${id===activeCategory}">${title}</button>`).join('');
   }
@@ -47,7 +64,7 @@
   function setMode(mode){const pve=mode==='pve';document.querySelectorAll('[data-mode]').forEach(b=>{const selected=b.dataset.mode===mode;b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1;});$('departure').setAttribute('aria-labelledby','mode-'+mode);$('depart-button').dataset.category=mode;$('depart-title').textContent=pve?'모험 출전':'대전 출전';$('depart-description').textContent=pve?'토벌 · 레이드 · 원정':'랭크전 · 듀오 · 영토전';$('depart-kicker').textContent=pve?'EXPEDITION / 01':'ARENA / 02';document.querySelector('.depart-watermark').textContent=pve?'01':'02';}
   function setMotion(enabled){$('lobby').classList.toggle('still',!enabled);$('motion-toggle').setAttribute('aria-pressed',String(enabled));$('motion-toggle').setAttribute('aria-label',enabled?'배경 움직임 끄기':'배경 움직임 켜기');const control=$('settings-motion');if(control){control.setAttribute('aria-pressed',String(enabled));control.textContent=enabled?'켜짐':'꺼짐';}}
   function immersive(enabled){$('lobby').classList.toggle('immersive',enabled);$('restore-ui').hidden=!enabled;$('hide-ui').setAttribute('aria-pressed',String(enabled));if(enabled){window.scrollTo(0,0);$('restore-ui').focus();}else $('hide-ui').focus();}
-  function openAvatars(){showDetail('로비 아바타',`<p class="detail-copy">기존 아바타 원화를 같은 공간에 배치한 예시입니다. 아래 선택은 이 시안 화면에만 적용됩니다.</p><div class="avatar-options">${avatars.map((a,i)=>`<button class="avatar-option" data-avatar="${i}" aria-pressed="${i===avatarIndex}"><img src="${avatarUrl(a.file)}" alt="${a.alt}"><span>${a.name}</span></button>`).join('')}</div>`);}
+  function openAvatars(){showDetail('로비 아바타',`<p class="detail-copy">아바타 전용 일러스트가 로비 전체를 채웁니다. 아래 선택은 이 시안 화면에만 적용됩니다.</p><div class="avatar-options">${avatars.map((a,i)=>`<button class="avatar-option" data-avatar="${i}" aria-pressed="${i===avatarIndex}"><img src="${avatarUrl(a.file)}" alt="${a.alt}"><span>${a.name}</span></button>`).join('')}</div>`);}
   document.addEventListener('click',event=>{
     const b=event.target.closest('button');if(!b)return;
     if(b.hasAttribute('data-close'))return b.closest('dialog').close();
@@ -57,10 +74,11 @@
     if(b.dataset.mode)return setMode(b.dataset.mode);
     if(b.dataset.route)return openDestination(b.dataset.route);
     if(b.dataset.favorite){const id=b.dataset.favorite;if(favorites.has(id))favorites.delete(id);else favorites.add(id);b.setAttribute('aria-pressed',String(favorites.has(id)));b.textContent=favorites.has(id)?'추가됨 ★':'추가 ☆';renderMenu();return;}
-    if(b.dataset.avatar){avatarIndex=Number(b.dataset.avatar);const a=avatars[avatarIndex];$('hero').src=avatarUrl(a.file);$('hero').alt=a.alt;$('hero-name').textContent=a.name;$('detail').close();toast('로비 시안의 아바타를 변경했습니다.');return;}
+    if(b.dataset.avatar){avatarIndex=Number(b.dataset.avatar);const a=avatars[avatarIndex],url=avatarUrl(a.file);$('hero').src=url;$('hero').alt=a.alt;document.querySelector('.scene').style.backgroundImage=`url("${url}")`;$('hero-name').textContent=a.name;$('detail').close();toast('아바타의 전용 로비 일러스트로 변경했습니다.');return;}
     if(b.dataset.info==='account')return showDetail('리버스콜 지휘관',`<p class="detail-copy">Lv.120 · 준위<br>상단에서 계급과 닉네임을 함께 확인하는 구성입니다. 현재는 화면 검토를 위한 예시 계정입니다.</p>`);
     if(b.dataset.info==='wallet')return showDetail('보유 재화',`<p class="detail-copy">상단에는 코인, 마스터의 별, 피그 코인을 간결하게 표시합니다. 현재 숫자는 시안용 예시이며 실제 계정 잔액이 아닙니다.</p>`);
     if(b.dataset.info==='settings')return showDetail('로비 설정',`<div class="setting-row"><span>장면의 미세한 움직임</span><button id="settings-motion" aria-pressed="${!$('lobby').classList.contains('still')}">${$('lobby').classList.contains('still')?'꺼짐':'켜짐'}</button></div><p class="detail-copy">기기의 움직임 줄이기 설정을 우선 적용합니다. 로비의 눈 아이콘으로 배경 감상 모드에 들어갈 수 있습니다.</p>`);
+    if(b.id==='open-operations')return $('operations-dialog').showModal();
     if(b.id==='change-avatar')return openAvatars();
     if(b.id==='motion-toggle'||b.id==='settings-motion')return setMotion($('lobby').classList.contains('still'));
     if(b.id==='hide-ui')return immersive(true);
@@ -68,7 +86,7 @@
   });
   $('menu-search').addEventListener('input',renderMenu);
   document.querySelector('.mode-tabs').addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();const current=document.querySelector('[data-mode][aria-selected=true]').dataset.mode;const next=event.key==='Home'?'pve':event.key==='End'?'pvp':current==='pve'?'pvp':'pve';setMode(next);$('mode-'+next).focus();}});
-  document.addEventListener('keydown',event=>{if(event.key==='Escape'){const top=[...document.querySelectorAll('dialog[open]')].at(-1);if(top){event.preventDefault();top.close();return;}if($('lobby').classList.contains('immersive')){event.preventDefault();immersive(false);return;}}if(event.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)&&!$('detail').open){event.preventDefault();openMenu('all');$('menu-search').focus();}});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'){const top=[...document.querySelectorAll('dialog[open]')].at(-1);if(top){event.preventDefault();top.close();return;}if($('lobby').classList.contains('immersive')){event.preventDefault();immersive(false);return;}}if(event.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)&&!$('detail').open&&!$('operations-dialog').open){event.preventDefault();openMenu('all');$('menu-search').focus();}});
   for(const dialog of document.querySelectorAll('dialog'))dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');setMotion(!reduced.matches);reduced.addEventListener('change',e=>setMotion(!e.matches));
   // Read-only review contract. No API calls, account writes, navigation or gameplay.
