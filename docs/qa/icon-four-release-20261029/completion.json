@@ -1,0 +1,143 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T00:09:10.748Z",
+  "releaseCommit": "24fbe723f1504a14f1863981c30912d233b7da37",
+  "pages": {
+    "id": "bc8b12b6-6297-4b66-9c24-fdf70c764dce",
+    "url": "https://bc8b12b6.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "24fbe723f1504a14f1863981c30912d233b7da37"
+  },
+  "auditId": "52653",
+  "operationKey": "ops:icon-four-release:20261029:v1",
+  "cards": [
+    {
+      "id": "CN-1C000010",
+      "code": "ICON-NAMSUDAENG",
+      "name": "남수댕",
+      "memberId": 4,
+      "basePower": 360000,
+      "technique": "CROWN_USURP"
+    },
+    {
+      "id": "CN-1C000011",
+      "code": "ICON-DIIM-REDCAP",
+      "name": "디임",
+      "memberId": 37,
+      "basePower": 360000,
+      "technique": "AUTONOMOUS_WEAPON"
+    },
+    {
+      "id": "CN-1C000012",
+      "code": "ICON-OH-JOEUN-WHITE",
+      "name": "오조은",
+      "memberId": 15,
+      "basePower": 360000,
+      "technique": "SKILL_ADVANCE"
+    },
+    {
+      "id": "CN-1C000013",
+      "code": "ICON-NAMUNEUL-BONGSOON-20261016",
+      "name": "나무늘봉순",
+      "memberId": 3,
+      "basePower": 360000,
+      "technique": "RETURN_OATH"
+    }
+  ],
+  "existingCards": 9,
+  "existingBasePower": 180000,
+  "choiceTicketCards": 8,
+  "fusionCards": 12,
+  "deckIconLimit": 2,
+  "recipe": {
+    "coin": 1000000000000,
+    "masterStars": 5000000,
+    "superstar13": 1,
+    "fur13": 1,
+    "successPercent": 10
+  },
+  "enhancement": {
+    "percentPerLevel": 20,
+    "maxLevel": 10,
+    "newCardStepPower": 72000,
+    "newCardMaxPower": 1080000,
+    "speedGrowth": false
+  },
+  "tests": {
+    "scopedPassed": 139,
+    "localCraftViewports": 2,
+    "localBattlePaths": 17,
+    "localGrowthViews": 10,
+    "publicSmokePaths": 3,
+    "publicAssetHashes": 24,
+    "workerDeployments": [
+      {
+        "name": "cnine-card-api-runtime",
+        "versions": [
+          {
+            "version_id": "3b6cc483-d223-4162-9475-3cbc8a0c35bb",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "versions": [
+          {
+            "version_id": "2067e8c3-a392-49c1-bcab-c069c7826ec0",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "registration": {
+    "transactionRehearsalsRolledBack": true,
+    "settingsUnchanged": true,
+    "existingNineUnchanged": true,
+    "independentReadOnly": "on",
+    "replayWrites": 0,
+    "accountWrites": 0,
+    "currencyWrites": 0,
+    "grants": 0
+  },
+  "evidence": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\icon-four-release-20261029",
+  "operationalLimit": "Public browser smoke used the released assets with isolated API fixtures. Real production catalog and settings verified through an independent READ ONLY connection; no real account craft/battle was charged.",
+  "notes": [
+    "Choice-ticket regression had a historical cache literal and a sparse asset omission; fixed the assertion and materialized its two assets.",
+    "Cache mismatch was caught by the release guard and corrected before upload.",
+    "First candidate staging was stopped before upload to fix the enhancement view; all attempts and logs are preserved.",
+    "Original art, previous grants, maintenance schedules and storage untouched."
+  ],
+  "publicCatalog": {
+    "at": "2026-10-29T00:09:10.177Z",
+    "status": 200,
+    "totalCards": 322,
+    "cards": [
+      {
+        "id": "CN-1C000013",
+        "name": "나무늘봉순",
+        "grade": "ICON",
+        "basePower": 360000
+      },
+      {
+        "id": "CN-1C000010",
+        "name": "남수댕",
+        "grade": "ICON",
+        "basePower": 360000
+      },
+      {
+        "id": "CN-1C000012",
+        "name": "오조은",
+        "grade": "ICON",
+        "basePower": 360000
+      },
+      {
+        "id": "CN-1C000011",
+        "name": "디임",
+        "grade": "ICON",
+        "basePower": 360000
+      }
+    ]
+  }
+}
