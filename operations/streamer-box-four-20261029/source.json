@@ -1,0 +1,405 @@
+{
+  "operationKey": "ops:streamer-box-four:20261029:v1",
+  "authorization": "스트리머박스4개 지급 (괄호 게임닉네임, 대납은 앞에 닉네임으로 지급)",
+  "rawText": "에타(에타)\n빡세라-ㅁ-(박세라-ㅂ-)\nMild7(Mild7)\n세라네꼬라지(세라네꼬라지)\nBrintellix°(깅더듬 대납)\n탱탱노(더듬이구)\n[C9]오승환(커피먹는철구)\n코파먹는성태(전게씹선미아웃)\nMoo날두(Moo날두)\n꺽꿀(꺽꿀)\n딤키우기(딤키우기)\n학벌(학벌)\n[댕]해빗([댕]해빗이오)\n연구가태여니(레가파)\n블랙캐슬(블랙캐슬)\n베배킹(베베킹)\n숲에사는족구(차단하다)\n족게이다(족게이다)\nrain(씨나인택갓)\n다니폭군(김폭군)\n관종이얌(관종이얌)\n라피e(라피e)\n시소둥이(시소둥이)\n현하루(현하루)\n0수표(0수표)\n몽랭(모래)\n휴방여신수댕([C9]코레일)\n간장왕대게찜(간장왕대게찜)\n쁴로리(쁴로리)\n[C9]정원이(정원이)\n핫시(핫시)\n댕굴댕굴초월(박사)\n좋은하루♥(좋은하루)\n음주플레이어(음주플레이어)\n족구쪼아(족구조아)\n단정한밤(단정한밤)\n철줌마효진님(족단)\n옴마니반매흠(옴마니반메훔)\n망순이그림자(음주)\n응맨♡(응맨)\nnorwaysoop(Veil)\n굳건창수(조은 대납)\n댕소룡",
+  "defaultAmount": 4,
+  "delivery": "DIRECT_INVENTORY",
+  "entries": [
+    {
+      "order": 1,
+      "raw": "에타(에타)",
+      "displayNickname": "에타",
+      "parenthetical": "에타",
+      "proxy": false,
+      "targetNickname": "에타",
+      "amount": 4
+    },
+    {
+      "order": 2,
+      "raw": "빡세라-ㅁ-(박세라-ㅂ-)",
+      "displayNickname": "빡세라-ㅁ-",
+      "parenthetical": "박세라-ㅂ-",
+      "proxy": false,
+      "targetNickname": "박세라-ㅂ-",
+      "amount": 4
+    },
+    {
+      "order": 3,
+      "raw": "Mild7(Mild7)",
+      "displayNickname": "Mild7",
+      "parenthetical": "Mild7",
+      "proxy": false,
+      "targetNickname": "Mild7",
+      "amount": 4
+    },
+    {
+      "order": 4,
+      "raw": "세라네꼬라지(세라네꼬라지)",
+      "displayNickname": "세라네꼬라지",
+      "parenthetical": "세라네꼬라지",
+      "proxy": false,
+      "targetNickname": "세라네꼬라지",
+      "amount": 4
+    },
+    {
+      "order": 5,
+      "raw": "Brintellix°(깅더듬 대납)",
+      "displayNickname": "Brintellix°",
+      "parenthetical": "깅더듬 대납",
+      "proxy": true,
+      "targetNickname": "Brintellix°",
+      "amount": 4
+    },
+    {
+      "order": 6,
+      "raw": "탱탱노(더듬이구)",
+      "displayNickname": "탱탱노",
+      "parenthetical": "더듬이구",
+      "proxy": false,
+      "targetNickname": "더듬이구",
+      "amount": 4
+    },
+    {
+      "order": 7,
+      "raw": "[C9]오승환(커피먹는철구)",
+      "displayNickname": "[C9]오승환",
+      "parenthetical": "커피먹는철구",
+      "proxy": false,
+      "targetNickname": "커피먹는철구",
+      "amount": 4
+    },
+    {
+      "order": 8,
+      "raw": "코파먹는성태(전게씹선미아웃)",
+      "displayNickname": "코파먹는성태",
+      "parenthetical": "전게씹선미아웃",
+      "proxy": false,
+      "targetNickname": "전게씹선미아웃",
+      "amount": 4
+    },
+    {
+      "order": 9,
+      "raw": "Moo날두(Moo날두)",
+      "displayNickname": "Moo날두",
+      "parenthetical": "Moo날두",
+      "proxy": false,
+      "targetNickname": "Moo날두",
+      "amount": 4
+    },
+    {
+      "order": 10,
+      "raw": "꺽꿀(꺽꿀)",
+      "displayNickname": "꺽꿀",
+      "parenthetical": "꺽꿀",
+      "proxy": false,
+      "targetNickname": "꺽꿀",
+      "amount": 4
+    },
+    {
+      "order": 11,
+      "raw": "딤키우기(딤키우기)",
+      "displayNickname": "딤키우기",
+      "parenthetical": "딤키우기",
+      "proxy": false,
+      "targetNickname": "딤키우기",
+      "amount": 4
+    },
+    {
+      "order": 12,
+      "raw": "학벌(학벌)",
+      "displayNickname": "학벌",
+      "parenthetical": "학벌",
+      "proxy": false,
+      "targetNickname": "학벌",
+      "amount": 4
+    },
+    {
+      "order": 13,
+      "raw": "[댕]해빗([댕]해빗이오)",
+      "displayNickname": "[댕]해빗",
+      "parenthetical": "[댕]해빗이오",
+      "proxy": false,
+      "targetNickname": "[댕]해빗이오",
+      "amount": 4
+    },
+    {
+      "order": 14,
+      "raw": "연구가태여니(레가파)",
+      "displayNickname": "연구가태여니",
+      "parenthetical": "레가파",
+      "proxy": false,
+      "targetNickname": "레가파",
+      "amount": 4
+    },
+    {
+      "order": 15,
+      "raw": "블랙캐슬(블랙캐슬)",
+      "displayNickname": "블랙캐슬",
+      "parenthetical": "블랙캐슬",
+      "proxy": false,
+      "targetNickname": "블랙캐슬",
+      "amount": 4
+    },
+    {
+      "order": 16,
+      "raw": "베배킹(베베킹)",
+      "displayNickname": "베배킹",
+      "parenthetical": "베베킹",
+      "proxy": false,
+      "targetNickname": "베베킹",
+      "amount": 4
+    },
+    {
+      "order": 17,
+      "raw": "숲에사는족구(차단하다)",
+      "displayNickname": "숲에사는족구",
+      "parenthetical": "차단하다",
+      "proxy": false,
+      "targetNickname": "차단하다",
+      "amount": 4
+    },
+    {
+      "order": 18,
+      "raw": "족게이다(족게이다)",
+      "displayNickname": "족게이다",
+      "parenthetical": "족게이다",
+      "proxy": false,
+      "targetNickname": "족게이다",
+      "amount": 4
+    },
+    {
+      "order": 19,
+      "raw": "rain(씨나인택갓)",
+      "displayNickname": "rain",
+      "parenthetical": "씨나인택갓",
+      "proxy": false,
+      "targetNickname": "씨나인택갓",
+      "amount": 4
+    },
+    {
+      "order": 20,
+      "raw": "다니폭군(김폭군)",
+      "displayNickname": "다니폭군",
+      "parenthetical": "김폭군",
+      "proxy": false,
+      "targetNickname": "김폭군",
+      "amount": 4
+    },
+    {
+      "order": 21,
+      "raw": "관종이얌(관종이얌)",
+      "displayNickname": "관종이얌",
+      "parenthetical": "관종이얌",
+      "proxy": false,
+      "targetNickname": "관종이얌",
+      "amount": 4
+    },
+    {
+      "order": 22,
+      "raw": "라피e(라피e)",
+      "displayNickname": "라피e",
+      "parenthetical": "라피e",
+      "proxy": false,
+      "targetNickname": "라피e",
+      "amount": 4
+    },
+    {
+      "order": 23,
+      "raw": "시소둥이(시소둥이)",
+      "displayNickname": "시소둥이",
+      "parenthetical": "시소둥이",
+      "proxy": false,
+      "targetNickname": "시소둥이",
+      "amount": 4
+    },
+    {
+      "order": 24,
+      "raw": "현하루(현하루)",
+      "displayNickname": "현하루",
+      "parenthetical": "현하루",
+      "proxy": false,
+      "targetNickname": "현하루",
+      "amount": 4
+    },
+    {
+      "order": 25,
+      "raw": "0수표(0수표)",
+      "displayNickname": "0수표",
+      "parenthetical": "0수표",
+      "proxy": false,
+      "targetNickname": "0수표",
+      "amount": 4
+    },
+    {
+      "order": 26,
+      "raw": "몽랭(모래)",
+      "displayNickname": "몽랭",
+      "parenthetical": "모래",
+      "proxy": false,
+      "targetNickname": "모래",
+      "amount": 4
+    },
+    {
+      "order": 27,
+      "raw": "휴방여신수댕([C9]코레일)",
+      "displayNickname": "휴방여신수댕",
+      "parenthetical": "[C9]코레일",
+      "proxy": false,
+      "targetNickname": "[C9]코레일",
+      "amount": 4
+    },
+    {
+      "order": 28,
+      "raw": "간장왕대게찜(간장왕대게찜)",
+      "displayNickname": "간장왕대게찜",
+      "parenthetical": "간장왕대게찜",
+      "proxy": false,
+      "targetNickname": "간장왕대게찜",
+      "amount": 4
+    },
+    {
+      "order": 29,
+      "raw": "쁴로리(쁴로리)",
+      "displayNickname": "쁴로리",
+      "parenthetical": "쁴로리",
+      "proxy": false,
+      "targetNickname": "쁴로리",
+      "amount": 4
+    },
+    {
+      "order": 30,
+      "raw": "[C9]정원이(정원이)",
+      "displayNickname": "[C9]정원이",
+      "parenthetical": "정원이",
+      "proxy": false,
+      "targetNickname": "정원이",
+      "amount": 4
+    },
+    {
+      "order": 31,
+      "raw": "핫시(핫시)",
+      "displayNickname": "핫시",
+      "parenthetical": "핫시",
+      "proxy": false,
+      "targetNickname": "핫시",
+      "amount": 4
+    },
+    {
+      "order": 32,
+      "raw": "댕굴댕굴초월(박사)",
+      "displayNickname": "댕굴댕굴초월",
+      "parenthetical": "박사",
+      "proxy": false,
+      "targetNickname": "박사",
+      "amount": 4
+    },
+    {
+      "order": 33,
+      "raw": "좋은하루♥(좋은하루)",
+      "displayNickname": "좋은하루♥",
+      "parenthetical": "좋은하루",
+      "proxy": false,
+      "targetNickname": "좋은하루",
+      "amount": 4
+    },
+    {
+      "order": 34,
+      "raw": "음주플레이어(음주플레이어)",
+      "displayNickname": "음주플레이어",
+      "parenthetical": "음주플레이어",
+      "proxy": false,
+      "targetNickname": "음주플레이어",
+      "amount": 4
+    },
+    {
+      "order": 35,
+      "raw": "족구쪼아(족구조아)",
+      "displayNickname": "족구쪼아",
+      "parenthetical": "족구조아",
+      "proxy": false,
+      "targetNickname": "족구조아",
+      "amount": 4
+    },
+    {
+      "order": 36,
+      "raw": "단정한밤(단정한밤)",
+      "displayNickname": "단정한밤",
+      "parenthetical": "단정한밤",
+      "proxy": false,
+      "targetNickname": "단정한밤",
+      "amount": 4
+    },
+    {
+      "order": 37,
+      "raw": "철줌마효진님(족단)",
+      "displayNickname": "철줌마효진님",
+      "parenthetical": "족단",
+      "proxy": false,
+      "targetNickname": "족단",
+      "amount": 4
+    },
+    {
+      "order": 38,
+      "raw": "옴마니반매흠(옴마니반메훔)",
+      "displayNickname": "옴마니반매흠",
+      "parenthetical": "옴마니반메훔",
+      "proxy": false,
+      "targetNickname": "옴마니반메훔",
+      "amount": 4
+    },
+    {
+      "order": 39,
+      "raw": "망순이그림자(음주)",
+      "displayNickname": "망순이그림자",
+      "parenthetical": "음주",
+      "proxy": false,
+      "targetNickname": "음주",
+      "amount": 4
+    },
+    {
+      "order": 40,
+      "raw": "응맨♡(응맨)",
+      "displayNickname": "응맨♡",
+      "parenthetical": "응맨",
+      "proxy": false,
+      "targetNickname": "응맨",
+      "amount": 4
+    },
+    {
+      "order": 41,
+      "raw": "norwaysoop(Veil)",
+      "displayNickname": "norwaysoop",
+      "parenthetical": "Veil",
+      "proxy": false,
+      "targetNickname": "Veil",
+      "amount": 4
+    },
+    {
+      "order": 42,
+      "raw": "굳건창수(조은 대납)",
+      "displayNickname": "굳건창수",
+      "parenthetical": "조은 대납",
+      "proxy": true,
+      "targetNickname": "굳건창수",
+      "amount": 4
+    },
+    {
+      "order": 43,
+      "raw": "댕소룡",
+      "displayNickname": "댕소룡",
+      "parenthetical": null,
+      "proxy": false,
+      "targetNickname": "댕소룡",
+      "amount": 4
+    }
+  ],
+  "skipAuthorization": "넘겨",
+  "skippedNicknames": [
+    "댕소룡"
+  ],
+  "skipQuestion": "게임 계정에서 Brintellix°와 댕소룡을 찾지 못했습니다. 두 사람의 정확한 게임 닉네임 또는 계정 ID를 알려주세요. 확인된 나머지 41명은 각 4개 지급을 진행하겠습니다.",
+  "nameCorrections": {
+    "Brintellix°": "깅더듬"
+  },
+  "correctionAuthorization": "Brintellix° > 깅더듬"
+}
