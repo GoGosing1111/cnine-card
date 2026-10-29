@@ -4,3 +4,6 @@ body[data-adventure-standalone]{margin-left:var(--adventure-rail-width,205px);pa
 @media(max-width:980px){body[data-adventure-standalone]{--adventure-rail-width:0px;--adventure-dock-height:calc(67px + env(safe-area-inset-bottom,0px))}}
 
 body[data-adventure-standalone="equipmentForge"] #inventory-filters button{padding-inline:6px;white-space:nowrap}
+
+/* The new shared rail supplies its measured width; the mobile dock starts at 760px. */
+@media(min-width:761px) and (max-width:980px){body[data-adventure-standalone]{--adventure-rail-width:91px;--adventure-dock-height:0px}}

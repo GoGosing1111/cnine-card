@@ -94,3 +94,26 @@ dialog{color:var(--ink);font-family:inherit;background:#101d2afa;border:8px soli
 @media(max-width:760px){.stage{padding-top:299px}.hero-scene{inset:132px 0 auto;width:100%;height:calc(100svh - 132px)}.hero{inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%;transform:none;animation:none}.scene-shade{background:linear-gradient(0deg,#091722 0%,#091722 22%,#09172200 66%,#09172233 88%,#091722 100%),linear-gradient(90deg,#06121c44,transparent 40%,#06121c33)}.avatar-caption{top:170px;left:22px}.avatar-caption h2{font-size:16px;max-width:150px}.avatar-caption .text-button{font-size:9px}.scene-controls{top:254px;right:17px}.scene-controls .icon-button{width:36px;height:36px}.lobby.immersive .stage{padding-top:0}.lobby.immersive .hero-scene{position:absolute;inset:0;width:100%;height:100%;z-index:-3}.lobby.immersive .hero{inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%;transform:none;animation:none}}
 @media(max-width:360px){.stage{padding-top:272px}.avatar-caption{left:18px;top:150px}.avatar-caption h2{font-size:15px;max-width:125px}.scene-controls{top:236px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Actual rank insignia beside the account identity; never an initials tile. */
+.header-profile .header-rank-art{display:block;width:44px;height:44px;object-fit:contain;flex-shrink:0}
+@media(max-width:760px){.header-profile .header-rank-art{width:30px;height:30px}.header-profile{gap:9px}}
+/* Latest feedback: readable currency figures and an opaque left menu. */
+.wallet b{font-family:'Noto Sans KR','Malgun Gothic',sans-serif;font-size:23px;font-weight:750;line-height:1.3;letter-spacing:-.7px;font-variant-numeric:tabular-nums}
+.wallet small{font-family:'Noto Sans KR','Malgun Gothic',sans-serif;font-size:10px;font-weight:600;color:#c6d7df}
+.rail{top:86px;bottom:0;width:110px;padding:16px 8px 14px;background:#0b1928;border-right:1px solid #52697a66;box-shadow:8px 0 24px #020b1229;gap:6px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#456078 #0b1928}
+.rail-item{width:94px;min-height:66px;flex-shrink:0;color:#e4edf4;border-radius:4px}
+.rail-item b{font-size:11px;font-weight:650;letter-spacing:-.2px}
+.rail-item svg{width:26px;height:26px;color:#d0e2ee}
+.rail-item:hover{background:#21374a;color:#fff}
+.rail-item.selected,.rail-item[aria-current=page]{color:#d4f492;background:#213b32;box-shadow:inset 3px 0 #d4f492}
+.rail-item.selected svg,.rail-item[aria-current=page] svg{color:#d4f492}
+.rail-item.selected:before,.rail-item.selected:after{display:none}
+.rail-separator{flex-shrink:0;background:#657d8a66;margin:6px 0}
+.rail-bottom{padding-top:12px;color:#8ba2b4}
+.mobile-dock{background:#0b1928;backdrop-filter:none}
+@media(min-width:761px) and (max-width:1200px){.rail{width:94px;padding:12px 6px}.rail-item{width:80px}.rail-item b{font-size:10px}.wallet b{font-size:21px}}
+@media(min-width:761px) and (max-width:1000px){.rail{top:120px}.wallet b{font-size:20px}}
+@media(max-height:800px) and (min-width:1001px){.rail{top:86px;gap:3px;padding-top:10px}.rail-item{min-height:58px}.rail-bottom{display:none}}
+@media(max-width:760px){.wallet b{font-size:19px;letter-spacing:-.65px}.wallet small{font-size:9px}.mobile-dock b{font-size:9px;font-weight:650}.mobile-dock button{color:#e0eaf1}}
+@media(max-width:360px){.wallet b{font-size:17px}.wallet small{font-size:8px}}

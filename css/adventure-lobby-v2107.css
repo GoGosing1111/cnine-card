@@ -119,3 +119,14 @@ soop-adventure-lobby{display:block;width:100%;height:100%;min-width:0}
  .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .avs1-hero{position:relative;top:auto;height:68dvh;min-height:480px;border-right:0;border-bottom:1px solid var(--avs1-line)}
  .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .avs1-card-grid{max-height:none}
 }
+
+/* Approved 2026-10-29 lobby; keep the native status data and handlers. */
+[data-live-operations-surface="lobby-clarity"]{border:0;border-radius:0;box-shadow:none;background:transparent;grid-template-columns:150px minmax(0,1fr);min-height:70px}
+[data-live-operations-surface="lobby-clarity"] .live-operation-enter{display:none}
+[data-live-operations-surface="lobby-clarity"] .live-operation-card{grid-template-columns:26px minmax(0,1fr) auto;min-width:240px}
+[data-live-operations-surface="lobby-clarity"]>header{position:relative}
+[data-live-operations-surface="lobby-clarity"] .live-operations-open{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+@media(max-width:760px){[data-live-operations-surface="lobby-clarity"]{display:block}[data-live-operations-surface="lobby-clarity"]>header{min-height:46px;align-items:center;flex-direction:row;justify-content:space-between;border-right:0;border-bottom:1px solid #a3b5c325;padding:8px 12px}[data-live-operations-surface="lobby-clarity"] .live-operations-list{flex-direction:column;max-height:250px;overflow-y:auto;overflow-x:hidden}[data-live-operations-surface="lobby-clarity"] .live-operation-card{width:100%;min-width:0;min-height:64px;flex:none;border-left:0;border-bottom:1px solid #a3b5c320}}
+
+soop-adventure-lobby [data-cnine-lobby-open]>b{display:none}
+#liveOperationsDialog .live-operation-enter{display:none}

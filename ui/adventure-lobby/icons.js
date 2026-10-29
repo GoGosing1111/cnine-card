@@ -3,6 +3,8 @@
 (function(global){
   'use strict';
   global.SoopLobbyRouteIcons=Object.freeze({mercenaryEquipment:'<path d="m8 3-5 3 2 6 3-1v10h8V11l3 1 2-6-5-3M8 3c0 5 8 5 8 0M8 16h8"/>',masterStarMine:'<path d="m5 3 14 14M3 7l4-4 5 3-6 6ZM15 15l-6 6m9-18 1 3 3 1-3 1-1 3-1-3-3-1 3-1Z"/>',lootShop:'<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="13" rx="5" ry="4"/><path d="M7 10 6 6l4 2m7 2 1-4-4 2M10 13v1m4-1v1"/>',
+    eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
+    grid:'<path d="M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm11 0h7v7h-7z"/>',
     battle:'<circle cx="12" cy="12" r="9"/><path d="m15.5 5.5-2 7.5-7 4 2-7.5Z"/><circle cx="11" cy="11.5" r="1"/>',
     deck:'<rect x="7" y="3" width="10" height="15" rx="1.5"/><path d="m4 6-3 1 3 14 5-1M20 6l3 1-3 14-5-1M10 8h4m-4 4h4"/>',
     hunt:'<path d="m5 8-2-5 6 3h6l6-3-2 5 1 8-5 5H9l-5-5Z"/><path d="m7 10 3 2m7-2-3 2M9 16l3 2 3-2m-3 2v3"/>',

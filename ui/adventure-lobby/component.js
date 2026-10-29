@@ -28,7 +28,7 @@
         openSeasonPass:opener=>this.supportNavigation?.openSeasonPass(opener)
       });
       const supportSignal=this.lifecycle.signal;
-      void import('/js/server-support-v1.mjs?v=20261020-package2-pass-sales-start-v1').then(({mountServerSupportNavigation})=>{
+      void import('/js/server-support-v1.mjs?v=20261026-package-hide-v1').then(({mountServerSupportNavigation})=>{
         if(!supportSignal.aborted)this.supportNavigation=mountServerSupportNavigation({root,getUser,signal:supportSignal,onOpenMessages:()=>settings.navigate?settings.navigate('messages'):global.SoopketmonV21ExactShell.navigate('messages'),onSeasonPassVisibilityChange:visible=>{this.seasonPassVisible=visible;this.controls?.refreshMenus();}});
       }).catch(()=>{});
       const listen=(target,event,handler)=>target.addEventListener(event,handler,{signal:this.lifecycle.signal});
@@ -38,6 +38,12 @@
       listen(global,'resize',()=>this.update(this.model));
       root.querySelector('.skip-link').onclick=event=>{event.preventDefault();const target=this.dataset.standalone?global.document.querySelector('body main'):this.dataset.view==='route'?this.parentElement.querySelector('.v21-route-body'):root.getElementById('main');if(target){target.tabIndex=-1;target.focus();}};
       root.getElementById('fullscreen-button').onclick=()=>global.SoopketmonV21ExactShell.toggleFullscreen();
+      root.getElementById('account-rank-button').onclick=async()=>{if(!global.AccountRank)await import('/js/account-rank-v1.mjs?v=2122&benefits=20261008');global.AccountRank.open();};
+      const setMode=mode=>{const pvp=mode==='pvp';for(const tab of root.querySelectorAll('[data-mode]')){const selected=tab.dataset.mode===mode;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;}root.getElementById('departure').setAttribute('aria-labelledby','mode-'+mode);root.getElementById('depart-button').dataset.category=mode;root.getElementById('depart-title').textContent=pvp?'대전 출전':'모험 출전';root.getElementById('depart-kicker').textContent=pvp?'BATTLE / 02':'EXPEDITION / 01';root.getElementById('depart-description').textContent=pvp?'랭크전 · 듀오 · 영토전':'토벌 · 레이드 · 원정';root.querySelector('.depart-watermark').textContent=pvp?'02':'01';};
+      for(const tab of root.querySelectorAll('[data-mode]')){listen(tab,'click',()=>setMode(tab.dataset.mode));listen(tab,'keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const mode=event.key==='Home'?'pve':event.key==='End'?'pvp':tab.dataset.mode==='pve'?'pvp':'pve';setMode(mode);root.getElementById('mode-'+mode).focus();});}
+      const immersive=enabled=>{root.getElementById('lobby').classList.toggle('immersive',enabled);root.getElementById('restore-ui').hidden=!enabled;root.getElementById('hide-ui').setAttribute('aria-pressed',String(enabled));(enabled?root.getElementById('restore-ui'):root.getElementById('hide-ui')).focus({preventScroll:true});};
+      listen(root.getElementById('hide-ui'),'click',()=>immersive(true));listen(root.getElementById('restore-ui'),'click',()=>immersive(false));listen(root,'keydown',event=>{if(event.key==='Escape'&&root.getElementById('lobby').classList.contains('immersive')){event.preventDefault();immersive(false);}});
+      for(const wallet of root.querySelectorAll('[data-wallet-info]'))listen(wallet,'click',()=>global.showAccountPanel?.());
       this.updateUnread(Number((global.document.querySelector('[data-message-new-badge]')?.textContent||'').match(/\d+/)?.[0]||0));
       this.update({user});
       global.dispatchEvent(new CustomEvent('cnine:pig-wallet-mounted'));
@@ -79,6 +85,7 @@
         rankButton.title=`Lv.${Number(accountRank.level)} ${accountRank.name} · ${caption.textContent} · 계급과 혜택`;rankButton.replaceChildren(rankArt,rankLabel,xp);rankButton.hidden=false;
       }else rankButton.hidden=true;
       for(const [id,key] of [['wallet-coin','coin'],['wallet-shards','cardShards'],['wallet-stars','masterStars']]){const el=root.getElementById(id),amount=key==='coin'?(Number(user[key])||0):Math.max(0,Number(user[key])||0);el.textContent=compact(amount);el.parentElement.title=amount.toLocaleString('ko-KR');el.setAttribute('aria-label',amount.toLocaleString('ko-KR'));}
+      root.getElementById('change-avatar').hidden=global.SoopketmonV21ExactShell?.isRouteVisible('avatar')===false;
       const name=root.getElementById('chief-name'),shortcut=root.getElementById('chief-shortcut');
       name.textContent=chief.state==='suspended'||chief.state==='removed'?chief.nickname:chief.state==='active'?chief.nickname:chief.state==='vacant'?'선출 대기':chief.state==='unavailable'?'확인 불가':'확인 중';
       shortcut.dataset.chiefState=chief.state||'loading';
@@ -99,10 +106,11 @@
       const avatar=chief.viewerAvatar||(general?{name:'최고사령부 여성 장군',lobbyImage:'/assets/ui/chief/general-command-v1.png'}:chief.avatar),art=root.querySelector('.stage-character');
       const src=safeArt(innerWidth<=759?(avatar?.lobbyMobileImage||avatar?.lobbyImage):avatar?.lobbyImage);
       if(art.src!==new URL(src,location.origin).href)art.src=src;
+      root.getElementById('hero-name').textContent=avatar?.name||'로비 아바타';
       art.alt=avatar?.name?`${avatar.name} · 로비 아바타`:'공용 로비 일러스트';
       this.controls?.refreshMenus();
     }
-    updateUnread(value){const count=Math.max(0,Number(value)||0),badge=this.shadowRoot.getElementById('inbox-count');badge.textContent=count>99?'99+':String(count);badge.hidden=!count;badge.parentElement.setAttribute('aria-label',count?`메시지함 · 새 메시지 ${count}개`:'메시지함');}
+    updateUnread(value){const count=Math.max(0,Number(value)||0),badge=this.shadowRoot.getElementById('inbox-count');badge.textContent='';badge.title=count+'개 새 메시지';badge.hidden=!count;badge.parentElement.setAttribute('aria-label',count?`메시지함 · 새 메시지 ${count}개`:'메시지함');}
     refreshMenus(){this.controls?.refreshMenus();}
     disconnectedCallback(){this.lifecycle?.abort();this.layoutObserver?.disconnect();this.controls?.destroy();this.controls=null;}
   }
