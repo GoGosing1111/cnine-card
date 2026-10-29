@@ -9,7 +9,6 @@ export const rewardSettings={mode:'ON',rewardsEnabled:true,weeklyRewardLimit:3,c
 export const choicePolicy=()=>({...structuredClone(CORE_REWARD_DEFAULT),revision:1,enabled:true,minimum:{rewardType:'COIN',quantity:30000000000,weight:100},entries:[['SUIT_CORE_5',1,20],['SUIT_CORE_6',1,2],['EASTERN_ARMS_WEAPON_BLUEPRINT',1,2],['SECRET_WEAPON_BLUEPRINT_CHAPTER_1',1,1],['SECRET_WEAPON_BLUEPRINT_CHAPTER_2',1,1],['EMPEROR_ENERGY',2,5]].map(([rewardRef,quantity,weight])=>({rewardType:'INVENTORY_ITEM',rewardRef,quantity,weight,enabled:true}))});
 export async function rewardFixture(options){
  const h=await blackwingLiveFixture(options);await ensureLootShopSchema(h.env);
- await h.run('ALTER TABLE cnine_user_inventory ADD COLUMN created_at TEXT');
  for(const code of ['PET_ESSENCE',...choicePolicy().entries.map(e=>e.rewardRef)])await h.run('INSERT INTO inventory_items(code,name,is_active) VALUES(?,?,1)',code,code);
  await h.run('INSERT INTO app_meta(key,value) VALUES(?,?)','reward_reveal_policy_v1:BLACKWING',JSON.stringify(choicePolicy()));
  assert.equal((await h.configure(rewardSettings)).status,200);return h;
