@@ -1,0 +1,30 @@
+[
+  {
+    "width": 1440,
+    "checks": 12,
+    "faceValueOnly": true,
+    "maxUses": 1000000,
+    "tenth": 201,
+    "eleventh": 409,
+    "overAmountBlockedBeforeRequest": true,
+    "exemptOwner": true,
+    "otherRewardCapPreserved": true,
+    "overflow": false,
+    "errors": [],
+    "isolatedApi": true
+  },
+  {
+    "width": 390,
+    "checks": 12,
+    "faceValueOnly": true,
+    "maxUses": 1000000,
+    "tenth": 201,
+    "eleventh": 409,
+    "overAmountBlockedBeforeRequest": true,
+    "exemptOwner": true,
+    "otherRewardCapPreserved": true,
+    "overflow": false,
+    "errors": [],
+    "isolatedApi": true
+  }
+]
