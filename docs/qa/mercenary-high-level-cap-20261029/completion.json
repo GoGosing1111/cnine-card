@@ -1,0 +1,86 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T03:07:31.822Z",
+  "releaseCommit": "a55038a6d3d1485fdcd9e2768d673805d4959835",
+  "pages": {
+    "id": "a46fe142-cfac-4c4f-896a-b6b2099040c6",
+    "url": "https://a46fe142.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "a55038a6d3d1485fdcd9e2768d673805d4959835"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "61275bdc-f036-4d33-9364-f442a292d7f0",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "d555bdd3-f1df-4453-bd50-0e260b966118",
+      "percentage": 100
+    }
+  ],
+  "change": "Common V2 mercenary PvP basic damage growth ceiling 3 to 4; retain square-root curve, current level 21 sqrt(11).",
+  "scope": "PVP growing mercenary basic attacks only",
+  "levelTable": [
+    {
+      "level": 16,
+      "attackFactor": 8.5,
+      "before": 2.9154759474226504,
+      "after": 2.9154759474226504
+    },
+    {
+      "level": 18,
+      "attackFactor": 9,
+      "before": 3,
+      "after": 3
+    },
+    {
+      "level": 19,
+      "attackFactor": 9.25,
+      "before": 3,
+      "after": 3.0413812651491097
+    },
+    {
+      "level": 20,
+      "attackFactor": 9.5,
+      "before": 3,
+      "after": 3.082207001484488
+    },
+    {
+      "level": 21,
+      "attackFactor": 11,
+      "before": 3,
+      "after": 3.3166247903554
+    }
+  ],
+  "checks": {
+    "relatedRegressionTests": 8,
+    "existingUpdatedTests": 3,
+    "newReleaseTests": 5,
+    "workerSyntax": true,
+    "rosterBasicCapProbes": 79,
+    "storedDuoExactReplays": 3,
+    "storedDuoBeforeAfterPairs": 900,
+    "controlledBeforeAfterBattles": 1728,
+    "unchangedCompleteBattlePairs": 316,
+    "localPcMobilePaths": 6,
+    "publicMobilePaths": 1,
+    "publicModuleHash": true,
+    "compiledWorkerBasicCap4": true,
+    "publicCodexBasicCap4": true
+  },
+  "observedLimit": "All three saved duo scenarios and the 1728 controlled mirrored battles had unchanged damage/actions/wins. The new bound increases only capped nominal basic damage; it is not a universal DPS or win-rate improvement.",
+  "productionDataWrites": 0,
+  "realBattlesStarted": 0,
+  "messagesSent": 0,
+  "accountSettingsChanged": 0,
+  "approvedArtBytesChanged": 0,
+  "manualStorageMaintenance": false,
+  "automaticGitMaintenance": {
+    "trigger": "Initial source commit invoked Git automatic geometric repack",
+    "action": "Own pack-objects/repack descendants were stopped; source commit remained complete. Subsequent fetch/push/commit commands disabled maintenance.auto and gc.auto.",
+    "manualFileDeletion": false
+  },
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-high-level-cap-20261029"
+}

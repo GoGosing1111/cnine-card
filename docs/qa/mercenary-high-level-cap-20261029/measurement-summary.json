@@ -1,0 +1,184 @@
+{
+  "checkedAt": "2026-10-29T02:48:21.438Z",
+  "scope": "OFFLINE_COUNTERFACTUAL_NOT_POPULATION_WIN_RATE",
+  "policy": {
+    "version": 2,
+    "maxBasicCapScale": 4,
+    "maxDurabilityCapScale": 3,
+    "maxOpeningGauge": 75
+  },
+  "levelTable": [
+    {
+      "level": 16,
+      "attackFactor": 8.5,
+      "before": 2.9154759474226504,
+      "after": 2.9154759474226504
+    },
+    {
+      "level": 18,
+      "attackFactor": 9,
+      "before": 3,
+      "after": 3
+    },
+    {
+      "level": 19,
+      "attackFactor": 9.25,
+      "before": 3,
+      "after": 3.0413812651491097
+    },
+    {
+      "level": 20,
+      "attackFactor": 9.5,
+      "before": 3,
+      "after": 3.082207001484488
+    },
+    {
+      "level": 21,
+      "attackFactor": 11,
+      "before": 3,
+      "after": 3.3166247903554
+    }
+  ],
+  "realSummary": [
+    {
+      "level": 16,
+      "before": {
+        "battles": 300,
+        "wins": 300,
+        "damage": 10017472872,
+        "actions": 4047,
+        "meanDamage": 33391576.24,
+        "meanActions": 13.49,
+        "damagePerAction": 2475283.6352853966
+      },
+      "after": {
+        "battles": 300,
+        "wins": 300,
+        "damage": 10017472872,
+        "actions": 4047,
+        "meanDamage": 33391576.24,
+        "meanActions": 13.49,
+        "damagePerAction": 2475283.6352853966
+      }
+    },
+    {
+      "level": 20,
+      "before": {
+        "battles": 300,
+        "wins": 300,
+        "damage": 10016273802,
+        "actions": 4043,
+        "meanDamage": 33387579.34,
+        "meanActions": 13.476666666666667,
+        "damagePerAction": 2477436.0133564183
+      },
+      "after": {
+        "battles": 300,
+        "wins": 300,
+        "damage": 10016273802,
+        "actions": 4043,
+        "meanDamage": 33387579.34,
+        "meanActions": 13.476666666666667,
+        "damagePerAction": 2477436.0133564183
+      }
+    },
+    {
+      "level": 21,
+      "before": {
+        "battles": 300,
+        "wins": 300,
+        "damage": 10023180193,
+        "actions": 4033,
+        "meanDamage": 33410600.643333334,
+        "meanActions": 13.443333333333333,
+        "damagePerAction": 2485291.3942474583
+      },
+      "after": {
+        "battles": 300,
+        "wins": 300,
+        "damage": 10023180193,
+        "actions": 4033,
+        "meanDamage": 33410600.643333334,
+        "meanActions": 13.443333333333333,
+        "damagePerAction": 2485291.3942474583
+      }
+    }
+  ],
+  "exactOriginalReplays": 3,
+  "unaffectedFullBattleComparisons": 316,
+  "rosterCount": 79,
+  "heliosCappedPacket": {
+    "code": "V-999",
+    "levels": [
+      {
+        "level": 1,
+        "before": 312000,
+        "after": 312000,
+        "capScale": 1,
+        "maxHp": 3073907,
+        "attack": 330221,
+        "defense": 171850,
+        "speed": 87828,
+        "gauge": 0
+      },
+      {
+        "level": 16,
+        "before": 909628,
+        "after": 909628,
+        "capScale": 2.9154759474226504,
+        "maxHp": 23822779,
+        "attack": 2806878,
+        "defense": 403847,
+        "speed": 106271,
+        "gauge": 75
+      },
+      {
+        "level": 18,
+        "before": 936000,
+        "after": 936000,
+        "capScale": 3,
+        "maxHp": 25359732,
+        "attack": 2971989,
+        "defense": 424469,
+        "speed": 108028,
+        "gauge": 75
+      },
+      {
+        "level": 19,
+        "before": 936000,
+        "after": 948911,
+        "capScale": 3.0413812651491097,
+        "maxHp": 26128209,
+        "attack": 3054544,
+        "defense": 434780,
+        "speed": 108906,
+        "gauge": 75
+      },
+      {
+        "level": 20,
+        "before": 936000,
+        "after": 961649,
+        "capScale": 3.082207001484488,
+        "maxHp": 26896686,
+        "attack": 3137099,
+        "defense": 445091,
+        "speed": 109785,
+        "gauge": 75
+      },
+      {
+        "level": 21,
+        "before": 936000,
+        "after": 1034787,
+        "capScale": 3.3166247903554,
+        "maxHp": 30739070,
+        "attack": 3632431,
+        "defense": 481179,
+        "speed": 112419,
+        "gauge": 75
+      }
+    ]
+  },
+  "controlledBattles": 1728,
+  "controlledDamageActionsWinsUnchanged": true,
+  "productionWrites": 0
+}
