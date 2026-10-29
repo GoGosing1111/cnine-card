@@ -1,0 +1,48 @@
+{
+  "at": "2026-10-29T13:45:04.513Z",
+  "pages": {
+    "id": "2e99bebe-5063-4fad-b702-509cd4f76a3d",
+    "url": "https://2e99bebe.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "08a8e12626d2aa27551ec8000d6581af9b81cdf9"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "972947b9-1571-4023-b156-cb4f4f93f5a0",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "aca887c3-b9ed-46c9-8c4b-5c2aa5af6faf",
+      "percentage": 100
+    }
+  ],
+  "uploadedHandlerPresent": true,
+  "uploadedWorkerSha256": "06546244a1a9bbbca84a6e559e1de824e550a512b40badebca2f8540c5fb3547",
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "ec49eecec84e38c05d7e52b4d74a2a2f5a64814a19087d60178c4179a040c673"
+    },
+    {
+      "file": "js/clan-v1.js",
+      "sha256": "e9fe91d2096dc668cec6b837453d0a6a58c71a45299babc793552aee7a1d9a7a"
+    },
+    {
+      "file": "css/clan-v1.css",
+      "sha256": "bcfd41c9e809047e3eca7dae826fe57b431b406368eff45894c9a0c414f74d5a"
+    },
+    {
+      "file": "js/organization-system-v1.mjs",
+      "sha256": "9bf1aa643c4f8b0642833d19f1e496ff9da4bf717f09b5e933f9fbae3ab938f5"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "5aa944c1e2fc3bea710c03e7977f2666c7fc46e2515258678ec6afc801e54478"
+    }
+  ],
+  "anonymousKickStatus": 401,
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

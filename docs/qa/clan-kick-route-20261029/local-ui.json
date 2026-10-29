@@ -1,0 +1,40 @@
+{
+  "base": "http://127.0.0.1:13303",
+  "reports": [
+    {
+      "width": 1440,
+      "actualIndex": true,
+      "actualClanModule": true,
+      "actualHandleClan": true,
+      "cancelRequests": 0,
+      "kickRequests": 2,
+      "allKickStatuses": [
+        200,
+        200
+      ],
+      "sameRequestRetry": true,
+      "bothRostersRemoved": true,
+      "auditRowsAdded": 1,
+      "errors": [],
+      "failedAssets": []
+    },
+    {
+      "width": 390,
+      "actualIndex": true,
+      "actualClanModule": true,
+      "actualHandleClan": true,
+      "cancelRequests": 0,
+      "kickRequests": 1,
+      "allKickStatuses": [
+        200
+      ],
+      "sameRequestRetry": false,
+      "bothRostersRemoved": true,
+      "auditRowsAdded": 1,
+      "errors": [],
+      "failedAssets": []
+    }
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

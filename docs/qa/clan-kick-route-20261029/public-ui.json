@@ -1,0 +1,23 @@
+{
+  "base": "https://cnine-card.pages.dev",
+  "reports": [
+    {
+      "width": 390,
+      "actualIndex": true,
+      "actualClanModule": true,
+      "actualHandleClan": true,
+      "cancelRequests": 0,
+      "kickRequests": 1,
+      "allKickStatuses": [
+        200
+      ],
+      "sameRequestRetry": false,
+      "bothRostersRemoved": true,
+      "auditRowsAdded": 1,
+      "errors": [],
+      "failedAssets": []
+    }
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

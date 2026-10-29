@@ -1,0 +1,41 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T13:45:24.342Z",
+  "sourceCommit": "08a8e12626d2aa27551ec8000d6581af9b81cdf9",
+  "pages": {
+    "id": "2e99bebe-5063-4fad-b702-509cd4f76a3d",
+    "url": "https://2e99bebe.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "08a8e12626d2aa27551ec8000d6581af9b81cdf9"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "972947b9-1571-4023-b156-cb4f4f93f5a0",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "aca887c3-b9ed-46c9-8c4b-5c2aa5af6faf",
+      "percentage": 100
+    }
+  ],
+  "regressions": 27,
+  "checks": {
+    "desktop": 1440,
+    "mobile": 390,
+    "actualMainAndHandler": true,
+    "publicMobileTouch": true,
+    "publicFiles": 5,
+    "uploadedHandlerPresent": true,
+    "lostResponseRetry": true,
+    "removalsPerRequest": 1,
+    "productionReadOnly": true
+  },
+  "rootCause": "Restoration gate rejected the existing clan/member/kick route as recruitment; the separate organization/member/kick path was already working.",
+  "productionAccountWrites": 0,
+  "productionMembersRemoved": 0,
+  "messagesSent": 0,
+  "storageMaintenance": false,
+  "reusedCheckout": "C:/Users/User/Downloads/upload/cnine-card/tmp/duo-settlement-recovery-20261027"
+}
