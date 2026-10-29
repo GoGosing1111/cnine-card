@@ -1,0 +1,310 @@
+{
+  "checks": [
+    "320x640 no horizontal page overflow",
+    "320x640 information and controls do not overlap",
+    "320x640 attack button receives input",
+    "320x640 RELAY physical input",
+    "320x640 RELAY action label",
+    "320x640 SUPPLY physical input",
+    "320x640 SUPPLY action label",
+    "320x640 SIEGE physical input",
+    "320x640 SIEGE action label",
+    "320x640 loadout drawer opens",
+    "320x640 returns to map",
+    "320x640 ally chat opens",
+    "320x640 closes to main",
+    "zero browser exceptions",
+    "all requested local assets served"
+  ],
+  "reports": [
+    {
+      "size": "320x640",
+      "layout": {
+        "rects": {
+          ".war-chat-nav": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 74.296875,
+            "right": 320,
+            "bottom": 74.296875
+          },
+          ".tw4-topbar": {
+            "x": 0,
+            "y": 74.296875,
+            "width": 320,
+            "height": 59.890625,
+            "right": 320,
+            "bottom": 134.1875
+          },
+          ".tw7-occupation": {
+            "x": 0,
+            "y": 134.1875,
+            "width": 320,
+            "height": 76,
+            "right": 320,
+            "bottom": 210.1875
+          },
+          ".tw4-scoreboard": {
+            "x": 0,
+            "y": 210.1875,
+            "width": 320,
+            "height": 131.734375,
+            "right": 320,
+            "bottom": 341.921875
+          },
+          ".tw4-workspace": {
+            "x": 0,
+            "y": 341.921875,
+            "width": 320,
+            "height": 538.609375,
+            "right": 320,
+            "bottom": 880.53125
+          },
+          ".tw6-field-navigation": {
+            "x": 12,
+            "y": 353.921875,
+            "width": 296,
+            "height": 54,
+            "right": 308,
+            "bottom": 407.921875
+          },
+          ".tw6-front-title": {
+            "x": 12,
+            "y": 417.921875,
+            "width": 296,
+            "height": 50.5,
+            "right": 308,
+            "bottom": 468.421875
+          },
+          ".tw6-live-sitrep": {
+            "x": 12,
+            "y": 478.421875,
+            "width": 296,
+            "height": 52.09375,
+            "right": 308,
+            "bottom": 530.515625
+          },
+          ".tw6-fort-status.side-a": {
+            "x": 12,
+            "y": 620.609375,
+            "width": 93.328125,
+            "height": 87.4375,
+            "right": 105.328125,
+            "bottom": 708.046875
+          },
+          ".tw6-relay-anchor": {
+            "x": 113.328125,
+            "y": 620.609375,
+            "width": 93.328125,
+            "height": 87.4375,
+            "right": 206.65625,
+            "bottom": 708.046875
+          },
+          ".tw6-fort-status.side-b": {
+            "x": 214.65625,
+            "y": 620.609375,
+            "width": 93.34375,
+            "height": 87.4375,
+            "right": 308,
+            "bottom": 708.046875
+          },
+          ".tw6-objectives": {
+            "x": 10,
+            "y": 720.046875,
+            "width": 300,
+            "height": 72,
+            "right": 310,
+            "bottom": 792.046875
+          },
+          ".tw4-action-dock": {
+            "x": 10,
+            "y": 802.046875,
+            "width": 300,
+            "height": 68.484375,
+            "right": 310,
+            "bottom": 870.53125
+          },
+          ".tw4-mobile-nav": {
+            "x": 0,
+            "y": 880.53125,
+            "width": 320,
+            "height": 51,
+            "right": 320,
+            "bottom": 931.53125
+          }
+        },
+        "overlaps": [],
+        "overflow": false,
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 640,
+          "top": 0,
+          "right": 320,
+          "bottom": 640,
+          "left": 0
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "missing": [],
+  "requests": [
+    {
+      "path": "/api/loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "path": "/api/sync/ticket",
+      "method": "POST"
+    },
+    {
+      "path": "/api/service/status",
+      "method": "GET"
+    },
+    {
+      "path": "/api/chief/extension-notice",
+      "method": "GET"
+    },
+    {
+      "path": "/api/loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "path": "/api/cards",
+      "method": "GET"
+    },
+    {
+      "path": "/api/packs",
+      "method": "GET"
+    },
+    {
+      "path": "/api/me/summary",
+      "method": "GET"
+    },
+    {
+      "path": "/api/chief/status",
+      "method": "GET"
+    },
+    {
+      "path": "/api/pve/v3/feature",
+      "method": "GET"
+    },
+    {
+      "path": "/api/mercenary-cards/feature",
+      "method": "GET"
+    },
+    {
+      "path": "/api/loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "path": "/api/me/collection",
+      "method": "GET"
+    },
+    {
+      "path": "/api/card/unique-advancement/feature",
+      "method": "GET"
+    },
+    {
+      "path": "/api/equipment/prime-supply-box/config",
+      "method": "GET"
+    },
+    {
+      "path": "/api/suit-core-box/config",
+      "method": "GET"
+    },
+    {
+      "path": "/api/vehicle-draw/prime/config",
+      "method": "GET"
+    },
+    {
+      "path": "/api/streamer-profiles",
+      "method": "GET"
+    },
+    {
+      "path": "/api/me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "path": "/api/burning-event/status",
+      "method": "GET"
+    },
+    {
+      "path": "/api/shell/summary",
+      "method": "GET"
+    },
+    {
+      "path": "/api/rank-exp-potion/status",
+      "method": "GET"
+    },
+    {
+      "path": "/api/live-operations",
+      "method": "GET"
+    },
+    {
+      "path": "/api/account-rank/status",
+      "method": "GET"
+    },
+    {
+      "path": "/api/clan/war/ready-alert",
+      "method": "GET"
+    },
+    {
+      "path": "/api/jokgak-city/notifications",
+      "method": "GET"
+    },
+    {
+      "path": "/api/sync/ticket",
+      "method": "POST"
+    },
+    {
+      "path": "/api/chief/extension-notice",
+      "method": "GET"
+    },
+    {
+      "path": "/api/user/runtime-command",
+      "method": "GET"
+    },
+    {
+      "path": "/api/account-rank/status",
+      "method": "GET"
+    },
+    {
+      "path": "/api/clan/faction/alerts",
+      "method": "GET"
+    },
+    {
+      "path": "/api/loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "path": "/api/territory-war/state",
+      "method": "GET"
+    },
+    {
+      "path": "/api/sync/ticket",
+      "method": "POST"
+    },
+    {
+      "path": "/api/jokgak-city/notifications",
+      "method": "GET"
+    },
+    {
+      "path": "/api/territory-war/state",
+      "method": "GET"
+    },
+    {
+      "path": "/api/chief/extension-notice",
+      "method": "GET"
+    },
+    {
+      "path": "/api/war-chat/ticket",
+      "method": "POST"
+    }
+  ],
+  "publicBase": "",
+  "productionWrites": 0
+}
