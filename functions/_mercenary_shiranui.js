@@ -2,7 +2,7 @@ import {isShiranui,SHIRANUI_AREA_EVENT,SHIRANUI_AREA_MECHANIC} from '../shared/m
 const living=t=>t?.alive!==false&&t?.hp>0&&!t?.untargetable&&!t?.isBattleSuit;
 
 // All AR rounds, skull marks and five artillery salvos are one cast.
-// Its total budget and one receipt per living target match Jinmu exactly.
+// Its total budget and one receipt per living target match the Jokro 2.2m budget.
 export function resolveShiranuiArea({actor,skill,targets,hit,damage,knockout,emit,damageScale=1}){
  if(!isShiranui(actor)||actor.battleMode!=='PVE'||skill.mechanic!==SHIRANUI_AREA_MECHANIC||!living(actor)||actor.stunned||actor.silenced)return [];
  const fixed=[...new Map(targets.filter(living).map(t=>[t.id,t])).values()];if(!fixed.length)return [];
