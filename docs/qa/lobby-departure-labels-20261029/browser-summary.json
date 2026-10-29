@@ -1,0 +1,191 @@
+{
+  "local": {
+    "checks": [
+      "1440x900 pve both labels use mode",
+      "1440x900 pve numeric decoration removed",
+      "1440x900 pve full watermark fits compact button",
+      "1440x900 pve original title and destination retained",
+      "1440x900 pve category opens",
+      "1440x900 pvp both labels use mode",
+      "1440x900 pvp numeric decoration removed",
+      "1440x900 pvp full watermark fits compact button",
+      "1440x900 pvp original title and destination retained",
+      "1440x900 pvp category opens",
+      "320x740 pve both labels use mode",
+      "320x740 pve numeric decoration removed",
+      "320x740 pve full watermark fits compact button",
+      "320x740 pve original title and destination retained",
+      "320x740 pve category opens",
+      "320x740 pvp both labels use mode",
+      "320x740 pvp numeric decoration removed",
+      "320x740 pvp full watermark fits compact button",
+      "320x740 pvp original title and destination retained",
+      "320x740 pvp category opens",
+      "zero browser exceptions",
+      "all requested assets served"
+    ],
+    "reports": [
+      {
+        "size": "1440x900",
+        "modes": [
+          {
+            "title": "모험 출전",
+            "kicker": "EXPEDITION / PVE",
+            "watermark": "PVE",
+            "category": "pve",
+            "text": "EXPEDITION / PVE모험 출전토벌 · 레이드 · 원정PVE",
+            "button": {
+              "x": 1046,
+              "y": 220,
+              "right": 1390,
+              "bottom": 320
+            },
+            "mark": {
+              "x": 1220.0625,
+              "y": 230,
+              "right": 1369,
+              "bottom": 310
+            },
+            "font": "80px"
+          },
+          {
+            "title": "대전 출전",
+            "kicker": "BATTLE / PVP",
+            "watermark": "PVP",
+            "category": "pvp",
+            "text": "BATTLE / PVP대전 출전랭크전 · 듀오 · 영토전PVP",
+            "button": {
+              "x": 1046,
+              "y": 220,
+              "right": 1390,
+              "bottom": 320
+            },
+            "mark": {
+              "x": 1213.96875,
+              "y": 230,
+              "right": 1369,
+              "bottom": 310
+            },
+            "font": "80px"
+          }
+        ]
+      },
+      {
+        "size": "320x740",
+        "modes": [
+          {
+            "title": "모험 출전",
+            "kicker": "EXPEDITION / PVE",
+            "watermark": "PVE",
+            "category": "pve",
+            "text": "EXPEDITION / PVE모험 출전토벌 · 레이드 · 원정PVE",
+            "button": {
+              "x": 16,
+              "y": 468,
+              "right": 304,
+              "bottom": 543
+            },
+            "mark": {
+              "x": 177.84375,
+              "y": 477.5,
+              "right": 283,
+              "bottom": 533.5
+            },
+            "font": "56px"
+          },
+          {
+            "title": "대전 출전",
+            "kicker": "BATTLE / PVP",
+            "watermark": "PVP",
+            "category": "pvp",
+            "text": "BATTLE / PVP대전 출전랭크전 · 듀오 · 영토전PVP",
+            "button": {
+              "x": 16,
+              "y": 468,
+              "right": 304,
+              "bottom": 543
+            },
+            "mark": {
+              "x": 173.578125,
+              "y": 477.5,
+              "right": 283,
+              "bottom": 533.5
+            },
+            "font": "56px"
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "missing": [],
+    "publicBase": "",
+    "productionWrites": 0
+  },
+  "public": {
+    "checks": [
+      "390x844 pve both labels use mode",
+      "390x844 pve numeric decoration removed",
+      "390x844 pve full watermark fits compact button",
+      "390x844 pve original title and destination retained",
+      "390x844 pve category opens",
+      "390x844 pvp both labels use mode",
+      "390x844 pvp numeric decoration removed",
+      "390x844 pvp full watermark fits compact button",
+      "390x844 pvp original title and destination retained",
+      "390x844 pvp category opens",
+      "zero browser exceptions",
+      "all requested assets served"
+    ],
+    "reports": [
+      {
+        "size": "390x844",
+        "modes": [
+          {
+            "title": "모험 출전",
+            "kicker": "EXPEDITION / PVE",
+            "watermark": "PVE",
+            "category": "pve",
+            "text": "EXPEDITION / PVE모험 출전토벌 · 레이드 · 원정PVE",
+            "button": {
+              "x": 20,
+              "y": 495,
+              "right": 370,
+              "bottom": 572
+            },
+            "mark": {
+              "x": 243.84375,
+              "y": 505.5,
+              "right": 349,
+              "bottom": 561.5
+            },
+            "font": "56px"
+          },
+          {
+            "title": "대전 출전",
+            "kicker": "BATTLE / PVP",
+            "watermark": "PVP",
+            "category": "pvp",
+            "text": "BATTLE / PVP대전 출전랭크전 · 듀오 · 영토전PVP",
+            "button": {
+              "x": 20,
+              "y": 495,
+              "right": 370,
+              "bottom": 572
+            },
+            "mark": {
+              "x": 239.578125,
+              "y": 505.5,
+              "right": 349,
+              "bottom": 561.5
+            },
+            "font": "56px"
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "missing": [],
+    "publicBase": "https://cnine-card.pages.dev",
+    "productionWrites": 0
+  }
+}

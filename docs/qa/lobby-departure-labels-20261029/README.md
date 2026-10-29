@@ -9,3 +9,5 @@
 실제 메인과 격리 API에서 PC1440×900·모바일320×740의 PVE/PVP 양쪽, 총22확인을 통과했다. 두 문구, 숫자 제거, 워터마크 전체가 버튼 안에 위치함, 기존 제목/출전 분류 및 실제 메뉴 열림, 누락 자산/JS 오류0을 확인했다. 운영 계정·재화쓰기/메시지/실제 전투0.
 
 생성 번들 일치 확인과 ONE store 파생물 검사만 선택한 scoped 배포다. 실제 직전 Pages 소스c2d16911d25e694dea374225279f5e4ad349e10a를 계획에 기록했다. 공개6파일/두 Worker와 공개 모바일 양쪽 모드의 짧은 검증 뒤 completion.json에 기록한다. 증거 C:/Users/User/Downloads/upload/cnine-card/operations/lobby-departure-labels-20261029/. Git 자동 유지관리 OFF, 기존 지급/취소 예약 재실행 없음.
+
+**운영 완료:** 소스 `c82a8be89`, Pages `55ed6873`. 관련7검사·로컬 PC/모바일22확인·공개모바일12확인·공개6파일·두 Worker100% 검증 완료. 화면 API는 격리 fixture, 운영 계정/재화쓰기0.

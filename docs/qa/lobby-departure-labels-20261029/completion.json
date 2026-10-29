@@ -1,0 +1,58 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T05:34:18.524Z",
+  "releaseCommit": "c82a8be891ec37819694ede96cc237d1d305c0f4",
+  "pages": {
+    "id": "55ed6873-b267-449a-a843-bc4bc178e1de",
+    "url": "https://55ed6873.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "c82a8be891ec37819694ede96cc237d1d305c0f4"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "6ee5929f-3fc3-459e-b92d-39dc1dff6504",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "d514b1bb-2729-489c-ac6b-cda334a0421e",
+      "percentage": 100
+    }
+  ],
+  "changes": {
+    "pve": {
+      "before": "01",
+      "after": "PVE",
+      "kicker": "EXPEDITION / PVE"
+    },
+    "pvp": {
+      "before": "02",
+      "after": "PVP",
+      "kicker": "BATTLE / PVP"
+    },
+    "watermarkFont": {
+      "desktop": "80px",
+      "mobile": "56px"
+    },
+    "gameplayChanged": false
+  },
+  "checks": {
+    "releaseRegressions": 7,
+    "localChecks": 22,
+    "viewports": [
+      "1440x900",
+      "320x740"
+    ],
+    "publicMobileChecks": 12,
+    "publicAssets": 6,
+    "browserExceptions": 0,
+    "missingAssets": 0
+  },
+  "productionDataWrites": 0,
+  "messagesSent": 0,
+  "artBytesChanged": 0,
+  "manualStorageMaintenance": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/lobby-departure-labels-20261029",
+  "reusedCheckout": "C:/Users/User/Downloads/upload/cnine-card/tmp/cardgu-live-20261027"
+}
