@@ -1,0 +1,259 @@
+{
+  "reports": [
+    {
+      "key": "debt",
+      "width": 1159,
+      "actor": "1",
+      "actionName": "CHARGE",
+      "geometry": [
+        {
+          "action": "CHARGE",
+          "x": 504.5,
+          "y": 301.609375,
+          "width": 150,
+          "height": 180,
+          "right": 654.5,
+          "bottom": 481.609375,
+          "fieldBottom": 637.046875,
+          "dockTop": 672.046875
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "sever",
+      "width": 1159,
+      "actor": "7",
+      "actionName": "VOTE",
+      "geometry": [
+        {
+          "action": "VOTE",
+          "x": 606.484375,
+          "y": 255.921875,
+          "width": 100,
+          "height": 100,
+          "right": 706.484375,
+          "bottom": 355.921875,
+          "fieldBottom": 637.046875,
+          "dockTop": 672.046875
+        },
+        {
+          "action": "VOTE",
+          "x": 737.25,
+          "y": 372.84375,
+          "width": 100,
+          "height": 100,
+          "right": 837.25,
+          "bottom": 472.84375,
+          "fieldBottom": 637.046875,
+          "dockTop": 672.046875
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "debt",
+      "width": 1440,
+      "actor": "1",
+      "actionName": "CHARGE",
+      "geometry": [
+        {
+          "action": "CHARGE",
+          "x": 645,
+          "y": 362.40625,
+          "width": 150,
+          "height": 180,
+          "right": 795,
+          "bottom": 542.40625,
+          "fieldBottom": 789.046875,
+          "dockTop": 824.046875
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "sever",
+      "width": 1440,
+      "actor": "7",
+      "actionName": "VOTE",
+      "geometry": [
+        {
+          "action": "VOTE",
+          "x": 765.84375,
+          "y": 299.3125,
+          "width": 100,
+          "height": 100,
+          "right": 865.84375,
+          "bottom": 399.3125,
+          "fieldBottom": 789.046875,
+          "dockTop": 824.046875
+        },
+        {
+          "action": "VOTE",
+          "x": 928.640625,
+          "y": 446.71875,
+          "width": 100,
+          "height": 100,
+          "right": 1028.640625,
+          "bottom": 546.71875,
+          "fieldBottom": 789.046875,
+          "dockTop": 824.046875
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "debt",
+      "width": 390,
+      "actor": "1",
+      "actionName": "CHARGE",
+      "geometry": [
+        {
+          "action": "CHARGE",
+          "x": 137.5,
+          "y": 304.78125,
+          "width": 115,
+          "height": 160,
+          "right": 252.5,
+          "bottom": 464.78125,
+          "fieldBottom": 665.96875,
+          "dockTop": 697.96875
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "sever",
+      "width": 390,
+      "actor": "7",
+      "actionName": "VOTE",
+      "geometry": [
+        {
+          "action": "VOTE",
+          "x": 182.6875,
+          "y": 230.421875,
+          "width": 80,
+          "height": 80,
+          "right": 262.6875,
+          "bottom": 310.421875,
+          "fieldBottom": 665.96875,
+          "dockTop": 697.96875
+        },
+        {
+          "action": "VOTE",
+          "x": 262.171875,
+          "y": 316.421875,
+          "width": 80,
+          "height": 80,
+          "right": 342.171875,
+          "bottom": 396.421875,
+          "fieldBottom": 665.96875,
+          "dockTop": 697.96875
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "debt",
+      "width": 676,
+      "actor": "1",
+      "actionName": "CHARGE",
+      "geometry": [
+        {
+          "action": "CHARGE",
+          "x": 280.5,
+          "y": 269.1875,
+          "width": 115,
+          "height": 160,
+          "right": 395.5,
+          "bottom": 429.1875,
+          "fieldBottom": 576.96875,
+          "dockTop": 608.96875
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "sever",
+      "width": 676,
+      "actor": "7",
+      "actionName": "VOTE",
+      "geometry": [
+        {
+          "action": "VOTE",
+          "x": 332.375,
+          "y": 165.40625,
+          "width": 80,
+          "height": 80,
+          "right": 412.375,
+          "bottom": 245.40625,
+          "fieldBottom": 576.96875,
+          "dockTop": 608.96875
+        },
+        {
+          "action": "VOTE",
+          "x": 431.046875,
+          "y": 253.46875,
+          "width": 80,
+          "height": 80,
+          "right": 511.046875,
+          "bottom": 333.46875,
+          "fieldBottom": 576.96875,
+          "dockTop": 608.96875
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "debt",
+      "width": 844,
+      "actor": "1",
+      "actionName": "CHARGE",
+      "geometry": [
+        {
+          "action": "CHARGE",
+          "x": 347,
+          "y": 211.21875,
+          "width": 150,
+          "height": 180,
+          "right": 497,
+          "bottom": 391.21875,
+          "fieldBottom": 411.046875,
+          "dockTop": 446.046875
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "sever",
+      "width": 844,
+      "actor": "7",
+      "actionName": "VOTE",
+      "geometry": [
+        {
+          "action": "VOTE",
+          "x": 427.84375,
+          "y": 170.34375,
+          "width": 100,
+          "height": 100,
+          "right": 527.84375,
+          "bottom": 270.34375,
+          "fieldBottom": 411.046875,
+          "dockTop": 446.046875
+        },
+        {
+          "action": "VOTE",
+          "x": 522.6875,
+          "y": 276.34375,
+          "width": 100,
+          "height": 100,
+          "right": 622.6875,
+          "bottom": 376.34375,
+          "fieldBottom": 411.046875,
+          "dockTop": 446.046875
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

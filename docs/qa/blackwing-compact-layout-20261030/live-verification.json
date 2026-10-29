@@ -1,0 +1,55 @@
+{
+  "checkedAt": "2026-10-29T15:18:20.953Z",
+  "pages": {
+    "id": "e3f20234-42f2-4796-b6e7-ca5594256379",
+    "url": "https://e3f20234.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "834d3f2c9ef6876d6da7cdadfcf28cd05409e935"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "92018909-8f30-4c12-8233-65c4c5f2abe1",
+      "versions": [
+        {
+          "version_id": "d51d927f-9c62-4154-94b2-c6f0558a0a88",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "7a09dfcd-4266-4d74-9018-324ae7fd398b",
+      "versions": [
+        {
+          "version_id": "e0e355ae-5911-4aea-bd47-10cecf096680",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "e5e65a9fd3fef48f4e3c94e6c7318c212f48b7735bf946264625964e41d54082"
+    },
+    {
+      "file": "js/blackwing-raid-entry-v1.js",
+      "status": 200,
+      "sha256": "2f7f0982c8cd443bd3420a73be2c38af32ae4964c9bf78e9c46983fb2527d5af"
+    },
+    {
+      "file": "raid/blackwing/inline.mjs",
+      "status": 200,
+      "sha256": "82a7359c99c354bd1af1a9d951ae9c1b4c458ac63ce94ca99e9c13a3abbc8476"
+    },
+    {
+      "file": "raid/blackwing/ui.css",
+      "status": 200,
+      "sha256": "b5ad36b02281522531546b5c6a7cad3665a80b49a874f7638933a9426851e1ac"
+    }
+  ]
+}

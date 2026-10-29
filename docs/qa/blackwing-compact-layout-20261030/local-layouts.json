@@ -1,0 +1,542 @@
+[
+  {
+    "file": "debt-1159-layout.json",
+    "header": "none",
+    "arena": {
+      "x": 6,
+      "y": 78,
+      "width": 1147,
+      "height": 706,
+      "bottom": 784,
+      "right": 1153
+    },
+    "canvas": {
+      "x": 6,
+      "y": 78,
+      "width": 1147,
+      "height": 706,
+      "bottom": 784,
+      "right": 1153
+    },
+    "field": {
+      "x": 6,
+      "y": 78,
+      "width": 1147,
+      "height": 559.046875,
+      "bottom": 637.046875,
+      "right": 1153
+    },
+    "dock": {
+      "x": 6,
+      "y": 672.046875,
+      "width": 1147,
+      "height": 111.953125,
+      "bottom": 784,
+      "right": 1153
+    },
+    "card": {
+      "x": 427.5,
+      "y": 688.046875,
+      "width": 56,
+      "height": 78.953125,
+      "bottom": 767,
+      "right": 483.5
+    },
+    "frame": {
+      "x": 427.5,
+      "y": 688.046875,
+      "width": 56,
+      "height": 78.95904541015625,
+      "bottom": 767.0059204101562,
+      "right": 483.5
+    },
+    "horizontalOverflow": false,
+    "title": "흑익의 맹약"
+  },
+  {
+    "file": "debt-1440-layout.json",
+    "header": "none",
+    "arena": {
+      "x": 6,
+      "y": 78,
+      "width": 1428,
+      "height": 858,
+      "bottom": 936,
+      "right": 1434
+    },
+    "canvas": {
+      "x": 6,
+      "y": 78,
+      "width": 1428,
+      "height": 858,
+      "bottom": 936,
+      "right": 1434
+    },
+    "field": {
+      "x": 6,
+      "y": 78,
+      "width": 1428,
+      "height": 711.046875,
+      "bottom": 789.046875,
+      "right": 1434
+    },
+    "dock": {
+      "x": 6,
+      "y": 824.046875,
+      "width": 1428,
+      "height": 111.953125,
+      "bottom": 936,
+      "right": 1434
+    },
+    "card": {
+      "x": 568,
+      "y": 840.046875,
+      "width": 56,
+      "height": 78.953125,
+      "bottom": 919,
+      "right": 624
+    },
+    "frame": {
+      "x": 568,
+      "y": 840.046875,
+      "width": 56,
+      "height": 78.95904541015625,
+      "bottom": 919.0059204101562,
+      "right": 624
+    },
+    "horizontalOverflow": false,
+    "title": "흑익의 맹약"
+  },
+  {
+    "file": "debt-390-layout.json",
+    "header": "none",
+    "arena": {
+      "x": 2,
+      "y": 64,
+      "width": 386,
+      "height": 726,
+      "bottom": 790,
+      "right": 388
+    },
+    "canvas": {
+      "x": 2,
+      "y": 64,
+      "width": 386,
+      "height": 726,
+      "bottom": 790,
+      "right": 388
+    },
+    "field": {
+      "x": 2,
+      "y": 64,
+      "width": 386,
+      "height": 601.96875,
+      "bottom": 665.96875,
+      "right": 388
+    },
+    "dock": {
+      "x": 2,
+      "y": 697.96875,
+      "width": 386,
+      "height": 92.03125,
+      "bottom": 790,
+      "right": 388
+    },
+    "card": {
+      "x": 77,
+      "y": 711.96875,
+      "width": 44,
+      "height": 62.03125,
+      "bottom": 774,
+      "right": 121
+    },
+    "frame": {
+      "x": 77,
+      "y": 711.96875,
+      "width": 44,
+      "height": 62.03924560546875,
+      "bottom": 774.0079956054688,
+      "right": 121
+    },
+    "horizontalOverflow": false,
+    "title": "흑익의 맹약"
+  },
+  {
+    "file": "debt-676-layout.json",
+    "header": "none",
+    "arena": {
+      "x": 2,
+      "y": 64,
+      "width": 672,
+      "height": 637,
+      "bottom": 701,
+      "right": 674
+    },
+    "canvas": {
+      "x": 2,
+      "y": 64,
+      "width": 672,
+      "height": 637,
+      "bottom": 701,
+      "right": 674
+    },
+    "field": {
+      "x": 2,
+      "y": 64,
+      "width": 672,
+      "height": 512.96875,
+      "bottom": 576.96875,
+      "right": 674
+    },
+    "dock": {
+      "x": 2,
+      "y": 608.96875,
+      "width": 672,
+      "height": 92.03125,
+      "bottom": 701,
+      "right": 674
+    },
+    "card": {
+      "x": 220,
+      "y": 622.96875,
+      "width": 44,
+      "height": 62.03125,
+      "bottom": 685,
+      "right": 264
+    },
+    "frame": {
+      "x": 220,
+      "y": 622.96875,
+      "width": 44,
+      "height": 62.03924560546875,
+      "bottom": 685.0079956054688,
+      "right": 264
+    },
+    "horizontalOverflow": false,
+    "title": "흑익의 맹약"
+  },
+  {
+    "file": "debt-844-layout.json",
+    "header": "none",
+    "arena": {
+      "x": 6,
+      "y": 78,
+      "width": 832,
+      "height": 480,
+      "bottom": 558,
+      "right": 838
+    },
+    "canvas": {
+      "x": 6,
+      "y": 78,
+      "width": 832,
+      "height": 480,
+      "bottom": 558,
+      "right": 838
+    },
+    "field": {
+      "x": 6,
+      "y": 78,
+      "width": 832,
+      "height": 333.046875,
+      "bottom": 411.046875,
+      "right": 838
+    },
+    "dock": {
+      "x": 6,
+      "y": 446.046875,
+      "width": 832,
+      "height": 111.953125,
+      "bottom": 558,
+      "right": 838
+    },
+    "card": {
+      "x": 270,
+      "y": 462.046875,
+      "width": 56,
+      "height": 78.953125,
+      "bottom": 541,
+      "right": 326
+    },
+    "frame": {
+      "x": 270,
+      "y": 462.046875,
+      "width": 56,
+      "height": 78.95904541015625,
+      "bottom": 541.0059204101562,
+      "right": 326
+    },
+    "horizontalOverflow": false,
+    "title": "흑익의 맹약"
+  },
+  {
+    "file": "sever-1159-layout.json",
+    "header": "none",
+    "arena": {
+      "x": 6,
+      "y": 78,
+      "width": 1147,
+      "height": 706,
+      "bottom": 784,
+      "right": 1153
+    },
+    "canvas": {
+      "x": 6,
+      "y": 78,
+      "width": 1147,
+      "height": 706,
+      "bottom": 784,
+      "right": 1153
+    },
+    "field": {
+      "x": 6,
+      "y": 78,
+      "width": 1147,
+      "height": 559.046875,
+      "bottom": 637.046875,
+      "right": 1153
+    },
+    "dock": {
+      "x": 6,
+      "y": 672.046875,
+      "width": 1147,
+      "height": 111.953125,
+      "bottom": 784,
+      "right": 1153
+    },
+    "card": {
+      "x": 427.5,
+      "y": 688.046875,
+      "width": 56,
+      "height": 78.953125,
+      "bottom": 767,
+      "right": 483.5
+    },
+    "frame": {
+      "x": 427.5,
+      "y": 688.046875,
+      "width": 56,
+      "height": 78.95904541015625,
+      "bottom": 767.0059204101562,
+      "right": 483.5
+    },
+    "horizontalOverflow": false,
+    "title": "흑익의 맹약"
+  },
+  {
+    "file": "sever-1440-layout.json",
+    "header": "none",
+    "arena": {
+      "x": 6,
+      "y": 78,
+      "width": 1428,
+      "height": 858,
+      "bottom": 936,
+      "right": 1434
+    },
+    "canvas": {
+      "x": 6,
+      "y": 78,
+      "width": 1428,
+      "height": 858,
+      "bottom": 936,
+      "right": 1434
+    },
+    "field": {
+      "x": 6,
+      "y": 78,
+      "width": 1428,
+      "height": 711.046875,
+      "bottom": 789.046875,
+      "right": 1434
+    },
+    "dock": {
+      "x": 6,
+      "y": 824.046875,
+      "width": 1428,
+      "height": 111.953125,
+      "bottom": 936,
+      "right": 1434
+    },
+    "card": {
+      "x": 568,
+      "y": 840.046875,
+      "width": 56,
+      "height": 78.953125,
+      "bottom": 919,
+      "right": 624
+    },
+    "frame": {
+      "x": 568,
+      "y": 840.046875,
+      "width": 56,
+      "height": 78.95904541015625,
+      "bottom": 919.0059204101562,
+      "right": 624
+    },
+    "horizontalOverflow": false,
+    "title": "흑익의 맹약"
+  },
+  {
+    "file": "sever-390-layout.json",
+    "header": "none",
+    "arena": {
+      "x": 2,
+      "y": 64,
+      "width": 386,
+      "height": 726,
+      "bottom": 790,
+      "right": 388
+    },
+    "canvas": {
+      "x": 2,
+      "y": 64,
+      "width": 386,
+      "height": 726,
+      "bottom": 790,
+      "right": 388
+    },
+    "field": {
+      "x": 2,
+      "y": 64,
+      "width": 386,
+      "height": 601.96875,
+      "bottom": 665.96875,
+      "right": 388
+    },
+    "dock": {
+      "x": 2,
+      "y": 697.96875,
+      "width": 386,
+      "height": 92.03125,
+      "bottom": 790,
+      "right": 388
+    },
+    "card": {
+      "x": 77,
+      "y": 711.96875,
+      "width": 44,
+      "height": 62.03125,
+      "bottom": 774,
+      "right": 121
+    },
+    "frame": {
+      "x": 77,
+      "y": 711.96875,
+      "width": 44,
+      "height": 62.03924560546875,
+      "bottom": 774.0079956054688,
+      "right": 121
+    },
+    "horizontalOverflow": false,
+    "title": "흑익의 맹약"
+  },
+  {
+    "file": "sever-676-layout.json",
+    "header": "none",
+    "arena": {
+      "x": 2,
+      "y": 64,
+      "width": 672,
+      "height": 637,
+      "bottom": 701,
+      "right": 674
+    },
+    "canvas": {
+      "x": 2,
+      "y": 64,
+      "width": 672,
+      "height": 637,
+      "bottom": 701,
+      "right": 674
+    },
+    "field": {
+      "x": 2,
+      "y": 64,
+      "width": 672,
+      "height": 512.96875,
+      "bottom": 576.96875,
+      "right": 674
+    },
+    "dock": {
+      "x": 2,
+      "y": 608.96875,
+      "width": 672,
+      "height": 92.03125,
+      "bottom": 701,
+      "right": 674
+    },
+    "card": {
+      "x": 220,
+      "y": 622.96875,
+      "width": 44,
+      "height": 62.03125,
+      "bottom": 685,
+      "right": 264
+    },
+    "frame": {
+      "x": 220,
+      "y": 622.96875,
+      "width": 44,
+      "height": 62.03924560546875,
+      "bottom": 685.0079956054688,
+      "right": 264
+    },
+    "horizontalOverflow": false,
+    "title": "흑익의 맹약"
+  },
+  {
+    "file": "sever-844-layout.json",
+    "header": "none",
+    "arena": {
+      "x": 6,
+      "y": 78,
+      "width": 832,
+      "height": 480,
+      "bottom": 558,
+      "right": 838
+    },
+    "canvas": {
+      "x": 6,
+      "y": 78,
+      "width": 832,
+      "height": 480,
+      "bottom": 558,
+      "right": 838
+    },
+    "field": {
+      "x": 6,
+      "y": 78,
+      "width": 832,
+      "height": 333.046875,
+      "bottom": 411.046875,
+      "right": 838
+    },
+    "dock": {
+      "x": 6,
+      "y": 446.046875,
+      "width": 832,
+      "height": 111.953125,
+      "bottom": 558,
+      "right": 838
+    },
+    "card": {
+      "x": 270,
+      "y": 462.046875,
+      "width": 56,
+      "height": 78.953125,
+      "bottom": 541,
+      "right": 326
+    },
+    "frame": {
+      "x": 270,
+      "y": 462.046875,
+      "width": 56,
+      "height": 78.95904541015625,
+      "bottom": 541.0059204101562,
+      "right": 326
+    },
+    "horizontalOverflow": false,
+    "title": "흑익의 맹약"
+  }
+]

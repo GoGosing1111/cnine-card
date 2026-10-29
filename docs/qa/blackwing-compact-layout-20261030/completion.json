@@ -1,0 +1,58 @@
+{
+  "completedAt": "2026-10-29T15:18:38.591Z",
+  "sourceCommit": "834d3f2c9ef6876d6da7cdadfcf28cd05409e935",
+  "pages": {
+    "id": "e3f20234-42f2-4796-b6e7-ca5594256379",
+    "url": "https://e3f20234.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "834d3f2c9ef6876d6da7cdadfcf28cd05409e935"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "92018909-8f30-4c12-8233-65c4c5f2abe1",
+      "versions": [
+        {
+          "version_id": "d51d927f-9c62-4154-94b2-c6f0558a0a88",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "7a09dfcd-4266-4d74-9018-324ae7fd398b",
+      "versions": [
+        {
+          "version_id": "e0e355ae-5911-4aea-bd47-10cecf096680",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "changes": {
+    "duplicateHeaderRemoved": true,
+    "canvasTopInset": 0,
+    "desktopCardWidth": {
+      "before": 112,
+      "after": 56
+    },
+    "mobileCardWidth": {
+      "before": 66,
+      "after": 44
+    },
+    "originalCardAspectRatio": 1.41
+  },
+  "validation": {
+    "unitTests": 36,
+    "failed": 0,
+    "localViewports": 5,
+    "localPhasePaths": 10,
+    "localScalePaths": 2,
+    "publicPhasePaths": 1,
+    "publicFileHashes": 4
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "storageMaintenance": false,
+  "evidence": "C:/Users/User/Downloads/upload/cnine-card/operations/blackwing-compact-layout-20261030"
+}

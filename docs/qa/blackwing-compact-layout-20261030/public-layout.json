@@ -1,0 +1,53 @@
+{
+  "header": "none",
+  "arena": {
+    "x": 2,
+    "y": 64,
+    "width": 386,
+    "height": 726,
+    "bottom": 790,
+    "right": 388
+  },
+  "canvas": {
+    "x": 2,
+    "y": 64,
+    "width": 386,
+    "height": 726,
+    "bottom": 790,
+    "right": 388
+  },
+  "field": {
+    "x": 2,
+    "y": 64,
+    "width": 386,
+    "height": 601.96875,
+    "bottom": 665.96875,
+    "right": 388
+  },
+  "dock": {
+    "x": 2,
+    "y": 697.96875,
+    "width": 386,
+    "height": 92.03125,
+    "bottom": 790,
+    "right": 388
+  },
+  "card": {
+    "x": 77,
+    "y": 711.96875,
+    "width": 44,
+    "height": 62.03125,
+    "bottom": 774,
+    "right": 121
+  },
+  "frame": {
+    "x": 77,
+    "y": 711.96875,
+    "width": 44,
+    "height": 62.03924560546875,
+    "bottom": 774.0079956054688,
+    "right": 121
+  },
+  "horizontalOverflow": false,
+  "title": "흑익의 맹약"
+}

@@ -1,0 +1,24 @@
+{
+  "reports": [
+    {
+      "key": "debt",
+      "width": 390,
+      "actor": "1",
+      "actionName": "CHARGE",
+      "geometry": [
+        {
+          "action": "CHARGE",
+          "x": 137.5,
+          "y": 304.78125,
+          "width": 115,
+          "height": 160,
+          "right": 252.5,
+          "bottom": 464.78125,
+          "fieldBottom": 665.96875,
+          "dockTop": 697.96875
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

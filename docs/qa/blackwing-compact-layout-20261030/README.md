@@ -16,3 +16,5 @@
 운영 배포는 작은 UI 변경에 해당하므로 지정 `npm run deploy:production -- --scoped`를 사용한다. 직전 운영: 소스 `a1c139e3b343c191927318ed525c828bff114c4b`, Pages `b3798aaa-77ba-4831-b265-114df71c8042`. 그 이후 원격 변경은 기존 흑무 완료 문서뿐이며 보존했다. 관련 전장·저울·기믹 회귀는 배포 단계에서 한 번 실행한다. 새 로더→inline→CSS 캐시 키는 `20261030-compact1`이다.
 
 증거: `C:/Users/User/Downloads/upload/cnine-card/operations/blackwing-compact-layout-20261030/`. 최종 운영 확인은 같은 문서 폴더의 `completion.json`을 따른다.
+
+**운영 확인 완료:** 소스 `834d3f2c9` · Pages `e3f20234`. 관련 36검사, 공개 4파일 해시, 공개 모바일 축적 버튼, 두 Worker 100% 적용 확인.
