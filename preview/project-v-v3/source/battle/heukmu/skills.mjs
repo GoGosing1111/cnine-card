@@ -4,6 +4,21 @@ export const AREA_SKILLS=Object.freeze({
  ultimate:{name:'암월멸검',bank:'eclipsecut',waves:[2.05,2.6,3.15,3.7],stagger:.025,description:'암월 개방 → 장검 폭우 → 전장 절단 → 파편 소멸'}
 });
 export const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+// Only the body/held sword samples this clock. FX, travel and damage keep the
+// authored clock and the existing live playback rate.
+export const SWORD_SWING_RATE=2;
+const SWORD_SWINGS=Object.freeze({
+ attack:[[.43,.8,1.4]],
+ cross:[[.42,.87,1.02],[1.02,1.24,2]],
+ ultimate:[[.55,1.45,3.05]]
+});
+export function swordSwingTime(mode,t){
+ for(const [from,contact,to] of SWORD_SWINGS[mode]||[]){
+  if(t>=from&&t<=to)return clamp(contact+(t-contact)*SWORD_SWING_RATE,from,to);
+ }
+ return t;
+}
+export const effectScale=mode=>mode==='ultimate'?1.6:['dash','attack','cross','cast'].includes(mode)?1.5:1;
 export function track(keys,t){if(t<=keys[0][0])return keys[0][1];for(let i=1;i<keys.length;i++)if(t<=keys[i][0]){const[a,x]=keys[i-1],[b,y]=keys[i];return x+(y-x)*clamp((t-a)/(b-a));}return keys.at(-1)[1];}
 const poses=(key,rows)=>rows.map(([t,frame])=>[t,key,frame]);
 export function plan(mode='idle',targetCount=5){

@@ -1,4 +1,4 @@
-import {plan,clamp,track} from './skills.mjs';
+import {plan,clamp,track,swordSwingTime,effectScale} from './skills.mjs';
 import {createNeonPurpleRim} from './NeonPurpleRim.js';
 import {createDragonAuraTint} from './DragonAuraTint.js';
 import {AreaSkillFX} from './AreaSkillFX.js';
@@ -48,7 +48,7 @@ export class HeukmuFX{
  replay(){this.seek(0);this.play()}cancel(){if(!this.destroyed)this.configure('idle',{autoplay:false})}
  setSpeed(v){this.speed=clamp(Number(v)||2,.25,2);this.timeline?.timeScale(this.speed);this.ambientTimeline?.timeScale(this.speed);this.onUpdate(this)}
  setMotionOnly(v){this.motionOnly=!!v;this.render(this.time)}setReducedMotion(v){this.reducedMotion=!!v;this.render(this.time);if(this.mode==='idle'||this.time>=this.plan.duration)this.startAmbient(this.auraTime)}
- sample(t){let p=this.plan.poses[0];for(const row of this.plan.poses){if(row[0]>t)break;p=row}return{key:p[1],frame:p[2]}}
+ sample(t){t=swordSwingTime(this.mode,t);let p=this.plan.poses[0];for(const row of this.plan.poses){if(row[0]>t)break;p=row}return{key:p[1],frame:p[2]}}
  metadata(pose=this.pose){return this.spec.motion[pose.key].frames[pose.frame]}
  applyPose(pose){this.pose=pose;const f=this.metadata(),s=this.merc.fullBodySprite,k=this.bodyHeight/f.bodyPixels;s.texture=this.assets.motion[pose.key][pose.frame];s.anchor.set(f.foot.x/f.width,f.foot.y/f.height);s.position.set(0,0);s.rotation=0;s.alpha=1;s.scale.set(k);const n=this.merc.neutralAvatarPose?.mainSprite;if(n)Object.assign(n,{scaleX:k,scaleY:k,x:0,y:0,rotation:0});
   const anchor=f.swordAnchor||this.spec.sword.grip,axis=Math.atan2(this.spec.sword.tip.y-anchor.y,this.spec.sword.tip.x-anchor.x);this.sword.anchor.set(anchor.x/this.assets.sword.width,anchor.y/this.assets.sword.height);this.sword.position.set((f.hand.x-f.foot.x)*k,(f.hand.y-f.foot.y)*k);this.sword.rotation=f.swordAngle*Math.PI/180-axis;this.sword.alpha=1;this.sword.visible=true;
@@ -58,7 +58,7 @@ export class HeukmuFX{
  emission(pose=this.pose){const f=this.metadata(pose);return this.ownPoint({x:(f.emission.x-f.foot.x)*this.bodyHeight/f.bodyPixels,y:(f.emission.y-f.foot.y)*this.bodyHeight/f.bodyPixels})}
  swordTip(){const q=this.spec.sword,a=this.metadata().swordAnchor||q.grip;return this.engine.effectLayer.toLocal(this.sword.toGlobal({x:q.tip.x-a.x,y:q.tip.y-a.y}))}
  targetPoint(actor){const s=actor.fullBodySprite,b=s.getLocalBounds();return this.engine.effectLayer.toLocal(s.toGlobal({x:b.x+b.width*.5,y:b.y+b.height*.49}))}
- draw(bank,frame,p,size,opts={}){if(!this.assets.effects[bank]||this.slot>=this.sprites.length)return;const index=clamp(Math.floor(frame),0,11),s=this.sprites[this.slot++],f=this.spec.effects[bank].frames[index];s.texture=this.assets.effects[bank][index];s.anchor.set(f.anchor.x,f.anchor.y);s.scale.set(size/f.width);if(opts.mirror)s.scale.x*=-1;s.position.set(p.x,p.y);s.rotation=opts.rotation||0;s.alpha=(opts.alpha??1)*(this.reducedMotion?.75:1);s.visible=true;this.effectFrames.push({bank,index,x:p.x,y:p.y,size,role:opts.role||'main'})}
+ draw(bank,frame,p,size,opts={}){if(!this.assets.effects[bank]||this.slot>=this.sprites.length)return;size*=opts.scale??effectScale(this.mode);const index=clamp(Math.floor(frame),0,11),s=this.sprites[this.slot++],f=this.spec.effects[bank].frames[index];s.texture=this.assets.effects[bank][index];s.anchor.set(f.anchor.x,f.anchor.y);s.scale.set(size/f.width);if(opts.mirror)s.scale.x*=-1;s.position.set(p.x,p.y);s.rotation=opts.rotation||0;s.alpha=(opts.alpha??1)*(this.reducedMotion?.75:1);s.visible=true;this.effectFrames.push({bank,index,x:p.x,y:p.y,size,role:opts.role||'main'})}
  sequence(bank,t,from,to,p,size,opts={}){if(t<from||t>=to)return;const u=(t-from)/(to-from);this.draw(bank,u*12,p,size,{...opts,alpha:(opts.alpha??1)*Math.min(1,u*12+.3,(1-u)*7)});}
  renderAura(time=0){this.auraTime=time;const coil=this.spec.idleCoil;this.auraFrame=this.reducedMotion?0:Math.floor(time*coil.framesPerSecond)%coil.frameCount;const H=this.bodyHeight,show=!this.motionOnly&&!(this.mode==='defeat'&&this.time>.65);this.rear.visible=this.coilFrontGroup.visible=show;this.auraSprites.forEach(s=>s.visible=false);if(!show)return;
   const dragon=this.spec.idleDragon||{frame:7,xRatio:0,yRatio:-.7,sizeRatio:1.65,alpha:1};

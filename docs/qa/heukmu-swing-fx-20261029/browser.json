@@ -1,0 +1,2876 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "baseline": false,
+      "publicBase": "",
+      "sampleHash": "fb9b5ec2b84f7cdb49692ccaf16c0522f8b6d51b59d4418584cab8301f85a3f8",
+      "frames": {
+        "attack": 116,
+        "cross": 144,
+        "cast": 256,
+        "ultimate": 284
+      },
+      "timingCompared": false,
+      "peaks": [
+        {
+          "mode": "attack",
+          "ready": true,
+          "id": "heukmu",
+          "pose": {
+            "key": "slash",
+            "frame": 4
+          },
+          "time": 0.87,
+          "duration": 2.3,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 2,
+          "effectFrames": [
+            {
+              "bank": "blade",
+              "index": 3,
+              "x": 843.625,
+              "y": 194.63975105880002,
+              "size": 269.32499999999993,
+              "role": "sword-arc"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 865,
+              "y": 194.63975105880002,
+              "size": 203.06249999999994,
+              "role": "contact"
+            }
+          ],
+          "contacts": [
+            {
+              "at": 0.8,
+              "target": 0,
+              "x": 865,
+              "y": 194.63975105880002
+            }
+          ],
+          "actorBounds": {
+            "left": 562.7177550057686,
+            "top": 191.44680851063828,
+            "right": 756.760308197258,
+            "bottom": 385.48936170212767
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "uniform": true
+          },
+          "sword": {
+            "file": "assets/sword-planar-v9-blade80.png",
+            "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+            "generatedReplacementUsed": true,
+            "sourcePixelMismatch": null,
+            "scaleX": 0.14178391959798994,
+            "scaleY": 0.14178391959798994,
+            "expectedScale": 0.14178391959798994,
+            "relativeLength": 0.904929648241206,
+            "aspectRatioPreserved": true,
+            "handError": 0,
+            "tip": {
+              "x": 804.6739635731527,
+              "y": 240.44265186461547
+            }
+          },
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "outline": {
+            "enabled": true,
+            "color": 13709055,
+            "radius": 1.6,
+            "attachedToBody": true
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "areaSkill": {
+            "phase": "none",
+            "spectralSwords": 0,
+            "targets": [],
+            "visible": false
+          },
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "idleDragon": {
+            "frame": 7,
+            "xRatio": 0,
+            "yRatio": -0.7,
+            "sizeRatio": 1.65,
+            "alpha": 1,
+            "fixed": true
+          },
+          "swordOutline": {
+            "radius": 1.1,
+            "strength": 2,
+            "opacity": 0.75,
+            "haloStrength": 0.55
+          },
+          "auraFrame": 4,
+          "auraTime": 0.87,
+          "auraFixed": true,
+          "auraPositionFixed": true,
+          "floorAuraFrame": 0,
+          "idleCoil": {
+            "frame": 4,
+            "frontLayer": true,
+            "animated": true
+          },
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-968",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        {
+          "mode": "cross",
+          "ready": true,
+          "id": "heukmu",
+          "pose": {
+            "key": "cross",
+            "frame": 4
+          },
+          "time": 1.3,
+          "duration": 2.85,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 2,
+          "effectFrames": [
+            {
+              "bank": "crossfx",
+              "index": 3,
+              "x": 865,
+              "y": 194.50535252600008,
+              "size": 331.31249999999994,
+              "role": "cross-cut"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 865,
+              "y": 194.50535252600008,
+              "size": 203.06249999999994,
+              "role": "contact"
+            }
+          ],
+          "contacts": [
+            {
+              "at": 1.24,
+              "target": 0,
+              "x": 865,
+              "y": 194.50535252600008
+            }
+          ],
+          "actorBounds": {
+            "left": 571.845225725606,
+            "top": 175.71875,
+            "right": 765.4301313859835,
+            "bottom": 369.30365566037733
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "uniform": true
+          },
+          "sword": {
+            "file": "assets/sword-planar-v9-blade80.png",
+            "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+            "generatedReplacementUsed": true,
+            "sourcePixelMismatch": null,
+            "scaleX": 0.14178391959798994,
+            "scaleY": 0.14178391959798994,
+            "expectedScale": 0.14178391959798994,
+            "relativeLength": 0.904929648241206,
+            "aspectRatioPreserved": true,
+            "handError": 0,
+            "tip": {
+              "x": 835.3217392904754,
+              "y": 14.523357810304645
+            }
+          },
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "outline": {
+            "enabled": true,
+            "color": 13709055,
+            "radius": 1.6,
+            "attachedToBody": true
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "areaSkill": {
+            "phase": "none",
+            "spectralSwords": 0,
+            "targets": [],
+            "visible": false
+          },
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "idleDragon": {
+            "frame": 7,
+            "xRatio": 0,
+            "yRatio": -0.7,
+            "sizeRatio": 1.65,
+            "alpha": 1,
+            "fixed": true
+          },
+          "swordOutline": {
+            "radius": 1.1,
+            "strength": 2,
+            "opacity": 0.75,
+            "haloStrength": 0.55
+          },
+          "auraFrame": 6,
+          "auraTime": 1.3,
+          "auraFixed": true,
+          "auraPositionFixed": true,
+          "floorAuraFrame": 0,
+          "idleCoil": {
+            "frame": 6,
+            "frontLayer": true,
+            "animated": true
+          },
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-968",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        {
+          "mode": "cast",
+          "ready": true,
+          "id": "heukmu",
+          "pose": {
+            "key": "cast",
+            "frame": 3
+          },
+          "time": 2.58,
+          "duration": 5.1,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 15,
+          "effectFrames": [
+            {
+              "bank": "cataclysm",
+              "index": 4,
+              "x": 1080.82,
+              "y": 366.33701566233344,
+              "size": 769.4999999999998,
+              "role": "black-dragon-cataclysm"
+            },
+            {
+              "bank": "impact",
+              "index": 11,
+              "x": 1261.0000000000002,
+              "y": 193.6336782372,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 11,
+              "x": 900.6400000000001,
+              "y": 319.2372747116,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 10,
+              "x": 1098.64,
+              "y": 316.84093601300003,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 10,
+              "x": 1296.64,
+              "y": 316.84093601300003,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 9,
+              "x": 865,
+              "y": 444.84093601300015,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 9,
+              "x": 1063,
+              "y": 449.6336782372001,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 1261.0000000000002,
+              "y": 448.43559076200006,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 900.6400000000001,
+              "y": 577.6336782372,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 7,
+              "x": 1098.64,
+              "y": 575.2372747116,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 7,
+              "x": 1296.64,
+              "y": 572.840936013,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 1,
+              "x": 865,
+              "y": 193.6336782372,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 1,
+              "x": 1063,
+              "y": 192.435590762,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 1261.0000000000002,
+              "y": 193.6336782372,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 900.6400000000001,
+              "y": 319.2372747116,
+              "size": 145.35,
+              "role": "all-target-dragon-impact"
+            }
+          ],
+          "contacts": [
+            {
+              "at": 2.5,
+              "target": 0,
+              "wave": 1,
+              "x": 865,
+              "y": 193.6336782372
+            },
+            {
+              "at": 2.525,
+              "target": 1,
+              "wave": 1,
+              "x": 1063,
+              "y": 192.435590762
+            },
+            {
+              "at": 2.55,
+              "target": 2,
+              "wave": 1,
+              "x": 1261.0000000000002,
+              "y": 193.6336782372
+            },
+            {
+              "at": 2.575,
+              "target": 3,
+              "wave": 1,
+              "x": 900.6400000000001,
+              "y": 319.2372747116
+            }
+          ],
+          "actorBounds": {
+            "left": 240.79402173913044,
+            "top": 187.76847826086959,
+            "right": 419.2288043478261,
+            "bottom": 366.2032608695652
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "uniform": true
+          },
+          "sword": {
+            "file": "assets/sword-planar-v9-blade80.png",
+            "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+            "generatedReplacementUsed": true,
+            "sourcePixelMismatch": null,
+            "scaleX": 0.14178391959798994,
+            "scaleY": 0.14178391959798994,
+            "expectedScale": 0.14178391959798994,
+            "relativeLength": 0.904929648241206,
+            "aspectRatioPreserved": true,
+            "handError": 0,
+            "tip": {
+              "x": 407.29493008520865,
+              "y": 269.6821274528315
+            }
+          },
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "outline": {
+            "enabled": true,
+            "color": 13709055,
+            "radius": 1.6,
+            "attachedToBody": true
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "areaSkill": {
+            "phase": "detonation",
+            "spectralSwords": 0,
+            "targets": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "visible": true
+          },
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "idleDragon": {
+            "frame": 7,
+            "xRatio": 0,
+            "yRatio": -0.7,
+            "sizeRatio": 1.65,
+            "alpha": 1,
+            "fixed": true
+          },
+          "swordOutline": {
+            "radius": 1.1,
+            "strength": 2,
+            "opacity": 0.75,
+            "haloStrength": 0.55
+          },
+          "auraFrame": 0,
+          "auraTime": 2.58,
+          "auraFixed": true,
+          "auraPositionFixed": true,
+          "floorAuraFrame": 0,
+          "idleCoil": {
+            "frame": 0,
+            "frontLayer": true,
+            "animated": true
+          },
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-968",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        {
+          "mode": "ultimate",
+          "ready": true,
+          "id": "heukmu",
+          "pose": {
+            "key": "ultimate",
+            "frame": 4
+          },
+          "time": 3.77,
+          "duration": 5.65,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 19,
+          "effectFrames": [
+            {
+              "bank": "eclipsecut",
+              "index": 8,
+              "x": 1080.82,
+              "y": 358.2419400054001,
+              "size": 943.9199999999997,
+              "role": "eclipse-sundering"
+            },
+            {
+              "bank": "impact",
+              "index": 10,
+              "x": 865,
+              "y": 194.05695099759998,
+              "size": 136.79999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 10,
+              "x": 1063,
+              "y": 192.8760738904,
+              "size": 136.79999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 9,
+              "x": 1261.0000000000002,
+              "y": 194.05695099759998,
+              "size": 136.79999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 9,
+              "x": 900.6400000000001,
+              "y": 319.69503063400003,
+              "size": 136.79999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 1098.64,
+              "y": 317.33331675640005,
+              "size": 136.79999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 1296.64,
+              "y": 317.33331675640005,
+              "size": 136.79999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 865,
+              "y": 445.3333167564002,
+              "size": 136.79999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 7,
+              "x": 1063,
+              "y": 450.0569509976002,
+              "size": 136.79999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 7,
+              "x": 1261.0000000000002,
+              "y": 448.8760738904001,
+              "size": 136.79999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 6,
+              "x": 900.6400000000001,
+              "y": 578.0569509976002,
+              "size": 136.79999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 6,
+              "x": 1098.64,
+              "y": 575.6950306340001,
+              "size": 136.79999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 5,
+              "x": 1296.64,
+              "y": 573.3333167564001,
+              "size": 136.79999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 1,
+              "x": 865,
+              "y": 194.05695099759998,
+              "size": 239.39999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "blade",
+              "index": 1,
+              "x": 865,
+              "y": 194.05695099759998,
+              "size": 307.79999999999995,
+              "role": "final-cleave"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 1063,
+              "y": 192.8760738904,
+              "size": 239.39999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "blade",
+              "index": 0,
+              "x": 1063,
+              "y": 192.8760738904,
+              "size": 307.79999999999995,
+              "role": "final-cleave"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 1261.0000000000002,
+              "y": 194.05695099759998,
+              "size": 239.39999999999998,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "blade",
+              "index": 0,
+              "x": 1261.0000000000002,
+              "y": 194.05695099759998,
+              "size": 307.79999999999995,
+              "role": "final-cleave"
+            }
+          ],
+          "contacts": [
+            {
+              "at": 3.7,
+              "target": 0,
+              "wave": 3,
+              "x": 865,
+              "y": 194.05695099759998
+            },
+            {
+              "at": 3.725,
+              "target": 1,
+              "wave": 3,
+              "x": 1063,
+              "y": 192.8760738904
+            },
+            {
+              "at": 3.75,
+              "target": 2,
+              "wave": 3,
+              "x": 1261.0000000000002,
+              "y": 194.05695099759998
+            }
+          ],
+          "actorBounds": {
+            "left": 243.39000000000001,
+            "top": 192.44,
+            "right": 425.78999999999996,
+            "bottom": 374.84
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "uniform": true
+          },
+          "sword": {
+            "file": "assets/sword-planar-v9-blade80.png",
+            "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+            "generatedReplacementUsed": true,
+            "sourcePixelMismatch": null,
+            "scaleX": 0.14178391959798994,
+            "scaleY": 0.14178391959798994,
+            "expectedScale": 0.14178391959798994,
+            "relativeLength": 0.904929648241206,
+            "aspectRatioPreserved": true,
+            "handError": 0,
+            "tip": {
+              "x": 433.4963748940979,
+              "y": 258.86457024525276
+            }
+          },
+          "formationSlot": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "outline": {
+            "enabled": true,
+            "color": 13709055,
+            "radius": 1.6,
+            "attachedToBody": true
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "areaSkill": {
+            "phase": "formation-cut",
+            "spectralSwords": 0,
+            "targets": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "visible": true
+          },
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "idleDragon": {
+            "frame": 7,
+            "xRatio": 0,
+            "yRatio": -0.7,
+            "sizeRatio": 1.65,
+            "alpha": 1,
+            "fixed": true
+          },
+          "swordOutline": {
+            "radius": 1.1,
+            "strength": 2,
+            "opacity": 0.75,
+            "haloStrength": 0.55
+          },
+          "auraFrame": 6,
+          "auraTime": 3.77,
+          "auraFixed": true,
+          "auraPositionFixed": true,
+          "floorAuraFrame": 0,
+          "idleCoil": {
+            "frame": 6,
+            "frontLayer": true,
+            "animated": true
+          },
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-968",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        }
+      ],
+      "checks": {
+        "pve": {
+          "field": "HUNT",
+          "ready": true,
+          "allies": 5,
+          "enemies": 12,
+          "actors": [
+            {
+              "side": "ALLY",
+              "mode": "idle",
+              "hp": 100,
+              "handError": 0,
+              "body": {
+                "bodyHeight": 285,
+                "renderedReference": 285,
+                "uniform": true
+              },
+              "position": {
+                "x": 380,
+                "y": 240
+              },
+              "auraFixed": true,
+              "effects": 0
+            }
+          ],
+          "reports": [
+            {
+              "side": "ALLY",
+              "code": "V-968",
+              "eventType": "ATTACK",
+              "mode": "attack",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": [
+                0.8
+              ],
+              "durationSeconds": 2.3,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "handError": 0
+            },
+            {
+              "side": "ALLY",
+              "code": "V-968",
+              "eventType": "ATTACK",
+              "mode": "cross",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": [
+                0.87
+              ],
+              "durationSeconds": 2.85,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "handError": 0
+            },
+            {
+              "code": "V-968",
+              "eventType": "MERCENARY_HEUKMU_AREA",
+              "mode": "cast",
+              "authoritative": true,
+              "damageApplications": 12,
+              "contactSeconds": [
+                1.9,
+                1.9249999999999998,
+                1.95,
+                1.9749999999999999,
+                2,
+                2.025,
+                2.05,
+                2.0749999999999997,
+                2.1,
+                2.125,
+                2.15,
+                2.175
+              ],
+              "durationSeconds": 5.1,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "uniqueApplications": 12
+            },
+            {
+              "code": "V-968",
+              "eventType": "MERCENARY_HEUKMU_AREA",
+              "mode": "ultimate",
+              "authoritative": true,
+              "damageApplications": 12,
+              "contactSeconds": [
+                2.05,
+                2.0749999999999997,
+                2.0999999999999996,
+                2.125,
+                2.15,
+                2.175,
+                2.1999999999999997,
+                2.2249999999999996,
+                2.25,
+                2.275,
+                2.3,
+                2.3249999999999997
+              ],
+              "durationSeconds": 5.65,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "uniqueApplications": 12
+            }
+          ],
+          "errors": [],
+          "allChecksPassed": true
+        },
+        "pvp": {
+          "field": "PVP",
+          "ready": true,
+          "allies": 5,
+          "enemies": 5,
+          "actors": [
+            {
+              "side": "ALLY",
+              "mode": "idle",
+              "hp": 100,
+              "handError": 0,
+              "body": {
+                "bodyHeight": 285,
+                "renderedReference": 285,
+                "uniform": true
+              },
+              "position": {
+                "x": 380,
+                "y": 240
+              },
+              "auraFixed": true,
+              "effects": 0
+            },
+            {
+              "side": "ENEMY",
+              "mode": "idle",
+              "hp": 100,
+              "handError": 0,
+              "body": {
+                "bodyHeight": 285,
+                "renderedReference": 285,
+                "uniform": true
+              },
+              "position": {
+                "x": 1220,
+                "y": 240
+              },
+              "auraFixed": true,
+              "effects": 0
+            }
+          ],
+          "reports": [
+            {
+              "side": "ALLY",
+              "code": "V-968",
+              "eventType": "ATTACK",
+              "mode": "attack",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": [
+                0.8
+              ],
+              "durationSeconds": 2.3,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "handError": 0
+            },
+            {
+              "side": "ALLY",
+              "code": "V-968",
+              "eventType": "ATTACK",
+              "mode": "cross",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": [
+                0.87
+              ],
+              "durationSeconds": 2.85,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "handError": 0
+            },
+            {
+              "side": "ENEMY",
+              "code": "V-968",
+              "eventType": "ATTACK",
+              "mode": "attack",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": [
+                0.8
+              ],
+              "durationSeconds": 2.3,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "handError": 0
+            },
+            {
+              "side": "ENEMY",
+              "code": "V-968",
+              "eventType": "ATTACK",
+              "mode": "cross",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": [
+                0.87
+              ],
+              "durationSeconds": 2.85,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "handError": 0
+            }
+          ],
+          "errors": [],
+          "allChecksPassed": true
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "baseline": true,
+      "publicBase": "",
+      "sampleHash": "e169adaff69d1b1321a65bf152409f0fccc81a322c89b53244d24cbced956fc1",
+      "frames": {
+        "attack": 116,
+        "cross": 144,
+        "cast": 256,
+        "ultimate": 284
+      },
+      "timingCompared": false,
+      "peaks": [
+        {
+          "mode": "attack",
+          "ready": true,
+          "id": "heukmu",
+          "pose": {
+            "key": "slash",
+            "frame": 3
+          },
+          "time": 0.87,
+          "duration": 2.3,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 2,
+          "effectFrames": [
+            {
+              "bank": "blade",
+              "index": 3,
+              "x": 597.6223360655737,
+              "y": 542.7806760334688,
+              "size": 233.415,
+              "role": "sword-arc"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 625.4098360655737,
+              "y": 542.7806760334688,
+              "size": 175.98749999999998,
+              "role": "contact"
+            }
+          ],
+          "contacts": [
+            {
+              "at": 0.8,
+              "target": 0,
+              "x": 625.4098360655737,
+              "y": 542.7806760334688
+            }
+          ],
+          "actorBounds": {
+            "left": 98.74858414525873,
+            "top": 150.3637608353034,
+            "right": 193.733611726031,
+            "bottom": 245.34878841607565
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "uniform": true
+          },
+          "sword": {
+            "file": "assets/sword-planar-v9-blade80.png",
+            "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+            "generatedReplacementUsed": true,
+            "sourcePixelMismatch": null,
+            "scaleX": 0.14178391959798994,
+            "scaleY": 0.14178391959798994,
+            "expectedScale": 0.14178391959798994,
+            "relativeLength": 0.904929648241206,
+            "aspectRatioPreserved": true,
+            "handError": 0,
+            "tip": {
+              "x": 625.4098360655737,
+              "y": 528.6902274935039
+            }
+          },
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "outline": {
+            "enabled": true,
+            "color": 13709055,
+            "radius": 1.6,
+            "attachedToBody": true
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "areaSkill": {
+            "phase": "none",
+            "spectralSwords": 0,
+            "targets": [],
+            "visible": false
+          },
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "idleDragon": {
+            "frame": 7,
+            "xRatio": 0,
+            "yRatio": -0.7,
+            "sizeRatio": 1.65,
+            "alpha": 1,
+            "fixed": true
+          },
+          "swordOutline": {
+            "radius": 1.1,
+            "strength": 2,
+            "opacity": 0.75,
+            "haloStrength": 0.55
+          },
+          "auraFrame": 4,
+          "auraTime": 0.87,
+          "auraFixed": true,
+          "auraPositionFixed": true,
+          "floorAuraFrame": 0,
+          "idleCoil": {
+            "frame": 4,
+            "frontLayer": true,
+            "animated": true
+          },
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-968",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        {
+          "mode": "cross",
+          "ready": true,
+          "id": "heukmu",
+          "pose": {
+            "key": "cross",
+            "frame": 3
+          },
+          "time": 1.3,
+          "duration": 2.85,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 2,
+          "effectFrames": [
+            {
+              "bank": "crossfx",
+              "index": 3,
+              "x": 625.4098360655737,
+              "y": 542.6523736846689,
+              "size": 287.1375,
+              "role": "cross-cut"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 625.4098360655737,
+              "y": 542.6523736846689,
+              "size": 175.98749999999998,
+              "role": "contact"
+            }
+          ],
+          "contacts": [
+            {
+              "at": 1.24,
+              "target": 0,
+              "x": 625.4098360655737,
+              "y": 542.6523736846689
+            }
+          ],
+          "actorBounds": {
+            "left": 117.4485400450908,
+            "top": 152.41915618448638,
+            "right": 212.20954633439896,
+            "bottom": 247.18016247379455
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "uniform": true
+          },
+          "sword": {
+            "file": "assets/sword-planar-v9-blade80.png",
+            "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+            "generatedReplacementUsed": true,
+            "sourcePixelMismatch": null,
+            "scaleX": 0.14178391959798994,
+            "scaleY": 0.14178391959798994,
+            "expectedScale": 0.14178391959798994,
+            "relativeLength": 0.904929648241206,
+            "aspectRatioPreserved": true,
+            "handError": 0,
+            "tip": {
+              "x": 625.4098360655737,
+              "y": 532.1174836011295
+            }
+          },
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "outline": {
+            "enabled": true,
+            "color": 13709055,
+            "radius": 1.6,
+            "attachedToBody": true
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "areaSkill": {
+            "phase": "none",
+            "spectralSwords": 0,
+            "targets": [],
+            "visible": false
+          },
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "idleDragon": {
+            "frame": 7,
+            "xRatio": 0,
+            "yRatio": -0.7,
+            "sizeRatio": 1.65,
+            "alpha": 1,
+            "fixed": true
+          },
+          "swordOutline": {
+            "radius": 1.1,
+            "strength": 2,
+            "opacity": 0.75,
+            "haloStrength": 0.55
+          },
+          "auraFrame": 6,
+          "auraTime": 1.3,
+          "auraFixed": true,
+          "auraPositionFixed": true,
+          "floorAuraFrame": 0,
+          "idleCoil": {
+            "frame": 6,
+            "frontLayer": true,
+            "animated": true
+          },
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-968",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        {
+          "mode": "cast",
+          "ready": true,
+          "id": "heukmu",
+          "pose": {
+            "key": "cast",
+            "frame": 3
+          },
+          "time": 2.58,
+          "duration": 5.1,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 15,
+          "effectFrames": [
+            {
+              "bank": "cataclysm",
+              "index": 4,
+              "x": 752.5321721311475,
+              "y": 838.658652595369,
+              "size": 666.8999999999999,
+              "role": "black-dragon-cataclysm"
+            },
+            {
+              "bank": "impact",
+              "index": 11,
+              "x": 909.4098360655738,
+              "y": 542.3770114270689,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 11,
+              "x": 650.9698360655738,
+              "y": 753.6625690208689,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 10,
+              "x": 792.9698360655738,
+              "y": 750.9478417286689,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 10,
+              "x": 934.9698360655738,
+              "y": 750.9478417286689,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 9,
+              "x": 625.4098360655737,
+              "y": 964.9478417286687,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 9,
+              "x": 767.4098360655738,
+              "y": 970.3770114270689,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 909.4098360655738,
+              "y": 969.0196402398687,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 650.9698360655738,
+              "y": 1184.377011427069,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 7,
+              "x": 792.9698360655738,
+              "y": 1181.662569020869,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 7,
+              "x": 934.9698360655738,
+              "y": 1178.9478417286687,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 1,
+              "x": 625.4098360655737,
+              "y": 542.3770114270689,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 1,
+              "x": 767.4098360655738,
+              "y": 541.0196402398689,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 909.4098360655738,
+              "y": 542.3770114270689,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 650.9698360655738,
+              "y": 753.6625690208689,
+              "size": 125.96999999999997,
+              "role": "all-target-dragon-impact"
+            }
+          ],
+          "contacts": [
+            {
+              "at": 2.5,
+              "target": 0,
+              "wave": 1,
+              "x": 625.4098360655737,
+              "y": 542.3770114270689
+            },
+            {
+              "at": 2.525,
+              "target": 1,
+              "wave": 1,
+              "x": 767.4098360655738,
+              "y": 541.0196402398689
+            },
+            {
+              "at": 2.55,
+              "target": 2,
+              "wave": 1,
+              "x": 909.4098360655738,
+              "y": 542.3770114270689
+            },
+            {
+              "at": 2.575,
+              "target": 3,
+              "wave": 1,
+              "x": 650.9698360655738,
+              "y": 753.6625690208689
+            }
+          ],
+          "actorBounds": {
+            "left": 72.25904891304347,
+            "top": 128.45518719806762,
+            "right": 159.60397644927536,
+            "bottom": 215.8001147342995
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "uniform": true
+          },
+          "sword": {
+            "file": "assets/sword-planar-v9-blade80.png",
+            "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+            "generatedReplacementUsed": true,
+            "sourcePixelMismatch": null,
+            "scaleX": 0.14178391959798994,
+            "scaleY": 0.14178391959798994,
+            "expectedScale": 0.14178391959798994,
+            "relativeLength": 0.904929648241206,
+            "aspectRatioPreserved": true,
+            "handError": 0,
+            "tip": {
+              "x": 394.893245176345,
+              "y": 595.6359460165496
+            }
+          },
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "outline": {
+            "enabled": true,
+            "color": 13709055,
+            "radius": 1.6,
+            "attachedToBody": true
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "areaSkill": {
+            "phase": "detonation",
+            "spectralSwords": 0,
+            "targets": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "visible": true
+          },
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "idleDragon": {
+            "frame": 7,
+            "xRatio": 0,
+            "yRatio": -0.7,
+            "sizeRatio": 1.65,
+            "alpha": 1,
+            "fixed": true
+          },
+          "swordOutline": {
+            "radius": 1.1,
+            "strength": 2,
+            "opacity": 0.75,
+            "haloStrength": 0.55
+          },
+          "auraFrame": 0,
+          "auraTime": 2.58,
+          "auraFixed": true,
+          "auraPositionFixed": true,
+          "floorAuraFrame": 0,
+          "idleCoil": {
+            "frame": 0,
+            "frontLayer": true,
+            "animated": true
+          },
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-968",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        {
+          "mode": "ultimate",
+          "ready": true,
+          "id": "heukmu",
+          "pose": {
+            "key": "ultimate",
+            "frame": 4
+          },
+          "time": 3.77,
+          "duration": 5.65,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 19,
+          "effectFrames": [
+            {
+              "bank": "eclipsecut",
+              "index": 8,
+              "x": 752.5321721311475,
+              "y": 827.0790474953689,
+              "size": 766.9349999999998,
+              "role": "eclipse-sundering"
+            },
+            {
+              "bank": "impact",
+              "index": 10,
+              "x": 625.4098360655737,
+              "y": 541.9446405262688,
+              "size": 111.14999999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 10,
+              "x": 767.4098360655738,
+              "y": 540.5698231438688,
+              "size": 111.14999999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 9,
+              "x": 909.4098360655738,
+              "y": 541.9446405262688,
+              "size": 111.14999999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 9,
+              "x": 650.9698360655738,
+              "y": 753.1948946000688,
+              "size": 111.14999999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 792.9698360655738,
+              "y": 750.4451430878688,
+              "size": 111.14999999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 934.9698360655738,
+              "y": 750.4451430878688,
+              "size": 111.14999999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 625.4098360655737,
+              "y": 964.4451430878688,
+              "size": 111.14999999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 7,
+              "x": 767.4098360655738,
+              "y": 969.9446405262687,
+              "size": 111.14999999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 7,
+              "x": 909.4098360655738,
+              "y": 968.5698231438687,
+              "size": 111.14999999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 6,
+              "x": 650.9698360655738,
+              "y": 1183.9446405262686,
+              "size": 111.14999999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 6,
+              "x": 792.9698360655738,
+              "y": 1181.1948946000687,
+              "size": 111.14999999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 5,
+              "x": 934.9698360655738,
+              "y": 1178.4451430878687,
+              "size": 111.14999999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 1,
+              "x": 625.4098360655737,
+              "y": 541.9446405262688,
+              "size": 194.51249999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "blade",
+              "index": 1,
+              "x": 625.4098360655737,
+              "y": 541.9446405262688,
+              "size": 250.08749999999995,
+              "role": "final-cleave"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 767.4098360655738,
+              "y": 540.5698231438688,
+              "size": 194.51249999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "blade",
+              "index": 0,
+              "x": 767.4098360655738,
+              "y": 540.5698231438688,
+              "size": 250.08749999999995,
+              "role": "final-cleave"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 909.4098360655738,
+              "y": 541.9446405262688,
+              "size": 194.51249999999996,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "blade",
+              "index": 0,
+              "x": 909.4098360655738,
+              "y": 541.9446405262688,
+              "size": 250.08749999999995,
+              "role": "final-cleave"
+            }
+          ],
+          "contacts": [
+            {
+              "at": 3.7,
+              "target": 0,
+              "wave": 3,
+              "x": 625.4098360655737,
+              "y": 541.9446405262688
+            },
+            {
+              "at": 3.725,
+              "target": 1,
+              "wave": 3,
+              "x": 767.4098360655738,
+              "y": 540.5698231438688
+            },
+            {
+              "at": 3.75,
+              "target": 2,
+              "wave": 3,
+              "x": 909.4098360655738,
+              "y": 541.9446405262688
+            }
+          ],
+          "actorBounds": {
+            "left": 73.5297962962963,
+            "top": 130.74192592592593,
+            "right": 162.8157222222222,
+            "bottom": 220.02785185185184
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "uniform": true
+          },
+          "sword": {
+            "file": "assets/sword-planar-v9-blade80.png",
+            "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+            "generatedReplacementUsed": true,
+            "sourcePixelMismatch": null,
+            "scaleX": 0.14178391959798994,
+            "scaleY": 0.14178391959798994,
+            "expectedScale": 0.14178391959798994,
+            "relativeLength": 0.904929648241206,
+            "aspectRatioPreserved": true,
+            "handError": 0,
+            "tip": {
+              "x": 428.95512342790096,
+              "y": 581.5731216466974
+            }
+          },
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "outline": {
+            "enabled": true,
+            "color": 13709055,
+            "radius": 1.6,
+            "attachedToBody": true
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "areaSkill": {
+            "phase": "formation-cut",
+            "spectralSwords": 0,
+            "targets": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "visible": true
+          },
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "idleDragon": {
+            "frame": 7,
+            "xRatio": 0,
+            "yRatio": -0.7,
+            "sizeRatio": 1.65,
+            "alpha": 1,
+            "fixed": true
+          },
+          "swordOutline": {
+            "radius": 1.1,
+            "strength": 2,
+            "opacity": 0.75,
+            "haloStrength": 0.55
+          },
+          "auraFrame": 6,
+          "auraTime": 3.77,
+          "auraFixed": true,
+          "auraPositionFixed": true,
+          "floorAuraFrame": 0,
+          "idleCoil": {
+            "frame": 6,
+            "frontLayer": true,
+            "animated": true
+          },
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-968",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "baseline": false,
+      "publicBase": "",
+      "sampleHash": "0f61b1ee115c2c8caf5f221cbb637042d65a6f71e2b8fd6dea855ff4764129d8",
+      "frames": {
+        "attack": 116,
+        "cross": 144,
+        "cast": 256,
+        "ultimate": 284
+      },
+      "timingCompared": true,
+      "peaks": [
+        {
+          "mode": "attack",
+          "ready": true,
+          "id": "heukmu",
+          "pose": {
+            "key": "slash",
+            "frame": 4
+          },
+          "time": 0.87,
+          "duration": 2.3,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 2,
+          "effectFrames": [
+            {
+              "bank": "blade",
+              "index": 3,
+              "x": 597.6223360655737,
+              "y": 542.6505233962689,
+              "size": 350.1225,
+              "role": "sword-arc"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 625.4098360655737,
+              "y": 542.6505233962689,
+              "size": 263.98125,
+              "role": "contact"
+            }
+          ],
+          "contacts": [
+            {
+              "at": 0.8,
+              "target": 0,
+              "x": 625.4098360655737,
+              "y": 542.6505233962689
+            }
+          ],
+          "actorBounds": {
+            "left": 106.31770353060152,
+            "top": 142.7946414499606,
+            "right": 201.3027311113738,
+            "bottom": 237.77966903073286
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "uniform": true
+          },
+          "sword": {
+            "file": "assets/sword-planar-v9-blade80.png",
+            "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+            "generatedReplacementUsed": true,
+            "sourcePixelMismatch": null,
+            "scaleX": 0.14178391959798994,
+            "scaleY": 0.14178391959798994,
+            "expectedScale": 0.14178391959798994,
+            "relativeLength": 0.904929648241206,
+            "aspectRatioPreserved": true,
+            "handError": 0,
+            "tip": {
+              "x": 546.985988710672,
+              "y": 594.6246277518688
+            }
+          },
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "outline": {
+            "enabled": true,
+            "color": 13709055,
+            "radius": 1.6,
+            "attachedToBody": true
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "areaSkill": {
+            "phase": "none",
+            "spectralSwords": 0,
+            "targets": [],
+            "visible": false
+          },
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "idleDragon": {
+            "frame": 7,
+            "xRatio": 0,
+            "yRatio": -0.7,
+            "sizeRatio": 1.65,
+            "alpha": 1,
+            "fixed": true
+          },
+          "swordOutline": {
+            "radius": 1.1,
+            "strength": 2,
+            "opacity": 0.75,
+            "haloStrength": 0.55
+          },
+          "auraFrame": 4,
+          "auraTime": 0.87,
+          "auraFixed": true,
+          "auraPositionFixed": true,
+          "floorAuraFrame": 0,
+          "idleCoil": {
+            "frame": 4,
+            "frontLayer": true,
+            "animated": true
+          },
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-968",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        {
+          "mode": "cross",
+          "ready": true,
+          "id": "heukmu",
+          "pose": {
+            "key": "cross",
+            "frame": 4
+          },
+          "time": 1.3,
+          "duration": 2.85,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 2,
+          "effectFrames": [
+            {
+              "bank": "crossfx",
+              "index": 3,
+              "x": 625.4098360655737,
+              "y": 542.7801259606688,
+              "size": 430.70624999999995,
+              "role": "cross-cut"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 625.4098360655737,
+              "y": 542.7801259606688,
+              "size": 263.98125,
+              "role": "contact"
+            }
+          ],
+          "contacts": [
+            {
+              "at": 1.24,
+              "target": 0,
+              "x": 625.4098360655737,
+              "y": 542.7801259606688
+            }
+          ],
+          "actorBounds": {
+            "left": 110.78565679037382,
+            "top": 135.09565972222225,
+            "right": 205.546663079682,
+            "bottom": 229.8566660115304
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "uniform": true
+          },
+          "sword": {
+            "file": "assets/sword-planar-v9-blade80.png",
+            "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+            "generatedReplacementUsed": true,
+            "sourcePixelMismatch": null,
+            "scaleX": 0.14178391959798994,
+            "scaleY": 0.14178391959798994,
+            "expectedScale": 0.14178391959798994,
+            "relativeLength": 0.904929648241206,
+            "aspectRatioPreserved": true,
+            "handError": 0,
+            "tip": {
+              "x": 586.8280971431917,
+              "y": 300.9295454812648
+            }
+          },
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "outline": {
+            "enabled": true,
+            "color": 13709055,
+            "radius": 1.6,
+            "attachedToBody": true
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "areaSkill": {
+            "phase": "none",
+            "spectralSwords": 0,
+            "targets": [],
+            "visible": false
+          },
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "idleDragon": {
+            "frame": 7,
+            "xRatio": 0,
+            "yRatio": -0.7,
+            "sizeRatio": 1.65,
+            "alpha": 1,
+            "fixed": true
+          },
+          "swordOutline": {
+            "radius": 1.1,
+            "strength": 2,
+            "opacity": 0.75,
+            "haloStrength": 0.55
+          },
+          "auraFrame": 6,
+          "auraTime": 1.3,
+          "auraFixed": true,
+          "auraPositionFixed": true,
+          "floorAuraFrame": 0,
+          "idleCoil": {
+            "frame": 6,
+            "frontLayer": true,
+            "animated": true
+          },
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-968",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        {
+          "mode": "cast",
+          "ready": true,
+          "id": "heukmu",
+          "pose": {
+            "key": "cast",
+            "frame": 3
+          },
+          "time": 2.58,
+          "duration": 5.1,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 15,
+          "effectFrames": [
+            {
+              "bank": "cataclysm",
+              "index": 4,
+              "x": 575.4098360655738,
+              "y": 839.0568310334688,
+              "size": 974.9388453314325,
+              "role": "black-dragon-cataclysm"
+            },
+            {
+              "bank": "impact",
+              "index": 11,
+              "x": 909.4098360655738,
+              "y": 542.7475865530689,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 11,
+              "x": 650.9698360655738,
+              "y": 754.0632174950689,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 10,
+              "x": 792.9698360655738,
+              "y": 751.3786110320689,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 10,
+              "x": 934.9698360655738,
+              "y": 751.3786110320689,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 9,
+              "x": 625.4098360655737,
+              "y": 965.3786110320688,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 9,
+              "x": 767.4098360655738,
+              "y": 970.7475865530687,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 909.4098360655738,
+              "y": 969.4053735354688,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 650.9698360655738,
+              "y": 1184.7475865530687,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 7,
+              "x": 792.9698360655738,
+              "y": 1182.0632174950688,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 7,
+              "x": 934.9698360655738,
+              "y": 1179.3786110320689,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 1,
+              "x": 625.4098360655737,
+              "y": 542.7475865530689,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 1,
+              "x": 767.4098360655738,
+              "y": 541.4053735354689,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 909.4098360655738,
+              "y": 542.7475865530689,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 650.9698360655738,
+              "y": 754.0632174950689,
+              "size": 188.95499999999996,
+              "role": "all-target-dragon-impact"
+            }
+          ],
+          "contacts": [
+            {
+              "at": 2.5,
+              "target": 0,
+              "wave": 1,
+              "x": 625.4098360655737,
+              "y": 542.7475865530689
+            },
+            {
+              "at": 2.525,
+              "target": 1,
+              "wave": 1,
+              "x": 767.4098360655738,
+              "y": 541.4053735354689
+            },
+            {
+              "at": 2.55,
+              "target": 2,
+              "wave": 1,
+              "x": 909.4098360655738,
+              "y": 542.7475865530689
+            },
+            {
+              "at": 2.575,
+              "target": 3,
+              "wave": 1,
+              "x": 650.9698360655738,
+              "y": 754.0632174950689
+            }
+          ],
+          "actorBounds": {
+            "left": 72.25904891304347,
+            "top": 128.45518719806762,
+            "right": 159.60397644927536,
+            "bottom": 215.8001147342995
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "uniform": true
+          },
+          "sword": {
+            "file": "assets/sword-planar-v9-blade80.png",
+            "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+            "generatedReplacementUsed": true,
+            "sourcePixelMismatch": null,
+            "scaleX": 0.14178391959798994,
+            "scaleY": 0.14178391959798994,
+            "expectedScale": 0.14178391959798994,
+            "relativeLength": 0.904929648241206,
+            "aspectRatioPreserved": true,
+            "handError": 0,
+            "tip": {
+              "x": 394.893245176345,
+              "y": 595.6359460165496
+            }
+          },
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "outline": {
+            "enabled": true,
+            "color": 13709055,
+            "radius": 1.6,
+            "attachedToBody": true
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "areaSkill": {
+            "phase": "detonation",
+            "spectralSwords": 0,
+            "targets": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "visible": true
+          },
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "idleDragon": {
+            "frame": 7,
+            "xRatio": 0,
+            "yRatio": -0.7,
+            "sizeRatio": 1.65,
+            "alpha": 1,
+            "fixed": true
+          },
+          "swordOutline": {
+            "radius": 1.1,
+            "strength": 2,
+            "opacity": 0.75,
+            "haloStrength": 0.55
+          },
+          "auraFrame": 0,
+          "auraTime": 2.58,
+          "auraFixed": true,
+          "auraPositionFixed": true,
+          "floorAuraFrame": 0,
+          "idleCoil": {
+            "frame": 0,
+            "frontLayer": true,
+            "animated": true
+          },
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-968",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        },
+        {
+          "mode": "ultimate",
+          "ready": true,
+          "id": "heukmu",
+          "pose": {
+            "key": "ultimate",
+            "frame": 4
+          },
+          "time": 3.77,
+          "duration": 5.65,
+          "playing": false,
+          "speed": 2,
+          "motionOnly": false,
+          "activeEffects": 19,
+          "effectFrames": [
+            {
+              "bank": "eclipsecut",
+              "index": 8,
+              "x": 575.4098360655738,
+              "y": 827.7534925017687,
+              "size": 1121.1796721311473,
+              "role": "eclipse-sundering"
+            },
+            {
+              "bank": "impact",
+              "index": 10,
+              "x": 625.4098360655737,
+              "y": 542.5723146994688,
+              "size": 177.83999999999995,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 10,
+              "x": 767.4098360655738,
+              "y": 541.2229516018688,
+              "size": 177.83999999999995,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 9,
+              "x": 909.4098360655738,
+              "y": 542.5723146994688,
+              "size": 177.83999999999995,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 9,
+              "x": 650.9698360655738,
+              "y": 753.8735354372687,
+              "size": 177.83999999999995,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 792.9698360655738,
+              "y": 751.1749192862688,
+              "size": 177.83999999999995,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 934.9698360655738,
+              "y": 751.1749192862688,
+              "size": 177.83999999999995,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 8,
+              "x": 625.4098360655737,
+              "y": 965.1749192862686,
+              "size": 177.83999999999995,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 7,
+              "x": 767.4098360655738,
+              "y": 970.5723146994686,
+              "size": 177.83999999999995,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 7,
+              "x": 909.4098360655738,
+              "y": 969.2229516018688,
+              "size": 177.83999999999995,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 6,
+              "x": 650.9698360655738,
+              "y": 1184.5723146994687,
+              "size": 177.83999999999995,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 6,
+              "x": 792.9698360655738,
+              "y": 1181.8735354372689,
+              "size": 177.83999999999995,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 5,
+              "x": 934.9698360655738,
+              "y": 1179.1749192862687,
+              "size": 177.83999999999995,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "impact",
+              "index": 1,
+              "x": 625.4098360655737,
+              "y": 542.5723146994688,
+              "size": 311.21999999999997,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "blade",
+              "index": 1,
+              "x": 625.4098360655737,
+              "y": 542.5723146994688,
+              "size": 400.13999999999993,
+              "role": "final-cleave"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 767.4098360655738,
+              "y": 541.2229516018688,
+              "size": 311.21999999999997,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "blade",
+              "index": 0,
+              "x": 767.4098360655738,
+              "y": 541.2229516018688,
+              "size": 400.13999999999993,
+              "role": "final-cleave"
+            },
+            {
+              "bank": "impact",
+              "index": 0,
+              "x": 909.4098360655738,
+              "y": 542.5723146994688,
+              "size": 311.21999999999997,
+              "role": "all-target-sword-impact"
+            },
+            {
+              "bank": "blade",
+              "index": 0,
+              "x": 909.4098360655738,
+              "y": 542.5723146994688,
+              "size": 400.13999999999993,
+              "role": "final-cleave"
+            }
+          ],
+          "contacts": [
+            {
+              "at": 3.7,
+              "target": 0,
+              "wave": 3,
+              "x": 625.4098360655737,
+              "y": 542.5723146994688
+            },
+            {
+              "at": 3.725,
+              "target": 1,
+              "wave": 3,
+              "x": 767.4098360655738,
+              "y": 541.2229516018688
+            },
+            {
+              "at": 3.75,
+              "target": 2,
+              "wave": 3,
+              "x": 909.4098360655738,
+              "y": 542.5723146994688
+            }
+          ],
+          "actorBounds": {
+            "left": 73.5297962962963,
+            "top": 130.74192592592593,
+            "right": 162.8157222222222,
+            "bottom": 220.02785185185184
+          },
+          "bodyRegistration": {
+            "bodyHeight": 285,
+            "renderedReference": 285,
+            "uniform": true
+          },
+          "sword": {
+            "file": "assets/sword-planar-v9-blade80.png",
+            "sha256": "058fdcf2773758f042817bf6482338a86a1efd2c80cf4a404cdbab4cdfe11977",
+            "generatedReplacementUsed": true,
+            "sourcePixelMismatch": null,
+            "scaleX": 0.14178391959798994,
+            "scaleY": 0.14178391959798994,
+            "expectedScale": 0.14178391959798994,
+            "relativeLength": 0.904929648241206,
+            "aspectRatioPreserved": true,
+            "handError": 0,
+            "tip": {
+              "x": 428.95512342790096,
+              "y": 581.5731216466974
+            }
+          },
+          "formationSlot": {
+            "x": 359.40983606557376,
+            "y": 557.0491803278688,
+            "scale": 0.65
+          },
+          "outline": {
+            "enabled": true,
+            "color": 13709055,
+            "radius": 1.6,
+            "attachedToBody": true
+          },
+          "idleBodyFixed": true,
+          "idleTimeline": false,
+          "areaSkill": {
+            "phase": "formation-cut",
+            "spectralSwords": 0,
+            "targets": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "visible": true
+          },
+          "regularAllies": 5,
+          "regularEnemies": 12,
+          "idleDragon": {
+            "frame": 7,
+            "xRatio": 0,
+            "yRatio": -0.7,
+            "sizeRatio": 1.65,
+            "alpha": 1,
+            "fixed": true
+          },
+          "swordOutline": {
+            "radius": 1.1,
+            "strength": 2,
+            "opacity": 0.75,
+            "haloStrength": 0.55
+          },
+          "auraFrame": 6,
+          "auraTime": 3.77,
+          "auraFixed": true,
+          "auraPositionFixed": true,
+          "floorAuraFrame": 0,
+          "idleCoil": {
+            "frame": 6,
+            "frontLayer": true,
+            "animated": true
+          },
+          "registeredTimelines": 0,
+          "visualOnly": false,
+          "clock": "DEPLOYED_V3_GSAP",
+          "code": "V-968",
+          "liveEnabled": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "playbackRate": 2,
+          "cameraZoom": false
+        }
+      ],
+      "checks": {
+        "pve": {
+          "field": "HUNT",
+          "ready": true,
+          "allies": 5,
+          "enemies": 12,
+          "actors": [
+            {
+              "side": "ALLY",
+              "mode": "idle",
+              "hp": 100,
+              "handError": 0,
+              "body": {
+                "bodyHeight": 285,
+                "renderedReference": 285,
+                "uniform": true
+              },
+              "position": {
+                "x": 359.40983606557376,
+                "y": 557.0491803278688
+              },
+              "auraFixed": true,
+              "effects": 0
+            }
+          ],
+          "reports": [
+            {
+              "side": "ALLY",
+              "code": "V-968",
+              "eventType": "ATTACK",
+              "mode": "attack",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": [
+                0.8
+              ],
+              "durationSeconds": 2.3,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "handError": 0
+            },
+            {
+              "side": "ALLY",
+              "code": "V-968",
+              "eventType": "ATTACK",
+              "mode": "cross",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": [
+                0.87
+              ],
+              "durationSeconds": 2.85,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "handError": 0
+            },
+            {
+              "code": "V-968",
+              "eventType": "MERCENARY_HEUKMU_AREA",
+              "mode": "cast",
+              "authoritative": true,
+              "damageApplications": 12,
+              "contactSeconds": [
+                1.9,
+                1.9249999999999998,
+                1.95,
+                1.9749999999999999,
+                2,
+                2.025,
+                2.05,
+                2.0749999999999997,
+                2.1,
+                2.125,
+                2.15,
+                2.175
+              ],
+              "durationSeconds": 5.1,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "uniqueApplications": 12
+            },
+            {
+              "code": "V-968",
+              "eventType": "MERCENARY_HEUKMU_AREA",
+              "mode": "ultimate",
+              "authoritative": true,
+              "damageApplications": 12,
+              "contactSeconds": [
+                2.05,
+                2.0749999999999997,
+                2.0999999999999996,
+                2.125,
+                2.15,
+                2.175,
+                2.1999999999999997,
+                2.2249999999999996,
+                2.25,
+                2.275,
+                2.3,
+                2.3249999999999997
+              ],
+              "durationSeconds": 5.65,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "uniqueApplications": 12
+            }
+          ],
+          "errors": [],
+          "allChecksPassed": true
+        },
+        "pvp": {
+          "field": "PVP",
+          "ready": true,
+          "allies": 5,
+          "enemies": 5,
+          "actors": [
+            {
+              "side": "ALLY",
+              "mode": "idle",
+              "hp": 100,
+              "handError": 0,
+              "body": {
+                "bodyHeight": 285,
+                "renderedReference": 285,
+                "uniform": true
+              },
+              "position": {
+                "x": 359.40983606557376,
+                "y": 402.1311475409836
+              },
+              "auraFixed": true,
+              "effects": 0
+            },
+            {
+              "side": "ENEMY",
+              "mode": "idle",
+              "hp": 100,
+              "handError": 0,
+              "body": {
+                "bodyHeight": 285,
+                "renderedReference": 285,
+                "uniform": true
+              },
+              "position": {
+                "x": 791.4098360655738,
+                "y": 402.1311475409836
+              },
+              "auraFixed": true,
+              "effects": 0
+            }
+          ],
+          "reports": [
+            {
+              "side": "ALLY",
+              "code": "V-968",
+              "eventType": "ATTACK",
+              "mode": "attack",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": [
+                0.8
+              ],
+              "durationSeconds": 2.3,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "handError": 0
+            },
+            {
+              "side": "ALLY",
+              "code": "V-968",
+              "eventType": "ATTACK",
+              "mode": "cross",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": [
+                0.87
+              ],
+              "durationSeconds": 2.85,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "handError": 0
+            },
+            {
+              "side": "ENEMY",
+              "code": "V-968",
+              "eventType": "ATTACK",
+              "mode": "attack",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": [
+                0.8
+              ],
+              "durationSeconds": 2.3,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "handError": 0
+            },
+            {
+              "side": "ENEMY",
+              "code": "V-968",
+              "eventType": "ATTACK",
+              "mode": "cross",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": [
+                0.87
+              ],
+              "durationSeconds": 2.85,
+              "playbackRate": 2,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "cameraZoom": false,
+              "handError": 0
+            }
+          ],
+          "errors": [],
+          "allChecksPassed": true
+        }
+      },
+      "errors": []
+    }
+  ],
+  "productionWrites": 0
+}
