@@ -117,3 +117,7 @@ dialog{color:var(--ink);font-family:inherit;background:#101d2afa;border:8px soli
 @media(max-height:800px) and (min-width:1001px){.rail{top:86px;gap:3px;padding-top:10px}.rail-item{min-height:58px}.rail-bottom{display:none}}
 @media(max-width:760px){.wallet b{font-size:19px;letter-spacing:-.65px}.wallet small{font-size:9px}.mobile-dock b{font-size:9px;font-weight:650}.mobile-dock button{color:#e0eaf1}}
 @media(max-width:360px){.wallet b{font-size:17px}.wallet small{font-size:8px}}
+
+/* Mode labels replace numeric decoration and fit within compact departure buttons. */
+.depart-watermark{font-size:80px;line-height:1;top:50%;bottom:auto;right:12px;transform:translateY(-50%);letter-spacing:1px}
+@media(max-width:760px){.depart-watermark{font-size:56px;bottom:auto;right:12px}}
