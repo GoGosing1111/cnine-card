@@ -1,0 +1,51 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:icon-opening:verified-coin-message:20261029:v1",
+  "authorization": "2차인증 전체유저 코인 10조 지급 / 메세지 내용은 아이콘 개방 기념 사료",
+  "completedAt": "2026-10-29T00:55:22.014Z",
+  "completedAtKST": "2026-10-29 09:55:22 KST",
+  "auditId": "52656",
+  "delivery": "MESSAGE",
+  "title": "아이콘 개방 기념 사료",
+  "body": "아이콘 개방 기념 사료",
+  "coinPerRecipient": "10000000000000",
+  "totalCoin": "6100000000000000",
+  "recipients": 610,
+  "messages": 610,
+  "rewards": 610,
+  "roleCounts": {
+    "OWNER": 2,
+    "USER": 605,
+    "ADMIN": 3
+  },
+  "providerCounts": {
+    "PLAYDK": 609,
+    "WAGO": 1
+  },
+  "excludedInactive": {
+    "BANNED": 1
+  },
+  "missing": 0,
+  "duplicates": 0,
+  "claimTests": 3,
+  "validationChecks": {
+    "wrongPlanRejected": true,
+    "actualSqlFailureRolledBack": true,
+    "successRolledBack": true,
+    "messageSyncRolledBack": true,
+    "onlyMessageAuditReceiptAndSyncWrites": true,
+    "noWalletInventoryWrites": true,
+    "selectOnlyReplay": true,
+    "noDeliveryAfterRollback": true
+  },
+  "independentReadOnlyVerified": true,
+  "replayAdditionalWrites": 0,
+  "verifiedClaimedAtSnapshot": 3,
+  "verifiedPendingAtSnapshot": 607,
+  "verifiedAt": "2026-10-29T00:56:09.655Z",
+  "planHash": "926102f498a39f0888f5d4358f36cb62de627121d322183e16d53604939bba43",
+  "sourceHash": "4dc35a21f2fdeeb0e0bd828537621f488b5005c141b8d91a87125f1a0767eedf",
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/icon-opening-verified-coins-20261029",
+  "gameDeployments": 0,
+  "storageMaintenance": false
+}
