@@ -1,0 +1,49 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-29T05:02:59.266Z",
+  "releaseCommit": "449613d0c194bbc05141e0205a78759e4c437463",
+  "pages": {
+    "id": "94155c19-4518-4ed1-be96-2d6d6ded7105",
+    "url": "https://94155c19.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "449613d0c194bbc05141e0205a78759e4c437463"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "ae9019d8-ba55-476e-91e8-6e7a6337ccef",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "714de86a-a505-4aae-aceb-df3678e068fa",
+      "percentage": 100
+    }
+  ],
+  "approval": "전체 메뉴 분류 UI·닫기 버튼·가로 스크롤 축소 및 후속 로비 모험/PVE·대전/PVP 선택부 개선 요청",
+  "changes": [
+    "Ten wrapped category buttons and full-width section bars",
+    "Visible 44px close button outside vertically scrolling list",
+    "Responsive three/two/one-column menu entries without horizontal overflow",
+    "Opaque PVE/PVP buttons and distinct selected state"
+  ],
+  "checks": {
+    "releaseRegressions": 11,
+    "localChecks": 110,
+    "viewports": [
+      "1440x900",
+      "960x800",
+      "390x844",
+      "320x740"
+    ],
+    "publicMobileChecks": 29,
+    "publicAssets": 6,
+    "missingAssets": 0,
+    "browserExceptions": 0
+  },
+  "productionDataWrites": 0,
+  "messagesSent": 0,
+  "artBytesChanged": 0,
+  "manualStorageMaintenance": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/lobby-menu-clarity-20261029"
+}

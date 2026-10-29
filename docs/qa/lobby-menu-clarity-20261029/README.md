@@ -15,3 +15,5 @@
 관련 배포 검사는 adventure-lobby-menu-separation 및 onestore-web-20261026만 선택한다. 직전 작업에서 운영 코드의 기존 즐겨찾기 허용 목록/레거시 클랜전 숨김 가정 실패를 재현·기록했으므로 무관한 두 검사는 반복하지 않는다. 실제 직전 Pages 소스는 e288d18dabef5fb084f7a80fe9955895bed8257d이며 배포 계획에 기록했다. 배포 후 변경 공개 파일/Worker 배포와 모바일 대표 경로만 확인한다.
 
 증거: C:/Users/User/Downloads/upload/cnine-card/operations/lobby-menu-clarity-20261029/. 운영 데이터 쓰기·실제 전투·메시지 발송·원화 바이트 변경 0. 기존 체크아웃/의존성 재사용, Git 자동 유지관리 OFF. 별도 저장공간 유지관리·정리·삭제·예약 없음. 운영 최종 결과는 completion.json에 기록한다.
+
+**운영 완료:** 소스 `449613d0c`, Pages `94155c19`. 관련11검사·로컬4크기110확인·공개 모바일29확인·공개6파일·두 Worker100% 검증 완료. 화면 API는 격리 fixture, 운영 계정/재화 직접쓰기0.
