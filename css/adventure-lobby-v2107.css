@@ -17,7 +17,7 @@ soop-adventure-lobby{display:block;width:100%;height:100%;min-width:0}
 .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-live-route{display:flex;flex-direction:column;background:#0b111e;color:#e8effc}
 .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head{flex:none;min-height:68px;padding:10px 24px;background:#101929;border-bottom:1px solid #33435c;box-shadow:none}
 .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head small{color:#99aecb;letter-spacing:.3px}
-.page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head h1{color:#edf3ff;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;font-size:21px;letter-spacing:-.6px}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head h1{color:#edf3ff;font-family:'Pretendard Variable',Pretendard,'Noto Sans KR','Malgun Gothic',sans-serif;font-size:21px;letter-spacing:-.6px}
 .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head>button{border:1px solid #3a4b65;border-radius:4px;background:#152137;color:#b9cbe8;box-shadow:none}
 .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head>button:hover{border-color:#9bbe67;color:#c8ff6b}
 .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-body{flex:1;min-height:0;height:auto!important;scrollbar-color:#425473 #0b111e}
@@ -26,7 +26,7 @@ soop-adventure-lobby{display:block;width:100%;height:100%;min-width:0}
  .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head h1{font-size:18px}
 }
 /* Native data, countdowns and click handlers; a lobby-specific presentation. */
-[data-live-operations-surface="lobby-clarity"]{display:block;min-width:0;width:100%;margin:0!important;border:0;border-radius:0;background:none;box-shadow:none;color:#eef3ff;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;overflow:visible}
+[data-live-operations-surface="lobby-clarity"]{display:block;min-width:0;width:100%;margin:0!important;border:0;border-radius:0;background:none;box-shadow:none;color:#eef3ff;font-family:'Pretendard Variable',Pretendard,'Noto Sans KR','Malgun Gothic',sans-serif;overflow:visible}
 [data-live-operations-surface="lobby-clarity"]::before,[data-live-operations-surface="lobby-clarity"]::after{display:none}
 [data-live-operations-surface="lobby-clarity"]>header{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0 0 17px;margin:0;border:0;border-bottom:1px solid #35445e;background:none}
 [data-live-operations-surface="lobby-clarity"]>header>i,[data-live-operations-surface="lobby-clarity"]>header small,[data-live-operations-surface="lobby-clarity"]>time{display:none}
@@ -49,7 +49,7 @@ soop-adventure-lobby{display:block;width:100%;height:100%;min-width:0}
 [data-live-operations-surface="lobby-clarity"] .live-operation-copy>span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:10px;font-weight:400;line-height:1.6;letter-spacing:0;color:#9cafcb;white-space:normal}
 [data-live-operations-surface="lobby-clarity"] .live-operation-card>strong{display:block;min-width:59px;margin:0;padding:0;border:0;text-align:right}
 [data-live-operations-surface="lobby-clarity"] .live-operation-card>strong small{display:block;font-size:9px;font-weight:400;color:#96a9c5;line-height:1.5;margin-bottom:5px}
-[data-live-operations-surface="lobby-clarity"] .live-operation-card>strong b{display:block;font:600 18px/1.1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums;letter-spacing:.3px;color:#dbe6f9}
+[data-live-operations-surface="lobby-clarity"] .live-operation-card>strong b{display:block;font:600 18px/1.1 'Pretendard Variable',Pretendard,'Noto Sans KR','Malgun Gothic',sans-serif;font-variant-numeric:tabular-nums;letter-spacing:.3px;color:#dbe6f9}
 [data-live-operations-surface="lobby-clarity"] .live-operation-enter{font-size:16px;font-style:normal;color:#98b1dd}
 [data-live-operations-surface="lobby-clarity"] .live-operation-empty{min-height:225px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;white-space:normal;text-align:center;color:#a9bddb;padding:25px 16px;border:0;background:none}
 [data-live-operations-surface="lobby-clarity"] .live-operation-empty>b{font-size:14px;line-height:1.6}
@@ -130,3 +130,9 @@ soop-adventure-lobby{display:block;width:100%;height:100%;min-width:0}
 
 soop-adventure-lobby [data-cnine-lobby-open]>b{display:none}
 #liveOperationsDialog .live-operation-enter{display:none}
+
+/* The slotted lobby controls and native popups share the codex typography. */
+body:has(soop-adventure-lobby) :is(.lobby-bgm-controls,.bgm-player,.c9-lobby-entry,.c9-roster-action,.c9-roster-dialog,.live-operations-dialog,.account-rank-dialog),
+body:has(soop-adventure-lobby) :is(.lobby-bgm-controls,.bgm-player,.c9-lobby-entry,.c9-roster-action,.c9-roster-dialog,.live-operations-dialog,.account-rank-dialog) *{
+ font-family:'Pretendard Variable',Pretendard,'Noto Sans KR','Malgun Gothic',sans-serif;font-synthesis:none;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}

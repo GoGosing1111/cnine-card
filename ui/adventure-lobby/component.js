@@ -4,12 +4,20 @@
 (function(global){
   'use strict';
   const template=global.__ADVENTURE_LOBBY_TEMPLATE__;
+  // Register the codex font in the document; @font-face inside a shadow tree
+  // does not make the font available to the lobby or its native dialog slots.
+  const codexFontHref="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css";
+  function ensureCodexFont(){
+    if([...document.querySelectorAll('link[rel="stylesheet"]')].some(link=>link.href===codexFontHref))return;
+    const link=document.createElement('link');link.rel='stylesheet';link.href=codexFontHref;link.dataset.lobbyFont='pretendard';document.head.append(link);
+  }
   const fallbackArt='/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.webp';
   const safeArt=value=>{try{const url=new URL(String(value||fallbackArt).replace(/\\/g,'/'),location.origin);return url.origin===location.origin&&/^\/(assets|preview)\//.test(url.pathname)?url.href:fallbackArt;}catch{return fallbackArt;}};
   const compact=n=>{if(Number(n)<0)return '−'+compact(-Number(n));const v=Math.max(0,Number(n)||0);return v>=1e12?(v/1e12).toLocaleString('ko-KR',{maximumFractionDigits:1})+'조':v>=1e8?(v/1e8).toLocaleString('ko-KR',{maximumFractionDigits:1})+'억':v>=1e4?(v/1e4).toLocaleString('ko-KR',{maximumFractionDigits:1})+'만':v.toLocaleString('ko-KR');};
   class AdventureLobby extends HTMLElement{
     constructor(){super();this.attachShadow({mode:'open'});this.shadowRoot.innerHTML=template;this.model={};}
     connectedCallback(){
+      ensureCodexFont();
       this.seasonPassVisible=false;
       const root=this.shadowRoot,scroller=root.querySelector('.lobby-body');this.lifecycle=new AbortController();
       const settings=this.navigationOptions||{},getUser=settings.getUser||(()=>global.loadUser?.()||{}),user=getUser();

@@ -1,0 +1,535 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "layout": {
+        "buttons": [
+          {
+            "label": "봉인 보상 선택",
+            "x": 655.375,
+            "y": 479.796875,
+            "right": 784.625,
+            "bottom": 525.796875,
+            "width": 129.25,
+            "height": 46
+          },
+          {
+            "label": "전투기록 보기",
+            "x": 446,
+            "y": 582.984375,
+            "right": 994,
+            "bottom": 632.984375,
+            "width": 548,
+            "height": 50
+          },
+          {
+            "label": "공대 목록으로",
+            "x": 446,
+            "y": 650.984375,
+            "right": 994,
+            "bottom": 700.984375,
+            "width": 548,
+            "height": 50
+          }
+        ],
+        "commandVisible": false
+      }
+    }
+  ],
+  "calls": [
+    {
+      "key": "loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "key": "sync/ticket",
+      "method": "POST"
+    },
+    {
+      "key": "sync/stream",
+      "method": "GET"
+    },
+    {
+      "key": "service/status",
+      "method": "GET"
+    },
+    {
+      "key": "chief/extension-notice",
+      "method": "GET"
+    },
+    {
+      "key": "loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "key": "cards",
+      "method": "GET"
+    },
+    {
+      "key": "packs",
+      "method": "GET"
+    },
+    {
+      "key": "me/summary",
+      "method": "GET"
+    },
+    {
+      "key": "loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "key": "card/unique-advancement/feature",
+      "method": "GET"
+    },
+    {
+      "key": "equipment/prime-supply-box/config",
+      "method": "GET"
+    },
+    {
+      "key": "suit-core-box/config",
+      "method": "GET"
+    },
+    {
+      "key": "vehicle-draw/prime/config",
+      "method": "GET"
+    },
+    {
+      "key": "burning-event/status",
+      "method": "GET"
+    },
+    {
+      "key": "streamer-profiles",
+      "method": "GET"
+    },
+    {
+      "key": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "key": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "key": "pve/v3/feature",
+      "method": "GET"
+    },
+    {
+      "key": "mercenary-cards/feature",
+      "method": "GET"
+    },
+    {
+      "key": "rank-exp-potion/status",
+      "method": "GET"
+    },
+    {
+      "key": "live-operations",
+      "method": "GET"
+    },
+    {
+      "key": "chief/status",
+      "method": "GET"
+    },
+    {
+      "key": "me/summary",
+      "method": "GET"
+    },
+    {
+      "key": "account-rank/status",
+      "method": "GET"
+    },
+    {
+      "key": "clan/war/ready-alert",
+      "method": "GET"
+    },
+    {
+      "key": "loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "key": "me/collection",
+      "method": "GET"
+    },
+    {
+      "key": "clan/faction/alerts",
+      "method": "GET"
+    },
+    {
+      "key": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "key": "user/runtime-command",
+      "method": "GET"
+    },
+    {
+      "key": "battle/config",
+      "method": "GET"
+    },
+    {
+      "key": "raid/lich/feature",
+      "method": "GET"
+    },
+    {
+      "key": "escort/status",
+      "method": "GET"
+    },
+    {
+      "key": "raid/madara/feature",
+      "method": "GET"
+    },
+    {
+      "key": "raid/blackwing/feature",
+      "method": "GET"
+    },
+    {
+      "key": "coop/feature",
+      "method": "GET"
+    },
+    {
+      "key": "legion-hunt/status",
+      "method": "GET"
+    },
+    {
+      "key": "mercenaries/v3/state",
+      "method": "GET"
+    },
+    {
+      "key": "pets/v1/state",
+      "method": "GET"
+    },
+    {
+      "key": "coop/feature",
+      "method": "GET"
+    },
+    {
+      "key": "account-rank/status",
+      "method": "GET"
+    },
+    {
+      "key": "sync/ticket",
+      "method": "POST"
+    },
+    {
+      "key": "sync/stream",
+      "method": "GET"
+    },
+    {
+      "key": "tower/config",
+      "method": "GET"
+    },
+    {
+      "key": "raid/status",
+      "method": "GET"
+    },
+    {
+      "key": "raid/core/feature",
+      "method": "GET"
+    },
+    {
+      "key": "chief/extension-notice",
+      "method": "GET"
+    },
+    {
+      "key": "rewards/reveal/pending",
+      "method": "GET"
+    },
+    {
+      "key": "raid/blackwing/lobby",
+      "method": "GET"
+    },
+    {
+      "key": "raid/blackwing/state",
+      "method": "GET"
+    },
+    {
+      "key": "jokgak-city/notifications",
+      "method": "GET"
+    },
+    {
+      "key": "raid/blackwing/action",
+      "method": "POST"
+    },
+    {
+      "key": "raid/lich/feature",
+      "method": "GET"
+    },
+    {
+      "key": "raid/madara/feature",
+      "method": "GET"
+    },
+    {
+      "key": "raid/blackwing/feature",
+      "method": "GET"
+    },
+    {
+      "key": "rewards/reveal/open",
+      "method": "GET"
+    },
+    {
+      "key": "sync/ticket",
+      "method": "POST"
+    },
+    {
+      "key": "sync/stream",
+      "method": "GET"
+    },
+    {
+      "key": "account-rank/status",
+      "method": "GET"
+    },
+    {
+      "key": "raid/blackwing/leave",
+      "method": "POST"
+    },
+    {
+      "key": "raid/lich/feature",
+      "method": "GET"
+    },
+    {
+      "key": "raid/madara/feature",
+      "method": "GET"
+    },
+    {
+      "key": "raid/blackwing/feature",
+      "method": "GET"
+    },
+    {
+      "key": "raid/blackwing/lobby",
+      "method": "GET"
+    },
+    {
+      "key": "rewards/reveal/pending",
+      "method": "GET"
+    },
+    {
+      "key": "rewards/reveal/open",
+      "method": "GET"
+    },
+    {
+      "key": "account-rank/status",
+      "method": "GET"
+    },
+    {
+      "key": "sync/ticket",
+      "method": "POST"
+    },
+    {
+      "key": "sync/stream",
+      "method": "GET"
+    },
+    {
+      "key": "rewards/reveal/claim",
+      "method": "POST"
+    },
+    {
+      "key": "raid/lich/feature",
+      "method": "GET"
+    },
+    {
+      "key": "raid/madara/feature",
+      "method": "GET"
+    },
+    {
+      "key": "raid/blackwing/feature",
+      "method": "GET"
+    },
+    {
+      "key": "account-rank/status",
+      "method": "GET"
+    },
+    {
+      "key": "chief/extension-notice",
+      "method": "GET"
+    },
+    {
+      "key": "raid/blackwing/lobby",
+      "method": "GET"
+    },
+    {
+      "key": "sync/ticket",
+      "method": "POST"
+    },
+    {
+      "key": "loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "key": "sync/stream",
+      "method": "GET"
+    },
+    {
+      "key": "loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "key": "loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "key": "service/status",
+      "method": "GET"
+    },
+    {
+      "key": "chief/extension-notice",
+      "method": "GET"
+    },
+    {
+      "key": "cards",
+      "method": "GET"
+    },
+    {
+      "key": "packs",
+      "method": "GET"
+    },
+    {
+      "key": "me/summary",
+      "method": "GET"
+    },
+    {
+      "key": "loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "key": "card/unique-advancement/feature",
+      "method": "GET"
+    },
+    {
+      "key": "equipment/prime-supply-box/config",
+      "method": "GET"
+    },
+    {
+      "key": "suit-core-box/config",
+      "method": "GET"
+    },
+    {
+      "key": "vehicle-draw/prime/config",
+      "method": "GET"
+    },
+    {
+      "key": "burning-event/status",
+      "method": "GET"
+    },
+    {
+      "key": "streamer-profiles",
+      "method": "GET"
+    },
+    {
+      "key": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "key": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "key": "pve/v3/feature",
+      "method": "GET"
+    },
+    {
+      "key": "mercenary-cards/feature",
+      "method": "GET"
+    },
+    {
+      "key": "account-rank/status",
+      "method": "GET"
+    },
+    {
+      "key": "rank-exp-potion/status",
+      "method": "GET"
+    },
+    {
+      "key": "live-operations",
+      "method": "GET"
+    },
+    {
+      "key": "chief/status",
+      "method": "GET"
+    },
+    {
+      "key": "clan/war/ready-alert",
+      "method": "GET"
+    },
+    {
+      "key": "loot-shop/balance",
+      "method": "GET"
+    },
+    {
+      "key": "clan/faction/alerts",
+      "method": "GET"
+    },
+    {
+      "key": "battle/config",
+      "method": "GET"
+    },
+    {
+      "key": "raid/lich/feature",
+      "method": "GET"
+    },
+    {
+      "key": "escort/status",
+      "method": "GET"
+    },
+    {
+      "key": "raid/madara/feature",
+      "method": "GET"
+    },
+    {
+      "key": "raid/blackwing/feature",
+      "method": "GET"
+    },
+    {
+      "key": "coop/feature",
+      "method": "GET"
+    },
+    {
+      "key": "sync/ticket",
+      "method": "POST"
+    },
+    {
+      "key": "tower/config",
+      "method": "GET"
+    },
+    {
+      "key": "legion-hunt/status",
+      "method": "GET"
+    },
+    {
+      "key": "mercenaries/v3/state",
+      "method": "GET"
+    },
+    {
+      "key": "pets/v1/state",
+      "method": "GET"
+    },
+    {
+      "key": "sync/stream",
+      "method": "GET"
+    },
+    {
+      "key": "raid/status",
+      "method": "GET"
+    },
+    {
+      "key": "raid/core/feature",
+      "method": "GET"
+    },
+    {
+      "key": "chief/extension-notice",
+      "method": "GET"
+    },
+    {
+      "key": "rewards/reveal/pending",
+      "method": "GET"
+    },
+    {
+      "key": "raid/blackwing/lobby",
+      "method": "GET"
+    },
+    {
+      "key": "jokgak-city/notifications",
+      "method": "GET"
+    }
+  ],
+  "serverErrors": []
+}

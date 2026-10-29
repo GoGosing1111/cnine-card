@@ -1,0 +1,63 @@
+{
+  "completedAt": "2026-10-29T06:00:30.624Z",
+  "status": "COMPLETED",
+  "source": "31ed502e3906258958712455a7b6fcf4cb2dcee3",
+  "pages": {
+    "id": "b764f49f-4f6e-45e9-a1d8-e2444ed0b286",
+    "url": "https://b764f49f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "31ed502e3906258958712455a7b6fcf4cb2dcee3"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "56940570-1e46-4226-82d3-e026f81e7042",
+      "percentage": 100,
+      "codeSha256": "618a2be16e5f7907699edd06187efaf261f58148cce89ba6788e6d6c85f95ebf",
+      "blackwingRewardsAndFreeEntry": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "5140acdc-46b3-4354-aa8f-bac61cd86307",
+      "percentage": 100
+    }
+  ],
+  "operationKey": "ops:blackwing-live-rewards:20261029:v1",
+  "audit": "52715",
+  "settingsAppliedAt": "2026-10-29T05:59:50.593Z",
+  "blackwing": {
+    "mode": "ON",
+    "weeklyRewardLimit": 3,
+    "coin": 200000000000,
+    "pigCoins": 100,
+    "masterStars": 2000000,
+    "petEssence": 5,
+    "choiceCount": 1,
+    "choiceMatchesVarsen": true,
+    "independentWeeklyCount": true
+  },
+  "freeEntry": [
+    "CORE",
+    "LICH",
+    "MADARA",
+    "BLACKWING",
+    "WORLD"
+  ],
+  "baseAndChoiceUseOneClear": true,
+  "retroactiveGrants": 0,
+  "accountWrites": 0,
+  "messagesSent": 0,
+  "regressionsPassed": 86,
+  "publicAssetsMatched": 19,
+  "uiWidths": [
+    320,
+    390,
+    844,
+    1440
+  ],
+  "resultButtonOverlap": false,
+  "readOnlyVerified": true,
+  "selectOnlyReplay": true,
+  "failedAndSuccessfulRehearsalsRolledBack": true,
+  "existingTicketBalancesAndCountersPreserved": true
+}
