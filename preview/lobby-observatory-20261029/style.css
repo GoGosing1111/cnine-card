@@ -101,7 +101,7 @@ dialog{color:var(--ink);font-family:inherit;background:#101d2afa;border:8px soli
 /* Latest feedback: readable currency figures and an opaque left menu. */
 .wallet b{font-family:'Noto Sans KR','Malgun Gothic',sans-serif;font-size:23px;font-weight:750;line-height:1.3;letter-spacing:-.7px;font-variant-numeric:tabular-nums}
 .wallet small{font-family:'Noto Sans KR','Malgun Gothic',sans-serif;font-size:10px;font-weight:600;color:#c6d7df}
-.rail{top:86px;bottom:0;width:110px;padding:16px 8px 14px;background:#0b1928;border-right:1px solid #52697a66;box-shadow:8px 0 24px #020b1229;gap:6px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#456078 #0b1928}
+.rail{top:86px;bottom:0;width:110px;padding:16px 8px 14px;background:#0d0e24;border-right:1px solid #52697a66;box-shadow:8px 0 24px #020b1229;gap:6px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#456078 #0d0e24}
 .rail-item{width:94px;min-height:66px;flex-shrink:0;color:#e4edf4;border-radius:4px}
 .rail-item b{font-size:11px;font-weight:650;letter-spacing:-.2px}
 .rail-item svg{width:26px;height:26px;color:#d0e2ee}
