@@ -16,11 +16,35 @@ const CLAIM_RECOVERY_SECONDS=30;
 // V1840: 구간 보상으로 지급하는 폐차장 출입 허가증 (functions/_scrapyard.js 와 동일 코드)
 const ENTRY_TICKET_CODE='SCRAPYARD_ENTRY_TICKET';
 
+export const ESCORT_ORIGINAL_BOSS=Object.freeze({
+  name:'철쇄 공성관 벨카르',
+  image:'/assets/ui/escort/bosses/velkar-siege-commander-v1.webp'
+});
+const legacyEscortBossImage=/(?:^|\/)tower-028-violet-magus-boss-sd-v1(?:-\d+)?\.(?:png|webp)(?:[?#].*)?$/i;
+const legacyEscortBossNames=new Set(['아이젠','아이젠 소스케','aizen','aizen sosuke','sosuke aizen','보랏빛 공성술사']);
+
+// Presentation only: retained CMS values and completed receipts keep their economy/state.
+function escortBossPresentation(sector={}){
+  if(!legacyEscortBossImage.test(String(sector.enemyImage||''))&&!legacyEscortBossNames.has(String(sector.enemyName||'').trim().toLowerCase()))return sector;
+  return {...sector,enemyName:ESCORT_ORIGINAL_BOSS.name,enemyImage:ESCORT_ORIGINAL_BOSS.image};
+}
+export function normalizeEscortResponsePresentation(response){
+  if(!response||typeof response!=='object')return response;
+  const result={...response};
+  if(response.settings?.sectors)result.settings={...response.settings,sectors:response.settings.sectors.map(escortBossPresentation)};
+  if(response.run?.sector)result.run={...response.run,sector:escortBossPresentation(response.run.sector)};
+  return result;
+}
+export function escortSectorMonster(sector,enemyPower){
+  sector=escortBossPresentation(sector);
+  return {id:`ESCORT-${sector.key}`,name:sector.enemyName,image:sector.enemyImage,image_url:sector.enemyImage,battle_power:enemyPower,is_boss:sector.isBoss?1:0,isBoss:sector.isBoss,mode:'ESCORT',contentType:'ESCORT',projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'ESCORT_MONSTER_SD',primaryUrl:sector.enemyImage,pngFallbackUrl:sector.enemyImage,footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:sector.isBoss?1.08:1,approved:true,technicalPass:true}};
+}
+
 const DEFAULT_SECTORS=Object.freeze([
   {key:'DEPARTURE',name:'호송 집결지',label:'출발지 편성',enemyName:'혈조 정찰대',enemyImage:'/assets/responsive/project-v/monsters/tower-024-blood-crow-sd-v1-768.webp',enemyPower:125000,hazardPercent:8,isBoss:false,brief:'저장된 PVE 덱을 고정하고 출발지를 기습한 정찰대를 제거합니다.',rewardCoin:150000,rewardShards:10,rewardTickets:1},
   {key:'AMBUSH',name:'야간 협곡',label:'일반 습격',enemyName:'타락한 방벽기사',enemyImage:'/assets/responsive/project-v/monsters/tower-021-fallen-paladin-sd-v1-768.webp',enemyPower:165000,hazardPercent:11,isBoss:false,brief:'협곡 양측에서 수송차를 노리는 습격대를 돌파하십시오.',rewardCoin:260000,rewardShards:18,rewardTickets:1},
   {key:'BLOCKADE',name:'포격 검문선',label:'도로 봉쇄·포격',enemyName:'커맨더 크리그',enemyImage:'/assets/responsive/project-v/monsters/tower-064-commander-krieg-sd-v1-768.webp',enemyPower:215000,hazardPercent:14,isBoss:false,brief:'자주포 사격을 지휘하는 봉쇄 부대를 무력화합니다.',rewardCoin:420000,rewardShards:30,rewardTickets:2},
-  {key:'REPAIR',name:'붕괴 정비기지',label:'정비 지점',enemyName:'보랏빛 공성술사',enemyImage:'/assets/responsive/project-v/monsters/tower-028-violet-magus-boss-sd-v1-768.webp',enemyPower:265000,hazardPercent:16,isBoss:true,brief:'정비 설비를 점거한 포격 지휘관을 제거하십시오.',rewardCoin:620000,rewardShards:45,rewardTickets:3},
+  {key:'REPAIR',name:'붕괴 정비기지',label:'정비 지점',enemyName:ESCORT_ORIGINAL_BOSS.name,enemyImage:ESCORT_ORIGINAL_BOSS.image,enemyPower:265000,hazardPercent:16,isBoss:true,brief:'철쇄 장갑과 공성포로 정비기지를 점거한 벨카르를 제압하십시오.',rewardCoin:620000,rewardShards:45,rewardTickets:3},
   {key:'FINAL_BOSS',name:'철의 종착지',label:'추격대·최종 보스',enemyName:'오메가-09 추격형',enemyImage:'/assets/responsive/project-v/monsters/hunt-068-omega-09-sd-v1-768.webp',enemyPower:340000,hazardPercent:20,isBoss:true,brief:'마지막 추격 병기를 격파하고 호송차를 인계하십시오.',rewardCoin:800000,rewardShards:62,rewardTickets:4}
 ]);
 
@@ -46,6 +70,7 @@ function weekKey(now=Date.now()){
 }
 
 function cleanSector(raw={},index=0){
+  raw=escortBossPresentation(raw);
   const base=DEFAULT_SECTORS[index]||DEFAULT_SECTORS[0];
   return {
     key:cleanText(raw.key||base.key,32).toUpperCase().replace(/[^A-Z0-9_]/g,'_'),
@@ -189,7 +214,7 @@ async function statusPayload(env,user,cfg){
 async function reserveReceipt(env,{requestId,userId,runId,action}){
   const prior=await env.DB.prepare(`SELECT * FROM ${RECEIPT_TABLE} WHERE request_id=?`).bind(requestId).first();
   if(prior&&Number(prior.user_id)!==Number(userId))return {error:'이미 사용된 요청 ID입니다.',status:409};
-  if(prior?.status==='COMPLETED'&&prior.response_json)return {replay:jsonSafe(prior.response_json,{ok:true,replayed:true})};
+  if(prior?.status==='COMPLETED'&&prior.response_json)return {replay:normalizeEscortResponsePresentation(jsonSafe(prior.response_json,{ok:true,replayed:true}))};
   if(prior?.status==='PENDING')return {error:'같은 요청을 처리 중입니다.',status:409};
   await env.DB.prepare(`INSERT INTO ${RECEIPT_TABLE}(request_id,user_id,run_id,action_type,status,created_at,updated_at) VALUES(?,?,?,?,'PENDING',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(request_id) DO UPDATE SET run_id=excluded.run_id,action_type=excluded.action_type,status='PENDING',response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE ${RECEIPT_TABLE}.user_id=excluded.user_id`).bind(requestId,userId,runId,action).run();
   return {reserved:true};
@@ -340,7 +365,7 @@ export async function handleEscortOperation({path,request,env,deps}){
       const cards=baseDeck.map(card=>{const uniqueCard=escortUniqueById.get(String(card.id));return {...card,uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null,iconExpansion:uniqueCard?.iconExpansion||null,power:Math.max(1,Math.round(Number(card.power||1)*(1+attackRoleBoost+tacticBoost))),startingHpPercent:clamp(cardHp[String(card.id)]??100,0,100)}});
       const equipment=typeof userEquipmentBonuses==='function'?await userEquipmentBonuses(env,user.id):{pve:0},magic=typeof magicBattleLoadout==='function'?await magicBattleLoadout(env,user,'PVE'):{cards:[]};
       const enemyReduction=(pending?.key==='AIRSTRIKE'?.15:0)+(pending?.key==='JAMMING'?.08:0),enemyPower=Math.max(1000,Math.round(sector.enemyPower*(1-enemyReduction)));
-      const monster={id:`ESCORT-${sector.key}`,name:sector.enemyName,image:sector.enemyImage,image_url:sector.enemyImage,battle_power:enemyPower,is_boss:sector.isBoss?1:0,isBoss:sector.isBoss,mode:'ESCORT',contentType:'ESCORT',projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'ESCORT_MONSTER_SD',primaryUrl:sector.enemyImage,pngFallbackUrl:sector.enemyImage,footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:sector.isBoss?1.08:1,approved:true,technicalPass:true}};
+      const monster=escortSectorMonster(sector,enemyPower);
       const battleSuitPve=Math.max(0,Number(equipment?.battleSuitPve||0)),cardSupportBonus=Math.max(0,Number(equipment?.pve||0)-battleSuitPve);
       const battleSuit=battleSuitPve>0&&equipment?.equippedBattleSuit?{...equipment.equippedBattleSuit,pvePower:battleSuitPve,weapon:equipment.equippedWeapon||null,accountNickname:user.nickname}:null;
       const seed=hashText(`${run.run_id}:${run.sector_index}:${requestId}`),battleV2=createPveBattleV2({pveEquipmentRuntime:equipment?.pveEquipmentRuntime,pet:run.state.pet||null,...continuedCompanionOptions(run.state),cards,magicCards:magic?.cards||[],characterBonus:cardSupportBonus,battleSuit,monster,seed,singleHealerBonus:battleCfg?.engine?.singleHealerBonus,escortObjective:{id:'ESCORT_OBJECTIVE',name:'장갑 수송차'}});

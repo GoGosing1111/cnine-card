@@ -1,0 +1,2930 @@
+{
+  "at": "2026-10-30T09:35:57.859Z",
+  "base": "http://127.0.0.1:8194",
+  "reports": [
+    {
+      "width": 1440,
+      "mainLoader": true,
+      "briefingName": "철쇄 공성관 벨카르",
+      "briefingImage": "/assets/ui/escort/bosses/velkar-siege-commander-v1.webp",
+      "actualV3": true,
+      "diagnostics": {
+        "equipmentSets": [],
+        "mounted": true,
+        "visible": true,
+        "playing": false,
+        "petSupport": [],
+        "renderer": 1,
+        "resolution": 1,
+        "pools": [
+          {
+            "name": "damage-text",
+            "available": 27,
+            "inUse": 1,
+            "total": 28
+          }
+        ],
+        "layerOrder": [
+          "BackgroundLayer",
+          "CombatBillboardLayer",
+          "EffectLayer",
+          "UiLayer"
+        ],
+        "backgroundDepth": [
+          {
+            "layer": "Sky",
+            "coefficient": 0.2
+          },
+          {
+            "layer": "City",
+            "coefficient": 0.5
+          },
+          {
+            "layer": "Ground",
+            "coefficient": 1
+          }
+        ],
+        "cooperativePlayback": null,
+        "iconTechniques": {
+          "active": null,
+          "last": null,
+          "metrics": null,
+          "actors": [
+            {
+              "id": "A:0:CN-02D9DC1E8A8A4209",
+              "hp": 100,
+              "x": 170,
+              "y": 240,
+              "badges": []
+            },
+            {
+              "id": "A:1:CN-0505936A0CBB4E59",
+              "hp": 100,
+              "x": 590,
+              "y": 240,
+              "badges": []
+            },
+            {
+              "id": "A:2:CN-25F931CE393D474E",
+              "hp": 100,
+              "x": 170,
+              "y": 416,
+              "badges": []
+            },
+            {
+              "id": "A:3:CN-23EB4B19986D4818",
+              "hp": 100,
+              "x": 590,
+              "y": 416,
+              "badges": []
+            },
+            {
+              "id": "A:4:CN-519C181C18DF4B8E",
+              "hp": 100,
+              "x": 380,
+              "y": 592,
+              "badges": []
+            },
+            {
+              "id": "ENEMY-01",
+              "hp": 100,
+              "x": 1010,
+              "y": 416,
+              "badges": []
+            },
+            {
+              "id": "B:0:MONSTER:ESCORT-REPAIR",
+              "hp": 72,
+              "x": 1010,
+              "y": 416,
+              "badges": []
+            },
+            {
+              "id": "ENEMY-03",
+              "hp": 100,
+              "x": 1010,
+              "y": 416,
+              "badges": []
+            },
+            {
+              "id": "ENEMY-04",
+              "hp": 100,
+              "x": 1010,
+              "y": 416,
+              "badges": []
+            },
+            {
+              "id": "ENEMY-05",
+              "hp": 100,
+              "x": 1010,
+              "y": 416,
+              "badges": []
+            }
+          ],
+          "weapons": []
+        },
+        "iconExpansion": null,
+        "iconRoles": {
+          "last": null,
+          "muzzle": null,
+          "metrics": null
+        },
+        "battlefield": {
+          "mode": "ESCORT",
+          "asset": "../../assets/ui/escort/escort-fortress-route-bg-v1.webp?v=1830",
+          "loading": "LAZY_ACTIVE_SCENE_ONLY",
+          "available": [
+            "HUNT",
+            "TOWER",
+            "PVP",
+            "RAID",
+            "ESCORT",
+            "SIEGE"
+          ]
+        },
+        "objectiveHud": {
+          "native": true,
+          "visible": true,
+          "hp": 9978,
+          "maxHp": 10000,
+          "ratio": 0.9978
+        },
+        "formation": {
+          "version": "OCCUPIED_GRID_V1",
+          "layoutVersion": "UNIFORM_LATTICE_V2",
+          "mode": "wide",
+          "scenario": "PVE",
+          "mobile": false,
+          "grid": {
+            "kind": "OCCUPIED_STATIONS",
+            "mercenariesPerTeam": 2
+          },
+          "tiles": [
+            {
+              "id": "ALLY:cards:0",
+              "x": 170,
+              "y": 240,
+              "kind": "cards",
+              "style": "ally",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+            },
+            {
+              "id": "ALLY:cards:1",
+              "x": 590,
+              "y": 240,
+              "kind": "cards",
+              "style": "ally",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+            },
+            {
+              "id": "ALLY:cards:2",
+              "x": 170,
+              "y": 416,
+              "kind": "cards",
+              "style": "ally",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+            },
+            {
+              "id": "ALLY:cards:3",
+              "x": 590,
+              "y": 416,
+              "kind": "cards",
+              "style": "ally",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+            },
+            {
+              "id": "ALLY:cards:4",
+              "x": 380,
+              "y": 592,
+              "kind": "cards",
+              "style": "ally",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+            },
+            {
+              "id": "ENEMY:cards:1",
+              "x": 1010,
+              "y": 416,
+              "kind": "cards",
+              "style": "enemy",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp"
+            },
+            {
+              "id": "ALLY:objective:0",
+              "x": 800,
+              "y": 592,
+              "kind": "objective",
+              "style": "ally",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+            }
+          ],
+          "floor": {
+            "left": 75,
+            "right": 1105,
+            "top": 208,
+            "bottom": 624,
+            "width": 1030,
+            "height": 416
+          },
+          "mercenaries": [],
+          "rootScale": 0.9,
+          "scene": {
+            "width": 1600,
+            "height": 820
+          },
+          "viewportFit": null,
+          "actors": [
+            {
+              "id": "A:0:CN-02D9DC1E8A8A4209",
+              "team": "ALLY",
+              "active": true,
+              "grid": {
+                "x": -4.128289473684211,
+                "y": 2.5032894736842106
+              },
+              "x": 170,
+              "y": 240,
+              "scale": 0.5,
+              "depth": 0.5
+            },
+            {
+              "id": "A:1:CN-0505936A0CBB4E59",
+              "team": "ALLY",
+              "active": true,
+              "grid": {
+                "x": -1.917763157894737,
+                "y": 0.29276315789473695
+              },
+              "x": 590,
+              "y": 240,
+              "scale": 0.5,
+              "depth": 0.5
+            },
+            {
+              "id": "A:2:CN-25F931CE393D474E",
+              "team": "ALLY",
+              "active": true,
+              "grid": {
+                "x": -1.3782894736842106,
+                "y": 5.253289473684211
+              },
+              "x": 170,
+              "y": 416,
+              "scale": 0.5,
+              "depth": 0.5
+            },
+            {
+              "id": "A:3:CN-23EB4B19986D4818",
+              "team": "ALLY",
+              "active": true,
+              "grid": {
+                "x": 0.832236842105263,
+                "y": 3.042763157894737
+              },
+              "x": 590,
+              "y": 416,
+              "scale": 0.5,
+              "depth": 0.5
+            },
+            {
+              "id": "A:4:CN-519C181C18DF4B8E",
+              "team": "ALLY",
+              "active": true,
+              "grid": {
+                "x": 2.476973684210526,
+                "y": 6.898026315789474
+              },
+              "x": 380,
+              "y": 592,
+              "scale": 0.5,
+              "depth": 0.5
+            },
+            {
+              "id": "ENEMY-01",
+              "team": "ENEMY",
+              "active": false,
+              "grid": {
+                "x": 3.042763157894737,
+                "y": 0.832236842105263
+              },
+              "x": 1010,
+              "y": 416,
+              "scale": 0.5,
+              "depth": 0.5
+            },
+            {
+              "id": "B:0:MONSTER:ESCORT-REPAIR",
+              "team": "ENEMY",
+              "active": true,
+              "grid": {
+                "x": 3.042763157894737,
+                "y": 0.832236842105263
+              },
+              "x": 1010,
+              "y": 416,
+              "scale": 0.5,
+              "depth": 0.5
+            },
+            {
+              "id": "ENEMY-03",
+              "team": "ENEMY",
+              "active": false,
+              "grid": {
+                "x": 3.042763157894737,
+                "y": 0.832236842105263
+              },
+              "x": 1010,
+              "y": 416,
+              "scale": 0.5,
+              "depth": 0.5
+            },
+            {
+              "id": "ENEMY-04",
+              "team": "ENEMY",
+              "active": false,
+              "grid": {
+                "x": 3.042763157894737,
+                "y": 0.832236842105263
+              },
+              "x": 1010,
+              "y": 416,
+              "scale": 0.5,
+              "depth": 0.5
+            },
+            {
+              "id": "ENEMY-05",
+              "team": "ENEMY",
+              "active": false,
+              "grid": {
+                "x": 3.042763157894737,
+                "y": 0.832236842105263
+              },
+              "x": 1010,
+              "y": 416,
+              "scale": 0.5,
+              "depth": 0.5
+            }
+          ],
+          "support": null,
+          "objective": {
+            "x": 800,
+            "y": 592
+          }
+        },
+        "accountBattleUnit": {
+          "skillChips": null,
+          "active": false,
+          "id": "ACCOUNT_BATTLE_UNIT",
+          "enabled": false,
+          "pveOnly": true,
+          "pvePower": 0,
+          "metadataContract": [
+            "equippedBattleSuit",
+            "equippedWeapon"
+          ],
+          "metadataFallback": "characterBonus",
+          "canonicalAllyFormationCount": 5,
+          "cosmeticShots": 0,
+          "affectsDamage": true,
+          "damageAuthority": "SERVER_BATTLE_V2_TIMELINE",
+          "authoritativeDamageEvents": 0,
+          "authoritativeDamageTotal": 0,
+          "formation": {
+            "gridX": -0.2730263157894739,
+            "gridY": 4.148026315789474
+          },
+          "sustainedFire": {
+            "active": false,
+            "weaponCode": "",
+            "weaponClass": "AR",
+            "fireMode": "FULL_AUTO",
+            "roundsPerBurst": 4,
+            "intraBurstDelayMs": 45,
+            "burstDelayMs": 150,
+            "playbackRate": 1.8,
+            "totalShots": 0,
+            "queuedDamageEvents": 0,
+            "independentOfCardTurns": true,
+            "independentOfActionGauge": true,
+            "firesOnlyServerShots": true,
+            "damagePerShot": true,
+            "affectsDamage": false
+          }
+        },
+        "targetSelection": {
+          "currentEnemy": "B:0:MONSTER:ESCORT-REPAIR",
+          "currentAlly": "A:0:CN-02D9DC1E8A8A4209",
+          "aliveEnemies": [
+            "B:0:MONSTER:ESCORT-REPAIR"
+          ],
+          "lastSwitch": null
+        },
+        "projection": {
+          "type": "ISOMETRIC",
+          "grid": {
+            "columns": 7,
+            "rows": 6
+          },
+          "config": {
+            "originX": 800,
+            "originY": 292,
+            "tileWidth": 190,
+            "tileHeight": 64,
+            "farY": 405,
+            "nearY": 650,
+            "minScale": 1,
+            "maxScale": 1
+          }
+        },
+        "depthSorting": "REALTIME_SCREEN_Y",
+        "billboard": {
+          "layer": "CombatBillboardLayer",
+          "rotation": 0,
+          "scale": [
+            1,
+            1
+          ],
+          "floorProjectionInherited": false
+        },
+        "characterAssetContract": {
+          "width": 256,
+          "height": 384,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "localOrigin": "SOLE_CENTER",
+          "skinSlots": [
+            "backAccessory",
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "face",
+            "hairBack",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "frontAccessory"
+          ],
+          "animation": "INTACT_SD_FULL_BODY_SPRITE"
+        },
+        "effectSystem": {
+          "renderer": "SkillEffectFX",
+          "layer": "EffectLayer",
+          "mode": "ROLE_ATLAS_V2_PLUS_SERVER_ADVANCEMENT_V1",
+          "kinds": [
+            "ATTACK",
+            "DEFENSE",
+            "SPEED",
+            "HP"
+          ],
+          "blendModes": [
+            "screen",
+            "normal"
+          ],
+          "roleFx": {
+            "renderer": "atlas-only",
+            "ready": [
+              "ATTACK",
+              "DEFENSE",
+              "SPEED",
+              "HP"
+            ],
+            "failures": [],
+            "proceduralFallback": false
+          },
+          "advancementFx": {
+            "renderer": "atlas-only",
+            "frameClock": "gsap-only",
+            "autoUpdate": false,
+            "frameCount": 12,
+            "blendMode": "screen",
+            "ready": [],
+            "retained": [],
+            "failures": [],
+            "proceduralFallback": false,
+            "eagerPreloadAll": false
+          },
+          "apocalypseBossUltimateFx": {
+            "renderer": "pixi-animated-sprite-atlas-only",
+            "binding": "PVE_APOCALYPSE_BOSS_ULTIMATE",
+            "ready": false,
+            "failed": false,
+            "frameCount": 12,
+            "collisionFrame": 6,
+            "impactAtMs": 560,
+            "hitStopMs": 148,
+            "visualPolicy": "LOW_AFTERIMAGE_CRIMSON_CORE",
+            "proceduralFallback": false,
+            "screenOverlay": false
+          },
+          "apocalypseSignatureSkillFx": [
+            {
+              "code": "NIGHT_GUY",
+              "ready": false,
+              "failed": false,
+              "frameCount": 12,
+              "collisionFrame": 6,
+              "impactAtMs": 960,
+              "renderer": "PixiJS AnimatedSprite + GSAP",
+              "proceduralFallback": false
+            },
+            {
+              "code": "WOOD_DRAGON",
+              "ready": false,
+              "failed": false,
+              "frameCount": 12,
+              "collisionFrame": 6,
+              "impactAtMs": 1120,
+              "renderer": "PixiJS AnimatedSprite + GSAP",
+              "proceduralFallback": false
+            }
+          ],
+          "apocalypseBossUltimateActive": false,
+          "apocalypseBossUltimateLoadTimeouts": 0,
+          "advancementActivation": [
+            "SHATTER:TURN",
+            "AFTERIMAGE:DODGE_TURN",
+            "RIPOSTE:COUNTER",
+            "IMMORTAL:ADVANCEMENT"
+          ],
+          "bossUltimateAdvancementFx": false,
+          "advancementImpactAtMs": {
+            "SHATTER": 420,
+            "RIPOSTE": 460,
+            "AFTERIMAGE": 320,
+            "IMMORTAL": 500
+          },
+          "advancementWhiteFlash": {
+            "scope": "FULL_STAGE",
+            "durationMs": 50,
+            "alpha": 0.26
+          },
+          "advancementLoading": "BACKGROUND_TIMELINE_CODES",
+          "advancementLoadDeadlineMs": 900,
+          "advancementLoadTimeouts": 0,
+          "playbackEpoch": 1,
+          "damageTypography": "ROLE_AWARE_BITMAP_TEXT",
+          "audio": {
+            "enabled": false,
+            "state": "locked",
+            "graph": "compressor-v3-role-assets",
+            "assetState": "fetched",
+            "ready": [],
+            "failures": [],
+            "advancement": {
+              "strategy": "timeline-codes-only",
+              "fetched": [],
+              "ready": [],
+              "failures": [],
+              "eagerPreloadAll": false,
+              "proceduralFallback": false
+            },
+            "apocalypseBossUltimate": {
+              "fetched": false,
+              "ready": false,
+              "failed": false,
+              "sourceType": "RECORDED_FOLEY",
+              "proceduralFallback": false
+            },
+            "activeSources": 0,
+            "requestCount": 4,
+            "contextOwner": "shared-live",
+            "proceduralFallback": false,
+            "retiredAudioSprite": false
+          },
+          "collisionAtMs": [
+            250,
+            350
+          ],
+          "whiteFlashMs": 50,
+          "releasePolicy": "AUTHORED_TAIL"
+        },
+        "characterStates": [
+          {
+            "id": "A:0:CN-02D9DC1E8A8A4209",
+            "state": "IDLE",
+            "team": "ALLY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": -4.128289473684211,
+              "y": 2.5032894736842106
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": 1,
+            "shield": 87610,
+            "maxShield": 87610,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "A:1:CN-0505936A0CBB4E59",
+            "state": "IDLE",
+            "team": "ALLY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": -1.917763157894737,
+              "y": 0.29276315789473695
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": 1,
+            "shield": 180274,
+            "maxShield": 180274,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "A:2:CN-25F931CE393D474E",
+            "state": "IDLE",
+            "team": "ALLY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": -1.3782894736842106,
+              "y": 5.253289473684211
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": 1,
+            "shield": 87610,
+            "maxShield": 87610,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "A:3:CN-23EB4B19986D4818",
+            "state": "IDLE",
+            "team": "ALLY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 0.832236842105263,
+              "y": 3.042763157894737
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": 1,
+            "shield": 87610,
+            "maxShield": 87610,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "state": "IDLE",
+            "team": "ALLY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 2.476973684210526,
+              "y": 6.898026315789474
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": 1,
+            "shield": 87610,
+            "maxShield": 87610,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "ENEMY-01",
+            "state": "IDLE",
+            "team": "ENEMY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 3.042763157894737,
+              "y": 0.832236842105263
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": -1,
+            "shield": 0,
+            "maxShield": 0,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "B:0:MONSTER:ESCORT-REPAIR",
+            "state": "ATTACK",
+            "team": "ENEMY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 3.042763157894737,
+              "y": 0.832236842105263
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": -1,
+            "shield": 0,
+            "maxShield": 0,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "ENEMY-03",
+            "state": "IDLE",
+            "team": "ENEMY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 3.042763157894737,
+              "y": 0.832236842105263
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": -1,
+            "shield": 0,
+            "maxShield": 0,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "ENEMY-04",
+            "state": "IDLE",
+            "team": "ENEMY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 3.042763157894737,
+              "y": 0.832236842105263
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": -1,
+            "shield": 0,
+            "maxShield": 0,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "ENEMY-05",
+            "state": "IDLE",
+            "team": "ENEMY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 3.042763157894737,
+              "y": 0.832236842105263
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": -1,
+            "shield": 0,
+            "maxShield": 0,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          }
+        ],
+        "mercenaryPlayback": {
+          "last": null,
+          "active": null,
+          "audio": null,
+          "limited": []
+        }
+      },
+      "legacyAssetRequests": 0,
+      "errors": [],
+      "failedAssets": [],
+      "productionApiCalls": 0
+    },
+    {
+      "width": 390,
+      "mainLoader": true,
+      "briefingName": "철쇄 공성관 벨카르",
+      "briefingImage": "/assets/ui/escort/bosses/velkar-siege-commander-v1.webp",
+      "actualV3": true,
+      "diagnostics": {
+        "equipmentSets": [],
+        "mounted": true,
+        "visible": true,
+        "playing": false,
+        "petSupport": [],
+        "renderer": 1,
+        "resolution": 1,
+        "pools": [
+          {
+            "name": "damage-text",
+            "available": 27,
+            "inUse": 1,
+            "total": 28
+          }
+        ],
+        "layerOrder": [
+          "BackgroundLayer",
+          "CombatBillboardLayer",
+          "EffectLayer",
+          "UiLayer"
+        ],
+        "backgroundDepth": [
+          {
+            "layer": "Sky",
+            "coefficient": 0.2
+          },
+          {
+            "layer": "City",
+            "coefficient": 0.5
+          },
+          {
+            "layer": "Ground",
+            "coefficient": 1
+          }
+        ],
+        "cooperativePlayback": null,
+        "iconTechniques": {
+          "active": null,
+          "last": null,
+          "metrics": null,
+          "actors": [
+            {
+              "id": "A:0:CN-02D9DC1E8A8A4209",
+              "hp": 100,
+              "x": 143.40983606557376,
+              "y": 694.1710039339729,
+              "badges": []
+            },
+            {
+              "id": "A:1:CN-0505936A0CBB4E59",
+              "hp": 100,
+              "x": 143.40983606557376,
+              "y": 994.1710039339729,
+              "badges": []
+            },
+            {
+              "id": "A:2:CN-25F931CE393D474E",
+              "hp": 100,
+              "x": 143.40983606557376,
+              "y": 1294.1710039339728,
+              "badges": []
+            },
+            {
+              "id": "A:3:CN-23EB4B19986D4818",
+              "hp": 100,
+              "x": 359.40983606557376,
+              "y": 1294.1710039339728,
+              "badges": []
+            },
+            {
+              "id": "A:4:CN-519C181C18DF4B8E",
+              "hp": 100,
+              "x": 143.40983606557376,
+              "y": 1594.1710039339728,
+              "badges": []
+            },
+            {
+              "id": "ENEMY-01",
+              "hp": 100,
+              "x": 791.4098360655738,
+              "y": 994.1710039339729,
+              "badges": []
+            },
+            {
+              "id": "B:0:MONSTER:ESCORT-REPAIR",
+              "hp": 72,
+              "x": 791.4098360655738,
+              "y": 994.1710039339729,
+              "badges": []
+            },
+            {
+              "id": "ENEMY-03",
+              "hp": 100,
+              "x": 791.4098360655738,
+              "y": 994.1710039339729,
+              "badges": []
+            },
+            {
+              "id": "ENEMY-04",
+              "hp": 100,
+              "x": 791.4098360655738,
+              "y": 994.1710039339729,
+              "badges": []
+            },
+            {
+              "id": "ENEMY-05",
+              "hp": 100,
+              "x": 791.4098360655738,
+              "y": 994.1710039339729,
+              "badges": []
+            }
+          ],
+          "weapons": []
+        },
+        "iconExpansion": null,
+        "iconRoles": {
+          "last": null,
+          "muzzle": null,
+          "metrics": null
+        },
+        "battlefield": {
+          "mode": "ESCORT",
+          "asset": "../../assets/ui/escort/escort-fortress-route-bg-v1.webp?v=1830",
+          "loading": "LAZY_ACTIVE_SCENE_ONLY",
+          "available": [
+            "HUNT",
+            "TOWER",
+            "PVP",
+            "RAID",
+            "ESCORT",
+            "SIEGE"
+          ]
+        },
+        "objectiveHud": {
+          "native": true,
+          "visible": true,
+          "hp": 10000,
+          "maxHp": 10000,
+          "ratio": 1
+        },
+        "formation": {
+          "version": "OCCUPIED_GRID_V1",
+          "layoutVersion": "UNIFORM_LATTICE_V2",
+          "mode": "wide",
+          "scenario": "PVE",
+          "mobile": true,
+          "grid": {
+            "kind": "OCCUPIED_STATIONS",
+            "mercenariesPerTeam": 2
+          },
+          "tiles": [
+            {
+              "id": "ALLY:cards:0",
+              "x": 143.40983606557376,
+              "y": 694.1710039339729,
+              "kind": "cards",
+              "style": "ally",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+            },
+            {
+              "id": "ALLY:cards:1",
+              "x": 143.40983606557376,
+              "y": 994.1710039339729,
+              "kind": "cards",
+              "style": "ally",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+            },
+            {
+              "id": "ALLY:cards:2",
+              "x": 143.40983606557376,
+              "y": 1294.1710039339728,
+              "kind": "cards",
+              "style": "ally",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+            },
+            {
+              "id": "ALLY:cards:3",
+              "x": 359.40983606557376,
+              "y": 1294.1710039339728,
+              "kind": "cards",
+              "style": "ally",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+            },
+            {
+              "id": "ALLY:cards:4",
+              "x": 143.40983606557376,
+              "y": 1594.1710039339728,
+              "kind": "cards",
+              "style": "ally",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+            },
+            {
+              "id": "ENEMY:cards:1",
+              "x": 791.4098360655738,
+              "y": 994.1710039339729,
+              "kind": "cards",
+              "style": "enemy",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp"
+            },
+            {
+              "id": "ALLY:objective:0",
+              "x": 575.4098360655738,
+              "y": 1294.1710039339728,
+              "kind": "objective",
+              "style": "ally",
+              "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+            }
+          ],
+          "floor": {
+            "left": 48.40983606557376,
+            "right": 886.4098360655738,
+            "top": 662.1710039339729,
+            "bottom": 1626.1710039339728,
+            "width": 838,
+            "height": 963.9999999999999
+          },
+          "mercenaries": [],
+          "rootScale": 0.3388888888888889,
+          "scene": {
+            "width": 1150.8196721311474,
+            "height": 2313.4426229508194
+          },
+          "viewportFit": {
+            "scale": 0.3388888888888889,
+            "available": {
+              "left": 12,
+              "top": 108.93812488858164,
+              "width": 366,
+              "height": 483.0618751114183
+            },
+            "offsetX": 35.40983606557377,
+            "offsetY": 414.1710039339729,
+            "scene": {
+              "width": 1150.8196721311474,
+              "height": 2313.4426229508194
+            },
+            "actorScale": 1.3,
+            "objectiveHud": {
+              "x": 12,
+              "y": 16,
+              "scale": 0.8674749231833899,
+              "height": 92.93812488858164
+            }
+          },
+          "actors": [
+            {
+              "id": "A:0:CN-02D9DC1E8A8A4209",
+              "team": "ALLY",
+              "active": true,
+              "grid": {
+                "x": 2.828184231550293,
+                "y": 9.73965964138636
+              },
+              "x": 143.40983606557376,
+              "y": 694.1710039339729,
+              "scale": 0.65,
+              "depth": 0.5
+            },
+            {
+              "id": "A:1:CN-0505936A0CBB4E59",
+              "team": "ALLY",
+              "active": true,
+              "grid": {
+                "x": 7.515684231550293,
+                "y": 14.42715964138636
+              },
+              "x": 143.40983606557376,
+              "y": 994.1710039339729,
+              "scale": 0.65,
+              "depth": 0.5
+            },
+            {
+              "id": "A:2:CN-25F931CE393D474E",
+              "team": "ALLY",
+              "active": true,
+              "grid": {
+                "x": 12.203184231550292,
+                "y": 19.114659641386357
+              },
+              "x": 143.40983606557376,
+              "y": 1294.1710039339728,
+              "scale": 0.65,
+              "depth": 0.5
+            },
+            {
+              "id": "A:3:CN-23EB4B19986D4818",
+              "team": "ALLY",
+              "active": true,
+              "grid": {
+                "x": 13.34002633681345,
+                "y": 17.9778175361232
+              },
+              "x": 359.40983606557376,
+              "y": 1294.1710039339728,
+              "scale": 0.65,
+              "depth": 0.5
+            },
+            {
+              "id": "A:4:CN-519C181C18DF4B8E",
+              "team": "ALLY",
+              "active": true,
+              "grid": {
+                "x": 16.890684231550292,
+                "y": 23.802159641386357
+              },
+              "x": 143.40983606557376,
+              "y": 1594.1710039339728,
+              "scale": 0.65,
+              "depth": 0.5
+            },
+            {
+              "id": "ENEMY-01",
+              "team": "ENEMY",
+              "active": false,
+              "grid": {
+                "x": 10.926210547339767,
+                "y": 11.016633325596885
+              },
+              "x": 791.4098360655738,
+              "y": 994.1710039339729,
+              "scale": 0.65,
+              "depth": 0.5
+            },
+            {
+              "id": "B:0:MONSTER:ESCORT-REPAIR",
+              "team": "ENEMY",
+              "active": true,
+              "grid": {
+                "x": 10.926210547339767,
+                "y": 11.016633325596885
+              },
+              "x": 791.4098360655738,
+              "y": 994.1710039339729,
+              "scale": 0.65,
+              "depth": 0.5
+            },
+            {
+              "id": "ENEMY-03",
+              "team": "ENEMY",
+              "active": false,
+              "grid": {
+                "x": 10.926210547339767,
+                "y": 11.016633325596885
+              },
+              "x": 791.4098360655738,
+              "y": 994.1710039339729,
+              "scale": 0.65,
+              "depth": 0.5
+            },
+            {
+              "id": "ENEMY-04",
+              "team": "ENEMY",
+              "active": false,
+              "grid": {
+                "x": 10.926210547339767,
+                "y": 11.016633325596885
+              },
+              "x": 791.4098360655738,
+              "y": 994.1710039339729,
+              "scale": 0.65,
+              "depth": 0.5
+            },
+            {
+              "id": "ENEMY-05",
+              "team": "ENEMY",
+              "active": false,
+              "grid": {
+                "x": 10.926210547339767,
+                "y": 11.016633325596885
+              },
+              "x": 791.4098360655738,
+              "y": 994.1710039339729,
+              "scale": 0.65,
+              "depth": 0.5
+            }
+          ],
+          "support": null,
+          "objective": {
+            "x": 575.4098360655738,
+            "y": 1294.1710039339728
+          }
+        },
+        "accountBattleUnit": {
+          "skillChips": null,
+          "active": false,
+          "id": "ACCOUNT_BATTLE_UNIT",
+          "enabled": false,
+          "pveOnly": true,
+          "pvePower": 0,
+          "metadataContract": [
+            "equippedBattleSuit",
+            "equippedWeapon"
+          ],
+          "metadataFallback": "characterBonus",
+          "canonicalAllyFormationCount": 5,
+          "cosmeticShots": 0,
+          "affectsDamage": true,
+          "damageAuthority": "SERVER_BATTLE_V2_TIMELINE",
+          "authoritativeDamageEvents": 0,
+          "authoritativeDamageTotal": 0,
+          "formation": {
+            "gridX": 8.652526336813452,
+            "gridY": 13.2903175361232
+          },
+          "sustainedFire": {
+            "active": false,
+            "weaponCode": "",
+            "weaponClass": "AR",
+            "fireMode": "FULL_AUTO",
+            "roundsPerBurst": 4,
+            "intraBurstDelayMs": 45,
+            "burstDelayMs": 150,
+            "playbackRate": 1.8,
+            "totalShots": 0,
+            "queuedDamageEvents": 0,
+            "independentOfCardTurns": true,
+            "independentOfActionGauge": true,
+            "firesOnlyServerShots": true,
+            "damagePerShot": true,
+            "affectsDamage": false
+          }
+        },
+        "targetSelection": {
+          "currentEnemy": "B:0:MONSTER:ESCORT-REPAIR",
+          "currentAlly": "A:0:CN-02D9DC1E8A8A4209",
+          "aliveEnemies": [
+            "B:0:MONSTER:ESCORT-REPAIR"
+          ],
+          "lastSwitch": null
+        },
+        "projection": {
+          "type": "ISOMETRIC",
+          "grid": {
+            "columns": 7,
+            "rows": 6
+          },
+          "config": {
+            "originX": 800,
+            "originY": 292,
+            "tileWidth": 190,
+            "tileHeight": 64,
+            "farY": 405,
+            "nearY": 650,
+            "minScale": 1,
+            "maxScale": 1
+          }
+        },
+        "depthSorting": "REALTIME_SCREEN_Y",
+        "billboard": {
+          "layer": "CombatBillboardLayer",
+          "rotation": 0,
+          "scale": [
+            1,
+            1
+          ],
+          "floorProjectionInherited": false
+        },
+        "characterAssetContract": {
+          "width": 256,
+          "height": 384,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "localOrigin": "SOLE_CENTER",
+          "skinSlots": [
+            "backAccessory",
+            "armFarUpper",
+            "armFarLower",
+            "handFar",
+            "legFarUpper",
+            "legFarLower",
+            "footFar",
+            "torso",
+            "head",
+            "face",
+            "hairBack",
+            "hairFront",
+            "legNearUpper",
+            "legNearLower",
+            "footNear",
+            "armNearUpper",
+            "armNearLower",
+            "handNear",
+            "weapon",
+            "frontAccessory"
+          ],
+          "animation": "INTACT_SD_FULL_BODY_SPRITE"
+        },
+        "effectSystem": {
+          "renderer": "SkillEffectFX",
+          "layer": "EffectLayer",
+          "mode": "ROLE_ATLAS_V2_PLUS_SERVER_ADVANCEMENT_V1",
+          "kinds": [
+            "ATTACK",
+            "DEFENSE",
+            "SPEED",
+            "HP"
+          ],
+          "blendModes": [
+            "screen",
+            "normal"
+          ],
+          "roleFx": {
+            "renderer": "atlas-only",
+            "ready": [
+              "ATTACK",
+              "DEFENSE",
+              "SPEED",
+              "HP"
+            ],
+            "failures": [],
+            "proceduralFallback": false
+          },
+          "advancementFx": {
+            "renderer": "atlas-only",
+            "frameClock": "gsap-only",
+            "autoUpdate": false,
+            "frameCount": 12,
+            "blendMode": "screen",
+            "ready": [],
+            "retained": [],
+            "failures": [],
+            "proceduralFallback": false,
+            "eagerPreloadAll": false
+          },
+          "apocalypseBossUltimateFx": {
+            "renderer": "pixi-animated-sprite-atlas-only",
+            "binding": "PVE_APOCALYPSE_BOSS_ULTIMATE",
+            "ready": false,
+            "failed": false,
+            "frameCount": 12,
+            "collisionFrame": 6,
+            "impactAtMs": 560,
+            "hitStopMs": 148,
+            "visualPolicy": "LOW_AFTERIMAGE_CRIMSON_CORE",
+            "proceduralFallback": false,
+            "screenOverlay": false
+          },
+          "apocalypseSignatureSkillFx": [
+            {
+              "code": "NIGHT_GUY",
+              "ready": false,
+              "failed": false,
+              "frameCount": 12,
+              "collisionFrame": 6,
+              "impactAtMs": 960,
+              "renderer": "PixiJS AnimatedSprite + GSAP",
+              "proceduralFallback": false
+            },
+            {
+              "code": "WOOD_DRAGON",
+              "ready": false,
+              "failed": false,
+              "frameCount": 12,
+              "collisionFrame": 6,
+              "impactAtMs": 1120,
+              "renderer": "PixiJS AnimatedSprite + GSAP",
+              "proceduralFallback": false
+            }
+          ],
+          "apocalypseBossUltimateActive": false,
+          "apocalypseBossUltimateLoadTimeouts": 0,
+          "advancementActivation": [
+            "SHATTER:TURN",
+            "AFTERIMAGE:DODGE_TURN",
+            "RIPOSTE:COUNTER",
+            "IMMORTAL:ADVANCEMENT"
+          ],
+          "bossUltimateAdvancementFx": false,
+          "advancementImpactAtMs": {
+            "SHATTER": 420,
+            "RIPOSTE": 460,
+            "AFTERIMAGE": 320,
+            "IMMORTAL": 500
+          },
+          "advancementWhiteFlash": {
+            "scope": "FULL_STAGE",
+            "durationMs": 50,
+            "alpha": 0.26
+          },
+          "advancementLoading": "ON_DEMAND_SINGLE_ATLAS",
+          "advancementLoadDeadlineMs": 900,
+          "advancementLoadTimeouts": 0,
+          "playbackEpoch": 1,
+          "damageTypography": "ROLE_AWARE_BITMAP_TEXT",
+          "audio": {
+            "enabled": false,
+            "state": "locked",
+            "graph": "compressor-v3-role-assets",
+            "assetState": "fetched",
+            "ready": [],
+            "failures": [],
+            "advancement": {
+              "strategy": "timeline-codes-only",
+              "fetched": [],
+              "ready": [],
+              "failures": [],
+              "eagerPreloadAll": false,
+              "proceduralFallback": false
+            },
+            "apocalypseBossUltimate": {
+              "fetched": false,
+              "ready": false,
+              "failed": false,
+              "sourceType": "RECORDED_FOLEY",
+              "proceduralFallback": false
+            },
+            "activeSources": 0,
+            "requestCount": 4,
+            "contextOwner": "shared-live",
+            "proceduralFallback": false,
+            "retiredAudioSprite": false
+          },
+          "collisionAtMs": [
+            250,
+            350
+          ],
+          "whiteFlashMs": 50,
+          "releasePolicy": "AUTHORED_TAIL"
+        },
+        "characterStates": [
+          {
+            "id": "A:0:CN-02D9DC1E8A8A4209",
+            "state": "IDLE",
+            "team": "ALLY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 2.828184231550293,
+              "y": 9.73965964138636
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": 1,
+            "shield": 87610,
+            "maxShield": 87610,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "A:1:CN-0505936A0CBB4E59",
+            "state": "IDLE",
+            "team": "ALLY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 7.515684231550293,
+              "y": 14.42715964138636
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": 1,
+            "shield": 180274,
+            "maxShield": 180274,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "A:2:CN-25F931CE393D474E",
+            "state": "IDLE",
+            "team": "ALLY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 12.203184231550292,
+              "y": 19.114659641386357
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": 1,
+            "shield": 87610,
+            "maxShield": 87610,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "A:3:CN-23EB4B19986D4818",
+            "state": "IDLE",
+            "team": "ALLY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 13.34002633681345,
+              "y": 17.9778175361232
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": 1,
+            "shield": 87610,
+            "maxShield": 87610,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "state": "IDLE",
+            "team": "ALLY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 16.890684231550292,
+              "y": 23.802159641386357
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": 1,
+            "shield": 87610,
+            "maxShield": 87610,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "ENEMY-01",
+            "state": "IDLE",
+            "team": "ENEMY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 10.926210547339767,
+              "y": 11.016633325596885
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": -1,
+            "shield": 0,
+            "maxShield": 0,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "B:0:MONSTER:ESCORT-REPAIR",
+            "state": "MOVE",
+            "team": "ENEMY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 10.926210547339767,
+              "y": 11.016633325596885
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": -1,
+            "shield": 0,
+            "maxShield": 0,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "ENEMY-03",
+            "state": "IDLE",
+            "team": "ENEMY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 10.926210547339767,
+              "y": 11.016633325596885
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": -1,
+            "shield": 0,
+            "maxShield": 0,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "ENEMY-04",
+            "state": "IDLE",
+            "team": "ENEMY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 10.926210547339767,
+              "y": 11.016633325596885
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": -1,
+            "shield": 0,
+            "maxShield": 0,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          },
+          {
+            "id": "ENEMY-05",
+            "state": "IDLE",
+            "team": "ENEMY",
+            "anchor": [
+              0.5,
+              1
+            ],
+            "gridPosition": {
+              "x": 10.926210547339767,
+              "y": 11.016633325596885
+            },
+            "perspectiveDepth": 0.5,
+            "facingX": -1,
+            "shield": 0,
+            "maxShield": 0,
+            "rig": {
+              "rigId": "project-v-sd-humanoid-v1",
+              "bones": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "head",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "slots": [
+                "armFarUpper",
+                "armFarLower",
+                "handFar",
+                "legFarUpper",
+                "legFarLower",
+                "footFar",
+                "torso",
+                "hairBack",
+                "head",
+                "face",
+                "hairFront",
+                "legNearUpper",
+                "legNearLower",
+                "footNear",
+                "armNearUpper",
+                "armNearLower",
+                "handNear",
+                "weapon",
+                "backAccessory",
+                "frontAccessory"
+              ],
+              "skinReady": {
+                "armFarUpper": false,
+                "armFarLower": false,
+                "handFar": false,
+                "legFarUpper": false,
+                "legFarLower": false,
+                "footFar": false,
+                "torso": false,
+                "hairBack": false,
+                "head": false,
+                "face": false,
+                "hairFront": false,
+                "legNearUpper": false,
+                "legNearLower": false,
+                "footNear": false,
+                "armNearUpper": false,
+                "armNearLower": false,
+                "handNear": false,
+                "weapon": false,
+                "backAccessory": false,
+                "frontAccessory": false
+              }
+            }
+          }
+        ],
+        "mercenaryPlayback": {
+          "last": null,
+          "active": null,
+          "audio": null,
+          "limited": []
+        }
+      },
+      "legacyAssetRequests": 0,
+      "errors": [],
+      "failedAssets": [],
+      "productionApiCalls": 0
+    }
+  ],
+  "productionAccountWrites": 0
+}

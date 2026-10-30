@@ -1,0 +1,73 @@
+{
+  "name": "철쇄 공성관 벨카르",
+  "initialSource": {
+    "path": "docs/qa/escort-own-ip-20261030/velkar-source.png",
+    "sha256": "0e7e5297e182c4d3f8fcd41f22b379fff3b15d6968d83248f6bd04c93f1bcfad",
+    "metadata": {
+      "format": "png",
+      "mediaType": "image/png",
+      "width": 1312,
+      "height": 1199,
+      "space": "srgb",
+      "channels": 4,
+      "depth": "uchar",
+      "density": 72,
+      "isProgressive": false,
+      "isPalette": false,
+      "bitsPerSample": 8,
+      "hasProfile": false,
+      "hasAlpha": true,
+      "autoOrient": {
+        "width": 1312,
+        "height": 1199
+      }
+    }
+  },
+  "source": {
+    "path": "docs/qa/escort-own-ip-20261030/velkar-source-facing-right.png",
+    "sha256": "6f3d0fd391a69eb6c1ad9ebf7b863765065109830d73722880b0d95c4d16a1ad",
+    "metadata": {
+      "format": "png",
+      "mediaType": "image/png",
+      "width": 1312,
+      "height": 1199,
+      "space": "srgb",
+      "channels": 4,
+      "depth": "uchar",
+      "density": 72,
+      "isProgressive": false,
+      "isPalette": false,
+      "bitsPerSample": 8,
+      "hasProfile": false,
+      "hasAlpha": true,
+      "autoOrient": {
+        "width": 1312,
+        "height": 1199
+      }
+    }
+  },
+  "runtime": {
+    "path": "assets/ui/escort/bosses/velkar-siege-commander-v1.webp",
+    "sha256": "576cb007bd5d0eeb51b3f1eaaead525528194974795ffd7976db8e5ca90cd74e",
+    "metadata": {
+      "format": "webp",
+      "mediaType": "image/webp",
+      "width": 768,
+      "height": 768,
+      "space": "srgb",
+      "channels": 4,
+      "depth": "uchar",
+      "isProgressive": false,
+      "isPalette": false,
+      "hasProfile": false,
+      "hasAlpha": true,
+      "autoOrient": {
+        "width": 768,
+        "height": 768
+      }
+    },
+    "bytes": 162280
+  },
+  "prompt": "docs/qa/escort-own-ip-20261030/prompt.json",
+  "facing": "Source faces screen-right; existing enemy renderer mirrors to screen-left."
+}

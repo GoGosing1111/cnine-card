@@ -1,0 +1,196 @@
+{
+  "checkedAt": "2026-10-30T09:19:16.204Z",
+  "readOnly": true,
+  "settings": [
+    {
+      "key": "escort_operation_settings_v1830",
+      "value": {
+        "mode": "TEST",
+        "title": "철벽 호송작전",
+        "description": "5개 전선을 돌파해 장갑 수송차를 목적지까지 호위하십시오.",
+        "vehicleMaxHp": 10000,
+        "weeklyRunLimit": 5,
+        "weeklyRewardLimit": 5,
+        "baseCoin": 2500000,
+        "baseShards": 250,
+        "repairPercent": 20,
+        "sectors": [
+          {
+            "key": "DEPARTURE",
+            "name": "호송 집결지",
+            "label": "출발지 편성",
+            "enemyName": "혈조 정찰대",
+            "enemyImage": "/assets/responsive/project-v/monsters/tower-024-blood-crow-sd-v1-768.webp",
+            "enemyPower": 125000,
+            "hazardPercent": 8,
+            "isBoss": false,
+            "brief": "저장된 PVE 덱을 고정하고 출발지를 기습한 정찰대를 제거합니다."
+          },
+          {
+            "key": "AMBUSH",
+            "name": "야간 협곡",
+            "label": "일반 습격",
+            "enemyName": "타락한 방벽기사",
+            "enemyImage": "/assets/responsive/project-v/monsters/tower-021-fallen-paladin-sd-v1-768.webp",
+            "enemyPower": 165000,
+            "hazardPercent": 11,
+            "isBoss": true,
+            "brief": "협곡 양측에서 수송차를 노리는 습격대를 돌파하십시오."
+          },
+          {
+            "key": "BLOCKADE",
+            "name": "포격 검문선",
+            "label": "도로 봉쇄·포격",
+            "enemyName": "커맨더 크리그",
+            "enemyImage": "/assets/responsive/project-v/monsters/tower-064-commander-krieg-sd-v1-768.webp",
+            "enemyPower": 215000,
+            "hazardPercent": 14,
+            "isBoss": false,
+            "brief": "자주포 사격을 지휘하는 봉쇄 부대를 무력화합니다."
+          },
+          {
+            "key": "REPAIR",
+            "name": "붕괴 정비기지",
+            "label": "정비 지점",
+            "enemyName": "보랏빛 공성술사",
+            "enemyImage": "/assets/responsive/project-v/monsters/tower-028-violet-magus-boss-sd-v1-768.webp",
+            "enemyPower": 265000,
+            "hazardPercent": 12,
+            "isBoss": true,
+            "brief": "정비 설비를 점거한 포격 지휘관을 제거하십시오."
+          },
+          {
+            "key": "FINAL_BOSS",
+            "name": "철의 종착지",
+            "label": "추격대·최종 보스",
+            "enemyName": "오메가-09 추격형",
+            "enemyImage": "/assets/responsive/project-v/monsters/hunt-068-omega-09-sd-v1-768.webp",
+            "enemyPower": 340000,
+            "hazardPercent": 20,
+            "isBoss": true,
+            "brief": "마지막 추격 병기를 격파하고 호송차를 인계하십시오."
+          }
+        ]
+      }
+    },
+    {
+      "key": "escort_operation_settings_v1840",
+      "value": {
+        "mode": "ON",
+        "title": "호송작전",
+        "description": "5개 전선을 돌파해 장갑 수송차를 목적지까지 호위하십시오.",
+        "vehicleMaxHp": 10000,
+        "weeklyRunLimit": 20,
+        "weeklyRewardLimit": 15,
+        "clearBonusCoin": 250000,
+        "clearBonusShards": 85,
+        "repairPercent": 10,
+        "vehicleStrikeScale": 36,
+        "sectors": [
+          {
+            "key": "DEPARTURE",
+            "name": "호송 집결지",
+            "label": "출발지 편성",
+            "enemyName": "혈조 정찰대",
+            "enemyImage": "/assets/responsive/project-v/monsters/tower-024-blood-crow-sd-v1-768.webp",
+            "enemyPower": 250000,
+            "hazardPercent": 8,
+            "isBoss": false,
+            "brief": "저장된 PVE 덱을 고정하고 출발지를 기습한 정찰대를 제거합니다.",
+            "rewardCoin": 150000,
+            "rewardShards": 10,
+            "rewardTickets": 1
+          },
+          {
+            "key": "AMBUSH",
+            "name": "야간 협곡",
+            "label": "일반 습격",
+            "enemyName": "타락한 방벽기사",
+            "enemyImage": "/assets/responsive/project-v/monsters/tower-021-fallen-paladin-sd-v1-768.webp",
+            "enemyPower": 350000,
+            "hazardPercent": 11,
+            "isBoss": false,
+            "brief": "협곡 양측에서 수송차를 노리는 습격대를 돌파하십시오.",
+            "rewardCoin": 260000,
+            "rewardShards": 18,
+            "rewardTickets": 1
+          },
+          {
+            "key": "BLOCKADE",
+            "name": "포격 검문선",
+            "label": "도로 봉쇄·포격",
+            "enemyName": "커맨더 크리그",
+            "enemyImage": "/assets/responsive/project-v/monsters/tower-064-commander-krieg-sd-v1-768.webp",
+            "enemyPower": 1050000,
+            "hazardPercent": 14,
+            "isBoss": false,
+            "brief": "자주포 사격을 지휘하는 봉쇄 부대를 무력화합니다.",
+            "rewardCoin": 420000,
+            "rewardShards": 30,
+            "rewardTickets": 2
+          },
+          {
+            "key": "REPAIR",
+            "name": "붕괴 정비기지",
+            "label": "정비 지점",
+            "enemyName": "보랏빛 공성술사",
+            "enemyImage": "/assets/responsive/project-v/monsters/tower-028-violet-magus-boss-sd-v1-768.webp",
+            "enemyPower": 1550000,
+            "hazardPercent": 12,
+            "isBoss": true,
+            "brief": "정비 설비를 점거한 포격 지휘관을 제거하십시오.",
+            "rewardCoin": 620000,
+            "rewardShards": 45,
+            "rewardTickets": 3
+          },
+          {
+            "key": "FINAL_BOSS",
+            "name": "철의 종착지",
+            "label": "추격대·최종 보스",
+            "enemyName": "오메가-09 추격형",
+            "enemyImage": "/assets/responsive/project-v/monsters/hunt-068-omega-09-sd-v1-768.webp",
+            "enemyPower": 2000000,
+            "hazardPercent": 20,
+            "isBoss": true,
+            "brief": "마지막 추격 병기를 격파하고 호송차를 인계하십시오.",
+            "rewardCoin": 800000,
+            "rewardShards": 62,
+            "rewardTickets": 4
+          }
+        ]
+      }
+    }
+  ],
+  "active": [
+    {
+      "status": "ACTIVE",
+      "sector_index": 0,
+      "count": 47
+    },
+    {
+      "status": "ACTIVE",
+      "sector_index": 1,
+      "count": 11
+    },
+    {
+      "status": "ACTIVE",
+      "sector_index": 2,
+      "count": 5
+    },
+    {
+      "status": "ACTIVE",
+      "sector_index": 3,
+      "count": 3
+    },
+    {
+      "status": "COMPLETED_PENDING",
+      "sector_index": 2,
+      "count": 4
+    },
+    {
+      "status": "COMPLETED_PENDING",
+      "sector_index": 4,
+      "count": 1
+    }
+  ]
+}
