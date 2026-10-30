@@ -1,0 +1,29 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "largeOpeningMs": 10067,
+      "posts": 2,
+      "cancellationFree": true,
+      "escapeFree": true,
+      "ordinaryTenImmediate": true,
+      "scheduledEntry": true,
+      "reducedMotion": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "largeOpeningMs": 10055,
+      "posts": 2,
+      "cancellationFree": true,
+      "escapeFree": true,
+      "ordinaryTenImmediate": true,
+      "scheduledEntry": true,
+      "reducedMotion": true
+    }
+  ],
+  "errors": [],
+  "failures": [],
+  "productionTransactions": 0
+}
