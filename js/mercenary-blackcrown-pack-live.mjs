@@ -15,7 +15,7 @@ export function blackcrownBatchCinematic(results){return blackcrownBatchCinemati
 export function openBlackcrownPack(){return mountBlackcrownPack();}
 export async function mountBlackcrownPack({api=jointAccountRequest,accountId=currentAccount(),getAccountId=currentAccount,storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
  if(active)return active;
- if(!document.querySelector('[data-blackcrown-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-blackcrown-pack.bundle.css?sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4&opening=20261030-v1';link.dataset.blackcrownPackStyle='';document.head.append(link);}
+ if(!document.querySelector('[data-blackcrown-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-blackcrown-pack.bundle.css?sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4&opening=20261030-v2';link.dataset.blackcrownPackStyle='';document.head.append(link);}
  const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='bcp-dialog';active=dialog;
  dialog.setAttribute('aria-labelledby','bcp-title');dialog.innerHTML=blackcrownRoomMarkup(BLACKCROWN_PACK);
  const $=selector=>dialog.querySelector(selector);let stockTimer=null;let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null,recovery=null;
