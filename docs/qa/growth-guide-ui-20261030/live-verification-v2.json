@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-30T14:05:19.807Z",
+  "pages": {
+    "id": "cca7453f-3708-4b93-be26-bd2d866de111",
+    "url": "https://cca7453f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "0bdcf20137c76af9068545e419607f23701f45b2"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "278ddbb7-d901-46a2-b1b6-36a98fc864aa",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "dd4b1912-a821-4b11-948d-5cb585a57d26",
+      "percentage": 100
+    }
+  ],
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "5f7384a7867750af0da7dcb07c2a8ee57de36faa2190ee5a07e5e7376556cb4f"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "8bfeef340af90d5ef2ae70ef3d50b930f4ff5106fc6be2a8ef39c1185cc5bc18"
+    },
+    {
+      "file": "ui/growth-guide/index.html",
+      "sha256": "49e238ac9a35a7d5e705d430050ccd15e51417351a5a12d46f8160332d5d43b9"
+    },
+    {
+      "file": "ui/growth-guide/app.js",
+      "sha256": "62221d40aa5436f95fe0d136b0b5245af4745f5a3e4a39ca3a712d27a7b97c64"
+    },
+    {
+      "file": "ui/growth-guide/style.css",
+      "sha256": "6b02559be3f650796475b886b85217d676567196217d6cae06ef6a3bfefb6431"
+    },
+    {
+      "file": "ui/growth-guide/content.mjs",
+      "sha256": "b71094d854e0ca854eb5262b444a4882434d920c10de2f4483ae39eeaf9342c7"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "549ab355653e18b578ac473cb6e3a3efad97016f58a958e07a63532f7e60bfd3"
+    }
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

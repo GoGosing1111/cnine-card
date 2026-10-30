@@ -1,0 +1,30 @@
+{
+  "source": "33aeba549e91a93883dd9f0f0aca30e9dee9698c",
+  "deployed": "0bdcf20137c76af9068545e419607f23701f45b2",
+  "pages": "cca7453f-3708-4b93-be26-bd2d866de111",
+  "url": "https://cnine-card.pages.dev/",
+  "guideUrl": "https://cnine-card.pages.dev/ui/growth-guide/",
+  "at": "2026-10-30T14:05:30.597Z",
+  "automatedChecks": 6,
+  "localWidths": [
+    1440,
+    768,
+    390,
+    320
+  ],
+  "localSections": 24,
+  "standaloneWidths": [
+    1440,
+    390,
+    320
+  ],
+  "publicMobile": true,
+  "contentSha256": "03ed3dd7fafe06a6911555eb14e7b1f0c52b00d2a886174d5dda06765e2a2b02",
+  "eventHandlersUnchanged": true,
+  "lobbyLogicUnchanged": true,
+  "serverChanges": 0,
+  "otherInteriorChanges": 0,
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "maintenance": false
+}

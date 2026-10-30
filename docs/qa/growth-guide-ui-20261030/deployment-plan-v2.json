@@ -1,0 +1,14 @@
+{
+  "before": {
+    "id": "30e986b0-e792-4acb-b7a6-f34143dce98e",
+    "url": "https://30e986b0.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "6a6d55cdc38b33c9058b0742abdf5bfad9b08b30"
+  },
+  "base": "6a6d55cdc38b33c9058b0742abdf5bfad9b08b30",
+  "reason": "초보자 가이드만 10/30 패널·아이콘으로 교체하고 팝업 중복 제목/닫기 제거. 실제 메인 1440/768/390/320px 24구간·단독3크기·닫기/ESC/목차/저장/바로가기 확인. 공유로비 소스/기존아이콘 배송 검사만 수행. 아이콘/배송2검사는 첫 시도 통과·입력동일 근거로 재사용, 기존 가이드 캐시 단언1개 갱신 후 로비4검사만 재실행.",
+  "tests": [],
+  "checks": [
+    "test:lobby"
+  ]
+}

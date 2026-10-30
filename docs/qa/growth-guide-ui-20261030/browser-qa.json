@@ -1,0 +1,354 @@
+{
+  "sizes": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "visibleTitles": 1,
+      "visibleTopClose": 1,
+      "overflow": 0,
+      "buttonOverflow": 0,
+      "brokenImages": 0,
+      "title": {
+        "x": 135,
+        "y": 72.203125,
+        "width": 141.875,
+        "height": 33.59375,
+        "top": 72.203125,
+        "right": 276.875,
+        "bottom": 105.796875,
+        "left": 135
+      },
+      "close": true,
+      "dialog": {
+        "x": 100,
+        "y": 40,
+        "width": 1240,
+        "height": 920,
+        "top": 40,
+        "right": 1340,
+        "bottom": 960,
+        "left": 100
+      },
+      "skin": "url(\"http://127.0.0.1:14081/assets/ui/tactical-20261030/panel-flat.webp\")",
+      "sections": [
+        {
+          "index": 0,
+          "title": "먼저, 받은 것부터 장착하세요.",
+          "overflow": 0
+        },
+        {
+          "index": 1,
+          "title": "아이콘·용병·장비를 함께 키우세요.",
+          "overflow": 0
+        },
+        {
+          "index": 2,
+          "title": "아이콘은 역할을 보고 준비하세요.",
+          "overflow": 0
+        },
+        {
+          "index": 3,
+          "title": "용병은 확보 → 편성 → 레벨·돌파.",
+          "overflow": 0
+        },
+        {
+          "index": 4,
+          "title": "미스틱에서 엠퍼러·동방무기로.",
+          "overflow": 0
+        },
+        {
+          "index": 5,
+          "title": "배틀슈트와 스킬칩부터 점검하세요.",
+          "overflow": 0
+        }
+      ],
+      "readProgress": 6,
+      "previousNext": true,
+      "completion": true,
+      "escapeFromFrame": true,
+      "route": "inventory"
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "visibleTitles": 1,
+      "visibleTopClose": 1,
+      "overflow": 0,
+      "buttonOverflow": 0,
+      "brokenImages": 0,
+      "title": {
+        "x": 51,
+        "y": 84.203125,
+        "width": 141.875,
+        "height": 33.59375,
+        "top": 84.203125,
+        "right": 192.875,
+        "bottom": 117.796875,
+        "left": 51
+      },
+      "close": true,
+      "dialog": {
+        "x": 16,
+        "y": 52,
+        "width": 736,
+        "height": 920,
+        "top": 52,
+        "right": 752,
+        "bottom": 972,
+        "left": 16
+      },
+      "skin": "url(\"http://127.0.0.1:14081/assets/ui/tactical-20261030/panel-flat.webp\")",
+      "sections": [
+        {
+          "index": 0,
+          "title": "먼저, 받은 것부터 장착하세요.",
+          "overflow": 0
+        },
+        {
+          "index": 1,
+          "title": "아이콘·용병·장비를 함께 키우세요.",
+          "overflow": 0
+        },
+        {
+          "index": 2,
+          "title": "아이콘은 역할을 보고 준비하세요.",
+          "overflow": 0
+        },
+        {
+          "index": 3,
+          "title": "용병은 확보 → 편성 → 레벨·돌파.",
+          "overflow": 0
+        },
+        {
+          "index": 4,
+          "title": "미스틱에서 엠퍼러·동방무기로.",
+          "overflow": 0
+        },
+        {
+          "index": 5,
+          "title": "배틀슈트와 스킬칩부터 점검하세요.",
+          "overflow": 0
+        }
+      ],
+      "readProgress": 6,
+      "previousNext": true,
+      "completion": true,
+      "escapeFromFrame": true,
+      "route": "inventory"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "visibleTitles": 1,
+      "visibleTopClose": 1,
+      "overflow": 0,
+      "buttonOverflow": 0,
+      "brokenImages": 0,
+      "title": {
+        "x": 25,
+        "y": 34.296875,
+        "width": 123.53125,
+        "height": 29.390625,
+        "top": 34.296875,
+        "right": 148.53125,
+        "bottom": 63.6875,
+        "left": 25
+      },
+      "close": true,
+      "dialog": {
+        "x": 6,
+        "y": 8,
+        "width": 378,
+        "height": 828,
+        "top": 8,
+        "right": 384,
+        "bottom": 836,
+        "left": 6
+      },
+      "skin": "url(\"http://127.0.0.1:14081/assets/ui/tactical-20261030/panel-flat.webp\")",
+      "sections": [
+        {
+          "index": 0,
+          "title": "먼저, 받은 것부터 장착하세요.",
+          "overflow": 0
+        },
+        {
+          "index": 1,
+          "title": "아이콘·용병·장비를 함께 키우세요.",
+          "overflow": 0
+        },
+        {
+          "index": 2,
+          "title": "아이콘은 역할을 보고 준비하세요.",
+          "overflow": 0
+        },
+        {
+          "index": 3,
+          "title": "용병은 확보 → 편성 → 레벨·돌파.",
+          "overflow": 0
+        },
+        {
+          "index": 4,
+          "title": "미스틱에서 엠퍼러·동방무기로.",
+          "overflow": 0
+        },
+        {
+          "index": 5,
+          "title": "배틀슈트와 스킬칩부터 점검하세요.",
+          "overflow": 0
+        }
+      ],
+      "readProgress": 6,
+      "previousNext": true,
+      "completion": true,
+      "escapeFromFrame": true,
+      "route": "inventory"
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "visibleTitles": 1,
+      "visibleTopClose": 1,
+      "overflow": 0,
+      "buttonOverflow": 0,
+      "brokenImages": 0,
+      "title": {
+        "x": 25,
+        "y": 34.296875,
+        "width": 123.53125,
+        "height": 29.390625,
+        "top": 34.296875,
+        "right": 148.53125,
+        "bottom": 63.6875,
+        "left": 25
+      },
+      "close": true,
+      "dialog": {
+        "x": 6,
+        "y": 8,
+        "width": 308,
+        "height": 724,
+        "top": 8,
+        "right": 314,
+        "bottom": 732,
+        "left": 6
+      },
+      "skin": "url(\"http://127.0.0.1:14081/assets/ui/tactical-20261030/panel-flat.webp\")",
+      "sections": [
+        {
+          "index": 0,
+          "title": "먼저, 받은 것부터 장착하세요.",
+          "overflow": 0
+        },
+        {
+          "index": 1,
+          "title": "아이콘·용병·장비를 함께 키우세요.",
+          "overflow": 0
+        },
+        {
+          "index": 2,
+          "title": "아이콘은 역할을 보고 준비하세요.",
+          "overflow": 0
+        },
+        {
+          "index": 3,
+          "title": "용병은 확보 → 편성 → 레벨·돌파.",
+          "overflow": 0
+        },
+        {
+          "index": 4,
+          "title": "미스틱에서 엠퍼러·동방무기로.",
+          "overflow": 0
+        },
+        {
+          "index": 5,
+          "title": "배틀슈트와 스킬칩부터 점검하세요.",
+          "overflow": 0
+        }
+      ],
+      "readProgress": 6,
+      "previousNext": true,
+      "completion": true,
+      "escapeFromFrame": true,
+      "route": "inventory"
+    }
+  ],
+  "standalone": [
+    {
+      "width": 1440,
+      "overflow": 0,
+      "title": {
+        "x": 128,
+        "y": 53.796875,
+        "width": 252.34375,
+        "height": 44.796875,
+        "top": 53.796875,
+        "right": 380.34375,
+        "bottom": 98.59375,
+        "left": 128
+      },
+      "close": {
+        "x": 1233.359375,
+        "y": 28,
+        "width": 78.640625,
+        "height": 44,
+        "top": 28,
+        "right": 1312,
+        "bottom": 72,
+        "left": 1233.359375
+      },
+      "brokenImages": 0
+    },
+    {
+      "width": 390,
+      "overflow": 0,
+      "title": {
+        "x": 12,
+        "y": 40.59375,
+        "width": 234.328125,
+        "height": 35,
+        "top": 40.59375,
+        "right": 246.328125,
+        "bottom": 75.59375,
+        "left": 12
+      },
+      "close": {
+        "x": 313.71875,
+        "y": 18,
+        "width": 64.28125,
+        "height": 44,
+        "top": 18,
+        "right": 378,
+        "bottom": 62,
+        "left": 313.71875
+      },
+      "brokenImages": 0
+    },
+    {
+      "width": 320,
+      "overflow": 0,
+      "title": {
+        "x": 9,
+        "y": 40.59375,
+        "width": 227.71875,
+        "height": 30.796875,
+        "top": 40.59375,
+        "right": 236.71875,
+        "bottom": 71.390625,
+        "left": 9
+      },
+      "close": {
+        "x": 246.71875,
+        "y": 18,
+        "width": 64.28125,
+        "height": 44,
+        "top": 18,
+        "right": 311,
+        "bottom": 62,
+        "left": 246.71875
+      },
+      "brokenImages": 0
+    }
+  ],
+  "errors": []
+}

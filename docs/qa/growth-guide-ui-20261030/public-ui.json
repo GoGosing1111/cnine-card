@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-30T14:05:21.199Z",
+  "publicAssets": true,
+  "viewport": 390,
+  "src": "https://cnine-card.pages.dev/ui/growth-guide/?v=20261030-1&account=4242",
+  "titleCount": 1,
+  "topCloseCount": 1,
+  "overflow": 0,
+  "brokenImages": 0,
+  "skin": "url(\"https://cnine-card.pages.dev/assets/ui/tactical-20261030/panel-flat.webp\")",
+  "close": true,
+  "lastAction": "가이드 마치기",
+  "errors": [],
+  "mockedApiRequests": 38,
+  "productionAccountApiRequests": 0,
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}
