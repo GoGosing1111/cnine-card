@@ -4,8 +4,10 @@ import {mkdtemp,mkdir,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 import {createStoreDistribution} from '../packaging/onestore/windows/distribution.mjs';
 import {GAME_ORIGIN,MANIFEST_PATH,MAX_MANIFEST_BYTES} from '../packaging/windows-client/lib/policy.mjs';
+import {isProductionFile} from '../scripts/prepare-production-assets.mjs';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const entry=(file,value,essential=true)=>({path:file,sha256:hash(value),bytes:Buffer.byteLength(value),essential});
 const remote={schema:1,origin:GAME_ORIGIN,releaseId:hash('public release'),minimumClientVersion:'0.1.0',files:[entry('/index.html','remote unrestricted page'),entry('/js/coin-prediction-v1.js','excluded'),entry('/js/clan-prison-camp-v1.js','excluded'),entry('/js/server-support-v1.js','excluded'),entry('/assets/allowed.png','normal',false)]};
@@ -63,4 +65,12 @@ test('tampered bundled content fails closed before it can run',async()=>{
  const {root,distribution}=await fixture();
  await writeFile(path.join(root,'index.html'),'unrestricted replacement');
  await assert.rejects(distribution.fetch(GAME_ORIGIN+'/'),/verification failed/);
+});
+test('native ONE store QA stays in Git and outside the bounded Pages artifact',()=>{
+ assert.equal(isProductionFile('tests/onestore-windows-20261030.native.mjs'),false);
+ assert.equal(isProductionFile('packaging/onestore/windows/distribution.mjs'),false);
+ for(const file of ['index.html','js/app.js','functions/api/[[path]].js'])assert.equal(isProductionFile(file),true);
+ const files=execFileSync('git',['ls-files','-z'],{encoding:'utf8',maxBuffer:40e6}).split('\0').filter(Boolean);
+ const count=files.filter(isProductionFile).filter(file=>!file.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(file)).length+1;
+ assert(count<=20000,'Pages asset count '+count);
 });

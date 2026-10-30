@@ -189,7 +189,7 @@ const cnineRosterAuthoringOnly=new Set(['scripts/generate-responsive-card-images
 const warChatWorkerOnly=new Set(['workers/api-runtime/src/war-chat.js','workers/api-runtime/src/cooperative.js','workers/api-runtime/src/account-sync.js','workers/api-runtime/src/monster-defense.js','workers/api-runtime/src/index.js']);
 const stockScheduleWorkerOnly=new Set(['workers/clan-draft/src/mercenary-stock-schedule.js','workers/clan-draft/src/ranked-reopen.js','workers/clan-draft/src/city-rotation.js','workers/clan-draft/src/organization-schedule.js','workers/clan-draft/src/duo-schedule.js']);
 // Standalone store packaging and its native test do not belong to the Pages game artifact.
-const storePackagingOnly=file=>file.startsWith('packaging/android-direct/')||file.startsWith('packaging/onestore/')||file.startsWith('scripts/onestore/')||file==='tests/android-native/StoreDistributionTest.java';
+const storePackagingOnly=file=>file.startsWith('packaging/android-direct/')||file.startsWith('packaging/onestore/')||file.startsWith('scripts/onestore/')||file==='tests/android-native/StoreDistributionTest.java'||file==='tests/onestore-windows-20261030.native.mjs';
 const blackcrownAuthoringOnly=new Set(JSON.parse(readFileSync(new URL('./blackcrown-authoring-only-20261027.json',import.meta.url),'utf8')));
 // Node-only image authoring commands remain in Git; reserve Pages slots for six codex sprites.
 export const blackcrownCodexNodeOnly=new Set(JSON.parse(readFileSync(new URL('./blackcrown-codex-node-only-20261027.json',import.meta.url),'utf8')));
