@@ -1,0 +1,41 @@
+{
+  "completedAt": "2026-10-30T05:11:01.086Z",
+  "source": "409d72d6ef8d3958821cbcc6433fee9688d3b87b",
+  "pages": "28105c87-4626-47d0-bce5-903dc83bb52b",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "4e718ece-7144-4aa2-b436-1d2f0acd3583",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "c0b469ba-9aea-4b03-a9c8-312640b0a45a",
+      "percentage": 100
+    }
+  ],
+  "operationKey": "ops:chanho-dc-restore:20261030:v1",
+  "userId": 4597,
+  "nickname": "찬호",
+  "clan": "DC",
+  "previousClan": "FM",
+  "completedAtKst": "2026-10-30 14:10:30",
+  "auditId": "53079",
+  "contributionScore": 81,
+  "battleWins": 30,
+  "battleLosses": 30,
+  "elderKickEnabled": false,
+  "testsPassed": 19,
+  "browserRoutes": 6,
+  "readOnlyRuntimeVerified": true,
+  "replayWrites": 0,
+  "messagesSent": 0,
+  "sourceHashes": {
+    "restore.mjs": "4be0c74571f55f7b0c0f9dc1180cd8d9dc9aaa316b5fe97641fb174a1609c79a",
+    "run.mjs": "ad466e43eb2304e3695527150e7e81df0c2c852be965c3816c07d5c77788182a",
+    "preflight.mjs": "8227a318edd7c0e60b2e9c0764cb6ea355e5767ac57273fb1965738e700856df",
+    "read-api.mjs": "2877847ae31f7895f3ee717324116b3b4a88a06e75b5f895f6f71bdc27275fbe",
+    "browser.mjs": "8849b3dd6c0a1e32c6c1173972105b647ee12a118d2a1342e9f835489758a5cf",
+    "release.mjs": "89a49b07528bedcebb730c9dada836df1bd5d438aa7880c399daf075f731a95b"
+  }
+}

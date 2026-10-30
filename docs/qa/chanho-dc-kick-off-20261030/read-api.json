@@ -1,0 +1,71 @@
+{
+  "at": "2026-10-30T05:10:45.997Z",
+  "readOnly": true,
+  "actualRuntimeModules": true,
+  "selectCalls": 27,
+  "views": [
+    {
+      "userId": 4597,
+      "nickname": "찬호",
+      "membership": {
+        "organizationId": 8,
+        "slot": 4
+      },
+      "canReview": false,
+      "chanho": {
+        "userId": 4597,
+        "nickname": "찬호",
+        "slot": 4,
+        "joinedAt": 1793337030230,
+        "isSelf": true,
+        "isElder": false,
+        "canKick": false
+      },
+      "kickPermissions": 0,
+      "blocked": [
+        {
+          "path": "clan/member/kick",
+          "status": 409,
+          "code": "CLAN_MEMBER_KICK_DISABLED"
+        },
+        {
+          "path": "organization/member/kick",
+          "status": 409,
+          "code": "CLAN_MEMBER_KICK_DISABLED"
+        }
+      ]
+    },
+    {
+      "userId": 4391,
+      "nickname": "더듬이구",
+      "membership": {
+        "organizationId": 8,
+        "slot": 2
+      },
+      "canReview": true,
+      "chanho": {
+        "userId": 4597,
+        "nickname": "찬호",
+        "slot": 4,
+        "joinedAt": 1793337030230,
+        "isSelf": false,
+        "isElder": false,
+        "canKick": false
+      },
+      "kickPermissions": 0,
+      "blocked": [
+        {
+          "path": "clan/member/kick",
+          "status": 409,
+          "code": "CLAN_MEMBER_KICK_DISABLED"
+        },
+        {
+          "path": "organization/member/kick",
+          "status": 409,
+          "code": "CLAN_MEMBER_KICK_DISABLED"
+        }
+      ]
+    }
+  ],
+  "writes": 0
+}

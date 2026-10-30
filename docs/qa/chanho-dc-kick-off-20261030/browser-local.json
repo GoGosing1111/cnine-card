@@ -1,0 +1,69 @@
+{
+  "base": "http://127.0.0.1:10222",
+  "reports": [
+    {
+      "width": 1440,
+      "actualIndex": true,
+      "actualClanModule": true,
+      "actualHeadquarters": true,
+      "kickButtons": 0,
+      "blocked": [
+        {
+          "path": "clan/member/kick",
+          "status": 409,
+          "data": {
+            "ok": false,
+            "code": "CLAN_MEMBER_KICK_DISABLED",
+            "error": "원로의 클랜원 추방 기능은 현재 OFF 상태입니다."
+          }
+        },
+        {
+          "path": "organization/member/kick",
+          "status": 409,
+          "data": {
+            "ok": false,
+            "code": "CLAN_MEMBER_KICK_DISABLED",
+            "error": "원로의 클랜원 추방 기능은 현재 OFF 상태입니다."
+          }
+        }
+      ],
+      "auditWrites": 0,
+      "rostersPreserved": true,
+      "errors": [],
+      "failedAssets": []
+    },
+    {
+      "width": 390,
+      "actualIndex": true,
+      "actualClanModule": true,
+      "actualHeadquarters": true,
+      "kickButtons": 0,
+      "blocked": [
+        {
+          "path": "clan/member/kick",
+          "status": 409,
+          "data": {
+            "ok": false,
+            "code": "CLAN_MEMBER_KICK_DISABLED",
+            "error": "원로의 클랜원 추방 기능은 현재 OFF 상태입니다."
+          }
+        },
+        {
+          "path": "organization/member/kick",
+          "status": 409,
+          "data": {
+            "ok": false,
+            "code": "CLAN_MEMBER_KICK_DISABLED",
+            "error": "원로의 클랜원 추방 기능은 현재 OFF 상태입니다."
+          }
+        }
+      ],
+      "auditWrites": 0,
+      "rostersPreserved": true,
+      "errors": [],
+      "failedAssets": []
+    }
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

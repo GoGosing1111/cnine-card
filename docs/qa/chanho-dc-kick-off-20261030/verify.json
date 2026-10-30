@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-30T05:10:39.092Z",
+  "readOnlyVerified": true,
+  "member": {
+    "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "user_id": "4597",
+    "organization_id": 8,
+    "slot": 4,
+    "seed_power": "21094",
+    "joined_at": "1793337030230"
+  },
+  "regular": {
+    "season_id": "9",
+    "clan_id": "8",
+    "user_id": "4597",
+    "member_role": "MEMBER",
+    "preferred_role": "BALANCED",
+    "draft_pick_no": "4",
+    "contribution_score": "81",
+    "battle_wins": "30",
+    "battle_losses": "30",
+    "joined_at": "2026-10-30T05:10:30.230Z",
+    "updated_at": "2026-10-30T05:10:30.230Z"
+  },
+  "auditId": "53079",
+  "replayWrites": 0,
+  "replayed": true,
+  "messagesSent": 0
+}

@@ -1,0 +1,19 @@
+{
+  "before": {
+    "id": "d784b60c-bf2e-413e-9877-450f17ece3c8",
+    "url": "https://d784b60c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "f77098cc0e07a3950f3a86894fdb4219ca1341a8"
+  },
+  "base": "f77098cc0e07a3950f3a86894fdb4219ca1341a8",
+  "reason": "Disable all elder kick routes and hide removal controls in classic and headquarters rosters. Preserve join review and existing battles. Restore Chanho from current FM to DC separately using original removal audit and an atomic idempotent operation. Check only affected authorization gates, classic core, restoration and PC/mobile screens.",
+  "tests": [
+    "tests/clan-kick-restored-route-20261029.test.mjs",
+    "tests/organization-member-kick-20261029.test.mjs",
+    "tests/clan-restoration-20261025.test.mjs",
+    "tests/clan-member-kick.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

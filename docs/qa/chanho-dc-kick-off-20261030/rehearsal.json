@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-30T05:03:25.021Z",
+  "checks": [
+    "advisory-lock",
+    "membership-table-lock",
+    "rollback-membership",
+    "rollback-receipt",
+    "successful-rehearsal-rollback"
+  ],
+  "rehearsal": {
+    "operationKey": "ops:chanho-dc-restore:20261030:v1",
+    "status": "COMPLETED",
+    "authorization": "찬호 다시 DC 가입시키고 원로 추방기능 OFF시켜",
+    "userId": 4597,
+    "nickname": "찬호",
+    "fromClanId": 7,
+    "fromClan": "FM",
+    "clanId": 8,
+    "clan": "DC",
+    "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "seasonId": 9,
+    "slot": 4,
+    "restoredKickAuditId": 53073,
+    "contributionScore": 81,
+    "battleWins": 30,
+    "battleLosses": 30,
+    "completedAt": "2026-10-30T05:03:21.912Z",
+    "automaticFormation": false,
+    "messagesSent": 0,
+    "beforeHash": "20160ea0ede4f1ae38de05203997c76416ee75bb727a9004c02f53d1eafdc90c",
+    "afterHash": "46d31a7a2213e261e37936253f22081aed1de323d6e4e2f7949a5c13f57150ff",
+    "auditId": "53078",
+    "dryRun": true
+  },
+  "rollbackVerified": true
+}
