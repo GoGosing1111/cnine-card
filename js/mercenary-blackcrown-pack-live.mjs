@@ -5,7 +5,7 @@ import {BlackcrownReceiptRecovery,blackcrownReceiptRetryable} from '../shared/me
 import {BlackcrownAutoOpening,blackcrownAutoQuote} from '../shared/mercenary-blackcrown-auto-v1.mjs?v=20261027-v1';
 import {blackcrownBulkQuote,blackcrownBulkPriceSource,blackcrownCoinText} from '../shared/mercenary-blackcrown-bulk-v1.mjs';
 import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=20261024-namsudaeng-v1';
-import {blackcrownStockText,blackcrownCollectionMarkup,blackcrownResultsMarkup,blackcrownRoomMarkup} from './mercenary-blackcrown-presentation-v2.mjs?v=20261027-v1';
+import {blackcrownStockText,blackcrownCollectionMarkup,blackcrownResultsMarkup,blackcrownRoomMarkup,playBlackcrownBulkOpening,blackcrownLargeOpening} from './mercenary-blackcrown-presentation-v2.mjs?v=20261030-opening-v1';
 const fmt=n=>n==null?'미정':BigInt(n).toLocaleString('ko-KR');
 const currentAccount=()=>Number(globalThis.loadUser?.()?.serverUserId)||0;
 const browserLock=(key,work)=>{if(!navigator.locks?.request)throw Error('안전한 개봉을 지원하는 최신 브라우저에서 이용해 주세요.');return navigator.locks.request(key,{ifAvailable:true},lock=>{if(!lock)throw Error('다른 창에서 블랙크라운팩을 처리 중입니다.');return work();});};
@@ -15,7 +15,7 @@ export function blackcrownBatchCinematic(results){return blackcrownBatchCinemati
 export function openBlackcrownPack(){return mountBlackcrownPack();}
 export async function mountBlackcrownPack({api=jointAccountRequest,accountId=currentAccount(),getAccountId=currentAccount,storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
  if(active)return active;
- if(!document.querySelector('[data-blackcrown-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-blackcrown-pack.bundle.css?sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4';link.dataset.blackcrownPackStyle='';document.head.append(link);}
+ if(!document.querySelector('[data-blackcrown-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-blackcrown-pack.bundle.css?sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4&opening=20261030-v1';link.dataset.blackcrownPackStyle='';document.head.append(link);}
  const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='bcp-dialog';active=dialog;
  dialog.setAttribute('aria-labelledby','bcp-title');dialog.innerHTML=blackcrownRoomMarkup(BLACKCROWN_PACK);
  const $=selector=>dialog.querySelector(selector);let stockTimer=null;let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null,recovery=null;
@@ -52,12 +52,12 @@ export async function mountBlackcrownPack({api=jointAccountRequest,accountId=cur
    for(const label of dialog.querySelectorAll('[data-bcp-stock-code]'))label.textContent=blackcrownStockText(config.cards.find(c=>c.code===label.dataset.bcpStockCode),config.stock?.find(row=>row.code===label.dataset.bcpStockCode));
    for(const label of dialog.querySelectorAll('[data-bcp-chance-code]')){const percent=config.effectiveCardPercents?.[label.dataset.bcpChanceCode];label.textContent='1회 확률 '+(percent==null?'미정':percent+'%');}
    for(const count of [1,10]){const price=count===10?config.settings.prices.ten:config.settings.prices.single;$('[data-bcp-price="'+count+'"]').textContent=price==null?'가격 미정':fmt(price)+' 코인';}
-   $('[data-bcp-availability]').textContent=config.userOpeningEnabled?'개봉 가능 · 수량을 선택하세요':config.settings.mode==='ON'?'현재 개봉 불가 · 운영 설정 확인 필요':'출시 준비 중 · 개봉 OFF';
+   $('[data-bcp-availability]').textContent=config.userOpeningEnabled?'개봉 가능 · 수량을 선택하세요':config.openingScheduled?new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date(config.openingAt))+' 개봉 예정 (한국시간)':config.settings.mode==='ON'?'현재 개봉 불가 · 운영 설정 확인 필요':'출시 준비 중 · 개봉 OFF';
   }
   updateAutoQuote();
   updateBulkQuote();
  };
- const acceptConfig=next=>{config=next;clearTimeout(stockTimer);const nextStock=(config.stockSchedules||[]).map(s=>Date.parse(s.executeAt)).sort((a,b)=>a-b)[0];if(Number.isFinite(nextStock)){const delay=Math.max(100,nextStock-Date.parse(config.serverNow||new Date().toISOString()));stockTimer=setTimeout(()=>{if(!disposed&&!busy&&!document.hidden)void refreshConfig();},Math.min(delay,2147483647));}sync();window.dispatchEvent(new CustomEvent('blackcrown-pack:stock',{detail:{stock:config.stock}}));};
+ const acceptConfig=next=>{config=next;clearTimeout(stockTimer);const nextStock=[...(config.stockSchedules||[]).map(s=>Date.parse(s.executeAt)),...(config.openingScheduled?[Date.parse(config.openingAt)]:[])].sort((a,b)=>a-b)[0];if(Number.isFinite(nextStock)){const delay=Math.max(100,nextStock-Date.parse(config.serverNow||new Date().toISOString()));stockTimer=setTimeout(()=>{if(!disposed&&!busy&&!document.hidden)void refreshConfig();},Math.min(delay,2147483647));}sync();window.dispatchEvent(new CustomEvent('blackcrown-pack:stock',{detail:{stock:config.stock}}));};
  const videoEnd=()=>{cinematic.cancel();$('[data-bcp-video]').hidden=true;$('[data-bcp-video-actions]').hidden=true;$('[data-bcp-film]').hidden=true;$('[data-bcp-reveal]').classList.remove('has-cinematic');};
  async function present(receipt){
   if(disposed)return;const results=blackcrownReceiptResults(receipt);
@@ -79,7 +79,7 @@ export async function mountBlackcrownPack({api=jointAccountRequest,accountId=cur
    await playing;if(!disposed)videoEnd();
   }
  }
- session=new BlackcrownOpeningSession({api:request,accountId,getAccountId:()=>disposed?0:getAccountId(),storage,lock,present,onPending:sync,onConfirmed:receipt=>{
+ session=new BlackcrownOpeningSession({api:request,accountId,getAccountId:()=>disposed?0:getAccountId(),storage,lock,present,beforeOpen:body=>playBlackcrownBulkOpening(dialog,body,{signal:lifetime.signal}),onPending:sync,onConfirmed:receipt=>{
   if(disposed)return;const user=globalThis.loadUser?.();if(Number(user?.serverUserId)===accountId&&globalThis.saveUser){
    user.coin=Number(receipt.coin);
    // A failed wallet cache must not hide the confirmed result or stop its event.
@@ -143,7 +143,7 @@ export async function mountBlackcrownPack({api=jointAccountRequest,accountId=cur
  dialog.querySelectorAll('[data-bcp-budget-preset]').forEach(b=>b.onclick=()=>{$('[data-bcp-budget]').value=b.dataset.bcpBudgetPreset;sync();});
  $('[data-bcp-bulk-start]').onclick=()=>{
   if(busy||!config?.userOpeningEnabled||hasPending())return;
-  try{const q=readBulkQuote();if(q.reference)return;quote={bulk:true,config:structuredClone(config),...q};$('[data-bcp-confirm-text]').textContent=fmt(q.count)+'회 일괄 개봉 · '+blackcrownCoinText(q.coinCost)+'을 사용합니다.';$('.bcp-confirm-note').textContent='확정 결과를 수량으로 모아 보여드립니다. SS 리미티드 이상은 이미지로 확인합니다.';$('[data-bcp-confirm-start]').textContent='일괄 개봉 확인';$('[data-bcp-shell]').inert=true;$('[data-bcp-confirm]').hidden=false;$('[data-bcp-confirm-cancel]').focus();}catch(e){say(e.message,true);}
+  try{const q=readBulkQuote();if(q.reference)return;quote={bulk:true,config:structuredClone(config),...q};$('[data-bcp-confirm-text]').textContent=fmt(q.count)+'회 일괄 개봉 · '+blackcrownCoinText(q.coinCost)+'을 사용합니다.';$('.bcp-confirm-note').textContent=blackcrownLargeOpening(q)?'10초 개봉 연출이 끝나면 코인을 사용하고 결과를 확정합니다. 연출 중 취소할 수 있습니다.':'확정 결과를 수량으로 모아 보여드립니다. SS 리미티드 이상은 이미지로 확인합니다.';$('[data-bcp-confirm-start]').textContent='일괄 개봉 확인';$('[data-bcp-shell]').inert=true;$('[data-bcp-confirm]').hidden=false;$('[data-bcp-confirm-cancel]').focus();}catch(e){say(e.message,true);}
  };
  $('[data-bcp-auto-stop]').onclick=()=>{auto.stop();say('자동뽑기 중지 요청 · 진행 중인 개봉 결과까지만 처리합니다.');};
  $('[data-bcp-auto-start]').onclick=()=>{

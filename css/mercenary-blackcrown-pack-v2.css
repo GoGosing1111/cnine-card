@@ -1,4 +1,25 @@
 @import url('./mercenary-blackcrown-bulk-v1.css');
+
+/* Uses the approved Black Crown pack art throughout the ten-second opening. */
+.bcp-opening{position:fixed;inset:0;z-index:20;display:grid;place-items:center;overflow:auto;background:radial-gradient(ellipse at 50% 42%,#46351be8 0,#121115f5 42%,#030508fa 75%);isolation:isolate;--opening-progress:0}
+.bcp-opening-inner{width:min(480px,100%);padding:28px 24px;text-align:center;position:relative;z-index:1}
+.bcp-opening-inner>small{font-size:10px;letter-spacing:.28em;color:#d4b278}.bcp-opening h3{font-size:clamp(25px,4vw,36px);font-weight:800;letter-spacing:.05em;margin:13px 0 0;color:#fff2d0}
+.bcp-opening-stage{position:relative;display:grid;place-items:center;height:min(40dvh,340px);margin:8px auto 0;perspective:900px}
+.bcp-opening-stage img{position:absolute;inset:5% 12%;height:90%;width:76%;max-height:100%;object-fit:contain;z-index:2;pointer-events:none;filter:drop-shadow(0 12px 28px #000b);animation:bcp-opening-float 3s ease-in-out infinite}
+.bcp-opening-stage i{position:absolute;width:68%;height:68%;border:1px solid #c9a45755;border-radius:50%;box-shadow:0 0 28px #b78c261a,inset 0 0 30px #caa3511a;transform:rotateX(65deg);animation:bcp-opening-ring 3s ease-out infinite}.bcp-opening-stage i:nth-child(2){animation-delay:1s}.bcp-opening-stage i:nth-child(3){animation-delay:2s}
+.bcp-opening-halo{position:absolute;inset:12% 5%;opacity:.3;background:conic-gradient(from 0deg,transparent,#dfc37a20,transparent 18%,#dfc37a25,transparent 40%,#dfc37a20,transparent 68%,#dfc37a20,transparent);filter:blur(10px);animation:bcp-opening-rays 16s linear infinite;pointer-events:none}
+.bcp-opening[data-phase="1"] .bcp-opening-stage img{filter:drop-shadow(0 0 28px #ca9f5380)}.bcp-opening[data-phase="2"] .bcp-opening-stage img{filter:drop-shadow(0 0 48px #f4d28cbd);animation:bcp-opening-unseal 3s ease-out both}.bcp-opening[data-phase="2"] .bcp-opening-halo{opacity:.8}
+.bcp-opening [data-bcp-opening-phase]{margin:4px 0 18px;font-size:17px;font-weight:700;color:#f4dfb7}
+.bcp-opening-progress{height:3px;width:78%;margin:auto;overflow:hidden;background:#8d734c33}.bcp-opening-progress span{display:block;height:100%;background:linear-gradient(90deg,#b18943,#ffe7af);transform:scaleX(var(--opening-progress));transform-origin:left;box-shadow:0 0 12px #ffdd8c}
+.bcp-opening-count{margin:12px 0 10px;color:#c8b994;font-size:12px;font-variant-numeric:tabular-nums}.bcp-opening-count b{font-size:24px;color:#fff1ce;margin-right:3px}
+.bcp-opening-note{font-size:12px;line-height:1.8;color:#b4ad9e;margin:0 0 16px}.bcp-opening button{min-width:150px;min-height:48px!important}
+.bcp-opening.is-paused *{animation-play-state:paused!important}
+@keyframes bcp-opening-float{0%,100%{transform:translateY(5px) rotateY(-5deg)}50%{transform:translateY(-7px) rotateY(5deg)}}
+@keyframes bcp-opening-ring{0%{transform:rotateX(65deg) scale(.7);opacity:0}35%{opacity:.85}100%{transform:rotateX(65deg) scale(1.35);opacity:0}}
+@keyframes bcp-opening-rays{to{transform:rotate(360deg)}}
+@keyframes bcp-opening-unseal{0%{transform:scale(1)}80%{transform:scale(1.08)}100%{transform:scale(1.12);filter:drop-shadow(0 0 60px #fff0bf)}}
+@media(max-height:650px){.bcp-opening-inner{padding:12px 18px}.bcp-opening-stage{height:30dvh}.bcp-opening h3{font-size:24px;margin-top:8px}.bcp-opening [data-bcp-opening-phase]{margin-bottom:12px}}
+@media(prefers-reduced-motion:reduce){.bcp-opening *{animation:none!important}.bcp-opening-halo{display:none}}
 /* Black Crown: native pack layout with approved black/gold artwork. */
 .blackcrown-shop-hero,.bcp-dialog,.blackcrown-cms{--bcp-ember:#e1bf75;--bcp-ink:#0a0d18;--bcp-text:#f8eedf;--bcp-muted:#c1baa9;font-family:'Noto Sans KR',sans-serif;color:var(--bcp-text)}
 .blackcrown-shop-hero *,.bcp-dialog *{box-sizing:border-box}

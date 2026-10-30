@@ -11,6 +11,7 @@ import {jointHash} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError,readJointBody,jointResponseError} from './_joint_request.js';
 import {processMercenaryStockSchedules,changeMercenaryStockSchedule,readBlackcrownStockSnapshot} from './_mercenary_blackcrown_stock_schedule.js';
+import {blackcrownScheduledSettings} from '../shared/mercenary-blackcrown-pack-v1.mjs';
 
 const initial=()=>({revision:1,settings:blackcrownPackDraft(),updatedAt:null});
 export async function readBlackcrownPackState(env,{releaseEnabled=BLACKCROWN_PACK_RELEASE_ENABLED,userId=null}={}){
@@ -20,16 +21,17 @@ export async function readBlackcrownPackState(env,{releaseEnabled=BLACKCROWN_PAC
   readMercenaryDocument(env),env.DB.prepare('SELECT payload_json,revision FROM mercenary_draw_config_v1 WHERE id=1').first(),
   userId?env.DB.prepare('SELECT mercenary_code,total_copies FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code IN ('+BLACKCROWN_CODES.map(()=>'?').join(',')+') AND total_copies>0').bind(userId,...BLACKCROWN_CODES).all():{results:[]}
  ]);
- const saved=row?JSON.parse(row.value):initial();
+ const saved=row?JSON.parse(row.value):initial(),scheduled=blackcrownScheduledSettings(saved,scheduling.serverNow);
  const rules=normalDraw?validateMercenaryCardRules(JSON.parse(normalDraw.payload_json).cardRules,MERCENARY_CMS_SEED.catalog.cards.map(c=>c.code)):null;
  const normalCards=rules?limitedNormalCards(cms.document.mercenaries,MERCENARY_CMS_SEED.catalog.cards,rules):[];
- return {revision:saved.revision,updatedAt:saved.updatedAt,rawPack:row?.value??null,normalCmsRevision:cms.revision,normalDrawRevision:Number(normalDraw?.revision||0),serverNow:scheduling.serverNow,stockScheduleHistory:scheduling.document.schedules,stockSchedules:scheduling.document.schedules.filter(s=>s.status==='SCHEDULED').map(({id,executeAt,changes})=>({id,executeAt,changes})),personalOddsKnown:Boolean(userId),...blackcrownPackState(saved.settings,stock,normalCards,{releaseEnabled,ownedCodes:blackcrownOwnedCodes(owned.results)})};
+ return {revision:saved.revision,updatedAt:saved.updatedAt,rawPack:row?.value??null,normalCmsRevision:cms.revision,normalDrawRevision:Number(normalDraw?.revision||0),serverNow:scheduling.serverNow,openingAt:scheduled.openingAt,openingScheduled:scheduled.openingScheduled,stockScheduleHistory:scheduling.document.schedules,stockSchedules:scheduling.document.schedules.filter(s=>s.status==='SCHEDULED').map(({id,executeAt,changes})=>({id,executeAt,changes})),personalOddsKnown:Boolean(userId),...blackcrownPackState(scheduled.settings,stock,normalCards,{releaseEnabled,ownedCodes:blackcrownOwnedCodes(owned.results)})};
 }
 const publicState=(state,{admin=false}={})=>{const {rawPack,stockScheduleHistory,...safe}=state;return {...safe,...(admin?{stockScheduleHistory}:{}),id:state.pack.id,name:state.pack.name,packSettings:state.settings};};
 export async function blackcrownPackShopRow(env){
- await processMercenaryStockSchedules(env);
+ const scheduling=await processMercenaryStockSchedules(env);
  const {row,stock}=await readBlackcrownStockSnapshot(env);
- return blackcrownPackCatalogRow(row?JSON.parse(row.value).settings:blackcrownPackDraft(),stock);
+ const scheduled=blackcrownScheduledSettings(row?JSON.parse(row.value):initial(),scheduling.serverNow);
+ return {...blackcrownPackCatalogRow(scheduled.settings,stock),openingAt:scheduled.openingAt,openingScheduled:scheduled.openingScheduled};
 }
 export async function saveBlackcrownPack(env,actor,body){
  if(!body||Object.keys(body).sort().join(',')!=='expectedRevision,reason,requestId,settings'||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<1||body.expectedRevision>=2147483646||typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId)||typeof body.reason!=='string'||body.reason.trim().length<4||body.reason.length>500||/[\u0000-\u001f]/.test(body.reason))throw jointError('MERCENARY_BLACKCROWN_CONFIG','현재 버전·요청 번호·저장 사유를 확인하세요.');

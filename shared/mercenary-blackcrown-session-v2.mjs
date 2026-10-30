@@ -2,8 +2,8 @@ import {BLACKCROWN_PACK,validateBlackcrownOpeningBody,blackcrownReceiptResults} 
 const fail=(message,code)=>Object.assign(Error(message),{code});
 const terminal=new Set(['MERCENARY_BLACKCROWN_CLOSED','MERCENARY_BLACKCROWN_CHANGED','MERCENARY_BLACKCROWN_NOT_READY','MERCENARY_BLACKCROWN_FUNDS','MERCENARY_BLACKCROWN_INPUT','MERCENARY_BLACKCROWN_SOLD_OUT','MERCENARY_BLACKCROWN_NORMAL_POOL','JOINT_OPERATION_SUPERSEDED']);
 export class BlackcrownOpeningSession{
- constructor({api,accountId,getAccountId,storage,present,lock=async(_key,work)=>work(),onConfirmed=()=>{},onPending=()=>{},makeId=()=>crypto.randomUUID()}){
-  Object.assign(this,{api,accountId,getAccountId,storage,present,lock,onConfirmed,onPending,makeId});this.busy=false;
+ constructor({api,accountId,getAccountId,storage,present,lock=async(_key,work)=>work(),onConfirmed=()=>{},onPending=()=>{},beforeOpen=async()=>{},makeId=()=>crypto.randomUUID()}){
+  Object.assign(this,{api,accountId,getAccountId,storage,present,lock,onConfirmed,onPending,beforeOpen,makeId});this.busy=false;
   this.pendingKey='cnine.blackcrown-pack.pending:'+accountId;this.receiptKey='cnine.blackcrown-pack.receipt:'+accountId;
  }
  assertAccount(){if(!this.accountId||Number(this.getAccountId())!==this.accountId)throw fail('계정이 변경됐습니다. 블랙크라운팩을 다시 열어 주세요.','BLACKCROWN_ACCOUNT_CHANGED');}
@@ -40,6 +40,9 @@ export class BlackcrownOpeningSession{
   if(!config.userOpeningEnabled)throw fail('블랙크라운팩은 출시 준비 중입니다.','MERCENARY_BLACKCROWN_CLOSED');
   if(this.read(this.pendingKey))throw fail('이전 개봉 결과부터 확인해 주세요.','BLACKCROWN_RECOVERY_REQUIRED');
   const body=validateBlackcrownOpeningBody({requestId:this.makeId(),count,expectedRevision:config.revision,...(budget?{budget}:{})});
+  // Hold the account/tab lock through the opening film. Closing it cancels
+  // before any durable request, debit or limited-stock claim is created.
+  await this.beforeOpen(body);this.assertAccount();
   const pending=JSON.stringify({accountId:this.accountId,body});
   try{this.storage.setItem(this.pendingKey,pending);}
   catch(error){

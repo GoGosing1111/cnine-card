@@ -3,6 +3,30 @@ import {BLACKCROWN_BULK_PRESETS} from '../shared/mercenary-blackcrown-bulk-v1.mj
 export const blackcrownUiAssets='/assets/ui/packs/black-crown-20261027-v1/';
 export const blackcrownEscape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const esc=blackcrownEscape;
+export const BLACKCROWN_LARGE_OPENING_MS=10000;
+export const blackcrownLargeOpening=body=>body?.budget!=null&&BigInt(body.budget)>=100000000000000n;
+export function playBlackcrownBulkOpening(dialog,body,{signal}={}){
+ if(!blackcrownLargeOpening(body))return Promise.resolve();
+ if(signal?.aborted)return Promise.reject(Object.assign(Error('개봉을 취소했습니다. 코인은 차감되지 않았습니다.'),{code:'BLACKCROWN_OPENING_CANCELLED'}));
+ const overlay=document.createElement('section'),shell=dialog.querySelector('[data-bcp-shell]'),previous=document.activeElement;
+ overlay.className='bcp-opening';overlay.setAttribute('role','status');overlay.setAttribute('aria-label','100조 블랙크라운팩 개봉 연출');
+ overlay.innerHTML=`<div class="bcp-opening-halo" aria-hidden="true"></div><div class="bcp-opening-inner"><small>BLACK CROWN · GRAND OPENING</small><h3>검은 왕관의 봉인</h3><div class="bcp-opening-stage" aria-hidden="true"><i></i><i></i><i></i><img src="${blackcrownUiAssets}pack-768.webp" alt=""></div><p data-bcp-opening-phase aria-live="polite">계약의 문이 열립니다</p><div class="bcp-opening-progress" role="progressbar" aria-label="개봉 연출 진행" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><span></span></div><p class="bcp-opening-count"><b data-bcp-opening-seconds>10</b>초 후 개봉</p><p class="bcp-opening-note">연출이 끝나면 개봉합니다.<br>취소하면 코인이 사용되지 않습니다.</p><button class="bcp-button" data-bcp-opening-cancel>개봉 취소</button></div>`;
+ shell.inert=true;dialog.append(overlay);dialog.dataset.opening='true';overlay.querySelector('button').focus();
+ return new Promise((resolve,reject)=>{
+  let frame,elapsed=0,last=performance.now(),done=false,phase=-1;
+  const finish=error=>{if(done)return;done=true;cancelAnimationFrame(frame);signal?.removeEventListener('abort',cancel);document.removeEventListener('visibilitychange',visibility);overlay.remove();shell.inert=false;delete dialog.dataset.opening;if(previous?.isConnected)previous.focus();error?reject(error):resolve();};
+  const cancel=()=>finish(Object.assign(Error('개봉을 취소했습니다. 코인은 차감되지 않았습니다.'),{code:'BLACKCROWN_OPENING_CANCELLED'}));
+  const visibility=()=>{last=performance.now();overlay.classList.toggle('is-paused',document.hidden);};
+  const tick=now=>{
+   if(!document.hidden)elapsed+=now-last;last=now;
+   const progress=Math.min(1,elapsed/BLACKCROWN_LARGE_OPENING_MS),next=progress<.3?0:progress<.7?1:2;
+   if(next!==phase){phase=next;overlay.dataset.phase=String(phase);overlay.querySelector('[data-bcp-opening-phase]').textContent=['계약의 문이 열립니다','왕관에 힘이 모입니다','봉인이 해제됩니다'][phase];}
+   overlay.style.setProperty('--opening-progress',String(progress));overlay.querySelector('[data-bcp-opening-seconds]').textContent=String(Math.max(0,Math.ceil((BLACKCROWN_LARGE_OPENING_MS-elapsed)/1000)));overlay.querySelector('[role=progressbar]').setAttribute('aria-valuenow',String(Math.min(10,Math.floor(elapsed/1000))));
+   if(elapsed>=BLACKCROWN_LARGE_OPENING_MS)finish();else frame=requestAnimationFrame(tick);
+  };
+  overlay.querySelector('button').onclick=cancel;signal?.addEventListener('abort',cancel,{once:true});document.addEventListener('visibilitychange',visibility);visibility();frame=requestAnimationFrame(tick);
+ });
+}
 // Use authoritative pack stock; unprepared or missing stock is never shown as zero.
 export function blackcrownStockText(card,stock){
  if(card?.stockPolicy==='UNLIMITED')return '발행 한도 없음';

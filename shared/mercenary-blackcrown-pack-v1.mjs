@@ -19,6 +19,16 @@ const exact=(value,keys)=>value&&typeof value==='object'&&!Array.isArray(value)&
 export function blackcrownPackDraft(){
  return {mode:'OFF',prices:{single:null,ten:null},missRatePpm:null,format:'MERCENARY_BLACKCROWN_SS_PACK_V3',normalRankRatesPpm:Object.fromEntries(MERCENARY_RANKS.map(rank=>[rank,null])),normalSssRatePpm:null,cardRatesPpm:Object.fromEntries(codes.map(code=>[code,null])),stockLimits:Object.fromEntries(stockCodes.map(code=>[code,blackcrownStockLimit(code)]))};
 }
+// The persisted mode stays OFF, so older deployments also fail closed.
+// Both shop discovery and purchases resolve this schedule against database time.
+export function blackcrownScheduledSettings(saved,serverNow){
+ const schedule=saved.openingSchedule;
+ if(!schedule)return {settings:saved.settings,openingAt:null,openingScheduled:false};
+ const at=Date.parse(schedule.opensAt),now=Date.parse(serverNow);
+ if(schedule.status!=='SCHEDULED'||!Number.isFinite(at)||!Number.isFinite(now)||new Date(at).toISOString()!==schedule.opensAt)throw Error('블랙크라운팩 개방 예약을 확인하세요.');
+ const waiting=now<at;
+ return {settings:saved.settings.mode==='OFF'&&!waiting?{...saved.settings,mode:'ON'}:saved.settings,openingAt:schedule.opensAt,openingScheduled:waiting};
+}
 export function validateBlackcrownPack(raw,{releaseEnabled=BLACKCROWN_PACK_RELEASE_ENABLED}={}){
  if(!exact(raw,['format','mode','prices','normalRankRatesPpm','cardRatesPpm','normalSssRatePpm','missRatePpm','stockLimits'])||raw.format!=='MERCENARY_BLACKCROWN_SS_PACK_V3'||!['OFF','ON'].includes(raw.mode)||!releaseEnabled&&raw.mode!=='OFF')throw Error('블랙크라운팩은 출시 준비 중입니다. OFF 초안만 저장할 수 있습니다.');
  if(!exact(raw.prices,['single','ten'])||Object.values(raw.prices).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<1||n>100000000000000)))throw Error('가격은 미정 또는 1~100조 코인 정수로 입력하세요.');
