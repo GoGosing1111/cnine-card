@@ -1,0 +1,53 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-30T03:39:48.479Z",
+  "readOnly": "on",
+  "userId": "65",
+  "nickname": "음순이",
+  "tier": 8,
+  "setName": "심연성좌",
+  "totalQuantity": 5,
+  "parts": 5,
+  "auditId": "53072",
+  "automaticLoadout": false,
+  "items": [
+    {
+      "code": "MERC_ASC_08_WEAPON",
+      "name": "심연성좌 무기",
+      "slot": "WEAPON",
+      "instanceId": "2933613156",
+      "level": 0
+    },
+    {
+      "code": "MERC_ASC_08_TOP",
+      "name": "심연성좌 상의",
+      "slot": "TOP",
+      "instanceId": "2933613157",
+      "level": 0
+    },
+    {
+      "code": "MERC_ASC_08_BOTTOM",
+      "name": "심연성좌 하의",
+      "slot": "BOTTOM",
+      "instanceId": "2933613158",
+      "level": 0
+    },
+    {
+      "code": "MERC_ASC_08_SHOES",
+      "name": "심연성좌 신발",
+      "slot": "SHOES",
+      "instanceId": "2933613159",
+      "level": 0
+    },
+    {
+      "code": "MERC_ASC_08_ACCESSORY",
+      "name": "심연성좌 장신구",
+      "slot": "ACCESSORY",
+      "instanceId": "2933613160",
+      "level": 0
+    }
+  ],
+  "selectOnlyReplayVerified": true,
+  "operationLocksRemaining": 0,
+  "productionWrites": 0
+}
