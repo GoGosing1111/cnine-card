@@ -3,7 +3,7 @@ import {sssCubeStockCode} from '../shared/sss-miracle-cube-stock-v1.mjs';
 import assert from 'node:assert/strict';
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {ensureLimitedPackSchema} from '../functions/_mercenary_limited_pack.js';
-import {SSS_CUBE_TOTAL,emptySssCubePolicy,parseSssCubePercent,sssCubePercent,validateSssCubePolicy,pickSssCubeBatch} from '../shared/sss-miracle-cube-v1.mjs';
+import {SSS_CUBE_TOTAL,emptySssCubePolicy,parseSssCubePercent,sssCubePercent,validateSssCubePolicy,pickSssCubeBatch,sssCubeReadiness,sssCubeEffectivePercent} from '../shared/sss-miracle-cube-v1.mjs';
 import {SSS_CUBE_KEY,ensureSssCubeCatalog,sssCubeState,saveSssCubePolicy,openSssCube,sssCubeReceipt,handleSssCube} from '../functions/_sss_miracle_cube.js';
 import {readJokroPackOwners} from '../functions/_mercenary_jokro_access.js';
 import {readJinmuPackOwners} from '../functions/_mercenary_jinmu_access.js';
@@ -28,7 +28,7 @@ test('SSS-only direct percentages preserve exact eight-decimal boundaries and ex
  assert.equal(pickSssCubeBatch(p,catalog,1,()=>SSS_CUBE_TOTAL-2)[0].mercenaryCode,'V-001');
  assert.equal(pickSssCubeBatch(p,catalog,1,()=>SSS_CUBE_TOTAL-1)[0].mercenaryCode,'V-996');
  assert.throws(()=>validateSssCubePolicy({...p,cards:{'V-990':SSS_CUBE_TOTAL}},catalog),/SSS/);
- assert.throws(()=>pickSssCubeBatch(p,catalog,10,()=>SSS_CUBE_TOTAL-1),{code:'SSS_CUBE_STOCK'});
+ const batch=pickSssCubeBatch(p,catalog,10,max=>max-1);assert.equal(batch.filter(c=>c.limited).length,1);assert.equal(batch.filter(c=>!c.limited).length,9);
 });
 test('older CMS documents include released Azant/Kangyun without overriding acquisition OFF or writing defaults',async t=>{
  const f=await setup(t),codes=['V-056','V-057'],removed=new Set(f.document.assignments.filter(a=>codes.includes(a.code)).flatMap(a=>a.skillIds));
@@ -104,4 +104,64 @@ test('preparation is OFF, no grants or stock changes, dry-run-safe and preserves
  await f.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({revision:4,policy:{mode:'OFF',cards:{'V-021':100},notes:'operator changed'}}),SSS_CUBE_KEY]);
  const repeat=await prepareSssMiracleCube(f.pg,{apply:true});assert.equal(repeat.createdPolicy,false);assert.equal(repeat.revision,4);assert.equal(repeat.configuredCards,1);assert.equal(repeat.auditId,undefined);
  assert.equal((await f.pg.query("SELECT user_id FROM cnine_user_inventory WHERE item_code='SSS_MIRACLE_CUBE'")).rows.length,0);
+});
+
+test('sold-out weights are excluded with exact proportional intervals and rounded display percentages',()=>{
+ const catalog=[{code:'A',rank:'SSS',available:true},{code:'B',rank:'SSS',available:true},
+  {code:'C',rank:'SSS',limited:true,cubeEligible:true,available:false,stockLimit:5,issued:5,remaining:0}];
+ const policy={mode:'ON',cards:{A:3800000000,B:5700000000,C:500000000},notes:''};
+ const ready=sssCubeReadiness(policy,catalog);assert.equal(ready.ready,true);assert.equal(ready.availableTotal,9500000000);assert.deepEqual(ready.excludedCodes,['C']);
+ for(const [ticket,expected] of [[0,'A'],[3799999999,'A'],[3800000000,'B'],[9499999999,'B']]){
+  assert.equal(pickSssCubeBatch(policy,catalog,1,max=>{assert.equal(max,9500000000);return ticket;})[0].mercenaryCode,expected);
+ }
+ assert.equal(sssCubeEffectivePercent(3800000000,9500000000),'40');assert.equal(sssCubeEffectivePercent(1000000000,9500000000),'10.52631579');
+ assert.equal(sssCubeEffectivePercent(1,3),'33.33333333');assert.equal(sssCubeEffectivePercent(2,3),'66.66666667');
+ assert.equal(sssCubeEffectivePercent(0,0),'0');assert.equal(sssCubeEffectivePercent(null,9500000000),'');
+ assert.throws(()=>pickSssCubeBatch(policy,catalog,1,max=>max),/Invalid/);
+ assert.equal(policy.cards.C,500000000,'configured odds stay unchanged');
+});
+
+test('only exhausted approved stock is excluded; acquisition locks, missing limits and invalid totals still block',()=>{
+ const normal={code:'A',rank:'SSS',available:true},sold={code:'B',rank:'SSS',limited:true,cubeEligible:true,available:false,stockLimit:5,issued:5,remaining:0};
+ const policy={mode:'ON',cards:{A:9000000000,B:1000000000},notes:''};
+ for(const changed of [{cubeEligible:false},{stockLimit:null,remaining:null},{stockLimit:0,issued:0},{issued:6},{rank:'SS'},{limited:false}]){
+  assert.equal(sssCubeReadiness(policy,[normal,{...sold,...changed}]).ready,false);
+ }
+ assert.equal(sssCubeReadiness({...policy,cards:{A:1,B:1}},[normal,sold]).ready,false);
+ const empty=sssCubeReadiness({...policy,cards:{B:SSS_CUBE_TOTAL}},[normal,sold]);assert.equal(empty.ready,false);assert.match(empty.blockers.join(' '),/모두 소진/);
+});
+
+for(const postgres of [false,true])test(`mixed ten-open excludes stock exhausted inside the batch and replays once (${postgres?'Postgres':'SQLite'})`,async t=>{
+ const f=await setup(t,postgres),policy={...f.policy,cards:{[f.normal.code]:9500000000,'V-996':500000000}};
+ await f.save(policy);const raw=(await f.p('SELECT value FROM app_meta WHERE key=?',SSS_CUBE_KEY).first()).value;
+ const request={requestId:crypto.randomUUID(),count:10,expectedRevision:1},bounds=[];
+ const result=await openSssCube(f.env,f.user,request,{randomInt:max=>{bounds.push(max);return max-1;}});
+ assert.deepEqual(bounds,[SSS_CUBE_TOTAL,...Array(9).fill(9500000000)]);
+ assert.equal(result.draws.filter(d=>d.mercenaryCode==='V-996').length,1);assert.equal(result.draws[0].serial,15);
+ assert.equal(result.draws.filter(d=>d.mercenaryCode===f.normal.code).length,9);assert.equal(result.balance,3);
+ const replay=await openSssCube(f.env,f.user,request,{randomInt:()=>{throw Error('reroll');}});assert.deepEqual(replay.draws,result.draws);assert.equal(await f.quantity(),3);
+ const state=await sssCubeState(f.env,f.user);assert.equal(state.mode,'ON');assert.equal(state.openingEnabled,true);assert.equal(state.soldOutPolicy,'EXCLUDE_AND_REWEIGHT');
+ assert.equal(state.catalog.find(c=>c.code===f.normal.code).percent,'100');assert.equal(state.catalog.find(c=>c.code==='V-996').percent,'0');assert.equal(state.catalog.find(c=>c.code==='V-996').soldOut,true);
+ assert.equal((await f.p('SELECT value FROM app_meta WHERE key=?',SSS_CUBE_KEY).first()).value,raw);
+ assert.equal((await f.open()).draws[0].mercenaryCode,f.normal.code);assert.equal(await f.quantity(),2);
+});
+
+test('sold-out mixed-pool grant failure rolls back all ten and retry uses the original plan',async t=>{
+ const f=await setup(t,true);await f.save({...f.policy,cards:{[f.normal.code]:9500000000,'V-996':500000000}});
+ const request={requestId:crypto.randomUUID(),count:10,expectedRevision:1};let rolls=0;
+ f.fail('INSERT INTO mercenary_card_acquisitions_v1');await assert.rejects(openSssCube(f.env,f.user,request,{randomInt:max=>{rolls++;return max-1;}}));f.fail('');
+ assert.equal(await f.quantity(),13);assert.equal((await f.p('SELECT COUNT(*) n FROM mercenary_limited_issues_v1').first()).n,0);
+ assert.equal(Number((await f.p('SELECT issued FROM mercenary_limited_stock_v1 WHERE code=?',sssCubeStockCode('V-996')).first()).issued),14);
+ const result=await openSssCube(f.env,f.user,request,{randomInt:()=>{throw Error('reroll');}});assert.equal(rolls,10);assert.equal(result.balance,3);assert.equal(result.draws.filter(d=>d.limited).length,1);
+});
+
+test('last-stock contention cancels without debit, then a new request continues with remaining mercenaries',async t=>{
+ const f=await setup(t);await f.save({...f.policy,cards:{[f.normal.code]:9500000000,'V-996':500000000}});
+ const batch=f.env.DB.batch.bind(f.env.DB);let raced=false;f.env.DB.batch=async list=>{
+  if(!raced&&list.some(s=>s.source.startsWith('UPDATE mercenary_limited_stock_v1'))){raced=true;await f.p('UPDATE mercenary_limited_stock_v1 SET issued=15 WHERE code=?',sssCubeStockCode('V-996')).run();}return batch(list);
+ };
+ const request={requestId:crypto.randomUUID(),count:1,expectedRevision:1};
+ await assert.rejects(openSssCube(f.env,f.user,request,{randomInt:max=>max-1}),{code:'SSS_CUBE_STOCK'});assert.equal(await f.quantity(),13);
+ assert.equal((await f.p('SELECT status FROM joint_operations_v1 WHERE request_id=?',request.requestId).first()).status,'CANCELLED');
+ assert.equal((await f.open()).draws[0].mercenaryCode,f.normal.code);assert.equal(await f.quantity(),12);
 });

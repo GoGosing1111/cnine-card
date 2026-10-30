@@ -31,21 +31,34 @@ export function validateSssCubePolicy(raw,catalog){
  for(const card of catalog)if(card.cubeEligible&&!Object.hasOwn(stockLimits,card.code)&&Number.isSafeInteger(card.stockLimit))stockLimits[card.code]=card.stockLimit;
  return {mode:raw.mode,cards,stockLimits,notes:raw.notes};
 }
+export const sssCubeSoldOut=card=>Boolean(card?.limited&&card.cubeEligible&&card.rank==='SSS'&&Number.isSafeInteger(card.stockLimit)&&card.stockLimit>0&&card.issued===card.stockLimit&&card.remaining===0);
+export function sssCubeEffectivePercent(units,total){
+ if(units===null||units===undefined)return '';
+ if(!units||!total)return '0';
+ return sssCubePercent(Number((BigInt(units)*BigInt(SSS_CUBE_TOTAL)+BigInt(Math.floor(total/2)))/BigInt(total)));
+}
 export function sssCubeReadiness(policy,catalog){
- const total=Object.values(policy.cards).reduce((sum,n)=>sum+(n??0),0),blockers=[];
+ const total=Object.values(policy.cards).reduce((sum,n)=>sum+(n??0),0),blockers=[],excludedCodes=[];let availableTotal=0;
  if(total!==SSS_CUBE_TOTAL)blockers.push(`개별 용병 확률 합계를 100%로 맞추세요. 현재 ${sssCubePercent(total)}%입니다.`);
  for(const [code,units] of Object.entries(policy.cards))if(units>0){
   const card=catalog.find(c=>c.code===code);
-  if(!card?.available||card.rank!=='SSS')blockers.push(`${card?.name||code}: ${card?.lockReason||'획득할 수 없는 용병입니다.'}`);
+  if(sssCubeSoldOut(card))excludedCodes.push(code);
+  else if(!card?.available||card.rank!=='SSS')blockers.push(`${card?.name||code}: ${card?.lockReason||'획득할 수 없는 용병입니다.'}`);
+  else availableTotal+=units;
  }
- return {ready:!blockers.length,total,blockers};
+ if(!blockers.length&&!availableTotal)blockers.push('획득 가능한 용병이 모두 소진됐습니다.');
+ return {ready:!blockers.length,total,availableTotal,excludedCodes,blockers};
 }
 export function pickSssCubeBatch(policy,catalog,count,random){
  if(!SSS_CUBE.counts.includes(count)||!sssCubeReadiness(policy,catalog).ready)throw Error('SSS 미라클큐브 구성과 개봉 횟수를 확인하세요.');
- const selected=catalog.filter(c=>policy.cards[c.code]>0),used=new Map(),draws=[];
+ const selected=catalog.filter(c=>policy.cards[c.code]>0&&c.available),used=new Map(),draws=[];
  for(let i=0;i<count;i++){
-  let ticket=random(SSS_CUBE_TOTAL);if(!Number.isSafeInteger(ticket)||ticket<0||ticket>=SSS_CUBE_TOTAL)throw Error('Invalid SSS cube random value');
-  const card=selected.find(c=>{ticket-=policy.cards[c.code];return ticket<0;});if(!card)throw Error('Incomplete SSS cube distribution');
+  // Sample the original integer weights directly: no rounding or retry rolls.
+  // Exhausted stock is removed before the next draw, including within a batch.
+  const candidates=selected.filter(c=>!c.limited||(used.get(c.code)||0)<c.remaining),total=candidates.reduce((sum,c)=>sum+policy.cards[c.code],0);
+  if(!total)throw Object.assign(Error('선택한 개봉에 필요한 리미티드 잔여 수량이 부족합니다. 큐브는 소모되지 않았습니다.'),{code:'SSS_CUBE_STOCK',status:409,terminal:true});
+  let ticket=random(total);if(!Number.isSafeInteger(ticket)||ticket<0||ticket>=total)throw Error('Invalid SSS cube random value');
+  const card=candidates.find(c=>{ticket-=policy.cards[c.code];return ticket<0;});if(!card)throw Error('Incomplete SSS cube distribution');
   if(card.limited){
    const n=(used.get(card.code)||0)+1;used.set(card.code,n);
    if(n>card.remaining)throw Object.assign(Error('선택한 개봉에 필요한 리미티드 잔여 수량이 부족합니다. 큐브는 소모되지 않았습니다.'),{code:'SSS_CUBE_STOCK',status:409,terminal:true});

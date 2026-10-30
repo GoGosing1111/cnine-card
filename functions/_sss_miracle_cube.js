@@ -1,6 +1,6 @@
 import {EUNSEOL_ART} from '../shared/mercenary-eunseol-v1.mjs';
 import {GENERAL_JOK_ART} from '../shared/mercenary-general-jok-v1.mjs';
-import {SSS_CUBE,emptySssCubePolicy,validateSssCubePolicy,sssCubeReadiness,pickSssCubeBatch,sssCubePercent} from '../shared/sss-miracle-cube-v1.mjs';
+import {SSS_CUBE,emptySssCubePolicy,validateSssCubePolicy,sssCubeReadiness,pickSssCubeBatch,sssCubePercent,sssCubeSoldOut,sssCubeEffectivePercent} from '../shared/sss-miracle-cube-v1.mjs';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs';
 import {HALLOWEEN_SSS_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
@@ -56,7 +56,7 @@ export async function sssCubeState(env,user){
  const policy=validateSssCubePolicy(setting.policy,data.catalog),readiness=sssCubeReadiness(policy,data.catalog);
  return {item:SSS_CUBE,accountId:Number(user.id),balance:quantity,revision:setting.revision,updatedAt:setting.updatedAt,
   isOwner:user.role==='OWNER',mode:policy.mode,policy:{...policy,notes:user.role==='OWNER'?policy.notes:''},...readiness,
-  openingEnabled:policy.mode==='ON'&&readiness.ready,catalog:data.catalog.map(c=>({...c,units:policy.cards[c.code]??null,percent:sssCubePercent(policy.cards[c.code])})),soldOutPolicy:'STOP_WITHOUT_DEBIT'};
+  openingEnabled:policy.mode==='ON'&&readiness.ready,catalog:data.catalog.map(c=>({...c,units:policy.cards[c.code]??null,configuredPercent:sssCubePercent(policy.cards[c.code]),soldOut:sssCubeSoldOut(c),percent:sssCubeEffectivePercent(c.available?policy.cards[c.code]:0,readiness.availableTotal)})),soldOutPolicy:'EXCLUDE_AND_REWEIGHT'};
 }
 export async function saveSssCubePolicy(env,user,body){
  if(user.role!=='OWNER')throw fail('PERMISSION','OWNER만 SSS 미라클큐브를 설정할 수 있습니다.',403);

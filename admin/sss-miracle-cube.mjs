@@ -1,5 +1,5 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
-import {parseSssCubePercent,sssCubePercent,sssCubeReadiness,validateSssCubePolicy} from '../shared/sss-miracle-cube-v1.mjs';
+import {parseSssCubePercent,sssCubePercent,sssCubeReadiness,validateSssCubePolicy} from '../shared/sss-miracle-cube-v1.mjs?v=20261030-soldout1';
 import {sssCubeCatalogWithLimits} from '../shared/sss-miracle-cube-stock-v1.mjs';
 const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let state,draft,dirty=false,busy=false,group='all',pending=null;
@@ -9,7 +9,7 @@ function summary(){
  const ready=sssCubeReadiness(draft,sssCubeCatalogWithLimits(state.catalog,draft.stockLimits));$('#rate-total').textContent=sssCubePercent(ready.total)+' / 100%';
  const totals=[false,true].map(limited=>state.catalog.filter(c=>c.limited===limited).reduce((sum,c)=>sum+(draft.cards[c.code]??0),0));
  $('#group-totals').textContent=`SSS 일반 ${sssCubePercent(totals[0])}% · SSS 리미티드 ${sssCubePercent(totals[1])}%`;
- $('#readiness').innerHTML=ready.ready?'구성 검증 완료 · ON 저장 시 개봉이 시작됩니다.':ready.blockers.map(b=>`<p>${esc(b)}</p>`).join('');
+ $('#readiness').innerHTML=ready.ready?(ready.excludedCodes.length?`소진 ${ready.excludedCodes.length}종 자동 제외 · 남은 설정 비율을 100%로 환산합니다. ON 저장 시 개봉이 시작됩니다.`:'구성 검증 완료 · ON 저장 시 개봉이 시작됩니다.'):ready.blockers.map(b=>`<p>${esc(b)}</p>`).join('');
  $('#saved-state').textContent=dirty?'저장하지 않은 변경':`설정 r${state.revision} · ${state.mode}`;
  const invalid=inputErrors.size>0||Boolean($('#cube-form :invalid'));$('#save').disabled=busy||!dirty||invalid||(draft.mode==='ON'&&!ready.ready);
  $('#save').textContent=busy?'저장 중…':pending?'저장 결과 재확인':draft.mode==='ON'?'저장 · 개봉 ON':'OFF 상태로 저장';
@@ -18,7 +18,7 @@ function summary(){
 function renderCards(){
  const search=$('#search').value.trim().toLowerCase(),rows=state.catalog.filter(c=>(group==='all'||c.limited===(group==='limited'))&&(!search||(c.name+' '+c.code).toLowerCase().includes(search)));
  document.querySelectorAll('[data-group]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.group===group)));
- $('#card-inputs').innerHTML=rows.map(c=>`<article class="sc-panel sc-admin-card"><img src="${esc(c.sourceArt)}" loading="lazy" alt=""><div><p>${c.limited?'SSS 리미티드':'SSS 일반'} · ${esc(c.code)}</p><h3>${esc(c.name)}</h3><p>${c.limited?(c.remaining===null?'큐브 전용 한도 미등록':`큐브 잔여 ${c.remaining} / ${c.stockLimit}장 · 발행 ${c.issued}장`):'기존 일반 획득 설정 연동'}</p>${c.lockReason?`<p class="sc-lock">${esc(c.lockReason)}</p>`:''}</div><label>큐브 1개당 확률 (%)<input data-card="${esc(c.code)}" aria-label="${esc(c.name)} 최종 확률" type="text" inputmode="decimal" autocomplete="off" placeholder="미설정" value="${sssCubePercent(draft.cards[c.code])}" maxlength="12"></label>${c.cubeEligible?`<label>큐브 전용 총 한도 (장)<input data-limit="${esc(c.code)}" aria-label="${esc(c.name)} 큐브 전용 한도" type="number" min="${c.issued??0}" max="1000000" step="1" placeholder="미등록" value="${draft.stockLimits[c.code]??''}"></label>`:''}</article>`).join('')||'<p class="sc-empty">조건에 맞는 용병이 없습니다.</p>';
+ $('#card-inputs').innerHTML=rows.map(c=>`<article class="sc-panel sc-admin-card"><img src="${esc(c.sourceArt)}" loading="lazy" alt=""><div><p>${c.limited?'SSS 리미티드':'SSS 일반'} · ${esc(c.code)}</p><h3>${esc(c.name)}</h3><p>${c.limited?(c.remaining===null?'큐브 전용 한도 미등록':`큐브 잔여 ${c.remaining} / ${c.stockLimit}장 · 발행 ${c.issued}장`):'기존 일반 획득 설정 연동'}</p>${c.lockReason?`<p class="sc-lock">${esc(c.lockReason)}</p>`:''}</div><label>기본 설정 확률 (%)<input data-card="${esc(c.code)}" aria-label="${esc(c.name)} 설정 확률" type="text" inputmode="decimal" autocomplete="off" placeholder="미설정" value="${sssCubePercent(draft.cards[c.code])}" maxlength="12"></label>${c.cubeEligible?`<label>큐브 전용 총 한도 (장)<input data-limit="${esc(c.code)}" aria-label="${esc(c.name)} 큐브 전용 한도" type="number" min="${c.issued??0}" max="1000000" step="1" placeholder="미등록" value="${draft.stockLimits[c.code]??''}"></label>`:''}</article>`).join('')||'<p class="sc-empty">조건에 맞는 용병이 없습니다.</p>';
  for(const input of document.querySelectorAll('[data-card]')){if(inputValues.has(input.dataset.card))input.value=inputValues.get(input.dataset.card);input.setCustomValidity(inputErrors.get(input.dataset.card)||'');}
  for(const input of document.querySelectorAll('[data-limit]')){const key='limit:'+input.dataset.limit;if(inputValues.has(key))input.value=inputValues.get(key);input.setCustomValidity(inputErrors.get(key)||'');}
  summary();

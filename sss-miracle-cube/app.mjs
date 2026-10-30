@@ -16,15 +16,16 @@ function renderPool(){
  if(!state)return;
  document.querySelectorAll('[data-group]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.group===group)));
  const rows=state.catalog.filter(c=>group==='all'||c.limited===(group==='limited'));
- $('#pool').innerHTML=rows.map(c=>`<article class="sc-panel sc-card"><img src="${esc(c.sourceArt)}" alt="" loading="lazy"><div><span class="sc-edition">${c.limited?'SSS LIMITED':'SSS STANDARD'}</span><h3>${esc(c.name)}</h3><p>${c.limited?(c.remaining===null?'큐브 전용 한도 미등록':`큐브 잔여 ${c.remaining} / ${c.stockLimit}장`):'SSS 일반 용병'}</p><strong>${!c.available?'획득 불가':c.units===null?'확률 미설정':c.percent+'%'}</strong>${c.lockReason?`<p>${esc(c.lockReason)}</p>`:''}</div></article>`).join('')||'<p class="sc-empty">조건에 맞는 용병이 없습니다.</p>';
+ $('#pool').innerHTML=rows.map(c=>`<article class="sc-panel sc-card"><img src="${esc(c.sourceArt)}" alt="" loading="lazy"><div><span class="sc-edition">${c.limited?'SSS LIMITED':'SSS STANDARD'}</span><h3>${esc(c.name)}</h3><p>${c.limited?(c.remaining===null?'큐브 전용 한도 미등록':`큐브 잔여 ${c.remaining} / ${c.stockLimit}장`):'SSS 일반 용병'}</p><strong>${c.soldOut?'소진 · 추첨 제외':!c.available?'획득 불가':c.units===null?'확률 미설정':c.percent+'%'}</strong>${c.lockReason?`<p>${esc(c.lockReason)}</p>`:''}</div></article>`).join('')||'<p class="sc-empty">조건에 맞는 용병이 없습니다.</p>';
 }
 async function load(){
  $('#retry').hidden=true;
  try{
   state=await api(admin?'admin/sss-miracle-cube':'sss-miracle-cube/state');$('#balance').textContent=state.balance.toLocaleString('ko-KR');
-  $('#opening-state').textContent=admin?'운영자 미리보기':state.openingEnabled?'개봉 가능':'개봉 준비 중';
+  $('#opening-state').textContent=admin?'운영자 미리보기':state.openingEnabled?'개봉 가능':state.mode==='OFF'?'개봉 OFF':'개봉 중지';
   $('#owner-tools').hidden=!state.isOwner;$('#recover').hidden=!pending();
-  renderPool();controls();message(admin?'연출 미리보기에서는 큐브를 사용하거나 용병을 지급하지 않습니다.':state.openingEnabled?'구성과 확률을 확인한 뒤 개봉하세요.':'현재 개봉 OFF 또는 구성 설정 대기 상태입니다.');
+  renderPool();controls();message(admin?'연출 미리보기에서는 큐브를 사용하거나 용병을 지급하지 않습니다.':state.openingEnabled?(state.excludedCodes?.length?'소진된 용병을 제외한 현재 확률로 개봉합니다.':'구성과 확률을 확인한 뒤 개봉하세요.'):state.mode==='OFF'?'운영자가 개봉을 OFF로 설정했습니다.':state.blockers?.join(' ')||'개봉 구성을 확인하고 있습니다.');
+  if(!admin&&!state.openingEnabled)$('#retry').hidden=false;
  }catch(e){message(e.status===401?'로그인 후 보유 큐브와 개봉 상태를 확인할 수 있습니다.':e.message,true);$('#retry').hidden=false;}
 }
 function selectResult(i){

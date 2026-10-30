@@ -1,0 +1,172 @@
+{
+  "status": "VALIDATED_PENDING_DEPLOYMENT",
+  "authorization": "소진된 용병을 제외하고 계속 개봉",
+  "serverTests": {
+    "command": "node --test tests/sss-miracle-cube-20261021.test.mjs tests/sss-cube-independent-stock-20261028.test.mjs",
+    "passed": 23,
+    "failed": 0
+  },
+  "browser": {
+    "reports": [
+      {
+        "width": 1440,
+        "cmsSaved": true,
+        "noOverflow": true,
+        "cubeImageLoaded": true,
+        "previewWithoutGrant": true,
+        "soldOutContinues": true,
+        "tenDrawExhaustion": true,
+        "displayedEffectivePercent": 100,
+        "configuredPercentPreserved": 95,
+        "errors": []
+      },
+      {
+        "width": 390,
+        "cmsSaved": true,
+        "noOverflow": true,
+        "cubeImageLoaded": true,
+        "previewWithoutGrant": true,
+        "soldOutContinues": true,
+        "tenDrawExhaustion": true,
+        "displayedEffectivePercent": 100,
+        "configuredPercentPreserved": 95,
+        "errors": []
+      }
+    ],
+    "checkedAt": "2026-10-30T11:28:31.473Z",
+    "scope": "isolated DB and account; no production writes"
+  },
+  "liveDataReadOnly": {
+    "at": "2026-10-30T11:26:26.357Z",
+    "revision": 4,
+    "mode": "ON",
+    "ready": true,
+    "openingEnabled": true,
+    "excludedCodes": [
+      "V-996"
+    ],
+    "availableTotal": 9500000000,
+    "policy": {
+      "mode": "ON",
+      "cards": {
+        "V-021": 3800000000,
+        "V-046": 1000000000,
+        "V-049": 1000000000,
+        "V-055": 1000000000,
+        "V-056": 1000000000,
+        "V-057": 1000000000,
+        "V-999": 300000000,
+        "V-996": 500000000,
+        "V-989": 100000000,
+        "V-979": 100000000,
+        "V-973": 100000000,
+        "V-978": 100000000
+      },
+      "stockLimits": {
+        "V-999": 5,
+        "V-989": 5,
+        "V-996": 5,
+        "V-979": 5,
+        "V-973": 5,
+        "V-974": 5,
+        "V-975": 5,
+        "V-978": 5
+      },
+      "notes": ""
+    },
+    "catalog": [
+      {
+        "code": "V-021",
+        "name": "오메가-X",
+        "percent": "40",
+        "configuredPercent": "38",
+        "soldOut": false
+      },
+      {
+        "code": "V-046",
+        "name": "라그니엘",
+        "percent": "10.52631579",
+        "configuredPercent": "10",
+        "soldOut": false
+      },
+      {
+        "code": "V-049",
+        "name": "크라이베른",
+        "percent": "10.52631579",
+        "configuredPercent": "10",
+        "soldOut": false
+      },
+      {
+        "code": "V-055",
+        "name": "베르칸",
+        "percent": "10.52631579",
+        "configuredPercent": "10",
+        "soldOut": false
+      },
+      {
+        "code": "V-056",
+        "name": "아잔트",
+        "percent": "10.52631579",
+        "configuredPercent": "10",
+        "soldOut": false
+      },
+      {
+        "code": "V-057",
+        "name": "신궁 강윤",
+        "percent": "10.52631579",
+        "configuredPercent": "10",
+        "soldOut": false
+      },
+      {
+        "code": "V-999",
+        "name": "헬리오스",
+        "percent": "3.15789474",
+        "configuredPercent": "3",
+        "soldOut": false,
+        "remaining": 2
+      },
+      {
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "percent": "1.05263158",
+        "configuredPercent": "1",
+        "soldOut": false,
+        "remaining": 5
+      },
+      {
+        "code": "V-996",
+        "name": "발테르",
+        "percent": "0",
+        "configuredPercent": "5",
+        "soldOut": true,
+        "remaining": 0
+      },
+      {
+        "code": "V-979",
+        "name": "족로",
+        "percent": "1.05263158",
+        "configuredPercent": "1",
+        "soldOut": false,
+        "remaining": 4
+      },
+      {
+        "code": "V-973",
+        "name": "은설",
+        "percent": "1.05263158",
+        "configuredPercent": "1",
+        "soldOut": false,
+        "remaining": 4
+      },
+      {
+        "code": "V-978",
+        "name": "레오넬",
+        "percent": "1.05263158",
+        "configuredPercent": "1",
+        "soldOut": false,
+        "remaining": 4
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

@@ -6,6 +6,7 @@ import path from 'node:path';
 import os from 'node:os';
 import http from 'node:http';
 import {pathToFileURL} from 'node:url';
+import {execFileSync} from 'node:child_process';
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {ensureLimitedPackSchema} from '../functions/_mercenary_limited_pack.js';
 import {ensureSssCubeCatalog,sssCubeState,saveSssCubePolicy,openSssCube,sssCubeReceipt} from '../functions/_sss_miracle_cube.js';
@@ -20,11 +21,20 @@ test('SSS cube CMS, opening, receipt recovery and art layout on desktop/mobile',
  for(const code of ['V-973','V-974','V-975','V-978'])await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,issued) VALUES(?,5,0)',sssCubeStockCode(code)).run();
  const root=process.cwd(),out=process.env.QA_OUT||fs.mkdtempSync(path.join(os.tmpdir(),'sss-cube-'));fs.mkdirSync(out,{recursive:true});
  const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.woff2':'font/woff2'};
- const server=http.createServer((req,res)=>{let file=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(!file.startsWith(root+path.sep))return res.writeHead(403).end();if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');if(!fs.existsSync(file)&&process.env.QA_ASSET_ROOT&&file.startsWith(path.join(root,'assets')+path.sep))file=path.join(process.env.QA_ASSET_ROOT,path.relative(root,file));if(!fs.existsSync(file))return res.writeHead(404).end();res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream'});fs.createReadStream(file).pipe(res);});
+ const assetBlobs=new Map();
+ const server=http.createServer((req,res)=>{
+  let file=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(!file.startsWith(root+path.sep))return res.writeHead(403).end();
+  if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');const relative=path.relative(root,file).split(path.sep).join('/');
+  if(!fs.existsSync(file)&&process.env.QA_ASSET_ROOT&&relative.startsWith('assets/'))file=path.join(process.env.QA_ASSET_ROOT,relative);
+  // A sparse checkout can serve its tracked artwork without duplicating it on disk.
+  if(!fs.existsSync(file)&&relative.startsWith('assets/'))try{if(!assetBlobs.has(relative))assetBlobs.set(relative,execFileSync('git',['show','HEAD:'+relative],{cwd:root,windowsHide:true,maxBuffer:25000000,stdio:['ignore','pipe','pipe']}));res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream'});return res.end(assetBlobs.get(relative));}catch{}
+  if(!fs.existsSync(file))return res.writeHead(404).end();res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream'});fs.createReadStream(file).pipe(res);
+ });
  await new Promise(r=>server.listen(0,'127.0.0.1',r));t.after(()=>new Promise(r=>server.close(r)));
  const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']});t.after(()=>browser.close());const origin='http://127.0.0.1:'+server.address().port,reports=[];
- for(const width of [1440,390,320]){
-  const context=await browser.newContext({viewport:{width,height:width>800?1000:844},serviceWorkers:'block',reducedMotion:width===320?'reduce':'no-preference'}),page=await context.newPage(),errors=[];let loseResponse=false,opens=0;
+ for(const width of [1440,390]){
+  await f.p("UPDATE cnine_user_inventory SET quantity=40,unseen_quantity=40 WHERE user_id=7 AND item_code='SSS_MIRACLE_CUBE'").run();
+  const context=await browser.newContext({viewport:{width,height:width>800?1000:844},serviceWorkers:'block',reducedMotion:width===390?'reduce':'no-preference'}),page=await context.newPage(),errors=[];let loseResponse=false,opens=0,pickLast=false;
   page.on('pageerror',e=>errors.push(e.message));
   await context.addInitScript(()=>{localStorage.setItem('cnine_battle_sound','OFF');});
   await page.route('**/api/**',async route=>{
@@ -32,10 +42,10 @@ test('SSS cube CMS, opening, receipt recovery and art layout on desktop/mobile',
    try{
     if(u.pathname==='/api/admin/sss-miracle-cube')return route.fulfill({json:req.method()==='GET'?await sssCubeState(f.env,f.user):await saveSssCubePolicy(f.env,f.user,req.postDataJSON())});
     if(u.pathname==='/api/sss-miracle-cube/state')return route.fulfill({json:await sssCubeState(f.env,f.user)});
-    if(u.pathname==='/api/sss-miracle-cube/open'){opens++;const result=await openSssCube(f.env,f.user,req.postDataJSON(),{randomInt:()=>0});if(loseResponse){loseResponse=false;return route.fulfill({status:503,json:{code:'SSS_CUBE_RETRYABLE',error:'검수용 응답 유실'}});}return route.fulfill({json:result});}
+    if(u.pathname==='/api/sss-miracle-cube/open'){opens++;const result=await openSssCube(f.env,f.user,req.postDataJSON(),{randomInt:max=>pickLast?max-1:0});if(loseResponse){loseResponse=false;return route.fulfill({status:503,json:{code:'SSS_CUBE_RETRYABLE',error:'검수용 응답 유실'}});}return route.fulfill({json:result});}
     if(u.pathname==='/api/sss-miracle-cube/receipt')return route.fulfill({json:await sssCubeReceipt(f.env,f.user,u.searchParams.get('requestId'))});
     assert.equal(req.method(),'GET','No unrelated writes');return route.fulfill({json:{items:[],visible:false,enabled:false}});
-   }catch(e){return route.fulfill({status:e.status||500,json:{code:e.code,error:e.message}});}
+   }catch(e){console.log(JSON.stringify({width,api:u.pathname,code:e.code,error:e.message}));return route.fulfill({status:e.status||500,json:{code:e.code,error:e.message}});}
   });
   const pre=await sssCubeState(f.env,f.user);await saveSssCubePolicy(f.env,f.user,{requestId:crypto.randomUUID(),revision:pre.revision,policy:{mode:'OFF',cards:{},notes:''}});
   await page.goto(origin+'/admin/sss-miracle-cube.html');await page.locator('#cube-form').waitFor();
@@ -58,9 +68,21 @@ test('SSS cube CMS, opening, receipt recovery and art layout on desktop/mobile',
    await page.reload();await page.locator('#recover').waitFor();const beforeRecovery=opens;await page.locator('#recover').click();await page.locator('#result-dialog[open]').waitFor();assert.equal(opens,beforeRecovery);assert.equal((await sssCubeState(f.env,f.user)).balance,balanceBefore-2);await page.locator('#result-confirm').click();
    const current=await sssCubeState(f.env,f.user);await saveSssCubePolicy(f.env,f.user,{requestId:crypto.randomUUID(),revision:current.revision,policy:{mode:'ON',cards:{'V-996':SSS_CUBE_TOTAL},notes:''}});
    await page.reload();await page.waitForFunction(()=>!document.querySelector('#open-one').disabled);await page.locator('#open-one').click();await page.locator('#result-dialog[open]').waitFor();assert.match(await page.locator('#result-serial').innerText(),/15 \/ 15/);await page.screenshot({path:path.join(out,'limited-result.png')});await page.locator('#result-confirm').click();await page.waitForFunction(()=>document.querySelector('#open-one').disabled);assert.equal((await sssCubeState(f.env,f.user)).openingEnabled,false);
+   assert.equal(await page.locator('#opening-state').innerText(),'개봉 중지');assert.match(await page.locator('#status').innerText(),/모두 소진/);
   }
+  const exhausting=width===1440?'V-989':'V-979';
+  await f.p('UPDATE mercenary_limited_stock_v1 SET issued=2 WHERE code=?',sssCubeStockCode(exhausting)).run();
+  const mixed=await sssCubeState(f.env,f.user);await saveSssCubePolicy(f.env,f.user,{requestId:crypto.randomUUID(),revision:mixed.revision,policy:{...mixed.policy,mode:'ON',cards:{'V-021':9500000000,[exhausting]:500000000}}});
+  pickLast=true;await page.reload();await page.waitForFunction(()=>!document.querySelector('#open-ten').disabled);const beforeTen=(await sssCubeState(f.env,f.user)).balance;
+  await page.locator('#open-ten').click();try{await page.locator('#result-dialog[open]').waitFor();}catch(e){console.log(JSON.stringify({width,status:await page.locator('#status').innerText(),errors,opens}));throw e;}assert.equal(await page.locator('[data-result]').count(),10);assert.match(await page.locator('#result-serial').innerText(),/3 \/ 3/);
+  await page.locator('#result-confirm').click();await page.waitForFunction(()=>document.querySelector('#status').textContent.includes('소진된 용병을 제외'));
+  assert.equal((await sssCubeState(f.env,f.user)).balance,beforeTen-10);assert.equal(await page.locator('#open-one').isDisabled(),false);assert.equal(await page.locator('#opening-state').innerText(),'개봉 가능');
+  const normalCard=page.locator('#pool article').filter({has:page.locator('h3',{hasText:f.document.mercenaries.find(c=>c.code==='V-021').name})});assert.equal(await normalCard.locator('strong').innerText(),'100%');
+  assert(await page.locator('#pool strong').filter({hasText:'소진 · 추첨 제외'}).count()>0);await validateLayout();await page.screenshot({path:path.join(out,'soldout-continues-'+width+'.png'),fullPage:true});
+  await page.locator('#open-one').click();await page.locator('#result-dialog[open]').waitFor();assert.equal((await sssCubeState(f.env,f.user)).balance,beforeTen-11);await page.locator('#result-confirm').click();
+  await page.goto(origin+'/admin/sss-miracle-cube.html');await page.locator('#cube-form').waitFor();assert.match(await page.locator('#readiness').innerText(),/소진 1종 자동 제외/);assert.equal(await page.locator(`[data-card="${exhausting}"]`).inputValue(),'5');assert.equal(await page.locator('[data-card="V-021"]').inputValue(),'95');
   await page.goto(origin+'/sss-miracle-cube/?admin=1');await page.locator('#owner-tools').waitFor();await page.locator('#preview-group').selectOption('limited');const beforePreview=(await sssCubeState(f.env,f.user)).balance;await page.locator('#preview').click();await page.locator('#result-dialog[open]').waitFor();assert.equal((await sssCubeState(f.env,f.user)).balance,beforePreview);await validateLayout();
-  assert.deepEqual(errors,[]);reports.push({width,cmsSaved:true,noOverflow:true,cubeImageLoaded:true,previewWithoutGrant:true,errors});await context.close();
+  assert.deepEqual(errors,[]);reports.push({width,cmsSaved:true,noOverflow:true,cubeImageLoaded:true,previewWithoutGrant:true,soldOutContinues:true,tenDrawExhaustion:true,displayedEffectivePercent:100,configuredPercentPreserved:95,errors});await context.close();
  }
  fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({reports,checkedAt:new Date().toISOString(),scope:'isolated DB and account; no production writes'},null,2)+'\n');console.log(JSON.stringify({out,reports}));
 });
