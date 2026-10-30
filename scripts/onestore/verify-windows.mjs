@@ -1,0 +1,42 @@
+import {readFile,writeFile,mkdir,stat} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {createStoreDistribution,blockedRequest} from '../../packaging/onestore/windows/distribution.mjs';
+import {excludedAsset} from '../../packaging/onestore/web/policy.mjs';
+const [build,output]=process.argv.slice(2);
+if(!build||!output)throw Error('Provide finished Windows build and verification output');
+await mkdir(output,{recursive:true});
+const hash=value=>createHash('sha256').update(value).digest('hex');
+const require=createRequire(path.join(build,'package.json')),asar=require('@electron/asar');
+const inputs=JSON.parse(await readFile(path.join(build,'onestore-windows-build-inputs.json'),'utf8'));
+const config=inputs.configuration,archive=path.join(build,'release/win-unpacked/resources/app.asar');
+const extract=file=>asar.extractFile(archive,path.normalize(file));
+const files=[];
+for(const [file,expected] of Object.entries(inputs.stagedHashes)){
+ if(file==='package.json')continue; // electron-builder removes build-only metadata.
+ const bytes=extract(file);assert.equal(hash(bytes),expected,file);files.push({file,bytes:bytes.length,sha256:expected});
+}
+const packaged=JSON.parse(extract('package.json').toString());
+assert.equal(packaged.name,config.packageName);assert.equal(packaged.version,config.appVersion);assert.equal(packaged.main,'main.mjs');
+assert.deepEqual(packaged.dependencies,{});
+const main=extract('main.mjs').toString();
+assert(!/electron-updater|new ClientUpdater|shell\.openExternal/.test(main));
+assert(main.includes(config.sessionPartition));assert(main.includes(config.startUrl));
+assert(extract('lib/app-identity.mjs').toString().includes(config.profileDirectory));
+await assert.rejects(stat(path.join(build,'release/win-unpacked/resources/app-update.yml')),{code:'ENOENT'});
+const receipt=JSON.parse(await readFile(path.join(build,'installer-build/receipt.json'),'utf8'));
+assert.equal(receipt.qa,false);assert.equal(receipt.installed.exe,config.executableName+'.exe');
+assert.notEqual(receipt.registryGuid,'c69fcbf2-955f-5c48-8ff1-55c03889cb40');
+assert.equal(hash(await readFile(archive)),receipt.installed.asarSha256);
+assert.equal(hash(await readFile(receipt.output)),receipt.sha256);assert(receipt.bytes<2*1024**3);
+const response=await fetch('https://cnine-card.pages.dev/client/windows/manifest.json',{signal:AbortSignal.timeout(30000)});assert(response.ok);
+const bytes=Buffer.from(await response.arrayBuffer()),publicManifest=JSON.parse(bytes);
+const distribution=await createStoreDistribution({bundleRoot:path.join(build,'onestore')});
+const merged=distribution.mergeManifest(publicManifest);
+assert(!merged.files.some(row=>excludedAsset(row.path)||blockedRequest(merged.origin+row.path)));
+for(const bundled of inputs.bundledFiles)assert.equal(merged.files.find(row=>row.path===bundled.path)?.sha256,bundled.sha256);
+const result={passed:true,configuration:config,installer:receipt,packagedFilesVerified:files.length,files,publicManifest:{at:new Date().toISOString(),sha256:hash(bytes),releaseId:publicManifest.releaseId,files:publicManifest.files.length,storeFiles:merged.files.length,mergedReleaseId:merged.releaseId},ordinaryClientAutoUpdate:false,realServerWrites:0};
+await writeFile(path.join(output,'artifact-verification.json'),JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify({passed:true,packagedFiles:files.length,bundledFiles:inputs.bundledFiles.length,installerBytes:receipt.bytes,sha256:receipt.sha256,publicFiles:publicManifest.files.length}));
