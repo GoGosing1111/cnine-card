@@ -1,0 +1,20 @@
+{
+  "before": {
+    "id": "50c8db9e-5ba3-45af-8e4e-a5e8f832a424",
+    "url": "https://50c8db9e.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "d2df098ef97f1b5235ff0664b07d93fecfef3403"
+  },
+  "base": "d2df098ef97f1b5235ff0664b07d93fecfef3403",
+  "reason": "블랙크라운 SS6종 전용 밸런스: 동일 성장/장비 블러드문6종 상대 평균60% 목표. 전후 각50688전 독립시드, 거래/성장6검사와 PC모바일4전투 검수. 해당 밸런스·기존 블러드문·장비성장·실제 번들 로더만 검사. 팩 추첨/재고/계정 쓰기 없음.",
+  "tests": [
+    "tests/blackcrown-balance-20261031.test.mjs",
+    "tests/bloodmoon-balance-20261027.test.mjs",
+    "tests/mercenary-equipment-growth-20261030.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs",
+    "tests/blackcrown-opening-delivery-20261030.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
