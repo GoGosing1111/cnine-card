@@ -31,7 +31,7 @@ async function reconcileBlackcrownStock(DB,userId,requestId,plan,state,randomInt
   if(!stock?.prepared)throw terminal('NOT_READY','리미티드 발행 수량을 확인해야 합니다.');
   if(remaining.get(stock.code)>0){remaining.set(stock.code,remaining.get(stock.code)-1);draw.stockLimit=stock.limit;}
   else{
-   if(draw.guaranteed===true)throw terminal('ONCE_STOCK','확정 보상 재고가 변경됐습니다. 코인은 차감되지 않았습니다.');
+   if(draw.guaranteed===true)throw terminal('ONCE_STOCK','카드 재고가 변경됐습니다. 코인은 차감되지 않았습니다.');
    if(BLACKCROWN_CODES.includes(code))throw terminal('CHANGED','SS 리미티드 재고가 변경됐습니다. 코인은 차감되지 않았습니다. 현재 확률로 다시 개봉하세요.');
    next.draws[i]={...pickBlackcrownNormalCard(state,'SSS',randomInt),...(bulk?{drawIndex:draw.drawIndex}:{})};
    (next.stockFallbacks??=[]).push({index:i,limitedCode:code,ordinaryCode:next.draws[i].mercenaryCode});
@@ -73,7 +73,7 @@ export function createBlackcrownPackService({readState,releaseEnabled=BLACKCROWN
    statements:async plan=>{
     const state=await stateFor(env,user);
     if(state.settings.mode!=='ON'||state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision)throw terminal('CHANGED','개봉 설정이 변경되어 미완료 요청을 취소했습니다.');
-    if((state.oneTimeRewardState?.before??null)!==(plan.onceSnapshot??null))throw terminal('CHANGED','확정 보상 설정이 변경됐습니다. 새 개봉으로 다시 시도하세요.');
+    if((state.oneTimeRewardState?.before??null)!==(plan.onceSnapshot??null))throw terminal('CHANGED','개봉 설정이 변경됐습니다. 새 개봉으로 다시 시도하세요.');
     if(JSON.stringify(blackcrownOwnedCodes(plan.ownedCodes))!==JSON.stringify(blackcrownOwnedCodes(state.ownedCodes)))throw terminal('CHANGED','보유 종류가 변경됐습니다. 현재 확률을 확인한 뒤 다시 개봉하세요.');
     await reconcileBlackcrownStock(env.DB,user.id,requestId,plan,state,random);
     if(plan.draws.some(isPrimeMaterialDraw))await ensurePrimeMaterialCatalog(env);

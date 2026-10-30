@@ -20,11 +20,11 @@ for(const count of [1,10,66666])test(`Revan exactly once in ${count} draws, norm
 test('no funds and sold-out entitlement never charge or consume; existing ownership odds unchanged',async t=>{
  const f=await setup(t);await f.own('V-950');await f.own('V-951');const state=await f.state();assert.equal(state.ssProbabilityDivisor,2);assert.equal(state.effectiveCardPercents['V-950'],'0.0002');
  await f.pg.exec('UPDATE users SET coin=0 WHERE id=1');await assert.rejects(f.service.open(f.env,f.user,f.body()),/코인이 부족/);assert.equal((await once(f)).status,'ARMED');
- await f.pg.exec("UPDATE users SET coin=1000000000000000 WHERE id=1; UPDATE mercenary_limited_stock_v1 SET issued=stock_limit WHERE code='V-971'");const before=await f.coin();await assert.rejects(f.service.open(f.env,f.user,f.body()),/확정 보상/);assert.equal(await f.coin(),before);assert.equal((await once(f)).status,'ARMED');
+ await f.pg.exec("UPDATE users SET coin=1000000000000000 WHERE id=1; UPDATE mercenary_limited_stock_v1 SET issued=stock_limit WHERE code='V-971'");const before=await f.coin();await assert.rejects(f.service.open(f.env,f.user,f.body()),/카드 발행 수량/);assert.equal(await f.coin(),before);assert.equal((await once(f)).status,'ARMED');
 });
 test('stock race preserves the armed award and cancels before payment',async t=>{
  const f=await setup(t);let reads=0;const service=createBlackcrownPackService({randomInt:n=>n-1,readState:async(env,options)=>{if(++reads===2)await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=stock_limit WHERE code='V-971'");return readBlackcrownPackState(env,options);}}),before=await f.coin();
- await assert.rejects(service.open(f.env,f.user,f.body()),/확정 보상 재고/);assert.equal(await f.coin(),before);assert.equal((await once(f)).status,'ARMED');
+ await assert.rejects(service.open(f.env,f.user,f.body()),/카드 재고/);assert.equal(await f.coin(),before);assert.equal((await once(f)).status,'ARMED');
 });
 test('mid-transaction failure rolls back award, stock and debit; retry consumes once',async t=>{
  const f=await setup(t),before=await f.coin(),body=f.body(),batch=f.env.DB.batch.bind(f.env.DB);f.env.DB.batch=stmts=>batch([...stmts,f.p("INSERT INTO app_meta(key,value) VALUES('forced-failure','x')"),f.p("INSERT INTO app_meta(key,value) VALUES('forced-failure','x')")]);
