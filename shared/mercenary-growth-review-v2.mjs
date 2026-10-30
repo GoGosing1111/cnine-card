@@ -50,7 +50,10 @@ export function mercenaryGrowthSummary(growth,state){
 }
 export function mercenaryGrowthStatPreview(base,summary){
  const before=Object.fromEntries(['hp','attack','defense','speed'].map(k=>[k,Number(base[k])]));
- if(Object.values(before).some(n=>!Number.isSafeInteger(n)||n<0)||!summary?.total)fail();
+ // Equipment speed percentages legitimately produce fractional entry speed.
+ // Preserve that precision until the existing final floor after level growth;
+ // HP, attack and defense still require safe integers.
+ if(Object.entries(before).some(([k,n])=>n<0||(k==='speed'?!Number.isFinite(n)||n>Number.MAX_SAFE_INTEGER:!Number.isSafeInteger(n)))||!summary?.total)fail();
  const after=Object.fromEntries(Object.entries(before).map(([k,n])=>[k,Math.floor(n*(1+summary.total[k+'Percent']/100))]));
  if(Object.values(after).some(n=>!Number.isSafeInteger(n)))fail();return {before,after};
 }
