@@ -1,0 +1,48 @@
+{
+  "at": "2026-10-30T11:39:28.605Z",
+  "pages": {
+    "id": "30e986b0-e792-4acb-b7a6-f34143dce98e",
+    "url": "https://30e986b0.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "6a6d55cdc38b33c9058b0742abdf5bfad9b08b30"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "a2124d46-7dbb-4030-8073-2c2994f978d9",
+      "percentage": 100,
+      "handlesCube": true,
+      "soldOutExclusion": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "f2b946ae-4871-49b5-a26a-c4f19ba3d71e",
+      "percentage": 100,
+      "handlesCube": false
+    }
+  ],
+  "files": [
+    {
+      "file": "sss-miracle-cube/index.html",
+      "sha256": "35a64726e78a2f75ea28621b7a4bee069142e1da45ea2b3dd354dedc5d73618e"
+    },
+    {
+      "file": "sss-miracle-cube/app.mjs",
+      "sha256": "e633f9c69662a6c31c668b7605731caaaf2943dd4cd4de37b07503bc0ec1047d"
+    },
+    {
+      "file": "shared/sss-miracle-cube-v1.mjs",
+      "sha256": "8b3bcc937b93190b2406bd22fae493efd974177a25a22cd1bfd40af14ea490fa"
+    },
+    {
+      "file": "admin/sss-miracle-cube.html",
+      "sha256": "74f60f66b230fadb69ab83b2f914fd67064c611cb34032d4310c7cb732e6fe81"
+    },
+    {
+      "file": "admin/sss-miracle-cube.mjs",
+      "sha256": "50186cc54726cae5fdddcf91f7d569b33e23de7d678b5f36fb43722e4f9b255d"
+    }
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

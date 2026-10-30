@@ -13,3 +13,5 @@
 서버 검사가 이미 통과했으므로 scoped 배포에서는 최종 HTTP 상태 경로/배송 검사와 Worker 컴파일만 실행한다. 배포 결과와 공개 파일/두 Worker 확인은 후속 completion.json에 기록한다.
 
 기존 체크아웃과 상위 node_modules 재사용, Git 자동정리 OFF. 저장공간 유지관리·삭제·예약 없음. 상세 증거: operations/sss-cube-open-investigation-20261030/.
+
+운영 반영 완료: 소스 a9b581d93 · 배포 6a6d55cdc · Pages 30e986b0. 공개 5파일 해시와 두 Worker 100% 반영, 공개 모바일 화면을 확인했다. 실제 운영 설정 r4/ON과 원래 확률은 바뀌지 않았다. 배포 후 실제 이용자가 개봉한 최근10건의 정상 완료·차감/지급 수량 일치·소진 발테르 미당첨을 READ ONLY로 확인했다.

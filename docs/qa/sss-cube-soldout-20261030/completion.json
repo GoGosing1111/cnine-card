@@ -1,0 +1,112 @@
+{
+  "at": "2026-10-30T11:40:27.903Z",
+  "status": "LIVE_VERIFIED",
+  "sourceCommit": "a9b581d93",
+  "releaseCommit": "6a6d55cdc38b33c9058b0742abdf5bfad9b08b30",
+  "pages": {
+    "id": "30e986b0-e792-4acb-b7a6-f34143dce98e",
+    "url": "https://30e986b0.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "6a6d55cdc38b33c9058b0742abdf5bfad9b08b30"
+  },
+  "authorization": "소진된 용병을 제외하고 계속 개봉",
+  "cause": {
+    "modeWas": "ON",
+    "revision": 4,
+    "closedBySoldOutCode": "V-996",
+    "soldOutAtKst": "2026-10-30 19:57:24",
+    "lastPolicyChangeKst": "2026-10-28 22:59:19",
+    "policyAuditId": "52521"
+  },
+  "behavior": {
+    "soldOutPolicy": "EXCLUDE_AND_REWEIGHT",
+    "sampling": "Exact remaining integer weights; remove exhausted outcomes before each draw",
+    "batchCounts": [
+      1,
+      10
+    ],
+    "rounding": "Display only, eight decimals",
+    "configuredPolicyUnchanged": true,
+    "stockLimitsUnchanged": true,
+    "receiptReplayPreserved": true
+  },
+  "verification": {
+    "serverTests": 23,
+    "finalStateRouteTest": 1,
+    "browserWidths": [
+      1440,
+      390
+    ],
+    "publicMobile": {
+      "at": "2026-10-30T11:38:16.464Z",
+      "width": 390,
+      "publicAssets": true,
+      "readOnlyRuntimeSnapshot": "inspection-1793359586447.json",
+      "syntheticBalance": 20,
+      "openingEnabled": true,
+      "oneAndTenEnabled": true,
+      "excluded": "V-996",
+      "omegaPercent": "40",
+      "productionWrites": 0,
+      "errors": []
+    },
+    "naturalCompletedOpens": {
+      "readOnly": true,
+      "count": 10,
+      "checkedAt": "2026-10-30T11:39:47.065Z",
+      "allAfterDeployment": true,
+      "soldOutValterAwards": 0
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "a2124d46-7dbb-4030-8073-2c2994f978d9",
+        "percentage": 100,
+        "handlesCube": true,
+        "soldOutExclusion": true
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "f2b946ae-4871-49b5-a26a-c4f19ba3d71e",
+        "percentage": 100,
+        "handlesCube": false
+      }
+    ],
+    "files": [
+      {
+        "file": "sss-miracle-cube/index.html",
+        "sha256": "35a64726e78a2f75ea28621b7a4bee069142e1da45ea2b3dd354dedc5d73618e"
+      },
+      {
+        "file": "sss-miracle-cube/app.mjs",
+        "sha256": "e633f9c69662a6c31c668b7605731caaaf2943dd4cd4de37b07503bc0ec1047d"
+      },
+      {
+        "file": "shared/sss-miracle-cube-v1.mjs",
+        "sha256": "8b3bcc937b93190b2406bd22fae493efd974177a25a22cd1bfd40af14ea490fa"
+      },
+      {
+        "file": "admin/sss-miracle-cube.html",
+        "sha256": "74f60f66b230fadb69ab83b2f914fd67064c611cb34032d4310c7cb732e6fe81"
+      },
+      {
+        "file": "admin/sss-miracle-cube.mjs",
+        "sha256": "50186cc54726cae5fdddcf91f7d569b33e23de7d678b5f36fb43722e4f9b255d"
+      }
+    ],
+    "liveReadOnly": {
+      "file": "inspection-1793360300474.json",
+      "at": "2026-10-30T11:38:20.393Z",
+      "revision": 4,
+      "mode": "ON",
+      "openingEnabled": true,
+      "excludedCodes": [
+        "V-996"
+      ]
+    }
+  },
+  "productionAccountWrites": 0,
+  "directGrants": 0,
+  "messages": 0,
+  "storageMaintenance": false
+}

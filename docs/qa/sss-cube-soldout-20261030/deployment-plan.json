@@ -1,0 +1,16 @@
+{
+  "before": {
+    "id": "dcb3de3b-d5da-4f5c-bf1a-9477bb11e6b6",
+    "url": "https://dcb3de3b.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "971cdb342c1e9cdc0711f1012f3b39ec7ac37bc4"
+  },
+  "base": "971cdb342c1e9cdc0711f1012f3b39ec7ac37bc4",
+  "reason": "SSS 미라클큐브 소진 용병만 제외하고 남은 정수 가중치 비율대로 개봉. 관련 서버23검사·PC모바일 개봉/소진/재시도 검수와 운영 READ ONLY 상태 확인 후 최종 HTTP 배송1검사·Worker컴파일만 수행.",
+  "tests": [
+    "tests/sss-cube-soldout-delivery-20261030.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

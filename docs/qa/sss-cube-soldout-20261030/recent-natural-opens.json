@@ -1,0 +1,137 @@
+{
+  "at": "2026-10-30T11:39:47.065Z",
+  "readOnly": true,
+  "lookback": "latest 10000 inventory log IDs; at most ten SSS cube rows",
+  "opens": [
+    {
+      "id": "87915063",
+      "change_amount": "-1",
+      "balance_after": "2",
+      "created_at": "2026-10-30 11:39:41",
+      "reference_id": "f9e7e8a5-ce58-4e19-8826-b76ccae6c22c",
+      "status": "COMPLETED",
+      "completed_at": "2026-10-30T11:39:41.799Z",
+      "count": 1,
+      "awards": [
+        "V-989"
+      ]
+    },
+    {
+      "id": "87915058",
+      "change_amount": "-1",
+      "balance_after": "4",
+      "created_at": "2026-10-30 11:39:40",
+      "reference_id": "1302bcc5-7a67-413a-8dd2-cefaf8ced659",
+      "status": "COMPLETED",
+      "completed_at": "2026-10-30T11:39:40.798Z",
+      "count": 1,
+      "awards": [
+        "V-046"
+      ]
+    },
+    {
+      "id": "87915013",
+      "change_amount": "-1",
+      "balance_after": "0",
+      "created_at": "2026-10-30 11:39:36",
+      "reference_id": "7e50da41-bdf0-4c54-9676-104be42a29d7",
+      "status": "COMPLETED",
+      "completed_at": "2026-10-30T11:39:36.328Z",
+      "count": 1,
+      "awards": [
+        "V-989"
+      ]
+    },
+    {
+      "id": "87914928",
+      "change_amount": "-1",
+      "balance_after": "3",
+      "created_at": "2026-10-30 11:39:27",
+      "reference_id": "f1501910-5e4c-4aae-8345-c2a11eadff3f",
+      "status": "COMPLETED",
+      "completed_at": "2026-10-30T11:39:27.652Z",
+      "count": 1,
+      "awards": [
+        "V-046"
+      ]
+    },
+    {
+      "id": "87914909",
+      "change_amount": "-1",
+      "balance_after": "1",
+      "created_at": "2026-10-30 11:39:24",
+      "reference_id": "a6a5381a-a379-45a9-9ec0-3bea9c7b8291",
+      "status": "COMPLETED",
+      "completed_at": "2026-10-30T11:39:24.218Z",
+      "count": 1,
+      "awards": [
+        "V-057"
+      ]
+    },
+    {
+      "id": "87914822",
+      "change_amount": "-1",
+      "balance_after": "2",
+      "created_at": "2026-10-30 11:39:15",
+      "reference_id": "44a552b0-9063-424c-b15a-65b4a0efbf32",
+      "status": "COMPLETED",
+      "completed_at": "2026-10-30T11:39:15.828Z",
+      "count": 1,
+      "awards": [
+        "V-049"
+      ]
+    },
+    {
+      "id": "87914716",
+      "change_amount": "-1",
+      "balance_after": "3",
+      "created_at": "2026-10-30 11:39:04",
+      "reference_id": "10fa96f5-78be-4831-b6fd-691a481195fc",
+      "status": "COMPLETED",
+      "completed_at": "2026-10-30T11:39:04.443Z",
+      "count": 1,
+      "awards": [
+        "V-049"
+      ]
+    },
+    {
+      "id": "87914711",
+      "change_amount": "-1",
+      "balance_after": "0",
+      "created_at": "2026-10-30 11:39:04",
+      "reference_id": "d03e9a11-6e72-4a29-9526-734ff24e73df",
+      "status": "COMPLETED",
+      "completed_at": "2026-10-30T11:39:03.947Z",
+      "count": 1,
+      "awards": [
+        "V-055"
+      ]
+    },
+    {
+      "id": "87914673",
+      "change_amount": "-1",
+      "balance_after": "4",
+      "created_at": "2026-10-30 11:38:58",
+      "reference_id": "f93f178c-6256-401c-b8d5-78221c0c8234",
+      "status": "COMPLETED",
+      "completed_at": "2026-10-30T11:38:58.022Z",
+      "count": 1,
+      "awards": [
+        "V-055"
+      ]
+    },
+    {
+      "id": "87914671",
+      "change_amount": "-1",
+      "balance_after": "4",
+      "created_at": "2026-10-30 11:38:57",
+      "reference_id": "bb066a87-48bd-4c36-bb2a-5668b4fac1e6",
+      "status": "COMPLETED",
+      "completed_at": "2026-10-30T11:38:57.835Z",
+      "count": 1,
+      "awards": [
+        "V-046"
+      ]
+    }
+  ]
+}
