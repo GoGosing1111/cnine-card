@@ -1,0 +1,227 @@
+[
+  {
+    "label": "final-board-PC",
+    "scrollWidth": 1440,
+    "surfaces": [
+      {
+        "brokenIcons": 0,
+        "clocks": [
+          "00:33:55",
+          "01:33:55",
+          "02:33:55"
+        ],
+        "frameHeight": 94.8000030517578,
+        "height": 82,
+        "id": "lobby-board",
+        "listScrollWidth": 1091,
+        "listWidth": 1091,
+        "scrollWidth": 1251,
+        "totalCards": 6,
+        "visibleCards": 3,
+        "width": 1251
+      }
+    ],
+    "viewport": 1440
+  },
+  {
+    "label": "final-dialog-PC",
+    "scrollWidth": 1440,
+    "surfaces": [
+      {
+        "brokenIcons": 0,
+        "clocks": [
+          "00:33:54",
+          "01:33:54",
+          "02:33:54"
+        ],
+        "frameHeight": 94.8000030517578,
+        "height": 82,
+        "id": "lobby-board",
+        "listScrollWidth": 1091,
+        "listWidth": 1091,
+        "scrollWidth": 1251,
+        "totalCards": 6,
+        "visibleCards": 3,
+        "width": 1251
+      },
+      {
+        "brokenIcons": 0,
+        "clocks": [
+          "00:33:54",
+          "01:33:54",
+          "02:33:54",
+          "03:33:54",
+          "04:33:54",
+          "05:33:54",
+          "06:33:54",
+          "07:33:54"
+        ],
+        "frameHeight": 549,
+        "height": 549,
+        "id": "liveOperationsDialog",
+        "listScrollWidth": 728,
+        "listWidth": 728,
+        "scrollWidth": 744,
+        "totalCards": 8,
+        "visibleCards": 8,
+        "width": 744
+      }
+    ],
+    "viewport": 1440
+  },
+  {
+    "label": "final-board-mobile",
+    "scrollWidth": 390,
+    "surfaces": [
+      {
+        "brokenIcons": 0,
+        "clocks": [
+          "00:34:08"
+        ],
+        "frameHeight": 122.8000030517578,
+        "height": 110,
+        "id": "lobby-board",
+        "listScrollWidth": 338,
+        "listWidth": 338,
+        "scrollWidth": 338,
+        "totalCards": 6,
+        "visibleCards": 1,
+        "width": 338
+      }
+    ],
+    "viewport": 390
+  },
+  {
+    "label": "final-dialog-mobile",
+    "scrollWidth": 390,
+    "surfaces": [
+      {
+        "brokenIcons": 0,
+        "clocks": [
+          "00:34:07"
+        ],
+        "frameHeight": 122.8000030517578,
+        "height": 110,
+        "id": "lobby-board",
+        "listScrollWidth": 338,
+        "listWidth": 338,
+        "scrollWidth": 338,
+        "totalCards": 6,
+        "visibleCards": 1,
+        "width": 338
+      },
+      {
+        "brokenIcons": 0,
+        "clocks": [
+          "00:34:07",
+          "01:34:07",
+          "02:34:07",
+          "03:34:07",
+          "04:34:07",
+          "05:34:07",
+          "06:34:07",
+          "07:34:07"
+        ],
+        "frameHeight": 675.2000122070312,
+        "height": 675.2000122070312,
+        "id": "liveOperationsDialog",
+        "listScrollWidth": 352,
+        "listWidth": 352,
+        "scrollWidth": 362,
+        "totalCards": 8,
+        "visibleCards": 8,
+        "width": 362
+      }
+    ],
+    "viewport": 390
+  },
+  {
+    "label": "final-board-small",
+    "scrollWidth": 320,
+    "surfaces": [
+      {
+        "brokenIcons": 0,
+        "clocks": [
+          "00:33:35"
+        ],
+        "frameHeight": 122.8000030517578,
+        "height": 110,
+        "id": "lobby-board",
+        "listScrollWidth": 268,
+        "listWidth": 268,
+        "scrollWidth": 268,
+        "totalCards": 6,
+        "visibleCards": 1,
+        "width": 268
+      }
+    ],
+    "viewport": 320
+  },
+  {
+    "label": "final-dialog-small",
+    "scrollWidth": 320,
+    "surfaces": [
+      {
+        "brokenIcons": 0,
+        "clocks": [
+          "00:33:34"
+        ],
+        "frameHeight": 122.8000030517578,
+        "height": 110,
+        "id": "lobby-board",
+        "listScrollWidth": 268,
+        "listWidth": 268,
+        "scrollWidth": 268,
+        "totalCards": 6,
+        "visibleCards": 1,
+        "width": 268
+      },
+      {
+        "brokenIcons": 0,
+        "clocks": [
+          "00:33:34",
+          "01:33:34",
+          "02:33:34",
+          "03:33:34",
+          "04:33:34",
+          "05:33:34",
+          "06:33:34",
+          "07:33:34"
+        ],
+        "frameHeight": 592,
+        "height": 592,
+        "id": "liveOperationsDialog",
+        "listScrollWidth": 282,
+        "listWidth": 282,
+        "scrollWidth": 292,
+        "totalCards": 8,
+        "visibleCards": 8,
+        "width": 292
+      }
+    ],
+    "viewport": 320
+  },
+  {
+    "label": "final-board-tablet",
+    "scrollWidth": 768,
+    "surfaces": [
+      {
+        "brokenIcons": 0,
+        "clocks": [
+          "00:33:33",
+          "01:33:33"
+        ],
+        "frameHeight": 94.8000030517578,
+        "height": 82,
+        "id": "lobby-board",
+        "listScrollWidth": 450,
+        "listWidth": 450,
+        "scrollWidth": 610,
+        "totalCards": 6,
+        "visibleCards": 2,
+        "width": 610
+      }
+    ],
+    "viewport": 768
+  }
+]

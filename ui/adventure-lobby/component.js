@@ -8,6 +8,9 @@
   // does not make the font available to the lobby or its native dialog slots.
   const codexFontHref="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css";
   function ensureCodexFont(){
+    if(!document.getElementById('lobby-tactical-fonts')){
+      const headings=document.createElement('link');headings.id='lobby-tactical-fonts';headings.rel='stylesheet';headings.href='https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@500;600;700;800&display=swap';document.head.append(headings);
+    }
     if([...document.querySelectorAll('link[rel="stylesheet"]')].some(link=>link.href===codexFontHref))return;
     const link=document.createElement('link');link.rel='stylesheet';link.href=codexFontHref;link.dataset.lobbyFont='pretendard';document.head.append(link);
   }
@@ -59,6 +62,7 @@
       this.layoutObserver=new ResizeObserver(()=>this.measureChrome());
       for(const el of root.querySelectorAll('.topbar,.sidebar,.mobile-dock'))this.layoutObserver.observe(el);
       this.measureChrome();
+      global.SoopLobbyOperations?.refresh();
     }
     measureChrome(){
       const frame=this.parentElement;if(!frame)return;

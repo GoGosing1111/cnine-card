@@ -1,0 +1,853 @@
+{
+  "version": "20261030-flat2",
+  "status": "LOCAL_REVIEW",
+  "generator": "built-in image_gen",
+  "sourceAtlas": {
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true,
+    "sha256": "e6bca4d04c79588522e81d3e0d36e8cae4da0516160683892a1d72b8907b4548"
+  },
+  "panel": {
+    "file": "/assets/ui/tactical-20261030/panel-flat.webp",
+    "source": "panel-v2-flat.png",
+    "sourceSha256": "8233754e73a5262d4ccad884a105e8cd3e431b123ce76bed2134d319f1a585a9",
+    "slice": 48,
+    "width": 512
+  },
+  "icons": [
+    {
+      "id": "home",
+      "file": "/assets/ui/tactical-20261030/home.webp",
+      "cell": {
+        "row": 0,
+        "col": 0,
+        "left": 0,
+        "top": 0,
+        "width": 167,
+        "height": 175
+      },
+      "sha256": "d417324b080ee5b764703235e5c98b4aa8cb98b8ba358c50c569e1f1c2b1ade3"
+    },
+    {
+      "id": "dex",
+      "file": "/assets/ui/tactical-20261030/dex.webp",
+      "cell": {
+        "row": 0,
+        "col": 1,
+        "left": 167,
+        "top": 0,
+        "width": 150,
+        "height": 175
+      },
+      "sha256": "db091ae566cbbb4ce4cb5bdd39d3cbaf75335d602267b31e9d6877874d410a19"
+    },
+    {
+      "id": "cards",
+      "file": "/assets/ui/tactical-20261030/cards.webp",
+      "cell": {
+        "row": 0,
+        "col": 2,
+        "left": 317,
+        "top": 0,
+        "width": 157,
+        "height": 175
+      },
+      "sha256": "1497f7c668fbeb544e6d5d24e89bfd77f70dff6d3df6144eb04b38bf47e307f8"
+    },
+    {
+      "id": "mercenaryDex",
+      "file": "/assets/ui/tactical-20261030/mercenaryDex.webp",
+      "cell": {
+        "row": 0,
+        "col": 3,
+        "left": 474,
+        "top": 0,
+        "width": 158,
+        "height": 175
+      },
+      "sha256": "7ec71acd935238f452fd6ae548a67bf6d3757e15352ce2a4df4596da33935fd5"
+    },
+    {
+      "id": "petDex",
+      "file": "/assets/ui/tactical-20261030/petDex.webp",
+      "cell": {
+        "row": 0,
+        "col": 4,
+        "left": 632,
+        "top": 0,
+        "width": 158,
+        "height": 175
+      },
+      "sha256": "f2151213ab5299d869913e686aa5c74236d025a366e86f85e298fb5dd75ba3db"
+    },
+    {
+      "id": "upgrade",
+      "file": "/assets/ui/tactical-20261030/upgrade.webp",
+      "cell": {
+        "row": 0,
+        "col": 5,
+        "left": 790,
+        "top": 0,
+        "width": 157,
+        "height": 175
+      },
+      "sha256": "d7b1eebe10e407b2d9db02de15d0670b317d7928560d3a3299743e9e09dc33ae"
+    },
+    {
+      "id": "evolution",
+      "file": "/assets/ui/tactical-20261030/evolution.webp",
+      "cell": {
+        "row": 0,
+        "col": 6,
+        "left": 947,
+        "top": 0,
+        "width": 156,
+        "height": 175
+      },
+      "sha256": "194513a9d0b045b7689f6019da39073570a42e9ebf50b3ca80427107f1a309d1"
+    },
+    {
+      "id": "iconfusion",
+      "file": "/assets/ui/tactical-20261030/iconfusion.webp",
+      "cell": {
+        "row": 0,
+        "col": 7,
+        "left": 1103,
+        "top": 0,
+        "width": 151,
+        "height": 175
+      },
+      "sha256": "75c40b26401dbfa7c7e74cc72bcaa965d7f6035fc8e944abc439fa2cab50e516"
+    },
+    {
+      "id": "magic",
+      "file": "/assets/ui/tactical-20261030/magic.webp",
+      "cell": {
+        "row": 1,
+        "col": 0,
+        "left": 0,
+        "top": 175,
+        "width": 167,
+        "height": 150
+      },
+      "sha256": "cf43e48867d465c06dbbb57e2f426fa0e153d4d3bef92e1bdf037f732c5f0be2"
+    },
+    {
+      "id": "battle",
+      "file": "/assets/ui/tactical-20261030/battle.webp",
+      "cell": {
+        "row": 1,
+        "col": 1,
+        "left": 167,
+        "top": 175,
+        "width": 150,
+        "height": 150
+      },
+      "sha256": "7f7ea28faefd51bcc874dfdf26c630e352648c713efdbad1bdecbb9371b25e99"
+    },
+    {
+      "id": "deck",
+      "file": "/assets/ui/tactical-20261030/deck.webp",
+      "cell": {
+        "row": 1,
+        "col": 2,
+        "left": 317,
+        "top": 175,
+        "width": 157,
+        "height": 150
+      },
+      "sha256": "93f6a46232d2be242fdbcec514c36a9331502c0b1f52d58c2f356dfad73a0415"
+    },
+    {
+      "id": "hunt",
+      "file": "/assets/ui/tactical-20261030/hunt.webp",
+      "cell": {
+        "row": 1,
+        "col": 3,
+        "left": 474,
+        "top": 175,
+        "width": 158,
+        "height": 150
+      },
+      "sha256": "753a90bbe24588643ae3855c9f7bd070f438f27eb2a8fd3e282f4615656119d2"
+    },
+    {
+      "id": "raid",
+      "file": "/assets/ui/tactical-20261030/raid.webp",
+      "cell": {
+        "row": 1,
+        "col": 4,
+        "left": 632,
+        "top": 175,
+        "width": 158,
+        "height": 150
+      },
+      "sha256": "ab453e5b96465b332622b855014953d8a2ebc75106d7ad787a3b382d3499fc32"
+    },
+    {
+      "id": "coop",
+      "file": "/assets/ui/tactical-20261030/coop.webp",
+      "cell": {
+        "row": 1,
+        "col": 5,
+        "left": 790,
+        "top": 175,
+        "width": 157,
+        "height": 150
+      },
+      "sha256": "4756c3a81eb362fbaf96fab10ba120d8b2486c77abf1ee08e0c01d8e90d14eba"
+    },
+    {
+      "id": "escort",
+      "file": "/assets/ui/tactical-20261030/escort.webp",
+      "cell": {
+        "row": 1,
+        "col": 6,
+        "left": 947,
+        "top": 175,
+        "width": 156,
+        "height": 150
+      },
+      "sha256": "678a01cb98ee7ab7d994a9da4402aa93d6c4edab6a73fd05052366309b05fb9f"
+    },
+    {
+      "id": "defense",
+      "file": "/assets/ui/tactical-20261030/defense.webp",
+      "cell": {
+        "row": 1,
+        "col": 7,
+        "left": 1103,
+        "top": 175,
+        "width": 151,
+        "height": 150
+      },
+      "sha256": "cdd7ded7b72b23bdae6668071806285d0a9cfaaafb637e0ecc156f4aaf1a8db7"
+    },
+    {
+      "id": "seal",
+      "file": "/assets/ui/tactical-20261030/seal.webp",
+      "cell": {
+        "row": 2,
+        "col": 0,
+        "left": 0,
+        "top": 325,
+        "width": 167,
+        "height": 155
+      },
+      "sha256": "829ca4b7a1865223ebdc3ab293c5ee800a5f663c65804bef0add342fa97eba3f"
+    },
+    {
+      "id": "legion",
+      "file": "/assets/ui/tactical-20261030/legion.webp",
+      "cell": {
+        "row": 2,
+        "col": 1,
+        "left": 167,
+        "top": 325,
+        "width": 150,
+        "height": 155
+      },
+      "sha256": "2713b87312b46bd4153134cbff054dfbcfbd64d7017729cc001703fa1683f8ea"
+    },
+    {
+      "id": "tower",
+      "file": "/assets/ui/tactical-20261030/tower.webp",
+      "cell": {
+        "row": 2,
+        "col": 2,
+        "left": 317,
+        "top": 325,
+        "width": 157,
+        "height": 155
+      },
+      "sha256": "40d4eb1a776b033e63e4ec580364577e1b3974f8e5b425a8b59416e99bceb148"
+    },
+    {
+      "id": "scrapyard",
+      "file": "/assets/ui/tactical-20261030/scrapyard.webp",
+      "cell": {
+        "row": 2,
+        "col": 3,
+        "left": 474,
+        "top": 325,
+        "width": 158,
+        "height": 155
+      },
+      "sha256": "277252bcb19e9adeb16bf49ee7a508c6a0987cc6d119d2687243d359292f8615"
+    },
+    {
+      "id": "masterStarMine",
+      "file": "/assets/ui/tactical-20261030/masterStarMine.webp",
+      "cell": {
+        "row": 2,
+        "col": 4,
+        "left": 632,
+        "top": 325,
+        "width": 158,
+        "height": 155
+      },
+      "sha256": "b3dea506e3673d7d7e41a59ecfec5db081d7f17fb6abcb45814d67212e0b6ea2"
+    },
+    {
+      "id": "pvp",
+      "file": "/assets/ui/tactical-20261030/pvp.webp",
+      "cell": {
+        "row": 2,
+        "col": 5,
+        "left": 790,
+        "top": 325,
+        "width": 157,
+        "height": 155
+      },
+      "sha256": "8bfac141b8e0d31c8de00f06525d24608e9dc819f33bf451a988010936ec0487"
+    },
+    {
+      "id": "duo",
+      "file": "/assets/ui/tactical-20261030/duo.webp",
+      "cell": {
+        "row": 2,
+        "col": 6,
+        "left": 947,
+        "top": 325,
+        "width": 156,
+        "height": 155
+      },
+      "sha256": "ee2c2fc13c9c25bb87cc55122d29f3118feeec0b6ac83326e2c0e87131923296"
+    },
+    {
+      "id": "classicColosseum",
+      "file": "/assets/ui/tactical-20261030/classicColosseum.webp",
+      "cell": {
+        "row": 2,
+        "col": 7,
+        "left": 1103,
+        "top": 325,
+        "width": 151,
+        "height": 155
+      },
+      "sha256": "1d2c739638d9e45834883c89dbab42e5924ff9793d4b2e32e4a98abb9b0ce83a"
+    },
+    {
+      "id": "jokgakCity",
+      "file": "/assets/ui/tactical-20261030/jokgakCity.webp",
+      "cell": {
+        "row": 3,
+        "col": 0,
+        "left": 0,
+        "top": 480,
+        "width": 167,
+        "height": 158
+      },
+      "sha256": "8309900c6de4e085c1ef0e2ed8f85331642a5a216e888d4b92f606f7990f7302"
+    },
+    {
+      "id": "rank",
+      "file": "/assets/ui/tactical-20261030/rank.webp",
+      "cell": {
+        "row": 3,
+        "col": 1,
+        "left": 167,
+        "top": 480,
+        "width": 150,
+        "height": 158
+      },
+      "sha256": "d2d90c1e9c06731591a78f2bf7f08089ed2a63e4dc6ece92ae8457c604c83720"
+    },
+    {
+      "id": "clan",
+      "file": "/assets/ui/tactical-20261030/clan.webp",
+      "cell": {
+        "row": 3,
+        "col": 2,
+        "left": 317,
+        "top": 480,
+        "width": 157,
+        "height": 158
+      },
+      "sha256": "a633d4b84b342a336f6d81b1a6ece7a8cf85bd5d96c5bc479a2accbe606d2a59"
+    },
+    {
+      "id": "clanWar",
+      "file": "/assets/ui/tactical-20261030/clanWar.webp",
+      "cell": {
+        "row": 3,
+        "col": 3,
+        "left": 474,
+        "top": 480,
+        "width": 158,
+        "height": 158
+      },
+      "sha256": "cb94c971a9a73cf1c8caca4cb0e068adb441fbde24f8c5c7f815dcd09648c9ef"
+    },
+    {
+      "id": "clanFaction",
+      "file": "/assets/ui/tactical-20261030/clanFaction.webp",
+      "cell": {
+        "row": 3,
+        "col": 4,
+        "left": 632,
+        "top": 480,
+        "width": 158,
+        "height": 158
+      },
+      "sha256": "afc450024ff3292ff0e1e25e2a4c28fd6e3dd9a1910748a4096c3e9f2a76c307"
+    },
+    {
+      "id": "coup",
+      "file": "/assets/ui/tactical-20261030/coup.webp",
+      "cell": {
+        "row": 3,
+        "col": 5,
+        "left": 790,
+        "top": 480,
+        "width": 157,
+        "height": 158
+      },
+      "sha256": "b27e6782a936a349d11f032c4ee4b8658a4da2bacd951f3b6777c40635d14fe2"
+    },
+    {
+      "id": "territory",
+      "file": "/assets/ui/tactical-20261030/territory.webp",
+      "cell": {
+        "row": 3,
+        "col": 6,
+        "left": 947,
+        "top": 480,
+        "width": 156,
+        "height": 158
+      },
+      "sha256": "4d08f9b9019ffb569ed0826a6a03f9ba75581f490e2a492bb147389e0d2c78e6"
+    },
+    {
+      "id": "equipment",
+      "file": "/assets/ui/tactical-20261030/equipment.webp",
+      "cell": {
+        "row": 3,
+        "col": 7,
+        "left": 1103,
+        "top": 480,
+        "width": 151,
+        "height": 158
+      },
+      "sha256": "8341d496feddb945e33e8d365b98eaa6b3c4a2320b276cebd5396316dd1d0023"
+    },
+    {
+      "id": "title",
+      "file": "/assets/ui/tactical-20261030/title.webp",
+      "cell": {
+        "row": 4,
+        "col": 0,
+        "left": 0,
+        "top": 638,
+        "width": 167,
+        "height": 162
+      },
+      "sha256": "32b5a67c081edc3b53441f6f2dd4efd821039b54a71933ea2b6b01d8a4ba3750"
+    },
+    {
+      "id": "garage",
+      "file": "/assets/ui/tactical-20261030/garage.webp",
+      "cell": {
+        "row": 4,
+        "col": 1,
+        "left": 167,
+        "top": 638,
+        "width": 150,
+        "height": 162
+      },
+      "sha256": "3e57fdd4c99ccfb8e7b03f69ea4b003864f197143bbdbc421e336c3009ed9b4d"
+    },
+    {
+      "id": "avatar",
+      "file": "/assets/ui/tactical-20261030/avatar.webp",
+      "cell": {
+        "row": 4,
+        "col": 2,
+        "left": 317,
+        "top": 638,
+        "width": 157,
+        "height": 162
+      },
+      "sha256": "3c71b72903a33c6d1ceb002b0e01b06216d7a52f5ba3bb25542dd471a9444470"
+    },
+    {
+      "id": "fusion",
+      "file": "/assets/ui/tactical-20261030/fusion.webp",
+      "cell": {
+        "row": 4,
+        "col": 3,
+        "left": 474,
+        "top": 638,
+        "width": 158,
+        "height": 162
+      },
+      "sha256": "53128f65c70cb73c02fe4fe34573ef5180f140ed92d8d39191d094e5bbf1184f"
+    },
+    {
+      "id": "vehicle",
+      "file": "/assets/ui/tactical-20261030/vehicle.webp",
+      "cell": {
+        "row": 4,
+        "col": 4,
+        "left": 632,
+        "top": 638,
+        "width": 158,
+        "height": 162
+      },
+      "sha256": "d64e61e67b9c3140917d31c891fe62c4c051ee4a19f609de9159149d3e05d3b0"
+    },
+    {
+      "id": "alchemy",
+      "file": "/assets/ui/tactical-20261030/alchemy.webp",
+      "cell": {
+        "row": 4,
+        "col": 5,
+        "left": 790,
+        "top": 638,
+        "width": 157,
+        "height": 162
+      },
+      "sha256": "be13a6496708c28c3c75e52ac6903e3996cf079cd2ff2f1a3155c7aa9cff785e"
+    },
+    {
+      "id": "gift",
+      "file": "/assets/ui/tactical-20261030/gift.webp",
+      "cell": {
+        "row": 4,
+        "col": 6,
+        "left": 947,
+        "top": 638,
+        "width": 156,
+        "height": 162
+      },
+      "sha256": "92c74f7f40aa279bbb32a9d92bfad8384b9b4d64eef2c9b608a888f4cef78abd"
+    },
+    {
+      "id": "attendance",
+      "file": "/assets/ui/tactical-20261030/attendance.webp",
+      "cell": {
+        "row": 4,
+        "col": 7,
+        "left": 1103,
+        "top": 638,
+        "width": 151,
+        "height": 162
+      },
+      "sha256": "6ba637307ab7ac73985ee3ad0240aa313d62cbaae9f1ea63fba3bea6d6da07a9"
+    },
+    {
+      "id": "dailyquest",
+      "file": "/assets/ui/tactical-20261030/dailyquest.webp",
+      "cell": {
+        "row": 5,
+        "col": 0,
+        "left": 0,
+        "top": 800,
+        "width": 167,
+        "height": 150
+      },
+      "sha256": "55420283b9fc91eb84d1f008aa4cf449278f7de675fa0b4d88ae4d57c2b1b0f1"
+    },
+    {
+      "id": "messages",
+      "file": "/assets/ui/tactical-20261030/messages.webp",
+      "cell": {
+        "row": 5,
+        "col": 1,
+        "left": 167,
+        "top": 800,
+        "width": 150,
+        "height": 150
+      },
+      "sha256": "52791b96ae5e045f12a583d733ed4709a0cf97e741acb1a7e4f9ed633a948676"
+    },
+    {
+      "id": "mineral",
+      "file": "/assets/ui/tactical-20261030/mineral.webp",
+      "cell": {
+        "row": 5,
+        "col": 2,
+        "left": 317,
+        "top": 800,
+        "width": 157,
+        "height": 150
+      },
+      "sha256": "287ffcc66ec9af0c139c26f3da1c020653816ab174c6f37e2047dbeff1284a8f"
+    },
+    {
+      "id": "prediction",
+      "file": "/assets/ui/tactical-20261030/prediction.webp",
+      "cell": {
+        "row": 5,
+        "col": 3,
+        "left": 474,
+        "top": 800,
+        "width": 158,
+        "height": 150
+      },
+      "sha256": "a27d51d1b7a85bf594dac2c7987d923f2fa96b6424f5a516946949d6c2dbed06"
+    },
+    {
+      "id": "auction",
+      "file": "/assets/ui/tactical-20261030/auction.webp",
+      "cell": {
+        "row": 5,
+        "col": 4,
+        "left": 632,
+        "top": 800,
+        "width": 158,
+        "height": 150
+      },
+      "sha256": "34191789fc5dd05661ca29f5f5815d0b2702659aaae0f2ddbbde6c7b63e57a46"
+    },
+    {
+      "id": "inventory",
+      "file": "/assets/ui/tactical-20261030/inventory.webp",
+      "cell": {
+        "row": 5,
+        "col": 5,
+        "left": 790,
+        "top": 800,
+        "width": 157,
+        "height": 150
+      },
+      "sha256": "eb3d28bb1970e88c5deb29224fe3b7f97f3d366da6ab3cdae570b72a09a7c848"
+    },
+    {
+      "id": "soopketland",
+      "file": "/assets/ui/tactical-20261030/soopketland.webp",
+      "cell": {
+        "row": 5,
+        "col": 6,
+        "left": 947,
+        "top": 800,
+        "width": 156,
+        "height": 150
+      },
+      "sha256": "45b84510dafa8d6a953b4b14dfd806fea6f86d59df8060ea6b85a06def405a75"
+    },
+    {
+      "id": "prison",
+      "file": "/assets/ui/tactical-20261030/prison.webp",
+      "cell": {
+        "row": 5,
+        "col": 7,
+        "left": 1103,
+        "top": 800,
+        "width": 151,
+        "height": 150
+      },
+      "sha256": "39b62914193f751a958506ba698c6c61fb095094421c63cd44646bead79f2542"
+    },
+    {
+      "id": "prisoncamp",
+      "file": "/assets/ui/tactical-20261030/prisoncamp.webp",
+      "cell": {
+        "row": 6,
+        "col": 0,
+        "left": 0,
+        "top": 950,
+        "width": 167,
+        "height": 151
+      },
+      "sha256": "2fe0a1fd61fca92019f22177847b5973c37f7bf1e0a0ec0be6cd6305dea8d21f"
+    },
+    {
+      "id": "administration",
+      "file": "/assets/ui/tactical-20261030/administration.webp",
+      "cell": {
+        "row": 6,
+        "col": 1,
+        "left": 167,
+        "top": 950,
+        "width": 150,
+        "height": 151
+      },
+      "sha256": "8fa4e88d0157f1b7d37d9c0e91e2ab4cdc5020b31457baccd618f9238175481e"
+    },
+    {
+      "id": "world",
+      "file": "/assets/ui/tactical-20261030/world.webp",
+      "cell": {
+        "row": 6,
+        "col": 2,
+        "left": 317,
+        "top": 950,
+        "width": 157,
+        "height": 151
+      },
+      "sha256": "28fb385f9e400235f94378a91b2d68904ee708805d965693e874285009fc7c4c"
+    },
+    {
+      "id": "favorites",
+      "file": "/assets/ui/tactical-20261030/favorites.webp",
+      "cell": {
+        "row": 6,
+        "col": 3,
+        "left": 474,
+        "top": 950,
+        "width": 158,
+        "height": 151
+      },
+      "sha256": "a87f94c87d986a579dbb480bcb4e897a81a8e105fa6f142d19536da85d7a4370"
+    },
+    {
+      "id": "eye",
+      "file": "/assets/ui/tactical-20261030/eye.webp",
+      "cell": {
+        "row": 6,
+        "col": 4,
+        "left": 632,
+        "top": 950,
+        "width": 158,
+        "height": 151
+      },
+      "sha256": "fe8c58f65d539e8c95fa1c18f953ff30e3eba51b8a4cf26cbd001a8e9eb76ff3"
+    },
+    {
+      "id": "search",
+      "file": "/assets/ui/tactical-20261030/search.webp",
+      "cell": {
+        "row": 6,
+        "col": 5,
+        "left": 790,
+        "top": 950,
+        "width": 157,
+        "height": 151
+      },
+      "sha256": "809f6804d9c3273447d2417143c366a55ca2e52ac3c25869046d488cb850b9b9"
+    },
+    {
+      "id": "mercenaryEquipment",
+      "file": "/assets/ui/tactical-20261030/mercenaryEquipment.webp",
+      "cell": {
+        "row": 6,
+        "col": 6,
+        "left": 947,
+        "top": 950,
+        "width": 156,
+        "height": 151
+      },
+      "sha256": "30a9ddd9a8ad72a3c94ff54bb323345230f4d12443a13cb453d531f12610c1b6"
+    },
+    {
+      "id": "equipmentForge",
+      "file": "/assets/ui/tactical-20261030/equipmentForge.webp",
+      "cell": {
+        "row": 6,
+        "col": 7,
+        "left": 1103,
+        "top": 950,
+        "width": 151,
+        "height": 151
+      },
+      "sha256": "bbbc121ee4f802270c43ff9fe9f932c8936758ecce69205dca65b1a2ae88fa39"
+    },
+    {
+      "id": "buy",
+      "file": "/assets/ui/tactical-20261030/buy.webp",
+      "cell": {
+        "row": 7,
+        "col": 0,
+        "left": 0,
+        "top": 1101,
+        "width": 167,
+        "height": 153
+      },
+      "sha256": "45f707282767c62e66f54fb4266f38e12e393b1e2a1940045f75a5814d5d8225"
+    },
+    {
+      "id": "lootShop",
+      "file": "/assets/ui/tactical-20261030/lootShop.webp",
+      "cell": {
+        "row": 7,
+        "col": 1,
+        "left": 167,
+        "top": 1101,
+        "width": 150,
+        "height": 153
+      },
+      "sha256": "a999fdcbccb17aa1cac892a88698faeac59c201d854d678df1a36eea88540a2e"
+    },
+    {
+      "id": "seasonPass",
+      "file": "/assets/ui/tactical-20261030/seasonPass.webp",
+      "cell": {
+        "row": 7,
+        "col": 2,
+        "left": 317,
+        "top": 1101,
+        "width": 157,
+        "height": 153
+      },
+      "sha256": "f13fb311dc6fcf40ef8ba21d0d547f6dcbb0d7d1811dbce5a948c5aa55c227bd"
+    },
+    {
+      "id": "grid",
+      "file": "/assets/ui/tactical-20261030/grid.webp",
+      "cell": {
+        "row": 7,
+        "col": 3,
+        "left": 474,
+        "top": 1101,
+        "width": 158,
+        "height": 153
+      },
+      "sha256": "14b46f543165fce36bfb5a1b274ccf3c0032643f89cbee4e5b273dfbbef864f4"
+    },
+    {
+      "id": "settings",
+      "file": "/assets/ui/tactical-20261030/settings.webp",
+      "cell": {
+        "row": 7,
+        "col": 4,
+        "left": 632,
+        "top": 1101,
+        "width": 158,
+        "height": 153
+      },
+      "sha256": "c2e71dccdc2d4bfa9ed4c5cfc2c251c2f51f1350027c6b57c856f97e8c745417"
+    },
+    {
+      "id": "fullscreen",
+      "file": "/assets/ui/tactical-20261030/fullscreen.webp",
+      "cell": {
+        "row": 7,
+        "col": 5,
+        "left": 790,
+        "top": 1101,
+        "width": 157,
+        "height": 153
+      },
+      "sha256": "67309b1c024eb53ff033cf8463e8ccecbb91f989bbabe67095b98bf0f8c54ac2"
+    },
+    {
+      "id": "chicken",
+      "file": "/assets/ui/tactical-20261030/chicken.webp",
+      "cell": {
+        "row": 7,
+        "col": 6,
+        "left": 947,
+        "top": 1101,
+        "width": 156,
+        "height": 153
+      },
+      "sha256": "4a7d47958eba8ce303b49f555d99b8770bec3b046ce674e04de710fb0c4f0587"
+    },
+    {
+      "id": "goldenAxe",
+      "file": "/assets/ui/tactical-20261030/goldenAxe.webp",
+      "cell": {
+        "row": 7,
+        "col": 7,
+        "left": 1103,
+        "top": 1101,
+        "width": 151,
+        "height": 153
+      },
+      "sha256": "c06570f4315f68eb52dbd68fed69e2099aa1d63d9617a5c0bee1562ee3cefc60"
+    }
+  ],
+  "iconPolicy": "Preserve navigation-atlas-v2 and all 64 existing icon images per user correction."
+}

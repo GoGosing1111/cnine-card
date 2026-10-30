@@ -1615,6 +1615,7 @@ function openLiveOperationsDialog(opener){
   const dialog=document.createElement('dialog');
   dialog.id='liveOperationsDialog';
   dialog.className='live-operations-dialog';
+  if(opener?.closest('[data-live-operations-surface="lobby-clarity"]'))dialog.dataset.tacticalOperations='';
   dialog.setAttribute('aria-labelledby','liveOperationsDialogTitle');
   dialog.setAttribute('aria-describedby','liveOperationsDialogDescription');
   dialog.innerHTML='<header><div><h2 id="liveOperationsDialogTitle">콘텐츠 현황</h2><p id="liveOperationsDialogDescription">진행 중인 콘텐츠를 선택하면 바로 이동합니다.</p></div><button type="button" data-live-operations-close aria-label="콘텐츠 현황 닫기" autofocus>닫기 <span aria-hidden="true">×</span></button></header><div class="live-operations-dialog-meta"><span data-live-operations-count>확인 중</span><small>실시간 진행 상황 · KST</small></div><div class="live-operations-list" data-live-operations-list="all"></div>';
@@ -1667,6 +1668,7 @@ function renderLiveOperations(payload=null){
   });
   document.querySelectorAll('[data-live-operations-count]').forEach(node=>{node.textContent=count?`${count}건 진행`:liveOperationsFailed?'갱신 대기':!liveOperationsReady?'확인 중':'대기 중'});
   document.querySelectorAll('[data-live-operation-kind]').forEach(button=>{button.onclick=()=>openLiveOperation(button.dataset.liveOperationKind)});
+  window.SoopLobbyOperations?.refresh();
   updateLiveOperationClocks();if(!liveOperationsClockTimer)liveOperationsClockTimer=setInterval(updateLiveOperationClocks,1000);
 }
 function scheduleLiveOperationsRefresh(seconds=30){if(liveOperationsRefreshTimer)clearTimeout(liveOperationsRefreshTimer);liveOperationsRefreshTimer=setTimeout(()=>{liveOperationsRefreshTimer=0;if(document.querySelector('[data-live-operations-list]'))loadLiveOperations(true)},Math.max(15,Number(seconds)||30)*1000)}

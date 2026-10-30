@@ -1,0 +1,36 @@
+{
+  "base": "834d3f2c9ef6876d6da7cdadfcf28cd05409e935",
+  "deferredInteriorCommit": "9785fcaed9b4908c2bed4dc6591b8cda03ac69d5",
+  "cacheOnlyFiles": [
+    "index.html",
+    "world/index.html",
+    "loot-shop/index.html",
+    "miracle-cube/index.html",
+    "sss-miracle-cube/index.html",
+    "master-star-mine/index.html",
+    "equipment-forge/index.html",
+    "pets/index.html",
+    "events/chicken/index.html",
+    "mercenary-codex/index.html",
+    "events/golden-axe/index.html",
+    "mercenary-codex/leveling/index.html",
+    "pet-codex/app.mjs",
+    "js/pet-opening-v1.mjs",
+    "mercenary-codex/shell.mjs"
+  ],
+  "unchangedNativeRuntime": [
+    "js/pve-command-v2-live.js",
+    "js/soopketmon-v21-command-icons.js",
+    "js/soopketmon-v21-exact-shell-adapter.js",
+    "js/jokgak-city-v1.js"
+  ],
+  "appPresentationOnly": [
+    "  if(opener?.closest('[data-live-operations-surface=\"lobby-clarity\"]'))dialog.dataset.tacticalOperations='';\n",
+    "  window.SoopLobbyOperations?.refresh();\n"
+  ],
+  "nativeCssChanges": [],
+  "serverChanges": [],
+  "globalInteriorThemeAbsent": true,
+  "changeSummary": "Lobby, shared sidebar, all-menu directory, 64 raster icons and lobby operation status board/detail window",
+  "result": "PASS"
+}

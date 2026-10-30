@@ -12,7 +12,7 @@
         <button type="button" data-route="lootShop" title="피그 코인"><img class="currency-art" src="/assets/items/pig-coin-v1.png" alt="" width="32" height="32"><span><small>피그 코인</small><b data-pig-coin-balance>—</b></span></button>
         <span hidden><b id="wallet-shards">—</b></span>
       </div>
-      <div class="utilities"><button class="icon-button" data-route="messages" aria-label="메시지함"><span data-icon="messages"></span><i id="inbox-count" class="notification" hidden></i></button><button class="icon-button" id="start-tutorial" aria-label="초보유저 성장팁">?</button></div>
+      <div class="utilities"><button class="icon-button" data-route="messages" aria-label="메시지함"><span data-icon="messages"></span><i id="inbox-count" class="notification" hidden></i></button><button class="icon-button" id="start-tutorial" aria-label="초보유저 성장팁"><span data-icon="book"></span></button></div>
     </header>
     <aside class="rail sidebar" aria-label="주요 메뉴">
       <button class="rail-item side-link" data-home aria-current="page"><span data-icon="home"></span><b>로비</b></button>
@@ -28,23 +28,27 @@
     <main class="stage" id="main" tabindex="-1">
       <div class="location"><span class="eyebrow"><i></i> REVERSE CALL · LOBBY</span><h1 class="sr-only">리버스콜 로비</h1></div>
       <section class="avatar-caption" aria-label="로비 아바타"><div class="caption-line"></div><span class="eyebrow">LOBBY AVATAR</span><h2 id="hero-name">로비 아바타</h2><button class="text-button" id="change-avatar" data-route="avatar">아바타 변경</button></section>
-      <div class="scene-header"><slot name="bgm"></slot><slot name="cnine-roster"></slot></div><div class="scene-controls"><button class="icon-button" id="hide-ui" aria-label="배경 감상 모드" aria-pressed="false"><span data-icon="eye"></span></button><button class="icon-button" id="fullscreen-button" aria-label="전체화면">⛶</button>    <button type="button" class="chief-compact queen-royal-plaque" id="chief-shortcut" data-chief-state="loading">
+      <div class="scene-header"><slot name="bgm"></slot><slot name="cnine-roster"></slot></div><div class="scene-controls"><button class="icon-button" id="hide-ui" aria-label="배경 감상 모드" aria-pressed="false"><span data-icon="eye"></span></button><button class="icon-button" id="fullscreen-button" aria-label="전체화면"><span data-icon="fullscreen"></span></button>    <button type="button" class="chief-compact queen-royal-plaque" id="chief-shortcut" data-chief-state="loading">
       <span class="queen-plaque-crown" aria-hidden="true"><img src="/assets/ui/chief/queen-crown-v1.svg" width="28" height="32" alt=""></span>
       <span class="queen-plaque-copy"><span class="queen-plaque-identity"><strong class="queen-plaque-title">여왕</strong><b id="chief-name">확인 중</b></span><span class="queen-plaque-meta"><span id="chief-ordinal" hidden></span><span class="queen-plaque-term"><span id="chief-term-label" hidden>재위 </span><span id="chief-term">집권 정보를 불러옵니다</span></span></span></span>
       <i class="queen-plaque-arrow" aria-hidden="true"></i>
     </button></div>
       <section class="command" aria-label="출전 및 편성">
-        <div class="command-heading"><span class="eyebrow">YOUR NEXT MOVE</span><span class="status-dot"></span></div>
-        <div class="mode-tabs" role="tablist" aria-label="출전 종류"><button id="mode-pve" role="tab" aria-selected="true" aria-controls="departure" data-mode="pve">모험 <small>PVE</small></button><button id="mode-pvp" role="tab" aria-selected="false" aria-controls="departure" data-mode="pvp" tabindex="-1">대전 <small>PVP</small></button></div>
-        <div id="departure" role="tabpanel" aria-labelledby="mode-pve" tabindex="-1"><button class="depart" id="depart-button" data-category="pve"><span><small id="depart-kicker">EXPEDITION / PVE</small><strong id="depart-title">모험 출전</strong><em id="depart-description">토벌 · 레이드 · 원정</em></span><span class="depart-watermark" aria-hidden="true">PVE</span></button></div>
+        <div class="command-navigation">
+          <div class="mode-tabs" role="tablist" aria-label="출전 종류"><button id="mode-pve" role="tab" aria-selected="true" aria-controls="departure" data-mode="pve"><span data-icon="battle"></span><b>모험 <small>PVE</small></b></button><button id="mode-pvp" role="tab" aria-selected="false" aria-controls="departure" data-mode="pvp" tabindex="-1"><span data-icon="pvp"></span><b>대전 <small>PVP</small></b></button></div>
+          <button class="command-deck" data-route="deck"><span data-icon="deck"></span><b>덱 편성</b></button>
+        </div>
+        <div class="command-section-label"><small>PREPARATION</small><b>전투 준비</b></div>
         <div class="quick-actions">
-          <button class="metal-button" data-route="deck"><span data-icon="deck"></span><span><b>편성</b><small>DECK</small></span></button>
+          <button class="metal-button" data-category="cards"><span data-icon="mercenaryDex"></span><span><b>카드·용병</b><small>COLLECTION</small></span></button>
           <button class="metal-button" data-category="equipment"><span data-icon="equipmentForge"></span><span><b>성장</b><small>UPGRADE</small></span></button>
           <button class="metal-button" data-route="fusion"><span data-icon="fusion"></span><span><b>제작소</b><small>WORKSHOP</small></span></button>
           <button class="metal-button" data-category="administration"><span data-icon="administration"></span><span><b>행정부</b><small>ADMINISTRATION</small></span></button>
         </div>
-        <button class="event-banner" data-route="raid"><img src="/assets/raids/blackwing-20261024/boss-art.webp" alt=""><span class="event-overlay"></span><span class="event-copy"><span class="event-tag">협동 레이드</span><b>월드 레이드</b><small>함께 도전하는 거대 보스</small></span></button>
-        <div class="event-pagination" aria-label="콘텐츠 소개"><i></i><span>01 / 01</span><span>CONTENT SPOTLIGHT</span></div>
+        <div class="command-section-label"><small>LIVE OPERATION</small><b>협동 작전</b></div>
+        <button class="event-banner" data-route="raid"><span data-icon="raid"></span><span class="event-copy"><span class="event-tag">WORLD RAID</span><b>월드 레이드</b><small>함께 도전하는 거대 보스</small></span></button>
+        <div id="departure" role="tabpanel" aria-labelledby="mode-pve" tabindex="-1"><button class="depart" id="depart-button" data-category="pve"><span><small id="depart-kicker">EXPEDITION / PVE</small><strong id="depart-title">모험 출전</strong><em id="depart-description">토벌 · 레이드 · 원정</em></span><span class="depart-watermark" aria-hidden="true">PVE</span></button></div>
+        <div class="command-heading"><span class="eyebrow">REVERSE CALL</span><span class="eyebrow">OPERATION CONTROL</span></div>
       </section>
       <section class="bottom-strip operations-board" aria-label="콘텐츠 현황"><slot name="operations"></slot></section>
     </main>

@@ -81,7 +81,7 @@ test('header script and injected icon stylesheet are cache-busted together', () 
   const src=read('index.html').match(/src="([^"\n]*soopketmon-v21-exact-shell-adapter\.js\?[^"\n]+)"/)?.[1];
   assert.ok(src,'shared shell must retain its cache version');
   assert.equal(new URL(src.replaceAll('&amp;','&'),'https://test.invalid/').searchParams.get('v'),version);
-  assert.ok(shell.includes('link.href = `${cssHref(filename)}?v=${VERSION}`;'));
+  assert.match(shell, /link\.href\s*=\s*`\$\{cssHref\(filename\)\}\?v=\$\{VERSION\}`(?:\s*\+\s*\(id\s*===\s*'adventureLobbyV2107'\s*\?\s*'&lobby=[^']+'\s*:\s*''\))?;/, 'injected styles retain the shared version when the lobby adds its independent cache tag');
   const css = read('css/soopketmon-v21-exact-base.css');
   assert.match(css, /\.resource-chip\.master-star i\s*\{[^}]*color:#fff1ae/);
   assert.match(css, /\.resource-chip\.master-star small, \.resource-chip\.master-star b\s*\{\s*white-space:nowrap/);
