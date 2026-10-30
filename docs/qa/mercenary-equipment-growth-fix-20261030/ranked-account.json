@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-30T04:43:35.805Z",
+  "readOnly": "on",
+  "userId": 65,
+  "codes": [
+    "V-058",
+    "V-972",
+    "V-999"
+  ],
+  "levels": [
+    {
+      "code": "V-058",
+      "level": 21
+    },
+    {
+      "code": "V-972",
+      "level": 21
+    },
+    {
+      "code": "V-999",
+      "level": 21
+    }
+  ],
+  "series": {
+    "winner": "A",
+    "score": {
+      "A": 2,
+      "B": 0
+    },
+    "rounds": [
+      {
+        "number": 1,
+        "code": "V-058",
+        "events": 42
+      },
+      {
+        "number": 2,
+        "code": "V-972",
+        "events": 38
+      }
+    ]
+  },
+  "queries": 11,
+  "productionWrites": 0
+}

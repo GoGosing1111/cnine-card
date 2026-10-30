@@ -1,0 +1,74 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "mode": "PVE",
+      "entry": "actual start button",
+      "result": true,
+      "return": true,
+      "actors": [
+        {
+          "id": "A:MERCENARY:V-972",
+          "visible": true,
+          "alpha": 1
+        }
+      ],
+      "levels": [
+        21
+      ]
+    },
+    {
+      "width": 1440,
+      "mode": "PVP",
+      "entry": "actual start button",
+      "result": true,
+      "return": true,
+      "actors": [
+        {
+          "id": "A:MERCENARY:V-972",
+          "visible": true,
+          "alpha": 1
+        }
+      ],
+      "levels": [
+        21
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "PVE",
+      "entry": "actual start button",
+      "result": true,
+      "return": true,
+      "actors": [
+        {
+          "id": "A:MERCENARY:V-972",
+          "visible": true,
+          "alpha": 1
+        }
+      ],
+      "levels": [
+        21
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "PVP",
+      "entry": "actual start button",
+      "result": true,
+      "return": true,
+      "actors": [
+        {
+          "id": "A:MERCENARY:V-972",
+          "visible": true,
+          "alpha": 1
+        }
+      ],
+      "levels": [
+        21
+      ]
+    }
+  ],
+  "publicBase": "",
+  "productionWrites": 0
+}

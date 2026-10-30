@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-30T04:52:51.283Z",
+  "pages": {
+    "id": "d784b60c-bf2e-413e-9877-450f17ece3c8",
+    "url": "https://d784b60c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "f77098cc0e07a3950f3a86894fdb4219ca1341a8"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "bb6cf356-5a8a-4e4c-ba41-bf00fb5651ab",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "9d9b169a-5736-4e3a-8f38-b9851a58cf0f",
+      "percentage": 100
+    }
+  ],
+  "asset": {
+    "file": "shared/mercenary-growth-review-v2.mjs",
+    "sha256": "3c86e66cec88d05c5199720af04000457ab27a3776d930e468ea1b09ba56401c"
+  },
+  "compiledRuntime": {
+    "sha256": "776d47d0157b2bd8053226d59e29b94853dc09bd5804e34cb73d1f9ccefc2a47",
+    "functionSha256": "517be5ad33f2b7d869f39d0a88bc96d23e447a582d512d5a02fbed212b84ebef",
+    "actual": [
+      {
+        "mode": "PVE",
+        "code": "V-972",
+        "speedBefore": 584246.3,
+        "speedAfter": 747835
+      },
+      {
+        "mode": "PVP",
+        "code": "V-972",
+        "speedBefore": 150791.30000000002,
+        "speedAfter": 193012
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

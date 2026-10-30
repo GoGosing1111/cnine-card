@@ -1,0 +1,50 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-10-30T04:52:51.386Z",
+  "releaseCommit": "f77098cc0e07a3950f3a86894fdb4219ca1341a8",
+  "pages": {
+    "id": "d784b60c-bf2e-413e-9877-450f17ece3c8",
+    "url": "https://d784b60c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "f77098cc0e07a3950f3a86894fdb4219ca1341a8"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "bb6cf356-5a8a-4e4c-ba41-bf00fb5651ab",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "9d9b169a-5736-4e3a-8f38-b9851a58cf0f",
+      "percentage": 100
+    }
+  ],
+  "cause": "Equipment set speed may be fractional; V2 growth incorrectly required a safe integer for speed.",
+  "fix": "Allow finite nonnegative speed up to MAX_SAFE_INTEGER; preserve the final growth floor and all other stat validation.",
+  "checks": {
+    "newRegressionTests": 7,
+    "tenTierGrowthCases": 80,
+    "priorRelatedPasses": 30,
+    "latestGrowthPasses": 5,
+    "totalRelatedPasses": 35,
+    "actualAccountReadOnlyPvePvp": true,
+    "actualRankedRoster": [
+      "V-058",
+      "V-972",
+      "V-999"
+    ],
+    "pcMobileBrowserPaths": 4,
+    "uploadedWorkerActualAccountFunctionCases": 2,
+    "publicModuleHash": true
+  },
+  "testLimitations": {
+    "oldGrowthAssertions": "Three obsolete assertions fail identically with the deployed-before source; superseded by latest 20261029 growth checks.",
+    "equipmentArt": "One asset stat check cannot run in sparse checkout; asset exists in Git; no artwork changes."
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "storageMaintenance": false,
+  "automationsCreated": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-equipment-growth-fix-20261030"
+}
