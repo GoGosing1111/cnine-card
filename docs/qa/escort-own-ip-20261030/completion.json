@@ -1,0 +1,49 @@
+{
+  "completedAt": "2026-10-30T09:52:11.744Z",
+  "sourceCommit": "2f8079ed8cbfc024fd96259213dc2d2dbaf093a8",
+  "deploymentCommit": "f4bffb86233e225ef746b14797db329da0400652",
+  "pages": {
+    "id": "d574623a-2776-4e79-9013-5feafea68c0d",
+    "url": "https://d574623a.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "f4bffb86233e225ef746b14797db329da0400652"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "3335177f-5462-43b5-bbd4-78547463adcf",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "248e310b-e807-415c-b24f-0e02d64aaa17",
+      "percentage": 100
+    }
+  ],
+  "boss": "철쇄 공성관 벨카르",
+  "sector": "REPAIR",
+  "asset": {
+    "file": "assets/ui/escort/bosses/velkar-siege-commander-v1.webp",
+    "sha256": "576cb007bd5d0eeb51b3f1eaaead525528194974795ffd7976db8e5ca90cd74e",
+    "bytes": 162280
+  },
+  "checks": {
+    "bossRegressions": 5,
+    "legacyEscortPassed": 5,
+    "legacyUnrelatedCacheAssertionFailed": 1,
+    "deliveryRegression": 1,
+    "finalAssetRecheck": 1,
+    "localViewports": [
+      1440,
+      390
+    ],
+    "publicViewports": [
+      390
+    ],
+    "publicApi": "isolated fixture",
+    "runtimeUploadVerified": true
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "notes": "Internal AGENTS.md remains in Git; excluded only from public artifact to keep 20,000 assets. Old cache assertion is byte-identical and fails at the previous production commit."
+}
