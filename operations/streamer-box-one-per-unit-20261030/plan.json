@@ -1,0 +1,175 @@
+{
+  "operationKey": "ops:streamer-box-one-per-unit:20261030:v1",
+  "authorization": "더듬이구 10\n[C9]족쪽이 10\n조은홧팅 5\n굳건창수 5\n세라네꼬라지 10\n핫시 10\nMoo날두10\n˚쟁이。10\nMild7 10\n쁴로리 10\n비쥬얼깡패 10\n현하루 10",
+  "additionalAuthorization": "숫자 1당 1개씩",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "itemDescription": "개봉 시 35조 코인, 핑두 리페어 쿠폰 3개, 슈트 코어 6 10개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+  "delivery": "DIRECT_INVENTORY",
+  "multiplier": 1,
+  "requestedCount": 12,
+  "recipientCount": 12,
+  "totalUnits": 110,
+  "totalBoxes": 120,
+  "identityCheckedAt": "2026-10-30T08:36:00.517Z",
+  "pending": [],
+  "skipped": [],
+  "targets": [
+    {
+      "order": 1,
+      "inputNickname": "더듬이구",
+      "units": 10,
+      "amount": 10,
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "role": "USER",
+      "identityHash": "d4d493ab893dafa59875170659a8057edd1b7923101403bf9350870e6007c189",
+      "baseAmount": 10,
+      "additionalAmount": 0
+    },
+    {
+      "order": 2,
+      "inputNickname": "[C9]족쪽이",
+      "units": 10,
+      "amount": 10,
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "role": "USER",
+      "identityHash": "5fe6d4dd9b5eecdce6aaa72757b6a3287a9c1f88fafecfa8b0e6b5bcf5f78cfe",
+      "baseAmount": 10,
+      "additionalAmount": 0
+    },
+    {
+      "order": 3,
+      "inputNickname": "조은홧팅",
+      "units": 5,
+      "amount": 10,
+      "userId": "4828",
+      "nickname": "조은홧팅",
+      "role": "USER",
+      "identityHash": "70b27b5011ce6a846c1f399d35b78666316974be93fd22343a0b1cbd999611eb",
+      "baseAmount": 5,
+      "additionalAmount": 5
+    },
+    {
+      "order": 4,
+      "inputNickname": "굳건창수",
+      "units": 5,
+      "amount": 10,
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "role": "USER",
+      "identityHash": "76bce871a50cebd30fed1b8584c1c9bc08cade7c1ecd37795e619ba9240c61c6",
+      "baseAmount": 5,
+      "additionalAmount": 5
+    },
+    {
+      "order": 5,
+      "inputNickname": "세라네꼬라지",
+      "units": 10,
+      "amount": 10,
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "role": "USER",
+      "identityHash": "3a92cb24ea4e852ca4e651463a02be49e6c08acb5b7e8145d0b8bd8ff04bbef4",
+      "baseAmount": 10,
+      "additionalAmount": 0
+    },
+    {
+      "order": 6,
+      "inputNickname": "핫시",
+      "units": 10,
+      "amount": 10,
+      "userId": "1768",
+      "nickname": "핫시",
+      "role": "USER",
+      "identityHash": "25fdf34fe97d27554f6b172c596fc66e8429e6a19934a383d004ea92fc0e90c6",
+      "baseAmount": 10,
+      "additionalAmount": 0
+    },
+    {
+      "order": 7,
+      "inputNickname": "Moo날두",
+      "units": 10,
+      "amount": 10,
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "role": "USER",
+      "identityHash": "1eb54b7a104eb880aa4abc82451977fe41d68477dc3b6728e525581a6f673bcb",
+      "baseAmount": 10,
+      "additionalAmount": 0
+    },
+    {
+      "order": 8,
+      "inputNickname": "˚쟁이。",
+      "units": 10,
+      "amount": 10,
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "role": "USER",
+      "identityHash": "027792fc093ac3fa943345cd6db7de7ac6a03db9e896132a55cddbb3760ce69a",
+      "baseAmount": 10,
+      "additionalAmount": 0
+    },
+    {
+      "order": 9,
+      "inputNickname": "Mild7",
+      "units": 10,
+      "amount": 10,
+      "userId": "290",
+      "nickname": "Mild7",
+      "role": "USER",
+      "identityHash": "0b53280e4ba5f0ccd8e84f762c1135a14d16be5ef9b501991293c02cad8f089d",
+      "baseAmount": 10,
+      "additionalAmount": 0
+    },
+    {
+      "order": 10,
+      "inputNickname": "쁴로리",
+      "units": 10,
+      "amount": 10,
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "role": "USER",
+      "identityHash": "883a134f408d59f18f5c1c194a5e876c2b3fc86e7bf01eb10db59277e1f40878",
+      "baseAmount": 10,
+      "additionalAmount": 0
+    },
+    {
+      "order": 11,
+      "inputNickname": "비쥬얼깡패",
+      "units": 10,
+      "amount": 10,
+      "userId": "81",
+      "nickname": "비쥬얼깡패",
+      "role": "USER",
+      "identityHash": "e66223cdc61b5944dd39d90ff71368f65481db50b38e138b75acd7827fb10035",
+      "baseAmount": 10,
+      "additionalAmount": 0
+    },
+    {
+      "order": 12,
+      "inputNickname": "현하루",
+      "units": 10,
+      "amount": 10,
+      "userId": "218",
+      "nickname": "현하루",
+      "role": "USER",
+      "identityHash": "2d963ff0914b77d59c5b0db54d3b7809e62502fa9852a69b61a666f5b642c17a",
+      "baseAmount": 10,
+      "additionalAmount": 0
+    }
+  ],
+  "supplementAuthorization": "굳건창수,조은홧팅 5개씩 추가",
+  "additions": [
+    {
+      "nickname": "굳건창수",
+      "amount": 5
+    },
+    {
+      "nickname": "조은홧팅",
+      "amount": 5
+    }
+  ],
+  "totalAdditionalBoxes": 10
+}

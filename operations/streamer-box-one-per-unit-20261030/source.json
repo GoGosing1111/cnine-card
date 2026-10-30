@@ -1,0 +1,92 @@
+{
+  "operationKey": "ops:streamer-box-one-per-unit:20261030:v1",
+  "authorization": "더듬이구 10\n[C9]족쪽이 10\n조은홧팅 5\n굳건창수 5\n세라네꼬라지 10\n핫시 10\nMoo날두10\n˚쟁이。10\nMild7 10\n쁴로리 10\n비쥬얼깡패 10\n현하루 10",
+  "additionalAuthorization": "숫자 1당 1개씩",
+  "delivery": "DIRECT_INVENTORY",
+  "multiplier": 1,
+  "inputs": [
+    {
+      "order": 1,
+      "inputNickname": "더듬이구",
+      "units": 10,
+      "amount": 10
+    },
+    {
+      "order": 2,
+      "inputNickname": "[C9]족쪽이",
+      "units": 10,
+      "amount": 10
+    },
+    {
+      "order": 3,
+      "inputNickname": "조은홧팅",
+      "units": 5,
+      "amount": 5
+    },
+    {
+      "order": 4,
+      "inputNickname": "굳건창수",
+      "units": 5,
+      "amount": 5
+    },
+    {
+      "order": 5,
+      "inputNickname": "세라네꼬라지",
+      "units": 10,
+      "amount": 10
+    },
+    {
+      "order": 6,
+      "inputNickname": "핫시",
+      "units": 10,
+      "amount": 10
+    },
+    {
+      "order": 7,
+      "inputNickname": "Moo날두",
+      "units": 10,
+      "amount": 10
+    },
+    {
+      "order": 8,
+      "inputNickname": "˚쟁이。",
+      "units": 10,
+      "amount": 10
+    },
+    {
+      "order": 9,
+      "inputNickname": "Mild7",
+      "units": 10,
+      "amount": 10
+    },
+    {
+      "order": 10,
+      "inputNickname": "쁴로리",
+      "units": 10,
+      "amount": 10
+    },
+    {
+      "order": 11,
+      "inputNickname": "비쥬얼깡패",
+      "units": 10,
+      "amount": 10
+    },
+    {
+      "order": 12,
+      "inputNickname": "현하루",
+      "units": 10,
+      "amount": 10
+    }
+  ],
+  "supplementAuthorization": "굳건창수,조은홧팅 5개씩 추가",
+  "additions": [
+    {
+      "nickname": "굳건창수",
+      "amount": 5
+    },
+    {
+      "nickname": "조은홧팅",
+      "amount": 5
+    }
+  ]
+}
