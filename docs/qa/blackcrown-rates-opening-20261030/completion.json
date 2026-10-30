@@ -1,0 +1,167 @@
+{
+  "status": "COMPLETED",
+  "at": "2026-10-30T11:02:11.960Z",
+  "implementationCommit": "981db10fd",
+  "deployment": {
+    "id": "7adfc3f0-5498-47fe-8247-a63734727afa",
+    "url": "https://7adfc3f0.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "cb691ef98dcd67c9c30d2e3feb6911b6fa2f15ce"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "fa375fc3-2eb4-4762-83e1-493f56c4cb37",
+      "percentage": 100,
+      "scheduledOpening": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "f32d3dd0-dbdc-422c-a936-1030c236bdd9",
+      "percentage": 100,
+      "scheduledOpening": true
+    }
+  ],
+  "operation": {
+    "operationKey": "ops:blackcrown-rates-opening:20261030:v1",
+    "status": "COMPLETED",
+    "createdAt": "2026-10-30T11:00:46.254Z",
+    "opensAt": "2026-10-30T15:00:00.000Z",
+    "opensAtKst": "2026-10-31 00:00:00 KST",
+    "beforeRevision": 5,
+    "afterRevision": 6,
+    "ssPercent": "0.0004",
+    "sssPercent": "0.0000008",
+    "razakPercent": "0.000032",
+    "ownershipReduction": "PRESERVED",
+    "referenceRevision": 11,
+    "referenceHash": "dc913d65e6ce7fca141e885a97b4a3e53fbb18d091e964143bed1f09fe493df4",
+    "accountWrites": 0,
+    "stockWrites": 0,
+    "messages": 0,
+    "authorization": "블랙크라운 기본 확률은 블러드문·SSS 리미티드는 제너럴 족 기준. 보유 종류별 보정 유지. 31일 0시 0분 개방. 블랙크라운만 100조 10초 연출.",
+    "adminLogId": "53132"
+  },
+  "configuredMode": "OFF_UNTIL_SERVER_TIME",
+  "runtime": {
+    "revision": 6,
+    "readiness": {
+      "ready": true,
+      "blockers": []
+    },
+    "openingAt": "2026-10-30T15:00:00.000Z",
+    "openingScheduled": true,
+    "serverNow": "2026-10-30T11:00:57.000Z",
+    "ssProbabilityDivisor": 1,
+    "odds": {
+      "V-951": "0.0004",
+      "V-952": "0.0004",
+      "V-953": "0.0004",
+      "V-950": "0.0004",
+      "V-955": "0.0004",
+      "V-954": "0.0004",
+      "V-058": "0.000032",
+      "V-970": "0.0000008",
+      "V-971": "0.0000008"
+    },
+    "normalSssPercent": "0.0775664",
+    "stock": [
+      {
+        "code": "V-950",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-951",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-952",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-953",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-954",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-955",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-970",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      },
+      {
+        "code": "V-971",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      }
+    ]
+  },
+  "validation": {
+    "regressions": 7,
+    "delivery": 1,
+    "workerCheck": true,
+    "lockContention": true,
+    "failureAndDryRunRollback": true,
+    "selectOnlyReplay": true,
+    "desktopMs": 10067,
+    "mobileMs": 10055,
+    "publicFiles": 7,
+    "publicMobile": {
+      "at": "2026-10-30T11:00:57.836Z",
+      "width": 390,
+      "scheduledKst": "2026-10-31 00:00",
+      "realPublicFeature": true,
+      "deployedBundle": true,
+      "openingDisabled": true,
+      "sssPercent": "0.0000008",
+      "writes": 0,
+      "errors": []
+    }
+  },
+  "announcement": {
+    "path": "announcement.txt",
+    "written": true,
+    "published": false
+  },
+  "sourceCheckout": "C:/Users/User/Downloads/upload/cnine-card/tmp/duo-settlement-recovery-20261027",
+  "accountWrites": 0,
+  "stockWrites": 0,
+  "messagesSent": 0,
+  "storageMaintenance": false
+}

@@ -1,0 +1,16 @@
+{
+  "before": {
+    "id": "94e15a69-047a-46e8-90b6-c72cbc4c1fcd",
+    "url": "https://94e15a69.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "051bfa67363885ebb10a3656619afc2557256d31"
+  },
+  "base": "051bfa67363885ebb10a3656619afc2557256d31",
+  "reason": "블랙크라운 기본 확률 기준 확인·보유 보정 유지. DB 시각으로 10/31 00시 개방 예약 처리, 블랙크라운100조만10초 연출 후 개봉. 새7회귀·실제DB잠금/원복·PC모바일 검수 완료; 최종 번들/로더/캐시 배송1검사와 Worker컴파일만 수행.",
+  "tests": [
+    "tests/blackcrown-opening-delivery-20261030.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

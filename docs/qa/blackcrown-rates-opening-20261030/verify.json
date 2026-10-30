@@ -1,0 +1,259 @@
+{
+  "pack": {
+    "revision": 6,
+    "settings": {
+      "mode": "OFF",
+      "prices": {
+        "single": 1500000000,
+        "ten": 15000000000
+      },
+      "missRatePpm": 800000,
+      "format": "MERCENARY_BLACKCROWN_SS_PACK_V3",
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "normalSssRatePpm": 969580,
+      "cardRatesPpm": {
+        "V-951": 5000,
+        "V-952": 5000,
+        "V-953": 5000,
+        "V-950": 5000,
+        "V-955": 5000,
+        "V-954": 5000,
+        "V-058": 400,
+        "V-970": 10,
+        "V-971": 10
+      },
+      "stockLimits": {
+        "V-951": 10,
+        "V-952": 10,
+        "V-953": 10,
+        "V-950": 10,
+        "V-955": 10,
+        "V-954": 10,
+        "V-970": 5,
+        "V-971": 5
+      }
+    },
+    "updatedAt": "2026-10-30T11:00:46.254Z",
+    "updatedBy": 1,
+    "clonedFrom": {
+      "key": "mercenary_bloodmoon_ss_pack_v1",
+      "revision": 11,
+      "sha256": "240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f"
+    },
+    "openingSchedule": {
+      "status": "SCHEDULED",
+      "opensAt": "2026-10-30T15:00:00.000Z",
+      "createdAt": "2026-10-30T11:00:46.254Z",
+      "operationKey": "ops:blackcrown-rates-opening:20261030:v1"
+    }
+  },
+  "reference": {
+    "revision": 11,
+    "settings": {
+      "mode": "ON",
+      "prices": {
+        "single": 1500000000,
+        "ten": 15000000000
+      },
+      "missRatePpm": 800000,
+      "format": "MERCENARY_BLOODMOON_SS_PACK_V3",
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "normalSssRatePpm": 969369,
+      "cardRatesPpm": {
+        "V-960": 5000,
+        "V-961": 5000,
+        "V-962": 5000,
+        "V-963": 5000,
+        "V-964": 5000,
+        "V-965": 5000,
+        "V-978": 200,
+        "V-974": 10,
+        "V-975": 1,
+        "V-973": 20,
+        "V-058": 400
+      },
+      "stockLimits": {
+        "V-960": 65,
+        "V-961": 65,
+        "V-962": 65,
+        "V-963": 65,
+        "V-964": 65,
+        "V-965": 65,
+        "V-978": 12,
+        "V-974": 3,
+        "V-975": 3,
+        "V-973": 4
+      }
+    },
+    "updatedAt": "2026-10-26T13:00:00.000Z",
+    "updatedBy": 1,
+    "lastRequestId": "ops:bloodmoon-eunseol-restock:20261025:plus1-v1",
+    "lastStockScheduleId": "c7514c7c-0fc1-44dd-ae7a-54a9351034ee"
+  },
+  "packHash": "853435cc3912553fdc8910e8902db39af375e5e566aaaa3b8e48881d21e727dc",
+  "referenceHash": "dc913d65e6ce7fca141e885a97b4a3e53fbb18d091e964143bed1f09fe493df4",
+  "preservedSettingsHash": "92748e8e8b51ae0ec078f01a831cf30aa1a3df0babefbf0799542cf5c145b2d4",
+  "stock": [
+    {
+      "code": "V-950",
+      "stock_limit": 10,
+      "issued": 0,
+      "revision": 1,
+      "last_token": null
+    },
+    {
+      "code": "V-951",
+      "stock_limit": 10,
+      "issued": 0,
+      "revision": 1,
+      "last_token": null
+    },
+    {
+      "code": "V-952",
+      "stock_limit": 10,
+      "issued": 0,
+      "revision": 1,
+      "last_token": null
+    },
+    {
+      "code": "V-953",
+      "stock_limit": 10,
+      "issued": 0,
+      "revision": 1,
+      "last_token": null
+    },
+    {
+      "code": "V-954",
+      "stock_limit": 10,
+      "issued": 0,
+      "revision": 1,
+      "last_token": null
+    },
+    {
+      "code": "V-955",
+      "stock_limit": 10,
+      "issued": 0,
+      "revision": 1,
+      "last_token": null
+    },
+    {
+      "code": "V-970",
+      "stock_limit": 5,
+      "issued": 0,
+      "revision": 0,
+      "last_token": null
+    },
+    {
+      "code": "V-971",
+      "stock_limit": 5,
+      "issued": 0,
+      "revision": 0,
+      "last_token": null
+    }
+  ],
+  "stockHash": "8ab207329a8b5d3f90d0244d1c47886c46194d18449ff89fd8890d16c9afa3d3",
+  "runtime": {
+    "revision": 6,
+    "readiness": {
+      "ready": true,
+      "blockers": []
+    },
+    "openingAt": "2026-10-30T15:00:00.000Z",
+    "openingScheduled": true,
+    "serverNow": "2026-10-30T11:00:57.000Z",
+    "ssProbabilityDivisor": 1,
+    "odds": {
+      "V-951": "0.0004",
+      "V-952": "0.0004",
+      "V-953": "0.0004",
+      "V-950": "0.0004",
+      "V-955": "0.0004",
+      "V-954": "0.0004",
+      "V-058": "0.000032",
+      "V-970": "0.0000008",
+      "V-971": "0.0000008"
+    },
+    "normalSssPercent": "0.0775664",
+    "stock": [
+      {
+        "code": "V-950",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-951",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-952",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-953",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-954",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-955",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-970",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      },
+      {
+        "code": "V-971",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      }
+    ]
+  },
+  "preserved": true
+}
