@@ -1,0 +1,9 @@
+{
+  "base": "2cf73629e5ce5cdb0317a49f518290213fb12578",
+  "reason": "Add the requested ε연두з myby1221 and 서윤슬@ dbstmf3497 to the end of the CNINE female department, nine to eleven members. Preserve existing department order, three columns, original SOOP profile, station link, and lounge CMS. Refresh connected caches and generated store HTML. Run the existing lounge and shared watch-roster regressions; the shared watch streamer list follows the board, seventeen to nineteen including Cheolgu. No live watch collection or account/settings writes.",
+  "tests": [
+    "tests/streamer-lounge-v2036.test.mjs",
+    "tests/soop-watch-ranking-20261028.test.mjs"
+  ],
+  "checks": []
+}

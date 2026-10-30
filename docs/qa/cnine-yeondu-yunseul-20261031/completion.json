@@ -1,0 +1,116 @@
+{
+  "status": "COMPLETED",
+  "at": "2026-10-30T23:02:41.137Z",
+  "atKst": "2026-10-31 08:02:41 KST",
+  "source": "ac412f27f90e90e8504bf0799597f703062e3a30",
+  "pages": {
+    "id": "d25fabd0-0891-4dce-abde-d84b80cf37de",
+    "url": "https://d25fabd0.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ac412f27f90e90e8504bf0799597f703062e3a30"
+  },
+  "members": [
+    {
+      "department": "여캠부",
+      "name": "ε연두з",
+      "id": "myby1221",
+      "station": "https://www.sooplive.com/station/myby1221"
+    },
+    {
+      "department": "여캠부",
+      "name": "서윤슬@",
+      "id": "dbstmf3497",
+      "station": "https://www.sooplive.com/station/dbstmf3497"
+    }
+  ],
+  "femaleMembers": 11,
+  "starMembers": 7,
+  "columns": 3,
+  "sharedWatchStreamerCount": 19,
+  "relatedTests": {
+    "passed": 30,
+    "failed": 0
+  },
+  "local": [
+    {
+      "width": 1440,
+      "starMembers": 7,
+      "femaleMembers": 11,
+      "columns": 3,
+      "profilesLoaded": 2,
+      "stationLinks": [
+        "myby1221",
+        "dbstmf3497"
+      ],
+      "opener": null,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "starMembers": 7,
+      "femaleMembers": 11,
+      "columns": 3,
+      "profilesLoaded": 2,
+      "stationLinks": [
+        "myby1221",
+        "dbstmf3497"
+      ],
+      "opener": null,
+      "errors": []
+    }
+  ],
+  "published": [
+    {
+      "width": 390,
+      "starMembers": 7,
+      "femaleMembers": 11,
+      "columns": 3,
+      "profilesLoaded": 2,
+      "stationLinks": [
+        "myby1221",
+        "dbstmf3497"
+      ],
+      "opener": null,
+      "errors": []
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "7add99095e8bf04a759bd148801aa918b84ea0703a60513fc76baa3154e3c15a"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "4801dbb12f401514bf47dbd970fac084eeb479e12446e61340f52ccead20b5c4"
+    },
+    {
+      "file": "js/streamer-lounge-v2036.js",
+      "sha256": "a8959f2ba5ba7555e1e79da1d5cfba53c7a88d57f55b633d29ce08955ac90d79"
+    },
+    {
+      "file": "js/cnine-roster-v1.js",
+      "sha256": "9ce419dab695957b841a0b82499847d0fff7b74e5255484f4b1d8ca9baa3d65d"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "f2010c70feea2a0dca5f89344b246c70622ed733a7ec25933f8ed18626d8810b"
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "4fb55132-0cb5-4a0b-b4b4-3b05b1f987fb",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "3c01cc94-fe56-4c93-89f9-c35e1ddd2a4a",
+      "percentage": 100
+    }
+  ],
+  "loungeRosterUnchanged": true,
+  "operationalAccountWrites": 0,
+  "operationalSettingsWrites": 0,
+  "watchCollectionRequests": 0,
+  "messagesSent": 0
+}
