@@ -42,7 +42,7 @@ test('legacy tutorial opens the growth guide and every destination exists in the
   assert.match(legacy,/bridge\.js\?v=20261024-growth-guide/);
   assert.match(bridge,/location\.replace\(guide.href\)/);
   assert.match(bridge,/searchParams\.set\('account',account\)/);
-  assert.match(lobby,/data-src="\/ui\/growth-guide\/\?v=20261024-1"/);
+  assert.match(lobby,/data-src="\/ui\/growth-guide\/\?v=20261030-1"/);
   assert.match(lobby,/초보유저 성장팁/);
   assert.doesNotMatch(lobby,/처음 오셨나요|첫 이용 안내/);
   for(const step of STEPS)for(const block of step.blocks)for(const [route] of block.links||[]){
