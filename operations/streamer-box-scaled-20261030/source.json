@@ -1,0 +1,24 @@
+{
+  "operationKey": "ops:streamer-box-scaled:20261030:v1",
+  "authorization": "씨나인택갓 5\n더듬이구 5\nMild7 5\n랭비! 3\n음순이 5\n족게이다 10\nMoo날두 5\n0수표 5\n박사 3\n비쥬얼깡패 5\n라피e 5\n차단하다 5\n족구조아 2\n족단 3\n숫자 1당 스트리머박스 2개 지급",
+  "additionalAuthorization": "비니 3\n추가",
+  "delivery": "DIRECT_INVENTORY",
+  "multiplier": 2,
+  "inputs": [
+    {"order":1,"inputNickname":"씨나인택갓","units":5,"amount":10},
+    {"order":2,"inputNickname":"더듬이구","units":5,"amount":10},
+    {"order":3,"inputNickname":"Mild7","units":5,"amount":10},
+    {"order":4,"inputNickname":"랭비!","units":3,"amount":6},
+    {"order":5,"inputNickname":"음순이","units":5,"amount":10},
+    {"order":6,"inputNickname":"족게이다","units":10,"amount":20},
+    {"order":7,"inputNickname":"Moo날두","units":5,"amount":10},
+    {"order":8,"inputNickname":"0수표","units":5,"amount":10},
+    {"order":9,"inputNickname":"박사","units":3,"amount":6},
+    {"order":10,"inputNickname":"비쥬얼깡패","units":5,"amount":10},
+    {"order":11,"inputNickname":"라피e","units":5,"amount":10},
+    {"order":12,"inputNickname":"차단하다","units":5,"amount":10},
+    {"order":13,"inputNickname":"족구조아","units":2,"amount":4},
+    {"order":14,"inputNickname":"족단","units":3,"amount":6},
+    {"order":15,"inputNickname":"비니","units":3,"amount":6}
+  ]
+}

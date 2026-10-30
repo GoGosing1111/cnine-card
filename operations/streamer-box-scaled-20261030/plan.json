@@ -1,0 +1,169 @@
+{
+  "operationKey": "ops:streamer-box-scaled:20261030:v1",
+  "authorization": "씨나인택갓 5\n더듬이구 5\nMild7 5\n랭비! 3\n음순이 5\n족게이다 10\nMoo날두 5\n0수표 5\n박사 3\n비쥬얼깡패 5\n라피e 5\n차단하다 5\n족구조아 2\n족단 3\n숫자 1당 스트리머박스 2개 지급",
+  "additionalAuthorization": "비니 3\n추가",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "itemDescription": "개봉 시 35조 코인, 핑두 리페어 쿠폰 3개, 슈트 코어 6 10개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+  "delivery": "DIRECT_INVENTORY",
+  "multiplier": 2,
+  "requestedCount": 15,
+  "recipientCount": 15,
+  "totalUnits": 69,
+  "totalBoxes": 138,
+  "identityCheckedAt": "2026-10-30T07:49:51.189Z",
+  "pending": [],
+  "skipped": [],
+  "targets": [
+    {
+      "order": 1,
+      "inputNickname": "씨나인택갓",
+      "units": 5,
+      "amount": 10,
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "role": "USER",
+      "identityHash": "8f689ff587fa2543ab44fa0c4ef396bcf76e469aa561c82e48fa8eb9d5ce3bf3"
+    },
+    {
+      "order": 2,
+      "inputNickname": "더듬이구",
+      "units": 5,
+      "amount": 10,
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "role": "USER",
+      "identityHash": "d4d493ab893dafa59875170659a8057edd1b7923101403bf9350870e6007c189"
+    },
+    {
+      "order": 3,
+      "inputNickname": "Mild7",
+      "units": 5,
+      "amount": 10,
+      "userId": "290",
+      "nickname": "Mild7",
+      "role": "USER",
+      "identityHash": "0b53280e4ba5f0ccd8e84f762c1135a14d16be5ef9b501991293c02cad8f089d"
+    },
+    {
+      "order": 4,
+      "inputNickname": "랭비!",
+      "units": 3,
+      "amount": 6,
+      "userId": "4615",
+      "nickname": "랭비!",
+      "role": "USER",
+      "identityHash": "717e06f5117205953b95667beb703813c7928f7f36bfa79b783dce55e9a7f9f1"
+    },
+    {
+      "order": 5,
+      "inputNickname": "음순이",
+      "units": 5,
+      "amount": 10,
+      "userId": "65",
+      "nickname": "음순이",
+      "role": "USER",
+      "identityHash": "30026ae101d766dc99819431ca4dd36f183ffb5f311d21f700bf6e1779313751"
+    },
+    {
+      "order": 6,
+      "inputNickname": "족게이다",
+      "units": 10,
+      "amount": 20,
+      "userId": "4111",
+      "nickname": "족게이다",
+      "role": "USER",
+      "identityHash": "1b847a04ce75f1fdcd3512cc2e8a0154a4d07d6de4b113b2eb67efae77569f8f"
+    },
+    {
+      "order": 7,
+      "inputNickname": "Moo날두",
+      "units": 5,
+      "amount": 10,
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "role": "USER",
+      "identityHash": "1eb54b7a104eb880aa4abc82451977fe41d68477dc3b6728e525581a6f673bcb"
+    },
+    {
+      "order": 8,
+      "inputNickname": "0수표",
+      "units": 5,
+      "amount": 10,
+      "userId": "88",
+      "nickname": "0수표",
+      "role": "USER",
+      "identityHash": "0f529f6eec0f3e69d1c951d524d163fe0abef62d2c605a1b350683c9904e8a47"
+    },
+    {
+      "order": 9,
+      "inputNickname": "박사",
+      "units": 3,
+      "amount": 6,
+      "userId": "164",
+      "nickname": "박사",
+      "role": "USER",
+      "identityHash": "b3f20dba584cb6d5141004a0e8ed18c452cd860bc62b22f0b832060295462afd"
+    },
+    {
+      "order": 10,
+      "inputNickname": "비쥬얼깡패",
+      "units": 5,
+      "amount": 10,
+      "userId": "81",
+      "nickname": "비쥬얼깡패",
+      "role": "USER",
+      "identityHash": "e66223cdc61b5944dd39d90ff71368f65481db50b38e138b75acd7827fb10035"
+    },
+    {
+      "order": 11,
+      "inputNickname": "라피e",
+      "units": 5,
+      "amount": 10,
+      "userId": "360",
+      "nickname": "라피e",
+      "role": "USER",
+      "identityHash": "66944b5b1014e5d03db233c40aafbb1f79e1203c2ce92dab022f6fb620f2f755"
+    },
+    {
+      "order": 12,
+      "inputNickname": "차단하다",
+      "units": 5,
+      "amount": 10,
+      "userId": "162",
+      "nickname": "차단하다",
+      "role": "USER",
+      "identityHash": "f859747f6fb571db17b864790c401d6c0ae6bd5a0ab2510ef0c863132b390d7c"
+    },
+    {
+      "order": 13,
+      "inputNickname": "족구조아",
+      "units": 2,
+      "amount": 4,
+      "userId": "525",
+      "nickname": "족구조아",
+      "role": "USER",
+      "identityHash": "7aee79b9b901f22a56018ebe5aaec73715b6455f54428ae34fd339b2b261b5ea"
+    },
+    {
+      "order": 14,
+      "inputNickname": "족단",
+      "units": 3,
+      "amount": 6,
+      "userId": "4582",
+      "nickname": "족단",
+      "role": "USER",
+      "identityHash": "5d3c363e2717539c7b7a4a309a33178f8cf4f6e49d67eccb77e1fbbb81e032c5"
+    },
+    {
+      "order": 15,
+      "inputNickname": "비니",
+      "units": 3,
+      "amount": 6,
+      "userId": "4595",
+      "nickname": "비니",
+      "role": "USER",
+      "identityHash": "f6dfe6b8db6880da1ec1b7482905904f2ec843c1f89a58a280b53fea1c92f252"
+    }
+  ]
+}
