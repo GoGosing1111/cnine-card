@@ -1,0 +1,118 @@
+{
+  "completedAt": "2026-10-30T23:23:09.248Z",
+  "ruleStatus": "LIVE",
+  "refillStatus": "SCHEDULED",
+  "source": "af957f22c9b72a442393b3531fef7999ca9c71fa",
+  "pages": {
+    "id": "56b58aad-eccd-41f6-bdf0-424aeac835ee",
+    "url": "https://56b58aad.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "af957f22c9b72a442393b3531fef7999ca9c71fa"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "a1630633-2596-4c05-827d-b8c17d04fae6",
+      "percentage": 100,
+      "scheduledOpening": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "c68cf2a8-f262-4f3c-8b23-16edee005b97",
+      "percentage": 100,
+      "scheduledOpening": true
+    }
+  ],
+  "publicFileChecks": 9,
+  "relatedPassed": 34,
+  "additionalUpdatedOddsChecks": 4,
+  "expiredHistoricalTest": "10/30 자정 개방 등록 일회작업의 날짜 의존 테스트 1개. 코드/실패 블록은 직전 운영과 동일.",
+  "ui": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "ownedProbabilityZero": true,
+      "newSsOnceInTen": true,
+      "refreshBothOwnedZero": true,
+      "bulkDuplicates": 0,
+      "bulkCount": 66666,
+      "delayMs": 10027,
+      "cancelFree": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "ownedProbabilityZero": true,
+      "newSsOnceInTen": true,
+      "refreshBothOwnedZero": true,
+      "bulkDuplicates": 0,
+      "bulkCount": 66666,
+      "delayMs": 10030,
+      "cancelFree": true
+    }
+  ],
+  "publicUi": {
+    "at": "2026-10-30T23:22:23.129Z",
+    "width": 390,
+    "height": 844,
+    "owned": "보유 중 · 중복 획득 불가 (0%)",
+    "unowned": "1회 확률 0.0004%",
+    "overflow": false,
+    "errors": [],
+    "failed": [],
+    "productionApiCalls": 0,
+    "productionWrites": 0
+  },
+  "refill": {
+    "id": "stock-20261031-2200-blackcrown-ss15-v1",
+    "status": "SCHEDULED",
+    "executeAt": "2026-10-31T13:00:00.000Z",
+    "changes": [
+      {
+        "code": "V-950",
+        "quantity": 15
+      },
+      {
+        "code": "V-951",
+        "quantity": 15
+      },
+      {
+        "code": "V-952",
+        "quantity": 15
+      },
+      {
+        "code": "V-953",
+        "quantity": 15
+      },
+      {
+        "code": "V-954",
+        "quantity": 15
+      },
+      {
+        "code": "V-955",
+        "quantity": 15
+      }
+    ],
+    "reason": "사용자 요청: 2026-10-31 22:00 KST 블랙크라운 SS 리미티드 6종 발행 한도 각 15장 추가",
+    "createdAt": "2026-10-30T23:08:33.000Z",
+    "createdBy": 1
+  },
+  "alarm": {
+    "version": "20261026-v1",
+    "checkedAt": "2026-10-30T23:22:04.000Z",
+    "applied": 0,
+    "nextAt": "2026-10-31T13:00:00.000Z",
+    "nextAlarmAt": 1793451600000
+  },
+  "audit": [
+    {
+      "id": "53287",
+      "action_type": "MERCENARY_STOCK_SCHEDULE_STOCK",
+      "target_id": "mercenary_blackcrown_stock_schedule_v1",
+      "created_at": "2026-10-30 23:08:33"
+    }
+  ],
+  "readOnlyReplay": true,
+  "productionAccountWrites": 0,
+  "messages": 0
+}
