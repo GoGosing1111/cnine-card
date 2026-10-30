@@ -1,0 +1,172 @@
+{
+  "at": "2026-10-30T16:15:04.038Z",
+  "pages": {
+    "id": "5abed95b-60a7-46f2-9747-f987cb0fd73e",
+    "url": "https://5abed95b.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "2cf73629e5ce5cdb0317a49f518290213fb12578"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "0b089bf4-389d-4a3f-b4e1-25ec2ccc35a5",
+      "percentage": 100,
+      "combatPolicyIncluded": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "c3e375b9-7364-495c-b237-1a9fbe142429",
+      "percentage": 100,
+      "combatPolicyIncluded": true
+    }
+  ],
+  "assets": [
+    {
+      "file": "shared/mercenary-blackcrown-combat-v1.mjs",
+      "sha256": "550c1b11346359e04a7bdd15055ba947ba3da73d01bd4b81dd449b32dffa0277"
+    },
+    {
+      "file": "index.html",
+      "sha256": "30811b082fe930fd997e8fe660566674d18cdd1bd4a165a575334feba7e39820"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "b9a9df9f7bebb9ac26a9a89aa18d0d7aca46e8754930b5890b46faa3cbe16162"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "c7f3b044d8ae6e342da0e58dec2d29949455497e76e23d7d0f5c900525bc0496"
+    },
+    {
+      "file": "js/mercenary-blackcrown-pack-live.bundle.mjs",
+      "sha256": "38fb67fad72282a2aa9ede96c8ff237e4e686573c529fd6bac72945b8fa5e129"
+    },
+    {
+      "file": "admin/mercenary-blackcrown-admin-v1.bundle.mjs",
+      "sha256": "652ef7ba76a2d70e8ffa454aec1e3f49cbe6f13d303e06b525a4b6f886f1d145"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "1c78811bb691591a2b6880949c7fa589d4e45dd9092908448d4d7cb758ba141f"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "70ea612b4368f5abd81aa7d8806301adb6e1d145c5b2b2f38c870f655b6258aa"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "165f293ad062ceaf5bf82ca3f59dfe663f01f62fe854e4abad265dd4e0b688b0"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "8fefba91928e66aec325a1059ce3383226106e42b2351f46219780a685925203"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "5938b6e1fb9ecbd358d58c00885243ab276b195ed87a64ae76681b77e0fa2115"
+    },
+    {
+      "file": "mercenary-codex/shell.mjs",
+      "sha256": "cb83f25bb28d33a2b8fc4b8f20aede30c333e0803efff063ce60b48f6a117fff"
+    },
+    {
+      "file": "defense/index.html",
+      "sha256": "f97e2be93a341f5a06426a93a4a9946097a67085d160665defb5a746972d2972"
+    },
+    {
+      "file": "preview/coop-defense-v1/index.html",
+      "sha256": "65c281f61751d34771ef1fcba7892a0542a03cb8655ed0050cf10b89bf9d9f9d"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "7a3db92608e4bd9d35ca732de4b990114254b33f10afd17a225b208831252c01"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "f138e79dba8ba5233e1bbfa379ab79afc4e2e2543599974578f07427fa6e6ce6"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "8731f080e40d220953f880a3485697c235b16e415c68ba8cf40a65d94d01c3c2"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "460d7d34751a082b3e758d0eaa095ac692ada47e7a25e155c97279a78bda835b"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "f0b99fd9bc59782d560809e1c9dc989a30aeef8df1fe839028416f2406465f32"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "6d416c42311cd7fe5554790ea0b3b5a0e4d83c6940a1b1e25708aa820c9444d0"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "cd4cb2e01902561ed2d99e50c821c7d3d237a52d9ce520b766c38fd9587a6472"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "5d22528c973a8be932ebc051101444590897310a2485ef053e453524d9a8d923"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "05b844ff07af52c25d8e7776a45430b17c0c4a385d03d901260e067a282c0726"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "3860c4ec1b804891211588fabc744cb7bcb49f30d8e1a1bab0f3b4d978eef830"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "3df12fa50b5362aabc2bdf63be5063e00f6bbf2d22fd47c0d60e8bf72ec9096d"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "37ed3e57cb323e89e9e23ded9edd0391151b463f72896c6b1022319285d11315"
+    }
+  ],
+  "codex": {
+    "revision": 61,
+    "cards": [
+      {
+        "code": "V-950",
+        "name": "희야",
+        "policy": "blackcrown-balance-60-20261031-v1",
+        "basePower": 356400
+      },
+      {
+        "code": "V-951",
+        "name": "나무늘봉순",
+        "policy": "blackcrown-balance-60-20261031-v1",
+        "basePower": 356400
+      },
+      {
+        "code": "V-952",
+        "name": "조은",
+        "policy": "blackcrown-balance-60-20261031-v1",
+        "basePower": 356400
+      },
+      {
+        "code": "V-953",
+        "name": "디임",
+        "policy": "blackcrown-balance-60-20261031-v1",
+        "basePower": 356400
+      },
+      {
+        "code": "V-954",
+        "name": "수댕",
+        "policy": "blackcrown-balance-60-20261031-v1",
+        "basePower": 356400
+      },
+      {
+        "code": "V-955",
+        "name": "오리꿍",
+        "policy": "blackcrown-balance-60-20261031-v1",
+        "basePower": 356400
+      }
+    ]
+  },
+  "productionDataWrites": 0,
+  "messagesSent": 0
+}

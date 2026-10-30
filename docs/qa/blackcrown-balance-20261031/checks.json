@@ -1,0 +1,67 @@
+{
+  "at": "2026-10-30T16:16:05.679Z",
+  "coreTests": 6,
+  "scopedTests": 29,
+  "totalTests": 35,
+  "workerSyntax": true,
+  "productionReleaseGuard": true,
+  "hyperdriveQueryCacheDisabled": true,
+  "pcMobileEntryPaths": 4,
+  "publicMobileEntryPaths": 1,
+  "publicAssetHashes": 26,
+  "workerDeployments": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "0b089bf4-389d-4a3f-b4e1-25ec2ccc35a5",
+      "percentage": 100,
+      "combatPolicyIncluded": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "c3e375b9-7364-495c-b237-1a9fbe142429",
+      "percentage": 100,
+      "combatPolicyIncluded": true
+    }
+  ],
+  "policySettingsUnchanged": true,
+  "liveCodexCards": [
+    {
+      "code": "V-950",
+      "name": "희야",
+      "policy": "blackcrown-balance-60-20261031-v1",
+      "basePower": 356400
+    },
+    {
+      "code": "V-951",
+      "name": "나무늘봉순",
+      "policy": "blackcrown-balance-60-20261031-v1",
+      "basePower": 356400
+    },
+    {
+      "code": "V-952",
+      "name": "조은",
+      "policy": "blackcrown-balance-60-20261031-v1",
+      "basePower": 356400
+    },
+    {
+      "code": "V-953",
+      "name": "디임",
+      "policy": "blackcrown-balance-60-20261031-v1",
+      "basePower": 356400
+    },
+    {
+      "code": "V-954",
+      "name": "수댕",
+      "policy": "blackcrown-balance-60-20261031-v1",
+      "basePower": 356400
+    },
+    {
+      "code": "V-955",
+      "name": "오리꿍",
+      "policy": "blackcrown-balance-60-20261031-v1",
+      "basePower": 356400
+    }
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

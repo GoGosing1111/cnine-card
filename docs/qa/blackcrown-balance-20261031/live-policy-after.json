@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-30T16:14:34.871Z",
+  "readOnly": true,
+  "productionWrites": 0,
+  "cmsRevision": 61,
+  "cmsSha256": "935c59a837a16cf6bf854d56826122b1c0afeaa32d35b03d0316288dc4249e43",
+  "growthRevision": 1,
+  "runtimeSha256": "608230883147b6afb251b0e77648cfca3a69b506e3b5451dd4b370fc496b774a",
+  "simulationInputsMatch": true,
+  "settings": [
+    {
+      "key": "mercenary_blackcrown_ss_pack_v1",
+      "sha256": "b6fc184b7f851afc680df62a8bd23214cb2a8c464f5526afc1f9c38c8c90b2c0"
+    },
+    {
+      "key": "mercenary_bloodmoon_ss_pack_v1",
+      "sha256": "240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f"
+    },
+    {
+      "key": "mercenary_level_policy_v1",
+      "sha256": "6e60255c851ff333322e23e10a35f8856c3181d11fa842d56c382aaa45cffb85"
+    }
+  ]
+}
