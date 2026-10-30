@@ -1,0 +1,21 @@
+{
+  "status": "deployed-and-verified",
+  "source": "6209c844eb4e8bba9a79681a3130c49d9d6ea6c6",
+  "pages": "9400894a-293f-4f97-a79d-2ad50f54b5a6",
+  "url": "https://9400894a.cnine-card.pages.dev",
+  "scope": ["lobby", "sidebar", "all-menu", "existing-64-icons", "compact-lobby-operation-status-and-detail"],
+  "deferredInteriorDraft": "9785fcaed9b4908c2bed4dc6591b8cda03ac69d5",
+  "testsPassed": 30,
+  "publicFilesMatched": 23,
+  "existingRedirectsVerified": 2,
+  "publicIconsMatched": 64,
+  "deliveryFileCount": 19999,
+  "uploadedFiles": 22,
+  "apiWorker": {"version": "6641b305-05e9-4b55-9f02-6e768e44a8ca", "traffic": 100},
+  "clanWorker": {"version": "41f6e80f-2229-4cf7-809d-35e00a0cfe11", "traffic": 100},
+  "summaryHeightIncludingFrame": {"desktop": 94.8, "tablet": 94.8, "mobile": 122.8, "smallMobile": 122.8},
+  "nativePageCssChanges": 0,
+  "serverChanges": 0,
+  "maintenanceOrSchedules": 0,
+  "productionAccountMutationsOrMessages": 0
+}

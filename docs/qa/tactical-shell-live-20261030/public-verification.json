@@ -1,0 +1,469 @@
+{
+  "origin": "https://cnine-card.pages.dev",
+  "checkedAt": "2026-10-30T04:34:21.980Z",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 48303,
+      "expected": "9433a71224917fc19db1df06a0bfc977d048530020f4830f20ac7348ada38d14",
+      "actual": "9433a71224917fc19db1df06a0bfc977d048530020f4830f20ac7348ada38d14",
+      "match": true
+    },
+    {
+      "file": "world/index.html",
+      "status": 200,
+      "bytes": 18284,
+      "expected": "8aa101f857a1a77b8b1ca00962a02beae33397bb3f913b42f4f9fa5330d5aea9",
+      "actual": "8aa101f857a1a77b8b1ca00962a02beae33397bb3f913b42f4f9fa5330d5aea9",
+      "match": true
+    },
+    {
+      "file": "loot-shop/index.html",
+      "status": 200,
+      "bytes": 5333,
+      "expected": "17207acb4813d0b4e1c84260c847739071f74726fc6ba0802ab6b91660367a6a",
+      "actual": "17207acb4813d0b4e1c84260c847739071f74726fc6ba0802ab6b91660367a6a",
+      "match": true
+    },
+    {
+      "file": "miracle-cube/index.html",
+      "status": 200,
+      "bytes": 5232,
+      "expected": "4b8f62a1dff54880e38e1c9891cdd94bd00138f55359a1ad35894a47bad7256b",
+      "actual": "4b8f62a1dff54880e38e1c9891cdd94bd00138f55359a1ad35894a47bad7256b",
+      "match": true
+    },
+    {
+      "file": "sss-miracle-cube/index.html",
+      "status": 200,
+      "bytes": 4401,
+      "expected": "e6e6d0e0a48bfd041ef504c7b448b4bb81c1048425dbd176b683dcdc36ead695",
+      "actual": "e6e6d0e0a48bfd041ef504c7b448b4bb81c1048425dbd176b683dcdc36ead695",
+      "match": true
+    },
+    {
+      "file": "master-star-mine/index.html",
+      "status": 200,
+      "bytes": 6154,
+      "expected": "9e602833aa29dd6f6d694d32cf35a93550c6f56d80f1385b8cb4175d0184c088",
+      "actual": "9e602833aa29dd6f6d694d32cf35a93550c6f56d80f1385b8cb4175d0184c088",
+      "match": true
+    },
+    {
+      "file": "equipment-forge/index.html",
+      "status": 200,
+      "bytes": 14005,
+      "expected": "b2912a329f2e63df37284b9670ba22835d3a9d3bc1630c5906bb880df2ab755e",
+      "actual": "b2912a329f2e63df37284b9670ba22835d3a9d3bc1630c5906bb880df2ab755e",
+      "match": true
+    },
+    {
+      "file": "pets/index.html",
+      "status": 200,
+      "bytes": 2638,
+      "expected": "112023ab60f5b62dfa2a45a8883f6bea3b690e85edcea9c4b717aa3b46ba96f8",
+      "actual": "112023ab60f5b62dfa2a45a8883f6bea3b690e85edcea9c4b717aa3b46ba96f8",
+      "match": true
+    },
+    {
+      "file": "events/chicken/index.html",
+      "status": 200,
+      "bytes": 48303,
+      "expected": "9433a71224917fc19db1df06a0bfc977d048530020f4830f20ac7348ada38d14",
+      "actual": "9433a71224917fc19db1df06a0bfc977d048530020f4830f20ac7348ada38d14",
+      "expectedExistingRedirect": "/?screen=home",
+      "finalUrl": "https://cnine-card.pages.dev/?screen=home",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "status": 200,
+      "bytes": 10480,
+      "expected": "7d1d78b33a709726ab126b9a16817e67417f52aace9a36071cd9a13240c9c186",
+      "actual": "7d1d78b33a709726ab126b9a16817e67417f52aace9a36071cd9a13240c9c186",
+      "match": true
+    },
+    {
+      "file": "events/golden-axe/index.html",
+      "status": 200,
+      "bytes": 48303,
+      "expected": "9433a71224917fc19db1df06a0bfc977d048530020f4830f20ac7348ada38d14",
+      "actual": "9433a71224917fc19db1df06a0bfc977d048530020f4830f20ac7348ada38d14",
+      "expectedExistingRedirect": "/?screen=home",
+      "finalUrl": "https://cnine-card.pages.dev/?screen=home",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/leveling/index.html",
+      "status": 200,
+      "bytes": 3065,
+      "expected": "91da2447d32e36bb0f34c869000df42c9af94f077517d3373247b03d13102cec",
+      "actual": "91da2447d32e36bb0f34c869000df42c9af94f077517d3373247b03d13102cec",
+      "match": true
+    },
+    {
+      "file": "pet-codex/app.mjs",
+      "status": 200,
+      "bytes": 701,
+      "expected": "7347dce95632c9561eab5143d70d27d600d56938c40b38b6124af3919016bb82",
+      "actual": "7347dce95632c9561eab5143d70d27d600d56938c40b38b6124af3919016bb82",
+      "match": true
+    },
+    {
+      "file": "js/pet-opening-v1.mjs",
+      "status": 200,
+      "bytes": 11229,
+      "expected": "5ea9b6faf485e86689b4757001904e4126b7a5b3d007b4ab3d8c20534eb40976",
+      "actual": "5ea9b6faf485e86689b4757001904e4126b7a5b3d007b4ab3d8c20534eb40976",
+      "match": true
+    },
+    {
+      "file": "mercenary-codex/shell.mjs",
+      "status": 200,
+      "bytes": 10461,
+      "expected": "fa9b06ac8f27c6e036686b8810b0c1c9ce18eb1e93ef3e013fca777c74763f7c",
+      "actual": "fa9b06ac8f27c6e036686b8810b0c1c9ce18eb1e93ef3e013fca777c74763f7c",
+      "match": true
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "status": 200,
+      "bytes": 1205202,
+      "expected": "fc6e698f2209497d70e670c09a6dd5df0dc31089a80096057b8c740990256724",
+      "actual": "fc6e698f2209497d70e670c09a6dd5df0dc31089a80096057b8c740990256724",
+      "match": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "bytes": 802407,
+      "expected": "d2974ec21cdf3704abb71f359f05b63451611547566a45ffa16153eb7e28663e",
+      "actual": "d2974ec21cdf3704abb71f359f05b63451611547566a45ffa16153eb7e28663e",
+      "match": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "bytes": 21866,
+      "expected": "e56b34dff37ca0453dd91e9ff82171618a42c6edbd0d8da6a0db0a08c78c6d3f",
+      "actual": "e56b34dff37ca0453dd91e9ff82171618a42c6edbd0d8da6a0db0a08c78c6d3f",
+      "match": true
+    },
+    {
+      "file": "assets/ui/tactical-20261030/panel-flat.webp",
+      "status": 200,
+      "bytes": 40384,
+      "expected": "b09ad6d16bcf520352f8185ebc55ae38596e0574b865adc93ecba1cee1fe834b",
+      "actual": "b09ad6d16bcf520352f8185ebc55ae38596e0574b865adc93ecba1cee1fe834b",
+      "match": true
+    },
+    {
+      "file": "js/pve-command-v2-live.js",
+      "status": 200,
+      "bytes": 36395,
+      "expected": "24a8447a1ac47c058b8c3a8e18105ef1ba8375bcc02599ed35ab96028caff9d5",
+      "actual": "24a8447a1ac47c058b8c3a8e18105ef1ba8375bcc02599ed35ab96028caff9d5",
+      "match": true
+    },
+    {
+      "file": "js/soopketmon-v21-command-icons.js",
+      "status": 200,
+      "bytes": 11041,
+      "expected": "fbbd4471b4936ec0c763bb979ab1ab10328c43b217d15e010507fd7081b63427",
+      "actual": "fbbd4471b4936ec0c763bb979ab1ab10328c43b217d15e010507fd7081b63427",
+      "match": true
+    },
+    {
+      "file": "js/soopketmon-v21-exact-shell-adapter.js",
+      "status": 200,
+      "bytes": 54681,
+      "expected": "9e7c56480449306424044476f0a3ba7a4ddc40f8a8f4b52065d1e4b384865d09",
+      "actual": "9e7c56480449306424044476f0a3ba7a4ddc40f8a8f4b52065d1e4b384865d09",
+      "match": true
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "bytes": 71224,
+      "expected": "b1359b4f533e8bfe6b910bb7a6575bc971054b28f10c3bafb14cb909be18d714",
+      "actual": "b1359b4f533e8bfe6b910bb7a6575bc971054b28f10c3bafb14cb909be18d714",
+      "match": true
+    },
+    {
+      "file": "css/adventure-lobby-v2107.css",
+      "status": 200,
+      "bytes": 17455,
+      "expected": "63a368bc65e4e823fe273c3520ce6731b0f7dd7fed7c289c8ad09c2b70df2a35",
+      "actual": "63a368bc65e4e823fe273c3520ce6731b0f7dd7fed7c289c8ad09c2b70df2a35",
+      "match": true
+    },
+    {
+      "file": "css/live-operations-v1868.css",
+      "status": 200,
+      "bytes": 19268,
+      "expected": "b0d1ea483cc2ab09777247f312838a046b531e852939b995035f6d60b6d76a92",
+      "actual": "b0d1ea483cc2ab09777247f312838a046b531e852939b995035f6d60b6d76a92",
+      "match": true
+    }
+  ],
+  "icons": [
+    {
+      "id": "home",
+      "match": true
+    },
+    {
+      "id": "dex",
+      "match": true
+    },
+    {
+      "id": "cards",
+      "match": true
+    },
+    {
+      "id": "mercenaryDex",
+      "match": true
+    },
+    {
+      "id": "petDex",
+      "match": true
+    },
+    {
+      "id": "upgrade",
+      "match": true
+    },
+    {
+      "id": "evolution",
+      "match": true
+    },
+    {
+      "id": "iconfusion",
+      "match": true
+    },
+    {
+      "id": "magic",
+      "match": true
+    },
+    {
+      "id": "battle",
+      "match": true
+    },
+    {
+      "id": "deck",
+      "match": true
+    },
+    {
+      "id": "hunt",
+      "match": true
+    },
+    {
+      "id": "raid",
+      "match": true
+    },
+    {
+      "id": "coop",
+      "match": true
+    },
+    {
+      "id": "escort",
+      "match": true
+    },
+    {
+      "id": "defense",
+      "match": true
+    },
+    {
+      "id": "seal",
+      "match": true
+    },
+    {
+      "id": "legion",
+      "match": true
+    },
+    {
+      "id": "tower",
+      "match": true
+    },
+    {
+      "id": "scrapyard",
+      "match": true
+    },
+    {
+      "id": "masterStarMine",
+      "match": true
+    },
+    {
+      "id": "pvp",
+      "match": true
+    },
+    {
+      "id": "duo",
+      "match": true
+    },
+    {
+      "id": "classicColosseum",
+      "match": true
+    },
+    {
+      "id": "jokgakCity",
+      "match": true
+    },
+    {
+      "id": "rank",
+      "match": true
+    },
+    {
+      "id": "clan",
+      "match": true
+    },
+    {
+      "id": "clanWar",
+      "match": true
+    },
+    {
+      "id": "clanFaction",
+      "match": true
+    },
+    {
+      "id": "coup",
+      "match": true
+    },
+    {
+      "id": "territory",
+      "match": true
+    },
+    {
+      "id": "equipment",
+      "match": true
+    },
+    {
+      "id": "title",
+      "match": true
+    },
+    {
+      "id": "garage",
+      "match": true
+    },
+    {
+      "id": "avatar",
+      "match": true
+    },
+    {
+      "id": "fusion",
+      "match": true
+    },
+    {
+      "id": "vehicle",
+      "match": true
+    },
+    {
+      "id": "alchemy",
+      "match": true
+    },
+    {
+      "id": "gift",
+      "match": true
+    },
+    {
+      "id": "attendance",
+      "match": true
+    },
+    {
+      "id": "dailyquest",
+      "match": true
+    },
+    {
+      "id": "messages",
+      "match": true
+    },
+    {
+      "id": "mineral",
+      "match": true
+    },
+    {
+      "id": "prediction",
+      "match": true
+    },
+    {
+      "id": "auction",
+      "match": true
+    },
+    {
+      "id": "inventory",
+      "match": true
+    },
+    {
+      "id": "soopketland",
+      "match": true
+    },
+    {
+      "id": "prison",
+      "match": true
+    },
+    {
+      "id": "prisoncamp",
+      "match": true
+    },
+    {
+      "id": "administration",
+      "match": true
+    },
+    {
+      "id": "world",
+      "match": true
+    },
+    {
+      "id": "favorites",
+      "match": true
+    },
+    {
+      "id": "eye",
+      "match": true
+    },
+    {
+      "id": "search",
+      "match": true
+    },
+    {
+      "id": "mercenaryEquipment",
+      "match": true
+    },
+    {
+      "id": "equipmentForge",
+      "match": true
+    },
+    {
+      "id": "buy",
+      "match": true
+    },
+    {
+      "id": "lootShop",
+      "match": true
+    },
+    {
+      "id": "seasonPass",
+      "match": true
+    },
+    {
+      "id": "grid",
+      "match": true
+    },
+    {
+      "id": "settings",
+      "match": true
+    },
+    {
+      "id": "fullscreen",
+      "match": true
+    },
+    {
+      "id": "chicken",
+      "match": true
+    },
+    {
+      "id": "goldenAxe",
+      "match": true
+    }
+  ],
+  "passed": true
+}

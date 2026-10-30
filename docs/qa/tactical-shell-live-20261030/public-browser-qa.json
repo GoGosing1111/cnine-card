@@ -1,0 +1,21 @@
+{
+  "source": "https://cnine-card.pages.dev/",
+  "menu": {
+    "brokenIcons": 0,
+    "open": true,
+    "scrollWidth": 865,
+    "width": 865
+  },
+  "operations": {
+    "brokenIcons": 0,
+    "height": 448.8800048828125,
+    "items": 5,
+    "listScrollWidth": 729,
+    "listWidth": 729,
+    "open": true,
+    "scrollWidth": 745,
+    "tactical": true,
+    "width": 745
+  },
+  "actions": "Opened/closed all-menu and operation status detail; dismissed existing optional consent notice; no consent accepted, reward, purchase, message or account mutation"
+}

@@ -35,6 +35,12 @@
 
 증거: 프로젝트 루트 `operations/tactical-ui-20261030/scoped-*`. 로컬 검수용 계정과 고정 fixture를 사용했으며 운영 계정·재화 직접 쓰기, 메시지 전송 없음. 별도 유지관리·정리·예약 없음.
 
-## 배포 계획
+## 배포 결과
 
-`SCOPED_DEPLOY_BASE=834d3f2c9ef6876d6da7cdadfcf28cd05409e935`, `npm run deploy:production -- --scoped`. 소스 커밋/푸시 후 공식 절차로 배포한다. 실제 배포 완료와 공개 파일 검증 결과는 별도 결과 기록에 추가한다.
+`SCOPED_DEPLOY_BASE=834d3f2c9ef6876d6da7cdadfcf28cd05409e935`, `npm run deploy:production -- --scoped` 성공. 소스 `6209c844eb4e8bba9a79681a3130c49d9d6ea6c6`, Pages `9400894a-293f-4f97-a79d-2ad50f54b5a6`, [운영 배포](https://9400894a.cnine-card.pages.dev).
+
+관련 자동 검사 30개 통과. 공개 전송 19,999파일 중 신규/변경 업로드 22파일. API Worker `6641b305-05e9-4b55-9f02-6e768e44a8ca`, clan-draft `41f6e80f-2229-4cf7-809d-35e00a0cfe11` 모두 트래픽 100% 확인.
+
+운영 도메인의 23개 파일 바이트 일치, 아이콘64 원본 SHA-256 일치. 은퇴한 `events/chicken` 및 `events/golden-axe`는 기존 `_redirects`에 따라 `/?screen=home`으로 이동하며 새 메인 HTML을 받는 것을 확인했다. 첫 검증의 해당 두 바이트 불일치는 보존된 리다이렉트를 파일 자체와 비교한 검수 기준 문제였다.
+
+라이브 로비에서 상단 채움·현황 표시, 전체 메뉴·현황 전체 보기의 열기/닫기 및 이미지 누락0·가로 넘침0 확인. 기존 초기 복귀/선택 동의 안내가 UI를 가린 경우 로비 복귀 및 안내 닫기 후 재확인했다. 동의 설정·재화/보유 수정·보상 수령·구매·메시지 전송은 하지 않았다. 공개 검증은 `public-verification.json`, 화면 기록은 `public-browser-qa.json`에 남겼다.
