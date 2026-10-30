@@ -1,0 +1,312 @@
+{
+  "reports": [
+    {
+      "width": 390,
+      "baseline": false,
+      "measured": {
+        "height": 285,
+        "comparison": 285,
+        "ratio": 1,
+        "after": 285,
+        "bodyHeight": 241.02289447869956,
+        "art": 285,
+        "samples": [
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "idle",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "attack",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.782541865190583,
+            "scaleY": 0.782541865190583,
+            "reference": 241.02289447869956
+          },
+          {
+            "action": "skill",
+            "time": 0,
+            "scaleX": 0.3195067264573991,
+            "scaleY": 0.3195067264573991,
+            "reference": 241.02289447869953
+          }
+        ],
+        "footAnchor": {
+          "x": 0.25848917322834647,
+          "y": 0.7296650717703349
+        },
+        "spriteScale": 0.3195067264573991,
+        "blackcrownScale": 0.1968232044198895
+      },
+      "attack": {
+        "count": 1,
+        "last": {
+          "code": "V-960",
+          "eventType": "ATTACK",
+          "authoritative": true,
+          "damageApplications": 1,
+          "contactSeconds": 0.3,
+          "durationSeconds": 0.82,
+          "playbackRate": 2,
+          "clockOwner": "V3_REGISTERED_GSAP"
+        }
+      }
+    }
+  ],
+  "publicBase": "https://cnine-card.pages.dev",
+  "productionWrites": 0
+}

@@ -1,0 +1,100 @@
+{
+  "at": "2026-10-30T15:57:59.549Z",
+  "pages": {
+    "id": "50c8db9e-5ba3-45af-8e4e-a5e8f832a424",
+    "url": "https://50c8db9e.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "d2df098ef97f1b5235ff0664b07d93fecfef3403"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "0cd0a28a-bbac-4f99-8e95-f91712473fea",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "fe5defb0-ce3c-4a22-8d1e-14093b373181",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "d7dc6cb85fb12ce8eea893071e36be81bfb5d0df347c783dd3225b022f73abf5"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "d2e7cdbf9e9f5dcecf4149d3ee98d19f0e04141f84575c183eef2036bc38e7a6"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "66924d42126f3ba07a677660e9c2719b88f6010885d927ae3b8f6d8d9f618885"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "d9f46a51cf58f3ce5fe116749f80f6d8cfdef423703819b53577cd7aef81dffb"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "67594ba8113124a9594ad1cae93d49b9510f21bf7059490f7f2ddb5ca6083e64"
+    },
+    {
+      "file": "defense/index.html",
+      "sha256": "4531a82ed345e871aa145ab29d228a8b1e5f7cf5f4120d99e3e4a21c676926f1"
+    },
+    {
+      "file": "preview/coop-defense-v1/index.html",
+      "sha256": "e67a1c907270dd505183deb277a5fb56e13b46c5b6ff5a9177cb63f4a129581d"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "f09f1fb27020b8166b7de2a24cc3899f5259f88663abc1ef08c43d0e0d66b347"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "da994c0da136401d812f3835531ef27c62c65214264d41b7fcf374a9a52982dc"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "a664bf14a0d0e38d064e1e90325cf1458f0db4c3d66575743662edb393627954"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "fecd6853febc554a26eb7f026039c4afba1293fbc80718a28babb7fbaefc85eb"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "6cdec4016c5b6f6667ebc795904231153414aa06103352f3aefc227008066270"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "1a38c06c84f6be031227488e7d0cffce17a66f3593dbb89144c35a17f1ed6306"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "c3e642ac5865675bf2df915b848f052372f2b9f00ea757b709ed2568f501b6f4"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "c4f657e0bcad7f880a8b36235bd63188d34e9f9f18e122766a477c7fab27d418"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "3969f46b92f3b79632d99de07396315f16aede45680a6203c765f9877ec007ec"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "1bcd41f0b6d823e693c2884fd77e0cd21db1aaf62df325484ca408ab28ab56cb"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "e5b6f55282d22a96b2e5f4948c2ee2b5422f003c58a823d950ec38e5aad0b887"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "384d49f52308530221ff86569cb23c05584c244de52419616e11b86c5c3f6d0a"
+    }
+  ],
+  "productionDataWrites": 0
+}
