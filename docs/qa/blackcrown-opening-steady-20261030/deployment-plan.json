@@ -1,0 +1,14 @@
+{
+  "before": {
+    "id": "7adfc3f0-5498-47fe-8247-a63734727afa",
+    "url": "https://7adfc3f0.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "cb691ef98dcd67c9c30d2e3feb6911b6fa2f15ce"
+  },
+  "base": "cb691ef98dcd67c9c30d2e3feb6911b6fa2f15ce",
+  "reason": "블랙크라운 개봉 배경 회전으로 스크롤바가 반복 생성되는 흔들림 수정. 배경은 고정 영역에 클리핑하고 내용만 세로 스크롤, 팩 기울임 제거·3px 부유·6% 확대. 실제 PC/모바일 10초 검수와 기존 배송 검사만 수행.",
+  "tests": [
+    "tests/blackcrown-opening-delivery-20261030.test.mjs"
+  ],
+  "checks": []
+}

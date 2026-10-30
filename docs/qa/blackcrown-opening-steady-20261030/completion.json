@@ -1,0 +1,84 @@
+{
+  "at": "2026-10-30T11:24:00.956Z",
+  "source": "971cdb342c1e9cdc0711f1012f3b39ec7ac37bc4",
+  "pages": "dcb3de3b-d5da-4f5c-bf1a-9477bb11e6b6",
+  "preview": "http://127.0.0.1:14079/?v=3",
+  "cause": "Rotating background overflow alternated scrollbars and shifted the centered content.",
+  "before": {
+    "centerShiftPx": 7.6,
+    "scrollbarsToggled": true
+  },
+  "after": {
+    "decorativeOverflowClipped": true,
+    "verticalScrollOnlyInContent": true,
+    "packTiltDegrees": 0,
+    "packTravelPx": 3,
+    "finalPackScale": 1.06,
+    "durationMs": 10000
+  },
+  "local": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "largeOpeningMs": 10069,
+      "posts": 2,
+      "cancellationFree": true,
+      "escapeFree": true,
+      "ordinaryTenImmediate": true,
+      "scheduledEntry": true,
+      "reducedMotion": false,
+      "geometry": {
+        "samples": 2391,
+        "spread": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "clientWidth": 0,
+          "clientHeight": 0
+        }
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "largeOpeningMs": 10095,
+      "posts": 2,
+      "cancellationFree": true,
+      "escapeFree": true,
+      "ordinaryTenImmediate": true,
+      "scheduledEntry": true,
+      "reducedMotion": false,
+      "geometry": {
+        "samples": 2384,
+        "spread": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "clientWidth": 0,
+          "clientHeight": 0
+        }
+      }
+    }
+  ],
+  "public": {
+    "at": "2026-10-30T11:23:45.998Z",
+    "width": 390,
+    "height": 844,
+    "samples": 24,
+    "spread": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "overflow": "hidden",
+    "imageWidth": 768,
+    "errors": [],
+    "failed": [],
+    "productionWrites": 0
+  },
+  "productionAccountWrites": 0,
+  "scheduleReapplied": false
+}
