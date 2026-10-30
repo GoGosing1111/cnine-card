@@ -5273,18 +5273,16 @@ async function handleRequest(context){
       if(!nickname) return json({error:'닉네임을 입력하세요.'},400);
       const privateKey=createPrivateKey();
       const privateKeyHash=await hash(privateKey);
-      const ipHash=await requestIpHash(request,env);
-      const existingIp=await env.DB.prepare('SELECT user_id FROM account_ip_registrations WHERE ip_hash=?').bind(ipHash).first();
-      const ipException=await env.DB.prepare("SELECT ip_hash FROM account_ip_exceptions WHERE ip_hash=? AND (expires_at IS NULL OR expires_at>datetime('now'))").bind(ipHash).first();
-      if(existingIp&&!ipException)return json({error:'해당 네트워크에서는 이미 리버스콜 계정이 생성되었습니다. 계정 복구가 필요한 경우 관리자에게 문의해 주세요.',code:'IP_ACCOUNT_LIMIT'},409);
+      // 2026-10-30: shared networks no longer limit account creation. Keep the
+      // historical IP ledger unchanged; its legacy unique index must not reject
+      // a new account after users has already been inserted.
       try{
         const coinSetting=await metaValue(env,'new_user_coin');
         const newUserCoin=Math.max(0,Number(coinSetting?.value||5000)||5000);
         const result=await env.DB.prepare('INSERT INTO users(nickname,private_key_hash,coin) VALUES(?,?,?)').bind(nickname,privateKeyHash,newUserCoin).run();
-        await env.DB.prepare('INSERT INTO account_ip_registrations(user_id,ip_hash) VALUES(?,?)').bind(result.meta.last_row_id,ipHash).run();
         const user=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(result.meta.last_row_id).first();
         return json({token:await makeSession(env,user.id,payload.clientId||request.headers.get('x-cnine-client-id')),privateKey,user:await profile(env,user)},201);
-      }catch(error){return json({error:String(error?.message||'').includes('account_ip')?'해당 네트워크에서는 이미 계정이 생성되었습니다.':'이미 사용 중인 닉네임입니다.'},409)}
+      }catch(error){return json({error:'이미 사용 중인 닉네임입니다.'},409)}
     }
     if(path==='auth/login'&&request.method==='POST'){
       const payload=await readBody(request);

@@ -1,10 +1,10 @@
 {
   "appName": "리버스콜",
   "packageId": "kr.yakcode.reversecall.onestore",
-  "appVersion": "1.0.1",
-  "appVersionCode": 2,
+  "appVersion": "1.0.2",
+  "appVersionCode": 3,
   "startUrl": "/?source=android&distribution=onestore",
-  "filename": "ReverseCall-ONEstore-1.0.1.apk",
+  "filename": "ReverseCall-ONEstore-1.0.2.apk",
   "channel": "onestore",
   "certificateSha256": "1A:16:4D:EA:3A:2B:E5:F9:FA:53:AE:10:7E:D0:B7:5E:5E:A5:65:86:23:7B:DD:F2:73:E4:76:28:6C:24:1E:15",
   "updates": "ONE_STORE_ONLY",
