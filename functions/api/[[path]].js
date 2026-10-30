@@ -98,7 +98,7 @@ import {handleRankExpPotion} from '../_rank_exp_potion.js';
 import {handleMercenaryCodex} from '../_mercenary_codex.js';
 import {handleMercenaryAccount,mercenaryUsesInnerLock} from '../_mercenary_account_routes.js';
 import {handleMiracleCube,openMiracleCube,presentMiracleInventory,ensureMiracleCubeCatalog} from '../_miracle_cube.js';
-import {handleSssCube,presentSssCubeInventory} from '../_sss_miracle_cube.js';
+import {handleSssCube,presentSssCubeInventory,ensureSssCubeCatalog} from '../_sss_miracle_cube.js';
 import {handleSssReroll,presentSssRerollInventory,ensureSssRerollCatalog} from '../_mercenary_sss_reroll.js';
 import {canIssueMiracleCubeCoupon,redeemMiracleCubeCoupon} from '../_miracle_cube_coupon.js';
 import {handleMasterStarMine} from '../_master_star_mine.js';
@@ -581,6 +581,8 @@ function messageRewardClaimToken(){
 }
 
 const VERIFIED_MESSAGE_REWARD_TYPES={
+  SSS_MIRACLE_CUBE:{label:'SSS 미라클큐브',icon:'🎲',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
+  MIRACLE_CUBE:{label:'미라클 큐브',icon:'🎲',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   SIG_HUNTER_BOX:{label:'시그헌터 박스',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
   REVERSECALL_STREAMER_GIFT_BOX:{label:'리버스콜 스트리머 선물',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
   MERCENARY_SSS_REROLL_TICKET:{label:'SSS 재뽑기권',icon:'🎟️',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
@@ -654,6 +656,8 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   const spec=verifiedMessageRewardSpec(rewardType);
   const rewardAmount=Math.max(0,Math.floor(Number(reward?.reward_amount||0)));
   if(!spec||rewardAmount<=0)throw new Error('지원하지 않는 메시지 보상입니다.');
+  if(rewardType==='SSS_MIRACLE_CUBE')await ensureSssCubeCatalog(env);
+  if(rewardType==='MIRACLE_CUBE')await ensureMiracleCubeCatalog(env);
   if(rewardType==='PINGDU_REPAIR_COUPON')await ensureForgeRepairCatalog(env);
   if(rewardType==='TOURNAMENT_GIFT_BOX')await ensureTournamentGiftCatalog(env);
   if(rewardType==='SIG_HUNTER_BOX')await ensureSigHunterBoxCatalog(env);
