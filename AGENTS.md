@@ -1,3 +1,10 @@
+## 계정 생성 IP 제한 해제 · 원스토어 APK 1.0.2 / Windows 1.0.0 — 2026-10-30 최신
+
+- 사용자 **“일단 생성 제한 풀어”, “APK 업데이트해서 내놔”**에 따라 같은 네트워크의 신규 계정 생성 제한을 해제했다. **운영 소스 2573ff34a · Pages af3011cb**, 두 Worker100% 및 업로드된 가입 분기 확인. 기존 IP 이력/예외/고유 인덱스는 보존하고 새 가입에서 IP 조회·기록을 하지 않는다. 닉네임 중복·개인키·세션·시작 코인 유지. 별도 재개 지시 전 IP 생성 제한을 다시 켜지 않는다.
+- 가입/로그인9검사 및 원스토어/배포 포장7검사 통과. 공개 빈 닉네임400 확인, 운영 테스트 계정 생성0·기존 계정 변경0·메시지0. 기록 `docs/qa/account-registration-limit-off-20261030/`, 증거 `operations/account-registration-limit-off-20261030/`.
+- Android **1.0.2/code3**, `kr.yakcode.reversecall.onestore`, 기존 YAKCODE v2 서명·승부예측/포로수용소/후원/시즌패스 상시 제외 유지. 전달 `C:/Users/User/Downloads/ReverseCall-ONEstore-1.0.2-review-20261030/ReverseCall-ONEstore-1.0.2.apk`, SHA-256 `d4ab7f15a90307f6fbf723b71d811d7dc49f2990b2ae58ff6b928d22bf909bae`. 빌드/lint·서명·7파일 바이트/해시 확인. 기존31native/33browser 검사는 구현과 바이트 동일 확인 후 증거 재사용, 실기기0·스토어 업로드0.
+- Windows **1.0.0 x64**, `kr.yakcode.reversecall.onestore.windows`, 별도 설치/프로필·기존 실행 파일 업데이트 연결 제거. 전달 `C:/Users/User/Downloads/ReverseCall-ONEstore-Windows-1.0.0-review-20261030/ReverseCall-ONEstore-Windows-Setup-1.0.0-x64.exe`. 관련32검사·실제Electron28검사·설치/삭제·ASAR41파일 검증. Authenticode 미서명. 기존 체크아웃·빌드/의존성 재사용, 유지관리/예약 없음.
+
 ## 스트리머 박스 15명 수량×2 · 비니 추가 지급 완료 — 2026-10-30
 
 - **운영 지급 완료:** **2026-10-30 16:53:10 KST·감사53116**, 명단15명 **총138개**, 원문 숫자 합계69×2. 후속 **비니 ID4595 숫자3→6개** 포함.

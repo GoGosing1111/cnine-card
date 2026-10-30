@@ -1,5 +1,13 @@
 # 원스토어 Android 상품등록용 APK — 2026-10-30
 
+## 최신 제출 파일: 1.0.2 / code 3
+
+사용자 신규 가입 오류 제보와 `일단 생성 제한 풀어`, `APK 업데이트해서 내놔`에 따라 공통 서버 IP 가입 제한을 해제하고 **1.0.2/code3**을 새로 빌드했다. 운영 소스2573ff34a·Pages af3011cb·두Worker100% 확인. 신규 가입/기존 로그인9검사와 원스토어/포장7검사 통과. 기존 계정/재화/닉네임 중복/개인키/세션 유지.
+
+새 파일: `C:/Users/User/Downloads/ReverseCall-ONEstore-1.0.2-review-20261030/ReverseCall-ONEstore-1.0.2.apk`, 4,306,383bytes, SHA-256 `d4ab7f15a90307f6fbf723b71d811d7dc49f2990b2ae58ff6b928d22bf909bae`. 기존 YAKCODE 인증서·패키지·상시 제외 유지, assemble/lint·서명·정렬·최종7파일 검증. 1.0.1과 구현 소스 해시·번들 바이트 동일 확인 후31native/33browser 증거를 재사용했다. 실기기 미연결·스토어 업로드 미실시. 아래1.0.1 기록은 보존 이력이다.
+
+## 앞선 1.0.1 빌드 기록
+
 사용자 요청: 원스토어 안드로이드 상품등록 심사를 위한 APK 준비.
 
 리버스콜 **1.0.1 / versionCode 2**, 패키지 **kr.yakcode.reversecall.onestore**의 서명된 release APK를 준비했다. 최신 원격 main `da521b0415cc14dac61b5b6e360a853d56d31781`에서 APK에 포함하는 7개 게임 문서를 다시 생성했다. 원래 YAKCODE 인증서와 패키지를 유지하고, 이전 1.0.0 / code 1 파일은 보존했다.

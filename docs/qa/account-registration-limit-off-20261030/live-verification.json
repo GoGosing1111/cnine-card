@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-30T08:11:32.409Z",
+  "pages": {
+    "id": "af3011cb-b520-4901-a58a-7665d5123312",
+    "url": "https://af3011cb.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "2573ff34a61e59015c5018f38786274918bd0e3d"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "0170086a-c9cb-418d-b02f-4c488eba929b",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "0dd022f7-327d-454b-899d-a3a4fb300b7c",
+      "percentage": 100
+    }
+  ],
+  "networkRegistrationLimit": false,
+  "uploadedRegistrationVerified": true,
+  "uploadedWorkerSha256": "2773691bfdd20c94504cd6de23c2ad42a03c7ddbc657d6c7ac925fc3170b34c8",
+  "invalidNicknameStatus": 400,
+  "productionAccountsCreated": 0,
+  "historicalIpLedgerChanged": false,
+  "existingAccountsChanged": false,
+  "messagesSent": 0
+}

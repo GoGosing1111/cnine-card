@@ -6,4 +6,8 @@
 
 실제 가입 분기와 PostgreSQL 호환 계층을 PGlite에서 실행해 동일 IP 신규2계정/각 개인키·세션, 중복 닉네임, 동시 중복 요청1계정, 빈 이름, 닉네임 정리·시작 코인·클라이언트 ID를 확인했다. 기존 다중기기 로그인과 공통 계정 잠금 포함 관련9검사 통과. 수정 전에는 같은 네트워크 가입이409로 실패했음을 기록했다.
 
-지정 scoped 배포와 Worker 검사 후 업로드된 API 런타임의 가입 분기, Pages 소스 커밋, 두 Worker100% 적용을 확인한다. 공개 빈 닉네임 요청은400으로 거절되는지 확인하며 운영 테스트 계정은 만들지 않는다. 증거: `C:/Users/User/Downloads/upload/cnine-card/operations/account-registration-limit-off-20261030/`.
+운영 완료: 소스 `2573ff34a61e59015c5018f38786274918bd0e3d`, Pages `af3011cb-b520-4901-a58a-7665d5123312`. 지정 scoped 배포·관련16검사·Worker 검사·Hyperdrive 캐시 OFF·업로드된 API 가입 분기와 두 Worker100% 확인. 공개 빈 닉네임400, 운영 테스트 계정 생성0·기존 계정 변경0·메시지0.
+
+원스토어 Windows 네이티브 검수 파일 한 개가 정적 배포 대상에 포함되어20,001개 제한에 걸린 첫 시도는 Worker 업로드 전 종료됐다. 해당 Node 검수 파일만 기존 포장 제외 규칙에 추가하고20,000개로 정상 배포했다. 파일/대화/원화 삭제나 저장공간 유지관리가 아니다. 증거: `C:/Users/User/Downloads/upload/cnine-card/operations/account-registration-limit-off-20261030/`.
+
+후속 요청 APK는1.0.2/code3으로 재빌드·기존 인증서 서명했다. 전송 파일과 검증 기록은 `C:/Users/User/Downloads/ReverseCall-ONEstore-1.0.2-review-20261030/`. APK 업로드/원스토어 재심사 제출은 실행하지 않았다.

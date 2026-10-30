@@ -4,13 +4,25 @@ This is a separate permanent distribution of 리버스콜. It is not a review-on
 All accounts use the same restrictions before and after store review.
 
 - Package: `kr.yakcode.reversecall.onestore`
-- Version: 1.0.1 / versionCode 2
+- Version: 1.0.2 / versionCode 3
 - Android: minSdk 24, targetSdk / compileSdk 36
 - Signature: existing YAKCODE key; APK Signature Scheme v2
-- APK SHA-256: `a6ff9d76a16528cc6af7491ec308d2768ddc756b44707ec2a7207a9acf2678df`
+- APK SHA-256: `d4ab7f15a90307f6fbf723b71d811d7dc49f2990b2ae58ff6b928d22bf909bae`
 - APK size: 4,306,383 bytes
-- Delivery: `C:/Users/User/Downloads/ReverseCall-ONEstore-1.0.1-review-20261030/ReverseCall-ONEstore-1.0.1.apk`
-- Game source baseline: `da521b0415cc14dac61b5b6e360a853d56d31781`.
+- Delivery: `C:/Users/User/Downloads/ReverseCall-ONEstore-1.0.2-review-20261030/ReverseCall-ONEstore-1.0.2.apk`
+- Build source: `174d728bac8a50cc131d6bacb661c1c7cf6cfe6d`; server release `2573ff34a` / Pages `af3011cb`.
+
+At the user's request, the shared server no longer limits registration to one
+account per network. Nickname uniqueness, personal keys, sessions and starting
+currency are retained. The historical IP ledger is preserved and no longer used
+by registration. This applies equally to all clients and does not require an APK
+reinstall. Version 1.0.2 is the requested new store submission binary.
+
+The 1.0.1 APK and its QA remain in their original delivery directory. All seven web
+files and native/web source hashes are identical, so their 31 native and 33 browser
+checks are reused explicitly. This APK's release build/lint, metadata, signature,
+zip alignment and embedded hashes were checked again. The server's registration,
+nickname and session behavior has nine additional PostgreSQL-backed checks.
 
 The earlier 1.0.0 / code 1 APK and its verification remain preserved in
 `C:/Users/User/Downloads/upload/cnine-card/output/onestore-20261026/`.
@@ -31,8 +43,9 @@ excluded shared-account messages. Ordinary visible messages retain their normal 
 Existing server penalties are not cleared; affected accounts see a generic restriction
 screen instead of entering the removed facility.
 
-Website files, original Windows/Android clients, databases, ownership and reward
-ledgers are unchanged. No production deployment or database operation was run.
+APK packaging leaves website files, original Windows/Android clients, ownership
+and reward ledgers unchanged. The separately requested registration fix was
+deployed to the shared server; no production test account was created.
 Earlier unfinished STOVE/source edits were preserved outside the repository and
 reversed before creating this isolated package.
 
@@ -76,5 +89,5 @@ re-enabling excluded functionality.
 - Store upload/review submission has not been performed.
 
 Reports, screenshots, lint output, R8 mapping and APK checksums:
-`C:/Users/User/Downloads/ReverseCall-ONEstore-1.0.1-review-20261030/`.
+`C:/Users/User/Downloads/ReverseCall-ONEstore-1.0.2-review-20261030/`.
 Current review record: `docs/qa/onestore-android-review-20261030/README.md`.
