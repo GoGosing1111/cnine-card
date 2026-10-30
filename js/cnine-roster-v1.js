@@ -1,4 +1,4 @@
-// Members and department order follow the user's roster through 2026-10-29.
+// Members and department order follow the user's roster through 2026-10-31.
 // This public directory does not infer broadcast status or change lounge CMS data.
 export const CNINE_GROUPS = Object.freeze([
   Object.freeze({ id: 'female', name: '여캠부', label: 'FEMALE CAM', members: Object.freeze([
@@ -10,7 +10,9 @@ export const CNINE_GROUPS = Object.freeze([
     Object.freeze({ id: 'wkao85guo', name: '꾸까' }),
     Object.freeze({ id: 'luaa0803', name: '히나_♥' }),
     Object.freeze({ id: 'ddaggida3', name: '주성' }),
-    Object.freeze({ id: 'hhy789', name: '♡김베리♡' })
+    Object.freeze({ id: 'hhy789', name: '♡김베리♡' }),
+    Object.freeze({ id: 'myby1221', name: 'ε연두з' }),
+    Object.freeze({ id: 'dbstmf3497', name: '서윤슬@' })
   ]) }),
   Object.freeze({ id: 'star', name: '스타부', label: 'STARCRAFT', members: Object.freeze([
     Object.freeze({ id: 'mew030709', name: '남수댕' }),
