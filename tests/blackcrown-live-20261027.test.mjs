@@ -22,17 +22,20 @@ const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat}
 const fighter=(code,mode='PVE',side='A')=>buildMercenaryFighter(snapshot(code),side,mode,buildFighter);
 const hash=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 
-test('six SS Limited profiles exactly match their current Bloodmoon reference stats, links, cadence, cost and caps',()=>{
+test('six SS Limited profiles retain SS growth and original costs while applying the approved independent buff',()=>{
  for(const p of Object.values(BLACKCROWN_COMBAT)){
   const ref=BLOODMOON_COMBAT[p.referenceCode];
-  for(const key of ['basePower','scale','speedScale','actionCredit','actionEnergy','pvpSkillCapScale','basicCapScale','pveSkillMinimumDamage','link'])assert.deepEqual(p[key],ref[key],p.code+':'+key);
+  for(const key of ['basePower','actionEnergy','pveSkillMinimumDamage'])assert.deepEqual(p[key],ref[key],p.code+':'+key);
+  for(const key of ['scale','speedScale','actionCredit','pvpSkillCapScale','basicCapScale'])assert(p[key]>ref[key],p.code+':'+key);
+  for(const key of ['attackPercent','hpPercent','shieldPercent'])assert(p.link[key]>ref.link[key]);
   for(const mode of ['PVE','PVP']){
    const a=fighter(p.code,mode),b=fighter(p.referenceCode,mode);
-   for(const key of ['maxHp','attack','defense','speed','power','rank'])assert.equal(a[key],b[key],p.code+':'+mode+':'+key);
+   for(const key of ['maxHp','attack','defense','speed'])assert(a[key]>b[key],p.code+':'+mode+':'+key);
+   for(const key of ['power','rank'])assert.equal(a[key],b[key]);
    assert.equal(a.skills.length,2);assert.equal(mercenaryCombatRank(a),'SSS');assert.equal(ssLimitedProfile(a),p);
   }
   assert.equal(mercenaryLevelXpMultiplier({code:p.code}),5);
-  for(const s of p.skills)assert.deepEqual(s.balance,ref.skill.balance);
+  for(const s of p.skills){assert(s.balance.damageRatio>ref.skill.balance.damageRatio);assert.equal(s.balance.cost,ref.skill.balance.cost);assert.equal(s.balance.cooldownTurns,ref.skill.balance.cooldownTurns);}
  }
 });
 test('all twelve casts share one total budget and mutate each legal enemy once in PVE/PVP',()=>{
