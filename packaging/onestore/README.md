@@ -1,15 +1,21 @@
-# ONE store APK — 2026-10-26
+# ONE store APK — 2026-10-30
 
 This is a separate permanent distribution of 리버스콜. It is not a review-only mode.
 All accounts use the same restrictions before and after store review.
 
 - Package: `kr.yakcode.reversecall.onestore`
-- Version: 1.0.0 / versionCode 1
+- Version: 1.0.1 / versionCode 2
 - Android: minSdk 24, targetSdk / compileSdk 36
 - Signature: existing YAKCODE key; APK Signature Scheme v2
-- APK SHA-256: `c87c649de7bb38cde81aa0a51081d36396fd344e5b3f07ce418339b1c8555d79`
-- APK size: 3,956,751 bytes
-- Delivery: `C:/Users/User/Downloads/upload/cnine-card/output/onestore-20261026/ReverseCall-ONEstore-1.0.0.apk`
+- APK SHA-256: `a6ff9d76a16528cc6af7491ec308d2768ddc756b44707ec2a7207a9acf2678df`
+- APK size: 4,306,383 bytes
+- Delivery: `C:/Users/User/Downloads/ReverseCall-ONEstore-1.0.1-review-20261030/ReverseCall-ONEstore-1.0.1.apk`
+- Game source baseline: `da521b0415cc14dac61b5b6e360a853d56d31781`.
+
+The earlier 1.0.0 / code 1 APK and its verification remain preserved in
+`C:/Users/User/Downloads/upload/cnine-card/output/onestore-20261026/`.
+This Android product uses the native WebView client. The separate `/onestore/`
+H5 SDK product and its registration are not changed by an APK rebuild.
 
 ## Scope and preservation
 
@@ -53,12 +59,14 @@ re-enabling excluded functionality.
 
 ## Validation
 
-- Release assemble + Android lint passed (0 errors, 61 warnings, mainly inherited
+- Release assemble + Android lint passed (0 errors, 56 warnings, mainly inherited
   obsolete/unused template resources; warnings are retained in the delivery report).
 - 5 JS policy tests, 31 native/JVM checks (including real public manifest merge and
   bundled cache hash validation), 33 Chromium checks using the exact APK web files.
 - Mobile and desktop menus, message filtering/counts, direct navigation, blocked
   API requests, ordinary inventory and Android Back script checked.
+- Browser fixture uses the built version, blocks real WebSockets, supplies the
+  current wallet response and records missing assets (final run: 0 missing).
 - No real account used; browser APIs were isolated fixtures; real server writes 0.
 - APK signature, package/version, INTERNET-only permission, non-debug release,
   all 7 bundled file hashes verified after packaging.
@@ -68,4 +76,5 @@ re-enabling excluded functionality.
 - Store upload/review submission has not been performed.
 
 Reports, screenshots, lint output, R8 mapping and APK checksums:
-`C:/Users/User/Downloads/upload/cnine-card/output/onestore-20261026/`.
+`C:/Users/User/Downloads/ReverseCall-ONEstore-1.0.1-review-20261030/`.
+Current review record: `docs/qa/onestore-android-review-20261030/README.md`.
