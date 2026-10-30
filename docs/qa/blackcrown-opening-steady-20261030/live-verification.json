@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-30T11:21:52.119Z",
+  "pages": {
+    "id": "dcb3de3b-d5da-4f5c-bf1a-9477bb11e6b6",
+    "url": "https://dcb3de3b.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "971cdb342c1e9cdc0711f1012f3b39ec7ac37bc4"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "5251e0e1-829a-4e09-992a-7c94a08af844",
+      "percentage": 100,
+      "scheduledOpening": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "3ee230bd-4858-45f8-b5d8-7155c1307a26",
+      "percentage": 100,
+      "scheduledOpening": true
+    }
+  ],
+  "files": [
+    {
+      "file": "js/mercenary-blackcrown-pack-live.bundle.mjs",
+      "sha256": "d09acd3fe5dda5ae8f6ce353d04e229c3d5def8e3832bbdb6dec1a0cb01f4482",
+      "storeTransform": false
+    },
+    {
+      "file": "css/mercenary-blackcrown-pack.bundle.css",
+      "sha256": "eba822be35f2771692e9e6fb2082215564f229b9a8a695cd6fd1662cfe1ca831",
+      "storeTransform": false
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "a16778cbf86793e0d58e581de37ce83abdf0ad41ef38b6aaccdf7eeff33a37ba",
+      "storeTransform": false
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "d0ef5daa1f3ff1d0bbbbcc95b049527d988977d2eb169048dcfaca6cfa14b31c",
+      "storeTransform": false
+    },
+    {
+      "file": "index.html",
+      "sha256": "4a7d43ef292797337c434dd9afab4c19c92e18cf18251b13adb5bf5156f073ea",
+      "storeTransform": false
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "b2211f28b71d9581a7e512c21ea378101985b36615f182e815b1e42a73521d1e",
+      "storeTransform": true
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "e61e3607b5ec775b9ca79d60ee19c01814672f5bec1a2beefde760366e76757c",
+      "storeTransform": false
+    }
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}
