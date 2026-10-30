@@ -1,0 +1,15 @@
+{
+  "baseline": "2573ff34a61e59015c5018f38786274918bd0e3d",
+  "current": "2f8079ed8cbfc024fd96259213dc2d2dbaf093a8",
+  "failure": "tests/escort-operation-v1830.test.mjs:95 expects v=106-combat-flow",
+  "baselineFailsSameAssertion": true,
+  "unchangedFiles": {
+    "js/app.js": "a11f38db2e91f2509cb8ad149252cc20de31ccf4fe48bb629ae9ed2e54a17446",
+    "tests/escort-operation-v1830.test.mjs": "f064be862b3891b914950d7a54d74e644a0af9d647ce4c85beb5814aff1d2add"
+  },
+  "legacyTests": {
+    "pass": 5,
+    "fail": 1
+  },
+  "replacementEvidence": "PC/mobile actual main-loader and V3 both passed; original-boss-specific tests 5/5 and final asset 1/1 passed. No unrelated source or old test changes."
+}
