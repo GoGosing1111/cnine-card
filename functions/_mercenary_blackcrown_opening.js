@@ -75,6 +75,14 @@ export function createBlackcrownPackService({readState,releaseEnabled=BLACKCROWN
     if(state.settings.mode!=='ON'||state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision)throw terminal('CHANGED','개봉 설정이 변경되어 미완료 요청을 취소했습니다.');
     if((state.oneTimeRewardState?.before??null)!==(plan.onceSnapshot??null))throw terminal('CHANGED','개봉 설정이 변경됐습니다. 새 개봉으로 다시 시도하세요.');
     if(JSON.stringify(blackcrownOwnedCodes(plan.ownedCodes))!==JSON.stringify(blackcrownOwnedCodes(state.ownedCodes)))throw terminal('CHANGED','보유 종류가 변경됐습니다. 현재 확률을 확인한 뒤 다시 개봉하세요.');
+    // Older PENDING plans may contain duplicate SS draws. They have not paid;
+    // cancel them rather than replaying their pre-rule lottery or charging it.
+    const uniqueSs=new Set(state.ownedCodes);
+    for(const draw of [...plan.draws,...(plan.normalDraws||[])]){
+     if(!BLACKCROWN_CODES.includes(draw.mercenaryCode))continue;
+     if(uniqueSs.has(draw.mercenaryCode)||draw.quantity!==1)throw terminal('DUPLICATE_SS','보유한 SS 리미티드는 다시 획득할 수 없습니다. 코인은 차감되지 않았습니다. 새 개봉으로 다시 시도하세요.');
+     uniqueSs.add(draw.mercenaryCode);
+    }
     await reconcileBlackcrownStock(env.DB,user.id,requestId,plan,state,random);
     if(plan.draws.some(isPrimeMaterialDraw))await ensurePrimeMaterialCatalog(env);
     const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),grouped=new Map(),token=crypto.randomUUID(),timestamp=new Date().toISOString();
@@ -91,6 +99,7 @@ export function createBlackcrownPackService({readState,releaseEnabled=BLACKCROWN
     list.push(jointGuard(DB,token,"EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM mercenary_cms_documents_v1 WHERE doc_key='config' AND revision=?) AND EXISTS(SELECT 1 FROM mercenary_draw_config_v1 WHERE id=1 AND revision=?) AND EXISTS(SELECT 1 FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND status='PENDING' AND plan_json=?)",[BLACKCROWN_PACK_KEY,plan.rawPack,plan.normalCmsRevision,plan.normalDrawRevision,requestId,user.id,JSON.stringify(plan)]));
     for(const [code,indices] of [...grouped].sort(([a],[b])=>a.localeCompare(b))){
      const size=indices.length,claim=crypto.randomUUID();
+     if(BLACKCROWN_CODES.includes(code))list.push(jointGuard(DB,claim+':unique','NOT EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies>0)',[user.id,code]),jointGuardEnd(DB,claim+':unique'));
      list.push(p('UPDATE mercenary_limited_stock_v1 SET issued=issued+?,revision=revision+1,last_token=? WHERE code=? AND stock_limit=? AND issued+?<=stock_limit',size,claim,code,plan.draws[indices[0]].stockLimit,size),
       jointGuard(DB,claim,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?)',[code,claim]));
      if(code!==PRIME_MATERIAL_STOCK_CODE)list.push(p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+excluded.total_copies,duplicate_count=user_mercenary_cards_v1.duplicate_count+excluded.total_copies,last_obtained_at=excluded.last_obtained_at',user.id,code,size,size-1,timestamp,timestamp));

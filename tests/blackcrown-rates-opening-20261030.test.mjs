@@ -17,10 +17,10 @@ test('all base rates match Bloodmoon and General Jok, with a complete ordinary r
  assert.equal(Object.values(p.settings.cardRatesPpm).reduce((a,b)=>a+b,0)+p.settings.normalSssRatePpm,1000000);
  assert.equal(p.ssPercent,'0.0004');assert.equal(p.sssPercent,'0.0000008');assert.equal(p.razakPercent,'0.000032');assert.deepEqual(p.settings.prices,before.blackcrown.settings.prices);
 });
-test('all seven ownership tiers still reduce SS only; stock exhaustion still redirects to ordinary SSS',()=>{
+test('all ownership tiers block owned SS and reduce unowned SS only; stock exhaustion redirects to ordinary SSS',()=>{
  const settings=prepared().settings,codes=['V-950','V-951','V-952','V-953','V-954','V-955'],stock=Object.entries(settings.stockLimits).map(([code,stock_limit])=>({code,stock_limit,issued:0}));
  for(let n=0;n<=6;n++){
-  const state=blackcrownPackState(settings,stock,[],{ownedCodes:codes.slice(0,n)});assert.equal(state.ssProbabilityDivisor,2**Math.max(0,n-1));assert.equal(Number(state.effectiveCardPercents['V-950']),.0004/2**Math.max(0,n-1));assert.equal(state.effectiveCardPercents['V-970'],'0.0000008');
+  const state=blackcrownPackState(settings,stock,[],{ownedCodes:codes.slice(0,n)});assert.equal(state.ssProbabilityDivisor,2**Math.max(0,n-1));assert.equal(Number(state.effectiveCardPercents['V-955']),n===6?0:.0004/2**Math.max(0,n-1));for(const code of codes.slice(0,n))assert.equal(state.effectiveCardPercents[code],'0');assert.equal(state.effectiveCardPercents['V-970'],'0.0000008');
  }
  const full=blackcrownPackState(settings,stock.map(s=>({...s,issued:s.stock_limit})));assert.equal(full.effectiveCardPercents['V-950'],'0');assert.equal(full.effectiveCardPercents['V-970'],'0');
 });

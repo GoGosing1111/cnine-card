@@ -18,7 +18,7 @@ for(const count of [1,10,66666])test(`Revan exactly once in ${count} draws, norm
  assert(!(await f.service.open(f.env,f.user,f.body(1))).draws.some(r=>r.guaranteed));assert(!(await f.service.open(f.env,{id:2},f.body(1))).draws.some(r=>r.guaranteed));
 });
 test('no funds and sold-out entitlement never charge or consume; existing ownership odds unchanged',async t=>{
- const f=await setup(t);await f.own('V-950');await f.own('V-951');const state=await f.state();assert.equal(state.ssProbabilityDivisor,2);assert.equal(state.effectiveCardPercents['V-950'],'0.0002');
+ const f=await setup(t);await f.own('V-950');await f.own('V-951');const state=await f.state();assert.equal(state.ssProbabilityDivisor,2);assert.equal(state.effectiveCardPercents['V-950'],'0');assert.equal(state.effectiveCardPercents['V-952'],'0.0002');
  await f.pg.exec('UPDATE users SET coin=0 WHERE id=1');await assert.rejects(f.service.open(f.env,f.user,f.body()),/코인이 부족/);assert.equal((await once(f)).status,'ARMED');
  await f.pg.exec("UPDATE users SET coin=1000000000000000 WHERE id=1; UPDATE mercenary_limited_stock_v1 SET issued=stock_limit WHERE code='V-971'");const before=await f.coin();await assert.rejects(f.service.open(f.env,f.user,f.body()),/카드 발행 수량/);assert.equal(await f.coin(),before);assert.equal((await once(f)).status,'ARMED');
 });

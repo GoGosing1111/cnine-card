@@ -25,24 +25,24 @@ test('only current distinct Black Crown SS types count, including zero-copy and 
  assert.deepEqual(blackcrownOwnedCodes([{mercenary_code:'V-950',total_copies:99},{mercenary_code:'V-951',total_copies:0},{mercenary_code:'V-960',total_copies:10},{mercenary_code:'V-974',total_copies:1},{mercenary_code:'V-950',total_copies:2}]),['V-950']);
  assert.deepEqual(Array.from({length:7},(_,n)=>blackcrownDivisor(BLACKCROWN_CODES.slice(0,n))),[1,1,2,4,8,16,32]);
 });
-test('all 32 binary samples give exact half/quarter/eighth through six types',()=>{
- for(let n=0;n<=6;n++){const owned=new Set(BLACKCROWN_CODES.slice(0,n)),results=Array.from({length:32},(_,ticket)=>blackcrownAcceptSs('V-950',owned,()=>ticket));assert.equal(results.filter(Boolean).length,32/2**Math.max(0,n-1));}
+test('all 32 binary samples preserve unowned SS reduction and reject an owned SS',()=>{
+ for(let n=0;n<6;n++){const owned=new Set(BLACKCROWN_CODES.filter(c=>c!=='V-950').slice(0,n)),results=Array.from({length:32},(_,ticket)=>blackcrownAcceptSs('V-950',owned,()=>ticket));assert.equal(results.filter(Boolean).length,32/2**Math.max(0,n-1));}assert.equal(blackcrownAcceptSs('V-950',new Set(BLACKCROWN_CODES),()=>0),false);
 });
 test('personal displayed probabilities preserve total and unchanged SSS slots exactly',()=>{
- for(let n=0;n<=6;n++){const state=scenario(BLACKCROWN_CODES.slice(0,n));assert.equal(state.effectiveCardPercents['V-950'],String(100/2**Math.max(0,n-1)));assert.equal(Number(state.effectiveNormalSssPercent)+Number(state.effectiveCardPercents['V-950']),100);}
+ for(let n=0;n<=6;n++){const state=scenario(BLACKCROWN_CODES.slice(0,n));assert.equal(state.effectiveCardPercents['V-950'],n===0?'100':'0');assert.equal(Number(state.effectiveNormalSssPercent)+Number(state.effectiveCardPercents['V-950']),100);}
  const state=scenario(BLACKCROWN_CODES.slice(0,4));state.settings.cardRatesPpm['V-950']=400000;state.settings.cardRatesPpm['V-058']=100000;state.settings.normalSssRatePpm=500000;
  const next=blackcrownPackState(state.settings,state.stock.map(s=>({code:s.code,stock_limit:s.limit,issued:s.issued})),state.normalCards,{ownedCodes:state.ownedCodes});
- assert.equal(next.effectiveCardPercents['V-950'],'5');assert.equal(next.effectiveCardPercents['V-058'],'10');assert.equal(next.effectiveNormalSssPercent,'85');
+ assert.equal(next.effectiveCardPercents['V-950'],'0');assert.equal(next.effectiveCardPercents['V-058'],'10');assert.equal(next.effectiveNormalSssPercent,'90');
 });
-test('smallest supported chance remains nonzero and exact after six-type reduction',()=>{
+test('smallest unowned chance remains exact after five-type reduction',()=>{
  const s=scenario();s.settings.cardRatesPpm['V-950']=0.0001;s.settings.normalSssRatePpm=999999.9999;
- const next=blackcrownPackState(s.settings,s.stock.map(r=>({code:r.code,stock_limit:r.limit,issued:0})),s.normalCards,{ownedCodes:BLACKCROWN_CODES});
- assert.equal(next.effectiveCardPercents['V-950'],'0.0000000003125');
+ const next=blackcrownPackState(s.settings,s.stock.map(r=>({code:r.code,stock_limit:r.limit,issued:0})),s.normalCards,{ownedCodes:BLACKCROWN_CODES.filter(c=>c!=='V-950')});
+ assert.equal(next.effectiveCardPercents['V-950'],'0.000000000625');
 });
-test('ten draws immediately reduce after gaining a second type; duplicate does not add a type',()=>{
+test('ten draws block the new SS immediately after acquisition and reject already owned SS',()=>{
  const s=scenario(['V-951']);let binary=0;const rng=max=>max===32?(binary++,31):0;
- const draws=pickBlackcrownBatch(s,10,rng);assert.equal(draws.filter(r=>r.mercenaryCode==='V-950').length,1);assert.equal(draws.filter(r=>r.mercenaryCode==='V-021').length,9);assert.equal(binary,9);
- const duplicates=pickBlackcrownBatch(scenario(['V-950']),10,()=>0);assert.equal(duplicates.filter(r=>r.mercenaryCode==='V-950').length,10);
+ const draws=pickBlackcrownBatch(s,10,rng);assert.equal(draws.filter(r=>r.mercenaryCode==='V-950').length,1);assert.equal(draws.filter(r=>r.mercenaryCode==='V-021').length,9);assert.equal(binary,0);
+ const duplicates=pickBlackcrownBatch(scenario(['V-950']),10,()=>0);assert.equal(duplicates.filter(r=>r.mercenaryCode==='V-950').length,0);
 });
 test('bulk uses the same dynamic ownership rule and aggregate receipt totals',()=>{
  const s=scenario(['V-951']),bulk=pickBlackcrownBulk(s,100,max=>max===32?31:0);

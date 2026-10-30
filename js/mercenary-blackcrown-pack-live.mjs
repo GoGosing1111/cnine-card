@@ -15,7 +15,7 @@ export function blackcrownBatchCinematic(results){return blackcrownBatchCinemati
 export function openBlackcrownPack(){return mountBlackcrownPack();}
 export async function mountBlackcrownPack({api=jointAccountRequest,accountId=currentAccount(),getAccountId=currentAccount,storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
  if(active)return active;
- if(!document.querySelector('[data-blackcrown-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-blackcrown-pack.bundle.css?sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4&opening=20261031-v2';link.dataset.blackcrownPackStyle='';document.head.append(link);}
+ if(!document.querySelector('[data-blackcrown-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-blackcrown-pack.bundle.css?sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4&opening=20261031-unique-v1';link.dataset.blackcrownPackStyle='';document.head.append(link);}
  const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='bcp-dialog';active=dialog;
  dialog.setAttribute('aria-labelledby','bcp-title');dialog.innerHTML=blackcrownRoomMarkup(BLACKCROWN_PACK);
  const $=selector=>dialog.querySelector(selector);let stockTimer=null;let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null,recovery=null;
@@ -48,9 +48,9 @@ export async function mountBlackcrownPack({api=jointAccountRequest,accountId=cur
   $('.bcp-buy-actions').hidden=running;$('.bcp-secondary-actions').hidden=running&&!pending;$('[data-bcp-auto-running]').hidden=!running;
   if(running){const s=auto.state;$('[data-bcp-auto-progress]').textContent=s.completed+' / '+s.repeats+'회 반복 · '+s.totalDraws+'회 개봉 · '+fmt(s.spent)+' 코인 사용'+(s.phase==='stopping'?' · 중지 요청됨':'');$('[data-bcp-auto-stop]').disabled=s.phase==='stopping';}
   if(config){
-   $('[data-bcp-ownership]').textContent=config.personalOddsKnown?'현재 '+config.ownedDistinctCount+'종 보유 · SS 리미티드 확률 '+(config.ssProbabilityDivisor===1?'기본':'기본의 1/'+config.ssProbabilityDivisor)+' · 카드별 확률은 아래 표시':'로그인 후 현재 보유 종류와 개인 확률을 확인할 수 있습니다.';
+   $('[data-bcp-ownership]').textContent=config.personalOddsKnown?'현재 '+config.ownedDistinctCount+'종 보유 · 보유한 SS 중복 획득 불가 · '+(config.ownedDistinctCount===6?'SS 6종 수집 완료':'미보유 SS 확률 '+(config.ssProbabilityDivisor===1?'기본':'기본의 1/'+config.ssProbabilityDivisor))+' · 카드별 확률은 아래 표시':'로그인 후 현재 보유 종류와 개인 확률을 확인할 수 있습니다.';
    for(const label of dialog.querySelectorAll('[data-bcp-stock-code]'))label.textContent=blackcrownStockText(config.cards.find(c=>c.code===label.dataset.bcpStockCode),config.stock?.find(row=>row.code===label.dataset.bcpStockCode));
-   for(const label of dialog.querySelectorAll('[data-bcp-chance-code]')){const percent=config.effectiveCardPercents?.[label.dataset.bcpChanceCode];label.textContent='1회 확률 '+(percent==null?'미정':percent+'%');}
+   for(const label of dialog.querySelectorAll('[data-bcp-chance-code]')){const code=label.dataset.bcpChanceCode,percent=config.effectiveCardPercents?.[code],owned=config.ownedCodes?.includes(code);label.textContent=owned?'보유 중 · 중복 획득 불가 (0%)':'1회 확률 '+(percent==null?'미정':percent+'%');}
    for(const count of [1,10]){const price=count===10?config.settings.prices.ten:config.settings.prices.single;$('[data-bcp-price="'+count+'"]').textContent=price==null?'가격 미정':fmt(price)+' 코인';}
    $('[data-bcp-availability]').textContent=config.userOpeningEnabled?'개봉 가능 · 수량을 선택하세요':config.openingScheduled?new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date(config.openingAt))+' 개봉 예정 (한국시간)':config.settings.mode==='ON'?'현재 개봉 불가 · 운영 설정 확인 필요':'출시 준비 중 · 개봉 OFF';
   }

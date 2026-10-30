@@ -1856,7 +1856,7 @@ function bloodmoonPackHero(pack) {
 
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-blackcrown-pack-enter]');if(!button||button.disabled)return;
- button.disabled=true;import('/js/mercenary-blackcrown-pack-live.bundle.mjs?blackcrownBalance=20261031-v1&sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4&opening=20261031-v2').then(module=>module.openBlackcrownPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+ button.disabled=true;import('/js/mercenary-blackcrown-pack-live.bundle.mjs?blackcrownBalance=20261031-v1&sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4&opening=20261031-unique-v1').then(module=>module.openBlackcrownPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
 });
 function blackcrownShopStockText(stock){
  if(stock?.stockPolicy==='UNLIMITED')return '발행 한도 없음';
