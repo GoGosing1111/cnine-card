@@ -1,0 +1,15 @@
+{
+  "before": {
+    "id": "43f238d2-7a37-43ea-aba3-22023fe56207",
+    "url": "https://43f238d2.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "71db34656e78c5ff95725afc5730209658d30332"
+  },
+  "base": "71db34656e78c5ff95725afc5730209658d30332",
+  "reason": "블러드문 나무늘봉순 V-960의 전투 표시 크기만 블랙크라운과 같은 285 기준으로 약30% 축소. 원본·서버 수치 보존. 관련 블러드문 서버 스트림 및 실제 번들 메인 로더 검사, PC/모바일 PVE/PVP와 전후 크기 검수.",
+  "tests": [
+    "tests/bloodmoon-skill-status-20261025.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": []
+}

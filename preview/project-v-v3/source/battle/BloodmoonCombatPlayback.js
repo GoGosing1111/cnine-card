@@ -1,7 +1,14 @@
 import manifest from '../../../../assets/ui/project-v/mercenaries/bloodmoon-live-20261025/manifest.json' with {type:'json'};
 import {BloodmoonFX,loadCharacterAssets} from '../../../mercenary-bloodmoon-battle-20261023-v1/source/BloodmoonFX.js';
 import {makePlan} from '../../../mercenary-bloodmoon-battle-20261023-v1/source/PlaybackPlan.mjs';
-const characters=new Map(manifest.characters.map(c=>[c.code,c]));
+const characters=new Map(manifest.characters.map(c=>{
+ if(c.code!=='V-960')return [c.code,c];
+ // Match Black Crown's 285-unit body, including the repaired idle boots.
+ // Keep one scale for every pose so attacks and cancellation cannot grow her back.
+ const bodyHeight=285,scale=bodyHeight/c.displayBodyHeight;
+ return [c.code,{...c,battleBodyHeight:c.battleBodyHeight*scale,displayBodyHeight:bodyHeight,
+  art:{...c.art,bodyHeight,fullBodyHeight:c.art.fullBodyHeight*scale}}];
+}));
 const ROOT='/assets/ui/project-v/mercenaries/bloodmoon-live-20261025/';
 const disposeAssets=assets=>{for(const frames of Object.values(assets))for(const t of frames)t.destroy(false);};
 export const bloodmoonBattleArt=code=>characters.get(code)?.art||null;
