@@ -1,0 +1,43 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:eumsooni-revan-level21:20261031:v1",
+  "authorization": "음순이 레반 21레벨로 바꿔",
+  "completedAt": "2026-10-30T22:50:15.615Z",
+  "completedAtKst": "2026-10-31 07:50:15 KST",
+  "userId": 65,
+  "nickname": "음순이",
+  "code": "V-971",
+  "name": "레반",
+  "before": {
+    "level": 1,
+    "experience": 0,
+    "breakthroughMask": 0,
+    "revision": 0
+  },
+  "after": {
+    "level": 21,
+    "experience": 0,
+    "breakthroughMask": 15,
+    "revision": 1
+  },
+  "beforeRowExists": false,
+  "storedLevel": 20,
+  "complete": true,
+  "heldCopies": 1,
+  "auditId": "53283",
+  "sourceSha256": "9cabb7516035d0a8657fe71103b3fc393dc47a5c88eac840873840fe9c88cf1f",
+  "planHash": "f80eb623e0766a94406bde30580049c05598b80be6563511b1399d1f2adf62b6",
+  "tests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "failureAndDryRunRollback": true,
+  "independentReadOnly": true,
+  "selectOnlyReplayVerified": true,
+  "leasesReleased": true,
+  "cost": 0,
+  "materialsConsumed": 0,
+  "additionalCardsGranted": 0,
+  "sendMessages": false,
+  "gameDeployment": false
+}
