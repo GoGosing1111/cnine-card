@@ -1,0 +1,92 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:cnine-watch500:reward-messages:20261030:v1",
+  "authorization": {
+    "reward": "생뷰시간 500시간 이상 SSS미라클큐브 5개,200조,미라클큐브 300개 지급",
+    "delivery": "메세지로",
+    "additional": "센텀신사 확인하고 추가해"
+  },
+  "completedAt": "2026-10-30T10:41:38.738Z",
+  "completedAtKST": "2026-10-30 19:41:38 KST",
+  "auditId": "53130",
+  "delivery": "MESSAGE",
+  "title": "씨나인 생방송 시청 감사 보상",
+  "totals": {
+    "recipients": 52,
+    "messages": 156,
+    "SSS_MIRACLE_CUBE": "260",
+    "COIN": "10400000000000000",
+    "MIRACLE_CUBE": "15600"
+  },
+  "perRecipient": {
+    "SSS_MIRACLE_CUBE": 5,
+    "COIN": "200000000000000",
+    "MIRACLE_CUBE": 300
+  },
+  "qualification": {
+    "minimumHours": 500,
+    "qualifiedRecipients": 51,
+    "snapshotAt": "2026-10-30T10:09:26.508Z",
+    "streamers": 17,
+    "dashboardMembers": 16,
+    "cheolguIncluded": true,
+    "linkedViewers": 120,
+    "unlinkedAccountsExcluded": 492,
+    "fixedRecipients": true
+  },
+  "additionalRecipient": {
+    "userId": "792",
+    "nickname": "센텀신사",
+    "watchSeconds": 1735722,
+    "time": "482시간 8분 42초",
+    "thresholdException": true,
+    "authorization": "센텀신사 확인하고 추가해",
+    "checkedAt": "2026-10-30T10:38:34.640Z"
+  },
+  "codeCommit": "051bfa67363885ebb10a3656619afc2557256d31",
+  "pagesId": "94e15a69-047a-46e8-90b6-c72cbc4c1fcd",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "c5c50083-03db-435b-b29f-3ce58f4b2c1d",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "afba8592-dced-4a0c-b861-6f704f4fc9b5",
+      "percentage": 100
+    }
+  ],
+  "claimTests": 8,
+  "clientContractTests": 4,
+  "checks": {
+    "wrongPlanRejected": true,
+    "partialThirdAttachmentFailureRolledBack": true,
+    "successRolledBack": true,
+    "messageSyncRolledBack": true,
+    "all52MessageSyncChanged": true,
+    "onlyMessageAuditReceiptAndSyncWrites": true,
+    "noWalletOrInventoryCredit": true,
+    "selectOnlyReplay": true,
+    "noDeliveryAfterRollback": true,
+    "cubePoliciesPreserved": true,
+    "dualAccountLocksVerified": true
+  },
+  "readOnlyVerification": true,
+  "replayAdditionalWrites": 0,
+  "missing": 0,
+  "duplicates": 0,
+  "leasesReleased": true,
+  "latestClaimedSnapshot": 3,
+  "latestPendingSnapshot": 153,
+  "verifiedAt": "2026-10-30T10:42:13.053Z",
+  "planHash": "f31457a94c55c28355b948b973953bb8d96a834b6be0eabc07f1806aced1033c",
+  "sourceHash": "c42aa9839d23d356b807bd3677ba4aac920ba0c827d31181d47d8830d6cc3fdd",
+  "noImmediateWalletOrInventoryCredit": true,
+  "openedByOperation": 0,
+  "initialAttempt": "51-person rehearsal deadlocked before delivery; rolled back. Final 52-person rehearsal acquired both account locks and rolled back successfully before the one real commit.",
+  "gameDeployments": 1,
+  "storageMaintenance": false,
+  "automationsCreated": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/watch500-rewards-20261030"
+}
