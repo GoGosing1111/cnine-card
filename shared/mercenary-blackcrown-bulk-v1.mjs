@@ -45,7 +45,7 @@ export function addBlackcrownNormal(rows,draw){
 }
 // One O(count) lottery in memory; ordinary results occupy O(card types), not O(count).
 // Cumulative integer intervals exactly preserve the existing two-stage odds.
-export function pickBlackcrownBulk(state,count,random){
+export function pickBlackcrownBulk(state,count,random,{firstLimitedCode=null}={}){
  if(!Number.isSafeInteger(count)||count<1||count>BLACKCROWN_BULK_MAX_COUNT)throw fail('대량 개봉 횟수를 확인하세요.');
  const table=(rows,total)=>{
   let sum=0;const choices=rows.map(r=>{const weight=r.weight;if(!Number.isSafeInteger(weight)||weight<0)throw fail('추첨 가중치를 확인하세요.');sum+=weight;return {...r,end:sum};});
@@ -72,7 +72,9 @@ export function pickBlackcrownBulk(state,count,random){
   result.draws.push(c.code===PRIME_MATERIAL_STOCK_CODE?primeMaterialDraw(draw):draw);return true;
  };
  // Reserve an explicitly authorized guarantee before the normal lottery.
+ if(firstLimitedCode){if(!BLACKCROWN_PACK_CARDS.some(c=>c.code===firstLimitedCode&&c.rank==='SSS')||!(state.settings.cardRatesPpm[firstLimitedCode]>0)||!limited(firstLimitedCode,0))throw fail('1회 확정 보상 수량을 확인하세요.');result.draws[0].guaranteed=true;}
  for(let i=0;i<count;i++){
+  if(firstLimitedCode&&i===0)continue;
   const rank=first();if(rank==='NONE'){result.missCount++;continue;}
   if(rank==='SSS'){const code=second(),unlimited=blackcrownUnlimitedDraw(code);if(unlimited){addBlackcrownNormal(result.normalDraws,unlimited);continue;}if(code!=='STANDARD_SSS'&&limited(code,i))continue;}
   addBlackcrownNormal(result.normalDraws,normalCard(rank));

@@ -15,7 +15,7 @@ export function blackcrownBatchCinematic(results){return blackcrownBatchCinemati
 export function openBlackcrownPack(){return mountBlackcrownPack();}
 export async function mountBlackcrownPack({api=jointAccountRequest,accountId=currentAccount(),getAccountId=currentAccount,storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
  if(active)return active;
- if(!document.querySelector('[data-blackcrown-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-blackcrown-pack.bundle.css?sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4&opening=20261030-v2';link.dataset.blackcrownPackStyle='';document.head.append(link);}
+ if(!document.querySelector('[data-blackcrown-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-blackcrown-pack.bundle.css?sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4&opening=20261031-v1';link.dataset.blackcrownPackStyle='';document.head.append(link);}
  const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='bcp-dialog';active=dialog;
  dialog.setAttribute('aria-labelledby','bcp-title');dialog.innerHTML=blackcrownRoomMarkup(BLACKCROWN_PACK);
  const $=selector=>dialog.querySelector(selector);let stockTimer=null;let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null,recovery=null;
@@ -48,6 +48,8 @@ export async function mountBlackcrownPack({api=jointAccountRequest,accountId=cur
   $('.bcp-buy-actions').hidden=running;$('.bcp-secondary-actions').hidden=running&&!pending;$('[data-bcp-auto-running]').hidden=!running;
   if(running){const s=auto.state;$('[data-bcp-auto-progress]').textContent=s.completed+' / '+s.repeats+'회 반복 · '+s.totalDraws+'회 개봉 · '+fmt(s.spent)+' 코인 사용'+(s.phase==='stopping'?' · 중지 요청됨':'');$('[data-bcp-auto-stop]').disabled=s.phase==='stopping';}
   if(config){
+   $('[data-bcp-once]').hidden=!config.oneTimeReward;
+   $('[data-bcp-once-text]').textContent=config.oneTimeReward?config.oneTimeReward.name+' 1장 · 다음 개봉의 첫 1회에 확정 지급됩니다. 이후 추첨은 기존 확률·보유 보정을 적용합니다. 아래 확률표는 일반 추첨 기준입니다.':'';
    $('[data-bcp-ownership]').textContent=config.personalOddsKnown?'현재 '+config.ownedDistinctCount+'종 보유 · SS 리미티드 확률 '+(config.ssProbabilityDivisor===1?'기본':'기본의 1/'+config.ssProbabilityDivisor)+' · 카드별 확률은 아래 표시':'로그인 후 현재 보유 종류와 개인 확률을 확인할 수 있습니다.';
    for(const label of dialog.querySelectorAll('[data-bcp-stock-code]'))label.textContent=blackcrownStockText(config.cards.find(c=>c.code===label.dataset.bcpStockCode),config.stock?.find(row=>row.code===label.dataset.bcpStockCode));
    for(const label of dialog.querySelectorAll('[data-bcp-chance-code]')){const percent=config.effectiveCardPercents?.[label.dataset.bcpChanceCode];label.textContent='1회 확률 '+(percent==null?'미정':percent+'%');}
@@ -128,6 +130,7 @@ export async function mountBlackcrownPack({api=jointAccountRequest,accountId=cur
   else if(result&&result.status!=='COMPLETED')say('이전 개봉이 아직 확인되지 않았습니다. 이전 결과 확인을 눌러 복구해 주세요.',true);
   return result;
  }
+ const onceConfirm=()=>{const note=$('.bcp-confirm-note');if(config?.oneTimeReward&&!note.textContent.includes('1회 확정 보상'))note.textContent+=' '+config.oneTimeReward.name+' 1회 확정 보상이 포함됩니다.';};
  function dismissConfirm(){const saved=quote;quote=null;$('[data-bcp-confirm]').hidden=true;$('[data-bcp-shell]').inert=false;if(saved)(saved.bulk?$('[data-bcp-bulk-start]'):saved.auto?$('[data-bcp-auto-start]'):$('[data-bcp-buy="'+saved.count+'"]')).focus();}
  const close=()=>{if(disposed)return;auto.stop('계약실을 닫아 자동뽑기를 중지했습니다.');disposed=true;clearTimeout(stockTimer);recovery.destroy();lifetime.abort();cinematic.destroy();document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',close);window.removeEventListener('online',resume);window.removeEventListener('offline',offline);window.removeEventListener('cnine:player-updated',accountChanged);dialog.close();dialog.remove();if(active===dialog)active=null;previous?.focus();};
  const resume=()=>{recovery.request({resume:true});if(!busy&&!hasPending())void refreshConfig();};
@@ -143,19 +146,19 @@ export async function mountBlackcrownPack({api=jointAccountRequest,accountId=cur
  dialog.querySelectorAll('[data-bcp-budget-preset]').forEach(b=>b.onclick=()=>{$('[data-bcp-budget]').value=b.dataset.bcpBudgetPreset;sync();});
  $('[data-bcp-bulk-start]').onclick=()=>{
   if(busy||!config?.userOpeningEnabled||hasPending())return;
-  try{const q=readBulkQuote();if(q.reference)return;quote={bulk:true,config:structuredClone(config),...q};$('[data-bcp-confirm-text]').textContent=fmt(q.count)+'회 일괄 개봉 · '+blackcrownCoinText(q.coinCost)+'을 사용합니다.';$('.bcp-confirm-note').textContent=blackcrownLargeOpening(q)?'10초 개봉 연출이 끝나면 코인을 사용하고 결과를 확정합니다. 연출 중 취소할 수 있습니다.':'확정 결과를 수량으로 모아 보여드립니다. SS 리미티드 이상은 이미지로 확인합니다.';$('[data-bcp-confirm-start]').textContent='일괄 개봉 확인';$('[data-bcp-shell]').inert=true;$('[data-bcp-confirm]').hidden=false;$('[data-bcp-confirm-cancel]').focus();}catch(e){say(e.message,true);}
+  try{const q=readBulkQuote();if(q.reference)return;quote={bulk:true,config:structuredClone(config),...q};$('[data-bcp-confirm-text]').textContent=fmt(q.count)+'회 일괄 개봉 · '+blackcrownCoinText(q.coinCost)+'을 사용합니다.';$('.bcp-confirm-note').textContent=blackcrownLargeOpening(q)?'10초 개봉 연출이 끝나면 코인을 사용하고 결과를 확정합니다. 연출 중 취소할 수 있습니다.':'확정 결과를 수량으로 모아 보여드립니다. SS 리미티드 이상은 이미지로 확인합니다.';$('[data-bcp-confirm-start]').textContent='일괄 개봉 확인';$('[data-bcp-shell]').inert=true;onceConfirm();$('[data-bcp-confirm]').hidden=false;$('[data-bcp-confirm-cancel]').focus();}catch(e){say(e.message,true);}
  };
  $('[data-bcp-auto-stop]').onclick=()=>{auto.stop();say('자동뽑기 중지 요청 · 진행 중인 개봉 결과까지만 처리합니다.');};
  $('[data-bcp-auto-start]').onclick=()=>{
   if(busy||!config?.userOpeningEnabled||!$('[data-bcp-auto-repeats]').reportValidity())return;
   const count=Number($('[data-bcp-auto-count]').value),repeats=Number($('[data-bcp-auto-repeats]').value);
-  try{const q=blackcrownAutoQuote(config,count,repeats);quote={auto:true,config:structuredClone(config),count,repeats};$('[data-bcp-confirm-text]').textContent=count+'회씩 '+repeats+'회 반복 · 총 '+q.totalDraws+'회 · 최대 '+fmt(q.maxCost)+' 코인을 사용합니다.';$('.bcp-confirm-note').textContent='한 번씩 결제하며, SS 리미티드·SSS 연출이 끝나면 이어서 뽑습니다. 중지하면 진행 중인 개봉 결과까지만 처리합니다.';$('[data-bcp-confirm-start]').textContent='자동뽑기 확인';$('[data-bcp-shell]').inert=true;$('[data-bcp-confirm]').hidden=false;$('[data-bcp-confirm-cancel]').focus();}catch(e){say(e.message,true);}
+  try{const q=blackcrownAutoQuote(config,count,repeats);quote={auto:true,config:structuredClone(config),count,repeats};$('[data-bcp-confirm-text]').textContent=count+'회씩 '+repeats+'회 반복 · 총 '+q.totalDraws+'회 · 최대 '+fmt(q.maxCost)+' 코인을 사용합니다.';$('.bcp-confirm-note').textContent='한 번씩 결제하며, SS 리미티드·SSS 연출이 끝나면 이어서 뽑습니다. 중지하면 진행 중인 개봉 결과까지만 처리합니다.';$('[data-bcp-confirm-start]').textContent='자동뽑기 확인';$('[data-bcp-shell]').inert=true;onceConfirm();$('[data-bcp-confirm]').hidden=false;$('[data-bcp-confirm-cancel]').focus();}catch(e){say(e.message,true);}
  };
  dialog.querySelectorAll('[data-bcp-buy]').forEach(button=>button.onclick=()=>{
   if(busy||!config?.userOpeningEnabled)return;const count=Number(button.dataset.bcpBuy);quote={config:structuredClone(config),count};
   $('[data-bcp-confirm-text]').textContent=count+'회 개봉 · '+fmt(blackcrownPackPrice(config.settings,count))+' 코인을 사용합니다.';
   $('.bcp-confirm-note').textContent='일반 C~SS는 수량으로, SS 리미티드 이상은 이미지로 확인합니다.';$('[data-bcp-confirm-start]').textContent='개봉 확인';
-  $('[data-bcp-shell]').inert=true;$('[data-bcp-confirm]').hidden=false;$('[data-bcp-confirm-cancel]').focus();
+  $('[data-bcp-shell]').inert=true;onceConfirm();$('[data-bcp-confirm]').hidden=false;$('[data-bcp-confirm-cancel]').focus();
  });
  $('[data-bcp-confirm-cancel]').onclick=dismissConfirm;
  $('[data-bcp-confirm-start]').onclick=()=>{if(!quote||busy)return;const saved=quote;dismissConfirm();say('계약 결과를 확인하고 있습니다.');void run(async()=>{if(saved.bulk)return session.startBulk(saved.config,saved);if(!saved.auto)return session.start(saved.config,saved.count);$('[data-bcp-auto-panel]').hidden=true;$('[data-bcp-auto-toggle]').setAttribute('aria-expanded','false');const s=await auto.start(saved.config,saved.count,saved.repeats);say(s.reason+' · 총 '+s.totalDraws+'회 · '+fmt(s.spent)+' 코인 사용',s.error);});};

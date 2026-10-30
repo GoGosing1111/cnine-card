@@ -120,8 +120,9 @@ export function pickBlackcrownNormalCard(state,rank,random){
  const card=pool.find(c=>{ticket-=c.weight;return ticket<0;});
  return {outcomeId:'CARD_'+card.rank,mercenaryCode:card.code,name:card.name,rank:card.rank,edition:'STANDARD',quantity:1,sourceArt:card.sourceArt};
 }
-export function pickBlackcrownBatch(state,count,random){
+export function pickBlackcrownBatch(state,count,random,{firstLimitedCode=null}={}){
  if(![1,10].includes(count))throw Error('Invalid Blackcrown batch');
+ if(firstLimitedCode!==null&&(!BLACKCROWN_PACK_CARDS.some(c=>c.code===firstLimitedCode&&c.rank==='SSS'&&isBlackcrownLimited(c.code))||!(state.settings.cardRatesPpm[firstLimitedCode]>0)||!state.stock.some(s=>s.code===firstLimitedCode&&s.prepared&&s.remaining>0)))throw Error('Invalid Blackcrown one-time reward');
  const {settings}=state,used=Object.fromEntries(state.stock.map(s=>[s.code,s.issued]));
  const choose=rows=>{
   const units=rows.map(r=>limitedRateUnits(r.rate));if(units.some(n=>n===null)||units.reduce((s,n)=>s+n,0)!==LIMITED_RATE_TOTAL)throw Error('블랙크라운 단계별 확률을 확인하세요.');
@@ -130,10 +131,11 @@ export function pickBlackcrownBatch(state,count,random){
  };
  const draws=[],owned=new Set(blackcrownOwnedCodes(state.ownedCodes));
  for(let i=0;i<count;i++){
-  const first=choose([...MERCENARY_RANKS.map(rank=>({id:rank,rate:settings.normalRankRatesPpm[rank]})),{id:'NONE',rate:settings.missRatePpm}]);
+  const forced=i===0&&firstLimitedCode!==null;
+  const first=forced?{id:'SSS'}:choose([...MERCENARY_RANKS.map(rank=>({id:rank,rate:settings.normalRankRatesPpm[rank]})),{id:'NONE',rate:settings.missRatePpm}]);
   if(first.id==='NONE'){draws.push({outcomeId:'NONE',quantity:0});continue;}
   if(first.id==='SSS'){
-   const second=choose([...codes.map(code=>({id:code,rate:settings.cardRatesPpm[code]})),{id:'STANDARD_SSS',rate:settings.normalSssRatePpm}]);
+   const second=forced?{id:firstLimitedCode}:choose([...codes.map(code=>({id:code,rate:settings.cardRatesPpm[code]})),{id:'STANDARD_SSS',rate:settings.normalSssRatePpm}]);
    if(second.id!=='STANDARD_SSS'){
     const unlimited=blackcrownUnlimitedDraw(second.id);
     if(unlimited){draws.push(unlimited);continue;}
@@ -143,6 +145,7 @@ export function pickBlackcrownBatch(state,count,random){
      used[card.code]=(used[card.code]||0)+1;
      if(card.rank==='SS')owned.add(card.code);
      const draw={outcomeId:card.rank==='SSS'?'BLACKCROWN_SSS':'BLACKCROWN_SS',mercenaryCode:card.code,name:card.name,rank:card.rank,gateRank:'SSS',edition:card.rank==='SSS'?'SSS_LIMITED':'BLACKCROWN_LIMITED',stockLimit:stock.limit,quantity:1,sourceArt:card.sourceArt};
+     if(forced)draw.guaranteed=true;
      draws.push(card.code===PRIME_MATERIAL_STOCK_CODE?primeMaterialDraw(draw):draw);continue;
     }
     // Keep every other interval unchanged. This interval now awards ordinary SSS,

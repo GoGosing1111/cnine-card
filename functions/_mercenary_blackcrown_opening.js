@@ -11,6 +11,7 @@ import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError} from './_joint_request.js';
 import {BLACKCROWN_BULK_FORMAT,blackcrownBulkQuote,pickBlackcrownBulk,addBlackcrownNormal} from '../shared/mercenary-blackcrown-bulk-v1.mjs';
 import {createBlackcrownBulkRandom,blackcrownBulkAcquisitionStatements} from './_mercenary_blackcrown_bulk.js';
+import {blackcrownOnceCode,blackcrownOnceStatements} from './_mercenary_blackcrown_once.js';
 
 const blackcrown=isBlackcrownLimited;
 const ordinaryAllowed=(state,r)=>state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0)||Boolean(blackcrownUnlimitedDraw(r.mercenaryCode)&&r.rank==='SSS'&&r.edition==='STANDARD'&&state.settings.cardRatesPpm[r.mercenaryCode]>0);
@@ -30,6 +31,7 @@ async function reconcileBlackcrownStock(DB,userId,requestId,plan,state,randomInt
   if(!stock?.prepared)throw terminal('NOT_READY','리미티드 발행 수량을 확인해야 합니다.');
   if(remaining.get(stock.code)>0){remaining.set(stock.code,remaining.get(stock.code)-1);draw.stockLimit=stock.limit;}
   else{
+   if(draw.guaranteed===true)throw terminal('ONCE_STOCK','확정 보상 재고가 변경됐습니다. 코인은 차감되지 않았습니다.');
    if(BLACKCROWN_CODES.includes(code))throw terminal('CHANGED','SS 리미티드 재고가 변경됐습니다. 코인은 차감되지 않았습니다. 현재 확률로 다시 개봉하세요.');
    next.draws[i]={...pickBlackcrownNormalCard(state,'SSS',randomInt),...(bulk?{drawIndex:draw.drawIndex}:{})};
    (next.stockFallbacks??=[]).push({index:i,limitedCode:code,ordinaryCode:next.draws[i].mercenaryCode});
@@ -63,13 +65,15 @@ export function createBlackcrownPackService({readState,releaseEnabled=BLACKCROWN
     if(quote&&quote.count!==count)throw terminal('INPUT','사용 한도와 개봉 횟수가 일치하지 않습니다.');
     const coinCost=quote?quote.coinCost:blackcrownPackPrice(state.settings,count),wallet=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
     if(!wallet||BigInt(wallet.coin)<BigInt(coinCost))throw terminal('FUNDS','코인이 부족합니다.');
-    if(bulk)return {count,coinCost,budget:raw.budget,...pickBlackcrownBulk(state,count,random),ownedCodes:state.ownedCodes,revision:state.revision,rawPack:state.rawPack,normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
-    const draws=pickBlackcrownBatch(state,count,randomInt);
-    return {count,coinCost,draws,ownedCodes:state.ownedCodes,revision:state.revision,rawPack:state.rawPack,normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
+    const firstLimitedCode=blackcrownOnceCode(state),onceSnapshot=state.oneTimeRewardState?.before??null,once=firstLimitedCode?{mercenaryCode:firstLimitedCode}:null;
+    if(bulk)return {count,coinCost,budget:raw.budget,...pickBlackcrownBulk(state,count,random,{firstLimitedCode}),once,onceSnapshot,ownedCodes:state.ownedCodes,revision:state.revision,rawPack:state.rawPack,normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
+    const draws=pickBlackcrownBatch(state,count,randomInt,{firstLimitedCode});
+    return {count,coinCost,draws,once,onceSnapshot,ownedCodes:state.ownedCodes,revision:state.revision,rawPack:state.rawPack,normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
    },
    statements:async plan=>{
     const state=await stateFor(env,user);
     if(state.settings.mode!=='ON'||state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision)throw terminal('CHANGED','개봉 설정이 변경되어 미완료 요청을 취소했습니다.');
+    if((state.oneTimeRewardState?.before??null)!==(plan.onceSnapshot??null))throw terminal('CHANGED','확정 보상 설정이 변경됐습니다. 새 개봉으로 다시 시도하세요.');
     if(JSON.stringify(blackcrownOwnedCodes(plan.ownedCodes))!==JSON.stringify(blackcrownOwnedCodes(state.ownedCodes)))throw terminal('CHANGED','보유 종류가 변경됐습니다. 현재 확률을 확인한 뒤 다시 개봉하세요.');
     await reconcileBlackcrownStock(env.DB,user.id,requestId,plan,state,random);
     if(plan.draws.some(isPrimeMaterialDraw))await ensurePrimeMaterialCatalog(env);
@@ -81,7 +85,7 @@ export function createBlackcrownPackService({readState,releaseEnabled=BLACKCROWN
      else if(r.mercenaryCode&&!ordinaryAllowed(state,r))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
     });
     for(const r of plan.normalDraws||[])if(!ordinaryAllowed(state,r))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
-    const list=[];
+    const list=blackcrownOnceStatements(DB,user.id,requestId,plan);
     list.push(jointGuard(DB,token+':ownership','(SELECT COALESCE(SUM(CASE mercenary_code '+BLACKCROWN_CODES.map((code,i)=>"WHEN '"+code+"' THEN "+2**i).join(' ')+" ELSE 0 END),0) FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code IN ("+BLACKCROWN_CODES.map(()=>'?').join(',')+') AND total_copies>0)=?',[user.id,...BLACKCROWN_CODES,plan.ownedCodes.reduce((mask,code)=>mask+2**BLACKCROWN_CODES.indexOf(code),0)]),jointGuardEnd(DB,token+':ownership'));
     if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key=? FOR SHARE',BLACKCROWN_PACK_KEY),p("SELECT doc_key FROM mercenary_cms_documents_v1 WHERE doc_key='config' FOR SHARE"),p('SELECT id FROM mercenary_draw_config_v1 WHERE id=1 FOR SHARE'));
     list.push(jointGuard(DB,token,"EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM mercenary_cms_documents_v1 WHERE doc_key='config' AND revision=?) AND EXISTS(SELECT 1 FROM mercenary_draw_config_v1 WHERE id=1 AND revision=?) AND EXISTS(SELECT 1 FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND status='PENDING' AND plan_json=?)",[BLACKCROWN_PACK_KEY,plan.rawPack,plan.normalCmsRevision,plan.normalDrawRevision,requestId,user.id,JSON.stringify(plan)]));
@@ -111,7 +115,7 @@ export function createBlackcrownPackService({readState,releaseEnabled=BLACKCROWN
     const plan=JSON.parse(row.plan_json),state=await stateFor(env,user),counts={};
     for(const r of plan.draws){const code=bloodmoonDrawCode(r);if(blackcrown(code))counts[code]=(counts[code]||0)+1;}
     const stockChanged=Object.entries(counts).some(([code,n])=>{const stock=state.stock.find(s=>s.code===code);return stock?.prepared&&(stock.remaining<n||stock.limit!==plan.draws.find(r=>bloodmoonDrawCode(r)===code).stockLimit);});
-    const changed=JSON.stringify(blackcrownOwnedCodes(plan.ownedCodes))!==JSON.stringify(blackcrownOwnedCodes(state.ownedCodes))||state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision;
+    const changed=(state.oneTimeRewardState?.before??null)!==(plan.onceSnapshot??null)||JSON.stringify(blackcrownOwnedCodes(plan.ownedCodes))!==JSON.stringify(blackcrownOwnedCodes(state.ownedCodes))||state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision;
     if(changed){await env.DB.prepare("UPDATE joint_operations_v1 SET status='CANCELLED',completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING'").bind(new Date().toISOString(),requestId,user.id).run();throw terminal('CHANGED','설정이 변경되어 개봉을 취소했습니다. 코인은 차감되지 않았습니다.');}
     if(stockChanged&&attempt<(bulk?3:count+1))continue;
    }throw error;
