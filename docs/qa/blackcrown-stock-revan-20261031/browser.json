@@ -1,0 +1,26 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "noAddedNotice": true,
+      "ordinaryConfirmation": true,
+      "revanResult": true,
+      "ordinaryResultLabel": true,
+      "delayMs": 10083,
+      "cancelFree": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "noAddedNotice": true,
+      "ordinaryConfirmation": true,
+      "revanResult": true,
+      "ordinaryResultLabel": true,
+      "delayMs": 10126,
+      "cancelFree": true
+    }
+  ],
+  "errors": [],
+  "productionTransactions": 0
+}

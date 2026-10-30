@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-30T15:43:24.732Z",
+  "width": 390,
+  "height": 844,
+  "samples": 24,
+  "spread": {
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  "overflow": "hidden",
+  "imageWidth": 768,
+  "errors": [],
+  "failed": [],
+  "productionWrites": 0
+}
