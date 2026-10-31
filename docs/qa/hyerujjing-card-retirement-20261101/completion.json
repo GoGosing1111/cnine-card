@@ -1,0 +1,188 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:hyerujjing-all-and-pending-card-retirement:20261101:v1",
+  "authorization": "혜루찡 카드 다 퇴사시키고 퇴사대기에 있는것들 있으면 다 확정시켜 그리고 유저 공지용 작성",
+  "completedAt": "2026-10-31T16:12:25.641Z",
+  "completedKst": "2026-11-01 01:12:25 KST",
+  "auditId": "53484",
+  "memberId": 35,
+  "memberName": "혜루찡",
+  "retiredCards": 14,
+  "previouslyPending": 0,
+  "pendingAfter": 0,
+  "uniqueOwners": 2829,
+  "settlementRows": 14185,
+  "refundRows": 1291,
+  "refundShards": 10157100,
+  "rerollTickets": 2981,
+  "rerollByGrade": {
+    "MA": 1617,
+    "LIMITED": 1035,
+    "PRESTIGE": 329
+  },
+  "rules": {
+    "refundPercent": 100,
+    "refundBasis": "CURRENT_ENHANCEMENT_STAGE_CUMULATIVE_CONFIG",
+    "failedAttemptsIncluded": false,
+    "rerollPerOwnedCardType": 1,
+    "rerollPerDuplicateCopy": false
+  },
+  "validation": {
+    "unchangedCmsHandler": true,
+    "failureAfterRefundRolledBack": true,
+    "successRolledBack": true,
+    "duplicateFinalizeRejected": true,
+    "perRecipientRefundAndTicketLogs": true,
+    "onlyExpectedWrites": true,
+    "noPhysicalDeletion": true
+  },
+  "independentReadOnly": true,
+  "verificationAdditionalWrites": 0,
+  "missingOwners": 0,
+  "duplicatePayments": 0,
+  "cmsAuditRecords": 28,
+  "summaryAuditRecords": 1,
+  "publicCatalogExcluded": true,
+  "cards": [
+    {
+      "id": "CN-13E29CF3161147F9",
+      "title": "엑셀 혜루찡",
+      "grade": "LIMITED",
+      "status": "RETIRED"
+    },
+    {
+      "id": "CN-15C6D8587507418B",
+      "title": "물먹은치킨",
+      "grade": "MA",
+      "status": "RETIRED"
+    },
+    {
+      "id": "CN-6BDCDB8DA7A44364",
+      "title": "치킨찡",
+      "grade": "LIMITED",
+      "status": "RETIRED"
+    },
+    {
+      "id": "CN-7D9F82B5283044B8",
+      "title": "혜루찡",
+      "grade": "PRESTIGE",
+      "status": "RETIRED"
+    },
+    {
+      "id": "CN-8EE5C526D8614AF7",
+      "title": "넥타이 혜루",
+      "grade": "MA",
+      "status": "RETIRED"
+    },
+    {
+      "id": "card-0337",
+      "title": "꽃보다 혜루찡",
+      "grade": "SSR",
+      "status": "RETIRED"
+    },
+    {
+      "id": "card-0338",
+      "title": "미소 짓는 혜루찡",
+      "grade": "UR",
+      "status": "RETIRED"
+    },
+    {
+      "id": "card-0340",
+      "title": "여유로운 혜루찡",
+      "grade": "R",
+      "status": "RETIRED"
+    },
+    {
+      "id": "card-0341",
+      "title": "사랑스러운 혜루찡",
+      "grade": "C",
+      "status": "RETIRED"
+    },
+    {
+      "id": "card-0441",
+      "title": "새로운 혜루찡",
+      "grade": "UR",
+      "status": "RETIRED"
+    },
+    {
+      "id": "card-0442",
+      "title": "여왕 혜루찡",
+      "grade": "SSR",
+      "status": "RETIRED"
+    },
+    {
+      "id": "card-0443",
+      "title": "치킨 혜루찡",
+      "grade": "SSR",
+      "status": "RETIRED"
+    },
+    {
+      "id": "card-0444",
+      "title": "유니폼 혜루찡",
+      "grade": "UR",
+      "status": "RETIRED"
+    },
+    {
+      "id": "card-0445",
+      "title": "푸파 혜루찡",
+      "grade": "UR",
+      "status": "RETIRED"
+    }
+  ],
+  "nativeCmsHandlerHash": "1704b73351f31289e0877e3c74e94374d1bcf8e29f2276c824900ea19bd2016b",
+  "operationalSequence": "CMS_QUEUE_EACH_THEN_FINALIZE_EACH_WITH_BATCH_ROW_LOCK_AND_AUDIT",
+  "preserved": [
+    "ownership and enhancement history",
+    "source artwork and runtime code",
+    "existing refund settings",
+    "unrelated cards and currencies"
+  ],
+  "announcement": "output/announcements/hyerujjing-card-retirement-20261101.txt",
+  "announcementPublished": false,
+  "gameDeployments": 0,
+  "storageMaintenance": false,
+  "schedules": 0,
+  "evidenceDirectory": "operations/hyerujjing-card-retirement-20261101/",
+  "evidenceHashes": {
+    "action-finalize-CN-13E29CF3161147F9.json": "0dedf61211ac67e1f3229834fab3a70ae2d4c597776b7e51bf25342ef610bbc9",
+    "action-finalize-CN-15C6D8587507418B.json": "7dccee1ca58eb958aced73111f6c36c84cb2c6c9c2e54fe1adf7df47000e64d7",
+    "action-finalize-CN-6BDCDB8DA7A44364.json": "a0856da34fe3af697152719cea3f6cb5306ca9715f420888d9b2f872ec6b831a",
+    "action-finalize-CN-7D9F82B5283044B8.json": "44192f29e9c9959e0a0c49bcccba9824f54ad6ad2d3582304b01a00669fee00a",
+    "action-finalize-CN-8EE5C526D8614AF7.json": "bfc57d6c75f5c8f5f2aaf75c7a6a509ccd71bf6be662ec61fca0e80cb7c3ef44",
+    "action-finalize-card-0337.json": "bb409ffd6b486646aef48e75e89adaaa46328753b2af9802f84dd317af9cceac",
+    "action-finalize-card-0338.json": "94c5428938a4e4dbc5b8ad82e3fa242619a66d6834376290559192c97c9f6942",
+    "action-finalize-card-0340.json": "2f6a9eb0ba06942de92c1b959591a97fbf7d1ac848e0f77c2c0e2d009a28b302",
+    "action-finalize-card-0341.json": "370e7e7786676c836064c0367148706ef9820423430c40f079d7b7088db60aa8",
+    "action-finalize-card-0441.json": "6aefaad2075ee79ce7ed5b883355917775c0576bc08f8f610be0c31291397960",
+    "action-finalize-card-0442.json": "3490eaf8a3933cf311d673385369c835ef9ecf94f4d9d5212bd0a0a08dbd4fc4",
+    "action-finalize-card-0443.json": "6ec2abd7232acf2eb01311009add6c2cb06888ebb93567dbb16d8a4a60830fb1",
+    "action-finalize-card-0444.json": "844cec725329b9ac8386f36aa5472d1b960669d048456ed40850c80b299e8e09",
+    "action-finalize-card-0445.json": "0a450a096e2d18dc3d19bf505f3b2eedbd4c4d3b5191d044e335fa16823dabe6",
+    "action-queue-CN-13E29CF3161147F9.json": "40a589672e7db85c13f4a35677a3fc06bbafc9424ec75ecf4c72bc00156dae9a",
+    "action-queue-CN-15C6D8587507418B.json": "52f4a7c26e90d184377c3fa6bc5b970f8e2d52cad16854431ef85fa72918729e",
+    "action-queue-CN-6BDCDB8DA7A44364.json": "6e512e0f71164cc95e699f6378843cb57f21d50dc83c5e8b77d3140abe7019cf",
+    "action-queue-CN-7D9F82B5283044B8.json": "5959b73960521d080600d27fbbe8f09e3fe89be94e9716ebf42d7ab62d96206f",
+    "action-queue-CN-8EE5C526D8614AF7.json": "3517926ffdbb39d6819c3a129318d16afa2f126251d3e930d819e922cad78ba8",
+    "action-queue-card-0337.json": "ad249d7d8472c2208bdefed5736bb2ac3e8e6ce9c4e581e8c3106d5a6af827db",
+    "action-queue-card-0338.json": "298a4a45b79f288df20adb2ce381840c411ba717e2375175f6ca6815b3990052",
+    "action-queue-card-0340.json": "6d14e9a78b180e79552d9b74f324774cae90ad0e3c6d353137f4c0947e8e5ad3",
+    "action-queue-card-0341.json": "26dc8f57eddd7f4602efe39eac723899a90f64f0ba99f5484c54bf19b451e05e",
+    "action-queue-card-0441.json": "f47ae7d71d9ff41975dddbe39140e6c77b292a76720fa325823b4e96d7f01959",
+    "action-queue-card-0442.json": "08b186dfb8b60ee0a57de5f7991796f9f6ac63e1ee11e9f55e32db7563594fc2",
+    "action-queue-card-0443.json": "9d7085aa7f0a2589dae2530e02c10aea16dd798839b040fb7c36091f7f4510c8",
+    "action-queue-card-0444.json": "8c36cab690d9c8e90139466cbcdf0d8303df3bf34335ab88483ee5fc8577b0c0",
+    "action-queue-card-0445.json": "8fcada2b63e3b05a8fae1c56cfbb46a3f35c40f41f42beca9a0ed1642cccdb74",
+    "apply.json": "c7793e7dc6d289ff85eef06e8da6a80bde3cd8cc59452bd1e9db6c1a2dcdd13e",
+    "before.json": "6348615c3dcf77ea305c5dd54e8e7f8bde000be62ccf1b2570165d69257c40ae",
+    "cms.mjs": "847b7e2c3574212ca5fcbb677aded5ffa6f76e70cc9747a57d896b5e65ab5298",
+    "dry-run.json": "ba7e834fb0aed06b7705636a446cd3432c6be0f5d7c9c6204d04bd2a6e779fc6",
+    "log-floor.json": "610fcd96af47101ede8de530cf2bbd7e0e7d77abf3381ac32bbb89288fed81c8",
+    "preflight.mjs": "9c2ce972881cdb81b90128194c9996d0a6e8d736214a502c1f2c8121faf0db6d",
+    "public.json": "833d658c5e8c2876ea1f36c26dac4b2093d1fc525c8cd46dcfdb9b276e1e7b5e",
+    "public.mjs": "fff22fe9d4ad2f92420451dd680b0429985cddfae1fd94b4cf46493a04f5c928",
+    "receipt.json": "150af8a37ed32a116d6196a394814918fc86d9cdab3b74c18902146e6885c46f",
+    "run.mjs": "5fa50211148d9a4c8a5db4b470b31b9255110c12fedf028adf05c156f7c16cb6",
+    "verify.json": "d3797fbb8d2ec1ab9dfdbdb2bcd0e6a2bbd68682865b6160a945cb74b124ca02"
+  },
+  "preflightRecovery": "Initial broad-lock rehearsals aborted and rolled back on conflicts. Final executor uses native per-card queue/finalize transactions; failed/successful rehearsal and duplicate rejection checked before production."
+}
