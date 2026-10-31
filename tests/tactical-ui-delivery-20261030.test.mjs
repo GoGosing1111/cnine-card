@@ -10,7 +10,7 @@ const read=file=>fs.readFileSync(new URL(file,root));
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const manifest=JSON.parse(read('output/imagegen/tactical-ui-20261030/manifest.json'));
 const bundle=read('js/adventure-lobby-v2107.js').toString();
-const images=JSON.parse(bundle.match(/window\.__TACTICAL_UI_IMAGES__=(\{[^\n]+\});\n/)[1]);
+const images=JSON.parse(bundle.match(/window\.__TACTICAL_UI_IMAGES__=(\{[^\n]+\});\r?\n/)[1]);
 
 test('all 64 shipped icons preserve the original WebP bytes and remain available through the public renderer',()=>{
  const context=vm.createContext({__TACTICAL_UI_IMAGES__:images});
