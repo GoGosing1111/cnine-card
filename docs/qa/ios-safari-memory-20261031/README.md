@@ -40,4 +40,4 @@
 
 참고: [Pixi 성능 안내](https://pixijs.com/8.x/guides/concepts/performance-tips), [Pixi Assets](https://pixijs.com/8.x/guides/components/assets), [WebKit 캔버스 디버깅](https://webkit.org/blog/8452/canvas-debugging/). 실제 구현 판단은 설치된 Pixi8.20 코드와 본 작업의 전후 실행 결과에 근거했다.
 
-배포 포장 보완: 첫 시도에서 관련35검사·Worker구문·출시/Hyperdrive 검사 통과 후 파일 수20002로 업로드 전에 중단됐다. 브라우저 참조가 없는 Node 전용 prepare-production-assets.mjs/scoped-release-checks.mjs 두 파일만 공개 포장에서 제외해20000으로 맞췄다. 파일과 Git 이력, 새 엔진 모듈·원화·프리뷰를 보존했다. 런타임 동일성을 유지하고 포장/로더만 재검사한다.
+배포 포장 보완: 첫 시도에서 관련35검사·Worker구문·출시/Hyperdrive 검사 통과 후 파일 수20002로 업로드 전에 중단됐다. 브라우저 참조가 없는 과거 내부 성능 점검 문서 PERF-AUDIT-v2044.md/CNINE-v1415-performance-report.md 두 파일만 공개 포장에서 제외해20000으로 맞췄다. 파일과 Git 이력, 새 엔진 모듈·원화·프리뷰를 보존했다. 런타임 동일성을 유지하고 포장/로더만 재검사한다.
