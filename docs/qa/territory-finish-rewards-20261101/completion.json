@@ -1,0 +1,90 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:territory:90:finish-attacks50-win-shards-coins:20261101:v1",
+  "authorization": {
+    "request": "공격 50회 이상 승패상관없이 : 10조 + SSS조각 2개\n승리팀 보상 : 20조 + SSS조각 3개\n직전 종료 영토전 조회해서 지급해",
+    "deliveryConfirmation": "이전 영토전처럼 메시지함으로 지급",
+    "roundBasis": "조회 시 가장 최근 종료된 90회차 팬티, 2026-10-31 23:08:21 KST 정산 완료, 다음 91회차 DISABLED",
+    "stackingBasis": "두 조건 독립 적용, 중복 충족은 30조+SSS조각5개로 합산; 전달 방식 질문에 이를 명시하고 사용자 답변을 받음",
+    "winnerPolicy": "승리 진영 전체 참가자; 50회 조건은 공격 횟수 보상에만 적용",
+    "delivery": "MESSAGE",
+    "recurring": false
+  },
+  "round": {
+    "id": "90",
+    "status": "FINISHED",
+    "battle_name": "팬티",
+    "winner_side": "A",
+    "starts_at": "2026-10-31T09:49:50.585Z",
+    "ends_at": "2026-11-01T05:49:50.585Z",
+    "settled_at": "2026-10-31 14:08:21",
+    "clan_season_id": null
+  },
+  "completedAt": "2026-10-31T15:39:09.482Z",
+  "completedAtKST": "2026-11-01T00:39:09.482+09:00",
+  "delivery": "MESSAGE",
+  "auditId": "53445",
+  "rules": {
+    "minimumAttacks": 50,
+    "attack": {
+      "coin": "10000000000000",
+      "shards": "2"
+    },
+    "winner": {
+      "coin": "20000000000000",
+      "shards": "3"
+    },
+    "stack": true
+  },
+  "totals": {
+    "participants": 99,
+    "attackQualified": 70,
+    "winners": 50,
+    "overlap": 35,
+    "recipients": 85,
+    "messages": 170,
+    "totalShards": "290",
+    "totalCoin": "1700000000000000"
+  },
+  "planSha256": "1482b3d20ca8a6e715c61d0995b8a28ff961c24b4a358e53f54ab25be629b47d",
+  "executionSha256": "b6ae10ffeadd7357adbabb2d94e83c321728d4ce1743a8d96d071518d4f87a3a",
+  "claimTests": {
+    "exitCode": 0,
+    "passed": 4,
+    "failed": 0,
+    "source": {
+      "sourceCommit": "39d74e6bf60f3735fc2a96423c33b2c6f2b1ad7b",
+      "specsHash": "291396e0b4ce29dfa96a3d96a270b3e04176966e6cafd0e2badd38bfac887fed",
+      "claimHash": "288c3251261dd238d3973ee288d697531353dee60e763852ef00684cc05406c5",
+      "compatHash": "1111070d6b1928ba84308589372c8235fdd0e06e837493af03f7cae473f135ea",
+      "latestRemoteSourceMatched": true,
+      "clientItemMetadata": true,
+      "checkedAt": "2026-10-31T15:38:02.927Z"
+    },
+    "checkedAt": "2026-10-31T15:38:11.392Z"
+  },
+  "validationChecks": {
+    "roundAndOperationLockContentionRejected": true,
+    "wrongPlanRejected": true,
+    "actualPartialAttachmentFailureRolledBack": true,
+    "successRolledBack": true,
+    "messageSyncRolledBack": true,
+    "allMessageSyncChanged": true,
+    "onlyMessageAuditReceiptAndSyncWrites": true,
+    "noWalletInventoryOrRoundWrites": true,
+    "selectOnlyReplay": true,
+    "noDeliveryAfterRollback": true,
+    "territorySettingsPreserved": true
+  },
+  "messageSyncChanged": 85,
+  "independentReadOnlyVerified": true,
+  "replayAdditionalWrites": 0,
+  "missing": 0,
+  "duplicates": 0,
+  "verifiedAt": "2026-10-31T15:39:18.853Z",
+  "claimedAtVerification": 0,
+  "pendingAtVerification": 170,
+  "territorySettingsHash": "3a0e9e125ac6f8595c8e8fc570e55127a4de53ff7dca49710898b1b1c64dea2a",
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/territory-finish-rewards-20261101",
+  "gameDeployments": 0
+}
