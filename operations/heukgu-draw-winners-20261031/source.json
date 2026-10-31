@@ -1,0 +1,35 @@
+{
+  "operationKey": "ops:heukgu-draw-winners:20261031:v1",
+  "authorization": "3명 흑구 지급해",
+  "interpretation": "Give one existing Heukgu pet to each of the three distinct lottery winners from this chat. No new drawing, no messages, no automatic equip.",
+  "quantityPerAccount": 1,
+  "recipientCount": 3,
+  "draw": {
+    "participants": 22,
+    "tickets": 126,
+    "method": "crypto.randomInt; weighted draw without replacement of people",
+    "winners": [
+      {
+        "draw": 1,
+        "nickname": "비쥬얼깡패",
+        "tickets": 10,
+        "pickedTicket": 67,
+        "remainingPoolBeforeDraw": 126
+      },
+      {
+        "draw": 2,
+        "nickname": "굳건창수",
+        "tickets": 5,
+        "pickedTicket": 91,
+        "remainingPoolBeforeDraw": 116
+      },
+      {
+        "draw": 3,
+        "nickname": "음순이",
+        "tickets": 5,
+        "pickedTicket": 31,
+        "remainingPoolBeforeDraw": 111
+      }
+    ]
+  }
+}

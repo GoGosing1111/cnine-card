@@ -1,0 +1,64 @@
+{
+  "operationKey": "ops:heukgu-draw-winners:20261031:v1",
+  "authorization": "3명 흑구 지급해",
+  "petCode": "PET-HEUKGU",
+  "petName": "흑구",
+  "petDefinition": {
+    "code": "PET-HEUKGU",
+    "name": "흑구",
+    "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+    "battleSprite": "",
+    "enabled": false,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "ATTACK_PERCENT",
+        "percent": 50
+      }
+    ],
+    "notes": "2026-10-25 사용자 승인 및 라이브 반영 요청. 흑구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+    "liveEnabled": true,
+    "rewardBonuses": {
+      "dropPercent": 20,
+      "accountXpPercent": 50,
+      "coinPercent": 50
+    }
+  },
+  "petCmsRevision": 42,
+  "settingsHash": "abe8937fe1dc5edc89463ae68c38ce0008a7b9f1e437b59a718447ef904f87b0",
+  "delivery": "DIRECT_PET_COLLECTION",
+  "recipientCount": 3,
+  "totalPets": 3,
+  "targets": [
+    {
+      "order": 3,
+      "nickname": "음순이",
+      "userId": "65",
+      "role": "USER",
+      "identityHash": "30026ae101d766dc99819431ca4dd36f183ffb5f311d21f700bf6e1779313751",
+      "amount": 1
+    },
+    {
+      "order": 1,
+      "nickname": "비쥬얼깡패",
+      "userId": "81",
+      "role": "USER",
+      "identityHash": "e66223cdc61b5944dd39d90ff71368f65481db50b38e138b75acd7827fb10035",
+      "amount": 1
+    },
+    {
+      "order": 2,
+      "nickname": "굳건창수",
+      "userId": "4908",
+      "role": "USER",
+      "identityHash": "76bce871a50cebd30fed1b8584c1c9bc08cade7c1ecd37795e619ba9240c61c6",
+      "amount": 1
+    }
+  ],
+  "pending": [],
+  "checkedAt": "2026-10-31T06:35:29.973Z"
+}

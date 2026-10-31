@@ -1,0 +1,126 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:heukgu-draw-winners:20261031:v1",
+  "authorization": "3명 흑구 지급해",
+  "completedAt": "2026-10-31T06:39:57.867Z",
+  "completedAtKst": "2026-10-31 15:39:57 KST",
+  "verifiedAt": "2026-10-31T06:40:33.849Z",
+  "auditId": "53356",
+  "recipientCount": 3,
+  "petCode": "PET-HEUKGU",
+  "petName": "흑구",
+  "totalPets": 3,
+  "quantityEach": 1,
+  "petAudits": 3,
+  "missing": 0,
+  "duplicates": 0,
+  "planHash": "67ac88490339210c87845ac00599f61c2052e85e58dbb3b1664d5d615b214ba2",
+  "sourceSha256": "2465c1c0cbf408dd9d89fcd30c74dc3907d7209c6d648bb648eefb78a7863eac",
+  "targetedTests": 4,
+  "actualPetReadersChecked": 3,
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "noWriteReplayVerified": true,
+  "independentConnection": true,
+  "leasesReleased": true,
+  "autoEquip": false,
+  "petPolicyChanges": false,
+  "messagesSent": false,
+  "deployment": false,
+  "storageMaintenance": false,
+  "petGrants": [
+    {
+      "userId": "65",
+      "nickname": "음순이",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 11,
+      "afterRevision": 12,
+      "payloadHash": "79a7b74ab58c3727fae82335860ddb14809383e29cab662f369f2a1924a8784b",
+      "result": {
+        "ok": true,
+        "requestId": "ops-heukgu-draw-20261031-65",
+        "adminId": 1,
+        "target": {
+          "id": 65,
+          "nickname": "음순이"
+        },
+        "pet": {
+          "code": "PET-HEUKGU",
+          "name": "흑구",
+          "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png"
+        },
+        "quantity": 1,
+        "reason": "응모권 추첨 당첨자 흑구 펫 각1마리 지급 · 20261031",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 12,
+        "grantedAt": "2026-10-31T06:39:57.867Z",
+        "replayed": false
+      },
+      "auditId": "53353"
+    },
+    {
+      "userId": "81",
+      "nickname": "비쥬얼깡패",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 16,
+      "afterRevision": 17,
+      "payloadHash": "4b0e5ab151ff882a59fd997e4e18645528b47a678ead1a11037f0001f24cc684",
+      "result": {
+        "ok": true,
+        "requestId": "ops-heukgu-draw-20261031-81",
+        "adminId": 1,
+        "target": {
+          "id": 81,
+          "nickname": "비쥬얼깡패"
+        },
+        "pet": {
+          "code": "PET-HEUKGU",
+          "name": "흑구",
+          "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png"
+        },
+        "quantity": 1,
+        "reason": "응모권 추첨 당첨자 흑구 펫 각1마리 지급 · 20261031",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 17,
+        "grantedAt": "2026-10-31T06:39:57.867Z",
+        "replayed": false
+      },
+      "auditId": "53354"
+    },
+    {
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 14,
+      "afterRevision": 15,
+      "payloadHash": "6dfcdf98fc96f070599fd35f22262310b983228431587cbb3abf6650d5d3bacf",
+      "result": {
+        "ok": true,
+        "requestId": "ops-heukgu-draw-20261031-4908",
+        "adminId": 1,
+        "target": {
+          "id": 4908,
+          "nickname": "굳건창수"
+        },
+        "pet": {
+          "code": "PET-HEUKGU",
+          "name": "흑구",
+          "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png"
+        },
+        "quantity": 1,
+        "reason": "응모권 추첨 당첨자 흑구 펫 각1마리 지급 · 20261031",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 15,
+        "grantedAt": "2026-10-31T06:39:57.867Z",
+        "replayed": false
+      },
+      "auditId": "53355"
+    }
+  ]
+}
