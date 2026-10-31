@@ -1,0 +1,43 @@
+{
+  "completedAt": "2026-10-31T14:04:24.250Z",
+  "sourceCommit": "aaa347e077a3c1b0da83389497fdb3c652177474",
+  "initialSourceCommit": "4a51feffac5c5ead5e4f5c2b60da3631525dc834",
+  "pages": {
+    "id": "15af2165-2ac9-43ec-8296-84ee4c6c91ee",
+    "url": "https://15af2165.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "aaa347e077a3c1b0da83389497fdb3c652177474"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "0d684f5c-258a-426c-a847-2e4f4529aee4",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "3d3a869f-ea43-4af8-ad13-e6ac20b6691c",
+      "percentage": 100
+    }
+  ],
+  "validation": {
+    "relatedTests": 7,
+    "localBrowserWidths": [
+      1440,
+      768,
+      390,
+      320
+    ],
+    "publicWebKitWidths": [
+      1440,
+      390
+    ],
+    "actualBattleEntryAndReturn": true,
+    "publicFiles": 4,
+    "embeddedIconDelivery": true
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "sourceRoot": "C:/Users/User/Downloads/upload/cnine-card/tmp/duo-settlement-recovery-20261027",
+  "evidence": "operations/defense-lobby-ui-20261031/"
+}

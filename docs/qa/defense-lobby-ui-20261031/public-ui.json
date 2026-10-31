@@ -1,0 +1,105 @@
+{
+  "ok": true,
+  "engine": "WebKit",
+  "viewports": [
+    "390x844",
+    "1440x1000"
+  ],
+  "publicStaticAssets": true,
+  "isolatedAccountApi": true,
+  "productionAccountWrites": 0,
+  "report": {
+    "lobby": {
+      "overflow": 0,
+      "cards": [
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지"
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지"
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지"
+        }
+      ],
+      "css": [
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/defense.css?v=20261017-defense-v3-merc1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/workshop.css?v=20261017-defense-v3-merc1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/staging.css?v=20261017-defense-v3-merc1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/image-skin.css?v=defense-boss-hud-20261027-v1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/formation.css?v=20261017-defense-v3-merc1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/rooms.css?v=20261031-lobby-cards1"
+      ],
+      "panel": "url(\"https://cnine-card.pages.dev/assets/ui/tactical-20261030/panel-flat.webp\")"
+    },
+    "desktop": {
+      "overflow": 0,
+      "cards": [
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지"
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지"
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지"
+        }
+      ],
+      "css": [
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/defense.css?v=20261017-defense-v3-merc1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/workshop.css?v=20261017-defense-v3-merc1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/staging.css?v=20261017-defense-v3-merc1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/image-skin.css?v=defense-boss-hud-20261027-v1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/formation.css?v=20261017-defense-v3-merc1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/rooms.css?v=20261031-lobby-cards1"
+      ],
+      "panel": "url(\"https://cnine-card.pages.dev/assets/ui/tactical-20261030/panel-flat.webp\")"
+    },
+    "icons": [
+      {
+        "id": "defense",
+        "width": 160,
+        "embedded": true
+      },
+      {
+        "id": "deck",
+        "width": 160,
+        "embedded": true
+      }
+    ],
+    "waiting": {
+      "overflow": 0,
+      "cards": [
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지"
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지"
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지"
+        }
+      ],
+      "css": [
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/defense.css?v=20261017-defense-v3-merc1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/workshop.css?v=20261017-defense-v3-merc1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/staging.css?v=20261017-defense-v3-merc1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/image-skin.css?v=defense-boss-hud-20261027-v1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/formation.css?v=20261017-defense-v3-merc1",
+        "https://cnine-card.pages.dev/preview/coop-defense-v1/rooms.css?v=20261031-lobby-cards1"
+      ],
+      "panel": "url(\"https://cnine-card.pages.dev/assets/ui/tactical-20261030/panel-flat.webp\")"
+    }
+  },
+  "errors": [],
+  "missing": []
+}

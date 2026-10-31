@@ -1,5 +1,7 @@
 # 몬스터 디펜스 출전 로비·대기방 카드 UI — 2026-10-31
 
+운영 반영 완료: aaa347e07 · Pages 15af2165-2ac9-43ec-8296-84ee4c6c91ee. [몬스터 디펜스](https://cnine-card.pages.dev/defense/).
+
 사용자 요청: “몬스터 디펜스 대기화면 로비방 도 메인 로비 UI 참고해서 변경해라 / 용병 SD리소스 넣지말고 카드이미지로 나오게해”.
 
 ## 변경
@@ -14,9 +16,13 @@
 
 ## 검증
 
+- 기존 아이콘 전달/포장 검사 2개도 통과했다. 검사 파서가 Windows CRLF 줄바꿈을 허용하도록 수정했고, 최종 공개 WebKit 390/1440px 로비와 모바일 대기방에서 이미지 누락/페이지 오류 0을 확인했다.
+
+- 공개 HTML 2개/CSS/번들 4파일 해시 일치, 두 Worker 새 버전 100%, 공개 정적 파일로 WebKit 390px 로비/대기방 확인. 계정 API는 모두 격리 fixture로 대체했다.
+
 - 실제 운영 HTML/번들 + 격리 Miniflare 계정 fixture. PC 1440, 태블릿 768, 모바일 390/320px에서 카드 로딩, 가로 넘침 0, 남색 패널 연결을 확인했다.
 - 실제 3개 브라우저의 공개 방 생성/목록/참가, 분대 탭, 편성창 열기/적용/ESC 초점 복귀, 준비 완료/취소, 방장의 시작 허용, 전투 렌더러 1개 진입, 일반 나가기/로비 복귀 통과. 페이지 오류·누락 리소스 0.
-- 관련 회귀: `tests/monster-defense-loadout.test.mjs`, `tests/monster-defense-rooms.test.mjs`. 지정된 `npm run deploy:production -- --scoped` 게이트에서 실행한다.
+- 관련 회귀: `tests/monster-defense-loadout.test.mjs`, `tests/monster-defense-rooms.test.mjs`. 지정된 `npm run deploy:production -- --scoped` 게이트에서 **5개 모두 통과**했다.
 - 증거: 원래 작업 폴더 `operations/defense-lobby-ui-20261031/`. 중간 screenshot/fixture 대기 문제와 최종 성공 결과를 구분하며 최종 결과는 `browser-qa.json`이다. 기능 검수는 사용자 시각 승인으로 기록하지 않는다.
 
 기존 체크아웃/의존성을 재사용했다. Git 자동 정리는 끈 상태로 작업하며 유지관리·캐시 정리·예약은 실행하지 않았다.

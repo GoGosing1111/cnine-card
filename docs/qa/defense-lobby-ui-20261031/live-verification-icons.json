@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-31T14:04:12.105Z",
+  "pages": {
+    "id": "15af2165-2ac9-43ec-8296-84ee4c6c91ee",
+    "url": "https://15af2165.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "aaa347e077a3c1b0da83389497fdb3c652177474"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "0d684f5c-258a-426c-a847-2e4f4529aee4",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "3d3a869f-ea43-4af8-ad13-e6ac20b6691c",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "defense/index.html",
+      "sha256": "710d329e067490eabae84be41d381cbb7d3eddc4d3803ea071d2a2bee0acfabe"
+    },
+    {
+      "file": "preview/coop-defense-v1/index.html",
+      "sha256": "920c99105a2f50546ef33131efcc2fba2d01ec9862dc8b36cc5b21674faa3eb8"
+    },
+    {
+      "file": "preview/coop-defense-v1/rooms.css",
+      "sha256": "41617c4a2ce56a11cf32bfc2748e0b349f7c45fe831ad1425a64f86ed44a73d5"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "b57a9cc1842000247457cbadf6d512a78b38b6b0886a4d785af5c82d442e570e"
+    }
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}
