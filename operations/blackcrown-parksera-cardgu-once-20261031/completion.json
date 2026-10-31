@@ -1,0 +1,67 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:blackcrown-parksera-cardgu-once:20261031:v1",
+  "authorization": "박세라-ㅂ- 블랙크라운팩 개봉할때 카드구 한번 나오게 처리해",
+  "userId": 45,
+  "nickname": "박세라-ㅂ-",
+  "cardCode": "V-970",
+  "cardName": "카드구",
+  "quantity": 1,
+  "delivery": "NEXT_SUCCESSFUL_BLACKCROWN_OPENING",
+  "registeredAt": "2026-10-31T13:27:34.084Z",
+  "registeredKst": "2026-10-31 22:27:34 KST",
+  "auditId": "53414",
+  "statusAtVerification": "ARMED",
+  "remainingAtVerification": 1,
+  "verifiedAt": "2026-10-31T13:28:03.973Z",
+  "tests": {
+    "command": "node --test operations/blackcrown-parksera-cardgu-once-20261031/cardgu-once.test.mjs",
+    "passed": 4,
+    "failed": 0,
+    "coverage": [
+      "1/10/66666 draws",
+      "normal price and stock",
+      "receipt replay and other account",
+      "insufficient funds and exhausted stock",
+      "mid-transaction rollback and retry"
+    ]
+  },
+  "dryRunRollbackVerified": true,
+  "independentReadOnly": true,
+  "replayWriteStatements": 0,
+  "locksReleased": true,
+  "preservation": {
+    "accountRow": true,
+    "mercenaryCollection": true,
+    "packSettings": true,
+    "stock": true
+  },
+  "automaticOpenings": 0,
+  "directCardGrants": 0,
+  "messagesSent": 0,
+  "gameDeployments": 0,
+  "evidenceHashes": {
+    "preflight.mjs": "43c306e21285686482e8836d59f9605413c43692227e25ce0fba2b09315c9200",
+    "preflight.json": "93e172d733f8dfc835689b2f4ade3ec663e0ae17793d84468e165783fbbb1bec",
+    "arm.mjs": "8ff711e0e45030d1eb8de865dd9f8e37e1ef2a3cf0190abafc8776710938d138",
+    "lock-worker.mjs": "cbce707dcddf0d136e31112c65d26040053759b16864ea90971a97b0cc4b8e13",
+    "wrangler.jsonc": "57a4ba3478e796f7f6ce7f6322bcc6d0676d95facaa65e6bd60f159dcb626972",
+    "cardgu-once.test.mjs": "6ccfc85309f6b76019f2646af9adfb4279f954de8089451f4ef469bcab699171",
+    "arm-dry-run.json": "21de390950933203ff9ff650428ff8abd9f36907a97207e0faf5d40290c5a6e0",
+    "arm-apply.json": "ba4320cef5cf25206f0c6a59fa94195d2c973f816e00f72141ee3fab915e9548",
+    "arm-replay.json": "9ca72ba83177a59d3713f53ca37ad847a656a48c0a37a51cd982b9cf68944787",
+    "witness.mjs": "44a4941514d0b198b2bcf4d513f02c2413dbe0e173271da7d675614ba0f6db48",
+    "independent-readonly.json": "60cd5b7c818fe3ba801cbf524940ed7ee84fb23186d32ccc7e35c8a241a10a49"
+  },
+  "runtimeSource": {
+    "checkout": "tmp/duo-settlement-recovery-20261027",
+    "commit": "41b334da257d0b9ad9eb1d4eefc14642e5273ad1",
+    "hashes": {
+      "functions/_mercenary_blackcrown_once.js": "135dea6a21d2981b40043881836e0b9e4e7a891d015d1956c6a86e9ea5219136",
+      "functions/_mercenary_blackcrown_opening.js": "9fbee70726956e75e0db6ea9378b152eec813fec558f808894f501a8cca9a2be",
+      "functions/_mercenary_blackcrown_pack.js": "2aa79b03ee07d1ab759fa9f3f4bed64dc113639196d4c42d52e0ebfc4e55873c",
+      "shared/mercenary-blackcrown-pack-v1.mjs": "531e34df12d072a13c3afcc2dca2213586efe355a8851225356fc178e8a1ac18",
+      "shared/mercenary-blackcrown-pool-v3.mjs": "4bcb8082a156d69b8a340230eefadcf232a7ff20d09e0aed86f53cdd41f6d986"
+    }
+  }
+}

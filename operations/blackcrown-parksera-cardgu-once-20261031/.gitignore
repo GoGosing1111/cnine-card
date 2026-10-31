@@ -1,0 +1,5 @@
+*.json
+*.log
+evidence/
+!completion.json
+!wrangler.jsonc
