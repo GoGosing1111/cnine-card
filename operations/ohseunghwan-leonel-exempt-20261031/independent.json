@@ -1,0 +1,32 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-31T13:37:25.708Z",
+  "readOnly": "on",
+  "operationKey": "ops:ohseunghwan-leonel-exempt-grant:20261031:v1",
+  "userId": "16",
+  "nickname": "오승환이다",
+  "code": "V-978",
+  "name": "레오넬",
+  "quantity": 1,
+  "before": 0,
+  "after": 1,
+  "stock": {
+    "limit": 12,
+    "issued": 12,
+    "remaining": 0
+  },
+  "cubeStock": {
+    "limit": 5,
+    "issued": 5,
+    "remaining": 0
+  },
+  "stockUnchanged": true,
+  "serialsUnchanged": true,
+  "craftUnchanged": true,
+  "protectedDataHashMatched": true,
+  "acquisitionRecords": 1,
+  "auditRecords": 1,
+  "auditId": "53426",
+  "completedAt": "2026-10-31T13:37:14.127Z",
+  "remainingOperationLocks": 0
+}

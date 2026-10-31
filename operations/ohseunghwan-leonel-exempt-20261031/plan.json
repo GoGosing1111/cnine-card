@@ -1,0 +1,28 @@
+{
+  "operationKey": "ops:ohseunghwan-leonel-exempt-grant:20261031:v1",
+  "authorization": "오승환이다 레오넬 지급해 한도차감없이",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "sendMessages": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "16",
+      "nickname": "오승환이다",
+      "role": "ADMIN",
+      "status": "ACTIVE",
+      "identityHash": "c199997964e49bc1ca82a757d518e4fc926ed9c7ee712d92cc6103ab050dc564"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "16",
+      "nickname": "오승환이다",
+      "code": "V-978",
+      "name": "레오넬",
+      "quantity": 1
+    }
+  ]
+}
