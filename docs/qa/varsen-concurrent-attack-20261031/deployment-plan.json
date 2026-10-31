@@ -1,0 +1,22 @@
+{
+  "before": {
+    "id": "56b58aad-eccd-41f6-bdf0-424aeac835ee",
+    "url": "https://56b58aad.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "af957f22c9b72a442393b3531fef7999ca9c71fa"
+  },
+  "base": "af957f22c9b72a442393b3531fef7999ca9c71fa",
+  "reason": "바르센 개인 공격에서 신궁 강윤 등 hits 배열의 서버 스킬 피해 누락만 수정. 개인 몫·단계별 HP·1.2초 쿨다운·기믹·보상·공대 CAS/영수증 불변. 신규5검사와 신고 파티3개 전후 재현 완료, 같은 소스 결과를 보존하고 기존 바르센 실제 API/보상 원복·개인판단3/6인 회귀 및 Worker 컴파일을 실행한다. 공통 엔진/UI/DB/의존성 변경 없음.",
+  "tests": [
+    "tests/madara-raid-live-20261011.test.mjs",
+    "tests/madara-raid-decisions-20261011.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "preservedChecks": {
+    "newTests": "tests/varsen-grouped-attack-20261031.test.mjs",
+    "passed": 5,
+    "snapshotReplay": "operations/varsen-concurrent-attack-20261031/snapshot-replay.json"
+  }
+}

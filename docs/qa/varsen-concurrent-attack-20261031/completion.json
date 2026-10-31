@@ -1,0 +1,119 @@
+{
+  "completedAt": "2026-10-31T03:02:26.608Z",
+  "sourceCommit": "5086a21b2",
+  "deployedCommit": "18e6a19c13bd3333744f51fc3c8d3c50506a75b5",
+  "pages": {
+    "id": "35461b96-7e27-4c0a-9d85-40945264c972",
+    "url": "https://35461b96.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "18e6a19c13bd3333744f51fc3c8d3c50506a75b5"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "90a3c1e3-ce65-4a7a-9c0b-1d83c1719797",
+      "percentage": 100,
+      "raidHandler": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "513a87fd-6f94-4c40-9f9c-d8f0611608e9",
+      "percentage": 100,
+      "raidHandler": false
+    }
+  ],
+  "tests": {
+    "new": 5,
+    "existing": 18,
+    "total": 23,
+    "passed": 23
+  },
+  "browser": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "actualMain": true,
+      "actualV3Canvas": true,
+      "groupedSkillEvents": 21,
+      "parallelPlayers": 4,
+      "damage": 19041286,
+      "geometry": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "canvas": 1
+      },
+      "returned": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "actualMain": true,
+      "actualV3Canvas": true,
+      "groupedSkillEvents": 21,
+      "parallelPlayers": 4,
+      "damage": 19041286,
+      "geometry": {
+        "width": 390,
+        "scrollWidth": 390,
+        "canvas": 1
+      },
+      "returned": true,
+      "errors": []
+    }
+  ],
+  "readOnly": {
+    "checkedAt": "2026-10-31T03:01:55.781Z",
+    "server": {
+      "server_kst": "2026-10-31 12:01:53"
+    },
+    "readOnly": true,
+    "selectOnly": true,
+    "users": [
+      {
+        "id": "216",
+        "nickname": "x수댕",
+        "status": "ACTIVE"
+      },
+      {
+        "id": "218",
+        "nickname": "현하루",
+        "status": "ACTIVE"
+      },
+      {
+        "id": "233",
+        "nickname": "ShowMaker",
+        "status": "ACTIVE"
+      },
+      {
+        "id": "4572",
+        "nickname": "응맨",
+        "status": "ACTIVE"
+      }
+    ],
+    "settingsHash": "db36471aed5bb4482f0a03e055390cb0c85fbaebd8c969e13f15fa3f476f94ad",
+    "settingsUnchanged": true,
+    "historicalRooms": [
+      {
+        "room_id": "26A46A5056",
+        "status": "FAILED",
+        "version": "41"
+      },
+      {
+        "room_id": "877883E05C",
+        "status": "CANCELLED",
+        "version": "40"
+      },
+      {
+        "room_id": "9D39CDDC71",
+        "status": "CANCELLED",
+        "version": "43"
+      }
+    ],
+    "historicalRoomsUnchanged": true,
+    "productionAccountWrites": 0,
+    "messagesSent": 0
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

@@ -1,0 +1,51 @@
+{
+  "at": "2026-10-31T03:02:19.475Z",
+  "pages": {
+    "id": "35461b96-7e27-4c0a-9d85-40945264c972",
+    "url": "https://35461b96.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "18e6a19c13bd3333744f51fc3c8d3c50506a75b5"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "90a3c1e3-ce65-4a7a-9c0b-1d83c1719797",
+      "percentage": 100,
+      "raidHandler": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "513a87fd-6f94-4c40-9f9c-d8f0611608e9",
+      "percentage": 100,
+      "raidHandler": false
+    }
+  ],
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "1862a51d610a69e22ba6df8ed71d6fea24af02b0f695b0aa081a5754ad2836c7"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "d82e209f7ac1de3a7271004e6705b297c62e07a3c227ecedca71195624c0a68c"
+    },
+    {
+      "file": "raid/madara/runtime.mjs",
+      "sha256": "9937008974b408a716c8a3541ab40e92433ab0a7a7a4c6afda3c7bf915293c51"
+    },
+    {
+      "file": "raid/madara/inline.mjs",
+      "sha256": "d5d30de89057c1d99b0617ddb493c12ce127ea02269b04270a148d32b1e24b1d"
+    }
+  ],
+  "smoke": {
+    "path": "/api/raid/madara/feature",
+    "status": 401,
+    "body": {
+      "error": "로그인이 필요합니다."
+    },
+    "authenticated": false
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

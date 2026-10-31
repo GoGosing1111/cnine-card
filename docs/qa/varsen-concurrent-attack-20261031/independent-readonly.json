@@ -1,0 +1,52 @@
+{
+  "checkedAt": "2026-10-31T03:01:55.781Z",
+  "server": {
+    "server_kst": "2026-10-31 12:01:53"
+  },
+  "readOnly": true,
+  "selectOnly": true,
+  "users": [
+    {
+      "id": "216",
+      "nickname": "x수댕",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "218",
+      "nickname": "현하루",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "233",
+      "nickname": "ShowMaker",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "4572",
+      "nickname": "응맨",
+      "status": "ACTIVE"
+    }
+  ],
+  "settingsHash": "db36471aed5bb4482f0a03e055390cb0c85fbaebd8c969e13f15fa3f476f94ad",
+  "settingsUnchanged": true,
+  "historicalRooms": [
+    {
+      "room_id": "26A46A5056",
+      "status": "FAILED",
+      "version": "41"
+    },
+    {
+      "room_id": "877883E05C",
+      "status": "CANCELLED",
+      "version": "40"
+    },
+    {
+      "room_id": "9D39CDDC71",
+      "status": "CANCELLED",
+      "version": "43"
+    }
+  ],
+  "historicalRoomsUnchanged": true,
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}
