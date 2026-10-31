@@ -263,16 +263,38 @@ function strike(room,actor,burst) {
   const source=[...living(room,actor.id),...room.loadouts[actor.id].supports].map(f=>({...copy(f),attack:Math.round(f.attack*(burst?1.8:1)),alive:true}));
   const enemy={...copy(room.boss),hp:room.boss.maxHp,alive:true,shield:0};
   const combat=simulateBattleV2Preview({...companionReviewOptions(room.loadouts[actor.id]),teamA:source,teamB:[enemy],seed:room.seed+room.eventSeq,maxActions:6,forcedMonsterEvery:5,healerPenalty:true});
-  const packets=combat.timeline.filter(e=>source.some(f=>f.id===e.actorId)&&e.targetId===room.boss.id&&Number(e.damage)>0).map(e=>({...e,damage:Math.min(e.damage,Math.round(source.find(f=>f.id===e.actorId).attack*1.8))}));
+  const packets=madaraStrikePackets(source,combat.timeline,room.boss.id);
   const total=packets.reduce((sum,e)=>sum+e.damage,0);
   const budget=Math.min(remaining,room.boss.hp-floor,total,Math.ceil(share/3*(burst?1.8:1)));
   let used=0,weight=0;
-  for(const e of packets){weight+=e.damage;const next=total?Math.round(weight*budget/total):0,damage=next-used;used=next;if(!damage)continue;room.boss.hp-=damage;log(room,e.type,e.label||'바르센 공략',{...e,damage,absorbed:0,targetHpAfter:room.boss.hp,targetMaxHp:room.boss.maxHp,targetShieldAfter:0});}
+  for(const e of packets){
+    weight+=e.damage;const next=total?Math.round(weight*budget/total):0,damage=next-used;used=next;if(!damage)continue;
+    let hits;
+    if(e.hits){
+      // Skill hits carry authoritative damage separately from their parent event.
+      // Scale the visible contacts to the same personal budget as the saved HP.
+      const hitTotal=e.hits.reduce((sum,h)=>sum+h.damage,0);let hitWeight=0,hitUsed=0;
+      hits=e.hits.map(h=>{hitWeight+=h.damage;const nextHit=Math.round(hitWeight*damage/hitTotal),amount=nextHit-hitUsed;hitUsed=nextHit;room.boss.hp-=amount;return {...h,damage:amount,absorbed:0,targetHpAfter:room.boss.hp,targetMaxHp:room.boss.maxHp,targetShieldAfter:0,targetMaxShield:0};}).filter(h=>h.damage>0);
+    }else room.boss.hp-=damage;
+    const {damage:packetDamage,...detail}=e;
+    log(room,e.type,e.label||'바르센 공략',{...detail,...(hits?{hits,targetIds:[room.boss.id]}:{damage}),absorbed:0,targetHpAfter:room.boss.hp,targetMaxHp:room.boss.maxHp,targetShieldAfter:0});
+  }
   q.damageBy[actor.id]=(q.damageBy[actor.id]||0)+budget;room.statistics.damage+=budget;
   if(room.boss.hp<=floor){
     if(room.phase===MADARA_PLANS.length-1){log(room,'KO','바르센 격파',{targetId:room.boss.id});finish(room,'CLEAR','VICTORY','바르센 레이드 공략 성공');}
     else{room.step='TRANSITION';q.deadline=room.clock+2500;log(room,'MADARA_PHASE_CLEAR','다음 작전 준비');}
   }else wound(room,.015+room.strain*.005,'바르센 반격',actor.id);
+}
+export function madaraStrikePackets(source,timeline,bossId){
+  const actors=new Map(source.map(f=>[f.id,f]));
+  return timeline.flatMap(event=>{
+    const actor=actors.get(event.actorId);if(!actor)return [];
+    const hits=Array.isArray(event.hits)?event.hits.filter(h=>h.targetId===bossId&&Number.isFinite(h.damage)&&h.damage>0):null;
+    const damage=hits?hits.reduce((sum,h)=>sum+h.damage,0):event.targetId===bossId?Number(event.damage):0;
+    if(!Number.isFinite(damage)||damage<=0)return [];
+    // A grouped event's hits take precedence over any parent summary: count once.
+    return [{...event,...(hits?{hits}:{}),targetId:bossId,damage:Math.min(damage,Math.round(actor.attack*1.8))}];
+  });
 }
 export function actMadaraRoom(room,requesterId,input={},now=room.clock) {
   const actor=actingMember(room,requesterId,input.actorId);
