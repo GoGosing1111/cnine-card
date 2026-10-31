@@ -1,0 +1,10 @@
+{
+  "verifiedAt": "2026-10-31T02:57:18.718Z",
+  "sourceCommit": "5086a21b2",
+  "command": "node --test tests/varsen-grouped-attack-20261031.test.mjs",
+  "tests": 5,
+  "passed": 5,
+  "failed": 0,
+  "proof": "Tool execution 6a7864 on the unchanged source committed as 5086a21b2",
+  "snapshotReport": "snapshot-replay.json"
+}

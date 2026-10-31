@@ -1,0 +1,98 @@
+{
+  "checkedAt": "2026-10-31T02:52:02.748Z",
+  "base": "119fc865a",
+  "snapshotOnly": true,
+  "productionWrites": 0,
+  "results": [
+    {
+      "room": "26A46A5056",
+      "version": "before",
+      "step": "DAMAGE",
+      "damage": 14280964,
+      "bossHp": 72270336,
+      "damageBy": {
+        "216": 4760321,
+        "218": 4760322,
+        "233": 0,
+        "4572": 4760321
+      },
+      "requests": 20,
+      "burstDamage": 0
+    },
+    {
+      "room": "26A46A5056",
+      "version": "after",
+      "step": "TRANSITION",
+      "damage": 19041286,
+      "bossHp": 67510014,
+      "damageBy": {
+        "216": 4760321,
+        "218": 4760322,
+        "233": 4760322,
+        "4572": 4760321
+      },
+      "requests": 12,
+      "burstDamage": 2856194
+    },
+    {
+      "room": "877883E05C",
+      "version": "before",
+      "step": "DAMAGE",
+      "damage": 14280964,
+      "bossHp": 72270336,
+      "damageBy": {
+        "216": 4760321,
+        "218": 4760321,
+        "233": 0,
+        "4572": 4760322
+      },
+      "requests": 19,
+      "burstDamage": 0
+    },
+    {
+      "room": "877883E05C",
+      "version": "after",
+      "step": "TRANSITION",
+      "damage": 19041286,
+      "bossHp": 67510014,
+      "damageBy": {
+        "216": 4760321,
+        "218": 4760321,
+        "233": 4760322,
+        "4572": 4760322
+      },
+      "requests": 12,
+      "burstDamage": 2856194
+    },
+    {
+      "room": "9D39CDDC71",
+      "version": "before",
+      "step": "DAMAGE",
+      "damage": 14280964,
+      "bossHp": 72270336,
+      "damageBy": {
+        "216": 4760321,
+        "218": 4760322,
+        "233": 0,
+        "4572": 4760321
+      },
+      "requests": 20,
+      "burstDamage": 0
+    },
+    {
+      "room": "9D39CDDC71",
+      "version": "after",
+      "step": "TRANSITION",
+      "damage": 19041286,
+      "bossHp": 67510014,
+      "damageBy": {
+        "216": 4760321,
+        "218": 4760322,
+        "233": 4760322,
+        "4572": 4760321
+      },
+      "requests": 12,
+      "burstDamage": 2856194
+    }
+  ]
+}
