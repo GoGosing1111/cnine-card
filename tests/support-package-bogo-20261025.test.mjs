@@ -2,11 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
 import {packageFixture} from './helpers/support-package-fixture.mjs';
-import {SUPPORT_PACKAGE,SUPPORT_PACKAGE_UNIT} from '../shared/support-package-v1.mjs';
+import {SUPPORT_PACKAGE,SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE_LEGACY_BOGO} from '../shared/support-package-v1.mjs';
 import {readPackageCoinAccounting} from '../functions/_package_coin_accounting.js';
 import {OP,TARGETS,grantExtra,verify,accountingEnv} from '../scripts/ops/support-package-bogo-extra-20261025.mjs';
 
-test('new and legacy pending applications deliver the same 1+1 total with restricted coins',async()=>{
+test('new and legacy pending applications deliver their own 1+1 terms with restricted coins',async()=>{
  const f=await packageFixture({postgres:true});try{
   await f.activate();
   for(const legacy of [false,true]){
@@ -15,14 +15,14 @@ test('new and legacy pending applications deliver the same 1+1 total with restri
    if(legacy){order.product=SUPPORT_PACKAGE_UNIT;await f.run('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(order),'support_package_order_v1:'+order.id);}
    const before=Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),rid=crypto.randomUUID();
    const result=await f.process(order,'FULFILL',rid);assert.equal(result.status,200,JSON.stringify(result.body));
-   assert.deepEqual(result.body.order.fulfillment,SUPPORT_PACKAGE);assert.deepEqual(result.body.order.product,legacy?SUPPORT_PACKAGE_UNIT:SUPPORT_PACKAGE);
-   assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin)-before,200000000000000);
-   const accounting=await readPackageCoinAccounting(f.env,2);assert.equal(accounting.available,1234);assert.equal(accounting.restricted,legacy?400000000000000:200000000000000);
+   assert.deepEqual(result.body.order.fulfillment,legacy?SUPPORT_PACKAGE_LEGACY_BOGO:SUPPORT_PACKAGE);assert.deepEqual(result.body.order.product,legacy?SUPPORT_PACKAGE_UNIT:SUPPORT_PACKAGE);
+   assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin)-before,legacy?200000000000000:400000000000000);
+   const accounting=await readPackageCoinAccounting(f.env,2);assert.equal(accounting.available,1234);assert.equal(accounting.restricted,legacy?600000000000000:400000000000000);
    assert.equal((await f.process(order,'FULFILL',rid)).body.replayed,true);assert.equal((await f.process(order)).status,409);
   }
   assert.equal(Number((await f.one("SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code='EMPEROR_ENERGY'")).quantity),800);
   assert.equal(Number((await f.one("SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code='MERCENARY_SSS_LIMITED_SHARD'")).quantity),20);
-  const messages=await f.all('SELECT body FROM user_messages');assert(messages.every(m=>m.body.includes('1+1 이벤트')&&m.body.includes('200조')&&m.body.includes('400개')&&m.body.includes('10개')));
+  const messages=await f.all('SELECT body FROM user_messages');assert(messages.every(m=>m.body.includes('1+1 이벤트')&&m.body.includes('400조')&&m.body.includes('400개')&&m.body.includes('10개')));
  }finally{await f.close();}
 });
 
