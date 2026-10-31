@@ -1,0 +1,313 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:playdk-october-top30:coin100t-additional:20261031:v1",
+  "additionalTo": "ops:playdk-october-top30:coin100t:20261031:v1",
+  "parentAuditId": "53359",
+  "parentReceiptHash": "afc6981ae171cac20ef770f4f426307ac4531f347853414d841c45ddfafaa80e",
+  "cumulativeAmountPerRecipient": "200000000000000",
+  "cumulativeTotalAmount": "6000000000000000",
+  "authorization": "100조 더지급해",
+  "delivery": "DIRECT_WALLET",
+  "completedAt": "2026-10-31T07:25:37.786Z",
+  "completedAtKst": "2026-10-31 16:25:37 KST",
+  "auditId": "53363",
+  "recipientCount": 30,
+  "amountPerRecipient": "100000000000000",
+  "totalAmount": "3000000000000000",
+  "sourceStart": "2026-10-01T00:00:00+09:00",
+  "sourceCutoff": "2026-10-31T15:58:32+09:00",
+  "sourceHash": "749111448b042b03e98905dbdfa111cb0dff08d86b16b82c2cefd454c24ab0f4",
+  "planHash": "25d0c239560d1598b07b874f2820ddf2a4e31ed00f49c2d017adea176af13330",
+  "executionSourceSha256": "d25a06b8237868bec01d7ea7f23d4a2896c8be08b4b1f71559cf45f7d01910ea",
+  "recipients": [
+    {
+      "position": 1,
+      "rank": 1,
+      "dkNickname": "씨나인택갓",
+      "gameNickname": "씨나인택갓",
+      "userId": "1195",
+      "amount": "100000000000000",
+      "coinLogId": "100224021"
+    },
+    {
+      "position": 2,
+      "rank": 2,
+      "dkNickname": "박세라-ㅂ-",
+      "gameNickname": "박세라-ㅂ-",
+      "userId": "45",
+      "amount": "100000000000000",
+      "coinLogId": "100224023"
+    },
+    {
+      "position": 3,
+      "rank": 3,
+      "dkNickname": "핑크빛유두",
+      "gameNickname": "꼭지위생크림",
+      "userId": "3710",
+      "amount": "100000000000000",
+      "coinLogId": "100224025"
+    },
+    {
+      "position": 4,
+      "rank": 4,
+      "dkNickname": "더듬이구",
+      "gameNickname": "더듬이구",
+      "userId": "4391",
+      "amount": "100000000000000",
+      "coinLogId": "100224028"
+    },
+    {
+      "position": 5,
+      "rank": 5,
+      "dkNickname": "타마",
+      "gameNickname": "싸이타마",
+      "userId": "5",
+      "amount": "100000000000000",
+      "coinLogId": "100224030"
+    },
+    {
+      "position": 6,
+      "rank": 6,
+      "dkNickname": "오승환이다.",
+      "gameNickname": "오승환이다",
+      "userId": "16",
+      "amount": "100000000000000",
+      "coinLogId": "100224032"
+    },
+    {
+      "position": 7,
+      "rank": 7,
+      "dkNickname": "폭군",
+      "gameNickname": "폭군#",
+      "userId": "52",
+      "amount": "100000000000000",
+      "coinLogId": "100224033"
+    },
+    {
+      "position": 8,
+      "rank": 8,
+      "dkNickname": "유나이은",
+      "gameNickname": "유나이은",
+      "userId": "236",
+      "amount": "100000000000000",
+      "coinLogId": "100224034"
+    },
+    {
+      "position": 9,
+      "rank": 9,
+      "dkNickname": "망순이ෆ",
+      "gameNickname": "망순이ෆ",
+      "userId": "4628",
+      "amount": "100000000000000",
+      "coinLogId": "100224037"
+    },
+    {
+      "position": 10,
+      "rank": 10,
+      "dkNickname": "족게이다",
+      "gameNickname": "족게이다",
+      "userId": "4111",
+      "amount": "100000000000000",
+      "coinLogId": "100224038"
+    },
+    {
+      "position": 11,
+      "rank": 11,
+      "dkNickname": "모래",
+      "gameNickname": "모래",
+      "userId": "295",
+      "amount": "100000000000000",
+      "coinLogId": "100224040"
+    },
+    {
+      "position": 12,
+      "rank": 12,
+      "dkNickname": "치타구",
+      "gameNickname": "치타구",
+      "userId": "493",
+      "amount": "100000000000000",
+      "coinLogId": "100224041"
+    },
+    {
+      "position": 13,
+      "rank": 13,
+      "dkNickname": "족날두",
+      "gameNickname": "Moo날두",
+      "userId": "4415",
+      "amount": "100000000000000",
+      "coinLogId": "100224042"
+    },
+    {
+      "position": 14,
+      "rank": 14,
+      "dkNickname": "학벌",
+      "gameNickname": "학벌",
+      "userId": "4627",
+      "amount": "100000000000000",
+      "coinLogId": "100224045"
+    },
+    {
+      "position": 15,
+      "rank": 15,
+      "dkNickname": "족버지",
+      "gameNickname": "무버지",
+      "userId": "197",
+      "amount": "100000000000000",
+      "coinLogId": "100224046"
+    },
+    {
+      "position": 16,
+      "rank": 16,
+      "dkNickname": "공단",
+      "gameNickname": "공단",
+      "userId": "4614",
+      "amount": "100000000000000",
+      "coinLogId": "100224047"
+    },
+    {
+      "position": 17,
+      "rank": 17,
+      "dkNickname": "랭비!",
+      "gameNickname": "랭비!",
+      "userId": "4615",
+      "amount": "100000000000000",
+      "coinLogId": "100224049"
+    },
+    {
+      "position": 18,
+      "rank": 18,
+      "dkNickname": "스루형2↑",
+      "gameNickname": "스루형2↑",
+      "userId": "4910",
+      "amount": "100000000000000",
+      "coinLogId": "100224050"
+    },
+    {
+      "position": 19,
+      "rank": 19,
+      "dkNickname": "족구조아",
+      "gameNickname": "족구조아",
+      "userId": "525",
+      "amount": "100000000000000",
+      "coinLogId": "100224052"
+    },
+    {
+      "position": 20,
+      "rank": 20,
+      "dkNickname": "박사",
+      "gameNickname": "박사",
+      "userId": "164",
+      "amount": "100000000000000",
+      "coinLogId": "100224056"
+    },
+    {
+      "position": 21,
+      "rank": 21,
+      "dkNickname": "족단",
+      "gameNickname": "족단",
+      "userId": "4582",
+      "amount": "100000000000000",
+      "coinLogId": "100224057"
+    },
+    {
+      "position": 22,
+      "rank": 22,
+      "dkNickname": "블랙캐슬",
+      "gameNickname": "블랙캐슬",
+      "userId": "2420",
+      "amount": "100000000000000",
+      "coinLogId": "100224058"
+    },
+    {
+      "position": 23,
+      "rank": 23,
+      "dkNickname": "대지",
+      "gameNickname": "대지",
+      "userId": "4479",
+      "amount": "100000000000000",
+      "coinLogId": "100224060"
+    },
+    {
+      "position": 24,
+      "rank": 24,
+      "dkNickname": "음순",
+      "gameNickname": "음순이",
+      "userId": "65",
+      "amount": "100000000000000",
+      "coinLogId": "100224063"
+    },
+    {
+      "position": 25,
+      "rank": 25,
+      "dkNickname": "택신",
+      "gameNickname": "택신",
+      "userId": "4199",
+      "amount": "100000000000000",
+      "coinLogId": "100224065"
+    },
+    {
+      "position": 26,
+      "rank": 26,
+      "dkNickname": "햬카세",
+      "gameNickname": "햬카세",
+      "userId": "226",
+      "amount": "100000000000000",
+      "coinLogId": "100224067"
+    },
+    {
+      "position": 27,
+      "rank": 27,
+      "dkNickname": "[C9]핑쪽이",
+      "gameNickname": "[C9]족쪽이",
+      "userId": "303",
+      "amount": "100000000000000",
+      "coinLogId": "100224069"
+    },
+    {
+      "position": 28,
+      "rank": 28,
+      "dkNickname": "센텀신사",
+      "gameNickname": "센텀신사",
+      "userId": "792",
+      "amount": "100000000000000",
+      "coinLogId": "100224071"
+    },
+    {
+      "position": 29,
+      "rank": 28,
+      "dkNickname": "타몽",
+      "gameNickname": "타몽",
+      "userId": "5148",
+      "amount": "100000000000000",
+      "coinLogId": "100224072"
+    },
+    {
+      "position": 30,
+      "rank": 30,
+      "dkNickname": "불곰덫",
+      "gameNickname": "불곰덫",
+      "userId": "92",
+      "amount": "100000000000000",
+      "coinLogId": "100224075"
+    }
+  ],
+  "verification": {
+    "coinLogs": 30,
+    "auditRecords": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "walletSyncChanged": 30,
+    "testsPassed": 5,
+    "failedDryRunRolledBack": true,
+    "successfulDryRunRolledBack": true,
+    "independentReadOnly": true,
+    "originalPaymentReceiptPreserved": true,
+    "replayAdditionalWrites": 0,
+    "locksReleased": true
+  },
+  "messagesSent": 0,
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0,
+  "checkedAt": "2026-10-31T07:26:02.763Z"
+}

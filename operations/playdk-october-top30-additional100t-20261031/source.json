@@ -1,0 +1,227 @@
+{
+  "operationKey": "ops:playdk-october-top30:coin100t-additional:20261031:v1",
+  "authorization": "100조 더지급해",
+  "selection": "Explicit additional 100 trillion coins for the same 30 recipients already paid in this chat; no ranking refresh and no balance restoration",
+  "board": "skm",
+  "boardName": "리버스콜",
+  "startInclusiveKst": "2026-10-01T00:00:00+09:00",
+  "cutoffExclusiveKst": "2026-10-31T15:58:32+09:00",
+  "sourceApi": "https://www.playdk.kr/api/v2/p/post",
+  "sourceSha256": "e1dd926e94557d682078fb1e1133d1a0c332e1b2490bb9c067622ec9bf95f5de",
+  "selected": [
+    {
+      "rank": 1,
+      "uuid": "5c0809e6",
+      "name": "씨나인택갓",
+      "postCount": 3633,
+      "position": 1
+    },
+    {
+      "rank": 2,
+      "uuid": "0ab57d26",
+      "name": "박세라-ㅂ-",
+      "postCount": 2939,
+      "position": 2
+    },
+    {
+      "rank": 3,
+      "uuid": "e9d1aaac",
+      "name": "핑크빛유두",
+      "postCount": 2863,
+      "position": 3
+    },
+    {
+      "rank": 4,
+      "uuid": "b86ce1fb",
+      "name": "더듬이구",
+      "postCount": 2635,
+      "position": 4
+    },
+    {
+      "rank": 5,
+      "uuid": "a05fd922",
+      "name": "타마",
+      "postCount": 2289,
+      "position": 5
+    },
+    {
+      "rank": 6,
+      "uuid": "8b176e68",
+      "name": "오승환이다.",
+      "postCount": 2163,
+      "position": 6
+    },
+    {
+      "rank": 7,
+      "uuid": "cd3ea662",
+      "name": "폭군",
+      "postCount": 2142,
+      "position": 7
+    },
+    {
+      "rank": 8,
+      "uuid": "c7626e57",
+      "name": "유나이은",
+      "postCount": 2102,
+      "position": 8
+    },
+    {
+      "rank": 9,
+      "uuid": "0b464ee5",
+      "name": "망순이ෆ",
+      "postCount": 1991,
+      "position": 9
+    },
+    {
+      "rank": 10,
+      "uuid": "6c8a26e9",
+      "name": "족게이다",
+      "postCount": 1989,
+      "position": 10
+    },
+    {
+      "rank": 11,
+      "uuid": "11092f52",
+      "name": "모래",
+      "postCount": 1979,
+      "position": 11
+    },
+    {
+      "rank": 12,
+      "uuid": "2f9fa1d1",
+      "name": "치타구",
+      "postCount": 1854,
+      "position": 12
+    },
+    {
+      "rank": 13,
+      "uuid": "119ccbaf",
+      "name": "족날두",
+      "postCount": 1786,
+      "position": 13
+    },
+    {
+      "rank": 14,
+      "uuid": "6da5a7a7",
+      "name": "학벌",
+      "postCount": 1778,
+      "position": 14
+    },
+    {
+      "rank": 15,
+      "uuid": "690682f0",
+      "name": "족버지",
+      "postCount": 1719,
+      "position": 15
+    },
+    {
+      "rank": 16,
+      "uuid": "0559204b",
+      "name": "공단",
+      "postCount": 1705,
+      "position": 16
+    },
+    {
+      "rank": 17,
+      "uuid": "70f6dcb8",
+      "name": "랭비!",
+      "postCount": 1659,
+      "position": 17
+    },
+    {
+      "rank": 18,
+      "uuid": "ff8c0922",
+      "name": "스루형2↑",
+      "postCount": 1637,
+      "position": 18
+    },
+    {
+      "rank": 19,
+      "uuid": "cba2b411",
+      "name": "족구조아",
+      "postCount": 1629,
+      "position": 19
+    },
+    {
+      "rank": 20,
+      "uuid": "00a28fb2",
+      "name": "박사",
+      "postCount": 1619,
+      "position": 20
+    },
+    {
+      "rank": 21,
+      "uuid": "22c31ef9",
+      "name": "족단",
+      "postCount": 1584,
+      "position": 21
+    },
+    {
+      "rank": 22,
+      "uuid": "a2c1e499",
+      "name": "블랙캐슬",
+      "postCount": 1535,
+      "position": 22
+    },
+    {
+      "rank": 23,
+      "uuid": "22ca5c12",
+      "name": "대지",
+      "postCount": 1534,
+      "position": 23
+    },
+    {
+      "rank": 24,
+      "uuid": "9f0cdb34",
+      "name": "음순",
+      "postCount": 1532,
+      "position": 24
+    },
+    {
+      "rank": 25,
+      "uuid": "c48daa8c",
+      "name": "택신",
+      "postCount": 1507,
+      "position": 25
+    },
+    {
+      "rank": 26,
+      "uuid": "54be10d5",
+      "name": "햬카세",
+      "postCount": 1503,
+      "position": 26
+    },
+    {
+      "rank": 27,
+      "uuid": "4779b1f1",
+      "name": "[C9]핑쪽이",
+      "postCount": 1500,
+      "position": 27
+    },
+    {
+      "rank": 28,
+      "uuid": "b6e04c16",
+      "name": "센텀신사",
+      "postCount": 1457,
+      "position": 28
+    },
+    {
+      "rank": 28,
+      "uuid": "c6f83864",
+      "name": "타몽",
+      "postCount": 1457,
+      "position": 29
+    },
+    {
+      "rank": 30,
+      "uuid": "9363afd4",
+      "name": "불곰덫",
+      "postCount": 1426,
+      "position": 30
+    }
+  ],
+  "additionalTo": "ops:playdk-october-top30:coin100t:20261031:v1",
+  "parentPlanHash": "355c8a9a9b12d79ffee898d77a8ed89493afc67e1a3f25090e84e013605f90cb",
+  "parentAuditId": "53359",
+  "originalSourceHash": "f0c8856a7d225623b3dfce579c94b3243bfce2be9ef3ce2d58f3ab973130742d"
+}
