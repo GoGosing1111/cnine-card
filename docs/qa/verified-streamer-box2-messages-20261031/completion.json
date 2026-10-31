@@ -1,0 +1,80 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:verified-streamer-box2:messages:20261031:v1",
+  "authorization": "2차인증 유저 전체 스트리머박스 2개 메세지 지급",
+  "dateKST": "2026-10-31",
+  "completedAt": "2026-10-31T10:53:33.856Z",
+  "completedAtKST": "2026-10-31 19:53:33 KST",
+  "auditId": "53376",
+  "delivery": "MESSAGE",
+  "title": "2차 인증 유저 스트리머 박스 지급",
+  "body": "2차 인증 유저 여러분께 스트리머 박스 2개를 지급합니다. 메시지함에서 수령해 주세요.",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "recipientCount": 613,
+  "quantityPerRecipient": 2,
+  "totalBoxes": 1226,
+  "roleCounts": {
+    "OWNER": 2,
+    "USER": 608,
+    "ADMIN": 3
+  },
+  "providerCounts": {
+    "PLAYDK": 612,
+    "WAGO": 1
+  },
+  "excludedInactive": [
+    {
+      "status": "BANNED",
+      "count": 1
+    }
+  ],
+  "planHash": "b0d505e125eea165638789085e46a41d785e78344f29038824ada37f8688f01b",
+  "sourceHash": "04e48c478339beecd030099ee90ceabae45916736ecb054121128e7bba266af7",
+  "verification": {
+    "recipients": 613,
+    "messages": 613,
+    "rewardAttachments": 613,
+    "boxesPerRecipient": 2,
+    "totalBoxes": 1226,
+    "claimed": 1,
+    "pending": 612,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "verifiedAt": "2026-10-31T10:53:43.073Z",
+  "replayAdditionalWrites": 0,
+  "messageSyncChanged": 613,
+  "claimTests": {
+    "passed": 3,
+    "failed": 0
+  },
+  "checks": {
+    "wrongPlanRejected": true,
+    "actualSqlFailureRolledBack": true,
+    "successRolledBack": true,
+    "messageSyncRolledBack": true,
+    "onlyMessageAuditReceiptAndSyncWrites": true,
+    "noWalletInventoryWrites": true,
+    "selectOnlyReplay": true,
+    "noDeliveryAfterRollback": true,
+    "allMessageSyncChanged": true
+  },
+  "sourceVerification": {
+    "sourceCommit": "ecab36263194bbb543b0865c9b6bb1f7ca35b5eb",
+    "specsHash": "291396e0b4ce29dfa96a3d96a270b3e04176966e6cafd0e2badd38bfac887fed",
+    "claimHash": "288c3251261dd238d3973ee288d697531353dee60e763852ef00684cc05406c5",
+    "compatHash": "1111070d6b1928ba84308589372c8235fdd0e06e837493af03f7cae473f135ea",
+    "latestRemoteSourceMatched": true,
+    "clientItemMetadata": true,
+    "checkedAt": "2026-10-31T10:52:52.412Z"
+  },
+  "noDirectInventoryOrWalletCredit": true,
+  "automaticOpening": false,
+  "gameRedeployed": false,
+  "evidenceDirectory": "operations/verified-streamer-box2-messages-20261031",
+  "newProjectCopy": false,
+  "gitAutoMaintenanceDisabled": true,
+  "storageMaintenance": false,
+  "replayPolicy": "Use the completed receipt only; never issue a new key for this request, refill after claim, or add users verified later."
+}
