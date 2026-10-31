@@ -1,0 +1,53 @@
+{
+  "completedAt": "2026-10-31T03:30:28.764Z",
+  "sourceCommit": "2264328325e5f1449b1be6dee11e4c2804eb57dc",
+  "deployedCommit": "ad55d37d47445ebe4e65963b0a511d3c6c6f7826",
+  "pages": {
+    "id": "686717c5-8b9b-4f21-be51-f9578bad9957",
+    "url": "https://686717c5.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ad55d37d47445ebe4e65963b0a511d3c6c6f7826"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "895d17d4-4759-468b-a7b1-5fbcfaf1b93f",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "5128f072-e5eb-44fd-9618-f77c2b0ac41f",
+      "percentage": 100
+    }
+  ],
+  "staticFiles": 30,
+  "validation": {
+    "battleTests": 35,
+    "packagingAndLoader": 15,
+    "uniqueTests": 40,
+    "desktopPvePvp": true,
+    "mobileChromiumPvePvp": true,
+    "webkitPvePvp": true,
+    "legionRepeatCount": 3,
+    "raidRepeatCountEach": 2,
+    "raids": [
+      "blackwing",
+      "madara",
+      "lich"
+    ],
+    "defenseMobileResultReturn": true,
+    "publicMobileWebkit": true,
+    "realIphoneHardware": false
+  },
+  "memory": {
+    "metric": "cached unique image RGBA estimate; not total process/GPU RAM",
+    "chromiumClosedMiBBefore": 55.689697265625,
+    "chromiumClosedMiBAfter": 7.015625,
+    "closedReductionPercent": 87.40229280375266,
+    "webkitClosedMiB": 5.765625
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "announcement": "output/announcements/ios-safari-stability-20261031.txt",
+  "announcementPublished": false
+}

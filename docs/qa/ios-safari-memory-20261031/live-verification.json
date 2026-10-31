@@ -1,0 +1,145 @@
+{
+  "at": "2026-10-31T03:30:06.372Z",
+  "pages": {
+    "id": "686717c5-8b9b-4f21-be51-f9578bad9957",
+    "url": "https://686717c5.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ad55d37d47445ebe4e65963b0a511d3c6c6f7826"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "895d17d4-4759-468b-a7b1-5fbcfaf1b93f",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "5128f072-e5eb-44fd-9618-f77c2b0ac41f",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "de555e46159a35480d04b230a5b880f798d05caf674dbcc6fa303245b6532a37"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "b8ee840c1b0389891937041ae2454d568dfa03967670684c732df585706c0199"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "00aedd72a11f4f3ad31bf468099f3bee0cfd9ffc3d979451aa0887301e436080"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "d9264136ec4d918f2e3b47ea11cb42fc3ac7a15cc03a03a6a55163d740a47ccc"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "ce9db0a00db1b66a264fa26cffc30038546be4a39e5acb58df0b715d8f833110"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "bca6d4f1a721c7f5cff58839dfc0f3615ed183bb9f3933fe6844f64de0967397"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "f65e15ff214ae000ad657585c0ced973894ec2d4b8898aaa41b3caf33c6e2436"
+    },
+    {
+      "file": "defense/index.html",
+      "sha256": "71c7efc6eb58bf50cc6338ebd73a287edc71e77fa18649c39f13e2caffe4dfc3"
+    },
+    {
+      "file": "preview/coop-defense-v1/index.html",
+      "sha256": "737a8b39f9ff1843e697c8be259fe312cc57e3ecc95c0783027cf4e963454271"
+    },
+    {
+      "file": "js/blackwing-raid-entry-v1.js",
+      "sha256": "d3c30a151a71a6cb17ba5c553f885a4424de9bc41686139041cc6a1fe305ccd5"
+    },
+    {
+      "file": "raid/blackwing/inline.mjs",
+      "sha256": "dd3ec379eb03b1359993e6b08b52a82eda5b4ebfba431d898cc7725b575ffefb"
+    },
+    {
+      "file": "raid/blackwing/battle.mjs",
+      "sha256": "ce4dd4e06d8cb5c108214522a3422cd526fc1873bdd915c4f9e42b35c7d7c426"
+    },
+    {
+      "file": "raid/blackwing/presentation.mjs",
+      "sha256": "b4b1d567d399a1a4781caa9f30bbc23fbcd197c51348959e47be15dfccd99d05"
+    },
+    {
+      "file": "js/madara-raid-entry-v1.js",
+      "sha256": "63e64d3984f43e2cbab6bee0e3ce2922378e2c8fe65ad935f84a5dbeb25ee090"
+    },
+    {
+      "file": "raid/madara/inline.mjs",
+      "sha256": "ceacf8332494a6fd3e7f342fb336b7659c3af19d31f376676d00fff3499a7d8c"
+    },
+    {
+      "file": "raid/madara/runtime.mjs",
+      "sha256": "5aa9783366def1fef2a2647ac3a1cdf11f20b9a9b7bd2900ba339a8a06eedb7c"
+    },
+    {
+      "file": "js/lich-king-raid-entry-v1.js",
+      "sha256": "034eb4670b5c5f4226710e2bcf1c62f3ca11729bf5caed8d22557f19985029c3"
+    },
+    {
+      "file": "raid/lich-king/inline.mjs",
+      "sha256": "36d48d680fd93b4c290db14910b7c081e150476c6fa9b6ff47782a5c888072fc"
+    },
+    {
+      "file": "preview/lich-king-raid-v1/battle.bundle.js",
+      "sha256": "5d92a3c3e7e49a57c2902ca4bfbf72ab226c4164abcfe778685f883a3bf44542"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "86785bc6868323766a5f1c00cde7b46f09dfa5951fa668cbf031b5a97b95ca0c"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "d61a12ae6dda30c669a142a4a6a4d5bb220967b447d70096a643f2f91cd72f5f"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "2fffb81a270a3b61aa5fa4ff6b8879febba65c80d3d21220d0b38a0a411fd292"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "84a973a2458a50c6ecfe0df8a84d00065d787904b8af29ac87c849b2232e0264"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "111d22d31da4af7350422c33174185c117a8faf07e36ad49c6a5d72cd6f9f3f0"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "6967fc9e5552b11cb8519cac894d231a17988dd1ce1b2fdf5cff3a42c92c1fe0"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "2dc4563845ed0e1bdcfe3e39136c57f2aac3614e01ebfc703ab91b7cc2d58a3c"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "6cc1c3c1d6fd2cbdb93e8a4e35bcc38a7f56e2d77b36f62cff69715cefe63a09"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "ef6fc2654727862b46fae5724cc2f8c03c8205c8942655a2615e032a7607ff4c"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "689a6b919ce8573ad9adf83330c7bf66d27c733c944083dbf963142158fb8f74"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "4bddf994ac9b2b76a3145db1076fa7accea601f848fb7c1abdd59acb0b6a142c"
+    }
+  ],
+  "productionDataWrites": 0,
+  "messagesSent": 0
+}
