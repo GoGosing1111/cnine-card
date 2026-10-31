@@ -1,0 +1,15 @@
+{
+  "before": {
+    "id": "686717c5-8b9b-4f21-be51-f9578bad9957",
+    "url": "https://686717c5.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ad55d37d47445ebe4e65963b0a511d3c6c6f7826"
+  },
+  "base": "ad55d37d47445ebe4e65963b0a511d3c6c6f7826",
+  "reason": "몬스터 디펜스 출전 로비/대기방/편성·방목록에 메인 로비 남색 패널과 청록 버튼 적용, SD 대신 sourceArt 카드 이미지 표시. PC/모바일 방 생성·참가·편성·준비·취소·전투 진입/복귀 검수. 거래/밸런스 변경 없이 해당 편성/대기방 회귀만 수행.",
+  "tests": [
+    "tests/monster-defense-loadout.test.mjs",
+    "tests/monster-defense-rooms.test.mjs"
+  ],
+  "checks": []
+}

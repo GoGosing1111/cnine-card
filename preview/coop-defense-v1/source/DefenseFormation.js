@@ -30,7 +30,7 @@ export class DefenseFormation{
   this.completion=new Promise(resolve=>{this.finish=resolve;});
   this.$('[data-search]').value='';this.dialog.showModal();this.render();void this.reload();return this.completion;
  }
- close(applied=false){if(this.busy)return;this.generation++;this.dialog.close();if(this.opener?.isConnected)this.opener.focus({preventScroll:true});this.finish?.(applied);this.finish=null;}
+ close(applied=false){if(this.busy)return;this.generation++;this.dialog.close();const opener=this.opener?.isConnected?this.opener:document.getElementById(this.opener?.id);opener?.focus({preventScroll:true});this.finish?.(applied);this.finish=null;}
  async reload(){
   if(this.busy)return;const generation=++this.generation;this.busy=true;this.setStatus('보유 목록을 불러오는 중입니다.');this.lock();
   try{await this.refresh();if(!this.dialog.open||generation!==this.generation)return;

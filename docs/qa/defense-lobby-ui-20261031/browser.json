@@ -1,0 +1,395 @@
+{
+  "ok": true,
+  "reports": [
+    {
+      "name": "lobby-desktop",
+      "width": 1440,
+      "overflow": 0,
+      "broken": [],
+      "cards": [
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 227.328125,
+          "h": 307.765625
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 227.328125,
+          "h": 307.765625
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 227.328125,
+          "h": 307.765625
+        }
+      ],
+      "panel": "url(\"http://127.0.0.1:14083/assets/ui/tactical-20261030/panel-flat.webp\")"
+    },
+    {
+      "name": "lobby-768",
+      "width": 768,
+      "overflow": 0,
+      "broken": [],
+      "cards": [
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 109.328125,
+          "h": 150.4375
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 109.328125,
+          "h": 150.4375
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 109.34375,
+          "h": 150.453125
+        }
+      ],
+      "panel": "url(\"http://127.0.0.1:14083/assets/ui/tactical-20261030/panel-flat.webp\")"
+    },
+    {
+      "name": "lobby-390",
+      "width": 390,
+      "overflow": 0,
+      "broken": [],
+      "cards": [
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 106,
+          "h": 144
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 106,
+          "h": 144
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 106,
+          "h": 144
+        }
+      ],
+      "panel": "url(\"http://127.0.0.1:14083/assets/ui/tactical-20261030/panel-flat.webp\")"
+    },
+    {
+      "name": "lobby-320",
+      "width": 320,
+      "overflow": 0,
+      "broken": [],
+      "cards": [
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 87.328125,
+          "h": 119.09375
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 87.328125,
+          "h": 119.09375
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 87.34375,
+          "h": 119.125
+        }
+      ],
+      "panel": "url(\"http://127.0.0.1:14083/assets/ui/tactical-20261030/panel-flat.webp\")"
+    },
+    {
+      "name": "waiting-empty-desktop",
+      "width": 1440,
+      "overflow": 0,
+      "broken": [],
+      "cards": [
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        }
+      ],
+      "panel": "url(\"http://127.0.0.1:14083/assets/ui/tactical-20261030/panel-flat.webp\")"
+    },
+    {
+      "name": "waiting-desktop",
+      "width": 1440,
+      "overflow": 0,
+      "broken": [],
+      "cards": [
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        }
+      ],
+      "panel": "url(\"http://127.0.0.1:14083/assets/ui/tactical-20261030/panel-flat.webp\")"
+    },
+    {
+      "name": "waiting-390",
+      "width": 390,
+      "overflow": 0,
+      "broken": [],
+      "cards": [
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 100.65625,
+          "h": 134.203125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 100.671875,
+          "h": 134.21875
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 100.65625,
+          "h": 134.203125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 100.65625,
+          "h": 134.203125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 100.671875,
+          "h": 134.21875
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 100.65625,
+          "h": 134.203125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 100.65625,
+          "h": 134.203125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 100.671875,
+          "h": 134.21875
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 100.65625,
+          "h": 134.203125
+        }
+      ],
+      "panel": "url(\"http://127.0.0.1:14083/assets/ui/tactical-20261030/panel-flat.webp\")"
+    },
+    {
+      "name": "waiting-320",
+      "width": 320,
+      "overflow": 0,
+      "broken": [],
+      "cards": [
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 80,
+          "h": 106.65625
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 80,
+          "h": 106.65625
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 80,
+          "h": 106.65625
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 80,
+          "h": 106.65625
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 80,
+          "h": 106.65625
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 80,
+          "h": 106.65625
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 80,
+          "h": 106.65625
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 80,
+          "h": 106.65625
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 80,
+          "h": 106.65625
+        }
+      ],
+      "panel": "url(\"http://127.0.0.1:14083/assets/ui/tactical-20261030/panel-flat.webp\")"
+    },
+    {
+      "name": "ready-desktop",
+      "width": 1440,
+      "overflow": 0,
+      "broken": [],
+      "cards": [
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+          "alt": "베스페라 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+          "alt": "련화 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        },
+        {
+          "src": "/assets\\NEWCARD\\24.png",
+          "alt": "철와대 킴성태 카드 이미지",
+          "w": 124,
+          "h": 165.328125
+        }
+      ],
+      "panel": "url(\"http://127.0.0.1:14083/assets/ui/tactical-20261030/panel-flat.webp\")"
+    }
+  ],
+  "errors": [],
+  "missing": [],
+  "productionAccountWrites": 0
+}

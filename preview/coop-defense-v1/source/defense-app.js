@@ -95,9 +95,9 @@ function buildLoadout() {
     const code=slot<2?state.loadout.mercenaries[slot]:state.loadout.card,entry=state.catalog.units[code];
     const img = document.createElement('img'); img.alt = ''; const kind = document.createElement('span'); kind.textContent = slot < 2 ? `용병 ${slot + 1}` : '카드 1';
     const role = document.createElement('small'); role.className = 'slot-role';
-    if(entry){img.src=entry.battleSprite;img.alt=`${entry.name} 전투 캐릭터`;role.textContent=entry.roleName||'분대 지휘';art.append(img,kind,role);}
+    if(entry){img.src=entry.sourceArt;img.alt=`${entry.name} 카드 이미지`;img.decoding='async';role.textContent=entry.roleName||'분대 지휘';const rank=document.createElement('b');rank.className='slot-grade';rank.textContent=entry.rank||'';art.append(img,kind,rank,role);}
     else{const empty=document.createElement('div');empty.className='formation-empty-stage';img.src=state.catalog.uiSkin.crest;empty.append(img);art.append(empty,kind);}
-    const button=document.createElement('button');button.type='button';button.id=`loadout-${slot}`;button.className='formation-open';button.textContent=entry?entry.name+' · 변경':kind.textContent+' 선택 ＋';button.disabled=!state.access;button.addEventListener('click',()=>openFormation(slot));
+    const button=document.createElement('button');button.type='button';button.id=`loadout-${slot}`;button.className='formation-open';button.textContent=entry?entry.name:kind.textContent+' 선택 ＋';button.setAttribute('aria-label',entry?entry.name+' 카드 변경':kind.textContent+' 선택');button.disabled=!state.access;button.addEventListener('click',()=>openFormation(slot));
     wrap.append(art,button);$('loadout-grid').append(wrap);
   }
 }
@@ -247,7 +247,7 @@ function renderWaiting(snapshot) {
         const art = document.createElement('div'); art.className = 'party-portraits';
         for (const code of [...player.loadout.mercenaries, player.loadout.card]) {
           const unit=player.roster?.find(c=>c.code===code)||state.catalog.units[code],figure=document.createElement('figure'),caption=document.createElement('figcaption');
-          const image = document.createElement('img'); image.src = unit.battleSprite; image.alt = '';caption.textContent=unit.name;figure.append(image,caption);art.append(figure);
+          const image = document.createElement('img'); image.src = unit.sourceArt; image.alt = `${unit.name} 카드 이미지`; image.decoding='async';caption.textContent=unit.name;figure.append(image,caption);art.append(figure);
         }
         item.append(art);
       } else {const empty=document.createElement('div');empty.className='party-empty-slots';empty.setAttribute('aria-hidden','true');for(let slot=0;slot<3;slot++){const tile=document.createElement('span'),plus=document.createElement('i'),label=document.createElement('small');plus.textContent='+';label.textContent=slot<2?'용병 '+(slot+1):'카드';tile.append(plus,label);empty.append(tile);}item.append(empty);}
