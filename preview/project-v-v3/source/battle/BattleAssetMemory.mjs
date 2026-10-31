@@ -6,7 +6,7 @@ import {Assets} from 'pixi.js';
 export function isBattleOwnedImage(value){
   let path;try{path=new URL(String(value), 'https://battle.invalid').pathname;}catch{return false;}
   return /\.(?:png|webp|avif|jpe?g)$/i.test(path)&&(
-    /^\/assets\/(?:responsive\/|cards\/|ui\/project-v\/(?:characters|mercenaries)\/)/.test(path)||
+    /^\/assets\/(?:responsive\/|cards\/|ui\/project-v\/(?:characters|mercenaries|monsters)\/)/.test(path)||
     /^\/preview\/(?:mercenary-(?!role-attacks)[^/]+|prime-requiem-[^/]+|battle-suit-(?:x-v1|x-dragon-v1|sx-v1|overlord[^/]*|skill-chip-v1|octaseeker-v1)|sustained-hunt-v2|scrapyard-v3-v1)\//.test(path)
   );
 }

@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261030-compact1';
+  const VERSION = '20261031-ios-memory1';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, activeRoot = null, revision = 0;
   const host = () => document.getElementById('pveBlackwingRaidView');
   async function refresh() {

@@ -1,0 +1,529 @@
+{
+  "desktop": {
+    "reports": [
+      {
+        "width": 1440,
+        "mode": "PVE",
+        "entry": "actual start button",
+        "result": true,
+        "return": true,
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-971",
+            "visible": true,
+            "alpha": 1
+          }
+        ],
+        "levels": [
+          1
+        ]
+      },
+      {
+        "width": 1440,
+        "mode": "PVP",
+        "entry": "actual start button",
+        "result": true,
+        "return": true,
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-971",
+            "visible": true,
+            "alpha": 1
+          }
+        ],
+        "levels": [
+          1
+        ]
+      }
+    ],
+    "publicBase": "",
+    "productionWrites": 0
+  },
+  "chromiumMobile": {
+    "reports": [
+      {
+        "width": 390,
+        "mode": "PVE",
+        "entry": "actual start button",
+        "result": true,
+        "return": true,
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-971",
+            "visible": true,
+            "alpha": 1
+          }
+        ],
+        "levels": [
+          1
+        ]
+      },
+      {
+        "width": 390,
+        "mode": "PVP",
+        "entry": "actual start button",
+        "result": true,
+        "return": true,
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-971",
+            "visible": true,
+            "alpha": 1
+          }
+        ],
+        "levels": [
+          1
+        ]
+      }
+    ],
+    "publicBase": "",
+    "productionWrites": 0
+  },
+  "webkit": {
+    "reports": [
+      {
+        "width": 390,
+        "mode": "PVE",
+        "entry": "actual start button",
+        "result": true,
+        "return": true,
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-971",
+            "visible": true,
+            "alpha": 1
+          }
+        ],
+        "levels": [
+          1
+        ]
+      },
+      {
+        "width": 390,
+        "mode": "PVP",
+        "entry": "actual start button",
+        "result": true,
+        "return": true,
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-971",
+            "visible": true,
+            "alpha": 1
+          }
+        ],
+        "levels": [
+          1
+        ]
+      }
+    ],
+    "publicBase": "",
+    "productionWrites": 0
+  },
+  "raids": {
+    "engine": "webkit",
+    "publicBase": "",
+    "errors": [
+      "ResizeObserver loop completed with undelivered notifications."
+    ],
+    "samples": [
+      {
+        "label": "legion-active-0",
+        "rgbaBytes": 97092892,
+        "canvases": 1
+      },
+      {
+        "label": "legion-active-1",
+        "rgbaBytes": 114626696,
+        "canvases": 1
+      },
+      {
+        "label": "legion-active-2",
+        "rgbaBytes": 115937416,
+        "canvases": 1
+      },
+      {
+        "label": "legion-closed",
+        "rgbaBytes": 0,
+        "canvases": 0
+      },
+      {
+        "label": "blackwing-active-0",
+        "rgbaBytes": 76452996,
+        "canvases": 1
+      },
+      {
+        "label": "blackwing-closed-0",
+        "rgbaBytes": 6045696,
+        "canvases": 0
+      },
+      {
+        "label": "blackwing-active-1",
+        "rgbaBytes": 76452996,
+        "canvases": 1
+      },
+      {
+        "label": "blackwing-closed-1",
+        "rgbaBytes": 6045696,
+        "canvases": 0
+      },
+      {
+        "label": "madara-active-0",
+        "rgbaBytes": 89037104,
+        "canvases": 1
+      },
+      {
+        "label": "madara-closed-0",
+        "rgbaBytes": 6045696,
+        "canvases": 0
+      },
+      {
+        "label": "madara-active-1",
+        "rgbaBytes": 89037104,
+        "canvases": 1
+      },
+      {
+        "label": "madara-closed-1",
+        "rgbaBytes": 6045696,
+        "canvases": 0
+      },
+      {
+        "label": "lich-active-0",
+        "rgbaBytes": 72519248,
+        "canvases": 1
+      },
+      {
+        "label": "lich-closed-0",
+        "rgbaBytes": 6045696,
+        "canvases": 0
+      },
+      {
+        "label": "lich-active-1",
+        "rgbaBytes": 72519248,
+        "canvases": 1
+      },
+      {
+        "label": "lich-closed-1",
+        "rgbaBytes": 6045696,
+        "canvases": 0
+      }
+    ],
+    "productionWrites": 0,
+    "at": "2026-10-31T03:20:19.197Z"
+  },
+  "defense": {
+    "before": {
+      "d": {
+        "screen": "battle",
+        "roomId": "4F57923F7E44",
+        "playerId": "1",
+        "phase": "PREP",
+        "wave": 0,
+        "units": 9,
+        "capacity": 3,
+        "focus": 0,
+        "selected": "1:0",
+        "engine": {
+          "engine": "V3 BattleEngine subclass",
+          "rendererCount": 1,
+          "environment": {
+            "renderer": "painted-sprites",
+            "routeSprites": 3,
+            "coreTexture": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+            "causewayTexture": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png"
+          },
+          "capacity": 3,
+          "allies": 9,
+          "enemies": 0,
+          "focusLane": 0,
+          "hudNameplates": [
+            {
+              "id": "1:0",
+              "image": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+              "sprite": true
+            },
+            {
+              "id": "1:1",
+              "image": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+              "sprite": true
+            },
+            {
+              "id": "1:2",
+              "image": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+              "sprite": true
+            },
+            {
+              "id": "bot-1:0",
+              "image": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+              "sprite": true
+            },
+            {
+              "id": "bot-1:1",
+              "image": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+              "sprite": true
+            },
+            {
+              "id": "bot-1:2",
+              "image": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+              "sprite": true
+            },
+            {
+              "id": "bot-2:0",
+              "image": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+              "sprite": true
+            },
+            {
+              "id": "bot-2:1",
+              "image": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+              "sprite": true
+            },
+            {
+              "id": "bot-2:2",
+              "image": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+              "sprite": true
+            }
+          ],
+          "groundRunes": [
+            {
+              "id": "1:0",
+              "team": "ALLY",
+              "style": "ally",
+              "visible": true,
+              "textureWidth": 512
+            },
+            {
+              "id": "1:1",
+              "team": "ALLY",
+              "style": "ally",
+              "visible": true,
+              "textureWidth": 512
+            },
+            {
+              "id": "1:2",
+              "team": "ALLY",
+              "style": "ally",
+              "visible": true,
+              "textureWidth": 512
+            },
+            {
+              "id": "bot-1:0",
+              "team": "ALLY",
+              "style": "ally",
+              "visible": true,
+              "textureWidth": 512
+            },
+            {
+              "id": "bot-1:1",
+              "team": "ALLY",
+              "style": "ally",
+              "visible": true,
+              "textureWidth": 512
+            },
+            {
+              "id": "bot-1:2",
+              "team": "ALLY",
+              "style": "ally",
+              "visible": true,
+              "textureWidth": 512
+            },
+            {
+              "id": "bot-2:0",
+              "team": "ALLY",
+              "style": "ally",
+              "visible": true,
+              "textureWidth": 512
+            },
+            {
+              "id": "bot-2:1",
+              "team": "ALLY",
+              "style": "ally",
+              "visible": true,
+              "textureWidth": 512
+            },
+            {
+              "id": "bot-2:2",
+              "team": "ALLY",
+              "style": "ally",
+              "visible": true,
+              "textureWidth": 512
+            }
+          ],
+          "enemySprites": [],
+          "phase": "PREP",
+          "activeEffects": 0,
+          "timelines": 0,
+          "mercenaries": [
+            {
+              "id": "1:0",
+              "code": "V-004",
+              "bodyHeight": 260,
+              "fullBodyHeight": 260,
+              "footAnchor": {
+                "x": 0.5,
+                "y": 1
+              },
+              "prepared": true,
+              "played": 0,
+              "last": null,
+              "busy": false,
+              "visible": true,
+              "paused": false,
+              "queued": 0,
+              "activeTimelines": 0,
+              "fxChildren": 0
+            },
+            {
+              "id": "1:1",
+              "code": "V-009",
+              "bodyHeight": 260,
+              "fullBodyHeight": 260,
+              "footAnchor": {
+                "x": 0.5,
+                "y": 1
+              },
+              "prepared": true,
+              "played": 0,
+              "last": null,
+              "busy": false,
+              "visible": true,
+              "paused": false,
+              "queued": 0,
+              "activeTimelines": 0,
+              "fxChildren": 0
+            },
+            {
+              "id": "bot-1:0",
+              "code": "V-001",
+              "bodyHeight": 260,
+              "fullBodyHeight": 260,
+              "footAnchor": {
+                "x": 0.5,
+                "y": 1
+              },
+              "prepared": true,
+              "played": 0,
+              "last": null,
+              "busy": false,
+              "visible": false,
+              "paused": true,
+              "queued": 0,
+              "activeTimelines": 0,
+              "fxChildren": 0
+            },
+            {
+              "id": "bot-1:1",
+              "code": "V-004",
+              "bodyHeight": 260,
+              "fullBodyHeight": 260,
+              "footAnchor": {
+                "x": 0.5,
+                "y": 1
+              },
+              "prepared": true,
+              "played": 0,
+              "last": null,
+              "busy": false,
+              "visible": false,
+              "paused": true,
+              "queued": 0,
+              "activeTimelines": 0,
+              "fxChildren": 0
+            },
+            {
+              "id": "bot-2:0",
+              "code": "V-003",
+              "bodyHeight": 260,
+              "fullBodyHeight": 260,
+              "footAnchor": {
+                "x": 0.5,
+                "y": 1
+              },
+              "prepared": true,
+              "played": 0,
+              "last": null,
+              "busy": false,
+              "visible": false,
+              "paused": true,
+              "queued": 0,
+              "activeTimelines": 0,
+              "fxChildren": 0
+            },
+            {
+              "id": "bot-2:1",
+              "code": "V-002",
+              "bodyHeight": 260,
+              "fullBodyHeight": 260,
+              "footAnchor": {
+                "x": 0.5,
+                "y": 1
+              },
+              "prepared": true,
+              "played": 0,
+              "last": null,
+              "busy": false,
+              "visible": false,
+              "paused": true,
+              "queued": 0,
+              "activeTimelines": 0,
+              "fxChildren": 0
+            }
+          ],
+          "presentationErrors": [],
+          "supportTeleport": {
+            "image": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+            "frames": 6,
+            "active": 0,
+            "positions": []
+          },
+          "camera": {
+            "x": 1340,
+            "scale": 0.39039999999999997,
+            "viewWidth": 1333.1359054501725,
+            "tilt": -0.7225663103256524
+          },
+          "serverDeterminesDamage": true,
+          "resolution": 1.25,
+          "world": {
+            "width": 2880,
+            "height": 1280,
+            "coreX": 220,
+            "coreY": 620,
+            "mergeX": 600,
+            "spawnX": 2780,
+            "frontX": 1510,
+            "pressureX": 1600,
+            "breachWarningX": 1030
+          },
+          "roleFx": {
+            "renderer": "atlas-only",
+            "ready": [],
+            "failures": [],
+            "proceduralFallback": false
+          }
+        },
+        "connected": true,
+        "roster": {
+          "mercenaries": 21,
+          "cards": 50,
+          "loadout": {
+            "mercenaries": [
+              "V-004",
+              "V-009"
+            ],
+            "card": "CARD:CN-02D9DC1E8A8A4209"
+          }
+        }
+      },
+      "canvases": [
+        {
+          "w": 488,
+          "css": 390.390625
+        }
+      ]
+    },
+    "result": true,
+    "return": true,
+    "errors": [],
+    "missing": [],
+    "productionWrites": 0
+  }
+}

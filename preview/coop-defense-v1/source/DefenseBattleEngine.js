@@ -93,7 +93,6 @@ export class DefenseBattleEngine extends BattleEngine {
   configureIsometricScene() { return {}; }
   async mount() {
     await super.mount();
-    this.app.ticker.maxFPS = 60;
     if (!Cache.has(`${DIGIT_FONT}-bitmap`)) BitmapFont.install({ name: DIGIT_FONT,
       style: { fontFamily: 'Arial Black, Arial', fontSize: 76, fill: 0xffffff, stroke: { color: 0x08120d, width: 8, join: 'round' } },
       chars: [['0', '9'], '+', ','], resolution: 1, padding: 5 });

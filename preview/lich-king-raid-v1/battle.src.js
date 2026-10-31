@@ -5,14 +5,28 @@ import { MechanicOverlay } from './MechanicOverlay.js';
 const sheets={prison:'frost-prison-16.png',zero:'absolute-zero-16.png',soul:'soul-annihilation-16.png'};
 let engine=null,renderer=null,prison=null,mechanics=null,epoch=0,queue=Promise.resolve(),pending=0,snapshot=null,syncedHp='',bossId='';
 const textures={};
+const frameLoads=new Map();let releasingFrames=null;
 let visibleActors=new Set();
 async function loadFrames(key){
+  if(releasingFrames)await releasingFrames;
   const {Assets,Texture,Rectangle}=window.ProjectVPixiBattle.fxRuntime;
   if(textures[key])return textures[key];
-  const sheet=await Assets.load('/preview/lich-king-raid-v1/assets/'+sheets[key]);
-  const w=sheet.width/4,h=sheet.height/4;
-  textures[key]=Array.from({length:16},(_,i)=>new Texture({source:sheet.source,frame:new Rectangle((i%4)*w,Math.floor(i/4)*h,w,h)}));
-  return textures[key];
+  if(!frameLoads.has(key))frameLoads.set(key,(async()=>{
+    const sheet=await Assets.load('/preview/lich-king-raid-v1/assets/'+sheets[key]);
+    const w=sheet.width/4,h=sheet.height/4;
+    return textures[key]=Array.from({length:16},(_,i)=>new Texture({source:sheet.source,frame:new Rectangle((i%4)*w,Math.floor(i/4)*h,w,h)}));
+  })().finally(()=>frameLoads.delete(key)));
+  return frameLoads.get(key);
+}
+function releaseFrames(){
+  if(releasingFrames)return releasingFrames;
+  releasingFrames=(async()=>{
+    await Promise.allSettled([...frameLoads.values()]);
+    const keys=Object.keys(textures);
+    for(const key of keys){textures[key].forEach(texture=>texture.destroy(false));delete textures[key];}
+    await Promise.allSettled(keys.map(key=>window.ProjectVPixiBattle.fxRuntime.Assets.unload('/preview/lich-king-raid-v1/assets/'+sheets[key])));
+  })().finally(()=>{releasingFrames=null;});
+  return releasingFrames;
 }
 function releasePrison(){if(prison){prison.destroy();prison=null;}}
 async function animate(key,{targetId,hold=false,safe=false}={}){
@@ -109,6 +123,7 @@ function restore(state,restorePrison=true){
 }
 function teardown(){
   epoch++;engine?.cancelTimelines();mechanics?.destroy();mechanics=null;releasePrison();renderer?.destroy();renderer=null;
+  void releaseFrames().catch(error=>console.warn('[Isgen assets]',error));
   // Keep the live Application/canvas cache; the next mount uses canonical
   // resetSession just like production V3, without dangling character tweens.
   engine=null;pending=0;queue=Promise.resolve();snapshot=null;syncedHp='';

@@ -1,4 +1,6 @@
 import {preloadIconExpansionPlayback,configureIconExpansionSprite,disposeIconExpansionPlayback} from './IconExpansionPlayback.js';
+import {BATTLE_DEVICE} from './BattleDevicePolicy.mjs';
+import './BattleTextureLifecycle.mjs';
 import {prepareEquipmentSetFX} from './EquipmentSetFX.js';
 import {battleAssetMemory,battleImageUrl} from './BattleAssetMemory.mjs';
 import {attachSealDragon,playSealDragonBreath} from './SealDragonPlayback.js';
@@ -333,13 +335,7 @@ function assetKey(value){
 // 캔버스 백버퍼와 MSAA 리졸브 버퍼는 GPU 가 아니라 렌더러 프로세스 메모리에 잡힌다.
 // DPR 3 단말에서 resolution 2 + antialias 는 그것만으로 수십 MB 를 고정으로 쓴다.
 // SD 스프라이트는 화면에서 60~110px 로 그려지므로 1.5 배율·MSAA 해제로도 육안 차이가 없다.
-const LOW_MEMORY_DEVICE=(()=>{
-  try{
-    const memory=Number(navigator?.deviceMemory||0);
-    if(memory>0&&memory<=4)return true;
-    return Boolean(matchMedia('(max-width:860px)').matches||matchMedia('(pointer:coarse)').matches);
-  }catch{return false}
-})();
+const LOW_MEMORY_DEVICE=BATTLE_DEVICE.lowMemory;
 
 // V1901: 컷인에 쓰는 "원본 카드 아트" 다운스케일.
 // v1803 이 전투 스프라이트를 384px 변형으로 돌릴 때 대상은 battle-v3-live.js 의
@@ -516,11 +512,12 @@ export class BaseBattleEngine{
       backgroundAlpha:0,
       antialias:!LOW_MEMORY_DEVICE,
       autoDensity:true,
-      resolution:Math.min(devicePixelRatio||1,LOW_MEMORY_DEVICE?1.5:2),
+      resolution:BATTLE_DEVICE.resolution,
       preference:'webgl',
       powerPreference:'high-performance'
     });
     assertMount();
+    this.app.ticker.maxFPS=BATTLE_DEVICE.maxFPS;
     this.app.canvas.className='pv-pixi-canvas';
     this.app.canvas.setAttribute('aria-hidden','true');
     target.appendChild(this.app.canvas);
@@ -584,7 +581,7 @@ export class BaseBattleEngine{
     // Optional recorded audio must not keep a cold first frame behind the
     // renderer watchdog. Its own playback path waits for decode when needed.
     void this.audio.prepare().catch(()=>false);
-    await Promise.all([SkillEffectFX.preloadAll(),preloadBattleHud()]);
+    await Promise.all([LOW_MEMORY_DEVICE&&this.livePayload?Promise.resolve():SkillEffectFX.preloadAll(),preloadBattleHud()]);
     assertMount();
     this.skillTimeline=new SkillTimeline({
       ...DESKTOP,
@@ -2760,6 +2757,7 @@ export class BaseBattleEngine{
     const advancementProfile=advancementEffectProfile(advancementCode);
     const playbackEpoch=this.playbackEpoch;
     if(advancementProfile)await this.ensureAdvancementReady(advancementCode);
+    else await SkillEffectFX.preload(roleKind);
     if(playbackEpoch!==this.playbackEpoch||!this.visible)return false;
     // V2060: 이 둘이 앞 타격의 꼬리를 아직 재생 중이면 먼저 끝낸다.
     //   (공격자 위치·크기, 피격자 상태·tint 가 겹쳐 어긋나는 것을 막는다)
@@ -2881,7 +2879,7 @@ export class BaseBattleEngine{
     advancementProfile||this.reducedMotion?{}:{releaseAt:returnAt,owners:[actor,victim]});
   }
 
-  escortObjectiveAttack(event={}){
+  async escortObjectiveAttack(event={}){
     const actor=this.combatantById(event.actorId)||this.enemies.find(character=>this.isAlive(character));
     const objective=this.objectiveSprite;
     if(!actor||!objective||!objective.visible){
@@ -2892,6 +2890,9 @@ export class BaseBattleEngine{
     const actorView=actor.root;
     const damage=Math.max(0,Number(event.damage||0));
     const roleKind=normalizeSkillEffectKind(actor.effectKind||SKILL_EFFECT_KIND.ATTACK);
+    const playbackEpoch=this.playbackEpoch;
+    await SkillEffectFX.preload(roleKind);
+    if(this.disposed||playbackEpoch!==this.playbackEpoch||actor.root.destroyed||objective.destroyed)return false;
     const roleProfile=roleEffectProfile(roleKind);
     const impact={x:objective.x,y:objective.y-Math.max(34,objective.height*.38)};
     const damageLabel=this.pools.damage.acquire();
@@ -3023,10 +3024,13 @@ export class BaseBattleEngine{
     },cleanup,playbackSpeed);
   }
 
-  playSupportEffect(targets,{kind=SKILL_EFFECT_KIND.HP,onImpact=()=>{}}={}){
+  async playSupportEffect(targets,{kind=SKILL_EFFECT_KIND.HP,onImpact=()=>{}}={}){
     const participants=[...new Set((Array.isArray(targets)?targets:[targets]).filter(Boolean))];
     if(!participants.length){onImpact();return Promise.resolve(false)}
     const roleKind=normalizeSkillEffectKind(kind);
+    const playbackEpoch=this.playbackEpoch;
+    await SkillEffectFX.preload(roleKind);
+    if(this.disposed||playbackEpoch!==this.playbackEpoch||participants.some(target=>(target.root||target.view||target).destroyed))return false;
     const playbackSpeed=this.actionPlaybackSpeed();
     const effects=participants.map(target=>{
       const view=target.root||target.view||target;

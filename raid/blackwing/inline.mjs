@@ -1,6 +1,6 @@
 import {mountRewardRevealButton,mountRewardRevealInbox} from '/js/content-reward-reveal-v1.mjs?v=20261029-blackwing-rewards1';
 import {jointAccountRequest as api} from '/js/joint-account-transport.mjs';
-import {createBlackwingBattle} from './battle.mjs?v=20261029-field1';
+import {createBlackwingBattle} from './battle.mjs?v=20261031-ios-memory1';
 import {createBattlefield} from './battlefield.mjs?v=20261029-field1';
 import {ART,roles,roleDetails,esc,lobbyMarkup,configMarkup,partyMarkup,roomsMarkup,partyStripMarkup} from './lobby-ui.mjs?v=20261029-blackwing-rewards1';
 import {blackwingLogText} from './commands.mjs?v=20261029-blackwing-rewards1';

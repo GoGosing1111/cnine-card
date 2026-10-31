@@ -50,7 +50,7 @@
     queue=queue.then(async()=>{if(cue&&version===epoch)await present(cue);for(const e of events){if(version!==epoch||!engine)return;try{await engine.playEvents([e]);}finally{if(version===epoch)pending=Math.max(0,pending-1);}}if(version===epoch)sync();})
       .catch(error=>{console.warn('[Madara preview playback]',error);if(version===epoch){pending=0;sync();}});
   }
-  function teardown(){epoch++;scene?.dispose();scene=null;telegraph?.dispose();telegraph=null;engine?.cancelTimelines();renderer?.destroy();renderer=null;engine=null;queue=Promise.resolve();pending=0;snapshot=null;synced='';}
+  function teardown(){epoch++;scene?.dispose();scene=null;telegraph?.dispose();telegraph=null;engine?.cancelTimelines();renderer?.destroy();renderer=null;engine=null;queue=Promise.resolve();pending=0;snapshot=null;synced='';void window.MadaraPresentation.release().catch(error=>console.warn('[Varsen assets]',error));}
   window.MadaraBattle={preload,mount,update,restore,teardown,telegraph:(state,now)=>telegraph?.draw(state,now),showcase:(cue,options)=>present(cue,{review:true,...options}),control:(action,value)=>scene?.control(action,value),diagnostics:()=>({ready:Boolean(engine),pending,canvasCount:document.querySelectorAll('canvas').length,engine:engine?.diagnostics(),presentation:scene?.diagnostics(),art:window.MadaraPresentation.diagnostics(),telegraphLayers:engine?.effectLayer.children.filter(c=>c.label==='MadaraMechanicTelegraph').length||0,madaraEffects:engine?.effectLayer.children.filter(c=>c.label==='MadaraAuthoredFX').length||0})};
   window.addEventListener('pagehide',teardown,{once:true});
 })();

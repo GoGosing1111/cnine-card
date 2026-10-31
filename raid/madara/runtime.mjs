@@ -56,18 +56,38 @@ export function mountMadara(root){
 /* Authored body frames and five independent VFX atlases, driven only by the installed V3 GSAP clock. */
 (()=>{
   const ROOT='/preview/madara-raid-v1/',clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
-  let loading=null,assets=null;
+  let loading=null,assets=null,releasing=null;
   async function preload(){
+    if(releasing)await releasing;
     if(assets)return assets;if(loading)return loading;
     loading=(async()=>{
       const response=await fetch(ROOT+'assets/presentation-manifest.json');if(!response.ok)throw new Error('연출 매니페스트를 읽지 못했습니다.');
       const manifest=await response.json(),rt=window.ProjectVPixiBattle.fxRuntime,frames={};
-      await Promise.all(Object.entries(manifest.atlases).map(async([key,spec])=>{
+      const results=await Promise.allSettled(Object.entries(manifest.atlases).map(async([key,spec])=>{
         if(key==='cast')return; // The live actor now owns the approved original-IP body.
         const atlas=await rt.Assets.load(ROOT+spec.url);
         frames[key]=spec.frames.map(f=>new rt.Texture({source:atlas.source,frame:new rt.Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));
-      }));return assets={manifest,frames};
+      }));
+      const failed=results.find(r=>r.status==='rejected');if(failed){await disposeAssets({manifest,frames});throw failed.reason;}
+      return assets={manifest,frames};
     })();try{return await loading;}catch(error){loading=null;throw error;}
+  }
+  async function disposeAssets(data){
+    const loader=window.ProjectVPixiBattle.fxRuntime.Assets;
+    for(const frames of Object.values(data.frames))for(const texture of frames)texture.destroy(false);
+    const urls=Object.entries(data.manifest.atlases).filter(([key])=>key!=='cast').map(([,spec])=>ROOT+spec.url);
+    await Promise.allSettled(urls.filter(url=>!loader.cache||loader.cache.has(url)).map(url=>loader.unload(url)));
+  }
+  function release(){
+    if(releasing)return releasing;
+    if(!loading&&!assets)return Promise.resolve();
+    const retired=loading||Promise.resolve(assets);
+    releasing=(async()=>{
+      const data=await retired.catch(()=>null);
+      if(data)await disposeAssets(data);
+      assets=null;loading=null;
+    })().finally(()=>{releasing=null;});
+    return releasing;
   }
   function dialogue(cue){
     if(!cue)return;const box=document.getElementById('bossDialogue');box.dataset.key=cue.key;
@@ -218,7 +238,7 @@ export function mountMadara(root){
     }
     dispose(){if(this.disposed)return;this.disposed=true;this.animation?.kill();this.registration?.settle(false);this.layer.destroy({children:true});}
   }
-  window.MadaraPresentation={preload,dialogue,create:(engine,cue,options)=>new Scene(engine,cue,options),telegraph:engine=>new Telegraph(engine),diagnostics:()=>({loaded:Boolean(assets),bodyFrames:assets?.frames.cast.length||0,effectFrames:assets?Object.values(assets.frames).reduce((n,f)=>n+f.length,0)-4:0})};
+  window.MadaraPresentation={preload,release,dialogue,create:(engine,cue,options)=>new Scene(engine,cue,options),telegraph:engine=>new Telegraph(engine),diagnostics:()=>({loaded:Boolean(assets),bodyFrames:assets?.frames.cast?.length||0,effectFrames:assets?Object.values(assets.frames).reduce((n,f)=>n+f.length,0)-(assets.frames.cast?.length||0):0})};
 })();
 
 /* Uses the installed live V3 runtime. No copied renderer, formations or dock. */
@@ -273,7 +293,7 @@ export function mountMadara(root){
     queue=queue.then(async()=>{if(cue&&version===epoch)await present(cue);for(const e of events){if(version!==epoch||!engine)return;try{await engine.playEvents([e]);}finally{if(version===epoch)pending=Math.max(0,pending-1);}}if(version===epoch)sync();})
       .catch(error=>{console.warn('[Madara preview playback]',error);if(version===epoch){pending=0;sync();}});
   }
-  function teardown(){epoch++;scene?.dispose();scene=null;telegraph?.dispose();telegraph=null;engine?.cancelTimelines();renderer?.destroy();renderer=null;engine=null;queue=Promise.resolve();pending=0;snapshot=null;synced='';}
+  function teardown(){epoch++;scene?.dispose();scene=null;telegraph?.dispose();telegraph=null;engine?.cancelTimelines();renderer?.destroy();renderer=null;engine=null;queue=Promise.resolve();pending=0;snapshot=null;synced='';void window.MadaraPresentation.release().catch(error=>console.warn('[Varsen assets]',error));}
   window.MadaraBattle={preload,mount,update,restore,teardown,telegraph:(state,now)=>telegraph?.draw(state,now),showcase:(cue,options)=>present(cue,{review:true,...options}),control:(action,value)=>scene?.control(action,value),diagnostics:()=>({ready:Boolean(engine),pending,canvasCount:document.querySelectorAll('canvas').length,engine:engine?.diagnostics(),presentation:scene?.diagnostics(),art:window.MadaraPresentation.diagnostics(),telegraphLayers:engine?.effectLayer.children.filter(c=>c.label==='MadaraMechanicTelegraph').length||0,madaraEffects:engine?.effectLayer.children.filter(c=>c.label==='MadaraAuthoredFX').length||0})};
   window.addEventListener('pagehide',teardown,{once:true});
 })();
@@ -380,7 +400,7 @@ export function mountMadara(root){
   }
   async function accept(result){
     if(result.feature){document.querySelector('.mr-development').textContent=result.feature.mode+' · 바르센 레이드';}
-    if(result.settings){const s=result.settings,w=result.weeklyReward;document.querySelector('[data-reward-policy]').textContent='광폭화 '+s.enrageSeconds+'초 · 기믹 제한 '+s.mechanicTimePercent+'% · '+(result.feature.mode==='TEST'?'TEST 보상 없음':s.rewardsEnabled?'클리어 '+Number(s.coinReward).toLocaleString()+' 코인 / 피그코인 '+Number(s.pigCoinReward||0)+' / 마별 '+s.masterStarReward+' / 펫 정수 '+s.petEssenceReward:'클리어 보상 지급 OFF')+(w?' · 주간 '+w.used+'/'+w.limit+'회':'');}
+    if(result.settings){const s=result.settings,w=result.weeklyReward;document.querySelector('[data-reward-policy]').textContent='광폭화 '+s.enrageSeconds+'초 · 기믹 제한 '+s.mechanicTimePercent+'% · '+(result.feature.mode==='TEST'?'TEST 보상 없음':s.rewardsEnabled?'클리어 '+Number(s.coinReward).toLocaleString()+' 코인 / 마별 '+s.masterStarReward+' / 펫 정수 '+s.petEssenceReward:'클리어 보상 지급 OFF')+(w?' · 주간 '+w.used+'/'+w.limit+'회':'');}
     if(result.token){token=result.token;persist();}
     if(result.account){account=result.account;updateWallet();}
     if(result.rooms)renderRooms(result.rooms);
@@ -406,7 +426,7 @@ export function mountMadara(root){
       $('resultReason').textContent=state.failure?.reason||'세 역할의 협동으로 거신을 저지했습니다.';
       const seconds=Math.round((state.finishedAt-state.startedAt)/1000);
       $('resultStats').innerHTML=`<span><b>${seconds}</b>전투 시간, 초</span><span><b>${state.statistics.tasks}</b>완료 임무</span><span><b>${state.statistics.mistakes}</b>실수</span>`;
-      const reward=state.clearReward;$('resultDialog').querySelector('.mr-muted').textContent=reward?.granted?('클리어 보상 · '+Number(reward.coin).toLocaleString()+' 코인 / 피그코인 '+Number(reward.pigCoins||0)+' / 마별 '+reward.masterStars+' / 펫 정수 '+reward.petEssence):reward?.status==='WEEKLY_LIMIT'?'이번 주 보상 수령 한도에 도달했습니다.':'TEST 또는 보상 미설정 공대 · 보상 지급 없음';$('resultDialog').showModal();
+      const reward=state.clearReward;$('resultDialog').querySelector('.mr-muted').textContent=reward?.granted?('클리어 보상 · '+Number(reward.coin).toLocaleString()+' 코인 / 마별 '+reward.masterStars+' / 펫 정수 '+reward.petEssence):reward?.status==='WEEKLY_LIMIT'?'이번 주 보상 수령 한도에 도달했습니다.':'TEST 또는 보상 미설정 공대 · 보상 지급 없음';$('resultDialog').showModal();
       mountRewardRevealButton($('resultDialog'),reward?.choiceOffer,{signal:revealLifecycle.signal,auto:true});
     }
   }

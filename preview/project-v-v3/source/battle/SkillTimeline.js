@@ -20,9 +20,12 @@ export class SkillTimeline{
     this.active=new Set();
   }
 
-  play({attacker,target,enemies=[],damage,title,subtitle='전술 스킬 발동',accent=0xffd31a,critical=true,effectProfile='TACTICAL',effectKind=SKILL_EFFECT_KIND.ATTACK,targetClass='MONSTER',healing=0,hitCount=1,onImpact=()=>{}}){
+  async play({attacker,target,enemies=[],damage,title,subtitle='전술 스킬 발동',accent=0xffd31a,critical=true,effectProfile='TACTICAL',effectKind=SKILL_EFFECT_KIND.ATTACK,targetClass='MONSTER',healing=0,hitCount=1,onImpact=()=>{}}){
     this.cancelAll();
+    const epoch=this.loadEpoch;
     const roleKind=normalizeSkillEffectKind(effectKind);
+    await SkillEffectFX.preload(roleKind);
+    if(epoch!==this.loadEpoch||(attacker.root||attacker).destroyed||(target.root||target).destroyed)return false;
     const roleProfile=roleEffectProfile(roleKind);
     const attackerView=attacker.root||attacker;
     const targetView=target.root||target;
@@ -164,6 +167,7 @@ export class SkillTimeline{
   }
 
   cancelAll(){
+    this.loadEpoch=(this.loadEpoch||0)+1;
     [...this.active].forEach(entry=>{
       entry.timeline.kill();
       entry.settle(false);

@@ -60,7 +60,8 @@ function runtime({mountGate=null,releaseGate=null,playbackGate=null}={}){
   }
   const context={window:{},document:{getElementById:()=>({})},BattleEngine:Engine,ExpeditionBattleEngine:Engine,
     Assets:{},Container:class{},Graphics:class{},Sprite:class{},Texture:class{},Rectangle:class{},prepareSealDragon(){},
-    battleWarmupWork:()=>[],battleAssetMemory:{async release(){calls.push('release');if(releaseGate)await releaseGate.promise;}}};
+    battleWarmupWork:()=>[],battleAssetMemory:{async release(){calls.push('release');if(releaseGate)await releaseGate.promise;}},
+    SkillEffectFX:{async release(){}},releaseMercenaryRoleAssets:async()=>{},releaseIdleBattleBuffers(){},battleTextureDiagnostics:()=>({})};
   vm.runInNewContext(entrySource.replace(/^import .*;\r?$/gm,'').replace(/^export .*;\r?$/gm,''),context);
   return {api:context.window.ProjectVPixiBattle,instances,calls};
 }

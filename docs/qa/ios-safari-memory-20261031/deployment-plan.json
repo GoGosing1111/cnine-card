@@ -1,0 +1,20 @@
+{
+  "before": {
+    "id": "35461b96-7e27-4c0a-9d85-40945264c972",
+    "url": "https://35461b96.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "18e6a19c13bd3333744f51fc3c8d3c50506a75b5"
+  },
+  "base": "18e6a19c13bd3333744f51fc3c8d3c50506a75b5",
+  "reason": "iOS Safari 공통 전투의 이미지 디코딩 동시수 및 캔버스 부하 제한, 종료 후 스킬/레이드 아틀라스·텍스트·필터 버퍼 반환. 실제 메인 PC/모바일 PVE/PVP와 WebKit 군단토벌 및 레이드 반복진입 검수. 전투 피해/성장/보상/계정 로직 불변.",
+  "tests": [
+    "tests/ios-safari-battle-memory-20261031.test.mjs",
+    "tests/battle-mobile-memory-20261024.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs",
+    "tests/raid-v3-mobile-recovery-v1930.test.mjs",
+    "tests/v3-fluid-combat-v2126.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

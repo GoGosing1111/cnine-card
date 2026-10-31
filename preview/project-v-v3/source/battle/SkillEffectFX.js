@@ -79,8 +79,10 @@ export class SkillEffectFX{
   static atlasCache=new Map();
   static preloadPromise=null;
   static failures=new Map();
+  static releasing=null;
 
   static async preload(kind){
+    if(this.releasing)await this.releasing;
     const normalized=normalizeSkillEffectKind(kind);
     const cached=this.atlasCache.get(normalized);
     if(Array.isArray(cached))return cached;
@@ -108,6 +110,17 @@ export class SkillEffectFX{
         .finally(()=>{this.preloadPromise=null});
     }
     return this.preloadPromise;
+  }
+
+  static release(){
+    if(this.releasing)return this.releasing;
+    const kinds=[...this.atlasCache.keys()],work=[...this.atlasCache.values()];
+    this.releasing=(async()=>{
+      await Promise.allSettled(work);
+      this.atlasCache.clear();this.failures.clear();this.preloadPromise=null;
+      await Promise.allSettled(kinds.map(kind=>Assets.unload(SKILL_EFFECT_ASSETS[kind].atlasPath)));
+    })().finally(()=>{this.releasing=null;});
+    return this.releasing;
   }
 
   static create({kind=SKILL_EFFECT_KIND.ATTACK,x=0,y=0,scale=1}={}){

@@ -1,7 +1,27 @@
-const ROOT='/assets/raids/blackwing-20261024/';let loaded;
+const ROOT='/assets/raids/blackwing-20261024/';let loaded,releasing,users=0;
 export async function preloadBlackwing(){
- if(loaded)return loaded;
- loaded=(async()=>{const response=await fetch(ROOT+'manifest.json?v=20261024-test1');if(!response.ok)throw Error('모르드레인 전투 리소스를 불러오지 못했습니다.');const manifest=await response.json(),rt=globalThis.ProjectVPixiBattle.fxRuntime,frames={};await Promise.all(Object.entries(manifest.atlases).map(async([key,spec])=>{const texture=await rt.Assets.load(ROOT+spec.url+'?v=20261024-test1');frames[key]=spec.frames.map(({rect:f})=>new rt.Texture({source:texture.source,frame:new rt.Rectangle(f.x,f.y,f.width,f.height)}));}));return {manifest,frames};})();try{return await loaded;}catch(e){loaded=null;throw e;}
+ if(releasing)await releasing;
+ users++;
+ loaded||=(async()=>{
+  const response=await fetch(ROOT+'manifest.json?v=20261024-test1');if(!response.ok)throw Error('모르드레인 전투 리소스를 불러오지 못했습니다.');
+  const manifest=await response.json(),rt=globalThis.ProjectVPixiBattle.fxRuntime,frames={};
+  const results=await Promise.allSettled(Object.entries(manifest.atlases).map(async([key,spec])=>{const texture=await rt.Assets.load(ROOT+spec.url+'?v=20261024-test1');frames[key]=spec.frames.map(({rect:f})=>new rt.Texture({source:texture.source,frame:new rt.Rectangle(f.x,f.y,f.width,f.height)}));}));
+  const failed=results.find(r=>r.status==='rejected');if(failed){await disposeBlackwing({manifest,frames});throw failed.reason;}
+  return {manifest,frames};
+ })();
+ try{const data=await loaded;let released=false;return {...data,release(){if(released)return releasing||Promise.resolve();released=true;return releaseBlackwing();}};}catch(e){users--;if(!users)loaded=null;throw e;}
+}
+async function disposeBlackwing(data){
+ const assets=globalThis.ProjectVPixiBattle.fxRuntime.Assets;
+ for(const frames of Object.values(data.frames))for(const texture of frames)texture.destroy(false);
+ const urls=Object.values(data.manifest.atlases).map(spec=>ROOT+spec.url+'?v=20261024-test1');
+ await Promise.allSettled(urls.filter(url=>!assets.cache||assets.cache.has(url)).map(url=>assets.unload(url)));
+}
+function releaseBlackwing(){
+ if(--users>0)return Promise.resolve();
+ const retired=loaded;loaded=null;
+ releasing=(async()=>{const data=await retired;if(data)await disposeBlackwing(data);})().finally(()=>{releasing=null;});
+ return releasing;
 }
 export function playBlackwingCue(engine,cue,assets){
  const actor=engine.boss||engine.enemies.find(a=>a.battleActive!==false&&a.root.visible);if(!actor?.fullBodySprite)return {playback:Promise.resolve(),dispose(){}};

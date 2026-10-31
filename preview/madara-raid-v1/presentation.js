@@ -1,18 +1,38 @@
 /* Authored body frames and five independent VFX atlases, driven only by the installed V3 GSAP clock. */
 (()=>{
   const ROOT='/preview/madara-raid-v1/',clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
-  let loading=null,assets=null;
+  let loading=null,assets=null,releasing=null;
   async function preload(){
+    if(releasing)await releasing;
     if(assets)return assets;if(loading)return loading;
     loading=(async()=>{
       const response=await fetch(ROOT+'assets/presentation-manifest.json');if(!response.ok)throw new Error('연출 매니페스트를 읽지 못했습니다.');
       const manifest=await response.json(),rt=window.ProjectVPixiBattle.fxRuntime,frames={};
-      await Promise.all(Object.entries(manifest.atlases).map(async([key,spec])=>{
+      const results=await Promise.allSettled(Object.entries(manifest.atlases).map(async([key,spec])=>{
         if(key==='cast')return; // The live actor now owns the approved original-IP body.
         const atlas=await rt.Assets.load(ROOT+spec.url);
         frames[key]=spec.frames.map(f=>new rt.Texture({source:atlas.source,frame:new rt.Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));
-      }));return assets={manifest,frames};
+      }));
+      const failed=results.find(r=>r.status==='rejected');if(failed){await disposeAssets({manifest,frames});throw failed.reason;}
+      return assets={manifest,frames};
     })();try{return await loading;}catch(error){loading=null;throw error;}
+  }
+  async function disposeAssets(data){
+    const loader=window.ProjectVPixiBattle.fxRuntime.Assets;
+    for(const frames of Object.values(data.frames))for(const texture of frames)texture.destroy(false);
+    const urls=Object.entries(data.manifest.atlases).filter(([key])=>key!=='cast').map(([,spec])=>ROOT+spec.url);
+    await Promise.allSettled(urls.filter(url=>!loader.cache||loader.cache.has(url)).map(url=>loader.unload(url)));
+  }
+  function release(){
+    if(releasing)return releasing;
+    if(!loading&&!assets)return Promise.resolve();
+    const retired=loading||Promise.resolve(assets);
+    releasing=(async()=>{
+      const data=await retired.catch(()=>null);
+      if(data)await disposeAssets(data);
+      assets=null;loading=null;
+    })().finally(()=>{releasing=null;});
+    return releasing;
   }
   function dialogue(cue){
     if(!cue)return;const box=document.getElementById('bossDialogue');box.dataset.key=cue.key;
@@ -163,5 +183,5 @@
     }
     dispose(){if(this.disposed)return;this.disposed=true;this.animation?.kill();this.registration?.settle(false);this.layer.destroy({children:true});}
   }
-  window.MadaraPresentation={preload,dialogue,create:(engine,cue,options)=>new Scene(engine,cue,options),telegraph:engine=>new Telegraph(engine),diagnostics:()=>({loaded:Boolean(assets),bodyFrames:assets?.frames.cast.length||0,effectFrames:assets?Object.values(assets.frames).reduce((n,f)=>n+f.length,0)-4:0})};
+  window.MadaraPresentation={preload,release,dialogue,create:(engine,cue,options)=>new Scene(engine,cue,options),telegraph:engine=>new Telegraph(engine),diagnostics:()=>({loaded:Boolean(assets),bodyFrames:assets?.frames.cast?.length||0,effectFrames:assets?Object.values(assets.frames).reduce((n,f)=>n+f.length,0)-(assets.frames.cast?.length||0):0})};
 })();

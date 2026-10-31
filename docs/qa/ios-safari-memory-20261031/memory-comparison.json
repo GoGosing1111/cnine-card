@@ -1,0 +1,166 @@
+{
+  "meaning": "Cached unique decoded image dimensions × 4 bytes. Not total RAM, GPU memory or peak process memory.",
+  "baseline": "5086a21b2 common renderer bytes equal prior production",
+  "records": {
+    "before": [
+      {
+        "file": "390-PVE-active.json",
+        "rgbaMiB": 157.93974685668945,
+        "images": 36,
+        "canvases": [
+          {
+            "width": 585,
+            "height": 1176
+          }
+        ],
+        "mounted": true
+      },
+      {
+        "file": "390-PVE-closed.json",
+        "rgbaMiB": 55.689697265625,
+        "images": 13,
+        "canvases": [],
+        "mounted": false
+      },
+      {
+        "file": "390-PVP-active.json",
+        "rgbaMiB": 301.05944442749023,
+        "images": 50,
+        "canvases": [
+          {
+            "width": 585,
+            "height": 1176
+          }
+        ],
+        "mounted": true
+      },
+      {
+        "file": "390-PVP-closed.json",
+        "rgbaMiB": 55.689697265625,
+        "images": 13,
+        "canvases": [],
+        "mounted": false
+      }
+    ],
+    "after": [
+      {
+        "file": "390-PVE-active.json",
+        "rgbaMiB": 141.25786209106445,
+        "images": 34,
+        "canvases": [
+          {
+            "width": 488,
+            "height": 980
+          }
+        ],
+        "mounted": true
+      },
+      {
+        "file": "390-PVE-closed.json",
+        "rgbaMiB": 7.015625,
+        "images": 8,
+        "canvases": [],
+        "mounted": false
+      },
+      {
+        "file": "390-PVP-active.json",
+        "rgbaMiB": 273.71349716186523,
+        "images": 47,
+        "canvases": [
+          {
+            "width": 488,
+            "height": 980
+          }
+        ],
+        "mounted": true
+      },
+      {
+        "file": "390-PVP-closed.json",
+        "rgbaMiB": 7.015625,
+        "images": 8,
+        "canvases": [],
+        "mounted": false
+      }
+    ],
+    "webkit": [
+      {
+        "file": "390-PVE-active.json",
+        "rgbaMiB": 129.33430862426758,
+        "images": 32,
+        "canvases": [
+          {
+            "width": 488,
+            "height": 980
+          }
+        ],
+        "mounted": true
+      },
+      {
+        "file": "390-PVE-closed.json",
+        "rgbaMiB": 5.765625,
+        "images": 7,
+        "canvases": [],
+        "mounted": false
+      },
+      {
+        "file": "390-PVP-active.json",
+        "rgbaMiB": 281.86806869506836,
+        "images": 46,
+        "canvases": [
+          {
+            "width": 488,
+            "height": 980
+          }
+        ],
+        "mounted": true
+      },
+      {
+        "file": "390-PVP-closed.json",
+        "rgbaMiB": 5.765625,
+        "images": 7,
+        "canvases": [],
+        "mounted": false
+      }
+    ],
+    "desktop": [
+      {
+        "file": "1440-PVE-active.json",
+        "rgbaMiB": 157.93974685668945,
+        "images": 36,
+        "canvases": [
+          {
+            "width": 2880,
+            "height": 1856
+          }
+        ],
+        "mounted": true
+      },
+      {
+        "file": "1440-PVE-closed.json",
+        "rgbaMiB": 7.015625,
+        "images": 8,
+        "canvases": [],
+        "mounted": false
+      },
+      {
+        "file": "1440-PVP-active.json",
+        "rgbaMiB": 301.05944442749023,
+        "images": 50,
+        "canvases": [
+          {
+            "width": 2880,
+            "height": 1856
+          }
+        ],
+        "mounted": true
+      },
+      {
+        "file": "1440-PVP-closed.json",
+        "rgbaMiB": 7.015625,
+        "images": 8,
+        "canvases": [],
+        "mounted": false
+      }
+    ]
+  }
+}

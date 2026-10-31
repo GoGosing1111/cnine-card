@@ -17,6 +17,7 @@ const jobs = [
   ['preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js', 'preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js'],
   ['preview/project-v-mercenary-system-v1/source/skills-lab.src.js', 'preview/project-v-mercenary-system-v1/skills.bundle.js']
 ];
+jobs.push(['preview/coop-defense-v1/source/defense-app.js','preview/coop-defense-v1/defense.bundle.js']);
 const outputs = [];
 const hash = value => createHash('sha256').update(value.replace(/\r\n/g, '\n')).digest('hex');
 async function writeBundle(file, contents) {
@@ -47,7 +48,7 @@ for (const [entryPoint, outfile, constructor] of jobs) {
   if (!inputs.includes('preview/project-v-v3/source/battle/OccupiedGridLayout.js')) throw new Error(`Missing common grid: ${outfile}`);
   if (outfile.includes('skill-chip-lab.bundle')) await writeFile('preview/battle-suit-skill-chip-v1/build-report.json', JSON.stringify({engineSource: entry,
     pixiCopies: inputs.filter(p => p.endsWith('/pixi.js/lib/index.mjs')).length, inputs: inputs.filter(p => !p.includes('node_modules')), outputBytes: Buffer.byteLength(bundle)}, null, 2) + '\n');
-  outputs.push({file: outfile, sha256: hash(bundle), commonGrid: true});
+  outputs.push({file: outfile, sha256: hash(bundle), commonGrid: true,...(outfile==='preview/coop-defense-v1/defense.bundle.js'?{standaloneEngine:true}:{})});
 }
 // The live hunt uses twelve enemy slots. Keep its extension at the same runtime
 // version as the common loader, which otherwise replaces it with the generic engine.
@@ -95,8 +96,10 @@ for(const name of ['MercenarySkillFX.js','RenderAuthoredSkill.js','RenderSSkill.
 for(const file of ['preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js','preview/mercenary-sniper-orikkung-v1/source/SniperOrikkungSkillFX.js','shared/mercenary-sniper-orikkung-v1.mjs','preview/project-v-v3/source/battle/HeukwolCombatPlayback.js','preview/mercenary-black-moon-swordsman-ss-v1/source/BlackMoonFX.js','preview/mercenary-black-moon-swordsman-ss-v1/skill.mjs','shared/mercenary-heukwol-v1.mjs','preview/project-v-mercenary-system-v1/source/MercenarySpriteSequence.js','preview/project-v-v3/source/battle/BikiniJoeunCombatPlayback.js','preview/mercenary-bikini-joeun-v1/source/BikiniJoeunSkillFX.js','shared/mercenary-bikini-joeun-v1.mjs','preview/project-v-v3/source/battle/RagnielCombatPlayback.js','preview/mercenary-ragniel-v1/source/RagnielSkillFX.js','preview/mercenary-ragniel-v1/skill.mjs','shared/mercenary-ragniel-v1.mjs','preview/project-v-v3/source/battle/MangisaCombatPlayback.js','preview/mercenary-mangisa-v1/source/MangisaSkillFX.js','preview/battle-suit-skill-chip-v1/source/SkillChipAudio.js','preview/project-v-mercenary-system-v1/skill-audio-v1.json','assets/ui/project-v/mercenaries/mercenary-attachment-points-v1.json'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 for(const file of ['shared/sx-suit-v1.mjs','preview/battle-suit-sx-v1/source/SXBodyFX.js','preview/battle-suit-sx-v1/source/SXTitle.js','preview/battle-suit-sx-v1/motion.mjs','preview/battle-suit-sx-v1/ultimate-v3/source/SXUltimateFX.js','preview/battle-suit-sx-v1/ultimate-v3/motion.mjs','shared/x-body-area-skill.mjs','preview/battle-suit-x-v1/source/XBodyFX.js','preview/battle-suit-x-v1/motion.mjs','preview/battle-suit-x-dragon-v1/source/DragonFX.js','preview/battle-suit-x-dragon-v1/motion.mjs','shared/battle-suit-skill-chips.mjs','preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js',...['sequence.mjs','OctaSeekerFX.js','OctaSeekerAudio.js'].map(name=>'preview/battle-suit-octaseeker-v1/source/'+name)])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 sources.push({file:'preview/project-v-v3/source/battle/BattleAssetMemory.mjs',sha256:hash(await readFile('preview/project-v-v3/source/battle/BattleAssetMemory.mjs','utf8'))});
+for(const name of ['BattleDevicePolicy.mjs','BattleTextureLifecycle.mjs','SkillTimeline.js']){const file='preview/project-v-v3/source/battle/'+name;sources.push({file,sha256:hash(await readFile(file,'utf8'))});}
 sources.push({file:'shared/battle-damage-font.mjs',sha256:hash(await readFile('shared/battle-damage-font.mjs','utf8'))});
 for(const file of ['shared/mercenary-blackcrown-combat-v1.mjs','preview/project-v-v3/source/battle/BlackCrownCombatPlayback.js','preview/project-v-v3/source/battle/blackcrown/BlackCrownFX.js','preview/project-v-v3/source/battle/blackcrown/skills.mjs','assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/motion-manifest.json'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 for(const file of ['shared/mercenary-area-cutins-v1.mjs','preview/project-v-v3/source/battle/MercenaryAreaCutinPlayback.js','preview/project-v-v3/source/battle/MercenaryAreaDialogueStyle.js','preview/project-v-v3/source/battle/JinmuDialogue.js'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
+for(const file of ['shared/mercenary-heukmu-v1.mjs','preview/project-v-v3/source/battle/HeukmuCombatPlayback.js',...['HeukmuFX.js','NeonPurpleRim.js','DragonAuraTint.js','AreaSkillFX.js','skills.mjs','spec.json'].map(n=>'preview/project-v-v3/source/battle/heukmu/'+n)])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 await writeFile('preview/project-v-v3/grid-build-report.json', JSON.stringify({version: 'OCCUPIED_GRID_V1', layoutVersion: 'UNIFORM_LATTICE_V2', deployment: 'HELD_BY_USER', hashEncoding: 'UTF8_LF', sources, outputs, layoutClients}, null, 2) + '\n');
 console.log(`Built ${outputs.length} V3 consumers with one shared grid. No deployment performed.`);

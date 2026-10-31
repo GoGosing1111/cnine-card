@@ -17,12 +17,20 @@ export const MERCENARY_ROLE_ATTACKS=Object.freeze({
  SUPPORT:{label:'지원',detail:'집속 방출 · 광편 충격',impactAt:.28,duration:.80,size:.93,shake:4,sound:'MS-028'}
 });
 const cache=new Map();
+let releasing=null;
+export function releaseMercenaryRoleAssets(){
+ if(releasing)return releasing;
+ const roles=[...cache.keys()],work=[...cache.values()];
+ releasing=(async()=>{await Promise.allSettled(work);cache.clear();await Promise.allSettled(roles.map(role=>Assets.unload(`/preview/mercenary-role-attacks-v2100/assets/${role.toLowerCase()}/atlas.json`)));})().finally(()=>{releasing=null;});
+ return releasing;
+}
 const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
 export function roleFrameAt(time,profile){
  if(time<0||time>=profile.duration)return -1;
  return time<profile.impactAt?Math.min(3,Math.floor(time/profile.impactAt*4)):Math.min(15,4+Math.floor((time-profile.impactAt)/(profile.duration-profile.impactAt)*12));
 }
 export async function preloadMercenaryRole(role){
+ if(releasing)await releasing;
  if(!MERCENARY_ROLE_ATTACKS[role])throw Error('UNKNOWN_MERCENARY_ROLE');
  if(!cache.has(role))cache.set(role,Assets.load(`/preview/mercenary-role-attacks-v2100/assets/${role.toLowerCase()}/atlas.json`).then(sheet=>{
   const frames=Object.entries(sheet.textures).sort(([a],[b])=>a.localeCompare(b)).map(([,v])=>v);
