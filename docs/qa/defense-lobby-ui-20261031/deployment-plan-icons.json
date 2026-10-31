@@ -1,0 +1,14 @@
+{
+  "before": {
+    "id": "4f0adac3-fbf2-47fa-8a55-cb7223abcaf0",
+    "url": "https://4f0adac3.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "4a51feffac5c5ead5e4f5c2b60da3631525dc834"
+  },
+  "base": "4a51feffac5c5ead5e4f5c2b60da3631525dc834",
+  "reason": "몬스터 디펜스 로비의 개별 파일로 배포되지 않는 기존 메인 로비 아이콘 두 개를 같은 WebP 바이트의 data URI로 HTML에 포함해 공개 404를 수정한다. 공개 파일 증가 없이 기존 이미지 포장 검사와 공개 WebKit 검수로 확인한다.",
+  "tests": [
+    "tests/tactical-ui-delivery-20261030.test.mjs"
+  ],
+  "checks": []
+}

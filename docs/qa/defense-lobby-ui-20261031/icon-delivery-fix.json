@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-31T13:58:35.682Z",
+  "cause": "Individual tactical icon paths are authoring-only and excluded from the production package",
+  "icons": [
+    {
+      "name": "defense",
+      "file": "assets/ui/tactical-20261030/defense.webp",
+      "bytes": 13190,
+      "sha256": "cdd7ded7b72b23bdae6668071806285d0a9cfaaafb637e0ecc156f4aaf1a8db7",
+      "identicalToMainLobby": true,
+      "delivery": "embedded WebP in existing HTML"
+    },
+    {
+      "name": "deck",
+      "file": "assets/ui/tactical-20261030/deck.webp",
+      "bytes": 11084,
+      "sha256": "93f6a46232d2be242fdbcec514c36a9331502c0b1f52d58c2f356dfad73a0415",
+      "identicalToMainLobby": true,
+      "delivery": "embedded WebP in existing HTML"
+    }
+  ],
+  "newPublicFiles": 0
+}
