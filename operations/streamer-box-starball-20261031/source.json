@@ -1,0 +1,311 @@
+{
+  "operationKey": "ops:streamer-box-starball:20261031:v1",
+  "authorization": "별풍선 갯수 209개 2개 509 5개 표시 한거\n\n209= 6박스  509 =12박스\n\n스트리머 박스 지급\n\n0수표 5\n씨나인택갓 5\nMild7 5\n더듬이구 5\n응맨 2\n혜정 2\n학벌 5\n라피e 5\n현하루 5\nMoo날두 5\n베베킹 5\n족구조아 5\n간장왕대게찜 5\n오일바른가지 2\n˚쟁이。5\n세라네꼬라지 2\n[C9]가시 2\n깅더듬 2\n핫시 5\n[C9]족쪽이 5\n암살자.. 2\n블랙캐슬 2\n전게씹선미아웃 5\n레가파 5\n단정한밤 5\nVeil 2\n고라니ㅇ 5\n찬호 5\n박사 2\n모래 2\nShowMaker 2\n좋은하루 2\n점빡이 5\nzkzk9999 2\n리이렐 2\n대지 2\n쁴로리 5\n다시생각 5\n오승환이다 5\n심심이 2\n유나이은 2\n하트! 2",
+  "delivery": "DIRECT_INVENTORY",
+  "mapping": {
+    "2": {
+      "starBallCount": 209,
+      "boxes": 6
+    },
+    "5": {
+      "starBallCount": 509,
+      "boxes": 12
+    }
+  },
+  "inputs": [
+    {
+      "order": 1,
+      "inputNickname": "0수표",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 2,
+      "inputNickname": "씨나인택갓",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 3,
+      "inputNickname": "Mild7",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 4,
+      "inputNickname": "더듬이구",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 5,
+      "inputNickname": "응맨",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 6,
+      "inputNickname": "혜정",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 7,
+      "inputNickname": "학벌",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 8,
+      "inputNickname": "라피e",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 9,
+      "inputNickname": "현하루",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 10,
+      "inputNickname": "Moo날두",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 11,
+      "inputNickname": "베베킹",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 12,
+      "inputNickname": "족구조아",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 13,
+      "inputNickname": "간장왕대게찜",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 14,
+      "inputNickname": "오일바른가지",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 15,
+      "inputNickname": "˚쟁이。",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 16,
+      "inputNickname": "세라네꼬라지",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 17,
+      "inputNickname": "[C9]가시",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 18,
+      "inputNickname": "깅더듬",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 19,
+      "inputNickname": "핫시",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 20,
+      "inputNickname": "[C9]족쪽이",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 21,
+      "inputNickname": "암살자..",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 22,
+      "inputNickname": "블랙캐슬",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 23,
+      "inputNickname": "전게씹선미아웃",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 24,
+      "inputNickname": "레가파",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 25,
+      "inputNickname": "단정한밤",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 26,
+      "inputNickname": "Veil",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 27,
+      "inputNickname": "고라니ㅇ",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 28,
+      "inputNickname": "찬호",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 29,
+      "inputNickname": "박사",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 30,
+      "inputNickname": "모래",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 31,
+      "inputNickname": "ShowMaker",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 32,
+      "inputNickname": "좋은하루",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 33,
+      "inputNickname": "점빡이",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 34,
+      "inputNickname": "zkzk9999",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 35,
+      "inputNickname": "리이렐",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 36,
+      "inputNickname": "대지",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 37,
+      "inputNickname": "쁴로리",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 38,
+      "inputNickname": "다시생각",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 39,
+      "inputNickname": "오승환이다",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12
+    },
+    {
+      "order": 40,
+      "inputNickname": "심심이",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 41,
+      "inputNickname": "유나이은",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    },
+    {
+      "order": 42,
+      "inputNickname": "하트!",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6
+    }
+  ]
+}

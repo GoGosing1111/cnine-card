@@ -1,0 +1,759 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:streamer-box-starball:20261031:v1",
+  "itemCode": "REVERSECALL_STREAMER_GIFT_BOX",
+  "itemName": "리버스콜 스트리머 선물",
+  "completedAt": "2026-10-31T10:53:45.573Z",
+  "completedAtKst": "2026-10-31 19:53:45 KST",
+  "verifiedAt": "2026-10-31T10:54:34.958Z",
+  "auditId": "53377",
+  "requestedCount": 42,
+  "recipientCount": 42,
+  "totalBoxes": 390,
+  "mapping": {
+    "2": {
+      "starBallCount": 209,
+      "boxes": 6
+    },
+    "5": {
+      "starBallCount": 509,
+      "boxes": 12
+    }
+  },
+  "sixBoxRecipients": 19,
+  "twelveBoxRecipients": 23,
+  "inventoryLogs": 42,
+  "missing": 0,
+  "duplicates": 0,
+  "pending": 0,
+  "skipped": [],
+  "planHash": "c4e1b02a4326fed970550a4d966875a1677ae6a26499bdac9933ce78c6a11550",
+  "sourceSha256": "103cbb696a9da3c80823f672d169adc449306d9900dc7a246400fae79a633ddc",
+  "targetedTests": 4,
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "noWriteReplayVerified": true,
+  "independentConnection": true,
+  "inventorySyncAdvanced": 42,
+  "leasesReleased": true,
+  "automaticOpening": false,
+  "messagesSent": false,
+  "deployment": false,
+  "storageMaintenance": false,
+  "allocations": [
+    {
+      "userId": "16",
+      "nickname": "오승환이다",
+      "inputNickname": "오승환이다",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092648"
+    },
+    {
+      "userId": "88",
+      "nickname": "0수표",
+      "inputNickname": "0수표",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092685"
+    },
+    {
+      "userId": "164",
+      "nickname": "박사",
+      "inputNickname": "박사",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092649"
+    },
+    {
+      "userId": "218",
+      "nickname": "현하루",
+      "inputNickname": "현하루",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092651"
+    },
+    {
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "inputNickname": "ShowMaker",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092652"
+    },
+    {
+      "userId": "236",
+      "nickname": "유나이은",
+      "inputNickname": "유나이은",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "1",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "7",
+        "unseen": "6"
+      },
+      "logId": "88092653"
+    },
+    {
+      "userId": "289",
+      "nickname": "베베킹",
+      "inputNickname": "베베킹",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092655"
+    },
+    {
+      "userId": "290",
+      "nickname": "Mild7",
+      "inputNickname": "Mild7",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092656"
+    },
+    {
+      "userId": "295",
+      "nickname": "모래",
+      "inputNickname": "모래",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092657"
+    },
+    {
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "inputNickname": "[C9]족쪽이",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092659"
+    },
+    {
+      "userId": "360",
+      "nickname": "라피e",
+      "inputNickname": "라피e",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092660"
+    },
+    {
+      "userId": "525",
+      "nickname": "족구조아",
+      "inputNickname": "족구조아",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092682"
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "inputNickname": "씨나인택갓",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092644"
+    },
+    {
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "inputNickname": "전게씹선미아웃",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092645"
+    },
+    {
+      "userId": "1421",
+      "nickname": "다시생각",
+      "inputNickname": "다시생각",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092646"
+    },
+    {
+      "userId": "1545",
+      "nickname": "좋은하루",
+      "inputNickname": "좋은하루",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092647"
+    },
+    {
+      "userId": "1768",
+      "nickname": "핫시",
+      "inputNickname": "핫시",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092650"
+    },
+    {
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "inputNickname": "블랙캐슬",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092654"
+    },
+    {
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "inputNickname": "오일바른가지",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092658"
+    },
+    {
+      "userId": "3884",
+      "nickname": "zkzk9999",
+      "inputNickname": "zkzk9999",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092661"
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "inputNickname": "더듬이구",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092662"
+    },
+    {
+      "userId": "4408",
+      "nickname": "레가파",
+      "inputNickname": "레가파",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092663"
+    },
+    {
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "inputNickname": "Moo날두",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092664"
+    },
+    {
+      "userId": "4479",
+      "nickname": "대지",
+      "inputNickname": "대지",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092665"
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "inputNickname": "혜정",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092666"
+    },
+    {
+      "userId": "4572",
+      "nickname": "응맨",
+      "inputNickname": "응맨",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092667"
+    },
+    {
+      "userId": "4597",
+      "nickname": "찬호",
+      "inputNickname": "찬호",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092668"
+    },
+    {
+      "userId": "4598",
+      "nickname": "암살자..",
+      "inputNickname": "암살자..",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092669"
+    },
+    {
+      "userId": "4608",
+      "nickname": "하트!",
+      "inputNickname": "하트!",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092670"
+    },
+    {
+      "userId": "4610",
+      "nickname": "고라니ㅇ",
+      "inputNickname": "고라니ㅇ",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092671"
+    },
+    {
+      "userId": "4621",
+      "nickname": "리이렐",
+      "inputNickname": "리이렐",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092672"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "inputNickname": "학벌",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092673"
+    },
+    {
+      "userId": "4629",
+      "nickname": "Veil",
+      "inputNickname": "Veil",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092674"
+    },
+    {
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "inputNickname": "세라네꼬라지",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092675"
+    },
+    {
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "inputNickname": "˚쟁이。",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "1",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "13",
+        "unseen": "12"
+      },
+      "logId": "88092676"
+    },
+    {
+      "userId": "4866",
+      "nickname": "[C9]가시",
+      "inputNickname": "[C9]가시",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092677"
+    },
+    {
+      "userId": "4933",
+      "nickname": "심심이",
+      "inputNickname": "심심이",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092678"
+    },
+    {
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "inputNickname": "쁴로리",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092679"
+    },
+    {
+      "userId": "4981",
+      "nickname": "간장왕대게찜",
+      "inputNickname": "간장왕대게찜",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092680"
+    },
+    {
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "inputNickname": "단정한밤",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092681"
+    },
+    {
+      "userId": "5362",
+      "nickname": "점빡이",
+      "inputNickname": "점빡이",
+      "marker": 5,
+      "starBallCount": 509,
+      "amount": 12,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "12",
+        "unseen": "12"
+      },
+      "logId": "88092683"
+    },
+    {
+      "userId": "5877",
+      "nickname": "깅더듬",
+      "inputNickname": "깅더듬",
+      "marker": 2,
+      "starBallCount": 209,
+      "amount": 6,
+      "before": {
+        "quantity": "0",
+        "unseen": "0"
+      },
+      "after": {
+        "quantity": "6",
+        "unseen": "6"
+      },
+      "logId": "88092684"
+    }
+  ]
+}
