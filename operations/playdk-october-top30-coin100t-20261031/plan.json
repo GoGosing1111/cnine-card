@@ -1,0 +1,502 @@
+{
+  "operationKey": "ops:playdk-october-top30:coin100t:20261031:v1",
+  "authorization": "위 인원에 100조씩 지급",
+  "dateKst": "2026-10-31",
+  "selectedAt": "2026-10-31T07:17:06.979Z",
+  "delivery": "DIRECT",
+  "currency": "COIN",
+  "amountPerUser": "100000000000000",
+  "totalAmount": "3000000000000000",
+  "sendMessages": false,
+  "sourceHash": "f0c8856a7d225623b3dfce579c94b3243bfce2be9ef3ce2d58f3ab973130742d",
+  "sourceCutoff": "2026-10-31T15:58:32+09:00",
+  "sourceStart": "2026-10-01T00:00:00+09:00",
+  "targets": [
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "17850f115029985e3c4c5a7c59596074414292214549184a92d199ef4acc2c05",
+      "amount": "100000000000000",
+      "position": 1,
+      "rank": 1,
+      "dkName": "씨나인택갓",
+      "dkUuid": "5c0809e6",
+      "postCount": 3633
+    },
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "b411d73e9264e2c1370d106140904da154db242d5ed0f8d071a5f6ca272a5935",
+      "amount": "100000000000000",
+      "position": 2,
+      "rank": 2,
+      "dkName": "박세라-ㅂ-",
+      "dkUuid": "0ab57d26",
+      "postCount": 2939
+    },
+    {
+      "id": "3710",
+      "nickname": "꼭지위생크림",
+      "role": "ADMIN",
+      "status": "ACTIVE",
+      "identityHash": "c751bca716a67dc3b0b8ffbac60982a8c7cd712920f9dcc74db0ac0383f365d5",
+      "amount": "100000000000000",
+      "position": 3,
+      "rank": 3,
+      "dkName": "핑크빛유두",
+      "dkUuid": "e9d1aaac",
+      "postCount": 2863
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "e3a5106d954725ea57feb9fc2b29e938fe43aed43dedb1843bcc9fa4c1cfbb89",
+      "amount": "100000000000000",
+      "position": 4,
+      "rank": 4,
+      "dkName": "더듬이구",
+      "dkUuid": "b86ce1fb",
+      "postCount": 2635
+    },
+    {
+      "id": "5",
+      "nickname": "싸이타마",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "2952854140b95f995d3cb548f33f583a7c6beeee49eb124b14676808057b8c8c",
+      "amount": "100000000000000",
+      "position": 5,
+      "rank": 5,
+      "dkName": "타마",
+      "dkUuid": "a05fd922",
+      "postCount": 2289
+    },
+    {
+      "id": "16",
+      "nickname": "오승환이다",
+      "role": "ADMIN",
+      "status": "ACTIVE",
+      "identityHash": "c199997964e49bc1ca82a757d518e4fc926ed9c7ee712d92cc6103ab050dc564",
+      "amount": "100000000000000",
+      "position": 6,
+      "rank": 6,
+      "dkName": "오승환이다.",
+      "dkUuid": "8b176e68",
+      "postCount": 2163
+    },
+    {
+      "id": "52",
+      "nickname": "폭군#",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "9736a8d160adf323af8211c01430656ab33d1ae2e860ec7becf8061a42a35004",
+      "amount": "100000000000000",
+      "position": 7,
+      "rank": 7,
+      "dkName": "폭군",
+      "dkUuid": "cd3ea662",
+      "postCount": 2142
+    },
+    {
+      "id": "236",
+      "nickname": "유나이은",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "bf96b3d658cec57a4a5bf702152e415dbe057a2e59beb230c804d85351c34a18",
+      "amount": "100000000000000",
+      "position": 8,
+      "rank": 8,
+      "dkName": "유나이은",
+      "dkUuid": "c7626e57",
+      "postCount": 2102
+    },
+    {
+      "id": "4628",
+      "nickname": "망순이ෆ",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "beb4952f25d842ceed20ff531cf4d51f7c10f9da0f0cbda7b384e25635eafa75",
+      "amount": "100000000000000",
+      "position": 9,
+      "rank": 9,
+      "dkName": "망순이ෆ",
+      "dkUuid": "0b464ee5",
+      "postCount": 1991
+    },
+    {
+      "id": "4111",
+      "nickname": "족게이다",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "3359892e211e4b81aebd2928068ef48b8e543ccafbe022d69fe176e18f29737b",
+      "amount": "100000000000000",
+      "position": 10,
+      "rank": 10,
+      "dkName": "족게이다",
+      "dkUuid": "6c8a26e9",
+      "postCount": 1989
+    },
+    {
+      "id": "295",
+      "nickname": "모래",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "e5701537bd361ed4ee52325ab6f5e8864411fe3102881052fadc55c5b7952704",
+      "amount": "100000000000000",
+      "position": 11,
+      "rank": 11,
+      "dkName": "모래",
+      "dkUuid": "11092f52",
+      "postCount": 1979
+    },
+    {
+      "id": "493",
+      "nickname": "치타구",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "61d949e3b4e6309ef2c55b48bf764c87d4fc58685a614de73ded5b23dccf8c6b",
+      "amount": "100000000000000",
+      "position": 12,
+      "rank": 12,
+      "dkName": "치타구",
+      "dkUuid": "2f9fa1d1",
+      "postCount": 1854
+    },
+    {
+      "id": "4415",
+      "nickname": "Moo날두",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "545f7fa624f25bd6a9833e79475419aa0571a0b0a8a085dbba9b14de981f94fe",
+      "amount": "100000000000000",
+      "position": 13,
+      "rank": 13,
+      "dkName": "족날두",
+      "dkUuid": "119ccbaf",
+      "postCount": 1786
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "cc225638bec5ef6513c0c0a4365b4df20de606081790e6380e9caafc96a4a563",
+      "amount": "100000000000000",
+      "position": 14,
+      "rank": 14,
+      "dkName": "학벌",
+      "dkUuid": "6da5a7a7",
+      "postCount": 1778
+    },
+    {
+      "id": "197",
+      "nickname": "무버지",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "8735a60e520274c3592e68f6b13019d25efc9a99a239954265e15e457d2e9591",
+      "amount": "100000000000000",
+      "position": 15,
+      "rank": 15,
+      "dkName": "족버지",
+      "dkUuid": "690682f0",
+      "postCount": 1719
+    },
+    {
+      "id": "4614",
+      "nickname": "공단",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "448892fb476783fb950a1a4fb30852ba6fc47275f774c234ec97633c628f72f0",
+      "amount": "100000000000000",
+      "position": 16,
+      "rank": 16,
+      "dkName": "공단",
+      "dkUuid": "0559204b",
+      "postCount": 1705
+    },
+    {
+      "id": "4615",
+      "nickname": "랭비!",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "1da3174f105eda096867b3ed84d1a6321c1acb0708973ba09df09a95edc20713",
+      "amount": "100000000000000",
+      "position": 17,
+      "rank": 17,
+      "dkName": "랭비!",
+      "dkUuid": "70f6dcb8",
+      "postCount": 1659
+    },
+    {
+      "id": "4910",
+      "nickname": "스루형2↑",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "7803ddcfd46ecbc82ad0f8d697a5141de112ab9a0be092994a9cd34ab7585715",
+      "amount": "100000000000000",
+      "position": 18,
+      "rank": 18,
+      "dkName": "스루형2↑",
+      "dkUuid": "ff8c0922",
+      "postCount": 1637
+    },
+    {
+      "id": "525",
+      "nickname": "족구조아",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "0f81ee581e853760ce6013e22a34356e5939726950a6dd08aad7df99d4ffc37e",
+      "amount": "100000000000000",
+      "position": 19,
+      "rank": 19,
+      "dkName": "족구조아",
+      "dkUuid": "cba2b411",
+      "postCount": 1629
+    },
+    {
+      "id": "164",
+      "nickname": "박사",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "a1fd6d691dc5786cdfa58f28b310952ab89b7ccde4e792f9593c719e78d43ecc",
+      "amount": "100000000000000",
+      "position": 20,
+      "rank": 20,
+      "dkName": "박사",
+      "dkUuid": "00a28fb2",
+      "postCount": 1619
+    },
+    {
+      "id": "4582",
+      "nickname": "족단",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "8ce5816fdce2324c397db47a1d1e8683f3beeefbbe5790484b645da8ed4e04c6",
+      "amount": "100000000000000",
+      "position": 21,
+      "rank": 21,
+      "dkName": "족단",
+      "dkUuid": "22c31ef9",
+      "postCount": 1584
+    },
+    {
+      "id": "2420",
+      "nickname": "블랙캐슬",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "936114f4fbfa955199c1a489b1ad78426cc6f8e59c800275eefa993118de2f82",
+      "amount": "100000000000000",
+      "position": 22,
+      "rank": 22,
+      "dkName": "블랙캐슬",
+      "dkUuid": "a2c1e499",
+      "postCount": 1535
+    },
+    {
+      "id": "4479",
+      "nickname": "대지",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "96b9e14f800578874d95a9dd86195a0eae0cb557bfb10f3f0376191dec253d95",
+      "amount": "100000000000000",
+      "position": 23,
+      "rank": 23,
+      "dkName": "대지",
+      "dkUuid": "22ca5c12",
+      "postCount": 1534
+    },
+    {
+      "id": "65",
+      "nickname": "음순이",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "d662730260a11f4f64abb6160f1d8c31cb700a3cedb023e9da28c1a9a5a06147",
+      "amount": "100000000000000",
+      "position": 24,
+      "rank": 24,
+      "dkName": "음순",
+      "dkUuid": "9f0cdb34",
+      "postCount": 1532
+    },
+    {
+      "id": "4199",
+      "nickname": "택신",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "de0c3d410b0f45961ea0fa62fe68b99c8d2315f1c8f9b6c3caf7dac912efb347",
+      "amount": "100000000000000",
+      "position": 25,
+      "rank": 25,
+      "dkName": "택신",
+      "dkUuid": "c48daa8c",
+      "postCount": 1507
+    },
+    {
+      "id": "226",
+      "nickname": "햬카세",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "4202924d63fb44da4b00ff99311e8109a10158045c809971f49a958c6dbbaa24",
+      "amount": "100000000000000",
+      "position": 26,
+      "rank": 26,
+      "dkName": "햬카세",
+      "dkUuid": "54be10d5",
+      "postCount": 1503
+    },
+    {
+      "id": "303",
+      "nickname": "[C9]족쪽이",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "6bb1685a26645b978145e7f952dba13812f9977505cadd60b27057559ce1618f",
+      "amount": "100000000000000",
+      "position": 27,
+      "rank": 27,
+      "dkName": "[C9]핑쪽이",
+      "dkUuid": "4779b1f1",
+      "postCount": 1500
+    },
+    {
+      "id": "792",
+      "nickname": "센텀신사",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "6a767ae02ccd8fb9a3fe847352a97ef140b4b86c830085ab3ba9a49113740a3e",
+      "amount": "100000000000000",
+      "position": 28,
+      "rank": 28,
+      "dkName": "센텀신사",
+      "dkUuid": "b6e04c16",
+      "postCount": 1457
+    },
+    {
+      "id": "5148",
+      "nickname": "타몽",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "67f0fa8eff9a075f52582bd320d5b7448c493f710c17a7d0bbeabfdb4ad1ddec",
+      "amount": "100000000000000",
+      "position": 29,
+      "rank": 28,
+      "dkName": "타몽",
+      "dkUuid": "c6f83864",
+      "postCount": 1457
+    },
+    {
+      "id": "92",
+      "nickname": "불곰덫",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "1ce87124f2114a393d8fe4266430ca5ba51ed6f6e24a4d79d4386a7849e152b2",
+      "amount": "100000000000000",
+      "position": 30,
+      "rank": 30,
+      "dkName": "불곰덫",
+      "dkUuid": "9363afd4",
+      "postCount": 1426
+    }
+  ],
+  "recipients": [
+    {
+      "userId": "1195"
+    },
+    {
+      "userId": "45"
+    },
+    {
+      "userId": "3710"
+    },
+    {
+      "userId": "4391"
+    },
+    {
+      "userId": "5"
+    },
+    {
+      "userId": "16"
+    },
+    {
+      "userId": "52"
+    },
+    {
+      "userId": "236"
+    },
+    {
+      "userId": "4628"
+    },
+    {
+      "userId": "4111"
+    },
+    {
+      "userId": "295"
+    },
+    {
+      "userId": "493"
+    },
+    {
+      "userId": "4415"
+    },
+    {
+      "userId": "4627"
+    },
+    {
+      "userId": "197"
+    },
+    {
+      "userId": "4614"
+    },
+    {
+      "userId": "4615"
+    },
+    {
+      "userId": "4910"
+    },
+    {
+      "userId": "525"
+    },
+    {
+      "userId": "164"
+    },
+    {
+      "userId": "4582"
+    },
+    {
+      "userId": "2420"
+    },
+    {
+      "userId": "4479"
+    },
+    {
+      "userId": "65"
+    },
+    {
+      "userId": "4199"
+    },
+    {
+      "userId": "226"
+    },
+    {
+      "userId": "303"
+    },
+    {
+      "userId": "792"
+    },
+    {
+      "userId": "5148"
+    },
+    {
+      "userId": "92"
+    }
+  ],
+  "logFloor": {
+    "coins": "100221861",
+    "audit": "53356"
+  }
+}
