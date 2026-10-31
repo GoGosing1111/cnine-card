@@ -1,0 +1,442 @@
+{
+  "operationKey": "ops:streamer-box-starball-difference:20261031:v1",
+  "parentOperationKey": "ops:streamer-box-starball:20261031:v1",
+  "authorization": "숫자 2 = 총 7개 숫자 5 = 총 14개\n차액 추가 지급",
+  "delivery": "DIRECT_INVENTORY",
+  "mapping": {
+    "2": {
+      "starBallCount": 209,
+      "previousBoxes": 6,
+      "totalBoxes": 7,
+      "additionalBoxes": 1
+    },
+    "5": {
+      "starBallCount": 509,
+      "previousBoxes": 12,
+      "totalBoxes": 14,
+      "additionalBoxes": 2
+    }
+  },
+  "inputs": [
+    {
+      "order": 1,
+      "inputNickname": "0수표",
+      "userId": "88",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 2,
+      "inputNickname": "씨나인택갓",
+      "userId": "1195",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 3,
+      "inputNickname": "Mild7",
+      "userId": "290",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 4,
+      "inputNickname": "더듬이구",
+      "userId": "4391",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 5,
+      "inputNickname": "응맨",
+      "userId": "4572",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 6,
+      "inputNickname": "혜정",
+      "userId": "4570",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 7,
+      "inputNickname": "학벌",
+      "userId": "4627",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 8,
+      "inputNickname": "라피e",
+      "userId": "360",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 9,
+      "inputNickname": "현하루",
+      "userId": "218",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 10,
+      "inputNickname": "Moo날두",
+      "userId": "4415",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 11,
+      "inputNickname": "베베킹",
+      "userId": "289",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 12,
+      "inputNickname": "족구조아",
+      "userId": "525",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 13,
+      "inputNickname": "간장왕대게찜",
+      "userId": "4981",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 14,
+      "inputNickname": "오일바른가지",
+      "userId": "3011",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 15,
+      "inputNickname": "˚쟁이。",
+      "userId": "4705",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 16,
+      "inputNickname": "세라네꼬라지",
+      "userId": "4651",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 17,
+      "inputNickname": "[C9]가시",
+      "userId": "4866",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 18,
+      "inputNickname": "깅더듬",
+      "userId": "5877",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 19,
+      "inputNickname": "핫시",
+      "userId": "1768",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 20,
+      "inputNickname": "[C9]족쪽이",
+      "userId": "303",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 21,
+      "inputNickname": "암살자..",
+      "userId": "4598",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 22,
+      "inputNickname": "블랙캐슬",
+      "userId": "2420",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 23,
+      "inputNickname": "전게씹선미아웃",
+      "userId": "1255",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 24,
+      "inputNickname": "레가파",
+      "userId": "4408",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 25,
+      "inputNickname": "단정한밤",
+      "userId": "5008",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 26,
+      "inputNickname": "Veil",
+      "userId": "4629",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 27,
+      "inputNickname": "고라니ㅇ",
+      "userId": "4610",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 28,
+      "inputNickname": "찬호",
+      "userId": "4597",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 29,
+      "inputNickname": "박사",
+      "userId": "164",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 30,
+      "inputNickname": "모래",
+      "userId": "295",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 31,
+      "inputNickname": "ShowMaker",
+      "userId": "233",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 32,
+      "inputNickname": "좋은하루",
+      "userId": "1545",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 33,
+      "inputNickname": "점빡이",
+      "userId": "5362",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 34,
+      "inputNickname": "zkzk9999",
+      "userId": "3884",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 35,
+      "inputNickname": "리이렐",
+      "userId": "4621",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 36,
+      "inputNickname": "대지",
+      "userId": "4479",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 37,
+      "inputNickname": "쁴로리",
+      "userId": "4965",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 38,
+      "inputNickname": "다시생각",
+      "userId": "1421",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 39,
+      "inputNickname": "오승환이다",
+      "userId": "16",
+      "marker": 5,
+      "starBallCount": 509,
+      "previousAmount": 12,
+      "correctedTotal": 14,
+      "amount": 2
+    },
+    {
+      "order": 40,
+      "inputNickname": "심심이",
+      "userId": "4933",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 41,
+      "inputNickname": "유나이은",
+      "userId": "236",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    },
+    {
+      "order": 42,
+      "inputNickname": "하트!",
+      "userId": "4608",
+      "marker": 2,
+      "starBallCount": 209,
+      "previousAmount": 6,
+      "correctedTotal": 7,
+      "amount": 1
+    }
+  ]
+}
