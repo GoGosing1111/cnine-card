@@ -1,0 +1,4 @@
+*.json
+!completion.json
+*.log
+evidence/

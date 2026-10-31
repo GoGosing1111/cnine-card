@@ -1,0 +1,64 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:blackcrown-cardgu-limit-plus2:20261101:v1",
+  "authorization": "카드구 블랙크라운팩 한도 2장늘려라",
+  "card": {
+    "code": "V-970",
+    "name": "카드구",
+    "rank": "SSS"
+  },
+  "pack": "mercenary-blackcrown-ss-limited",
+  "completedAt": "2026-10-31T15:55:37.576Z",
+  "completedKst": "2026-11-01 00:55:37 KST",
+  "auditId": "53447",
+  "limitBefore": 5,
+  "limitAfter": 7,
+  "added": 2,
+  "issuedBefore": 4,
+  "issuedAfter": 4,
+  "remainingAtVerification": 3,
+  "packRevisionBefore": 8,
+  "packRevisionAfter": 9,
+  "preserved": [
+    "issuance history and serials",
+    "probabilities and prices",
+    "opening schedule and mode",
+    "other mercenary limits",
+    "cube policy and limits",
+    "existing stock schedules",
+    "user holdings and balances"
+  ],
+  "tests": {
+    "passed": 4,
+    "failed": 0,
+    "command": "node --test --test-concurrency=1 operations/blackcrown-cardgu-limit-plus2-20261101/increase.test.mjs"
+  },
+  "rehearsal": {
+    "injectedFailureRolledBack": true,
+    "successfulRehearsalRolledBack": true
+  },
+  "independentReadOnly": true,
+  "selectOnlyReplay": true,
+  "replayWrites": 0,
+  "publicPacksApiVerified": true,
+  "directGrants": 0,
+  "accountWrites": 0,
+  "gameDeployments": 0,
+  "newSchedules": 0,
+  "storageMaintenance": false,
+  "runtimeSource": "tmp/duo-settlement-recovery-20261027/shared/mercenary-blackcrown-pack-v1.mjs",
+  "evidenceDirectory": "operations/blackcrown-cardgu-limit-plus2-20261101/",
+  "evidenceHashes": {
+    "preflight.mjs": "4af67630b0f57776f8c649efea45b953ebeaf31d721216010b410b03d1fdefe7",
+    "increase.mjs": "dc7a980aa606b53df9de078596c0f0163da1d87217a575bd7589adb1f339177d",
+    "increase.test.mjs": "4b6c74de4fc1819431f460adcb8b8a361186850227f2b72e0cf7132731cdfedc",
+    "run.mjs": "84bfd71d861e0ad1340449566638a85d4e3f0642efd4c93e501797b4bd34ea72",
+    "public.mjs": "3387efc41f0d285f721330db316cf17c449367e2ae7e35a4c947bb72d97e1ef1",
+    "before.json": "d7822e2d1174a66dd3e1a5eaa127a4dbddb7cf7d684587d0f4987dc2a6b9f6ad",
+    "rehearse.json": "6acafe1b263058ee54fc1bbf98a2060f0e00bf409241f5a52d7bcf98ca9ff385",
+    "apply.json": "7b4fb9ce587622817f7108b36531c0b285da9f3958b929daf389c2e766e530a9",
+    "verify.json": "286b702ecf4045b9de797aa5f9cb962e945ae6e650bc6b5d741e7846ea0e6848",
+    "replay.json": "c884f62adc557184b507725691ad1d59debb87e4d1e0b8c8bb91c413b44b8ce2",
+    "public.json": "a8b367e21222e36e45fec84aa9b067208bd3f2e8cf4abf6f779f129f1aac6197"
+  }
+}
