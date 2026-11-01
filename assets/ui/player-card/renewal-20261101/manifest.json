@@ -1,0 +1,74 @@
+{
+  "generator": "image_gen.imagegen",
+  "visualApproval": "GENERATED_AND_TECHNICALLY_REVIEWED",
+  "assets": [
+    {
+      "id": "blackwing-oath",
+      "original": "blackwing-oath.png",
+      "runtime": "blackwing-oath.webp",
+      "originalSha256": "e8b68bb75151f825620dda97207df832b74b5fe6729b14d5a6ab0b275112372a",
+      "runtimeSha256": "3b50a63886e3fbfa68fd0a9941095397750fc39eb1f567080e6319a0d6627291",
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "hasAlpha": true,
+      "bytes": 124186
+    },
+    {
+      "id": "challenger-dynasty",
+      "original": "challenger-dynasty.png",
+      "runtime": "challenger-dynasty.webp",
+      "originalSha256": "b743750ab67d1084ae93f372ad72686b595f7c6459483a26c380abd2996938ec",
+      "runtimeSha256": "02e3320444e72651c8c450025347af59e145949de0d780336bbad6fc1eded56c",
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "hasAlpha": true,
+      "bytes": 137994
+    },
+    {
+      "id": "champions-league",
+      "original": "champions-league.png",
+      "runtime": "champions-league.webp",
+      "originalSha256": "c36b8a38d216e0b2176befa8aad37a4c2149288a8d921506b80ecd684d7a25f4",
+      "runtimeSha256": "6a54d8ae8f58d01bac96cc15a98daa9b47c654f338bb93d3fe421f6de128e42d",
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "hasAlpha": true,
+      "bytes": 110142
+    },
+    {
+      "id": "clan-glory",
+      "original": "clan-glory.png",
+      "runtime": "clan-glory.webp",
+      "originalSha256": "b030a566634c9ec773bbf5aab4fb04cf563898e6a306689704080c39cf9bc089",
+      "runtimeSha256": "ff8739c28d20025a548ef91babc6b8cc2bd67a52e0afcd6ff8bafa84f92542b7",
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "hasAlpha": true,
+      "bytes": 123098
+    }
+  ]
+}

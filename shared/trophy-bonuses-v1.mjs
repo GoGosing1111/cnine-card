@@ -1,7 +1,7 @@
-import {TROPHY_CATALOG} from '../js/player-card-model-v2052.js?v=20261023-milestones1';
+import {TROPHY_CATALOG} from '../js/player-card-model-v2052.js?v=20261101-renewal1';
 import {ZERO_REWARD_BONUSES,validateRewardBonuses,hasRewardBonuses,rewardBonusDescription,sumRewardBonuses} from './collection-bonuses-v1.mjs';
 export const TROPHY_BONUSES_KEY='trophy_reward_bonuses_v1';
-const LEGACY_OPTIONAL_CODES=new Set(['WORLD_RAID_CLEAR_5000','BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20']);
+const LEGACY_OPTIONAL_CODES=new Set(['BLACKWING_CLEAR_15','CHALLENGER_STREAK_3_V2','CLAN_CHAMPIONS_TROPHY_V2','CLAN_CHAMPION_V2','WORLD_RAID_CLEAR_5000','BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20']);
 export function emptyTrophyBonuses(){return {version:1,trophies:TROPHY_CATALOG.map(t=>({code:t.code,rewardBonuses:{...ZERO_REWARD_BONUSES}}))};}
 export function validateTrophyBonuses(raw,{allowLegacy=false}={}){
   if(!raw||Object.keys(raw).sort().join(',')!=='trophies,version'||raw.version!==1||!Array.isArray(raw.trophies))throw Error('전체 트로피의 보너스 설정을 확인해 주세요.');

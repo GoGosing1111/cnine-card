@@ -30,7 +30,7 @@ export async function readCollectionBonuses(env,userId){
     // Only configured new trophy effects need their additional milestone sources.
     const activeCodes=trophyDocument.trophies.filter(t=>hasRewardBonuses(t.rewardBonuses)).map(t=>t.code);
     const newMilestoneCodes=activeCodes.filter(code=>['BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20'].includes(code));
-    const honors=activeCodes.length?await readTrophyHonors(env,uid,{newMilestoneCodes}):{};
+    const honors=activeCodes.length?await readTrophyHonors(env,uid,{newMilestoneCodes,newTrophyCodes:activeCodes}):{};
     const projection=trophyBonusProjection(trophyDocument,honors);
     return {pet:pet?{code:pet.code,name:pet.name,rewardBonuses:petBonuses}:null,trophies:projection.trophies.filter(t=>t.owned&&hasRewardBonuses(t.rewardBonuses)),petBonuses,trophyBonuses:projection.totals,totals:sumRewardBonuses([petBonuses,projection.totals])};
   };

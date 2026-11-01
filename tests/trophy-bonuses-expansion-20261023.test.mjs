@@ -25,7 +25,7 @@ function fixture(t,state){
 }
 
 test('three new trophy defaults are zero and each earned type contributes its configured bonus once',()=>{
- const document=emptyTrophyBonuses();assert.equal(document.trophies.length,12);
+ const document=emptyTrophyBonuses();assert.equal(document.trophies.length,TROPHY_CATALOG.length);
  assert.deepEqual(additions.map(code=>TROPHY_CATALOG.find(t=>t.code===code)?.name),['푸른제국','리미티드 에디션','충신 무공훈장']);
  for(const code of additions)assert.deepEqual(document.trophies.find(t=>t.code===code).rewardBonuses,ZERO_REWARD_BONUSES);
  const honors=Object.fromEntries(additions.map(code=>[code,{count:25,progress:99,goal:20}]));
@@ -42,8 +42,8 @@ test('three new trophy defaults are zero and each earned type contributes its co
 for(const count of [8,9])test(`legacy ${count}-trophy read preserves every saved rate and record; strict CMS save requires all current codes`,async t=>{
  const legacy=legacyDocument(count),snapshot=structuredClone(legacy),state={revision:7,document:legacy,audit:[]},f=fixture(t,state),original=f.raw();
  const read=await readTrophyBonusSettings(f.env),get=await f.cms();assert.equal(get.status,200);
- const fetched=await get.json();assert.equal(fetched.revision,7);assert.equal(fetched.catalog.length,12);
- assert.deepEqual(fetched.document,read.document);assert.equal(read.document.trophies.length,12);
+ const fetched=await get.json();assert.equal(fetched.revision,7);assert.equal(fetched.catalog.length,TROPHY_CATALOG.length);
+ assert.deepEqual(fetched.document,read.document);assert.equal(read.document.trophies.length,TROPHY_CATALOG.length);
  for(const row of legacy.trophies)assert.deepEqual(read.document.trophies.find(t=>t.code===row.code),row);
  for(const row of read.document.trophies.filter(t=>!legacy.trophies.some(old=>old.code===t.code)))assert.deepEqual(row.rewardBonuses,ZERO_REWARD_BONUSES);
  assert.deepEqual(legacy,snapshot);assert.equal(f.raw(),original);assert(f.trace.every(s=>/^SELECT\b/.test(s)));
@@ -54,7 +54,7 @@ for(const count of [8,9])test(`legacy ${count}-trophy read preserves every saved
  }
  assert(f.trace.every(s=>/^SELECT\b/.test(s)),'Rejected saves cannot update persisted settings');
  const response=await f.cms({expectedRevision:7,document:read.document,requestId:crypto.randomUUID()});assert.equal(response.status,200);
- const saved=JSON.parse(f.raw());assert.equal(saved.revision,8);assert.equal(saved.document.trophies.length,12);
+ const saved=JSON.parse(f.raw());assert.equal(saved.revision,8);assert.equal(saved.document.trophies.length,TROPHY_CATALOG.length);
  for(const row of legacy.trophies)assert.deepEqual(saved.document.trophies.find(t=>t.code===row.code),row);
  for(const code of additions)assert.deepEqual(saved.document.trophies.find(t=>t.code===code).rewardBonuses,ZERO_REWARD_BONUSES);
 });

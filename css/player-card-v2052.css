@@ -77,3 +77,10 @@ button.player-card-name:hover,.clan-shell button.player-card-name:hover{border:0
 }
 @media(max-width:370px){.pc-trophy.pc-trophy-champions{padding-right:12px;gap:6px}.pc-trophy-champions .pc-trophy-name{font-size:16px}.pc-champions-kicker{font-size:6px}.pc-trophy-name{font-size:11px}.pc-trophy-subtitle{font-size:8px}.pc-has-champions .pc-trophy:not(.pc-trophy-champions){padding:8px 5px 12px}.pc-trophy-status{font-size:8px}.pc-trophy-arrow{font-size:10px;right:5px}}
 @media(prefers-reduced-motion:reduce){.pc-trophy{transition:none}}
+
+/* New collection keeps the four-item shelf, with original awards retained behind it. */
+.pc-edition{display:block;font-size:8px;letter-spacing:.09em;color:#91a9bc;margin-bottom:5px}.pc-era-note{color:#bed5e4!important;margin-top:5px}
+
+.pc-trophies.pc-renewal-shelf{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.pc-renewal-shelf .pc-trophy{display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:12px 11px 18px}.pc-renewal-shelf .pc-trophy-stage{height:174px;max-height:none;width:100%}.pc-renewal-shelf .pc-trophy-name{font-size:14px}.pc-renewal-shelf .pc-trophy-copy{flex:1}.pc-renewal-shelf .pc-trophy-subtitle{min-height:30px}
+@media(max-width:1000px){.pc-trophies.pc-renewal-shelf{grid-template-columns:repeat(2,minmax(0,1fr))}.pc-renewal-shelf .pc-trophy-stage{height:146px}}
+@media(max-width:370px){.pc-renewal-shelf .pc-trophy{padding:10px 8px 16px}.pc-renewal-shelf .pc-trophy-stage{height:126px}.pc-renewal-shelf .pc-trophy-name{font-size:12px}}

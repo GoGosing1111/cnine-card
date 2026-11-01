@@ -1,3 +1,4 @@
+import {emptyRenewedHonors,readTrophyRenewalHonors} from './_trophy_renewal.js';
 import {readNewTrophyMilestones} from './_trophy_milestones.js';
 import { readDuoHonors } from './_ranked_duo_honors.js';
 import { readPredictionStakeHonors, PREDICTION_TROPHY_GOAL } from './_prediction_trophy.js';
@@ -43,6 +44,7 @@ export const CHAMPIONS_HONORS_SQL = `SELECT COUNT(DISTINCT r.season_id) wins,MIN
 
 export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo = {}, prediction = {}, cityTop = {}, lichClear = {}, worldRaid = {}, blueEmpire = {}, limitedEdition = {}, loyalServicePost = {} }) {
   return {
+      ...emptyRenewedHonors(),
       DUO_CHALLENGER: { count: n(duo.count), acquiredAt: duo.acquiredAt, progress: n(duo.count), goal: 1 },
       CLAN_CHAMPION: { count: n(clanStats.wins), acquiredAt: clanStats.first_at || null, progress: n(clanStats.wins), goal: 1 },
       CHALLENGER_STREAK_3: { count: n(stats.longest_streak) >= 3 ? 1 : 0, acquiredAt: stats.streak_at || null, progress: n(stats.current_streak), goal: 3 },
@@ -58,13 +60,15 @@ export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo =
     };
 }
 
-export async function readTrophyHonors(env, userId, {newMilestoneCodes} = {}) {
-  const [stats, clanStats, champions, duo, prediction, cityTop, lichClear, worldRaid, manualGrants, milestones] = await Promise.all([
+export async function readTrophyHonors(env, userId, {newMilestoneCodes,newTrophyCodes} = {}) {
+  const [stats, clanStats, champions, duo, prediction, cityTop, lichClear, worldRaid, manualGrants, milestones, renewal] = await Promise.all([
     env.DB.prepare(RANKED_HONORS_SQL).bind(userId).first(),
     env.DB.prepare(`SELECT COUNT(*) wins,MIN(x.completed_at) first_at ${CLAN_HONORS}`).bind(userId).first(),
     env.DB.prepare(CHAMPIONS_HONORS_SQL).bind(userId).first(),
     readDuoHonors(env, userId),
-    readPredictionStakeHonors(env, userId),readCityTopHonors(env,userId),readLichClearHonors(env,userId),readWorldRaidClearHonors(env,userId),readTrophyManualGrants(env,userId),readNewTrophyMilestones(env,userId,{codes:newMilestoneCodes})
+    readPredictionStakeHonors(env, userId),readCityTopHonors(env,userId),readLichClearHonors(env,userId),readWorldRaidClearHonors(env,userId),readTrophyManualGrants(env,userId),readNewTrophyMilestones(env,userId,{codes:newMilestoneCodes}),readRenewedTrophyHonors(env,userId,{newCodes:newTrophyCodes})
   ]);
-  return applyTrophyManualGrants(trophyHonors({ stats: stats || {}, clanStats: clanStats || {}, champions: champions || {}, duo, prediction, cityTop, lichClear, worldRaid, ...milestones }),manualGrants);
+  return applyTrophyManualGrants({...trophyHonors({ stats: stats || {}, clanStats: clanStats || {}, champions: champions || {}, duo, prediction, cityTop, lichClear, worldRaid, ...milestones }),...renewal},manualGrants);
 }
+
+export const readRenewedTrophyHonors=(env,userId,options={})=>readTrophyRenewalHonors(env,userId,{rankedSql:RANKED_HONORS_SQL,clanSql:CLAN_HONORS,championsSql:CHAMPIONS_HONORS_SQL,...options});

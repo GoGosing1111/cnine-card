@@ -6,7 +6,7 @@ export const PLAYER_CARD_VERSION = 2052;
 import { TROPHY_CATALOG } from '../js/player-card-model-v2052.js';
 export { TROPHY_CATALOG };
 
-import { OFFICIAL, CLAN_HONORS, RANKED_HONORS_SQL, CHAMPIONS_HONORS_SQL, trophyHonors } from './_trophy_honors.js';
+import { OFFICIAL, CLAN_HONORS, RANKED_HONORS_SQL, CHAMPIONS_HONORS_SQL, trophyHonors, readRenewedTrophyHonors } from './_trophy_honors.js';
 import { readPredictionStakeHonors } from './_prediction_trophy.js';
 import {readCityTopHonors,readLichClearHonors} from './_milestone_trophies.js';
 import {readWorldRaidClearHonors} from './_world_raid_trophy.js';
@@ -69,15 +69,15 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
         JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP)
         JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 AND t.is_public=1 WHERE l.user_id=?`).bind(id).first(),
       env.DB.prepare(CHAMPIONS_HONORS_SQL).bind(id).first(),
-      readPredictionStakeHonors(env, id),readCityTopHonors(env,id),readLichClearHonors(env,id),readWorldRaidClearHonors(env,id),readTrophyManualGrants(env,id),readNewTrophyMilestones(env,id)
+      readPredictionStakeHonors(env, id),readCityTopHonors(env,id),readLichClearHonors(env,id),readWorldRaidClearHonors(env,id),readTrophyManualGrants(env,id),readNewTrophyMilestones(env,id),readRenewedTrophyHonors(env,id)
     ]);
-    const [rank, settlement, stats = {}, history, clanStats = {}, clanHistory, clan, avatar, title, champions = {}, prediction, cityTop, lichClear, worldRaid, manualGrants, milestones] = result;
+    const [rank, settlement, stats = {}, history, clanStats = {}, clanHistory, clan, avatar, title, champions = {}, prediction, cityTop, lichClear, worldRaid, manualGrants, milestones, renewal] = result;
     const duo=deps.readDuoHonors?await deps.readDuoHonors(env,id):{count:0,acquiredAt:null};
     const endAt = settings.endsAt && Date.parse(settings.endsAt);
     const startAt = settings.startsAt && Date.parse(settings.startsAt);
     const openSeason = !settlement && (!endAt || endAt > now) && (!startAt || startAt <= now);
     const tier = rank && openSeason ? resolvePvpTier(n(rank.season_score), settings, n(rank.position)) : null;
-    const earned = applyTrophyManualGrants(trophyHonors({ stats, clanStats, champions, duo, prediction, cityTop, lichClear, worldRaid, ...milestones }),manualGrants);
+    const earned = applyTrophyManualGrants({...trophyHonors({ stats, clanStats, champions, duo, prediction, cityTop, lichClear, worldRaid, ...milestones }),...renewal},manualGrants);
     const trophyBonuses=trophyBonusProjection((await readTrophyBonusSettings(env)).document,earned);
     return json({ version: PLAYER_CARD_VERSION, serverNow: new Date(now).toISOString(),
       player: { id, accountRank:deps.readAccountRank?await deps.readAccountRank(env,id):null, nickname: user.nickname, title: title ? { name: title.name, badgeText: title.badge_text, stylePreset: title.style_preset } : null,

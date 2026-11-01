@@ -85,7 +85,7 @@ test('explicit trophy grant appears in the card and bonuses without changing rec
   await f.pg.query('INSERT INTO app_meta VALUES($1,$2)',[TROPHY_BONUSES_KEY,JSON.stringify({revision:1,audit:[],document:bonus})]);
   const result=await grantPinkAllTrophies(f.opsDb);assert.equal(result.added.length,8);
   const card=await f.call('userId=1'),honors=await readTrophyHonors({DB:f.db},1),effects=await readCollectionBonuses({DB:f.db},1);
-  assert.equal(card.status,200);assert.ok(card.body.trophies.filter(t=>!['WORLD_RAID_CLEAR_5000','BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20'].includes(t.code)).every(t=>t.owned&&t.count===1&&t.adminGranted&&t.officialCount===0));
+  assert.equal(card.status,200);assert.ok(card.body.trophies.filter(t=>['DUO_CHALLENGER','CLAN_CHAMPION','CHALLENGER_STREAK_3','RANKED_CHAMPION','CLAN_CHAMPIONS_TROPHY','PREDICTION_STAKE_300T','CITY_TOP_25','LICH_KING_CLEAR_1000'].includes(t.code)).every(t=>t.owned&&t.count===1&&t.adminGranted&&t.officialCount===0));
   for(const code of ['WORLD_RAID_CLEAR_5000','BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20'])assert.equal(trophy(card,code).owned,false,'Historical eight-trophy authorization never grants future additions');
   assert.deepEqual(card.body.ranked,before.body.ranked);assert.deepEqual(card.body.clanHistory,before.body.clanHistory);
   assert.deepEqual(card.body.trophyBonuses,{coinPercent:8,accountXpPercent:16,dropPercent:24});assert.deepEqual(effects.totals,card.body.trophyBonuses);
@@ -483,6 +483,25 @@ test('empty trophy shelves keep border FX without creating an empty GSAP tween',
   }
 });
 
+
+test('public card and common honors agree after launch while previous trophies stay owned and new records start at zero',async()=>{
+ const f=await fixture();try{
+  const before=await f.call(),at='2026-11-01T03:00:00.000Z';
+  await f.pg.exec('CREATE TABLE raid_blackwing_rooms_v1(room_id text PRIMARY KEY,status text,state_json text)');
+  await f.pg.query('INSERT INTO app_meta VALUES($1,$2)',['trophy_renewal_20261101_v1',JSON.stringify({version:1,launchedAt:at})]);
+  let card=await f.call();assert.equal(card.status,200);
+  for(const code of ['CHALLENGER_STREAK_3','CLAN_CHAMPIONS_TROPHY','CLAN_CHAMPION'])assert.equal(trophy(card,code).count,trophy(before,code).count);
+  for(const code of ['BLACKWING_CLEAR_15','CHALLENGER_STREAK_3_V2','CLAN_CHAMPIONS_TROPHY_V2','CLAN_CHAMPION_V2'])assert.equal(trophy(card,code).owned,false);
+  for(let i=1;i<=3;i++){
+   const date='2026-11-0'+i;
+   await f.pg.query("INSERT INTO pvp_season_settlements VALUES($1,$2,$2,'COMPLETED',$3,$4)",[100+i,'new'+i,date,i===1?at:date]);
+   await f.pg.query("INSERT INTO pvp_season_settlement_ranks VALUES($1,2,20,'challenger','챌린저',3000,1,0)",[100+i]);
+  }
+  f.sql.length=0;card=await f.call();assert.equal(card.status,200);assert.equal(trophy(card,'CHALLENGER_STREAK_3_V2').owned,true);assert.equal(trophy(card,'CHALLENGER_STREAK_3').acquiredAt,trophy(before,'CHALLENGER_STREAK_3').acquiredAt);
+  const honors=await readTrophyHonors({DB:f.db},2);for(const row of card.body.trophies){assert.equal(row.count,honors[row.code].count,row.code);assert.equal(row.progress,honors[row.code].progress,row.code);}
+  assert(f.sql.every(q=>/^\s*(SELECT|WITH)\b/i.test(q)));assert.deepEqual(card.body.trophyBonuses,before.body.trophyBonuses);
+ }finally{await f.close();}
+});
 
 test('new milestones show season, distinct-type percentage, and post-only receipt progress without invented dates', () => {
   const window={location:{origin:'https://game.test'}};
