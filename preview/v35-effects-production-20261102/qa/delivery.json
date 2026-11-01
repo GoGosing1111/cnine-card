@@ -1,0 +1,38 @@
+{
+  "sourceOriginalsUnchanged": {
+    "preview/v35-character-baseline-20261101/baseline-v4.png": "fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44",
+    "preview/v35-character-baseline-20261101/attack-v1/images/weapon-restored-v2.png": "5e485052a02909c94cc91f4f75072ca42ce59ba1384ce1a5f299f0714f23ae07",
+    "preview/v35-character-baseline-20261101/attack-v2/swordsman-7400ac091863.spine": "7acefc8c706857b88bf85a4c24d21af61c726bdee0933511899efc8730611dd0"
+  },
+  "atlasHashes": true,
+  "allStartVisibleEndEmpty": true,
+  "maxAtlasSideAtMost2048": true,
+  "effekseerNativeRoundTrip": true,
+  "blenderNativeReopenRGBAIdentical": true,
+  "deterministicEffekseerBake": true,
+  "lifecycleChecks": {
+    "disabledStillOneImpact": true,
+    "pauseStopsEveryLayer": true,
+    "offWhilePaused": true,
+    "onWhilePaused": true,
+    "cancelAfterHitRemovesAll": true,
+    "cancelBeforeHitNoDamage": true,
+    "hideCleansAll": true,
+    "deathCleansAll": true,
+    "repeatedOneImpactEach": true,
+    "noRemainingSprites": true,
+    "oneCanvas": true,
+    "noErrors": true
+  },
+  "eventRegression": "../../v35-v3-upgrade-20261101/qa/integration.json",
+  "visualVariants": [
+    "mixed",
+    "enemy",
+    "mobile"
+  ],
+  "normalPlaybackCycles": 6,
+  "normalVideoEntirelyWatched": false,
+  "desktopInput": false,
+  "productionDeployed": false,
+  "brokenLinks": []
+}

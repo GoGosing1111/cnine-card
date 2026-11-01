@@ -1,0 +1,749 @@
+[
+  {
+    "variant": "mixed",
+    "frames": [
+      {
+        "t": 0.2,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.2,
+            "frames": {
+              "cleave": -1
+            },
+            "active": 0,
+            "contact": null,
+            "ground": null,
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 0,
+        "canvasCount": 1,
+        "root": {
+          "x": 844.032232,
+          "y": 425.502214
+        },
+        "nativeTime": 0.2,
+        "errors": []
+      },
+      {
+        "t": 0.27,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.27,
+            "frames": {
+              "cleave": 2
+            },
+            "active": 1,
+            "contact": null,
+            "ground": null,
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 0,
+        "canvasCount": 1,
+        "root": {
+          "x": 882.5,
+          "y": 416
+        },
+        "nativeTime": 0.27,
+        "errors": []
+      },
+      {
+        "t": 0.34,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.34,
+            "frames": {
+              "cleave": 6,
+              "contact": 0,
+              "ground-wave": 0,
+              "debris": 0
+            },
+            "active": 4,
+            "contact": {
+              "x": 1018.1987067947066,
+              "y": 320.641078014839
+            },
+            "ground": {
+              "x": 1018.1987067947066,
+              "y": 416
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 882.5,
+          "y": 416
+        },
+        "nativeTime": 0.34,
+        "errors": []
+      },
+      {
+        "t": 0.4,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.4,
+            "frames": {
+              "cleave": 9,
+              "contact": 3,
+              "ground-wave": 3,
+              "debris": 2
+            },
+            "active": 4,
+            "contact": {
+              "x": 1018.1987067947066,
+              "y": 320.641078014839
+            },
+            "ground": {
+              "x": 1018.1987067947066,
+              "y": 416
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 882.5,
+          "y": 416
+        },
+        "nativeTime": 0.4,
+        "errors": []
+      },
+      {
+        "t": 0.46,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.46,
+            "frames": {
+              "cleave": 13,
+              "contact": 7,
+              "ground-wave": 7,
+              "debris": 5
+            },
+            "active": 4,
+            "contact": {
+              "x": 1018.1987067947066,
+              "y": 320.641078014839
+            },
+            "ground": {
+              "x": 1018.1987067947066,
+              "y": 416
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 882.5,
+          "y": 416
+        },
+        "nativeTime": 0.46,
+        "errors": []
+      },
+      {
+        "t": 0.6,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.6,
+            "frames": {
+              "cleave": 21,
+              "contact": 15,
+              "ground-wave": 15,
+              "debris": 10
+            },
+            "active": 4,
+            "contact": {
+              "x": 1018.1987067947066,
+              "y": 320.641078014839
+            },
+            "ground": {
+              "x": 1018.1987067947066,
+              "y": 416
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 882.5,
+          "y": 416
+        },
+        "nativeTime": 0.6,
+        "errors": []
+      },
+      {
+        "t": 0.85,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.85,
+            "frames": {
+              "cleave": -1,
+              "contact": 30,
+              "ground-wave": 30,
+              "debris": 21
+            },
+            "active": 3,
+            "contact": {
+              "x": 1018.1987067947066,
+              "y": 320.641078014839
+            },
+            "ground": {
+              "x": 1018.1987067947066,
+              "y": 416
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 789.1112,
+          "y": 439.068672
+        },
+        "nativeTime": 0.85,
+        "errors": []
+      },
+      {
+        "t": 1.12,
+        "fx": {
+          "enabled": true,
+          "active": null,
+          "completed": 1,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 170,
+          "y": 592
+        },
+        "nativeTime": 0,
+        "errors": []
+      }
+    ]
+  },
+  {
+    "variant": "enemy",
+    "frames": [
+      {
+        "t": 0.2,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.2,
+            "frames": {
+              "cleave": -1
+            },
+            "active": 0,
+            "contact": null,
+            "ground": null,
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 0,
+        "canvasCount": 1,
+        "root": {
+          "x": 347.305637,
+          "y": 240
+        },
+        "nativeTime": 0.2,
+        "errors": []
+      },
+      {
+        "t": 0.27,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.27,
+            "frames": {
+              "cleave": 2
+            },
+            "active": 1,
+            "contact": null,
+            "ground": null,
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 0,
+        "canvasCount": 1,
+        "root": {
+          "x": 297.5,
+          "y": 240
+        },
+        "nativeTime": 0.27,
+        "errors": []
+      },
+      {
+        "t": 0.34,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.34,
+            "frames": {
+              "cleave": 6,
+              "contact": 0,
+              "ground-wave": 0,
+              "debris": 0
+            },
+            "active": 4,
+            "contact": {
+              "x": 161.8012932052934,
+              "y": 144.64107801483897
+            },
+            "ground": {
+              "x": 161.8012932052934,
+              "y": 239.99999999999994
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 297.5,
+          "y": 240
+        },
+        "nativeTime": 0.34,
+        "errors": []
+      },
+      {
+        "t": 0.4,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.4,
+            "frames": {
+              "cleave": 9,
+              "contact": 3,
+              "ground-wave": 3,
+              "debris": 2
+            },
+            "active": 4,
+            "contact": {
+              "x": 161.8012932052934,
+              "y": 144.64107801483897
+            },
+            "ground": {
+              "x": 161.8012932052934,
+              "y": 239.99999999999994
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 297.5,
+          "y": 240
+        },
+        "nativeTime": 0.4,
+        "errors": []
+      },
+      {
+        "t": 0.46,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.46,
+            "frames": {
+              "cleave": 13,
+              "contact": 7,
+              "ground-wave": 7,
+              "debris": 5
+            },
+            "active": 4,
+            "contact": {
+              "x": 161.8012932052934,
+              "y": 144.64107801483897
+            },
+            "ground": {
+              "x": 161.8012932052934,
+              "y": 239.99999999999994
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 297.5,
+          "y": 240
+        },
+        "nativeTime": 0.46,
+        "errors": []
+      },
+      {
+        "t": 0.6,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.6,
+            "frames": {
+              "cleave": 21,
+              "contact": 15,
+              "ground-wave": 15,
+              "debris": 10
+            },
+            "active": 4,
+            "contact": {
+              "x": 161.8012932052934,
+              "y": 144.64107801483897
+            },
+            "ground": {
+              "x": 161.8012932052934,
+              "y": 239.99999999999994
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 297.5,
+          "y": 240
+        },
+        "nativeTime": 0.6,
+        "errors": []
+      },
+      {
+        "t": 0.85,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.85,
+            "frames": {
+              "cleave": -1,
+              "contact": 30,
+              "ground-wave": 30,
+              "debris": 21
+            },
+            "active": 3,
+            "contact": {
+              "x": 161.8012932052934,
+              "y": 144.64107801483897
+            },
+            "ground": {
+              "x": 161.8012932052934,
+              "y": 239.99999999999994
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 418.41392,
+          "y": 240
+        },
+        "nativeTime": 0.85,
+        "errors": []
+      },
+      {
+        "t": 1.12,
+        "fx": {
+          "enabled": true,
+          "active": null,
+          "completed": 1,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 1220,
+          "y": 240
+        },
+        "nativeTime": 0,
+        "errors": []
+      }
+    ]
+  },
+  {
+    "variant": "mobile",
+    "frames": [
+      {
+        "t": 0.2,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.2,
+            "frames": {
+              "cleave": -1
+            },
+            "active": 0,
+            "contact": null,
+            "ground": null,
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 0,
+        "canvasCount": 1,
+        "root": {
+          "x": 896.373423,
+          "y": 1115.454408
+        },
+        "nativeTime": 0.2,
+        "errors": []
+      },
+      {
+        "t": 0.27,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.27,
+            "frames": {
+              "cleave": 2
+            },
+            "active": 1,
+            "contact": null,
+            "ground": null,
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 0,
+        "canvasCount": 1,
+        "root": {
+          "x": 910.748221,
+          "y": 1083.060498
+        },
+        "nativeTime": 0.27,
+        "errors": []
+      },
+      {
+        "t": 0.34,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.34,
+            "frames": {
+              "cleave": 6,
+              "contact": 0,
+              "ground-wave": 0,
+              "debris": 0
+            },
+            "active": 4,
+            "contact": {
+              "x": 1087.1565398331186,
+              "y": 959.0938994192908
+            },
+            "ground": {
+              "x": 1087.1565398331186,
+              "y": 1083.0604982206405
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 910.748221,
+          "y": 1083.060498
+        },
+        "nativeTime": 0.34,
+        "errors": []
+      },
+      {
+        "t": 0.4,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.4,
+            "frames": {
+              "cleave": 9,
+              "contact": 3,
+              "ground-wave": 3,
+              "debris": 2
+            },
+            "active": 4,
+            "contact": {
+              "x": 1087.1565398331186,
+              "y": 959.0938994192908
+            },
+            "ground": {
+              "x": 1087.1565398331186,
+              "y": 1083.0604982206405
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 910.748221,
+          "y": 1083.060498
+        },
+        "nativeTime": 0.4,
+        "errors": []
+      },
+      {
+        "t": 0.46,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.46,
+            "frames": {
+              "cleave": 13,
+              "contact": 7,
+              "ground-wave": 7,
+              "debris": 5
+            },
+            "active": 4,
+            "contact": {
+              "x": 1087.1565398331186,
+              "y": 959.0938994192908
+            },
+            "ground": {
+              "x": 1087.1565398331186,
+              "y": 1083.0604982206405
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 910.748221,
+          "y": 1083.060498
+        },
+        "nativeTime": 0.46,
+        "errors": []
+      },
+      {
+        "t": 0.6,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.6,
+            "frames": {
+              "cleave": 21,
+              "contact": 15,
+              "ground-wave": 15,
+              "debris": 10
+            },
+            "active": 4,
+            "contact": {
+              "x": 1087.1565398331186,
+              "y": 959.0938994192908
+            },
+            "ground": {
+              "x": 1087.1565398331186,
+              "y": 1083.0604982206405
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 910.748221,
+          "y": 1083.060498
+        },
+        "nativeTime": 0.6,
+        "errors": []
+      },
+      {
+        "t": 0.85,
+        "fx": {
+          "enabled": true,
+          "active": {
+            "time": 0.85,
+            "frames": {
+              "cleave": -1,
+              "contact": 30,
+              "ground-wave": 30,
+              "debris": 21
+            },
+            "active": 3,
+            "contact": {
+              "x": 1087.1565398331186,
+              "y": 959.0938994192908
+            },
+            "ground": {
+              "x": 1087.1565398331186,
+              "y": 1083.0604982206405
+            },
+            "disposed": false
+          },
+          "completed": 0,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 875.850301,
+          "y": 1161.703698
+        },
+        "nativeTime": 0.85,
+        "errors": []
+      },
+      {
+        "t": 1.12,
+        "fx": {
+          "enabled": true,
+          "active": null,
+          "completed": 1,
+          "decodedBytes": 23819120
+        },
+        "impacts": 1,
+        "canvasCount": 1,
+        "root": {
+          "x": 644.4982206405693,
+          "y": 1683.0604982206405
+        },
+        "nativeTime": 0,
+        "errors": []
+      }
+    ]
+  }
+]

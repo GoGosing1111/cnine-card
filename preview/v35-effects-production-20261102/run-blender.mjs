@@ -1,0 +1,10 @@
+import {spawn} from 'node:child_process';
+import fs from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+const dir=fileURLToPath(new URL('.',import.meta.url));
+const exe=process.env.V35_BLENDER||'C:/Users/User/Tools/v35-production/blender-4.5.15-windows-x64/blender.exe';
+const log=[];
+const code=await new Promise(resolve=>{const p=spawn(exe,['--background','--factory-startup','--python',dir+'author-debris.py'],{windowsHide:true,stdio:['ignore','pipe','pipe']});p.stdout.on('data',d=>log.push(d.toString()));p.stderr.on('data',d=>log.push(d.toString()));p.on('exit',resolve);p.on('error',e=>{log.push(e.stack);resolve(-1);});});
+await fs.mkdir(dir+'qa',{recursive:true});await fs.writeFile(dir+'qa/blender-render.log',log.join(''));
+console.log(JSON.stringify({code,log:dir+'qa/blender-render.log',tail:log.join('').slice(-1300)}));
+if(code)process.exitCode=1;

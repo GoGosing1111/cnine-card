@@ -1,0 +1,41 @@
+{
+  "checks": {
+    "disabledStillOneImpact": true,
+    "pauseStopsEveryLayer": true,
+    "offWhilePaused": true,
+    "onWhilePaused": true,
+    "cancelAfterHitRemovesAll": true,
+    "cancelBeforeHitNoDamage": true,
+    "hideCleansAll": true,
+    "deathCleansAll": true,
+    "repeatedOneImpactEach": true,
+    "noRemainingSprites": true,
+    "oneCanvas": true,
+    "noErrors": true
+  },
+  "evidence": {
+    "paused": {
+      "time": 0.43,
+      "frames": {
+        "cleave": 11,
+        "contact": 5,
+        "ground-wave": 5,
+        "debris": 3
+      },
+      "active": 4,
+      "contact": {
+        "x": 1018.1987067947066,
+        "y": 320.641078014839
+      },
+      "ground": {
+        "x": 1018.1987067947066,
+        "y": 416
+      },
+      "disposed": false
+    },
+    "completed": 9,
+    "errors": [],
+    "decodedTextureBytes": 23819120
+  },
+  "fixtureOnly": true
+}

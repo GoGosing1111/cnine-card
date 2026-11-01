@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-02",
+  "method": "view_image of actual headless runtime captures and source-frame composites",
+  "viewed": [
+    "qa/comparison.png",
+    "qa/tool-frames.png",
+    "qa/alpha-backgrounds.png",
+    "qa/normal-frames.png",
+    "qa/mixed-40-on.png",
+    "qa/mixed-60-on.png",
+    "qa/enemy-40-on.png",
+    "qa/mobile-40-on.png"
+  ],
+  "sourceFrameSamples": 16,
+  "normalVideoExtractedSamples": 12,
+  "normalVideoEntirelyWatched": false,
+  "observations": [
+    "Cleave and contact flare meet the blade in the existing V3 battlefield.",
+    "Ground shards rotate and fall below the frozen impact x coordinate.",
+    "Enemy-facing reflection remains attached to the hand and target.",
+    "No black rectangular background or opaque border on bright/dark alpha composites.",
+    "The current base body action remains one authored cut; no new action variety is claimed."
+  ],
+  "limitations": [
+    "Native editor GUI intentionally not used.",
+    "Mobile browser capture is not physical device performance.",
+    "No final aesthetic approval or DNF-quality claim."
+  ]
+}

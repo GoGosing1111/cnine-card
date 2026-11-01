@@ -1,0 +1,48 @@
+{
+  "tool": "Effekseer",
+  "version": "1.70e",
+  "runtime": "official EffekseerForWebGL 1.70e",
+  "seed": 3502,
+  "fps": 60,
+  "effects": [
+    {
+      "id": "cleave",
+      "frames": 28,
+      "units": 12,
+      "blend": "add",
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/cleave.efkefc"
+    },
+    {
+      "id": "contact",
+      "frames": 40,
+      "units": 12,
+      "blend": "add",
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/contact.efkefc"
+    },
+    {
+      "id": "ground-wave",
+      "frames": 42,
+      "units": 12,
+      "blend": "add",
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/ground-wave.efkefc"
+    }
+  ]
+}

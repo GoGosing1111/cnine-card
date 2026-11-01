@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import * as core from '@v3/core';
 import {BattleCharacter} from '@v3/character';
 import {SpineBattleAdapter,connectSpineAttacks} from './SpineBattleAdapter.mjs';
+import {BakedBattleEffects} from '../v35-effects-production-20261102/BakedBattleEffects.mjs';
 window.PIXI=PIXI;
 const api=window.v35Review={ready:false,errors:[],impacts:[],normalPlayback:[]};
 window.addEventListener('error',e=>api.errors.push(e.message));window.addEventListener('unhandledrejection',e=>api.errors.push(String(e.reason)));
@@ -17,7 +18,8 @@ document.addEventListener('DOMContentLoaded',async()=>{try{
   await PIXI.Assets.load([{alias:'v35Skeleton',src:base+delivery.runtimeDir+'/'+delivery.skeletonJson},{alias:'v35Atlas',src:base+delivery.runtimeDir+'/'+delivery.atlas},{alias:'v35Reference',src:'/preview/v35-character-baseline-20261101/baseline-v4.png'}]);
   const texture=PIXI.Assets.get('v35Reference'),actor=new BattleCharacter({id:'QA:SPINE',name:'붉은 코트 검사',team:kind==='enemy'?'ENEMY':'ALLY',texture,fullBodyTexture:texture,cutInTexture:texture,fullBodyHeight:1536*285/1215,hp:100,scale:.5});
   Object.assign(actor,{cardId:'QA-V35-SPINE',actorKind:'MERCENARY',isMercenary:true,battleActive:true,enabled:true,serverMaxHp:100000,serverMaxShield:0,art:{bodyHeight:285,footAnchor:{x:.5,y:.9375}},role:'WARRIOR'});
-  const rig=window.spine.Spine.from({skeleton:'v35Skeleton',atlas:'v35Atlas',autoUpdate:false,ticker:engine.app.ticker}),adapter=new SpineBattleAdapter(engine,actor,rig);
+  const effects=new BakedBattleEffects(engine,await BakedBattleEffects.load());effects.setEnabled(document.querySelector('#effects').checked);api.effects=effects;
+  const rig=window.spine.Spine.from({skeleton:'v35Skeleton',atlas:'v35Atlas',autoUpdate:false,ticker:engine.app.ticker}),adapter=new SpineBattleAdapter(engine,actor,rig,{effects});
   actor.setAnimationAdapter(adapter);engine.combatLayer.addChild(actor.root);engine.characters.push(actor);engine.mercenaries.push(actor);engine.setFormationMercenaries(engine.mercenaries);actor.formationHudY=-403;actor.hud.y=-403;engine.sortCombatDepth();connectSpineAttacks(engine);api.spine=adapter;
  }
  const stateMaps=['limitedStates','jokroStates','cardguStates'];
@@ -27,6 +29,7 @@ document.addEventListener('DOMContentLoaded',async()=>{try{
  document.querySelector('#attack').onclick=()=>attack(0);document.querySelector('#second').onclick=()=>attack(1);document.querySelector('#cancel').onclick=()=>{engine.cancelTimelines();for(const a of engine.mercenaries)a.setState('IDLE');};document.querySelector('#pause').onclick=e=>{pause(!paused);e.target.textContent=paused?'재개':'일시정지';};
  const rate=engine.actionPlaybackSpeed.bind(engine);engine.actionPlaybackSpeed=(options)=>rate(options)*Number(document.querySelector('#speed').value);
  document.querySelector('#case').onchange=e=>{location.search='?case='+e.target.value;};
+ document.querySelector('#effects').onchange=e=>api.effects?.setEnabled(e.target.checked);
  Object.assign(api,{ready:true,engine,renderer,attack,audit,pause,case:kind});
  document.querySelector('#status').textContent='현재 V3 전장·편성·HUD·서버 이벤트 경로 재사용 / 로컬 검수 / 운영 반영 전';
  window.addEventListener('pagehide',()=>core.destroy(),{once:true});

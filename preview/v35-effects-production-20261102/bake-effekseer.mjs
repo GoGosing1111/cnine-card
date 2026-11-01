@@ -1,0 +1,14 @@
+import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import http from 'node:http';import fs from 'node:fs/promises';import path from 'node:path';import {fileURLToPath} from 'node:url';
+const dir=fileURLToPath(new URL('.',import.meta.url)),vendor=process.env.V35_EFFEKSEER_WEBGL||'C:/Users/User/Tools/v35-production/effekseer-webgl-170e';
+const mime={'.html':'text/html','.js':'text/javascript','.wasm':'application/wasm','.efk':'application/octet-stream'};
+const server=http.createServer(async(req,res)=>{try{const p=new URL(req.url,'http://local').pathname;const root=p.startsWith('/vendor/')?vendor:dir;const file=path.resolve(root,'.'+p.replace(/^\/vendor/,''));if(!file.startsWith(path.resolve(root)+path.sep))throw Error('path');const b=await fs.readFile(file);res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream'});res.end(b);}catch{res.writeHead(404).end();}});
+await new Promise(r=>server.listen(18767,'127.0.0.1',r));
+const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--mute-audio','--enable-unsafe-swiftshader']});
+const report=[];
+try{const page=await browser.newPage();page.on('pageerror',e=>console.error(e.message));await page.goto('http://127.0.0.1:18767/bake.html');await page.waitForFunction(()=>window.ready||window.failures.length,{},{timeout:60000});const fail=await page.evaluate(()=>window.failures);if(fail.length)throw Error(fail.join('\n'));
+ const specs=JSON.parse(await fs.readFile(dir+'effects.json','utf8'));
+ for(const s of specs.effects){await fs.mkdir(dir+'frames/'+s.id,{recursive:true});await page.evaluate(id=>window.load(id),s.id);const counts=[];for(let f=0;f<s.frames;f++){const data=await page.evaluate(f=>window.frame(f),f);if(data.glError)throw Error('WebGL error '+data.glError);await fs.writeFile(`${dir}frames/${s.id}/frame-${String(f).padStart(4,'0')}.png`,Buffer.from(data.png,'base64'));counts.push(data.nonzero);}
+  if(!counts.some(n=>n>100))throw Error(s.id+' rendered empty');const last=await page.evaluate(f=>window.frame(f),s.frames+60);if(last.nonzero!==0)throw Error(s.id+' failed to expire');const a=await page.evaluate(()=>window.frame(7)),b=await page.evaluate(()=>window.frame(7));if(a.png!==b.png)throw Error(s.id+' nondeterministic seed');report.push({id:s.id,counts,expiredPixels:last.nonzero,deterministicReplay:true});console.log(s.id,counts.join(','));}
+ await fs.writeFile(dir+'qa/effekseer-bake.json',JSON.stringify({renderer:'official EffekseerForWebGL 1.70e',mode:'offline headless PNG bake',effects:report},null,2));
+}finally{await browser.close();await new Promise(r=>server.close(r));}

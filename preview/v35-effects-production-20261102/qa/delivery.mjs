@@ -1,0 +1,17 @@
+import fs from 'node:fs/promises';import path from 'node:path';import sharp from 'sharp';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {fileURLToPath} from 'node:url';
+const dir=fileURLToPath(new URL('..',import.meta.url)),sha=b=>createHash('sha256').update(b).digest('hex');
+const manifest=JSON.parse(await fs.readFile(dir+'/runtime/fx-manifest.json','utf8'));
+for(const [id,s]of Object.entries(manifest.effects)){assert.equal(sha(await fs.readFile(dir+'/runtime/'+s.atlas)),s.sha256);assert.ok(s.nonemptyPixels[0]>0,id+' must be visible on first timeline frame');assert.equal(s.nonemptyPixels.at(-1),0,id+' must end empty');const {width,height}=await sharp(dir+'/runtime/'+s.atlas).metadata();assert.ok(Math.max(width,height)<=2048);for(const f of s.frames){assert.ok(f.x>=2&&f.y>=2&&f.x+f.w<=width-2&&f.y+f.h<=height-2);}}
+const lifecycle=JSON.parse(await fs.readFile(dir+'/qa/lifecycle.json'));assert.ok(Object.values(lifecycle.checks).every(Boolean));
+const roundtrip=JSON.parse(await fs.readFile(dir+'/qa/effekseer-roundtrip.json'));assert.ok(roundtrip.every(e=>e.roundTripBinaryEqual));
+const bake=JSON.parse(await fs.readFile(dir+'/qa/effekseer-bake.json'));assert.ok(bake.effects.every(e=>e.deterministicReplay&&e.expiredPixels===0));
+const blender=JSON.parse(await fs.readFile(dir+'/qa/blender-roundtrip.json'));assert.ok(blender.reopenedRGBAEqual&&blender.firstAndLastFramesInvisible);
+const visual=JSON.parse(await fs.readFile(dir+'/qa/visual.json'));for(const item of visual){assert.ok(item.frames.every(f=>f.canvasCount===1&&f.errors.length===0));assert.equal(item.frames.at(-1).impacts,1);assert.equal(item.frames.at(-1).fx.active,null);const contact=item.frames.find(f=>f.t===.34);assert.equal(contact.fx.active.frames.contact,0);}
+const normal=JSON.parse(await fs.readFile(dir+'/qa/normal-playback.json'));assert.ok(normal.reports.every(r=>r.impacts===3&&r.errors.length===0));
+const originals={
+ 'preview/v35-character-baseline-20261101/baseline-v4.png':'fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44',
+ 'preview/v35-character-baseline-20261101/attack-v1/images/weapon-restored-v2.png':'5e485052a02909c94cc91f4f75072ca42ce59ba1384ce1a5f299f0714f23ae07',
+ 'preview/v35-character-baseline-20261101/attack-v2/swordsman-7400ac091863.spine':'7acefc8c706857b88bf85a4c24d21af61c726bdee0933511899efc8730611dd0'
+};for(const[p,h]of Object.entries(originals))assert.equal(sha(await fs.readFile(p)),h,p);
+const broken=[];for(const p of [dir+'/PROJECT.md','docs/project-v35-battle-production-standard.md','.agents/skills/cnine-v35-battle-production/SKILL.md','preview/v35-v3-upgrade-20261101/PROJECT.md']){const text=await fs.readFile(p,'utf8');for(const[,link]of text.matchAll(/\]\(([^)]+)\)/g)){if(/^(https?:|#)/.test(link))continue;try{await fs.access(path.resolve(path.dirname(p),link.split('#')[0]));}catch{broken.push({p,link});}}}assert.deepEqual(broken,[]);
+const record={sourceOriginalsUnchanged:originals,atlasHashes:true,allStartVisibleEndEmpty:true,maxAtlasSideAtMost2048:true,effekseerNativeRoundTrip:true,blenderNativeReopenRGBAIdentical:true,deterministicEffekseerBake:true,lifecycleChecks:lifecycle.checks,eventRegression:'../../v35-v3-upgrade-20261101/qa/integration.json',visualVariants:visual.map(v=>v.variant),normalPlaybackCycles:6,normalVideoEntirelyWatched:false,desktopInput:false,productionDeployed:false,brokenLinks:broken};await fs.writeFile(dir+'/qa/delivery.json',JSON.stringify(record,null,2));console.log(record);

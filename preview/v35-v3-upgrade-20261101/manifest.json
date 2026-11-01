@@ -2,10 +2,12 @@
   "scope": "CURRENT_V3_LOCAL_UPGRADE_INTEGRATION",
   "nativeUnmodified": true,
   "productionDeployment": false,
-  "newDynamicArtwork": false,
+  "newDynamicCharacterArtwork": false,
+  "newBakedEffects": true,
+  "effectsDelivery": "../v35-effects-production-20261102/manifest.json",
   "userFinalApproval": false,
-  "normalSpeedRecordings": 5,
-  "observedExtractedFrames": 32,
+  "baselineNormalSpeedRecordings": 5,
+  "baselineObservedExtractedFrames": 32,
   "continuousVideoWatched": false,
   "physicalDeviceTest": false,
   "desktopInput": false,
@@ -22,23 +24,23 @@
     },
     {
       "path": "finalize.mjs",
-      "bytes": 1074,
-      "sha256": "53e99bd9bacbfaceb214100a6b9fceeaca2b53fde2891f124e54c1801105b460"
+      "bytes": 1187,
+      "sha256": "edf675fa2eecfdff4e03f89f3f07aaa1fe9679f0972dd68d76d05f74d15879ca"
     },
     {
       "path": "index.html",
-      "bytes": 2720,
-      "sha256": "4f858ae6557b35e75a41d536c4288614a2d3f30fd2a424743ca96cec37a7420a"
+      "bytes": 2807,
+      "sha256": "1d1566a48ab631920c2ebd92cee652a3158a55a53022412f5fe62ce29db6cdc3"
     },
     {
       "path": "PROJECT.md",
-      "bytes": 8382,
-      "sha256": "26e7054449ad142f8bc91fd6e9c4679d78fdbda17332e958fe5ec9be2f0ea813"
+      "bytes": 8808,
+      "sha256": "b4e2773329d87883874fa88d6bba1434d29ed566036087fbbb3860fa9b31126f"
     },
     {
       "path": "qa/build.json",
-      "bytes": 88759,
-      "sha256": "71f42ed715e253358f05a533cbcc19a22faac83a5165f567581374b9fb15c075"
+      "bytes": 88829,
+      "sha256": "e08e5cfd171a4d9d4216cfd70df54e3d603bdba4269e43d5506b4ac65594e8af"
     },
     {
       "path": "qa/cardgu-after.png",
@@ -107,8 +109,8 @@
     },
     {
       "path": "qa/integration.json",
-      "bytes": 1657,
-      "sha256": "ff85dac346bda8f1e17dd1579c15e94383d01da77755f433d4c4dba0ff7e68d5"
+      "bytes": 1659,
+      "sha256": "a8945852cc004603642a974965bc1cfa5e67cb1ada15650dbb659e303f049b3c"
     },
     {
       "path": "qa/integration.mjs",
@@ -127,8 +129,8 @@
     },
     {
       "path": "qa/mixed-idle.png",
-      "bytes": 455760,
-      "sha256": "f1c7adac049fc97b7e379442821eb8d047c657938742edb1b2fdc31a7ad82af5"
+      "bytes": 1854207,
+      "sha256": "dba929c6043a53c78214223304ec323fa1537c105b9a8ff1a376ff1b79e0e906"
     },
     {
       "path": "qa/mixed-mobile-after.png",
@@ -227,18 +229,18 @@
     },
     {
       "path": "SpineBattleAdapter.mjs",
-      "bytes": 4238,
-      "sha256": "feb4fde6dde61915fa4c861e7d0405892fc6f1a4e2bd7ad9d8885ea40e9a3da6"
+      "bytes": 4441,
+      "sha256": "c0d79c8882eb5fcd0515192eb270c348aaf59adf2d188f70a4a8576608d075dd"
     },
     {
       "path": "workbench.bundle.js",
-      "bytes": 3261718,
-      "sha256": "a2b40db141cb7f4f9311b0cd6ce00a05f5e80be0de0f6d812acac47f3f6aba98"
+      "bytes": 3264572,
+      "sha256": "6ec6ad3f4ee74b8837d1f418dd27ff180a95b0fa1e79d287711bb677ba93b9e1"
     },
     {
       "path": "workbench.src.mjs",
-      "bytes": 5213,
-      "sha256": "ae731be76c202d14e976072d4512c45f84655bfaa0397298d1db7fc42e7d1193"
+      "bytes": 5571,
+      "sha256": "a2c6429a8c0fe34beeeeba9915a23c5afd667e3fdc876172d566705c086c293d"
     }
   ]
 }

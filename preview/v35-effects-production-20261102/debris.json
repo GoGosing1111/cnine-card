@@ -1,0 +1,23 @@
+{
+  "tool": "Blender",
+  "version": "4.5.15 LTS",
+  "engine": "CYCLES",
+  "fps": 30,
+  "frames": 30,
+  "width": 512,
+  "height": 512,
+  "pivot": [
+    256.0,
+    329.9194641113281
+  ],
+  "blend": "normal",
+  "alpha": "straight",
+  "seed": 3502,
+  "source": "native/contact-debris.blend",
+  "purpose": "3D rotating stone shards, ground contact only",
+  "cameraPosition": [
+    3.4000000953674316,
+    -8.0,
+    4.199999809265137
+  ]
+}

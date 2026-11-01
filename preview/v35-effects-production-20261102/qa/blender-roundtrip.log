@@ -1,0 +1,59 @@
+Blender 4.5.15 LTS (hash 5afeabba6097 built 2026-10-22 01:35:27)
+Read blend: "C:\Users\User\Downloads\upload\cnine-card\preview\v35-effects-production-20261102\native\contact-debris.blend"
+Fra:10 Mem:11.32M (Peak 11.32M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Warm contact key
+Fra:10 Mem:11.32M (Peak 11.32M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Soft front fill
+Fra:10 Mem:11.32M (Peak 11.32M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Impact shard 02
+Fra:10 Mem:11.32M (Peak 11.32M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Impact shard 04
+Fra:10 Mem:11.32M (Peak 11.32M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Impact shard 05
+Fra:10 Mem:11.37M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Impact shard 06
+Fra:10 Mem:11.33M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Impact shard 17
+Fra:10 Mem:11.34M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Impact shard 07
+Fra:10 Mem:11.34M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Impact shard 12
+Fra:10 Mem:11.34M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Impact shard 13
+Fra:10 Mem:11.34M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Impact shard 14
+Fra:10 Mem:11.34M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Impact shard 15
+Fra:10 Mem:11.35M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:10 Mem:10.02M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:10 Mem:10.02M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:10 Mem:10.02M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:10 Mem:10.02M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:10 Mem:10.10M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:10 Mem:10.10M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:10 Mem:10.10M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:10 Mem:10.10M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:10 Mem:10.10M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:10 Mem:10.10M (Peak 11.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:10 Mem:10.11M (Peak 11.37M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Particle Systems
+Fra:10 Mem:10.11M (Peak 11.37M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:10 Mem:10.11M (Peak 11.37M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Meshes
+Fra:10 Mem:10.11M (Peak 11.37M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:10 Mem:10.11M (Peak 11.37M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:10 Mem:10.11M (Peak 11.37M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:10 Mem:10.11M (Peak 11.37M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:10 Mem:10.11M (Peak 11.37M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:10 Mem:10.11M (Peak 11.37M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:10 Mem:10.11M (Peak 11.37M) | Time:00:00.00 | Mem:0.03M, Peak:0.04M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:10 Mem:10.11M (Peak 11.37M) | Time:00:00.00 | Mem:0.03M, Peak:0.04M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:10 Mem:10.12M (Peak 11.37M) | Time:00:00.00 | Mem:0.03M, Peak:0.04M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:10 Mem:10.12M (Peak 11.37M) | Time:00:00.00 | Mem:0.04M, Peak:0.04M | Scene, ViewLayer | Updating Objects Flags
+Fra:10 Mem:10.12M (Peak 11.37M) | Time:00:00.00 | Mem:0.04M, Peak:0.04M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:10 Mem:10.12M (Peak 11.37M) | Time:00:00.00 | Mem:0.04M, Peak:0.04M | Scene, ViewLayer | Updating Images
+Fra:10 Mem:10.12M (Peak 11.37M) | Time:00:00.00 | Mem:0.04M, Peak:0.04M | Scene, ViewLayer | Updating Camera Volume
+Fra:10 Mem:10.12M (Peak 11.37M) | Time:00:00.00 | Mem:0.04M, Peak:0.04M | Scene, ViewLayer | Updating Lookup Tables
+Fra:10 Mem:10.12M (Peak 11.37M) | Time:00:00.00 | Mem:0.12M, Peak:0.12M | Scene, ViewLayer | Updating Lights
+Fra:10 Mem:10.12M (Peak 11.37M) | Time:00:00.00 | Mem:0.12M, Peak:0.12M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:10 Mem:10.13M (Peak 11.37M) | Time:00:00.00 | Mem:0.13M, Peak:0.13M | Scene, ViewLayer | Updating Integrator
+Fra:10 Mem:10.13M (Peak 11.37M) | Time:00:00.00 | Mem:0.13M, Peak:0.13M | Scene, ViewLayer | Updating Film
+Fra:10 Mem:10.14M (Peak 11.37M) | Time:00:00.00 | Mem:0.05M, Peak:0.13M | Scene, ViewLayer | Updating Lookup Tables
+Fra:10 Mem:10.14M (Peak 11.37M) | Time:00:00.00 | Mem:0.14M, Peak:0.14M | Scene, ViewLayer | Updating Baking
+Fra:10 Mem:10.14M (Peak 11.37M) | Time:00:00.00 | Mem:0.14M, Peak:0.14M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:10 Mem:10.14M (Peak 11.37M) | Time:00:00.00 | Mem:0.14M, Peak:0.14M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:10 Mem:10.14M (Peak 11.37M) | Time:00:00.00 | Mem:0.14M, Peak:0.14M | Scene, ViewLayer | Sample 0/12
+Fra:10 Mem:29.23M (Peak 29.23M) | Time:00:00.01 | Remaining:00:00.14 | Mem:19.14M, Peak:19.14M | Scene, ViewLayer | Sample 1/12
+Fra:10 Mem:37.23M (Peak 49.24M) | Time:00:01.18 | Mem:19.14M, Peak:19.14M | Scene, ViewLayer | Sample 12/12
+Fra:10 Mem:37.23M (Peak 49.24M) | Time:00:01.18 | Mem:19.14M, Peak:19.14M | Scene, ViewLayer | Finished
+Saved: 'C:\Users\User\Downloads\upload\cnine-card\preview\v35-effects-production-20261102\qa\blender-reopened-frame-0010.png'
+Time: 00:01.29 (Saving: 00:00.10)
+
+
+Blender quit

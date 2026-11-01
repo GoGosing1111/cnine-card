@@ -1,0 +1,15 @@
+{
+  "version": "4.5.15 LTS",
+  "openedNative": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\contact-debris.blend",
+  "shards": 18,
+  "animatedShards": 18,
+  "frames": 30,
+  "firstAndLastFramesInvisible": true,
+  "renderedReopenedFrame": 10,
+  "pivot": [
+    256,
+    329.9194641113281
+  ],
+  "transparent": true,
+  "reopenedRGBAEqual": true
+}

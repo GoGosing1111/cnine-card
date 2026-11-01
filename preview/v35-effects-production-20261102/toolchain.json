@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-02",
+  "blender": "4.5.15 LTS",
+  "effekseer": "1.70e",
+  "effekseerWebGL": "1.70e",
+  "blenderOfficialZipSha256": "52dd02fd74877fa08e74b67d7854cf32468a232c02aaa19b6844c91285574f8d",
+  "downloads": [
+    {
+      "file": "blender-4.5.15-windows-x64.zip",
+      "url": "https://download.blender.org/release/Blender4.5/blender-4.5.15-windows-x64.zip",
+      "code": 0,
+      "error": "",
+      "bytes": 398649826
+    },
+    {
+      "file": "blender-4.5.15.sha256",
+      "url": "https://download.blender.org/release/Blender4.5/blender-4.5.15.sha256",
+      "code": 0,
+      "error": "",
+      "bytes": 880
+    },
+    {
+      "file": "Effekseer170eWin.zip",
+      "url": "https://github.com/effekseer/Effekseer/releases/download/170e/Effekseer170eWin.zip",
+      "code": 0,
+      "error": "",
+      "bytes": 32149617
+    },
+    {
+      "file": "EffekseerForWebGL170e.zip",
+      "url": "https://github.com/effekseer/EffekseerForWebGL/releases/download/170e/EffekseerForWebGL170e.zip",
+      "code": 0,
+      "error": "",
+      "bytes": 2786989
+    }
+  ],
+  "hashes": [
+    {
+      "path": "C:/Users/User/Tools/v35-production/blender-4.5.15-windows-x64/blender.exe",
+      "bytes": 96106968,
+      "sha256": "935e4bed28e51d08b8e1fbcc31dcccc000cc1c3dd065d82dcb1da813e75db795"
+    },
+    {
+      "path": "C:/Users/User/Tools/v35-production/effekseer-170e/Tool/Effekseer.exe",
+      "bytes": 174592,
+      "sha256": "9aaeeb0e20c4fc4cfe368da2bd620cd7843d89f866be11d6638a303f5b0ea9f7"
+    },
+    {
+      "path": "C:/Users/User/Tools/v35-production/effekseer-170e/Tool/EffekseerCore.dll",
+      "bytes": 496640,
+      "sha256": "15f56df48220b80ac2d67a314fb5d4cc9af9d68d396871421f19755289e62a29"
+    },
+    {
+      "path": "C:/Users/User/Tools/v35-production/effekseer-webgl-170e/effekseer.min.js",
+      "bytes": 194297,
+      "sha256": "38172a9f16c23cf32e7d5521ddff136bee4bca3460ea2dda313c4b497a0702fb"
+    },
+    {
+      "path": "C:/Users/User/Tools/v35-production/effekseer-webgl-170e/effekseer.wasm",
+      "bytes": 1202996,
+      "sha256": "e0f8f2e78173c14e38ccfb582feeffbac2b289242fae0c08cb65d9ad88ab51a5"
+    }
+  ],
+  "desktopInteraction": false,
+  "portable": true,
+  "officialSampleAssetsUsed": false
+}

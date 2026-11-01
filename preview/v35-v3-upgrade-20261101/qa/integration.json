@@ -47,11 +47,11 @@
     "times": [
       {
         "speed": 0.25,
-        "ms": 3450
+        "ms": 3450.5
       },
       {
         "speed": 2,
-        "ms": 433.19999998807907
+        "ms": 433.09999999403954
       }
     ],
     "hidden": {
@@ -63,7 +63,7 @@
     },
     "resumed": {
       "visible": true,
-      "time": 0.238
+      "time": 0.237
     },
     "reset": {
       "spineDestroyed": true,

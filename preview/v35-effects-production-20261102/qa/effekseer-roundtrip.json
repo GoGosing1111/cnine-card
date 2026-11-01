@@ -1,0 +1,143 @@
+[
+  {
+    "id": "cleave",
+    "nodes": 10,
+    "first": {
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n",
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\cleave.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\cleave.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\cleave-import.efk"
+      ]
+    },
+    "reopened": {
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n",
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\cleave.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\cleave-reopened.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\cleave.efk"
+      ]
+    },
+    "second": {
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n",
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\cleave-reopened.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\cleave-second.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\cleave-second.efk"
+      ]
+    },
+    "roundTripBinaryEqual": true,
+    "runtimeBytes": 10114,
+    "sha256": "5a71ae550d3a419edf50285b1c54122df42051e4ef6f212d322d27790d9a90a3",
+    "note": "Runtime is exported from saved native. XML import float values normalize when saved."
+  },
+  {
+    "id": "contact",
+    "nodes": 28,
+    "first": {
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n",
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\contact.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\contact.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\contact-import.efk"
+      ]
+    },
+    "reopened": {
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n",
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\contact.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\contact-reopened.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\contact.efk"
+      ]
+    },
+    "second": {
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n",
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\contact-reopened.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\contact-second.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\contact-second.efk"
+      ]
+    },
+    "roundTripBinaryEqual": true,
+    "runtimeBytes": 25852,
+    "sha256": "b71be881dd53d42786c2767b96d979a577bbd8559f7755cac470095af7164fc9",
+    "note": "Runtime is exported from saved native. XML import float values normalize when saved."
+  },
+  {
+    "id": "ground-wave",
+    "nodes": 3,
+    "first": {
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n",
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\ground-wave.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\ground-wave.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\ground-wave-import.efk"
+      ]
+    },
+    "reopened": {
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n",
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\ground-wave.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\ground-wave-reopened.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\native\\ground-wave.efk"
+      ]
+    },
+    "second": {
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n",
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\ground-wave-reopened.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\ground-wave-second.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-effects-production-20261102\\qa\\ground-wave-second.efk"
+      ]
+    },
+    "roundTripBinaryEqual": true,
+    "runtimeBytes": 2999,
+    "sha256": "7fdb19b9751fef36c38aa89c2b2c7b29b22ac01a19235498acf0dd3bfcb5ae4c",
+    "note": "Runtime is exported from saved native. XML import float values normalize when saved."
+  }
+]
