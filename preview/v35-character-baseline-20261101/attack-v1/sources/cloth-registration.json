@@ -1,0 +1,45 @@
+{
+  "body": {
+    "scale": 0.9404296875,
+    "left": 20,
+    "top": 60,
+    "width": 963,
+    "height": 1445
+  },
+  "components": [
+    {
+      "id": 1,
+      "pixels": 193968,
+      "center": [
+        328.9677214798317,
+        836.9387115400478
+      ]
+    },
+    {
+      "id": 2,
+      "pixels": 109112,
+      "center": [
+        734.1440904758414,
+        941.5193104333163
+      ]
+    }
+  ],
+  "coatBack": {
+    "scale": 0.65,
+    "x": 36,
+    "y": 294
+  },
+  "coatFront": {
+    "scale": 0.55,
+    "rotationDegrees": 9,
+    "sourcePivot": [
+      720,
+      530
+    ],
+    "targetPivot": [
+      545,
+      700
+    ]
+  },
+  "technicalTransformOnly": true
+}

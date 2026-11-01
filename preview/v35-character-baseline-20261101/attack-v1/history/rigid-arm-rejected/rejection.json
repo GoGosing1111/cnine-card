@@ -1,0 +1,7 @@
+{
+  "quote": "무슨 팔이 각목으로 움직이는거같노 쓸줄 모르나?",
+  "status": "USER_REJECTED_ARM_MOTION",
+  "native": "swordsman-825065113758.spine",
+  "visualAcceptance": false,
+  "reason": "Rigid segmented arm, synchronous smoothstep stops and weapon-target driven posing; numerical checks did not establish motion quality."
+}

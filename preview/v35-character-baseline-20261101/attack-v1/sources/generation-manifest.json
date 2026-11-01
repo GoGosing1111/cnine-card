@@ -1,0 +1,50 @@
+{
+  "generator": "built-in image_gen",
+  "noRemoteGui": true,
+  "artifacts": [
+    {
+      "file": "body-underpaint-v1.png",
+      "original": "exec-e17925dd-782f-45fd-936c-4a6f429e8f48.png",
+      "prompt": "prompt-body-underpaint-v1.txt",
+      "role": "intermediate body, not final",
+      "sha256": "e2f87c6251d31eeb8f0057c483f88bb0d412b0ac54a5d3e3ecf67298f9e5e165"
+    },
+    {
+      "file": "body-underpaint-v2.png",
+      "original": "exec-ddd4003f-4d5e-4fc1-b727-f94e150d0fdf.png",
+      "prompt": "prompt-body-underpaint-v2.txt",
+      "role": "body with both arms removed, main body paint",
+      "sha256": "0af7a433adddfca98326c81a455582865da8205a82e5441c22dcb831e9555785"
+    },
+    {
+      "file": "weapon-handle-restoration-v1.png",
+      "original": "exec-4125a6ff-59e7-4b6d-8a45-b9c311d98c0e.png",
+      "prompt": "prompt-weapon-restoration-v1.txt",
+      "role": "only original hand-occluded region used",
+      "sha256": "04c34602d82be1bec7e36957d8e49310f5ca4b8a03db03502291d4030d2d966f"
+    },
+    {
+      "file": "body-underpaint-v3-no-coat.png",
+      "original": "exec-f595fdec-6ae2-4fb0-9b8a-39f4804c97e6.png",
+      "prompt": "prompt-body-underpaint-v3.txt",
+      "role": "hidden leg fill after uniform registration",
+      "sha256": "11e21d7f0a4bb1f0b209c10a5f188924aceac7adef244900e324d1212fb55a91"
+    },
+    {
+      "file": "coat-layer-v1.png",
+      "original": "exec-c6b87a1d-1206-4819-89bc-123c81e43d28.png",
+      "prompt": "prompt-coat-layer-v1.txt",
+      "role": "two complete cloth layers, uniformly registered",
+      "sha256": "e2d313f61309ebe87f74d624763b77aa0c9feb48d2cd06e5594779613a67f389"
+    },
+    {
+      "file": "sleeve-underpaint-v1.png",
+      "original": "exec-9b797dff-323b-4866-b89a-54653d8fd8e6.png",
+      "prompt": "prompt-sleeve-underpaint-v1.txt",
+      "role": "hidden shoulder sleeve; original cuff retained below y395",
+      "sha256": "1848a3f50fb236ed8db19320340c8e61d1475363ef73b37f91fe03ba6c72cc3a"
+    }
+  ],
+  "sourcePixelClaims": "Only explicitly selected original regions are unchanged. Generated body/cloth/sleeve are new artwork.",
+  "userApproved": false
+}

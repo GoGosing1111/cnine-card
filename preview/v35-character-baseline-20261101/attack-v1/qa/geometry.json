@@ -1,0 +1,12 @@
+{
+  "samples": 241,
+  "visibleFlips": 0,
+  "allFlips": 7625,
+  "examples": [],
+  "nonFinite": 0,
+  "weaponLengthError": 0.00007308982787890272,
+  "footMeshDrift": 0,
+  "footAnchorDrift": 0,
+  "wristGap": 0,
+  "endpointError": 0.00006103515625
+}

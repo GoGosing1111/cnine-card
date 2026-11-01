@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "date": "2026-11-01",
   "request": "새 캐릭터로 처음부터 기준점부터 다시 잡아가라",
-  "status": "STATIC_ASSEMBLY_AND_RESTRAINED_IDLE_REVIEWED",
+  "status": "BASIC_ATTACK_ARM_REVISION_USER_REVIEW_PENDING",
   "selectedCandidate": "baseline-v4.png",
   "character": {
     "temporaryDescription": "흑발·붉은 코트·강철 보호구·직선 한손검의 성인 남성 검사",
     "name": null,
     "rarity": null,
     "stats": null,
-    "scope": "V3.5 전신 기준과 정지 조립·4.2초 호흡 대기",
+    "scope": "V3.5 기본 베기와 팔 동작 수정안",
     "userApproved": false
   },
   "generator": "built-in image_gen",
@@ -114,7 +114,7 @@
     "finalAlphaQualityPassed": false,
     "groundAndGripCoordinatesLocked": false,
     "partsSeparated": true,
-    "staticReassemblyPassed": true,
+    "staticReassemblyPassed": false,
     "nativeSpineRigCreated": true,
     "animationCreated": true,
     "v3BattleIntegrated": false,
@@ -125,9 +125,13 @@
     "sourcePixelPreservationVerified": true,
     "idleLoopObservedAndRecorded": true,
     "selectedIdleFramesReviewed": true,
-    "mobile390ViewportReviewed": true
+    "mobile390ViewportReviewed": true,
+    "basicAttackCreated": true,
+    "firstAttackRejectedByUser": true,
+    "armRevisionStructurallyChecked": true,
+    "armRevisionSelectedPosesReviewed": true
   },
-  "next": "기본 공격의 주요 자세와 가려진 관절·손 보완 작화부터 준비",
+  "next": "수정한 팔 동작의 사용자 시각 검토; 요구 품질에 맞춘 자세 교체 작화와 대표 스킬·효과",
   "priorPilot": {
     "character": "진 족로",
     "status": "SPINE_ASSEMBLY_REJECTED_AND_ON_HOLD",
@@ -136,21 +140,29 @@
     "automaticResume": false
   },
   "progressAuthorization": {
-    "quote": "어 해봐",
-    "scope": "baseline-v4로 부품 분리·정지 조립·대기 제작 진행",
+    "quote": "해봐 그럼",
+    "scope": "기본 베기 제작; 후속 칼 추출 및 팔 동작 불만 반영",
     "finalVisualApproval": false
   },
   "currentRig": {
-    "project": "rig-v1/PROJECT.md",
-    "receipt": "rig-v1/qa/native.json",
-    "native": "rig-v1/swordsman-0c78c140e3fb.spine",
-    "sha256": "2e7ac5fefe564f7b3a3dee982ea43e8b81e040bb4739774a83410361fd547477",
+    "project": "attack-v1/PROJECT.md",
+    "receipt": "attack-v1/qa/native.json",
+    "native": "attack-v1/swordsman-06c1f1563f47.spine",
+    "sha256": "3ae87ba2a39097cea5b25105db813a2bcefed0afc574a549cc85afac4139a423",
     "animations": [
-      "setup",
-      "idle"
+      "attack_basic",
+      "idle",
+      "setup"
     ],
+    "attackSeconds": 1.2,
     "idleSeconds": 4.2,
-    "hiddenArtworkComplete": false,
+    "parts": 11,
+    "bones": 27,
     "finalVisualApproval": false
+  },
+  "feedback": {
+    "oldWeaponRejected": true,
+    "firstAttackRejected": true,
+    "currentRevisionUserApproval": false
   }
 }

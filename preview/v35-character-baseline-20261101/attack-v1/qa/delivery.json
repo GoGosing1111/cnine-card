@@ -1,0 +1,28 @@
+{
+  "links": [
+    {
+      "path": "/swordsman-06c1f1563f47.spine",
+      "status": 200
+    },
+    {
+      "path": "/qa/weapon-v2-light.png",
+      "status": 200
+    },
+    {
+      "path": "/qa/attack-three-runs.webm",
+      "status": 200
+    },
+    {
+      "path": "/PROJECT.md",
+      "status": 200
+    }
+  ],
+  "video": {
+    "time": 0.9064,
+    "width": 1058,
+    "height": 818,
+    "decodedFrames": 29,
+    "error": null
+  },
+  "physicalDevice": false
+}

@@ -1,0 +1,80 @@
+{
+  "nativeSha256": "3ae87ba2a39097cea5b25105db813a2bcefed0afc574a549cc85afac4139a423",
+  "physicalDevice": false,
+  "continuousVisualReview": false,
+  "geometry": {
+    "samples": 241,
+    "visibleFlips": 0,
+    "allFlips": 7625,
+    "examples": [],
+    "nonFinite": 0,
+    "weaponLengthError": 0.00007308982787890272,
+    "footMeshDrift": 0,
+    "footAnchorDrift": 0,
+    "wristGap": 0,
+    "endpointError": 0.00006103515625
+  },
+  "recording": {
+    "file": "attack-three-runs.webm",
+    "bytes": 1637465,
+    "realTimeAttacks": 3,
+    "returnToIdle": 3,
+    "normalSpeed": true
+  },
+  "contacts": [
+    {
+      "name": "visual_contact",
+      "time": 0.405
+    },
+    {
+      "name": "visual_contact",
+      "time": 0.404
+    },
+    {
+      "name": "visual_contact",
+      "time": 0.404
+    }
+  ],
+  "speeds": [
+    {
+      "speed": 0.25,
+      "time": 0.178
+    },
+    {
+      "speed": 0.5,
+      "time": 0.2585
+    },
+    {
+      "speed": 2,
+      "time": 0.708
+    }
+  ],
+  "cancellations": [
+    {
+      "time": 0.2,
+      "instantHeadJump": 0
+    },
+    {
+      "time": 0.41,
+      "instantHeadJump": 0
+    },
+    {
+      "time": 0.65,
+      "instantHeadJump": 0
+    }
+  ],
+  "controls": {
+    "pause": true,
+    "seek": true,
+    "speeds": true,
+    "hiddenFreeze": true,
+    "resume": true,
+    "interruptMixSeconds": 0.18
+  },
+  "mobile": {
+    "width": 390,
+    "scrollWidth": 390,
+    "canvases": 1
+  },
+  "errors": []
+}

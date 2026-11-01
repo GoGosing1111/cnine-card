@@ -1,0 +1,42 @@
+{
+  "nativeSha256": "3ae87ba2a39097cea5b25105db813a2bcefed0afc574a549cc85afac4139a423",
+  "status": "ARM_REVISION_FOR_REVIEW",
+  "priorUserFeedback": [
+    {
+      "quote": "칼 추출하는게 잘못된거같은데 왜 칼이 제 모양을 안하고 있노",
+      "status": "OLD_WEAPON_MASK_REJECTED"
+    },
+    {
+      "quote": "무슨 팔이 각목으로 움직이는거같노 쓸줄 모르나?",
+      "native": "swordsman-825065113758.spine",
+      "status": "OLD_ARM_MOTION_REJECTED"
+    }
+  ],
+  "directlyInspected": [
+    "weapon-v2-light.png",
+    "weapon-v2-dark.png",
+    "pose-0-000.png",
+    "pose-0-320.png",
+    "pose-0-400.png",
+    "pose-0-680.png",
+    "pose-1-200.png",
+    "attack-mobile-390.png"
+  ],
+  "changes": [
+    "separate rigid pauldron and completed sleeve",
+    "FK shoulder-elbow-wrist chain, sword inherited from hand",
+    "phase offset between joints and continuous intermediate velocity",
+    "original visible sword restored with hidden handle underpaint"
+  ],
+  "geometryVisibilityClassification": "Every source pixel center inside each UV triangle checked for alpha > 32; transparent triangles reported separately.",
+  "normalSpeedExecutionAndRecording": 3,
+  "continuousHumanVideoReview": false,
+  "physicalDevice": false,
+  "userAestheticApproval": false,
+  "dnfQualityDemonstrated": false,
+  "production": false,
+  "limitations": [
+    "single-view hand and arm artwork; dramatic turns require replacement poses",
+    "no skill FX, real target hit reaction, sound or battle event integration"
+  ]
+}

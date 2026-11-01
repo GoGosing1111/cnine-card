@@ -1,0 +1,48 @@
+{
+  "action": "attack_basic",
+  "intent": "one decisive one-handed diagonal cut, right-facing",
+  "scope": "body and locked source sword; no skill FX or game damage",
+  "source": "../baseline-v4.png",
+  "previousNative": "../rig-v1/swordsman-0c78c140e3fb.spine",
+  "sourceSha256": "fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44",
+  "phases": [
+    {
+      "time": 0,
+      "pose": "entry"
+    },
+    {
+      "time": 0.29,
+      "pose": "loaded anticipation"
+    },
+    {
+      "time": 0.34,
+      "pose": "shoulder leads while elbow remains bent"
+    },
+    {
+      "time": 0.4,
+      "pose": "elbow opens, wrist releases / visual contact"
+    },
+    {
+      "time": 0.44,
+      "pose": "contact pose hold ends"
+    },
+    {
+      "time": 0.54,
+      "pose": "follow through"
+    },
+    {
+      "time": 0.8,
+      "pose": "guard recovery"
+    },
+    {
+      "time": 1.2,
+      "pose": "settle"
+    }
+  ],
+  "provisional": true,
+  "sourceWeaponRigid": true,
+  "userQuote": "해봐 그럼",
+  "userFinalVisualApproval": false,
+  "status": "ARM_REVISION_AFTER_USER_REJECTION",
+  "armDriver": "FK shoulder-elbow-wrist; rigid sword follows hand"
+}

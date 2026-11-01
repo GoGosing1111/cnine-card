@@ -1,0 +1,15 @@
+{
+  "sourceSha256": "fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44",
+  "weaponSha256": "5e485052a02909c94cc91f4f75072ca42ce59ba1384ce1a5f299f0714f23ae07",
+  "nativeSha256": "3ae87ba2a39097cea5b25105db813a2bcefed0afc574a549cc85afac4139a423",
+  "originalPixels": 30086,
+  "generatedHiddenPixels": 4246,
+  "mismatches": 0,
+  "nonzeroRgbAtZeroAlpha": 0,
+  "componentsAlphaOver32": [
+    33280,
+    1
+  ],
+  "oldNativeUnchanged": true,
+  "baselineUnchanged": true
+}

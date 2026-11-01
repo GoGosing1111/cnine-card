@@ -1,0 +1,23 @@
+{
+  "editor": "4.3.26 Professional",
+  "native": "swordsman-825065113758.spine",
+  "nativeSha256": "60625e24786c6131da107931320964d43d1691d5027022e6b3c6955e3519f694",
+  "inputSha256": "825065113758734141c078db0ae24035610d49ec88b4dcbcc3a9f3d4abcf2738",
+  "runtimeDir": "runtime-825065113758",
+  "atlas": "swordsman-825065113758.atlas",
+  "skeletonJson": "swordsman.json",
+  "skeletonCount": 1,
+  "save": true,
+  "reopen": true,
+  "export": true,
+  "bones": 25,
+  "slots": 10,
+  "animations": [
+    "attack_basic",
+    "idle",
+    "setup"
+  ],
+  "visualReview": "pending",
+  "userMotionApproval": false,
+  "production": false
+}

@@ -1,0 +1,544 @@
+{
+  "schemaVersion": 1,
+  "status": "ARM_REVISION_USER_REVIEW_PENDING",
+  "native": "swordsman-06c1f1563f47.spine",
+  "nativeSha256": "3ae87ba2a39097cea5b25105db813a2bcefed0afc574a549cc85afac4139a423",
+  "editor": "4.3.26 Professional",
+  "runtime": "spine-pixi-v8 4.3.13",
+  "authoring": "Code-authored rig and timelines; actual Spine CLI import/save/reopen/export. No GUI pose authoring.",
+  "userApproved": false,
+  "priorFirstAttack": "USER_REJECTED_RIGID_ARM",
+  "production": false,
+  "artifacts": [
+    {
+      "file": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "file": "PROJECT.md",
+      "bytes": 7195,
+      "sha256": "b38ee7a3bfbec868bcb9e244bba29d7731668dd71c5a3dfe62c63bace3549e1a"
+    },
+    {
+      "file": "author-attack-v2.mjs",
+      "bytes": 15304,
+      "sha256": "17aa454838bbbe425fdbb04362a6ec4fa151b81b41b810391c353d44ee31eca8"
+    },
+    {
+      "file": "build.mjs",
+      "bytes": 1494,
+      "sha256": "34c6f92081bf74a358c40e4cdd80b93adb4395f94549689905e9877523ba9782"
+    },
+    {
+      "file": "extract-weapon.mjs",
+      "bytes": 4104,
+      "sha256": "373fd4dbcdf0bc748146d3700387c1eae8b4a69b2004394ba84255b7c7a511c3"
+    },
+    {
+      "file": "history/rigid-arm-rejected/author-attack.mjs",
+      "bytes": 13216,
+      "sha256": "70efd3bd757a73426fd1f923f03a483fb5f6c2ca547ed7f329c98ba8f57757e0"
+    },
+    {
+      "file": "history/rigid-arm-rejected/poses-local.json",
+      "bytes": 9077,
+      "sha256": "28eb648541481b33aa579c02b5c824e3961c9046f655d2c5cee9e0da0a4eb367"
+    },
+    {
+      "file": "history/rigid-arm-rejected/qa-attack-three-runs.webm",
+      "bytes": 1691356,
+      "sha256": "6b65b24714c0cdd54920b19fb450ca858a77519c079ba7346749d793a92897d3"
+    },
+    {
+      "file": "history/rigid-arm-rejected/qa-geometry.json",
+      "bytes": 266,
+      "sha256": "ff8cf07ba4c95fe25f9639ef24bff64949ed8bb5a5a3256608c9b52b47cffeef"
+    },
+    {
+      "file": "history/rigid-arm-rejected/qa-native.json",
+      "bytes": 625,
+      "sha256": "7eb358dd32b30d1934cc1e7c819a089bf66c4027b698fded72de4c76cf209c4e"
+    },
+    {
+      "file": "history/rigid-arm-rejected/qa-playback.json",
+      "bytes": 1456,
+      "sha256": "92154be0f8025e71225c9d27c56c4fe62af88ff792139f29df2264af67aba8d0"
+    },
+    {
+      "file": "history/rigid-arm-rejected/rejection.json",
+      "bytes": 345,
+      "sha256": "565cfea6eccbc8ddbb0ae6c3f30d445d8c0821e9df8de3792f6a931c61d3e3b2"
+    },
+    {
+      "file": "history/rigid-arm-rejected/sources-attack-rig-map.json",
+      "bytes": 12540,
+      "sha256": "0a6b9412c2ae68e23c2452f03859e3f20dc260902d550e59edd982f2764333ef"
+    },
+    {
+      "file": "history/rigid-arm-rejected/swordsman.input.json",
+      "bytes": 970278,
+      "sha256": "825065113758734141c078db0ae24035610d49ec88b4dcbcc3a9f3d4abcf2738"
+    },
+    {
+      "file": "images/body-completed.png",
+      "bytes": 1942719,
+      "sha256": "93b9c1dbadf47191f42de2f6c046356ffc8779201261aedca8760e19a78c5532"
+    },
+    {
+      "file": "images/body-mesh.png",
+      "bytes": 1919765,
+      "sha256": "46d1e6c53cc1700b143e2b398fa41af0b8178dede8c80a4b9ff198679face4e0"
+    },
+    {
+      "file": "images/coat_back-mesh.png",
+      "bytes": 417426,
+      "sha256": "a0d9af84fab4401d1c2e46a47c30fe8a6bdf003324327a9deed9c410b222b8a4"
+    },
+    {
+      "file": "images/coat_back.png",
+      "bytes": 438450,
+      "sha256": "0a6ba9a79a6839bb3f07ed9cabf092ad35af1107ca016c6cdef64d1be1ee735a"
+    },
+    {
+      "file": "images/coat_front-mesh.png",
+      "bytes": 249205,
+      "sha256": "df33643036313ccfa22cdf39dead461428a2418c3e7c21daef4355620b001dbb"
+    },
+    {
+      "file": "images/coat_front.png",
+      "bytes": 275073,
+      "sha256": "7a70497714db3e0a4841ec94e484589fb16beadc0e29d8afd0654b569fdd9425"
+    },
+    {
+      "file": "images/forearm_far-mesh.png",
+      "bytes": 23823,
+      "sha256": "da4e94dfacd8f48ef7d0a5aa54a00c99c694b43d30e1b996c27bee434c6579cd"
+    },
+    {
+      "file": "images/forearm_far.png",
+      "bytes": 31628,
+      "sha256": "36549f6b0c53b3594a93be412e147592402e6d9b42b940b4292cbc8ba0fb539c"
+    },
+    {
+      "file": "images/forearm_near-mesh.png",
+      "bytes": 32758,
+      "sha256": "84ecdf646e1a6cacefa9b1aedf3f1b8a11e52cd2f08b85f7c8d8038b72996d04"
+    },
+    {
+      "file": "images/forearm_near.png",
+      "bytes": 41981,
+      "sha256": "363b74765f35a63f913f30e1fb8c965d579c129a85dc9d4a9780654abd9c850c"
+    },
+    {
+      "file": "images/hand_far-mesh.png",
+      "bytes": 34977,
+      "sha256": "2aad034b9ccbc72f91a89d190c65f28a5052d6913bedcf9b6741b7dea37b78e0"
+    },
+    {
+      "file": "images/hand_far.png",
+      "bytes": 45728,
+      "sha256": "0316c46c11addbbdae79f951e8cfbc83a41f4561ee76bd8113b406251a24bfda"
+    },
+    {
+      "file": "images/hand_near-mesh.png",
+      "bytes": 24723,
+      "sha256": "f7382e3afc88ab1d4b73287972ad5c302dc7c6b2201ebf6da2cb626683c45672"
+    },
+    {
+      "file": "images/hand_near.png",
+      "bytes": 33609,
+      "sha256": "3316480e565f0cc7321217a36dc98acbc15af8f8fd6574fc34a0651fcd3a431d"
+    },
+    {
+      "file": "images/pauldron_near-mesh.png",
+      "bytes": 78655,
+      "sha256": "003b2723119d4a5dfcead4e34c257368317dd0b5827844e37cc1e474f32920b2"
+    },
+    {
+      "file": "images/pauldron_near.png",
+      "bytes": 88807,
+      "sha256": "da99fb597357e4fd1ecb2a7dcd3125c5485a735d01c8d9cd88d6a5f2c3cb141b"
+    },
+    {
+      "file": "images/sleeve_near-mesh.png",
+      "bytes": 123603,
+      "sha256": "476cbf38762d05d1ea092e6010b658dc6ccd179331f1433cdea6f12182e03010"
+    },
+    {
+      "file": "images/sleeve_near.png",
+      "bytes": 139343,
+      "sha256": "2ffe3f68e51d3ca3911ed5a657702127928ebf5bd285063e8ddde9274d64b49c"
+    },
+    {
+      "file": "images/upper_arm_far-mesh.png",
+      "bytes": 32467,
+      "sha256": "48149904ad3a6fd18ef7743481cda4c117684caf90c382c747a69e070d8509a1"
+    },
+    {
+      "file": "images/upper_arm_far.png",
+      "bytes": 41997,
+      "sha256": "b955d59f324a449fb24f50acb33782832c12f7a6e35f23191cc5712ac021e14e"
+    },
+    {
+      "file": "images/upper_arm_near-mesh.png",
+      "bytes": 127760,
+      "sha256": "27c2204fdd72a65f28259ddc8e47bd3822af694ceb134c838cae0c675ea74b6c"
+    },
+    {
+      "file": "images/upper_arm_near.png",
+      "bytes": 140091,
+      "sha256": "f7dbd21e0c1471b15ceb0d08cccbcfb9bd3aa854f4c57dab7650c033f9b69626"
+    },
+    {
+      "file": "images/weapon-mesh.png",
+      "bytes": 112402,
+      "sha256": "52956fa7fd78d9e00af447bc867bce47e3ba0075738d2a33e37e644e4f3b929b"
+    },
+    {
+      "file": "images/weapon-restored-v2.png",
+      "bytes": 117518,
+      "sha256": "5e485052a02909c94cc91f4f75072ca42ce59ba1384ce1a5f299f0714f23ae07"
+    },
+    {
+      "file": "index.html",
+      "bytes": 2848,
+      "sha256": "9684aa068d4c0007d425f4dfa21a42936480963f99def2d78325bc25beaa7f0f"
+    },
+    {
+      "file": "motion-brief.json",
+      "bytes": 1162,
+      "sha256": "c892803908d38ea7866efb4823741f1cffd220bd8f58dfabc2ec0b9494a90564"
+    },
+    {
+      "file": "native.mjs",
+      "bytes": 2597,
+      "sha256": "134099c4807cd9949041f3818d363835dc72784a37a4bf91d2f8a95b3d56bdc1"
+    },
+    {
+      "file": "prepare-arm-v2.mjs",
+      "bytes": 714,
+      "sha256": "c9267e0dbc7f8dd9ffce869dde4debc349561573594122ce7ef218d17951d55e"
+    },
+    {
+      "file": "prepare-cloth.mjs",
+      "bytes": 2293,
+      "sha256": "e66bda0ea390c677435c468be6a2ce4382c554d209074c300917f3e73785c0d8"
+    },
+    {
+      "file": "qa/attack-mobile-390.png",
+      "bytes": 73027,
+      "sha256": "41870c16c4d3e7f4d1c951797654bc849307b8e6d96a7d0350e55543f0f2d6be"
+    },
+    {
+      "file": "qa/attack-three-runs.webm",
+      "bytes": 1637465,
+      "sha256": "87cf1053eab81b30a587223e65e3f605036a7274b0ffa673eaef25e3823f0640"
+    },
+    {
+      "file": "qa/build.json",
+      "bytes": 378,
+      "sha256": "cbf0cf6d19c3a8e0d056f4974273687c3a9360c32cc33fbfa62307c3cbd6d7f7"
+    },
+    {
+      "file": "qa/contact-dark.png",
+      "bytes": 189640,
+      "sha256": "2ee6be0d6b7cc3c13c99025e40531ed6c2f263c07067bf19acdc1f5995c1f65b"
+    },
+    {
+      "file": "qa/delivery.json",
+      "bytes": 458,
+      "sha256": "8cc93e8e27b9ffaf4c3291ef6b61ab33df1c6c3877ab89cd04389f687ae4c087"
+    },
+    {
+      "file": "qa/delivery.mjs",
+      "bytes": 1705,
+      "sha256": "8a31ee7b651d3b030f46ab1c54cef7442dbe1080bd9b2fb18cfd034c104ff966"
+    },
+    {
+      "file": "qa/geometry.json",
+      "bytes": 244,
+      "sha256": "b43bb78f51f29ccd20775733e121c0a11c3ccb3a627c87b41dae9c5a040352a4"
+    },
+    {
+      "file": "qa/native-export.log",
+      "bytes": 297,
+      "sha256": "49fb49dea4367e1aa51f6b117165d46edbdb08189bb8fcaa093ba0a35502aefc"
+    },
+    {
+      "file": "qa/native-import.log",
+      "bytes": 282,
+      "sha256": "b62d852fcee703ff18ccce8e11181d2b522005a54523f4f2bec956b71fe4608e"
+    },
+    {
+      "file": "qa/native-reopen.log",
+      "bytes": 1086,
+      "sha256": "f73571b851c2b06bffc8423bc7870fa2b2c39e726e6014b2ab4487a30d0ffb22"
+    },
+    {
+      "file": "qa/native.json",
+      "bytes": 677,
+      "sha256": "1c22f0a8393e3e9867962ff14bc7b375085c9d38e5b4ed8d9477f5794c882ffa"
+    },
+    {
+      "file": "qa/old-weapon-alpha-check.png",
+      "bytes": 109824,
+      "sha256": "82192e6fca78a0b8308abdff07846771bafbaedf4c1daef7008f91d975130eea"
+    },
+    {
+      "file": "qa/playback.json",
+      "bytes": 1434,
+      "sha256": "ad0c96a8eab377fc31a1bc59426e896e973861046be104daed4f235d78b3b834"
+    },
+    {
+      "file": "qa/pose-0-000.png",
+      "bytes": 208594,
+      "sha256": "4f5e4c538b9e311b8c7951a03ca9311bb716a5e4fa40d15ac9b6776ec63f7376"
+    },
+    {
+      "file": "qa/pose-0-120.png",
+      "bytes": 205291,
+      "sha256": "65370ef3ac17c29740e1281c55c79b74234314a76f03bcf060954ecc5a7c8490"
+    },
+    {
+      "file": "qa/pose-0-260.png",
+      "bytes": 203241,
+      "sha256": "196d690217a521df03b044e580aba83ec9b3be01faa3289486aa536e44d749f6"
+    },
+    {
+      "file": "qa/pose-0-320.png",
+      "bytes": 201487,
+      "sha256": "dd752edb8060fa566d63b8469fbcb83dbe325f921c1918c6f600ff86d31ee844"
+    },
+    {
+      "file": "qa/pose-0-360.png",
+      "bytes": 192403,
+      "sha256": "e9ea76db5c36be02a90d6acaed949f2663aa39c99143df035e2a1cced8c72069"
+    },
+    {
+      "file": "qa/pose-0-400.png",
+      "bytes": 195947,
+      "sha256": "452a3fc22a8f2f290f4badad192e3a409640f42b21d18268c4a89bfeefd9ed87"
+    },
+    {
+      "file": "qa/pose-0-440.png",
+      "bytes": 195906,
+      "sha256": "c9f085b2aef4f8747e91dad127c75ca604845b978c8c49b5889882c6fcf1b3bf"
+    },
+    {
+      "file": "qa/pose-0-540.png",
+      "bytes": 194066,
+      "sha256": "c0a879e22085479f05dea3942f2626c0f75f9951ee1077c2ce2399e6c7806fc0"
+    },
+    {
+      "file": "qa/pose-0-680.png",
+      "bytes": 198954,
+      "sha256": "51b546dba5d438b6be7df118e0792d6bd4a20bcb84dbb8bb58b4730d81304f62"
+    },
+    {
+      "file": "qa/pose-0-840.png",
+      "bytes": 203881,
+      "sha256": "37efc128ecf6fff3f98ce3c2638d088178bf81ccd23de65b7da882b5da2e7e7d"
+    },
+    {
+      "file": "qa/pose-1-020.png",
+      "bytes": 208552,
+      "sha256": "5d2ad89da14e7620044cde8568cbbe45ec9f9de5e17f1043b30b551dfadf4f25"
+    },
+    {
+      "file": "qa/pose-1-200.png",
+      "bytes": 208594,
+      "sha256": "4f5e4c538b9e311b8c7951a03ca9311bb716a5e4fa40d15ac9b6776ec63f7376"
+    },
+    {
+      "file": "qa/poses.json",
+      "bytes": 8865,
+      "sha256": "f79fdc2e9a5cf6ae2023d2b56dfcfa97fd23f809f7ddea38ee2a313749e47d59"
+    },
+    {
+      "file": "qa/poses.mjs",
+      "bytes": 1284,
+      "sha256": "ec63d1fdd8bbf50ed7a9793ef5be371e3c0a7ad66f895cdf914c2f76cbb502e5"
+    },
+    {
+      "file": "qa/provenance.json",
+      "bytes": 479,
+      "sha256": "fbf58ebd6376b1b987fd6b0b8f0faf044923b70c9e86ca34bb33a82e2af9263b"
+    },
+    {
+      "file": "qa/provenance.mjs",
+      "bytes": 3045,
+      "sha256": "858687e5999f5ede2c78b958970ee18115f9e3584eb5da0a98962298e7337838"
+    },
+    {
+      "file": "qa/verify.mjs",
+      "bytes": 9585,
+      "sha256": "c689ecc5f933c04801a7d926850519620e4f9147ce0f95a685cc756096532fd2"
+    },
+    {
+      "file": "qa/visual-review.json",
+      "bytes": 1542,
+      "sha256": "b10e33ec0858fad98b884896d82178f5215697984a1c7f44d7d25cb9550fb979"
+    },
+    {
+      "file": "qa/weapon-v2-dark.png",
+      "bytes": 101104,
+      "sha256": "e7052e67dd23d10cb3608e2e2970d7cf480393d212f46df36fd43d184086bd6a"
+    },
+    {
+      "file": "qa/weapon-v2-light.png",
+      "bytes": 102047,
+      "sha256": "906dca2a86a22311fcb1b5248667b9e83f8aa543a77452b8b0b913d796422a69"
+    },
+    {
+      "file": "record-policy.mjs",
+      "bytes": 3400,
+      "sha256": "e38a11bbaf2c9b8e93e5da95baa9a24adf78ea14dda34908430a13a89866c13a"
+    },
+    {
+      "file": "review.bundle.js",
+      "bytes": 3244587,
+      "sha256": "ecb2eed148f107023abfd44d2059a6c01a1cd68ec6c14c2e86f0b6bb26a14f43"
+    },
+    {
+      "file": "review.src.mjs",
+      "bytes": 6204,
+      "sha256": "ce76025bb9a0827aff83e4267d9913dc8a3ede830296a5c1e9fc117dc8f3318c"
+    },
+    {
+      "file": "runtime-06c1f1563f47/swordsman-06c1f1563f47.atlas",
+      "bytes": 570,
+      "sha256": "e55aa4f35a4dc0404ab7c210b52040d68f02669a37c49afbd75656d8884733b0"
+    },
+    {
+      "file": "runtime-06c1f1563f47/swordsman-06c1f1563f47.png",
+      "bytes": 2131415,
+      "sha256": "69a1494b5caf2c8b20f3f9763d5ce90dc8cd7aca59f89dc3a1f9a94b35a59052"
+    },
+    {
+      "file": "runtime-06c1f1563f47/swordsman.json",
+      "bytes": 403676,
+      "sha256": "30f6e9d07a5165a5c53317533c40ca7c97593151f9c60134d38c1d97c30e42a8"
+    },
+    {
+      "file": "runtime-825065113758/swordsman-825065113758.atlas",
+      "bytes": 495,
+      "sha256": "b2d4d150d64165f8780e7d6860d4491ffcfa408accda63b8810c7d27d5e6ebe7"
+    },
+    {
+      "file": "runtime-825065113758/swordsman-825065113758.png",
+      "bytes": 2048484,
+      "sha256": "6d0e061643d5899cacacc8155dc284a2e55addaeb20bf307a6b8166ab73dd73a"
+    },
+    {
+      "file": "runtime-825065113758/swordsman.json",
+      "bytes": 383113,
+      "sha256": "2271c8586c7632d2ff6e71451c5a160c2fd4bd68b0073e41febb1452572c63e0"
+    },
+    {
+      "file": "serve.mjs",
+      "bytes": 1331,
+      "sha256": "e254bda0066f94602f9788382393becd69956cebe52f6b1237ed2908d1ef3e20"
+    },
+    {
+      "file": "sources/attack-rig-map.json",
+      "bytes": 15875,
+      "sha256": "8a67119fbb1362749fbd3f73497fa4ad1272d00d340d18a1f17c9674e5336d6f"
+    },
+    {
+      "file": "sources/body-no-coat-registered.png",
+      "bytes": 984886,
+      "sha256": "a5a79f3da47b9d84d8f5270bf625c9a80124691121588ed1c7e46156c40a50ec"
+    },
+    {
+      "file": "sources/body-underpaint-v1.png",
+      "bytes": 1702164,
+      "sha256": "e2f87c6251d31eeb8f0057c483f88bb0d412b0ac54a5d3e3ecf67298f9e5e165"
+    },
+    {
+      "file": "sources/body-underpaint-v2.png",
+      "bytes": 1639145,
+      "sha256": "0af7a433adddfca98326c81a455582865da8205a82e5441c22dcb831e9555785"
+    },
+    {
+      "file": "sources/body-underpaint-v3-no-coat.png",
+      "bytes": 1575968,
+      "sha256": "11e21d7f0a4bb1f0b209c10a5f188924aceac7adef244900e324d1212fb55a91"
+    },
+    {
+      "file": "sources/cloth-registration.json",
+      "bytes": 662,
+      "sha256": "58862ffbf05cf70a21aaf9563b4b13c6a82db6f7f3a42d4f6c52026437a8e8aa"
+    },
+    {
+      "file": "sources/coat-layer-v1.png",
+      "bytes": 1182042,
+      "sha256": "e2d313f61309ebe87f74d624763b77aa0c9feb48d2cd06e5594779613a67f389"
+    },
+    {
+      "file": "sources/generation-manifest.json",
+      "bytes": 2129,
+      "sha256": "d8aa74bc61be0bbabcf7be6f79b37bc1dd09ebea08fb6b396feb77907a723e4f"
+    },
+    {
+      "file": "sources/prompt-body-underpaint-v1.txt",
+      "bytes": 1610,
+      "sha256": "3a08adbaf072e0ec0dd5028b881888ceaab108bcd312f0315cefb70487f5a606"
+    },
+    {
+      "file": "sources/prompt-body-underpaint-v2.txt",
+      "bytes": 1172,
+      "sha256": "df1ce86e96fc84491ea68aefaa753ca1f41fc691b128b98efe0d79771a0c473c"
+    },
+    {
+      "file": "sources/prompt-body-underpaint-v3.txt",
+      "bytes": 943,
+      "sha256": "d5e13077996bcfdd82056f5623f71f51b3386db1c605a85ccd451b12185cd555"
+    },
+    {
+      "file": "sources/prompt-coat-layer-v1.txt",
+      "bytes": 1197,
+      "sha256": "f19135ed84a3ad515e065e60c2ca9bf20443f352827c13ad5a7ca4bd219dd5d7"
+    },
+    {
+      "file": "sources/prompt-sleeve-underpaint-v1.txt",
+      "bytes": 1268,
+      "sha256": "5385b2caecb09a7c495ee8d8ed9a7f0ad237faa275ba93315fc4dce63cd5c867"
+    },
+    {
+      "file": "sources/prompt-weapon-restoration-v1.txt",
+      "bytes": 1594,
+      "sha256": "9b9e24cabd91416794fd8c361680d815a94a444c530d6a1d4a722d39f6a4b601"
+    },
+    {
+      "file": "sources/sleeve-underpaint-v1.png",
+      "bytes": 610469,
+      "sha256": "1848a3f50fb236ed8db19320340c8e61d1475363ef73b37f91fe03ba6c72cc3a"
+    },
+    {
+      "file": "sources/weapon-handle-restoration-v1.png",
+      "bytes": 807662,
+      "sha256": "04c34602d82be1bec7e36957d8e49310f5ca4b8a03db03502291d4030d2d966f"
+    },
+    {
+      "file": "sources/weapon-selection.json",
+      "bytes": 45294,
+      "sha256": "b773fbfbeefce4d5694f37865804a61f45636516ad4c0b14cc1dc935f6a2cc76"
+    },
+    {
+      "file": "swordsman-06c1f1563f47.spine",
+      "bytes": 189646,
+      "sha256": "3ae87ba2a39097cea5b25105db813a2bcefed0afc574a549cc85afac4139a423"
+    },
+    {
+      "file": "swordsman-825065113758.spine",
+      "bytes": 184852,
+      "sha256": "60625e24786c6131da107931320964d43d1691d5027022e6b3c6955e3519f694"
+    },
+    {
+      "file": "swordsman.input.json",
+      "bytes": 1001036,
+      "sha256": "06c1f1563f47f5f35864cf05d34ed539124878cc828e62e09cfd09d617dbb403"
+    }
+  ]
+}
