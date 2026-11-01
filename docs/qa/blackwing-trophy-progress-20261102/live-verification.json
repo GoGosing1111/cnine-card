@@ -1,0 +1,23 @@
+{
+  "sourceCommit": "ef3762fcfec7aac5451f796ca5e560f2714070ab",
+  "pages": {
+    "id": "6bcfee7e-12c7-45ee-9428-f2b14734b085",
+    "url": "https://6bcfee7e.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ef3762fcfec7aac5451f796ca5e560f2714070ab"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "8704a8f1-f4d9-45ad-a944-38b705bea581",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "6827b1f5-d519-41da-b691-147e9fdfa45d",
+      "percentage": 100
+    }
+  ],
+  "accountWrites": 0,
+  "messagesSent": 0
+}
