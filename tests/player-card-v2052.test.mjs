@@ -487,6 +487,7 @@ test('empty trophy shelves keep border FX without creating an empty GSAP tween',
 test('public card and common honors agree after launch while previous trophies stay owned and new records start at zero',async()=>{
  const f=await fixture();try{
   const before=await f.call(),at='2026-11-01T03:00:00.000Z';
+  await f.pg.exec(read('scripts/postgres-runtime-compat.sql').match(/CREATE OR REPLACE FUNCTION sqlite_json_extract[\s\S]*?\$\$;/)[0]);
   await f.pg.exec('CREATE TABLE raid_blackwing_rooms_v1(room_id text PRIMARY KEY,status text,state_json text)');
   await f.pg.query('INSERT INTO app_meta VALUES($1,$2)',['trophy_renewal_20261101_v1',JSON.stringify({version:1,launchedAt:at})]);
   let card=await f.call();assert.equal(card.status,200);
