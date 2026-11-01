@@ -28,6 +28,16 @@ export const supportPackageSalesOpen=(now=Date.now())=>Number.isFinite(now)&&now
 const sameProduct=(product,known)=>JSON.stringify(product)===JSON.stringify(known);
 export const isSupportPackageProduct=product=>[SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE_LEGACY_BOGO,SUPPORT_PACKAGE].some(known=>sameProduct(product,known));
 export const supportPackageFulfillment=product=>sameProduct(product,SUPPORT_PACKAGE)?SUPPORT_PACKAGE:[SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE_LEGACY_BOGO].some(known=>sameProduct(product,known))?SUPPORT_PACKAGE_LEGACY_BOGO:null;
+export const SUPPORT_PACKAGE_MAX_QUANTITY=100;
+export const supportPackageQuantityValid=n=>Number.isInteger(n)&&n>=1&&n<=SUPPORT_PACKAGE_MAX_QUANTITY;
+export function supportPackageOrderProduct(order){
+  const product=supportPackageFulfillment(order?.product),quantity=order?.quantity??1;
+  if(!product||!supportPackageQuantityValid(quantity)||product!==SUPPORT_PACKAGE&&quantity!==1)return null;
+  if(quantity===1)return product;
+  const coins=BigInt(product.coins)*BigInt(quantity);
+  return {...product,purchaseQuantity:quantity,priceWon:product.priceWon*quantity,packageQuantity:product.packageQuantity*quantity,
+    coins:coins<=BigInt(Number.MAX_SAFE_INTEGER)?Number(coins):coins.toString(),items:product.items.map(item=>({...item,quantity:item.quantity*quantity}))};
+}
 export function supportPackageWebRequest(request){
   const agent=request.headers.get('user-agent')||'';
   if(/ReverseCallAndroid\/|Reversecall\/|ReverseCallStore\/|Electron\/|;\s*wv\)/i.test(agent))return false;

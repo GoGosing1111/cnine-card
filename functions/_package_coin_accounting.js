@@ -11,10 +11,12 @@ function coinInteger(value,message,minimum=0n){
  const amount=BigInt(text);if(amount<minimum||amount>MAX_COIN)throw Error(message);
  return amount;
 }
-const limitedCoins=(amount,limit)=>Number(amount<BigInt(limit)?amount:BigInt(limit));
+const limitedCoins=(amount,limit)=>amount<BigInt(limit)?amount:BigInt(limit);
+const exactValue=n=>n<=BigInt(Number.MAX_SAFE_INTEGER)?Number(n):n.toString();
+const validCoins=n=>{try{coinInteger(n,'Invalid package coins');return true;}catch{return false;}};
 const empty=()=>({version:1,revision:0,cursor:0,restricted:0,auctionReserved:{},precredited:null});
 function validate(state){
- if(state.version!==1||!safe(state.revision)||!safe(state.cursor)||!safe(state.restricted)||!state.auctionReserved||typeof state.auctionReserved!=='object'||Array.isArray(state.auctionReserved)||Object.entries(state.auctionReserved).some(([id,n])=>!/^\d+$/.test(id)||!safe(n)))throw Error('Invalid package coin accounting');
+ if(state.version!==1||!safe(state.revision)||!safe(state.cursor)||!validCoins(state.restricted)||!state.auctionReserved||typeof state.auctionReserved!=='object'||Array.isArray(state.auctionReserved)||Object.entries(state.auctionReserved).some(([id,n])=>!/^\d+$/.test(id)||!validCoins(n)))throw Error('Invalid package coin accounting');
  return state;
 }
 // Coin logs are the existing authoritative debit ledger. Ordinary spending uses
@@ -28,14 +30,14 @@ export function reconcilePackageCoinLogs(before,logs){
   state.cursor=id;
   if(amount>0n&&reason.startsWith(GRANT)){
    if(reason.slice(GRANT.length)===state.precredited)state.precredited=null;
-   else state.restricted+=Number(amount);
+   else state.restricted=exactValue(coinInteger(state.restricted,'Invalid package balance')+amount);
   }else if(amount<0n&&reason!==BET){
-   const consumed=limitedCoins(-amount,state.restricted);state.restricted-=consumed;
+   const consumed=limitedCoins(-amount,state.restricted);state.restricted=exactValue(BigInt(state.restricted)-consumed);
    const auction=reason.match(/^경매 #(\d+) 누적 입찰$/);
-   if(auction&&consumed)state.auctionReserved[auction[1]]=(state.auctionReserved[auction[1]]||0)+consumed;
+   if(auction&&consumed)state.auctionReserved[auction[1]]=exactValue(BigInt(state.auctionReserved[auction[1]]||0)+consumed);
   }else if(amount>0n){
    const refund=reason.match(/^경매 #(\d+) (?:유찰·차순위 환급|운영자 무효 전액 환불)$/);
-   if(refund){const restored=limitedCoins(amount,state.auctionReserved[refund[1]]||0);state.restricted+=restored;const left=(state.auctionReserved[refund[1]]||0)-restored;if(left)state.auctionReserved[refund[1]]=left;else delete state.auctionReserved[refund[1]];}
+   if(refund){const restored=limitedCoins(amount,state.auctionReserved[refund[1]]||0);state.restricted=exactValue(BigInt(state.restricted)+restored);const left=BigInt(state.auctionReserved[refund[1]]||0)-restored;if(left)state.auctionReserved[refund[1]]=exactValue(left);else delete state.auctionReserved[refund[1]];}
   }
   validate(state);
  }
@@ -66,19 +68,19 @@ export async function readPackageCoinAccounting(env,userId){
   }
  }
  state.cursor=lastLog;
- const restricted=limitedCoins(total,state.restricted),available=total-BigInt(restricted);
- return {key,raw,state,tracked,total:Number(total),totalExact:total.toString(),lastLog,restricted,available:Number(available),availableExact:available.toString()};
+ const restricted=limitedCoins(total,state.restricted),available=total-restricted;
+ return {key,raw,state,tracked,total:Number(total),totalExact:total.toString(),lastLog,restricted:Number(restricted),restrictedExact:restricted.toString(),available:Number(available),availableExact:available.toString()};
 }
 export function packageCoinGuardStatements(env,userId,snapshot,{grant=0,orderId=null,token=crypto.randomUUID()}={}){
- if(!safe(grant)||grant>0&&!orderId)throw Error('Invalid package coin grant');
- const DB=env.DB,p=(sql,...a)=>DB.prepare(sql).bind(...a),next={...snapshot.state,revision:snapshot.state.revision+1,restricted:snapshot.state.restricted+grant,...(grant?{precredited:orderId}:{})};validate(next);
+ if(!validCoins(grant)||BigInt(grant)>0n&&!orderId)throw Error('Invalid package coin grant');
+ const DB=env.DB,p=(sql,...a)=>DB.prepare(sql).bind(...a),next={...snapshot.state,revision:snapshot.state.revision+1,restricted:exactValue(BigInt(snapshot.state.restricted)+BigInt(grant)),...(BigInt(grant)>0n?{precredited:orderId}:{})};validate(next);
  const statements=[
   ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',userId)]:[]),
   jointGuard(DB,token,snapshot.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',snapshot.raw===null?[snapshot.key]:[snapshot.key,snapshot.raw]),
   jointGuard(DB,token+'wallet','EXISTS(SELECT 1 FROM users WHERE id=? AND coin=CAST(? AS BIGINT)) AND (SELECT COALESCE(MAX(id),0) FROM coin_logs WHERE user_id=?)=?',[userId,snapshot.totalExact,userId,snapshot.lastLog])
  ];
  // Ordinary players do not acquire a package ledger just by visiting prediction.
- if(snapshot.tracked||grant)statements.push(p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP',snapshot.key,JSON.stringify(next)));
+ if(snapshot.tracked||BigInt(grant)>0n)statements.push(p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP',snapshot.key,JSON.stringify(next)));
  statements.push(jointGuardEnd(DB,token),jointGuardEnd(DB,token+'wallet'));
  return statements;
 }

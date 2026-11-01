@@ -60,7 +60,7 @@ test('package bank message expiry, privacy, overflow and catalog isolation',asyn
   assert.equal((await f.apply(2,id)).body.messageExpired,true);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM user_messages WHERE user_id=2')).n),1);
   const inbox=await f.messages(2);assert.equal(inbox.body.messages.length,0);const owner=await f.messages(1);assert.equal(owner.body.messages.length,1);assert.match(owner.body.messages[0].title,/패키지 구매 접수/);
   const foreign={...a.body.order,id:'20_'+crypto.randomUUID(),userId:20,nickname:'노출 금지'};await f.run('INSERT INTO app_meta(key,value) VALUES(?,?)','support_package_order_v1:'+foreign.id,JSON.stringify(foreign));assert.equal((await f.call('server-support/package',{user:2})).body.recent.length,1);
-  await f.run('UPDATE users SET coin=? WHERE id=2',Number.MAX_SAFE_INTEGER);assert.equal((await f.process(a.body.order)).status,503);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM cnine_user_inventory')).n),0);assert.equal((await f.call('admin/server-support/package/alerts')).body.pending.length,1);
+  await f.run('UPDATE users SET coin=CAST(? AS BIGINT) WHERE id=2','9223372036854775807');assert.equal((await f.process(a.body.order)).status,503);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM cnine_user_inventory')).n),0);assert.equal((await f.call('admin/server-support/package/alerts')).body.pending.length,1);
  }finally{await f.close();}
 });
 test('competing owner confirmations and duplicate applications cannot repeat a grant or alert',async()=>{
