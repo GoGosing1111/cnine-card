@@ -1,0 +1,230 @@
+{
+  "rigs": {
+    "back": {
+      "A": [
+        477,
+        718
+      ],
+      "B": [
+        301,
+        1055
+      ],
+      "C": [
+        132,
+        1346
+      ],
+      "upperLength": 380.19074160215945,
+      "lowerLength": 336.51448705813544,
+      "bindBend": -2.5700870349592293
+    },
+    "front": {
+      "A": [
+        568,
+        704
+      ],
+      "B": [
+        758,
+        935
+      ],
+      "C": [
+        799,
+        1330
+      ],
+      "upperLength": 299.1003176193566,
+      "lowerLength": 397.12214745591814,
+      "bindBend": -33.51173078559297
+    }
+  },
+  "bind": {
+    "root": {
+      "x": 0,
+      "y": 0,
+      "a": 0,
+      "index": 0
+    },
+    "pelvis": {
+      "x": 8,
+      "y": 800,
+      "a": 0,
+      "index": 1
+    },
+    "chest": {
+      "x": -12,
+      "y": 1020,
+      "a": 0,
+      "index": 2
+    },
+    "head": {
+      "x": 51,
+      "y": 1162,
+      "a": 0,
+      "index": 3
+    },
+    "shoulder_near": {
+      "x": -157,
+      "y": 1122,
+      "a": 0,
+      "index": 4
+    },
+    "pauldron_near": {
+      "x": -157,
+      "y": 1122,
+      "a": 0,
+      "index": 5
+    },
+    "arm_near_upper": {
+      "x": -157,
+      "y": 1122,
+      "a": -2.17064048209118,
+      "index": 6
+    },
+    "arm_near_lower": {
+      "x": -276,
+      "y": 948,
+      "a": -1.3539227111284884,
+      "index": 7
+    },
+    "wrist_near": {
+      "x": -250.00000000000003,
+      "y": 830,
+      "a": -2.220446049250313e-16,
+      "index": 8
+    },
+    "weapon_grip": {
+      "x": -233.00000000000003,
+      "y": 776,
+      "a": -2.220446049250313e-16,
+      "index": 9
+    },
+    "blade_tip": {
+      "x": 498.9999999999999,
+      "y": 336.9999999999999,
+      "a": -2.220446049250313e-16,
+      "index": 10
+    },
+    "arm_far_upper": {
+      "x": 117,
+      "y": 1064,
+      "a": -1.178456182579381,
+      "index": 11
+    },
+    "arm_far_lower": {
+      "x": 189,
+      "y": 890,
+      "a": -0.6917502372807489,
+      "index": 12
+    },
+    "coat_back": {
+      "x": -115,
+      "y": 763,
+      "a": 0,
+      "index": 13
+    },
+    "coat_back_tip": {
+      "x": -332,
+      "y": 534,
+      "a": 0,
+      "index": 14
+    },
+    "coat_front": {
+      "x": 14,
+      "y": 711,
+      "a": 0,
+      "index": 15
+    },
+    "coat_front_tip": {
+      "x": -29,
+      "y": 484,
+      "a": 0,
+      "index": 16
+    },
+    "leg_back_upper": {
+      "x": -35,
+      "y": 732,
+      "a": -2.0520891630868254,
+      "index": 17
+    },
+    "leg_back_lower": {
+      "x": -210.99999999999991,
+      "y": 395,
+      "a": -2.0969456439096827,
+      "index": 18
+    },
+    "leg_front_upper": {
+      "x": 56,
+      "y": 746,
+      "a": -0.8824791952231685,
+      "index": 19
+    },
+    "leg_front_lower": {
+      "x": 246,
+      "y": 515,
+      "a": -1.4673692354737118,
+      "index": 20
+    },
+    "wrist_far": {
+      "x": 288,
+      "y": 808,
+      "a": 0,
+      "index": 21
+    },
+    "hand_far": {
+      "x": 288,
+      "y": 808,
+      "a": 0,
+      "index": 22
+    },
+    "foot_back": {
+      "x": -380,
+      "y": 104,
+      "a": 0,
+      "index": 23
+    },
+    "sole_back": {
+      "x": -369,
+      "y": 10,
+      "a": 0,
+      "index": 24
+    },
+    "foot_front": {
+      "x": 287,
+      "y": 120,
+      "a": 0,
+      "index": 25
+    },
+    "sole_front": {
+      "x": 334,
+      "y": 28,
+      "a": 0,
+      "index": 26
+    },
+    "knee_back": {
+      "x": -210.99999999999991,
+      "y": 395,
+      "a": 0,
+      "index": 27
+    },
+    "knee_front": {
+      "x": 246,
+      "y": 515,
+      "a": 0,
+      "index": 28
+    }
+  },
+  "source": "../attack-v1/sources/body-no-coat-registered.png",
+  "sourceUse": "Existing ImageGen underpaint, technical rectangular crop only",
+  "bodySha256": "26c1861a6bf518c607f3a390cb09745147eba27142ed082b7e06c994d220bbd0",
+  "rect": {
+    "x": 0,
+    "y": 0,
+    "width": 1024,
+    "height": 1504
+  },
+  "changes": [
+    "Anatomical front knee moved from source y1004 to y935",
+    "Back knee bend changed to the forward-facing side",
+    "Knee volume helper bones",
+    "Separate per-leg knee blend regions",
+    "Removed painted coat fragments by reusing complete clean underpaint"
+  ]
+}

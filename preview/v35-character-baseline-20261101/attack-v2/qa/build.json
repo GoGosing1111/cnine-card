@@ -1,0 +1,9 @@
+{
+  "v3EngineSource": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\preview\\project-v-v3\\source\\battle\\BattleEngine.js",
+  "sha256": "47876e9fb925a630ff842f47d2391b7965054885effaf96f19c739425235839c",
+  "pixiCopies": [
+    "node_modules/pixi.js/lib/index.mjs"
+  ],
+  "spineRuntime": "4.3.13",
+  "productionModified": false
+}

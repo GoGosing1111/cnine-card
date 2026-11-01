@@ -1,0 +1,26 @@
+{
+  "earlierArm": "../attack-v1/PROJECT.md",
+  "candidates": [
+    {
+      "native": "swordsman-6bf5b79b88f8.spine",
+      "nativeSha256": "cd30a8fa0ed9b6131d27ffbf951fead2cf477f90a82790f207795a9841f7bae3",
+      "status": "USER_REJECTED",
+      "feedback": "먼 괴물이 만들어졌노 무릎 관절뭔데?",
+      "cause": [
+        "front knee pivot below drawn knee",
+        "back IK bend direction wrong for loaded crouch",
+        "coat remnants in body image"
+      ],
+      "screenshot": "history/user-rejected-knee.png"
+    },
+    {
+      "native": "swordsman-129114b36986.spine",
+      "status": "INTERMEDIATE_NOT_CURRENT",
+      "cause": [
+        "knee repair applied",
+        "coat tip deformation still folded visible mesh"
+      ]
+    }
+  ],
+  "current": "swordsman-7400ac091863.spine"
+}

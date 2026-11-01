@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "date": "2026-11-01",
   "request": "새 캐릭터로 처음부터 기준점부터 다시 잡아가라",
-  "status": "BASIC_ATTACK_ARM_REVISION_USER_REVIEW_PENDING",
+  "status": "FORWARD_CUT_KNEE_REPAIR_USER_REVIEW_PENDING",
   "selectedCandidate": "baseline-v4.png",
   "character": {
     "temporaryDescription": "흑발·붉은 코트·강철 보호구·직선 한손검의 성인 남성 검사",
     "name": null,
     "rarity": null,
     "stats": null,
-    "scope": "V3.5 기본 베기와 팔 동작 수정안",
+    "scope": "V3.5 전진 베기와 무릎 변형 수정",
     "userApproved": false
   },
   "generator": "built-in image_gen",
@@ -145,24 +145,26 @@
     "finalVisualApproval": false
   },
   "currentRig": {
-    "project": "attack-v1/PROJECT.md",
-    "receipt": "attack-v1/qa/native.json",
-    "native": "attack-v1/swordsman-06c1f1563f47.spine",
-    "sha256": "3ae87ba2a39097cea5b25105db813a2bcefed0afc574a549cc85afac4139a423",
+    "project": "attack-v2/PROJECT.md",
+    "receipt": "attack-v2/qa/native.json",
+    "native": "attack-v2/swordsman-7400ac091863.spine",
+    "sha256": "7acefc8c706857b88bf85a4c24d21af61c726bdee0933511899efc8730611dd0",
     "animations": [
       "attack_basic",
       "idle",
       "setup"
     ],
-    "attackSeconds": 1.2,
+    "attackSeconds": 1.12,
     "idleSeconds": 4.2,
     "parts": 11,
-    "bones": 27,
+    "bones": 29,
     "finalVisualApproval": false
   },
   "feedback": {
     "oldWeaponRejected": true,
     "firstAttackRejected": true,
-    "currentRevisionUserApproval": false
-  }
+    "currentRevisionUserApproval": false,
+    "firstForwardStepKneeRejected": true
+  },
+  "desktopInputAllowed": false
 }

@@ -1,0 +1,305 @@
+{
+  "currentNative": "swordsman-7400ac091863.spine",
+  "currentNativeSha256": "7acefc8c706857b88bf85a4c24d21af61c726bdee0933511899efc8730611dd0",
+  "status": "KNEE_REPAIR_DELIVERED_USER_FEEDBACK_PENDING",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "PROJECT.md",
+      "bytes": 5468,
+      "sha256": "f021447d569962ea43499620bbb57fd7ec0b51226333a8cc61a5075915a1bce7"
+    },
+    {
+      "path": "author-motion.mjs",
+      "bytes": 6071,
+      "sha256": "6d9c2b2745f34faddc80a7a4c81030c0de733ced0d441b8940a2d916e9e9f3b1"
+    },
+    {
+      "path": "prepare-leg-rig.mjs",
+      "bytes": 4411,
+      "sha256": "3361b4156443fe0fba8fd8053a049d206d3108c2126a43ff1e33b501b6b58eb6"
+    },
+    {
+      "path": "native.mjs",
+      "bytes": 2597,
+      "sha256": "134099c4807cd9949041f3818d363835dc72784a37a4bf91d2f8a95b3d56bdc1"
+    },
+    {
+      "path": "build.mjs",
+      "bytes": 1494,
+      "sha256": "34c6f92081bf74a358c40e4cdd80b93adb4395f94549689905e9877523ba9782"
+    },
+    {
+      "path": "review.src.mjs",
+      "bytes": 6238,
+      "sha256": "031c653226db093440db46c3d063a5bbd55ea5c8c14cdebc4184ba6a6162377b"
+    },
+    {
+      "path": "review.bundle.js",
+      "bytes": 3244622,
+      "sha256": "cf043d263b104d9a98bccaad1367bd1b4c0ae2ab9787b6c8ec1cdeabe649b558"
+    },
+    {
+      "path": "index.html",
+      "bytes": 2794,
+      "sha256": "925cb402dad68a0681657459acfb74e9e7c010d2203efeec9b31908ed640a0d8"
+    },
+    {
+      "path": "serve.mjs",
+      "bytes": 1331,
+      "sha256": "2a3cded8864df2c9c03d34c6611185eed262f3bd8361330afd209bddf4209d3c"
+    },
+    {
+      "path": "bootstrap.mjs",
+      "bytes": 1149,
+      "sha256": "75e054ac7337ea6cf84d1faf059948ededf7e6b0fb9506a9abf707b419d00cab"
+    },
+    {
+      "path": "record-policy.mjs",
+      "bytes": 7274,
+      "sha256": "bc509aad46801e484b25f6d26a6b80249f248eb9d0674ac372fa1161b679d2a1"
+    },
+    {
+      "path": "finalize-records.mjs",
+      "bytes": 3413,
+      "sha256": "7817f87ba77b7e1e5ebe20d46a53d10ceb4154ee66542cc3046791cdadcef4e8"
+    },
+    {
+      "path": "swordsman.input.json",
+      "bytes": 563114,
+      "sha256": "7400ac091863749d491113af058e819faa8b74337074f0ffde0a5d10a9beeea1"
+    },
+    {
+      "path": "rig-prepared.json",
+      "bytes": 535149,
+      "sha256": "80edb616b53f8f2bebbbbc081079a94e84b3da204991621465e4ddc9cb02f0ca"
+    },
+    {
+      "path": "leg-rig.json",
+      "bytes": 4139,
+      "sha256": "7d424723a73c7abe9f10cd034cb0ddd47f5ba68b1ca544ea37a571756ad44ba8"
+    },
+    {
+      "path": "motion-plan.json",
+      "bytes": 9006,
+      "sha256": "a201bf7d651dca170c0d35ca2449489fd04da1f6250c86ad3dc48e24cdb4a405"
+    },
+    {
+      "path": "swordsman-7400ac091863.spine",
+      "bytes": 104458,
+      "sha256": "7acefc8c706857b88bf85a4c24d21af61c726bdee0933511899efc8730611dd0"
+    },
+    {
+      "path": "images/body-clean-mesh.png",
+      "bytes": 984631,
+      "sha256": "26c1861a6bf518c607f3a390cb09745147eba27142ed082b7e06c994d220bbd0"
+    },
+    {
+      "path": "runtime-7400ac091863/swordsman-7400ac091863.atlas",
+      "bytes": 763,
+      "sha256": "5447deec26fa535c792f0b47bec176902bfcde65a9edcd54c63ff25898eccf9e"
+    },
+    {
+      "path": "runtime-7400ac091863/swordsman-7400ac091863.png",
+      "bytes": 2141796,
+      "sha256": "bb90b06f38fb8c38a13e737f85853c8845b795c53a69533bde5d21a1bad4f4f7"
+    },
+    {
+      "path": "runtime-7400ac091863/swordsman.json",
+      "bytes": 428714,
+      "sha256": "b1f44a200a44ae556e1759dbd24d197ec67153d3994d8890cd89797509d7df15"
+    },
+    {
+      "path": "qa/attack-mobile-390.png",
+      "bytes": 73131,
+      "sha256": "1a3941ba31462dac281860e084fac3fc054b3b57cc150bcff6dab9c6adfb8c28"
+    },
+    {
+      "path": "qa/attack-three-runs.webm",
+      "bytes": 1868563,
+      "sha256": "af5b179a865343adbf6854c7ba891f1f08c3937a300381caa141b80cf669e20a"
+    },
+    {
+      "path": "qa/build.json",
+      "bytes": 378,
+      "sha256": "cbf0cf6d19c3a8e0d056f4974273687c3a9360c32cc33fbfa62307c3cbd6d7f7"
+    },
+    {
+      "path": "qa/contact-dark.png",
+      "bytes": 191203,
+      "sha256": "9d5f7d85b7f9e57671831eacfbfdf8a14f8e755240033bcc5f9745843753c32e"
+    },
+    {
+      "path": "qa/delivery.json",
+      "bytes": 2721,
+      "sha256": "35f05ddcf6b9577c10b3f5ca0ddad4182f4a01eed3233afb78f233e6e4f442d3"
+    },
+    {
+      "path": "qa/delivery.mjs",
+      "bytes": 2854,
+      "sha256": "5d26c1c6fcc67c677aa49d1ad28d5c71862822b3113f1ae454da8a6f7048db06"
+    },
+    {
+      "path": "qa/geometry.json",
+      "bytes": 410,
+      "sha256": "8ae2eee88ac0df7ca8fc1cb370545c3ce195836a77cb1ea987f6d260d9ca9325"
+    },
+    {
+      "path": "qa/inspect.mjs",
+      "bytes": 5560,
+      "sha256": "0b6147ca8ce2fdb6edf523005b28b9fe3d18f0703cec9d3a4dc6e2c79ad92ea5"
+    },
+    {
+      "path": "qa/knees-30fps.png",
+      "bytes": 1562595,
+      "sha256": "47684ae9d3f3679bd6b85f631a86349b8b99da93fbccb96100bc4b4bd1e0a3c6"
+    },
+    {
+      "path": "qa/native-export.log",
+      "bytes": 297,
+      "sha256": "5ca1d251d0711bf7c67458d4e71ce6a3421bc9749f51072667681972eee94db9"
+    },
+    {
+      "path": "qa/native-import.log",
+      "bytes": 282,
+      "sha256": "5116adf0d2c4f8d72a08e42a4f13fb3d125ea0315aa79fcde089388899fe6675"
+    },
+    {
+      "path": "qa/native-reopen.log",
+      "bytes": 1134,
+      "sha256": "5e068a459bdcb16ed41b95f5760906d210b3fe885a7858c74a77c6805f08cde2"
+    },
+    {
+      "path": "qa/native.json",
+      "bytes": 625,
+      "sha256": "0b4546f710897c2edce2f049a0a0c9750d3dfd021dc11a617dcc23fd29369796"
+    },
+    {
+      "path": "qa/playback.json",
+      "bytes": 2632,
+      "sha256": "b6722c79184d4f2398ebaa4f9a9ef3364fa882397737206128cc465fb9dcb978"
+    },
+    {
+      "path": "qa/playback.mjs",
+      "bytes": 6664,
+      "sha256": "e2389c249fa451c99dfc2b3f0d4dd54d97e195f43ff81290ef9d1e141500f09c"
+    },
+    {
+      "path": "qa/pose-0-000.png",
+      "bytes": 209645,
+      "sha256": "35ee44fdeabdfaa6d3eea8ad69640f50f39beb5b970696be5e1e836c93e1aadf"
+    },
+    {
+      "path": "qa/pose-0-120.png",
+      "bytes": 209131,
+      "sha256": "85e9e363635ffbb283a033a3d660416007929d9771165d5aa94320592799a26c"
+    },
+    {
+      "path": "qa/pose-0-210.png",
+      "bytes": 208116,
+      "sha256": "b57d703c5efecf88fae0d121ca53b5af5ff55c01ff06eea62f6f45f5fbdf3802"
+    },
+    {
+      "path": "qa/pose-0-270.png",
+      "bytes": 202021,
+      "sha256": "7471cfdaffb53f4d39f8e8606ebd43bae4889ac8c0643f295dbc73db2338534b"
+    },
+    {
+      "path": "qa/pose-0-310.png",
+      "bytes": 201880,
+      "sha256": "feee4e4bcab226d82f1cdd3164f6ffee8a20c15587dc5e1e8bda87ad6aeafd67"
+    },
+    {
+      "path": "qa/pose-0-340.png",
+      "bytes": 195538,
+      "sha256": "727b6d1f554024a476c439992e5b15bbfbdd5f159d367f35db40b179ff57b4d6"
+    },
+    {
+      "path": "qa/pose-0-380.png",
+      "bytes": 194297,
+      "sha256": "5791b4d0a6bf5abf792b2a3c47900871a864e4cda81b5a9ea28a3d5df8d2560b"
+    },
+    {
+      "path": "qa/pose-0-470.png",
+      "bytes": 187692,
+      "sha256": "051a78ab6f69ac6447f73d3ed878733a9ca6f6c33bdbeabc2d859f80a97e6790"
+    },
+    {
+      "path": "qa/pose-0-620.png",
+      "bytes": 196026,
+      "sha256": "efde2b5d8d26def8613bbaf8d9aa37fbd8eef4ec06738fbaa7ccc248cde566bb"
+    },
+    {
+      "path": "qa/pose-0-800.png",
+      "bytes": 205578,
+      "sha256": "4d16181ca3246867e88ecd5fc18640bc14bb37ffcafb4af25bbd8883041f5689"
+    },
+    {
+      "path": "qa/pose-0-960.png",
+      "bytes": 210452,
+      "sha256": "e2824c513896140e415a119234300c2f475d2c136b2f48951f9b25fe8341d93e"
+    },
+    {
+      "path": "qa/pose-1-120.png",
+      "bytes": 209645,
+      "sha256": "35ee44fdeabdfaa6d3eea8ad69640f50f39beb5b970696be5e1e836c93e1aadf"
+    },
+    {
+      "path": "qa/pose-sheet.png",
+      "bytes": 564197,
+      "sha256": "8f40f965a6fb1e27ad87f207c0980a4724dd640ab36d2e482739744edeec7269"
+    },
+    {
+      "path": "qa/poses.json",
+      "bytes": 8840,
+      "sha256": "3fb0c55c251dfacef3a1d1ea53d9cdd48006c35740d66b5c47b51c5fb18af6d7"
+    },
+    {
+      "path": "qa/visual-review.json",
+      "bytes": 1534,
+      "sha256": "11209015d5cfa094cc47ff9b7e4e28b43c6cfb6c5b236214055d5c9c3bd89d1c"
+    },
+    {
+      "path": "history/rejections.json",
+      "bytes": 806,
+      "sha256": "7e9b42685012c253e0e428130d71fff3bd5f9089e32dcc5f4d0af2f5fd93ec7c"
+    },
+    {
+      "path": "history/user-rejected-knee.png",
+      "bytes": 38969,
+      "sha256": "4eda7329db8619421a5cc600cb7eb41cad5754da5df23a326d4cf3fd62debc14"
+    },
+    {
+      "path": "swordsman-6bf5b79b88f8.spine",
+      "bytes": 191263,
+      "sha256": "cd30a8fa0ed9b6131d27ffbf951fead2cf477f90a82790f207795a9841f7bae3"
+    },
+    {
+      "path": "runtime-6bf5b79b88f8/swordsman-6bf5b79b88f8.atlas",
+      "bytes": 570,
+      "sha256": "3017bdd1077a424add96a89895ebcf23ca5a21a8e2ceb6f29ee6cc1dd5639f5b"
+    },
+    {
+      "path": "runtime-6bf5b79b88f8/swordsman-6bf5b79b88f8.png",
+      "bytes": 2131415,
+      "sha256": "69a1494b5caf2c8b20f3f9763d5ce90dc8cd7aca59f89dc3a1f9a94b35a59052"
+    },
+    {
+      "path": "runtime-6bf5b79b88f8/swordsman.json",
+      "bytes": 412333,
+      "sha256": "b732415f2875d9a29eb3efe608b794b7b99a0ddc3e4ffcd85cc68659689649a1"
+    },
+    {
+      "path": "swordsman-129114b36986.spine",
+      "bytes": 103292,
+      "sha256": "1b09c50884540be0f9b733cf853ab96cf35d46b27859333d2cb816b3595aa943"
+    }
+  ],
+  "userAestheticApproval": false,
+  "desktopInput": false,
+  "production": false
+}

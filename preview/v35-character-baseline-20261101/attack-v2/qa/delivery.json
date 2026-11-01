@@ -1,0 +1,87 @@
+{
+  "native": "swordsman-7400ac091863.spine",
+  "nativeSha256": "7acefc8c706857b88bf85a4c24d21af61c726bdee0933511899efc8730611dd0",
+  "relativeImages": [
+    {
+      "relative": "../attack-v1/images/coat_back-mesh.png",
+      "bytes": 417426,
+      "sha256": "a0d9af84fab4401d1c2e46a47c30fe8a6bdf003324327a9deed9c410b222b8a4"
+    },
+    {
+      "relative": "../attack-v1/images/coat_front-mesh.png",
+      "bytes": 249205,
+      "sha256": "df33643036313ccfa22cdf39dead461428a2418c3e7c21daef4355620b001dbb"
+    },
+    {
+      "relative": "images/body-clean-mesh.png",
+      "bytes": 984631,
+      "sha256": "26c1861a6bf518c607f3a390cb09745147eba27142ed082b7e06c994d220bbd0"
+    },
+    {
+      "relative": "../attack-v1/images/upper_arm_far-mesh.png",
+      "bytes": 32467,
+      "sha256": "48149904ad3a6fd18ef7743481cda4c117684caf90c382c747a69e070d8509a1"
+    },
+    {
+      "relative": "../attack-v1/images/forearm_far-mesh.png",
+      "bytes": 23823,
+      "sha256": "da4e94dfacd8f48ef7d0a5aa54a00c99c694b43d30e1b996c27bee434c6579cd"
+    },
+    {
+      "relative": "../attack-v1/images/hand_far-mesh.png",
+      "bytes": 34977,
+      "sha256": "2aad034b9ccbc72f91a89d190c65f28a5052d6913bedcf9b6741b7dea37b78e0"
+    },
+    {
+      "relative": "../attack-v1/images/sleeve_near-mesh.png",
+      "bytes": 123603,
+      "sha256": "476cbf38762d05d1ea092e6010b658dc6ccd179331f1433cdea6f12182e03010"
+    },
+    {
+      "relative": "../attack-v1/images/pauldron_near-mesh.png",
+      "bytes": 78655,
+      "sha256": "003b2723119d4a5dfcead4e34c257368317dd0b5827844e37cc1e474f32920b2"
+    },
+    {
+      "relative": "../attack-v1/images/forearm_near-mesh.png",
+      "bytes": 32758,
+      "sha256": "84ecdf646e1a6cacefa9b1aedf3f1b8a11e52cd2f08b85f7c8d8038b72996d04"
+    },
+    {
+      "relative": "../attack-v1/images/weapon-mesh.png",
+      "bytes": 112402,
+      "sha256": "52956fa7fd78d9e00af447bc867bce47e3ba0075738d2a33e37e644e4f3b929b"
+    },
+    {
+      "relative": "../attack-v1/images/hand_near-mesh.png",
+      "bytes": 24723,
+      "sha256": "f7382e3afc88ab1d4b73287972ad5c302dc7c6b2201ebf6da2cb626683c45672"
+    }
+  ],
+  "baselinePreserved": true,
+  "parentNativePreserved": true,
+  "correctedWeaponPreserved": true,
+  "links": [
+    {
+      "label": "Spine 편집 파일",
+      "href": "http://127.0.0.1:18765/swordsman-7400ac091863.spine"
+    },
+    {
+      "label": "재생 영상",
+      "href": "http://127.0.0.1:18765/qa/attack-three-runs.webm"
+    },
+    {
+      "label": "제작 기록",
+      "href": "http://127.0.0.1:18765/PROJECT.md"
+    }
+  ],
+  "video": {
+    "time": 0.8079,
+    "width": 1058,
+    "height": 818,
+    "decoded": 32,
+    "error": null
+  },
+  "desktopInput": false,
+  "production": false
+}

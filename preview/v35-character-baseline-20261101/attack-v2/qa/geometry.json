@@ -1,0 +1,16 @@
+{
+  "samples": 225,
+  "visibleFlips": 0,
+  "examples": [],
+  "nonFinite": 0,
+  "weaponLengthError": 0.00007375695906830515,
+  "backPlantDrift": 0,
+  "frontPlantDrift": 8.483943258197131e-7,
+  "endpointError": 0.00006103515625,
+  "gaps": {
+    "arm_near_lower": 0,
+    "arm_far_lower": 0.000002982982193201366,
+    "leg_back_lower": 0.0000042201687371416445,
+    "leg_front_lower": 0.000008378319108365952
+  }
+}
