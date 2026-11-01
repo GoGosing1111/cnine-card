@@ -1,0 +1,6 @@
+import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+const b=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--mute-audio','--enable-unsafe-swiftshader']});
+try{const p=await b.newPage({viewport:{width:1440,height:950}});await p.goto('http://127.0.0.1:18766/?case=mixed');await p.waitForFunction(()=>window.v35Review?.ready);console.log(await p.evaluate(()=>({visible:v35Review.engine.visible,requestedVisible:v35Review.engine.requestedVisible,hidden:document.hidden,ticker:v35Review.engine.app.ticker.started,count:v35Review.engine.app.ticker.count,lastTime:v35Review.engine.app.ticker.lastTime})));
+await p.evaluate(()=>{void v35Review.attack(1);});await p.waitForTimeout(260);await p.evaluate(()=>v35Review.pause(true));console.log(await p.evaluate(()=>({audit:v35Review.audit(),ticker:v35Review.engine.app.ticker.started,lastTime:v35Review.engine.app.ticker.lastTime})));await p.screenshot({path:'preview/v35-v3-upgrade-20261101/qa/spine-contact-render.png'});
+await p.evaluate(()=>v35Review.engine.app.render());await p.screenshot({path:'preview/v35-v3-upgrade-20261101/qa/spine-contact-forced-render.png'});
+}finally{await b.close();}

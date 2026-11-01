@@ -1,0 +1,9 @@
+import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import fs from 'node:fs/promises';import path from 'node:path';import {fileURLToPath} from 'node:url';
+const dir=fileURLToPath(new URL('.',import.meta.url));
+const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--mute-audio']});
+try{const page=await browser.newPage();await page.goto('http://127.0.0.1:18766/preview/v35-v3-upgrade-20261101/qa/reader.html');
+for(const name of ['sword','cardgu','mixed','enemy']){const data=JSON.parse(await fs.readFile(path.join(dir,name+'-playback.json'),'utf8'));
+ const result=await page.evaluate(async({name,duration})=>{const v=document.createElement('video');v.src=URL.createObjectURL(await(await fetch(name+'-normal.webm')).blob());v.muted=true;await new Promise((r,j)=>{v.onloadedmetadata=r;v.onerror=j;});const canvas=document.createElement('canvas'),w=640,h=Math.round(w*v.videoHeight/v.videoWidth);canvas.width=w*2;canvas.height=(h+28)*4;const ctx=canvas.getContext('2d');ctx.fillStyle='#0b1520';ctx.fillRect(0,0,canvas.width,canvas.height);const times=[];for(let i=0;i<8;i++){const t=.15+(duration-.4)*i/7;v.currentTime=t;await new Promise(r=>v.onseeked=r);const x=(i%2)*w,y=Math.floor(i/2)*(h+28);ctx.drawImage(v,x,y,w,h);ctx.fillStyle='#fff';ctx.font='16px sans-serif';ctx.fillText(name+' / '+t.toFixed(2)+'s',x+12,y+h+20);times.push(t);}return {png:canvas.toDataURL('image/png').split(',')[1],times,dimensions:[v.videoWidth,v.videoHeight]};},{name,duration:data.recording.duration});
+ await fs.writeFile(path.join(dir,name+'-contact-sheet.png'),Buffer.from(result.png,'base64'));console.log(JSON.stringify({name,times:result.times,dimensions:result.dimensions}));
+}}finally{await browser.close();}

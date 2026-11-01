@@ -1,0 +1,24 @@
+{
+  "originals": [
+    {
+      "file": "baseline-v4.png",
+      "sha256": "fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44",
+      "unchanged": true
+    },
+    {
+      "file": "attack-v1/images/weapon-restored-v2.png",
+      "sha256": "5e485052a02909c94cc91f4f75072ca42ce59ba1384ce1a5f299f0714f23ae07",
+      "unchanged": true
+    },
+    {
+      "file": "attack-v2/swordsman-7400ac091863.spine",
+      "sha256": "7acefc8c706857b88bf85a4c24d21af61c726bdee0933511899efc8730611dd0",
+      "unchanged": true
+    }
+  ],
+  "brokenLinks": [],
+  "integrationPassed": true,
+  "desktopInput": false,
+  "nativeChanged": false,
+  "productionDeployed": false
+}

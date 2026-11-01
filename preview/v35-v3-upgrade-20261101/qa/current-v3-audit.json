@@ -1,0 +1,2879 @@
+{
+  "sourceRef": "be7b9b68f6f10adfb69d7446581abe2b1968513b",
+  "compiledSourceCount": 326,
+  "compiled": [
+    {
+      "path": "shared/icon-expansion-art-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/icon-fusion-recipe-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/icon-expansion-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/IconExpansionPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BattleDevicePolicy.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BattleTextureLifecycle.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/equipment-set-visual-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/EquipmentSetFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BattleAssetMemory.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/battle-damage-font.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ObjectPool.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/SealDragonPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-blackcrown-combat-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-blackcrown-codex-v2.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-blackcrown-catalog-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-halloween-combat-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-bathory-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-halloween-visual-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-harlequin-skill-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-halloween-catalog-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-combat-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-namsudaeng-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-catalog-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-limited-catalog-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BattleGroundSigil.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BattleHud.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/apocalypse-shanks-shisui-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/apocalypse-sahyeon-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/apocalypse-legion-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/apocalypse-sahyeon-20261019-v1/boss.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/apocalypse-sahyeon-20261019-v1/SahyeonFX.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/CameraController.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BattleAnimation.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/HumanoidRig.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BattleCharacter.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/SkillEffectFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/SkillTimeline.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/RoleAudioSpriteManifest.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/AdvancementAudioManifest.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BattleAudioMixer.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/AdvancementEffectFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BallisticVFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/AccountBattleUnit.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/h-body-v2066.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/AccountBattleSuitHBodyCatalog.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/sz-body-v2124.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/AccountBattleSuitSzBodyCatalog.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/AccountBattleSuitAnimationCatalog.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ApocalypseBossUltimateFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/apocalypse-boss-skills-v2048.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ApocalypseSignatureSkillFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/icon-enhancement-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/icon-supremacy-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/icon-roles-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/icon-role-visuals-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/battle-suit-skill-chips.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/x-body-area-skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/overlord-suit-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/sx-suit-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/z-body-area-skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-skill-chip-v1/source/sequence.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-skill-chip-v1/assets/textures/explosion-origins.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-skill-chip-v1/source/SkillChipFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-skill-chip-v1/source/SkillChipAudio.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-octaseeker-v1/source/sequence.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-octaseeker-v1/assets/textures/frame-origins.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-octaseeker-v1/source/OctaSeekerFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-octaseeker-v1/source/OctaSeekerAudio.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/z-sword-v1/manifest.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ZBodyDashProfile.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ZBodySwordModel.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/z-dash-v2/manifest.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ZBodyDashFX.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/manifest.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ZBodyNormalFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/z-thunder-v3/manifest.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ZBodyThunderFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ZBodySwordAnimation.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-x-v1/motion.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-x-v1/source/XBodyFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/motion.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/source/DragonFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/x-sword-v1/manifest.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/XBodySwordModel.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/XBodySwordAnimation.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-crimson-gold-knight-20261005-v1/motion.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-crimson-gold-knight-20261005-v1/source/SatinGoldFilter.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-crimson-gold-knight-20261005-v1/appearance-options.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-crimson-gold-knight-20261005-v1/source/appearance-options.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-crimson-gold-knight-20261005-v1/source/FlameCoreFilter.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-crimson-gold-knight-20261005-v1/source/RoyalAura.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-crimson-gold-knight-20261005-v1/source/OverlordTitle.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-crimson-gold-knight-20261005-v1/source/KnightFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/overlord-v1/manifest.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/OverlordSuitModel.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/OverlordSuitAnimation.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-sx-v1/motion.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-sx-v1/source/SXTitle.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-sx-v1/source/SXBodyFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-sx-v1/ultimate-v3/motion.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-sx-v1/ultimate-v3/source/SXUltimateFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-sx-v1/manifest.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/battle-suit-sx-v1/ultimate-v3/manifest.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/SXSuitModel.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/SXSuitCamera.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/SXSuitAnimation.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/IconTechniquePlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/FormationLayout.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ViewportLayout.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-heukmu-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/heukmu/spec.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/heukmu/skills.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/heukmu/NeonPurpleRim.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/heukmu/DragonAuraTint.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/heukmu/AreaSkillFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/heukmu/HeukmuFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/HeukmuCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-kamishiro-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/kamishiro/spec.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/kamishiro/skills.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/kamishiro/NativeAtlasEdgeFilter.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/kamishiro/CrimsonRimFilter.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/kamishiro/DoppelgangerFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/KamishiroCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-leonel-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-zero-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-prime-requiem-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-general-jok-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-cardgu-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-revan-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-area-cutins-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/LeonelDialogueStyle.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ShiranuiDialogueStyle.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/MercenaryAreaDialogueStyle.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/JinmuDialogue.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/MercenaryAreaCutinPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/cardgu/manifest.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/cardgu/skills.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/cardgu/LiveGoldenRim.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/cardgu/CardguAura.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/cardgu/CardguFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/CardguCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/revan/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/revan/AtlasEdgeFilter.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/revan/RevanFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/RevanCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/black-crown-battle-20261027-v2/motion-manifest.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/blackcrown/skills.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/blackcrown/BlackCrownFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BlackCrownCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bloodmoon-live-20261025/manifest.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-bloodmoon-battle-20261023-v1/source/PlaybackPlan.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-bloodmoon-battle-20261023-v1/source/ResourceLoader.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-bloodmoon-battle-20261023-v1/source/BloodmoonFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BloodmoonCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-awakened-omega-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/awakened-omega/motion.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/awakened-omega/skills.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/awakened-omega/OmegaEvolvedFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/AwakenedOmegaCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-razak-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/razak/skills.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/razak/AssassinFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/RazakCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-bloodmoon-namsudaeng-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/bloodmoon-namsudaeng/skills.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/bloodmoon-namsudaeng/BloodmoonFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BloodmoonNamsudaengPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-cryvern-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-berkan-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-jokro-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-eunseol-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/eunseol/skills.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/eunseol/SeolhwiFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/EunseolCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-general-jok-battle-20261022-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-general-jok-battle-20261022-v1/source/GoldenRimFilter.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-general-jok-battle-20261022-v1/source/BombardmentVisuals.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-general-jok-battle-20261022-v1/source/GeneralJokArtillery.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-general-jok-battle-20261022-v1/source/GeneralJokNaval.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-general-jok-battle-20261022-v1/source/GeneralJokCritical.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-general-jok-battle-20261022-v1/source/C9AuraFlag.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-general-jok-battle-20261022-v1/source/GeneralJokFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/GeneralJokCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/prime-requiem-blood-skills-20261021-v1/source/MotionAtlas.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/prime-requiem-blood-skills-20261021-v1/source/SkillPlan.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/prime-requiem-blood-skills-20261021-v1/source/PrimeNeonRim.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/prime-requiem-blood-skills-20261021-v1/source/PrimeIdleAura.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/prime-requiem-blood-skills-20261021-v1/source/PrimeRequiemFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/PrimeRequiemCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/array-motion-v4.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/motion.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/source/SummonedSwordArray.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/source/WhiteAuraAppearance.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/source/ZeroBladeWings.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/source/ZeroGiantSwordEcho.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/source/BodyMotion.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/source/KnightFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ZeroCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-bathory-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/motion.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/source/BathoryFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BathoryCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-leonel-sss-limited-20261018-v2/motion.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-leonel-sss-limited-20261018-v2/source/LeonelWhiteRig.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-leonel-sss-limited-20261018-v2/source/LeonelFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/LeonelCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-kangyun-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-imperial-archer-sss-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-imperial-archer-sss-v1/source/ImperialArcherFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/KangyunCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-jokro-iaido-20261017-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/source/CueAudio.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-jokro-iaido-20261017-v1/source/JokroAwakeningFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-jokro-iaido-20261017-v1/source/JokroNeonRim.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-jokro-iaido-20261017-v1/source/JokroFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-jokro-iaido-20261017-v1/manifest.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/JokroCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/account-ranks-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-shiranui-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-monochrome-artillery-battle-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-monochrome-artillery-battle-v1/source/BallisticArtilleryFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ShiranuiSilverBallistics.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ShiranuiCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-limited-duo-20261008.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-limited-duo-assets-20261008.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-limited-ayoon-heeya-v3-20261008/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/LimitedDuoCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/mercenary-attachment-points-v1.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-mercenary-system-v1/source/MercenaryAttachmentPoints.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-sniper-orikkung-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-sniper-orikkung-v1/source/SniperOrikkungSkillFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-mercenary-system-v1/skill-audio-v1.json",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-mercenary-system-v1/source/MercenarySkillAudio.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-nurse-healers-ss-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-nurse-healers-ss-v1/source/NurseHealFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/NurseHealCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/source/BerkanFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-berkan-area-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-berkan-area-v1/source/BerkanAreaFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BerkanCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-ice-crystal-dual-sword-v1/source/CueAudio.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-ice-crystal-dual-sword-v1/source/IceDualSwordFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/CryvernCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-black-moon-swordsman-ss-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-black-moon-swordsman-ss-v1/source/BlackMoonFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-heukwol-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/HeukwolCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-bikini-joeun-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-bikini-joeun-v1/source/BikiniJoeunSkillFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BikiniJoeunCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "js/project-v-mercenary-battle-art-adapter-v1.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-azant-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-nurse-healers-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-s-skills-v2.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-hi-heeya-v2118.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-mangisa-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-ragniel-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-skills-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/ProjectileTrail.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-mercenary-system-v1/source/RenderSSkill.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-mercenary-system-v1/skill-rehearsal-s-v2.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-mercenary-system-v1/skill-rehearsal.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-mercenary-system-v1/source/MercenarySpriteSequence.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-mercenary-system-v1/source/RenderAuthoredSkill.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-mercenary-system-v1/source/MercenarySkillFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/MercenaryRoleAttackFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-mangisa-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-mangisa-v1/source/MangisaSkillFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/MangisaCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-ragniel-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-ragniel-v1/source/CueAudio.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-ragniel-v1/source/RagnielSkillFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/RagnielCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-limited-visual-catalog-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-harlequin-visual-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-limited-visuals-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-valter-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-kairon-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-black-uniform-dual-uzi-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-black-uniform-dual-uzi-v1/aura-registration.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-black-uniform-dual-uzi-v1/missile-flight.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-black-uniform-dual-uzi-v1/bullet-flight.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-black-uniform-dual-uzi-v1/source/UziBarrageFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/KaironCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-jinmu-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-golden-dragon-battle-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-golden-dragon-battle-v1/source/GoldenDragonFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/JinmuCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/mercenary-helios-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-limited-solar-sword-20261009-v1/motion.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-limited-solar-sword-20261009-v1/source/SolarFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/HeliosSurroundingAura.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/HeliosCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-sapphire-archmage-battle-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-sapphire-archmage-battle-v1/source/SapphireFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/AzantCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/motion-counts-v10.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/skill.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/source/KnightFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/CooperativeArkePlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/CooperativeEncounter.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/IconRolePlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "shared/pet-buff-visuals-v1.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/PetSupportLayout.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/PetSupportPresentation.mjs",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/PetSupportHud.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/PetOpeningFX.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/PetSupportPlayback.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/BattleEngine.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/battle/EffectScene.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "pve-v3/BattleEngine.js",
+      "normalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "normalizedMatch": true
+    }
+  ],
+  "servedResources": 127,
+  "resources": [
+    {
+      "url": "/preview/v35-v3-upgrade-20261101/index.html",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-v3-upgrade-20261101\\index.html",
+      "sha256": "4f858ae6557b35e75a41d536c4288614a2d3f30fd2a424743ca96cec37a7420a",
+      "gitHash": "d86a15a8e841e1e31a380adb529136baf68e43c1",
+      "expected": "origin/main:preview/v35-v3-upgrade-20261101/index.html",
+      "normalizedMatch": null,
+      "match": null,
+      "source": "current owned work"
+    },
+    {
+      "url": "/css/style.css",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\css\\style.css",
+      "sha256": "f4b2c2858c2ff9f88e40a97c4ac6122f881bb9c09a3f8f03022ba54e18996eb9",
+      "gitHash": "19f9c782dc5367bd0c0b285ad06805a0934a9901",
+      "expected": "48d88847a8353fa0e2f012f9978162dcc3ea02a6",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/css/card.css",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\css\\card.css",
+      "sha256": "bf9862d096cc83e5805aaee15e9c47613c4a0c19720d2ad1ebfb99c72f69a62d",
+      "gitHash": "6215054b2b9b22f0ef66bf8e9740369dea63eb74",
+      "expected": "12b1d4eb669191743bc724b214d7b63d7421dcf3",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/css/battle-v3-live.css",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\css\\battle-v3-live.css",
+      "sha256": "c6859ca4630c9dd575c4a055a56374ea13b2b0ad70c2d83d2050653c7ad07861",
+      "gitHash": "eab7c5ee4f82a3cb4228bd953bf017b9f8432236",
+      "expected": "e7a2826fc74e96a33b5b183ed844ed3b114efd9b",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/css/superstar-v1.css",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\css\\superstar-v1.css",
+      "sha256": "757d6de99d2501ba719d0b7cb2c07862fd60420d71cfd0e5d82d54df3b24cefc",
+      "gitHash": "137e5476b7495d3f68ad0d3b6e475092f33efbe0",
+      "expected": "b71c70036319be08cf9b1ad9052d8cf8eb50a0f5",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/css/zenith-v1.css",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\css\\zenith-v1.css",
+      "sha256": "adbaf8e2f9315ca85eefb0907edb4f2e8061fadabb843ba8f1921f3e5e60cc41",
+      "gitHash": "3120cd85d63625c12b4751655f6ba694d7909514",
+      "expected": "1a1161b249a65ea93f1a787c4183e8401460ba54",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/css/faker-card-v1.css",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\css\\faker-card-v1.css",
+      "sha256": "022c7907765d3c8450d235a4a742eff084deb2e79f79a55c7a7999e9712d26b7",
+      "gitHash": "19ddab992c18b0e29e140e442b7d61564f72b154",
+      "expected": "2b233b127bc8aec44094f4efe0d21f01e4bea6e1",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/css/breakthrough-tier-v1802.css",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\css\\breakthrough-tier-v1802.css",
+      "sha256": "8f8e6b0202394b0770e972215463dda3ba9bf7bc319c344a2d30b484bddab83c",
+      "gitHash": "d74f862f34f2dd766e7a12b91488ca855f2f3ef3",
+      "expected": "8f34ad9c8581cdf96e55a8a39a9202a72bf460ec",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/js/project-v-battle-art-adapter-v1.js",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\js\\project-v-battle-art-adapter-v1.js",
+      "sha256": "6369c0169e008cf6bd47ddbb102ad7bc00d9db266cafb5b0730c8e1f33421986",
+      "gitHash": "61a25aaefff3ae8a24bb71f14e5c22a7cfebe927",
+      "expected": "3091156cc38a92eb22cba98619cbd0e13d5462d7",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/js/project-v-tier-battle-art-adapter-v1.js",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\js\\project-v-tier-battle-art-adapter-v1.js",
+      "sha256": "b1f3d0cac4646179261d4d018f9f72c712137f8427348545ccd444983f4dbaad",
+      "gitHash": "f3100e6825914a1d00524099c70399ba58ee6879",
+      "expected": "756c7cc7ffb5ec9ab6b77c3e87ac485799d2443c",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/js/project-v-monster-battle-art-adapter-v1.js",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\js\\project-v-monster-battle-art-adapter-v1.js",
+      "sha256": "a4ef175c7963b65d8af27a61ac4a937ebff63d961d1c5eb0c84d4d339a8238cb",
+      "gitHash": "ffd794229be9d057608b623d434d277cb316c193",
+      "expected": "61e7bf073b9ad07526dc6f7c2280be1426993a76",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/js/project-v-unassigned-battle-fallback-v1.js",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\js\\project-v-unassigned-battle-fallback-v1.js",
+      "sha256": "e395aef6f993d167b5e852a55d9d61cb1f7a7bebf0bbb816271231e4aebed084",
+      "gitHash": "e242d7a84c71e5a5549e66797f3db5b1c6d0fef6",
+      "expected": "7f76d7d27ea629d00ac1875d50af7f5f8ffb0b0b",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/v35-v3-upgrade-20261101/workbench.bundle.js",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-v3-upgrade-20261101\\workbench.bundle.js",
+      "sha256": "a2b40db141cb7f4f9311b0cd6ce00a05f5e80be0de0f6d812acac47f3f6aba98",
+      "gitHash": "464a033334029ddb00d31cca1b979a3d743aca2b",
+      "expected": "origin/main:preview/v35-v3-upgrade-20261101/workbench.bundle.js",
+      "normalizedMatch": null,
+      "match": null,
+      "source": "current owned work"
+    },
+    {
+      "url": "/preview/spine-professional-verification-20261101/vendor/spine-pixi-v8-4.3.13.js",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\spine-professional-verification-20261101\\vendor\\spine-pixi-v8-4.3.13.js",
+      "sha256": "d1f9c19fff7e52ec199e915f4ecf9dcc1a0cd9f97932afd062db5b6eb26470d6",
+      "gitHash": "97d49577b9d06017ea4598975d40acf222047786",
+      "expected": "97d49577b9d06017ea4598975d40acf222047786",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/js/battle-v3-live.js",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\js\\battle-v3-live.js",
+      "sha256": "9ec96c77416c43baa228008a97329dd5eb07e5adca2d3ef57300af84ef13ee7d",
+      "gitHash": "e9cd6743f8401bcb407647b8b2529f25d3028872",
+      "expected": "0d421562d1bd4cb47b20e2a70ded11207a139f7e",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/battlefields/v3-nightmare-forest-battlefield-v1.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\ui\\project-v\\battlefields\\v3-nightmare-forest-battlefield-v1.png",
+      "sha256": "000452affdd4e3736d3b2828518d0a9a67e5e6e147bb2f2ec68842371a573968",
+      "gitHash": "ce498c1554e92bf8008acf98ef3ed92ece2cf795",
+      "expected": "ce498c1554e92bf8008acf98ef3ed92ece2cf795",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/card-frames/zenith-frame-concept-v2.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\ui\\card-frames\\zenith-frame-concept-v2.png",
+      "sha256": "09b746b170b9cc129ecea9ca4856b8aa7a26052acb61f328ff27f47a18c6c755",
+      "gitHash": "72a784438728ada579f76bf90d85b38534f8c83a",
+      "expected": "72a784438728ada579f76bf90d85b38534f8c83a",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/card-frames/superstar-championship-frame-v1.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\ui\\card-frames\\superstar-championship-frame-v1.webp",
+      "sha256": "4bba2fbb83edc1db6d50691e5e959006c9789ee00c6f198223ecc3fbb0d4bf66",
+      "gitHash": "7ab5b337a3f8a62cff43617f5d435f40f3e1eddd",
+      "expected": "7ab5b337a3f8a62cff43617f5d435f40f3e1eddd",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/NEWCARD/24.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\NEWCARD\\24.png",
+      "sha256": "b17bb171d06678f330d48f0be0d553e14ad4d1b348cadbe129eeec9bfffdaf0c",
+      "gitHash": "f54141bbe9a1b5cbf8fb5d0377929eb8a230c7bc",
+      "expected": "f54141bbe9a1b5cbf8fb5d0377929eb8a230c7bc",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/cards/남수댕/031.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\cards\\남수댕\\031.webp",
+      "sha256": "934db48547d9858a470e3aabccf801c8299688ba55e8280099b655a4d19a7fb0",
+      "gitHash": "ada74a7e2dd276fd26ede417c71b8066e9dc889a",
+      "expected": "ada74a7e2dd276fd26ede417c71b8066e9dc889a",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/cards/976467971.jpg",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\cards\\976467971.jpg",
+      "sha256": "8e103878cdadf17b8d65c289e08753b01f71f5c8720a620535165e0cefe29d8f",
+      "gitHash": "2ec29e96a2cd077cf01c1efdcea6b3a722f02e08",
+      "expected": "2ec29e96a2cd077cf01c1efdcea6b3a722f02e08",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/superstar/3.jpg",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\superstar\\3.jpg",
+      "sha256": "c1091b8d6646e657e95f7ce70eb9ed44385e3b5a9a2bfe752da8d44966765953",
+      "gitHash": "a4f7726ae590989ae32af5693855560611f9f899",
+      "expected": "a4f7726ae590989ae32af5693855560611f9f899",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/cards/ZENITH/1.jpg",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\cards\\ZENITH\\1.jpg",
+      "sha256": "6bbfdbf5cc98f74a9e949d8fac2774643fccd561d1caccbe86079ed14e9d9b05",
+      "gitHash": "b45de57fc04308fa1161fd8d7ceee607c0ecaad9",
+      "expected": "b45de57fc04308fa1161fd8d7ceee607c0ecaad9",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/brand/reverse-call-20261016/icon-128.png",
+      "path": "git:origin/main:assets/ui/brand/reverse-call-20261016/icon-128.png",
+      "sha256": "1140f62f917a0f72f16921b0c3f018f1945bc281eafab1b2dd62bc8c84a34979",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/brand/reverse-call-20261016/icon-512.png",
+      "path": "git:origin/main:assets/ui/brand/reverse-call-20261016/icon-512.png",
+      "sha256": "7d18d7ccd347a2cfb46deac38b49ceb540d69c910a4bc1837eeb70abaf1197c9",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/fonts/battle/RussoOne-Regular.ttf",
+      "path": "git:origin/main:assets/fonts/battle/RussoOne-Regular.ttf",
+      "sha256": "bc0abcc660bd8b7ad3000ecb2898a27c58a29a50f7ec81652fa12e75148d09df",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/sfx/v3-role-impact-v2/attack.mp3",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\sfx\\v3-role-impact-v2\\attack.mp3",
+      "sha256": "7c63716c4d6c303590fb9fe19dd439df82a92155fb7afaa5eda3770d6b983824",
+      "gitHash": "af361331e0318859fa7d7095a9a29d504c4f6947",
+      "expected": "af361331e0318859fa7d7095a9a29d504c4f6947",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/sfx/v3-role-impact-v2/defense.mp3",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\sfx\\v3-role-impact-v2\\defense.mp3",
+      "sha256": "6a8121ee27f7e00de40363d1462a85fcb39d3643c47524dbb555958a515a2f8a",
+      "gitHash": "0427f2d31b8e70a312477b48d55ede201855d83e",
+      "expected": "0427f2d31b8e70a312477b48d55ede201855d83e",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/sfx/v3-role-impact-v2/speed.mp3",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\sfx\\v3-role-impact-v2\\speed.mp3",
+      "sha256": "ad1d937b708b370cc244acf0fb8b093e3665272abde77291027cc5632b1152d5",
+      "gitHash": "79f187804a3bc6a9f97040f7b17d5f1469519fc7",
+      "expected": "79f187804a3bc6a9f97040f7b17d5f1469519fc7",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\sfx\\v3-role-impact-v2\\heal.mp3",
+      "sha256": "38789689a58b83bfbf4eafbd26ed49f4622e909940c7b1eba2d64b56dc937720",
+      "gitHash": "4333a2438ef70019f25be008670d24b3f75d26f8",
+      "expected": "4333a2438ef70019f25be008670d24b3f75d26f8",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\project-v\\fx\\role-impact-v2\\attack-impact-atlas-v2.json",
+      "sha256": "62b5d5dbae3d461db40df7f51e2c53505bbe6d1ff51c3627a8f41d70bff62aad",
+      "gitHash": "8cbd2c801f30f02a2ebc96a0d860bc3dd3ea328d",
+      "expected": "1627e99163489b4a4bcd5ac1bcd7b52e5261eb3b",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\project-v\\fx\\role-impact-v2\\defense-impact-atlas-v2.json",
+      "sha256": "c2a85404458c9219ac6a2864fe04e6a39c8cc3c2cad7985ef72c6eb9323966af",
+      "gitHash": "a650e8f1b5fced7daf5724f5b7816e87adbda8a4",
+      "expected": "918c0fbc52f44fc611958afa7c32e59a9578e338",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\project-v\\fx\\role-impact-v2\\speed-impact-atlas-v2.json",
+      "sha256": "2d0f1e1a093699662731c19c75406484995c6d551dbf223d1065968985015f45",
+      "gitHash": "c01e6f547e274f15af5547322f9889f4370e6772",
+      "expected": "da465d9847f66816c0f1ab86cf9db0ccbefd06d8",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\project-v\\fx\\role-impact-v2\\heal-impact-atlas-v2.json",
+      "sha256": "6a2d9703533d20dc540a492bf11e05bbad694c52804e3aa5cd7efbb531f8e8a5",
+      "gitHash": "ec64fd1d03968f010626cb4397c060dc20601335",
+      "expected": "17c3c9cd9ea7641a57336edc8a857d7af92b9154",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\ui\\project-v\\fx\\role-impact-v2\\attack-impact-atlas-v2.png",
+      "sha256": "299c793fe42f402f98922440fa2b99695d040b0540dc12aadfe6b8ad42db8699",
+      "gitHash": "f7263063a1e7e7f40ce65174c225949b04fde98f",
+      "expected": "f7263063a1e7e7f40ce65174c225949b04fde98f",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\ui\\project-v\\fx\\role-impact-v2\\defense-impact-atlas-v2.png",
+      "sha256": "f772526ecf0744c4dd826735d0b7a769750f8da29f69e2ad337b67c45308c8b1",
+      "gitHash": "485948af589e4a5abe2fb5d5150ba503253bec9c",
+      "expected": "485948af589e4a5abe2fb5d5150ba503253bec9c",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\ui\\project-v\\fx\\role-impact-v2\\speed-impact-atlas-v2.png",
+      "sha256": "bc2dc21840eaa550e8df4922f51c4a47fbb334614b21048bb442a253cc891074",
+      "gitHash": "03b165c99cf93b6457836ae0234a89d0dde93774",
+      "expected": "03b165c99cf93b6457836ae0234a89d0dde93774",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\ui\\project-v\\fx\\role-impact-v2\\heal-impact-atlas-v2.png",
+      "sha256": "d2cd45f2e0b587c0eeba655c7c1b3d60def7ea65e49641426963f421306f404a",
+      "gitHash": "663bb072988a589e09ba2e27529510fac4db81eb",
+      "expected": "663bb072988a589e09ba2e27529510fac4db81eb",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+      "path": "git:origin/main:assets/ui/project-v/battle-hud-b-v1/fill.webp",
+      "sha256": "b000f0acb1002dd592ed5bd9e572576974be2fadd3c2b2a5f25095abebf0012b",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+      "path": "git:origin/main:assets/ui/project-v/battle-hud-b-v1/frame.webp",
+      "sha256": "a773ec581d829bc6f0c72b83c71388391d465a3cdefa3854aedaaddc9e8875b6",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\project-v\\monsters\\hunt-tower\\manifest-v1.json",
+      "sha256": "c1f380663cc2395a18323acfc0547570ea91016f2005b3a508bd45cb141cfa36",
+      "gitHash": "7bea4727dfdd6c2ec3d6c2bc91670cb15f3a8a6b",
+      "expected": "905a6f7baecd91372c99e5d4c2c50dcb1ce2d716",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/characters/zenith/manifest-v1.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\project-v\\characters\\zenith\\manifest-v1.json",
+      "sha256": "68128839067aea72b1e2bec029a15fe0838b3fc2acd1d08712e231ff4a514f97",
+      "gitHash": "161f814e787fe866e6fa7036f5b0ad233de6cd1c",
+      "expected": "026e10a0178f0f3037d80715c4fe5e56b073390c",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/characters/fur/manifest-v2.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\project-v\\characters\\fur\\manifest-v2.json",
+      "sha256": "322e70fe3e3b87cee32bfe62625d25b9de4c62a87ae5c878c4ae22497ca48e27",
+      "gitHash": "00bde55569d2162dfd09f042f9ce85c102e806bc",
+      "expected": "330f24777d5945195018e2fbbb1aeeef34f2bf75",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/characters/prestige/manifest-v1.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\project-v\\characters\\prestige\\manifest-v1.json",
+      "sha256": "08027c151f5202a7512032474bc4e060ab190ca68191fa2be32a434b180ed534",
+      "gitHash": "182f350cdc76b47800a484afef56bf50b1b285a3",
+      "expected": "9b7eb1cd9a29d0e9eb697b3b123b3bffa03020a6",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/characters/superstar/manifest-v1.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\project-v\\characters\\superstar\\manifest-v1.json",
+      "sha256": "bbc68e39efc558d3e1c70ccd3785b5c1e130efe34a57361463c186cf763e569f",
+      "gitHash": "43162c9ab99c52d7fce3e10b75988737176ee315",
+      "expected": "ad344797009f24ca2019802453c7cf8b43240f41",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/characters/icon/manifest-v1.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\project-v\\characters\\icon\\manifest-v1.json",
+      "sha256": "2a21650a64488610034385b7876541e1cc29d3d4a082737cba91f5dc1a8792c6",
+      "gitHash": "4ba72931aca75232f25a2ee5d05f70d7876a1ae3",
+      "expected": "4ba72931aca75232f25a2ee5d05f70d7876a1ae3",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/fallback/manifest-v1.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\project-v\\fallback\\manifest-v1.json",
+      "sha256": "c823b5ba6549a939b1fbdb611fb62fb18af57c414da5e4ff1d79dfa7c9b5e737",
+      "gitHash": "57d7ffddafdd0688f93fcee680f32063c8d9545c",
+      "expected": "a5e3ddd57ac6a3bd982a1cd2f0f626da55b780a8",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+      "path": "git:origin/main:assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+      "sha256": "6cf46ec14c3748e9419876fe17fdaa3f979843a71ccf18a4f875f40eb5c23e29",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+      "path": "git:origin/main:assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+      "sha256": "bb9f1837085b520a1fc5984947396c1063e3cea55353a67d37354d1760603363",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+      "path": "git:origin/main:assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+      "sha256": "a4b523c790de2d4783823986dec5549607a07ecc2252bccb864af45a67856207",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+      "path": "git:origin/main:assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+      "sha256": "0336185c0a993bc4fac742bd1416aef1e9361867ab9b2179eedf3209012ec6da",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/characters/fur/fur-cn-02d9dc1e8a8a4209-sd-v1.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\ui\\project-v\\characters\\fur\\fur-cn-02d9dc1e8a8a4209-sd-v1.png",
+      "sha256": "ae3297e71d7958a0507b4af1c2a7508f69848cc0c8d88f7725b09a2e316bf8e3",
+      "gitHash": "8693ef1de0913b353a407e251a23cbc49347b3be",
+      "expected": "8693ef1de0913b353a407e251a23cbc49347b3be",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\responsive\\project-v\\zenith\\zenith-cn-25f931ce393d474e-sd-v1-384.avif",
+      "sha256": "8c5a3bd4edf583abf8760295ae758b0c14abb6c2e99c5387d389d9e94d3288cb",
+      "gitHash": "65461177c66b289b3f8f3a4c8c8a173dc4a037c8",
+      "expected": "65461177c66b289b3f8f3a4c8c8a173dc4a037c8",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\responsive\\project-v\\zenith\\zenith-cn-0505936a0cbb4e59-sd-v1-384.avif",
+      "sha256": "c3aadcab0e8d87410e726dfb2918f6f7ff77533971373af97f09b36437aec6f7",
+      "gitHash": "8a98f2664152f1aa905d9dc9e22675c8921d2cdb",
+      "expected": "8a98f2664152f1aa905d9dc9e22675c8921d2cdb",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\ui\\project-v\\characters\\superstar\\superstar-cn-23eb4b19986d4818-sd-v1.png",
+      "sha256": "21b791d0b0bfda204bb559a95563254cb2a5bc7a52275e63f8dbb176e6d87067",
+      "gitHash": "430956b754326dd9701257df6facece60c6aba28",
+      "expected": "430956b754326dd9701257df6facece60c6aba28",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+      "path": "git:origin/main:assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+      "sha256": "b72cba1d953392cd5bac9be66e314d3bd05da05e8bdec4e1dee694bd91c4a5e3",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.avif",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\responsive\\project-v\\zenith\\zenith-cn-519c181c18df4b8e-sd-v1-384.avif",
+      "sha256": "bea4b832ecaf1f87285807ebc906ea883b1de06f617729cb834335479cb3c3ff",
+      "gitHash": "6d44a7f1a4f9428eca376b37aad2dcf03f20b084",
+      "expected": "6d44a7f1a4f9428eca376b37aad2dcf03f20b084",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/monsters/hunt-tower/hunt-068-omega-09-sd-v1-768.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\ui\\project-v\\monsters\\hunt-tower\\hunt-068-omega-09-sd-v1-768.webp",
+      "sha256": "be3276192ab8700442368c7854903466ab5cbec022e9a3204639fe96c2425dbe",
+      "gitHash": "74d735c5bb2e746b096ef15aa4cb6caa6de11169",
+      "expected": "74d735c5bb2e746b096ef15aa4cb6caa6de11169",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\project-v\\mercenaries\\mercenary-system-roster-v1.json",
+      "sha256": "6cbdfb7a9f3a2089f48eaa7c8666169f84ff6231bc56b2b6cf3adc2527593912",
+      "gitHash": "3dec27aed05e647c9a396114ea83fb0d2f8acaf9",
+      "expected": "87ff2ec8f91f7f6da09c062b34faa955ab13c271",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/limited-20261002/valter-approved-sd.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/limited-20261002/valter-approved-sd.png",
+      "sha256": "d2cab7dde716cf9a0554af44a03a448a7bccd9e402928d87620c72c73879a6cc",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/limited-20261002/v-996-source-art.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/limited-20261002/v-996-source-art.png",
+      "sha256": "8b94e60670355af87d13802fd68ad4de22f8e7f23c65028cc97dd1d1f78be838",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/jokro-20261018/idle.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/jokro-20261018/idle.png",
+      "sha256": "a1eceaed8c5c5c427b6f3fb374e6b03ef0b10befac64207ca24a26070dfb127d",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/jokro-20261018/source-art.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/jokro-20261018/source-art.png",
+      "sha256": "82297d41e879dab7df179345875ebf329a3e825bb20bd76c68bfbe91667dfbdb",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/manifest.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\preview\\mercenary-crimson-silver-knight-battle-v1\\manifest.json",
+      "sha256": "fffe858406352b35abb2f8fb30e95741ab94d7493e5280ec306a75a1abd329ed",
+      "gitHash": "2397b0ab0c82cbd9eea2b75b2854713d3ed65425",
+      "expected": "dd5e3ba780cd1e44a34c030a4a9b0527971507f9",
+      "normalizedMatch": true,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/limited-battle-20261004/rear-aura.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/limited-battle-20261004/rear-aura.png",
+      "sha256": "433dff0f0d90cb93e990b31c5ed85f0f355159a397bfa152aaad69487d071f5d",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/defeat-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\motion-v5\\defeat-atlas.webp",
+      "sha256": "5b37404cab4300abba6159bb4d1844bed56d26b4b001cae6186fc7a2c0f3d854",
+      "gitHash": "5951ec43b26c48a028682f35d9df2ba2274b11bb",
+      "expected": "5951ec43b26c48a028682f35d9df2ba2274b11bb",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandReturn-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\motion-v13\\twohandReturn-atlas.webp",
+      "sha256": "75152a8c78cef13dae749076b5546d1d26631457010025a81c406d41839342ab",
+      "gitHash": "3014e315a13f3c9a83f4d9d0f6c61a8d64352b85",
+      "expected": "3014e315a13f3c9a83f4d9d0f6c61a8d64352b85",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandGrip-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\motion-v13\\twohandGrip-atlas.webp",
+      "sha256": "3b433ec0ba918a038afdb9315aa289e41b5c06dc3f59c87b0ff2ec6837097046",
+      "gitHash": "ef54c71e86acee7981db2bc161aabd990ffd4e12",
+      "expected": "ef54c71e86acee7981db2bc161aabd990ffd4e12",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandLift-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\motion-v13\\twohandLift-atlas.webp",
+      "sha256": "ac4a7406652eec034e71b87d956e2e7191ac5cb2df813137939de3c2f559f539",
+      "gitHash": "cc15535828494f0cf4737783b7fc37ea72927e50",
+      "expected": "cc15535828494f0cf4737783b7fc37ea72927e50",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/hit-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\motion-v5\\hit-atlas.webp",
+      "sha256": "79eb0b4c8d111d21f0b9ce883a9e011eb4f284e5bb8a673361470481ecde6141",
+      "gitHash": "6a07e458b4ba8da90f02a4c999b229080ae1c986",
+      "expected": "6a07e458b4ba8da90f02a4c999b229080ae1c986",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/dash-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\motion-v5\\dash-atlas.webp",
+      "sha256": "5ce9acdac2c33c359f51fba232441e0f7672a8bb9527f6955a9b0b37c29bb7e4",
+      "gitHash": "ad8435563e648a676c14251055d53a5b264635f1",
+      "expected": "ad8435563e648a676c14251055d53a5b264635f1",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/idle-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\motion-v5\\idle-atlas.webp",
+      "sha256": "c9931c1b14e5ed2854bd89cfe1c55b983ad82e0f2b55907ed7f7c17426f2054d",
+      "gitHash": "2df08a1a819b3c261dc6976646a9fb3d66a17d6c",
+      "expected": "2df08a1a819b3c261dc6976646a9fb3d66a17d6c",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandStrike-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\motion-v13\\twohandStrike-atlas.webp",
+      "sha256": "14b289de2622650c4a30ccfbb589367c3d503b0556db7c83f18e369a8ac059e7",
+      "gitHash": "39fc91483ce1cbc2f28feb4a612cebc5300bc9f7",
+      "expected": "39fc91483ce1cbc2f28feb4a612cebc5300bc9f7",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-aura-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\fx-aura-atlas.webp",
+      "sha256": "d0eb269edf87e158d29149a0fdd7c6a8df95795d741d8b0f4755812b51902e97",
+      "gitHash": "7151e8e0a92d3f40aa676ff1e3aa0c478a873098",
+      "expected": "7151e8e0a92d3f40aa676ff1e3aa0c478a873098",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-dash-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\fx-dash-atlas.webp",
+      "sha256": "48b98d7a36780126ac55fce2ad6ffb0c238d64a1b16508b8e2b79f548161a9d3",
+      "gitHash": "8e95115f8f88b8330c82ed7716fea1f00a4ef6b9",
+      "expected": "8e95115f8f88b8330c82ed7716fea1f00a4ef6b9",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-slash-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\fx-slash-atlas.webp",
+      "sha256": "d7b44c3390a52bb2e19bef4a04893054be6a1060be5988d016b35c43ac9000f6",
+      "gitHash": "1cb519af9bfb597165665c746f18a24c0b679531",
+      "expected": "1cb519af9bfb597165665c746f18a24c0b679531",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-guard-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\fx-guard-atlas.webp",
+      "sha256": "a2f585de6fcda89f47511030db8b58e091f90065bfa78ad38230df3c12c6d122",
+      "gitHash": "6eb3e0a9818c7c83a035ebfba7ee18362ec7d756",
+      "expected": "6eb3e0a9818c7c83a035ebfba7ee18362ec7d756",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-charge-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\fx-charge-atlas.webp",
+      "sha256": "ce6151b3c5c93756e9906408e8924882ab84533231beb891de7a7ef832a65684",
+      "gitHash": "455ddbeba3e6c5a11914880d302e61b4186cba5c",
+      "expected": "455ddbeba3e6c5a11914880d302e61b4186cba5c",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-execution-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\fx-execution-atlas.webp",
+      "sha256": "60f1ce80832e39e30fcc877cea52982121afd6c2ae8c12b2afd4ca77988cc08f",
+      "gitHash": "a6f20b8bea89bfe9ea56026dbc1a3bb313ba248d",
+      "expected": "a6f20b8bea89bfe9ea56026dbc1a3bb313ba248d",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-ultimate-atlas.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\fx-ultimate-atlas.webp",
+      "sha256": "dfb48405767719decc2669c5422b6651c9e77fca78d964a7f5cb1214aed31a23",
+      "gitHash": "c2f307693b00b017e72c465bd0943e9aa20d6c57",
+      "expected": "c2f307693b00b017e72c465bd0943e9aa20d6c57",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\battle-suit-skill-chip-v1\\assets\\textures\\flash.webp",
+      "sha256": "aa2c20afe592ee915658c9e12b7840d0c385d0950746d1eba71e26908cbbc1c3",
+      "gitHash": "9c8cbf7e0c21d61f05a2f51b21b25f9aee5e832b",
+      "expected": "9c8cbf7e0c21d61f05a2f51b21b25f9aee5e832b",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/battle-suit-skill-chip-v1/assets/textures/smoke.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\battle-suit-skill-chip-v1\\assets\\textures\\smoke.webp",
+      "sha256": "900e987c42f39ad151afd184caee0b645d8a33c8e53a78426355eecbf8d83813",
+      "gitHash": "acd494579a819ae89ebafaa7a72bad9c3d793986",
+      "expected": "acd494579a819ae89ebafaa7a72bad9c3d793986",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-golden-dragon-battle-v1/assets/source-art-preview.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-golden-dragon-battle-v1\\assets\\source-art-preview.webp",
+      "sha256": "ef3895ed1abc63a51c26676cccdd87b7a413226ac12c3ef39db490adf5d803da",
+      "gitHash": "186cee8a5f48bec7512bb4011180680c629502a6",
+      "expected": "186cee8a5f48bec7512bb4011180680c629502a6",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-crimson-silver-knight-battle-v1/assets/source-art-preview.webp",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-crimson-silver-knight-battle-v1\\assets\\source-art-preview.webp",
+      "sha256": "933f877a3c08628f5441f7b0d18393fcf12f6dc5817392ef57ecb3dee0a8ed30",
+      "gitHash": "8f01136e08f631ec3cedcc5ea4a8154c3103c5d4",
+      "expected": "8f01136e08f631ec3cedcc5ea4a8154c3103c5d4",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/hit.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\hit.png",
+      "sha256": "3274430b1b5242ea014ffc8a21cbd444429061bae8ad21c58b7481f00a5dac01",
+      "gitHash": "78505ffcb2528e1c6f8f69fcc796893eff1efb0e",
+      "expected": "78505ffcb2528e1c6f8f69fcc796893eff1efb0e",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/ultimate.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\ultimate.png",
+      "sha256": "833ef127a6adc77e2bb4fa9fda112fcacedc387d7955ea05a6ae72e12813b61e",
+      "gitHash": "6eb1e24bf10cfc3e4edc674358f9e0a4cba73f22",
+      "expected": "6eb1e24bf10cfc3e4edc674358f9e0a4cba73f22",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/cast.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\cast.png",
+      "sha256": "dd9af2ebc002c50dd5870f04e1a8e7610e5242b80b2d7fb7cf159c111a4c1197",
+      "gitHash": "adb4a51f2ea0cbe39b23a943f6cf5a19c120bfdf",
+      "expected": "adb4a51f2ea0cbe39b23a943f6cf5a19c120bfdf",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/slash.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\slash.png",
+      "sha256": "851c68e15db7bf19002f646febae383793a101e9aea25ec4f4cae4bbc1fe05d4",
+      "gitHash": "3c7d2d7db96314cec1528f981476069b4d1d887f",
+      "expected": "3c7d2d7db96314cec1528f981476069b4d1d887f",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/idle.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\idle.png",
+      "sha256": "27938ee073d1ffd2c1114fbb0c4137b6dd11fb6192779ca3e313797885f7e372",
+      "gitHash": "4386715d204bf0ba6d5132b47f270c1a78bbea38",
+      "expected": "4386715d204bf0ba6d5132b47f270c1a78bbea38",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/defeat.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\defeat.png",
+      "sha256": "ad5332780419e6a3b2123f08ba817562b696d5f8a14d1e4fff943981c15e2146",
+      "gitHash": "b39c4bc01b4db862951393e6a7e9b3eff9088915",
+      "expected": "b39c4bc01b4db862951393e6a7e9b3eff9088915",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/aura.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\aura.png",
+      "sha256": "55c9970865112c1b6905519c9aa35ad8d489625462b8eb4d0672144578f1f013",
+      "gitHash": "1d12a36cafd6282fd3107665f435cde6ab2c6569",
+      "expected": "1d12a36cafd6282fd3107665f435cde6ab2c6569",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/dash.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\dash.png",
+      "sha256": "c56a3111a02d5ee9a1fac6ce713d4d4ceb8012327d8aaf8d72d6e1eb1dfea987",
+      "gitHash": "5a81d2a40c1c6310003b0c3c469801de2c27ffe7",
+      "expected": "5a81d2a40c1c6310003b0c3c469801de2c27ffe7",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/dashfx.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\dashfx.png",
+      "sha256": "90009b4763d38ba7fbdddc7353650af17b5161d34fd979892c53d4efced9e585",
+      "gitHash": "44c881818dcfc7d4fe6d470b39da5473b1182422",
+      "expected": "44c881818dcfc7d4fe6d470b39da5473b1182422",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/blade.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\blade.png",
+      "sha256": "aecd213d14a6cb9135ef4ed89c6eeede0f646f76bd93b65317f46a0de9642164",
+      "gitHash": "c5ce5313c0c9765d79b2b9698a212c050ef3bfbc",
+      "expected": "c5ce5313c0c9765d79b2b9698a212c050ef3bfbc",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/dragon.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\dragon.png",
+      "sha256": "cecd7e6e8173e3ce432fa4671c2dffaf68e88c800af3f195cecb48747c6b8310",
+      "gitHash": "301d7b0e10a740c529cc695d2b2a8af2e1e52868",
+      "expected": "301d7b0e10a740c529cc695d2b2a8af2e1e52868",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/charge.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\charge.png",
+      "sha256": "e4251bb6f6f6553bd195cd4bb2cde751c59bdcaa771a1129b0b10957e2e60ac8",
+      "gitHash": "27fab54f052e66c1422c29480779933a53139ab3",
+      "expected": "27fab54f052e66c1422c29480779933a53139ab3",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/eruption.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\eruption.png",
+      "sha256": "fd94968a92dc5b5a81ce158db71f87630f87dd045a8107b21bc1bbc56b55dffe",
+      "gitHash": "8c73c7e0d5f98742b6aeea728affcaf1755bb1cd",
+      "expected": "8c73c7e0d5f98742b6aeea728affcaf1755bb1cd",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/cleave.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\cleave.png",
+      "sha256": "0e23f69df3b1d80ed19b0fa8b34496c7fa209b09128a166b6d08459866442c5c",
+      "gitHash": "9f0fb3bdbed11ba7c363c50d415f2545967fb152",
+      "expected": "9f0fb3bdbed11ba7c363c50d415f2545967fb152",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/shatter.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\shatter.png",
+      "sha256": "faf4628a79d4ec8ce2c4643776e5062a27e29be677365e702667414fd59277cf",
+      "gitHash": "cfd924a37eb67ba58543336885cb8897053d963f",
+      "expected": "cfd924a37eb67ba58543336885cb8897053d963f",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/impact.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\mercenary-jokro-iaido-20261017-v1\\assets\\atlases\\impact.png",
+      "sha256": "cf2398caeaa47870beab3aa752d4ac28db9f644830175dd03ea3b43f59924f58",
+      "gitHash": "df306fe3fd86a623eca7308010d82aff56519ef7",
+      "expected": "df306fe3fd86a623eca7308010d82aff56519ef7",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/jokro-dialogue-20261018/frame.webp",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/jokro-dialogue-20261018/frame.webp",
+      "sha256": "5ba48a5f23a36f23d13f1d3fb10d7a89be21cd4732b6be885f24b55d62ed2e5c",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+      "sha256": "5bc53d55e620e83928075e44d56290acc4c4ccea257cf65002106cc60fab2a8b",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/idle.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/idle.png",
+      "sha256": "271e60ab0bd0df4a5dd363e616ed2b7bb3e262053df462eb359e8f529ac6a767",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/characters/mercenary/mercenary-v001-auren-sd-v1.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\ui\\project-v\\characters\\mercenary\\mercenary-v001-auren-sd-v1.png",
+      "sha256": "9831816c80f23bc11d395e41b89b18d8695420e93d8c8268ffc57f0280a00755",
+      "gitHash": "83e2a90369b9ed291ada3710b19b0a1fd0a44eb7",
+      "expected": "83e2a90369b9ed291ada3710b19b0a1fd0a44eb7",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\ui\\project-v\\mercenaries\\holy-knight-greatsword-v2-collectible.png",
+      "sha256": "d85161ecede0e85afea04ec8fc82d8f1101337945361bb15e11849528fc47fd0",
+      "gitHash": "85784eb792fa81c809611d104998b318123b9957",
+      "expected": "85784eb792fa81c809611d104998b318123b9957",
+      "normalizedMatch": null,
+      "match": true,
+      "source": "existing checkout"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/deal.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/deal.png",
+      "sha256": "a1f18a00dec2b8091d49929191b5830f1caf2391003213adac68774f838de647",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/rip.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/rip.png",
+      "sha256": "efad2962e53d1fed792c9e88012b6bafdba4c10033852ae9aa5c7ff760801c3b",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/crown.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/crown.png",
+      "sha256": "7e82fb98a15c2ecaf483a980de9a998ea61dbe5ad46d41c69d831917804ef45b",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-storm.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/fx-storm.png",
+      "sha256": "b8e6c2642f82eae48d794542c3103ab1c901d3b2fbd13d1f76b42c99a3906cdc",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-deal.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/fx-deal.png",
+      "sha256": "4c5d2ab244a2865f9b1d5386844b1d68ee195e3ce9d621008c1a01efccfa2b89",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-rip.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/fx-rip.png",
+      "sha256": "00f44cb55637d589b52c70c903f1ec237f0df640f2aa24c5c34710702a949d93",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/preview/v35-character-baseline-20261101/attack-v2/qa/native.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-character-baseline-20261101\\attack-v2\\qa\\native.json",
+      "sha256": "0b4546f710897c2edce2f049a0a0c9750d3dfd021dc11a617dcc23fd29369796",
+      "gitHash": "894d54c8cb2e08c9e1077263f7f02c15797b675b",
+      "expected": "894d54c8cb2e08c9e1077263f7f02c15797b675b",
+      "normalizedMatch": null,
+      "match": null,
+      "source": "current owned work"
+    },
+    {
+      "url": "/preview/v35-character-baseline-20261101/attack-v2/runtime-7400ac091863/swordsman-7400ac091863.atlas",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-character-baseline-20261101\\attack-v2\\runtime-7400ac091863\\swordsman-7400ac091863.atlas",
+      "sha256": "5447deec26fa535c792f0b47bec176902bfcde65a9edcd54c63ff25898eccf9e",
+      "gitHash": "cbf2f93b3c6e58eca1c32a9a4dab6120e959600b",
+      "expected": "cbf2f93b3c6e58eca1c32a9a4dab6120e959600b",
+      "normalizedMatch": null,
+      "match": null,
+      "source": "current owned work"
+    },
+    {
+      "url": "/preview/v35-character-baseline-20261101/attack-v2/runtime-7400ac091863/swordsman.json",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-character-baseline-20261101\\attack-v2\\runtime-7400ac091863\\swordsman.json",
+      "sha256": "b1f44a200a44ae556e1759dbd24d197ec67153d3994d8890cd89797509d7df15",
+      "gitHash": "3259e6507e497e3e8a8071272a4cc490d100d8e8",
+      "expected": "3259e6507e497e3e8a8071272a4cc490d100d8e8",
+      "normalizedMatch": null,
+      "match": null,
+      "source": "current owned work"
+    },
+    {
+      "url": "/preview/v35-character-baseline-20261101/baseline-v4.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-character-baseline-20261101\\baseline-v4.png",
+      "sha256": "fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44",
+      "gitHash": "117a5e863f67f3a95abe6b5e3cb4012a6ae4f1ec",
+      "expected": "117a5e863f67f3a95abe6b5e3cb4012a6ae4f1ec",
+      "normalizedMatch": null,
+      "match": null,
+      "source": "current owned work"
+    },
+    {
+      "url": "/preview/v35-character-baseline-20261101/attack-v2/runtime-7400ac091863/swordsman-7400ac091863.png",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-character-baseline-20261101\\attack-v2\\runtime-7400ac091863\\swordsman-7400ac091863.png",
+      "sha256": "bb90b06f38fb8c38a13e737f85853c8845b795c53a69533bde5d21a1bad4f4f7",
+      "gitHash": "9f0fbdb68a89b0cbfcb04245e4ff60ad7bff3f98",
+      "expected": "9f0fbdb68a89b0cbfcb04245e4ff60ad7bff3f98",
+      "normalizedMatch": null,
+      "match": null,
+      "source": "current owned work"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/sss-area-dialogue-20261028/cardgu-frame.webp",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/sss-area-dialogue-20261028/cardgu-frame.webp",
+      "sha256": "e72830e9f146e10d105b9185247cb54a9a7ff9a401060a80e01777ec745931d6",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/storm.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/storm.png",
+      "sha256": "542160403eb8c4f9169bea303ae740003a20f43c571f97bff7968f555665fa67",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/utility.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/utility.png",
+      "sha256": "236175f7e5b233a03f8b9000916ad6b0cd31c713cb2e8021841eba4b0564660d",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-crown.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/fx-crown.png",
+      "sha256": "78b729a11ae66871b9c1baff27613e205c55144bf6cbad98fce003a7e475cecb",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-aura.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/fx-aura.png",
+      "sha256": "2e24bac3c3db0e32ac2528b4e181003471bece440d7bd98c5ac655478617e9c2",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/cards.png",
+      "path": "git:origin/main:assets/ui/project-v/mercenaries/cardgu-20261027/cards.png",
+      "sha256": "e2f1ae27b5b252561e9436f9129f6b1832c076df61bd2f4277690d22c8bb7e61",
+      "match": true,
+      "source": "origin/main git object"
+    },
+    {
+      "url": "/preview/v35-v3-upgrade-20261101/qa/reader.html",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-v3-upgrade-20261101\\qa\\reader.html",
+      "sha256": "c992d7df57e46e3464933b49acdbad4c55d78f251598e9cd3c7d263c2891be51",
+      "gitHash": "a1ac0daa7c671004d1a1fbfd5a00ad759bf1f5f7",
+      "expected": "origin/main:preview/v35-v3-upgrade-20261101/qa/reader.html",
+      "normalizedMatch": null,
+      "match": null,
+      "source": "current owned work"
+    },
+    {
+      "url": "/preview/v35-v3-upgrade-20261101/qa/sword-normal.webm",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-v3-upgrade-20261101\\qa\\sword-normal.webm",
+      "sha256": "3dfb02568c9dbe86fcc774b5c991518414f8ee0987b2dc7b7c3884999fa38964",
+      "gitHash": "524d2cc4376e150b3c1b1cfcd96ba3e8bcc7123c",
+      "expected": "origin/main:preview/v35-v3-upgrade-20261101/qa/sword-normal.webm",
+      "normalizedMatch": null,
+      "match": null,
+      "source": "current owned work"
+    },
+    {
+      "url": "/preview/v35-v3-upgrade-20261101/qa/cardgu-normal.webm",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-v3-upgrade-20261101\\qa\\cardgu-normal.webm",
+      "sha256": "17776b56d1a20788f44ae037b732d6fecddc09fb0ea00c029e61da69d6f0bb41",
+      "gitHash": "06b6990c5de70c46eab95891c604b4f3f37d68fb",
+      "expected": "origin/main:preview/v35-v3-upgrade-20261101/qa/cardgu-normal.webm",
+      "normalizedMatch": null,
+      "match": null,
+      "source": "current owned work"
+    },
+    {
+      "url": "/preview/v35-v3-upgrade-20261101/qa/mixed-normal.webm",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-v3-upgrade-20261101\\qa\\mixed-normal.webm",
+      "sha256": "1e4a24c805b062a4c4977fda767eb99c205bc638453f4efb19cf05fb8a68a6a2",
+      "gitHash": "2dcc48276b073c4e3d1a17171f992c9a46fd081e",
+      "expected": "origin/main:preview/v35-v3-upgrade-20261101/qa/mixed-normal.webm",
+      "normalizedMatch": null,
+      "match": null,
+      "source": "current owned work"
+    },
+    {
+      "url": "/preview/v35-v3-upgrade-20261101/qa/enemy-normal.webm",
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-v3-upgrade-20261101\\qa\\enemy-normal.webm",
+      "sha256": "00520bd77c1063581e087c7b2ebb0825a0781556a8b5ccf64e8763f2bff7fd70",
+      "gitHash": "1feb51d09b79910bc1577f2e3eab76dabd4f5836",
+      "expected": "origin/main:preview/v35-v3-upgrade-20261101/qa/enemy-normal.webm",
+      "normalizedMatch": null,
+      "match": null,
+      "source": "current owned work"
+    }
+  ],
+  "resourceMismatches": [],
+  "specializedHandlers": [
+    "HeukmuCombatPlayback.js",
+    "KamishiroCombatPlayback.js",
+    "CardguCombatPlayback.js",
+    "RevanCombatPlayback.js",
+    "BlackCrownCombatPlayback.js",
+    "BloodmoonCombatPlayback.js",
+    "AwakenedOmegaCombatPlayback.js",
+    "RazakCombatPlayback.js",
+    "EunseolCombatPlayback.js",
+    "GeneralJokCombatPlayback.js",
+    "PrimeRequiemCombatPlayback.js",
+    "ZeroCombatPlayback.js",
+    "BathoryCombatPlayback.js",
+    "LeonelCombatPlayback.js",
+    "KangyunCombatPlayback.js",
+    "JokroCombatPlayback.js",
+    "ShiranuiCombatPlayback.js",
+    "LimitedDuoCombatPlayback.js",
+    "SniperOrikkungCombatPlayback.js",
+    "NurseHealCombatPlayback.js",
+    "BerkanCombatPlayback.js",
+    "CryvernCombatPlayback.js",
+    "HeukwolCombatPlayback.js",
+    "BikiniJoeunCombatPlayback.js",
+    "MangisaCombatPlayback.js",
+    "RagnielCombatPlayback.js",
+    "KaironCombatPlayback.js",
+    "JinmuCombatPlayback.js",
+    "HeliosCombatPlayback.js",
+    "AzantCombatPlayback.js"
+  ],
+  "baseRosterCount": 57,
+  "baseRoster": [
+    {
+      "code": "V-001",
+      "name": "아우렌",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v001-auren-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png"
+    },
+    {
+      "code": "V-002",
+      "name": "리시아",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v002-licia-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-mercenary-m4-v4-knight-style.png"
+    },
+    {
+      "code": "V-003",
+      "name": "솔바인",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v003-solvain-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/golden-sword-shield-knight-v1.png"
+    },
+    {
+      "code": "V-004",
+      "name": "베스페라",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v004-vespera-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png"
+    },
+    {
+      "code": "V-005",
+      "name": "청아",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v005-cheonga-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/azure-dragon-ak-mercenary-v3.png"
+    },
+    {
+      "code": "V-006",
+      "name": "카르시아",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v006-carsia-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/black-eclipse-greatsword-mercenary-v2.png"
+    },
+    {
+      "code": "V-007",
+      "name": "서윤",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v007-seoyoon-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/modern-office-pistol-mercenary-v2.png"
+    },
+    {
+      "code": "V-008",
+      "name": "아스텔",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v008-astel-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v1.png"
+    },
+    {
+      "code": "V-009",
+      "name": "련화",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v009-ryeonhwa-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png"
+    },
+    {
+      "code": "V-010",
+      "name": "월령",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v010-wolryeong-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/moonlit-crimson-sword-mercenary-v1.png"
+    },
+    {
+      "code": "V-011",
+      "name": "아르카엘",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v011-arkael-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/ivory-aegis-vanguard-mercenary-v1.png"
+    },
+    {
+      "code": "V-012",
+      "name": "세리온",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v012-serion-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/dawn-spear-marshal-mercenary-v1.png"
+    },
+    {
+      "code": "V-013",
+      "name": "라비에나",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/short-bob-k2-amethyst-officer-mercenary-source-art-v1.png"
+    },
+    {
+      "code": "V-014",
+      "name": "엘리시아",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v014-elysia-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/tempest-wing-k2-officer-mercenary-source-art-v2.png"
+    },
+    {
+      "code": "V-015",
+      "name": "녹시아",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v015-noxia-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-assassin-urban-nightblade-mercenary-source-art-v1.png"
+    },
+    {
+      "code": "V-016",
+      "name": "솔레아",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v016-solea-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-mage-eclipse-arcanist-mercenary-source-art-v1.png"
+    },
+    {
+      "code": "V-017",
+      "name": "마레나",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v017-marena-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-swordshield-tide-bastion-mercenary-source-art-v1.png"
+    },
+    {
+      "code": "V-018",
+      "name": "미레시아",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v018-miresia-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-staff-mage-mirror-salt-magister-mercenary-source-art-v1.png"
+    },
+    {
+      "code": "V-019",
+      "name": "아우렐리온",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v019-aurelion-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/male-spear-archangel-high-seraph-mercenary-source-art-v1.png"
+    },
+    {
+      "code": "V-020",
+      "name": "사요",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v020-sayo-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-katana-winter-iaijutsu-mercenary-source-art-v1.png"
+    },
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v021-omega-x-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/mercenary-v021-omega-x-source-art-v1.jpg"
+    },
+    {
+      "code": "V-022",
+      "name": "엘로디",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v022-elodie-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v022-crossbow-source-art-v1.png"
+    },
+    {
+      "code": "V-023",
+      "name": "이안",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v023-ian-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v023-saber-source-art-v1.png"
+    },
+    {
+      "code": "V-024",
+      "name": "벨루아",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v024-velua-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v024-nocturne-sks-source-art-v1.png"
+    },
+    {
+      "code": "V-025",
+      "name": "에이라",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v025-eira-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v025-snowwatch-source-art-v1.png"
+    },
+    {
+      "code": "V-026",
+      "name": "루카스",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v026-lucas-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v026-skycourier-source-art-v1.png"
+    },
+    {
+      "code": "V-027",
+      "name": "케일",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v027-kael-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v027-harbor-gunner-source-art-v1.png"
+    },
+    {
+      "code": "V-028",
+      "name": "연휘",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v028-yeonhwi-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v028-lotuswarden-source-art-v1.png"
+    },
+    {
+      "code": "V-029",
+      "name": "레오나",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v029-leona-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v029-dawnguard-source-art-v1.png"
+    },
+    {
+      "code": "V-030",
+      "name": "홍련",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v030-hongryeon-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v030-pomegranate-source-art-v1.png"
+    },
+    {
+      "code": "V-031",
+      "name": "루시안",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v031-lucian-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v031-moonknight-source-art-v1.png"
+    },
+    {
+      "code": "V-032",
+      "name": "셀레네",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v032-selene-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v032-moonstone-source-art-v1.png"
+    },
+    {
+      "code": "V-033",
+      "name": "로젤",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v033-roselle-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v033-blackrose-source-art-v1.png"
+    },
+    {
+      "code": "V-034",
+      "name": "세이지",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v034-sage-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v034-verdant-source-art-v1.png"
+    },
+    {
+      "code": "V-035",
+      "name": "세라",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v035-sera-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v035-sunforge-source-art-v1.png"
+    },
+    {
+      "code": "V-036",
+      "name": "네레이아",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v036-nereia-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v036-astraltide-source-art-v1.png"
+    },
+    {
+      "code": "V-037",
+      "name": "아델린",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v037-adeline-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v037-seraph-gunner-source-art-v1.png"
+    },
+    {
+      "code": "V-038",
+      "name": "세실리아",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v038-cecilia-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v038-office-gauntlet-source-art-v1.png"
+    },
+    {
+      "code": "V-039",
+      "name": "로제타",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v039-rosetta-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png"
+    },
+    {
+      "code": "V-040",
+      "name": "마리엘",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v040-mariel-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png"
+    },
+    {
+      "code": "V-041",
+      "name": "레니아",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v041-renia-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png"
+    },
+    {
+      "code": "V-042",
+      "name": "경찰 조은",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v042-police-joeun-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png"
+    },
+    {
+      "code": "V-043",
+      "name": "동탄 디임",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v043-dongtan-diim-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png"
+    },
+    {
+      "code": "V-044",
+      "name": "하이희야",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v044-hi-heeya-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260915/mercenary-v044-hi-heeya-source-art-v1.png"
+    },
+    {
+      "code": "V-045",
+      "name": "망이사",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v045-mangisa-sd-v2.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v045-mangisa-source-art-v1.png"
+    },
+    {
+      "code": "V-046",
+      "name": "라그니엘",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v046-ragniel-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v046-ragniel-source-art-v1.png"
+    },
+    {
+      "code": "V-047",
+      "name": "비키니 조은",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v047-bikini-joeun-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260921/mercenary-v047-bikini-joeun-source-art-v1.png"
+    },
+    {
+      "code": "V-048",
+      "name": "흑월",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v048-heukwol-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260922/mercenary-v048-heukwol-source-art-v1.png"
+    },
+    {
+      "code": "V-049",
+      "name": "크라이베른",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v049-cryvern-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/cryvern-source-art-v1.png"
+    },
+    {
+      "code": "V-050",
+      "name": "저격 오리꿍",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v050-sniper-orikkung-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-v050-sniper-orikkung-source-art-v1.png"
+    },
+    {
+      "code": "V-051",
+      "name": "디임간호사",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/diim-nurse-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/diim-nurse-source-art-v1.png"
+    },
+    {
+      "code": "V-052",
+      "name": "희야 간호사",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/heeya-nurse-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/heeya-nurse-source-art-v1.png"
+    },
+    {
+      "code": "V-053",
+      "name": "조은 간호사",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/joeun-nurse-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/joeun-nurse-source-art-v1.png"
+    },
+    {
+      "code": "V-054",
+      "name": "봉순 간호사",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/bongsun-nurse-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/bongsun-nurse-source-art-v1.png"
+    },
+    {
+      "code": "V-055",
+      "name": "베르칸",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/berkan-sss-v1/berkan-sd-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png"
+    },
+    {
+      "code": "V-056",
+      "name": "아잔트",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/azant-sss-v1/azant-sd-v3.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20261014/azant-source-art-v1.png"
+    },
+    {
+      "code": "V-057",
+      "name": "신궁 강윤",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/kangyun-sss-v1/kangyun-battle-sprite.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20261018/kangyun-source-art.png"
+    }
+  ],
+  "visualReviewScope": [
+    "V-996 발테르",
+    "V-979 족로",
+    "V-970 카드구",
+    "V-001 아우렌",
+    "QA-V35-SPINE 붉은 코트 검사"
+  ],
+  "fullRosterVisualReview": false
+}
