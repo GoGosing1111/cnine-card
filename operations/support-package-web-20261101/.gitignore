@@ -1,0 +1,13 @@
+*
+!.gitignore
+!notice-common.mjs
+!notice-prepare.mjs
+!notice-send.mjs
+!notice-run.mjs
+!after.mjs
+!release.mjs
+!browser-quantity.mjs
+!public.mjs
+!record-final.mjs
+!publish-records.mjs
+!completion.json
