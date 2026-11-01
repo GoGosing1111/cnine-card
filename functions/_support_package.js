@@ -1,10 +1,11 @@
 import {readPackageCoinAccounting,packageCoinGuardStatements} from './_package_coin_accounting.js';
-import {SUPPORT_PACKAGE,LIMITED_SHARD,isSupportPackageProduct,supportPackageFulfillment,supportPackageOrderProduct,supportPackageQuantityValid,supportPackageWebRequest,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
+import {SUPPORT_PACKAGE,LIMITED_SHARD,isSupportPackageProduct,supportPackageFulfillment,supportPackageOrderProduct,supportPackageQuantityValid,supportPackageClientAllowed,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
 import {supportAccountEligible,supportBenefits,canManageSupport} from '../shared/server-support-v1.mjs';
 import {PASS_KEY} from '../shared/supporter-season-pass-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
 import {readPassConfig} from './_supporter_season_pass.js';
 import {ensureEmperorEnergyCatalog} from './_emperor_energy.js';
+import {ensureForgeScrollCatalog} from './_forge_scroll_catalog.js';
 import {ensureRuntimeFoundation} from './_runtime_foundation.js';
 import {ensureJointAtomicSchema,jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError,readJointBody} from './_joint_request.js';
@@ -81,7 +82,7 @@ export async function processPackage(env,admin,body,now=Date.now()){
  if(!supportPackageOrderProduct(order))fail('PRODUCT','신청 시점의 상품 구성을 확인해야 합니다.',409);
  const product=supportPackageOrderProduct(order);
  const target=await env.DB.prepare('SELECT id,nickname,status FROM users WHERE id=?').bind(order.userId).first();if(!target||grant&&target.status!=='ACTIVE')fail('TARGET','현재 지급할 수 없는 계정입니다.',409);
- if(grant){await ensureLimitedShardCatalog(env);await ensureEmperorEnergyCatalog(env);}
+ if(grant){await ensureLimitedShardCatalog(env);await ensureEmperorEnergyCatalog(env);if(product.items.some(item=>item.code==='WEAPON_ENHANCEMENT_SCROLL'))await ensureForgeScrollCatalog(env);}
  await ensureJointAtomicSchema(env);
  const coinAccounting=grant?await readPackageCoinAccounting(env,order.userId):null;
  const next={...order,...(grant?{fulfillment:product}:{}),status:grant?'FULFILLED':'REJECTED',revision:order.revision+1,processedAt:now,processedBy:Number(admin.id),note:body.note.trim()},result={ok:true,order:next,replayed:false};
@@ -132,7 +133,7 @@ export async function handleSupportPackage({path,request,env,user,deps,now}){
    return deps.withUserMutationLock(env,Number(body.orderId.split('_')[0]),path,()=>processPackage(env,user,body,(deps.now||Date.now)()));
   }
  }else{
-  if(!supportPackageWebRequest(request))fail('WEB_ONLY','패키지는 웹 브라우저에서만 구매할 수 있습니다.',403);
+  if(!supportPackageClientAllowed(request))fail('CLIENT_UNAVAILABLE','이 배포판에서는 패키지 구매를 제공하지 않습니다.',403);
   await eligibility(env,user.id,now);
   if(path==='server-support/package'&&request.method==='GET'){
    await ensureLimitedShardCatalog(env);const pending=await pendingOrder(env,user.id);

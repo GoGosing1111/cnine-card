@@ -1,4 +1,4 @@
-import {SUPPORT_PACKAGE,supportPackageOrderProduct,supportPackageSummary,supportPackageEventDeadline} from '../shared/support-package-v1.mjs?v=20261101-package-web-v2';
+import {SUPPORT_PACKAGE,supportPackageOrderProduct,supportPackageSummary,supportPackageEventDeadline} from '../shared/support-package-v1.mjs?v=20261101-package-clients-v1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function mountSupportPackageAdmin(root,{request}){
  let data=null,selected=null,pending=null,busy=false,disposed=false;const key='cnine_support_package_admin_pending_v1:1';

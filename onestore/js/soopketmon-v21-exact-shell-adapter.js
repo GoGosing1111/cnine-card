@@ -79,7 +79,7 @@
    */
   const MENU_GROUPS = Object.freeze({
     inventory: Object.freeze({ title: '인벤토리', routes: Object.freeze(['inventory']) }),
-    store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop']) }),
+    store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop', 'rankedShop']) }),
     collection: Object.freeze({ title: '카드·용병·펫', routes: Object.freeze(['dex', 'mercenaryDex', 'petDex', 'upgrade', 'evolution', 'iconfusion', 'magic']) }),
     pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'defense', 'coop', 'legion', 'raid', 'escort', 'seal', 'tower', 'scrapyard', 'masterStarMine']) }),
     pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'classicColosseum', 'jokgakCity', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
@@ -97,6 +97,7 @@
   });
   const ROUTE_META = Object.freeze({
     buy: Object.freeze({ title: '카드 상점', group: 'store', icon: 'pack', home: Object.freeze({ title: '카드·상점', meta: '카드팩 · 장비 보급 · 이동수단' }) }),
+    rankedShop: Object.freeze({ title: '랭크전 상점', group: 'store', icon: 'rankedShop' }),
     lootShop: Object.freeze({ title: '고급 전리품 상점', group: 'store', icon: 'gift' }),
     dex: Object.freeze({ title: '도감', group: 'collection', icon: 'book', home: Object.freeze({ title: '도감·강화', meta: '카드 수집 · 상세 · 진화' }) }),
     mercenaryDex: Object.freeze({ title: '용병 · 편성', group: 'collection', icon: 'cards' }),

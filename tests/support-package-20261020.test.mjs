@@ -4,6 +4,7 @@ import {packageFixture} from './helpers/support-package-fixture.mjs';
 import {SUPPORT_PACKAGE,LIMITED_SHARD} from '../shared/support-package-v1.mjs';
 import {ensureLimitedShardCatalog} from '../functions/_support_package.js';
 import {ensureEmperorEnergyCatalog} from '../functions/_emperor_energy.js';
+import {ensureForgeScrollCatalog} from '../functions/_forge_scroll_catalog.js';
 for(const postgres of [false,true]){
  test(`package purchase, owner popup feed and exactly-once atomic delivery (${postgres?'PostgreSQL':'SQLite'})`,async()=>{
   const f=await packageFixture({postgres});try{
@@ -28,7 +29,7 @@ for(const postgres of [false,true]){
    assert.equal((await f.one('SELECT value FROM app_meta WHERE key=?','server_support_v1:2')).value,beforePass.value);
    assert.equal((await f.call('admin/server-support/package/alerts')).body.pending.length,0);
    assert.equal(Number((await f.one('SELECT COUNT(*) n FROM coin_logs')).n),1);
-   assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),2);
+   assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),4);
    const next=await f.apply();assert.notEqual(next.body.order.id,order.id);
    assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),2);
    const rejected=await f.process(next.body.order,'REJECT');assert.equal(rejected.status,200);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),400000000001234);
@@ -65,12 +66,12 @@ test('package bank message expiry, privacy, overflow and catalog isolation',asyn
 });
 test('competing owner confirmations and duplicate applications cannot repeat a grant or alert',async()=>{
  const f=await packageFixture({postgres:true});try{
-  await f.activate();await ensureLimitedShardCatalog(f.env);await ensureEmperorEnergyCatalog(f.env);
+  await f.activate();await ensureLimitedShardCatalog(f.env);await ensureEmperorEnergyCatalog(f.env);await ensureForgeScrollCatalog(f.env);
   const batch=f.DB.batch.bind(f.DB);let entered=false,competitor;
   f.DB.batch=async statements=>{if(!entered){entered=true;competitor=await f.apply();}return batch(statements);};
   const stale=await f.apply();assert.equal(competitor.status,200);assert.equal(stale.status,409);assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),1);
   entered=false;const order=competitor.body.order;
   f.DB.batch=async statements=>{if(!entered){entered=true;competitor=await f.process(order);}return batch(statements);};
-  const staleConfirm=await f.process(order);assert.equal(competitor.status,200);assert.equal(staleConfirm.status,409);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),400000000001234);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),2);
+  const staleConfirm=await f.process(order);assert.equal(competitor.status,200);assert.equal(staleConfirm.status,409);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),400000000001234);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),4);
  }finally{await f.close();}
 });
