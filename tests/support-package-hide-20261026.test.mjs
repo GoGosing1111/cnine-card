@@ -31,7 +31,7 @@ for(const postgres of [false,true])test(`midnight hides only the package, reject
   const processId=crypto.randomUUID(),paid=await f.process(applied.body.order,'FULFILL',processId);
   assert.equal(paid.status,200);assert.deepEqual(paid.body.order.fulfillment,SUPPORT_PACKAGE);
   assert.equal((await f.process(applied.body.order,'FULFILL',processId)).body.replayed,true);
-  assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),400000000001234);
+  assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),500000000001234);
   assert.equal((await f.one('SELECT value FROM app_meta WHERE key=?','server_support_v1:2')).value,beforeSupport.value);
  }finally{await f.close();}
 });
