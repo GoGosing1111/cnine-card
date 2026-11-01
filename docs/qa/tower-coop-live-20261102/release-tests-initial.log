@@ -1,0 +1,146 @@
+✔ prepared tier preserves every previous combat/reward row and doubles only base extreme quantities (3.5351ms)
+✔ two-player departure requires both ready and the host; join locks at departure (136.5955ms)
+✔ three-player auto departure and old serialized room minimum remain intact; two players also work with one mercenary (46.01ms)
+✔ upper-tier HP is applied beyond generic 1200% cap; previous tiers stay byte-identical (123.8709ms)
+✔ favorites persist per account/type, stay idempotent, require ownership and cap each type (89.6907ms)
+✔ SQLite two-player energy, doubled base and unchanged choice settlement and rollback are atomic and replay safe (21.2131ms)
+✔ PostgreSQL two-player energy, doubled base and unchanged choice settlement and rollback are atomic and replay safe (4258.6704ms)
+✔ choice draws and fallback match extreme for every weighted outcome, including single mercenary copies (45.3892ms)
+✔ activation dry run, every partial failure, stale hashes and SELECT-only replay preserve existing data (2154.0615ms)
+✖ SQLite prepared saved pairs preserve single slots, isolate modes, roll back and replay safely (54.446ms)
+✖ PostgreSQL prepared saved pairs preserve single slots, isolate modes, roll back and replay safely (4055.996ms)
+✔ SQLite ranked duo profiles retain both owned choices in order and segregate cached single rules (259.5506ms)
+✔ pipeline ranked duo profiles retain both owned choices in order and segregate cached single rules (2876.4161ms)
+✔ client slots and duo potential enforce SS/SSS limits including LIMITED (3.2915ms)
+✔ NORMAL: actual content builder retains each mercenary, regular cards and distinct identities (3.0145ms)
+✔ NIGHTMARE: actual content builder retains each mercenary, regular cards and distinct identities (1.047ms)
+✔ APOCALYPSE: actual content builder retains each mercenary, regular cards and distinct identities (1.9867ms)
+✔ SCRAPYARD: actual content builder retains each mercenary, regular cards and distinct identities (3.5434ms)
+✔ COW: actual content builder retains each mercenary, regular cards and distinct identities (2.5271ms)
+✔ TOWER: actual content builder retains each mercenary, regular cards and distinct identities (6.9369ms)
+✔ IDLE_WIN: actual content builder retains each mercenary, regular cards and distinct identities (0.8218ms)
+✔ IDLE_LOSS: actual content builder retains each mercenary, regular cards and distinct identities (0.5327ms)
+✔ CORE_CORE: actual content builder retains each mercenary, regular cards and distinct identities (1.254ms)
+✔ CORE_BOSS: actual content builder retains each mercenary, regular cards and distinct identities (1.0101ms)
+✔ LEGION: actual content builder retains each mercenary, regular cards and distinct identities (5.2482ms)
+✔ LICH: actual content builder retains each mercenary, regular cards and distinct identities (0.4952ms)
+✔ MADARA: actual content builder retains each mercenary, regular cards and distinct identities (0.3618ms)
+✔ BLACKWING: actual content builder retains each mercenary, regular cards and distinct identities (0.3919ms)
+✔ COOP: actual content builder retains each mercenary, regular cards and distinct identities (4.9184ms)
+✔ DUO: actual content builder retains each mercenary, regular cards and distinct identities (3.1507ms)
+✔ released server snapshots accept two mercenaries and retain legacy single snapshots (168.9303ms)
+✔ cooperative and duo pairs enforce SS/SSS INCLUDING LIMITED per owner; shared codes across owners remain valid (60.8118ms)
+✔ cooperative and duo owner layouts have no collisions at PC/mobile, including a missing first squad mercenary (0.6034ms)
+✔ escort continuation preserves each code health and allows the second survivor after JSON reconnect (4.2573ms)
+✔ seal and territory use both canonical mercenary powers, with separate replay fighters (0.6182ms)
+✔ cooperative difficulty increases captured enemies, remains party-independent and leaves single rooms unchanged (64.3417ms)
+✔ dual cooperative room freezes both selections and difficulty across restore; forfeiting removes precisely four owner actors (109.4954ms)
+✔ cooperative two-slot selection requires two owned, distinct codes and retains the two-card contract (0.6481ms)
+✔ SQLite: explicit prepared pair uses actual owned snapshots and cannot change saved account slots (43.5723ms)
+✔ PostgreSQL: explicit prepared pair uses actual owned snapshots and cannot change saved account slots (4236.0078ms)
+✔ OWNER cooperative and ranked-duo preparation APIs return per-owner pairs without DB writes (2104.6086ms)
+✔ blackwing v3 full mechanic clear preserves both mercenaries per owner: WING (883.0852ms)
+✔ blackwing v3 full mechanic clear preserves both mercenaries per owner: BLADE (740.3211ms)
+✔ seal and dragon dual playback split one committed contribution without double damage (5.442ms)
+✖ dual deployment is released and a client cannot opt live battles into six selections (1.3404ms)
+✔ both companions act in canonical PVE and PVP at card power 1000000 (36.6545ms)
+✔ both companions act in canonical PVE and PVP at card power 20000000 (11.1852ms)
+✔ both companions act in canonical PVE and PVP at card power 100000000 (10.5473ms)
+✔ two slots reject repeated codes, repeated SS and malformed regular decks (1.6635ms)
+✔ current premium cadence is earned independently without cross-credit or starvation (5.3097ms)
+✔ six unique selections form three valid pairs; each round starts fresh and stops at two wins (1.7602ms)
+✔ real ranked pairs match individually simulated deterministic battles (33.0775ms)
+✖ SQLite dual roster, ticket privacy, ownership rollback and one settlement (3.4481ms)
+✖ PostgreSQL dual roster, ticket privacy, ownership rollback and one settlement (3389.3093ms)
+✔ OWNER dual preview is read-only and rejects stale revisions and injected stats (2366.025ms)
+✔ OWNER ranked preview validates six canonical selections and returns two actors every round (1855.7025ms)
+✔ two mercenaries use unique occupied stations while every existing station stays fixed (1.12ms)
+✔ SSS including LIMITED and SS each occupy at most one slot; different S or lower mercenaries may pair (23.988ms)
+✔ 30 new floors: ascending safe powers, ordinary rewards per floor, exact 30% per decade, separate guardian rewards (5.672ms)
+✔ stale, missing, overlapping or altered baseline requires a fresh review (3.4313ms)
+✔ local PostgreSQL activation is atomic, append-only, protected by hashes, and replay performs zero writes (4049.7756ms)
+✔ actual operating routes: 120 completion opens 121, two Lv.21 actors settle new rewards once, 150 completes and 151 is refused (3669.9881ms)
+✔ level and composition affect combat while every new encounter has 28 unique units and one-floor progression (259.279ms)
+ℹ tests 63
+ℹ suites 0
+ℹ pass 58
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9469.7454
+
+✖ failing tests:
+
+test at tests\dual-mercenary-account-20261028.test.mjs:18:36
+✖ SQLite prepared saved pairs preserve single slots, isolate modes, roll back and replay safely (54.446ms)
+  Error: 편성이 변경됐습니다. 최신 상태에서 다시 선택하세요.
+      at jointError (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/functions/_joint_request.js:1:74)
+      at statements (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/functions/_mercenary_account.js:255:78)
+      at async runJointOperation (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/functions/_joint_transactions.js:37:20)
+      at async savePreparedMercenaryLoadout (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/functions/_mercenary_account.js:253:10)
+      at async TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/tests/dual-mercenary-account-20261028.test.mjs:33:2)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    code: 'MERCENARY_LOADOUT_CONFLICT',
+    status: 409,
+    terminal: true
+  }
+
+test at tests\dual-mercenary-account-20261028.test.mjs:18:36
+✖ PostgreSQL prepared saved pairs preserve single slots, isolate modes, roll back and replay safely (4055.996ms)
+  Error: 편성이 변경됐습니다. 최신 상태에서 다시 선택하세요.
+      at jointError (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/functions/_joint_request.js:1:74)
+      at statements (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/functions/_mercenary_account.js:255:78)
+      at async runJointOperation (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/functions/_joint_transactions.js:37:20)
+      at async savePreparedMercenaryLoadout (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/functions/_mercenary_account.js:253:10)
+      at async TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/tests/dual-mercenary-account-20261028.test.mjs:33:2)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    code: 'MERCENARY_LOADOUT_CONFLICT',
+    status: 409,
+    terminal: true
+  }
+
+test at tests\dual-mercenary-ranked-20261028.test.mjs:24:1
+✖ dual deployment is released and a client cannot opt live battles into six selections (1.3404ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  6 !== 3
+
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/tests/dual-mercenary-ranked-20261028.test.mjs:25:62)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 6,
+    expected: 3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\dual-mercenary-ranked-20261028.test.mjs:79:36
+✖ SQLite dual roster, ticket privacy, ownership rollback and one settlement (3.4481ms)
+  Error: 서로 다른 용병 6종을 출전 순서대로 선택하세요.
+      at rankedSeriesCodes (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/shared/ranked-series-v1.mjs:11:25)
+      at saveRankedRoster (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/functions/_ranked_series.js:35:15)
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/tests/dual-mercenary-ranked-20261028.test.mjs:81:8)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    status: 400,
+    code: 'PVP_SERIES_ROSTER'
+  }
+
+test at tests\dual-mercenary-ranked-20261028.test.mjs:79:36
+✖ PostgreSQL dual roster, ticket privacy, ownership rollback and one settlement (3389.3093ms)
+  Error: 서로 다른 용병 6종을 출전 순서대로 선택하세요.
+      at rankedSeriesCodes (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/shared/ranked-series-v1.mjs:11:25)
+      at saveRankedRoster (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/functions/_ranked_series.js:35:15)
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/tests/dual-mercenary-ranked-20261028.test.mjs:81:8)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    status: 400,
+    code: 'PVP_SERIES_ROSTER'
+  }

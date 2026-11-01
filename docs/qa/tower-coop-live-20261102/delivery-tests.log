@@ -1,0 +1,26 @@
+✔ store documents retain edition and cannot route to excluded/admin documents (1.1777ms)
+✔ actual entry installs policy and official SDK before game scripts with correct variants (6.8124ms)
+✔ standalone pet imports and navigation use the same restrictions (2.8218ms)
+✔ Pages serves HTML from assets without API/account writes and with iframe headers (18.6751ms)
+✔ root compatibility redirect preserves ordinary web and native Android edition (1.0278ms)
+✔ H5 public runtime is shipped while source packaging remains outside Pages assets (1.2386ms)
+✔ generated web edition matches current approved client sources and SDK policy (200.3638ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: js/app.js (21.0332ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: onestore/js/app.js (12.6662ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (23.748ms)
+✔ classic colosseum background is confined to the explicitly tagged PVP replay (0.3419ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (11.2128ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (19.9744ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (19.7755ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (32.7696ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (4.2926ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (3.6009ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (0.8463ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1476.5333

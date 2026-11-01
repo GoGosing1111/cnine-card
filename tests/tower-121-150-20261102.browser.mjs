@@ -8,12 +8,12 @@ import {operatingTowerFixture} from './helpers/tower-live-route.mjs';
 import {fixture,plan,reviewSnapshot,REVIEW} from './helpers/tower-expansion-20261102.mjs';
 import {DUAL_REVIEW_CARDS} from '../functions/_companion_preparation.js';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE_URL||'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs');
-const root=path.resolve(import.meta.dirname,'..'),out=path.join(root,'docs/qa/tower-121-150-20261102/browser');fs.mkdirSync(out,{recursive:true});
+const root=path.resolve(import.meta.dirname,'..'),out=path.resolve(process.env.TOWER_COOP_QA_OUT||path.join(root,'docs/qa/tower-121-150-20261102/browser'));fs.mkdirSync(out,{recursive:true});
 const profiles=new Map(),missing=[],cache=new Map();
 async function profile(key){
  if(!profiles.has(key))profiles.set(key,(async()=>{
   const f=await jointFixture();f.setPower(1000000);const base=f.deps.raidDeckPower,party=reviewSnapshot();
-  f.deps.raidDeckPower=async(...args)=>{const d=await base(...args);return {...d,cards:d.cards.map((c,i)=>({...c,image:DUAL_REVIEW_CARDS[i].image})),mercenaries:party.mercenaries,[REVIEW]:true};};
+  f.deps.raidDeckPower=async(...args)=>{const d=await base(...args);return {...d,cards:d.cards.map((c,i)=>({...c,image:DUAL_REVIEW_CARDS[i].image})),mercenaries:party.mercenaries};};
   const tower=await operatingTowerFixture(f,{floorNo:121,maxFloor:120,monsterPower:1800000000,rewardCoin:4000000000000});
   for(const m of fixture.monsters.filter(m=>[64,67,68,69,17,18].includes(Number(m.id))))await f.p('INSERT INTO battle_monsters(id,name,image_url,battle_power,is_boss) VALUES(?,?,?,?,?)',Number(m.id),m.name,m.image_url,Number(m.battle_power),Number(m.is_boss)).run();
   for(const r of plan.floors)await f.p('INSERT INTO tower_floor_ranges(id,season_id,start_floor,end_floor,reward_coin,monster_id,is_active,power_override,is_boss) VALUES(?,1,?,?,?,?,1,?,?)',5000+r.floor,r.floor,r.floor,r.coin,r.monsterId,r.power,r.boss).run();

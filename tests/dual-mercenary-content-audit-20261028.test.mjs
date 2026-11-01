@@ -33,9 +33,9 @@ for(const [name,payload] of Object.entries(prepared))test(`${name}: actual conte
  }
  assert.deepEqual(JSON.parse(JSON.stringify(payload)).battleV2.teams.A.mercenaries,b.teams.A.mercenaries);
 });
-test('all content snapshots ignore unmarked injected arrays while release stays OFF',()=>{
- assert.equal(COMPANION_RELEASE.dualMercenaries,false);
- const s=snapshot({dual:false});assert.deepEqual(companionBattleOptions({...s,mercenaries:pair}),companionBattleOptions(s));
+test('released server snapshots accept two mercenaries and retain legacy single snapshots',()=>{
+ assert.equal(COMPANION_RELEASE.dualMercenaries,true);
+ const s=snapshot({dual:false});assert.deepEqual(companionBattleOptions({...s,mercenaries:pair}),{mercenaries:pair});
  const solo=contentPayloads({dual:false,legion:false});
  for(const [name,p]of Object.entries(solo))assert.equal(p.battleV2.teams.A.mercenaries?.length||0,name.startsWith('CORE_')?0:name==='COOP'?3:name==='DUO'?2:1,name);
 });

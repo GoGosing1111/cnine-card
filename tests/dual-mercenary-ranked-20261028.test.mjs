@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {COMPANION_RELEASE,COMPANION_PREPARATION_REVIEW as REVIEW,validatePreparedMercenaries,COMPANION_FORMATION_RULES} from '../shared/companion-loadout-v2.mjs';
-import {RANKED_SERIES_RULES,RANKED_DUAL_SERIES_RULES as rules,rankedSeriesRoster,simulateRankedSeries,rankedSeriesReceipt} from '../shared/ranked-series-v1.mjs';
+import {RANKED_SERIES_RULES,RANKED_SINGLE_SERIES_RULES as singleRules,RANKED_DUAL_SERIES_RULES as rules,rankedSeriesRoster,simulateRankedSeries,rankedSeriesReceipt} from '../shared/ranked-series-v1.mjs';
 import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {independentMercenaryTurnCadence,mercenaryTurnCadence} from '../functions/_mercenary_combat.js';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
@@ -21,11 +21,11 @@ const pair=reviewMercenaries().slice(0,2);
 const document=structuredClone(seed.document);codes.forEach((code,i)=>{document.mercenaries.find(m=>m.code===code).rank=ranks[i];});
 const six=codes.map(code=>battleConfig(document,code,1));
 
-test('dual deployment remains OFF and a client cannot opt live battles into six selections',()=>{
- assert.equal(COMPANION_RELEASE.dualMercenaries,false);assert.equal(RANKED_SERIES_RULES.rosterSize,3);
+test('released PVE pairs and ranked six selections preserve explicit legacy rules',()=>{
+ assert.equal(COMPANION_RELEASE.dualMercenaries,true);assert.equal(RANKED_SERIES_RULES.rosterSize,6);
  const input={cards:tierCards(1e6),mercenary:pair[0],monster:{power:3e6},seed:17};
- assert.deepEqual(createPveBattleV2({...input,mercenaries:pair}),createPveBattleV2(input));
- assert.throws(()=>rankedSeriesRoster(six));
+ assert.equal(createPveBattleV2({...input,mercenary:undefined,mercenaries:pair}).teams.A.mercenaries.length,2);assert.equal(createPveBattleV2(input).teams.A.mercenaries.length,1);
+ assert.equal(rankedSeriesRoster(six).length,6);assert.throws(()=>rankedSeriesRoster(six,singleRules));
 });
 for(const power of [1e6,2e7,1e8])test(`both companions act in canonical PVE and PVP at card power ${power}`,()=>{
  const cards=tierCards(power),pve=createPveBattleV2({cards,mercenaries:pair,battleSuit:{code:'QA',pvePower:power},monster:{power:power*100,isBoss:true},seed:17,[REVIEW]:true});
@@ -78,16 +78,16 @@ test('real ranked pairs match individually simulated deterministic battles',()=>
 });
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} dual roster, ticket privacy, ownership rollback and one settlement`,async t=>{
  const {env,q,settings,createTicket,queries}=await rankedFixture(t,postgres,{codes,ranks,rules});
- await saveRankedRoster(env,{id:1},{codes:codes.slice(0,3),revision:0});
+ await saveRankedRoster(env,{id:1},{codes:codes.slice(0,3),revision:0},singleRules);
  assert.equal((await readRankedRosters(env,[1],rules)).get(1).ready,false,'legacy roster is not migrated');
- await assert.rejects(saveRankedRoster(env,{id:1},{codes,revision:0,mercenariesPerRound:2}),/3종/,'client fields cannot unlock preparation');
+ await assert.rejects(saveRankedRoster(env,{id:1},{codes,revision:0,mercenariesPerRound:2},singleRules),/3종/,'client fields cannot unlock preparation');
  for(const id of [1,2])await saveRankedRoster(env,{id},{codes:id===1?codes:[...codes].reverse(),revision:0},rules);
  const concurrent=await Promise.allSettled([saveRankedRoster(env,{id:1},{codes,revision:1},rules),saveRankedRoster(env,{id:1},{codes,revision:1},rules)]);
  assert.equal(concurrent.filter(r=>r.status==='fulfilled').length,1);
  const ticket=await createTicket();assert.equal(await createTicket('competing'),null);
  const preview=await rankedTicketPreview(env,ticket,rules);assert.deepEqual(preview.opponent.map(m=>m.code),codes);assert.equal(preview.mercenariesPerRound,2);assert.equal(preview.opponentOrderHidden,true);
  await assert.rejects(saveRankedRoster(env,{id:1},{codes,revision:2},rules),/매칭 중/);
- assert.equal(await readRankedSeriesTicket(env,ticket.token,1,2),null,'old ticket reader cannot accept dual');
+ assert.equal(await readRankedSeriesTicket(env,ticket.token,1,2,singleRules),null,'old ticket reader cannot accept dual');
  assert.deepEqual((await readRankedSeriesTicket(env,ticket.token,1,2,rules)).B,[...codes].reverse());
  await ensureMercenaryLevelSchema(env);
  await q('INSERT INTO app_meta VALUES(?,?,CURRENT_TIMESTAMP)','mercenary_level_policy_v1',JSON.stringify(mercenaryGrowthLaunchPolicy())).run();
@@ -103,7 +103,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} dual 
  await commit();await assert.rejects(commit());const receipt=await rankedFightReceipt(env,1,'dual-set',ticket.token);
  assert.equal(receipt.energy.energy,9);assert.equal(receipt.coinAfter,150);assert.equal(receipt.rankedSeries.rounds[0].attackerMercenaries.length,2);
  assert.equal((await q('SELECT COUNT(*) n FROM pvp_match_history').first()).n,1);
- assert.deepEqual((await readRankedRosters(env,[1])).get(1).codes,codes.slice(0,3),'legacy saved order remains intact');
+ assert.deepEqual((await readRankedRosters(env,[1],singleRules)).get(1).codes,codes.slice(0,3),'legacy saved order remains intact');
 });
 test('OWNER dual preview is read-only and rejects stale revisions and injected stats',async()=>{
  const fx=await companionCmsFixture();try{

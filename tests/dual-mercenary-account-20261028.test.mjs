@@ -21,21 +21,21 @@ for(const [code,rank] of [['V-013','SS'],['V-021','SSS'],['V-046','SSS']])f.docu
 await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(f.document)).run();
 
  for(const code of ['V-001','V-002','V-013','V-021','V-046','V-960','V-970'])await f.p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(7,?,1,0,?,?)',code,'2026-10-28','2026-10-28').run();
- await saveMercenaryLoadout(f.env,f.user,{mode:'PVE',mercenaryCode:'V-001',revision:0,requestId:rid()});
- const single=structuredClone((await readMercenaryModes(f.env,[7])).get(7).loadouts),wallet=await f.coin();
+ await f.p("INSERT INTO user_mercenary_loadout_v1(user_id,mercenary_code,revision,updated_at) VALUES(7,'V-001',1,'2026-10-28') ON CONFLICT(user_id) DO UPDATE SET mercenary_code='V-001',revision=1").run();
+ const single=structuredClone((await readMercenaryModes(f.env,[7],{dual:false})).get(7).loadouts),wallet=await f.coin();
  const save=(mode,codes,revision,requestId=rid())=>savePreparedMercenaryLoadout(f.env,f.user,{mode,mercenaryCodes:codes,revision,requestId});
  const body={mode:'PVE',mercenaryCodes:['V-001','V-002'],revision:1,requestId:rid()};
- assert.equal(COMPANION_RELEASE.dualMercenaries,false);
- await assert.rejects(saveMercenaryLoadout(f.env,f.user,body),{code:'MERCENARY_DUAL_PENDING'});
- f.fail('INSERT INTO app_meta');await assert.rejects(savePreparedMercenaryLoadout(f.env,f.user,body));f.fail('');
+ assert.equal(COMPANION_RELEASE.dualMercenaries,true);
+ await assert.rejects(saveMercenaryLoadout(f.env,f.user,{...body,mercenaryCode:'V-001'}),{code:'MERCENARY_FORMATION'});
+ f.fail('INSERT INTO app_meta');await assert.rejects(saveMercenaryLoadout(f.env,f.user,body));f.fail('');
  assert.equal(await f.p('SELECT value FROM app_meta WHERE key=?',dualMercenaryLoadoutKey(7)).first(),null);
- await savePreparedMercenaryLoadout(f.env,f.user,body);assert.equal((await savePreparedMercenaryLoadout(f.env,f.user,body)).replayed,true);
- await save('PVP',['V-021','V-013'],0);
- assert.deepEqual((await readMercenaryModes(f.env,[7])).get(7).loadouts,single);
+ await saveMercenaryLoadout(f.env,f.user,body);assert.equal((await saveMercenaryLoadout(f.env,f.user,body)).replayed,true);
+ await save('PVP',['V-021','V-013'],1);
+ assert.deepEqual((await readMercenaryModes(f.env,[7],{dual:false})).get(7).loadouts,single);
  const read=mode=>releasedMercenaryFormations(f.env,[7],mode,{dual:true}).then(m=>m.get(7));
  const pve=await read('PVE'),pvp=await read('PVP');assert.deepEqual(pve.mercenaries.map(m=>m.code),['V-001','V-002']);assert.deepEqual(pvp.mercenaries.map(m=>m.code),['V-021','V-013']);
  assert.equal(mercenaryFormationPower(pve),pve.mercenaries.reduce((sum,m)=>sum+m.basePower,0));
- const battle=createPveBattleV2({...snapshot(),...pve,[REVIEW]:true,monster:{power:1e8},seed:12});assert.equal(battle.teams.A.mercenaries.length,2);
+ const battle=createPveBattleV2({...snapshot({dual:false}),...pve,mercenary:undefined,monster:{power:1e8},seed:12});assert.equal(battle.teams.A.mercenaries.length,2);
  await assert.rejects(save('PVE',['V-002'],1),{code:'MERCENARY_LOADOUT_CONFLICT'});
  await assert.rejects(save('PVE',['V-021','V-970'],2),/SSS/);
  await assert.rejects(save('PVE',['V-013','V-960'],2),/SS/);
@@ -58,7 +58,7 @@ for(const postgres of [false,'pipeline'])test(`${postgres||'SQLite'} ranked duo 
  assert.equal(b.teams.A.mercenaries.length,4);assert.equal(b.teams.B.mercenaries.length,4);
  const query=rankedDuoPoolMemberCountSql(4,true),stamp=new Date(f.clock()).toISOString().replace('T',' ').slice(0,19);assert.equal(Number((await f.p(query,stamp,2,3,4,5).first()).n),4);
  await f.p("DELETE FROM user_mercenary_cards_v1 WHERE user_id=5 AND mercenary_code='V-960'").run();assert.equal(Number((await f.p(query,stamp,2,3,4,5).first()).n),3);
- const old=await loadDuoProfiles(f.env,[2,3,4,5],f.config,f.deps,{now:f.clock()});assert.ok(old.every(p=>p.attack.mercenaries===undefined));
+ const old=await loadDuoProfiles(f.env,[2,3,4,5],f.config,f.deps,{now:f.clock(),dual:false});assert.ok(old.every(p=>p.attack.mercenaries===undefined));
 });
 
 test('client slots and duo potential enforce SS/SSS limits including LIMITED',()=>{

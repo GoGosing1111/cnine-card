@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {mercenaryCardAcquisitionStatements} from '../functions/_mercenary_draw_accounting.js';
-import {mercenaryAccountState,savePreparedMercenaryLoadout,releasedMercenaryFormations} from '../functions/_mercenary_account.js';
+import {mercenaryAccountState,saveMercenaryLoadout,releasedMercenaryFormations} from '../functions/_mercenary_account.js';
 import {readMercenaryModes} from '../functions/_mercenary_loadout_modes.js';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 const root=process.cwd(),out=path.resolve(process.env.DUAL_ACCOUNT_QA_OUT),media=process.env.DUAL_QA_MEDIA_ROOT;
@@ -22,7 +22,7 @@ const server=http.createServer(async(req,res)=>{try{
  const url=new URL(req.url,'http://localhost'),key=url.pathname;
  if(key==='/api/mercenary-codex')return json(res,mercenaryCodexDocument({payload_json:JSON.stringify(f.document),revision:1}));
  if(key==='/api/mercenaries/v3/state'){const state=await mercenaryAccountState(f.env,f.user),loadouts=await slots();return json(res,{...state,loadouts,loadout:loadouts.PVE});}
- if(key==='/api/mercenaries/v3/loadout'){let raw='';for await(const part of req)raw+=part;const body=JSON.parse(raw);writes.push(body);const value=await savePreparedMercenaryLoadout(f.env,f.user,body);if(lose){lose=false;return json(res,{error:'응답 유실 검수'},503);}return json(res,value);}
+ if(key==='/api/mercenaries/v3/loadout'){let raw='';for await(const part of req)raw+=part;const body=JSON.parse(raw);writes.push(body);const value=await saveMercenaryLoadout(f.env,f.user,body);if(lose){lose=false;return json(res,{error:'응답 유실 검수'},503);}return json(res,value);}
  if(key==='/api/sync/ticket')return json(res,{error:'격리 검수: 외부 동기화 없음'},403);
  if(key.startsWith('/api/'))return json(res,{visible:false,enabled:false,items:[],user:{id:7,nickname:'검수'}});
  if(key==='/deck-test'){res.writeHead(200,{'content-type':'text/html; charset=utf-8'});return res.end('<meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/mercenary-deck-slot.css"><body style="background:#080c17;color:white"><div><h2>PVE</h2><div id="battleDeck"></div></div><div><h2>PVP</h2><div id="pvpDeckSlots"></div></div><script type="module" src="/js/mercenary-deck-slot.mjs"></script>');}

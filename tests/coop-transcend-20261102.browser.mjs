@@ -8,12 +8,13 @@ import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primar
 import {cooperativeMiniflare} from './helpers/cooperative-miniflare.mjs';
 import {mercenaryLevelDraft,MERCENARY_LEVEL_KEY} from '../shared/mercenary-level-v1.mjs';
 import {fixture as tower} from './helpers/tower-expansion-20261102.mjs';
+import {COMPANION_RELEASE} from '../shared/companion-loadout-v2.mjs';
 import baseline from '../docs/qa/coop-transcend-20261102/baseline.json' with {type:'json'};
 import {buildCoopExpansionPlan,COOP_EXPANSION_KEYS as KEYS} from '../scripts/ops/coop-transcend-20261102.mjs';
-const root=path.resolve(import.meta.dirname,'..'),out=path.join(root,'docs/qa/coop-transcend-20261102/browser');await fs.mkdir(out,{recursive:true});
+const root=path.resolve(import.meta.dirname,'..'),out=path.resolve(process.env.TOWER_COOP_QA_OUT||path.join(root,'docs/qa/coop-transcend-20261102/browser'));await fs.mkdir(out,{recursive:true});
 const run=promisify(execFile),cache=new Map();
 const assetFallback=async name=>{if(cache.has(name))return cache.get(name);let bytes=null;try{bytes=(await run('git',['show','HEAD:'+name],{cwd:root,encoding:'buffer',maxBuffer:30*1024*1024,windowsHide:true})).stdout;}catch{}cache.set(name,bytes);return bytes;};
-const h=await cooperativeMiniflare({dualReview:true,assetFallback,preserveTemp:true});
+const h=await cooperativeMiniflare({assetFallback,preserveTemp:true});
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']}),reports=[];
 const pair=['V-021','V-009'],sockets=[];
 const level=mercenaryLevelDraft();level.mode='ON';level.growth=tower.growth;for(const rank in level.xpPerCard)level.xpPerCard[rank]=1;level.levels.forEach(r=>r.requiredXp=1);level.milestones.forEach(r=>r.successChancePpm=1000000);
@@ -85,5 +86,5 @@ try{
   for(const code of pair)await h.request(1,'favorites',{kind:'mercenary',id:code,favorite:false});for(const id of cards)await h.request(1,'favorites',{kind:'card',id,favorite:false});
  }
 }catch(e){for(const page of browser.contexts().flatMap(c=>c.pages()))console.error(JSON.stringify(await page.evaluate(()=>({alert:document.querySelector('[data-alert]')?.textContent,notice:document.querySelector('.coop-battle-notice')?.textContent,diagnostics:window.qaLobby?.diagnostics()}))));for(const page of browser.contexts().flatMap(c=>c.pages()))await page.screenshot({path:path.join(out,'failure.png'),fullPage:true}).catch(()=>{});throw e;}
-finally{for(const ws of sockets)ws.terminate();await browser.close();await h.dispose();await fs.writeFile(path.join(out,'report.json'),JSON.stringify({at:new Date().toISOString(),isolatedDualReview:true,sourceDualRelease:false,temporaryFixture:h.temp,reports},null,2));console.log(JSON.stringify(reports));}
+finally{for(const ws of sockets)ws.terminate();await browser.close();await h.dispose();await fs.writeFile(path.join(out,'report.json'),JSON.stringify({at:new Date().toISOString(),isolatedDualReview:false,sourceDualRelease:COMPANION_RELEASE.dualMercenaries,temporaryFixture:h.temp,reports},null,2));console.log(JSON.stringify(reports));}
 function faceless(fav){return {cards:fav.cards.length,mercenaries:fav.mercenaries.length};}

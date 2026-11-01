@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {createRequire} from 'node:module';
+import {execFileSync} from 'node:child_process';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {inspectTowerExpansion} from '../../output/revan-live-20261027/release-checkout/scripts/ops/tower-121-150-apply-20261102.mjs';
+import {buildTowerExpansionPlan,towerExpansionHash,TOWER_EXPANSION_OPERATION} from '../../output/revan-live-20261027/release-checkout/scripts/ops/tower-121-150-policy-20261102.mjs';
+import {inspectCoopExpansion,buildCoopExpansionPlan,coopExpansionHash,COOP_EXPANSION_OP} from '../../output/revan-live-20261027/release-checkout/scripts/ops/coop-transcend-20261102.mjs';
+const root='C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout';
+const db=connect();db.connectionParameters.application_name='tower-coop-live-inspect-20261102';
+const q=async(sql,args=[])=>{assert.match(sql.trim(),/^SELECT\b/i);return db.query(sql,args);};
+try{
+ await db.connect();await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');await db.query("SET LOCAL statement_timeout='20s'");
+ const tower=await inspectTowerExpansion({query:q}),coop=await inspectCoopExpansion({query:q});
+ const receipts=(await q('SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key',[[TOWER_EXPANSION_OPERATION,COOP_EXPANSION_OP]])).rows;
+ await db.query('ROLLBACK');
+ const towerPlan=buildTowerExpansionPlan(tower),coopPlan=buildCoopExpansionPlan(coop.rows);
+ const preparedTower=JSON.parse(fs.readFileSync(root+'/docs/qa/tower-121-150-20261102/activation-plan.json'));
+ const preparedCoop=JSON.parse(fs.readFileSync(root+'/docs/qa/coop-transcend-20261102/activation-plan.json'));
+ assert.equal(tower.sourceHash,preparedTower.expectedHash);assert.equal(towerExpansionHash(towerPlan),preparedTower.expectedPlanHash);
+ assert.equal(coop.hash,preparedCoop.beforeHash);assert.equal(coopExpansionHash(coopPlan),preparedCoop.planHash);assert.equal(receipts.length,0);
+ const wrangler=path.join(path.dirname(createRequire(root+'/package.json').resolve('wrangler/package.json')),'bin/wrangler.js');
+ const auth=JSON.parse(execFileSync(process.execPath,[wrangler,'auth','token','--json'],{encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe']})),token=auth.token||auth.apiToken||auth.oauthToken;assert(token);
+ const r=await fetch('https://api.cloudflare.com/client/v4/accounts/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/projects/cnine-card',{headers:{Authorization:'Bearer '+token},signal:AbortSignal.timeout(30000)});assert(r.ok);
+ const body=await r.json();assert(body.success);const d=body.result.canonical_deployment;
+ const production={id:d.id,url:d.url,status:d.latest_stage.status,commit:d.deployment_trigger.metadata.commit_hash};assert.equal(production.status,'success');
+ const report={at:new Date().toISOString(),readOnly:true,tower,coop,towerPlanHash:towerExpansionHash(towerPlan),coopPlanHash:coopExpansionHash(coopPlan),receipts,production};
+ fs.writeFileSync(new URL('before.json',import.meta.url),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
+ console.log(JSON.stringify({production,towerHash:tower.sourceHash,coopHash:coop.hash,maxFloor:tower.before.season.max_floor,coopRevision:coopPlan.settings.revision-1,choiceMultiplier:coopPlan.choiceQuantityMultiplier,receipts:receipts.length}));
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end().catch(()=>{});}

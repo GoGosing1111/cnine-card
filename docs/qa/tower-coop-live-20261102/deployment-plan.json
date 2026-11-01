@@ -1,0 +1,18 @@
+{
+  "base": "ef3762fcfec7aac5451f796ca5e560f2714070ab",
+  "reason": "사용자 배포 승인: 무한의탑 121~150 신규 보상 +30%, 격전지 초월 기본2배/선택동일·즐겨찾기·2인 출발, 용병2명 편성과 랭크 차전별2명 출시. 기존 계정/성장/지급/120층/3난이도 및 흑익 완료기록 수정 보존. 2용병 전 콘텐츠·저장·정산과 PC/모바일 확인, 관련 회귀만 선정.",
+  "tests": [
+    "tests/tower-121-150-20261102.test.mjs",
+    "tests/coop-transcend-20261102.test.mjs",
+    "tests/dual-mercenary-account-20261028.test.mjs",
+    "tests/dual-mercenary-ranked-20261028.test.mjs",
+    "tests/dual-mercenary-content-audit-20261028.test.mjs",
+    "tests/operation-audit-packaging-20261029.test.mjs",
+    "tests/onestore-web-20261026.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

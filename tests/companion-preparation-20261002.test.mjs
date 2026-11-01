@@ -16,7 +16,7 @@ test('five regular cards, two distinct ranks and one noncombat pet; legacy deck 
   const checked=validateCompanionLoadout(loadout,options);assert.equal(checked.ok,true);assert.equal(checked.combatUnitCount,7);
   const formation=preparedFormation(checked.loadout);assert.deepEqual(formation.mercenaries.map(row=>row.slotIndex),[6,7]);assert.equal(formation.pet.occupiesCombatSlot,false);
   const prior={cardIds:cards.map(card=>card.id),mercenaryCode:'V-013'};assert.deepEqual(legacyCompanionLoadout(prior),{cardIds:prior.cardIds,mercenaryCodes:['V-013'],petCode:null});assert.equal(prior.mercenaryCode,'V-013');
-  assert.deepEqual(COMPANION_RELEASE,{dualMercenaries:false,pets:true,petAcquisition:false});
+  assert.deepEqual(COMPANION_RELEASE,{dualMercenaries:true,pets:true,petAcquisition:false});
 });
 test('server rank/ownership enforce duplicates, unknown codes, five cards and client fields',()=>{
   for(const changed of [{mercenaryCodes:['V-013','V-022']},{mercenaryCodes:['V-013','V-013']},{mercenaryCodes:['V-999']},{mercenaryCodes:['V-013','V-021','V-022']},{cardIds:[...loadout.cardIds,'V-021']},{cardIds:['V-021',...loadout.cardIds.slice(1)]},{petCode:'PET-UNKNOWN'},{mercenaryRanks:['SS','SSS']}])assert.equal(validateCompanionLoadout({...loadout,...changed},options).ok,false,JSON.stringify(changed));
@@ -61,11 +61,12 @@ test('PVP supports two distinct ranks on each side and independent pet openings'
   assert.equal(result.result.timeline.filter(event=>event.type==='PET_OPENING_BUFF').length,2);
   for(const side of ['A','B']){assert.equal(result.result.final[side].length,7);for(const row of team.mercenaries)assert.ok(result.result.timeline.some(event=>event.type==='TURN'&&event.actorId===`${side}:MERCENARY:${row.code}`));}
 });
-test('legacy live PVE/PVP continue ignoring unconnected dual mercenary fields',()=>{
+test('legacy code-only input stays single; released PVP rejects ambiguous single and pair input',()=>{
   const pve={cards,mercenary:rows[0],monster:{power:300000,isBoss:true},seed:17};
   assert.deepEqual(createPveBattleV2(pve),createPveBattleV2({...pve,mercenaryCodes:['V-013','V-021']}));
   const pvp={attackerCards:cards,defenderCards:cards,attackerMercenary:rows[0],seed:17};
-  assert.deepEqual(createPvpBattleV2(pvp),createPvpBattleV2({...pvp,pet:reviewPet(),attackerMercenaries:rows}));
+  assert.throws(()=>createPvpBattleV2({...pvp,pet:reviewPet(),attackerMercenaries:rows}),/AMBIGUOUS_MERCENARY_PARTY/);
+  assert.equal(createPvpBattleV2({...pvp,attackerMercenary:undefined,attackerMercenaries:rows.slice(0,2)}).teams.A.mercenaries.length,2);
 });
 test('OWNER-only GET is read-only, revisions start at zero; config+receipt commit once and replay safely',async()=>{
   const fx=await companionCmsFixture();try{

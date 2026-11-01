@@ -25,12 +25,13 @@ const pairs=()=>currentSquads().map(s=>({...s,mercenary:undefined,mercenaries:re
 const client=id=>'transcend-qa-client-'+id;
 function lobby({dual=false,legacy=false}={}){
  const room=createCoopRoom({id:'0123456789',user:{id:1,nickname:'선봉'},clientId:client(1),difficulty:dual?'TRANSCEND':'NORMAL',combat:dual?plan.settings.combat:baseline.combat,seed:19,now:at,...(dual?{[REVIEW]:true}:{})});
+ if(!dual){delete room[REVIEW];delete room.mercenariesPerOwner;delete room.dualBalance;}
  if(legacy)delete room.minPlayers;
  return room;
 }
 const cmd=(room,id,kind,body={})=>coopCommand(room,{id,nickname:'분대 '+id},kind,{clientId:client(id),...body},at+1);
 test('prepared tier preserves every previous combat/reward row and doubles only base extreme quantities',()=>{
- assert.equal(COMPANION_RELEASE.dualMercenaries,false);
+ assert.equal(COMPANION_RELEASE.dualMercenaries,true);
  assert.deepEqual(plan.settings.combat.difficulties.slice(0,3),before.combat.difficulties);
  assert.deepEqual(plan.settings.rewards.difficulties.slice(0,3),before.rewards.difficulties);
  const old=before.rewards.difficulties[2],next=plan.settings.rewards.difficulties[3];
@@ -39,7 +40,7 @@ test('prepared tier preserves every previous combat/reward row and doubles only 
  assert.deepEqual(plan.reveal.entries,baseline.reveal.entries);assert.deepEqual(plan.reveal.minimum,baseline.reveal.minimum);assert.equal(plan.choiceQuantityMultiplier,1);
  const invalid=structuredClone(plan.settings.combat);invalid.difficulties[2].monsters[0].hpPercent=1201;
  assert.throws(()=>validateCoopCombat(invalid));assert.equal(validateCoopCombat(plan.settings.combat).difficulties[3].monsters[4].hpPercent,7200);
- assert.throws(()=>createCoopRoom({id:'0123456789',user:{id:1},clientId:client(1),difficulty:'TRANSCEND',combat:plan.settings.combat,seed:1,now:at}),{code:'COOP_PREPARING'});
+ assert.equal(createCoopRoom({id:'0123456789',user:{id:1},clientId:client(1),difficulty:'TRANSCEND',combat:plan.settings.combat,seed:1,now:at}).mercenariesPerOwner,2);
 });
 test('two-player departure requires both ready and the host; join locks at departure',()=>{
  const room=lobby({dual:true}),squads=pairs();

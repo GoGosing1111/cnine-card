@@ -24,7 +24,7 @@ test('30 new floors: ascending safe powers, ordinary rewards per floor, exact 30
  assert.equal(plan.totalCoin,23885097600000);
  for(const floor of [120,151,NaN,121.1])assert.throws(()=>towerExpansionPower(floor));
  assert.throws(()=>towerExpansionCoin(121,{ordinaryCoin:Number.MAX_SAFE_INTEGER,bossCoin:1}));
- assert.equal(COMPANION_RELEASE.dualMercenaries,false);assert.equal(TOWER_V3_RELEASE_ENABLED,false);
+ assert.equal(COMPANION_RELEASE.dualMercenaries,true);assert.equal(TOWER_V3_RELEASE_ENABLED,false);
 });
 
 test('stale, missing, overlapping or altered baseline requires a fresh review',()=>{

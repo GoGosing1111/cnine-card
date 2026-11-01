@@ -1,0 +1,27 @@
+✔ SQLite prepared saved pairs preserve single slots, isolate modes, roll back and replay safely (73.7684ms)
+✔ PostgreSQL prepared saved pairs preserve single slots, isolate modes, roll back and replay safely (2326.8816ms)
+✔ SQLite ranked duo profiles retain both owned choices in order and segregate cached single rules (100.9988ms)
+✔ pipeline ranked duo profiles retain both owned choices in order and segregate cached single rules (1816.3523ms)
+✔ client slots and duo potential enforce SS/SSS limits including LIMITED (3.2941ms)
+✔ released PVE pairs and ranked six selections preserve explicit legacy rules (18.2447ms)
+✔ both companions act in canonical PVE and PVP at card power 1000000 (14.6931ms)
+✔ both companions act in canonical PVE and PVP at card power 20000000 (7.1162ms)
+✔ both companions act in canonical PVE and PVP at card power 100000000 (7.4432ms)
+✔ two slots reject repeated codes, repeated SS and malformed regular decks (0.7604ms)
+✔ current premium cadence is earned independently without cross-credit or starvation (2.8548ms)
+✔ six unique selections form three valid pairs; each round starts fresh and stops at two wins (0.8199ms)
+✔ real ranked pairs match individually simulated deterministic battles (22.0236ms)
+✔ SQLite dual roster, ticket privacy, ownership rollback and one settlement (35.7538ms)
+✔ PostgreSQL dual roster, ticket privacy, ownership rollback and one settlement (1959.9284ms)
+✔ OWNER dual preview is read-only and rejects stale revisions and injected stats (1332.2005ms)
+✔ OWNER ranked preview validates six canonical selections and returns two actors every round (1333.7333ms)
+✔ two mercenaries use unique occupied stations while every existing station stays fixed (0.9209ms)
+✔ SSS including LIMITED and SS each occupy at most one slot; different S or lower mercenaries may pair (18.2821ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5178.5755

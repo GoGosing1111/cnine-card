@@ -1,0 +1,51 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {inspectTowerExpansion,applyTowerExpansion} from '../../output/revan-live-20261027/release-checkout/scripts/ops/tower-121-150-apply-20261102.mjs';
+import {inspectCoopExpansion,applyCoopExpansion,COOP_EXPANSION_OP} from '../../output/revan-live-20261027/release-checkout/scripts/ops/coop-transcend-20261102.mjs';
+import {TOWER_EXPANSION_OPERATION} from '../../output/revan-live-20261027/release-checkout/scripts/ops/tower-121-150-policy-20261102.mjs';
+import {COMPANION_RELEASE} from '../../output/revan-live-20261027/release-checkout/shared/companion-loadout-v2.mjs';
+const root='C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout';
+const mode=process.argv[2],before=JSON.parse(fs.readFileSync(new URL('before.json',import.meta.url)));
+assert(['rehearse','apply','verify'].includes(mode));
+const sourceCommit=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).trim();
+const save=(name,value)=>fs.writeFileSync(new URL(name+'.json',import.meta.url),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+const args=[{expectedHash:before.tower.sourceHash,expectedPlanHash:before.towerPlanHash,sourceCommit,authorization:TOWER_EXPANSION_OPERATION,dualMercenariesReleased:true},{expectedHash:before.coop.hash,expectedPlanHash:before.coopPlanHash,sourceCommit,authorization:COOP_EXPANSION_OP,dualMercenariesReleased:true}];
+const methods=[applyTowerExpansion,applyCoopExpansion],db=connect();db.connectionParameters.application_name='tower-coop-'+mode+'-20261102';
+try{
+ await db.connect();
+ if(mode==='rehearse'){
+  const outcomes=[];
+  for(let i=0;i<2;i++){
+   let injected=false;
+   const failDb={query:async(sql,values)=>{if(/^INSERT INTO admin_logs/.test(sql)){injected=true;throw Error('INJECTED_AUDIT_FAILURE_AFTER_CONFIG_WRITE');}return db.query(sql,values);}};
+   await assert.rejects(methods[i](failDb,{...args[i],dryRun:true}),/INJECTED_AUDIT_FAILURE/);assert(injected);
+   const normal=await methods[i](db,{...args[i],dryRun:true});assert.equal(normal.dryRun,true);
+   outcomes.push({operationKey:args[i].authorization,injectedFailureRolledBack:true,successfulDryRunRolledBack:true,receipt:normal.receipt});
+  }
+  assert.equal((await inspectTowerExpansion(db)).sourceHash,before.tower.sourceHash);assert.equal((await inspectCoopExpansion(db)).hash,before.coop.hash);
+  assert.equal((await db.query('SELECT key FROM app_meta WHERE key=ANY($1::text[])',[[TOWER_EXPANSION_OPERATION,COOP_EXPANSION_OP]])).rowCount,0);
+  save('rehearsal',{at:new Date().toISOString(),sourceCommit,outcomes,liveCommittedWrites:0});console.log(JSON.stringify({rehearsed:2,partialFailuresRolledBack:2,configUnchanged:true}));
+ }else if(mode==='apply'){
+  const deployed=JSON.parse(fs.readFileSync(new URL('live-verification.json',import.meta.url)));
+  assert.equal(deployed.pages.commit,sourceCommit);assert.equal(deployed.workers.length,2);assert(deployed.workers.every(w=>w.percentage===100));assert(deployed.dualReleased);assert(COMPANION_RELEASE.dualMercenaries);
+  const results=[];
+  for(let i=0;i<2;i++){const result=await methods[i](db,{...args[i],dryRun:false});results.push(result);save(i===0?'tower-applied':'coop-applied',result);console.log(JSON.stringify({operationKey:args[i].authorization,...result.receipt}));}
+  save('applied',{at:new Date().toISOString(),sourceCommit,operations:results.map(r=>r.receipt),accountWrites:0});
+ }else{
+  await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
+  const query=async(sql,values)=>{assert.match(sql.trim(),/^SELECT\b/i);return db.query(sql,values);};
+  const tower=await inspectTowerExpansion({query}),coop=await inspectCoopExpansion({query});
+  assert.equal(Number(tower.before.season.max_floor),150);assert.equal(tower.before.ranges.length,150);
+  assert.deepEqual(tower.before.ranges.filter(r=>Number(r.start_floor)<=120),before.tower.before.ranges);
+  assert.deepEqual(tower.before.floors,before.tower.before.floors);assert.deepEqual(tower.before.settings,before.tower.before.settings);assert.deepEqual(tower.monsters,before.tower.monsters);
+  const old=JSON.parse(before.coop.rows[0].value),settings=JSON.parse(coop.rows.find(r=>r.key==='cooperative_battleground_settings_v1').value);
+  assert.deepEqual(settings.combat.difficulties.slice(0,3),old.combat.difficulties);assert.deepEqual(settings.rewards.difficulties.slice(0,3),old.rewards.difficulties);
+  const extreme=JSON.parse(coop.rows.find(r=>r.key.endsWith(':COOP_EXTREME')).value),transcend=JSON.parse(coop.rows.find(r=>r.key.endsWith(':COOP_TRANSCEND')).value);
+  delete extreme.revision;delete transcend.revision;assert.deepEqual(transcend,extreme);
+  const receipts=(await query('SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key',[[TOWER_EXPANSION_OPERATION,COOP_EXPANSION_OP]])).rows;assert.equal(receipts.length,2);
+  const replay=[];for(let i=0;i<2;i++){const result=await methods[i]({query},{...args[i],dryRun:false});assert(result.replayed);replay.push(result.receipt);}
+  await db.query('ROLLBACK');save('final-readonly',{at:new Date().toISOString(),sourceCommit,readOnly:true,maxFloor:150,newFloors:30,oldFloorsPreserved:120,oldDifficultyRowsPreserved:3,choiceSameAsExtreme:true,revision:settings.revision,baseRewards:settings.rewards.difficulties.at(-1),receipts:receipts.map(r=>JSON.parse(r.value)),replayWrites:0,accountWrites:0});console.log(JSON.stringify({maxFloor:150,oldFloorsPreserved:120,oldDifficultyRowsPreserved:3,choiceSameAsExtreme:true,receipts:replay.map(r=>r.adminLogId),replayWrites:0}));
+ }
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end().catch(()=>{});}

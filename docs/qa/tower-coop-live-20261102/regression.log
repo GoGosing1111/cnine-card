@@ -1,0 +1,75 @@
+✔ SQLite: all six departures preserve clear time, trophies and paid/weekly-limit receipts (3788.0529ms)
+✔ PostgreSQL: all six departures preserve clear time, trophies and paid/weekly-limit receipts (9312.2755ms)
+✔ five regular cards, two distinct ranks and one noncombat pet; legacy deck remains separate (2.1131ms)
+✔ server rank/ownership enforce duplicates, unknown codes, five cards and client fields (0.5288ms)
+✔ pet CMS rejects unsafe resources, unknown buffs, duplicates, invalid numbers and ON flags (1.3321ms)
+✔ start buff is applied once, excludes suit and monsters, preserves HP ratio and canonical HP/shield order (0.7339ms)
+✔ target restrictions and PVE/PVP gating are per pet (0.3985ms)
+✔ real PVE engine executes both mercenaries and emits one opening SD event before actions (23.5528ms)
+✔ PVP supports two distinct ranks on each side and independent pet openings (12.5341ms)
+✖ legacy live PVE/PVP continue ignoring unconnected dual mercenary fields (21.4744ms)
+✔ OWNER-only GET is read-only, revisions start at zero; config+receipt commit once and replay safely (2652.6105ms)
+[pet-companion-cms] unavailable Error
+[pet-companion-cms] unavailable Error
+✔ atomic first-save race, failed save retry and corrupt ON records fail closed (1985.8359ms)
+✔ review API uses stored pet and authoritative ranks, rejects stale revisions and forged fields (1944.5866ms)
+✔ operational receipts stay in Git while live combat files fit the Pages boundary (772.672ms)
+✔ eight independent destinations; vehicle bounds and explicit probabilities (4.1142ms)
+✔ sqlite: independent OWNER CMS, catalog, CAS and idempotent saves (71.3955ms)
+✔ sqlite: sealed choices, all eight grant destinations, replay and duplicate vehicles (29.806ms)
+✔ sqlite: failed grants preserve slot, atomic ledgers, pending inbox and lost acknowledgement (14.6362ms)
+✔ sqlite: cooperative clear snapshots offers with its energy entry and OFF/TEST prevents new offers (19.9819ms)
+✔ sqlite: zero-row vehicle delivery cannot complete a receipt; simultaneous choices keep one slot (14.0284ms)
+✔ sqlite: Barsen offers share the existing weekly quota and roll back together (19.851ms)
+✔ postgres: independent OWNER CMS, catalog, CAS and idempotent saves (2894.5636ms)
+✔ postgres: sealed choices, all eight grant destinations, replay and duplicate vehicles (2578.632ms)
+✔ postgres: failed grants preserve slot, atomic ledgers, pending inbox and lost acknowledgement (1750.0604ms)
+✔ postgres: cooperative clear snapshots offers with its energy entry and OFF/TEST prevents new offers (1628.3119ms)
+✔ postgres: zero-row vehicle delivery cannot complete a receipt; simultaneous choices keep one slot (1517.4098ms)
+✔ postgres: Barsen offers share the existing weekly quota and roll back together (1406.3874ms)
+✔ Isgen real final strike persists selection entitlement with weekly rewards (SQLite) (43.7865ms)
+✔ Isgen real final strike persists selection entitlement with weekly rewards (PostgreSQL) (1383.8537ms)
+✔ SQLite tower: server deadline, pending recovery, immutable encounter and exactly-once settlement (236.9675ms)
+✔ SQLite tower: defeat and interruption do not grant or reroll; transaction failure is recoverable (74.9808ms)
+✔ PostgreSQL tower: server deadline, pending recovery, immutable encounter and exactly-once settlement (3126.6407ms)
+✔ PostgreSQL tower: defeat and interruption do not grant or reroll; transaction failure is recoverable (2429.8518ms)
+✔ PostgreSQL tower: coin/progression/EXP roll back together and concurrent settlement cannot double-credit (1849.4258ms)
+✔ Tower: lost start/settlement acknowledgements recover the same compressed encounter (71.4509ms)
+✔ Tower: failed secondary grant resumes after the committed core without repeating earlier grants (80.4465ms)
+✔ Tower: an administrative progress change cancels the stale battle without rewards or a stuck active slot (1555.9171ms)
+✔ double-click admission and leaving during renderer loading never submit a stale fight (8.1325ms)
+✔ growth summary uses actual server time, guardian HP, party survivors and first KO (2.8741ms)
+✔ history is isolated per account, capped and idempotent on battle recovery (5.9683ms)
+✔ unavailable and malformed browser storage never prevent rendering a battle result (2.2913ms)
+✔ server completion wait uses a local clock and one retry, then cancels cleanly on navigation (2.2888ms)
+✔ only Tower removes early result controls while preserving pause and other continuous modes (1.7662ms)
+✔ ordinary continuous playback publishes every official clock event; skill-chip playback keeps its single shared timeline (7.0795ms)
+✔ HUD exposes subsecond official time and metadata-free events cannot reset it or guardian progress (29.2766ms)
+✔ auto is opt-in and starts exactly the next floor once, only after full playback, settled reward and three seconds (15.074ms)
+✔ finish wait/error cannot start another floor or discard the unsettled receipt (3.6463ms)
+✔ loss and final floor stop automatically; no repeated-farm request is created (4.016ms)
+✔ off, background, route exit, account switch and missing/changed next floor cancel the countdown (11.0539ms)
+✔ cancelling during next-floor status or resource loading prevents a stale automatic POST (5.5817ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 49
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13961.8721
+
+✖ failing tests:
+
+test at tests\companion-preparation-20261002.test.mjs:64:1
+✖ legacy live PVE/PVP continue ignoring unconnected dual mercenary fields (21.4744ms)
+  Error: AMBIGUOUS_MERCENARY_PARTY
+      at battleMercenaryFighters (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/functions/_battle_v2_preview.js:2111:50)
+      at createPvpBattleV2 (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/functions/_battle_v2_preview.js:2300:22)
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/tests/companion-preparation-20261002.test.mjs:68:43)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
