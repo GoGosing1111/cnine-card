@@ -1,0 +1,11 @@
+{
+  "head": "95d2bb0dd94b49a7497a32345fb1c2b7cb1cd4f2",
+  "deployedRuntime": "d7cbbb9ee3232ca642f63f2bf8bd0b64d32c176a",
+  "files": [
+    "scripts/ops/blackwing-reward-20t-scroll-20261101.mjs",
+    "tests/blackwing-reward-20t-scroll-20261101.test.mjs",
+    "tests/blackwing-reward-settings-20261101.test.mjs"
+  ],
+  "followupTests": 5,
+  "change": "피그코인 100→300, 최종변경1회 적용"
+}

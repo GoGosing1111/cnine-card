@@ -1,0 +1,20 @@
+{
+  "before": {
+    "id": "634d904c-4a6f-416e-8d3d-8c5cda0bb7aa",
+    "url": "https://634d904c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "0def6da3b5afe9e78b6c3af680e7bd6d9c6c3427"
+  },
+  "base": "0def6da3b5afe9e78b6c3af680e7bd6d9c6c3427",
+  "reason": "흑익의 맹약 기본 클리어 코인20조 및 강화주문서 총30%(무기15%/방어구15%) 추가. 출정정책 고정·주간한도·기존선택보상 보존. 실제 마지막타격 원자지급/실패원복/재시도/한도·TEST차단, PC/모바일 실제CMS/로비/결과 확인. 배포 후 별도감사 거래로 설정만 변경.",
+  "tests": [
+    "tests/blackwing-reward-20t-scroll-20261101.test.mjs",
+    "tests/blackwing-reward-settings-20261101.test.mjs",
+    "tests/blackwing-live-rewards-20261029.test.mjs",
+    "tests/blackwing-raid-20261024.test.mjs",
+    "tests/onestore-web-20261026.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

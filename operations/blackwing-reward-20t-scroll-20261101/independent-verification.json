@@ -1,0 +1,97 @@
+{
+  "at": "2026-11-01T02:43:43.899Z",
+  "readOnly": true,
+  "replaySelectOnly": true,
+  "receipt": {
+    "operationKey": "ops:blackwing-reward20t-scroll30:20261101:v1",
+    "status": "COMPLETED",
+    "completedAt": "2026-11-01T02:43:35.222Z",
+    "releaseCommit": "d7cbbb9ee3232ca642f63f2bf8bd0b64d32c176a",
+    "before": {
+      "revision": 8,
+      "mode": "ON",
+      "testUserIds": [
+        6,
+        16,
+        22,
+        45,
+        218,
+        236,
+        295,
+        315,
+        1195,
+        1768,
+        2745,
+        3884,
+        4627
+      ],
+      "bossCombatPower": 45000000,
+      "lobbyMinutes": 5,
+      "enrageSeconds": 300,
+      "mechanicTimePercent": 100,
+      "weeklyRewardLimit": 3,
+      "coinReward": 1000000000000,
+      "pigCoinReward": 100,
+      "masterStarReward": 2000000,
+      "petEssenceReward": 5,
+      "rewardsEnabled": true,
+      "saveToken": "e5a34803-25b0-4d13-9068-5221099c6597",
+      "updatedBy": 1
+    },
+    "after": {
+      "revision": 9,
+      "mode": "ON",
+      "testUserIds": [
+        6,
+        16,
+        22,
+        45,
+        218,
+        236,
+        295,
+        315,
+        1195,
+        1768,
+        2745,
+        3884,
+        4627
+      ],
+      "bossCombatPower": 45000000,
+      "lobbyMinutes": 5,
+      "enrageSeconds": 300,
+      "mechanicTimePercent": 100,
+      "weeklyRewardLimit": 3,
+      "coinReward": 20000000000000,
+      "pigCoinReward": 300,
+      "masterStarReward": 2000000,
+      "petEssenceReward": 5,
+      "rewardsEnabled": true,
+      "saveToken": "e5a34803-25b0-4d13-9068-5221099c6597",
+      "updatedBy": 1,
+      "enhancementScrollChance": 30
+    },
+    "scrollChancePercent": 30,
+    "weaponChancePercent": 15,
+    "armorChancePercent": 15,
+    "scrollQuantity": 1,
+    "startsWithNewDepartures": true,
+    "accountWrites": 0,
+    "retroactiveGrants": 0,
+    "messagesSent": 0,
+    "preservedHashes": {
+      "reward_reveal_policy_v1:BLACKWING": "d12d1753ffab9c0447cdf79177a282adaf19640ba09578314017da11b5e7ea7a",
+      "raid_madara_settings_v1": "db36471aed5bb4482f0a03e055390cb0c85fbaebd8c969e13f15fa3f476f94ad",
+      "reward_reveal_policy_v1:MADARA": "f0c76b965bbae24a49f728dda2664ebb7e828b50a1f3afa747e784cf68d4c51c"
+    },
+    "adminLogId": "53611"
+  },
+  "audits": [
+    {
+      "id": "53611",
+      "action_type": "BLACKWING_REWARD_20T_SCROLL30_20261101"
+    }
+  ],
+  "accountWrites": 0,
+  "retroactiveGrants": 0,
+  "messagesSent": 0
+}

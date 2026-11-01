@@ -1,0 +1,15 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {PGlite} from '@electric-sql/pglite';
+import {applyRewardSettings,readSnapshot,buildRewardSettings,OPERATION_KEY,SETTINGS_KEY} from '../scripts/ops/blackwing-reward-20t-scroll-20261101.mjs';
+import {defaultBlackwingSettings} from '../functions/_raid_blackwing_live.js';
+test('20T/30% settings operation rolls back partial and dry changes, preserves other settings and replays with SELECT only',async t=>{
+ const pg=new PGlite();t.after(()=>pg.close());await pg.exec("CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT); CREATE TABLE inventory_items(code TEXT PRIMARY KEY,is_active INTEGER); CREATE TABLE users(id BIGINT,role TEXT,status TEXT); CREATE TABLE admin_logs(id BIGSERIAL PRIMARY KEY,admin_id BIGINT,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT); INSERT INTO users VALUES(1,'OWNER','ACTIVE'); INSERT INTO inventory_items VALUES('WEAPON_ENHANCEMENT_SCROLL',1),('ARMOR_ENHANCEMENT_SCROLL',1);");
+ const queries=[],db={async query(sql,values=[]){queries.push(sql);if(sql.includes('pg_try_advisory_xact_lock'))return {rows:[{locked:true}],rowCount:1};const r=await pg.query(sql,values);return {...r,rowCount:r.affectedRows??r.rows.length};}};
+ const before={...defaultBlackwingSettings(),mode:'ON',rewardsEnabled:true,revision:8,coinReward:1000000000000,pigCoinReward:100,masterStarReward:2000000,petEssenceReward:5,saveToken:'preserved',updatedBy:1};delete before.enhancementScrollChance;
+ await db.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[SETTINGS_KEY,JSON.stringify(before)]);await db.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',['reward_reveal_policy_v1:BLACKWING','{"enabled":true,"minimum":30000000000}']);
+ const expected=await readSnapshot(db,[SETTINGS_KEY,'reward_reveal_policy_v1:BLACKWING',OPERATION_KEY]),args={expected,releaseCommit:'a'.repeat(40)};
+ const after=buildRewardSettings(expected[SETTINGS_KEY]);assert.equal(after.pigCoinReward,300);assert.deepEqual({...after,revision:8,coinReward:before.coinReward,pigCoinReward:before.pigCoinReward,enhancementScrollChance:undefined},{...before,enhancementScrollChance:undefined});
+ await assert.rejects(applyRewardSettings(db,{...args,failAfterUpdate:true}),/INJECTED_SETTINGS_FAILURE/);assert.deepEqual(await readSnapshot(db,Object.keys(expected)),expected);
+ const dry=await applyRewardSettings(db,{...args,dryRun:true});assert.equal(dry.receipt.after.coinReward,20000000000000);assert.deepEqual(await readSnapshot(db,Object.keys(expected)),expected);assert.equal(Number((await db.query('SELECT COUNT(*) n FROM admin_logs')).rows[0].n),0);
+ const applied=await applyRewardSettings(db,args);assert.equal(applied.receipt.after.enhancementScrollChance,30);assert.equal(Number((await db.query('SELECT COUNT(*) n FROM admin_logs')).rows[0].n),1);
+ queries.length=0;const replay=await applyRewardSettings(db,args);assert.equal(replay.replayed,true);assert.deepEqual(replay.receipt,applied.receipt);assert.deepEqual(queries,['SELECT value FROM app_meta WHERE key=$1']);
+});

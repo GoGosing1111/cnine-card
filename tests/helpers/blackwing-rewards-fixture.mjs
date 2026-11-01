@@ -14,8 +14,8 @@ export async function rewardFixture(options){
  assert.equal((await h.configure(rewardSettings)).status,200);return h;
 }
 // Reach the actual final attack through all five mechanics in an isolated room.
-export async function readyBlackwingClear(h,{createdMode='ON',startedMode=createdMode}={}){
- await h.configure({...rewardSettings,mode:createdMode});const roomId=await h.party();
+export async function readyBlackwingClear(h,{createdMode='ON',startedMode=createdMode,rewardOverrides={}}={}){
+ await h.configure({...rewardSettings,...rewardOverrides,mode:createdMode});const roomId=await h.party();
  for(const[id]of members)assert.equal((await h.command('ready',{roomId,ready:true},Number(id))).status,200);
  if(startedMode!==createdMode)await h.configure({mode:startedMode});
  const begun=await h.command('start',{roomId});assert.equal(begun.status,200,JSON.stringify(begun));

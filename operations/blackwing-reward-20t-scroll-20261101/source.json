@@ -1,0 +1,22 @@
+{
+  "head": "d7cbbb9ee3232ca642f63f2bf8bd0b64d32c176a",
+  "files": [
+    "admin/blackwing-raid-admin-v1.mjs",
+    "admin/index.html",
+    "docs/qa/blackwing-reward-20t-scroll-20261101/README.md",
+    "functions/_raid_blackwing_live.js",
+    "functions/_raid_blackwing_rewards.js",
+    "index.html",
+    "js/blackwing-raid-entry-v1.js",
+    "onestore/index.html",
+    "packaging/onestore/web-build.json",
+    "raid/blackwing/inline.mjs",
+    "scripts/ops/blackwing-reward-20t-scroll-20261101.mjs",
+    "service-worker.js",
+    "shared/blackwing-clear-reward-v1.mjs",
+    "tests/blackwing-live-rewards-20261029.test.mjs",
+    "tests/blackwing-reward-20t-scroll-20261101.test.mjs",
+    "tests/blackwing-reward-settings-20261101.test.mjs",
+    "tests/helpers/blackwing-rewards-fixture.mjs"
+  ]
+}
