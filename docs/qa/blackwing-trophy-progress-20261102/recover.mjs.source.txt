@@ -1,0 +1,74 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {restoreBlackwingClear,BLACKWING_TROPHY_REPAIR_KEY as OP} from '../../tmp/cardgu-live-20261027/scripts/ops/blackwing-trophy-progress-20261102.mjs';
+import {readBlackwingTrophy,TROPHY_RENEWAL_KEY} from '../../tmp/cardgu-live-20261027/functions/_trophy_renewal.js';
+import {__postgresCompatTest} from '../../tmp/cardgu-live-20261027/functions/_postgres_d1_compat.js';
+const mode=process.argv[2],out=new URL('./',import.meta.url),plan=JSON.parse(fs.readFileSync(new URL('recovery-plan.json',out))),hash=v=>createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v)).digest('hex');
+const repairs=plan.candidates.map(row=>restoreBlackwingClear(row,plan.release.launchedAt)),planHash=hash(plan),ids=plan.members.map(m=>Number(m.id));
+assert.equal(plan.operationKey,OP);assert.equal(repairs.length,5);assert.equal(ids.length,11);assert(repairs.some(r=>r.participants.includes('45')));
+const save=(name,value)=>fs.writeFileSync(new URL(name+'.json',out),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+let db;
+const query=(sql,args=[])=>{
+ assert(/^\s*(SELECT|WITH|BEGIN|SET LOCAL|ROLLBACK|COMMIT)\b/i.test(sql)||/^UPDATE raid_blackwing_rooms_v1\b/.test(sql)||/^INSERT INTO (admin_logs|app_meta)\b/.test(sql),'Unexpected mutation');
+ return db.query(sql,args);
+};
+const existing=async()=>{const row=(await query('SELECT value FROM app_meta WHERE key=$1',[OP])).rows[0];return row?JSON.parse(row.value):null;};
+const DB=new __postgresCompatTest.PostgresD1Database({async query(input){const sql=typeof input==='string'?input:input.text;assert(/^\s*(SELECT|WITH)\b/i.test(sql));return query(sql,typeof input==='string'?[]:input.values||[]);}});
+const progress=async()=>{const values=[];for(const m of plan.members)values.push({...m,trophy:await readBlackwingTrophy({DB},Number(m.id),plan.release.launchedAt)});return values;};
+const unchanged=async()=>{
+ const result={};
+ for(const [table,column]of [['users','id'],['cnine_user_inventory','user_id'],['pig_coin_wallets_v1','user_id']]){
+  result[table]=(await query(`SELECT md5(COALESCE(string_agg(md5(row_to_json(t)::text),',' ORDER BY md5(row_to_json(t)::text)),'')) digest FROM ${table} t WHERE ${column}=ANY($1::bigint[])`,[ids])).rows[0].digest;
+ }
+ result.weekly=(await query("SELECT md5(COALESCE(string_agg(key||value,',' ORDER BY key),'')) digest FROM app_meta WHERE key LIKE 'raid_blackwing_weekly_v1:%'")).rows[0].digest;
+ result.receipts=(await query("SELECT md5(COALESCE(string_agg(request_id||response_json,',' ORDER BY request_id),'')) digest FROM raid_blackwing_receipts_v1 WHERE room_id=ANY($1::text[])",[repairs.map(r=>r.roomId)])).rows[0].digest;
+ result.cutoff=(await query('SELECT value FROM app_meta WHERE key=$1',[TROPHY_RENEWAL_KEY])).rows[0].value;
+ result.excluded=(await query('SELECT room_id,status,version::text,md5(state_json) hash FROM raid_blackwing_rooms_v1 WHERE room_id=ANY($1::text[]) ORDER BY room_id',[plan.excluded.map(r=>r.roomId)])).rows;
+ return result;
+};
+async function checkRows(after){
+ for(const r of repairs){const row=(await query('SELECT status,version::text,state_json FROM raid_blackwing_rooms_v1 WHERE room_id=$1',[r.roomId])).rows[0];assert.deepEqual(row,{status:after?r.afterStatus:r.beforeStatus,version:after?r.afterVersion:r.beforeVersion,state_json:after?r.afterRaw:r.beforeRaw});}
+}
+async function transaction({failure=false,commit=false}={}){
+ await query('BEGIN ISOLATION LEVEL REPEATABLE READ');await query("SET LOCAL lock_timeout='3s'");await query("SET LOCAL statement_timeout='15s'");
+ await query('SELECT pg_advisory_xact_lock(hashtext($1))',[OP]);assert.equal(await existing(),null);
+ assert.deepEqual(JSON.parse((await query('SELECT value FROM app_meta WHERE key=$1',[TROPHY_RENEWAL_KEY])).rows[0].value),plan.release);
+ const preserved=await unchanged(),before=await progress();
+ for(const [index,r]of repairs.entries()){
+  const row=(await query('SELECT room_id,status,version::text,state_json FROM raid_blackwing_rooms_v1 WHERE room_id=$1 FOR UPDATE',[r.roomId])).rows[0];
+  assert.equal(row.state_json,r.beforeRaw);assert.equal(row.status,r.beforeStatus);assert.equal(row.version,r.beforeVersion);
+  const receipts=(await query(`SELECT kind,response_json::jsonb #>> '{state,status}' status,response_json::jsonb #>> '{state,finishedAt}' finished_at FROM raid_blackwing_receipts_v1 WHERE room_id=$1 AND response_json::jsonb #>> '{state,status}'='CLEAR'`,[r.roomId])).rows;
+  assert.equal(restoreBlackwingClear({...row,receipts},plan.release.launchedAt).afterRaw,r.afterRaw);
+  assert.equal((await query("SELECT COUNT(*)::int n FROM raid_blackwing_active_v1 WHERE room_id=$1",[r.roomId])).rows[0].n,0);
+  const updated=await query("UPDATE raid_blackwing_rooms_v1 SET status='CLEAR',state_json=$1,version=version+1 WHERE room_id=$2 AND status='CANCELLED' AND version=$3 AND state_json=$4",[r.afterRaw,r.roomId,r.beforeVersion,r.beforeRaw]);assert.equal(updated.rowCount,1);
+  if(failure&&index===0)throw Error('INJECTED_RECOVERY_FAILURE');
+ }
+ const after=await progress();
+ for(const [index,m]of before.entries()){const added=repairs.filter(r=>r.participants.includes(m.id)).length;assert.equal(after[index].trophy.progress,m.trophy.progress+added);}
+ assert.deepEqual(await unchanged(),preserved);await checkRows(true);
+ const record={operationKey:OP,planHash,completedAt:new Date().toISOString(),rooms:repairs.map(r=>({roomId:r.roomId,clearAt:r.clearAt,participants:r.participants,beforeHash:hash(r.beforeRaw),afterHash:hash(r.afterRaw)})),before,after,preserved,accountWrites:0,rewardRegrants:0,messagesSent:0};
+ const audit=(await query("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,'BLACKWING_CLEAR_STATUS_REPAIR','BLACKWING_ROOMS',$1,$2,$3) RETURNING id::text",[OP,JSON.stringify(record.rooms.map(r=>({roomId:r.roomId,beforeHash:r.beforeHash}))),JSON.stringify(record)])).rows[0];record.auditId=audit.id;
+ await query('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,CURRENT_TIMESTAMP)',[OP,JSON.stringify(record)]);
+ await query(commit?'COMMIT':'ROLLBACK');return record;
+}
+try{
+ assert(['dry-run','apply','verify','replay'].includes(mode));db=connect();await db.connect();
+ const identity=(await query('SELECT current_database() database,current_user actor,pg_is_in_recovery() replica')).rows[0];assert.deepEqual(identity,{database:'cnine',actor:'cnine_migrator',replica:false});
+ let result;
+ if(mode==='dry-run'){
+  let injected=false;try{await transaction({failure:true});}catch(e){await query('ROLLBACK');assert.equal(e.message,'INJECTED_RECOVERY_FAILURE');injected=true;}assert(injected);await checkRows(false);assert.equal(await existing(),null);
+  const rehearsal=await transaction();await checkRows(false);assert.equal(await existing(),null);result={failureRollback:true,successRollback:true,rehearsal,planHash};
+ }else if(mode==='apply'){
+  const verified=JSON.parse(fs.readFileSync(new URL('live-verification.json',out)));assert.equal(verified.pages.status,'success');assert(verified.sourceCommit);
+  const rehearsal=JSON.parse(fs.readFileSync(new URL('dry-run.json',out)));assert.equal(rehearsal.planHash,planHash);assert(rehearsal.failureRollback&&rehearsal.successRollback);
+  const prior=await existing();if(prior){assert.equal(prior.planHash,planHash);result={replayed:true,record:prior,writes:0};}
+  else result={replayed:false,record:await transaction({commit:true})};
+ }else{
+  await query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');const receipt=await existing();assert(receipt);assert.equal(receipt.planHash,planHash);await checkRows(true);
+  const current=await progress();for(const m of current){const previous=receipt.after.find(p=>p.id===m.id);assert(m.trophy.progress>=previous.trophy.progress);}
+  assert.equal((await query("SELECT COUNT(*)::int n FROM admin_logs WHERE action_type='BLACKWING_CLEAR_STATUS_REPAIR' AND target_id=$1",[OP])).rows[0].n,1);
+  assert.equal((await unchanged()).cutoff,receipt.preserved.cutoff);assert.deepEqual((await unchanged()).excluded,receipt.preserved.excluded);
+  await query('ROLLBACK');result={readOnly:true,replayed:mode==='replay',writes:0,auditId:receipt.auditId,current,rooms:receipt.rooms};
+ }
+ save(mode,result);console.log(JSON.stringify({mode,planHash,failureRollback:result.failureRollback,successRollback:result.successRollback,auditId:result.record?.auditId||result.auditId,readOnly:result.readOnly,replayed:result.replayed,progress:(result.current||result.record?.after||result.rehearsal?.after)?.map(m=>({id:m.id,nickname:m.nickname,progress:m.trophy.progress}))}));
+}catch(e){await db?.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db?.end();}

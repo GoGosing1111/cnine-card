@@ -1,0 +1,160 @@
+{
+  "completedAt": "2026-11-01T18:43:32.835Z",
+  "operationKey": "ops:blackwing-trophy-progress-repair:20261102:v1",
+  "sourceCommit": "ef3762fcfec7aac5451f796ca5e560f2714070ab",
+  "pages": {
+    "id": "6bcfee7e-12c7-45ee-9428-f2b14734b085",
+    "url": "https://6bcfee7e.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ef3762fcfec7aac5451f796ca5e560f2714070ab"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "8704a8f1-f4d9-45ad-a944-38b705bea581",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "6827b1f5-d519-41da-b691-147e9fdfa45d",
+      "percentage": 100
+    }
+  ],
+  "auditId": "53693",
+  "restoredRooms": 5,
+  "affectedMembers": [
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "progress": 7
+    },
+    {
+      "id": "88",
+      "nickname": "0수표",
+      "progress": 7
+    },
+    {
+      "id": "218",
+      "nickname": "현하루",
+      "progress": 7
+    },
+    {
+      "id": "295",
+      "nickname": "모래",
+      "progress": 1
+    },
+    {
+      "id": "1768",
+      "nickname": "핫시",
+      "progress": 7
+    },
+    {
+      "id": "3011",
+      "nickname": "오일바른가지",
+      "progress": 1
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "progress": 7
+    },
+    {
+      "id": "4595",
+      "nickname": "비니",
+      "progress": 1
+    },
+    {
+      "id": "4597",
+      "nickname": "찬호",
+      "progress": 6
+    },
+    {
+      "id": "4610",
+      "nickname": "고라니ㅇ",
+      "progress": 1
+    },
+    {
+      "id": "4614",
+      "nickname": "공단",
+      "progress": 1
+    }
+  ],
+  "before": [
+    {
+      "id": "1768",
+      "nickname": "핫시",
+      "progress": 3
+    },
+    {
+      "id": "218",
+      "nickname": "현하루",
+      "progress": 3
+    },
+    {
+      "id": "295",
+      "nickname": "모래",
+      "progress": 0
+    },
+    {
+      "id": "3011",
+      "nickname": "오일바른가지",
+      "progress": 0
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "progress": 3
+    },
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "progress": 3
+    },
+    {
+      "id": "4595",
+      "nickname": "비니",
+      "progress": 0
+    },
+    {
+      "id": "4597",
+      "nickname": "찬호",
+      "progress": 1
+    },
+    {
+      "id": "4610",
+      "nickname": "고라니ㅇ",
+      "progress": 0
+    },
+    {
+      "id": "4614",
+      "nickname": "공단",
+      "progress": 0
+    },
+    {
+      "id": "88",
+      "nickname": "0수표",
+      "progress": 3
+    }
+  ],
+  "localRegressionTests": 4,
+  "scopedRegressionTests": 16,
+  "totalRegressionTests": 20,
+  "failureRollback": true,
+  "successRollback": true,
+  "independentReadOnly": true,
+  "replayWrites": 0,
+  "remainingMissingClears": 0,
+  "accountWrites": 0,
+  "rewardRegrants": 0,
+  "messagesSent": 0,
+  "evidenceHashes": {
+    "inspection.json": "de8ce5b22071ef0af1a6f3b2081e956f126e332658eaa3da98efcb5f8a410703",
+    "recovery-plan.json": "5a028dfaa7cb5df2b6d352c7ece4fa5442fa4e2d08feac5f0c608cf7c08c8b31",
+    "dry-run.json": "98ee2a43e5beca2a5f3e7ffcbfcfbfd5757d643492de58d787af1d7c68845210",
+    "apply.json": "c692d00a71de7b18aa3ca1a5e794d53969f8b416a1b2c0fb379811856e0e6747",
+    "independent-readonly.json": "c6bb2b8a62060c4e8b95d52a6887d78453c03eb506715d74e68c4d0d50739252",
+    "replay.json": "4425c362e00f8374efd11bbf936216f5003547278ffc80638c8da64a0d342905",
+    "live-verification.json": "907e2d3c406359caf646de5be7eeeced9894e6cd79aa161c59b8df78a9622d42",
+    "recover.mjs": "8f2cb32383e249c5e0b4eed9ee8fbc46d25f6bfbe27255734d5d02832b243d32"
+  }
+}
