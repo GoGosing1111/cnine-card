@@ -51,8 +51,8 @@ test('exactly +8/+9/+10 decorate equipped and owned equipment, without altering 
 });
 
 test('other levels, missing enhancement, invalid values and battle suits never glow', () => {
-  const instances = [undefined, null, 0, 1, 2, 3, 4, 5, 6, 7, 11, -8, 8.5, 'invalid', Infinity].map((level, i) => row(i + 1, 'WEAPON', level));
-  instances.push({ instanceId: 99, item: row(99, 'TOP', 0).item }, row(100, 'BATTLE_SUIT', 10));
+  const instances = [undefined, null, 0, 1, 2, 3, 4, 5, 6, 7, 16, -8, 8.5, 11.5, 'invalid', Infinity].map((level, i) => row(i + 1, 'WEAPON', level));
+  instances.push({ instanceId: 99, item: row(99, 'TOP', 0).item }, row(100, 'BATTLE_SUIT', 10), row(101, 'BATTLE_SUIT', 15));
   const { root } = render({ instances, loadout: { BATTLE_SUIT: 100 } });
   assert.deepEqual(levels(root.innerHTML), []);
   assert.doesNotMatch(root.innerHTML, /clv2-enhancement-light|clv2-enhancement-level/);
@@ -68,6 +68,48 @@ test('title, vehicle and skill-chip tabs never render equipment glow', () => {
   }
   app.setTab('equipment');
   assert.equal(levels(root.innerHTML).length, 6);
+});
+
+test('+11 through +15 decorate both surfaces while +10 retains its original markup and data', () => {
+  const data = {
+    instances: ['WEAPON', 'TOP', 'BOTTOM', 'SHOES', 'ACCESSORY'].map((slot, i) => row(i + 1, slot, 11 + i)),
+    loadout: { WEAPON: 1, TOP: 2, BOTTOM: 3, SHOES: 4, ACCESSORY: 5 }
+  };
+  data.instances.push(row(6, 'WEAPON', 10));
+  const before = structuredClone(data), { root, app } = render(data);
+  for (const level of [11, 12, 13, 14, 15]) {
+    for (const surface of ['slot', 'inventory']) {
+      assert.match(root.innerHTML, new RegExp('clv2-' + surface + '-art" data-enhancement-glow="' + level + '" data-enhancement-tier="advanced"'));
+    }
+    assert.equal(levels(root.innerHTML).filter(n => n === level).length, 2);
+  }
+  assert.equal((root.innerHTML.match(/class="clv2-enhancement-tracer"/g) || []).length, 6);
+  assert.equal((root.innerHTML.match(/class="clv2-enhancement-sparks"/g) || []).length, 4);
+  assert.match(root.innerHTML, /data-enhancement-glow="10"><img[^>]+><span class="clv2-enhancement-light" aria-hidden="true"><\/span><b class="clv2-enhancement-level" aria-hidden="true">\+10<\/b>/);
+  assert.deepEqual(data, before);
+  assert.deepEqual(app.getState().instances.map(r => [r.enhancement.level, r.quantity, r.item.totalPower]), data.instances.map(r => [r.enhancement.level, r.quantity, r.item.totalPower]));
+  assert.equal(app.getState().bonuses.equipmentPve, 500);
+  assert.equal(app.getState().bonuses.equipmentPvp, 250);
+  for (const tab of ['title', 'garage', 'skillChips']) {
+    app.setTab(tab);
+    assert.deepEqual(levels(root.innerHTML), []);
+  }
+});
+
+test('swapping +13 for +15 and unequipping preserves instance APIs and updates the effect', async () => {
+  const data = { instances: [row(1, 'WEAPON', 13), row(2, 'WEAPON', 15)], loadout: { WEAPON: 1 } };
+  const { root, app, calls, click } = render(data);
+  click({ equip: '2' });
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(app.getState().loadout.WEAPON, 2);
+  assert.deepEqual(calls[0], { path: 'character/equipment/equip', body: { instanceId: 2 } });
+  assert.match(root.innerHTML, /clv2-slot-art" data-enhancement-glow="15"/);
+  assert.deepEqual(levels(root.innerHTML).sort(), [13, 15, 15]);
+  click({ unequip: 'WEAPON' });
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(app.getState().loadout.WEAPON, undefined);
+  assert.deepEqual(calls[1], { path: 'character/equipment/unequip', body: { slot: 'WEAPON' } });
+  assert.deepEqual(levels(root.innerHTML).sort(), [13, 15]);
 });
 
 test('equip/unequip uses existing instance API and updates only the matching slot glow', async () => {

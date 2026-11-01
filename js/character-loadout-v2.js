@@ -147,9 +147,9 @@
 
     const equipmentName = row => `${row?.item?.name || '미장착'}${row?.enhancement ? ` +${Number(row.enhancement.level || 0)}` : ''}`;
     // Decoration belongs only to this equipment view, never rarity/card frames.
-    const glowLevel = row => STANDARD_SLOT_ORDER.includes(row?.item?.slot) && [8, 9, 10].includes(Number(row?.enhancement?.level)) ? Number(row.enhancement.level) : 0;
-    const glowAttribute = row => glowLevel(row) ? `data-enhancement-glow="${glowLevel(row)}"` : '';
-    const glowArt = row => glowLevel(row) ? `<span class="clv2-enhancement-light" aria-hidden="true"></span><b class="clv2-enhancement-level" aria-hidden="true">+${glowLevel(row)}</b>` : '';
+    const glowLevel = row => STANDARD_SLOT_ORDER.includes(row?.item?.slot) && [8, 9, 10, 11, 12, 13, 14, 15].includes(Number(row?.enhancement?.level)) ? Number(row.enhancement.level) : 0;
+    const glowAttribute = row => glowLevel(row) ? `data-enhancement-glow="${glowLevel(row)}"${glowLevel(row) >= 11 ? ' data-enhancement-tier="advanced"' : ''}` : '';
+    const glowArt = row => glowLevel(row) ? `<span class="clv2-enhancement-light" aria-hidden="true">${glowLevel(row) >= 13 ? '<i class="clv2-enhancement-tracer"></i>' : ''}${glowLevel(row) >= 14 ? '<i class="clv2-enhancement-sparks"></i>' : ''}</span><b class="clv2-enhancement-level" aria-hidden="true">+${glowLevel(row)}</b>` : '';
     function slotCard(slot) {
       const row = equippedInstance(slot);
       const item = row?.item;

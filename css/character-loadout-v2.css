@@ -545,8 +545,8 @@
 }
 .clv2-shell[data-active-tab="equipment"] .clv2-item-art[data-enhancement-glow="10"] {
   --rim: #ffe4a2;
-  --rim-soft: #ffc554b0;
-  box-shadow: 0 0 11px var(--rim-soft), inset 0 0 0 2px #ffc65ca8, inset 0 0 14px #ffbf4966;
+  --rim-soft: #ffba5088;
+  box-shadow: 0 0 11px var(--rim-soft), inset 0 0 14px #ffbf4938;
 }
 .clv2-shell[data-active-tab="equipment"] .clv2-enhancement-light {
   position: absolute;
@@ -573,35 +573,17 @@
   padding: 2px;
   animation: clv2-rim-orbit 5s linear infinite;
 }
-/* +10 adds light inward: frame, artwork, hit area and outer halo keep their size. */
-.clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="10"] .clv2-enhancement-light {
-  box-shadow: inset 0 0 0 1px #fff1c9b8, inset 0 0 8px #ffc43ea8, 0 0 7px var(--rim-soft);
-  animation: clv2-rim-crown-breathe 4.4s ease-in-out infinite;
-}
 .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="10"] .clv2-enhancement-light::before {
-  padding: 5px;
-  background: conic-gradient(from var(--clv2-rim-angle),
-    #ffad2440 0deg, #ffb52c8c 24deg, #ffd06b 52deg, #fff8dc 72deg,
-    #fff 79deg 83deg, #beeaff 87deg, #ffe3a5 92deg, transparent 110deg 180deg,
-    #ffad2440 180deg, #ffb52c8c 204deg, #ffd06b 232deg, #fff8dc 252deg,
-    #fff 259deg 263deg, #beeaff 267deg, #ffe3a5 272deg, transparent 290deg);
-  opacity: 1;
+  padding: 3px;
+  background: conic-gradient(from var(--clv2-rim-angle), #fbb34033, #ffcc64 55deg, #fff8de 82deg, transparent 105deg 180deg, #ffcc64 235deg, #fff 262deg, transparent 285deg);
   animation: clv2-rim-orbit 3.8s linear infinite;
 }
 .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="10"] .clv2-enhancement-light::after {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(90deg, transparent, #fffbe8, transparent) left 0 top 5px / 19px 2px no-repeat,
-    linear-gradient(0deg, transparent, #fffbe8, transparent) left 5px top 0 / 2px 19px no-repeat,
-    linear-gradient(90deg, transparent, #fffbe8, transparent) right 0 bottom 5px / 19px 2px no-repeat,
-    linear-gradient(0deg, transparent, #fffbe8, transparent) right 5px bottom 0 / 2px 19px no-repeat,
-    radial-gradient(ellipse at top left, #fffdf0 0, #ffe5a3 2px, #ffca68aa 5px, transparent 11px),
-    radial-gradient(ellipse at bottom right, #fffdf0 0, #ffe5a3 2px, #ffca68aa 5px, transparent 11px),
-    radial-gradient(ellipse at top right, #d3f5ffd9 0, #ffd77b66 2px, transparent 8px),
-    radial-gradient(ellipse at bottom left, #d3f5ffd9 0, #ffd77b66 2px, transparent 8px);
-  animation: clv2-rim-crown-sparkle 3.1s ease-in-out infinite;
+  background: radial-gradient(ellipse at top left, #fff7d8 0, #ffca68aa 2px, transparent 11px), radial-gradient(ellipse at bottom right, #fff7d8 0, #ffca68aa 2px, transparent 11px);
+  animation: clv2-rim-breathe 2.6s ease-in-out infinite reverse;
 }
 .clv2-shell[data-active-tab="equipment"] .clv2-enhancement-level {
   position: absolute;
@@ -622,13 +604,142 @@
 }
 @keyframes clv2-rim-breathe { 0%, 100% { opacity: .52; } 50% { opacity: 1; } }
 @keyframes clv2-rim-orbit { to { --clv2-rim-angle: 360deg; } }
-@keyframes clv2-rim-crown-breathe { 0%, 100% { opacity: .78; } 50% { opacity: 1; } }
-@keyframes clv2-rim-crown-sparkle { 0%, 100% { opacity: .56; } 35% { opacity: 1; } 68% { opacity: .72; } }
 @media (prefers-reduced-motion: reduce) {
   .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow] .clv2-enhancement-light,
   .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow] .clv2-enhancement-light::before,
   .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow] .clv2-enhancement-light::after { animation: none; opacity: 1; }
 }
+/* +11–+15 build inward inside the original +10 frame footprint. */
+.clv2-shell[data-active-tab="equipment"] .clv2-item-art[data-enhancement-glow="11"] {
+  --rim: #ffe3a0;
+  --rim-soft: #ffc24a99;
+  --rim-width: 4px;
+  --rim-speed: 3.6s;
+  --rim-extra-flare: transparent;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="11"] .clv2-enhancement-light::before {
+  --rim-track: conic-gradient(from var(--clv2-rim-angle), #ffad2438, #ffbe3e 52deg, #fff9dd 76deg, #fff 82deg, transparent 106deg 180deg, #ffad2438 180deg, #ffbe3e 232deg, #fff9dd 256deg, #fff 262deg, transparent 286deg);
+}
+.clv2-shell[data-active-tab="equipment"] .clv2-item-art[data-enhancement-glow="12"] {
+  --rim: #9ef5ff;
+  --rim-soft: #36cfffaa;
+  --rim-width: 4.5px;
+  --rim-speed: 3.3s;
+  --rim-extra-flare: #dcfcff;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="12"] .clv2-enhancement-light::before {
+  --rim-track: repeating-conic-gradient(from var(--clv2-rim-angle), #168be83b 0deg, #37d9ff 45deg, #e1ffff 65deg, #fff 72deg, transparent 90deg 120deg);
+}
+.clv2-shell[data-active-tab="equipment"] .clv2-item-art[data-enhancement-glow="13"] {
+  --rim: #e8b9ff;
+  --rim-soft: #b363ffbb;
+  --rim-width: 5px;
+  --rim-speed: 3s;
+  --rim-extra-flare: #ffe7ff;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="13"] .clv2-enhancement-light::before {
+  --rim-track: repeating-conic-gradient(from var(--clv2-rim-angle), #6725ce40 0deg, #ca77ff 31deg, #ffa9f0 47deg, #fff 57deg, transparent 73deg 90deg);
+}
+.clv2-shell[data-active-tab="equipment"] .clv2-item-art[data-enhancement-glow="14"] {
+  --rim: #ffbd9d;
+  --rim-soft: #ff4d65c4;
+  --rim-width: 5.5px;
+  --rim-speed: 2.8s;
+  --rim-extra-flare: #fff0c9;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="14"] .clv2-enhancement-light::before {
+  --rim-track: repeating-conic-gradient(from var(--clv2-rim-angle), #ac174552 0deg, #ff4d78 18deg, #ffbc5b 28deg, #fff4cf 36deg, #fff 40deg, transparent 53deg 60deg);
+}
+.clv2-shell[data-active-tab="equipment"] .clv2-item-art[data-enhancement-glow="15"] {
+  --rim: #fff6d7;
+  --rim-soft: #ffd781dd;
+  --rim-width: 6px;
+  --rim-speed: 2.6s;
+  --rim-extra-flare: #fff;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="15"] .clv2-enhancement-light::before {
+  --rim-track: conic-gradient(from var(--clv2-rim-angle), #ffe296, #fff 24deg, #a8f5ff 43deg, #508dff88 55deg, #d596ff 75deg, #fff 94deg, #ffacdb 113deg, #ff5a8877 125deg, #ffcf74 145deg, #fff 164deg, #fff3ad 180deg, #ffe296 194deg, #fff 214deg, #a8f5ff 233deg, #508dff88 245deg, #d596ff 265deg, #fff 284deg, #ffacdb 303deg, #ff5a8877 315deg, #ffcf74 335deg, #fff 354deg, #ffe296);
+}
+.clv2-shell[data-active-tab="equipment"] .clv2-item-art[data-enhancement-tier="advanced"] {
+  box-shadow: 0 0 11px var(--rim-soft), inset 0 0 0 1px var(--rim), inset 0 0 14px var(--rim-soft);
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-tier="advanced"] .clv2-enhancement-light {
+  box-shadow: inset 0 0 0 1px #ffffe887, inset 0 0 8px var(--rim-soft), 0 0 7px var(--rim-soft);
+  animation: clv2-ascendant-breathe 4.4s ease-in-out infinite;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-tier="advanced"] .clv2-enhancement-light::before {
+  padding: var(--rim-width);
+  background: var(--rim-track);
+  opacity: 1;
+  animation: clv2-rim-orbit var(--rim-speed) linear infinite;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-tier="advanced"] .clv2-enhancement-light::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent, #fffbe8, transparent) left 0 top 5px / 18px 2px no-repeat,
+    linear-gradient(0deg, transparent, #fffbe8, transparent) left 5px top 0 / 2px 18px no-repeat,
+    linear-gradient(90deg, transparent, #fffbe8, transparent) right 0 bottom 5px / 18px 2px no-repeat,
+    linear-gradient(0deg, transparent, #fffbe8, transparent) right 5px bottom 0 / 2px 18px no-repeat,
+    radial-gradient(ellipse at top left, #fff 0, var(--rim) 2px, transparent 11px),
+    radial-gradient(ellipse at bottom right, #fff 0, var(--rim) 2px, transparent 11px),
+    radial-gradient(ellipse at top right, var(--rim-extra-flare) 0, transparent 10px),
+    radial-gradient(ellipse at bottom left, var(--rim-extra-flare) 0, transparent 10px);
+  animation: clv2-ascendant-sparkle 3.1s ease-in-out infinite;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-tier="advanced"] .clv2-enhancement-tracer {
+  position: absolute;
+  inset: 2px;
+  padding: 1px;
+  pointer-events: none;
+  background: repeating-conic-gradient(from var(--clv2-rim-angle), transparent 0deg 25deg, var(--rim) 47deg, #fff 60deg, transparent 76deg 120deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: .85;
+  animation: clv2-rim-orbit 5.6s linear infinite reverse;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-tier="advanced"] .clv2-enhancement-sparks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 25% 2px, #fff 0 1px, var(--rim) 2px, transparent 4px),
+    radial-gradient(ellipse at 75% calc(100% - 2px), #fff 0 1px, var(--rim) 2px, transparent 4px),
+    radial-gradient(ellipse at 2px 75%, #fff 0 1px, var(--rim) 2px, transparent 4px),
+    radial-gradient(ellipse at calc(100% - 2px) 25%, #fff 0 1px, var(--rim) 2px, transparent 4px);
+  animation: clv2-ascendant-sparkle 2.7s ease-in-out infinite reverse;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="15"] .clv2-enhancement-tracer {
+  padding: 2px;
+  opacity: 1;
+  background: repeating-conic-gradient(from var(--clv2-rim-angle), #ffffff22 0deg, #fff 16deg, #c1f8ff 26deg, transparent 39deg 60deg);
+  animation-duration: 4.6s;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="15"] .clv2-enhancement-sparks::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent, #fff, #b8f7ff, transparent) 50% 2px / 28px 2px no-repeat,
+    linear-gradient(90deg, transparent, #fff, #ffd889, transparent) 50% calc(100% - 2px) / 28px 2px no-repeat,
+    linear-gradient(0deg, transparent, #fff, #dfb5ff, transparent) 2px 50% / 2px 28px no-repeat,
+    linear-gradient(0deg, transparent, #fff, #ffd889, transparent) calc(100% - 2px) 50% / 2px 28px no-repeat;
+  animation: clv2-ascendant-sparkle 3.7s ease-in-out infinite;
+}
+@keyframes clv2-ascendant-breathe { 0%, 100% { opacity: .8; } 50% { opacity: 1; } }
+@keyframes clv2-ascendant-sparkle { 0%, 100% { opacity: .55; } 35% { opacity: 1; } 68% { opacity: .72; } }
+@media (prefers-reduced-motion: reduce) {
+  .clv2-shell[data-active-tab="equipment"] [data-enhancement-tier="advanced"] .clv2-enhancement-light,
+  .clv2-shell[data-active-tab="equipment"] [data-enhancement-tier="advanced"] .clv2-enhancement-light::before,
+  .clv2-shell[data-active-tab="equipment"] [data-enhancement-tier="advanced"] .clv2-enhancement-light::after,
+  .clv2-shell[data-active-tab="equipment"] [data-enhancement-tier="advanced"] .clv2-enhancement-tracer,
+  .clv2-shell[data-active-tab="equipment"] [data-enhancement-tier="advanced"] .clv2-enhancement-sparks,
+  .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="15"] .clv2-enhancement-sparks::after { animation: none; opacity: 1; }
+}
+
 .clv2-item-quantity {
   position: absolute;
   z-index: 3;
