@@ -1,0 +1,32 @@
+{
+  "before": {
+    "id": "ebbebcb9-a3f9-4a72-835b-169f0226198c",
+    "url": "https://ebbebcb9.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "cd51f04cf6abc74e419d805570b0bc40174b7aa2"
+  },
+  "base": "cd51f04cf6abc74e419d805570b0bc40174b7aa2",
+  "reason": "흑익 용혈 저울의 첫 유효 확정부터 독립된 8초 전원 확정 시간 적용. 최초 단계별 고민 시간 유지, 재확정/재접속 연장 금지, 실패 후 남은 원래 시간과 광폭화 보존. 8개 새 경계 회귀 통과; 배포에서는 수정된 기존 흑익 서버/동시입력/화면 회귀와 전달 검사 및 Worker 컴파일만 실행. 직전 동일게임소스48검사 통과 보존. 문서4개의 배포물 제외만 수정했으므로 해당 포장검사만 추가.",
+  "tests": [
+    "tests/operation-audit-packaging-20261029.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "alreadyPassed": [
+    "tests/blackwing-confirm-window-20261101.test.mjs",
+    "tests/blackwing-bloodscale-20261028.test.mjs",
+    "tests/blackwing-battlefield-20261029.test.mjs",
+    "tests/blackwing-raid-20261024.test.mjs",
+    "tests/onestore-web-20261026.test.mjs"
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "retainedRegressionTests": 48,
+  "retainedSource": "e76b1dbeae126d14703eb342a2ce4ab394663098",
+  "packagingOnlyChanges": [
+    "docs/qa/blackwing-confirm8-20261101/README.md",
+    "scripts/prepare-production-assets.mjs",
+    "tests/operation-audit-packaging-20261029.test.mjs"
+  ]
+}

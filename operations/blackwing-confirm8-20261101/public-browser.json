@@ -1,0 +1,59 @@
+{
+  "at": "2026-11-01T11:01:06.888Z",
+  "reports": [
+    {
+      "width": 390,
+      "height": 844,
+      "actor": "3",
+      "geometry": {
+        "field": {
+          "x": 2,
+          "y": 64,
+          "width": 386,
+          "height": 601.96875
+        },
+        "battle": {
+          "x": 2,
+          "y": 64,
+          "width": 386,
+          "height": 726
+        },
+        "pads": [
+          {
+            "x": 3.921875,
+            "y": 467.96875,
+            "right": 131.296875,
+            "bottom": 617.96875,
+            "width": 127.375,
+            "height": 150
+          },
+          {
+            "x": 131.3125,
+            "y": 467.96875,
+            "right": 258.6875,
+            "bottom": 617.96875,
+            "width": 127.375,
+            "height": 150
+          },
+          {
+            "x": 258.6875,
+            "y": 467.96875,
+            "right": 386.0625,
+            "bottom": 617.96875,
+            "width": 127.375,
+            "height": 150
+          }
+        ],
+        "sidebar": false,
+        "overflow": false,
+        "canvases": 1
+      },
+      "planningRemainingAtFirst": 2950,
+      "confirmationMs": 8000,
+      "startClock": "동시 확정 7.9초 · 1/6 확정 · 폭발 3.9초",
+      "extendedClock": "동시 확정 4.7초 · 1/6 확정 · 폭발 0.7초",
+      "completedAfterPlanning": true,
+      "errors": []
+    }
+  ]
+}

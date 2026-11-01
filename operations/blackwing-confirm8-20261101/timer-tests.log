@@ -1,0 +1,16 @@
+✔ existing phase planning durations remain unchanged and no confirmation still expires at 20 seconds (22.9287ms)
+✔ first confirmation with 3s left starts a full new 8s window (7.107ms)
+✔ first confirmation with 5s left starts a full new 8s window (7.5784ms)
+✔ first confirmation with 6s left starts a full new 8s window (6.0286ms)
+✔ only the first valid confirmation starts the window; later inputs, retries and JSON restart cannot extend it (6.5912ms)
+✔ late confirmation expires at exactly 8 seconds without granting another planning period or rewinding time (19.7999ms)
+✔ an incorrect late full-team submission ends the expired planning period; early mistakes keep only its remainder (17.9825ms)
+✔ the independent confirmation window does not extend the raid enrage deadline (4.0028ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 405.7009

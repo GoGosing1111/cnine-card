@@ -1,0 +1,71 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "completedAt": "2026-11-01T11:01:17.527Z",
+  "sourceCommit": "611e3a14d90067e6fede4be74713923d14510bd9",
+  "pages": {
+    "id": "c8f1c32b-1926-40b4-b202-0cf2b0a499b5",
+    "url": "https://c8f1c32b.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "611e3a14d90067e6fede4be74713923d14510bd9"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "8eabe657-164d-42bd-b809-4f317fee176c",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "9f2264dc-0386-495f-8ec9-dd76a2636f28",
+      "percentage": 100
+    }
+  ],
+  "behavior": {
+    "initialPlanningMs": [
+      24000,
+      22000,
+      22000,
+      22000,
+      20000
+    ],
+    "planningChanged": false,
+    "confirmationMs": 8000,
+    "startsOn": "FIRST_VALID_CONFIRMATION",
+    "replacesPlanningDeadline": true,
+    "laterConfirmationsExtend": false,
+    "reconnectExtends": false,
+    "confirmationBoundary": "EXCLUSIVE",
+    "raidEnrageChanged": false,
+    "failedAttemptUsesOnlyOriginalPlanningRemainder": true
+  },
+  "verification": {
+    "timerBoundaryTests": 8,
+    "scopedRegressionTests": 49,
+    "packagingTests": 1,
+    "totalTests": 57,
+    "workerSyntax": true,
+    "workerCompiled": true,
+    "localViewports": [
+      1440,
+      390
+    ],
+    "publicMobileViewport": 390,
+    "publicAssetHashes": 8,
+    "clientManifestHashes": 5,
+    "syntheticAccounts": true,
+    "realDevice": false,
+    "installedApp": false
+  },
+  "preserved": [
+    "CMS settings",
+    "reward policy",
+    "account holdings",
+    "raid enrage",
+    "phase planning durations"
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "storageMaintenance": false,
+  "newSchedules": false,
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/blackwing-confirm8-20261101"
+}

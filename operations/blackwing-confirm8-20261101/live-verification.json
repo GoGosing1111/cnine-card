@@ -1,0 +1,95 @@
+{
+  "at": "2026-11-01T11:01:01.058Z",
+  "pages": {
+    "id": "c8f1c32b-1926-40b4-b202-0cf2b0a499b5",
+    "url": "https://c8f1c32b.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "611e3a14d90067e6fede4be74713923d14510bd9"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "8eabe657-164d-42bd-b809-4f317fee176c",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "9f2264dc-0386-495f-8ec9-dd76a2636f28",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "f861c2ceb14c926844a27ecbe7de767a67b327cd2c4d88c728225c57b8f9cc99",
+      "bytes": 48988
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "216c8b11c890aa801dd5cba9fe2178dcf08fb144a201022d0449dd5a644db667",
+      "bytes": 22392
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "622fba1b77dece646568f2b2bd01d74be6e55ae45ab47cd290eb6c756fe63257",
+      "bytes": 48607
+    },
+    {
+      "file": "js/blackwing-raid-entry-v1.js",
+      "sha256": "a0d6c567ff67f4d8ab362aff2de2aa2c5c543bac72d5988c7a3619379a4487fa",
+      "bytes": 4166
+    },
+    {
+      "file": "raid/blackwing/inline.mjs",
+      "sha256": "790183b5b5ee2355dfd8bd77d843ed8546b243772c25e84be05dd3dae53e8ed2",
+      "bytes": 16480
+    },
+    {
+      "file": "raid/blackwing/battlefield.mjs",
+      "sha256": "d6ecd296b91b52bef9b9fd92a874f0b78a740f62e5f49541b38ada4c0a60e361",
+      "bytes": 12045
+    },
+    {
+      "file": "raid/blackwing/commands.mjs",
+      "sha256": "c4720d1b5baafd0979a597508edb14fd258fa9cfb3e4e33adc6a499b37f8e05b",
+      "bytes": 9139
+    },
+    {
+      "file": "raid/blackwing/lobby-ui.mjs",
+      "sha256": "633e0d6b8cfc5ef216b127039759e95379b17efcb10a5ef4d64a8c77c4f875b4",
+      "bytes": 10232
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "8bc57e1da3fb3fa4fb4e65abbbe77cf1e594218023ebc8b9c261acca3bc129bb",
+    "files": [
+      {
+        "path": "/js/blackwing-raid-entry-v1.js",
+        "sha256": "a0d6c567ff67f4d8ab362aff2de2aa2c5c543bac72d5988c7a3619379a4487fa",
+        "essential": true
+      },
+      {
+        "path": "/raid/blackwing/inline.mjs",
+        "sha256": "790183b5b5ee2355dfd8bd77d843ed8546b243772c25e84be05dd3dae53e8ed2",
+        "essential": true
+      },
+      {
+        "path": "/raid/blackwing/battlefield.mjs",
+        "sha256": "d6ecd296b91b52bef9b9fd92a874f0b78a740f62e5f49541b38ada4c0a60e361",
+        "essential": true
+      },
+      {
+        "path": "/raid/blackwing/commands.mjs",
+        "sha256": "c4720d1b5baafd0979a597508edb14fd258fa9cfb3e4e33adc6a499b37f8e05b",
+        "essential": true
+      },
+      {
+        "path": "/raid/blackwing/lobby-ui.mjs",
+        "sha256": "633e0d6b8cfc5ef216b127039759e95379b17efcb10a5ef4d64a8c77c4f875b4",
+        "essential": true
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}
