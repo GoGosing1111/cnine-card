@@ -59,7 +59,7 @@ assert.equal(navigation.routes.fusion.title, '제작소');
 assert.equal(navigation.routes.workshop.title, '제작소');
 
 assert.equal(navigation.routes.deck.title, 'PVE 덱 편성실');
-assert.deepEqual(Array.from(navigation.groups.store.routes), ['buy', 'lootShop'], 'stores exclude the standalone inventory');
+assert.deepEqual(Array.from(navigation.groups.store.routes), ['buy', 'lootShop', 'rankedShop'], 'stores exclude the standalone inventory');
 assert.deepEqual(Array.from(navigation.groups.inventory.routes), ['inventory']);
 assert.equal(router.routeContract.lootShop.href, '/loot-shop/', 'loot exchange opens its shared-navigation workspace');
 assert.equal(navigation.routes.inventory.group, 'inventory');
