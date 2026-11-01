@@ -37,7 +37,7 @@ export function lobbyMarkup(){return `
   <section class="mr-registry bw-registry cn-ui-panel" data-registry><header><div><p class="mr-eyebrow">공대 모집</p><h3>출정을 기다리는 공대 <span data-room-count>0</span></h3></div><button type="button" class="mr-button cn-ui-button" data-refresh>↻ 새로고침</button></header><ul class="bw-rooms" data-rooms></ul></section>
   <section class="bw-guide cn-ui-panel" aria-label="작전과 역할 안내"><header><p class="mr-eyebrow">공략 지침</p><h3>다섯 단계, 하나의 맹약</h3><p>전원 자신의 RAID 카드 5장과 PVE 용병으로 전투합니다. 저울의 개인 무게를 채팅·음성으로 공유할 준비가 필요합니다.</p></header>
    <ol class="bw-guide-steps">
-    <li><b>01</b><div><h4>역린의 부채</h4><p>전원 개인 무게를 공유해 세 저울 발판의 목표 합계를 맞춥니다. 각 저울 발판은 서로 다른 역할 2명, 첫 확정부터 6초 안에 전원 확정. 파쇄 2명이 용혈 3회 축적 → 봉인 2명 격리 → 수호 2 고정 → 수호 1 반전.</p></div></li>
+    <li><b>01</b><div><h4>역린의 부채</h4><p>전원 개인 무게를 공유해 세 저울 발판의 목표 합계를 맞춥니다. 각 저울 발판은 서로 다른 역할 2명, 첫 확정부터 새로 8초 안에 전원 확정. 파쇄 2명이 용혈 3회 축적 → 봉인 2명 격리 → 수호 2 고정 → 수호 1 반전.</p></div></li>
     <li><b>02</b><div><h4>쌍생 심장</h4><p>새 저울을 완성한 뒤 봉인 1·2가 좌·우 준비. 파쇄 1·2가 각 심장을 <strong>3초 미만 간격</strong>으로 파괴합니다.</p></div></li>
     <li><b>03</b><div><h4>돌이킬 수 없는 절단</h4><p>직전 저울 발판 재진입을 피하고 새 저울 완성 → 봉인 2명 합의 → 수호 2명 고정 → 파쇄 2명 절단. 선택은 최종전까지 유지됩니다.</p><details><summary>흑익 / 대검의 차이</summary><p>흑익 절단: 최종 용염 2회 + 수호 2가 반전 시작 후 2.5초 안에 검 반격 저지.<br>대검 절단: 검 반격 없이 최종 용염 3회.</p></details></div></li>
     <li><b>04</b><div><h4>소모되는 성역</h4><p>수호 1·2가 번갈아 6인 저울 완성 후 용염 <strong>3.5초 전부터</strong> 전개. 매 용염마다 무게·목표가 바뀌며 직전 저울의 발판에는 잔상이 남습니다. 같은 성역 연속 사용 불가. 내구도는 최종전까지 이월됩니다.</p></div></li>

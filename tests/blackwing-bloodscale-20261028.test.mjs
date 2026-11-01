@@ -67,12 +67,12 @@ test('commits and stale requests cannot double-lock or submit a later puzzle',()
  for(const[id]of members.slice(1))action(r,id,'LOCK');assert.equal(r.challenge.scale.done,true);openBlackwingScale(r);
  assert.equal(action(r,'1','LOCK',undefined,r.clock,{token}).ignored,true);assert.deepEqual(r.challenge.scale.locked,[]);
 });
-test('six-second lock boundary is exclusive and reports missing people, never the next requester',()=>{
+test('eight-second lock boundary is exclusive and reports missing people, never the next requester',()=>{
  const r=room(33);put(r,solveViews(views(r))[0]);action(r,'1','LOCK');const first=r.clock;
- for(const[id]of members.slice(1,5))action(r,id,'LOCK',undefined,first+5999);
+ for(const[id]of members.slice(1,5))action(r,id,'LOCK',undefined,first+7999);
  assert.equal(r.strain,0);const old=blackwingView(r,'8').challenge.tokens.LOCK;
- action(r,'8','LOCK',undefined,first+6000,{token:old});assert.equal(r.strain,1);
- const e=r.combatLog.find(e=>e.type==='BLACKWING_SCALE');assert.match(e.reason,/6초.*참가자 8/);assert.equal(e.ownerId,undefined);
+ action(r,'8','LOCK',undefined,first+8000,{token:old});assert.equal(r.strain,1);
+ const e=r.combatLog.find(e=>e.type==='BLACKWING_SCALE');assert.match(e.reason,/8초.*참가자 8/);assert.equal(e.ownerId,undefined);
  assert.equal(r.challenge.scale.cycle,2);assert.equal(r.challenge.scale.locked.length,0);
 });
 test('planning pauses mechanic windows, but pressure and overall enrage keep running',()=>{
@@ -87,7 +87,7 @@ test('planning pauses mechanic windows, but pressure and overall enrage keep run
 test('JSON restart retains choices, first-commit deadline and previous positions',()=>{
  let r=room(36);scale(r);openBlackwingScale(r);put(r,solveViews(views(r))[0]);action(r,'1','LOCK');
  const before=blackwingView(r,'7');r=JSON.parse(JSON.stringify(r));assert.deepEqual(JSON.parse(JSON.stringify(blackwingView(r,'7'))),JSON.parse(JSON.stringify(before)));
- tickBlackwingRoom(r,r.challenge.scale.firstLockAt+6000);assert.equal(r.strain,1);
+ tickBlackwingRoom(r,r.challenge.scale.firstLockAt+8000);assert.equal(r.strain,1);
  tickBlackwingRoom(r,r.clock+1);assert.equal(r.strain,1);assert.deepEqual(r.challenge.scale.previous,r.scalePositions);
 });
 test('phase four and five require six fresh commitments before every breath',()=>{

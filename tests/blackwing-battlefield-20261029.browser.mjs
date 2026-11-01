@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {execFileSync} from 'node:child_process';
 import { blackwingLiveFixture } from './helpers/blackwing-live-fixture.mjs';
 
 
@@ -28,6 +29,7 @@ const mime = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset
   '.json':'application/json','.css':'text/css','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.svg':'image/svg+xml',
   '.woff2':'font/woff2','.ttf':'font/ttf','.mp3':'audio/mpeg','.ogg':'audio/ogg'};
 const calls = [];
+const sparseAssets = new Map();
 const server = http.createServer(async (req,res) => {
   const url = new URL(req.url, 'http://' + req.headers.host);
   const json = (data,status=200) => {res.writeHead(status,{'content-type':'application/json','cache-control':'no-store'});res.end(JSON.stringify(data));};
@@ -60,7 +62,15 @@ const server = http.createServer(async (req,res) => {
     let file=path.resolve(root,'.'+decodeURIComponent(url.pathname));
     if(file!==root&&!file.startsWith(root+path.sep)) {res.writeHead(403);return res.end();}
     if(fs.existsSync(file)&&fs.statSync(file).isDirectory()) file=path.join(file,'index.html');
-    if(!fs.existsSync(file)){const fallback=path.resolve('C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site','.'+decodeURIComponent(url.pathname));if(fs.existsSync(fallback))file=fallback;else{res.writeHead(404);return res.end();}}
+    if(!fs.existsSync(file)){
+      const relative=path.relative(root,file).replaceAll(path.sep,'/');
+      try{
+        if(!sparseAssets.has(relative))sparseAssets.set(relative,execFileSync('git',['-c','gc.auto=0','show','HEAD:'+relative],{cwd:root,windowsHide:true,maxBuffer:40e6,stdio:['ignore','pipe','pipe']}));
+        res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream','cache-control':'no-store'});return res.end(sparseAssets.get(relative));
+      }catch{
+        const fallback=path.resolve('C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site','.'+decodeURIComponent(url.pathname));if(fs.existsSync(fallback))file=fallback;else{res.writeHead(404);return res.end();}
+      }
+    }
     res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream','cache-control':'no-store'});
     fs.createReadStream(file).pipe(res);
   } catch(error) {json({error:error.message},500);}
@@ -82,7 +92,7 @@ async function seedPhase4(roomId){
  function move(o){for(const[k,v]of Object.entries(o)){if(v&&typeof v==='object')move(v);else if(Number.isFinite(v)&&['clock','createdAt','startedAt','endsAt','finishedAt','at','deadline','opensAt','closesAt','firstAt','breathAt','pressureAt','healReadyAt','pausedAt','firstLockAt'].includes(k))o[k]=v+shift;}}
  move(r);r.id=roomId;r.challenge.id=roomId+':3';r.releaseMode='TEST';r.lobbyEndsAt=Date.now()+900000;r.settingsRevision=1;
  // Synthetic room allows the renderer to load before restoring the actual 22s
- // planning window. Real API checks and the 6s commit window are unchanged.
+ // planning window. Real API checks and the 8s commit window are unchanged.
  r.endsAt=Date.now()+300000;r.challenge.scale.deadline=Date.now()+90000;r.challenge.pressureAt=Date.now()+60000;
  await lich.run('UPDATE raid_blackwing_rooms_v1 SET state_json=?,status=? WHERE room_id=?',JSON.stringify(r),'ACTIVE',roomId);
 }
@@ -94,7 +104,7 @@ const enter=async page=>{
 };
 try{
  const sizes=process.env.BLACKWING_PUBLIC_ONLY==='1'?[[390,844]]:[[1440,1000],[390,844]];
- const actors=process.env.BLACKWING_PUBLIC_ONLY==='1'||process.env.BLACKWING_GUARD_ONLY==='1'?['3']:['1','3','7'];
+ const actors=process.env.BLACKWING_PUBLIC_ONLY==='1'||process.env.BLACKWING_GUARD_ONLY==='1'||process.env.BLACKWING_CONFIRM_WINDOW_ONLY==='1'?['3']:['1','3','7'];
  for(const[width,height]of sizes)for(const actor of actors){
   const roomId=await lich.party();for(const[id]of members)await lich.command('ready',{roomId,ready:true},Number(id));await lich.command('start',{roomId});await seedPhase4(roomId);
   const context=await browser.newContext({viewport:{width,height},isMobile:width<700,hasTouch:width<700,serviceWorkers:'block',acceptDownloads:true});
@@ -124,6 +134,29 @@ try{
    assert.equal(geometry.overflow,false);assert.equal(geometry.canvases,1);assert.equal(geometry.sidebar,false);assert.ok(geometry.battle.width>=width-16,'battle uses full width');for(const p of geometry.pads){assert.ok(p.x>=0&&p.right<=width);assert.ok(p.y>=geometry.battle.y&&p.bottom<=geometry.battle.y+geometry.battle.height);assert.ok(p.width>=44&&p.height>=44);}
    await page.screenshot({path:path.join(out,'scale-'+actor+'-'+width+'.png'),fullPage:true});
    const other=members.filter(([id])=>id!==actor);
+   if(process.env.BLACKWING_CONFIRM_WINDOW_ONLY==='1'){
+    saved=JSON.parse((await lich.one('SELECT state_json FROM raid_blackwing_rooms_v1 WHERE room_id=?',roomId)).state_json);
+    const planningDeadline=Date.now()+3000;saved.challenge.scale.deadline=planningDeadline;saved.revision++;
+    await lich.run('UPDATE raid_blackwing_rooms_v1 SET state_json=? WHERE room_id=?',JSON.stringify(saved),roomId);
+    await page.locator('[data-action="LOCK"]:not([disabled])').click();
+    await page.waitForFunction(()=>BlackwingRaidDiagnostics().state.challenge.scale.lockDeadline!==null);
+    saved=JSON.parse((await lich.one('SELECT state_json FROM raid_blackwing_rooms_v1 WHERE room_id=?',roomId)).state_json);
+    const first=saved.challenge.scale.firstLockAt,lockDeadline=first+8000;
+    assert.ok(first<planningDeadline);assert.ok(planningDeadline-first<=3000);
+    assert.equal((await page.evaluate(()=>BlackwingRaidDiagnostics().state.challenge.scale.lockDeadline)),lockDeadline);
+    const startClock=await page.locator('[data-field-clock]').innerText();assert.match(startClock,/동시 확정 [67]\.\d초/);
+    await page.screenshot({path:path.join(out,'confirmation-start-'+width+'.png'),fullPage:true});
+    await page.waitForTimeout(Math.max(0,planningDeadline+500-Date.now()));
+    const afterPlanning=(await lich.call('state?roomId='+roomId,{user:Number(actor)})).body.state;
+    assert.equal(afterPlanning.status,'ACTIVE');assert.equal(afterPlanning.strain,0);assert.equal(afterPlanning.challenge.scale.lockDeadline,lockDeadline);
+    const extendedClock=await page.locator('[data-field-clock]').innerText();assert.match(extendedClock,/동시 확정 [34]\.\d초/);
+    await page.screenshot({path:path.join(out,'confirmation-after-planning-'+width+'.png'),fullPage:true});
+    for(const[id]of other)await apiAction(roomId,id,'LOCK');
+    await page.waitForFunction(()=>BlackwingRaidDiagnostics().state.challenge.scale.done);
+    assert.equal((await lich.call('state?roomId='+roomId,{user:Number(actor)})).body.state.strain,0);
+    assert.deepEqual(errors,[]);reports.push({width,height,actor,geometry,planningRemainingAtFirst:planningDeadline-first,confirmationMs:8000,startClock,extendedClock,completedAfterPlanning:true,errors});
+    continue;
+   }
    for(const[id]of other.slice(0,4))await apiAction(roomId,id,'LOCK');
    await page.locator('[data-action="LOCK"]:not([disabled])').click();
    await page.waitForFunction(actor=>BlackwingRaidDiagnostics().state.challenge.scale.members.find(m=>m.id===actor).locked,actor);

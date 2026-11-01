@@ -39,7 +39,7 @@ test('three physical pads retain wrong choices, own clue, occupants, shadow and 
 test('live entry loads the full-width field and versioned assets without the sidebar',()=>{
  const inline=fs.readFileSync(new URL('../raid/blackwing/inline.mjs',import.meta.url),'utf8');
  assert.ok(inline.includes('createBattlefield'));assert.ok(!inline.includes('class="bw-command'));
- assert.ok(inline.includes('field.destroy()'));assert.match(inline,/battlefield\.mjs\?v=20261029-field1/);
+ assert.ok(inline.includes('field.destroy()'));assert.match(inline,/battlefield\.mjs\?v=20261101-confirm8-v1/);
  for(const file of ['field-altar.webp','field-heart.webp'])assert.ok(fs.statSync(new URL('../assets/raids/blackwing-20261024/'+file,import.meta.url)).size>1000);
 });
 test('legacy shared runes remain the exclusive field targets until the own oath is complete',()=>{

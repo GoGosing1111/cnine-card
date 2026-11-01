@@ -1,4 +1,4 @@
-import {blackwingCommands,wardNames,runeNames} from './commands.mjs?v=20261029-field1';
+import {blackwingCommands,wardNames,runeNames} from './commands.mjs?v=20261101-confirm8-v1';
 
 const ART='/assets/raids/blackwing-20261024/';
 const roles={BREAKER:'파쇄',GUARD:'수호',SEALER:'봉인'};
@@ -22,7 +22,7 @@ export function battlefieldModel(state,now){
   const own=s.members.find(p=>p.id===m.id),locked=s.members.filter(p=>p.locked).length;
   title='용혈 저울';clue='내 무게 '+s.ownWeight+' · '+roles[m.role]+' '+(m.slot+1);
   instruction=own.locked?'배치 확정 · 동료의 맹약을 기다리는 중':'제단을 눌러 이동 · 서로 다른 역할 2명의 무게 합을 맞추세요';
-  clock=(s.lockDeadline===null?'배치 ':'동시 확정 ')+seconds(Math.min(s.deadline,s.lockDeadline??Infinity)-now)+'초 · '+locked+'/6 확정';
+  clock=(s.lockDeadline===null?'배치 ':'동시 확정 ')+seconds((s.lockDeadline??s.deadline)-now)+'초 · '+locked+'/6 확정';
   for(let i=0;i<3;i++){
    const peers=s.members.filter(p=>p.position===i);
    object('pad-'+i,'altar',wardNames[i].replace('의 성역','의 제단'),'목표 '+s.goals[i],'PLACE',i,{
@@ -31,7 +31,7 @@ export function battlefieldModel(state,now){
     footer:s.previous===i?'내 잔상 · 재진입 금지':peers.length+'/2명',
    });
   }
-  if(own.position!==null)object('lock','commit',own.locked?'맹약 확정':'이 제단에서 확정',own.locked?'동료 대기':'첫 확정부터 6초','LOCK',undefined,{lane:own.position});
+  if(own.position!==null)object('lock','commit',own.locked?'맹약 확정':'이 제단에서 확정',own.locked?'동료 대기':'첫 확정부터 새로 8초','LOCK',undefined,{lane:own.position});
  }else{
   const oath=q.oaths?.[m.role],ready=!oath||oath.progress===2;
   if(!ready){
@@ -116,7 +116,7 @@ export function createBattlefield(host){
   field.dataset.kind=model.kind||'';field.dataset.step=model.step||'';field.classList.toggle('is-scale',model.scale);field.classList.toggle('is-final',model.kind==='FINAL'&&!model.scale);
   setText(field.querySelector('[data-field-phase]'),state.phase+'/5 · '+state.phaseName+' · '+roles[state.me.role]+' '+(state.me.slot+1));
   for(const key of ['title','instruction','clue','clock'])setText(field.querySelector('[data-field-'+key+']'),model[key]||'');
-  setHtml(field.querySelector('[data-field-help]'),'<p>제단: 서로 다른 역할 2명 · 무게 합은 목표와 같아야 합니다. 내 무게는 본인만 볼 수 있습니다. 동료에게 전달하세요.</p><p>직전 발판에는 잔상이 남습니다. 첫 확정부터 6초 안에 전원 확정. 확정 전 이동 가능, 확정 후 변경 불가.</p>'+model.details.map(line=>'<p>'+esc(line)+'</p>').join(''));
+  setHtml(field.querySelector('[data-field-help]'),'<p>제단: 서로 다른 역할 2명 · 무게 합은 목표와 같아야 합니다. 내 무게는 본인만 볼 수 있습니다. 동료에게 전달하세요.</p><p>직전 발판에는 잔상이 남습니다. 첫 확정부터 새로 8초 안에 전원 확정. 확정 전 이동 가능, 확정 후 변경 불가.</p>'+model.details.map(line=>'<p>'+esc(line)+'</p>').join(''));
   render(objects,model.objects,busy||pending);
   render(utility,model.utilities.map(b=>({key:b.key,kind:'utility',title:b.label,caption:'',command:b})),busy||pending);
   let retry=utility.querySelector('[data-retry]');if(pending&&!busy){if(!retry){retry=document.createElement('button');retry.type='button';retry.className='mr-button cn-ui-button';retry.dataset.retry='';retry.textContent='같은 요청 재시도';utility.appendChild(retry);}}else retry?.remove();

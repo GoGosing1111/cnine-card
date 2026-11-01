@@ -2,6 +2,10 @@
 // previous successful position as a forbidden afterimage. No answer is sent.
 export const hasBlackwingScale = r => r.rulesVersion >= 3;
 export const scalePending = r => hasBlackwingScale(r) && r.step === 'MECHANIC' && r.challenge?.scale && !r.challenge.scale.done;
+const confirmationMs = 8000;
+// The first valid commitment replaces the planning deadline for this attempt.
+// Keep the original deadline on the puzzle so a failed attempt cannot renew it.
+export const scaleDeadline = s => s.firstLockAt === null ? s.deadline : s.firstLockAt + confirmationMs;
 const pads = ['재', '뼈', '피'];
 const active = r => r.members.filter(m => !m.left);
 const names = (r, ids) => ids.map(id => active(r).find(m => m.id === id)?.name || id).join(', ');
@@ -50,7 +54,7 @@ export function openBlackwingScale(r, retry = false) {
 export function scaleView(r, id) {
   const s = r.challenge?.scale; if (!s) return undefined;
   return { cycle: s.cycle, goals: s.goals, ownWeight: s.weights[id], previous: s.previous[id] ?? null,
-    startedAt: s.startedAt, deadline: s.deadline, lockDeadline: s.firstLockAt === null ? null : s.firstLockAt + 6000, done: s.done,
+    startedAt: s.startedAt, deadline: s.deadline, lockDeadline: s.firstLockAt === null ? null : scaleDeadline(s), done: s.done,
     members: active(r).map(m => ({ id:m.id, name:m.name, role:m.role, position:s.positions[m.id] ?? null,
       previous:s.previous[m.id] ?? null, locked:s.locked.includes(m.id) })) };
 }
@@ -65,18 +69,23 @@ function penalize(r, ctx, reason) {
   // A team evaluation belongs to all submitted placements, not to the last
   // person whose request happened to trigger evaluation.
   const context = r.actionContext; delete r.actionContext;
-  try { ctx.mistake(r, reason); } finally { if (context) r.actionContext = context; }
-  if (r.status === 'ACTIVE') openBlackwingScale(r, true);
+  try {
+    ctx.mistake(r, reason);
+    if (r.status === 'ACTIVE') {
+      if (r.clock >= r.challenge.scale.deadline) ctx.finish(r, 'FAILED', 'SCALE_TIMEOUT', '용혈 저울 제한 시간 종료 · ' + reason);
+      else openBlackwingScale(r, true);
+    }
+  } finally { if (context) r.actionContext = context; }
 }
 export function tickBlackwingScale(r, ctx) {
   const s = r.challenge.scale;
-  if (r.clock >= s.deadline) {
+  if (r.clock < scaleDeadline(s)) return;
+  if (s.firstLockAt === null) {
     const reason = '용혈 저울 제한 시간 종료 · 미확정: ' + names(r, active(r).filter(m => !s.locked.includes(m.id)).map(m => m.id));
     teamRecord(r, ctx, '용혈 저울 시간 초과', 'FAILED', reason);
     ctx.finish(r, 'FAILED', 'SCALE_TIMEOUT', reason); return;
   }
-  if (s.firstLockAt !== null && r.clock >= s.firstLockAt + 6000)
-    penalize(r, ctx, '6초 동시 확정 실패 · 미확정: ' + names(r, active(r).filter(m => !s.locked.includes(m.id)).map(m => m.id)));
+  penalize(r, ctx, '8초 동시 확정 실패 · 미확정: ' + names(r, active(r).filter(m => !s.locked.includes(m.id)).map(m => m.id)));
 }
 export function actBlackwingScale(r, m, input, ctx) {
   const s = r.challenge.scale;
