@@ -1,0 +1,9 @@
+Refine Image 1, the NEW BLACK-HAIRED BURGUNDY-COAT SWORDSMAN, into the clean illustration finish of Image 2. Image 1 is the edit target and identity/pose source. Image 2 is a STYLE FINISH REFERENCE ONLY; do not copy that character, long hair, face markings, bare torso, white coat, katana, text, background, or pose.
+
+Preserve Image 1's short black hair, adult face, natural human proportions, burgundy coat, gunmetal shoulder and forearm armor, dark leather gloves, black trousers, boots, one straight silver longsword, weapon grip, right-facing combat-ready stance, and complete full-body framing. Keep the sword one rigid straight object with continuous hilt-to-blade construction. Do not change his identity or add accessories.
+
+The requested improvement is clearer 2D drawing: confident clean contours, LARGE continuous light and shadow shapes, restrained painterly gradients, clear cloth/leather/metal separation. Remove noisy scratch textures and tiny fragmented highlights on metal. Simplify the trouser and coat shading into a few LARGE folds following the anatomy and fabric tension. Remove the scattered small triangular shadow facets. Group hair into flowing natural locks with controlled fine strands, not a mass of scratchy strokes and not plastic blades. Keep the gold trim and main star motifs crisp and readable but avoid adding new micro ornaments. Keep face, hands, body, clothing and weapon in the same unified illustrated style, not photorealistic rendering and not a blur filter.
+
+Small pose correction only: level both boot soles on the same implied horizontal ground; preserve the balanced wide ready stance and the normal adult leg length. Do not point a boot straight toward the camera.
+
+ONE assembled full-body person, the whole sword inside the canvas with padding. No effects, no backdrop, no lettering, no halo, no glow, no floor shadow. True transparent background, solid character with antialiased outer edges only.

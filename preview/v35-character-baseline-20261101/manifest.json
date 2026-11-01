@@ -3,7 +3,7 @@
   "date": "2026-11-01",
   "request": "새 캐릭터로 처음부터 기준점부터 다시 잡아가라",
   "status": "BASELINE_CANDIDATE_USER_REVIEW_PENDING",
-  "selectedCandidate": "baseline-v3.png",
+  "selectedCandidate": "baseline-v4.png",
   "character": {
     "temporaryDescription": "흑발·붉은 코트·강철 보호구·직선 한손검의 성인 남성 검사",
     "name": null,
@@ -51,9 +51,33 @@
       "width": 1024,
       "height": 1536,
       "alpha": { "transparentPixels": 1114473, "partialPixels": 458391, "opaquePixels": 0, "maximum": 254 },
+      "status": "POSE_CANDIDATE_SUPERSEDED_BY_FINISH_REVIEW"
+    },
+    {
+      "file": "baseline-v4.png",
+      "prompt": "prompt-v4.txt",
+      "source": "exec-dea1bd5e-ffc0-4f12-91fd-87fb09d621e4.png",
+      "references": ["baseline-v3.png", "../../output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v2.png"],
+      "referenceRoles": ["edit target: new swordsman identity and combat pose", "approved finish reference only"],
+      "sha256": "fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44",
+      "bytes": 1894322,
+      "width": 1024,
+      "height": 1536,
+      "alpha": { "transparentPixels": 1011907, "partialPixels": 560957, "opaquePixels": 0, "maximum": 254 },
       "status": "CURRENT_CANDIDATE_UNAPPROVED"
     }
   ],
+  "latestStyleReview": {
+    "standard": "../../docs/project-v-mercenary-card-art-standard.md",
+    "date": "2026-11-01",
+    "referencesOpened": [
+      "../../assets/ui/project-v/art-references/style-reset-20261101/style-01-blue-swordsman.png",
+      "../../assets/ui/project-v/art-references/style-reset-20261101/style-02-white-coat-swordsman.png",
+      "../../output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v2.png"
+    ],
+    "finishReferenceSha256": "165977598b1ef142f279a5da23e5399c809cd40b5f208144ebb100a00bd78bd8",
+    "newCharacterApprovalInherited": false
+  },
   "verification": {
     "directImageInspection": true,
     "originalBytesAndHashesVerified": true,
