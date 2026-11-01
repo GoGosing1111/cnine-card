@@ -1,0 +1,51 @@
+{
+  "ok": true,
+  "reports": [
+    {
+      "width": 1440,
+      "overflow": 0,
+      "wallet": "2,900",
+      "coin": "url('/assets/ui/tactical-20261030/panel-flat.webp')",
+      "products": 8,
+      "tiers": 8,
+      "search": true,
+      "quantity": true,
+      "cancel": true,
+      "purchase": true,
+      "ownedTab": true,
+      "sharedNavigation": true
+    },
+    {
+      "width": 390,
+      "overflow": 0,
+      "wallet": "2,880",
+      "coin": "url('/assets/ui/tactical-20261030/panel-flat.webp')",
+      "products": 8,
+      "tiers": 8,
+      "search": true,
+      "quantity": true,
+      "cancel": true,
+      "purchase": true,
+      "ownedTab": true,
+      "sharedNavigation": true
+    },
+    {
+      "width": 320,
+      "overflow": 0,
+      "wallet": "2,860",
+      "coin": "url('/assets/ui/tactical-20261030/panel-flat.webp')",
+      "products": 8,
+      "tiers": 8,
+      "search": true,
+      "quantity": true,
+      "cancel": true,
+      "purchase": true,
+      "ownedTab": true,
+      "sharedNavigation": true
+    }
+  ],
+  "cms": true,
+  "errors": [],
+  "missing": [],
+  "productionAccountWrites": 0
+}

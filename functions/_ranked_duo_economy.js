@@ -1,3 +1,5 @@
+import {rankedCoinCreditStatements} from './_ranked_coin.js';
+import {rankedTierReward,RANKED_REWARD_VERSION} from '../shared/ranked-shop-policy-v1.mjs';
 import {DUO_WEEKLY_POLICY_KEY,DUO_REWARD_BATCH,validateDuoPolicy} from '../shared/ranked-duo-weekly-v3.mjs';
 import {resolveDuoTier} from '../shared/ranked-duo-season-v2.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -63,6 +65,7 @@ export async function deliverDuoTierRewards(env,s,core,progress,now){
     q('UPDATE users SET coin=coin+(SELECT r.reward_coin FROM ranked_duo_rewards_v3 r WHERE r.user_id=users.id AND '+has+'),card_shards=card_shards+(SELECT r.reward_shards FROM ranked_duo_rewards_v3 r WHERE r.user_id=users.id AND '+has+') WHERE id IN('+marks+')',s.id,cursor,last,s.id,cursor,last,...ids),
     q("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT u.id,r.reward_coin,u.coin,? FROM ranked_duo_rewards_v3 r JOIN users u ON u.id=r.user_id WHERE "+has+" AND r.reward_coin>0",'RANKED_DUO_TIER '+s.id,s.id,cursor,last),
     q("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT u.id,r.reward_shards,u.card_shards,? FROM ranked_duo_rewards_v3 r JOIN users u ON u.id=r.user_id WHERE "+has+" AND r.reward_shards>0",'RANKED_DUO_TIER '+s.id,s.id,cursor,last),
+    ...members.flatMap(m=>rankedCoinCreditStatements(env.DB,m.userId,s.config.rankedRewardVersion===RANKED_REWARD_VERSION&&s.config.rewards.tierEnabled?rankedTierReward(m.tier.id,'DUO').rankedCoins:0,'ranked-tier:DUO:'+s.id)),
     q('UPDATE ranked_duo_settlement_v3 SET last_rank=? WHERE season_id=?',last,s.id),
     q('UPDATE ranked_duo_seasons_v1 SET revision=revision+1 WHERE id=?',s.id)
    ])

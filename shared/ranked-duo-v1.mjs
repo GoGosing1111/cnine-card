@@ -24,7 +24,7 @@ export function validateDuoConfig(raw){
   if(raw.weekly){
    const policy=validateDuoPolicy({...raw,anchor:raw.weekly.recruitStartsAt});
    result.weekly={sequence:integer(raw.weekly.sequence,1,2147483646,'시즌 회차'),policyRevision:integer(raw.weekly.policyRevision,0,2147483646,'운영 버전'),recruitStartsAt:date(raw.weekly.recruitStartsAt)};
-   result.rewards=policy.rewards;result.tiers=policy.tiers;result.challenger=policy.challenger;
+   result.rankedRewardVersion=policy.rankedRewardVersion;result.rewards=policy.rewards;result.tiers=policy.tiers;result.challenger=policy.challenger;
    // The first recruitment was opened before the weekly worker was deployed.
    result.automatic=raw.automatic===true;
   }

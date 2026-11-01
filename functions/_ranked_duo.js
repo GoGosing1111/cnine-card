@@ -1,3 +1,4 @@
+import {rankedTierReward,RANKED_REWARD_VERSION} from '../shared/ranked-shop-policy-v1.mjs';
 import {pvpPolicySnapshot,pvpReplayInput} from '../shared/pvp-power-balance-v1.mjs';
 import {collectionRewardCoin} from './_collection_bonuses.js';
 import {loadPetBattleSnapshot} from './_pet_account.js';
@@ -345,7 +346,7 @@ export async function handleRankedDuo({path,request,env,deps}){
   }else if(path==='ranked-duo/status'&&request.method==='GET')data=await duoStatus(env,user,s,now);
   else if(path==='ranked-duo/rewards'&&request.method==='GET'){
    const ready=await p('SELECT value FROM app_meta WHERE key=?',DUO_WEEKLY_SCHEMA_KEY).first();
-   data={rewards:ready?(await p('SELECT r.*,s.config_json FROM ranked_duo_rewards_v3 r JOIN ranked_duo_seasons_v1 s ON s.id=r.season_id WHERE r.user_id=? ORDER BY r.credited_at DESC LIMIT 6',user.id).all()).results.map(r=>({seasonName:JSON.parse(r.config_json).name,tierName:r.tier_name,rank:Number(r.final_rank),coin:Number(r.reward_coin),shards:Number(r.reward_shards),creditedAt:r.credited_at})):[]};
+   data={rewards:ready?(await p('SELECT r.*,s.config_json FROM ranked_duo_rewards_v3 r JOIN ranked_duo_seasons_v1 s ON s.id=r.season_id WHERE r.user_id=? ORDER BY r.credited_at DESC LIMIT 6',user.id).all()).results.map(r=>({seasonName:JSON.parse(r.config_json).name,tierName:r.tier_name,rank:Number(r.final_rank),coin:Number(r.reward_coin),shards:Number(r.reward_shards),rankedCoins:JSON.parse(r.config_json).rankedRewardVersion===RANKED_REWARD_VERSION&&JSON.parse(r.config_json).rewards?.tierEnabled?rankedTierReward(r.tier_id,'DUO').rankedCoins:0,creditedAt:r.credited_at})):[]};
   }
   else if(path==='ranked-duo/join'&&request.method==='POST')data=await join(env,user,s,deps,now);
   else if(path==='ranked-duo/join'&&request.method==='DELETE')data=await cancel(env,user,s,now);
