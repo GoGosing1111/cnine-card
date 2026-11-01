@@ -256,7 +256,7 @@ test('PostgreSQL daily reset and draw use the real adapter, preserve balances on
 test('daily eligibility excludes OWNER-only, inactive, banned and removed accounts; receipt failure rolls everything back',async()=>{
  const f=await fixture();enableDaily(f);
  f.sqlite.exec("UPDATE users SET status='BANNED' WHERE id=3; UPDATE users SET banned_until='2099-01-01' WHERE id=4; DELETE FROM soopketland_accounts WHERE user_id=5");
- const result=await issueDailyLandTickets(f.db);assert.equal(result.issued,1);
+ const result=await issueDailyLandTickets(f.db);assert.equal(result.issued,2);
  for(const id of [1,3,4,5,20])assert.equal(f.qty(LAND_TICKET,id),0);
  const g=await fixture();enableDaily(g);
  g.sqlite.exec("CREATE TRIGGER daily_fault BEFORE INSERT ON soopketland_actions WHEN NEW.action='DAILY_GRANT' BEGIN SELECT RAISE(ABORT,'daily receipt offline'); END");
@@ -278,9 +278,9 @@ test('state and spin recover a delayed daily scheduler, grant no eleventh ticket
  assert.equal(f.sqlite.prepare('SELECT used_count FROM soopketland_coupons WHERE code=?').get(first.body.code).used_count,150);
 });
 
-test('revoked Heeya, Juseong and Ayun stay blocked after repeated OWNER visits and daily issuance',async t=>{
+test('revoked Juseong and Ayun stay blocked after OWNER visits and daily issuance while Heeya keeps access',async t=>{
   const f=await fixture();t.after(()=>f.sqlite.close());
-  const targets=[['하이희야♡',4977],['주성',5393],['김아윤',5209]].map(([name,fallback])=>{
+  const targets=[['주성',5393],['김아윤',5209]].map(([name,fallback])=>{
     let user=f.sqlite.prepare('SELECT id FROM users WHERE nickname=?').get(name);
     if(!user){f.sqlite.prepare('INSERT INTO users(id,nickname) VALUES(?,?)').run(fallback,name);user={id:fallback};}
     f.sqlite.prepare('INSERT INTO soopketland_accounts(slot,user_id,bound_at) VALUES(?,?,?) ON CONFLICT(slot) DO NOTHING').run(name,user.id,new Date().toISOString());
@@ -300,10 +300,14 @@ test('revoked Heeya, Juseong and Ayun stay blocked after repeated OWNER visits a
   assert.deepEqual(f.sqlite.prepare('SELECT * FROM cnine_user_inventory ORDER BY user_id,item_code').all(),inventory);
   assert.deepEqual(f.sqlite.prepare('SELECT * FROM soopketland_ticket_lots ORDER BY id').all(),lots);
   f.current.id=2;assert.equal((await f.call('access')).body.allowed,true);
+  f.current.id=f.sqlite.prepare("SELECT id FROM users WHERE nickname='하이희야♡'").get().id;
+  assert.equal((await f.call('access')).body.allowed,true);
+  assert.equal((await issueDailyLandTickets(f.db,{userId:f.current.id})).issued,1);
+  assert.equal(f.qty(LAND_TICKET,f.current.id),10);
 });
 
-test('private stable ID access binds four seed accounts; OWNER allowed; rename does not transfer access',async()=>{
-  const f=await fixture();assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM soopketland_accounts').get().n,4);
+test('private stable ID access binds exactly five accounts; OWNER allowed; rename does not transfer access',async()=>{
+  const f=await fixture();assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM soopketland_accounts').get().n,5);
   f.current.id=20;assert.equal((await f.call()).status,403);assert.equal((await f.call('access')).body.allowed,false);
   f.sqlite.exec("UPDATE users SET nickname='변경된 이름' WHERE id=2; UPDATE users SET nickname='진짜디임' WHERE id=20");
   f.current.id=1;await f.call();f.current.id=2;assert.equal((await f.call()).status,200);f.current.id=20;assert.equal((await f.call()).status,403);
