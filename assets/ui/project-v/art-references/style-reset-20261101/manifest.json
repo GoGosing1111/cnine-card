@@ -1,7 +1,7 @@
 {
   "format": "PROJECT_V_STYLE_STANDARD_RESET_V2",
   "dateKST": "2026-11-01",
-  "status": "USER_SPECIFIED_STYLE_STANDARD",
+  "status": "USER_APPROVED_STYLE_STANDARD",
   "userDirective": "용병일러스트 작화 변경 기준점 다시 잡아",
   "styleName": "정돈된 2D 캐릭터 선화 + 큰 명암 면 + 절제된 페인터리 마감",
   "references": [
@@ -39,5 +39,31 @@
     "Hand anatomy and weapon construction",
     "Separate sourceArt and battleSprite approvals"
   ],
-  "productionEnabled": false
+  "productionEnabled": false,
+  "latestUserDirective": "좋다 앞으로 이렇게 규정으로 올려라",
+  "approval": {
+    "dateKST": "2026-11-01",
+    "userQuote": "좋다 앞으로 이렇게 규정으로 올려라",
+    "approvedVersion": "v2",
+    "approvedFile": "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v2.png",
+    "sha256": "165977598b1ef142f279a5da23e5399c809cd40b5f208144ebb100a00bd78bd8",
+    "scope": [
+      "V2 retouch visual approval",
+      "Concrete finish reference for future mercenary illustration and requested retouch"
+    ],
+    "runtimeReplacementAuthorized": false
+  },
+  "approvedStyleExamples": [
+    {
+      "file": "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v2.png",
+      "version": "v2",
+      "sha256": "165977598b1ef142f279a5da23e5399c809cd40b5f208144ebb100a00bd78bd8",
+      "width": 1024,
+      "height": 1536,
+      "pngColorType": 2,
+      "role": "Approved finish reference: clean contours, continuous skin shading, large cloth folds, restrained detail density and unified 2D material rendering.",
+      "userVisualApproval": true,
+      "readBeforeNewIllustrationOrRetouch": true
+    }
+  ]
 }

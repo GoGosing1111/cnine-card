@@ -1,7 +1,7 @@
 {
   "format": "PROJECT_V_ILLUSTRATION_RETOUCH_V1",
   "dateKST": "2026-11-01",
-  "status": "RETOUCH_COMPLETE_USER_REVIEW_PENDING",
+  "status": "USER_APPROVED_RETOUCH_AND_STYLE_EXEMPLAR",
   "userDirective": "이거 리터치해봐 작화 지저분하니까",
   "tool": "built-in image_gen.imagegen",
   "mode": "style-transfer edit",
@@ -53,7 +53,7 @@
     "pngColorType": 2,
     "originalGeneratedBytesPreserved": true
   },
-  "userVisualApproval": false,
+  "userVisualApproval": true,
   "productionEnabled": false,
   "iterations": [
     {
@@ -69,7 +69,9 @@
         "originalGeneratedBytesPreserved": true
       },
       "promptFile": "output/imagegen/mercenary-white-coat-retouch-20261101/prompt-v1.txt",
-      "visualReview": "Cleaner contours and clearer ornament construction, but fragmented abdominal and dark cloth shading remained; retained as history."
+      "visualReview": "Cleaner contours and clearer ornament construction, but fragmented abdominal and dark cloth shading remained; retained as history.",
+      "userVisualApproval": false,
+      "approvedAsStyleExemplar": false
     },
     {
       "output": {
@@ -85,7 +87,9 @@
       },
       "promptFile": "output/imagegen/mercenary-white-coat-retouch-20261101/prompt-v2.txt",
       "prompt": "Use case: style-transfer, targeted refinement of the attached illustration.\nImage 1 is the EDIT TARGET: the previous clean retouch of the black-haired braided muscular warrior in the white gold-trimmed coat.\nImage 2 is the ORIGINAL identity and design reference only.\nImage 3 (blue-armored white-haired swordsman) and Image 4 (red-haired man in white coat) are style references ONLY.\n\nMake ONE focused change: REDUCE THE FRAGMENTED INTERNAL SHADING AND VISUAL NOISE so the image reads as deliberate, elegant finished 2D RPG art. The previous edit is sharper but the abdomen still has too many patchwork triangular shadow facets and the black fabric has too many small angular facets. Fix this clearly.\n\nIn the same pose and anatomy, repaint the skin into broad, coherent smoothly modeled forms, like Image 3's chest and abdomen. Preserve muscle volume, but use continuous soft transitions with a few purposeful crisp edges. No mosaic, polygonal planes, hammered-stone muscles, tiny repeated highlight triangles or scratch-texture skin. Let each pectoral and abdominal muscle be one calmly modeled form. Keep all existing distinctive black tattoos and dark eye markings; render them cleanly without multiplying fine scratch lines.\nSimplify only the rendering of black fabric into large, long flowing folds with quiet near-solid dark areas, as confidently organized as Image 4's trousers. Retain the torn garment silhouette and principal layers, but remove small chaotic triangular shade fragments within them.\nQuiet the loose hair: retain long black flowing hair and the exact braid, but collect stray crossing threads into naturally continuous soft locks with a few chosen flyaways. Do not make plate-like hair layers. Keep white coat areas smooth and clean with the already-established gold decoration; do not add details.\n\nEverything else in Image 1 is LOCKED: same adult male identity, stern face, dark eye marking, exact body proportions and pose, hair length and braid placement, same muscular build and chest tattoo, draped white coat, epaulettes and main chains, black garments, ankle wraps, bare feet, single sheathed sword diagonal across his front with its existing complete aligned rigid structure and support-hand position. Same full-body framing, white background, small ground shadow and white/black/muted gold palette. Keep the existing vertical black coat text exactly \"正\" above \"義\". Do not add props, scenery, effects, hat, UI, border, watermark or other text. No photographic skin, 3D render, flat childish cartoon, change of design, or blur filter.\n\nDeliver one polished finished 2:3 vertical image, 1024 x 1536 or higher, not a comparison. Everything including hair, coat, feet and sword stays inside the canvas. The result must visibly have calmer larger light and shadow shapes while retaining crisp readable contours and appealing character detail.\n",
-      "visualReview": "Selected review version: smoother connected torso shading, larger dark fabric folds, clearer face, hair, coat and ornament contours."
+      "visualReview": "Selected review version: smoother connected torso shading, larger dark fabric folds, clearer face, hair, coat and ornament contours.",
+      "userVisualApproval": true,
+      "approvedAsStyleExemplar": true
     }
   ],
   "visualQA": {
@@ -104,9 +108,21 @@
     ],
     "remainingNotes": [
       "Generated retouch, not pixel-identical identity preservation.",
-      "Fine decoration and garment markings are redrawn; user visual review remains pending."
+      "Fine decoration and garment markings are redrawn in the V2 retouch approved by the user on 2026-11-01."
     ],
     "inGameFrameReviewPerformed": false,
-    "userApproved": false
+    "userApproved": true
+  },
+  "approval": {
+    "dateKST": "2026-11-01",
+    "userQuote": "좋다 앞으로 이렇게 규정으로 올려라",
+    "approvedVersion": "v2",
+    "approvedFile": "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v2.png",
+    "sha256": "165977598b1ef142f279a5da23e5399c809cd40b5f208144ebb100a00bd78bd8",
+    "scope": [
+      "V2 retouch visual approval",
+      "Concrete finish reference for future mercenary illustration and requested retouch"
+    ],
+    "runtimeReplacementAuthorized": false
   }
 }
