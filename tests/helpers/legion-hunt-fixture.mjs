@@ -7,7 +7,7 @@ import {LEGION_HUNT_REVIEW_FIXTURE} from '../../shared/legion-hunt-review-fixtur
 import {buildPreviewDeck,BATTLE_SUIT} from '../../preview/idle-v3-v1/source/idle-model.mjs';
 import {MERCENARY_CMS_SEED} from '../../functions/_mercenary_cms_seed.js';
 import {SNIPER_ORIKKUNG_BALANCE} from '../../shared/mercenary-sniper-orikkung-v1.mjs';
-export async function legionFixture({postgres=false,withMercenary=false,regions=false}={}){
+export async function legionFixture({postgres=false,withMercenary=false,regions=false,inventoryBigInt=false}={}){
   let sql,pg,DB,failure='',queries=[],lostReply=false;
   if(postgres){
     pg=new PGlite();await pg.exec("CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')$$;");
@@ -26,7 +26,7 @@ export async function legionFixture({postgres=false,withMercenary=false,regions=
     CREATE TABLE cards_effective_v1210(id TEXT PRIMARY KEY,title TEXT,rarity TEXT,image_url TEXT,member_id INTEGER,is_active INTEGER,card_status TEXT);
     CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT UNIQUE,role TEXT DEFAULT 'USER',status TEXT DEFAULT 'ACTIVE',coin BIGINT DEFAULT 0,card_shards INTEGER DEFAULT 0,magic_crystals INTEGER DEFAULT 0);
     CREATE TABLE coin_logs(user_id INTEGER,change_amount BIGINT,balance_after BIGINT,reason TEXT);
-    CREATE TABLE cnine_user_inventory(user_id INTEGER,item_code TEXT,quantity INTEGER,unseen_quantity INTEGER,created_at TEXT,updated_at TEXT,PRIMARY KEY(user_id,item_code));
+    CREATE TABLE cnine_user_inventory(user_id INTEGER,item_code TEXT,quantity ${postgres&&inventoryBigInt?'BIGINT':'INTEGER'},unseen_quantity ${postgres&&inventoryBigInt?'BIGINT':'INTEGER'},created_at TEXT,updated_at TEXT,PRIMARY KEY(user_id,item_code));
     CREATE TABLE inventory_logs(user_id INTEGER,item_code TEXT,change_amount INTEGER,balance_after INTEGER,reason TEXT,reference_type TEXT,reference_id TEXT);
     CREATE TABLE user_cards(user_id INTEGER,card_id TEXT,quantity INTEGER,last_obtained_at TEXT,PRIMARY KEY(user_id,card_id));
     CREATE TABLE user_equipment_instances(id ${postgres?'SERIAL PRIMARY KEY':'INTEGER PRIMARY KEY AUTOINCREMENT'},user_id INTEGER,equipment_id INTEGER,source_type TEXT,source_id TEXT,request_id TEXT UNIQUE);

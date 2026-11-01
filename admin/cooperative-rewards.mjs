@@ -1,4 +1,4 @@
-import {COOP_DIFFICULTIES} from '../shared/cooperative-battleground-v1.mjs';
+import {COOP_ALL_DIFFICULTIES as COOP_DIFFICULTIES} from '../shared/cooperative-battleground-v1.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=(name,label,value,max)=>`<label>${label}<input type="number" name="${name}" value="${value}" min="0" max="${max}" step="1" required></label>`;
 export function cooperativeRewardsMarkup(rewards,catalog){

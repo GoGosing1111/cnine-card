@@ -1,0 +1,92 @@
+✔ energy refills at exactly three hours, never at midnight, and cannot bank time above capacity (1.6613ms)
+✔ SQLite: old cooperative quota converts once, shared across difficulties and dates (8.8118ms)
+✔ SQLite: three-player entry is atomic, replay safe, and reward no longer consumes a daily quota (19.7852ms)
+✔ SQLite: entry failure rolls all debits back; receipt and later reward survive lost acknowledgement (4.5205ms)
+✖ SQLite: legion energy persists, regenerates, refunds once before coins, and keeps supporter capacity (287.0376ms)
+✔ PostgreSQL: old cooperative quota converts once, shared across difficulties and dates (2165.157ms)
+✔ PostgreSQL: three-player entry is atomic, replay safe, and reward no longer consumes a daily quota (1685.1323ms)
+✔ PostgreSQL: entry failure rolls all debits back; receipt and later reward survive lost acknowledgement (1042.1044ms)
+✖ PostgreSQL: legion energy persists, regenerates, refunds once before coins, and keeps supporter capacity (1074.5647ms)
+✔ concurrent cooperative rooms cannot spend the same three energy charges twice (5.3298ms)
+✔ new encounter has dedicated boss, separated art and scene; no Lich resources (52.3397ms)
+✔ all normal enemies, then the shielded miniboss, then Arke; party resources carry across both boundaries (49.7947ms)
+✔ three authenticated owners must respond; shared input state and a single rupture after deadline (44.5424ms)
+✔ missing input overloads once; stale and unauthorized commands cannot alter the result (32.4692ms)
+✔ focus assigns guard to the target and jamming to two allies; all three actions reduce damage (48.5756ms)
+✔ leaving during a pattern removes only that squad from the requirement and defeats that owner (61.1568ms)
+✔ past battle payloads survive deployment without acquiring new mechanics (25.679ms)
+✔ server simulation rejects unbounded or fabricated outcomes (2.4912ms)
+✔ 3 owners each contribute exactly 2 cards and 1 mercenary; IDs and owner link stay independent (61.8647ms)
+✔ different players may use the same owned card/mercenary without actor collisions (18.8198ms)
+✔ selection rejects duplicates, missing mercenary, 5-card contracts, and 2 superstars (1.1794ms)
+✔ 3 ready then 3 loaded starts a single shared timestamp; a late loader holds everyone (46.9814ms)
+✔ changing selection clears ready; fourth player, outsider, and post-start editing are rejected (24.9854ms)
+✔ lobby refresh clears ready, transfers host on leave, and never defeats the player (0.8649ms)
+✔ lobby heartbeat expiry removes absent members and transfers host without defeat (0.4986ms)
+✔ refresh during loading or battle defeats only that owner and removes exactly their 3 actors (100.4442ms)
+✔ same-screen reconnect within grace is accepted; absence after 15 seconds forfeits once (60.7512ms)
+✔ withdrawal keeps the exact authoritative prefix and removes all later actions by the owner (35.5589ms)
+✔ server expiry resolves before victory and cannot award a victory after departure (40.2001ms)
+✔ difficulty is fixed and clearing requires a dead boss, not a higher HP ratio (59.7016ms)
+✔ legacy daily document compatibility, validated rewards and no implicit draft activation (3.1127ms)
+✔ SQLite legacy running rooms settle once across midnight without a new daily limit (19.8592ms)
+✔ PostgreSQL legacy running rooms settle once across midnight without a new daily limit (2497.6361ms)
+✔ SQLite later participant failure rolls back all balances, counters, receipt and logs (4.2564ms)
+✔ PostgreSQL later participant failure rolls back all balances, counters, receipt and logs (1509.8602ms)
+✔ concurrent legacy terminal rooms cannot duplicate a reward receipt (14.352ms)
+✔ public summaries expose only lobby details and disappear at start/expiry (2.6463ms)
+✔ real directory: authenticated listing, filters, creation retry, joining, host transfer, full rooms and start removal (2633.4165ms)
+✔ real directory removes an abandoned lobby when its heartbeat expires (16233.3184ms)
+✔ 30 new floors: ascending safe powers, ordinary rewards per floor, exact 30% per decade, separate guardian rewards (5.8314ms)
+✔ stale, missing, overlapping or altered baseline requires a fresh review (4.3678ms)
+✔ local PostgreSQL activation is atomic, append-only, protected by hashes, and replay performs zero writes (2399.1136ms)
+✔ actual operating routes: 120 completion opens 121, two Lv.21 actors settle new rewards once, 150 completes and 151 is refused (2354.1825ms)
+✔ level and composition affect combat while every new encounter has 28 unique units and one-floor progression (131.8323ms)
+ℹ tests 44
+ℹ suites 0
+ℹ pass 42
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19750.2471
+
+✖ failing tests:
+
+test at tests\content-energy-20261020.test.mjs:78:2
+✖ SQLite: legion energy persists, regenerates, refunds once before coins, and keeps supporter capacity (287.0376ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + undefined
+  - false
+
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/tests/content-energy-20261020.test.mjs:96:11)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\content-energy-20261020.test.mjs:78:2
+✖ PostgreSQL: legion energy persists, regenerates, refunds once before coins, and keeps supporter capacity (1074.5647ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + undefined
+  - false
+
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/tests/content-energy-20261020.test.mjs:96:11)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,6 +1,6 @@
 (() => {
  'use strict';
- const VERSION='dual-mercenary-content-audit-20261028-v1-20261018-jokro-coop-v1-normal-view-v1-leonel-live-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1';
+ const VERSION='coop-transcend-favorites-two-player-20261102-v1';
  let visible=false,controller=null,revision=0,featureRequest,checked=0,loading=false;
  const host=()=>document.getElementById('pveCoopView');
  async function refresh(){
@@ -8,14 +8,14 @@
   if(Date.now()-checked<15000){tab.hidden=!visible;return visible;}
   if(featureRequest)return featureRequest;
   featureRequest=(async()=>{
-   try{const {jointAccountRequest}=await import('/js/joint-account-transport.mjs');const f=await jointAccountRequest('coop/feature');visible=f.visible;checked=Date.now();tab.querySelector('small').textContent=f.mode==='TEST'?'3인 · 테스트':'3인 · 공동 전투';}
+   try{const {jointAccountRequest}=await import('/js/joint-account-transport.mjs');const f=await jointAccountRequest('coop/feature');visible=f.visible;checked=Date.now();tab.querySelector('small').textContent=f.mode==='TEST'?'2~3인 · 테스트':'2~3인 · 공동 전투';}
    catch{visible=false;}finally{tab.hidden=!visible;featureRequest=null;}return visible;
   })();return featureRequest;
  }
  function deactivate(){revision++;loading=false;controller?.destroy();controller=null;if(host()){host().hidden=true;host().replaceChildren();}}
  async function open(){
   const root=host();if(!root||controller||loading)return;
-  const current=++revision;loading=true;root.hidden=false;root.innerHTML='<div class="pvev2-loading" role="status"><i></i><b>격전지에 연결 중</b><span>심층 제련소 · 3인 공동 전투</span></div>';
+  const current=++revision;loading=true;root.hidden=false;root.innerHTML='<div class="pvev2-loading" role="status"><i></i><b>격전지에 연결 중</b><span>심층 제련소 · 2~3인 공동 전투</span></div>';
   try{
    if(!await refresh())throw Error('격전지는 현재 테스트 참여자에게만 열려 있습니다.');
    if(current!==revision)return;

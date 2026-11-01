@@ -2,6 +2,17 @@ import {buildMonsterFighter,publicFighter} from './_battle_v2_preview.js';
 import {COOP_ENCOUNTER,COOP_STAGES} from '../shared/cooperative-battleground-v1.mjs';
 import {validateCoopRoster,coopSpecies,coopEnemyTraits} from '../shared/cooperative-roster-v3.mjs';
 const BASE='/assets/ui/cooperative-arke-v1/';
+function buildCoopMonster(monster,difficulty){
+ const fighter=buildMonsterFighter(monster);
+ // Only the new tier honors its reviewed CMS HP range above the generic 1200%.
+ // Preserve the species multiplier and proportional starting shield together.
+ if(difficulty==='TRANSCEND'&&monster.pve_hp_percent>1200){
+  const scale=monster.pve_hp_percent/1200;
+  for(const key of ['hp','maxHp','shield','maxShield'])fighter[key]=Math.round(fighter[key]*scale);
+  fighter.pveBuffs.difficultyHpPercent=monster.pve_hp_percent;
+ }
+ return fighter;
+}
 // A room captures its CMS budgets. Ally HP, shields, cooldowns and surviving units are
 // carried by the common reinforcement simulator, never rebuilt between waves.
 export function cooperativeEnemies(config,profiles=null,stages=COOP_STAGES,roster=null){
@@ -19,7 +30,7 @@ export function cooperativeEnemies(config,profiles=null,stages=COOP_STAGES,roste
   image:s.finalBoss?COOP_ENCOUNTER.sourceArt:BASE+s.sprite,battleSprite:BASE+s.sprite,
   projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'COOP_'+s.key,primaryUrl:BASE+s.sprite,pngFallbackUrl:BASE+s.sprite,footAnchor:{x:.5,y:s.finalBoss?.94:.9},scaleMultiplier:1,objectFit:'contain',objectPosition:'50% 100%'},
   ...(saved?{battle_power:saved.power,pve_hp_percent:saved.hpPercent,pve_attack_percent:saved.attackPercent,pve_defense_percent:saved.defensePercent,pve_shield_percent:saved.shieldPercent,pve_attack_count:saved.attackCount}:{} )};});
- const fighters=monsters.map((m,i)=>({...buildMonsterFighter(m),id:`B:${specs[i].slot}:COOP:${specs[i].key}`,slot:specs[i].slot,
+ const fighters=monsters.map((m,i)=>({...buildCoopMonster(m,config.id),id:`B:${specs[i].slot}:COOP:${specs[i].key}`,slot:specs[i].slot,
   encounterWave:specs[i].wave,encounterAfterClear:specs[i].wave>1,finalBoss:!!specs[i].finalBoss,battleSprite:m.battleSprite,
   projectVMonsterArt:m.projectVMonsterArt,displayHeight:specs[i].height}));
  return {monster:monsters.at(-1),initial:fighters.slice(0,3),pending:fighters.slice(3),encounter:{
@@ -43,7 +54,7 @@ function randomEnemies(config,profiles,stages,roster){
    pve_attack_count:saved?.attackCount??(wave>1?config.attackCount:1),
    pve_forced_action_every:config.forcedEvery,attackStyle:spec.style,image:spec.art,battleSprite:spec.art,
    projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'COOP_'+spec.id,primaryUrl:spec.art,pngFallbackUrl:spec.art,footAnchor:{x:.5,y:.95},scaleMultiplier:1,objectFit:'contain',objectPosition:'50% 100%'}};
-  monsters.push(monster);const fighter=buildMonsterFighter(monster);
+  monsters.push(monster);const fighter=buildCoopMonster(monster,config.id);
   return {...fighter,id:`B:${i<3?i:1}:COOP3:${wave}:${spec.id}`,slot:i<3?i:1,
    encounterWave:wave,encounterAfterClear:wave>1,finalBoss:wave===3,battleSprite:spec.art,
    projectVMonsterArt:monster.projectVMonsterArt,displayHeight:wave===2?Math.round(spec.height*.8):spec.height,

@@ -1,9 +1,10 @@
+import {readCoopFavorites,saveCoopFavorite} from './_cooperative_favorites.js';
 import {COMPANION_RELEASE,COMPANION_PREPARATION_REVIEW as REVIEW} from '../shared/companion-loadout-v2.mjs';
 import {readAccountRank} from './_account_rank.js';
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {readJointBody,assertJointOrigin,jointError} from './_joint_request.js';
 import {readMercenaryDocument,readMercenaryRuntime,battleConfig,mercenaryAccountState,mercenarySnapshotPower,selectedMercenaryBattleSnapshots} from './_mercenary_account.js';
-import {COOP_DIFFICULTIES,COOP_RULES,COOP_DUAL_RULES,validCoopRoom,validCoopClient,validateCoopSelection} from '../shared/cooperative-battleground-v1.mjs';
+import {COOP_ALL_DIFFICULTIES,COOP_RULES,COOP_DUAL_RULES,validCoopRoom,validCoopClient,validateCoopSelection} from '../shared/cooperative-battleground-v1.mjs';
 import {coopSettings,cooperativeAdmin} from './_cooperative_settings.js';
 import {coopCombatSummary} from '../shared/cooperative-settings-v1.mjs';
 import {COOP_DIRECTORY} from '../shared/cooperative-room-list-v1.mjs';
@@ -71,17 +72,19 @@ export async function handleCooperative({path,request,env,deps}){
   const user=await deps.authenticate(request,env);if(!user)fail('LOGIN','로그인 후 입장하세요.',401);
   const config=await coopSettings(env),kind=path.replace(/^(?:admin\/)?coop\//,''),url=new URL(request.url);
   if(kind==='settings'||path.startsWith('admin/coop/'))return await cooperativeAdmin({kind,request,env,deps,user,config});
-  if(kind==='feature'&&request.method==='GET')return deps.json({ok:true,mode:config.mode,visible:user.role==='OWNER'||coopAccess(user,config),accessible:coopAccess(user,config),owner:user.role==='OWNER',rewardLocked:config.mode!=='ON'||config.rewardLocked,rewards:config.rewards,energy:await coopEnergy(env,user.id),rules:{...(COMPANION_RELEASE.dualMercenaries?COOP_DUAL_RULES:COOP_RULES),maxBattleMs:config.combat.maxBattleSeconds*1000},difficulties:COOP_DIFFICULTIES,configuration:coopCombatSummary(config.combat,config.revision)},200,{'cache-control':'no-store'});
+  const difficulties=COOP_ALL_DIFFICULTIES.filter(d=>config.combat.difficulties.some(row=>row.id===d.id)&&(d.id!=='TRANSCEND'||COMPANION_RELEASE.dualMercenaries));
+  if(kind==='feature'&&request.method==='GET')return deps.json({ok:true,mode:config.mode,visible:user.role==='OWNER'||coopAccess(user,config),accessible:coopAccess(user,config),owner:user.role==='OWNER',rewardLocked:config.mode!=='ON'||config.rewardLocked,rewards:config.rewards,energy:await coopEnergy(env,user.id),rules:{...(COMPANION_RELEASE.dualMercenaries?COOP_DUAL_RULES:COOP_RULES),maxBattleMs:config.combat.maxBattleSeconds*1000},difficulties,configuration:coopCombatSummary(config.combat,config.revision)},200,{'cache-control':'no-store'});
   if(!coopAccess(user,config))fail('CLOSED',config.mode==='OFF'?'격전지는 현재 운영 중지 상태입니다.':'격전지 테스트 참여자로 등록된 계정만 입장할 수 있습니다.',403);
+  if(kind==='favorites')return deps.json(await saveCoopFavorite({request,env,user,deps,owned:async(kind,id)=>kind==='card'?(await loadCoopOwnedCards(env,user,deps,[id])).length===1:(await mercenaryAccountState(env,user)).cards.some(m=>m.code===id&&m.canDeploy)}),200,{'cache-control':'no-store'});
   if(!env.COOP_ROOMS||!env.COOP_PLAYERS)fail('UNAVAILABLE','격전지 서버를 준비 중입니다.',503);
   if(kind==='rooms'&&request.method==='GET'){
    const difficulty=url.searchParams.get('difficulty')||'';
-   if(difficulty&&!COOP_DIFFICULTIES.some(d=>d.id===difficulty))fail('DIFFICULTY','난이도를 확인하세요.',400);
+   if(difficulty&&!difficulties.some(d=>d.id===difficulty))fail('DIFFICULTY','난이도를 확인하세요.',400);
    return response(deps,await env.COOP_PLAYERS.getByName(COOP_DIRECTORY).rooms(difficulty));
   }
   if(kind==='options'&&request.method==='GET'){
    const [cards,mercenaries]=await Promise.all([loadCoopOwnedCards(env,user,deps),mercenaryAccountState(env,user)]);
-   return deps.json({ok:true,cards,mercenaries:mercenaries.cards.filter(c=>c.canDeploy),you:Number(user.id),nickname:user.nickname,rewardLocked:config.mode!=='ON'||config.rewardLocked});
+   return deps.json({ok:true,cards,mercenaries:mercenaries.cards.filter(c=>c.canDeploy),you:Number(user.id),nickname:user.nickname,favorites:await readCoopFavorites(env,user),rewardLocked:config.mode!=='ON'||config.rewardLocked});
   }
   if(kind==='current'&&request.method==='GET'){
    const id=await playerStub(env,user).getRoom();if(!id)return deps.json({ok:true,state:null});
@@ -93,7 +96,7 @@ export async function handleCooperative({path,request,env,deps}){
   if(!validCoopClient(body.clientId)||typeof body.requestId!=='string'||!/^[-a-zA-Z0-9_]{8,100}$/.test(body.requestId))fail('INPUT','접속과 요청 정보를 확인하세요.',400);
   if(kind!=='create'&&!validCoopRoom(body.roomId))fail('ROOM','목록에서 참가할 대기방을 선택하세요.',400);
   return await deps.withUserMutationLock(env,user.id,path,async()=>{
-   if(['create','join','ready'].includes(kind)&&config.mode==='ON'){
+   if(['create','join','ready','start'].includes(kind)&&config.mode==='ON'){
     const energy=await coopEnergy(env,user.id);
     if(!energy.unlimited&&energy.current<1)fail('ENERGY_EMPTY','행동력이 부족합니다. 3시간마다 1회 충전 후 입장할 수 있습니다.');
    }
@@ -104,6 +107,7 @@ export async function handleCooperative({path,request,env,deps}){
     if(prior){const previous=await roomStub(env,prior).state(user,0);
      if(previous.ok&&['LOBBY','LOADING','ACTIVE'].includes(previous.state.status)&&!previous.state.myResult&&prior!==target)fail('ALREADY_JOINED','현재 대기방에서 먼저 나와주세요.');}
     if(kind==='create'){
+     if(!difficulties.some(d=>d.id===body.difficulty))fail('DIFFICULTY','아직 개방되지 않은 난이도입니다.',400);
      const id=target;
      const result=await roomStub(env,id).create({id,user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId,combat:config.combat,settingsRevision:config.revision,encounterVersion:config.encounterVersion===3?3:2,rewardPolicy:{...freezeCoopReward(config,body.difficulty),revealPolicy:await readRewardRevealPolicy(env,'COOP_'+body.difficulty)}});
      if(result.ok)await pointer.setRoom(id);return response(deps,result);
@@ -112,7 +116,7 @@ export async function handleCooperative({path,request,env,deps}){
     if(result.ok)await pointer.setRoom(body.roomId);return response(deps,result);
    }
    if(kind==='ticket')return response(deps,await roomStub(env,body.roomId).issueTicket({id:Number(user.id)},body.clientId));
-   if(!['select','ready','unready','leave','abandon'].includes(kind))fail('COMMAND','지원하지 않는 명령입니다.',400);
+   if(!['select','ready','unready','start','leave','abandon'].includes(kind))fail('COMMAND','지원하지 않는 명령입니다.',400);
    let selectionRules=COOP_RULES;
    if(COMPANION_RELEASE.dualMercenaries&&['select','ready'].includes(kind)){
     const current=await roomStub(env,body.roomId).state(user,0);

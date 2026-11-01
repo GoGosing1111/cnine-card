@@ -1,0 +1,25 @@
+✔ energy refills at exactly three hours, never at midnight, and cannot bank time above capacity (1.5286ms)
+✔ SQLite: old cooperative quota converts once, shared across difficulties and dates (6.9122ms)
+✔ SQLite: three-player entry is atomic, replay safe, and reward no longer consumes a daily quota (10.5048ms)
+✔ SQLite: entry failure rolls all debits back; receipt and later reward survive lost acknowledgement (4.0677ms)
+✔ PostgreSQL: old cooperative quota converts once, shared across difficulties and dates (1868.7741ms)
+✔ PostgreSQL: three-player entry is atomic, replay safe, and reward no longer consumes a daily quota (1488.3319ms)
+✔ PostgreSQL: entry failure rolls all debits back; receipt and later reward survive lost acknowledgement (1244.194ms)
+✔ concurrent cooperative rooms cannot spend the same three energy charges twice (5.814ms)
+✔ each authenticated participant carries their own server rank through ready and battle payload (1398.2667ms)
+✔ legacy loadouts have unknown ranks without affecting combat (67.0074ms)
+✔ three-squad tempo removes presentation waits without changing this fight outcomes or gauge order (97.0934ms)
+✔ heals and guard reactions add no global delay; mercenary skills no longer occupy zero-time slots (0.2678ms)
+✔ v3 withdrawal preserves already-shared timeline and removes only departing owner (44.8287ms)
+✔ new cooperative clock slows the shared cadence without changing action order or this battle result (40.1878ms)
+✔ server roster is deterministic, covers every species and never repeats a mob or the two bosses (57.2802ms)
+✔ new room publishes selected art/traits before ready; replays and withdrawals retain the same roster without QTE (97.8306ms)
+✔ ordinary effects counter shields and regen; poison can be cleansed without changing mercenary stats (0.6588ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5225.4907

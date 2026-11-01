@@ -1,4 +1,4 @@
-import {COOP_DIFFICULTIES,COOP_STAGES,COOP_PATTERNS,COOP_RULES} from './cooperative-battleground-v1.mjs';
+import {COOP_DIFFICULTIES,COOP_ALL_DIFFICULTIES,COOP_STAGES,COOP_PATTERNS,COOP_RULES} from './cooperative-battleground-v1.mjs';
 
 // Encounter identity, art and the three-wave order are fixed. CMS edits combat
 // values, never arbitrary actor IDs, assets or executable skill definitions.
@@ -26,18 +26,18 @@ const object=v=>v&&typeof v==='object'&&!Array.isArray(v);
 function num(v,min,max,label){if(typeof v!=='number'||!Number.isSafeInteger(v)||v<min||v>max)invalid(`${label}: ${min.toLocaleString()}~${max.toLocaleString()} 사이의 정수를 입력하세요.`);return v;}
 function str(v,max,label){if(typeof v!=='string'||!v.trim()||v.length>max||/[\u0000-\u001f]/.test(v))invalid(`${label}: 1~${max}자로 입력하세요.`);return v.trim();}
 export function validateCoopCombat(v){
- if(!object(v)||!object(v.patterns)||!Array.isArray(v.stages)||v.stages.length!==3||!Array.isArray(v.difficulties)||v.difficulties.length!==3)invalid('전투 설정의 세 단계와 세 난이도를 확인하세요.');
+ if(!object(v)||!object(v.patterns)||!Array.isArray(v.stages)||v.stages.length!==3||!Array.isArray(v.difficulties)||![3,4].includes(v.difficulties.length))invalid('전투 설정의 세 단계와 난이도를 확인하세요.');
  const p=v.patterns,patterns={firstSeconds:num(p.firstSeconds,1,60,'첫 기믹'),intervalSeconds:num(p.intervalSeconds,5,60,'기믹 간격'),count:num(p.count,1,6,'기믹 횟수'),rupturePercent:num(p.rupturePercent,0,60,'차단 성공 피해')};
  return {lobbySeconds:num(v.lobbySeconds,60,3600,'모집 시간'),maxBattleSeconds:num(v.maxBattleSeconds,30,180,'전투 제한 시간'),patterns,
   stages:v.stages.map((s,i)=>{if(!object(s)||s.wave!==i+1)invalid('단계 순서는 1 → 2 → 3입니다.');return {wave:i+1,name:str(s.name,30,'단계 이름'),hint:str(s.hint,180,'단계 안내')};}),
   difficulties:v.difficulties.map((d,i)=>{
-   if(!object(d)||d.id!==COOP_DIFFICULTIES[i].id||!Array.isArray(d.monsters)||d.monsters.length!==5)invalid('난이도별 몬스터 5종을 확인하세요.');
+   if(!object(d)||d.id!==COOP_ALL_DIFFICULTIES[i].id||!Array.isArray(d.monsters)||d.monsters.length!==5)invalid('난이도별 몬스터 5종을 확인하세요.');
    const responseSeconds=num(d.responseSeconds,3,15,'대응 시간');if(responseSeconds>=patterns.intervalSeconds)invalid('기믹 간격은 대응 시간보다 길어야 합니다.');
    return {id:d.id,recommendation:str(d.recommendation,100,'추천 편성'),forcedEvery:num(d.forcedEvery,1,12,'강제 행동 주기'),responseSeconds,
     overloadPercent:num(d.overloadPercent,0,60,'차단 실패 피해'),focusPercent:num(d.focusPercent,0,60,'집중 포화 피해'),
     monsters:d.monsters.map((m,j)=>{
      if(!object(m)||m.key!==COOP_MONSTERS[j].key)invalid('몬스터 종류와 순서를 확인하세요.');
-     return {key:m.key,power:num(m.power,1000,2000000000,'몬스터 전투력'),hpPercent:num(m.hpPercent,100,1200,'체력 배율'),attackPercent:num(m.attackPercent,100,1200,'공격 배율'),
+     return {key:m.key,power:num(m.power,1000,d.id==='TRANSCEND'?20000000000:2000000000,'몬스터 전투력'),hpPercent:num(m.hpPercent,100,d.id==='TRANSCEND'?12000:1200,'체력 배율'),attackPercent:num(m.attackPercent,100,1200,'공격 배율'),
       defensePercent:num(m.defensePercent,100,1200,'방어 배율'),shieldPercent:num(m.shieldPercent,0,300,'방벽 비율'),attackCount:num(m.attackCount,1,5,'연속 공격 횟수')};
     })};
   })};

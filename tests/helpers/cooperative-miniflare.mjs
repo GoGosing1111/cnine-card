@@ -10,17 +10,17 @@ import {fixture} from './cooperative-fixture.mjs';
 const root=fileURLToPath(new URL('../../',import.meta.url));
 const {Miniflare,Log,LogLevel}=miniflare,convertV4MiniflareOptions=miniflare.convertV4MiniflareOptions||((x)=>x);
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.json':'application/json','.css':'text/css','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.svg':'image/svg+xml','.woff2':'font/woff2','.mp3':'audio/mpeg','.ogg':'audio/ogg'};
-export async function cooperativeMiniflare({worker='tests/helpers/cooperative-worker.mjs'}={}){
+export async function cooperativeMiniflare({worker='tests/helpers/cooperative-worker.mjs',dualReview=false,assetFallback=null,preserveTemp=false}={}){
  const temp=await fs.mkdtemp(path.join(os.tmpdir(),'cooperative-qa-'));
  const compiled=await build({entryPoints:[path.join(root,worker)],bundle:true,format:'esm',platform:'browser',external:['cloudflare:workers'],write:false,
-  plugins:[{name:'isolated-d1-fixture',setup(b){b.onResolve({filter:/_postgres_d1_compat\.js$/},()=>({path:'postgres-not-bound',namespace:'coop-qa'}));b.onLoad({filter:/.*/,namespace:'coop-qa'},()=>({contents:"export function createPostgresD1Compat(){throw Error('PostgreSQL is not bound in the isolated D1 fixture')}"}));}}]});
+  plugins:[{name:'isolated-d1-fixture',setup(b){if(dualReview)b.onLoad({filter:/companion-loadout-v2\.mjs$/},async args=>({contents:(await fs.readFile(args.path,'utf8')).replace('dualMercenaries:false','dualMercenaries:true'),loader:'js'}));b.onResolve({filter:/_postgres_d1_compat\.js$/},()=>({path:'postgres-not-bound',namespace:'coop-qa'}));b.onLoad({filter:/.*/,namespace:'coop-qa'},()=>({contents:"export function createPostgresD1Compat(){throw Error('PostgreSQL is not bound in the isolated D1 fixture')}"}));}}]});
  const mf=new Miniflare(convertV4MiniflareOptions({script:compiled.outputFiles[0].text,modules:true,compatibilityDate:'2026-07-01',compatibilityFlags:['nodejs_compat'],cf:false,log:new Log(LogLevel.WARN),host:'127.0.0.1',port:0,
   bindings:{API_RUNTIME_KEY:Buffer.alloc(32,73).toString('base64')},d1Databases:{DB:'qa-cooperative'},d1Persist:path.join(temp,'db'),durableObjectsPersist:path.join(temp,'rooms'),
   durableObjects:{COOP_ROOMS:{className:'CooperativeRoom',useSQLite:true},COOP_PLAYERS:{className:'CooperativePlayer',useSQLite:true},USER_LOCK:{className:'UserMutationLock',useSQLite:true},ACCOUNT_SYNC:{className:'AccountSync',useSQLite:true}},
   serviceBindings:{ASSETS:async request=>{
    const pathname=decodeURIComponent(new URL(request.url).pathname),file=path.resolve(root,'.'+(pathname.endsWith('/')?pathname+'index.html':pathname));
    if(!file.startsWith(path.resolve(root)+path.sep))return new Response('Forbidden',{status:403});
-   try{return new Response(await fs.readFile(file),{headers:{'content-type':mime[path.extname(file)]||'application/octet-stream','cache-control':'no-store'}});}catch{return new Response('Not found',{status:404});}
+   let bytes;try{bytes=await fs.readFile(file);}catch{bytes=await assetFallback?.(path.relative(root,file).replaceAll('\\','/'));}return bytes?new Response(bytes,{headers:{'content-type':mime[path.extname(file)]||'application/octet-stream','cache-control':'no-store'}}):new Response('Not found',{status:404});
   }}
  }));
  const origin=(await mf.ready).origin;if(process.env.COOP_QA_DEBUG)console.log('QA worker ready',origin);
@@ -45,5 +45,5 @@ export async function cooperativeMiniflare({worker='tests/helpers/cooperative-wo
   const response=await fetch(origin+'/api/coop/'+kind,{method:body?'POST':'GET',headers:{authorization:id?'Bearer local-qa-'+id:'',origin,'content-type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
   return {status:response.status,...await response.json()};
  };
- return {mf,db,origin,temp,request,dispose:async()=>{await mf.dispose();const actual=await fs.realpath(temp),parent=await fs.realpath(os.tmpdir());if(path.dirname(actual)!==parent||!path.basename(actual).startsWith('cooperative-qa-'))throw Error('Refusing fixture cleanup outside its own temp directory');await fs.rm(actual,{recursive:true,force:true});}};
+ return {mf,db,origin,temp,request,dispose:async()=>{await mf.dispose();if(preserveTemp)return;const actual=await fs.realpath(temp),parent=await fs.realpath(os.tmpdir());if(path.dirname(actual)!==parent||!path.basename(actual).startsWith('cooperative-qa-'))throw Error('Refusing fixture cleanup outside its own temp directory');await fs.rm(actual,{recursive:true,force:true});}};
 }

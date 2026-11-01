@@ -1,0 +1,155 @@
+{
+  "status": "PREPARED_NOT_APPLIED",
+  "operationKey": "ops:coop-transcend:20261102:v1",
+  "beforeHash": "a7de6d6b24d81630c2948859d9989c4e20bd0583d9619c99c648127d493ab9c3",
+  "planHash": "20803e3820fdeae20e51729de6645ac1d97ac8b90a9a14cc95cdda61489e80f6",
+  "revision": 14,
+  "combat": {
+    "id": "TRANSCEND",
+    "recommendation": "각 분대 용병 2명·Lv.21 기준 · 최상위 카드·장비·보호·정화·화력 연계",
+    "forcedEvery": 2,
+    "responseSeconds": 5,
+    "overloadPercent": 36,
+    "focusPercent": 60,
+    "monsters": [
+      {
+        "key": "STALKER_A",
+        "power": 1296000000,
+        "hpPercent": 4800,
+        "attackPercent": 300,
+        "defensePercent": 150,
+        "shieldPercent": 0,
+        "attackCount": 3
+      },
+      {
+        "key": "STALKER_B",
+        "power": 1296000000,
+        "hpPercent": 4800,
+        "attackPercent": 300,
+        "defensePercent": 150,
+        "shieldPercent": 0,
+        "attackCount": 3
+      },
+      {
+        "key": "WATCHER",
+        "power": 1296000000,
+        "hpPercent": 4800,
+        "attackPercent": 300,
+        "defensePercent": 150,
+        "shieldPercent": 0,
+        "attackCount": 3
+      },
+      {
+        "key": "WARDEN",
+        "power": 10248000000,
+        "hpPercent": 6000,
+        "attackPercent": 300,
+        "defensePercent": 150,
+        "shieldPercent": 0,
+        "attackCount": 4
+      },
+      {
+        "key": "ARKE",
+        "power": 16200000000,
+        "hpPercent": 7200,
+        "attackPercent": 300,
+        "defensePercent": 150,
+        "shieldPercent": 0,
+        "attackCount": 4
+      }
+    ]
+  },
+  "reward": {
+    "id": "TRANSCEND",
+    "coin": 400000000000,
+    "masterStars": 4000000,
+    "items": [
+      {
+        "code": "EMPEROR_ENERGY",
+        "quantity": 2
+      },
+      {
+        "code": "PET_SEAL_ORB",
+        "quantity": 6
+      },
+      {
+        "code": "PET_POTENTIAL_POTION",
+        "quantity": 2
+      }
+    ]
+  },
+  "choicePolicy": {
+    "version": 1,
+    "revision": 1,
+    "enabled": true,
+    "minimum": {
+      "rewardType": "COIN",
+      "quantity": 30000000000,
+      "weight": 100
+    },
+    "entries": [
+      {
+        "rewardType": "MERCENARY",
+        "rewardRef": "V-048",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "MERCENARY",
+        "rewardRef": "V-046",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "MERCENARY",
+        "rewardRef": "V-021",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SUIT_CORE_5",
+        "quantity": 1,
+        "weight": 25,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SUIT_CORE_6",
+        "quantity": 1,
+        "weight": 5,
+        "enabled": true
+      }
+    ]
+  },
+  "choiceQuantityMultiplier": 2,
+  "dualMercenariesReleased": false,
+  "sourceBranch": "codex/tower-coop-prepare-20261102",
+  "towerPreparedCommit": "f1cdcaa0c469a133c39374b7ffc7a534afa9ee55",
+  "liveWrites": 0,
+  "liveDryRun": false
+}

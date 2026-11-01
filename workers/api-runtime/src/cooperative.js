@@ -154,7 +154,7 @@ export class CooperativeRoom extends DurableObject{
   // Persist timeouts even if the submitted command is rejected.
   const beforeSignal=JSON.stringify([room.status,room.battleRevision,room.pattern?.id,room.pattern?.status,room.members.map(m=>m.result)]);
   advanceCoopRoom(room,Date.now());this.save(room);
-  const signature=JSON.stringify([Number(user.id),kind,input.clientId,input.cardIds,input.mercenaryCode,input.patternId,input.action]);
+  const signature=JSON.stringify([Number(user.id),kind,input.clientId,input.cardIds,input.mercenaryCode,input.patternId,input.action,...(input.mercenaryCodes?[input.mercenaryCodes]:[])]);
   const prior=input.requestId&&room.receipts.find(r=>r.id===user.id+':'+input.requestId);
   if(prior&&prior.signature!==signature)return {ok:false,status:409,code:'COOP_REQUEST_CONFLICT',error:'같은 요청으로 다른 작업을 할 수 없습니다.'};
   try{

@@ -828,9 +828,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   for(const actor of [...a,...b])delete actor.isIconSummon;
   // Prepared cooperative rooms allow a second independently owned mercenary.
   const coopMercenaryLimit=companionReview||COMPANION_RELEASE.dualMercenaries?2:1;
-  if(cooperative && (a.length<9 || a.length>6+3*coopMercenaryLimit || new Set(a.map(c=>c.ownerId)).size!==3 ||
+  const coopOwnerCount=cooperative?new Set(a.map(c=>c.ownerId)).size:0;
+  if(cooperative && (coopOwnerCount<2 || coopOwnerCount>3 || a.length<coopOwnerCount*3 || a.length>coopOwnerCount*(2+coopMercenaryLimit) ||
     [...new Set(a.map(c=>c.ownerId))].some(id=>!Number.isSafeInteger(id)||id<=0||a.filter(c=>c.ownerId===id&&!c.isMercenary).length!==2||a.filter(c=>c.ownerId===id&&c.isMercenary).length<1||a.filter(c=>c.ownerId===id&&c.isMercenary).length>coopMercenaryLimit) ||
-    !maxCombatDurationMs || !Array.isArray(cooperative.withdrawals) || cooperative.withdrawals.length>3 ||
+    !maxCombatDurationMs || !Array.isArray(cooperative.withdrawals) || cooperative.withdrawals.length>coopOwnerCount ||
     cooperative.withdrawals.some(w=>!a.some(c=>c.ownerId===w.ownerId)||!Number.isFinite(w.atMs)||w.atMs<0)))throw Error('INVALID_COOPERATIVE_PARTY');
   const withdrawals=cooperative?[...cooperative.withdrawals].sort((x,y)=>x.atMs-y.atMs):[];
   const coopEffects=cooperative?cooperativeEffects(cooperative,[...new Set(a.map(c=>c.ownerId))],maxCombatDurationMs):[];

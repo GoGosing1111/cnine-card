@@ -31,12 +31,12 @@ export async function readCoopEntry(env,room){
  if(receipt.creationRequest!==room.creationRequest||JSON.stringify(receipt.userIds)!==JSON.stringify(ids))throw Error('Cooperative energy receipt collision');
  return receipt;
 }
-// One database transaction charges all three players or none. A durable room
+// One database transaction charges every departing player or none. A durable room
 // intent is persisted before this call, allowing restart/response-loss replay.
 export async function spendCoopEnergy(env,room,at=Date.now()){
  const prior=await readCoopEntry(env,room);if(prior)return prior;
  const userIds=room.members.map(m=>Number(m.id)).sort((a,b)=>a-b);
- if(userIds.length!==3||new Set(userIds).size!==3)throw Error('Invalid cooperative entry members');
+ if(userIds.length<(room.minPlayers||3)||userIds.length>3||new Set(userIds).size!==userIds.length||userIds.some(id=>!Number.isSafeInteger(id)||id<1))throw Error('Invalid cooperative entry members');
  await ensureJointAtomicSchema(env);
  for(let attempt=0;attempt<4;attempt++){
   const replay=await readCoopEntry(env,room);if(replay)return replay;

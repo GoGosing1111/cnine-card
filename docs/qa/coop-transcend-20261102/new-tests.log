@@ -1,0 +1,21 @@
+✔ prepared tier preserves every previous combat/reward row and doubles current extreme quantities (2.0527ms)
+✔ two-player departure requires both ready and the host; join locks at departure (103.4196ms)
+✔ three-player auto departure and old serialized room minimum remain intact; two players also work with one mercenary (38.7261ms)
+✔ upper-tier HP is applied beyond generic 1200% cap; previous tiers stay byte-identical (98.5894ms)
+✔ favorites persist per account/type, stay idempotent, require ownership and cap each type (57.4205ms)
+✔ SQLite two-player energy, doubled settlement, reveal claim and rollback are atomic and replay safe (11.434ms)
+✔ PostgreSQL two-player energy, doubled settlement, reveal claim and rollback are atomic and replay safe (1598.675ms)
+✔ choice reward multiplier doubles mercenary copies and fallback, without changing stored pool weights (1.5434ms)
+✔ activation dry run, every partial failure, stale hashes and SELECT-only replay preserve existing data (1003.1978ms)
+✔ SQLite CMS: OWNER gate, persistence, conflicts, legacy preservation and room snapshot (36.1234ms)
+✔ PostgreSQL CMS: OWNER gate, persistence, conflicts, legacy preservation and room snapshot (1540.25ms)
+✔ CMS numbers reach every wave, retain default balance, and remain frozen across battle rebuilds (108.6699ms)
+✔ CMS mechanic timing, window and damage are authoritative; invalid definitions fail before storage (22.7149ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3372.4195

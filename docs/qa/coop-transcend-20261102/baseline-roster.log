@@ -1,0 +1,53 @@
+✔ server roster is deterministic, covers every species and never repeats a mob or the two bosses (34.4925ms)
+✔ new room publishes selected art/traits before ready; replays and withdrawals retain the same roster without QTE (61.5201ms)
+✔ ordinary effects counter shields and regen; poison can be cleansed without changing mercenary stats (0.5032ms)
+✖ new settings validate; source originals and optimized transparent battle assets exist (1.5038ms)
+✖ latest released SSS limited compositions have measurable counterplay without an owner-only mercenary requirement (507.5471ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 614.3348
+
+✖ failing tests:
+
+test at ..\..\..\operations\coop-transcend-20261102\baseline-runtime.mjs:22679:1
+✖ new settings validate; source originals and optimized transparent battle assets exist (1.5038ms)
+  Error: ENOENT: no such file or directory, stat 'C:\Users\User\Downloads\upload\cnine-card\output\revan-live-20261027\release-checkout\assets\ui\cooperative-roster-v3\bastion-source.png'
+      at Object.statSync (node:fs:1734:25)
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-transcend-20261102/baseline-runtime.mjs:22685:18)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    errno: -4058,
+    code: 'ENOENT',
+    syscall: 'stat',
+    path: 'C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\assets\\ui\\cooperative-roster-v3\\bastion-source.png'
+  }
+
+test at ..\..\..\operations\coop-transcend-20261102\baseline-runtime.mjs:22690:1
+✖ latest released SSS limited compositions have measurable counterplay without an owner-only mercenary requirement (507.5471ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(balanced > offense + 8)
+
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-transcend-20261102/baseline-runtime.mjs:22703:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

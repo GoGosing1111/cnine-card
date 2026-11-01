@@ -1,0 +1,19 @@
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: js/app.js (14.0778ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: onestore/js/app.js (10.2463ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (9.7555ms)
+✔ classic colosseum background is confined to the explicitly tagged PVP replay (0.2095ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (3.7975ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (13.5683ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (13.4946ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (25.3953ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (3.2387ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (2.1592ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (0.7107ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1129.7018

@@ -8,7 +8,7 @@ import {COOP_RULES,COOP_ENCOUNTER,coopDifficulty} from '../shared/cooperative-ba
 
 export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withdrawals=[],effects=[],monsterSnapshot,combat,turnClockVersion=4,encounter=null,[REVIEW]:review=false,dualBalance=COOP_DUAL_BALANCE}){
  const config=typeof difficulty==='string'?coopDifficulty(difficulty):difficulty;
- if(!config||!Array.isArray(squads)||squads.length!==3||new Set(squads.map(s=>s.ownerId)).size!==3)throw Error('INVALID_COOPERATIVE_PARTY');
+ if(!config||!Array.isArray(squads)||squads.length<COOP_RULES.minPlayers||squads.length>COOP_RULES.players||new Set(squads.map(s=>s.ownerId)).size!==squads.length)throw Error('INVALID_COOPERATIVE_PARTY');
  const dual=review===true||COMPANION_RELEASE.dualMercenaries&&squads.some(s=>Array.isArray(s.mercenaries)),mercenariesPerOwner=dual?2:1;
  const cards=[],mercenaries=[],members=[];
  squads.forEach((squad,squadIndex)=>{

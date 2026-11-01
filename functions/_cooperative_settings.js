@@ -7,7 +7,9 @@ function normalize(raw){
  const base=defaultCoopSettings(),v=raw?JSON.parse(raw):base;
  if(!['OFF','TEST','ON'].includes(v.mode)||!Array.isArray(v.testUserIds)||!Number.isSafeInteger(v.revision))fail('CONFIG','격전지 설정을 확인하지 못했습니다.',503);
  const rewards=validateCoopRewards(v.rewards??defaultCoopRewards());
- return {...v,rewards,rewardLocked:!rewards.enabled,combat:v.combat?validateCoopCombat(v.combat):base.combat,economyDraft:v.economyDraft?validateCoopEconomy(v.economyDraft):base.economyDraft};
+ const combat=v.combat?validateCoopCombat(v.combat):base.combat;
+ if(combat.difficulties.length!==rewards.difficulties.length)fail('CONFIG','전투와 보상 난이도를 함께 확인하세요.',503);
+ return {...v,rewards,rewardLocked:!rewards.enabled,combat,economyDraft:v.economyDraft?validateCoopEconomy(v.economyDraft):base.economyDraft};
 }
 export async function coopSettings(env){const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(KEY).first();return normalize(row?.value);}
 async function testUsers(env,ids){return ids.length?(await env.DB.prepare('SELECT id,nickname FROM users WHERE id IN ('+ids.map(()=>'?').join(',')+') ORDER BY id').bind(...ids).all()).results.map(u=>({id:Number(u.id),nickname:u.nickname})):[];}
@@ -43,6 +45,7 @@ export async function cooperativeAdmin({kind,request,env,deps,user,config}){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(KEY).first(),fresh=normalize(row?.value);
   if(fresh.revision!==s.revision)fail('CONFIG_CONFLICT','다른 화면에서 설정이 변경됐습니다. 다시 불러온 뒤 저장하세요.',409);
   const nextRewards=rewards||fresh.rewards;
+  if((combat||fresh.combat).difficulties.length!==nextRewards.difficulties.length)fail('SETTINGS','새 난이도의 전투와 보상을 함께 설정하세요.');
   const next={encounterVersion:fresh.encounterVersion===3?3:2,mode:s.mode,testUserIds:s.testUserIds,revision:fresh.revision+1,rewards:nextRewards,rewardLocked:!nextRewards.enabled,combat:combat||fresh.combat,economyDraft:economy||fresh.economyDraft,updatedBy:Number(user.id),updatedAt:new Date().toISOString()};
   const raw=JSON.stringify(next),saved=row?
    await env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(raw,KEY,row.value).run():

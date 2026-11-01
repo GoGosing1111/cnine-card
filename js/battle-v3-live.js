@@ -436,7 +436,7 @@
     if(cooperative){
       const original=roster.querySelector('[data-v3-roster-side="A"]');
       roster.querySelector('[data-v3-roster-side="B"]').hidden=true;
-      for(let squad=0;squad<3;squad++){
+      for(let squad=0;squad<teams.A.members.length;squad++){
         const section=squad?original.cloneNode(true):original;
         if(squad){section.dataset.v3DuoExtra='1';roster.append(section);}
         const member=teams.A.members[squad];section.hidden=false;
@@ -444,7 +444,7 @@
         setRosterOwner(section.querySelector('[data-v3-roster-owner]'),member.ownerName,member);
         section.querySelector('[data-v3-roster-list]').innerHTML=teams.A.cards.filter(c=>c.squadIndex===squad).map((c,i)=>rosterCardHtml(c,i,catalog)).join('');
       }
-      roster.hidden=false;stage.classList.add('is-roster-visible');ensureRosterGeometry(roster);return 3;
+      roster.hidden=false;stage.classList.add('is-roster-visible');ensureRosterGeometry(roster);return teams.A.members.length;
     }
     if(duo){
       const originals=['A','B'].map(side=>roster.querySelector(`[data-v3-roster-side="${side}"]`));

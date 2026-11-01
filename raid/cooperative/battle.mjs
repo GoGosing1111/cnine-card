@@ -4,8 +4,8 @@ import {createServerClock} from '/shared/server-clock-v1.mjs?v=20261015-v1';
 // A live Jokro or Leonel area receipt supersedes that actor's queued basic animation.
 export async function mountCoopBattle(host,payload,{clock:sharedClock}={}){
  const clock=sharedClock||createServerClock(),live=window.ProjectVBattleV3Live;await live.ensureRuntime();
- const prepared=live.prepareLoading({modal:host,mode:'RAID',playerName:'격전지 연합',opponentName:payload.monster.name,autoText:'세 분대가 전장에 집결합니다'});
- host.classList.add('coop-battle-mount');prepared.stage.querySelector('.battle-v3-header strong').textContent='격전지(협동)';prepared.stage.querySelector('.battle-v3-header small').textContent='3인 공동 전투';
+ const prepared=live.prepareLoading({modal:host,mode:'RAID',playerName:'격전지 연합',opponentName:payload.monster.name,autoText:'함께한 분대가 전장에 집결합니다'});
+ host.classList.add('coop-battle-mount');prepared.stage.querySelector('.battle-v3-header strong').textContent='격전지(협동)';prepared.stage.querySelector('.battle-v3-header small').textContent=(payload.battleV2.teams.A.members?.length||3)+'인 공동 전투';
  // Keep the ordinary viewport below the cooperative HUD regardless of whether
  // a squad owns a talking mercenary. Dialogue must never resize this canvas.
  const portal=host.closest?.('.coop-battle-portal');let hudObserver;

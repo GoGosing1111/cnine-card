@@ -1,0 +1,28 @@
+✖ SQLite CMS: OWNER gate, persistence, conflicts, legacy preservation and room snapshot (29.2748ms)
+✖ PostgreSQL CMS: OWNER gate, persistence, conflicts, legacy preservation and room snapshot (1451.8086ms)
+✔ CMS numbers reach every wave, retain default balance, and remain frozen across battle rebuilds (125.4484ms)
+✔ CMS mechanic timing, window and damage are authoritative; invalid definitions fail before storage (26.1279ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1645.6574
+
+✖ failing tests:
+
+test at ..\..\..\operations\coop-transcend-20261102\baseline-runtime.mjs:25030:39
+✖ SQLite CMS: OWNER gate, persistence, conflicts, legacy preservation and room snapshot (29.2748ms)
+  TypeError: Cannot read properties of undefined (reading 'maxBattleSeconds')
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-transcend-20261102/baseline-runtime.mjs:25074:68)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3)
+
+test at ..\..\..\operations\coop-transcend-20261102\baseline-runtime.mjs:25030:39
+✖ PostgreSQL CMS: OWNER gate, persistence, conflicts, legacy preservation and room snapshot (1451.8086ms)
+  TypeError: Cannot read properties of undefined (reading 'maxBattleSeconds')
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-transcend-20261102/baseline-runtime.mjs:25074:68)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)

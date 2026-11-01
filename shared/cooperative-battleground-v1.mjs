@@ -1,4 +1,4 @@
-export const COOP_VERSION='20261002-arke-v2';
+export const COOP_VERSION='20261102-transcend-v1';
 export const COOP_ENCOUNTER=Object.freeze({id:'COOP_ARKE',version:2,name:'삼핵 거신 아르케',arena:'심층 제련소',sceneAssetKey:'COOP_ARKE_FORGE',
  sourceArt:'/assets/ui/cooperative-arke-v1/arke-source-art-v1.png',battleSprite:'/assets/ui/cooperative-arke-v1/arke-battle-sprite-v1.png',background:'/assets/ui/cooperative-arke-v1/forge-arena-v1.png'});
 export const COOP_STAGES=Object.freeze([
@@ -8,7 +8,7 @@ export const COOP_STAGES=Object.freeze([
 ]);
 export const COOP_PATTERNS=Object.freeze({firstAtMs:10000,intervalMs:30000,count:6,windowMs:{NORMAL:9000,HARD:8000,EXTREME:7000},
  rupturePercent:8,overloadPercent:{NORMAL:12,HARD:18,EXTREME:24},focusPercent:{NORMAL:40,HARD:50,EXTREME:60}});
-export const COOP_RULES=Object.freeze({players:3,cardsPerPlayer:2,mercenariesPerPlayer:1,lobbyMs:900000,loadingMs:45000,countdownMs:3000,heartbeatMs:1000,disconnectMs:15000,maxBattleMs:180000,rewardLocked:true});
+export const COOP_RULES=Object.freeze({players:3,minPlayers:2,cardsPerPlayer:2,mercenariesPerPlayer:1,lobbyMs:900000,loadingMs:45000,countdownMs:3000,heartbeatMs:1000,disconnectMs:15000,maxBattleMs:180000,rewardLocked:true});
 export const COOP_DUAL_RULES=Object.freeze({...COOP_RULES,mercenariesPerPlayer:2});
 // Fixed opponents, independent of the entering party's equipment/power.
 // Final values are checked by scripts/simulate-cooperative-battleground.mjs.
@@ -17,7 +17,10 @@ export const COOP_DIFFICULTIES=Object.freeze([
  {id:'HARD',name:'격전',subtitle:'조합의 증명',recommendation:'SSS 1명 + SS 2명 · 방어와 회복 권장',power:30000000,hpPercent:850,attackPercent:160,defensePercent:100,attackCount:2,forcedEvery:6},
  {id:'EXTREME',name:'극한',subtitle:'최정예의 도전',recommendation:'SSS 2~3명 · 고유효과와 용병 스킬 연계',power:60000000,hpPercent:1100,attackPercent:200,defensePercent:100,attackCount:2,forcedEvery:5}
 ]);
-export const coopDifficulty=id=>COOP_DIFFICULTIES.find(d=>d.id===id);
+// Only configured tiers are advertised by the API. Old CMS/room snapshots keep
+// their original three tiers; adding this metadata does not open the new tier.
+export const COOP_ALL_DIFFICULTIES=Object.freeze([...COOP_DIFFICULTIES,Object.freeze({id:'TRANSCEND',name:'초월',subtitle:'한계를 넘는 결전',recommendation:'각 분대 용병 2명·Lv.21 기준 · 최상위 카드·장비·조합 필수',power:1800000000,hpPercent:1200,attackPercent:180,defensePercent:120,attackCount:4,forcedEvery:2})]);
+export const coopDifficulty=id=>COOP_ALL_DIFFICULTIES.find(d=>d.id===id);
 export function validateCoopSelection(value,rules=COOP_RULES){
  if(rules.mercenariesPerPlayer===2){
   const codes=value?.mercenaryCodes;

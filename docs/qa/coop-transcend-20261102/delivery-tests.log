@@ -1,0 +1,27 @@
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: js/app.js (17.5735ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: onestore/js/app.js (15.5453ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (15.8204ms)
+✔ classic colosseum background is confined to the explicitly tagged PVP replay (0.3217ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (4.8962ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (24.5931ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (23.2599ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (50.3047ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (5.3076ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (3.1053ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (0.9792ms)
+✔ SQLite tower: server deadline, pending recovery, immutable encounter and exactly-once settlement (137.8838ms)
+✔ SQLite tower: defeat and interruption do not grant or reroll; transaction failure is recoverable (36.6921ms)
+✔ PostgreSQL tower: server deadline, pending recovery, immutable encounter and exactly-once settlement (1566.3293ms)
+✔ PostgreSQL tower: defeat and interruption do not grant or reroll; transaction failure is recoverable (1077.2858ms)
+✔ PostgreSQL tower: coin/progression/EXP roll back together and concurrent settlement cannot double-credit (1931.1879ms)
+✔ Tower: lost start/settlement acknowledgements recover the same compressed encounter (73.1167ms)
+✔ Tower: failed secondary grant resumes after the committed core without repeating earlier grants (90.986ms)
+✔ Tower: an administrative progress change cancels the stale battle without rewards or a stuck active slot (1180.8383ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6552.4603

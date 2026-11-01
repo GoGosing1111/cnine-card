@@ -16,7 +16,9 @@ const validId=id=>typeof id==='string'&&/^[a-f0-9-]{36}$/.test(id);
 export async function readRewardRevealPolicy(env,content){
  if(!rewardRevealContent(content))fail('연결할 콘텐츠를 선택하세요.');
  const value=await raw(env,policyKey(content));
- return value===null?structuredClone(CORE_REWARD_DEFAULT):validateCoreRewardPolicy(JSON.parse(value));
+ const policy=value===null?structuredClone(CORE_REWARD_DEFAULT):validateCoreRewardPolicy(JSON.parse(value));
+ if(content==='COOP_TRANSCEND'&&policy.entries.some(e=>e.rewardType==='VEHICLE'))fail('초월 선택 보상에는 이동수단을 등록할 수 없습니다.');
+ return policy;
 }
 
 // A clear snapshots the pool before combat. Only this private settlement path
@@ -30,8 +32,14 @@ export async function prepareRewardRevealContext(env,content,snapshot,live){
 }
 export function prepareRewardRevealOffer(env,context,{userId,roomId,baseReward,quota,finishedAt}){
  if(!context.enabled)return {statements:[],offer:null};
+ const multiplier=rewardRevealContent(context.content)?.quantityMultiplier||1;
+ const scale=reward=>{
+  if(multiplier>1&&reward.rewardType==='VEHICLE')fail('초월 선택 보상에는 중복 보유할 수 없는 이동수단을 등록할 수 없습니다.');
+  const quantity=reward.quantity*multiplier;if(!Number.isSafeInteger(quantity)||quantity<1)fail('선택 보상 수량을 확인하세요.');
+  return {...reward,quantity};
+ };
  const offer={version:1,offerId:crypto.randomUUID(),userId:Number(userId),roomId,content:context.content,revision:context.policy.revision,
-  choices:drawCoreRewards(context.policy,mercenaryRandomInt),minimum:minimumCoreReward(context.policy),selectedIndex:null,result:null,
+  choices:drawCoreRewards(context.policy,mercenaryRandomInt).map(scale),minimum:scale(minimumCoreReward(context.policy)),selectedIndex:null,result:null,
   baseReward,quota,createdAt:finishedAt};
  const pending={offerId:offer.offerId,content:offer.content,roomId,createdAt:finishedAt};
  return {offer:publicOffer(offer),statements:[
@@ -81,6 +89,7 @@ async function savePolicy(env,user,body){
  if(!rewardRevealContent(body.content))fail('연결할 콘텐츠를 선택하세요.');
  if(!validId(body.requestId))fail('저장 요청을 다시 확인하세요.');
  let policy;try{policy=validateCoreRewardPolicy(body.policy);}catch(error){fail(error.message);}
+ if(body.content==='COOP_TRANSCEND'&&policy.entries.some(r=>r.rewardType==='VEHICLE'))fail('초월에는 중복 보유할 수 없는 이동수단을 등록할 수 없습니다.');
  if(body.content==='CORE')return saveCoreRewardPolicy(env,user,{...body,policy});
  const key=policyKey(body.content),auditKey='reward_reveal_config_receipt_v1:'+body.requestId,payload=JSON.stringify({content:body.content,policy});
  const prior=await raw(env,auditKey);

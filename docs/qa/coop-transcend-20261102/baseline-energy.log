@@ -1,0 +1,58 @@
+✔ energy refills at exactly three hours, never at midnight, and cannot bank time above capacity (0.85ms)
+✔ SQLite: old cooperative quota converts once, shared across difficulties and dates (4.3052ms)
+✔ SQLite: three-player entry is atomic, replay safe, and reward no longer consumes a daily quota (9.2031ms)
+✔ SQLite: entry failure rolls all debits back; receipt and later reward survive lost acknowledgement (2.6624ms)
+✖ SQLite: legion energy persists, regenerates, refunds once before coins, and keeps supporter capacity (202.9177ms)
+✔ PostgreSQL: old cooperative quota converts once, shared across difficulties and dates (1343.1606ms)
+✔ PostgreSQL: three-player entry is atomic, replay safe, and reward no longer consumes a daily quota (1071.5769ms)
+✔ PostgreSQL: entry failure rolls all debits back; receipt and later reward survive lost acknowledgement (990.5645ms)
+✖ PostgreSQL: legion energy persists, regenerates, refunds once before coins, and keeps supporter capacity (1100.3609ms)
+✔ concurrent cooperative rooms cannot spend the same three energy charges twice (7.2571ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 8
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4751.7879
+
+✖ failing tests:
+
+test at ..\..\..\operations\coop-transcend-20261102\baseline-runtime.mjs:20916:3
+✖ SQLite: legion energy persists, regenerates, refunds once before coins, and keeps supporter capacity (202.9177ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + undefined
+  - false
+
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-transcend-20261102/baseline-runtime.mjs:20949:14)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ..\..\..\operations\coop-transcend-20261102\baseline-runtime.mjs:20916:3
+✖ PostgreSQL: legion energy persists, regenerates, refunds once before coins, and keeps supporter capacity (1100.3609ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + undefined
+  - false
+
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-transcend-20261102/baseline-runtime.mjs:20949:14)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

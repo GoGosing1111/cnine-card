@@ -1,0 +1,120 @@
+{
+  "status": "PREPARED_NO_DEPLOYMENT",
+  "assetCount": 20000,
+  "assetLimit": 20000,
+  "qaExcluded": true,
+  "sourceDualRelease": false,
+  "sourceFiles": [
+    {
+      "file": "admin/cooperative-admin.mjs",
+      "sha256": "174b8032256d13f3b9344a3f882ddd6f3953c5f5e45ca616ac4998a07c79707f"
+    },
+    {
+      "file": "admin/cooperative-rewards.mjs",
+      "sha256": "ef58a03e4b5676c1fe03f04d8f3366bca0781a6d3745fb08c2f63a56d32c704d"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "76b79925ab97af7fb73a67668b28097483f004fa5f0fa48232c537dc81ff15c1"
+    },
+    {
+      "file": "functions/_battle_v2_preview.js",
+      "sha256": "135dce00139db6290384052f0427ad8c33994795c20e01a7d0aa26f18a24c19e"
+    },
+    {
+      "file": "functions/_cooperative_battle.js",
+      "sha256": "42a32786cc741f5f3e4c5493f3ddbff1d88ec78c241bb3903616a266c8deccae"
+    },
+    {
+      "file": "functions/_cooperative_enemies.js",
+      "sha256": "b6646235fa98a3bb86f43de4cced31ed7451efc3519c549b05fb9af6ac2a9f3f"
+    },
+    {
+      "file": "functions/_cooperative_energy.js",
+      "sha256": "ae1731ccb07e76047d27c309cfbf4a75b1e4872079f98fbdd8a9a1a4336f6add"
+    },
+    {
+      "file": "functions/_cooperative_live.js",
+      "sha256": "2906ba8dbdbd58bd02d38cdb360688d63d4a4fb4162d8b3b0d3aa9b9e6bcac2e"
+    },
+    {
+      "file": "functions/_cooperative_room.js",
+      "sha256": "7878265e1905c360f1edc772c5e5094686a4674a0f6715018efc11b9101a7ed6"
+    },
+    {
+      "file": "functions/_cooperative_settings.js",
+      "sha256": "7f37a20121948faca52a80a3cd28df89f42def4d7601916a002dd3cecefd5325"
+    },
+    {
+      "file": "functions/_reward_reveal.js",
+      "sha256": "aa8caf6a5f8bda52b123cf4c384f329793acd007e701831a0843a7028376c71f"
+    },
+    {
+      "file": "index.html",
+      "sha256": "a57b4a95fd3d88c9d6db8657c95573f196db5e1f7b1968f034bc63091269679e"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "8562d737cabde93e98fb5e6395d558674e27145b4198ae097d2242d0fdc78f51"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "0647438db1e28b94e9dbbfbd3d90490c9fd1db9f726f1667e82f790387690cd9"
+    },
+    {
+      "file": "js/cooperative-battleground-entry.js",
+      "sha256": "ea82e5d50fb9d4a28a6f2367c4dc1eeb5f0718964ebc077484e24aaf9a9baf87"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "aa51f5cfa9d1d13147d40ad8f77e9a7272a758702e0bfb2151d62d53cca615c6"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "88299349579322b2a7b3b3c87327f36c8b8820fede07cbc0fe548b4b7648cd24"
+    },
+    {
+      "file": "raid/cooperative/battle.mjs",
+      "sha256": "3bbe306d08e6c0a3e7857f981eb5afdd0f4cb0caed5b40e6dc3811d9640fa91b"
+    },
+    {
+      "file": "raid/cooperative/live.mjs",
+      "sha256": "0ecd894403e5711a4bc9e0665ecb95837f2126cc38f0992867ad09543168a627"
+    },
+    {
+      "file": "raid/cooperative/style.css",
+      "sha256": "8d74a3135c9cf161c33f1531d3d6d1eec2a1bd262be6b62111a94be86ae55c55"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "123c04a96ef3dad3581bab975aff3ead12df9491e0b2e2e1d028642db7f9bfa4"
+    },
+    {
+      "file": "shared/cooperative-battleground-v1.mjs",
+      "sha256": "f4c59f0d904011e37b1cdf73eca997e5a99e44340924e3f7ad105cea16875e76"
+    },
+    {
+      "file": "shared/cooperative-rewards-v1.mjs",
+      "sha256": "f3158532163759da5289b4f9227a3f7f69ddb03a6347560a83432dad17d7afed"
+    },
+    {
+      "file": "shared/cooperative-roster-v3.mjs",
+      "sha256": "cb2b152127c04bd21ac6513cf9f82d8bcd6179679e2f7048341defac19d1afcf"
+    },
+    {
+      "file": "shared/cooperative-settings-v1.mjs",
+      "sha256": "f85446268e1b8f254aade3bddd4a82291c94b6d5514aabc3cc8ab4e5ef1b90d3"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "124c64aa04d6dc60e7efc40db4093abf0ff186b2f3229b1c4e9c387c5f3b68b3"
+    },
+    {
+      "file": "shared/reward-reveal-contents-v1.mjs",
+      "sha256": "21b9d67877fc88ebbe6d4d37b2aae74e44e7e208881e9be4b55692faaa28dabc"
+    }
+  ],
+  "fullAssetCopyCreated": false,
+  "productionDeployCalled": false,
+  "liveWrites": 0
+}

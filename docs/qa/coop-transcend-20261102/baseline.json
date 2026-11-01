@@ -1,0 +1,319 @@
+{
+  "at": "2026-11-01T17:20:37.527Z",
+  "readOnly": true,
+  "settingsHash": "a7de6d6b24d81630c2948859d9989c4e20bd0583d9619c99c648127d493ab9c3",
+  "revision": 13,
+  "combat": {
+    "lobbySeconds": 900,
+    "maxBattleSeconds": 180,
+    "patterns": {
+      "firstSeconds": 10,
+      "intervalSeconds": 30,
+      "count": 6,
+      "rupturePercent": 8
+    },
+    "stages": [
+      {
+        "wave": 1,
+        "name": "제련소 외곽",
+        "hint": "서로 다른 몬스터 3종을 격파하세요. 방벽·독·약화에 대응할 조합을 준비하세요."
+      },
+      {
+        "wave": 2,
+        "name": "노심 관문",
+        "hint": "준보스의 특성을 확인하고 방벽 파괴·약화·보호·회복 효과를 연결하세요."
+      },
+      {
+        "wave": 3,
+        "name": "심층 노심",
+        "hint": "최종 보스를 제한 시간 안에 격파하세요. 전투는 편성한 스킬로 자동 진행됩니다."
+      }
+    ],
+    "difficulties": [
+      {
+        "id": "NORMAL",
+        "recommendation": "SS 용병 · 강화 카드와 보호·회복을 함께 준비",
+        "forcedEvery": 6,
+        "responseSeconds": 9,
+        "overloadPercent": 12,
+        "focusPercent": 40,
+        "monsters": [
+          {
+            "key": "STALKER_A",
+            "power": 240000,
+            "hpPercent": 200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "STALKER_B",
+            "power": 240000,
+            "hpPercent": 200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "WATCHER",
+            "power": 240000,
+            "hpPercent": 200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "WARDEN",
+            "power": 1000000,
+            "hpPercent": 500,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "ARKE",
+            "power": 2000000,
+            "hpPercent": 1200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          }
+        ]
+      },
+      {
+        "id": "HARD",
+        "recommendation": "SS 리미티드·SSS 중심 · 보스별 약화와 생존 조합",
+        "forcedEvery": 4,
+        "responseSeconds": 8,
+        "overloadPercent": 18,
+        "focusPercent": 50,
+        "monsters": [
+          {
+            "key": "STALKER_A",
+            "power": 4200000,
+            "hpPercent": 200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "STALKER_B",
+            "power": 4200000,
+            "hpPercent": 200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "WATCHER",
+            "power": 4200000,
+            "hpPercent": 200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "WARDEN",
+            "power": 17500000,
+            "hpPercent": 500,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          },
+          {
+            "key": "ARKE",
+            "power": 35000000,
+            "hpPercent": 1200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          }
+        ]
+      },
+      {
+        "id": "EXTREME",
+        "recommendation": "SSS 리미티드·최상위 성장 · 분대별 화력과 팀 보호·정화",
+        "forcedEvery": 3,
+        "responseSeconds": 7,
+        "overloadPercent": 24,
+        "focusPercent": 60,
+        "monsters": [
+          {
+            "key": "STALKER_A",
+            "power": 21600000,
+            "hpPercent": 450,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          },
+          {
+            "key": "STALKER_B",
+            "power": 21600000,
+            "hpPercent": 450,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          },
+          {
+            "key": "WATCHER",
+            "power": 21600000,
+            "hpPercent": 450,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          },
+          {
+            "key": "WARDEN",
+            "power": 170800000,
+            "hpPercent": 600,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 3
+          },
+          {
+            "key": "ARKE",
+            "power": 270000000,
+            "hpPercent": 1200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 3
+          }
+        ]
+      }
+    ]
+  },
+  "rewards": {
+    "enabled": true,
+    "dailyLimit": 3,
+    "difficulties": [
+      {
+        "id": "NORMAL",
+        "coin": 50000000000,
+        "masterStars": 500000,
+        "items": [
+          {
+            "code": "PET_SEAL_ORB",
+            "quantity": 3
+          }
+        ]
+      },
+      {
+        "id": "HARD",
+        "coin": 100000000000,
+        "masterStars": 1000000,
+        "items": [
+          {
+            "code": "PET_SEAL_ORB",
+            "quantity": 3
+          },
+          {
+            "code": "PET_POTENTIAL_POTION",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "id": "EXTREME",
+        "coin": 200000000000,
+        "masterStars": 2000000,
+        "items": [
+          {
+            "code": "EMPEROR_ENERGY",
+            "quantity": 1
+          },
+          {
+            "code": "PET_SEAL_ORB",
+            "quantity": 3
+          },
+          {
+            "code": "PET_POTENTIAL_POTION",
+            "quantity": 1
+          }
+        ]
+      }
+    ]
+  },
+  "reveal": {
+    "version": 1,
+    "revision": 4,
+    "enabled": true,
+    "minimum": {
+      "rewardType": "COIN",
+      "quantity": 30000000000,
+      "weight": 100
+    },
+    "entries": [
+      {
+        "rewardType": "MERCENARY",
+        "rewardRef": "V-048",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "MERCENARY",
+        "rewardRef": "V-046",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "MERCENARY",
+        "rewardRef": "V-021",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SUIT_CORE_5",
+        "quantity": 1,
+        "weight": 25,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SUIT_CORE_6",
+        "quantity": 1,
+        "weight": 5,
+        "enabled": true
+      }
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-import {COOP_DIFFICULTIES} from './cooperative-battleground-v1.mjs';
+import {COOP_DIFFICULTIES,COOP_ALL_DIFFICULTIES} from './cooperative-battleground-v1.mjs';
 import {EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE} from './equipment-forge-release-v1.mjs';
 import {COOP_ENERGY_MAXIMUM,CONTENT_ENERGY_RECHARGE_MS} from './content-energy-v1.mjs';
 
@@ -10,9 +10,9 @@ const integer=(v,max,label)=>{if(!Number.isSafeInteger(v)||v<0||v>max)fail(`${la
 export const hasCoopReward=row=>!!row&&(row.coin>0||row.masterStars>0||row.items?.length>0);
 export function validateCoopRewards(value){
  // dailyLimit is retained only for old CMS document compatibility, not enforcement.
- if(!value||typeof value.enabled!=='boolean'||value.dailyLimit!==COOP_REWARD_DAILY_LIMIT||!Array.isArray(value.difficulties)||value.difficulties.length!==3)fail('격전지 난이도별 보상 설정을 확인하세요.');
+ if(!value||typeof value.enabled!=='boolean'||value.dailyLimit!==COOP_REWARD_DAILY_LIMIT||!Array.isArray(value.difficulties)||![3,4].includes(value.difficulties.length))fail('격전지 난이도별 보상 설정을 확인하세요.');
  const difficulties=value.difficulties.map((row,i)=>{
-  if(row?.id!==COOP_DIFFICULTIES[i].id||!Array.isArray(row.items)||row.items.length>20)fail('난이도별 보상 아이템은 최대 20종입니다.');
+  if(row?.id!==COOP_ALL_DIFFICULTIES[i].id||!Array.isArray(row.items)||row.items.length>20)fail('난이도별 보상 아이템은 최대 20종입니다.');
   const codes=new Set();
   const items=row.items.map(item=>{
    if(!item||typeof item.code!=='string'||! /^[A-Z][A-Z0-9_]{0,79}$/.test(item.code)||['MASTER_STAR',EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE].includes(item.code)||codes.has(item.code))fail('중복되지 않는 지급 가능 아이템을 선택하세요. 마별은 별도 금액에 입력하세요.');

@@ -107,3 +107,13 @@
 .coop-reward-summary{padding:12px 16px;margin-bottom:20px;border-left:3px solid #c8ff6b;background:#192a2a;color:#e1f6cb;font-size:12px;line-height:1.7;word-break:keep-all}.coop-reward-receipt{padding:14px;margin:14px 0;background:#142a24;border:1px solid #527c56;text-align:left;border-radius:6px}.coop-reward-receipt>b{color:#c8ff6b}.coop-reward-receipt ul{margin:10px 0;padding-left:18px;max-height:180px;overflow:auto;font-size:13px;line-height:1.8}.coop-result>div{max-height:90dvh;overflow-y:auto}
 
 .coop-squad-pair{display:flex;height:100%}.coop-squad-pair figure{position:relative;width:50%;margin:0;overflow:hidden}.coop-squad-pair img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}.coop-squad-pair figcaption{position:absolute;bottom:0;left:0;right:0;padding:24px 8px 8px;background:linear-gradient(transparent,#07111fee);display:grid;font-size:12px}
+
+/* Account favorites and optional two-player departure. */
+.coop-choice-shell{position:relative;min-width:0}.coop-choice-shell>.coop-choice{width:100%;height:100%}
+.coop-favorite{position:absolute;right:5px;top:5px;z-index:1;width:36px;height:36px;padding:0!important;border:1px solid #baa56c!important;border-radius:50%!important;background:#101a2bea!important;color:#b6bac7;font-size:24px;line-height:1}
+.coop-favorite[aria-pressed=true]{color:#ffda73;border-color:#ffda73!important}.coop-favorite:focus-visible{outline:3px solid #c1f290;outline-offset:2px}
+.coop-filter{flex-wrap:wrap}.coop-filter [data-favorites-only]{white-space:nowrap;min-height:40px}.coop-filter [data-favorites-only][aria-pressed=true]{color:#ffda73;border-color:#ffda73}
+.coop-readybar [hidden]{display:none!important}.coop-readybar [data-start]{margin-left:auto}.coop-difficulties em{color:#ffda73;font-size:12px;font-style:normal}
+.coop-create-panel .coop-difficulties:has([data-difficulty=TRANSCEND]){grid-template-columns:1fr}.coop-create-panel .coop-difficulties em{grid-column:1/-1}
+@media(max-width:1050px){.coop-create-panel .coop-difficulties:has([data-difficulty=TRANSCEND]){grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.coop-readybar:has([data-start]:not([hidden])){flex-wrap:wrap}.coop-readybar:has([data-start]:not([hidden]))>div{width:100%}.coop-readybar [data-start]{margin-left:0}.coop-readybar:has([data-start]:not([hidden]))>button{flex:1;min-width:0}.coop-filter>label{flex-basis:55%}}
