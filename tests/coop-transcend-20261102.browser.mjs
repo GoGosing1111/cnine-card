@@ -44,7 +44,7 @@ try{
   const {page,errors}=await open(width);let roomId,companion;
   const idle=()=>page.waitForFunction(()=>!document.querySelector('#qa').classList.contains('is-busy'));
   const click=async selector=>{await page.locator(selector).click();await idle();};
-  await page.locator('[data-difficulty="TRANSCEND"]').waitFor();assert.match(await page.locator('[data-difficulty="TRANSCEND"]').innerText(),/극한 보상 ×2/);
+  await page.locator('[data-difficulty="TRANSCEND"]').waitFor();assert.match(await page.locator('[data-difficulty="TRANSCEND"]').innerText(),/극한 기본 보상 ×2/);
   await page.screenshot({path:path.join(out,`entry-${width}.png`),fullPage:true});
   if(width===1440)await click('[data-difficulty="TRANSCEND"]');
   await click('[data-create]');await page.locator('[data-room]').waitFor({state:'visible'});roomId=(await h.request(1,'current')).state.id;

@@ -21,10 +21,10 @@ export function buildCoopExpansionPlan(rows){
  settings.rewards.difficulties.push({...structuredClone(extreme),id:'TRANSCEND',coin:extreme.coin*2,masterStars:extreme.masterStars*2,items:extreme.items.map(i=>({...i,quantity:i.quantity*2}))});
  settings.rewards=validateCoopRewards(settings.rewards);settings.revision=before.revision+1;
  const source=rows.find(r=>r.key===COOP_EXPANSION_KEYS[1]);assert(source,'Capture the current extreme choice policy');
- const reveal=validateCoreRewardPolicy(JSON.parse(source.value));assert(!reveal.entries.some(r=>r.rewardType==='VEHICLE'));
- // The new content's server-owned multiplier doubles the drawn quantities,
- // including minimum/fallback, without changing this pool's probabilities.
- return {operationKey:COOP_EXPANSION_OP,settings,reveal:{...reveal,revision:1},choiceQuantityMultiplier:2,accountWrites:0,oldDifficultyChanges:0,existingRoomChanges:0};
+ const reveal=validateCoreRewardPolicy(JSON.parse(source.value));
+ // Only base clear rewards double. Preserve extreme's choice quantities,
+ // minimum/fallback and probabilities exactly, per the user's correction.
+ return {operationKey:COOP_EXPANSION_OP,settings,reveal:{...reveal,revision:1},choiceQuantityMultiplier:1,accountWrites:0,oldDifficultyChanges:0,existingRoomChanges:0};
 }
 export async function inspectCoopExpansion(db){
  const rows=(await db.query('SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key',[COOP_EXPANSION_KEYS])).rows;
@@ -46,7 +46,7 @@ export async function applyCoopExpansion(db,{expectedHash,expectedPlanHash,sourc
   const saved=await db.query('UPDATE app_meta SET value=$1,updated_at=$2 WHERE key=$3 AND value=$4',[JSON.stringify(settings),now,old.key,old.value]);assert.equal(saved.rowCount,1);
   await db.query('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3)',[COOP_EXPANSION_KEYS[2],JSON.stringify(plan.reveal),now]);
   const owner=(await db.query("SELECT id FROM users WHERE role='OWNER' AND status='ACTIVE' ORDER BY id LIMIT 1")).rows[0];assert(owner);
-  const receipt={operationKey:COOP_EXPANSION_OP,status:'COMPLETED',sourceCommit,completedAt:now,beforeHash:expectedHash,planHash:expectedPlanHash,revision:settings.revision,baseReward:settings.rewards.difficulties.at(-1),choiceQuantityMultiplier:2,accountWrites:0,oldDifficultyChanges:0,existingRoomChanges:0};
+  const receipt={operationKey:COOP_EXPANSION_OP,status:'COMPLETED',sourceCommit,completedAt:now,beforeHash:expectedHash,planHash:expectedPlanHash,revision:settings.revision,baseReward:settings.rewards.difficulties.at(-1),choiceQuantityMultiplier:plan.choiceQuantityMultiplier,accountWrites:0,oldDifficultyChanges:0,existingRoomChanges:0};
   const audit=(await db.query('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,$2,$3,$4,$5,$6) RETURNING id',[owner.id,'OPS_COOP_TRANSCEND_20261102','COOPERATIVE','TRANSCEND',JSON.stringify(before),JSON.stringify({receipt,plan})])).rows[0];receipt.adminLogId=String(audit.id);
   await db.query('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3)',[COOP_EXPANSION_OP,JSON.stringify(receipt),now]);
   await db.query(dryRun?'ROLLBACK':'COMMIT');return {dryRun,replayed:false,receipt};

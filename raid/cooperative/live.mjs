@@ -113,7 +113,7 @@ export async function mountCooperative(root){
   $('.coop-meta span:nth-child(2)').textContent=c.maxBattleSeconds+'초 전투';
   $('.coop-operation-strip').innerHTML=c.stages.map(s=>`<span><i>0${s.wave}</i><b>${esc(s.name)}</b><small>${esc(s.target)}</small></span>`).join('');
   if(!available.some(d=>d.id===difficulty))difficulty=available[0]?.id||'NORMAL';
-  $('.coop-difficulties').innerHTML=available.map((d,i)=>`<button data-difficulty="${d.id}" aria-pressed="${d.id===difficulty}" class="${d.id===difficulty?'selected':''}"><small>0${i+1} / ${esc(d.subtitle)}</small><b>${esc(d.name)}</b><span>${esc(c.difficulties.find(row=>row.id===d.id)?.recommendation||d.recommendation)}</span>${d.id==='TRANSCEND'?'<em>극한 보상 ×2</em>':''}</button>`).join('');
+  $('.coop-difficulties').innerHTML=available.map((d,i)=>`<button data-difficulty="${d.id}" aria-pressed="${d.id===difficulty}" class="${d.id===difficulty?'selected':''}"><small>0${i+1} / ${esc(d.subtitle)}</small><b>${esc(d.name)}</b><span>${esc(c.difficulties.find(row=>row.id===d.id)?.recommendation||d.recommendation)}</span>${d.id==='TRANSCEND'?'<em>극한 기본 보상 ×2</em>':''}</button>`).join('');
   $('[data-room-filter]').innerHTML='<option value="">전체 난이도</option>'+available.map(d=>`<option value="${d.id}" ${roomFilter===d.id?'selected':''}>${esc(d.name)}</option>`).join('');
   if($('[data-guide-dialog]').open)openGuide(guideChapter);
  }

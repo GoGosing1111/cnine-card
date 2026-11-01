@@ -123,5 +123,7 @@
   "workerSyntax": true,
   "workerBundle": "esbuild in memory",
   "onestoreParity": true,
-  "liveWrites": 0
+  "liveWrites": 0,
+  "latestChoiceRewardCorrection": "choice-reward-correction.json",
+  "originalRunCommit": "d354a103b4c75e33eb55c88a62a033498044492a"
 }

@@ -1,0 +1,37 @@
+{
+  "status": "PREPARED_NOT_DEPLOYED",
+  "correction": "CHOICE_REWARDS_SAME_AS_EXTREME",
+  "baseQuantityMultiplier": 2,
+  "choiceQuantityMultiplier": 1,
+  "minimumCoin": 30000000000,
+  "mercenaryWinningCopies": 1,
+  "entryWeightsAndQuantitiesUnchanged": true,
+  "combatAndBaseRewardsUnchanged": true,
+  "previousPreparedCommit": "d354a103b4c75e33eb55c88a62a033498044492a",
+  "previousPlanHash": "20803e3820fdeae20e51729de6645ac1d97ac8b90a9a14cc95cdda61489e80f6",
+  "planHash": "f7eee0161b10e8fdac71f0b1468e517631bfa3f9cf9deae0e765386d179810e2",
+  "tests": {
+    "affectedPassed": 24,
+    "initialPassed": 23,
+    "updatedExpectedDestinationCount": {
+      "from": 7,
+      "to": 8,
+      "passedRetest": 1
+    },
+    "initialLog": "choice-reward-correction.log",
+    "retestLog": "choice-reward-destination-retest.log",
+    "coverage": [
+      "all weighted outcomes equal extreme",
+      "minimum and fallback unchanged",
+      "SQLite and PostgreSQL 400b base + 30b choice",
+      "replay no duplicate",
+      "all original grant types",
+      "atomic activation rollback and stale plan refusal"
+    ]
+  },
+  "battleSimulationsRepeated": false,
+  "browserRepeated": false,
+  "liveQueries": 0,
+  "liveWrites": 0,
+  "deployed": false
+}

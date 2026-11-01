@@ -47,7 +47,7 @@
     },
     {
       "file": "functions/_reward_reveal.js",
-      "sha256": "aa8caf6a5f8bda52b123cf4c384f329793acd007e701831a0843a7028376c71f"
+      "sha256": "17ea91a79b7b9d62cfaf588e86fcc70aae5e4a9b1a35488400635f616fdfce19"
     },
     {
       "file": "index.html",
@@ -79,7 +79,7 @@
     },
     {
       "file": "raid/cooperative/live.mjs",
-      "sha256": "0ecd894403e5711a4bc9e0665ecb95837f2126cc38f0992867ad09543168a627"
+      "sha256": "b222f8481a3a599d35fcb47b7adf84a3c5d5498e4e9ab2660ff5f7348c60be49"
     },
     {
       "file": "raid/cooperative/style.css",
@@ -111,10 +111,12 @@
     },
     {
       "file": "shared/reward-reveal-contents-v1.mjs",
-      "sha256": "21b9d67877fc88ebbe6d4d37b2aae74e44e7e208881e9be4b55692faaa28dabc"
+      "sha256": "eb566fc711e2f15a608eabff33c23f470c381778ebb4deaeabc9e284f54c7f08"
     }
   ],
   "fullAssetCopyCreated": false,
   "productionDeployCalled": false,
-  "liveWrites": 0
+  "liveWrites": 0,
+  "choiceQuantityMultiplier": 1,
+  "latestCorrection": "choice-reward-correction.json"
 }

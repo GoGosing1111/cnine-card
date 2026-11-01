@@ -29,14 +29,14 @@ function lobby({dual=false,legacy=false}={}){
  return room;
 }
 const cmd=(room,id,kind,body={})=>coopCommand(room,{id,nickname:'분대 '+id},kind,{clientId:client(id),...body},at+1);
-test('prepared tier preserves every previous combat/reward row and doubles current extreme quantities',()=>{
+test('prepared tier preserves every previous combat/reward row and doubles only base extreme quantities',()=>{
  assert.equal(COMPANION_RELEASE.dualMercenaries,false);
  assert.deepEqual(plan.settings.combat.difficulties.slice(0,3),before.combat.difficulties);
  assert.deepEqual(plan.settings.rewards.difficulties.slice(0,3),before.rewards.difficulties);
  const old=before.rewards.difficulties[2],next=plan.settings.rewards.difficulties[3];
  assert.equal(next.coin,400000000000);assert.equal(next.coin,old.coin*2);assert.equal(next.masterStars,old.masterStars*2);
  assert.deepEqual(next.items,old.items.map(i=>({...i,quantity:i.quantity*2})));
- assert.deepEqual(plan.reveal.entries,baseline.reveal.entries);assert.equal(plan.choiceQuantityMultiplier,2);
+ assert.deepEqual(plan.reveal.entries,baseline.reveal.entries);assert.deepEqual(plan.reveal.minimum,baseline.reveal.minimum);assert.equal(plan.choiceQuantityMultiplier,1);
  const invalid=structuredClone(plan.settings.combat);invalid.difficulties[2].monsters[0].hpPercent=1201;
  assert.throws(()=>validateCoopCombat(invalid));assert.equal(validateCoopCombat(plan.settings.combat).difficulties[3].monsters[4].hpPercent,7200);
  assert.throws(()=>createCoopRoom({id:'0123456789',user:{id:1},clientId:client(1),difficulty:'TRANSCEND',combat:plan.settings.combat,seed:1,now:at}),{code:'COOP_PREPARING'});
@@ -84,7 +84,7 @@ test('favorites persist per account/type, stay idempotent, require ownership and
   assert.equal((await readCoopFavorites(f.env,f.owner)).cards.length,100);
  }finally{await f.close();}
 });
-for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} two-player energy, doubled settlement, reveal claim and rollback are atomic and replay safe`,async()=>{
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} two-player energy, doubled base and unchanged choice settlement and rollback are atomic and replay safe`,async()=>{
  const f=await legionFixture({postgres,inventoryBigInt:true});const settings=structuredClone(plan.settings),reveal={...plan.reveal,entries:[],minimumWeight:100};
  const room={id:'1123456789',minPlayers:2,creationRequest:'transcend-entry-1',createdAt:at-1000,finishedAt:at+10000,status:'VICTORY',difficulty:'TRANSCEND',rewardPolicy:{...freezeCoopReward(settings,'TRANSCEND'),revealPolicy:reveal},members:[1,2].map(id=>({id,result:'VICTORY'}))};
  try{
@@ -101,22 +101,32 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} two-p
   const rewards=await settleCoopRewards(f.env,room);assert.deepEqual(await settleCoopRewards(f.env,room),rewards);assert.deepEqual(Object.keys(rewards),['1','2']);
   for(const id of [1,2]){
    assert.equal((await coopEnergy(f.env,id,at)).current,2);assert.equal(rewards[id].coin,400000000000);
-   const offerId=rewards[id].choiceOffer.offerId,saved=await read(f,`reward_reveal_offer_v1:${id}:${offerId}`);assert.equal(saved.minimum.quantity,60000000000);assert.ok(saved.choices.every(c=>c.quantity===60000000000));
+   const offerId=rewards[id].choiceOffer.offerId,saved=await read(f,`reward_reveal_offer_v1:${id}:${offerId}`);assert.equal(saved.minimum.quantity,30000000000);assert.ok(saved.choices.every(c=>c.quantity===30000000000));
    const result=await claimRewardReveal(f.env,{id},{offerId,selectedIndex:0});assert.deepEqual(await claimRewardReveal(f.env,{id},{offerId,selectedIndex:0}),result);
-   assert.equal(Number((await f.DB.prepare('SELECT coin FROM users WHERE id=?').bind(id).first()).coin),460000000000);
+   assert.equal(Number((await f.DB.prepare('SELECT coin FROM users WHERE id=?').bind(id).first()).coin),430000000000);
    for(const item of [{code:'MASTER_STAR',quantity:4000000},...settings.rewards.difficulties[3].items])assert.equal(Number((await f.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(id,item.code).first()).quantity),item.quantity);
   }
   assert.equal(await read(f,coopEnergyKey(3)),null);assert.equal(Number((await f.DB.prepare('SELECT coin FROM users WHERE id=3').first()).coin),0);
   await assert.rejects(spendCoopEnergy(f.env,{...room,minPlayers:undefined,id:'legacy0001'},at),/Invalid/);
  }finally{await f.close();}
 });
-test('choice reward multiplier doubles mercenary copies and fallback, without changing stored pool weights',async()=>{
- const f=await legionFixture();try{
-  const policy=structuredClone(plan.reveal);policy.minimum.weight=1;policy.entries=policy.entries.filter(e=>e.rewardType==='MERCENARY').slice(0,1);policy.entries[0].weight=100;const random=crypto.getRandomValues;crypto.getRandomValues=a=>{a.fill(100);return a;};
-  const result=prepareRewardRevealOffer(f.env,{enabled:true,content:'COOP_TRANSCEND',policy},{userId:1,roomId:'1123456789',baseReward:{},quota:{},finishedAt:at});
-  crypto.getRandomValues=random;await f.DB.batch(result.statements);const saved=await read(f,'reward_reveal_offer_v1:1:'+result.offer.offerId);
-  assert.ok(saved.choices.every(c=>c.quantity===2&&c.rewardType==='MERCENARY'));assert.equal(saved.minimum.quantity,60000000000);
- }finally{await f.close();}
+test('choice draws and fallback match extreme for every weighted outcome, including single mercenary copies',async()=>{
+ const f=await legionFixture(),random=crypto.getRandomValues;
+ try{
+  const total=plan.reveal.minimum.weight+plan.reveal.entries.filter(e=>e.enabled).reduce((sum,e)=>sum+e.weight,0);
+  const observed=new Set();
+  for(let value=0;value<total;value++){
+   crypto.getRandomValues=a=>{a.fill(value);return a;};
+   const saved=[];
+   for(const [content,policy] of [['COOP_EXTREME',baseline.reveal],['COOP_TRANSCEND',plan.reveal]]){
+    const result=prepareRewardRevealOffer(f.env,{enabled:true,content,policy},{userId:1,roomId:'1123456789',baseReward:{},quota:{},finishedAt:at});
+    await f.DB.batch(result.statements);saved.push(await read(f,'reward_reveal_offer_v1:1:'+result.offer.offerId));
+   }
+   assert.deepEqual(saved[1].choices,saved[0].choices);assert.deepEqual(saved[1].minimum,saved[0].minimum);
+   for(const choice of saved[1].choices){observed.add(choice.rewardType);if(choice.rewardType==='MERCENARY')assert.equal(choice.quantity,1);}
+  }
+  assert.ok(observed.has('MERCENARY'));assert.ok(observed.has('INVENTORY_ITEM'));assert.ok(observed.has('COIN'));
+ }finally{crypto.getRandomValues=random;await f.close();}
 });
 test('activation dry run, every partial failure, stale hashes and SELECT-only replay preserve existing data',async()=>{
  const pg=new PGlite();let failAt='',writes=0;const queries=[];
@@ -129,7 +139,8 @@ test('activation dry run, every partial failure, stale hashes and SELECT-only re
   assert.equal((await applyCoopExpansion(db,opts)).dryRun,true);assert.equal((await inspectCoopExpansion(db)).hash,inspected.hash);
   for(let i=1;i<=4;i++){failAt='write-'+i;writes=0;await assert.rejects(applyCoopExpansion(db,opts),/INJECTED_FAILURE/);failAt='';assert.equal((await inspectCoopExpansion(db)).hash,inspected.hash);assert.equal((await pg.query('SELECT * FROM admin_logs')).rows.length,0);}
   await assert.rejects(applyCoopExpansion(db,{...opts,expectedHash:'0'.repeat(64)}),/CMS changed/);
-  const applied=await applyCoopExpansion(db,{...opts,dryRun:false,authorization:OP,dualMercenariesReleased:true});assert.equal(applied.receipt.revision,14);
+  await assert.rejects(applyCoopExpansion(db,{...opts,expectedPlanHash:hash({...plan,choiceQuantityMultiplier:2})}),/Prepared plan changed/);
+  const applied=await applyCoopExpansion(db,{...opts,dryRun:false,authorization:OP,dualMercenariesReleased:true});assert.equal(applied.receipt.revision,14);assert.equal(applied.receipt.choiceQuantityMultiplier,1);
   await pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({...plan.settings,revision:99}),KEYS[0]]);
   queries.length=0;const replay=await applyCoopExpansion(db,opts);assert.equal(replay.replayed,true);assert.ok(queries.every(q=>q.startsWith('SELECT')));
   assert.equal(JSON.parse((await pg.query('SELECT value FROM app_meta WHERE key=$1',[KEYS[0]])).rows[0].value).revision,99);assert.equal(Number((await pg.query('SELECT coin FROM users WHERE id=1')).rows[0].coin),777);

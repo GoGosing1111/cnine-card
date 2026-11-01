@@ -2,7 +2,7 @@
   "status": "PREPARED_NOT_APPLIED",
   "operationKey": "ops:coop-transcend:20261102:v1",
   "beforeHash": "a7de6d6b24d81630c2948859d9989c4e20bd0583d9619c99c648127d493ab9c3",
-  "planHash": "20803e3820fdeae20e51729de6645ac1d97ac8b90a9a14cc95cdda61489e80f6",
+  "planHash": "f7eee0161b10e8fdac71f0b1468e517631bfa3f9cf9deae0e765386d179810e2",
   "revision": 14,
   "combat": {
     "id": "TRANSCEND",
@@ -146,10 +146,11 @@
       }
     ]
   },
-  "choiceQuantityMultiplier": 2,
+  "choiceQuantityMultiplier": 1,
   "dualMercenariesReleased": false,
   "sourceBranch": "codex/tower-coop-prepare-20261102",
   "towerPreparedCommit": "f1cdcaa0c469a133c39374b7ffc7a534afa9ee55",
   "liveWrites": 0,
-  "liveDryRun": false
+  "liveDryRun": false,
+  "latestCorrection": "20261102: base reward x2, choice reward identical to EXTREME"
 }

@@ -1,0 +1,63 @@
+✔ prepared tier preserves every previous combat/reward row and doubles only base extreme quantities (2.3256ms)
+✔ two-player departure requires both ready and the host; join locks at departure (116.9311ms)
+✔ three-player auto departure and old serialized room minimum remain intact; two players also work with one mercenary (47.5194ms)
+✔ upper-tier HP is applied beyond generic 1200% cap; previous tiers stay byte-identical (157.6512ms)
+✔ favorites persist per account/type, stay idempotent, require ownership and cap each type (95.439ms)
+✔ SQLite two-player energy, doubled base and unchanged choice settlement and rollback are atomic and replay safe (18.8189ms)
+✔ PostgreSQL two-player energy, doubled base and unchanged choice settlement and rollback are atomic and replay safe (2680.1485ms)
+✔ choice draws and fallback match extreme for every weighted outcome, including single mercenary copies (39.9115ms)
+✔ activation dry run, every partial failure, stale hashes and SELECT-only replay preserve existing data (1418.2448ms)
+✖ seven independent destinations; vehicle bounds and explicit probabilities (2.0516ms)
+✔ sqlite: independent OWNER CMS, catalog, CAS and idempotent saves (55.8252ms)
+✔ sqlite: sealed choices, all eight grant destinations, replay and duplicate vehicles (25.0753ms)
+✔ sqlite: failed grants preserve slot, atomic ledgers, pending inbox and lost acknowledgement (12.3012ms)
+✔ sqlite: cooperative clear snapshots offers with its energy entry and OFF/TEST prevents new offers (20.4555ms)
+✔ sqlite: zero-row vehicle delivery cannot complete a receipt; simultaneous choices keep one slot (11.643ms)
+✔ sqlite: Barsen offers share the existing weekly quota and roll back together (16.4944ms)
+✔ postgres: independent OWNER CMS, catalog, CAS and idempotent saves (2717.13ms)
+✔ postgres: sealed choices, all eight grant destinations, replay and duplicate vehicles (1711.0362ms)
+✔ postgres: failed grants preserve slot, atomic ledgers, pending inbox and lost acknowledgement (1284.1441ms)
+✔ postgres: cooperative clear snapshots offers with its energy entry and OFF/TEST prevents new offers (1374.313ms)
+✔ postgres: zero-row vehicle delivery cannot complete a receipt; simultaneous choices keep one slot (1415.0361ms)
+✔ postgres: Barsen offers share the existing weekly quota and roll back together (1337.1395ms)
+✔ Isgen real final strike persists selection entitlement with weekly rewards (SQLite) (40.3924ms)
+✔ Isgen real final strike persists selection entitlement with weekly rewards (PostgreSQL) (1354.8029ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 23
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12259.0154
+
+✖ failing tests:
+
+test at tests\reward-reveal-20261016.test.mjs:28:1
+✖ seven independent destinations; vehicle bounds and explicit probabilities (2.0516ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+    [
+      'CORE',
+      'LICH',
+      'MADARA',
+      'BLACKWING',
+      'COOP_NORMAL',
+      'COOP_HARD',
+  +   'COOP_TRANSCEND',
+      'COOP_EXTREME'
+    ]
+
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/tests/reward-reveal-20261016.test.mjs:29:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'CORE', 'LICH', 'MADARA', 'BLACKWING', 'COOP_NORMAL', 'COOP_HARD', 'COOP_TRANSCEND', 'COOP_EXTREME' ],
+    expected: [ 'CORE', 'LICH', 'MADARA', 'BLACKWING', 'COOP_NORMAL', 'COOP_HARD', 'COOP_EXTREME' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
