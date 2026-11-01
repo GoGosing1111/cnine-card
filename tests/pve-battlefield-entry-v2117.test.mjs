@@ -10,8 +10,8 @@ import {BattleEngine as NativeEngine} from '../pve-v3/BattleEngine.js';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 
-function liveFeatureHarness() {
-  const app=readFileSync(new URL('../js/app.js',import.meta.url),'utf8');
+function liveFeatureHarness(appPath='js/app.js') {
+  const app=readFileSync(new URL('../'+appPath,import.meta.url),'utf8');
   const wrapper=readFileSync(new URL('../js/battle-v3-live.js',import.meta.url),'utf8');
   const bundle=readFileSync(new URL('../preview/project-v-v3/project-v-pixi-battle.bundle.js',import.meta.url),'utf8');
   const version=bundle.match(/runtimeVersion:\s*["']([^"']+)["']/)?.[1];
@@ -25,8 +25,8 @@ function liveFeatureHarness() {
   return {...api,context,version};
 }
 
-test('the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes',async()=>{
-  const {manifest,ensureFeatureResources,context,version}=liveFeatureHarness();
+for(const appPath of ['js/app.js','onestore/js/app.js'])test('the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: '+appPath,async()=>{
+  const {manifest,ensureFeatureResources,context,version}=liveFeatureHarness(appPath);
   assert.equal(manifest.ready(),true,'current engine must allow actual game entry');
   await ensureFeatureResources('battleV2');
   context.ProjectVPixiBattle.runtimeVersion='obsolete-runtime';

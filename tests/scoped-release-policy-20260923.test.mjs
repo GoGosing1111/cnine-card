@@ -45,6 +45,15 @@ test('small backend and V3 fixes automatically retain compilation and real loade
  const plan=scopedReleasePlan(fixture({changed:['functions/_mercenary_combat.js','preview/project-v-v3/source/battle/MercenaryCombatPlayback.js','js/battle-v3-live.js']}));
  assert.deepEqual(plan.checks,['check:worker']);assert.deepEqual(plan.tests,[path,'tests/pve-battlefield-entry-v2117.test.mjs']);
 });
+test('main and store shell releases cannot omit the real battle loader check',()=>{
+ for(const file of ['js/app.js','onestore/js/app.js']){
+  const f=fixture({changed:[file]});
+  assert.deepEqual(scopedReleasePlan(f).tests,[path,'tests/pve-battlefield-entry-v2117.test.mjs']);
+  f.env.SCOPED_DEPLOY_TESTS=JSON.stringify([path,'tests/pve-battlefield-entry-v2117.test.mjs']);
+  assert.equal(scopedReleasePlan(f).tests.filter(p=>p==='tests/pve-battlefield-entry-v2117.test.mjs').length,1);
+ }
+});
+
 test('an unshipped QA Wrangler record does not classify an art release as production infrastructure',async()=>{
  const {isProductionFile}=await import('../scripts/prepare-production-assets.mjs');
  assert.equal(isProductionFile('docs/qa/one-off-operation/wrangler.jsonc'),false);

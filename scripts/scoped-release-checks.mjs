@@ -31,8 +31,9 @@ export function scopedReleasePlan({env,git,scripts}){
  if(checks.some(name=>!(/^(?:test:[a-zA-Z0-9_-]+|check:worker)$/.test(name))||!Object.hasOwn(scripts,name)))throw Error('Select existing test:* or check:worker npm scripts only');
  if(tests.length)git('ls-files','--error-unmatch','--',...tests);
  if(changed.some(p=>/^(?:functions|workers)\//.test(p))&&!checks.includes('check:worker'))checks.push('check:worker');
- // A small common renderer patch still checks the shipped engine/loader contract.
- if(changed.some(p=>/^preview\/project-v-v3\/(?:source\/|project-v-pixi-battle\.bundle\.js$)/.test(p)||p==='js/battle-v3-live.js')){
+ // Shell-only cache edits can also corrupt the expected battle version. Always
+ // check the real loader whenever either distributed shell or renderer changes.
+ if(changed.some(p=>/^preview\/project-v-v3\/(?:source\/|project-v-pixi-battle\.bundle\.js$)/.test(p)||['js/app.js','onestore/js/app.js','js/battle-v3-live.js'].includes(p))){
   const entry='tests/pve-battlefield-entry-v2117.test.mjs';
   if(!tests.includes(entry)&&!checks.includes('test:live-connections'))tests.push(entry);
  }
